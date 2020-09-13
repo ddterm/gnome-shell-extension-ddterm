@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema path="/com/github/amezin/ddterm/" id="com.github.amezin.ddterm">
+    <key name="font" type="s">
+      <default>"Monospace"</default>
+    </key>
+    <key name="background-opacity" type="d">
+      <default>0.9</default>
+      <range min="0.0" max="1.0"/>
+    </key>
+    <key name="ddterm-toggle-hotkey" type="as">
+      <default><![CDATA[['F12']]]></default>
+    </key>
+    <key name="window-height" type="d">
+      <default>0.6</default>
+      <range min="0.0" max="1.0"/>
+    </key>
+  </schema>
+</schemalist>
