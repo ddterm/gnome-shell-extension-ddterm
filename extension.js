@@ -16,6 +16,8 @@ let created_handler_id = null;
 let bus_watch_id = null;
 let dbus_action_group = null;
 
+let updating_settings_from_size_changed = false;
+
 const APP_ID = 'com.github.amezin.ddterm';
 const APP_DBUS_PATH = '/com/github/amezin/ddterm';
 const WINDOW_PATH_PREFIX = `${APP_DBUS_PATH}/window/`;
@@ -107,6 +109,7 @@ function configure_window(win) {
 
     win.connect('unmanaging', untrack_window);
     win.connect('unmanaged', untrack_window);
+    win.connect('size-changed', update_height_setting)
 
     // Fight Mutter's auto-maximization (when window size is >80% of the workarea)
     win.connect('notify::maximized-vertically', unmaximize_window);
@@ -132,8 +135,27 @@ function set_window_geometry(win, monitor) {
 }
 
 function update_window_geometry() {
-    if (current_window)
+    if (current_window && !updating_settings_from_size_changed)
         set_window_geometry(current_window, current_window.get_monitor());
+}
+
+function update_height_setting(win) {
+    if (win !== current_window)
+        return;
+
+    const monitor = current_window.get_monitor();
+    if (monitor < 0)
+        return;
+
+    const workarea = Main.layoutManager.getWorkAreaForMonitor(monitor);
+    const current_height = win.get_frame_rect().height / workarea.height;
+
+    updating_settings_from_size_changed = true;
+    try {
+        settings.set_double('window-height', current_height);
+    } finally {
+        updating_settings_from_size_changed = false;
+    }
 }
 
 function unmaximize_window(win) {
