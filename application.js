@@ -150,7 +150,12 @@ GObject.registerClass(
 const TerminalPage = GObject.registerClass(
     {
         Template: APP_DATA_DIR.get_child('terminalpage.ui').get_uri(),
-        Children: ['terminal', 'tab_label', 'tab_label_label', 'menu_label', 'popup_menu'],
+        Children: ['terminal', 'tab_label', 'tab_label_label', 'menu_label'],
+        Properties: {
+            'menus': GObject.ParamSpec.object(
+                'menus', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, Gtk.Builder
+            ),
+        },
         Signals: {
             'close-request': {},
         },
@@ -164,7 +169,8 @@ const TerminalPage = GObject.registerClass(
             this.terminal.bind_property('window-title', this.menu_label, 'label', GObject.BindingFlags.DEFAULT);
             this.terminal.bind_property('window-title', this.tab_label_label, 'label', GObject.BindingFlags.DEFAULT);
 
-            setup_popup_menu(this.terminal, this.popup_menu);
+            const popup_menu = Gtk.Menu.new_from_model(this.menus.get_object('terminal-popup'));
+            setup_popup_menu(this.terminal, popup_menu);
 
             const actions = new Gio.SimpleActionGroup();
             this.insert_action_group('page', actions);
@@ -189,6 +195,11 @@ const AppWindow = GObject.registerClass(
     {
         Template: APP_DATA_DIR.get_child('appwindow.ui').get_uri(),
         Children: ['notebook'],
+        Properties: {
+            'menus': GObject.ParamSpec.object(
+                'menus', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, Gtk.Builder
+            ),
+        },
     },
     class AppWindow extends Gtk.ApplicationWindow {
         _init(params) {
@@ -213,7 +224,9 @@ const AppWindow = GObject.registerClass(
         }
 
         new_tab() {
-            const page = new TerminalPage();
+            const page = new TerminalPage({
+                menus: this.menus,
+            });
 
             const index = this.notebook.append_page_menu(page, page.tab_label, page.menu_label);
             this.notebook.set_current_page(index);
@@ -261,9 +274,12 @@ const Application = GObject.registerClass(
         startup() {
             simple_action(this, 'quit', this.quit.bind(this));
 
+            const menus = Gtk.Builder.new_from_file(APP_DATA_DIR.get_child('menus.ui').get_path());
+
             this.window = new AppWindow({
                 application: this,
                 decorated: this.decorated_window,
+                menus,
             });
 
             this.add_action(this.window.toggle_action);

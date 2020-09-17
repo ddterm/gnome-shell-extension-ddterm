@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <!-- interface-requires gtk+ 3.0 -->
+  <menu id="terminal-popup">
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">Copy</attribute>
+        <attribute name="action">terminal.copy</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Copy HTML</attribute>
+        <attribute name="action">terminal.copy-html</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Paste</attribute>
+        <attribute name="action">terminal.paste</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Select All</attribute>
+        <attribute name="action">terminal.select-all</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">Close</attribute>
+        <attribute name="action">page.close</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">New Tab</attribute>
+        <attribute name="action">win.new-tab</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">Preferences</attribute>
+        <attribute name="action">app.preferences</attribute>
+      </item>
+    </section>
+  </menu>
+</interface>
