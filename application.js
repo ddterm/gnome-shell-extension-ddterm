@@ -255,6 +255,23 @@ const AppWindow = GObject.registerClass(
     }
 );
 
+const PrefsWidget = imports.prefs.createPrefsWidgetClass(APP_DATA_DIR);
+
+const PrefsDialog = GObject.registerClass(
+    {
+        Template: APP_DATA_DIR.get_child('prefsdialog.ui').get_uri(),
+    },
+    class PrefsDialog extends Gtk.Dialog {
+        _init(params) {
+            super._init(params);
+
+            this.get_content_area().add(new PrefsWidget({
+                settings: get_settings(),
+            }));
+        }
+    }
+)
+
 const Application = GObject.registerClass(
     class Application extends Gtk.Application {
         _init(params) {
@@ -286,18 +303,9 @@ const Application = GObject.registerClass(
 
             this.add_action(this.window.toggle_action);
 
-            this.prefs_dialog = new Gtk.Dialog({
-                title: 'Preferences',
+            this.prefs_dialog = new PrefsDialog({
                 transient_for: this.window,
             });
-
-            let prefsWidgetClass = imports.prefs.createPrefsWidgetClass(APP_DATA_DIR);
-
-            this.prefs_dialog.get_content_area().add(
-                new prefsWidgetClass({
-                    settings: get_settings(),
-                })
-            );
 
             this.prefs_dialog.connect('delete-event', () => this.prefs_dialog.hide_on_delete());
 
