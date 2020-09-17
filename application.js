@@ -260,10 +260,10 @@ const Application = GObject.registerClass(
         _init(params) {
             super._init(params);
 
-            this.decorated_window = true;
+            this.hide_titlebar = false;
 
             this.add_main_option(
-                'undecorated', 0, GLib.OptionFlags.NONE, GLib.OptionArg.NONE, 'Hide window decorations', null
+                'hide-titlebar', 0, GLib.OptionFlags.NONE, GLib.OptionArg.NONE, 'Hide window title bar', null
             );
 
             this.connect('startup', this.startup.bind(this));
@@ -278,9 +278,11 @@ const Application = GObject.registerClass(
 
             this.window = new AppWindow({
                 application: this,
-                decorated: this.decorated_window,
                 menus,
             });
+
+            if (this.hide_titlebar)
+                this.window.set_titlebar(new Gtk.Label());
 
             this.add_action(this.window.toggle_action);
 
@@ -315,8 +317,8 @@ const Application = GObject.registerClass(
         }
 
         handle_local_options(_, options) {
-            if (options.contains('undecorated'))
-                this.decorated_window = false;
+            if (options.contains('hide-titlebar'))
+                this.hide_titlebar = true;
 
             return -1;
         }

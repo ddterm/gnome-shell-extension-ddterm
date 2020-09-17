@@ -69,7 +69,7 @@ function toggle() {
     if (dbus_action_group)
         dbus_action_group.activate_action('toggle', null);
     else
-        util.spawn(['gjs', Me.dir.get_child('application.js').get_path(), '--undecorated']);
+        util.spawn(['gjs', Me.dir.get_child('application.js').get_path(), '--hide-titlebar']);
 }
 
 function dbus_appeared(connection, name) {
@@ -121,6 +121,9 @@ function configure_window(win) {
 function set_window_geometry(win, monitor) {
     const workarea = Main.layoutManager.getWorkAreaForMonitor(monitor);
     win.move_resize_frame(true, workarea.x, workarea.y, workarea.width, workarea.height * settings.get_double('window-height'));
+
+    if (!win.maximized_horizontally)
+        win.maximize(Meta.MaximizeFlags.HORIZONTAL);
 }
 
 function update_window_geometry() {
