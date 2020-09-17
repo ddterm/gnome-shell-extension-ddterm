@@ -334,5 +334,6 @@ GLib.set_prgname('com.github.amezin.ddterm');
 
 const app = new Application({
     application_id: 'com.github.amezin.ddterm',
+    flags: Gio.ApplicationFlags.ALLOW_REPLACEMENT,
 });
 app.run([System.programInvocationName].concat(ARGV));
