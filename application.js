@@ -62,13 +62,6 @@ function bind_settings_ro(settings, key, target, property = null) {
     settings.bind(key, target, property, Gio.SettingsBindFlags.GET | Gio.SettingsBindFlags.NO_SENSITIVITY);
 }
 
-function setup_default_accelerator_map() {
-    Gtk.AccelMap.add_entry('<Terminal>/Popup Menu/Copy', Gdk.KEY_C, Gdk.ModifierType.CONTROL_MASK | Gdk.ModifierType.SHIFT_MASK);
-    Gtk.AccelMap.add_entry('<Terminal>/Popup Menu/Paste', Gdk.KEY_V, Gdk.ModifierType.CONTROL_MASK | Gdk.ModifierType.SHIFT_MASK);
-    Gtk.AccelMap.add_entry('<Terminal>/Popup Menu/New Tab', Gdk.KEY_N, Gdk.ModifierType.CONTROL_MASK | Gdk.ModifierType.SHIFT_MASK);
-    Gtk.AccelMap.add_entry('<Terminal>/Popup Menu/Close Tab', Gdk.KEY_Q, Gdk.ModifierType.CONTROL_MASK | Gdk.ModifierType.SHIFT_MASK);
-}
-
 GObject.registerClass(
     {
         GTypeName: 'DDTermTerminal',
@@ -158,11 +151,6 @@ const TerminalPage = GObject.registerClass(
     {
         Template: APP_DATA_DIR.get_child('terminalpage.ui').get_uri(),
         Children: ['terminal', 'tab_label', 'tab_label_label', 'menu_label', 'popup_menu'],
-        Properties: {
-            'accel-group': GObject.ParamSpec.object(
-                'accel-group', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, Gtk.AccelGroup
-            ),
-        },
         Signals: {
             'close-request': {},
         },
@@ -177,7 +165,6 @@ const TerminalPage = GObject.registerClass(
             this.terminal.bind_property('window-title', this.tab_label_label, 'label', GObject.BindingFlags.DEFAULT);
 
             setup_popup_menu(this.terminal, this.popup_menu);
-            this.popup_menu.accel_group = this.accel_group;
 
             const actions = new Gio.SimpleActionGroup();
             this.insert_action_group('page', actions);
@@ -212,9 +199,6 @@ const AppWindow = GObject.registerClass(
 
             this.notebook.connect('page-removed', this.close_if_no_pages.bind(this));
 
-            this.page_accel_group = new Gtk.AccelGroup();
-            this.add_accel_group(this.page_accel_group);
-
             this.toggle_action = simple_action(this, 'toggle', this.toggle.bind(this));
             simple_action(this, 'new-tab', this.new_tab.bind(this));
 
@@ -229,9 +213,7 @@ const AppWindow = GObject.registerClass(
         }
 
         new_tab() {
-            const page = new TerminalPage({
-                accel_group: this.page_accel_group,
-            });
+            const page = new TerminalPage();
 
             const index = this.notebook.append_page_menu(page, page.tab_label, page.menu_label);
             this.notebook.set_current_page(index);
@@ -279,8 +261,6 @@ const Application = GObject.registerClass(
         startup() {
             simple_action(this, 'quit', this.quit.bind(this));
 
-            setup_default_accelerator_map();
-
             this.window = new AppWindow({
                 application: this,
                 decorated: this.decorated_window,
@@ -307,6 +287,11 @@ const Application = GObject.registerClass(
 
             const gtk_settings = Gtk.Settings.get_default();
             gtk_settings.gtk_application_prefer_dark_theme = true;
+
+            this.set_accels_for_action('terminal.copy', ['<Ctrl><Shift>c']);
+            this.set_accels_for_action('terminal.paste', ['<Ctrl><Shift>v']);
+            this.set_accels_for_action('page.close', ['<Ctrl><Shift>q']);
+            this.set_accels_for_action('win.new-tab', ['<Ctrl><Shift>n']);
         }
 
         activate() {
