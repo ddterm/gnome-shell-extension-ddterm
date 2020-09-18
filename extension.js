@@ -128,7 +128,8 @@ function set_window_geometry(win, monitor) {
         win.unmaximize(Meta.MaximizeFlags.VERTICAL);
 
     const workarea = Main.layoutManager.getWorkAreaForMonitor(monitor);
-    win.move_resize_frame(true, workarea.x, workarea.y, workarea.width, workarea.height * height_ratio);
+    const target_height = Math.min(workarea.height - 1, workarea.height * height_ratio);
+    win.move_resize_frame(true, workarea.x, workarea.y, workarea.width, target_height);
 
     if (!win.maximized_horizontally)
         win.maximize(Meta.MaximizeFlags.HORIZONTAL);
@@ -160,12 +161,8 @@ function update_height_setting(win) {
 
 function unmaximize_window(win) {
     if (win === current_window) {
-        if (win.maximized_vertically) {
-            const height_ratio = settings.get_double('window-height');
-
-            if (height_ratio < 1.0)
-                win.unmaximize(Meta.MaximizeFlags.VERTICAL);
-        }
+        if (win.maximized_vertically)
+            win.unmaximize(Meta.MaximizeFlags.VERTICAL);
     }
 }
 
