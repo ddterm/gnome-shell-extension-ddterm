@@ -260,17 +260,20 @@ const PrefsWidget = imports.prefs.createPrefsWidgetClass(APP_DATA_DIR);
 const PrefsDialog = GObject.registerClass(
     {
         Template: APP_DATA_DIR.get_child('prefsdialog.ui').get_uri(),
+        Properties: {
+            settings: GObject.ParamSpec.object('settings', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, Gio.Settings),
+        },
     },
     class PrefsDialog extends Gtk.Dialog {
         _init(params) {
             super._init(params);
 
             this.get_content_area().add(new PrefsWidget({
-                settings: get_settings(),
+                settings: this.settings,
             }));
         }
     }
-)
+);
 
 const Application = GObject.registerClass(
     class Application extends Gtk.Application {
@@ -291,6 +294,8 @@ const Application = GObject.registerClass(
         startup() {
             simple_action(this, 'quit', this.quit.bind(this));
 
+            this.settings = get_settings();
+
             const menus = Gtk.Builder.new_from_file(APP_DATA_DIR.get_child('menus.ui').get_path());
 
             this.window = new AppWindow({
@@ -305,6 +310,7 @@ const Application = GObject.registerClass(
 
             this.prefs_dialog = new PrefsDialog({
                 transient_for: this.window,
+                settings: this.settings,
             });
 
             this.prefs_dialog.connect('delete-event', () => this.prefs_dialog.hide_on_delete());
@@ -314,10 +320,8 @@ const Application = GObject.registerClass(
             const gtk_settings = Gtk.Settings.get_default();
             gtk_settings.gtk_application_prefer_dark_theme = true;
 
-            this.set_accels_for_action('terminal.copy', ['<Ctrl><Shift>c']);
-            this.set_accels_for_action('terminal.paste', ['<Ctrl><Shift>v']);
-            this.set_accels_for_action('page.close', ['<Ctrl><Shift>q']);
-            this.set_accels_for_action('win.new-tab', ['<Ctrl><Shift>n']);
+            this.settings.connect('changed', this.setup_shortcuts.bind(this));
+            this.setup_shortcuts();
         }
 
         activate() {
@@ -337,6 +341,19 @@ const Application = GObject.registerClass(
 
         quit() {
             super.quit();
+        }
+
+        setup_shortcut(key, action) {
+            this.set_accels_for_action(action, this.settings.get_strv(key));
+        }
+
+        setup_shortcuts() {
+            this.setup_shortcut('shortcut-terminal-copy', 'terminal.copy');
+            this.setup_shortcut('shortcut-terminal-copy-html', 'terminal.copy-html');
+            this.setup_shortcut('shortcut-terminal-paste', 'terminal.paste');
+            this.setup_shortcut('shortcut-terminal-select-all', 'terminal.select-all');
+            this.setup_shortcut('shortcut-win-new-tab', 'win.new-tab');
+            this.setup_shortcut('shortcut-page-close', 'page.close');
         }
     }
 );

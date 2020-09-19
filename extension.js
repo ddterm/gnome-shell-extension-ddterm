@@ -109,7 +109,7 @@ function configure_window(win) {
 
     win.connect('unmanaging', untrack_window);
     win.connect('unmanaged', untrack_window);
-    win.connect('size-changed', update_height_setting)
+    win.connect('size-changed', update_height_setting);
 
     // Fight Mutter's auto-maximization (when window size is >80% of the workarea)
     win.connect('notify::maximized-vertically', unmaximize_window);

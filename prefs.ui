@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.39.0 -->
+<!-- Generated with glade 3.38.0 -->
 <interface>
   <requires lib="gtk+" version="3.22"/>
   <object class="GtkAdjustment" id="height_adjustment">
@@ -12,96 +12,228 @@
     <property name="step-increment">0.01</property>
     <property name="page-increment">0.1</property>
   </object>
-  <!-- n-columns=2 n-rows=3 -->
-  <template class="Gjs_PrefsWidget" parent="GtkGrid">
+  <object class="GtkListStore" id="shortcuts_list">
+    <columns>
+      <!-- column-name action -->
+      <column type="gchararray"/>
+      <!-- column-name label -->
+      <column type="gchararray"/>
+      <!-- column-name accel-key -->
+      <column type="guint"/>
+      <!-- column-name accel-mods -->
+      <column type="GdkModifierType"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0">ddterm-toggle-hotkey</col>
+        <col id="1" translatable="yes">Toggle terminal</col>
+        <col id="2">0</col>
+        <col id="3"/>
+      </row>
+      <row>
+        <col id="0">shortcut-terminal-copy</col>
+        <col id="1" translatable="yes">Copy selected text</col>
+        <col id="2">0</col>
+        <col id="3"/>
+      </row>
+      <row>
+        <col id="0">shortcut-terminal-copy-html</col>
+        <col id="1" translatable="yes">Copy selected text as HTML</col>
+        <col id="2">0</col>
+        <col id="3"/>
+      </row>
+      <row>
+        <col id="0">shortcut-terminal-paste</col>
+        <col id="1" translatable="yes">Paste text from clipboard</col>
+        <col id="2">0</col>
+        <col id="3"/>
+      </row>
+      <row>
+        <col id="0">shortcut-terminal-select-all</col>
+        <col id="1" translatable="yes">Select all</col>
+        <col id="2">0</col>
+        <col id="3"/>
+      </row>
+      <row>
+        <col id="0">shortcut-win-new-tab</col>
+        <col id="1" translatable="yes">Open new tab</col>
+        <col id="2">0</col>
+        <col id="3"/>
+      </row>
+      <row>
+        <col id="0">shortcut-page-close</col>
+        <col id="1" translatable="yes">Close current tab</col>
+        <col id="2">0</col>
+        <col id="3"/>
+      </row>
+    </data>
+  </object>
+  <template class="Gjs_PrefsWidget" parent="GtkNotebook">
     <property name="visible">True</property>
-    <property name="can-focus">False</property>
-    <property name="margin-start">10</property>
-    <property name="margin-end">10</property>
-    <property name="margin-top">10</property>
-    <property name="margin-bottom">10</property>
-    <property name="row-spacing">10</property>
-    <property name="column-spacing">10</property>
+    <property name="can-focus">True</property>
+    <property name="hexpand">True</property>
+    <property name="vexpand">True</property>
     <child>
+      <!-- n-columns=2 n-rows=3 -->
+      <object class="GtkGrid">
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <property name="margin-start">10</property>
+        <property name="margin-end">10</property>
+        <property name="margin-top">10</property>
+        <property name="margin-bottom">10</property>
+        <property name="row-spacing">10</property>
+        <property name="column-spacing">10</property>
+        <child>
+          <object class="GtkLabel">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="halign">end</property>
+            <property name="label" translatable="yes">Font:</property>
+          </object>
+          <packing>
+            <property name="left-attach">0</property>
+            <property name="top-attach">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkFontButton" id="font_chooser">
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="receives-default">True</property>
+            <property name="hexpand">True</property>
+            <property name="font">Sans 12</property>
+            <property name="use-font">True</property>
+          </object>
+          <packing>
+            <property name="left-attach">1</property>
+            <property name="top-attach">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="halign">end</property>
+            <property name="label" translatable="yes">Background opacity:</property>
+          </object>
+          <packing>
+            <property name="left-attach">0</property>
+            <property name="top-attach">2</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkScale" id="opacity_scale">
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="hexpand">True</property>
+            <property name="adjustment">opacity_adjustment</property>
+            <property name="show-fill-level">True</property>
+            <property name="fill-level">1</property>
+            <property name="round-digits">2</property>
+            <property name="digits">2</property>
+          </object>
+          <packing>
+            <property name="left-attach">1</property>
+            <property name="top-attach">2</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="halign">end</property>
+            <property name="label" translatable="yes">Window height:</property>
+          </object>
+          <packing>
+            <property name="left-attach">0</property>
+            <property name="top-attach">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkScale" id="height_scale">
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="hexpand">True</property>
+            <property name="adjustment">height_adjustment</property>
+            <property name="show-fill-level">True</property>
+            <property name="fill-level">1</property>
+            <property name="round-digits">2</property>
+            <property name="digits">2</property>
+          </object>
+          <packing>
+            <property name="left-attach">1</property>
+            <property name="top-attach">1</property>
+          </packing>
+        </child>
+      </object>
+      <packing>
+        <property name="menu-label">Appearance</property>
+      </packing>
+    </child>
+    <child type="tab">
       <object class="GtkLabel">
         <property name="visible">True</property>
         <property name="can-focus">False</property>
-        <property name="halign">end</property>
-        <property name="label" translatable="yes">Font:</property>
+        <property name="label" translatable="yes">Appearance</property>
       </object>
       <packing>
-        <property name="left-attach">0</property>
-        <property name="top-attach">0</property>
+        <property name="tab-fill">False</property>
       </packing>
     </child>
     <child>
-      <object class="GtkFontButton" id="font_chooser">
+      <object class="GtkTreeView">
         <property name="visible">True</property>
         <property name="can-focus">True</property>
-        <property name="receives-default">True</property>
-        <property name="hexpand">True</property>
-        <property name="font">Sans 12</property>
-        <property name="use-font">True</property>
+        <property name="margin-start">10</property>
+        <property name="margin-end">10</property>
+        <property name="margin-top">10</property>
+        <property name="margin-bottom">10</property>
+        <property name="model">shortcuts_list</property>
+        <child internal-child="selection">
+          <object class="GtkTreeSelection"/>
+        </child>
+        <child>
+          <object class="GtkTreeViewColumn">
+            <property name="resizable">True</property>
+            <property name="title" translatable="yes">Action</property>
+            <child>
+              <object class="GtkCellRendererText"/>
+              <attributes>
+                <attribute name="text">1</attribute>
+              </attributes>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="GtkTreeViewColumn">
+            <property name="resizable">True</property>
+            <property name="title" translatable="yes">Shortcut</property>
+            <child>
+              <object class="GtkCellRendererAccel" id="accel_renderer">
+                <property name="editable">True</property>
+              </object>
+              <attributes>
+                <attribute name="accel-key">2</attribute>
+                <attribute name="accel-mods">3</attribute>
+              </attributes>
+            </child>
+          </object>
+        </child>
       </object>
       <packing>
-        <property name="left-attach">1</property>
-        <property name="top-attach">0</property>
+        <property name="position">1</property>
       </packing>
     </child>
-    <child>
+    <child type="tab">
       <object class="GtkLabel">
         <property name="visible">True</property>
         <property name="can-focus">False</property>
-        <property name="halign">end</property>
-        <property name="label" translatable="yes">Background opacity:</property>
+        <property name="label" translatable="yes">Keyboard Shortcuts</property>
       </object>
       <packing>
-        <property name="left-attach">0</property>
-        <property name="top-attach">2</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkScale" id="opacity_scale">
-        <property name="visible">True</property>
-        <property name="can-focus">True</property>
-        <property name="hexpand">True</property>
-        <property name="adjustment">opacity_adjustment</property>
-        <property name="show-fill-level">True</property>
-        <property name="fill-level">1</property>
-        <property name="round-digits">2</property>
-        <property name="digits">2</property>
-      </object>
-      <packing>
-        <property name="left-attach">1</property>
-        <property name="top-attach">2</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkLabel">
-        <property name="visible">True</property>
-        <property name="can-focus">False</property>
-        <property name="halign">end</property>
-        <property name="label" translatable="yes">Window height:</property>
-      </object>
-      <packing>
-        <property name="left-attach">0</property>
-        <property name="top-attach">1</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkScale" id="height_scale">
-        <property name="visible">True</property>
-        <property name="can-focus">True</property>
-        <property name="hexpand">True</property>
-        <property name="adjustment">height_adjustment</property>
-        <property name="show-fill-level">True</property>
-        <property name="fill-level">1</property>
-        <property name="round-digits">2</property>
-        <property name="digits">2</property>
-      </object>
-      <packing>
-        <property name="left-attach">1</property>
-        <property name="top-attach">1</property>
+        <property name="position">1</property>
+        <property name="tab-fill">False</property>
       </packing>
     </child>
   </template>

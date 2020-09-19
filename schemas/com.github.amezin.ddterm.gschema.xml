@@ -8,12 +8,31 @@
       <default>0.9</default>
       <range min="0.0" max="1.0"/>
     </key>
-    <key name="ddterm-toggle-hotkey" type="as">
-      <default><![CDATA[['F12']]]></default>
-    </key>
     <key name="window-height" type="d">
       <default>0.6</default>
       <range min="0.0" max="1.0"/>
+    </key>
+
+    <key name="ddterm-toggle-hotkey" type="as">
+      <default><![CDATA[['F12']]]></default>
+    </key>
+    <key name="shortcut-terminal-copy" type="as">
+      <default><![CDATA[['<Ctrl><Shift>c']]]></default>
+    </key>
+    <key name="shortcut-terminal-copy-html" type="as">
+      <default><![CDATA[[]]]></default>
+    </key>
+    <key name="shortcut-terminal-paste" type="as">
+      <default><![CDATA[['<Ctrl><Shift>v']]]></default>
+    </key>
+    <key name="shortcut-terminal-select-all" type="as">
+      <default><![CDATA[[]]]></default>
+    </key>
+    <key name="shortcut-win-new-tab" type="as">
+      <default><![CDATA[['<Ctrl><Shift>n']]]></default>
+    </key>
+    <key name="shortcut-page-close" type="as">
+      <default><![CDATA[['<Ctrl><Shift>q']]]></default>
     </key>
   </schema>
 </schemalist>
