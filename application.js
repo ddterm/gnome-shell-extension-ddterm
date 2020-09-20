@@ -194,7 +194,7 @@ const TerminalPage = GObject.registerClass(
 const AppWindow = GObject.registerClass(
     {
         Template: APP_DATA_DIR.get_child('appwindow.ui').get_uri(),
-        Children: ['notebook'],
+        Children: ['notebook', 'resize_box'],
         Properties: {
             'menus': GObject.ParamSpec.object(
                 'menus', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, Gtk.Builder
@@ -212,6 +212,9 @@ const AppWindow = GObject.registerClass(
 
             this.toggle_action = simple_action(this, 'toggle', this.toggle.bind(this));
             simple_action(this, 'new-tab', this.new_tab.bind(this));
+
+            this.resize_box.connect('realize', this.set_resize_cursor.bind(this));
+            this.resize_box.connect('button-press-event', this.start_resizing.bind(this));
 
             this.new_tab();
         }
@@ -252,6 +255,22 @@ const AppWindow = GObject.registerClass(
             if (this.notebook.get_n_pages() === 0)
                 this.close();
         }
+
+        set_resize_cursor(widget) {
+            widget.window.cursor = Gdk.Cursor.new_from_name(widget.get_display(), 'ns-resize');
+        }
+
+        start_resizing(_, event) {
+            const [button_ok, button] = event.get_button();
+            if (!button_ok || button !== Gdk.BUTTON_PRIMARY)
+                return;
+
+            const [coords_ok, x_root, y_root] = event.get_root_coords();
+            if (!coords_ok)
+                return;
+
+            this.begin_resize_drag(Gdk.WindowEdge.SOUTH, button, x_root, y_root, event.get_time());
+        }
     }
 );
 
@@ -280,10 +299,10 @@ const Application = GObject.registerClass(
         _init(params) {
             super._init(params);
 
-            this.hide_titlebar = false;
+            this.decorated = true;
 
             this.add_main_option(
-                'hide-titlebar', 0, GLib.OptionFlags.NONE, GLib.OptionArg.NONE, 'Hide window title bar', null
+                'undecorated', 0, GLib.OptionFlags.NONE, GLib.OptionArg.NONE, 'Hide window decorations', null
             );
 
             this.connect('startup', this.startup.bind(this));
@@ -300,11 +319,9 @@ const Application = GObject.registerClass(
 
             this.window = new AppWindow({
                 application: this,
+                decorated: this.decorated,
                 menus,
             });
-
-            if (this.hide_titlebar)
-                this.window.set_titlebar(new Gtk.Label());
 
             this.add_action(this.window.toggle_action);
 
@@ -329,8 +346,8 @@ const Application = GObject.registerClass(
         }
 
         handle_local_options(_, options) {
-            if (options.contains('hide-titlebar'))
-                this.hide_titlebar = true;
+            if (options.contains('undecorated'))
+                this.decorated = false;
 
             return -1;
         }

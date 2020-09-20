@@ -71,7 +71,7 @@ function toggle() {
     if (dbus_action_group)
         dbus_action_group.activate_action('toggle', null);
     else
-        util.spawn(['gjs', Me.dir.get_child('application.js').get_path(), '--hide-titlebar']);
+        util.spawn(['gjs', Me.dir.get_child('application.js').get_path(), '--undecorated']);
 }
 
 function dbus_appeared(connection, name) {
