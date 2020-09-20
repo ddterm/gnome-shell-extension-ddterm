@@ -56,7 +56,6 @@ function disable() {
     stop_dbus_watch();
     dispose_action_group();
     disconnect_created_handler();
-    disconnect_height_notify();
 
     Main.wm.removeKeybinding('ddterm-toggle-hotkey');
 }
