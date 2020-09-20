@@ -47,8 +47,10 @@ function enable() {
 
 function disable() {
     if (Main.sessionMode.allowExtensions) {
-        // Extension is being disabled because of the lock screen
-        // Do not stop the app in this case
+        // Stop the app only if the extension isn't being disabled because of
+        // lock screen/switch to other mode where extensions aren't allowed.
+        // Because when the session switches back to normal mode we want to
+        // keep all open terminals.
         if (dbus_action_group)
             dbus_action_group.activate_action('quit', null);
     }
