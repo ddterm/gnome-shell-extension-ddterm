@@ -8,15 +8,12 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 const { util } = imports.misc;
 
 let settings = null;
-let height_notify_id = null;
 
 let current_window = null;
 let created_handler_id = null;
 
 let bus_watch_id = null;
 let dbus_action_group = null;
-
-let updating_settings_from_size_changed = false;
 
 const APP_ID = 'com.github.amezin.ddterm';
 const APP_DBUS_PATH = '/com/github/amezin/ddterm';
@@ -46,9 +43,6 @@ function enable() {
 
     disconnect_created_handler();
     created_handler_id = global.display.connect('window-created', handle_created);
-
-    disconnect_height_notify();
-    height_notify_id = settings.connect('changed::window-height', update_window_geometry);
 }
 
 function disable() {
@@ -122,19 +116,12 @@ function configure_window(win) {
 }
 
 function set_window_geometry(win, monitor) {
+    unmaximize_window(win);
+
     const height_ratio = settings.get_double('window-height');
-
-    if (height_ratio < 1.0 && win.maximized_vertically)
-        win.unmaximize(Meta.MaximizeFlags.VERTICAL);
-
     const workarea = Main.layoutManager.getWorkAreaForMonitor(monitor);
     const target_height = Math.min(workarea.height - 1, workarea.height * height_ratio);
     win.move_resize_frame(true, workarea.x, workarea.y, workarea.width, target_height);
-}
-
-function update_window_geometry() {
-    if (current_window && !updating_settings_from_size_changed)
-        set_window_geometry(current_window, current_window.get_monitor());
 }
 
 function update_height_setting(win) {
@@ -147,13 +134,7 @@ function update_height_setting(win) {
 
     const workarea = Main.layoutManager.getWorkAreaForMonitor(monitor);
     const current_height = win.get_frame_rect().height / workarea.height;
-
-    updating_settings_from_size_changed = true;
-    try {
-        settings.set_double('window-height', current_height);
-    } finally {
-        updating_settings_from_size_changed = false;
-    }
+    settings.set_double('window-height', current_height);
 }
 
 function unmaximize_window(win) {
@@ -186,12 +167,5 @@ function dispose_action_group() {
     if (dbus_action_group) {
         dbus_action_group.run_dispose();
         dbus_action_group = null;
-    }
-}
-
-function disconnect_height_notify() {
-    if (height_notify_id) {
-        settings.disconnect(height_notify_id);
-        height_notify_id = null;
     }
 }

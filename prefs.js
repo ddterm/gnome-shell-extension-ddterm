@@ -8,7 +8,7 @@ function createPrefsWidgetClass(resource_path) {
     return GObject.registerClass(
         {
             Template: resource_path.get_child('prefs.ui').get_uri(),
-            Children: ['font_chooser', 'opacity_adjustment', 'height_adjustment', 'accel_renderer', 'shortcuts_list'],
+            Children: ['font_chooser', 'opacity_adjustment', 'accel_renderer', 'shortcuts_list'],
             Properties: {
                 settings: GObject.ParamSpec.object('settings', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, Gio.Settings),
             },
@@ -19,7 +19,6 @@ function createPrefsWidgetClass(resource_path) {
 
                 this.settings.bind('font', this.font_chooser, 'font', Gio.SettingsBindFlags.DEFAULT);
                 this.settings.bind('background-opacity', this.opacity_adjustment, 'value', Gio.SettingsBindFlags.DEFAULT);
-                this.settings.bind('window-height', this.height_adjustment, 'value', Gio.SettingsBindFlags.DEFAULT);
 
                 this.settings.connect('changed', this.update_shortcuts_from_settings.bind(this));
                 this.update_shortcuts_from_settings(this.settings, null);
