@@ -130,9 +130,6 @@ function set_window_geometry(win, monitor) {
     const workarea = Main.layoutManager.getWorkAreaForMonitor(monitor);
     const target_height = Math.min(workarea.height - 1, workarea.height * height_ratio);
     win.move_resize_frame(true, workarea.x, workarea.y, workarea.width, target_height);
-
-    if (!win.maximized_horizontally)
-        win.maximize(Meta.MaximizeFlags.HORIZONTAL);
 }
 
 function update_window_geometry() {
