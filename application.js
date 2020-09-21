@@ -172,6 +172,9 @@ const TerminalPage = GObject.registerClass(
             const popup_menu = Gtk.Menu.new_from_model(this.menus.get_object('terminal-popup'));
             setup_popup_menu(this.terminal, popup_menu);
 
+            const tab_popup_menu = Gtk.Menu.new_from_model(this.menus.get_object('tab-popup'));
+            setup_popup_menu(this.tab_label, tab_popup_menu);
+
             const actions = new Gio.SimpleActionGroup();
             this.insert_action_group('page', actions);
             this.tab_label.insert_action_group('page', actions);

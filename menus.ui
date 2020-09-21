@@ -39,4 +39,14 @@
       </item>
     </section>
   </menu>
+  <menu id="tab-popup">
+    <item>
+      <attribute name="label" translatable="yes">Close</attribute>
+      <attribute name="action">page.close</attribute>
+    </item>
+    <item>
+      <attribute name="label" translatable="yes">New Tab</attribute>
+      <attribute name="action">win.new-tab</attribute>
+    </item>
+  </menu>
 </interface>

@@ -24,7 +24,6 @@
             <property name="can-focus">True</property>
             <property name="tab-pos">bottom</property>
             <property name="scrollable">True</property>
-            <property name="enable-popup">True</property>
             <child type="action-end">
               <object class="GtkButton">
                 <property name="visible">True</property>
