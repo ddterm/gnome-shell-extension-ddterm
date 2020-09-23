@@ -108,13 +108,14 @@ GObject.registerClass(
             });
             this.connect('destroy', () => this.desktop_settings.run_dispose());
 
-            this.connect('notify::custom-font', this.update_font.bind(this));
-            this.connect('notify::use-custom-font', this.update_font.bind(this));
-            this.desktop_settings.connect('changed::monospace-font-name', this.update_font.bind(this));
-
             bind_settings_ro(this.settings, 'custom-font', this);
             bind_settings_ro(this.settings, 'use-custom-font', this);
             bind_settings_ro(this.settings, 'background-opacity', this);
+
+            this.connect('notify::custom-font', this.update_font.bind(this));
+            this.connect('notify::use-custom-font', this.update_font.bind(this));
+            this.desktop_settings.connect('changed::monospace-font-name', this.update_font.bind(this));
+            this.update_font();
         }
 
         set background_opacity(value) {
