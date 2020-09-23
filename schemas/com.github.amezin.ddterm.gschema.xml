@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schemalist>
   <schema path="/com/github/amezin/ddterm/" id="com.github.amezin.ddterm">
-    <key name="font" type="s">
-      <default>"Monospace"</default>
+    <key name="custom-font" type="s">
+      <default>"Monospace Regular 10"</default>
+    </key>
+    <key name="use-custom-font" type="b">
+      <default>false</default>
     </key>
     <key name="background-opacity" type="d">
       <default>0.9</default>

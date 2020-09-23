@@ -69,8 +69,11 @@ GObject.registerClass(
             'has-selection': GObject.ParamSpec.boolean(
                 'has-selection', '', '', GObject.ParamFlags.READABLE | GObject.ParamFlags.EXPLICIT_NOTIFY, false
             ),
-            'font': GObject.ParamSpec.string(
-                'font', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY, null
+            'custom-font': GObject.ParamSpec.string(
+                'custom-font', '', '', GObject.ParamFlags.READWRITE, null
+            ),
+            'use-custom-font': GObject.ParamSpec.boolean(
+                'use-custom-font', '', '', GObject.ParamFlags.READWRITE, false
             ),
             'background-opacity': GObject.ParamSpec.double(
                 'background-opacity', '', '', GObject.ParamFlags.WRITABLE, 0, 1, 1
@@ -83,10 +86,6 @@ GObject.registerClass(
 
             this.connect('selection-changed', () => {
                 this.notify('has-selection');
-            });
-
-            this.connect('notify::font-desc', () => {
-                this.notify('font');
             });
 
             const actions = new Gio.SimpleActionGroup();
@@ -104,16 +103,18 @@ GObject.registerClass(
             this.settings = get_settings();
             this.connect('destroy', () => this.settings.run_dispose());
 
-            bind_settings_ro(this.settings, 'font', this);
+            this.desktop_settings = new Gio.Settings({
+                schema_id: 'org.gnome.desktop.interface',
+            });
+            this.connect('destroy', () => this.desktop_settings.run_dispose());
+
+            this.connect('notify::custom-font', this.update_font.bind(this));
+            this.connect('notify::use-custom-font', this.update_font.bind(this));
+            this.desktop_settings.connect('changed::monospace-font-name', this.update_font.bind(this));
+
+            bind_settings_ro(this.settings, 'custom-font', this);
+            bind_settings_ro(this.settings, 'use-custom-font', this);
             bind_settings_ro(this.settings, 'background-opacity', this);
-        }
-
-        get font() {
-            return this.font_desc.to_string();
-        }
-
-        set font(font) {
-            this.font_desc = Pango.FontDescription.from_string(font);
         }
 
         set background_opacity(value) {
@@ -123,6 +124,11 @@ GObject.registerClass(
                 blue: 0,
                 alpha: value,
             }));
+        }
+
+        update_font() {
+            const font_name = this.use_custom_font ? this.custom_font : this.desktop_settings.get_string('monospace-font-name');
+            this.font_desc = Pango.FontDescription.from_string(font_name);
         }
 
         get has_selection() {
