@@ -61,6 +61,66 @@
         <col id="2">0</col>
         <col id="3"/>
       </row>
+      <row>
+        <col id="0">shortcut-select-tab-1</col>
+        <col id="1" translatable="yes">Select tab 1</col>
+        <col id="2">0</col>
+        <col id="3"/>
+      </row>
+      <row>
+        <col id="0">shortcut-select-tab-2</col>
+        <col id="1" translatable="yes">Select tab 2</col>
+        <col id="2">0</col>
+        <col id="3"/>
+      </row>
+      <row>
+        <col id="0">shortcut-select-tab-3</col>
+        <col id="1" translatable="yes">Select tab 3</col>
+        <col id="2">0</col>
+        <col id="3"/>
+      </row>
+      <row>
+        <col id="0">shortcut-select-tab-4</col>
+        <col id="1" translatable="yes">Select tab 4</col>
+        <col id="2">0</col>
+        <col id="3"/>
+      </row>
+      <row>
+        <col id="0">shortcut-select-tab-5</col>
+        <col id="1" translatable="yes">Select tab 5</col>
+        <col id="2">0</col>
+        <col id="3"/>
+      </row>
+      <row>
+        <col id="0">shortcut-select-tab-6</col>
+        <col id="1" translatable="yes">Select tab 6</col>
+        <col id="2">0</col>
+        <col id="3"/>
+      </row>
+      <row>
+        <col id="0">shortcut-select-tab-7</col>
+        <col id="1" translatable="yes">Select tab 7</col>
+        <col id="2">0</col>
+        <col id="3"/>
+      </row>
+      <row>
+        <col id="0">shortcut-select-tab-8</col>
+        <col id="1" translatable="yes">Select tab 8</col>
+        <col id="2">0</col>
+        <col id="3"/>
+      </row>
+      <row>
+        <col id="0">shortcut-select-tab-9</col>
+        <col id="1" translatable="yes">Select tab 9</col>
+        <col id="2">0</col>
+        <col id="3"/>
+      </row>
+      <row>
+        <col id="0">shortcut-select-tab-10</col>
+        <col id="1" translatable="yes">Select tab 10</col>
+        <col id="2">0</col>
+        <col id="3"/>
+      </row>
     </data>
   </object>
   <template class="Gjs_PrefsWidget" parent="GtkNotebook">

@@ -37,5 +37,36 @@
     <key name="shortcut-page-close" type="as">
       <default><![CDATA[['<Ctrl><Shift>q']]]></default>
     </key>
+
+    <key name="shortcut-select-tab-1" type="as">
+      <default><![CDATA[['<Alt>1']]]></default>
+    </key>
+    <key name="shortcut-select-tab-2" type="as">
+      <default><![CDATA[['<Alt>2']]]></default>
+    </key>
+    <key name="shortcut-select-tab-3" type="as">
+      <default><![CDATA[['<Alt>3']]]></default>
+    </key>
+    <key name="shortcut-select-tab-4" type="as">
+      <default><![CDATA[['<Alt>4']]]></default>
+    </key>
+    <key name="shortcut-select-tab-5" type="as">
+      <default><![CDATA[['<Alt>5']]]></default>
+    </key>
+    <key name="shortcut-select-tab-6" type="as">
+      <default><![CDATA[['<Alt>6']]]></default>
+    </key>
+    <key name="shortcut-select-tab-7" type="as">
+      <default><![CDATA[['<Alt>7']]]></default>
+    </key>
+    <key name="shortcut-select-tab-8" type="as">
+      <default><![CDATA[['<Alt>8']]]></default>
+    </key>
+    <key name="shortcut-select-tab-9" type="as">
+      <default><![CDATA[['<Alt>9']]]></default>
+    </key>
+    <key name="shortcut-select-tab-10" type="as">
+      <default><![CDATA[['<Alt>0']]]></default>
+    </key>
   </schema>
 </schemalist>
