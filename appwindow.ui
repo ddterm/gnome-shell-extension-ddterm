@@ -25,13 +25,41 @@
             <property name="tab-pos">bottom</property>
             <property name="scrollable">True</property>
             <child type="action-end">
-              <object class="GtkButton">
+              <object class="GtkBox">
                 <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="receives-default">True</property>
-                <property name="tooltip-text" translatable="yes">New Tab</property>
-                <property name="action-name">win.new-tab</property>
-                <property name="image">new_tab_icon</property>
+                <property name="can-focus">False</property>
+                <child>
+                  <object class="GtkButton">
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">True</property>
+                    <property name="tooltip-text" translatable="yes">New Tab</property>
+                    <property name="action-name">win.new-tab</property>
+                    <property name="image">new_tab_icon</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkMenuButton" id="tab_switch_button">
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="focus-on-click">False</property>
+                    <property name="receives-default">True</property>
+                    <property name="direction">up</property>
+                    <child>
+                      <placeholder/>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
               </object>
               <packing>
                 <property name="tab-fill">False</property>

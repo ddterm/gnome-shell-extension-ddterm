@@ -204,7 +204,7 @@ const TerminalPage = GObject.registerClass(
 const AppWindow = GObject.registerClass(
     {
         Template: APP_DATA_DIR.get_child('appwindow.ui').get_uri(),
-        Children: ['notebook', 'resize_box'],
+        Children: ['notebook', 'resize_box', 'tab_switch_button'],
         Properties: {
             'menus': GObject.ParamSpec.object(
                 'menus', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, Gtk.Builder
@@ -226,7 +226,27 @@ const AppWindow = GObject.registerClass(
             this.resize_box.connect('realize', this.set_resize_cursor.bind(this));
             this.resize_box.connect('button-press-event', this.start_resizing.bind(this));
 
+            this.tab_select_action = new Gio.PropertyAction({
+                name: 'select-tab',
+                object: this.notebook,
+                property_name: 'page',
+            });
+            this.add_action(this.tab_select_action);
+
+            this.tab_select_menu = new Gio.Menu();
+            this.tab_switch_button.set_menu_model(this.tab_select_menu);
+            this.tab_switch_button.connect('toggled', this.update_tab_select_menu.bind(this));
+
             this.new_tab();
+        }
+
+        update_tab_select_menu() {
+            this.tab_select_menu.remove_all();
+
+            for (let i = 0; i < this.notebook.get_n_pages(); i += 1) {
+                const label = this.notebook.get_menu_label_text(this.notebook.get_nth_page(i));
+                this.tab_select_menu.append(label, `win.select-tab(${i})`);
+            }
         }
 
         toggle() {
