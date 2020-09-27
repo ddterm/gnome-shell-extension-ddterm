@@ -191,8 +191,11 @@ const TerminalPage = GObject.registerClass(
 
         spawn() {
             this.terminal.spawn_async(
-                Vte.PtyFlags.DEFAULT, null, [Vte.get_user_shell()], null, GLib.SpawnFlags.SEARCH_PATH, null, -1, null, null
+                Vte.PtyFlags.DEFAULT, null, [Vte.get_user_shell()], null, GLib.SpawnFlags.SEARCH_PATH, null, -1, null, this.spawn_callback.bind(this)
             );
+        }
+
+        spawn_callback(_terminal, _pid, _error) {
         }
 
         close_request() {
