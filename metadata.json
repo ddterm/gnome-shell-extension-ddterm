@@ -3,7 +3,7 @@
     "description": "Drop-down terminal",
     "uuid": "ddterm@amezin.github.com",
     "settings-schema": "com.github.amezin.ddterm",
-    "shell-version": ["3.36"],
+    "shell-version": ["3.36", "3.38"],
     "version": 1,
     "url": "https://github.com/amezin/"
 }
