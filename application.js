@@ -405,9 +405,8 @@ const Application = GObject.registerClass(
             this.setup_shortcut('shortcut-win-new-tab', 'win.new-tab');
             this.setup_shortcut('shortcut-page-close', 'page.close');
 
-            for (let i = 0; i < 10; i += 1) {
-                this.setup_shortcut(`shortcut-select-tab-${i + 1}`, `win.select-tab(${i})`)
-            }
+            for (let i = 0; i < 10; i += 1)
+                this.setup_shortcut(`shortcut-select-tab-${i + 1}`, `win.select-tab(${i})`);
         }
     }
 );
