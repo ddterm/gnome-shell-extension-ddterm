@@ -79,10 +79,10 @@ function dbus_disappeared() {
 }
 
 function handle_created(display, win) {
-    win.connect('notify::gtk-application-id', configure_window);
-    win.connect('notify::gtk-window-object-path', configure_window);
+    win.connect('notify::gtk-application-id', track_window);
+    win.connect('notify::gtk-window-object-path', track_window);
 
-    configure_window(win);
+    track_window(win);
 }
 
 function is_dropdown_terminal_window(win) {
@@ -93,7 +93,7 @@ function is_dropdown_terminal_window(win) {
     );
 }
 
-function configure_window(win) {
+function track_window(win) {
     if (!is_dropdown_terminal_window(win))
         return;
 
@@ -106,23 +106,14 @@ function configure_window(win) {
     win.connect('unmanaged', untrack_window);
     win.connect('size-changed', update_height_setting);
 
-    // Fight Mutter's auto-maximization (when window size is >80% of the workarea)
-    win.connect('notify::maximized-vertically', unmaximize_window);
-
-    set_window_geometry(win, Main.layoutManager.currentMonitor.index);
+    const height_ratio = settings.get_double('window-height');
+    const workarea = Main.layoutManager.getWorkAreaForMonitor(Main.layoutManager.currentMonitor.index);
+    win.move_resize_frame(true, workarea.x, workarea.y, workarea.width, workarea.height * height_ratio);
 
     Main.activateWindow(win);
+
     win.make_above();
     win.stick();
-}
-
-function set_window_geometry(win, monitor) {
-    unmaximize_window(win);
-
-    const height_ratio = settings.get_double('window-height');
-    const workarea = Main.layoutManager.getWorkAreaForMonitor(monitor);
-    const target_height = Math.min(workarea.height - 1, workarea.height * height_ratio);
-    win.move_resize_frame(true, workarea.x, workarea.y, workarea.width, target_height);
 }
 
 function update_height_setting(win) {
@@ -136,13 +127,6 @@ function update_height_setting(win) {
     const workarea = Main.layoutManager.getWorkAreaForMonitor(monitor);
     const current_height = win.get_frame_rect().height / workarea.height;
     settings.set_double('window-height', current_height);
-}
-
-function unmaximize_window(win) {
-    if (win === current_window) {
-        if (win.maximized_vertically)
-            win.unmaximize(Meta.MaximizeFlags.VERTICAL);
-    }
 }
 
 function untrack_window(win) {

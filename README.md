@@ -8,7 +8,7 @@ Inspired by
 
 ## Distinguishing features
 
-- Works on Wayland correctly, without XWayland
+- Works on Wayland session correctly (but still requires xwayland)
 
 - Terminal window can be resized by dragging the border with mouse
 

@@ -218,6 +218,8 @@ const AppWindow = GObject.registerClass(
         _init(params) {
             super._init(params);
 
+            this.connect('realize', this.set_wm_functions.bind(this));
+
             this.connect('screen-changed', this.setup_rgba_visual.bind(this));
             this.setup_rgba_visual();
 
@@ -241,6 +243,10 @@ const AppWindow = GObject.registerClass(
             this.tab_switch_button.connect('toggled', this.update_tab_select_menu.bind(this));
 
             this.new_tab();
+        }
+
+        set_wm_functions() {
+            this.window.set_functions(Gdk.WMFunction.MOVE | Gdk.WMFunction.RESIZE | Gdk.WMFunction.CLOSE);
         }
 
         update_tab_select_menu() {
@@ -412,6 +418,7 @@ const Application = GObject.registerClass(
 );
 
 GLib.set_prgname('com.github.amezin.ddterm');
+Gdk.set_allowed_backends('x11');
 
 const app = new Application({
     application_id: 'com.github.amezin.ddterm',
