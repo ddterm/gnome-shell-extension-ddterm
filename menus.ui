@@ -22,6 +22,16 @@
     </section>
     <section>
       <item>
+        <attribute name="label" translatable="yes">Reset</attribute>
+        <attribute name="action">terminal.reset</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Reset and Clear</attribute>
+        <attribute name="action">terminal.reset-and-clear</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
         <attribute name="label" translatable="yes">Close</attribute>
         <attribute name="action">page.close</attribute>
       </item>

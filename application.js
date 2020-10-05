@@ -99,6 +99,8 @@ GObject.registerClass(
 
             simple_action(actions, 'paste', this.paste.bind(this));
             simple_action(actions, 'select-all', this.select_all.bind(this));
+            simple_action(actions, 'reset', this.reset.bind(this));
+            simple_action(actions, 'reset-and-clear', this.reset_and_clear.bind(this));
 
             this.desktop_settings = new Gio.Settings({
                 schema_id: 'org.gnome.desktop.interface',
@@ -143,6 +145,14 @@ GObject.registerClass(
 
         select_all() {
             super.select_all();
+        }
+
+        reset() {
+            super.reset(true, false);
+        }
+
+        reset_and_clear() {
+            super.reset(true, true);
         }
     }
 );
@@ -448,6 +458,8 @@ const Application = GObject.registerClass(
             this.setup_shortcut('shortcut-terminal-copy-html', 'terminal.copy-html');
             this.setup_shortcut('shortcut-terminal-paste', 'terminal.paste');
             this.setup_shortcut('shortcut-terminal-select-all', 'terminal.select-all');
+            this.setup_shortcut('shortcut-terminal-reset', 'terminal.reset');
+            this.setup_shortcut('shortcut-terminal-reset-and-clear', 'terminal.reset-and-clear');
             this.setup_shortcut('shortcut-win-new-tab', 'win.new-tab');
             this.setup_shortcut('shortcut-page-close', 'page.close');
 

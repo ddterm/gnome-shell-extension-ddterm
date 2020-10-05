@@ -96,6 +96,12 @@
     <key name="shortcut-terminal-select-all" type="as">
       <default><![CDATA[[]]]></default>
     </key>
+    <key name="shortcut-terminal-reset" type="as">
+      <default><![CDATA[[]]]></default>
+    </key>
+    <key name="shortcut-terminal-reset-and-clear" type="as">
+      <default><![CDATA[[]]]></default>
+    </key>
     <key name="shortcut-win-new-tab" type="as">
       <default><![CDATA[['<Ctrl><Shift>n']]]></default>
     </key>

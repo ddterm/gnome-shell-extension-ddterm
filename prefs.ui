@@ -99,6 +99,18 @@
         <col id="3"/>
       </row>
       <row>
+        <col id="0">shortcut-terminal-reset</col>
+        <col id="1" translatable="yes">Reset</col>
+        <col id="2">0</col>
+        <col id="3"/>
+      </row>
+      <row>
+        <col id="0">shortcut-terminal-reset-and-clear</col>
+        <col id="1" translatable="yes">Reset and clear</col>
+        <col id="2">0</col>
+        <col id="3"/>
+      </row>
+      <row>
         <col id="0">shortcut-win-new-tab</col>
         <col id="1" translatable="yes">Open new tab</col>
         <col id="2">0</col>
