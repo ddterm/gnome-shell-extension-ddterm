@@ -150,7 +150,7 @@ GObject.registerClass(
 const TerminalPage = GObject.registerClass(
     {
         Template: APP_DATA_DIR.get_child('terminalpage.ui').get_uri(),
-        Children: ['terminal', 'tab_label', 'tab_label_label', 'menu_label'],
+        Children: ['terminal', 'tab_label', 'tab_label_label', 'menu_label', 'scrollbar'],
         Properties: {
             'menus': GObject.ParamSpec.object(
                 'menus', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, Gtk.Builder
@@ -170,6 +170,10 @@ const TerminalPage = GObject.registerClass(
             bind_settings_ro(this.settings, 'custom-font', this.terminal);
             bind_settings_ro(this.settings, 'use-system-font', this.terminal);
             bind_settings_ro(this.settings, 'background-opacity', this.terminal);
+            bind_settings_ro(this.settings, 'show-scrollbar', this.scrollbar, 'visible');
+            bind_settings_ro(this.settings, 'scroll-on-output', this.terminal);
+            bind_settings_ro(this.settings, 'scroll-on-keystroke', this.terminal);
+            bind_settings_ro(this.settings, 'scrollback-lines', this.terminal);
 
             this.terminal.connect('child-exited', this.close_request.bind(this));
 

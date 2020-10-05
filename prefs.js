@@ -16,6 +16,12 @@ function createPrefsWidgetClass(resource_path) {
                 'shortcuts_list',
                 'spawn_custom_command',
                 'custom_command_entry',
+                'show_scrollbar_check',
+                'scroll_on_output_check',
+                'scoll_on_keystroke_check',
+                'limit_scrollback_check',
+                'scrollback_adjustment',
+                'scrollback_spin',
             ],
             Properties: {
                 'settings': GObject.ParamSpec.object('settings', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, Gio.Settings),
@@ -36,6 +42,13 @@ function createPrefsWidgetClass(resource_path) {
 
                 this.settings.bind('custom-command', this.custom_command_entry, 'text', Gio.SettingsBindFlags.DEFAULT);
                 this.spawn_custom_command.bind_property('active', this.custom_command_entry, 'sensitive', GObject.BindingFlags.DEFAULT | GObject.BindingFlags.SYNC_CREATE);
+
+                this.settings.bind('show-scrollbar', this.show_scrollbar_check, 'active', Gio.SettingsBindFlags.DEFAULT);
+                this.settings.bind('scroll-on-output', this.scroll_on_output_check, 'active', Gio.SettingsBindFlags.DEFAULT);
+                this.settings.bind('scroll-on-keystroke', this.scoll_on_keystroke_check, 'active', Gio.SettingsBindFlags.DEFAULT);
+                this.settings.bind('limit-scrollback', this.limit_scrollback_check, 'active', Gio.SettingsBindFlags.DEFAULT);
+                this.settings.bind('scrollback-lines', this.scrollback_adjustment, 'value', Gio.SettingsBindFlags.DEFAULT);
+                this.settings.bind('limit-scrollback', this.scrollback_spin, 'sensitive', Gio.SettingsBindFlags.GET | Gio.SettingsBindFlags.NO_SENSITIVITY);
 
                 this.settings.connect('changed', this.update_shortcuts_from_settings.bind(this));
                 this.update_shortcuts_from_settings();

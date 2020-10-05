@@ -29,6 +29,23 @@
       <default>''</default>
     </key>
 
+    <key name="show-scrollbar" type="b">
+      <default>true</default>
+    </key>
+    <key name="scroll-on-output" type="b">
+      <default>false</default>
+    </key>
+    <key name="scroll-on-keystroke" type="b">
+      <default>true</default>
+    </key>
+    <key name="limit-scrollback" type="b">
+      <default>true</default>
+    </key>
+    <key name="scrollback-lines" type="u">
+      <default>10000</default>
+      <range min="0" max="1000000000"/>
+    </key>
+
     <key name="ddterm-toggle-hotkey" type="as">
       <default><![CDATA[['F12']]]></default>
     </key>

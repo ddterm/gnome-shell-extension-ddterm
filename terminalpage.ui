@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.38.0 -->
+<!-- Generated with glade 3.38.1 -->
 <interface>
   <requires lib="gtk+" version="3.22"/>
   <object class="GtkImage" id="close_icon">
@@ -70,7 +70,7 @@
       </packing>
     </child>
     <child>
-      <object class="GtkScrollbar">
+      <object class="GtkScrollbar" id="scrollbar">
         <property name="visible">True</property>
         <property name="can-focus">False</property>
         <property name="orientation">vertical</property>
