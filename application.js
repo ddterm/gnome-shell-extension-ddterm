@@ -195,7 +195,9 @@ const TerminalPage = GObject.registerClass(
             );
         }
 
-        spawn_callback(_terminal, _pid, _error) {
+        spawn_callback(_terminal, _pid, error) {
+            if (error)
+                this.terminal.feed(error.message);
         }
 
         close_request() {
