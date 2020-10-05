@@ -72,8 +72,8 @@ GObject.registerClass(
             'custom-font': GObject.ParamSpec.string(
                 'custom-font', '', '', GObject.ParamFlags.READWRITE, null
             ),
-            'use-custom-font': GObject.ParamSpec.boolean(
-                'use-custom-font', '', '', GObject.ParamFlags.READWRITE, false
+            'use-system-font': GObject.ParamSpec.boolean(
+                'use-system-font', '', '', GObject.ParamFlags.READWRITE, true
             ),
             'background-opacity': GObject.ParamSpec.double(
                 'background-opacity', '', '', GObject.ParamFlags.WRITABLE, 0, 1, 1
@@ -106,7 +106,7 @@ GObject.registerClass(
             this.connect('destroy', () => this.desktop_settings.run_dispose());
 
             this.connect('notify::custom-font', this.update_font.bind(this));
-            this.connect('notify::use-custom-font', this.update_font.bind(this));
+            this.connect('notify::use-system-font', this.update_font.bind(this));
             this.desktop_settings.connect('changed::monospace-font-name', this.update_font.bind(this));
             this.update_font();
         }
@@ -121,7 +121,7 @@ GObject.registerClass(
         }
 
         update_font() {
-            const font_name = this.use_custom_font ? this.custom_font : this.desktop_settings.get_string('monospace-font-name');
+            const font_name = this.use_system_font ? this.desktop_settings.get_string('monospace-font-name') : this.custom_font;
             this.font_desc = Pango.FontDescription.from_string(font_name);
         }
 
@@ -168,7 +168,7 @@ const TerminalPage = GObject.registerClass(
             this.connect('destroy', () => this.settings.run_dispose());
 
             bind_settings_ro(this.settings, 'custom-font', this.terminal);
-            bind_settings_ro(this.settings, 'use-custom-font', this.terminal);
+            bind_settings_ro(this.settings, 'use-system-font', this.terminal);
             bind_settings_ro(this.settings, 'background-opacity', this.terminal);
 
             this.terminal.connect('child-exited', this.close_request.bind(this));

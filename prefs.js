@@ -26,8 +26,8 @@ function createPrefsWidgetClass(resource_path) {
                 super._init(params);
 
                 this.settings.bind('custom-font', this.font_chooser, 'font', Gio.SettingsBindFlags.DEFAULT);
-                this.settings.bind('use-custom-font', this.custom_font_check, 'active', Gio.SettingsBindFlags.DEFAULT);
-                this.settings.bind('use-custom-font', this.font_chooser, 'sensitive', Gio.SettingsBindFlags.GET | Gio.SettingsBindFlags.NO_SENSITIVITY);
+                this.settings.bind('use-system-font', this.custom_font_check, 'active', Gio.SettingsBindFlags.DEFAULT | Gio.SettingsBindFlags.INVERT_BOOLEAN);
+                this.settings.bind('use-system-font', this.font_chooser, 'sensitive', Gio.SettingsBindFlags.GET | Gio.SettingsBindFlags.NO_SENSITIVITY | Gio.SettingsBindFlags.INVERT_BOOLEAN);
                 this.settings.bind('background-opacity', this.opacity_adjustment, 'value', Gio.SettingsBindFlags.DEFAULT);
 
                 const actions = Gio.SimpleActionGroup.new();

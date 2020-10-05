@@ -10,8 +10,8 @@
     <key name="custom-font" type="s">
       <default>"Monospace Regular 10"</default>
     </key>
-    <key name="use-custom-font" type="b">
-      <default>false</default>
+    <key name="use-system-font" type="b">
+      <default>true</default>
     </key>
     <key name="background-opacity" type="d">
       <default>0.9</default>
