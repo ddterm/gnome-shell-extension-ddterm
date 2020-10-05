@@ -100,17 +100,10 @@ GObject.registerClass(
             simple_action(actions, 'paste', this.paste.bind(this));
             simple_action(actions, 'select-all', this.select_all.bind(this));
 
-            this.settings = get_settings();
-            this.connect('destroy', () => this.settings.run_dispose());
-
             this.desktop_settings = new Gio.Settings({
                 schema_id: 'org.gnome.desktop.interface',
             });
             this.connect('destroy', () => this.desktop_settings.run_dispose());
-
-            bind_settings_ro(this.settings, 'custom-font', this);
-            bind_settings_ro(this.settings, 'use-custom-font', this);
-            bind_settings_ro(this.settings, 'background-opacity', this);
 
             this.connect('notify::custom-font', this.update_font.bind(this));
             this.connect('notify::use-custom-font', this.update_font.bind(this));
@@ -171,6 +164,13 @@ const TerminalPage = GObject.registerClass(
         _init(params) {
             super._init(params);
 
+            this.settings = get_settings();
+            this.connect('destroy', () => this.settings.run_dispose());
+
+            bind_settings_ro(this.settings, 'custom-font', this.terminal);
+            bind_settings_ro(this.settings, 'use-custom-font', this.terminal);
+            bind_settings_ro(this.settings, 'background-opacity', this.terminal);
+
             this.terminal.connect('child-exited', this.close_request.bind(this));
 
             this.terminal.bind_property('window-title', this.menu_label, 'label', GObject.BindingFlags.DEFAULT);
@@ -190,8 +190,37 @@ const TerminalPage = GObject.registerClass(
         }
 
         spawn() {
+            let argv;
+            let spawn_flags;
+
+            const mode = this.settings.get_string('command');
+            if (mode === 'custom-command') {
+                const command = this.settings.get_string('custom-command');
+
+                let _;
+                [_, argv] = GLib.shell_parse_argv(command);
+
+                spawn_flags = GLib.SpawnFlags.SEARCH_PATH_FROM_ENVP;
+            } else if (mode === 'user-shell' || mode === 'user-shell-login') {
+                const shell = Vte.get_user_shell();
+                const name = GLib.path_get_basename(shell);
+
+                if (mode === 'user-shell-login')
+                    argv = [shell, `-${name}`];
+                else
+                    argv = [shell, name];
+
+                spawn_flags = GLib.SpawnFlags.FILE_AND_ARGV_ZERO;
+
+                if (name !== shell)
+                    spawn_flags |= GLib.SpawnFlags.SEARCH_PATH_FROM_ENVP;
+            } else {
+                this.terminal.feed(`Invalid command: ${mode}`);
+                return;
+            }
+
             this.terminal.spawn_async(
-                Vte.PtyFlags.DEFAULT, null, [Vte.get_user_shell()], null, GLib.SpawnFlags.SEARCH_PATH, null, -1, null, this.spawn_callback.bind(this)
+                Vte.PtyFlags.DEFAULT, null, argv, null, spawn_flags, null, -1, null, this.spawn_callback.bind(this)
             );
         }
 

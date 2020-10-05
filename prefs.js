@@ -8,9 +8,17 @@ function createPrefsWidgetClass(resource_path) {
     return GObject.registerClass(
         {
             Template: resource_path.get_child('prefs.ui').get_uri(),
-            Children: ['font_chooser', 'custom_font_check', 'opacity_adjustment', 'accel_renderer', 'shortcuts_list'],
+            Children: [
+                'font_chooser',
+                'custom_font_check',
+                'opacity_adjustment',
+                'accel_renderer',
+                'shortcuts_list',
+                'spawn_custom_command',
+                'custom_command_entry',
+            ],
             Properties: {
-                settings: GObject.ParamSpec.object('settings', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, Gio.Settings),
+                'settings': GObject.ParamSpec.object('settings', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, Gio.Settings),
             },
         },
         class PrefsWidget extends Gtk.Notebook {
@@ -19,11 +27,18 @@ function createPrefsWidgetClass(resource_path) {
 
                 this.settings.bind('custom-font', this.font_chooser, 'font', Gio.SettingsBindFlags.DEFAULT);
                 this.settings.bind('use-custom-font', this.custom_font_check, 'active', Gio.SettingsBindFlags.DEFAULT);
-                this.settings.bind('use-custom-font', this.font_chooser, 'sensitive', Gio.SettingsBindFlags.DEFAULT);
+                this.settings.bind('use-custom-font', this.font_chooser, 'sensitive', Gio.SettingsBindFlags.GET | Gio.SettingsBindFlags.NO_SENSITIVITY);
                 this.settings.bind('background-opacity', this.opacity_adjustment, 'value', Gio.SettingsBindFlags.DEFAULT);
 
+                const actions = Gio.SimpleActionGroup.new();
+                actions.add_action(this.settings.create_action('command'));
+                this.insert_action_group('settings', actions);
+
+                this.settings.bind('custom-command', this.custom_command_entry, 'text', Gio.SettingsBindFlags.DEFAULT);
+                this.spawn_custom_command.bind_property('active', this.custom_command_entry, 'sensitive', GObject.BindingFlags.DEFAULT | GObject.BindingFlags.SYNC_CREATE);
+
                 this.settings.connect('changed', this.update_shortcuts_from_settings.bind(this));
-                this.update_shortcuts_from_settings(this.settings, null);
+                this.update_shortcuts_from_settings();
 
                 this.accel_renderer.connect('accel-edited', this.accel_edited.bind(this));
                 this.accel_renderer.connect('accel-cleared', this.accel_cleared.bind(this));

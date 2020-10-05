@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schemalist>
+  <enum id="com.github.amezin.ddterm.Command">
+    <value nick="user-shell" value="0" />
+    <value nick="user-shell-login" value="1" />
+    <value nick="custom-command" value="2" />
+  </enum>
+
   <schema path="/com/github/amezin/ddterm/" id="com.github.amezin.ddterm">
     <key name="custom-font" type="s">
       <default>"Monospace Regular 10"</default>
@@ -14,6 +20,13 @@
     <key name="window-height" type="d">
       <default>0.6</default>
       <range min="0.0" max="1.0"/>
+    </key>
+
+    <key name="command" enum="com.github.amezin.ddterm.Command">
+      <default>'user-shell'</default>
+    </key>
+    <key name="custom-command" type="s">
+      <default>''</default>
     </key>
 
     <key name="ddterm-toggle-hotkey" type="as">

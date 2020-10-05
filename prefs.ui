@@ -209,6 +209,96 @@
       </packing>
     </child>
     <child>
+      <!-- n-columns=2 n-rows=3 -->
+      <object class="GtkGrid">
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <property name="margin-start">10</property>
+        <property name="margin-end">10</property>
+        <property name="margin-top">10</property>
+        <property name="margin-bottom">10</property>
+        <property name="row-spacing">10</property>
+        <property name="column-spacing">10</property>
+        <child>
+          <object class="GtkEntry" id="custom_command_entry">
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="hexpand">True</property>
+          </object>
+          <packing>
+            <property name="left-attach">1</property>
+            <property name="top-attach">2</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkRadioButton" id="spawn_user_shell">
+            <property name="label" translatable="yes">User shell</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="receives-default">False</property>
+            <property name="action-name">settings.command</property>
+            <property name="action-target">'user-shell'</property>
+            <property name="active">True</property>
+            <property name="draw-indicator">True</property>
+          </object>
+          <packing>
+            <property name="left-attach">0</property>
+            <property name="top-attach">0</property>
+            <property name="width">2</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkRadioButton">
+            <property name="label" translatable="yes">User shell as login shell</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="receives-default">False</property>
+            <property name="action-name">settings.command</property>
+            <property name="action-target">'user-shell-login'</property>
+            <property name="active">True</property>
+            <property name="draw-indicator">True</property>
+            <property name="group">spawn_user_shell</property>
+          </object>
+          <packing>
+            <property name="left-attach">0</property>
+            <property name="top-attach">1</property>
+            <property name="width">2</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkRadioButton" id="spawn_custom_command">
+            <property name="label" translatable="yes">Custom command:</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="receives-default">False</property>
+            <property name="action-name">settings.command</property>
+            <property name="action-target">'custom-command'</property>
+            <property name="active">True</property>
+            <property name="draw-indicator">True</property>
+            <property name="group">spawn_user_shell</property>
+          </object>
+          <packing>
+            <property name="left-attach">0</property>
+            <property name="top-attach">2</property>
+          </packing>
+        </child>
+      </object>
+      <packing>
+        <property name="position">1</property>
+      </packing>
+    </child>
+    <child type="tab">
+      <object class="GtkLabel">
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <property name="label" translatable="yes">Command</property>
+      </object>
+      <packing>
+        <property name="position">1</property>
+        <property name="tab-fill">False</property>
+      </packing>
+    </child>
+    <child>
       <object class="GtkTreeView">
         <property name="visible">True</property>
         <property name="can-focus">True</property>
@@ -249,7 +339,7 @@
         </child>
       </object>
       <packing>
-        <property name="position">1</property>
+        <property name="position">2</property>
       </packing>
     </child>
     <child type="tab">
@@ -259,7 +349,7 @@
         <property name="label" translatable="yes">Keyboard Shortcuts</property>
       </object>
       <packing>
-        <property name="position">1</property>
+        <property name="position">2</property>
         <property name="tab-fill">False</property>
       </packing>
     </child>
