@@ -6,6 +6,25 @@
     <value nick="custom-command" value="2" />
   </enum>
 
+  <enum id="com.github.amezin.ddterm.TextBlinkMode">
+    <value nick="never" value="0"/>
+    <value nick="focused" value="1"/>
+    <value nick="unfocused" value="2"/>
+    <value nick="always" value="3"/>
+  </enum>
+
+  <enum id="com.github.amezin.ddterm.CursorBlinkMode">
+    <value nick="system" value="0"/>
+    <value nick="on" value="1"/>
+    <value nick="off" value="2"/>
+  </enum>
+
+  <enum id="com.github.amezin.ddterm.CursorShape">
+    <value nick="block" value="0"/>
+    <value nick="ibeam" value="1"/>
+    <value nick="underline" value="2"/>
+  </enum>
+
   <schema path="/com/github/amezin/ddterm/" id="com.github.amezin.ddterm">
     <key name="custom-font" type="s">
       <default>"Monospace Regular 10"</default>
@@ -13,6 +32,22 @@
     <key name="use-system-font" type="b">
       <default>true</default>
     </key>
+    <key name="text-blink-mode" enum="com.github.amezin.ddterm.TextBlinkMode">
+      <default>'always'</default>
+    </key>
+    <key name="cursor-blink-mode" enum="com.github.amezin.ddterm.CursorBlinkMode">
+      <default>'system'</default>
+    </key>
+    <key name="cursor-shape" enum="com.github.amezin.ddterm.CursorShape">
+      <default>'block'</default>
+    </key>
+    <key name="allow-hyperlink" type="b">
+      <default>true</default>
+    </key>
+    <key name="audible-bell" type="b">
+      <default>true</default>
+    </key>
+
     <key name="background-opacity" type="d">
       <default>0.9</default>
       <range min="0.0" max="1.0"/>

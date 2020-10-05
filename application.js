@@ -174,6 +174,11 @@ const TerminalPage = GObject.registerClass(
             bind_settings_ro(this.settings, 'scroll-on-output', this.terminal);
             bind_settings_ro(this.settings, 'scroll-on-keystroke', this.terminal);
             bind_settings_ro(this.settings, 'scrollback-lines', this.terminal);
+            bind_settings_ro(this.settings, 'text-blink-mode', this.terminal);
+            bind_settings_ro(this.settings, 'cursor-blink-mode', this.terminal);
+            bind_settings_ro(this.settings, 'cursor-shape', this.terminal);
+            bind_settings_ro(this.settings, 'allow-hyperlink', this.terminal);
+            bind_settings_ro(this.settings, 'audible-bell', this.terminal);
 
             this.terminal.connect('child-exited', this.close_request.bind(this));
 

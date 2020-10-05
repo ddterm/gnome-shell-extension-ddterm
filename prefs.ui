@@ -2,6 +2,50 @@
 <!-- Generated with glade 3.38.1 -->
 <interface>
   <requires lib="gtk+" version="3.22"/>
+  <object class="GtkListStore" id="cursor_blink_mode_list">
+    <columns>
+      <!-- column-name label -->
+      <column type="gchararray"/>
+      <!-- column-name id -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">Default</col>
+        <col id="1">system</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Enabled</col>
+        <col id="1">on</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Disabled</col>
+        <col id="1">off</col>
+      </row>
+    </data>
+  </object>
+  <object class="GtkListStore" id="cursor_shape_list">
+    <columns>
+      <!-- column-name label -->
+      <column type="gchararray"/>
+      <!-- column-name id -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">Block</col>
+        <col id="1">block</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">I-Beam</col>
+        <col id="1">ibeam</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Underline</col>
+        <col id="1">underline</col>
+      </row>
+    </data>
+  </object>
   <object class="GtkAdjustment" id="opacity_adjustment">
     <property name="upper">1</property>
     <property name="step-increment">0.01</property>
@@ -128,13 +172,39 @@
       </row>
     </data>
   </object>
+  <object class="GtkListStore" id="text_blink_mode_list">
+    <columns>
+      <!-- column-name label -->
+      <column type="gchararray"/>
+      <!-- column-name id -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">Never</col>
+        <col id="1">never</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">When focused</col>
+        <col id="1">focused</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">When unfocused</col>
+        <col id="1">unfocused</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Always</col>
+        <col id="1">always</col>
+      </row>
+    </data>
+  </object>
   <template class="Gjs_PrefsWidget" parent="GtkNotebook">
     <property name="visible">True</property>
     <property name="can-focus">True</property>
     <property name="hexpand">True</property>
     <property name="vexpand">True</property>
     <child>
-      <!-- n-columns=2 n-rows=2 -->
+      <!-- n-columns=2 n-rows=7 -->
       <object class="GtkGrid">
         <property name="visible">True</property>
         <property name="can-focus">False</property>
@@ -148,11 +218,12 @@
           <object class="GtkLabel">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
+            <property name="halign">start</property>
             <property name="label" translatable="yes">Background opacity:</property>
           </object>
           <packing>
             <property name="left-attach">0</property>
-            <property name="top-attach">1</property>
+            <property name="top-attach">6</property>
           </packing>
         </child>
         <child>
@@ -168,7 +239,7 @@
           </object>
           <packing>
             <property name="left-attach">1</property>
-            <property name="top-attach">1</property>
+            <property name="top-attach">6</property>
           </packing>
         </child>
         <child>
@@ -196,6 +267,124 @@
           <packing>
             <property name="left-attach">0</property>
             <property name="top-attach">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="halign">start</property>
+            <property name="label" translatable="yes">Allow blinking text:</property>
+          </object>
+          <packing>
+            <property name="left-attach">0</property>
+            <property name="top-attach">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="halign">start</property>
+            <property name="label" translatable="yes">Cursor shape:</property>
+          </object>
+          <packing>
+            <property name="left-attach">0</property>
+            <property name="top-attach">2</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="halign">start</property>
+            <property name="label" translatable="yes">Cursor blinking:</property>
+          </object>
+          <packing>
+            <property name="left-attach">0</property>
+            <property name="top-attach">3</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkComboBox" id="text_blink_mode_combo">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="model">text_blink_mode_list</property>
+            <property name="id-column">1</property>
+            <child>
+              <object class="GtkCellRendererText"/>
+              <attributes>
+                <attribute name="text">0</attribute>
+              </attributes>
+            </child>
+          </object>
+          <packing>
+            <property name="left-attach">1</property>
+            <property name="top-attach">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkComboBox" id="cursor_shape_combo">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="model">cursor_shape_list</property>
+            <property name="id-column">1</property>
+            <child>
+              <object class="GtkCellRendererText"/>
+              <attributes>
+                <attribute name="text">0</attribute>
+              </attributes>
+            </child>
+          </object>
+          <packing>
+            <property name="left-attach">1</property>
+            <property name="top-attach">2</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkComboBox" id="cursor_blink_mode_combo">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="model">cursor_blink_mode_list</property>
+            <property name="id-column">1</property>
+            <child>
+              <object class="GtkCellRendererText"/>
+              <attributes>
+                <attribute name="text">0</attribute>
+              </attributes>
+            </child>
+          </object>
+          <packing>
+            <property name="left-attach">1</property>
+            <property name="top-attach">3</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkCheckButton" id="allow_hyperlink_check">
+            <property name="label" translatable="yes">Allow hyperlinks</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="receives-default">False</property>
+            <property name="draw-indicator">True</property>
+          </object>
+          <packing>
+            <property name="left-attach">0</property>
+            <property name="top-attach">4</property>
+            <property name="width">2</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkCheckButton" id="audible_bell_check">
+            <property name="label" translatable="yes">Audible bell</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="receives-default">False</property>
+            <property name="draw-indicator">True</property>
+          </object>
+          <packing>
+            <property name="left-attach">0</property>
+            <property name="top-attach">5</property>
+            <property name="width">2</property>
           </packing>
         </child>
       </object>

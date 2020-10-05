@@ -22,6 +22,11 @@ function createPrefsWidgetClass(resource_path) {
                 'limit_scrollback_check',
                 'scrollback_adjustment',
                 'scrollback_spin',
+                'text_blink_mode_combo',
+                'cursor_blink_mode_combo',
+                'cursor_shape_combo',
+                'allow_hyperlink_check',
+                'audible_bell_check',
             ],
             Properties: {
                 'settings': GObject.ParamSpec.object('settings', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, Gio.Settings),
@@ -34,7 +39,12 @@ function createPrefsWidgetClass(resource_path) {
                 this.settings.bind('custom-font', this.font_chooser, 'font', Gio.SettingsBindFlags.DEFAULT);
                 this.settings.bind('use-system-font', this.custom_font_check, 'active', Gio.SettingsBindFlags.DEFAULT | Gio.SettingsBindFlags.INVERT_BOOLEAN);
                 this.settings.bind('use-system-font', this.font_chooser, 'sensitive', Gio.SettingsBindFlags.GET | Gio.SettingsBindFlags.NO_SENSITIVITY | Gio.SettingsBindFlags.INVERT_BOOLEAN);
+                this.settings.bind('text-blink-mode', this.text_blink_mode_combo, 'active-id', Gio.SettingsBindFlags.DEFAULT);
+                this.settings.bind('cursor-blink-mode', this.cursor_blink_mode_combo, 'active-id', Gio.SettingsBindFlags.DEFAULT);
+                this.settings.bind('cursor-shape', this.cursor_shape_combo, 'active-id', Gio.SettingsBindFlags.DEFAULT);
                 this.settings.bind('background-opacity', this.opacity_adjustment, 'value', Gio.SettingsBindFlags.DEFAULT);
+                this.settings.bind('allow-hyperlink', this.allow_hyperlink_check, 'active', Gio.SettingsBindFlags.DEFAULT);
+                this.settings.bind('audible-bell', this.audible_bell_check, 'active', Gio.SettingsBindFlags.DEFAULT);
 
                 const actions = Gio.SimpleActionGroup.new();
                 actions.add_action(this.settings.create_action('command'));
