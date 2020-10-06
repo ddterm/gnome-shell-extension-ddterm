@@ -104,11 +104,14 @@ function track_window(win) {
 
     win.connect('unmanaging', untrack_window);
     win.connect('unmanaged', untrack_window);
-    win.connect('size-changed', update_height_setting);
 
     const height_ratio = settings.get_double('window-height');
     const workarea = Main.layoutManager.getWorkAreaForMonitor(Main.layoutManager.currentMonitor.index);
     win.move_resize_frame(true, workarea.x, workarea.y, workarea.width, workarea.height * height_ratio);
+
+    // Sometimes size-changed is emitted from .move_resize_frame() with .get_frame_rect() returning old/incorrect size.
+    // Thus connect to size-changed only after initial size is set.
+    win.connect('size-changed', update_height_setting);
 
     Main.activateWindow(win);
 
