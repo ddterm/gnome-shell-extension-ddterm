@@ -79,7 +79,7 @@ function createPrefsWidgetClass(resource_path) {
                 super._init(params);
 
                 this.settings.bind('custom-font', this.font_chooser, 'font', Gio.SettingsBindFlags.DEFAULT);
-                this.settings.bind('use-system-font', this.custom_font_check, 'active', Gio.SettingsBindFlags.DEFAULT | Gio.SettingsBindFlags.INVERT_BOOLEAN);
+                this.settings.bind('use-system-font', this.custom_font_check, 'active', Gio.SettingsBindFlags.INVERT_BOOLEAN);
                 this.bind_sensitive('use-system-font', this.font_chooser.parent, true);
                 this.settings.bind('text-blink-mode', this.text_blink_mode_combo, 'active-id', Gio.SettingsBindFlags.DEFAULT);
                 this.settings.bind('cursor-blink-mode', this.cursor_blink_mode_combo, 'active-id', Gio.SettingsBindFlags.DEFAULT);
@@ -91,7 +91,7 @@ function createPrefsWidgetClass(resource_path) {
                 this.bind_color('background-color', this.background_color);
 
                 this.bind_color('bold-color', this.bold_color);
-                this.settings.bind('bold-color-same-as-fg', this.bold_color_check, 'active', Gio.SettingsBindFlags.DEFAULT | Gio.SettingsBindFlags.INVERT_BOOLEAN);
+                this.settings.bind('bold-color-same-as-fg', this.bold_color_check, 'active', Gio.SettingsBindFlags.INVERT_BOOLEAN);
                 this.bind_sensitive('bold-color-same-as-fg', this.bold_color.parent, true);
 
                 this.bind_color('cursor-foreground-color', this.cursor_foreground_color);
@@ -136,7 +136,7 @@ function createPrefsWidgetClass(resource_path) {
                 this.settings.bind('show-scrollbar', this.show_scrollbar_check, 'active', Gio.SettingsBindFlags.DEFAULT);
                 this.settings.bind('scroll-on-output', this.scroll_on_output_check, 'active', Gio.SettingsBindFlags.DEFAULT);
                 this.settings.bind('scroll-on-keystroke', this.scoll_on_keystroke_check, 'active', Gio.SettingsBindFlags.DEFAULT);
-                this.settings.bind('scrollback-unlimited', this.limit_scrollback_check, 'active', Gio.SettingsBindFlags.DEFAULT | Gio.SettingsBindFlags.INVERT_BOOLEAN);
+                this.settings.bind('scrollback-unlimited', this.limit_scrollback_check, 'active', Gio.SettingsBindFlags.INVERT_BOOLEAN);
                 this.settings.bind('scrollback-lines', this.scrollback_adjustment, 'value', Gio.SettingsBindFlags.DEFAULT);
                 this.bind_sensitive('scrollback-unlimited', this.scrollback_spin.parent, true);
 
