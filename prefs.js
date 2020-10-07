@@ -5,6 +5,9 @@
 const { GObject, Gio, Gdk, Gtk } = imports.gi;
 
 function parse_rgba(s) {
+    if (!s)
+        return null;
+
     const v = new Gdk.RGBA();
 
     if (v.parse(s))

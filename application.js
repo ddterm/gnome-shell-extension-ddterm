@@ -16,6 +16,9 @@ const APP_DATA_DIR = Gio.File.new_for_commandline_arg(System.programInvocationNa
 imports.searchPath.unshift(APP_DATA_DIR.get_path());
 
 function parse_rgba(s) {
+    if (!s)
+        return null;
+
     const v = new Gdk.RGBA();
 
     if (v.parse(s))
