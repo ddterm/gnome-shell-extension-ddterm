@@ -111,7 +111,7 @@ function createPrefsWidgetClass(resource_path) {
                 this.color_converters = [];
                 this.bind_color('foreground-color', this.foreground_color);
                 this.bind_color('background-color', this.background_color);
-                this.bind_color('bold-color', this.bold_color, 'bold-color-same-as-fg', Gio.SettingsBindFlags.DEFAULT | Gio.SettingsBindFlags.INVERT_BOOLEAN);
+                this.bind_color('bold-color', this.bold_color, 'bold-color-same-as-fg', Gio.SettingsBindFlags.GET | Gio.SettingsBindFlags.NO_SENSITIVITY | Gio.SettingsBindFlags.INVERT_BOOLEAN);
                 this.bind_color('cursor-foreground-color', this.cursor_foreground_color, 'cursor-colors-set');
                 this.bind_color('cursor-background-color', this.cursor_background_color, 'cursor-colors-set');
                 this.bind_color('highlight-foreground-color', this.highlight_foreground_color, 'highlight-colors-set');
@@ -123,7 +123,7 @@ function createPrefsWidgetClass(resource_path) {
                 this.settings.bind('background-opacity', this.opacity_adjustment, 'value', Gio.SettingsBindFlags.DEFAULT);
 
                 this.settings.bind('use-theme-colors', this.theme_colors_check, 'active', Gio.SettingsBindFlags.DEFAULT);
-                this.settings.bind('use-theme-colors', this.color_scheme_editor, 'sensitive', Gio.SettingsBindFlags.DEFAULT | Gio.SettingsBindFlags.INVERT_BOOLEAN);
+                this.settings.bind('use-theme-colors', this.color_scheme_editor, 'sensitive', Gio.SettingsBindFlags.GET | Gio.SettingsBindFlags.NO_SENSITIVITY | Gio.SettingsBindFlags.INVERT_BOOLEAN);
 
                 this.setting_color_scheme = false;
                 this.settings.connect('changed::foreground-color', this.update_builtin_color_scheme.bind(this));
@@ -218,7 +218,7 @@ function createPrefsWidgetClass(resource_path) {
                 this.settings.set_strv('palette', palette);
             }
 
-            bind_color(setting, widget, enable_key = null, enable_bind_flags = Gio.SettingsBindFlags.DEFAULT) {
+            bind_color(setting, widget, enable_key = null, enable_bind_flags = Gio.SettingsBindFlags.GET | Gio.SettingsBindFlags.NO_SENSITIVITY) {
                 const converter = new ColorConverter({ target: widget });
                 this.color_converters.push(converter);
                 this.settings.bind(setting, converter, 'rgba', Gio.SettingsBindFlags.DEFAULT);
