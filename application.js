@@ -507,6 +507,9 @@ const Application = GObject.registerClass(
                 menus,
             });
 
+            bind_settings_ro(this.settings, 'window-skip-taskbar', this.window, 'skip-taskbar-hint');
+            bind_settings_ro(this.settings, 'window-skip-pager', this.window, 'skip-pager-hint');
+
             this.add_action(this.window.toggle_action);
 
             this.prefs_dialog = new PrefsDialog({
