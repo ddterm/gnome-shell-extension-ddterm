@@ -2,7 +2,40 @@
 
 /* exported init buildPrefsWidget createPrefsWidgetClass */
 
-const { GObject, Gio, Gtk } = imports.gi;
+const { GObject, Gio, Gdk, Gtk } = imports.gi;
+
+function parse_rgba(s) {
+    const v = new Gdk.RGBA();
+
+    if (v.parse(s))
+        return v;
+
+    return null;
+}
+
+var ColorConverter = GObject.registerClass(
+    {
+        Properties: {
+            'target': GObject.ParamSpec.object('target', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, Gtk.ColorChooser),
+            'rgba': GObject.ParamSpec.string('rgba', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY, null),
+        },
+    },
+    class ColorConverter extends GObject.Object {
+        _init(params) {
+            super._init(params);
+
+            this.target.connect('notify::rgba', () => this.notify('rgba'));
+        }
+
+        get rgba() {
+            return this.target.rgba.to_string();
+        }
+
+        set rgba(value) {
+            this.target.rgba = parse_rgba(value);
+        }
+    }
+);
 
 function createPrefsWidgetClass(resource_path) {
     return GObject.registerClass(
@@ -27,6 +60,19 @@ function createPrefsWidgetClass(resource_path) {
                 'cursor_shape_combo',
                 'allow_hyperlink_check',
                 'audible_bell_check',
+                'foreground_color',
+                'background_color',
+                'bold_color',
+                'cursor_foreground_color',
+                'cursor_background_color',
+                'highlight_foreground_color',
+                'highlight_background_color',
+                'bold_color_check',
+                'cursor_color_check',
+                'highlight_color_check',
+                'theme_colors_check',
+                'color_scheme_editor',
+                'color_scheme_combo',
             ],
             Properties: {
                 'settings': GObject.ParamSpec.object('settings', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, Gio.Settings),
@@ -42,9 +88,31 @@ function createPrefsWidgetClass(resource_path) {
                 this.settings.bind('text-blink-mode', this.text_blink_mode_combo, 'active-id', Gio.SettingsBindFlags.DEFAULT);
                 this.settings.bind('cursor-blink-mode', this.cursor_blink_mode_combo, 'active-id', Gio.SettingsBindFlags.DEFAULT);
                 this.settings.bind('cursor-shape', this.cursor_shape_combo, 'active-id', Gio.SettingsBindFlags.DEFAULT);
-                this.settings.bind('background-opacity', this.opacity_adjustment, 'value', Gio.SettingsBindFlags.DEFAULT);
                 this.settings.bind('allow-hyperlink', this.allow_hyperlink_check, 'active', Gio.SettingsBindFlags.DEFAULT);
                 this.settings.bind('audible-bell', this.audible_bell_check, 'active', Gio.SettingsBindFlags.DEFAULT);
+
+                this.color_converters = [];
+                this.bind_color('foreground-color', this.foreground_color);
+                this.bind_color('background-color', this.background_color);
+                this.bind_color('bold-color', this.bold_color, 'bold-color-same-as-fg', Gio.SettingsBindFlags.DEFAULT | Gio.SettingsBindFlags.INVERT_BOOLEAN);
+                this.bind_color('cursor-foreground-color', this.cursor_foreground_color, 'cursor-colors-set');
+                this.bind_color('cursor-background-color', this.cursor_background_color, 'cursor-colors-set');
+                this.bind_color('highlight-foreground-color', this.highlight_foreground_color, 'highlight-colors-set');
+                this.bind_color('highlight-background-color', this.highlight_background_color, 'highlight-colors-set');
+
+                this.settings.bind('bold-color-same-as-fg', this.bold_color_check, 'active', Gio.SettingsBindFlags.DEFAULT | Gio.SettingsBindFlags.INVERT_BOOLEAN);
+                this.settings.bind('cursor-colors-set', this.cursor_color_check, 'active', Gio.SettingsBindFlags.DEFAULT);
+                this.settings.bind('highlight-colors-set', this.highlight_color_check, 'active', Gio.SettingsBindFlags.DEFAULT);
+                this.settings.bind('background-opacity', this.opacity_adjustment, 'value', Gio.SettingsBindFlags.DEFAULT);
+
+                this.settings.bind('use-theme-colors', this.theme_colors_check, 'active', Gio.SettingsBindFlags.DEFAULT);
+                this.settings.bind('use-theme-colors', this.color_scheme_editor, 'sensitive', Gio.SettingsBindFlags.DEFAULT | Gio.SettingsBindFlags.INVERT_BOOLEAN);
+
+                this.setting_color_scheme = false;
+                this.settings.connect('changed::foreground-color', this.update_builtin_color_scheme.bind(this));
+                this.settings.connect('changed::background-color', this.update_builtin_color_scheme.bind(this));
+                this.update_builtin_color_scheme();
+                this.color_scheme_combo.connect('changed', this.set_builtin_color_scheme.bind(this));
 
                 const actions = Gio.SimpleActionGroup.new();
                 actions.add_action(this.settings.create_action('command'));
@@ -65,6 +133,69 @@ function createPrefsWidgetClass(resource_path) {
 
                 this.accel_renderer.connect('accel-edited', this.accel_edited.bind(this));
                 this.accel_renderer.connect('accel-cleared', this.accel_cleared.bind(this));
+            }
+
+            bind_color(setting, widget, enable_key = null, enable_bind_flags = Gio.SettingsBindFlags.DEFAULT) {
+                const converter = new ColorConverter({ target: widget });
+                this.color_converters.push(converter);
+                this.settings.bind(setting, converter, 'rgba', Gio.SettingsBindFlags.DEFAULT);
+
+                if (enable_key)
+                    this.settings.bind(enable_key, widget.parent, 'sensitive', enable_bind_flags);
+            }
+
+            set_builtin_color_scheme() {
+                const [ok, active_iter] = this.color_scheme_combo.get_active_iter();
+                if (!ok)
+                    return;
+
+                const foreground = this.color_scheme_combo.model.get_value(active_iter, 1);
+                const background = this.color_scheme_combo.model.get_value(active_iter, 2);
+
+                if (!foreground && !background)
+                    return;
+
+                try {
+                    this.setting_color_scheme = true;
+                    this.settings.set_string('foreground-color', foreground);
+                    this.settings.set_string('background-color', background);
+                } finally {
+                    this.setting_color_scheme = false;
+                }
+            }
+
+            update_builtin_color_scheme() {
+                if (this.setting_color_scheme)
+                    return;
+
+                const [ok, i] = this.color_scheme_combo.model.get_iter_first();
+                if (!ok)
+                    return;
+
+                const foreground = parse_rgba(this.settings.get_string('foreground-color'));
+                const background = parse_rgba(this.settings.get_string('background-color'));
+
+                do {
+                    const i_foreground = parse_rgba(this.color_scheme_combo.model.get_value(i, 1));
+                    const i_background = parse_rgba(this.color_scheme_combo.model.get_value(i, 2));
+
+                    if (foreground !== null &&
+                        background !== null &&
+                        i_foreground !== null &&
+                        i_background !== null &&
+                        foreground.equal(i_foreground) &&
+                        background.equal(i_background)
+                    ) {
+                        this.color_scheme_combo.set_active_iter(i);
+                        return;
+                    }
+
+                    if (i_foreground === null && i_background === null) {
+                        // Last - "Custom"
+                        this.color_scheme_combo.set_active_iter(i);
+                        return;
+                    }
+                } while (this.color_scheme_combo.model.iter_next(i));
             }
 
             accel_edited(_, path, accel_key, accel_mods) {

@@ -2,6 +2,7 @@
 <!-- Generated with glade 3.38.1 -->
 <interface>
   <requires lib="gtk+" version="3.22"/>
+  <requires lib="vte-2.91" version="0.60"/>
   <object class="GtkImage" id="close_icon">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
@@ -58,7 +59,7 @@
     <property name="visible">True</property>
     <property name="can-focus">False</property>
     <child>
-      <object class="DDTermTerminal" id="terminal">
+      <object class="VteTerminal" id="terminal">
         <property name="visible">True</property>
         <property name="can-focus">True</property>
         <property name="vadjustment">terminal_vscroll</property>

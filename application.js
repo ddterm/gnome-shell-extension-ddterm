@@ -62,100 +62,7 @@ function bind_settings_ro(settings, key, target, property = null) {
     settings.bind(key, target, property, Gio.SettingsBindFlags.GET | Gio.SettingsBindFlags.NO_SENSITIVITY);
 }
 
-GObject.registerClass(
-    {
-        GTypeName: 'DDTermTerminal',
-        Properties: {
-            'has-selection': GObject.ParamSpec.boolean(
-                'has-selection', '', '', GObject.ParamFlags.READABLE | GObject.ParamFlags.EXPLICIT_NOTIFY, false
-            ),
-            'custom-font': GObject.ParamSpec.string(
-                'custom-font', '', '', GObject.ParamFlags.READWRITE, null
-            ),
-            'use-system-font': GObject.ParamSpec.boolean(
-                'use-system-font', '', '', GObject.ParamFlags.READWRITE, true
-            ),
-            'background-opacity': GObject.ParamSpec.double(
-                'background-opacity', '', '', GObject.ParamFlags.WRITABLE, 0, 1, 1
-            ),
-        },
-    },
-    class Terminal extends Vte.Terminal {
-        _init(params) {
-            super._init(params);
-
-            this.connect('selection-changed', () => {
-                this.notify('has-selection');
-            });
-
-            const actions = new Gio.SimpleActionGroup();
-            this.insert_action_group('terminal', actions);
-
-            const copy_action = simple_action(actions, 'copy', this.copy.bind(this));
-            this.bind_property('has-selection', copy_action, 'enabled', GObject.BindingFlags.DEFAULT | GObject.BindingFlags.SYNC_CREATE);
-
-            const copy_html_action = simple_action(actions, 'copy-html', this.copy_html.bind(this));
-            this.bind_property('has-selection', copy_html_action, 'enabled', GObject.BindingFlags.DEFAULT | GObject.BindingFlags.SYNC_CREATE);
-
-            simple_action(actions, 'paste', this.paste.bind(this));
-            simple_action(actions, 'select-all', this.select_all.bind(this));
-            simple_action(actions, 'reset', this.reset.bind(this));
-            simple_action(actions, 'reset-and-clear', this.reset_and_clear.bind(this));
-
-            this.desktop_settings = new Gio.Settings({
-                schema_id: 'org.gnome.desktop.interface',
-            });
-            this.connect('destroy', () => this.desktop_settings.run_dispose());
-
-            this.connect('notify::custom-font', this.update_font.bind(this));
-            this.connect('notify::use-system-font', this.update_font.bind(this));
-            this.desktop_settings.connect('changed::monospace-font-name', this.update_font.bind(this));
-            this.update_font();
-        }
-
-        set background_opacity(value) {
-            this.set_color_background(new Gdk.RGBA({
-                red: 0,
-                green: 0,
-                blue: 0,
-                alpha: value,
-            }));
-        }
-
-        update_font() {
-            const font_name = this.use_system_font ? this.desktop_settings.get_string('monospace-font-name') : this.custom_font;
-            this.font_desc = Pango.FontDescription.from_string(font_name);
-        }
-
-        get has_selection() {
-            return this.get_has_selection();
-        }
-
-        copy() {
-            this.copy_clipboard_format(Vte.Format.TEXT);
-        }
-
-        copy_html() {
-            this.copy_clipboard_format(Vte.Format.HTML);
-        }
-
-        paste() {
-            this.paste_clipboard();
-        }
-
-        select_all() {
-            super.select_all();
-        }
-
-        reset() {
-            super.reset(true, false);
-        }
-
-        reset_and_clear() {
-            super.reset(true, true);
-        }
-    }
-);
+GObject.type_ensure(Vte.Terminal);
 
 const TerminalPage = GObject.registerClass(
     {
@@ -164,6 +71,9 @@ const TerminalPage = GObject.registerClass(
         Properties: {
             'menus': GObject.ParamSpec.object(
                 'menus', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, Gtk.Builder
+            ),
+            'has-selection': GObject.ParamSpec.boolean(
+                'has-selection', '', '', GObject.ParamFlags.READABLE | GObject.ParamFlags.EXPLICIT_NOTIFY, false
             ),
         },
         Signals: {
@@ -177,9 +87,11 @@ const TerminalPage = GObject.registerClass(
             this.settings = get_settings();
             this.connect('destroy', () => this.settings.run_dispose());
 
-            bind_settings_ro(this.settings, 'custom-font', this.terminal);
-            bind_settings_ro(this.settings, 'use-system-font', this.terminal);
-            bind_settings_ro(this.settings, 'background-opacity', this.terminal);
+            this.desktop_settings = new Gio.Settings({
+                schema_id: 'org.gnome.desktop.interface',
+            });
+            this.connect('destroy', () => this.desktop_settings.run_dispose());
+
             bind_settings_ro(this.settings, 'show-scrollbar', this.scrollbar, 'visible');
             bind_settings_ro(this.settings, 'scroll-on-output', this.terminal);
             bind_settings_ro(this.settings, 'scroll-on-keystroke', this.terminal);
@@ -190,7 +102,40 @@ const TerminalPage = GObject.registerClass(
             bind_settings_ro(this.settings, 'allow-hyperlink', this.terminal);
             bind_settings_ro(this.settings, 'audible-bell', this.terminal);
 
+            this.settings.connect('changed::custom-font', this.update_font.bind(this));
+            this.settings.connect('changed::use-system-font', this.update_font.bind(this));
+            this.desktop_settings.connect('changed::monospace-font-name', this.update_font.bind(this));
+            this.update_font();
+
+            this.settings.connect('changed::foreground-color', this.update_color_foreground.bind(this));
+            this.terminal.connect('style-updated', this.update_color_foreground.bind(this));
+
+            this.settings.connect('changed::background-color', this.update_color_background.bind(this));
+            this.settings.connect('changed::background-opacity', this.update_color_background.bind(this));
+            this.terminal.connect('style-updated', this.update_color_background.bind(this));
+
+            this.settings.connect('changed::bold-color', this.update_color_bold.bind(this));
+            this.settings.connect('changed::bold-color-same-as-fg', this.update_color_bold.bind(this));
+
+            this.settings.connect('changed::cursor-background-color', this.update_color_cursor.bind(this));
+            this.settings.connect('changed::cursor-colors-set', this.update_color_cursor.bind(this));
+
+            this.settings.connect('changed::cursor-foreground-color', this.update_color_cursor_foreground.bind(this));
+            this.settings.connect('changed::cursor-colors-set', this.update_color_cursor_foreground.bind(this));
+
+            this.settings.connect('changed::highlight-background-color', this.update_color_highlight.bind(this));
+            this.settings.connect('changed::highlight-colors-set', this.update_color_highlight.bind(this));
+
+            this.settings.connect('changed::highlight-foreground-color', this.update_color_highlight_foreground.bind(this));
+            this.settings.connect('changed::highlight-colors-set', this.update_color_highlight_foreground.bind(this));
+
+            this.settings.connect('changed::use-theme-colors', this.update_all_colors.bind(this));
+            this.update_all_colors();
+
             this.terminal.connect('child-exited', this.close_request.bind(this));
+            this.terminal.connect('selection-changed', () => {
+                this.notify('has-selection');
+            });
 
             this.terminal.bind_property('window-title', this.menu_label, 'label', GObject.BindingFlags.DEFAULT);
             this.terminal.bind_property('window-title', this.tab_label_label, 'label', GObject.BindingFlags.DEFAULT);
@@ -206,6 +151,20 @@ const TerminalPage = GObject.registerClass(
             this.tab_label.insert_action_group('page', actions);
 
             simple_action(actions, 'close', this.close_request.bind(this));
+
+            const terminal_actions = new Gio.SimpleActionGroup();
+            this.insert_action_group('terminal', terminal_actions);
+
+            const copy_action = simple_action(terminal_actions, 'copy', this.copy.bind(this));
+            this.bind_property('has-selection', copy_action, 'enabled', GObject.BindingFlags.DEFAULT | GObject.BindingFlags.SYNC_CREATE);
+
+            const copy_html_action = simple_action(terminal_actions, 'copy-html', this.copy_html.bind(this));
+            this.bind_property('has-selection', copy_html_action, 'enabled', GObject.BindingFlags.DEFAULT | GObject.BindingFlags.SYNC_CREATE);
+
+            simple_action(terminal_actions, 'paste', this.paste.bind(this));
+            simple_action(terminal_actions, 'select-all', this.select_all.bind(this));
+            simple_action(terminal_actions, 'reset', this.reset.bind(this));
+            simple_action(terminal_actions, 'reset-and-clear', this.reset_and_clear.bind(this));
         }
 
         spawn() {
@@ -250,6 +209,115 @@ const TerminalPage = GObject.registerClass(
 
         close_request() {
             this.emit('close-request');
+        }
+
+        get_font_settings() {
+            if (this.settings.get_boolean('use-system-font'))
+                return this.desktop_settings.get_string('monospace-font-name');
+            else
+                return this.settings.get_string('custom-font');
+        }
+
+        update_font() {
+            this.terminal.font_desc = Pango.FontDescription.from_string(this.get_font_settings());
+        }
+
+        get_color_settings(key) {
+            const v = new Gdk.RGBA();
+
+            if (v.parse(this.settings.get_string(key)))
+                return v;
+
+            return null;
+        }
+
+        get_style_color_settings(key, style_property) {
+            if (!this.settings.get_boolean('use-theme-colors')) {
+                const result = this.get_color_settings(key);
+                if (result !== null)
+                    return result;
+            }
+
+            const context = this.terminal.get_style_context();
+            return context.get_property(style_property, context.get_state());
+        }
+
+        get_override_color_settings(key, enable_key, enable_reverse = false) {
+            if (this.settings.get_boolean('use-theme-colors'))
+                return null;
+
+            if (this.settings.get_boolean(enable_key) === enable_reverse)
+                return null;
+
+            return this.get_color_settings(key);
+        }
+
+        update_color_foreground() {
+            this.terminal.set_color_foreground(this.get_style_color_settings('foreground-color', 'color'));
+        }
+
+        update_color_background() {
+            const background = this.get_style_color_settings('background-color', 'background-color');
+            background.alpha = this.settings.get_double('background-opacity');
+            this.terminal.set_color_background(background);
+        }
+
+        update_color_bold() {
+            this.terminal.set_color_bold(this.get_override_color_settings('bold-color', 'bold-color-same-as-fg', true));
+        }
+
+        update_color_cursor() {
+            this.terminal.set_color_cursor(this.get_override_color_settings('cursor-background-color', 'cursor-colors-set'));
+        }
+
+        update_color_cursor_foreground() {
+            this.terminal.set_color_cursor_foreground(this.get_override_color_settings('cursor-foreground-color', 'cursor-colors-set'));
+        }
+
+        update_color_highlight() {
+            this.terminal.set_color_highlight(this.get_override_color_settings('highlight-background-color', 'highlight-colors-set'));
+        }
+
+        update_color_highlight_foreground() {
+            this.terminal.set_color_highlight_foreground(this.get_override_color_settings('highlight-foreground-color', 'highlight-colors-set'));
+        }
+
+        update_all_colors() {
+            this.update_color_foreground();
+            this.update_color_background();
+            this.update_color_bold();
+            this.update_color_cursor();
+            this.update_color_cursor_foreground();
+            this.update_color_highlight();
+            this.update_color_highlight_foreground();
+        }
+
+        get has_selection() {
+            return this.terminal.get_has_selection();
+        }
+
+        copy() {
+            this.terminal.copy_clipboard_format(Vte.Format.TEXT);
+        }
+
+        copy_html() {
+            this.terminal.copy_clipboard_format(Vte.Format.HTML);
+        }
+
+        paste() {
+            this.terminal.paste_clipboard();
+        }
+
+        select_all() {
+            this.terminal.select_all();
+        }
+
+        reset() {
+            this.terminal.reset(true, false);
+        }
+
+        reset_and_clear() {
+            this.terminal.reset(true, true);
         }
     }
 );
