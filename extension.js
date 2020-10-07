@@ -20,10 +20,12 @@ const APP_DBUS_PATH = '/com/github/amezin/ddterm';
 const WINDOW_PATH_PREFIX = `${APP_DBUS_PATH}/window/`;
 
 function init() {
-    settings = imports.misc.extensionUtils.getSettings();
 }
 
 function enable() {
+    dispose_settings();
+    settings = imports.misc.extensionUtils.getSettings();
+
     Main.wm.addKeybinding(
         'ddterm-toggle-hotkey',
         settings,
@@ -43,6 +45,9 @@ function enable() {
 
     disconnect_created_handler();
     created_handler_id = global.display.connect('window-created', handle_created);
+
+    settings.connect('changed::window-above', set_window_above);
+    settings.connect('changed::window-stick', set_window_stick);
 }
 
 function disable() {
@@ -60,6 +65,8 @@ function disable() {
     disconnect_created_handler();
 
     Main.wm.removeKeybinding('ddterm-toggle-hotkey');
+
+    dispose_settings();
 }
 
 function toggle() {
@@ -93,6 +100,26 @@ function is_dropdown_terminal_window(win) {
     );
 }
 
+function set_window_above() {
+    if (current_window === null)
+        return;
+
+    if (settings.get_boolean('window-above'))
+        current_window.make_above();
+    else
+        current_window.unmake_above();
+}
+
+function set_window_stick() {
+    if (current_window === null)
+        return;
+
+    if (settings.get_boolean('window-stick'))
+        current_window.stick();
+    else
+        current_window.unstick();
+}
+
 function track_window(win) {
     if (!is_dropdown_terminal_window(win))
         return;
@@ -115,8 +142,8 @@ function track_window(win) {
 
     Main.activateWindow(win);
 
-    win.make_above();
-    win.stick();
+    set_window_above();
+    set_window_stick();
 }
 
 function update_height_setting(win) {
@@ -155,5 +182,12 @@ function dispose_action_group() {
     if (dbus_action_group) {
         dbus_action_group.run_dispose();
         dbus_action_group = null;
+    }
+}
+
+function dispose_settings() {
+    if (settings) {
+        settings.run_dispose();
+        settings = null;
     }
 }

@@ -70,6 +70,8 @@ function createPrefsWidgetClass(resource_path) {
                 'palette_combo',
                 'bold_is_bright_check',
                 'theme_variant_combo',
+                'window_above_check',
+                'window_stick_check',
             ].concat(palette_widgets()),
             Properties: {
                 'settings': GObject.ParamSpec.object('settings', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, Gio.Settings),
@@ -80,6 +82,8 @@ function createPrefsWidgetClass(resource_path) {
                 super._init(params);
 
                 this.settings.bind('theme-variant', this.theme_variant_combo, 'active-id', Gio.SettingsBindFlags.DEFAULT);
+                this.settings.bind('window-above', this.window_above_check, 'active', Gio.SettingsBindFlags.DEFAULT);
+                this.settings.bind('window-stick', this.window_stick_check, 'active', Gio.SettingsBindFlags.DEFAULT);
 
                 this.settings.bind('custom-font', this.font_chooser, 'font', Gio.SettingsBindFlags.DEFAULT);
                 this.settings.bind('use-system-font', this.custom_font_check, 'active', Gio.SettingsBindFlags.INVERT_BOOLEAN);
