@@ -16,30 +16,6 @@ function parse_rgba(s) {
     return null;
 }
 
-var ColorConverter = GObject.registerClass(
-    {
-        Properties: {
-            'target': GObject.ParamSpec.object('target', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, Gtk.ColorChooser),
-            'rgba': GObject.ParamSpec.string('rgba', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY, null),
-        },
-    },
-    class ColorConverter extends GObject.Object {
-        _init(params) {
-            super._init(params);
-
-            this.target.connect('notify::rgba', () => this.notify('rgba'));
-        }
-
-        get rgba() {
-            return this.target.rgba.to_string();
-        }
-
-        set rgba(value) {
-            this.target.rgba = parse_rgba(value);
-        }
-    }
-);
-
 const PALETTE_SIZE = 16;
 
 function palette_widget_id(i) {
@@ -111,18 +87,25 @@ function createPrefsWidgetClass(resource_path) {
                 this.settings.bind('allow-hyperlink', this.allow_hyperlink_check, 'active', Gio.SettingsBindFlags.DEFAULT);
                 this.settings.bind('audible-bell', this.audible_bell_check, 'active', Gio.SettingsBindFlags.DEFAULT);
 
-                this.color_converters = [];
                 this.bind_color('foreground-color', this.foreground_color);
                 this.bind_color('background-color', this.background_color);
-                this.bind_color('bold-color', this.bold_color, 'bold-color-same-as-fg', Gio.SettingsBindFlags.GET | Gio.SettingsBindFlags.NO_SENSITIVITY | Gio.SettingsBindFlags.INVERT_BOOLEAN);
-                this.bind_color('cursor-foreground-color', this.cursor_foreground_color, 'cursor-colors-set');
-                this.bind_color('cursor-background-color', this.cursor_background_color, 'cursor-colors-set');
-                this.bind_color('highlight-foreground-color', this.highlight_foreground_color, 'highlight-colors-set');
-                this.bind_color('highlight-background-color', this.highlight_background_color, 'highlight-colors-set');
 
+                this.bind_color('bold-color', this.bold_color);
                 this.settings.bind('bold-color-same-as-fg', this.bold_color_check, 'active', Gio.SettingsBindFlags.DEFAULT | Gio.SettingsBindFlags.INVERT_BOOLEAN);
+                this.settings.bind('bold-color-same-as-fg', this.bold_color.parent, 'sensitive', Gio.SettingsBindFlags.GET | Gio.SettingsBindFlags.NO_SENSITIVITY | Gio.SettingsBindFlags.INVERT_BOOLEAN);
+
+                this.bind_color('cursor-foreground-color', this.cursor_foreground_color);
+                this.bind_color('cursor-background-color', this.cursor_background_color);
                 this.settings.bind('cursor-colors-set', this.cursor_color_check, 'active', Gio.SettingsBindFlags.DEFAULT);
+                this.settings.bind('cursor-colors-set', this.cursor_foreground_color.parent, 'sensitive', Gio.SettingsBindFlags.GET | Gio.SettingsBindFlags.NO_SENSITIVITY);
+                this.settings.bind('cursor-colors-set', this.cursor_background_color.parent, 'sensitive', Gio.SettingsBindFlags.GET | Gio.SettingsBindFlags.NO_SENSITIVITY);
+
+                this.bind_color('highlight-foreground-color', this.highlight_foreground_color);
+                this.bind_color('highlight-background-color', this.highlight_background_color, 'highlight-colors-set');
                 this.settings.bind('highlight-colors-set', this.highlight_color_check, 'active', Gio.SettingsBindFlags.DEFAULT);
+                this.settings.bind('highlight-colors-set', this.highlight_foreground_color.parent, 'sensitive', Gio.SettingsBindFlags.GET | Gio.SettingsBindFlags.NO_SENSITIVITY);
+                this.settings.bind('highlight-colors-set', this.highlight_background_color.parent, 'sensitive', Gio.SettingsBindFlags.GET | Gio.SettingsBindFlags.NO_SENSITIVITY);
+
                 this.settings.bind('background-opacity', this.opacity_adjustment, 'value', Gio.SettingsBindFlags.DEFAULT);
 
                 this.settings.bind('use-theme-colors', this.theme_colors_check, 'active', Gio.SettingsBindFlags.DEFAULT);
@@ -221,13 +204,18 @@ function createPrefsWidgetClass(resource_path) {
                 this.settings.set_strv('palette', palette);
             }
 
-            bind_color(setting, widget, enable_key = null, enable_bind_flags = Gio.SettingsBindFlags.GET | Gio.SettingsBindFlags.NO_SENSITIVITY) {
-                const converter = new ColorConverter({ target: widget });
-                this.color_converters.push(converter);
-                this.settings.bind(setting, converter, 'rgba', Gio.SettingsBindFlags.DEFAULT);
+            bind_color(setting, widget) {
+                widget.connect('color-set', () => {
+                    this.settings.set_string(setting, widget.rgba.to_string());
+                });
 
-                if (enable_key)
-                    this.settings.bind(enable_key, widget.parent, 'sensitive', enable_bind_flags);
+                const update = () => {
+                    widget.set_rgba(parse_rgba(this.settings.get_string(setting)));
+                };
+                this.settings.connect(`changed::${setting}`, update);
+                update();
+
+                this.settings.bind_writable(setting, widget, 'sensitive', false);
             }
 
             set_builtin_color_scheme() {
