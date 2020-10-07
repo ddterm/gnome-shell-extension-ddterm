@@ -80,7 +80,7 @@ function createPrefsWidgetClass(resource_path) {
 
                 this.settings.bind('custom-font', this.font_chooser, 'font', Gio.SettingsBindFlags.DEFAULT);
                 this.settings.bind('use-system-font', this.custom_font_check, 'active', Gio.SettingsBindFlags.DEFAULT | Gio.SettingsBindFlags.INVERT_BOOLEAN);
-                this.settings.bind('use-system-font', this.font_chooser.parent, 'sensitive', Gio.SettingsBindFlags.GET | Gio.SettingsBindFlags.NO_SENSITIVITY | Gio.SettingsBindFlags.INVERT_BOOLEAN);
+                this.bind_sensitive('use-system-font', this.font_chooser.parent, true);
                 this.settings.bind('text-blink-mode', this.text_blink_mode_combo, 'active-id', Gio.SettingsBindFlags.DEFAULT);
                 this.settings.bind('cursor-blink-mode', this.cursor_blink_mode_combo, 'active-id', Gio.SettingsBindFlags.DEFAULT);
                 this.settings.bind('cursor-shape', this.cursor_shape_combo, 'active-id', Gio.SettingsBindFlags.DEFAULT);
@@ -92,24 +92,24 @@ function createPrefsWidgetClass(resource_path) {
 
                 this.bind_color('bold-color', this.bold_color);
                 this.settings.bind('bold-color-same-as-fg', this.bold_color_check, 'active', Gio.SettingsBindFlags.DEFAULT | Gio.SettingsBindFlags.INVERT_BOOLEAN);
-                this.settings.bind('bold-color-same-as-fg', this.bold_color.parent, 'sensitive', Gio.SettingsBindFlags.GET | Gio.SettingsBindFlags.NO_SENSITIVITY | Gio.SettingsBindFlags.INVERT_BOOLEAN);
+                this.bind_sensitive('bold-color-same-as-fg', this.bold_color.parent, true);
 
                 this.bind_color('cursor-foreground-color', this.cursor_foreground_color);
                 this.bind_color('cursor-background-color', this.cursor_background_color);
                 this.settings.bind('cursor-colors-set', this.cursor_color_check, 'active', Gio.SettingsBindFlags.DEFAULT);
-                this.settings.bind('cursor-colors-set', this.cursor_foreground_color.parent, 'sensitive', Gio.SettingsBindFlags.GET | Gio.SettingsBindFlags.NO_SENSITIVITY);
-                this.settings.bind('cursor-colors-set', this.cursor_background_color.parent, 'sensitive', Gio.SettingsBindFlags.GET | Gio.SettingsBindFlags.NO_SENSITIVITY);
+                this.bind_sensitive('cursor-colors-set', this.cursor_foreground_color.parent);
+                this.bind_sensitive('cursor-colors-set', this.cursor_background_color.parent);
 
                 this.bind_color('highlight-foreground-color', this.highlight_foreground_color);
                 this.bind_color('highlight-background-color', this.highlight_background_color, 'highlight-colors-set');
                 this.settings.bind('highlight-colors-set', this.highlight_color_check, 'active', Gio.SettingsBindFlags.DEFAULT);
-                this.settings.bind('highlight-colors-set', this.highlight_foreground_color.parent, 'sensitive', Gio.SettingsBindFlags.GET | Gio.SettingsBindFlags.NO_SENSITIVITY);
-                this.settings.bind('highlight-colors-set', this.highlight_background_color.parent, 'sensitive', Gio.SettingsBindFlags.GET | Gio.SettingsBindFlags.NO_SENSITIVITY);
+                this.bind_sensitive('highlight-colors-set', this.highlight_foreground_color.parent);
+                this.bind_sensitive('highlight-colors-set', this.highlight_background_color.parent);
 
                 this.settings.bind('background-opacity', this.opacity_adjustment, 'value', Gio.SettingsBindFlags.DEFAULT);
 
                 this.settings.bind('use-theme-colors', this.theme_colors_check, 'active', Gio.SettingsBindFlags.DEFAULT);
-                this.settings.bind('use-theme-colors', this.color_scheme_editor, 'sensitive', Gio.SettingsBindFlags.GET | Gio.SettingsBindFlags.NO_SENSITIVITY | Gio.SettingsBindFlags.INVERT_BOOLEAN);
+                this.bind_sensitive('use-theme-colors', this.color_scheme_editor, true);
 
                 this.setting_color_scheme = false;
                 this.settings.connect('changed::foreground-color', this.update_builtin_color_scheme.bind(this));
@@ -138,13 +138,22 @@ function createPrefsWidgetClass(resource_path) {
                 this.settings.bind('scroll-on-keystroke', this.scoll_on_keystroke_check, 'active', Gio.SettingsBindFlags.DEFAULT);
                 this.settings.bind('scrollback-unlimited', this.limit_scrollback_check, 'active', Gio.SettingsBindFlags.DEFAULT | Gio.SettingsBindFlags.INVERT_BOOLEAN);
                 this.settings.bind('scrollback-lines', this.scrollback_adjustment, 'value', Gio.SettingsBindFlags.DEFAULT);
-                this.settings.bind('scrollback-unlimited', this.scrollback_spin.parent, 'sensitive', Gio.SettingsBindFlags.GET | Gio.SettingsBindFlags.INVERT_BOOLEAN | Gio.SettingsBindFlags.NO_SENSITIVITY);
+                this.bind_sensitive('scrollback-unlimited', this.scrollback_spin.parent, true);
 
                 this.settings.connect('changed', this.update_shortcuts_from_settings.bind(this));
                 this.update_shortcuts_from_settings();
 
                 this.accel_renderer.connect('accel-edited', this.accel_edited.bind(this));
                 this.accel_renderer.connect('accel-cleared', this.accel_cleared.bind(this));
+            }
+
+            bind_sensitive(key, widget, invert = false) {
+                let flags = Gio.SettingsBindFlags.GET | Gio.SettingsBindFlags.NO_SENSITIVITY;
+
+                if (invert)
+                    flags |= Gio.SettingsBindFlags.INVERT_BOOLEAN;
+
+                this.settings.bind(key, widget, 'sensitive', flags);
             }
 
             palette_widget(i) {
