@@ -57,3 +57,8 @@ uninstall: develop-uninstall
 	gnome-extensions uninstall $(EXTENSION_UUID)
 
 .PHONY: uninstall
+
+toggle quit:
+	gapplication action com.github.amezin.ddterm $@
+
+.PHONY: toggle quit
