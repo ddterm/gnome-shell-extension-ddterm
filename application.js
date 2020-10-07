@@ -104,13 +104,16 @@ const TerminalPage = GObject.registerClass(
             bind_settings_ro(this.settings, 'show-scrollbar', this.scrollbar, 'visible');
             bind_settings_ro(this.settings, 'scroll-on-output', this.terminal);
             bind_settings_ro(this.settings, 'scroll-on-keystroke', this.terminal);
-            bind_settings_ro(this.settings, 'scrollback-lines', this.terminal);
             bind_settings_ro(this.settings, 'text-blink-mode', this.terminal);
             bind_settings_ro(this.settings, 'cursor-blink-mode', this.terminal);
             bind_settings_ro(this.settings, 'cursor-shape', this.terminal);
             bind_settings_ro(this.settings, 'allow-hyperlink', this.terminal);
             bind_settings_ro(this.settings, 'audible-bell', this.terminal);
             bind_settings_ro(this.settings, 'bold-is-bright', this.terminal);
+
+            this.settings.connect('changed::scrollback-lines', this.update_scrollback.bind(this));
+            this.settings.connect('changed::scrollback-unlimited', this.update_scrollback.bind(this));
+            this.update_scrollback();
 
             this.settings.connect('changed::custom-font', this.update_font.bind(this));
             this.settings.connect('changed::use-system-font', this.update_font.bind(this));
@@ -304,6 +307,13 @@ const TerminalPage = GObject.registerClass(
             this.update_color_cursor_foreground();
             this.update_color_highlight();
             this.update_color_highlight_foreground();
+        }
+
+        update_scrollback() {
+            if (this.settings.get_boolean('scrollback-unlimited'))
+                this.terminal.scrollback_lines = -1;
+            else
+                this.terminal.scrollback_lines = this.settings.get_int('scrollback-lines');
         }
 
         get has_selection() {

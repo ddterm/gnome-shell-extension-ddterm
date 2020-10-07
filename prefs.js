@@ -150,9 +150,9 @@ function createPrefsWidgetClass(resource_path) {
                 this.settings.bind('show-scrollbar', this.show_scrollbar_check, 'active', Gio.SettingsBindFlags.DEFAULT);
                 this.settings.bind('scroll-on-output', this.scroll_on_output_check, 'active', Gio.SettingsBindFlags.DEFAULT);
                 this.settings.bind('scroll-on-keystroke', this.scoll_on_keystroke_check, 'active', Gio.SettingsBindFlags.DEFAULT);
-                this.settings.bind('limit-scrollback', this.limit_scrollback_check, 'active', Gio.SettingsBindFlags.DEFAULT);
+                this.settings.bind('scrollback-unlimited', this.limit_scrollback_check, 'active', Gio.SettingsBindFlags.DEFAULT | Gio.SettingsBindFlags.INVERT_BOOLEAN);
                 this.settings.bind('scrollback-lines', this.scrollback_adjustment, 'value', Gio.SettingsBindFlags.DEFAULT);
-                this.settings.bind('limit-scrollback', this.scrollback_spin, 'sensitive', Gio.SettingsBindFlags.GET | Gio.SettingsBindFlags.NO_SENSITIVITY);
+                this.settings.bind('scrollback-unlimited', this.scrollback_spin, 'sensitive', Gio.SettingsBindFlags.GET | Gio.SettingsBindFlags.INVERT_BOOLEAN | Gio.SettingsBindFlags.NO_SENSITIVITY);
 
                 this.settings.connect('changed', this.update_shortcuts_from_settings.bind(this));
                 this.update_shortcuts_from_settings();

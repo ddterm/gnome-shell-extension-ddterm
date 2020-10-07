@@ -128,10 +128,10 @@
     <key name="scroll-on-keystroke" type="b">
       <default>true</default>
     </key>
-    <key name="limit-scrollback" type="b">
-      <default>true</default>
+    <key name="scrollback-unlimited" type="b">
+      <default>false</default>
     </key>
-    <key name="scrollback-lines" type="u">
+    <key name="scrollback-lines" type="i">
       <default>10000</default>
       <range min="0" max="1000000000"/>
     </key>
