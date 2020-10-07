@@ -101,7 +101,7 @@ function createPrefsWidgetClass(resource_path) {
 
                 this.settings.bind('custom-font', this.font_chooser, 'font', Gio.SettingsBindFlags.DEFAULT);
                 this.settings.bind('use-system-font', this.custom_font_check, 'active', Gio.SettingsBindFlags.DEFAULT | Gio.SettingsBindFlags.INVERT_BOOLEAN);
-                this.settings.bind('use-system-font', this.font_chooser, 'sensitive', Gio.SettingsBindFlags.GET | Gio.SettingsBindFlags.NO_SENSITIVITY | Gio.SettingsBindFlags.INVERT_BOOLEAN);
+                this.settings.bind('use-system-font', this.font_chooser.parent, 'sensitive', Gio.SettingsBindFlags.GET | Gio.SettingsBindFlags.NO_SENSITIVITY | Gio.SettingsBindFlags.INVERT_BOOLEAN);
                 this.settings.bind('text-blink-mode', this.text_blink_mode_combo, 'active-id', Gio.SettingsBindFlags.DEFAULT);
                 this.settings.bind('cursor-blink-mode', this.cursor_blink_mode_combo, 'active-id', Gio.SettingsBindFlags.DEFAULT);
                 this.settings.bind('cursor-shape', this.cursor_shape_combo, 'active-id', Gio.SettingsBindFlags.DEFAULT);
@@ -145,14 +145,14 @@ function createPrefsWidgetClass(resource_path) {
                 this.insert_action_group('settings', actions);
 
                 this.settings.bind('custom-command', this.custom_command_entry, 'text', Gio.SettingsBindFlags.DEFAULT);
-                this.spawn_custom_command.bind_property('active', this.custom_command_entry, 'sensitive', GObject.BindingFlags.DEFAULT | GObject.BindingFlags.SYNC_CREATE);
+                this.spawn_custom_command.bind_property('active', this.custom_command_entry.parent, 'sensitive', GObject.BindingFlags.DEFAULT | GObject.BindingFlags.SYNC_CREATE);
 
                 this.settings.bind('show-scrollbar', this.show_scrollbar_check, 'active', Gio.SettingsBindFlags.DEFAULT);
                 this.settings.bind('scroll-on-output', this.scroll_on_output_check, 'active', Gio.SettingsBindFlags.DEFAULT);
                 this.settings.bind('scroll-on-keystroke', this.scoll_on_keystroke_check, 'active', Gio.SettingsBindFlags.DEFAULT);
                 this.settings.bind('scrollback-unlimited', this.limit_scrollback_check, 'active', Gio.SettingsBindFlags.DEFAULT | Gio.SettingsBindFlags.INVERT_BOOLEAN);
                 this.settings.bind('scrollback-lines', this.scrollback_adjustment, 'value', Gio.SettingsBindFlags.DEFAULT);
-                this.settings.bind('scrollback-unlimited', this.scrollback_spin, 'sensitive', Gio.SettingsBindFlags.GET | Gio.SettingsBindFlags.INVERT_BOOLEAN | Gio.SettingsBindFlags.NO_SENSITIVITY);
+                this.settings.bind('scrollback-unlimited', this.scrollback_spin.parent, 'sensitive', Gio.SettingsBindFlags.GET | Gio.SettingsBindFlags.INVERT_BOOLEAN | Gio.SettingsBindFlags.NO_SENSITIVITY);
 
                 this.settings.connect('changed', this.update_shortcuts_from_settings.bind(this));
                 this.update_shortcuts_from_settings();
