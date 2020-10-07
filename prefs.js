@@ -37,6 +37,21 @@ var ColorConverter = GObject.registerClass(
     }
 );
 
+const PALETTE_SIZE = 16;
+
+function palette_widget_id(i) {
+    return `palette${i}`;
+}
+
+function palette_widgets() {
+    const widgets = [];
+
+    for (let i = 0; i < PALETTE_SIZE; i++)
+        widgets.push(palette_widget_id(i));
+
+    return widgets;
+}
+
 function createPrefsWidgetClass(resource_path) {
     return GObject.registerClass(
         {
@@ -73,7 +88,9 @@ function createPrefsWidgetClass(resource_path) {
                 'theme_colors_check',
                 'color_scheme_editor',
                 'color_scheme_combo',
-            ],
+                'palette_combo',
+                'bold_is_bright_check',
+            ].concat(palette_widgets()),
             Properties: {
                 'settings': GObject.ParamSpec.object('settings', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, Gio.Settings),
             },
@@ -114,6 +131,15 @@ function createPrefsWidgetClass(resource_path) {
                 this.update_builtin_color_scheme();
                 this.color_scheme_combo.connect('changed', this.set_builtin_color_scheme.bind(this));
 
+                this.settings.connect('changed::palette', this.load_palette_from_settings.bind(this));
+                this.load_palette_from_settings();
+                this.palette_combo.connect('changed', this.load_builtin_palette.bind(this));
+
+                for (let i = 0; i < PALETTE_SIZE; i++)
+                    this.palette_widget(i).connect('color-set', this.edit_palette.bind(this));
+
+                this.settings.bind('bold-is-bright', this.bold_is_bright_check, 'active', Gio.SettingsBindFlags.DEFAULT);
+
                 const actions = Gio.SimpleActionGroup.new();
                 actions.add_action(this.settings.create_action('command'));
                 this.insert_action_group('settings', actions);
@@ -133,6 +159,63 @@ function createPrefsWidgetClass(resource_path) {
 
                 this.accel_renderer.connect('accel-edited', this.accel_edited.bind(this));
                 this.accel_renderer.connect('accel-cleared', this.accel_cleared.bind(this));
+            }
+
+            palette_widget(i) {
+                return this[palette_widget_id(i)];
+            }
+
+            load_palette_from_settings() {
+                const palette = this.settings.get_strv('palette').map(parse_rgba);
+
+                for (let i = 0; i < PALETTE_SIZE; i++)
+                    this.palette_widget(i).rgba = palette[i];
+
+                const model = this.palette_combo.model;
+                const [ok, i] = model.get_iter_first();
+                if (!ok)
+                    return;
+
+                do {
+                    const builtin_palette = this.get_builtin_palette(i);
+                    if (!builtin_palette || builtin_palette.every((v, j) => parse_rgba(v).equal(palette[j]))) {
+                        this.palette_combo.set_active_iter(i);
+                        break;
+                    }
+                } while (model.iter_next(i));
+            }
+
+            get_builtin_palette(iter) {
+                const model = this.palette_combo.model;
+                const palette = [];
+
+                for (let i = 0; i < PALETTE_SIZE; i++)
+                    palette.push(model.get_value(iter, i + 1));
+
+                if (palette.every(e => !e))
+                    return null;  // Custom palette
+
+                return palette;
+            }
+
+            load_builtin_palette() {
+                const [ok, active_iter] = this.palette_combo.get_active_iter();
+                if (!ok)
+                    return;
+
+                const palette = this.get_builtin_palette(active_iter);
+
+                if (palette)
+                    this.settings.set_strv('palette', palette);
+            }
+
+            edit_palette() {
+                const palette = [];
+
+                for (let i = 0; i < PALETTE_SIZE; i++)
+                    palette.push(this.palette_widget(i).rgba.to_string());
+
+                this.settings.set_strv('palette', palette);
             }
 
             bind_color(setting, widget, enable_key = null, enable_bind_flags = Gio.SettingsBindFlags.DEFAULT) {

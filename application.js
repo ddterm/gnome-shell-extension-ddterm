@@ -15,6 +15,15 @@ const APP_DATA_DIR = Gio.File.new_for_commandline_arg(System.programInvocationNa
 
 imports.searchPath.unshift(APP_DATA_DIR.get_path());
 
+function parse_rgba(s) {
+    const v = new Gdk.RGBA();
+
+    if (v.parse(s))
+        return v;
+
+    return null;
+}
+
 function get_settings() {
     const source = Gio.SettingsSchemaSource.new_from_directory(
         APP_DATA_DIR.get_child('schemas').get_path(),
@@ -101,6 +110,7 @@ const TerminalPage = GObject.registerClass(
             bind_settings_ro(this.settings, 'cursor-shape', this.terminal);
             bind_settings_ro(this.settings, 'allow-hyperlink', this.terminal);
             bind_settings_ro(this.settings, 'audible-bell', this.terminal);
+            bind_settings_ro(this.settings, 'bold-is-bright', this.terminal);
 
             this.settings.connect('changed::custom-font', this.update_font.bind(this));
             this.settings.connect('changed::use-system-font', this.update_font.bind(this));
@@ -128,6 +138,8 @@ const TerminalPage = GObject.registerClass(
 
             this.settings.connect('changed::highlight-foreground-color', this.update_color_highlight_foreground.bind(this));
             this.settings.connect('changed::highlight-colors-set', this.update_color_highlight_foreground.bind(this));
+
+            this.settings.connect('changed::palette', this.update_palette.bind(this));
 
             this.settings.connect('changed::use-theme-colors', this.update_all_colors.bind(this));
             this.update_all_colors();
@@ -222,18 +234,9 @@ const TerminalPage = GObject.registerClass(
             this.terminal.font_desc = Pango.FontDescription.from_string(this.get_font_settings());
         }
 
-        get_color_settings(key) {
-            const v = new Gdk.RGBA();
-
-            if (v.parse(this.settings.get_string(key)))
-                return v;
-
-            return null;
-        }
-
         get_style_color_settings(key, style_property) {
             if (!this.settings.get_boolean('use-theme-colors')) {
-                const result = this.get_color_settings(key);
+                const result = parse_rgba(this.settings.get_string(key));
                 if (result !== null)
                     return result;
             }
@@ -249,17 +252,29 @@ const TerminalPage = GObject.registerClass(
             if (this.settings.get_boolean(enable_key) === enable_reverse)
                 return null;
 
-            return this.get_color_settings(key);
+            return parse_rgba(this.settings.get_string(key));
+        }
+
+        get_color_foreground() {
+            return this.get_style_color_settings('foreground-color', 'color');
+        }
+
+        get_color_background() {
+            const background = this.get_style_color_settings('background-color', 'background-color');
+            background.alpha = this.settings.get_double('background-opacity');
+            return background;
         }
 
         update_color_foreground() {
-            this.terminal.set_color_foreground(this.get_style_color_settings('foreground-color', 'color'));
+            this.terminal.set_color_foreground(this.get_color_foreground());
         }
 
         update_color_background() {
-            const background = this.get_style_color_settings('background-color', 'background-color');
-            background.alpha = this.settings.get_double('background-opacity');
-            this.terminal.set_color_background(background);
+            this.terminal.set_color_background(this.get_color_background());
+        }
+
+        update_palette() {
+            this.terminal.set_colors(this.get_color_foreground(), this.get_color_background(), this.settings.get_strv('palette').map(parse_rgba));
         }
 
         update_color_bold() {
@@ -283,8 +298,7 @@ const TerminalPage = GObject.registerClass(
         }
 
         update_all_colors() {
-            this.update_color_foreground();
-            this.update_color_background();
+            this.update_palette();
             this.update_color_bold();
             this.update_color_cursor();
             this.update_color_cursor_foreground();

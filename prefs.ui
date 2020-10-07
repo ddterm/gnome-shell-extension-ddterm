@@ -69,8 +69,8 @@
       </row>
       <row>
         <col id="0" translatable="yes">Custom</col>
-        <col id="1"></col>
-        <col id="2"></col>
+        <col id="1"/>
+        <col id="2"/>
       </row>
     </data>
   </object>
@@ -122,6 +122,179 @@
     <property name="upper">1</property>
     <property name="step-increment">0.01</property>
     <property name="page-increment">0.1</property>
+  </object>
+  <object class="GtkListStore" id="palette_list">
+    <columns>
+      <!-- column-name name -->
+      <column type="gchararray"/>
+      <!-- column-name color0 -->
+      <column type="gchararray"/>
+      <!-- column-name color1 -->
+      <column type="gchararray"/>
+      <!-- column-name color2 -->
+      <column type="gchararray"/>
+      <!-- column-name color3 -->
+      <column type="gchararray"/>
+      <!-- column-name color4 -->
+      <column type="gchararray"/>
+      <!-- column-name color5 -->
+      <column type="gchararray"/>
+      <!-- column-name color6 -->
+      <column type="gchararray"/>
+      <!-- column-name color7 -->
+      <column type="gchararray"/>
+      <!-- column-name color8 -->
+      <column type="gchararray"/>
+      <!-- column-name color9 -->
+      <column type="gchararray"/>
+      <!-- column-name color10 -->
+      <column type="gchararray"/>
+      <!-- column-name color11 -->
+      <column type="gchararray"/>
+      <!-- column-name color12 -->
+      <column type="gchararray"/>
+      <!-- column-name color13 -->
+      <column type="gchararray"/>
+      <!-- column-name color14 -->
+      <column type="gchararray"/>
+      <!-- column-name color15 -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">GNOME</col>
+        <col id="1">rgb(0x17, 0x14, 0x21)</col>
+        <col id="2">rgb(0xc0, 0x1c, 0x28)</col>
+        <col id="3">rgb(0x26, 0xa2, 0x69)</col>
+        <col id="4">rgb(0xa2, 0x73, 0x4c)</col>
+        <col id="5">rgb(0x12, 0x48, 0x8b)</col>
+        <col id="6">rgb(0xa3, 0x47, 0xba)</col>
+        <col id="7">rgb(0x2a, 0xa1, 0xb3)</col>
+        <col id="8">rgb(0xd0, 0xcf, 0xcc)</col>
+        <col id="9">rgb(0x5e, 0x5c, 0x64)</col>
+        <col id="10">rgb(0xf6, 0x61, 0x51)</col>
+        <col id="11">rgb(0x33, 0xd1, 0x7a)</col>
+        <col id="12">rgb(0xe9, 0xad, 0x0c)</col>
+        <col id="13">rgb(0x2a, 0x7b, 0xde)</col>
+        <col id="14">rgb(0xc0, 0x61, 0xcb)</col>
+        <col id="15">rgb(0x33, 0xc7, 0xde)</col>
+        <col id="16">rgb(0xff, 0xff, 0xff)</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Tango</col>
+        <col id="1">rgb(0x2e, 0x34, 0x36)</col>
+        <col id="2">rgb(0xcc, 0x00, 0x00)</col>
+        <col id="3">rgb(0x4e, 0x9a, 0x06)</col>
+        <col id="4">rgb(0xc4, 0xa0, 0x00)</col>
+        <col id="5">rgb(0x34, 0x65, 0xa4)</col>
+        <col id="6">rgb(0x75, 0x50, 0x7b)</col>
+        <col id="7">rgb(0x06, 0x98, 0x9a)</col>
+        <col id="8">rgb(0xd3, 0xd7, 0xcf)</col>
+        <col id="9">rgb(0x55, 0x57, 0x53)</col>
+        <col id="10">rgb(0xef, 0x29, 0x29)</col>
+        <col id="11">rgb(0x8a, 0xe2, 0x34)</col>
+        <col id="12">rgb(0xfc, 0xe9, 0x4f)</col>
+        <col id="13">rgb(0x72, 0x9f, 0xcf)</col>
+        <col id="14">rgb(0xad, 0x7f, 0xa8)</col>
+        <col id="15">rgb(0x34, 0xe2, 0xe2)</col>
+        <col id="16">rgb(0xee, 0xee, 0xec)</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Linux</col>
+        <col id="1">rgb(0x00, 0x00, 0x00)</col>
+        <col id="2">rgb(0xaa, 0x00, 0x00)</col>
+        <col id="3">rgb(0x00, 0xaa, 0x00)</col>
+        <col id="4">rgb(0xaa, 0x55, 0x00)</col>
+        <col id="5">rgb(0x00, 0x00, 0xaa)</col>
+        <col id="6">rgb(0xaa, 0x00, 0xaa)</col>
+        <col id="7">rgb(0x00, 0xaa, 0xaa)</col>
+        <col id="8">rgb(0xaa, 0xaa, 0xaa)</col>
+        <col id="9">rgb(0x55, 0x55, 0x55)</col>
+        <col id="10">rgb(0xff, 0x55, 0x55)</col>
+        <col id="11">rgb(0x55, 0xff, 0x55)</col>
+        <col id="12">rgb(0xff, 0xff, 0x55)</col>
+        <col id="13">rgb(0x55, 0x55, 0xff)</col>
+        <col id="14">rgb(0xff, 0x55, 0xff)</col>
+        <col id="15">rgb(0x55, 0xff, 0xff)</col>
+        <col id="16">rgb(0xff, 0xff, 0xff)</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">XTerm</col>
+        <col id="1">rgb(0x00, 0x00, 0x00)</col>
+        <col id="2">rgb(0xcd, 0x00, 0x00)</col>
+        <col id="3">rgb(0x00, 0xcd, 0x00)</col>
+        <col id="4">rgb(0xcd, 0xcd, 0x00)</col>
+        <col id="5">rgb(0x00, 0x00, 0xee)</col>
+        <col id="6">rgb(0xcd, 0x00, 0xcd)</col>
+        <col id="7">rgb(0x00, 0xcd, 0xcd)</col>
+        <col id="8">rgb(0xe5, 0xe5, 0xe5)</col>
+        <col id="9">rgb(0x7f, 0x7f, 0x7f)</col>
+        <col id="10">rgb(0xff, 0x00, 0x00)</col>
+        <col id="11">rgb(0x00, 0xff, 0x00)</col>
+        <col id="12">rgb(0xff, 0xff, 0x00)</col>
+        <col id="13">rgb(0x5c, 0x5c, 0xff)</col>
+        <col id="14">rgb(0xff, 0x00, 0xff)</col>
+        <col id="15">rgb(0x00, 0xff, 0xff)</col>
+        <col id="16">rgb(0xff, 0xff, 0xff)</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">RXVT</col>
+        <col id="1">rgb(0x00, 0x00, 0x00)</col>
+        <col id="2">rgb(0xcd, 0x00, 0x00)</col>
+        <col id="3">rgb(0x00, 0xcd, 0x00)</col>
+        <col id="4">rgb(0xcd, 0xcd, 0x00)</col>
+        <col id="5">rgb(0x00, 0x00, 0xcd)</col>
+        <col id="6">rgb(0xcd, 0x00, 0xcd)</col>
+        <col id="7">rgb(0x00, 0xcd, 0xcd)</col>
+        <col id="8">rgb(0xfa, 0xeb, 0xd7)</col>
+        <col id="9">rgb(0x40, 0x40, 0x40)</col>
+        <col id="10">rgb(0xff, 0x00, 0x00)</col>
+        <col id="11">rgb(0x00, 0xff, 0x00)</col>
+        <col id="12">rgb(0xff, 0xff, 0x00)</col>
+        <col id="13">rgb(0x00, 0x00, 0xff)</col>
+        <col id="14">rgb(0xff, 0x00, 0xff)</col>
+        <col id="15">rgb(0x00, 0xff, 0xff)</col>
+        <col id="16">rgb(0xff, 0xff, 0xff)</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Solarized</col>
+        <col id="1">rgb(0x07, 0x36, 0x42)</col>
+        <col id="2">rgb(0xdc, 0x32, 0x2f)</col>
+        <col id="3">rgb(0x85, 0x99, 0x00)</col>
+        <col id="4">rgb(0xb5, 0x89, 0x00)</col>
+        <col id="5">rgb(0x26, 0x8b, 0xd2)</col>
+        <col id="6">rgb(0xd3, 0x36, 0x82)</col>
+        <col id="7">rgb(0x2a, 0xa1, 0x98)</col>
+        <col id="8">rgb(0xee, 0xe8, 0xd5)</col>
+        <col id="9">rgb(0x00, 0x2b, 0x36)</col>
+        <col id="10">rgb(0xcb, 0x4b, 0x16)</col>
+        <col id="11">rgb(0x58, 0x6e, 0x75)</col>
+        <col id="12">rgb(0x65, 0x7b, 0x83)</col>
+        <col id="13">rgb(0x83, 0x94, 0x96)</col>
+        <col id="14">rgb(0x6c, 0x71, 0xc4)</col>
+        <col id="15">rgb(0x93, 0xa1, 0xa1)</col>
+        <col id="16">rgb(0xfd, 0xf6, 0xe3)</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Custom</col>
+        <col id="1"/>
+        <col id="2"/>
+        <col id="3"/>
+        <col id="4"/>
+        <col id="5"/>
+        <col id="6"/>
+        <col id="7"/>
+        <col id="8"/>
+        <col id="9"/>
+        <col id="10"/>
+        <col id="11"/>
+        <col id="12"/>
+        <col id="13"/>
+        <col id="14"/>
+        <col id="15"/>
+        <col id="16"/>
+      </row>
+    </data>
   </object>
   <object class="GtkAdjustment" id="scrollback_adjustment">
     <property name="upper">1000000000</property>
@@ -459,7 +632,7 @@
       </packing>
     </child>
     <child>
-      <!-- n-columns=2 n-rows=3 -->
+      <!-- n-columns=2 n-rows=6 -->
       <object class="GtkGrid">
         <property name="visible">True</property>
         <property name="can-focus">False</property>
@@ -803,6 +976,274 @@
           <packing>
             <property name="left-attach">0</property>
             <property name="top-attach">1</property>
+            <property name="width">2</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="halign">start</property>
+            <property name="label" translatable="yes">Palette:</property>
+          </object>
+          <packing>
+            <property name="left-attach">0</property>
+            <property name="top-attach">3</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkComboBox" id="palette_combo">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="model">palette_list</property>
+            <child>
+              <object class="GtkCellRendererText"/>
+              <attributes>
+                <attribute name="text">0</attribute>
+              </attributes>
+            </child>
+          </object>
+          <packing>
+            <property name="left-attach">1</property>
+            <property name="top-attach">3</property>
+          </packing>
+        </child>
+        <child>
+          <!-- n-columns=8 n-rows=2 -->
+          <object class="GtkGrid" id="palette">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="halign">start</property>
+            <property name="row-spacing">10</property>
+            <property name="column-spacing">10</property>
+            <property name="row-homogeneous">True</property>
+            <property name="column-homogeneous">True</property>
+            <child>
+              <object class="GtkColorButton" id="palette0">
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+                <property name="title" translatable="yes">Palette Color 0</property>
+                <property name="show-editor">True</property>
+              </object>
+              <packing>
+                <property name="left-attach">0</property>
+                <property name="top-attach">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkColorButton" id="palette1">
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+                <property name="title" translatable="yes">Palette Color 1</property>
+                <property name="show-editor">True</property>
+              </object>
+              <packing>
+                <property name="left-attach">1</property>
+                <property name="top-attach">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkColorButton" id="palette2">
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+                <property name="title" translatable="yes">Palette Color 2</property>
+                <property name="show-editor">True</property>
+              </object>
+              <packing>
+                <property name="left-attach">2</property>
+                <property name="top-attach">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkColorButton" id="palette3">
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+                <property name="title" translatable="yes">Palette Color 3</property>
+                <property name="show-editor">True</property>
+              </object>
+              <packing>
+                <property name="left-attach">3</property>
+                <property name="top-attach">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkColorButton" id="palette4">
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+                <property name="title" translatable="yes">Palette Color 4</property>
+                <property name="show-editor">True</property>
+              </object>
+              <packing>
+                <property name="left-attach">4</property>
+                <property name="top-attach">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkColorButton" id="palette5">
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+                <property name="title" translatable="yes">Palette Color 5</property>
+                <property name="show-editor">True</property>
+              </object>
+              <packing>
+                <property name="left-attach">5</property>
+                <property name="top-attach">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkColorButton" id="palette6">
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+                <property name="title" translatable="yes">Palette Color 6</property>
+                <property name="show-editor">True</property>
+              </object>
+              <packing>
+                <property name="left-attach">6</property>
+                <property name="top-attach">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkColorButton" id="palette7">
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+                <property name="title" translatable="yes">Palette Color 7</property>
+                <property name="show-editor">True</property>
+              </object>
+              <packing>
+                <property name="left-attach">7</property>
+                <property name="top-attach">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkColorButton" id="palette8">
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+                <property name="title" translatable="yes">Palette Color 8</property>
+                <property name="show-editor">True</property>
+              </object>
+              <packing>
+                <property name="left-attach">0</property>
+                <property name="top-attach">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkColorButton" id="palette9">
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+                <property name="title" translatable="yes">Palette Color 9</property>
+                <property name="show-editor">True</property>
+              </object>
+              <packing>
+                <property name="left-attach">1</property>
+                <property name="top-attach">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkColorButton" id="palette10">
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+                <property name="title" translatable="yes">Palette Color 10</property>
+                <property name="show-editor">True</property>
+              </object>
+              <packing>
+                <property name="left-attach">2</property>
+                <property name="top-attach">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkColorButton" id="palette11">
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+                <property name="title" translatable="yes">Palette Color 11</property>
+                <property name="show-editor">True</property>
+              </object>
+              <packing>
+                <property name="left-attach">3</property>
+                <property name="top-attach">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkColorButton" id="palette12">
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+                <property name="title" translatable="yes">Palette Color 12</property>
+                <property name="show-editor">True</property>
+              </object>
+              <packing>
+                <property name="left-attach">4</property>
+                <property name="top-attach">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkColorButton" id="palette13">
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+                <property name="title" translatable="yes">Palette Color 13</property>
+                <property name="show-editor">True</property>
+              </object>
+              <packing>
+                <property name="left-attach">5</property>
+                <property name="top-attach">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkColorButton" id="palette14">
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+                <property name="title" translatable="yes">Palette Color 14</property>
+                <property name="show-editor">True</property>
+              </object>
+              <packing>
+                <property name="left-attach">6</property>
+                <property name="top-attach">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkColorButton" id="palette15">
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+                <property name="title" translatable="yes">Palette Color 15</property>
+                <property name="show-editor">True</property>
+              </object>
+              <packing>
+                <property name="left-attach">7</property>
+                <property name="top-attach">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="left-attach">0</property>
+            <property name="top-attach">4</property>
+            <property name="width">2</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkCheckButton" id="bold_is_bright_check">
+            <property name="label" translatable="yes">Show bold text in bright colors</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="receives-default">False</property>
+            <property name="draw-indicator">True</property>
+          </object>
+          <packing>
+            <property name="left-attach">0</property>
+            <property name="top-attach">5</property>
             <property name="width">2</property>
           </packing>
         </child>
