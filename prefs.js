@@ -131,7 +131,7 @@ function createPrefsWidgetClass(resource_path) {
                 this.insert_action_group('settings', actions);
 
                 this.settings.bind('custom-command', this.custom_command_entry, 'text', Gio.SettingsBindFlags.DEFAULT);
-                this.spawn_custom_command.bind_property('active', this.custom_command_entry.parent, 'sensitive', GObject.BindingFlags.DEFAULT | GObject.BindingFlags.SYNC_CREATE);
+                this.spawn_custom_command.bind_property('active', this.custom_command_entry.parent, 'sensitive', GObject.BindingFlags.SYNC_CREATE);
 
                 this.settings.bind('show-scrollbar', this.show_scrollbar_check, 'active', Gio.SettingsBindFlags.DEFAULT);
                 this.settings.bind('scroll-on-output', this.scroll_on_output_check, 'active', Gio.SettingsBindFlags.DEFAULT);

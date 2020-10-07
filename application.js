@@ -174,10 +174,10 @@ const TerminalPage = GObject.registerClass(
             this.insert_action_group('terminal', terminal_actions);
 
             const copy_action = simple_action(terminal_actions, 'copy', this.copy.bind(this));
-            this.bind_property('has-selection', copy_action, 'enabled', GObject.BindingFlags.DEFAULT | GObject.BindingFlags.SYNC_CREATE);
+            this.bind_property('has-selection', copy_action, 'enabled', GObject.BindingFlags.SYNC_CREATE);
 
             const copy_html_action = simple_action(terminal_actions, 'copy-html', this.copy_html.bind(this));
-            this.bind_property('has-selection', copy_html_action, 'enabled', GObject.BindingFlags.DEFAULT | GObject.BindingFlags.SYNC_CREATE);
+            this.bind_property('has-selection', copy_html_action, 'enabled', GObject.BindingFlags.SYNC_CREATE);
 
             simple_action(terminal_actions, 'paste', this.paste.bind(this));
             simple_action(terminal_actions, 'select-all', this.select_all.bind(this));
