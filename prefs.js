@@ -69,6 +69,7 @@ function createPrefsWidgetClass(resource_path) {
                 'color_scheme_combo',
                 'palette_combo',
                 'bold_is_bright_check',
+                'theme_variant_combo',
             ].concat(palette_widgets()),
             Properties: {
                 'settings': GObject.ParamSpec.object('settings', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, Gio.Settings),
@@ -77,6 +78,8 @@ function createPrefsWidgetClass(resource_path) {
         class PrefsWidget extends Gtk.Notebook {
             _init(params) {
                 super._init(params);
+
+                this.settings.bind('theme-variant', this.theme_variant_combo, 'active-id', Gio.SettingsBindFlags.DEFAULT);
 
                 this.settings.bind('custom-font', this.font_chooser, 'font', Gio.SettingsBindFlags.DEFAULT);
                 this.settings.bind('use-system-font', this.custom_font_check, 'active', Gio.SettingsBindFlags.INVERT_BOOLEAN);

@@ -455,11 +455,86 @@
       </row>
     </data>
   </object>
+  <object class="GtkListStore" id="theme_variant_list">
+    <columns>
+      <!-- column-name name -->
+      <column type="gchararray"/>
+      <!-- column-name label -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0">system</col>
+        <col id="1" translatable="yes">Default</col>
+      </row>
+      <row>
+        <col id="0">light</col>
+        <col id="1" translatable="yes">Light</col>
+      </row>
+      <row>
+        <col id="0">dark</col>
+        <col id="1" translatable="yes">Dark</col>
+      </row>
+    </data>
+  </object>
   <template class="Gjs_PrefsWidget" parent="GtkNotebook">
     <property name="visible">True</property>
     <property name="can-focus">True</property>
     <property name="hexpand">True</property>
     <property name="vexpand">True</property>
+    <child>
+      <!-- n-columns=2 n-rows=1 -->
+      <object class="GtkGrid">
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <property name="margin-start">10</property>
+        <property name="margin-end">10</property>
+        <property name="margin-top">10</property>
+        <property name="margin-bottom">10</property>
+        <property name="row-spacing">10</property>
+        <property name="column-spacing">10</property>
+        <child>
+          <object class="GtkLabel">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="halign">start</property>
+            <property name="label" translatable="yes">Theme variant:</property>
+          </object>
+          <packing>
+            <property name="left-attach">0</property>
+            <property name="top-attach">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkComboBox" id="theme_variant_combo">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="model">theme_variant_list</property>
+            <property name="id-column">0</property>
+            <child>
+              <object class="GtkCellRendererText"/>
+              <attributes>
+                <attribute name="text">1</attribute>
+              </attributes>
+            </child>
+          </object>
+          <packing>
+            <property name="left-attach">1</property>
+            <property name="top-attach">0</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+    <child type="tab">
+      <object class="GtkLabel">
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <property name="label" translatable="yes">Window</property>
+      </object>
+      <packing>
+        <property name="tab-fill">False</property>
+      </packing>
+    </child>
     <child>
       <!-- n-columns=2 n-rows=6 -->
       <object class="GtkGrid">
@@ -629,6 +704,7 @@
       </object>
       <packing>
         <property name="menu-label">Appearance</property>
+        <property name="position">1</property>
       </packing>
     </child>
     <child type="tab">
@@ -638,6 +714,7 @@
         <property name="label" translatable="yes">Text</property>
       </object>
       <packing>
+        <property name="position">1</property>
         <property name="tab-fill">False</property>
       </packing>
     </child>
@@ -1264,7 +1341,7 @@
         </child>
       </object>
       <packing>
-        <property name="position">1</property>
+        <property name="position">2</property>
       </packing>
     </child>
     <child type="tab">
@@ -1274,7 +1351,7 @@
         <property name="label" translatable="yes">Colors</property>
       </object>
       <packing>
-        <property name="position">1</property>
+        <property name="position">2</property>
         <property name="tab-fill">False</property>
       </packing>
     </child>
@@ -1366,7 +1443,7 @@
         </child>
       </object>
       <packing>
-        <property name="position">2</property>
+        <property name="position">3</property>
       </packing>
     </child>
     <child type="tab">
@@ -1376,7 +1453,7 @@
         <property name="label" translatable="yes">Command</property>
       </object>
       <packing>
-        <property name="position">2</property>
+        <property name="position">3</property>
         <property name="tab-fill">False</property>
       </packing>
     </child>
@@ -1486,7 +1563,7 @@
         </child>
       </object>
       <packing>
-        <property name="position">3</property>
+        <property name="position">4</property>
       </packing>
     </child>
     <child type="tab">
@@ -1496,7 +1573,7 @@
         <property name="label" translatable="yes">Scrolling</property>
       </object>
       <packing>
-        <property name="position">3</property>
+        <property name="position">4</property>
         <property name="tab-fill">False</property>
       </packing>
     </child>
@@ -1548,7 +1625,7 @@
         </child>
       </object>
       <packing>
-        <property name="position">4</property>
+        <property name="position">5</property>
       </packing>
     </child>
     <child type="tab">
@@ -1558,7 +1635,7 @@
         <property name="label" translatable="yes">Keyboard Shortcuts</property>
       </object>
       <packing>
-        <property name="position">4</property>
+        <property name="position">5</property>
         <property name="tab-fill">False</property>
       </packing>
     </child>

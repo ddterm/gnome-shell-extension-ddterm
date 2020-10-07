@@ -518,8 +518,9 @@ const Application = GObject.registerClass(
 
             simple_action(this, 'preferences', this.preferences.bind(this));
 
-            const gtk_settings = Gtk.Settings.get_default();
-            gtk_settings.gtk_application_prefer_dark_theme = true;
+            this.gtk_settings = Gtk.Settings.get_default();
+            this.settings.connect('changed::theme-variant', this.setup_theme.bind(this));
+            this.setup_theme();
 
             this.settings.connect('changed', this.setup_shortcuts.bind(this));
             this.setup_shortcuts();
@@ -560,6 +561,16 @@ const Application = GObject.registerClass(
 
             for (let i = 0; i < 10; i += 1)
                 this.setup_shortcut(`shortcut-select-tab-${i + 1}`, `win.select-tab(${i})`);
+        }
+
+        setup_theme() {
+            const theme = this.settings.get_string('theme-variant');
+            if (theme === 'system')
+                this.gtk_settings.reset_property('gtk-application-prefer-dark-theme');
+            else if (theme === 'dark')
+                this.gtk_settings.gtk_application_prefer_dark_theme = true;
+            else if (theme === 'light')
+                this.gtk_settings.gtk_application_prefer_dark_theme = false;
         }
     }
 );
