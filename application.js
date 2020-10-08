@@ -371,6 +371,7 @@ const AppWindow = GObject.registerClass(
             this.notebook.connect('page-removed', this.close_if_no_pages.bind(this));
 
             this.toggle_action = simple_action(this, 'toggle', this.toggle.bind(this));
+            this.hide_action = simple_action(this, 'hide', () => this.hide());
             simple_action(this, 'new-tab', this.new_tab.bind(this));
 
             this.resize_box.connect('realize', this.set_resize_cursor.bind(this));
@@ -511,6 +512,7 @@ const Application = GObject.registerClass(
             bind_settings_ro(this.settings, 'window-skip-pager', this.window, 'skip-pager-hint');
 
             this.add_action(this.window.toggle_action);
+            this.add_action(this.window.hide_action);
 
             this.prefs_dialog = new PrefsDialog({
                 transient_for: this.window,
