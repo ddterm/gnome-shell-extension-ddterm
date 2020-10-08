@@ -52,6 +52,9 @@
     <key name="window-skip-pager" type="b">
       <default>false</default>
     </key>
+    <key name="hide-when-focus-lost" type="b">
+      <default>false</default>
+    </key>
 
     <key name="custom-font" type="s">
       <default>"Monospace Regular 10"</default>

@@ -15,6 +15,8 @@ let created_handler_id = null;
 let bus_watch_id = null;
 let dbus_action_group = null;
 
+let focus_tracking_id = null;
+
 const APP_ID = 'com.github.amezin.ddterm';
 const APP_DBUS_PATH = '/com/github/amezin/ddterm';
 const WINDOW_PATH_PREFIX = `${APP_DBUS_PATH}/window/`;
@@ -46,6 +48,9 @@ function enable() {
     disconnect_created_handler();
     created_handler_id = global.display.connect('window-created', handle_created);
 
+    disconnect_focus_tracking();
+    focus_tracking_id = global.display.connect('notify::focus-window', focus_window_changed);
+
     settings.connect('changed::window-above', set_window_above);
     settings.connect('changed::window-stick', set_window_stick);
 }
@@ -63,6 +68,7 @@ function disable() {
     stop_dbus_watch();
     dispose_action_group();
     disconnect_created_handler();
+    disconnect_focus_tracking();
 
     Main.wm.removeKeybinding('ddterm-toggle-hotkey');
 
@@ -90,6 +96,29 @@ function handle_created(display, win) {
     win.connect('notify::gtk-window-object-path', track_window);
 
     track_window(win);
+}
+
+function focus_window_changed() {
+    if (!current_window || current_window.is_hidden())
+        return;
+
+    if (!settings || !settings.get_boolean('hide-when-focus-lost'))
+        return;
+
+    const win = global.display.focus_window;
+
+    if (win) {
+        if (win.get_pid() === current_window.get_pid())
+            return;
+
+        for (let parent = win; parent !== null; parent = parent.get_transient_for()) {
+            if (parent === current_window)
+                return;
+        }
+    }
+
+    if (dbus_action_group)
+        dbus_action_group.activate_action('hide', null);
 }
 
 function is_dropdown_terminal_window(win) {
@@ -189,5 +218,12 @@ function dispose_settings() {
     if (settings) {
         settings.run_dispose();
         settings = null;
+    }
+}
+
+function disconnect_focus_tracking() {
+    if (focus_tracking_id) {
+        global.display.disconnect(focus_tracking_id);
+        focus_tracking_id = null;
     }
 }
