@@ -188,6 +188,12 @@
     <key name="shortcut-page-close" type="as">
       <default><![CDATA[['<Ctrl><Shift>q']]]></default>
     </key>
+    <key name="shortcut-prev-tab" type="as">
+      <default><![CDATA[['<Ctrl>Page_Up']]]></default>
+    </key>
+    <key name="shortcut-next-tab" type="as">
+      <default><![CDATA[['<Ctrl>Page_Down']]]></default>
+    </key>
 
     <key name="shortcut-select-tab-1" type="as">
       <default><![CDATA[['<Alt>1']]]></default>

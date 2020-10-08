@@ -368,6 +368,18 @@
         <col id="3"/>
       </row>
       <row>
+        <col id="0">shortcut-prev-tab</col>
+        <col id="1" translatable="yes">Switch to Previous Tab</col>
+        <col id="2">0</col>
+        <col id="3"/>
+      </row>
+      <row>
+        <col id="0">shortcut-next-tab</col>
+        <col id="1" translatable="yes">Switch to Next Tab</col>
+        <col id="2">0</col>
+        <col id="3"/>
+      </row>
+      <row>
         <col id="0">shortcut-select-tab-1</col>
         <col id="1" translatable="yes">Select tab 1</col>
         <col id="2">0</col>

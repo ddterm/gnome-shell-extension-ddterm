@@ -384,6 +384,9 @@ const AppWindow = GObject.registerClass(
             });
             this.add_action(this.tab_select_action);
 
+            simple_action(this, 'next-tab', () => this.notebook.next_page());
+            simple_action(this, 'prev-tab', () => this.notebook.prev_page());
+
             this.tab_select_menu = new Gio.Menu();
             this.tab_switch_button.set_menu_model(this.tab_select_menu);
             this.tab_switch_button.connect('toggled', this.update_tab_select_menu.bind(this));
@@ -563,6 +566,8 @@ const Application = GObject.registerClass(
             this.setup_shortcut('shortcut-terminal-reset-and-clear', 'terminal.reset-and-clear');
             this.setup_shortcut('shortcut-win-new-tab', 'win.new-tab');
             this.setup_shortcut('shortcut-page-close', 'page.close');
+            this.setup_shortcut('shortcut-prev-tab', 'win.prev-tab');
+            this.setup_shortcut('shortcut-next-tab', 'win.next-tab');
 
             for (let i = 0; i < 10; i += 1)
                 this.setup_shortcut(`shortcut-select-tab-${i + 1}`, `win.select-tab(${i})`);
