@@ -158,8 +158,9 @@ const TerminalPage = GObject.registerClass(
             this.terminal.bind_property('window-title', this.menu_label, 'label', GObject.BindingFlags.DEFAULT);
             this.terminal.bind_property('window-title', this.tab_label_label, 'label', GObject.BindingFlags.DEFAULT);
 
-            const popup_menu = Gtk.Menu.new_from_model(this.menus.get_object('terminal-popup'));
-            setup_popup_menu(this.terminal, popup_menu);
+            this.terminal_popup_menu = Gtk.Menu.new_from_model(this.menus.get_object('terminal-popup'));
+            setup_popup_menu(this.terminal, this.terminal_popup_menu);
+            this.terminal.connect('button-press-event', this.terminal_button_press_early.bind(this));
 
             const tab_popup_menu = Gtk.Menu.new_from_model(this.menus.get_object('tab-popup'));
             setup_popup_menu(this.tab_label, tab_popup_menu);
@@ -345,6 +346,21 @@ const TerminalPage = GObject.registerClass(
 
         reset_and_clear() {
             this.terminal.reset(true, true);
+        }
+
+        terminal_button_press_early(_terminal, event) {
+            const [_, state] = event.get_state();
+
+            if (event.triggers_context_menu()) {
+                if (state & Gdk.ModifierType.SHIFT_MASK) {
+                    if (!(state & (Gdk.ModifierType.CONTROL_MASK | Gdk.ModifierType.MOD1_MASK))) {
+                        this.terminal_popup_menu.popup_at_pointer(event);
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
     }
 );
