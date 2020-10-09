@@ -50,7 +50,7 @@ function simple_action(group, name, callback) {
     return action;
 }
 
-function setup_popup_menu(widget, menu) {
+function setup_popup_menu(widget, menu, widget_anchor = Gdk.Gravity.SOUTH, menu_anchor = Gdk.Gravity.SOUTH) {
     menu.attach_widget = widget;
 
     widget.connect_after('button-press-event', (_, event) => {
@@ -62,7 +62,7 @@ function setup_popup_menu(widget, menu) {
     });
 
     widget.connect('popup-menu', () => {
-        menu.popup_at_pointer(null);
+        menu.popup_at_widget(widget, widget_anchor, menu_anchor, null);
         return true;
     });
 }
