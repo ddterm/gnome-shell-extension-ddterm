@@ -4,6 +4,18 @@
   <menu id="terminal-popup">
     <section>
       <item>
+        <attribute name="label" translatable="yes">Open Hyperlink</attribute>
+        <attribute name="action">terminal.open-hyperlink</attribute>
+        <attribute name="hidden-when">action-disabled</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Copy Hyperlink Address</attribute>
+        <attribute name="action">terminal.copy-hyperlink</attribute>
+        <attribute name="hidden-when">action-disabled</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
         <attribute name="label" translatable="yes">Copy</attribute>
         <attribute name="action">terminal.copy</attribute>
       </item>

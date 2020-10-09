@@ -11,6 +11,8 @@ imports.gi.versions.Vte = '2.91';
 const System = imports.system;
 const { GLib, GObject, Gio, Gdk, Gtk, Pango, Vte } = imports.gi;
 
+const SELECTION_CLIPBOARD = Gdk.Atom.intern('CLIPBOARD', true);
+
 const APP_DATA_DIR = Gio.File.new_for_commandline_arg(System.programInvocationName).get_parent();
 
 imports.searchPath.unshift(APP_DATA_DIR.get_path());
@@ -86,6 +88,12 @@ const TerminalPage = GObject.registerClass(
             ),
             'has-selection': GObject.ParamSpec.boolean(
                 'has-selection', '', '', GObject.ParamFlags.READABLE | GObject.ParamFlags.EXPLICIT_NOTIFY, false
+            ),
+            'clicked-hyperlink': GObject.ParamSpec.string(
+                'clicked-hyperlink', '', '', GObject.ParamFlags.READWRITE, null
+            ),
+            'has-clicked-hyperlink': GObject.ParamSpec.boolean(
+                'has-clicked-hyperlink', '', '', GObject.ParamFlags.READWRITE, false
             ),
         },
         Signals: {
@@ -179,6 +187,12 @@ const TerminalPage = GObject.registerClass(
 
             const copy_html_action = simple_action(terminal_actions, 'copy-html', this.copy_html.bind(this));
             this.bind_property('has-selection', copy_html_action, 'enabled', GObject.BindingFlags.SYNC_CREATE);
+
+            const open_hyperlink_action = simple_action(terminal_actions, 'open-hyperlink', this.open_hyperlink.bind(this));
+            this.bind_property('has-clicked-hyperlink', open_hyperlink_action, 'enabled', GObject.BindingFlags.SYNC_CREATE);
+
+            const copy_hyperlink_action = simple_action(terminal_actions, 'copy-hyperlink', this.copy_hyperlink.bind(this));
+            this.bind_property('has-clicked-hyperlink', copy_hyperlink_action, 'enabled', GObject.BindingFlags.SYNC_CREATE);
 
             simple_action(terminal_actions, 'paste', this.paste.bind(this));
             simple_action(terminal_actions, 'select-all', this.select_all.bind(this));
@@ -349,7 +363,18 @@ const TerminalPage = GObject.registerClass(
         }
 
         terminal_button_press_early(_terminal, event) {
-            const [_, state] = event.get_state();
+            const state = event.get_state()[1];
+            const button = event.get_button()[1];
+
+            this.clicked_hyperlink = this.terminal.hyperlink_check_event(event);
+            this.has_clicked_hyperlink = this.clicked_hyperlink !== null;
+
+            if (state & Gdk.ModifierType.CONTROL_MASK) {
+                if ([Gdk.BUTTON_PRIMARY, Gdk.BUTTON_MIDDLE].includes(button)) {
+                    this.open_hyperlink();
+                    return true;
+                }
+            }
 
             if (event.triggers_context_menu()) {
                 if (state & Gdk.ModifierType.SHIFT_MASK) {
@@ -361,6 +386,14 @@ const TerminalPage = GObject.registerClass(
             }
 
             return false;
+        }
+
+        open_hyperlink() {
+            Gtk.show_uri_on_window(this.get_ancestor(Gtk.Window), this.clicked_hyperlink, Gdk.CURRENT_TIME);
+        }
+
+        copy_hyperlink() {
+            this.get_clipboard(SELECTION_CLIPBOARD).set_text(this.clicked_hyperlink, -1);
         }
     }
 );
