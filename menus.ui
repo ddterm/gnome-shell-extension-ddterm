@@ -13,6 +13,11 @@
         <attribute name="action">terminal.copy-hyperlink</attribute>
         <attribute name="hidden-when">action-disabled</attribute>
       </item>
+      <item>
+        <attribute name="label" translatable="yes">Copy File Path</attribute>
+        <attribute name="action">terminal.copy-filename</attribute>
+        <attribute name="hidden-when">action-disabled</attribute>
+      </item>
     </section>
     <section>
       <item>

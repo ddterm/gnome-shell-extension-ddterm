@@ -95,6 +95,12 @@ const TerminalPage = GObject.registerClass(
             'has-clicked-hyperlink': GObject.ParamSpec.boolean(
                 'has-clicked-hyperlink', '', '', GObject.ParamFlags.READWRITE, false
             ),
+            'clicked-filename': GObject.ParamSpec.string(
+                'clicked-filename', '', '', GObject.ParamFlags.READWRITE, null
+            ),
+            'has-clicked-filename': GObject.ParamSpec.boolean(
+                'has-clicked-filename', '', '', GObject.ParamFlags.READWRITE, false
+            ),
         },
         Signals: {
             'close-request': {},
@@ -193,6 +199,9 @@ const TerminalPage = GObject.registerClass(
 
             const copy_hyperlink_action = simple_action(terminal_actions, 'copy-hyperlink', this.copy_hyperlink.bind(this));
             this.bind_property('has-clicked-hyperlink', copy_hyperlink_action, 'enabled', GObject.BindingFlags.SYNC_CREATE);
+
+            const copy_filename_action = simple_action(terminal_actions, 'copy-filename', this.copy_filename.bind(this));
+            this.bind_property('has-clicked-filename', copy_filename_action, 'enabled', GObject.BindingFlags.SYNC_CREATE);
 
             simple_action(terminal_actions, 'paste', this.paste.bind(this));
             simple_action(terminal_actions, 'select-all', this.select_all.bind(this));
@@ -367,7 +376,18 @@ const TerminalPage = GObject.registerClass(
             const button = event.get_button()[1];
 
             this.clicked_hyperlink = this.terminal.hyperlink_check_event(event);
-            this.has_clicked_hyperlink = this.clicked_hyperlink !== null;
+            if (this.clicked_hyperlink) {
+                try {
+                    this.clicked_filename = GLib.filename_from_uri(this.clicked_hyperlink)[0];
+                } catch {
+                    this.clicked_filename = null;
+                }
+            } else {
+                this.clicked_filename = null;
+            }
+
+            this.has_clicked_hyperlink = Boolean(this.clicked_hyperlink);
+            this.has_clicked_filename = Boolean(this.clicked_filename);
 
             if (state & Gdk.ModifierType.CONTROL_MASK) {
                 if ([Gdk.BUTTON_PRIMARY, Gdk.BUTTON_MIDDLE].includes(button)) {
@@ -394,6 +414,10 @@ const TerminalPage = GObject.registerClass(
 
         copy_hyperlink() {
             this.get_clipboard(SELECTION_CLIPBOARD).set_text(this.clicked_hyperlink, -1);
+        }
+
+        copy_filename() {
+            this.get_clipboard(SELECTION_CLIPBOARD).set_text(this.clicked_filename, -1);
         }
     }
 );
