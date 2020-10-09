@@ -53,7 +53,7 @@ function simple_action(group, name, callback) {
 function setup_popup_menu(widget, menu) {
     menu.attach_widget = widget;
 
-    widget.connect('button-press-event', (_, event) => {
+    widget.connect_after('button-press-event', (_, event) => {
         if (!event.triggers_context_menu())
             return false;
 
