@@ -81,7 +81,7 @@ function createPrefsWidgetClass(resource_path) {
                 'settings': GObject.ParamSpec.object('settings', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, Gio.Settings),
             },
         },
-        class PrefsWidget extends Gtk.Notebook {
+        class PrefsWidget extends Gtk.Box {
             _init(params) {
                 super._init(params);
 
