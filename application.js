@@ -442,8 +442,10 @@ const AppWindow = GObject.registerClass(
             super._init(params);
 
             this.connect('realize', this.set_wm_functions.bind(this));
-
             this.connect('screen-changed', this.setup_rgba_visual.bind(this));
+            this.connect('draw', this.draw.bind(this));
+
+            this.app_paintable = true;
             this.setup_rgba_visual();
 
             this.notebook.connect('page-removed', this.close_if_no_pages.bind(this));
@@ -576,6 +578,15 @@ const AppWindow = GObject.registerClass(
                 return;
 
             this.begin_resize_drag(Gdk.WindowEdge.SOUTH, button, x_root, y_root, event.get_time());
+        }
+
+        draw(_widget, cr) {
+            const context = this.get_style_context();
+            const allocation = this.get_child().get_allocation();
+            Gtk.render_background(context, cr, allocation.x, allocation.y, allocation.width, allocation.height);
+            Gtk.render_frame(context, cr, allocation.x, allocation.y, allocation.width, allocation.height);
+
+            return false;
         }
     }
 );
