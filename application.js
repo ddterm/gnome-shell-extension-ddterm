@@ -520,10 +520,12 @@ const AppWindow = GObject.registerClass(
             for (let i = 0; i < this.notebook.get_n_pages(); i++) {
                 const label = this.notebook.get_nth_page(i).switch_shortcut_label;
                 const shortcuts = app.get_accels_for_action(`win.switch-to-tab(${i})`);
-                if (shortcuts && shortcuts.length > 0)
-                    label.accelerator = shortcuts[0];
-                else
-                    label.accelerator = null;
+                if (shortcuts && shortcuts.length > 0) {
+                    const [key, mods] = Gtk.accelerator_parse(shortcuts[0]);
+                    label.label = Gtk.accelerator_get_label(key, mods);
+                } else {
+                    label.label = '';
+                }
             }
         }
 
