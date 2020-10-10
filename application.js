@@ -81,7 +81,7 @@ GObject.type_ensure(Vte.Terminal);
 const TerminalPage = GObject.registerClass(
     {
         Template: APP_DATA_DIR.get_child('terminalpage.ui').get_uri(),
-        Children: ['terminal', 'tab_label', 'tab_label_label', 'menu_label', 'scrollbar', 'close_button'],
+        Children: ['terminal', 'tab_label', 'tab_label_label', 'menu_label', 'scrollbar', 'close_button', 'switch_shortcut_label'],
         Properties: {
             'menus': GObject.ParamSpec.object(
                 'menus', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, Gtk.Builder
@@ -128,6 +128,7 @@ const TerminalPage = GObject.registerClass(
             bind_settings_ro(this.settings, 'audible-bell', this.terminal);
             bind_settings_ro(this.settings, 'bold-is-bright', this.terminal);
             bind_settings_ro(this.settings, 'tab-close-buttons', this.close_button, 'visible');
+            bind_settings_ro(this.settings, 'show-tab-switch-hotkeys', this.switch_shortcut_label, 'visible');
 
             this.settings.connect('changed::scrollback-lines', this.update_scrollback.bind(this));
             this.settings.connect('changed::scrollback-unlimited', this.update_scrollback.bind(this));
@@ -475,6 +476,11 @@ const AppWindow = GObject.registerClass(
             this.notebook.connect('page-added', this.update_tab_bar_visibility.bind(this));
             this.notebook.connect('page-removed', this.update_tab_bar_visibility.bind(this));
 
+            this.notebook.connect('page-added', this.update_tab_shortcut_labels.bind(this));
+            this.notebook.connect('page-removed', this.update_tab_shortcut_labels.bind(this));
+            this.notebook.connect('page-reordered', this.update_tab_shortcut_labels.bind(this));
+            this.connect('keys-changed', this.update_tab_shortcut_labels.bind(this));
+
             this.settings.connect('changed::tab-expand', this.update_tab_expand.bind(this));
 
             this.new_tab();
@@ -506,6 +512,17 @@ const AppWindow = GObject.registerClass(
         update_tab_expand() {
             for (let i = 0; i < this.notebook.get_n_pages(); i++)
                 this.notebook.child_set_property(this.notebook.get_nth_page(i), 'tab-expand', this.settings.get_boolean('tab-expand'));
+        }
+
+        update_tab_shortcut_labels() {
+            for (let i = 0; i < this.notebook.get_n_pages(); i++) {
+                const label = this.notebook.get_nth_page(i).switch_shortcut_label;
+                const shortcuts = app.get_accels_for_action(`win.switch-to-tab(${i})`);
+                if (shortcuts && shortcuts.length > 0)
+                    label.accelerator = shortcuts[0];
+                else
+                    label.accelerator = null;
+            }
         }
 
         toggle() {
