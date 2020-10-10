@@ -310,140 +310,140 @@
       <!-- column-name accel-key -->
       <column type="guint"/>
       <!-- column-name accel-mods -->
-      <column type="GdkModifierType"/>
+      <column type="guint"/>
     </columns>
     <data>
       <row>
         <col id="0">ddterm-toggle-hotkey</col>
         <col id="1" translatable="yes">Toggle terminal</col>
         <col id="2">0</col>
-        <col id="3"/>
+        <col id="3">0</col>
       </row>
       <row>
         <col id="0">shortcut-window-hide</col>
         <col id="1" translatable="yes">Hide the window</col>
         <col id="2">0</col>
-        <col id="3"/>
+        <col id="3">0</col>
       </row>
       <row>
         <col id="0">shortcut-terminal-copy</col>
         <col id="1" translatable="yes">Copy selected text</col>
         <col id="2">0</col>
-        <col id="3"/>
+        <col id="3">0</col>
       </row>
       <row>
         <col id="0">shortcut-terminal-copy-html</col>
         <col id="1" translatable="yes">Copy selected text as HTML</col>
         <col id="2">0</col>
-        <col id="3"/>
+        <col id="3">0</col>
       </row>
       <row>
         <col id="0">shortcut-terminal-paste</col>
         <col id="1" translatable="yes">Paste text from clipboard</col>
         <col id="2">0</col>
-        <col id="3"/>
+        <col id="3">0</col>
       </row>
       <row>
         <col id="0">shortcut-terminal-select-all</col>
         <col id="1" translatable="yes">Select all</col>
         <col id="2">0</col>
-        <col id="3"/>
+        <col id="3">0</col>
       </row>
       <row>
         <col id="0">shortcut-terminal-reset</col>
         <col id="1" translatable="yes">Reset</col>
         <col id="2">0</col>
-        <col id="3"/>
+        <col id="3">0</col>
       </row>
       <row>
         <col id="0">shortcut-terminal-reset-and-clear</col>
         <col id="1" translatable="yes">Reset and clear</col>
         <col id="2">0</col>
-        <col id="3"/>
+        <col id="3">0</col>
       </row>
       <row>
         <col id="0">shortcut-win-new-tab</col>
         <col id="1" translatable="yes">Open new tab</col>
         <col id="2">0</col>
-        <col id="3"/>
+        <col id="3">0</col>
       </row>
       <row>
         <col id="0">shortcut-page-close</col>
         <col id="1" translatable="yes">Close current tab</col>
         <col id="2">0</col>
-        <col id="3"/>
+        <col id="3">0</col>
       </row>
       <row>
         <col id="0">shortcut-prev-tab</col>
         <col id="1" translatable="yes">Switch to Previous Tab</col>
         <col id="2">0</col>
-        <col id="3"/>
+        <col id="3">0</col>
       </row>
       <row>
         <col id="0">shortcut-next-tab</col>
         <col id="1" translatable="yes">Switch to Next Tab</col>
         <col id="2">0</col>
-        <col id="3"/>
+        <col id="3">0</col>
       </row>
       <row>
         <col id="0">shortcut-select-tab-1</col>
         <col id="1" translatable="yes">Select tab 1</col>
         <col id="2">0</col>
-        <col id="3"/>
+        <col id="3">0</col>
       </row>
       <row>
         <col id="0">shortcut-select-tab-2</col>
         <col id="1" translatable="yes">Select tab 2</col>
         <col id="2">0</col>
-        <col id="3"/>
+        <col id="3">0</col>
       </row>
       <row>
         <col id="0">shortcut-select-tab-3</col>
         <col id="1" translatable="yes">Select tab 3</col>
         <col id="2">0</col>
-        <col id="3"/>
+        <col id="3">0</col>
       </row>
       <row>
         <col id="0">shortcut-select-tab-4</col>
         <col id="1" translatable="yes">Select tab 4</col>
         <col id="2">0</col>
-        <col id="3"/>
+        <col id="3">0</col>
       </row>
       <row>
         <col id="0">shortcut-select-tab-5</col>
         <col id="1" translatable="yes">Select tab 5</col>
         <col id="2">0</col>
-        <col id="3"/>
+        <col id="3">0</col>
       </row>
       <row>
         <col id="0">shortcut-select-tab-6</col>
         <col id="1" translatable="yes">Select tab 6</col>
         <col id="2">0</col>
-        <col id="3"/>
+        <col id="3">0</col>
       </row>
       <row>
         <col id="0">shortcut-select-tab-7</col>
         <col id="1" translatable="yes">Select tab 7</col>
         <col id="2">0</col>
-        <col id="3"/>
+        <col id="3">0</col>
       </row>
       <row>
         <col id="0">shortcut-select-tab-8</col>
         <col id="1" translatable="yes">Select tab 8</col>
         <col id="2">0</col>
-        <col id="3"/>
+        <col id="3">0</col>
       </row>
       <row>
         <col id="0">shortcut-select-tab-9</col>
         <col id="1" translatable="yes">Select tab 9</col>
         <col id="2">0</col>
-        <col id="3"/>
+        <col id="3">0</col>
       </row>
       <row>
         <col id="0">shortcut-select-tab-10</col>
         <col id="1" translatable="yes">Select tab 10</col>
         <col id="2">0</col>
-        <col id="3"/>
+        <col id="3">0</col>
       </row>
     </data>
   </object>
