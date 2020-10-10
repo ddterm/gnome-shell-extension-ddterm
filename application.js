@@ -451,7 +451,7 @@ const AppWindow = GObject.registerClass(
             this.resize_box.connect('button-press-event', this.start_resizing.bind(this));
 
             this.tab_select_action = new Gio.PropertyAction({
-                name: 'select-tab',
+                name: 'switch-to-tab',
                 object: this.notebook,
                 property_name: 'page',
             });
@@ -476,7 +476,7 @@ const AppWindow = GObject.registerClass(
 
             for (let i = 0; i < this.notebook.get_n_pages(); i += 1) {
                 const label = this.notebook.get_menu_label_text(this.notebook.get_nth_page(i));
-                this.tab_select_menu.append(label, `win.select-tab(${i})`);
+                this.tab_select_menu.append(label, `win.switch-to-tab(${i})`);
             }
         }
 
@@ -649,7 +649,7 @@ const Application = GObject.registerClass(
             this.setup_shortcut('shortcut-next-tab', 'win.next-tab');
 
             for (let i = 0; i < 10; i += 1)
-                this.setup_shortcut(`shortcut-select-tab-${i + 1}`, `win.select-tab(${i})`);
+                this.setup_shortcut(`shortcut-switch-to-tab-${i + 1}`, `win.switch-to-tab(${i})`);
         }
 
         setup_theme() {
