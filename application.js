@@ -705,8 +705,8 @@ const Application = GObject.registerClass(
             simple_action(this, 'preferences', this.preferences.bind(this));
 
             this.gtk_settings = Gtk.Settings.get_default();
-            this.settings.connect('changed::theme-variant', this.setup_theme.bind(this));
-            this.setup_theme();
+            this.settings.connect('changed::theme-variant', this.update_theme.bind(this));
+            this.update_theme();
 
             this.setup_shortcut('shortcut-window-hide', 'win.hide');
             this.setup_shortcut('shortcut-terminal-copy', 'terminal.copy');
@@ -758,7 +758,7 @@ const Application = GObject.registerClass(
             update_fn();
         }
 
-        setup_theme() {
+        update_theme() {
             const theme = this.settings.get_string('theme-variant');
             if (theme === 'system')
                 this.gtk_settings.reset_property('gtk-application-prefer-dark-theme');
