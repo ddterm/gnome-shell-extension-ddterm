@@ -186,6 +186,10 @@
       <range min="0" max="1000000000"/>
     </key>
 
+    <key name="shortcuts-enabled" type="b">
+      <default>true</default>
+    </key>
+
     <key name="ddterm-toggle-hotkey" type="as">
       <default><![CDATA[['F12']]]></default>
     </key>

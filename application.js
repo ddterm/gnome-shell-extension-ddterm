@@ -749,7 +749,7 @@ const Application = GObject.registerClass(
         }
 
         update_shortcut(key, action) {
-            const accels = this.settings.get_strv(key);
+            const accels = this.settings.get_boolean('shortcuts-enabled') ? this.settings.get_strv(key) : [];
 
             if (action === 'win.hide' && this.settings.get_boolean('hide-window-on-esc'))
                 accels.push('Escape');
@@ -760,6 +760,7 @@ const Application = GObject.registerClass(
         setup_shortcut(key, action) {
             const update_fn = this.update_shortcut.bind(this, key, action);
             this.settings.connect(`changed::${key}`, update_fn);
+            this.settings.connect('changed::shortcuts-enabled', update_fn);
             update_fn();
         }
 

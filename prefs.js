@@ -82,6 +82,7 @@ function createPrefsWidgetClass(resource_path) {
                 'show_new_tab_button_check',
                 'show_tab_switcher_check',
                 'show_tab_switch_hotkeys_check',
+                'enable_shortcuts_check',
             ].concat(palette_widgets()),
             Properties: {
                 'settings': GObject.ParamSpec.object('settings', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, Gio.Settings),
@@ -176,6 +177,8 @@ function createPrefsWidgetClass(resource_path) {
 
                 this.accel_renderer.connect('accel-edited', this.accel_edited.bind(this));
                 this.accel_renderer.connect('accel-cleared', this.accel_cleared.bind(this));
+
+                this.settings_bind('shortcuts-enabled', this.enable_shortcuts_check, 'active');
             }
 
             bind_sensitive(key, widget, invert = false) {
