@@ -627,10 +627,16 @@ const Application = GObject.registerClass(
         }
 
         setup_shortcut(key, action) {
-            this.set_accels_for_action(action, this.settings.get_strv(key));
+            const accels = this.settings.get_strv(key);
+
+            if (action === 'win.hide' && this.settings.get_boolean('hide-window-on-esc'))
+                accels.push('Escape');
+
+            this.set_accels_for_action(action, accels);
         }
 
         setup_shortcuts() {
+            this.setup_shortcut('shortcut-window-hide', 'win.hide');
             this.setup_shortcut('shortcut-terminal-copy', 'terminal.copy');
             this.setup_shortcut('shortcut-terminal-copy-html', 'terminal.copy-html');
             this.setup_shortcut('shortcut-terminal-paste', 'terminal.paste');

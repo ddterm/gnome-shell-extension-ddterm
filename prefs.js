@@ -75,6 +75,7 @@ function createPrefsWidgetClass(resource_path) {
                 'window_skip_pager_check',
                 'window_skip_taskbar_check',
                 'hide_when_focus_lost_check',
+                'hide_window_on_esc_check',
             ].concat(palette_widgets()),
             Properties: {
                 'settings': GObject.ParamSpec.object('settings', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, Gio.Settings),
@@ -90,6 +91,7 @@ function createPrefsWidgetClass(resource_path) {
                 this.settings.bind('window-skip-taskbar', this.window_skip_taskbar_check, 'active', Gio.SettingsBindFlags.DEFAULT);
                 this.settings.bind('window-skip-pager', this.window_skip_pager_check, 'active', Gio.SettingsBindFlags.DEFAULT);
                 this.settings.bind('hide-when-focus-lost', this.hide_when_focus_lost_check, 'active', Gio.SettingsBindFlags.DEFAULT);
+                this.settings.bind('hide-window-on-esc', this.hide_window_on_esc_check, 'active', Gio.SettingsBindFlags.DEFAULT);
 
                 this.settings.bind('custom-font', this.font_chooser, 'font', Gio.SettingsBindFlags.DEFAULT);
                 this.settings.bind('use-system-font', this.custom_font_check, 'active', Gio.SettingsBindFlags.INVERT_BOOLEAN);

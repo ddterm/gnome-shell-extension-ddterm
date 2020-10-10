@@ -164,6 +164,12 @@
     <key name="ddterm-toggle-hotkey" type="as">
       <default><![CDATA[['F12']]]></default>
     </key>
+    <key name="shortcut-window-hide" type="as">
+      <default><![CDATA[[]]]></default>
+    </key>
+    <key name="hide-window-on-esc" type="b">
+      <default>false</default>
+    </key>
     <key name="shortcut-terminal-copy" type="as">
       <default><![CDATA[['<Ctrl><Shift>c']]]></default>
     </key>

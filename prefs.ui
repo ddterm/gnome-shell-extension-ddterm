@@ -320,6 +320,12 @@
         <col id="3"/>
       </row>
       <row>
+        <col id="0">shortcut-window-hide</col>
+        <col id="1" translatable="yes">Hide the window</col>
+        <col id="2">0</col>
+        <col id="3"/>
+      </row>
+      <row>
         <col id="0">shortcut-terminal-copy</col>
         <col id="1" translatable="yes">Copy selected text</col>
         <col id="2">0</col>
@@ -495,7 +501,7 @@
     <property name="hexpand">True</property>
     <property name="vexpand">True</property>
     <child>
-      <!-- n-columns=2 n-rows=7 -->
+      <!-- n-columns=2 n-rows=8 -->
       <object class="GtkGrid">
         <property name="visible">True</property>
         <property name="can-focus">False</property>
@@ -600,7 +606,7 @@
           </object>
           <packing>
             <property name="left-attach">0</property>
-            <property name="top-attach">5</property>
+            <property name="top-attach">6</property>
             <property name="width">2</property>
           </packing>
         </child>
@@ -614,7 +620,7 @@
           </object>
           <packing>
             <property name="left-attach">0</property>
-            <property name="top-attach">6</property>
+            <property name="top-attach">7</property>
             <property name="width">2</property>
           </packing>
         </child>
@@ -629,6 +635,20 @@
           <packing>
             <property name="left-attach">0</property>
             <property name="top-attach">4</property>
+            <property name="width">2</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkCheckButton" id="hide_window_on_esc_check">
+            <property name="label" translatable="yes">Hide when Esc key is pressed</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="receives-default">False</property>
+            <property name="draw-indicator">True</property>
+          </object>
+          <packing>
+            <property name="left-attach">0</property>
+            <property name="top-attach">5</property>
             <property name="width">2</property>
           </packing>
         </child>
