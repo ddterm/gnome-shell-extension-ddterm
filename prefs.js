@@ -338,27 +338,28 @@ function createPrefsWidgetClass(resource_path) {
                     settings = this.settings;
 
                 let [ok, i] = this.shortcuts_list.get_iter_first();
-                if (ok) {
-                    do {
-                        const action = this.shortcuts_list.get_value(i, 0);
+                if (!ok)
+                    return;
 
-                        if (changed_key && action !== changed_key)
-                            continue;
+                do {
+                    const action = this.shortcuts_list.get_value(i, 0);
 
-                        const cur_accel_key = this.shortcuts_list.get_value(i, 2);
-                        const cur_accel_mods = this.shortcuts_list.get_value(i, 3);
+                    if (changed_key && action !== changed_key)
+                        continue;
 
-                        const shortcuts = settings.get_strv(action);
-                        if (shortcuts && shortcuts.length) {
-                            const [accel_key, accel_mods] = Gtk.accelerator_parse(shortcuts[0]);
+                    const cur_accel_key = this.shortcuts_list.get_value(i, 2);
+                    const cur_accel_mods = this.shortcuts_list.get_value(i, 3);
 
-                            if (cur_accel_key !== accel_key || cur_accel_mods !== accel_mods)
-                                this.shortcuts_list.set(i, [2, 3], [accel_key, accel_mods]);
-                        } else if (cur_accel_key !== 0 || cur_accel_mods !== 0) {
-                            this.shortcuts_list.set(i, [2, 3], [0, 0]);
-                        }
-                    } while (this.shortcuts_list.iter_next(i));
-                }
+                    const shortcuts = settings.get_strv(action);
+                    if (shortcuts && shortcuts.length) {
+                        const [accel_key, accel_mods] = Gtk.accelerator_parse(shortcuts[0]);
+
+                        if (cur_accel_key !== accel_key || cur_accel_mods !== accel_mods)
+                            this.shortcuts_list.set(i, [2, 3], [accel_key, accel_mods]);
+                    } else if (cur_accel_key !== 0 || cur_accel_mods !== 0) {
+                        this.shortcuts_list.set(i, [2, 3], [0, 0]);
+                    }
+                } while (this.shortcuts_list.iter_next(i));
             }
 
             settings_bind(key, target, property, flags = Gio.SettingsBindFlags.DEFAULT) {
