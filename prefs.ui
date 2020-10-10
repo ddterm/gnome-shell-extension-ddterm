@@ -315,37 +315,37 @@
     <data>
       <row>
         <col id="0">ddterm-toggle-hotkey</col>
-        <col id="1" translatable="yes">Toggle terminal</col>
+        <col id="1" translatable="yes">Toggle Terminal Window</col>
         <col id="2">0</col>
         <col id="3">0</col>
       </row>
       <row>
         <col id="0">shortcut-window-hide</col>
-        <col id="1" translatable="yes">Hide the window</col>
+        <col id="1" translatable="yes">Hide the Window</col>
         <col id="2">0</col>
         <col id="3">0</col>
       </row>
       <row>
         <col id="0">shortcut-terminal-copy</col>
-        <col id="1" translatable="yes">Copy selected text</col>
+        <col id="1" translatable="yes">Copy Selected Text</col>
         <col id="2">0</col>
         <col id="3">0</col>
       </row>
       <row>
         <col id="0">shortcut-terminal-copy-html</col>
-        <col id="1" translatable="yes">Copy selected text as HTML</col>
+        <col id="1" translatable="yes">Copy Selected Text as HTML</col>
         <col id="2">0</col>
         <col id="3">0</col>
       </row>
       <row>
         <col id="0">shortcut-terminal-paste</col>
-        <col id="1" translatable="yes">Paste text from clipboard</col>
+        <col id="1" translatable="yes">Paste Text from Clipboard</col>
         <col id="2">0</col>
         <col id="3">0</col>
       </row>
       <row>
         <col id="0">shortcut-terminal-select-all</col>
-        <col id="1" translatable="yes">Select all</col>
+        <col id="1" translatable="yes">Select All</col>
         <col id="2">0</col>
         <col id="3">0</col>
       </row>
@@ -357,19 +357,19 @@
       </row>
       <row>
         <col id="0">shortcut-terminal-reset-and-clear</col>
-        <col id="1" translatable="yes">Reset and clear</col>
+        <col id="1" translatable="yes">Reset and Clear</col>
         <col id="2">0</col>
         <col id="3">0</col>
       </row>
       <row>
         <col id="0">shortcut-win-new-tab</col>
-        <col id="1" translatable="yes">Open new tab</col>
+        <col id="1" translatable="yes">Open New Tab</col>
         <col id="2">0</col>
         <col id="3">0</col>
       </row>
       <row>
         <col id="0">shortcut-page-close</col>
-        <col id="1" translatable="yes">Close current tab</col>
+        <col id="1" translatable="yes">Close Current Tab</col>
         <col id="2">0</col>
         <col id="3">0</col>
       </row>
