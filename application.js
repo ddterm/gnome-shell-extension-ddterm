@@ -708,8 +708,20 @@ const Application = GObject.registerClass(
             this.settings.connect('changed::theme-variant', this.setup_theme.bind(this));
             this.setup_theme();
 
-            this.settings.connect('changed', this.setup_shortcuts.bind(this));
-            this.setup_shortcuts();
+            this.setup_shortcut('shortcut-window-hide', 'win.hide');
+            this.setup_shortcut('shortcut-terminal-copy', 'terminal.copy');
+            this.setup_shortcut('shortcut-terminal-copy-html', 'terminal.copy-html');
+            this.setup_shortcut('shortcut-terminal-paste', 'terminal.paste');
+            this.setup_shortcut('shortcut-terminal-select-all', 'terminal.select-all');
+            this.setup_shortcut('shortcut-terminal-reset', 'terminal.reset');
+            this.setup_shortcut('shortcut-terminal-reset-and-clear', 'terminal.reset-and-clear');
+            this.setup_shortcut('shortcut-win-new-tab', 'win.new-tab');
+            this.setup_shortcut('shortcut-page-close', 'page.close');
+            this.setup_shortcut('shortcut-prev-tab', 'win.prev-tab');
+            this.setup_shortcut('shortcut-next-tab', 'win.next-tab');
+
+            for (let i = 0; i < 10; i += 1)
+                this.setup_shortcut(`shortcut-switch-to-tab-${i + 1}`, `win.switch-to-tab(${i})`);
         }
 
         activate() {
@@ -731,7 +743,7 @@ const Application = GObject.registerClass(
             super.quit();
         }
 
-        setup_shortcut(key, action) {
+        update_shortcut(key, action) {
             const accels = this.settings.get_strv(key);
 
             if (action === 'win.hide' && this.settings.get_boolean('hide-window-on-esc'))
@@ -740,21 +752,10 @@ const Application = GObject.registerClass(
             this.set_accels_for_action(action, accels);
         }
 
-        setup_shortcuts() {
-            this.setup_shortcut('shortcut-window-hide', 'win.hide');
-            this.setup_shortcut('shortcut-terminal-copy', 'terminal.copy');
-            this.setup_shortcut('shortcut-terminal-copy-html', 'terminal.copy-html');
-            this.setup_shortcut('shortcut-terminal-paste', 'terminal.paste');
-            this.setup_shortcut('shortcut-terminal-select-all', 'terminal.select-all');
-            this.setup_shortcut('shortcut-terminal-reset', 'terminal.reset');
-            this.setup_shortcut('shortcut-terminal-reset-and-clear', 'terminal.reset-and-clear');
-            this.setup_shortcut('shortcut-win-new-tab', 'win.new-tab');
-            this.setup_shortcut('shortcut-page-close', 'page.close');
-            this.setup_shortcut('shortcut-prev-tab', 'win.prev-tab');
-            this.setup_shortcut('shortcut-next-tab', 'win.next-tab');
-
-            for (let i = 0; i < 10; i += 1)
-                this.setup_shortcut(`shortcut-switch-to-tab-${i + 1}`, `win.switch-to-tab(${i})`);
+        setup_shortcut(key, action) {
+            const update_fn = this.update_shortcut.bind(this, key, action);
+            this.settings.connect(`changed::${key}`, update_fn);
+            update_fn();
         }
 
         setup_theme() {
