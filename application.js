@@ -101,6 +101,9 @@ const TerminalPage = GObject.registerClass(
             'has-clicked-filename': GObject.ParamSpec.boolean(
                 'has-clicked-filename', '', '', GObject.ParamFlags.READWRITE, false
             ),
+            'switch-shortcut': GObject.ParamSpec.string(
+                'switch-shortcut', '', '', GObject.ParamFlags.READWRITE, null
+            )
         },
         Signals: {
             'close-request': {},
@@ -209,6 +212,8 @@ const TerminalPage = GObject.registerClass(
             simple_action(terminal_actions, 'select-all', this.select_all.bind(this));
             simple_action(terminal_actions, 'reset', this.reset.bind(this));
             simple_action(terminal_actions, 'reset-and-clear', this.reset_and_clear.bind(this));
+
+            this.connect('notify::switch-shortcut', this.update_shortcut_label.bind(this));
         }
 
         spawn() {
@@ -421,6 +426,18 @@ const TerminalPage = GObject.registerClass(
         copy_filename() {
             this.get_clipboard(SELECTION_CLIPBOARD).set_text(this.clicked_filename, -1);
         }
+
+        update_shortcut_label() {
+            if (this.switch_shortcut) {
+                const [key, mods] = Gtk.accelerator_parse(this.switch_shortcut);
+                if (key) {
+                    this.switch_shortcut_label.label = Gtk.accelerator_get_label(key, mods);
+                    return;
+                }
+            }
+
+            this.switch_shortcut_label.label = '';
+        }
     }
 );
 
@@ -518,14 +535,12 @@ const AppWindow = GObject.registerClass(
 
         update_tab_shortcut_labels() {
             for (let i = 0; i < this.notebook.get_n_pages(); i++) {
-                const label = this.notebook.get_nth_page(i).switch_shortcut_label;
                 const shortcuts = app.get_accels_for_action(`win.switch-to-tab(${i})`);
-                if (shortcuts && shortcuts.length > 0) {
-                    const [key, mods] = Gtk.accelerator_parse(shortcuts[0]);
-                    label.label = Gtk.accelerator_get_label(key, mods);
-                } else {
-                    label.label = '';
-                }
+                const shortcut = (shortcuts && shortcuts.length > 0) ? shortcuts[0] : null;
+                const page = this.notebook.get_nth_page(i);
+
+                if (page.switch_shortcut !== shortcut)
+                    page.switch_shortcut = shortcut;
             }
         }
 
