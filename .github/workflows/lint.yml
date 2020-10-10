@@ -12,3 +12,9 @@ jobs:
         node-version: '12'
     - run: npm install eslint
     - run: npx eslint .
+
+  glib-compile-schemas:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - run: glib-compile-schemas --strict schemas
