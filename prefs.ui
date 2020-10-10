@@ -74,50 +74,6 @@
       </row>
     </data>
   </object>
-  <object class="GtkListStore" id="cursor_blink_mode_list">
-    <columns>
-      <!-- column-name label -->
-      <column type="gchararray"/>
-      <!-- column-name id -->
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0" translatable="yes">Default</col>
-        <col id="1">system</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Enabled</col>
-        <col id="1">on</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Disabled</col>
-        <col id="1">off</col>
-      </row>
-    </data>
-  </object>
-  <object class="GtkListStore" id="cursor_shape_list">
-    <columns>
-      <!-- column-name label -->
-      <column type="gchararray"/>
-      <!-- column-name id -->
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0" translatable="yes">Block</col>
-        <col id="1">block</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">I-Beam</col>
-        <col id="1">ibeam</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Underline</col>
-        <col id="1">underline</col>
-      </row>
-    </data>
-  </object>
   <object class="GtkAdjustment" id="opacity_adjustment">
     <property name="upper">1</property>
     <property name="step-increment">0.01</property>
@@ -447,54 +403,6 @@
       </row>
     </data>
   </object>
-  <object class="GtkListStore" id="text_blink_mode_list">
-    <columns>
-      <!-- column-name label -->
-      <column type="gchararray"/>
-      <!-- column-name id -->
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0" translatable="yes">Never</col>
-        <col id="1">never</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">When focused</col>
-        <col id="1">focused</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">When unfocused</col>
-        <col id="1">unfocused</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Always</col>
-        <col id="1">always</col>
-      </row>
-    </data>
-  </object>
-  <object class="GtkListStore" id="theme_variant_list">
-    <columns>
-      <!-- column-name name -->
-      <column type="gchararray"/>
-      <!-- column-name label -->
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0">system</col>
-        <col id="1" translatable="yes">Default</col>
-      </row>
-      <row>
-        <col id="0">light</col>
-        <col id="1" translatable="yes">Light</col>
-      </row>
-      <row>
-        <col id="0">dark</col>
-        <col id="1" translatable="yes">Dark</col>
-      </row>
-    </data>
-  </object>
   <template class="Gjs_PrefsWidget" parent="GtkBox">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
@@ -540,17 +448,14 @@
               </packing>
             </child>
             <child>
-              <object class="GtkComboBox" id="theme_variant_combo">
+              <object class="GtkComboBoxText" id="theme_variant_combo">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
-                <property name="model">theme_variant_list</property>
-                <property name="id-column">0</property>
-                <child>
-                  <object class="GtkCellRendererText"/>
-                  <attributes>
-                    <attribute name="text">1</attribute>
-                  </attributes>
-                </child>
+                <items>
+                  <item id="system" translatable="yes">Default</item>
+                  <item id="light" translatable="yes">Light</item>
+                  <item id="dark" translatable="yes">Dark</item>
+                </items>
               </object>
               <packing>
                 <property name="left-attach">1</property>
@@ -833,17 +738,15 @@
               </packing>
             </child>
             <child>
-              <object class="GtkComboBox" id="text_blink_mode_combo">
+              <object class="GtkComboBoxText" id="text_blink_mode_combo">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
-                <property name="model">text_blink_mode_list</property>
-                <property name="id-column">1</property>
-                <child>
-                  <object class="GtkCellRendererText"/>
-                  <attributes>
-                    <attribute name="text">0</attribute>
-                  </attributes>
-                </child>
+                <items>
+                  <item id="never" translatable="yes">Never</item>
+                  <item id="focused" translatable="yes">When focused</item>
+                  <item id="unfocused" translatable="yes">When unfocused</item>
+                  <item id="always" translatable="yes">Always</item>
+                </items>
               </object>
               <packing>
                 <property name="left-attach">1</property>
@@ -851,17 +754,14 @@
               </packing>
             </child>
             <child>
-              <object class="GtkComboBox" id="cursor_shape_combo">
+              <object class="GtkComboBoxText" id="cursor_shape_combo">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
-                <property name="model">cursor_shape_list</property>
-                <property name="id-column">1</property>
-                <child>
-                  <object class="GtkCellRendererText"/>
-                  <attributes>
-                    <attribute name="text">0</attribute>
-                  </attributes>
-                </child>
+                <items>
+                  <item id="block" translatable="yes">Block</item>
+                  <item id="ibeam" translatable="yes">I-Beam</item>
+                  <item id="underline" translatable="yes">Underline</item>
+                </items>
               </object>
               <packing>
                 <property name="left-attach">1</property>
@@ -869,17 +769,14 @@
               </packing>
             </child>
             <child>
-              <object class="GtkComboBox" id="cursor_blink_mode_combo">
+              <object class="GtkComboBoxText" id="cursor_blink_mode_combo">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
-                <property name="model">cursor_blink_mode_list</property>
-                <property name="id-column">1</property>
-                <child>
-                  <object class="GtkCellRendererText"/>
-                  <attributes>
-                    <attribute name="text">0</attribute>
-                  </attributes>
-                </child>
+                <items>
+                  <item id="system" translatable="yes">Default</item>
+                  <item id="on" translatable="yes">Enabled</item>
+                  <item id="off" translatable="yes">Disabled</item>
+                </items>
               </object>
               <packing>
                 <property name="left-attach">1</property>
