@@ -31,6 +31,12 @@
     <value nick="dark" value="2"/>
   </enum>
 
+  <enum id="com.github.amezin.ddterm.TabsbarPolicy">
+    <value nick="always" value="0"/>
+    <value nick="automatic" value="1"/>
+    <value nick="never" value="2"/>
+  </enum>
+
   <schema path="/com/github/amezin/ddterm/" id="com.github.amezin.ddterm">
     <key name="window-height" type="d">
       <default>0.6</default>
@@ -54,6 +60,22 @@
     </key>
     <key name="hide-when-focus-lost" type="b">
       <default>false</default>
+    </key>
+
+    <key name="tab-policy" enum="com.github.amezin.ddterm.TabsbarPolicy">
+      <default>'always'</default>
+    </key>
+    <key name="tab-expand" type="b">
+      <default>true</default>
+    </key>
+    <key name="tab-close-buttons" type="b">
+      <default>true</default>
+    </key>
+    <key name="new-tab-button" type="b">
+      <default>true</default>
+    </key>
+    <key name="tab-switcher-popup" type="b">
+      <default>true</default>
     </key>
 
     <key name="custom-font" type="s">

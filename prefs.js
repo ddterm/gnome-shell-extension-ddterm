@@ -76,6 +76,11 @@ function createPrefsWidgetClass(resource_path) {
                 'window_skip_taskbar_check',
                 'hide_when_focus_lost_check',
                 'hide_window_on_esc_check',
+                'tab_policy_combo',
+                'expand_tabs_check',
+                'show_tab_close_buttons_check',
+                'show_new_tab_button_check',
+                'show_tab_switcher_check',
             ].concat(palette_widgets()),
             Properties: {
                 'settings': GObject.ParamSpec.object('settings', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, Gio.Settings),
@@ -92,6 +97,12 @@ function createPrefsWidgetClass(resource_path) {
                 this.settings.bind('window-skip-pager', this.window_skip_pager_check, 'active', Gio.SettingsBindFlags.DEFAULT);
                 this.settings.bind('hide-when-focus-lost', this.hide_when_focus_lost_check, 'active', Gio.SettingsBindFlags.DEFAULT);
                 this.settings.bind('hide-window-on-esc', this.hide_window_on_esc_check, 'active', Gio.SettingsBindFlags.DEFAULT);
+
+                this.settings.bind('tab-policy', this.tab_policy_combo, 'active-id', Gio.SettingsBindFlags.DEFAULT);
+                this.settings.bind('tab-expand', this.expand_tabs_check, 'active', Gio.SettingsBindFlags.DEFAULT);
+                this.settings.bind('tab-close-buttons', this.show_tab_close_buttons_check, 'active', Gio.SettingsBindFlags.DEFAULT);
+                this.settings.bind('new-tab-button', this.show_new_tab_button_check, 'active', Gio.SettingsBindFlags.DEFAULT);
+                this.settings.bind('tab-switcher-popup', this.show_tab_switcher_check, 'active', Gio.SettingsBindFlags.DEFAULT);
 
                 this.settings.bind('custom-font', this.font_chooser, 'font', Gio.SettingsBindFlags.DEFAULT);
                 this.settings.bind('use-system-font', this.custom_font_check, 'active', Gio.SettingsBindFlags.INVERT_BOOLEAN);

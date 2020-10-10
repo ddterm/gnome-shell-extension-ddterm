@@ -81,7 +81,7 @@ GObject.type_ensure(Vte.Terminal);
 const TerminalPage = GObject.registerClass(
     {
         Template: APP_DATA_DIR.get_child('terminalpage.ui').get_uri(),
-        Children: ['terminal', 'tab_label', 'tab_label_label', 'menu_label', 'scrollbar'],
+        Children: ['terminal', 'tab_label', 'tab_label_label', 'menu_label', 'scrollbar', 'close_button'],
         Properties: {
             'menus': GObject.ParamSpec.object(
                 'menus', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, Gtk.Builder
@@ -127,6 +127,7 @@ const TerminalPage = GObject.registerClass(
             bind_settings_ro(this.settings, 'allow-hyperlink', this.terminal);
             bind_settings_ro(this.settings, 'audible-bell', this.terminal);
             bind_settings_ro(this.settings, 'bold-is-bright', this.terminal);
+            bind_settings_ro(this.settings, 'tab-close-buttons', this.close_button, 'visible');
 
             this.settings.connect('changed::scrollback-lines', this.update_scrollback.bind(this));
             this.settings.connect('changed::scrollback-unlimited', this.update_scrollback.bind(this));
@@ -425,10 +426,13 @@ const TerminalPage = GObject.registerClass(
 const AppWindow = GObject.registerClass(
     {
         Template: APP_DATA_DIR.get_child('appwindow.ui').get_uri(),
-        Children: ['notebook', 'resize_box', 'tab_switch_button'],
+        Children: ['notebook', 'resize_box', 'tab_switch_button', 'new_tab_button'],
         Properties: {
             'menus': GObject.ParamSpec.object(
                 'menus', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, Gtk.Builder
+            ),
+            'settings': GObject.ParamSpec.object(
+                'settings', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, Gio.Settings
             ),
         },
     },
@@ -464,6 +468,15 @@ const AppWindow = GObject.registerClass(
             this.tab_switch_button.set_menu_model(this.tab_select_menu);
             this.tab_switch_button.connect('toggled', this.update_tab_select_menu.bind(this));
 
+            bind_settings_ro(this.settings, 'new-tab-button', this.new_tab_button, 'visible');
+            bind_settings_ro(this.settings, 'tab-switcher-popup', this.tab_switch_button, 'visible');
+
+            this.settings.connect('changed::tab-policy', this.update_tab_bar_visibility.bind(this));
+            this.notebook.connect('page-added', this.update_tab_bar_visibility.bind(this));
+            this.notebook.connect('page-removed', this.update_tab_bar_visibility.bind(this));
+
+            this.settings.connect('changed::tab-expand', this.update_tab_expand.bind(this));
+
             this.new_tab();
         }
 
@@ -478,6 +491,21 @@ const AppWindow = GObject.registerClass(
                 const label = this.notebook.get_menu_label_text(this.notebook.get_nth_page(i));
                 this.tab_select_menu.append(label, `win.switch-to-tab(${i})`);
             }
+        }
+
+        update_tab_bar_visibility() {
+            const policy = this.settings.get_string('tab-policy');
+            if (policy === 'always')
+                this.notebook.show_tabs = true;
+            else if (policy === 'never')
+                this.notebook.show_tabs = false;
+            else if (policy === 'automatic')
+                this.notebook.show_tabs = this.notebook.get_n_pages() > 1;
+        }
+
+        update_tab_expand() {
+            for (let i = 0; i < this.notebook.get_n_pages(); i++)
+                this.notebook.child_set_property(this.notebook.get_nth_page(i), 'tab-expand', this.settings.get_boolean('tab-expand'));
         }
 
         toggle() {
@@ -495,7 +523,7 @@ const AppWindow = GObject.registerClass(
             const index = this.notebook.append_page_menu(page, page.tab_label, page.menu_label);
             this.notebook.set_current_page(index);
             this.notebook.set_tab_reorderable(page, true);
-            this.notebook.child_set_property(page, 'tab-expand', true);
+            this.notebook.child_set_property(page, 'tab-expand', this.settings.get_boolean('tab-expand'));
 
             page.connect('close-request', this.remove_page.bind(this));
             page.spawn();
@@ -581,6 +609,7 @@ const Application = GObject.registerClass(
             this.window = new AppWindow({
                 application: this,
                 decorated: this.decorated,
+                settings: this.settings,
                 menus,
             });
 
