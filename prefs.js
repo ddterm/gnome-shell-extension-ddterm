@@ -168,8 +168,10 @@ function createPrefsWidgetClass(resource_path) {
                 this.settings_bind('scrollback-lines', this.scrollback_adjustment, 'value');
                 this.bind_sensitive('scrollback-unlimited', this.scrollback_spin.parent, true);
 
-                const handler_id = this.settings.connect('changed', this.update_shortcuts_from_settings.bind(this));
-                this.connect('destroy', () => this.settings.disconnect(handler_id));
+                for (let [ok, i] = this.shortcuts_list.get_iter_first(); ok && this.shortcuts_list.iter_next(i);) {
+                    const settings_key = this.shortcuts_list.get_value(i, 0);
+                    this.settings_connect(settings_key, this.update_shortcuts_from_settings.bind(this));
+                }
                 this.update_shortcuts_from_settings();
 
                 this.accel_renderer.connect('accel-edited', this.accel_edited.bind(this));
@@ -331,16 +333,22 @@ function createPrefsWidgetClass(resource_path) {
                 this.settings.set_strv(action, []);
             }
 
-            update_shortcuts_from_settings() {
+            update_shortcuts_from_settings(settings = null, changed_key = null) {
+                if (settings === null)
+                    settings = this.settings;
+
                 let [ok, i] = this.shortcuts_list.get_iter_first();
                 if (ok) {
                     do {
                         const action = this.shortcuts_list.get_value(i, 0);
 
+                        if (changed_key && action !== changed_key)
+                            continue;
+
                         const cur_accel_key = this.shortcuts_list.get_value(i, 2);
                         const cur_accel_mods = this.shortcuts_list.get_value(i, 3);
 
-                        const shortcuts = this.settings.get_strv(action);
+                        const shortcuts = settings.get_strv(action);
                         if (shortcuts && shortcuts.length) {
                             const [accel_key, accel_mods] = Gtk.accelerator_parse(shortcuts[0]);
 
