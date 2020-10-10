@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.38.0 -->
+<!-- Generated with glade 3.38.1 -->
 <interface>
   <requires lib="gtk+" version="3.22"/>
   <object class="GtkImage" id="new_tab_icon">
@@ -52,6 +52,7 @@
                     <property name="receives-default">True</property>
                     <property name="relief">none</property>
                     <property name="direction">up</property>
+                    <property name="popover">tab_switch_popover</property>
                     <child>
                       <placeholder/>
                     </child>
@@ -64,6 +65,7 @@
                 </child>
               </object>
               <packing>
+                <property name="position">1</property>
                 <property name="tab-fill">False</property>
               </packing>
             </child>
@@ -96,4 +98,26 @@
       </object>
     </child>
   </template>
+  <object class="GtkPopover" id="tab_switch_popover">
+    <property name="can-focus">False</property>
+    <property name="relative-to">tab_switch_button</property>
+    <child>
+      <object class="GtkBox" id="tab_switch_menu_box">
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <property name="margin-start">10</property>
+        <property name="margin-end">10</property>
+        <property name="margin-top">10</property>
+        <property name="margin-bottom">10</property>
+        <property name="orientation">vertical</property>
+        <property name="spacing">10</property>
+        <child>
+          <placeholder/>
+        </child>
+      </object>
+    </child>
+    <style>
+      <class name="menu"/>
+    </style>
+  </object>
 </interface>

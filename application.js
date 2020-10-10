@@ -81,7 +81,7 @@ GObject.type_ensure(Vte.Terminal);
 const TerminalPage = GObject.registerClass(
     {
         Template: APP_DATA_DIR.get_child('terminalpage.ui').get_uri(),
-        Children: ['terminal', 'tab_label', 'tab_label_label', 'menu_label', 'scrollbar', 'close_button', 'switch_shortcut_label'],
+        Children: ['terminal', 'tab_label', 'tab_label_label', 'scrollbar', 'close_button', 'switch_shortcut_label', 'switcher_item'],
         Properties: {
             'menus': GObject.ParamSpec.object(
                 'menus', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, Gtk.Builder
@@ -174,8 +174,8 @@ const TerminalPage = GObject.registerClass(
                 this.notify('has-selection');
             });
 
-            this.terminal.bind_property('window-title', this.menu_label, 'label', GObject.BindingFlags.DEFAULT);
             this.terminal.bind_property('window-title', this.tab_label_label, 'label', GObject.BindingFlags.DEFAULT);
+            this.terminal.bind_property('window-title', this.switcher_item, 'text', GObject.BindingFlags.DEFAULT);
 
             this.terminal_popup_menu = Gtk.Menu.new_from_model(this.menus.get_object('terminal-popup'));
             setup_popup_menu(this.terminal, this.terminal_popup_menu);
@@ -444,7 +444,7 @@ const TerminalPage = GObject.registerClass(
 const AppWindow = GObject.registerClass(
     {
         Template: APP_DATA_DIR.get_child('appwindow.ui').get_uri(),
-        Children: ['notebook', 'resize_box', 'tab_switch_button', 'new_tab_button'],
+        Children: ['notebook', 'resize_box', 'tab_switch_button', 'new_tab_button', 'tab_switch_menu_box'],
         Properties: {
             'menus': GObject.ParamSpec.object(
                 'menus', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, Gtk.Builder
@@ -484,10 +484,6 @@ const AppWindow = GObject.registerClass(
             simple_action(this, 'next-tab', () => this.notebook.next_page());
             simple_action(this, 'prev-tab', () => this.notebook.prev_page());
 
-            this.tab_select_menu = new Gio.Menu();
-            this.tab_switch_button.set_menu_model(this.tab_select_menu);
-            this.tab_switch_button.connect('toggled', this.update_tab_select_menu.bind(this));
-
             bind_settings_ro(this.settings, 'new-tab-button', this.new_tab_button, 'visible');
             bind_settings_ro(this.settings, 'tab-switcher-popup', this.tab_switch_button, 'visible');
 
@@ -502,20 +498,15 @@ const AppWindow = GObject.registerClass(
 
             this.settings.connect('changed::tab-expand', this.update_tab_expand.bind(this));
 
+            this.notebook.connect('page-added', this.tab_switcher_add.bind(this));
+            this.notebook.connect('page-removed', this.tab_switcher_remove.bind(this));
+            this.notebook.connect('page-reordered', this.tab_switcher_reorder.bind(this));
+
             this.new_tab();
         }
 
         set_wm_functions() {
             this.window.set_functions(Gdk.WMFunction.MOVE | Gdk.WMFunction.RESIZE | Gdk.WMFunction.CLOSE);
-        }
-
-        update_tab_select_menu() {
-            this.tab_select_menu.remove_all();
-
-            for (let i = 0; i < this.notebook.get_n_pages(); i += 1) {
-                const label = this.notebook.get_menu_label_text(this.notebook.get_nth_page(i));
-                this.tab_select_menu.append(label, `win.switch-to-tab(${i})`);
-            }
         }
 
         update_tab_bar_visibility() {
@@ -556,7 +547,7 @@ const AppWindow = GObject.registerClass(
                 menus: this.menus,
             });
 
-            const index = this.notebook.append_page_menu(page, page.tab_label, page.menu_label);
+            const index = this.notebook.append_page(page, page.tab_label);
             this.notebook.set_current_page(index);
             this.notebook.set_tab_reorderable(page, true);
             this.notebook.child_set_property(page, 'tab-expand', this.settings.get_boolean('tab-expand'));
@@ -604,6 +595,29 @@ const AppWindow = GObject.registerClass(
             Gtk.render_frame(context, cr, allocation.x, allocation.y, allocation.width, allocation.height);
 
             return false;
+        }
+
+        tab_switcher_add(_notebook, child, page_num) {
+            child.switcher_item.action_target = GLib.Variant.new_int32(page_num);
+            this.tab_switch_menu_box.add(child.switcher_item);
+            this.tab_switch_menu_box.reorder_child(child.switcher_item, page_num);
+            this.tab_switcher_update_actions(page_num + 1);
+        }
+
+        tab_switcher_remove(_notebook, child, page_num) {
+            this.tab_switch_menu_box.remove(child.switcher_item);
+            this.tab_switcher_update_actions(page_num);
+        }
+
+        tab_switcher_reorder(_notebook, child, page_num) {
+            this.tab_switch_menu_box.reorder_child(child.switcher_item, page_num);
+            this.tab_switcher_update_actions(page_num);
+        }
+
+        tab_switcher_update_actions(start_page_num) {
+            const items = this.tab_switch_menu_box.get_children();
+            for (let i = start_page_num; i < items.length; i++)
+                items[i].action_target = GLib.Variant.new_int32(i);
         }
     }
 );
