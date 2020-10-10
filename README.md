@@ -1,5 +1,7 @@
 # Another Drop Down Terminal Extension for GNOME Shell
 
+<img src="docs/screenshot.png" />
+
 Inspired by
 
 - https://github.com/bigbn/drop-down-terminal-x
@@ -12,12 +14,7 @@ Inspired by
 
 - Terminal window can be resized by dragging the border with mouse
 
-- Using modern Gtk APIs (GAction, GMenu)
-
-- The extension itself is very small
-
-Currently, there are many missing features (mostly - VTE properties that should
-be configurable through Preferences dialog). However, it is already usable.
+<img src="docs/prefs.gif" width="637" height="452" />
 
 ## Installing
 
