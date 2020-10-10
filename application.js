@@ -663,6 +663,9 @@ const Application = GObject.registerClass(
             this.connect('startup', this.startup.bind(this));
             this.connect('activate', this.activate.bind(this));
             this.connect('handle-local-options', this.handle_local_options.bind(this));
+
+            this.window = null;
+            this.prefs_dialog = null;
         }
 
         startup() {
@@ -694,13 +697,6 @@ const Application = GObject.registerClass(
 
             this.add_action(this.window.toggle_action);
             this.add_action(this.window.hide_action);
-
-            this.prefs_dialog = new PrefsDialog({
-                transient_for: this.window,
-                settings: this.settings,
-            });
-
-            this.prefs_dialog.connect('delete-event', () => this.prefs_dialog.hide_on_delete());
 
             simple_action(this, 'preferences', this.preferences.bind(this));
 
@@ -736,6 +732,15 @@ const Application = GObject.registerClass(
         }
 
         preferences() {
+            if (this.prefs_dialog === null) {
+                this.prefs_dialog = new PrefsDialog({
+                    transient_for: this.window,
+                    settings: this.settings,
+                });
+
+                this.prefs_dialog.connect('delete-event', () => this.prefs_dialog.hide_on_delete());
+            }
+
             this.prefs_dialog.show();
         }
 
