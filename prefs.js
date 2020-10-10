@@ -91,84 +91,85 @@ function createPrefsWidgetClass(resource_path) {
             _init(params) {
                 super._init(params);
 
-                this.settings.bind('theme-variant', this.theme_variant_combo, 'active-id', Gio.SettingsBindFlags.DEFAULT);
-                this.settings.bind('window-above', this.window_above_check, 'active', Gio.SettingsBindFlags.DEFAULT);
-                this.settings.bind('window-stick', this.window_stick_check, 'active', Gio.SettingsBindFlags.DEFAULT);
-                this.settings.bind('window-skip-taskbar', this.window_skip_taskbar_check, 'active', Gio.SettingsBindFlags.DEFAULT);
-                this.settings.bind('window-skip-pager', this.window_skip_pager_check, 'active', Gio.SettingsBindFlags.DEFAULT);
-                this.settings.bind('hide-when-focus-lost', this.hide_when_focus_lost_check, 'active', Gio.SettingsBindFlags.DEFAULT);
-                this.settings.bind('hide-window-on-esc', this.hide_window_on_esc_check, 'active', Gio.SettingsBindFlags.DEFAULT);
+                this.settings_bind('theme-variant', this.theme_variant_combo, 'active-id');
+                this.settings_bind('window-above', this.window_above_check, 'active');
+                this.settings_bind('window-stick', this.window_stick_check, 'active');
+                this.settings_bind('window-skip-taskbar', this.window_skip_taskbar_check, 'active');
+                this.settings_bind('window-skip-pager', this.window_skip_pager_check, 'active');
+                this.settings_bind('hide-when-focus-lost', this.hide_when_focus_lost_check, 'active');
+                this.settings_bind('hide-window-on-esc', this.hide_window_on_esc_check, 'active');
 
-                this.settings.bind('tab-policy', this.tab_policy_combo, 'active-id', Gio.SettingsBindFlags.DEFAULT);
-                this.settings.bind('tab-expand', this.expand_tabs_check, 'active', Gio.SettingsBindFlags.DEFAULT);
-                this.settings.bind('tab-close-buttons', this.show_tab_close_buttons_check, 'active', Gio.SettingsBindFlags.DEFAULT);
-                this.settings.bind('new-tab-button', this.show_new_tab_button_check, 'active', Gio.SettingsBindFlags.DEFAULT);
-                this.settings.bind('tab-switcher-popup', this.show_tab_switcher_check, 'active', Gio.SettingsBindFlags.DEFAULT);
-                this.settings.bind('show-tab-switch-hotkeys', this.show_tab_switch_hotkeys_check, 'active', Gio.SettingsBindFlags.DEFAULT);
+                this.settings_bind('tab-policy', this.tab_policy_combo, 'active-id');
+                this.settings_bind('tab-expand', this.expand_tabs_check, 'active');
+                this.settings_bind('tab-close-buttons', this.show_tab_close_buttons_check, 'active');
+                this.settings_bind('new-tab-button', this.show_new_tab_button_check, 'active');
+                this.settings_bind('tab-switcher-popup', this.show_tab_switcher_check, 'active');
+                this.settings_bind('show-tab-switch-hotkeys', this.show_tab_switch_hotkeys_check, 'active');
 
-                this.settings.bind('custom-font', this.font_chooser, 'font', Gio.SettingsBindFlags.DEFAULT);
-                this.settings.bind('use-system-font', this.custom_font_check, 'active', Gio.SettingsBindFlags.INVERT_BOOLEAN);
+                this.settings_bind('custom-font', this.font_chooser, 'font');
+                this.settings_bind('use-system-font', this.custom_font_check, 'active', Gio.SettingsBindFlags.INVERT_BOOLEAN);
                 this.bind_sensitive('use-system-font', this.font_chooser.parent, true);
-                this.settings.bind('text-blink-mode', this.text_blink_mode_combo, 'active-id', Gio.SettingsBindFlags.DEFAULT);
-                this.settings.bind('cursor-blink-mode', this.cursor_blink_mode_combo, 'active-id', Gio.SettingsBindFlags.DEFAULT);
-                this.settings.bind('cursor-shape', this.cursor_shape_combo, 'active-id', Gio.SettingsBindFlags.DEFAULT);
-                this.settings.bind('allow-hyperlink', this.allow_hyperlink_check, 'active', Gio.SettingsBindFlags.DEFAULT);
-                this.settings.bind('audible-bell', this.audible_bell_check, 'active', Gio.SettingsBindFlags.DEFAULT);
+                this.settings_bind('text-blink-mode', this.text_blink_mode_combo, 'active-id');
+                this.settings_bind('cursor-blink-mode', this.cursor_blink_mode_combo, 'active-id');
+                this.settings_bind('cursor-shape', this.cursor_shape_combo, 'active-id');
+                this.settings_bind('allow-hyperlink', this.allow_hyperlink_check, 'active');
+                this.settings_bind('audible-bell', this.audible_bell_check, 'active');
 
                 this.bind_color('foreground-color', this.foreground_color);
                 this.bind_color('background-color', this.background_color);
 
                 this.bind_color('bold-color', this.bold_color);
-                this.settings.bind('bold-color-same-as-fg', this.bold_color_check, 'active', Gio.SettingsBindFlags.INVERT_BOOLEAN);
+                this.settings_bind('bold-color-same-as-fg', this.bold_color_check, 'active', Gio.SettingsBindFlags.INVERT_BOOLEAN);
                 this.bind_sensitive('bold-color-same-as-fg', this.bold_color.parent, true);
 
                 this.bind_color('cursor-foreground-color', this.cursor_foreground_color);
                 this.bind_color('cursor-background-color', this.cursor_background_color);
-                this.settings.bind('cursor-colors-set', this.cursor_color_check, 'active', Gio.SettingsBindFlags.DEFAULT);
+                this.settings_bind('cursor-colors-set', this.cursor_color_check, 'active');
                 this.bind_sensitive('cursor-colors-set', this.cursor_foreground_color.parent);
                 this.bind_sensitive('cursor-colors-set', this.cursor_background_color.parent);
 
                 this.bind_color('highlight-foreground-color', this.highlight_foreground_color);
                 this.bind_color('highlight-background-color', this.highlight_background_color, 'highlight-colors-set');
-                this.settings.bind('highlight-colors-set', this.highlight_color_check, 'active', Gio.SettingsBindFlags.DEFAULT);
+                this.settings_bind('highlight-colors-set', this.highlight_color_check, 'active');
                 this.bind_sensitive('highlight-colors-set', this.highlight_foreground_color.parent);
                 this.bind_sensitive('highlight-colors-set', this.highlight_background_color.parent);
 
-                this.settings.bind('background-opacity', this.opacity_adjustment, 'value', Gio.SettingsBindFlags.DEFAULT);
+                this.settings_bind('background-opacity', this.opacity_adjustment, 'value');
 
-                this.settings.bind('use-theme-colors', this.theme_colors_check, 'active', Gio.SettingsBindFlags.DEFAULT);
+                this.settings_bind('use-theme-colors', this.theme_colors_check, 'active');
                 this.bind_sensitive('use-theme-colors', this.color_scheme_editor, true);
 
                 this.setting_color_scheme = false;
-                this.settings.connect('changed::foreground-color', this.update_builtin_color_scheme.bind(this));
-                this.settings.connect('changed::background-color', this.update_builtin_color_scheme.bind(this));
+                this.settings_connect('foreground-color', this.update_builtin_color_scheme.bind(this));
+                this.settings_connect('background-color', this.update_builtin_color_scheme.bind(this));
                 this.update_builtin_color_scheme();
                 this.color_scheme_combo.connect('changed', this.set_builtin_color_scheme.bind(this));
 
-                this.settings.connect('changed::palette', this.load_palette_from_settings.bind(this));
+                this.settings_connect('palette', this.load_palette_from_settings.bind(this));
                 this.load_palette_from_settings();
                 this.palette_combo.connect('changed', this.load_builtin_palette.bind(this));
 
                 for (let i = 0; i < PALETTE_SIZE; i++)
                     this.palette_widget(i).connect('color-set', this.edit_palette.bind(this));
 
-                this.settings.bind('bold-is-bright', this.bold_is_bright_check, 'active', Gio.SettingsBindFlags.DEFAULT);
+                this.settings_bind('bold-is-bright', this.bold_is_bright_check, 'active');
 
                 const actions = Gio.SimpleActionGroup.new();
                 actions.add_action(this.settings.create_action('command'));
                 this.insert_action_group('settings', actions);
 
-                this.settings.bind('custom-command', this.custom_command_entry, 'text', Gio.SettingsBindFlags.DEFAULT);
+                this.settings_bind('custom-command', this.custom_command_entry, 'text');
                 this.spawn_custom_command.bind_property('active', this.custom_command_entry.parent, 'sensitive', GObject.BindingFlags.SYNC_CREATE);
 
-                this.settings.bind('show-scrollbar', this.show_scrollbar_check, 'active', Gio.SettingsBindFlags.DEFAULT);
-                this.settings.bind('scroll-on-output', this.scroll_on_output_check, 'active', Gio.SettingsBindFlags.DEFAULT);
-                this.settings.bind('scroll-on-keystroke', this.scoll_on_keystroke_check, 'active', Gio.SettingsBindFlags.DEFAULT);
-                this.settings.bind('scrollback-unlimited', this.limit_scrollback_check, 'active', Gio.SettingsBindFlags.INVERT_BOOLEAN);
-                this.settings.bind('scrollback-lines', this.scrollback_adjustment, 'value', Gio.SettingsBindFlags.DEFAULT);
+                this.settings_bind('show-scrollbar', this.show_scrollbar_check, 'active');
+                this.settings_bind('scroll-on-output', this.scroll_on_output_check, 'active');
+                this.settings_bind('scroll-on-keystroke', this.scoll_on_keystroke_check, 'active');
+                this.settings_bind('scrollback-unlimited', this.limit_scrollback_check, 'active', Gio.SettingsBindFlags.INVERT_BOOLEAN);
+                this.settings_bind('scrollback-lines', this.scrollback_adjustment, 'value');
                 this.bind_sensitive('scrollback-unlimited', this.scrollback_spin.parent, true);
 
-                this.settings.connect('changed', this.update_shortcuts_from_settings.bind(this));
+                const handler_id = this.settings.connect('changed', this.update_shortcuts_from_settings.bind(this));
+                this.connect('destroy', () => this.settings.disconnect(handler_id));
                 this.update_shortcuts_from_settings();
 
                 this.accel_renderer.connect('accel-edited', this.accel_edited.bind(this));
@@ -181,7 +182,7 @@ function createPrefsWidgetClass(resource_path) {
                 if (invert)
                     flags |= Gio.SettingsBindFlags.INVERT_BOOLEAN;
 
-                this.settings.bind(key, widget, 'sensitive', flags);
+                this.settings_bind(key, widget, 'sensitive', flags);
             }
 
             palette_widget(i) {
@@ -249,10 +250,11 @@ function createPrefsWidgetClass(resource_path) {
                 const update = () => {
                     widget.set_rgba(parse_rgba(this.settings.get_string(setting)));
                 };
-                this.settings.connect(`changed::${setting}`, update);
+                this.settings_connect(setting, update);
                 update();
 
-                this.settings.bind_writable(setting, widget, 'sensitive', false);
+                const handler_id = this.settings.bind_writable(setting, widget, 'sensitive', false);
+                this.connect('destroy', () => this.settings.disconnect(handler_id));
             }
 
             set_builtin_color_scheme() {
@@ -350,6 +352,16 @@ function createPrefsWidgetClass(resource_path) {
                     } while (this.shortcuts_list.iter_next(i));
                 }
             }
+
+            settings_bind(key, target, property, flags = Gio.SettingsBindFlags.DEFAULT) {
+                this.settings.bind(key, target, property, flags);
+                this.connect('destroy', () => Gio.Settings.unbind(target, property));
+            }
+
+            settings_connect(key, handler) {
+                const handler_id = this.settings.connect(`changed::${key}`, handler);
+                this.connect('destroy', () => this.settings.disconnect(handler_id));
+            }
         }
     );
 }
@@ -369,8 +381,6 @@ function buildPrefsWidget() {
     const widget = new prefsWidgetClass({
         settings,
     });
-
-    widget.connect('destroy', () => settings.run_dispose());
 
     return widget;
 }

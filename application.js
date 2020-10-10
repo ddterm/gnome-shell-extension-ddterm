@@ -29,18 +29,6 @@ function parse_rgba(s) {
     return null;
 }
 
-function get_settings() {
-    const source = Gio.SettingsSchemaSource.new_from_directory(
-        APP_DATA_DIR.get_child('schemas').get_path(),
-        Gio.SettingsSchemaSource.get_default(),
-        false
-    );
-
-    return new Gio.Settings({
-        settings_schema: source.lookup('com.github.amezin.ddterm', true),
-    });
-}
-
 function simple_action(group, name, callback) {
     const action = new Gio.SimpleAction({
         name,
@@ -69,12 +57,19 @@ function setup_popup_menu(widget, menu, widget_anchor = Gdk.Gravity.SOUTH, menu_
     });
 }
 
-function bind_settings_ro(settings, key, target, property = null) {
-    if (!property)
-        property = key;
+const SettingsUtil = {
+    bind_settings_ro(key, target, property = null) {
+        if (!property)
+            property = key;
 
-    settings.bind(key, target, property, Gio.SettingsBindFlags.GET | Gio.SettingsBindFlags.NO_SENSITIVITY);
-}
+        this.settings.bind(key, target, property, Gio.SettingsBindFlags.GET | Gio.SettingsBindFlags.NO_SENSITIVITY);
+        this.connect('destroy', () => Gio.Settings.unbind(target, property));
+    },
+    settings_connect(key, handler) {
+        const handler_id = this.settings.connect(`changed::${key}`, handler);
+        this.connect('destroy', () => this.settings.disconnect(handler_id));
+    },
+};
 
 GObject.type_ensure(Vte.Terminal);
 
@@ -83,6 +78,12 @@ const TerminalPage = GObject.registerClass(
         Template: APP_DATA_DIR.get_child('terminalpage.ui').get_uri(),
         Children: ['terminal', 'tab_label', 'tab_label_label', 'scrollbar', 'close_button', 'switch_shortcut_label', 'switcher_item'],
         Properties: {
+            'settings': GObject.ParamSpec.object(
+                'settings', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, Gio.Settings
+            ),
+            'desktop-settings': GObject.ParamSpec.object(
+                'desktop-settings', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, Gio.Settings
+            ),
             'menus': GObject.ParamSpec.object(
                 'menus', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, Gtk.Builder
             ),
@@ -103,7 +104,7 @@ const TerminalPage = GObject.registerClass(
             ),
             'switch-shortcut': GObject.ParamSpec.string(
                 'switch-shortcut', '', '', GObject.ParamFlags.READWRITE, null
-            )
+            ),
         },
         Signals: {
             'close-request': {},
@@ -113,60 +114,54 @@ const TerminalPage = GObject.registerClass(
         _init(params) {
             super._init(params);
 
-            this.settings = get_settings();
-            this.connect('destroy', () => this.settings.run_dispose());
+            this.bind_settings_ro('show-scrollbar', this.scrollbar, 'visible');
+            this.bind_settings_ro('scroll-on-output', this.terminal);
+            this.bind_settings_ro('scroll-on-keystroke', this.terminal);
+            this.bind_settings_ro('text-blink-mode', this.terminal);
+            this.bind_settings_ro('cursor-blink-mode', this.terminal);
+            this.bind_settings_ro('cursor-shape', this.terminal);
+            this.bind_settings_ro('allow-hyperlink', this.terminal);
+            this.bind_settings_ro('audible-bell', this.terminal);
+            this.bind_settings_ro('bold-is-bright', this.terminal);
+            this.bind_settings_ro('tab-close-buttons', this.close_button, 'visible');
+            this.bind_settings_ro('show-tab-switch-hotkeys', this.switch_shortcut_label, 'visible');
 
-            this.desktop_settings = new Gio.Settings({
-                schema_id: 'org.gnome.desktop.interface',
-            });
-            this.connect('destroy', () => this.desktop_settings.run_dispose());
-
-            bind_settings_ro(this.settings, 'show-scrollbar', this.scrollbar, 'visible');
-            bind_settings_ro(this.settings, 'scroll-on-output', this.terminal);
-            bind_settings_ro(this.settings, 'scroll-on-keystroke', this.terminal);
-            bind_settings_ro(this.settings, 'text-blink-mode', this.terminal);
-            bind_settings_ro(this.settings, 'cursor-blink-mode', this.terminal);
-            bind_settings_ro(this.settings, 'cursor-shape', this.terminal);
-            bind_settings_ro(this.settings, 'allow-hyperlink', this.terminal);
-            bind_settings_ro(this.settings, 'audible-bell', this.terminal);
-            bind_settings_ro(this.settings, 'bold-is-bright', this.terminal);
-            bind_settings_ro(this.settings, 'tab-close-buttons', this.close_button, 'visible');
-            bind_settings_ro(this.settings, 'show-tab-switch-hotkeys', this.switch_shortcut_label, 'visible');
-
-            this.settings.connect('changed::scrollback-lines', this.update_scrollback.bind(this));
-            this.settings.connect('changed::scrollback-unlimited', this.update_scrollback.bind(this));
+            this.settings_connect('scrollback-lines', this.update_scrollback.bind(this));
+            this.settings_connect('scrollback-unlimited', this.update_scrollback.bind(this));
             this.update_scrollback();
 
-            this.settings.connect('changed::custom-font', this.update_font.bind(this));
-            this.settings.connect('changed::use-system-font', this.update_font.bind(this));
-            this.desktop_settings.connect('changed::monospace-font-name', this.update_font.bind(this));
+            this.settings_connect('custom-font', this.update_font.bind(this));
+            this.settings_connect('use-system-font', this.update_font.bind(this));
+
+            const handler_id = this.desktop_settings.connect('changed::monospace-font-name', this.update_font.bind(this));
+            this.connect('destroy', () => this.desktop_settings.disconnect(handler_id));
             this.update_font();
 
-            this.settings.connect('changed::foreground-color', this.update_color_foreground.bind(this));
+            this.settings_connect('foreground-color', this.update_color_foreground.bind(this));
             this.terminal.connect('style-updated', this.update_color_foreground.bind(this));
 
-            this.settings.connect('changed::background-color', this.update_color_background.bind(this));
-            this.settings.connect('changed::background-opacity', this.update_color_background.bind(this));
+            this.settings_connect('background-color', this.update_color_background.bind(this));
+            this.settings_connect('background-opacity', this.update_color_background.bind(this));
             this.terminal.connect('style-updated', this.update_color_background.bind(this));
 
-            this.settings.connect('changed::bold-color', this.update_color_bold.bind(this));
-            this.settings.connect('changed::bold-color-same-as-fg', this.update_color_bold.bind(this));
+            this.settings_connect('bold-color', this.update_color_bold.bind(this));
+            this.settings_connect('bold-color-same-as-fg', this.update_color_bold.bind(this));
 
-            this.settings.connect('changed::cursor-background-color', this.update_color_cursor.bind(this));
-            this.settings.connect('changed::cursor-colors-set', this.update_color_cursor.bind(this));
+            this.settings_connect('cursor-background-color', this.update_color_cursor.bind(this));
+            this.settings_connect('cursor-colors-set', this.update_color_cursor.bind(this));
 
-            this.settings.connect('changed::cursor-foreground-color', this.update_color_cursor_foreground.bind(this));
-            this.settings.connect('changed::cursor-colors-set', this.update_color_cursor_foreground.bind(this));
+            this.settings_connect('cursor-foreground-color', this.update_color_cursor_foreground.bind(this));
+            this.settings_connect('cursor-colors-set', this.update_color_cursor_foreground.bind(this));
 
-            this.settings.connect('changed::highlight-background-color', this.update_color_highlight.bind(this));
-            this.settings.connect('changed::highlight-colors-set', this.update_color_highlight.bind(this));
+            this.settings_connect('highlight-background-color', this.update_color_highlight.bind(this));
+            this.settings_connect('highlight-colors-set', this.update_color_highlight.bind(this));
 
-            this.settings.connect('changed::highlight-foreground-color', this.update_color_highlight_foreground.bind(this));
-            this.settings.connect('changed::highlight-colors-set', this.update_color_highlight_foreground.bind(this));
+            this.settings_connect('highlight-foreground-color', this.update_color_highlight_foreground.bind(this));
+            this.settings_connect('highlight-colors-set', this.update_color_highlight_foreground.bind(this));
 
-            this.settings.connect('changed::palette', this.update_palette.bind(this));
+            this.settings_connect('palette', this.update_palette.bind(this));
 
-            this.settings.connect('changed::use-theme-colors', this.update_all_colors.bind(this));
+            this.settings_connect('use-theme-colors', this.update_all_colors.bind(this));
             this.update_all_colors();
 
             this.terminal.connect('child-exited', this.close_request.bind(this));
@@ -441,6 +436,8 @@ const TerminalPage = GObject.registerClass(
     }
 );
 
+Object.assign(TerminalPage.prototype, SettingsUtil);
+
 const AppWindow = GObject.registerClass(
     {
         Template: APP_DATA_DIR.get_child('appwindow.ui').get_uri(),
@@ -451,6 +448,9 @@ const AppWindow = GObject.registerClass(
             ),
             'settings': GObject.ParamSpec.object(
                 'settings', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, Gio.Settings
+            ),
+            'desktop-settings': GObject.ParamSpec.object(
+                'desktop-settings', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, Gio.Settings
             ),
         },
     },
@@ -484,10 +484,13 @@ const AppWindow = GObject.registerClass(
             simple_action(this, 'next-tab', () => this.notebook.next_page());
             simple_action(this, 'prev-tab', () => this.notebook.prev_page());
 
-            bind_settings_ro(this.settings, 'new-tab-button', this.new_tab_button, 'visible');
-            bind_settings_ro(this.settings, 'tab-switcher-popup', this.tab_switch_button, 'visible');
+            this.bind_settings_ro('window-skip-taskbar', this, 'skip-taskbar-hint');
+            this.bind_settings_ro('window-skip-pager', this, 'skip-pager-hint');
 
-            this.settings.connect('changed::tab-policy', this.update_tab_bar_visibility.bind(this));
+            this.bind_settings_ro('new-tab-button', this.new_tab_button, 'visible');
+            this.bind_settings_ro('tab-switcher-popup', this.tab_switch_button, 'visible');
+
+            this.settings_connect('tab-policy', this.update_tab_bar_visibility.bind(this));
             this.notebook.connect('page-added', this.update_tab_bar_visibility.bind(this));
             this.notebook.connect('page-removed', this.update_tab_bar_visibility.bind(this));
 
@@ -496,7 +499,7 @@ const AppWindow = GObject.registerClass(
             this.notebook.connect('page-reordered', this.update_tab_shortcut_labels.bind(this));
             this.connect('keys-changed', this.update_tab_shortcut_labels.bind(this));
 
-            this.settings.connect('changed::tab-expand', this.update_tab_expand.bind(this));
+            this.settings_connect('tab-expand', this.update_tab_expand.bind(this));
 
             this.notebook.connect('page-added', this.tab_switcher_add.bind(this));
             this.notebook.connect('page-removed', this.tab_switcher_remove.bind(this));
@@ -527,7 +530,7 @@ const AppWindow = GObject.registerClass(
         update_tab_shortcut_labels() {
             for (let i = 0; i < this.notebook.get_n_pages(); i++) {
                 const shortcuts = app.get_accels_for_action(`win.switch-to-tab(${i})`);
-                const shortcut = (shortcuts && shortcuts.length > 0) ? shortcuts[0] : null;
+                const shortcut = shortcuts && shortcuts.length > 0 ? shortcuts[0] : null;
                 const page = this.notebook.get_nth_page(i);
 
                 if (page.switch_shortcut !== shortcut)
@@ -544,7 +547,9 @@ const AppWindow = GObject.registerClass(
 
         new_tab() {
             const page = new TerminalPage({
+                settings: this.settings,
                 menus: this.menus,
+                desktop_settings: this.desktop_settings,
             });
 
             const index = this.notebook.append_page(page, page.tab_label);
@@ -622,6 +627,8 @@ const AppWindow = GObject.registerClass(
     }
 );
 
+Object.assign(AppWindow.prototype, SettingsUtil);
+
 const PrefsWidget = imports.prefs.createPrefsWidgetClass(APP_DATA_DIR);
 
 const PrefsDialog = GObject.registerClass(
@@ -661,7 +668,19 @@ const Application = GObject.registerClass(
         startup() {
             simple_action(this, 'quit', this.quit.bind(this));
 
-            this.settings = get_settings();
+            const settings_source = Gio.SettingsSchemaSource.new_from_directory(
+                APP_DATA_DIR.get_child('schemas').get_path(),
+                Gio.SettingsSchemaSource.get_default(),
+                false
+            );
+
+            this.settings = new Gio.Settings({
+                settings_schema: settings_source.lookup('com.github.amezin.ddterm', true),
+            });
+
+            const desktop_settings = new Gio.Settings({
+                schema_id: 'org.gnome.desktop.interface',
+            });
 
             const menus = Gtk.Builder.new_from_file(APP_DATA_DIR.get_child('menus.ui').get_path());
 
@@ -669,11 +688,9 @@ const Application = GObject.registerClass(
                 application: this,
                 decorated: this.decorated,
                 settings: this.settings,
+                desktop_settings,
                 menus,
             });
-
-            bind_settings_ro(this.settings, 'window-skip-taskbar', this.window, 'skip-taskbar-hint');
-            bind_settings_ro(this.settings, 'window-skip-pager', this.window, 'skip-pager-hint');
 
             this.add_action(this.window.toggle_action);
             this.add_action(this.window.hide_action);
