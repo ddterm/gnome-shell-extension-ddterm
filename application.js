@@ -90,20 +90,14 @@ const TerminalPage = GObject.registerClass(
             'has-selection': GObject.ParamSpec.boolean(
                 'has-selection', '', '', GObject.ParamFlags.READABLE | GObject.ParamFlags.EXPLICIT_NOTIFY, false
             ),
-            'clicked-hyperlink': GObject.ParamSpec.string(
-                'clicked-hyperlink', '', '', GObject.ParamFlags.READWRITE, null
-            ),
             'has-clicked-hyperlink': GObject.ParamSpec.boolean(
-                'has-clicked-hyperlink', '', '', GObject.ParamFlags.READWRITE, false
-            ),
-            'clicked-filename': GObject.ParamSpec.string(
-                'clicked-filename', '', '', GObject.ParamFlags.READWRITE, null
+                'has-clicked-hyperlink', '', '', GObject.ParamFlags.READABLE | GObject.ParamFlags.EXPLICIT_NOTIFY, false
             ),
             'has-clicked-filename': GObject.ParamSpec.boolean(
-                'has-clicked-filename', '', '', GObject.ParamFlags.READWRITE, false
+                'has-clicked-filename', '', '', GObject.ParamFlags.READABLE | GObject.ParamFlags.EXPLICIT_NOTIFY, false
             ),
             'switch-shortcut': GObject.ParamSpec.string(
-                'switch-shortcut', '', '', GObject.ParamFlags.READWRITE, null
+                'switch-shortcut', '', '', GObject.ParamFlags.WRITABLE, null
             ),
         },
         Signals: {
@@ -113,6 +107,9 @@ const TerminalPage = GObject.registerClass(
     class TerminalPage extends Gtk.Box {
         _init(params) {
             super._init(params);
+
+            this.clicked_filename = null;
+            this.clicked_hyperlink = null;
 
             this.bind_settings_ro('show-scrollbar', this.scrollbar, 'visible');
             this.bind_settings_ro('scroll-on-output', this.terminal);
@@ -207,8 +204,14 @@ const TerminalPage = GObject.registerClass(
             simple_action(terminal_actions, 'select-all', this.select_all.bind(this));
             simple_action(terminal_actions, 'reset', this.reset.bind(this));
             simple_action(terminal_actions, 'reset-and-clear', this.reset_and_clear.bind(this));
+        }
 
-            this.connect('notify::switch-shortcut', this.update_shortcut_label.bind(this));
+        get has_clicked_filename() {
+            return this.clicked_filename !== null;
+        }
+
+        get has_clicked_hyperlink() {
+            return this.clicked_hyperlink !== null;
         }
 
         spawn() {
@@ -388,8 +391,8 @@ const TerminalPage = GObject.registerClass(
                 this.clicked_filename = null;
             }
 
-            this.has_clicked_hyperlink = Boolean(this.clicked_hyperlink);
-            this.has_clicked_filename = Boolean(this.clicked_filename);
+            this.notify('has-clicked-filename');
+            this.notify('has-clicked-hyperlink');
 
             if (state & Gdk.ModifierType.CONTROL_MASK) {
                 if ([Gdk.BUTTON_PRIMARY, Gdk.BUTTON_MIDDLE].includes(button)) {
@@ -422,9 +425,9 @@ const TerminalPage = GObject.registerClass(
             this.get_clipboard(SELECTION_CLIPBOARD).set_text(this.clicked_filename, -1);
         }
 
-        update_shortcut_label() {
-            if (this.switch_shortcut) {
-                const [key, mods] = Gtk.accelerator_parse(this.switch_shortcut);
+        set switch_shortcut(value) {
+            if (value) {
+                const [key, mods] = Gtk.accelerator_parse(value);
                 if (key) {
                     this.switch_shortcut_label.label = Gtk.accelerator_get_label(key, mods);
                     return;
@@ -527,14 +530,11 @@ const AppWindow = GObject.registerClass(
                 this.notebook.child_set_property(this.notebook.get_nth_page(i), 'tab-expand', this.settings.get_boolean('tab-expand'));
         }
 
-        update_tab_shortcut_labels() {
-            for (let i = 0; i < this.notebook.get_n_pages(); i++) {
+        update_tab_shortcut_labels(_source, _child = null, start_page = 0) {
+            for (let i = start_page; i < this.notebook.get_n_pages(); i++) {
                 const shortcuts = app.get_accels_for_action(`win.switch-to-tab(${i})`);
                 const shortcut = shortcuts && shortcuts.length > 0 ? shortcuts[0] : null;
-                const page = this.notebook.get_nth_page(i);
-
-                if (page.switch_shortcut !== shortcut)
-                    page.switch_shortcut = shortcut;
+                this.notebook.get_nth_page(i).switch_shortcut = shortcut;
             }
         }
 
