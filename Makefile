@@ -41,7 +41,7 @@ prefs enable disable reset info show:
 .PHONY: prefs enable disable reset info show
 
 EXTENSION_PACK := $(EXTENSION_UUID).shell-extension.zip
-$(EXTENSION_PACK): EXTRA_SOURCES := $(filter-out extension.js prefs.js,$(wildcard *.ui *.js))
+$(EXTENSION_PACK): EXTRA_SOURCES := $(filter-out extension.js prefs.js,$(wildcard *.ui *.js)) com.github.amezin.ddterm
 $(EXTENSION_PACK): $(SCHEMAS) $(EXTRA_SOURCES) extension.js prefs.js metadata.json
 	gnome-extensions pack -f $(addprefix --schema=,$(SCHEMAS)) $(addprefix --extra-source=,$(EXTRA_SOURCES)) .
 

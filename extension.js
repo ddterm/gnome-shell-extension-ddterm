@@ -2,10 +2,9 @@
 
 /* exported init enable disable */
 
-const { Gio, Meta, Shell } = imports.gi;
+const { GLib, Gio, Meta, Shell } = imports.gi;
 const Main = imports.ui.main;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-const { util } = imports.misc;
 
 let settings = null;
 
@@ -20,6 +19,12 @@ let focus_tracking_id = null;
 const APP_ID = 'com.github.amezin.ddterm';
 const APP_DBUS_PATH = '/com/github/amezin/ddterm';
 const WINDOW_PATH_PREFIX = `${APP_DBUS_PATH}/window/`;
+
+const APP_INFO = Gio.AppInfo.create_from_commandline(
+    'com.github.amezin.ddterm --undecorated',
+    'Drop Down Terminal',
+    Gio.AppInfoCreateFlags.SUPPORTS_STARTUP_NOTIFICATION
+);
 
 function init() {
 }
@@ -75,11 +80,24 @@ function disable() {
     dispose_settings();
 }
 
+function spawn_app() {
+    // Command line parser in G[Desktop]AppInfo doesn't handle quoted
+    // arguments properly. In particular, quoted spaces.
+    // The app will still launch, but the name will be wrong.
+    // So prepend PATH instead.
+    const context = global.create_app_launch_context(0, -1);
+    const current_env = context.get_environment();
+    const current_path = GLib.environ_getenv(current_env, 'PATH');
+    context.setenv('PATH', `${Me.dir.get_path()}:${current_path}`);
+
+    APP_INFO.launch([], context);
+}
+
 function toggle() {
     if (dbus_action_group)
         dbus_action_group.activate_action('toggle', null);
     else
-        util.spawn(['gjs', Me.dir.get_child('application.js').get_path(), '--undecorated']);
+        spawn_app();
 }
 
 function dbus_appeared(connection, name) {

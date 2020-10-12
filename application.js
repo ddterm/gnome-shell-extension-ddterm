@@ -776,7 +776,6 @@ const Application = GObject.registerClass(
     }
 );
 
-GLib.set_prgname('com.github.amezin.ddterm');
 GLib.set_application_name('Drop Down Terminal');
 Gdk.set_allowed_backends('x11');
 
