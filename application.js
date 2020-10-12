@@ -29,6 +29,13 @@ function parse_rgba(s) {
     return null;
 }
 
+function remove_prefix(s, prefix) {
+    if (s.startsWith(prefix))
+        return s.substring(prefix.length);
+
+    return s;
+}
+
 function simple_action(group, name, callback) {
     const action = new Gio.SimpleAction({
         name,
@@ -775,6 +782,9 @@ const Application = GObject.registerClass(
         }
     }
 );
+
+// App directory is prepended to PATH by the extension
+GLib.setenv('PATH', remove_prefix(remove_prefix(GLib.getenv('PATH'), APP_DATA_DIR.get_path()), ':'), true);
 
 GLib.set_application_name('Drop Down Terminal');
 Gdk.set_allowed_backends('x11');
