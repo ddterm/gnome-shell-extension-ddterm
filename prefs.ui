@@ -74,6 +74,36 @@
       </row>
     </data>
   </object>
+  <object class="GtkListStore" id="erase_binding_list">
+    <columns>
+      <!-- column-name label -->
+      <column type="gchararray"/>
+      <!-- column-name id -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">Automatic</col>
+        <col id="1">auto</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Control-H</col>
+        <col id="1">ascii-backspace</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">ASCII DEL</col>
+        <col id="1">ascii-delete</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Escape sequence</col>
+        <col id="1">delete-sequence</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">TTY Erase</col>
+        <col id="1">tty</col>
+      </row>
+    </data>
+  </object>
   <object class="GtkAdjustment" id="opacity_adjustment">
     <property name="upper">1</property>
     <property name="step-increment">0.01</property>
@@ -1658,6 +1688,122 @@
           </packing>
         </child>
         <child>
+          <!-- n-columns=2 n-rows=4 -->
+          <object class="GtkGrid">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="margin-start">10</property>
+            <property name="margin-end">10</property>
+            <property name="margin-top">10</property>
+            <property name="margin-bottom">10</property>
+            <property name="row-spacing">10</property>
+            <property name="column-spacing">10</property>
+            <child>
+              <object class="GtkLabel">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="halign">start</property>
+                <property name="label" translatable="yes">Backspace key generates:</property>
+              </object>
+              <packing>
+                <property name="left-attach">0</property>
+                <property name="top-attach">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="halign">start</property>
+                <property name="label" translatable="yes">Delete key generates:</property>
+              </object>
+              <packing>
+                <property name="left-attach">0</property>
+                <property name="top-attach">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="halign">start</property>
+                <property name="label" translatable="yes">Ambiguous-width characters:</property>
+              </object>
+              <packing>
+                <property name="left-attach">0</property>
+                <property name="top-attach">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkComboBox" id="backspace_binding_combo">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="model">erase_binding_list</property>
+                <property name="id-column">1</property>
+                <child>
+                  <object class="GtkCellRendererText"/>
+                  <attributes>
+                    <attribute name="text">0</attribute>
+                  </attributes>
+                </child>
+              </object>
+              <packing>
+                <property name="left-attach">1</property>
+                <property name="top-attach">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkComboBox" id="delete_binding_combo">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="model">erase_binding_list</property>
+                <property name="id-column">1</property>
+                <child>
+                  <object class="GtkCellRendererText"/>
+                  <attributes>
+                    <attribute name="text">0</attribute>
+                  </attributes>
+                </child>
+              </object>
+              <packing>
+                <property name="left-attach">1</property>
+                <property name="top-attach">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkComboBoxText" id="ambiguous_width_combo">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <items>
+                  <item id="narrow" translatable="yes">Narrow</item>
+                  <item id="wide" translatable="yes">Wide</item>
+                </items>
+              </object>
+              <packing>
+                <property name="left-attach">1</property>
+                <property name="top-attach">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="reset_compatibility_button">
+                <property name="label" translatable="yes">Reset Compatibility Options to Defaults</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+              </object>
+              <packing>
+                <property name="left-attach">0</property>
+                <property name="top-attach">3</property>
+                <property name="width">2</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="title" translatable="yes">Compatibility</property>
+            <property name="position">6</property>
+          </packing>
+        </child>
+        <child>
           <object class="GtkBox">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
@@ -1691,6 +1837,9 @@
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                     <property name="model">shortcuts_list</property>
+                    <child internal-child="selection">
+                      <object class="GtkTreeSelection"/>
+                    </child>
                     <child>
                       <object class="GtkTreeViewColumn">
                         <property name="resizable">True</property>
@@ -1731,7 +1880,7 @@
           </object>
           <packing>
             <property name="title" translatable="yes">Keyboard Shortcuts</property>
-            <property name="position">6</property>
+            <property name="position">7</property>
           </packing>
         </child>
       </object>

@@ -61,6 +61,8 @@ var TerminalPage = GObject.registerClass(
             this.bind_settings_ro('allow-hyperlink', this.terminal);
             this.bind_settings_ro('audible-bell', this.terminal);
             this.bind_settings_ro('bold-is-bright', this.terminal);
+            this.bind_settings_ro('backspace-binding', this.terminal);
+            this.bind_settings_ro('delete-binding', this.terminal);
             this.bind_settings_ro('tab-close-buttons', this.close_button, 'visible');
             this.bind_settings_ro('show-tab-switch-hotkeys', this.switch_shortcut_label, 'visible');
 
@@ -78,6 +80,9 @@ var TerminalPage = GObject.registerClass(
             this.method_handler(this.settings, 'changed::use-system-font', this.update_font);
             this.method_handler(this.desktop_settings, 'changed::monospace-font-name', this.update_font);
             this.update_font();
+
+            this.method_handler(this.settings, 'changed::cjk-utf8-ambiguous-width', this.update_ambiguous_width);
+            this.update_ambiguous_width();
 
             this.method_handler(this.settings, 'changed::foreground-color', this.update_color_foreground);
             this.method_handler(this.terminal, 'style-updated', this.update_color_foreground);
@@ -207,6 +212,10 @@ var TerminalPage = GObject.registerClass(
 
         update_font() {
             this.terminal.font_desc = Pango.FontDescription.from_string(this.get_font_settings());
+        }
+
+        update_ambiguous_width() {
+            this.terminal.cjk_ambiguous_width = this.settings.get_enum('cjk-utf8-ambiguous-width');
         }
 
         get_style_color_settings(key, style_property) {

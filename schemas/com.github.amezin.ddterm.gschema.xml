@@ -37,6 +37,19 @@
     <value nick="never" value="2"/>
   </enum>
 
+  <enum id="com.github.amezin.ddterm.EraseBinding">
+    <value nick="auto" value="0"/>
+    <value nick="ascii-backspace" value="1"/>
+    <value nick="ascii-delete" value="2"/>
+    <value nick="delete-sequence" value="3"/>
+    <value nick="tty" value="4"/>
+  </enum>
+
+  <enum id="com.github.amezin.ddterm.CJKWidth">
+    <value nick="narrow" value="1"/>
+    <value nick="wide" value="2"/>
+  </enum>
+
   <schema path="/com/github/amezin/ddterm/" id="com.github.amezin.ddterm">
     <key name="window-height" type="d">
       <default>0.6</default>
@@ -184,6 +197,16 @@
     <key name="scrollback-lines" type="i">
       <default>10000</default>
       <range min="0" max="1000000000"/>
+    </key>
+
+    <key name="backspace-binding" enum="com.github.amezin.ddterm.EraseBinding">
+      <default>'ascii-delete'</default>
+    </key>
+    <key name="delete-binding" enum="com.github.amezin.ddterm.EraseBinding">
+      <default>'delete-sequence'</default>
+    </key>
+    <key name="cjk-utf8-ambiguous-width" enum="com.github.amezin.ddterm.CJKWidth">
+      <default>'narrow'</default>
     </key>
 
     <key name="shortcuts-enabled" type="b">

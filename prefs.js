@@ -71,6 +71,10 @@ function createPrefsWidgetClass(resource_path, util) {
                 'show_tab_switcher_check',
                 'show_tab_switch_hotkeys_check',
                 'enable_shortcuts_check',
+                'backspace_binding_combo',
+                'delete_binding_combo',
+                'ambiguous_width_combo',
+                'reset_compatibility_button',
             ].concat(palette_widgets()),
             Properties: {
                 'settings': GObject.ParamSpec.object('settings', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, Gio.Settings),
@@ -156,6 +160,15 @@ function createPrefsWidgetClass(resource_path, util) {
                 this.settings_bind('scrollback-unlimited', this.limit_scrollback_check, 'active', Gio.SettingsBindFlags.INVERT_BOOLEAN);
                 this.settings_bind('scrollback-lines', this.scrollback_adjustment, 'value');
                 this.bind_sensitive('scrollback-unlimited', this.scrollback_spin.parent, true);
+
+                this.settings_bind('backspace-binding', this.backspace_binding_combo, 'active-id');
+                this.settings_bind('delete-binding', this.delete_binding_combo, 'active-id');
+                this.settings_bind('cjk-utf8-ambiguous-width', this.ambiguous_width_combo, 'active-id');
+                this.signal_connect(this.reset_compatibility_button, 'clicked', () => {
+                    this.settings.reset('backspace-binding');
+                    this.settings.reset('delete-binding');
+                    this.settings.reset('cjk-utf8-ambiguous-width');
+                });
 
                 for (let [ok, i] = this.shortcuts_list.get_iter_first(); ok && this.shortcuts_list.iter_next(i);) {
                     const settings_key = this.shortcuts_list.get_value(i, 0);
