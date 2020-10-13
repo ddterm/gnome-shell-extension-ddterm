@@ -36,47 +36,28 @@ function remove_prefix(s, prefix) {
     return s;
 }
 
-function simple_action(group, name, callback) {
+function simple_action(group, name) {
     const action = new Gio.SimpleAction({
         name,
     });
 
-    action.connect('activate', callback);
     group.add_action(action);
-
     return action;
 }
 
-function setup_popup_menu(widget, menu, widget_anchor = Gdk.Gravity.SOUTH, menu_anchor = Gdk.Gravity.SOUTH) {
-    menu.attach_widget = widget;
+function bind_settings_ro(settings, key, target, property = null) {
+    if (!property)
+        property = key;
 
-    widget.connect_after('button-press-event', (_, event) => {
-        if (!event.triggers_context_menu())
-            return false;
+    settings.bind(key, target, property, Gio.SettingsBindFlags.GET | Gio.SettingsBindFlags.NO_SENSITIVITY);
 
-        menu.popup_at_pointer(event);
-        return true;
-    });
-
-    widget.connect('popup-menu', () => {
-        menu.popup_at_widget(widget, widget_anchor, menu_anchor, null);
-        return true;
-    });
+    return property;
 }
 
-const SettingsUtil = {
-    bind_settings_ro(key, target, property = null) {
-        if (!property)
-            property = key;
-
-        this.settings.bind(key, target, property, Gio.SettingsBindFlags.GET | Gio.SettingsBindFlags.NO_SENSITIVITY);
-        this.connect('destroy', () => Gio.Settings.unbind(target, property));
-    },
-    settings_connect(key, handler) {
-        const handler_id = this.settings.connect(`changed::${key}`, handler);
-        this.connect('destroy', () => this.settings.disconnect(handler_id));
-    },
-};
+function terminal_spawn_callback(terminal, _pid, error) {
+    if (error)
+        terminal.feed(error.message);
+}
 
 GObject.type_ensure(Vte.Terminal);
 
@@ -130,46 +111,44 @@ const TerminalPage = GObject.registerClass(
             this.bind_settings_ro('tab-close-buttons', this.close_button, 'visible');
             this.bind_settings_ro('show-tab-switch-hotkeys', this.switch_shortcut_label, 'visible');
 
-            this.settings_connect('scrollback-lines', this.update_scrollback.bind(this));
-            this.settings_connect('scrollback-unlimited', this.update_scrollback.bind(this));
+            this.method_handler(this.settings, 'changed::scrollback-lines', this.update_scrollback);
+            this.method_handler(this.settings, 'changed::scrollback-unlimited', this.update_scrollback);
             this.update_scrollback();
 
-            this.settings_connect('custom-font', this.update_font.bind(this));
-            this.settings_connect('use-system-font', this.update_font.bind(this));
-
-            const handler_id = this.desktop_settings.connect('changed::monospace-font-name', this.update_font.bind(this));
-            this.connect('destroy', () => this.desktop_settings.disconnect(handler_id));
+            this.method_handler(this.settings, 'changed::custom-font', this.update_font);
+            this.method_handler(this.settings, 'changed::use-system-font', this.update_font);
+            this.method_handler(this.desktop_settings, 'changed::monospace-font-name', this.update_font);
             this.update_font();
 
-            this.settings_connect('foreground-color', this.update_color_foreground.bind(this));
-            this.terminal.connect('style-updated', this.update_color_foreground.bind(this));
+            this.method_handler(this.settings, 'changed::foreground-color', this.update_color_foreground);
+            this.method_handler(this.terminal, 'style-updated', this.update_color_foreground);
 
-            this.settings_connect('background-color', this.update_color_background.bind(this));
-            this.settings_connect('background-opacity', this.update_color_background.bind(this));
-            this.terminal.connect('style-updated', this.update_color_background.bind(this));
+            this.method_handler(this.settings, 'changed::background-color', this.update_color_background);
+            this.method_handler(this.settings, 'changed::background-opacity', this.update_color_background);
+            this.method_handler(this.terminal, 'style-updated', this.update_color_background);
 
-            this.settings_connect('bold-color', this.update_color_bold.bind(this));
-            this.settings_connect('bold-color-same-as-fg', this.update_color_bold.bind(this));
+            this.method_handler(this.settings, 'changed::bold-color', this.update_color_bold);
+            this.method_handler(this.settings, 'changed::bold-color-same-as-fg', this.update_color_bold);
 
-            this.settings_connect('cursor-background-color', this.update_color_cursor.bind(this));
-            this.settings_connect('cursor-colors-set', this.update_color_cursor.bind(this));
+            this.method_handler(this.settings, 'changed::cursor-background-color', this.update_color_cursor);
+            this.method_handler(this.settings, 'changed::cursor-colors-set', this.update_color_cursor);
 
-            this.settings_connect('cursor-foreground-color', this.update_color_cursor_foreground.bind(this));
-            this.settings_connect('cursor-colors-set', this.update_color_cursor_foreground.bind(this));
+            this.method_handler(this.settings, 'changed::cursor-foreground-color', this.update_color_cursor_foreground);
+            this.method_handler(this.settings, 'changed::cursor-colors-set', this.update_color_cursor_foreground);
 
-            this.settings_connect('highlight-background-color', this.update_color_highlight.bind(this));
-            this.settings_connect('highlight-colors-set', this.update_color_highlight.bind(this));
+            this.method_handler(this.settings, 'changed::highlight-background-color', this.update_color_highlight);
+            this.method_handler(this.settings, 'changed::highlight-colors-set', this.update_color_highlight);
 
-            this.settings_connect('highlight-foreground-color', this.update_color_highlight_foreground.bind(this));
-            this.settings_connect('highlight-colors-set', this.update_color_highlight_foreground.bind(this));
+            this.method_handler(this.settings, 'changed::highlight-foreground-color', this.update_color_highlight_foreground);
+            this.method_handler(this.settings, 'changed::highlight-colors-set', this.update_color_highlight_foreground);
 
-            this.settings_connect('palette', this.update_palette.bind(this));
+            this.method_handler(this.settings, 'changed::palette', this.update_palette);
 
-            this.settings_connect('use-theme-colors', this.update_all_colors.bind(this));
+            this.method_handler(this.settings, 'changed::use-theme-colors', this.update_all_colors);
             this.update_all_colors();
 
-            this.terminal.connect('child-exited', this.close_request.bind(this));
-            this.terminal.connect('selection-changed', () => {
+            this.method_handler(this.terminal, 'child-exited', this.close_request);
+            this.signal_connect(this.terminal, 'selection-changed', () => {
                 this.notify('has-selection');
             });
 
@@ -177,40 +156,40 @@ const TerminalPage = GObject.registerClass(
             this.terminal.bind_property('window-title', this.switcher_item, 'text', GObject.BindingFlags.DEFAULT);
 
             this.terminal_popup_menu = Gtk.Menu.new_from_model(this.menus.get_object('terminal-popup'));
-            setup_popup_menu(this.terminal, this.terminal_popup_menu);
-            this.terminal.connect('button-press-event', this.terminal_button_press_early.bind(this));
+            this.setup_popup_menu(this.terminal, this.terminal_popup_menu);
+            this.method_handler(this.terminal, 'button-press-event', this.terminal_button_press_early);
 
             const tab_popup_menu = Gtk.Menu.new_from_model(this.menus.get_object('tab-popup'));
-            setup_popup_menu(this.tab_label, tab_popup_menu);
+            this.setup_popup_menu(this.tab_label, tab_popup_menu);
 
             const actions = new Gio.SimpleActionGroup();
             this.insert_action_group('page', actions);
             this.tab_label.insert_action_group('page', actions);
 
-            simple_action(actions, 'close', this.close_request.bind(this));
+            this.method_action(actions, 'close', this.close_request);
 
             const terminal_actions = new Gio.SimpleActionGroup();
             this.insert_action_group('terminal', terminal_actions);
 
-            const copy_action = simple_action(terminal_actions, 'copy', this.copy.bind(this));
+            const copy_action = this.method_action(terminal_actions, 'copy', this.copy);
             this.bind_property('has-selection', copy_action, 'enabled', GObject.BindingFlags.SYNC_CREATE);
 
-            const copy_html_action = simple_action(terminal_actions, 'copy-html', this.copy_html.bind(this));
+            const copy_html_action = this.method_action(terminal_actions, 'copy-html', this.copy_html);
             this.bind_property('has-selection', copy_html_action, 'enabled', GObject.BindingFlags.SYNC_CREATE);
 
-            const open_hyperlink_action = simple_action(terminal_actions, 'open-hyperlink', this.open_hyperlink.bind(this));
+            const open_hyperlink_action = this.method_action(terminal_actions, 'open-hyperlink', this.open_hyperlink);
             this.bind_property('has-clicked-hyperlink', open_hyperlink_action, 'enabled', GObject.BindingFlags.SYNC_CREATE);
 
-            const copy_hyperlink_action = simple_action(terminal_actions, 'copy-hyperlink', this.copy_hyperlink.bind(this));
+            const copy_hyperlink_action = this.method_action(terminal_actions, 'copy-hyperlink', this.copy_hyperlink);
             this.bind_property('has-clicked-hyperlink', copy_hyperlink_action, 'enabled', GObject.BindingFlags.SYNC_CREATE);
 
-            const copy_filename_action = simple_action(terminal_actions, 'copy-filename', this.copy_filename.bind(this));
+            const copy_filename_action = this.method_action(terminal_actions, 'copy-filename', this.copy_filename);
             this.bind_property('has-clicked-filename', copy_filename_action, 'enabled', GObject.BindingFlags.SYNC_CREATE);
 
-            simple_action(terminal_actions, 'paste', this.paste.bind(this));
-            simple_action(terminal_actions, 'select-all', this.select_all.bind(this));
-            simple_action(terminal_actions, 'reset', this.reset.bind(this));
-            simple_action(terminal_actions, 'reset-and-clear', this.reset_and_clear.bind(this));
+            this.method_action(terminal_actions, 'paste', this.paste);
+            this.method_action(terminal_actions, 'select-all', this.select_all);
+            this.method_action(terminal_actions, 'reset', this.reset);
+            this.method_action(terminal_actions, 'reset-and-clear', this.reset_and_clear);
         }
 
         get has_clicked_filename() {
@@ -252,13 +231,8 @@ const TerminalPage = GObject.registerClass(
             }
 
             this.terminal.spawn_async(
-                Vte.PtyFlags.DEFAULT, null, argv, null, spawn_flags, null, -1, null, this.spawn_callback.bind(this)
+                Vte.PtyFlags.DEFAULT, null, argv, null, spawn_flags, null, -1, null, terminal_spawn_callback
             );
-        }
-
-        spawn_callback(_terminal, _pid, error) {
-            if (error)
-                this.terminal.feed(error.message);
         }
 
         close_request() {
@@ -316,27 +290,41 @@ const TerminalPage = GObject.registerClass(
         }
 
         update_palette() {
-            this.terminal.set_colors(this.get_color_foreground(), this.get_color_background(), this.settings.get_strv('palette').map(parse_rgba));
+            this.terminal.set_colors(
+                this.get_color_foreground(),
+                this.get_color_background(),
+                this.settings.get_strv('palette').map(parse_rgba)
+            );
         }
 
         update_color_bold() {
-            this.terminal.set_color_bold(this.get_override_color_settings('bold-color', 'bold-color-same-as-fg', true));
+            this.terminal.set_color_bold(
+                this.get_override_color_settings('bold-color', 'bold-color-same-as-fg', true)
+            );
         }
 
         update_color_cursor() {
-            this.terminal.set_color_cursor(this.get_override_color_settings('cursor-background-color', 'cursor-colors-set'));
+            this.terminal.set_color_cursor(
+                this.get_override_color_settings('cursor-background-color', 'cursor-colors-set')
+            );
         }
 
         update_color_cursor_foreground() {
-            this.terminal.set_color_cursor_foreground(this.get_override_color_settings('cursor-foreground-color', 'cursor-colors-set'));
+            this.terminal.set_color_cursor_foreground(
+                this.get_override_color_settings('cursor-foreground-color', 'cursor-colors-set')
+            );
         }
 
         update_color_highlight() {
-            this.terminal.set_color_highlight(this.get_override_color_settings('highlight-background-color', 'highlight-colors-set'));
+            this.terminal.set_color_highlight(
+                this.get_override_color_settings('highlight-background-color', 'highlight-colors-set')
+            );
         }
 
         update_color_highlight_foreground() {
-            this.terminal.set_color_highlight_foreground(this.get_override_color_settings('highlight-foreground-color', 'highlight-colors-set'));
+            this.terminal.set_color_highlight_foreground(
+                this.get_override_color_settings('highlight-foreground-color', 'highlight-colors-set')
+            );
         }
 
         update_all_colors() {
@@ -443,10 +431,79 @@ const TerminalPage = GObject.registerClass(
 
             this.switch_shortcut_label.label = '';
         }
+
+        run_on_destroy(func, obj = null) {
+            let this_destroy_id = null, obj_destroy_id = null;
+
+            const disconnect_func = () => {
+                if (this_destroy_id)
+                    GObject.signal_handler_disconnect(this, this_destroy_id);
+
+                if (obj_destroy_id)
+                    GObject.signal_handler_disconnect(obj, obj_destroy_id);
+
+                func();
+                obj = null;
+            };
+
+            this_destroy_id = GObject.signal_connect(this, 'destroy', disconnect_func);
+
+            if (obj !== null && obj !== this && GObject.signal_lookup('destroy', obj.constructor.$gtype))
+                obj_destroy_id = GObject.signal_connect(obj, 'destroy', disconnect_func);
+        }
+
+        disconnect_on_destroy(obj, handler_id) {
+            this.run_on_destroy(
+                GObject.signal_handler_disconnect.bind(null, obj, handler_id),
+                obj
+            );
+            return handler_id;
+        }
+
+        signal_connect(source, signal, handler) {
+            return this.disconnect_on_destroy(
+                source, GObject.signal_connect(source, signal, handler)
+            );
+        }
+
+        method_handler(source, signal, method) {
+            return this.signal_connect(source, signal, method.bind(this));
+        }
+
+        method_action(group, name, method) {
+            const action = simple_action(group, name);
+            this.signal_connect(action, 'activate', method.bind(this));
+            return action;
+        }
+
+        bind_settings_ro(key, target, property = null) {
+            const prop = bind_settings_ro(this.settings, key, target, property);
+            this.run_on_destroy(
+                Gio.Settings.unbind.bind(null, target, prop),
+                target
+            );
+        }
+
+        setup_popup_menu(widget, menu, widget_anchor = Gdk.Gravity.SOUTH, menu_anchor = Gdk.Gravity.SOUTH) {
+            menu.attach_widget = widget;
+
+            const press_event_id = widget.connect_after('button-press-event', (_, event) => {
+                if (!event.triggers_context_menu())
+                    return false;
+
+                menu.popup_at_pointer(event);
+                return true;
+            });
+            this.disconnect_on_destroy(widget, press_event_id);
+
+            const popup_menu_id = widget.connect('popup-menu', () => {
+                menu.popup_at_widget(widget, widget_anchor, menu_anchor, null);
+                return true;
+            });
+            this.disconnect_on_destroy(widget, popup_menu_id);
+        }
     }
 );
-
-Object.assign(TerminalPage.prototype, SettingsUtil);
 
 const AppWindow = GObject.registerClass(
     {
@@ -477,9 +534,13 @@ const AppWindow = GObject.registerClass(
 
             this.notebook.connect('page-removed', this.close_if_no_pages.bind(this));
 
-            this.toggle_action = simple_action(this, 'toggle', this.toggle.bind(this));
-            this.hide_action = simple_action(this, 'hide', () => this.hide());
-            simple_action(this, 'new-tab', this.new_tab.bind(this));
+            this.toggle_action = simple_action(this, 'toggle');
+            this.toggle_action.connect('activate', this.toggle.bind(this));
+
+            this.hide_action = simple_action(this, 'hide');
+            this.hide_action.connect('activate', () => this.hide());
+
+            simple_action(this, 'new-tab').connect('activate', this.new_tab.bind(this));
 
             this.resize_box.connect('realize', this.set_resize_cursor.bind(this));
             this.resize_box.connect('button-press-event', this.start_resizing.bind(this));
@@ -491,16 +552,16 @@ const AppWindow = GObject.registerClass(
             });
             this.add_action(this.tab_select_action);
 
-            simple_action(this, 'next-tab', () => this.notebook.next_page());
-            simple_action(this, 'prev-tab', () => this.notebook.prev_page());
+            simple_action(this, 'next-tab').connect('activate', () => this.notebook.next_page());
+            simple_action(this, 'prev-tab').connect('activate', () => this.notebook.prev_page());
 
-            this.bind_settings_ro('window-skip-taskbar', this, 'skip-taskbar-hint');
-            this.bind_settings_ro('window-skip-pager', this, 'skip-pager-hint');
+            bind_settings_ro(this.settings, 'window-skip-taskbar', this, 'skip-taskbar-hint');
+            bind_settings_ro(this.settings, 'window-skip-pager', this, 'skip-pager-hint');
 
-            this.bind_settings_ro('new-tab-button', this.new_tab_button, 'visible');
-            this.bind_settings_ro('tab-switcher-popup', this.tab_switch_button, 'visible');
+            bind_settings_ro(this.settings, 'new-tab-button', this.new_tab_button, 'visible');
+            bind_settings_ro(this.settings, 'tab-switcher-popup', this.tab_switch_button, 'visible');
 
-            this.settings_connect('tab-policy', this.update_tab_bar_visibility.bind(this));
+            this.settings.connect('changed::tab-policy', this.update_tab_bar_visibility.bind(this));
             this.notebook.connect('page-added', this.update_tab_bar_visibility.bind(this));
             this.notebook.connect('page-removed', this.update_tab_bar_visibility.bind(this));
 
@@ -509,7 +570,7 @@ const AppWindow = GObject.registerClass(
             this.notebook.connect('page-reordered', this.update_tab_shortcut_labels.bind(this));
             this.connect('keys-changed', this.update_tab_shortcut_labels.bind(this));
 
-            this.settings_connect('tab-expand', this.update_tab_expand.bind(this));
+            this.settings.connect('changed::tab-expand', this.update_tab_expand.bind(this));
 
             this.notebook.connect('page-added', this.tab_switcher_add.bind(this));
             this.notebook.connect('page-removed', this.tab_switcher_remove.bind(this));
@@ -634,8 +695,6 @@ const AppWindow = GObject.registerClass(
     }
 );
 
-Object.assign(AppWindow.prototype, SettingsUtil);
-
 const PrefsWidget = imports.prefs.createPrefsWidgetClass(APP_DATA_DIR);
 
 const PrefsDialog = GObject.registerClass(
@@ -676,7 +735,7 @@ const Application = GObject.registerClass(
         }
 
         startup() {
-            simple_action(this, 'quit', this.quit.bind(this));
+            simple_action(this, 'quit').connect('activate', this.quit.bind(this));
 
             const settings_source = Gio.SettingsSchemaSource.new_from_directory(
                 APP_DATA_DIR.get_child('schemas').get_path(),
@@ -705,7 +764,7 @@ const Application = GObject.registerClass(
             this.add_action(this.window.toggle_action);
             this.add_action(this.window.hide_action);
 
-            simple_action(this, 'preferences', this.preferences.bind(this));
+            simple_action(this, 'preferences').connect('activate', this.preferences.bind(this));
 
             this.gtk_settings = Gtk.Settings.get_default();
             this.settings.connect('changed::theme-variant', this.update_theme.bind(this));

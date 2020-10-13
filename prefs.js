@@ -141,17 +141,17 @@ function createPrefsWidgetClass(resource_path) {
                 this.bind_sensitive('use-theme-colors', this.color_scheme_editor, true);
 
                 this.setting_color_scheme = false;
-                this.settings_connect('foreground-color', this.update_builtin_color_scheme.bind(this));
-                this.settings_connect('background-color', this.update_builtin_color_scheme.bind(this));
+                this.method_handler(this.settings, 'changed::foreground-color', this.update_builtin_color_scheme);
+                this.method_handler(this.settings, 'changed::background-color', this.update_builtin_color_scheme);
                 this.update_builtin_color_scheme();
-                this.color_scheme_combo.connect('changed', this.set_builtin_color_scheme.bind(this));
+                this.method_handler(this.color_scheme_combo, 'changed', this.set_builtin_color_scheme);
 
-                this.settings_connect('palette', this.load_palette_from_settings.bind(this));
+                this.method_handler(this.settings, 'changed::palette', this.load_palette_from_settings);
                 this.load_palette_from_settings();
-                this.palette_combo.connect('changed', this.load_builtin_palette.bind(this));
+                this.method_handler(this.palette_combo, 'changed', this.load_builtin_palette);
 
                 for (let i = 0; i < PALETTE_SIZE; i++)
-                    this.palette_widget(i).connect('color-set', this.edit_palette.bind(this));
+                    this.method_handler(this.palette_widget(i), 'color-set', this.edit_palette);
 
                 this.settings_bind('bold-is-bright', this.bold_is_bright_check, 'active');
 
@@ -171,12 +171,12 @@ function createPrefsWidgetClass(resource_path) {
 
                 for (let [ok, i] = this.shortcuts_list.get_iter_first(); ok && this.shortcuts_list.iter_next(i);) {
                     const settings_key = this.shortcuts_list.get_value(i, 0);
-                    this.settings_connect(settings_key, this.update_shortcuts_from_settings.bind(this));
+                    this.method_handler(this.settings, `changed::${settings_key}`, this.update_shortcuts_from_settings);
                 }
                 this.update_shortcuts_from_settings();
 
-                this.accel_renderer.connect('accel-edited', this.accel_edited.bind(this));
-                this.accel_renderer.connect('accel-cleared', this.accel_cleared.bind(this));
+                this.method_handler(this.accel_renderer, 'accel-edited', this.accel_edited);
+                this.method_handler(this.accel_renderer, 'accel-cleared', this.accel_cleared);
 
                 this.settings_bind('shortcuts-enabled', this.enable_shortcuts_check, 'active');
             }
@@ -248,18 +248,18 @@ function createPrefsWidgetClass(resource_path) {
             }
 
             bind_color(setting, widget) {
-                widget.connect('color-set', () => {
+                this.signal_connect(widget, 'color-set', () => {
                     this.settings.set_string(setting, widget.rgba.to_string());
                 });
 
                 const update = () => {
                     widget.set_rgba(parse_rgba(this.settings.get_string(setting)));
                 };
-                this.settings_connect(setting, update);
+                this.signal_connect(this.settings, `changed::${setting}`, update);
                 update();
 
                 const handler_id = this.settings.bind_writable(setting, widget, 'sensitive', false);
-                this.connect('destroy', () => this.settings.disconnect(handler_id));
+                this.run_on_destroy(() => this.settings.disconnect(handler_id));
             }
 
             set_builtin_color_scheme() {
@@ -365,14 +365,50 @@ function createPrefsWidgetClass(resource_path) {
                 } while (this.shortcuts_list.iter_next(i));
             }
 
-            settings_bind(key, target, property, flags = Gio.SettingsBindFlags.DEFAULT) {
-                this.settings.bind(key, target, property, flags);
-                this.connect('destroy', () => Gio.Settings.unbind(target, property));
+            run_on_destroy(func, obj = null) {
+                let this_destroy_id = null, obj_destroy_id = null;
+
+                const disconnect_func = () => {
+                    if (this_destroy_id)
+                        GObject.signal_handler_disconnect(this, this_destroy_id);
+
+                    if (obj_destroy_id)
+                        GObject.signal_handler_disconnect(obj, obj_destroy_id);
+
+                    func();
+                    obj = null;
+                };
+
+                this_destroy_id = GObject.signal_connect(this, 'destroy', disconnect_func);
+
+                if (obj !== null && obj !== this && GObject.signal_lookup('destroy', obj.constructor.$gtype))
+                    obj_destroy_id = GObject.signal_connect(obj, 'destroy', disconnect_func);
             }
 
-            settings_connect(key, handler) {
-                const handler_id = this.settings.connect(`changed::${key}`, handler);
-                this.connect('destroy', () => this.settings.disconnect(handler_id));
+            settings_bind(key, target, property, flags = Gio.SettingsBindFlags.DEFAULT) {
+                this.settings.bind(key, target, property, flags);
+                this.run_on_destroy(
+                    Gio.Settings.unbind.bind(null, target, property),
+                    target
+                );
+            }
+
+            disconnect_on_destroy(obj, handler_id) {
+                this.run_on_destroy(
+                    GObject.signal_handler_disconnect.bind(null, obj, handler_id),
+                    obj
+                );
+                return handler_id;
+            }
+
+            signal_connect(source, signal, handler) {
+                return this.disconnect_on_destroy(
+                    source, GObject.signal_connect(source, signal, handler)
+                );
+            }
+
+            method_handler(source, signal, method) {
+                return this.signal_connect(source, signal, method.bind(this));
             }
         }
     );
