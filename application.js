@@ -479,25 +479,25 @@ const AppWindow = GObject.registerClass(
         _init(params) {
             super._init(params);
 
-            this.connect('realize', this.set_wm_functions.bind(this));
-            this.connect('screen-changed', this.setup_rgba_visual.bind(this));
-            this.connect('draw', this.draw.bind(this));
+            this.method_handler(this, 'realize', this.set_wm_functions);
+            this.method_handler(this, 'screen-changed', this.setup_rgba_visual);
+            this.method_handler(this, 'draw', this.draw);
 
             this.app_paintable = true;
             this.setup_rgba_visual();
 
-            this.notebook.connect('page-removed', this.close_if_no_pages.bind(this));
+            this.method_handler(this.notebook, 'page-removed', this.close_if_no_pages);
 
             this.toggle_action = simple_action(this, 'toggle');
-            this.toggle_action.connect('activate', this.toggle.bind(this));
+            this.method_handler(this.toggle_action, 'activate', this.toggle);
 
             this.hide_action = simple_action(this, 'hide');
-            this.hide_action.connect('activate', () => this.hide());
+            this.signal_connect(this.hide_action, 'activate', () => this.hide());
 
-            simple_action(this, 'new-tab').connect('activate', this.new_tab.bind(this));
+            this.method_handler(simple_action(this, 'new-tab'), 'activate', this.new_tab);
 
-            this.resize_box.connect('realize', this.set_resize_cursor.bind(this));
-            this.resize_box.connect('button-press-event', this.start_resizing.bind(this));
+            this.method_handler(this.resize_box, 'realize', this.set_resize_cursor);
+            this.method_handler(this.resize_box, 'button-press-event', this.start_resizing);
 
             this.tab_select_action = new Gio.PropertyAction({
                 name: 'switch-to-tab',
@@ -506,29 +506,29 @@ const AppWindow = GObject.registerClass(
             });
             this.add_action(this.tab_select_action);
 
-            simple_action(this, 'next-tab').connect('activate', () => this.notebook.next_page());
-            simple_action(this, 'prev-tab').connect('activate', () => this.notebook.prev_page());
+            this.signal_connect(simple_action(this, 'next-tab'), 'activate', () => this.notebook.next_page());
+            this.signal_connect(simple_action(this, 'prev-tab'), 'activate', () => this.notebook.prev_page());
 
-            bind_settings_ro(this.settings, 'window-skip-taskbar', this, 'skip-taskbar-hint');
-            bind_settings_ro(this.settings, 'window-skip-pager', this, 'skip-pager-hint');
+            this.bind_settings_ro('window-skip-taskbar', this, 'skip-taskbar-hint');
+            this.bind_settings_ro('window-skip-pager', this, 'skip-pager-hint');
 
-            bind_settings_ro(this.settings, 'new-tab-button', this.new_tab_button, 'visible');
-            bind_settings_ro(this.settings, 'tab-switcher-popup', this.tab_switch_button, 'visible');
+            this.bind_settings_ro('new-tab-button', this.new_tab_button, 'visible');
+            this.bind_settings_ro('tab-switcher-popup', this.tab_switch_button, 'visible');
 
-            this.settings.connect('changed::tab-policy', this.update_tab_bar_visibility.bind(this));
-            this.notebook.connect('page-added', this.update_tab_bar_visibility.bind(this));
-            this.notebook.connect('page-removed', this.update_tab_bar_visibility.bind(this));
+            this.method_handler(this.settings, 'changed::tab-policy', this.update_tab_bar_visibility);
+            this.method_handler(this.notebook, 'page-added', this.update_tab_bar_visibility);
+            this.method_handler(this.notebook, 'page-removed', this.update_tab_bar_visibility);
 
-            this.notebook.connect('page-added', this.update_tab_shortcut_labels.bind(this));
-            this.notebook.connect('page-removed', this.update_tab_shortcut_labels.bind(this));
-            this.notebook.connect('page-reordered', this.update_tab_shortcut_labels.bind(this));
-            this.connect('keys-changed', this.update_tab_shortcut_labels.bind(this));
+            this.method_handler(this.notebook, 'page-added', this.update_tab_shortcut_labels);
+            this.method_handler(this.notebook, 'page-removed', this.update_tab_shortcut_labels);
+            this.method_handler(this.notebook, 'page-reordered', this.update_tab_shortcut_labels);
+            this.method_handler(this, 'keys-changed', this.update_tab_shortcut_labels);
 
-            this.settings.connect('changed::tab-expand', this.update_tab_expand.bind(this));
+            this.method_handler(this.settings, 'changed::tab-expand', this.update_tab_expand);
 
-            this.notebook.connect('page-added', this.tab_switcher_add.bind(this));
-            this.notebook.connect('page-removed', this.tab_switcher_remove.bind(this));
-            this.notebook.connect('page-reordered', this.tab_switcher_reorder.bind(this));
+            this.method_handler(this.notebook, 'page-added', this.tab_switcher_add);
+            this.method_handler(this.notebook, 'page-removed', this.tab_switcher_remove);
+            this.method_handler(this.notebook, 'page-reordered', this.tab_switcher_reorder);
 
             this.new_tab();
         }
@@ -579,7 +579,7 @@ const AppWindow = GObject.registerClass(
             this.notebook.set_tab_reorderable(page, true);
             this.notebook.child_set_property(page, 'tab-expand', this.settings.get_boolean('tab-expand'));
 
-            page.connect('close-request', this.remove_page.bind(this));
+            this.method_handler(page, 'close-request', this.remove_page);
             page.spawn();
         }
 
@@ -646,8 +646,18 @@ const AppWindow = GObject.registerClass(
             for (let i = start_page_num; i < items.length; i++)
                 items[i].action_target = GLib.Variant.new_int32(i);
         }
+
+        bind_settings_ro(key, target, property = null) {
+            const prop = bind_settings_ro(this.settings, key, target, property);
+            this.run_on_destroy(
+                Gio.Settings.unbind.bind(null, target, prop),
+                target
+            );
+        }
     }
 );
+
+Object.assign(AppWindow.prototype, util.UtilMixin);
 
 const PrefsWidget = imports.prefs.createPrefsWidgetClass(APP_DATA_DIR, util);
 
