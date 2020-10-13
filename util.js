@@ -1,8 +1,10 @@
 'use strict';
 
-/* exported parse_rgba UtilMixin */
+/* exported parse_rgba UtilMixin APP_DATA_DIR */
 
 const { GObject, Gio, Gdk } = imports.gi;
+
+var APP_DATA_DIR = null;
 
 function parse_rgba(s) {
     if (!s)
