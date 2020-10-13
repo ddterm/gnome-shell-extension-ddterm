@@ -2,7 +2,7 @@
 
 /* exported parse_rgba UtilMixin */
 
-const { GObject, Gdk } = imports.gi;
+const { GObject, Gio, Gdk } = imports.gi;
 
 function parse_rgba(s) {
     if (!s)
@@ -54,5 +54,20 @@ var UtilMixin = {
 
     method_handler(source, signal, method) {
         return this.signal_connect(source, signal, method.bind(this));
+    },
+
+    settings_bind(key, target, property = null, flags = Gio.SettingsBindFlags.DEFAULT) {
+        if (property === null)
+            property = key;
+
+        this.settings.bind(key, target, property, flags);
+        this.run_on_destroy(
+            Gio.Settings.unbind.bind(null, target, property),
+            target
+        );
+    },
+
+    bind_settings_ro(key, target, property = null, flags = Gio.SettingsBindFlags.GET | Gio.SettingsBindFlags.NO_SENSITIVITY) {
+        this.settings_bind(key, target, property, flags);
     },
 };

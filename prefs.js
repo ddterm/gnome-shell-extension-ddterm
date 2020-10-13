@@ -352,14 +352,6 @@ function createPrefsWidgetClass(resource_path, util) {
                     }
                 } while (this.shortcuts_list.iter_next(i));
             }
-
-            settings_bind(key, target, property, flags = Gio.SettingsBindFlags.DEFAULT) {
-                this.settings.bind(key, target, property, flags);
-                this.run_on_destroy(
-                    Gio.Settings.unbind.bind(null, target, property),
-                    target
-                );
-            }
         }
     );
 

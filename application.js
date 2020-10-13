@@ -35,15 +35,6 @@ function simple_action(group, name) {
     return action;
 }
 
-function bind_settings_ro(settings, key, target, property = null) {
-    if (!property)
-        property = key;
-
-    settings.bind(key, target, property, Gio.SettingsBindFlags.GET | Gio.SettingsBindFlags.NO_SENSITIVITY);
-
-    return property;
-}
-
 function terminal_spawn_callback(terminal, _pid, error) {
     if (error)
         terminal.feed(error.message);
@@ -428,14 +419,6 @@ const TerminalPage = GObject.registerClass(
             return action;
         }
 
-        bind_settings_ro(key, target, property = null) {
-            const prop = bind_settings_ro(this.settings, key, target, property);
-            this.run_on_destroy(
-                Gio.Settings.unbind.bind(null, target, prop),
-                target
-            );
-        }
-
         setup_popup_menu(widget, menu, widget_anchor = Gdk.Gravity.SOUTH, menu_anchor = Gdk.Gravity.SOUTH) {
             menu.attach_widget = widget;
 
@@ -645,14 +628,6 @@ const AppWindow = GObject.registerClass(
             const items = this.tab_switch_menu_box.get_children();
             for (let i = start_page_num; i < items.length; i++)
                 items[i].action_target = GLib.Variant.new_int32(i);
-        }
-
-        bind_settings_ro(key, target, property = null) {
-            const prop = bind_settings_ro(this.settings, key, target, property);
-            this.run_on_destroy(
-                Gio.Settings.unbind.bind(null, target, prop),
-                target
-            );
         }
     }
 );
