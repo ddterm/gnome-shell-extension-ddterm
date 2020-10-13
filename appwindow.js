@@ -51,8 +51,14 @@ var AppWindow = GObject.registerClass(
             this.simple_action('next-tab', () => this.notebook.next_page());
             this.simple_action('prev-tab', () => this.notebook.prev_page());
 
-            this.bind_settings_ro('window-skip-taskbar', this, 'skip-taskbar-hint');
-            this.bind_settings_ro('window-skip-pager', this, 'skip-pager-hint');
+            // Can't bind - workaround
+            // "g_signal_handler_disconnect: assertion 'handler_id > 0' failed"
+            this.signal_connect(this.settings, 'changed::window-skip-taskbar', () => {
+                this.skip_taskbar_hint = this.settings.get_boolean('window-skip-taskbar');
+            });
+            this.signal_connect(this.settings, 'changed::window-skip-pager', () => {
+                this.skip_pager_hint = this.settings.get_boolean('window-skip-pager');
+            });
 
             this.bind_settings_ro('new-tab-button', this.new_tab_button, 'visible');
             this.bind_settings_ro('tab-switcher-popup', this.tab_switch_button, 'visible');
