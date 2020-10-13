@@ -77,6 +77,9 @@ const TerminalPage = GObject.registerClass(
         _init(params) {
             super._init(params);
 
+            this.run_on_destroy(() => this.tab_label.destroy());
+            this.run_on_destroy(() => this.switcher_item.destroy());
+
             this.clicked_filename = null;
             this.clicked_hyperlink = null;
 
