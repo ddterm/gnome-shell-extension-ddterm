@@ -2,19 +2,7 @@
 
 /* exported init buildPrefsWidget createPrefsWidgetClass */
 
-const { GObject, Gio, Gdk, Gtk } = imports.gi;
-
-function parse_rgba(s) {
-    if (!s)
-        return null;
-
-    const v = new Gdk.RGBA();
-
-    if (v.parse(s))
-        return v;
-
-    return null;
-}
+const { GObject, Gio, Gtk } = imports.gi;
 
 const PALETTE_SIZE = 16;
 
@@ -31,8 +19,8 @@ function palette_widgets() {
     return widgets;
 }
 
-function createPrefsWidgetClass(resource_path) {
-    return GObject.registerClass(
+function createPrefsWidgetClass(resource_path, util) {
+    const cls = GObject.registerClass(
         {
             Template: resource_path.get_child('prefs.ui').get_uri(),
             Children: [
@@ -195,7 +183,7 @@ function createPrefsWidgetClass(resource_path) {
             }
 
             load_palette_from_settings() {
-                const palette = this.settings.get_strv('palette').map(parse_rgba);
+                const palette = this.settings.get_strv('palette').map(util.parse_rgba);
 
                 for (let i = 0; i < PALETTE_SIZE; i++)
                     this.palette_widget(i).rgba = palette[i];
@@ -207,7 +195,7 @@ function createPrefsWidgetClass(resource_path) {
 
                 do {
                     const builtin_palette = this.get_builtin_palette(i);
-                    if (!builtin_palette || builtin_palette.every((v, j) => parse_rgba(v).equal(palette[j]))) {
+                    if (!builtin_palette || builtin_palette.every((v, j) => util.parse_rgba(v).equal(palette[j]))) {
                         this.palette_combo.set_active_iter(i);
                         break;
                     }
@@ -253,7 +241,7 @@ function createPrefsWidgetClass(resource_path) {
                 });
 
                 const update = () => {
-                    widget.set_rgba(parse_rgba(this.settings.get_string(setting)));
+                    widget.set_rgba(util.parse_rgba(this.settings.get_string(setting)));
                 };
                 this.signal_connect(this.settings, `changed::${setting}`, update);
                 update();
@@ -290,12 +278,12 @@ function createPrefsWidgetClass(resource_path) {
                 if (!ok)
                     return;
 
-                const foreground = parse_rgba(this.settings.get_string('foreground-color'));
-                const background = parse_rgba(this.settings.get_string('background-color'));
+                const foreground = util.parse_rgba(this.settings.get_string('foreground-color'));
+                const background = util.parse_rgba(this.settings.get_string('background-color'));
 
                 do {
-                    const i_foreground = parse_rgba(this.color_scheme_combo.model.get_value(i, 1));
-                    const i_background = parse_rgba(this.color_scheme_combo.model.get_value(i, 2));
+                    const i_foreground = util.parse_rgba(this.color_scheme_combo.model.get_value(i, 1));
+                    const i_background = util.parse_rgba(this.color_scheme_combo.model.get_value(i, 2));
 
                     if (foreground !== null &&
                         background !== null &&
@@ -365,26 +353,6 @@ function createPrefsWidgetClass(resource_path) {
                 } while (this.shortcuts_list.iter_next(i));
             }
 
-            run_on_destroy(func, obj = null) {
-                let this_destroy_id = null, obj_destroy_id = null;
-
-                const disconnect_func = () => {
-                    if (this_destroy_id)
-                        GObject.signal_handler_disconnect(this, this_destroy_id);
-
-                    if (obj_destroy_id)
-                        GObject.signal_handler_disconnect(obj, obj_destroy_id);
-
-                    func();
-                    obj = null;
-                };
-
-                this_destroy_id = GObject.signal_connect(this, 'destroy', disconnect_func);
-
-                if (obj !== null && obj !== this && GObject.signal_lookup('destroy', obj.constructor.$gtype))
-                    obj_destroy_id = GObject.signal_connect(obj, 'destroy', disconnect_func);
-            }
-
             settings_bind(key, target, property, flags = Gio.SettingsBindFlags.DEFAULT) {
                 this.settings.bind(key, target, property, flags);
                 this.run_on_destroy(
@@ -392,26 +360,12 @@ function createPrefsWidgetClass(resource_path) {
                     target
                 );
             }
-
-            disconnect_on_destroy(obj, handler_id) {
-                this.run_on_destroy(
-                    GObject.signal_handler_disconnect.bind(null, obj, handler_id),
-                    obj
-                );
-                return handler_id;
-            }
-
-            signal_connect(source, signal, handler) {
-                return this.disconnect_on_destroy(
-                    source, GObject.signal_connect(source, signal, handler)
-                );
-            }
-
-            method_handler(source, signal, method) {
-                return this.signal_connect(source, signal, method.bind(this));
-            }
         }
     );
+
+    Object.assign(cls.prototype, util.UtilMixin);
+
+    return cls;
 }
 
 function init() {}
@@ -422,7 +376,7 @@ function buildPrefsWidget() {
     const Me = imports.misc.extensionUtils.getCurrentExtension();
 
     if (prefsWidgetClass === null)
-        prefsWidgetClass = createPrefsWidgetClass(Me.dir);
+        prefsWidgetClass = createPrefsWidgetClass(Me.dir, Me.imports.util);
 
     const settings = imports.misc.extensionUtils.getSettings();
 

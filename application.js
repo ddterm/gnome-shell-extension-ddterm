@@ -17,17 +17,7 @@ const APP_DATA_DIR = Gio.File.new_for_commandline_arg(System.programInvocationNa
 
 imports.searchPath.unshift(APP_DATA_DIR.get_path());
 
-function parse_rgba(s) {
-    if (!s)
-        return null;
-
-    const v = new Gdk.RGBA();
-
-    if (v.parse(s))
-        return v;
-
-    return null;
-}
+const { util } = imports;
 
 function remove_prefix(s, prefix) {
     if (s.startsWith(prefix))
@@ -252,7 +242,7 @@ const TerminalPage = GObject.registerClass(
 
         get_style_color_settings(key, style_property) {
             if (!this.settings.get_boolean('use-theme-colors')) {
-                const result = parse_rgba(this.settings.get_string(key));
+                const result = util.parse_rgba(this.settings.get_string(key));
                 if (result !== null)
                     return result;
             }
@@ -268,7 +258,7 @@ const TerminalPage = GObject.registerClass(
             if (this.settings.get_boolean(enable_key) === enable_reverse)
                 return null;
 
-            return parse_rgba(this.settings.get_string(key));
+            return util.parse_rgba(this.settings.get_string(key));
         }
 
         get_color_foreground() {
@@ -293,7 +283,7 @@ const TerminalPage = GObject.registerClass(
             this.terminal.set_colors(
                 this.get_color_foreground(),
                 this.get_color_background(),
-                this.settings.get_strv('palette').map(parse_rgba)
+                this.settings.get_strv('palette').map(util.parse_rgba)
             );
         }
 
@@ -432,44 +422,6 @@ const TerminalPage = GObject.registerClass(
             this.switch_shortcut_label.label = '';
         }
 
-        run_on_destroy(func, obj = null) {
-            let this_destroy_id = null, obj_destroy_id = null;
-
-            const disconnect_func = () => {
-                if (this_destroy_id)
-                    GObject.signal_handler_disconnect(this, this_destroy_id);
-
-                if (obj_destroy_id)
-                    GObject.signal_handler_disconnect(obj, obj_destroy_id);
-
-                func();
-                obj = null;
-            };
-
-            this_destroy_id = GObject.signal_connect(this, 'destroy', disconnect_func);
-
-            if (obj !== null && obj !== this && GObject.signal_lookup('destroy', obj.constructor.$gtype))
-                obj_destroy_id = GObject.signal_connect(obj, 'destroy', disconnect_func);
-        }
-
-        disconnect_on_destroy(obj, handler_id) {
-            this.run_on_destroy(
-                GObject.signal_handler_disconnect.bind(null, obj, handler_id),
-                obj
-            );
-            return handler_id;
-        }
-
-        signal_connect(source, signal, handler) {
-            return this.disconnect_on_destroy(
-                source, GObject.signal_connect(source, signal, handler)
-            );
-        }
-
-        method_handler(source, signal, method) {
-            return this.signal_connect(source, signal, method.bind(this));
-        }
-
         method_action(group, name, method) {
             const action = simple_action(group, name);
             this.signal_connect(action, 'activate', method.bind(this));
@@ -504,6 +456,8 @@ const TerminalPage = GObject.registerClass(
         }
     }
 );
+
+Object.assign(TerminalPage.prototype, util.UtilMixin);
 
 const AppWindow = GObject.registerClass(
     {
@@ -695,7 +649,7 @@ const AppWindow = GObject.registerClass(
     }
 );
 
-const PrefsWidget = imports.prefs.createPrefsWidgetClass(APP_DATA_DIR);
+const PrefsWidget = imports.prefs.createPrefsWidgetClass(APP_DATA_DIR, util);
 
 const PrefsDialog = GObject.registerClass(
     {
