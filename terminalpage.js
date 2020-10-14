@@ -5,8 +5,6 @@
 const { GLib, GObject, Gio, Pango, Gdk, Gtk, Vte } = imports.gi;
 const { util } = imports;
 
-const SELECTION_CLIPBOARD = Gdk.Atom.intern('CLIPBOARD', true);
-
 function terminal_spawn_callback(terminal, _pid, error) {
     if (error)
         terminal.feed(error.message);
@@ -51,6 +49,7 @@ var TerminalPage = GObject.registerClass(
 
             this.clicked_filename = null;
             this.clicked_hyperlink = null;
+            this.clipboard = Gtk.Clipboard.get_default(Gdk.Display.get_default());
 
             this.bind_settings_ro('show-scrollbar', this.scrollbar, 'visible');
             this.bind_settings_ro('scroll-on-output', this.terminal);
@@ -382,11 +381,11 @@ var TerminalPage = GObject.registerClass(
         }
 
         copy_hyperlink() {
-            this.get_clipboard(SELECTION_CLIPBOARD).set_text(this.clicked_hyperlink, -1);
+            this.clipboard.set_text(this.clicked_hyperlink, -1);
         }
 
         copy_filename() {
-            this.get_clipboard(SELECTION_CLIPBOARD).set_text(this.clicked_filename, -1);
+            this.clipboard.set_text(this.clicked_filename, -1);
         }
 
         set switch_shortcut(value) {
