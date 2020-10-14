@@ -75,6 +75,7 @@ function createPrefsWidgetClass(resource_path, util) {
                 'delete_binding_combo',
                 'ambiguous_width_combo',
                 'reset_compatibility_button',
+                'pointer_autohide_check',
             ].concat(palette_widgets()),
             Properties: {
                 'settings': GObject.ParamSpec.object('settings', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, Gio.Settings),
@@ -91,6 +92,7 @@ function createPrefsWidgetClass(resource_path, util) {
                 this.settings_bind('window-skip-pager', this.window_skip_pager_check, 'active');
                 this.settings_bind('hide-when-focus-lost', this.hide_when_focus_lost_check, 'active');
                 this.settings_bind('hide-window-on-esc', this.hide_window_on_esc_check, 'active');
+                this.settings_bind('pointer-autohide', this.pointer_autohide_check, 'active');
 
                 this.settings_bind('tab-policy', this.tab_policy_combo, 'active-id');
                 this.settings_bind('tab-expand', this.expand_tabs_check, 'active');

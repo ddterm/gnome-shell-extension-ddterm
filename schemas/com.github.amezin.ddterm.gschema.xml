@@ -74,6 +74,9 @@
     <key name="hide-when-focus-lost" type="b">
       <default>false</default>
     </key>
+    <key name="pointer-autohide" type="b">
+      <default>false</default>
+    </key>
 
     <key name="tab-policy" enum="com.github.amezin.ddterm.TabsbarPolicy">
       <default>'always'</default>

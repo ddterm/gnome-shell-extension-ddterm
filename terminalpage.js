@@ -63,6 +63,7 @@ var TerminalPage = GObject.registerClass(
             this.bind_settings_ro('bold-is-bright', this.terminal);
             this.bind_settings_ro('backspace-binding', this.terminal);
             this.bind_settings_ro('delete-binding', this.terminal);
+            this.bind_settings_ro('pointer-autohide', this.terminal);
             this.bind_settings_ro('tab-close-buttons', this.close_button, 'visible');
             this.bind_settings_ro('show-tab-switch-hotkeys', this.switch_shortcut_label, 'visible');
 
