@@ -78,7 +78,7 @@
       <default>false</default>
     </key>
     <key name="force-x11-gdk-backend" type="b">
-      <default>true</default>
+      <default>false</default>
     </key>
 
     <key name="tab-policy" enum="com.github.amezin.ddterm.TabsbarPolicy">

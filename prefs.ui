@@ -618,8 +618,8 @@
               </packing>
             </child>
             <child>
-              <object class="GtkCheckButton" id="gdk_wayland_check">
-                <property name="label" translatable="yes">Run on Wayland natively (requires application restart, known issues)</property>
+              <object class="GtkCheckButton" id="force_gdk_x11_check">
+                <property name="label" translatable="yes">Force X11 GDK backend (XWayland)</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
