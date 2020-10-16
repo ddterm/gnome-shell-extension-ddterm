@@ -90,6 +90,9 @@ function spawn_app() {
     const current_path = GLib.environ_getenv(current_env, 'PATH');
     context.setenv('PATH', `${Me.dir.get_path()}:${current_path}`);
 
+    if (settings.get_boolean('force-x11-gdk-backend'))
+        context.setenv('GDK_BACKEND', 'x11');
+
     APP_INFO.launch([], context);
 }
 

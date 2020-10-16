@@ -9,7 +9,7 @@ imports.gi.versions.Pango = '1.0';
 imports.gi.versions.Vte = '2.91';
 
 const System = imports.system;
-const { GLib, GObject, Gio, Gdk, Gtk } = imports.gi;
+const { GLib, GObject, Gio, Gtk } = imports.gi;
 
 const APP_DATA_DIR = Gio.File.new_for_commandline_arg(System.programInvocationName).get_parent();
 
@@ -166,7 +166,6 @@ const Application = GObject.registerClass(
 GLib.setenv('PATH', remove_prefix(remove_prefix(GLib.getenv('PATH'), APP_DATA_DIR.get_path()), ':'), true);
 
 GLib.set_application_name('Drop Down Terminal');
-Gdk.set_allowed_backends('x11');
 
 const app = new Application({
     application_id: 'com.github.amezin.ddterm',
