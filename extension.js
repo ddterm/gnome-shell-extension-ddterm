@@ -182,7 +182,11 @@ function track_window(win) {
     win.connect('unmanaging', untrack_window);
     win.connect('unmanaged', untrack_window);
 
-    const height_ratio = settings.get_double('window-height');
+    let height_ratio = settings.get_double('window-height');
+
+    if (win.get_client_type() === Meta.WindowClientType.WAYLAND)
+        height_ratio = Math.min(height_ratio, 0.8);
+
     const workarea = Main.layoutManager.getWorkAreaForMonitor(Main.layoutManager.currentMonitor.index);
     win.move_resize_frame(true, workarea.x, workarea.y, workarea.width, workarea.height * height_ratio);
 
