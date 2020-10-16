@@ -10,7 +10,7 @@ Inspired by
 
 ## Distinguishing features
 
-- Works in Wayland session correctly, with multi-monitor configuration (but still requires xwayland because of Mutter's window auto-maximization, https://github.com/amezin/gnome-shell-extension-ddterm/issues/2)
+- Runs on Wayland natively
 
 - Terminal window can be resized by dragging the border with mouse
 
