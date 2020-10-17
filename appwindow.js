@@ -29,8 +29,10 @@ var AppWindow = GObject.registerClass(
             this.method_handler(this, 'screen-changed', this.setup_rgba_visual);
             this.method_handler(this, 'draw', this.draw);
 
-            this.app_paintable = true;
             this.setup_rgba_visual();
+
+            this.method_handler(this.settings, 'changed::background-opacity', this.update_app_paintable);
+            this.update_app_paintable();
 
             this.method_handler(this.notebook, 'page-removed', this.close_if_no_pages);
 
@@ -146,6 +148,10 @@ var AppWindow = GObject.registerClass(
                 this.set_visual(visual);
         }
 
+        update_app_paintable() {
+            this.app_paintable = (this.settings.get_double('background-opacity') < 1.0);
+        }
+
         remove_page(page) {
             this.notebook.remove(page);
             page.destroy();
@@ -173,6 +179,9 @@ var AppWindow = GObject.registerClass(
         }
 
         draw(_widget, cr) {
+            if (!this.app_paintable)
+                return false;
+
             const context = this.get_style_context();
             const allocation = this.get_child().get_allocation();
             Gtk.render_background(context, cr, allocation.x, allocation.y, allocation.width, allocation.height);
