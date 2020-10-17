@@ -149,7 +149,7 @@ var AppWindow = GObject.registerClass(
         }
 
         update_app_paintable() {
-            this.app_paintable = (this.settings.get_double('background-opacity') < 1.0);
+            this.app_paintable = this.settings.get_double('background-opacity') < 1.0;
         }
 
         remove_page(page) {
