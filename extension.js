@@ -136,15 +136,9 @@ function focus_window_changed() {
         return;
 
     const win = global.display.focus_window;
-
-    if (win) {
-        if (win.get_pid() === current_window.get_pid())
+    if (win !== null) {
+        if (current_window === win || current_window.is_ancestor_of_transient(win))
             return;
-
-        for (let parent = win; parent !== null; parent = parent.get_transient_for()) {
-            if (parent === current_window)
-                return;
-        }
     }
 
     if (dbus_action_group)
