@@ -211,12 +211,15 @@ function update_height_setting(win) {
     if (win !== current_window)
         return;
 
-    const monitor = current_window.get_monitor();
+    const window_rect = win.get_frame_rect();
+
+    // Can't use window.monitor here - it's out of sync
+    const monitor = global.display.get_monitor_index_for_rect(window_rect);
     if (monitor < 0)
         return;
 
     const workarea = Main.layoutManager.getWorkAreaForMonitor(monitor);
-    const current_height = win.get_frame_rect().height / workarea.height;
+    const current_height = window_rect.height / workarea.height;
     settings.set_double('window-height', current_height);
 }
 
