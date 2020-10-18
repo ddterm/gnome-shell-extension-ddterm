@@ -9,12 +9,9 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 let settings = null;
 
 let current_window = null;
-let created_handler_id = null;
 
 let bus_watch_id = null;
 let dbus_action_group = null;
-
-let focus_tracking_id = null;
 
 const APP_ID = 'com.github.amezin.ddterm';
 const APP_DBUS_PATH = '/com/github/amezin/ddterm';
@@ -51,10 +48,10 @@ function enable() {
     );
 
     disconnect_created_handler();
-    created_handler_id = global.display.connect('window-created', handle_created);
+    global.display.connect('window-created', handle_created);
 
     disconnect_focus_tracking();
-    focus_tracking_id = global.display.connect('notify::focus-window', focus_window_changed);
+    global.display.connect('notify::focus-window', focus_window_changed);
 
     settings.connect('changed::window-above', set_window_above);
     settings.connect('changed::window-stick', set_window_stick);
@@ -241,10 +238,7 @@ function stop_dbus_watch() {
 }
 
 function disconnect_created_handler() {
-    if (created_handler_id) {
-        global.display.disconnect(created_handler_id);
-        created_handler_id = null;
-    }
+    GObject.signal_handlers_disconnect_by_func(global.display, handle_created);
 }
 
 function dispose_action_group() {
@@ -262,8 +256,5 @@ function dispose_settings() {
 }
 
 function disconnect_focus_tracking() {
-    if (focus_tracking_id) {
-        global.display.disconnect(focus_tracking_id);
-        focus_tracking_id = null;
-    }
+    GObject.signal_handlers_disconnect_by_func(global.display, focus_window_changed);
 }
