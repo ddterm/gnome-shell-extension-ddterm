@@ -165,6 +165,7 @@ const Application = GObject.registerClass(
 // App directory is prepended to PATH by the extension
 GLib.setenv('PATH', remove_prefix(remove_prefix(GLib.getenv('PATH'), APP_DATA_DIR.get_path()), ':'), true);
 
+GLib.set_prgname('com.github.amezin.ddterm');
 GLib.set_application_name('Drop Down Terminal');
 
 const app = new Application({
