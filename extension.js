@@ -2,7 +2,7 @@
 
 /* exported init enable disable */
 
-const { GLib, Gio, Meta, Shell } = imports.gi;
+const { GLib, GObject, Gio, Meta, Shell } = imports.gi;
 const Main = imports.ui.main;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 
@@ -113,8 +113,17 @@ function dbus_disappeared() {
 }
 
 function handle_created(display, win) {
-    win.connect('notify::gtk-application-id', track_window);
-    win.connect('notify::gtk-window-object-path', track_window);
+    const handler_ids = [
+        win.connect('notify::gtk-application-id', track_window),
+        win.connect('notify::gtk-window-object-path', track_window),
+    ];
+
+    const disconnect = () => {
+        handler_ids.forEach(handler => win.disconnect(handler));
+    };
+
+    handler_ids.push(win.connect('unmanaging', disconnect));
+    handler_ids.push(win.connect('unmanaged', disconnect));
 
     track_window(win);
 }
@@ -171,8 +180,10 @@ function set_window_stick() {
 }
 
 function track_window(win) {
-    if (!is_dropdown_terminal_window(win))
+    if (!is_dropdown_terminal_window(win)) {
+        untrack_window(win);
         return;
+    }
 
     if (win === current_window)
         return;
@@ -218,6 +229,11 @@ function update_height_setting(win) {
 function untrack_window(win) {
     if (win === current_window)
         current_window = null;
+
+    if (win) {
+        GObject.signal_handlers_disconnect_by_func(win, untrack_window);
+        GObject.signal_handlers_disconnect_by_func(win, update_height_setting);
+    }
 }
 
 function stop_dbus_watch() {
