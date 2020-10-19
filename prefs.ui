@@ -549,7 +549,7 @@
             </child>
             <child>
               <object class="GtkCheckButton" id="window_skip_taskbar_check">
-                <property name="label" translatable="yes">Exclude window from task bar</property>
+                <property name="label" translatable="yes">Exclude window from task bar (ignored on Wayland)</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
@@ -563,7 +563,7 @@
             </child>
             <child>
               <object class="GtkCheckButton" id="window_skip_pager_check">
-                <property name="label" translatable="yes">Exclude window from pager</property>
+                <property name="label" translatable="yes">Exclude window from pager (ignored on Wayland)</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
