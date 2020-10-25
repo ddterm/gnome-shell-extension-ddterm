@@ -31,17 +31,12 @@ function createPrefsWidgetClass(resource_path, util) {
                 'shortcuts_list',
                 'spawn_custom_command',
                 'custom_command_entry',
-                'show_scrollbar_check',
-                'scroll_on_output_check',
-                'scoll_on_keystroke_check',
                 'limit_scrollback_check',
                 'scrollback_adjustment',
                 'scrollback_spin',
                 'text_blink_mode_combo',
                 'cursor_blink_mode_combo',
                 'cursor_shape_combo',
-                'allow_hyperlink_check',
-                'audible_bell_check',
                 'foreground_color',
                 'background_color',
                 'bold_color',
@@ -50,32 +45,15 @@ function createPrefsWidgetClass(resource_path, util) {
                 'highlight_foreground_color',
                 'highlight_background_color',
                 'bold_color_check',
-                'cursor_color_check',
-                'highlight_color_check',
-                'theme_colors_check',
                 'color_scheme_editor',
                 'color_scheme_combo',
                 'palette_combo',
-                'bold_is_bright_check',
                 'theme_variant_combo',
-                'window_above_check',
-                'window_stick_check',
-                'window_skip_taskbar_check',
-                'hide_when_focus_lost_check',
-                'hide_window_on_esc_check',
                 'tab_policy_combo',
-                'expand_tabs_check',
-                'show_tab_close_buttons_check',
-                'show_new_tab_button_check',
-                'show_tab_switcher_check',
-                'show_tab_switch_hotkeys_check',
-                'enable_shortcuts_check',
                 'backspace_binding_combo',
                 'delete_binding_combo',
                 'ambiguous_width_combo',
                 'reset_compatibility_button',
-                'pointer_autohide_check',
-                'force_gdk_x11_check',
             ].concat(palette_widgets()),
             Properties: {
                 'settings': GObject.ParamSpec.object('settings', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, Gio.Settings),
@@ -85,21 +63,39 @@ function createPrefsWidgetClass(resource_path, util) {
             _init(params) {
                 super._init(params);
 
-                this.settings_bind('theme-variant', this.theme_variant_combo, 'active-id');
-                this.settings_bind('window-above', this.window_above_check, 'active');
-                this.settings_bind('window-stick', this.window_stick_check, 'active');
-                this.settings_bind('window-skip-taskbar', this.window_skip_taskbar_check, 'active');
-                this.settings_bind('hide-when-focus-lost', this.hide_when_focus_lost_check, 'active');
-                this.settings_bind('hide-window-on-esc', this.hide_window_on_esc_check, 'active');
-                this.settings_bind('pointer-autohide', this.pointer_autohide_check, 'active');
-                this.settings_bind('force-x11-gdk-backend', this.force_gdk_x11_check, 'active');
+                const actions = Gio.SimpleActionGroup.new();
+                this.insert_action_group('settings', actions);
 
+                [
+                    'window-above',
+                    'window-stick',
+                    'window-skip-taskbar',
+                    'hide-when-focus-lost',
+                    'hide-window-on-esc',
+                    'pointer-autohide',
+                    'force-x11-gdk-backend',
+                    'tab-expand',
+                    'tab-close-buttons',
+                    'new-tab-button',
+                    'tab-switcher-popup',
+                    'show-tab-switch-hotkeys',
+                    'allow-hyperlink',
+                    'audible-bell',
+                    'cursor-colors-set',
+                    'highlight-colors-set',
+                    'use-theme-colors',
+                    'bold-is-bright',
+                    'command',
+                    'show-scrollbar',
+                    'scroll-on-output',
+                    'scroll-on-keystroke',
+                    'shortcuts-enabled',
+                ].forEach(
+                    key => actions.add_action(this.settings.create_action(key))
+                );
+
+                this.settings_bind('theme-variant', this.theme_variant_combo, 'active-id');
                 this.settings_bind('tab-policy', this.tab_policy_combo, 'active-id');
-                this.settings_bind('tab-expand', this.expand_tabs_check, 'active');
-                this.settings_bind('tab-close-buttons', this.show_tab_close_buttons_check, 'active');
-                this.settings_bind('new-tab-button', this.show_new_tab_button_check, 'active');
-                this.settings_bind('tab-switcher-popup', this.show_tab_switcher_check, 'active');
-                this.settings_bind('show-tab-switch-hotkeys', this.show_tab_switch_hotkeys_check, 'active');
 
                 this.settings_bind('custom-font', this.font_chooser, 'font');
                 this.settings_bind('use-system-font', this.custom_font_check, 'active', Gio.SettingsBindFlags.INVERT_BOOLEAN);
@@ -107,8 +103,6 @@ function createPrefsWidgetClass(resource_path, util) {
                 this.settings_bind('text-blink-mode', this.text_blink_mode_combo, 'active-id');
                 this.settings_bind('cursor-blink-mode', this.cursor_blink_mode_combo, 'active-id');
                 this.settings_bind('cursor-shape', this.cursor_shape_combo, 'active-id');
-                this.settings_bind('allow-hyperlink', this.allow_hyperlink_check, 'active');
-                this.settings_bind('audible-bell', this.audible_bell_check, 'active');
 
                 this.bind_color('foreground-color', this.foreground_color);
                 this.bind_color('background-color', this.background_color);
@@ -119,19 +113,16 @@ function createPrefsWidgetClass(resource_path, util) {
 
                 this.bind_color('cursor-foreground-color', this.cursor_foreground_color);
                 this.bind_color('cursor-background-color', this.cursor_background_color);
-                this.settings_bind('cursor-colors-set', this.cursor_color_check, 'active');
                 this.bind_sensitive('cursor-colors-set', this.cursor_foreground_color.parent);
                 this.bind_sensitive('cursor-colors-set', this.cursor_background_color.parent);
 
                 this.bind_color('highlight-foreground-color', this.highlight_foreground_color);
                 this.bind_color('highlight-background-color', this.highlight_background_color, 'highlight-colors-set');
-                this.settings_bind('highlight-colors-set', this.highlight_color_check, 'active');
                 this.bind_sensitive('highlight-colors-set', this.highlight_foreground_color.parent);
                 this.bind_sensitive('highlight-colors-set', this.highlight_background_color.parent);
 
                 this.settings_bind('background-opacity', this.opacity_adjustment, 'value');
 
-                this.settings_bind('use-theme-colors', this.theme_colors_check, 'active');
                 this.bind_sensitive('use-theme-colors', this.color_scheme_editor, true);
 
                 this.setting_color_scheme = false;
@@ -147,18 +138,9 @@ function createPrefsWidgetClass(resource_path, util) {
                 for (let i = 0; i < PALETTE_SIZE; i++)
                     this.method_handler(this.palette_widget(i), 'color-set', this.edit_palette);
 
-                this.settings_bind('bold-is-bright', this.bold_is_bright_check, 'active');
-
-                const actions = Gio.SimpleActionGroup.new();
-                actions.add_action(this.settings.create_action('command'));
-                this.insert_action_group('settings', actions);
-
                 this.settings_bind('custom-command', this.custom_command_entry, 'text');
                 this.spawn_custom_command.bind_property('active', this.custom_command_entry.parent, 'sensitive', GObject.BindingFlags.SYNC_CREATE);
 
-                this.settings_bind('show-scrollbar', this.show_scrollbar_check, 'active');
-                this.settings_bind('scroll-on-output', this.scroll_on_output_check, 'active');
-                this.settings_bind('scroll-on-keystroke', this.scoll_on_keystroke_check, 'active');
                 this.settings_bind('scrollback-unlimited', this.limit_scrollback_check, 'active', Gio.SettingsBindFlags.INVERT_BOOLEAN);
                 this.settings_bind('scrollback-lines', this.scrollback_adjustment, 'value');
                 this.bind_sensitive('scrollback-unlimited', this.scrollback_spin.parent, true);
@@ -180,8 +162,6 @@ function createPrefsWidgetClass(resource_path, util) {
 
                 this.method_handler(this.accel_renderer, 'accel-edited', this.accel_edited);
                 this.method_handler(this.accel_renderer, 'accel-cleared', this.accel_cleared);
-
-                this.settings_bind('shortcuts-enabled', this.enable_shortcuts_check, 'active');
             }
 
             bind_sensitive(key, widget, invert = false) {

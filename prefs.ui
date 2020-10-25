@@ -498,6 +498,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
+                <property name="action-name">settings.window-above</property>
                 <property name="draw-indicator">True</property>
               </object>
               <packing>
@@ -512,6 +513,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
+                <property name="action-name">settings.window-stick</property>
                 <property name="draw-indicator">True</property>
               </object>
               <packing>
@@ -553,6 +555,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
+                <property name="action-name">settings.window-skip-taskbar</property>
                 <property name="draw-indicator">True</property>
               </object>
               <packing>
@@ -567,6 +570,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
+                <property name="action-name">settings.hide-when-focus-lost</property>
                 <property name="draw-indicator">True</property>
               </object>
               <packing>
@@ -581,6 +585,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
+                <property name="action-name">settings.hide-window-on-esc</property>
                 <property name="draw-indicator">True</property>
               </object>
               <packing>
@@ -595,6 +600,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
+                <property name="action-name">settings.pointer-autohide</property>
                 <property name="draw-indicator">True</property>
               </object>
               <packing>
@@ -609,6 +615,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
+                <property name="action-name">settings.force-x11-gdk-backend</property>
                 <property name="draw-indicator">True</property>
               </object>
               <packing>
@@ -639,6 +646,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
+                <property name="action-name">settings.tab-expand</property>
                 <property name="draw-indicator">True</property>
               </object>
               <packing>
@@ -653,6 +661,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
+                <property name="action-name">settings.tab-close-buttons</property>
                 <property name="draw-indicator">True</property>
               </object>
               <packing>
@@ -667,6 +676,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
+                <property name="action-name">settings.new-tab-button</property>
                 <property name="draw-indicator">True</property>
               </object>
               <packing>
@@ -681,6 +691,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
+                <property name="action-name">settings.tab-switcher-popup</property>
                 <property name="draw-indicator">True</property>
               </object>
               <packing>
@@ -721,6 +732,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
+                <property name="action-name">settings.show-tab-switch-hotkeys</property>
                 <property name="draw-indicator">True</property>
               </object>
               <packing>
@@ -847,6 +859,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
+                <property name="action-name">settings.allow-hyperlink</property>
                 <property name="draw-indicator">True</property>
               </object>
               <packing>
@@ -861,6 +874,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
+                <property name="action-name">settings.audible-bell</property>
                 <property name="draw-indicator">True</property>
               </object>
               <packing>
@@ -916,6 +930,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
+                <property name="action-name">settings.use-theme-colors</property>
                 <property name="draw-indicator">True</property>
               </object>
               <packing>
@@ -984,6 +999,7 @@
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                     <property name="receives-default">False</property>
+                    <property name="action-name">settings.cursor-colors-set</property>
                     <property name="draw-indicator">True</property>
                   </object>
                   <packing>
@@ -997,6 +1013,7 @@
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                     <property name="receives-default">False</property>
+                    <property name="action-name">settings.highlight-colors-set</property>
                     <property name="draw-indicator">True</property>
                   </object>
                   <packing>
@@ -1485,6 +1502,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
+                <property name="action-name">settings.bold-is-bright</property>
                 <property name="draw-indicator">True</property>
               </object>
               <packing>
@@ -1608,6 +1626,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
+                <property name="action-name">settings.show-scrollbar</property>
                 <property name="draw-indicator">True</property>
               </object>
               <packing>
@@ -1622,6 +1641,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
+                <property name="action-name">settings.scroll-on-output</property>
                 <property name="draw-indicator">True</property>
               </object>
               <packing>
@@ -1636,6 +1656,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
+                <property name="action-name">settings.scroll-on-keystroke</property>
                 <property name="draw-indicator">True</property>
               </object>
               <packing>
@@ -1833,6 +1854,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
+                <property name="action-name">settings.shortcuts-enabled</property>
                 <property name="draw-indicator">True</property>
               </object>
               <packing>
