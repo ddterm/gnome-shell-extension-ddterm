@@ -60,7 +60,6 @@ function createPrefsWidgetClass(resource_path, util) {
                 'theme_variant_combo',
                 'window_above_check',
                 'window_stick_check',
-                'window_skip_pager_check',
                 'window_skip_taskbar_check',
                 'hide_when_focus_lost_check',
                 'hide_window_on_esc_check',
@@ -90,7 +89,6 @@ function createPrefsWidgetClass(resource_path, util) {
                 this.settings_bind('window-above', this.window_above_check, 'active');
                 this.settings_bind('window-stick', this.window_stick_check, 'active');
                 this.settings_bind('window-skip-taskbar', this.window_skip_taskbar_check, 'active');
-                this.settings_bind('window-skip-pager', this.window_skip_pager_check, 'active');
                 this.settings_bind('hide-when-focus-lost', this.hide_when_focus_lost_check, 'active');
                 this.settings_bind('hide-window-on-esc', this.hide_window_on_esc_check, 'active');
                 this.settings_bind('pointer-autohide', this.pointer_autohide_check, 'active');

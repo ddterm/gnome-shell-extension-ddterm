@@ -68,9 +68,6 @@
     <key name="window-skip-taskbar" type="b">
       <default>true</default>
     </key>
-    <key name="window-skip-pager" type="b">
-      <default>false</default>
-    </key>
     <key name="hide-when-focus-lost" type="b">
       <default>false</default>
     </key>
