@@ -20,7 +20,7 @@ Inspired by
 
 ## Installing
 
-### 1. Install the extension to `~/.local/gnome-shell/extensions`
+### 1. Install the extension to `~/.local/share/gnome-shell/extensions`
 
 `git clone` the repository into arbitrary location, and run `make install`:
 
@@ -37,10 +37,10 @@ Or you can simply symlink the repository into extensions directory.
     $ cd gnome-shell-extension-ddterm
     $ make develop
 
-Or you can `clone` the repository directly into `~/.local/gnome-shell/extensions`:
+Or you can `clone` the repository directly into `~/.local/share/gnome-shell/extensions`:
 
-    $ mkdir -p ~/.local/gnome-shell/extensions
-    $ cd ~/.local/gnome-shell/extensions
+    $ mkdir -p ~/.local/share/gnome-shell/extensions
+    $ cd ~/.local/share/gnome-shell/extensions
     $ git clone https://github.com/amezin/gnome-shell-extension-ddterm.git ddterm@amezin.github.com
     $ cd ddterm@amezin.github.com
     $ make schemas/gschemas.compiled
