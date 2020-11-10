@@ -3,7 +3,31 @@
 /* exported TerminalPage */
 
 const { GLib, GObject, Gio, Pango, Gdk, Gtk, Vte } = imports.gi;
+const { Handlebars } = imports.handlebars;
 const { util } = imports;
+
+const TITLE_TERMINAL_PROPERTIES = [
+    'window-title',
+    'icon-title',
+    'current-directory-uri',
+    'current-file-uri',
+    'current-container-name',
+    'current-container-runtime',
+];
+
+Handlebars.registerHelper('filename-from-uri', uri => {
+    if (uri)
+        return GLib.filename_from_uri(uri)[0];
+
+    return '';
+});
+
+Handlebars.registerHelper('hostname-from-uri', uri => {
+    if (uri)
+        return GLib.filename_from_uri(uri)[1];
+
+    return '';
+});
 
 function terminal_spawn_callback(terminal, _pid, error) {
     if (error)
@@ -15,7 +39,7 @@ GObject.type_ensure(Vte.Terminal);
 var TerminalPage = GObject.registerClass(
     {
         Template: util.APP_DATA_DIR.get_child('terminalpage.ui').get_uri(),
-        Children: ['terminal', 'tab_label', 'tab_label_label', 'scrollbar', 'close_button', 'switch_shortcut_label', 'switcher_item'],
+        Children: ['terminal', 'tab_label', 'tab_label_label', 'scrollbar', 'close_button', 'switcher_item'],
         Properties: {
             'settings': GObject.ParamSpec.object(
                 'settings', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, Gio.Settings
@@ -64,7 +88,6 @@ var TerminalPage = GObject.registerClass(
             this.bind_settings_ro('delete-binding', this.terminal);
             this.bind_settings_ro('pointer-autohide', this.terminal);
             this.bind_settings_ro('tab-close-buttons', this.close_button, 'visible');
-            this.bind_settings_ro('show-tab-switch-hotkeys', this.switch_shortcut_label, 'visible');
 
             // These widgets aren't children of the TerminalPage, so it's necessary to call
             // .destroy() on them manually.
@@ -116,8 +139,16 @@ var TerminalPage = GObject.registerClass(
                 this.notify('has-selection');
             });
 
-            this.terminal.bind_property('window-title', this.tab_label_label, 'label', GObject.BindingFlags.DEFAULT);
-            this.terminal.bind_property('window-title', this.switcher_item, 'text', GObject.BindingFlags.DEFAULT);
+            this.default_title_template = Handlebars.compile(this.settings.settings_schema.get_key('tab-title-template').get_default_value().unpack());
+            this.title_template = this.default_title_template;
+
+            this.method_handler(this.settings, 'changed::tab-title-template', this.update_tab_title_template);
+            this.update_tab_title_template();
+
+            TITLE_TERMINAL_PROPERTIES.forEach(prop => {
+                this.method_handler(this.terminal, `notify::${prop}`, this.update_tab_title);
+            });
+            this.update_tab_title();
 
             this.terminal_popup_menu = Gtk.Menu.new_from_model(this.menus.get_object('terminal-popup'));
             this.setup_popup_menu(this.terminal, this.terminal_popup_menu);
@@ -388,16 +419,20 @@ var TerminalPage = GObject.registerClass(
             this.clipboard.set_text(this.clicked_filename, -1);
         }
 
+        get switch_shortcut() {
+            return this._switch_shortcut;
+        }
+
         set switch_shortcut(value) {
+            let label = '';
             if (value) {
                 const [key, mods] = Gtk.accelerator_parse(value);
-                if (key) {
-                    this.switch_shortcut_label.label = Gtk.accelerator_get_label(key, mods);
-                    return;
-                }
+                if (key)
+                    label = Gtk.accelerator_get_label(key, mods);
             }
 
-            this.switch_shortcut_label.label = '';
+            this._switch_shortcut = label;
+            this.update_tab_title();
         }
 
         method_action(group, name, method) {
@@ -426,6 +461,37 @@ var TerminalPage = GObject.registerClass(
                 return true;
             });
             this.disconnect_on_destroy(widget, popup_menu_id);
+        }
+
+        update_tab_title_template() {
+            try {
+                this.title_template = Handlebars.compile(this.settings.get_string('tab-title-template'));
+            } catch {}
+
+            this.update_tab_title();
+        }
+
+        update_tab_title() {
+            const context = {
+                'switch-shortcut': this.switch_shortcut,
+            };
+
+            TITLE_TERMINAL_PROPERTIES.forEach(prop => {
+                context[prop] = this.terminal[prop];
+            });
+
+            let title;
+            try {
+                title = this.title_template(context);
+            } catch {
+                title = this.default_title_template(context);
+            }
+
+            this.tab_label_label.label = title;
+            this.switcher_item.text = title;
+
+            // For whatever reason, 'use-markup' in .ui file has no effect
+            this.switcher_item.use_markup = true;
         }
     }
 );

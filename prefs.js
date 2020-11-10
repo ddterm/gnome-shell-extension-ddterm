@@ -54,6 +54,8 @@ function createPrefsWidgetClass(resource_path, util) {
                 'delete_binding_combo',
                 'ambiguous_width_combo',
                 'reset_compatibility_button',
+                'tab_title_template_buffer',
+                'reset_tab_title_button',
             ].concat(palette_widgets()),
             Properties: {
                 'settings': GObject.ParamSpec.object('settings', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, Gio.Settings),
@@ -78,7 +80,6 @@ function createPrefsWidgetClass(resource_path, util) {
                     'tab-close-buttons',
                     'new-tab-button',
                     'tab-switcher-popup',
-                    'show-tab-switch-hotkeys',
                     'allow-hyperlink',
                     'audible-bell',
                     'cursor-colors-set',
@@ -96,6 +97,10 @@ function createPrefsWidgetClass(resource_path, util) {
 
                 this.settings_bind('theme-variant', this.theme_variant_combo, 'active-id');
                 this.settings_bind('tab-policy', this.tab_policy_combo, 'active-id');
+                this.settings_bind('tab-title-template', this.tab_title_template_buffer, 'text');
+                this.signal_connect(this.reset_tab_title_button, 'clicked', () => {
+                    this.settings.reset('tab-title-template');
+                });
 
                 this.settings_bind('custom-font', this.font_chooser, 'font');
                 this.settings_bind('use-system-font', this.custom_font_check, 'active', Gio.SettingsBindFlags.INVERT_BOOLEAN);

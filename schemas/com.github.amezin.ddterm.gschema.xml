@@ -93,8 +93,8 @@
     <key name="tab-switcher-popup" type="b">
       <default>true</default>
     </key>
-    <key name="show-tab-switch-hotkeys" type="b">
-      <default>true</default>
+    <key name="tab-title-template" type="s">
+      <default>"{{#if switch-shortcut}}&lt;span alpha=\"50%\"&gt;{{switch-shortcut}}&lt;/span&gt; {{/if}}{{window-title}}"</default>
     </key>
 
     <key name="custom-font" type="s">

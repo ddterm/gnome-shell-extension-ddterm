@@ -17,10 +17,13 @@ lint: lint/eslintrc-gjs.yml
 
 .PHONY: lint
 
+handlebars.js:
+	curl -o $@ 'https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.6/handlebars.min.js'
+
 EXTENSION_UUID := ddterm@amezin.github.com
 DEVELOP_SYMLINK := $(HOME)/.local/share/gnome-shell/extensions/$(EXTENSION_UUID)
 
-develop: schemas/gschemas.compiled
+develop: schemas/gschemas.compiled handlebars.js
 	mkdir -p "$(dir $(DEVELOP_SYMLINK))"
 	if [[ "$(abspath .)" != "$(abspath $(DEVELOP_SYMLINK))" ]]; then \
 		ln -snf "$(abspath .)" "$(DEVELOP_SYMLINK)"; \
@@ -41,7 +44,7 @@ prefs enable disable reset info show:
 .PHONY: prefs enable disable reset info show
 
 EXTENSION_PACK := $(EXTENSION_UUID).shell-extension.zip
-$(EXTENSION_PACK): EXTRA_SOURCES := $(filter-out extension.js prefs.js,$(wildcard *.ui *.js)) com.github.amezin.ddterm
+EXTRA_SOURCES := $(filter-out extension.js prefs.js handlebars.js,$(wildcard *.ui *.js)) com.github.amezin.ddterm handlebars.js
 $(EXTENSION_PACK): $(SCHEMAS) $(EXTRA_SOURCES) extension.js prefs.js metadata.json
 	gnome-extensions pack -f $(addprefix --schema=,$(SCHEMAS)) $(addprefix --extra-source=,$(EXTRA_SOURCES)) .
 
