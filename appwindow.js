@@ -179,6 +179,9 @@ var AppWindow = GObject.registerClass(
             if (!this.app_paintable)
                 return false;
 
+            if (!Gtk.cairo_should_draw_window(cr, this.window))
+                return false;
+
             const context = this.get_style_context();
             const allocation = this.get_child().get_allocation();
             Gtk.render_background(context, cr, allocation.x, allocation.y, allocation.width, allocation.height);
