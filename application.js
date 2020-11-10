@@ -107,6 +107,9 @@ const Application = GObject.registerClass(
         }
 
         activate() {
+            if (!this.window)  // There was an exception in startup()
+                System.exit(1);
+
             this.window.show();
         }
 
