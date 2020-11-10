@@ -39,7 +39,16 @@ GObject.type_ensure(Vte.Terminal);
 var TerminalPage = GObject.registerClass(
     {
         Template: util.APP_DATA_DIR.get_child('terminalpage.ui').get_uri(),
-        Children: ['terminal', 'tab_label', 'tab_label_label', 'scrollbar', 'close_button', 'switcher_item'],
+        Children: [
+            'terminal',
+            'tab_label',
+            'tab_label_label',
+            'scrollbar',
+            'close_button',
+            'switcher_item',
+            'custom_title_popover',
+            'custom_tab_title_entry',
+        ],
         Properties: {
             'settings': GObject.ParamSpec.object(
                 'settings', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, Gio.Settings
@@ -142,13 +151,21 @@ var TerminalPage = GObject.registerClass(
             this.default_title_template = Handlebars.compile(this.settings.settings_schema.get_key('tab-title-template').get_default_value().unpack());
             this.title_template = this.default_title_template;
 
+            const gvariant_false = GLib.Variant.new_boolean(false);
+            this.use_custom_title_action = new Gio.SimpleAction({
+                'name': 'use-custom-title',
+                'state': gvariant_false,
+                'parameter-type': gvariant_false.get_type(),
+            });
+            this.method_handler(this.use_custom_title_action, 'activate', this.toggle_custom_title);
             this.method_handler(this.settings, 'changed::tab-title-template', this.update_tab_title_template);
-            this.update_tab_title_template();
+            this.method_handler(this.custom_tab_title_entry, 'changed', this.update_tab_title_template);
 
             TITLE_TERMINAL_PROPERTIES.forEach(prop => {
                 this.method_handler(this.terminal, `notify::${prop}`, this.update_tab_title);
             });
-            this.update_tab_title();
+
+            this.update_tab_title_template();
 
             this.terminal_popup_menu = Gtk.Menu.new_from_model(this.menus.get_object('terminal-popup'));
             this.setup_popup_menu(this.terminal, this.terminal_popup_menu);
@@ -162,6 +179,7 @@ var TerminalPage = GObject.registerClass(
             this.tab_label.insert_action_group('page', actions);
 
             this.method_action(actions, 'close', this.close_request);
+            actions.add_action(this.use_custom_title_action);
 
             const terminal_actions = new Gio.SimpleActionGroup();
             this.insert_action_group('terminal', terminal_actions);
@@ -464,8 +482,11 @@ var TerminalPage = GObject.registerClass(
         }
 
         update_tab_title_template() {
+            if (!this.use_custom_title_action.state.unpack())
+                this.custom_tab_title_entry.text = this.settings.get_string('tab-title-template');
+
             try {
-                this.title_template = Handlebars.compile(this.settings.get_string('tab-title-template'));
+                this.title_template = Handlebars.compile(this.custom_tab_title_entry.text);
             } catch {}
 
             this.update_tab_title();
@@ -492,6 +513,14 @@ var TerminalPage = GObject.registerClass(
 
             // For whatever reason, 'use-markup' in .ui file has no effect
             this.switcher_item.use_markup = true;
+        }
+
+        toggle_custom_title(_, state) {
+            this.use_custom_title_action.set_state(state);
+            this.update_tab_title_template();
+
+            if (state.unpack())
+                this.custom_title_popover.popup();
         }
     }
 );
