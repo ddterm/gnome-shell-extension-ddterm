@@ -9,7 +9,7 @@ imports.gi.versions.Pango = '1.0';
 imports.gi.versions.Vte = '2.91';
 
 const System = imports.system;
-const { GLib, GObject, Gio, Gtk } = imports.gi;
+const { GLib, GObject, Gio, Gtk, Gdk } = imports.gi;
 
 const APP_DATA_DIR = Gio.File.new_for_commandline_arg(System.programInvocationName).get_parent();
 
@@ -63,6 +63,10 @@ const Application = GObject.registerClass(
             });
 
             const menus = Gtk.Builder.new_from_file(APP_DATA_DIR.get_child('menus.ui').get_path());
+
+            const style = Gtk.CssProvider.new();
+            style.load_from_path(APP_DATA_DIR.get_child('style.css').get_path());
+            Gtk.StyleContext.add_provider_for_screen(Gdk.Screen.get_default(), style, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
 
             this.window = new imports.appwindow.AppWindow({
                 application: this,

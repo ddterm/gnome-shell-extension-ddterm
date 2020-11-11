@@ -6,7 +6,7 @@
   <object class="GtkImage" id="close_icon">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
-    <property name="icon-name">window-close-symbolic</property>
+    <property name="icon-name">window-close</property>
     <property name="icon_size">1</property>
   </object>
   <object class="GtkEventBox" id="tab_label">
