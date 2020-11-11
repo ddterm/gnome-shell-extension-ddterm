@@ -5,7 +5,8 @@
   <object class="GtkImage" id="new_tab_icon">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
-    <property name="icon-name">list-add</property>
+    <property name="icon-name">list-add-symbolic</property>
+    <property name="use-fallback">True</property>
     <property name="icon_size">1</property>
   </object>
   <template class="Gjs_AppWindow" parent="GtkApplicationWindow">
