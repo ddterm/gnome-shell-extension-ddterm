@@ -255,6 +255,12 @@
     <key name="shortcut-next-tab" type="as">
       <default><![CDATA[['<Ctrl>Page_Down']]]></default>
     </key>
+    <key name="shortcut-set-custom-tab-title" type="as">
+      <default><![CDATA[[]]]></default>
+    </key>
+    <key name="shortcut-reset-tab-title" type="as">
+      <default><![CDATA[[]]]></default>
+    </key>
 
     <key name="shortcut-switch-to-tab-1" type="as">
       <default><![CDATA[['<Alt>1']]]></default>

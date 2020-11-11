@@ -372,6 +372,18 @@
         <col id="3">0</col>
       </row>
       <row>
+        <col id="0">shortcut-set-custom-tab-title</col>
+        <col id="1" translatable="yes">Set Custom Tab Title</col>
+        <col id="2">0</col>
+        <col id="3">0</col>
+      </row>
+      <row>
+        <col id="0">shortcut-reset-tab-title</col>
+        <col id="1" translatable="yes">Reset Tab Title</col>
+        <col id="2">0</col>
+        <col id="3">0</col>
+      </row>
+      <row>
         <col id="0">shortcut-switch-to-tab-1</col>
         <col id="1" translatable="yes">Switch to Tab 1</col>
         <col id="2">0</col>
