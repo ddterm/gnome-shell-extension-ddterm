@@ -22,6 +22,18 @@ Inspired by
 
 ### 1. Install the extension to `~/.local/share/gnome-shell/extensions`
 
+#### Install a released version
+
+You can download a released version from
+[Releases](https://github.com/amezin/gnome-shell-extension-ddterm/releases)
+page. You need the file `ddterm@amezin.github.com.shell-extension.zip`.
+
+Download it, then run:
+
+    $ gnome-extensions install -f /path/to/ddterm@amezin.github.com.shell-extension.zip
+
+#### Install from `git` repository
+
 `git clone` the repository into arbitrary location, and run `make install`:
 
     $ git clone https://github.com/amezin/gnome-shell-extension-ddterm.git
