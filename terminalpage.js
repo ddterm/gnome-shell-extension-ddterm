@@ -485,6 +485,8 @@ var TerminalPage = GObject.registerClass(
             if (!this.use_custom_title_action.state.unpack())
                 this.custom_tab_title_entry.text = this.settings.get_string('tab-title-template');
 
+            this.custom_tab_title_entry.width_chars = this.custom_tab_title_entry.text_length;
+
             try {
                 this.title_template = Handlebars.compile(this.custom_tab_title_entry.text);
             } catch {}
