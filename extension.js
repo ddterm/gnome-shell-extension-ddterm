@@ -27,7 +27,7 @@ function init() {
 }
 
 function enable() {
-    dispose_settings();
+    disconnect_settings();
     settings = imports.misc.extensionUtils.getSettings();
 
     Main.wm.addKeybinding(
@@ -68,13 +68,14 @@ function disable() {
     }
 
     stop_dbus_watch();
-    dispose_action_group();
+    dbus_action_group = null;
+
     disconnect_created_handler();
     disconnect_focus_tracking();
 
     Main.wm.removeKeybinding('ddterm-toggle-hotkey');
 
-    dispose_settings();
+    disconnect_settings();
 }
 
 function spawn_app() {
@@ -101,12 +102,11 @@ function toggle() {
 }
 
 function dbus_appeared(connection, name) {
-    dispose_action_group();
     dbus_action_group = Gio.DBusActionGroup.get(connection, name, APP_DBUS_PATH);
 }
 
 function dbus_disappeared() {
-    dispose_action_group();
+    dbus_action_group = null;
 }
 
 function handle_created(display, win) {
@@ -241,20 +241,13 @@ function disconnect_created_handler() {
     GObject.signal_handlers_disconnect_by_func(global.display, handle_created);
 }
 
-function dispose_action_group() {
-    if (dbus_action_group) {
-        dbus_action_group.run_dispose();
-        dbus_action_group = null;
-    }
-}
-
-function dispose_settings() {
-    if (settings) {
-        settings.run_dispose();
-        settings = null;
-    }
-}
-
 function disconnect_focus_tracking() {
     GObject.signal_handlers_disconnect_by_func(global.display, focus_window_changed);
+}
+
+function disconnect_settings() {
+    if (settings) {
+        GObject.signal_handlers_disconnect_by_func(settings, set_window_above);
+        GObject.signal_handlers_disconnect_by_func(settings, set_window_stick);
+    }
 }
