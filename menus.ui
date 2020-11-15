@@ -59,12 +59,49 @@
         <attribute name="action">win.new-tab</attribute>
       </item>
     </section>
-    <section>
-      <item>
-        <attribute name="label" translatable="yes">Preferences</attribute>
-        <attribute name="action">app.preferences</attribute>
-      </item>
-    </section>
+    <submenu>
+      <attribute name="label" translatable="yes">Preferences</attribute>
+      <section>
+        <item>
+          <attribute name="label" translatable="yes">Preferences...</attribute>
+          <attribute name="action">app.preferences</attribute>
+        </item>
+      </section>
+      <section>
+        <item>
+          <attribute name="label" translatable="yes">Above All Windows</attribute>
+          <attribute name="action">app.window-above</attribute>
+        </item>
+        <item>
+          <attribute name="label" translatable="yes">On All Workspaces</attribute>
+          <attribute name="action">app.window-stick</attribute>
+        </item>
+        <item>
+          <attribute name="label" translatable="yes">Hide When Application Loses Focus</attribute>
+          <attribute name="action">app.hide-when-focus-lost</attribute>
+        </item>
+        <item>
+          <attribute name="label" translatable="yes">Hide When Esc Key Is Pressed</attribute>
+          <attribute name="action">app.hide-window-on-esc</attribute>
+        </item>
+      </section>
+      <section>
+        <item>
+          <attribute name="label" translatable="yes">Scroll On Output</attribute>
+          <attribute name="action">app.scroll-on-output</attribute>
+        </item>
+        <item>
+          <attribute name="label" translatable="yes">Scroll On Keystroke</attribute>
+          <attribute name="action">app.scroll-on-keystroke</attribute>
+        </item>
+      </section>
+      <section>
+        <item>
+          <attribute name="label" translatable="yes">Enable Keyboard Shortcuts</attribute>
+          <attribute name="action">app.shortcuts-enabled</attribute>
+        </item>
+      </section>
+    </submenu>
   </menu>
   <menu id="tab-popup">
     <section>

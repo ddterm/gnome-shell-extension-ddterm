@@ -81,6 +81,14 @@ const Application = GObject.registerClass(
 
             this.simple_action('preferences', this.preferences.bind(this));
 
+            this.add_action(this.settings.create_action('window-above'));
+            this.add_action(this.settings.create_action('window-stick'));
+            this.add_action(this.settings.create_action('hide-when-focus-lost'));
+            this.add_action(this.settings.create_action('hide-window-on-esc'));
+            this.add_action(this.settings.create_action('shortcuts-enabled'));
+            this.add_action(this.settings.create_action('scroll-on-output'));
+            this.add_action(this.settings.create_action('scroll-on-keystroke'));
+
             this.gtk_settings = Gtk.Settings.get_default();
             this.settings.connect('changed::theme-variant', this.update_theme.bind(this));
             this.update_theme();
