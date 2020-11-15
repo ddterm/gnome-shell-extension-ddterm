@@ -1,5 +1,7 @@
 # Another Drop Down Terminal Extension for GNOME Shell
 
+[extensions.gnome.org]
+
 <img src="docs/screenshot.png" />
 
 Inspired by
@@ -19,6 +21,15 @@ Inspired by
 <img src="docs/prefs.gif" width="877" height="579" />
 
 ## Installing
+
+The easiest way to install the extension is to go to [extensions.gnome.org].
+
+However, review process on [extensions.gnome.org] is kinda slow, so a new
+release may be available here on GitHub, but not on [extensions.gnome.org] yet.
+
+[extensions.gnome.org]: https://extensions.gnome.org/extension/3780/ddterm/
+
+If you want to install from GitHub:
 
 ### 1. Install the extension to `~/.local/share/gnome-shell/extensions`
 
