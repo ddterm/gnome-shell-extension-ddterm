@@ -176,13 +176,28 @@ function track_window(win) {
         return;
     }
 
-    if (win === current_window)
+    if (win === current_window) {
+        setup_current_window(win);
         return;
+    }
 
     current_window = win;
 
     win.connect('unmanaging', untrack_window);
     win.connect('unmanaged', untrack_window);
+
+    setup_current_window(win);
+
+    // Sometimes size-changed is emitted from .move_resize_frame() with .get_frame_rect() returning old/incorrect size.
+    // Thus connect to size-changed only after initial size is set.
+    win.connect('size-changed', update_height_setting);
+
+    win.connect_after('shown', setup_current_window);
+}
+
+function setup_current_window(win) {
+    if (current_window !== win)
+        return;
 
     let height_ratio = settings.get_double('window-height');
 
@@ -193,10 +208,6 @@ function track_window(win) {
 
     const workarea = Main.layoutManager.getWorkAreaForMonitor(Main.layoutManager.currentMonitor.index);
     win.move_resize_frame(true, workarea.x, workarea.y, workarea.width, workarea.height * height_ratio);
-
-    // Sometimes size-changed is emitted from .move_resize_frame() with .get_frame_rect() returning old/incorrect size.
-    // Thus connect to size-changed only after initial size is set.
-    win.connect('size-changed', update_height_setting);
 
     Main.activateWindow(win);
 
@@ -227,6 +238,7 @@ function untrack_window(win) {
     if (win) {
         GObject.signal_handlers_disconnect_by_func(win, untrack_window);
         GObject.signal_handlers_disconnect_by_func(win, update_height_setting);
+        GObject.signal_handlers_disconnect_by_func(win, setup_current_window);
     }
 }
 
