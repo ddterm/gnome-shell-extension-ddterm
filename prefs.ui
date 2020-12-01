@@ -471,7 +471,7 @@
         <property name="visible">True</property>
         <property name="can-focus">True</property>
         <child>
-          <!-- n-columns=2 n-rows=9 -->
+          <!-- n-columns=2 n-rows=10 -->
           <object class="GtkGrid">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
@@ -638,6 +638,42 @@
                 <property name="left-attach">0</property>
                 <property name="top-attach">8</property>
                 <property name="width">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="halign">start</property>
+                <property name="label" translatable="yes">Window type hint:</property>
+              </object>
+              <packing>
+                <property name="left-attach">0</property>
+                <property name="top-attach">9</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkComboBoxText" id="window_type_hint_combo">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <items>
+                  <item id="normal" translatable="yes">Normal</item>
+                  <item id="dialog" translatable="yes">Dialog</item>
+                  <item id="splashscreen" translatable="yes">Splash Screen</item>
+                  <item id="utility" translatable="yes">Utility</item>
+                  <item id="dock" translatable="yes">Dock</item>
+                  <item id="dropdown-menu" translatable="yes">Dropdown Menu</item>
+                  <item id="menu" translatable="yes">Menu</item>
+                  <item id="toolbar" translatable="yes">Toolbar</item>
+                  <item id="popup-menu" translatable="yes">Popup Menu</item>
+                  <item id="tooltip" translatable="yes">Tooltip</item>
+                  <item id="notification" translatable="yes">Notification</item>
+                  <item id="combo" translatable="yes">Combo</item>
+                </items>
+              </object>
+              <packing>
+                <property name="left-attach">1</property>
+                <property name="top-attach">9</property>
               </packing>
             </child>
           </object>

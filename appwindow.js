@@ -77,6 +77,9 @@ var AppWindow = GObject.registerClass(
             this.method_handler(this.notebook, 'page-removed', this.tab_switcher_remove);
             this.method_handler(this.notebook, 'page-reordered', this.tab_switcher_reorder);
 
+            this.method_handler(this.settings, 'changed::window-type-hint', this.update_type_hint);
+            this.update_type_hint();
+
             this.new_tab();
         }
 
@@ -211,6 +214,10 @@ var AppWindow = GObject.registerClass(
             const items = this.tab_switch_menu_box.get_children();
             for (let i = start_page_num; i < items.length; i++)
                 items[i].action_target = GLib.Variant.new_int32(i);
+        }
+
+        update_type_hint() {
+            this.type_hint = this.settings.get_enum('window-type-hint');
         }
     }
 );
