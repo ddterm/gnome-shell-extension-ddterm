@@ -13,7 +13,6 @@
     <property name="title" translatable="yes">Drop Down Terminal</property>
     <property name="window-position">center</property>
     <property name="icon-name">utilities-terminal</property>
-    <property name="type-hint">dialog</property>
     <child>
       <object class="GtkBox">
         <property name="visible">True</property>
