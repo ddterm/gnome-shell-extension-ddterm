@@ -13,6 +13,8 @@ let current_window = null;
 let bus_watch_id = null;
 let dbus_action_group = null;
 
+let resizing = false;
+
 const APP_ID = 'com.github.amezin.ddterm';
 const APP_DBUS_PATH = '/com/github/amezin/ddterm';
 const WINDOW_PATH_PREFIX = `${APP_DBUS_PATH}/window/`;
@@ -55,6 +57,7 @@ function enable() {
 
     settings.connect('changed::window-above', set_window_above);
     settings.connect('changed::window-stick', set_window_stick);
+    settings.connect('changed::window-height', update_window_height);
 }
 
 function disable() {
@@ -195,19 +198,34 @@ function track_window(win) {
     win.connect_after('shown', setup_current_window);
 }
 
-function setup_current_window(win) {
-    if (current_window !== win)
+function move_resize_window(win, initial = false) {
+    if (!win || win !== current_window)
         return;
 
     let height_ratio = settings.get_double('window-height');
 
-    if (win.get_client_type() === Meta.WindowClientType.WAYLAND) {
-        if (Meta.prefs_get_auto_maximize())
-            height_ratio = Math.min(height_ratio, 0.8);
+    if (initial) {
+        if (win.get_client_type() === Meta.WindowClientType.WAYLAND) {
+            if (Meta.prefs_get_auto_maximize())
+                height_ratio = Math.min(height_ratio, 0.8);
+        }
     }
 
     const workarea = Main.layoutManager.getWorkAreaForMonitor(Main.layoutManager.currentMonitor.index);
-    win.move_resize_frame(true, workarea.x, workarea.y, workarea.width, workarea.height * height_ratio);
+
+    resizing = true;
+    try {
+        win.move_resize_frame(true, workarea.x, workarea.y, workarea.width, workarea.height * height_ratio);
+    } finally {
+        resizing = false;
+    }
+}
+
+function setup_current_window(win) {
+    if (current_window !== win)
+        return;
+
+    move_resize_window(win, true);
 
     Main.activateWindow(win);
 
@@ -216,6 +234,9 @@ function setup_current_window(win) {
 }
 
 function update_height_setting(win) {
+    if (resizing)
+        return;
+
     if (win !== current_window)
         return;
 
@@ -228,7 +249,13 @@ function update_height_setting(win) {
 
     const workarea = Main.layoutManager.getWorkAreaForMonitor(monitor);
     const current_height = window_rect.height / workarea.height;
-    settings.set_double('window-height', current_height);
+
+    if (Math.abs(current_height - settings.get_double('window-height')) > 0.0001)
+        settings.set_double('window-height', current_height);
+}
+
+function update_window_height() {
+    move_resize_window(current_window);
 }
 
 function untrack_window(win) {
@@ -261,5 +288,6 @@ function disconnect_settings() {
     if (settings) {
         GObject.signal_handlers_disconnect_by_func(settings, set_window_above);
         GObject.signal_handlers_disconnect_by_func(settings, set_window_stick);
+        GObject.signal_handlers_disconnect_by_func(settings, update_window_height);
     }
 }

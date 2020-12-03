@@ -57,6 +57,7 @@ function createPrefsWidgetClass(resource_path, util) {
                 'tab_title_template_buffer',
                 'reset_tab_title_button',
                 'window_type_hint_combo',
+                'window_height_adjustment',
             ].concat(palette_widgets()),
             Properties: {
                 'settings': GObject.ParamSpec.object('settings', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, Gio.Settings),
@@ -129,6 +130,7 @@ function createPrefsWidgetClass(resource_path, util) {
                 this.bind_sensitive('highlight-colors-set', this.highlight_background_color.parent);
 
                 this.settings_bind('background-opacity', this.opacity_adjustment, 'value');
+                this.settings_bind('window-height', this.window_height_adjustment, 'value');
 
                 this.bind_sensitive('use-theme-colors', this.color_scheme_editor, true);
 
