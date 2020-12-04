@@ -215,7 +215,7 @@ function move_resize_window(win, initial = false) {
 
     resizing = true;
     try {
-        win.move_resize_frame(true, workarea.x, workarea.y, workarea.width, workarea.height * height_ratio);
+        win.move_resize_frame(false, workarea.x, workarea.y, workarea.width, workarea.height * height_ratio);
     } finally {
         resizing = false;
     }
