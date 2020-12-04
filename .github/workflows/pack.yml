@@ -1,0 +1,34 @@
+name: pack
+
+on: [push]
+
+jobs:
+  pack:
+    runs-on: ubuntu-20.04
+    steps:
+    - run: sudo apt-get install --no-install-recommends gnome-shell
+
+    - uses: actions/checkout@v2
+      with:
+        path: src
+    - uses: actions/checkout@v2
+      with:
+        ref: gh-pages
+        path: pages
+
+    - run: make pack
+      working-directory: src
+
+    - run: mkdir -pv downloads/${{ github.ref }}
+      working-directory: pages
+    - run: cp -v src/*.shell-extension.zip pages/downloads/${{ github.ref }}/
+    - run: |
+        git config --local user.name "github-actions[bot]"
+        git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      working-directory: pages
+    - run: git add -v downloads/${{ github.ref }}/
+      working-directory: pages
+    - run: git commit -m "Auto-build ${{ github.ref }} on $(date)"
+      working-directory: pages
+    - run: git push
+      working-directory: pages
