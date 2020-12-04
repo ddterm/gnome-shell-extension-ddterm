@@ -4,6 +4,6 @@
     "uuid": "ddterm@amezin.github.com",
     "settings-schema": "com.github.amezin.ddterm",
     "shell-version": ["3.36", "3.38"],
-    "version": 3,
+    "version": 4,
     "url": "https://github.com/amezin/gnome-shell-extension-ddterm"
 }
