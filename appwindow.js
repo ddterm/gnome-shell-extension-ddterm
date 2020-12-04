@@ -42,6 +42,7 @@ var AppWindow = GObject.registerClass(
 
             this.method_handler(this.resize_box, 'realize', this.set_resize_cursor);
             this.method_handler(this.resize_box, 'button-press-event', this.start_resizing);
+            this.bind_settings_ro('window-resizable', this.resize_box, 'visible');
 
             this.tab_select_action = new Gio.PropertyAction({
                 name: 'switch-to-tab',
