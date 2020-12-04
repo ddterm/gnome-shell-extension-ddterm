@@ -53,12 +53,6 @@ var AppWindow = GObject.registerClass(
             this.simple_action('next-tab', () => this.notebook.next_page());
             this.simple_action('prev-tab', () => this.notebook.prev_page());
 
-            // Can't bind - workaround
-            // "g_signal_handler_disconnect: assertion 'handler_id > 0' failed"
-            this.signal_connect(this.settings, 'changed::window-skip-taskbar', () => {
-                this.skip_taskbar_hint = this.settings.get_boolean('window-skip-taskbar');
-            });
-
             this.bind_settings_ro('new-tab-button', this.new_tab_button, 'visible');
             this.bind_settings_ro('tab-switcher-popup', this.tab_switch_button, 'visible');
 
@@ -78,6 +72,7 @@ var AppWindow = GObject.registerClass(
             this.method_handler(this.notebook, 'page-reordered', this.tab_switcher_reorder);
 
             this.method_handler(this.settings, 'changed::window-type-hint', this.update_type_hint);
+            this.method_handler(this.settings, 'changed::window-skip-taskbar', this.update_type_hint);
             this.update_type_hint();
 
             this.new_tab();
@@ -218,6 +213,8 @@ var AppWindow = GObject.registerClass(
 
         update_type_hint() {
             this.type_hint = this.settings.get_enum('window-type-hint');
+            // skip_taskbar_hint should always be set after type_hint
+            this.skip_taskbar_hint = this.settings.get_boolean('window-skip-taskbar');
         }
     }
 );
