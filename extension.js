@@ -187,10 +187,20 @@ function track_window(win) {
     win.connect('unmanaging', untrack_window);
     win.connect('unmanaged', untrack_window);
 
-    move_resize_window(win, true);
+    win.connect('notify::maximized-vertically', unmaximize_window);
 
-    // Sometimes size-changed is emitted from .move_resize_frame() with .get_frame_rect() returning old/incorrect size.
-    // Thus connect to size-changed only after initial size is set.
+    if (win.maximized_vertically)
+        win.unmaximize(Meta.MaximizeFlags.VERTICAL);
+
+    const workarea = Main.layoutManager.getWorkAreaForMonitor(Main.layoutManager.currentMonitor.index);
+    const target_rect = workarea.copy();
+    target_rect.height *= settings.get_double('window-height');
+    target_rect.height = Math.min(target_rect.height, workarea.height - 1);
+
+    move_resize_window(win, target_rect);
+
+    // !!! Sometimes size-changed is emitted from .move_resize_frame() with .get_frame_rect() returning old/incorrect size.
+    // Current workaround - 'resizing' flag
     win.connect('size-changed', update_height_setting);
 
     Main.activateWindow(win);
@@ -199,24 +209,43 @@ function track_window(win) {
     set_window_stick();
 }
 
-function move_resize_window(win, initial = false) {
+function workarea_for_window(win) {
+    // Can't use window.monitor here - it's out of sync
+    const monitor = global.display.get_monitor_index_for_rect(win.get_frame_rect());
+    if (monitor < 0)
+        return null;
+
+    return Main.layoutManager.getWorkAreaForMonitor(monitor);
+}
+
+function target_rect_for_window(win) {
+    const target_rect = workarea_for_window(win);
+    if (!target_rect)
+        return null;
+
+    target_rect.height *= settings.get_double('window-height');
+    return target_rect;
+}
+
+function unmaximize_window(win) {
     if (!win || win !== current_window)
         return;
 
-    let height_ratio = settings.get_double('window-height');
+    if (!win.maximized_vertically)
+        return;
 
-    if (initial) {
-        if (win.get_client_type() === Meta.WindowClientType.WAYLAND) {
-            if (Meta.prefs_get_auto_maximize())
-                height_ratio = Math.min(height_ratio, 0.8);
-        }
-    }
+    const target_rect = target_rect_for_window(win);
+    if (!target_rect)
+        return;
 
-    const workarea = Main.layoutManager.getWorkAreaForMonitor(Main.layoutManager.currentMonitor.index);
+    win.unmaximize(Meta.MaximizeFlags.VERTICAL);
+    move_resize_window(win, target_rect);
+}
 
+function move_resize_window(win, target_rect) {
     resizing = true;
     try {
-        win.move_resize_frame(false, workarea.x, workarea.y, workarea.width, workarea.height * height_ratio);
+        win.move_resize_frame(false, target_rect.x, target_rect.y, target_rect.width, target_rect.height);
     } finally {
         resizing = false;
     }
@@ -226,25 +255,29 @@ function update_height_setting(win) {
     if (resizing)
         return;
 
-    if (win !== current_window)
+    if (!win || win !== current_window)
         return;
 
-    const window_rect = win.get_frame_rect();
-
-    // Can't use window.monitor here - it's out of sync
-    const monitor = global.display.get_monitor_index_for_rect(window_rect);
-    if (monitor < 0)
+    if (win.maximized_vertically)
         return;
 
-    const workarea = Main.layoutManager.getWorkAreaForMonitor(monitor);
-    const current_height = window_rect.height / workarea.height;
+    const workarea = workarea_for_window(win);
+    const current_height = win.get_frame_rect().height / workarea.height;
 
     if (Math.abs(current_height - settings.get_double('window-height')) > 0.0001)
         settings.set_double('window-height', current_height);
 }
 
 function update_window_height() {
-    move_resize_window(current_window);
+    if (!current_window)
+        return;
+
+    const target_rect = target_rect_for_window(current_window);
+    if (!target_rect)
+        return;
+
+    if (!target_rect.equal(current_window.get_frame_rect()))
+        move_resize_window(current_window, target_rect);
 }
 
 function untrack_window(win) {
@@ -254,6 +287,7 @@ function untrack_window(win) {
     if (win) {
         GObject.signal_handlers_disconnect_by_func(win, untrack_window);
         GObject.signal_handlers_disconnect_by_func(win, update_height_setting);
+        GObject.signal_handlers_disconnect_by_func(win, unmaximize_window);
     }
 }
 
