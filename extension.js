@@ -179,23 +179,24 @@ function track_window(win) {
         return;
     }
 
-    if (win === current_window) {
-        setup_current_window(win);
+    if (win === current_window)
         return;
-    }
 
     current_window = win;
 
     win.connect('unmanaging', untrack_window);
     win.connect('unmanaged', untrack_window);
 
-    setup_current_window(win);
+    move_resize_window(win, true);
 
     // Sometimes size-changed is emitted from .move_resize_frame() with .get_frame_rect() returning old/incorrect size.
     // Thus connect to size-changed only after initial size is set.
     win.connect('size-changed', update_height_setting);
 
-    win.connect_after('shown', setup_current_window);
+    Main.activateWindow(win);
+
+    set_window_above();
+    set_window_stick();
 }
 
 function move_resize_window(win, initial = false) {
@@ -219,18 +220,6 @@ function move_resize_window(win, initial = false) {
     } finally {
         resizing = false;
     }
-}
-
-function setup_current_window(win) {
-    if (current_window !== win)
-        return;
-
-    move_resize_window(win, true);
-
-    Main.activateWindow(win);
-
-    set_window_above();
-    set_window_stick();
 }
 
 function update_height_setting(win) {
@@ -265,7 +254,6 @@ function untrack_window(win) {
     if (win) {
         GObject.signal_handlers_disconnect_by_func(win, untrack_window);
         GObject.signal_handlers_disconnect_by_func(win, update_height_setting);
-        GObject.signal_handlers_disconnect_by_func(win, setup_current_window);
     }
 }
 
