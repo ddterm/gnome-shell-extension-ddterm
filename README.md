@@ -39,6 +39,9 @@ You can download a released version from
 [Releases](https://github.com/amezin/gnome-shell-extension-ddterm/releases)
 page. You need the file `ddterm@amezin.github.com.shell-extension.zip`.
 
+Or, you can download a prebuilt package for a branch from
+[Github Pages](https://amezin.github.io/gnome-shell-extension-ddterm/#prebuilt-extension-packages).
+
 Download it, then run:
 
     $ gnome-extensions install -f /path/to/ddterm@amezin.github.com.shell-extension.zip
