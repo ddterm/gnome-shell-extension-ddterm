@@ -33,7 +33,7 @@ If you want to install from GitHub:
 
 ### 1. Install the extension to `~/.local/share/gnome-shell/extensions`
 
-#### Install a released version
+#### Install from a prebuilt package
 
 You can download a released version from
 [Releases](https://github.com/amezin/gnome-shell-extension-ddterm/releases)
