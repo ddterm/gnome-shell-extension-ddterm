@@ -23,12 +23,16 @@ jobs:
       working-directory: pages
     - run: cp -v src/*.shell-extension.zip pages/downloads/${{ github.ref }}/
     - run: cp -rv src/README.md src/docs pages/
+      if: github.ref == 'ref/head/master'
     - run: |
         git config --local user.name "github-actions[bot]"
         git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
       working-directory: pages
-    - run: git add -v downloads/${{ github.ref }}/ README.md docs
+    - run: git add -v downloads/${{ github.ref }}/
       working-directory: pages
+    - run: git add -v README.md docs
+      working-directory: pages
+      if: github.ref == 'ref/head/master'
     - run: git commit -m "Auto-build ${{ github.ref }} on $(date)"
       working-directory: pages
     - run: git push
