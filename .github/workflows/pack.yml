@@ -33,7 +33,11 @@ jobs:
     - run: git add -v README.md docs
       working-directory: pages
       if: ${{ github.ref == 'refs/heads/master' }}
-    - run: git commit -m "Auto-build ${{ github.ref }} on $(date)\n\nSource commit ${{ github.sha }}\n"
+    - run: |
+        git commit -m "Auto-build ${{ github.ref }} on $(date)
+
+        Source commit ${{ github.sha }}
+        "
       working-directory: pages
     - run: git push
       working-directory: pages
