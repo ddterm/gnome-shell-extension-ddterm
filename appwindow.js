@@ -72,9 +72,9 @@ var AppWindow = GObject.registerClass(
             this.method_handler(this.notebook, 'page-removed', this.tab_switcher_remove);
             this.method_handler(this.notebook, 'page-reordered', this.tab_switcher_reorder);
 
-            this.method_handler(this.settings, 'changed::window-type-hint', this.update_type_hint);
-            this.method_handler(this.settings, 'changed::window-skip-taskbar', this.update_type_hint);
-            this.update_type_hint();
+            this.method_handler(this.settings, 'changed::window-type-hint', this.update_hints);
+            this.method_handler(this.settings, 'changed::window-skip-taskbar', this.update_hints);
+            this.update_hints();
 
             this.new_tab();
         }
@@ -212,7 +212,7 @@ var AppWindow = GObject.registerClass(
                 items[i].action_target = GLib.Variant.new_int32(i);
         }
 
-        update_type_hint() {
+        update_hints() {
             this.type_hint = this.settings.get_enum('window-type-hint');
             // skip_taskbar_hint should always be set after type_hint
             this.skip_taskbar_hint = this.settings.get_boolean('window-skip-taskbar');
