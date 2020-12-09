@@ -19,13 +19,6 @@ const { util } = imports;
 
 util.APP_DATA_DIR = APP_DATA_DIR;
 
-function remove_prefix(s, prefix) {
-    if (s.startsWith(prefix))
-        return s.substring(prefix.length);
-
-    return s;
-}
-
 const Application = GObject.registerClass(
     class Application extends Gtk.Application {
         _init(params) {
@@ -178,9 +171,6 @@ const Application = GObject.registerClass(
         }
     }
 );
-
-// App directory is prepended to PATH by the extension
-GLib.setenv('PATH', remove_prefix(remove_prefix(GLib.getenv('PATH'), APP_DATA_DIR.get_path()), ':'), true);
 
 GLib.set_prgname('com.github.amezin.ddterm');
 GLib.set_application_name('Drop Down Terminal');

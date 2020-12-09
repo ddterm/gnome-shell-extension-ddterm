@@ -572,7 +572,7 @@
             </child>
             <child>
               <object class="GtkCheckButton" id="window_skip_taskbar_check">
-                <property name="label" translatable="yes">Exclude window from task bar (ignored on Wayland)</property>
+                <property name="label" translatable="yes">Exclude window from overview/task bar</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>

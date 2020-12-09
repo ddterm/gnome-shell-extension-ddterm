@@ -2,7 +2,7 @@
 
 /* exported init enable disable */
 
-const { GLib, GObject, Gio, Meta, Shell } = imports.gi;
+const { GObject, Gio, Meta, Shell } = imports.gi;
 const Main = imports.ui.main;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 
@@ -15,15 +15,16 @@ let dbus_action_group = null;
 
 let resizing = false;
 
+let subprocess_launcher = null;
+let wayland_client = null;
+let subprocess = null;
+
 const APP_ID = 'com.github.amezin.ddterm';
 const APP_DBUS_PATH = '/com/github/amezin/ddterm';
 const WINDOW_PATH_PREFIX = `${APP_DBUS_PATH}/window/`;
-
-const APP_INFO = Gio.AppInfo.create_from_commandline(
-    'com.github.amezin.ddterm --undecorated',
-    'Drop Down Terminal',
-    Gio.AppInfoCreateFlags.SUPPORTS_STARTUP_NOTIFICATION
-);
+const SUBPROCESS_ARGV = [Me.dir.get_child('com.github.amezin.ddterm').get_path(), '--undecorated'];
+const USE_WAYLAND_CLIENT = Meta.WaylandClient && Meta.is_wayland_compositor();
+const SIGINT = 2;
 
 function init() {
 }
@@ -58,6 +59,7 @@ function enable() {
     settings.connect('changed::window-above', set_window_above);
     settings.connect('changed::window-stick', set_window_stick);
     settings.connect('changed::window-height', update_window_height);
+    settings.connect('changed::window-skip-taskbar', set_skip_taskbar);
 }
 
 function disable() {
@@ -66,8 +68,8 @@ function disable() {
         // lock screen/switch to other mode where extensions aren't allowed.
         // Because when the session switches back to normal mode we want to
         // keep all open terminals.
-        if (dbus_action_group)
-            dbus_action_group.activate_action('quit', null);
+        if (subprocess)
+            subprocess.send_signal(SIGINT);
     }
 
     stop_dbus_watch();
@@ -82,19 +84,33 @@ function disable() {
 }
 
 function spawn_app() {
-    // Command line parser in G[Desktop]AppInfo doesn't handle quoted
-    // arguments properly. In particular, quoted spaces.
-    // The app will still launch, but the name will be wrong.
-    // So prepend PATH instead.
+    if (subprocess || wayland_client)
+        return;
+
+    if (!subprocess_launcher)
+        subprocess_launcher = Gio.SubprocessLauncher.new(Gio.SubprocessFlags.NONE);
+
     const context = global.create_app_launch_context(0, -1);
-    const current_env = context.get_environment();
-    const current_path = GLib.environ_getenv(current_env, 'PATH');
-    context.setenv('PATH', `${Me.dir.get_path()}:${current_path}`);
+    subprocess_launcher.set_environ(context.get_environment());
 
     if (settings.get_boolean('force-x11-gdk-backend'))
-        context.setenv('GDK_BACKEND', 'x11');
+        subprocess_launcher.setenv('GDK_BACKEND', 'x11', true);
 
-    APP_INFO.launch([], context);
+    if (USE_WAYLAND_CLIENT && subprocess_launcher.getenv('GDK_BACKEND') !== 'x11') {
+        wayland_client = Meta.WaylandClient.new(subprocess_launcher);
+        subprocess = wayland_client.spawnv(global.display, SUBPROCESS_ARGV);
+    } else {
+        subprocess = subprocess_launcher.spawnv(SUBPROCESS_ARGV);
+    }
+
+    subprocess.wait_async(null, subprocess_terminated);
+}
+
+function subprocess_terminated(source) {
+    if (subprocess === source) {
+        subprocess = null;
+        wayland_client = null;
+    }
 }
 
 function toggle() {
@@ -146,6 +162,9 @@ function focus_window_changed() {
 }
 
 function is_dropdown_terminal_window(win) {
+    if (wayland_client && !wayland_client.owns_window(win))
+        return false;
+
     return (
         win.gtk_application_id === APP_ID &&
         win.gtk_window_object_path &&
@@ -171,6 +190,16 @@ function set_window_stick() {
         current_window.stick();
     else
         current_window.unstick();
+}
+
+function set_skip_taskbar() {
+    if (!current_window || !wayland_client)
+        return;
+
+    if (settings.get_boolean('window-skip-taskbar'))
+        wayland_client.hide_from_window_list(current_window);
+    else
+        wayland_client.show_in_window_list(current_window);
 }
 
 function track_window(win) {
@@ -203,6 +232,7 @@ function track_window(win) {
 
     set_window_above();
     set_window_stick();
+    set_skip_taskbar();
 }
 
 function workarea_for_window(win) {
@@ -298,5 +328,6 @@ function disconnect_settings() {
         GObject.signal_handlers_disconnect_by_func(settings, set_window_above);
         GObject.signal_handlers_disconnect_by_func(settings, set_window_stick);
         GObject.signal_handlers_disconnect_by_func(settings, update_window_height);
+        GObject.signal_handlers_disconnect_by_func(settings, set_skip_taskbar);
     }
 }
