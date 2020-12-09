@@ -193,8 +193,7 @@ function track_window(win) {
         win.unmaximize(Meta.MaximizeFlags.VERTICAL);
 
     const workarea = Main.layoutManager.getWorkAreaForMonitor(Main.layoutManager.currentMonitor.index);
-    const target_rect = workarea.copy();
-    target_rect.height *= settings.get_double('window-height');
+    const target_rect = target_rect_for_workarea(workarea);
     target_rect.height = Math.min(target_rect.height, workarea.height - 1);
 
     move_resize_window(win, target_rect);
@@ -218,13 +217,18 @@ function workarea_for_window(win) {
     return Main.layoutManager.getWorkAreaForMonitor(monitor);
 }
 
-function target_rect_for_window(win) {
-    const target_rect = workarea_for_window(win);
-    if (!target_rect)
-        return null;
-
+function target_rect_for_workarea(workarea) {
+    const target_rect = workarea.copy();
     target_rect.height *= settings.get_double('window-height');
     return target_rect;
+}
+
+function target_rect_for_window(win) {
+    const workarea = workarea_for_window(win);
+    if (!workarea)
+        return null;
+
+    return target_rect_for_workarea(workarea);
 }
 
 function unmaximize_window(win) {
