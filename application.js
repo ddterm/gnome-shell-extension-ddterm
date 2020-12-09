@@ -51,6 +51,9 @@ const Application = GObject.registerClass(
                 settings_schema: settings_source.lookup('com.github.amezin.ddterm', true),
             });
 
+            if (this.settings.get_boolean('force-x11-gdk-backend'))
+                GLib.unsetenv('GDK_BACKEND');
+
             const desktop_settings = new Gio.Settings({
                 schema_id: 'org.gnome.desktop.interface',
             });
