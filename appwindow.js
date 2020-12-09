@@ -214,7 +214,7 @@ var AppWindow = GObject.registerClass(
 
         update_hints() {
             this.type_hint = this.settings.get_enum('window-type-hint');
-            // skip_taskbar_hint should always be set after type_hint
+            // skip_taskbar_hint only works with type_hint == Gdk.WindowTypeHint.Normal
             this.skip_taskbar_hint = this.settings.get_boolean('window-skip-taskbar');
             this.skip_pager_hint = this.settings.get_boolean('window-skip-taskbar');
         }
