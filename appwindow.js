@@ -216,6 +216,7 @@ var AppWindow = GObject.registerClass(
             this.type_hint = this.settings.get_enum('window-type-hint');
             // skip_taskbar_hint should always be set after type_hint
             this.skip_taskbar_hint = this.settings.get_boolean('window-skip-taskbar');
+            this.skip_pager_hint = this.settings.get_boolean('window-skip-taskbar');
         }
     }
 );
