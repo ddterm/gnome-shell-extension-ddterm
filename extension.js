@@ -189,9 +189,6 @@ function track_window(win) {
 
     win.connect('notify::maximized-vertically', unmaximize_window);
 
-    if (win.maximized_vertically)
-        win.unmaximize(Meta.MaximizeFlags.VERTICAL);
-
     const workarea = Main.layoutManager.getWorkAreaForMonitor(Main.layoutManager.currentMonitor.index);
     const target_rect = target_rect_for_workarea(workarea);
     target_rect.height = Math.min(target_rect.height, workarea.height - 1);
@@ -223,27 +220,12 @@ function target_rect_for_workarea(workarea) {
     return target_rect;
 }
 
-function target_rect_for_window(win) {
-    const workarea = workarea_for_window(win);
-    if (!workarea)
-        return null;
-
-    return target_rect_for_workarea(workarea);
-}
-
 function unmaximize_window(win) {
     if (!win || win !== current_window)
         return;
 
-    if (!win.maximized_vertically)
-        return;
-
-    const target_rect = target_rect_for_window(win);
-    if (!target_rect)
-        return;
-
-    win.unmaximize(Meta.MaximizeFlags.VERTICAL);
-    move_resize_window(win, target_rect);
+    if (win.maximized_vertically)
+        win.unmaximize(Meta.MaximizeFlags.VERTICAL);
 }
 
 function move_resize_window(win, target_rect) {
@@ -276,10 +258,11 @@ function update_window_height() {
     if (!current_window)
         return;
 
-    const target_rect = target_rect_for_window(current_window);
-    if (!target_rect)
+    const workarea = workarea_for_window(current_window);
+    if (!workarea)
         return;
 
+    const target_rect = target_rect_for_workarea(workarea);
     if (!target_rect.equal(current_window.get_frame_rect()))
         move_resize_window(current_window, target_rect);
 }
