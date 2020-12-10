@@ -162,8 +162,15 @@ function focus_window_changed() {
 }
 
 function is_dropdown_terminal_window(win) {
-    if (wayland_client && !wayland_client.owns_window(win))
+    if (!subprocess)
         return false;
+
+    if (wayland_client) {
+        if (!wayland_client.owns_window(win))
+            return false;
+    } else if (win.get_pid().toString() !== subprocess.get_identifier()) {
+        return false;
+    }
 
     return (
         win.gtk_application_id === APP_ID &&
