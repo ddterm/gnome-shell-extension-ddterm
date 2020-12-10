@@ -15,7 +15,6 @@ let dbus_action_group = null;
 
 let resizing = false;
 
-let subprocess_launcher = null;
 let wayland_client = null;
 let subprocess = null;
 
@@ -87,8 +86,7 @@ function spawn_app() {
     if (subprocess)
         return;
 
-    if (!subprocess_launcher)
-        subprocess_launcher = Gio.SubprocessLauncher.new(Gio.SubprocessFlags.NONE);
+    const subprocess_launcher = Gio.SubprocessLauncher.new(Gio.SubprocessFlags.NONE);
 
     const context = global.create_app_launch_context(0, -1);
     subprocess_launcher.set_environ(context.get_environment());
