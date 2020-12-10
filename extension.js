@@ -84,7 +84,7 @@ function disable() {
 }
 
 function spawn_app() {
-    if (subprocess || wayland_client)
+    if (subprocess)
         return;
 
     if (!subprocess_launcher)
