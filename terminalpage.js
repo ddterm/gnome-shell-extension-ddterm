@@ -84,6 +84,8 @@ var TerminalPage = GObject.registerClass(
             this.clicked_hyperlink = null;
             this.clipboard = Gtk.Clipboard.get_default(Gdk.Display.get_default());
 
+            this._switch_shortcut = null;
+
             this.bind_settings_ro('show-scrollbar', this.scrollbar, 'visible');
             this.bind_settings_ro('scroll-on-output', this.terminal);
             this.bind_settings_ro('scroll-on-keystroke', this.terminal);
