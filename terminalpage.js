@@ -145,7 +145,19 @@ var TerminalPage = GObject.registerClass(
             this.method_handler(this.settings, 'changed::use-theme-colors', this.update_all_colors);
             this.update_all_colors();
 
-            this.method_handler(this.terminal, 'child-exited', this.close_request);
+            this._child_exited = false;
+            this._eof = false;
+
+            this.signal_connect(this.terminal, 'eof', () => {
+                this._eof = true;
+                if (this._child_exited)
+                    this.close_request();
+            });
+            this.signal_connect(this.terminal, 'child-exited', () => {
+                this._child_exited = true;
+                if (this._eof)
+                    this.close_request();
+            });
             this.signal_connect(this.terminal, 'selection-changed', () => {
                 this.notify('has-selection');
             });
