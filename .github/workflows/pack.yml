@@ -6,6 +6,7 @@ jobs:
   pack:
     runs-on: ubuntu-20.04
     steps:
+    - run: sudo apt-get update
     - run: sudo apt-get install --no-install-recommends gnome-shell
 
     - uses: actions/checkout@v2
