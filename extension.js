@@ -25,6 +25,29 @@ const SUBPROCESS_ARGV = [Me.dir.get_child('com.github.amezin.ddterm').get_path()
 const USE_WAYLAND_CLIENT = Meta.WaylandClient && Meta.is_wayland_compositor();
 const SIGINT = 2;
 
+class WaylandClientStub {
+    constructor(subprocess_launcher) {
+        this.subprocess_launcher = subprocess_launcher;
+    }
+
+    spawnv(_display, argv) {
+        return this.subprocess_launcher.spawnv(argv);
+    }
+
+    hide_from_window_list(_win) {
+    }
+
+    show_in_window_list(_win) {
+    }
+
+    owns_window(win) {
+        if (!subprocess)
+            return false;
+
+        return win.get_pid().toString() === subprocess.get_identifier();
+    }
+}
+
 function init() {
 }
 
@@ -94,13 +117,12 @@ function spawn_app() {
     if (settings.get_boolean('force-x11-gdk-backend'))
         subprocess_launcher.setenv('GDK_BACKEND', 'x11', true);
 
-    if (USE_WAYLAND_CLIENT && subprocess_launcher.getenv('GDK_BACKEND') !== 'x11') {
+    if (USE_WAYLAND_CLIENT && subprocess_launcher.getenv('GDK_BACKEND') !== 'x11')
         wayland_client = Meta.WaylandClient.new(subprocess_launcher);
-        subprocess = wayland_client.spawnv(global.display, SUBPROCESS_ARGV);
-    } else {
-        subprocess = subprocess_launcher.spawnv(SUBPROCESS_ARGV);
-    }
+    else
+        wayland_client = new WaylandClientStub(subprocess_launcher);
 
+    subprocess = wayland_client.spawnv(global.display, SUBPROCESS_ARGV);
     subprocess.wait_async(null, subprocess_terminated);
 }
 
@@ -160,15 +182,11 @@ function focus_window_changed() {
 }
 
 function is_dropdown_terminal_window(win) {
-    if (!subprocess)
+    if (!wayland_client)
         return false;
 
-    if (wayland_client) {
-        if (!wayland_client.owns_window(win))
-            return false;
-    } else if (win.get_pid().toString() !== subprocess.get_identifier()) {
+    if (!wayland_client.owns_window(win))
         return false;
-    }
 
     return (
         win.gtk_application_id === APP_ID &&
