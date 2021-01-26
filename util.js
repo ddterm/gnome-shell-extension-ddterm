@@ -1,10 +1,28 @@
 'use strict';
 
-/* exported parse_rgba UtilMixin APP_DATA_DIR */
+/* exported parse_rgba UtilMixin APP_DATA_DIR gc_later */
 
-const { GObject, Gio, Gdk } = imports.gi;
+const System = imports.system;
+const { GLib, GObject, Gio, Gdk } = imports.gi;
 
 var APP_DATA_DIR = null;
+
+const GC_INTERVAL_SECONDS = 5;
+
+let gc_scheduled = false;
+
+function gc_later() {
+    if (gc_scheduled)
+        return;
+
+    GLib.timeout_add_seconds(GLib.PRIORITY_LOW, GC_INTERVAL_SECONDS, () => {
+        System.gc();
+        gc_scheduled = false;
+        return GLib.SOURCE_REMOVE;
+    });
+
+    gc_scheduled = true;
+}
 
 function parse_rgba(s) {
     if (!s)

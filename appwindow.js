@@ -175,6 +175,9 @@ var AppWindow = GObject.registerClass(
         }
 
         draw(_widget, cr) {
+            // https://github.com/amezin/gnome-shell-extension-ddterm/issues/20
+            util.gc_later();
+
             if (!this.app_paintable)
                 return false;
 
