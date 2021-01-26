@@ -26,10 +26,15 @@ var AppWindow = GObject.registerClass(
             super._init(params);
 
             this.method_handler(this, 'realize', this.set_wm_functions);
-            this.method_handler(this, 'screen-changed', this.setup_rgba_visual);
-            this.method_handler(this, 'draw', this.draw);
 
+            this.method_handler(this, 'screen-changed', this.setup_rgba_visual);
             this.setup_rgba_visual();
+
+            this.draw_handler_id = null;
+            this.run_on_destroy(() => {
+                if (this.draw_handler_id)
+                    this.disconnect(this.draw_handler_id);
+            });
 
             this.method_handler(this.settings, 'changed::background-opacity', this.update_app_paintable);
             this.update_app_paintable();
@@ -146,6 +151,15 @@ var AppWindow = GObject.registerClass(
 
         update_app_paintable() {
             this.app_paintable = this.settings.get_double('background-opacity') < 1.0;
+
+            if (this.app_paintable) {
+                if (this.draw_handler_id === null)
+                    this.draw_handler_id = this.connect('draw', this.draw.bind(this));
+
+            } else if (this.draw_handler_id !== null) {
+                this.disconnect(this.draw_handler_id);
+                this.draw_handler_id = null;
+            }
         }
 
         remove_page(page) {
