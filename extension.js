@@ -22,7 +22,8 @@ const APP_ID = 'com.github.amezin.ddterm';
 const APP_DBUS_PATH = '/com/github/amezin/ddterm';
 const WINDOW_PATH_PREFIX = `${APP_DBUS_PATH}/window/`;
 const SUBPROCESS_ARGV = [Me.dir.get_child('com.github.amezin.ddterm').get_path(), '--undecorated'];
-const USE_WAYLAND_CLIENT = Meta.WaylandClient && Meta.is_wayland_compositor();
+const IS_WAYLAND_COMPOSITOR = Meta.is_wayland_compositor();
+const USE_WAYLAND_CLIENT = Meta.WaylandClient && IS_WAYLAND_COMPOSITOR;
 const SIGINT = 2;
 
 class WaylandClientStub {
@@ -90,7 +91,9 @@ function disable() {
         // lock screen/switch to other mode where extensions aren't allowed.
         // Because when the session switches back to normal mode we want to
         // keep all open terminals.
-        if (subprocess)
+        if (dbus_action_group)
+            dbus_action_group.activate_action('quit', null);
+        else if (subprocess)
             subprocess.send_signal(SIGINT);
     }
 
@@ -182,11 +185,15 @@ function focus_window_changed() {
 }
 
 function is_dropdown_terminal_window(win) {
-    if (!wayland_client)
-        return false;
+    if (!wayland_client) {
+        // On X11, shell can be restarted, and the app will keep running.
+        // Accept windows from previously launched app instances.
+        if (IS_WAYLAND_COMPOSITOR)
+            return false;
 
-    if (!wayland_client.owns_window(win))
+    } else if (!wayland_client.owns_window(win)) {
         return false;
+    }
 
     return (
         win.gtk_application_id === APP_ID &&
