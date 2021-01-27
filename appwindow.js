@@ -189,16 +189,21 @@ var AppWindow = GObject.registerClass(
         }
 
         draw(_widget, cr) {
-            if (!this.app_paintable)
-                return false;
+            try {
+                if (!this.app_paintable)
+                    return false;
 
-            if (!Gtk.cairo_should_draw_window(cr, this.window))
-                return false;
+                if (!Gtk.cairo_should_draw_window(cr, this.window))
+                    return false;
 
-            const context = this.get_style_context();
-            const allocation = this.get_child().get_allocation();
-            Gtk.render_background(context, cr, allocation.x, allocation.y, allocation.width, allocation.height);
-            Gtk.render_frame(context, cr, allocation.x, allocation.y, allocation.width, allocation.height);
+                const context = this.get_style_context();
+                const allocation = this.get_child().get_allocation();
+                Gtk.render_background(context, cr, allocation.x, allocation.y, allocation.width, allocation.height);
+                Gtk.render_frame(context, cr, allocation.x, allocation.y, allocation.width, allocation.height);
+
+            } finally {
+                cr.$dispose();
+            }
 
             return false;
         }
