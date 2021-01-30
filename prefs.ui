@@ -650,7 +650,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="halign">start</property>
-                <property name="label" translatable="yes">Window type hint:</property>
+                <property name="label" translatable="yes">Window type hint (X11 only):</property>
               </object>
               <packing>
                 <property name="left-attach">0</property>
