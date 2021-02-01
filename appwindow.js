@@ -185,7 +185,7 @@ var AppWindow = GObject.registerClass(
             if (!coords_ok)
                 return;
 
-            this.begin_resize_drag(Gdk.WindowEdge.SOUTH, button, x_root, y_root, event.get_time());
+            this.window.begin_resize_drag_for_device(Gdk.WindowEdge.SOUTH, event.get_device(), button, x_root, y_root, event.get_time());
         }
 
         draw(_widget, cr) {
