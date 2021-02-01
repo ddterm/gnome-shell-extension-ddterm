@@ -250,7 +250,8 @@ function track_window(win) {
 
     const workarea = Main.layoutManager.getWorkAreaForMonitor(Main.layoutManager.currentMonitor.index);
     const target_rect = target_rect_for_workarea(workarea);
-    target_rect.height = Math.min(target_rect.height, workarea.height - 1);
+    const max_height = workarea.height - (win.get_client_type() === Meta.WindowClientType.X11 ? 0 : 1);
+    target_rect.height = Math.min(target_rect.height, max_height);
 
     move_resize_window(win, target_rect);
 
