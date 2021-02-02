@@ -124,5 +124,9 @@
       <attribute name="label" translatable="yes">New Tab</attribute>
       <attribute name="action">win.new-tab</attribute>
     </item>
+    <item>
+      <attribute name="label" translatable="yes">Preferences...</attribute>
+      <attribute name="action">app.preferences</attribute>
+    </item>
   </menu>
 </interface>
