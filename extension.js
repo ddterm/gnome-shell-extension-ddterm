@@ -3,6 +3,7 @@
 /* exported init enable disable */
 
 const { GObject, Gio, Meta, Shell } = imports.gi;
+const ByteArray = imports.byteArray;
 const Main = imports.ui.main;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 
@@ -25,6 +26,27 @@ const SUBPROCESS_ARGV = [Me.dir.get_child('com.github.amezin.ddterm').get_path()
 const IS_WAYLAND_COMPOSITOR = Meta.is_wayland_compositor();
 const USE_WAYLAND_CLIENT = Meta.WaylandClient && IS_WAYLAND_COMPOSITOR;
 const SIGINT = 2;
+
+class ExtensionDBusInterface {
+    constructor() {
+        let [_, xml] = Me.dir.get_child('com.github.amezin.ddterm.Extension.xml').load_contents(null);
+        this.dbus = Gio.DBusExportedObject.wrapJSObject(ByteArray.toString(xml), this);
+    }
+
+    BeginResize() {
+        if (!current_window || !current_window.maximized_vertically)
+            return;
+
+        const workarea = workarea_for_window(current_window);
+        const target_rect = target_rect_for_workarea(workarea);
+
+        Main.wm.skipNextEffect(current_window.get_compositor_private());
+        current_window.unmaximize(Meta.MaximizeFlags.VERTICAL);
+        move_resize_window(current_window, target_rect);
+    }
+}
+
+const DBUS_INTERFACE = new ExtensionDBusInterface().dbus;
 
 class WaylandClientStub {
     constructor(subprocess_launcher) {
@@ -80,9 +102,13 @@ function enable() {
     settings.connect('changed::window-stick', set_window_stick);
     settings.connect('changed::window-height', update_window_height);
     settings.connect('changed::window-skip-taskbar', set_skip_taskbar);
+
+    DBUS_INTERFACE.export(Gio.DBus.session, '/org/gnome/Shell/Extensions/ddterm');
 }
 
 function disable() {
+    DBUS_INTERFACE.unexport();
+
     if (Main.sessionMode.allowExtensions) {
         // Stop the app only if the extension isn't being disabled because of
         // lock screen/switch to other mode where extensions aren't allowed.
@@ -247,8 +273,6 @@ function track_window(win) {
 
     const workarea = Main.layoutManager.getWorkAreaForMonitor(Main.layoutManager.currentMonitor.index);
     const target_rect = target_rect_for_workarea(workarea);
-    const max_height = workarea.height - (win.get_client_type() === Meta.WindowClientType.X11 ? 0 : 1);
-    target_rect.height = Math.min(target_rect.height, max_height);
 
     move_resize_window(win, target_rect);
 
@@ -282,7 +306,13 @@ function unmaximize_window(win) {
     if (!win || win !== current_window)
         return;
 
-    if (win.maximized_vertically)
+    if (!win.maximized_vertically)
+        return;
+
+    const workarea = workarea_for_window(current_window);
+    const target_rect = target_rect_for_workarea(workarea);
+
+    if (target_rect.height < workarea.height)
         win.unmaximize(Meta.MaximizeFlags.VERTICAL);
 }
 
@@ -321,8 +351,15 @@ function update_window_height() {
         return;
 
     const target_rect = target_rect_for_workarea(workarea);
-    if (!target_rect.equal(current_window.get_frame_rect()))
-        move_resize_window(current_window, target_rect);
+    if (target_rect.equal(current_window.get_frame_rect()))
+        return;
+
+    if (current_window.maximized_vertically && target_rect.height < workarea.height) {
+        Main.wm.skipNextEffect(current_window.get_compositor_private());
+        current_window.unmaximize(Meta.MaximizeFlags.VERTICAL);
+    }
+
+    move_resize_window(current_window, target_rect);
 }
 
 function untrack_window(win) {

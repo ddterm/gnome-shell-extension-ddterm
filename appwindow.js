@@ -4,6 +4,13 @@
 
 const { GLib, GObject, Gio, Gdk, Gtk } = imports.gi;
 const { util } = imports;
+const ByteArray = imports.byteArray;
+
+const EXTENSION_DBUS_XML = ByteArray.toString(
+    util.APP_DATA_DIR.get_child('com.github.amezin.ddterm.Extension.xml').load_contents(null)[1]
+);
+
+var ExtensionDBusProxy = Gio.DBusProxy.makeProxyWrapper(EXTENSION_DBUS_XML);
 
 var AppWindow = GObject.registerClass(
     {
@@ -24,6 +31,10 @@ var AppWindow = GObject.registerClass(
     class AppWindow extends Gtk.ApplicationWindow {
         _init(params) {
             super._init(params);
+
+            this.extension_dbus = new ExtensionDBusProxy(
+                Gio.DBus.session, 'org.gnome.Shell', '/org/gnome/Shell/Extensions/ddterm'
+            );
 
             this.method_handler(this, 'realize', this.set_wm_functions);
 
@@ -180,6 +191,8 @@ var AppWindow = GObject.registerClass(
             const [button_ok, button] = event.get_button();
             if (!button_ok || button !== Gdk.BUTTON_PRIMARY)
                 return;
+
+            this.extension_dbus.BeginResizeSync();
 
             const [coords_ok, x_root, y_root] = event.get_root_coords();
             if (!coords_ok)
