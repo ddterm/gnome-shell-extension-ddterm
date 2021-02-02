@@ -41,11 +41,8 @@ class WaylandClientStub {
     show_in_window_list(_win) {
     }
 
-    owns_window(win) {
-        if (!subprocess)
-            return false;
-
-        return win.get_pid().toString() === subprocess.get_identifier();
+    owns_window(_win) {
+        return true;
     }
 }
 
