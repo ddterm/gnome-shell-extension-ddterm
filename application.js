@@ -160,6 +160,10 @@ const Application = GObject.registerClass(
             const update_fn = this.update_shortcut.bind(this, key, action);
             this.settings.connect(`changed::${key}`, update_fn);
             this.settings.connect('changed::shortcuts-enabled', update_fn);
+
+            if (action === 'win.hide')
+                this.settings.connect('changed::hide-window-on-esc', update_fn);
+
             update_fn();
         }
 
