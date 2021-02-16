@@ -2,7 +2,7 @@
 
 /* exported init enable disable */
 
-const { GObject, Gio, Meta, Shell } = imports.gi;
+const { GLib, GObject, Gio, Meta, Shell } = imports.gi;
 const ByteArray = imports.byteArray;
 const Main = imports.ui.main;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
@@ -42,7 +42,11 @@ class ExtensionDBusInterface {
 
         Main.wm.skipNextEffect(current_window.get_compositor_private());
         current_window.unmaximize(Meta.MaximizeFlags.VERTICAL);
-        move_resize_window(current_window, target_rect);
+
+        GLib.idle_add(GLib.PRIORITY_DEFAULT_IDLE, () => {
+            move_resize_window(current_window, target_rect);
+            return GLib.SOURCE_REMOVE;
+        });
     }
 }
 
