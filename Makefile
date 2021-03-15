@@ -50,7 +50,8 @@ prefs enable disable reset info show:
 
 EXTENSION_PACK := $(EXTENSION_UUID).shell-extension.zip
 DEFAULT_SOURCES := extension.js prefs.js
-EXTRA_SOURCES := $(filter-out $(DEFAULT_SOURCES) $(GENERATED_SOURCES),$(wildcard *.ui *.js *.css)) com.github.amezin.ddterm com.github.amezin.ddterm.Extension.xml $(GENERATED_SOURCES)
+EXCLUDE_SOURCES := test-prefs-gtk4.js
+EXTRA_SOURCES := $(filter-out $(DEFAULT_SOURCES) $(GENERATED_SOURCES) $(EXCLUDE_SOURCES),$(wildcard *.ui *.js *.css)) com.github.amezin.ddterm com.github.amezin.ddterm.Extension.xml $(GENERATED_SOURCES)
 $(EXTENSION_PACK): $(SCHEMAS) $(EXTRA_SOURCES) $(DEFAULT_SOURCES) metadata.json
 	gnome-extensions pack -f $(addprefix --schema=,$(SCHEMAS)) $(addprefix --extra-source=,$(EXTRA_SOURCES)) .
 
