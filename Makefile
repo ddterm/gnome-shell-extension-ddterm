@@ -20,6 +20,11 @@ lint: lint/eslintrc-gjs.yml
 handlebars.js:
 	curl -o $@ 'https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.6/handlebars.min.js'
 
+prefs-gtk4.ui: prefs-gtk3.ui
+	gtk4-builder-tool simplify --3to4 $< | grep -v '<property name="position">' | grep -v '<property name="shadow-type">in</property>' | grep -v '<property name="input-purpose">digits</property>' >$@
+
+GENERATED_SOURCES := handlebars.js prefs-gtk4.ui
+
 EXTENSION_UUID := ddterm@amezin.github.com
 DEVELOP_SYMLINK := $(HOME)/.local/share/gnome-shell/extensions/$(EXTENSION_UUID)
 
@@ -44,8 +49,9 @@ prefs enable disable reset info show:
 .PHONY: prefs enable disable reset info show
 
 EXTENSION_PACK := $(EXTENSION_UUID).shell-extension.zip
-EXTRA_SOURCES := $(filter-out extension.js prefs.js handlebars.js,$(wildcard *.ui *.js *.css)) com.github.amezin.ddterm handlebars.js com.github.amezin.ddterm.Extension.xml
-$(EXTENSION_PACK): $(SCHEMAS) $(EXTRA_SOURCES) extension.js prefs.js metadata.json
+DEFAULT_SOURCES := extension.js prefs.js
+EXTRA_SOURCES := $(filter-out $(DEFAULT_SOURCES) $(GENERATED_SOURCES),$(wildcard *.ui *.js *.css)) com.github.amezin.ddterm com.github.amezin.ddterm.Extension.xml $(GENERATED_SOURCES)
+$(EXTENSION_PACK): $(SCHEMAS) $(EXTRA_SOURCES) $(DEFAULT_SOURCES) metadata.json
 	gnome-extensions pack -f $(addprefix --schema=,$(SCHEMAS)) $(addprefix --extra-source=,$(EXTRA_SOURCES)) .
 
 pack: $(EXTENSION_PACK)

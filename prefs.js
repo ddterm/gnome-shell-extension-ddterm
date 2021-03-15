@@ -22,7 +22,7 @@ function palette_widgets() {
 function createPrefsWidgetClass(resource_path, util) {
     const cls = GObject.registerClass(
         {
-            Template: resource_path.get_child('prefs.ui').get_uri(),
+            Template: resource_path.get_child(`prefs-gtk${Gtk.get_major_version()}.ui`).get_uri(),
             Children: [
                 'font_chooser',
                 'custom_font_check',
