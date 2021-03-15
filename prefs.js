@@ -19,6 +19,15 @@ function palette_widgets() {
     return widgets;
 }
 
+function accelerator_parse(accel) {
+    const parsed = Gtk.accelerator_parse(accel);
+
+    if (Gtk.get_major_version() === 3)
+        return parsed;
+
+    return parsed.slice(1);
+}
+
 function createPrefsWidgetClass(resource_path, util) {
     const cls = GObject.registerClass(
         {
@@ -348,7 +357,7 @@ function createPrefsWidgetClass(resource_path, util) {
 
                     const shortcuts = settings.get_strv(action);
                     if (shortcuts && shortcuts.length) {
-                        const [accel_key, accel_mods] = Gtk.accelerator_parse(shortcuts[0]);
+                        const [accel_key, accel_mods] = accelerator_parse(shortcuts[0]);
 
                         if (cur_accel_key !== accel_key || cur_accel_mods !== accel_mods)
                             this.shortcuts_list.set(i, [2, 3], [accel_key, accel_mods]);
