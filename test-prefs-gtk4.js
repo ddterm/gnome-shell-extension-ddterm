@@ -22,11 +22,11 @@ var PrefsDialog = GObject.registerClass(
             settings: GObject.ParamSpec.object('settings', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, Gio.Settings),
         },
     },
-    class PrefsDialog extends Gtk.Dialog {
+    class PrefsDialog extends Gtk.Window {
         _init(params) {
             super._init(params);
 
-            this.get_content_area().append(new PrefsWidget({
+            this.set_child(new PrefsWidget({
                 settings: this.settings,
             }));
         }
