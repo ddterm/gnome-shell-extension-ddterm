@@ -20,20 +20,40 @@ lint: lint/eslintrc-gjs.yml
 handlebars.js:
 	curl -o $@ 'https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.6/handlebars.min.js'
 
-prefs-gtk3.ui: prefs.ui
+prefsdialog.ui appwindow.ui terminalpage.ui: %.ui: glade/%.ui
 	gtk-builder-tool simplify $< >$@
 
-prefs-3to4.ui: prefs-gtk3.ui
+prefs-gtk3.ui: glade/prefs.ui
+	gtk-builder-tool simplify $< >$@
+
+tmp:
+	mkdir -p tmp
+
+tmp/prefs-3to4.ui: prefs-gtk3.ui | tmp
 	gtk4-builder-tool simplify --3to4 $< >$@
 
-prefs-3to4-fixup.ui: prefs-3to4.ui 3to4-fixup.xsl
+tmp/prefs-3to4-fixup.ui: tmp/prefs-3to4.ui 3to4-fixup.xsl | tmp
 	xsltproc 3to4-fixup.xsl $< >$@
 
-prefs-gtk4.ui: prefs-3to4-fixup.ui
+prefs-gtk4.ui: tmp/prefs-3to4-fixup.ui
 	gtk4-builder-tool simplify $< >$@
 
-GENERATED_SOURCES := handlebars.js prefs-gtk3.ui prefs-gtk4.ui
-EXCLUDE_SOURCES := test-prefs-gtk4.js prefs.ui prefs-3to4.ui prefs-3to4-fixup.ui
+EXTRA_SOURCES := \
+	application.js \
+	appwindow.js \
+	appwindow.ui \
+	com.github.amezin.ddterm \
+	com.github.amezin.ddterm.Extension.xml \
+	handlebars.js \
+	menus.ui \
+	prefsdialog.js \
+	prefsdialog.ui \
+	prefs-gtk3.ui \
+	prefs-gtk4.ui \
+	style.css \
+	terminalpage.js \
+	terminalpage.ui \
+	util.js \
 
 EXTENSION_UUID := ddterm@amezin.github.com
 DEVELOP_SYMLINK := $(HOME)/.local/share/gnome-shell/extensions/$(EXTENSION_UUID)
@@ -59,9 +79,7 @@ prefs enable disable reset info show:
 .PHONY: prefs enable disable reset info show
 
 EXTENSION_PACK := $(EXTENSION_UUID).shell-extension.zip
-DEFAULT_SOURCES := extension.js prefs.js
-EXTRA_SOURCES := $(filter-out $(DEFAULT_SOURCES) $(GENERATED_SOURCES) $(EXCLUDE_SOURCES),$(wildcard *.ui *.js *.css)) com.github.amezin.ddterm com.github.amezin.ddterm.Extension.xml $(GENERATED_SOURCES)
-$(EXTENSION_PACK): $(SCHEMAS) $(EXTRA_SOURCES) $(DEFAULT_SOURCES) metadata.json
+$(EXTENSION_PACK): $(SCHEMAS) $(EXTRA_SOURCES) extension.js prefs.js metadata.json
 	gnome-extensions pack -f $(addprefix --schema=,$(SCHEMAS)) $(addprefix --extra-source=,$(EXTRA_SOURCES)) .
 
 pack: $(EXTENSION_PACK)
