@@ -1704,7 +1704,6 @@ Following helpers are available:
                 <property name="receives-default">False</property>
                 <property name="action-name">settings.command</property>
                 <property name="action-target">'user-shell'</property>
-                <property name="active">True</property>
                 <property name="draw-indicator">True</property>
               </object>
               <packing>
@@ -1721,7 +1720,6 @@ Following helpers are available:
                 <property name="receives-default">False</property>
                 <property name="action-name">settings.command</property>
                 <property name="action-target">'user-shell-login'</property>
-                <property name="active">True</property>
                 <property name="draw-indicator">True</property>
                 <property name="group">spawn_user_shell</property>
               </object>
@@ -1739,7 +1737,6 @@ Following helpers are available:
                 <property name="receives-default">False</property>
                 <property name="action-name">settings.command</property>
                 <property name="action-target">'custom-command'</property>
-                <property name="active">True</property>
                 <property name="draw-indicator">True</property>
                 <property name="group">spawn_user_shell</property>
               </object>
