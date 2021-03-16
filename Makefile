@@ -23,12 +23,17 @@ handlebars.js:
 prefs-gtk3.ui: prefs.ui
 	gtk-builder-tool simplify $< >$@
 
-prefs-gtk4.ui: prefs.ui 3to4-fixup.xsl
-	gtk4-builder-tool simplify --3to4 $< \
-		| xsltproc 3to4-fixup.xsl - \
-		| sed -r 's:<col id="([0-9]+)"/>:<col id="\1"></col>:g' >$@
+prefs-3to4.ui: prefs-gtk3.ui
+	gtk4-builder-tool simplify --3to4 $< >$@
+
+prefs-3to4-fixup.ui: prefs-3to4.ui 3to4-fixup.xsl
+	xsltproc 3to4-fixup.xsl $< >$@
+
+prefs-gtk4.ui: prefs-3to4-fixup.ui
+	gtk4-builder-tool simplify $< >$@
 
 GENERATED_SOURCES := handlebars.js prefs-gtk3.ui prefs-gtk4.ui
+EXCLUDE_SOURCES := test-prefs-gtk4.js prefs.ui prefs-3to4.ui prefs-3to4-fixup.ui
 
 EXTENSION_UUID := ddterm@amezin.github.com
 DEVELOP_SYMLINK := $(HOME)/.local/share/gnome-shell/extensions/$(EXTENSION_UUID)
@@ -55,7 +60,6 @@ prefs enable disable reset info show:
 
 EXTENSION_PACK := $(EXTENSION_UUID).shell-extension.zip
 DEFAULT_SOURCES := extension.js prefs.js
-EXCLUDE_SOURCES := test-prefs-gtk4.js prefs.ui
 EXTRA_SOURCES := $(filter-out $(DEFAULT_SOURCES) $(GENERATED_SOURCES) $(EXCLUDE_SOURCES),$(wildcard *.ui *.js *.css)) com.github.amezin.ddterm com.github.amezin.ddterm.Extension.xml $(GENERATED_SOURCES)
 $(EXTENSION_PACK): $(SCHEMAS) $(EXTRA_SOURCES) $(DEFAULT_SOURCES) metadata.json
 	gnome-extensions pack -f $(addprefix --schema=,$(SCHEMAS)) $(addprefix --extra-source=,$(EXTRA_SOURCES)) .

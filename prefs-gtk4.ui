@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <requires lib="gtk" version="4.0"/>
   <object class="GtkListStore" id="color_scheme_list">
@@ -450,7 +450,6 @@
                 <property name="column-spacing">10</property>
                 <child>
                   <object class="GtkLabel">
-                    <property name="can-focus">0</property>
                     <property name="halign">start</property>
                     <property name="label" translatable="yes">Theme _variant:</property>
                     <property name="use-underline">1</property>
@@ -500,7 +499,6 @@
                 </child>
                 <child>
                   <object class="GtkLabel">
-                    <property name="can-focus">0</property>
                     <property name="halign">start</property>
                     <property name="label" translatable="yes">_Background opacity:</property>
                     <property name="use-underline">1</property>
@@ -587,7 +585,6 @@
                 </child>
                 <child>
                   <object class="GtkLabel">
-                    <property name="can-focus">0</property>
                     <property name="halign">start</property>
                     <property name="label" translatable="yes">Window _type hint (X11 only):</property>
                     <property name="use-underline">1</property>
@@ -622,7 +619,6 @@
                 </child>
                 <child>
                   <object class="GtkLabel">
-                    <property name="can-focus">0</property>
                     <property name="halign">start</property>
                     <property name="label" translatable="yes">_Height:</property>
                     <property name="use-underline">1</property>
@@ -699,7 +695,7 @@
                 </child>
                 <child>
                   <object class="GtkCheckButton" id="show_new_tab_button_check">
-                    <property name="label" translatable="yes">"_New Tab" button</property>
+                    <property name="label" translatable="yes">&quot;_New Tab&quot; button</property>
                     <property name="action-name">settings.new-tab-button</property>
                     <property name="use-underline">1</property>
                     <layout>
@@ -723,7 +719,6 @@
                 </child>
                 <child>
                   <object class="GtkLabel">
-                    <property name="can-focus">0</property>
                     <property name="label" translatable="yes">Show tab _bar:</property>
                     <property name="use-underline">1</property>
                     <property name="mnemonic-widget">tab_policy_combo</property>
@@ -748,7 +743,6 @@
                 </child>
                 <child>
                   <object class="GtkLabel">
-                    <property name="can-focus">0</property>
                     <property name="halign">start</property>
                     <property name="label" translatable="yes">Tab _title:</property>
                     <property name="use-underline">1</property>
@@ -780,7 +774,7 @@
                         <property name="child">
                           <object class="GtkLabel">
                             <property name="halign">start</property>
-                            <property name="label" translatable="yes">Tab title is generated from &lt;a href="https://handlebarsjs.com/guide/"&gt;handlebars.js&lt;/a&gt; template. &lt;a href="https://developer.gnome.org/pango/stable/pango-Markup.html"&gt;Pango markup&lt;/a&gt; can be used to format the title.
+                            <property name="label" translatable="yes">Tab title is generated from &lt;a href=&quot;https://handlebarsjs.com/guide/&quot;&gt;handlebars.js&lt;/a&gt; template. &lt;a href=&quot;https://developer.gnome.org/pango/stable/pango-Markup.html&quot;&gt;Pango markup&lt;/a&gt; can be used to format the title.
 
 Following variables are available:
 - &lt;tt&gt;window-title&lt;/tt&gt;
@@ -819,9 +813,6 @@ Following helpers are available:
                     </layout>
                   </object>
                 </child>
-                <child>
-                  <placeholder/>
-                </child>
               </object>
             </property>
           </object>
@@ -849,7 +840,6 @@ Following helpers are available:
                 </child>
                 <child>
                   <object class="GtkLabel">
-                    <property name="can-focus">0</property>
                     <property name="halign">start</property>
                     <property name="label" translatable="yes">Allow _blinking text:</property>
                     <property name="use-underline">1</property>
@@ -862,7 +852,6 @@ Following helpers are available:
                 </child>
                 <child>
                   <object class="GtkLabel">
-                    <property name="can-focus">0</property>
                     <property name="halign">start</property>
                     <property name="label" translatable="yes">Cursor _shape:</property>
                     <property name="use-underline">1</property>
@@ -875,7 +864,6 @@ Following helpers are available:
                 </child>
                 <child>
                   <object class="GtkLabel">
-                    <property name="can-focus">0</property>
                     <property name="halign">start</property>
                     <property name="label" translatable="yes">_Cursor blinking:</property>
                     <property name="use-underline">1</property>
@@ -999,7 +987,6 @@ Following helpers are available:
                     <property name="column-spacing">10</property>
                     <child>
                       <object class="GtkLabel">
-                        <property name="can-focus">0</property>
                         <property name="label" translatable="yes">Foreground</property>
                         <layout>
                           <property name="column">1</property>
@@ -1009,7 +996,6 @@ Following helpers are available:
                     </child>
                     <child>
                       <object class="GtkLabel">
-                        <property name="can-focus">0</property>
                         <property name="label" translatable="yes">Background</property>
                         <layout>
                           <property name="column">2</property>
@@ -1019,7 +1005,6 @@ Following helpers are available:
                     </child>
                     <child>
                       <object class="GtkLabel">
-                        <property name="can-focus">0</property>
                         <property name="halign">start</property>
                         <property name="label" translatable="yes">Default color:</property>
                         <layout>
@@ -1059,7 +1044,6 @@ Following helpers are available:
                     </child>
                     <child>
                       <object class="GtkLabel">
-                        <property name="can-focus">0</property>
                         <property name="halign">start</property>
                         <property name="label" translatable="yes">Color _scheme:</property>
                         <property name="use-underline">1</property>
@@ -1195,12 +1179,6 @@ Following helpers are available:
                         </layout>
                       </object>
                     </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
                     <layout>
                       <property name="column">0</property>
                       <property name="row">1</property>
@@ -1210,7 +1188,6 @@ Following helpers are available:
                 </child>
                 <child>
                   <object class="GtkLabel">
-                    <property name="can-focus">0</property>
                     <property name="halign">start</property>
                     <property name="label" translatable="yes">_Palette:</property>
                     <property name="use-underline">1</property>
@@ -1456,7 +1433,7 @@ Following helpers are available:
                   <object class="GtkCheckButton" id="spawn_user_shell">
                     <property name="label" translatable="yes">User _shell</property>
                     <property name="action-name">settings.command</property>
-                    <property name="action-target">'user-shell'</property>
+                    <property name="action-target">&apos;user-shell&apos;</property>
                     <property name="use-underline">1</property>
                     <layout>
                       <property name="column">0</property>
@@ -1469,7 +1446,7 @@ Following helpers are available:
                   <object class="GtkCheckButton">
                     <property name="label" translatable="yes">User shell as _login shell</property>
                     <property name="action-name">settings.command</property>
-                    <property name="action-target">'user-shell-login'</property>
+                    <property name="action-target">&apos;user-shell-login&apos;</property>
                     <property name="use-underline">1</property>
                     <property name="group">spawn_user_shell</property>
                     <layout>
@@ -1483,7 +1460,7 @@ Following helpers are available:
                   <object class="GtkCheckButton" id="spawn_custom_command">
                     <property name="label" translatable="yes">Custom _command:</property>
                     <property name="action-name">settings.command</property>
-                    <property name="action-target">'custom-command'</property>
+                    <property name="action-target">&apos;custom-command&apos;</property>
                     <property name="use-underline">1</property>
                     <property name="group">spawn_user_shell</property>
                     <layout>
@@ -1579,7 +1556,6 @@ Following helpers are available:
                     </child>
                     <child>
                       <object class="GtkLabel">
-                        <property name="can-focus">0</property>
                         <property name="label" translatable="yes">lines</property>
                       </object>
                     </child>
@@ -1606,7 +1582,6 @@ Following helpers are available:
                 <property name="column-spacing">10</property>
                 <child>
                   <object class="GtkLabel">
-                    <property name="can-focus">0</property>
                     <property name="halign">start</property>
                     <property name="label" translatable="yes">_Backspace key generates:</property>
                     <property name="use-underline">1</property>
@@ -1619,7 +1594,6 @@ Following helpers are available:
                 </child>
                 <child>
                   <object class="GtkLabel">
-                    <property name="can-focus">0</property>
                     <property name="halign">start</property>
                     <property name="label" translatable="yes">_Delete key generates:</property>
                     <property name="use-underline">1</property>
@@ -1632,7 +1606,6 @@ Following helpers are available:
                 </child>
                 <child>
                   <object class="GtkLabel">
-                    <property name="can-focus">0</property>
                     <property name="halign">start</property>
                     <property name="label" translatable="yes">Ambiguous-_width characters:</property>
                     <property name="use-underline">1</property>
