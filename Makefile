@@ -24,8 +24,7 @@ prefs-gtk4.ui: prefs-gtk3.ui
 	gtk4-builder-tool simplify --3to4 $< \
 		| grep -v '<property name="position">' \
 		| grep -v '<property name="shadow-type">in</property>' \
-		| grep -v '<property name="input-purpose">digits</property>' \
-		| grep -v '<property name="can-focus">0</property>' >$@
+		| grep -v '<property name="input-purpose">digits</property>' >$@
 
 GENERATED_SOURCES := handlebars.js prefs-gtk4.ui
 

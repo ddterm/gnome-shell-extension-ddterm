@@ -456,13 +456,13 @@
   </object>
   <template class="Gjs_PrefsWidget" parent="GtkBox">
     <property name="visible">True</property>
-    <property name="can-focus">False</property>
+    <property name="can-focus">True</property>
     <property name="hexpand">True</property>
     <property name="vexpand">True</property>
     <child>
       <object class="GtkStackSidebar">
         <property name="visible">True</property>
-        <property name="can-focus">False</property>
+        <property name="can-focus">True</property>
         <property name="stack">stack</property>
       </object>
       <packing>
@@ -479,7 +479,7 @@
           <!-- n-columns=2 n-rows=12 -->
           <object class="GtkGrid">
             <property name="visible">True</property>
-            <property name="can-focus">False</property>
+            <property name="can-focus">True</property>
             <property name="margin-start">10</property>
             <property name="margin-end">10</property>
             <property name="margin-top">10</property>
@@ -491,7 +491,9 @@
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="halign">start</property>
-                <property name="label" translatable="yes">Theme variant:</property>
+                <property name="label" translatable="yes">Theme _variant:</property>
+                <property name="use-underline">True</property>
+                <property name="mnemonic-widget">theme_variant_combo</property>
               </object>
               <packing>
                 <property name="left-attach">0</property>
@@ -501,7 +503,7 @@
             <child>
               <object class="GtkComboBoxText" id="theme_variant_combo">
                 <property name="visible">True</property>
-                <property name="can-focus">False</property>
+                <property name="can-focus">True</property>
                 <items>
                   <item id="system" translatable="yes">Default</item>
                   <item id="light" translatable="yes">Light</item>
@@ -515,11 +517,12 @@
             </child>
             <child>
               <object class="GtkCheckButton" id="window_above_check">
-                <property name="label" translatable="yes">Above all windows</property>
+                <property name="label" translatable="yes">_Above all windows</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
                 <property name="action-name">settings.window-above</property>
+                <property name="use-underline">True</property>
                 <property name="draw-indicator">True</property>
               </object>
               <packing>
@@ -530,11 +533,12 @@
             </child>
             <child>
               <object class="GtkCheckButton" id="window_stick_check">
-                <property name="label" translatable="yes">On all workspaces</property>
+                <property name="label" translatable="yes">On all _workspaces</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
                 <property name="action-name">settings.window-stick</property>
+                <property name="use-underline">True</property>
                 <property name="draw-indicator">True</property>
               </object>
               <packing>
@@ -548,7 +552,9 @@
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="halign">start</property>
-                <property name="label" translatable="yes">Background opacity:</property>
+                <property name="label" translatable="yes">_Background opacity:</property>
+                <property name="use-underline">True</property>
+                <property name="mnemonic-widget">opacity_scale</property>
               </object>
               <packing>
                 <property name="left-attach">0</property>
@@ -572,11 +578,12 @@
             </child>
             <child>
               <object class="GtkCheckButton" id="window_skip_taskbar_check">
-                <property name="label" translatable="yes">Exclude window from overview/task bar</property>
+                <property name="label" translatable="yes">Exclude window from _overview/task bar</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
                 <property name="action-name">settings.window-skip-taskbar</property>
+                <property name="use-underline">True</property>
                 <property name="draw-indicator">True</property>
               </object>
               <packing>
@@ -587,11 +594,12 @@
             </child>
             <child>
               <object class="GtkCheckButton" id="hide_when_focus_lost_check">
-                <property name="label" translatable="yes">Hide when the application loses focus</property>
+                <property name="label" translatable="yes">Hide when the application loses _focus</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
                 <property name="action-name">settings.hide-when-focus-lost</property>
+                <property name="use-underline">True</property>
                 <property name="draw-indicator">True</property>
               </object>
               <packing>
@@ -602,11 +610,12 @@
             </child>
             <child>
               <object class="GtkCheckButton" id="hide_window_on_esc_check">
-                <property name="label" translatable="yes">Hide when Esc key is pressed</property>
+                <property name="label" translatable="yes">Hide when _Esc key is pressed</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
                 <property name="action-name">settings.hide-window-on-esc</property>
+                <property name="use-underline">True</property>
                 <property name="draw-indicator">True</property>
               </object>
               <packing>
@@ -617,11 +626,12 @@
             </child>
             <child>
               <object class="GtkCheckButton" id="pointer_autohide_check">
-                <property name="label" translatable="yes">Hide mouse pointer when typing</property>
+                <property name="label" translatable="yes">Hide mouse _pointer when typing</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
                 <property name="action-name">settings.pointer-autohide</property>
+                <property name="use-underline">True</property>
                 <property name="draw-indicator">True</property>
               </object>
               <packing>
@@ -632,11 +642,12 @@
             </child>
             <child>
               <object class="GtkCheckButton" id="force_gdk_x11_check">
-                <property name="label" translatable="yes">Force X11 GDK backend (XWayland)</property>
+                <property name="label" translatable="yes">Force _X11 GDK backend (XWayland)</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
                 <property name="action-name">settings.force-x11-gdk-backend</property>
+                <property name="use-underline">True</property>
                 <property name="draw-indicator">True</property>
               </object>
               <packing>
@@ -650,7 +661,9 @@
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="halign">start</property>
-                <property name="label" translatable="yes">Window type hint (X11 only):</property>
+                <property name="label" translatable="yes">Window _type hint (X11 only):</property>
+                <property name="use-underline">True</property>
+                <property name="mnemonic-widget">window_type_hint_combo</property>
               </object>
               <packing>
                 <property name="left-attach">0</property>
@@ -660,7 +673,7 @@
             <child>
               <object class="GtkComboBoxText" id="window_type_hint_combo">
                 <property name="visible">True</property>
-                <property name="can-focus">False</property>
+                <property name="can-focus">True</property>
                 <items>
                   <item id="normal" translatable="yes">Normal</item>
                   <item id="dialog" translatable="yes">Dialog</item>
@@ -686,7 +699,9 @@
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="halign">start</property>
-                <property name="label" translatable="yes">Height:</property>
+                <property name="label" translatable="yes">_Height:</property>
+                <property name="use-underline">True</property>
+                <property name="mnemonic-widget">window_height_scale</property>
               </object>
               <packing>
                 <property name="left-attach">0</property>
@@ -694,7 +709,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkScale">
+              <object class="GtkScale" id="window_height_scale">
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="adjustment">window_height_adjustment</property>
@@ -709,11 +724,12 @@
             </child>
             <child>
               <object class="GtkCheckButton">
-                <property name="label" translatable="yes">Resizable window</property>
+                <property name="label" translatable="yes">_Resizable window</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
                 <property name="action-name">settings.window-resizable</property>
+                <property name="use-underline">True</property>
                 <property name="draw-indicator">True</property>
               </object>
               <packing>
@@ -731,7 +747,7 @@
           <!-- n-columns=2 n-rows=8 -->
           <object class="GtkGrid">
             <property name="visible">True</property>
-            <property name="can-focus">False</property>
+            <property name="can-focus">True</property>
             <property name="margin-start">10</property>
             <property name="margin-end">10</property>
             <property name="margin-top">10</property>
@@ -740,11 +756,12 @@
             <property name="column-spacing">10</property>
             <child>
               <object class="GtkCheckButton" id="expand_tabs_check">
-                <property name="label" translatable="yes">Expand tab headers</property>
+                <property name="label" translatable="yes">Expand tab _headers</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
                 <property name="action-name">settings.tab-expand</property>
+                <property name="use-underline">True</property>
                 <property name="draw-indicator">True</property>
               </object>
               <packing>
@@ -755,11 +772,12 @@
             </child>
             <child>
               <object class="GtkCheckButton" id="show_tab_close_buttons_check">
-                <property name="label" translatable="yes">Show close buttons</property>
+                <property name="label" translatable="yes">Show _close buttons</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
                 <property name="action-name">settings.tab-close-buttons</property>
+                <property name="use-underline">True</property>
                 <property name="draw-indicator">True</property>
               </object>
               <packing>
@@ -770,11 +788,12 @@
             </child>
             <child>
               <object class="GtkCheckButton" id="show_new_tab_button_check">
-                <property name="label" translatable="yes">"New Tab" button</property>
+                <property name="label" translatable="yes">"_New Tab" button</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
                 <property name="action-name">settings.new-tab-button</property>
+                <property name="use-underline">True</property>
                 <property name="draw-indicator">True</property>
               </object>
               <packing>
@@ -785,11 +804,12 @@
             </child>
             <child>
               <object class="GtkCheckButton" id="show_tab_switcher_check">
-                <property name="label" translatable="yes">Tab switcher popup</property>
+                <property name="label" translatable="yes">Tab _switcher popup</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
                 <property name="action-name">settings.tab-switcher-popup</property>
+                <property name="use-underline">True</property>
                 <property name="draw-indicator">True</property>
               </object>
               <packing>
@@ -802,7 +822,9 @@
               <object class="GtkLabel">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
-                <property name="label" translatable="yes">Show tab bar:</property>
+                <property name="label" translatable="yes">Show tab _bar:</property>
+                <property name="use-underline">True</property>
+                <property name="mnemonic-widget">tab_policy_combo</property>
               </object>
               <packing>
                 <property name="left-attach">0</property>
@@ -812,7 +834,7 @@
             <child>
               <object class="GtkComboBoxText" id="tab_policy_combo">
                 <property name="visible">True</property>
-                <property name="can-focus">False</property>
+                <property name="can-focus">True</property>
                 <items>
                   <item id="always" translatable="yes">Always</item>
                   <item id="automatic" translatable="yes">Automatic</item>
@@ -829,7 +851,9 @@
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="halign">start</property>
-                <property name="label" translatable="yes">Tab title:</property>
+                <property name="label" translatable="yes">Tab _title:</property>
+                <property name="use-underline">True</property>
+                <property name="mnemonic-widget">tab_title_template_text_view</property>
               </object>
               <packing>
                 <property name="left-attach">0</property>
@@ -860,11 +884,11 @@
                 <child>
                   <object class="GtkViewport">
                     <property name="visible">True</property>
-                    <property name="can-focus">False</property>
+                    <property name="can-focus">True</property>
                     <child>
                       <object class="GtkLabel">
                         <property name="visible">True</property>
-                        <property name="can-focus">False</property>
+                        <property name="can-focus">True</property>
                         <property name="halign">start</property>
                         <property name="label" translatable="yes">Tab title is generated from &lt;a href="https://handlebarsjs.com/guide/"&gt;handlebars.js&lt;/a&gt; template. &lt;a href="https://developer.gnome.org/pango/stable/pango-Markup.html"&gt;Pango markup&lt;/a&gt; can be used to format the title.
 
@@ -896,10 +920,11 @@ Following helpers are available:
             </child>
             <child>
               <object class="GtkButton" id="reset_tab_title_button">
-                <property name="label" translatable="yes">Reset to default</property>
+                <property name="label" translatable="yes">_Reset to default</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
+                <property name="use-underline">True</property>
               </object>
               <packing>
                 <property name="left-attach">1</property>
@@ -919,7 +944,7 @@ Following helpers are available:
           <!-- n-columns=2 n-rows=6 -->
           <object class="GtkGrid">
             <property name="visible">True</property>
-            <property name="can-focus">False</property>
+            <property name="can-focus">True</property>
             <property name="margin-start">10</property>
             <property name="margin-end">10</property>
             <property name="margin-top">10</property>
@@ -928,10 +953,11 @@ Following helpers are available:
             <property name="column-spacing">10</property>
             <child>
               <object class="GtkCheckButton" id="custom_font_check">
-                <property name="label" translatable="yes">Custom font:</property>
+                <property name="label" translatable="yes">Custom _font:</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
+                <property name="use-underline">True</property>
                 <property name="draw-indicator">True</property>
               </object>
               <packing>
@@ -944,7 +970,9 @@ Following helpers are available:
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="halign">start</property>
-                <property name="label" translatable="yes">Allow blinking text:</property>
+                <property name="label" translatable="yes">Allow _blinking text:</property>
+                <property name="use-underline">True</property>
+                <property name="mnemonic-widget">text_blink_mode_combo</property>
               </object>
               <packing>
                 <property name="left-attach">0</property>
@@ -956,7 +984,9 @@ Following helpers are available:
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="halign">start</property>
-                <property name="label" translatable="yes">Cursor shape:</property>
+                <property name="label" translatable="yes">Cursor _shape:</property>
+                <property name="use-underline">True</property>
+                <property name="mnemonic-widget">cursor_shape_combo</property>
               </object>
               <packing>
                 <property name="left-attach">0</property>
@@ -968,7 +998,9 @@ Following helpers are available:
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="halign">start</property>
-                <property name="label" translatable="yes">Cursor blinking:</property>
+                <property name="label" translatable="yes">_Cursor blinking:</property>
+                <property name="use-underline">True</property>
+                <property name="mnemonic-widget">cursor_blink_mode_combo</property>
               </object>
               <packing>
                 <property name="left-attach">0</property>
@@ -978,7 +1010,7 @@ Following helpers are available:
             <child>
               <object class="GtkComboBoxText" id="text_blink_mode_combo">
                 <property name="visible">True</property>
-                <property name="can-focus">False</property>
+                <property name="can-focus">True</property>
                 <items>
                   <item id="never" translatable="yes">Never</item>
                   <item id="focused" translatable="yes">When focused</item>
@@ -994,7 +1026,7 @@ Following helpers are available:
             <child>
               <object class="GtkComboBoxText" id="cursor_shape_combo">
                 <property name="visible">True</property>
-                <property name="can-focus">False</property>
+                <property name="can-focus">True</property>
                 <items>
                   <item id="block" translatable="yes">Block</item>
                   <item id="ibeam" translatable="yes">I-Beam</item>
@@ -1009,7 +1041,7 @@ Following helpers are available:
             <child>
               <object class="GtkComboBoxText" id="cursor_blink_mode_combo">
                 <property name="visible">True</property>
-                <property name="can-focus">False</property>
+                <property name="can-focus">True</property>
                 <items>
                   <item id="system" translatable="yes">Default</item>
                   <item id="on" translatable="yes">Enabled</item>
@@ -1023,11 +1055,12 @@ Following helpers are available:
             </child>
             <child>
               <object class="GtkCheckButton" id="allow_hyperlink_check">
-                <property name="label" translatable="yes">Allow hyperlinks</property>
+                <property name="label" translatable="yes">Allow _hyperlinks</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
                 <property name="action-name">settings.allow-hyperlink</property>
+                <property name="use-underline">True</property>
                 <property name="draw-indicator">True</property>
               </object>
               <packing>
@@ -1038,11 +1071,12 @@ Following helpers are available:
             </child>
             <child>
               <object class="GtkCheckButton" id="audible_bell_check">
-                <property name="label" translatable="yes">Audible bell</property>
+                <property name="label" translatable="yes">Audible _bell</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
                 <property name="action-name">settings.audible-bell</property>
+                <property name="use-underline">True</property>
                 <property name="draw-indicator">True</property>
               </object>
               <packing>
@@ -1054,7 +1088,7 @@ Following helpers are available:
             <child>
               <object class="GtkBox">
                 <property name="visible">True</property>
-                <property name="can-focus">False</property>
+                <property name="can-focus">True</property>
                 <child>
                   <object class="GtkFontButton" id="font_chooser">
                     <property name="visible">True</property>
@@ -1062,6 +1096,7 @@ Following helpers are available:
                     <property name="receives-default">True</property>
                     <property name="font">Sans 12</property>
                     <property name="use-font">True</property>
+                    <property name="use-size">True</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -1085,7 +1120,7 @@ Following helpers are available:
           <!-- n-columns=2 n-rows=5 -->
           <object class="GtkGrid">
             <property name="visible">True</property>
-            <property name="can-focus">False</property>
+            <property name="can-focus">True</property>
             <property name="margin-start">10</property>
             <property name="margin-end">10</property>
             <property name="margin-top">10</property>
@@ -1094,11 +1129,12 @@ Following helpers are available:
             <property name="column-spacing">10</property>
             <child>
               <object class="GtkCheckButton" id="theme_colors_check">
-                <property name="label" translatable="yes">Use colors from system theme</property>
+                <property name="label" translatable="yes">Use colors from system _theme</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
                 <property name="action-name">settings.use-theme-colors</property>
+                <property name="use-underline">True</property>
                 <property name="draw-indicator">True</property>
               </object>
               <packing>
@@ -1111,7 +1147,7 @@ Following helpers are available:
               <!-- n-columns=3 n-rows=6 -->
               <object class="GtkGrid" id="color_scheme_editor">
                 <property name="visible">True</property>
-                <property name="can-focus">False</property>
+                <property name="can-focus">True</property>
                 <property name="row-spacing">10</property>
                 <property name="column-spacing">10</property>
                 <child>
@@ -1194,7 +1230,9 @@ Following helpers are available:
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <property name="halign">start</property>
-                    <property name="label" translatable="yes">Color scheme:</property>
+                    <property name="label" translatable="yes">Color _scheme:</property>
+                    <property name="use-underline">True</property>
+                    <property name="mnemonic-widget">color_scheme_combo</property>
                   </object>
                   <packing>
                     <property name="left-attach">0</property>
@@ -1204,11 +1242,11 @@ Following helpers are available:
                 <child>
                   <object class="GtkBox">
                     <property name="visible">True</property>
-                    <property name="can-focus">False</property>
+                    <property name="can-focus">True</property>
                     <child>
                       <object class="GtkComboBox" id="color_scheme_combo">
                         <property name="visible">True</property>
-                        <property name="can-focus">False</property>
+                        <property name="can-focus">True</property>
                         <property name="model">color_scheme_list</property>
                         <child>
                           <object class="GtkCellRendererText"/>
@@ -1233,7 +1271,7 @@ Following helpers are available:
                 <child>
                   <object class="GtkBox">
                     <property name="visible">True</property>
-                    <property name="can-focus">False</property>
+                    <property name="can-focus">True</property>
                     <property name="halign">center</property>
                     <child>
                       <object class="GtkColorButton" id="foreground_color">
@@ -1257,7 +1295,7 @@ Following helpers are available:
                 <child>
                   <object class="GtkBox">
                     <property name="visible">True</property>
-                    <property name="can-focus">False</property>
+                    <property name="can-focus">True</property>
                     <property name="halign">center</property>
                     <child>
                       <object class="GtkColorButton" id="background_color">
@@ -1281,7 +1319,7 @@ Following helpers are available:
                 <child>
                   <object class="GtkBox">
                     <property name="visible">True</property>
-                    <property name="can-focus">False</property>
+                    <property name="can-focus">True</property>
                     <property name="halign">center</property>
                     <child>
                       <object class="GtkColorButton" id="bold_color">
@@ -1305,7 +1343,7 @@ Following helpers are available:
                 <child>
                   <object class="GtkBox">
                     <property name="visible">True</property>
-                    <property name="can-focus">False</property>
+                    <property name="can-focus">True</property>
                     <property name="halign">center</property>
                     <child>
                       <object class="GtkColorButton" id="cursor_foreground_color">
@@ -1329,7 +1367,7 @@ Following helpers are available:
                 <child>
                   <object class="GtkBox">
                     <property name="visible">True</property>
-                    <property name="can-focus">False</property>
+                    <property name="can-focus">True</property>
                     <property name="halign">center</property>
                     <child>
                       <object class="GtkColorButton" id="cursor_background_color">
@@ -1353,7 +1391,7 @@ Following helpers are available:
                 <child>
                   <object class="GtkBox">
                     <property name="visible">True</property>
-                    <property name="can-focus">False</property>
+                    <property name="can-focus">True</property>
                     <property name="halign">center</property>
                     <child>
                       <object class="GtkColorButton" id="highlight_foreground_color">
@@ -1377,7 +1415,7 @@ Following helpers are available:
                 <child>
                   <object class="GtkBox">
                     <property name="visible">True</property>
-                    <property name="can-focus">False</property>
+                    <property name="can-focus">True</property>
                     <property name="halign">center</property>
                     <child>
                       <object class="GtkColorButton" id="highlight_background_color">
@@ -1416,7 +1454,9 @@ Following helpers are available:
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="halign">start</property>
-                <property name="label" translatable="yes">Palette:</property>
+                <property name="label" translatable="yes">_Palette:</property>
+                <property name="use-underline">True</property>
+                <property name="mnemonic-widget">palette_combo</property>
               </object>
               <packing>
                 <property name="left-attach">0</property>
@@ -1426,7 +1466,7 @@ Following helpers are available:
             <child>
               <object class="GtkComboBox" id="palette_combo">
                 <property name="visible">True</property>
-                <property name="can-focus">False</property>
+                <property name="can-focus">True</property>
                 <property name="model">palette_list</property>
                 <child>
                   <object class="GtkCellRendererText"/>
@@ -1444,7 +1484,7 @@ Following helpers are available:
               <!-- n-columns=8 n-rows=2 -->
               <object class="GtkGrid" id="palette">
                 <property name="visible">True</property>
-                <property name="can-focus">False</property>
+                <property name="can-focus">True</property>
                 <property name="row-spacing">10</property>
                 <property name="column-spacing">10</property>
                 <property name="row-homogeneous">True</property>
@@ -1666,11 +1706,12 @@ Following helpers are available:
             </child>
             <child>
               <object class="GtkCheckButton" id="bold_is_bright_check">
-                <property name="label" translatable="yes">Show bold text in bright colors</property>
+                <property name="label" translatable="yes">Show bold text in _bright colors</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
                 <property name="action-name">settings.bold-is-bright</property>
+                <property name="use-underline">True</property>
                 <property name="draw-indicator">True</property>
               </object>
               <packing>
@@ -1689,7 +1730,7 @@ Following helpers are available:
           <!-- n-columns=2 n-rows=3 -->
           <object class="GtkGrid">
             <property name="visible">True</property>
-            <property name="can-focus">False</property>
+            <property name="can-focus">True</property>
             <property name="margin-start">10</property>
             <property name="margin-end">10</property>
             <property name="margin-top">10</property>
@@ -1698,12 +1739,13 @@ Following helpers are available:
             <property name="column-spacing">10</property>
             <child>
               <object class="GtkRadioButton" id="spawn_user_shell">
-                <property name="label" translatable="yes">User shell</property>
+                <property name="label" translatable="yes">User _shell</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
                 <property name="action-name">settings.command</property>
                 <property name="action-target">'user-shell'</property>
+                <property name="use-underline">True</property>
                 <property name="draw-indicator">True</property>
               </object>
               <packing>
@@ -1714,12 +1756,13 @@ Following helpers are available:
             </child>
             <child>
               <object class="GtkRadioButton">
-                <property name="label" translatable="yes">User shell as login shell</property>
+                <property name="label" translatable="yes">User shell as _login shell</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
                 <property name="action-name">settings.command</property>
                 <property name="action-target">'user-shell-login'</property>
+                <property name="use-underline">True</property>
                 <property name="draw-indicator">True</property>
                 <property name="group">spawn_user_shell</property>
               </object>
@@ -1731,12 +1774,13 @@ Following helpers are available:
             </child>
             <child>
               <object class="GtkRadioButton" id="spawn_custom_command">
-                <property name="label" translatable="yes">Custom command:</property>
+                <property name="label" translatable="yes">Custom _command:</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
                 <property name="action-name">settings.command</property>
                 <property name="action-target">'custom-command'</property>
+                <property name="use-underline">True</property>
                 <property name="draw-indicator">True</property>
                 <property name="group">spawn_user_shell</property>
               </object>
@@ -1748,7 +1792,7 @@ Following helpers are available:
             <child>
               <object class="GtkBox">
                 <property name="visible">True</property>
-                <property name="can-focus">False</property>
+                <property name="can-focus">True</property>
                 <property name="hexpand">True</property>
                 <child>
                   <object class="GtkEntry" id="custom_command_entry">
@@ -1778,7 +1822,7 @@ Following helpers are available:
           <!-- n-columns=2 n-rows=4 -->
           <object class="GtkGrid">
             <property name="visible">True</property>
-            <property name="can-focus">False</property>
+            <property name="can-focus">True</property>
             <property name="margin-start">10</property>
             <property name="margin-end">10</property>
             <property name="margin-top">10</property>
@@ -1787,11 +1831,12 @@ Following helpers are available:
             <property name="column-spacing">10</property>
             <child>
               <object class="GtkCheckButton" id="show_scrollbar_check">
-                <property name="label" translatable="yes">Show scrollbar</property>
+                <property name="label" translatable="yes">Show _scrollbar</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
                 <property name="action-name">settings.show-scrollbar</property>
+                <property name="use-underline">True</property>
                 <property name="draw-indicator">True</property>
               </object>
               <packing>
@@ -1802,11 +1847,12 @@ Following helpers are available:
             </child>
             <child>
               <object class="GtkCheckButton" id="scroll_on_output_check">
-                <property name="label" translatable="yes">Scroll on output</property>
+                <property name="label" translatable="yes">Scroll on _output</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
                 <property name="action-name">settings.scroll-on-output</property>
+                <property name="use-underline">True</property>
                 <property name="draw-indicator">True</property>
               </object>
               <packing>
@@ -1817,11 +1863,12 @@ Following helpers are available:
             </child>
             <child>
               <object class="GtkCheckButton" id="scoll_on_keystroke_check">
-                <property name="label" translatable="yes">Scroll on keystroke</property>
+                <property name="label" translatable="yes">Scroll on _keystroke</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
                 <property name="action-name">settings.scroll-on-keystroke</property>
+                <property name="use-underline">True</property>
                 <property name="draw-indicator">True</property>
               </object>
               <packing>
@@ -1832,10 +1879,11 @@ Following helpers are available:
             </child>
             <child>
               <object class="GtkCheckButton" id="limit_scrollback_check">
-                <property name="label" translatable="yes">Limit scrollback to:</property>
+                <property name="label" translatable="yes">_Limit scrollback to:</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
+                <property name="use-underline">True</property>
                 <property name="draw-indicator">True</property>
               </object>
               <packing>
@@ -1846,7 +1894,7 @@ Following helpers are available:
             <child>
               <object class="GtkBox">
                 <property name="visible">True</property>
-                <property name="can-focus">False</property>
+                <property name="can-focus">True</property>
                 <property name="spacing">10</property>
                 <child>
                   <object class="GtkSpinButton" id="scrollback_spin">
@@ -1891,7 +1939,7 @@ Following helpers are available:
           <!-- n-columns=2 n-rows=4 -->
           <object class="GtkGrid">
             <property name="visible">True</property>
-            <property name="can-focus">False</property>
+            <property name="can-focus">True</property>
             <property name="margin-start">10</property>
             <property name="margin-end">10</property>
             <property name="margin-top">10</property>
@@ -1903,7 +1951,9 @@ Following helpers are available:
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="halign">start</property>
-                <property name="label" translatable="yes">Backspace key generates:</property>
+                <property name="label" translatable="yes">_Backspace key generates:</property>
+                <property name="use-underline">True</property>
+                <property name="mnemonic-widget">backspace_binding_combo</property>
               </object>
               <packing>
                 <property name="left-attach">0</property>
@@ -1915,7 +1965,9 @@ Following helpers are available:
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="halign">start</property>
-                <property name="label" translatable="yes">Delete key generates:</property>
+                <property name="label" translatable="yes">_Delete key generates:</property>
+                <property name="use-underline">True</property>
+                <property name="mnemonic-widget">delete_binding_combo</property>
               </object>
               <packing>
                 <property name="left-attach">0</property>
@@ -1927,7 +1979,9 @@ Following helpers are available:
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="halign">start</property>
-                <property name="label" translatable="yes">Ambiguous-width characters:</property>
+                <property name="label" translatable="yes">Ambiguous-_width characters:</property>
+                <property name="use-underline">True</property>
+                <property name="mnemonic-widget">ambiguous_width_combo</property>
               </object>
               <packing>
                 <property name="left-attach">0</property>
@@ -1937,7 +1991,7 @@ Following helpers are available:
             <child>
               <object class="GtkComboBox" id="backspace_binding_combo">
                 <property name="visible">True</property>
-                <property name="can-focus">False</property>
+                <property name="can-focus">True</property>
                 <property name="model">erase_binding_list</property>
                 <property name="id-column">1</property>
                 <child>
@@ -1955,7 +2009,7 @@ Following helpers are available:
             <child>
               <object class="GtkComboBox" id="delete_binding_combo">
                 <property name="visible">True</property>
-                <property name="can-focus">False</property>
+                <property name="can-focus">True</property>
                 <property name="model">erase_binding_list</property>
                 <property name="id-column">1</property>
                 <child>
@@ -1973,7 +2027,7 @@ Following helpers are available:
             <child>
               <object class="GtkComboBoxText" id="ambiguous_width_combo">
                 <property name="visible">True</property>
-                <property name="can-focus">False</property>
+                <property name="can-focus">True</property>
                 <items>
                   <item id="narrow" translatable="yes">Narrow</item>
                   <item id="wide" translatable="yes">Wide</item>
@@ -1986,10 +2040,11 @@ Following helpers are available:
             </child>
             <child>
               <object class="GtkButton" id="reset_compatibility_button">
-                <property name="label" translatable="yes">Reset Compatibility Options to Defaults</property>
+                <property name="label" translatable="yes">_Reset Compatibility Options to Defaults</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
+                <property name="use-underline">True</property>
               </object>
               <packing>
                 <property name="left-attach">0</property>
@@ -2006,7 +2061,7 @@ Following helpers are available:
         <child>
           <object class="GtkBox">
             <property name="visible">True</property>
-            <property name="can-focus">False</property>
+            <property name="can-focus">True</property>
             <property name="margin-start">10</property>
             <property name="margin-end">10</property>
             <property name="margin-top">10</property>
@@ -2015,11 +2070,12 @@ Following helpers are available:
             <property name="spacing">10</property>
             <child>
               <object class="GtkCheckButton" id="enable_shortcuts_check">
-                <property name="label" translatable="yes">Enable shortcuts</property>
+                <property name="label" translatable="yes">_Enable shortcuts</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
                 <property name="action-name">settings.shortcuts-enabled</property>
+                <property name="use-underline">True</property>
                 <property name="draw-indicator">True</property>
               </object>
               <packing>

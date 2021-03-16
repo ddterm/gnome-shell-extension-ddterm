@@ -450,8 +450,11 @@
                 <property name="column-spacing">10</property>
                 <child>
                   <object class="GtkLabel">
+                    <property name="can-focus">0</property>
                     <property name="halign">start</property>
-                    <property name="label" translatable="yes">Theme variant:</property>
+                    <property name="label" translatable="yes">Theme _variant:</property>
+                    <property name="use-underline">1</property>
+                    <property name="mnemonic-widget">theme_variant_combo</property>
                     <layout>
                       <property name="column">0</property>
                       <property name="row">0</property>
@@ -473,8 +476,9 @@
                 </child>
                 <child>
                   <object class="GtkCheckButton" id="window_above_check">
-                    <property name="label" translatable="yes">Above all windows</property>
+                    <property name="label" translatable="yes">_Above all windows</property>
                     <property name="action-name">settings.window-above</property>
+                    <property name="use-underline">1</property>
                     <layout>
                       <property name="column">0</property>
                       <property name="row">4</property>
@@ -484,8 +488,9 @@
                 </child>
                 <child>
                   <object class="GtkCheckButton" id="window_stick_check">
-                    <property name="label" translatable="yes">On all workspaces</property>
+                    <property name="label" translatable="yes">On all _workspaces</property>
                     <property name="action-name">settings.window-stick</property>
+                    <property name="use-underline">1</property>
                     <layout>
                       <property name="column">0</property>
                       <property name="row">5</property>
@@ -495,8 +500,11 @@
                 </child>
                 <child>
                   <object class="GtkLabel">
+                    <property name="can-focus">0</property>
                     <property name="halign">start</property>
-                    <property name="label" translatable="yes">Background opacity:</property>
+                    <property name="label" translatable="yes">_Background opacity:</property>
+                    <property name="use-underline">1</property>
+                    <property name="mnemonic-widget">opacity_scale</property>
                     <layout>
                       <property name="column">0</property>
                       <property name="row">1</property>
@@ -519,8 +527,9 @@
                 </child>
                 <child>
                   <object class="GtkCheckButton" id="window_skip_taskbar_check">
-                    <property name="label" translatable="yes">Exclude window from overview/task bar</property>
+                    <property name="label" translatable="yes">Exclude window from _overview/task bar</property>
                     <property name="action-name">settings.window-skip-taskbar</property>
+                    <property name="use-underline">1</property>
                     <layout>
                       <property name="column">0</property>
                       <property name="row">8</property>
@@ -530,8 +539,9 @@
                 </child>
                 <child>
                   <object class="GtkCheckButton" id="hide_when_focus_lost_check">
-                    <property name="label" translatable="yes">Hide when the application loses focus</property>
+                    <property name="label" translatable="yes">Hide when the application loses _focus</property>
                     <property name="action-name">settings.hide-when-focus-lost</property>
+                    <property name="use-underline">1</property>
                     <layout>
                       <property name="column">0</property>
                       <property name="row">6</property>
@@ -541,8 +551,9 @@
                 </child>
                 <child>
                   <object class="GtkCheckButton" id="hide_window_on_esc_check">
-                    <property name="label" translatable="yes">Hide when Esc key is pressed</property>
+                    <property name="label" translatable="yes">Hide when _Esc key is pressed</property>
                     <property name="action-name">settings.hide-window-on-esc</property>
+                    <property name="use-underline">1</property>
                     <layout>
                       <property name="column">0</property>
                       <property name="row">7</property>
@@ -552,8 +563,9 @@
                 </child>
                 <child>
                   <object class="GtkCheckButton" id="pointer_autohide_check">
-                    <property name="label" translatable="yes">Hide mouse pointer when typing</property>
+                    <property name="label" translatable="yes">Hide mouse _pointer when typing</property>
                     <property name="action-name">settings.pointer-autohide</property>
+                    <property name="use-underline">1</property>
                     <layout>
                       <property name="column">0</property>
                       <property name="row">9</property>
@@ -563,8 +575,9 @@
                 </child>
                 <child>
                   <object class="GtkCheckButton" id="force_gdk_x11_check">
-                    <property name="label" translatable="yes">Force X11 GDK backend (XWayland)</property>
+                    <property name="label" translatable="yes">Force _X11 GDK backend (XWayland)</property>
                     <property name="action-name">settings.force-x11-gdk-backend</property>
+                    <property name="use-underline">1</property>
                     <layout>
                       <property name="column">0</property>
                       <property name="row">10</property>
@@ -574,8 +587,11 @@
                 </child>
                 <child>
                   <object class="GtkLabel">
+                    <property name="can-focus">0</property>
                     <property name="halign">start</property>
-                    <property name="label" translatable="yes">Window type hint (X11 only):</property>
+                    <property name="label" translatable="yes">Window _type hint (X11 only):</property>
+                    <property name="use-underline">1</property>
+                    <property name="mnemonic-widget">window_type_hint_combo</property>
                     <layout>
                       <property name="column">0</property>
                       <property name="row">11</property>
@@ -606,8 +622,11 @@
                 </child>
                 <child>
                   <object class="GtkLabel">
+                    <property name="can-focus">0</property>
                     <property name="halign">start</property>
-                    <property name="label" translatable="yes">Height:</property>
+                    <property name="label" translatable="yes">_Height:</property>
+                    <property name="use-underline">1</property>
+                    <property name="mnemonic-widget">window_height_scale</property>
                     <layout>
                       <property name="column">0</property>
                       <property name="row">2</property>
@@ -615,7 +634,7 @@
                   </object>
                 </child>
                 <child>
-                  <object class="GtkScale">
+                  <object class="GtkScale" id="window_height_scale">
                     <property name="draw-value">1</property>
                     <property name="adjustment">window_height_adjustment</property>
                     <property name="show-fill-level">1</property>
@@ -629,8 +648,9 @@
                 </child>
                 <child>
                   <object class="GtkCheckButton">
-                    <property name="label" translatable="yes">Resizable window</property>
+                    <property name="label" translatable="yes">_Resizable window</property>
                     <property name="action-name">settings.window-resizable</property>
+                    <property name="use-underline">1</property>
                     <layout>
                       <property name="column">0</property>
                       <property name="row">3</property>
@@ -655,8 +675,9 @@
                 <property name="column-spacing">10</property>
                 <child>
                   <object class="GtkCheckButton" id="expand_tabs_check">
-                    <property name="label" translatable="yes">Expand tab headers</property>
+                    <property name="label" translatable="yes">Expand tab _headers</property>
                     <property name="action-name">settings.tab-expand</property>
+                    <property name="use-underline">1</property>
                     <layout>
                       <property name="column">0</property>
                       <property name="row">1</property>
@@ -666,8 +687,9 @@
                 </child>
                 <child>
                   <object class="GtkCheckButton" id="show_tab_close_buttons_check">
-                    <property name="label" translatable="yes">Show close buttons</property>
+                    <property name="label" translatable="yes">Show _close buttons</property>
                     <property name="action-name">settings.tab-close-buttons</property>
+                    <property name="use-underline">1</property>
                     <layout>
                       <property name="column">0</property>
                       <property name="row">2</property>
@@ -677,8 +699,9 @@
                 </child>
                 <child>
                   <object class="GtkCheckButton" id="show_new_tab_button_check">
-                    <property name="label" translatable="yes">&quot;New Tab&quot; button</property>
+                    <property name="label" translatable="yes">&quot;_New Tab&quot; button</property>
                     <property name="action-name">settings.new-tab-button</property>
+                    <property name="use-underline">1</property>
                     <layout>
                       <property name="column">0</property>
                       <property name="row">3</property>
@@ -688,8 +711,9 @@
                 </child>
                 <child>
                   <object class="GtkCheckButton" id="show_tab_switcher_check">
-                    <property name="label" translatable="yes">Tab switcher popup</property>
+                    <property name="label" translatable="yes">Tab _switcher popup</property>
                     <property name="action-name">settings.tab-switcher-popup</property>
+                    <property name="use-underline">1</property>
                     <layout>
                       <property name="column">0</property>
                       <property name="row">4</property>
@@ -699,7 +723,10 @@
                 </child>
                 <child>
                   <object class="GtkLabel">
-                    <property name="label" translatable="yes">Show tab bar:</property>
+                    <property name="can-focus">0</property>
+                    <property name="label" translatable="yes">Show tab _bar:</property>
+                    <property name="use-underline">1</property>
+                    <property name="mnemonic-widget">tab_policy_combo</property>
                     <layout>
                       <property name="column">0</property>
                       <property name="row">0</property>
@@ -721,8 +748,11 @@
                 </child>
                 <child>
                   <object class="GtkLabel">
+                    <property name="can-focus">0</property>
                     <property name="halign">start</property>
-                    <property name="label" translatable="yes">Tab title:</property>
+                    <property name="label" translatable="yes">Tab _title:</property>
+                    <property name="use-underline">1</property>
+                    <property name="mnemonic-widget">tab_title_template_text_view</property>
                     <layout>
                       <property name="column">0</property>
                       <property name="row">5</property>
@@ -780,8 +810,9 @@ Following helpers are available:
                 </child>
                 <child>
                   <object class="GtkButton" id="reset_tab_title_button">
-                    <property name="label" translatable="yes">Reset to default</property>
+                    <property name="label" translatable="yes">_Reset to default</property>
                     <property name="receives-default">1</property>
+                    <property name="use-underline">1</property>
                     <layout>
                       <property name="column">1</property>
                       <property name="row">6</property>
@@ -808,7 +839,8 @@ Following helpers are available:
                 <property name="column-spacing">10</property>
                 <child>
                   <object class="GtkCheckButton" id="custom_font_check">
-                    <property name="label" translatable="yes">Custom font:</property>
+                    <property name="label" translatable="yes">Custom _font:</property>
+                    <property name="use-underline">1</property>
                     <layout>
                       <property name="column">0</property>
                       <property name="row">0</property>
@@ -817,8 +849,11 @@ Following helpers are available:
                 </child>
                 <child>
                   <object class="GtkLabel">
+                    <property name="can-focus">0</property>
                     <property name="halign">start</property>
-                    <property name="label" translatable="yes">Allow blinking text:</property>
+                    <property name="label" translatable="yes">Allow _blinking text:</property>
+                    <property name="use-underline">1</property>
+                    <property name="mnemonic-widget">text_blink_mode_combo</property>
                     <layout>
                       <property name="column">0</property>
                       <property name="row">1</property>
@@ -827,8 +862,11 @@ Following helpers are available:
                 </child>
                 <child>
                   <object class="GtkLabel">
+                    <property name="can-focus">0</property>
                     <property name="halign">start</property>
-                    <property name="label" translatable="yes">Cursor shape:</property>
+                    <property name="label" translatable="yes">Cursor _shape:</property>
+                    <property name="use-underline">1</property>
+                    <property name="mnemonic-widget">cursor_shape_combo</property>
                     <layout>
                       <property name="column">0</property>
                       <property name="row">2</property>
@@ -837,8 +875,11 @@ Following helpers are available:
                 </child>
                 <child>
                   <object class="GtkLabel">
+                    <property name="can-focus">0</property>
                     <property name="halign">start</property>
-                    <property name="label" translatable="yes">Cursor blinking:</property>
+                    <property name="label" translatable="yes">_Cursor blinking:</property>
+                    <property name="use-underline">1</property>
+                    <property name="mnemonic-widget">cursor_blink_mode_combo</property>
                     <layout>
                       <property name="column">0</property>
                       <property name="row">3</property>
@@ -887,8 +928,9 @@ Following helpers are available:
                 </child>
                 <child>
                   <object class="GtkCheckButton" id="allow_hyperlink_check">
-                    <property name="label" translatable="yes">Allow hyperlinks</property>
+                    <property name="label" translatable="yes">Allow _hyperlinks</property>
                     <property name="action-name">settings.allow-hyperlink</property>
+                    <property name="use-underline">1</property>
                     <layout>
                       <property name="column">0</property>
                       <property name="row">4</property>
@@ -898,8 +940,9 @@ Following helpers are available:
                 </child>
                 <child>
                   <object class="GtkCheckButton" id="audible_bell_check">
-                    <property name="label" translatable="yes">Audible bell</property>
+                    <property name="label" translatable="yes">Audible _bell</property>
                     <property name="action-name">settings.audible-bell</property>
+                    <property name="use-underline">1</property>
                     <layout>
                       <property name="column">0</property>
                       <property name="row">5</property>
@@ -914,6 +957,7 @@ Following helpers are available:
                         <property name="receives-default">1</property>
                         <property name="font">Sans 12</property>
                         <property name="use-font">1</property>
+                        <property name="use-size">1</property>
                       </object>
                     </child>
                     <layout>
@@ -939,8 +983,9 @@ Following helpers are available:
                 <property name="column-spacing">10</property>
                 <child>
                   <object class="GtkCheckButton" id="theme_colors_check">
-                    <property name="label" translatable="yes">Use colors from system theme</property>
+                    <property name="label" translatable="yes">Use colors from system _theme</property>
                     <property name="action-name">settings.use-theme-colors</property>
+                    <property name="use-underline">1</property>
                     <layout>
                       <property name="column">0</property>
                       <property name="row">0</property>
@@ -954,6 +999,7 @@ Following helpers are available:
                     <property name="column-spacing">10</property>
                     <child>
                       <object class="GtkLabel">
+                        <property name="can-focus">0</property>
                         <property name="label" translatable="yes">Foreground</property>
                         <layout>
                           <property name="column">1</property>
@@ -963,6 +1009,7 @@ Following helpers are available:
                     </child>
                     <child>
                       <object class="GtkLabel">
+                        <property name="can-focus">0</property>
                         <property name="label" translatable="yes">Background</property>
                         <layout>
                           <property name="column">2</property>
@@ -972,6 +1019,7 @@ Following helpers are available:
                     </child>
                     <child>
                       <object class="GtkLabel">
+                        <property name="can-focus">0</property>
                         <property name="halign">start</property>
                         <property name="label" translatable="yes">Default color:</property>
                         <layout>
@@ -1011,8 +1059,11 @@ Following helpers are available:
                     </child>
                     <child>
                       <object class="GtkLabel">
+                        <property name="can-focus">0</property>
                         <property name="halign">start</property>
-                        <property name="label" translatable="yes">Color scheme:</property>
+                        <property name="label" translatable="yes">Color _scheme:</property>
+                        <property name="use-underline">1</property>
+                        <property name="mnemonic-widget">color_scheme_combo</property>
                         <layout>
                           <property name="column">0</property>
                           <property name="row">0</property>
@@ -1159,8 +1210,11 @@ Following helpers are available:
                 </child>
                 <child>
                   <object class="GtkLabel">
+                    <property name="can-focus">0</property>
                     <property name="halign">start</property>
-                    <property name="label" translatable="yes">Palette:</property>
+                    <property name="label" translatable="yes">_Palette:</property>
+                    <property name="use-underline">1</property>
+                    <property name="mnemonic-widget">palette_combo</property>
                     <layout>
                       <property name="column">0</property>
                       <property name="row">2</property>
@@ -1373,8 +1427,9 @@ Following helpers are available:
                 </child>
                 <child>
                   <object class="GtkCheckButton" id="bold_is_bright_check">
-                    <property name="label" translatable="yes">Show bold text in bright colors</property>
+                    <property name="label" translatable="yes">Show bold text in _bright colors</property>
                     <property name="action-name">settings.bold-is-bright</property>
+                    <property name="use-underline">1</property>
                     <layout>
                       <property name="column">0</property>
                       <property name="row">4</property>
@@ -1399,9 +1454,10 @@ Following helpers are available:
                 <property name="column-spacing">10</property>
                 <child>
                   <object class="GtkCheckButton" id="spawn_user_shell">
-                    <property name="label" translatable="yes">User shell</property>
+                    <property name="label" translatable="yes">User _shell</property>
                     <property name="action-name">settings.command</property>
                     <property name="action-target">&apos;user-shell&apos;</property>
+                    <property name="use-underline">1</property>
                     <layout>
                       <property name="column">0</property>
                       <property name="row">0</property>
@@ -1411,9 +1467,10 @@ Following helpers are available:
                 </child>
                 <child>
                   <object class="GtkCheckButton">
-                    <property name="label" translatable="yes">User shell as login shell</property>
+                    <property name="label" translatable="yes">User shell as _login shell</property>
                     <property name="action-name">settings.command</property>
                     <property name="action-target">&apos;user-shell-login&apos;</property>
+                    <property name="use-underline">1</property>
                     <property name="group">spawn_user_shell</property>
                     <layout>
                       <property name="column">0</property>
@@ -1424,9 +1481,10 @@ Following helpers are available:
                 </child>
                 <child>
                   <object class="GtkCheckButton" id="spawn_custom_command">
-                    <property name="label" translatable="yes">Custom command:</property>
+                    <property name="label" translatable="yes">Custom _command:</property>
                     <property name="action-name">settings.command</property>
                     <property name="action-target">&apos;custom-command&apos;</property>
+                    <property name="use-underline">1</property>
                     <property name="group">spawn_user_shell</property>
                     <layout>
                       <property name="column">0</property>
@@ -1465,8 +1523,9 @@ Following helpers are available:
                 <property name="column-spacing">10</property>
                 <child>
                   <object class="GtkCheckButton" id="show_scrollbar_check">
-                    <property name="label" translatable="yes">Show scrollbar</property>
+                    <property name="label" translatable="yes">Show _scrollbar</property>
                     <property name="action-name">settings.show-scrollbar</property>
+                    <property name="use-underline">1</property>
                     <layout>
                       <property name="column">0</property>
                       <property name="row">0</property>
@@ -1476,8 +1535,9 @@ Following helpers are available:
                 </child>
                 <child>
                   <object class="GtkCheckButton" id="scroll_on_output_check">
-                    <property name="label" translatable="yes">Scroll on output</property>
+                    <property name="label" translatable="yes">Scroll on _output</property>
                     <property name="action-name">settings.scroll-on-output</property>
+                    <property name="use-underline">1</property>
                     <layout>
                       <property name="column">0</property>
                       <property name="row">1</property>
@@ -1487,8 +1547,9 @@ Following helpers are available:
                 </child>
                 <child>
                   <object class="GtkCheckButton" id="scoll_on_keystroke_check">
-                    <property name="label" translatable="yes">Scroll on keystroke</property>
+                    <property name="label" translatable="yes">Scroll on _keystroke</property>
                     <property name="action-name">settings.scroll-on-keystroke</property>
+                    <property name="use-underline">1</property>
                     <layout>
                       <property name="column">0</property>
                       <property name="row">2</property>
@@ -1498,7 +1559,8 @@ Following helpers are available:
                 </child>
                 <child>
                   <object class="GtkCheckButton" id="limit_scrollback_check">
-                    <property name="label" translatable="yes">Limit scrollback to:</property>
+                    <property name="label" translatable="yes">_Limit scrollback to:</property>
+                    <property name="use-underline">1</property>
                     <layout>
                       <property name="column">0</property>
                       <property name="row">3</property>
@@ -1517,6 +1579,7 @@ Following helpers are available:
                     </child>
                     <child>
                       <object class="GtkLabel">
+                        <property name="can-focus">0</property>
                         <property name="label" translatable="yes">lines</property>
                       </object>
                     </child>
@@ -1543,8 +1606,11 @@ Following helpers are available:
                 <property name="column-spacing">10</property>
                 <child>
                   <object class="GtkLabel">
+                    <property name="can-focus">0</property>
                     <property name="halign">start</property>
-                    <property name="label" translatable="yes">Backspace key generates:</property>
+                    <property name="label" translatable="yes">_Backspace key generates:</property>
+                    <property name="use-underline">1</property>
+                    <property name="mnemonic-widget">backspace_binding_combo</property>
                     <layout>
                       <property name="column">0</property>
                       <property name="row">0</property>
@@ -1553,8 +1619,11 @@ Following helpers are available:
                 </child>
                 <child>
                   <object class="GtkLabel">
+                    <property name="can-focus">0</property>
                     <property name="halign">start</property>
-                    <property name="label" translatable="yes">Delete key generates:</property>
+                    <property name="label" translatable="yes">_Delete key generates:</property>
+                    <property name="use-underline">1</property>
+                    <property name="mnemonic-widget">delete_binding_combo</property>
                     <layout>
                       <property name="column">0</property>
                       <property name="row">1</property>
@@ -1563,8 +1632,11 @@ Following helpers are available:
                 </child>
                 <child>
                   <object class="GtkLabel">
+                    <property name="can-focus">0</property>
                     <property name="halign">start</property>
-                    <property name="label" translatable="yes">Ambiguous-width characters:</property>
+                    <property name="label" translatable="yes">Ambiguous-_width characters:</property>
+                    <property name="use-underline">1</property>
+                    <property name="mnemonic-widget">ambiguous_width_combo</property>
                     <layout>
                       <property name="column">0</property>
                       <property name="row">2</property>
@@ -1617,8 +1689,9 @@ Following helpers are available:
                 </child>
                 <child>
                   <object class="GtkButton" id="reset_compatibility_button">
-                    <property name="label" translatable="yes">Reset Compatibility Options to Defaults</property>
+                    <property name="label" translatable="yes">_Reset Compatibility Options to Defaults</property>
                     <property name="receives-default">1</property>
+                    <property name="use-underline">1</property>
                     <layout>
                       <property name="column">0</property>
                       <property name="row">3</property>
@@ -1643,8 +1716,9 @@ Following helpers are available:
                 <property name="spacing">10</property>
                 <child>
                   <object class="GtkCheckButton" id="enable_shortcuts_check">
-                    <property name="label" translatable="yes">Enable shortcuts</property>
+                    <property name="label" translatable="yes">_Enable shortcuts</property>
                     <property name="action-name">settings.shortcuts-enabled</property>
+                    <property name="use-underline">1</property>
                   </object>
                 </child>
                 <child>
