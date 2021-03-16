@@ -50,7 +50,7 @@ gtk-builder-validate/prefs-gtk4.ui: prefs-gtk4.ui
 
 .PHONY: gtk-builder-validate/prefs-gtk4.ui
 
-DEFAULT_SOURCES := extension.js prefs.js
+DEFAULT_SOURCES := extension.js prefs.js metadata.json
 
 EXTRA_SOURCES := $(filter-out test-prefs-gtk4.js,$(wildcard *.js *.ui *.css))
 EXTRA_SOURCES += com.github.amezin.ddterm com.github.amezin.ddterm.Extension.xml
@@ -64,7 +64,7 @@ gtk-builder-validate: $(addprefix gtk-builder-validate/, $(filter-out terminalpa
 EXTENSION_UUID := ddterm@amezin.github.com
 DEVELOP_SYMLINK := $(HOME)/.local/share/gnome-shell/extensions/$(EXTENSION_UUID)
 
-develop: schemas/gschemas.compiled handlebars.js
+develop: schemas/gschemas.compiled $(GENERATED_SOURCES)
 	mkdir -p "$(dir $(DEVELOP_SYMLINK))"
 	if [[ "$(abspath .)" != "$(abspath $(DEVELOP_SYMLINK))" ]]; then \
 		ln -snf "$(abspath .)" "$(DEVELOP_SYMLINK)"; \
@@ -85,7 +85,7 @@ prefs enable disable reset info show:
 .PHONY: prefs enable disable reset info show
 
 EXTENSION_PACK := $(EXTENSION_UUID).shell-extension.zip
-$(EXTENSION_PACK): $(SCHEMAS) $(EXTRA_SOURCES) $(DEFAULT_SOURCES) metadata.json
+$(EXTENSION_PACK): $(SCHEMAS) $(EXTRA_SOURCES) $(DEFAULT_SOURCES)
 	gnome-extensions pack -f $(addprefix --schema=,$(SCHEMAS)) $(addprefix --extra-source=,$(EXTRA_SOURCES)) .
 
 pack: $(EXTENSION_PACK)
