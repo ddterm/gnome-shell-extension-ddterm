@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
   eslint:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v2
     - uses: actions/setup-node@v2-beta
@@ -14,7 +14,13 @@ jobs:
     - run: npx eslint .
 
   glib-compile-schemas:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v2
-    - run: glib-compile-schemas --strict schemas
+    - run: ./do-in-docker.sh make schemas/gschemas.compiled
+
+  gtk-builder-validate:
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v2
+    - run: ./do-in-docker.sh make gtk-builder-validate
