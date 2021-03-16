@@ -1,5 +1,9 @@
 SHELL := /bin/bash
 
+# run 'make WITH_GTK4=no' to disable Gtk 4/GNOME 40 support
+# (could be necessary on older distros without gtk4-builder-tool)
+WITH_GTK4 := yes
+
 all: schemas/gschemas.compiled lint pack gtk-builder-validate
 
 .PHONY: all
@@ -28,6 +32,8 @@ $(GTK3_ONLY_UI): %.ui: glade/%.ui
 prefs-gtk3.ui: glade/prefs.ui
 	gtk-builder-tool simplify $< >$@
 
+GENERATED_SOURCES := $(GTK3_ONLY_UI) prefs-gtk3.ui handlebars.js
+
 tmp:
 	mkdir -p tmp
 
@@ -40,7 +46,9 @@ tmp/prefs-3to4-fixup.ui: tmp/prefs-3to4.ui 3to4-fixup.xsl | tmp
 prefs-gtk4.ui: tmp/prefs-3to4-fixup.ui
 	gtk4-builder-tool simplify $< >$@
 
-GENERATED_SOURCES := $(GTK3_ONLY_UI) prefs-gtk3.ui prefs-gtk4.ui handlebars.js
+ifeq ($(WITH_GTK4),yes)
+GENERATED_SOURCES += prefs-gtk4.ui
+endif
 
 gtk-builder-validate/%: %
 	gtk-builder-tool validate $<
