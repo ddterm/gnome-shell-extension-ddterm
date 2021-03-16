@@ -428,12 +428,10 @@
     <property name="page-increment">0.10</property>
   </object>
   <template class="Gjs_PrefsWidget" parent="GtkBox">
-    <property name="can-focus">0</property>
     <property name="hexpand">1</property>
     <property name="vexpand">1</property>
     <child>
       <object class="GtkStackSidebar">
-        <property name="can-focus">0</property>
         <property name="stack">stack</property>
       </object>
     </child>
@@ -444,7 +442,6 @@
             <property name="title" translatable="yes">Window</property>
             <property name="child">
               <object class="GtkGrid">
-                <property name="can-focus">0</property>
                 <property name="margin-start">10</property>
                 <property name="margin-end">10</property>
                 <property name="margin-top">10</property>
@@ -453,7 +450,6 @@
                 <property name="column-spacing">10</property>
                 <child>
                   <object class="GtkLabel">
-                    <property name="can-focus">0</property>
                     <property name="halign">start</property>
                     <property name="label" translatable="yes">Theme variant:</property>
                     <layout>
@@ -464,7 +460,6 @@
                 </child>
                 <child>
                   <object class="GtkComboBoxText" id="theme_variant_combo">
-                    <property name="can-focus">0</property>
                     <items>
                       <item id="system" translatable="yes">Default</item>
                       <item id="light" translatable="yes">Light</item>
@@ -500,7 +495,6 @@
                 </child>
                 <child>
                   <object class="GtkLabel">
-                    <property name="can-focus">0</property>
                     <property name="halign">start</property>
                     <property name="label" translatable="yes">Background opacity:</property>
                     <layout>
@@ -580,7 +574,6 @@
                 </child>
                 <child>
                   <object class="GtkLabel">
-                    <property name="can-focus">0</property>
                     <property name="halign">start</property>
                     <property name="label" translatable="yes">Window type hint (X11 only):</property>
                     <layout>
@@ -591,7 +584,6 @@
                 </child>
                 <child>
                   <object class="GtkComboBoxText" id="window_type_hint_combo">
-                    <property name="can-focus">0</property>
                     <items>
                       <item id="normal" translatable="yes">Normal</item>
                       <item id="dialog" translatable="yes">Dialog</item>
@@ -614,7 +606,6 @@
                 </child>
                 <child>
                   <object class="GtkLabel">
-                    <property name="can-focus">0</property>
                     <property name="halign">start</property>
                     <property name="label" translatable="yes">Height:</property>
                     <layout>
@@ -656,7 +647,6 @@
             <property name="title" translatable="yes">Tabs</property>
             <property name="child">
               <object class="GtkGrid">
-                <property name="can-focus">0</property>
                 <property name="margin-start">10</property>
                 <property name="margin-end">10</property>
                 <property name="margin-top">10</property>
@@ -709,7 +699,6 @@
                 </child>
                 <child>
                   <object class="GtkLabel">
-                    <property name="can-focus">0</property>
                     <property name="label" translatable="yes">Show tab bar:</property>
                     <layout>
                       <property name="column">0</property>
@@ -719,7 +708,6 @@
                 </child>
                 <child>
                   <object class="GtkComboBoxText" id="tab_policy_combo">
-                    <property name="can-focus">0</property>
                     <items>
                       <item id="always" translatable="yes">Always</item>
                       <item id="automatic" translatable="yes">Automatic</item>
@@ -733,7 +721,6 @@
                 </child>
                 <child>
                   <object class="GtkLabel">
-                    <property name="can-focus">0</property>
                     <property name="halign">start</property>
                     <property name="label" translatable="yes">Tab title:</property>
                     <layout>
@@ -760,10 +747,8 @@
                     <property name="propagate-natural-height">1</property>
                     <property name="child">
                       <object class="GtkViewport">
-                        <property name="can-focus">0</property>
                         <property name="child">
                           <object class="GtkLabel">
-                            <property name="can-focus">0</property>
                             <property name="halign">start</property>
                             <property name="label" translatable="yes">Tab title is generated from &lt;a href=&quot;https://handlebarsjs.com/guide/&quot;&gt;handlebars.js&lt;/a&gt; template. &lt;a href=&quot;https://developer.gnome.org/pango/stable/pango-Markup.html&quot;&gt;Pango markup&lt;/a&gt; can be used to format the title.
 
@@ -815,7 +800,6 @@ Following helpers are available:
             <property name="title" translatable="yes">Text</property>
             <property name="child">
               <object class="GtkGrid">
-                <property name="can-focus">0</property>
                 <property name="margin-start">10</property>
                 <property name="margin-end">10</property>
                 <property name="margin-top">10</property>
@@ -833,7 +817,6 @@ Following helpers are available:
                 </child>
                 <child>
                   <object class="GtkLabel">
-                    <property name="can-focus">0</property>
                     <property name="halign">start</property>
                     <property name="label" translatable="yes">Allow blinking text:</property>
                     <layout>
@@ -844,7 +827,6 @@ Following helpers are available:
                 </child>
                 <child>
                   <object class="GtkLabel">
-                    <property name="can-focus">0</property>
                     <property name="halign">start</property>
                     <property name="label" translatable="yes">Cursor shape:</property>
                     <layout>
@@ -855,7 +837,6 @@ Following helpers are available:
                 </child>
                 <child>
                   <object class="GtkLabel">
-                    <property name="can-focus">0</property>
                     <property name="halign">start</property>
                     <property name="label" translatable="yes">Cursor blinking:</property>
                     <layout>
@@ -866,7 +847,6 @@ Following helpers are available:
                 </child>
                 <child>
                   <object class="GtkComboBoxText" id="text_blink_mode_combo">
-                    <property name="can-focus">0</property>
                     <items>
                       <item id="never" translatable="yes">Never</item>
                       <item id="focused" translatable="yes">When focused</item>
@@ -881,7 +861,6 @@ Following helpers are available:
                 </child>
                 <child>
                   <object class="GtkComboBoxText" id="cursor_shape_combo">
-                    <property name="can-focus">0</property>
                     <items>
                       <item id="block" translatable="yes">Block</item>
                       <item id="ibeam" translatable="yes">I-Beam</item>
@@ -895,7 +874,6 @@ Following helpers are available:
                 </child>
                 <child>
                   <object class="GtkComboBoxText" id="cursor_blink_mode_combo">
-                    <property name="can-focus">0</property>
                     <items>
                       <item id="system" translatable="yes">Default</item>
                       <item id="on" translatable="yes">Enabled</item>
@@ -931,7 +909,6 @@ Following helpers are available:
                 </child>
                 <child>
                   <object class="GtkBox">
-                    <property name="can-focus">0</property>
                     <child>
                       <object class="GtkFontButton" id="font_chooser">
                         <property name="receives-default">1</property>
@@ -954,7 +931,6 @@ Following helpers are available:
             <property name="title" translatable="yes">Colors</property>
             <property name="child">
               <object class="GtkGrid">
-                <property name="can-focus">0</property>
                 <property name="margin-start">10</property>
                 <property name="margin-end">10</property>
                 <property name="margin-top">10</property>
@@ -974,12 +950,10 @@ Following helpers are available:
                 </child>
                 <child>
                   <object class="GtkGrid" id="color_scheme_editor">
-                    <property name="can-focus">0</property>
                     <property name="row-spacing">10</property>
                     <property name="column-spacing">10</property>
                     <child>
                       <object class="GtkLabel">
-                        <property name="can-focus">0</property>
                         <property name="label" translatable="yes">Foreground</property>
                         <layout>
                           <property name="column">1</property>
@@ -989,7 +963,6 @@ Following helpers are available:
                     </child>
                     <child>
                       <object class="GtkLabel">
-                        <property name="can-focus">0</property>
                         <property name="label" translatable="yes">Background</property>
                         <layout>
                           <property name="column">2</property>
@@ -999,7 +972,6 @@ Following helpers are available:
                     </child>
                     <child>
                       <object class="GtkLabel">
-                        <property name="can-focus">0</property>
                         <property name="halign">start</property>
                         <property name="label" translatable="yes">Default color:</property>
                         <layout>
@@ -1039,7 +1011,6 @@ Following helpers are available:
                     </child>
                     <child>
                       <object class="GtkLabel">
-                        <property name="can-focus">0</property>
                         <property name="halign">start</property>
                         <property name="label" translatable="yes">Color scheme:</property>
                         <layout>
@@ -1050,10 +1021,8 @@ Following helpers are available:
                     </child>
                     <child>
                       <object class="GtkBox">
-                        <property name="can-focus">0</property>
                         <child>
                           <object class="GtkComboBox" id="color_scheme_combo">
-                            <property name="can-focus">0</property>
                             <property name="model">color_scheme_list</property>
                             <child>
                               <object class="GtkCellRendererText"/>
@@ -1072,7 +1041,6 @@ Following helpers are available:
                     </child>
                     <child>
                       <object class="GtkBox">
-                        <property name="can-focus">0</property>
                         <property name="halign">center</property>
                         <child>
                           <object class="GtkColorButton" id="foreground_color">
@@ -1088,7 +1056,6 @@ Following helpers are available:
                     </child>
                     <child>
                       <object class="GtkBox">
-                        <property name="can-focus">0</property>
                         <property name="halign">center</property>
                         <child>
                           <object class="GtkColorButton" id="background_color">
@@ -1104,7 +1071,6 @@ Following helpers are available:
                     </child>
                     <child>
                       <object class="GtkBox">
-                        <property name="can-focus">0</property>
                         <property name="halign">center</property>
                         <child>
                           <object class="GtkColorButton" id="bold_color">
@@ -1120,7 +1086,6 @@ Following helpers are available:
                     </child>
                     <child>
                       <object class="GtkBox">
-                        <property name="can-focus">0</property>
                         <property name="halign">center</property>
                         <child>
                           <object class="GtkColorButton" id="cursor_foreground_color">
@@ -1136,7 +1101,6 @@ Following helpers are available:
                     </child>
                     <child>
                       <object class="GtkBox">
-                        <property name="can-focus">0</property>
                         <property name="halign">center</property>
                         <child>
                           <object class="GtkColorButton" id="cursor_background_color">
@@ -1152,7 +1116,6 @@ Following helpers are available:
                     </child>
                     <child>
                       <object class="GtkBox">
-                        <property name="can-focus">0</property>
                         <property name="halign">center</property>
                         <child>
                           <object class="GtkColorButton" id="highlight_foreground_color">
@@ -1168,7 +1131,6 @@ Following helpers are available:
                     </child>
                     <child>
                       <object class="GtkBox">
-                        <property name="can-focus">0</property>
                         <property name="halign">center</property>
                         <child>
                           <object class="GtkColorButton" id="highlight_background_color">
@@ -1197,7 +1159,6 @@ Following helpers are available:
                 </child>
                 <child>
                   <object class="GtkLabel">
-                    <property name="can-focus">0</property>
                     <property name="halign">start</property>
                     <property name="label" translatable="yes">Palette:</property>
                     <layout>
@@ -1208,7 +1169,6 @@ Following helpers are available:
                 </child>
                 <child>
                   <object class="GtkComboBox" id="palette_combo">
-                    <property name="can-focus">0</property>
                     <property name="model">palette_list</property>
                     <child>
                       <object class="GtkCellRendererText"/>
@@ -1224,7 +1184,6 @@ Following helpers are available:
                 </child>
                 <child>
                   <object class="GtkGrid" id="palette">
-                    <property name="can-focus">0</property>
                     <property name="row-spacing">10</property>
                     <property name="column-spacing">10</property>
                     <property name="row-homogeneous">1</property>
@@ -1432,7 +1391,6 @@ Following helpers are available:
             <property name="title" translatable="yes">Command</property>
             <property name="child">
               <object class="GtkGrid">
-                <property name="can-focus">0</property>
                 <property name="margin-start">10</property>
                 <property name="margin-end">10</property>
                 <property name="margin-top">10</property>
@@ -1478,7 +1436,6 @@ Following helpers are available:
                 </child>
                 <child>
                   <object class="GtkBox">
-                    <property name="can-focus">0</property>
                     <property name="hexpand">1</property>
                     <child>
                       <object class="GtkEntry" id="custom_command_entry">
@@ -1500,7 +1457,6 @@ Following helpers are available:
             <property name="title" translatable="yes">Scrolling</property>
             <property name="child">
               <object class="GtkGrid">
-                <property name="can-focus">0</property>
                 <property name="margin-start">10</property>
                 <property name="margin-end">10</property>
                 <property name="margin-top">10</property>
@@ -1551,7 +1507,6 @@ Following helpers are available:
                 </child>
                 <child>
                   <object class="GtkBox">
-                    <property name="can-focus">0</property>
                     <property name="spacing">10</property>
                     <child>
                       <object class="GtkSpinButton" id="scrollback_spin">
@@ -1562,7 +1517,6 @@ Following helpers are available:
                     </child>
                     <child>
                       <object class="GtkLabel">
-                        <property name="can-focus">0</property>
                         <property name="label" translatable="yes">lines</property>
                       </object>
                     </child>
@@ -1581,7 +1535,6 @@ Following helpers are available:
             <property name="title" translatable="yes">Compatibility</property>
             <property name="child">
               <object class="GtkGrid">
-                <property name="can-focus">0</property>
                 <property name="margin-start">10</property>
                 <property name="margin-end">10</property>
                 <property name="margin-top">10</property>
@@ -1590,7 +1543,6 @@ Following helpers are available:
                 <property name="column-spacing">10</property>
                 <child>
                   <object class="GtkLabel">
-                    <property name="can-focus">0</property>
                     <property name="halign">start</property>
                     <property name="label" translatable="yes">Backspace key generates:</property>
                     <layout>
@@ -1601,7 +1553,6 @@ Following helpers are available:
                 </child>
                 <child>
                   <object class="GtkLabel">
-                    <property name="can-focus">0</property>
                     <property name="halign">start</property>
                     <property name="label" translatable="yes">Delete key generates:</property>
                     <layout>
@@ -1612,7 +1563,6 @@ Following helpers are available:
                 </child>
                 <child>
                   <object class="GtkLabel">
-                    <property name="can-focus">0</property>
                     <property name="halign">start</property>
                     <property name="label" translatable="yes">Ambiguous-width characters:</property>
                     <layout>
@@ -1623,7 +1573,6 @@ Following helpers are available:
                 </child>
                 <child>
                   <object class="GtkComboBox" id="backspace_binding_combo">
-                    <property name="can-focus">0</property>
                     <property name="model">erase_binding_list</property>
                     <property name="id-column">1</property>
                     <child>
@@ -1640,7 +1589,6 @@ Following helpers are available:
                 </child>
                 <child>
                   <object class="GtkComboBox" id="delete_binding_combo">
-                    <property name="can-focus">0</property>
                     <property name="model">erase_binding_list</property>
                     <property name="id-column">1</property>
                     <child>
@@ -1657,7 +1605,6 @@ Following helpers are available:
                 </child>
                 <child>
                   <object class="GtkComboBoxText" id="ambiguous_width_combo">
-                    <property name="can-focus">0</property>
                     <items>
                       <item id="narrow" translatable="yes">Narrow</item>
                       <item id="wide" translatable="yes">Wide</item>
@@ -1688,7 +1635,6 @@ Following helpers are available:
             <property name="title" translatable="yes">Keyboard Shortcuts</property>
             <property name="child">
               <object class="GtkBox">
-                <property name="can-focus">0</property>
                 <property name="margin-start">10</property>
                 <property name="margin-end">10</property>
                 <property name="margin-top">10</property>
