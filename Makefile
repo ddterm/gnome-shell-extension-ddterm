@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 
-all: schemas/gschemas.compiled lint pack
+all: schemas/gschemas.compiled lint pack gtk-builder-validate
 
 .PHONY: all
 
@@ -38,6 +38,16 @@ tmp/prefs-3to4-fixup.ui: tmp/prefs-3to4.ui 3to4-fixup.xsl | tmp
 prefs-gtk4.ui: tmp/prefs-3to4-fixup.ui
 	gtk4-builder-tool simplify $< >$@
 
+gtk-builder-validate/%: %
+	gtk-builder-tool validate $<
+
+.PHONY: gtk-builder-validate/%
+
+gtk-builder-validate/prefs-gtk4.ui: prefs-gtk4.ui
+	gtk4-builder-tool validate $<
+
+.PHONY: gtk-builder-validate/prefs-gtk4.ui
+
 EXTRA_SOURCES := \
 	application.js \
 	appwindow.js \
@@ -54,6 +64,10 @@ EXTRA_SOURCES := \
 	terminalpage.js \
 	terminalpage.ui \
 	util.js \
+
+gtk-builder-validate: $(addprefix gtk-builder-validate/, $(filter-out terminalpage.ui,$(filter %.ui,$(EXTRA_SOURCES))))
+
+.PHONY: gtk-builder-validate
 
 EXTENSION_UUID := ddterm@amezin.github.com
 DEVELOP_SYMLINK := $(HOME)/.local/share/gnome-shell/extensions/$(EXTENSION_UUID)
