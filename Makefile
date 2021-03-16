@@ -20,11 +20,10 @@ lint: lint/eslintrc-gjs.yml
 handlebars.js:
 	curl -o $@ 'https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.6/handlebars.min.js'
 
-prefs-gtk4.ui: prefs-gtk3.ui
+prefs-gtk4.ui: prefs-gtk3.ui 3to4-fixup.xsl
 	gtk4-builder-tool simplify --3to4 $< \
-		| grep -v '<property name="position">' \
-		| grep -v '<property name="shadow-type">in</property>' \
-		| grep -v '<property name="input-purpose">digits</property>' >$@
+		| xsltproc 3to4-fixup.xsl - \
+		| sed -r 's:<col id="([0-9]+)"/>:<col id="\1"></col>:g' >$@
 
 GENERATED_SOURCES := handlebars.js prefs-gtk4.ui
 

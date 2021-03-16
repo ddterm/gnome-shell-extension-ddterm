@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0"?>
 <interface>
   <requires lib="gtk" version="4.0"/>
   <object class="GtkListStore" id="color_scheme_list">
@@ -699,7 +699,7 @@
                 </child>
                 <child>
                   <object class="GtkCheckButton" id="show_new_tab_button_check">
-                    <property name="label" translatable="yes">&quot;_New Tab&quot; button</property>
+                    <property name="label" translatable="yes">"_New Tab" button</property>
                     <property name="action-name">settings.new-tab-button</property>
                     <property name="use-underline">1</property>
                     <layout>
@@ -780,7 +780,7 @@
                         <property name="child">
                           <object class="GtkLabel">
                             <property name="halign">start</property>
-                            <property name="label" translatable="yes">Tab title is generated from &lt;a href=&quot;https://handlebarsjs.com/guide/&quot;&gt;handlebars.js&lt;/a&gt; template. &lt;a href=&quot;https://developer.gnome.org/pango/stable/pango-Markup.html&quot;&gt;Pango markup&lt;/a&gt; can be used to format the title.
+                            <property name="label" translatable="yes">Tab title is generated from &lt;a href="https://handlebarsjs.com/guide/"&gt;handlebars.js&lt;/a&gt; template. &lt;a href="https://developer.gnome.org/pango/stable/pango-Markup.html"&gt;Pango markup&lt;/a&gt; can be used to format the title.
 
 Following variables are available:
 - &lt;tt&gt;window-title&lt;/tt&gt;
@@ -1456,7 +1456,7 @@ Following helpers are available:
                   <object class="GtkCheckButton" id="spawn_user_shell">
                     <property name="label" translatable="yes">User _shell</property>
                     <property name="action-name">settings.command</property>
-                    <property name="action-target">&apos;user-shell&apos;</property>
+                    <property name="action-target">'user-shell'</property>
                     <property name="use-underline">1</property>
                     <layout>
                       <property name="column">0</property>
@@ -1469,7 +1469,7 @@ Following helpers are available:
                   <object class="GtkCheckButton">
                     <property name="label" translatable="yes">User shell as _login shell</property>
                     <property name="action-name">settings.command</property>
-                    <property name="action-target">&apos;user-shell-login&apos;</property>
+                    <property name="action-target">'user-shell-login'</property>
                     <property name="use-underline">1</property>
                     <property name="group">spawn_user_shell</property>
                     <layout>
@@ -1483,7 +1483,7 @@ Following helpers are available:
                   <object class="GtkCheckButton" id="spawn_custom_command">
                     <property name="label" translatable="yes">Custom _command:</property>
                     <property name="action-name">settings.command</property>
-                    <property name="action-target">&apos;custom-command&apos;</property>
+                    <property name="action-target">'custom-command'</property>
                     <property name="use-underline">1</property>
                     <property name="group">spawn_user_shell</property>
                     <layout>
