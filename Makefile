@@ -38,6 +38,8 @@ tmp/prefs-3to4-fixup.ui: tmp/prefs-3to4.ui 3to4-fixup.xsl | tmp
 prefs-gtk4.ui: tmp/prefs-3to4-fixup.ui
 	gtk4-builder-tool simplify $< >$@
 
+GENERATED_SOURCES := prefsdialog.ui appwindow.ui terminalpage.ui prefs-gtk3.ui prefs-gtk4.ui handlebars.js
+
 gtk-builder-validate/%: %
 	gtk-builder-tool validate $<
 
@@ -48,22 +50,12 @@ gtk-builder-validate/prefs-gtk4.ui: prefs-gtk4.ui
 
 .PHONY: gtk-builder-validate/prefs-gtk4.ui
 
-EXTRA_SOURCES := \
-	application.js \
-	appwindow.js \
-	appwindow.ui \
-	com.github.amezin.ddterm \
-	com.github.amezin.ddterm.Extension.xml \
-	handlebars.js \
-	menus.ui \
-	prefsdialog.js \
-	prefsdialog.ui \
-	prefs-gtk3.ui \
-	prefs-gtk4.ui \
-	style.css \
-	terminalpage.js \
-	terminalpage.ui \
-	util.js \
+DEFAULT_SOURCES := extension.js prefs.js
+
+EXTRA_SOURCES := $(filter-out test-prefs-gtk4.js,$(wildcard *.js *.ui *.css))
+EXTRA_SOURCES += com.github.amezin.ddterm com.github.amezin.ddterm.Extension.xml
+
+EXTRA_SOURCES := $(filter-out $(DEFAULT_SOURCES), $(sort $(GENERATED_SOURCES) $(EXTRA_SOURCES)))
 
 gtk-builder-validate: $(addprefix gtk-builder-validate/, $(filter-out terminalpage.ui,$(filter %.ui,$(EXTRA_SOURCES))))
 
@@ -93,7 +85,7 @@ prefs enable disable reset info show:
 .PHONY: prefs enable disable reset info show
 
 EXTENSION_PACK := $(EXTENSION_UUID).shell-extension.zip
-$(EXTENSION_PACK): $(SCHEMAS) $(EXTRA_SOURCES) extension.js prefs.js metadata.json
+$(EXTENSION_PACK): $(SCHEMAS) $(EXTRA_SOURCES) $(DEFAULT_SOURCES) metadata.json
 	gnome-extensions pack -f $(addprefix --schema=,$(SCHEMAS)) $(addprefix --extra-source=,$(EXTRA_SOURCES)) .
 
 pack: $(EXTENSION_PACK)
@@ -113,3 +105,8 @@ toggle quit:
 	gapplication action com.github.amezin.ddterm $@
 
 .PHONY: toggle quit
+
+clean:
+	$(RM) $(EXTENSION_PACK) $(GENERATED_SOURCES) schemas/gschemas.compiled $(wildcard tmp/*)
+
+.PHONY: clean
