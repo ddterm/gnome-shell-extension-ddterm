@@ -20,7 +20,9 @@ lint: lint/eslintrc-gjs.yml
 handlebars.js:
 	curl -o $@ 'https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.6/handlebars.min.js'
 
-prefsdialog.ui appwindow.ui terminalpage.ui: %.ui: glade/%.ui
+GTK3_ONLY_UI := $(filter-out prefs.ui,$(patsubst glade/%,%,$(wildcard glade/*.ui)))
+
+$(GTK3_ONLY_UI): %.ui: glade/%.ui
 	gtk-builder-tool simplify $< >$@
 
 prefs-gtk3.ui: glade/prefs.ui
@@ -38,7 +40,7 @@ tmp/prefs-3to4-fixup.ui: tmp/prefs-3to4.ui 3to4-fixup.xsl | tmp
 prefs-gtk4.ui: tmp/prefs-3to4-fixup.ui
 	gtk4-builder-tool simplify $< >$@
 
-GENERATED_SOURCES := prefsdialog.ui appwindow.ui terminalpage.ui prefs-gtk3.ui prefs-gtk4.ui handlebars.js
+GENERATED_SOURCES := $(GTK3_ONLY_UI) prefs-gtk3.ui prefs-gtk4.ui handlebars.js
 
 gtk-builder-validate/%: %
 	gtk-builder-tool validate $<
