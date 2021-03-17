@@ -29,4 +29,4 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - run: make gtk-builder-validate
+    - run: xvfb-run make gtk-builder-validate

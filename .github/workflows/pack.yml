@@ -17,7 +17,7 @@ jobs:
         ref: gh-pages
         path: pages
 
-    - run: make pack
+    - run: xvfb-run make pack
       working-directory: src
 
     - run: mkdir -pv downloads/${{ github.ref }}
