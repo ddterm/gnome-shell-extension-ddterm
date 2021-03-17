@@ -73,6 +73,13 @@ installed:
 support. To build without them, run `make` with `WITH_GTK4=no`:
 `make WITH_GTK4=no develop` or `make WITH_GTK4=no install`.
 
+Or, if you have `docker` installed instead, you can run:
+
+    $ ./do-in-docker.sh make
+
+This will generate all necessary files, using CI image, and then
+`make install`/`make develop` won't need any dependencies.
+
 #### `make install`
 
 `git clone` the repository into arbitrary location, and run `make install`:
