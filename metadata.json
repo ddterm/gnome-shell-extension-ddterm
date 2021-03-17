@@ -5,7 +5,9 @@
   "settings-schema": "com.github.amezin.ddterm",
   "shell-version": [
     "3.36",
-    "3.38"
+    "3.38",
+    "40.rc",
+    "40"
   ],
   "version": 10,
   "url": "https://github.com/amezin/gnome-shell-extension-ddterm"
