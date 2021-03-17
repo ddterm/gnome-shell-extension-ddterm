@@ -30,3 +30,5 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - run: make gtk-builder-validate
+      with:
+        entrypoint: /usr/bin/xvfb-run
