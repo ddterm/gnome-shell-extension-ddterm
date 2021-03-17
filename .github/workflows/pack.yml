@@ -42,3 +42,11 @@ jobs:
       working-directory: pages
     - run: git push
       working-directory: pages
+
+    - uses: softprops/action-gh-release@v1
+      if: startsWith(github.ref, 'refs/tags/v')
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        files: src/*.shell-extension.zip
+        draft: true
