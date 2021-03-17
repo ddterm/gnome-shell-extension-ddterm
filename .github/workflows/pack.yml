@@ -19,8 +19,6 @@ jobs:
 
     - run: make pack
       working-directory: src
-      with:
-        entrypoint: /usr/bin/xvfb-run
 
     - run: mkdir -pv downloads/${{ github.ref }}
       working-directory: pages
