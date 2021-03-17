@@ -47,7 +47,7 @@ Download it, then run:
 #### Restart GNOME Shell
 
 After that, restart GNOME Shell - log out, log in back. On X11 you can restart
-the shell by pressing `Alt+F2`, `r`, `Enter`.
+the shell by pressing <kbd>Alt+F2</kbd>, <kbd>r</kbd>, <kbd>Enter</kbd>.
 
 #### Enable extension
 
@@ -86,7 +86,7 @@ It will build the extension package and install it.
 ##### Restart GNOME Shell
 
 After that, restart GNOME Shell - log out, log in back. On X11 you can restart
-the shell by pressing `Alt+F2`, `r`, `Enter`.
+the shell by pressing <kbd>Alt+F2</kbd>, <kbd>r</kbd>, <kbd>Enter</kbd>.
 
 ##### Enable extension
 
@@ -108,7 +108,7 @@ will do it for you:
 ##### Restart GNOME Shell
 
 After that, restart GNOME Shell - log out, log in back. On X11 you can restart
-the shell by pressing `Alt+F2`, `r`, `Enter`.
+the shell by pressing <kbd>Alt+F2</kbd>, <kbd>r</kbd>, <kbd>Enter</kbd>.
 
 ##### Enable extension
 
@@ -133,7 +133,7 @@ Running `make develop` is still necessary to generate some files.
 ##### Restart GNOME Shell
 
 After that, restart GNOME Shell - log out, log in back. On X11 you can restart
-the shell by pressing `Alt+F2`, `r`, `Enter`.
+the shell by pressing <kbd>Alt+F2</kbd>, <kbd>r</kbd>, <kbd>Enter</kbd>.
 
 ##### Enable extension
 
