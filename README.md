@@ -18,7 +18,7 @@ Inspired by
 
 - `Preferences` window with a lot of different settings
 
-<img src="docs/prefs.gif" width="877" height="579" />
+<img src="docs/prefs.gif" />
 
 ## Installing
 
