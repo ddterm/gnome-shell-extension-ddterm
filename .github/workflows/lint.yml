@@ -15,12 +15,18 @@ jobs:
 
   glib-compile-schemas:
     runs-on: ubuntu-20.04
+    container:
+      image: ghcr.io/amezin/gnome-shell-extension-ddterm-ci-docker-image:master
+
     steps:
     - uses: actions/checkout@v2
-    - run: ./do-in-docker.sh make schemas/gschemas.compiled
+    - run: make schemas/gschemas.compiled
 
   gtk-builder-validate:
     runs-on: ubuntu-20.04
+    container:
+      image: ghcr.io/amezin/gnome-shell-extension-ddterm-ci-docker-image:master
+
     steps:
     - uses: actions/checkout@v2
-    - run: ./do-in-docker.sh make gtk-builder-validate
+    - run: make gtk-builder-validate
