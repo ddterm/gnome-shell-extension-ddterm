@@ -3,36 +3,8 @@ name: CI
 on: [push, pull_request]
 
 jobs:
-  build-docker-image:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: docker/setup-buildx-action@v1
-      - uses: docker/login-action@v1
-        with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.CONTAINER_REGISTRY_PAT }}
-      - id: docker_meta
-        uses: crazy-max/ghaction-docker-meta@v1
-        with:
-          images: ghcr.io/${{ github.repository }}/ci
-      - id: docker_build
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          push: ${{ github.action == 'push' }}
-          tags: ${{ steps.docker_meta.outputs.tags }}
-          labels: ${{ steps.docker_meta.outputs.labels }}
-          cache-from: |
-            ghcr.io/${{ github.repository }}/ci:master
-            ${{ steps.docker_meta.outputs.tags }}
-          cache-to: type=inline
-    outputs:
-      image: ghcr.io/${{ github.repository }}/ci@${{ steps.docker_build.digest }}
-
   eslint:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v2
     - uses: actions/setup-node@v2-beta
@@ -42,42 +14,20 @@ jobs:
     - run: npx eslint .
 
   glib-compile-schemas:
-    runs-on: ubuntu-latest
-    needs: build-docker-image
-    container:
-      image: ${{ needs.build-docker-image.outputs.image }}
-      credentials:
-        username: ${{ github.repository_owner }}
-        password: ${{ secrets.CONTAINER_REGISTRY_PAT }}
-
+    runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v2
-    - run: make schemas/gschemas.compiled
+    - run: ./do-in-docker.sh make schemas/gschemas.compiled
 
   gtk-builder-validate:
-    runs-on: ubuntu-latest
-    needs: build-docker-image
-    container:
-      image: ${{ needs.build-docker-image.outputs.image }}
-      credentials:
-        username: ${{ github.repository_owner }}
-        password: ${{ secrets.CONTAINER_REGISTRY_PAT }}
-
+    runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v2
-    - run: make gtk-builder-validate
+    - run: ./do-in-docker.sh make gtk-builder-validate
 
   pack:
+    runs-on: ubuntu-20.04
     if: ${{ github.action == 'push' }}
-
-    runs-on: ubuntu-latest
-    needs: build-docker-image
-    container:
-      image: ${{ needs.build-docker-image.outputs.image }}
-      credentials:
-        username: ${{ github.repository_owner }}
-        password: ${{ secrets.CONTAINER_REGISTRY_PAT }}
-
     steps:
     - uses: actions/checkout@v2
       with:
@@ -87,7 +37,7 @@ jobs:
         ref: gh-pages
         path: pages
 
-    - run: make pack
+    - run: ./do-in-docker.sh make pack
       working-directory: src
 
     - run: mkdir -pv downloads/${{ github.ref }}
