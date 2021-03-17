@@ -2,3 +2,10 @@
 /*.shell-extension.zip
 /schemas/gschemas.compiled
 /tmp/
+
+/appwindow.ui
+/handlebars.js
+/prefs-gtk3.ui
+/prefs-gtk4.ui
+/prefsdialog.ui
+/terminalpage.ui
