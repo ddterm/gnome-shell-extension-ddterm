@@ -31,9 +31,7 @@ release may be available here on GitHub, but not on [extensions.gnome.org] yet.
 
 If you want to install from GitHub:
 
-### 1. Install the extension to `~/.local/share/gnome-shell/extensions`
-
-#### Install from a prebuilt package
+### Install from a prebuilt package
 
 You can download a released version from
 [Releases](https://github.com/amezin/gnome-shell-extension-ddterm/releases)
@@ -46,7 +44,36 @@ Download it, then run:
 
     $ gnome-extensions install -f /path/to/ddterm@amezin.github.com.shell-extension.zip
 
-#### Install from `git` repository
+#### Restart GNOME Shell
+
+After that, restart GNOME Shell - log out, log in back. On X11 you can restart
+the shell by pressing `Alt+F2`, `r`, `Enter`.
+
+#### Enable extension
+
+Then you can enable the extension using `gnome-tweaks` app, or by running:
+
+    $ gnome-extensions enable ddterm@amezin.github.com
+
+### Install from `git` repository
+
+#### Dependencies
+
+For installation from `git` repository, you should have build dependencies
+installed:
+
+- `gtk-builder-tool` (`libgtk-3-bin` package on Ubuntu, `gtk3-devel` on Fedora,
+`gtk3` package on Arch)
+
+- `gtk4-builder-tool` (`gtk4-devel` package on Fedora, `gtk4` package on Arch)
+
+- `xsltproc` (`xsltproc` package on Ubuntu, `libxslt` on Fedora and Arch)
+
+`gtk4-build-tool` and `xsltproc` are only necessary if you want Gtk 4/GNOME 40
+support. To build without them, run `make` with `WITH_GTK4=no`:
+`make WITH_GTK4=no develop` or `make WITH_GTK4=no install`.
+
+#### `make install`
 
 `git clone` the repository into arbitrary location, and run `make install`:
 
@@ -56,12 +83,42 @@ Download it, then run:
 
 It will build the extension package and install it.
 
-Or you can simply symlink the repository into extensions directory.
-`make develop` will do it:
+##### Restart GNOME Shell
+
+After that, restart GNOME Shell - log out, log in back. On X11 you can restart
+the shell by pressing `Alt+F2`, `r`, `Enter`.
+
+##### Enable extension
+
+Then you can enable the extension using `gnome-tweaks` app, or by running:
+
+    $ make enable
+
+in the repository.
+
+#### `make develop`
+
+You can simply symlink the repository into extensions directory. `make develop`
+will do it for you:
 
     $ git clone https://github.com/amezin/gnome-shell-extension-ddterm.git
     $ cd gnome-shell-extension-ddterm
     $ make develop
+
+##### Restart GNOME Shell
+
+After that, restart GNOME Shell - log out, log in back. On X11 you can restart
+the shell by pressing `Alt+F2`, `r`, `Enter`.
+
+##### Enable extension
+
+Then you can enable the extension using `gnome-tweaks` app, or by running:
+
+    $ make enable
+
+in the repository.
+
+#### `git clone` to `~/.local/share/gnome-shell/extensions`
 
 Or you can `clone` the repository directly into `~/.local/share/gnome-shell/extensions`:
 
@@ -69,18 +126,19 @@ Or you can `clone` the repository directly into `~/.local/share/gnome-shell/exte
     $ cd ~/.local/share/gnome-shell/extensions
     $ git clone https://github.com/amezin/gnome-shell-extension-ddterm.git ddterm@amezin.github.com
     $ cd ddterm@amezin.github.com
-    $ make schemas/gschemas.compiled
+    $ make develop
 
-### 2. Restart Gnome Shell
+Running `make develop` is still necessary to generate some files.
 
-On Wayland you have to log out and log in back.
+##### Restart GNOME Shell
 
-On X11, you can restart the shell by pressing `Alt+F2`, `r`, `Enter`
+After that, restart GNOME Shell - log out, log in back. On X11 you can restart
+the shell by pressing `Alt+F2`, `r`, `Enter`.
 
-### 3. Enable the extension
+##### Enable extension
 
-Enable the extension using `gnome-tweaks`, or:
+Then you can enable the extension using `gnome-tweaks` app, or by running:
 
     $ make enable
 
-in the cloned repository.
+in the repository.
