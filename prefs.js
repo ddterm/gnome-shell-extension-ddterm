@@ -90,6 +90,7 @@ function createPrefsWidgetClass(resource_path, util) {
                     'tab-expand',
                     'tab-close-buttons',
                     'new-tab-button',
+                    'new-tab-front-button',
                     'tab-switcher-popup',
                     'allow-hyperlink',
                     'audible-bell',

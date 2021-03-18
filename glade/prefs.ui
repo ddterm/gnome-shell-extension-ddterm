@@ -349,7 +349,25 @@
       </row>
       <row>
         <col id="0">shortcut-win-new-tab</col>
-        <col id="1" translatable="yes">Open New Tab</col>
+        <col id="1" translatable="yes">New Tab After Last Tab</col>
+        <col id="2">0</col>
+        <col id="3">0</col>
+      </row>
+      <row>
+        <col id="0">shortcut-win-new-tab-front</col>
+        <col id="1" translatable="yes">New Tab Before First Tab</col>
+        <col id="2">0</col>
+        <col id="3">0</col>
+      </row>
+      <row>
+        <col id="0">shortcut-win-new-tab-before-current</col>
+        <col id="1" translatable="yes">New Tab Before Current Tab</col>
+        <col id="2">0</col>
+        <col id="3">0</col>
+      </row>
+      <row>
+        <col id="0">shortcut-win-new-tab-after-current</col>
+        <col id="1" translatable="yes">New Tab After Current Tab</col>
         <col id="2">0</col>
         <col id="3">0</col>
       </row>
@@ -744,7 +762,7 @@
           </packing>
         </child>
         <child>
-          <!-- n-columns=2 n-rows=8 -->
+          <!-- n-columns=2 n-rows=9 -->
           <object class="GtkGrid">
             <property name="visible">True</property>
             <property name="can-focus">True</property>
@@ -814,7 +832,7 @@
               </object>
               <packing>
                 <property name="left-attach">0</property>
-                <property name="top-attach">4</property>
+                <property name="top-attach">5</property>
                 <property name="width">2</property>
               </packing>
             </child>
@@ -857,7 +875,7 @@
               </object>
               <packing>
                 <property name="left-attach">0</property>
-                <property name="top-attach">5</property>
+                <property name="top-attach">6</property>
               </packing>
             </child>
             <child>
@@ -871,7 +889,7 @@
               </object>
               <packing>
                 <property name="left-attach">1</property>
-                <property name="top-attach">5</property>
+                <property name="top-attach">6</property>
               </packing>
             </child>
             <child>
@@ -914,7 +932,7 @@ Following helpers are available:
               </object>
               <packing>
                 <property name="left-attach">0</property>
-                <property name="top-attach">7</property>
+                <property name="top-attach">8</property>
                 <property name="width">2</property>
               </packing>
             </child>
@@ -928,7 +946,23 @@ Following helpers are available:
               </object>
               <packing>
                 <property name="left-attach">1</property>
-                <property name="top-attach">6</property>
+                <property name="top-attach">7</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkCheckButton" id="show_new_tab_front_button_check">
+                <property name="label" translatable="yes">"_New Tab in Front" button</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">False</property>
+                <property name="action-name">settings.new-tab-front-button</property>
+                <property name="use-underline">True</property>
+                <property name="draw-indicator">True</property>
+              </object>
+              <packing>
+                <property name="left-attach">0</property>
+                <property name="top-attach">4</property>
+                <property name="width">2</property>
               </packing>
             </child>
             <child>

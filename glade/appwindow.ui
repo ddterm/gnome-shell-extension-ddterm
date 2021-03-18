@@ -8,6 +8,12 @@
     <property name="icon-name">list-add</property>
     <property name="icon_size">1</property>
   </object>
+  <object class="GtkImage" id="new_tab_front_icon">
+    <property name="visible">True</property>
+    <property name="can-focus">False</property>
+    <property name="icon-name">list-add</property>
+    <property name="icon_size">1</property>
+  </object>
   <template class="Gjs_AppWindow" parent="GtkApplicationWindow">
     <property name="can-focus">False</property>
     <property name="title" translatable="yes">Drop Down Terminal</property>
@@ -24,6 +30,28 @@
             <property name="can-focus">True</property>
             <property name="tab-pos">bottom</property>
             <property name="scrollable">True</property>
+            <child type="action-start">
+              <object class="GtkBox">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <child>
+                  <object class="GtkButton" id="new_tab_front_button">
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">True</property>
+                    <property name="tooltip-text" translatable="yes">New Tab in Front</property>
+                    <property name="action-name">win.new-tab-front</property>
+                    <property name="image">new_tab_front_icon</property>
+                    <property name="relief">none</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+              </object>
+            </child>
             <child type="action-end">
               <object class="GtkBox">
                 <property name="visible">True</property>

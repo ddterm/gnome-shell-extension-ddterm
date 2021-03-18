@@ -15,7 +15,7 @@ var ExtensionDBusProxy = Gio.DBusProxy.makeProxyWrapper(EXTENSION_DBUS_XML);
 var AppWindow = GObject.registerClass(
     {
         Template: util.APP_DATA_DIR.get_child('appwindow.ui').get_uri(),
-        Children: ['notebook', 'resize_box', 'tab_switch_button', 'new_tab_button', 'tab_switch_menu_box'],
+        Children: ['notebook', 'resize_box', 'tab_switch_button', 'new_tab_button', 'new_tab_front_button', 'tab_switch_menu_box'],
         Properties: {
             'menus': GObject.ParamSpec.object(
                 'menus', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, Gtk.Builder
@@ -54,7 +54,15 @@ var AppWindow = GObject.registerClass(
 
             this.toggle_action = this.simple_action('toggle', this.toggle.bind(this));
             this.hide_action = this.simple_action('hide', () => this.hide());
-            this.simple_action('new-tab', this.new_tab.bind(this));
+            this.simple_action('new-tab', this.insert_page.bind(this, -1));
+            this.simple_action('new-tab-front', this.insert_page.bind(this, 0));
+
+            this.simple_action('new-tab-before-current', () => {
+                this.insert_page(this.notebook.get_current_page());
+            });
+            this.simple_action('new-tab-after-current', () => {
+                this.insert_page(this.notebook.get_current_page() + 1);
+            });
 
             this.method_handler(this.resize_box, 'realize', this.set_resize_cursor);
             this.method_handler(this.resize_box, 'button-press-event', this.start_resizing);
@@ -71,6 +79,7 @@ var AppWindow = GObject.registerClass(
             this.simple_action('prev-tab', () => this.notebook.prev_page());
 
             this.bind_settings_ro('new-tab-button', this.new_tab_button, 'visible');
+            this.bind_settings_ro('new-tab-front-button', this.new_tab_front_button, 'visible');
             this.bind_settings_ro('tab-switcher-popup', this.tab_switch_button, 'visible');
 
             this.method_handler(this.settings, 'changed::tab-policy', this.update_tab_bar_visibility);
@@ -92,7 +101,7 @@ var AppWindow = GObject.registerClass(
             this.method_handler(this.settings, 'changed::window-skip-taskbar', this.update_hints);
             this.update_hints();
 
-            this.new_tab();
+            this.insert_page(0);
         }
 
         simple_action(name, func) {
@@ -138,14 +147,14 @@ var AppWindow = GObject.registerClass(
                 this.show();
         }
 
-        new_tab() {
+        insert_page(position) {
             const page = new imports.terminalpage.TerminalPage({
                 settings: this.settings,
                 menus: this.menus,
                 desktop_settings: this.desktop_settings,
             });
 
-            const index = this.notebook.append_page(page, page.tab_label);
+            const index = this.notebook.insert_page(page, page.tab_label, position);
             this.notebook.set_current_page(index);
             this.notebook.set_tab_reorderable(page, true);
             this.notebook.child_set_property(page, 'tab-expand', this.settings.get_boolean('tab-expand'));

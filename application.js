@@ -115,6 +115,9 @@ const Application = GObject.registerClass(
             this.setup_shortcut('shortcut-terminal-reset', 'terminal.reset');
             this.setup_shortcut('shortcut-terminal-reset-and-clear', 'terminal.reset-and-clear');
             this.setup_shortcut('shortcut-win-new-tab', 'win.new-tab');
+            this.setup_shortcut('shortcut-win-new-tab-front', 'win.new-tab-front');
+            this.setup_shortcut('shortcut-win-new-tab-before-current', 'win.new-tab-before-current');
+            this.setup_shortcut('shortcut-win-new-tab-after-current', 'win.new-tab-after-current');
             this.setup_shortcut('shortcut-page-close', 'page.close');
             this.setup_shortcut('shortcut-prev-tab', 'win.prev-tab');
             this.setup_shortcut('shortcut-next-tab', 'win.next-tab');
