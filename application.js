@@ -1,15 +1,33 @@
 'use strict';
 
-imports.gi.versions.GLib = '2.0';
-imports.gi.versions.GObject = '2.0';
-imports.gi.versions.Gio = '2.0';
-imports.gi.versions.Gdk = '3.0';
-imports.gi.versions.Gtk = '3.0';
-imports.gi.versions.Pango = '1.0';
-imports.gi.versions.Vte = '2.91';
-
 const System = imports.system;
-const { GLib, GObject, Gio, Gtk, Gdk } = imports.gi;
+
+/* eslint-disable-next-line consistent-return */
+function checked_import(libname, version) {
+    try {
+        imports.gi.versions[libname] = version;
+        return imports.gi[libname];
+    } catch (ex) {
+        const message = `Can't start ddterm - library ${libname}, version ${version} not available:\n${ex}`;
+        print(message);
+
+        if (typeof GLib !== 'undefined')
+            GLib.spawn_sync(null, ['zenity', '--error', '--width=300', '--text', message], null, GLib.SpawnFlags.SEARCH_PATH, null);
+
+        System.exit(1);
+    }
+}
+
+const GLib = checked_import('GLib', '2.0');
+const GObject = checked_import('GObject', '2.0');
+const Gio = checked_import('Gio', '2.0');
+
+const Gtk = checked_import('Gtk', '3.0');
+const Gdk = checked_import('Gdk', '3.0');
+
+/* These are used in other modules - check that they are available, and set required versions */
+checked_import('Pango', '1.0');
+checked_import('Vte', '2.91');
 
 const APP_DATA_DIR = Gio.File.new_for_commandline_arg(System.programInvocationName).get_parent();
 
