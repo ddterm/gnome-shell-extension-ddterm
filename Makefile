@@ -117,6 +117,6 @@ toggle quit:
 .PHONY: toggle quit
 
 clean:
-	$(RM) $(EXTENSION_PACK) $(GENERATED_SOURCES) schemas/gschemas.compiled $(wildcard tmp/*)
+	$(RM) $(EXTENSION_PACK) $(filter-out handlebars.js,$(GENERATED_SOURCES)) schemas/gschemas.compiled $(wildcard tmp/*)
 
 .PHONY: clean
