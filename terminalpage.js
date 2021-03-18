@@ -145,6 +145,9 @@ var TerminalPage = GObject.registerClass(
             this.method_handler(this.settings, 'changed::use-theme-colors', this.update_all_colors);
             this.update_all_colors();
 
+            this.method_handler(this.settings, 'changed::tab-expand', this.update_tab_expand);
+            this.update_tab_expand();
+
             this._child_exited = false;
             this._eof = false;
 
@@ -537,6 +540,13 @@ var TerminalPage = GObject.registerClass(
 
             if (state.unpack())
                 this.custom_title_popover.popup();
+        }
+
+        update_tab_expand() {
+            if (this.settings.get_boolean('tab-expand'))
+                this.tab_label_label.ellipsize = Pango.EllipsizeMode.MIDDLE;
+            else
+                this.tab_label_label.ellipsize = Pango.EllipsizeMode.NONE;
         }
     }
 );
