@@ -217,7 +217,6 @@ function is_dropdown_terminal_window(win) {
         // Accept windows from previously launched app instances.
         if (IS_WAYLAND_COMPOSITOR)
             return false;
-
     } else if (!wayland_client.owns_window(win)) {
         return false;
     }

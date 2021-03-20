@@ -175,7 +175,6 @@ var AppWindow = GObject.registerClass(
             if (this.app_paintable) {
                 if (this.draw_handler_id === null)
                     this.draw_handler_id = this.connect('draw', this.draw.bind(this));
-
             } else if (this.draw_handler_id !== null) {
                 this.disconnect(this.draw_handler_id);
                 this.draw_handler_id = null;
@@ -222,7 +221,6 @@ var AppWindow = GObject.registerClass(
                 const allocation = this.get_child().get_allocation();
                 Gtk.render_background(context, cr, allocation.x, allocation.y, allocation.width, allocation.height);
                 Gtk.render_frame(context, cr, allocation.x, allocation.y, allocation.width, allocation.height);
-
             } finally {
                 cr.$dispose();
             }
