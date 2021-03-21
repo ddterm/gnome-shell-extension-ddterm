@@ -261,8 +261,11 @@ function createPrefsWidgetClass(resource_path, util) {
                 this.signal_connect(this.settings, `changed::${setting}`, update);
                 update();
 
-                const handler_id = this.settings.bind_writable(setting, widget, 'sensitive', false);
-                this.run_on_destroy(() => this.settings.disconnect(handler_id));
+                this.settings.bind_writable(setting, widget, 'sensitive', false);
+                this.run_on_destroy(
+                    Gio.Settings.unbind.bind(null, widget, 'sensitive'),
+                    widget
+                );
             }
 
             set_builtin_color_scheme() {
