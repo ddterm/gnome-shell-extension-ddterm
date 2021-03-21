@@ -10,43 +10,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-      with:
-        path: src
-    - uses: actions/checkout@v2
-      with:
-        ref: gh-pages
-        path: pages
-
     - run: xvfb-run make pack
-      working-directory: src
-
-    - run: mkdir -pv downloads/${{ github.ref }}
-      working-directory: pages
-    - run: cp -v src/*.shell-extension.zip pages/downloads/${{ github.ref }}/
-    - run: cp -rv src/README.md src/docs pages/
-      if: ${{ github.ref == 'refs/heads/master' }}
-    - run: |
-        git config --local user.name "github-actions[bot]"
-        git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-      working-directory: pages
-    - run: git add -v downloads/${{ github.ref }}/
-      working-directory: pages
-    - run: git add -v README.md docs
-      working-directory: pages
-      if: ${{ github.ref == 'refs/heads/master' }}
-    - run: |
-        git commit -m "Auto-build ${{ github.ref }} on $(date)
-
-        Source commit ${{ github.sha }}
-        "
-      working-directory: pages
-    - run: git push
-      working-directory: pages
-
     - uses: softprops/action-gh-release@v1
       if: startsWith(github.ref, 'refs/tags/v')
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        files: src/*.shell-extension.zip
+        files: "*.shell-extension.zip"
         draft: true
