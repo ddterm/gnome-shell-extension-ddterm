@@ -54,10 +54,25 @@
       </item>
     </section>
     <section>
-      <item>
+      <submenu>
         <attribute name="label" translatable="yes">New Tab</attribute>
-        <attribute name="action">win.new-tab</attribute>
-      </item>
+        <item>
+          <attribute name="label" translatable="yes">New Tab Before Current Tab</attribute>
+          <attribute name="action">win.new-tab-before-current</attribute>
+        </item>
+        <item>
+          <attribute name="label" translatable="yes">New Tab After Current Tab</attribute>
+          <attribute name="action">win.new-tab-after-current</attribute>
+        </item>
+        <item>
+          <attribute name="label" translatable="yes">New Tab Before First Tab</attribute>
+          <attribute name="action">win.new-tab-front</attribute>
+        </item>
+        <item>
+          <attribute name="label" translatable="yes">New Tab After Last Tab</attribute>
+          <attribute name="action">win.new-tab</attribute>
+        </item>
+      </submenu>
     </section>
     <submenu>
       <attribute name="label" translatable="yes">Preferences</attribute>
