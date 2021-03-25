@@ -120,10 +120,24 @@
       <attribute name="label" translatable="yes">Close</attribute>
       <attribute name="action">page.close</attribute>
     </item>
-    <item>
-      <attribute name="label" translatable="yes">New Tab</attribute>
-      <attribute name="action">win.new-tab</attribute>
-    </item>
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">New Tab Before This Tab</attribute>
+        <attribute name="action">page.new-tab-before</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">New Tab After This Tab</attribute>
+        <attribute name="action">page.new-tab-after</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">New Tab Before First Tab</attribute>
+        <attribute name="action">win.new-tab-front</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">New Tab After Last Tab</attribute>
+        <attribute name="action">win.new-tab</attribute>
+      </item>
+    </section>
     <item>
       <attribute name="label" translatable="yes">Preferences...</attribute>
       <attribute name="action">app.preferences</attribute>

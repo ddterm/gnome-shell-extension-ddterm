@@ -74,6 +74,8 @@ var TerminalPage = GObject.registerClass(
         },
         Signals: {
             'close-request': {},
+            'new-tab-before-request': {},
+            'new-tab-after-request': {},
         },
     },
     class TerminalPage extends Gtk.Box {
@@ -197,6 +199,9 @@ var TerminalPage = GObject.registerClass(
 
             this.method_action(actions, 'close', this.close_request);
             actions.add_action(this.use_custom_title_action);
+
+            this.method_action(actions, 'new-tab-before', this.new_tab_before);
+            this.method_action(actions, 'new-tab-after', this.new_tab_after);
 
             const terminal_actions = new Gio.SimpleActionGroup();
             this.insert_action_group('terminal', terminal_actions);
@@ -547,6 +552,14 @@ var TerminalPage = GObject.registerClass(
                 this.tab_label_label.ellipsize = Pango.EllipsizeMode.MIDDLE;
             else
                 this.tab_label_label.ellipsize = Pango.EllipsizeMode.NONE;
+        }
+
+        new_tab_before() {
+            this.emit('new-tab-before-request');
+        }
+
+        new_tab_after() {
+            this.emit('new-tab-after-request');
         }
     }
 );

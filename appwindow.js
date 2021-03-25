@@ -54,6 +54,7 @@ var AppWindow = GObject.registerClass(
 
             this.toggle_action = this.simple_action('toggle', this.toggle.bind(this));
             this.hide_action = this.simple_action('hide', () => this.hide());
+
             this.simple_action('new-tab', this.insert_page.bind(this, -1));
             this.simple_action('new-tab-front', this.insert_page.bind(this, 0));
 
@@ -160,6 +161,8 @@ var AppWindow = GObject.registerClass(
             this.notebook.child_set_property(page, 'tab-expand', this.settings.get_boolean('tab-expand'));
 
             this.method_handler(page, 'close-request', this.remove_page);
+            this.method_handler(page, 'new-tab-before-request', this.new_tab_before);
+            this.method_handler(page, 'new-tab-after-request', this.new_tab_after);
             page.spawn();
         }
 
@@ -256,6 +259,16 @@ var AppWindow = GObject.registerClass(
             // skip_taskbar_hint only works with type_hint == Gdk.WindowTypeHint.Normal
             this.skip_taskbar_hint = this.settings.get_boolean('window-skip-taskbar');
             this.skip_pager_hint = this.settings.get_boolean('window-skip-taskbar');
+        }
+
+        new_tab_before(page) {
+            const index = this.notebook.page_num(page);
+            this.insert_page(index);
+        }
+
+        new_tab_after(page) {
+            const index = this.notebook.page_num(page);
+            this.insert_page(index + 1);
         }
     }
 );
