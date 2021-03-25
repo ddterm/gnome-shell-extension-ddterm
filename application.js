@@ -177,7 +177,7 @@ const Application = GObject.registerClass(
                     settings: this.settings,
                 });
 
-                this.prefs_dialog.connect('delete-event', () => {
+                this.prefs_dialog.signal_connect(this.prefs_dialog, 'delete-event', () => {
                     this.prefs_dialog = null;
                 });
             }

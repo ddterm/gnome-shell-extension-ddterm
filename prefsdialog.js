@@ -24,3 +24,5 @@ var PrefsDialog = GObject.registerClass(
         }
     }
 );
+
+Object.assign(PrefsDialog.prototype, util.UtilMixin);
