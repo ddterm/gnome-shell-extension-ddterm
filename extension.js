@@ -144,15 +144,25 @@ function spawn_app() {
     const context = global.create_app_launch_context(0, -1);
     subprocess_launcher.set_environ(context.get_environment());
 
-    if (settings.get_boolean('force-x11-gdk-backend'))
+    let argv = SUBPROCESS_ARGV;
+
+    if (settings.get_boolean('force-x11-gdk-backend')) {
+        const prev_gdk_backend = subprocess_launcher.getenv('GDK_BACKEND');
+
+        if (prev_gdk_backend === null)
+            argv = argv.concat(['--unset-gdk-backend']);
+        else
+            argv = argv.concat(['--reset-gdk-backend', prev_gdk_backend]);
+
         subprocess_launcher.setenv('GDK_BACKEND', 'x11', true);
+    }
 
     if (USE_WAYLAND_CLIENT && subprocess_launcher.getenv('GDK_BACKEND') !== 'x11')
         wayland_client = Meta.WaylandClient.new(subprocess_launcher);
     else
         wayland_client = new WaylandClientStub(subprocess_launcher);
 
-    subprocess = wayland_client.spawnv(global.display, SUBPROCESS_ARGV);
+    subprocess = wayland_client.spawnv(global.display, argv);
     subprocess.wait_async(null, subprocess_terminated);
 }
 

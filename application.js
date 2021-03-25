@@ -47,6 +47,15 @@ const Application = GObject.registerClass(
             this.add_main_option(
                 'undecorated', 0, GLib.OptionFlags.NONE, GLib.OptionArg.NONE, 'Hide window decorations', null
             );
+            this.add_main_option(
+                'unset-gdk-backend', 0, GLib.OptionFlags.NONE, GLib.OptionArg.NONE, 'Unset GDK_BACKEND variable for subprocesses', null
+            );
+            this.add_main_option(
+                'reset-gdk-backend', 0, GLib.OptionFlags.NONE, GLib.OptionArg.STRING, 'Set GDK_BACKEND variable for subprocesses', null
+            );
+
+            this.env_gdk_backend = null;
+            this.unset_gdk_backend = false;
 
             this.connect('startup', this.startup.bind(this));
             this.connect('activate', this.activate.bind(this));
@@ -69,8 +78,11 @@ const Application = GObject.registerClass(
                 settings_schema: settings_source.lookup('com.github.amezin.ddterm', true),
             });
 
-            if (this.settings.get_boolean('force-x11-gdk-backend'))
+            if (this.unset_gdk_backend)
                 GLib.unsetenv('GDK_BACKEND');
+
+            if (this.env_gdk_backend !== null)
+                GLib.setenv('GDK_BACKEND', this.env_gdk_backend, true);
 
             const desktop_settings = new Gio.Settings({
                 schema_id: 'org.gnome.desktop.interface',
@@ -147,6 +159,13 @@ const Application = GObject.registerClass(
         handle_local_options(_, options) {
             if (options.contains('undecorated'))
                 this.decorated = false;
+
+            if (options.contains('unset-gdk-backend'))
+                this.unset_gdk_backend = true;
+
+            this.env_gdk_backend = options.lookup_value('reset-gdk-backend', GLib.VariantType.new('s'));
+            if (this.env_gdk_backend !== null)
+                this.env_gdk_backend = this.env_gdk_backend.unpack();
 
             return -1;
         }
