@@ -105,8 +105,8 @@ var TerminalPage = GObject.registerClass(
             // These widgets aren't children of the TerminalPage, so it's necessary to call
             // .destroy() on them manually.
             // Widgets should be destroyed after all settings are unbound.
-            this.signal_connect(this, 'destroy', () => this.tab_label.destroy());
-            this.signal_connect(this, 'destroy', () => this.switcher_item.destroy());
+            this.run_on_destroy(() => this.tab_label.destroy(), this.tab_label);
+            this.run_on_destroy(() => this.switcher_item.destroy(), this.switcher_item);
 
             this.method_handler(this.settings, 'changed::scrollback-lines', this.update_scrollback);
             this.method_handler(this.settings, 'changed::scrollback-unlimited', this.update_scrollback);
