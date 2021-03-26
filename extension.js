@@ -104,7 +104,7 @@ function enable() {
 
     settings.connect('changed::window-above', set_window_above);
     settings.connect('changed::window-stick', set_window_stick);
-    settings.connect('changed::window-height', update_window_height);
+    settings.connect('changed::window-height', update_window_geometry);
     settings.connect('changed::window-skip-taskbar', set_skip_taskbar);
 
     DBUS_INTERFACE.export(Gio.DBus.session, '/org/gnome/Shell/Extensions/ddterm');
@@ -293,6 +293,9 @@ function track_window(win) {
     // Current workaround - 'resizing' flag
     win.connect('size-changed', update_height_setting);
 
+    // https://github.com/amezin/gnome-shell-extension-ddterm/issues/28
+    win.connect('shown', update_window_geometry);
+
     Main.activateWindow(win);
 
     set_window_above();
@@ -355,7 +358,7 @@ function update_height_setting(win) {
         settings.set_double('window-height', current_height);
 }
 
-function update_window_height() {
+function update_window_geometry() {
     if (!current_window)
         return;
 
@@ -383,6 +386,7 @@ function untrack_window(win) {
         GObject.signal_handlers_disconnect_by_func(win, untrack_window);
         GObject.signal_handlers_disconnect_by_func(win, update_height_setting);
         GObject.signal_handlers_disconnect_by_func(win, unmaximize_window);
+        GObject.signal_handlers_disconnect_by_func(win, update_window_geometry);
     }
 }
 
@@ -405,7 +409,7 @@ function disconnect_settings() {
     if (settings) {
         GObject.signal_handlers_disconnect_by_func(settings, set_window_above);
         GObject.signal_handlers_disconnect_by_func(settings, set_window_stick);
-        GObject.signal_handlers_disconnect_by_func(settings, update_window_height);
+        GObject.signal_handlers_disconnect_by_func(settings, update_window_geometry);
         GObject.signal_handlers_disconnect_by_func(settings, set_skip_taskbar);
     }
 }
