@@ -4,7 +4,7 @@
 
 const { GLib, GObject, Gio, Pango, Gdk, Gtk, Vte } = imports.gi;
 const { Handlebars } = imports.handlebars;
-const { util } = imports;
+const { util, urldetect_patterns } = imports;
 
 const TITLE_TERMINAL_PROPERTIES = [
     'window-title',
@@ -28,6 +28,38 @@ Handlebars.registerHelper('hostname-from-uri', uri => {
 
     return '';
 });
+
+const PCRE2_UTF = 0x00080000;
+const PCRE2_NO_UTF_CHECK = 0x40000000;
+const PCRE2_UCP = 0x00020000;
+const PCRE2_MULTILINE = 0x00000400;
+const PCRE2_JIT_COMPLETE = 0x00000001;
+const PCRE2_JIT_PARTIAL_SOFT = 0x00000002;
+
+function compile_regex(regex) {
+    const compiled = Vte.Regex.new_for_match(regex, -1, PCRE2_UTF | PCRE2_NO_UTF_CHECK | PCRE2_UCP | PCRE2_MULTILINE);
+    try {
+        compiled.jit(PCRE2_JIT_COMPLETE);
+    } catch (ex) {
+        logError(ex, `Can't JIT compile ${regex} (PCRE2_JIT_COMPLETE)`);
+        return compiled;
+    }
+
+    try {
+        compiled.jit(PCRE2_JIT_PARTIAL_SOFT);
+    } catch (ex) {
+        logError(ex, `Can't JIT compile ${regex} (PCRE2_JIT_PARTIAL_SOFT)`);
+    }
+
+    return compiled;
+}
+
+const REGEX_URL_AS_IS = compile_regex(urldetect_patterns.REGEX_URL_AS_IS);
+const REGEX_URL_FILE = compile_regex(urldetect_patterns.REGEX_URL_FILE);
+const REGEX_URL_HTTP = compile_regex(urldetect_patterns.REGEX_URL_HTTP);
+const REGEX_URL_VOIP = compile_regex(urldetect_patterns.REGEX_URL_VOIP);
+const REGEX_EMAIL = compile_regex(urldetect_patterns.REGEX_EMAIL);
+const REGEX_NEWS_MAN = compile_regex(urldetect_patterns.REGEX_NEWS_MAN);
 
 function terminal_spawn_callback(terminal, _pid, error) {
     if (error)
@@ -84,6 +116,7 @@ var TerminalPage = GObject.registerClass(
 
             this.clicked_filename = null;
             this.clicked_hyperlink = null;
+            this.url_prefix = {};
             this.clipboard = Gtk.Clipboard.get_default(Gdk.Display.get_default());
 
             this._switch_shortcut = null;
@@ -149,6 +182,9 @@ var TerminalPage = GObject.registerClass(
 
             this.method_handler(this.settings, 'changed::tab-expand', this.update_tab_expand);
             this.update_tab_expand();
+
+            this.method_handler(this.settings, 'changed::detect-urls', this.setup_url_detect);
+            this.setup_url_detect();
 
             this._child_exited = false;
             this._eof = false;
@@ -415,6 +451,18 @@ var TerminalPage = GObject.registerClass(
             const button = event.get_button()[1];
 
             this.clicked_hyperlink = this.terminal.hyperlink_check_event(event);
+
+            if (!this.clicked_hyperlink) {
+                const [url, tag] = this.terminal.match_check_event(event);
+                if (url && tag !== null) {
+                    const prefix = this.url_prefix[tag];
+                    if (prefix && !url.toLowerCase().startsWith(prefix))
+                        this.clicked_hyperlink = prefix + url;
+                    else
+                        this.clicked_hyperlink = url;
+                }
+            }
+
             if (this.clicked_hyperlink) {
                 try {
                     this.clicked_filename = GLib.filename_from_uri(this.clicked_hyperlink)[0];
@@ -560,6 +608,29 @@ var TerminalPage = GObject.registerClass(
 
         new_tab_after() {
             this.emit('new-tab-after-request');
+        }
+
+        setup_url_detect() {
+            this.terminal.match_remove_all();
+            this.url_prefix = {};
+
+            if (!this.settings.get_boolean('detect-urls'))
+                return;
+
+            const add_regex = regex => {
+                const tag = this.terminal.match_add_regex(regex, 0);
+                this.terminal.match_set_cursor_name(tag, 'pointer');
+                return tag;
+            };
+
+            add_regex(REGEX_URL_AS_IS);
+            add_regex(REGEX_URL_FILE);
+            const http_tag = add_regex(REGEX_URL_HTTP);
+            this.url_prefix[http_tag] = 'http://';
+            add_regex(REGEX_URL_VOIP);
+            const email_tag = add_regex(REGEX_EMAIL);
+            this.url_prefix[email_tag] = 'mailto:';
+            add_regex(REGEX_NEWS_MAN);
         }
     }
 );

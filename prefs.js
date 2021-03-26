@@ -104,6 +104,7 @@ function createPrefsWidgetClass(resource_path, util) {
                     'scroll-on-keystroke',
                     'shortcuts-enabled',
                     'window-resizable',
+                    'detect-urls',
                 ].forEach(
                     key => actions.add_action(this.settings.create_action(key))
                 );

@@ -975,7 +975,7 @@ Following helpers are available:
           </packing>
         </child>
         <child>
-          <!-- n-columns=2 n-rows=6 -->
+          <!-- n-columns=2 n-rows=7 -->
           <object class="GtkGrid">
             <property name="visible">True</property>
             <property name="can-focus">True</property>
@@ -1142,6 +1142,22 @@ Following helpers are available:
               <packing>
                 <property name="left-attach">1</property>
                 <property name="top-attach">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkCheckButton">
+                <property name="label" translatable="yes">Detect _URLs</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">False</property>
+                <property name="action-name">settings.detect-urls</property>
+                <property name="use-underline">True</property>
+                <property name="draw-indicator">True</property>
+              </object>
+              <packing>
+                <property name="left-attach">0</property>
+                <property name="top-attach">6</property>
+                <property name="width">2</property>
               </packing>
             </child>
           </object>

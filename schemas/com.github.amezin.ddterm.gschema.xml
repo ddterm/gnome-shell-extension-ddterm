@@ -142,6 +142,9 @@
     <key name="audible-bell" type="b">
       <default>true</default>
     </key>
+    <key name="detect-urls" type="b">
+      <default>true</default>
+    </key>
 
     <key name="use-theme-colors" type="b">
       <default>true</default>
