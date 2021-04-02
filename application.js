@@ -104,6 +104,8 @@ const Application = GObject.registerClass(
 
             this.add_action(this.window.toggle_action);
             this.add_action(this.window.hide_action);
+            this.add_action(this.window.toggle_maximize_action);
+            this.add_action(this.window.toggle_unmaximize_action);
 
             this.simple_action('preferences', this.preferences.bind(this));
 

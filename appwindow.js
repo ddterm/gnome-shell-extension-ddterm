@@ -55,6 +55,9 @@ var AppWindow = GObject.registerClass(
             this.toggle_action = this.simple_action('toggle', this.toggle.bind(this));
             this.hide_action = this.simple_action('hide', () => this.hide());
 
+            this.toggle_maximize_action = this.simple_action('toggle-maximize', this.toggle_maximize.bind(this));
+            this.unmaximize_action = this.simple_action('unmaximize', () => this.unmaximize());
+
             this.simple_action('new-tab', this.insert_page.bind(this, -1));
             this.simple_action('new-tab-front', this.insert_page.bind(this, 0));
 
@@ -146,6 +149,13 @@ var AppWindow = GObject.registerClass(
                 this.hide();
             else
                 this.show();
+        }
+
+        toggle_maximize() {
+            if (this.maximize)
+                this.unmaximize();
+            else
+                this.maximize();
         }
 
         insert_page(position) {

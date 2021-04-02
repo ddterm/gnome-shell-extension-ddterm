@@ -246,6 +246,9 @@
     <key name="ddterm-toggle-hotkey" type="as">
       <default><![CDATA[['F12']]]></default>
     </key>
+    <key name="ddterm-toggle-maximize-hotkey" type="as">
+      <default><![CDATA[['F11']]]></default>
+    </key>
     <key name="shortcut-window-hide" type="as">
       <default><![CDATA[[]]]></default>
     </key>

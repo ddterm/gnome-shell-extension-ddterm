@@ -306,6 +306,12 @@
         <col id="3">0</col>
       </row>
       <row>
+        <col id="0">ddterm-toggle-maximize-hotkey</col>
+        <col id="1" translatable="yes">Toggle Terminal Window Max Size</col>
+        <col id="2">0</col>
+        <col id="3">0</col>
+      </row>
+      <row>
         <col id="0">shortcut-window-hide</col>
         <col id="1" translatable="yes">Hide the Window</col>
         <col id="2">0</col>
