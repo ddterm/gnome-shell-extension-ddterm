@@ -8,8 +8,8 @@ function checked_import(libname, version) {
         imports.gi.versions[libname] = version;
         return imports.gi[libname];
     } catch (ex) {
-        const message = `Can't start ddterm - library ${libname}, version ${version} not available:\n${ex}\n` +
-            `You need to install the package that contains the file '${libname}-${version}.typelib'`;
+        const message = `Can't start ddterm - library ${libname}, version ${version} not available:\n${ex}\n\n` +
+            `You likely need to install the package that contains the file '${libname}-${version}.typelib'`;
         printerr(message);
 
         if (typeof GLib !== 'undefined')
