@@ -175,7 +175,7 @@ function createPrefsWidgetClass(resource_path, util) {
                     this.settings.reset('cjk-utf8-ambiguous-width');
                 });
 
-                for (let [ok, i] = this.shortcuts_list.get_iter_first(); ok && this.shortcuts_list.iter_next(i);) {
+                for (let [ok, i] = this.shortcuts_list.get_iter_first(); ok; ok = this.shortcuts_list.iter_next(i)) {
                     const settings_key = this.shortcuts_list.get_value(i, 0);
                     this.method_handler(this.settings, `changed::${settings_key}`, this.update_shortcuts_from_settings);
                 }
