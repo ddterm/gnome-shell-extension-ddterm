@@ -14,10 +14,10 @@ let current_window = null;
 let bus_watch_id = null;
 let dbus_action_group = null;
 
-let resizing = false;
-
 let wayland_client = null;
 let subprocess = null;
+
+let grab_window = null;
 
 const APP_ID = 'com.github.amezin.ddterm';
 const APP_DBUS_PATH = '/com/github/amezin/ddterm';
@@ -99,6 +99,8 @@ function enable() {
     disconnect_global_handlers();
     global.display.connect('window-created', handle_created);
     global.display.connect('notify::focus-window', focus_window_changed);
+    global.display.connect('grab-op-begin', handle_begin_grab);
+    global.display.connect('grab-op-end', handle_end_grab);
 
     settings.connect('changed::window-above', set_window_above);
     settings.connect('changed::window-stick', set_window_stick);
@@ -287,7 +289,7 @@ function track_window(win) {
     move_resize_window(win, target_rect);
 
     // !!! Sometimes size-changed is emitted from .move_resize_frame() with .get_frame_rect() returning old/incorrect size.
-    // Current workaround - 'resizing' flag
+    // So connecting only after first move_resize_window() call
     win.connect('size-changed', update_height_setting);
 
     // https://github.com/amezin/gnome-shell-extension-ddterm/issues/28
@@ -330,19 +332,11 @@ function unmaximize_window(win) {
 }
 
 function move_resize_window(win, target_rect) {
-    resizing = true;
-    try {
-        win.move_resize_frame(false, target_rect.x, target_rect.y, target_rect.width, target_rect.height);
-    } finally {
-        resizing = false;
-    }
+    win.move_resize_frame(false, target_rect.x, target_rect.y, target_rect.width, target_rect.height);
 }
 
 function update_height_setting(win) {
-    if (resizing)
-        return;
-
-    if (!win || win !== current_window)
+    if (!win || win !== current_window || win !== grab_window)
         return;
 
     if (win.maximized_vertically)
@@ -350,9 +344,7 @@ function update_height_setting(win) {
 
     const workarea = workarea_for_window(win);
     const current_height = win.get_frame_rect().height / workarea.height;
-
-    if (Math.abs(current_height - settings.get_double('window-height')) > 0.0001)
-        settings.set_double('window-height', current_height);
+    settings.set_double('window-height', current_height);
 }
 
 function update_window_geometry() {
@@ -375,7 +367,40 @@ function update_window_geometry() {
     move_resize_window(current_window, target_rect);
 }
 
+function grab_get_window_arg(p0, p1) {
+    // On Mutter <=3.38 p0 is display too. On 40 p0 is the window.
+    if (p0 instanceof Meta.Window)
+        return p0;
+
+    return p1;
+}
+
+function handle_begin_grab(display, p0, p1) {
+    const win = grab_get_window_arg(p0, p1);
+
+    if (win !== current_window)
+        return;
+
+    grab_window = win;
+}
+
+function end_grab(win) {
+    if (win !== grab_window)
+        return;
+
+    update_height_setting(win);
+    grab_window = null;
+}
+
+function handle_end_grab(display, p0, p1) {
+    const win = grab_get_window_arg(p0, p1);
+
+    end_grab(win);
+}
+
 function untrack_window(win) {
+    end_grab(win);
+
     if (win === current_window)
         current_window = null;
 
@@ -397,6 +422,8 @@ function stop_dbus_watch() {
 function disconnect_global_handlers() {
     GObject.signal_handlers_disconnect_by_func(global.display, handle_created);
     GObject.signal_handlers_disconnect_by_func(global.display, focus_window_changed);
+    GObject.signal_handlers_disconnect_by_func(global.display, handle_begin_grab);
+    GObject.signal_handlers_disconnect_by_func(global.display, handle_end_grab);
 }
 
 function disconnect_settings() {
