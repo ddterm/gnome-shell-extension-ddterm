@@ -96,10 +96,8 @@ function enable() {
         dbus_disappeared
     );
 
-    disconnect_created_handler();
+    disconnect_global_handlers();
     global.display.connect('window-created', handle_created);
-
-    disconnect_focus_tracking();
     global.display.connect('notify::focus-window', focus_window_changed);
 
     settings.connect('changed::window-above', set_window_above);
@@ -127,8 +125,7 @@ function disable() {
     stop_dbus_watch();
     dbus_action_group = null;
 
-    disconnect_created_handler();
-    disconnect_focus_tracking();
+    disconnect_global_handlers();
 
     Main.wm.removeKeybinding('ddterm-toggle-hotkey');
 
@@ -397,11 +394,8 @@ function stop_dbus_watch() {
     }
 }
 
-function disconnect_created_handler() {
+function disconnect_global_handlers() {
     GObject.signal_handlers_disconnect_by_func(global.display, handle_created);
-}
-
-function disconnect_focus_tracking() {
     GObject.signal_handlers_disconnect_by_func(global.display, focus_window_changed);
 }
 
