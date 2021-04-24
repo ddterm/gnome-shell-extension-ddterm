@@ -344,7 +344,7 @@ function update_height_setting(win) {
 
     const workarea = workarea_for_window(win);
     const current_height = win.get_frame_rect().height / workarea.height;
-    settings.set_double('window-height', current_height);
+    settings.set_double('window-height', Math.min(1.0, current_height));
 }
 
 function update_window_geometry() {
