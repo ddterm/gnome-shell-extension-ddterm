@@ -2,7 +2,7 @@
 
 /* exported init enable disable */
 
-const { GLib, GObject, Gio, Meta, Shell } = imports.gi;
+const { GObject, Gio, Meta, Shell } = imports.gi;
 const ByteArray = imports.byteArray;
 const Main = imports.ui.main;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
@@ -37,16 +37,8 @@ class ExtensionDBusInterface {
         if (!current_window || !current_window.maximized_vertically)
             return;
 
-        const workarea = workarea_for_window(current_window);
-        const target_rect = target_rect_for_workarea(workarea);
-
         Main.wm.skipNextEffect(current_window.get_compositor_private());
         current_window.unmaximize(Meta.MaximizeFlags.VERTICAL);
-
-        GLib.idle_add(GLib.PRIORITY_DEFAULT_IDLE, () => {
-            move_resize_window(current_window, target_rect);
-            return GLib.SOURCE_REMOVE;
-        });
     }
 }
 
@@ -290,6 +282,7 @@ function track_window(win) {
 
     // https://github.com/amezin/gnome-shell-extension-ddterm/issues/28
     win.connect('shown', update_window_geometry);
+    win.connect('position-changed', update_window_geometry);
 
     Main.activateWindow(win);
 
