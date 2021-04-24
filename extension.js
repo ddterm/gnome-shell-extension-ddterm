@@ -288,10 +288,6 @@ function track_window(win) {
 
     move_resize_window(win, target_rect);
 
-    // !!! Sometimes size-changed is emitted from .move_resize_frame() with .get_frame_rect() returning old/incorrect size.
-    // So connecting only after first move_resize_window() call
-    win.connect('size-changed', update_height_setting);
-
     // https://github.com/amezin/gnome-shell-extension-ddterm/issues/28
     win.connect('shown', update_window_geometry);
 
@@ -336,7 +332,7 @@ function move_resize_window(win, target_rect) {
 }
 
 function update_height_setting(win) {
-    if (!win || win !== current_window || win !== grab_window)
+    if (!win || win !== current_window)
         return;
 
     if (win.maximized_vertically)
@@ -406,7 +402,6 @@ function untrack_window(win) {
 
     if (win) {
         GObject.signal_handlers_disconnect_by_func(win, untrack_window);
-        GObject.signal_handlers_disconnect_by_func(win, update_height_setting);
         GObject.signal_handlers_disconnect_by_func(win, unmaximize_window);
         GObject.signal_handlers_disconnect_by_func(win, update_window_geometry);
     }
