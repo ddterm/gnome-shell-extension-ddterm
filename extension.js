@@ -373,7 +373,9 @@ function handle_begin_grab(display, p0, p1) {
     grab_window = win;
 }
 
-function end_grab(win) {
+function handle_end_grab(display, p0, p1) {
+    const win = grab_get_window_arg(p0, p1);
+
     if (win !== grab_window)
         return;
 
@@ -381,14 +383,12 @@ function end_grab(win) {
     grab_window = null;
 }
 
-function handle_end_grab(display, p0, p1) {
-    const win = grab_get_window_arg(p0, p1);
-
-    end_grab(win);
-}
-
 function untrack_window(win) {
-    end_grab(win);
+    // Sometimes, frame rect is updated after grab-op-end.
+    update_height_setting(win);
+
+    if (win === grab_window)
+        grab_window = null;
 
     if (win === current_window)
         current_window = null;
