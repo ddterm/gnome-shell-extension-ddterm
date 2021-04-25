@@ -2185,7 +2185,7 @@ Following helpers are available:
             </child>
             <child>
               <object class="GtkCheckButton" id="enable_shortcuts_check">
-                <property name="label" translatable="yes">_Enable shortcuts</property>
+                <property name="label" translatable="yes">_Enable application shortcuts</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
