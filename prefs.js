@@ -182,14 +182,13 @@ function createPrefsWidgetClass(resource_path, util) {
                 });
 
                 [this.shortcuts_list, this.global_shortcuts_list].forEach(shortcuts_list => {
-                    for (let [ok, i] = shortcuts_list.get_iter_first(); ok; ok = shortcuts_list.iter_next(i)) {
-                        const settings_key = shortcuts_list.get_value(i, 0);
-                        this.signal_connect(
-                            this.settings, `changed::${settings_key}`,
-                            this.update_shortcuts_from_settings.bind(this, shortcuts_list)
-                        );
-                    }
-                    this.update_shortcuts_from_settings(shortcuts_list);
+                    const update_fn = this.update_shortcuts_from_settings.bind(this, shortcuts_list);
+                    shortcuts_list.foreach((model, path, i) => {
+                        const key = model.get_value(i, 0);
+                        this.signal_connect(this.settings, `changed::${key}`, update_fn);
+                        return false;
+                    });
+                    update_fn();
                 });
 
                 const save_app_shortcut = this.save_shortcut.bind(this, this.shortcuts_list);
@@ -220,18 +219,14 @@ function createPrefsWidgetClass(resource_path, util) {
                 for (let i = 0; i < PALETTE_SIZE; i++)
                     this.palette_widget(i).rgba = palette[i];
 
-                const model = this.palette_combo.model;
-                const [ok, i] = model.get_iter_first();
-                if (!ok)
-                    return;
-
-                do {
+                this.palette_combo.model.foreach((model, path, i) => {
                     const builtin_palette = this.get_builtin_palette(i);
                     if (!builtin_palette || builtin_palette.every((v, j) => rgba_equal(util.parse_rgba(v), palette[j]))) {
                         this.palette_combo.set_active_iter(i);
-                        break;
+                        return true;
                     }
-                } while (model.iter_next(i));
+                    return false;
+                });
             }
 
             get_builtin_palette(iter) {
@@ -309,30 +304,28 @@ function createPrefsWidgetClass(resource_path, util) {
                 if (this.setting_color_scheme)
                     return;
 
-                const [ok, i] = this.color_scheme_combo.model.get_iter_first();
-                if (!ok)
-                    return;
-
                 const foreground = util.parse_rgba(this.settings.get_string('foreground-color'));
                 const background = util.parse_rgba(this.settings.get_string('background-color'));
 
-                do {
-                    const i_foreground = util.parse_rgba(this.color_scheme_combo.model.get_value(i, 1));
-                    const i_background = util.parse_rgba(this.color_scheme_combo.model.get_value(i, 2));
+                this.color_scheme_combo.model.foreach((model, path, i) => {
+                    const i_foreground = util.parse_rgba(model.get_value(i, 1));
+                    const i_background = util.parse_rgba(model.get_value(i, 2));
 
                     if (rgba_equal(foreground, i_foreground) &&
                         rgba_equal(background, i_background)
                     ) {
                         this.color_scheme_combo.set_active_iter(i);
-                        return;
+                        return true;
                     }
 
                     if (i_foreground === null && i_background === null) {
                         // Last - "Custom"
                         this.color_scheme_combo.set_active_iter(i);
-                        return;
+                        return true;
                     }
-                } while (this.color_scheme_combo.model.iter_next(i));
+
+                    return false;
+                });
             }
 
             save_shortcut(shortcuts_list, _, path, accel_key = null, accel_mods = null) {
@@ -349,20 +342,22 @@ function createPrefsWidgetClass(resource_path, util) {
                 if (settings === null)
                     settings = this.settings;
 
-                for (let [ok, i] = shortcuts_list.get_iter_first(); ok; ok = shortcuts_list.iter_next(i)) {
-                    const action = shortcuts_list.get_value(i, 0);
+                shortcuts_list.foreach((model, path, i) => {
+                    const action = model.get_value(i, 0);
 
                     if (changed_key && action !== changed_key)
-                        continue;
+                        return false;
 
                     const shortcuts = settings.get_strv(action);
                     if (shortcuts && shortcuts.length) {
                         const [accel_key, accel_mods] = accelerator_parse(shortcuts[0]);
-                        shortcuts_list.set(i, [2, 3], [accel_key, accel_mods]);
+                        model.set(i, [2, 3], [accel_key, accel_mods]);
                     } else {
-                        shortcuts_list.set(i, [2, 3], [0, 0]);
+                        model.set(i, [2, 3], [0, 0]);
                     }
-                }
+
+                    return false;
+                });
             }
         }
     );
