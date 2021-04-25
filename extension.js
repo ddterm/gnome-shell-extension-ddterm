@@ -17,8 +17,6 @@ let dbus_action_group = null;
 let wayland_client = null;
 let subprocess = null;
 
-let grab_window = null;
-
 const APP_ID = 'com.github.amezin.ddterm';
 const APP_DBUS_PATH = '/com/github/amezin/ddterm';
 const WINDOW_PATH_PREFIX = `${APP_DBUS_PATH}/window/`;
@@ -91,7 +89,6 @@ function enable() {
     disconnect_global_handlers();
     global.display.connect('window-created', handle_created);
     global.display.connect('notify::focus-window', focus_window_changed);
-    global.display.connect('grab-op-begin', handle_begin_grab);
     global.display.connect('grab-op-end', handle_end_grab);
 
     settings.connect('changed::window-above', set_window_above);
@@ -356,39 +353,17 @@ function update_window_geometry() {
     move_resize_window(current_window, target_rect);
 }
 
-function grab_get_window_arg(p0, p1) {
-    // On Mutter <=3.38 p0 is display too. On 40 p0 is the window.
-    if (p0 instanceof Meta.Window)
-        return p0;
-
-    return p1;
-}
-
-function handle_begin_grab(display, p0, p1) {
-    const win = grab_get_window_arg(p0, p1);
-
-    if (win !== current_window)
-        return;
-
-    grab_window = win;
-}
-
 function handle_end_grab(display, p0, p1) {
-    const win = grab_get_window_arg(p0, p1);
+    // On Mutter <=3.38 p0 is display too. On 40 p0 is the window.
+    const win = p0 instanceof Meta.Window ? p0 : p1;
 
-    if (win !== grab_window)
-        return;
-
-    update_height_setting(win);
-    grab_window = null;
+    if (win === current_window)
+        update_height_setting(win);
 }
 
 function untrack_window(win) {
     // Sometimes, frame rect is updated after grab-op-end.
     update_height_setting(win);
-
-    if (win === grab_window)
-        grab_window = null;
 
     if (win === current_window)
         current_window = null;
@@ -410,7 +385,6 @@ function stop_dbus_watch() {
 function disconnect_global_handlers() {
     GObject.signal_handlers_disconnect_by_func(global.display, handle_created);
     GObject.signal_handlers_disconnect_by_func(global.display, focus_window_changed);
-    GObject.signal_handlers_disconnect_by_func(global.display, handle_begin_grab);
     GObject.signal_handlers_disconnect_by_func(global.display, handle_end_grab);
 }
 
