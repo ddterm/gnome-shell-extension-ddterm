@@ -73,6 +73,7 @@ function createPrefsWidgetClass(resource_path, util) {
                 'reset_tab_title_button',
                 'window_type_hint_combo',
                 'window_height_adjustment',
+                'shortcuts_treeview',
             ].concat(palette_widgets()),
             Properties: {
                 'settings': GObject.ParamSpec.object('settings', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, Gio.Settings),
@@ -198,6 +199,8 @@ function createPrefsWidgetClass(resource_path, util) {
                 const save_global_shortcut = this.save_shortcut.bind(this, this.global_shortcuts_list);
                 this.signal_connect(this.global_accel_renderer, 'accel-edited', save_global_shortcut);
                 this.signal_connect(this.global_accel_renderer, 'accel-cleared', save_global_shortcut);
+
+                this.bind_sensitive('shortcuts-enabled', this.shortcuts_treeview);
             }
 
             bind_sensitive(key, widget, invert = false) {
