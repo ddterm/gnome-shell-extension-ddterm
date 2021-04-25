@@ -28,6 +28,10 @@ function accelerator_parse(accel) {
     return parsed.slice(1);
 }
 
+function rgba_equal(a, b) {
+    return a !== null && b !== null && a.equal(b);
+}
+
 function createPrefsWidgetClass(resource_path, util) {
     const cls = GObject.registerClass(
         {
@@ -211,7 +215,7 @@ function createPrefsWidgetClass(resource_path, util) {
 
                 do {
                     const builtin_palette = this.get_builtin_palette(i);
-                    if (!builtin_palette || builtin_palette.every((v, j) => util.parse_rgba(v).equal(palette[j]))) {
+                    if (!builtin_palette || builtin_palette.every((v, j) => rgba_equal(util.parse_rgba(v), palette[j]))) {
                         this.palette_combo.set_active_iter(i);
                         break;
                     }
@@ -304,12 +308,8 @@ function createPrefsWidgetClass(resource_path, util) {
                     const i_foreground = util.parse_rgba(this.color_scheme_combo.model.get_value(i, 1));
                     const i_background = util.parse_rgba(this.color_scheme_combo.model.get_value(i, 2));
 
-                    if (foreground !== null &&
-                        background !== null &&
-                        i_foreground !== null &&
-                        i_background !== null &&
-                        foreground.equal(i_foreground) &&
-                        background.equal(i_background)
+                    if (rgba_equal(foreground, i_foreground) &&
+                        rgba_equal(background, i_background)
                     ) {
                         this.color_scheme_combo.set_active_iter(i);
                         return;
