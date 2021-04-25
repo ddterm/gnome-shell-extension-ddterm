@@ -41,7 +41,9 @@ function createPrefsWidgetClass(resource_path, util) {
                 'custom_font_check',
                 'opacity_adjustment',
                 'accel_renderer',
+                'global_accel_renderer',
                 'shortcuts_list',
+                'global_shortcuts_list',
                 'spawn_custom_command',
                 'custom_command_entry',
                 'limit_scrollback_check',
@@ -179,14 +181,24 @@ function createPrefsWidgetClass(resource_path, util) {
                     this.settings.reset('cjk-utf8-ambiguous-width');
                 });
 
-                for (let [ok, i] = this.shortcuts_list.get_iter_first(); ok; ok = this.shortcuts_list.iter_next(i)) {
-                    const settings_key = this.shortcuts_list.get_value(i, 0);
-                    this.method_handler(this.settings, `changed::${settings_key}`, this.update_shortcuts_from_settings);
-                }
-                this.update_shortcuts_from_settings();
+                [this.shortcuts_list, this.global_shortcuts_list].forEach(shortcuts_list => {
+                    for (let [ok, i] = shortcuts_list.get_iter_first(); ok; ok = shortcuts_list.iter_next(i)) {
+                        const settings_key = shortcuts_list.get_value(i, 0);
+                        this.signal_connect(
+                            this.settings, `changed::${settings_key}`,
+                            this.update_shortcuts_from_settings.bind(this, shortcuts_list)
+                        );
+                    }
+                    this.update_shortcuts_from_settings(shortcuts_list);
+                });
 
-                this.method_handler(this.accel_renderer, 'accel-edited', this.accel_edited);
-                this.method_handler(this.accel_renderer, 'accel-cleared', this.accel_cleared);
+                const save_app_shortcut = this.save_shortcut.bind(this, this.shortcuts_list);
+                this.signal_connect(this.accel_renderer, 'accel-edited', save_app_shortcut);
+                this.signal_connect(this.accel_renderer, 'accel-cleared', save_app_shortcut);
+
+                const save_global_shortcut = this.save_shortcut.bind(this, this.global_shortcuts_list);
+                this.signal_connect(this.global_accel_renderer, 'accel-edited', save_global_shortcut);
+                this.signal_connect(this.global_accel_renderer, 'accel-cleared', save_global_shortcut);
             }
 
             bind_sensitive(key, widget, invert = false) {
@@ -323,53 +335,34 @@ function createPrefsWidgetClass(resource_path, util) {
                 } while (this.color_scheme_combo.model.iter_next(i));
             }
 
-            accel_edited(_, path, accel_key, accel_mods) {
-                const [ok, iter] = this.shortcuts_list.get_iter_from_string(path);
+            save_shortcut(shortcuts_list, _, path, accel_key = null, accel_mods = null) {
+                const [ok, iter] = shortcuts_list.get_iter_from_string(path);
                 if (!ok)
                     return;
 
-                const action = this.shortcuts_list.get_value(iter, 0);
-                this.settings.set_strv(action, [
-                    Gtk.accelerator_name(accel_key, accel_mods),
-                ]);
+                const action = shortcuts_list.get_value(iter, 0);
+                const key_names = accel_key ? [Gtk.accelerator_name(accel_key, accel_mods)] : [];
+                this.settings.set_strv(action, key_names);
             }
 
-            accel_cleared(_, path) {
-                const [ok, iter] = this.shortcuts_list.get_iter_from_string(path);
-                if (!ok)
-                    return;
-
-                const action = this.shortcuts_list.get_value(iter, 0);
-                this.settings.set_strv(action, []);
-            }
-
-            update_shortcuts_from_settings(settings = null, changed_key = null) {
+            update_shortcuts_from_settings(shortcuts_list, settings = null, changed_key = null) {
                 if (settings === null)
                     settings = this.settings;
 
-                let [ok, i] = this.shortcuts_list.get_iter_first();
-                if (!ok)
-                    return;
-
-                do {
-                    const action = this.shortcuts_list.get_value(i, 0);
+                for (let [ok, i] = shortcuts_list.get_iter_first(); ok; ok = shortcuts_list.iter_next(i)) {
+                    const action = shortcuts_list.get_value(i, 0);
 
                     if (changed_key && action !== changed_key)
                         continue;
 
-                    const cur_accel_key = this.shortcuts_list.get_value(i, 2);
-                    const cur_accel_mods = this.shortcuts_list.get_value(i, 3);
-
                     const shortcuts = settings.get_strv(action);
                     if (shortcuts && shortcuts.length) {
                         const [accel_key, accel_mods] = accelerator_parse(shortcuts[0]);
-
-                        if (cur_accel_key !== accel_key || cur_accel_mods !== accel_mods)
-                            this.shortcuts_list.set(i, [2, 3], [accel_key, accel_mods]);
-                    } else if (cur_accel_key !== 0 || cur_accel_mods !== 0) {
-                        this.shortcuts_list.set(i, [2, 3], [0, 0]);
+                        shortcuts_list.set(i, [2, 3], [accel_key, accel_mods]);
+                    } else {
+                        shortcuts_list.set(i, [2, 3], [0, 0]);
                     }
-                } while (this.shortcuts_list.iter_next(i));
+                }
             }
         }
     );

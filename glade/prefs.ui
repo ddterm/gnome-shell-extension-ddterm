@@ -104,6 +104,26 @@
       </row>
     </data>
   </object>
+  <object class="GtkListStore" id="global_shortcuts_list">
+    <columns>
+      <!-- column-name action -->
+      <column type="gchararray"/>
+      <!-- column-name label -->
+      <column type="gchararray"/>
+      <!-- column-name accel-key -->
+      <column type="guint"/>
+      <!-- column-name accel-mods -->
+      <column type="guint"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0">ddterm-toggle-hotkey</col>
+        <col id="1" translatable="yes">Toggle Terminal Window</col>
+        <col id="2">0</col>
+        <col id="3">0</col>
+      </row>
+    </data>
+  </object>
   <object class="GtkAdjustment" id="opacity_adjustment">
     <property name="upper">1</property>
     <property name="step-increment">0.01</property>
@@ -299,12 +319,6 @@
       <column type="guint"/>
     </columns>
     <data>
-      <row>
-        <col id="0">ddterm-toggle-hotkey</col>
-        <col id="1" translatable="yes">Toggle Terminal Window</col>
-        <col id="2">0</col>
-        <col id="3">0</col>
-      </row>
       <row>
         <col id="0">shortcut-window-hide</col>
         <col id="1" translatable="yes">Hide the Window</col>
@@ -2119,6 +2133,50 @@ Following helpers are available:
             <property name="orientation">vertical</property>
             <property name="spacing">10</property>
             <child>
+              <object class="GtkTreeView">
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="model">global_shortcuts_list</property>
+                <property name="search-column">0</property>
+                <child internal-child="selection">
+                  <object class="GtkTreeSelection"/>
+                </child>
+                <child>
+                  <object class="GtkTreeViewColumn">
+                    <property name="resizable">True</property>
+                    <property name="title" translatable="yes">Global Action</property>
+                    <child>
+                      <object class="GtkCellRendererText"/>
+                      <attributes>
+                        <attribute name="text">1</attribute>
+                      </attributes>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkTreeViewColumn">
+                    <property name="resizable">True</property>
+                    <property name="title" translatable="yes">Global Shortcut</property>
+                    <child>
+                      <object class="GtkCellRendererAccel" id="global_accel_renderer">
+                        <property name="editable">True</property>
+                        <property name="accel-mode">other</property>
+                      </object>
+                      <attributes>
+                        <attribute name="accel-key">2</attribute>
+                        <attribute name="accel-mods">3</attribute>
+                      </attributes>
+                    </child>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
               <object class="GtkCheckButton" id="enable_shortcuts_check">
                 <property name="label" translatable="yes">_Enable shortcuts</property>
                 <property name="visible">True</property>
@@ -2131,7 +2189,7 @@ Following helpers are available:
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">True</property>
-                <property name="position">0</property>
+                <property name="position">1</property>
               </packing>
             </child>
             <child>
@@ -2181,7 +2239,7 @@ Following helpers are available:
                 <property name="expand">True</property>
                 <property name="fill">True</property>
                 <property name="pack-type">end</property>
-                <property name="position">1</property>
+                <property name="position">2</property>
               </packing>
             </child>
           </object>
