@@ -2,7 +2,7 @@
 
 /* exported init buildPrefsWidget createPrefsWidgetClass */
 
-const { GObject, Gio, Gtk } = imports.gi;
+const { GObject, Gdk, Gio, Gtk } = imports.gi;
 
 const PALETTE_SIZE = 16;
 
@@ -211,6 +211,11 @@ function createPrefsWidgetClass(resource_path, util) {
                 this.signal_connect(this.global_accel_renderer, 'accel-cleared', save_global_shortcut);
 
                 this.bind_sensitive('shortcuts-enabled', this.shortcuts_treeview);
+
+                if (Gtk.get_major_version() === 3)
+                    this.method_handler(this.global_accel_renderer, 'editing-started', this.grab_global_keys);
+                else
+                    this.method_handler(this.global_accel_renderer, 'editing-started', this.inhibit_system_shortcuts);
             }
 
             bind_sensitive(key, widget, invert = false) {
@@ -378,6 +383,35 @@ function createPrefsWidgetClass(resource_path, util) {
 
                     return false;
                 });
+            }
+
+            grab_global_keys(cell_renderer, editable) {
+                const display = this.window.get_display();
+                const seat = display.get_default_seat();
+                const status = seat.grab(this.window, Gdk.SeatCapabilities.KEYBOARD, false, null, null, null);
+                if (status !== Gdk.GrabStatus.SUCCESS)
+                    return;
+
+                const handler_id = editable.connect(
+                    'editing-done',
+                    () => {
+                        editable.disconnect(handler_id);
+                        seat.ungrab();
+                    }
+                );
+            }
+
+            inhibit_system_shortcuts(cell_renderer, editable) {
+                const toplevel = this.root.get_surface();
+                toplevel.inhibit_system_shortcuts(null);
+
+                const handler_id = editable.connect(
+                    'editing-done',
+                    () => {
+                        editable.disconnect(handler_id);
+                        toplevel.restore_system_shortcuts();
+                    }
+                );
             }
         }
     );
