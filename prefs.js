@@ -32,6 +32,12 @@ function rgba_equal(a, b) {
     return a !== null && b !== null && a.equal(b);
 }
 
+const PERCENT_FORMAT = new Intl.NumberFormat(undefined, { style: 'percent' });
+
+function format_scale_value_percent(scale, value) {
+    return PERCENT_FORMAT.format(value);
+}
+
 function createPrefsWidgetClass(resource_path, util) {
     const cls = GObject.registerClass(
         {
@@ -40,6 +46,7 @@ function createPrefsWidgetClass(resource_path, util) {
                 'font_chooser',
                 'custom_font_check',
                 'opacity_adjustment',
+                'opacity_scale',
                 'accel_renderer',
                 'global_accel_renderer',
                 'shortcuts_list',
@@ -73,6 +80,7 @@ function createPrefsWidgetClass(resource_path, util) {
                 'reset_tab_title_button',
                 'window_type_hint_combo',
                 'window_height_adjustment',
+                'window_height_scale',
                 'shortcuts_treeview',
             ].concat(palette_widgets()),
             Properties: {
@@ -149,7 +157,9 @@ function createPrefsWidgetClass(resource_path, util) {
                 this.bind_sensitive('highlight-colors-set', this.highlight_background_color.parent);
 
                 this.settings_bind('background-opacity', this.opacity_adjustment, 'value');
+                this.set_scale_value_format_percent(this.opacity_scale);
                 this.settings_bind('window-height', this.window_height_adjustment, 'value');
+                this.set_scale_value_format_percent(this.window_height_scale);
 
                 this.bind_sensitive('use-theme-colors', this.color_scheme_editor, true);
 
@@ -210,6 +220,13 @@ function createPrefsWidgetClass(resource_path, util) {
                     flags |= Gio.SettingsBindFlags.INVERT_BOOLEAN;
 
                 this.settings_bind(key, widget, 'sensitive', flags);
+            }
+
+            set_scale_value_format_percent(scale) {
+                if (scale.set_format_value_func)
+                    scale.set_format_value_func(format_scale_value_percent);
+                else
+                    this.signal_connect(scale, 'format-value', format_scale_value_percent);
             }
 
             palette_widget(i) {
