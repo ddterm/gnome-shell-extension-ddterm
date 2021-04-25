@@ -64,7 +64,7 @@ DEFAULT_SOURCES := extension.js prefs.js metadata.json
 
 EXTRA_SOURCES := $(filter-out test-prefs-gtk4.js,$(wildcard *.js *.css))
 EXTRA_SOURCES += com.github.amezin.ddterm com.github.amezin.ddterm.Extension.xml
-EXTRA_SOURCES += menus.ui
+EXTRA_SOURCES += menus.ui toggle.sh
 
 EXTRA_SOURCES := $(filter-out $(DEFAULT_SOURCES), $(sort $(GENERATED_SOURCES) $(EXTRA_SOURCES)))
 

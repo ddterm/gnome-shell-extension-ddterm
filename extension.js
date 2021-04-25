@@ -38,6 +38,10 @@ class ExtensionDBusInterface {
         Main.wm.skipNextEffect(current_window.get_compositor_private());
         current_window.unmaximize(Meta.MaximizeFlags.VERTICAL);
     }
+
+    Toggle() {
+        toggle();
+    }
 }
 
 const DBUS_INTERFACE = new ExtensionDBusInterface().dbus;

@@ -30,3 +30,16 @@ release may be available here on GitHub, but not on [extensions.gnome.org] yet.
 [extensions.gnome.org]: https://extensions.gnome.org/extension/3780/ddterm/
 
 If you want to install from GitHub: see [docs/INSTALL.md](docs/INSTALL.md)
+
+## Toggle the terminal through D-Bus
+
+It's possible to toggle the terminal externally through D-Bus. For example,
+from command line:
+
+    $ gdbus call --session --dest org.gnome.Shell --object-path /org/gnome/Shell/Extensions/ddterm --method com.github.amezin.ddterm.Extension.Toggle
+
+Or you can use the script
+
+    $ ~/.local/share/gnome-shell/extensions/ddterm@amezin.github.com/toggle.sh
+
+if that's more convenient.

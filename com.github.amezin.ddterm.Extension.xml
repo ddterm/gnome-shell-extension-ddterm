@@ -4,5 +4,6 @@
 <node>
     <interface name="com.github.amezin.ddterm.Extension">
         <method name="BeginResize"/>
+        <method name="Toggle"/>
     </interface>
 </node>
