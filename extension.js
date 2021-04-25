@@ -42,6 +42,10 @@ class ExtensionDBusInterface {
     Toggle() {
         toggle();
     }
+
+    Activate() {
+        activate();
+    }
 }
 
 const DBUS_INTERFACE = new ExtensionDBusInterface().dbus;
@@ -79,6 +83,13 @@ function enable() {
         Meta.KeyBindingFlags.NONE,
         Shell.ActionMode.NORMAL,
         toggle
+    );
+    Main.wm.addKeybinding(
+        'ddterm-activate-hotkey',
+        settings,
+        Meta.KeyBindingFlags.NONE,
+        Shell.ActionMode.NORMAL,
+        activate
     );
 
     stop_dbus_watch();
@@ -123,6 +134,7 @@ function disable() {
     disconnect_global_handlers();
 
     Main.wm.removeKeybinding('ddterm-toggle-hotkey');
+    Main.wm.removeKeybinding('ddterm-activate-hotkey');
 
     disconnect_settings();
 }
@@ -170,6 +182,13 @@ function toggle() {
         dbus_action_group.activate_action('toggle', null);
     else
         spawn_app();
+}
+
+function activate() {
+    if (current_window)
+        Main.activateWindow(current_window);
+    else
+        toggle();
 }
 
 function dbus_appeared(connection, name) {
