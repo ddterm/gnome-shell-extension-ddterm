@@ -492,6 +492,11 @@
     <property name="step-increment">0.01</property>
     <property name="page-increment">0.10</property>
   </object>
+  <object class="GtkAdjustment" id="window_width_adjustment">
+    <property name="upper">1</property>
+    <property name="step-increment">0.01</property>
+    <property name="page-increment">0.10</property>
+  </object>
   <template class="Gjs_PrefsWidget" parent="GtkBox">
     <property name="visible">True</property>
     <property name="can-focus">True</property>
@@ -565,7 +570,7 @@
               </object>
               <packing>
                 <property name="left-attach">0</property>
-                <property name="top-attach">4</property>
+                <property name="top-attach">7</property>
                 <property name="width">2</property>
               </packing>
             </child>
@@ -581,7 +586,7 @@
               </object>
               <packing>
                 <property name="left-attach">0</property>
-                <property name="top-attach">5</property>
+                <property name="top-attach">8</property>
                 <property name="width">2</property>
               </packing>
             </child>
@@ -615,6 +620,64 @@
               </packing>
             </child>
             <child>
+              <object class="GtkLabel">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="halign">start</property>
+                <property name="label" translatable="yes">Horizontal _alignment:</property>
+                <property name="use-underline">True</property>
+                <property name="mnemonic-widget">window_horizontal_alignment</property>
+              </object>
+              <packing>
+                <property name="left-attach">0</property>
+                <property name="top-attach">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkComboBoxText" id="window_horizontal_alignment">
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <items>
+                  <item id="center" translatable="yes">Center</item>
+                  <item id="left" translatable="yes">Left</item>
+                  <item id="right" translatable="yes">Right</item>
+                </items>
+              </object>
+              <packing>
+                <property name="left-attach">1</property>
+                <property name="top-attach">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="halign">start</property>
+                <property name="label" translatable="yes">Vertical _alignment:</property>
+                <property name="use-underline">True</property>
+                <property name="mnemonic-widget">window_vertical_alignment</property>
+              </object>
+              <packing>
+                <property name="left-attach">0</property>
+                <property name="top-attach">3</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkComboBoxText" id="window_vertical_alignment">
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <items>
+                  <item id="center" translatable="yes">Center</item>
+                  <item id="top" translatable="yes">Top</item>
+                  <item id="bottom" translatable="yes">Bottom</item>
+                </items>
+              </object>
+              <packing>
+                <property name="left-attach">1</property>
+                <property name="top-attach">3</property>
+              </packing>
+            </child>
+            <child>
               <object class="GtkCheckButton" id="window_skip_taskbar_check">
                 <property name="label" translatable="yes">Exclude window from _overview/task bar</property>
                 <property name="visible">True</property>
@@ -626,7 +689,7 @@
               </object>
               <packing>
                 <property name="left-attach">0</property>
-                <property name="top-attach">8</property>
+                <property name="top-attach">11</property>
                 <property name="width">2</property>
               </packing>
             </child>
@@ -642,7 +705,7 @@
               </object>
               <packing>
                 <property name="left-attach">0</property>
-                <property name="top-attach">6</property>
+                <property name="top-attach">9</property>
                 <property name="width">2</property>
               </packing>
             </child>
@@ -658,7 +721,7 @@
               </object>
               <packing>
                 <property name="left-attach">0</property>
-                <property name="top-attach">7</property>
+                <property name="top-attach">10</property>
                 <property name="width">2</property>
               </packing>
             </child>
@@ -674,7 +737,7 @@
               </object>
               <packing>
                 <property name="left-attach">0</property>
-                <property name="top-attach">9</property>
+                <property name="top-attach">12</property>
                 <property name="width">2</property>
               </packing>
             </child>
@@ -690,7 +753,7 @@
               </object>
               <packing>
                 <property name="left-attach">0</property>
-                <property name="top-attach">10</property>
+                <property name="top-attach">13</property>
                 <property name="width">2</property>
               </packing>
             </child>
@@ -705,7 +768,7 @@
               </object>
               <packing>
                 <property name="left-attach">0</property>
-                <property name="top-attach">11</property>
+                <property name="top-attach">14</property>
               </packing>
             </child>
             <child>
@@ -729,7 +792,7 @@
               </object>
               <packing>
                 <property name="left-attach">1</property>
-                <property name="top-attach">11</property>
+                <property name="top-attach">14</property>
               </packing>
             </child>
             <child>
@@ -743,7 +806,7 @@
               </object>
               <packing>
                 <property name="left-attach">0</property>
-                <property name="top-attach">2</property>
+                <property name="top-attach">4</property>
               </packing>
             </child>
             <child>
@@ -757,7 +820,35 @@
               </object>
               <packing>
                 <property name="left-attach">1</property>
-                <property name="top-attach">2</property>
+                <property name="top-attach">4</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="halign">start</property>
+                <property name="label" translatable="yes">_Width:</property>
+                <property name="use-underline">True</property>
+                <property name="mnemonic-widget">window_width_scale</property>
+              </object>
+              <packing>
+                <property name="left-attach">0</property>
+                <property name="top-attach">5</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkScale" id="window_width_scale">
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="adjustment">window_width_adjustment</property>
+                <property name="show-fill-level">True</property>
+                <property name="round-digits">2</property>
+                <property name="digits">2</property>
+              </object>
+              <packing>
+                <property name="left-attach">1</property>
+                <property name="top-attach">5</property>
               </packing>
             </child>
             <child>
@@ -772,7 +863,7 @@
               </object>
               <packing>
                 <property name="left-attach">0</property>
-                <property name="top-attach">3</property>
+                <property name="top-attach">6</property>
                 <property name="width">2</property>
               </packing>
             </child>

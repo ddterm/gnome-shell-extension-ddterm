@@ -109,6 +109,9 @@ function enable() {
     settings.connect('changed::window-above', set_window_above);
     settings.connect('changed::window-stick', set_window_stick);
     settings.connect('changed::window-height', update_window_geometry);
+    settings.connect('changed::window-width', update_window_geometry);
+    settings.connect('changed::window-horizontal-alignment', update_window_geometry);
+    settings.connect('changed::window-vertical-alignment', update_window_geometry);
     settings.connect('changed::window-skip-taskbar', set_skip_taskbar);
 
     DBUS_INTERFACE.export(Gio.DBus.session, '/org/gnome/Shell/Extensions/ddterm');
@@ -293,7 +296,8 @@ function track_window(win) {
     win.connect('unmanaging', untrack_window);
     win.connect('unmanaged', untrack_window);
 
-    win.connect('notify::maximized-vertically', unmaximize_window);
+    win.connect('notify::maximized-vertically', unmaximize_window_vertically);
+    win.connect('notify::maximized-horizontally', unmaximize_window_horizontally);
 
     const workarea = Main.layoutManager.getWorkAreaForMonitor(Main.layoutManager.currentMonitor.index);
     const target_rect = target_rect_for_workarea(workarea);
@@ -321,12 +325,39 @@ function workarea_for_window(win) {
 }
 
 function target_rect_for_workarea(workarea) {
-    const target_rect = workarea.copy();
-    target_rect.height *= settings.get_double('window-height');
-    return target_rect;
+    const full_width = workarea.width + workarea.x,
+        full_height = workarea.height + workarea.y,
+        width = workarea.width * settings.get_double('window-width'),
+        height = workarea.height * settings.get_double('window-height'),
+        horizontal_alignment = settings.get_string('window-horizontal-alignment'),
+        vertical_alignment = settings.get_string('window-vertical-alignment');
+    let x, y;
+    switch (horizontal_alignment) {
+    case 'left':
+        x = workarea.x;
+        break;
+    case 'right':
+        x = full_width - width;
+        break;
+    case 'center':
+        x = workarea.x + Math.round((workarea.width - width) / 2);
+        break;
+    }
+    switch (vertical_alignment) {
+    case 'top':
+        y = workarea.y;
+        break;
+    case 'bottom':
+        y = full_height - height;
+        break;
+    case 'center':
+        y = workarea.y + Math.round((workarea.height - height) / 2);
+        break;
+    }
+    return new Meta.Rectangle({ x, y, width, height });
 }
 
-function unmaximize_window(win) {
+function unmaximize_window_vertically(win) {
     if (!win || win !== current_window)
         return;
 
@@ -338,6 +369,20 @@ function unmaximize_window(win) {
 
     if (target_rect.height < workarea.height)
         win.unmaximize(Meta.MaximizeFlags.VERTICAL);
+}
+
+function unmaximize_window_horizontally(win) {
+    if (!win || win !== current_window)
+        return;
+
+    if (!win.maximized_horizontally)
+        return;
+
+    const workarea = workarea_for_window(current_window);
+    const target_rect = target_rect_for_workarea(workarea);
+
+    if (target_rect.width < workarea.width)
+        win.unmaximize(Meta.MaximizeFlags.HORIZONTAL);
 }
 
 function move_resize_window(win, target_rect) {
@@ -373,6 +418,11 @@ function update_window_geometry() {
         current_window.unmaximize(Meta.MaximizeFlags.VERTICAL);
     }
 
+    if (current_window.maximized_horizontally && target_rect.width < workarea.width) {
+        Main.wm.skipNextEffect(current_window.get_compositor_private());
+        current_window.unmaximize(Meta.MaximizeFlags.HORIZONTAL);
+    }
+
     move_resize_window(current_window, target_rect);
 }
 
@@ -393,7 +443,9 @@ function untrack_window(win) {
 
     if (win) {
         GObject.signal_handlers_disconnect_by_func(win, untrack_window);
-        GObject.signal_handlers_disconnect_by_func(win, unmaximize_window);
+        GObject.signal_handlers_disconnect_by_func(win, update_height_setting);
+        GObject.signal_handlers_disconnect_by_func(win, unmaximize_window_vertically);
+        GObject.signal_handlers_disconnect_by_func(win, unmaximize_window_horizontally);
         GObject.signal_handlers_disconnect_by_func(win, update_window_geometry);
     }
 }

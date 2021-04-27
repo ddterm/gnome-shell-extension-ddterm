@@ -80,6 +80,9 @@ function createPrefsWidgetClass(resource_path, util) {
                 'reset_tab_title_button',
                 'window_type_hint_combo',
                 'window_height_adjustment',
+                'window_width_adjustment',
+                'window_vertical_alignment',
+                'window_horizontal_alignment',
                 'window_height_scale',
                 'shortcuts_treeview',
             ].concat(palette_widgets()),
@@ -161,6 +164,9 @@ function createPrefsWidgetClass(resource_path, util) {
                 this.settings_bind('window-height', this.window_height_adjustment, 'value');
                 this.set_scale_value_format_percent(this.window_height_scale);
 
+                this.settings_bind('window-width', this.window_width_adjustment, 'value');
+                this.settings_bind('window-vertical-alignment', this.window_vertical_alignment, 'active-id');
+                this.settings_bind('window-horizontal-alignment', this.window_horizontal_alignment, 'active-id');
                 this.bind_sensitive('use-theme-colors', this.color_scheme_editor, true);
 
                 this.setting_color_scheme = false;
