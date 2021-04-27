@@ -37,9 +37,3 @@ It's possible to toggle the terminal externally through D-Bus. For example,
 from command line:
 
     $ gdbus call --session --dest org.gnome.Shell --object-path /org/gnome/Shell/Extensions/ddterm --method com.github.amezin.ddterm.Extension.Toggle
-
-Or you can use the script
-
-    $ ~/.local/share/gnome-shell/extensions/ddterm@amezin.github.com/toggle.sh
-
-if that's more convenient.
