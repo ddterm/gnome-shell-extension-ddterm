@@ -2171,7 +2171,6 @@ Following helpers are available:
                         <child>
                           <object class="GtkCellRendererAccel" id="global_accel_renderer">
                             <property name="editable">True</property>
-                            <property name="accel-mode">other</property>
                           </object>
                           <attributes>
                             <attribute name="accel-key">2</attribute>
