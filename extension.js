@@ -325,9 +325,7 @@ function workarea_for_window(win) {
 }
 
 function target_rect_for_workarea(workarea) {
-    const full_width = workarea.width + workarea.x,
-        full_height = workarea.height + workarea.y,
-        width = workarea.width * settings.get_double('window-width'),
+    const width = workarea.width * settings.get_double('window-width'),
         height = workarea.height * settings.get_double('window-height'),
         horizontal_alignment = settings.get_string('window-horizontal-alignment'),
         vertical_alignment = settings.get_string('window-vertical-alignment');
@@ -337,7 +335,7 @@ function target_rect_for_workarea(workarea) {
         x = workarea.x;
         break;
     case 'right':
-        x = full_width - width;
+        x = workarea.width + workarea.x - width;
         break;
     case 'center':
         x = workarea.x + Math.round((workarea.width - width) / 2);
@@ -348,7 +346,7 @@ function target_rect_for_workarea(workarea) {
         y = workarea.y;
         break;
     case 'bottom':
-        y = full_height - height;
+        y = workarea.height + workarea.y - height;
         break;
     case 'center':
         y = workarea.y + Math.round((workarea.height - height) / 2);
