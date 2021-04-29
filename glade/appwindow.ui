@@ -39,7 +39,7 @@
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                     <property name="receives-default">True</property>
-                    <property name="tooltip-text" translatable="yes">New Tab in Front</property>
+                    <property name="tooltip-text" translatable="yes">New Tab (First)</property>
                     <property name="action-name">win.new-tab-front</property>
                     <property name="image">new_tab_front_icon</property>
                     <property name="relief">none</property>
@@ -61,7 +61,7 @@
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                     <property name="receives-default">True</property>
-                    <property name="tooltip-text" translatable="yes">New Tab</property>
+                    <property name="tooltip-text" translatable="yes">New Tab (Last)</property>
                     <property name="action-name">win.new-tab</property>
                     <property name="image">new_tab_icon</property>
                     <property name="relief">none</property>

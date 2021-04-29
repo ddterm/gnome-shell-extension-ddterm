@@ -826,7 +826,7 @@
             </child>
             <child>
               <object class="GtkCheckButton" id="show_new_tab_button_check">
-                <property name="label" translatable="yes">"_New Tab" button</property>
+                <property name="label" translatable="yes">"_New Tab (Last)" button</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
@@ -836,7 +836,7 @@
               </object>
               <packing>
                 <property name="left-attach">0</property>
-                <property name="top-attach">4</property>
+                <property name="top-attach">5</property>
                 <property name="width">2</property>
               </packing>
             </child>
@@ -972,7 +972,7 @@ Following helpers are available:
             </child>
             <child>
               <object class="GtkCheckButton" id="show_new_tab_front_button_check">
-                <property name="label" translatable="yes">"_New Tab in Front" button</property>
+                <property name="label" translatable="yes">"_New Tab (First)" button</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
@@ -982,7 +982,7 @@ Following helpers are available:
               </object>
               <packing>
                 <property name="left-attach">0</property>
-                <property name="top-attach">5</property>
+                <property name="top-attach">4</property>
                 <property name="width">2</property>
               </packing>
             </child>
