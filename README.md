@@ -1,6 +1,6 @@
 # Another Drop Down Terminal Extension for GNOME Shell
 
-[extensions.gnome.org]
+[<img src="docs/get-it-on-ego.svg?sanitize=true" alt="Get it on GNOME Extensions" height="100" align="middle">][extensions.gnome.org]
 
 <img src="docs/screenshot.png" />
 
