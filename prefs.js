@@ -72,6 +72,7 @@ function createPrefsWidgetClass(resource_path, util) {
                 'palette_combo',
                 'theme_variant_combo',
                 'tab_policy_combo',
+                'tab_position_combo',
                 'backspace_binding_combo',
                 'delete_binding_combo',
                 'ambiguous_width_combo',
@@ -127,6 +128,7 @@ function createPrefsWidgetClass(resource_path, util) {
                 this.settings_bind('theme-variant', this.theme_variant_combo, 'active-id');
                 this.settings_bind('window-type-hint', this.window_type_hint_combo, 'active-id');
                 this.settings_bind('tab-policy', this.tab_policy_combo, 'active-id');
+                this.settings_bind('tab-position', this.tab_position_combo, 'active-id');
                 this.settings_bind('tab-title-template', this.tab_title_template_buffer, 'text');
                 this.signal_connect(this.reset_tab_title_button, 'clicked', () => {
                     this.settings.reset('tab-title-template');

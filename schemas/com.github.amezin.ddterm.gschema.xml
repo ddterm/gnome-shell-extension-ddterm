@@ -37,6 +37,13 @@
     <value nick="never" value="2"/>
   </enum>
 
+  <enum id="com.github.amezin.ddterm.TabPosition">
+    <value nick="left" value="0"/>
+    <value nick="right" value="1"/>
+    <value nick="top" value="2"/>
+    <value nick="bottom" value="3"/>
+  </enum>
+
   <enum id="com.github.amezin.ddterm.EraseBinding">
     <value nick="auto" value="0"/>
     <value nick="ascii-backspace" value="1"/>
@@ -101,6 +108,9 @@
 
     <key name="tab-policy" enum="com.github.amezin.ddterm.TabsbarPolicy">
       <default>'always'</default>
+    </key>
+    <key name="tab-position" enum="com.github.amezin.ddterm.TabPosition">
+      <default>'bottom'</default>
     </key>
     <key name="tab-expand" type="b">
       <default>true</default>

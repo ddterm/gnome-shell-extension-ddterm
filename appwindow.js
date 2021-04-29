@@ -87,6 +87,9 @@ var AppWindow = GObject.registerClass(
             this.method_handler(this.notebook, 'page-added', this.update_tab_bar_visibility);
             this.method_handler(this.notebook, 'page-removed', this.update_tab_bar_visibility);
 
+            this.method_handler(this.settings, 'changed::tab-position', this.update_tab_bar_position);
+            this.update_tab_bar_position();
+
             this.method_handler(this.notebook, 'page-added', this.update_tab_shortcut_labels);
             this.method_handler(this.notebook, 'page-removed', this.update_tab_shortcut_labels);
             this.method_handler(this.notebook, 'page-reordered', this.update_tab_shortcut_labels);
@@ -126,6 +129,23 @@ var AppWindow = GObject.registerClass(
                 this.notebook.show_tabs = false;
             else if (policy === 'automatic')
                 this.notebook.show_tabs = this.notebook.get_n_pages() > 1;
+        }
+
+        update_tab_bar_position() {
+            const position = this.settings.get_string('tab-position');
+            if (position === 'top') {
+                this.notebook.tab_pos = Gtk.PositionType.TOP;
+                this.tab_switch_button.direction = Gtk.ArrowType.DOWN;
+            } else if (position === 'bottom') {
+                this.notebook.tab_pos = Gtk.PositionType.BOTTOM;
+                this.tab_switch_button.direction = Gtk.ArrowType.UP;
+            } else if (position === 'left') {
+                this.notebook.tab_pos = Gtk.PositionType.LEFT;
+                this.tab_switch_button.direction = Gtk.ArrowType.RIGHT;
+            } else if (position === 'right') {
+                this.notebook.tab_pos = Gtk.PositionType.RIGHT;
+                this.tab_switch_button.direction = Gtk.ArrowType.LEFT;
+            }
         }
 
         update_tab_expand() {
