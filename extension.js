@@ -325,8 +325,8 @@ function workarea_for_window(win) {
 }
 
 function target_rect_for_workarea(workarea) {
-    const width = Math.ceil(workarea.width * settings.get_double('window-width')),
-        height = Math.ceil(workarea.height * settings.get_double('window-height')),
+    const width = Math.round(workarea.width * settings.get_double('window-width')),
+        height = Math.round(workarea.height * settings.get_double('window-height')),
         horizontal_alignment = settings.get_string('window-horizontal-alignment'),
         vertical_alignment = settings.get_string('window-vertical-alignment');
     let x, y;
