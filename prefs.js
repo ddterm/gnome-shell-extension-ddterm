@@ -84,6 +84,7 @@ function createPrefsWidgetClass(resource_path, util) {
                 'window_vertical_alignment',
                 'window_horizontal_alignment',
                 'window_height_scale',
+                'window_width_scale',
                 'shortcuts_treeview',
             ].concat(palette_widgets()),
             Properties: {
@@ -165,6 +166,7 @@ function createPrefsWidgetClass(resource_path, util) {
                 this.set_scale_value_format_percent(this.window_height_scale);
 
                 this.settings_bind('window-width', this.window_width_adjustment, 'value');
+                this.set_scale_value_format_percent(this.window_width_scale);
                 this.settings_bind('window-vertical-alignment', this.window_vertical_alignment, 'active-id');
                 this.settings_bind('window-horizontal-alignment', this.window_horizontal_alignment, 'active-id');
                 this.bind_sensitive('use-theme-colors', this.color_scheme_editor, true);
