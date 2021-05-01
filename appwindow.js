@@ -105,6 +105,17 @@ var AppWindow = GObject.registerClass(
             this.method_handler(this.settings, 'changed::window-skip-taskbar', this.update_hints);
             this.update_hints();
 
+            this.suppress_delete_id = this.connect('delete-event', () => {
+                this.hide();
+                return true;
+            });
+            this.run_on_destroy(() => {
+                if (this.suppress_delete_id) {
+                    this.disconnect(this.suppress_delete_id);
+                    this.suppress_delete_id = null;
+                }
+            });
+
             this.insert_page(0);
         }
 
@@ -209,6 +220,15 @@ var AppWindow = GObject.registerClass(
         remove_page(page) {
             this.notebook.remove(page);
             page.destroy();
+        }
+
+        close() {
+            if (this.suppress_delete_id) {
+                this.disconnect(this.suppress_delete_id);
+                this.suppress_delete_id = null;
+            }
+
+            super.close();
         }
 
         close_if_no_pages() {
