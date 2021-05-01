@@ -52,6 +52,13 @@ var AppWindow = GObject.registerClass(
 
             this.toggle_action = this.simple_action('toggle', this.toggle.bind(this));
             this.hide_action = this.simple_action('hide', () => this.hide());
+            this.simple_action('toggle-maximize', () => {
+                let target_value = 1.0;
+                // If the terminal is already maximized, recover the original value, otherwise maximize it
+                if (this.settings.get_double("window-height") == 1.0) 
+                  target_value = this.settings.get_double("original-window-height");
+                this.settings.set_double("window-height", target_value);
+            });
 
             this.simple_action('new-tab', this.insert_page.bind(this, -1));
             this.simple_action('new-tab-front', this.insert_page.bind(this, 0));
