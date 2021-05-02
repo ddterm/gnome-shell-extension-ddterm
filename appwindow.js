@@ -36,8 +36,6 @@ var AppWindow = GObject.registerClass(
                 Gio.DBus.session, 'org.gnome.Shell', '/org/gnome/Shell/Extensions/ddterm'
             );
 
-            this.method_handler(this, 'realize', this.set_wm_functions);
-
             this.method_handler(this, 'screen-changed', this.setup_rgba_visual);
             this.setup_rgba_visual();
 
@@ -126,10 +124,6 @@ var AppWindow = GObject.registerClass(
             this.signal_connect(action, 'activate', func);
             this.add_action(action);
             return action;
-        }
-
-        set_wm_functions() {
-            this.window.set_functions(Gdk.WMFunction.MOVE | Gdk.WMFunction.RESIZE | Gdk.WMFunction.CLOSE);
         }
 
         update_tab_bar_visibility() {
