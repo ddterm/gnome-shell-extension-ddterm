@@ -167,10 +167,11 @@ function createPrefsWidgetClass(resource_path, util) {
 
                 this.settings_bind('window-width', this.window_width_adjustment, 'value');
                 this.set_scale_value_format_percent(this.window_width_scale);
+
                 this.settings_bind('window-vertical-alignment', this.window_vertical_alignment, 'active-id');
                 this.settings_bind('window-horizontal-alignment', this.window_horizontal_alignment, 'active-id');
-                this.bind_sensitive('use-theme-colors', this.color_scheme_editor, true);
 
+                this.bind_sensitive('use-theme-colors', this.color_scheme_editor, true);
                 this.setting_color_scheme = false;
                 this.method_handler(this.settings, 'changed::foreground-color', this.update_builtin_color_scheme);
                 this.method_handler(this.settings, 'changed::background-color', this.update_builtin_color_scheme);
