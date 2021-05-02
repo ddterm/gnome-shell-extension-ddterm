@@ -184,6 +184,8 @@ var AppWindow = GObject.registerClass(
             this.method_handler(page, 'new-tab-before-request', this.new_tab_before);
             this.method_handler(page, 'new-tab-after-request', this.new_tab_after);
             page.spawn();
+
+            page.terminal.grab_focus();
         }
 
         setup_rgba_visual() {
