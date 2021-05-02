@@ -225,8 +225,11 @@ function focus_window_changed() {
 
     const win = global.display.focus_window;
     if (win !== null) {
-        if (current_window === win || current_window.is_ancestor_of_transient(win))
+        if (current_window === win || current_window.is_ancestor_of_transient(win)) {
+            if (settings.get_boolean('window-maximize'))
+              window_maximize();
             return;
+        }
     }
 
     if (dbus_action_group)
@@ -366,13 +369,14 @@ function window_maximize() {
         return;
 
     const should_maximize = settings.get_boolean('window-maximize');
-    if (current_window.maximized_vertically && should_maximize)
-        return;
-
-    if (should_maximize)
-        current_window.maximize(Meta.MaximizeFlags.VERTICAL);
-    else
+    if (current_window.maximized_vertically) {
         current_window.unmaximize(Meta.MaximizeFlags.VERTICAL);
+        settings.set_boolean('window-maximize', false);
+    } else {
+        current_window.maximize(Meta.MaximizeFlags.VERTICAL);
+        settings.set_boolean('window-maximize', true);
+    }
+
 }
 
 function update_window_geometry() {
@@ -387,7 +391,8 @@ function update_window_geometry() {
     if (target_rect.equal(current_window.get_frame_rect()))
         return;
 
-    if (current_window.maximized_vertically && target_rect.height < workarea.height) {
+    const should_maximize = settings.get_boolean('window-maximize');
+    if (current_window.maximized_vertically && target_rect.height < workarea.height && !should_maximize) {
         Main.wm.skipNextEffect(current_window.get_compositor_private());
         current_window.unmaximize(Meta.MaximizeFlags.VERTICAL);
     }
