@@ -121,7 +121,7 @@ const Application = GObject.registerClass(
             this.update_theme();
 
             this.setup_shortcut('shortcut-window-hide', 'win.hide');
-            this.setup_shortcut('shortcut-toggle-maximize', 'win.toggle-maximize')
+            this.setup_shortcut('shortcut-toggle-maximize', 'win.toggle-maximize');
             this.setup_shortcut('shortcut-terminal-copy', 'terminal.copy');
             this.setup_shortcut('shortcut-terminal-copy-html', 'terminal.copy-html');
             this.setup_shortcut('shortcut-terminal-paste', 'terminal.paste');
