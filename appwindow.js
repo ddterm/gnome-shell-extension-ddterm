@@ -53,26 +53,10 @@ var AppWindow = GObject.registerClass(
             this.toggle_action = this.simple_action('toggle', this.toggle.bind(this));
             this.hide_action = this.simple_action('hide', () => this.hide());
             this.simple_action('toggle-maximize', () => {
-                // Maximize the terminal and store the current height
-                const original_height = this.settings.get_double('original-window-height');
-                let current_height = this.settings.get_double('window-height');
-                let target_value = 1.0;
-
-                if (original_height && current_height === 1.0) {
-                    // if there was an original height _and_ we are full-screen recover it and clean the setting
-                    target_value = original_height;
-                    current_height = null;
-                }
-
-                this.settings.set_double('window-height', target_value);
-                this.settings.set_double('original-window-height', current_height);
+                this.settings.set_boolean('window-maximize', !this.settings.get_boolean('window-maximize'));
             });
-            // On first run, recover the original value if any
-            const original_height = this.settings.get_double('original-window-height');
-            const current_height = this.settings.get_double('window-height');
-            if (original_height && current_height === 1.0)
-                this.settings.set_double('window-height', original_height);
-            this.settings.set_double('original-window-height', null);
+            this.settings.set_boolean('window-maximize', false);
+
 
             this.simple_action('new-tab', this.insert_page.bind(this, -1));
             this.simple_action('new-tab-front', this.insert_page.bind(this, 0));

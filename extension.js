@@ -110,6 +110,7 @@ function enable() {
     settings.connect('changed::window-stick', set_window_stick);
     settings.connect('changed::window-height', update_window_geometry);
     settings.connect('changed::window-skip-taskbar', set_skip_taskbar);
+    settings.connect('changed::window-maximize', window_maximize);
 
     DBUS_INTERFACE.export(Gio.DBus.session, '/org/gnome/Shell/Extensions/ddterm');
 }
@@ -333,6 +334,10 @@ function unmaximize_window(win) {
     if (!win.maximized_vertically)
         return;
 
+    const maximized = settings.get_boolean('window-maximize');
+    if (maximized)
+        return;
+
     const workarea = workarea_for_window(current_window);
     const target_rect = target_rect_for_workarea(workarea);
 
@@ -354,6 +359,20 @@ function update_height_setting(win) {
     const workarea = workarea_for_window(win);
     const current_height = win.get_frame_rect().height / workarea.height;
     settings.set_double('window-height', Math.min(1.0, current_height));
+}
+
+function window_maximize() {
+    if (!current_window)
+        return;
+
+    const should_maximize = settings.get_boolean('window-maximize');
+    if (current_window.maximized_vertically && should_maximize)
+        return;
+
+    if (should_maximize)
+        current_window.maximize(Meta.MaximizeFlags.VERTICAL);
+    else
+        current_window.unmaximize(Meta.MaximizeFlags.VERTICAL);
 }
 
 function update_window_geometry() {

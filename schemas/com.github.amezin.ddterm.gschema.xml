@@ -77,9 +77,8 @@
       <default>0.6</default>
       <range min="0.0" max="1.0"/>
     </key>
-    <key name="original-window-height" type="d">
-      <default>0.0</default>
-      <range min="0.0" max="1.0"/>
+    <key name="window-maximize" type="b">
+      <default>false</default>
     </key>
 
     <key name="theme-variant" enum="com.github.amezin.ddterm.ThemeVariant">
