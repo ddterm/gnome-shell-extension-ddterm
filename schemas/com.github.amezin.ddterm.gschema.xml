@@ -155,6 +155,24 @@
     <key name="detect-urls" type="b">
       <default>true</default>
     </key>
+    <key name="detect-urls-as-is" type="b">
+      <default>true</default>
+    </key>
+    <key name="detect-urls-file" type="b">
+      <default>true</default>
+    </key>
+    <key name="detect-urls-http" type="b">
+      <default>true</default>
+    </key>
+    <key name="detect-urls-voip" type="b">
+      <default>true</default>
+    </key>
+    <key name="detect-urls-email" type="b">
+      <default>true</default>
+    </key>
+    <key name="detect-urls-news-man" type="b">
+      <default>true</default>
+    </key>
 
     <key name="use-theme-colors" type="b">
       <default>true</default>

@@ -59,6 +59,7 @@ function createPrefsWidgetClass(resource_path, util) {
                 'text_blink_mode_combo',
                 'cursor_blink_mode_combo',
                 'cursor_shape_combo',
+                'detect_urls_container',
                 'foreground_color',
                 'background_color',
                 'bold_color',
@@ -121,6 +122,12 @@ function createPrefsWidgetClass(resource_path, util) {
                     'shortcuts-enabled',
                     'window-resizable',
                     'detect-urls',
+                    'detect-urls-as-is',
+                    'detect-urls-file',
+                    'detect-urls-http',
+                    'detect-urls-voip',
+                    'detect-urls-email',
+                    'detect-urls-news-man',
                 ].forEach(
                     key => actions.add_action(this.settings.create_action(key))
                 );
@@ -140,6 +147,7 @@ function createPrefsWidgetClass(resource_path, util) {
                 this.settings_bind('text-blink-mode', this.text_blink_mode_combo, 'active-id');
                 this.settings_bind('cursor-blink-mode', this.cursor_blink_mode_combo, 'active-id');
                 this.settings_bind('cursor-shape', this.cursor_shape_combo, 'active-id');
+                this.bind_sensitive('detect-urls', this.detect_urls_container);
 
                 this.bind_color('foreground-color', this.foreground_color);
                 this.bind_color('background-color', this.background_color);

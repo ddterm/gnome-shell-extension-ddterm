@@ -184,6 +184,12 @@ var TerminalPage = GObject.registerClass(
             this.update_tab_expand();
 
             this.method_handler(this.settings, 'changed::detect-urls', this.setup_url_detect);
+            this.method_handler(this.settings, 'changed::detect-urls-as-is', this.setup_url_detect);
+            this.method_handler(this.settings, 'changed::detect-urls-file', this.setup_url_detect);
+            this.method_handler(this.settings, 'changed::detect-urls-http', this.setup_url_detect);
+            this.method_handler(this.settings, 'changed::detect-urls-voip', this.setup_url_detect);
+            this.method_handler(this.settings, 'changed::detect-urls-email', this.setup_url_detect);
+            this.method_handler(this.settings, 'changed::detect-urls-news-man', this.setup_url_detect);
             this.setup_url_detect();
 
             this._child_exited = false;
@@ -623,14 +629,27 @@ var TerminalPage = GObject.registerClass(
                 return tag;
             };
 
-            add_regex(REGEX_URL_AS_IS);
-            add_regex(REGEX_URL_FILE);
-            const http_tag = add_regex(REGEX_URL_HTTP);
-            this.url_prefix[http_tag] = 'http://';
-            add_regex(REGEX_URL_VOIP);
-            const email_tag = add_regex(REGEX_EMAIL);
-            this.url_prefix[email_tag] = 'mailto:';
-            add_regex(REGEX_NEWS_MAN);
+            if (this.settings.get_boolean('detect-urls-as-is'))
+                add_regex(REGEX_URL_AS_IS);
+
+            if (this.settings.get_boolean('detect-urls-file'))
+                add_regex(REGEX_URL_FILE);
+
+            if (this.settings.get_boolean('detect-urls-http')) {
+                const http_tag = add_regex(REGEX_URL_HTTP);
+                this.url_prefix[http_tag] = 'http://';
+            }
+
+            if (this.settings.get_boolean('detect-urls-voip'))
+                add_regex(REGEX_URL_VOIP);
+
+            if (this.settings.get_boolean('detect-urls-email')) {
+                const email_tag = add_regex(REGEX_EMAIL);
+                this.url_prefix[email_tag] = 'mailto:';
+            }
+
+            if (this.settings.get_boolean('detect-urls-news-man'))
+                add_regex(REGEX_NEWS_MAN);
         }
     }
 );
