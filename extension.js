@@ -227,7 +227,7 @@ function focus_window_changed() {
     if (win !== null) {
         if (current_window === win || current_window.is_ancestor_of_transient(win)) {
             if (settings.get_boolean('window-maximize'))
-              window_maximize();
+                window_maximize();
             return;
         }
     }
@@ -368,7 +368,6 @@ function window_maximize() {
     if (!current_window)
         return;
 
-    const should_maximize = settings.get_boolean('window-maximize');
     if (current_window.maximized_vertically) {
         current_window.unmaximize(Meta.MaximizeFlags.VERTICAL);
         settings.set_boolean('window-maximize', false);
@@ -376,7 +375,6 @@ function window_maximize() {
         current_window.maximize(Meta.MaximizeFlags.VERTICAL);
         settings.set_boolean('window-maximize', true);
     }
-
 }
 
 function update_window_geometry() {
