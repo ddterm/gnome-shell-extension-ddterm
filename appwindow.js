@@ -55,7 +55,6 @@ var AppWindow = GObject.registerClass(
             this.simple_action('toggle-maximize', () => {
                 this.settings.set_boolean('window-maximize', !this.settings.get_boolean('window-maximize'));
             });
-            this.settings.set_boolean('window-maximize', false);
 
 
             this.simple_action('new-tab', this.insert_page.bind(this, -1));

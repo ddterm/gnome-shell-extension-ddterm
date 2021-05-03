@@ -225,11 +225,8 @@ function focus_window_changed() {
 
     const win = global.display.focus_window;
     if (win !== null) {
-        if (current_window === win || current_window.is_ancestor_of_transient(win)) {
-            if (settings.get_boolean('window-maximize'))
-                window_maximize();
+        if (current_window === win || current_window.is_ancestor_of_transient(win))
             return;
-        }
     }
 
     if (dbus_action_group)
@@ -313,6 +310,8 @@ function track_window(win) {
     set_window_above();
     set_window_stick();
     set_skip_taskbar();
+    if (settings.get_boolean('window-maximize') && !win.maximized_vertically)
+        win.maximize(Meta.MaximizeFlags.VERTICAL);
 }
 
 function workarea_for_window(win) {
@@ -337,8 +336,7 @@ function unmaximize_window(win) {
     if (!win.maximized_vertically)
         return;
 
-    const maximized = settings.get_boolean('window-maximize');
-    if (maximized)
+    if (settings.get_boolean('window-maximize'))
         return;
 
     const workarea = workarea_for_window(current_window);
@@ -362,19 +360,17 @@ function update_height_setting(win) {
     const workarea = workarea_for_window(win);
     const current_height = win.get_frame_rect().height / workarea.height;
     settings.set_double('window-height', Math.min(1.0, current_height));
+    settings.set_boolean('window-maximize', false);
 }
 
 function window_maximize() {
     if (!current_window)
         return;
 
-    if (current_window.maximized_vertically) {
+    if (current_window.maximized_vertically)
         current_window.unmaximize(Meta.MaximizeFlags.VERTICAL);
-        settings.set_boolean('window-maximize', false);
-    } else {
+    else
         current_window.maximize(Meta.MaximizeFlags.VERTICAL);
-        settings.set_boolean('window-maximize', true);
-    }
 }
 
 function update_window_geometry() {
@@ -439,5 +435,6 @@ function disconnect_settings() {
         GObject.signal_handlers_disconnect_by_func(settings, set_window_stick);
         GObject.signal_handlers_disconnect_by_func(settings, update_window_geometry);
         GObject.signal_handlers_disconnect_by_func(settings, set_skip_taskbar);
+        GObject.signal_handlers_disconnect_by_func(settings, window_maximize);
     }
 }
