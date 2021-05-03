@@ -333,7 +333,7 @@
       </row>
       <row>
         <col id="0">shortcut-toggle-maximize</col>
-        <col id="1" translatable="yes">Maximize/unmaximize the Window</col>
+        <col id="1" translatable="yes">Maximize/Unmaximize the Window</col>
         <col id="2">0</col>
         <col id="3">0</col>
       </row>
