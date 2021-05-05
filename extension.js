@@ -451,6 +451,5 @@ function disconnect_settings() {
         GObject.signal_handlers_disconnect_by_func(settings, update_window_height);
         GObject.signal_handlers_disconnect_by_func(settings, set_skip_taskbar);
         GObject.signal_handlers_disconnect_by_func(settings, set_window_maximize);
-
     }
 }
