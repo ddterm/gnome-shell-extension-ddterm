@@ -36,10 +36,8 @@ class ExtensionDBusInterface {
             return;
 
         Main.wm.skipNextEffect(current_window.get_compositor_private());
-        if (settings.get_boolean('window-maximize')) {
-            settings.set_boolean('window-maximize', false);
-            settings.set_double('window-height', 1.0);
-        }
+        update_window_height();
+
         current_window.unmaximize(Meta.MaximizeFlags.VERTICAL);
     }
 
