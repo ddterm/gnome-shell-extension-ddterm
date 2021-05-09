@@ -36,9 +36,15 @@ class ExtensionDBusInterface {
             return;
 
         Main.wm.skipNextEffect(current_window.get_compositor_private());
-        update_window_height();
 
+        const was_maximized = settings.get_boolean('window-maximize');
         current_window.unmaximize(Meta.MaximizeFlags.VERTICAL);
+
+        if (was_maximized) {
+            // If we started maximized, then cover the whole workarea
+            const workarea = Main.layoutManager.getWorkAreaForMonitor(Main.layoutManager.currentMonitor.index);
+            move_resize_window(current_window, workarea);
+        }
     }
 
     Toggle() {
@@ -378,11 +384,9 @@ function set_window_maximize() {
 }
 
 function update_window_height() {
-    if (settings.get_boolean('window-maximize')) {
-        settings.set_boolean('window-maximize', false);
-        settings.set_double('window-height', 1.0);
-    }
-
+    // Wrapper around upadte_window_geometry to ensure that
+    // maximize state is always off after a height change
+    settings.set_boolean('window-maximize', false);
     update_window_geometry();
 }
 
@@ -399,9 +403,10 @@ function update_window_geometry() {
     if (target_rect.equal(current_window.get_frame_rect()))
         return;
 
-    if (current_window.maximized_vertically && target_rect.height < workarea.height) {
+    const is_maximized = settings.get_boolean('window-maximize');
+    if (current_window.maximized_vertically && target_rect.height < workarea.height && !is_maximized) {
         Main.wm.skipNextEffect(current_window.get_compositor_private());
-        unmaximize_window(current_window);
+        current_window.unmaximize(Meta.MaximizeFlags.VERTICAL);
     }
 
     move_resize_window(current_window, target_rect);
