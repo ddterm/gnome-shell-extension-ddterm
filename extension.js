@@ -37,14 +37,10 @@ class ExtensionDBusInterface {
 
         Main.wm.skipNextEffect(current_window.get_compositor_private());
 
-        const was_maximized = settings.get_boolean('window-maximize');
         current_window.unmaximize(Meta.MaximizeFlags.VERTICAL);
 
-        if (was_maximized) {
-            // If we started maximized, then cover the whole workarea
-            const workarea = Main.layoutManager.getWorkAreaForMonitor(Main.layoutManager.currentMonitor.index);
-            move_resize_window(current_window, workarea);
-        }
+        const workarea = Main.layoutManager.getWorkAreaForMonitor(Main.layoutManager.currentMonitor.index);
+        move_resize_window(current_window, workarea);
     }
 
     Toggle() {
@@ -116,9 +112,10 @@ function enable() {
 
     settings.connect('changed::window-above', set_window_above);
     settings.connect('changed::window-stick', set_window_stick);
-    settings.connect('changed::window-height', update_window_height);
+    settings.connect('changed::window-height', unset_window_maximize);
+    settings.connect('changed::window-height', update_window_geometry);
     settings.connect('changed::window-skip-taskbar', set_skip_taskbar);
-    settings.connect('changed::window-maximize', set_window_maximize);
+    settings.connect('changed::window-maximize', toggle_window_maximize);
 
     DBUS_INTERFACE.export(Gio.DBus.session, '/org/gnome/Shell/Extensions/ddterm');
 }
@@ -318,8 +315,7 @@ function track_window(win) {
     set_window_above();
     set_window_stick();
     set_skip_taskbar();
-    if (settings.get_boolean('window-maximize') && !win.maximized_vertically)
-        win.maximize(Meta.MaximizeFlags.VERTICAL);
+    toggle_window_maximize();
 }
 
 function workarea_for_window(win) {
@@ -372,28 +368,28 @@ function update_height_setting(win) {
     settings.set_double('window-height', Math.min(1.0, current_height));
 }
 
-function set_window_maximize() {
+function toggle_window_maximize() {
     if (!current_window)
         return;
 
-    const should_maximize = settings.get_boolean('window-maximize');
-    if (current_window.maximized_vertically && !should_maximize)
+    if (current_window.maximized_vertically === settings.get_boolean('window-maximize'))
+        return;
+
+    if (current_window.maximized_vertically)
         current_window.unmaximize(Meta.MaximizeFlags.VERTICAL);
-    else if (!current_window.maximized_vertically && should_maximize)
+    else
         current_window.maximize(Meta.MaximizeFlags.VERTICAL);
 }
 
-function update_window_height() {
+function unset_window_maximize() {
     // Wrapper around upadte_window_geometry to ensure that
     // maximize state is always off after a height change
     settings.set_boolean('window-maximize', false);
-    update_window_geometry();
 }
 
 function update_window_geometry() {
     if (!current_window)
         return;
-
 
     const workarea = workarea_for_window(current_window);
     if (!workarea)
@@ -451,8 +447,9 @@ function disconnect_settings() {
     if (settings) {
         GObject.signal_handlers_disconnect_by_func(settings, set_window_above);
         GObject.signal_handlers_disconnect_by_func(settings, set_window_stick);
-        GObject.signal_handlers_disconnect_by_func(settings, update_window_height);
+        GObject.signal_handlers_disconnect_by_func(settings, unset_window_maximize);
+        GObject.signal_handlers_disconnect_by_func(settings, update_window_geometry);
         GObject.signal_handlers_disconnect_by_func(settings, set_skip_taskbar);
-        GObject.signal_handlers_disconnect_by_func(settings, set_window_maximize);
+        GObject.signal_handlers_disconnect_by_func(settings, toggle_window_maximize);
     }
 }
