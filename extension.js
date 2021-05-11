@@ -382,7 +382,6 @@ function set_window_maximized() {
 }
 
 function unset_window_maximize() {
-    // Wrapper around upadte_window_geometry to ensure that
     // maximize state is always off after a height change
     settings.set_boolean('window-maximize', false);
 }
