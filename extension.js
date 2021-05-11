@@ -111,7 +111,7 @@ function enable() {
 
     settings.connect('changed::window-above', set_window_above);
     settings.connect('changed::window-stick', set_window_stick);
-    settings.connect('changed::window-height', unset_window_maximize);
+    settings.connect('changed::window-height', disable_window_maximize_setting);
     settings.connect('changed::window-height', update_window_geometry);
     settings.connect('changed::window-skip-taskbar', set_skip_taskbar);
     settings.connect('changed::window-maximize', set_window_maximized);
@@ -381,7 +381,7 @@ function set_window_maximized() {
         current_window.unmaximize(Meta.MaximizeFlags.VERTICAL);
 }
 
-function unset_window_maximize() {
+function disable_window_maximize_setting() {
     // maximize state is always off after a height change
     settings.set_boolean('window-maximize', false);
 }
@@ -446,7 +446,7 @@ function disconnect_settings() {
     if (settings) {
         GObject.signal_handlers_disconnect_by_func(settings, set_window_above);
         GObject.signal_handlers_disconnect_by_func(settings, set_window_stick);
-        GObject.signal_handlers_disconnect_by_func(settings, unset_window_maximize);
+        GObject.signal_handlers_disconnect_by_func(settings, disable_window_maximize_setting);
         GObject.signal_handlers_disconnect_by_func(settings, update_window_geometry);
         GObject.signal_handlers_disconnect_by_func(settings, set_skip_taskbar);
         GObject.signal_handlers_disconnect_by_func(settings, set_window_maximized);
