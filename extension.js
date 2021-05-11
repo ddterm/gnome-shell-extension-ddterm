@@ -36,7 +36,6 @@ class ExtensionDBusInterface {
             return;
 
         Main.wm.skipNextEffect(current_window.get_compositor_private());
-
         current_window.unmaximize(Meta.MaximizeFlags.VERTICAL);
 
         const workarea = Main.layoutManager.getWorkAreaForMonitor(Main.layoutManager.currentMonitor.index);
@@ -115,7 +114,7 @@ function enable() {
     settings.connect('changed::window-height', unset_window_maximize);
     settings.connect('changed::window-height', update_window_geometry);
     settings.connect('changed::window-skip-taskbar', set_skip_taskbar);
-    settings.connect('changed::window-maximize', toggle_window_maximize);
+    settings.connect('changed::window-maximize', set_window_maximized);
 
     DBUS_INTERFACE.export(Gio.DBus.session, '/org/gnome/Shell/Extensions/ddterm');
 }
@@ -315,7 +314,7 @@ function track_window(win) {
     set_window_above();
     set_window_stick();
     set_skip_taskbar();
-    toggle_window_maximize();
+    set_window_maximized();
 }
 
 function workarea_for_window(win) {
@@ -368,17 +367,18 @@ function update_height_setting(win) {
     settings.set_double('window-height', Math.min(1.0, current_height));
 }
 
-function toggle_window_maximize() {
+function set_window_maximized() {
     if (!current_window)
         return;
 
-    if (current_window.maximized_vertically === settings.get_boolean('window-maximize'))
+    const should_maximize = settings.get_boolean('window-maximize');
+    if (current_window.maximized_vertically === should_maximize)
         return;
 
-    if (current_window.maximized_vertically)
-        current_window.unmaximize(Meta.MaximizeFlags.VERTICAL);
-    else
+    if (should_maximize)
         current_window.maximize(Meta.MaximizeFlags.VERTICAL);
+    else
+        current_window.unmaximize(Meta.MaximizeFlags.VERTICAL);
 }
 
 function unset_window_maximize() {
@@ -399,8 +399,8 @@ function update_window_geometry() {
     if (target_rect.equal(current_window.get_frame_rect()))
         return;
 
-    const is_maximized = settings.get_boolean('window-maximize');
-    if (current_window.maximized_vertically && target_rect.height < workarea.height && !is_maximized) {
+    const should_maximize = settings.get_boolean('window-maximize');
+    if (current_window.maximized_vertically && target_rect.height < workarea.height && !should_maximize) {
         Main.wm.skipNextEffect(current_window.get_compositor_private());
         current_window.unmaximize(Meta.MaximizeFlags.VERTICAL);
     }
@@ -450,6 +450,6 @@ function disconnect_settings() {
         GObject.signal_handlers_disconnect_by_func(settings, unset_window_maximize);
         GObject.signal_handlers_disconnect_by_func(settings, update_window_geometry);
         GObject.signal_handlers_disconnect_by_func(settings, set_skip_taskbar);
-        GObject.signal_handlers_disconnect_by_func(settings, toggle_window_maximize);
+        GObject.signal_handlers_disconnect_by_func(settings, set_window_maximized);
     }
 }
