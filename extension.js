@@ -338,6 +338,7 @@ function unmaximize_window(win) {
 
     if (!win.maximized_vertically) {
         settings.set_boolean('window-maximize', false);
+        update_window_geometry();
         return;
     }
 
@@ -402,9 +403,9 @@ function update_window_geometry() {
     if (current_window.maximized_vertically && target_rect.height < workarea.height && !should_maximize) {
         Main.wm.skipNextEffect(current_window.get_compositor_private());
         current_window.unmaximize(Meta.MaximizeFlags.VERTICAL);
+    } else {
+        move_resize_window(current_window, target_rect);
     }
-
-    move_resize_window(current_window, target_rect);
 }
 
 function handle_end_grab(display, p0, p1) {
