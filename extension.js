@@ -356,18 +356,6 @@ function move_resize_window(win, target_rect) {
     win.move_resize_frame(false, target_rect.x, target_rect.y, target_rect.width, target_rect.height);
 }
 
-function update_height_setting(win) {
-    if (!win || win !== current_window)
-        return;
-
-    if (win.maximized_vertically)
-        return;
-
-    const workarea = workarea_for_window(win);
-    const current_height = win.get_frame_rect().height / workarea.height;
-    settings.set_double('window-height', Math.min(1.0, current_height));
-}
-
 function set_window_maximized() {
     if (!current_window)
         return;
@@ -412,14 +400,15 @@ function handle_end_grab(display, p0, p1) {
     // On Mutter <=3.38 p0 is display too. On 40 p0 is the window.
     const win = p0 instanceof Meta.Window ? p0 : p1;
 
-    if (win === current_window)
-        update_height_setting(win);
+    if (win !== current_window || win.maximized_vertically)
+        return;
+
+    const workarea = workarea_for_window(win);
+    const current_height = win.get_frame_rect().height / workarea.height;
+    settings.set_double('window-height', Math.min(1.0, current_height));
 }
 
 function untrack_window(win) {
-    // Sometimes, frame rect is updated after grab-op-end.
-    update_height_setting(win);
-
     if (win === current_window)
         current_window = null;
 
