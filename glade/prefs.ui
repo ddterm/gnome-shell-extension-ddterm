@@ -686,7 +686,8 @@
             </child>
             <child>
               <object class="GtkCheckButton" id="force_gdk_x11_check">
-                <property name="label" translatable="yes">Force _X11 GDK backend (XWayland)</property>
+                <property name="label" translatable="yes">Force _X11 GDK backend (XWayland).
+You'll have to close all tabs for this option to take effect.</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
