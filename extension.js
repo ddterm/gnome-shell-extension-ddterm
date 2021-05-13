@@ -107,7 +107,6 @@ function enable() {
 
     disconnect_global_handlers();
     global.display.connect('window-created', handle_created);
-    global.display.connect('notify::focus-window', focus_window_changed);
     global.display.connect('grab-op-end', handle_end_grab);
 
     settings.connect('changed::window-above', set_window_above);
@@ -119,6 +118,9 @@ function enable() {
 
     settings.connect('changed::override-window-animation', setup_animation_overrides);
     setup_animation_overrides();
+
+    settings.connect('changed::hide-when-focus-lost', setup_hide_when_focus_lost);
+    setup_hide_when_focus_lost();
 
     DBUS_INTERFACE.export(Gio.DBus.session, '/org/gnome/Shell/Extensions/ddterm');
 }
@@ -147,6 +149,7 @@ function disable() {
 
     disconnect_settings();
     disable_animation_overrides();
+    disable_hide_when_focus_lost();
 }
 
 function spawn_app() {
@@ -268,11 +271,8 @@ function override_unmap_animation(wm, actor) {
     });
 }
 
-function focus_window_changed() {
+function hide_when_focus_lost() {
     if (!current_window || current_window.is_hidden())
-        return;
-
-    if (!settings || !settings.get_boolean('hide-when-focus-lost'))
         return;
 
     const win = global.display.focus_window;
@@ -283,6 +283,17 @@ function focus_window_changed() {
 
     if (dbus_action_group)
         dbus_action_group.activate_action('hide', null);
+}
+
+function disable_hide_when_focus_lost() {
+    GObject.signal_handlers_disconnect_by_func(global.display, hide_when_focus_lost);
+}
+
+function setup_hide_when_focus_lost() {
+    disable_hide_when_focus_lost();
+
+    if (settings.get_boolean('hide-when-focus-lost'))
+        global.display.connect('notify::focus-window', hide_when_focus_lost);
 }
 
 function is_dropdown_terminal_window(win) {
@@ -475,7 +486,6 @@ function stop_dbus_watch() {
 
 function disconnect_global_handlers() {
     GObject.signal_handlers_disconnect_by_func(global.display, handle_created);
-    GObject.signal_handlers_disconnect_by_func(global.display, focus_window_changed);
     GObject.signal_handlers_disconnect_by_func(global.display, handle_end_grab);
 }
 
@@ -488,5 +498,6 @@ function disconnect_settings() {
         GObject.signal_handlers_disconnect_by_func(settings, set_skip_taskbar);
         GObject.signal_handlers_disconnect_by_func(settings, set_window_maximized);
         GObject.signal_handlers_disconnect_by_func(settings, setup_animation_overrides);
+        GObject.signal_handlers_disconnect_by_func(settings, setup_hide_when_focus_lost);
     }
 }
