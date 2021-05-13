@@ -9,18 +9,14 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 const WindowManager = imports.ui.windowManager;
 
 let settings = null;
-const settings_connections = [];
 
 let current_window = null;
-const current_window_connections = [];
 
 let bus_watch_id = null;
 let dbus_action_group = null;
 
 let wayland_client = null;
 let subprocess = null;
-
-let window_created_handler_id = null;
 
 const APP_ID = 'com.github.amezin.ddterm';
 const APP_DBUS_PATH = '/com/github/amezin/ddterm';
@@ -78,11 +74,42 @@ class WaylandClientStub {
     }
 }
 
+class ConnectionSet {
+    constructor() {
+        this.connections = [];
+    }
+
+    add(object, handler_id) {
+        this.connections.push({ object, handler_id });
+    }
+
+    connect(object, signal, callback) {
+        this.add(object, object.connect(signal, callback));
+    }
+
+    disconnect() {
+        while (this.connections.length) {
+            const c = this.connections.pop();
+            try {
+                c.object.disconnect(c.handler_id);
+            } catch (ex) {
+                logError(ex, `Can't disconnect handler ${c.handler_id} on object ${c.object}`);
+            }
+        }
+    }
+}
+
+const extension_connections = new ConnectionSet();
+const current_window_connections = new ConnectionSet();
+const animation_overrides_connections = new ConnectionSet();
+const hide_when_focus_lost_connections = new ConnectionSet();
+const update_height_setting_on_grab_end_connections = new ConnectionSet();
+
 function init() {
 }
 
 function enable() {
-    disconnect_settings();
+    extension_connections.disconnect();
     settings = imports.misc.extensionUtils.getSettings();
 
     Main.wm.addKeybinding(
@@ -109,19 +136,15 @@ function enable() {
         dbus_disappeared
     );
 
-    disconnect_window_created_handler();
-    window_created_handler_id = global.display.connect('window-created', handle_window_created);
-
-    settings_connections.push(
-        settings.connect('changed::window-above', set_window_above),
-        settings.connect('changed::window-stick', set_window_stick),
-        settings.connect('changed::window-height', disable_window_maximize_setting),
-        settings.connect('changed::window-height', update_window_geometry),
-        settings.connect('changed::window-skip-taskbar', set_skip_taskbar),
-        settings.connect('changed::window-maximize', set_window_maximized),
-        settings.connect('changed::override-window-animation', setup_animation_overrides),
-        settings.connect('changed::hide-when-focus-lost', setup_hide_when_focus_lost)
-    );
+    extension_connections.connect(global.display, 'window-created', handle_window_created);
+    extension_connections.connect(settings, 'changed::window-above', set_window_above);
+    extension_connections.connect(settings, 'changed::window-stick', set_window_stick);
+    extension_connections.connect(settings, 'changed::window-height', disable_window_maximize_setting);
+    extension_connections.connect(settings, 'changed::window-height', update_window_geometry);
+    extension_connections.connect(settings, 'changed::window-skip-taskbar', set_skip_taskbar);
+    extension_connections.connect(settings, 'changed::window-maximize', set_window_maximized);
+    extension_connections.connect(settings, 'changed::override-window-animation', setup_animation_overrides);
+    extension_connections.connect(settings, 'changed::hide-when-focus-lost', setup_hide_when_focus_lost);
 
     setup_animation_overrides();
     setup_hide_when_focus_lost();
@@ -148,15 +171,13 @@ function disable() {
     stop_dbus_watch();
     dbus_action_group = null;
 
-    disconnect_window_created_handler();
-
     Main.wm.removeKeybinding('ddterm-toggle-hotkey');
     Main.wm.removeKeybinding('ddterm-activate-hotkey');
 
-    disconnect_settings();
-    disable_animation_overrides();
-    disable_hide_when_focus_lost();
-    disable_update_height_setting_on_grab_end();
+    extension_connections.disconnect();
+    animation_overrides_connections.disconnect();
+    hide_when_focus_lost_connections.disconnect();
+    update_height_setting_on_grab_end_connections.disconnect();
 }
 
 function spawn_app() {
@@ -249,27 +270,12 @@ function assert_current_window(match = null) {
     return true;
 }
 
-let override_map_animation_handler_id = null;
-let override_unmap_animation_handler_id = null;
-
-function disable_animation_overrides() {
-    if (override_map_animation_handler_id) {
-        global.window_manager.disconnect(override_map_animation_handler_id);
-        override_map_animation_handler_id = null;
-    }
-
-    if (override_unmap_animation_handler_id) {
-        global.window_manager.disconnect(override_unmap_animation_handler_id);
-        override_unmap_animation_handler_id = null;
-    }
-}
-
 function setup_animation_overrides() {
-    disable_animation_overrides();
+    animation_overrides_connections.disconnect();
 
     if (current_window && settings.get_boolean('override-window-animation')) {
-        override_map_animation_handler_id = global.window_manager.connect('map', override_map_animation);
-        override_unmap_animation_handler_id = global.window_manager.connect('destroy', override_unmap_animation);
+        animation_overrides_connections.connect(global.window_manager, 'map', override_map_animation);
+        animation_overrides_connections.connect(global.window_manager, 'destroy', override_unmap_animation);
     }
 }
 
@@ -302,8 +308,6 @@ function override_unmap_animation(wm, actor) {
     });
 }
 
-let hide_when_focus_lost_handler_id = null;
-
 function hide_when_focus_lost() {
     if (!assert_current_window() || current_window.is_hidden())
         return;
@@ -318,19 +322,11 @@ function hide_when_focus_lost() {
         dbus_action_group.activate_action('hide', null);
 }
 
-function disable_hide_when_focus_lost() {
-    if (!hide_when_focus_lost_handler_id)
-        return;
-
-    global.display.disconnect(hide_when_focus_lost_handler_id);
-    hide_when_focus_lost_handler_id = null;
-}
-
 function setup_hide_when_focus_lost() {
-    disable_hide_when_focus_lost();
+    hide_when_focus_lost_connections.disconnect();
 
     if (current_window && settings.get_boolean('hide-when-focus-lost'))
-        hide_when_focus_lost_handler_id = global.display.connect('notify::focus-window', hide_when_focus_lost);
+        hide_when_focus_lost_connections.connect(global.display, 'notify::focus-window', hide_when_focus_lost);
 }
 
 function is_ddterm_window(win) {
@@ -392,10 +388,8 @@ function set_current_window(win) {
     release_window(current_window);
     current_window = win;
 
-    current_window_connections.push(
-        win.connect('unmanaged', release_window),
-        win.connect('notify::maximized-vertically', unmaximize_window)
-    );
+    current_window_connections.connect(win, 'unmanaged', release_window);
+    current_window_connections.connect(win, 'notify::maximized-vertically', unmaximize_window);
 
     setup_update_height_setting_on_grab_end();
     setup_hide_when_focus_lost();
@@ -406,10 +400,9 @@ function set_current_window(win) {
 
     move_resize_window(win, target_rect);
 
-    current_window_connections.push(
-        win.connect('shown', update_window_geometry),  // https://github.com/amezin/gnome-shell-extension-ddterm/issues/28
-        win.connect('position-changed', update_window_geometry)
-    );
+    // https://github.com/amezin/gnome-shell-extension-ddterm/issues/28
+    current_window_connections.connect(win, 'shown', update_window_geometry);
+    current_window_connections.connect(win, 'position-changed', update_window_geometry);
 
     Main.activateWindow(win);
 
@@ -510,35 +503,23 @@ function update_height_setting_on_grab_end(display, p0, p1) {
     settings.set_double('window-height', Math.min(1.0, current_height));
 }
 
-let update_height_setting_on_grab_end_handler_id = null;
-
-function disable_update_height_setting_on_grab_end() {
-    if (!update_height_setting_on_grab_end_handler_id)
-        return;
-
-    global.display.disconnect(update_height_setting_on_grab_end_handler_id);
-    update_height_setting_on_grab_end_handler_id = null;
-}
-
 function setup_update_height_setting_on_grab_end() {
-    disable_update_height_setting_on_grab_end();
+    update_height_setting_on_grab_end_connections.disconnect();
 
     if (current_window)
-        update_height_setting_on_grab_end_handler_id = global.display.connect('grab-op-end', update_height_setting_on_grab_end);
+        update_height_setting_on_grab_end_connections.connect(global.display, 'grab-op-end', update_height_setting_on_grab_end);
 }
 
 function release_window(win) {
     if (!win || win !== current_window)
         return;
 
-    current_window_connections.forEach(handler_id => win.disconnect(handler_id));
-    current_window_connections.length = 0;
-
+    current_window_connections.disconnect();
     current_window = null;
 
-    disable_update_height_setting_on_grab_end();
-    disable_hide_when_focus_lost();
-    disable_animation_overrides();
+    update_height_setting_on_grab_end_connections.disconnect();
+    hide_when_focus_lost_connections.disconnect();
+    animation_overrides_connections.disconnect();
 }
 
 function stop_dbus_watch() {
@@ -546,21 +527,4 @@ function stop_dbus_watch() {
         Gio.bus_unwatch_name(bus_watch_id);
         bus_watch_id = null;
     }
-}
-
-function disconnect_window_created_handler() {
-    if (!window_created_handler_id)
-        return;
-
-    global.display.disconnect(window_created_handler_id);
-    window_created_handler_id = null;
-}
-
-function disconnect_settings() {
-    if (settings)
-        settings_connections.forEach(handler_id => settings.disconnect(handler_id));
-    else if (settings_connections.length)
-        logError(new Error('settings is null, but settings_connections is not empty'));
-
-    settings_connections.length = 0;
 }
