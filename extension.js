@@ -354,6 +354,7 @@ function set_current_window(win) {
     if (win === current_window)
         return;
 
+    release_window(current_window);
     current_window = win;
 
     win.connect('unmanaged', release_window);
