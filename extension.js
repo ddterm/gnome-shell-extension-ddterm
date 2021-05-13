@@ -105,9 +105,8 @@ function enable() {
         dbus_disappeared
     );
 
-    disconnect_global_handlers();
-    global.display.connect('window-created', handle_created);
-    global.display.connect('grab-op-end', handle_end_grab);
+    disconnect_window_created_handler();
+    global.display.connect('window-created', handle_window_created);
 
     settings.connect('changed::window-above', set_window_above);
     settings.connect('changed::window-stick', set_window_stick);
@@ -121,6 +120,8 @@ function enable() {
 
     settings.connect('changed::hide-when-focus-lost', setup_hide_when_focus_lost);
     setup_hide_when_focus_lost();
+
+    setup_update_height_setting_on_grab_end();
 
     DBUS_INTERFACE.export(Gio.DBus.session, '/org/gnome/Shell/Extensions/ddterm');
 }
@@ -142,7 +143,7 @@ function disable() {
     stop_dbus_watch();
     dbus_action_group = null;
 
-    disconnect_global_handlers();
+    disconnect_window_created_handler();
 
     Main.wm.removeKeybinding('ddterm-toggle-hotkey');
     Main.wm.removeKeybinding('ddterm-activate-hotkey');
@@ -150,6 +151,7 @@ function disable() {
     disconnect_settings();
     disable_animation_overrides();
     disable_hide_when_focus_lost();
+    disable_update_height_setting_on_grab_end();
 }
 
 function spawn_app() {
@@ -212,7 +214,7 @@ function dbus_disappeared() {
     dbus_action_group = null;
 }
 
-function handle_created(display, win) {
+function handle_window_created(display, win) {
     const handler_ids = [
         win.connect('notify::gtk-application-id', track_window),
         win.connect('notify::gtk-window-object-path', track_window),
@@ -236,7 +238,7 @@ function disable_animation_overrides() {
 function setup_animation_overrides() {
     disable_animation_overrides();
 
-    if (settings.get_boolean('override-window-animation')) {
+    if (current_window && settings.get_boolean('override-window-animation')) {
         global.window_manager.connect('map', override_map_animation);
         global.window_manager.connect('destroy', override_unmap_animation);
     }
@@ -292,7 +294,7 @@ function disable_hide_when_focus_lost() {
 function setup_hide_when_focus_lost() {
     disable_hide_when_focus_lost();
 
-    if (settings.get_boolean('hide-when-focus-lost'))
+    if (current_window && settings.get_boolean('hide-when-focus-lost'))
         global.display.connect('notify::focus-window', hide_when_focus_lost);
 }
 
@@ -355,8 +357,11 @@ function track_window(win) {
     current_window = win;
 
     win.connect('unmanaged', untrack_window);
-
     win.connect('notify::maximized-vertically', unmaximize_window);
+
+    setup_update_height_setting_on_grab_end();
+    setup_hide_when_focus_lost();
+    setup_animation_overrides();
 
     const workarea = Main.layoutManager.getWorkAreaForMonitor(Main.layoutManager.currentMonitor.index);
     const target_rect = target_rect_for_workarea(workarea);
@@ -454,7 +459,7 @@ function update_window_geometry() {
     }
 }
 
-function handle_end_grab(display, p0, p1) {
+function update_height_setting_on_grab_end(display, p0, p1) {
     // On Mutter <=3.38 p0 is display too. On 40 p0 is the window.
     const win = p0 instanceof Meta.Window ? p0 : p1;
 
@@ -466,9 +471,25 @@ function handle_end_grab(display, p0, p1) {
     settings.set_double('window-height', Math.min(1.0, current_height));
 }
 
+function disable_update_height_setting_on_grab_end() {
+    GObject.signal_handlers_disconnect_by_func(global.display, update_height_setting_on_grab_end);
+}
+
+function setup_update_height_setting_on_grab_end() {
+    disable_update_height_setting_on_grab_end();
+
+    if (current_window)
+        global.display.connect('grab-op-end', update_height_setting_on_grab_end);
+}
+
 function untrack_window(win) {
-    if (win === current_window)
+    if (win === current_window) {
         current_window = null;
+
+        disable_update_height_setting_on_grab_end();
+        disable_hide_when_focus_lost();
+        disable_animation_overrides();
+    }
 
     if (win) {
         GObject.signal_handlers_disconnect_by_func(win, untrack_window);
@@ -484,9 +505,8 @@ function stop_dbus_watch() {
     }
 }
 
-function disconnect_global_handlers() {
-    GObject.signal_handlers_disconnect_by_func(global.display, handle_created);
-    GObject.signal_handlers_disconnect_by_func(global.display, handle_end_grab);
+function disconnect_window_created_handler() {
+    GObject.signal_handlers_disconnect_by_func(global.display, handle_window_created);
 }
 
 function disconnect_settings() {
