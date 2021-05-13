@@ -230,6 +230,20 @@ function handle_window_created(display, win) {
     set_current_window(win);
 }
 
+function assert_current_window(match = null) {
+    if (current_window === null) {
+        logError(new Error('current_window should be non-null'));
+        return false;
+    }
+
+    if (match !== null && current_window !== match) {
+        logError(new Error(`current_window should be ${match}, but it is ${current_window}`));
+        return false;
+    }
+
+    return true;
+}
+
 function disable_animation_overrides() {
     GObject.signal_handlers_disconnect_by_func(global.window_manager, override_map_animation);
     GObject.signal_handlers_disconnect_by_func(global.window_manager, override_unmap_animation);
@@ -245,7 +259,7 @@ function setup_animation_overrides() {
 }
 
 function override_map_animation(wm, actor) {
-    if (!current_window || actor !== current_window.get_compositor_private())
+    if (!assert_current_window() || actor !== current_window.get_compositor_private())
         return;
 
     actor.set_pivot_point(0.5, 0.0);
@@ -260,7 +274,7 @@ function override_map_animation(wm, actor) {
 }
 
 function override_unmap_animation(wm, actor) {
-    if (!current_window || actor !== current_window.get_compositor_private())
+    if (!assert_current_window() || actor !== current_window.get_compositor_private())
         return;
 
     actor.set_pivot_point(0.5, 0.0);
@@ -274,7 +288,7 @@ function override_unmap_animation(wm, actor) {
 }
 
 function hide_when_focus_lost() {
-    if (!current_window || current_window.is_hidden())
+    if (!assert_current_window() || current_window.is_hidden())
         return;
 
     const win = global.display.focus_window;
@@ -397,7 +411,7 @@ function target_rect_for_workarea(workarea) {
 }
 
 function unmaximize_window(win) {
-    if (!win || win !== current_window)
+    if (!assert_current_window(win))
         return;
 
     if (!win.maximized_vertically) {
