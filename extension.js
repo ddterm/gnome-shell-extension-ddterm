@@ -298,7 +298,7 @@ function setup_hide_when_focus_lost() {
         global.display.connect('notify::focus-window', hide_when_focus_lost);
 }
 
-function is_dropdown_terminal_window(win) {
+function is_ddterm_window(win) {
     if (!wayland_client) {
         // On X11, shell can be restarted, and the app will keep running.
         // Accept windows from previously launched app instances.
@@ -346,8 +346,8 @@ function set_skip_taskbar() {
 }
 
 function set_current_window(win) {
-    if (!is_dropdown_terminal_window(win)) {
-        unset_current_window(win);
+    if (!is_ddterm_window(win)) {
+        release_window(win);
         return;
     }
 
@@ -356,7 +356,7 @@ function set_current_window(win) {
 
     current_window = win;
 
-    win.connect('unmanaged', unset_current_window);
+    win.connect('unmanaged', release_window);
     win.connect('notify::maximized-vertically', unmaximize_window);
 
     setup_update_height_setting_on_grab_end();
@@ -482,7 +482,7 @@ function setup_update_height_setting_on_grab_end() {
         global.display.connect('grab-op-end', update_height_setting_on_grab_end);
 }
 
-function unset_current_window(win) {
+function release_window(win) {
     if (win === current_window) {
         current_window = null;
 
@@ -492,7 +492,7 @@ function unset_current_window(win) {
     }
 
     if (win) {
-        GObject.signal_handlers_disconnect_by_func(win, unset_current_window);
+        GObject.signal_handlers_disconnect_by_func(win, release_window);
         GObject.signal_handlers_disconnect_by_func(win, unmaximize_window);
         GObject.signal_handlers_disconnect_by_func(win, update_window_geometry);
     }
