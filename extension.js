@@ -2,10 +2,11 @@
 
 /* exported init enable disable */
 
-const { GObject, Gio, Meta, Shell } = imports.gi;
+const { GObject, Gio, Clutter, Meta, Shell } = imports.gi;
 const ByteArray = imports.byteArray;
 const Main = imports.ui.main;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
+const WindowManager = imports.ui.windowManager;
 
 let settings = null;
 
@@ -116,6 +117,9 @@ function enable() {
     settings.connect('changed::window-skip-taskbar', set_skip_taskbar);
     settings.connect('changed::window-maximize', set_window_maximized);
 
+    settings.connect('changed::override-window-animation', setup_animation_overrides);
+    setup_animation_overrides();
+
     DBUS_INTERFACE.export(Gio.DBus.session, '/org/gnome/Shell/Extensions/ddterm');
 }
 
@@ -142,6 +146,7 @@ function disable() {
     Main.wm.removeKeybinding('ddterm-activate-hotkey');
 
     disconnect_settings();
+    disable_animation_overrides();
 }
 
 function spawn_app() {
@@ -220,6 +225,49 @@ function handle_created(display, win) {
     track_window(win);
 }
 
+function disable_animation_overrides() {
+    GObject.signal_handlers_disconnect_by_func(global.window_manager, override_map_animation);
+    GObject.signal_handlers_disconnect_by_func(global.window_manager, override_unmap_animation);
+}
+
+function setup_animation_overrides() {
+    disable_animation_overrides();
+
+    if (settings.get_boolean('override-window-animation')) {
+        global.window_manager.connect('map', override_map_animation);
+        global.window_manager.connect('destroy', override_unmap_animation);
+    }
+}
+
+function override_map_animation(wm, actor) {
+    if (!current_window || actor !== current_window.get_compositor_private())
+        return;
+
+    actor.set_pivot_point(0.5, 0.0);
+    actor.scale_x = 1.0;  // override default scale-x animation
+    actor.scale_y = 0.0;
+
+    actor.ease({
+        scale_y: 1.0,
+        duration: WindowManager.SHOW_WINDOW_ANIMATION_TIME,
+        mode: Clutter.AnimationMode.LINEAR,
+    });
+}
+
+function override_unmap_animation(wm, actor) {
+    if (!current_window || actor !== current_window.get_compositor_private())
+        return;
+
+    actor.set_pivot_point(0.5, 0.0);
+
+    actor.ease({
+        scale_x: 1.0,  // override default scale-x animation
+        scale_y: 0.0,
+        duration: WindowManager.DESTROY_WINDOW_ANIMATION_TIME,
+        mode: Clutter.AnimationMode.LINEAR,
+    });
+}
+
 function focus_window_changed() {
     if (!current_window || current_window.is_hidden())
         return;
@@ -295,7 +343,6 @@ function track_window(win) {
 
     current_window = win;
 
-    win.connect('unmanaging', untrack_window);
     win.connect('unmanaged', untrack_window);
 
     win.connect('notify::maximized-vertically', unmaximize_window);
@@ -440,5 +487,6 @@ function disconnect_settings() {
         GObject.signal_handlers_disconnect_by_func(settings, update_window_geometry);
         GObject.signal_handlers_disconnect_by_func(settings, set_skip_taskbar);
         GObject.signal_handlers_disconnect_by_func(settings, set_window_maximized);
+        GObject.signal_handlers_disconnect_by_func(settings, setup_animation_overrides);
     }
 }

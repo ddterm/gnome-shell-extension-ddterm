@@ -108,6 +108,9 @@
     <key name="window-resizable" type="b">
       <default>true</default>
     </key>
+    <key name="override-window-animation" type="b">
+      <default>true</default>
+    </key>
 
     <key name="tab-policy" enum="com.github.amezin.ddterm.TabsbarPolicy">
       <default>'always'</default>

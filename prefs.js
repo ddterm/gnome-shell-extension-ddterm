@@ -100,6 +100,7 @@ function createPrefsWidgetClass(resource_path, util) {
                     'window-above',
                     'window-stick',
                     'window-skip-taskbar',
+                    'override-window-animation',
                     'hide-when-focus-lost',
                     'hide-window-on-esc',
                     'pointer-autohide',
