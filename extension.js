@@ -2,21 +2,25 @@
 
 /* exported init enable disable */
 
-const { GObject, Gio, Clutter, Meta, Shell } = imports.gi;
+const { Gio, Clutter, Meta, Shell } = imports.gi;
 const ByteArray = imports.byteArray;
 const Main = imports.ui.main;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const WindowManager = imports.ui.windowManager;
 
 let settings = null;
+const settings_connections = [];
 
 let current_window = null;
+const current_window_connections = [];
 
 let bus_watch_id = null;
 let dbus_action_group = null;
 
 let wayland_client = null;
 let subprocess = null;
+
+let window_created_handler_id = null;
 
 const APP_ID = 'com.github.amezin.ddterm';
 const APP_DBUS_PATH = '/com/github/amezin/ddterm';
@@ -106,19 +110,20 @@ function enable() {
     );
 
     disconnect_window_created_handler();
-    global.display.connect('window-created', handle_window_created);
+    window_created_handler_id = global.display.connect('window-created', handle_window_created);
 
-    settings.connect('changed::window-above', set_window_above);
-    settings.connect('changed::window-stick', set_window_stick);
-    settings.connect('changed::window-height', disable_window_maximize_setting);
-    settings.connect('changed::window-height', update_window_geometry);
-    settings.connect('changed::window-skip-taskbar', set_skip_taskbar);
-    settings.connect('changed::window-maximize', set_window_maximized);
+    settings_connections.push(
+        settings.connect('changed::window-above', set_window_above),
+        settings.connect('changed::window-stick', set_window_stick),
+        settings.connect('changed::window-height', disable_window_maximize_setting),
+        settings.connect('changed::window-height', update_window_geometry),
+        settings.connect('changed::window-skip-taskbar', set_skip_taskbar),
+        settings.connect('changed::window-maximize', set_window_maximized),
+        settings.connect('changed::override-window-animation', setup_animation_overrides),
+        settings.connect('changed::hide-when-focus-lost', setup_hide_when_focus_lost)
+    );
 
-    settings.connect('changed::override-window-animation', setup_animation_overrides);
     setup_animation_overrides();
-
-    settings.connect('changed::hide-when-focus-lost', setup_hide_when_focus_lost);
     setup_hide_when_focus_lost();
 
     setup_update_height_setting_on_grab_end();
@@ -244,17 +249,27 @@ function assert_current_window(match = null) {
     return true;
 }
 
+let override_map_animation_handler_id = null;
+let override_unmap_animation_handler_id = null;
+
 function disable_animation_overrides() {
-    GObject.signal_handlers_disconnect_by_func(global.window_manager, override_map_animation);
-    GObject.signal_handlers_disconnect_by_func(global.window_manager, override_unmap_animation);
+    if (override_map_animation_handler_id) {
+        global.window_manager.disconnect(override_map_animation_handler_id);
+        override_map_animation_handler_id = null;
+    }
+
+    if (override_unmap_animation_handler_id) {
+        global.window_manager.disconnect(override_unmap_animation_handler_id);
+        override_unmap_animation_handler_id = null;
+    }
 }
 
 function setup_animation_overrides() {
     disable_animation_overrides();
 
     if (current_window && settings.get_boolean('override-window-animation')) {
-        global.window_manager.connect('map', override_map_animation);
-        global.window_manager.connect('destroy', override_unmap_animation);
+        override_map_animation_handler_id = global.window_manager.connect('map', override_map_animation);
+        override_unmap_animation_handler_id = global.window_manager.connect('destroy', override_unmap_animation);
     }
 }
 
@@ -287,6 +302,8 @@ function override_unmap_animation(wm, actor) {
     });
 }
 
+let hide_when_focus_lost_handler_id = null;
+
 function hide_when_focus_lost() {
     if (!assert_current_window() || current_window.is_hidden())
         return;
@@ -302,14 +319,18 @@ function hide_when_focus_lost() {
 }
 
 function disable_hide_when_focus_lost() {
-    GObject.signal_handlers_disconnect_by_func(global.display, hide_when_focus_lost);
+    if (!hide_when_focus_lost_handler_id)
+        return;
+
+    global.display.disconnect(hide_when_focus_lost_handler_id);
+    hide_when_focus_lost_handler_id = null;
 }
 
 function setup_hide_when_focus_lost() {
     disable_hide_when_focus_lost();
 
     if (current_window && settings.get_boolean('hide-when-focus-lost'))
-        global.display.connect('notify::focus-window', hide_when_focus_lost);
+        hide_when_focus_lost_handler_id = global.display.connect('notify::focus-window', hide_when_focus_lost);
 }
 
 function is_ddterm_window(win) {
@@ -371,8 +392,10 @@ function set_current_window(win) {
     release_window(current_window);
     current_window = win;
 
-    win.connect('unmanaged', release_window);
-    win.connect('notify::maximized-vertically', unmaximize_window);
+    current_window_connections.push(
+        win.connect('unmanaged', release_window),
+        win.connect('notify::maximized-vertically', unmaximize_window)
+    );
 
     setup_update_height_setting_on_grab_end();
     setup_hide_when_focus_lost();
@@ -383,9 +406,10 @@ function set_current_window(win) {
 
     move_resize_window(win, target_rect);
 
-    // https://github.com/amezin/gnome-shell-extension-ddterm/issues/28
-    win.connect('shown', update_window_geometry);
-    win.connect('position-changed', update_window_geometry);
+    current_window_connections.push(
+        win.connect('shown', update_window_geometry),  // https://github.com/amezin/gnome-shell-extension-ddterm/issues/28
+        win.connect('position-changed', update_window_geometry)
+    );
 
     Main.activateWindow(win);
 
@@ -486,31 +510,35 @@ function update_height_setting_on_grab_end(display, p0, p1) {
     settings.set_double('window-height', Math.min(1.0, current_height));
 }
 
+let update_height_setting_on_grab_end_handler_id = null;
+
 function disable_update_height_setting_on_grab_end() {
-    GObject.signal_handlers_disconnect_by_func(global.display, update_height_setting_on_grab_end);
+    if (!update_height_setting_on_grab_end_handler_id)
+        return;
+
+    global.display.disconnect(update_height_setting_on_grab_end_handler_id);
+    update_height_setting_on_grab_end_handler_id = null;
 }
 
 function setup_update_height_setting_on_grab_end() {
     disable_update_height_setting_on_grab_end();
 
     if (current_window)
-        global.display.connect('grab-op-end', update_height_setting_on_grab_end);
+        update_height_setting_on_grab_end_handler_id = global.display.connect('grab-op-end', update_height_setting_on_grab_end);
 }
 
 function release_window(win) {
-    if (win === current_window) {
-        current_window = null;
+    if (!win || win !== current_window)
+        return;
 
-        disable_update_height_setting_on_grab_end();
-        disable_hide_when_focus_lost();
-        disable_animation_overrides();
-    }
+    current_window_connections.forEach(handler_id => win.disconnect(handler_id));
+    current_window_connections.length = 0;
 
-    if (win) {
-        GObject.signal_handlers_disconnect_by_func(win, release_window);
-        GObject.signal_handlers_disconnect_by_func(win, unmaximize_window);
-        GObject.signal_handlers_disconnect_by_func(win, update_window_geometry);
-    }
+    current_window = null;
+
+    disable_update_height_setting_on_grab_end();
+    disable_hide_when_focus_lost();
+    disable_animation_overrides();
 }
 
 function stop_dbus_watch() {
@@ -521,18 +549,18 @@ function stop_dbus_watch() {
 }
 
 function disconnect_window_created_handler() {
-    GObject.signal_handlers_disconnect_by_func(global.display, handle_window_created);
+    if (!window_created_handler_id)
+        return;
+
+    global.display.disconnect(window_created_handler_id);
+    window_created_handler_id = null;
 }
 
 function disconnect_settings() {
-    if (settings) {
-        GObject.signal_handlers_disconnect_by_func(settings, set_window_above);
-        GObject.signal_handlers_disconnect_by_func(settings, set_window_stick);
-        GObject.signal_handlers_disconnect_by_func(settings, disable_window_maximize_setting);
-        GObject.signal_handlers_disconnect_by_func(settings, update_window_geometry);
-        GObject.signal_handlers_disconnect_by_func(settings, set_skip_taskbar);
-        GObject.signal_handlers_disconnect_by_func(settings, set_window_maximized);
-        GObject.signal_handlers_disconnect_by_func(settings, setup_animation_overrides);
-        GObject.signal_handlers_disconnect_by_func(settings, setup_hide_when_focus_lost);
-    }
+    if (settings)
+        settings_connections.forEach(handler_id => settings.disconnect(handler_id));
+    else if (settings_connections.length)
+        logError(new Error('settings is null, but settings_connections is not empty'));
+
+    settings_connections.length = 0;
 }
