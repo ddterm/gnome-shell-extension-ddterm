@@ -216,8 +216,8 @@ function dbus_disappeared() {
 
 function handle_window_created(display, win) {
     const handler_ids = [
-        win.connect('notify::gtk-application-id', track_window),
-        win.connect('notify::gtk-window-object-path', track_window),
+        win.connect('notify::gtk-application-id', set_current_window),
+        win.connect('notify::gtk-window-object-path', set_current_window),
     ];
 
     const disconnect = () => {
@@ -227,7 +227,7 @@ function handle_window_created(display, win) {
     handler_ids.push(win.connect('unmanaging', disconnect));
     handler_ids.push(win.connect('unmanaged', disconnect));
 
-    track_window(win);
+    set_current_window(win);
 }
 
 function disable_animation_overrides() {
@@ -345,9 +345,9 @@ function set_skip_taskbar() {
         wayland_client.show_in_window_list(current_window);
 }
 
-function track_window(win) {
+function set_current_window(win) {
     if (!is_dropdown_terminal_window(win)) {
-        untrack_window(win);
+        unset_current_window(win);
         return;
     }
 
@@ -356,7 +356,7 @@ function track_window(win) {
 
     current_window = win;
 
-    win.connect('unmanaged', untrack_window);
+    win.connect('unmanaged', unset_current_window);
     win.connect('notify::maximized-vertically', unmaximize_window);
 
     setup_update_height_setting_on_grab_end();
@@ -482,7 +482,7 @@ function setup_update_height_setting_on_grab_end() {
         global.display.connect('grab-op-end', update_height_setting_on_grab_end);
 }
 
-function untrack_window(win) {
+function unset_current_window(win) {
     if (win === current_window) {
         current_window = null;
 
@@ -492,7 +492,7 @@ function untrack_window(win) {
     }
 
     if (win) {
-        GObject.signal_handlers_disconnect_by_func(win, untrack_window);
+        GObject.signal_handlers_disconnect_by_func(win, unset_current_window);
         GObject.signal_handlers_disconnect_by_func(win, unmaximize_window);
         GObject.signal_handlers_disconnect_by_func(win, update_window_geometry);
     }
