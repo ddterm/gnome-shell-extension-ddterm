@@ -37,10 +37,15 @@ class ExtensionDBusInterface {
             return;
 
         Main.wm.skipNextEffect(current_window.get_compositor_private());
+        // There is a update_window_geometry() call after successful unmaximize.
+        // It must set window size to 100%.
+        // Changing window-height should also unmaximize, but sometimes it
+        // doesn't if window-height is already 1.0, so another unmaximize() is
+        // necessary.
+        settings.set_double('window-height', 1.0);
         current_window.unmaximize(Meta.MaximizeFlags.VERTICAL);
-
-        const workarea = Main.layoutManager.getWorkAreaForMonitor(Main.layoutManager.currentMonitor.index);
-        move_resize_window(current_window, workarea);
+        // On Wayland, the window still unmaximizes to a smaller size without this line
+        move_resize_window(current_window, workarea_for_window(current_window));
     }
 
     Toggle() {
