@@ -442,9 +442,11 @@ function unmaximize_window(win) {
         return;
     }
 
-    if (settings.get_boolean('window-maximize'))
-        return;
+    if (!settings.get_boolean('window-maximize'))
+        unmaximize_window_if_not_full_height(win);
+}
 
+function unmaximize_window_if_not_full_height(win) {
     const workarea = workarea_for_window(current_window);
     const target_rect = target_rect_for_workarea(workarea);
 
@@ -467,7 +469,7 @@ function set_window_maximized() {
     if (should_maximize)
         current_window.maximize(Meta.MaximizeFlags.VERTICAL);
     else
-        current_window.unmaximize(Meta.MaximizeFlags.VERTICAL);
+        unmaximize_window_if_not_full_height(current_window);
 }
 
 function disable_window_maximize_setting() {
