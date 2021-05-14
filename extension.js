@@ -467,7 +467,7 @@ function set_window_maximized() {
         return;
 
     if (should_maximize)
-        current_window.maximize(Meta.MaximizeFlags.VERTICAL);
+        current_window.maximize(Meta.MaximizeFlags.BOTH);
     else
         unmaximize_window_if_not_full_height(current_window);
 }
