@@ -394,7 +394,7 @@ function set_current_window(win) {
     current_window = win;
 
     current_window_connections.connect(win, 'unmanaged', release_window);
-    current_window_connections.connect(win, 'notify::maximized-vertically', unmaximize_window);
+    current_window_connections.connect(win, 'notify::maximized-vertically', handle_maximized_vertically);
 
     setup_update_height_setting_on_grab_end();
     setup_hide_when_focus_lost();
@@ -432,7 +432,7 @@ function target_rect_for_workarea(workarea) {
     return target_rect;
 }
 
-function unmaximize_window(win) {
+function handle_maximized_vertically(win) {
     if (!assert_current_window(win))
         return;
 
