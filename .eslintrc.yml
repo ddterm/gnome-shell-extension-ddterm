@@ -12,5 +12,8 @@ rules:
     - error
     - always
   prefer-arrow-callback: error
+  no-multiple-empty-lines:
+    - error
+    - max: 1
 globals:
   global: readonly
