@@ -261,7 +261,7 @@ function handle_window_created(display, win) {
     set_current_window(win);
 }
 
-function assert_current_window(match = null) {
+function check_current_window(match = null) {
     if (current_window === null) {
         logError(new Error('current_window should be non-null'));
         return false;
@@ -285,7 +285,7 @@ function setup_animation_overrides() {
 }
 
 function override_map_animation(wm, actor) {
-    if (!assert_current_window() || actor !== current_window.get_compositor_private())
+    if (!check_current_window() || actor !== current_window.get_compositor_private())
         return;
 
     actor.set_pivot_point(0.5, 0.0);
@@ -300,7 +300,7 @@ function override_map_animation(wm, actor) {
 }
 
 function override_unmap_animation(wm, actor) {
-    if (!assert_current_window() || actor !== current_window.get_compositor_private())
+    if (!check_current_window() || actor !== current_window.get_compositor_private())
         return;
 
     actor.set_pivot_point(0.5, 0.0);
@@ -314,7 +314,7 @@ function override_unmap_animation(wm, actor) {
 }
 
 function hide_when_focus_lost() {
-    if (!assert_current_window() || current_window.is_hidden())
+    if (!check_current_window() || current_window.is_hidden())
         return;
 
     const win = global.display.focus_window;
@@ -433,7 +433,7 @@ function target_rect_for_workarea(workarea) {
 }
 
 function handle_maximized_vertically(win) {
-    if (!assert_current_window(win))
+    if (!check_current_window(win))
         return;
 
     if (!win.maximized_vertically) {
