@@ -2,7 +2,7 @@
 
 /* exported init enable disable */
 
-const { Gio, Clutter, Meta, Shell } = imports.gi;
+const { GLib, Gio, Clutter, Meta, Shell } = imports.gi;
 const ByteArray = imports.byteArray;
 const Main = imports.ui.main;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
@@ -59,9 +59,27 @@ class ExtensionDBusInterface {
     Activate() {
         activate();
     }
+
+    RunTestAsync(params, invocation) {
+        run_tests(...params).then(_ => {
+            invocation.return_value(null);
+        }).catch(e => {
+            if (e instanceof GLib.Error) {
+                invocation.return_gerror(e);
+            } else {
+                let name = e.name;
+                if (!name.includes('.')) {
+                    // likely to be a normal JS error
+                    name = `org.gnome.gjs.JSError.${name}`;
+                }
+                logError(e, `Exception in method call: ${invocation.get_method_name()}`);
+                invocation.return_dbus_error(name, `${e}\n\n${e.stack}`);
+            }
+        });
+    }
 }
 
-const DBUS_INTERFACE = new ExtensionDBusInterface().dbus;
+const DBUS_INTERFACE = new ExtensionDBusInterface();
 
 class WaylandClientStub {
     constructor(subprocess_launcher) {
@@ -165,11 +183,11 @@ function enable() {
 
     setup_update_height_setting_on_grab_end();
 
-    DBUS_INTERFACE.export(Gio.DBus.session, '/org/gnome/Shell/Extensions/ddterm');
+    DBUS_INTERFACE.dbus.export(Gio.DBus.session, '/org/gnome/Shell/Extensions/ddterm');
 }
 
 function disable() {
-    DBUS_INTERFACE.unexport();
+    DBUS_INTERFACE.dbus.unexport();
 
     if (Main.sessionMode.allowExtensions) {
         // Stop the app only if the extension isn't being disabled because of
@@ -455,14 +473,18 @@ function workarea_for_window(win) {
     return workarea_for_monitor(global.display.get_monitor_index_for_rect(win.get_frame_rect()));
 }
 
-function target_rect_for_workarea(workarea, monitor_scale) {
+function target_rect_for_workarea_size(workarea, monitor_scale, size) {
     const target_rect = workarea.copy();
-    target_rect.height *= settings.get_double('window-height');
+    target_rect.height *= size;
 
     target_rect.width -= target_rect.width % monitor_scale;
     target_rect.height -= target_rect.height % monitor_scale;
 
     return target_rect;
+}
+
+function target_rect_for_workarea(workarea, monitor_scale) {
+    return target_rect_for_workarea_size(workarea, monitor_scale, settings.get_double('window-height'));
 }
 
 function handle_maximized_vertically(win) {
@@ -581,5 +603,217 @@ function stop_dbus_watch() {
     if (bus_watch_id) {
         Gio.bus_unwatch_name(bus_watch_id);
         bus_watch_id = null;
+    }
+}
+
+function async_sleep(ms) {
+    return new Promise(resolve => GLib.timeout_add(GLib.PRIORITY_DEFAULT, ms, () => {
+        resolve();
+        return GLib.SOURCE_REMOVE;
+    }));
+}
+
+async function hide_window_async_wait() {
+    if (!current_window)
+        return;
+
+    toggle();
+
+    while (current_window) {
+        // eslint-disable-next-line no-await-in-loop
+        await async_sleep(100);
+    }
+}
+
+async function async_wait_current_window() {
+    while (!current_window) {
+        // eslint-disable-next-line no-await-in-loop
+        await async_sleep(100);
+    }
+}
+
+const JsUnit = imports.jsUnit;
+
+function assert_rect_equals(expected, actual) {
+    JsUnit.assertEquals(expected.x, actual.x);
+    JsUnit.assertEquals(expected.y, actual.y);
+    JsUnit.assertEquals(expected.width, actual.width);
+    JsUnit.assertEquals(expected.height, actual.height);
+}
+
+function verify_window_geometry(window_height, window_maximize) {
+    const monitor_index = Main.layoutManager.currentMonitor.index;
+    const { workarea, monitor_scale } = workarea_for_monitor(monitor_index);
+    const frame_rect = current_window.get_frame_rect();
+
+    JsUnit.assertEquals(window_maximize, current_window.maximized_vertically);
+
+    if (window_maximize) {
+        assert_rect_equals(workarea, frame_rect);
+    } else {
+        const target_rect = target_rect_for_workarea_size(workarea, monitor_scale, window_height);
+
+        // Window size (at least, on Wayland) should be an integer number of
+        // logical pixels
+        JsUnit.assertEquals(0, frame_rect.width % monitor_scale);
+        JsUnit.assertEquals(0, frame_rect.height % monitor_scale);
+
+        assert_rect_equals(target_rect, frame_rect);
+    }
+}
+
+async function test_show(window_height, window_maximize) {
+    await hide_window_async_wait();
+
+    settings.set_double('window-height', window_height);
+    settings.set_boolean('window-maximize', window_maximize);
+
+    await async_sleep(200);
+
+    toggle();
+
+    await async_wait_current_window();
+    await async_sleep(200);
+
+    verify_window_geometry(window_height, window_maximize || window_height === 1.0);
+}
+
+async function test_maximize_unmaximize(window_height, initial_window_maximize) {
+    await hide_window_async_wait();
+
+    settings.set_double('window-height', window_height);
+    settings.set_boolean('window-maximize', initial_window_maximize);
+
+    await async_sleep(200);
+
+    toggle();
+
+    await async_wait_current_window();
+    await async_sleep(200);
+
+    verify_window_geometry(window_height, initial_window_maximize || window_height === 1.0);
+
+    settings.set_boolean('window-maximize', true);
+    await async_sleep(200);
+    verify_window_geometry(window_height, true);
+
+    settings.set_boolean('window-maximize', false);
+    await async_sleep(200);
+    verify_window_geometry(window_height, window_height === 1.0);
+}
+
+async function test_begin_resize(window_height, window_maximize) {
+    await hide_window_async_wait();
+
+    settings.set_double('window-height', window_height);
+    settings.set_boolean('window-maximize', window_maximize);
+
+    await async_sleep(200);
+
+    toggle();
+
+    await async_wait_current_window();
+    await async_sleep(200);
+
+    verify_window_geometry(window_height, window_maximize || window_height === 1.0);
+
+    DBUS_INTERFACE.BeginResize();
+
+    await async_sleep(200);
+    verify_window_geometry(window_maximize ? 1.0 : window_height, false);
+}
+
+async function test_unmaximize_correct_height(window_height, window_height2) {
+    await hide_window_async_wait();
+
+    settings.set_double('window-height', window_height);
+    settings.set_boolean('window-maximize', false);
+
+    await async_sleep(200);
+
+    toggle();
+
+    await async_wait_current_window();
+    await async_sleep(200);
+
+    verify_window_geometry(window_height, window_height === 1.0);
+
+    settings.set_double('window-height', window_height2);
+    await async_sleep(200);
+    verify_window_geometry(window_height2, window_height === 1.0 && window_height2 === 1.0);
+
+    settings.set_boolean('window-maximize', true);
+    await async_sleep(200);
+    verify_window_geometry(window_height2, true);
+
+    settings.set_boolean('window-maximize', false);
+    await async_sleep(200);
+    verify_window_geometry(window_height2, window_height2 === 1.0);
+}
+
+async function test_unmaximize_on_height_change(window_height, window_height2) {
+    await hide_window_async_wait();
+
+    settings.set_double('window-height', window_height);
+    settings.set_boolean('window-maximize', true);
+
+    await async_sleep(200);
+
+    toggle();
+
+    await async_wait_current_window();
+    await async_sleep(200);
+
+    verify_window_geometry(window_height, true);
+
+    settings.set_double('window-height', window_height2);
+    await async_sleep(200);
+    // When window_height2 === window_height, some GLib/GNOME versions do
+    // trigger a change notification, and some don't (and then the window
+    // doesn't get unmaximized)
+    verify_window_geometry(window_height2, window_height2 === 1.0 || (window_height2 === window_height && current_window.maximized_vertically));
+}
+
+async function run_tests() {
+    const BOOL_VALUES = [true, false];
+    const HEIGHT_VALUES = [0.3, 0.5, 0.7, 0.8, 0.9, 1.0];
+    const tests = [];
+
+    const add_test = (func, ...args) => tests.push({ func, args });
+
+    for (let window_maximize of BOOL_VALUES) {
+        for (let window_height of HEIGHT_VALUES)
+            add_test(test_show, window_height, window_maximize);
+    }
+
+    for (let window_maximize of BOOL_VALUES) {
+        for (let window_height of HEIGHT_VALUES)
+            add_test(test_maximize_unmaximize, window_height, window_maximize);
+    }
+
+    for (let window_maximize of BOOL_VALUES) {
+        for (let window_height of HEIGHT_VALUES)
+            add_test(test_begin_resize, window_height, window_maximize);
+    }
+
+    for (let window_height of HEIGHT_VALUES) {
+        for (let window_height2 of HEIGHT_VALUES)
+            add_test(test_unmaximize_correct_height, window_height, window_height2);
+    }
+
+    for (let window_height of HEIGHT_VALUES) {
+        for (let window_height2 of HEIGHT_VALUES)
+            add_test(test_unmaximize_on_height_change, window_height, window_height2);
+    }
+
+    for (let test of tests) {
+        const name = JsUnit.getFunctionName(test.func);
+        try {
+            // eslint-disable-next-line no-await-in-loop
+            await test.func(...test.args);
+        } catch (e) {
+            e.message += `\n${name}(${JSON.stringify(test.args)})`;
+            throw e;
+        }
     }
 }

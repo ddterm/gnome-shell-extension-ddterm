@@ -6,5 +6,6 @@
         <method name="BeginResize"/>
         <method name="Toggle"/>
         <method name="Activate"/>
+        <method name="RunTest"/>
     </interface>
 </node>

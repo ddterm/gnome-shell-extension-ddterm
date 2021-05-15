@@ -22,3 +22,30 @@ jobs:
       with:
         files: "*.shell-extension.zip"
         draft: true
+  test:
+    runs-on: ubuntu-20.04
+    needs:
+      - pack
+    strategy:
+      fail-fast: false
+      matrix:
+        fedora-version:
+          - '32'
+          - '33'
+          - '34'
+        backend:
+          - 'xsession'
+          - 'wayland-nested'
+    steps:
+    - run: sudo apt-get install -y imagemagick
+    - uses: actions/checkout@v2
+    - uses: actions/download-artifact@v2
+      with:
+        name: shell-extension
+    - run: sudo podman pull ghcr.io/amezin/gnome-shell-pod-${{ matrix.fedora-version }}-${{ matrix.backend }}:master
+    - run: sudo ./run_test_podman.sh ghcr.io/amezin/gnome-shell-pod-${{ matrix.fedora-version }}-${{ matrix.backend }}:master
+    - uses: actions/upload-artifact@v2
+      with:
+        name: screenshot-${{ matrix.fedora-version }}-${{ matrix.backend }}
+        path: "Xvfb_screen*.png"
+      if: always()
