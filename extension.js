@@ -44,8 +44,13 @@ class ExtensionDBusInterface {
         // necessary.
         settings.set_double('window-height', 1.0);
         current_window.unmaximize(Meta.MaximizeFlags.VERTICAL);
+
+        const { workarea } = workarea_for_window(current_window);
+        if (!workarea)
+            return;
+
         // On Wayland, the window still unmaximizes to a smaller size without this line
-        move_resize_window(current_window, workarea_for_window(current_window));
+        move_resize_window(current_window, workarea);
     }
 
     Toggle() {
@@ -400,8 +405,9 @@ function set_current_window(win) {
     setup_hide_when_focus_lost();
     setup_animation_overrides();
 
-    const workarea = Main.layoutManager.getWorkAreaForMonitor(Main.layoutManager.currentMonitor.index);
-    const target_rect = target_rect_for_workarea(workarea);
+    const monitor_index = Main.layoutManager.currentMonitor.index;
+    const workarea = Main.layoutManager.getWorkAreaForMonitor(monitor_index);
+    const target_rect = target_rect_for_workarea(workarea, monitor_index);
 
     move_resize_window(win, target_rect);
 
@@ -419,16 +425,24 @@ function set_current_window(win) {
 
 function workarea_for_window(win) {
     // Can't use window.monitor here - it's out of sync
-    const monitor = global.display.get_monitor_index_for_rect(win.get_frame_rect());
-    if (monitor < 0)
-        return null;
+    const monitor_index = global.display.get_monitor_index_for_rect(win.get_frame_rect());
+    if (monitor_index < 0)
+        return { monitor_index, workarea: null };
 
-    return Main.layoutManager.getWorkAreaForMonitor(monitor);
+    return {
+        monitor_index,
+        workarea: Main.layoutManager.getWorkAreaForMonitor(monitor_index),
+    };
 }
 
-function target_rect_for_workarea(workarea) {
+function target_rect_for_workarea(workarea, monitor_index) {
     const target_rect = workarea.copy();
     target_rect.height *= settings.get_double('window-height');
+
+    const monitor_scale = global.display.get_monitor_scale(monitor_index);
+    target_rect.width -= target_rect.width % monitor_scale;
+    target_rect.height -= target_rect.height % monitor_scale;
+
     return target_rect;
 }
 
@@ -447,8 +461,11 @@ function handle_maximized_vertically(win) {
 }
 
 function unmaximize_window_if_not_full_height(win) {
-    const workarea = workarea_for_window(current_window);
-    const target_rect = target_rect_for_workarea(workarea);
+    const { workarea, monitor_index } = workarea_for_window(current_window);
+    if (!workarea)
+        return;
+
+    const target_rect = target_rect_for_workarea(workarea, monitor_index);
 
     if (target_rect.height < workarea.height)
         win.unmaximize(Meta.MaximizeFlags.VERTICAL);
@@ -481,11 +498,11 @@ function update_window_geometry() {
     if (!current_window)
         return;
 
-    const workarea = workarea_for_window(current_window);
+    const { workarea, monitor_index } = workarea_for_window(current_window);
     if (!workarea)
         return;
 
-    const target_rect = target_rect_for_workarea(workarea);
+    const target_rect = target_rect_for_workarea(workarea, monitor_index);
     if (target_rect.equal(current_window.get_frame_rect()))
         return;
 
@@ -505,7 +522,10 @@ function update_height_setting_on_grab_end(display, p0, p1) {
     if (win !== current_window || win.maximized_vertically)
         return;
 
-    const workarea = workarea_for_window(win);
+    const { workarea } = workarea_for_window(win);
+    if (!workarea)
+        return;
+
     const current_height = win.get_frame_rect().height / workarea.height;
     settings.set_double('window-height', Math.min(1.0, current_height));
 }
