@@ -72,6 +72,50 @@
     <value nick="combo" value="12"/>
   </enum>
 
+  <enum id="com.github.amezin.ddterm.AnimationMode">
+    <value nick="linear" value="1"/>
+
+    <value nick="ease-in-quad" value="2"/>
+    <value nick="ease-out-quad" value="3"/>
+    <value nick="ease-in-out-quad" value="4"/>
+
+    <value nick="ease-in-cubic" value="5"/>
+    <value nick="ease-out-cubic" value="6"/>
+    <value nick="ease-in-out-cubic" value="7"/>
+
+    <value nick="ease-in-quart" value="8"/>
+    <value nick="ease-out-quart" value="9"/>
+    <value nick="ease-in-out-quart" value="10"/>
+
+    <value nick="ease-in-quint" value="11"/>
+    <value nick="ease-out-quint" value="12"/>
+    <value nick="ease-in-out-quint" value="13"/>
+
+    <value nick="ease-in-sine" value="14"/>
+    <value nick="ease-out-sine" value="15"/>
+    <value nick="ease-in-out-sine" value="16"/>
+
+    <value nick="ease-in-expo" value="17"/>
+    <value nick="ease-out-expo" value="18"/>
+    <value nick="ease-in-out-expo" value="19"/>
+
+    <value nick="ease-in-circ" value="20"/>
+    <value nick="ease-out-circ" value="21"/>
+    <value nick="ease-in-out-circ" value="22"/>
+
+    <value nick="ease-in-elastic" value="23"/>
+    <value nick="ease-out-elastic" value="24"/>
+    <value nick="ease-in-out-elastic" value="25"/>
+
+    <value nick="ease-in-back" value="26"/>
+    <value nick="ease-out-back" value="27"/>
+    <value nick="ease-in-out-back" value="28"/>
+
+    <value nick="ease-in-bounce" value="29"/>
+    <value nick="ease-out-bounce" value="30"/>
+    <value nick="ease-in-out-bounce" value="31"/>
+  </enum>
+
   <schema path="/com/github/amezin/ddterm/" id="com.github.amezin.ddterm">
     <key name="window-height" type="d">
       <default>0.6</default>
@@ -108,8 +152,15 @@
     <key name="window-resizable" type="b">
       <default>true</default>
     </key>
+
     <key name="override-window-animation" type="b">
       <default>true</default>
+    </key>
+    <key name="show-animation" enum="com.github.amezin.ddterm.AnimationMode">
+      <default>'linear'</default>
+    </key>
+    <key name="hide-animation" enum="com.github.amezin.ddterm.AnimationMode">
+      <default>'linear'</default>
     </key>
 
     <key name="tab-policy" enum="com.github.amezin.ddterm.TabsbarPolicy">

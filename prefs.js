@@ -84,6 +84,8 @@ function createPrefsWidgetClass(resource_path, util) {
                 'window_height_adjustment',
                 'window_height_scale',
                 'shortcuts_treeview',
+                'show_animation_combo',
+                'hide_animation_combo',
             ].concat(palette_widgets()),
             Properties: {
                 'settings': GObject.ParamSpec.object('settings', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, Gio.Settings),
@@ -134,7 +136,12 @@ function createPrefsWidgetClass(resource_path, util) {
                 );
 
                 this.settings_bind('theme-variant', this.theme_variant_combo, 'active-id');
+                this.settings_bind('show-animation', this.show_animation_combo, 'active-id');
+                this.bind_sensitive('override-window-animation', this.show_animation_combo.parent);
+                this.settings_bind('hide-animation', this.hide_animation_combo, 'active-id');
+                this.bind_sensitive('override-window-animation', this.hide_animation_combo.parent);
                 this.settings_bind('window-type-hint', this.window_type_hint_combo, 'active-id');
+
                 this.settings_bind('tab-policy', this.tab_policy_combo, 'active-id');
                 this.settings_bind('tab-position', this.tab_position_combo, 'active-id');
                 this.settings_bind('tab-title-template', this.tab_title_template_buffer, 'text');

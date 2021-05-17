@@ -2,6 +2,140 @@
 <!-- Generated with glade 3.38.2 -->
 <interface>
   <requires lib="gtk+" version="3.22"/>
+  <object class="GtkListStore" id="animation_mode_list">
+    <columns>
+      <!-- column-name name -->
+      <column type="gchararray"/>
+      <!-- column-name id -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">Linear tweening</col>
+        <col id="1">linear</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Quadratic tweening</col>
+        <col id="1">ease-in-quad</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Quadratic tweening, inverse</col>
+        <col id="1">ease-out-quad</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Quadratic tweening, combining direct and inverse</col>
+        <col id="1">ease-in-out-quad</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Cubic tweening</col>
+        <col id="1">ease-in-cubic</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Cubic tweening, inverse</col>
+        <col id="1">ease-out-cubic</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Cubic tweening, combining direct and inverse</col>
+        <col id="1">ease-in-out-cubic</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Quartic tweening</col>
+        <col id="1">ease-in-quart</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Quartic tweening, inverse</col>
+        <col id="1">ease-out-quart</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Quartic tweening, combining direct and inverse</col>
+        <col id="1">ease-in-out-quart</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Quintic tweening</col>
+        <col id="1">ease-in-quint</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Quintic tweening, inverse</col>
+        <col id="1">ease-out-quint</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Quintic tweening, combining direct and inverse</col>
+        <col id="1">ease-in-out-quint</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Sinusoidal tweening</col>
+        <col id="1">ease-in-sine</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Sinusoidal tweening, inverse</col>
+        <col id="1">ease-out-sine</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Sinusoidal tweening, combining direct and inverse</col>
+        <col id="1">ease-in-out-sine</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Exponential tweening</col>
+        <col id="1">ease-in-expo</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Exponential tweening, inverse</col>
+        <col id="1">ease-out-expo</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Exponential tweening, combining direct and inverse</col>
+        <col id="1">ease-in-out-expo</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Circular tweening</col>
+        <col id="1">ease-in-circ</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Circular tweening, inverse</col>
+        <col id="1">ease-out-circ</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Circular tweening, combining direct and inverse</col>
+        <col id="1">ease-in-out-circ</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Elastic tweening, with offshoot on start</col>
+        <col id="1">ease-in-elastic</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Elastic tweening, with offshoot on end</col>
+        <col id="1">ease-out-elastic</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Elastic tweening with offshoot on both ends</col>
+        <col id="1">ease-in-out-elastic</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Overshooting cubic tweening, with backtracking on start</col>
+        <col id="1">ease-in-back</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Overshooting cubic tweening, with backtracking on end</col>
+        <col id="1">ease-out-back</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Overshooting cubic tweening, with backtracking on both ends</col>
+        <col id="1">ease-in-out-back</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Exponentially decaying parabolic (bounce) tweening, with bounce on start</col>
+        <col id="1">ease-in-bounce</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Exponentially decaying parabolic (bounce) tweening, with bounce on end</col>
+        <col id="1">ease-out-bounce</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Exponentially decaying parabolic (bounce) tweening, with bounce on both ends</col>
+        <col id="1">ease-in-out-bounce</col>
+      </row>
+    </data>
+  </object>
   <object class="GtkListStore" id="color_scheme_list">
     <columns>
       <!-- column-name name -->
@@ -520,7 +654,7 @@
         <property name="visible">True</property>
         <property name="can-focus">True</property>
         <child>
-          <!-- n-columns=2 n-rows=13 -->
+          <!-- n-columns=2 n-rows=15 -->
           <object class="GtkGrid">
             <property name="visible">True</property>
             <property name="can-focus">True</property>
@@ -680,7 +814,7 @@
               </object>
               <packing>
                 <property name="left-attach">0</property>
-                <property name="top-attach">10</property>
+                <property name="top-attach">12</property>
                 <property name="width">2</property>
               </packing>
             </child>
@@ -697,7 +831,7 @@ You'll have to close all tabs for this option to take effect.</property>
               </object>
               <packing>
                 <property name="left-attach">0</property>
-                <property name="top-attach">11</property>
+                <property name="top-attach">13</property>
                 <property name="width">2</property>
               </packing>
             </child>
@@ -712,7 +846,7 @@ You'll have to close all tabs for this option to take effect.</property>
               </object>
               <packing>
                 <property name="left-attach">0</property>
-                <property name="top-attach">12</property>
+                <property name="top-attach">14</property>
               </packing>
             </child>
             <child>
@@ -736,7 +870,7 @@ You'll have to close all tabs for this option to take effect.</property>
               </object>
               <packing>
                 <property name="left-attach">1</property>
-                <property name="top-attach">12</property>
+                <property name="top-attach">14</property>
               </packing>
             </child>
             <child>
@@ -796,6 +930,90 @@ You'll have to close all tabs for this option to take effect.</property>
                 <property name="left-attach">0</property>
                 <property name="top-attach">9</property>
                 <property name="width">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="halign">start</property>
+                <property name="label" translatable="yes">Show animation:</property>
+              </object>
+              <packing>
+                <property name="left-attach">0</property>
+                <property name="top-attach">10</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="halign">start</property>
+                <property name="label" translatable="yes">Hide animation:</property>
+              </object>
+              <packing>
+                <property name="left-attach">0</property>
+                <property name="top-attach">11</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkBox">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="orientation">vertical</property>
+                <child>
+                  <object class="GtkComboBox" id="show_animation_combo">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="model">animation_mode_list</property>
+                    <property name="id-column">1</property>
+                    <child>
+                      <object class="GtkCellRendererText"/>
+                      <attributes>
+                        <attribute name="text">0</attribute>
+                      </attributes>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="left-attach">1</property>
+                <property name="top-attach">10</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkBox">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="orientation">vertical</property>
+                <child>
+                  <object class="GtkComboBox" id="hide_animation_combo">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="model">animation_mode_list</property>
+                    <property name="id-column">1</property>
+                    <child>
+                      <object class="GtkCellRendererText"/>
+                      <attributes>
+                        <attribute name="text">0</attribute>
+                      </attributes>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="left-attach">1</property>
+                <property name="top-attach">11</property>
               </packing>
             </child>
           </object>

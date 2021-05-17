@@ -2,7 +2,7 @@
 
 /* exported init enable disable */
 
-const { Gio, Clutter, Meta, Shell } = imports.gi;
+const { Gio, Meta, Shell } = imports.gi;
 const ByteArray = imports.byteArray;
 const Main = imports.ui.main;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
@@ -295,7 +295,7 @@ function override_map_animation(wm, actor) {
     actor.ease({
         scale_y: 1.0,
         duration: WindowManager.SHOW_WINDOW_ANIMATION_TIME,
-        mode: Clutter.AnimationMode.LINEAR,
+        mode: settings.get_enum('show-animation'),
     });
 }
 
@@ -309,7 +309,7 @@ function override_unmap_animation(wm, actor) {
         scale_x: 1.0,  // override default scale-x animation
         scale_y: 0.0,
         duration: WindowManager.DESTROY_WINDOW_ANIMATION_TIME,
-        mode: Clutter.AnimationMode.LINEAR,
+        mode: settings.get_enum('hide-animation'),
     });
 }
 
