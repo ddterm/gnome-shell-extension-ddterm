@@ -1,6 +1,6 @@
 'use strict';
 
-/* exported parse_rgba UtilMixin APP_DATA_DIR */
+/* exported parse_rgba UtilMixin APP_DATA_DIR enum_from_settings */
 
 const { GObject, Gio, Gdk } = imports.gi;
 
@@ -16,6 +16,10 @@ function parse_rgba(s) {
         return v;
 
     return null;
+}
+
+function enum_from_settings(nick, enum_class) {
+    return enum_class[nick.replace(/-/g, '_').toUpperCase()];
 }
 
 // Signal connections and settings bindings, with lifetime bound to lifetime of 'this'

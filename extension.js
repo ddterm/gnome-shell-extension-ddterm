@@ -2,11 +2,12 @@
 
 /* exported init enable disable */
 
-const { Gio, Meta, Shell } = imports.gi;
+const { Gio, Clutter, Meta, Shell } = imports.gi;
 const ByteArray = imports.byteArray;
 const Main = imports.ui.main;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const WindowManager = imports.ui.windowManager;
+const { util } = Me.imports;
 
 let settings = null;
 
@@ -17,6 +18,9 @@ let dbus_action_group = null;
 
 let wayland_client = null;
 let subprocess = null;
+
+let show_animation = Clutter.AnimationMode.LINEAR;
+let hide_animation = Clutter.AnimationMode.LINEAR;
 
 const APP_ID = 'com.github.amezin.ddterm';
 const APP_DBUS_PATH = '/com/github/amezin/ddterm';
@@ -154,8 +158,12 @@ function enable() {
     extension_connections.connect(settings, 'changed::window-skip-taskbar', set_skip_taskbar);
     extension_connections.connect(settings, 'changed::window-maximize', set_window_maximized);
     extension_connections.connect(settings, 'changed::override-window-animation', setup_animation_overrides);
+    extension_connections.connect(settings, 'changed::show-animation', update_show_animation);
+    extension_connections.connect(settings, 'changed::hide-animation', update_hide_animation);
     extension_connections.connect(settings, 'changed::hide-when-focus-lost', setup_hide_when_focus_lost);
 
+    update_show_animation();
+    update_hide_animation();
     setup_animation_overrides();
     setup_hide_when_focus_lost();
 
@@ -299,6 +307,14 @@ function setup_animation_overrides() {
     animation_overrides_connections.connect(global.window_manager, 'destroy', override_unmap_animation);
 }
 
+function update_show_animation() {
+    show_animation = util.enum_from_settings(settings.get_string('show-animation'), Clutter.AnimationMode);
+}
+
+function update_hide_animation() {
+    hide_animation = util.enum_from_settings(settings.get_string('hide-animation'), Clutter.AnimationMode);
+}
+
 function override_map_animation(wm, actor) {
     if (!check_current_window() || actor !== current_window.get_compositor_private())
         return;
@@ -310,7 +326,7 @@ function override_map_animation(wm, actor) {
     actor.ease({
         scale_y: 1.0,
         duration: WindowManager.SHOW_WINDOW_ANIMATION_TIME,
-        mode: settings.get_enum('show-animation'),
+        mode: show_animation,
     });
 }
 
@@ -324,7 +340,7 @@ function override_unmap_animation(wm, actor) {
         scale_x: 1.0,  // override default scale-x animation
         scale_y: 0.0,
         duration: WindowManager.DESTROY_WINDOW_ANIMATION_TIME,
-        mode: settings.get_enum('hide-animation'),
+        mode: hide_animation,
     });
 }
 
