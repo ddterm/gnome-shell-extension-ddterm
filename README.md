@@ -2,7 +2,7 @@
 
 [<img src="docs/get-it-on-ego.svg?sanitize=true" alt="Get it on GNOME Extensions" height="100" align="middle">][extensions.gnome.org]
 
-<img src="docs/screenshot.png" />
+<img src="docs/dropdown.gif" />
 
 Inspired by
 
