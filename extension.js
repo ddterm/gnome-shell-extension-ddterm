@@ -283,10 +283,20 @@ function check_current_window(match = null) {
 function setup_animation_overrides() {
     animation_overrides_connections.disconnect();
 
-    if (current_window && settings.get_boolean('override-window-animation')) {
-        animation_overrides_connections.connect(global.window_manager, 'map', override_map_animation);
-        animation_overrides_connections.connect(global.window_manager, 'destroy', override_unmap_animation);
-    }
+    if (!current_window)
+        return;
+
+    // Dialogs have different animation time. Other windows have no default animation.
+    // Our custom animation time must match shell's default animation, otherwise
+    // completed_map()/completed_destroy() will be called at wrong time.
+    if (current_window.window_type !== Meta.WindowType.NORMAL)
+        return;
+
+    if (!settings.get_boolean('override-window-animation'))
+        return;
+
+    animation_overrides_connections.connect(global.window_manager, 'map', override_map_animation);
+    animation_overrides_connections.connect(global.window_manager, 'destroy', override_unmap_animation);
 }
 
 function override_map_animation(wm, actor) {
@@ -400,6 +410,7 @@ function set_current_window(win) {
 
     current_window_connections.connect(win, 'unmanaged', release_window);
     current_window_connections.connect(win, 'notify::maximized-vertically', handle_maximized_vertically);
+    current_window_connections.connect(win, 'notify::window-type', setup_animation_overrides);
 
     setup_update_height_setting_on_grab_end();
     setup_hide_when_focus_lost();
