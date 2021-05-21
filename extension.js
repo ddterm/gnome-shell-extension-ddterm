@@ -37,6 +37,8 @@ class ExtensionDBusInterface {
     }
 
     BeginResize() {
+        unmaximize_fixup_connections.disconnect();
+
         if (!current_window || !current_window.maximized_vertically)
             return;
 
@@ -48,13 +50,6 @@ class ExtensionDBusInterface {
         // necessary.
         settings.set_double('window-height', 1.0);
         current_window.unmaximize(Meta.MaximizeFlags.VERTICAL);
-
-        const { workarea } = workarea_for_window(current_window);
-        if (!workarea)
-            return;
-
-        // On Wayland, the window still unmaximizes to a smaller size without this line
-        move_resize_window(current_window, workarea);
     }
 
     Toggle() {
@@ -118,6 +113,7 @@ const current_window_connections = new ConnectionSet();
 const animation_overrides_connections = new ConnectionSet();
 const hide_when_focus_lost_connections = new ConnectionSet();
 const update_height_setting_on_grab_end_connections = new ConnectionSet();
+const unmaximize_fixup_connections = new ConnectionSet();
 
 function init() {
 }
@@ -445,7 +441,6 @@ function set_current_window(win) {
 
     // https://github.com/amezin/gnome-shell-extension-ddterm/issues/28
     current_window_connections.connect(win, 'shown', update_window_geometry);
-    current_window_connections.connect(win, 'position-changed', update_window_geometry);
 
     Main.activateWindow(win);
 
@@ -471,12 +466,18 @@ function target_rect_for_workarea(workarea, monitor_scale) {
 }
 
 function handle_maximized_vertically(win) {
+    unmaximize_fixup_connections.disconnect();
+
     if (!check_current_window(win))
         return;
 
     if (!win.maximized_vertically) {
         settings.set_boolean('window-maximize', false);
         update_window_geometry();
+
+        unmaximize_fixup_connections.connect(win, 'position-changed', update_window_geometry);
+        unmaximize_fixup_connections.connect(win, 'size-changed', update_window_geometry);
+
         return;
     }
 
@@ -519,6 +520,8 @@ function disable_window_maximize_setting() {
 }
 
 function update_window_geometry() {
+    unmaximize_fixup_connections.disconnect();
+
     if (!current_window)
         return;
 
@@ -566,6 +569,7 @@ function release_window(win) {
         return;
 
     current_window_connections.disconnect();
+    unmaximize_fixup_connections.disconnect();
     current_window = null;
 
     update_height_setting_on_grab_end_connections.disconnect();
