@@ -412,6 +412,12 @@ function set_skip_taskbar() {
         wayland_client.show_in_window_list(current_window);
 }
 
+function workarea_for_monitor(monitor_index) {
+    const monitor_scale = monitor_index < 0 ? 1 : global.display.get_monitor_scale(monitor_index);
+    const workarea = monitor_index < 0 ? null : Main.layoutManager.getWorkAreaForMonitor(monitor_index);
+    return { monitor_scale, workarea };
+}
+
 function set_current_window(win) {
     if (!is_ddterm_window(win)) {
         release_window(win);
@@ -432,9 +438,8 @@ function set_current_window(win) {
     setup_hide_when_focus_lost();
     setup_animation_overrides();
 
-    const monitor_index = Main.layoutManager.currentMonitor.index;
-    const workarea = Main.layoutManager.getWorkAreaForMonitor(monitor_index);
-    const target_rect = target_rect_for_workarea(workarea, monitor_index);
+    const { workarea, monitor_scale } = workarea_for_monitor(Main.layoutManager.currentMonitor.index);
+    const target_rect = target_rect_for_workarea(workarea, monitor_scale);
 
     move_resize_window(win, target_rect);
 
@@ -452,21 +457,13 @@ function set_current_window(win) {
 
 function workarea_for_window(win) {
     // Can't use window.monitor here - it's out of sync
-    const monitor_index = global.display.get_monitor_index_for_rect(win.get_frame_rect());
-    if (monitor_index < 0)
-        return { monitor_index, workarea: null };
-
-    return {
-        monitor_index,
-        workarea: Main.layoutManager.getWorkAreaForMonitor(monitor_index),
-    };
+    return workarea_for_monitor(global.display.get_monitor_index_for_rect(win.get_frame_rect()));
 }
 
-function target_rect_for_workarea(workarea, monitor_index) {
+function target_rect_for_workarea(workarea, monitor_scale) {
     const target_rect = workarea.copy();
     target_rect.height *= settings.get_double('window-height');
 
-    const monitor_scale = global.display.get_monitor_scale(monitor_index);
     target_rect.width -= target_rect.width % monitor_scale;
     target_rect.height -= target_rect.height % monitor_scale;
 
@@ -488,11 +485,11 @@ function handle_maximized_vertically(win) {
 }
 
 function unmaximize_window_if_not_full_height(win) {
-    const { workarea, monitor_index } = workarea_for_window(current_window);
+    const { workarea, monitor_scale } = workarea_for_window(current_window);
     if (!workarea)
         return;
 
-    const target_rect = target_rect_for_workarea(workarea, monitor_index);
+    const target_rect = target_rect_for_workarea(workarea, monitor_scale);
 
     if (target_rect.height < workarea.height)
         win.unmaximize(Meta.MaximizeFlags.VERTICAL);
@@ -525,11 +522,11 @@ function update_window_geometry() {
     if (!current_window)
         return;
 
-    const { workarea, monitor_index } = workarea_for_window(current_window);
+    const { workarea, monitor_scale } = workarea_for_window(current_window);
     if (!workarea)
         return;
 
-    const target_rect = target_rect_for_workarea(workarea, monitor_index);
+    const target_rect = target_rect_for_workarea(workarea, monitor_scale);
     if (target_rect.equal(current_window.get_frame_rect()))
         return;
 
