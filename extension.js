@@ -43,13 +43,18 @@ class ExtensionDBusInterface {
             return;
 
         Main.wm.skipNextEffect(current_window.get_compositor_private());
+
         // There is a update_window_geometry() call after successful unmaximize.
         // It must set window size to 100%.
-        // Changing window-height should also unmaximize, but sometimes it
-        // doesn't if window-height is already 1.0, so another unmaximize() is
-        // necessary.
         settings.set_double('window-height', 1.0);
-        current_window.unmaximize(Meta.MaximizeFlags.VERTICAL);
+
+        // Changing window-height should unmaximize, but sometimes it doesn't
+        // if window-height is already 1.0. So another unmaximize() is
+        // necessary. .unmaximize() emits notify::maximized-vertically even
+        // if the window wasn't maximized, so check if it's still maximized
+        // first
+        if (current_window.maximized_vertically)
+            current_window.unmaximize(Meta.MaximizeFlags.VERTICAL);
     }
 
     Toggle() {
