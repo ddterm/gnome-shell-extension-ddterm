@@ -552,6 +552,9 @@ function update_window_geometry() {
     if (!current_window)
         return;
 
+    if (settings.get_boolean('window-maximize'))
+        return;
+
     const { workarea, monitor_scale } = workarea_for_window(current_window);
     if (!workarea)
         return;
@@ -560,10 +563,11 @@ function update_window_geometry() {
     if (target_rect.equal(current_window.get_frame_rect()))
         return;
 
-    const should_maximize = settings.get_boolean('window-maximize');
-    if (current_window.maximized_vertically && target_rect.height < workarea.height && !should_maximize) {
-        Main.wm.skipNextEffect(current_window.get_compositor_private());
-        current_window.unmaximize(Meta.MaximizeFlags.VERTICAL);
+    if (current_window.maximized_vertically) {
+        if (target_rect.height < workarea.height) {
+            Main.wm.skipNextEffect(current_window.get_compositor_private());
+            current_window.unmaximize(Meta.MaximizeFlags.VERTICAL);
+        }
     } else {
         move_resize_window(current_window, target_rect);
     }
