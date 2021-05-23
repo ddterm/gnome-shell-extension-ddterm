@@ -44,6 +44,36 @@ async function async_wait_current_window() {
     }
 }
 
+function connect_once(object, signal, callback) {
+    const handler_id = object.connect(signal, (...params) => {
+        object.disconnect(handler_id);
+        callback(...params);
+    });
+    return handler_id;
+}
+
+function async_wait_signal(object, signal) {
+    return new Promise(resolve => connect_once(object, signal, resolve));
+}
+
+function set_settings_double(name, value) {
+    if (settings.get_double(name) === value)
+        return Promise.resolve(settings, name);
+
+    const promise = async_wait_signal(settings, `changed::${name}`);
+    settings.set_double(name, value);
+    return promise;
+}
+
+function set_settings_boolean(name, value) {
+    if (settings.get_boolean(name) === value)
+        return Promise.resolve(settings, name);
+
+    const promise = async_wait_signal(settings, `changed::${name}`);
+    settings.set_boolean(name, value);
+    return promise;
+}
+
 function assert_rect_equals(expected, actual) {
     JsUnit.assertEquals(expected.x, actual.x);
     JsUnit.assertEquals(expected.y, actual.y);
@@ -75,10 +105,8 @@ function verify_window_geometry(window_height, window_maximize) {
 async function test_show(window_height, window_maximize) {
     await hide_window_async_wait();
 
-    settings.set_double('window-height', window_height);
-    settings.set_boolean('window-maximize', window_maximize);
-
-    await async_sleep(200);
+    await set_settings_double('window-height', window_height);
+    await set_settings_boolean('window-maximize', window_maximize);
 
     toggle();
 
@@ -91,10 +119,8 @@ async function test_show(window_height, window_maximize) {
 async function test_maximize_unmaximize(window_height, initial_window_maximize) {
     await hide_window_async_wait();
 
-    settings.set_double('window-height', window_height);
-    settings.set_boolean('window-maximize', initial_window_maximize);
-
-    await async_sleep(200);
+    await set_settings_double('window-height', window_height);
+    await set_settings_boolean('window-maximize', initial_window_maximize);
 
     toggle();
 
@@ -115,10 +141,8 @@ async function test_maximize_unmaximize(window_height, initial_window_maximize) 
 async function test_begin_resize(window_height, window_maximize) {
     await hide_window_async_wait();
 
-    settings.set_double('window-height', window_height);
-    settings.set_boolean('window-maximize', window_maximize);
-
-    await async_sleep(200);
+    await set_settings_double('window-height', window_height);
+    await set_settings_boolean('window-maximize', window_maximize);
 
     toggle();
 
@@ -136,10 +160,8 @@ async function test_begin_resize(window_height, window_maximize) {
 async function test_unmaximize_correct_height(window_height, window_height2) {
     await hide_window_async_wait();
 
-    settings.set_double('window-height', window_height);
-    settings.set_boolean('window-maximize', false);
-
-    await async_sleep(200);
+    await set_settings_double('window-height', window_height);
+    await set_settings_boolean('window-maximize', false);
 
     toggle();
 
@@ -148,15 +170,15 @@ async function test_unmaximize_correct_height(window_height, window_height2) {
 
     verify_window_geometry(window_height, window_height === 1.0);
 
-    settings.set_double('window-height', window_height2);
+    await set_settings_double('window-height', window_height2);
     await async_sleep(200);
     verify_window_geometry(window_height2, window_height === 1.0 && window_height2 === 1.0);
 
-    settings.set_boolean('window-maximize', true);
+    await set_settings_boolean('window-maximize', true);
     await async_sleep(200);
     verify_window_geometry(window_height2, true);
 
-    settings.set_boolean('window-maximize', false);
+    await set_settings_boolean('window-maximize', false);
     await async_sleep(200);
     verify_window_geometry(window_height2, window_height2 === 1.0);
 }
@@ -164,8 +186,8 @@ async function test_unmaximize_correct_height(window_height, window_height2) {
 async function test_unmaximize_on_height_change(window_height, window_height2) {
     await hide_window_async_wait();
 
-    settings.set_double('window-height', window_height);
-    settings.set_boolean('window-maximize', true);
+    await set_settings_double('window-height', window_height);
+    await set_settings_boolean('window-maximize', true);
 
     await async_sleep(200);
 
@@ -176,7 +198,7 @@ async function test_unmaximize_on_height_change(window_height, window_height2) {
 
     verify_window_geometry(window_height, true);
 
-    settings.set_double('window-height', window_height2);
+    await set_settings_double('window-height', window_height2);
     await async_sleep(200);
     // When window_height2 === window_height, some GLib/GNOME versions do
     // trigger a change notification, and some don't (and then the window
