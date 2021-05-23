@@ -18,7 +18,7 @@ let settings = null;
 
 const PERCENT_FORMAT = new Intl.NumberFormat(undefined, { style: 'percent' });
 
-function async_sleep(ms) {
+function async_sleep(ms = 200) {
     return new Promise(resolve => GLib.timeout_add(GLib.PRIORITY_DEFAULT, ms, () => {
         resolve();
         return GLib.SOURCE_REMOVE;
@@ -111,7 +111,7 @@ async function test_show(window_height, window_maximize) {
     toggle();
 
     await async_wait_current_window();
-    await async_sleep(200);
+    await async_sleep();
 
     verify_window_geometry(window_height, window_maximize || window_height === 1.0);
 }
@@ -125,16 +125,16 @@ async function test_maximize_unmaximize(window_height, initial_window_maximize) 
     toggle();
 
     await async_wait_current_window();
-    await async_sleep(200);
+    await async_sleep();
 
     verify_window_geometry(window_height, initial_window_maximize || window_height === 1.0);
 
     settings.set_boolean('window-maximize', true);
-    await async_sleep(200);
+    await async_sleep();
     verify_window_geometry(window_height, true);
 
     settings.set_boolean('window-maximize', false);
-    await async_sleep(200);
+    await async_sleep();
     verify_window_geometry(window_height, window_height === 1.0);
 }
 
@@ -147,13 +147,13 @@ async function test_begin_resize(window_height, window_maximize) {
     toggle();
 
     await async_wait_current_window();
-    await async_sleep(200);
+    await async_sleep();
 
     verify_window_geometry(window_height, window_maximize || window_height === 1.0);
 
     DBUS_INTERFACE.BeginResize();
 
-    await async_sleep(200);
+    await async_sleep();
     verify_window_geometry(window_maximize ? 1.0 : window_height, false);
 }
 
@@ -166,20 +166,20 @@ async function test_unmaximize_correct_height(window_height, window_height2) {
     toggle();
 
     await async_wait_current_window();
-    await async_sleep(200);
+    await async_sleep();
 
     verify_window_geometry(window_height, window_height === 1.0);
 
     await set_settings_double('window-height', window_height2);
-    await async_sleep(200);
+    await async_sleep();
     verify_window_geometry(window_height2, window_height === 1.0 && window_height2 === 1.0);
 
     await set_settings_boolean('window-maximize', true);
-    await async_sleep(200);
+    await async_sleep();
     verify_window_geometry(window_height2, true);
 
     await set_settings_boolean('window-maximize', false);
-    await async_sleep(200);
+    await async_sleep();
     verify_window_geometry(window_height2, window_height2 === 1.0);
 }
 
@@ -189,17 +189,17 @@ async function test_unmaximize_on_height_change(window_height, window_height2) {
     await set_settings_double('window-height', window_height);
     await set_settings_boolean('window-maximize', true);
 
-    await async_sleep(200);
+    await async_sleep();
 
     toggle();
 
     await async_wait_current_window();
-    await async_sleep(200);
+    await async_sleep();
 
     verify_window_geometry(window_height, true);
 
     await set_settings_double('window-height', window_height2);
-    await async_sleep(200);
+    await async_sleep();
     // When window_height2 === window_height, some GLib/GNOME versions do
     // trigger a change notification, and some don't (and then the window
     // doesn't get unmaximized)
