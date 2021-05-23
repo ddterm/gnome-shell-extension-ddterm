@@ -33,14 +33,14 @@ async function hide_window_async_wait() {
 
     while (Extension.current_window) {
         // eslint-disable-next-line no-await-in-loop
-        await async_sleep(100);
+        await async_sleep(50);
     }
 }
 
 async function async_wait_current_window() {
-    while (!Extension.current_window) {
+    while (!Extension.current_window || Extension.current_window.is_hidden()) {
         // eslint-disable-next-line no-await-in-loop
-        await async_sleep(100);
+        await async_sleep(50);
     }
 }
 
