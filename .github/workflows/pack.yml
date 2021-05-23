@@ -46,6 +46,8 @@ jobs:
     - run: sudo ./run_test_podman.sh -i ghcr.io/amezin/gnome-shell-pod-${{ matrix.fedora-version }}-base:master -s ${{ matrix.session }}
     - uses: actions/upload-artifact@v2
       with:
-        name: screenshot-${{ matrix.fedora-version }}-${{ matrix.session }}
-        path: "Xvfb_screen*.png"
+        name: test-${{ matrix.fedora-version }}-${{ matrix.session }}
+        path: |
+          Xvfb_screen*.png
+          journal.txt
       if: always()

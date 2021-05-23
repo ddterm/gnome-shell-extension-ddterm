@@ -40,6 +40,7 @@ POD=$(podman run --rm --cap-add=SYS_NICE --cap-add=IPC_LOCK -td "${IMAGE}")
 
 down () {
     podman kill "${POD}"
+    wait
 }
 
 trap down INT TERM EXIT
@@ -57,6 +58,8 @@ podman exec "${POD}" bash -c "busctl --system --watch-bind=true status >/dev/nul
 podman exec "${POD}" systemctl is-system-running --wait
 do_in_pod bash -c "busctl --user --watch-bind=true status >/dev/null"
 
+do_in_pod journalctl --user -f | tee journal.txt &
+
 do_in_pod systemctl --user start "${SERVICE}@${DISPLAY}"
 do_in_pod wait-dbus-interface.sh -d org.gnome.Shell -o /org/gnome/Shell -i org.gnome.Shell.Extensions -t 10
 do_in_pod gnome-extensions enable "${EXTENSION_UUID}"
@@ -66,10 +69,6 @@ do_in_pod wait-dbus-interface.sh -d org.gnome.Shell -o /org/gnome/Shell/Extensio
 
 exit_code=0
 do_in_pod gdbus call --session --timeout 300 --dest org.gnome.Shell --object-path /org/gnome/Shell/Extensions/ddterm --method com.github.amezin.ddterm.Extension.RunTest || exit_code=$?
-
-if (( exit_code )); then
-    do_in_pod journalctl --user -n 25
-fi
 
 podman cp ${POD}:/run/Xvfb_screen0 .
 convert xwd:Xvfb_screen0 Xvfb_screen0.png
