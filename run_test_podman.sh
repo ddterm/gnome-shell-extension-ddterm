@@ -12,20 +12,17 @@ down () {
 
 trap down INT TERM EXIT
 
+podman exec ${POD} systemctl is-system-running --wait
+
 do_in_pod() {
     podman exec --user gnomeshell --workdir /home/gnomeshell ${POD} set-env.sh "$@"
 }
 
-sleep 5
-
 podman cp ddterm@amezin.github.com.shell-extension.zip ${POD}:/home/gnomeshell/
 do_in_pod enable-extension.sh ddterm@amezin.github.com.shell-extension.zip
 
-sleep 3
-
-do_in_pod gnome-extensions enable ddterm@amezin.github.com
-
-sleep 5
+do_in_pod wait-dbus-interface.sh -d org.gnome.Shell -o /org/gnome/Shell/Extensions/ddterm -i com.github.amezin.ddterm.Extension -t 10
+sleep 1
 
 exit_code=0
 do_in_pod gdbus call --session --timeout 300 --dest org.gnome.Shell --object-path /org/gnome/Shell/Extensions/ddterm --method com.github.amezin.ddterm.Extension.RunTest || exit_code=$?
