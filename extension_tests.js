@@ -189,8 +189,6 @@ async function test_unmaximize_on_height_change(window_height, window_height2) {
     await set_settings_double('window-height', window_height);
     await set_settings_boolean('window-maximize', true);
 
-    await async_sleep();
-
     toggle();
 
     await async_wait_current_window();
