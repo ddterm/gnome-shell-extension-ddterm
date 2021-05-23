@@ -1,28 +1,68 @@
 #!/bin/bash
 
+IMAGE="ghcr.io/amezin/gnome-shell-pod-34-base:master"
+SERVICE="gnome-xsession"
+PACKAGE="ddterm@amezin.github.com.shell-extension.zip"
+DISPLAY=":99"
+PULL=0
+
+usage() {
+    >&2 echo "Usage: $0 [-i image] [-p] [-s service] [-f package] [-d display]"
+    >&2 echo " -i image: Docker/Podman image to run. Default: ${IMAGE}"
+    >&2 echo " -p: Pull the image before running."
+    >&2 echo " -s service: Systemd service (GNOME shell type) to run. Default: ${SERVICE}"
+    >&2 echo " -p package: Path to GNOME Shell extension package. Default: ${PACKAGE}"
+    >&2 echo " -d display: X11 display in the container. Default: ${DISPLAY}"
+}
+
+while getopts "pi:s:f:h" opt; do
+    case $opt in
+    i) IMAGE="${OPTARG}";;
+    s) SERVICE="${OPTARG}";;
+    f) PACKAGE="${OPTARG}";;
+    d) DISPLAY="${OPTARG}";;
+    p) PULL=1;;
+    h) usage; exit 0;;
+    *) usage; exit 1;;
+    esac
+done
+
 set -ex
 
-IMAGE="${1:-ghcr.io/amezin/gnome-shell-pod-34-xsession:master}"
+EXTENSION_UUID="$(unzip -p "${PACKAGE}" metadata.json | jq -r .uuid)"
+EXTENSION_PACKAGE_FILENAME="${EXTENSION_UUID}.shell-extension.zip"
+
+if (( PULL )); then
+    podman pull "${IMAGE}"
+fi
 
 POD=$(podman run --rm --cap-add=SYS_NICE --cap-add=IPC_LOCK -td "${IMAGE}")
 
 down () {
-    podman kill $POD
+    podman kill "${POD}"
 }
 
 trap down INT TERM EXIT
 
-podman exec ${POD} systemctl is-system-running --wait
-
 do_in_pod() {
-    podman exec --user gnomeshell --workdir /home/gnomeshell ${POD} set-env.sh "$@"
+    podman exec --user gnomeshell --workdir /home/gnomeshell "${POD}" set-env.sh "$@"
 }
 
-podman cp ddterm@amezin.github.com.shell-extension.zip ${POD}:/home/gnomeshell/
-do_in_pod enable-extension.sh ddterm@amezin.github.com.shell-extension.zip
+# gnome-extensions install doesn't need a running GNOME Shell
+# Even if it will need it at some point, we can simply unzip the archive instead.
+podman cp "${PACKAGE}" "${POD}:/home/gnomeshell/${EXTENSION_PACKAGE_FILENAME}.zip"
+do_in_pod gnome-extensions install "/home/gnomeshell/${EXTENSION_PACKAGE_FILENAME}.zip"
 
+podman exec "${POD}" bash -c "busctl --system --watch-bind=true status >/dev/null"
+podman exec "${POD}" systemctl is-system-running --wait
+do_in_pod bash -c "busctl --user --watch-bind=true status >/dev/null"
+
+do_in_pod systemctl --user start "${SERVICE}@${DISPLAY}"
+do_in_pod wait-dbus-interface.sh -d org.gnome.Shell -o /org/gnome/Shell -i org.gnome.Shell.Extensions -t 10
+do_in_pod gnome-extensions enable "${EXTENSION_UUID}"
+
+# Start of ddterm-specific script - run tests using private D-Bus interface
 do_in_pod wait-dbus-interface.sh -d org.gnome.Shell -o /org/gnome/Shell/Extensions/ddterm -i com.github.amezin.ddterm.Extension -t 10
-sleep 1
 
 exit_code=0
 do_in_pod gdbus call --session --timeout 300 --dest org.gnome.Shell --object-path /org/gnome/Shell/Extensions/ddterm --method com.github.amezin.ddterm.Extension.RunTest || exit_code=$?

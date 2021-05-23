@@ -33,19 +33,19 @@ jobs:
           - '32'
           - '33'
           - '34'
-        backend:
-          - 'xsession'
-          - 'wayland-nested'
-          - 'wayland-nested-highdpi'
+        session:
+          - 'gnome-xsession'
+          - 'gnome-wayland-nested'
+          - 'gnome-wayland-nested-highdpi'
     steps:
     - uses: actions/checkout@v2
     - uses: actions/download-artifact@v2
       with:
         name: shell-extension
-    - run: sudo podman pull ghcr.io/amezin/gnome-shell-pod-${{ matrix.fedora-version }}-${{ matrix.backend }}:master
-    - run: sudo ./run_test_podman.sh ghcr.io/amezin/gnome-shell-pod-${{ matrix.fedora-version }}-${{ matrix.backend }}:master
+    - run: sudo podman pull ghcr.io/amezin/gnome-shell-pod-${{ matrix.fedora-version }}-base:master
+    - run: sudo ./run_test_podman.sh -i ghcr.io/amezin/gnome-shell-pod-${{ matrix.fedora-version }}-base:master -s ${{ matrix.session }}
     - uses: actions/upload-artifact@v2
       with:
-        name: screenshot-${{ matrix.fedora-version }}-${{ matrix.backend }}
+        name: screenshot-${{ matrix.fedora-version }}-${{ matrix.session }}
         path: "Xvfb_screen*.png"
       if: always()
