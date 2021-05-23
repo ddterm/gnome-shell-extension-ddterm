@@ -54,9 +54,7 @@ do_in_pod() {
 podman cp "${PACKAGE}" "${POD}:/home/gnomeshell/${EXTENSION_PACKAGE_FILENAME}.zip"
 do_in_pod gnome-extensions install "/home/gnomeshell/${EXTENSION_PACKAGE_FILENAME}.zip"
 
-podman exec "${POD}" bash -c "busctl --system --watch-bind=true status >/dev/null"
-podman exec "${POD}" systemctl is-system-running --wait
-do_in_pod bash -c "busctl --user --watch-bind=true status >/dev/null"
+do_in_pod wait-user-bus.sh
 
 do_in_pod journalctl --user -f | tee journal.txt &
 
