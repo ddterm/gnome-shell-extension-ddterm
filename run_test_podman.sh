@@ -1,6 +1,6 @@
 #!/bin/bash
 
-IMAGE="ghcr.io/amezin/gnome-shell-pod-34-base:master"
+IMAGE="ghcr.io/amezin/gnome-shell-pod-34:master"
 SERVICE="gnome-xsession"
 PACKAGE="ddterm@amezin.github.com.shell-extension.zip"
 DISPLAY=":99"

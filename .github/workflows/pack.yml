@@ -42,8 +42,8 @@ jobs:
     - uses: actions/download-artifact@v2
       with:
         name: shell-extension
-    - run: sudo podman pull ghcr.io/amezin/gnome-shell-pod-${{ matrix.fedora-version }}-base:master
-    - run: sudo ./run_test_podman.sh -i ghcr.io/amezin/gnome-shell-pod-${{ matrix.fedora-version }}-base:master -s ${{ matrix.session }}
+    - run: sudo podman pull ghcr.io/amezin/gnome-shell-pod-${{ matrix.fedora-version }}:master
+    - run: sudo ./run_test_podman.sh -i ghcr.io/amezin/gnome-shell-pod-${{ matrix.fedora-version }}:master -s ${{ matrix.session }}
     - uses: actions/upload-artifact@v2
       with:
         name: test-${{ matrix.fedora-version }}-${{ matrix.session }}
