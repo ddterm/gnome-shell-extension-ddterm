@@ -13,13 +13,13 @@ down () {
 trap down INT TERM EXIT
 
 do_in_pod() {
-    podman exec --user gnomeshell --workdir /home/gnomeshell ${POD} ./set-env.sh "$@"
+    podman exec --user gnomeshell --workdir /home/gnomeshell ${POD} set-env.sh "$@"
 }
 
 sleep 5
 
 podman cp ddterm@amezin.github.com.shell-extension.zip ${POD}:/home/gnomeshell/
-do_in_pod ./enable-extension.sh ddterm@amezin.github.com.shell-extension.zip
+do_in_pod enable-extension.sh ddterm@amezin.github.com.shell-extension.zip
 
 sleep 3
 
