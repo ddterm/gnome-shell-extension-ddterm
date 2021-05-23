@@ -31,12 +31,14 @@ set -ex
 
 EXTENSION_UUID="$(unzip -p "${PACKAGE}" metadata.json | jq -r .uuid)"
 EXTENSION_PACKAGE_FILENAME="${EXTENSION_UUID}.shell-extension.zip"
+PACKAGE_FULLPATH="$(realpath "${PACKAGE}")"
+PACKAGE_MOUNTPATH="/home/gnomeshell/${EXTENSION_PACKAGE_FILENAME}"
 
 if (( PULL )); then
     podman pull "${IMAGE}"
 fi
 
-POD=$(podman run --rm --cap-add=SYS_NICE --cap-add=IPC_LOCK -td "${IMAGE}")
+POD=$(podman run --rm --cap-add=SYS_NICE --cap-add=IPC_LOCK -v "${PACKAGE_FULLPATH}:${PACKAGE_MOUNTPATH}:ro" -td "${IMAGE}")
 
 down () {
     podman kill "${POD}"
@@ -51,8 +53,7 @@ do_in_pod() {
 
 # gnome-extensions install doesn't need a running GNOME Shell
 # Even if it will need it at some point, we can simply unzip the archive instead.
-podman cp "${PACKAGE}" "${POD}:/home/gnomeshell/${EXTENSION_PACKAGE_FILENAME}.zip"
-do_in_pod gnome-extensions install "/home/gnomeshell/${EXTENSION_PACKAGE_FILENAME}.zip"
+do_in_pod gnome-extensions install "${PACKAGE_MOUNTPATH}"
 
 do_in_pod timeout 10s wait-user-bus.sh
 
