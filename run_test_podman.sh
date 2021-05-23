@@ -54,16 +54,16 @@ do_in_pod() {
 podman cp "${PACKAGE}" "${POD}:/home/gnomeshell/${EXTENSION_PACKAGE_FILENAME}.zip"
 do_in_pod gnome-extensions install "/home/gnomeshell/${EXTENSION_PACKAGE_FILENAME}.zip"
 
-do_in_pod wait-user-bus.sh
+do_in_pod timeout 10s wait-user-bus.sh
 
 do_in_pod journalctl --user -f | tee journal.txt &
 
 do_in_pod systemctl --user start "${SERVICE}@${DISPLAY}"
-do_in_pod wait-dbus-interface.sh -d org.gnome.Shell -o /org/gnome/Shell -i org.gnome.Shell.Extensions -t 10
+do_in_pod timeout 10s wait-dbus-interface.sh -d org.gnome.Shell -o /org/gnome/Shell -i org.gnome.Shell.Extensions
 do_in_pod gnome-extensions enable "${EXTENSION_UUID}"
 
 # Start of ddterm-specific script - run tests using private D-Bus interface
-do_in_pod wait-dbus-interface.sh -d org.gnome.Shell -o /org/gnome/Shell/Extensions/ddterm -i com.github.amezin.ddterm.Extension -t 10
+do_in_pod timeout 10s wait-dbus-interface.sh -d org.gnome.Shell -o /org/gnome/Shell/Extensions/ddterm -i com.github.amezin.ddterm.Extension
 
 exit_code=0
 do_in_pod gdbus call --session --timeout 300 --dest org.gnome.Shell --object-path /org/gnome/Shell/Extensions/ddterm --method com.github.amezin.ddterm.Extension.RunTest || exit_code=$?
