@@ -16,6 +16,8 @@ const {
 
 let settings = null;
 
+const PERCENT_FORMAT = new Intl.NumberFormat(undefined, { style: 'percent' });
+
 function async_sleep(ms) {
     return new Promise(resolve => GLib.timeout_add(GLib.PRIORITY_DEFAULT, ms, () => {
         resolve();
@@ -219,14 +221,17 @@ async function run_tests() {
             add_test(test_unmaximize_on_height_change, window_height, window_height2);
     }
 
+    let tests_passed = 0;
     for (let test of tests) {
-        const name = JsUnit.getFunctionName(test.func);
+        const test_id = `${JsUnit.getFunctionName(test.func)}(${JSON.stringify(test.args)})`;
+        print(`Running test ${test_id} (${tests_passed} of ${tests.length} done, ${PERCENT_FORMAT.format(tests_passed / tests.length)})`);
         try {
             // eslint-disable-next-line no-await-in-loop
             await test.func(...test.args);
         } catch (e) {
-            e.message += `\n${name}(${JSON.stringify(test.args)})`;
+            e.message += `\n${test_id})`;
             throw e;
         }
+        tests_passed += 1;
     }
 }
