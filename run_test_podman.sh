@@ -69,7 +69,6 @@ do_in_pod timeout 10s wait-dbus-interface.sh -d org.gnome.Shell -o /org/gnome/Sh
 exit_code=0
 do_in_pod gdbus call --session --timeout 300 --dest org.gnome.Shell --object-path /org/gnome/Shell/Extensions/ddterm --method com.github.amezin.ddterm.Extension.RunTest || exit_code=$?
 
-podman cp ${POD}:/run/Xvfb_screen0 .
-convert xwd:Xvfb_screen0 Xvfb_screen0.png
+podman cp "${POD}:/run/Xvfb_screen0" - | tar xf - --to-command 'convert xwd:- $TAR_FILENAME.png'
 
 exit $exit_code
