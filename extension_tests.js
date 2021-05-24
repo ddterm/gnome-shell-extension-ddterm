@@ -2,7 +2,7 @@
 
 /* exported run_tests */
 
-const { GLib } = imports.gi;
+const { GLib, Gio, Meta } = imports.gi;
 const Main = imports.ui.main;
 const JsUnit = imports.jsUnit;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
@@ -53,6 +53,17 @@ function connect_once(object, signal, callback) {
 
 function async_wait_signal(object, signal) {
     return new Promise(resolve => connect_once(object, signal, resolve));
+}
+
+function async_run_process(argv) {
+    return new Promise(resolve => {
+        print(`Starting subprocess ${JSON.stringify(argv)}`);
+        const subprocess = Gio.Subprocess.new(argv, Gio.SubprocessFlags.NONE);
+        subprocess.wait_check_async(null, (source, result) => {
+            print(`Finished subprocess ${JSON.stringify(argv)}`);
+            resolve(source.wait_check_finish(result));
+        });
+    });
 }
 
 function set_settings_double(name, value) {
@@ -206,8 +217,54 @@ async function test_unmaximize_on_height_change(window_height, window_height2) {
     );
 }
 
+async function test_resize_xte(window_height, window_maximize, window_height2) {
+    await hide_window_async_wait();
+
+    await set_settings_double('window-height', window_height);
+    await set_settings_boolean('window-maximize', window_maximize);
+
+    toggle();
+
+    await async_wait_current_window();
+    await async_sleep();
+
+    verify_window_geometry(window_height, window_maximize || window_height === 1.0);
+
+    const initial_frame_rect = Extension.current_window.get_frame_rect();
+
+    const initial_x = Math.floor(initial_frame_rect.x + initial_frame_rect.width / 2);
+    const initial_y = initial_frame_rect.y + initial_frame_rect.height - 5;
+
+    await async_run_process(['xte', `mousemove ${initial_x} ${initial_y}`]);
+    await async_sleep();
+    await async_run_process(['xte', 'mousedown 1']);
+    await async_sleep();
+
+    verify_window_geometry(window_maximize ? 1.0 : window_height, false);
+
+    const monitor_index = Main.layoutManager.currentMonitor.index;
+    const workarea = Main.layoutManager.getWorkAreaForMonitor(monitor_index);
+    const monitor_scale = global.display.get_monitor_scale(monitor_index);
+    const target_frame_rect = target_rect_for_workarea_size(workarea, monitor_scale, window_height2);
+    const target_y = initial_y + target_frame_rect.height - initial_frame_rect.height;
+
+    await async_run_process(['xte', `mousemove ${initial_x} ${target_y}`]);
+    await async_sleep();
+    await async_run_process(['xte', 'mouseup 1']);
+    await async_sleep();
+
+    verify_window_geometry(window_height2, false);
+
+    // TODO: 'grab-op-end' isn't emitted on Wayland when simulting mouse with xte.
+    // For now, just call update_height_setting_on_grab_end()
+    if (Meta.is_wayland_compositor())
+        Extension.update_height_setting_on_grab_end(global.display, Extension.current_window);
+
+    assert_rect_equals(target_frame_rect, Extension.target_rect_for_workarea());
+}
+
 async function run_tests(filter = '', filter_out = false) {
-    const BOOL_VALUES = [true, false];
+    const BOOL_VALUES = [false, true];
     const HEIGHT_VALUES = [0.3, 0.5, 0.7, 0.8, 0.9, 1.0];
     const tests = [];
 
@@ -218,6 +275,13 @@ async function run_tests(filter = '', filter_out = false) {
     });
 
     settings = Extension.settings;
+
+    for (let window_height of [0.3, 0.7, 0.8, 0.9, 1.0]) {
+        for (let window_maximize of BOOL_VALUES) {
+            for (let window_height2 of [0.5, 1.0])
+                add_test(test_resize_xte, window_height, window_maximize, window_height2);
+        }
+    }
 
     for (let window_maximize of BOOL_VALUES) {
         for (let window_height of HEIGHT_VALUES)
