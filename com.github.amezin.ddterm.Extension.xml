@@ -3,7 +3,8 @@
 
 <node>
     <interface name="com.github.amezin.ddterm.Extension">
-        <method name="BeginResize"/>
+        <method name="BeginResizeHorizontal"/>
+        <method name="BeginResizeVertical"/>
         <method name="Toggle"/>
         <method name="Activate"/>
     </interface>

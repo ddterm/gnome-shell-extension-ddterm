@@ -15,7 +15,17 @@ var ExtensionDBusProxy = Gio.DBusProxy.makeProxyWrapper(EXTENSION_DBUS_XML);
 var AppWindow = GObject.registerClass(
     {
         Template: util.APP_DATA_DIR.get_child('appwindow.ui').get_uri(),
-        Children: ['notebook', 'resize_box', 'tab_switch_button', 'new_tab_button', 'new_tab_front_button', 'tab_switch_menu_box'],
+        Children: [
+            'notebook',
+            'top_resize_box',
+            'bottom_resize_box',
+            'left_resize_box',
+            'right_resize_box',
+            'tab_switch_button',
+            'new_tab_button',
+            'new_tab_front_button',
+            'tab_switch_menu_box',
+        ],
         Properties: {
             'menus': GObject.ParamSpec.object(
                 'menus', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, Gtk.Builder
@@ -66,9 +76,19 @@ var AppWindow = GObject.registerClass(
                 this.insert_page(this.notebook.get_current_page() + 1);
             });
 
-            this.method_handler(this.resize_box, 'realize', this.set_resize_cursor);
-            this.method_handler(this.resize_box, 'button-press-event', this.start_resizing);
-            this.bind_settings_ro('window-resizable', this.resize_box, 'visible');
+            this.method_handler(this.top_resize_box, 'realize', this.set_resize_cursor_ns);
+            this.method_handler(this.bottom_resize_box, 'realize', this.set_resize_cursor_ns);
+            this.method_handler(this.left_resize_box, 'realize', this.set_resize_cursor_ew);
+            this.method_handler(this.right_resize_box, 'realize', this.set_resize_cursor_ew);
+
+            this.method_handler(this.top_resize_box, 'button-press-event', this.start_resizing);
+            this.method_handler(this.bottom_resize_box, 'button-press-event', this.start_resizing);
+            this.method_handler(this.left_resize_box, 'button-press-event', this.start_resizing);
+            this.method_handler(this.right_resize_box, 'button-press-event', this.start_resizing);
+
+            this.method_handler(this.settings, 'changed::window-resizable', this.update_resize_boxes);
+            this.method_handler(this.settings, 'changed::window-position', this.update_resize_boxes);
+            this.update_resize_boxes();
 
             this.tab_select_action = new Gio.PropertyAction({
                 name: 'switch-to-tab',
@@ -233,22 +253,57 @@ var AppWindow = GObject.registerClass(
                 this.close();
         }
 
-        set_resize_cursor(widget) {
+        set_resize_cursor_ns(widget) {
             widget.window.cursor = Gdk.Cursor.new_from_name(widget.get_display(), 'ns-resize');
         }
 
-        start_resizing(_, event) {
+        set_resize_cursor_ew(widget) {
+            widget.window.cursor = Gdk.Cursor.new_from_name(widget.get_display(), 'ew-resize');
+        }
+
+        update_resize_boxes() {
+            const resizable = this.settings.get_boolean('window-resizable');
+            const position = this.settings.get_string('window-position');
+
+            this.bottom_resize_box.visible = resizable && (position === 'top');
+            this.top_resize_box.visible = resizable && (position === 'bottom');
+            this.right_resize_box.visible = resizable && (position === 'left');
+            this.left_resize_box.visible = resizable && (position === 'right');
+        }
+
+        start_resizing(source, event) {
             const [button_ok, button] = event.get_button();
             if (!button_ok || button !== Gdk.BUTTON_PRIMARY)
                 return;
 
-            this.extension_dbus.BeginResizeSync();
+            let edge;
+
+            if (source === this.bottom_resize_box)
+                edge = Gdk.WindowEdge.SOUTH;
+
+            else if (source === this.top_resize_box)
+                edge = Gdk.WindowEdge.NORTH;
+
+            else if (source === this.right_resize_box)
+                edge = Gdk.WindowEdge.EAST;
+
+            else if (source === this.left_resize_box)
+                edge = Gdk.WindowEdge.WEST;
+
+            else
+                return;
+
+            if (edge === Gdk.WindowEdge.NORTH || edge === Gdk.WindowEdge.SOUTH)
+                this.extension_dbus.BeginResizeVerticalSync();
+
+            else if (edge === Gdk.WindowEdge.EAST || edge === Gdk.WindowEdge.WEST)
+                this.extension_dbus.BeginResizeHorizontalSync();
 
             const [coords_ok, x_root, y_root] = event.get_root_coords();
             if (!coords_ok)
                 return;
 
-            this.window.begin_resize_drag_for_device(Gdk.WindowEdge.SOUTH, event.get_device(), button, x_root, y_root, event.get_time());
+            this.window.begin_resize_drag_for_device(edge, event.get_device(), button, x_root, y_root, event.get_time());
         }
 
         draw(_widget, cr) {

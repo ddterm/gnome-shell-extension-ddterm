@@ -26,6 +26,13 @@ let subprocess = null;
 let show_animation = Clutter.AnimationMode.LINEAR;
 let hide_animation = Clutter.AnimationMode.LINEAR;
 
+let resize_x = false;
+let right_or_bottom = false;
+let animation_pivot_x = 0.5;
+let animation_pivot_y = 0;
+let animation_scale_x = 1.0;
+let animation_scale_y = 0.0;
+
 const APP_ID = 'com.github.amezin.ddterm';
 const APP_DBUS_PATH = '/com/github/amezin/ddterm';
 const WINDOW_PATH_PREFIX = `${APP_DBUS_PATH}/window/`;
@@ -40,8 +47,8 @@ class ExtensionDBusInterface {
         this.dbus = Gio.DBusExportedObject.wrapJSObject(ByteArray.toString(xml), this);
     }
 
-    BeginResize() {
-        unmaximize_fixup_connections.disconnect();
+    BeginResizeVertical() {
+        geometry_fixup_connections.disconnect();
 
         if (!current_window || !current_window.maximized_vertically)
             return;
@@ -63,6 +70,22 @@ class ExtensionDBusInterface {
         // Window still unmaximizes incorrectly without this.
         // Show terminal, maximize, hide, show, start resizing with mouse.
         // TODO: add a test that simulates mouse resizing using xdotool
+        move_resize_window(current_window, current_workarea);
+    }
+
+    BeginResizeHorizontal() {
+        geometry_fixup_connections.disconnect();
+
+        if (!current_window || !current_window.maximized_horizontally)
+            return;
+
+        Main.wm.skipNextEffect(current_window.get_compositor_private());
+
+        settings.set_double('window-height', 1.0);
+
+        if (current_window.maximized_horizontally)
+            current_window.unmaximize(Meta.MaximizeFlags.HORIZONTAL);
+
         move_resize_window(current_window, current_workarea);
     }
 
@@ -124,10 +147,11 @@ class ConnectionSet {
 
 const extension_connections = new ConnectionSet();
 const current_window_connections = new ConnectionSet();
+const current_window_maximized_connections = new ConnectionSet();
 const animation_overrides_connections = new ConnectionSet();
 const hide_when_focus_lost_connections = new ConnectionSet();
 const update_height_setting_on_grab_end_connections = new ConnectionSet();
-const unmaximize_fixup_connections = new ConnectionSet();
+const geometry_fixup_connections = new ConnectionSet();
 
 function init() {
     // Test aren't included in end user (extensions.gnome.org) packages
@@ -170,6 +194,8 @@ function enable() {
     extension_connections.connect(settings, 'changed::window-stick', set_window_stick);
     extension_connections.connect(settings, 'changed::window-height', disable_window_maximize_setting);
     extension_connections.connect(settings, 'changed::window-height', update_window_geometry);
+    extension_connections.connect(settings, 'changed::window-position', update_window_position);
+    extension_connections.connect(settings, 'changed::window-position', update_window_geometry);
     extension_connections.connect(settings, 'changed::window-skip-taskbar', set_skip_taskbar);
     extension_connections.connect(settings, 'changed::window-maximize', set_window_maximized);
     extension_connections.connect(settings, 'changed::override-window-animation', setup_animation_overrides);
@@ -178,6 +204,7 @@ function enable() {
     extension_connections.connect(settings, 'changed::hide-when-focus-lost', setup_hide_when_focus_lost);
 
     update_workarea_for_window();
+    update_window_position();
     update_show_animation();
     update_hide_animation();
     setup_animation_overrides();
@@ -215,6 +242,7 @@ function disable() {
     animation_overrides_connections.disconnect();
     hide_when_focus_lost_connections.disconnect();
     update_height_setting_on_grab_end_connections.disconnect();
+    current_window_maximized_connections.disconnect();
 
     if (tests)
         tests.disable();
@@ -341,11 +369,12 @@ function override_map_animation(wm, actor) {
     if (!check_current_window() || actor !== current_window.get_compositor_private())
         return;
 
-    actor.set_pivot_point(0.5, 0.0);
-    actor.scale_x = 1.0;  // override default scale-x animation
-    actor.scale_y = 0.0;
+    actor.set_pivot_point(animation_pivot_x, animation_pivot_y);
+    actor.scale_x = animation_scale_x;
+    actor.scale_y = animation_scale_y;
 
     actor.ease({
+        scale_x: 1.0,
         scale_y: 1.0,
         duration: WindowManager.SHOW_WINDOW_ANIMATION_TIME,
         mode: show_animation,
@@ -356,11 +385,11 @@ function override_unmap_animation(wm, actor) {
     if (!check_current_window() || actor !== current_window.get_compositor_private())
         return;
 
-    actor.set_pivot_point(0.5, 0.0);
+    actor.set_pivot_point(animation_pivot_x, animation_pivot_y);
 
     actor.ease({
-        scale_x: 1.0,  // override default scale-x animation
-        scale_y: 0.0,
+        scale_x: animation_scale_x,
+        scale_y: animation_scale_y,
         duration: WindowManager.DESTROY_WINDOW_ANIMATION_TIME,
         mode: hide_animation,
     });
@@ -449,6 +478,18 @@ function update_workarea_for_window() {
     update_workarea(current_window.get_monitor());
 }
 
+function setup_maximized_handlers() {
+    current_window_maximized_connections.disconnect();
+
+    if (!current_window)
+        return;
+
+    if (resize_x)
+        current_window_maximized_connections.connect(current_window, 'notify::maximized-horizontally', handle_maximized_horizontally);
+    else
+        current_window_maximized_connections.connect(current_window, 'notify::maximized-vertically', handle_maximized_vertically);
+}
+
 function set_current_window(win) {
     if (!is_ddterm_window(win)) {
         release_window(win);
@@ -464,9 +505,9 @@ function set_current_window(win) {
     update_workarea(Main.layoutManager.currentMonitor.index);
 
     current_window_connections.connect(win, 'unmanaged', release_window);
-    current_window_connections.connect(win, 'notify::maximized-vertically', handle_maximized_vertically);
     current_window_connections.connect(win, 'notify::window-type', setup_animation_overrides);
 
+    setup_maximized_handlers();
     setup_update_height_setting_on_grab_end();
     setup_hide_when_focus_lost();
     setup_animation_overrides();
@@ -476,6 +517,8 @@ function set_current_window(win) {
 
     // https://github.com/amezin/gnome-shell-extension-ddterm/issues/28
     current_window_connections.connect(win, 'shown', update_window_geometry);
+    // Necessary on GNOME <40 (Wayland) + bottom window position
+    current_window_connections.connect(win, 'shown', schedule_geometry_fixup);
 
     Main.activateWindow(win);
 
@@ -485,10 +528,38 @@ function set_current_window(win) {
     set_window_maximized();
 }
 
+function update_window_position() {
+    const position = settings.get_string('window-position');
+
+    resize_x = position === 'left' || position === 'right';
+    right_or_bottom = position === 'right' || position === 'bottom';
+
+    const resizing_direction_pivot = right_or_bottom ? 1.0 : 0.0;
+    animation_pivot_x = resize_x ? resizing_direction_pivot : 0.5;
+    animation_pivot_y = !resize_x ? resizing_direction_pivot : 0.5;
+
+    animation_scale_x = resize_x ? 0.0 : 1.0;
+    animation_scale_y = resize_x ? 1.0 : 0.0;
+
+    setup_maximized_handlers();
+}
+
 function target_rect_for_workarea_size(workarea, monitor_scale, size) {
     const target_rect = workarea.copy();
-    target_rect.height *= size;
-    target_rect.height -= target_rect.height % monitor_scale;
+
+    if (resize_x) {
+        target_rect.width *= size;
+        target_rect.width -= target_rect.width % monitor_scale;
+
+        if (right_or_bottom)
+            target_rect.x += workarea.width - target_rect.width;
+    } else {
+        target_rect.height *= size;
+        target_rect.height -= target_rect.height % monitor_scale;
+
+        if (right_or_bottom)
+            target_rect.y += workarea.height - target_rect.height;
+    }
 
     return target_rect;
 }
@@ -497,33 +568,55 @@ function target_rect_for_workarea() {
     return target_rect_for_workarea_size(current_workarea, current_monitor_scale, settings.get_double('window-height'));
 }
 
+function schedule_geometry_fixup(win) {
+    if (!check_current_window(win) || win.get_client_type() !== Meta.WindowClientType.WAYLAND)
+        return;
+
+    geometry_fixup_connections.disconnect();
+    geometry_fixup_connections.connect(win, 'position-changed', update_window_geometry);
+    geometry_fixup_connections.connect(win, 'size-changed', update_window_geometry);
+}
+
+function unmaximize_done() {
+    settings.set_boolean('window-maximize', false);
+    update_window_geometry();
+    schedule_geometry_fixup(current_window);
+}
+
 function handle_maximized_vertically(win) {
-    unmaximize_fixup_connections.disconnect();
+    geometry_fixup_connections.disconnect();
 
     if (!check_current_window(win))
         return;
 
     if (!win.maximized_vertically) {
-        settings.set_boolean('window-maximize', false);
-        update_window_geometry();
-
-        if (win.get_client_type() === Meta.WindowClientType.WAYLAND) {
-            unmaximize_fixup_connections.connect(win, 'position-changed', update_window_geometry);
-            unmaximize_fixup_connections.connect(win, 'size-changed', update_window_geometry);
-        }
-
+        unmaximize_done();
         return;
     }
 
-    if (!settings.get_boolean('window-maximize'))
-        unmaximize_window_if_not_full_height(win);
+    if (!settings.get_boolean('window-maximize')) {
+        const target_rect = target_rect_for_workarea();
+        if (target_rect.height < current_workarea.height)
+            win.unmaximize(Meta.MaximizeFlags.VERTICAL);
+    }
 }
 
-function unmaximize_window_if_not_full_height(win) {
-    const target_rect = target_rect_for_workarea();
+function handle_maximized_horizontally(win) {
+    geometry_fixup_connections.disconnect();
 
-    if (target_rect.height < current_workarea.height)
-        win.unmaximize(Meta.MaximizeFlags.VERTICAL);
+    if (!check_current_window(win))
+        return;
+
+    if (!win.maximized_horizontally) {
+        unmaximize_done();
+        return;
+    }
+
+    if (!settings.get_boolean('window-maximize')) {
+        const target_rect = target_rect_for_workarea();
+        if (target_rect.width < current_workarea.width)
+            win.unmaximize(Meta.MaximizeFlags.HORIZONTAL);
+    }
 }
 
 function move_resize_window(win, target_rect) {
@@ -534,14 +627,25 @@ function set_window_maximized() {
     if (!current_window)
         return;
 
+    const is_maximized = resize_x ? current_window.maximized_horizontally : current_window.maximized_vertically;
     const should_maximize = settings.get_boolean('window-maximize');
-    if (current_window.maximized_vertically === should_maximize)
+    if (is_maximized === should_maximize)
         return;
 
-    if (should_maximize)
+    if (should_maximize) {
         current_window.maximize(Meta.MaximizeFlags.BOTH);
-    else
-        unmaximize_window_if_not_full_height(current_window);
+        return;
+    }
+
+    const target_rect = target_rect_for_workarea();
+    if (resize_x) {
+        if (target_rect.width < current_workarea.width)
+            current_window.unmaximize(Meta.MaximizeFlags.HORIZONTAL);
+    } else {
+        // eslint-disable-next-line no-lonely-if
+        if (target_rect.height < current_workarea.height)
+            current_window.unmaximize(Meta.MaximizeFlags.VERTICAL);
+    }
 }
 
 function disable_window_maximize_setting() {
@@ -550,7 +654,7 @@ function disable_window_maximize_setting() {
 }
 
 function update_window_geometry() {
-    unmaximize_fixup_connections.disconnect();
+    geometry_fixup_connections.disconnect();
 
     if (!current_window)
         return;
@@ -562,7 +666,12 @@ function update_window_geometry() {
     if (target_rect.equal(current_window.get_frame_rect()))
         return;
 
-    if (current_window.maximized_vertically) {
+    if (current_window.maximized_horizontally && resize_x) {
+        if (target_rect.width < current_workarea.width) {
+            Main.wm.skipNextEffect(current_window.get_compositor_private());
+            current_window.unmaximize(Meta.MaximizeFlags.HORIZONTAL);
+        }
+    } else if (current_window.maximized_vertically && !resize_x) {
         if (target_rect.height < current_workarea.height) {
             Main.wm.skipNextEffect(current_window.get_compositor_private());
             current_window.unmaximize(Meta.MaximizeFlags.VERTICAL);
@@ -576,11 +685,18 @@ function update_height_setting_on_grab_end(display, p0, p1) {
     // On Mutter <=3.38 p0 is display too. On 40 p0 is the window.
     const win = p0 instanceof Meta.Window ? p0 : p1;
 
-    if (win !== current_window || win.maximized_vertically)
+    if (win !== current_window)
         return;
 
-    const current_height = win.get_frame_rect().height / current_workarea.height;
-    settings.set_double('window-height', Math.min(1.0, current_height));
+    if (!resize_x && current_window.maximized_vertically)
+        return;
+
+    if (resize_x && current_window.maximized_horizontally)
+        return;
+
+    const frame_rect = win.get_frame_rect();
+    const size = resize_x ? frame_rect.width / current_workarea.width : frame_rect.height / current_workarea.height;
+    settings.set_double('window-height', Math.min(1.0, size));
 }
 
 function setup_update_height_setting_on_grab_end() {
@@ -595,7 +711,8 @@ function release_window(win) {
         return;
 
     current_window_connections.disconnect();
-    unmaximize_fixup_connections.disconnect();
+    current_window_maximized_connections.disconnect();
+    geometry_fixup_connections.disconnect();
     current_window = null;
 
     update_height_setting_on_grab_end_connections.disconnect();

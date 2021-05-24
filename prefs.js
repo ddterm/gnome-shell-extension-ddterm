@@ -83,6 +83,7 @@ function createPrefsWidgetClass(resource_path, util) {
                 'window_type_hint_combo',
                 'window_height_adjustment',
                 'window_height_scale',
+                'window_pos_combo',
                 'shortcuts_treeview',
                 'show_animation_combo',
                 'hide_animation_combo',
@@ -141,6 +142,7 @@ function createPrefsWidgetClass(resource_path, util) {
                 this.settings_bind('hide-animation', this.hide_animation_combo, 'active-id');
                 this.bind_sensitive('override-window-animation', this.hide_animation_combo.parent);
                 this.settings_bind('window-type-hint', this.window_type_hint_combo, 'active-id');
+                this.settings_bind('window-position', this.window_pos_combo, 'active-id');
 
                 this.settings_bind('tab-policy', this.tab_policy_combo, 'active-id');
                 this.settings_bind('tab-position', this.tab_position_combo, 'active-id');

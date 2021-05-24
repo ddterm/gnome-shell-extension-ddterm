@@ -67,7 +67,7 @@ do_in_pod gnome-extensions enable "${EXTENSION_UUID}"
 do_in_pod timeout 10s wait-dbus-interface.sh -d org.gnome.Shell -o /org/gnome/Shell/Extensions/ddterm -i com.github.amezin.ddterm.ExtensionTest
 
 exit_code=0
-do_in_pod gdbus call --session --timeout 300 --dest org.gnome.Shell --object-path /org/gnome/Shell/Extensions/ddterm --method com.github.amezin.ddterm.ExtensionTest.RunTest "${TEST_FILTER}" "${TEST_FILTER_OUT}" || exit_code=$?
+do_in_pod gdbus call --session --timeout 500 --dest org.gnome.Shell --object-path /org/gnome/Shell/Extensions/ddterm --method com.github.amezin.ddterm.ExtensionTest.RunTest "${TEST_FILTER}" "${TEST_FILTER_OUT}" || exit_code=$?
 
 podman cp "${POD}:/run/Xvfb_screen0" - | tar xf - --to-command 'convert xwd:- $TAR_FILENAME.png'
 
