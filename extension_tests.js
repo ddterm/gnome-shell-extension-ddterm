@@ -10,7 +10,6 @@ const Extension = Me.imports.extension;
 const {
     target_rect_for_workarea_size,
     toggle,
-    DBUS_INTERFACE,
 } = Extension;
 
 let settings = null;
@@ -148,25 +147,6 @@ async function test_maximize_unmaximize(window_height, initial_window_maximize) 
     verify_window_geometry(window_height, window_height === 1.0);
 }
 
-async function test_begin_resize(window_height, window_maximize) {
-    await hide_window_async_wait();
-
-    await set_settings_double('window-height', window_height);
-    await set_settings_boolean('window-maximize', window_maximize);
-
-    toggle();
-
-    await async_wait_current_window();
-    await async_sleep();
-
-    verify_window_geometry(window_height, window_maximize || window_height === 1.0);
-
-    DBUS_INTERFACE.BeginResize();
-
-    await async_sleep();
-    verify_window_geometry(window_maximize ? 1.0 : window_height, false);
-}
-
 async function test_unmaximize_correct_height(window_height, window_height2) {
     await hide_window_async_wait();
 
@@ -291,11 +271,6 @@ async function run_tests(filter = '', filter_out = false) {
     for (let window_maximize of BOOL_VALUES) {
         for (let window_height of HEIGHT_VALUES)
             add_test(test_maximize_unmaximize, window_height, window_maximize);
-    }
-
-    for (let window_maximize of BOOL_VALUES) {
-        for (let window_height of HEIGHT_VALUES)
-            add_test(test_begin_resize, window_height, window_maximize);
     }
 
     for (let window_height of HEIGHT_VALUES) {

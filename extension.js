@@ -1,6 +1,6 @@
 'use strict';
 
-/* exported init enable disable settings current_window DBUS_INTERFACE target_rect_for_workarea_size toggle */
+/* exported init enable disable settings current_window target_rect_for_workarea_size toggle */
 
 const { GLib, Gio, Clutter, Meta, Shell } = imports.gi;
 const ByteArray = imports.byteArray;
@@ -91,7 +91,7 @@ class ExtensionDBusInterface {
     }
 }
 
-var DBUS_INTERFACE = new ExtensionDBusInterface();
+const DBUS_INTERFACE = new ExtensionDBusInterface();
 
 class WaylandClientStub {
     constructor(subprocess_launcher) {
