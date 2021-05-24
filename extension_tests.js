@@ -126,17 +126,7 @@ async function test_show(window_height, window_maximize) {
 }
 
 async function test_maximize_unmaximize(window_height, initial_window_maximize) {
-    await hide_window_async_wait();
-
-    await set_settings_double('window-height', window_height);
-    await set_settings_boolean('window-maximize', initial_window_maximize);
-
-    toggle();
-
-    await async_wait_current_window();
-    await async_sleep();
-
-    verify_window_geometry(window_height, initial_window_maximize || window_height === 1.0);
+    await test_show(window_height, initial_window_maximize);
 
     settings.set_boolean('window-maximize', true);
     await async_sleep();
@@ -148,17 +138,7 @@ async function test_maximize_unmaximize(window_height, initial_window_maximize) 
 }
 
 async function test_unmaximize_correct_height(window_height, window_height2) {
-    await hide_window_async_wait();
-
-    await set_settings_double('window-height', window_height);
-    await set_settings_boolean('window-maximize', false);
-
-    toggle();
-
-    await async_wait_current_window();
-    await async_sleep();
-
-    verify_window_geometry(window_height, window_height === 1.0);
+    await test_show(window_height, false);
 
     await set_settings_double('window-height', window_height2);
     await async_sleep();
@@ -174,17 +154,7 @@ async function test_unmaximize_correct_height(window_height, window_height2) {
 }
 
 async function test_unmaximize_on_height_change(window_height, window_height2) {
-    await hide_window_async_wait();
-
-    await set_settings_double('window-height', window_height);
-    await set_settings_boolean('window-maximize', true);
-
-    toggle();
-
-    await async_wait_current_window();
-    await async_sleep();
-
-    verify_window_geometry(window_height, true);
+    await test_show(window_height, true);
 
     await set_settings_double('window-height', window_height2);
     await async_sleep();
@@ -198,17 +168,7 @@ async function test_unmaximize_on_height_change(window_height, window_height2) {
 }
 
 async function test_resize_xte(window_height, window_maximize, window_height2) {
-    await hide_window_async_wait();
-
-    await set_settings_double('window-height', window_height);
-    await set_settings_boolean('window-maximize', window_maximize);
-
-    toggle();
-
-    await async_wait_current_window();
-    await async_sleep();
-
-    verify_window_geometry(window_height, window_maximize || window_height === 1.0);
+    await test_show(window_height, window_maximize);
 
     const initial_frame_rect = Extension.current_window.get_frame_rect();
 
