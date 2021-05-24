@@ -225,11 +225,6 @@ async function run_tests(filter = '', filter_out = false) {
 
     for (let window_maximize of BOOL_VALUES) {
         for (let window_height of HEIGHT_VALUES)
-            add_test(test_show, window_height, window_maximize);
-    }
-
-    for (let window_maximize of BOOL_VALUES) {
-        for (let window_height of HEIGHT_VALUES)
             add_test(test_maximize_unmaximize, window_height, window_maximize);
     }
 
