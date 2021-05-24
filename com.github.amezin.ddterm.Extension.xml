@@ -6,6 +6,9 @@
         <method name="BeginResize"/>
         <method name="Toggle"/>
         <method name="Activate"/>
-        <method name="RunTest"/>
+        <method name="RunTest">
+            <arg name="filter" type="s" direction="in"/>
+            <arg name="filter_out" type="b" direction="in"/>
+        </method>
     </interface>
 </node>

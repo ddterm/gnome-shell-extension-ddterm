@@ -206,12 +206,16 @@ async function test_unmaximize_on_height_change(window_height, window_height2) {
     );
 }
 
-async function run_tests() {
+async function run_tests(filter = '', filter_out = false) {
     const BOOL_VALUES = [true, false];
     const HEIGHT_VALUES = [0.3, 0.5, 0.7, 0.8, 0.9, 1.0];
     const tests = [];
 
-    const add_test = (func, ...args) => tests.push({ func, args });
+    const add_test = (func, ...args) => tests.push({
+        func,
+        args,
+        id: `${JsUnit.getFunctionName(func)}${JSON.stringify(args)}`,
+    });
 
     settings = Extension.settings;
 
@@ -251,15 +255,16 @@ async function run_tests() {
         }
     }
 
+    const filter_func = info => info.id.match(filter);
+    const filtered_tests = tests.filter(filter_out ? info => !filter_func(info) : filter_func);
     let tests_passed = 0;
-    for (let test of tests) {
-        const test_id = `${JsUnit.getFunctionName(test.func)}(${JSON.stringify(test.args)})`;
-        print(`Running test ${test_id} (${tests_passed} of ${tests.length} done, ${PERCENT_FORMAT.format(tests_passed / tests.length)})`);
+    for (let test of filtered_tests) {
+        print(`Running test ${test.id} (${tests_passed} of ${filtered_tests.length} done, ${PERCENT_FORMAT.format(tests_passed / filtered_tests.length)})`);
         try {
             // eslint-disable-next-line no-await-in-loop
             await test.func(...test.args);
         } catch (e) {
-            e.message += `\n${test_id})`;
+            e.message += `\n${test.id})`;
             throw e;
         }
         tests_passed += 1;

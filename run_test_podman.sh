@@ -2,23 +2,29 @@
 
 IMAGE="ghcr.io/amezin/gnome-shell-pod-34:master"
 SERVICE="gnome-xsession"
+TEST_FILTER=
+TEST_FILTER_OUT="false"
 PACKAGE="ddterm@amezin.github.com.shell-extension.zip"
 DISPLAY=":99"
 PULL=0
 
 usage() {
-    >&2 echo "Usage: $0 [-i image] [-p] [-s service] [-f package] [-d display]"
+    >&2 echo "Usage: $0 [-i image] [-p] [-s service] [-k pattern] [-f package] [-d display]"
     >&2 echo " -i image: Docker/Podman image to run. Default: ${IMAGE}"
     >&2 echo " -p: Pull the image before running."
     >&2 echo " -s service: Systemd service (GNOME shell type) to run. Default: ${SERVICE}"
+    >&2 echo " -k pattern: Run only tests matching the regex pattern."
+    >&2 echo " -n: Invert -k pattern - exclude tests matching it."
     >&2 echo " -p package: Path to GNOME Shell extension package. Default: ${PACKAGE}"
     >&2 echo " -d display: X11 display in the container. Default: ${DISPLAY}"
 }
 
-while getopts "pi:s:f:h" opt; do
+while getopts "pi:s:k:nf:h" opt; do
     case $opt in
     i) IMAGE="${OPTARG}";;
     s) SERVICE="${OPTARG}";;
+    k) TEST_FILTER="${OPTARG}";;
+    n) TEST_FILTER_OUT="true";;
     f) PACKAGE="${OPTARG}";;
     d) DISPLAY="${OPTARG}";;
     p) PULL=1;;
@@ -67,7 +73,7 @@ do_in_pod gnome-extensions enable "${EXTENSION_UUID}"
 do_in_pod timeout 10s wait-dbus-interface.sh -d org.gnome.Shell -o /org/gnome/Shell/Extensions/ddterm -i com.github.amezin.ddterm.Extension
 
 exit_code=0
-do_in_pod gdbus call --session --timeout 300 --dest org.gnome.Shell --object-path /org/gnome/Shell/Extensions/ddterm --method com.github.amezin.ddterm.Extension.RunTest || exit_code=$?
+do_in_pod gdbus call --session --timeout 300 --dest org.gnome.Shell --object-path /org/gnome/Shell/Extensions/ddterm --method com.github.amezin.ddterm.Extension.RunTest "${TEST_FILTER}" "${TEST_FILTER_OUT}" || exit_code=$?
 
 podman cp "${POD}:/run/Xvfb_screen0" - | tar xf - --to-command 'convert xwd:- $TAR_FILENAME.png'
 
