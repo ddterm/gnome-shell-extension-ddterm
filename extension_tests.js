@@ -240,6 +240,14 @@ async function run_tests() {
             add_test(test_unmaximize_on_height_change, window_height, window_height2);
     }
 
+    if (Main.welcomeDialog) {
+        const ModalDialog = imports.ui.modalDialog;
+        if (Main.welcomeDialog.state !== ModalDialog.State.CLOSED) {
+            Main.welcomeDialog.close();
+            await async_wait_signal(Main.welcomeDialog, 'closed');
+        }
+    }
+
     let tests_passed = 0;
     for (let test of tests) {
         const test_id = `${JsUnit.getFunctionName(test.func)}(${JSON.stringify(test.args)})`;
