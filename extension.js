@@ -481,8 +481,6 @@ function workarea_for_window(win) {
 function target_rect_for_workarea_size(workarea, monitor_scale, size) {
     const target_rect = workarea.copy();
     target_rect.height *= size;
-
-    target_rect.width -= target_rect.width % monitor_scale;
     target_rect.height -= target_rect.height % monitor_scale;
 
     return target_rect;

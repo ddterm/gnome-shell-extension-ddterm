@@ -95,7 +95,6 @@ function verify_window_geometry(window_height, window_maximize) {
 
         // Window size (at least, on Wayland) should be an integer number of
         // logical pixels
-        JsUnit.assertEquals(0, frame_rect.width % monitor_scale);
         JsUnit.assertEquals(0, frame_rect.height % monitor_scale);
 
         assert_rect_equals(target_rect, frame_rect);
