@@ -1,6 +1,6 @@
 'use strict';
 
-/* exported init enable disable settings current_window DBUS_INTERFACE workarea_for_monitor target_rect_for_workarea_size toggle */
+/* exported init enable disable settings current_window DBUS_INTERFACE target_rect_for_workarea_size toggle */
 
 const { GLib, Gio, Clutter, Meta, Shell } = imports.gi;
 const ByteArray = imports.byteArray;
@@ -12,6 +12,8 @@ const { util } = Me.imports;
 var settings = null;
 
 var current_window = null;
+var current_workarea = null;
+var current_monitor_scale = 1;
 
 let bus_watch_id = null;
 let dbus_action_group = null;
@@ -56,14 +58,10 @@ class ExtensionDBusInterface {
         if (current_window.maximized_vertically)
             current_window.unmaximize(Meta.MaximizeFlags.VERTICAL);
 
-        const { workarea } = workarea_for_window(current_window);
-        if (!workarea)
-            return;
-
         // Window still unmaximizes incorrectly without this.
         // Show terminal, maximize, hide, show, start resizing with mouse.
         // TODO: add a test that simulates mouse resizing using xdotool
-        move_resize_window(current_window, workarea);
+        move_resize_window(current_window, current_workarea);
     }
 
     Toggle() {
@@ -179,6 +177,8 @@ function enable() {
     );
 
     extension_connections.connect(global.display, 'window-created', handle_window_created);
+    extension_connections.connect(global.display, 'workareas-changed', update_workarea_for_window);
+    extension_connections.connect(global.display, 'workareas-changed', update_window_geometry);
     extension_connections.connect(settings, 'changed::window-above', set_window_above);
     extension_connections.connect(settings, 'changed::window-stick', set_window_stick);
     extension_connections.connect(settings, 'changed::window-height', disable_window_maximize_setting);
@@ -190,6 +190,7 @@ function enable() {
     extension_connections.connect(settings, 'changed::hide-animation', update_hide_animation);
     extension_connections.connect(settings, 'changed::hide-when-focus-lost', setup_hide_when_focus_lost);
 
+    update_workarea_for_window();
     update_show_animation();
     update_hide_animation();
     setup_animation_overrides();
@@ -440,10 +441,19 @@ function set_skip_taskbar() {
         wayland_client.show_in_window_list(current_window);
 }
 
-function workarea_for_monitor(monitor_index) {
-    const monitor_scale = monitor_index < 0 ? 1 : global.display.get_monitor_scale(monitor_index);
-    const workarea = monitor_index < 0 ? null : Main.layoutManager.getWorkAreaForMonitor(monitor_index);
-    return { monitor_scale, workarea };
+function update_workarea(monitor_index) {
+    if (monitor_index < 0)
+        return;
+
+    current_workarea = Main.layoutManager.getWorkAreaForMonitor(monitor_index);
+    current_monitor_scale = global.display.get_monitor_scale(monitor_index);
+}
+
+function update_workarea_for_window() {
+    if (!current_window)
+        return;
+
+    update_workarea(current_window.get_monitor());
 }
 
 function set_current_window(win) {
@@ -458,6 +468,8 @@ function set_current_window(win) {
     release_window(current_window);
     current_window = win;
 
+    update_workarea(Main.layoutManager.currentMonitor.index);
+
     current_window_connections.connect(win, 'unmanaged', release_window);
     current_window_connections.connect(win, 'notify::maximized-vertically', handle_maximized_vertically);
     current_window_connections.connect(win, 'notify::window-type', setup_animation_overrides);
@@ -466,9 +478,7 @@ function set_current_window(win) {
     setup_hide_when_focus_lost();
     setup_animation_overrides();
 
-    const { workarea, monitor_scale } = workarea_for_monitor(Main.layoutManager.currentMonitor.index);
-    const target_rect = target_rect_for_workarea(workarea, monitor_scale);
-
+    const target_rect = target_rect_for_workarea();
     move_resize_window(win, target_rect);
 
     // https://github.com/amezin/gnome-shell-extension-ddterm/issues/28
@@ -482,11 +492,6 @@ function set_current_window(win) {
     set_window_maximized();
 }
 
-function workarea_for_window(win) {
-    // Can't use window.monitor here - it's out of sync
-    return workarea_for_monitor(global.display.get_monitor_index_for_rect(win.get_frame_rect()));
-}
-
 function target_rect_for_workarea_size(workarea, monitor_scale, size) {
     const target_rect = workarea.copy();
     target_rect.height *= size;
@@ -495,8 +500,8 @@ function target_rect_for_workarea_size(workarea, monitor_scale, size) {
     return target_rect;
 }
 
-function target_rect_for_workarea(workarea, monitor_scale) {
-    return target_rect_for_workarea_size(workarea, monitor_scale, settings.get_double('window-height'));
+function target_rect_for_workarea() {
+    return target_rect_for_workarea_size(current_workarea, current_monitor_scale, settings.get_double('window-height'));
 }
 
 function handle_maximized_vertically(win) {
@@ -520,13 +525,9 @@ function handle_maximized_vertically(win) {
 }
 
 function unmaximize_window_if_not_full_height(win) {
-    const { workarea, monitor_scale } = workarea_for_window(current_window);
-    if (!workarea)
-        return;
+    const target_rect = target_rect_for_workarea();
 
-    const target_rect = target_rect_for_workarea(workarea, monitor_scale);
-
-    if (target_rect.height < workarea.height)
+    if (target_rect.height < current_workarea.height)
         win.unmaximize(Meta.MaximizeFlags.VERTICAL);
 }
 
@@ -562,16 +563,12 @@ function update_window_geometry() {
     if (settings.get_boolean('window-maximize'))
         return;
 
-    const { workarea, monitor_scale } = workarea_for_window(current_window);
-    if (!workarea)
-        return;
-
-    const target_rect = target_rect_for_workarea(workarea, monitor_scale);
+    const target_rect = target_rect_for_workarea();
     if (target_rect.equal(current_window.get_frame_rect()))
         return;
 
     if (current_window.maximized_vertically) {
-        if (target_rect.height < workarea.height) {
+        if (target_rect.height < current_workarea.height) {
             Main.wm.skipNextEffect(current_window.get_compositor_private());
             current_window.unmaximize(Meta.MaximizeFlags.VERTICAL);
         }
@@ -587,11 +584,7 @@ function update_height_setting_on_grab_end(display, p0, p1) {
     if (win !== current_window || win.maximized_vertically)
         return;
 
-    const { workarea } = workarea_for_window(win);
-    if (!workarea)
-        return;
-
-    const current_height = win.get_frame_rect().height / workarea.height;
+    const current_height = win.get_frame_rect().height / current_workarea.height;
     settings.set_double('window-height', Math.min(1.0, current_height));
 }
 

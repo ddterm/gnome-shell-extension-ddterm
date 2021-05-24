@@ -8,7 +8,6 @@ const JsUnit = imports.jsUnit;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Extension = Me.imports.extension;
 const {
-    workarea_for_monitor,
     target_rect_for_workarea_size,
     toggle,
     DBUS_INTERFACE,
@@ -83,7 +82,8 @@ function assert_rect_equals(expected, actual) {
 
 function verify_window_geometry(window_height, window_maximize) {
     const monitor_index = Main.layoutManager.currentMonitor.index;
-    const { workarea, monitor_scale } = workarea_for_monitor(monitor_index);
+    const workarea = Main.layoutManager.getWorkAreaForMonitor(monitor_index);
+    const monitor_scale = global.display.get_monitor_scale(monitor_index);
     const frame_rect = Extension.current_window.get_frame_rect();
 
     JsUnit.assertEquals(window_maximize, Extension.current_window.maximized_vertically);
