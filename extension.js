@@ -55,6 +55,15 @@ class ExtensionDBusInterface {
         // first
         if (current_window.maximized_vertically)
             current_window.unmaximize(Meta.MaximizeFlags.VERTICAL);
+
+        const { workarea } = workarea_for_window(current_window);
+        if (!workarea)
+            return;
+
+        // Window still unmaximizes incorrectly without this.
+        // Show terminal, maximize, hide, show, start resizing with mouse.
+        // TODO: add a test that simulates mouse resizing using xdotool
+        move_resize_window(current_window, workarea);
     }
 
     Toggle() {
