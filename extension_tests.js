@@ -240,6 +240,9 @@ async function run_tests() {
             add_test(test_unmaximize_on_height_change, window_height, window_height2);
     }
 
+    if (global.settings.settings_schema.has_key('welcome-dialog-last-shown-version'))
+        global.settings.set_string('welcome-dialog-last-shown-version', '99.0');
+
     if (Main.welcomeDialog) {
         const ModalDialog = imports.ui.modalDialog;
         if (Main.welcomeDialog.state !== ModalDialog.State.CLOSED) {
