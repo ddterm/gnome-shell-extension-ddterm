@@ -514,8 +514,10 @@ function handle_maximized_vertically(win) {
         settings.set_boolean('window-maximize', false);
         update_window_geometry();
 
-        unmaximize_fixup_connections.connect(win, 'position-changed', update_window_geometry);
-        unmaximize_fixup_connections.connect(win, 'size-changed', update_window_geometry);
+        if (win.get_client_type() === Meta.WindowClientType.WAYLAND) {
+            unmaximize_fixup_connections.connect(win, 'position-changed', update_window_geometry);
+            unmaximize_fixup_connections.connect(win, 'size-changed', update_window_geometry);
+        }
 
         return;
     }
