@@ -270,7 +270,7 @@ async function test_unmaximize_on_height_change(window_height, window_height2, w
     await test_show(window_height, true, window_pos);
 
     await set_settings_double('window-height', window_height2);
-    await async_sleep();
+    await wait_window_settle();
 
     // eslint-disable-next-line no-extra-parens
     const is_maximized = (
