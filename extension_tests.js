@@ -313,7 +313,7 @@ function resize_point(frame_rect, window_pos, monitor_scale) {
     return { x, y };
 }
 
-async function test_resize_xte(window_height, window_maximize, window_height2, window_pos) {
+async function test_resize_xte_flaky(window_height, window_maximize, window_height2, window_pos) {
     await test_show(window_height, window_maximize, window_pos);
 
     const monitor_index = Main.layoutManager.currentMonitor.index;
@@ -329,9 +329,11 @@ async function test_resize_xte(window_height, window_maximize, window_height2, w
     await async_run_process(['xte', `mousemove ${initial.x} ${initial.y}`, 'sleep 0.2', 'mousedown 1']);
     await wait_window_settle();
 
-    verify_window_geometry(window_maximize ? 1.0 : window_height, false, window_pos);
-
-    await async_run_process(['xte', `mousermove ${target.x - initial.x} ${target.y - initial.y}`, 'sleep 0.2', 'mouseup 1']);
+    try {
+        verify_window_geometry(window_maximize ? 1.0 : window_height, false, window_pos);
+    } finally {
+        await async_run_process(['xte', `mousermove ${target.x - initial.x} ${target.y - initial.y}`, 'sleep 0.2', 'mouseup 1']);
+    }
     await wait_window_settle();
 
     verify_window_geometry(window_height2, false, window_pos);
@@ -342,6 +344,15 @@ async function test_resize_xte(window_height, window_maximize, window_height2, w
         Extension.update_height_setting_on_grab_end(global.display, Extension.current_window);
 
     assert_rect_equals(target_frame_rect, Extension.target_rect_for_workarea());
+}
+
+async function test_resize_xte(window_height, window_maximize, window_height2, window_pos) {
+    try {
+        await test_resize_xte_flaky(window_height, window_maximize, window_height2, window_pos);
+    } catch (e) {
+        logError(e, 'Trying again');
+        await test_resize_xte_flaky(window_height, window_maximize, window_height2, window_pos);
+    }
 }
 
 async function run_tests(filter = '', filter_out = false) {
