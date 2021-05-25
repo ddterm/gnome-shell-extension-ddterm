@@ -62,7 +62,7 @@ gtk-builder-validate/prefs-gtk4.ui: prefs-gtk4.ui
 
 DEFAULT_SOURCES := extension.js prefs.js metadata.json
 
-EXTRA_SOURCES := $(filter-out test-prefs-gtk4.js,$(wildcard *.js *.css))
+EXTRA_SOURCES := $(filter-out test-prefs-gtk4.js extension_tests.js,$(wildcard *.js *.css))
 EXTRA_SOURCES += com.github.amezin.ddterm com.github.amezin.ddterm.Extension.xml
 EXTRA_SOURCES += menus.ui
 EXTRA_SOURCES += LICENSE
@@ -76,7 +76,11 @@ gtk-builder-validate: $(addprefix gtk-builder-validate/, $(filter-out terminalpa
 EXTENSION_UUID := ddterm@amezin.github.com
 DEVELOP_SYMLINK := $(HOME)/.local/share/gnome-shell/extensions/$(EXTENSION_UUID)
 
-develop: schemas/gschemas.compiled $(GENERATED_SOURCES)
+test-deps: schemas/gschemas.compiled $(GENERATED_SOURCES)
+
+.PHONY: test-deps
+
+develop: test-deps
 	mkdir -p "$(dir $(DEVELOP_SYMLINK))"
 	if [[ "$(abspath .)" != "$(abspath $(DEVELOP_SYMLINK))" ]]; then \
 		ln -snf "$(abspath .)" "$(DEVELOP_SYMLINK)"; \

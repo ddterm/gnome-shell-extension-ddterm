@@ -1,6 +1,6 @@
 name: pack
 
-on: [push, pull_request]
+on: push
 
 jobs:
   pack:
@@ -22,32 +22,3 @@ jobs:
       with:
         files: "*.shell-extension.zip"
         draft: true
-  test:
-    runs-on: ubuntu-20.04
-    needs:
-      - pack
-    strategy:
-      fail-fast: false
-      matrix:
-        fedora-version:
-          - '32'
-          - '33'
-          - '34'
-        session:
-          - 'gnome-xsession'
-          - 'gnome-wayland-nested'
-          - 'gnome-wayland-nested-highdpi'
-    steps:
-    - uses: actions/checkout@v2
-    - uses: actions/download-artifact@v2
-      with:
-        name: shell-extension
-    - run: sudo podman pull ghcr.io/amezin/gnome-shell-pod-${{ matrix.fedora-version }}:master
-    - run: sudo ./run_test_podman.sh -i ghcr.io/amezin/gnome-shell-pod-${{ matrix.fedora-version }}:master -s ${{ matrix.session }}
-    - uses: actions/upload-artifact@v2
-      with:
-        name: test-${{ matrix.fedora-version }}-${{ matrix.session }}
-        path: |
-          Xvfb_screen*.png
-          journal.txt
-      if: always()

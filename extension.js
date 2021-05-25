@@ -2,12 +2,14 @@
 
 /* exported init enable disable settings current_window target_rect_for_workarea_size toggle */
 
-const { GLib, Gio, Clutter, Meta, Shell } = imports.gi;
+const { Gio, Clutter, Meta, Shell } = imports.gi;
 const ByteArray = imports.byteArray;
 const Main = imports.ui.main;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const WindowManager = imports.ui.windowManager;
 const { util } = Me.imports;
+
+let tests = null;
 
 var settings = null;
 
@@ -71,24 +73,6 @@ class ExtensionDBusInterface {
     Activate() {
         activate();
     }
-
-    RunTestAsync(params, invocation) {
-        Me.imports.extension_tests.run_tests(...params).then(_ => {
-            invocation.return_value(null);
-        }).catch(e => {
-            if (e instanceof GLib.Error) {
-                invocation.return_gerror(e);
-            } else {
-                let name = e.name;
-                if (!name.includes('.')) {
-                    // likely to be a normal JS error
-                    name = `org.gnome.gjs.JSError.${name}`;
-                }
-                logError(e, `Exception in method call: ${invocation.get_method_name()}`);
-                invocation.return_dbus_error(name, `${e}\n\n${e.stack}`);
-            }
-        });
-    }
 }
 
 const DBUS_INTERFACE = new ExtensionDBusInterface();
@@ -146,6 +130,9 @@ const update_height_setting_on_grab_end_connections = new ConnectionSet();
 const unmaximize_fixup_connections = new ConnectionSet();
 
 function init() {
+    // Test aren't included in end user (extensions.gnome.org) packages
+    if (Me.dir.get_child('extension_tests.js').query_exists(null))
+        tests = Me.imports.extension_tests;
 }
 
 function enable() {
@@ -199,6 +186,9 @@ function enable() {
     setup_update_height_setting_on_grab_end();
 
     DBUS_INTERFACE.dbus.export(Gio.DBus.session, '/org/gnome/Shell/Extensions/ddterm');
+
+    if (tests)
+        tests.enable();
 }
 
 function disable() {
@@ -225,6 +215,9 @@ function disable() {
     animation_overrides_connections.disconnect();
     hide_when_focus_lost_connections.disconnect();
     update_height_setting_on_grab_end_connections.disconnect();
+
+    if (tests)
+        tests.disable();
 }
 
 function spawn_app() {

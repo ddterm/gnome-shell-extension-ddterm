@@ -4,7 +4,7 @@ IMAGE="ghcr.io/amezin/gnome-shell-pod-34:master"
 SERVICE="gnome-xsession"
 TEST_FILTER=
 TEST_FILTER_OUT="false"
-PACKAGE="ddterm@amezin.github.com.shell-extension.zip"
+SOURCE_DIR="${PWD}"
 DISPLAY=":99"
 PULL=0
 
@@ -15,8 +15,8 @@ usage() {
     >&2 echo " -s service: Systemd service (GNOME shell type) to run. Default: ${SERVICE}"
     >&2 echo " -k pattern: Run only tests matching the regex pattern."
     >&2 echo " -n: Invert -k pattern - exclude tests matching it."
-    >&2 echo " -p package: Path to GNOME Shell extension package. Default: ${PACKAGE}"
-    >&2 echo " -d display: X11 display in the container. Default: ${DISPLAY}"
+    >&2 echo " -f: Source directory. Default: ${SOURCE_DIR}"
+    >&2 echo " -d display: Xvfb display in the container. Default: ${DISPLAY}"
 }
 
 while getopts "pi:s:k:nf:h" opt; do
@@ -25,7 +25,7 @@ while getopts "pi:s:k:nf:h" opt; do
     s) SERVICE="${OPTARG}";;
     k) TEST_FILTER="${OPTARG}";;
     n) TEST_FILTER_OUT="true";;
-    f) PACKAGE="${OPTARG}";;
+    f) SOURCE_DIR="${OPTARG}";;
     d) DISPLAY="${OPTARG}";;
     p) PULL=1;;
     h) usage; exit 0;;
@@ -33,18 +33,16 @@ while getopts "pi:s:k:nf:h" opt; do
     esac
 done
 
-set -ex
+EXTENSION_UUID="ddterm@amezin.github.com"
+PACKAGE_MOUNTPATH="/home/gnomeshell/.local/share/gnome-shell/extensions/${EXTENSION_UUID}"
 
-EXTENSION_UUID="$(unzip -p "${PACKAGE}" metadata.json | jq -r .uuid)"
-EXTENSION_PACKAGE_FILENAME="${EXTENSION_UUID}.shell-extension.zip"
-PACKAGE_FULLPATH="$(realpath "${PACKAGE}")"
-PACKAGE_MOUNTPATH="/home/gnomeshell/${EXTENSION_PACKAGE_FILENAME}"
+set -ex
 
 if (( PULL )); then
     podman pull "${IMAGE}"
 fi
 
-POD=$(podman run --rm --cap-add=SYS_NICE --cap-add=IPC_LOCK -v "${PACKAGE_FULLPATH}:${PACKAGE_MOUNTPATH}:ro" -td "${IMAGE}")
+POD=$(podman run --rm --cap-add=SYS_NICE --cap-add=IPC_LOCK -v "${SOURCE_DIR}:${PACKAGE_MOUNTPATH}:ro" -td "${IMAGE}")
 
 down () {
     podman kill "${POD}"
@@ -57,10 +55,6 @@ do_in_pod() {
     podman exec --user gnomeshell --workdir /home/gnomeshell "${POD}" set-env.sh "$@"
 }
 
-# gnome-extensions install doesn't need a running GNOME Shell
-# Even if it will need it at some point, we can simply unzip the archive instead.
-do_in_pod gnome-extensions install "${PACKAGE_MOUNTPATH}"
-
 do_in_pod timeout 10s wait-user-bus.sh
 
 do_in_pod journalctl --user -f | tee journal.txt &
@@ -70,10 +64,10 @@ do_in_pod timeout 10s wait-dbus-interface.sh -d org.gnome.Shell -o /org/gnome/Sh
 do_in_pod gnome-extensions enable "${EXTENSION_UUID}"
 
 # Start of ddterm-specific script - run tests using private D-Bus interface
-do_in_pod timeout 10s wait-dbus-interface.sh -d org.gnome.Shell -o /org/gnome/Shell/Extensions/ddterm -i com.github.amezin.ddterm.Extension
+do_in_pod timeout 10s wait-dbus-interface.sh -d org.gnome.Shell -o /org/gnome/Shell/Extensions/ddterm -i com.github.amezin.ddterm.ExtensionTest
 
 exit_code=0
-do_in_pod gdbus call --session --timeout 300 --dest org.gnome.Shell --object-path /org/gnome/Shell/Extensions/ddterm --method com.github.amezin.ddterm.Extension.RunTest "${TEST_FILTER}" "${TEST_FILTER_OUT}" || exit_code=$?
+do_in_pod gdbus call --session --timeout 300 --dest org.gnome.Shell --object-path /org/gnome/Shell/Extensions/ddterm --method com.github.amezin.ddterm.ExtensionTest.RunTest "${TEST_FILTER}" "${TEST_FILTER_OUT}" || exit_code=$?
 
 podman cp "${POD}:/run/Xvfb_screen0" - | tar xf - --to-command 'convert xwd:- $TAR_FILENAME.png'
 

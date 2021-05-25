@@ -1,8 +1,9 @@
 'use strict';
 
-/* exported run_tests */
+/* exported enable disable */
 
 const { GLib, Gio, Meta } = imports.gi;
+const ByteArray = imports.byteArray;
 const Main = imports.ui.main;
 const JsUnit = imports.jsUnit;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
@@ -15,6 +16,41 @@ const {
 let settings = null;
 
 const PERCENT_FORMAT = new Intl.NumberFormat(undefined, { style: 'percent' });
+
+class ExtensionTestDBusInterface {
+    constructor() {
+        let [_, xml] = Me.dir.get_child('com.github.amezin.ddterm.ExtensionTest.xml').load_contents(null);
+        this.dbus = Gio.DBusExportedObject.wrapJSObject(ByteArray.toString(xml), this);
+    }
+
+    RunTestAsync(params, invocation) {
+        run_tests(...params).then(_ => {
+            invocation.return_value(null);
+        }).catch(e => {
+            if (e instanceof GLib.Error) {
+                invocation.return_gerror(e);
+            } else {
+                let name = e.name;
+                if (!name.includes('.')) {
+                    // likely to be a normal JS error
+                    name = `org.gnome.gjs.JSError.${name}`;
+                }
+                logError(e, `Exception in method call: ${invocation.get_method_name()}`);
+                invocation.return_dbus_error(name, `${e}\n\n${e.stack}`);
+            }
+        });
+    }
+}
+
+const DBUS_INTERFACE = new ExtensionTestDBusInterface();
+
+function enable() {
+    DBUS_INTERFACE.dbus.export(Gio.DBus.session, '/org/gnome/Shell/Extensions/ddterm');
+}
+
+function disable() {
+    DBUS_INTERFACE.dbus.unexport();
+}
 
 function async_sleep(ms = 200) {
     return new Promise(resolve => GLib.timeout_add(GLib.PRIORITY_DEFAULT, ms, () => {

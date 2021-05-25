@@ -1,0 +1,11 @@
+<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN"
+    "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+
+<node>
+    <interface name="com.github.amezin.ddterm.ExtensionTest">
+        <method name="RunTest">
+            <arg name="filter" type="s" direction="in"/>
+            <arg name="filter_out" type="b" direction="in"/>
+        </method>
+    </interface>
+</node>

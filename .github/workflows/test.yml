@@ -1,0 +1,34 @@
+name: test
+
+on:
+  - push
+  - pull_request
+
+jobs:
+  test:
+    runs-on: ubuntu-20.04
+    strategy:
+      fail-fast: false
+      matrix:
+        fedora-version:
+          - '32'
+          - '33'
+          - '34'
+        session:
+          - 'gnome-xsession'
+          - 'gnome-wayland-nested'
+          - 'gnome-wayland-nested-highdpi'
+    env:
+      IMAGE: ghcr.io/amezin/gnome-shell-pod-${{ matrix.fedora-version }}:master
+    steps:
+    - uses: actions/checkout@v2
+    - run: sudo podman pull "${{ env.IMAGE }}"
+    - run: sudo podman run --rm -i -v "${PWD}:${PWD}" -w "${PWD}" "${{ env.IMAGE }}" xvfb-run make test-deps
+    - run: sudo ./run_test_podman.sh -i "${{ env.IMAGE }}" -s "${{ matrix.session }}"
+    - uses: actions/upload-artifact@v2
+      with:
+        name: test-${{ matrix.fedora-version }}-${{ matrix.session }}
+        path: |
+          Xvfb_screen*.png
+          journal.txt
+      if: always()
