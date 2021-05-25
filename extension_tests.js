@@ -211,9 +211,7 @@ async function test_resize_xte(window_height, window_maximize, window_height2) {
     const initial_x = Math.floor(initial_frame_rect.x + initial_frame_rect.width / 2);
     const initial_y = initial_frame_rect.y + initial_frame_rect.height - 5;
 
-    await async_run_process(['xte', `mousemove ${initial_x} ${initial_y}`]);
-    await async_sleep();
-    await async_run_process(['xte', 'mousedown 1']);
+    await async_run_process(['xte', `mousemove ${initial_x} ${initial_y}`, 'sleep 0.2', 'mousedown 1']);
     await async_sleep();
 
     verify_window_geometry(window_maximize ? 1.0 : window_height, false);
@@ -222,11 +220,8 @@ async function test_resize_xte(window_height, window_maximize, window_height2) {
     const workarea = Main.layoutManager.getWorkAreaForMonitor(monitor_index);
     const monitor_scale = global.display.get_monitor_scale(monitor_index);
     const target_frame_rect = target_rect_for_workarea_size(workarea, monitor_scale, window_height2);
-    const target_y = initial_y + target_frame_rect.height - initial_frame_rect.height;
 
-    await async_run_process(['xte', `mousemove ${initial_x} ${target_y}`]);
-    await async_sleep();
-    await async_run_process(['xte', 'mouseup 1']);
+    await async_run_process(['xte', `mousermove 0 ${target_frame_rect.height - initial_frame_rect.height}`, 'sleep 0.2', 'mouseup 1']);
     await async_sleep();
 
     verify_window_geometry(window_height2, false);
