@@ -82,6 +82,9 @@ test-deps: schemas/gschemas.compiled $(GENERATED_SOURCES)
 
 develop: test-deps
 	mkdir -p "$(dir $(DEVELOP_SYMLINK))"
+	@if [[ -e "$(DEVELOP_SYMLINK)" && ! -L "$(DEVELOP_SYMLINK)" ]]; then \
+		echo "$(DEVELOP_SYMLINK) exists and is not a symlink, not overwriting"; exit 1; \
+	fi
 	if [[ "$(abspath .)" != "$(abspath $(DEVELOP_SYMLINK))" ]]; then \
 		ln -snf "$(abspath .)" "$(DEVELOP_SYMLINK)"; \
 	fi
