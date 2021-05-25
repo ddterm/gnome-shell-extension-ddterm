@@ -78,6 +78,37 @@ async function async_wait_current_window() {
     }
 }
 
+function wait_window_settle() {
+    return new Promise(resolve => {
+        const win = Extension.current_window;
+        let timer_id = null;
+        const handlers = [];
+
+        const restart_timer = () => {
+            if (timer_id !== null) {
+                GLib.source_remove(timer_id);
+                timer_id = null;
+            }
+
+            timer_id = GLib.timeout_add(GLib.PRIORITY_DEFAULT_IDLE, 200, () => {
+                timer_id = null;
+
+                while (handlers.length)
+                    win.disconnect(handlers.pop());
+
+                resolve();
+                return GLib.SOURCE_REMOVE;
+            });
+        };
+
+        restart_timer();
+
+        handlers.push(win.connect('position-changed', restart_timer));
+        handlers.push(win.connect('size-changed', restart_timer));
+        handlers.push(win.connect('notify::maximized-vertically', restart_timer));
+    });
+}
+
 function connect_once(object, signal, callback) {
     const handler_id = object.connect(signal, (...params) => {
         object.disconnect(handler_id);
@@ -156,7 +187,7 @@ async function test_show(window_height, window_maximize) {
     toggle();
 
     await async_wait_current_window();
-    await async_sleep();
+    await wait_window_settle();
 
     verify_window_geometry(window_height, window_maximize || window_height === 1.0);
 }
@@ -165,11 +196,11 @@ async function test_maximize_unmaximize(window_height, initial_window_maximize) 
     await test_show(window_height, initial_window_maximize);
 
     settings.set_boolean('window-maximize', true);
-    await async_sleep();
+    await wait_window_settle();
     verify_window_geometry(window_height, true);
 
     settings.set_boolean('window-maximize', false);
-    await async_sleep();
+    await wait_window_settle();
     verify_window_geometry(window_height, window_height === 1.0);
 }
 
@@ -177,15 +208,15 @@ async function test_unmaximize_correct_height(window_height, window_height2) {
     await test_show(window_height, false);
 
     await set_settings_double('window-height', window_height2);
-    await async_sleep();
+    await wait_window_settle();
     verify_window_geometry(window_height2, window_height === 1.0 && window_height2 === 1.0);
 
     await set_settings_boolean('window-maximize', true);
-    await async_sleep();
+    await wait_window_settle();
     verify_window_geometry(window_height2, true);
 
     await set_settings_boolean('window-maximize', false);
-    await async_sleep();
+    await wait_window_settle();
     verify_window_geometry(window_height2, window_height2 === 1.0);
 }
 
@@ -212,7 +243,7 @@ async function test_resize_xte(window_height, window_maximize, window_height2) {
     const initial_y = initial_frame_rect.y + initial_frame_rect.height - 5;
 
     await async_run_process(['xte', `mousemove ${initial_x} ${initial_y}`, 'sleep 0.2', 'mousedown 1']);
-    await async_sleep();
+    await wait_window_settle();
 
     verify_window_geometry(window_maximize ? 1.0 : window_height, false);
 
@@ -222,7 +253,7 @@ async function test_resize_xte(window_height, window_maximize, window_height2) {
     const target_frame_rect = target_rect_for_workarea_size(workarea, monitor_scale, window_height2);
 
     await async_run_process(['xte', `mousermove 0 ${target_frame_rect.height - initial_frame_rect.height}`, 'sleep 0.2', 'mouseup 1']);
-    await async_sleep();
+    await wait_window_settle();
 
     verify_window_geometry(window_height2, false);
 
