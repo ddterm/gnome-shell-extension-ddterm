@@ -437,7 +437,12 @@ function set_window_above() {
     if (current_window === null)
         return;
 
-    if (settings.get_boolean('window-above'))
+    const should_be_above = settings.get_boolean('window-above');
+    // Both make_above() and unmake_above() raise the window, so check is necessary
+    if (current_window.above === should_be_above)
+        return;
+
+    if (should_be_above)
         current_window.make_above();
     else
         current_window.unmake_above();
@@ -581,6 +586,13 @@ function unmaximize_done() {
     settings.set_boolean('window-maximize', false);
     update_window_geometry();
     schedule_geometry_fixup(current_window);
+
+    // https://github.com/amezin/gnome-shell-extension-ddterm/issues/48
+    if (settings.get_boolean('window-above')) {
+        // Without unmake_above(), make_above() won't actually take effect (?!)
+        current_window.unmake_above();
+        set_window_above();
+    }
 }
 
 function handle_maximized_vertically(win) {
