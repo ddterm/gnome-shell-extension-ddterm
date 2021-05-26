@@ -369,13 +369,13 @@ async function test_resize_xte_flaky(window_size, window_maximize, window_size2,
     const target_frame_rect = Extension.target_rect_for_workarea_size(workarea, monitor_scale, window_size2);
     const target = resize_point(target_frame_rect, window_pos, monitor_scale);
 
-    await async_run_process(['xte', `mousemove ${initial.x} ${initial.y}`, 'sleep 0.2', 'mousedown 1']);
+    await async_run_process(['xte', `mousemove ${initial.x} ${initial.y}`, 'mousedown 1']);
     await wait_window_settle();
 
     try {
         verify_window_geometry(window_maximize ? 1.0 : window_size, false, window_pos);
     } finally {
-        await async_run_process(['xte', `mousermove ${target.x - initial.x} ${target.y - initial.y}`, 'sleep 0.2', 'mouseup 1']);
+        await async_run_process(['xte', `mousermove ${target.x - initial.x} ${target.y - initial.y}`, 'mouseup 1']);
     }
     await wait_window_settle();
 
