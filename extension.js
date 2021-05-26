@@ -685,6 +685,7 @@ function update_window_position() {
     animation_scale_y = resize_x ? 1.0 : 0.0;
 
     setup_maximized_handlers();
+    update_target_rect();
 }
 
 function target_rect_for_workarea_size(workarea, monitor_scale, size) {
