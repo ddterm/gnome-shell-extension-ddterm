@@ -293,7 +293,7 @@ async function test_maximize_unmaximize(window_size, initial_window_maximize, wi
     verify_window_geometry(window_size, window_size === 1.0, window_pos);
 }
 
-async function test_unmaximize_correct_height(window_size, window_size2, window_pos) {
+async function test_unmaximize_correct_size(window_size, window_size2, window_pos) {
     await test_show(window_size, false, window_pos);
 
     await set_settings_double('window-size', window_size2);
@@ -309,7 +309,7 @@ async function test_unmaximize_correct_height(window_size, window_size2, window_
     verify_window_geometry(window_size2, window_size2 === 1.0, window_pos);
 }
 
-async function test_unmaximize_on_height_change(window_size, window_size2, window_pos) {
+async function test_unmaximize_on_size_change(window_size, window_size2, window_pos) {
     await test_show(window_size, true, window_pos);
 
     await set_settings_double('window-size', window_size2);
@@ -400,7 +400,7 @@ async function test_resize_xte(window_size, window_maximize, window_size2, windo
 
 async function run_tests(filter = '', filter_out = false) {
     const BOOL_VALUES = [false, true];
-    const HEIGHT_VALUES = [0.3, 0.5, 0.7, 0.8, 0.9, 1.0];
+    const SIZE_VALUES = [0.3, 0.5, 0.7, 0.8, 0.9, 1.0];
     const POSITIONS = ['top', 'bottom', 'left', 'right'];
     const tests = [];
 
@@ -423,18 +423,18 @@ async function run_tests(filter = '', filter_out = false) {
 
     for (let window_pos of POSITIONS) {
         for (let window_maximize of BOOL_VALUES) {
-            for (let window_size of HEIGHT_VALUES)
+            for (let window_size of SIZE_VALUES)
                 add_test(test_maximize_unmaximize, window_size, window_maximize, window_pos);
         }
 
-        for (let window_size of HEIGHT_VALUES) {
-            for (let window_size2 of HEIGHT_VALUES)
-                add_test(test_unmaximize_correct_height, window_size, window_size2, window_pos);
+        for (let window_size of SIZE_VALUES) {
+            for (let window_size2 of SIZE_VALUES)
+                add_test(test_unmaximize_correct_size, window_size, window_size2, window_pos);
         }
 
-        for (let window_size of HEIGHT_VALUES) {
-            for (let window_size2 of HEIGHT_VALUES)
-                add_test(test_unmaximize_on_height_change, window_size, window_size2, window_pos);
+        for (let window_size of SIZE_VALUES) {
+            for (let window_size2 of SIZE_VALUES)
+                add_test(test_unmaximize_on_size_change, window_size, window_size2, window_pos);
         }
     }
 
