@@ -167,7 +167,7 @@ const current_window_connections = new ConnectionSet();
 const current_window_maximized_connections = new ConnectionSet();
 const animation_overrides_connections = new ConnectionSet();
 const hide_when_focus_lost_connections = new ConnectionSet();
-const update_height_setting_on_grab_end_connections = new ConnectionSet();
+const update_size_setting_on_grab_end_connections = new ConnectionSet();
 const geometry_fixup_connections = new ConnectionSet();
 
 function init() {
@@ -227,7 +227,7 @@ function enable() {
     setup_animation_overrides();
     setup_hide_when_focus_lost();
 
-    setup_update_height_setting_on_grab_end();
+    setup_update_size_setting_on_grab_end();
 
     DBUS_INTERFACE.dbus.export(Gio.DBus.session, '/org/gnome/Shell/Extensions/ddterm');
 
@@ -258,7 +258,7 @@ function disable() {
     extension_connections.disconnect();
     animation_overrides_connections.disconnect();
     hide_when_focus_lost_connections.disconnect();
-    update_height_setting_on_grab_end_connections.disconnect();
+    update_size_setting_on_grab_end_connections.disconnect();
     current_window_maximized_connections.disconnect();
 
     if (tests)
@@ -538,7 +538,7 @@ function set_current_window(win) {
     current_window_connections.connect(win, 'notify::window-type', setup_animation_overrides);
 
     setup_maximized_handlers();
-    setup_update_height_setting_on_grab_end();
+    setup_update_size_setting_on_grab_end();
     setup_hide_when_focus_lost();
     setup_animation_overrides();
 
@@ -718,7 +718,7 @@ function update_window_geometry() {
     }
 }
 
-function update_height_setting_on_grab_end(display, p0, p1) {
+function update_size_setting_on_grab_end(display, p0, p1) {
     // On Mutter <=3.38 p0 is display too. On 40 p0 is the window.
     const win = p0 instanceof Meta.Window ? p0 : p1;
 
@@ -736,11 +736,11 @@ function update_height_setting_on_grab_end(display, p0, p1) {
     settings.set_double('window-size', Math.min(1.0, size));
 }
 
-function setup_update_height_setting_on_grab_end() {
-    update_height_setting_on_grab_end_connections.disconnect();
+function setup_update_size_setting_on_grab_end() {
+    update_size_setting_on_grab_end_connections.disconnect();
 
     if (current_window)
-        update_height_setting_on_grab_end_connections.connect(global.display, 'grab-op-end', update_height_setting_on_grab_end);
+        update_size_setting_on_grab_end_connections.connect(global.display, 'grab-op-end', update_size_setting_on_grab_end);
 }
 
 function release_window(win) {
@@ -752,7 +752,7 @@ function release_window(win) {
     geometry_fixup_connections.disconnect();
     current_window = null;
 
-    update_height_setting_on_grab_end_connections.disconnect();
+    update_size_setting_on_grab_end_connections.disconnect();
     hide_when_focus_lost_connections.disconnect();
     animation_overrides_connections.disconnect();
 }

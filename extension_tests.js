@@ -382,9 +382,9 @@ async function test_resize_xte_flaky(window_size, window_maximize, window_size2,
     verify_window_geometry(window_size2, false, window_pos);
 
     // TODO: 'grab-op-end' isn't emitted on Wayland when simulting mouse with xte.
-    // For now, just call update_height_setting_on_grab_end()
+    // For now, just call update_size_setting_on_grab_end()
     if (Meta.is_wayland_compositor())
-        Extension.update_height_setting_on_grab_end(global.display, Extension.current_window);
+        Extension.update_size_setting_on_grab_end(global.display, Extension.current_window);
 
     assert_rect_equals(target_frame_rect, Extension.target_rect_for_workarea());
 }
