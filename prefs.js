@@ -151,6 +151,7 @@ function createPrefsWidgetClass(resource_path, util) {
                     'detect-urls-voip',
                     'detect-urls-email',
                     'detect-urls-news-man',
+                    'preserve-working-directory',
                 ].forEach(
                     key => actions.add_action(this.settings.create_action(key))
                 );

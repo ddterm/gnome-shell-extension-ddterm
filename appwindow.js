@@ -216,6 +216,9 @@ var AppWindow = GObject.registerClass(
         }
 
         insert_page(position) {
+            const current_page = this.notebook.get_nth_page(this.notebook.get_current_page());
+            const cwd = current_page === null ? null : current_page.get_cwd();
+
             const page = new imports.terminalpage.TerminalPage({
                 settings: this.settings,
                 menus: this.menus,
@@ -230,7 +233,7 @@ var AppWindow = GObject.registerClass(
             this.method_handler(page, 'close-request', this.remove_page);
             this.method_handler(page, 'new-tab-before-request', this.new_tab_before);
             this.method_handler(page, 'new-tab-after-request', this.new_tab_after);
-            page.spawn();
+            page.spawn(this.settings.get_boolean('preserve-working-directory') ? cwd : null);
 
             page.terminal.grab_focus();
         }

@@ -112,6 +112,12 @@
       </section>
       <section>
         <item>
+          <attribute name="label" translatable="yes">Preserve Working Directory In New Tabs</attribute>
+          <attribute name="action">app.preserve-working-directory</attribute>
+        </item>
+      </section>
+      <section>
+        <item>
           <attribute name="label" translatable="yes">Enable Keyboard Shortcuts</attribute>
           <attribute name="action">app.shortcuts-enabled</attribute>
         </item>

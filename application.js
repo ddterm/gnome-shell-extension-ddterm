@@ -134,6 +134,7 @@ const Application = GObject.registerClass(
             this.add_action(this.settings.create_action('shortcuts-enabled'));
             this.add_action(this.settings.create_action('scroll-on-output'));
             this.add_action(this.settings.create_action('scroll-on-keystroke'));
+            this.add_action(this.settings.create_action('preserve-working-directory'));
 
             this.gtk_settings = Gtk.Settings.get_default();
             this.settings.connect('changed::theme-variant', this.update_theme.bind(this));

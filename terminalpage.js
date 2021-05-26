@@ -80,11 +80,6 @@ const REGEX_URL_VOIP = compile_regex(urldetect_patterns.REGEX_URL_VOIP);
 const REGEX_EMAIL = compile_regex(urldetect_patterns.REGEX_EMAIL);
 const REGEX_NEWS_MAN = compile_regex(urldetect_patterns.REGEX_NEWS_MAN);
 
-function terminal_spawn_callback(terminal, _pid, error) {
-    if (error)
-        terminal.feed(error.message);
-}
-
 GObject.type_ensure(Vte.Terminal);
 
 var TerminalPage = GObject.registerClass(
@@ -137,6 +132,7 @@ var TerminalPage = GObject.registerClass(
             this.clicked_hyperlink = null;
             this.url_prefix = {};
             this.clipboard = Gtk.Clipboard.get_default(Gdk.Display.get_default());
+            this.child_pid = null;
 
             this._switch_shortcut = null;
 
@@ -296,7 +292,19 @@ var TerminalPage = GObject.registerClass(
             return this.clicked_hyperlink !== null;
         }
 
-        spawn() {
+        get_cwd() {
+            const uri = this.terminal.current_directory_uri;
+            if (uri)
+                return GLib.filename_from_uri(uri)[0];
+
+            try {
+                return GLib.file_read_link(`/proc/${this.child_pid}/cwd`);
+            } catch {
+                return null;
+            }
+        }
+
+        spawn(cwd = null) {
             let argv;
             let spawn_flags;
 
@@ -326,9 +334,13 @@ var TerminalPage = GObject.registerClass(
                 return;
             }
 
-            this.terminal.spawn_async(
-                Vte.PtyFlags.DEFAULT, null, argv, null, spawn_flags, null, -1, null, terminal_spawn_callback
-            );
+            this.terminal.spawn_async(Vte.PtyFlags.DEFAULT, cwd, argv, null, spawn_flags, null, -1, null, (terminal, pid, error) => {
+                if (error)
+                    terminal.feed(error.message);
+
+                if (pid)
+                    this.child_pid = pid;
+            });
         }
 
         close_request() {

@@ -306,6 +306,9 @@
     <key name="custom-command" type="s">
       <default>''</default>
     </key>
+    <key name="preserve-working-directory" type="b">
+      <default>true</default>
+    </key>
 
     <key name="show-scrollbar" type="b">
       <default>true</default>
