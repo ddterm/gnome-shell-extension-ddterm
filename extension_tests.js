@@ -27,10 +27,6 @@ const Main = imports.ui.main;
 const JsUnit = imports.jsUnit;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Extension = Me.imports.extension;
-const {
-    target_rect_for_workarea_size,
-    toggle,
-} = Extension;
 
 let settings = null;
 
@@ -201,7 +197,7 @@ function verify_window_geometry(window_height, window_maximize, window_pos) {
         return;
     }
 
-    const target_rect = target_rect_for_workarea_size(workarea, monitor_scale, window_height);
+    const target_rect = Extension.target_rect_for_workarea_size(workarea, monitor_scale, window_height);
 
     // Window size (at least, on Wayland) should be an integer number of
     // logical pixels
@@ -249,7 +245,7 @@ async function test_show(window_height, window_maximize, window_pos) {
     await set_settings_boolean('window-maximize', window_maximize);
     await set_settings_string('window-position', window_pos);
 
-    toggle();
+    Extension.toggle();
 
     await async_wait_current_window();
     await wait_window_settle();
@@ -342,7 +338,7 @@ async function test_resize_xte_flaky(window_height, window_maximize, window_heig
     const initial_frame_rect = Extension.current_window.get_frame_rect();
     const initial = resize_point(initial_frame_rect, window_pos, monitor_scale);
 
-    const target_frame_rect = target_rect_for_workarea_size(workarea, monitor_scale, window_height2);
+    const target_frame_rect = Extension.target_rect_for_workarea_size(workarea, monitor_scale, window_height2);
     const target = resize_point(target_frame_rect, window_pos, monitor_scale);
 
     await async_run_process(['xte', `mousemove ${initial.x} ${initial.y}`, 'sleep 0.2', 'mousedown 1']);
