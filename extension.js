@@ -88,7 +88,6 @@ class ExtensionDBusInterface {
 
         // Window still unmaximizes incorrectly without this.
         // Show terminal, maximize, hide, show, start resizing with mouse.
-        // TODO: add a test that simulates mouse resizing using xdotool
         move_resize_window(current_window, current_workarea);
     }
 
