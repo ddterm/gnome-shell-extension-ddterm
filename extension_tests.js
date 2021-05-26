@@ -398,6 +398,15 @@ async function test_resize_xte(window_size, window_maximize, window_size2, windo
     }
 }
 
+async function test_change_position(window_size, window_pos, window_pos2) {
+    await test_show(window_size, false, window_pos);
+
+    await set_settings_string('window-position', window_pos2);
+    await wait_window_settle();
+
+    verify_window_geometry(window_size, window_size === 1.0, window_pos2);
+}
+
 async function run_tests(filter = '', filter_out = false) {
     const BOOL_VALUES = [false, true];
     const SIZE_VALUES = [0.3, 0.5, 0.7, 0.8, 0.9, 1.0];
@@ -417,6 +426,15 @@ async function run_tests(filter = '', filter_out = false) {
             for (let window_size2 of [0.5, 1.0]) {
                 for (let window_pos of POSITIONS)
                     add_test(test_resize_xte, window_size, window_maximize, window_size2, window_pos);
+            }
+        }
+    }
+
+    for (let window_size of [0.3, 0.7, 0.8, 0.9, 1.0]) {
+        for (let window_pos of POSITIONS) {
+            for (let window_pos2 of POSITIONS) {
+                if (window_pos !== window_pos2)
+                    add_test(test_change_position, window_size, window_pos, window_pos2);
             }
         }
     }
