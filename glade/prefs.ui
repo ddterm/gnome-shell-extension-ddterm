@@ -1,7 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.38.2 -->
+<!-- Generated with glade 3.38.2 
+
+Copyright (C) 2020, 2021 Aleksandr Mezin
+
+This file is part of ddterm GNOME Shell extension.
+
+ddterm GNOME Shell extension is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+ddterm GNOME Shell extension is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licenses/>.
+
+-->
 <interface>
   <requires lib="gtk+" version="3.22"/>
+  <!-- interface-license-type gplv3 -->
+  <!-- interface-name ddterm GNOME Shell extension -->
+  <!-- interface-copyright 2020, 2021 Aleksandr Mezin -->
   <object class="GtkListStore" id="animation_mode_list">
     <columns>
       <!-- column-name name -->
