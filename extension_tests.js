@@ -269,7 +269,7 @@ async function test_show(window_height, window_maximize, window_pos) {
     print(`Starting test with window size=${window_height}, maximized=${window_maximize}, position=${window_pos}`);
     await hide_window_async_wait();
 
-    await set_settings_double('window-height', window_height);
+    await set_settings_double('window-size', window_height);
     await set_settings_boolean('window-maximize', window_maximize);
     await set_settings_string('window-position', window_pos);
 
@@ -296,7 +296,7 @@ async function test_maximize_unmaximize(window_height, initial_window_maximize, 
 async function test_unmaximize_correct_height(window_height, window_height2, window_pos) {
     await test_show(window_height, false, window_pos);
 
-    await set_settings_double('window-height', window_height2);
+    await set_settings_double('window-size', window_height2);
     await wait_window_settle();
     verify_window_geometry(window_height2, window_height === 1.0 && window_height2 === 1.0, window_pos);
 
@@ -312,7 +312,7 @@ async function test_unmaximize_correct_height(window_height, window_height2, win
 async function test_unmaximize_on_height_change(window_height, window_height2, window_pos) {
     await test_show(window_height, true, window_pos);
 
-    await set_settings_double('window-height', window_height2);
+    await set_settings_double('window-size', window_height2);
     await wait_window_settle();
 
     // eslint-disable-next-line no-extra-parens

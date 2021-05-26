@@ -197,7 +197,7 @@ function createPrefsWidgetClass(resource_path, util) {
 
                 this.settings_bind('background-opacity', this.opacity_adjustment, 'value');
                 this.set_scale_value_format_percent(this.opacity_scale);
-                this.settings_bind('window-height', this.window_height_adjustment, 'value');
+                this.settings_bind('window-size', this.window_height_adjustment, 'value');
                 this.set_scale_value_format_percent(this.window_height_scale);
 
                 this.bind_sensitive('use-theme-colors', this.color_scheme_editor, true);

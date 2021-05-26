@@ -124,7 +124,7 @@
   </enum>
 
   <schema path="/com/github/amezin/ddterm/" id="com.github.amezin.ddterm">
-    <key name="window-height" type="d">
+    <key name="window-size" type="d">
       <default>0.6</default>
       <range min="0.0" max="1.0"/>
     </key>

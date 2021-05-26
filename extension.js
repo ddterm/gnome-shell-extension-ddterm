@@ -76,13 +76,12 @@ class ExtensionDBusInterface {
 
         // There is a update_window_geometry() call after successful unmaximize.
         // It must set window size to 100%.
-        settings.set_double('window-height', 1.0);
+        settings.set_double('window-size', 1.0);
 
-        // Changing window-height should unmaximize, but sometimes it doesn't
-        // if window-height is already 1.0. So another unmaximize() is
-        // necessary. .unmaximize() emits notify::maximized-vertically even
-        // if the window wasn't maximized, so check if it's still maximized
-        // first
+        // Changing window-size should unmaximize, but sometimes it doesn't, if
+        // window-size is already 1.0. So another unmaximize() is necessary.
+        // .unmaximize() emits notify::maximized-vertically even if the window
+        // wasn't maximized, so check if it's still maximized first
         if (current_window.maximized_vertically)
             current_window.unmaximize(Meta.MaximizeFlags.VERTICAL);
 
@@ -99,7 +98,7 @@ class ExtensionDBusInterface {
 
         Main.wm.skipNextEffect(current_window.get_compositor_private());
 
-        settings.set_double('window-height', 1.0);
+        settings.set_double('window-size', 1.0);
 
         if (current_window.maximized_horizontally)
             current_window.unmaximize(Meta.MaximizeFlags.HORIZONTAL);
@@ -210,8 +209,8 @@ function enable() {
     extension_connections.connect(global.display, 'workareas-changed', update_window_geometry);
     extension_connections.connect(settings, 'changed::window-above', set_window_above);
     extension_connections.connect(settings, 'changed::window-stick', set_window_stick);
-    extension_connections.connect(settings, 'changed::window-height', disable_window_maximize_setting);
-    extension_connections.connect(settings, 'changed::window-height', update_window_geometry);
+    extension_connections.connect(settings, 'changed::window-size', disable_window_maximize_setting);
+    extension_connections.connect(settings, 'changed::window-size', update_window_geometry);
     extension_connections.connect(settings, 'changed::window-position', update_window_position);
     extension_connections.connect(settings, 'changed::window-position', update_window_geometry);
     extension_connections.connect(settings, 'changed::window-skip-taskbar', set_skip_taskbar);
@@ -596,7 +595,7 @@ function target_rect_for_workarea_size(workarea, monitor_scale, size) {
 }
 
 function target_rect_for_workarea() {
-    return target_rect_for_workarea_size(current_workarea, current_monitor_scale, settings.get_double('window-height'));
+    return target_rect_for_workarea_size(current_workarea, current_monitor_scale, settings.get_double('window-size'));
 }
 
 function schedule_geometry_fixup(win) {
@@ -734,7 +733,7 @@ function update_height_setting_on_grab_end(display, p0, p1) {
 
     const frame_rect = win.get_frame_rect();
     const size = resize_x ? frame_rect.width / current_workarea.width : frame_rect.height / current_workarea.height;
-    settings.set_double('window-height', Math.min(1.0, size));
+    settings.set_double('window-size', Math.min(1.0, size));
 }
 
 function setup_update_height_setting_on_grab_end() {
