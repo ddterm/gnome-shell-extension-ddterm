@@ -386,7 +386,7 @@ async function test_resize_xte_flaky(window_size, window_maximize, window_size2,
     if (Meta.is_wayland_compositor())
         Extension.update_size_setting_on_grab_end(global.display, Extension.current_window);
 
-    assert_rect_equals(target_frame_rect, Extension.target_rect_for_workarea());
+    assert_rect_equals(target_frame_rect, Extension.current_target_rect);
 }
 
 async function test_resize_xte(window_size, window_maximize, window_size2, window_pos) {

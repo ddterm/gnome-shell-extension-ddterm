@@ -35,6 +35,7 @@ var settings = null;
 var current_window = null;
 var current_workarea = null;
 var current_monitor_scale = 1;
+var current_target_rect = null;
 
 let bus_watch_id = null;
 let dbus_action_group = null;
@@ -211,6 +212,7 @@ function enable() {
     extension_connections.connect(global.display, 'workareas-changed', update_window_geometry);
     extension_connections.connect(settings, 'changed::window-above', set_window_above);
     extension_connections.connect(settings, 'changed::window-stick', set_window_stick);
+    extension_connections.connect(settings, 'changed::window-size', update_target_rect);
     extension_connections.connect(settings, 'changed::window-size', disable_window_maximize_setting);
     extension_connections.connect(settings, 'changed::window-size', update_window_geometry);
     extension_connections.connect(settings, 'changed::window-position', update_window_position);
@@ -501,6 +503,8 @@ function update_workarea(monitor_index) {
 
     current_workarea = Main.layoutManager.getWorkAreaForMonitor(monitor_index);
     current_monitor_scale = global.display.get_monitor_scale(monitor_index);
+
+    update_target_rect();
 }
 
 function update_workarea_for_window() {
@@ -544,8 +548,7 @@ function set_current_window(win) {
     setup_hide_when_focus_lost();
     setup_animation_overrides();
 
-    const target_rect = target_rect_for_workarea();
-    move_resize_window(win, target_rect);
+    move_resize_window(win, current_target_rect);
 
     // https://github.com/amezin/gnome-shell-extension-ddterm/issues/28
     current_window_connections.connect(win, 'shown', update_window_geometry);
@@ -596,8 +599,15 @@ function target_rect_for_workarea_size(workarea, monitor_scale, size) {
     return target_rect;
 }
 
-function target_rect_for_workarea() {
-    return target_rect_for_workarea_size(current_workarea, current_monitor_scale, settings.get_double('window-size'));
+function update_target_rect() {
+    if (!current_workarea)
+        return;
+
+    current_target_rect = target_rect_for_workarea_size(
+        current_workarea,
+        current_monitor_scale,
+        settings.get_double('window-size')
+    );
 }
 
 function schedule_geometry_fixup(win) {
@@ -634,8 +644,7 @@ function handle_maximized_vertically(win) {
     }
 
     if (!settings.get_boolean('window-maximize')) {
-        const target_rect = target_rect_for_workarea();
-        if (target_rect.height < current_workarea.height)
+        if (current_target_rect.height < current_workarea.height)
             win.unmaximize(Meta.MaximizeFlags.VERTICAL);
     }
 }
@@ -652,8 +661,7 @@ function handle_maximized_horizontally(win) {
     }
 
     if (!settings.get_boolean('window-maximize')) {
-        const target_rect = target_rect_for_workarea();
-        if (target_rect.width < current_workarea.width)
+        if (current_target_rect.width < current_workarea.width)
             win.unmaximize(Meta.MaximizeFlags.HORIZONTAL);
     }
 }
@@ -676,13 +684,12 @@ function set_window_maximized() {
         return;
     }
 
-    const target_rect = target_rect_for_workarea();
     if (resize_x) {
-        if (target_rect.width < current_workarea.width)
+        if (current_target_rect.width < current_workarea.width)
             current_window.unmaximize(Meta.MaximizeFlags.HORIZONTAL);
     } else {
         // eslint-disable-next-line no-lonely-if
-        if (target_rect.height < current_workarea.height)
+        if (current_target_rect.height < current_workarea.height)
             current_window.unmaximize(Meta.MaximizeFlags.VERTICAL);
     }
 }
@@ -701,22 +708,21 @@ function update_window_geometry() {
     if (settings.get_boolean('window-maximize'))
         return;
 
-    const target_rect = target_rect_for_workarea();
-    if (target_rect.equal(current_window.get_frame_rect()))
+    if (current_target_rect.equal(current_window.get_frame_rect()))
         return;
 
     if (current_window.maximized_horizontally && resize_x) {
-        if (target_rect.width < current_workarea.width) {
+        if (current_target_rect.width < current_workarea.width) {
             Main.wm.skipNextEffect(current_window.get_compositor_private());
             current_window.unmaximize(Meta.MaximizeFlags.HORIZONTAL);
         }
     } else if (current_window.maximized_vertically && !resize_x) {
-        if (target_rect.height < current_workarea.height) {
+        if (current_target_rect.height < current_workarea.height) {
             Main.wm.skipNextEffect(current_window.get_compositor_private());
             current_window.unmaximize(Meta.MaximizeFlags.VERTICAL);
         }
     } else {
-        move_resize_window(current_window, target_rect);
+        move_resize_window(current_window, current_target_rect);
     }
 }
 
