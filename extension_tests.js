@@ -78,19 +78,24 @@ async function hide_window_async_wait() {
     if (!Extension.current_window)
         return;
 
+    print('Hiding the window');
     Extension.toggle();
 
+    print('Waiting for the window to hide');
     while (Extension.current_window) {
         // eslint-disable-next-line no-await-in-loop
         await async_sleep(50);
     }
+    print('Window hidden');
 }
 
 async function async_wait_current_window() {
+    print('Waiting for the window to show');
     while (!Extension.current_window || Extension.current_window.is_hidden()) {
         // eslint-disable-next-line no-await-in-loop
         await async_sleep(50);
     }
+    print('Window shown');
 }
 
 function wait_window_settle() {
@@ -98,6 +103,8 @@ function wait_window_settle() {
         const win = Extension.current_window;
         let timer_id = null;
         const handlers = [];
+
+        print('Waiting for the window to stop generating events');
 
         const restart_timer = () => {
             if (timer_id !== null) {
@@ -118,9 +125,14 @@ function wait_window_settle() {
 
         restart_timer();
 
-        handlers.push(win.connect('position-changed', restart_timer));
-        handlers.push(win.connect('size-changed', restart_timer));
-        handlers.push(win.connect('notify::maximized-vertically', restart_timer));
+        const restart_timer_with_message = () => {
+            print('Window generated an event, restarting wait');
+            restart_timer();
+        };
+
+        handlers.push(win.connect('position-changed', restart_timer_with_message));
+        handlers.push(win.connect('size-changed', restart_timer_with_message));
+        handlers.push(win.connect('notify::maximized-vertically', restart_timer_with_message));
     });
 }
 
@@ -148,6 +160,8 @@ function async_run_process(argv) {
 }
 
 function set_settings_double(name, value) {
+    print(`Setting ${name}=${value}`);
+
     if (settings.get_double(name) === value)
         return Promise.resolve(settings, name);
 
@@ -157,6 +171,8 @@ function set_settings_double(name, value) {
 }
 
 function set_settings_boolean(name, value) {
+    print(`Setting ${name}=${value}`);
+
     if (settings.get_boolean(name) === value)
         return Promise.resolve(settings, name);
 
@@ -166,6 +182,8 @@ function set_settings_boolean(name, value) {
 }
 
 function set_settings_string(name, value) {
+    print(`Setting ${name}=${value}`);
+
     if (settings.get_string(name) === value)
         return Promise.resolve(settings, name);
 
@@ -175,6 +193,7 @@ function set_settings_string(name, value) {
 }
 
 function assert_rect_equals(expected, actual) {
+    print(`Checking if rect { .x=${actual.x}, .y=${actual.y}, .width=${actual.width}, .height=${actual.height} } matches expected { .x=${expected.x}, .y=${expected.y}, .width=${expected.width}, .height=${expected.height} }`);
     JsUnit.assertEquals(expected.x, actual.x);
     JsUnit.assertEquals(expected.y, actual.y);
     JsUnit.assertEquals(expected.width, actual.width);
@@ -186,6 +205,8 @@ function verify_window_geometry(window_height, window_maximize, window_pos) {
     const workarea = Main.layoutManager.getWorkAreaForMonitor(monitor_index);
     const monitor_scale = global.display.get_monitor_scale(monitor_index);
     const frame_rect = Extension.current_window.get_frame_rect();
+
+    print(`Verifying window geometry (expected size=${window_height}, maximized=${window_maximize}, position=${window_pos})`);
 
     if (window_pos === 'top' || window_pos === 'bottom')
         JsUnit.assertEquals(window_maximize, Extension.current_window.maximized_vertically);
@@ -212,33 +233,40 @@ function verify_window_geometry(window_height, window_maximize, window_pos) {
     const frame_rect_bottom = frame_rect.y + frame_rect.height;
 
     if (window_pos === 'top') {
+        print('Making sure the window is attached to top edge');
         JsUnit.assertEquals(workarea.x, frame_rect.x);
         JsUnit.assertEquals(workarea_right, frame_rect_right);
         JsUnit.assertEquals(workarea.y, frame_rect.y);
     }
 
     if (window_pos === 'bottom') {
+        print('Making sure the window is attached to bottom edge');
         JsUnit.assertEquals(workarea.x, frame_rect.x);
         JsUnit.assertEquals(workarea_right, frame_rect_right);
         JsUnit.assertEquals(workarea_bottom, frame_rect_bottom);
     }
 
     if (window_pos === 'left') {
+        print('Making sure the window is attached to left edge');
         JsUnit.assertEquals(workarea.x, frame_rect.x);
         JsUnit.assertEquals(workarea.y, frame_rect.y);
         JsUnit.assertEquals(workarea_bottom, frame_rect_bottom);
     }
 
     if (window_pos === 'right') {
+        print('Making sure the window is attached to right edge');
         JsUnit.assertEquals(workarea_right, frame_rect_right);
         JsUnit.assertEquals(workarea.y, frame_rect.y);
         JsUnit.assertEquals(workarea_bottom, frame_rect_bottom);
     }
 
     assert_rect_equals(target_rect, frame_rect);
+
+    print('Window geometry is fine');
 }
 
 async function test_show(window_height, window_maximize, window_pos) {
+    print(`Starting test with window size=${window_height}, maximized=${window_maximize}, position=${window_pos}`);
     await hide_window_async_wait();
 
     await set_settings_double('window-height', window_height);
@@ -425,6 +453,7 @@ async function run_tests(filter = '', filter_out = false) {
     const filtered_tests = tests.filter(filter_out ? info => !filter_func(info) : filter_func);
     let tests_passed = 0;
     for (let test of filtered_tests) {
+        print('------------------------------------------------------------------------------------------------------------------------------------------');
         print(`Running test ${test.id} (${tests_passed} of ${filtered_tests.length} done, ${PERCENT_FORMAT.format(tests_passed / filtered_tests.length)})`);
         try {
             // eslint-disable-next-line no-await-in-loop
