@@ -21,11 +21,13 @@
 
 /* exported init enable disable settings current_window target_rect_for_workarea_size toggle */
 
-const { GLib, Gio, Clutter, Meta, Shell } = imports.gi;
+const { GLib, GObject, Gio, Atk, Clutter, Meta, Shell, St } = imports.gi;
 const ByteArray = imports.byteArray;
 const Main = imports.ui.main;
-const Me = imports.misc.extensionUtils.getCurrentExtension();
+const PanelMenu = imports.ui.panelMenu;
+const PopupMenu = imports.ui.popupMenu;
 const WindowManager = imports.ui.windowManager;
+const Me = imports.misc.extensionUtils.getCurrentExtension();
 const { util } = Me.imports;
 
 let tests = null;
@@ -53,6 +55,8 @@ let animation_pivot_y = 0;
 let animation_scale_x = 1.0;
 let animation_scale_y = 0.0;
 
+let panel_icon = null;
+
 const APP_ID = 'com.github.amezin.ddterm';
 const APP_DBUS_PATH = '/com/github/amezin/ddterm';
 const WINDOW_PATH_PREFIX = `${APP_DBUS_PATH}/window/`;
@@ -60,6 +64,75 @@ const SUBPROCESS_ARGV = [Me.dir.get_child('com.github.amezin.ddterm').get_path()
 const IS_WAYLAND_COMPOSITOR = Meta.is_wayland_compositor();
 const USE_WAYLAND_CLIENT = Meta.WaylandClient && IS_WAYLAND_COMPOSITOR;
 const SIGINT = 2;
+
+const PanelIconPopupMenu = GObject.registerClass(
+    class PanelIconPopupMenu extends PanelMenu.Button {
+        _init() {
+            super._init(null, 'ddterm');
+
+            this.add_actor(new St.Icon({
+                icon_name: 'utilities-terminal',
+                style_class: 'system-status-icon',
+            }));
+            this.add_style_class_name('panel-status-button');
+
+            this.toggle_item = new PopupMenu.PopupSwitchMenuItem('Show', current_window !== null);
+            this.menu.addMenuItem(this.toggle_item);
+            this.toggle_item.connect('toggled', (_, value) => {
+                if (value !== (current_window !== null))
+                    toggle();
+            });
+
+            this.preferences_item = new PopupMenu.PopupMenuItem('Preferences...');
+            this.menu.addMenuItem(this.preferences_item);
+            this.preferences_item.connect('activate', () => {
+                if (dbus_action_group)
+                    dbus_action_group.activate_action('preferences', null);
+                else
+                    imports.misc.extensionUtils.openPrefs();
+            });
+        }
+
+        update() {
+            this.toggle_item.setToggleState(current_window !== null);
+        }
+    }
+);
+
+const PanelIconToggleButton = GObject.registerClass(
+    class PanelIconToggleButton extends PanelMenu.Button {
+        _init() {
+            super._init(null, 'ddterm', true);
+            this.accessible_role = Atk.Role.TOGGLE_BUTTON;
+
+            this.add_actor(new St.Icon({
+                icon_name: 'utilities-terminal',
+                style_class: 'system-status-icon',
+            }));
+            this.add_style_class_name('panel-status-button');
+
+            this.update();
+        }
+
+        update() {
+            if (current_window !== null) {
+                this.add_style_pseudo_class('active');
+                this.add_accessible_state(Atk.StateType.CHECKED);
+            } else {
+                this.remove_style_pseudo_class('active');
+                this.remove_accessible_state(Atk.StateType.CHECKED);
+            }
+        }
+
+        vfunc_event(event) {
+            if (event.type() === Clutter.EventType.BUTTON_PRESS ||
+                event.type() === Clutter.EventType.TOUCH_BEGIN)
+                toggle();
+
+            return Clutter.EVENT_PROPAGATE;
+        }
+    }
+);
 
 class ExtensionDBusInterface {
     constructor() {
@@ -223,6 +296,7 @@ function enable() {
     extension_connections.connect(settings, 'changed::show-animation', update_show_animation);
     extension_connections.connect(settings, 'changed::hide-animation', update_hide_animation);
     extension_connections.connect(settings, 'changed::hide-when-focus-lost', setup_hide_when_focus_lost);
+    extension_connections.connect(settings, 'changed::panel-icon-type', setup_panel_icon);
 
     update_workarea_for_window();
     update_window_position();
@@ -237,9 +311,13 @@ function enable() {
 
     if (tests)
         tests.enable();
+
+    setup_panel_icon();
 }
 
 function disable() {
+    remove_panel_icon();
+
     DBUS_INTERFACE.dbus.unexport();
 
     if (Main.sessionMode.allowExtensions) {
@@ -267,6 +345,33 @@ function disable() {
 
     if (tests)
         tests.disable();
+}
+
+function setup_panel_icon() {
+    const mode = settings.get_string('panel-icon-type');
+    if (mode === 'menu-button') {
+        if (!(panel_icon instanceof PanelIconPopupMenu)) {
+            remove_panel_icon();
+            panel_icon = new PanelIconPopupMenu();
+            Main.panel.addToStatusArea('ddterm', panel_icon);
+        }
+    } else if (mode === 'toggle-button') {
+        if (!(panel_icon instanceof PanelIconToggleButton)) {
+            remove_panel_icon();
+            panel_icon = new PanelIconToggleButton();
+            Main.panel.addToStatusArea('ddterm', panel_icon);
+        }
+    } else {
+        remove_panel_icon();
+    }
+}
+
+function remove_panel_icon() {
+    if (!panel_icon)
+        return;
+
+    panel_icon.destroy();
+    panel_icon = null;
 }
 
 function spawn_app() {
@@ -561,6 +666,9 @@ function set_current_window(win) {
     set_window_stick();
     set_skip_taskbar();
     set_window_maximized();
+
+    if (panel_icon)
+        panel_icon.update();
 }
 
 function update_window_position() {
@@ -763,6 +871,9 @@ function release_window(win) {
     update_size_setting_on_grab_end_connections.disconnect();
     hide_when_focus_lost_connections.disconnect();
     animation_overrides_connections.disconnect();
+
+    if (panel_icon)
+        panel_icon.update();
 }
 
 function stop_dbus_watch() {

@@ -106,6 +106,7 @@ function createPrefsWidgetClass(resource_path, util) {
                 'shortcuts_treeview',
                 'show_animation_combo',
                 'hide_animation_combo',
+                'panel_icon_type_combo',
             ].concat(palette_widgets()),
             Properties: {
                 'settings': GObject.ParamSpec.object('settings', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, Gio.Settings),
@@ -163,6 +164,7 @@ function createPrefsWidgetClass(resource_path, util) {
                 this.bind_sensitive('override-window-animation', this.hide_animation_combo.parent);
                 this.settings_bind('window-type-hint', this.window_type_hint_combo, 'active-id');
                 this.settings_bind('window-position', this.window_pos_combo, 'active-id');
+                this.settings_bind('panel-icon-type', this.panel_icon_type_combo, 'active-id');
 
                 this.settings_bind('tab-policy', this.tab_policy_combo, 'active-id');
                 this.settings_bind('tab-position', this.tab_position_combo, 'active-id');
