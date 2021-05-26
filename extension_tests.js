@@ -200,13 +200,13 @@ function assert_rect_equals(expected, actual) {
     JsUnit.assertEquals(expected.height, actual.height);
 }
 
-function verify_window_geometry(window_height, window_maximize, window_pos) {
+function verify_window_geometry(window_size, window_maximize, window_pos) {
     const monitor_index = Main.layoutManager.currentMonitor.index;
     const workarea = Main.layoutManager.getWorkAreaForMonitor(monitor_index);
     const monitor_scale = global.display.get_monitor_scale(monitor_index);
     const frame_rect = Extension.current_window.get_frame_rect();
 
-    print(`Verifying window geometry (expected size=${window_height}, maximized=${window_maximize}, position=${window_pos})`);
+    print(`Verifying window geometry (expected size=${window_size}, maximized=${window_maximize}, position=${window_pos})`);
 
     if (window_pos === 'top' || window_pos === 'bottom')
         JsUnit.assertEquals(window_maximize, Extension.current_window.maximized_vertically);
@@ -218,7 +218,7 @@ function verify_window_geometry(window_height, window_maximize, window_pos) {
         return;
     }
 
-    const target_rect = Extension.target_rect_for_workarea_size(workarea, monitor_scale, window_height);
+    const target_rect = Extension.target_rect_for_workarea_size(workarea, monitor_scale, window_size);
 
     // Window size (at least, on Wayland) should be an integer number of
     // logical pixels
@@ -265,11 +265,11 @@ function verify_window_geometry(window_height, window_maximize, window_pos) {
     print('Window geometry is fine');
 }
 
-async function test_show(window_height, window_maximize, window_pos) {
-    print(`Starting test with window size=${window_height}, maximized=${window_maximize}, position=${window_pos}`);
+async function test_show(window_size, window_maximize, window_pos) {
+    print(`Starting test with window size=${window_size}, maximized=${window_maximize}, position=${window_pos}`);
     await hide_window_async_wait();
 
-    await set_settings_double('window-size', window_height);
+    await set_settings_double('window-size', window_size);
     await set_settings_boolean('window-maximize', window_maximize);
     await set_settings_string('window-position', window_pos);
 
@@ -278,41 +278,41 @@ async function test_show(window_height, window_maximize, window_pos) {
     await async_wait_current_window();
     await wait_window_settle();
 
-    verify_window_geometry(window_height, window_maximize || window_height === 1.0, window_pos);
+    verify_window_geometry(window_size, window_maximize || window_size === 1.0, window_pos);
 }
 
-async function test_maximize_unmaximize(window_height, initial_window_maximize, window_pos) {
-    await test_show(window_height, initial_window_maximize, window_pos);
+async function test_maximize_unmaximize(window_size, initial_window_maximize, window_pos) {
+    await test_show(window_size, initial_window_maximize, window_pos);
 
     settings.set_boolean('window-maximize', true);
     await wait_window_settle();
-    verify_window_geometry(window_height, true, window_pos);
+    verify_window_geometry(window_size, true, window_pos);
 
     settings.set_boolean('window-maximize', false);
     await wait_window_settle();
-    verify_window_geometry(window_height, window_height === 1.0, window_pos);
+    verify_window_geometry(window_size, window_size === 1.0, window_pos);
 }
 
-async function test_unmaximize_correct_height(window_height, window_height2, window_pos) {
-    await test_show(window_height, false, window_pos);
+async function test_unmaximize_correct_height(window_size, window_size2, window_pos) {
+    await test_show(window_size, false, window_pos);
 
-    await set_settings_double('window-size', window_height2);
+    await set_settings_double('window-size', window_size2);
     await wait_window_settle();
-    verify_window_geometry(window_height2, window_height === 1.0 && window_height2 === 1.0, window_pos);
+    verify_window_geometry(window_size2, window_size === 1.0 && window_size2 === 1.0, window_pos);
 
     await set_settings_boolean('window-maximize', true);
     await wait_window_settle();
-    verify_window_geometry(window_height2, true, window_pos);
+    verify_window_geometry(window_size2, true, window_pos);
 
     await set_settings_boolean('window-maximize', false);
     await wait_window_settle();
-    verify_window_geometry(window_height2, window_height2 === 1.0, window_pos);
+    verify_window_geometry(window_size2, window_size2 === 1.0, window_pos);
 }
 
-async function test_unmaximize_on_height_change(window_height, window_height2, window_pos) {
-    await test_show(window_height, true, window_pos);
+async function test_unmaximize_on_height_change(window_size, window_size2, window_pos) {
+    await test_show(window_size, true, window_pos);
 
-    await set_settings_double('window-size', window_height2);
+    await set_settings_double('window-size', window_size2);
     await wait_window_settle();
 
     // eslint-disable-next-line no-extra-parens
@@ -323,12 +323,12 @@ async function test_unmaximize_on_height_change(window_height, window_height2, w
             : Extension.current_window.maximized_horizontally
     );
 
-    // When window_height2 === window_height, some GLib/GNOME versions do
+    // When window_size2 === window_size, some GLib/GNOME versions do
     // trigger a change notification, and some don't (and then the window
     // doesn't get unmaximized)
     verify_window_geometry(
-        window_height2,
-        window_height2 === 1.0 || (window_height2 === window_height && is_maximized),
+        window_size2,
+        window_size2 === 1.0 || (window_size2 === window_size && is_maximized),
         window_pos
     );
 }
@@ -356,8 +356,8 @@ function resize_point(frame_rect, window_pos, monitor_scale) {
     return { x, y };
 }
 
-async function test_resize_xte_flaky(window_height, window_maximize, window_height2, window_pos) {
-    await test_show(window_height, window_maximize, window_pos);
+async function test_resize_xte_flaky(window_size, window_maximize, window_size2, window_pos) {
+    await test_show(window_size, window_maximize, window_pos);
 
     const monitor_index = Main.layoutManager.currentMonitor.index;
     const workarea = Main.layoutManager.getWorkAreaForMonitor(monitor_index);
@@ -366,20 +366,20 @@ async function test_resize_xte_flaky(window_height, window_maximize, window_heig
     const initial_frame_rect = Extension.current_window.get_frame_rect();
     const initial = resize_point(initial_frame_rect, window_pos, monitor_scale);
 
-    const target_frame_rect = Extension.target_rect_for_workarea_size(workarea, monitor_scale, window_height2);
+    const target_frame_rect = Extension.target_rect_for_workarea_size(workarea, monitor_scale, window_size2);
     const target = resize_point(target_frame_rect, window_pos, monitor_scale);
 
     await async_run_process(['xte', `mousemove ${initial.x} ${initial.y}`, 'sleep 0.2', 'mousedown 1']);
     await wait_window_settle();
 
     try {
-        verify_window_geometry(window_maximize ? 1.0 : window_height, false, window_pos);
+        verify_window_geometry(window_maximize ? 1.0 : window_size, false, window_pos);
     } finally {
         await async_run_process(['xte', `mousermove ${target.x - initial.x} ${target.y - initial.y}`, 'sleep 0.2', 'mouseup 1']);
     }
     await wait_window_settle();
 
-    verify_window_geometry(window_height2, false, window_pos);
+    verify_window_geometry(window_size2, false, window_pos);
 
     // TODO: 'grab-op-end' isn't emitted on Wayland when simulting mouse with xte.
     // For now, just call update_height_setting_on_grab_end()
@@ -389,12 +389,12 @@ async function test_resize_xte_flaky(window_height, window_maximize, window_heig
     assert_rect_equals(target_frame_rect, Extension.target_rect_for_workarea());
 }
 
-async function test_resize_xte(window_height, window_maximize, window_height2, window_pos) {
+async function test_resize_xte(window_size, window_maximize, window_size2, window_pos) {
     try {
-        await test_resize_xte_flaky(window_height, window_maximize, window_height2, window_pos);
+        await test_resize_xte_flaky(window_size, window_maximize, window_size2, window_pos);
     } catch (e) {
         logError(e, 'Trying again');
-        await test_resize_xte_flaky(window_height, window_maximize, window_height2, window_pos);
+        await test_resize_xte_flaky(window_size, window_maximize, window_size2, window_pos);
     }
 }
 
@@ -412,29 +412,29 @@ async function run_tests(filter = '', filter_out = false) {
 
     settings = Extension.settings;
 
-    for (let window_height of [0.3, 0.7, 0.8, 0.9, 1.0]) {
+    for (let window_size of [0.3, 0.7, 0.8, 0.9, 1.0]) {
         for (let window_maximize of BOOL_VALUES) {
-            for (let window_height2 of [0.5, 1.0]) {
+            for (let window_size2 of [0.5, 1.0]) {
                 for (let window_pos of POSITIONS)
-                    add_test(test_resize_xte, window_height, window_maximize, window_height2, window_pos);
+                    add_test(test_resize_xte, window_size, window_maximize, window_size2, window_pos);
             }
         }
     }
 
     for (let window_pos of POSITIONS) {
         for (let window_maximize of BOOL_VALUES) {
-            for (let window_height of HEIGHT_VALUES)
-                add_test(test_maximize_unmaximize, window_height, window_maximize, window_pos);
+            for (let window_size of HEIGHT_VALUES)
+                add_test(test_maximize_unmaximize, window_size, window_maximize, window_pos);
         }
 
-        for (let window_height of HEIGHT_VALUES) {
-            for (let window_height2 of HEIGHT_VALUES)
-                add_test(test_unmaximize_correct_height, window_height, window_height2, window_pos);
+        for (let window_size of HEIGHT_VALUES) {
+            for (let window_size2 of HEIGHT_VALUES)
+                add_test(test_unmaximize_correct_height, window_size, window_size2, window_pos);
         }
 
-        for (let window_height of HEIGHT_VALUES) {
-            for (let window_height2 of HEIGHT_VALUES)
-                add_test(test_unmaximize_on_height_change, window_height, window_height2, window_pos);
+        for (let window_size of HEIGHT_VALUES) {
+            for (let window_size2 of HEIGHT_VALUES)
+                add_test(test_unmaximize_on_height_change, window_size, window_size2, window_pos);
         }
     }
 

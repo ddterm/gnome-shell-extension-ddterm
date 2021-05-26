@@ -100,8 +100,8 @@ function createPrefsWidgetClass(resource_path, util) {
                 'tab_title_template_buffer',
                 'reset_tab_title_button',
                 'window_type_hint_combo',
-                'window_height_adjustment',
-                'window_height_scale',
+                'window_size_adjustment',
+                'window_size_scale',
                 'window_pos_combo',
                 'shortcuts_treeview',
                 'show_animation_combo',
@@ -197,8 +197,8 @@ function createPrefsWidgetClass(resource_path, util) {
 
                 this.settings_bind('background-opacity', this.opacity_adjustment, 'value');
                 this.set_scale_value_format_percent(this.opacity_scale);
-                this.settings_bind('window-size', this.window_height_adjustment, 'value');
-                this.set_scale_value_format_percent(this.window_height_scale);
+                this.settings_bind('window-size', this.window_size_adjustment, 'value');
+                this.set_scale_value_format_percent(this.window_size_scale);
 
                 this.bind_sensitive('use-theme-colors', this.color_scheme_editor, true);
 
