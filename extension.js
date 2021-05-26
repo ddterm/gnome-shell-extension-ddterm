@@ -171,9 +171,11 @@ const update_size_setting_on_grab_end_connections = new ConnectionSet();
 const geometry_fixup_connections = new ConnectionSet();
 
 function init() {
-    // Test aren't included in end user (extensions.gnome.org) packages
-    if (Me.dir.get_child('extension_tests.js').query_exists(null))
+    try {
         tests = Me.imports.extension_tests;
+    } catch {
+        // Test aren't included in end user (extensions.gnome.org) packages
+    }
 }
 
 function enable() {
