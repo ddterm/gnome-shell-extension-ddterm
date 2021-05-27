@@ -98,7 +98,7 @@ async function async_wait_current_window() {
     print('Window shown');
 }
 
-function wait_window_settle() {
+function wait_window_settle(idle_timeout_ms = 200) {
     return new Promise(resolve => {
         const win = Extension.current_window;
         let timer_id = null;
@@ -112,7 +112,7 @@ function wait_window_settle() {
                 timer_id = null;
             }
 
-            timer_id = GLib.timeout_add(GLib.PRIORITY_DEFAULT_IDLE, 200, () => {
+            timer_id = GLib.timeout_add(GLib.PRIORITY_DEFAULT_IDLE, idle_timeout_ms, () => {
                 timer_id = null;
 
                 while (handlers.length)
