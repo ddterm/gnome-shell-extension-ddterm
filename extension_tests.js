@@ -220,13 +220,6 @@ function verify_window_geometry(window_size, window_maximize, window_pos) {
 
     const target_rect = Extension.target_rect_for_workarea_size(workarea, monitor_scale, window_size);
 
-    // Window size (at least, on Wayland) should be an integer number of
-    // logical pixels
-    if (window_pos === 'top' || window_pos === 'bottom')
-        JsUnit.assertEquals(0, target_rect.height % monitor_scale);
-    else
-        JsUnit.assertEquals(0, target_rect.width % monitor_scale);
-
     const workarea_right = workarea.x + workarea.width;
     const workarea_bottom = workarea.y + workarea.height;
     const frame_rect_right = frame_rect.x + frame_rect.width;
