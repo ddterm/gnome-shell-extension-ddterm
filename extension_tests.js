@@ -133,6 +133,7 @@ function wait_window_settle() {
         handlers.push(win.connect('position-changed', restart_timer_with_message));
         handlers.push(win.connect('size-changed', restart_timer_with_message));
         handlers.push(win.connect('notify::maximized-vertically', restart_timer_with_message));
+        handlers.push(win.connect('notify::maximized-horizontally', restart_timer_with_message));
     });
 }
 
