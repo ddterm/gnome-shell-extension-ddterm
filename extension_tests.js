@@ -28,6 +28,12 @@ const JsUnit = imports.jsUnit;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Extension = Me.imports.extension;
 
+const WindowMaximizeMode = {
+    NOT_MAXIMIZED: 'not-maximized',
+    EARLY: 'maximize-early',
+    LATE: 'maximize-late',
+};
+
 let settings = null;
 
 const PERCENT_FORMAT = new Intl.NumberFormat(undefined, { style: 'percent' });
@@ -98,7 +104,7 @@ async function async_wait_current_window() {
     print('Window shown');
 }
 
-function wait_window_settle(idle_timeout_ms = 200) {
+function wait_window_settle(idle_timeout_ms = 300) {
     return new Promise(resolve => {
         const win = Extension.current_window;
         let timer_id = null;
@@ -260,11 +266,11 @@ function verify_window_geometry(window_size, window_maximize, window_pos) {
 }
 
 async function test_show(window_size, window_maximize, window_pos) {
-    print(`Starting test with window size=${window_size}, maximized=${window_maximize}, position=${window_pos}`);
+    print(`Starting test with window size=${window_size}, maximize=${window_maximize}, position=${window_pos}`);
     await hide_window_async_wait();
 
     await set_settings_double('window-size', window_size);
-    await set_settings_boolean('window-maximize', window_maximize);
+    await set_settings_boolean('window-maximize', window_maximize === WindowMaximizeMode.EARLY);
     await set_settings_string('window-position', window_pos);
 
     Extension.toggle();
@@ -272,15 +278,18 @@ async function test_show(window_size, window_maximize, window_pos) {
     await async_wait_current_window();
     await wait_window_settle();
 
-    verify_window_geometry(window_size, window_maximize || window_size === 1.0, window_pos);
+    verify_window_geometry(window_size, window_maximize === WindowMaximizeMode.EARLY || window_size === 1.0, window_pos);
+
+    if (window_maximize === WindowMaximizeMode.LATE) {
+        await set_settings_boolean('window-maximize', true);
+        await wait_window_settle();
+
+        verify_window_geometry(window_size, true, window_pos);
+    }
 }
 
-async function test_maximize_unmaximize(window_size, initial_window_maximize, window_pos) {
-    await test_show(window_size, initial_window_maximize, window_pos);
-
-    settings.set_boolean('window-maximize', true);
-    await wait_window_settle();
-    verify_window_geometry(window_size, true, window_pos);
+async function test_unmaximize(window_size, window_maximize, window_pos) {
+    await test_show(window_size, window_maximize, window_pos);
 
     settings.set_boolean('window-maximize', false);
     await wait_window_settle();
@@ -288,7 +297,7 @@ async function test_maximize_unmaximize(window_size, initial_window_maximize, wi
 }
 
 async function test_unmaximize_correct_size(window_size, window_size2, window_pos) {
-    await test_show(window_size, false, window_pos);
+    await test_show(window_size, WindowMaximizeMode.NOT_MAXIMIZED, window_pos);
 
     await set_settings_double('window-size', window_size2);
     await wait_window_settle();
@@ -304,7 +313,7 @@ async function test_unmaximize_correct_size(window_size, window_size2, window_po
 }
 
 async function test_unmaximize_on_size_change(window_size, window_size2, window_pos) {
-    await test_show(window_size, true, window_pos);
+    await test_show(window_size, WindowMaximizeMode.EARLY, window_pos);
 
     await set_settings_double('window-size', window_size2);
     await wait_window_settle();
@@ -352,7 +361,7 @@ async function test_resize_xte_flaky(window_size, window_maximize, window_size2,
     await wait_window_settle();
 
     try {
-        verify_window_geometry(window_maximize ? 1.0 : window_size, false, window_pos);
+        verify_window_geometry(window_maximize !== WindowMaximizeMode.NOT_MAXIMIZED ? 1.0 : window_size, false, window_pos);
     } finally {
         await async_run_process(['xte', `mousermove ${target.x - initial.x} ${target.y - initial.y}`, 'mouseup 1']);
     }
@@ -392,7 +401,11 @@ async function run_tests(filter = '', filter_out = false) {
     // workarea. ddterm tries to immediately unmaximize the window in this case.
     // At 100% (1.0), ddterm doesn't unmaximize the window.
     const SIZE_VALUES = [0.5, 0.9, 1.0];
-    const BOOL_VALUES = [false, true];
+    const MAXIMIZE_MODES = [
+        WindowMaximizeMode.NOT_MAXIMIZED,
+        WindowMaximizeMode.EARLY,
+        WindowMaximizeMode.LATE,
+    ];
     const POSITIONS = ['top', 'bottom', 'left', 'right'];
     const tests = [];
 
@@ -406,12 +419,14 @@ async function run_tests(filter = '', filter_out = false) {
 
     // Skipping SIZE_VALUES here, they will be tested later multiple times
     for (let window_size of [0.3, 0.4, 0.6, 0.7, 0.8]) {
-        for (let window_pos of POSITIONS)
-            add_test(test_show, window_size, false, window_pos);
+        for (let window_maximize of MAXIMIZE_MODES) {
+            for (let window_pos of POSITIONS)
+                add_test(test_show, window_size, window_maximize, window_pos);
+        }
     }
 
     for (let window_size of SIZE_VALUES) {
-        for (let window_maximize of BOOL_VALUES) {
+        for (let window_maximize of MAXIMIZE_MODES) {
             for (let window_size2 of SIZE_VALUES) {
                 for (let window_pos of POSITIONS)
                     add_test(test_resize_xte, window_size, window_maximize, window_size2, window_pos);
@@ -429,9 +444,9 @@ async function run_tests(filter = '', filter_out = false) {
     }
 
     for (let window_pos of POSITIONS) {
-        for (let window_maximize of BOOL_VALUES) {
+        for (let window_maximize of MAXIMIZE_MODES) {
             for (let window_size of SIZE_VALUES)
-                add_test(test_maximize_unmaximize, window_size, window_maximize, window_pos);
+                add_test(test_unmaximize, window_size, window_maximize, window_pos);
         }
 
         for (let window_size of SIZE_VALUES) {
