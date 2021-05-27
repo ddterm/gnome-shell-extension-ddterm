@@ -308,22 +308,7 @@ async function test_unmaximize_on_size_change(window_size, window_size2, window_
     await set_settings_double('window-size', window_size2);
     await wait_window_settle();
 
-    // eslint-disable-next-line no-extra-parens
-    const is_maximized = (
-        // eslint-disable-next-line no-extra-parens
-        (window_pos === 'top' || window_pos === 'bottom')
-            ? Extension.current_window.maximized_vertically
-            : Extension.current_window.maximized_horizontally
-    );
-
-    // When window_size2 === window_size, some GLib/GNOME versions do
-    // trigger a change notification, and some don't (and then the window
-    // doesn't get unmaximized)
-    verify_window_geometry(
-        window_size2,
-        window_size2 === 1.0 || (window_size2 === window_size && is_maximized),
-        window_pos
-    );
+    verify_window_geometry(window_size2, window_size2 === 1.0, window_pos);
 }
 
 function resize_point(frame_rect, window_pos, monitor_scale) {
@@ -454,8 +439,10 @@ async function run_tests(filter = '', filter_out = false) {
         }
 
         for (let window_size of SIZE_VALUES) {
-            for (let window_size2 of SIZE_VALUES)
-                add_test(test_unmaximize_on_size_change, window_size, window_size2, window_pos);
+            for (let window_size2 of SIZE_VALUES) {
+                if (window_size !== window_size2)
+                    add_test(test_unmaximize_on_size_change, window_size, window_size2, window_pos);
+            }
         }
     }
 
