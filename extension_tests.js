@@ -408,8 +408,12 @@ async function test_change_position(window_size, window_pos, window_pos2) {
 }
 
 async function run_tests(filter = '', filter_out = false) {
+    // There should be something from (0; 0.8), (0.8; 1.0), and 1.0
+    // The shell starts auto-maximizing the window when it occupies 80% of the
+    // workarea. ddterm tries to immediately unmaximize the window in this case.
+    // At 100% (1.0), ddterm doesn't unmaximize the window.
+    const SIZE_VALUES = [0.5, 0.9, 1.0];
     const BOOL_VALUES = [false, true];
-    const SIZE_VALUES = [0.3, 0.5, 0.7, 0.8, 0.9, 1.0];
     const POSITIONS = ['top', 'bottom', 'left', 'right'];
     const tests = [];
 
@@ -421,16 +425,22 @@ async function run_tests(filter = '', filter_out = false) {
 
     settings = Extension.settings;
 
-    for (let window_size of [0.3, 0.7, 0.8, 0.9, 1.0]) {
+    // Skipping SIZE_VALUES here, they will be tested later multiple times
+    for (let window_size of [0.3, 0.4, 0.6, 0.7, 0.8]) {
+        for (let window_pos of POSITIONS)
+            add_test(test_show, window_size, false, window_pos);
+    }
+
+    for (let window_size of SIZE_VALUES) {
         for (let window_maximize of BOOL_VALUES) {
-            for (let window_size2 of [0.5, 1.0]) {
+            for (let window_size2 of SIZE_VALUES) {
                 for (let window_pos of POSITIONS)
                     add_test(test_resize_xte, window_size, window_maximize, window_size2, window_pos);
             }
         }
     }
 
-    for (let window_size of [0.3, 0.7, 0.8, 0.9, 1.0]) {
+    for (let window_size of SIZE_VALUES) {
         for (let window_pos of POSITIONS) {
             for (let window_pos2 of POSITIONS) {
                 if (window_pos !== window_pos2)
