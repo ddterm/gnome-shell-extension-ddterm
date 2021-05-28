@@ -417,8 +417,7 @@ async function run_tests(filter = '', filter_out = false) {
 
     settings = Extension.settings;
 
-    // Skipping SIZE_VALUES here, they will be tested later multiple times
-    for (let window_size of [0.3, 0.4, 0.6, 0.7, 0.8]) {
+    for (let window_size of [0.31, 0.36, 0.4, 0.8, 0.85, 0.91]) {
         for (let window_maximize of MAXIMIZE_MODES) {
             for (let window_pos of POSITIONS)
                 add_test(test_show, window_size, window_maximize, window_pos);
