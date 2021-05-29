@@ -29,9 +29,9 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Extension = Me.imports.extension;
 
 const WindowMaximizeMode = {
-    NOT_MAXIMIZED: 'not-maximized',
-    EARLY: 'maximize-early',
-    LATE: 'maximize-late',
+    NOT_MAXIMIZED: Symbol('not-maximized'),
+    EARLY: Symbol('maximize-early'),
+    LATE: Symbol('maximize-late'),
 };
 
 let settings = null;
@@ -266,7 +266,7 @@ function verify_window_geometry(window_size, window_maximize, window_pos) {
 }
 
 async function test_show(window_size, window_maximize, window_pos) {
-    print(`Starting test with window size=${window_size}, maximize=${window_maximize}, position=${window_pos}`);
+    print(`Starting test with window size=${window_size}, maximize=${window_maximize.toString()}, position=${window_pos}`);
     await hide_window_async_wait();
 
     await set_settings_double('window-size', window_size);
@@ -412,7 +412,7 @@ async function run_tests(filter = '', filter_out = false) {
     const add_test = (func, ...args) => tests.push({
         func,
         args,
-        id: `${JsUnit.getFunctionName(func)}${JSON.stringify(args)}`,
+        id: `${JsUnit.getFunctionName(func)}(${args.map(x => x.toString())})`,
     });
 
     settings = Extension.settings;
