@@ -282,14 +282,11 @@ function enable() {
 
     extension_connections.connect(global.display, 'window-created', handle_window_created);
     extension_connections.connect(global.display, 'workareas-changed', update_workarea_for_window);
-    extension_connections.connect(global.display, 'workareas-changed', update_window_geometry);
     extension_connections.connect(settings, 'changed::window-above', set_window_above);
     extension_connections.connect(settings, 'changed::window-stick', set_window_stick);
     extension_connections.connect(settings, 'changed::window-size', update_target_rect);
     extension_connections.connect(settings, 'changed::window-size', disable_window_maximize_setting);
-    extension_connections.connect(settings, 'changed::window-size', update_window_geometry);
     extension_connections.connect(settings, 'changed::window-position', update_window_position);
-    extension_connections.connect(settings, 'changed::window-position', update_window_geometry);
     extension_connections.connect(settings, 'changed::window-skip-taskbar', set_skip_taskbar);
     extension_connections.connect(settings, 'changed::window-maximize', set_window_maximized);
     extension_connections.connect(settings, 'changed::override-window-animation', setup_animation_overrides);
@@ -717,6 +714,8 @@ function update_target_rect() {
         current_monitor_scale,
         settings.get_double('window-size')
     );
+
+    update_window_geometry();
 }
 
 function schedule_geometry_fixup(win) {
