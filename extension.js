@@ -641,11 +641,11 @@ function set_current_window(win) {
     current_window = win;
     current_window_connections.connect(win, 'unmanaged', release_window);
 
+    setup_maximized_handlers();
     update_workarea(Main.layoutManager.currentMonitor.index);
 
     current_window_connections.connect(win, 'notify::window-type', setup_animation_overrides);
 
-    setup_maximized_handlers();
     setup_update_size_setting_on_grab_end();
     setup_hide_when_focus_lost();
     setup_animation_overrides();
