@@ -639,10 +639,10 @@ function set_current_window(win) {
 
     release_window(current_window);
     current_window = win;
+    current_window_connections.connect(win, 'unmanaged', release_window);
 
     update_workarea(Main.layoutManager.currentMonitor.index);
 
-    current_window_connections.connect(win, 'unmanaged', release_window);
     current_window_connections.connect(win, 'notify::window-type', setup_animation_overrides);
 
     setup_maximized_handlers();
