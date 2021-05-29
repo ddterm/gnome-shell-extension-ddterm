@@ -650,8 +650,6 @@ function set_current_window(win) {
     setup_hide_when_focus_lost();
     setup_animation_overrides();
 
-    move_resize_window(win, current_target_rect);
-
     // https://github.com/amezin/gnome-shell-extension-ddterm/issues/28
     current_window_connections.connect(win, 'shown', update_window_geometry);
     // Necessary on GNOME <40 (Wayland) + bottom window position
