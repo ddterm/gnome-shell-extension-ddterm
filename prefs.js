@@ -57,6 +57,37 @@ function format_scale_value_percent(scale, value) {
     return PERCENT_FORMAT.format(value);
 }
 
+function show_dialog(parent_window, message, message_type = Gtk.MessageType.ERROR) {
+    const dialog = new Gtk.MessageDialog({
+        transient_for: parent_window,
+        modal: true,
+        buttons: Gtk.ButtonsType.CLOSE,
+        message_type,
+        text: message,
+    });
+    dialog.connect('response', () => dialog.destroy());
+    dialog.show();
+}
+
+// Looks up a `Gio.SettingsSchema` with the identifier `schema_id`.
+// Throw error if the schema does not exist.
+function get_settings_schema(schema_id) {
+    const schema_source = Gio.SettingsSchemaSource.get_default();
+    const schema = schema_source.lookup(schema_id, true);
+    if (schema === null)
+        throw new Error(`Settings schema '${schema_id}' not found.`);
+    return schema;
+}
+
+// Get key named `name` from `schema`.
+// Throw error if the key does not exist.
+function get_settings_schema_key(schema, name) {
+    if (!schema.has_key(name))
+        throw new Error(`Key '${name}' does not exist in settings schema '${schema.get_id()}'.`);
+
+    return schema.get_key(name);
+}
+
 function createPrefsWidgetClass(resource_path, util) {
     const cls = GObject.registerClass(
         {
@@ -91,6 +122,7 @@ function createPrefsWidgetClass(resource_path, util) {
                 'bold_color_check',
                 'color_scheme_editor',
                 'color_scheme_combo',
+                'copy_gnome_terminal_profile_button',
                 'palette_combo',
                 'theme_variant_combo',
                 'tab_policy_combo',
@@ -246,6 +278,8 @@ function createPrefsWidgetClass(resource_path, util) {
 
                 for (let i = 0; i < PALETTE_SIZE; i++)
                     this.method_handler(this.palette_widget(i), 'color-set', this.edit_palette);
+
+                this.method_handler(this.copy_gnome_terminal_profile_button, 'clicked', this.copy_gnome_terminal_profile);
 
                 this.settings_bind('custom-command', this.custom_command_entry, 'text');
                 this.spawn_custom_command.bind_property('active', this.custom_command_entry.parent, 'sensitive', GObject.BindingFlags.SYNC_CREATE);
@@ -543,6 +577,59 @@ function createPrefsWidgetClass(resource_path, util) {
                     this.monitor_combo.active_id = prev_active_id;
                 } finally {
                     this.monitor_combo.thaw_notify();
+                }
+            }
+
+            copy_gnome_terminal_profile() {
+                // Lookup gnome terminal's setting schemas
+                let profile_list_schema, profile_schema;
+                try {
+                    profile_list_schema = get_settings_schema('org.gnome.Terminal.ProfilesList');
+                    profile_schema = get_settings_schema('org.gnome.Terminal.Legacy.Profile');
+                } catch (e) {
+                    show_dialog(this.get_toplevel(), `${e.message} Probably, GNOME Terminal is not installed.`);
+                    return;
+                }
+
+                // Find default gnome terminal profile
+                let profiles_list = Gio.Settings.new_full(profile_list_schema, null, null);
+                let profilePath = profiles_list.settings_schema.get_path();
+                let uuid = profiles_list.get_string('default');
+                let gnome_terminal_profile = Gio.Settings.new_full(
+                    profile_schema,
+                    null,
+                    `${profilePath}:${uuid}/`
+                );
+
+                // Copy color profile
+                try {
+                    const profile_keys = [
+                        'use-theme-colors',
+                        'foreground-color', 'background-color',
+                        'bold-color-same-as-fg', 'bold-color',
+                        'cursor-colors-set', 'cursor-foreground-color', 'cursor-background-color',
+                        'highlight-colors-set', 'highlight-foreground-color', 'highlight-background-color',
+                        'palette',
+                        'bold-is-bright',
+                    ];
+
+                    // Check if key is valid
+                    for (const key of profile_keys) {
+                        const type_gnome_terimnal = get_settings_schema_key(profile_schema, key).get_value_type();
+                        const type_ddterm = get_settings_schema_key(this.settings.settings_schema, key).get_value_type();
+
+                        if (!type_gnome_terimnal.equal(type_ddterm))
+                            throw new Error(`The type of key '${key}' in GNOME Terminal is '${type_gnome_terimnal.dup_string()}', but '${type_ddterm.dup_string()}' is expected.`);
+                    }
+
+                    profile_keys.forEach(key => {
+                        this.settings.set_value(
+                            key,
+                            gnome_terminal_profile.get_value(key)
+                        );
+                    });
+                } catch (e) {
+                    show_dialog(this.get_toplevel(), `Failed to copy color profile from GNOME Terminal. ${e.message}`);
                 }
             }
         }
