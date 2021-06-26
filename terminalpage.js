@@ -173,6 +173,7 @@ var TerminalPage = GObject.registerClass(
 
             this.method_handler(this.settings, 'changed::background-color', this.update_color_background);
             this.method_handler(this.settings, 'changed::background-opacity', this.update_color_background);
+            this.method_handler(this.settings, 'changed::transparent-background', this.update_color_background);
             this.method_handler(this.terminal, 'style-updated', this.update_color_background);
 
             this.method_handler(this.settings, 'changed::bold-color', this.update_color_bold);
@@ -389,7 +390,10 @@ var TerminalPage = GObject.registerClass(
 
         get_color_background() {
             const background = this.get_style_color_settings('background-color', 'background-color');
-            background.alpha = this.settings.get_double('background-opacity');
+
+            if (this.settings.get_boolean('transparent-background'))
+                background.alpha = this.settings.get_double('background-opacity');
+
             return background;
         }
 

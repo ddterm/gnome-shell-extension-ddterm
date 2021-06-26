@@ -75,6 +75,7 @@ var AppWindow = GObject.registerClass(
             });
 
             this.method_handler(this.settings, 'changed::background-opacity', this.update_app_paintable);
+            this.method_handler(this.settings, 'changed::transparent-background', this.update_app_paintable);
             this.update_app_paintable();
 
             this.method_handler(this.notebook, 'page-removed', this.close_if_no_pages);
@@ -245,7 +246,8 @@ var AppWindow = GObject.registerClass(
         }
 
         update_app_paintable() {
-            this.app_paintable = this.settings.get_double('background-opacity') < 1.0;
+            this.app_paintable = this.settings.get_boolean('transparent-background') &&
+                                 this.settings.get_double('background-opacity') < 1.0;
 
             if (this.app_paintable) {
                 if (this.draw_handler_id === null)

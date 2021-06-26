@@ -153,6 +153,7 @@ function createPrefsWidgetClass(resource_path, util) {
                     'detect-urls-email',
                     'detect-urls-news-man',
                     'preserve-working-directory',
+                    'transparent-background',
                 ].forEach(
                     key => actions.add_action(this.settings.create_action(key))
                 );
@@ -200,6 +201,7 @@ function createPrefsWidgetClass(resource_path, util) {
 
                 this.settings_bind('background-opacity', this.opacity_adjustment, 'value');
                 this.set_scale_value_format_percent(this.opacity_scale);
+                this.bind_sensitive('transparent-background', this.opacity_scale.parent);
                 this.settings_bind('window-size', this.window_size_adjustment, 'value');
                 this.set_scale_value_format_percent(this.window_size_scale);
 

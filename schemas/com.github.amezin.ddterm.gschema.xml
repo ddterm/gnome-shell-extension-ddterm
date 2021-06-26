@@ -282,6 +282,9 @@
     <key name="highlight-foreground-color" type="s">
       <default>'#ffffff'</default>
     </key>
+    <key name="transparent-background" type="b">
+      <default>true</default>
+    </key>
     <key name="background-opacity" type="d">
       <default>0.9</default>
       <range min="0.0" max="1.0"/>

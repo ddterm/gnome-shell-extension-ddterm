@@ -748,35 +748,6 @@ along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licens
               </packing>
             </child>
             <child>
-              <object class="GtkLabel">
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="halign">start</property>
-                <property name="label" translatable="yes">_Background opacity:</property>
-                <property name="use-underline">True</property>
-                <property name="mnemonic-widget">opacity_scale</property>
-              </object>
-              <packing>
-                <property name="left-attach">0</property>
-                <property name="top-attach">1</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkScale" id="opacity_scale">
-                <property name="width-request">200</property>
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="adjustment">opacity_adjustment</property>
-                <property name="show-fill-level">True</property>
-                <property name="round-digits">2</property>
-                <property name="digits">2</property>
-              </object>
-              <packing>
-                <property name="left-attach">1</property>
-                <property name="top-attach">1</property>
-              </packing>
-            </child>
-            <child>
               <object class="GtkCheckButton" id="window_skip_taskbar_check">
                 <property name="label" translatable="yes">Exclude window from _overview/task bar</property>
                 <property name="visible">True</property>
@@ -1064,6 +1035,47 @@ You'll have to close all tabs for this option to take effect.</property>
               <packing>
                 <property name="left-attach">1</property>
                 <property name="top-attach">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkCheckButton">
+                <property name="label" translatable="yes">_Background opacity:</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">False</property>
+                <property name="action-name">settings.transparent-background</property>
+                <property name="use-underline">True</property>
+                <property name="draw-indicator">True</property>
+              </object>
+              <packing>
+                <property name="left-attach">0</property>
+                <property name="top-attach">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkBox">
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <child>
+                  <object class="GtkScale" id="opacity_scale">
+                    <property name="width-request">200</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="adjustment">opacity_adjustment</property>
+                    <property name="show-fill-level">True</property>
+                    <property name="round-digits">2</property>
+                    <property name="digits">2</property>
+                  </object>
+                  <packing>
+                    <property name="expand">True</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="left-attach">1</property>
+                <property name="top-attach">1</property>
               </packing>
             </child>
           </object>
