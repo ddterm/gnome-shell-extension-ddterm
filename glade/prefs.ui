@@ -494,6 +494,12 @@ along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licens
         <col id="3">0</col>
       </row>
       <row>
+        <col id="0">shortcut-toggle-transparent-background</col>
+        <col id="1" translatable="yes">Enable/Disable Background Transparency</col>
+        <col id="2">0</col>
+        <col id="3">0</col>
+      </row>
+      <row>
         <col id="0">shortcut-terminal-copy</col>
         <col id="1" translatable="yes">Copy Selected Text</col>
         <col id="2">0</col>

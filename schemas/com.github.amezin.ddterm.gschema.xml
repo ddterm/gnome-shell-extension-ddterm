@@ -364,6 +364,9 @@
     <key name="shortcut-toggle-maximize" type="as">
       <default><![CDATA[['F11']]]></default>
     </key>
+    <key name="shortcut-toggle-transparent-background" type="as">
+      <default><![CDATA[[]]]></default>
+    </key>
     <key name="hide-window-on-esc" type="b">
       <default>false</default>
     </key>

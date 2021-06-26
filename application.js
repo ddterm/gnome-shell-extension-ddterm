@@ -135,6 +135,7 @@ const Application = GObject.registerClass(
             this.add_action(this.settings.create_action('scroll-on-output'));
             this.add_action(this.settings.create_action('scroll-on-keystroke'));
             this.add_action(this.settings.create_action('preserve-working-directory'));
+            this.add_action(this.settings.create_action('transparent-background'));
 
             this.gtk_settings = Gtk.Settings.get_default();
             this.settings.connect('changed::theme-variant', this.update_theme.bind(this));
@@ -142,6 +143,7 @@ const Application = GObject.registerClass(
 
             this.setup_shortcut('shortcut-window-hide', 'win.hide');
             this.setup_shortcut('shortcut-toggle-maximize', 'win.toggle-maximize');
+            this.setup_shortcut('shortcut-toggle-transparent-background', 'app.transparent-background');
             this.setup_shortcut('shortcut-terminal-copy', 'terminal.copy');
             this.setup_shortcut('shortcut-terminal-copy-html', 'terminal.copy-html');
             this.setup_shortcut('shortcut-terminal-paste', 'terminal.paste');
