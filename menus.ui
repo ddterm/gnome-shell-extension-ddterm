@@ -110,6 +110,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
           <attribute name="action">app.window-stick</attribute>
         </item>
         <item>
+          <attribute name="label" translatable="yes">Maximize Window</attribute>
+          <attribute name="action">app.window-maximize</attribute>
+        </item>
+        <item>
           <attribute name="label" translatable="yes">Transparent Background</attribute>
           <attribute name="action">app.transparent-background</attribute>
         </item>
