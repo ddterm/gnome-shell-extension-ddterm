@@ -129,6 +129,7 @@ const Application = GObject.registerClass(
 
             this.add_action(this.settings.create_action('window-above'));
             this.add_action(this.settings.create_action('window-stick'));
+            this.add_action(this.settings.create_action('window-maximize'));
             this.add_action(this.settings.create_action('hide-when-focus-lost'));
             this.add_action(this.settings.create_action('hide-window-on-esc'));
             this.add_action(this.settings.create_action('shortcuts-enabled'));
@@ -142,7 +143,7 @@ const Application = GObject.registerClass(
             this.update_theme();
 
             this.setup_shortcut('shortcut-window-hide', 'win.hide');
-            this.setup_shortcut('shortcut-toggle-maximize', 'win.toggle-maximize');
+            this.setup_shortcut('shortcut-toggle-maximize', 'app.window-maximize');
             this.setup_shortcut('shortcut-toggle-transparent-background', 'app.transparent-background');
             this.setup_shortcut('shortcut-terminal-copy', 'terminal.copy');
             this.setup_shortcut('shortcut-terminal-copy-html', 'terminal.copy-html');
