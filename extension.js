@@ -289,6 +289,7 @@ function enable() {
     extension_connections.connect(settings, 'changed::window-position', update_window_position);
     extension_connections.connect(settings, 'changed::window-skip-taskbar', set_skip_taskbar);
     extension_connections.connect(settings, 'changed::window-maximize', set_window_maximized);
+    extension_connections.connect(settings, 'changed::window-monitor', update_workarea_for_monitor);
     extension_connections.connect(settings, 'changed::override-window-animation', setup_animation_overrides);
     extension_connections.connect(settings, 'changed::show-animation', update_show_animation);
     extension_connections.connect(settings, 'changed::hide-animation', update_hide_animation);
@@ -616,6 +617,14 @@ function update_workarea_for_window() {
     update_workarea(current_window.get_monitor());
 }
 
+function update_workarea_for_monitor() {
+    update_workarea(
+        settings.get_string('window-monitor') === 'primary'
+            ? Main.layoutManager.primaryMonitor.index
+            : Main.layoutManager.currentMonitor.index
+    );
+}
+
 function setup_maximized_handlers() {
     current_window_maximized_connections.disconnect();
 
@@ -642,11 +651,7 @@ function set_current_window(win) {
     current_window_connections.connect(win, 'unmanaged', release_window);
 
     setup_maximized_handlers();
-
-    if (settings.get_string('window-monitor') === 'primary')
-        update_workarea(Main.layoutManager.primaryMonitor.index);
-    else
-        update_workarea(Main.layoutManager.currentMonitor.index);
+    update_workarea_for_monitor();
 
     current_window_connections.connect(win, 'notify::window-type', setup_animation_overrides);
 
