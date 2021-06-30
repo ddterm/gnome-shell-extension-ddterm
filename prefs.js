@@ -70,6 +70,8 @@ function createPrefsWidgetClass(resource_path, util) {
                 'global_accel_renderer',
                 'shortcuts_list',
                 'global_shortcuts_list',
+                'spawn_user_shell',
+                'spawn_user_shell_login',
                 'spawn_custom_command',
                 'custom_command_entry',
                 'limit_scrollback_check',
@@ -139,7 +141,6 @@ function createPrefsWidgetClass(resource_path, util) {
                     'highlight-colors-set',
                     'use-theme-colors',
                     'bold-is-bright',
-                    'command',
                     'show-scrollbar',
                     'scroll-on-output',
                     'scroll-on-keystroke',
@@ -222,6 +223,25 @@ function createPrefsWidgetClass(resource_path, util) {
 
                 this.settings_bind('custom-command', this.custom_command_entry, 'text');
                 this.spawn_custom_command.bind_property('active', this.custom_command_entry.parent, 'sensitive', GObject.BindingFlags.SYNC_CREATE);
+
+                this.command_radio_group = [
+                    this.spawn_user_shell,
+                    this.spawn_user_shell_login,
+                    this.spawn_custom_command,
+                ];
+                this.command_radio_group.forEach(radio => {
+                    this.signal_connect(radio, 'toggled', () => {
+                        if (radio.active)
+                            this.settings.set_string('command', radio.action_target.unpack());
+                    });
+                    this.settings.bind_writable('command', radio, 'sensitive', false);
+                    this.run_on_destroy(
+                        Gio.Settings.unbind.bind(null, radio, 'sensitive'),
+                        radio
+                    );
+                });
+                this.method_handler(this.settings, 'changed::command', this.update_command_radios);
+                this.update_command_radios();
 
                 this.settings_bind('scrollback-unlimited', this.limit_scrollback_check, 'active', Gio.SettingsBindFlags.INVERT_BOOLEAN);
                 this.settings_bind('scrollback-lines', this.scrollback_adjustment, 'value');
@@ -394,6 +414,15 @@ function createPrefsWidgetClass(resource_path, util) {
                     }
 
                     return false;
+                });
+            }
+
+            update_command_radios() {
+                this.command_radio_group.forEach(radio => {
+                    if (radio.action_target.unpack() === this.settings.get_string('command')) {
+                        if (!radio.active)
+                            radio.active = true;
+                    }
                 });
             }
 

@@ -2254,7 +2254,6 @@ Following helpers are available:
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
-                <property name="action-name">settings.command</property>
                 <property name="action-target">'user-shell'</property>
                 <property name="use-underline">True</property>
                 <property name="draw-indicator">True</property>
@@ -2266,12 +2265,11 @@ Following helpers are available:
               </packing>
             </child>
             <child>
-              <object class="GtkRadioButton">
+              <object class="GtkRadioButton" id="spawn_user_shell_login">
                 <property name="label" translatable="yes">User shell as _login shell</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
-                <property name="action-name">settings.command</property>
                 <property name="action-target">'user-shell-login'</property>
                 <property name="use-underline">True</property>
                 <property name="draw-indicator">True</property>
@@ -2289,7 +2287,6 @@ Following helpers are available:
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
-                <property name="action-name">settings.command</property>
                 <property name="action-target">'custom-command'</property>
                 <property name="use-underline">True</property>
                 <property name="draw-indicator">True</property>
