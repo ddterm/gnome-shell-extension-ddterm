@@ -119,8 +119,6 @@ function createPrefsWidgetClass(resource_path, util) {
                 super._init(params);
 
                 const actions = Gio.SimpleActionGroup.new();
-                this.insert_action_group('settings', actions);
-
                 [
                     'window-above',
                     'window-stick',
@@ -158,6 +156,7 @@ function createPrefsWidgetClass(resource_path, util) {
                 ].forEach(
                     key => actions.add_action(this.settings.create_action(key))
                 );
+                this.insert_action_group('settings', actions);
 
                 this.settings_bind('theme-variant', this.theme_variant_combo, 'active-id');
                 this.settings_bind('show-animation', this.show_animation_combo, 'active-id');
