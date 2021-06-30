@@ -651,18 +651,23 @@ function set_current_window(win) {
     current_window_connections.connect(win, 'unmanaged', release_window);
 
     setup_maximized_handlers();
-    update_workarea_for_monitor();
+
+    if (win.get_client_type() === Meta.WindowClientType.WAYLAND) {
+        // Beware: update_window_geometry() should be called in response to 'shown'
+        // https://github.com/amezin/gnome-shell-extension-ddterm/issues/28
+        // update_workarea_for_monitor() calls update_window_geometry() internally
+        current_window_connections.connect(win, 'shown', update_workarea_for_monitor);
+        // Necessary on GNOME <40 (Wayland) + bottom window position
+        current_window_connections.connect(win, 'shown', schedule_geometry_fixup);
+    } else {
+        update_workarea_for_monitor();
+    }
 
     current_window_connections.connect(win, 'notify::window-type', setup_animation_overrides);
+    setup_animation_overrides();
 
     setup_update_size_setting_on_grab_end();
     setup_hide_when_focus_lost();
-    setup_animation_overrides();
-
-    // https://github.com/amezin/gnome-shell-extension-ddterm/issues/28
-    current_window_connections.connect(win, 'shown', update_window_geometry);
-    // Necessary on GNOME <40 (Wayland) + bottom window position
-    current_window_connections.connect(win, 'shown', schedule_geometry_fixup);
 
     Main.activateWindow(win);
 
