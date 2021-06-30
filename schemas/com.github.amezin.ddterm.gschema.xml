@@ -51,6 +51,11 @@
     <value nick="right" value="3"/>
   </enum>
 
+  <enum id="com.github.amezin.ddterm.WindowMonitor">
+    <value nick="current" value="0"/>
+    <value nick="primary" value="1"/>
+  </enum>
+
   <enum id="com.github.amezin.ddterm.EraseBinding">
     <value nick="auto" value="0"/>
     <value nick="ascii-backspace" value="1"/>
@@ -139,6 +144,9 @@
     </key>
     <key name="window-position" enum="com.github.amezin.ddterm.WindowPosition">
       <default>'top'</default>
+    </key>
+    <key name="window-monitor" enum="com.github.amezin.ddterm.WindowMonitor">
+      <default>'current'</default>
     </key>
     <key name="panel-icon-type" enum="com.github.amezin.ddterm.PanelIconType">
       <default>'menu-button'</default>

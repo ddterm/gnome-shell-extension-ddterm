@@ -109,6 +109,8 @@ function createPrefsWidgetClass(resource_path, util) {
                 'show_animation_combo',
                 'hide_animation_combo',
                 'panel_icon_type_combo',
+                'window_monitor_current_radio',
+                'window_monitor_primary_radio',
             ].concat(palette_widgets()),
             Properties: {
                 'settings': GObject.ParamSpec.object('settings', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, Gio.Settings),
@@ -167,6 +169,9 @@ function createPrefsWidgetClass(resource_path, util) {
                 this.settings_bind('window-position', this.window_pos_combo, 'active-id');
                 this.settings_bind('panel-icon-type', this.panel_icon_type_combo, 'active-id');
 
+                this.setup_radio('window-monitor', 'current', this.window_monitor_current_radio);
+                this.setup_radio('window-monitor', 'primary', this.window_monitor_primary_radio);
+
                 this.settings_bind('tab-policy', this.tab_policy_combo, 'active-id');
                 this.settings_bind('tab-position', this.tab_position_combo, 'active-id');
                 this.settings_bind('tab-title-template', this.tab_title_template_buffer, 'text');
@@ -223,24 +228,9 @@ function createPrefsWidgetClass(resource_path, util) {
                 this.settings_bind('custom-command', this.custom_command_entry, 'text');
                 this.spawn_custom_command.bind_property('active', this.custom_command_entry.parent, 'sensitive', GObject.BindingFlags.SYNC_CREATE);
 
-                this.command_radio_group = [
-                    this.spawn_user_shell,
-                    this.spawn_user_shell_login,
-                    this.spawn_custom_command,
-                ];
-                this.command_radio_group.forEach(radio => {
-                    this.signal_connect(radio, 'toggled', () => {
-                        if (radio.active)
-                            this.settings.set_string('command', radio.action_target.unpack());
-                    });
-                    this.settings.bind_writable('command', radio, 'sensitive', false);
-                    this.run_on_destroy(
-                        Gio.Settings.unbind.bind(null, radio, 'sensitive'),
-                        radio
-                    );
-                });
-                this.method_handler(this.settings, 'changed::command', this.update_command_radios);
-                this.update_command_radios();
+                this.setup_radio('command', 'user-shell', this.spawn_user_shell);
+                this.setup_radio('command', 'user-shell-login', this.spawn_user_shell_login);
+                this.setup_radio('command', 'custom-command', this.spawn_custom_command);
 
                 this.settings_bind('scrollback-unlimited', this.limit_scrollback_check, 'active', Gio.SettingsBindFlags.INVERT_BOOLEAN);
                 this.settings_bind('scrollback-lines', this.scrollback_adjustment, 'value');
@@ -416,15 +406,6 @@ function createPrefsWidgetClass(resource_path, util) {
                 });
             }
 
-            update_command_radios() {
-                this.command_radio_group.forEach(radio => {
-                    if (radio.action_target.unpack() === this.settings.get_string('command')) {
-                        if (!radio.active)
-                            radio.active = true;
-                    }
-                });
-            }
-
             save_shortcut(shortcuts_list, _, path, accel_key = null, accel_mods = null) {
                 const [ok, iter] = shortcuts_list.get_iter_from_string(path);
                 if (!ok)
@@ -484,6 +465,29 @@ function createPrefsWidgetClass(resource_path, util) {
                         toplevel.restore_system_shortcuts();
                     }
                 );
+            }
+
+            setup_radio(setting, value, radio) {
+                this.settings.bind_writable(setting, radio, 'sensitive', false);
+                this.run_on_destroy(
+                    Gio.Settings.unbind.bind(null, radio, 'sensitive'),
+                    radio
+                );
+
+                const update_active = () => {
+                    if (this.settings.get_string(setting) === value) {
+                        if (!radio.active)
+                            radio.active = true;
+                    }
+                };
+
+                this.signal_connect(this.settings, `changed::${setting}`, update_active);
+                update_active();
+
+                this.signal_connect(radio, 'toggled', () => {
+                    if (radio.active)
+                        this.settings.set_string(setting, value);
+                });
             }
         }
     );

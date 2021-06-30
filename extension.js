@@ -642,7 +642,11 @@ function set_current_window(win) {
     current_window_connections.connect(win, 'unmanaged', release_window);
 
     setup_maximized_handlers();
-    update_workarea(Main.layoutManager.currentMonitor.index);
+
+    if (settings.get_string('window-monitor') === 'primary')
+        update_workarea(Main.layoutManager.primaryMonitor.index);
+    else
+        update_workarea(Main.layoutManager.currentMonitor.index);
 
     current_window_connections.connect(win, 'notify::window-type', setup_animation_overrides);
 
