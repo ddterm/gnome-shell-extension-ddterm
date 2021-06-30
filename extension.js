@@ -825,11 +825,18 @@ function update_window_geometry() {
     if (!current_window)
         return;
 
-    if (settings.get_boolean('window-maximize'))
+    const frame_rect = current_window.get_frame_rect();
+
+    if (current_target_rect.equal(frame_rect))
         return;
 
-    if (current_target_rect.equal(current_window.get_frame_rect()))
+    if (settings.get_boolean('window-maximize')) {
+        if (frame_rect.x !== current_target_rect.x ||
+            frame_rect.y !== current_target_rect.y)
+            current_window.move_frame(false, current_target_rect.x, current_target_rect.y);
+
         return;
+    }
 
     if (current_window.maximized_horizontally && resize_x) {
         if (current_target_rect.width < current_workarea.width) {
