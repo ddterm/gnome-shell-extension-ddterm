@@ -190,6 +190,7 @@ function wait_window_settle(idle_timeout_ms = 300) {
         handlers.connect(win, 'size-changed', restart_timer_with_message);
         handlers.connect(win, 'notify::maximized-vertically', restart_timer_with_message);
         handlers.connect(win, 'notify::maximized-horizontally', restart_timer_with_message);
+        handlers.connect(Extension, 'move-resize-requested', restart_timer_with_message);
     });
 }
 
