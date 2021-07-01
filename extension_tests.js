@@ -226,7 +226,10 @@ function set_setting(name, value) {
                 return false;
 
             settings.disconnect(handler_id);
-            resolve();
+            GLib.idle_add(GLib.PRIORITY_LOW, () => {
+                resolve();
+                return GLib.SOURCE_REMOVE;
+            });
             return true;
         };
 
