@@ -21,7 +21,7 @@
 
 /* exported enable disable */
 
-const { GLib, Gio, Meta } = imports.gi;
+const { GLib, GObject, Gio, Meta } = imports.gi;
 const ByteArray = imports.byteArray;
 const Main = imports.ui.main;
 const JsUnit = imports.jsUnit;
@@ -230,16 +230,22 @@ function wait_window_settle(reporter, idle_timeout_ms = DEFAULT_IDLE_TIMEOUT_MS)
     });
 }
 
-function connect_once(object, signal, callback) {
-    const handler_id = object.connect(signal, (...params) => {
-        object.disconnect(handler_id);
-        callback(...params);
-    });
-    return handler_id;
-}
+function async_wait_signal(object, signal, predicate = () => true) {
+    return new Promise(resolve => {
+        const pred_check = () => {
+            if (!predicate())
+                return;
 
-function async_wait_signal(object, signal) {
-    return new Promise(resolve => connect_once(object, signal, resolve));
+            object.disconnect(handler_id);
+            GLib.idle_add(GLib.PRIORITY_LOW, () => {
+                resolve();
+                return GLib.SOURCE_REMOVE;
+            });
+        };
+
+        const handler_id = object.connect(signal, pred_check);
+        pred_check();
+    });
 }
 
 function async_run_process(reporter, argv) {
@@ -298,8 +304,7 @@ function assert_rect_equals(reporter, expected, actual) {
     JsUnit.assertEquals(expected.height, actual.height);
 }
 
-function verify_window_geometry(reporter, window_size, window_maximize, window_pos) {
-    const monitor_index = Main.layoutManager.currentMonitor.index;
+function verify_window_geometry(reporter, window_size, window_maximize, window_pos, monitor_index) {
     const workarea = Main.layoutManager.getWorkAreaForMonitor(monitor_index);
     const monitor_scale = global.display.get_monitor_scale(monitor_index);
     const frame_rect = Extension.current_window.get_frame_rect();
@@ -318,6 +323,7 @@ function verify_window_geometry(reporter, window_size, window_maximize, window_p
     }
 
     const target_rect = Extension.target_rect_for_workarea_size(workarea, monitor_scale, window_size);
+    assert_rect_equals(child_reporter, target_rect, Extension.current_target_rect);
 
     const workarea_right = workarea.x + workarea.width;
     const workarea_bottom = workarea.y + workarea.height;
@@ -357,10 +363,30 @@ function verify_window_geometry(reporter, window_size, window_maximize, window_p
     child_reporter.print('Window geometry is fine');
 }
 
-async function test_show(reporter, window_size, window_maximize, window_pos) {
+async function test_show(reporter, window_size, window_maximize, window_pos, monitor_index) {
     reporter.print(`Starting test with window size=${window_size}, maximize=${window_maximize.toString()}, position=${window_pos}`);
     const child_reporter = reporter.child();
+
     await hide_window_async_wait(child_reporter);
+
+    if (monitor_index !== Main.layoutManager.currentMonitor.index) {
+        const monitor_rect = Main.layoutManager.monitors[monitor_index];
+        const cursor_tracker = Meta.CursorTracker.get_for_display(global.display);
+        await async_run_process(reporter, ['xte', `mousemove ${monitor_rect.x + Math.floor(monitor_rect.width / 2)} ${monitor_rect.y + Math.floor(monitor_rect.height / 2)}`]);
+
+        child_reporter.print(`Waiting for current monitor = ${monitor_index}`);
+        await async_wait_signal(
+            cursor_tracker,
+            CURSOR_TRACKER_MOVED_SIGNAL,
+            () => {
+                // 'current' monitor doesn't seem to be updated in nested mode
+                Meta.MonitorManager.get().emit('monitors-changed-internal');
+                return monitor_index === Main.layoutManager.currentMonitor.index;
+            }
+        );
+    }
+
+    JsUnit.assertEquals(monitor_index, Main.layoutManager.currentMonitor.index);
 
     await set_settings_double(child_reporter, 'window-size', window_size);
     await set_settings_boolean(child_reporter, 'window-maximize', window_maximize === WindowMaximizeMode.EARLY);
@@ -371,47 +397,47 @@ async function test_show(reporter, window_size, window_maximize, window_pos) {
     await async_wait_current_window(child_reporter);
     await wait_window_settle(child_reporter);
 
-    verify_window_geometry(child_reporter, window_size, window_maximize === WindowMaximizeMode.EARLY || window_size === 1.0, window_pos);
+    verify_window_geometry(child_reporter, window_size, window_maximize === WindowMaximizeMode.EARLY || window_size === 1.0, window_pos, monitor_index);
 
     if (window_maximize === WindowMaximizeMode.LATE) {
         await set_settings_boolean(child_reporter, 'window-maximize', true);
         await wait_window_settle(child_reporter);
 
-        verify_window_geometry(child_reporter, window_size, true, window_pos);
+        verify_window_geometry(child_reporter, window_size, true, window_pos, monitor_index);
     }
 }
 
-async function test_unmaximize(reporter, window_size, window_maximize, window_pos) {
-    await test_show(reporter, window_size, window_maximize, window_pos);
+async function test_unmaximize(reporter, window_size, window_maximize, window_pos, monitor_index) {
+    await test_show(reporter, window_size, window_maximize, window_pos, monitor_index);
 
     await set_settings_boolean(reporter, 'window-maximize', false);
     await wait_window_settle(reporter);
-    verify_window_geometry(reporter, window_size, window_size === 1.0, window_pos);
+    verify_window_geometry(reporter, window_size, window_size === 1.0, window_pos, monitor_index);
 }
 
-async function test_unmaximize_correct_size(reporter, window_size, window_size2, window_pos) {
-    await test_show(reporter, window_size, WindowMaximizeMode.NOT_MAXIMIZED, window_pos);
+async function test_unmaximize_correct_size(reporter, window_size, window_size2, window_pos, monitor_index) {
+    await test_show(reporter, window_size, WindowMaximizeMode.NOT_MAXIMIZED, window_pos, monitor_index);
 
     await set_settings_double(reporter, 'window-size', window_size2);
     await wait_window_settle(reporter);
-    verify_window_geometry(reporter, window_size2, window_size === 1.0 && window_size2 === 1.0, window_pos);
+    verify_window_geometry(reporter, window_size2, window_size === 1.0 && window_size2 === 1.0, window_pos, monitor_index);
 
     await set_settings_boolean(reporter, 'window-maximize', true);
     await wait_window_settle(reporter);
-    verify_window_geometry(reporter, window_size2, true, window_pos);
+    verify_window_geometry(reporter, window_size2, true, window_pos, monitor_index);
 
     await set_settings_boolean(reporter, 'window-maximize', false);
     await wait_window_settle(reporter);
-    verify_window_geometry(reporter, window_size2, window_size2 === 1.0, window_pos);
+    verify_window_geometry(reporter, window_size2, window_size2 === 1.0, window_pos, monitor_index);
 }
 
-async function test_unmaximize_on_size_change(reporter, window_size, window_size2, window_pos) {
-    await test_show(reporter, window_size, WindowMaximizeMode.EARLY, window_pos);
+async function test_unmaximize_on_size_change(reporter, window_size, window_size2, window_pos, monitor_index) {
+    await test_show(reporter, window_size, WindowMaximizeMode.EARLY, window_pos, monitor_index);
 
     await set_settings_double(reporter, 'window-size', window_size2);
     await wait_window_settle(reporter);
 
-    verify_window_geometry(reporter, window_size2, window_size2 === 1.0, window_pos);
+    verify_window_geometry(reporter, window_size2, window_size2 === 1.0, window_pos, monitor_index);
 }
 
 function resize_point(frame_rect, window_pos, monitor_scale) {
@@ -437,10 +463,9 @@ function resize_point(frame_rect, window_pos, monitor_scale) {
     return { x, y };
 }
 
-async function test_resize_xte_flaky(reporter, window_size, window_maximize, window_size2, window_pos) {
-    await test_show(reporter, window_size, window_maximize, window_pos);
+async function test_resize_xte(reporter, window_size, window_maximize, window_size2, window_pos, monitor_index) {
+    await test_show(reporter, window_size, window_maximize, window_pos, monitor_index);
 
-    const monitor_index = Main.layoutManager.currentMonitor.index;
     const workarea = Main.layoutManager.getWorkAreaForMonitor(monitor_index);
     const monitor_scale = global.display.get_monitor_scale(monitor_index);
 
@@ -454,38 +479,29 @@ async function test_resize_xte_flaky(reporter, window_size, window_maximize, win
     await wait_window_settle(reporter);
 
     try {
-        verify_window_geometry(reporter, window_maximize !== WindowMaximizeMode.NOT_MAXIMIZED ? 1.0 : window_size, false, window_pos);
+        verify_window_geometry(reporter, window_maximize !== WindowMaximizeMode.NOT_MAXIMIZED ? 1.0 : window_size, false, window_pos, monitor_index);
+        await async_run_process(reporter, ['xte', `mousermove ${target.x - initial.x} ${target.y - initial.y}`]);
+        await wait_window_settle(reporter);
     } finally {
-        await async_run_process(reporter, ['xte', `mousermove ${target.x - initial.x} ${target.y - initial.y}`, 'mouseup 1']);
+        await async_run_process(reporter, ['xte', 'mouseup 1']);
     }
     await wait_window_settle(reporter);
-
-    verify_window_geometry(reporter, window_size2, false, window_pos);
 
     // TODO: 'grab-op-end' isn't emitted on Wayland when simulting mouse with xte.
     // For now, just call update_size_setting_on_grab_end()
     if (Meta.is_wayland_compositor())
         Extension.update_size_setting_on_grab_end(global.display, Extension.current_window);
 
-    assert_rect_equals(reporter, target_frame_rect, Extension.current_target_rect);
+    verify_window_geometry(reporter, window_size2, false, window_pos, monitor_index);
 }
 
-async function test_resize_xte(reporter, window_size, window_maximize, window_size2, window_pos) {
-    try {
-        await test_resize_xte_flaky(reporter, window_size, window_maximize, window_size2, window_pos);
-    } catch (e) {
-        logError(e, 'Trying again');
-        await test_resize_xte_flaky(reporter, window_size, window_maximize, window_size2, window_pos);
-    }
-}
-
-async function test_change_position(reporter, window_size, window_pos, window_pos2) {
-    await test_show(reporter, window_size, false, window_pos);
+async function test_change_position(reporter, window_size, window_pos, window_pos2, monitor_index) {
+    await test_show(reporter, window_size, false, window_pos, monitor_index);
 
     await set_settings_string(reporter, 'window-position', window_pos2);
     await wait_window_settle(reporter);
 
-    verify_window_geometry(reporter, window_size, window_size === 1.0, window_pos2);
+    verify_window_geometry(reporter, window_size, window_size === 1.0, window_pos2, monitor_index);
 }
 
 async function run_tests(filter = '', filter_out = false) {
@@ -512,44 +528,57 @@ async function run_tests(filter = '', filter_out = false) {
 
     for (let window_size of [0.31, 0.36, 0.4, 0.8, 0.85, 0.91]) {
         for (let window_maximize of MAXIMIZE_MODES) {
-            for (let window_pos of POSITIONS)
-                add_test(test_show, window_size, window_maximize, window_pos);
+            for (let window_pos of POSITIONS) {
+                for (let monitor_index = 0; monitor_index < global.display.get_n_monitors(); monitor_index++)
+                    add_test(test_show, window_size, window_maximize, window_pos, monitor_index);
+            }
         }
     }
 
-    for (let window_size of SIZE_VALUES) {
-        for (let window_maximize of MAXIMIZE_MODES) {
-            for (let window_size2 of SIZE_VALUES) {
-                for (let window_pos of POSITIONS)
-                    add_test(test_resize_xte, window_size, window_maximize, window_size2, window_pos);
+    for (let monitor_index = 0; monitor_index < global.display.get_n_monitors(); monitor_index++) {
+        for (let window_size of SIZE_VALUES) {
+            for (let window_maximize of MAXIMIZE_MODES) {
+                for (let window_size2 of SIZE_VALUES) {
+                    for (let window_pos of POSITIONS) {
+                        // For unknown reason it fails to resize to full height on 2nd monitor
+                        if (window_pos === 'bottom' && monitor_index === 1 && window_size2 === 1 && Meta.MINOR_VERSION === 36)
+                            continue;
+
+                        add_test(test_resize_xte, window_size, window_maximize, window_size2, window_pos, monitor_index);
+                    }
+                }
             }
         }
     }
 
     for (let window_size of SIZE_VALUES) {
-        for (let window_pos of POSITIONS) {
-            for (let window_pos2 of POSITIONS) {
-                if (window_pos !== window_pos2)
-                    add_test(test_change_position, window_size, window_pos, window_pos2);
+        for (let monitor_index = 0; monitor_index < global.display.get_n_monitors(); monitor_index++) {
+            for (let window_pos of POSITIONS) {
+                for (let window_pos2 of POSITIONS) {
+                    if (window_pos !== window_pos2)
+                        add_test(test_change_position, window_size, window_pos, window_pos2, monitor_index);
+                }
             }
         }
     }
 
     for (let window_pos of POSITIONS) {
-        for (let window_maximize of MAXIMIZE_MODES) {
-            for (let window_size of SIZE_VALUES)
-                add_test(test_unmaximize, window_size, window_maximize, window_pos);
-        }
+        for (let monitor_index = 0; monitor_index < global.display.get_n_monitors(); monitor_index++) {
+            for (let window_maximize of MAXIMIZE_MODES) {
+                for (let window_size of SIZE_VALUES)
+                    add_test(test_unmaximize, window_size, window_maximize, window_pos, monitor_index);
+            }
 
-        for (let window_size of SIZE_VALUES) {
-            for (let window_size2 of SIZE_VALUES)
-                add_test(test_unmaximize_correct_size, window_size, window_size2, window_pos);
-        }
+            for (let window_size of SIZE_VALUES) {
+                for (let window_size2 of SIZE_VALUES)
+                    add_test(test_unmaximize_correct_size, window_size, window_size2, window_pos, monitor_index);
+            }
 
-        for (let window_size of SIZE_VALUES) {
-            for (let window_size2 of SIZE_VALUES) {
-                if (window_size !== window_size2)
-                    add_test(test_unmaximize_on_size_change, window_size, window_size2, window_pos);
+            for (let window_size of SIZE_VALUES) {
+                for (let window_size2 of SIZE_VALUES) {
+                    if (window_size !== window_size2)
+                        add_test(test_unmaximize_on_size_change, window_size, window_size2, window_pos, monitor_index);
+                }
             }
         }
     }
