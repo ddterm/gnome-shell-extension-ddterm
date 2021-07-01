@@ -74,13 +74,6 @@ function disable() {
     DBUS_INTERFACE.dbus.unexport();
 }
 
-function async_sleep(ms = 200) {
-    return new Promise(resolve => GLib.timeout_add(GLib.PRIORITY_DEFAULT, ms, () => {
-        resolve();
-        return GLib.SOURCE_REMOVE;
-    }));
-}
-
 function setup_window_trace() {
     const win = Extension.current_window;
 
@@ -110,28 +103,56 @@ function setup_window_trace() {
     });
 }
 
-async function hide_window_async_wait() {
-    if (!Extension.current_window)
-        return;
+function hide_window_async_wait() {
+    return new Promise(resolve => {
+        if (!Extension.current_window) {
+            resolve();
+            return;
+        }
 
-    print('Hiding the window');
-    Extension.toggle();
+        const check_cb = () => {
+            if (Extension.current_window)
+                return;
 
-    print('Waiting for the window to hide');
-    while (Extension.current_window) {
-        // eslint-disable-next-line no-await-in-loop
-        await async_sleep(50);
-    }
-    print('Window hidden');
+            Extension.disconnect(handler);
+            print('Window hidden');
+            resolve();
+        };
+
+        const handler = Extension.connect('window-changed', check_cb);
+
+        print('Hiding the window');
+        Extension.toggle();
+    });
 }
 
-async function async_wait_current_window() {
-    print('Waiting for the window to show');
-    while (!Extension.current_window || Extension.current_window.is_hidden()) {
-        // eslint-disable-next-line no-await-in-loop
-        await async_sleep(50);
-    }
-    print('Window shown');
+function async_wait_current_window() {
+    return new Promise(resolve => {
+        print('Waiting for the window to show');
+
+        const shown_handler = new Extension.ConnectionSet();
+
+        const check_cb = () => {
+            const current_win = Extension.current_window;
+
+            if (!current_win)
+                return;
+
+            shown_handler.disconnect();
+
+            if (current_win.is_hidden()) {
+                shown_handler.connect(current_win, 'shown', check_cb);
+                return;
+            }
+
+            Extension.disconnect(win_handler);
+            print('Window shown');
+            resolve();
+        };
+
+        const win_handler = Extension.connect('window-changed', check_cb);
+        check_cb();
+    });
 }
 
 function wait_window_settle(idle_timeout_ms = 300) {
