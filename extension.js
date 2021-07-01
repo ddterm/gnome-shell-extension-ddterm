@@ -626,10 +626,15 @@ function update_workarea(monitor_index) {
 }
 
 function update_workarea_for_window() {
-    if (!current_window)
-        return;
+    if (current_window && !current_window.is_hidden()) {
+        const monitor_index = current_window.get_monitor();
+        if (monitor_index !== -1) {
+            update_workarea(monitor_index);
+            return;
+        }
+    }
 
-    update_workarea(current_window.get_monitor());
+    update_workarea_for_monitor();
 }
 
 function update_workarea_for_monitor() {
