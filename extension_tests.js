@@ -159,7 +159,7 @@ function wait_window_settle(idle_timeout_ms = 300) {
     return new Promise(resolve => {
         const win = Extension.current_window;
         let timer_id = null;
-        const handlers = [];
+        const handlers = new Extension.ConnectionSet();
 
         print('Waiting for the window to stop generating events');
 
@@ -172,8 +172,7 @@ function wait_window_settle(idle_timeout_ms = 300) {
             timer_id = GLib.timeout_add(GLib.PRIORITY_LOW, idle_timeout_ms, () => {
                 timer_id = null;
 
-                while (handlers.length)
-                    win.disconnect(handlers.pop());
+                handlers.disconnect();
 
                 resolve();
                 return GLib.SOURCE_REMOVE;
@@ -187,10 +186,10 @@ function wait_window_settle(idle_timeout_ms = 300) {
             restart_timer();
         };
 
-        handlers.push(win.connect('position-changed', restart_timer_with_message));
-        handlers.push(win.connect('size-changed', restart_timer_with_message));
-        handlers.push(win.connect('notify::maximized-vertically', restart_timer_with_message));
-        handlers.push(win.connect('notify::maximized-horizontally', restart_timer_with_message));
+        handlers.connect(win, 'position-changed', restart_timer_with_message);
+        handlers.connect(win, 'size-changed', restart_timer_with_message);
+        handlers.connect(win, 'notify::maximized-vertically', restart_timer_with_message);
+        handlers.connect(win, 'notify::maximized-horizontally', restart_timer_with_message);
     });
 }
 
