@@ -35,6 +35,7 @@ const WindowMaximizeMode = {
 };
 
 let settings = null;
+const window_trace = new Extension.ConnectionSet();
 
 const PERCENT_FORMAT = new Intl.NumberFormat(undefined, { style: 'percent' });
 
@@ -78,6 +79,35 @@ function async_sleep(ms = 200) {
         resolve();
         return GLib.SOURCE_REMOVE;
     }));
+}
+
+function setup_window_trace() {
+    const win = Extension.current_window;
+
+    print(`current window changed: ${win}`);
+
+    window_trace.disconnect();
+
+    if (!win)
+        return;
+
+    window_trace.connect(win, 'position-changed', () => {
+        const rect = win.get_frame_rect();
+        print(`position-changed: { .x = ${rect.x}, .y = ${rect.y}, .width = ${rect.width}, .height = ${rect.height} }`);
+    });
+
+    window_trace.connect(win, 'size-changed', () => {
+        const rect = win.get_frame_rect();
+        print(`size-changed: { .x = ${rect.x}, .y = ${rect.y}, .width = ${rect.width}, .height = ${rect.height} }`);
+    });
+
+    window_trace.connect(win, 'notify::maximized-vertically', () => {
+        print(`notify::maximized-vertically = ${win.maximized_vertically}`);
+    });
+
+    window_trace.connect(win, 'notify::maximized-horizontally', () => {
+        print(`notify::maximized-horizontally = ${win.maximized_horizontally}`);
+    });
 }
 
 async function hide_window_async_wait() {
@@ -477,12 +507,15 @@ async function run_tests(filter = '', filter_out = false) {
     for (let test of filtered_tests) {
         print('------------------------------------------------------------------------------------------------------------------------------------------');
         print(`Running test ${test.id} (${tests_passed} of ${filtered_tests.length} done, ${PERCENT_FORMAT.format(tests_passed / filtered_tests.length)})`);
+        const handler = Extension.connect('window-changed', setup_window_trace);
         try {
             // eslint-disable-next-line no-await-in-loop
             await test.func(...test.args);
         } catch (e) {
             e.message += `\n${test.id})`;
             throw e;
+        } finally {
+            Extension.disconnect(handler);
         }
         tests_passed += 1;
     }

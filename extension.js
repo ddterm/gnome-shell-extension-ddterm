@@ -19,10 +19,11 @@
 
 'use strict';
 
-/* exported init enable disable settings current_window target_rect_for_workarea_size toggle */
+/* exported init enable disable settings current_window target_rect_for_workarea_size toggle connect disconnect */
 
 const { GLib, GObject, Gio, Atk, Clutter, Meta, Shell, St } = imports.gi;
 const ByteArray = imports.byteArray;
+const Signals = imports.signals;
 const Main = imports.ui.main;
 const PanelMenu = imports.ui.panelMenu;
 const PopupMenu = imports.ui.popupMenu;
@@ -244,6 +245,20 @@ const hide_when_focus_lost_connections = new ConnectionSet();
 const update_size_setting_on_grab_end_connections = new ConnectionSet();
 const geometry_fixup_connections = new ConnectionSet();
 
+class ExtensionSignals {
+}
+Signals.addSignalMethods(ExtensionSignals.prototype);
+
+const extension_signals = new ExtensionSignals();
+
+function connect(name, callback) {
+    return extension_signals.connect(name, callback);
+}
+
+function disconnect(id) {
+    return extension_signals.disconnect(id);
+}
+
 function init() {
     try {
         tests = Me.imports.extension_tests;
@@ -446,12 +461,12 @@ function handle_window_created(display, win) {
         win.connect('notify::gtk-window-object-path', set_current_window),
     ];
 
-    const disconnect = () => {
+    const disconnect_handlers = () => {
         handler_ids.forEach(handler => win.disconnect(handler));
     };
 
-    handler_ids.push(win.connect('unmanaging', disconnect));
-    handler_ids.push(win.connect('unmanaged', disconnect));
+    handler_ids.push(win.connect('unmanaging', disconnect_handlers));
+    handler_ids.push(win.connect('unmanaged', disconnect_handlers));
 
     set_current_window(win);
 }
@@ -647,7 +662,10 @@ function set_current_window(win) {
         return;
 
     release_window(current_window);
+
     current_window = win;
+    extension_signals.emit('window-changed');
+
     current_window_connections.connect(win, 'unmanaged', release_window);
 
     setup_maximized_handlers();
@@ -879,7 +897,9 @@ function release_window(win) {
     current_window_connections.disconnect();
     current_window_maximized_connections.disconnect();
     geometry_fixup_connections.disconnect();
+
     current_window = null;
+    extension_signals.emit('window-changed');
 
     update_size_setting_on_grab_end_connections.disconnect();
     hide_when_focus_lost_connections.disconnect();
