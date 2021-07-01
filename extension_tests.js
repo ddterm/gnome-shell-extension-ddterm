@@ -163,34 +163,42 @@ function wait_window_settle(idle_timeout_ms = 300) {
 
         print('Waiting for the window to stop generating events');
 
-        const restart_timer = () => {
-            if (timer_id !== null) {
-                GLib.source_remove(timer_id);
-                timer_id = null;
-            }
-
-            timer_id = GLib.timeout_add(GLib.PRIORITY_LOW, idle_timeout_ms, () => {
-                timer_id = null;
-
-                handlers.disconnect();
-
-                resolve();
-                return GLib.SOURCE_REMOVE;
-            });
+        const ready = () => {
+            handlers.disconnect();
+            resolve();
+            print('Idle timeout elapsed');
+            return GLib.SOURCE_REMOVE;
         };
+
+        const restart_timer = () => {
+            if (timer_id !== null)
+                GLib.source_remove(timer_id);
+
+            timer_id = GLib.timeout_add(GLib.PRIORITY_LOW, idle_timeout_ms, ready);
+        };
+
+        handlers.connect(win, 'position-changed', () => {
+            print('Restarting wait because of position-changed signal');
+            restart_timer();
+        });
+        handlers.connect(win, 'size-changed', () => {
+            print('Restarting wait because of size-changed signal');
+            restart_timer();
+        });
+        handlers.connect(win, 'notify::maximized-vertically', () => {
+            print('Restarting wait because of notify::maximized-vertically signal');
+            restart_timer();
+        });
+        handlers.connect(win, 'notify::maximized-horizontally', () => {
+            print('Restarting wait because of notify::maximized-horizontally signal');
+            restart_timer();
+        });
+        handlers.connect(Extension, 'move-resize-requested', () => {
+            print('Restarting wait because of move-resize-requested signal');
+            restart_timer();
+        });
 
         restart_timer();
-
-        const restart_timer_with_message = () => {
-            print('Window generated an event, restarting wait');
-            restart_timer();
-        };
-
-        handlers.connect(win, 'position-changed', restart_timer_with_message);
-        handlers.connect(win, 'size-changed', restart_timer_with_message);
-        handlers.connect(win, 'notify::maximized-vertically', restart_timer_with_message);
-        handlers.connect(win, 'notify::maximized-horizontally', restart_timer_with_message);
-        handlers.connect(Extension, 'move-resize-requested', restart_timer_with_message);
     });
 }
 
