@@ -268,6 +268,7 @@ function set_setting(reporter, name, value) {
 
             settings.disconnect(handler_id);
             GLib.idle_add(GLib.PRIORITY_LOW, () => {
+                reporter.print(`Setting ${name} become ${value.unpack()}`);
                 resolve();
                 return GLib.SOURCE_REMOVE;
             });
