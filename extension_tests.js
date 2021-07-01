@@ -39,6 +39,8 @@ const window_trace = new Extension.ConnectionSet();
 
 const PERCENT_FORMAT = new Intl.NumberFormat(undefined, { style: 'percent' });
 
+const DEFAULT_IDLE_TIMEOUT_MS = Meta.MAJOR_VERSION === 3 && Meta.MINOR_VERSION === 36 ? 300 : 200;
+
 class ExtensionTestDBusInterface {
     constructor() {
         let [_, xml] = Me.dir.get_child('com.github.amezin.ddterm.ExtensionTest.xml').load_contents(null);
@@ -155,7 +157,7 @@ function async_wait_current_window() {
     });
 }
 
-function wait_window_settle(idle_timeout_ms = 300) {
+function wait_window_settle(idle_timeout_ms = DEFAULT_IDLE_TIMEOUT_MS) {
     return new Promise(resolve => {
         const win = Extension.current_window;
         let timer_id = null;
