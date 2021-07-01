@@ -7,6 +7,7 @@ TEST_FILTER_OUT="false"
 SOURCE_DIR="${PWD}"
 DISPLAY=":99"
 PULL=0
+EXTRA_VOLUMES=
 
 usage() {
     >&2 echo "Usage: $0 [-i image] [-p] [-s service] [-k pattern] [-f package] [-d display]"
@@ -16,16 +17,18 @@ usage() {
     >&2 echo " -k pattern: Run only tests matching the regex pattern."
     >&2 echo " -n: Invert -k pattern - exclude tests matching it."
     >&2 echo " -f: Source directory. Default: ${SOURCE_DIR}"
+    >&2 echo " -v volume: Mount file/directory in the container. Passed to podman as is. See podman run --help"
     >&2 echo " -d display: Xvfb display in the container. Default: ${DISPLAY}"
 }
 
-while getopts "pi:s:k:nf:h" opt; do
+while getopts "pi:s:k:nf:v:h" opt; do
     case $opt in
     i) IMAGE="${OPTARG}";;
     s) SERVICE="${OPTARG}";;
     k) TEST_FILTER="${OPTARG}";;
     n) TEST_FILTER_OUT="true";;
     f) SOURCE_DIR="${OPTARG}";;
+    v) EXTRA_VOLUMES="${EXTRA_VOLUMES} -v ${OPTARG}";;
     d) DISPLAY="${OPTARG}";;
     p) PULL=1;;
     h) usage; exit 0;;
@@ -42,7 +45,7 @@ if (( PULL )); then
     podman pull "${IMAGE}"
 fi
 
-POD=$(podman run --rm --cap-add=SYS_NICE --cap-add=IPC_LOCK -v "${SOURCE_DIR}:${PACKAGE_MOUNTPATH}:ro" -td "${IMAGE}")
+POD=$(podman run --rm --cap-add=SYS_NICE --cap-add=IPC_LOCK -v "${SOURCE_DIR}:${PACKAGE_MOUNTPATH}:ro" ${EXTRA_VOLUMES} -td "${IMAGE}")
 
 down () {
     podman kill "${POD}"
