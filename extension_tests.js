@@ -40,7 +40,14 @@ const window_trace = new Extension.ConnectionSet();
 const PERCENT_FORMAT = new Intl.NumberFormat(undefined, { style: 'percent' });
 const CURSOR_TRACKER_MOVED_SIGNAL = GObject.signal_lookup('cursor-moved', Meta.CursorTracker) ? 'cursor-moved' : 'position-invalidated';
 
-const DEFAULT_IDLE_TIMEOUT_MS = Meta.MAJOR_VERSION === 3 && Meta.MINOR_VERSION === 36 ? 300 : 200;
+function mutter_version_at_least(major, minor) {
+    if (Meta.MAJOR_VERSION !== major)
+        return Meta.MAJOR_VERSION > major;
+
+    return Meta.MINOR_VERSION >= minor;
+}
+
+const DEFAULT_IDLE_TIMEOUT_MS = mutter_version_at_least(3, 38) ? 200 : 300;
 
 class Reporter {
     constructor(prefix = '') {
@@ -541,9 +548,11 @@ async function run_tests(filter = '', filter_out = false) {
             for (let window_maximize of MAXIMIZE_MODES) {
                 for (let window_size2 of SIZE_VALUES) {
                     for (let window_pos of POSITIONS) {
-                        // For unknown reason it fails to resize to full height on 2nd monitor
-                        if (window_pos === 'bottom' && monitor_index === 1 && window_size2 === 1 && Meta.MINOR_VERSION === 36)
-                            continue;
+                        if (!mutter_version_at_least(3, 38)) {
+                            // For unknown reason it fails to resize to full height on 2nd monitor
+                            if (monitor_index === 1 && window_pos === 'bottom' && window_size2 === 1)
+                                continue;
+                        }
 
                         add_test(test_resize_xte, window_size, window_maximize, window_size2, window_pos, monitor_index);
                     }
