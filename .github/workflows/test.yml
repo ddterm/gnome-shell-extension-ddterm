@@ -19,6 +19,9 @@ jobs:
           - 'gnome-wayland-nested'
           - 'gnome-wayland-nested-highdpi'
           - 'gnome-wayland-nested-dual-monitor'
+        exclude:
+          - fedora-version: '33'
+            session: 'gnome-wayland-nested-dual-monitor'
     env:
       IMAGE: ghcr.io/amezin/gnome-shell-pod-${{ matrix.fedora-version }}:master
     steps:
