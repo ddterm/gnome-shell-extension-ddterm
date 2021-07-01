@@ -169,7 +169,7 @@ function wait_window_settle(idle_timeout_ms = 300) {
                 timer_id = null;
             }
 
-            timer_id = GLib.timeout_add(GLib.PRIORITY_DEFAULT_IDLE, idle_timeout_ms, () => {
+            timer_id = GLib.timeout_add(GLib.PRIORITY_LOW, idle_timeout_ms, () => {
                 timer_id = null;
 
                 while (handlers.length)
