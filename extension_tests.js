@@ -38,6 +38,7 @@ let settings = null;
 const window_trace = new Extension.ConnectionSet();
 
 const PERCENT_FORMAT = new Intl.NumberFormat(undefined, { style: 'percent' });
+const CURSOR_TRACKER_MOVED_SIGNAL = GObject.signal_lookup('cursor-moved', Meta.CursorTracker) ? 'cursor-moved' : 'position-invalidated';
 
 const DEFAULT_IDLE_TIMEOUT_MS = Meta.MAJOR_VERSION === 3 && Meta.MINOR_VERSION === 36 ? 300 : 200;
 
@@ -179,6 +180,7 @@ function async_wait_current_window(reporter) {
 function wait_window_settle(reporter, idle_timeout_ms = DEFAULT_IDLE_TIMEOUT_MS) {
     return new Promise(resolve => {
         const win = Extension.current_window;
+        const cursor_tracker = Meta.CursorTracker.get_for_display(global.display);
         let timer_id = null;
         const handlers = new Extension.ConnectionSet();
 
@@ -217,6 +219,10 @@ function wait_window_settle(reporter, idle_timeout_ms = DEFAULT_IDLE_TIMEOUT_MS)
         });
         handlers.connect(Extension, 'move-resize-requested', () => {
             child_reporter.print('Restarting wait because of move-resize-requested signal');
+            restart_timer();
+        });
+        handlers.connect(cursor_tracker, CURSOR_TRACKER_MOVED_SIGNAL, () => {
+            child_reporter.print('Restarting wait because cursor moved');
             restart_timer();
         });
 
