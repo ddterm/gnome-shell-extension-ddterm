@@ -166,37 +166,36 @@ function async_run_process(argv) {
     });
 }
 
+function set_setting(name, value) {
+    return new Promise(resolve => {
+        print(`Setting ${name}=${value.unpack()}`);
+
+        const check_value = () => {
+            if (!settings.get_value(name).equal(value))
+                return false;
+
+            settings.disconnect(handler_id);
+            resolve();
+            return true;
+        };
+
+        const handler_id = settings.connect(`changed::${name}`, check_value);
+
+        if (!check_value())
+            settings.set_value(name, value);
+    });
+}
+
 function set_settings_double(name, value) {
-    print(`Setting ${name}=${value}`);
-
-    if (settings.get_double(name) === value)
-        return Promise.resolve(settings, name);
-
-    const promise = async_wait_signal(settings, `changed::${name}`);
-    settings.set_double(name, value);
-    return promise;
+    return set_setting(name, GLib.Variant.new_double(value));
 }
 
 function set_settings_boolean(name, value) {
-    print(`Setting ${name}=${value}`);
-
-    if (settings.get_boolean(name) === value)
-        return Promise.resolve(settings, name);
-
-    const promise = async_wait_signal(settings, `changed::${name}`);
-    settings.set_boolean(name, value);
-    return promise;
+    return set_setting(name, GLib.Variant.new_boolean(value));
 }
 
 function set_settings_string(name, value) {
-    print(`Setting ${name}=${value}`);
-
-    if (settings.get_string(name) === value)
-        return Promise.resolve(settings, name);
-
-    const promise = async_wait_signal(settings, `changed::${name}`);
-    settings.set_string(name, value);
-    return promise;
+    return set_setting(name, GLib.Variant.new_string(value));
 }
 
 function assert_rect_equals(expected, actual) {
