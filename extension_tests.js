@@ -48,6 +48,7 @@ function mutter_version_at_least(major, minor) {
 }
 
 const DEFAULT_IDLE_TIMEOUT_MS = mutter_version_at_least(3, 38) ? 200 : 300;
+const WAIT_TIMEOUT_MS = 2000;
 
 class Reporter {
     constructor(prefix = '') {
@@ -130,8 +131,24 @@ function setup_window_trace() {
     });
 }
 
+function async_sleep(ms) {
+    return new Promise(resolve => GLib.timeout_add(GLib.PRIORITY_LOW, ms, () => {
+        resolve();
+        return GLib.SOURCE_REMOVE;
+    }));
+}
+
+function with_timeout(promise, timeout_ms = WAIT_TIMEOUT_MS) {
+    return Promise.race([
+        promise,
+        new Promise((resolve, reject) => async_sleep(timeout_ms).then(() => {
+            reject(new Error('Timed out'));
+        })),
+    ]);
+}
+
 function hide_window_async_wait(reporter) {
-    return new Promise(resolve => {
+    return with_timeout(new Promise(resolve => {
         if (!Extension.current_window) {
             resolve();
             return;
@@ -151,11 +168,11 @@ function hide_window_async_wait(reporter) {
         reporter.print('Hiding the window');
         const child_reporter = reporter.child();
         Extension.toggle();
-    });
+    }));
 }
 
 function async_wait_current_window(reporter) {
-    return new Promise(resolve => {
+    return with_timeout(new Promise(resolve => {
         reporter.print('Waiting for the window to show');
         const child_reporter = reporter.child();
 
@@ -181,11 +198,11 @@ function async_wait_current_window(reporter) {
 
         const win_handler = Extension.connect('window-changed', check_cb);
         check_cb();
-    });
+    }));
 }
 
 function wait_window_settle(reporter, idle_timeout_ms = DEFAULT_IDLE_TIMEOUT_MS) {
-    return new Promise(resolve => {
+    return with_timeout(new Promise(resolve => {
         const win = Extension.current_window;
         const cursor_tracker = Meta.CursorTracker.get_for_display(global.display);
         let timer_id = null;
@@ -234,11 +251,11 @@ function wait_window_settle(reporter, idle_timeout_ms = DEFAULT_IDLE_TIMEOUT_MS)
         });
 
         restart_timer();
-    });
+    }));
 }
 
 function async_wait_signal(object, signal, predicate = () => true) {
-    return new Promise(resolve => {
+    return with_timeout(new Promise(resolve => {
         const pred_check = () => {
             if (!predicate())
                 return;
@@ -252,11 +269,11 @@ function async_wait_signal(object, signal, predicate = () => true) {
 
         const handler_id = object.connect(signal, pred_check);
         pred_check();
-    });
+    }));
 }
 
 function async_run_process(reporter, argv) {
-    return new Promise(resolve => {
+    return with_timeout(new Promise(resolve => {
         reporter.print(`Starting subprocess ${JSON.stringify(argv)}`);
         const child_reporter = reporter.child();
         const subprocess = Gio.Subprocess.new(argv, Gio.SubprocessFlags.NONE);
@@ -264,11 +281,11 @@ function async_run_process(reporter, argv) {
             child_reporter.print(`Finished subprocess ${JSON.stringify(argv)}`);
             resolve(source.wait_check_finish(result));
         });
-    });
+    }));
 }
 
 function set_setting(reporter, name, value) {
-    return new Promise(resolve => {
+    return with_timeout(new Promise(resolve => {
         const check_value = () => {
             if (!settings.get_value(name).equal(value))
                 return false;
@@ -289,7 +306,7 @@ function set_setting(reporter, name, value) {
 
         reporter.print(`Setting ${name}=${value.unpack()}`);
         settings.set_value(name, value);
-    });
+    }));
 }
 
 function set_settings_double(reporter, name, value) {
