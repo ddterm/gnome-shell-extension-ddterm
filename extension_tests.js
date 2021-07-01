@@ -219,8 +219,6 @@ function async_run_process(argv) {
 
 function set_setting(name, value) {
     return new Promise(resolve => {
-        print(`Setting ${name}=${value.unpack()}`);
-
         const check_value = () => {
             if (!settings.get_value(name).equal(value))
                 return false;
@@ -235,8 +233,11 @@ function set_setting(name, value) {
 
         const handler_id = settings.connect(`changed::${name}`, check_value);
 
-        if (!check_value())
-            settings.set_value(name, value);
+        if (check_value())
+            return;
+
+        print(`Setting ${name}=${value.unpack()}`);
+        settings.set_value(name, value);
     });
 }
 
