@@ -814,7 +814,7 @@ function handle_maximized_horizontally(win) {
 
 function move_resize_window(win, target_rect) {
     win.move_resize_frame(false, target_rect.x, target_rect.y, target_rect.width, target_rect.height);
-    extension_signals.emit('move-resize-requested');
+    extension_signals.emit('move-resize-requested', target_rect);
 }
 
 function set_window_maximized() {

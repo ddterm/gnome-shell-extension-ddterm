@@ -659,7 +659,12 @@ async function run_tests(filter = '', filter_out = false) {
     for (let test of filtered_tests) {
         DEFAULT_REPORTER.print('------------------------------------------------------------------------------------------------------------------------------------------');
         DEFAULT_REPORTER.print(`Running test ${test.id} (${tests_passed} of ${filtered_tests.length} done, ${PERCENT_FORMAT.format(tests_passed / filtered_tests.length)})`);
-        const handler = Extension.connect('window-changed', setup_window_trace);
+
+        const handlers = new Extension.ConnectionSet();
+        handlers.connect(Extension, 'window-changed', setup_window_trace);
+        handlers.connect(Extension, 'move-resize-requested', (_, rect) => {
+            DEFAULT_REPORTER.print(`Extension requested move-resize to { .x = ${rect.x}, .y = ${rect.y}, .width = ${rect.width}, .height = ${rect.height} }`);
+        });
         try {
             // eslint-disable-next-line no-await-in-loop
             await test.func(DEFAULT_REPORTER.child(), ...test.args);
@@ -667,7 +672,7 @@ async function run_tests(filter = '', filter_out = false) {
             e.message += `\n${test.id})`;
             throw e;
         } finally {
-            Extension.disconnect(handler);
+            handlers.disconnect();
         }
         tests_passed += 1;
     }
