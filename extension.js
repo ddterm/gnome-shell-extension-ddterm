@@ -781,8 +781,6 @@ function handle_maximized_vertically(win) {
 
     if (get_target_rect().height < current_workarea.height)
         win.unmaximize(Meta.MaximizeFlags.VERTICAL);
-    else
-        update_window_geometry_with_fixup();
 }
 
 function handle_maximized_horizontally(win) {
@@ -798,8 +796,6 @@ function handle_maximized_horizontally(win) {
 
     if (get_target_rect().width < current_workarea.width)
         win.unmaximize(Meta.MaximizeFlags.HORIZONTAL);
-    else
-        update_window_geometry_with_fixup();
 }
 
 function move_resize_window(win, target_rect) {
