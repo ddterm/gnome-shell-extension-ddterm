@@ -14,7 +14,7 @@ usage() {
     >&2 echo " -i image: Docker/Podman image to run. Default: ${IMAGE}"
     >&2 echo " -p: Pull the image before running."
     >&2 echo " -s service: Systemd service (GNOME shell type) to run. Default: ${SERVICE}"
-    >&2 echo " -k pattern: Run only tests matching the regex pattern."
+    >&2 echo " -k substring: Run only tests whose ids include the specified substring."
     >&2 echo " -n: Invert -k pattern - exclude tests matching it."
     >&2 echo " -f: Source directory. Default: ${SOURCE_DIR}"
     >&2 echo " -v volume: Mount file/directory in the container. Passed to podman as is. See podman run --help"

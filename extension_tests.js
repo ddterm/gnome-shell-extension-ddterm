@@ -653,7 +653,7 @@ async function run_tests(filter = '', filter_out = false) {
         }
     }
 
-    const filter_func = info => info.id.match(filter);
+    const filter_func = info => info.id.includes(filter);
     const filtered_tests = tests.filter(filter_out ? info => !filter_func(info) : filter_func);
     let tests_passed = 0;
     for (let test of filtered_tests) {
