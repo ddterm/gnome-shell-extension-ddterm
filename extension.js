@@ -849,10 +849,7 @@ function update_window_geometry() {
         return;
 
     if (settings.get_boolean('window-maximize')) {
-        const target_rect = current_target_rect.copy();
-        target_rect.width = current_workarea.width;
-        target_rect.height = current_workarea.height;
-        move_resize_window(current_window, current_target_rect);
+        move_resize_window(current_window, current_workarea);
         return;
     }
 
