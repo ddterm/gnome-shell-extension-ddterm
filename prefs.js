@@ -21,7 +21,7 @@
 
 /* exported init buildPrefsWidget createPrefsWidgetClass */
 
-const { GObject, Gdk, Gio, Gtk } = imports.gi;
+const { GLib, GObject, Gdk, Gio, Gtk } = imports.gi;
 
 const PALETTE_SIZE = 16;
 
@@ -112,6 +112,8 @@ function createPrefsWidgetClass(resource_path, util) {
                 'window_monitor_current_radio',
                 'window_monitor_primary_radio',
                 'window_monitor_focus_radio',
+                'window_monitor_connector_radio',
+                'monitor_combo',
             ].concat(palette_widgets()),
             Properties: {
                 'settings': GObject.ParamSpec.object('settings', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, Gio.Settings),
@@ -170,9 +172,27 @@ function createPrefsWidgetClass(resource_path, util) {
                 this.settings_bind('window-position', this.window_pos_combo, 'active-id');
                 this.settings_bind('panel-icon-type', this.panel_icon_type_combo, 'active-id');
 
+                this.display_config_proxy = Gio.DBusProxy.new_for_bus_sync(
+                    Gio.BusType.SESSION,
+                    Gio.DBusProxyFlags.NONE,
+                    null,
+                    'org.gnome.Mutter.DisplayConfig',
+                    '/org/gnome/Mutter/DisplayConfig',
+                    'org.gnome.Mutter.DisplayConfig',
+                    null
+                );
+                this.signal_connect(this.display_config_proxy, 'g-signal', (proxy, sender_name, signal_name) => {
+                    if (signal_name === 'MonitorsChanged')
+                        this.fill_monitors_combo();
+                });
+                this.fill_monitors_combo();
+
                 this.setup_radio('window-monitor', 'current', this.window_monitor_current_radio);
                 this.setup_radio('window-monitor', 'primary', this.window_monitor_primary_radio);
                 this.setup_radio('window-monitor', 'focus', this.window_monitor_focus_radio);
+                this.setup_radio('window-monitor', 'connector', this.window_monitor_connector_radio);
+                this.window_monitor_connector_radio.bind_property('active', this.monitor_combo.parent, 'sensitive', GObject.BindingFlags.SYNC_CREATE);
+                this.settings_bind('window-monitor-connector', this.monitor_combo, 'active-id');
 
                 this.settings_bind('tab-policy', this.tab_policy_combo, 'active-id');
                 this.settings_bind('tab-position', this.tab_position_combo, 'active-id');
@@ -490,6 +510,40 @@ function createPrefsWidgetClass(resource_path, util) {
                     if (radio.active)
                         this.settings.set_string(setting, value);
                 });
+            }
+
+            fill_monitors_combo() {
+                const current_state = this.display_config_proxy.call_sync(
+                    'GetCurrentState',
+                    null,
+                    Gio.DBusCallFlags.NONE,
+                    -1,
+                    null
+                );
+
+                const [serial_, monitors, logical_monitors_, properties_] = current_state.unpack();
+
+                const prev_active_id = this.monitor_combo.active_id;
+                this.monitor_combo.freeze_notify();
+
+                try {
+                    this.monitor_combo.remove_all();
+
+                    for (let monitor_info of monitors.unpack()) {
+                        const [ids, modes_, props] = monitor_info.unpack();
+                        const [connector, vendor_, model, monitor_serial_] = ids.deep_unpack();
+                        let display_name = props.deep_unpack()['display-name'];
+
+                        if (display_name instanceof GLib.Variant)
+                            display_name = display_name.unpack();
+
+                        this.monitor_combo.append(connector, `${display_name} - ${model} (${connector})`);
+                    }
+
+                    this.monitor_combo.active_id = prev_active_id;
+                } finally {
+                    this.monitor_combo.thaw_notify();
+                }
             }
         }
     );

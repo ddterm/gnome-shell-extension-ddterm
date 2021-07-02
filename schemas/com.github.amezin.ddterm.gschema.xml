@@ -55,6 +55,7 @@
     <value nick="current" value="0"/>
     <value nick="primary" value="1"/>
     <value nick="focus" value="2"/>
+    <value nick="connector" value="3"/>
   </enum>
 
   <enum id="com.github.amezin.ddterm.EraseBinding">
@@ -148,6 +149,9 @@
     </key>
     <key name="window-monitor" enum="com.github.amezin.ddterm.WindowMonitor">
       <default>'current'</default>
+    </key>
+    <key name="window-monitor-connector" type="s">
+      <default>''</default>
     </key>
     <key name="panel-icon-type" enum="com.github.amezin.ddterm.PanelIconType">
       <default>'menu-button'</default>
