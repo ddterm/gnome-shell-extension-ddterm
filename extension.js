@@ -761,10 +761,14 @@ function schedule_geometry_fixup(win) {
     geometry_fixup_connections.connect(win, 'size-changed', update_window_geometry);
 }
 
-function unmaximize_done() {
-    settings.set_boolean('window-maximize', false);
+function update_window_geometry_with_fixup() {
     update_window_geometry();
     schedule_geometry_fixup(current_window);
+}
+
+function unmaximize_done() {
+    settings.set_boolean('window-maximize', false);
+    update_window_geometry_with_fixup();
 
     // https://github.com/amezin/gnome-shell-extension-ddterm/issues/48
     if (settings.get_boolean('window-above')) {
@@ -785,10 +789,10 @@ function handle_maximized_vertically(win) {
         return;
     }
 
-    if (!settings.get_boolean('window-maximize')) {
-        if (current_target_rect.height < current_workarea.height)
-            win.unmaximize(Meta.MaximizeFlags.VERTICAL);
-    }
+    if (!settings.get_boolean('window-maximize') && current_target_rect.height < current_workarea.height)
+        win.unmaximize(Meta.MaximizeFlags.VERTICAL);
+    else
+        update_window_geometry_with_fixup();
 }
 
 function handle_maximized_horizontally(win) {
@@ -802,10 +806,10 @@ function handle_maximized_horizontally(win) {
         return;
     }
 
-    if (!settings.get_boolean('window-maximize')) {
-        if (current_target_rect.width < current_workarea.width)
-            win.unmaximize(Meta.MaximizeFlags.HORIZONTAL);
-    }
+    if (!settings.get_boolean('window-maximize') && current_target_rect.width < current_workarea.width)
+        win.unmaximize(Meta.MaximizeFlags.HORIZONTAL);
+    else
+        update_window_geometry_with_fixup();
 }
 
 function move_resize_window(win, target_rect) {
