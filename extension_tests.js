@@ -666,8 +666,14 @@ async function run_tests(filter = '', filter_out = false) {
             DEFAULT_REPORTER.print(`Extension requested move-resize to { .x = ${rect.x}, .y = ${rect.y}, .width = ${rect.width}, .height = ${rect.height} }`);
         });
         try {
-            // eslint-disable-next-line no-await-in-loop
-            await test.func(DEFAULT_REPORTER.child(), ...test.args);
+            try {
+                // eslint-disable-next-line no-await-in-loop
+                await test.func(DEFAULT_REPORTER.child(), ...test.args);
+            } catch (e) {
+                logError(e, 'Trying again');
+                // eslint-disable-next-line no-await-in-loop
+                await test.func(DEFAULT_REPORTER.child(), ...test.args);
+            }
         } catch (e) {
             e.message += `\n${test.id})`;
             throw e;
