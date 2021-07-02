@@ -625,9 +625,9 @@ function update_workarea() {
 
 function get_monitor_index() {
     if (settings.get_string('window-monitor') === 'primary')
-        return Main.layoutManager.primaryMonitor.index;
+        return Main.layoutManager.primaryIndex;
 
-    return Main.layoutManager.currentMonitor.index;
+    return global.display.get_current_monitor();
 }
 
 function update_monitor_index() {

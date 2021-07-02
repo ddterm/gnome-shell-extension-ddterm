@@ -394,7 +394,7 @@ function window_monitor_index(monitor_config) {
     if (monitor_config.window_monitor === 'current')
         return monitor_config.current_monitor;
 
-    return Main.layoutManager.primaryMonitor.index;
+    return Main.layoutManager.primaryIndex;
 }
 
 async function test_show(reporter, window_size, window_maximize, window_pos, monitor_config) {
@@ -403,7 +403,7 @@ async function test_show(reporter, window_size, window_maximize, window_pos, mon
 
     await hide_window_async_wait(child_reporter);
 
-    if (monitor_config.current_monitor !== Main.layoutManager.currentMonitor.index) {
+    if (monitor_config.current_monitor !== global.display.get_current_monitor()) {
         const monitor_rect = Main.layoutManager.monitors[monitor_config.current_monitor];
         const cursor_tracker = Meta.CursorTracker.get_for_display(global.display);
         await async_run_process(reporter, ['xte', `mousemove ${monitor_rect.x + Math.floor(monitor_rect.width / 2)} ${monitor_rect.y + Math.floor(monitor_rect.height / 2)}`]);
@@ -415,12 +415,12 @@ async function test_show(reporter, window_size, window_maximize, window_pos, mon
             () => {
                 // 'current' monitor doesn't seem to be updated in nested mode
                 Meta.MonitorManager.get().emit('monitors-changed-internal');
-                return monitor_config.current_monitor === Main.layoutManager.currentMonitor.index;
+                return monitor_config.current_monitor === global.display.get_current_monitor();
             }
         );
     }
 
-    JsUnit.assertEquals(monitor_config.current_monitor, Main.layoutManager.currentMonitor.index);
+    JsUnit.assertEquals(monitor_config.current_monitor, global.display.get_current_monitor());
 
     await set_settings_double(child_reporter, 'window-size', window_size);
     await set_settings_boolean(child_reporter, 'window-maximize', window_maximize === WindowMaximizeMode.EARLY);
@@ -569,7 +569,7 @@ async function run_tests(filter = '', filter_out = false) {
     for (let monitor_index = 0; monitor_index < global.display.get_n_monitors(); monitor_index++) {
         monitor_configs.push({ current_monitor: monitor_index, window_monitor: 'current' });
 
-        if (monitor_index !== Main.layoutManager.primaryMonitor.index)
+        if (monitor_index !== Main.layoutManager.primaryIndex)
             monitor_configs.push({ current_monitor: monitor_index, window_monitor: 'primary' });
     }
 
