@@ -39,6 +39,7 @@ var current_window = null;
 var current_workarea = null;
 var current_monitor_scale = 1;
 var current_target_rect = null;
+var current_monitor_index = 0;
 
 let bus_watch_id = null;
 let dbus_action_group = null;
@@ -296,7 +297,7 @@ function enable() {
     );
 
     extension_connections.connect(global.display, 'window-created', handle_window_created);
-    extension_connections.connect(global.display, 'workareas-changed', update_workarea_for_window);
+    extension_connections.connect(global.display, 'workareas-changed', update_workarea);
     extension_connections.connect(settings, 'changed::window-above', set_window_above);
     extension_connections.connect(settings, 'changed::window-stick', set_window_stick);
     extension_connections.connect(settings, 'changed::window-size', update_target_rect);
@@ -304,14 +305,14 @@ function enable() {
     extension_connections.connect(settings, 'changed::window-position', update_window_position);
     extension_connections.connect(settings, 'changed::window-skip-taskbar', set_skip_taskbar);
     extension_connections.connect(settings, 'changed::window-maximize', set_window_maximized);
-    extension_connections.connect(settings, 'changed::window-monitor', update_workarea_for_monitor);
+    extension_connections.connect(settings, 'changed::window-monitor', update_monitor_index);
     extension_connections.connect(settings, 'changed::override-window-animation', setup_animation_overrides);
     extension_connections.connect(settings, 'changed::show-animation', update_show_animation);
     extension_connections.connect(settings, 'changed::hide-animation', update_hide_animation);
     extension_connections.connect(settings, 'changed::hide-when-focus-lost', setup_hide_when_focus_lost);
     extension_connections.connect(settings, 'changed::panel-icon-type', setup_panel_icon);
 
-    update_workarea_for_window();
+    update_workarea();
     update_window_position();
     update_show_animation();
     update_hide_animation();
@@ -615,34 +616,23 @@ function set_skip_taskbar() {
         wayland_client.show_in_window_list(current_window);
 }
 
-function update_workarea(monitor_index) {
-    if (monitor_index < 0)
-        return;
-
-    current_workarea = Main.layoutManager.getWorkAreaForMonitor(monitor_index);
-    current_monitor_scale = global.display.get_monitor_scale(monitor_index);
+function update_workarea() {
+    current_workarea = Main.layoutManager.getWorkAreaForMonitor(current_monitor_index);
+    current_monitor_scale = global.display.get_monitor_scale(current_monitor_index);
 
     update_target_rect();
 }
 
-function update_workarea_for_window() {
-    if (current_window && !current_window.is_hidden()) {
-        const monitor_index = current_window.get_monitor();
-        if (monitor_index !== -1) {
-            update_workarea(monitor_index);
-            return;
-        }
-    }
+function get_monitor_index() {
+    if (settings.get_string('window-monitor') === 'primary')
+        return Main.layoutManager.primaryMonitor.index;
 
-    update_workarea_for_monitor();
+    return Main.layoutManager.currentMonitor.index;
 }
 
-function update_workarea_for_monitor() {
-    update_workarea(
-        settings.get_string('window-monitor') === 'primary'
-            ? Main.layoutManager.primaryMonitor.index
-            : Main.layoutManager.currentMonitor.index
-    );
+function update_monitor_index() {
+    current_monitor_index = get_monitor_index();
+    update_workarea();
 }
 
 function setup_maximized_handlers() {
@@ -675,7 +665,8 @@ function set_current_window(win) {
 
     setup_maximized_handlers();
 
-    update_workarea_for_monitor();
+    update_monitor_index();
+
     current_window_connections.connect(global.window_manager, 'map', (wm, actor) => {
         if (check_current_window() && actor === current_window.get_compositor_private())
             update_window_geometry();
