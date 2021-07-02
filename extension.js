@@ -779,7 +779,7 @@ function handle_maximized_vertically(win) {
         return;
     }
 
-    if (!settings.get_boolean('window-maximize') && current_target_rect.height < current_workarea.height)
+    if (get_target_rect().height < current_workarea.height)
         win.unmaximize(Meta.MaximizeFlags.VERTICAL);
     else
         update_window_geometry_with_fixup();
@@ -796,7 +796,7 @@ function handle_maximized_horizontally(win) {
         return;
     }
 
-    if (!settings.get_boolean('window-maximize') && current_target_rect.width < current_workarea.width)
+    if (get_target_rect().width < current_workarea.width)
         win.unmaximize(Meta.MaximizeFlags.HORIZONTAL);
     else
         update_window_geometry_with_fixup();
@@ -836,13 +836,20 @@ function disable_window_maximize_setting() {
     settings.set_boolean('window-maximize', false);
 }
 
+function get_target_rect() {
+    if (settings.get_boolean('window-maximize'))
+        return current_workarea;
+
+    return current_target_rect;
+}
+
 function update_window_geometry(force = true) {
     geometry_fixup_connections.disconnect();
 
     if (!current_window)
         return;
 
-    const target_rect = settings.get_boolean('window-maximize') ? current_workarea : current_target_rect;
+    const target_rect = get_target_rect();
     if (!force && target_rect.equal(current_window.get_frame_rect()))
         return;
 
