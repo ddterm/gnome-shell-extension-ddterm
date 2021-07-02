@@ -681,9 +681,8 @@ function set_current_window(win) {
             update_window_geometry();
     });
     // https://github.com/amezin/gnome-shell-extension-ddterm/issues/28
-    current_window_connections.connect(win, 'shown', update_window_geometry_if_necessary);
-    // Necessary on GNOME <40 (Wayland) + bottom window position
-    current_window_connections.connect(win, 'shown', schedule_geometry_fixup);
+    // Also necessary on GNOME <40 (Wayland) + bottom window position
+    current_window_connections.connect(win, 'shown', update_window_geometry_with_fixup);
 
     current_window_connections.connect(win, 'notify::window-type', setup_animation_overrides);
     setup_animation_overrides();
@@ -846,19 +845,18 @@ function disable_window_maximize_setting() {
     settings.set_boolean('window-maximize', false);
 }
 
-function update_window_geometry() {
+function update_window_geometry(force = true) {
     geometry_fixup_connections.disconnect();
 
     if (!current_window)
         return;
 
-    if (settings.get_boolean('window-maximize')) {
-        move_resize_window(current_window, current_workarea);
+    const target_rect = settings.get_boolean('window-maximize') ? current_workarea : current_target_rect;
+    if (!force && target_rect.equal(current_window.get_frame_rect()))
         return;
-    }
 
     if (current_window.maximized_horizontally && resize_x) {
-        if (current_target_rect.width < current_workarea.width) {
+        if (target_rect.width < current_workarea.width) {
             Main.wm.skipNextEffect(current_window.get_compositor_private());
             current_window.unmaximize(Meta.MaximizeFlags.HORIZONTAL);
             return;
@@ -866,23 +864,18 @@ function update_window_geometry() {
     }
 
     if (current_window.maximized_vertically && !resize_x) {
-        if (current_target_rect.height < current_workarea.height) {
+        if (target_rect.height < current_workarea.height) {
             Main.wm.skipNextEffect(current_window.get_compositor_private());
             current_window.unmaximize(Meta.MaximizeFlags.VERTICAL);
             return;
         }
     }
 
-    move_resize_window(current_window, current_target_rect);
+    move_resize_window(current_window, target_rect);
 }
 
 function update_window_geometry_if_necessary() {
-    if (!current_window)
-        return;
-
-    const target_rect = settings.get_boolean('window-maximize') ? current_workarea : current_target_rect;
-    if (target_rect && !current_window.get_frame_rect().equal(target_rect))
-        update_window_geometry();
+    update_window_geometry(false);
 }
 
 function update_size_setting_on_grab_end(display, p0, p1) {
