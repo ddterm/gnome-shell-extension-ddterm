@@ -861,15 +861,19 @@ function update_window_geometry() {
         if (current_target_rect.width < current_workarea.width) {
             Main.wm.skipNextEffect(current_window.get_compositor_private());
             current_window.unmaximize(Meta.MaximizeFlags.HORIZONTAL);
+            return;
         }
-    } else if (current_window.maximized_vertically && !resize_x) {
+    }
+
+    if (current_window.maximized_vertically && !resize_x) {
         if (current_target_rect.height < current_workarea.height) {
             Main.wm.skipNextEffect(current_window.get_compositor_private());
             current_window.unmaximize(Meta.MaximizeFlags.VERTICAL);
+            return;
         }
-    } else {
-        move_resize_window(current_window, current_target_rect);
     }
+
+    move_resize_window(current_window, current_target_rect);
 }
 
 function update_window_geometry_if_necessary() {
