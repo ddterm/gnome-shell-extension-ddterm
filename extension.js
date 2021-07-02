@@ -627,6 +627,9 @@ function get_monitor_index() {
     if (settings.get_string('window-monitor') === 'primary')
         return Main.layoutManager.primaryIndex;
 
+    if (settings.get_string('window-monitor') === 'focus')
+        return Main.layoutManager.focusIndex;
+
     return global.display.get_current_monitor();
 }
 

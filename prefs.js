@@ -111,6 +111,7 @@ function createPrefsWidgetClass(resource_path, util) {
                 'panel_icon_type_combo',
                 'window_monitor_current_radio',
                 'window_monitor_primary_radio',
+                'window_monitor_focus_radio',
             ].concat(palette_widgets()),
             Properties: {
                 'settings': GObject.ParamSpec.object('settings', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, Gio.Settings),
@@ -171,6 +172,7 @@ function createPrefsWidgetClass(resource_path, util) {
 
                 this.setup_radio('window-monitor', 'current', this.window_monitor_current_radio);
                 this.setup_radio('window-monitor', 'primary', this.window_monitor_primary_radio);
+                this.setup_radio('window-monitor', 'focus', this.window_monitor_focus_radio);
 
                 this.settings_bind('tab-policy', this.tab_policy_combo, 'active-id');
                 this.settings_bind('tab-position', this.tab_position_combo, 'active-id');
