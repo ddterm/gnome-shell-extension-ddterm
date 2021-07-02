@@ -681,7 +681,7 @@ function set_current_window(win) {
             update_window_geometry();
     });
     // https://github.com/amezin/gnome-shell-extension-ddterm/issues/28
-    current_window_connections.connect(win, 'shown', update_window_geometry);
+    current_window_connections.connect(win, 'shown', update_window_geometry_if_necessary);
     // Necessary on GNOME <40 (Wayland) + bottom window position
     current_window_connections.connect(win, 'shown', schedule_geometry_fixup);
 
@@ -749,7 +749,7 @@ function update_target_rect() {
         settings.get_double('window-size')
     );
 
-    update_window_geometry();
+    update_window_geometry_if_necessary();
 }
 
 function schedule_geometry_fixup(win) {
@@ -757,12 +757,12 @@ function schedule_geometry_fixup(win) {
         return;
 
     geometry_fixup_connections.disconnect();
-    geometry_fixup_connections.connect(win, 'position-changed', update_window_geometry);
-    geometry_fixup_connections.connect(win, 'size-changed', update_window_geometry);
+    geometry_fixup_connections.connect(win, 'position-changed', update_window_geometry_if_necessary);
+    geometry_fixup_connections.connect(win, 'size-changed', update_window_geometry_if_necessary);
 }
 
 function update_window_geometry_with_fixup() {
-    update_window_geometry();
+    update_window_geometry_if_necessary();
     schedule_geometry_fixup(current_window);
 }
 
@@ -870,6 +870,15 @@ function update_window_geometry() {
     } else {
         move_resize_window(current_window, current_target_rect);
     }
+}
+
+function update_window_geometry_if_necessary() {
+    if (!current_window)
+        return;
+
+    const target_rect = settings.get_boolean('window-maximize') ? current_workarea : current_target_rect;
+    if (target_rect && !current_window.get_frame_rect().equal(target_rect))
+        update_window_geometry();
 }
 
 function update_size_setting_on_grab_end(display, p0, p1) {
