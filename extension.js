@@ -694,10 +694,12 @@ function set_current_window(win) {
 
     update_monitor_index(true);
 
-    current_window_connections.connect(global.window_manager, 'map', (wm, actor) => {
-        if (check_current_window() && actor === current_window.get_compositor_private())
-            update_window_geometry(true);
-    });
+    if (win.get_client_type() === Meta.WindowClientType.WAYLAND) {
+        current_window_connections.connect(global.window_manager, 'map', (wm, actor) => {
+            if (check_current_window() && actor === current_window.get_compositor_private())
+                update_window_geometry(true);
+        });
+    }
 
     current_window_connections.connect(win, 'notify::window-type', setup_animation_overrides);
     setup_animation_overrides();
