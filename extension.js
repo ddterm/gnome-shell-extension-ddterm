@@ -297,16 +297,16 @@ function enable() {
     );
 
     extension_connections.connect(global.display, 'window-created', handle_window_created);
-    extension_connections.connect(global.display, 'workareas-changed', update_workarea);
+    extension_connections.connect(global.display, 'workareas-changed', () => update_workarea());
     extension_connections.connect(settings, 'changed::window-above', set_window_above);
     extension_connections.connect(settings, 'changed::window-stick', set_window_stick);
-    extension_connections.connect(settings, 'changed::window-size', update_target_rect);
+    extension_connections.connect(settings, 'changed::window-size', () => update_target_rect());
     extension_connections.connect(settings, 'changed::window-size', disable_window_maximize_setting);
     extension_connections.connect(settings, 'changed::window-position', update_window_position);
     extension_connections.connect(settings, 'changed::window-skip-taskbar', set_skip_taskbar);
     extension_connections.connect(settings, 'changed::window-maximize', set_window_maximized);
-    extension_connections.connect(settings, 'changed::window-monitor', update_monitor_index);
-    extension_connections.connect(settings, 'changed::window-monitor-connector', update_monitor_index);
+    extension_connections.connect(settings, 'changed::window-monitor', () => update_monitor_index());
+    extension_connections.connect(settings, 'changed::window-monitor-connector', () => update_monitor_index());
     extension_connections.connect(settings, 'changed::override-window-animation', setup_animation_overrides);
     extension_connections.connect(settings, 'changed::show-animation', update_show_animation);
     extension_connections.connect(settings, 'changed::hide-animation', update_hide_animation);
@@ -617,16 +617,16 @@ function set_skip_taskbar() {
         wayland_client.show_in_window_list(current_window);
 }
 
-function update_workarea() {
+function update_workarea(force = false) {
     if (current_monitor_index >= global.display.get_n_monitors()) {
-        update_monitor_index();
+        update_monitor_index(force);
         return;
     }
 
     current_workarea = Main.layoutManager.getWorkAreaForMonitor(current_monitor_index);
     current_monitor_scale = global.display.get_monitor_scale(current_monitor_index);
 
-    update_target_rect();
+    update_target_rect(force);
 }
 
 function get_monitor_index() {
@@ -652,9 +652,14 @@ function get_monitor_index() {
     return global.display.get_current_monitor();
 }
 
-function update_monitor_index() {
-    current_monitor_index = get_monitor_index();
-    update_workarea();
+function update_monitor_index(force = false) {
+    const new_monitor_index = get_monitor_index();
+
+    if (!force && new_monitor_index === current_monitor_index)
+        return;
+
+    current_monitor_index = new_monitor_index;
+    update_workarea(force);
 }
 
 function setup_maximized_handlers() {
@@ -687,11 +692,11 @@ function set_current_window(win) {
 
     setup_maximized_handlers();
 
-    update_monitor_index();
+    update_monitor_index(true);
 
     current_window_connections.connect(global.window_manager, 'map', (wm, actor) => {
         if (check_current_window() && actor === current_window.get_compositor_private())
-            update_window_geometry();
+            update_window_geometry(true);
     });
     // https://github.com/amezin/gnome-shell-extension-ddterm/issues/28
     // Also necessary on GNOME <40 (Wayland) + bottom window position
@@ -751,7 +756,7 @@ function target_rect_for_workarea_size(workarea, monitor_scale, size) {
     return target_rect;
 }
 
-function update_target_rect() {
+function update_target_rect(force = false) {
     if (!current_workarea)
         return;
 
@@ -761,7 +766,7 @@ function update_target_rect() {
         settings.get_double('window-size')
     );
 
-    update_window_geometry_if_necessary();
+    update_window_geometry(force);
 }
 
 function schedule_geometry_fixup(win) {
@@ -769,12 +774,12 @@ function schedule_geometry_fixup(win) {
         return;
 
     geometry_fixup_connections.disconnect();
-    geometry_fixup_connections.connect(win, 'position-changed', update_window_geometry_if_necessary);
-    geometry_fixup_connections.connect(win, 'size-changed', update_window_geometry_if_necessary);
+    geometry_fixup_connections.connect(win, 'position-changed', () => update_window_geometry());
+    geometry_fixup_connections.connect(win, 'size-changed', () => update_window_geometry());
 }
 
 function update_window_geometry_with_fixup() {
-    update_window_geometry_if_necessary();
+    update_window_geometry();
     schedule_geometry_fixup(current_window);
 }
 
@@ -890,10 +895,6 @@ function update_window_geometry(force = true) {
     }
 
     move_resize_window(current_window, target_rect);
-}
-
-function update_window_geometry_if_necessary() {
-    update_window_geometry(false);
 }
 
 function update_size_setting_on_grab_end(display, p0, p1) {
