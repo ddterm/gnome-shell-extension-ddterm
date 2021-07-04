@@ -645,6 +645,12 @@ function update_monitor_index(force = false) {
         return;
 
     current_monitor_index = new_monitor_index;
+
+    if (current_window) {
+        if (force || current_window.get_monitor() !== current_monitor_index)
+            current_window.move_to_monitor(current_monitor_index);
+    }
+
     update_workarea(force);
 }
 
@@ -682,8 +688,10 @@ function set_current_window(win) {
 
     if (win.get_client_type() === Meta.WindowClientType.WAYLAND) {
         current_window_connections.connect(global.window_manager, 'map', (wm, actor) => {
-            if (check_current_window() && actor === current_window.get_compositor_private())
+            if (check_current_window() && actor === current_window.get_compositor_private()) {
+                current_window.move_to_monitor(current_monitor_index);
                 update_window_geometry(true);
+            }
         });
     }
 
@@ -856,9 +864,6 @@ function update_window_geometry(force = false) {
     const target_rect = get_target_rect();
     if (!force && target_rect.equal(current_window.get_frame_rect()))
         return;
-
-    if (force || current_window.get_monitor() !== current_monitor_index)
-        current_window.move_to_monitor(current_monitor_index);
 
     if (current_window.maximized_horizontally && resize_x) {
         if (target_rect.width < current_workarea.width) {
