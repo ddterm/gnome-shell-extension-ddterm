@@ -859,7 +859,7 @@ function get_target_rect() {
     return current_target_rect;
 }
 
-function update_window_geometry(force = true) {
+function update_window_geometry(force = false) {
     geometry_fixup_connections.disconnect();
 
     if (!current_window)
