@@ -698,9 +698,6 @@ function set_current_window(win) {
         if (check_current_window() && actor === current_window.get_compositor_private())
             update_window_geometry(true);
     });
-    // https://github.com/amezin/gnome-shell-extension-ddterm/issues/28
-    // Also necessary on GNOME <40 (Wayland) + bottom window position
-    current_window_connections.connect(win, 'shown', update_window_geometry_with_fixup);
 
     current_window_connections.connect(win, 'notify::window-type', setup_animation_overrides);
     setup_animation_overrides();
@@ -778,14 +775,10 @@ function schedule_geometry_fixup(win) {
     geometry_fixup_connections.connect(win, 'size-changed', () => update_window_geometry());
 }
 
-function update_window_geometry_with_fixup() {
-    update_window_geometry();
-    schedule_geometry_fixup(current_window);
-}
-
 function unmaximize_done() {
     settings.set_boolean('window-maximize', false);
-    update_window_geometry_with_fixup();
+    update_window_geometry();
+    schedule_geometry_fixup(current_window);
 
     // https://github.com/amezin/gnome-shell-extension-ddterm/issues/48
     if (settings.get_boolean('window-above')) {
