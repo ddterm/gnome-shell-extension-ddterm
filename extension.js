@@ -869,7 +869,8 @@ function update_window_geometry(force = true) {
     if (!force && target_rect.equal(current_window.get_frame_rect()))
         return;
 
-    current_window.move_to_monitor(current_monitor_index);
+    if (current_window.get_monitor() !== current_monitor_index)
+        current_window.move_to_monitor(current_monitor_index);
 
     if (current_window.maximized_horizontally && resize_x) {
         if (target_rect.width < current_workarea.width) {
