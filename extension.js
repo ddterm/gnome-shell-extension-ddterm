@@ -795,7 +795,7 @@ function handle_maximized_vertically(win) {
         return;
     }
 
-    if (get_target_rect().height < current_workarea.height)
+    if (!settings.get_boolean('window-maximize') && current_target_rect.height < current_workarea.height)
         win.unmaximize(Meta.MaximizeFlags.VERTICAL);
 }
 
@@ -810,7 +810,7 @@ function handle_maximized_horizontally(win) {
         return;
     }
 
-    if (get_target_rect().width < current_workarea.width)
+    if (!settings.get_boolean('window-maximize') && current_target_rect.width < current_workarea.width)
         win.unmaximize(Meta.MaximizeFlags.HORIZONTAL);
 }
 
@@ -848,25 +848,20 @@ function disable_window_maximize_setting() {
     settings.set_boolean('window-maximize', false);
 }
 
-function get_target_rect() {
-    if (settings.get_boolean('window-maximize'))
-        return current_workarea;
-
-    return current_target_rect;
-}
-
 function update_window_geometry(force = false) {
     geometry_fixup_connections.disconnect();
 
     if (!current_window)
         return;
 
-    const target_rect = get_target_rect();
-    if (!force && target_rect.equal(current_window.get_frame_rect()))
+    if (settings.get_boolean('window-maximize'))
+        return;
+
+    if (!force && current_target_rect.equal(current_window.get_frame_rect()))
         return;
 
     if (current_window.maximized_horizontally && resize_x) {
-        if (target_rect.width < current_workarea.width) {
+        if (current_target_rect.width < current_workarea.width) {
             Main.wm.skipNextEffect(current_window.get_compositor_private());
             current_window.unmaximize(Meta.MaximizeFlags.HORIZONTAL);
             return;
@@ -874,14 +869,14 @@ function update_window_geometry(force = false) {
     }
 
     if (current_window.maximized_vertically && !resize_x) {
-        if (target_rect.height < current_workarea.height) {
+        if (current_target_rect.height < current_workarea.height) {
             Main.wm.skipNextEffect(current_window.get_compositor_private());
             current_window.unmaximize(Meta.MaximizeFlags.VERTICAL);
             return;
         }
     }
 
-    move_resize_window(current_window, target_rect);
+    move_resize_window(current_window, current_target_rect);
 }
 
 function update_size_setting_on_grab_end(display, p0, p1) {
