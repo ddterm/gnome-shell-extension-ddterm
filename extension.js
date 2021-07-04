@@ -153,17 +153,7 @@ class ExtensionDBusInterface {
         // There is a update_window_geometry() call after successful unmaximize.
         // It must set window size to 100%.
         settings.set_double('window-size', 1.0);
-
-        // Changing window-size should unmaximize, but sometimes it doesn't, if
-        // window-size is already 1.0. So another unmaximize() is necessary.
-        // .unmaximize() emits notify::maximized-vertically even if the window
-        // wasn't maximized, so check if it's still maximized first
-        if (current_window.maximized_vertically)
-            current_window.unmaximize(Meta.MaximizeFlags.VERTICAL);
-
-        // Window still unmaximizes incorrectly without this.
-        // Show terminal, maximize, hide, show, start resizing with mouse.
-        move_resize_window(current_window, current_workarea);
+        current_window.unmaximize(Meta.MaximizeFlags.VERTICAL);
     }
 
     BeginResizeHorizontal() {
@@ -175,11 +165,7 @@ class ExtensionDBusInterface {
         Main.wm.skipNextEffect(current_window.get_compositor_private());
 
         settings.set_double('window-size', 1.0);
-
-        if (current_window.maximized_horizontally)
-            current_window.unmaximize(Meta.MaximizeFlags.HORIZONTAL);
-
-        move_resize_window(current_window, current_workarea);
+        current_window.unmaximize(Meta.MaximizeFlags.HORIZONTAL);
     }
 
     Toggle() {
@@ -779,7 +765,7 @@ function schedule_geometry_fixup(win) {
 
 function unmaximize_done() {
     settings.set_boolean('window-maximize', false);
-    update_window_geometry();
+    update_window_geometry(true);
     schedule_geometry_fixup(current_window);
 
     // https://github.com/amezin/gnome-shell-extension-ddterm/issues/48
