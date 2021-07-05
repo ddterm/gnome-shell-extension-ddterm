@@ -794,8 +794,10 @@ function handle_maximized_vertically(win) {
         return;
     }
 
-    if (!settings.get_boolean('window-maximize') && current_target_rect.height < current_workarea.height)
+    if (!settings.get_boolean('window-maximize') && current_target_rect.height < current_workarea.height) {
+        Main.wm.skipNextEffect(current_window.get_compositor_private());
         win.unmaximize(Meta.MaximizeFlags.VERTICAL);
+    }
 }
 
 function handle_maximized_horizontally(win) {
@@ -807,8 +809,10 @@ function handle_maximized_horizontally(win) {
         return;
     }
 
-    if (!settings.get_boolean('window-maximize') && current_target_rect.width < current_workarea.width)
+    if (!settings.get_boolean('window-maximize') && current_target_rect.width < current_workarea.width) {
+        Main.wm.skipNextEffect(current_window.get_compositor_private());
         win.unmaximize(Meta.MaximizeFlags.HORIZONTAL);
+    }
 }
 
 function move_resize_window(win, target_rect) {
