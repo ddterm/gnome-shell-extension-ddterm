@@ -860,20 +860,16 @@ function update_window_geometry() {
     if (settings.get_boolean('window-maximize'))
         return;
 
-    if (current_window.maximized_horizontally && resize_x) {
-        if (current_target_rect.width < current_workarea.width) {
-            Main.wm.skipNextEffect(current_window.get_compositor_private());
-            current_window.unmaximize(Meta.MaximizeFlags.HORIZONTAL);
-            return;
-        }
+    if (current_window.maximized_horizontally && current_target_rect.width < current_workarea.width) {
+        Main.wm.skipNextEffect(current_window.get_compositor_private());
+        current_window.unmaximize(Meta.MaximizeFlags.HORIZONTAL);
+        return;
     }
 
-    if (current_window.maximized_vertically && !resize_x) {
-        if (current_target_rect.height < current_workarea.height) {
-            Main.wm.skipNextEffect(current_window.get_compositor_private());
-            current_window.unmaximize(Meta.MaximizeFlags.VERTICAL);
-            return;
-        }
+    if (current_window.maximized_vertically && current_target_rect.height < current_workarea.height) {
+        Main.wm.skipNextEffect(current_window.get_compositor_private());
+        current_window.unmaximize(Meta.MaximizeFlags.VERTICAL);
+        return;
     }
 
     move_resize_window(current_window, current_target_rect);
