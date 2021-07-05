@@ -57,8 +57,6 @@ let animation_pivot_y = 0;
 let animation_scale_x = 1.0;
 let animation_scale_y = 0.0;
 
-let force_next_update_geometry = false;
-
 let panel_icon = null;
 
 const APP_ID = 'com.github.amezin.ddterm';
@@ -154,7 +152,6 @@ class ExtensionDBusInterface {
         // It must set window size to 100%.
         settings.set_double('window-size', 1.0);
 
-        force_next_update_geometry = true;
         Main.wm.skipNextEffect(current_window.get_compositor_private());
         current_window.unmaximize(Meta.MaximizeFlags.VERTICAL);
         schedule_geometry_fixup(current_window);
@@ -168,7 +165,6 @@ class ExtensionDBusInterface {
 
         settings.set_double('window-size', 1.0);
 
-        force_next_update_geometry = true;
         Main.wm.skipNextEffect(current_window.get_compositor_private());
         current_window.unmaximize(Meta.MaximizeFlags.HORIZONTAL);
         schedule_geometry_fixup(current_window);
@@ -690,14 +686,12 @@ function set_current_window(win) {
 
     setup_maximized_handlers();
 
-    force_next_update_geometry = true;
     update_monitor_index(true);
 
     if (win.get_client_type() === Meta.WindowClientType.WAYLAND) {
         current_window_connections.connect(global.window_manager, 'map', (wm, actor) => {
             if (check_current_window() && actor === current_window.get_compositor_private()) {
                 current_window.move_to_monitor(current_monitor_index);
-                force_next_update_geometry = true;
                 update_window_geometry();
             }
         });
@@ -857,12 +851,7 @@ function update_window_geometry() {
     if (!current_window)
         return;
 
-    if (settings.get_boolean('window-maximize')) {
-        force_next_update_geometry = false;
-        return;
-    }
-
-    if (!force_next_update_geometry && current_target_rect.equal(current_window.get_frame_rect()))
+    if (settings.get_boolean('window-maximize'))
         return;
 
     if (current_window.maximized_horizontally && resize_x) {
@@ -881,7 +870,6 @@ function update_window_geometry() {
         }
     }
 
-    force_next_update_geometry = false;
     move_resize_window(current_window, current_target_rect);
 }
 
