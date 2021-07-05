@@ -708,7 +708,9 @@ function set_current_window(win) {
     set_window_above();
     set_window_stick();
     set_skip_taskbar();
-    set_window_maximized();
+
+    if (settings.get_boolean('window-maximize'))
+        win.maximize(Meta.MaximizeFlags.BOTH);
 
     if (panel_icon)
         panel_icon.update();
