@@ -864,9 +864,14 @@ function handle_maximized_vertically(win) {
         return;
     }
 
-    if (!settings.get_boolean('window-maximize') && current_target_rect.height < current_workarea.height) {
+    if (settings.get_boolean('window-maximize'))
+        return;
+
+    if (current_target_rect.height < current_workarea.height) {
         Main.wm.skipNextEffect(current_window.get_compositor_private());
         win.unmaximize(Meta.MaximizeFlags.VERTICAL);
+    } else {
+        settings.set_boolean('window-maximize', true);
     }
 }
 
@@ -879,9 +884,14 @@ function handle_maximized_horizontally(win) {
         return;
     }
 
-    if (!settings.get_boolean('window-maximize') && current_target_rect.width < current_workarea.width) {
+    if (settings.get_boolean('window-maximize'))
+        return;
+
+    if (current_target_rect.width < current_workarea.width) {
         Main.wm.skipNextEffect(current_window.get_compositor_private());
         win.unmaximize(Meta.MaximizeFlags.HORIZONTAL);
+    } else {
+        settings.set_boolean('window-maximize', true);
     }
 }
 
@@ -901,22 +911,15 @@ function set_window_maximized() {
 
     if (should_maximize) {
         current_window.maximize(Meta.MaximizeFlags.BOTH);
-        return;
-    }
-
-    if (resize_x) {
-        if (current_target_rect.width < current_workarea.width)
-            current_window.unmaximize(Meta.MaximizeFlags.HORIZONTAL);
     } else {
-        // eslint-disable-next-line no-lonely-if
-        if (current_target_rect.height < current_workarea.height)
-            current_window.unmaximize(Meta.MaximizeFlags.VERTICAL);
+        current_window.unmaximize(resize_x ? Meta.MaximizeFlags.HORIZONTAL : Meta.MaximizeFlags.VERTICAL);
+        schedule_geometry_fixup(current_window);
     }
 }
 
 function disable_window_maximize_setting() {
-    // maximize state is always off after a height change
-    settings.set_boolean('window-maximize', false);
+    if (current_target_rect.height < current_workarea.height || current_target_rect.width < current_workarea.width)
+        settings.set_boolean('window-maximize', false);
 }
 
 function update_window_geometry() {

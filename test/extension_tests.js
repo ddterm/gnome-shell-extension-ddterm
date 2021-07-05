@@ -294,7 +294,7 @@ function set_setting(reporter, name, value) {
 
             settings.disconnect(handler_id);
             GLib.idle_add(GLib.PRIORITY_LOW, () => {
-                reporter.print(`Setting ${name} become ${value.unpack()}`);
+                reporter.print(`Setting ${name} became ${value.unpack()}`);
                 resolve();
                 return GLib.SOURCE_REMOVE;
             });
@@ -450,7 +450,7 @@ async function test_unmaximize(reporter, window_size, window_maximize, window_po
 
     await set_settings_boolean(reporter, 'window-maximize', false);
     await wait_window_settle(reporter);
-    verify_window_geometry(reporter, window_size, window_size === 1.0, window_pos, monitor_index);
+    verify_window_geometry(reporter, window_size, false, window_pos, monitor_index);
 }
 
 async function test_unmaximize_correct_size(reporter, window_size, window_size2, window_pos, monitor_config) {
@@ -468,7 +468,7 @@ async function test_unmaximize_correct_size(reporter, window_size, window_size2,
 
     await set_settings_boolean(reporter, 'window-maximize', false);
     await wait_window_settle(reporter);
-    verify_window_geometry(reporter, window_size2, window_size2 === 1.0, window_pos, monitor_index);
+    verify_window_geometry(reporter, window_size2, false, window_pos, monitor_index);
 }
 
 async function test_unmaximize_on_size_change(reporter, window_size, window_size2, window_pos, monitor_config) {
