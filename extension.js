@@ -154,6 +154,7 @@ class ExtensionDBusInterface {
         // It must set window size to 100%.
         settings.set_double('window-size', 1.0);
         current_window.unmaximize(Meta.MaximizeFlags.VERTICAL);
+        schedule_geometry_fixup(current_window);
     }
 
     BeginResizeHorizontal() {
@@ -166,6 +167,7 @@ class ExtensionDBusInterface {
 
         settings.set_double('window-size', 1.0);
         current_window.unmaximize(Meta.MaximizeFlags.HORIZONTAL);
+        schedule_geometry_fixup(current_window);
     }
 
     Toggle() {
@@ -774,7 +776,6 @@ function schedule_geometry_fixup(win) {
 function unmaximize_done() {
     settings.set_boolean('window-maximize', false);
     update_window_geometry(true);
-    schedule_geometry_fixup(current_window);
 
     // https://github.com/amezin/gnome-shell-extension-ddterm/issues/48
     if (settings.get_boolean('window-above')) {
@@ -785,8 +786,6 @@ function unmaximize_done() {
 }
 
 function handle_maximized_vertically(win) {
-    geometry_fixup_connections.disconnect();
-
     if (!check_current_window(win))
         return;
 
@@ -800,8 +799,6 @@ function handle_maximized_vertically(win) {
 }
 
 function handle_maximized_horizontally(win) {
-    geometry_fixup_connections.disconnect();
-
     if (!check_current_window(win))
         return;
 
