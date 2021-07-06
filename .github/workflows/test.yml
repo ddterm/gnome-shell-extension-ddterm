@@ -26,6 +26,8 @@ jobs:
       IMAGE: ghcr.io/amezin/gnome-shell-pod-${{ matrix.fedora-version }}:master
     steps:
     - uses: actions/checkout@v2
+    - uses: actions/setup-node@v2-beta
+    - run: npm ci
     - run: sudo podman pull "${{ env.IMAGE }}"
     - run: sudo podman run --rm -i -v "${PWD}:${PWD}" -w "${PWD}" "${{ env.IMAGE }}" xvfb-run make test-deps
     - run: sudo ./run_test_podman.sh -i "${{ env.IMAGE }}" -s "${{ matrix.session }}"

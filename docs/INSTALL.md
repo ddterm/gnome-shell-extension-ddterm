@@ -33,6 +33,8 @@ Then you can enable the extension using `gnome-tweaks` app, or by running:
 For installation from `git` repository, you should have build dependencies
 installed:
 
+- `npm` and, thus, node.js.
+
 - `gtk-builder-tool` (`libgtk-3-bin` package on Ubuntu, `gtk3-devel` on Fedora,
 `gtk3` package on Arch)
 
@@ -53,10 +55,12 @@ This will generate all necessary files, using CI image, and then
 
 ## `make install`
 
-`git clone` the repository into arbitrary location, and run `make install`:
+`git clone` the repository into arbitrary location, run `npm install` to
+download dependencies, and run `make install`:
 
     $ git clone https://github.com/amezin/gnome-shell-extension-ddterm.git
     $ cd gnome-shell-extension-ddterm
+    $ npm install
     $ make install
 
 It will build the extension package and install it.
@@ -81,6 +85,7 @@ will do it for you:
 
     $ git clone https://github.com/amezin/gnome-shell-extension-ddterm.git
     $ cd gnome-shell-extension-ddterm
+    $ npm install
     $ make develop
 
 ### Restart GNOME Shell
@@ -104,6 +109,7 @@ Or you can `clone` the repository directly into `~/.local/share/gnome-shell/exte
     $ cd ~/.local/share/gnome-shell/extensions
     $ git clone https://github.com/amezin/gnome-shell-extension-ddterm.git ddterm@amezin.github.com
     $ cd ddterm@amezin.github.com
+    $ npm install
     $ make develop
 
 Running `make develop` is still necessary to generate some files.

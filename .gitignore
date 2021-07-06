@@ -8,3 +8,6 @@
 /prefs-gtk4.ui
 /prefsdialog.ui
 /terminalpage.ui
+
+/handlebars.js
+/node_modules/

@@ -1,5 +1,7 @@
 SHELL := /bin/bash
 
+export PATH := $(abspath node_modules/.bin):$(PATH)
+
 # run 'make WITH_GTK4=no' to disable Gtk 4/GNOME 40 support
 # (could be necessary on older distros without gtk4-builder-tool)
 WITH_GTK4 := yes
@@ -25,8 +27,8 @@ CLEAN += $(SCHEMAS_COMPILED)
 
 # Bundled libs
 
-handlebars.js:
-	curl -o $@ 'https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js'
+handlebars.js: node_modules/handlebars/dist/handlebars.min.js
+	cp $< $@
 
 GENERATED_SOURCES += handlebars.js
 

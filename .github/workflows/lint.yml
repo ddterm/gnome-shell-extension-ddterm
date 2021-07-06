@@ -11,8 +11,8 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - uses: actions/setup-node@v2-beta
-    - run: npm install eslint
-    - run: npx eslint .
+    - run: npm ci
+    - run: make lint
 
   glib-compile-schemas:
     runs-on: ubuntu-20.04
