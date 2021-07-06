@@ -1,8 +1,12 @@
 ---
 # SPDX-License-Identifier: MIT OR LGPL-2.0-or-later
+# SPDX-FileCopyrightText: 2018 Claudio André <claudioandre.br@gmail.com>
 env:
   es6: true
+  es2020: true
 extends: 'eslint:recommended'
+plugins:
+  - jsdoc
 rules:
   array-bracket-newline:
     - error
@@ -60,6 +64,17 @@ rules:
       - 'CallExpression[callee.object.name=GObject][callee.property.name=registerClass] > ClassExpression:first-child'
       # Allow dedenting chained member expressions
       MemberExpression: 'off'
+  jsdoc/check-alignment: error
+  jsdoc/check-param-names: error
+  jsdoc/check-tag-names: error
+  jsdoc/check-types: error
+  jsdoc/implements-on-classes: error
+  jsdoc/newline-after-description: error
+  jsdoc/require-jsdoc: error
+  jsdoc/require-param: error
+  jsdoc/require-param-description: error
+  jsdoc/require-param-name: error
+  jsdoc/require-param-type: error
   key-spacing:
     - error
     - beforeColon: false
@@ -107,8 +122,15 @@ rules:
   no-octal-escape: error
   no-proto: error
   no-prototype-builtins: 'off'
+  no-restricted-globals: [error, window]
   no-restricted-properties:
     - error
+    - object: imports
+      property: format
+      message: Use template strings
+    - object: pkg
+      property: initFormat
+      message: Use template strings
     - object: Lang
       property: copyProperties
       message: Use Object.assign()
@@ -167,6 +189,7 @@ rules:
   object-curly-newline:
     - error
     - consistent: true
+      multiline: true
   object-curly-spacing: error
   object-shorthand: error
   operator-assignment: error
@@ -214,9 +237,6 @@ rules:
   template-curly-spacing: error
   template-tag-spacing: error
   unicode-bom: error
-  valid-jsdoc:
-    - error
-    - requireReturn: false
   wrap-iife:
     - error
     - inside
@@ -233,5 +253,6 @@ globals:
   logError: readonly
   print: readonly
   printerr: readonly
+  window: readonly
 parserOptions:
   ecmaVersion: 2020

@@ -153,7 +153,7 @@ all: gtk-builder-validate
 # ESLint
 
 lint/eslintrc-gjs.yml:
-	curl -o $@ 'https://gitlab.gnome.org/GNOME/gjs/-/raw/984ff1569421fe8b4b9ce25b28249f139e8b7021/.eslintrc.yml'
+	curl -o $@ 'https://gitlab.gnome.org/GNOME/gjs/-/raw/8c50f934bc81f224c6d8f521116ddaa5583eef66/.eslintrc.yml'
 
 lint: lint/eslintrc-gjs.yml
 	eslint .
