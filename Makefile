@@ -26,7 +26,7 @@ CLEAN += $(SCHEMAS_COMPILED)
 # Bundled libs
 
 handlebars.js:
-	curl -o $@ 'https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.6/handlebars.min.js'
+	curl -o $@ 'https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js'
 
 GENERATED_SOURCES += handlebars.js
 
