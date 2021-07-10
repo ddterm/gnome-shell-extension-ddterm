@@ -40,8 +40,8 @@ tmp:
 tmp/prefs-3to4.ui: prefs-gtk3.ui | tmp
 	gtk4-builder-tool simplify --3to4 $< >$@
 
-tmp/prefs-3to4-fixup.ui: tmp/prefs-3to4.ui 3to4-fixup.xsl | tmp
-	xsltproc 3to4-fixup.xsl $< >$@
+tmp/prefs-3to4-fixup.ui: glade/3to4-fixup.xsl tmp/prefs-3to4.ui | tmp
+	xsltproc $^ >$@
 
 prefs-gtk4.ui: tmp/prefs-3to4-fixup.ui
 	gtk4-builder-tool simplify $< >$@
