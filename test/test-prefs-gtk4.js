@@ -25,7 +25,7 @@ imports.gi.versions.Gtk = '4.0';
 const System = imports.system;
 const { GObject, Gio, Gtk } = imports.gi;
 
-const APP_DATA_DIR = Gio.File.new_for_commandline_arg(System.programInvocationName).get_parent();
+const APP_DATA_DIR = Gio.File.new_for_commandline_arg(System.programInvocationName).get_parent().get_parent();
 
 imports.searchPath.unshift(APP_DATA_DIR.get_path());
 

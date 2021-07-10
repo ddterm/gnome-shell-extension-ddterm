@@ -29,10 +29,11 @@ jobs:
     - run: sudo podman pull "${{ env.IMAGE }}"
     - run: sudo podman run --rm -i -v "${PWD}:${PWD}" -w "${PWD}" "${{ env.IMAGE }}" xvfb-run make test-deps
     - run: sudo ./run_test_podman.sh -i "${{ env.IMAGE }}" -s "${{ matrix.session }}"
+      working-directory: test
     - uses: actions/upload-artifact@v2
       with:
         name: test-${{ matrix.fedora-version }}-${{ matrix.session }}
         path: |
-          Xvfb_screen*.png
-          journal.txt
+          test/Xvfb_screen*.png
+          test/journal.txt
       if: always()
