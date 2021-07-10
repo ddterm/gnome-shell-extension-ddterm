@@ -4,25 +4,33 @@ SHELL := /bin/bash
 # (could be necessary on older distros without gtk4-builder-tool)
 WITH_GTK4 := yes
 
-all: schemas/gschemas.compiled lint pack gtk-builder-validate
+TRUE_VALUES := yes YES true TRUE 1
+is-true = $(filter $(TRUE_VALUES),$(1))
 
+all:
 .PHONY: all
 
-SCHEMAS := $(wildcard schemas/*.gschema.xml)
+CLEAN :=
+GENERATED_SOURCES :=
 
-schemas/gschemas.compiled: $(SCHEMAS)
+# GSettings schemas
+
+SCHEMAS := $(wildcard schemas/*.gschema.xml)
+SCHEMAS_COMPILED := schemas/gschemas.compiled
+
+$(SCHEMAS_COMPILED): $(SCHEMAS)
 	glib-compile-schemas --strict $(dir $@)
 
-lint/eslintrc-gjs.yml:
-	curl -o $@ 'https://gitlab.gnome.org/GNOME/gjs/-/raw/984ff1569421fe8b4b9ce25b28249f139e8b7021/.eslintrc.yml'
+CLEAN += $(SCHEMAS_COMPILED)
 
-lint: lint/eslintrc-gjs.yml
-	eslint .
-
-.PHONY: lint
+# Bundled libs
 
 handlebars.js:
 	curl -o $@ 'https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.6/handlebars.min.js'
+
+GENERATED_SOURCES += handlebars.js
+
+# Gtk 3 .ui
 
 GTK3_ONLY_UI := $(filter-out prefs.ui,$(patsubst glade/%,%,$(wildcard glade/*.ui)))
 
@@ -32,7 +40,10 @@ $(GTK3_ONLY_UI): %.ui: glade/%.ui
 prefs-gtk3.ui: glade/prefs.ui
 	gtk-builder-tool simplify $< >$@
 
-GENERATED_SOURCES := $(GTK3_ONLY_UI) prefs-gtk3.ui handlebars.js
+GENERATED_SOURCES += $(GTK3_ONLY_UI) prefs-gtk3.ui
+CLEAN += $(GTK3_ONLY_UI) prefs-gtk3.ui
+
+# Gtk 4 .ui
 
 tmp:
 	mkdir -p tmp
@@ -46,40 +57,53 @@ tmp/prefs-3to4-fixup.ui: glade/3to4-fixup.xsl tmp/prefs-3to4.ui | tmp
 prefs-gtk4.ui: tmp/prefs-3to4-fixup.ui
 	gtk4-builder-tool simplify $< >$@
 
-ifeq ($(WITH_GTK4),yes)
-GENERATED_SOURCES += prefs-gtk4.ui
-endif
+CLEAN += prefs-gtk4.ui tmp/prefs-3to4.ui tmp/prefs-3to4-fixup.ui
+GENERATED_SOURCES += $(if $(call is-true,$(WITH_GTK4)), prefs-gtk4.ui)
 
-gtk-builder-validate/%: %
-	gtk-builder-tool validate $<
+# package
 
-.PHONY: gtk-builder-validate/%
-
-gtk-builder-validate/prefs-gtk4.ui: prefs-gtk4.ui
-	gtk4-builder-tool validate $<
-
-.PHONY: gtk-builder-validate/prefs-gtk4.ui
-
-DEFAULT_SOURCES := extension.js prefs.js metadata.json
+EXTENSION_UUID := ddterm@amezin.github.com
 
 EXTRA_SOURCES := \
 	$(wildcard *.js *.css) \
+	$(GENERATED_SOURCES) \
 	menus.ui \
 	LICENSE \
 	com.github.amezin.ddterm \
 	com.github.amezin.ddterm.Extension.xml
 
-EXTRA_SOURCES := $(filter-out $(DEFAULT_SOURCES), $(sort $(GENERATED_SOURCES) $(EXTRA_SOURCES)))
+DEFAULT_SOURCES := extension.js prefs.js metadata.json
+EXTRA_SOURCES := $(filter-out $(DEFAULT_SOURCES), $(sort $(EXTRA_SOURCES)))
 
-gtk-builder-validate: $(addprefix gtk-builder-validate/, $(filter-out terminalpage.ui,$(filter %.ui,$(EXTRA_SOURCES))))
+EXTENSION_PACK := $(EXTENSION_UUID).shell-extension.zip
+$(EXTENSION_PACK): $(SCHEMAS) $(EXTRA_SOURCES) $(DEFAULT_SOURCES)
+	gnome-extensions pack -f $(addprefix --schema=,$(SCHEMAS)) $(addprefix --extra-source=,$(EXTRA_SOURCES)) .
 
-.PHONY: gtk-builder-validate
+pack: $(EXTENSION_PACK)
+.PHONY: pack
 
-EXTENSION_UUID := ddterm@amezin.github.com
+all: pack
+CLEAN += $(EXTENSION_PACK)
+
+# install/uninstall package
+
+install: $(EXTENSION_PACK) develop-uninstall
+	gnome-extensions install -f $<
+
+.PHONY: install
+
+uninstall: develop-uninstall
+	gnome-extensions uninstall $(EXTENSION_UUID)
+
+.PHONY: uninstall
+
+# develop/symlink install
+
 DEVELOP_SYMLINK := $(HOME)/.local/share/gnome-shell/extensions/$(EXTENSION_UUID)
 
-test-deps: schemas/gschemas.compiled $(GENERATED_SOURCES)
+test-deps: $(SCHEMAS_COMPILED) $(GENERATED_SOURCES)
 
+all: test-deps
 .PHONY: test-deps
 
 develop: test-deps
@@ -100,34 +124,49 @@ develop-uninstall:
 
 .PHONY: develop-uninstall
 
+# clean
+
+clean:
+	$(RM) $(CLEAN)
+
+.PHONY: clean
+
+# .ui validation
+
+gtk-builder-validate/%: %
+	gtk-builder-tool validate $<
+
+.PHONY: gtk-builder-validate/%
+
+gtk-builder-validate/prefs-gtk4.ui: prefs-gtk4.ui
+	gtk4-builder-tool validate $<
+
+.PHONY: gtk-builder-validate/prefs-gtk4.ui
+
+gtk-builder-validate: $(addprefix gtk-builder-validate/, $(filter-out terminalpage.ui,$(filter %.ui,$(EXTRA_SOURCES))))
+
+all: gtk-builder-validate
+.PHONY: gtk-builder-validate
+
+# ESLint
+
+lint/eslintrc-gjs.yml:
+	curl -o $@ 'https://gitlab.gnome.org/GNOME/gjs/-/raw/984ff1569421fe8b4b9ce25b28249f139e8b7021/.eslintrc.yml'
+
+lint: lint/eslintrc-gjs.yml
+	eslint .
+
+.PHONY: lint
+all: lint
+
+# Various helpers
+
 prefs enable disable reset info show:
 	gnome-extensions $@ $(EXTENSION_UUID)
 
 .PHONY: prefs enable disable reset info show
 
-EXTENSION_PACK := $(EXTENSION_UUID).shell-extension.zip
-$(EXTENSION_PACK): $(SCHEMAS) $(EXTRA_SOURCES) $(DEFAULT_SOURCES)
-	gnome-extensions pack -f $(addprefix --schema=,$(SCHEMAS)) $(addprefix --extra-source=,$(EXTRA_SOURCES)) .
-
-pack: $(EXTENSION_PACK)
-.PHONY: pack
-
-install: $(EXTENSION_PACK) develop-uninstall
-	gnome-extensions install -f $<
-
-.PHONY: install
-
-uninstall: develop-uninstall
-	gnome-extensions uninstall $(EXTENSION_UUID)
-
-.PHONY: uninstall
-
 toggle quit:
 	gapplication action com.github.amezin.ddterm $@
 
 .PHONY: toggle quit
-
-clean:
-	$(RM) $(EXTENSION_PACK) $(filter-out handlebars.js,$(GENERATED_SOURCES)) schemas/gschemas.compiled $(wildcard tmp/*)
-
-.PHONY: clean
