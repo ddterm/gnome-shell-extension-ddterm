@@ -208,13 +208,26 @@ class ConnectionSet {
 
     add(object, handler_id) {
         this.connections.push({ object, handler_id });
+        return handler_id;
     }
 
     connect(object, signal, callback) {
-        this.add(object, object.connect(signal, callback));
+        return this.add(object, object.connect(signal, callback));
     }
 
-    disconnect() {
+    disconnect(object = null, handler_id = null) {
+        if (handler_id) {
+            this.connections = this.connections.filter(
+                c => c.handler_id !== handler_id || c.object !== object
+            );
+            try {
+                object.disconnect(handler_id);
+            } catch (ex) {
+                logError(ex, `Can't disconnect handler ${handler_id} on object ${object}`);
+            }
+            return;
+        }
+
         while (this.connections.length) {
             const c = this.connections.pop();
             try {
@@ -490,8 +503,10 @@ function setup_animation_overrides() {
     if (!settings.get_boolean('override-window-animation'))
         return;
 
-    animation_overrides_connections.connect(global.window_manager, 'map', override_map_animation);
-    animation_overrides_connections.connect(global.window_manager, 'destroy', override_unmap_animation);
+    if (current_window_mapped)
+        animation_overrides_connections.connect(global.window_manager, 'destroy', override_unmap_animation);
+    else
+        animation_overrides_connections.connect(global.window_manager, 'map', override_map_animation);
 }
 
 function animation_mode_from_settings(key) {
@@ -724,9 +739,19 @@ function set_current_window(win) {
 
     update_monitor_index(true);
 
-    current_window_connections.connect(global.window_manager, 'map', (wm, actor) => {
+    // Setting up animations early, so 'current_window_mapped' will be 'false'
+    // in the 'map' handler (animation's handler will run before 'map_handler_id'.
+    // 'notify::window-type' could move animation's handler after 'map_handler_id',
+    // but that should not be a significant issue: the window will most likely be
+    // already visible, and 'destroy' handler does not need any specific ordering.
+    current_window_connections.connect(win, 'notify::window-type', setup_animation_overrides);
+    setup_animation_overrides();
+
+    const map_handler_id = current_window_connections.connect(global.window_manager, 'map', (wm, actor) => {
         if (check_current_window() && actor === current_window.get_compositor_private()) {
             current_window_mapped = true;
+            current_window_connections.disconnect(global.window_manager, map_handler_id);
+            setup_animation_overrides();
 
             if (win.get_client_type() === Meta.WindowClientType.WAYLAND) {
                 current_window.move_to_monitor(current_monitor_index);
@@ -737,9 +762,6 @@ function set_current_window(win) {
 
     if (settings.get_boolean('override-window-animation') && !show_animation)
         Main.wm.skipNextEffect(current_window.get_compositor_private());
-
-    current_window_connections.connect(win, 'notify::window-type', setup_animation_overrides);
-    setup_animation_overrides();
 
     setup_update_size_setting_on_grab_end();
     setup_hide_when_focus_lost();
