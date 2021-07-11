@@ -493,17 +493,30 @@ function setup_animation_overrides() {
     animation_overrides_connections.connect(global.window_manager, 'destroy', override_unmap_animation);
 }
 
+function animation_mode_from_settings(key) {
+    const nick = settings.get_string(key);
+    if (nick === 'disable')
+        return null;
+
+    return util.enum_from_settings(nick, Clutter.AnimationMode);
+}
+
 function update_show_animation() {
-    show_animation = util.enum_from_settings(settings.get_string('show-animation'), Clutter.AnimationMode);
+    show_animation = animation_mode_from_settings('show-animation');
 }
 
 function update_hide_animation() {
-    hide_animation = util.enum_from_settings(settings.get_string('hide-animation'), Clutter.AnimationMode);
+    hide_animation = animation_mode_from_settings('hide-animation');
 }
 
 function override_map_animation(wm, actor) {
     if (!check_current_window() || actor !== current_window.get_compositor_private())
         return;
+
+    if (!show_animation) {
+        actor.remove_all_transitions();
+        return;
+    }
 
     actor.set_pivot_point(animation_pivot_x, animation_pivot_y);
 
@@ -527,6 +540,11 @@ function override_map_animation(wm, actor) {
 function override_unmap_animation(wm, actor) {
     if (!check_current_window() || actor !== current_window.get_compositor_private())
         return;
+
+    if (!hide_animation) {
+        actor.remove_all_transitions();
+        return;
+    }
 
     actor.set_pivot_point(animation_pivot_x, animation_pivot_y);
 
@@ -696,6 +714,10 @@ function set_current_window(win) {
     extension_signals.emit('window-changed');
 
     current_window_connections.connect(win, 'unmanaged', release_window);
+    current_window_connections.connect(win, 'unmanaging', () => {
+        if (settings.get_boolean('override-window-animation') && !hide_animation)
+            Main.wm.skipNextEffect(current_window.get_compositor_private());
+    });
 
     setup_maximized_handlers();
 
@@ -727,6 +749,9 @@ function set_current_window(win) {
 
     if (panel_icon)
         panel_icon.update();
+
+    if (settings.get_boolean('override-window-animation') && !show_animation)
+        Main.wm.skipNextEffect(current_window.get_compositor_private());
 }
 
 function update_window_position() {

@@ -87,6 +87,8 @@
   </enum>
 
   <enum id="com.github.amezin.ddterm.AnimationMode">
+    <value nick="disable" value="0"/>
+
     <value nick="linear" value="1"/>
 
     <value nick="ease-in-quad" value="2"/>

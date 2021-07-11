@@ -33,6 +33,10 @@ along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licens
     </columns>
     <data>
       <row>
+        <col id="0" translatable="yes">Disable</col>
+        <col id="1">disable</col>
+      </row>
+      <row>
         <col id="0" translatable="yes">Linear tweening</col>
         <col id="1">linear</col>
       </row>
