@@ -65,6 +65,17 @@ prefs-gtk4.ui: tmp/prefs-3to4-fixup.ui
 CLEAN += prefs-gtk4.ui tmp/prefs-3to4.ui tmp/prefs-3to4-fixup.ui
 GENERATED_SOURCES += $(if $(call is-true,$(WITH_GTK4)), prefs-gtk4.ui)
 
+# metadata.json
+
+# Prevent people from trying to feed source archives to 'gnome-extensions install'.
+# https://github.com/amezin/gnome-shell-extension-ddterm/issues/61
+
+metadata.json: metadata.json.in
+	cp $< $@
+
+GENERATED_SOURCES += metadata.json
+CLEAN += metadata.json
+
 # package
 
 EXTENSION_UUID := ddterm@amezin.github.com
