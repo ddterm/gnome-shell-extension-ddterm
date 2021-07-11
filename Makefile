@@ -1,3 +1,5 @@
+#!/usr/bin/env -S make -f
+
 SHELL := /bin/bash
 
 export PATH := $(abspath node_modules/.bin):$(PATH)
