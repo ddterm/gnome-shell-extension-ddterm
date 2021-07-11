@@ -506,14 +506,22 @@ function override_map_animation(wm, actor) {
         return;
 
     actor.set_pivot_point(animation_pivot_x, animation_pivot_y);
-    actor.scale_x = animation_scale_x;
-    actor.scale_y = animation_scale_y;
 
-    actor.ease({
-        scale_x: 1.0,
-        scale_y: 1.0,
-        mode: show_animation,
-    });
+    const scale_x_anim = actor.get_transition('scale-x');
+
+    if (scale_x_anim) {
+        scale_x_anim.set_from(animation_scale_x);
+        scale_x_anim.set_to(1.0);
+        scale_x_anim.progress_mode = show_animation;
+    }
+
+    const scale_y_anim = actor.get_transition('scale-y');
+
+    if (scale_y_anim) {
+        scale_y_anim.set_from(animation_scale_y);
+        scale_y_anim.set_to(1.0);
+        scale_y_anim.progress_mode = show_animation;
+    }
 }
 
 function override_unmap_animation(wm, actor) {
@@ -522,11 +530,19 @@ function override_unmap_animation(wm, actor) {
 
     actor.set_pivot_point(animation_pivot_x, animation_pivot_y);
 
-    actor.ease({
-        scale_x: animation_scale_x,
-        scale_y: animation_scale_y,
-        mode: hide_animation,
-    });
+    const scale_x_anim = actor.get_transition('scale-x');
+
+    if (scale_x_anim) {
+        scale_x_anim.set_to(animation_scale_x);
+        scale_x_anim.progress_mode = hide_animation;
+    }
+
+    const scale_y_anim = actor.get_transition('scale-y');
+
+    if (scale_y_anim) {
+        scale_y_anim.set_to(animation_scale_y);
+        scale_y_anim.progress_mode = hide_animation;
+    }
 }
 
 function hide_when_focus_lost() {
