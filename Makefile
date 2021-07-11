@@ -27,7 +27,7 @@ CLEAN += $(SCHEMAS_COMPILED)
 
 # Bundled libs
 
-handlebars.js: node_modules/handlebars/dist/handlebars.min.js
+handlebars.js: node_modules/handlebars/dist/handlebars.js
 	cp $< $@
 
 GENERATED_SOURCES += handlebars.js
