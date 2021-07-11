@@ -2,8 +2,6 @@
 
 SHELL := /bin/bash
 
-export PATH := $(abspath node_modules/.bin):$(PATH)
-
 # run 'make WITH_GTK4=no' to disable Gtk 4/GNOME 40 support
 # (could be necessary on older distros without gtk4-builder-tool)
 WITH_GTK4 := yes
