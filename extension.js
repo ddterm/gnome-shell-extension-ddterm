@@ -27,7 +27,6 @@ const Signals = imports.signals;
 const Main = imports.ui.main;
 const PanelMenu = imports.ui.panelMenu;
 const PopupMenu = imports.ui.popupMenu;
-const WindowManager = imports.ui.windowManager;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const { util } = Me.imports;
 
@@ -513,7 +512,6 @@ function override_map_animation(wm, actor) {
     actor.ease({
         scale_x: 1.0,
         scale_y: 1.0,
-        duration: WindowManager.SHOW_WINDOW_ANIMATION_TIME,
         mode: show_animation,
     });
 }
@@ -527,7 +525,6 @@ function override_unmap_animation(wm, actor) {
     actor.ease({
         scale_x: animation_scale_x,
         scale_y: animation_scale_y,
-        duration: WindowManager.DESTROY_WINDOW_ANIMATION_TIME,
         mode: hide_animation,
     });
 }
