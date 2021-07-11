@@ -31,6 +31,7 @@ handlebars.js: node_modules/handlebars/dist/handlebars.min.js
 	cp $< $@
 
 GENERATED_SOURCES += handlebars.js
+CLEAN += handlebars.js
 
 # Gtk 3 .ui
 
