@@ -39,6 +39,7 @@ var current_workarea = null;
 var current_monitor_scale = 1;
 var current_target_rect = null;
 var current_monitor_index = 0;
+var current_window_mapped = false;
 
 let bus_watch_id = null;
 let dbus_action_group = null;
@@ -723,14 +724,19 @@ function set_current_window(win) {
 
     update_monitor_index(true);
 
-    if (win.get_client_type() === Meta.WindowClientType.WAYLAND) {
-        current_window_connections.connect(global.window_manager, 'map', (wm, actor) => {
-            if (check_current_window() && actor === current_window.get_compositor_private()) {
+    current_window_connections.connect(global.window_manager, 'map', (wm, actor) => {
+        if (check_current_window() && actor === current_window.get_compositor_private()) {
+            current_window_mapped = true;
+
+            if (win.get_client_type() === Meta.WindowClientType.WAYLAND) {
                 current_window.move_to_monitor(current_monitor_index);
                 update_window_geometry();
             }
-        });
-    }
+        }
+    });
+
+    if (settings.get_boolean('override-window-animation') && !show_animation)
+        Main.wm.skipNextEffect(current_window.get_compositor_private());
 
     current_window_connections.connect(win, 'notify::window-type', setup_animation_overrides);
     setup_animation_overrides();
@@ -749,9 +755,6 @@ function set_current_window(win) {
 
     if (panel_icon)
         panel_icon.update();
-
-    if (settings.get_boolean('override-window-animation') && !show_animation)
-        Main.wm.skipNextEffect(current_window.get_compositor_private());
 }
 
 function update_window_position() {
@@ -822,6 +825,11 @@ function unmaximize_done() {
         // Without unmake_above(), make_above() won't actually take effect (?!)
         current_window.unmake_above();
         set_window_above();
+    }
+
+    if (!current_window_mapped) {
+        if (settings.get_boolean('override-window-animation') && !show_animation)
+            Main.wm.skipNextEffect(current_window.get_compositor_private());
     }
 }
 
@@ -947,6 +955,7 @@ function release_window(win) {
     geometry_fixup_connections.disconnect();
 
     current_window = null;
+    current_window_mapped = false;
     extension_signals.emit('window-changed');
 
     update_size_setting_on_grab_end_connections.disconnect();
