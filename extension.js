@@ -306,8 +306,8 @@ function enable() {
     extension_connections.connect(settings, 'changed::window-position', update_window_position);
     extension_connections.connect(settings, 'changed::window-skip-taskbar', set_skip_taskbar);
     extension_connections.connect(settings, 'changed::window-maximize', set_window_maximized);
-    extension_connections.connect(settings, 'changed::window-monitor', () => update_monitor_index());
-    extension_connections.connect(settings, 'changed::window-monitor-connector', () => update_monitor_index());
+    extension_connections.connect(settings, 'changed::window-monitor', update_monitor_index);
+    extension_connections.connect(settings, 'changed::window-monitor-connector', update_monitor_index);
     extension_connections.connect(settings, 'changed::override-window-animation', setup_animation_overrides);
     extension_connections.connect(settings, 'changed::show-animation', update_show_animation);
     extension_connections.connect(settings, 'changed::hide-animation', update_hide_animation);
@@ -687,18 +687,11 @@ function get_monitor_index() {
     return global.display.get_current_monitor();
 }
 
-function update_monitor_index(force = false) {
-    const new_monitor_index = get_monitor_index();
+function update_monitor_index() {
+    current_monitor_index = get_monitor_index();
 
-    if (!force && new_monitor_index === current_monitor_index)
-        return;
-
-    current_monitor_index = new_monitor_index;
-
-    if (current_window) {
-        if (force || current_window.get_monitor() !== current_monitor_index)
-            current_window.move_to_monitor(current_monitor_index);
-    }
+    if (current_window)
+        current_window.move_to_monitor(current_monitor_index);
 
     update_workarea();
 }
@@ -737,7 +730,7 @@ function set_current_window(win) {
 
     setup_maximized_handlers();
 
-    update_monitor_index(true);
+    update_monitor_index();
 
     // Setting up animations early, so 'current_window_mapped' will be 'false'
     // in the 'map' handler (animation's handler will run before 'map_handler_id'.
