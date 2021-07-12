@@ -1,4 +1,5 @@
 {
+    "name": "gnome-shell-extension-ddterm",
     "private": true,
     "dependencies": {
         "handlebars": "^4.7.7"
