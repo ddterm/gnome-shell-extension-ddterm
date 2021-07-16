@@ -494,12 +494,6 @@ function setup_animation_overrides() {
     if (!current_window)
         return;
 
-    // Dialogs have different animation time. Other windows have no default animation.
-    // Our custom animation time must match shell's default animation, otherwise
-    // completed_map()/completed_destroy() will be called at wrong time.
-    if (current_window.window_type !== Meta.WindowType.NORMAL)
-        return;
-
     if (!settings.get_boolean('override-window-animation'))
         return;
 
@@ -734,10 +728,6 @@ function set_current_window(win) {
 
     // Setting up animations early, so 'current_window_mapped' will be 'false'
     // in the 'map' handler (animation's handler will run before 'map_handler_id'.
-    // 'notify::window-type' could move animation's handler after 'map_handler_id',
-    // but that should not be a significant issue: the window will most likely be
-    // already visible, and 'destroy' handler does not need any specific ordering.
-    current_window_connections.connect(win, 'notify::window-type', setup_animation_overrides);
     setup_animation_overrides();
 
     const map_handler_id = current_window_connections.connect(global.window_manager, 'map', (wm, actor) => {
