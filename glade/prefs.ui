@@ -498,6 +498,30 @@ along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licens
         <col id="3">0</col>
       </row>
       <row>
+        <col id="0">shortcut-window-size-inc</col>
+        <col id="1" translatable="yes">Increase Window Height</col>
+        <col id="2">0</col>
+        <col id="3">0</col>
+      </row>
+      <row>
+        <col id="0">shortcut-window-size-dec</col>
+        <col id="1" translatable="yes">Decrease Window Height</col>
+        <col id="2">0</col>
+        <col id="3">0</col>
+      </row>
+      <row>
+        <col id="0">shortcut-background-opacity-inc</col>
+        <col id="1" translatable="yes">Increase Background Opacity</col>
+        <col id="2">0</col>
+        <col id="3">0</col>
+      </row>
+      <row>
+        <col id="0">shortcut-background-opacity-dec</col>
+        <col id="1" translatable="yes">Decrease Background Opacity</col>
+        <col id="2">0</col>
+        <col id="3">0</col>
+      </row>
+      <row>
         <col id="0">shortcut-toggle-transparent-background</col>
         <col id="1" translatable="yes">Enable/Disable Background Transparency</col>
         <col id="2">0</col>

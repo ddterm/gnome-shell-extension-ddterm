@@ -376,6 +376,18 @@
     <key name="shortcut-window-hide" type="as">
       <default><![CDATA[[]]]></default>
     </key>
+    <key name="shortcut-window-size-inc" type="as">
+      <default><![CDATA[['<Ctrl>Down']]]></default>
+    </key>
+    <key name="shortcut-window-size-dec" type="as">
+      <default><![CDATA[['<Ctrl>Up']]]></default>
+    </key>
+    <key name="shortcut-background-opacity-inc" type="as">
+      <default><![CDATA[[]]]></default>
+    </key>
+    <key name="shortcut-background-opacity-dec" type="as">
+      <default><![CDATA[[]]]></default>
+    </key>
     <key name="shortcut-toggle-maximize" type="as">
       <default><![CDATA[['F11']]]></default>
     </key>

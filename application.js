@@ -143,6 +143,10 @@ const Application = GObject.registerClass(
             this.update_theme();
 
             this.setup_shortcut('shortcut-window-hide', 'win.hide');
+            this.setup_shortcut('shortcut-window-size-inc', 'win.window-size-inc');
+            this.setup_shortcut('shortcut-window-size-dec', 'win.window-size-dec');
+            this.setup_shortcut('shortcut-background-opacity-inc', 'win.background-opacity-inc');
+            this.setup_shortcut('shortcut-background-opacity-dec', 'win.background-opacity-dec');
             this.setup_shortcut('shortcut-toggle-maximize', 'app.window-maximize');
             this.setup_shortcut('shortcut-toggle-transparent-background', 'app.transparent-background');
             this.setup_shortcut('shortcut-terminal-copy', 'terminal.copy');

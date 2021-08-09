@@ -107,6 +107,26 @@ var AppWindow = GObject.registerClass(
             this.method_handler(this.settings, 'changed::window-position', this.update_resize_boxes);
             this.update_resize_boxes();
 
+            const HEIGHT_MOD = 0.05;
+            this.simple_action('window-size-dec', () => {
+                if (this.settings.get_boolean('window-maximize'))
+                    this.settings.set_double('window-size', 1.0 - HEIGHT_MOD);
+                else
+                    this.adjust_double_setting('window-size', -HEIGHT_MOD);
+            });
+            this.simple_action('window-size-inc', () => {
+                if (!this.settings.get_boolean('window-maximize'))
+                    this.adjust_double_setting('window-size', HEIGHT_MOD);
+            });
+
+            const OPACITY_MOD = 0.05;
+            this.simple_action('background-opacity-dec', () => {
+                this.adjust_double_setting('background-opacity', -OPACITY_MOD);
+            });
+            this.simple_action('background-opacity-inc', () => {
+                this.adjust_double_setting('background-opacity', OPACITY_MOD);
+            });
+
             this.tab_select_action = new Gio.PropertyAction({
                 name: 'switch-to-tab',
                 object: this.notebook,
@@ -178,6 +198,12 @@ var AppWindow = GObject.registerClass(
             this.signal_connect(action, 'activate', func);
             this.add_action(action);
             return action;
+        }
+
+        adjust_double_setting(name, difference, min = 0.0, max = 1.0) {
+            const current = this.settings.get_double(name);
+            const new_setting = current + difference;
+            this.settings.set_double(name, Math.min(Math.max(new_setting, min), max));
         }
 
         update_tab_bar_visibility() {
