@@ -293,6 +293,8 @@ var AppWindow = GObject.registerClass(
                 this.disconnect(this.draw_handler_id);
                 this.draw_handler_id = null;
             }
+
+            this.queue_draw();
         }
 
         remove_page(page) {
