@@ -54,23 +54,31 @@ const PCRE2_UCP = 0x00020000;
 const PCRE2_MULTILINE = 0x00000400;
 const PCRE2_JIT_COMPLETE = 0x00000001;
 const PCRE2_JIT_PARTIAL_SOFT = 0x00000002;
+const PCRE2_CASELESS = 0x00000008;
 
-function compile_regex(regex) {
-    const compiled = Vte.Regex.new_for_match(regex, -1, PCRE2_UTF | PCRE2_NO_UTF_CHECK | PCRE2_UCP | PCRE2_MULTILINE);
+function jit_regex(regex) {
     try {
-        compiled.jit(PCRE2_JIT_COMPLETE);
+        regex.jit(PCRE2_JIT_COMPLETE);
     } catch (ex) {
         logError(ex, `Can't JIT compile ${regex} (PCRE2_JIT_COMPLETE)`);
-        return compiled;
+        return;
     }
 
     try {
-        compiled.jit(PCRE2_JIT_PARTIAL_SOFT);
+        regex.jit(PCRE2_JIT_PARTIAL_SOFT);
     } catch (ex) {
         logError(ex, `Can't JIT compile ${regex} (PCRE2_JIT_PARTIAL_SOFT)`);
     }
+}
 
+function compile_regex(regex) {
+    const compiled = Vte.Regex.new_for_match(regex, -1, PCRE2_UTF | PCRE2_NO_UTF_CHECK | PCRE2_UCP | PCRE2_MULTILINE);
+    jit_regex(compiled);
     return compiled;
+}
+
+function escape_regex(string) {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
 const REGEX_URL_AS_IS = compile_regex(urldetect_patterns.REGEX_URL_AS_IS);
@@ -81,6 +89,7 @@ const REGEX_EMAIL = compile_regex(urldetect_patterns.REGEX_EMAIL);
 const REGEX_NEWS_MAN = compile_regex(urldetect_patterns.REGEX_NEWS_MAN);
 
 GObject.type_ensure(Vte.Terminal);
+GObject.type_ensure(Gio.ThemedIcon);
 
 var TerminalPage = GObject.registerClass(
     {
@@ -94,6 +103,8 @@ var TerminalPage = GObject.registerClass(
             'switcher_item',
             'custom_title_popover',
             'custom_tab_title_entry',
+            'search_bar',
+            'search_entry',
         ],
         Properties: {
             'settings': GObject.ParamSpec.object(
@@ -132,6 +143,7 @@ var TerminalPage = GObject.registerClass(
             this.clicked_hyperlink = null;
             this.url_prefix = {};
             this.clipboard = Gtk.Clipboard.get_default(Gdk.Display.get_default());
+            this.primary_selection = Gtk.Clipboard.get(Gdk.Atom.intern('PRIMARY', true));
             this.child_pid = null;
 
             this._switch_shortcut = null;
@@ -283,6 +295,40 @@ var TerminalPage = GObject.registerClass(
             this.method_action(terminal_actions, 'select-all', this.select_all);
             this.method_action(terminal_actions, 'reset', this.reset);
             this.method_action(terminal_actions, 'reset-and-clear', this.reset_and_clear);
+
+            this.method_action(terminal_actions, 'find', this.find);
+            this.method_action(terminal_actions, 'stop-search', this.stop_search);
+            this.method_handler(this.search_entry, 'stop-search', this.stop_search);
+
+            this.search_match_case_action = Gio.SimpleAction.new_stateful('search-match-case', null, gvariant_false);
+            terminal_actions.add_action(this.search_match_case_action);
+
+            this.search_whole_word_action = Gio.SimpleAction.new_stateful('search-whole-word', null, gvariant_false);
+            terminal_actions.add_action(this.search_whole_word_action);
+
+            this.search_regex_action = Gio.SimpleAction.new_stateful('search-regex', null, gvariant_false);
+            terminal_actions.add_action(this.search_regex_action);
+
+            this.search_wrap_action = Gio.SimpleAction.new_stateful('search-wrap', null, gvariant_false);
+            terminal_actions.add_action(this.search_wrap_action);
+            this.method_handler(this.search_wrap_action, 'notify::state', this.update_search_wrap);
+            this.update_search_wrap();
+
+            this.find_next_action = this.method_action(terminal_actions, 'find-next', this.find_next);
+            this.method_handler(this.search_entry, 'next-match', this.find_next);
+            this.method_handler(this.search_entry, 'activate', this.find_next);
+            this.search_bar.bind_property('reveal-child', this.find_next_action, 'enabled', GObject.BindingFlags.SYNC_CREATE);
+
+            this.find_prev_action = this.method_action(terminal_actions, 'find-prev', this.find_prev);
+            this.method_handler(this.search_entry, 'previous-match', this.find_prev);
+            this.search_bar.bind_property('reveal-child', this.find_prev_action, 'enabled', GObject.BindingFlags.SYNC_CREATE);
+
+            this.signal_connect(this.search_bar, 'key-press-event', (_, event) => {
+                return this.search_entry.handle_event(event);
+            });
+            this.signal_connect(this.search_bar, 'key-release-event', (_, event) => {
+                return this.search_entry.handle_event(event);
+            });
         }
 
         get has_clicked_filename() {
@@ -685,6 +731,64 @@ var TerminalPage = GObject.registerClass(
 
             if (this.settings.get_boolean('detect-urls-news-man'))
                 add_regex(REGEX_NEWS_MAN);
+        }
+
+        update_search_regex() {
+            let pattern = this.search_entry.text;
+            if (!pattern) {
+                this.terminal.search_set_regex(null, 0);
+                return;
+            }
+
+            if (!this.search_regex_action.state.unpack())
+                pattern = escape_regex(pattern);
+
+            if (this.search_whole_word_action.state.unpack())
+                pattern = `\\b${pattern}\\b`;
+
+            let search_flags = PCRE2_UTF | PCRE2_NO_UTF_CHECK | PCRE2_UCP | PCRE2_MULTILINE;
+            if (!this.search_match_case_action.state.unpack())
+                search_flags |= PCRE2_CASELESS;
+
+            const search_regex = Vte.Regex.new_for_search(pattern, -1, search_flags);
+            jit_regex(search_regex);
+            this.terminal.search_set_regex(search_regex, 0);
+        }
+
+        update_search_wrap() {
+            this.terminal.search_set_wrap_around(this.search_wrap_action.state.unpack());
+        }
+
+        find_next() {
+            this.update_search_regex();
+            this.terminal.search_find_next();
+        }
+
+        find_prev() {
+            this.update_search_regex();
+            this.terminal.search_find_previous();
+        }
+
+        find() {
+            this.search_bar.reveal_child = true;
+
+            if (!this.terminal.get_has_selection()) {
+                this.search_entry.grab_focus();
+                return;
+            }
+
+            this.terminal.copy_primary();
+            this.primary_selection.request_text((_, text) => {
+                if (text)
+                    this.search_entry.text = text;
+
+                this.search_entry.grab_focus();
+            });
+        }
+
+        stop_search() {
+            this.search_bar.reveal_child = false;
+            this.terminal.grab_focus();
         }
     }
 );

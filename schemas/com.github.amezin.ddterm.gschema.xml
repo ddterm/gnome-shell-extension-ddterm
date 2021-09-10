@@ -445,6 +445,15 @@
     <key name="shortcut-reset-tab-title" type="as">
       <default><![CDATA[[]]]></default>
     </key>
+    <key name="shortcut-find" type="as">
+      <default><![CDATA[['<Ctrl><Shift>F']]]></default>
+    </key>
+    <key name="shortcut-find-next" type="as">
+      <default><![CDATA[['<Ctrl><Shift>G']]]></default>
+    </key>
+    <key name="shortcut-find-prev" type="as">
+      <default><![CDATA[['<Ctrl><Shift>H']]]></default>
+    </key>
 
     <key name="shortcut-switch-to-tab-1" type="as">
       <default><![CDATA[['<Alt>1']]]></default>

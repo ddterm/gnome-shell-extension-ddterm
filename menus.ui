@@ -57,6 +57,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </section>
     <section>
       <item>
+        <attribute name="label" translatable="yes">Find</attribute>
+        <attribute name="action">terminal.find</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
         <attribute name="label" translatable="yes">Reset</attribute>
         <attribute name="action">terminal.reset</attribute>
       </item>

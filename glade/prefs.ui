@@ -618,6 +618,24 @@ along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licens
         <col id="3">0</col>
       </row>
       <row>
+        <col id="0">shortcut-find</col>
+        <col id="1" translatable="yes">Find</col>
+        <col id="2">0</col>
+        <col id="3">0</col>
+      </row>
+      <row>
+        <col id="0">shortcut-find-next</col>
+        <col id="1" translatable="yes">Find Next</col>
+        <col id="2">0</col>
+        <col id="3">0</col>
+      </row>
+      <row>
+        <col id="0">shortcut-find-prev</col>
+        <col id="1" translatable="yes">Find Previous</col>
+        <col id="2">0</col>
+        <col id="3">0</col>
+      </row>
+      <row>
         <col id="0">shortcut-switch-to-tab-1</col>
         <col id="1" translatable="yes">Switch to Tab 1</col>
         <col id="2">0</col>
