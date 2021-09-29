@@ -563,7 +563,9 @@ async function run_tests(filter = '', filter_out = false) {
         WindowMaximizeMode.EARLY,
         WindowMaximizeMode.LATE,
     ];
-    const POSITIONS = ['top', 'bottom', 'left', 'right'];
+    const VERTICAL_RESIZE_POSITIONS = ['top', 'bottom'];
+    const HORIZONTAL_RESIZE_POSITIONS = ['left', 'right'];
+    const POSITIONS = VERTICAL_RESIZE_POSITIONS.concat(HORIZONTAL_RESIZE_POSITIONS);
     const monitor_configs = [];
 
     for (let monitor_index = 0; monitor_index < global.display.get_n_monitors(); monitor_index++) {
@@ -586,8 +588,18 @@ async function run_tests(filter = '', filter_out = false) {
     for (let window_size of [0.31, 0.36, 0.4, 0.8, 0.85, 0.91]) {
         for (let window_maximize of MAXIMIZE_MODES) {
             for (let window_pos of POSITIONS) {
-                for (let monitor_config of monitor_configs)
+                for (let monitor_config of monitor_configs) {
+                    const monitor_index = window_monitor_index(monitor_config);
+                    const monitor_rect = global.display.get_monitor_geometry(monitor_index);
+                    const monitor_scale = global.display.get_monitor_scale(monitor_index);
+
+                    if (HORIZONTAL_RESIZE_POSITIONS.includes(window_pos)) {
+                        if (monitor_rect.width * window_size < 472 * monitor_scale)
+                            continue;
+                    }
+
                     add_test(test_show, window_size, window_maximize, window_pos, monitor_config);
+                }
             }
         }
     }
