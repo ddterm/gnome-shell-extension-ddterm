@@ -528,23 +528,30 @@ function override_map_animation(wm, actor) {
         return;
     }
 
-    actor.set_pivot_point(animation_pivot_x, animation_pivot_y);
+    const func = () => {
+        actor.set_pivot_point(animation_pivot_x, animation_pivot_y);
 
-    const scale_x_anim = actor.get_transition('scale-x');
+        const scale_x_anim = actor.get_transition('scale-x');
 
-    if (scale_x_anim) {
-        scale_x_anim.set_from(animation_scale_x);
-        scale_x_anim.set_to(1.0);
-        scale_x_anim.progress_mode = show_animation;
-    }
+        if (scale_x_anim) {
+            scale_x_anim.set_from(animation_scale_x);
+            scale_x_anim.set_to(1.0);
+            scale_x_anim.progress_mode = show_animation;
+        }
 
-    const scale_y_anim = actor.get_transition('scale-y');
+        const scale_y_anim = actor.get_transition('scale-y');
 
-    if (scale_y_anim) {
-        scale_y_anim.set_from(animation_scale_y);
-        scale_y_anim.set_to(1.0);
-        scale_y_anim.progress_mode = show_animation;
-    }
+        if (scale_y_anim) {
+            scale_y_anim.set_from(animation_scale_y);
+            scale_y_anim.set_to(1.0);
+            scale_y_anim.progress_mode = show_animation;
+        }
+    };
+
+    if (Main.wm._waitForOverviewToHide)
+        Main.wm._waitForOverviewToHide().then(func);
+    else
+        func();
 }
 
 function override_unmap_animation(wm, actor) {
