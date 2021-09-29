@@ -9,7 +9,7 @@ TEST_FILTER=
 TEST_FILTER_OUT="false"
 SOURCE_DIR="$(dirname "${SCRIPT_DIR}")"
 DISPLAY=":99"
-PULL=0
+PULL=
 EXTRA_VOLUMES=
 
 usage() {
@@ -33,7 +33,7 @@ while getopts "pi:s:k:nf:v:h" opt; do
     f) SOURCE_DIR="${OPTARG}";;
     v) EXTRA_VOLUMES="${EXTRA_VOLUMES} -v ${OPTARG}";;
     d) DISPLAY="${OPTARG}";;
-    p) PULL=1;;
+    p) PULL="--pull always";;
     h) usage; exit 0;;
     *) usage; exit 1;;
     esac
@@ -44,11 +44,7 @@ PACKAGE_MOUNTPATH="/home/gnomeshell/.local/share/gnome-shell/extensions/${EXTENS
 
 set -ex
 
-if (( PULL )); then
-    podman pull "${IMAGE}"
-fi
-
-POD=$(podman run --rm --cap-add=SYS_NICE --cap-add=IPC_LOCK -v "${SOURCE_DIR}:${PACKAGE_MOUNTPATH}:ro" ${EXTRA_VOLUMES} -td "${IMAGE}")
+POD=$(podman run --rm --cap-add=SYS_NICE --cap-add=IPC_LOCK ${PULL} -v "${SOURCE_DIR}:${PACKAGE_MOUNTPATH}:ro" ${EXTRA_VOLUMES} -td "${IMAGE}")
 
 down () {
     podman kill "${POD}"
