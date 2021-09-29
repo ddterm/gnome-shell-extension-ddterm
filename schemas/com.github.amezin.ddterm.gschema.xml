@@ -217,6 +217,9 @@
     <key name="tab-switcher-popup" type="b">
       <default>true</default>
     </key>
+    <key name="notebook-border" type="b">
+      <default>true</default>
+    </key>
     <key name="tab-title-template" type="s">
       <default>"{{#if switch-shortcut}}&lt;span alpha=\"50%\"&gt;{{switch-shortcut}}&lt;/span&gt; {{/if}}{{window-title}}"</default>
     </key>

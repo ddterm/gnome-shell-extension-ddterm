@@ -168,6 +168,8 @@ var AppWindow = GObject.registerClass(
 
             this.method_handler(this.settings, 'changed::tab-expand', this.update_tab_expand);
 
+            this.bind_settings_ro('notebook-border', this.notebook, 'show-border');
+
             this.method_handler(this.notebook, 'page-added', this.tab_switcher_add);
             this.method_handler(this.notebook, 'page-removed', this.tab_switcher_remove);
             this.method_handler(this.notebook, 'page-reordered', this.tab_switcher_reorder);
