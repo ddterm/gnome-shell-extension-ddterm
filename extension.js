@@ -523,10 +523,8 @@ function override_map_animation(wm, actor) {
     if (!check_current_window() || actor !== current_window.get_compositor_private())
         return;
 
-    if (!show_animation) {
-        actor.remove_all_transitions();
+    if (!show_animation)
         return;
-    }
 
     const func = () => {
         actor.set_pivot_point(animation_pivot_x, animation_pivot_y);
@@ -558,10 +556,8 @@ function override_unmap_animation(wm, actor) {
     if (!check_current_window() || actor !== current_window.get_compositor_private())
         return;
 
-    if (!hide_animation) {
-        actor.remove_all_transitions();
+    if (!hide_animation)
         return;
-    }
 
     actor.set_pivot_point(animation_pivot_x, animation_pivot_y);
 
