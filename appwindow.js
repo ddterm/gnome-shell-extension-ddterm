@@ -150,6 +150,23 @@ var AppWindow = GObject.registerClass(
                     this.notebook.set_current_page(current - 1);
             });
 
+            this.simple_action('move-tab-back', () => {
+                const current = this.notebook.get_current_page();
+
+                if (current === 0)
+                    this.notebook.reorder_child(this.notebook.get_nth_page(current), this.notebook.get_n_pages() - 1);
+                else
+                    this.notebook.reorder_child(this.notebook.get_nth_page(current), current - 1);
+            });
+            this.simple_action('move-tab-forward', () => {
+                const current = this.notebook.get_current_page();
+
+                if (current === this.notebook.get_n_pages() - 1)
+                    this.notebook.reorder_child(this.notebook.get_nth_page(current), 0);
+                else
+                    this.notebook.reorder_child(this.notebook.get_nth_page(current), current + 1);
+            });
+
             this.bind_settings_ro('new-tab-button', this.new_tab_button, 'visible');
             this.bind_settings_ro('new-tab-front-button', this.new_tab_front_button, 'visible');
             this.bind_settings_ro('tab-switcher-popup', this.tab_switch_button, 'visible');
