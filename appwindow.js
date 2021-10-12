@@ -239,8 +239,8 @@ var AppWindow = GObject.registerClass(
                 this.notebook.child_set_property(this.notebook.get_nth_page(i), 'tab-expand', this.settings.get_boolean('tab-expand'));
         }
 
-        update_tab_shortcut_labels(_source, _child = null, start_page = 0) {
-            for (let i = start_page; i < this.notebook.get_n_pages(); i++) {
+        update_tab_shortcut_labels() {
+            for (let i = 0; i < this.notebook.get_n_pages(); i++) {
                 const shortcuts = this.application.get_accels_for_action(`win.switch-to-tab(${i})`);
                 const shortcut = shortcuts && shortcuts.length > 0 ? shortcuts[0] : null;
                 this.notebook.get_nth_page(i).switch_shortcut = shortcut;
