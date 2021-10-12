@@ -555,6 +555,24 @@ async function test_change_position(reporter, window_size, window_pos, window_po
     verify_window_geometry(reporter, window_size, window_size === 1.0 && initially_maximized, window_pos2, monitor_index);
 }
 
+function mulberry32(a) {
+    return function () {
+        var t = a += 0x6D2B79F5;
+        t = Math.imul(t ^ t >>> 15, t | 1);
+        t ^= t + Math.imul(t ^ t >>> 7, t | 61);
+        return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    };
+}
+
+function shuffle_array(array, rand) {
+    for (var i = array.length - 1; i > 0; i--) {
+        var j = Math.floor(rand() * (i + 1));
+        var temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
+}
+
 async function run_tests(filter = '', filter_out = false) {
     DEFAULT_REPORTER.print(`Running tests on GNOME Shell ${Config.PACKAGE_VERSION}`);
     DEFAULT_REPORTER.print(`Default idle timeout = ${DEFAULT_IDLE_TIMEOUT_MS} ms`);
@@ -659,6 +677,8 @@ async function run_tests(filter = '', filter_out = false) {
             }
         }
     }
+
+    shuffle_array(tests, mulberry32(6848103));
 
     if (global.settings.settings_schema.has_key('welcome-dialog-last-shown-version'))
         global.settings.set_string('welcome-dialog-last-shown-version', '99.0');
