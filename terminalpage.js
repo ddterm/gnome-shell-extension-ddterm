@@ -48,6 +48,13 @@ Handlebars.registerHelper('hostname-from-uri', uri => {
     return '';
 });
 
+Handlebars.registerHelper('truncate-chars', (str, length) => {
+    if (str.length > length)
+        return `${str.slice(0, length)}…`;
+
+    return str;
+});
+
 const PCRE2_UTF = 0x00080000;
 const PCRE2_NO_UTF_CHECK = 0x40000000;
 const PCRE2_UCP = 0x00020000;
