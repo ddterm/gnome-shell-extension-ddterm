@@ -162,6 +162,8 @@ const Application = GObject.registerClass(
             this.setup_shortcut('shortcut-page-close', 'page.close');
             this.setup_shortcut('shortcut-prev-tab', 'win.prev-tab');
             this.setup_shortcut('shortcut-next-tab', 'win.next-tab');
+            this.setup_shortcut('shortcut-move-tab-back', 'win.move-tab-back');
+            this.setup_shortcut('shortcut-move-tab-forward', 'win.move-tab-forward');
             this.setup_shortcut('shortcut-set-custom-tab-title', 'page.use-custom-title(true)');
             this.setup_shortcut('shortcut-reset-tab-title', 'page.use-custom-title(false)');
             this.setup_shortcut('shortcut-find', 'terminal.find');
