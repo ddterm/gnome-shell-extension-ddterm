@@ -768,6 +768,7 @@ along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licens
               <object class="GtkScale" id="window_size_scale">
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
+                <property name="hexpand">True</property>
                 <property name="adjustment">window_size_adjustment</property>
                 <property name="show-fill-level">True</property>
                 <property name="round-digits">2</property>
@@ -796,6 +797,7 @@ along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licens
               <object class="GtkComboBoxText" id="window_pos_combo">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
+                <property name="hexpand">True</property>
                 <items>
                   <item id="top" translatable="yes">Top</item>
                   <item id="bottom" translatable="yes">Bottom</item>
@@ -874,6 +876,7 @@ along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licens
               <object class="GtkBox">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
+                <property name="hexpand">True</property>
                 <property name="orientation">vertical</property>
                 <child>
                   <object class="GtkComboBoxText" id="monitor_combo">
@@ -1055,6 +1058,7 @@ You'll have to close all tabs for this option to take effect.</property>
               <object class="GtkComboBoxText" id="window_type_hint_combo">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
+                <property name="hexpand">True</property>
                 <items>
                   <item id="normal" translatable="yes">Normal</item>
                   <item id="dialog" translatable="yes">Dialog</item>
@@ -1126,6 +1130,7 @@ You'll have to close all tabs for this option to take effect.</property>
               <object class="GtkBox">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
+                <property name="hexpand">True</property>
                 <property name="orientation">vertical</property>
                 <child>
                   <object class="GtkComboBox" id="show_animation_combo">
@@ -1170,6 +1175,7 @@ You'll have to close all tabs for this option to take effect.</property>
               <object class="GtkBox">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
+                <property name="hexpand">True</property>
                 <property name="orientation">vertical</property>
                 <child>
                   <object class="GtkComboBox" id="hide_animation_combo">
@@ -1295,6 +1301,7 @@ You'll have to close all tabs for this option to take effect.</property>
               <object class="GtkComboBoxText" id="tab_policy_combo">
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
+                <property name="hexpand">True</property>
                 <items>
                   <item id="always" translatable="yes">Always</item>
                   <item id="automatic" translatable="yes">Automatic</item>
@@ -1425,6 +1432,7 @@ Following helpers are available:
               <object class="GtkComboBoxText" id="tab_position_combo">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
+                <property name="hexpand">True</property>
                 <items>
                   <item id="bottom" translatable="yes">Bottom</item>
                   <item id="top" translatable="yes">Top</item>
@@ -1533,6 +1541,7 @@ Following helpers are available:
               <object class="GtkComboBoxText" id="text_blink_mode_combo">
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
+                <property name="hexpand">True</property>
                 <items>
                   <item id="never" translatable="yes">Never</item>
                   <item id="focused" translatable="yes">When focused</item>
@@ -1549,6 +1558,7 @@ Following helpers are available:
               <object class="GtkComboBoxText" id="cursor_shape_combo">
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
+                <property name="hexpand">True</property>
                 <items>
                   <item id="block" translatable="yes">Block</item>
                   <item id="ibeam" translatable="yes">I-Beam</item>
@@ -1564,6 +1574,7 @@ Following helpers are available:
               <object class="GtkComboBoxText" id="cursor_blink_mode_combo">
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
+                <property name="hexpand">True</property>
                 <items>
                   <item id="system" translatable="yes">Default</item>
                   <item id="on" translatable="yes">Enabled</item>
@@ -1611,6 +1622,7 @@ Following helpers are available:
               <object class="GtkBox">
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
+                <property name="hexpand">True</property>
                 <child>
                   <object class="GtkFontButton" id="font_chooser">
                     <property name="visible">True</property>
@@ -1787,6 +1799,7 @@ Following helpers are available:
               <object class="GtkComboBoxText" id="theme_variant_combo">
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
+                <property name="hexpand">True</property>
                 <items>
                   <item id="system" translatable="yes">Default</item>
                   <item id="light" translatable="yes">Light</item>
@@ -2121,7 +2134,7 @@ Following helpers are available:
               </packing>
             </child>
             <child>
-              <object class="GtkCheckButton">
+              <object class="GtkCheckButton" id="background_opacity_check">
                 <property name="label" translatable="yes">_Background opacity:</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
@@ -2139,6 +2152,7 @@ Following helpers are available:
               <object class="GtkBox">
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
+                <property name="hexpand">True</property>
                 <child>
                   <object class="GtkScale" id="opacity_scale">
                     <property name="width-request">200</property>
@@ -2179,6 +2193,7 @@ Following helpers are available:
               <object class="GtkComboBox" id="palette_combo">
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
+                <property name="hexpand">True</property>
                 <property name="model">palette_list</property>
                 <child>
                   <object class="GtkCellRendererText"/>
@@ -2197,6 +2212,7 @@ Following helpers are available:
               <object class="GtkGrid" id="palette">
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
+                <property name="halign">start</property>
                 <property name="row-spacing">10</property>
                 <property name="column-spacing">10</property>
                 <property name="row-homogeneous">True</property>
@@ -2411,9 +2427,8 @@ Following helpers are available:
                 </child>
               </object>
               <packing>
-                <property name="left-attach">0</property>
+                <property name="left-attach">1</property>
                 <property name="top-attach">5</property>
-                <property name="width">2</property>
               </packing>
             </child>
             <child>
@@ -2444,6 +2459,9 @@ Following helpers are available:
                 <property name="top-attach">7</property>
                 <property name="width">2</property>
               </packing>
+            </child>
+            <child>
+              <placeholder/>
             </child>
           </object>
           <packing>
@@ -2726,6 +2744,7 @@ Following helpers are available:
               <object class="GtkComboBox" id="backspace_binding_combo">
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
+                <property name="hexpand">True</property>
                 <property name="model">erase_binding_list</property>
                 <property name="id-column">1</property>
                 <child>
@@ -2744,6 +2763,7 @@ Following helpers are available:
               <object class="GtkComboBox" id="delete_binding_combo">
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
+                <property name="hexpand">True</property>
                 <property name="model">erase_binding_list</property>
                 <property name="id-column">1</property>
                 <child>
@@ -2762,6 +2782,7 @@ Following helpers are available:
               <object class="GtkComboBoxText" id="ambiguous_width_combo">
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
+                <property name="hexpand">True</property>
                 <items>
                   <item id="narrow" translatable="yes">Narrow</item>
                   <item id="wide" translatable="yes">Wide</item>
@@ -2951,6 +2972,7 @@ Following helpers are available:
               <object class="GtkComboBoxText" id="panel_icon_type_combo">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
+                <property name="hexpand">True</property>
                 <items>
                   <item id="none" translatable="yes">None</item>
                   <item id="menu-button" translatable="yes">With popup menu</item>
@@ -2976,4 +2998,12 @@ Following helpers are available:
       </packing>
     </child>
   </template>
+  <object class="GtkSizeGroup">
+    <widgets>
+      <widget name="bold_color_check"/>
+      <widget name="cursor_color_check"/>
+      <widget name="highlight_color_check"/>
+      <widget name="background_opacity_check"/>
+    </widgets>
+  </object>
 </interface>
