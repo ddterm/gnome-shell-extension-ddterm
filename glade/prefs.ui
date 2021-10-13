@@ -739,6 +739,7 @@ along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licens
       <object class="GtkStack" id="stack">
         <property name="visible">True</property>
         <property name="can-focus">True</property>
+        <property name="transition-type">slide-up-down</property>
         <child>
           <!-- n-columns=2 n-rows=6 -->
           <object class="GtkGrid">
