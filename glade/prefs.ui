@@ -606,14 +606,14 @@ along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licens
         <col id="3">0</col>
       </row>
       <row>
-        <col id="0">shortcut-move-tab-back</col>
-        <col id="1" translatable="yes">Move The Tab Back</col>
+        <col id="0">shortcut-move-tab-prev</col>
+        <col id="1" translatable="yes">Move Tab to Previous Position</col>
         <col id="2">0</col>
         <col id="3">0</col>
       </row>
       <row>
-        <col id="0">shortcut-move-tab-forward</col>
-        <col id="1" translatable="yes">Move The Tab Forward</col>
+        <col id="0">shortcut-move-tab-next</col>
+        <col id="1" translatable="yes">Move Tab to Next Position</col>
         <col id="2">0</col>
         <col id="3">0</col>
       </row>

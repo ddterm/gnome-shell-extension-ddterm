@@ -439,10 +439,10 @@
     <key name="shortcut-next-tab" type="as">
       <default><![CDATA[['<Ctrl>Page_Down']]]></default>
     </key>
-    <key name="shortcut-move-tab-back" type="as">
+    <key name="shortcut-move-tab-prev" type="as">
       <default><![CDATA[['<Ctrl><Shift>Page_Up']]]></default>
     </key>
-    <key name="shortcut-move-tab-forward" type="as">
+    <key name="shortcut-move-tab-next" type="as">
       <default><![CDATA[['<Ctrl><Shift>Page_Down']]]></default>
     </key>
     <key name="shortcut-set-custom-tab-title" type="as">

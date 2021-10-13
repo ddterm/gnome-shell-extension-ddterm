@@ -192,13 +192,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <attribute name="label" translatable="yes">New Tab After Last Tab</attribute>
         <attribute name="action">win.new-tab</attribute>
       </item>
+    </section>
+    <section>
       <item>
-        <attribute name="label" translatable="yes">Move The Tab Back</attribute>
-        <attribute name="action">win.move-tab-back</attribute>
+        <attribute name="label" translatable="yes">Move Tab to Previous Position</attribute>
+        <attribute name="action">win.move-tab-prev</attribute>
       </item>
       <item>
-        <attribute name="label" translatable="yes">Move The Tab Forward</attribute>
-        <attribute name="action">win.move-tab-forward</attribute>
+        <attribute name="label" translatable="yes">Move Tab to Next Position</attribute>
+        <attribute name="action">win.move-tab-next</attribute>
       </item>
     </section>
     <item>

@@ -150,7 +150,7 @@ var AppWindow = GObject.registerClass(
                     this.notebook.set_current_page(current - 1);
             });
 
-            this.simple_action('move-tab-back', () => {
+            this.simple_action('move-tab-prev', () => {
                 const current = this.notebook.get_current_page();
 
                 if (current === 0)
@@ -158,7 +158,7 @@ var AppWindow = GObject.registerClass(
                 else
                     this.notebook.reorder_child(this.notebook.get_nth_page(current), current - 1);
             });
-            this.simple_action('move-tab-forward', () => {
+            this.simple_action('move-tab-next', () => {
                 const current = this.notebook.get_current_page();
 
                 if (current === this.notebook.get_n_pages() - 1)
