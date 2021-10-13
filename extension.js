@@ -930,6 +930,9 @@ function update_window_geometry() {
     }
 
     move_resize_window(current_window, current_target_rect);
+
+    if (resize_x ? current_window.maximized_horizontally : current_window.maximized_vertically)
+        settings.set_boolean('window-maximize', true);
 }
 
 function update_size_setting_on_grab_end(display, p0, p1) {

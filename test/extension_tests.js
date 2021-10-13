@@ -339,10 +339,13 @@ function verify_window_geometry(reporter, window_size, window_maximize, window_p
     reporter.print(`Verifying window geometry (expected size=${window_size}, maximized=${window_maximize}, position=${window_pos})`);
     const child_reporter = reporter.child();
 
-    if (window_pos === 'top' || window_pos === 'bottom')
+    if (window_pos === 'top' || window_pos === 'bottom') {
         JsUnit.assertEquals(window_maximize, Extension.current_window.maximized_vertically);
-    else
+        JsUnit.assertEquals(Extension.current_window.maximized_vertically, settings.get_boolean('window-maximize'));
+    } else {
         JsUnit.assertEquals(window_maximize, Extension.current_window.maximized_horizontally);
+        JsUnit.assertEquals(Extension.current_window.maximized_horizontally, settings.get_boolean('window-maximize'));
+    }
 
     if (window_maximize) {
         assert_rect_equals(child_reporter, workarea, frame_rect);
@@ -433,7 +436,8 @@ async function test_show(reporter, window_size, window_maximize, window_pos, mon
     await wait_window_settle(child_reporter);
 
     const monitor_index = window_monitor_index(monitor_config);
-    verify_window_geometry(child_reporter, window_size, window_maximize === WindowMaximizeMode.EARLY || window_size === 1.0, window_pos, monitor_index);
+    const should_maximize = window_maximize === WindowMaximizeMode.EARLY || (window_size === 1.0 && settings.get_boolean('window-maximize'));
+    verify_window_geometry(child_reporter, window_size, should_maximize, window_pos, monitor_index);
 
     if (window_maximize === WindowMaximizeMode.LATE) {
         await set_settings_boolean(child_reporter, 'window-maximize', true);
@@ -455,12 +459,13 @@ async function test_unmaximize(reporter, window_size, window_maximize, window_po
 
 async function test_unmaximize_correct_size(reporter, window_size, window_size2, window_pos, monitor_config) {
     await test_show(reporter, window_size, WindowMaximizeMode.NOT_MAXIMIZED, window_pos, monitor_config);
+    const initially_maximized = settings.get_boolean('window-maximize');
 
     const monitor_index = window_monitor_index(monitor_config);
 
     await set_settings_double(reporter, 'window-size', window_size2);
     await wait_window_settle(reporter);
-    verify_window_geometry(reporter, window_size2, window_size === 1.0 && window_size2 === 1.0, window_pos, monitor_index);
+    verify_window_geometry(reporter, window_size2, window_size === 1.0 && window_size2 === 1.0 && initially_maximized, window_pos, monitor_index);
 
     await set_settings_boolean(reporter, 'window-maximize', true);
     await wait_window_settle(reporter);
@@ -540,13 +545,14 @@ async function test_resize_xte(reporter, window_size, window_maximize, window_si
 
 async function test_change_position(reporter, window_size, window_pos, window_pos2, monitor_config) {
     await test_show(reporter, window_size, false, window_pos, monitor_config);
+    const initially_maximized = settings.get_boolean('window-maximize');
 
     const monitor_index = window_monitor_index(monitor_config);
 
     await set_settings_string(reporter, 'window-position', window_pos2);
     await wait_window_settle(reporter);
 
-    verify_window_geometry(reporter, window_size, window_size === 1.0, window_pos2, monitor_index);
+    verify_window_geometry(reporter, window_size, window_size === 1.0 && initially_maximized, window_pos2, monitor_index);
 }
 
 async function run_tests(filter = '', filter_out = false) {
