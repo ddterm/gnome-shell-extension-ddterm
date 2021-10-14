@@ -286,41 +286,19 @@ function async_run_process(reporter, argv) {
     }));
 }
 
-function set_setting(reporter, name, value) {
-    return with_timeout(new Promise(resolve => {
-        const check_value = () => {
-            if (!settings.get_value(name).equal(value))
-                return false;
-
-            settings.disconnect(handler_id);
-            GLib.idle_add(GLib.PRIORITY_LOW, () => {
-                reporter.print(`Setting ${name} became ${value.unpack()}`);
-                resolve();
-                return GLib.SOURCE_REMOVE;
-            });
-            return true;
-        };
-
-        const handler_id = settings.connect(`changed::${name}`, check_value);
-
-        if (check_value())
-            return;
-
-        reporter.print(`Setting ${name}=${value.unpack()}`);
-        settings.set_value(name, value);
-    }));
-}
-
 function set_settings_double(reporter, name, value) {
-    return set_setting(reporter, name, GLib.Variant.new_double(value));
+    reporter.print(`Setting ${name}=${value}`);
+    return settings.set_double(name, value);
 }
 
 function set_settings_boolean(reporter, name, value) {
-    return set_setting(reporter, name, GLib.Variant.new_boolean(value));
+    reporter.print(`Setting ${name}=${value}`);
+    return settings.set_boolean(name, value);
 }
 
 function set_settings_string(reporter, name, value) {
-    return set_setting(reporter, name, GLib.Variant.new_string(value));
+    reporter.print(`Setting ${name}=${value}`);
+    return settings.set_string(name, value);
 }
 
 function assert_rect_equals(reporter, expected, actual) {
@@ -425,10 +403,10 @@ async function test_show(reporter, window_size, window_maximize, window_pos, mon
 
     JsUnit.assertEquals(monitor_config.current_monitor, global.display.get_current_monitor());
 
-    await set_settings_double(child_reporter, 'window-size', window_size);
-    await set_settings_boolean(child_reporter, 'window-maximize', window_maximize === WindowMaximizeMode.EARLY);
-    await set_settings_string(child_reporter, 'window-position', window_pos);
-    await set_settings_string(child_reporter, 'window-monitor', monitor_config.window_monitor);
+    set_settings_double(child_reporter, 'window-size', window_size);
+    set_settings_boolean(child_reporter, 'window-maximize', window_maximize === WindowMaximizeMode.EARLY);
+    set_settings_string(child_reporter, 'window-position', window_pos);
+    set_settings_string(child_reporter, 'window-monitor', monitor_config.window_monitor);
 
     Extension.toggle();
 
@@ -440,7 +418,7 @@ async function test_show(reporter, window_size, window_maximize, window_pos, mon
     verify_window_geometry(child_reporter, window_size, should_maximize, window_pos, monitor_index);
 
     if (window_maximize === WindowMaximizeMode.LATE) {
-        await set_settings_boolean(child_reporter, 'window-maximize', true);
+        set_settings_boolean(child_reporter, 'window-maximize', true);
         await wait_window_settle(child_reporter);
 
         verify_window_geometry(child_reporter, window_size, true, window_pos, monitor_index);
@@ -452,7 +430,7 @@ async function test_unmaximize(reporter, window_size, window_maximize, window_po
 
     const monitor_index = window_monitor_index(monitor_config);
 
-    await set_settings_boolean(reporter, 'window-maximize', false);
+    set_settings_boolean(reporter, 'window-maximize', false);
     await wait_window_settle(reporter);
     verify_window_geometry(reporter, window_size, false, window_pos, monitor_index);
 }
@@ -463,15 +441,15 @@ async function test_unmaximize_correct_size(reporter, window_size, window_size2,
 
     const monitor_index = window_monitor_index(monitor_config);
 
-    await set_settings_double(reporter, 'window-size', window_size2);
+    set_settings_double(reporter, 'window-size', window_size2);
     await wait_window_settle(reporter);
     verify_window_geometry(reporter, window_size2, window_size === 1.0 && window_size2 === 1.0 && initially_maximized, window_pos, monitor_index);
 
-    await set_settings_boolean(reporter, 'window-maximize', true);
+    set_settings_boolean(reporter, 'window-maximize', true);
     await wait_window_settle(reporter);
     verify_window_geometry(reporter, window_size2, true, window_pos, monitor_index);
 
-    await set_settings_boolean(reporter, 'window-maximize', false);
+    set_settings_boolean(reporter, 'window-maximize', false);
     await wait_window_settle(reporter);
     verify_window_geometry(reporter, window_size2, false, window_pos, monitor_index);
 }
@@ -481,7 +459,7 @@ async function test_unmaximize_on_size_change(reporter, window_size, window_size
 
     const monitor_index = window_monitor_index(monitor_config);
 
-    await set_settings_double(reporter, 'window-size', window_size2);
+    set_settings_double(reporter, 'window-size', window_size2);
     await wait_window_settle(reporter);
 
     verify_window_geometry(reporter, window_size2, window_size2 === 1.0, window_pos, monitor_index);
@@ -549,7 +527,7 @@ async function test_change_position(reporter, window_size, window_pos, window_po
 
     const monitor_index = window_monitor_index(monitor_config);
 
-    await set_settings_string(reporter, 'window-position', window_pos2);
+    set_settings_string(reporter, 'window-position', window_pos2);
     await wait_window_settle(reporter);
 
     verify_window_geometry(reporter, window_size, window_size === 1.0 && initially_maximized, window_pos2, monitor_index);
