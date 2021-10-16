@@ -160,12 +160,12 @@ function hide_window_async_wait(reporter) {
             if (Extension.current_window)
                 return;
 
-            Extension.disconnect(handler);
+            Extension.signals.disconnect(handler);
             child_reporter.print('Window hidden');
             resolve();
         };
 
-        const handler = Extension.connect('window-changed', check_cb);
+        const handler = Extension.signals.connect('window-changed', check_cb);
 
         reporter.print('Hiding the window');
         const child_reporter = reporter.child();
@@ -193,12 +193,12 @@ function async_wait_current_window(reporter) {
                 return;
             }
 
-            Extension.disconnect(win_handler);
+            Extension.signals.disconnect(win_handler);
             child_reporter.print('Window shown');
             resolve();
         };
 
-        const win_handler = Extension.connect('window-changed', check_cb);
+        const win_handler = Extension.signals.connect('window-changed', check_cb);
         check_cb();
     }));
 }
@@ -243,7 +243,7 @@ function wait_window_settle(reporter, idle_timeout_ms = DEFAULT_IDLE_TIMEOUT_MS)
             child_reporter.print('Restarting wait because of notify::maximized-horizontally signal');
             restart_timer();
         });
-        handlers.connect(Extension, 'move-resize-requested', () => {
+        handlers.connect(Extension.signals, 'move-resize-requested', () => {
             child_reporter.print('Restarting wait because of move-resize-requested signal');
             restart_timer();
         });
@@ -677,8 +677,8 @@ async function run_tests(filter = '', filter_out = false) {
         DEFAULT_REPORTER.print(`Running test ${test.id} (${tests_passed} of ${filtered_tests.length} done, ${PERCENT_FORMAT.format(tests_passed / filtered_tests.length)})`);
 
         const handlers = new Extension.ConnectionSet();
-        handlers.connect(Extension, 'window-changed', setup_window_trace);
-        handlers.connect(Extension, 'move-resize-requested', (_, rect) => {
+        handlers.connect(Extension.signals, 'window-changed', setup_window_trace);
+        handlers.connect(Extension.signals, 'move-resize-requested', (_, rect) => {
             DEFAULT_REPORTER.print(`Extension requested move-resize to { .x = ${rect.x}, .y = ${rect.y}, .width = ${rect.width}, .height = ${rect.height} }`);
         });
         try {

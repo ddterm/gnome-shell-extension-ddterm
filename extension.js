@@ -251,15 +251,7 @@ class ExtensionSignals {
 }
 Signals.addSignalMethods(ExtensionSignals.prototype);
 
-const extension_signals = new ExtensionSignals();
-
-function connect(name, callback) {
-    return extension_signals.connect(name, callback);
-}
-
-function disconnect(id) {
-    return extension_signals.disconnect(id);
-}
+const signals = new ExtensionSignals();
 
 function init() {
     try {
@@ -717,7 +709,7 @@ function set_current_window(win) {
     release_window(current_window);
 
     current_window = win;
-    extension_signals.emit('window-changed');
+    signals.emit('window-changed');
 
     current_window_connections.connect(win, 'unmanaged', release_window);
     current_window_connections.connect(win, 'unmanaging', () => {
@@ -883,7 +875,7 @@ function handle_maximized_horizontally(win) {
 
 function move_resize_window(win, target_rect) {
     win.move_resize_frame(false, target_rect.x, target_rect.y, target_rect.width, target_rect.height);
-    extension_signals.emit('move-resize-requested', target_rect);
+    signals.emit('move-resize-requested', target_rect);
 }
 
 function set_window_maximized() {
@@ -970,7 +962,7 @@ function release_window(win) {
 
     current_window = null;
     current_window_mapped = false;
-    extension_signals.emit('window-changed');
+    signals.emit('window-changed');
 
     update_size_setting_on_grab_end_connections.disconnect();
     hide_when_focus_lost_connections.disconnect();
