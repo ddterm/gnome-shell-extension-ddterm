@@ -41,9 +41,6 @@ var current_target_rect = null;
 var current_monitor_index = 0;
 var current_window_mapped = false;
 
-let bus_watch_id = null;
-let dbus_action_group = null;
-
 let wayland_client = null;
 let subprocess = null;
 
@@ -58,6 +55,7 @@ let animation_scale_x = 1.0;
 let animation_scale_y = 0.0;
 
 let panel_icon = null;
+let app_dbus = null;
 
 const APP_ID = 'com.github.amezin.ddterm';
 const APP_DBUS_PATH = '/com/github/amezin/ddterm';
@@ -66,6 +64,37 @@ const SUBPROCESS_ARGV = [Me.dir.get_child('com.github.amezin.ddterm').get_path()
 const IS_WAYLAND_COMPOSITOR = Meta.is_wayland_compositor();
 const USE_WAYLAND_CLIENT = Meta.WaylandClient && IS_WAYLAND_COMPOSITOR;
 const SIGINT = 2;
+
+class AppDBusWatch {
+    constructor() {
+        this.action_group = null;
+
+        this.watch_id = Gio.bus_watch_name(
+            Gio.BusType.SESSION,
+            APP_ID,
+            Gio.BusNameWatcherFlags.NONE,
+            this._appeared.bind(this),
+            this._disappeared.bind(this)
+        );
+    }
+
+    _appeared(connection, name) {
+        this.action_group = Gio.DBusActionGroup.get(connection, name, APP_DBUS_PATH);
+    }
+
+    _disappeared() {
+        this.action_group = null;
+    }
+
+    unwatch() {
+        if (this.watch_id) {
+            Gio.bus_unwatch_name(this.watch_id);
+            this.watch_id = null;
+        }
+
+        this.action_group = null;
+    }
+}
 
 class ExtensionDBusInterface {
     constructor() {
@@ -173,14 +202,10 @@ function enable() {
         activate
     );
 
-    stop_dbus_watch();
-    bus_watch_id = Gio.bus_watch_name(
-        Gio.BusType.SESSION,
-        APP_ID,
-        Gio.BusNameWatcherFlags.NONE,
-        dbus_appeared,
-        dbus_disappeared
-    );
+    if (app_dbus)
+        app_dbus.unwatch();
+
+    app_dbus = new AppDBusWatch();
 
     extension_connections.connect(global.display, 'window-created', handle_window_created);
     extension_connections.connect(global.display, 'workareas-changed', update_workarea);
@@ -221,8 +246,8 @@ function enable() {
     });
 
     extension_connections.connect(panel_icon, 'open-preferences', () => {
-        if (dbus_action_group)
-            dbus_action_group.activate_action('preferences', null);
+        if (app_dbus.action_group)
+            app_dbus.action_group.activate_action('preferences', null);
         else
             imports.misc.extensionUtils.openPrefs();
     });
@@ -236,14 +261,16 @@ function disable() {
         // lock screen/switch to other mode where extensions aren't allowed.
         // Because when the session switches back to normal mode we want to
         // keep all open terminals.
-        if (dbus_action_group)
-            dbus_action_group.activate_action('quit', null);
+        if (app_dbus.action_group)
+            app_dbus.action_group.activate_action('quit', null);
         else if (subprocess)
             subprocess.send_signal(SIGINT);
     }
 
-    stop_dbus_watch();
-    dbus_action_group = null;
+    if (app_dbus) {
+        app_dbus.unwatch();
+        app_dbus = null;
+    }
 
     Main.wm.removeKeybinding('ddterm-toggle-hotkey');
     Main.wm.removeKeybinding('ddterm-activate-hotkey');
@@ -311,8 +338,8 @@ function subprocess_terminated(source) {
 }
 
 function toggle() {
-    if (dbus_action_group)
-        dbus_action_group.activate_action('toggle', null);
+    if (app_dbus.action_group)
+        app_dbus.action_group.activate_action('toggle', null);
     else
         spawn_app();
 }
@@ -322,14 +349,6 @@ function activate() {
         Main.activateWindow(current_window);
     else
         toggle();
-}
-
-function dbus_appeared(connection, name) {
-    dbus_action_group = Gio.DBusActionGroup.get(connection, name, APP_DBUS_PATH);
-}
-
-function dbus_disappeared() {
-    dbus_action_group = null;
 }
 
 function handle_window_created(display, win) {
@@ -460,8 +479,8 @@ function hide_when_focus_lost() {
             return;
     }
 
-    if (dbus_action_group)
-        dbus_action_group.activate_action('hide', null);
+    if (app_dbus.action_group)
+        app_dbus.action_group.activate_action('hide', null);
 }
 
 function setup_hide_when_focus_lost() {
@@ -851,11 +870,4 @@ function release_window(win) {
 
     if (panel_icon)
         panel_icon.active = false;
-}
-
-function stop_dbus_watch() {
-    if (bus_watch_id) {
-        Gio.bus_unwatch_name(bus_watch_id);
-        bus_watch_id = null;
-    }
 }
