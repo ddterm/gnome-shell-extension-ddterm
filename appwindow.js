@@ -191,9 +191,9 @@ var AppWindow = GObject.registerClass(
             this.method_handler(this.notebook, 'page-removed', this.tab_switcher_remove);
             this.method_handler(this.notebook, 'page-reordered', this.tab_switcher_reorder);
 
-            this.method_handler(this.settings, 'changed::window-type-hint', this.update_hints);
-            this.method_handler(this.settings, 'changed::window-skip-taskbar', this.update_hints);
-            this.update_hints();
+            this.bind_settings_ro('window-type-hint', this, 'type-hint');
+            this.bind_settings_ro('window-skip-taskbar', this, 'skip-taskbar-hint');
+            this.bind_settings_ro('window-skip-taskbar', this, 'skip-pager-hint');
 
             this.suppress_delete_id = this.connect('delete-event', () => {
                 this.hide();
@@ -426,16 +426,6 @@ var AppWindow = GObject.registerClass(
             const items = this.tab_switch_menu_box.get_children();
             for (let i = start_page_num; i < items.length; i++)
                 items[i].action_target = GLib.Variant.new_int32(i);
-        }
-
-        update_hints() {
-            this.type_hint = util.enum_from_settings(
-                this.settings.get_string('window-type-hint'),
-                Gdk.WindowTypeHint
-            );
-            // skip_taskbar_hint only works with type_hint == Gdk.WindowTypeHint.Normal
-            this.skip_taskbar_hint = this.settings.get_boolean('window-skip-taskbar');
-            this.skip_pager_hint = this.settings.get_boolean('window-skip-taskbar');
         }
 
         new_tab_before(page) {
