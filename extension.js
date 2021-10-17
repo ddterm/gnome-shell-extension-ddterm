@@ -28,7 +28,6 @@ const Main = imports.ui.main;
 const PanelMenu = imports.ui.panelMenu;
 const PopupMenu = imports.ui.popupMenu;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-const { util } = Me.imports;
 
 let tests = null;
 
@@ -500,7 +499,7 @@ function animation_mode_from_settings(key) {
     if (nick === 'disable')
         return null;
 
-    return util.enum_from_settings(nick, Clutter.AnimationMode);
+    return Clutter.AnimationMode[nick.replace(/-/g, '_').toUpperCase()];
 }
 
 function update_show_animation() {
