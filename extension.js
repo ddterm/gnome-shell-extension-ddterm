@@ -60,7 +60,6 @@ let app_dbus = null;
 const APP_ID = 'com.github.amezin.ddterm';
 const APP_DBUS_PATH = '/com/github/amezin/ddterm';
 const WINDOW_PATH_PREFIX = `${APP_DBUS_PATH}/window/`;
-const SUBPROCESS_ARGV = [Me.dir.get_child('com.github.amezin.ddterm').get_path(), '--undecorated'];
 const IS_WAYLAND_COMPOSITOR = Meta.is_wayland_compositor();
 const USE_WAYLAND_CLIENT = Meta.WaylandClient && IS_WAYLAND_COMPOSITOR;
 const SIGINT = 2;
@@ -300,15 +299,18 @@ function spawn_app() {
     const context = global.create_app_launch_context(0, -1);
     subprocess_launcher.set_environ(context.get_environment());
 
-    let argv = SUBPROCESS_ARGV;
+    let argv = [
+        Me.dir.get_child(APP_ID).get_path(),
+        '--undecorated',
+    ];
 
     if (settings.get_boolean('force-x11-gdk-backend')) {
         const prev_gdk_backend = subprocess_launcher.getenv('GDK_BACKEND');
 
         if (prev_gdk_backend === null)
-            argv = argv.concat(['--unset-gdk-backend']);
+            argv.push('--unset-gdk-backend');
         else
-            argv = argv.concat(['--reset-gdk-backend', prev_gdk_backend]);
+            argv.push('--reset-gdk-backend', prev_gdk_backend);
 
         subprocess_launcher.setenv('GDK_BACKEND', 'x11', true);
     }
