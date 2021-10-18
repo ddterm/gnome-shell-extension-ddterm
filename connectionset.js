@@ -23,11 +23,14 @@
 
 class ConnectionSet {
     constructor() {
-        this.connections = [];
+        this.connections = new Map();
     }
 
     add(object, handler_id) {
-        this.connections.push({ object, handler_id });
+        if (!this.connections.has(object))
+            this.connections.set(object, new Set());
+
+        this.connections.get(object).add(handler_id);
         return handler_id;
     }
 
@@ -35,26 +38,41 @@ class ConnectionSet {
         return this.add(object, object.connect(signal, callback));
     }
 
-    disconnect(object = null, handler_id = null) {
-        if (handler_id) {
-            this.connections = this.connections.filter(
-                c => c.handler_id !== handler_id || c.object !== object
-            );
-            try {
-                object.disconnect(handler_id);
-            } catch (ex) {
-                logError(ex, `Can't disconnect handler ${handler_id} on object ${object}`);
-            }
+    disconnect(match_object = null, match_handler_id = null) {
+        if (match_object === null) {
+            if (match_handler_id !== null)
+                throw new Error('match_handler_id should be null if match_object is null');
+
+            this.connections.forEach((object_handlers, object) => {
+                object_handlers.forEach(handler_id => {
+                    object.disconnect(handler_id);
+                });
+            });
+
+            this.connections.clear();
             return;
         }
 
-        while (this.connections.length) {
-            const c = this.connections.pop();
-            try {
-                c.object.disconnect(c.handler_id);
-            } catch (ex) {
-                logError(ex, `Can't disconnect handler ${c.handler_id} on object ${c.object}`);
-            }
+        const object_handlers = this.connections.get(match_object);
+
+        if (object_handlers === null) {
+            printerr(`No handlers for object=${match_object} found in group ${this}`);
+            return;
         }
+
+        if (match_handler_id === null) {
+            this.connections.delete(match_object);
+
+            object_handlers.forEach(handler_id => {
+                match_object.disconnect(handler_id);
+            });
+
+            return;
+        }
+
+        if (object_handlers.delete(match_handler_id))
+            match_object.disconnect(match_handler_id);
+        else
+            printerr(`No handler with id=${match_handler_id} found for object=${match_object} in group ${this}`);
     }
 }
