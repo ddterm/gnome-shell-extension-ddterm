@@ -304,12 +304,12 @@ var WindowManager = GObject.registerClass(
             if (win === this.current_window)
                 return;
 
-            this.release_window(this.current_window);
+            this._release_window(this.current_window);
 
             this._current_window = win;
             this.notify('current-window');
 
-            this.current_window_connections.connect(win, 'unmanaged', this.release_window.bind(this));
+            this.current_window_connections.connect(win, 'unmanaged', this._release_window.bind(this));
             this.current_window_connections.connect(win, 'unmanaging', () => {
                 if (this.settings.get_boolean('override-window-animation') && !this.hide_animation)
                     Main.wm.skipNextEffect(this.current_window.get_compositor_private());
@@ -564,7 +564,7 @@ var WindowManager = GObject.registerClass(
             this._schedule_geometry_fixup(this.current_window);
         }
 
-        release_window(win) {
+        _release_window(win) {
             if (!win || win !== this.current_window)
                 return;
 
@@ -582,7 +582,7 @@ var WindowManager = GObject.registerClass(
         }
 
         disable() {
-            this.release_window(this.current_window);
+            this._release_window(this.current_window);
             this.connections.disconnect();
         }
 
