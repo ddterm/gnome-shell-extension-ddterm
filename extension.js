@@ -247,6 +247,8 @@ function disable() {
         panel_icon.remove();
         panel_icon = null;
     }
+
+    settings = null;
 }
 
 function spawn_app() {
