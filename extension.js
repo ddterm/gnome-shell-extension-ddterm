@@ -137,8 +137,6 @@ function init() {
 }
 
 function enable() {
-    disable();
-
     settings = imports.misc.extensionUtils.getSettings();
 
     Main.wm.addKeybinding(
