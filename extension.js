@@ -290,13 +290,13 @@ function subprocess_terminated(source) {
     if (subprocess === source) {
         subprocess = null;
         wayland_client = null;
+    }
 
-        if (source.get_if_signaled()) {
-            const signum = source.get_term_sig();
-            printerr(`ddterm app killed by signal ${signum} (${GLib.strsignal(signum)})`);
-        } else {
-            printerr(`ddterm app exited with status ${source.get_exit_status()}`);
-        }
+    if (source.get_if_signaled()) {
+        const signum = source.get_term_sig();
+        printerr(`ddterm app killed by signal ${signum} (${GLib.strsignal(signum)})`);
+    } else {
+        printerr(`ddterm app exited with status ${source.get_exit_status()}`);
     }
 }
 
