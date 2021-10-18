@@ -135,7 +135,7 @@ const PanelIconToggleButton = GObject.registerClass(
     }
 );
 
-const PanelIconProxy = GObject.registerClass(
+var PanelIconProxy = GObject.registerClass(
     {
         Properties: {
             'active': GObject.ParamSpec.boolean(
