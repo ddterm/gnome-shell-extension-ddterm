@@ -33,10 +33,12 @@ var WindowManager = GObject.registerClass(
             'settings': GObject.ParamSpec.object(
                 'settings', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, Gio.Settings
             ),
+            'current-window': GObject.ParamSpec.object(
+                'current-window', '', '', GObject.ParamFlags.READABLE | GObject.ParamFlags.EXPLICIT_NOTIFY, Meta.Window
+            ),
         },
         Signals: {
             'hide-request': {},
-            'window-changed': {},
             'move-resize-requested': {
                 param_types: [Meta.Rectangle.$gtype],
             },
@@ -46,7 +48,7 @@ var WindowManager = GObject.registerClass(
         _init(params) {
             super._init(params);
 
-            this.current_window = null;
+            this._current_window = null;
             this.current_workarea = null;
             this.current_monitor_scale = 1;
             this.current_target_rect = null;
@@ -304,8 +306,8 @@ var WindowManager = GObject.registerClass(
 
             this.release_window(this.current_window);
 
-            this.current_window = win;
-            this.emit('window-changed');
+            this._current_window = win;
+            this.notify('current-window');
 
             this.current_window_connections.connect(win, 'unmanaged', this.release_window.bind(this));
             this.current_window_connections.connect(win, 'unmanaging', () => {
@@ -570,9 +572,9 @@ var WindowManager = GObject.registerClass(
             this.current_window_maximized_connections.disconnect();
             this.geometry_fixup_connections.disconnect();
 
-            this.current_window = null;
+            this._current_window = null;
             this.current_window_mapped = false;
-            this.emit('window-changed');
+            this.notify('current-window');
 
             this.update_size_setting_on_grab_end_connections.disconnect();
             this.hide_when_focus_lost_connections.disconnect();
@@ -582,6 +584,10 @@ var WindowManager = GObject.registerClass(
         disable() {
             this.release_window(this.current_window);
             this.connections.disconnect();
+        }
+
+        get current_window() {
+            return this._current_window;
         }
     }
 );

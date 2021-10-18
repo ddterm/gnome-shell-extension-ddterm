@@ -166,7 +166,7 @@ function hide_window_async_wait(reporter) {
             resolve();
         };
 
-        const handler = Extension.window_manager.connect('window-changed', check_cb);
+        const handler = Extension.window_manager.connect('notify::current-window', check_cb);
 
         reporter.print('Hiding the window');
         const child_reporter = reporter.child();
@@ -199,7 +199,7 @@ function async_wait_current_window(reporter) {
             resolve();
         };
 
-        const win_handler = Extension.window_manager.connect('window-changed', check_cb);
+        const win_handler = Extension.window_manager.connect('notify::current-window', check_cb);
         check_cb();
     }));
 }
@@ -678,7 +678,7 @@ async function run_tests(filter = '', filter_out = false) {
         DEFAULT_REPORTER.print(`Running test ${test.id} (${tests_passed} of ${filtered_tests.length} done, ${PERCENT_FORMAT.format(tests_passed / filtered_tests.length)})`);
 
         const handlers = new ConnectionSet();
-        handlers.connect(Extension.window_manager, 'window-changed', setup_window_trace);
+        handlers.connect(Extension.window_manager, 'notify::current-window', setup_window_trace);
         handlers.connect(Extension.window_manager, 'move-resize-requested', (_, rect) => {
             DEFAULT_REPORTER.print(`Extension requested move-resize to { .x = ${rect.x}, .y = ${rect.y}, .width = ${rect.width}, .height = ${rect.height} }`);
         });

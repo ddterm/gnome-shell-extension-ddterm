@@ -187,7 +187,7 @@ function enable() {
             imports.misc.extensionUtils.openPrefs();
     });
 
-    connections.connect(window_manager, 'window-changed', () => {
+    connections.connect(window_manager, 'notify::current-window', () => {
         panel_icon.active = window_manager.current_window !== null;
     });
 
