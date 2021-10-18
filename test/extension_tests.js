@@ -28,6 +28,7 @@ const JsUnit = imports.jsUnit;
 const Config = imports.misc.config;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Extension = Me.imports.extension;
+const { ConnectionSet } = Me.imports.connectionset;
 
 const WindowMaximizeMode = {
     NOT_MAXIMIZED: 'not-maximized',
@@ -36,7 +37,7 @@ const WindowMaximizeMode = {
 };
 
 let settings = null;
-const window_trace = new Extension.ConnectionSet();
+const window_trace = new ConnectionSet();
 
 const PERCENT_FORMAT = new Intl.NumberFormat(undefined, { style: 'percent' });
 const CURSOR_TRACKER_MOVED_SIGNAL = GObject.signal_lookup('cursor-moved', Meta.CursorTracker) ? 'cursor-moved' : 'position-invalidated';
@@ -105,7 +106,7 @@ function disable() {
 }
 
 function setup_window_trace() {
-    const win = Extension.current_window;
+    const win = Extension.window_manager.current_window;
 
     DEFAULT_REPORTER.print(`current window changed: ${win}`);
 
@@ -151,21 +152,21 @@ function with_timeout(promise, timeout_ms = WAIT_TIMEOUT_MS) {
 
 function hide_window_async_wait(reporter) {
     return with_timeout(new Promise(resolve => {
-        if (!Extension.current_window) {
+        if (!Extension.window_manager.current_window) {
             resolve();
             return;
         }
 
         const check_cb = () => {
-            if (Extension.current_window)
+            if (Extension.window_manager.current_window)
                 return;
 
-            Extension.signals.disconnect(handler);
+            Extension.window_manager.disconnect(handler);
             child_reporter.print('Window hidden');
             resolve();
         };
 
-        const handler = Extension.signals.connect('window-changed', check_cb);
+        const handler = Extension.window_manager.connect('window-changed', check_cb);
 
         reporter.print('Hiding the window');
         const child_reporter = reporter.child();
@@ -178,10 +179,10 @@ function async_wait_current_window(reporter) {
         reporter.print('Waiting for the window to show');
         const child_reporter = reporter.child();
 
-        const shown_handler = new Extension.ConnectionSet();
+        const shown_handler = new ConnectionSet();
 
         const check_cb = () => {
-            const current_win = Extension.current_window;
+            const current_win = Extension.window_manager.current_window;
 
             if (!current_win)
                 return;
@@ -193,22 +194,22 @@ function async_wait_current_window(reporter) {
                 return;
             }
 
-            Extension.signals.disconnect(win_handler);
+            Extension.window_manager.disconnect(win_handler);
             child_reporter.print('Window shown');
             resolve();
         };
 
-        const win_handler = Extension.signals.connect('window-changed', check_cb);
+        const win_handler = Extension.window_manager.connect('window-changed', check_cb);
         check_cb();
     }));
 }
 
 function wait_window_settle(reporter, idle_timeout_ms = DEFAULT_IDLE_TIMEOUT_MS) {
     return with_timeout(new Promise(resolve => {
-        const win = Extension.current_window;
+        const win = Extension.window_manager.current_window;
         const cursor_tracker = Meta.CursorTracker.get_for_display(global.display);
         let timer_id = null;
-        const handlers = new Extension.ConnectionSet();
+        const handlers = new ConnectionSet();
 
         reporter.print('Waiting for the window to stop generating events');
         const child_reporter = reporter.child();
@@ -243,7 +244,7 @@ function wait_window_settle(reporter, idle_timeout_ms = DEFAULT_IDLE_TIMEOUT_MS)
             child_reporter.print('Restarting wait because of notify::maximized-horizontally signal');
             restart_timer();
         });
-        handlers.connect(Extension.signals, 'move-resize-requested', () => {
+        handlers.connect(Extension.window_manager, 'move-resize-requested', () => {
             child_reporter.print('Restarting wait because of move-resize-requested signal');
             restart_timer();
         });
@@ -312,17 +313,17 @@ function assert_rect_equals(reporter, expected, actual) {
 function verify_window_geometry(reporter, window_size, window_maximize, window_pos, monitor_index) {
     const workarea = Main.layoutManager.getWorkAreaForMonitor(monitor_index);
     const monitor_scale = global.display.get_monitor_scale(monitor_index);
-    const frame_rect = Extension.current_window.get_frame_rect();
+    const frame_rect = Extension.window_manager.current_window.get_frame_rect();
 
     reporter.print(`Verifying window geometry (expected size=${window_size}, maximized=${window_maximize}, position=${window_pos})`);
     const child_reporter = reporter.child();
 
     if (window_pos === 'top' || window_pos === 'bottom') {
-        JsUnit.assertEquals(window_maximize, Extension.current_window.maximized_vertically);
-        JsUnit.assertEquals(Extension.current_window.maximized_vertically, settings.get_boolean('window-maximize'));
+        JsUnit.assertEquals(window_maximize, Extension.window_manager.current_window.maximized_vertically);
+        JsUnit.assertEquals(Extension.window_manager.current_window.maximized_vertically, settings.get_boolean('window-maximize'));
     } else {
-        JsUnit.assertEquals(window_maximize, Extension.current_window.maximized_horizontally);
-        JsUnit.assertEquals(Extension.current_window.maximized_horizontally, settings.get_boolean('window-maximize'));
+        JsUnit.assertEquals(window_maximize, Extension.window_manager.current_window.maximized_horizontally);
+        JsUnit.assertEquals(Extension.window_manager.current_window.maximized_horizontally, settings.get_boolean('window-maximize'));
     }
 
     if (window_maximize) {
@@ -330,8 +331,8 @@ function verify_window_geometry(reporter, window_size, window_maximize, window_p
         return;
     }
 
-    const target_rect = Extension.target_rect_for_workarea_size(workarea, monitor_scale, window_size);
-    assert_rect_equals(child_reporter, target_rect, Extension.current_target_rect);
+    const target_rect = Extension.window_manager.target_rect_for_workarea_size(workarea, monitor_scale, window_size);
+    assert_rect_equals(child_reporter, target_rect, Extension.window_manager.current_target_rect);
 
     const workarea_right = workarea.x + workarea.width;
     const workarea_bottom = workarea.y + workarea.height;
@@ -495,10 +496,10 @@ async function test_resize_xte(reporter, window_size, window_maximize, window_si
     const workarea = Main.layoutManager.getWorkAreaForMonitor(monitor_index);
     const monitor_scale = global.display.get_monitor_scale(monitor_index);
 
-    const initial_frame_rect = Extension.current_window.get_frame_rect();
+    const initial_frame_rect = Extension.window_manager.current_window.get_frame_rect();
     const initial = resize_point(initial_frame_rect, window_pos, monitor_scale);
 
-    const target_frame_rect = Extension.target_rect_for_workarea_size(workarea, monitor_scale, window_size2);
+    const target_frame_rect = Extension.window_manager.target_rect_for_workarea_size(workarea, monitor_scale, window_size2);
     const target = resize_point(target_frame_rect, window_pos, monitor_scale);
 
     await async_run_process(reporter, ['xte', `mousemove ${initial.x} ${initial.y}`, 'mousedown 1']);
@@ -516,7 +517,7 @@ async function test_resize_xte(reporter, window_size, window_maximize, window_si
     // TODO: 'grab-op-end' isn't emitted on Wayland when simulting mouse with xte.
     // For now, just call update_size_setting_on_grab_end()
     if (Meta.is_wayland_compositor())
-        Extension.update_size_setting_on_grab_end(global.display, Extension.current_window);
+        Extension.window_manager.update_size_setting_on_grab_end(global.display, Extension.window_manager.current_window);
 
     verify_window_geometry(reporter, window_size2, false, window_pos, monitor_index);
 }
@@ -676,9 +677,9 @@ async function run_tests(filter = '', filter_out = false) {
         DEFAULT_REPORTER.print('------------------------------------------------------------------------------------------------------------------------------------------');
         DEFAULT_REPORTER.print(`Running test ${test.id} (${tests_passed} of ${filtered_tests.length} done, ${PERCENT_FORMAT.format(tests_passed / filtered_tests.length)})`);
 
-        const handlers = new Extension.ConnectionSet();
-        handlers.connect(Extension.signals, 'window-changed', setup_window_trace);
-        handlers.connect(Extension.signals, 'move-resize-requested', (_, rect) => {
+        const handlers = new ConnectionSet();
+        handlers.connect(Extension.window_manager, 'window-changed', setup_window_trace);
+        handlers.connect(Extension.window_manager, 'move-resize-requested', (_, rect) => {
             DEFAULT_REPORTER.print(`Extension requested move-resize to { .x = ${rect.x}, .y = ${rect.y}, .width = ${rect.width}, .height = ${rect.height} }`);
         });
         try {
