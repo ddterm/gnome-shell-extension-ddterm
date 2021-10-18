@@ -314,8 +314,8 @@ function activate() {
 
 function handle_window_created(display, win) {
     const handler_ids = [
-        window_connections.connect(win, 'notify::gtk-application-id', set_current_window),
-        window_connections.connect(win, 'notify::gtk-window-object-path', set_current_window),
+        window_connections.connect(win, 'notify::gtk-application-id', check_window),
+        window_connections.connect(win, 'notify::gtk-window-object-path', check_window),
     ];
 
     const disconnect_handlers = () => {
@@ -325,7 +325,7 @@ function handle_window_created(display, win) {
     handler_ids.push(window_connections.connect(win, 'unmanaging', disconnect_handlers));
     handler_ids.push(window_connections.connect(win, 'unmanaged', disconnect_handlers));
 
-    set_current_window(win);
+    check_window(win);
 }
 
 function is_ddterm_window(win) {
@@ -355,7 +355,7 @@ function set_skip_taskbar() {
         wayland_client.show_in_window_list(window_manager.current_window);
 }
 
-function set_current_window(win) {
+function check_window(win) {
     if (is_ddterm_window(win)) {
         window_manager.manage_window(win);
         set_skip_taskbar();
