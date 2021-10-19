@@ -38,6 +38,8 @@ Vagrant.configure("2") do |config|
     virtualbox.cpus = CPUS
     virtualbox.memory = MEMORY
     virtualbox.gui = true
+    virtualbox.default_nic_type = 'virtio'
+    virtualbox.customize ['modifyvm', :id, '--accelerate3d', 'on', '--vram', '128', '--graphicscontroller', 'vmsvga']
   end
 
   config.vm.provider 'libvirt' do |libvirt, override|
