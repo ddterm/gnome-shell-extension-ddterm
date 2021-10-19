@@ -53,7 +53,6 @@ var WindowManager = GObject.registerClass(
             this.current_monitor_scale = 1;
             this.current_target_rect = null;
             this.current_monitor_index = 0;
-            this.current_window_mapped = false;
 
             this.show_animation = Clutter.AnimationMode.LINEAR;
             this.hide_animation = Clutter.AnimationMode.LINEAR;
@@ -120,7 +119,7 @@ var WindowManager = GObject.registerClass(
             if (!this.settings.get_boolean('override-window-animation'))
                 return;
 
-            if (this.current_window_mapped)
+            if (this._current_window_mapped())
                 this.animation_overrides_connections.connect(global.window_manager, 'destroy', this._override_unmap_animation.bind(this));
             else
                 this.animation_overrides_connections.connect(global.window_manager, 'map', this._override_map_animation.bind(this));
@@ -300,6 +299,14 @@ var WindowManager = GObject.registerClass(
                 this.current_window_maximized_connections.connect(this.current_window, 'notify::maximized-vertically', this._handle_maximized_vertically.bind(this));
         }
 
+        _current_window_mapped() {
+            if (!this.current_window)
+                return false;
+
+            const actor = this.current_window.get_compositor_private();
+            return actor && actor.visible;
+        }
+
         manage_window(win) {
             if (win === this.current_window)
                 return;
@@ -319,14 +326,13 @@ var WindowManager = GObject.registerClass(
 
             this._update_monitor_index();
 
-            this.current_window_mapped = win.get_compositor_private().visible;
+            const mapped = this._current_window_mapped();
 
             this._setup_animation_overrides();
 
-            if (!this.current_window_mapped) {
+            if (!mapped) {
                 const map_handler_id = this.current_window_connections.connect(global.window_manager, 'map', (wm, actor) => {
                     if (this._check_current_window() && actor === this.current_window.get_compositor_private()) {
-                        this.current_window_mapped = true;
                         this.current_window_connections.disconnect(global.window_manager, map_handler_id);
                         this._setup_animation_overrides();
 
@@ -344,7 +350,7 @@ var WindowManager = GObject.registerClass(
             this._setup_update_size_setting_on_grab_end();
             this._setup_hide_when_focus_lost();
 
-            if (!this.current_window_mapped)
+            if (!mapped)
                 Main.activateWindow(win);
 
             this._set_window_above();
@@ -424,7 +430,7 @@ var WindowManager = GObject.registerClass(
                 this._set_window_above();
             }
 
-            if (!this.current_window_mapped) {
+            if (!this._current_window_mapped()) {
                 if (this.settings.get_boolean('override-window-animation') && !this.show_animation)
                     Main.wm.skipNextEffect(this.current_window.get_compositor_private());
             }
@@ -573,7 +579,6 @@ var WindowManager = GObject.registerClass(
             this.geometry_fixup_connections.disconnect();
 
             this._current_window = null;
-            this.current_window_mapped = false;
             this.notify('current-window');
 
             this.update_size_setting_on_grab_end_connections.disconnect();
