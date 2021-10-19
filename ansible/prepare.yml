@@ -32,6 +32,15 @@
         state: latest
       become: yes
 
+    - name: Install VirtualBox guest additions
+      ansible.builtin.dnf:
+        name:
+          - virtualbox-guest-additions
+        state: latest
+      become: yes
+      when: ansible_virtualization_type == 'virtualbox'
+      register: vbox_additions
+
     - name: Check if reboot is necessary
       ansible.builtin.command: dnf needs-restarting -r
       register: needs_reboot
@@ -41,7 +50,7 @@
 
     - name: Reboot
       ansible.builtin.reboot:
-      when: needs_reboot.changed
+      when: needs_reboot.changed or vbox_additions.changed
       become: yes
 
     - name: Check if systemd services should be restarted
