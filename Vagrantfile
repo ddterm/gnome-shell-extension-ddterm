@@ -109,8 +109,15 @@ Vagrant.configure("2") do |config|
     test: true
   )
 
-  config.vm.provision 'ansible' do |ansible|
-    ansible.playbook = 'vm-provision-ansible.yml'
+  config.vm.provision 'prepare', type: 'ansible' do |ansible|
+    ansible.playbook = 'ansible/prepare.yml'
+    ansible.groups = {
+      'all:vars' => { 'ansible_python_interpreter' => '/usr/bin/python3' }
+    }
+  end
+
+  config.vm.provision 'deploy', type: 'ansible', run: 'always' do |ansible|
+    ansible.playbook = 'ansible/deploy.yml'
     ansible.groups = {
       'all:vars' => { 'ansible_python_interpreter' => '/usr/bin/python3' }
     }
