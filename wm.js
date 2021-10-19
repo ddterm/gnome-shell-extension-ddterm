@@ -119,10 +119,8 @@ var WindowManager = GObject.registerClass(
             if (!this.settings.get_boolean('override-window-animation'))
                 return;
 
-            if (this._current_window_mapped())
-                this.animation_overrides_connections.connect(global.window_manager, 'destroy', this._override_unmap_animation.bind(this));
-            else
-                this.animation_overrides_connections.connect(global.window_manager, 'map', this._override_map_animation.bind(this));
+            this.animation_overrides_connections.connect(global.window_manager, 'destroy', this._override_unmap_animation.bind(this));
+            this.animation_overrides_connections.connect(global.window_manager, 'map', this._override_map_animation.bind(this));
         }
 
         _animation_mode_from_settings(key) {
@@ -334,7 +332,6 @@ var WindowManager = GObject.registerClass(
                 const map_handler_id = this.current_window_connections.connect(global.window_manager, 'map', (wm, actor) => {
                     if (this._check_current_window() && actor === this.current_window.get_compositor_private()) {
                         this.current_window_connections.disconnect(global.window_manager, map_handler_id);
-                        this._setup_animation_overrides();
 
                         if (win.get_client_type() === Meta.WindowClientType.WAYLAND) {
                             this.current_window.move_to_monitor(this.current_monitor_index);
