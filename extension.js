@@ -321,18 +321,23 @@ function watch_window(win) {
     const check = () => {
         disconnect();
 
+        let pid_match = false;
         if (wayland_client) {
+            pid_match = true;
             if (!wayland_client.owns_window(win))
                 return;
         } else if (subprocess) {
             const pid = win.get_pid();
-            if (pid > 0 && pid.toString() !== subprocess.get_identifier())
-                return;
+            if (pid > 0) {
+                pid_match = true;
+                if (pid.toString() !== subprocess.get_identifier())
+                    return;
+            }
         }
 
         const wm_class = win.wm_class;
-        if (wm_class) {
-            if (wm_class !== APP_WMCLASS && wm_class !== APP_ID)
+        if (wm_class || pid_match) {
+            if (wm_class && wm_class !== APP_WMCLASS && wm_class !== APP_ID)
                 return;
 
             const gtk_application_id = win.gtk_application_id;
