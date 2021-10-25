@@ -327,11 +327,11 @@ var WindowManager = GObject.registerClass(
 
             if (!mapped) {
                 const map_handler_id = this.current_window_connections.connect(global.window_manager, 'map', (wm, actor) => {
-                    if (this._check_current_window() && actor === this.current_window.get_compositor_private()) {
+                    if (this._check_current_window(win) && actor === win.get_compositor_private()) {
                         this.current_window_connections.disconnect(global.window_manager, map_handler_id);
 
                         if (win.get_client_type() === Meta.WindowClientType.WAYLAND) {
-                            this.current_window.move_to_monitor(this.current_monitor_index);
+                            win.move_to_monitor(this.current_monitor_index);
                             this._update_window_geometry();
                         }
                     }
