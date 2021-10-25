@@ -208,18 +208,17 @@ var AppWindow = GObject.registerClass(
 
             this.insert_page(0);
 
-            this.method_handler(this.extension_dbus, 'g-properties-changed', this.sync_size_with_extension);
-            this.sync_size_with_extension();
+            const display = Gdk.Display.get_default();
+            if (display.constructor.$gtype.name !== 'GdkWaylandDisplay')
+                return;
 
             /* HACK: Otherwise, it remembers the original starting size, and shows with that size again. Gtk/Gdk bug? */
             this.signal_connect(this, 'hide', () => {
-                if (this.window.constructor.$gtype.name === 'GdkWaylandWindow')
-                    this.unrealize();
+                this.unrealize();
             });
-            this.signal_connect(this, 'realize', () => {
-                if (this.window.constructor.$gtype.name === 'GdkWaylandWindow')
-                    this.sync_size_with_extension();
-            });
+            this.method_handler(this, 'realize', this.sync_size_with_extension);
+            this.method_handler(this.extension_dbus, 'g-properties-changed', this.sync_size_with_extension);
+            this.sync_size_with_extension();
         }
 
         simple_action(name, func) {
