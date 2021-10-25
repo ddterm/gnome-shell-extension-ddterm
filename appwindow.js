@@ -207,6 +207,9 @@ var AppWindow = GObject.registerClass(
             });
 
             this.insert_page(0);
+
+            this.method_handler(this.extension_dbus, 'g-properties-changed', this.sync_size_with_extension);
+            this.sync_size_with_extension();
         }
 
         simple_action(name, func) {
@@ -436,6 +439,13 @@ var AppWindow = GObject.registerClass(
         new_tab_after(page) {
             const index = this.notebook.page_num(page);
             this.insert_page(index + 1);
+        }
+
+        sync_size_with_extension() {
+            const [target_x_, target_y_, target_w, target_h] = this.extension_dbus.TargetRect;
+            const w = Math.floor(target_w / this.scale_factor);
+            const h = Math.floor(target_h / this.scale_factor);
+            this.resize(w, h);
         }
     }
 );
