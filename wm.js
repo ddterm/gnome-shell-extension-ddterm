@@ -342,7 +342,6 @@ var WindowManager = GObject.registerClass(
                     Main.wm.skipNextEffect(this.current_window.get_compositor_private());
             }
 
-            this.current_window_connections.connect(this.current_window, 'shown', this._update_window_geometry.bind(this));
             this.current_window_connections.connect(global.display, 'grab-op-end', this.update_size_setting_on_grab_end.bind(this));
             this._setup_hide_when_focus_lost();
             this._setup_animation_overrides();
