@@ -210,6 +210,16 @@ var AppWindow = GObject.registerClass(
 
             this.method_handler(this.extension_dbus, 'g-properties-changed', this.sync_size_with_extension);
             this.sync_size_with_extension();
+
+            /* HACK: Otherwise, it remembers the original starting size, and shows with that size again. Gtk/Gdk bug? */
+            this.signal_connect(this, 'hide', () => {
+                if (this.window.constructor.$gtype.name === 'GdkWaylandWindow')
+                    this.unrealize();
+            });
+            this.signal_connect(this, 'realize', () => {
+                if (this.window.constructor.$gtype.name === 'GdkWaylandWindow')
+                    this.sync_size_with_extension();
+            });
         }
 
         simple_action(name, func) {
