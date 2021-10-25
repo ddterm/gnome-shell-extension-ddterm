@@ -105,6 +105,15 @@ class ExtensionDBusInterface {
     Activate() {
         activate();
     }
+
+    get TargetRect() {
+        if (window_manager) {
+            const r = window_manager.target_rect;
+            return [r.x, r.y, r.width, r.height];
+        } else {
+            return [0, 0, 0, 0];
+        }
+    }
 }
 
 function init() {
@@ -168,6 +177,10 @@ function enable() {
 
     connections.connect(window_manager, 'notify::current-window', () => {
         panel_icon.active = window_manager.current_window !== null;
+    });
+
+    connections.connect(window_manager, 'notify::target-rect', () => {
+        dbus_interface.dbus.emit_property_changed('TargetRect', new GLib.Variant('(iiii)', dbus_interface.TargetRect));
     });
 
     Meta.get_window_actors(global.display).forEach(actor => {
@@ -287,6 +300,9 @@ function subprocess_terminated(source) {
 }
 
 function toggle() {
+    if (!window_manager.current_window)
+        window_manager.update_monitor_index();
+
     if (app_dbus.action_group)
         app_dbus.action_group.activate_action('toggle', null);
     else

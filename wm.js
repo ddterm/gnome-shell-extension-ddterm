@@ -36,6 +36,9 @@ var WindowManager = GObject.registerClass(
             'current-window': GObject.ParamSpec.object(
                 'current-window', '', '', GObject.ParamFlags.READABLE | GObject.ParamFlags.EXPLICIT_NOTIFY, Meta.Window
             ),
+            'target-rect': GObject.ParamSpec.boxed(
+                'target-rect', '', '', GObject.ParamFlags.READABLE | GObject.ParamFlags.EXPLICIT_NOTIFY, Meta.Rectangle
+            ),
         },
         Signals: {
             'hide-request': {},
@@ -78,14 +81,14 @@ var WindowManager = GObject.registerClass(
             this.connections.connect(this.settings, 'changed::window-size', this._disable_window_maximize_setting.bind(this));
             this.connections.connect(this.settings, 'changed::window-position', this._update_window_position.bind(this));
             this.connections.connect(this.settings, 'changed::window-maximize', this._set_window_maximized.bind(this));
-            this.connections.connect(this.settings, 'changed::window-monitor', this._update_monitor_index.bind(this));
-            this.connections.connect(this.settings, 'changed::window-monitor-connector', this._update_monitor_index.bind(this));
+            this.connections.connect(this.settings, 'changed::window-monitor', this.update_monitor_index.bind(this));
+            this.connections.connect(this.settings, 'changed::window-monitor-connector', this.update_monitor_index.bind(this));
             this.connections.connect(this.settings, 'changed::override-window-animation', this._setup_animation_overrides.bind(this));
             this.connections.connect(this.settings, 'changed::show-animation', this._update_show_animation.bind(this));
             this.connections.connect(this.settings, 'changed::hide-animation', this._update_hide_animation.bind(this));
             this.connections.connect(this.settings, 'changed::hide-when-focus-lost', this._setup_hide_when_focus_lost.bind(this));
 
-            this._update_workarea();
+            this.update_monitor_index();
             this._update_window_position();
             this._update_show_animation();
             this._update_hide_animation();
@@ -240,7 +243,7 @@ var WindowManager = GObject.registerClass(
 
         _update_workarea() {
             if (this.current_monitor_index >= global.display.get_n_monitors()) {
-                this._update_monitor_index();
+                this.update_monitor_index();
                 return;
             }
 
@@ -273,7 +276,7 @@ var WindowManager = GObject.registerClass(
             return global.display.get_current_monitor();
         }
 
-        _update_monitor_index() {
+        update_monitor_index() {
             this.current_monitor_index = this._get_monitor_index();
 
             if (this.current_window)
@@ -318,7 +321,9 @@ var WindowManager = GObject.registerClass(
             });
 
             this._setup_maximized_handlers();
-            this._update_monitor_index();
+
+            win.move_to_monitor(this.current_monitor_index);
+            this._update_window_geometry();
 
             const mapped = this._current_window_mapped();
             if (!mapped) {
@@ -393,13 +398,17 @@ var WindowManager = GObject.registerClass(
             if (!this.current_workarea)
                 return;
 
+            const prev_target_rect = this.current_target_rect;
             this.current_target_rect = this.target_rect_for_workarea_size(
                 this.current_workarea,
                 this.current_monitor_scale,
                 this.settings.get_double('window-size')
             );
 
-            this._update_window_geometry();
+            if (!prev_target_rect || !this.current_target_rect.equal(prev_target_rect)) {
+                this.notify('target-rect');
+                this._update_window_geometry();
+            }
         }
 
         _schedule_geometry_fixup(win) {
@@ -577,6 +586,10 @@ var WindowManager = GObject.registerClass(
 
         get current_window() {
             return this._current_window;
+        }
+
+        get target_rect() {
+            return this.current_target_rect;
         }
     }
 );

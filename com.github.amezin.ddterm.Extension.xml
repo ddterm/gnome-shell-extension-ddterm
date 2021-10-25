@@ -7,5 +7,7 @@
         <method name="BeginResizeVertical"/>
         <method name="Toggle"/>
         <method name="Activate"/>
+
+        <property type="(iiii)" name="TargetRect" access="read"/>
     </interface>
 </node>
