@@ -69,7 +69,6 @@ var WindowManager = GObject.registerClass(
             this.current_window_maximized_connections = new ConnectionSet();
             this.animation_overrides_connections = new ConnectionSet();
             this.hide_when_focus_lost_connections = new ConnectionSet();
-            this.update_size_setting_on_grab_end_connections = new ConnectionSet();
             this.geometry_fixup_connections = new ConnectionSet();
 
             this.connections.connect(global.display, 'workareas-changed', this._update_workarea.bind(this));
@@ -92,8 +91,6 @@ var WindowManager = GObject.registerClass(
             this._update_hide_animation();
             this._setup_animation_overrides();
             this._setup_hide_when_focus_lost();
-
-            this._setup_update_size_setting_on_grab_end();
         }
 
         _check_current_window(match = null) {
@@ -344,7 +341,7 @@ var WindowManager = GObject.registerClass(
                     Main.wm.skipNextEffect(this.current_window.get_compositor_private());
             }
 
-            this._setup_update_size_setting_on_grab_end();
+            this.current_window_connections.connect(global.display, 'grab-op-end', this.update_size_setting_on_grab_end.bind(this));
             this._setup_hide_when_focus_lost();
 
             if (!mapped)
@@ -545,13 +542,6 @@ var WindowManager = GObject.registerClass(
             this.settings.set_double('window-size', Math.min(1.0, size));
         }
 
-        _setup_update_size_setting_on_grab_end() {
-            this.update_size_setting_on_grab_end_connections.disconnect();
-
-            if (this.current_window)
-                this.update_size_setting_on_grab_end_connections.connect(global.display, 'grab-op-end', this.update_size_setting_on_grab_end.bind(this));
-        }
-
         unmaximize_for_resize(flags) {
             this.geometry_fixup_connections.disconnect();
 
@@ -578,7 +568,6 @@ var WindowManager = GObject.registerClass(
             this._current_window = null;
             this.notify('current-window');
 
-            this.update_size_setting_on_grab_end_connections.disconnect();
             this.hide_when_focus_lost_connections.disconnect();
             this.animation_overrides_connections.disconnect();
         }
