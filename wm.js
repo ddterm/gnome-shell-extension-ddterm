@@ -318,33 +318,29 @@ var WindowManager = GObject.registerClass(
             });
 
             this._setup_maximized_handlers();
-
             this._update_monitor_index();
 
             const mapped = this._current_window_mapped();
-
-            this._setup_animation_overrides();
-
             if (!mapped) {
-                const map_handler_id = this.current_window_connections.connect(global.window_manager, 'map', (wm, actor) => {
-                    if (this._check_current_window(win) && actor === win.get_compositor_private()) {
-                        this.current_window_connections.disconnect(global.window_manager, map_handler_id);
+                if (win.get_client_type() === Meta.WindowClientType.WAYLAND) {
+                    const map_handler_id = this.current_window_connections.connect(global.window_manager, 'map', (wm, actor) => {
+                        if (!this._check_current_window(win) || actor.meta_window !== win)
+                            return;
 
-                        if (win.get_client_type() === Meta.WindowClientType.WAYLAND) {
-                            win.move_to_monitor(this.current_monitor_index);
-                            this._update_window_geometry();
-                        }
-                    }
-                });
+                        this.current_window_connections.disconnect(global.window_manager, map_handler_id);
+                        win.move_to_monitor(this.current_monitor_index);
+                        this._update_window_geometry();
+                    });
+                }
 
                 if (this.settings.get_boolean('override-window-animation') && !this.show_animation)
                     Main.wm.skipNextEffect(this.current_window.get_compositor_private());
             }
 
             this.current_window_connections.connect(this.current_window, 'shown', this._update_window_geometry.bind(this));
-
             this.current_window_connections.connect(global.display, 'grab-op-end', this.update_size_setting_on_grab_end.bind(this));
             this._setup_hide_when_focus_lost();
+            this._setup_animation_overrides();
 
             if (!mapped)
                 Main.activateWindow(win);
