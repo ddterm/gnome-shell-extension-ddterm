@@ -89,13 +89,11 @@ class ExtensionDBusInterface {
     }
 
     BeginResizeVertical() {
-        if (window_manager)
-            window_manager.unmaximize_for_resize(Meta.MaximizeFlags.VERTICAL);
+        window_manager.unmaximize_for_resize(Meta.MaximizeFlags.VERTICAL);
     }
 
     BeginResizeHorizontal() {
-        if (window_manager)
-            window_manager.unmaximize_for_resize(Meta.MaximizeFlags.HORIZONTAL);
+        window_manager.unmaximize_for_resize(Meta.MaximizeFlags.HORIZONTAL);
     }
 
     Toggle() {
@@ -107,12 +105,8 @@ class ExtensionDBusInterface {
     }
 
     get TargetRect() {
-        if (window_manager) {
-            const r = window_manager.target_rect;
-            return [r.x, r.y, r.width, r.height];
-        } else {
-            return [0, 0, 0, 0];
-        }
+        const r = window_manager.target_rect;
+        return [r.x, r.y, r.width, r.height];
     }
 }
 
