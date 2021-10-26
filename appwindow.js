@@ -216,7 +216,14 @@ var AppWindow = GObject.registerClass(
             this.signal_connect(this, 'hide', () => {
                 this.unrealize();
             });
-            this.method_handler(this, 'realize', this.sync_size_with_extension);
+            this.disconnect_on_destroy(
+                this,
+                /*
+                 * connect_after to avoid resizing unrealized window:
+                 * gdk_window_move_resize_internal: assertion 'GDK_IS_WINDOW (window)' failed
+                 */
+                this.connect_after('realize', this.sync_size_with_extension.bind(this))
+            );
             this.method_handler(this.extension_dbus, 'g-properties-changed', this.sync_size_with_extension);
             this.sync_size_with_extension();
         }
@@ -454,7 +461,15 @@ var AppWindow = GObject.registerClass(
             const [target_x_, target_y_, target_w, target_h] = this.extension_dbus.TargetRect;
             const w = Math.floor(target_w / this.scale_factor);
             const h = Math.floor(target_h / this.scale_factor);
-            this.resize(w, h);
+
+            this.set_default_size(w, h);
+
+            /*
+             * Don't resize unrealized window:
+             * gdk_window_move_resize_internal: assertion 'GDK_IS_WINDOW (window)' failed
+             */
+            if (this.get_realized())
+                this.resize(w, h);
         }
     }
 );
