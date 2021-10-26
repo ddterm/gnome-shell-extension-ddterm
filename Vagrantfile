@@ -66,15 +66,18 @@ Vagrant.configure("2") do |config|
     copy_env(libvirt, 'XDG_RUNTIME_DIR')
     copy_env(libvirt, 'XDG_DATA_DIRS')
 
-    #libvirt.graphics_gl = true  # https://github.com/vagrant-libvirt/vagrant-libvirt/issues/893
-    libvirt.qemuargs :value => '-display'
-    libvirt.qemuargs :value => 'sdl,gl=on'
+    # https://github.com/vagrant-libvirt/vagrant-libvirt/pull/1386
+    if Vagrant.has_plugin?('vagrant-libvirt', '> 0.6.3')
+      libvirt.video_accel3d = true
+      libvirt.video_type = 'virtio'
+    else
+      libvirt.qemuargs :value => '-display'
+      libvirt.qemuargs :value => 'sdl,gl=on'
 
-    #libvirt.video_type = 'virtio'
-    #libvirt.video_accel3d = true  # https://github.com/vagrant-libvirt/vagrant-libvirt/issues/1009
-    libvirt.video_type = 'none'
-    libvirt.qemuargs :value => '-device'
-    libvirt.qemuargs :value => 'virtio-vga-gl' # virtio-vga-gl,id=video0,max_outputs=1,bus=pci.0,addr=0x2
+      libvirt.video_type = 'none'
+      libvirt.qemuargs :value => '-device'
+      libvirt.qemuargs :value => 'virtio-vga-gl' # virtio-vga-gl,id=video0,max_outputs=1,bus=pci.0,addr=0x2
+    end
   end
 
   fedora_vm(
