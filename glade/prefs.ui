@@ -1372,8 +1372,8 @@ Following variables are available:
 Following helpers are available:
 - &lt;tt&gt;filename-from-uri&lt;/tt&gt;
 - &lt;tt&gt;hostname-from-uri&lt;/tt&gt;
-- &lt;tt&gt;truncate-chars&lt;/tt&gt;
-      example: &lt;tt&gt;{{truncate-chars window-title 20}}&lt;/tt&gt;</property>
+- &lt;tt&gt;ellipsize&lt;/tt&gt; or &lt;tt&gt;truncate-chars&lt;/tt&gt;
+      example: &lt;tt&gt;{{ellipsize window-title 20}}&lt;/tt&gt;</property>
                         <property name="use-markup">True</property>
                         <property name="wrap">True</property>
                         <property name="xalign">0</property>
