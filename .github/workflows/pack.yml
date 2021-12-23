@@ -38,3 +38,4 @@ jobs:
       with:
         files: "*.shell-extension.zip"
         draft: true
+        generate_release_notes: true
