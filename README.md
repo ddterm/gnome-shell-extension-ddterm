@@ -31,6 +31,28 @@ release may be available here on GitHub, but not on [extensions.gnome.org] yet.
 
 If you want to install from GitHub: see [docs/INSTALL.md](docs/INSTALL.md)
 
+## Custom styles
+
+If you want to load custom styles, create `~/.ddterm/style.css` file.
+
+An example:
+
+```
+/* tab */
+notebook tabs tab {
+    min-width: 240px;
+    font-size: 14px;
+    font-family: "Source Code Pro";
+}
+
+/* selected tab */
+notebook tabs tab:checked {
+    background-color: rgba(255, 255, 255, 0.15);
+    font-weight: bold;
+    box-shadow: -3px 0 #E95420 inset;
+}
+```
+
 ## Toggle the terminal through D-Bus
 
 It's possible to toggle the terminal externally through D-Bus. For example,

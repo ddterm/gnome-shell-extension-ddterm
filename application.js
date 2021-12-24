@@ -114,6 +114,13 @@ const Application = GObject.registerClass(
             style.load_from_path(APP_DATA_DIR.get_child('style.css').get_path());
             Gtk.StyleContext.add_provider_for_screen(Gdk.Screen.get_default(), style, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
 
+            const custom_style_path = `${GLib.get_home_dir()}/.ddterm/style.css`;
+            if (GLib.file_test(custom_style_path, GLib.FileTest.EXISTS)) {
+                const custom_style = Gtk.CssProvider.new();
+                custom_style.load_from_path(custom_style_path);
+                Gtk.StyleContext.add_provider_for_screen(Gdk.Screen.get_default(), custom_style, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
+            }
+
             this.window = new imports.appwindow.AppWindow({
                 application: this,
                 decorated: this.decorated,
