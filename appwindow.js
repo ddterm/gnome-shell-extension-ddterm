@@ -214,7 +214,9 @@ var AppWindow = GObject.registerClass(
 
             /* HACK: Otherwise, it remembers the original starting size, and shows with that size again. Gtk/Gdk bug? */
             this.signal_connect(this, 'hide', () => {
-                this.unrealize();
+                /* https://github.com/amezin/gnome-shell-extension-ddterm/issues/109 */
+                if (!this.is_maximized)
+                    this.unrealize();
             });
             this.disconnect_on_destroy(
                 this,
