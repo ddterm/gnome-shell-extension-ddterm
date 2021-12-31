@@ -446,7 +446,7 @@ var AppWindow = GObject.registerClass(
             if (this.is_maximized)
                 return;
 
-            const [[target_x_, target_y_, target_w, target_h]] = this.extension_dbus.GetTargetRectSync();
+            const [target_x_, target_y_, target_w, target_h] = this.extension_dbus.GetTargetRectSync();
             const w = Math.floor(target_w / this.scale_factor);
             const h = Math.floor(target_h / this.scale_factor);
 

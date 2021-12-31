@@ -8,7 +8,10 @@
         <method name="Toggle"/>
         <method name="Activate"/>
         <method name="GetTargetRect">
-            <arg type="(iiii)" name="rect" direction="out"/>
+            <arg type="i" name="x" direction="out"/>
+            <arg type="i" name="y" direction="out"/>
+            <arg type="i" name="width" direction="out"/>
+            <arg type="i" name="height" direction="out"/>
         </method>
 
         <property type="(iiii)" name="TargetRect" access="read"/>
