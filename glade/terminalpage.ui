@@ -55,6 +55,7 @@ along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licens
           <object class="GtkButton" id="close_button">
             <property name="visible">True</property>
             <property name="can-focus">True</property>
+            <property name="focus-on-click">False</property>
             <property name="receives-default">True</property>
             <property name="action-name">page.close</property>
             <property name="image">close_icon</property>
