@@ -32,7 +32,7 @@ jobs:
     - uses: actions/download-artifact@v2
       with:
         name: shell-extension
-    - uses: softprops/action-gh-release@1e07f4398721186383de40550babbdf2b84acfc5
+    - uses: amezin/action-gh-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
