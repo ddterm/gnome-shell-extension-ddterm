@@ -7,6 +7,9 @@
         <method name="BeginResizeVertical"/>
         <method name="Toggle"/>
         <method name="Activate"/>
+        <method name="GetTargetRect">
+            <arg type="(iiii)" name="rect" direction="out"/>
+        </method>
 
         <property type="(iiii)" name="TargetRect" access="read"/>
     </interface>

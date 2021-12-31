@@ -104,7 +104,7 @@ class ExtensionDBusInterface {
         activate();
     }
 
-    get TargetRect() {
+    GetTargetRect() {
         /*
          * Don't want to track mouse pointer continuously, so try to update the
          * index manually in multiple places. Also, Meta.CursorTracker doesn't
@@ -115,6 +115,10 @@ class ExtensionDBusInterface {
 
         const r = window_manager.target_rect;
         return [r.x, r.y, r.width, r.height];
+    }
+
+    get TargetRect() {
+        return this.GetTargetRect();
     }
 }
 
