@@ -209,25 +209,8 @@ var AppWindow = GObject.registerClass(
             this.insert_page(0);
 
             const display = Gdk.Display.get_default();
-            if (display.constructor.$gtype.name !== 'GdkWaylandDisplay')
-                return;
-
-            /* HACK: Otherwise, it remembers the original starting size, and shows with that size again. Gtk/Gdk bug? */
-            this.signal_connect(this, 'hide', () => {
-                /* https://github.com/amezin/gnome-shell-extension-ddterm/issues/109 */
-                if (!this.is_maximized)
-                    this.unrealize();
-            });
-            this.disconnect_on_destroy(
-                this,
-                /*
-                 * connect_after to avoid resizing unrealized window:
-                 * gdk_window_move_resize_internal: assertion 'GDK_IS_WINDOW (window)' failed
-                 */
-                this.connect_after('realize', this.sync_size_with_extension.bind(this))
-            );
-            this.method_handler(this.extension_dbus, 'g-properties-changed', this.sync_size_with_extension);
-            this.sync_size_with_extension();
+            if (display.constructor.$gtype.name === 'GdkWaylandDisplay')
+                this.method_handler(this, 'map', this.sync_size_with_extension);
         }
 
         simple_action(name, func) {
@@ -460,18 +443,16 @@ var AppWindow = GObject.registerClass(
         }
 
         sync_size_with_extension() {
-            const [target_x_, target_y_, target_w, target_h] = this.extension_dbus.TargetRect;
+            if (this.is_maximized)
+                return;
+
+            const [[target_x_, target_y_, target_w, target_h]] = this.extension_dbus.GetTargetRectSync();
             const w = Math.floor(target_w / this.scale_factor);
             const h = Math.floor(target_h / this.scale_factor);
 
             this.set_default_size(w, h);
-
-            /*
-             * Don't resize unrealized window:
-             * gdk_window_move_resize_internal: assertion 'GDK_IS_WINDOW (window)' failed
-             */
-            if (this.get_realized())
-                this.resize(w, h);
+            this.resize(w, h);
+            this.window.resize(w, h);
         }
     }
 );
