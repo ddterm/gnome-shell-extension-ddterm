@@ -101,17 +101,16 @@ Vagrant.configure("2") do |config|
     fedora_version: '34',
     box_version: '1.2',
     virtualbox_sha256: 'e72d9987c61d58108910fab700e8bdf349e69d2e158037a10b07706a68446fda',
-    libvirt_sha256: '3d9c00892253c869bffcf2e84ddd308e90d5c7a5928b3bc00e0563a4bec55849',
-    primary: true
+    libvirt_sha256: '3d9c00892253c869bffcf2e84ddd308e90d5c7a5928b3bc00e0563a4bec55849'
   )
 
   fedora_vm(
     config,
-    fedora_version: '35_Beta',
+    fedora_version: '35',
     box_version: '1.2',
-    virtualbox_sha256: 'd21c34ddc09b1e83647c0fd0f3a387f2fdfd39f6c2746d4d3aae4b11d5e404d5',
-    libvirt_sha256: '4661d497e9a4ce5e2b20979581a4569c754609eb9c44c6437eeb24b5a8d5d0b9',
-    test: true
+    virtualbox_sha256: '9ff81a28bcf8d66620907b238dc76af5dc594accb02347a759c632f6b0ba30cd',
+    libvirt_sha256: '239cbcd6143396e382ed4eafebf5ab870c80042c44a6a7cdb5d041f8fe35b1db',
+    primary: true
   )
 
   config.vm.provision 'prepare', type: 'ansible' do |ansible|
