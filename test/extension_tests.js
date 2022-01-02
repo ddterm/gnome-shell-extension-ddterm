@@ -64,7 +64,7 @@ function _makeLogFunction(level) {
         let [func, file] = code.split(/\W*@/);
 
         GLib.log_structured(LOG_DOMAIN, level, {
-            'MESSAGE': `${message}`,
+            'MESSAGE': `[${func}:${line}] ${message}`,
             'SYSLOG_IDENTIFIER': 'ddterm.ExtensionTest',
             'CODE_FILE': file,
             'CODE_FUNC': func,
