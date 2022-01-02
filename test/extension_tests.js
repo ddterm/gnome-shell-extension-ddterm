@@ -65,7 +65,7 @@ function _makeLogFunction(level) {
 
         GLib.log_structured(LOG_DOMAIN, level, {
             'MESSAGE': `${message}`,
-            'SYSLOG_IDENTIFIER': 'com.github.amezin.ddterm.ExtensionTest',
+            'SYSLOG_IDENTIFIER': 'ddterm.ExtensionTest',
             'CODE_FILE': file,
             'CODE_FUNC': func,
             'CODE_LINE': line,
