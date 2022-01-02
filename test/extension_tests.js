@@ -19,7 +19,7 @@
 
 'use strict';
 
-/* exported enable disable */
+/* exported enable disable message debug info warning critical error */
 
 const { GLib, GObject, Gio, Meta } = imports.gi;
 const ByteArray = imports.byteArray;
@@ -53,22 +53,32 @@ function shell_version_at_least(req_major, req_minor) {
 const DEFAULT_IDLE_TIMEOUT_MS = shell_version_at_least(3, 38) ? 250 : 300;
 const WAIT_TIMEOUT_MS = 2000;
 
-class Reporter {
-    constructor(prefix = '') {
-        this.prefix = prefix;
-    }
+const LOG_DOMAIN = 'ddterm-test';
 
-    print(...params) {
-        const stack = JsUnit.parseErrorStack(new Error());
-        print(this.prefix, `[${stack[1]}]`, ...params);
-    }
+function _makeLogFunction(level) {
+    return message => {
+        let stack = new Error().stack;
+        let caller = stack.split('\n')[1];
 
-    child(prefix = '  ') {
-        return new Reporter(`${this.prefix}${prefix}`);
-    }
+        let [code, line] = caller.split(':');
+        let [func, file] = code.split(/\W*@/);
+
+        GLib.log_structured(LOG_DOMAIN, level, {
+            'MESSAGE': `${message}`,
+            'SYSLOG_IDENTIFIER': 'com.github.amezin.ddterm.ExtensionTest',
+            'CODE_FILE': file,
+            'CODE_FUNC': func,
+            'CODE_LINE': line,
+        });
+    };
 }
 
-const DEFAULT_REPORTER = new Reporter();
+const message = _makeLogFunction(GLib.LogLevelFlags.LEVEL_MESSAGE);
+const debug = _makeLogFunction(GLib.LogLevelFlags.LEVEL_DEBUG);
+const info = _makeLogFunction(GLib.LogLevelFlags.LEVEL_INFO);
+const warning = _makeLogFunction(GLib.LogLevelFlags.LEVEL_WARNING);
+const critical = _makeLogFunction(GLib.LogLevelFlags.LEVEL_CRITICAL);
+const error = _makeLogFunction(GLib.LogLevelFlags.LEVEL_ERROR);
 
 class ExtensionTestDBusInterface {
     constructor() {
@@ -108,7 +118,7 @@ function disable() {
 function setup_window_trace() {
     const win = Extension.window_manager.current_window;
 
-    DEFAULT_REPORTER.print(`current window changed: ${win}`);
+    info(`current window changed: ${win}`);
 
     window_trace.disconnect();
 
@@ -117,20 +127,20 @@ function setup_window_trace() {
 
     window_trace.connect(win, 'position-changed', () => {
         const rect = win.get_frame_rect();
-        DEFAULT_REPORTER.print(`position-changed: { .x = ${rect.x}, .y = ${rect.y}, .width = ${rect.width}, .height = ${rect.height} }`);
+        info(`position-changed: { .x = ${rect.x}, .y = ${rect.y}, .width = ${rect.width}, .height = ${rect.height} }`);
     });
 
     window_trace.connect(win, 'size-changed', () => {
         const rect = win.get_frame_rect();
-        DEFAULT_REPORTER.print(`size-changed: { .x = ${rect.x}, .y = ${rect.y}, .width = ${rect.width}, .height = ${rect.height} }`);
+        info(`size-changed: { .x = ${rect.x}, .y = ${rect.y}, .width = ${rect.width}, .height = ${rect.height} }`);
     });
 
     window_trace.connect(win, 'notify::maximized-vertically', () => {
-        DEFAULT_REPORTER.print(`notify::maximized-vertically = ${win.maximized_vertically}`);
+        info(`notify::maximized-vertically = ${win.maximized_vertically}`);
     });
 
     window_trace.connect(win, 'notify::maximized-horizontally', () => {
-        DEFAULT_REPORTER.print(`notify::maximized-horizontally = ${win.maximized_horizontally}`);
+        info(`notify::maximized-horizontally = ${win.maximized_horizontally}`);
     });
 }
 
@@ -150,7 +160,7 @@ function with_timeout(promise, timeout_ms = WAIT_TIMEOUT_MS) {
     ]);
 }
 
-function hide_window_async_wait(reporter) {
+function hide_window_async_wait() {
     return with_timeout(new Promise(resolve => {
         if (!Extension.window_manager.current_window) {
             resolve();
@@ -162,22 +172,20 @@ function hide_window_async_wait(reporter) {
                 return;
 
             Extension.window_manager.disconnect(handler);
-            child_reporter.print('Window hidden');
+            message('Window hidden');
             resolve();
         };
 
         const handler = Extension.window_manager.connect('notify::current-window', check_cb);
 
-        reporter.print('Hiding the window');
-        const child_reporter = reporter.child();
+        message('Hiding the window');
         Extension.toggle();
     }));
 }
 
-function async_wait_current_window(reporter) {
+function async_wait_current_window() {
     return with_timeout(new Promise(resolve => {
-        reporter.print('Waiting for the window to show');
-        const child_reporter = reporter.child();
+        message('Waiting for the window to show');
 
         const shown_handler = new ConnectionSet();
 
@@ -195,7 +203,7 @@ function async_wait_current_window(reporter) {
             }
 
             Extension.window_manager.disconnect(win_handler);
-            child_reporter.print('Window shown');
+            message('Window shown');
             resolve();
         };
 
@@ -204,20 +212,19 @@ function async_wait_current_window(reporter) {
     }));
 }
 
-function wait_window_settle(reporter, idle_timeout_ms = DEFAULT_IDLE_TIMEOUT_MS) {
+function wait_window_settle(idle_timeout_ms = DEFAULT_IDLE_TIMEOUT_MS) {
     return with_timeout(new Promise(resolve => {
         const win = Extension.window_manager.current_window;
         const cursor_tracker = Meta.CursorTracker.get_for_display(global.display);
         let timer_id = null;
         const handlers = new ConnectionSet();
 
-        reporter.print('Waiting for the window to stop generating events');
-        const child_reporter = reporter.child();
+        message('Waiting for the window to stop generating events');
 
         const ready = () => {
             handlers.disconnect();
             resolve();
-            child_reporter.print('Idle timeout elapsed');
+            message('Idle timeout elapsed');
             return GLib.SOURCE_REMOVE;
         };
 
@@ -229,27 +236,27 @@ function wait_window_settle(reporter, idle_timeout_ms = DEFAULT_IDLE_TIMEOUT_MS)
         };
 
         handlers.connect(win, 'position-changed', () => {
-            child_reporter.print('Restarting wait because of position-changed signal');
+            message('Restarting wait because of position-changed signal');
             restart_timer();
         });
         handlers.connect(win, 'size-changed', () => {
-            child_reporter.print('Restarting wait because of size-changed signal');
+            message('Restarting wait because of size-changed signal');
             restart_timer();
         });
         handlers.connect(win, 'notify::maximized-vertically', () => {
-            child_reporter.print('Restarting wait because of notify::maximized-vertically signal');
+            message('Restarting wait because of notify::maximized-vertically signal');
             restart_timer();
         });
         handlers.connect(win, 'notify::maximized-horizontally', () => {
-            child_reporter.print('Restarting wait because of notify::maximized-horizontally signal');
+            message('Restarting wait because of notify::maximized-horizontally signal');
             restart_timer();
         });
         handlers.connect(Extension.window_manager, 'move-resize-requested', () => {
-            child_reporter.print('Restarting wait because of move-resize-requested signal');
+            message('Restarting wait because of move-resize-requested signal');
             restart_timer();
         });
         handlers.connect(cursor_tracker, CURSOR_TRACKER_MOVED_SIGNAL, () => {
-            child_reporter.print('Restarting wait because cursor moved');
+            message('Restarting wait because cursor moved');
             restart_timer();
         });
 
@@ -275,48 +282,46 @@ function async_wait_signal(object, signal, predicate = () => true) {
     }));
 }
 
-function async_run_process(reporter, argv) {
+function async_run_process(argv) {
     return with_timeout(new Promise(resolve => {
-        reporter.print(`Starting subprocess ${JSON.stringify(argv)}`);
-        const child_reporter = reporter.child();
+        info(`Starting subprocess ${JSON.stringify(argv)}`);
         const subprocess = Gio.Subprocess.new(argv, Gio.SubprocessFlags.NONE);
         subprocess.wait_check_async(null, (source, result) => {
-            child_reporter.print(`Finished subprocess ${JSON.stringify(argv)}`);
+            info(`Finished subprocess ${JSON.stringify(argv)}`);
             resolve(source.wait_check_finish(result));
         });
     }));
 }
 
-function set_settings_double(reporter, name, value) {
-    reporter.print(`Setting ${name}=${value}`);
+function set_settings_double(name, value) {
+    info(`Setting ${name}=${value}`);
     return settings.set_double(name, value);
 }
 
-function set_settings_boolean(reporter, name, value) {
-    reporter.print(`Setting ${name}=${value}`);
+function set_settings_boolean(name, value) {
+    info(`Setting ${name}=${value}`);
     return settings.set_boolean(name, value);
 }
 
-function set_settings_string(reporter, name, value) {
-    reporter.print(`Setting ${name}=${value}`);
+function set_settings_string(name, value) {
+    info(`Setting ${name}=${value}`);
     return settings.set_string(name, value);
 }
 
-function assert_rect_equals(reporter, expected, actual) {
-    reporter.print(`Checking if rect { .x=${actual.x}, .y=${actual.y}, .width=${actual.width}, .height=${actual.height} } matches expected { .x=${expected.x}, .y=${expected.y}, .width=${expected.width}, .height=${expected.height} }`);
+function assert_rect_equals(expected, actual) {
+    message(`Checking if rect { .x=${actual.x}, .y=${actual.y}, .width=${actual.width}, .height=${actual.height} } matches expected { .x=${expected.x}, .y=${expected.y}, .width=${expected.width}, .height=${expected.height} }`);
     JsUnit.assertEquals(expected.x, actual.x);
     JsUnit.assertEquals(expected.y, actual.y);
     JsUnit.assertEquals(expected.width, actual.width);
     JsUnit.assertEquals(expected.height, actual.height);
 }
 
-function verify_window_geometry(reporter, window_size, window_maximize, window_pos, monitor_index) {
+function verify_window_geometry(window_size, window_maximize, window_pos, monitor_index) {
     const workarea = Main.layoutManager.getWorkAreaForMonitor(monitor_index);
     const monitor_scale = global.display.get_monitor_scale(monitor_index);
     const frame_rect = Extension.window_manager.current_window.get_frame_rect();
 
-    reporter.print(`Verifying window geometry (expected size=${window_size}, maximized=${window_maximize}, position=${window_pos})`);
-    const child_reporter = reporter.child();
+    message(`Verifying window geometry (expected size=${window_size}, maximized=${window_maximize}, position=${window_pos})`);
 
     if (window_pos === 'top' || window_pos === 'bottom') {
         JsUnit.assertEquals(window_maximize, Extension.window_manager.current_window.maximized_vertically);
@@ -327,12 +332,12 @@ function verify_window_geometry(reporter, window_size, window_maximize, window_p
     }
 
     if (window_maximize) {
-        assert_rect_equals(child_reporter, workarea, frame_rect);
+        assert_rect_equals(workarea, frame_rect);
         return;
     }
 
     const target_rect = Extension.window_manager.target_rect_for_workarea_size(workarea, monitor_scale, window_size);
-    assert_rect_equals(child_reporter, target_rect, Extension.window_manager.current_target_rect);
+    assert_rect_equals(target_rect, Extension.window_manager.current_target_rect);
 
     const workarea_right = workarea.x + workarea.width;
     const workarea_bottom = workarea.y + workarea.height;
@@ -340,36 +345,36 @@ function verify_window_geometry(reporter, window_size, window_maximize, window_p
     const frame_rect_bottom = frame_rect.y + frame_rect.height;
 
     if (window_pos === 'top') {
-        child_reporter.print('Making sure the window is attached to top edge');
+        debug('Making sure the window is attached to top edge');
         JsUnit.assertEquals(workarea.x, frame_rect.x);
         JsUnit.assertEquals(workarea_right, frame_rect_right);
         JsUnit.assertEquals(workarea.y, frame_rect.y);
     }
 
     if (window_pos === 'bottom') {
-        child_reporter.print('Making sure the window is attached to bottom edge');
+        debug('Making sure the window is attached to bottom edge');
         JsUnit.assertEquals(workarea.x, frame_rect.x);
         JsUnit.assertEquals(workarea_right, frame_rect_right);
         JsUnit.assertEquals(workarea_bottom, frame_rect_bottom);
     }
 
     if (window_pos === 'left') {
-        child_reporter.print('Making sure the window is attached to left edge');
+        debug('Making sure the window is attached to left edge');
         JsUnit.assertEquals(workarea.x, frame_rect.x);
         JsUnit.assertEquals(workarea.y, frame_rect.y);
         JsUnit.assertEquals(workarea_bottom, frame_rect_bottom);
     }
 
     if (window_pos === 'right') {
-        child_reporter.print('Making sure the window is attached to right edge');
+        debug('Making sure the window is attached to right edge');
         JsUnit.assertEquals(workarea_right, frame_rect_right);
         JsUnit.assertEquals(workarea.y, frame_rect.y);
         JsUnit.assertEquals(workarea_bottom, frame_rect_bottom);
     }
 
-    assert_rect_equals(child_reporter, target_rect, frame_rect);
+    assert_rect_equals(target_rect, frame_rect);
 
-    child_reporter.print('Window geometry is fine');
+    message('Window geometry is fine');
 }
 
 function window_monitor_index(monitor_config) {
@@ -379,18 +384,17 @@ function window_monitor_index(monitor_config) {
     return Main.layoutManager.primaryIndex;
 }
 
-async function test_show(reporter, window_size, window_maximize, window_pos, monitor_config) {
-    reporter.print(`Starting test with window size=${window_size}, maximize=${window_maximize}, position=${window_pos}`);
-    const child_reporter = reporter.child();
+async function test_show(window_size, window_maximize, window_pos, monitor_config) {
+    message(`Starting test with window size=${window_size}, maximize=${window_maximize}, position=${window_pos}`);
 
-    await hide_window_async_wait(child_reporter);
+    await hide_window_async_wait();
 
     if (monitor_config.current_monitor !== global.display.get_current_monitor()) {
         const monitor_rect = Main.layoutManager.monitors[monitor_config.current_monitor];
         const cursor_tracker = Meta.CursorTracker.get_for_display(global.display);
-        await async_run_process(reporter, ['xte', `mousemove ${monitor_rect.x + Math.floor(monitor_rect.width / 2)} ${monitor_rect.y + Math.floor(monitor_rect.height / 2)}`]);
+        await async_run_process(['xte', `mousemove ${monitor_rect.x + Math.floor(monitor_rect.width / 2)} ${monitor_rect.y + Math.floor(monitor_rect.height / 2)}`]);
 
-        child_reporter.print(`Waiting for current monitor = ${monitor_config.current_monitor}`);
+        message(`Waiting for current monitor = ${monitor_config.current_monitor}`);
         await async_wait_signal(
             cursor_tracker,
             CURSOR_TRACKER_MOVED_SIGNAL,
@@ -404,66 +408,66 @@ async function test_show(reporter, window_size, window_maximize, window_pos, mon
 
     JsUnit.assertEquals(monitor_config.current_monitor, global.display.get_current_monitor());
 
-    set_settings_double(child_reporter, 'window-size', window_size);
-    set_settings_boolean(child_reporter, 'window-maximize', window_maximize === WindowMaximizeMode.EARLY);
-    set_settings_string(child_reporter, 'window-position', window_pos);
-    set_settings_string(child_reporter, 'window-monitor', monitor_config.window_monitor);
+    set_settings_double('window-size', window_size);
+    set_settings_boolean('window-maximize', window_maximize === WindowMaximizeMode.EARLY);
+    set_settings_string('window-position', window_pos);
+    set_settings_string('window-monitor', monitor_config.window_monitor);
 
     Extension.toggle();
 
-    await async_wait_current_window(child_reporter);
-    await wait_window_settle(child_reporter);
+    await async_wait_current_window();
+    await wait_window_settle();
 
     const monitor_index = window_monitor_index(monitor_config);
     const should_maximize = window_maximize === WindowMaximizeMode.EARLY || (window_size === 1.0 && settings.get_boolean('window-maximize'));
-    verify_window_geometry(child_reporter, window_size, should_maximize, window_pos, monitor_index);
+    verify_window_geometry(window_size, should_maximize, window_pos, monitor_index);
 
     if (window_maximize === WindowMaximizeMode.LATE) {
-        set_settings_boolean(child_reporter, 'window-maximize', true);
-        await wait_window_settle(child_reporter);
+        set_settings_boolean('window-maximize', true);
+        await wait_window_settle();
 
-        verify_window_geometry(child_reporter, window_size, true, window_pos, monitor_index);
+        verify_window_geometry(window_size, true, window_pos, monitor_index);
     }
 }
 
-async function test_unmaximize(reporter, window_size, window_maximize, window_pos, monitor_config) {
-    await test_show(reporter, window_size, window_maximize, window_pos, monitor_config);
+async function test_unmaximize(window_size, window_maximize, window_pos, monitor_config) {
+    await test_show(window_size, window_maximize, window_pos, monitor_config);
 
     const monitor_index = window_monitor_index(monitor_config);
 
-    set_settings_boolean(reporter, 'window-maximize', false);
-    await wait_window_settle(reporter);
-    verify_window_geometry(reporter, window_size, false, window_pos, monitor_index);
+    set_settings_boolean('window-maximize', false);
+    await wait_window_settle();
+    verify_window_geometry(window_size, false, window_pos, monitor_index);
 }
 
-async function test_unmaximize_correct_size(reporter, window_size, window_size2, window_pos, monitor_config) {
-    await test_show(reporter, window_size, WindowMaximizeMode.NOT_MAXIMIZED, window_pos, monitor_config);
+async function test_unmaximize_correct_size(window_size, window_size2, window_pos, monitor_config) {
+    await test_show(window_size, WindowMaximizeMode.NOT_MAXIMIZED, window_pos, monitor_config);
     const initially_maximized = settings.get_boolean('window-maximize');
 
     const monitor_index = window_monitor_index(monitor_config);
 
-    set_settings_double(reporter, 'window-size', window_size2);
-    await wait_window_settle(reporter);
-    verify_window_geometry(reporter, window_size2, window_size === 1.0 && window_size2 === 1.0 && initially_maximized, window_pos, monitor_index);
+    set_settings_double('window-size', window_size2);
+    await wait_window_settle();
+    verify_window_geometry(window_size2, window_size === 1.0 && window_size2 === 1.0 && initially_maximized, window_pos, monitor_index);
 
-    set_settings_boolean(reporter, 'window-maximize', true);
-    await wait_window_settle(reporter);
-    verify_window_geometry(reporter, window_size2, true, window_pos, monitor_index);
+    set_settings_boolean('window-maximize', true);
+    await wait_window_settle();
+    verify_window_geometry(window_size2, true, window_pos, monitor_index);
 
-    set_settings_boolean(reporter, 'window-maximize', false);
-    await wait_window_settle(reporter);
-    verify_window_geometry(reporter, window_size2, false, window_pos, monitor_index);
+    set_settings_boolean('window-maximize', false);
+    await wait_window_settle();
+    verify_window_geometry(window_size2, false, window_pos, monitor_index);
 }
 
-async function test_unmaximize_on_size_change(reporter, window_size, window_size2, window_pos, monitor_config) {
-    await test_show(reporter, window_size, WindowMaximizeMode.EARLY, window_pos, monitor_config);
+async function test_unmaximize_on_size_change(window_size, window_size2, window_pos, monitor_config) {
+    await test_show(window_size, WindowMaximizeMode.EARLY, window_pos, monitor_config);
 
     const monitor_index = window_monitor_index(monitor_config);
 
-    set_settings_double(reporter, 'window-size', window_size2);
-    await wait_window_settle(reporter);
+    set_settings_double('window-size', window_size2);
+    await wait_window_settle();
 
-    verify_window_geometry(reporter, window_size2, window_size2 === 1.0, window_pos, monitor_index);
+    verify_window_geometry(window_size2, window_size2 === 1.0, window_pos, monitor_index);
 }
 
 function resize_point(frame_rect, window_pos, monitor_scale) {
@@ -489,8 +493,8 @@ function resize_point(frame_rect, window_pos, monitor_scale) {
     return { x, y };
 }
 
-async function test_resize_xte(reporter, window_size, window_maximize, window_size2, window_pos, monitor_config) {
-    await test_show(reporter, window_size, window_maximize, window_pos, monitor_config);
+async function test_resize_xte(window_size, window_maximize, window_size2, window_pos, monitor_config) {
+    await test_show(window_size, window_maximize, window_pos, monitor_config);
 
     const monitor_index = window_monitor_index(monitor_config);
     const workarea = Main.layoutManager.getWorkAreaForMonitor(monitor_index);
@@ -502,36 +506,36 @@ async function test_resize_xte(reporter, window_size, window_maximize, window_si
     const target_frame_rect = Extension.window_manager.target_rect_for_workarea_size(workarea, monitor_scale, window_size2);
     const target = resize_point(target_frame_rect, window_pos, monitor_scale);
 
-    await async_run_process(reporter, ['xte', `mousemove ${initial.x} ${initial.y}`, 'mousedown 1']);
-    await wait_window_settle(reporter);
+    await async_run_process(['xte', `mousemove ${initial.x} ${initial.y}`, 'mousedown 1']);
+    await wait_window_settle();
 
     try {
-        verify_window_geometry(reporter, window_maximize !== WindowMaximizeMode.NOT_MAXIMIZED ? 1.0 : window_size, false, window_pos, monitor_index);
-        await async_run_process(reporter, ['xte', `mousermove ${target.x - initial.x} ${target.y - initial.y}`]);
-        await wait_window_settle(reporter);
+        verify_window_geometry(window_maximize !== WindowMaximizeMode.NOT_MAXIMIZED ? 1.0 : window_size, false, window_pos, monitor_index);
+        await async_run_process(['xte', `mousermove ${target.x - initial.x} ${target.y - initial.y}`]);
+        await wait_window_settle();
     } finally {
-        await async_run_process(reporter, ['xte', 'mouseup 1']);
+        await async_run_process(['xte', 'mouseup 1']);
     }
-    await wait_window_settle(reporter);
+    await wait_window_settle();
 
     // TODO: 'grab-op-end' isn't emitted on Wayland when simulting mouse with xte.
     // For now, just call update_size_setting_on_grab_end()
     if (Meta.is_wayland_compositor())
         Extension.window_manager.update_size_setting_on_grab_end(global.display, Extension.window_manager.current_window);
 
-    verify_window_geometry(reporter, window_size2, false, window_pos, monitor_index);
+    verify_window_geometry(window_size2, false, window_pos, monitor_index);
 }
 
-async function test_change_position(reporter, window_size, window_pos, window_pos2, monitor_config) {
-    await test_show(reporter, window_size, false, window_pos, monitor_config);
+async function test_change_position(window_size, window_pos, window_pos2, monitor_config) {
+    await test_show(window_size, false, window_pos, monitor_config);
     const initially_maximized = settings.get_boolean('window-maximize');
 
     const monitor_index = window_monitor_index(monitor_config);
 
-    set_settings_string(reporter, 'window-position', window_pos2);
-    await wait_window_settle(reporter);
+    set_settings_string('window-position', window_pos2);
+    await wait_window_settle();
 
-    verify_window_geometry(reporter, window_size, window_size === 1.0 && initially_maximized, window_pos2, monitor_index);
+    verify_window_geometry(window_size, window_size === 1.0 && initially_maximized, window_pos2, monitor_index);
 }
 
 function mulberry32(a) {
@@ -553,8 +557,10 @@ function shuffle_array(array, rand) {
 }
 
 async function run_tests(filter = '', filter_out = false) {
-    DEFAULT_REPORTER.print(`Running tests on GNOME Shell ${Config.PACKAGE_VERSION}`);
-    DEFAULT_REPORTER.print(`Default idle timeout = ${DEFAULT_IDLE_TIMEOUT_MS} ms`);
+    GLib.setenv('G_MESSAGES_DEBUG', LOG_DOMAIN, false);
+
+    warning(`Running tests on GNOME Shell ${Config.PACKAGE_VERSION}`);
+    info(`Default idle timeout = ${DEFAULT_IDLE_TIMEOUT_MS} ms`);
 
     // There should be something from (0; 0.8), (0.8; 1.0), and 1.0
     // The shell starts auto-maximizing the window when it occupies 80% of the
@@ -670,21 +676,21 @@ async function run_tests(filter = '', filter_out = false) {
         }
     }
 
-    const filter_func = info => info.id.includes(filter);
-    const filtered_tests = tests.filter(filter_out ? info => !filter_func(info) : filter_func);
+    const filter_func = t => t.id.includes(filter);
+    const filtered_tests = tests.filter(filter_out ? t => !filter_func(t) : filter_func);
     let tests_passed = 0;
     for (let test of filtered_tests) {
-        DEFAULT_REPORTER.print('------------------------------------------------------------------------------------------------------------------------------------------');
-        DEFAULT_REPORTER.print(`Running test ${test.id} (${tests_passed} of ${filtered_tests.length} done, ${PERCENT_FORMAT.format(tests_passed / filtered_tests.length)})`);
+        info('------------------------------------------------------------------------------------------------------------------------------------------');
+        warning(`Running test ${test.id} (${tests_passed} of ${filtered_tests.length} done, ${PERCENT_FORMAT.format(tests_passed / filtered_tests.length)})`);
 
         const handlers = new ConnectionSet();
         handlers.connect(Extension.window_manager, 'notify::current-window', setup_window_trace);
         handlers.connect(Extension.window_manager, 'move-resize-requested', (_, rect) => {
-            DEFAULT_REPORTER.print(`Extension requested move-resize to { .x = ${rect.x}, .y = ${rect.y}, .width = ${rect.width}, .height = ${rect.height} }`);
+            info(`Extension requested move-resize to { .x = ${rect.x}, .y = ${rect.y}, .width = ${rect.width}, .height = ${rect.height} }`);
         });
         try {
             // eslint-disable-next-line no-await-in-loop
-            await test.func(DEFAULT_REPORTER.child(), ...test.args);
+            await test.func(...test.args);
         } catch (e) {
             e.message += `\n${test.id})`;
             throw e;

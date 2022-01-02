@@ -59,7 +59,9 @@ do_in_pod() {
 
 do_in_pod timeout 10s wait-user-bus.sh
 
-do_in_pod journalctl --user -f | tee journal.txt &
+JOURNALCTL_OPTS="--user -o short-monotonic --no-hostname -f"
+do_in_pod bash -c "SYSTEMD_COLORS=1 journalctl ${JOURNALCTL_OPTS}" &
+do_in_pod journalctl ${JOURNALCTL_OPTS} >journal.txt &
 
 do_in_pod systemctl --user start "${SERVICE}@${DISPLAY}"
 do_in_pod timeout 10s wait-dbus-interface.sh -d org.gnome.Shell -o /org/gnome/Shell -i org.gnome.Shell.Extensions
