@@ -3,9 +3,65 @@
 
 <node>
     <interface name="com.github.amezin.ddterm.ExtensionTest">
-        <method name="RunTest">
-            <arg name="filter" type="s" direction="in"/>
-            <arg name="filter_out" type="b" direction="in"/>
+        <method name="Setup"/>
+
+        <property name="NMonitors" type="i" access="read" />
+        <property name="PrimaryMonitor" type="i" access="read" />
+
+        <method name="GetMonitorGeometry">
+            <arg name="index" type="i" direction="in"/>
+            <arg name="x" type="i" direction="out"/>
+            <arg name="y" type="i" direction="out"/>
+            <arg name="width" type="i" direction="out"/>
+            <arg name="height" type="i" direction="out"/>
+        </method>
+        <method name="GetMonitorScale">
+            <arg name="index" type="i" direction="in"/>
+            <arg name="scale" type="i" direction="out"/>
+        </method>
+
+        <method name="TestShow">
+            <arg name="window_size" type="d" direction="in"/>
+            <arg name="window_maximize" type="s" direction="in"/>
+            <arg name="window_pos" type="s" direction="in"/>
+            <arg name="current_monitor" type="i" direction="in"/>
+            <arg name="window_monitor" type="s" direction="in"/>
+        </method>
+        <method name="TestUnmaximize">
+            <arg name="window_size" type="d" direction="in"/>
+            <arg name="window_maximize" type="s" direction="in"/>
+            <arg name="window_pos" type="s" direction="in"/>
+            <arg name="current_monitor" type="i" direction="in"/>
+            <arg name="window_monitor" type="s" direction="in"/>
+        </method>
+        <method name="TestUnmaximizeCorrectSize">
+            <arg name="window_size" type="d" direction="in"/>
+            <arg name="window_size2" type="d" direction="in"/>
+            <arg name="window_pos" type="s" direction="in"/>
+            <arg name="current_monitor" type="i" direction="in"/>
+            <arg name="window_monitor" type="s" direction="in"/>
+        </method>
+        <method name="TestUnmaximizeOnSizeChange">
+            <arg name="window_size" type="d" direction="in"/>
+            <arg name="window_size2" type="d" direction="in"/>
+            <arg name="window_pos" type="s" direction="in"/>
+            <arg name="current_monitor" type="i" direction="in"/>
+            <arg name="window_monitor" type="s" direction="in"/>
+        </method>
+        <method name="TestResizeXte">
+            <arg name="window_size" type="d" direction="in"/>
+            <arg name="window_maximize" type="s" direction="in"/>
+            <arg name="window_size2" type="d" direction="in"/>
+            <arg name="window_pos" type="s" direction="in"/>
+            <arg name="current_monitor" type="i" direction="in"/>
+            <arg name="window_monitor" type="s" direction="in"/>
+        </method>
+        <method name="TestChangePosition">
+            <arg name="window_size" type="d" direction="in"/>
+            <arg name="window_pos" type="s" direction="in"/>
+            <arg name="window_pos2" type="s" direction="in"/>
+            <arg name="current_monitor" type="i" direction="in"/>
+            <arg name="window_monitor" type="s" direction="in"/>
         </method>
     </interface>
 </node>

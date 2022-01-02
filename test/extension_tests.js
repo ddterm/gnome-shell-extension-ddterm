@@ -39,7 +39,6 @@ const WindowMaximizeMode = {
 let settings = null;
 const window_trace = new ConnectionSet();
 
-const PERCENT_FORMAT = new Intl.NumberFormat(undefined, { style: 'percent' });
 const CURSOR_TRACKER_MOVED_SIGNAL = GObject.signal_lookup('cursor-moved', Meta.CursorTracker) ? 'cursor-moved' : 'position-invalidated';
 
 function shell_version_at_least(req_major, req_minor) {
@@ -80,39 +79,56 @@ const warning = _makeLogFunction(GLib.LogLevelFlags.LEVEL_WARNING);
 const critical = _makeLogFunction(GLib.LogLevelFlags.LEVEL_CRITICAL);
 const error = _makeLogFunction(GLib.LogLevelFlags.LEVEL_ERROR);
 
-class ExtensionTestDBusInterface {
-    constructor() {
-        let [_, xml] = Me.dir.get_child('test').get_child('com.github.amezin.ddterm.ExtensionTest.xml').load_contents(null);
-        this.dbus = Gio.DBusExportedObject.wrapJSObject(ByteArray.toString(xml), this);
-    }
-
-    RunTestAsync(params, invocation) {
-        run_tests(...params).then(_ => {
-            invocation.return_value(null);
-        }).catch(e => {
-            if (e instanceof GLib.Error) {
-                invocation.return_gerror(e);
-            } else {
-                let name = e.name;
-                if (!name.includes('.')) {
-                    // likely to be a normal JS error
-                    name = `org.gnome.gjs.JSError.${name}`;
-                }
-                logError(e, `Exception in method call: ${invocation.get_method_name()}`);
-                invocation.return_dbus_error(name, `${e}\n\n${e.stack}`);
+function invoke_async(f, params, invocation) {
+    f(...params).then(_ => {
+        invocation.return_value(null);
+    }).catch(e => {
+        if (e instanceof GLib.Error) {
+            invocation.return_gerror(e);
+        } else {
+            let name = e.name;
+            if (!name.includes('.')) {
+                // likely to be a normal JS error
+                name = `org.gnome.gjs.JSError.${name}`;
             }
-        });
+            logError(e, `Exception in method call: ${invocation.get_method_name()}`);
+            invocation.return_dbus_error(name, `${e}\n\n${e.stack}`);
+        }
+    });
+}
+
+async function invoke_test(f, ...params) {
+    const handlers = new ConnectionSet();
+    handlers.connect(Extension.window_manager, 'notify::current-window', setup_window_trace);
+    handlers.connect(Extension.window_manager, 'move-resize-requested', (_, rect) => {
+        info(`Extension requested move-resize to { .x = ${rect.x}, .y = ${rect.y}, .width = ${rect.width}, .height = ${rect.height} }`);
+    });
+    try {
+        await f(...params);
+    } finally {
+        handlers.disconnect();
     }
 }
 
-const DBUS_INTERFACE = new ExtensionTestDBusInterface();
-
-function enable() {
-    DBUS_INTERFACE.dbus.export(Gio.DBus.session, '/org/gnome/Shell/Extensions/ddterm');
+function invoke_test_async(f, params, invocation) {
+    invoke_async(invoke_test.bind(null, f), params, invocation);
 }
 
-function disable() {
-    DBUS_INTERFACE.dbus.unexport();
+async function setup() {
+    if (global.settings.settings_schema.has_key('welcome-dialog-last-shown-version'))
+        global.settings.set_string('welcome-dialog-last-shown-version', '99.0');
+
+    if (Main.welcomeDialog) {
+        const ModalDialog = imports.ui.modalDialog;
+        if (Main.welcomeDialog.state !== ModalDialog.State.CLOSED) {
+            Main.welcomeDialog.close();
+            await async_wait_signal(Main.welcomeDialog, 'closed');
+        }
+    }
+
+    Extension.toggle();
+
+    await async_wait_current_window(10000);
 }
 
 function setup_window_trace() {
@@ -183,7 +199,7 @@ function hide_window_async_wait() {
     }));
 }
 
-function async_wait_current_window() {
+function async_wait_current_window(timeout_ms = WAIT_TIMEOUT_MS) {
     return with_timeout(new Promise(resolve => {
         message('Waiting for the window to show');
 
@@ -209,7 +225,7 @@ function async_wait_current_window() {
 
         const win_handler = Extension.window_manager.connect('notify::current-window', check_cb);
         check_cb();
-    }));
+    }), timeout_ms);
 }
 
 function wait_window_settle(idle_timeout_ms = DEFAULT_IDLE_TIMEOUT_MS) {
@@ -377,48 +393,48 @@ function verify_window_geometry(window_size, window_maximize, window_pos, monito
     message('Window geometry is fine');
 }
 
-function window_monitor_index(monitor_config) {
-    if (monitor_config.window_monitor === 'current')
-        return monitor_config.current_monitor;
+function window_monitor_index(window_monitor) {
+    if (window_monitor === 'current')
+        return global.display.get_current_monitor();
 
     return Main.layoutManager.primaryIndex;
 }
 
-async function test_show(window_size, window_maximize, window_pos, monitor_config) {
+async function test_show(window_size, window_maximize, window_pos, current_monitor, window_monitor) {
     message(`Starting test with window size=${window_size}, maximize=${window_maximize}, position=${window_pos}`);
 
     await hide_window_async_wait();
 
-    if (monitor_config.current_monitor !== global.display.get_current_monitor()) {
-        const monitor_rect = Main.layoutManager.monitors[monitor_config.current_monitor];
+    if (current_monitor !== global.display.get_current_monitor()) {
+        const monitor_rect = Main.layoutManager.monitors[current_monitor];
         const cursor_tracker = Meta.CursorTracker.get_for_display(global.display);
         await async_run_process(['xte', `mousemove ${monitor_rect.x + Math.floor(monitor_rect.width / 2)} ${monitor_rect.y + Math.floor(monitor_rect.height / 2)}`]);
 
-        message(`Waiting for current monitor = ${monitor_config.current_monitor}`);
+        message(`Waiting for current monitor = ${current_monitor}`);
         await async_wait_signal(
             cursor_tracker,
             CURSOR_TRACKER_MOVED_SIGNAL,
             () => {
                 // 'current' monitor doesn't seem to be updated in nested mode
                 Meta.MonitorManager.get().emit('monitors-changed-internal');
-                return monitor_config.current_monitor === global.display.get_current_monitor();
+                return current_monitor === global.display.get_current_monitor();
             }
         );
     }
 
-    JsUnit.assertEquals(monitor_config.current_monitor, global.display.get_current_monitor());
+    JsUnit.assertEquals(current_monitor, global.display.get_current_monitor());
 
     set_settings_double('window-size', window_size);
     set_settings_boolean('window-maximize', window_maximize === WindowMaximizeMode.EARLY);
     set_settings_string('window-position', window_pos);
-    set_settings_string('window-monitor', monitor_config.window_monitor);
+    set_settings_string('window-monitor', window_monitor);
 
     Extension.toggle();
 
     await async_wait_current_window();
     await wait_window_settle();
 
-    const monitor_index = window_monitor_index(monitor_config);
+    const monitor_index = window_monitor_index(window_monitor);
     const should_maximize = window_maximize === WindowMaximizeMode.EARLY || (window_size === 1.0 && settings.get_boolean('window-maximize'));
     verify_window_geometry(window_size, should_maximize, window_pos, monitor_index);
 
@@ -430,21 +446,21 @@ async function test_show(window_size, window_maximize, window_pos, monitor_confi
     }
 }
 
-async function test_unmaximize(window_size, window_maximize, window_pos, monitor_config) {
-    await test_show(window_size, window_maximize, window_pos, monitor_config);
+async function test_unmaximize(window_size, window_maximize, window_pos, current_monitor, window_monitor) {
+    await test_show(window_size, window_maximize, window_pos, current_monitor, window_monitor);
 
-    const monitor_index = window_monitor_index(monitor_config);
+    const monitor_index = window_monitor_index(window_monitor);
 
     set_settings_boolean('window-maximize', false);
     await wait_window_settle();
     verify_window_geometry(window_size, false, window_pos, monitor_index);
 }
 
-async function test_unmaximize_correct_size(window_size, window_size2, window_pos, monitor_config) {
-    await test_show(window_size, WindowMaximizeMode.NOT_MAXIMIZED, window_pos, monitor_config);
+async function test_unmaximize_correct_size(window_size, window_size2, window_pos, current_monitor, window_monitor) {
+    await test_show(window_size, WindowMaximizeMode.NOT_MAXIMIZED, window_pos, current_monitor, window_monitor);
     const initially_maximized = settings.get_boolean('window-maximize');
 
-    const monitor_index = window_monitor_index(monitor_config);
+    const monitor_index = window_monitor_index(window_monitor);
 
     set_settings_double('window-size', window_size2);
     await wait_window_settle();
@@ -459,10 +475,10 @@ async function test_unmaximize_correct_size(window_size, window_size2, window_po
     verify_window_geometry(window_size2, false, window_pos, monitor_index);
 }
 
-async function test_unmaximize_on_size_change(window_size, window_size2, window_pos, monitor_config) {
-    await test_show(window_size, WindowMaximizeMode.EARLY, window_pos, monitor_config);
+async function test_unmaximize_on_size_change(window_size, window_size2, window_pos, current_monitor, window_monitor) {
+    await test_show(window_size, WindowMaximizeMode.EARLY, window_pos, current_monitor, window_monitor);
 
-    const monitor_index = window_monitor_index(monitor_config);
+    const monitor_index = window_monitor_index(window_monitor);
 
     set_settings_double('window-size', window_size2);
     await wait_window_settle();
@@ -493,10 +509,10 @@ function resize_point(frame_rect, window_pos, monitor_scale) {
     return { x, y };
 }
 
-async function test_resize_xte(window_size, window_maximize, window_size2, window_pos, monitor_config) {
-    await test_show(window_size, window_maximize, window_pos, monitor_config);
+async function test_resize_xte(window_size, window_maximize, window_size2, window_pos, current_monitor, window_monitor) {
+    await test_show(window_size, window_maximize, window_pos, current_monitor, window_monitor);
 
-    const monitor_index = window_monitor_index(monitor_config);
+    const monitor_index = window_monitor_index(window_monitor);
     const workarea = Main.layoutManager.getWorkAreaForMonitor(monitor_index);
     const monitor_scale = global.display.get_monitor_scale(monitor_index);
 
@@ -526,11 +542,11 @@ async function test_resize_xte(window_size, window_maximize, window_size2, windo
     verify_window_geometry(window_size2, false, window_pos, monitor_index);
 }
 
-async function test_change_position(window_size, window_pos, window_pos2, monitor_config) {
-    await test_show(window_size, false, window_pos, monitor_config);
+async function test_change_position(window_size, window_pos, window_pos2, current_monitor, window_monitor) {
+    await test_show(window_size, false, window_pos, current_monitor, window_monitor);
     const initially_maximized = settings.get_boolean('window-maximize');
 
-    const monitor_index = window_monitor_index(monitor_config);
+    const monitor_index = window_monitor_index(window_monitor);
 
     set_settings_string('window-position', window_pos2);
     await wait_window_settle();
@@ -538,165 +554,69 @@ async function test_change_position(window_size, window_pos, window_pos2, monito
     verify_window_geometry(window_size, window_size === 1.0 && initially_maximized, window_pos2, monitor_index);
 }
 
-function mulberry32(a) {
-    return function () {
-        var t = a += 0x6D2B79F5;
-        t = Math.imul(t ^ t >>> 15, t | 1);
-        t ^= t + Math.imul(t ^ t >>> 7, t | 61);
-        return ((t ^ t >>> 14) >>> 0) / 4294967296;
-    };
-}
+class ExtensionTestDBusInterface {
+    constructor() {
+        let [_, xml] = Me.dir.get_child('test').get_child('com.github.amezin.ddterm.ExtensionTest.xml').load_contents(null);
+        this.dbus = Gio.DBusExportedObject.wrapJSObject(ByteArray.toString(xml), this);
+    }
 
-function shuffle_array(array, rand) {
-    for (var i = array.length - 1; i > 0; i--) {
-        var j = Math.floor(rand() * (i + 1));
-        var temp = array[i];
-        array[i] = array[j];
-        array[j] = temp;
+    SetupAsync(params, invocation) {
+        invoke_async(setup, params, invocation);
+    }
+
+    get NMonitors() {
+        return global.display.get_n_monitors();
+    }
+
+    get PrimaryMonitor() {
+        return Main.layoutManager.primaryIndex;
+    }
+
+    GetMonitorGeometry(index) {
+        const rect = global.display.get_monitor_geometry(index);
+        return [rect.x, rect.y, rect.width, rect.height];
+    }
+
+    GetMonitorScale(index) {
+        return global.display.get_monitor_scale(index);
+    }
+
+    TestShowAsync(params, invocation) {
+        invoke_test_async(test_show, params, invocation);
+    }
+
+    TestUnmaximizeAsync(params, invocation) {
+        invoke_test_async(test_unmaximize, params, invocation);
+    }
+
+    TestUnmaximizeCorrectSizeAsync(params, invocation) {
+        invoke_test_async(test_unmaximize_correct_size, params, invocation);
+    }
+
+    TestUnmaximizeOnSizeChangeAsync(params, invocation) {
+        invoke_test_async(test_unmaximize_on_size_change, params, invocation);
+    }
+
+    TestResizeXteAsync(params, invocation) {
+        invoke_test_async(test_resize_xte, params, invocation);
+    }
+
+    TestChangePositionAsync(params, invocation) {
+        invoke_test_async(test_change_position, params, invocation);
     }
 }
 
-async function run_tests(filter = '', filter_out = false) {
+let dbus_interface = null;
+
+function enable() {
     GLib.setenv('G_MESSAGES_DEBUG', LOG_DOMAIN, false);
-
-    warning(`Running tests on GNOME Shell ${Config.PACKAGE_VERSION}`);
-    info(`Default idle timeout = ${DEFAULT_IDLE_TIMEOUT_MS} ms`);
-
-    // There should be something from (0; 0.8), (0.8; 1.0), and 1.0
-    // The shell starts auto-maximizing the window when it occupies 80% of the
-    // workarea. ddterm tries to immediately unmaximize the window in this case.
-    // At 100% (1.0), ddterm doesn't unmaximize the window.
-    const SIZE_VALUES = [0.5, 0.9, 1.0];
-    const MAXIMIZE_MODES = [
-        WindowMaximizeMode.NOT_MAXIMIZED,
-        WindowMaximizeMode.EARLY,
-        WindowMaximizeMode.LATE,
-    ];
-    const VERTICAL_RESIZE_POSITIONS = ['top', 'bottom'];
-    const HORIZONTAL_RESIZE_POSITIONS = ['left', 'right'];
-    const POSITIONS = VERTICAL_RESIZE_POSITIONS.concat(HORIZONTAL_RESIZE_POSITIONS);
-    const monitor_configs = [];
-
-    for (let monitor_index = 0; monitor_index < global.display.get_n_monitors(); monitor_index++) {
-        monitor_configs.push({ current_monitor: monitor_index, window_monitor: 'current' });
-
-        if (monitor_index !== Main.layoutManager.primaryIndex)
-            monitor_configs.push({ current_monitor: monitor_index, window_monitor: 'primary' });
-    }
-
-    const tests = [];
-
-    const add_test = (func, ...args) => tests.push({
-        func,
-        args,
-        id: `${JsUnit.getFunctionName(func)}${JSON.stringify(args)}`,
-    });
-
     settings = Extension.settings;
+    dbus_interface = new ExtensionTestDBusInterface();
+    dbus_interface.dbus.export(Gio.DBus.session, '/org/gnome/Shell/Extensions/ddterm');
+}
 
-    for (let window_size of [0.31, 0.36, 0.4, 0.8, 0.85, 0.91]) {
-        for (let window_maximize of MAXIMIZE_MODES) {
-            for (let window_pos of POSITIONS) {
-                for (let monitor_config of monitor_configs) {
-                    const monitor_index = window_monitor_index(monitor_config);
-                    const monitor_rect = global.display.get_monitor_geometry(monitor_index);
-                    const monitor_scale = global.display.get_monitor_scale(monitor_index);
-
-                    if (HORIZONTAL_RESIZE_POSITIONS.includes(window_pos)) {
-                        if (monitor_rect.width * window_size < 472 * monitor_scale)
-                            continue;
-                    }
-
-                    add_test(test_show, window_size, window_maximize, window_pos, monitor_config);
-                }
-            }
-        }
-    }
-
-    for (let monitor_config of monitor_configs) {
-        for (let window_size of SIZE_VALUES) {
-            for (let window_maximize of MAXIMIZE_MODES) {
-                for (let window_size2 of SIZE_VALUES) {
-                    for (let window_pos of POSITIONS) {
-                        if (!shell_version_at_least(3, 38)) {
-                            // For unknown reason it fails to resize to full height on 2nd monitor
-                            if (monitor_config.current_monitor === 1 && window_pos === 'bottom' && window_size2 === 1)
-                                continue;
-                        }
-
-                        add_test(test_resize_xte, window_size, window_maximize, window_size2, window_pos, monitor_config);
-                    }
-                }
-            }
-        }
-    }
-
-    for (let window_size of SIZE_VALUES) {
-        for (let monitor_config of monitor_configs) {
-            for (let window_pos of POSITIONS) {
-                for (let window_pos2 of POSITIONS) {
-                    if (window_pos !== window_pos2)
-                        add_test(test_change_position, window_size, window_pos, window_pos2, monitor_config);
-                }
-            }
-        }
-    }
-
-    for (let window_pos of POSITIONS) {
-        for (let monitor_config of monitor_configs) {
-            for (let window_maximize of MAXIMIZE_MODES) {
-                for (let window_size of SIZE_VALUES)
-                    add_test(test_unmaximize, window_size, window_maximize, window_pos, monitor_config);
-            }
-
-            for (let window_size of SIZE_VALUES) {
-                for (let window_size2 of SIZE_VALUES)
-                    add_test(test_unmaximize_correct_size, window_size, window_size2, window_pos, monitor_config);
-            }
-
-            for (let window_size of SIZE_VALUES) {
-                for (let window_size2 of SIZE_VALUES) {
-                    if (window_size !== window_size2)
-                        add_test(test_unmaximize_on_size_change, window_size, window_size2, window_pos, monitor_config);
-                }
-            }
-        }
-    }
-
-    shuffle_array(tests, mulberry32(6848103));
-
-    if (global.settings.settings_schema.has_key('welcome-dialog-last-shown-version'))
-        global.settings.set_string('welcome-dialog-last-shown-version', '99.0');
-
-    if (Main.welcomeDialog) {
-        const ModalDialog = imports.ui.modalDialog;
-        if (Main.welcomeDialog.state !== ModalDialog.State.CLOSED) {
-            Main.welcomeDialog.close();
-            await async_wait_signal(Main.welcomeDialog, 'closed');
-        }
-    }
-
-    const filter_func = t => t.id.includes(filter);
-    const filtered_tests = tests.filter(filter_out ? t => !filter_func(t) : filter_func);
-    let tests_passed = 0;
-    for (let test of filtered_tests) {
-        info('------------------------------------------------------------------------------------------------------------------------------------------');
-        warning(`Running test ${test.id} (${tests_passed} of ${filtered_tests.length} done, ${PERCENT_FORMAT.format(tests_passed / filtered_tests.length)})`);
-
-        const handlers = new ConnectionSet();
-        handlers.connect(Extension.window_manager, 'notify::current-window', setup_window_trace);
-        handlers.connect(Extension.window_manager, 'move-resize-requested', (_, rect) => {
-            info(`Extension requested move-resize to { .x = ${rect.x}, .y = ${rect.y}, .width = ${rect.width}, .height = ${rect.height} }`);
-        });
-        try {
-            // eslint-disable-next-line no-await-in-loop
-            await test.func(...test.args);
-        } catch (e) {
-            e.message += `\n${test.id})`;
-            throw e;
-        } finally {
-            handlers.disconnect();
-        }
-        tests_passed += 1;
-    }
+function disable() {
+    dbus_interface.dbus.unexport();
+    dbus_interface = null;
+    settings = null;
 }

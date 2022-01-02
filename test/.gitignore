@@ -1,2 +1,6 @@
-/journal.txt
-/Xvfb_screen0.png
+/.pytest_cache/
+/.tox/
+__pycache__/
+/report.html
+/junit.xml
+/assets/

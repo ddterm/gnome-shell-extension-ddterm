@@ -10,33 +10,39 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        fedora-version:
-          - '32'
-          - '33'
-          - '34'
-          - '35'
+        image:
+          - 'gnome-shell-pod-32'
+          - 'gnome-shell-pod-33'
+          - 'gnome-shell-pod-34'
+          - 'gnome-shell-pod-35'
         session:
-          - 'gnome-xsession'
-          - 'gnome-wayland-nested'
-          - 'gnome-wayland-nested-highdpi'
-          - 'gnome-wayland-nested-dual-monitor'
+          - 'TestXSession'
+          - 'TestWayland'
+          - 'TestWaylandHighDpi'
+          - 'TestWaylandDualMonitor'
         exclude:
-          - fedora-version: '33'
-            session: 'gnome-wayland-nested-dual-monitor'
+          - image: 'gnome-shell-pod-33'
+            session: 'TestWaylandDualMonitor'
     env:
-      IMAGE: ghcr.io/amezin/gnome-shell-pod-${{ matrix.fedora-version }}:master
+      IMAGE: ghcr.io/amezin/${{ matrix.image }}:master
+      PY_COLORS: 1
+      TOX_TESTENV_PASSENV: PY_COLORS
     steps:
     - uses: actions/checkout@v2
     - uses: actions/setup-node@v2-beta
+    - run: sudo apt-get install -y python3-gi libmagickwand-6.q16-6 tox
     - run: npm ci
     - run: sudo podman pull "${{ env.IMAGE }}"
     - run: sudo podman run --rm -i -v "${PWD}:${PWD}" -w "${PWD}" "${{ env.IMAGE }}" xvfb-run make test-deps
-    - run: sudo ./run_test_podman.sh -i "${{ env.IMAGE }}" -s "${{ matrix.session }}"
+    - run: tox -vv --notest --sitepackages
+      working-directory: test
+    - run: tox --sitepackages -- --podman sudo podman --container-image "${{ env.IMAGE }}" -n 2 "test_extension.py::${{ matrix.session }}"
       working-directory: test
     - uses: actions/upload-artifact@v2
       with:
-        name: test-${{ matrix.fedora-version }}-${{ matrix.session }}
+        name: ${{ matrix.session }}-${{ matrix.image }}
         path: |
-          test/Xvfb_screen*.png
-          test/journal.txt
+          test/report.html
+          test/junit.xml
+          test/assets
       if: always()
