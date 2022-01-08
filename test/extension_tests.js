@@ -51,6 +51,7 @@ function shell_version_at_least(req_major, req_minor) {
 
 const DEFAULT_IDLE_TIMEOUT_MS = shell_version_at_least(3, 38) ? 250 : 300;
 const WAIT_TIMEOUT_MS = 2000;
+const START_TIMEOUT_MS = 10000;
 
 const LOG_DOMAIN = 'ddterm-test';
 
@@ -118,17 +119,46 @@ async function setup() {
     if (global.settings.settings_schema.has_key('welcome-dialog-last-shown-version'))
         global.settings.set_string('welcome-dialog-last-shown-version', '99.0');
 
+    if (Main.layoutManager._startingUp) {
+        message('Waiting for startup to complete');
+        await async_wait_signal(
+            Main.layoutManager,
+            'startup-complete',
+            () => !Main.layoutManager._startingUp,
+            START_TIMEOUT_MS
+        );
+        message('Startup complete');
+    }
+
     if (Main.welcomeDialog) {
         const ModalDialog = imports.ui.modalDialog;
         if (Main.welcomeDialog.state !== ModalDialog.State.CLOSED) {
+            message('Closing welcome dialog');
+            const wait_close = async_wait_signal(
+                Main.welcomeDialog,
+                'closed',
+                () => Main.welcomeDialog.state === ModalDialog.State.CLOSED
+            );
             Main.welcomeDialog.close();
-            await async_wait_signal(Main.welcomeDialog, 'closed');
+            await wait_close;
+            message('Welcome dialog closed');
         }
     }
 
-    Extension.toggle();
+    if (Main.overview.visible) {
+        message('Hiding overview');
+        const wait_hide = async_wait_signal(
+            Main.overview,
+            'hidden',
+            () => !Main.overview.visible
+        );
+        Main.overview.hide();
+        await wait_hide;
+        message('Overview hidden');
+    }
 
-    await async_wait_current_window(10000);
+    Extension.toggle();
+    await async_wait_current_window(START_TIMEOUT_MS);
 }
 
 function setup_window_trace() {
@@ -280,7 +310,7 @@ function wait_window_settle(idle_timeout_ms = DEFAULT_IDLE_TIMEOUT_MS) {
     }));
 }
 
-function async_wait_signal(object, signal, predicate = () => true) {
+function async_wait_signal(object, signal, predicate = () => true, timeout_ms = WAIT_TIMEOUT_MS) {
     return with_timeout(new Promise(resolve => {
         const pred_check = () => {
             if (!predicate())
@@ -295,7 +325,7 @@ function async_wait_signal(object, signal, predicate = () => true) {
 
         const handler_id = object.connect(signal, pred_check);
         pred_check();
-    }));
+    }), timeout_ms);
 }
 
 function async_run_process(argv) {
