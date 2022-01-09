@@ -198,10 +198,11 @@ function async_sleep(ms) {
 }
 
 function with_timeout(promise, timeout_ms = WAIT_TIMEOUT_MS) {
+    const timeout = new Error('Timed out');
     return Promise.race([
         promise,
         new Promise((resolve, reject) => async_sleep(timeout_ms).then(() => {
-            reject(new Error('Timed out'));
+            reject(timeout);
         })),
     ]);
 }
