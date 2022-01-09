@@ -21,7 +21,7 @@
 
 /* exported enable disable message debug info warning critical error */
 
-const { GLib, GObject, Gio, Meta } = imports.gi;
+const { GLib, Gio, Meta } = imports.gi;
 const ByteArray = imports.byteArray;
 const Main = imports.ui.main;
 const JsUnit = imports.jsUnit;
@@ -38,8 +38,6 @@ const WindowMaximizeMode = {
 
 let settings = null;
 const window_trace = new ConnectionSet();
-
-const CURSOR_TRACKER_MOVED_SIGNAL = GObject.signal_lookup('cursor-moved', Meta.CursorTracker) ? 'cursor-moved' : 'position-invalidated';
 
 function shell_version_at_least(req_major, req_minor) {
     const [cur_major, cur_minor] = Config.PACKAGE_VERSION.split('.');
@@ -262,7 +260,6 @@ function async_wait_current_window(timeout_ms = WAIT_TIMEOUT_MS) {
 function wait_window_settle(idle_timeout_ms = DEFAULT_IDLE_TIMEOUT_MS) {
     return with_timeout(new Promise(resolve => {
         const win = Extension.window_manager.current_window;
-        const cursor_tracker = Meta.CursorTracker.get_for_display(global.display);
         let timer_id = null;
         const handlers = new ConnectionSet();
 
@@ -300,10 +297,6 @@ function wait_window_settle(idle_timeout_ms = DEFAULT_IDLE_TIMEOUT_MS) {
         });
         handlers.connect(Extension.window_manager, 'move-resize-requested', () => {
             message('Restarting wait because of move-resize-requested signal');
-            restart_timer();
-        });
-        handlers.connect(cursor_tracker, CURSOR_TRACKER_MOVED_SIGNAL, () => {
-            message('Restarting wait because cursor moved');
             restart_timer();
         });
 
@@ -431,6 +424,38 @@ function window_monitor_index(window_monitor) {
     return Main.layoutManager.primaryIndex;
 }
 
+async function xte_mouse(x, y, button = false) {
+    x = Math.floor(x);
+    y = Math.floor(y);
+
+    const mods = button ? 256 : 0;
+    let [c_x, c_y, c_mods] = global.get_pointer();
+    const xte_commands = [];
+
+    if (c_x !== x || c_y !== y) {
+        message(`Moving mouse from (${c_x}, ${c_y}) to (${x}, ${y})`);
+        xte_commands.push(`mousemove ${x} ${y}`);
+    }
+
+    if (c_mods !== mods) {
+        message(mods ? 'Pressing mouse button 1' : 'Releasing mouse button 1');
+        xte_commands.push(button ? 'mousedown 1' : 'mouseup 1');
+    }
+
+    if (xte_commands.length === 0)
+        return;
+
+    await async_run_process(['xte'].concat(xte_commands));
+
+    while (c_x !== x || c_y !== y || c_mods !== mods) {
+        // eslint-disable-next-line no-await-in-loop
+        await async_sleep(10);
+        [c_x, c_y, c_mods] = global.get_pointer();
+    }
+
+    message(`Mouse is at (${c_x}, ${c_y}), modifiers = ${c_mods}`);
+}
+
 async function test_show(window_size, window_maximize, window_pos, current_monitor, window_monitor) {
     message(`Starting test with window size=${window_size}, maximize=${window_maximize}, position=${window_pos}`);
 
@@ -438,19 +463,13 @@ async function test_show(window_size, window_maximize, window_pos, current_monit
 
     if (current_monitor !== global.display.get_current_monitor()) {
         const monitor_rect = Main.layoutManager.monitors[current_monitor];
-        const cursor_tracker = Meta.CursorTracker.get_for_display(global.display);
-        await async_run_process(['xte', `mousemove ${monitor_rect.x + Math.floor(monitor_rect.width / 2)} ${monitor_rect.y + Math.floor(monitor_rect.height / 2)}`]);
-
-        message(`Waiting for current monitor = ${current_monitor}`);
-        await async_wait_signal(
-            cursor_tracker,
-            CURSOR_TRACKER_MOVED_SIGNAL,
-            () => {
-                // 'current' monitor doesn't seem to be updated in nested mode
-                Meta.MonitorManager.get().emit('monitors-changed-internal');
-                return current_monitor === global.display.get_current_monitor();
-            }
+        await xte_mouse(
+            monitor_rect.x + Math.floor(monitor_rect.width / 2),
+            monitor_rect.y + Math.floor(monitor_rect.height / 2)
         );
+
+        // 'current' monitor doesn't seem to be updated in nested mode
+        Meta.MonitorManager.get().emit('monitors-changed-internal');
     }
 
     JsUnit.assertEquals(current_monitor, global.display.get_current_monitor());
@@ -553,15 +572,15 @@ async function test_resize_xte(window_size, window_maximize, window_size2, windo
     const target_frame_rect = Extension.window_manager.target_rect_for_workarea_size(workarea, monitor_scale, window_size2);
     const target = resize_point(target_frame_rect, window_pos, monitor_scale);
 
-    await async_run_process(['xte', `mousemove ${initial.x} ${initial.y}`, 'mousedown 1']);
+    await xte_mouse(initial.x, initial.y, true);
     await wait_window_settle();
 
     try {
         verify_window_geometry(window_maximize !== WindowMaximizeMode.NOT_MAXIMIZED ? 1.0 : window_size, false, window_pos, monitor_index);
-        await async_run_process(['xte', `mousermove ${target.x - initial.x} ${target.y - initial.y}`]);
+        await xte_mouse(target.x, target.y, true);
         await wait_window_settle();
     } finally {
-        await async_run_process(['xte', 'mouseup 1']);
+        await xte_mouse(target.x, target.y, false);
     }
     await wait_window_settle();
 
