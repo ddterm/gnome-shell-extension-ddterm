@@ -128,6 +128,8 @@ async function setup() {
         message('Startup complete');
     }
 
+    Main.messageTray.bannerBlocked = true;
+
     if (Main.welcomeDialog) {
         const ModalDialog = imports.ui.modalDialog;
         if (Main.welcomeDialog.state !== ModalDialog.State.CLOSED) {
