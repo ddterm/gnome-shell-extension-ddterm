@@ -157,8 +157,9 @@ async function setup() {
         message('Overview hidden');
     }
 
+    const wait = wait_first_frame(START_TIMEOUT_MS);
     Extension.toggle();
-    await async_wait_current_window(START_TIMEOUT_MS);
+    await wait;
 }
 
 function setup_window_trace() {
@@ -230,32 +231,27 @@ function hide_window_async_wait() {
     }));
 }
 
-function async_wait_current_window(timeout_ms = WAIT_TIMEOUT_MS) {
+function wait_first_frame(timeout_ms = WAIT_TIMEOUT_MS) {
     return with_timeout(new Promise(resolve => {
-        message('Waiting for the window to show');
+        const windows = [];
+        const connections = new ConnectionSet();
 
-        const shown_handler = new ConnectionSet();
-
-        const check_cb = () => {
-            const current_win = Extension.window_manager.current_window;
-
-            if (!current_win)
-                return;
-
-            shown_handler.disconnect();
-
-            if (current_win.is_hidden()) {
-                shown_handler.connect(current_win, 'shown', check_cb);
-                return;
+        const check = () => {
+            if (windows.includes(Extension.window_manager.current_window)) {
+                message('Got first-frame');
+                connections.disconnect();
+                resolve();
             }
-
-            Extension.window_manager.disconnect(win_handler);
-            message('Window shown');
-            resolve();
         };
 
-        const win_handler = Extension.window_manager.connect('notify::current-window', check_cb);
-        check_cb();
+        JsUnit.assertNull(Extension.window_manager.current_window);
+        connections.connect(Extension.window_manager, 'notify::current-window', check);
+        connections.connect(global.display, 'window-created', (_, win) => {
+            connections.connect(win.get_compositor_private(), 'first-frame', actor => {
+                windows.push(actor.meta_window);
+                check();
+            });
+        });
     }), timeout_ms);
 }
 
@@ -491,9 +487,11 @@ async function test_show(window_size, window_maximize, window_pos, current_monit
     set_settings_string('window-position', window_pos);
     set_settings_string('window-monitor', window_monitor);
 
+    const wait = wait_first_frame();
+
     Extension.toggle();
 
-    await async_wait_current_window();
+    await wait;
     await wait_window_settle();
 
     const monitor_index = window_monitor_index(window_monitor);
