@@ -38,10 +38,14 @@ class Podman:
 
 
 class StreamReaderThread(threading.Thread):
-    def __init__(self, stream, line_callback):
+    def __init__(self, stream):
         super().__init__()
         self.stream = stream
-        self.line_callback = line_callback
+
+        self.wait_line_event = threading.Event()
+        self.wait_line_lock = threading.Lock()
+        self.wait_line_substr = None
+        self.shut_down = False
 
     def iter_lines(self):
         current_line = bytes()
@@ -63,7 +67,14 @@ class StreamReaderThread(threading.Thread):
             yield current_line
 
     def process_line(self, line):
-        self.line_callback(line)
+        sys.stderr.buffer.write(line)
+
+        with self.wait_line_lock:
+            if self.wait_line_substr is not None and self.wait_line_substr in line:
+                self.wait_line_event.set()
+
+                if not line:
+                    self.shut_down = True
 
     def run(self):
         with self.stream:
@@ -72,10 +83,22 @@ class StreamReaderThread(threading.Thread):
 
         self.process_line(b'')
 
+    def set_wait_line(self, substr):
+        with self.wait_line_lock:
+            if self.shut_down:
+                return
+
+            self.wait_line_substr = substr
+            self.wait_line_event.clear()
+
+    def wait_line(self, timeout=None):
+        if not self.wait_line_event.wait(timeout=timeout):
+            raise TimeoutError()
+
 
 class ConsoleReaderSubprocess(StreamReaderThread):
-    def __init__(self, process, line_callback):
-        super().__init__(process.stdout, line_callback)
+    def __init__(self, process):
+        super().__init__(process.stdout)
         self.process = process
 
     def join(self, timeout=None):
@@ -86,12 +109,12 @@ class ConsoleReaderSubprocess(StreamReaderThread):
         LOGGER.info('Console reader shut down')
 
     @classmethod
-    def spawn(cls, podman, container_id, line_callback):
-        process = podman.bg(
-            'attach', '--no-stdin', container_id,
+    def spawn(cls, container):
+        process = container.podman.bg(
+            'attach', '--no-stdin', container.container_id,
             stderr=subprocess.STDOUT, stdout=subprocess.PIPE, bufsize=0
         )
-        reader = cls(process, line_callback)
+        reader = cls(process)
         reader.start()
         return reader
 
@@ -100,73 +123,17 @@ class Container:
     def __init__(self, podman, container_id):
         self.container_id = container_id
         self.podman = podman
-
-        self.journal = None
-        self.systemd_cat = None
-
-        self.journal_sync_event = threading.Event()
-        self.journal_sync_lock = threading.Lock()
-        self.journal_sync_token = None
-        self.shut_down = False
-
-    def start_reading_journal(self):
-        assert self.journal is None
-        self.journal = ConsoleReaderSubprocess.spawn(
-            self.podman,
-            self.container_id,
-            line_callback=self.journal_line
-        )
+        self.console = None
 
     def kill(self):
         self.podman('kill', self.container_id, check=False)
 
-        if self.journal:
-            self.journal.join()
+        if self.console:
+            self.console.join()
 
-        if self.systemd_cat:
-            self.systemd_cat.wait()
-
-    def ensure_systemd_cat_running(self):
-        if self.systemd_cat:
-            res = self.systemd_cat.poll()
-            if res is None:
-                return
-
-            LOGGER.error('systemd-cat exited with code %r, restarting...', res)
-
-        self.systemd_cat = self.podman.bg(
-            'exec', '-i', self.container_id, 'systemd-cat', '-p', 'notice', '--level-prefix=0',
-            stdin=subprocess.PIPE, bufsize=0
-        )
-
-    def journal_write(self, message):
-        self.ensure_systemd_cat_running()
-        self.systemd_cat.stdin.write(message + b'\n')
-
-    def journal_sync(self, token):
-        with self.journal_sync_lock:
-            if self.shut_down:
-                return
-
-            self.journal_sync_token = token
-            self.journal_sync_event.clear()
-
-        try:
-            self.journal_write(token)
-            self.journal_sync_event.wait(timeout=1)
-
-        except Exception:
-            LOGGER.exception("Can't sync journal")
-
-    def journal_line(self, line):
-        sys.stderr.buffer.write(line)
-
-        with self.journal_sync_lock:
-            if self.journal_sync_token is not None and self.journal_sync_token in line:
-                self.journal_sync_event.set()
-
-                if not line:
-                    self.shut_down = True
+    def start_console(self):
+        assert self.console is None
+        self.console = ConsoleReaderSubprocess.spawn(self)
 
     @classmethod
     def run(cls, podman, *args):

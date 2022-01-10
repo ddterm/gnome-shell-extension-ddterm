@@ -38,33 +38,48 @@ def xvfb_fbdir(tmpdir_factory):
     return tmpdir_factory.mktemp('xvfb')
 
 
-@contextlib.contextmanager
-def journal_context(item, when):
-    assert item.cls is not CommonTests
-
-    container = item.cls.current_container
-    if container:
-        container.journal_write(f'Beginning of {item.nodeid} {when}'.encode())
-
-    try:
-        yield
-
-    finally:
-        container = item.cls.current_container
-        if container:
-            container.journal_sync(f'End of {item.nodeid} {when}'.encode())
-
-
-@pytest.mark.runtest_cm.with_args(journal_context)
+@pytest.mark.runtest_cm.with_args(lambda item, when: item.cls.journal_context(item, when))
 class CommonTests:
     GNOME_SHELL_SESSION_NAME: str
     N_MONITORS: int
     PRIMARY_MONITOR = 0
 
-    current_container = None
+    current_container: container_util.Container = None
+    current_dbus_connection: 'gi.repository.Gio.DBusConnection' = None
+    test_interface_ready = False
+
+    @classmethod
+    @contextlib.contextmanager
+    def journal_context(cls, item, when):
+        assert cls is not CommonTests
+
+        if cls.test_interface_ready:
+            dbus_util.call(
+                cls.current_dbus_connection,
+                'LogMessage',
+                '(s)',
+                f'Beginning of {item.nodeid} {when}'
+            )
+
+        try:
+            yield
+
+        finally:
+            if not cls.test_interface_ready:
+                return
+
+            try:
+                msg = f'End of {item.nodeid} {when}'
+                cls.current_container.console.set_wait_line(msg.encode())
+                dbus_util.call(cls.current_dbus_connection, 'LogMessage', '(s)', msg)
+                cls.current_container.console.wait_line(timeout=1)
+
+            except Exception:
+                LOGGER.exception("Can't sync journal")
 
     @pytest.fixture(scope='class')
     def container(self, podman, container_image, xvfb_fbdir, request):
+        assert request.cls is not CommonTests
         assert request.cls.current_container is None
 
         c = container_util.Container.run(
@@ -78,7 +93,7 @@ class CommonTests:
         atexit.register(c.kill)
 
         try:
-            c.start_reading_journal()
+            c.start_console()
             request.cls.current_container = c
 
             yield c
@@ -104,7 +119,10 @@ class CommonTests:
         return self.GNOME_SHELL_SESSION_NAME
 
     @pytest.fixture(scope='class')
-    def bus_connection(self, podman, container, container_session_bus_ready):
+    def bus_connection(self, podman, container, container_session_bus_ready, request):
+        assert request.cls is not CommonTests
+        assert request.cls.current_dbus_connection is None
+
         ports = json.loads(podman(
             'container', 'inspect', '-f', '{{json .NetworkSettings.Ports}}', container.container_id,
             stdout=subprocess.PIPE
@@ -114,7 +132,14 @@ class CommonTests:
         host = hostport['HostIp'] or '127.0.0.1'
         port = hostport['HostPort']
 
-        return dbus_util.connect_tcp(host, port)
+        c = dbus_util.connect_tcp(host, port)
+        request.cls.current_dbus_connection = c
+
+        try:
+            yield c
+
+        finally:
+            request.cls.current_dbus_connection = None
 
     @pytest.fixture(scope='class')
     def bus_call(self, bus_connection):
@@ -157,8 +182,18 @@ class CommonTests:
         return do_screenshot
 
     @pytest.fixture(scope='class', autouse=True)
-    def extension_test_interface_ready(self, bus_connection, extension_enabled):
+    def extension_test_interface_ready(self, bus_connection, extension_enabled, request):
+        assert request.cls is not CommonTests
+        assert request.cls.test_interface_ready == False
+
         dbus_util.wait_interface(bus_connection)
+        request.cls.test_interface_ready = True
+
+        try:
+            yield
+
+        finally:
+            request.cls.test_interface_ready = False
 
     @pytest.fixture(scope='class', autouse=True)
     def extension_setup(self, bus_call, extension_test_interface_ready):

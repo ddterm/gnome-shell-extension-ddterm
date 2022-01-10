@@ -20,6 +20,10 @@
             <arg name="scale" type="i" direction="out"/>
         </method>
 
+        <method name="LogMessage">
+            <arg name="msg" type="s" direction="in"/>
+        </method>
+
         <method name="TestShow">
             <arg name="window_size" type="d" direction="in"/>
             <arg name="window_maximize" type="s" direction="in"/>

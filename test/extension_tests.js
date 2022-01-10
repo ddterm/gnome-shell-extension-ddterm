@@ -647,6 +647,10 @@ class ExtensionTestDBusInterface {
         return global.display.get_monitor_scale(index);
     }
 
+    LogMessage(msg) {
+        message(msg);
+    }
+
     TestShowAsync(params, invocation) {
         invoke_test_async(test_show, params, invocation);
     }
