@@ -26,7 +26,8 @@ jobs:
     env:
       IMAGE: ghcr.io/amezin/${{ matrix.image }}:master
       PY_COLORS: 1
-      TOX_TESTENV_PASSENV: PY_COLORS
+      TOX_TESTENV_PASSENV: PY_COLORS GITHUB_ACTIONS
+      TOXENV: py3-ghactions
     steps:
     - uses: actions/checkout@v2
     - uses: actions/setup-node@v2-beta
