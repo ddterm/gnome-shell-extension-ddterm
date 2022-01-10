@@ -208,27 +208,26 @@ function with_timeout(promise, timeout_ms = WAIT_TIMEOUT_MS) {
     ]);
 }
 
+function leisure() {
+    return new Promise(resolve => global.run_at_leisure(resolve));
+}
+
 function hide_window_async_wait() {
-    return with_timeout(new Promise(resolve => {
-        if (!Extension.window_manager.current_window) {
+    return new Promise(resolve => {
+        const win = Extension.window_manager.current_window;
+        if (!win) {
             resolve();
             return;
         }
 
-        const check_cb = () => {
-            if (Extension.window_manager.current_window)
-                return;
-
-            Extension.window_manager.disconnect(handler);
+        async_wait_signal(win, 'unmanaged').then(() => {
             message('Window hidden');
-            resolve();
-        };
-
-        const handler = Extension.window_manager.connect('notify::current-window', check_cb);
+            leisure().then(resolve);
+        });
 
         message('Hiding the window');
         Extension.toggle();
-    }));
+    });
 }
 
 function wait_first_frame(timeout_ms = WAIT_TIMEOUT_MS) {
@@ -240,7 +239,7 @@ function wait_first_frame(timeout_ms = WAIT_TIMEOUT_MS) {
             if (windows.includes(Extension.window_manager.current_window)) {
                 message('Got first-frame');
                 connections.disconnect();
-                resolve();
+                leisure().then(resolve);
             }
         };
 
@@ -253,6 +252,46 @@ function wait_first_frame(timeout_ms = WAIT_TIMEOUT_MS) {
             });
         });
     }), timeout_ms);
+}
+
+function next_frame() {
+    return with_timeout(new Promise(resolve => {
+        const window = Extension.window_manager.current_window;
+        if (!window) {
+            resolve();
+            return;
+        }
+
+        const actor = window.get_compositor_private();
+        if (!actor) {
+            resolve();
+            return;
+        }
+
+        message('Waiting for next frame');
+
+        const stage = global.get_stage();
+        if (actor.is_effectively_on_stage_view) {
+            const handler = stage.connect('after-paint', (_, view) => {
+                if (actor.is_effectively_on_stage_view(view)) {
+                    stage.disconnect(handler);
+                    message('Frame painted');
+                    leisure().then(resolve);
+                } else {
+                    debug('after-paint for wrong view');
+                }
+            });
+        } else {
+            async_wait_signal(stage, 'after-paint').then(() => {
+                message('Frame painted');
+                leisure().then(resolve);
+            });
+        }
+    }));
+}
+
+function next_frame_wayland() {
+    return Meta.is_wayland_compositor() ? next_frame() : leisure();
 }
 
 function wait_window_settle(idle_timeout_ms = DEFAULT_IDLE_TIMEOUT_MS) {
@@ -492,7 +531,7 @@ async function test_show(window_size, window_maximize, window_pos, current_monit
     Extension.toggle();
 
     await wait;
-    await wait_window_settle();
+    await next_frame_wayland();
 
     const monitor_index = window_monitor_index(window_monitor);
     const should_maximize = window_maximize === WindowMaximizeMode.EARLY || (window_size === 1.0 && settings.get_boolean('window-maximize'));
@@ -571,6 +610,8 @@ function resize_point(frame_rect, window_pos, monitor_scale) {
 
 async function test_resize_xte(window_size, window_maximize, window_size2, window_pos, current_monitor, window_monitor) {
     await test_show(window_size, window_maximize, window_pos, current_monitor, window_monitor);
+
+    await wait_window_settle();
 
     const monitor_index = window_monitor_index(window_monitor);
     const workarea = Main.layoutManager.getWorkAreaForMonitor(monitor_index);
