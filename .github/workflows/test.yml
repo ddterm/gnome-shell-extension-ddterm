@@ -36,7 +36,7 @@ jobs:
     - run: sudo podman run --rm -i -v "${PWD}:${PWD}" -w "${PWD}" "${{ env.IMAGE }}" xvfb-run make test-deps
     - run: tox -vv --notest --sitepackages
       working-directory: test
-    - run: tox --sitepackages -- --podman sudo podman --container-image "${{ env.IMAGE }}" -n 2 "test_extension.py::${{ matrix.session }}"
+    - run: tox --sitepackages -- --podman sudo podman --container-image "${{ env.IMAGE }}" -n 2 --screenshot-failing-only "test_extension.py::${{ matrix.session }}"
       working-directory: test
     - uses: actions/upload-artifact@v2
       with:

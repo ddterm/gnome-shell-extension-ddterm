@@ -127,12 +127,20 @@ class CommonTests:
         bus_call('EnableExtension', '(s)', EXTENSION_UUID, path='/org/gnome/Shell', interface='org.gnome.Shell.Extensions')
 
     @pytest.fixture
-    def screenshot(self, container, gnome_shell_session, extra, xvfb_fbdir, tmp_path):
+    def screenshot(self, container, gnome_shell_session, extra, xvfb_fbdir, tmp_path, pytestconfig):
         @contextlib.contextmanager
         def do_screenshot():
+            skip = False
             try:
                 yield
+
+                if pytestconfig.getoption('--screenshot-failing-only'):
+                    skip = True
+
             finally:
+                if skip:
+                    return
+
                 xwd_blob = pathlib.Path(xvfb_fbdir / 'Xvfb_screen0').read_bytes()
 
                 with wand.image.Image(blob=xwd_blob, format='xwd') as img:

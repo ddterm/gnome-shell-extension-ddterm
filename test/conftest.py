@@ -37,6 +37,7 @@ def pytest_addoption(parser):
     parser.addoption('--container-image', action='append')
     parser.addoption('--podman', default=['podman'], nargs='+')
     parser.addoption('--pull', default=False, action='store_true')
+    parser.addoption('--screenshot-failing-only', default=False, action='store_true')
 
 
 def pytest_configure(config):
