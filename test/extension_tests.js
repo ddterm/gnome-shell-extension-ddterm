@@ -157,9 +157,8 @@ async function setup() {
         message('Overview hidden');
     }
 
-    const wait = wait_map(START_TIMEOUT_MS);
     Extension.toggle();
-    await wait;
+    await async_wait_current_window(START_TIMEOUT_MS);
 }
 
 function setup_window_trace() {
@@ -231,39 +230,32 @@ function hide_window_async_wait() {
     }));
 }
 
-function idle() {
-    return new Promise(resolve => {
-        GLib.idle_add(GLib.PRIORITY_LOW, () => {
-            resolve();
-            return GLib.SOURCE_REMOVE;
-        });
-    });
-}
-
-function wait_map(timeout_ms = WAIT_TIMEOUT_MS) {
+function async_wait_current_window(timeout_ms = WAIT_TIMEOUT_MS) {
     return with_timeout(new Promise(resolve => {
         message('Waiting for the window to show');
 
-        const connections = new ConnectionSet();
-        const mapped_windows = [];
+        const shown_handler = new ConnectionSet();
 
         const check_cb = () => {
             const current_win = Extension.window_manager.current_window;
-            const actor = current_win.get_compositor_private();
-            if (actor.visible || mapped_windows.includes(current_win)) {
-                message('Window mapped');
-                connections.disconnect();
-                idle().then(resolve);
+
+            if (!current_win)
+                return;
+
+            shown_handler.disconnect();
+
+            if (current_win.is_hidden()) {
+                shown_handler.connect(current_win, 'shown', check_cb);
+                return;
             }
+
+            Extension.window_manager.disconnect(win_handler);
+            message('Window shown');
+            resolve();
         };
 
-        connections.connect(global.window_manager, 'map', (_, actor) => {
-            mapped_windows.push(actor.meta_window);
-            check_cb();
-        });
-
-        connections.connect(Extension.window_manager, 'notify::current-window', check_cb);
-        JsUnit.assertNull(Extension.window_manager.current_window);
+        const win_handler = Extension.window_manager.connect('notify::current-window', check_cb);
+        check_cb();
     }), timeout_ms);
 }
 
@@ -321,7 +313,10 @@ function async_wait_signal(object, signal, predicate = () => true, timeout_ms = 
                 return;
 
             object.disconnect(handler_id);
-            idle().then(resolve);
+            GLib.idle_add(GLib.PRIORITY_LOW, () => {
+                resolve();
+                return GLib.SOURCE_REMOVE;
+            });
         };
 
         const handler_id = object.connect(signal, pred_check);
@@ -493,11 +488,9 @@ async function test_show(window_size, window_maximize, window_pos, current_monit
     set_settings_string('window-position', window_pos);
     set_settings_string('window-monitor', window_monitor);
 
-    const wait = wait_map();
-
     Extension.toggle();
 
-    await wait;
+    await async_wait_current_window();
     await wait_window_settle();
 
     const monitor_index = window_monitor_index(window_monitor);
