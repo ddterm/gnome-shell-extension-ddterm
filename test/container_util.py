@@ -1,4 +1,3 @@
-import contextlib
 import logging
 import shlex
 import subprocess
@@ -140,7 +139,7 @@ class Container:
             stdin=subprocess.PIPE, bufsize=0
         )
 
-    def systemd_cat_write(self, message):
+    def journal_write(self, message):
         self.ensure_systemd_cat_running()
         self.systemd_cat.stdin.write(message + b'\n')
 
@@ -153,7 +152,7 @@ class Container:
             self.journal_sync_event.clear()
 
         try:
-            self.systemd_cat_write(token)
+            self.journal_write(token)
             self.journal_sync_event.wait(timeout=1)
 
         except Exception:
@@ -168,14 +167,6 @@ class Container:
 
                 if not line:
                     self.shut_down = True
-
-    @contextlib.contextmanager
-    def journal_context(self, name):
-        self.systemd_cat_write(f'Beginning of {name}'.encode())
-        try:
-            yield
-        finally:
-            self.journal_sync(f'End of {name}'.encode())
 
     @classmethod
     def run(cls, podman, *args):

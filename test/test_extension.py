@@ -38,15 +38,21 @@ def xvfb_fbdir(tmpdir_factory):
     return tmpdir_factory.mktemp('xvfb')
 
 
+@contextlib.contextmanager
 def journal_context(item, when):
     assert item.cls is not CommonTests
 
     container = item.cls.current_container
+    if container:
+        container.journal_write(f'Beginning of {item.nodeid} {when}'.encode())
 
-    if not container:
-        return contextlib.nullcontext()
+    try:
+        yield
 
-    return container.journal_context(f'{item.nodeid} {when}')
+    finally:
+        container = item.cls.current_container
+        if container:
+            container.journal_sync(f'End of {item.nodeid} {when}'.encode())
 
 
 @pytest.mark.runtest_cm.with_args(journal_context)
