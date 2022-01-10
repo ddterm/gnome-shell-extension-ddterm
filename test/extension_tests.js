@@ -617,6 +617,11 @@ function resize_point(frame_rect, window_pos, monitor_scale) {
 async function test_resize_xte(window_size, window_maximize, window_size2, window_pos, current_monitor, window_monitor) {
     await test_show(window_size, window_maximize, window_pos, current_monitor, window_monitor);
 
+    const win = Extension.window_manager.current_window;
+    const actor = win.get_compositor_private();
+    await async_wait_signal(actor, 'transitions-completed', () => {
+        return !(actor.get_transition('scale-x') || actor.get_transition('scale-y'));
+    });
     await wait_window_settle();
 
     const monitor_index = window_monitor_index(window_monitor);
