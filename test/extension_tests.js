@@ -306,7 +306,7 @@ function wait_window_settle(idle_timeout_ms = DEFAULT_IDLE_TIMEOUT_MS) {
     }));
 }
 
-function async_wait_signal(object, signal, predicate = () => true, timeout_ms = WAIT_TIMEOUT_MS) {
+function async_wait_signal(object, signal, predicate = null, timeout_ms = WAIT_TIMEOUT_MS) {
     return with_timeout(new Promise(resolve => {
         const pred_check = () => {
             if (!predicate())
@@ -320,7 +320,10 @@ function async_wait_signal(object, signal, predicate = () => true, timeout_ms = 
         };
 
         const handler_id = object.connect(signal, pred_check);
-        pred_check();
+        if (predicate)
+            pred_check();
+        else
+            predicate = () => true;
     }), timeout_ms);
 }
 
