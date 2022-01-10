@@ -426,6 +426,8 @@ function window_monitor_index(window_monitor) {
     return Main.layoutManager.primaryIndex;
 }
 
+let xte_mouse_button_last = false;
+
 async function xte_mouse(x, y, button = false) {
     x = Math.floor(x);
     y = Math.floor(y);
@@ -433,6 +435,10 @@ async function xte_mouse(x, y, button = false) {
     const mods = button ? 256 : 0;
     let [c_x, c_y, c_mods] = global.get_pointer();
     const xte_commands = [];
+
+    const mods_getter_broken = Config.PACKAGE_VERSION.startsWith('3.38');
+    if (mods_getter_broken)
+        c_mods = xte_mouse_button_last ? 256 : 0;
 
     if (c_x !== x || c_y !== y) {
         message(`Moving mouse from (${c_x}, ${c_y}) to (${x}, ${y})`);
@@ -449,13 +455,14 @@ async function xte_mouse(x, y, button = false) {
 
     await async_run_process(['xte'].concat(xte_commands));
 
-    while (c_x !== x || c_y !== y || c_mods !== mods) {
+    while (c_x !== x || c_y !== y || (!mods_getter_broken && c_mods !== mods)) {
         // eslint-disable-next-line no-await-in-loop
         await async_sleep(10);
         [c_x, c_y, c_mods] = global.get_pointer();
     }
 
     message(`Mouse is at (${c_x}, ${c_y}), modifiers = ${c_mods}`);
+    xte_mouse_button_last = button;
 }
 
 async function test_show(window_size, window_maximize, window_pos, current_monitor, window_monitor) {
