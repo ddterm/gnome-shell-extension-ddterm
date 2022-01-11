@@ -287,6 +287,11 @@ function next_frame() {
                 leisure().then(resolve);
             });
         }
+
+        if (stage.schedule_update)
+            stage.schedule_update();
+        else
+            stage.queue_redraw();
     }));
 }
 
