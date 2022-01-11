@@ -296,7 +296,7 @@ class SingleMonitorTests(CommonTests):
 
 
 @pytest.mark.parametrize('monitor_config', [
-    MonitorConfig(0, 'current'),
+    # MonitorConfig(0, 'current'), # not interesting
     MonitorConfig(1, 'current'),
     MonitorConfig(1, 'primary')
 ])
