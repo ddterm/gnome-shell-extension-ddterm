@@ -401,63 +401,50 @@ function assert_rect_equals(expected, actual) {
     JsUnit.assertEquals(expected.height, actual.height);
 }
 
-function verify_window_geometry(window_size, window_maximize, window_pos, monitor_index) {
+function compute_target_rect(window_size, window_pos, monitor_index) {
     const workarea = Main.layoutManager.getWorkAreaForMonitor(monitor_index);
     const monitor_scale = global.display.get_monitor_scale(monitor_index);
-    const frame_rect = Extension.window_manager.current_window.get_frame_rect();
+    const target_rect = workarea.copy();
 
-    message(`Verifying window geometry (expected size=${window_size}, maximized=${window_maximize}, position=${window_pos})`);
+    if (['top', 'bottom'].includes(window_pos)) {
+        target_rect.height *= window_size;
+        target_rect.height -= target_rect.height % monitor_scale;
 
-    if (window_pos === 'top' || window_pos === 'bottom') {
-        JsUnit.assertEquals(window_maximize, Extension.window_manager.current_window.maximized_vertically);
-        JsUnit.assertEquals(Extension.window_manager.current_window.maximized_vertically, settings.get_boolean('window-maximize'));
+        if (window_pos === 'bottom')
+            target_rect.y += workarea.height - target_rect.height;
     } else {
-        JsUnit.assertEquals(window_maximize, Extension.window_manager.current_window.maximized_horizontally);
-        JsUnit.assertEquals(Extension.window_manager.current_window.maximized_horizontally, settings.get_boolean('window-maximize'));
+        target_rect.width *= window_size;
+        target_rect.width -= target_rect.width % monitor_scale;
+
+        if (window_pos === 'right')
+            target_rect.x += workarea.width - target_rect.width;
     }
 
-    if (window_maximize) {
-        assert_rect_equals(workarea, frame_rect);
-        return;
-    }
+    return target_rect;
+}
 
-    const target_rect = Extension.window_manager.target_rect_for_workarea_size(workarea, monitor_scale, window_size);
-    assert_rect_equals(target_rect, Extension.window_manager.current_target_rect);
+function verify_window_geometry(window_size, window_maximize, window_pos, monitor_index) {
+    message(`Verifying window geometry (expected size=${window_size}, maximized=${window_maximize}, position=${window_pos})`);
+    const win = Extension.window_manager.current_window;
 
-    const workarea_right = workarea.x + workarea.width;
-    const workarea_bottom = workarea.y + workarea.height;
-    const frame_rect_right = frame_rect.x + frame_rect.width;
-    const frame_rect_bottom = frame_rect.y + frame_rect.height;
+    const maximize_prop = ['top', 'bottom'].includes(window_pos) ? 'maximized-vertically' : 'maximized-horizontally';
+    JsUnit.assertEquals(window_maximize, win[maximize_prop]);
+    JsUnit.assertEquals(window_maximize, settings.get_boolean('window-maximize'));
 
-    if (window_pos === 'top') {
-        debug('Making sure the window is attached to top edge');
-        JsUnit.assertEquals(workarea.x, frame_rect.x);
-        JsUnit.assertEquals(workarea_right, frame_rect_right);
-        JsUnit.assertEquals(workarea.y, frame_rect.y);
-    }
+    const workarea = Main.layoutManager.getWorkAreaForMonitor(monitor_index);
+    const monitor_scale = global.display.get_monitor_scale(monitor_index);
+    const target_rect_unmaximized = compute_target_rect(window_size, window_pos, monitor_index);
 
-    if (window_pos === 'bottom') {
-        debug('Making sure the window is attached to bottom edge');
-        JsUnit.assertEquals(workarea.x, frame_rect.x);
-        JsUnit.assertEquals(workarea_right, frame_rect_right);
-        JsUnit.assertEquals(workarea_bottom, frame_rect_bottom);
-    }
+    JsUnit.assertEquals(0, target_rect_unmaximized.width % monitor_scale);
+    JsUnit.assertEquals(0, target_rect_unmaximized.height % monitor_scale);
+    JsUnit.assertEquals(0, target_rect_unmaximized.x % monitor_scale);
+    JsUnit.assertEquals(0, target_rect_unmaximized.y % monitor_scale);
 
-    if (window_pos === 'left') {
-        debug('Making sure the window is attached to left edge');
-        JsUnit.assertEquals(workarea.x, frame_rect.x);
-        JsUnit.assertEquals(workarea.y, frame_rect.y);
-        JsUnit.assertEquals(workarea_bottom, frame_rect_bottom);
-    }
+    assert_rect_equals(target_rect_unmaximized, Extension.window_manager.target_rect_for_workarea_size(workarea, monitor_scale, window_size));
+    assert_rect_equals(target_rect_unmaximized, Extension.window_manager.current_target_rect);
 
-    if (window_pos === 'right') {
-        debug('Making sure the window is attached to right edge');
-        JsUnit.assertEquals(workarea_right, frame_rect_right);
-        JsUnit.assertEquals(workarea.y, frame_rect.y);
-        JsUnit.assertEquals(workarea_bottom, frame_rect_bottom);
-    }
-
-    assert_rect_equals(target_rect, frame_rect);
+    const target_rect = window_maximize ? workarea : target_rect_unmaximized;
+    assert_rect_equals(target_rect, win.get_frame_rect());
 
     message('Window geometry is fine');
 }
