@@ -456,43 +456,55 @@ function window_monitor_index(window_monitor) {
     return Main.layoutManager.primaryIndex;
 }
 
-let xte_mouse_button_last = false;
-
-async function xte_mouse(x, y, button = false) {
+async function xte_mouse_move(x, y) {
     x = Math.floor(x);
     y = Math.floor(y);
 
-    const mods = button ? 256 : 0;
-    let [c_x, c_y, c_mods] = global.get_pointer();
-    const xte_commands = [];
-
-    const mods_getter_broken = Config.PACKAGE_VERSION.startsWith('3.38');
-    if (mods_getter_broken)
-        c_mods = xte_mouse_button_last ? 256 : 0;
-
-    if (c_x !== x || c_y !== y) {
-        message(`Moving mouse from (${c_x}, ${c_y}) to (${x}, ${y})`);
-        xte_commands.push(`mousemove ${x} ${y}`);
-    }
-
-    if (c_mods !== mods) {
-        message(mods ? 'Pressing mouse button 1' : 'Releasing mouse button 1');
-        xte_commands.push(button ? 'mousedown 1' : 'mouseup 1');
-    }
-
-    if (xte_commands.length === 0)
+    let [c_x, c_y, _] = global.get_pointer();
+    if (c_x === x && c_y === y)
         return;
 
-    await async_run_process(['xte'].concat(xte_commands));
+    message(`Moving mouse from (${c_x}, ${c_y}) to (${x}, ${y})`);
+    await async_run_process(['xte', `mousemove ${x} ${y}`]);
 
-    while (c_x !== x || c_y !== y || (!mods_getter_broken && c_mods !== mods)) {
+    while (c_x !== x || c_y !== y) {
         // eslint-disable-next-line no-await-in-loop
         await async_sleep(10);
-        [c_x, c_y, c_mods] = global.get_pointer();
+        [c_x, c_y, _] = global.get_pointer();
     }
 
-    message(`Mouse is at (${c_x}, ${c_y}), modifiers = ${c_mods}`);
-    xte_mouse_button_last = button;
+    message(`Mouse is at (${c_x}, ${c_y})`);
+}
+
+let xte_mouse_button_last = false;
+
+async function xte_mouse_button(button) {
+    const mods_getter_broken = Config.PACKAGE_VERSION.startsWith('3.38');
+    if (!mods_getter_broken) {
+        const [unused_x, unused_y, c_mods] = global.get_pointer();
+        xte_mouse_button_last = c_mods !== 0;
+    }
+
+    if (xte_mouse_button_last === button)
+        return;
+
+    message(button ? 'Pressing mouse button 1' : 'Releasing mouse button 1');
+
+    await async_run_process(['xte', button ? 'mousedown 1' : 'mouseup 1']);
+
+    if (mods_getter_broken) {
+        await async_sleep(100);
+        xte_mouse_button_last = button;
+    } else {
+        while (xte_mouse_button_last !== button) {
+            // eslint-disable-next-line no-await-in-loop
+            await async_sleep(10);
+            const [unused_x, unused_y, c_mods] = global.get_pointer();
+            xte_mouse_button_last = c_mods !== 0;
+        }
+    }
+
+    message(`Mouse button pressed = ${xte_mouse_button_last}`);
 }
 
 function wait_move_resize_start(window_size, window_maximize, window_pos, monitor_index) {
@@ -528,7 +540,7 @@ async function test_show(window_size, window_maximize, window_pos, current_monit
 
     if (current_monitor !== global.display.get_current_monitor()) {
         const monitor_rect = Main.layoutManager.monitors[current_monitor];
-        await xte_mouse(
+        await xte_mouse_move(
             monitor_rect.x + Math.floor(monitor_rect.width / 2),
             monitor_rect.y + Math.floor(monitor_rect.height / 2)
         );
@@ -663,13 +675,16 @@ async function test_resize_xte(window_size, window_maximize, window_size2, windo
     const initial_frame_rect = Extension.window_manager.current_window.get_frame_rect();
     const initial = resize_point(initial_frame_rect, window_pos, monitor_scale);
 
+    await xte_mouse_move(initial.x, initial.y);
+
     const target_frame_rect = Extension.window_manager.target_rect_for_workarea_size(workarea, monitor_scale, window_size2);
     const target = resize_point(target_frame_rect, window_pos, monitor_scale);
 
     const geometry_wait1 = wait_move_resize_start(window_maximize !== WindowMaximizeMode.NOT_MAXIMIZED ? 1.0 : window_size, false, window_pos, monitor_index);
     let geometry_wait2 = null;
 
-    await xte_mouse(initial.x, initial.y, true);
+    await xte_mouse_button(true);
+
     try {
         await geometry_wait1;
         await wait_window_settle();
@@ -678,10 +693,10 @@ async function test_resize_xte(window_size, window_maximize, window_size2, windo
 
         geometry_wait2 = wait_move_resize_start(window_size2, false, window_pos, monitor_index);
 
-        await xte_mouse(target.x, target.y, true);
+        await xte_mouse_move(target.x, target.y);
         await wait_window_settle();
     } finally {
-        await xte_mouse(target.x, target.y, false);
+        await xte_mouse_button(false);
     }
 
     await geometry_wait2;
