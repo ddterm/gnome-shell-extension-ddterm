@@ -207,10 +207,11 @@ var AppWindow = GObject.registerClass(
             });
 
             this.insert_page(0);
+        }
 
-            const display = Gdk.Display.get_default();
-            if (display.constructor.$gtype.name === 'GdkWaylandDisplay')
-                this.method_handler(this, 'map', this.sync_size_with_extension);
+        show() {
+            this.sync_size_with_extension();
+            super.show();
         }
 
         simple_action(name, func) {
@@ -443,16 +444,19 @@ var AppWindow = GObject.registerClass(
         }
 
         sync_size_with_extension() {
-            if (this.is_maximized)
-                return;
-
             const [target_x_, target_y_, target_w, target_h] = this.extension_dbus.GetTargetRectSync();
             const w = Math.floor(target_w / this.scale_factor);
             const h = Math.floor(target_h / this.scale_factor);
 
             this.set_default_size(w, h);
+
+            if (this.is_maximized)
+                return;
+
             this.resize(w, h);
-            this.window.resize(w, h);
+
+            if (this.window)
+                this.window.resize(w, h);
         }
     }
 );
