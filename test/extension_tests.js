@@ -208,8 +208,13 @@ function with_timeout(promise, timeout_ms = WAIT_TIMEOUT_MS) {
     ]);
 }
 
-function leisure() {
-    return new Promise(resolve => global.run_at_leisure(resolve));
+function idle() {
+    return new Promise(resolve => {
+        GLib.idle_add(GLib.PRIORITY_LOW, () => {
+            resolve();
+            return GLib.SOURCE_REMOVE;
+        });
+    });
 }
 
 function hide_window_async_wait() {
@@ -222,7 +227,7 @@ function hide_window_async_wait() {
 
         async_wait_signal(win, 'unmanaged').then(() => {
             message('Window hidden');
-            leisure().then(resolve);
+            idle().then(resolve);
         });
 
         message('Hiding the window');
@@ -239,7 +244,7 @@ function wait_first_frame(timeout_ms = WAIT_TIMEOUT_MS) {
             if (windows.includes(Extension.window_manager.current_window)) {
                 message('Got first-frame');
                 connections.disconnect();
-                leisure().then(resolve);
+                idle().then(resolve);
             }
         };
 
