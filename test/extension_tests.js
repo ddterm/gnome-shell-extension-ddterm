@@ -538,16 +538,15 @@ async function test_show(window_size, window_maximize, window_pos, current_monit
 
     await hide_window_async_wait();
 
-    if (current_monitor !== global.display.get_current_monitor()) {
-        const monitor_rect = Main.layoutManager.monitors[current_monitor];
-        await xte_mouse_move(
-            monitor_rect.x + Math.floor(monitor_rect.width / 2),
-            monitor_rect.y + Math.floor(monitor_rect.height / 2)
-        );
+    const monitor_rect = Main.layoutManager.monitors[current_monitor];
+    await xte_mouse_move(
+        monitor_rect.x + Math.floor(monitor_rect.width / 2),
+        monitor_rect.y + Math.floor(monitor_rect.height / 2)
+    );
 
-        // 'current' monitor doesn't seem to be updated in nested mode
+    // 'current' monitor doesn't seem to be updated in nested mode
+    if (current_monitor !== global.display.get_current_monitor())
         Meta.MonitorManager.get().emit('monitors-changed-internal');
-    }
 
     JsUnit.assertEquals(current_monitor, global.display.get_current_monitor());
 
