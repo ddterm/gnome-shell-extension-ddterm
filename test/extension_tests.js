@@ -254,51 +254,6 @@ function wait_first_frame(timeout_ms = WAIT_TIMEOUT_MS) {
     }), timeout_ms);
 }
 
-function next_frame() {
-    return with_timeout(new Promise(resolve => {
-        const window = Extension.window_manager.current_window;
-        if (!window) {
-            resolve();
-            return;
-        }
-
-        const actor = window.get_compositor_private();
-        if (!actor) {
-            resolve();
-            return;
-        }
-
-        message('Waiting for next frame');
-
-        const stage = global.get_stage();
-        if (actor.is_effectively_on_stage_view) {
-            const handler = stage.connect('after-paint', (_, view) => {
-                if (actor.is_effectively_on_stage_view(view)) {
-                    stage.disconnect(handler);
-                    message('Frame painted');
-                    leisure().then(resolve);
-                } else {
-                    debug('after-paint for wrong view');
-                }
-            });
-        } else {
-            async_wait_signal(stage, 'after-paint').then(() => {
-                message('Frame painted');
-                leisure().then(resolve);
-            });
-        }
-
-        if (stage.schedule_update)
-            stage.schedule_update();
-        else
-            stage.queue_redraw();
-    }));
-}
-
-function next_frame_wayland() {
-    return Meta.is_wayland_compositor() ? next_frame() : leisure();
-}
-
 function wait_window_settle(idle_timeout_ms = DEFAULT_IDLE_TIMEOUT_MS) {
     return with_timeout(new Promise(resolve => {
         const win = Extension.window_manager.current_window;
@@ -560,7 +515,7 @@ async function test_show(window_size, window_maximize, window_pos, current_monit
     Extension.toggle();
 
     await wait;
-    await next_frame_wayland();
+    await wait_window_settle();
 
     const monitor_index = window_monitor_index(window_monitor);
     const should_maximize = window_maximize === WindowMaximizeMode.EARLY || (window_size === 1.0 && settings.get_boolean('window-maximize'));
@@ -572,7 +527,7 @@ async function test_show(window_size, window_maximize, window_pos, current_monit
         set_settings_boolean('window-maximize', true);
 
         await geometry_wait;
-        await next_frame_wayland();
+        await wait_window_settle();
 
         verify_window_geometry(window_size, true, window_pos, monitor_index);
     }
