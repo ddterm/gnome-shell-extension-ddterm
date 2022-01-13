@@ -260,50 +260,7 @@ function wait_first_frame(timeout_ms = WAIT_TIMEOUT_MS) {
 }
 
 function wait_window_settle(idle_timeout_ms = DEFAULT_IDLE_TIMEOUT_MS) {
-    return with_timeout(new Promise(resolve => {
-        const win = Extension.window_manager.current_window;
-        let timer_id = null;
-        const handlers = new ConnectionSet();
-
-        message('Waiting for the window to stop generating events');
-
-        const ready = () => {
-            handlers.disconnect();
-            resolve();
-            message('Idle timeout elapsed');
-            return GLib.SOURCE_REMOVE;
-        };
-
-        const restart_timer = () => {
-            if (timer_id !== null)
-                GLib.source_remove(timer_id);
-
-            timer_id = GLib.timeout_add(GLib.PRIORITY_LOW, idle_timeout_ms, ready);
-        };
-
-        handlers.connect(win, 'position-changed', () => {
-            message('Restarting wait because of position-changed signal');
-            restart_timer();
-        });
-        handlers.connect(win, 'size-changed', () => {
-            message('Restarting wait because of size-changed signal');
-            restart_timer();
-        });
-        handlers.connect(win, 'notify::maximized-vertically', () => {
-            message('Restarting wait because of notify::maximized-vertically signal');
-            restart_timer();
-        });
-        handlers.connect(win, 'notify::maximized-horizontally', () => {
-            message('Restarting wait because of notify::maximized-horizontally signal');
-            restart_timer();
-        });
-        handlers.connect(Extension.window_manager, 'move-resize-requested', () => {
-            message('Restarting wait because of move-resize-requested signal');
-            restart_timer();
-        });
-
-        restart_timer();
-    }));
+    return async_sleep(idle_timeout_ms);
 }
 
 function async_wait_signal(object, signal, predicate = null, timeout_ms = WAIT_TIMEOUT_MS) {
