@@ -39,15 +39,7 @@ const WindowMaximizeMode = {
 let settings = null;
 const window_trace = new ConnectionSet();
 
-function shell_version_at_least(req_major, req_minor) {
-    const [cur_major, cur_minor] = Config.PACKAGE_VERSION.split('.');
-    if (cur_major !== req_major)
-        return cur_major > req_minor;
-
-    return cur_minor >= req_minor;
-}
-
-const DEFAULT_IDLE_TIMEOUT_MS = shell_version_at_least(3, 38) ? 250 : 300;
+const DEFAULT_IDLE_TIMEOUT_MS = 200;
 const WAIT_TIMEOUT_MS = 2000;
 const START_TIMEOUT_MS = 10000;
 
