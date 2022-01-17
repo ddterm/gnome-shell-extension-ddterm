@@ -19,7 +19,7 @@
 
 'use strict';
 
-/* exported enable disable message debug info warning critical error */
+/* exported enable disable message debug info warning critical */
 
 const { GLib, Gio, Meta } = imports.gi;
 const ByteArray = imports.byteArray;
@@ -68,7 +68,6 @@ const debug = _makeLogFunction(GLib.LogLevelFlags.LEVEL_DEBUG);
 const info = _makeLogFunction(GLib.LogLevelFlags.LEVEL_INFO);
 const warning = _makeLogFunction(GLib.LogLevelFlags.LEVEL_WARNING);
 const critical = _makeLogFunction(GLib.LogLevelFlags.LEVEL_CRITICAL);
-const error = _makeLogFunction(GLib.LogLevelFlags.LEVEL_ERROR);
 
 function invoke_async(f, params, invocation) {
     f(...params).then(_ => {
