@@ -419,7 +419,7 @@
       <default><![CDATA[[]]]></default>
     </key>
     <key name="shortcut-win-new-tab" type="as">
-      <default><![CDATA[['<Ctrl><Shift>n']]]></default>
+      <default><![CDATA[['<Ctrl><Shift>t']]]></default>
     </key>
     <key name="shortcut-win-new-tab-front" type="as">
       <default><![CDATA[[]]]></default>
@@ -431,7 +431,7 @@
       <default><![CDATA[[]]]></default>
     </key>
     <key name="shortcut-page-close" type="as">
-      <default><![CDATA[['<Ctrl><Shift>q']]]></default>
+      <default><![CDATA[['<Ctrl><Shift>w']]]></default>
     </key>
     <key name="shortcut-prev-tab" type="as">
       <default><![CDATA[['<Ctrl>Page_Up']]]></default>
