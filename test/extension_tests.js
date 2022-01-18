@@ -355,12 +355,12 @@ function set_settings_string(name, value) {
     return settings.set_string(name, value);
 }
 
-function assert_rect_equals(expected, actual) {
-    message(`Checking if rect { .x=${actual.x}, .y=${actual.y}, .width=${actual.width}, .height=${actual.height} } matches expected { .x=${expected.x}, .y=${expected.y}, .width=${expected.width}, .height=${expected.height} }`);
-    JsUnit.assertEquals(expected.x, actual.x);
-    JsUnit.assertEquals(expected.y, actual.y);
-    JsUnit.assertEquals(expected.width, actual.width);
-    JsUnit.assertEquals(expected.height, actual.height);
+function assert_rect_equals(expected_desc, expected, actual_desc, actual) {
+    message(`Checking if ${actual_desc}={ .x=${actual.x}, .y=${actual.y}, .width=${actual.width}, .height=${actual.height} } matches ${expected_desc}={ .x=${expected.x}, .y=${expected.y}, .width=${expected.width}, .height=${expected.height} }`);
+    JsUnit.assertEquals('x', expected.x, actual.x);
+    JsUnit.assertEquals('y', expected.y, actual.y);
+    JsUnit.assertEquals('width', expected.width, actual.width);
+    JsUnit.assertEquals('height', expected.height, actual.height);
 }
 
 function compute_target_rect(window_size, window_pos, monitor_index) {
@@ -402,11 +402,23 @@ function verify_window_geometry(window_size, window_maximize, window_pos, monito
     JsUnit.assertEquals(0, target_rect_unmaximized.x % monitor_scale);
     JsUnit.assertEquals(0, target_rect_unmaximized.y % monitor_scale);
 
-    assert_rect_equals(target_rect_unmaximized, Extension.window_manager.target_rect_for_workarea_size(workarea, monitor_scale, window_size));
-    assert_rect_equals(target_rect_unmaximized, Extension.window_manager.current_target_rect);
+    assert_rect_equals(
+        'target_rect_unmaximized',
+        target_rect_unmaximized,
+        `Extension.window_manager.target_rect_for_workarea_size(workarea, ${monitor_scale}, ${window_size})`,
+        Extension.window_manager.target_rect_for_workarea_size(workarea, monitor_scale, window_size)
+    );
+    assert_rect_equals(
+        'target_rect_unmaximized',
+        target_rect_unmaximized,
+        'Extension.window_manager.current_target_rect',
+        Extension.window_manager.current_target_rect
+    );
 
-    const target_rect = window_maximize ? workarea : target_rect_unmaximized;
-    assert_rect_equals(target_rect, win.get_frame_rect());
+    if (window_maximize)
+        assert_rect_equals('workarea', workarea, 'win.get_frame_rect()', win.get_frame_rect());
+    else
+        assert_rect_equals('target_rect_unmaximized', target_rect_unmaximized, 'win.get_frame_rect()', win.get_frame_rect());
 
     message('Window geometry is fine');
 }
