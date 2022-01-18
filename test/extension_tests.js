@@ -309,10 +309,7 @@ function async_wait_signal(object, signal, predicate = null, timeout_ms = WAIT_T
                 return;
 
             connections.disconnect();
-            GLib.idle_add(GLib.PRIORITY_LOW, () => {
-                resolve();
-                return GLib.SOURCE_REMOVE;
-            });
+            resolve();
         };
 
         connections.connect(object, signal, pred_check);
