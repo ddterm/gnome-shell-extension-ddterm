@@ -227,9 +227,10 @@ function hide_window_async_wait() {
 }
 
 function wait_first_frame(timeout_ms = WAIT_TIMEOUT_MS) {
+    const connections = new ConnectionSet();
+
     return with_timeout(new Promise(resolve => {
         const windows = [];
-        const connections = new ConnectionSet();
 
         const check = () => {
             if (windows.includes(Extension.window_manager.current_window)) {
@@ -247,7 +248,9 @@ function wait_first_frame(timeout_ms = WAIT_TIMEOUT_MS) {
                 check();
             });
         });
-    }), timeout_ms);
+    }), timeout_ms).finally(() => {
+        connections.disconnect();
+    });
 }
 
 function wait_window_settle(idle_timeout_ms = DEFAULT_IDLE_TIMEOUT_MS) {
@@ -298,35 +301,46 @@ function wait_window_settle(idle_timeout_ms = DEFAULT_IDLE_TIMEOUT_MS) {
 }
 
 function async_wait_signal(object, signal, predicate = null, timeout_ms = WAIT_TIMEOUT_MS) {
+    const connections = new ConnectionSet();
+
     return with_timeout(new Promise(resolve => {
         const pred_check = () => {
             if (!predicate())
                 return;
 
-            object.disconnect(handler_id);
+            connections.disconnect();
             GLib.idle_add(GLib.PRIORITY_LOW, () => {
                 resolve();
                 return GLib.SOURCE_REMOVE;
             });
         };
 
-        const handler_id = object.connect(signal, pred_check);
+        connections.connect(object, signal, pred_check);
+
         if (predicate)
             pred_check();
         else
             predicate = () => true;
-    }), timeout_ms);
+    }), timeout_ms).finally(() => {
+        connections.disconnect();
+    });
 }
 
 function async_run_process(argv) {
+    let subprocess = null;
+
     return with_timeout(new Promise(resolve => {
         info(`Starting subprocess ${JSON.stringify(argv)}`);
-        const subprocess = Gio.Subprocess.new(argv, Gio.SubprocessFlags.NONE);
+        subprocess = Gio.Subprocess.new(argv, Gio.SubprocessFlags.NONE);
         subprocess.wait_check_async(null, (source, result) => {
             info(`Finished subprocess ${JSON.stringify(argv)}`);
+            subprocess = null;
             resolve(source.wait_check_finish(result));
         });
-    }));
+    })).finally(() => {
+        if (subprocess !== null)
+            subprocess.force_exit();
+    });
 }
 
 function set_settings_double(name, value) {
