@@ -338,19 +338,27 @@ function async_run_process(argv) {
     });
 }
 
+async function set_settings_value(name, value) {
+    info(`Setting ${name}=${value.print(true)}`);
+    settings.set_value(name, value);
+    await async_wait_signal(
+        settings,
+        `changed::${name}`,
+        () => value.equal(settings.get_value(name))
+    );
+    await idle();
+}
+
 function set_settings_double(name, value) {
-    info(`Setting ${name}=${value}`);
-    return settings.set_double(name, value);
+    return set_settings_value(name, GLib.Variant.new_double(value));
 }
 
 function set_settings_boolean(name, value) {
-    info(`Setting ${name}=${value}`);
-    return settings.set_boolean(name, value);
+    return set_settings_value(name, GLib.Variant.new_boolean(value));
 }
 
 function set_settings_string(name, value) {
-    info(`Setting ${name}=${value}`);
-    return settings.set_string(name, value);
+    return set_settings_value(name, GLib.Variant.new_string(value));
 }
 
 function assert_rect_equals(expected_desc, expected, actual_desc, actual) {
@@ -606,10 +614,10 @@ async function test_show(window_size, window_maximize, window_pos, current_monit
 
     JsUnit.assertEquals(current_monitor, global.display.get_current_monitor());
 
-    set_settings_double('window-size', window_size);
-    set_settings_boolean('window-maximize', window_maximize === WindowMaximizeMode.EARLY);
-    set_settings_string('window-position', window_pos);
-    set_settings_string('window-monitor', window_monitor);
+    await set_settings_double('window-size', window_size);
+    await set_settings_boolean('window-maximize', window_maximize === WindowMaximizeMode.EARLY);
+    await set_settings_string('window-position', window_pos);
+    await set_settings_string('window-monitor', window_monitor);
 
     const wait = wait_first_frame();
 
@@ -625,7 +633,7 @@ async function test_show(window_size, window_maximize, window_pos, current_monit
     if (window_maximize === WindowMaximizeMode.LATE) {
         const geometry_wait = wait_move_resize(window_size, true, window_pos, monitor_index);
 
-        set_settings_boolean('window-maximize', true);
+        await set_settings_boolean('window-maximize', true);
 
         await geometry_wait;
 
@@ -639,7 +647,7 @@ async function test_unmaximize(window_size, window_maximize, window_pos, current
     const monitor_index = window_monitor_index(window_monitor);
     const geometry_wait = wait_move_resize(window_size, false, window_pos, monitor_index);
 
-    set_settings_boolean('window-maximize', false);
+    await set_settings_boolean('window-maximize', false);
 
     await geometry_wait;
 
@@ -653,7 +661,7 @@ async function test_unmaximize_correct_size(window_size, window_size2, window_po
     const initially_maximized = settings.get_boolean('window-maximize');
     const geometry_wait1 = wait_move_resize(window_size2, window_size === 1.0 && window_size2 === 1.0 && initially_maximized, window_pos, monitor_index);
 
-    set_settings_double('window-size', window_size2);
+    await set_settings_double('window-size', window_size2);
 
     await geometry_wait1;
 
@@ -661,7 +669,7 @@ async function test_unmaximize_correct_size(window_size, window_size2, window_po
 
     const geometry_wait2 = wait_move_resize(window_size2, true, window_pos, monitor_index);
 
-    set_settings_boolean('window-maximize', true);
+    await set_settings_boolean('window-maximize', true);
 
     await geometry_wait2;
 
@@ -669,7 +677,7 @@ async function test_unmaximize_correct_size(window_size, window_size2, window_po
 
     const geometry_wait3 = wait_move_resize(window_size2, false, window_pos, monitor_index);
 
-    set_settings_boolean('window-maximize', false);
+    await set_settings_boolean('window-maximize', false);
 
     await geometry_wait3;
 
@@ -682,7 +690,7 @@ async function test_unmaximize_on_size_change(window_size, window_size2, window_
     const monitor_index = window_monitor_index(window_monitor);
     const geometry_wait = wait_move_resize(window_size2, window_size2 === 1.0, window_pos, monitor_index);
 
-    set_settings_double('window-size', window_size2);
+    await set_settings_double('window-size', window_size2);
 
     await geometry_wait;
 
@@ -768,7 +776,7 @@ async function test_change_position(window_size, window_pos, window_pos2, curren
     const monitor_index = window_monitor_index(window_monitor);
     const geometry_wait = wait_move_resize(window_size, window_size === 1.0 && initially_maximized, window_pos2, monitor_index);
 
-    set_settings_string('window-position', window_pos2);
+    await set_settings_string('window-position', window_pos2);
 
     await geometry_wait;
 
