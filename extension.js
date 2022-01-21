@@ -19,7 +19,7 @@
 
 'use strict';
 
-/* exported init enable disable settings toggle window_manager */
+/* exported init enable disable settings toggle window_manager subprocess */
 
 const { GLib, Gio, Meta, Shell } = imports.gi;
 const ByteArray = imports.byteArray;
@@ -36,7 +36,7 @@ var settings = null;
 var window_manager = null;
 
 let wayland_client = null;
-let subprocess = null;
+var subprocess = null;
 
 let panel_icon = null;
 let app_dbus = null;
