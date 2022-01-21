@@ -743,8 +743,6 @@ async function test_resize_xte(window_size, window_maximize, window_size2, windo
     const target = resize_point(target_frame_rect, window_pos, monitor_scale);
 
     const geometry_wait1 = wait_move_resize(window_maximize !== WindowMaximizeMode.NOT_MAXIMIZED ? 1.0 : window_size, false, window_pos, monitor_index, XTE_IDLE_TIMEOUT_MS, 3);
-    let geometry_wait2 = null;
-
     await xte_mouse_button(true);
 
     try {
@@ -752,14 +750,12 @@ async function test_resize_xte(window_size, window_maximize, window_size2, windo
 
         verify_window_geometry(window_maximize !== WindowMaximizeMode.NOT_MAXIMIZED ? 1.0 : window_size, false, window_pos, monitor_index);
 
-        geometry_wait2 = wait_move_resize(window_size2, false, window_pos, monitor_index, XTE_IDLE_TIMEOUT_MS, 3);
-
+        const geometry_wait2 = wait_move_resize(window_size2, false, window_pos, monitor_index, XTE_IDLE_TIMEOUT_MS, 3);
         await xte_mouse_move(target.x, target.y);
+        await geometry_wait2;
     } finally {
         await xte_mouse_button(false);
     }
-
-    await geometry_wait2;
 
     // TODO: 'grab-op-end' isn't emitted on Wayland when simulting mouse with xte.
     // For now, just call update_size_setting_on_grab_end()
