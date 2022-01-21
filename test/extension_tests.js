@@ -37,6 +37,7 @@ const WindowMaximizeMode = {
 };
 
 let settings = null;
+const settings_trace = new ConnectionSet();
 const window_trace = new ConnectionSet();
 
 const DEFAULT_IDLE_TIMEOUT_MS = 200;
@@ -339,14 +340,25 @@ function async_run_process(argv) {
 }
 
 async function set_settings_value(name, value) {
-    info(`Setting ${name}=${value.print(true)}`);
+    const original = settings.get_value(name);
+    if (value.equal(original)) {
+        debug(`Setting ${name} already has expected value ${original.print(true)}`);
+        return;
+    }
+
+    info(`Changing setting ${name} from ${original.print(true)} to ${value.print(true)}`);
     settings.set_value(name, value);
-    await async_wait_signal(
-        settings,
-        `changed::${name}`,
-        () => value.equal(settings.get_value(name))
-    );
-    await idle();
+
+    try {
+        await async_wait_signal(
+            settings,
+            `changed::${name}`,
+            () => value.equal(settings.get_value(name))
+        );
+    } finally {
+        debug(`Result: ${name}=${settings.get_value(name).print(true)}`);
+        await idle();
+    }
 }
 
 function set_settings_double(name, value) {
@@ -840,6 +852,9 @@ let dbus_interface = null;
 function enable() {
     GLib.setenv('G_MESSAGES_DEBUG', LOG_DOMAIN, false);
     settings = Extension.settings;
+    settings_trace.connect(settings, 'changed', (_, key) => {
+        debug(`Setting changed: ${key}=${settings.get_value(key).print(true)}`);
+    });
     dbus_interface = new ExtensionTestDBusInterface();
     dbus_interface.dbus.export(Gio.DBus.session, '/org/gnome/Shell/Extensions/ddterm');
 }
@@ -847,5 +862,6 @@ function enable() {
 function disable() {
     dbus_interface.dbus.unexport();
     dbus_interface = null;
+    settings_trace.disconnect();
     settings = null;
 }
