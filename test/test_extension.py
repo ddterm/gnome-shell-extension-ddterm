@@ -252,6 +252,7 @@ class CommonTests:
     @pytest.mark.parametrize('window_maximize', MAXIMIZE_MODES)
     @pytest.mark.parametrize('window_size2', SIZE_VALUES)
     @pytest.mark.parametrize('window_pos', POSITIONS)
+    @pytest.mark.flaky
     def test_resize_xte(self, bus_call, window_size, window_maximize, window_size2, window_pos, monitor_config, shell_version, screenshot):
         version_split = tuple(int(x) for x in shell_version.split('.'))
         if version_split < (3, 38):
