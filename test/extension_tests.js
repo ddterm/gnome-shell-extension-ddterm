@@ -349,7 +349,14 @@ async function set_settings_value(name, value) {
         await async_wait_signal(
             settings,
             `changed::${name}`,
-            () => value.equal(settings.get_value(name))
+            () => {
+                const current = settings.get_value(name);
+                if (value.equal(current))
+                    return true;
+
+                debug(`current value ${current.print(true)} != expected ${value.print(true)}`);
+                return false;
+            }
         );
     } finally {
         debug(`Result: ${name}=${settings.get_value(name).print(true)}`);
