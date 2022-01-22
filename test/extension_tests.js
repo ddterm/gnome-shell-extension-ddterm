@@ -629,6 +629,8 @@ async function test_show(window_size, window_maximize, window_pos, current_monit
 
     JsUnit.assertEquals(current_monitor, global.display.get_current_monitor());
 
+    const prev_maximize = settings.get_boolean('window-maximize');
+
     await set_settings_double('window-size', window_size);
     await set_settings_boolean('window-maximize', window_maximize === WindowMaximizeMode.EARLY);
     await set_settings_string('window-position', window_pos);
@@ -642,7 +644,7 @@ async function test_show(window_size, window_maximize, window_pos, current_monit
 
     const monitor_index = window_monitor_index(window_monitor);
     const should_maximize = window_maximize === WindowMaximizeMode.EARLY || (window_size === 1.0 && settings.get_boolean('window-maximize'));
-    await wait_move_resize(window_size, should_maximize, window_pos, monitor_index, DEFAULT_IDLE_TIMEOUT_MS, 1);
+    await wait_move_resize(window_size, should_maximize, window_pos, monitor_index, DEFAULT_IDLE_TIMEOUT_MS, prev_maximize === should_maximize ? 0 : 1);
     verify_window_geometry(window_size, should_maximize, window_pos, monitor_index);
 
     if (window_maximize === WindowMaximizeMode.LATE) {
