@@ -504,7 +504,7 @@ async function xte_mouse_button(button) {
     await idle();
 }
 
-function wait_move_resize(window_size, window_maximize, window_pos, monitor_index, idle_timeout_ms = DEFAULT_IDLE_TIMEOUT_MS, max_signals = 2, wait_timeout_ms = MOVE_RESIZE_WAIT_TIMEOUT_MS) {
+function wait_move_resize(window_size, window_maximize, window_pos, monitor_index, max_signals = 2, idle_timeout_ms = DEFAULT_IDLE_TIMEOUT_MS, wait_timeout_ms = MOVE_RESIZE_WAIT_TIMEOUT_MS) {
     const connections = new ConnectionSet();
     const idle_timeout = new Timer();
     const wait_timeout = new Timer();
@@ -644,11 +644,11 @@ async function test_show(window_size, window_maximize, window_pos, current_monit
 
     const monitor_index = window_monitor_index(window_monitor);
     const should_maximize = window_maximize === WindowMaximizeMode.EARLY || (window_size === 1.0 && settings.get_boolean('window-maximize'));
-    await wait_move_resize(window_size, should_maximize, window_pos, monitor_index, DEFAULT_IDLE_TIMEOUT_MS, prev_maximize === should_maximize ? 0 : 1);
+    await wait_move_resize(window_size, should_maximize, window_pos, monitor_index, prev_maximize === should_maximize ? 0 : 1);
     verify_window_geometry(window_size, should_maximize, window_pos, monitor_index);
 
     if (window_maximize === WindowMaximizeMode.LATE) {
-        const geometry_wait = wait_move_resize(window_size, true, window_pos, monitor_index, DEFAULT_IDLE_TIMEOUT_MS, 1);
+        const geometry_wait = wait_move_resize(window_size, true, window_pos, monitor_index, 1);
 
         await set_settings_boolean('window-maximize', true);
 
@@ -759,7 +759,7 @@ async function test_resize_xte(window_size, window_maximize, window_size2, windo
     const target_frame_rect = Extension.window_manager.target_rect_for_workarea_size(workarea, monitor_scale, window_size2);
     const target = resize_point(target_frame_rect, window_pos, monitor_scale);
 
-    const geometry_wait1 = wait_move_resize(window_maximize !== WindowMaximizeMode.NOT_MAXIMIZED ? 1.0 : window_size, false, window_pos, monitor_index, XTE_IDLE_TIMEOUT_MS, 3);
+    const geometry_wait1 = wait_move_resize(window_maximize !== WindowMaximizeMode.NOT_MAXIMIZED ? 1.0 : window_size, false, window_pos, monitor_index, 3, XTE_IDLE_TIMEOUT_MS);
     await xte_mouse_button(true);
 
     try {
@@ -767,7 +767,7 @@ async function test_resize_xte(window_size, window_maximize, window_size2, windo
 
         verify_window_geometry(window_maximize !== WindowMaximizeMode.NOT_MAXIMIZED ? 1.0 : window_size, false, window_pos, monitor_index);
 
-        const geometry_wait2 = wait_move_resize(window_size2, false, window_pos, monitor_index, XTE_IDLE_TIMEOUT_MS, 3);
+        const geometry_wait2 = wait_move_resize(window_size2, false, window_pos, monitor_index, 3, XTE_IDLE_TIMEOUT_MS);
         await xte_mouse_move(target.x, target.y);
         await geometry_wait2;
     } finally {
