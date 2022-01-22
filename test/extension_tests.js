@@ -41,7 +41,7 @@ const settings_trace = new ConnectionSet();
 const window_trace = new ConnectionSet();
 
 const DEFAULT_IDLE_TIMEOUT_MS = 200;
-const XTE_IDLE_TIMEOUT_MS = 2 * DEFAULT_IDLE_TIMEOUT_MS;
+const XTE_IDLE_TIMEOUT_MS = DEFAULT_IDLE_TIMEOUT_MS;
 const MOVE_RESIZE_WAIT_TIMEOUT_MS = 1000;
 const WAIT_TIMEOUT_MS = 2000;
 const START_TIMEOUT_MS = 10000;
