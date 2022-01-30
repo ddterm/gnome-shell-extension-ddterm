@@ -20,6 +20,10 @@ Inspired by
 
 <img src="docs/prefs.gif" />
 
+## Review by [TechHut](https://www.youtube.com/channel/UCjSEJkpGbcZhvo0lr-44X_w)
+
+[![my favorite GNOME extension](http://img.youtube.com/vi/tF6_FJYca64/0.jpg)](http://www.youtube.com/watch?v=tF6_FJYca64)
+
 ## Installing
 
 The easiest way to install the extension is to go to [extensions.gnome.org].
