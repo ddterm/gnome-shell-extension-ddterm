@@ -491,5 +491,9 @@
     <key name="shortcut-switch-to-tab-10" type="as">
       <default><![CDATA[['<Alt>0']]]></default>
     </key>
+
+    <key name="show-banner" type="b">
+      <default>true</default>
+    </key>
   </schema>
 </schemalist>

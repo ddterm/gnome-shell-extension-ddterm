@@ -293,6 +293,10 @@ var AppWindow = GObject.registerClass(
             this.method_handler(page, 'close-request', this.remove_page);
             this.method_handler(page, 'new-tab-before-request', this.new_tab_before);
             this.method_handler(page, 'new-tab-after-request', this.new_tab_after);
+            if (this.settings.get_boolean('show-banner')) {
+                page.terminal.feed('\x1B[33;44m Stop Russia-Ukraine War. Нет войне \x1B[0m\r\n');
+                this.settings.set_boolean('show-banner', false);
+            }
             page.spawn(this.settings.get_boolean('preserve-working-directory') ? cwd : null);
 
             page.terminal.grab_focus();
