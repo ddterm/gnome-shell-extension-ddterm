@@ -21,7 +21,7 @@
 
 /* exported ConnectionSet */
 
-class ConnectionSet {
+var ConnectionSet = class ConnectionSet {
     constructor() {
         this.connections = new Map();
     }
