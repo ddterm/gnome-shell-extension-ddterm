@@ -113,6 +113,15 @@ Vagrant.configure("2") do |config|
     primary: true
   )
 
+  fedora_vm(
+    config,
+    fedora_version: '36_Beta',
+    box_version: '1.4',
+    virtualbox_sha256: '257d50866c67ebfad305749684ba485bce146e1561e4a338d89f4c92e8dbf229',
+    libvirt_sha256: '29f480eeac11b3ac03cdd1b03d509a0b94e883f109beeef61032d987b00a32e3',
+    test: true
+  )
+
   config.vm.provision 'prepare', type: 'ansible' do |ansible|
     ansible.playbook = 'ansible/prepare.yml'
     ansible.groups = {
