@@ -91,6 +91,7 @@ function get_settings_schema_key(schema, name) {
 function createPrefsWidgetClass(resource_path, util) {
     const cls = GObject.registerClass(
         {
+            GTypeName: 'DDTermPrefsWidget',
             Template: resource_path.get_child(`prefs-gtk${Gtk.get_major_version()}.ui`).get_uri(),
             Children: [
                 'font_chooser',

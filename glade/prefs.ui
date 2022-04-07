@@ -718,7 +718,7 @@ along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licens
     <property name="step-increment">0.01</property>
     <property name="page-increment">0.10</property>
   </object>
-  <template class="Gjs_PrefsWidget" parent="GtkBox">
+  <template class="DDTermPrefsWidget" parent="GtkBox">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
     <property name="hexpand">True</property>
