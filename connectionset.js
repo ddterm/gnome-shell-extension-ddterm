@@ -75,4 +75,4 @@ var ConnectionSet = class ConnectionSet {
         else
             printerr(`No handler with id=${match_handler_id} found for object=${match_object} in group ${this}`);
     }
-}
+};
