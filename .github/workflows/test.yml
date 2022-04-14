@@ -7,6 +7,10 @@ on:
 jobs:
   test:
     runs-on: ubuntu-20.04
+    container:
+      image: ghcr.io/amezin/gnome-shell-extension-ddterm-ci-docker-image:master
+      options: --privileged --cgroupns=private --tmpfs /tmp --tmpfs /run
+
     strategy:
       fail-fast: false
       matrix:
@@ -21,26 +25,22 @@ jobs:
           - 'TestWayland'
           - 'TestWaylandHighDpi'
           - 'TestWaylandDualMonitor'
-        include:
-          - image: 'gnome-shell-pod-debian-11'
-            make_flags: 'WITH_GTK4=no'
-          - image: 'gnome-shell-pod-ubuntu-20.04'
-            make_flags: 'WITH_GTK4=no'
+
     env:
       IMAGE: ghcr.io/amezin/${{ matrix.image }}:master
       PY_COLORS: 1
       TOX_TESTENV_PASSENV: PY_COLORS GITHUB_ACTIONS
       TOXENV: py3-ghactions
+
     steps:
     - uses: actions/checkout@v3
     - uses: actions/setup-node@v3
-    - run: sudo apt-get install -y python3-gi libmagickwand-6.q16-6 tox
     - run: npm ci
-    - run: sudo podman pull "${{ env.IMAGE }}"
-    - run: sudo podman run --init --rm -i -v "${PWD}:${PWD}" -w "${PWD}" "${{ env.IMAGE }}" xvfb-run make ${{ matrix.make_flags }} test-deps
+    - run: xvfb-run make test-deps
     - run: tox -vv --notest --sitepackages
       working-directory: test
-    - run: tox --sitepackages -- --podman sudo podman --container-image "${{ env.IMAGE }}" -n 2 --screenshot-failing-only -v "test_extension.py::${{ matrix.session }}"
+    - run: podman pull "${{ env.IMAGE }}"
+    - run: tox --sitepackages -- --container-image "${{ env.IMAGE }}" -n 2 --screenshot-failing-only -v "test_extension.py::${{ matrix.session }}"
       working-directory: test
     - uses: actions/upload-artifact@v2
       with:
