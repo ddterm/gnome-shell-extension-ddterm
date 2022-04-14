@@ -11,18 +11,21 @@ jobs:
       fail-fast: false
       matrix:
         image:
-          - 'gnome-shell-pod-32'
-          - 'gnome-shell-pod-33'
-          - 'gnome-shell-pod-34'
-          - 'gnome-shell-pod-35'
+          - 'gnome-shell-pod-fedora-35'
+          - 'gnome-shell-pod-fedora-36'
+          - 'gnome-shell-pod-debian-11'
+          - 'gnome-shell-pod-ubuntu-20.04'
+          - 'gnome-shell-pod-ubuntu-21.10'
         session:
           - 'TestXSession'
           - 'TestWayland'
           - 'TestWaylandHighDpi'
           - 'TestWaylandDualMonitor'
-        exclude:
-          - image: 'gnome-shell-pod-33'
-            session: 'TestWaylandDualMonitor'
+        include:
+          - image: 'gnome-shell-pod-debian-11'
+            make_flags: 'WITH_GTK4=no'
+          - image: 'gnome-shell-pod-ubuntu-20.04'
+            make_flags: 'WITH_GTK4=no'
     env:
       IMAGE: ghcr.io/amezin/${{ matrix.image }}:master
       PY_COLORS: 1
@@ -34,7 +37,7 @@ jobs:
     - run: sudo apt-get install -y python3-gi libmagickwand-6.q16-6 tox
     - run: npm ci
     - run: sudo podman pull "${{ env.IMAGE }}"
-    - run: sudo podman run --init --rm -i -v "${PWD}:${PWD}" -w "${PWD}" "${{ env.IMAGE }}" xvfb-run make test-deps
+    - run: sudo podman run --init --rm -i -v "${PWD}:${PWD}" -w "${PWD}" "${{ env.IMAGE }}" xvfb-run make ${{ matrix.make_flags }} test-deps
     - run: tox -vv --notest --sitepackages
       working-directory: test
     - run: tox --sitepackages -- --podman sudo podman --container-image "${{ env.IMAGE }}" -n 2 --screenshot-failing-only -v "test_extension.py::${{ matrix.session }}"
