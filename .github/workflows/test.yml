@@ -30,7 +30,7 @@ jobs:
       TOXENV: py3-ghactions
     steps:
     - uses: actions/checkout@v2
-    - uses: actions/setup-node@v2-beta
+    - uses: actions/setup-node@v3
     - run: sudo apt-get install -y python3-gi libmagickwand-6.q16-6 tox
     - run: npm ci
     - run: sudo podman pull "${{ env.IMAGE }}"
