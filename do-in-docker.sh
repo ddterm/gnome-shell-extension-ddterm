@@ -8,4 +8,4 @@ if [ ! -t 0 ]; then
     TTY_FLAG=
 fi
 
-exec docker run --rm -i $TTY_FLAG -u $(id -u):$(id -g) -v "${PWD}:${PWD}" -w "${PWD}" ghcr.io/amezin/gnome-shell-pod-34:master xvfb-run "$@"
+exec docker run --init --rm -i $TTY_FLAG -u $(id -u):$(id -g) -v "${PWD}:${PWD}" -w "${PWD}" ghcr.io/amezin/gnome-shell-pod-34:master xvfb-run "$@"

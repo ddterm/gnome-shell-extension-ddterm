@@ -34,7 +34,7 @@ jobs:
     - run: sudo apt-get install -y python3-gi libmagickwand-6.q16-6 tox
     - run: npm ci
     - run: sudo podman pull "${{ env.IMAGE }}"
-    - run: sudo podman run --rm -i -v "${PWD}:${PWD}" -w "${PWD}" "${{ env.IMAGE }}" xvfb-run make test-deps
+    - run: sudo podman run --init --rm -i -v "${PWD}:${PWD}" -w "${PWD}" "${{ env.IMAGE }}" xvfb-run make test-deps
     - run: tox -vv --notest --sitepackages
       working-directory: test
     - run: tox --sitepackages -- --podman sudo podman --container-image "${{ env.IMAGE }}" -n 2 --screenshot-failing-only -v "test_extension.py::${{ matrix.session }}"
