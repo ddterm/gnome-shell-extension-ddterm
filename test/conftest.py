@@ -12,13 +12,14 @@ from . import container_util
 
 LOGGER = logging.getLogger(__name__)
 
+IMAGES_BASEURL = 'ghcr.io/amezin/gnome-shell-pod'
 IMAGES_BRANCH = 'master'
 IMAGES = [
-    f'ghcr.io/amezin/gnome-shell-pod-fedora-35:{IMAGES_BRANCH}',
-    f'ghcr.io/amezin/gnome-shell-pod-fedora-36:{IMAGES_BRANCH}',
-    f'ghcr.io/amezin/gnome-shell-pod-debian-11:{IMAGES_BRANCH}',
-    f'ghcr.io/amezin/gnome-shell-pod-ubuntu-20.04:{IMAGES_BRANCH}',
-    f'ghcr.io/amezin/gnome-shell-pod-ubuntu-21.10:{IMAGES_BRANCH}',
+    f'{IMAGES_BASEURL}/fedora-35:{IMAGES_BRANCH}',
+    f'{IMAGES_BASEURL}/fedora-36:{IMAGES_BRANCH}',
+    f'{IMAGES_BASEURL}/debian-11:{IMAGES_BRANCH}',
+    f'{IMAGES_BASEURL}/ubuntu-20.04:{IMAGES_BRANCH}',
+    f'{IMAGES_BASEURL}/ubuntu-21.10:{IMAGES_BRANCH}',
 ]
 
 

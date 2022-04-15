@@ -15,11 +15,11 @@ jobs:
       fail-fast: false
       matrix:
         image:
-          - 'gnome-shell-pod-fedora-35'
-          - 'gnome-shell-pod-fedora-36'
-          - 'gnome-shell-pod-debian-11'
-          - 'gnome-shell-pod-ubuntu-20.04'
-          - 'gnome-shell-pod-ubuntu-21.10'
+          - 'fedora-35'
+          - 'fedora-36'
+          - 'debian-11'
+          - 'ubuntu-20.04'
+          - 'ubuntu-21.10'
         session:
           - 'TestXSession'
           - 'TestWayland'
@@ -27,7 +27,7 @@ jobs:
           - 'TestWaylandDualMonitor'
 
     env:
-      IMAGE: ghcr.io/amezin/${{ matrix.image }}:master
+      IMAGE: ghcr.io/amezin/gnome-shell-pod/${{ matrix.image }}:master
       PY_COLORS: 1
       TOX_TESTENV_PASSENV: PY_COLORS GITHUB_ACTIONS
       TOXENV: py3-ghactions
