@@ -5,7 +5,7 @@
         "handlebars": "^4.7.7"
     },
     "devDependencies": {
-        "eslint": "^7.30.0",
-        "eslint-plugin-jsdoc": "^35.4.1"
+        "eslint": "^8.13.0",
+        "eslint-plugin-jsdoc": "^39.2.1"
     }
 }
