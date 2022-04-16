@@ -1,0 +1,27 @@
+name: release
+
+on:
+  push:
+    tags:
+      - v*
+
+jobs:
+  build:
+    uses: ./.github/workflows/pack-reusable.yml
+
+  draft:
+    needs: build
+    runs-on: ubuntu-20.04
+    permissions:
+      contents: write
+    steps:
+    - uses: actions/download-artifact@v3
+      with:
+        name: ${{ needs.build.outputs.artifact }}
+    - uses: amezin/action-gh-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        files: "*.shell-extension.zip"
+        draft: true
+        generate_release_notes: true

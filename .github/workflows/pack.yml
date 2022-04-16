@@ -1,41 +1,13 @@
 name: pack
 
-on: push
+on:
+  push:
+    branches:
+      - '**'
+    tags-ignore:
+      - v*
+  pull_request:
 
 jobs:
-  pack:
-    runs-on: ubuntu-20.04
-    container:
-      image: ghcr.io/amezin/gnome-shell-extension-ddterm-ci-docker-image:master
-
-    steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
-    - run: npm ci
-    - run: xvfb-run make pack
-    - uses: actions/upload-artifact@v2
-      with:
-        name: shell-extension
-        path: "*.shell-extension.zip"
-
-  release:
-    needs: pack
-    if: startsWith(github.ref, 'refs/tags/v')
-    permissions:
-      contents: write
-
-    runs-on: ubuntu-20.04
-    container:
-      image: ghcr.io/amezin/gnome-shell-extension-ddterm-ci-docker-image:master
-
-    steps:
-    - uses: actions/download-artifact@v2
-      with:
-        name: shell-extension
-    - uses: amezin/action-gh-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        files: "*.shell-extension.zip"
-        draft: true
-        generate_release_notes: true
+  build:
+    uses: ./.github/workflows/pack-reusable.yml
