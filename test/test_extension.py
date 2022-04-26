@@ -256,7 +256,7 @@ class CommonTests:
     @pytest.mark.flaky
     def test_resize_xte(self, bus_call, window_size, window_maximize, window_size2, window_pos, monitor_config, shell_version, screenshot):
         version_split = tuple(int(x) for x in shell_version.split('.'))
-        if version_split < (3, 38):
+        if version_split < (3, 39):
             if monitor_config.current_index == 1 and window_pos == 'bottom' and window_size2 == 1:
                 pytest.skip('For unknown reason it fails to resize to full height on 2nd monitor')
 
