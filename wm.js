@@ -21,6 +21,7 @@
 
 const { Clutter, GObject, Gio, Meta } = imports.gi;
 const Main = imports.ui.main;
+const WM = imports.ui.windowManager;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const { ConnectionSet } = Me.imports.connectionset;
@@ -58,7 +59,9 @@ var WindowManager = GObject.registerClass(
             this.current_monitor_index = 0;
 
             this.show_animation = Clutter.AnimationMode.LINEAR;
+            this.show_animation_duration = WM.SHOW_WINDOW_ANIMATION_TIME;
             this.hide_animation = Clutter.AnimationMode.LINEAR;
+            this.hide_animation_duration = WM.DESTROY_WINDOW_ANIMATION_TIME;
 
             this.resize_x = false;
             this.right_or_bottom = false;
@@ -86,12 +89,16 @@ var WindowManager = GObject.registerClass(
             this.connections.connect(this.settings, 'changed::override-window-animation', this._setup_animation_overrides.bind(this));
             this.connections.connect(this.settings, 'changed::show-animation', this._update_show_animation.bind(this));
             this.connections.connect(this.settings, 'changed::hide-animation', this._update_hide_animation.bind(this));
+            this.connections.connect(this.settings, 'changed::show-animation-duration', this._update_show_animation_duration.bind(this));
+            this.connections.connect(this.settings, 'changed::hide-animation-duration', this._update_hide_animation_duration.bind(this));
             this.connections.connect(this.settings, 'changed::hide-when-focus-lost', this._setup_hide_when_focus_lost.bind(this));
 
             this.update_monitor_index();
             this._update_window_position();
             this._update_show_animation();
             this._update_hide_animation();
+            this._update_show_animation_duration();
+            this._update_hide_animation_duration();
             this._setup_animation_overrides();
             this._setup_hide_when_focus_lost();
         }
@@ -139,6 +146,14 @@ var WindowManager = GObject.registerClass(
             this.hide_animation = this._animation_mode_from_settings('hide-animation');
         }
 
+        _update_show_animation_duration() {
+            this.show_animation_duration = Math.floor(1000 * this.settings.get_double('show-animation-duration'));
+        }
+
+        _update_hide_animation_duration() {
+            this.hide_animation_duration = Math.floor(1000 * this.settings.get_double('hide-animation-duration'));
+        }
+
         _override_map_animation(wm, actor) {
             if (!this._check_current_window() || actor !== this.current_window.get_compositor_private())
                 return;
@@ -155,6 +170,7 @@ var WindowManager = GObject.registerClass(
                     scale_x_anim.set_from(this.animation_scale_x);
                     scale_x_anim.set_to(1.0);
                     scale_x_anim.progress_mode = this.show_animation;
+                    scale_x_anim.duration = this.show_animation_duration;
                 }
 
                 const scale_y_anim = actor.get_transition('scale-y');
@@ -163,6 +179,14 @@ var WindowManager = GObject.registerClass(
                     scale_y_anim.set_from(this.animation_scale_y);
                     scale_y_anim.set_to(1.0);
                     scale_y_anim.progress_mode = this.show_animation;
+                    scale_y_anim.duration = this.show_animation_duration;
+                }
+
+                const opacity_anim = actor.get_transition('opacity');
+
+                if (opacity_anim) {
+                    scale_y_anim.progress_mode = this.show_animation;
+                    opacity_anim.duration = this.show_animation_duration;
                 }
             };
 
@@ -186,6 +210,7 @@ var WindowManager = GObject.registerClass(
             if (scale_x_anim) {
                 scale_x_anim.set_to(this.animation_scale_x);
                 scale_x_anim.progress_mode = this.hide_animation;
+                scale_x_anim.duration = this.hide_animation_duration;
             }
 
             const scale_y_anim = actor.get_transition('scale-y');
@@ -193,6 +218,14 @@ var WindowManager = GObject.registerClass(
             if (scale_y_anim) {
                 scale_y_anim.set_to(this.animation_scale_y);
                 scale_y_anim.progress_mode = this.hide_animation;
+                scale_y_anim.duration = this.hide_animation_duration;
+            }
+
+            const opacity_anim = actor.get_transition('opacity');
+
+            if (opacity_anim) {
+                scale_y_anim.progress_mode = this.hide_animation;
+                opacity_anim.duration = this.hide_animation_duration;
             }
         }
 

@@ -195,6 +195,14 @@
     <key name="hide-animation" enum="com.github.amezin.ddterm.AnimationMode">
       <default>'linear'</default>
     </key>
+    <key name="show-animation-duration" type="d">
+      <default>0.15</default>
+      <range min="0.0" max="1.0"/>
+    </key>
+    <key name="hide-animation-duration" type="d">
+      <default>0.15</default>
+      <range min="0.0" max="1.0"/>
+    </key>
 
     <key name="tab-policy" enum="com.github.amezin.ddterm.TabsbarPolicy">
       <default>'always'</default>

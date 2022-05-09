@@ -290,6 +290,11 @@ along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licens
       </row>
     </data>
   </object>
+  <object class="GtkAdjustment" id="hide_animation_duration_adjustment">
+    <property name="upper">1</property>
+    <property name="step-increment">0.01</property>
+    <property name="page-increment">0.10</property>
+  </object>
   <object class="GtkAdjustment" id="opacity_adjustment">
     <property name="upper">1</property>
     <property name="step-increment">0.01</property>
@@ -709,6 +714,11 @@ along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licens
       </row>
     </data>
   </object>
+  <object class="GtkAdjustment" id="show_animation_duration_adjustment">
+    <property name="upper">1</property>
+    <property name="step-increment">0.01</property>
+    <property name="page-increment">0.10</property>
+  </object>
   <object class="GtkTextTagTable" id="tab_title_tag_table"/>
   <object class="GtkTextBuffer" id="tab_title_template_buffer">
     <property name="tag-table">tab_title_tag_table</property>
@@ -1113,7 +1123,7 @@ You'll have to close all tabs for this option to take effect.</property>
               </packing>
             </child>
             <child>
-              <!-- n-columns=2 n-rows=2 -->
+              <!-- n-columns=2 n-rows=4 -->
               <object class="GtkGrid" id="animation_settings_container">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
@@ -1144,7 +1154,7 @@ You'll have to close all tabs for this option to take effect.</property>
                   </object>
                   <packing>
                     <property name="left-attach">0</property>
-                    <property name="top-attach">1</property>
+                    <property name="top-attach">2</property>
                   </packing>
                 </child>
                 <child>
@@ -1182,7 +1192,61 @@ You'll have to close all tabs for this option to take effect.</property>
                   </object>
                   <packing>
                     <property name="left-attach">1</property>
+                    <property name="top-attach">2</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="halign">start</property>
+                    <property name="label" translatable="yes">_Hide animation duration:</property>
+                    <property name="use-underline">True</property>
+                  </object>
+                  <packing>
+                    <property name="left-attach">0</property>
+                    <property name="top-attach">3</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="halign">start</property>
+                    <property name="label" translatable="yes">_Show animation duration:</property>
+                    <property name="use-underline">True</property>
+                  </object>
+                  <packing>
+                    <property name="left-attach">0</property>
                     <property name="top-attach">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkScale" id="show_animation_duration_scale">
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="adjustment">show_animation_duration_adjustment</property>
+                    <property name="show-fill-level">True</property>
+                    <property name="round-digits">2</property>
+                    <property name="digits">2</property>
+                  </object>
+                  <packing>
+                    <property name="left-attach">1</property>
+                    <property name="top-attach">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkScale" id="hide_animation_duration_scale">
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="adjustment">hide_animation_duration_adjustment</property>
+                    <property name="show-fill-level">True</property>
+                    <property name="round-digits">2</property>
+                    <property name="digits">2</property>
+                  </object>
+                  <packing>
+                    <property name="left-attach">1</property>
+                    <property name="top-attach">3</property>
                   </packing>
                 </child>
               </object>

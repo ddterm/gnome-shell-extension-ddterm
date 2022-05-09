@@ -53,9 +53,20 @@ function rgba_equal(a, b) {
 
 const PERCENT_FORMAT = new Intl.NumberFormat(undefined, { style: 'percent' });
 
-function format_scale_value_percent(scale, value) {
-    return PERCENT_FORMAT.format(value);
+function get_seconds_format() {
+    try {
+        return new Intl.NumberFormat(undefined, { style: 'unit', unit: 'second' });
+    } catch {
+        // Gnome 3.36 doesn't understand style: 'unit'
+        return new class {
+            format(v) {
+                return `${v} sec`;
+            }
+        }();
+    }
 }
+
+const SECONDS_FORMAT = get_seconds_format();
 
 function show_dialog(parent_window, message, message_type = Gtk.MessageType.ERROR) {
     const dialog = new Gtk.MessageDialog({
@@ -141,6 +152,10 @@ function createPrefsWidgetClass(resource_path, util) {
                 'shortcuts_treeview',
                 'show_animation_combo',
                 'hide_animation_combo',
+                'show_animation_duration_adjustment',
+                'show_animation_duration_scale',
+                'hide_animation_duration_adjustment',
+                'hide_animation_duration_scale',
                 'animation_settings_container',
                 'panel_icon_type_combo',
                 'window_monitor_current_radio',
@@ -201,6 +216,10 @@ function createPrefsWidgetClass(resource_path, util) {
                 this.settings_bind('theme-variant', this.theme_variant_combo, 'active-id');
                 this.settings_bind('show-animation', this.show_animation_combo, 'active-id');
                 this.settings_bind('hide-animation', this.hide_animation_combo, 'active-id');
+                this.set_scale_value_format(this.show_animation_duration_scale, SECONDS_FORMAT);
+                this.set_scale_value_format(this.hide_animation_duration_scale, SECONDS_FORMAT);
+                this.settings_bind('show-animation-duration', this.show_animation_duration_adjustment, 'value');
+                this.settings_bind('hide-animation-duration', this.hide_animation_duration_adjustment, 'value');
                 this.bind_sensitive('override-window-animation', this.animation_settings_container);
                 this.settings_bind('window-type-hint', this.window_type_hint_combo, 'active-id');
                 this.settings_bind('window-position', this.window_pos_combo, 'active-id');
@@ -261,10 +280,10 @@ function createPrefsWidgetClass(resource_path, util) {
                 this.bind_sensitive('highlight-colors-set', this.highlight_background_color.parent);
 
                 this.settings_bind('background-opacity', this.opacity_adjustment, 'value');
-                this.set_scale_value_format_percent(this.opacity_scale);
+                this.set_scale_value_format(this.opacity_scale, PERCENT_FORMAT);
                 this.bind_sensitive('transparent-background', this.opacity_scale.parent);
                 this.settings_bind('window-size', this.window_size_adjustment, 'value');
-                this.set_scale_value_format_percent(this.window_size_scale);
+                this.set_scale_value_format(this.window_size_scale, PERCENT_FORMAT);
 
                 this.bind_sensitive('use-theme-colors', this.color_scheme_editor, true);
 
@@ -338,11 +357,13 @@ function createPrefsWidgetClass(resource_path, util) {
                 this.settings_bind(key, widget, 'sensitive', flags);
             }
 
-            set_scale_value_format_percent(scale) {
+            set_scale_value_format(scale, format) {
+                const formatter = (_, value) => format.format(value);
+
                 if (scale.set_format_value_func)
-                    scale.set_format_value_func(format_scale_value_percent);
+                    scale.set_format_value_func(formatter);
                 else
-                    this.signal_connect(scale, 'format-value', format_scale_value_percent);
+                    this.signal_connect(scale, 'format-value', formatter);
             }
 
             palette_widget(i) {
