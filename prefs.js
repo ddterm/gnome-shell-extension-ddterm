@@ -141,6 +141,7 @@ function createPrefsWidgetClass(resource_path, util) {
                 'shortcuts_treeview',
                 'show_animation_combo',
                 'hide_animation_combo',
+                'animation_settings_container',
                 'panel_icon_type_combo',
                 'window_monitor_current_radio',
                 'window_monitor_primary_radio',
@@ -199,9 +200,8 @@ function createPrefsWidgetClass(resource_path, util) {
 
                 this.settings_bind('theme-variant', this.theme_variant_combo, 'active-id');
                 this.settings_bind('show-animation', this.show_animation_combo, 'active-id');
-                this.bind_sensitive('override-window-animation', this.show_animation_combo.parent);
                 this.settings_bind('hide-animation', this.hide_animation_combo, 'active-id');
-                this.bind_sensitive('override-window-animation', this.hide_animation_combo.parent);
+                this.bind_sensitive('override-window-animation', this.animation_settings_container);
                 this.settings_bind('window-type-hint', this.window_type_hint_combo, 'active-id');
                 this.settings_bind('window-position', this.window_pos_combo, 'active-id');
                 this.settings_bind('panel-icon-type', this.panel_icon_type_combo, 'active-id');
