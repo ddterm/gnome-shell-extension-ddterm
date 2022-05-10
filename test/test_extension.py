@@ -106,16 +106,13 @@ class CommonTests:
 
     @pytest.fixture(scope='class')
     def container_session_bus_ready(self, container):
-        container.podman(
-            'exec', '--user', 'gnomeshell', container.container_id, 'set-env.sh',
-            'wait-user-bus.sh'
-        )
+        container.exec('set-env.sh', 'wait-user-bus.sh', user='gnomeshell')
 
     @pytest.fixture(scope='class')
     def gnome_shell_session(self, container, container_session_bus_ready):
-        container.podman(
-            'exec', '--user', 'gnomeshell', container.container_id, 'set-env.sh',
-            'systemctl', '--user', 'start', f'{self.GNOME_SHELL_SESSION_NAME}@:99'
+        container.exec(
+            'set-env.sh', 'systemctl', '--user', 'start', f'{self.GNOME_SHELL_SESSION_NAME}@:99',
+            user='gnomeshell'
         )
         return self.GNOME_SHELL_SESSION_NAME
 

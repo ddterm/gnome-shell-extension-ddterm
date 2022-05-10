@@ -145,3 +145,10 @@ class Container:
             container_id = container_id[:-1]
 
         return cls(podman, container_id)
+
+    def exec(self, *args, user=None, bg=False, **kwargs):
+        user_args = tuple() if user is None else ('--user', user)
+
+        return (self.podman.bg if bg else self.podman)(
+            'exec', *user_args, self.container_id, *args, **kwargs
+        )
