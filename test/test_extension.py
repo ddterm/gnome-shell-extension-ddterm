@@ -8,6 +8,7 @@ import json
 import logging
 import pathlib
 import subprocess
+import time
 
 import pytest
 import wand.image
@@ -110,7 +111,14 @@ class CommonTests:
 
     @pytest.fixture(scope='class')
     def container_session_bus_ready(self, container):
-        container.exec('set-env.sh', 'wait-user-bus.sh', user='gnomeshell')
+        container.exec('busctl', '--system', '--watch-bind=true', 'status', stdout=subprocess.DEVNULL)
+        container.exec('systemctl', 'is-system-running', '--wait')
+
+        while container.exec(
+            'set-env.sh', 'busctl', '--user', '--watch-bind=true', 'status',
+            stdout=subprocess.DEVNULL, user='gnomeshell', check=False
+        ).returncode != 0:
+            time.sleep(0.1)
 
     @pytest.fixture(scope='class')
     def gnome_shell_session(self, container, container_session_bus_ready):
