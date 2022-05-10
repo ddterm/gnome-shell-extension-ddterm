@@ -102,6 +102,9 @@ class CommonTests:
             c.start_console()
             request.cls.current_container = c
 
+            c.exec('busctl', '--system', '--watch-bind=true', 'status', stdout=subprocess.DEVNULL)
+            c.exec('systemctl', 'is-system-running', '--wait')
+
             yield c
 
         finally:
@@ -111,9 +114,6 @@ class CommonTests:
 
     @pytest.fixture(scope='class')
     def container_session_bus_ready(self, container):
-        container.exec('busctl', '--system', '--watch-bind=true', 'status', stdout=subprocess.DEVNULL)
-        container.exec('systemctl', 'is-system-running', '--wait')
-
         while container.exec(
             'set-env.sh', 'busctl', '--user', '--watch-bind=true', 'status',
             stdout=subprocess.DEVNULL, user='gnomeshell', check=False
