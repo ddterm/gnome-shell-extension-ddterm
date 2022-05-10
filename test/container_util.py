@@ -146,8 +146,11 @@ class Container:
 
         return cls(podman, container_id)
 
-    def exec(self, *args, user=None, bg=False, **kwargs):
-        user_args = tuple() if user is None else ('--user', user)
+    def exec(self, *args, user=None, bg=False, env=None, **kwargs):
+        user_args = [] if user is None else ['--user', user]
+
+        if env:
+            user_args.extend(f'--env={k}={v}' for k, v in env.items())
 
         return (self.podman.bg if bg else self.podman)(
             'exec', *user_args, self.container_id, *args, **kwargs
