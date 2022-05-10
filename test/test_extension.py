@@ -10,6 +10,7 @@ import pathlib
 import subprocess
 import time
 
+import filelock
 import pytest
 import wand.image
 from pytest_html import extras
@@ -37,6 +38,11 @@ SIZE_VALUES = [0.5, 0.9, 1.0]
 @pytest.fixture(scope='session')
 def xvfb_fbdir(tmpdir_factory):
     return tmpdir_factory.mktemp('xvfb')
+
+
+@pytest.fixture(scope='session')
+def global_tmp_path(tmp_path_factory):
+    return tmp_path_factory.getbasetemp().parent
 
 
 @pytest.mark.runtest_cm.with_args(lambda item, when: item.cls.journal_context(item, when))
@@ -83,34 +89,37 @@ class CommonTests:
                 LOGGER.exception("Can't sync journal")
 
     @pytest.fixture(scope='class')
-    def container(self, podman, container_image, xvfb_fbdir, request):
+    def container(self, podman, container_image, xvfb_fbdir, global_tmp_path, request):
         assert request.cls is not CommonTests
         assert request.cls.current_container is None
 
-        c = container_util.Container.run(
-            podman,
-            '--rm', '-P',
-            '--cap-add=SYS_NICE,IPC_LOCK,SYS_PTRACE,SETPCAP,NET_RAW,NET_BIND_SERVICE',
-            '-v', f'{SRC_DIR}:{PKG_PATH}:ro',
-            '-v', f'{TEST_SRC_DIR}/fbdir.conf:/etc/systemd/system/xvfb@.service.d/fbdir.conf:ro',
-            '-v', f'{xvfb_fbdir}:/xvfb',
-            container_image,
-        )
-        atexit.register(c.kill)
+        with filelock.FileLock(global_tmp_path / 'container-starting.lock') as lock:
+            c = container_util.Container.run(
+                podman,
+                '--rm', '-P',
+                '--cap-add=SYS_NICE,IPC_LOCK,SYS_PTRACE,SETPCAP,NET_RAW,NET_BIND_SERVICE',
+                '-v', f'{SRC_DIR}:{PKG_PATH}:ro',
+                '-v', f'{TEST_SRC_DIR}/fbdir.conf:/etc/systemd/system/xvfb@.service.d/fbdir.conf:ro',
+                '-v', f'{xvfb_fbdir}:/xvfb',
+                container_image,
+            )
+            atexit.register(c.kill)
 
-        try:
-            c.start_console()
-            request.cls.current_container = c
+            try:
+                c.start_console()
+                request.cls.current_container = c
 
-            c.exec('busctl', '--system', '--watch-bind=true', 'status', stdout=subprocess.DEVNULL)
-            c.exec('systemctl', 'is-system-running', '--wait')
+                c.exec('busctl', '--system', '--watch-bind=true', 'status', stdout=subprocess.DEVNULL)
+                c.exec('systemctl', 'is-system-running', '--wait')
 
-            yield c
+                lock.release()
 
-        finally:
-            request.cls.current_container = None
-            c.kill()
-            atexit.unregister(c.kill)
+                yield c
+
+            finally:
+                request.cls.current_container = None
+                c.kill()
+                atexit.unregister(c.kill)
 
     @pytest.fixture(scope='class')
     def container_session_bus_ready(self, container):
