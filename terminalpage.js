@@ -218,8 +218,20 @@ var TerminalPage = GObject.registerClass(
             this.method_handler(this.settings, 'changed::use-theme-colors', this.update_all_colors);
             this.update_all_colors();
 
-            this.method_handler(this.settings, 'changed::tab-expand', this.update_tab_expand);
-            this.update_tab_expand();
+            this.method_handler(this.settings, 'changed::tab-label-ellipsize-mode', this.update_label_ellipsize);
+            this.update_label_ellipsize();
+
+            this.method_handler(this.settings, 'changed::tab-label-width', this.update_label_width);
+
+            this.toplevel = this.get_toplevel();
+            this.configure_connection_id = null;
+            this.method_handler(this, 'hierarchy-changed', this.hierarchy_changed);
+            this.hierarchy_changed();
+
+            this.run_on_destroy(() => {
+                if (this.configure_connection_id && this.toplevel)
+                    this.toplevel.disconnect(this.configure_connection_id);
+            });
 
             this.method_handler(this.settings, 'changed::detect-urls', this.setup_url_detect);
             this.method_handler(this.settings, 'changed::detect-urls-as-is', this.setup_url_detect);
@@ -694,11 +706,24 @@ var TerminalPage = GObject.registerClass(
                 this.custom_title_popover.popup();
         }
 
-        update_tab_expand() {
-            if (this.settings.get_boolean('tab-expand'))
-                this.tab_label_label.ellipsize = Pango.EllipsizeMode.MIDDLE;
-            else
-                this.tab_label_label.ellipsize = Pango.EllipsizeMode.NONE;
+        update_label_ellipsize() {
+            this.tab_label_label.ellipsize = this.settings.get_enum('tab-label-ellipsize-mode');
+        }
+
+        update_label_width() {
+            if (!this.toplevel)
+                return;
+
+            this.tab_label.width_request = Math.floor(this.settings.get_double('tab-label-width') * this.toplevel.get_allocated_width());
+        }
+
+        hierarchy_changed() {
+            if (this.configure_connection_id && this.toplevel)
+                this.toplevel.disconnect(this.configure_connection_id);
+
+            this.toplevel = this.get_toplevel();
+            this.configure_connection_id = this.toplevel.connect('configure-event', this.update_label_width.bind(this));
+            this.update_label_width();
         }
 
         new_tab_before() {

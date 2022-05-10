@@ -138,6 +138,13 @@
     <value nick="toggle-button" value="2"/>
   </enum>
 
+  <enum id="com.github.amezin.ddterm.EllipsizeMode">
+    <value nick="none" value="0"/>
+    <value nick="start" value="1"/>
+    <value nick="middle" value="2"/>
+    <value nick="end" value="3"/>
+  </enum>
+
   <schema path="/com/github/amezin/ddterm/" id="com.github.amezin.ddterm">
     <key name="window-size" type="d">
       <default>0.6</default>
@@ -215,6 +222,13 @@
     </key>
     <key name="tab-close-buttons" type="b">
       <default>true</default>
+    </key>
+    <key name="tab-label-width" type="d">
+      <default>0.1</default>
+      <range min="0.0" max="0.5"/>
+    </key>
+    <key name="tab-label-ellipsize-mode" enum="com.github.amezin.ddterm.EllipsizeMode">
+      <default>'none'</default>
     </key>
     <key name="new-tab-button" type="b">
       <default>true</default>

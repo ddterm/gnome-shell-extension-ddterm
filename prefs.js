@@ -139,6 +139,9 @@ function createPrefsWidgetClass(resource_path, util) {
                 'theme_variant_combo',
                 'tab_policy_combo',
                 'tab_position_combo',
+                'tab_label_width_adjustment',
+                'tab_label_width_scale',
+                'tab_label_ellipsize_combo',
                 'backspace_binding_combo',
                 'delete_binding_combo',
                 'ambiguous_width_combo',
@@ -252,6 +255,17 @@ function createPrefsWidgetClass(resource_path, util) {
                 this.settings_bind('tab-title-template', this.tab_title_template_buffer, 'text');
                 this.signal_connect(this.reset_tab_title_button, 'clicked', () => {
                     this.settings.reset('tab-title-template');
+                });
+                this.settings_bind('tab-label-width', this.tab_label_width_adjustment, 'value');
+                this.set_scale_value_format(this.tab_label_width_scale, PERCENT_FORMAT);
+                this.settings_bind('tab-label-ellipsize-mode', this.tab_label_ellipsize_combo, 'active-id');
+                this.signal_connect(this.tab_position_combo, 'changed', () => {
+                    const position = this.settings.get_string('tab-position');
+
+                    if (position === 'top' || position === 'bottom') {
+                        if (this.settings.get_string('tab-label-ellipsize-mode') === 'none')
+                            this.settings.set_string('tab-label-ellipsize-mode', 'middle');
+                    }
                 });
 
                 this.settings_bind('custom-font', this.font_chooser, 'font');

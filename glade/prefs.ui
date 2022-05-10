@@ -719,6 +719,11 @@ along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licens
     <property name="step-increment">0.01</property>
     <property name="page-increment">0.10</property>
   </object>
+  <object class="GtkAdjustment" id="tab_label_width_adjustment">
+    <property name="upper">0.5</property>
+    <property name="step-increment">0.01</property>
+    <property name="page-increment">0.10</property>
+  </object>
   <object class="GtkTextTagTable" id="tab_title_tag_table"/>
   <object class="GtkTextBuffer" id="tab_title_template_buffer">
     <property name="tag-table">tab_title_tag_table</property>
@@ -1263,7 +1268,7 @@ You'll have to close all tabs for this option to take effect.</property>
           </packing>
         </child>
         <child>
-          <!-- n-columns=2 n-rows=11 -->
+          <!-- n-columns=2 n-rows=13 -->
           <object class="GtkGrid">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
@@ -1275,7 +1280,7 @@ You'll have to close all tabs for this option to take effect.</property>
             <property name="column-spacing">10</property>
             <child>
               <object class="GtkCheckButton" id="expand_tabs_check">
-                <property name="label" translatable="yes">Expand tab _headers</property>
+                <property name="label" translatable="yes">Expand tabs</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
@@ -1285,7 +1290,7 @@ You'll have to close all tabs for this option to take effect.</property>
               </object>
               <packing>
                 <property name="left-attach">0</property>
-                <property name="top-attach">2</property>
+                <property name="top-attach">4</property>
                 <property name="width">2</property>
               </packing>
             </child>
@@ -1301,7 +1306,7 @@ You'll have to close all tabs for this option to take effect.</property>
               </object>
               <packing>
                 <property name="left-attach">0</property>
-                <property name="top-attach">3</property>
+                <property name="top-attach">5</property>
                 <property name="width">2</property>
               </packing>
             </child>
@@ -1317,7 +1322,7 @@ You'll have to close all tabs for this option to take effect.</property>
               </object>
               <packing>
                 <property name="left-attach">0</property>
-                <property name="top-attach">5</property>
+                <property name="top-attach">7</property>
                 <property name="width">2</property>
               </packing>
             </child>
@@ -1333,7 +1338,7 @@ You'll have to close all tabs for this option to take effect.</property>
               </object>
               <packing>
                 <property name="left-attach">0</property>
-                <property name="top-attach">6</property>
+                <property name="top-attach">8</property>
                 <property name="width">2</property>
               </packing>
             </child>
@@ -1378,7 +1383,7 @@ You'll have to close all tabs for this option to take effect.</property>
               </object>
               <packing>
                 <property name="left-attach">0</property>
-                <property name="top-attach">8</property>
+                <property name="top-attach">10</property>
               </packing>
             </child>
             <child>
@@ -1392,7 +1397,7 @@ You'll have to close all tabs for this option to take effect.</property>
               </object>
               <packing>
                 <property name="left-attach">1</property>
-                <property name="top-attach">8</property>
+                <property name="top-attach">10</property>
               </packing>
             </child>
             <child>
@@ -1437,7 +1442,7 @@ Following helpers are available:
               </object>
               <packing>
                 <property name="left-attach">0</property>
-                <property name="top-attach">10</property>
+                <property name="top-attach">12</property>
                 <property name="width">2</property>
               </packing>
             </child>
@@ -1451,7 +1456,7 @@ Following helpers are available:
               </object>
               <packing>
                 <property name="left-attach">1</property>
-                <property name="top-attach">9</property>
+                <property name="top-attach">11</property>
               </packing>
             </child>
             <child>
@@ -1466,7 +1471,7 @@ Following helpers are available:
               </object>
               <packing>
                 <property name="left-attach">0</property>
-                <property name="top-attach">4</property>
+                <property name="top-attach">6</property>
                 <property name="width">2</property>
               </packing>
             </child>
@@ -1476,6 +1481,8 @@ Following helpers are available:
                 <property name="can-focus">False</property>
                 <property name="halign">start</property>
                 <property name="label" translatable="yes">Tab bar position:</property>
+                <property name="use-underline">True</property>
+                <property name="mnemonic-widget">tab_position_combo</property>
               </object>
               <packing>
                 <property name="left-attach">0</property>
@@ -1511,8 +1518,66 @@ Following helpers are available:
               </object>
               <packing>
                 <property name="left-attach">0</property>
-                <property name="top-attach">7</property>
+                <property name="top-attach">9</property>
                 <property name="width">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="halign">start</property>
+                <property name="label" translatable="yes">Tab width:</property>
+                <property name="use-underline">True</property>
+              </object>
+              <packing>
+                <property name="left-attach">0</property>
+                <property name="top-attach">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkScale" id="tab_label_width_scale">
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="hexpand">True</property>
+                <property name="adjustment">tab_label_width_adjustment</property>
+                <property name="show-fill-level">True</property>
+                <property name="round-digits">2</property>
+                <property name="digits">2</property>
+              </object>
+              <packing>
+                <property name="left-attach">1</property>
+                <property name="top-attach">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="halign">start</property>
+                <property name="label" translatable="yes">Ellipsize tab labels:</property>
+                <property name="use-underline">True</property>
+              </object>
+              <packing>
+                <property name="left-attach">0</property>
+                <property name="top-attach">3</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkComboBoxText" id="tab_label_ellipsize_combo">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="hexpand">True</property>
+                <items>
+                  <item id="none" translatable="yes">None</item>
+                  <item id="start" translatable="yes">Start</item>
+                  <item id="middle" translatable="yes">Middle</item>
+                  <item id="end" translatable="yes">End</item>
+                </items>
+              </object>
+              <packing>
+                <property name="left-attach">1</property>
+                <property name="top-attach">3</property>
               </packing>
             </child>
             <child>
