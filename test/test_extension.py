@@ -159,7 +159,7 @@ class CommonTests:
         bus_call('EnableExtension', '(s)', EXTENSION_UUID, path='/org/gnome/Shell', interface='org.gnome.Shell.Extensions')
 
     @pytest.fixture
-    def screenshot(self, container, gnome_shell_session, extra, xvfb_fbdir, tmp_path, pytestconfig):
+    def screenshot(self, xvfb_fbdir, extra, pytestconfig):
         @contextlib.contextmanager
         def do_screenshot():
             skip = False
@@ -182,7 +182,7 @@ class CommonTests:
 
         return do_screenshot
 
-    @pytest.fixture(scope='class', autouse=True)
+    @pytest.fixture(scope='class')
     def extension_test_interface_ready(self, bus_connection, extension_enabled, request):
         assert request.cls is not CommonTests
         assert request.cls.test_interface_ready == False
@@ -197,23 +197,21 @@ class CommonTests:
             request.cls.test_interface_ready = False
 
     @pytest.fixture(scope='class', autouse=True)
-    def extension_setup(self, bus_call, extension_test_interface_ready):
-        bus_call('Setup')
-
-    @pytest.fixture(scope='class', autouse=True)
-    def verify_config(self, bus_get_property, extension_setup):
+    def extension_setup(self, bus_call, bus_get_property, extension_test_interface_ready):
         assert bus_get_property('PrimaryMonitor') == self.PRIMARY_MONITOR
         assert bus_get_property('NMonitors') == self.N_MONITORS
 
+        bus_call('Setup')
+
     @pytest.fixture(scope='class')
-    def monitors_geometry(self, bus_call):
+    def monitors_geometry(self, bus_call, extension_test_interface_ready):
         return [
             Rect(*bus_call('GetMonitorGeometry', '(i)', index, return_type='(iiii)'))
             for index in range(self.N_MONITORS)
         ]
 
     @pytest.fixture(scope='class')
-    def monitors_scale(self, bus_call):
+    def monitors_scale(self, bus_call, extension_test_interface_ready):
         return [
             bus_call('GetMonitorScale', '(i)', index, return_type='(i)')[0]
             for index in range(self.N_MONITORS)
