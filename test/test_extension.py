@@ -140,6 +140,8 @@ class CommonTests:
             yield c
 
         finally:
+            c.close()
+            assert request.cls.current_dbus_connection is c
             request.cls.current_dbus_connection = None
 
     @pytest.fixture(scope='class')
