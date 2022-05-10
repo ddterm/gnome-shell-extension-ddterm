@@ -127,22 +127,20 @@ class CommonTests:
         return dict(user='gnomeshell', env=dict(DBUS_SESSION_BUS_ADDRESS=f'unix:path=/run/user/{uid}/bus'))
 
     @pytest.fixture(scope='class')
-    def container_session_bus_ready(self, container, user_env):
+    def gnome_shell_session(self, container, user_env):
+        container.exec('systemctl', '--user', 'start', f'{self.GNOME_SHELL_SESSION_NAME}@:99', **user_env)
+        return self.GNOME_SHELL_SESSION_NAME
+
+    @pytest.fixture(scope='class')
+    def bus_connection(self, podman, container, user_env, request):
+        assert request.cls is not CommonTests
+        assert request.cls.current_dbus_connection is None
+
         while container.exec(
             'busctl', '--user', '--watch-bind=true', 'status',
             stdout=subprocess.DEVNULL, check=False, **user_env
         ).returncode != 0:
             time.sleep(0.1)
-
-    @pytest.fixture(scope='class')
-    def gnome_shell_session(self, container, container_session_bus_ready, user_env):
-        container.exec('systemctl', '--user', 'start', f'{self.GNOME_SHELL_SESSION_NAME}@:99', **user_env)
-        return self.GNOME_SHELL_SESSION_NAME
-
-    @pytest.fixture(scope='class')
-    def bus_connection(self, podman, container, container_session_bus_ready, request):
-        assert request.cls is not CommonTests
-        assert request.cls.current_dbus_connection is None
 
         ports = json.loads(podman(
             'container', 'inspect', '-f', '{{json .NetworkSettings.Ports}}', container.container_id,
