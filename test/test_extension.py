@@ -122,19 +122,21 @@ class CommonTests:
                 atexit.unregister(c.kill)
 
     @pytest.fixture(scope='class')
-    def container_session_bus_ready(self, container):
+    def user_env(self, container):
+        uid = int(container.exec('id', '-u', user='gnomeshell', stdout=subprocess.PIPE).stdout)
+        return dict(user='gnomeshell', env=dict(DBUS_SESSION_BUS_ADDRESS=f'unix:path=/run/user/{uid}/bus'))
+
+    @pytest.fixture(scope='class')
+    def container_session_bus_ready(self, container, user_env):
         while container.exec(
-            'set-env.sh', 'busctl', '--user', '--watch-bind=true', 'status',
-            stdout=subprocess.DEVNULL, user='gnomeshell', check=False
+            'busctl', '--user', '--watch-bind=true', 'status',
+            stdout=subprocess.DEVNULL, check=False, **user_env
         ).returncode != 0:
             time.sleep(0.1)
 
     @pytest.fixture(scope='class')
-    def gnome_shell_session(self, container, container_session_bus_ready):
-        container.exec(
-            'set-env.sh', 'systemctl', '--user', 'start', f'{self.GNOME_SHELL_SESSION_NAME}@:99',
-            user='gnomeshell'
-        )
+    def gnome_shell_session(self, container, container_session_bus_ready, user_env):
+        container.exec('systemctl', '--user', 'start', f'{self.GNOME_SHELL_SESSION_NAME}@:99', **user_env)
         return self.GNOME_SHELL_SESSION_NAME
 
     @pytest.fixture(scope='class')
