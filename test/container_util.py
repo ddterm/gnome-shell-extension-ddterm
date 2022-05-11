@@ -71,18 +71,20 @@ class StreamReaderThread(threading.Thread):
         sys.stderr.buffer.write(line)
 
         with self.wait_line_lock:
-            if self.wait_line_substr is not None and self.wait_line_substr in line:
-                self.wait_line_event.set()
-
-                if not line:
-                    self.shut_down = True
+            if self.wait_line_substr is not None:
+                if self.wait_line_substr in line:
+                    self.wait_line_event.set()
 
     def run(self):
-        with self.stream:
-            for line in self.iter_lines():
-                self.process_line(line)
+        try:
+            with self.stream:
+                for line in self.iter_lines():
+                    self.process_line(line)
 
-        self.process_line(b'')
+        finally:
+            with self.wait_line_lock:
+                self.shut_down = True
+                self.wait_line_event.set()
 
     def set_wait_line(self, substr):
         with self.wait_line_lock:
