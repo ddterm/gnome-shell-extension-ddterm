@@ -54,33 +54,32 @@ class CommonTests:
     current_dbus_interface: dbus_util.Interface = None
 
     @classmethod
+    def journal_message(cls, msg):
+        if cls.current_dbus_interface:
+            cls.current_dbus_interface('LogMessage', '(s)', msg)
+
+        elif cls.current_container is not None:
+            cls.current_container.exec('systemd-cat', input=msg.encode())
+
+    @classmethod
     @contextlib.contextmanager
     def journal_context(cls, item, when):
         assert cls is not CommonTests
 
-        msg = f'Beginning of {item.nodeid} {when}'
-
-        if cls.current_dbus_interface:
-            cls.current_dbus_interface('LogMessage', '(s)', msg)
-        elif cls.current_container != None:
-            cls.current_container.exec('systemd-cat', input=msg.encode())
+        cls.journal_message(f'Beginning of {item.nodeid} {when}')
 
         try:
             yield
 
         finally:
-            if cls.current_container == None:
+            if cls.current_container is None:
                 return
 
             try:
                 msg = f'End of {item.nodeid} {when}'
+
                 cls.current_container.console.set_wait_line(msg.encode())
-
-                if cls.current_dbus_interface:
-                    cls.current_dbus_interface('LogMessage', '(s)', msg)
-                else:
-                    cls.current_container.exec('systemd-cat', input=msg.encode())
-
+                cls.journal_message(msg)
                 cls.current_container.console.wait_line(timeout=1)
 
             except Exception:
