@@ -153,10 +153,6 @@ class CommonTests:
             interface='org.gnome.Shell.Extensions',
         )
 
-    @pytest.fixture(scope='class')
-    def extension_enabled(self, shell_extensions_interface):
-        shell_extensions_interface('EnableExtension', '(s)', EXTENSION_UUID)
-
     @pytest.fixture
     def screenshot(self, xvfb_fbdir, extra, pytestconfig):
         class ScreenshotContextManager(contextlib.AbstractContextManager):
@@ -174,9 +170,11 @@ class CommonTests:
         return ScreenshotContextManager
 
     @pytest.fixture(scope='class')
-    def extension_test_interface(self, bus_connection, extension_enabled, request):
+    def extension_test_interface(self, bus_connection, shell_extensions_interface, request):
         assert request.cls is not CommonTests
         assert request.cls.current_dbus_interface is None
+
+        shell_extensions_interface('EnableExtension', '(s)', EXTENSION_UUID)
 
         iface = dbus_util.wait_interface(
             bus_connection,
