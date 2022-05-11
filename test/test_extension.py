@@ -180,17 +180,9 @@ class CommonTests:
 
     @pytest.fixture
     def screenshot(self, xvfb_fbdir, extra, pytestconfig):
-        @contextlib.contextmanager
-        def do_screenshot():
-            skip = False
-            try:
-                yield
-
-                if pytestconfig.getoption('--screenshot-failing-only'):
-                    skip = True
-
-            finally:
-                if skip:
+        class ScreenshotContextManager(contextlib.AbstractContextManager):
+            def __exit__(self, exc_type, exc_value, traceback):
+                if exc_type is None and pytestconfig.getoption('--screenshot-failing-only'):
                     return
 
                 xwd_blob = pathlib.Path(xvfb_fbdir / 'Xvfb_screen0').read_bytes()
@@ -200,7 +192,7 @@ class CommonTests:
 
                 extra.append(extras.png(base64.b64encode(png_blob).decode('ascii')))
 
-        return do_screenshot
+        return ScreenshotContextManager
 
     @pytest.fixture(scope='class')
     def extension_test_interface_ready(self, bus_connection, extension_enabled, request):
