@@ -51,8 +51,7 @@ class CommonTests:
     PRIMARY_MONITOR = 0
 
     current_container: container_util.Container = None
-    current_dbus_connection: 'gi.repository.Gio.DBusConnection' = None
-    test_interface_ready = False
+    current_dbus_interface: dbus_util.Interface = None
 
     @classmethod
     @contextlib.contextmanager
@@ -61,8 +60,8 @@ class CommonTests:
 
         msg = f'Beginning of {item.nodeid} {when}'
 
-        if cls.test_interface_ready:
-            dbus_util.call(cls.current_dbus_connection, 'LogMessage', '(s)', msg)
+        if cls.current_dbus_interface:
+            cls.current_dbus_interface('LogMessage', '(s)', msg)
         elif cls.current_container != None:
             cls.current_container.exec('systemd-cat', input=msg.encode())
 
@@ -77,8 +76,8 @@ class CommonTests:
                 msg = f'End of {item.nodeid} {when}'
                 cls.current_container.console.set_wait_line(msg.encode())
 
-                if cls.test_interface_ready:
-                    dbus_util.call(cls.current_dbus_connection, 'LogMessage', '(s)', msg)
+                if cls.current_dbus_interface:
+                    cls.current_dbus_interface('LogMessage', '(s)', msg)
                 else:
                     cls.current_container.exec('systemd-cat', input=msg.encode())
 
@@ -131,10 +130,7 @@ class CommonTests:
         return self.GNOME_SHELL_SESSION_NAME
 
     @pytest.fixture(scope='class')
-    def bus_connection(self, container, user_env, request):
-        assert request.cls is not CommonTests
-        assert request.cls.current_dbus_connection is None
-
+    def bus_connection(self, container, user_env):
         while container.exec(
             'busctl', '--user', '--watch-bind=true', 'status',
             stdout=subprocess.DEVNULL, check=False, **user_env
@@ -145,32 +141,21 @@ class CommonTests:
         host = hostport['HostIp'] or '127.0.0.1'
         port = hostport['HostPort']
 
-        c = dbus_util.connect_tcp(host, port)
-        request.cls.current_dbus_connection = c
-
-        try:
+        with contextlib.closing(dbus_util.connect_tcp(host, port)) as c:
             yield c
 
-        finally:
-            c.close()
-            assert request.cls.current_dbus_connection is c
-            request.cls.current_dbus_connection = None
+    @pytest.fixture(scope='class')
+    def shell_extensions_interface(self, bus_connection, gnome_shell_session):
+        return dbus_util.wait_interface(
+            bus_connection,
+            dest='org.gnome.Shell',
+            path='/org/gnome/Shell',
+            interface='org.gnome.Shell.Extensions',
+        )
 
     @pytest.fixture(scope='class')
-    def bus_call(self, bus_connection):
-        return functools.partial(dbus_util.call, bus_connection)
-
-    @pytest.fixture(scope='class')
-    def bus_get_property(self, bus_connection):
-        return functools.partial(dbus_util.get_property, bus_connection)
-
-    @pytest.fixture(scope='class')
-    def shell_extensions_interface_ready(self, bus_connection, gnome_shell_session):
-        dbus_util.wait_interface(bus_connection, path='/org/gnome/Shell', interface='org.gnome.Shell.Extensions')
-
-    @pytest.fixture(scope='class')
-    def extension_enabled(self, bus_call, shell_extensions_interface_ready):
-        bus_call('EnableExtension', '(s)', EXTENSION_UUID, path='/org/gnome/Shell', interface='org.gnome.Shell.Extensions')
+    def extension_enabled(self, shell_extensions_interface):
+        shell_extensions_interface('EnableExtension', '(s)', EXTENSION_UUID)
 
     @pytest.fixture
     def screenshot(self, xvfb_fbdir, extra, pytestconfig):
@@ -189,59 +174,60 @@ class CommonTests:
         return ScreenshotContextManager
 
     @pytest.fixture(scope='class')
-    def extension_test_interface_ready(self, bus_connection, extension_enabled, request):
+    def extension_test_interface(self, bus_connection, extension_enabled, request):
         assert request.cls is not CommonTests
-        assert request.cls.test_interface_ready == False
+        assert request.cls.current_dbus_interface is None
 
-        dbus_util.wait_interface(bus_connection)
-        request.cls.test_interface_ready = True
+        iface = dbus_util.wait_interface(
+            bus_connection,
+            dest='org.gnome.Shell',
+            path='/org/gnome/Shell/Extensions/ddterm',
+            interface='com.github.amezin.ddterm.ExtensionTest'
+        )
+        request.cls.current_dbus_interface = iface
 
         try:
-            yield
+            yield iface
 
         finally:
-            request.cls.test_interface_ready = False
+            request.cls.current_dbus_interface = None
 
     @pytest.fixture(scope='class', autouse=True)
-    def extension_setup(self, bus_call, bus_get_property, extension_test_interface_ready):
-        assert bus_get_property('PrimaryMonitor') == self.PRIMARY_MONITOR
-        assert bus_get_property('NMonitors') == self.N_MONITORS
+    def extension_setup(self, extension_test_interface):
+        assert extension_test_interface.get_property('PrimaryMonitor') == self.PRIMARY_MONITOR
+        assert extension_test_interface.get_property('NMonitors') == self.N_MONITORS
 
-        bus_call('Setup')
+        extension_test_interface('Setup')
 
     @pytest.fixture(scope='class')
-    def monitors_geometry(self, bus_call, extension_test_interface_ready):
+    def monitors_geometry(self, extension_test_interface):
         return [
-            Rect(*bus_call('GetMonitorGeometry', '(i)', index, return_type='(iiii)'))
+            Rect(*extension_test_interface('GetMonitorGeometry', '(i)', index, return_type='(iiii)'))
             for index in range(self.N_MONITORS)
         ]
 
     @pytest.fixture(scope='class')
-    def monitors_scale(self, bus_call, extension_test_interface_ready):
+    def monitors_scale(self, extension_test_interface):
         return [
-            bus_call('GetMonitorScale', '(i)', index, return_type='(i)')[0]
+            extension_test_interface('GetMonitorScale', '(i)', index, return_type='(i)')[0]
             for index in range(self.N_MONITORS)
         ]
 
     @pytest.fixture(scope='class')
-    def shell_version(self, bus_get_property, shell_extensions_interface_ready):
-        return bus_get_property(
-            'ShellVersion',
-            path='/org/gnome/Shell',
-            interface='org.gnome.Shell'
-        )
+    def shell_version(self, shell_extensions_interface):
+        return shell_extensions_interface.get_property('ShellVersion')
 
     @pytest.mark.parametrize('window_size', [0.31, 0.36, 0.4, 0.8, 0.85, 0.91])
     @pytest.mark.parametrize('window_maximize', MAXIMIZE_MODES)
     @pytest.mark.parametrize('window_pos', VERTICAL_RESIZE_POSITIONS)
-    def test_show_v(self, bus_call, window_size, window_maximize, window_pos, monitor_config, screenshot):
+    def test_show_v(self, extension_test_interface, window_size, window_maximize, window_pos, monitor_config, screenshot):
         with screenshot():
-            bus_call('TestShow', '(dssis)', window_size, window_maximize, window_pos, monitor_config.current_index, monitor_config.setting)
+            extension_test_interface('TestShow', '(dssis)', window_size, window_maximize, window_pos, monitor_config.current_index, monitor_config.setting)
 
     @pytest.mark.parametrize('window_size', [0.31, 0.36, 0.4, 0.8, 0.85, 0.91])
     @pytest.mark.parametrize('window_maximize', MAXIMIZE_MODES)
     @pytest.mark.parametrize('window_pos', HORIZONTAL_RESIZE_POSITIONS)
-    def test_show_h(self, bus_call, window_size, window_maximize, window_pos, monitor_config, monitors_geometry, monitors_scale, screenshot):
+    def test_show_h(self, extension_test_interface, window_size, window_maximize, window_pos, monitor_config, monitors_geometry, monitors_scale, screenshot):
         if monitor_config.setting == 'primary':
             target_monitor = self.PRIMARY_MONITOR
         else:
@@ -251,47 +237,47 @@ class CommonTests:
             pytest.skip('Screen too small')
 
         with screenshot():
-            bus_call('TestShow', '(dssis)', window_size, window_maximize, window_pos, monitor_config.current_index, monitor_config.setting)
+            extension_test_interface('TestShow', '(dssis)', window_size, window_maximize, window_pos, monitor_config.current_index, monitor_config.setting)
 
     @pytest.mark.parametrize('window_size', SIZE_VALUES)
     @pytest.mark.parametrize('window_maximize', MAXIMIZE_MODES)
     @pytest.mark.parametrize('window_size2', SIZE_VALUES)
     @pytest.mark.parametrize('window_pos', POSITIONS)
     @pytest.mark.flaky
-    def test_resize_xte(self, bus_call, window_size, window_maximize, window_size2, window_pos, monitor_config, shell_version, screenshot):
+    def test_resize_xte(self, extension_test_interface, window_size, window_maximize, window_size2, window_pos, monitor_config, shell_version, screenshot):
         version_split = tuple(int(x) for x in shell_version.split('.'))
         if version_split < (3, 39):
             if monitor_config.current_index == 1 and window_pos == 'bottom' and window_size2 == 1:
                 pytest.skip('For unknown reason it fails to resize to full height on 2nd monitor')
 
         with screenshot():
-            bus_call('TestResizeXte', '(dsdsis)', window_size, window_maximize, window_size2, window_pos, monitor_config.current_index, monitor_config.setting)
+            extension_test_interface('TestResizeXte', '(dsdsis)', window_size, window_maximize, window_size2, window_pos, monitor_config.current_index, monitor_config.setting)
 
     @pytest.mark.parametrize('window_size', SIZE_VALUES)
     @pytest.mark.parametrize(('window_pos', 'window_pos2'), (p for p in itertools.product(POSITIONS, repeat=2) if p[0] != p[1]))
-    def test_change_position(self, bus_call, window_size, window_pos, window_pos2, monitor_config, screenshot):
+    def test_change_position(self, extension_test_interface, window_size, window_pos, window_pos2, monitor_config, screenshot):
         with screenshot():
-            bus_call('TestChangePosition', '(dssis)', window_size, window_pos, window_pos2, monitor_config.current_index, monitor_config.setting)
+            extension_test_interface('TestChangePosition', '(dssis)', window_size, window_pos, window_pos2, monitor_config.current_index, monitor_config.setting)
 
     @pytest.mark.parametrize('window_size', SIZE_VALUES)
     @pytest.mark.parametrize('window_maximize', MAXIMIZE_MODES)
     @pytest.mark.parametrize('window_pos', POSITIONS)
-    def test_unmaximize(self, bus_call, window_size, window_maximize, window_pos, monitor_config, screenshot):
+    def test_unmaximize(self, extension_test_interface, window_size, window_maximize, window_pos, monitor_config, screenshot):
         with screenshot():
-            bus_call('TestUnmaximize', '(dssis)', window_size, window_maximize, window_pos, monitor_config.current_index, monitor_config.setting)
+            extension_test_interface('TestUnmaximize', '(dssis)', window_size, window_maximize, window_pos, monitor_config.current_index, monitor_config.setting)
 
     @pytest.mark.parametrize('window_size', SIZE_VALUES)
     @pytest.mark.parametrize('window_size2', SIZE_VALUES)
     @pytest.mark.parametrize('window_pos', POSITIONS)
-    def test_unmaximize_correct_size(self, bus_call, window_size, window_size2, window_pos, monitor_config, screenshot):
+    def test_unmaximize_correct_size(self, extension_test_interface, window_size, window_size2, window_pos, monitor_config, screenshot):
         with screenshot():
-            bus_call('TestUnmaximizeCorrectSize', '(ddsis)', window_size, window_size2, window_pos, monitor_config.current_index, monitor_config.setting)
+            extension_test_interface('TestUnmaximizeCorrectSize', '(ddsis)', window_size, window_size2, window_pos, monitor_config.current_index, monitor_config.setting)
 
     @pytest.mark.parametrize(('window_size', 'window_size2'), (p for p in itertools.product(SIZE_VALUES, repeat=2) if p[0] != p[1]))
     @pytest.mark.parametrize('window_pos', POSITIONS)
-    def test_unmaximize_on_size_change(self, bus_call, window_size, window_size2, window_pos, monitor_config, screenshot):
+    def test_unmaximize_on_size_change(self, extension_test_interface, window_size, window_size2, window_pos, monitor_config, screenshot):
         with screenshot():
-            bus_call('TestUnmaximizeOnSizeChange', '(ddsis)', window_size, window_size2, window_pos, monitor_config.current_index, monitor_config.setting)
+            extension_test_interface('TestUnmaximizeOnSizeChange', '(ddsis)', window_size, window_size2, window_pos, monitor_config.current_index, monitor_config.setting)
 
 
 @pytest.mark.parametrize('monitor_config', [

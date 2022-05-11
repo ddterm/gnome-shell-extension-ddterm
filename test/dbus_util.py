@@ -5,12 +5,8 @@ from gi.repository import GLib, Gio
 
 LOGGER = logging.getLogger(__name__)
 
-TEST_DBUS_PATH = '/org/gnome/Shell/Extensions/ddterm'
-TEST_DBUS_INTERFACE = 'com.github.amezin.ddterm.ExtensionTest'
-TEST_SERVICE = 'org.gnome.Shell'
 
-
-def call(connection, method, signature=None, *args, dest=TEST_SERVICE, path=TEST_DBUS_PATH, interface=TEST_DBUS_INTERFACE, return_type=None, timeout=None):
+def call(connection, method, signature=None, *args, dest, path, interface, return_type=None, timeout=None):
     return connection.call_sync(
         dest,
         path,
@@ -24,20 +20,41 @@ def call(connection, method, signature=None, *args, dest=TEST_SERVICE, path=TEST
     ).unpack()
 
 
-def get_property(connection, name, interface=TEST_DBUS_INTERFACE, **kwargs):
-    return call(
-        connection,
-        'Get',
-        '(ss)',
-        interface,
-        name,
-        interface='org.freedesktop.DBus.Properties',
-        return_type='(v)',
-        **kwargs
-    )[0]
+class Interface:
+    def __init__(self, connection, name, path, dest):
+        self.connection = connection
+        self.interface = name
+        self.path = path
+        self.dest = dest
+
+    def __call__(self, method, signature=None, *args, **kwargs):
+        return call(
+            self.connection,
+            method,
+            signature,
+            *args,
+            dest=self.dest,
+            path=self.path,
+            interface=self.interface,
+            **kwargs
+        )
+
+    def get_property(self, name, **kwargs):
+        return call(
+            self.connection,
+            'Get',
+            '(ss)',
+            self.interface,
+            name,
+            interface='org.freedesktop.DBus.Properties',
+            dest=self.dest,
+            path=self.path,
+            return_type='(v)',
+            **kwargs
+        )[0]
 
 
-def wait_interface(connection, dest=TEST_SERVICE, path=TEST_DBUS_PATH, interface=TEST_DBUS_INTERFACE):
+def wait_interface(connection, dest, path, interface):
     loop = GLib.MainLoop.new(None, False)
     retry_source = None
 
@@ -74,6 +91,7 @@ def wait_interface(connection, dest=TEST_SERVICE, path=TEST_DBUS_PATH, interface
     watch_id = Gio.bus_watch_name_on_connection(connection, dest, Gio.BusNameWatcherFlags.NONE, introspect, lambda *_: cancel_retry)
     try:
         loop.run()
+        return Interface(connection, interface, path, dest)
 
     finally:
         Gio.bus_unwatch_name(watch_id)
