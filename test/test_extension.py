@@ -4,7 +4,6 @@ import collections
 import contextlib
 import functools
 import itertools
-import json
 import logging
 import pathlib
 import subprocess
@@ -132,7 +131,7 @@ class CommonTests:
         return self.GNOME_SHELL_SESSION_NAME
 
     @pytest.fixture(scope='class')
-    def bus_connection(self, podman, container, user_env, request):
+    def bus_connection(self, container, user_env, request):
         assert request.cls is not CommonTests
         assert request.cls.current_dbus_connection is None
 
@@ -142,12 +141,7 @@ class CommonTests:
         ).returncode != 0:
             time.sleep(0.1)
 
-        ports = json.loads(podman(
-            'container', 'inspect', '-f', '{{json .NetworkSettings.Ports}}', container.container_id,
-            stdout=subprocess.PIPE
-        ).stdout)
-
-        hostport = ports['1234/tcp'][0];
+        hostport = container.inspect('{{json .NetworkSettings.Ports}}')['1234/tcp'][0];
         host = hostport['HostIp'] or '127.0.0.1'
         port = hostport['HostPort']
 

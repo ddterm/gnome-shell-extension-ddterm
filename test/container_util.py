@@ -1,3 +1,4 @@
+import json
 import logging
 import shlex
 import subprocess
@@ -155,3 +156,11 @@ class Container:
         return (self.podman.bg if bg else self.podman)(
             'exec', *user_args, self.container_id, *args, **kwargs
         )
+
+    def inspect(self, format=None):
+        format_args = () if format is None else ('--format', format)
+
+        return json.loads(self.podman(
+            'container', 'inspect', *format_args, self.container_id,
+            stdout=subprocess.PIPE
+        ).stdout)
