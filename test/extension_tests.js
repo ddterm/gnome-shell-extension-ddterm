@@ -231,14 +231,23 @@ function async_sleep(ms) {
     }));
 }
 
+class TimeoutError extends Error {}
+
 function with_timeout(promise, timeout_ms = WAIT_TIMEOUT_MS) {
-    const timeout = new Error('Timed out');
+    const error = new TimeoutError('Timed out');
+    const timer = new Timer();
+
     return Promise.race([
         promise,
-        new Promise((resolve, reject) => async_sleep(timeout_ms).then(() => {
-            reject(timeout);
-        })),
-    ]);
+        new Promise((resolve, reject) => {
+            timer.connect('dispatch', () => {
+                reject(error);
+            });
+            timer.schedule(timeout_ms);
+        }),
+    ]).finally(() => {
+        timer.cancel();
+    });
 }
 
 function idle() {
