@@ -95,7 +95,7 @@ class CommonTests:
         with filelock.FileLock(global_tmp_path / 'container-starting.lock') as lock:
             c = container_util.Container.run(
                 podman,
-                '--rm', '-P',
+                '--rm', '-P', '--log-driver=none',
                 '--cap-add=SYS_NICE,IPC_LOCK,SYS_PTRACE,SETPCAP,NET_RAW,NET_BIND_SERVICE',
                 '-v', f'{SRC_DIR}:{PKG_PATH}:ro',
                 '-v', f'{TEST_SRC_DIR}/fbdir.conf:/etc/systemd/system/xvfb@.service.d/fbdir.conf:ro',
