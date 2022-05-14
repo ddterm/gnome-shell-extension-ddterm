@@ -39,11 +39,6 @@ def xvfb_fbdir(tmpdir_factory):
     return tmpdir_factory.mktemp('xvfb')
 
 
-@pytest.fixture(scope='session')
-def global_tmp_path(tmp_path_factory):
-    return tmp_path_factory.getbasetemp().parent
-
-
 @pytest.mark.runtest_cm.with_args(lambda item, when: item.cls.journal_context(item, when))
 class CommonTests:
     GNOME_SHELL_SESSION_NAME: str

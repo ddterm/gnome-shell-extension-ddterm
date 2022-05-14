@@ -4,7 +4,9 @@ import logging
 import pathlib
 import shlex
 import subprocess
+import urllib.parse
 
+import filelock
 import pytest
 
 from . import container_util
@@ -24,14 +26,28 @@ IMAGES = [
 
 
 @pytest.fixture(scope='session')
+def global_tmp_path(tmp_path_factory):
+    return tmp_path_factory.getbasetemp().parent
+
+
+@pytest.fixture(scope='session')
 def podman(pytestconfig):
     return container_util.Podman(pytestconfig.option.podman)
 
 
 @pytest.fixture(scope='session')
-def container_image(request, pytestconfig, podman):
-    if pytestconfig.option.pull:
-        podman('pull', request.param, timeout=None)
+def container_image(request, pytestconfig, podman, global_tmp_path):
+    if not pytestconfig.option.pull:
+        return request.param
+
+    basename = urllib.parse.quote_plus(request.param)
+
+    with filelock.FileLock(global_tmp_path / f'{basename}.lock'):
+        done_path = global_tmp_path / f'{basename}.done'
+
+        if not done_path.exists():
+            podman('pull', request.param, timeout=None)
+            done_path.touch()
 
     return request.param
 
