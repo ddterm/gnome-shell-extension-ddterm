@@ -48,25 +48,6 @@ class StreamReaderThread(threading.Thread):
         self.wait_line_substr = None
         self.shut_down = False
 
-    def iter_lines(self):
-        current_line = bytes()
-
-        while chunk := self.stream.read(4096):
-            current_line += chunk
-            lines = current_line.splitlines(keepends=True)
-
-            if lines[-1].endswith(b'\n'):
-                current_line = bytes()
-            else:
-                current_line = lines[-1]
-                lines = lines[:-1]
-
-            for line in lines:
-                yield line
-
-        if current_line:
-            yield current_line
-
     def process_line(self, line):
         sys.stderr.buffer.write(line)
 
@@ -78,7 +59,7 @@ class StreamReaderThread(threading.Thread):
     def run(self):
         try:
             with self.stream:
-                for line in self.iter_lines():
+                while line := self.stream.readline():
                     self.process_line(line)
 
         finally:
