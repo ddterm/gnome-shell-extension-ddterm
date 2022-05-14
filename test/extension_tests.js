@@ -353,24 +353,12 @@ async function set_settings_value(name, value) {
 
     info(`Changing setting ${name} from ${original.print(true)} to ${value.print(true)}`);
     settings.set_value(name, value);
+    Gio.Settings.sync();
+    await idle();
 
-    try {
-        await async_wait_signal(
-            settings,
-            `changed::${name}`,
-            () => {
-                const current = settings.get_value(name);
-                if (value.equal(current))
-                    return true;
-
-                debug(`current value ${current.print(true)} != expected ${value.print(true)}`);
-                return false;
-            }
-        );
-    } finally {
-        debug(`Result: ${name}=${settings.get_value(name).print(true)}`);
-        await idle();
-    }
+    const final = settings.get_value(name);
+    debug(`Result: ${name}=${final.print(true)}`);
+    JsUnit.assertTrue(value.equal(final));
 }
 
 function set_settings_double(name, value) {
