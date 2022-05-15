@@ -115,8 +115,10 @@ class CommonTests:
 
     @pytest.fixture(scope='class')
     def user_env(self, container):
-        uid = int(container.exec('id', '-u', user='gnomeshell', stdout=subprocess.PIPE).stdout)
-        return dict(user='gnomeshell', env=dict(DBUS_SESSION_BUS_ADDRESS=f'unix:path=/run/user/{uid}/bus'))
+        bus_address = container.exec(
+            'su', '-c', 'echo $DBUS_SESSION_BUS_ADDRESS', '-', 'gnomeshell', stdout=subprocess.PIPE
+        ).stdout.rstrip(b'\n').decode()
+        return dict(user='gnomeshell', env=dict(DBUS_SESSION_BUS_ADDRESS=bus_address))
 
     @pytest.fixture(scope='class')
     def gnome_shell_session(self, container, user_env):
