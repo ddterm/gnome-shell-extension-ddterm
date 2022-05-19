@@ -832,8 +832,11 @@ along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licens
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
+                <property name="action-name">settings.window-monitor</property>
+                <property name="action-target">'current'</property>
                 <property name="use-underline">True</property>
                 <property name="draw-indicator">True</property>
+                <property name="group">window_monitor_connector_radio</property>
               </object>
               <packing>
                 <property name="left-attach">0</property>
@@ -847,9 +850,11 @@ along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licens
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
+                <property name="action-name">settings.window-monitor</property>
+                <property name="action-target">'primary'</property>
                 <property name="use-underline">True</property>
                 <property name="draw-indicator">True</property>
-                <property name="group">window_monitor_current_radio</property>
+                <property name="group">window_monitor_connector_radio</property>
               </object>
               <packing>
                 <property name="left-attach">0</property>
@@ -863,9 +868,11 @@ along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licens
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
+                <property name="action-name">settings.window-monitor</property>
+                <property name="action-target">'focus'</property>
                 <property name="use-underline">True</property>
                 <property name="draw-indicator">True</property>
-                <property name="group">window_monitor_current_radio</property>
+                <property name="group">window_monitor_connector_radio</property>
               </object>
               <packing>
                 <property name="left-attach">0</property>
@@ -879,9 +886,10 @@ along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licens
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
+                <property name="action-name">settings.window-monitor</property>
+                <property name="action-target">'connector'</property>
                 <property name="use-underline">True</property>
                 <property name="draw-indicator">True</property>
-                <property name="group">window_monitor_current_radio</property>
               </object>
               <packing>
                 <property name="left-attach">0</property>
@@ -1447,11 +1455,12 @@ Following helpers are available:
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="reset_tab_title_button">
+              <object class="GtkButton">
                 <property name="label" translatable="yes">_Reset to default</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
+                <property name="action-name">aux.reset-tab-title</property>
                 <property name="use-underline">True</property>
               </object>
               <packing>
@@ -1606,6 +1615,7 @@ Following helpers are available:
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
+                <property name="action-name">inverse-settings.use-system-font</property>
                 <property name="use-underline">True</property>
                 <property name="draw-indicator">True</property>
               </object>
@@ -1993,6 +2003,7 @@ Following helpers are available:
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                     <property name="receives-default">False</property>
+                    <property name="action-name">inverse-settings.bold-color-same-as-fg</property>
                     <property name="draw-indicator">True</property>
                   </object>
                   <packing>
@@ -2567,11 +2578,12 @@ Following helpers are available:
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="copy_gnome_terminal_profile_button">
+              <object class="GtkButton">
                 <property name="label" translatable="yes">Copy profile from GNOME Terminal</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
+                <property name="action-name">aux.copy-gnome-terminal-profile</property>
               </object>
               <packing>
                 <property name="left-attach">0</property>
@@ -2605,8 +2617,11 @@ Following helpers are available:
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
+                <property name="action-name">settings.command</property>
+                <property name="action-target">'user-shell'</property>
                 <property name="use-underline">True</property>
                 <property name="draw-indicator">True</property>
+                <property name="group">spawn_custom_command</property>
               </object>
               <packing>
                 <property name="left-attach">0</property>
@@ -2620,9 +2635,11 @@ Following helpers are available:
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
+                <property name="action-name">settings.command</property>
+                <property name="action-target">'user-shell-login'</property>
                 <property name="use-underline">True</property>
                 <property name="draw-indicator">True</property>
-                <property name="group">spawn_user_shell</property>
+                <property name="group">spawn_custom_command</property>
               </object>
               <packing>
                 <property name="left-attach">0</property>
@@ -2636,9 +2653,10 @@ Following helpers are available:
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
+                <property name="action-name">settings.command</property>
+                <property name="action-target">'custom-command'</property>
                 <property name="use-underline">True</property>
                 <property name="draw-indicator">True</property>
-                <property name="group">spawn_user_shell</property>
               </object>
               <packing>
                 <property name="left-attach">0</property>
@@ -2754,6 +2772,7 @@ Following helpers are available:
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
+                <property name="action-name">inverse-settings.scrollback-unlimited</property>
                 <property name="use-underline">True</property>
                 <property name="draw-indicator">True</property>
               </object>
@@ -2913,11 +2932,12 @@ Following helpers are available:
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="reset_compatibility_button">
+              <object class="GtkButton">
                 <property name="label" translatable="yes">_Reset Compatibility Options to Defaults</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
+                <property name="action-name">aux.reset-compatibility-options</property>
                 <property name="use-underline">True</property>
               </object>
               <packing>

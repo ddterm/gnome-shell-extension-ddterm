@@ -58,6 +58,9 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 
 Me.dir = APP_DATA_DIR;
 
+const { rxjs } = imports.rxjs;
+const { rxutil, settings } = imports;
+
 const Application = GObject.registerClass(
     class Application extends Gtk.Application {
         _init(params) {
@@ -79,7 +82,6 @@ const Application = GObject.registerClass(
             this.unset_gdk_backend = false;
 
             this.connect('startup', this.startup.bind(this));
-            this.connect('activate', this.activate.bind(this));
             this.connect('handle-local-options', this.handle_local_options.bind(this));
 
             this.window = null;
@@ -87,7 +89,24 @@ const Application = GObject.registerClass(
         }
 
         startup() {
-            this.simple_action('quit', this.quit.bind(this));
+            if (this.unset_gdk_backend)
+                GLib.unsetenv('GDK_BACKEND');
+
+            if (this.env_gdk_backend !== null)
+                GLib.setenv('GDK_BACKEND', this.env_gdk_backend, true);
+
+            this.rx = rxutil.scope(this, rxutil.signal(this, 'shutdown'));
+
+            const actions = {
+                'quit': () => this.quit(),
+                'preferences': () => this.preferences(),
+            };
+
+            for (const [name, func] of Object.entries(actions)) {
+                const action = new Gio.SimpleAction({ name });
+                this.rx.connect(action, 'activate', func);
+                this.add_action(action);
+            }
 
             const settings_source = Gio.SettingsSchemaSource.new_from_directory(
                 APP_DATA_DIR.get_child('schemas').get_path(),
@@ -95,19 +114,43 @@ const Application = GObject.registerClass(
                 false
             );
 
-            this.settings = new Gio.Settings({
-                settings_schema: settings_source.lookup('com.github.amezin.ddterm', true),
+            this.settings = new settings.Settings({
+                gsettings: new Gio.Settings({
+                    settings_schema: settings_source.lookup('com.github.amezin.ddterm', true),
+                }),
+                desktop_settings: new Gio.Settings({
+                    schema_id: 'org.gnome.desktop.interface',
+                }),
             });
 
-            if (this.unset_gdk_backend)
-                GLib.unsetenv('GDK_BACKEND');
-
-            if (this.env_gdk_backend !== null)
-                GLib.setenv('GDK_BACKEND', this.env_gdk_backend, true);
-
-            const desktop_settings = new Gio.Settings({
-                schema_id: 'org.gnome.desktop.interface',
+            [
+                'window-above',
+                'window-stick',
+                'window-maximize',
+                'hide-when-focus-lost',
+                'hide-window-on-esc',
+                'shortcuts-enabled',
+                'scroll-on-output',
+                'scroll-on-keystroke',
+                'preserve-working-directory',
+                'transparent-background',
+            ].forEach(key => {
+                this.add_action(this.settings.gsettings.create_action(key));
             });
+
+            const gtk_settings = Gtk.Settings.get_default();
+
+            this.rx.subscribe(
+                this.settings['theme-variant'],
+                theme => {
+                    if (theme === 'system')
+                        gtk_settings.reset_property('gtk-application-prefer-dark-theme');
+                    else if (theme === 'dark')
+                        gtk_settings.gtk_application_prefer_dark_theme = true;
+                    else if (theme === 'light')
+                        gtk_settings.gtk_application_prefer_dark_theme = false;
+                }
+            );
 
             const menus = Gtk.Builder.new_from_file(APP_DATA_DIR.get_child('menus.ui').get_path());
 
@@ -119,69 +162,65 @@ const Application = GObject.registerClass(
                 application: this,
                 decorated: this.decorated,
                 settings: this.settings,
-                desktop_settings,
                 menus,
             });
 
-            this.add_action(this.window.toggle_action);
-            this.add_action(this.window.hide_action);
+            this.add_action(this.window.lookup_action('toggle'));
+            this.add_action(this.window.lookup_action('hide'));
 
-            this.simple_action('preferences', this.preferences.bind(this));
-
-            this.add_action(this.settings.create_action('window-above'));
-            this.add_action(this.settings.create_action('window-stick'));
-            this.add_action(this.settings.create_action('window-maximize'));
-            this.add_action(this.settings.create_action('hide-when-focus-lost'));
-            this.add_action(this.settings.create_action('hide-window-on-esc'));
-            this.add_action(this.settings.create_action('shortcuts-enabled'));
-            this.add_action(this.settings.create_action('scroll-on-output'));
-            this.add_action(this.settings.create_action('scroll-on-keystroke'));
-            this.add_action(this.settings.create_action('preserve-working-directory'));
-            this.add_action(this.settings.create_action('transparent-background'));
-
-            this.gtk_settings = Gtk.Settings.get_default();
-            this.settings.connect('changed::theme-variant', this.update_theme.bind(this));
-            this.update_theme();
-
-            this.setup_shortcut('shortcut-window-hide', 'win.hide');
-            this.setup_shortcut('shortcut-window-size-inc', 'win.window-size-inc');
-            this.setup_shortcut('shortcut-window-size-dec', 'win.window-size-dec');
-            this.setup_shortcut('shortcut-background-opacity-inc', 'win.background-opacity-inc');
-            this.setup_shortcut('shortcut-background-opacity-dec', 'win.background-opacity-dec');
-            this.setup_shortcut('shortcut-toggle-maximize', 'app.window-maximize');
-            this.setup_shortcut('shortcut-toggle-transparent-background', 'app.transparent-background');
-            this.setup_shortcut('shortcut-terminal-copy', 'terminal.copy');
-            this.setup_shortcut('shortcut-terminal-copy-html', 'terminal.copy-html');
-            this.setup_shortcut('shortcut-terminal-paste', 'terminal.paste');
-            this.setup_shortcut('shortcut-terminal-select-all', 'terminal.select-all');
-            this.setup_shortcut('shortcut-terminal-reset', 'terminal.reset');
-            this.setup_shortcut('shortcut-terminal-reset-and-clear', 'terminal.reset-and-clear');
-            this.setup_shortcut('shortcut-win-new-tab', 'win.new-tab');
-            this.setup_shortcut('shortcut-win-new-tab-front', 'win.new-tab-front');
-            this.setup_shortcut('shortcut-win-new-tab-before-current', 'win.new-tab-before-current');
-            this.setup_shortcut('shortcut-win-new-tab-after-current', 'win.new-tab-after-current');
-            this.setup_shortcut('shortcut-page-close', 'page.close');
-            this.setup_shortcut('shortcut-prev-tab', 'win.prev-tab');
-            this.setup_shortcut('shortcut-next-tab', 'win.next-tab');
-            this.setup_shortcut('shortcut-move-tab-prev', 'win.move-tab-prev');
-            this.setup_shortcut('shortcut-move-tab-next', 'win.move-tab-next');
-            this.setup_shortcut('shortcut-set-custom-tab-title', 'page.use-custom-title(true)');
-            this.setup_shortcut('shortcut-reset-tab-title', 'page.use-custom-title(false)');
-            this.setup_shortcut('shortcut-find', 'terminal.find');
-            this.setup_shortcut('shortcut-find-next', 'terminal.find-next');
-            this.setup_shortcut('shortcut-find-prev', 'terminal.find-prev');
+            const shortcut_actions = {
+                'shortcut-window-hide': 'win.hide',
+                'shortcut-window-size-inc': 'win.window-size-inc',
+                'shortcut-window-size-dec': 'win.window-size-dec',
+                'shortcut-background-opacity-inc': 'win.background-opacity-inc',
+                'shortcut-background-opacity-dec': 'win.background-opacity-dec',
+                'shortcut-toggle-maximize': 'app.window-maximize',
+                'shortcut-toggle-transparent-background': 'app.transparent-background',
+                'shortcut-terminal-copy': 'terminal.copy',
+                'shortcut-terminal-copy-html': 'terminal.copy-html',
+                'shortcut-terminal-paste': 'terminal.paste',
+                'shortcut-terminal-select-all': 'terminal.select-all',
+                'shortcut-terminal-reset': 'terminal.reset',
+                'shortcut-terminal-reset-and-clear': 'terminal.reset-and-clear',
+                'shortcut-win-new-tab': 'win.new-tab',
+                'shortcut-win-new-tab-front': 'win.new-tab-front',
+                'shortcut-win-new-tab-before-current': 'win.new-tab-before-current',
+                'shortcut-win-new-tab-after-current': 'win.new-tab-after-current',
+                'shortcut-page-close': 'page.close',
+                'shortcut-prev-tab': 'win.prev-tab',
+                'shortcut-next-tab': 'win.next-tab',
+                'shortcut-move-tab-prev': 'win.move-tab-prev',
+                'shortcut-move-tab-next': 'win.move-tab-next',
+                'shortcut-set-custom-tab-title': 'page.use-custom-title(true)',
+                'shortcut-reset-tab-title': 'page.use-custom-title(false)',
+                'shortcut-find': 'terminal.find',
+                'shortcut-find-next': 'terminal.find-next',
+                'shortcut-find-prev': 'terminal.find-prev',
+            };
 
             for (let i = 0; i < 10; i += 1)
-                this.setup_shortcut(`shortcut-switch-to-tab-${i + 1}`, `win.switch-to-tab(${i})`);
-        }
+                shortcut_actions[`shortcut-switch-to-tab-${i + 1}`] = `win.switch-to-tab(${i})`;
 
-        simple_action(name, func) {
-            const action = new Gio.SimpleAction({
-                name,
-            });
-            action.connect('activate', func);
-            this.add_action(action);
-            return action;
+            const shortcuts_enabled = this.settings['shortcuts-enabled'];
+
+            const append_escape = rxjs.pipe(
+                rxjs.combineLatestWith(this.settings['hide-window-on-esc']),
+                rxjs.map(([shortcuts, append]) => append ? shortcuts.concat(['Escape']) : shortcuts)
+            );
+
+            for (const [key, action] of Object.entries(shortcut_actions)) {
+                this.rx.subscribe(
+                    rxutil.switch_on(shortcuts_enabled, {
+                        true: this.settings[key],
+                        false: rxjs.of([]),
+                    }).pipe(action === 'win.hide' ? append_escape : rxjs.identity),
+                    value => {
+                        this.set_accels_for_action(action, value);
+                    }
+                );
+            }
+
+            this.rx.connect(this, 'activate', this.activate.bind(this));
         }
 
         activate() {
@@ -212,46 +251,15 @@ const Application = GObject.registerClass(
                     settings: this.settings,
                 });
 
-                this.prefs_dialog.signal_connect(this.prefs_dialog, 'delete-event', () => {
-                    this.prefs_dialog = null;
-                });
+                this.rx.subscribe(
+                    rxutil.signal(this.prefs_dialog, 'delete-event').pipe(rxjs.take(1)),
+                    () => {
+                        this.prefs_dialog = null;
+                    }
+                );
             }
 
             this.prefs_dialog.show();
-        }
-
-        quit() {
-            super.quit();
-        }
-
-        update_shortcut(key, action) {
-            const accels = this.settings.get_boolean('shortcuts-enabled') ? this.settings.get_strv(key) : [];
-
-            if (action === 'win.hide' && this.settings.get_boolean('hide-window-on-esc'))
-                accels.push('Escape');
-
-            this.set_accels_for_action(action, accels);
-        }
-
-        setup_shortcut(key, action) {
-            const update_fn = this.update_shortcut.bind(this, key, action);
-            this.settings.connect(`changed::${key}`, update_fn);
-            this.settings.connect('changed::shortcuts-enabled', update_fn);
-
-            if (action === 'win.hide')
-                this.settings.connect('changed::hide-window-on-esc', update_fn);
-
-            update_fn();
-        }
-
-        update_theme() {
-            const theme = this.settings.get_string('theme-variant');
-            if (theme === 'system')
-                this.gtk_settings.reset_property('gtk-application-prefer-dark-theme');
-            else if (theme === 'dark')
-                this.gtk_settings.gtk_application_prefer_dark_theme = true;
-            else if (theme === 'light')
-                this.gtk_settings.gtk_application_prefer_dark_theme = false;
         }
     }
 );

@@ -52,8 +52,11 @@ locales: $(LOCALES_COMPILED)
 handlebars.js: node_modules/handlebars/dist/handlebars.js
 	cp $< $@
 
-GENERATED_SOURCES += handlebars.js
-CLEAN += handlebars.js
+rxjs.js: node_modules/rxjs/dist/bundles/rxjs.umd.js
+	cp $< $@
+
+GENERATED_SOURCES += handlebars.js rxjs.js
+CLEAN += handlebars.js rxjs.js
 
 # Gtk 3 .ui
 
