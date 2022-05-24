@@ -24,6 +24,7 @@
 const { GLib, GObject, Gio, Pango, Gdk, Gtk, Vte } = imports.gi;
 const { Handlebars } = imports.handlebars;
 const { util, urldetect_patterns } = imports;
+const Me = imports.misc.extensionUtils.getCurrentExtension();
 
 const TITLE_TERMINAL_PROPERTIES = [
     'window-title',
@@ -103,7 +104,7 @@ GObject.type_ensure(Gio.ThemedIcon);
 
 var TerminalPage = GObject.registerClass(
     {
-        Template: util.APP_DATA_DIR.get_child('terminalpage.ui').get_uri(),
+        Template: Me.dir.get_child('terminalpage.ui').get_uri(),
         Children: [
             'terminal',
             'tab_label',

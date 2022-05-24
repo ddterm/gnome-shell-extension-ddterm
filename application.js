@@ -53,9 +53,9 @@ const APP_DATA_DIR = Gio.File.new_for_commandline_arg(System.programInvocationNa
 
 imports.searchPath.unshift(APP_DATA_DIR.get_path());
 
-const { util } = imports;
+const Me = imports.misc.extensionUtils.getCurrentExtension();
 
-util.APP_DATA_DIR = APP_DATA_DIR;
+Me.dir = APP_DATA_DIR;
 
 const Application = GObject.registerClass(
     class Application extends Gtk.Application {

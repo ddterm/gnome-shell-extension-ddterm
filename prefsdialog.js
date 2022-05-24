@@ -23,12 +23,12 @@
 
 const { GObject, Gio, Gtk } = imports.gi;
 const { util } = imports;
-
-const PrefsWidget = imports.prefs.createPrefsWidgetClass(util.APP_DATA_DIR, util);
+const { PrefsWidget } = imports.prefs;
+const Me = imports.misc.extensionUtils.getCurrentExtension();
 
 var PrefsDialog = GObject.registerClass(
     {
-        Template: util.APP_DATA_DIR.get_child('prefsdialog.ui').get_uri(),
+        Template: Me.dir.get_child('prefsdialog.ui').get_uri(),
         Properties: {
             settings: GObject.ParamSpec.object('settings', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, Gio.Settings),
         },

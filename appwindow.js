@@ -24,16 +24,17 @@
 const { GLib, GObject, Gio, Gdk, Gtk } = imports.gi;
 const { util } = imports;
 const ByteArray = imports.byteArray;
+const Me = imports.misc.extensionUtils.getCurrentExtension();
 
 const EXTENSION_DBUS_XML = ByteArray.toString(
-    util.APP_DATA_DIR.get_child('com.github.amezin.ddterm.Extension.xml').load_contents(null)[1]
+    Me.dir.get_child('com.github.amezin.ddterm.Extension.xml').load_contents(null)[1]
 );
 
 var ExtensionDBusProxy = Gio.DBusProxy.makeProxyWrapper(EXTENSION_DBUS_XML);
 
 var AppWindow = GObject.registerClass(
     {
-        Template: util.APP_DATA_DIR.get_child('appwindow.ui').get_uri(),
+        Template: Me.dir.get_child('appwindow.ui').get_uri(),
         Children: [
             'notebook',
             'top_resize_box',
