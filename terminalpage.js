@@ -178,6 +178,7 @@ var TerminalPage = GObject.registerClass(
             // Widgets should be destroyed after all settings are unbound.
             this.run_on_destroy(() => this.tab_label.destroy(), this.tab_label);
             this.run_on_destroy(() => this.switcher_item.destroy(), this.switcher_item);
+            this.run_on_destroy(() => this.custom_title_popover.destroy(), this.custom_title_popover);
 
             this.method_handler(this.settings, 'changed::scrollback-lines', this.update_scrollback);
             this.method_handler(this.settings, 'changed::scrollback-unlimited', this.update_scrollback);
