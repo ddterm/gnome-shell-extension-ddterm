@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "POT-Creation-Date: 2022-06-25 16:13+0200\n"
-"PO-Revision-Date: 2022-06-25 21:25+0200\n"
+"PO-Revision-Date: 2022-06-25 21:37+0200\n"
 "Last-Translator: FELDMANN arnaud <arnaud.feldmann at gmail dot com>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -311,7 +311,7 @@ msgstr "Réinitialiser et effacer"
 
 #: glade/prefs.ui:573 menus.ui:96 menus.ui:192
 msgid "New Tab After Last Tab"
-msgstr "Nouvel onglet après le premier"
+msgstr "Nouvel onglet après le dernier"
 
 #: glade/prefs.ui:579 menus.ui:92 menus.ui:188
 msgid "New Tab Before First Tab"
@@ -319,11 +319,11 @@ msgstr "Nouvel onglet avant le premier"
 
 #: glade/prefs.ui:585 menus.ui:84
 msgid "New Tab Before Current Tab"
-msgstr "Nouvel onglet avant l'actuel"
+msgstr "Nouvel onglet avant celui-ci"
 
 #: glade/prefs.ui:591 menus.ui:88
 msgid "New Tab After Current Tab"
-msgstr "Nouvel onglet après l'actuel"
+msgstr "Nouvel onglet après celui-ci"
 
 #: glade/prefs.ui:597
 msgid "Close Current Tab"
