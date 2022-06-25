@@ -60,8 +60,8 @@ Me.dir = APP_DATA_DIR;
 
 /* Gettext */
 
-Gettext.textdomain("ddterm");
-Gettext.bindtextdomain("ddterm", APP_DATA_DIR.get_child('locale').get_path());
+Gettext.textdomain('ddterm');
+Gettext.bindtextdomain('ddterm', APP_DATA_DIR.get_child('locale').get_path());
 
 const Application = GObject.registerClass(
     class Application extends Gtk.Application {
