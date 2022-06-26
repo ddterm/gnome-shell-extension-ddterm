@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "POT-Creation-Date: 2022-06-25 16:13+0200\n"
-"PO-Revision-Date: 2022-06-26 13:09+0200\n"
+"PO-Revision-Date: 2022-06-26 13:16+0200\n"
 "Last-Translator: FELDMANN arnaud <arnaud.feldmann at gmail dot com>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -1165,8 +1165,8 @@ msgstr "Utiliser le titre d'onglet par défaut"
 
 #: menus.ui:180
 msgid "New Tab Before This Tab"
-msgstr "Nouvel onglet après cet onglet"
+msgstr "Nouvel onglet avant celui-ci"
 
 #: menus.ui:184
 msgid "New Tab After This Tab"
-msgstr "Nouvel onglet après cet onglet"
+msgstr "Nouvel onglet après celui-ci"
