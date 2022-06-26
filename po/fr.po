@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "POT-Creation-Date: 2022-06-25 16:13+0200\n"
-"PO-Revision-Date: 2022-06-25 21:37+0200\n"
+"PO-Revision-Date: 2022-06-26 13:09+0200\n"
 "Last-Translator: FELDMANN arnaud <arnaud.feldmann at gmail dot com>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -21,11 +21,11 @@ msgstr "Terminal déroulant"
 
 #: glade/appwindow.ui:66
 msgid "New Tab (First)"
-msgstr "Nouvel onglet (premier)"
+msgstr "Nouvel onglet (en première position)"
 
 #: glade/appwindow.ui:91
 msgid "New Tab (Last)"
-msgstr "Nouvel onglet (dernier)"
+msgstr "Nouvel onglet (en dernière position)"
 
 #: glade/prefs.ui:36
 msgid "Disable"
@@ -571,11 +571,11 @@ msgstr "Élargir les onglets"
 
 #: glade/prefs.ui:1299
 msgid "Show _close buttons"
-msgstr "Montrer les boutons fermer"
+msgstr "Afficher les boutons de fermeture"
 
 #: glade/prefs.ui:1315
 msgid "\"_New Tab (Last)\" button"
-msgstr "Bouton \"Nouvel onglet (dernier)\""
+msgstr "Bouton « Nouvel onglet (en dernière position) »"
 
 #: glade/prefs.ui:1331
 msgid "Tab _switcher popup"
@@ -645,7 +645,7 @@ msgstr "Réinitialiser aux valeurs par défaut"
 
 #: glade/prefs.ui:1464
 msgid "\"_New Tab (First)\" button"
-msgstr "Bouton \"Nouvel onglet (premier)\""
+msgstr "Bouton « Nouvel onglet (en première position) »"
 
 #: glade/prefs.ui:1483
 msgid "Tab bar position:"
@@ -749,7 +749,7 @@ msgstr "Détecter les URL absolues (schéma://emplacementreseau/chemin)"
 
 #: glade/prefs.ui:1806
 msgid "Detect file: URLs"
-msgstr "Détecter les URL de type \"file:\""
+msgstr "Détecter les URL de type « file: »"
 
 #: glade/prefs.ui:1821
 msgid "Detect HTTP URLs"
@@ -765,7 +765,7 @@ msgstr "Détecter les adresses email"
 
 #: glade/prefs.ui:1866
 msgid "Detect news:/man: URLs"
-msgstr "Détecter les URL de type \"news:\""
+msgstr "Détecter les URL de type « news: »"
 
 #: glade/prefs.ui:1888
 msgid "Text"
