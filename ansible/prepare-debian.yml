@@ -1,0 +1,57 @@
+- name: Upgrade packages
+  ansible.builtin.apt:
+    update_cache: yes
+    upgrade: dist
+
+- name: Install packages
+  ansible.builtin.apt:
+    name:
+      - gnome-session
+      - gir1.2-vte-2.91
+      - xsltproc
+      - libgtk-3-bin
+      - libglib2.0-bin
+      - xdotool
+      - xautomation
+      - sudo
+      - make
+      - patch
+      - jq
+      - unzip
+      - git
+      - npm
+      - gdm3
+      - xvfb
+      - gettext
+    state: latest
+
+- name: Install Gtk 4 packages
+  ansible.builtin.apt:
+    name:
+      - libgtk-4-bin
+    state: latest
+  when: (ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_version'] is version('21.10', '>=')) or
+        (ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_version'] is version('12', '>='))
+
+- name: Install VirtualBox guest additions
+  ansible.builtin.apt:
+    name:
+      - virtualbox-guest-x11
+    state: latest
+  when: ansible_virtualization_type == 'virtualbox'
+
+- name: Check if reboot is necessary
+  ansible.builtin.stat:
+    path: /run/reboot-required
+  register: needs_reboot
+  changed_when: needs_reboot.stat.exists
+
+- name: Reboot
+  ansible.builtin.reboot:
+  when: needs_reboot.changed
+
+- name: Set graphical.target as the default
+  ansible.builtin.file:
+    path: /etc/systemd/system/default.target
+    src: /usr/lib/systemd/system/graphical.target
+    state: link

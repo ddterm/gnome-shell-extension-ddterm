@@ -5,6 +5,7 @@ CPUS = 4
 MEMORY = 2048
 
 FEDORA_VERSIONS = [32, 33, 34, 35, 36]
+UBUNTU_VERSIONS = ['focal', 'impish', 'jammy']
 
 def copy_env(libvirt, name)
   if ENV.key?(name)
@@ -65,6 +66,15 @@ Vagrant.configure("2") do |config|
       version.vm.box = "fedora/#{fedora_version}-cloud-base"
     end
   end
+
+  UBUNTU_VERSIONS.each do |ubuntu_version|
+    config.vm.define "#{ubuntu_version}", autostart: false, primary: false do |version|
+      version.vm.box = "ubuntu/#{ubuntu_version}64"
+    end
+  end
+
+  config.vm.synced_folder '.', '/vagrant', type: 'rsync',
+    rsync__exclude: ['.vagrant/', '.git/', 'node_modules/']
 
   config.vm.provision 'prepare', type: 'ansible' do |ansible|
     ansible.playbook = 'ansible/prepare.yml'
