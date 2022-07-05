@@ -77,14 +77,14 @@ Vagrant.configure("2") do |config|
     rsync__exclude: ['.vagrant/', '.git/', 'node_modules/']
 
   config.vm.provision 'prepare', type: 'ansible' do |ansible|
-    ansible.playbook = 'ansible/prepare.yml'
+    ansible.playbook = 'vagrant-provision/prepare.yml'
     ansible.groups = {
       'all:vars' => { 'ansible_python_interpreter' => '/usr/bin/python3' }
     }
   end
 
   config.vm.provision 'deploy', type: 'ansible', run: 'always' do |ansible|
-    ansible.playbook = 'ansible/deploy.yml'
+    ansible.playbook = 'vagrant-provision/deploy.yml'
     ansible.groups = {
       'all:vars' => { 'ansible_python_interpreter' => '/usr/bin/python3' }
     }
