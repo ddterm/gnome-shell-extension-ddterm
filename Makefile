@@ -38,6 +38,9 @@ $(LOCALES_COMPILED): $(LOCALE_COMPILED_PATTERN): $(LOCALE_SOURCE_PATTERN)
 
 CLEAN += $(LOCALES_COMPILED)
 
+locales: $(LOCALES_COMPILED)
+.PHONY: locales
+
 # Bundled libs
 
 handlebars.js: node_modules/handlebars/dist/handlebars.js

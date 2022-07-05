@@ -14,4 +14,5 @@ jobs:
     - run: npm ci
     - run: make lint
     - run: make schemas/gschemas.compiled
+    - run: make locales
     - run: xvfb-run make gtk-builder-validate
