@@ -25,6 +25,19 @@ $(SCHEMAS_COMPILED): $(SCHEMAS)
 
 CLEAN += $(SCHEMAS_COMPILED)
 
+# Locales
+
+LOCALES := $(wildcard po/*.po)
+LOCALE_SOURCE_PATTERN := po/%.po
+LOCALE_COMPILED_PATTERN := locale/%/LC_MESSAGES/ddterm.mo
+LOCALES_COMPILED := $(patsubst $(LOCALE_SOURCE_PATTERN),$(LOCALE_COMPILED_PATTERN),$(LOCALES))
+
+$(LOCALES_COMPILED): $(LOCALE_COMPILED_PATTERN): $(LOCALE_SOURCE_PATTERN)
+	mkdir -p $(dir $@)
+	msgfmt --check --strict -o $@ $<
+
+CLEAN += $(LOCALES_COMPILED)
+
 # Bundled libs
 
 handlebars.js: node_modules/handlebars/dist/handlebars.js
@@ -115,7 +128,7 @@ uninstall: develop-uninstall
 
 DEVELOP_SYMLINK := $(HOME)/.local/share/gnome-shell/extensions/$(EXTENSION_UUID)
 
-test-deps: $(SCHEMAS_COMPILED) $(GENERATED_SOURCES)
+test-deps: $(SCHEMAS_COMPILED) $(LOCALES_COMPILED) $(GENERATED_SOURCES)
 
 all: test-deps
 .PHONY: test-deps

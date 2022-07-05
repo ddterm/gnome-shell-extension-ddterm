@@ -1,6 +1,7 @@
 *~
 /*.shell-extension.zip
 /schemas/gschemas.compiled
+/locale/
 /tmp/
 
 /appwindow.ui
