@@ -2,6 +2,7 @@
   "name": "ddterm",
   "description": "Another drop down terminal extension for GNOME Shell. With tabs. Works on Wayland natively",
   "uuid": "ddterm@amezin.github.com",
+  "gettext-domain": "ddterm",
   "settings-schema": "com.github.amezin.ddterm",
   "shell-version": [
     "3.36",

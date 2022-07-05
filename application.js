@@ -20,6 +20,7 @@
 'use strict';
 
 const System = imports.system;
+const Gettext = imports.gettext;
 
 /* eslint-disable-next-line consistent-return */
 function checked_import(libname, version) {
@@ -56,6 +57,11 @@ imports.searchPath.unshift(APP_DATA_DIR.get_path());
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 
 Me.dir = APP_DATA_DIR;
+
+/* Gettext */
+
+Gettext.textdomain('ddterm');
+Gettext.bindtextdomain('ddterm', APP_DATA_DIR.get_child('locale').get_path());
 
 const Application = GObject.registerClass(
     class Application extends Gtk.Application {
