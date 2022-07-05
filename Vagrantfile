@@ -4,28 +4,7 @@
 CPUS = 4
 MEMORY = 2048
 
-def fedora_vm(config, fedora_version:, box_version:, virtualbox_sha256:, libvirt_sha256:, primary: false, test: false)
-  if test
-    box_base_url = "https://download.fedoraproject.org/pub/fedora/linux/releases/test/#{fedora_version}/Cloud/x86_64/images"
-  else
-    box_base_url = "https://download.fedoraproject.org/pub/fedora/linux/releases/#{fedora_version}/Cloud/x86_64/images"
-  end
-
-  config.vm.define "f#{fedora_version}", primary: primary, autostart: primary do |version_specific|
-    version_specific.vm.box = "Fedora-Cloud-Base-Vagrant-#{fedora_version}"
-    version_specific.vm.box_download_checksum_type = 'sha256'
-
-    version_specific.vm.provider 'virtualbox' do |virtualbox, override|
-      override.vm.box_url = "#{box_base_url}/Fedora-Cloud-Base-Vagrant-#{fedora_version}-#{box_version}.x86_64.vagrant-virtualbox.box"
-      override.vm.box_download_checksum = virtualbox_sha256
-    end
-
-    version_specific.vm.provider 'libvirt' do |libvirt, override|
-      override.vm.box_url = "#{box_base_url}/Fedora-Cloud-Base-Vagrant-#{fedora_version}-#{box_version}.x86_64.vagrant-libvirt.box"
-      override.vm.box_download_checksum = libvirt_sha256
-    end
-  end
-end
+FEDORA_VERSIONS = [32, 33, 34, 35, 36]
 
 def copy_env(libvirt, name)
   if ENV.key?(name)
@@ -80,47 +59,12 @@ Vagrant.configure("2") do |config|
     end
   end
 
-  fedora_vm(
-    config,
-    fedora_version: '32',
-    box_version: '1.6',
-    virtualbox_sha256: '87301487ef8214e7c5234979edbebc97c689b42b476e87d9d6c757f43af6eb6f',
-    libvirt_sha256: '4b13243d39760e59f98078c440d119ccf2699f82128b89daefac02dc99446360'
-  )
-
-  fedora_vm(
-    config,
-    fedora_version: '33',
-    box_version: '1.2',
-    virtualbox_sha256: 'dbd5c61e3fe9a37f81b518a3a6d9eede939ec0ea728b731a3e07276429bdf2ea',
-    libvirt_sha256: '455767b8ac4d8a4820e186f9674c3b3ef2c5edd65141326b1224dcbc3b9dd1b4'
-  )
-
-  fedora_vm(
-    config,
-    fedora_version: '34',
-    box_version: '1.2',
-    virtualbox_sha256: 'e72d9987c61d58108910fab700e8bdf349e69d2e158037a10b07706a68446fda',
-    libvirt_sha256: '3d9c00892253c869bffcf2e84ddd308e90d5c7a5928b3bc00e0563a4bec55849'
-  )
-
-  fedora_vm(
-    config,
-    fedora_version: '35',
-    box_version: '1.2',
-    virtualbox_sha256: '9ff81a28bcf8d66620907b238dc76af5dc594accb02347a759c632f6b0ba30cd',
-    libvirt_sha256: '239cbcd6143396e382ed4eafebf5ab870c80042c44a6a7cdb5d041f8fe35b1db',
-    primary: true
-  )
-
-  fedora_vm(
-    config,
-    fedora_version: '36_Beta',
-    box_version: '1.4',
-    virtualbox_sha256: '257d50866c67ebfad305749684ba485bce146e1561e4a338d89f4c92e8dbf229',
-    libvirt_sha256: '29f480eeac11b3ac03cdd1b03d509a0b94e883f109beeef61032d987b00a32e3',
-    test: true
-  )
+  FEDORA_VERSIONS.each do |fedora_version|
+    is_latest = fedora_version == FEDORA_VERSIONS.last
+    config.vm.define "f#{fedora_version}", autostart: is_latest, primary: is_latest do |version|
+      version.vm.box = "fedora/#{fedora_version}-cloud-base"
+    end
+  end
 
   config.vm.provision 'prepare', type: 'ansible' do |ansible|
     ansible.playbook = 'ansible/prepare.yml'
