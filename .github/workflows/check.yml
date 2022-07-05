@@ -1,4 +1,4 @@
-name: test
+name: check
 
 concurrency: ${{ github.workflow }}/${{ github.ref }}
 
