@@ -6,8 +6,13 @@
       args:
         chdir: /vagrant/
 
+    - name: Check if gtk4-builder-tool is available
+      ansible.builtin.stat:
+        path: /usr/bin/gtk4-builder-tool
+      register: gtk4_builder_tool
+
     - name: make install
-      ansible.builtin.command: xvfb-run make install
+      ansible.builtin.command: xvfb-run make WITH_GTK4={{ 'yes' if gtk4_builder_tool.stat.exists else 'no' }} install
       args:
         chdir: /vagrant/
 
