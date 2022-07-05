@@ -25,6 +25,9 @@ $(SCHEMAS_COMPILED): $(SCHEMAS)
 
 CLEAN += $(SCHEMAS_COMPILED)
 
+schemas: $(SCHEMAS_COMPILED)
+.PHONY: schemas
+
 # Locales
 
 LOCALES := $(wildcard po/*.po)
