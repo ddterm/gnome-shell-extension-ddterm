@@ -675,7 +675,9 @@ var PrefsWidget = GObject.registerClass(
 
 Object.assign(PrefsWidget.prototype, util.UtilMixin);
 
-function init() {}
+function init() {
+    imports.misc.extensionUtils.initTranslations();
+}
 
 function buildPrefsWidget() {
     return new PrefsWidget({

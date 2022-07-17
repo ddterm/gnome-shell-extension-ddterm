@@ -2,6 +2,8 @@
 
 SHELL := /bin/bash
 
+EXTENSION_UUID := ddterm@amezin.github.com
+
 # run 'make WITH_GTK4=no' to disable Gtk 4/GNOME 40 support
 # (could be necessary on older distros without gtk4-builder-tool)
 WITH_GTK4 := yes
@@ -32,7 +34,7 @@ schemas: $(SCHEMAS_COMPILED)
 
 LOCALES := $(wildcard po/*.po)
 LOCALE_SOURCE_PATTERN := po/%.po
-LOCALE_COMPILED_PATTERN := locale/%/LC_MESSAGES/ddterm.mo
+LOCALE_COMPILED_PATTERN := locale/%/LC_MESSAGES/$(EXTENSION_UUID).mo
 LOCALES_COMPILED := $(patsubst $(LOCALE_SOURCE_PATTERN),$(LOCALE_COMPILED_PATTERN),$(LOCALES))
 
 $(LOCALES_COMPILED): $(LOCALE_COMPILED_PATTERN): $(LOCALE_SOURCE_PATTERN)
@@ -94,8 +96,6 @@ GENERATED_SOURCES += metadata.json
 CLEAN += metadata.json
 
 # package
-
-EXTENSION_UUID := ddterm@amezin.github.com
 
 EXTRA_SOURCES := \
 	$(wildcard *.js *.css) \

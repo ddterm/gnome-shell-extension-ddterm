@@ -58,11 +58,6 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 
 Me.dir = APP_DATA_DIR;
 
-/* Gettext */
-
-Gettext.textdomain('ddterm');
-Gettext.bindtextdomain('ddterm', APP_DATA_DIR.get_child('locale').get_path());
-
 const Application = GObject.registerClass(
     class Application extends Gtk.Application {
         _init(params) {
@@ -263,6 +258,8 @@ const Application = GObject.registerClass(
 
 GLib.set_prgname('com.github.amezin.ddterm');
 GLib.set_application_name('Drop Down Terminal');
+
+Gettext.bindtextdomain('ddterm@amezin.github.com', APP_DATA_DIR.get_child('locale').get_path());
 
 const app = new Application({
     application_id: 'com.github.amezin.ddterm',
