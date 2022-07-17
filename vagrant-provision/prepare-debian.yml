@@ -25,6 +25,7 @@
       - xvfb
       - gettext
       - language-pack-gnome-fr
+      - gnome-shell-extension-prefs
     state: latest
 
 - name: Install Gtk 4 packages
