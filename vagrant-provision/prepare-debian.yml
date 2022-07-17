@@ -24,6 +24,7 @@
       - gdm3
       - xvfb
       - gettext
+      - language-pack-gnome-fr
     state: latest
 
 - name: Install Gtk 4 packages

@@ -25,6 +25,7 @@
       - npm
       - gdm
       - xorg-x11-server-Xvfb
+      - langpacks-fr
     state: latest
 
 - name: Install VirtualBox guest additions
