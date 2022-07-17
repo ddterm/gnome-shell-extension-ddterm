@@ -195,7 +195,7 @@ all: gtk-builder-validate
 
 POT_FILE := tmp/$(EXTENSION_UUID).pot
 
-$(POT_FILE): $(sort $(TRANSLATABLE_SOURCES))
+$(POT_FILE): $(sort $(TRANSLATABLE_SOURCES)) | tmp
 	xgettext \
 		--from-code=UTF-8 \
 		--default-domain=$(EXTENSION_UUID) \
