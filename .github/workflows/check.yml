@@ -34,6 +34,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - run: echo "::add-matcher::.github/problem-matchers/gettext.json"
     - run: make locales
 
   gtk-builder-validate:
@@ -52,6 +53,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - run: echo "::add-matcher::.github/problem-matchers/gettext.json"
     - run: make msgcmp
 
   msgcmp-strict:
@@ -64,6 +66,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - run: echo "::add-matcher::.github/problem-matchers/gettext.json"
     - run: make msgcmp-strict
 
     continue-on-error: true

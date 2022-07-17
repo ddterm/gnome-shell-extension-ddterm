@@ -1,0 +1,16 @@
+{
+    "problemMatcher": [
+        {
+            "owner": "msgcmp",
+            "pattern": [
+                {
+                    "regexp": "^(\\S+):(\\d+):\\s(?:(warning):)?\\s*(.+)$",
+                    "file": 1,
+                    "line": 2,
+                    "severity": 3,
+                    "message": 4
+                }
+            ]
+        }
+    ]
+}
