@@ -123,6 +123,8 @@ class ExtensionDBusInterface {
 }
 
 function init() {
+    imports.misc.extensionUtils.initTranslations();
+
     try {
         tests = Me.imports.test.extension_tests;
     } catch {

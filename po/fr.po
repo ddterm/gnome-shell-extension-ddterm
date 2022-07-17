@@ -1,7 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
-"POT-Creation-Date: 2022-06-25 16:13+0200\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-07-18 01:08+0600\n"
 "PO-Revision-Date: 2022-06-26 13:16+0200\n"
 "Last-Translator: FELDMANN arnaud <arnaud.feldmann at gmail dot com>\n"
 "Language-Team: \n"
@@ -1111,7 +1112,7 @@ msgstr "Coller"
 msgid "New Tab"
 msgstr "Nouvel onglet"
 
-#: menus.ui:105 menus.ui:207
+#: menus.ui:105 menus.ui:207 panelicon.js:79
 msgid "Preferences..."
 msgstr "Préférences..."
 
@@ -1170,3 +1171,7 @@ msgstr "Nouvel onglet avant celui-ci"
 #: menus.ui:184
 msgid "New Tab After This Tab"
 msgstr "Nouvel onglet après celui-ci"
+
+#: panelicon.js:70
+msgid "Show"
+msgstr ""
