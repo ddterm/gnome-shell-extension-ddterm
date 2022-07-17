@@ -7,6 +7,7 @@
   ansible.builtin.apt:
     name:
       - gnome-session
+      - gjs
       - gir1.2-vte-2.91
       - xsltproc
       - libgtk-3-bin
