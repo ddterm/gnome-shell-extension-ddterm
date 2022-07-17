@@ -16,6 +16,7 @@ all:
 
 CLEAN :=
 GENERATED_SOURCES :=
+TRANSLATABLE_SOURCES :=
 
 # GSettings schemas
 
@@ -56,7 +57,10 @@ CLEAN += handlebars.js
 
 # Gtk 3 .ui
 
-GTK3_ONLY_UI := $(filter-out prefs.ui,$(patsubst glade/%,%,$(wildcard glade/*.ui)))
+GLADE_UI := $(wildcard glade/*.ui)
+TRANSLATABLE_SOURCES += $(GLADE_UI)
+
+GTK3_ONLY_UI := $(filter-out prefs.ui,$(patsubst glade/%,%,$(GLADE_UI)))
 
 $(GTK3_ONLY_UI): %.ui: glade/%.ui
 	gtk-builder-tool simplify $< >$@
@@ -97,19 +101,25 @@ CLEAN += metadata.json
 
 # package
 
+JS_SOURCES := $(filter-out $(GENERATED_SOURCES), $(wildcard *.js))
+BUILDER_SOURCES := menus.ui
+TRANSLATABLE_SOURCES += $(JS_SOURCES) $(BUILDER_SOURCES)
+
+DEFAULT_SOURCES := extension.js prefs.js metadata.json
+
 EXTRA_SOURCES := \
-	$(wildcard *.js *.css) \
+	$(filter-out $(DEFAULT_SOURCES), $(JS_SOURCES)) \
+	$(wildcard *.css) \
 	$(GENERATED_SOURCES) \
-	menus.ui \
+	$(BUILDER_SOURCES) \
 	LICENSE \
 	com.github.amezin.ddterm \
 	com.github.amezin.ddterm.Extension.xml
 
-DEFAULT_SOURCES := extension.js prefs.js metadata.json
-EXTRA_SOURCES := $(filter-out $(DEFAULT_SOURCES), $(sort $(EXTRA_SOURCES)))
+EXTRA_SOURCES := $(sort $(EXTRA_SOURCES))
 
 EXTENSION_PACK := $(EXTENSION_UUID).shell-extension.zip
-$(EXTENSION_PACK): $(SCHEMAS) $(EXTRA_SOURCES) $(DEFAULT_SOURCES)
+$(EXTENSION_PACK): $(SCHEMAS) $(EXTRA_SOURCES) $(DEFAULT_SOURCES) $(LOCALES)
 	gnome-extensions pack -f $(addprefix --schema=,$(SCHEMAS)) $(addprefix --extra-source=,$(EXTRA_SOURCES)) .
 
 pack: $(EXTENSION_PACK)
@@ -180,6 +190,43 @@ gtk-builder-validate: $(addprefix gtk-builder-validate/, $(filter-out terminalpa
 
 all: gtk-builder-validate
 .PHONY: gtk-builder-validate
+
+# Translation helpers
+
+POT_FILE := tmp/$(EXTENSION_UUID).pot
+
+$(POT_FILE): $(sort $(TRANSLATABLE_SOURCES))
+	xgettext \
+		--from-code=UTF-8 \
+		--default-domain=$(EXTENSION_UUID) \
+		--package-name=ddterm \
+		--output=$@ \
+		$^
+
+CLEAN += $(POT_FILE)
+
+MSGCMP_GOALS := $(addprefix msgcmp/, $(LOCALES))
+
+$(MSGCMP_GOALS): msgcmp/%: % $(POT_FILE)
+	msgcmp $(MSGCMP_FLAGS) $^
+
+msgcmp: MSGCMP_FLAGS := --use-untranslated
+msgcmp: $(MSGCMP_GOALS)
+
+msgcmp-strict: MSGCMP_FLAGS :=
+msgcmp-strict: $(MSGCMP_GOALS)
+
+.PHONY: msgcmp msgcmp-strict $(MSGCMP_GOALS)
+all: msgcmp
+
+MSGMERGE_GOALS := $(addprefix msgmerge/, $(LOCALES))
+
+$(MSGMERGE_GOALS): msgmerge/%: % $(POT_FILE)
+	msgmerge -U $^
+
+msgmerge: $(MSGMERGE_GOALS)
+
+.PHONY: msgmerge $(MSGMERGE_GOALS)
 
 # ESLint
 

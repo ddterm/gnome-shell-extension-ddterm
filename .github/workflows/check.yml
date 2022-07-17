@@ -45,12 +45,22 @@ jobs:
     - uses: actions/checkout@v3
     - run: xvfb-run make gtk-builder-validate
 
+  msgcmp:
+    runs-on: ubuntu-22.04
+    container:
+      image: ghcr.io/amezin/gnome-shell-extension-ddterm-ci-docker-image:master
+
+    steps:
+    - uses: actions/checkout@v3
+    - run: make msgcmp
+
   test:
     needs:
     - lint
     - schemas
     - locales
     - gtk-builder-validate
+    - msgcmp
 
     runs-on: ubuntu-22.04
     container:
