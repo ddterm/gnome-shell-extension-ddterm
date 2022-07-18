@@ -1,20 +1,40 @@
 ---
 - hosts: all
+  vars:
+    extension_pack: "{{ query('ansible.builtin.fileglob', '../*.shell-extension.zip') }}"
+
+  pre_tasks:
+    - ansible.builtin.assert:
+        that: extension_pack
+        fail_msg: Extension package not found. Please run 'make pack'
+        quiet: yes
+
+    - ansible.builtin.assert:
+        that: extension_pack | length <= 1
+        fail_msg: Multiple extension packages found {{ extension_pack | join(', ') }}
+        quiet: yes
+
+  handlers:
+    - name: Remove temporary directory
+      ansible.builtin.file:
+        path: "{{ upload_dir.path }}"
+        state: absent
+
   tasks:
-    - name: npm ci
-      ansible.builtin.command: npm ci
-      args:
-        chdir: /vagrant/
+    - name: Create temporary directory
+      ansible.builtin.tempfile:
+        state: directory
+      register: upload_dir
+      notify: Remove temporary directory
 
-    - name: Check if gtk4-builder-tool is available
-      ansible.builtin.stat:
-        path: /usr/bin/gtk4-builder-tool
-      register: gtk4_builder_tool
+    - name: Upload extension package
+      ansible.builtin.copy:
+        src: "{{ extension_pack[0] }}"
+        dest: "{{ upload_dir.path }}/"
+      register: upload_pack
 
-    - name: make install
-      ansible.builtin.command: xvfb-run make WITH_GTK4={{ 'yes' if gtk4_builder_tool.stat.exists else 'no' }} install
-      args:
-        chdir: /vagrant/
+    - name: Install the extension
+      ansible.builtin.command: gnome-extensions install -f {{ upload_pack.dest }}
 
     - name: Enable the extension
       ansible.builtin.command: gsettings set org.gnome.shell enabled-extensions "['ddterm@amezin.github.com']"
