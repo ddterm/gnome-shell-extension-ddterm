@@ -1,6 +1,8 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+require 'open3'
+
 CPUS = 4
 MEMORY = 2048
 
@@ -11,6 +13,13 @@ def copy_env(libvirt, name)
   if ENV.key?(name)
     libvirt.qemuenv name => ENV[name]
   end
+end
+
+stdout, status = Open3.capture2('git', 'ls-files', '--exclude-standard', '-oi', '--directory')
+if status.success?
+  rsync_excludes = stdout.split(/\n/)
+else
+  rsync_excludes = []
 end
 
 Vagrant.configure("2") do |config|
@@ -73,8 +82,7 @@ Vagrant.configure("2") do |config|
     end
   end
 
-  config.vm.synced_folder '.', '/vagrant', type: 'rsync',
-    rsync__exclude: ['.vagrant/', '.git/', 'node_modules/']
+  config.vm.synced_folder '.', '/vagrant', type: 'rsync', rsync__exclude: rsync_excludes
 
   config.vm.provision 'prepare', type: 'ansible' do |ansible|
     ansible.playbook = 'vagrant-provision/prepare.yml'
