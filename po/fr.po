@@ -1174,4 +1174,4 @@ msgstr "Nouvel onglet après celui-ci"
 
 #: panelicon.js:70
 msgid "Show"
-msgstr ""
+msgstr "Afficher"
