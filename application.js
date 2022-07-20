@@ -141,14 +141,16 @@ const Application = GObject.registerClass(
             const gtk_settings = Gtk.Settings.get_default();
 
             this.rx.subscribe(
-                this.settings['theme-variant'],
+                this.settings.resolved['theme-variant'],
                 theme => {
-                    if (theme === 'system')
+                    if (theme === 'default')
                         gtk_settings.reset_property('gtk-application-prefer-dark-theme');
                     else if (theme === 'dark')
                         gtk_settings.gtk_application_prefer_dark_theme = true;
                     else if (theme === 'light')
                         gtk_settings.gtk_application_prefer_dark_theme = false;
+                    else
+                        printerr(`Unknown theme-variant: ${theme}`);
                 }
             );
 

@@ -252,9 +252,40 @@ var Settings = GObject.registerClass(
                 ),
             };
 
+            const system_font = setting(this.desktop_settings, 'monospace-font-name');
+
             const font_resolved = this.resolve(
                 'custom-font',
-                this.desktop_settings ? setting(this.desktop_settings, 'monospace-font-name') : rxjs.of(null)
+                this.desktop_settings ? system_font : rxjs.of(null)
+            );
+
+            let system_color_scheme = rxjs.of('default');
+
+            if (this.desktop_settings.settings_schema.has_key('color-scheme')) {
+                system_color_scheme = setting(this.desktop_settings, 'color-scheme').pipe(
+                    rxjs.map(variant => {
+                        if (variant === 'prefer-light')
+                            return 'light';
+
+                        if (variant === 'prefer-dark')
+                            return 'dark';
+
+                        if (variant !== 'default')
+                            printerr(`Unknown ${this.desktop_settings.schema_id}.color-scheme: ${variant}`);
+
+                        return 'default';
+                    })
+                );
+            }
+
+            const theme_variant_resolved = this['theme-variant'].pipe(
+                rxjs.switchMap(variant => {
+                    if (variant === 'system')
+                        return system_color_scheme;
+
+                    return rxjs.of(variant);
+                }),
+                share()
             );
 
             this.resolved = {
@@ -265,6 +296,7 @@ var Settings = GObject.registerClass(
                     rxjs.map(desc => Pango.FontDescription.from_string(desc)),
                     share()
                 ),
+                'theme-variant': theme_variant_resolved,
             };
 
             [
