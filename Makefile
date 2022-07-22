@@ -58,35 +58,52 @@ CLEAN += handlebars.js
 # Gtk 3 .ui
 
 GLADE_UI := $(wildcard glade/*.ui)
+UI_SRC_PATTERN := glade/%.ui
 TRANSLATABLE_SOURCES += $(GLADE_UI)
 
-GTK3_ONLY_UI := $(filter-out prefs.ui,$(patsubst glade/%,%,$(GLADE_UI)))
+GTK_MULTI_VERSION_UI := glade/prefs.ui
 
-$(GTK3_ONLY_UI): %.ui: glade/%.ui
+GTK3_ONLY_UI_SRC := $(filter-out $(GTK_MULTI_VERSION_UI),$(GLADE_UI))
+GTK3_ONLY_UI_DST_PATTERN := %.ui
+GTK3_ONLY_UI_DST := $(patsubst $(UI_SRC_PATTERN),$(GTK3_ONLY_UI_DST_PATTERN),$(GTK3_ONLY_UI_SRC))
+
+$(GTK3_ONLY_UI_DST): $(GTK3_ONLY_UI_DST_PATTERN): $(UI_SRC_PATTERN)
 	gtk-builder-tool simplify $< >$@
 
-prefs-gtk3.ui: glade/prefs.ui
+GTK3_MULTI_VERSION_UI_PATTERN := %-gtk3.ui
+GTK3_MULTI_VERSION_UI := $(patsubst $(UI_SRC_PATTERN),$(GTK3_MULTI_VERSION_UI_PATTERN),$(GTK_MULTI_VERSION_UI))
+
+$(GTK3_MULTI_VERSION_UI): $(GTK3_MULTI_VERSION_UI_PATTERN): $(UI_SRC_PATTERN)
 	gtk-builder-tool simplify $< >$@
 
-GENERATED_SOURCES += $(GTK3_ONLY_UI) prefs-gtk3.ui
-CLEAN += $(GTK3_ONLY_UI) prefs-gtk3.ui
+GENERATED_SOURCES += $(GTK3_ONLY_UI_DST) $(GTK3_MULTI_VERSION_UI)
+CLEAN += $(GTK3_ONLY_UI_DST) $(GTK3_MULTI_VERSION_UI)
 
 # Gtk 4 .ui
 
 tmp:
 	mkdir -p tmp
 
-tmp/prefs-3to4.ui: prefs-gtk3.ui | tmp
+GTK_3TO4_UI_PATTERN := tmp/%-3to4.ui
+GTK_3TO4_UI := $(patsubst $(UI_SRC_PATTERN),$(GTK_3TO4_UI_PATTERN),$(GTK_MULTI_VERSION_UI))
+
+$(GTK_3TO4_UI): $(GTK_3TO4_UI_PATTERN): $(UI_SRC_PATTERN) | tmp
 	gtk4-builder-tool simplify --3to4 $< >$@
 
-tmp/prefs-3to4-fixup.ui: glade/3to4-fixup.xsl tmp/prefs-3to4.ui | tmp
-	xsltproc $^ >$@
+GTK_3TO4_FIXUP_UI_PATTERN := tmp/%-3to4-fixup.ui
+GTK_3TO4_FIXUP_UI := $(patsubst $(GTK_3TO4_UI_PATTERN),$(GTK_3TO4_FIXUP_UI_PATTERN),$(GTK_3TO4_UI))
 
-prefs-gtk4.ui: tmp/prefs-3to4-fixup.ui
+$(GTK_3TO4_FIXUP_UI): $(GTK_3TO4_FIXUP_UI_PATTERN): $(GTK_3TO4_UI_PATTERN) glade/3to4-fixup.xsl | tmp
+	xsltproc glade/3to4-fixup.xsl $< >$@
+
+GTK4_UI_PATTERN := %-gtk4.ui
+GTK4_UI := $(patsubst $(GTK_3TO4_FIXUP_UI_PATTERN),$(GTK4_UI_PATTERN),$(GTK_3TO4_FIXUP_UI))
+
+$(GTK4_UI): $(GTK4_UI_PATTERN): $(GTK_3TO4_FIXUP_UI_PATTERN)
 	gtk4-builder-tool simplify $< >$@
 
-CLEAN += prefs-gtk4.ui tmp/prefs-3to4.ui tmp/prefs-3to4-fixup.ui
-GENERATED_SOURCES += $(if $(call is-true,$(WITH_GTK4)), prefs-gtk4.ui)
+CLEAN += $(GTK_3TO4_UI) $(GTK_3TO4_FIXUP_UI) $(GTK4_UI)
+GENERATED_SOURCES += $(if $(call is-true,$(WITH_GTK4)), $(GTK4_UI))
 
 # metadata.json
 
