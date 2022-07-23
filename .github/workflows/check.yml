@@ -8,7 +8,7 @@ on:
 
 jobs:
   check_skip:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
 
     outputs:
       should_skip: ${{ steps.check.outputs.should_skip }}
@@ -21,7 +21,7 @@ jobs:
     needs: check_skip
     if: ${{ needs.check_skip.outputs.should_skip != 'true' }}
 
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     container:
       image: ghcr.io/ddterm/ci-docker-image:master
 
@@ -35,7 +35,7 @@ jobs:
     needs: check_skip
     if: ${{ needs.check_skip.outputs.should_skip != 'true' }}
 
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     container:
       image: ghcr.io/ddterm/ci-docker-image:master
 
@@ -47,7 +47,7 @@ jobs:
     needs: check_skip
     if: ${{ needs.check_skip.outputs.should_skip != 'true' }}
 
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     container:
       image: ghcr.io/ddterm/ci-docker-image:master
 
@@ -60,7 +60,7 @@ jobs:
     needs: check_skip
     if: ${{ needs.check_skip.outputs.should_skip != 'true' }}
 
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     container:
       image: ghcr.io/ddterm/ci-docker-image:master
 
@@ -72,7 +72,7 @@ jobs:
     needs: check_skip
     if: ${{ needs.check_skip.outputs.should_skip != 'true' }}
 
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     container:
       image: ghcr.io/ddterm/ci-docker-image:master
 

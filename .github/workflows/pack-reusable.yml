@@ -13,7 +13,7 @@ on:
 
 jobs:
   pack:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     container:
       image: ghcr.io/ddterm/ci-docker-image:master
 
