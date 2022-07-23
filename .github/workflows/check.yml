@@ -10,7 +10,7 @@ jobs:
   lint:
     runs-on: ubuntu-22.04
     container:
-      image: ghcr.io/amezin/gnome-shell-extension-ddterm-ci-docker-image:master
+      image: ghcr.io/ddterm/ci-docker-image:master
 
     steps:
     - uses: actions/checkout@v3
@@ -21,7 +21,7 @@ jobs:
   schemas:
     runs-on: ubuntu-22.04
     container:
-      image: ghcr.io/amezin/gnome-shell-extension-ddterm-ci-docker-image:master
+      image: ghcr.io/ddterm/ci-docker-image:master
 
     steps:
     - uses: actions/checkout@v3
@@ -30,7 +30,7 @@ jobs:
   locales:
     runs-on: ubuntu-22.04
     container:
-      image: ghcr.io/amezin/gnome-shell-extension-ddterm-ci-docker-image:master
+      image: ghcr.io/ddterm/ci-docker-image:master
 
     steps:
     - uses: actions/checkout@v3
@@ -40,7 +40,7 @@ jobs:
   gtk-builder-validate:
     runs-on: ubuntu-22.04
     container:
-      image: ghcr.io/amezin/gnome-shell-extension-ddterm-ci-docker-image:master
+      image: ghcr.io/ddterm/ci-docker-image:master
 
     steps:
     - uses: actions/checkout@v3
@@ -49,7 +49,7 @@ jobs:
   msgcmp:
     runs-on: ubuntu-22.04
     container:
-      image: ghcr.io/amezin/gnome-shell-extension-ddterm-ci-docker-image:master
+      image: ghcr.io/ddterm/ci-docker-image:master
 
     steps:
     - uses: actions/checkout@v3
@@ -66,7 +66,7 @@ jobs:
 
     runs-on: ubuntu-22.04
     container:
-      image: ghcr.io/amezin/gnome-shell-extension-ddterm-ci-docker-image:master
+      image: ghcr.io/ddterm/ci-docker-image:master
       options: --privileged --cgroupns=host --tmpfs /tmp --tmpfs /run
 
     strategy:
