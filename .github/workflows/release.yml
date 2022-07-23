@@ -18,9 +18,7 @@ jobs:
     - uses: actions/download-artifact@v3
       with:
         name: ${{ needs.build.outputs.artifact }}
-    - uses: amezin/action-gh-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - uses: softprops/action-gh-release@v1
       with:
         files: "*.shell-extension.zip"
         draft: true
