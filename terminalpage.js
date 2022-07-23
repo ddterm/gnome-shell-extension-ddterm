@@ -283,7 +283,7 @@ var TerminalPage = GObject.registerClass(
             this.terminal_popup_menu = Gtk.Menu.new_from_model(this.menus.get_object('terminal-popup'));
             this.setup_popup_menu(this.terminal, this.terminal_popup_menu);
             this.method_handler(this.terminal, 'button-press-event', this.terminal_button_press_early);
-            // https://github.com/amezin/gnome-shell-extension-ddterm/issues/116
+            // https://github.com/ddterm/gnome-shell-extension-ddterm/issues/116
             this.terminal_popup_menu.get_style_context().add_class(Gtk.STYLE_CLASS_CONTEXT_MENU);
 
             const tab_popup_menu = Gtk.Menu.new_from_model(this.menus.get_object('tab-popup'));

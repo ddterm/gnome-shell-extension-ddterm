@@ -456,7 +456,7 @@ var WindowManager = GObject.registerClass(
             this.settings.set_boolean('window-maximize', false);
             this._update_window_geometry();
 
-            // https://github.com/amezin/gnome-shell-extension-ddterm/issues/48
+            // https://github.com/ddterm/gnome-shell-extension-ddterm/issues/48
             if (this.settings.get_boolean('window-above')) {
                 // Without unmake_above(), make_above() won't actually take effect (?!)
                 this.current_window.unmake_above();

@@ -8,7 +8,7 @@ release may be available here on GitHub, but not on [extensions.gnome.org] yet.
 # Install from a prebuilt package
 
 You can download a released version from
-[Releases](https://github.com/amezin/gnome-shell-extension-ddterm/releases)
+[Releases](https://github.com/ddterm/gnome-shell-extension-ddterm/releases)
 page. You need the file `ddterm@amezin.github.com.shell-extension.zip`.
 
 Download it, then run:
@@ -58,7 +58,7 @@ This will generate all necessary files, using CI image, and then
 `git clone` the repository into arbitrary location, run `npm install` to
 download dependencies, and run `make install`:
 
-    $ git clone https://github.com/amezin/gnome-shell-extension-ddterm.git
+    $ git clone https://github.com/ddterm/gnome-shell-extension-ddterm.git
     $ cd gnome-shell-extension-ddterm
     $ npm install
     $ make install
@@ -83,7 +83,7 @@ in the repository.
 You can simply symlink the repository into extensions directory. `make develop`
 will do it for you:
 
-    $ git clone https://github.com/amezin/gnome-shell-extension-ddterm.git
+    $ git clone https://github.com/ddterm/gnome-shell-extension-ddterm.git
     $ cd gnome-shell-extension-ddterm
     $ npm install
     $ make develop
@@ -107,7 +107,7 @@ Or you can `clone` the repository directly into `~/.local/share/gnome-shell/exte
 
     $ mkdir -p ~/.local/share/gnome-shell/extensions
     $ cd ~/.local/share/gnome-shell/extensions
-    $ git clone https://github.com/amezin/gnome-shell-extension-ddterm.git ddterm@amezin.github.com
+    $ git clone https://github.com/ddterm/gnome-shell-extension-ddterm.git ddterm@amezin.github.com
     $ cd ddterm@amezin.github.com
     $ npm install
     $ make develop

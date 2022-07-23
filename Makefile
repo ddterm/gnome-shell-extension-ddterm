@@ -108,7 +108,7 @@ GENERATED_SOURCES += $(if $(call is-true,$(WITH_GTK4)), $(GTK4_UI))
 # metadata.json
 
 # Prevent people from trying to feed source archives to 'gnome-extensions install'.
-# https://github.com/amezin/gnome-shell-extension-ddterm/issues/61
+# https://github.com/ddterm/gnome-shell-extension-ddterm/issues/61
 
 metadata.json: metadata.json.in
 	cp $< $@
