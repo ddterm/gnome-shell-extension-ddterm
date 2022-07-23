@@ -85,7 +85,7 @@ jobs:
           - 'TestWaylandDualMonitor'
 
     env:
-      IMAGE: ghcr.io/amezin/gnome-shell-pod/${{ matrix.image }}:master
+      IMAGE: ghcr.io/ddterm/gnome-shell-pod/${{ matrix.image }}:master
       PY_COLORS: 1
       TOX_TESTENV_PASSENV: PY_COLORS GITHUB_ACTIONS
       TOXENV: py3-ghactions

@@ -14,7 +14,7 @@ from . import container_util
 
 LOGGER = logging.getLogger(__name__)
 
-IMAGES_BASEURL = 'ghcr.io/amezin/gnome-shell-pod'
+IMAGES_BASEURL = 'ghcr.io/ddterm/gnome-shell-pod'
 IMAGES_BRANCH = 'master'
 IMAGES = [
     f'{IMAGES_BASEURL}/fedora-35:{IMAGES_BRANCH}',
