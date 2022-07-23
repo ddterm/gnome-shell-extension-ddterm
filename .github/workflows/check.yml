@@ -97,18 +97,23 @@ jobs:
     - uses: actions/checkout@v3
     - uses: actions/setup-node@v3
     - run: echo "::add-matcher::.github/problem-matchers/generic.json"
+    - run: git config --global --replace-all safe.directory "$GITHUB_WORKSPACE"
+    - uses: testspace-com/setup-testspace@v1
+      with:
+        domain: ${{ github.repository_owner }}
     - run: npm ci
     - run: xvfb-run make test-deps
     - run: tox -vv --notest --sitepackages
       working-directory: test
     - run: for retry in 1 2 3; do podman pull "${{ env.IMAGE }}" && break; done
-    - run: tox --sitepackages -- --junitxml=junit.xml --container-image "${{ env.IMAGE }}" -n 2 --screenshot-failing-only -v
+    - run: tox --sitepackages -- --self-contained-html --junitxml=junit.xml --container-image "${{ env.IMAGE }}" -n 2 --screenshot-failing-only -v
       working-directory: test
+    - run: testspace --verbose "[${{ matrix.image }}]./test/junit.xml" "[${{ matrix.image }}]+./test/report.html"
+      if: always()
     - uses: actions/upload-artifact@v2
       with:
         name: ${{ matrix.image }}
         path: |
           test/report.html
           test/junit.xml
-          test/assets
       if: always()
