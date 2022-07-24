@@ -121,7 +121,7 @@ jobs:
     - run: tox -vv --notest --sitepackages
       working-directory: test
     - run: for retry in 1 2 3; do podman pull "${{ env.IMAGE }}" && break; done
-    - run: tox --sitepackages -- --container-image "${{ env.IMAGE }}" -n 2 --screenshot-failing-only -v
+    - run: tox --sitepackages -- --junitxml=junit.xml --container-image "${{ env.IMAGE }}" -n 2 --screenshot-failing-only -v
       working-directory: test
     - uses: actions/upload-artifact@v2
       with:
