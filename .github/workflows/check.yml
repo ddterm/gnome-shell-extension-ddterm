@@ -125,7 +125,7 @@ jobs:
     - run: xvfb-run make test-deps
     - run: tox -vv --notest --sitepackages
       working-directory: test
-    - run: podman pull "${{ env.IMAGE }}"
+    - run: for retry in 1 2 3; do podman pull "${{ env.IMAGE }}" && break; done
     - run: tox --sitepackages -- --container-image "${{ env.IMAGE }}" -n 2 --screenshot-failing-only -v "test_extension.py::${{ matrix.session }}"
       working-directory: test
     - uses: actions/upload-artifact@v2
