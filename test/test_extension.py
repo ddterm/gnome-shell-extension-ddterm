@@ -33,7 +33,8 @@ HORIZONTAL_RESIZE_POSITIONS = ['left', 'right']
 VERTICAL_RESIZE_POSITIONS = ['top', 'bottom']
 POSITIONS = VERTICAL_RESIZE_POSITIONS + HORIZONTAL_RESIZE_POSITIONS
 SIZE_VALUES = [0.5, 0.9, 1.0]
-MORE_SIZE_VALUES = [0.31, 0.36, 0.4, 0.8, 0.85, 0.91]
+SMALL_SCREEN_SIZE_VALUES = [0.8, 0.85, 0.91]
+MORE_SIZE_VALUES = [0.31, 0.36, 0.4] + SMALL_SCREEN_SIZE_VALUES
 
 
 def mkpairs(*args, **kwargs):
@@ -225,18 +226,11 @@ class CommonTests:
         with screenshot():
             extension_test_interface('TestShow', '(dssis)', window_size, window_maximize, window_pos, monitor_config.current_index, monitor_config.setting)
 
-    @pytest.mark.parametrize(
-        ['window_size', 'window_maximize', 'window_pos'],
-        mkpairs([MORE_SIZE_VALUES, MAXIMIZE_MODES, HORIZONTAL_RESIZE_POSITIONS])
-    )
     def test_show_h(self, extension_test_interface, window_size, window_maximize, window_pos, monitor_config, monitors_geometry, monitors_scale, screenshot):
         if monitor_config.setting == 'primary':
             target_monitor = self.PRIMARY_MONITOR
         else:
             target_monitor = monitor_config.current_index
-
-        if monitors_geometry[target_monitor].width * window_size < 472 * monitors_scale[target_monitor]:
-            pytest.skip('Screen too small')
 
         with screenshot():
             extension_test_interface('TestShow', '(dssis)', window_size, window_maximize, window_pos, monitor_config.current_index, monitor_config.setting)
@@ -288,6 +282,26 @@ class CommonTests:
             extension_test_interface('TestUnmaximizeOnSizeChange', '(ddsis)', window_size, window_size2, window_pos, monitor_config.current_index, monitor_config.setting)
 
 
+class LargeScreenMixin(CommonTests):
+    @pytest.mark.parametrize(
+        ['window_size', 'window_maximize', 'window_pos'],
+        mkpairs([MORE_SIZE_VALUES, MAXIMIZE_MODES, HORIZONTAL_RESIZE_POSITIONS])
+    )
+    @functools.wraps(CommonTests.test_show_h)
+    def test_show_h(self, *args, **kwargs):
+        super().test_show_h(*args, **kwargs)
+
+
+class SmallScreenMixin(CommonTests):
+    @pytest.mark.parametrize(
+        ['window_size', 'window_maximize', 'window_pos'],
+        mkpairs([SMALL_SCREEN_SIZE_VALUES, MAXIMIZE_MODES, HORIZONTAL_RESIZE_POSITIONS])
+    )
+    @functools.wraps(CommonTests.test_show_h)
+    def test_show_h(self, *args, **kwargs):
+        super().test_show_h(*args, **kwargs)
+
+
 @pytest.mark.parametrize('monitor_config', [
     MonitorConfig(0, 'current')
 ])
@@ -304,17 +318,17 @@ class DualMonitorTests(CommonTests):
     N_MONITORS = 2
 
 
-class TestXSession(SingleMonitorTests):
+class TestXSession(SingleMonitorTests, LargeScreenMixin):
     GNOME_SHELL_SESSION_NAME = 'gnome-xsession'
 
 
-class TestWayland(SingleMonitorTests):
+class TestWayland(SingleMonitorTests, LargeScreenMixin):
     GNOME_SHELL_SESSION_NAME = 'gnome-wayland-nested'
 
 
-class TestWaylandHighDpi(SingleMonitorTests):
+class TestWaylandHighDpi(SingleMonitorTests, SmallScreenMixin):
     GNOME_SHELL_SESSION_NAME = 'gnome-wayland-nested-highdpi'
 
 
-class TestWaylandDualMonitor(DualMonitorTests):
+class TestWaylandDualMonitor(DualMonitorTests, SmallScreenMixin):
     GNOME_SHELL_SESSION_NAME = 'gnome-wayland-nested-dual-monitor'
