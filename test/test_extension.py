@@ -244,7 +244,7 @@ class CommonTests:
         version_split = tuple(int(x) for x in shell_version.split('.'))
         if version_split < (3, 39):
             if monitor_config.current_index == 1 and window_pos == 'bottom' and window_size2 == 1:
-                pytest.skip('For unknown reason it fails to resize to full height on 2nd monitor')
+                pytest.xfail('For unknown reason it fails to resize to full height on 2nd monitor')
 
         with screenshot():
             extension_test_interface('TestResizeXte', '(dsdsis)', window_size, window_maximize, window_size2, window_pos, monitor_config.current_index, monitor_config.setting)
