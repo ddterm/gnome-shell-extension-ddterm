@@ -106,11 +106,6 @@ jobs:
           - 'debian-11'
           - 'ubuntu-20.04'
           - 'ubuntu-22.04'
-        session:
-          - 'TestXSession'
-          - 'TestWayland'
-          - 'TestWaylandHighDpi'
-          - 'TestWaylandDualMonitor'
 
     env:
       IMAGE: ghcr.io/ddterm/gnome-shell-pod/${{ matrix.image }}:master
@@ -126,11 +121,11 @@ jobs:
     - run: tox -vv --notest --sitepackages
       working-directory: test
     - run: for retry in 1 2 3; do podman pull "${{ env.IMAGE }}" && break; done
-    - run: tox --sitepackages -- --container-image "${{ env.IMAGE }}" -n 2 --screenshot-failing-only -v "test_extension.py::${{ matrix.session }}"
+    - run: tox --sitepackages -- --container-image "${{ env.IMAGE }}" -n 2 --screenshot-failing-only -v
       working-directory: test
     - uses: actions/upload-artifact@v2
       with:
-        name: ${{ matrix.session }}-${{ matrix.image }}
+        name: ${{ matrix.image }}
         path: |
           test/report.html
           test/junit.xml
