@@ -118,9 +118,6 @@ const Application = GObject.registerClass(
                 gsettings: new Gio.Settings({
                     settings_schema: settings_source.lookup('com.github.amezin.ddterm', true),
                 }),
-                desktop_settings: new Gio.Settings({
-                    schema_id: 'org.gnome.desktop.interface',
-                }),
             });
 
             [

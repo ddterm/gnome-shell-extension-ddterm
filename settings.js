@@ -185,9 +185,6 @@ var Settings = GObject.registerClass(
             'gsettings': GObject.ParamSpec.object(
                 'gsettings', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, Gio.Settings
             ),
-            'desktop-settings': GObject.ParamSpec.object(
-                'desktop-settings', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, Gio.Settings
-            ),
         },
     },
     class DDTermSettings extends GObject.Object {
@@ -252,17 +249,17 @@ var Settings = GObject.registerClass(
                 ),
             };
 
-            const system_font = setting(this.desktop_settings, 'monospace-font-name');
+            const desktop_settings = new Gio.Settings({
+                schema_id: 'org.gnome.desktop.interface',
+            });
 
-            const font_resolved = this.resolve(
-                'custom-font',
-                this.desktop_settings ? system_font : rxjs.of(null)
-            );
+            const system_font = setting(desktop_settings, 'monospace-font-name');
+            const font_resolved = this.resolve('custom-font', system_font);
 
             let system_color_scheme = rxjs.of('default');
 
-            if (this.desktop_settings.settings_schema.has_key('color-scheme')) {
-                system_color_scheme = setting(this.desktop_settings, 'color-scheme').pipe(
+            if (desktop_settings.settings_schema.has_key('color-scheme')) {
+                system_color_scheme = setting(desktop_settings, 'color-scheme').pipe(
                     rxjs.map(variant => {
                         if (variant === 'prefer-light')
                             return 'light';
@@ -271,7 +268,7 @@ var Settings = GObject.registerClass(
                             return 'dark';
 
                         if (variant !== 'default')
-                            printerr(`Unknown ${this.desktop_settings.schema_id}.color-scheme: ${variant}`);
+                            printerr(`Unknown ${desktop_settings.schema_id}.color-scheme: ${variant}`);
 
                         return 'default';
                     })
