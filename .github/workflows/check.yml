@@ -7,20 +7,7 @@ on:
   - pull_request
 
 jobs:
-  check_skip:
-    runs-on: ubuntu-latest
-
-    outputs:
-      should_skip: ${{ steps.check.outputs.should_skip }}
-
-    steps:
-      - id: check
-        uses: fkirc/skip-duplicate-actions@v4
-
   lint:
-    needs: check_skip
-    if: ${{ needs.check_skip.outputs.should_skip != 'true' }}
-
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/ddterm/ci-docker-image:master
@@ -32,9 +19,6 @@ jobs:
     - run: make lint
 
   schemas:
-    needs: check_skip
-    if: ${{ needs.check_skip.outputs.should_skip != 'true' }}
-
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/ddterm/ci-docker-image:master
@@ -44,9 +28,6 @@ jobs:
     - run: make schemas
 
   locales:
-    needs: check_skip
-    if: ${{ needs.check_skip.outputs.should_skip != 'true' }}
-
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/ddterm/ci-docker-image:master
@@ -57,9 +38,6 @@ jobs:
     - run: make locales
 
   gtk-builder-validate:
-    needs: check_skip
-    if: ${{ needs.check_skip.outputs.should_skip != 'true' }}
-
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/ddterm/ci-docker-image:master
@@ -69,9 +47,6 @@ jobs:
     - run: xvfb-run make gtk-builder-validate
 
   msgcmp:
-    needs: check_skip
-    if: ${{ needs.check_skip.outputs.should_skip != 'true' }}
-
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/ddterm/ci-docker-image:master
@@ -88,9 +63,6 @@ jobs:
     - locales
     - gtk-builder-validate
     - msgcmp
-    - check_skip
-
-    if: ${{ needs.check_skip.outputs.should_skip != 'true' }}
 
     runs-on: ubuntu-22.04
     container:
