@@ -21,16 +21,16 @@
 
 /* exported PrefsDialog */
 
-const { GObject, Gio, Gtk } = imports.gi;
-const { util } = imports;
+const { GObject, Gtk } = imports.gi;
 const { PrefsWidget } = imports.prefs;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
+const { settings } = Me.imports;
 
 var PrefsDialog = GObject.registerClass(
     {
         Template: Me.dir.get_child('prefsdialog.ui').get_uri(),
         Properties: {
-            settings: GObject.ParamSpec.object('settings', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, Gio.Settings),
+            settings: GObject.ParamSpec.object('settings', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, settings.Settings),
         },
     },
     class PrefsDialog extends Gtk.Dialog {
@@ -43,5 +43,3 @@ var PrefsDialog = GObject.registerClass(
         }
     }
 );
-
-Object.assign(PrefsDialog.prototype, util.UtilMixin);

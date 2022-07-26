@@ -2,7 +2,8 @@
     "name": "gnome-shell-extension-ddterm",
     "private": true,
     "dependencies": {
-        "handlebars": "^4.7.7"
+        "handlebars": "^4.7.7",
+        "rxjs": "^7.5.5"
     },
     "devDependencies": {
         "eslint": "^8.15.0",

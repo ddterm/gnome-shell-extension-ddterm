@@ -33,19 +33,19 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 
 Me.dir = APP_DATA_DIR;
 
-const { PrefsWidget } = imports.prefs;
+const { prefs, settings } = imports;
 
 var PrefsDialog = GObject.registerClass(
     {
         Properties: {
-            settings: GObject.ParamSpec.object('settings', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, Gio.Settings),
+            settings: GObject.ParamSpec.object('settings', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, settings.Settings),
         },
     },
     class PrefsDialog extends Gtk.Window {
         _init(params) {
             super._init(params);
 
-            this.set_child(new PrefsWidget({
+            this.set_child(new prefs.PrefsWidget({
                 settings: this.settings,
             }));
         }
@@ -68,8 +68,10 @@ const Application = GObject.registerClass(
                 false
             );
 
-            this.settings = new Gio.Settings({
-                settings_schema: settings_source.lookup('com.github.amezin.ddterm', true),
+            this.settings = new settings.Settings({
+                gsettings: new Gio.Settings({
+                    settings_schema: settings_source.lookup('com.github.amezin.ddterm', true),
+                }),
             });
         }
 

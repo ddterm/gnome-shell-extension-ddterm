@@ -22,7 +22,8 @@
 /* exported AppWindow */
 
 const { GLib, GObject, Gio, Gdk, Gtk } = imports.gi;
-const { util } = imports;
+const { rxjs } = imports.rxjs;
+const { rxutil, settings, terminalpage } = imports;
 const ByteArray = imports.byteArray;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 
@@ -51,10 +52,7 @@ var AppWindow = GObject.registerClass(
                 'menus', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, Gtk.Builder
             ),
             'settings': GObject.ParamSpec.object(
-                'settings', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, Gio.Settings
-            ),
-            'desktop-settings': GObject.ParamSpec.object(
-                'desktop-settings', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, Gio.Settings
+                'settings', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, settings.Settings
             ),
         },
     },
@@ -62,69 +60,126 @@ var AppWindow = GObject.registerClass(
         _init(params) {
             super._init(params);
 
+            this.rx = rxutil.scope(this);
+
             this.extension_dbus = new ExtensionDBusProxy(
                 Gio.DBus.session, 'org.gnome.Shell', '/org/gnome/Shell/Extensions/ddterm'
             );
 
-            this.method_handler(this, 'screen-changed', this.setup_rgba_visual);
-            this.setup_rgba_visual();
+            this.rx.subscribe(
+                rxutil.property(this, 'screen'),
+                screen => {
+                    const visual = screen.get_rgba_visual();
 
-            this.draw_handler_id = null;
-            this.run_on_destroy(() => {
-                if (this.draw_handler_id)
-                    this.disconnect(this.draw_handler_id);
-            });
+                    if (visual)
+                        this.set_visual(visual);
+                }
+            );
 
-            this.method_handler(this.settings, 'changed::transparent-background', this.update_app_paintable);
-            this.update_app_paintable();
+            this.draw_subscription = new rxjs.Subscription();
 
-            this.method_handler(this.notebook, 'page-removed', this.close_if_no_pages);
+            this.rx.subscribe(
+                this.settings['transparent-background'],
+                transparent => {
+                    this.app_paintable = transparent;
 
-            this.toggle_action = this.simple_action('toggle', this.toggle.bind(this));
-            this.hide_action = this.simple_action('hide', () => this.hide());
+                    this.draw_subscription.unsubscribe();
 
-            this.simple_action('new-tab', this.insert_page.bind(this, -1));
-            this.simple_action('new-tab-front', this.insert_page.bind(this, 0));
+                    if (transparent) {
+                        this.draw_subscription = this.rx.connect(
+                            this, 'draw', this.draw.bind(this)
+                        );
+                    }
 
-            this.simple_action('new-tab-before-current', () => {
-                this.insert_page(this.notebook.get_current_page());
-            });
-            this.simple_action('new-tab-after-current', () => {
-                this.insert_page(this.notebook.get_current_page() + 1);
-            });
+                    this.queue_draw();
+                }
+            );
 
-            this.method_handler(this.top_resize_box, 'realize', this.set_resize_cursor_ns);
-            this.method_handler(this.bottom_resize_box, 'realize', this.set_resize_cursor_ns);
-            this.method_handler(this.left_resize_box, 'realize', this.set_resize_cursor_ew);
-            this.method_handler(this.right_resize_box, 'realize', this.set_resize_cursor_ew);
+            const page_added = rxutil.signal(this.notebook, 'page-added');
+            const page_removed = rxutil.signal(this.notebook, 'page-removed');
+            const page_reordered = rxutil.signal(this.notebook, 'page-reordered');
 
-            this.method_handler(this.top_resize_box, 'button-press-event', this.start_resizing);
-            this.method_handler(this.bottom_resize_box, 'button-press-event', this.start_resizing);
-            this.method_handler(this.left_resize_box, 'button-press-event', this.start_resizing);
-            this.method_handler(this.right_resize_box, 'button-press-event', this.start_resizing);
+            const n_pages = rxjs.merge(page_added, page_removed).pipe(
+                rxjs.startWith([this.notebook]),
+                rxjs.map(([notebook]) => notebook.get_n_pages())
+            );
 
-            this.method_handler(this.settings, 'changed::window-resizable', this.update_resize_boxes);
-            this.method_handler(this.settings, 'changed::window-position', this.update_resize_boxes);
-            this.update_resize_boxes();
+            this.rx.subscribe(
+                n_pages.pipe(rxjs.skip(1)),
+                n => {
+                    if (n === 0)
+                        this.close();
+                }
+            );
 
             const HEIGHT_MOD = 0.05;
-            this.simple_action('window-size-dec', () => {
-                if (this.settings.get_boolean('window-maximize'))
-                    this.settings.set_double('window-size', 1.0 - HEIGHT_MOD);
-                else
-                    this.adjust_double_setting('window-size', -HEIGHT_MOD);
-            });
-            this.simple_action('window-size-inc', () => {
-                if (!this.settings.get_boolean('window-maximize'))
-                    this.adjust_double_setting('window-size', HEIGHT_MOD);
-            });
-
             const OPACITY_MOD = 0.05;
-            this.simple_action('background-opacity-dec', () => {
-                this.adjust_double_setting('background-opacity', -OPACITY_MOD);
-            });
-            this.simple_action('background-opacity-inc', () => {
-                this.adjust_double_setting('background-opacity', OPACITY_MOD);
+
+            const actions = {
+                'toggle': this.toggle.bind(this),
+                'hide': () => this.hide(),
+                'new-tab': this.insert_page.bind(this, -1),
+                'new-tab-front': this.insert_page.bind(this, 0),
+                'new-tab-before-current': () => {
+                    this.insert_page(this.notebook.get_current_page());
+                },
+                'new-tab-after-current': () => {
+                    this.insert_page(this.notebook.get_current_page() + 1);
+                },
+                'window-size-dec': () => {
+                    if (this.settings['window-maximize'].value)
+                        this.settings['window-size'].value = 1.0 - HEIGHT_MOD;
+                    else
+                        this.adjust_double_setting('window-size', -HEIGHT_MOD);
+                },
+                'window-size-inc': () => {
+                    if (!this.settings['window-maximize'].value)
+                        this.adjust_double_setting('window-size', HEIGHT_MOD);
+                },
+                'background-opacity-dec': () => {
+                    this.adjust_double_setting('background-opacity', -OPACITY_MOD);
+                },
+                'background-opacity-inc': () => {
+                    this.adjust_double_setting('background-opacity', OPACITY_MOD);
+                },
+                'next-tab': () => {
+                    const current = this.notebook.get_current_page();
+
+                    if (current === this.notebook.get_n_pages() - 1)
+                        this.notebook.set_current_page(0);
+                    else
+                        this.notebook.set_current_page(current + 1);
+                },
+                'prev-tab': () => {
+                    const current = this.notebook.get_current_page();
+
+                    if (current === 0)
+                        this.notebook.set_current_page(this.notebook.get_n_pages() - 1);
+                    else
+                        this.notebook.set_current_page(current - 1);
+                },
+                'move-tab-prev': () => {
+                    const current = this.notebook.get_current_page();
+
+                    if (current === 0)
+                        this.notebook.reorder_child(this.notebook.get_nth_page(current), this.notebook.get_n_pages() - 1);
+                    else
+                        this.notebook.reorder_child(this.notebook.get_nth_page(current), current - 1);
+                },
+                'move-tab-next': () => {
+                    const current = this.notebook.get_current_page();
+
+                    if (current === this.notebook.get_n_pages() - 1)
+                        this.notebook.reorder_child(this.notebook.get_nth_page(current), 0);
+                    else
+                        this.notebook.reorder_child(this.notebook.get_nth_page(current), current + 1);
+                },
+            };
+
+            Object.entries(actions).forEach(([name, func]) => {
+                const action = new Gio.SimpleAction({ name });
+                this.rx.connect(action, 'activate', func);
+                this.add_action(action);
             });
 
             this.tab_select_action = new Gio.PropertyAction({
@@ -134,139 +189,141 @@ var AppWindow = GObject.registerClass(
             });
             this.add_action(this.tab_select_action);
 
-            this.simple_action('next-tab', () => {
-                const current = this.notebook.get_current_page();
+            const vertical_resize_boxes = [this.top_resize_box, this.bottom_resize_box];
+            const horizontal_resize_boxes = [this.left_resize_box, this.right_resize_box];
+            const resize_boxes = horizontal_resize_boxes.concat(vertical_resize_boxes);
 
-                if (current === this.notebook.get_n_pages() - 1)
-                    this.notebook.set_current_page(0);
-                else
-                    this.notebook.set_current_page(current + 1);
-            });
-            this.simple_action('prev-tab', () => {
-                const current = this.notebook.get_current_page();
+            for (let widget of resize_boxes) {
+                const cursor_name = vertical_resize_boxes.includes(widget) ? 'ns-resize' : 'ew-resize';
 
-                if (current === 0)
-                    this.notebook.set_current_page(this.notebook.get_n_pages() - 1);
-                else
-                    this.notebook.set_current_page(current - 1);
-            });
+                this.rx.connect(widget, 'realize', source => {
+                    source.window.cursor = Gdk.Cursor.new_from_name(source.get_display(), cursor_name);
+                });
 
-            this.simple_action('move-tab-prev', () => {
-                const current = this.notebook.get_current_page();
+                this.rx.connect(widget, 'button-press-event', this.start_resizing.bind(this));
+            }
 
-                if (current === 0)
-                    this.notebook.reorder_child(this.notebook.get_nth_page(current), this.notebook.get_n_pages() - 1);
-                else
-                    this.notebook.reorder_child(this.notebook.get_nth_page(current), current - 1);
-            });
-            this.simple_action('move-tab-next', () => {
-                const current = this.notebook.get_current_page();
+            const resizable = this.settings['window-resizable'];
+            const window_pos = this.settings['window-position'];
 
-                if (current === this.notebook.get_n_pages() - 1)
-                    this.notebook.reorder_child(this.notebook.get_nth_page(current), 0);
-                else
-                    this.notebook.reorder_child(this.notebook.get_nth_page(current), current + 1);
-            });
+            const resize_box_for_window_pos = {
+                'top': this.bottom_resize_box,
+                'bottom': this.top_resize_box,
+                'left': this.right_resize_box,
+                'right': this.left_resize_box,
+            };
 
-            this.bind_settings_ro('new-tab-button', this.new_tab_button, 'visible');
-            this.bind_settings_ro('new-tab-front-button', this.new_tab_front_button, 'visible');
-            this.bind_settings_ro('tab-switcher-popup', this.tab_switch_button, 'visible');
+            for (const pos of Object.keys(resize_box_for_window_pos)) {
+                this.rx.subscribe(
+                    resizable.pipe(
+                        rxutil.enable_if(
+                            window_pos.pipe(rxjs.map(p => p === pos)),
+                            rxjs.of(false)
+                        )
+                    ),
+                    rxutil.property(resize_box_for_window_pos[pos], 'visible')
+                );
+            }
 
-            this.method_handler(this.settings, 'changed::tab-policy', this.update_tab_bar_visibility);
-            this.method_handler(this.notebook, 'page-added', this.update_tab_bar_visibility);
-            this.method_handler(this.notebook, 'page-removed', this.update_tab_bar_visibility);
+            const visibility_settings = {
+                'new-tab-button': this.new_tab_button,
+                'new-tab-front-button': this.new_tab_front_button,
+                'tab-switcher-popup': this.tab_switch_button,
+            };
 
-            this.method_handler(this.settings, 'changed::tab-position', this.update_tab_bar_position);
-            this.update_tab_bar_position();
+            for (const [setting, widget] of Object.entries(visibility_settings)) {
+                this.rx.subscribe(
+                    this.settings[setting],
+                    rxutil.property(widget, 'visible')
+                );
+            }
 
-            this.method_handler(this.notebook, 'page-added', this.update_tab_shortcut_labels);
-            this.method_handler(this.notebook, 'page-removed', this.update_tab_shortcut_labels);
-            this.method_handler(this.notebook, 'page-reordered', this.update_tab_shortcut_labels);
-            this.method_handler(this, 'keys-changed', this.update_tab_shortcut_labels);
+            this.rx.subscribe(
+                rxutil.switch_on(this.settings['tab-policy'], {
+                    'always': rxjs.of(true),
+                    'never': rxjs.of(false),
+                    'automatic': n_pages.pipe(rxjs.map(n => n > 1)),
+                }),
+                rxutil.property(this.notebook, 'show-tabs')
+            );
 
-            this.method_handler(this.settings, 'changed::tab-expand', this.update_tab_expand);
+            const tab_pos = {
+                'top': Gtk.PositionType.TOP,
+                'bottom': Gtk.PositionType.BOTTOM,
+                'left': Gtk.PositionType.LEFT,
+                'right': Gtk.PositionType.RIGHT,
+            };
 
-            this.bind_settings_ro('notebook-border', this.notebook, 'show-border');
+            const switch_arrow_direction_for_tab_pos = {
+                'top': Gtk.ArrowType.DOWN,
+                'bottom': Gtk.ArrowType.UP,
+                'left': Gtk.ArrowType.RIGHT,
+                'right': Gtk.ArrowType.LEFT,
+            };
 
-            this.method_handler(this.notebook, 'page-added', this.tab_switcher_add);
-            this.method_handler(this.notebook, 'page-removed', this.tab_switcher_remove);
-            this.method_handler(this.notebook, 'page-reordered', this.tab_switcher_reorder);
+            this.rx.subscribe(
+                this.settings['tab-position'],
+                position => {
+                    this.notebook.tab_pos = tab_pos[position];
+                    this.tab_switch_button.direction = switch_arrow_direction_for_tab_pos[position];
+                }
+            );
 
-            this.bind_settings_ro('window-type-hint', this, 'type-hint');
-            this.bind_settings_ro('window-skip-taskbar', this, 'skip-taskbar-hint');
-            this.bind_settings_ro('window-skip-taskbar', this, 'skip-pager-hint');
+            const keys_changed = rxutil.signal(this, 'keys-changed');
 
-            this.suppress_delete_id = this.connect('delete-event', () => {
+            this.rx.subscribe(
+                rxjs.merge(page_added, page_removed, page_reordered, keys_changed),
+                () => {
+                    let i = 0;
+                    this.notebook.foreach(page => {
+                        const shortcuts = this.application.get_accels_for_action(`win.switch-to-tab(${i})`);
+                        const shortcut = shortcuts && shortcuts.length > 0 ? shortcuts[0] : null;
+                        page.set_switch_shortcut(shortcut);
+
+                        i += 1;
+                    });
+                }
+            );
+
+            this.rx.subscribe(
+                this.settings['notebook-border'],
+                rxutil.property(this.notebook, 'show-border')
+            );
+
+            this.rx.connect(this.notebook, 'page-added', this.tab_switcher_add.bind(this));
+            this.rx.connect(this.notebook, 'page-removed', this.tab_switcher_remove.bind(this));
+            this.rx.connect(this.notebook, 'page-reordered', this.tab_switcher_reorder.bind(this));
+
+            this.rx.subscribe(
+                this.settings['window-type-hint'],
+                rxutil.property(this, 'type-hint')
+            );
+
+            this.rx.subscribe(
+                this.settings['window-skip-taskbar'],
+                value => {
+                    this.skip_taskbar_hint = value;
+                    this.skip_pager_hint = value;
+                }
+            );
+
+            this.suppress_delete_subscription = this.rx.connect(this, 'delete-event', () => {
                 this.hide();
                 return true;
-            });
-            this.run_on_destroy(() => {
-                if (this.suppress_delete_id) {
-                    this.disconnect(this.suppress_delete_id);
-                    this.suppress_delete_id = null;
-                }
             });
 
             this.insert_page(0);
 
             const display = Gdk.Display.get_default();
-            if (display.constructor.$gtype.name === 'GdkWaylandDisplay')
-                this.method_handler(this, 'map', this.sync_size_with_extension);
-        }
 
-        simple_action(name, func) {
-            const action = new Gio.SimpleAction({
-                name,
-            });
-            this.signal_connect(action, 'activate', func);
-            this.add_action(action);
-            return action;
+            if (display.constructor.$gtype.name === 'GdkWaylandDisplay')
+                this.rx.connect(this, 'map', () => this.sync_size_with_extension());
         }
 
         adjust_double_setting(name, difference, min = 0.0, max = 1.0) {
-            const current = this.settings.get_double(name);
+            const current = this.settings[name].value;
             const new_setting = current + difference;
-            this.settings.set_double(name, Math.min(Math.max(new_setting, min), max));
-        }
-
-        update_tab_bar_visibility() {
-            const policy = this.settings.get_string('tab-policy');
-            if (policy === 'always')
-                this.notebook.show_tabs = true;
-            else if (policy === 'never')
-                this.notebook.show_tabs = false;
-            else if (policy === 'automatic')
-                this.notebook.show_tabs = this.notebook.get_n_pages() > 1;
-        }
-
-        update_tab_bar_position() {
-            const position = this.settings.get_string('tab-position');
-            if (position === 'top') {
-                this.notebook.tab_pos = Gtk.PositionType.TOP;
-                this.tab_switch_button.direction = Gtk.ArrowType.DOWN;
-            } else if (position === 'bottom') {
-                this.notebook.tab_pos = Gtk.PositionType.BOTTOM;
-                this.tab_switch_button.direction = Gtk.ArrowType.UP;
-            } else if (position === 'left') {
-                this.notebook.tab_pos = Gtk.PositionType.LEFT;
-                this.tab_switch_button.direction = Gtk.ArrowType.RIGHT;
-            } else if (position === 'right') {
-                this.notebook.tab_pos = Gtk.PositionType.RIGHT;
-                this.tab_switch_button.direction = Gtk.ArrowType.LEFT;
-            }
-        }
-
-        update_tab_expand() {
-            for (let i = 0; i < this.notebook.get_n_pages(); i++)
-                this.notebook.child_set_property(this.notebook.get_nth_page(i), 'tab-expand', this.settings.get_boolean('tab-expand'));
-        }
-
-        update_tab_shortcut_labels() {
-            for (let i = 0; i < this.notebook.get_n_pages(); i++) {
-                const shortcuts = this.application.get_accels_for_action(`win.switch-to-tab(${i})`);
-                const shortcut = shortcuts && shortcuts.length > 0 ? shortcuts[0] : null;
-                this.notebook.get_nth_page(i).switch_shortcut = shortcut;
-            }
+            this.settings[name].value = Math.min(Math.max(new_setting, min), max);
         }
 
         toggle() {
@@ -276,84 +333,55 @@ var AppWindow = GObject.registerClass(
                 this.show();
         }
 
-        insert_page(position) {
+        get_cwd() {
             const current_page = this.notebook.get_nth_page(this.notebook.get_current_page());
-            const cwd = current_page === null ? null : current_page.get_cwd();
 
-            const page = new imports.terminalpage.TerminalPage({
+            return current_page ? current_page.get_cwd() : null;
+        }
+
+        insert_page(position) {
+            const cwd = this.settings['preserve-working-directory'].value ? this.get_cwd() : null;
+
+            const page = new terminalpage.TerminalPage({
                 settings: this.settings,
                 menus: this.menus,
-                desktop_settings: this.desktop_settings,
             });
 
             const index = this.notebook.insert_page(page, page.tab_label, position);
             this.notebook.set_current_page(index);
             this.notebook.set_tab_reorderable(page, true);
-            this.notebook.child_set_property(page, 'tab-expand', this.settings.get_boolean('tab-expand'));
 
-            this.method_handler(page, 'close-request', this.remove_page);
-            this.method_handler(page, 'new-tab-before-request', this.new_tab_before);
-            this.method_handler(page, 'new-tab-after-request', this.new_tab_after);
-            page.spawn(this.settings.get_boolean('preserve-working-directory') ? cwd : null);
+            const page_scope = rxutil.scope(page, rxutil.signal(page, 'destroy'));
+            this.rx.add(page_scope);
+
+            page_scope.subscribe(
+                this.settings['tab-expand'],
+                expand => {
+                    this.notebook.child_set_property(page, 'tab-expand', expand);
+                }
+            );
+
+            page_scope.connect(page, 'close-request', sender => {
+                this.notebook.remove(sender);
+                sender.destroy();
+            });
+
+            page_scope.connect(page, 'new-tab-before-request', sender => {
+                this.insert_page(this.notebook.page_num(sender));
+            });
+
+            page_scope.connect(page, 'new-tab-after-request', sender => {
+                this.insert_page(this.notebook.page_num(sender) + 1);
+            });
+
+            page.spawn(cwd);
 
             page.terminal.grab_focus();
         }
 
-        setup_rgba_visual() {
-            const visual = this.screen.get_rgba_visual();
-            if (visual)
-                this.set_visual(visual);
-        }
-
-        update_app_paintable() {
-            this.app_paintable = this.settings.get_boolean('transparent-background');
-
-            if (this.app_paintable) {
-                if (this.draw_handler_id === null)
-                    this.draw_handler_id = this.connect('draw', this.draw.bind(this));
-            } else if (this.draw_handler_id !== null) {
-                this.disconnect(this.draw_handler_id);
-                this.draw_handler_id = null;
-            }
-
-            this.queue_draw();
-        }
-
-        remove_page(page) {
-            this.notebook.remove(page);
-            page.destroy();
-        }
-
         close() {
-            if (this.suppress_delete_id) {
-                this.disconnect(this.suppress_delete_id);
-                this.suppress_delete_id = null;
-            }
-
+            this.suppress_delete_subscription.unsubscribe();
             super.close();
-        }
-
-        close_if_no_pages() {
-            if (this.notebook.get_n_pages() === 0)
-                this.close();
-        }
-
-        set_resize_cursor_ns(widget) {
-            widget.window.cursor = Gdk.Cursor.new_from_name(widget.get_display(), 'ns-resize');
-        }
-
-        set_resize_cursor_ew(widget) {
-            widget.window.cursor = Gdk.Cursor.new_from_name(widget.get_display(), 'ew-resize');
-        }
-
-        update_resize_boxes() {
-            const resizable = this.settings.get_boolean('window-resizable');
-            const position = this.settings.get_string('window-position');
-
-            this.bottom_resize_box.visible = resizable && (position === 'top');
-            this.top_resize_box.visible = resizable && (position === 'bottom');
-            this.right_resize_box.visible = resizable && (position === 'left');
-            this.left_resize_box.visible = resizable && (position === 'right');
         }
 
         start_resizing(source, event) {
@@ -433,16 +461,6 @@ var AppWindow = GObject.registerClass(
                 items[i].action_target = GLib.Variant.new_int32(i);
         }
 
-        new_tab_before(page) {
-            const index = this.notebook.page_num(page);
-            this.insert_page(index);
-        }
-
-        new_tab_after(page) {
-            const index = this.notebook.page_num(page);
-            this.insert_page(index + 1);
-        }
-
         sync_size_with_extension() {
             if (this.is_maximized)
                 return;
@@ -457,5 +475,3 @@ var AppWindow = GObject.registerClass(
         }
     }
 );
-
-Object.assign(AppWindow.prototype, util.UtilMixin);
