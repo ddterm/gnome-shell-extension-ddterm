@@ -56,6 +56,10 @@ jobs:
     - run: echo "::add-matcher::.github/problem-matchers/gettext.json"
     - run: make msgcmp
 
+  build:
+    uses: ./.github/workflows/pack-reusable.yml
+    if: ${{ !startsWith(github.ref, 'refs/tags/v') }}
+
   test:
     needs:
     - lint
