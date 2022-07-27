@@ -261,6 +261,7 @@ var PrefsWidget = GObject.registerClass(
         GTypeName: 'DDTermPrefsWidget',
         Template: Me.dir.get_child(`prefs-gtk${Gtk.get_major_version()}.ui`).get_uri(),
         Children: [
+            'stack',
             'font_chooser',
             'opacity_scale',
             'accel_renderer',
@@ -797,9 +798,14 @@ function init() {
 }
 
 function buildPrefsWidget() {
-    return new PrefsWidget({
+    const widget = new PrefsWidget({
         settings: new settings.Settings({
             gsettings: imports.misc.extensionUtils.getSettings(),
         }),
     });
+
+    if (imports.misc.config.PACKAGE_VERSION.split('.')[0] >= 42)
+        widget.stack.vhomogeneous = false;
+
+    return widget;
 }

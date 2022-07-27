@@ -1413,6 +1413,7 @@ You'll have to close all tabs for this option to take effect.</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="shadow-type">in</property>
+                <property name="min-content-height">100</property>
                 <property name="propagate-natural-width">True</property>
                 <property name="propagate-natural-height">True</property>
                 <child>
