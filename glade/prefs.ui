@@ -1443,6 +1443,7 @@ Following helpers are available:
       example: &lt;tt&gt;{{ellipsize window-title 20}}&lt;/tt&gt;</property>
                         <property name="use-markup">True</property>
                         <property name="wrap">True</property>
+                        <property name="selectable">True</property>
                         <property name="xalign">0</property>
                       </object>
                     </child>
