@@ -89,8 +89,9 @@ jobs:
     env:
       IMAGE: ghcr.io/ddterm/gnome-shell-pod/${{ matrix.image }}:master
       PY_COLORS: 1
-      TOX_TESTENV_PASSENV: PY_COLORS GITHUB_ACTIONS
+      TOX_TESTENV_PASSENV: PY_COLORS GITHUB_ACTIONS PIP_DISABLE_PIP_VERSION_CHECK
       TOXENV: py3-ghactions
+      PIP_DISABLE_PIP_VERSION_CHECK: 1
 
     steps:
     - uses: actions/checkout@v3
