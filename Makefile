@@ -87,22 +87,22 @@ CLEAN += $(GTK3_ONLY_UI_DST) $(GTK3_MULTI_VERSION_UI)
 tmp:
 	mkdir -p tmp
 
-GTK_3TO4_UI_PATTERN := tmp/%-3to4.ui
-GTK_3TO4_UI := $(patsubst $(UI_SRC_PATTERN),$(GTK_3TO4_UI_PATTERN),$(GTK_MULTI_VERSION_UI))
-
-$(GTK_3TO4_UI): $(GTK_3TO4_UI_PATTERN): $(UI_SRC_PATTERN) | tmp
-	gtk4-builder-tool simplify --3to4 $< >$@
-
 GTK_3TO4_FIXUP_UI_PATTERN := tmp/%-3to4-fixup.ui
-GTK_3TO4_FIXUP_UI := $(patsubst $(GTK_3TO4_UI_PATTERN),$(GTK_3TO4_FIXUP_UI_PATTERN),$(GTK_3TO4_UI))
+GTK_3TO4_FIXUP_UI := $(patsubst $(UI_SRC_PATTERN),$(GTK_3TO4_FIXUP_UI_PATTERN),$(GTK_MULTI_VERSION_UI))
 
-$(GTK_3TO4_FIXUP_UI): $(GTK_3TO4_FIXUP_UI_PATTERN): $(GTK_3TO4_UI_PATTERN) glade/3to4-fixup.xsl | tmp
+$(GTK_3TO4_FIXUP_UI): $(GTK_3TO4_FIXUP_UI_PATTERN): $(UI_SRC_PATTERN) glade/3to4-fixup.xsl | tmp
 	xsltproc glade/3to4-fixup.xsl $< >$@
 
-GTK4_UI_PATTERN := %-gtk4.ui
-GTK4_UI := $(patsubst $(GTK_3TO4_FIXUP_UI_PATTERN),$(GTK4_UI_PATTERN),$(GTK_3TO4_FIXUP_UI))
+GTK_3TO4_UI_PATTERN := tmp/%-3to4.ui
+GTK_3TO4_UI := $(patsubst $(GTK_3TO4_FIXUP_UI_PATTERN),$(GTK_3TO4_UI_PATTERN),$(GTK_3TO4_FIXUP_UI))
 
-$(GTK4_UI): $(GTK4_UI_PATTERN): $(GTK_3TO4_FIXUP_UI_PATTERN)
+$(GTK_3TO4_UI): $(GTK_3TO4_UI_PATTERN): $(GTK_3TO4_FIXUP_UI_PATTERN) | tmp
+	gtk4-builder-tool simplify --3to4 $< >$@
+
+GTK4_UI_PATTERN := %-gtk4.ui
+GTK4_UI := $(patsubst $(GTK_3TO4_UI_PATTERN),$(GTK4_UI_PATTERN),$(GTK_3TO4_UI))
+
+$(GTK4_UI): $(GTK4_UI_PATTERN): $(GTK_3TO4_UI_PATTERN)
 	gtk4-builder-tool simplify $< >$@
 
 CLEAN += $(GTK_3TO4_UI) $(GTK_3TO4_FIXUP_UI) $(GTK4_UI)

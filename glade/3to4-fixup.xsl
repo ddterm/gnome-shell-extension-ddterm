@@ -13,7 +13,7 @@
         </xsl:copy>
     </xsl:template>
 
-    <xsl:template match="//object[@class = 'GtkStackPage']/property[@name = 'position']" />
+    <xsl:template match="//object[@class = 'GtkStack']/child/packing/property[@name = 'position']" />
     <xsl:template match="//object[@class = 'GtkScrolledWindow']/property[@name = 'shadow-type']" />
     <xsl:template match="//object[@class = 'GtkSpinButton']/property[@name = 'input-purpose']" />
 
