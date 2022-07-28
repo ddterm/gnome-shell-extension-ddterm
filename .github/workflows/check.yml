@@ -5,6 +5,7 @@ concurrency: ${{ github.workflow }}/${{ github.ref }}
 on:
   - push
   - pull_request
+  - workflow_dispatch
 
 jobs:
   lint:
