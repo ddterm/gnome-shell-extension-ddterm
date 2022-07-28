@@ -26,6 +26,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - run: echo "::add-matcher::.github/problem-matchers/generic.json"
     - run: make schemas
 
   locales:
@@ -35,7 +36,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - run: echo "::add-matcher::.github/problem-matchers/gettext.json"
+    - run: echo "::add-matcher::.github/problem-matchers/generic.json"
     - run: make locales
 
   gtk-builder-validate:
@@ -45,6 +46,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - run: echo "::add-matcher::.github/problem-matchers/generic.json"
     - run: xvfb-run make gtk-builder-validate
 
   msgcmp:
@@ -54,7 +56,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - run: echo "::add-matcher::.github/problem-matchers/gettext.json"
+    - run: echo "::add-matcher::.github/problem-matchers/generic.json"
     - run: make msgcmp
 
   build:
@@ -93,6 +95,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - uses: actions/setup-node@v3
+    - run: echo "::add-matcher::.github/problem-matchers/generic.json"
     - run: npm ci
     - run: xvfb-run make test-deps
     - run: tox -vv --notest --sitepackages

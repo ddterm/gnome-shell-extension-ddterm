@@ -23,6 +23,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - uses: actions/setup-node@v3
+    - run: echo "::add-matcher::.github/problem-matchers/generic.json"
     - run: npm ci
     - run: xvfb-run make pack
     - id: upload
