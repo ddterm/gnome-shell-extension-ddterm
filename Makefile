@@ -79,8 +79,10 @@ GTK3_MULTI_VERSION_UI := $(patsubst $(UI_SRC_PATTERN),$(GTK3_MULTI_VERSION_UI_PA
 $(GTK3_MULTI_VERSION_UI): $(GTK3_MULTI_VERSION_UI_PATTERN): $(UI_SRC_PATTERN)
 	gtk-builder-tool simplify $< >$@
 
-GENERATED_SOURCES += $(GTK3_ONLY_UI_DST) $(GTK3_MULTI_VERSION_UI)
-CLEAN += $(GTK3_ONLY_UI_DST) $(GTK3_MULTI_VERSION_UI)
+GTK3_UI := $(GTK3_ONLY_UI_DST) $(GTK3_MULTI_VERSION_UI)
+
+GENERATED_SOURCES += $(GTK3_UI)
+CLEAN += $(GTK3_UI)
 
 # Gtk 4 .ui
 
@@ -122,8 +124,8 @@ CLEAN += metadata.json
 # package
 
 JS_SOURCES := $(filter-out $(GENERATED_SOURCES), $(wildcard *.js))
-BUILDER_SOURCES := menus.ui
-TRANSLATABLE_SOURCES += $(JS_SOURCES) $(BUILDER_SOURCES)
+GTK3_HANDCRAFTED_UI := menus.ui
+TRANSLATABLE_SOURCES += $(JS_SOURCES) $(GTK3_HANDCRAFTED_UI)
 
 DEFAULT_SOURCES := extension.js prefs.js metadata.json
 
@@ -131,7 +133,7 @@ EXTRA_SOURCES := \
 	$(filter-out $(DEFAULT_SOURCES), $(JS_SOURCES)) \
 	$(wildcard *.css) \
 	$(GENERATED_SOURCES) \
-	$(BUILDER_SOURCES) \
+	$(GTK3_HANDCRAFTED_UI) \
 	LICENSE \
 	com.github.amezin.ddterm \
 	com.github.amezin.ddterm.Extension.xml
@@ -196,17 +198,21 @@ clean:
 
 # .ui validation
 
-gtk-builder-validate/%: %
+GTK3_VALIDATE_UI := $(addprefix gtk-builder-validate/,$(filter-out terminalpage.ui,$(GTK3_UI)) $(GTK3_HANDCRAFTED_UI))
+
+$(GTK3_VALIDATE_UI): gtk-builder-validate/%: %
 	gtk-builder-tool validate $<
 
-.PHONY: gtk-builder-validate/%
+.PHONY: $(GTK3_VALIDATE_UI)
 
-gtk-builder-validate/prefs-gtk4.ui: prefs-gtk4.ui
+GTK4_VALIDATE_UI := $(addprefix gtk-builder-validate/,$(GTK4_UI))
+
+$(GTK4_VALIDATE_UI): gtk-builder-validate/%: %
 	gtk4-builder-tool validate $<
 
-.PHONY: gtk-builder-validate/prefs-gtk4.ui
+.PHONY: $(GTK4_VALIDATE_UI)
 
-gtk-builder-validate: $(addprefix gtk-builder-validate/, $(filter-out terminalpage.ui,$(filter %.ui,$(EXTRA_SOURCES))))
+gtk-builder-validate: $(GTK3_VALIDATE_UI) $(if $(call is-true,$(WITH_GTK4)),$(GTK4_VALIDATE_UI))
 
 all: gtk-builder-validate
 .PHONY: gtk-builder-validate
