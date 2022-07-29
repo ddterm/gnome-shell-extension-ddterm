@@ -5,5 +5,5 @@ ansi2html~=1.6.0
 PyGObject
 Wand~=0.6.7
 pytest-rerunfailures~=10.2
-filelock~=3.6.0
+filelock~=3.7.1
 allpairspy~=2.5.0
