@@ -3,9 +3,11 @@ name: check
 concurrency: ${{ github.workflow }}/${{ github.ref }}
 
 on:
-  - push
-  - pull_request
-  - workflow_dispatch
+  push:
+    branches:
+      - master
+  pull_request:
+  workflow_dispatch:
 
 jobs:
   lint:
@@ -61,7 +63,6 @@ jobs:
 
   build:
     uses: ./.github/workflows/pack-reusable.yml
-    if: ${{ !startsWith(github.ref, 'refs/tags/v') }}
 
   test:
     needs:
