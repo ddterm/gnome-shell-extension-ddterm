@@ -4,8 +4,6 @@ concurrency: ${{ github.workflow }}/${{ github.ref }}
 
 on:
   push:
-    branches:
-      - master
   pull_request:
   workflow_dispatch:
 
@@ -14,6 +12,8 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/ddterm/ci-docker-image:master
+
+    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.id != github.event.pull_request.base.repo.id }}
 
     steps:
     - uses: actions/checkout@v3
@@ -26,6 +26,8 @@ jobs:
     container:
       image: ghcr.io/ddterm/ci-docker-image:master
 
+    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.id != github.event.pull_request.base.repo.id }}
+
     steps:
     - uses: actions/checkout@v3
     - run: echo "::add-matcher::.github/problem-matchers/generic.json"
@@ -35,6 +37,8 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/ddterm/ci-docker-image:master
+
+    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.id != github.event.pull_request.base.repo.id }}
 
     steps:
     - uses: actions/checkout@v3
@@ -46,6 +50,8 @@ jobs:
     container:
       image: ghcr.io/ddterm/ci-docker-image:master
 
+    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.id != github.event.pull_request.base.repo.id }}
+
     steps:
     - uses: actions/checkout@v3
     - run: echo "::add-matcher::.github/problem-matchers/generic.json"
@@ -56,6 +62,8 @@ jobs:
     container:
       image: ghcr.io/ddterm/ci-docker-image:master
 
+    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.id != github.event.pull_request.base.repo.id }}
+
     steps:
     - uses: actions/checkout@v3
     - run: echo "::add-matcher::.github/problem-matchers/generic.json"
@@ -63,6 +71,7 @@ jobs:
 
   build:
     uses: ./.github/workflows/pack-reusable.yml
+    if: ${{ !startsWith(github.ref, 'refs/tags/v') && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.id != github.event.pull_request.base.repo.id) }}
 
   test:
     needs:
@@ -71,6 +80,8 @@ jobs:
     - locales
     - gtk-builder-validate
     - msgcmp
+
+    if: ${{ success() && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.id != github.event.pull_request.base.repo.id) }}
 
     runs-on: ubuntu-22.04
     container:
