@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.38.2 
+
+Copyright (C) 2022 Aleksandr Mezin
+
+This file is part of ddterm GNOME Shell extension.
+
+ddterm GNOME Shell extension is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+ddterm GNOME Shell extension is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licenses/>.
+
+-->
+<interface domain="ddterm@amezin.github.com">
+  <requires lib="gtk+" version="3.24"/>
+  <!-- interface-license-type gplv3 -->
+  <!-- interface-name ddterm GNOME Shell extension -->
+  <!-- interface-copyright 2022 Aleksandr Mezin -->
+  <object class="GtkAdjustment" id="tab_label_width_adjustment">
+    <property name="upper">0.5</property>
+    <property name="step-increment">0.01</property>
+    <property name="page-increment">0.10</property>
+  </object>
+  <object class="GtkTextTagTable" id="tab_title_tag_table"/>
+  <object class="GtkTextBuffer" id="tab_title_template_buffer">
+    <property name="tag-table">tab_title_tag_table</property>
+  </object>
+  <!-- n-columns=2 n-rows=13 -->
+  <template class="DDTermPrefsTabs" parent="GtkGrid">
+    <property name="visible">True</property>
+    <property name="can-focus">False</property>
+    <property name="margin-start">10</property>
+    <property name="margin-end">10</property>
+    <property name="margin-top">10</property>
+    <property name="margin-bottom">10</property>
+    <property name="row-spacing">10</property>
+    <property name="column-spacing">10</property>
+    <child>
+      <object class="GtkCheckButton" id="expand_tabs_check">
+        <property name="label" translatable="yes">Expand tabs</property>
+        <property name="visible">True</property>
+        <property name="can-focus">True</property>
+        <property name="receives-default">False</property>
+        <property name="action-name">settings.tab-expand</property>
+        <property name="use-underline">True</property>
+        <property name="draw-indicator">True</property>
+      </object>
+      <packing>
+        <property name="left-attach">0</property>
+        <property name="top-attach">4</property>
+        <property name="width">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkCheckButton" id="show_tab_close_buttons_check">
+        <property name="label" translatable="yes">Show _close buttons</property>
+        <property name="visible">True</property>
+        <property name="can-focus">True</property>
+        <property name="receives-default">False</property>
+        <property name="action-name">settings.tab-close-buttons</property>
+        <property name="use-underline">True</property>
+        <property name="draw-indicator">True</property>
+      </object>
+      <packing>
+        <property name="left-attach">0</property>
+        <property name="top-attach">5</property>
+        <property name="width">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkCheckButton" id="show_new_tab_button_check">
+        <property name="label" translatable="yes">"_New Tab (Last)" button</property>
+        <property name="visible">True</property>
+        <property name="can-focus">True</property>
+        <property name="receives-default">False</property>
+        <property name="action-name">settings.new-tab-button</property>
+        <property name="use-underline">True</property>
+        <property name="draw-indicator">True</property>
+      </object>
+      <packing>
+        <property name="left-attach">0</property>
+        <property name="top-attach">7</property>
+        <property name="width">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkCheckButton" id="show_tab_switcher_check">
+        <property name="label" translatable="yes">Tab _switcher popup</property>
+        <property name="visible">True</property>
+        <property name="can-focus">True</property>
+        <property name="receives-default">False</property>
+        <property name="action-name">settings.tab-switcher-popup</property>
+        <property name="use-underline">True</property>
+        <property name="draw-indicator">True</property>
+      </object>
+      <packing>
+        <property name="left-attach">0</property>
+        <property name="top-attach">8</property>
+        <property name="width">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel">
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <property name="halign">start</property>
+        <property name="label" translatable="yes">Show tab _bar:</property>
+        <property name="use-underline">True</property>
+        <property name="mnemonic-widget">tab_policy_combo</property>
+      </object>
+      <packing>
+        <property name="left-attach">0</property>
+        <property name="top-attach">0</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkComboBoxText" id="tab_policy_combo">
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <property name="hexpand">True</property>
+        <items>
+          <item id="always" translatable="yes">Always</item>
+          <item id="automatic" translatable="yes">Automatic</item>
+          <item id="never" translatable="yes">Never</item>
+        </items>
+      </object>
+      <packing>
+        <property name="left-attach">1</property>
+        <property name="top-attach">0</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel">
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <property name="halign">start</property>
+        <property name="label" translatable="yes">Tab _title:</property>
+        <property name="use-underline">True</property>
+        <property name="mnemonic-widget">tab_title_template_text_view</property>
+      </object>
+      <packing>
+        <property name="left-attach">0</property>
+        <property name="top-attach">10</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkTextView" id="tab_title_template_text_view">
+        <property name="visible">True</property>
+        <property name="can-focus">True</property>
+        <property name="hexpand">True</property>
+        <property name="wrap-mode">word</property>
+        <property name="buffer">tab_title_template_buffer</property>
+        <property name="monospace">True</property>
+      </object>
+      <packing>
+        <property name="left-attach">1</property>
+        <property name="top-attach">10</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkScrolledWindow">
+        <property name="visible">True</property>
+        <property name="can-focus">True</property>
+        <property name="shadow-type">in</property>
+        <property name="min-content-height">100</property>
+        <property name="propagate-natural-width">True</property>
+        <property name="propagate-natural-height">True</property>
+        <child>
+          <object class="GtkViewport">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <child>
+              <object class="GtkLabel">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="halign">start</property>
+                <property name="label" translatable="yes">Tab title is generated from &lt;a href="https://handlebarsjs.com/guide/"&gt;handlebars.js&lt;/a&gt; template. &lt;a href="https://developer.gnome.org/pango/stable/pango-Markup.html"&gt;Pango markup&lt;/a&gt; can be used to format the title.
+
+Following variables are available:
+- &lt;tt&gt;window-title&lt;/tt&gt;
+- &lt;tt&gt;icon-title&lt;/tt&gt;
+- &lt;tt&gt;current-directory-uri&lt;/tt&gt;
+- &lt;tt&gt;current-file-uri&lt;/tt&gt;
+- &lt;tt&gt;current-container-name&lt;/tt&gt;
+- &lt;tt&gt;current-container-runtime&lt;/tt&gt;
+- &lt;tt&gt;switch-shortcut&lt;/tt&gt;
+
+Following helpers are available:
+- &lt;tt&gt;filename-from-uri&lt;/tt&gt;
+- &lt;tt&gt;hostname-from-uri&lt;/tt&gt;
+- &lt;tt&gt;ellipsize&lt;/tt&gt; or &lt;tt&gt;truncate-chars&lt;/tt&gt;
+      example: &lt;tt&gt;{{ellipsize window-title 20}}&lt;/tt&gt;</property>
+                <property name="use-markup">True</property>
+                <property name="wrap">True</property>
+                <property name="selectable">True</property>
+                <property name="xalign">0</property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+      <packing>
+        <property name="left-attach">0</property>
+        <property name="top-attach">12</property>
+        <property name="width">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkButton">
+        <property name="label" translatable="yes">_Reset to default</property>
+        <property name="visible">True</property>
+        <property name="can-focus">True</property>
+        <property name="receives-default">True</property>
+        <property name="action-name">aux.reset-tab-title</property>
+        <property name="use-underline">True</property>
+      </object>
+      <packing>
+        <property name="left-attach">1</property>
+        <property name="top-attach">11</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkCheckButton" id="show_new_tab_front_button_check">
+        <property name="label" translatable="yes">"_New Tab (First)" button</property>
+        <property name="visible">True</property>
+        <property name="can-focus">True</property>
+        <property name="receives-default">False</property>
+        <property name="action-name">settings.new-tab-front-button</property>
+        <property name="use-underline">True</property>
+        <property name="draw-indicator">True</property>
+      </object>
+      <packing>
+        <property name="left-attach">0</property>
+        <property name="top-attach">6</property>
+        <property name="width">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel">
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <property name="halign">start</property>
+        <property name="label" translatable="yes">Tab bar position:</property>
+        <property name="use-underline">True</property>
+        <property name="mnemonic-widget">tab_position_combo</property>
+      </object>
+      <packing>
+        <property name="left-attach">0</property>
+        <property name="top-attach">1</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkComboBoxText" id="tab_position_combo">
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <property name="hexpand">True</property>
+        <items>
+          <item id="bottom" translatable="yes">Bottom</item>
+          <item id="top" translatable="yes">Top</item>
+          <item id="left" translatable="yes">Left</item>
+          <item id="right" translatable="yes">Right</item>
+        </items>
+      </object>
+      <packing>
+        <property name="left-attach">1</property>
+        <property name="top-attach">1</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkCheckButton" id="show_tab_border">
+        <property name="label" translatable="yes">Show border</property>
+        <property name="visible">True</property>
+        <property name="can-focus">True</property>
+        <property name="receives-default">False</property>
+        <property name="action-name">settings.notebook-border</property>
+        <property name="use-underline">True</property>
+        <property name="draw-indicator">True</property>
+      </object>
+      <packing>
+        <property name="left-attach">0</property>
+        <property name="top-attach">9</property>
+        <property name="width">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel">
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <property name="halign">start</property>
+        <property name="label" translatable="yes">Tab width:</property>
+        <property name="use-underline">True</property>
+      </object>
+      <packing>
+        <property name="left-attach">0</property>
+        <property name="top-attach">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkScale" id="tab_label_width_scale">
+        <property name="visible">True</property>
+        <property name="can-focus">True</property>
+        <property name="hexpand">True</property>
+        <property name="adjustment">tab_label_width_adjustment</property>
+        <property name="show-fill-level">True</property>
+        <property name="round-digits">2</property>
+        <property name="digits">2</property>
+      </object>
+      <packing>
+        <property name="left-attach">1</property>
+        <property name="top-attach">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel">
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <property name="halign">start</property>
+        <property name="label" translatable="yes">Ellipsize tab labels:</property>
+        <property name="use-underline">True</property>
+      </object>
+      <packing>
+        <property name="left-attach">0</property>
+        <property name="top-attach">3</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkComboBoxText" id="tab_label_ellipsize_combo">
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <property name="hexpand">True</property>
+        <items>
+          <item id="none" translatable="yes">None</item>
+          <item id="start" translatable="yes">Start</item>
+          <item id="middle" translatable="yes">Middle</item>
+          <item id="end" translatable="yes">End</item>
+        </items>
+      </object>
+      <packing>
+        <property name="left-attach">1</property>
+        <property name="top-attach">3</property>
+      </packing>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+  </template>
+</interface>
