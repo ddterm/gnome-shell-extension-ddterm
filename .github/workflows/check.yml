@@ -106,6 +106,9 @@ jobs:
     - run: tox -vv --notest --sitepackages
       working-directory: test
     - run: for retry in 1 2 3; do podman pull "${{ env.IMAGE }}" && break; done
+    - run: |
+        echo "::remove-matcher owner=generic::"
+        echo "::remove-matcher owner=generic-nolocation::"
     - run: tox --sitepackages -- --self-contained-html --junitxml=junit.xml --container-image "${{ env.IMAGE }}" -n 2 --screenshot-failing-only -v
       working-directory: test
     - run: testspace --verbose "[${{ matrix.image }}]./test/junit.xml" "[${{ matrix.image }}]+./test/report.html"
