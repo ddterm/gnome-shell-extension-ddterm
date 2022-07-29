@@ -24,12 +24,9 @@
 const { GLib, GObject, Gdk, Gio, Gtk } = imports.gi;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const { rxjs } = Me.imports.rxjs;
-const { rxutil, settings } = Me.imports;
+const { rxutil, prefsutil, settings } = Me.imports;
 
 const IS_GTK3 = Gtk.get_major_version() === 3;
-
-const GVARIANT_FALSE = GLib.Variant.new_boolean(false);
-const GVARIANT_BOOL = GVARIANT_FALSE.get_type();
 
 const PALETTE_SIZE = 16;
 
@@ -129,41 +126,6 @@ function get_seconds_format() {
 }
 
 const SECONDS_FORMAT = get_seconds_format();
-
-function recursion_guard() {
-    let running = false;
-
-    const call = fn => {
-        if (running)
-            return;
-
-        running = true;
-        try {
-            fn();
-        } finally {
-            running = false;
-        }
-    };
-
-    return arg => {
-        if (!rxjs.isObservable(arg))
-            return call(arg);
-
-        return new rxjs.Observable(subscriber => {
-            arg.subscribe({
-                next(value) {
-                    call(() => subscriber.next(value));
-                },
-                error(error) {
-                    subscriber.error(error);
-                },
-                complete() {
-                    subscriber.complete();
-                },
-            });
-        });
-    };
-}
 
 function show_dialog(parent_window, message, message_type = Gtk.MessageType.ERROR) {
     const dialog = new Gtk.MessageDialog({
@@ -310,12 +272,12 @@ var PrefsWidget = GObject.registerClass(
         _init(params) {
             super._init(params);
 
-            this.rx = rxutil.scope(this);
+            this.rx = prefsutil.scope(this, this.settings);
 
             this.rx.subscribe(
                 rxjs.combineLatest(
-                    this.setting_editable('background-color'),
-                    this.setting_editable('foreground-color')
+                    this.rx.setting_editable('background-color'),
+                    this.rx.setting_editable('foreground-color')
                 ).pipe(rxjs.map(v => v.every(rxjs.identity))),
                 rxutil.property(this.color_scheme_combo, 'sensitive')
             );
@@ -326,7 +288,7 @@ var PrefsWidget = GObject.registerClass(
                 should point to the last one. Otherwise, settings-based action
                 won't work correctly on Gtk 3.
             */
-            this.insert_action_group('settings', this.make_actions([
+            this.insert_action_group('settings', this.rx.make_actions([
                 'window-above',
                 'window-stick',
                 'window-skip-taskbar',
@@ -368,7 +330,7 @@ var PrefsWidget = GObject.registerClass(
             const invert_bool_variant = v => GLib.Variant.new_boolean(!v.unpack());
 
             this.insert_action_group('inverse-settings',
-                this.make_actions(
+                this.rx.make_actions(
                     [
                         'use-system-font',
                         'bold-color-same-as-fg',
@@ -434,7 +396,7 @@ var PrefsWidget = GObject.registerClass(
             });
 
             Object.entries(this.settings_widgets).forEach(
-                args => this.setup_widget(...args)
+                args => this.rx.setup_widget(...args)
             );
 
             this.set_scale_value_format(this.show_animation_duration_scale, SECONDS_FORMAT);
@@ -443,7 +405,7 @@ var PrefsWidget = GObject.registerClass(
             this.set_scale_value_format(this.window_size_scale, PERCENT_FORMAT);
             this.set_scale_value_format(this.tab_label_width_scale, PERCENT_FORMAT);
 
-            const color_scheme_guard = recursion_guard();
+            const color_scheme_guard = prefsutil.recursion_guard();
 
             this.rx.subscribe(
                 rxjs.combineLatest(
@@ -463,8 +425,8 @@ var PrefsWidget = GObject.registerClass(
                 }
             );
 
-            const palette_guard = recursion_guard();
-            const palette_edit_guard = recursion_guard();
+            const palette_guard = prefsutil.recursion_guard();
+            const palette_edit_guard = prefsutil.recursion_guard();
             const palette_widgets = PALETTE_WIDGET_IDS.map(v => this[v]);
 
             this.rx.subscribe(
@@ -578,121 +540,6 @@ var PrefsWidget = GObject.registerClass(
                     }
                 }
             );
-        }
-
-        setup_bidi_binding(setting, object, property, editable) {
-            const circuit_breaker = recursion_guard();
-            const prop = rxutil.property(object, property);
-            const setting_obj = this.settings[setting];
-
-            this.rx.subscribe(
-                setting_obj.pipe(circuit_breaker),
-                prop
-            );
-
-            this.rx.subscribe(
-                prop.skip_initial.pipe(
-                    rxutil.enable_if(editable),
-                    circuit_breaker
-                ),
-                setting_obj
-            );
-        }
-
-        setting_editable(setting) {
-            const writable = this.settings[setting].writable;
-            const enable = this.settings.enable[setting];
-
-            return writable.pipe(
-                enable ? rxutil.enable_if(enable, rxjs.of(false)) : rxjs.identity
-            );
-        }
-
-        setup_widget(setting, widget) {
-            const editable = this.setting_editable(setting);
-
-            this.rx.subscribe(editable, rxutil.property(widget, 'sensitive'));
-
-            if (widget instanceof Gtk.ComboBox)
-                this.setup_bidi_binding(setting, widget, 'active-id', editable);
-
-            else if (widget instanceof Gtk.Range)
-                this.setup_bidi_binding(setting, widget.adjustment, 'value', editable);
-
-            else if (widget instanceof Gtk.SpinButton)
-                this.setup_bidi_binding(setting, widget.adjustment, 'value', editable);
-
-            else if (widget instanceof Gtk.Entry)
-                this.setup_bidi_binding(setting, widget, 'text', editable);
-
-            else if (widget instanceof Gtk.TextView)
-                this.setup_bidi_binding(setting, widget.buffer, 'text', editable);
-
-            else if (widget instanceof Gtk.CheckButton)
-                this.setup_bidi_binding(setting, widget, 'active', editable);
-
-            else if (widget instanceof Gtk.ColorChooser)
-                this.setup_bidi_binding(setting, widget, 'rgba', editable);
-
-            else if (widget instanceof Gtk.FontChooser)
-                this.setup_bidi_binding(setting, widget, 'font', editable);
-
-            else
-                throw new Error(`Widget ${widget} of unsupported type for setting ${setting}`);
-        }
-
-        make_action(setting, from_setting = rxjs.identity, to_setting = rxjs.identity) {
-            const packed = this.settings[setting].packed;
-            const initial_state = from_setting(packed.value);
-            const type = initial_state.get_type();
-
-            const action = Gio.SimpleAction.new_stateful(
-                setting,
-                type.equal(GVARIANT_BOOL) ? null : type,
-                initial_state
-            );
-
-            const editable = this.setting_editable(setting);
-
-            this.rx.subscribe(editable, rxutil.property(action, 'enabled'));
-
-            const circuit_breaker = recursion_guard();
-
-            this.rx.connect(action, 'change-state', (_, state) => {
-                circuit_breaker(() => {
-                    if (state.equal(action.state))
-                        return;
-
-                    const value = to_setting(state);
-
-                    if (packed.set_value(value))
-                        action.set_state(state);
-                });
-            });
-
-            this.rx.subscribe(
-                packed.skip_initial.pipe(
-                    circuit_breaker,
-                    rxjs.map(from_setting)
-                ),
-                value => {
-                    action.set_state(value);
-                }
-            );
-
-            return action;
-        }
-
-        make_actions(keys, from_setting = rxjs.identity, to_setting = rxjs.identity) {
-            const group = Gio.SimpleActionGroup.new();
-
-            for (const setting of keys) {
-                group.add_action(
-                    this.make_action(setting, from_setting, to_setting)
-                );
-            }
-
-            return group;
         }
 
         set_scale_value_format(scale, format) {

@@ -147,7 +147,7 @@ function disable_if(condition, disabled_override = rxjs.EMPTY) {
 
 /* exported enable_if disable_if */
 
-class Scope extends rxjs.Subscription {
+var Scope = class Scope extends rxjs.Subscription {
     constructor(obj, destroy_signal = null) {
         super();
 
@@ -174,10 +174,10 @@ class Scope extends rxjs.Subscription {
     connect_after(source, signal_name, handler) {
         return this.add(signal_connect_after(source, signal_name, handler));
     }
-}
+};
 
 function scope(obj, destroy_signal = null) {
     return new Scope(obj, destroy_signal);
 }
 
-/* exported scope */
+/* exported Scope scope */
