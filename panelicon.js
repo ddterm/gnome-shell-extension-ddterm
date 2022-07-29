@@ -25,12 +25,10 @@ const { GObject, Atk, Clutter, St } = imports.gi;
 const Main = imports.ui.main;
 const PanelMenu = imports.ui.panelMenu;
 const PopupMenu = imports.ui.popupMenu;
-const Gettext = imports.gettext;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const { ConnectionSet } = Me.imports.connectionset;
-
-const Domain = Gettext.domain(Me.metadata['gettext-domain']);
+const { translations } = Me.imports;
 
 const PanelIconBase = GObject.registerClass(
     {
@@ -67,7 +65,7 @@ const PanelIconPopupMenu = GObject.registerClass(
         _init() {
             super._init(false);
 
-            this.toggle_item = new PopupMenu.PopupSwitchMenuItem(Domain.gettext('Show'), false);
+            this.toggle_item = new PopupMenu.PopupSwitchMenuItem(translations.gettext('Show'), false);
             this.menu.addMenuItem(this.toggle_item);
             this.connections.connect(this.toggle_item, 'toggled', (_, value) => {
                 this.emit('toggle', value);
@@ -76,7 +74,7 @@ const PanelIconPopupMenu = GObject.registerClass(
                 this.notify('active');
             });
 
-            this.preferences_item = new PopupMenu.PopupMenuItem(Domain.gettext('Preferences...'));
+            this.preferences_item = new PopupMenu.PopupMenuItem(translations.gettext('Preferences...'));
             this.menu.addMenuItem(this.preferences_item);
             this.connections.connect(this.preferences_item, 'activate', () => {
                 this.emit('open-preferences');
