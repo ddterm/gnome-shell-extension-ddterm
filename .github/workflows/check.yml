@@ -117,7 +117,7 @@ jobs:
     - run: testspace --verbose "[${{ matrix.image }}]./test/junit.xml" "[${{ matrix.image }}]+./test/report.html"
       if: ${{ steps.setup_testspace.outcome == 'success' }}
       continue-on-error: true
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v3
       with:
         name: ${{ matrix.image }}
         path: |
