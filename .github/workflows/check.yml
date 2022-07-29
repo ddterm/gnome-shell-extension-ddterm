@@ -115,7 +115,7 @@ jobs:
     - run: tox --sitepackages -- --self-contained-html --junitxml=junit.xml --container-image "${{ env.IMAGE }}" -n 2 --screenshot-failing-only -v
       working-directory: test
     - run: testspace --verbose "[${{ matrix.image }}]./test/junit.xml" "[${{ matrix.image }}]+./test/report.html"
-      if: ${{ steps.setup_testspace.outcome == 'success' }}
+      if: ${{ always() && steps.setup_testspace.outcome == 'success' }}
       continue-on-error: true
     - uses: actions/upload-artifact@v3
       with:
