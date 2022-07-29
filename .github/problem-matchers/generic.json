@@ -4,7 +4,7 @@
             "owner": "generic",
             "pattern": [
                 {
-                    "regexp": "^([^\\s:]+):(\\d+)(?::(\\d+))?(?::\\s*|\\s+)(?:((?i)warning|error):?)?\\s*(.+)$",
+                    "regexp": "^([^\\s:]+):(\\d+)(?::(\\d+))?:?\\s+(?:((?i)warning|error):?)?\\s*(.+)$",
                     "file": 1,
                     "line": 2,
                     "column": 3,
@@ -17,7 +17,7 @@
             "owner": "generic-nolocation",
             "pattern": [
                 {
-                    "regexp": "^(?:([^\\s:]+)(?::\\s*|\\s+))?((?i)warning|error):?\\s*(.+)$",
+                    "regexp": "^(?:([^\\s:]+):?\\s+)?((?i)warning|error):?\\s*(.+)$",
                     "file": 1,
                     "severity": 2,
                     "message": 3
