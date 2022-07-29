@@ -98,9 +98,11 @@ jobs:
     - uses: actions/setup-node@v3
     - run: echo "::add-matcher::.github/problem-matchers/generic.json"
     - run: git config --global --replace-all safe.directory "$GITHUB_WORKSPACE"
-    - uses: testspace-com/setup-testspace@v1
+    - id: setup_testspace
+      uses: testspace-com/setup-testspace@v1
       with:
         domain: ${{ github.repository_owner }}
+      continue-on-error: true
     - run: npm ci
     - run: xvfb-run make test-deps
     - run: tox -vv --notest --sitepackages
@@ -112,7 +114,8 @@ jobs:
     - run: tox --sitepackages -- --self-contained-html --junitxml=junit.xml --container-image "${{ env.IMAGE }}" -n 2 --screenshot-failing-only -v
       working-directory: test
     - run: testspace --verbose "[${{ matrix.image }}]./test/junit.xml" "[${{ matrix.image }}]+./test/report.html"
-      if: always()
+      if: ${{ steps.setup_testspace.outcome == 'success' }}
+      continue-on-error: true
     - uses: actions/upload-artifact@v2
       with:
         name: ${{ matrix.image }}
