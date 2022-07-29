@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.38.2 
+
+Copyright (C) 2022 Aleksandr Mezin
+
+This file is part of ddterm GNOME Shell extension.
+
+ddterm GNOME Shell extension is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+ddterm GNOME Shell extension is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licenses/>.
+
+-->
+<interface domain="ddterm@amezin.github.com">
+  <requires lib="gtk+" version="3.24"/>
+  <!-- interface-license-type gplv3 -->
+  <!-- interface-name ddterm GNOME Shell extension -->
+  <!-- interface-copyright 2022 Aleksandr Mezin -->
+  <!-- n-columns=2 n-rows=9 -->
+  <template class="DDTermPrefsBehavior" parent="GtkGrid">
+    <property name="visible">True</property>
+    <property name="can-focus">False</property>
+    <property name="margin-start">10</property>
+    <property name="margin-end">10</property>
+    <property name="margin-top">10</property>
+    <property name="margin-bottom">10</property>
+    <property name="row-spacing">10</property>
+    <property name="column-spacing">10</property>
+    <child>
+      <object class="GtkCheckButton">
+        <property name="label" translatable="yes">_Resizable</property>
+        <property name="visible">True</property>
+        <property name="can-focus">True</property>
+        <property name="receives-default">False</property>
+        <property name="action-name">settings.window-resizable</property>
+        <property name="use-underline">True</property>
+        <property name="draw-indicator">True</property>
+      </object>
+      <packing>
+        <property name="left-attach">0</property>
+        <property name="top-attach">0</property>
+        <property name="width">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkCheckButton" id="window_above_check">
+        <property name="label" translatable="yes">_Above all windows</property>
+        <property name="visible">True</property>
+        <property name="can-focus">True</property>
+        <property name="receives-default">False</property>
+        <property name="action-name">settings.window-above</property>
+        <property name="use-underline">True</property>
+        <property name="draw-indicator">True</property>
+      </object>
+      <packing>
+        <property name="left-attach">0</property>
+        <property name="top-attach">1</property>
+        <property name="width">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkCheckButton" id="window_stick_check">
+        <property name="label" translatable="yes">On all _workspaces</property>
+        <property name="visible">True</property>
+        <property name="can-focus">True</property>
+        <property name="receives-default">False</property>
+        <property name="action-name">settings.window-stick</property>
+        <property name="use-underline">True</property>
+        <property name="draw-indicator">True</property>
+      </object>
+      <packing>
+        <property name="left-attach">0</property>
+        <property name="top-attach">2</property>
+        <property name="width">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkCheckButton" id="hide_when_focus_lost_check">
+        <property name="label" translatable="yes">Hide when the application loses _focus</property>
+        <property name="visible">True</property>
+        <property name="can-focus">True</property>
+        <property name="receives-default">False</property>
+        <property name="action-name">settings.hide-when-focus-lost</property>
+        <property name="use-underline">True</property>
+        <property name="draw-indicator">True</property>
+      </object>
+      <packing>
+        <property name="left-attach">0</property>
+        <property name="top-attach">3</property>
+        <property name="width">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkCheckButton" id="hide_window_on_esc_check">
+        <property name="label" translatable="yes">Hide when _Esc key is pressed</property>
+        <property name="visible">True</property>
+        <property name="can-focus">True</property>
+        <property name="receives-default">False</property>
+        <property name="action-name">settings.hide-window-on-esc</property>
+        <property name="use-underline">True</property>
+        <property name="draw-indicator">True</property>
+      </object>
+      <packing>
+        <property name="left-attach">0</property>
+        <property name="top-attach">4</property>
+        <property name="width">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkCheckButton" id="window_skip_taskbar_check">
+        <property name="label" translatable="yes">Exclude from _overview/task bar</property>
+        <property name="visible">True</property>
+        <property name="can-focus">True</property>
+        <property name="receives-default">False</property>
+        <property name="action-name">settings.window-skip-taskbar</property>
+        <property name="use-underline">True</property>
+        <property name="draw-indicator">True</property>
+      </object>
+      <packing>
+        <property name="left-attach">0</property>
+        <property name="top-attach">5</property>
+        <property name="width">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkCheckButton" id="pointer_autohide_check">
+        <property name="label" translatable="yes">Hide mouse _pointer when typing</property>
+        <property name="visible">True</property>
+        <property name="can-focus">True</property>
+        <property name="receives-default">False</property>
+        <property name="action-name">settings.pointer-autohide</property>
+        <property name="use-underline">True</property>
+        <property name="draw-indicator">True</property>
+      </object>
+      <packing>
+        <property name="left-attach">0</property>
+        <property name="top-attach">6</property>
+        <property name="width">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkCheckButton" id="force_gdk_x11_check">
+        <property name="label" translatable="yes">Force _X11 GDK backend (XWayland).
+You'll have to close all tabs for this option to take effect.</property>
+        <property name="visible">True</property>
+        <property name="can-focus">True</property>
+        <property name="receives-default">False</property>
+        <property name="action-name">settings.force-x11-gdk-backend</property>
+        <property name="use-underline">True</property>
+        <property name="draw-indicator">True</property>
+      </object>
+      <packing>
+        <property name="left-attach">0</property>
+        <property name="top-attach">7</property>
+        <property name="width">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel">
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <property name="halign">start</property>
+        <property name="label" translatable="yes">Window type _hint (X11 only):</property>
+        <property name="use-underline">True</property>
+        <property name="mnemonic-widget">window_type_hint_combo</property>
+      </object>
+      <packing>
+        <property name="left-attach">0</property>
+        <property name="top-attach">8</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkComboBoxText" id="window_type_hint_combo">
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <property name="hexpand">True</property>
+        <items>
+          <item id="normal" translatable="yes">Normal</item>
+          <item id="dialog" translatable="yes">Dialog</item>
+          <item id="splashscreen" translatable="yes">Splash screen</item>
+          <item id="utility" translatable="yes">Utility</item>
+          <item id="dock" translatable="yes">Dock</item>
+          <item id="dropdown-menu" translatable="yes">Dropdown menu</item>
+          <item id="menu" translatable="yes">Menu</item>
+          <item id="toolbar" translatable="yes">Toolbar</item>
+          <item id="popup-menu" translatable="yes">Popup menu</item>
+          <item id="tooltip" translatable="yes">Tooltip</item>
+          <item id="notification" translatable="yes">Notification</item>
+          <item id="combo" translatable="yes">Combo</item>
+        </items>
+      </object>
+      <packing>
+        <property name="left-attach">1</property>
+        <property name="top-attach">8</property>
+      </packing>
+    </child>
+  </template>
+</interface>

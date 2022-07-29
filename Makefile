@@ -64,7 +64,7 @@ GLADE_UI := $(wildcard glade/*.ui)
 UI_SRC_PATTERN := glade/%.ui
 TRANSLATABLE_SOURCES += $(GLADE_UI)
 
-GTK_MULTI_VERSION_UI := glade/prefs.ui
+GTK_MULTI_VERSION_UI := glade/prefs.ui $(wildcard glade/prefs-*.ui)
 
 GTK3_ONLY_UI_SRC := $(filter-out $(GTK_MULTI_VERSION_UI),$(GLADE_UI))
 GTK3_ONLY_UI_DST_PATTERN := %.ui

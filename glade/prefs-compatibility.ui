@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.38.2 
+
+Copyright (C) 2022 Aleksandr Mezin
+
+This file is part of ddterm GNOME Shell extension.
+
+ddterm GNOME Shell extension is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+ddterm GNOME Shell extension is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licenses/>.
+
+-->
+<interface domain="ddterm@amezin.github.com">
+  <requires lib="gtk+" version="3.24"/>
+  <!-- interface-license-type gplv3 -->
+  <!-- interface-name ddterm GNOME Shell extension -->
+  <!-- interface-copyright 2022 Aleksandr Mezin -->
+  <object class="GtkListStore" id="erase_binding_list">
+    <columns>
+      <!-- column-name label -->
+      <column type="gchararray"/>
+      <!-- column-name id -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">Automatic</col>
+        <col id="1">auto</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Control-H</col>
+        <col id="1">ascii-backspace</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">ASCII DEL</col>
+        <col id="1">ascii-delete</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Escape sequence</col>
+        <col id="1">delete-sequence</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">TTY Erase</col>
+        <col id="1">tty</col>
+      </row>
+    </data>
+  </object>
+  <!-- n-columns=2 n-rows=4 -->
+  <template class="DDTermPrefsCompatibility" parent="GtkGrid">
+    <property name="visible">True</property>
+    <property name="can-focus">False</property>
+    <property name="margin-start">10</property>
+    <property name="margin-end">10</property>
+    <property name="margin-top">10</property>
+    <property name="margin-bottom">10</property>
+    <property name="row-spacing">10</property>
+    <property name="column-spacing">10</property>
+    <child>
+      <object class="GtkLabel">
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <property name="halign">start</property>
+        <property name="label" translatable="yes">_Backspace key generates:</property>
+        <property name="use-underline">True</property>
+        <property name="mnemonic-widget">backspace_binding_combo</property>
+      </object>
+      <packing>
+        <property name="left-attach">0</property>
+        <property name="top-attach">0</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel">
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <property name="halign">start</property>
+        <property name="label" translatable="yes">_Delete key generates:</property>
+        <property name="use-underline">True</property>
+        <property name="mnemonic-widget">delete_binding_combo</property>
+      </object>
+      <packing>
+        <property name="left-attach">0</property>
+        <property name="top-attach">1</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel">
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <property name="halign">start</property>
+        <property name="label" translatable="yes">Ambiguous-_width characters:</property>
+        <property name="use-underline">True</property>
+        <property name="mnemonic-widget">ambiguous_width_combo</property>
+      </object>
+      <packing>
+        <property name="left-attach">0</property>
+        <property name="top-attach">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkComboBox" id="backspace_binding_combo">
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <property name="hexpand">True</property>
+        <property name="model">erase_binding_list</property>
+        <property name="id-column">1</property>
+        <child>
+          <object class="GtkCellRendererText"/>
+          <attributes>
+            <attribute name="text">0</attribute>
+          </attributes>
+        </child>
+      </object>
+      <packing>
+        <property name="left-attach">1</property>
+        <property name="top-attach">0</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkComboBox" id="delete_binding_combo">
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <property name="hexpand">True</property>
+        <property name="model">erase_binding_list</property>
+        <property name="id-column">1</property>
+        <child>
+          <object class="GtkCellRendererText"/>
+          <attributes>
+            <attribute name="text">0</attribute>
+          </attributes>
+        </child>
+      </object>
+      <packing>
+        <property name="left-attach">1</property>
+        <property name="top-attach">1</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkComboBoxText" id="ambiguous_width_combo">
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <property name="hexpand">True</property>
+        <items>
+          <item id="narrow" translatable="yes">Narrow</item>
+          <item id="wide" translatable="yes">Wide</item>
+        </items>
+      </object>
+      <packing>
+        <property name="left-attach">1</property>
+        <property name="top-attach">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkButton">
+        <property name="label" translatable="yes">_Reset Compatibility Options to Defaults</property>
+        <property name="visible">True</property>
+        <property name="can-focus">True</property>
+        <property name="receives-default">True</property>
+        <property name="action-name">aux.reset-compatibility-options</property>
+        <property name="use-underline">True</property>
+      </object>
+      <packing>
+        <property name="left-attach">0</property>
+        <property name="top-attach">3</property>
+        <property name="width">2</property>
+      </packing>
+    </child>
+  </template>
+</interface>

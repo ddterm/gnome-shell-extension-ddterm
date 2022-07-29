@@ -64,6 +64,18 @@ function recursion_guard() {
 
 /* exported recursion_guard */
 
+const PERCENT_FORMAT = new Intl.NumberFormat(undefined, { style: 'percent' });
+
+function percent_formatter(_, value) {
+    return PERCENT_FORMAT.format(value);
+}
+
+/* exported percent_formatter */
+
+function invert_bool_variant(v) {
+    return GLib.Variant.new_boolean(!v.unpack());
+}
+
 var Scope = class Scope extends rxutil.Scope {
     // eslint-disable-next-line no-shadow
     constructor(obj, settings, destroy_signal = null) {
@@ -133,6 +145,12 @@ var Scope = class Scope extends rxutil.Scope {
             throw new Error(`Widget ${widget} of unsupported type for setting ${setting}`);
     }
 
+    setup_widgets(mapping) {
+        Object.entries(mapping).forEach(
+            args => this.setup_widget(...args)
+        );
+    }
+
     make_action(setting, from_setting = rxjs.identity, to_setting = rxjs.identity) {
         const packed = this.settings[setting].packed;
         const initial_state = from_setting(packed.value);
@@ -183,6 +201,33 @@ var Scope = class Scope extends rxutil.Scope {
                 this.make_action(setting, from_setting, to_setting)
             );
         }
+
+        return group;
+    }
+
+    make_inverse_actions(keys) {
+        return this.make_actions(keys, invert_bool_variant, invert_bool_variant);
+    }
+
+    set_scale_value_formatter(scale, formatter) {
+        if (scale.set_format_value_func)
+            scale.set_format_value_func(formatter);
+        else
+            this.connect(scale, 'format-value', formatter);
+    }
+
+    make_simple_action(name, fn) {
+        const action = new Gio.SimpleAction({ name });
+        this.connect(action, 'activate', fn);
+        return action;
+    }
+
+    make_simple_actions(mapping) {
+        const group = Gio.SimpleActionGroup.new();
+
+        Object.entries(mapping).forEach(args => {
+            group.add_action(this.make_simple_action(...args));
+        });
 
         return group;
     }
