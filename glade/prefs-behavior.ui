@@ -180,7 +180,7 @@ You'll have to close all tabs for this option to take effect.</property>
     <child>
       <object class="GtkComboBoxText" id="window_type_hint_combo">
         <property name="visible">True</property>
-        <property name="can-focus">False</property>
+        <property name="can-focus">True</property>
         <property name="hexpand">True</property>
         <items>
           <item id="normal" translatable="yes">Normal</item>

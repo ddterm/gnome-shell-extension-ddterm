@@ -124,7 +124,7 @@ along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licens
     <child>
       <object class="GtkComboBoxText" id="tab_policy_combo">
         <property name="visible">True</property>
-        <property name="can-focus">False</property>
+        <property name="can-focus">True</property>
         <property name="hexpand">True</property>
         <items>
           <item id="always" translatable="yes">Always</item>
@@ -260,7 +260,7 @@ Following helpers are available:
     <child>
       <object class="GtkComboBoxText" id="tab_position_combo">
         <property name="visible">True</property>
-        <property name="can-focus">False</property>
+        <property name="can-focus">True</property>
         <property name="hexpand">True</property>
         <items>
           <item id="bottom" translatable="yes">Bottom</item>
@@ -334,7 +334,7 @@ Following helpers are available:
     <child>
       <object class="GtkComboBoxText" id="tab_label_ellipsize_combo">
         <property name="visible">True</property>
-        <property name="can-focus">False</property>
+        <property name="can-focus">True</property>
         <property name="hexpand">True</property>
         <items>
           <item id="none" translatable="yes">None</item>

@@ -235,7 +235,7 @@ along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licens
         <child>
           <object class="GtkComboBox" id="show_animation_combo">
             <property name="visible">True</property>
-            <property name="can-focus">False</property>
+            <property name="can-focus">True</property>
             <property name="hexpand">True</property>
             <property name="model">animation_mode_list</property>
             <property name="id-column">1</property>
@@ -254,7 +254,7 @@ along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licens
         <child>
           <object class="GtkComboBox" id="hide_animation_combo">
             <property name="visible">True</property>
-            <property name="can-focus">False</property>
+            <property name="can-focus">True</property>
             <property name="hexpand">True</property>
             <property name="model">animation_mode_list</property>
             <property name="id-column">1</property>
