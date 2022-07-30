@@ -85,7 +85,7 @@ along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licens
     <child>
       <object class="GtkComboBoxText" id="window_pos_combo">
         <property name="visible">True</property>
-        <property name="can-focus">False</property>
+        <property name="can-focus">True</property>
         <property name="hexpand">True</property>
         <items>
           <item id="top" translatable="yes">Top</item>
@@ -178,7 +178,7 @@ along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licens
         <child>
           <object class="GtkComboBoxText" id="monitor_combo">
             <property name="visible">True</property>
-            <property name="can-focus">False</property>
+            <property name="can-focus">True</property>
           </object>
           <packing>
             <property name="expand">False</property>
