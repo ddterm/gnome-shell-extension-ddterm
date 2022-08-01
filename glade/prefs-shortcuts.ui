@@ -24,6 +24,118 @@ along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licens
   <!-- interface-license-type gplv3 -->
   <!-- interface-name ddterm GNOME Shell extension -->
   <!-- interface-copyright 2022 Aleksandr Mezin -->
+  <template class="DDTermPrefsShortcuts" parent="GtkBox">
+    <property name="visible">True</property>
+    <property name="can-focus">False</property>
+    <property name="margin-start">10</property>
+    <property name="margin-end">10</property>
+    <property name="margin-top">10</property>
+    <property name="margin-bottom">10</property>
+    <property name="orientation">vertical</property>
+    <property name="spacing">10</property>
+    <child>
+      <object class="GtkTreeView">
+        <property name="visible">True</property>
+        <property name="can-focus">True</property>
+        <property name="model">global_shortcuts_list</property>
+        <property name="search-column">0</property>
+        <child internal-child="selection">
+          <object class="GtkTreeSelection"/>
+        </child>
+        <child>
+          <object class="GtkTreeViewColumn">
+            <property name="resizable">True</property>
+            <property name="title" translatable="yes">Global Action</property>
+            <child>
+              <object class="GtkCellRendererText"/>
+              <attributes>
+                <attribute name="text">1</attribute>
+              </attributes>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="GtkTreeViewColumn">
+            <property name="resizable">True</property>
+            <property name="title" translatable="yes">Global Shortcut</property>
+            <child>
+              <object class="GtkCellRendererAccel" id="global_accel_renderer">
+                <property name="editable">True</property>
+              </object>
+              <attributes>
+                <attribute name="accel-key">2</attribute>
+                <attribute name="accel-mods">3</attribute>
+              </attributes>
+            </child>
+          </object>
+        </child>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="position">0</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkCheckButton" id="enable_shortcuts_check">
+        <property name="label" translatable="yes">_Enable application shortcuts</property>
+        <property name="visible">True</property>
+        <property name="can-focus">True</property>
+        <property name="receives-default">False</property>
+        <property name="action-name">settings.shortcuts-enabled</property>
+        <property name="use-underline">True</property>
+        <property name="draw-indicator">True</property>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="position">1</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkTreeView" id="shortcuts_treeview">
+        <property name="visible">True</property>
+        <property name="can-focus">True</property>
+        <property name="model">shortcuts_list</property>
+        <property name="search-column">0</property>
+        <child internal-child="selection">
+          <object class="GtkTreeSelection"/>
+        </child>
+        <child>
+          <object class="GtkTreeViewColumn">
+            <property name="resizable">True</property>
+            <property name="title" translatable="yes">Action</property>
+            <child>
+              <object class="GtkCellRendererText"/>
+              <attributes>
+                <attribute name="text">1</attribute>
+              </attributes>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="GtkTreeViewColumn">
+            <property name="resizable">True</property>
+            <property name="title" translatable="yes">Shortcut</property>
+            <child>
+              <object class="GtkCellRendererAccel" id="accel_renderer">
+                <property name="editable">True</property>
+              </object>
+              <attributes>
+                <attribute name="accel-key">2</attribute>
+                <attribute name="accel-mods">3</attribute>
+              </attributes>
+            </child>
+          </object>
+        </child>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="position">2</property>
+      </packing>
+    </child>
+  </template>
   <object class="GtkListStore" id="global_shortcuts_list">
     <columns>
       <!-- column-name action -->
@@ -286,130 +398,4 @@ along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licens
       </row>
     </data>
   </object>
-  <template class="DDTermPrefsShortcuts" parent="GtkBox">
-    <property name="visible">True</property>
-    <property name="can-focus">False</property>
-    <property name="margin-start">10</property>
-    <property name="margin-end">10</property>
-    <property name="margin-top">10</property>
-    <property name="margin-bottom">10</property>
-    <property name="orientation">vertical</property>
-    <property name="spacing">10</property>
-    <child>
-      <object class="GtkScrolledWindow">
-        <property name="visible">True</property>
-        <property name="can-focus">True</property>
-        <property name="shadow-type">in</property>
-        <child>
-          <object class="GtkTreeView">
-            <property name="visible">True</property>
-            <property name="can-focus">True</property>
-            <property name="model">global_shortcuts_list</property>
-            <property name="search-column">0</property>
-            <child internal-child="selection">
-              <object class="GtkTreeSelection"/>
-            </child>
-            <child>
-              <object class="GtkTreeViewColumn">
-                <property name="resizable">True</property>
-                <property name="title" translatable="yes">Global Action</property>
-                <child>
-                  <object class="GtkCellRendererText"/>
-                  <attributes>
-                    <attribute name="text">1</attribute>
-                  </attributes>
-                </child>
-              </object>
-            </child>
-            <child>
-              <object class="GtkTreeViewColumn">
-                <property name="resizable">True</property>
-                <property name="title" translatable="yes">Global Shortcut</property>
-                <child>
-                  <object class="GtkCellRendererAccel" id="global_accel_renderer">
-                    <property name="editable">True</property>
-                  </object>
-                  <attributes>
-                    <attribute name="accel-key">2</attribute>
-                    <attribute name="accel-mods">3</attribute>
-                  </attributes>
-                </child>
-              </object>
-            </child>
-          </object>
-        </child>
-      </object>
-      <packing>
-        <property name="expand">False</property>
-        <property name="fill">True</property>
-        <property name="position">0</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkCheckButton" id="enable_shortcuts_check">
-        <property name="label" translatable="yes">_Enable application shortcuts</property>
-        <property name="visible">True</property>
-        <property name="can-focus">True</property>
-        <property name="receives-default">False</property>
-        <property name="action-name">settings.shortcuts-enabled</property>
-        <property name="use-underline">True</property>
-        <property name="draw-indicator">True</property>
-      </object>
-      <packing>
-        <property name="expand">False</property>
-        <property name="fill">True</property>
-        <property name="position">1</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkScrolledWindow">
-        <property name="visible">True</property>
-        <property name="can-focus">True</property>
-        <property name="shadow-type">in</property>
-        <child>
-          <object class="GtkTreeView" id="shortcuts_treeview">
-            <property name="visible">True</property>
-            <property name="can-focus">True</property>
-            <property name="model">shortcuts_list</property>
-            <child internal-child="selection">
-              <object class="GtkTreeSelection"/>
-            </child>
-            <child>
-              <object class="GtkTreeViewColumn">
-                <property name="resizable">True</property>
-                <property name="title" translatable="yes">Action</property>
-                <child>
-                  <object class="GtkCellRendererText"/>
-                  <attributes>
-                    <attribute name="text">1</attribute>
-                  </attributes>
-                </child>
-              </object>
-            </child>
-            <child>
-              <object class="GtkTreeViewColumn">
-                <property name="resizable">True</property>
-                <property name="title" translatable="yes">Shortcut</property>
-                <child>
-                  <object class="GtkCellRendererAccel" id="accel_renderer">
-                    <property name="editable">True</property>
-                  </object>
-                  <attributes>
-                    <attribute name="accel-key">2</attribute>
-                    <attribute name="accel-mods">3</attribute>
-                  </attributes>
-                </child>
-              </object>
-            </child>
-          </object>
-        </child>
-      </object>
-      <packing>
-        <property name="expand">True</property>
-        <property name="fill">True</property>
-        <property name="pack-type">end</property>
-        <property name="position">2</property>
-      </packing>
-    </child>
-  </template>
 </interface>
