@@ -73,8 +73,5 @@ function buildPrefsWidget() {
         }),
     });
 
-    if (imports.misc.config.PACKAGE_VERSION.split('.')[0] >= 42)
-        widget.stack.vhomogeneous = false;
-
     return widget;
 }
