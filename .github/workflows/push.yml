@@ -23,7 +23,7 @@ jobs:
           });
 
           if (pulls.data.length > 0) {
-            console.log(`Found active pull requests: ${JSON.stringify(pulls.data)}`);
+            console.log(`Found active pull requests: ${JSON.stringify(pulls.data, null, '  ')}`);
             return true;
           }
 
