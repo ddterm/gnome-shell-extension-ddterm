@@ -6,7 +6,7 @@
         "rxjs": "^7.5.5"
     },
     "devDependencies": {
-        "eslint": "^8.15.0",
+        "eslint": "^8.21.0",
         "eslint-plugin-jsdoc": "^39.3.4"
     }
 }
