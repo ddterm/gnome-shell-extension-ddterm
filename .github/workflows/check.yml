@@ -34,6 +34,9 @@ jobs:
     - run: make locales
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
+    - run: xvfb-run make test-deps
+      if: ${{ always() && steps.checkout.conclusion == 'success' }}
+
     - run: xvfb-run make gtk-builder-validate
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
