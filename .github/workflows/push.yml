@@ -3,8 +3,36 @@ name: push
 on:
   push:
     branches:
-      - master
+      - "**"
+    tags-ignore:
+      - v*
 
 jobs:
+  find-pr:
+    runs-on: ubuntu-latest
+    steps:
+    - id: find
+      uses: actions/github-script@v6
+      with:
+        debug: true
+        script: |
+          const pulls = await github.rest.pulls.list({
+            ...context.repo,
+            state: "open",
+            head: `${context.repo.owner}:${context.payload.ref}`
+          });
+
+          if (pulls.data.length > 0) {
+            console.log(`Found active pull requests: ${JSON.stringify(pulls.data)}`);
+            return true;
+          }
+
+          return false;
+
+    outputs:
+      found: ${{ steps.find.outputs.result }}
+
   ci:
+    needs: find-pr
+    if: ${{ !fromJSON(needs.find-pr.outputs.found) }}
     uses: ./.github/workflows/common.yml
