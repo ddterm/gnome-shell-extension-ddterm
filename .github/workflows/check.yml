@@ -16,50 +16,29 @@ jobs:
       image: ghcr.io/ddterm/ci-docker-image:master
 
     steps:
-    - uses: actions/checkout@v3
+    - id: checkout
+      uses: actions/checkout@v3
+
     - uses: actions/setup-node@v3
+
     - run: npm ci
+
     - run: make lint
 
-  schemas:
-    runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/ddterm/ci-docker-image:master
-
-    steps:
-    - uses: actions/checkout@v3
     - run: echo "::add-matcher::.github/problem-matchers/generic.json"
+      if: ${{ always() && steps.checkout.conclusion == 'success' }}
+
     - run: make schemas
+      if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
-  locales:
-    runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/ddterm/ci-docker-image:master
-
-    steps:
-    - uses: actions/checkout@v3
-    - run: echo "::add-matcher::.github/problem-matchers/generic.json"
     - run: make locales
+      if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
-  gtk-builder-validate:
-    runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/ddterm/ci-docker-image:master
-
-    steps:
-    - uses: actions/checkout@v3
-    - run: echo "::add-matcher::.github/problem-matchers/generic.json"
     - run: xvfb-run make gtk-builder-validate
+      if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
-  msgcmp:
-    runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/ddterm/ci-docker-image:master
-
-    steps:
-    - uses: actions/checkout@v3
-    - run: echo "::add-matcher::.github/problem-matchers/generic.json"
     - run: make msgcmp
+      if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
   build:
     uses: ./.github/workflows/pack-reusable.yml
@@ -67,10 +46,6 @@ jobs:
   test:
     needs:
     - lint
-    - schemas
-    - locales
-    - gtk-builder-validate
-    - msgcmp
 
     runs-on: ubuntu-22.04
     container:
