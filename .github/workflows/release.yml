@@ -6,18 +6,19 @@ on:
       - v*
 
 jobs:
-  build:
-    uses: ./.github/workflows/pack-reusable.yml
+  ci:
+    uses: ./.github/workflows/common.yml
 
   draft:
-    needs: build
+    needs: ci
+    if: always()
     runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
     - uses: actions/download-artifact@v3
       with:
-        name: ${{ needs.build.outputs.artifact }}
+        name: pack
     - uses: softprops/action-gh-release@v1
       with:
         files: "*.shell-extension.zip"

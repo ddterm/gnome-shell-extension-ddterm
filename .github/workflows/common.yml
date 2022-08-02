@@ -1,13 +1,8 @@
-name: check
-
 concurrency: ${{ github.workflow }}/${{ github.ref }}
 
 on:
-  push:
-    branches:
-      - master
-  pull_request:
   workflow_dispatch:
+  workflow_call:
 
 jobs:
   lint:
@@ -43,12 +38,28 @@ jobs:
     - run: make msgcmp
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
-  build:
-    uses: ./.github/workflows/pack-reusable.yml
+  pack:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/ddterm/ci-docker-image:master
+
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+    - run: echo "::add-matcher::.github/problem-matchers/generic.json"
+    - run: npm ci
+    - run: xvfb-run make pack
+    - id: upload
+      uses: actions/upload-artifact@v3
+      with:
+        name: pack
+        path: "*.shell-extension.zip"
+        if-no-files-found: error
 
   test:
     needs:
     - lint
+    - pack
 
     runs-on: ubuntu-22.04
     container:
