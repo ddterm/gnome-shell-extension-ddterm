@@ -3,7 +3,7 @@ pytest-xdist~=2.5.0
 pytest-html~=3.1.1
 ansi2html~=1.8.0
 PyGObject
-Wand~=0.6.8
+Wand~=0.6.9
 pytest-rerunfailures~=10.2
 filelock~=3.7.1
 allpairspy~=2.5.0
