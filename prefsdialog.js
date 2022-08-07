@@ -40,9 +40,16 @@ var PrefsDialog = GObject.registerClass(
             this.set_default_size(640, 576);
             this.set_icon_name('preferences-system');
 
-            this.get_content_area().add(new PrefsWidget({
+            const widget = new PrefsWidget({
                 settings: this.settings,
-            }));
+            });
+
+            const content_area = this.get_content_area();
+
+            if (content_area.append)
+                content_area.append(widget);
+            else
+                content_area.pack_start(widget, true, true, 0);
         }
     }
 );
