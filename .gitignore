@@ -5,8 +5,6 @@
 /tmp/
 
 /appwindow.ui
-/prefs-gtk3.ui
-/prefs-gtk4.ui
 /prefs-*-gtk3.ui
 /prefs-*-gtk4.ui
 /terminalpage.ui
