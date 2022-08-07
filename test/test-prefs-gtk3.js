@@ -23,7 +23,7 @@ imports.gi.versions.Gdk = '3.0';
 imports.gi.versions.Gtk = '3.0';
 
 const System = imports.system;
-const { GObject, Gio, Gtk } = imports.gi;
+const { Gio } = imports.gi;
 
 const APP_DATA_DIR = Gio.File.new_for_commandline_arg(System.programInvocationName).get_parent().get_parent();
 
@@ -33,45 +33,5 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 
 Me.dir = APP_DATA_DIR;
 
-const { prefsdialog, settings } = imports;
-
-const Application = GObject.registerClass(
-    class Application extends Gtk.Application {
-        _init(params) {
-            super._init(params);
-
-            this.connect('startup', this.startup.bind(this));
-            this.connect('activate', this.activate.bind(this));
-        }
-
-        startup() {
-            const settings_source = Gio.SettingsSchemaSource.new_from_directory(
-                APP_DATA_DIR.get_child('schemas').get_path(),
-                Gio.SettingsSchemaSource.get_default(),
-                false
-            );
-
-            this.settings = new settings.Settings({
-                gsettings: new Gio.Settings({
-                    settings_schema: settings_source.lookup('com.github.amezin.ddterm', true),
-                }),
-            });
-        }
-
-        activate() {
-            this.preferences();
-        }
-
-        preferences() {
-            const prefs_dialog = new prefsdialog.PrefsDialog({
-                settings: this.settings,
-                application: this,
-            });
-
-            prefs_dialog.show();
-        }
-    }
-);
-
-const app = new Application();
+const app = new Me.imports.test.test_prefs_common.Application();
 app.run([System.programInvocationName].concat(ARGV));
