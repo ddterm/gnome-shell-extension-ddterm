@@ -19,7 +19,7 @@
 
 'use strict';
 
-const { GObject } = imports.gi;
+const { GObject, Gio } = imports.gi;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const { rxjs } = Me.imports.rxjs;
@@ -173,6 +173,22 @@ var Scope = class Scope extends rxjs.Subscription {
 
     connect_after(source, signal_name, handler) {
         return this.add(signal_connect_after(source, signal_name, handler));
+    }
+
+    make_simple_action(name, fn) {
+        const action = new Gio.SimpleAction({ name });
+        this.connect(action, 'activate', fn);
+        return action;
+    }
+
+    make_simple_actions(mapping) {
+        const group = Gio.SimpleActionGroup.new();
+
+        Object.entries(mapping).forEach(args => {
+            group.add_action(this.make_simple_action(...args));
+        });
+
+        return group;
     }
 };
 

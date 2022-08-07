@@ -215,22 +215,6 @@ var Scope = class Scope extends rxutil.Scope {
         else
             this.connect(scale, 'format-value', formatter);
     }
-
-    make_simple_action(name, fn) {
-        const action = new Gio.SimpleAction({ name });
-        this.connect(action, 'activate', fn);
-        return action;
-    }
-
-    make_simple_actions(mapping) {
-        const group = Gio.SimpleActionGroup.new();
-
-        Object.entries(mapping).forEach(args => {
-            group.add_action(this.make_simple_action(...args));
-        });
-
-        return group;
-    }
 };
 
 // eslint-disable-next-line no-shadow

@@ -371,7 +371,7 @@ var TerminalPage = GObject.registerClass(
             this.terminal_popup_menu = this.setup_popup_menu(this.terminal, 'terminal-popup');
             this.setup_popup_menu(this.tab_label, 'tab-popup');
 
-            const actions = this.make_action_group({
+            const actions = this.rx.make_simple_actions({
                 'close': () => this.emit('close-request'),
                 'new-tab-before': () => this.emit('new-tab-before-request'),
                 'new-tab-after': () => this.emit('new-tab-after-request'),
@@ -382,7 +382,7 @@ var TerminalPage = GObject.registerClass(
             this.insert_action_group('page', actions);
             this.tab_label.insert_action_group('page', actions);
 
-            const terminal_actions = this.make_action_group({
+            const terminal_actions = this.rx.make_simple_actions({
                 'copy': this.copy.bind(this),
                 'copy-html': this.copy_html.bind(this),
                 'open-hyperlink': this.open_hyperlink.bind(this),
@@ -485,18 +485,6 @@ var TerminalPage = GObject.registerClass(
             const subject = new rxjs.BehaviorSubject(value);
             this.rx.destroy_signal.subscribe(() => subject.complete());
             return subject;
-        }
-
-        make_action_group(actions) {
-            const group = new Gio.SimpleActionGroup();
-
-            for (const [name, callback] of Object.entries(actions)) {
-                const action = new Gio.SimpleAction({ name });
-                this.rx.connect(action, 'activate', callback);
-                group.add_action(action);
-            }
-
-            return group;
         }
 
         get_cwd() {
