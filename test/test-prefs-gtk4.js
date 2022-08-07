@@ -33,24 +33,7 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 
 Me.dir = APP_DATA_DIR;
 
-const { prefs, settings } = imports;
-
-var PrefsDialog = GObject.registerClass(
-    {
-        Properties: {
-            settings: GObject.ParamSpec.object('settings', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, settings.Settings),
-        },
-    },
-    class PrefsDialog extends Gtk.Window {
-        _init(params) {
-            super._init(params);
-
-            this.set_child(new prefs.PrefsWidget({
-                settings: this.settings,
-            }));
-        }
-    }
-);
+const { prefsdialog, settings } = imports;
 
 const Application = GObject.registerClass(
     class Application extends Gtk.Application {
@@ -80,7 +63,7 @@ const Application = GObject.registerClass(
         }
 
         preferences() {
-            const prefs_dialog = new PrefsDialog({
+            const prefs_dialog = new prefsdialog.PrefsDialog({
                 settings: this.settings,
                 application: this,
             });
