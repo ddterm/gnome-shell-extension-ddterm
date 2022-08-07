@@ -176,11 +176,8 @@ var AppWindow = GObject.registerClass(
                 },
             };
 
-            Object.entries(actions).forEach(([name, func]) => {
-                const action = new Gio.SimpleAction({ name });
-                this.rx.connect(action, 'activate', func);
-                this.add_action(action);
-            });
+            for (const [name, func] of Object.entries(actions))
+                this.add_action(this.rx.make_simple_action(name, func));
 
             this.tab_select_action = new Gio.PropertyAction({
                 name: 'switch-to-tab',

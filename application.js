@@ -102,11 +102,8 @@ const Application = GObject.registerClass(
                 'preferences': () => this.preferences(),
             };
 
-            for (const [name, func] of Object.entries(actions)) {
-                const action = new Gio.SimpleAction({ name });
-                this.rx.connect(action, 'activate', func);
-                this.add_action(action);
-            }
+            for (const [name, func] of Object.entries(actions))
+                this.add_action(this.rx.make_simple_action(name, func));
 
             const settings_source = Gio.SettingsSchemaSource.new_from_directory(
                 APP_DATA_DIR.get_child('schemas').get_path(),
