@@ -1,0 +1,26 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:base",
+    ":maintainLockFilesWeekly"
+  ],
+  "ignorePaths": [],
+  "dockerfile": {
+    "fileMatch": ["\\.dockerfile$"]
+  },
+  "pip-compile": {
+    "fileMatch": ["(^|/)requirements/?([\\w-]*)\\.in$"]
+  },
+  "packageRules": [
+    {
+      "matchPackagePrefixes": ["ghcr.io/ddterm/gnome-shell-pod/"],
+      "groupName": "GNOME Shell Container Images",
+      "pinDigests": true
+    },
+    {
+      "matchPackageNames": ["ghcr.io/ddterm/ci-docker-image"],
+      "groupName": "Build/Dev Environment",
+      "pinDigests": true
+    }
+  ]
+}
