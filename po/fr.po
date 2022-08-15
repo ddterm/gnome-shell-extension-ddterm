@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-08-11 20:54+0600\n"
-"PO-Revision-Date: 2022-06-26 13:16+0200\n"
+"PO-Revision-Date: 2022-08-15 12:31+0200\n"
 "Last-Translator: FELDMANN arnaud <arnaud.feldmann at gmail dot com>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 3.1\n"
 "X-Poedit-Basepath: ../autres-git/gnome-shell-extension-ddterm\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-SearchPath-0: .\n"
@@ -164,19 +164,19 @@ msgstr "Écraser les animations par défaut"
 
 #: glade/prefs-animation.ui:207
 msgid "_Show animation:"
-msgstr "Animation d'apparition :"
+msgstr "Animation d'apparition :"
 
 #: glade/prefs-animation.ui:221
 msgid "_Hide animation:"
-msgstr "Animation de disparition :"
+msgstr "Animation de disparition :"
 
 #: glade/prefs-animation.ui:273
 msgid "_Hide animation duration:"
-msgstr "Durée de l'animation d'apparition :"
+msgstr "Durée de l'animation d'apparition :"
 
 #: glade/prefs-animation.ui:286
 msgid "_Show animation duration:"
-msgstr "Durée de l'animation de disparition :"
+msgstr "Durée de l'animation de disparition :"
 
 #: glade/prefs-behavior.ui:39
 msgid "_Resizable"
@@ -216,7 +216,7 @@ msgstr ""
 
 #: glade/prefs-behavior.ui:171
 msgid "Window type _hint (X11 only):"
-msgstr "Indice de type de fenêtre (seulement pour X11) :"
+msgstr "Indice de type de fenêtre (seulement pour X11) :"
 
 #: glade/prefs-behavior.ui:186
 msgid "Normal"
@@ -340,7 +340,7 @@ msgstr "Solarisé"
 
 #: glade/prefs-colors.ui:292
 msgid "Theme _variant:"
-msgstr "Thème alternatif :"
+msgstr "Thème alternatif :"
 
 #: glade/prefs-colors.ui:307 glade/prefs-text.ui:133
 msgid "Default"
@@ -368,23 +368,23 @@ msgstr "Arrière-plan"
 
 #: glade/prefs-colors.ui:367
 msgid "Default color:"
-msgstr "Couleur par défaut :"
+msgstr "Couleur par défaut :"
 
 #: glade/prefs-colors.ui:376
 msgid "Bold color:"
-msgstr "Couleur du gras :"
+msgstr "Couleur du gras :"
 
 #: glade/prefs-colors.ui:390
 msgid "Cursor color:"
-msgstr "Couleur du curseur :"
+msgstr "Couleur du curseur :"
 
 #: glade/prefs-colors.ui:404
 msgid "Highlight color:"
-msgstr "Couleur de mise en évidence :"
+msgstr "Couleur de mise en évidence :"
 
 #: glade/prefs-colors.ui:421
 msgid "Color _scheme:"
-msgstr "Palettes prédéfinies :"
+msgstr "Palettes prédéfinies :"
 
 #: glade/prefs-colors.ui:469
 msgid "Foreground Color"
@@ -416,11 +416,11 @@ msgstr "Couleur d'arrière-plan de la mise en évidence"
 
 #: glade/prefs-colors.ui:642
 msgid "_Background opacity:"
-msgstr "Opacité de l'arrière-plan :"
+msgstr "Opacité de l'arrière-plan :"
 
 #: glade/prefs-colors.ui:687
 msgid "_Palette:"
-msgstr "Palette :"
+msgstr "Palette :"
 
 #: glade/prefs-colors.ui:729
 msgid "Palette Color 0"
@@ -504,7 +504,7 @@ msgstr "Shell de l'utilisateur en tant que shell de connexion"
 
 #: glade/prefs-command.ui:75
 msgid "Custom _command:"
-msgstr "Commande personnalisée :"
+msgstr "Commande personnalisée :"
 
 #: glade/prefs-command.ui:114
 msgid "Preserve working directory"
@@ -532,15 +532,15 @@ msgstr "Effacement du TTY"
 
 #: glade/prefs-compatibility.ui:72
 msgid "_Backspace key generates:"
-msgstr "La touche « Retour arrière» permet :"
+msgstr "La touche « Retour arrière» permet :"
 
 #: glade/prefs-compatibility.ui:86
 msgid "_Delete key generates:"
-msgstr "La touche « Suppr » permet :"
+msgstr "La touche « Suppr » permet :"
 
 #: glade/prefs-compatibility.ui:100
 msgid "Ambiguous-_width characters:"
-msgstr "Caractères de largeur ambigüe :"
+msgstr "Caractères de largeur ambigüe :"
 
 #: glade/prefs-compatibility.ui:153
 msgid "Narrow"
@@ -556,7 +556,7 @@ msgstr "Réinitialiser les options de compatibilité aux valeurs par défaut"
 
 #: glade/prefs-panel-icon.ui:42
 msgid "Panel icon:"
-msgstr "Icône de panneau :"
+msgstr "Icône de panneau :"
 
 #: glade/prefs-panel-icon.ui:55 glade/prefs-tabs.ui:292
 msgid "None"
@@ -572,11 +572,11 @@ msgstr "Bouton de basculement"
 
 #: glade/prefs-position-size.ui:47
 msgid "Window _size:"
-msgstr "Taille de la fenêtre :"
+msgstr "Taille de la fenêtre :"
 
 #: glade/prefs-position-size.ui:76
 msgid "_Window position:"
-msgstr "Position de la fenêtre :"
+msgstr "Position de la fenêtre :"
 
 #: glade/prefs-position-size.ui:91 glade/prefs-tabs.ui:219
 msgid "Top"
@@ -608,7 +608,7 @@ msgstr "Sur l'écran avec le focus clavier"
 
 #: glade/prefs-position-size.ui:158
 msgid "On _monitor:"
-msgstr "Sur l'écran :"
+msgstr "Sur l'écran :"
 
 #: glade/prefs-scrolling.ui:44
 msgid "Show _scrollbar"
@@ -624,7 +624,7 @@ msgstr "Défilement sur pression de touche"
 
 #: glade/prefs-scrolling.ui:92
 msgid "_Limit scrollback to:"
-msgstr "Limiter les lignes d'historique à :"
+msgstr "Limiter les lignes d'historique à :"
 
 #: glade/prefs-scrolling.ui:129
 msgid "lines"
@@ -826,7 +826,7 @@ msgstr "Popup de changement d'onglets"
 
 #: glade/prefs-tabs.ui:115
 msgid "Show tab _bar:"
-msgstr "Afficher la barre d'onglets :"
+msgstr "Afficher la barre d'onglets :"
 
 #: glade/prefs-tabs.ui:130 glade/prefs-text.ui:103
 msgid "Always"
@@ -838,7 +838,7 @@ msgstr "Jamais"
 
 #: glade/prefs-tabs.ui:145
 msgid "Tab _title:"
-msgstr "Titre d'onglet :"
+msgstr "Titre d'onglet :"
 
 #: glade/prefs-tabs.ui:170
 msgid "_Reset to default"
@@ -850,7 +850,7 @@ msgstr "Bouton « Nouvel onglet (en première position) »"
 
 #: glade/prefs-tabs.ui:203
 msgid "Tab bar position:"
-msgstr "Position de la barre d'onglets :"
+msgstr "Position de la barre d'onglets :"
 
 #: glade/prefs-tabs.ui:231
 msgid "Show border"
@@ -858,11 +858,11 @@ msgstr "Afficher la bordure"
 
 #: glade/prefs-tabs.ui:250
 msgid "Tab width:"
-msgstr "Largeur des onglets :"
+msgstr "Largeur des onglets :"
 
 #: glade/prefs-tabs.ui:278
 msgid "Ellipsize tab labels:"
-msgstr "Raccourcir les noms d'onglets :"
+msgstr "Raccourcir les noms d'onglets :"
 
 #: glade/prefs-tabs.ui:293
 msgid "Start"
@@ -903,7 +903,7 @@ msgstr ""
 "stable/pango-Markup.html\">Pango markup</a> peut être utilisé pour formater "
 "ce titre.\n"
 "\n"
-"Les variables suivantes sont disponibles :\n"
+"Les variables suivantes sont disponibles :\n"
 "- <tt>window-title</tt>\n"
 "- <tt>icon-title</tt>\n"
 "- <tt>current-directory-uri</tt>\n"
@@ -912,7 +912,7 @@ msgstr ""
 "- <tt>current-container-runtime</tt>\n"
 "- <tt>switch-shortcut</tt>\n"
 "\n"
-"Les assistants suivants sont disponibles :\n"
+"Les assistants suivants sont disponibles :\n"
 "- <tt>filename-from-uri</tt>\n"
 "- <tt>hostname-from-uri</tt>\n"
 "- <tt>ellipsize</tt> or <tt>truncate-chars</tt>\n"
@@ -920,19 +920,19 @@ msgstr ""
 
 #: glade/prefs-text.ui:39
 msgid "Custom _font:"
-msgstr "Police personnalisée :"
+msgstr "Police personnalisée :"
 
 #: glade/prefs-text.ui:57
 msgid "Allow _blinking text:"
-msgstr "Autoriser le texte clignotant :"
+msgstr "Autoriser le texte clignotant :"
 
 #: glade/prefs-text.ui:71
 msgid "Cursor _shape:"
-msgstr "Forme du curseur :"
+msgstr "Forme du curseur :"
 
 #: glade/prefs-text.ui:85
 msgid "_Cursor blinking:"
-msgstr "Clignotement du curseur :"
+msgstr "Clignotement du curseur :"
 
 #: glade/prefs-text.ui:101
 msgid "When focused"
