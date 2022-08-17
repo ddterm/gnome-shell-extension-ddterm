@@ -287,17 +287,19 @@ var WindowManager = GObject.registerClass(
         }
 
         _get_monitor_index() {
-            if (this.settings.get_string('window-monitor') === 'primary') {
+            const window_monitor = this.settings.get_string('window-monitor');
+
+            if (window_monitor === 'primary') {
                 if (Main.layoutManager.primaryIndex >= 0)
                     return Main.layoutManager.primaryIndex;
             }
 
-            if (this.settings.get_string('window-monitor') === 'focus') {
+            if (window_monitor === 'focus') {
                 if (Main.layoutManager.focusIndex >= 0)
                     return Main.layoutManager.focusIndex;
             }
 
-            if (this.settings.get_string('window-monitor') === 'connector') {
+            if (window_monitor === 'connector') {
                 const monitor_manager = Meta.MonitorManager.get();
                 if (monitor_manager) {
                     const index = monitor_manager.get_monitor_for_connector(this.settings.get_string('window-monitor-connector'));
