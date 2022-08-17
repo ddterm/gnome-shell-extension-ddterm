@@ -275,7 +275,12 @@ var WindowManager = GObject.registerClass(
         }
 
         _update_workarea() {
-            if (this.current_monitor_index >= global.display.get_n_monitors()) {
+            const n_monitors = global.display.get_n_monitors();
+
+            if (n_monitors === 0)
+                return;
+
+            if (this.current_monitor_index >= n_monitors) {
                 this.update_monitor_index();
                 return;
             }
