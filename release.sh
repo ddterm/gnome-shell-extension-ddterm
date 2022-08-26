@@ -23,4 +23,4 @@ jq ".version=${NEXT_VERSION}" metadata.json.in > metadata.json.next
 mv -f metadata.json.next metadata.json.in
 make metadata.json
 
-git commit -m "Post-release version bump" metadata.json.in
+git commit -m "[ci skip] Post-release version bump" metadata.json.in
