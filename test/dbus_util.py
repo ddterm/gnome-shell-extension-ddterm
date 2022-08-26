@@ -54,16 +54,31 @@ class Interface:
         )[0]
 
 
+class OneShotTimer:
+    def __init__(self):
+        self.source = None
+
+    def cancel(self, *_):
+        if self.source is not None:
+            self.source.destroy()
+            self.source = None
+
+    def schedule(self, timeout, callback, context=None):
+        self.cancel()
+
+        def handler(*_):
+            self.source = None
+            callback()
+            return GLib.SOURCE_REMOVE
+
+        self.source = GLib.timeout_source_new(timeout)
+        self.source.set_callback(handler)
+        self.source.attach(context)
+
+
 def wait_interface(connection, dest, path, interface):
     loop = GLib.MainLoop.new(None, False)
-    retry_source = None
-
-    def cancel_retry():
-        nonlocal retry_source
-
-        if retry_source is not None:
-            retry_source.destroy()
-            retry_source = None
+    retry = OneShotTimer()
 
     def introspect(connection, name, owner):
         LOGGER.info('Calling Introspect() on destination %r, path %r', owner, path)
@@ -81,21 +96,16 @@ def wait_interface(connection, dest, path, interface):
         except GLib.Error:
             LOGGER.exception('Introspect() call failed on destination %r, path %r', owner, path)
 
-        cancel_retry()
+        retry.schedule(50, lambda *_: introspect(connection, name, owner))
 
-        nonlocal retry_source
-        retry_source = GLib.timeout_source_new(50)
-        retry_source.set_callback(lambda *_: introspect(connection, name, owner))
-        retry_source.attach(loop.get_context())
-
-    watch_id = Gio.bus_watch_name_on_connection(connection, dest, Gio.BusNameWatcherFlags.NONE, introspect, lambda *_: cancel_retry)
+    watch_id = Gio.bus_watch_name_on_connection(connection, dest, Gio.BusNameWatcherFlags.NONE, introspect, retry.cancel)
     try:
         loop.run()
         return Interface(connection, interface, path, dest)
 
     finally:
         Gio.bus_unwatch_name(watch_id)
-        cancel_retry()
+        retry.cancel()
 
 
 def connect_tcp(host, port):
