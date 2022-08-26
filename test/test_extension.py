@@ -53,12 +53,12 @@ class CommonTests:
     PRIMARY_MONITOR = 0
 
     current_container: container_util.Container = None
-    current_dbus_interface: dbus_util.Interface = None
+    current_dbus_interface = None
 
     @classmethod
     def journal_message(cls, msg):
         if cls.current_dbus_interface:
-            cls.current_dbus_interface('LogMessage', '(s)', msg)
+            cls.current_dbus_interface.LogMessage('(s)', msg)
 
         elif cls.current_container is not None:
             cls.current_container.exec('systemd-cat', input=msg.encode())
@@ -151,7 +151,7 @@ class CommonTests:
     def shell_extensions_interface(self, bus_connection, gnome_shell_session):
         return dbus_util.wait_interface(
             bus_connection,
-            dest='org.gnome.Shell',
+            name='org.gnome.Shell',
             path='/org/gnome/Shell',
             interface='org.gnome.Shell.Extensions',
         )
@@ -177,11 +177,11 @@ class CommonTests:
         assert request.cls is not CommonTests
         assert request.cls.current_dbus_interface is None
 
-        shell_extensions_interface('EnableExtension', '(s)', EXTENSION_UUID)
+        shell_extensions_interface.EnableExtension('(s)', EXTENSION_UUID)
 
         iface = dbus_util.wait_interface(
             bus_connection,
-            dest='org.gnome.Shell',
+            name='org.gnome.Shell',
             path='/org/gnome/Shell/Extensions/ddterm',
             interface='com.github.amezin.ddterm.ExtensionTest'
         )
@@ -195,28 +195,28 @@ class CommonTests:
 
     @pytest.fixture(scope='class', autouse=True)
     def extension_setup(self, extension_test_interface):
-        assert extension_test_interface.get_property('PrimaryMonitor') == self.PRIMARY_MONITOR
-        assert extension_test_interface.get_property('NMonitors') == self.N_MONITORS
+        assert extension_test_interface.get_cached_property('PrimaryMonitor').unpack() == self.PRIMARY_MONITOR
+        assert extension_test_interface.get_cached_property('NMonitors').unpack() == self.N_MONITORS
 
-        extension_test_interface('Setup')
+        extension_test_interface.Setup()
 
     @pytest.fixture(scope='class')
     def monitors_geometry(self, extension_test_interface):
         return [
-            Rect(*extension_test_interface('GetMonitorGeometry', '(i)', index, return_type='(iiii)'))
+            Rect(*extension_test_interface.GetMonitorGeometry('(i)', index))
             for index in range(self.N_MONITORS)
         ]
 
     @pytest.fixture(scope='class')
     def monitors_scale(self, extension_test_interface):
         return [
-            extension_test_interface('GetMonitorScale', '(i)', index, return_type='(i)')[0]
+            extension_test_interface.GetMonitorScale('(i)', index)
             for index in range(self.N_MONITORS)
         ]
 
     @pytest.fixture(scope='class')
     def shell_version(self, shell_extensions_interface):
-        return shell_extensions_interface.get_property('ShellVersion')
+        return shell_extensions_interface.get_cached_property('ShellVersion').unpack()
 
     @pytest.mark.parametrize(
         ['window_size', 'window_maximize', 'window_pos'],
@@ -224,7 +224,7 @@ class CommonTests:
     )
     def test_show_v(self, extension_test_interface, window_size, window_maximize, window_pos, monitor_config, screenshot):
         with screenshot():
-            extension_test_interface('TestShow', '(dssis)', window_size, window_maximize, window_pos, monitor_config.current_index, monitor_config.setting)
+            extension_test_interface.TestShow('(dssis)', window_size, window_maximize, window_pos, monitor_config.current_index, monitor_config.setting)
 
     def test_show_h(self, extension_test_interface, window_size, window_maximize, window_pos, monitor_config, monitors_geometry, monitors_scale, screenshot):
         if monitor_config.setting == 'primary':
@@ -233,7 +233,7 @@ class CommonTests:
             target_monitor = monitor_config.current_index
 
         with screenshot():
-            extension_test_interface('TestShow', '(dssis)', window_size, window_maximize, window_pos, monitor_config.current_index, monitor_config.setting)
+            extension_test_interface.TestShow('(dssis)', window_size, window_maximize, window_pos, monitor_config.current_index, monitor_config.setting)
 
     @pytest.mark.parametrize(
         ['window_size', 'window_maximize', 'window_size2', 'window_pos'],
@@ -247,7 +247,7 @@ class CommonTests:
                 pytest.xfail('For unknown reason it fails to resize to full height on 2nd monitor')
 
         with screenshot():
-            extension_test_interface('TestResizeXte', '(dsdsis)', window_size, window_maximize, window_size2, window_pos, monitor_config.current_index, monitor_config.setting)
+            extension_test_interface.TestResizeXte('(dsdsis)', window_size, window_maximize, window_size2, window_pos, monitor_config.current_index, monitor_config.setting)
 
     @pytest.mark.parametrize(
         ['window_pos', 'window_pos2', 'window_size'],
@@ -255,7 +255,7 @@ class CommonTests:
     )
     def test_change_position(self, extension_test_interface, window_size, window_pos, window_pos2, monitor_config, screenshot):
         with screenshot():
-            extension_test_interface('TestChangePosition', '(dssis)', window_size, window_pos, window_pos2, monitor_config.current_index, monitor_config.setting)
+            extension_test_interface.TestChangePosition('(dssis)', window_size, window_pos, window_pos2, monitor_config.current_index, monitor_config.setting)
 
     @pytest.mark.parametrize(
         ['window_size', 'window_maximize', 'window_pos'],
@@ -263,7 +263,7 @@ class CommonTests:
     )
     def test_unmaximize(self, extension_test_interface, window_size, window_maximize, window_pos, monitor_config, screenshot):
         with screenshot():
-            extension_test_interface('TestUnmaximize', '(dssis)', window_size, window_maximize, window_pos, monitor_config.current_index, monitor_config.setting)
+            extension_test_interface.TestUnmaximize('(dssis)', window_size, window_maximize, window_pos, monitor_config.current_index, monitor_config.setting)
 
     @pytest.mark.parametrize(
         ['window_size', 'window_size2', 'window_pos'],
@@ -271,7 +271,7 @@ class CommonTests:
     )
     def test_unmaximize_correct_size(self, extension_test_interface, window_size, window_size2, window_pos, monitor_config, screenshot):
         with screenshot():
-            extension_test_interface('TestUnmaximizeCorrectSize', '(ddsis)', window_size, window_size2, window_pos, monitor_config.current_index, monitor_config.setting)
+            extension_test_interface.TestUnmaximizeCorrectSize('(ddsis)', window_size, window_size2, window_pos, monitor_config.current_index, monitor_config.setting)
 
     @pytest.mark.parametrize(
         ['window_size', 'window_size2', 'window_pos'],
@@ -279,7 +279,7 @@ class CommonTests:
     )
     def test_unmaximize_on_size_change(self, extension_test_interface, window_size, window_size2, window_pos, monitor_config, screenshot):
         with screenshot():
-            extension_test_interface('TestUnmaximizeOnSizeChange', '(ddsis)', window_size, window_size2, window_pos, monitor_config.current_index, monitor_config.setting)
+            extension_test_interface.TestUnmaximizeOnSizeChange('(ddsis)', window_size, window_size2, window_pos, monitor_config.current_index, monitor_config.setting)
 
 
 class LargeScreenMixin(CommonTests):

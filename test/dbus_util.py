@@ -20,40 +20,6 @@ def call(connection, method, signature=None, *args, dest, path, interface, retur
     ).unpack()
 
 
-class Interface:
-    def __init__(self, connection, name, path, dest):
-        self.connection = connection
-        self.interface = name
-        self.path = path
-        self.dest = dest
-
-    def __call__(self, method, signature=None, *args, **kwargs):
-        return call(
-            self.connection,
-            method,
-            signature,
-            *args,
-            dest=self.dest,
-            path=self.path,
-            interface=self.interface,
-            **kwargs
-        )
-
-    def get_property(self, name, **kwargs):
-        return call(
-            self.connection,
-            'Get',
-            '(ss)',
-            self.interface,
-            name,
-            interface='org.freedesktop.DBus.Properties',
-            dest=self.dest,
-            path=self.path,
-            return_type='(v)',
-            **kwargs
-        )[0]
-
-
 class OneShotTimer:
     def __init__(self):
         self.source = None
@@ -76,9 +42,10 @@ class OneShotTimer:
         self.source.attach(context)
 
 
-def wait_interface(connection, dest, path, interface):
+def wait_interface(connection, name, path, interface):
     loop = GLib.MainLoop.new(None, False)
     retry = OneShotTimer()
+    interface_info = None
 
     def introspect(connection, name, owner):
         LOGGER.info('Calling Introspect() on destination %r, path %r', owner, path)
@@ -86,8 +53,11 @@ def wait_interface(connection, dest, path, interface):
             (data,) = call(connection, 'Introspect', return_type='(s)', dest=owner, path=path, interface='org.freedesktop.DBus.Introspectable')
             LOGGER.info('Introspect() call succeeded on destination %r, path %r', owner, path)
 
-            parsed = Gio.DBusNodeInfo.new_for_xml(data)
-            if parsed.lookup_interface(interface):
+            nonlocal interface_info
+            node_info = Gio.DBusNodeInfo.new_for_xml(data)
+            interface_info = node_info.lookup_interface(interface)
+
+            if interface_info:
                 loop.quit()
                 return
             else:
@@ -98,10 +68,26 @@ def wait_interface(connection, dest, path, interface):
 
         retry.schedule(50, lambda *_: introspect(connection, name, owner))
 
-    watch_id = Gio.bus_watch_name_on_connection(connection, dest, Gio.BusNameWatcherFlags.NONE, introspect, retry.cancel)
+    watch_id = Gio.bus_watch_name_on_connection(
+        connection,
+        name,
+        Gio.BusNameWatcherFlags.NONE,
+        introspect,
+        retry.cancel
+    )
+
     try:
         loop.run()
-        return Interface(connection, interface, path, dest)
+
+        return Gio.DBusProxy.new_sync(
+            connection,
+            Gio.DBusProxyFlags.GET_INVALIDATED_PROPERTIES,
+            interface_info,
+            name,
+            path,
+            interface,
+            None
+        )
 
     finally:
         Gio.bus_unwatch_name(watch_id)
