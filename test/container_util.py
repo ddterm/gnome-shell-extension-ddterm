@@ -1,10 +1,13 @@
+import contextlib
 import json
 import logging
+import os
 import shlex
 import subprocess
 import sys
 import threading
 import time
+import typing
 
 
 LOGGER = logging.getLogger(__name__)
@@ -38,69 +41,82 @@ class Podman:
         return subprocess.Popen(cmd, **kwargs)
 
 
-class StreamReaderThread(threading.Thread):
-    def __init__(self, stream):
+class QueueOutput:
+    def __init__(self, queue, filter=lambda _: True, close_token=b''):
+        self.buffer = queue
+        self.filter = filter
+        self.close_token = close_token
+
+    def write(self, line):
+        if self.filter(line):
+            self.buffer.put(line)
+
+    def close(self):
+        self.buffer.put(self.close_token)
+
+
+class TeeLines(threading.Thread):
+    def __init__(self, input):
         super().__init__()
-        self.stream = stream
+        self.input = input
+        self.outputs = []
+        self.outputs_lock = threading.Lock()
+        self.closed = False
 
-        self.wait_line_event = threading.Event()
-        self.wait_line_lock = threading.Lock()
-        self.wait_line_substr = None
-        self.shut_down = False
+    def add_output(self, output):
+        with self.outputs_lock:
+            if self.closed:
+                output.close()
 
-    def process_line(self, line):
-        sys.stderr.buffer.write(line)
+            self.outputs.append(output)
 
-        with self.wait_line_lock:
-            if self.wait_line_substr is not None:
-                if self.wait_line_substr in line:
-                    self.wait_line_event.set()
+    def remove_output(self, output):
+        with self.outputs_lock:
+            self.outputs.remove(output)
 
     def run(self):
         try:
-            with self.stream:
-                while line := self.stream.readline():
-                    self.process_line(line)
+            try:
+                while line := self.input.readline():
+                    for output in self.outputs.copy():
+                        output.write(line)
+
+            finally:
+                with self.outputs_lock:
+                    self.closed = True
+
+                    for output in self.outputs:
+                        output.close()
+
+        except Exception:
+            LOGGER.exception('Exception in Tee thread')
+            raise
+
+    @contextlib.contextmanager
+    def with_output(self, output):
+        self.add_output(output)
+
+        try:
+            yield
 
         finally:
-            with self.wait_line_lock:
-                self.shut_down = True
-                self.wait_line_event.set()
-
-    def set_wait_line(self, substr):
-        with self.wait_line_lock:
-            if self.shut_down:
-                return
-
-            self.wait_line_substr = substr
-            self.wait_line_event.clear()
-
-    def wait_line(self, timeout=None):
-        if not self.wait_line_event.wait(timeout=timeout):
-            raise TimeoutError()
+            self.remove_output(output)
 
 
-class ConsoleReaderSubprocess(StreamReaderThread):
+class Console(TeeLines):
     def __init__(self, process):
         super().__init__(process.stdout)
         self.process = process
 
     def join(self, timeout=None):
-        LOGGER.info('Waiting for console reader subprocess to stop')
-        self.process.wait(timeout=timeout)
-        LOGGER.info('Waiting for console reader thread to stop')
-        super().join(timeout=timeout)
-        LOGGER.info('Console reader shut down')
+        try:
+            LOGGER.info('Waiting for console reader subprocess to stop')
+            self.process.wait(timeout=timeout)
 
-    @classmethod
-    def spawn(cls, container):
-        process = container.podman.bg(
-            'attach', '--no-stdin', '--sig-proxy=false', container.container_id,
-            stderr=subprocess.STDOUT, stdout=subprocess.PIPE, bufsize=0
-        )
-        reader = cls(process)
-        reader.start()
-        return reader
+        finally:
+            LOGGER.info('Waiting for console reader thread to stop')
+            super().join(timeout=timeout)
+            LOGGER.info('Console reader shut down')
 
 
 class Container:
@@ -113,11 +129,20 @@ class Container:
         self.podman('kill', self.container_id, check=False)
 
         if self.console:
-            self.console.join()
+            self.console.join(timeout=1)
 
-    def start_console(self):
+    def attach(self):
         assert self.console is None
-        self.console = ConsoleReaderSubprocess.spawn(self)
+
+        process = self.podman.bg(
+            'attach', '--no-stdin', '--sig-proxy=false', self.container_id,
+            stdout=subprocess.PIPE, bufsize=0
+        )
+
+        console = Console(process)
+        console.add_output(os.fdopen(os.dup(sys.stdout.fileno()), 'wb', buffering=0))
+        console.start()
+        self.console = console
 
     @classmethod
     def run(cls, podman, *args):
