@@ -69,7 +69,7 @@ def wait_interface(connection, name, path, interface):
                 path
             )
 
-            retry.schedule(50, introspect)
+            retry.schedule(100, introspect)
             return
 
         nonlocal interface_info
@@ -86,7 +86,7 @@ def wait_interface(connection, name, path, interface):
         if interface_info:
             loop.quit()
         else:
-            retry.schedule(50, introspect)
+            retry.schedule(100, introspect)
 
     cancellable = None
 
