@@ -25,7 +25,8 @@ MonitorConfig = collections.namedtuple('MonitorConfig', ['current_index', 'setti
 TEST_SRC_DIR = pathlib.Path(__file__).parent.resolve()
 SRC_DIR = TEST_SRC_DIR.parent
 EXTENSION_UUID = 'ddterm@amezin.github.com'
-PKG_PATH = f'/home/gnomeshell/.local/share/gnome-shell/extensions/{EXTENSION_UUID}'
+USER_NAME = 'gnomeshell'
+PKG_PATH = f'/home/{USER_NAME}/.local/share/gnome-shell/extensions/{EXTENSION_UUID}'
 
 MAXIMIZE_MODES = ['not-maximized', 'maximize-early', 'maximize-late']
 HORIZONTAL_RESIZE_POSITIONS = ['left', 'right']
@@ -120,9 +121,9 @@ class CommonTests:
     @pytest.fixture(scope='class')
     def user_env(self, container):
         bus_address = container.exec(
-            'su', '-c', 'echo $DBUS_SESSION_BUS_ADDRESS', '-', 'gnomeshell', stdout=subprocess.PIPE
+            'su', '-c', 'echo $DBUS_SESSION_BUS_ADDRESS', '-', USER_NAME, stdout=subprocess.PIPE
         ).stdout.rstrip(b'\n').decode()
-        return dict(user='gnomeshell', env=dict(DBUS_SESSION_BUS_ADDRESS=bus_address))
+        return dict(user=USER_NAME, env=dict(DBUS_SESSION_BUS_ADDRESS=bus_address))
 
     @pytest.fixture(scope='class')
     def gnome_shell_session(self, container, user_env):
