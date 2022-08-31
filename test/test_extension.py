@@ -1,4 +1,3 @@
-import atexit
 import base64
 import collections
 import contextlib
@@ -102,7 +101,6 @@ class CommonTests:
                 '-v', f'{xvfb_fbdir}:/xvfb',
                 container_image,
             )
-            atexit.register(c.kill)
 
             try:
                 c.start_console()
@@ -118,7 +116,6 @@ class CommonTests:
             finally:
                 request.cls.current_container = None
                 c.kill()
-                atexit.unregister(c.kill)
 
     @pytest.fixture(scope='class')
     def user_env(self, container):
