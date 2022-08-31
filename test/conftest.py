@@ -59,12 +59,6 @@ def pytest_addoption(parser):
     parser.addoption('--screenshot-failing-only', default=False, action='store_true')
 
 
-def pytest_configure(config):
-    config.addinivalue_line(
-        'markers', 'runtest_cm(func): wrap runtest hooks with context manager'
-    )
-
-
 def pytest_generate_tests(metafunc):
     if 'container_image' in metafunc.fixturenames:
         images = metafunc.config.getoption('--container-image')
