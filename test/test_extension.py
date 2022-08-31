@@ -140,20 +140,18 @@ class CommonTests:
                 container_image,
             )
 
-            try:
-                c.attach()
-                request.cls.current_container = c
+        try:
+            c.attach()
+            request.cls.current_container = c
 
-                c.exec('busctl', '--system', '--watch-bind=true', 'status', stdout=subprocess.DEVNULL)
-                c.exec('systemctl', 'is-system-running', '--wait')
+            c.exec('busctl', '--system', '--watch-bind=true', 'status', stdout=subprocess.DEVNULL)
+            c.exec('systemctl', 'is-system-running', '--wait')
 
-                lock.release()
+            yield c
 
-                yield c
-
-            finally:
-                request.cls.current_container = None
-                c.kill()
+        finally:
+            request.cls.current_container = None
+            c.kill()
 
     @pytest.fixture(scope='class')
     def user_env(self, container):
