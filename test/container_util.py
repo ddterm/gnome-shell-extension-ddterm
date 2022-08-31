@@ -95,7 +95,7 @@ class ConsoleReaderSubprocess(StreamReaderThread):
     @classmethod
     def spawn(cls, container):
         process = container.podman.bg(
-            'attach', '--no-stdin', container.container_id,
+            'attach', '--no-stdin', '--sig-proxy=false', container.container_id,
             stderr=subprocess.STDOUT, stdout=subprocess.PIPE, bufsize=0
         )
         reader = cls(process)
