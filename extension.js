@@ -181,6 +181,7 @@ function enable() {
 
     connections.connect(window_manager, 'notify::target-rect', () => {
         dbus_interface.dbus.emit_property_changed('TargetRect', new GLib.Variant('(iiii)', dbus_interface.TargetRect));
+        dbus_interface.dbus.flush();
     });
 
     Meta.get_window_actors(global.display).forEach(actor => {
