@@ -313,8 +313,16 @@ var AppWindow = GObject.registerClass(
 
             const display = Gdk.Display.get_default();
 
-            if (display.constructor.$gtype.name === 'GdkWaylandDisplay')
-                this.rx.connect(this, 'map', () => this.sync_size_with_extension());
+            if (display.constructor.$gtype.name === 'GdkWaylandDisplay') {
+                this.rx.connect(this.extension_dbus, 'g-properties-changed', () => {
+                    if (!this.visible)
+                        this.sync_size_with_extension();
+                });
+                this.rx.connect(this, 'unmap-event', () => {
+                    this.sync_size_with_extension();
+                });
+                this.sync_size_with_extension();
+            }
         }
 
         adjust_double_setting(name, difference, min = 0.0, max = 1.0) {
@@ -470,9 +478,10 @@ var AppWindow = GObject.registerClass(
             const w = Math.floor(target_w / target_monitor.scale_factor);
             const h = Math.floor(target_h / target_monitor.scale_factor);
 
-            this.set_default_size(w, h);
             this.resize(w, h);
-            this.window.resize(w, h);
+
+            if (this.window)
+                this.window.resize(w, h);
         }
     }
 );
