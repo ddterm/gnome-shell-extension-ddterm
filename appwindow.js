@@ -462,9 +462,13 @@ var AppWindow = GObject.registerClass(
             if (this.is_maximized)
                 return;
 
-            const [target_x_, target_y_, target_w, target_h] = this.extension_dbus.GetTargetRectSync();
-            const w = Math.floor(target_w / this.scale_factor);
-            const h = Math.floor(target_h / this.scale_factor);
+            const display = this.get_display();
+
+            const [target_x, target_y, target_w, target_h] = this.extension_dbus.GetTargetRectSync();
+            const target_monitor = display.get_monitor_at_point(target_x, target_y);
+
+            const w = Math.floor(target_w / target_monitor.scale_factor);
+            const h = Math.floor(target_h / target_monitor.scale_factor);
 
             this.set_default_size(w, h);
             this.resize(w, h);
