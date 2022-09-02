@@ -1,0 +1,96 @@
+#!/usr/bin/env python3
+
+import argparse
+import json
+import pathlib
+import subprocess
+
+import container_util
+
+
+TEST_SRC_DIR = pathlib.Path(__file__).parent.resolve()
+
+
+def sync(dockerfiles, prefix, tag, digests, pull, dry_run):
+    if not dockerfiles:
+        dockerfiles = list((TEST_SRC_DIR / 'images').glob('*.dockerfile'))
+
+    podman = container_util.Podman()
+
+    for dockerfile in dockerfiles:
+        image = f'{prefix}{dockerfile.stem}:{tag}'
+
+        if pull:
+            iid = podman('pull', image, stdout=subprocess.PIPE, text=True).stdout.strip()
+        else:
+            iid = image
+
+        if digests:
+            spec = json.loads(podman('image', 'inspect', iid, stdout=subprocess.PIPE).stdout)
+            digest = spec[0]["Digest"]
+
+            if digest:
+                image = f'{image}@{digest}'
+            else:
+                raise ValueError(f"Digest not available for image {image}")
+
+        dockerfile_content = f'FROM {image}\n'
+
+        if dry_run:
+            print(dockerfile_content)
+        else:
+            pathlib.Path(dockerfile).write_text(dockerfile_content)
+
+
+def main(*args, **kwargs):
+    parser = argparse.ArgumentParser(
+        description='Update images, re-generate dockerfiles',
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter
+    )
+
+    parser.add_argument(
+        'dockerfiles',
+        nargs='*',
+        help="Dockerfiles to update. Update all if not specified"
+    )
+
+    parser.add_argument(
+        '--prefix',
+        default='ghcr.io/ddterm/gnome-shell-pod/',
+        help="Image name prefix"
+    )
+
+    parser.add_argument(
+        '--tag',
+        default='master',
+        help="Image tag"
+    )
+
+    parser.add_argument(
+        '--no-digests',
+        default=True,
+        action='store_false',
+        dest='digests',
+        help="Remove digests"
+    )
+
+    parser.add_argument(
+        '--no-pull',
+        default=True,
+        action='store_false',
+        dest='pull',
+        help="Don't update images, use digests of previously pulled ones"
+    )
+
+    parser.add_argument(
+        '--dry-run',
+        default=False,
+        action='store_true',
+        help="Don't update dockerfiles, print to stdout instead"
+    )
+
+    sync(**vars(parser.parse_args(*args, **kwargs)))
+
+
+if __name__ == '__main__':
+    main()

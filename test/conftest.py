@@ -2,10 +2,12 @@ import contextlib
 import logging
 import os
 import pathlib
+import urllib.parse
 
+import filelock
 import pytest
 
-from . import container_util, image_util
+from . import container_util
 
 
 LOGGER = logging.getLogger(__name__)
@@ -33,14 +35,24 @@ def iidfile_dir(global_tmp_path):
 
 @pytest.fixture(scope='session')
 def container_image(request, podman, iidfile_dir):
-    return request.param.make(podman, iidfile_dir)
+    dockerfile = request.param
+    context = os.path.dirname(dockerfile)
+    iidfile = iidfile_dir / urllib.parse.quote_plus(dockerfile)
+
+    with filelock.FileLock(iidfile.with_suffix('.lock')):
+        if iidfile.exists():
+            LOGGER.info('Using cached result for %s', dockerfile)
+        else:
+            LOGGER.info('Building %s', dockerfile)
+            podman('build', '--iidfile', str(iidfile), '-f', str(dockerfile), context)
+            LOGGER.info('Built %s', dockerfile)
+
+        return iidfile.read_text()
 
 
 def pytest_addoption(parser):
-    parser.addoption('--container-image', action='append', default=[])
-    parser.addoption('--container-dockerfile', action='append', default=[], type=pathlib.Path)
+    parser.addoption('--dockerfile', action='append', default=[], type=pathlib.Path)
     parser.addoption('--podman', default=['podman'], nargs='+')
-    parser.addoption('--pull', default=False, action='store_true')
     parser.addoption('--screenshot-failing-only', default=False, action='store_true')
 
 
@@ -51,34 +63,20 @@ def short_path(path):
 
 
 def pytest_configure(config):
-    images = config.getoption('--container-image')
-    dockerfiles = config.getoption('--container-dockerfile')
-    pull = config.getoption('--pull')
+    dockerfiles = config.getoption('--dockerfile')
 
-    existing_images = [
-        pytest.param(
-            (image_util.RemoteImage if pull else image_util.LocalImage)(image),
-            marks=pytest.mark.uses_image.with_args(image),
-            id=image
-        )
-        for image in images
-    ]
-
-    if not images and not dockerfiles:
+    if not dockerfiles:
         dockerfiles = (TEST_SRC_DIR / 'images').glob('*.dockerfile')
 
     dockerfiles = [short_path(dockerfile) for dockerfile in dockerfiles]
 
-    built_images = [
+    config.stash[IMAGES_STASH_KEY] = [
         pytest.param(
-            image_util.BuiltImage(dockerfile, pull=pull),
-            marks=pytest.mark.uses_image.with_args(dockerfile),
-            id=dockerfile
+            dockerfile,
+            marks=pytest.mark.uses_dockerfile.with_args(dockerfile)
         )
         for dockerfile in dockerfiles
     ]
-
-    config.stash[IMAGES_STASH_KEY] = existing_images + built_images
 
 
 def pytest_generate_tests(metafunc):
