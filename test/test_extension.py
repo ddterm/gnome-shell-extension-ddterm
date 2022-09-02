@@ -124,6 +124,10 @@ class CommonTests:
                 except Exception:
                     LOGGER.exception("Can't sync journal")
 
+    @classmethod
+    def extra_container_args(cls):
+        return []
+
     @pytest.fixture(scope='class')
     def container(self, podman, container_image, xvfb_fbdir, global_tmp_path, request):
         assert request.cls is not CommonTests
@@ -137,6 +141,7 @@ class CommonTests:
                 '-v', f'{SRC_DIR}:{PKG_PATH}:ro',
                 '-v', f'{TEST_SRC_DIR}/fbdir.conf:/etc/systemd/system/xvfb@.service.d/fbdir.conf:ro',
                 '-v', f'{xvfb_fbdir}:/xvfb',
+                *request.cls.extra_container_args(),
                 container_image,
             )
 
@@ -344,8 +349,20 @@ class TestWayland(SingleMonitorTests, LargeScreenMixin):
 
 
 class TestWaylandHighDpi(SingleMonitorTests, SmallScreenMixin):
-    GNOME_SHELL_SESSION_NAME = 'gnome-wayland-nested-highdpi'
+    GNOME_SHELL_SESSION_NAME = 'gnome-wayland-nested'
+
+    @classmethod
+    def extra_container_args(cls):
+        return super().extra_container_args() + [
+            '-v', f'{TEST_SRC_DIR}/mutter-highdpi.conf:/etc/systemd/user/gnome-wayland-nested@.service.d/mutter-highdpi.conf:ro'
+        ]
 
 
 class TestWaylandDualMonitor(DualMonitorTests, SmallScreenMixin):
-    GNOME_SHELL_SESSION_NAME = 'gnome-wayland-nested-dual-monitor'
+    GNOME_SHELL_SESSION_NAME = 'gnome-wayland-nested'
+
+    @classmethod
+    def extra_container_args(cls):
+        return super().extra_container_args() + [
+            '-v', f'{TEST_SRC_DIR}/mutter-dual-monitor.conf:/etc/systemd/user/gnome-wayland-nested@.service.d/mutter-dual-monitor.conf:ro'
+        ]
