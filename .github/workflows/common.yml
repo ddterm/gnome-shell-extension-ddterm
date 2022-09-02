@@ -109,7 +109,7 @@ jobs:
         tox --sitepackages --
         --self-contained-html
         --junitxml=junit.xml
-        --container-dockerfile images/${{ matrix.image }}.dockerfile
+        --dockerfile images/${{ matrix.image }}.dockerfile
         -n 2
         --screenshot-failing-only
         -v
