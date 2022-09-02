@@ -125,23 +125,33 @@ class CommonTests:
                     LOGGER.exception("Can't sync journal")
 
     @classmethod
-    def extra_container_args(cls):
-        return []
+    def mount_configs(cls):
+        return ['/etc/systemd/system/xvfb@.service.d/fbdir.conf']
 
     @pytest.fixture(scope='class')
     def container(self, podman, container_image, xvfb_fbdir, global_tmp_path, request):
         assert request.cls is not CommonTests
         assert request.cls.current_container is None
 
+        volumes = [
+            (SRC_DIR, PKG_PATH, 'ro'),
+            (xvfb_fbdir, '/xvfb', 'rw')
+        ]
+
+        volumes.extend(
+            (pathlib.Path(f'{TEST_SRC_DIR}/{path}'), pathlib.PurePath(path), 'ro')
+            for path in request.cls.mount_configs()
+        )
+
         with filelock.FileLock(global_tmp_path / 'container-starting.lock') as lock:
             c = container_util.Container.run(
                 podman,
                 '--rm', '-P', '--log-driver=none',
                 '--cap-add=SYS_NICE,SYS_PTRACE,SETPCAP,NET_RAW,NET_BIND_SERVICE,DAC_READ_SEARCH',
-                '-v', f'{SRC_DIR}:{PKG_PATH}:ro',
-                '-v', f'{TEST_SRC_DIR}/fbdir.conf:/etc/systemd/system/xvfb@.service.d/fbdir.conf:ro',
-                '-v', f'{xvfb_fbdir}:/xvfb',
-                *request.cls.extra_container_args(),
+                *itertools.chain.from_iterable(
+                    ('-v', ':'.join(str(part) for part in parts))
+                    for parts in volumes
+                ),
                 container_image,
             )
 
@@ -352,9 +362,9 @@ class TestWaylandHighDpi(SingleMonitorTests, SmallScreenMixin):
     GNOME_SHELL_SESSION_NAME = 'gnome-wayland-nested'
 
     @classmethod
-    def extra_container_args(cls):
-        return super().extra_container_args() + [
-            '-v', f'{TEST_SRC_DIR}/mutter-highdpi.conf:/etc/systemd/user/gnome-wayland-nested@.service.d/mutter-highdpi.conf:ro'
+    def mount_configs(cls):
+        return super().mount_configs() + [
+            '/etc/systemd/user/gnome-wayland-nested@.service.d/mutter-highdpi.conf'
         ]
 
 
@@ -362,7 +372,7 @@ class TestWaylandDualMonitor(DualMonitorTests, SmallScreenMixin):
     GNOME_SHELL_SESSION_NAME = 'gnome-wayland-nested'
 
     @classmethod
-    def extra_container_args(cls):
-        return super().extra_container_args() + [
-            '-v', f'{TEST_SRC_DIR}/mutter-dual-monitor.conf:/etc/systemd/user/gnome-wayland-nested@.service.d/mutter-dual-monitor.conf:ro'
+    def mount_configs(cls):
+        return super().mount_configs() + [
+            '/etc/systemd/user/gnome-wayland-nested@.service.d/mutter-dual-monitor.conf'
         ]
