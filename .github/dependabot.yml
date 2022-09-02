@@ -16,3 +16,8 @@ updates:
       interval: "daily"
     ignore:
       - dependency-name: "PyGObject"
+
+  - package-ecosystem: "docker"
+    directory: "/test/images"
+    schedule:
+      interval: "daily"

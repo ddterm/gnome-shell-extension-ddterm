@@ -1,0 +1,1 @@
+FROM ghcr.io/ddterm/gnome-shell-pod/fedora-36:master@sha256:c050c3838358966f7846fa3de40ea6f5187f8cd8c6bbc6a2f7e0ed04310a0bbb
