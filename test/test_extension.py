@@ -143,11 +143,22 @@ class CommonTests:
             for path in request.cls.mount_configs()
         )
 
+        cap_add = [
+            'SYS_NICE',
+            'SYS_PTRACE',
+            'SETPCAP',
+            'NET_RAW',
+            'NET_BIND_SERVICE',
+            'DAC_READ_SEARCH',
+        ]
+
         with filelock.FileLock(global_tmp_path / 'container-starting.lock') as lock:
             c = container_util.Container.run(
                 podman,
-                '--rm', '-P', '--log-driver=none',
-                '--cap-add=SYS_NICE,SYS_PTRACE,SETPCAP,NET_RAW,NET_BIND_SERVICE,DAC_READ_SEARCH',
+                '--rm',
+                '-P',
+                '--log-driver=none',
+                f'--cap-add={",".join(cap_add)}',
                 *itertools.chain.from_iterable(
                     ('-v', ':'.join(str(part) for part in parts))
                     for parts in volumes
