@@ -14,6 +14,8 @@ jobs:
     - id: checkout
       uses: actions/checkout@v3
 
+    - run: git config --global --replace-all safe.directory "$GITHUB_WORKSPACE"
+
     - uses: actions/setup-node@v3
 
     - run: npm ci
@@ -37,6 +39,12 @@ jobs:
 
     - run: make msgcmp
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
+
+    - run: |
+        tox --sitepackages -e pip-compile
+        git diff -q || (git diff; exit 1)
+      if: ${{ always() && steps.checkout.conclusion == 'success' }}
+      working-directory: test
 
   pack:
     runs-on: ubuntu-latest

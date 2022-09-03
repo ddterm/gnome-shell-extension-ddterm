@@ -1,1 +1,3 @@
-pytest-github-actions-annotate-failures~=0.1.7
+-r requirements/pypi.txt
+-r requirements/system.txt
+-r requirements/pypi-ghactions.txt
