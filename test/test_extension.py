@@ -331,6 +331,7 @@ class CommonTests(CommonFixtures):
         window_maximize,
         window_pos,
         monitor_config,
+        shell_version,
         screenshot
     ):
         with screenshot:
@@ -350,6 +351,7 @@ class CommonTests(CommonFixtures):
         window_maximize,
         window_pos,
         monitor_config,
+        shell_version,
         screenshot
     ):
         with screenshot:
@@ -554,6 +556,47 @@ class TestWaylandDualMonitor(DualMonitorTests, SmallScreenMixin):
         return super().mount_configs() + [
             '/etc/systemd/user/gnome-wayland-nested@.service.d/mutter-dual-monitor.conf'
         ]
+
+
+class TestWaylandMixedDPI(DualMonitorTests, SmallScreenMixin):
+    GNOME_SHELL_SESSION_NAME = 'gnome-wayland-nested'
+
+    @classmethod
+    def mount_configs(cls):
+        return super().mount_configs() + [
+            '/etc/systemd/user/gnome-wayland-nested@.service.d/mutter-mixed-dpi.conf'
+        ]
+
+    @functools.wraps(CommonTests.test_show_v)
+    def test_show_v(self, *args, shell_version, **kwargs):
+        if shell_version < (42, 0):
+            pytest.skip('Mixed DPI is not supported before GNOME Shell 42')
+
+        super().test_show_v(*args, shell_version=shell_version, **kwargs)
+
+    @pytest.mark.skip
+    def test_show_h(self, monitor_config):
+        pass
+
+    @pytest.mark.skip
+    def test_resize_xte(self, monitor_config):
+        pass
+
+    @pytest.mark.skip
+    def test_change_position(self, monitor_config):
+        pass
+
+    @pytest.mark.skip
+    def test_unmaximize(self, monitor_config):
+        pass
+
+    @pytest.mark.skip
+    def test_unmaximize_correct_size(self, monitor_config):
+        pass
+
+    @pytest.mark.skip
+    def test_unmaximize_on_size_change(self, monitor_config):
+        pass
 
 
 def wait_action_in_group(group, action):
