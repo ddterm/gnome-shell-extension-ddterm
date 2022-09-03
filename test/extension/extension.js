@@ -594,6 +594,18 @@ function wait_move_resize(
     });
 }
 
+function is_mixed_dpi() {
+    let scales = [];
+
+    for (let i = 0; i < global.display.get_n_monitors(); i++) {
+        const scale = global.display.get_monitor_scale(i);
+        if (!scales.includes(scale))
+            scales.push(scale);
+    }
+
+    return scales.length > 1;
+}
+
 async function test_show(
     window_size,
     window_maximize,
@@ -636,19 +648,26 @@ async function test_show(
     const settings_maximize = settings.get_boolean('window-maximize');
     const should_maximize =
         window_maximize === WindowMaximizeMode.EARLY || (window_size === 1.0 && settings_maximize);
+    const mixed_dpi_penalty = is_mixed_dpi() ? 2 : 0;
 
     await wait_move_resize(
         window_size,
         should_maximize,
         window_pos,
         monitor_index,
-        prev_maximize === should_maximize ? 0 : 1
+        (prev_maximize === should_maximize ? 0 : 1) + mixed_dpi_penalty
     );
 
     verify_window_geometry(window_size, should_maximize, window_pos, monitor_index);
 
     if (window_maximize === WindowMaximizeMode.LATE) {
-        const geometry_wait = wait_move_resize(window_size, true, window_pos, monitor_index, 1);
+        const geometry_wait = wait_move_resize(
+            window_size,
+            true,
+            window_pos,
+            monitor_index,
+            1 + mixed_dpi_penalty
+        );
 
         await set_settings_boolean('window-maximize', true);
 
