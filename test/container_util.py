@@ -136,7 +136,7 @@ class Container:
 
         process = self.podman.bg(
             'attach', '--no-stdin', '--sig-proxy=false', self.container_id,
-            stdout=subprocess.PIPE, bufsize=0
+            stdin=subprocess.DEVNULL, stdout=subprocess.PIPE, bufsize=0
         )
 
         console = Console(process)
