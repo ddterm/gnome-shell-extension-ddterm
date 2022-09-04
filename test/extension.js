@@ -27,8 +27,9 @@ const Main = imports.ui.main;
 const JsUnit = imports.jsUnit;
 const Config = imports.misc.config;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-const Extension = Me.imports.extension;
-const { ConnectionSet } = Me.imports.connectionset;
+const Ddterm = imports.ui.main.extensionManager.lookup('ddterm@amezin.github.com');
+const Extension = Ddterm.imports.extension;
+const { ConnectionSet } = Ddterm.imports.connectionset;
 
 const WindowMaximizeMode = {
     NOT_MAXIMIZED: 'not-maximized',
@@ -795,7 +796,7 @@ async function test_change_position(window_size, window_pos, window_pos2, curren
 
 class ExtensionTestDBusInterface {
     constructor() {
-        let [_, xml] = Me.dir.get_child('test').get_child('com.github.amezin.ddterm.ExtensionTest.xml').load_contents(null);
+        let [_, xml] = Me.dir.get_child('com.github.amezin.ddterm.ExtensionTest.xml').load_contents(null);
         this.dbus = Gio.DBusExportedObject.wrapJSObject(ByteArray.toString(xml), this);
     }
 

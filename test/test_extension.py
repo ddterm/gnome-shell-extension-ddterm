@@ -3,6 +3,7 @@ import collections
 import contextlib
 import functools
 import itertools
+import json
 import logging
 import pathlib
 import queue
@@ -26,9 +27,9 @@ MonitorConfig = collections.namedtuple('MonitorConfig', ['current_index', 'setti
 
 TEST_SRC_DIR = pathlib.Path(__file__).parent.resolve()
 SRC_DIR = TEST_SRC_DIR.parent
-EXTENSION_UUID = 'ddterm@amezin.github.com'
+
+EXTENSIONS_INSTALL_DIR = pathlib.PurePosixPath('/usr/share/gnome-shell/extensions')
 USER_NAME = 'gnomeshell'
-PKG_PATH = f'/home/{USER_NAME}/.local/share/gnome-shell/extensions/{EXTENSION_UUID}'
 
 MAXIMIZE_MODES = ['not-maximized', 'maximize-early', 'maximize-late']
 HORIZONTAL_RESIZE_POSITIONS = ['left', 'right']
@@ -43,9 +44,33 @@ def mkpairs(*args, **kwargs):
     return list(allpairspy.AllPairs(*args, **kwargs))
 
 
+def load_extension_metadata(src_dir):
+    with open(src_dir / 'metadata.json', 'r') as f:
+        return json.load(f)
+
+
+@pytest.fixture(scope='session')
+def ddterm_metadata():
+    return load_extension_metadata(SRC_DIR)
+
+
+@pytest.fixture(scope='session')
+def test_metadata():
+    return load_extension_metadata(TEST_SRC_DIR)
+
+
 @pytest.fixture(scope='session')
 def xvfb_fbdir(tmpdir_factory):
     return tmpdir_factory.mktemp('xvfb')
+
+
+@pytest.fixture(scope='session')
+def common_volumes(ddterm_metadata, test_metadata, xvfb_fbdir):
+    return [
+        (SRC_DIR, EXTENSIONS_INSTALL_DIR / ddterm_metadata['uuid'], 'ro'),
+        (TEST_SRC_DIR, EXTENSIONS_INSTALL_DIR / test_metadata['uuid'], 'ro'),
+        (xvfb_fbdir, '/xvfb', 'rw')
+    ]
 
 
 class ScreenshotContextManager(contextlib.AbstractContextManager):
@@ -129,19 +154,18 @@ class CommonTests:
         return ['/etc/systemd/system/xvfb@.service.d/fbdir.conf']
 
     @pytest.fixture(scope='class')
-    def container(self, podman, container_image, xvfb_fbdir, global_tmp_path, request):
+    def container(self, podman, container_image, common_volumes, global_tmp_path, request):
         assert request.cls is not CommonTests
         assert request.cls.current_container is None
 
-        volumes = [
-            (SRC_DIR, PKG_PATH, 'ro'),
-            (xvfb_fbdir, '/xvfb', 'rw')
-        ]
-
-        volumes.extend(
-            (pathlib.Path(f'{TEST_SRC_DIR}/{path}'), pathlib.PurePath(path), 'ro')
+        volumes = common_volumes + [
+            (
+                TEST_SRC_DIR / pathlib.PurePosixPath(path).relative_to('/'),
+                pathlib.PurePosixPath(path),
+                'ro'
+            )
             for path in request.cls.mount_configs()
-        )
+        ]
 
         cap_add = [
             'SYS_NICE',
@@ -216,11 +240,17 @@ class CommonTests:
         )
 
     @pytest.fixture(scope='class')
-    def extension_test_interface(self, bus_connection, shell_extensions_interface, request):
+    def enable_ddterm(self, shell_extensions_interface, ddterm_metadata):
+        shell_extensions_interface.EnableExtension('(s)', ddterm_metadata['uuid'])
+
+    @pytest.fixture(scope='class')
+    def enable_test(self, shell_extensions_interface, test_metadata, enable_ddterm):
+        shell_extensions_interface.EnableExtension('(s)', test_metadata['uuid'])
+
+    @pytest.fixture(scope='class')
+    def extension_test_interface(self, bus_connection, enable_test, request):
         assert request.cls is not CommonTests
         assert request.cls.current_dbus_interface is None
-
-        shell_extensions_interface.EnableExtension('(s)', EXTENSION_UUID)
 
         iface = dbus_util.wait_interface(
             bus_connection,
@@ -237,7 +267,7 @@ class CommonTests:
             request.cls.current_dbus_interface = None
 
     @pytest.fixture(scope='class', autouse=True)
-    def extension_setup(self, extension_test_interface):
+    def test_setup(self, extension_test_interface):
         assert extension_test_interface.get_cached_property('PrimaryMonitor').unpack() == self.PRIMARY_MONITOR
         assert extension_test_interface.get_cached_property('NMonitors').unpack() == self.N_MONITORS
 
