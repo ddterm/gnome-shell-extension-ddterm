@@ -244,20 +244,6 @@ class CommonTests:
         extension_test_interface.Setup()
 
     @pytest.fixture(scope='class')
-    def monitors_geometry(self, extension_test_interface):
-        return [
-            Rect(*extension_test_interface.GetMonitorGeometry('(i)', index))
-            for index in range(self.N_MONITORS)
-        ]
-
-    @pytest.fixture(scope='class')
-    def monitors_scale(self, extension_test_interface):
-        return [
-            extension_test_interface.GetMonitorScale('(i)', index)
-            for index in range(self.N_MONITORS)
-        ]
-
-    @pytest.fixture(scope='class')
     def shell_version(self, shell_extensions_interface):
         return shell_extensions_interface.get_cached_property('ShellVersion').unpack()
 
@@ -269,7 +255,7 @@ class CommonTests:
         with screenshot:
             extension_test_interface.TestShow('(dssis)', window_size, window_maximize, window_pos, monitor_config.current_index, monitor_config.setting)
 
-    def test_show_h(self, extension_test_interface, window_size, window_maximize, window_pos, monitor_config, monitors_geometry, monitors_scale, screenshot):
+    def test_show_h(self, extension_test_interface, window_size, window_maximize, window_pos, monitor_config, screenshot):
         if monitor_config.setting == 'primary':
             target_monitor = self.PRIMARY_MONITOR
         else:

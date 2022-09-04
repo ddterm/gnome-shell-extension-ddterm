@@ -8,18 +8,6 @@
         <property name="NMonitors" type="i" access="read" />
         <property name="PrimaryMonitor" type="i" access="read" />
 
-        <method name="GetMonitorGeometry">
-            <arg name="index" type="i" direction="in"/>
-            <arg name="x" type="i" direction="out"/>
-            <arg name="y" type="i" direction="out"/>
-            <arg name="width" type="i" direction="out"/>
-            <arg name="height" type="i" direction="out"/>
-        </method>
-        <method name="GetMonitorScale">
-            <arg name="index" type="i" direction="in"/>
-            <arg name="scale" type="i" direction="out"/>
-        </method>
-
         <method name="LogMessage">
             <arg name="msg" type="s" direction="in"/>
         </method>

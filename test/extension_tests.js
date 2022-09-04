@@ -811,15 +811,6 @@ class ExtensionTestDBusInterface {
         return Main.layoutManager.primaryIndex;
     }
 
-    GetMonitorGeometry(index) {
-        const rect = global.display.get_monitor_geometry(index);
-        return [rect.x, rect.y, rect.width, rect.height];
-    }
-
-    GetMonitorScale(index) {
-        return global.display.get_monitor_scale(index);
-    }
-
     LogMessage(msg) {
         message(msg);
     }
