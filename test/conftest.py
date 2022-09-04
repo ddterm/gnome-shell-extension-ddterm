@@ -56,23 +56,15 @@ def pytest_addoption(parser):
     parser.addoption('--screenshot-failing-only', default=False, action='store_true')
 
 
-def short_path(path):
-    relative = os.path.relpath(path)
-    absolute = os.path.abspath(path)
-    return relative if len(relative) < len(absolute) else absolute
-
-
 def pytest_configure(config):
     dockerfiles = config.getoption('--dockerfile')
 
     if not dockerfiles:
         dockerfiles = (TEST_SRC_DIR / 'images').glob('*.dockerfile')
 
-    dockerfiles = [short_path(dockerfile) for dockerfile in dockerfiles]
-
     config.stash[IMAGES_STASH_KEY] = [
         pytest.param(
-            dockerfile,
+            min(os.path.abspath(dockerfile), os.path.relpath(dockerfile), key=len),
             marks=pytest.mark.uses_dockerfile.with_args(dockerfile)
         )
         for dockerfile in dockerfiles
