@@ -7,3 +7,4 @@ ansi2html~=1.8.0
 allpairspy~=2.5.0
 wand~=0.6.10
 filelock~=3.8.0
+psutil~=5.9.1

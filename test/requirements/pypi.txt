@@ -22,6 +22,8 @@ packaging==21.3
     # via pytest
 pluggy==1.0.0
     # via pytest
+psutil==5.9.1
+    # via -r requirements/pypi.in
 py==1.11.0
     # via
     #   pytest
