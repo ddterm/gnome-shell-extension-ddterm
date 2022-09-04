@@ -118,7 +118,7 @@ jobs:
         --self-contained-html
         --junitxml=junit.xml
         --dockerfile images/${{ matrix.image }}.dockerfile
-        -n 2
+        -n auto
         --screenshot-failing-only
         -v
       working-directory: test

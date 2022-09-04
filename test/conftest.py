@@ -1,5 +1,6 @@
 import contextlib
 import logging
+import math
 import os
 import pathlib
 import urllib.parse
@@ -7,7 +8,7 @@ import urllib.parse
 import filelock
 import pytest
 
-from . import container_util
+from . import container_util, xdist_sched
 
 
 LOGGER = logging.getLogger(__name__)
@@ -105,3 +106,14 @@ def pytest_runtest_call(item):
 def pytest_runtest_teardown(item):
     with get_runtest_cm(item, 'teardown'):
         yield
+
+
+def pytest_xdist_make_scheduler(config, log):
+    if config.getvalue('dist') == 'load':
+        return xdist_sched.LoadScheduling(config, log)
+
+
+@pytest.hookimpl(hookwrapper=True)
+def pytest_xdist_auto_num_workers(config):
+    result = yield
+    result.force_result(math.ceil(result.get_result() * 2 / 3))
