@@ -129,7 +129,7 @@ class Container:
         self.podman('kill', self.container_id, check=False)
 
         if self.console:
-            self.console.join(timeout=1)
+            self.console.join(timeout=5)
 
     def attach(self):
         assert self.console is None
