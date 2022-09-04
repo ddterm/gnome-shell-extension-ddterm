@@ -182,8 +182,8 @@ class CommonTests:
     @pytest.fixture(scope='class')
     def user_env(self, container):
         bus_address = container.exec(
-            'su', '-c', 'echo $DBUS_SESSION_BUS_ADDRESS', '-', USER_NAME, stdout=subprocess.PIPE
-        ).stdout.rstrip(b'\n').decode()
+            'su', '-c', 'echo -n $DBUS_SESSION_BUS_ADDRESS', '-', USER_NAME, stdout=subprocess.PIPE
+        ).stdout.decode()
         return dict(user=USER_NAME, env=dict(DBUS_SESSION_BUS_ADDRESS=bus_address))
 
     @pytest.fixture(scope='class')
