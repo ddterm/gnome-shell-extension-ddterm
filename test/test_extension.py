@@ -25,8 +25,9 @@ LOGGER = logging.getLogger(__name__)
 Rect = collections.namedtuple('Rect', ('x', 'y', 'width', 'height'))
 MonitorConfig = collections.namedtuple('MonitorConfig', ['current_index', 'setting'])
 
-TEST_SRC_DIR = pathlib.Path(__file__).parent.resolve()
-SRC_DIR = TEST_SRC_DIR.parent
+THIS_DIR = pathlib.Path(__file__).parent.resolve()
+TEST_SRC_DIR = THIS_DIR / 'extension'
+SRC_DIR = THIS_DIR.parent
 
 EXTENSIONS_INSTALL_DIR = pathlib.PurePosixPath('/usr/share/gnome-shell/extensions')
 USER_NAME = 'gnomeshell'
@@ -160,7 +161,7 @@ class CommonTests:
 
         volumes = common_volumes + [
             (
-                TEST_SRC_DIR / pathlib.PurePosixPath(path).relative_to('/'),
+                THIS_DIR / pathlib.PurePosixPath(path).relative_to('/'),
                 pathlib.PurePosixPath(path),
                 'ro'
             )
