@@ -42,7 +42,7 @@ jobs:
 
     - run: |
         tox --sitepackages -e pip-compile
-        git diff -q || (git diff; exit 1)
+        git diff --exit-code
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
       working-directory: test
 
