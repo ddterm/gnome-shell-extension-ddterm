@@ -27,9 +27,11 @@ const Main = imports.ui.main;
 const JsUnit = imports.jsUnit;
 const Config = imports.misc.config;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-const Ddterm = imports.ui.main.extensionManager.lookup('ddterm@amezin.github.com');
-const Extension = Ddterm.imports.extension;
-const { ConnectionSet } = Ddterm.imports.connectionset;
+
+const ddterm = imports.ui.main.extensionManager.lookup('ddterm@amezin.github.com');
+const { extension, rxutil } = ddterm.imports;
+const { rxjs } = ddterm.imports.rxjs;
+const { ConnectionSet } = ddterm.imports.connectionset;
 
 const WindowMaximizeMode = {
     NOT_MAXIMIZED: 'not-maximized',
@@ -38,8 +40,6 @@ const WindowMaximizeMode = {
 };
 
 let settings = null;
-const settings_trace = new ConnectionSet();
-const window_trace = new ConnectionSet();
 
 const DEFAULT_IDLE_TIMEOUT_MS = 200;
 const XTE_IDLE_TIMEOUT_MS = DEFAULT_IDLE_TIMEOUT_MS;
@@ -130,23 +130,6 @@ function invoke_async(f, params, invocation) {
     });
 }
 
-async function invoke_test(f, ...params) {
-    const handlers = new ConnectionSet();
-    handlers.connect(Extension.window_manager, 'notify::current-window', setup_window_trace);
-    handlers.connect(Extension.window_manager, 'move-resize-requested', (_, rect) => {
-        info(`Extension requested move-resize to { .x = ${rect.x}, .y = ${rect.y}, .width = ${rect.width}, .height = ${rect.height} }`);
-    });
-    try {
-        await f(...params);
-    } finally {
-        handlers.disconnect();
-    }
-}
-
-function invoke_test_async(f, params, invocation) {
-    invoke_async(invoke_test.bind(null, f), params, invocation);
-}
-
 async function setup() {
     message('Setting up GNOME Shell for tests');
 
@@ -196,35 +179,6 @@ async function setup() {
     message('Setup complete');
 }
 
-function setup_window_trace() {
-    const win = Extension.window_manager.current_window;
-
-    info(`current window changed: ${win}`);
-
-    window_trace.disconnect();
-
-    if (!win)
-        return;
-
-    window_trace.connect(win, 'position-changed', () => {
-        const rect = win.get_frame_rect();
-        info(`position-changed: { .x = ${rect.x}, .y = ${rect.y}, .width = ${rect.width}, .height = ${rect.height} }`);
-    });
-
-    window_trace.connect(win, 'size-changed', () => {
-        const rect = win.get_frame_rect();
-        info(`size-changed: { .x = ${rect.x}, .y = ${rect.y}, .width = ${rect.width}, .height = ${rect.height} }`);
-    });
-
-    window_trace.connect(win, 'notify::maximized-vertically', () => {
-        info(`notify::maximized-vertically = ${win.maximized_vertically}`);
-    });
-
-    window_trace.connect(win, 'notify::maximized-horizontally', () => {
-        info(`notify::maximized-horizontally = ${win.maximized_horizontally}`);
-    });
-}
-
 function async_sleep(ms) {
     return new Promise(resolve => GLib.timeout_add(GLib.PRIORITY_LOW, ms, () => {
         resolve();
@@ -262,7 +216,7 @@ function idle() {
 
 function hide_window_async_wait() {
     return new Promise(resolve => {
-        const win = Extension.window_manager.current_window;
+        const win = extension.window_manager.current_window;
         if (!win) {
             resolve();
             return;
@@ -274,7 +228,7 @@ function hide_window_async_wait() {
         });
 
         message('Hiding the window');
-        Extension.toggle();
+        extension.toggle();
     });
 }
 
@@ -285,15 +239,15 @@ function wait_first_frame(timeout_ms = WAIT_TIMEOUT_MS) {
         const windows = [];
 
         const check = () => {
-            if (windows.includes(Extension.window_manager.current_window)) {
+            if (windows.includes(extension.window_manager.current_window)) {
                 message('Got first-frame');
                 connections.disconnect();
                 idle().then(resolve);
             }
         };
 
-        JsUnit.assertNull(Extension.window_manager.current_window);
-        connections.connect(Extension.window_manager, 'notify::current-window', check);
+        JsUnit.assertNull(extension.window_manager.current_window);
+        connections.connect(extension.window_manager, 'notify::current-window', check);
         connections.connect(global.display, 'window-created', (_, win) => {
             connections.connect(win.get_compositor_private(), 'first-frame', actor => {
                 windows.push(actor.meta_window);
@@ -406,7 +360,7 @@ function compute_target_rect(window_size, window_pos, monitor_index) {
 
 function verify_window_geometry(window_size, window_maximize, window_pos, monitor_index) {
     message(`Verifying window geometry (expected size=${window_size}, maximized=${window_maximize}, position=${window_pos})`);
-    const win = Extension.window_manager.current_window;
+    const win = extension.window_manager.current_window;
 
     const maximize_prop = ['top', 'bottom'].includes(window_pos) ? 'maximized-vertically' : 'maximized-horizontally';
     JsUnit.assertEquals(window_maximize, win[maximize_prop]);
@@ -424,14 +378,14 @@ function verify_window_geometry(window_size, window_maximize, window_pos, monito
     assert_rect_equals(
         'target_rect_unmaximized',
         target_rect_unmaximized,
-        `Extension.window_manager.target_rect_for_workarea_size(workarea, ${monitor_scale}, ${window_size})`,
-        Extension.window_manager.target_rect_for_workarea_size(workarea, monitor_scale, window_size)
+        `extension.window_manager.target_rect_for_workarea_size(workarea, ${monitor_scale}, ${window_size})`,
+        extension.window_manager.target_rect_for_workarea_size(workarea, monitor_scale, window_size)
     );
     assert_rect_equals(
         'target_rect_unmaximized',
         target_rect_unmaximized,
-        'Extension.window_manager.current_target_rect',
-        Extension.window_manager.current_target_rect
+        'extension.window_manager.current_target_rect',
+        extension.window_manager.current_target_rect
     );
 
     if (window_maximize)
@@ -508,7 +462,7 @@ function wait_move_resize(window_size, window_maximize, window_pos, monitor_inde
     const wait_timeout = new Timer();
 
     return new Promise((resolve, reject) => {
-        const win = Extension.window_manager.current_window;
+        const win = extension.window_manager.current_window;
 
         const maximize_prop = ['top', 'bottom'].includes(window_pos) ? 'maximized-vertically' : 'maximized-horizontally';
         const target_rect = window_maximize
@@ -598,7 +552,7 @@ function wait_move_resize(window_size, window_maximize, window_pos, monitor_inde
             }
         });
 
-        connections.connect(Extension.window_manager, 'move-resize-requested', () => {
+        connections.connect(extension.window_manager, 'move-resize-requested', () => {
             restart_idle_timeout('move-resize-requested');
         });
 
@@ -634,9 +588,9 @@ async function test_show(window_size, window_maximize, window_pos, current_monit
     await set_settings_string('window-position', window_pos);
     await set_settings_string('window-monitor', window_monitor);
 
-    const wait = wait_first_frame(Extension.subprocess ? WAIT_TIMEOUT_MS : START_TIMEOUT_MS);
+    const wait = wait_first_frame(extension.subprocess ? WAIT_TIMEOUT_MS : START_TIMEOUT_MS);
 
-    Extension.toggle();
+    extension.toggle();
 
     await wait;
 
@@ -738,7 +692,7 @@ function resize_point(frame_rect, window_pos, monitor_scale) {
 async function test_resize_xte(window_size, window_maximize, window_size2, window_pos, current_monitor, window_monitor) {
     await test_show(window_size, window_maximize, window_pos, current_monitor, window_monitor);
 
-    const win = Extension.window_manager.current_window;
+    const win = extension.window_manager.current_window;
     const actor = win.get_compositor_private();
     await async_wait_signal(actor, 'transitions-completed', () => {
         return !(actor.get_transition('scale-x') || actor.get_transition('scale-y'));
@@ -749,12 +703,12 @@ async function test_resize_xte(window_size, window_maximize, window_size2, windo
     const workarea = Main.layoutManager.getWorkAreaForMonitor(monitor_index);
     const monitor_scale = global.display.get_monitor_scale(monitor_index);
 
-    const initial_frame_rect = Extension.window_manager.current_window.get_frame_rect();
+    const initial_frame_rect = extension.window_manager.current_window.get_frame_rect();
     const initial = resize_point(initial_frame_rect, window_pos, monitor_scale);
 
     await xte_mouse_move(initial.x, initial.y);
 
-    const target_frame_rect = Extension.window_manager.target_rect_for_workarea_size(workarea, monitor_scale, window_size2);
+    const target_frame_rect = extension.window_manager.target_rect_for_workarea_size(workarea, monitor_scale, window_size2);
     const target = resize_point(target_frame_rect, window_pos, monitor_scale);
 
     const geometry_wait1 = wait_move_resize(window_maximize !== WindowMaximizeMode.NOT_MAXIMIZED ? 1.0 : window_size, false, window_pos, monitor_index, 3, XTE_IDLE_TIMEOUT_MS);
@@ -775,7 +729,7 @@ async function test_resize_xte(window_size, window_maximize, window_size2, windo
     // TODO: 'grab-op-end' isn't emitted on Wayland when simulting mouse with xte.
     // For now, just call update_size_setting_on_grab_end()
     if (Meta.is_wayland_compositor())
-        Extension.window_manager.update_size_setting_on_grab_end(global.display, Extension.window_manager.current_window);
+        extension.window_manager.update_size_setting_on_grab_end(global.display, extension.window_manager.current_window);
 
     verify_window_geometry(window_size2, false, window_pos, monitor_index);
 }
@@ -817,45 +771,96 @@ class ExtensionTestDBusInterface {
     }
 
     TestShowAsync(params, invocation) {
-        invoke_test_async(test_show, params, invocation);
+        invoke_async(test_show, params, invocation);
     }
 
     TestUnmaximizeAsync(params, invocation) {
-        invoke_test_async(test_unmaximize, params, invocation);
+        invoke_async(test_unmaximize, params, invocation);
     }
 
     TestUnmaximizeCorrectSizeAsync(params, invocation) {
-        invoke_test_async(test_unmaximize_correct_size, params, invocation);
+        invoke_async(test_unmaximize_correct_size, params, invocation);
     }
 
     TestUnmaximizeOnSizeChangeAsync(params, invocation) {
-        invoke_test_async(test_unmaximize_on_size_change, params, invocation);
+        invoke_async(test_unmaximize_on_size_change, params, invocation);
     }
 
     TestResizeXteAsync(params, invocation) {
-        invoke_test_async(test_resize_xte, params, invocation);
+        invoke_async(test_resize_xte, params, invocation);
     }
 
     TestChangePositionAsync(params, invocation) {
-        invoke_test_async(test_change_position, params, invocation);
+        invoke_async(test_change_position, params, invocation);
     }
 }
 
-let dbus_interface = null;
+const dbus_interface = new ExtensionTestDBusInterface();
+const trace_subscription = new rxutil.Subscription();
 
 function enable() {
     GLib.setenv('G_MESSAGES_DEBUG', LOG_DOMAIN, false);
-    settings = Extension.settings;
-    settings_trace.connect(settings, 'changed', (_, key) => {
+
+    settings = extension.settings;
+
+    trace_subscription.connect(settings, 'changed', (_, key) => {
         debug(`Setting changed: ${key}=${settings.get_value(key).print(true)}`);
     });
-    dbus_interface = new ExtensionTestDBusInterface();
+
+    trace_subscription.connect(extension.window_manager, 'move-resize-requested', (_, rect) => {
+        info(`Extension requested move-resize to { .x = ${rect.x}, .y = ${rect.y}, .width = ${rect.width}, .height = ${rect.height} }`);
+    });
+
+    const current_win = rxutil.property(extension.window_manager, 'current-window').pipe(
+        rxjs.shareReplay({ bufferSize: 1, refCount: true })
+    );
+
+    trace_subscription.subscribe(current_win, win => {
+        info(`current window changed: ${win}`);
+    });
+
+    const switch_signal = signal_name => rxjs.switchMap(source => {
+        if (source === null)
+            return rxjs.EMPTY;
+
+        return rxutil.signal(source, signal_name);
+    });
+
+    trace_subscription.subscribe(
+        current_win.pipe(switch_signal('position-changed')),
+        ([win]) => {
+            const rect = win.get_frame_rect();
+            info(`position-changed: { .x = ${rect.x}, .y = ${rect.y}, .width = ${rect.width}, .height = ${rect.height} }`);
+        }
+    );
+
+    trace_subscription.subscribe(
+        current_win.pipe(switch_signal('size-changed')),
+        ([win]) => {
+            const rect = win.get_frame_rect();
+            info(`size-changed: { .x = ${rect.x}, .y = ${rect.y}, .width = ${rect.width}, .height = ${rect.height} }`);
+        }
+    );
+
+    trace_subscription.subscribe(
+        current_win.pipe(switch_signal('notify::maximized-vertically')),
+        ([win]) => {
+            info(`notify::maximized-vertically = ${win.maximized_vertically}`);
+        }
+    );
+
+    trace_subscription.subscribe(
+        current_win.pipe(switch_signal('notify::maximized-horizontally')),
+        ([win]) => {
+            info(`notify::maximized-horizontally = ${win.maximized_horizontally}`);
+        }
+    );
+
     dbus_interface.dbus.export(Gio.DBus.session, '/org/gnome/Shell/Extensions/ddterm');
 }
 
 function disable() {
     dbus_interface.dbus.unexport();
-    dbus_interface = null;
-    settings_trace.disconnect();
+    trace_subscription.unsubscribe();
     settings = null;
 }
