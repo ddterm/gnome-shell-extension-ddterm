@@ -38,9 +38,16 @@ function parse_rgba(s) {
     return null;
 }
 
+function setting_equal(a, b) {
+    if (a instanceof GLib.Variant && b instanceof GLib.Variant)
+        return a.equal(b);
+
+    return a === b;
+}
+
 function share() {
     return rxjs.pipe(
-        rxjs.distinctUntilChanged(),
+        rxjs.distinctUntilChanged(setting_equal),
         rxjs.shareReplay({ bufferSize: 1, refCount: true })
     );
 }
