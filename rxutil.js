@@ -147,17 +147,7 @@ function disable_if(condition, disabled_override = rxjs.EMPTY) {
 
 /* exported enable_if disable_if */
 
-var Scope = class Scope extends rxjs.Subscription {
-    constructor(obj, destroy_signal = null) {
-        super();
-
-        this.destroy_signal = (destroy_signal || signal(obj, 'destroy')).pipe(rxjs.take(1));
-
-        this.destroy_signal.subscribe(() => {
-            this.unsubscribe();
-        });
-    }
-
+var Subscription = class Subscription extends rxjs.Subscription {
     add(teardown) {
         super.add(teardown);
         return teardown;
@@ -189,6 +179,20 @@ var Scope = class Scope extends rxjs.Subscription {
         });
 
         return group;
+    }
+};
+
+/* exported Subscription */
+
+var Scope = class Scope extends Subscription {
+    constructor(obj, destroy_signal = null) {
+        super();
+
+        this.destroy_signal = (destroy_signal || signal(obj, 'destroy')).pipe(rxjs.take(1));
+
+        this.destroy_signal.subscribe(() => {
+            this.unsubscribe();
+        });
     }
 };
 
