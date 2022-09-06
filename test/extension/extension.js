@@ -327,8 +327,12 @@ function set_settings_string(name, value) {
     return set_settings_value(name, GLib.Variant.new_string(value));
 }
 
+function rect_to_string(rect) {
+    return `{ x=${rect.x} y=${rect.y} w=${rect.width} h=${rect.height} }`;
+}
+
 function assert_rect_equals(expected_desc, expected, actual_desc, actual) {
-    message(`Checking if ${actual_desc}={ .x=${actual.x}, .y=${actual.y}, .width=${actual.width}, .height=${actual.height} } matches ${expected_desc}={ .x=${expected.x}, .y=${expected.y}, .width=${expected.width}, .height=${expected.height} }`);
+    message(`Checking if ${actual_desc}=${rect_to_string(actual)} matches ${expected_desc}=${rect_to_string(expected)}`);
     JsUnit.assertEquals('x', expected.x, actual.x);
     JsUnit.assertEquals('y', expected.y, actual.y);
     JsUnit.assertEquals('width', expected.width, actual.width);
@@ -806,7 +810,7 @@ function enable() {
     });
 
     trace_subscription.connect(extension.window_manager, 'move-resize-requested', (_, rect) => {
-        info(`Extension requested move-resize to { .x = ${rect.x}, .y = ${rect.y}, .width = ${rect.width}, .height = ${rect.height} }`);
+        info(`Extension requested move-resize to ${rect_to_string(rect)}`);
     });
 
     const current_win = rxutil.property(extension.window_manager, 'current-window').pipe(
@@ -827,16 +831,14 @@ function enable() {
     trace_subscription.subscribe(
         current_win.pipe(switch_signal('position-changed')),
         ([win]) => {
-            const rect = win.get_frame_rect();
-            info(`position-changed: { .x = ${rect.x}, .y = ${rect.y}, .width = ${rect.width}, .height = ${rect.height} }`);
+            info(`position-changed: ${rect_to_string(win.get_frame_rect())}`);
         }
     );
 
     trace_subscription.subscribe(
         current_win.pipe(switch_signal('size-changed')),
         ([win]) => {
-            const rect = win.get_frame_rect();
-            info(`size-changed: { .x = ${rect.x}, .y = ${rect.y}, .width = ${rect.width}, .height = ${rect.height} }`);
+            info(`size-changed: ${rect_to_string(win.get_frame_rect())}`);
         }
     );
 
