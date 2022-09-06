@@ -276,7 +276,11 @@ class CommonTests:
 
     @pytest.fixture(scope='class')
     def shell_version(self, shell_extensions_interface):
-        return shell_extensions_interface.get_cached_property('ShellVersion').unpack()
+        version_str = shell_extensions_interface.get_cached_property('ShellVersion').unpack()
+        return tuple(
+            int(x) if x.isdecimal() else x
+            for x in version_str.split('.')
+        )
 
     @pytest.mark.parametrize(
         ['window_size', 'window_maximize', 'window_pos'],
@@ -301,8 +305,7 @@ class CommonTests:
     )
     @pytest.mark.flaky
     def test_resize_xte(self, test_interface, window_size, window_maximize, window_size2, window_pos, monitor_config, shell_version, screenshot):
-        version_split = tuple(int(x) for x in shell_version.split('.'))
-        if version_split < (3, 39):
+        if shell_version < (3, 39):
             if monitor_config.current_index == 1 and window_pos == 'bottom' and window_size2 == 1:
                 pytest.xfail('For unknown reason it fails to resize to full height on 2nd monitor')
 
