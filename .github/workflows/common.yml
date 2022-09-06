@@ -64,10 +64,26 @@ jobs:
         path: "*.shell-extension.zip"
         if-no-files-found: error
 
+  configure-test-matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      images: ${{ steps.generate.outputs.images }}
+    steps:
+      - uses: actions/checkout@v3
+      - id: generate
+        run: |
+          import json
+          import os.path
+          names = [os.path.splitext(dockerfile)[0] for dockerfile in os.listdir()]
+          print(f'::set-output name=images::{json.dumps(names)}')
+        shell: python
+        working-directory: test/images
+
   test:
     needs:
     - lint
     - pack
+    - configure-test-matrix
 
     runs-on: ubuntu-22.04
     container:
@@ -77,12 +93,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        image:
-          - 'fedora-35'
-          - 'fedora-36'
-          - 'debian-11'
-          - 'ubuntu-20.04'
-          - 'ubuntu-22.04'
+        image: ${{ fromJson(needs.configure-test-matrix.outputs.images) }}
 
     env:
       PY_COLORS: 1
