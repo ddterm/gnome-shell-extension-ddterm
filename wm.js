@@ -366,6 +366,9 @@ var WindowManager = GObject.registerClass(
             const mapped = this._current_window_mapped();
             if (!mapped) {
                 if (win.get_client_type() === Meta.WindowClientType.WAYLAND) {
+                    this._schedule_geometry_fixup(this.current_window);
+                    this.current_window.move_to_monitor(this.current_monitor_index);
+
                     const map_handler_id = this.current_window_connections.connect(global.window_manager, 'map', (wm, actor) => {
                         if (!this._check_current_window(win) || actor.meta_window !== win)
                             return;
@@ -373,10 +376,14 @@ var WindowManager = GObject.registerClass(
                         this.current_window_connections.disconnect(global.window_manager, map_handler_id);
                         this._update_window_geometry(true);
                     });
+                } else {
+                    this._update_window_geometry(true);
                 }
 
                 if (this.settings.get_boolean('override-window-animation') && !this.show_animation)
                     Main.wm.skipNextEffect(this.current_window.get_compositor_private());
+            } else {
+                this._update_window_geometry(true);
             }
 
             this.current_window_connections.connect(global.display, 'grab-op-end', this.update_size_setting_on_grab_end.bind(this));
