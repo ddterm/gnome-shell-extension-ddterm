@@ -361,7 +361,6 @@ var WindowManager = GObject.registerClass(
             });
 
             this._setup_maximized_handlers();
-            this._update_window_geometry(true);
 
             const mapped = this._current_window_mapped();
             if (!mapped) {
