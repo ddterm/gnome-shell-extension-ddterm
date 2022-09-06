@@ -758,11 +758,11 @@ class ExtensionTestDBusInterface {
         invoke_async(setup, params, invocation);
     }
 
-    get NMonitors() {
+    GetNMonitors() {
         return global.display.get_n_monitors();
     }
 
-    get PrimaryMonitor() {
+    GetPrimaryMonitor() {
         return Main.layoutManager.primaryIndex;
     }
 

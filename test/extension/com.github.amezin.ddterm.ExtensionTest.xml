@@ -5,8 +5,12 @@
     <interface name="com.github.amezin.ddterm.ExtensionTest">
         <method name="Setup"/>
 
-        <property name="NMonitors" type="i" access="read" />
-        <property name="PrimaryMonitor" type="i" access="read" />
+        <method name="GetNMonitors">
+            <arg name="n" type="i" direction="out"/>
+        </method>
+        <method name="GetPrimaryMonitor">
+            <arg name="index" type="i" direction="out"/>
+        </method>
 
         <method name="LogMessage">
             <arg name="msg" type="s" direction="in"/>

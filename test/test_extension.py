@@ -269,8 +269,8 @@ class CommonTests:
 
     @pytest.fixture(scope='class', autouse=True)
     def test_setup(self, test_interface):
-        assert test_interface.get_cached_property('PrimaryMonitor').unpack() == self.PRIMARY_MONITOR
-        assert test_interface.get_cached_property('NMonitors').unpack() == self.N_MONITORS
+        assert test_interface.GetPrimaryMonitor() == self.PRIMARY_MONITOR
+        assert test_interface.GetNMonitors() == self.N_MONITORS
 
         test_interface.Setup()
 
