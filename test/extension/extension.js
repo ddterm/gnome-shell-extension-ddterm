@@ -39,8 +39,6 @@ const WindowMaximizeMode = {
     LATE: 'maximize-late',
 };
 
-let settings = null;
-
 const DEFAULT_IDLE_TIMEOUT_MS = 200;
 const XTE_IDLE_TIMEOUT_MS = DEFAULT_IDLE_TIMEOUT_MS;
 const MOVE_RESIZE_WAIT_TIMEOUT_MS = 1000;
@@ -300,6 +298,7 @@ function async_run_process(argv) {
 }
 
 async function set_settings_value(name, value) {
+    const settings = extension.settings;
     const original = settings.get_value(name);
     if (value.equal(original)) {
         debug(`Setting ${name} already has expected value ${original.print(true)}`);
@@ -364,7 +363,7 @@ function verify_window_geometry(window_size, window_maximize, window_pos, monito
 
     const maximize_prop = ['top', 'bottom'].includes(window_pos) ? 'maximized-vertically' : 'maximized-horizontally';
     JsUnit.assertEquals(window_maximize, win[maximize_prop]);
-    JsUnit.assertEquals(window_maximize, settings.get_boolean('window-maximize'));
+    JsUnit.assertEquals(window_maximize, extension.settings.get_boolean('window-maximize'));
 
     const workarea = Main.layoutManager.getWorkAreaForMonitor(monitor_index);
     const monitor_scale = global.display.get_monitor_scale(monitor_index);
@@ -581,6 +580,7 @@ async function test_show(window_size, window_maximize, window_pos, current_monit
 
     JsUnit.assertEquals(current_monitor, global.display.get_current_monitor());
 
+    const settings = extension.settings;
     const prev_maximize = settings.get_boolean('window-maximize');
 
     await set_settings_double('window-size', window_size);
@@ -627,7 +627,7 @@ async function test_unmaximize_correct_size(window_size, window_size2, window_po
     await test_show(window_size, WindowMaximizeMode.NOT_MAXIMIZED, window_pos, current_monitor, window_monitor);
 
     const monitor_index = window_monitor_index(window_monitor);
-    const initially_maximized = settings.get_boolean('window-maximize');
+    const initially_maximized = extension.settings.get_boolean('window-maximize');
     const geometry_wait1 = wait_move_resize(window_size2, window_size === 1.0 && window_size2 === 1.0 && initially_maximized, window_pos, monitor_index);
 
     await set_settings_double('window-size', window_size2);
@@ -736,7 +736,7 @@ async function test_resize_xte(window_size, window_maximize, window_size2, windo
 
 async function test_change_position(window_size, window_pos, window_pos2, current_monitor, window_monitor) {
     await test_show(window_size, false, window_pos, current_monitor, window_monitor);
-    const initially_maximized = settings.get_boolean('window-maximize');
+    const initially_maximized = extension.settings.get_boolean('window-maximize');
 
     const monitor_index = window_monitor_index(window_monitor);
     const geometry_wait = wait_move_resize(window_size, window_size === 1.0 && initially_maximized, window_pos2, monitor_index);
@@ -801,9 +801,7 @@ const trace_subscription = new rxutil.Subscription();
 function enable() {
     GLib.setenv('G_MESSAGES_DEBUG', LOG_DOMAIN, false);
 
-    settings = extension.settings;
-
-    trace_subscription.connect(settings, 'changed', (_, key) => {
+    trace_subscription.connect(extension.settings, 'changed', (settings, key) => {
         debug(`Setting changed: ${key}=${settings.get_value(key).print(true)}`);
     });
 
@@ -862,5 +860,4 @@ function enable() {
 function disable() {
     dbus_interface.dbus.unexport();
     trace_subscription.unsubscribe();
-    settings = null;
 }
