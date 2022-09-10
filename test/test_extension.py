@@ -15,9 +15,11 @@ import allpairspy
 import filelock
 import pytest
 import wand.image
-from pytest_html import extras
 
-from . import container_util, dbus_util
+from pytest_html import extras
+from gi.repository import GLib
+
+from . import container_util, dbus_util, glib_util
 
 
 LOGGER = logging.getLogger(__name__)
@@ -72,6 +74,20 @@ def common_volumes(ddterm_metadata, test_metadata, xvfb_fbdir):
         (TEST_SRC_DIR, EXTENSIONS_INSTALL_DIR / test_metadata['uuid'], 'ro'),
         (xvfb_fbdir, '/xvfb', 'rw')
     ]
+
+
+def enable_extension(shell_extensions_interface, uuid):
+    info = None
+
+    with glib_util.SignalWait(shell_extensions_interface, 'g-signal') as g_signal:
+        shell_extensions_interface.EnableExtension('(s)', uuid)
+
+        while not info:
+            info = shell_extensions_interface.GetExtensionInfo('(s)', uuid)
+            g_signal.wait()
+
+    assert info['error'] == ''
+    assert info['state'] == 1
 
 
 class ScreenshotContextManager(contextlib.AbstractContextManager):
@@ -241,12 +257,12 @@ class CommonTests:
         )
 
     @pytest.fixture(scope='class')
-    def enable_ddterm(self, shell_extensions_interface, ddterm_metadata):
-        shell_extensions_interface.EnableExtension('(s)', ddterm_metadata['uuid'])
+    def enable_ddterm(self, shell_extensions_interface, ddterm_metadata, install_ddterm):
+        enable_extension(shell_extensions_interface, ddterm_metadata['uuid'])
 
     @pytest.fixture(scope='class')
     def enable_test(self, shell_extensions_interface, test_metadata, enable_ddterm):
-        shell_extensions_interface.EnableExtension('(s)', test_metadata['uuid'])
+        enable_extension(shell_extensions_interface, test_metadata['uuid'])
 
     @pytest.fixture(scope='class')
     def test_interface(self, bus_connection, enable_test, request):
