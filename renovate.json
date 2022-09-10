@@ -14,12 +14,13 @@
   "packageRules": [
     {
       "matchPackagePrefixes": ["ghcr.io/ddterm/gnome-shell-pod/"],
-      "groupName": "GNOME Shell Container Images"
+      "groupName": "GNOME Shell Container Images",
+      "pinDigests": true
     },
     {
       "matchPackageNames": ["ghcr.io/ddterm/ci-docker-image"],
       "groupName": "Build/Dev Environment",
-      "pinDigests": true
+      "pinDigests": false
     }
   ]
 }
