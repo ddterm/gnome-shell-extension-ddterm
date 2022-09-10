@@ -31,9 +31,6 @@ jobs:
     - run: make locales
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
-    - run: xvfb-run make test-deps
-      if: ${{ always() && steps.checkout.conclusion == 'success' }}
-
     - run: xvfb-run make gtk-builder-validate
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
@@ -112,7 +109,7 @@ jobs:
         domain: ${{ github.repository_owner }}
       continue-on-error: true
     - run: npm ci
-    - run: xvfb-run make test-deps
+    - run: xvfb-run make build
     - run: tox -vv --notest --sitepackages
       working-directory: test
     - run: >-

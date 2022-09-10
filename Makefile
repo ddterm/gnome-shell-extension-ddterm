@@ -127,22 +127,25 @@ JS_SOURCES := $(filter-out $(GENERATED_SOURCES), $(wildcard *.js))
 GTK3_HANDCRAFTED_UI := menus.ui
 TRANSLATABLE_SOURCES += $(JS_SOURCES) $(GTK3_HANDCRAFTED_UI)
 
-DEFAULT_SOURCES := extension.js prefs.js metadata.json
-
-EXTRA_SOURCES := \
-	$(filter-out $(DEFAULT_SOURCES), $(JS_SOURCES)) \
-	$(wildcard *.css) \
+PACK_INPUTS := \
+	$(JS_SOURCES) \
+	style.css \
 	$(GENERATED_SOURCES) \
 	$(GTK3_HANDCRAFTED_UI) \
 	LICENSE \
 	com.github.amezin.ddterm \
-	com.github.amezin.ddterm.Extension.xml
+	com.github.amezin.ddterm.Extension.xml \
+	$(LOCALES_COMPILED) \
+	$(SCHEMAS) \
+	$(SCHEMAS_COMPILED)
 
-EXTRA_SOURCES := $(sort $(EXTRA_SOURCES))
+build: $(PACK_INPUTS)
+.PHONY: build
 
 EXTENSION_PACK := $(EXTENSION_UUID).shell-extension.zip
-$(EXTENSION_PACK): $(SCHEMAS) $(EXTRA_SOURCES) $(DEFAULT_SOURCES) $(LOCALES)
-	gnome-extensions pack -f $(addprefix --schema=,$(SCHEMAS)) $(addprefix --extra-source=,$(EXTRA_SOURCES)) .
+$(EXTENSION_PACK): $(PACK_INPUTS)
+	$(RM) $@
+	zip -y -nw $@ -- $^
 
 pack: $(EXTENSION_PACK)
 .PHONY: pack
@@ -166,12 +169,7 @@ uninstall: develop-uninstall
 
 DEVELOP_SYMLINK := $(HOME)/.local/share/gnome-shell/extensions/$(EXTENSION_UUID)
 
-test-deps: $(SCHEMAS_COMPILED) $(LOCALES_COMPILED) $(GENERATED_SOURCES)
-
-all: test-deps
-.PHONY: test-deps
-
-develop: test-deps
+develop: build
 	mkdir -p "$(dir $(DEVELOP_SYMLINK))"
 	@if [[ -e "$(DEVELOP_SYMLINK)" && ! -L "$(DEVELOP_SYMLINK)" ]]; then \
 		echo "$(DEVELOP_SYMLINK) exists and is not a symlink, not overwriting"; exit 1; \
