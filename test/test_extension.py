@@ -68,9 +68,14 @@ def xvfb_fbdir(tmpdir_factory):
 
 
 @pytest.fixture(scope='session')
-def common_volumes(ddterm_metadata, test_metadata, xvfb_fbdir):
+def common_volumes(ddterm_metadata, test_metadata, extension_pack, xvfb_fbdir):
+    if extension_pack:
+        src_mount = (extension_pack, extension_pack, 'ro')
+    else:
+        src_mount = (SRC_DIR, EXTENSIONS_INSTALL_DIR / ddterm_metadata['uuid'], 'ro')
+
     return [
-        (SRC_DIR, EXTENSIONS_INSTALL_DIR / ddterm_metadata['uuid'], 'ro'),
+        src_mount,
         (TEST_SRC_DIR, EXTENSIONS_INSTALL_DIR / test_metadata['uuid'], 'ro'),
         (xvfb_fbdir, '/xvfb', 'rw')
     ]
@@ -228,7 +233,12 @@ class CommonTests:
         return dict(user=USER_NAME, env=dict(DBUS_SESSION_BUS_ADDRESS=bus_address))
 
     @pytest.fixture(scope='class')
-    def gnome_shell_session(self, container, user_env):
+    def install_ddterm(self, extension_pack, container, user_env):
+        if extension_pack:
+            container.exec('gnome-extensions', 'install', str(extension_pack), **user_env)
+
+    @pytest.fixture(scope='class')
+    def gnome_shell_session(self, container, user_env, install_ddterm):
         container.exec('systemctl', '--user', 'start', f'{self.GNOME_SHELL_SESSION_NAME}@:99', **user_env)
         return self.GNOME_SHELL_SESSION_NAME
 

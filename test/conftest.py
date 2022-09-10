@@ -51,10 +51,17 @@ def container_image(request, podman, iidfile_dir):
         return iidfile.read_text()
 
 
+@pytest.fixture(scope='session')
+def extension_pack(request):
+    if request.param:
+        return request.param.resolve()
+
+
 def pytest_addoption(parser):
     parser.addoption('--dockerfile', action='append', default=[], type=pathlib.Path)
     parser.addoption('--podman', default=['podman'], nargs='+')
     parser.addoption('--screenshot-failing-only', default=False, action='store_true')
+    parser.addoption('--pack', default=None, type=pathlib.Path)
 
 
 def pytest_configure(config):
@@ -77,6 +84,14 @@ def pytest_generate_tests(metafunc):
         metafunc.parametrize(
             'container_image',
             metafunc.config.stash[IMAGES_STASH_KEY],
+            indirect=True,
+            scope='session'
+        )
+
+    if 'extension_pack' in metafunc.fixturenames:
+        metafunc.parametrize(
+            'extension_pack',
+            [metafunc.config.getoption('--pack')],
             indirect=True,
             scope='session'
         )
