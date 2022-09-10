@@ -45,14 +45,14 @@ def mkpairs(*args, **kwargs):
     return list(allpairspy.AllPairs(*args, **kwargs))
 
 
-def load_extension_metadata(src_dir):
-    with open(src_dir / 'metadata.json', 'r') as f:
+def load_extension_metadata(src_dir, filename='metadata.json'):
+    with open(src_dir / filename, 'r') as f:
         return json.load(f)
 
 
 @pytest.fixture(scope='session')
 def ddterm_metadata():
-    return load_extension_metadata(SRC_DIR)
+    return load_extension_metadata(SRC_DIR, 'metadata.json.in')
 
 
 @pytest.fixture(scope='session')
