@@ -2,6 +2,8 @@ import logging
 
 from gi.repository import GLib, Gio
 
+from . import glib_util
+
 
 LOGGER = logging.getLogger(__name__)
 
@@ -18,28 +20,6 @@ INTROSPECTABLE_IFACE = Gio.DBusNodeInfo.new_for_xml('''
 ''').interfaces[0]
 
 
-class OneShotTimer:
-    def __init__(self):
-        self.source = None
-
-    def cancel(self):
-        if self.source is not None:
-            self.source.destroy()
-            self.source = None
-
-    def schedule(self, timeout, callback, context=None):
-        self.cancel()
-
-        def handler(*_):
-            self.source = None
-            callback()
-            return GLib.SOURCE_REMOVE
-
-        self.source = GLib.timeout_source_new(timeout)
-        self.source.set_callback(handler)
-        self.source.attach(context)
-
-
 def wait_interface(connection, name, path, interface):
     introspectable = Gio.DBusProxy.new_sync(
         connection,
@@ -52,7 +32,7 @@ def wait_interface(connection, name, path, interface):
     )
 
     loop = GLib.MainLoop.new(None, False)
-    retry = OneShotTimer()
+    retry = glib_util.OneShotTimer()
     interface_info = None
 
     def introspect_result(source, result):
@@ -115,9 +95,7 @@ def wait_interface(connection, name, path, interface):
             introspect_result
         )
 
-    watch_id = introspectable.connect('notify::g-name-owner', introspect)
-
-    try:
+    with retry, glib_util.SignalConnection(introspectable, 'notify::g-name-owner', introspect):
         introspect()
 
         if not interface_info:
@@ -132,10 +110,6 @@ def wait_interface(connection, name, path, interface):
             interface,
             None
         )
-
-    finally:
-        introspectable.disconnect(watch_id)
-        retry.cancel()
 
 
 def connect_tcp(host, port):
