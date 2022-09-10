@@ -108,8 +108,9 @@ jobs:
       with:
         domain: ${{ github.repository_owner }}
       continue-on-error: true
-    - run: npm ci
-    - run: xvfb-run make build
+    - uses: actions/download-artifact@v3
+      with:
+        name: pack
     - run: tox -vv --notest --sitepackages
       working-directory: test
     - run: >-
@@ -126,6 +127,7 @@ jobs:
         --self-contained-html
         --junitxml=junit.xml
         --dockerfile images/${{ matrix.image }}.dockerfile
+        --pack ../*.shell-extension.zip
         -n auto
         --screenshot-failing-only
         -v
