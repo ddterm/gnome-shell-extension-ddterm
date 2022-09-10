@@ -14,8 +14,7 @@
   "packageRules": [
     {
       "matchPackagePrefixes": ["ghcr.io/ddterm/gnome-shell-pod/"],
-      "groupName": "GNOME Shell Container Images",
-      "pinDigests": true
+      "groupName": "GNOME Shell Container Images"
     },
     {
       "matchPackageNames": ["ghcr.io/ddterm/ci-docker-image"],

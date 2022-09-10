@@ -8,7 +8,7 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/ddterm/ci-docker-image:master@sha256:01f9ef2eb25dc1cf65fa96b0b742fb504d2dc6e7adb786c5088711d592deaa5b
+      image: ghcr.io/ddterm/ci-docker-image:2022.09.10.0
 
     steps:
     - id: checkout
@@ -49,7 +49,7 @@ jobs:
   pack:
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/ddterm/ci-docker-image:master@sha256:01f9ef2eb25dc1cf65fa96b0b742fb504d2dc6e7adb786c5088711d592deaa5b
+      image: ghcr.io/ddterm/ci-docker-image:2022.09.10.0
 
     steps:
     - uses: actions/checkout@v3
@@ -87,7 +87,7 @@ jobs:
 
     runs-on: ubuntu-22.04
     container:
-      image: ghcr.io/ddterm/ci-docker-image:master@sha256:01f9ef2eb25dc1cf65fa96b0b742fb504d2dc6e7adb786c5088711d592deaa5b
+      image: ghcr.io/ddterm/ci-docker-image:2022.09.10.0
       options: --privileged --cgroupns=host --tmpfs /tmp --tmpfs /run
 
     strategy:

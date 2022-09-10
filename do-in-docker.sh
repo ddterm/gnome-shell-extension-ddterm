@@ -7,4 +7,4 @@ UID_GID=$(id -u):$(id -g)
 
 set -ex
 
-exec docker run --init --rm -i $TTY_FLAG -u $UID_GID -v "${SCRIPT_DIR}:${SCRIPT_DIR}" -w "${PWD}" ghcr.io/ddterm/ci-docker-image:master xvfb-run "$@"
+exec docker run --init --rm -i $TTY_FLAG -u $UID_GID -v "${SCRIPT_DIR}:${SCRIPT_DIR}" -w "${PWD}" ghcr.io/ddterm/ci-docker-image:latest xvfb-run "$@"
