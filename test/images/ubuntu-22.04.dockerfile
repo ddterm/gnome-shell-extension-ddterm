@@ -1,1 +1,1 @@
-FROM ghcr.io/ddterm/gnome-shell-pod/ubuntu-22.04:master@sha256:b8c63df0c57702c266b1facdf0b47e0d2b5a93dc07a34052aac4d0c2e0598a26
+FROM ghcr.io/ddterm/gnome-shell-pod/ubuntu-22.04:master@sha256:c38122aa9e8115b53f04732b287e0bd85efeed261eed9ea0a0feea1f6b77e1d2
