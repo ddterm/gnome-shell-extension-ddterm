@@ -19,7 +19,7 @@
 
 'use strict';
 
-/* exported enable disable message debug info warning critical */
+/* exported init enable disable message debug info warning critical */
 
 const { GLib, GObject, Gio, Meta } = imports.gi;
 const ByteArray = imports.byteArray;
@@ -29,7 +29,7 @@ const Config = imports.misc.config;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 
 const ddterm = imports.ui.main.extensionManager.lookup('ddterm@amezin.github.com');
-const { extension, rxutil } = ddterm.imports;
+const { extension, rxutil, timers } = ddterm.imports;
 const { rxjs } = ddterm.imports.rxjs;
 const { ConnectionSet } = ddterm.imports.connectionset;
 
@@ -802,9 +802,12 @@ class ExtensionTestDBusInterface {
 const dbus_interface = new ExtensionTestDBusInterface();
 const trace_subscription = new rxutil.Subscription();
 
-function enable() {
+function init() {
     GLib.setenv('G_MESSAGES_DEBUG', LOG_DOMAIN, false);
+    timers.install();
+}
 
+function enable() {
     trace_subscription.connect(extension.settings, 'changed', (settings, key) => {
         debug(`Setting changed: ${key}=${settings.get_value(key).print(true)}`);
     });

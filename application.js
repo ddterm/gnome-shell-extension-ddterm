@@ -59,7 +59,7 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 Me.dir = APP_DATA_DIR;
 
 const { rxjs } = imports.rxjs;
-const { rxutil, settings } = imports;
+const { rxutil, settings, timers } = imports;
 
 const Application = GObject.registerClass(
     class Application extends Gtk.Application {
@@ -264,6 +264,8 @@ GLib.set_prgname('com.github.amezin.ddterm');
 GLib.set_application_name('Drop Down Terminal');
 
 Gettext.bindtextdomain('ddterm@amezin.github.com', APP_DATA_DIR.get_child('locale').get_path());
+
+timers.install();
 
 const app = new Application({
     application_id: 'com.github.amezin.ddterm',
