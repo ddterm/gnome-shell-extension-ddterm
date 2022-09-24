@@ -6,7 +6,7 @@
         "rxjs": "7.5.7"
     },
     "devDependencies": {
-        "eslint": "8.23.1",
+        "eslint": "8.24.0",
         "eslint-plugin-jsdoc": "39.3.6"
     }
 }
