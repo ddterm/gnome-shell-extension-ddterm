@@ -12,7 +12,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
-"PO-Revision-Date: 2022-10-11 10:39+0300\n"
+"PO-Revision-Date: 2022-10-11 11:02+0300\n"
 "X-Generator: Gtranslator 40.0\n"
 
 #: glade/appwindow.ui:41
@@ -711,7 +711,7 @@ msgstr "Сбросить и очистить"
 
 #: glade/prefs-shortcuts.ui:257 menus.ui:96 menus.ui:192
 msgid "New Tab After Last Tab"
-msgstr "Новая вкладка - после последней вкладки"
+msgstr "Новая вкладка - После последней вкладки"
 
 #: glade/prefs-shortcuts.ui:263 menus.ui:92 menus.ui:188
 msgid "New Tab Before First Tab"
