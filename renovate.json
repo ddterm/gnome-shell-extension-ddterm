@@ -15,12 +15,21 @@
     {
       "matchPackagePrefixes": ["ghcr.io/ddterm/gnome-shell-pod/"],
       "groupName": "GNOME Shell Container Images",
-      "pinDigests": true
+      "pinDigests": true,
+      "automerge": true
     },
     {
       "matchPackageNames": ["ghcr.io/ddterm/ci-docker-image"],
       "groupName": "Build/Dev Environment",
-      "pinDigests": false
+      "pinDigests": false,
+      "automerge": true
+    },
+    {
+      "matchDepTypes": ["devDependencies"],
+      "automerge": true
     }
-  ]
+  ],
+  "lockFileMaintenance": {
+    "automerge": true
+  }
 }
