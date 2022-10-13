@@ -58,5 +58,5 @@ wand==0.6.10
     # via -r pypi.in
 
 # The following packages are considered to be unsafe in a requirements file:
-setuptools==65.3.0
+setuptools==65.4.1
     # via pytest-rerunfailures
