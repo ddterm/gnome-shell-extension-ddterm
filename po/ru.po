@@ -1,0 +1,1179 @@
+#
+# vantu5z <vantu5z@mail.ru>, 2022.
+#
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Project-Id-Version: ddterm\n"
+"Last-Translator: vantu5z <vantu5z@mail.ru>\n"
+"Language-Team: Russian <>\n"
+"Language: ru\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+"PO-Revision-Date: 2022-10-11 11:02+0300\n"
+"X-Generator: Gtranslator 40.0\n"
+
+#: glade/appwindow.ui:41
+msgid "Drop Down Terminal"
+msgstr "Выпадающий терминал"
+
+#: glade/appwindow.ui:66
+msgid "New Tab (First)"
+msgstr "Новая вкладка (в начале)"
+
+#: glade/appwindow.ui:91
+msgid "New Tab (Last)"
+msgstr "Новая вкладка (в конце)"
+
+#: glade/prefs-animation.ui:36
+msgid "Disable"
+msgstr "Отключить"
+
+#: glade/prefs-animation.ui:40
+msgid "Linear tweening"
+msgstr "Линейная"
+
+#: glade/prefs-animation.ui:44
+msgid "Quadratic tweening"
+msgstr "Квадратичная"
+
+#: glade/prefs-animation.ui:48
+msgid "Quadratic tweening, inverse"
+msgstr "Квадратичная обратная"
+
+#: glade/prefs-animation.ui:52
+msgid "Quadratic tweening, combining direct and inverse"
+msgstr "Квадратичная, сочетающая прямую и обратную"
+
+#: glade/prefs-animation.ui:56
+msgid "Cubic tweening"
+msgstr "Кубическая"
+
+#: glade/prefs-animation.ui:60
+msgid "Cubic tweening, inverse"
+msgstr "Кубическая обратная"
+
+#: glade/prefs-animation.ui:64
+msgid "Cubic tweening, combining direct and inverse"
+msgstr "Кубическая, сочетающая прямую и обратную"
+
+#: glade/prefs-animation.ui:68
+msgid "Quartic tweening"
+msgstr "Квартовая"
+
+#: glade/prefs-animation.ui:72
+msgid "Quartic tweening, inverse"
+msgstr "Квартовая обратная"
+
+#: glade/prefs-animation.ui:76
+msgid "Quartic tweening, combining direct and inverse"
+msgstr "Квартовая, сочетающая прямую и обратную"
+
+#: glade/prefs-animation.ui:80
+msgid "Quintic tweening"
+msgstr "Квинтическая"
+
+#: glade/prefs-animation.ui:84
+msgid "Quintic tweening, inverse"
+msgstr "Квинтическая обратная"
+
+#: glade/prefs-animation.ui:88
+msgid "Quintic tweening, combining direct and inverse"
+msgstr "Квинтическая, сочетающая прямую и обратную"
+
+#: glade/prefs-animation.ui:92
+msgid "Sinusoidal tweening"
+msgstr "Синусоидальная"
+
+#: glade/prefs-animation.ui:96
+msgid "Sinusoidal tweening, inverse"
+msgstr "Синусоидальная обратная"
+
+#: glade/prefs-animation.ui:100
+msgid "Sinusoidal tweening, combining direct and inverse"
+msgstr "Синусоидальная, сочетающая прямую и обратную"
+
+#: glade/prefs-animation.ui:104
+msgid "Exponential tweening"
+msgstr "Экспоненциальная"
+
+#: glade/prefs-animation.ui:108
+msgid "Exponential tweening, inverse"
+msgstr "Экспоненциальная обратная"
+
+#: glade/prefs-animation.ui:112
+msgid "Exponential tweening, combining direct and inverse"
+msgstr "Экспоненциальная, сочетающая прямую и обратную"
+
+#: glade/prefs-animation.ui:116
+msgid "Circular tweening"
+msgstr "Круговая"
+
+#: glade/prefs-animation.ui:120
+msgid "Circular tweening, inverse"
+msgstr "Круговая обратная"
+
+#: glade/prefs-animation.ui:124
+msgid "Circular tweening, combining direct and inverse"
+msgstr "Круговая, сочетающая прямую и обратную"
+
+#: glade/prefs-animation.ui:128
+msgid "Elastic tweening, with offshoot on start"
+msgstr "Эластичная с ответвлением в начале"
+
+#: glade/prefs-animation.ui:132
+msgid "Elastic tweening, with offshoot on end"
+msgstr "Эластичная с ответвлением в конце"
+
+#: glade/prefs-animation.ui:136
+msgid "Elastic tweening with offshoot on both ends"
+msgstr "Эластичная с ответвлением в начале и конце"
+
+#: glade/prefs-animation.ui:140
+msgid "Overshooting cubic tweening, with backtracking on start"
+msgstr "Превышающая кубическую с возвратом в начале"
+
+#: glade/prefs-animation.ui:144
+msgid "Overshooting cubic tweening, with backtracking on end"
+msgstr "Превышающая кубическую с возвратом в конце"
+
+#: glade/prefs-animation.ui:148
+msgid "Overshooting cubic tweening, with backtracking on both ends"
+msgstr "Превышающая кубическую с возвратом в начале и конце"
+
+#: glade/prefs-animation.ui:152
+msgid ""
+"Exponentially decaying parabolic (bounce) tweening, with bounce on start"
+msgstr "Экспоненциально затухающая параболическая с отскоком в начале"
+
+#: glade/prefs-animation.ui:156
+msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on end"
+msgstr "Экспоненциально затухающая параболическая с отскоком в конце"
+
+#: glade/prefs-animation.ui:160
+msgid ""
+"Exponentially decaying parabolic (bounce) tweening, with bounce on both ends"
+msgstr "Экспоненциально затухающая параболическая с отскоком в начале и конце"
+
+#: glade/prefs-animation.ui:188
+msgid "_Override default window animations"
+msgstr "Переопределить анимацию окна по умолчанию"
+
+#: glade/prefs-animation.ui:207
+msgid "_Show animation:"
+msgstr "Анимация открытия:"
+
+#: glade/prefs-animation.ui:221
+msgid "_Hide animation:"
+msgstr "Анимация закрытия:"
+
+#: glade/prefs-animation.ui:273
+msgid "_Hide animation duration:"
+msgstr "Длительность анимации закрытия:"
+
+#: glade/prefs-animation.ui:286
+msgid "_Show animation duration:"
+msgstr "Длительность анимации открытия:"
+
+#: glade/prefs-behavior.ui:39
+msgid "_Resizable"
+msgstr "Изменяемый размер"
+
+#: glade/prefs-behavior.ui:55
+msgid "_Above all windows"
+msgstr "Поверх всех окон"
+
+#: glade/prefs-behavior.ui:71
+msgid "On all _workspaces"
+msgstr "На всех рабочих столах"
+
+#: glade/prefs-behavior.ui:87
+msgid "Hide when the application loses _focus"
+msgstr "Скрывать при потере фокуса"
+
+#: glade/prefs-behavior.ui:103
+msgid "Hide when _Esc key is pressed"
+msgstr "Скрывать при нажатии клавиши ESC"
+
+#: glade/prefs-behavior.ui:119
+msgid "Exclude from _overview/task bar"
+msgstr "Не показывать в обзоре/панеле задач"
+
+#: glade/prefs-behavior.ui:135
+msgid "Hide mouse _pointer when typing"
+msgstr "Прятать указатель мыши при наборе текста"
+
+#: glade/prefs-behavior.ui:151
+msgid ""
+"Force _X11 GDK backend (XWayland).\n"
+"You'll have to close all tabs for this option to take effect."
+msgstr ""
+"Принудительно использовать X11 GDK сервер (XWayland).\n"
+"Необходимо закрыть все вкладки для применения данного параметра."
+
+#: glade/prefs-behavior.ui:171
+msgid "Window type _hint (X11 only):"
+msgstr "Тип окна (только для X11):"
+
+#: glade/prefs-behavior.ui:186
+msgid "Normal"
+msgstr "Нормальное"
+
+#: glade/prefs-behavior.ui:187
+msgid "Dialog"
+msgstr "Диалог"
+
+#: glade/prefs-behavior.ui:188
+msgid "Splash screen"
+msgstr "Экран приветствия"
+
+#: glade/prefs-behavior.ui:189
+msgid "Utility"
+msgstr "Вспомогательное"
+
+#: glade/prefs-behavior.ui:190
+msgid "Dock"
+msgstr "Док"
+
+#: glade/prefs-behavior.ui:191
+msgid "Dropdown menu"
+msgstr "Выпадающее меню"
+
+#: glade/prefs-behavior.ui:192
+msgid "Menu"
+msgstr "Меню"
+
+#: glade/prefs-behavior.ui:193
+msgid "Toolbar"
+msgstr "Панель инструментов"
+
+#: glade/prefs-behavior.ui:194
+msgid "Popup menu"
+msgstr "Всплывающее меню"
+
+#: glade/prefs-behavior.ui:195
+msgid "Tooltip"
+msgstr "Подсказка"
+
+#: glade/prefs-behavior.ui:196
+msgid "Notification"
+msgstr "Уведомление"
+
+#: glade/prefs-behavior.ui:197
+msgid "Combo"
+msgstr "Выпадающий список"
+
+#: glade/prefs-colors.ui:38
+msgid "Black on light yellow"
+msgstr "Чёрный на светло жёлтом"
+
+#: glade/prefs-colors.ui:43
+msgid "Black on white"
+msgstr "Чёрный на белом"
+
+#: glade/prefs-colors.ui:48
+msgid "Gray on black"
+msgstr "Серый на чёрном"
+
+#: glade/prefs-colors.ui:53
+msgid "Green on black"
+msgstr "Зелёный на чёрном"
+
+#: glade/prefs-colors.ui:58
+msgid "White on black"
+msgstr "Белый на чёрном"
+
+#: glade/prefs-colors.ui:63
+msgid "GNOME light"
+msgstr "GNOME светлая"
+
+#: glade/prefs-colors.ui:68
+msgid "GNOME dark"
+msgstr "GNOME тёмная"
+
+#: glade/prefs-colors.ui:73
+msgid "Tango light"
+msgstr "Tango светлая"
+
+#: glade/prefs-colors.ui:78
+msgid "Tango dark"
+msgstr "Tango тёмная"
+
+#: glade/prefs-colors.ui:83
+msgid "Solarized light"
+msgstr "Solarized светаля"
+
+#: glade/prefs-colors.ui:88
+msgid "Solarized dark"
+msgstr "Solarized тёмная"
+
+#: glade/prefs-colors.ui:93 glade/prefs-colors.ui:257
+msgid "Custom"
+msgstr "Пользовательская"
+
+#: glade/prefs-colors.ui:143
+msgid "GNOME"
+msgstr "GNOME"
+
+#: glade/prefs-colors.ui:162
+msgid "Tango"
+msgstr "Tango"
+
+#: glade/prefs-colors.ui:181
+msgid "Linux"
+msgstr "Linux"
+
+#: glade/prefs-colors.ui:200
+msgid "XTerm"
+msgstr "XTerm"
+
+#: glade/prefs-colors.ui:219
+msgid "RXVT"
+msgstr "RXVT"
+
+#: glade/prefs-colors.ui:238
+msgid "Solarized"
+msgstr "Solarized"
+
+#: glade/prefs-colors.ui:292
+msgid "Theme _variant:"
+msgstr "Вариант темы:"
+
+#: glade/prefs-colors.ui:307 glade/prefs-text.ui:133
+msgid "Default"
+msgstr "По умолчанию"
+
+#: glade/prefs-colors.ui:308
+msgid "Light"
+msgstr "Светлая"
+
+#: glade/prefs-colors.ui:309
+msgid "Dark"
+msgstr "Тёмная"
+
+#: glade/prefs-colors.ui:319
+msgid "Use colors from system _theme"
+msgstr "_Использовать цвета из системной темы"
+
+#: glade/prefs-colors.ui:344
+msgid "Foreground"
+msgstr "Текст"
+
+#: glade/prefs-colors.ui:355
+msgid "Background"
+msgstr "Фон"
+
+#: glade/prefs-colors.ui:367
+msgid "Default color:"
+msgstr "Цвет по умолчанию:"
+
+#: glade/prefs-colors.ui:376
+msgid "Bold color:"
+msgstr "Жирный цвет:"
+
+#: glade/prefs-colors.ui:390
+msgid "Cursor color:"
+msgstr "Цвет курсора:"
+
+#: glade/prefs-colors.ui:404
+msgid "Highlight color:"
+msgstr "Цвет подсветки:"
+
+#: glade/prefs-colors.ui:421
+msgid "Color _scheme:"
+msgstr "Цветовая схема:"
+
+#: glade/prefs-colors.ui:469
+msgid "Foreground Color"
+msgstr "Цвет текста"
+
+#: glade/prefs-colors.ui:493
+msgid "Background Color"
+msgstr "Цвет фона"
+
+#: glade/prefs-colors.ui:517
+msgid "Bold Color"
+msgstr "Жирный цвет"
+
+#: glade/prefs-colors.ui:541
+msgid "Cursor Foreground Color"
+msgstr "Цвет текста в курсоре"
+
+#: glade/prefs-colors.ui:565
+msgid "Cursor Background Color"
+msgstr "Цвет фона курсора"
+
+#: glade/prefs-colors.ui:589
+msgid "Highlight Foreground Color"
+msgstr "Цвет подсветки текста"
+
+#: glade/prefs-colors.ui:613
+msgid "Highlight Background Color"
+msgstr "Цвет подсветки фона"
+
+#: glade/prefs-colors.ui:642
+msgid "_Background opacity:"
+msgstr "Непрозрачность фона:"
+
+#: glade/prefs-colors.ui:687
+msgid "_Palette:"
+msgstr "Палитра:"
+
+#: glade/prefs-colors.ui:729
+msgid "Palette Color 0"
+msgstr "Цвет палитры 0"
+
+#: glade/prefs-colors.ui:742
+msgid "Palette Color 1"
+msgstr "Цвет палитры 1"
+
+#: glade/prefs-colors.ui:755
+msgid "Palette Color 2"
+msgstr "Цвет палитры 2"
+
+#: glade/prefs-colors.ui:768
+msgid "Palette Color 3"
+msgstr "Цвет палитры 3"
+
+#: glade/prefs-colors.ui:781
+msgid "Palette Color 4"
+msgstr "Цвет палитры 4"
+
+#: glade/prefs-colors.ui:794
+msgid "Palette Color 5"
+msgstr "Цвет палитры 5"
+
+#: glade/prefs-colors.ui:807
+msgid "Palette Color 6"
+msgstr "Цвет палитры 6"
+
+#: glade/prefs-colors.ui:820
+msgid "Palette Color 7"
+msgstr "Цвет палитры 7"
+
+#: glade/prefs-colors.ui:833
+msgid "Palette Color 8"
+msgstr "Цвет палитры 8"
+
+#: glade/prefs-colors.ui:846
+msgid "Palette Color 9"
+msgstr "Цвет палитры 9"
+
+#: glade/prefs-colors.ui:859
+msgid "Palette Color 10"
+msgstr "Цвет палитры 10"
+
+#: glade/prefs-colors.ui:872
+msgid "Palette Color 11"
+msgstr "Цвет палитры 11"
+
+#: glade/prefs-colors.ui:885
+msgid "Palette Color 12"
+msgstr "Цвет палитры 12"
+
+#: glade/prefs-colors.ui:898
+msgid "Palette Color 13"
+msgstr "Цвет палитры 13"
+
+#: glade/prefs-colors.ui:911
+msgid "Palette Color 14"
+msgstr "Цвет палитры 14"
+
+#: glade/prefs-colors.ui:924
+msgid "Palette Color 15"
+msgstr "Цвет палитры 15"
+
+#: glade/prefs-colors.ui:940
+msgid "Show bold text in _bright colors"
+msgstr "Отображать жирный текст в ярких цветах"
+
+#: glade/prefs-colors.ui:956
+msgid "Copy profile from GNOME Terminal"
+msgstr "Скопировать профиль из терминала GNOME"
+
+#: glade/prefs-command.ui:39
+msgid "User _shell"
+msgstr "Пользовательский shell"
+
+#: glade/prefs-command.ui:57
+msgid "User shell as _login shell"
+msgstr "Пользовательский shell как оболочка входа"
+
+#: glade/prefs-command.ui:75
+msgid "Custom _command:"
+msgstr "Другая команда:"
+
+#: glade/prefs-command.ui:114
+msgid "Preserve working directory"
+msgstr "Сохранять рабочий каталог"
+
+#: glade/prefs-compatibility.ui:36 glade/prefs-tabs.ui:131
+msgid "Automatic"
+msgstr "Автоматически"
+
+#: glade/prefs-compatibility.ui:40
+msgid "Control-H"
+msgstr "Control-H"
+
+#: glade/prefs-compatibility.ui:44
+msgid "ASCII DEL"
+msgstr "ASCII DEL"
+
+#: glade/prefs-compatibility.ui:48
+msgid "Escape sequence"
+msgstr "Управляющая последовательность"
+
+#: glade/prefs-compatibility.ui:52
+msgid "TTY Erase"
+msgstr "Очистить терминал"
+
+#: glade/prefs-compatibility.ui:72
+msgid "_Backspace key generates:"
+msgstr "Клавиша «Backspace» генерирует:"
+
+#: glade/prefs-compatibility.ui:86
+msgid "_Delete key generates:"
+msgstr "Клавиша «Delete» генерирует:"
+
+#: glade/prefs-compatibility.ui:100
+msgid "Ambiguous-_width characters:"
+msgstr "Символы неоднозначной ширины:"
+
+#: glade/prefs-compatibility.ui:153
+msgid "Narrow"
+msgstr "Узкие"
+
+#: glade/prefs-compatibility.ui:154
+msgid "Wide"
+msgstr "Широкие"
+
+#: glade/prefs-compatibility.ui:164
+msgid "_Reset Compatibility Options to Defaults"
+msgstr "Восстановить параметры совместимости по умолчанию"
+
+#: glade/prefs-panel-icon.ui:42
+msgid "Panel icon:"
+msgstr "Иконка на панели:"
+
+#: glade/prefs-panel-icon.ui:55 glade/prefs-tabs.ui:292
+msgid "None"
+msgstr "Отключено"
+
+#: glade/prefs-panel-icon.ui:56
+msgid "With popup menu"
+msgstr "С выпадающим меню"
+
+#: glade/prefs-panel-icon.ui:57
+msgid "Toggle button"
+msgstr "Кнопка переключения"
+
+#: glade/prefs-position-size.ui:47
+msgid "Window _size:"
+msgstr "Размер окна:"
+
+#: glade/prefs-position-size.ui:76
+msgid "_Window position:"
+msgstr "Положение окна:"
+
+#: glade/prefs-position-size.ui:91 glade/prefs-tabs.ui:219
+msgid "Top"
+msgstr "Сверху"
+
+#: glade/prefs-position-size.ui:92 glade/prefs-tabs.ui:218
+msgid "Bottom"
+msgstr "Внизу"
+
+#: glade/prefs-position-size.ui:93 glade/prefs-tabs.ui:220
+msgid "Left"
+msgstr "Слева"
+
+#: glade/prefs-position-size.ui:94 glade/prefs-tabs.ui:221
+msgid "Right"
+msgstr "Справа"
+
+#: glade/prefs-position-size.ui:104
+msgid "On the monitor that contains the mouse pointer"
+msgstr "На мониторе, на котором находится указатель мыши"
+
+#: glade/prefs-position-size.ui:122
+msgid "On the _primary monitor"
+msgstr "На основном мониторе"
+
+#: glade/prefs-position-size.ui:140
+msgid "On the monitor with keyboard _focus"
+msgstr "На мониторе с фокусом ввода с клавиатуры"
+
+#: glade/prefs-position-size.ui:158
+msgid "On _monitor:"
+msgstr "На мониторе:"
+
+#: glade/prefs-scrolling.ui:44
+msgid "Show _scrollbar"
+msgstr "Показывать полосу прокрутки"
+
+#: glade/prefs-scrolling.ui:60
+msgid "Scroll on _output"
+msgstr "Прокручивать при выводе"
+
+#: glade/prefs-scrolling.ui:76
+msgid "Scroll on _keystroke"
+msgstr "Прокручивать при нажатии клавиши"
+
+#: glade/prefs-scrolling.ui:92
+msgid "_Limit scrollback to:"
+msgstr "Ограничить прокрутку:"
+
+#: glade/prefs-scrolling.ui:129
+msgid "lines"
+msgstr "строками"
+
+#: glade/prefs-shortcuts.ui:48
+msgid "Global Action"
+msgstr "Глобальное действие"
+
+#: glade/prefs-shortcuts.ui:60
+msgid "Global Shortcut"
+msgstr "Глобальная комбинация клавиш"
+
+#: glade/prefs-shortcuts.ui:81
+msgid "_Enable application shortcuts"
+msgstr "Включить комбинации клавиш для приложения"
+
+#: glade/prefs-shortcuts.ui:107
+msgid "Action"
+msgstr "Действие"
+
+#: glade/prefs-shortcuts.ui:119
+msgid "Shortcut"
+msgstr "Комбинация клавиш"
+
+#: glade/prefs-shortcuts.ui:153
+msgid "Toggle Terminal Window"
+msgstr "Переключение видимости окна терминала"
+
+#: glade/prefs-shortcuts.ui:159
+msgid "Show/Activate Terminal Window"
+msgstr "Показать/активировать окно терминала"
+
+#: glade/prefs-shortcuts.ui:179
+msgid "Hide the Window"
+msgstr "Скрыть окно"
+
+#: glade/prefs-shortcuts.ui:185
+msgid "Maximize/Unmaximize the Window"
+msgstr "Развернуть/свернуть окно"
+
+#: glade/prefs-shortcuts.ui:191
+msgid "Increase Window Height"
+msgstr "Увеличить высоту окна"
+
+#: glade/prefs-shortcuts.ui:197
+msgid "Decrease Window Height"
+msgstr "Уменьшить высоту окна"
+
+#: glade/prefs-shortcuts.ui:203
+msgid "Increase Background Opacity"
+msgstr "Увеличить непрозрачность фона"
+
+#: glade/prefs-shortcuts.ui:209
+msgid "Decrease Background Opacity"
+msgstr "Уменьшить непрозрачность фона"
+
+#: glade/prefs-shortcuts.ui:215
+msgid "Enable/Disable Background Transparency"
+msgstr "Вкл/выкл прозрачности фона"
+
+#: glade/prefs-shortcuts.ui:221
+msgid "Copy Selected Text"
+msgstr "Копировать выбранный текст"
+
+#: glade/prefs-shortcuts.ui:227
+msgid "Copy Selected Text as HTML"
+msgstr "Копировать выбранный текст как HTML"
+
+#: glade/prefs-shortcuts.ui:233
+msgid "Paste Text from Clipboard"
+msgstr "Вставить текст из буфера обмена"
+
+#: glade/prefs-shortcuts.ui:239 menus.ui:54
+msgid "Select All"
+msgstr "Выбрать все"
+
+#: glade/prefs-shortcuts.ui:245 menus.ui:66
+msgid "Reset"
+msgstr "Сбросить"
+
+#: glade/prefs-shortcuts.ui:251 menus.ui:70
+msgid "Reset and Clear"
+msgstr "Сбросить и очистить"
+
+#: glade/prefs-shortcuts.ui:257 menus.ui:96 menus.ui:192
+msgid "New Tab After Last Tab"
+msgstr "Новая вкладка - После последней вкладки"
+
+#: glade/prefs-shortcuts.ui:263 menus.ui:92 menus.ui:188
+msgid "New Tab Before First Tab"
+msgstr "Новая вкладка - Перед первой вкладкой"
+
+#: glade/prefs-shortcuts.ui:269 menus.ui:84
+msgid "New Tab Before Current Tab"
+msgstr "Новая вкладка - Перед текущей вкладкой"
+
+#: glade/prefs-shortcuts.ui:275 menus.ui:88
+msgid "New Tab After Current Tab"
+msgstr "Новая вкладка - После текущей вкладки"
+
+#: glade/prefs-shortcuts.ui:281
+msgid "Close Current Tab"
+msgstr "Закрыть текущую вкладку"
+
+#: glade/prefs-shortcuts.ui:287
+msgid "Switch to Previous Tab"
+msgstr "Переключится на предыдущую вкладку"
+
+#: glade/prefs-shortcuts.ui:293
+msgid "Switch to Next Tab"
+msgstr "Переключится на следующую вкладку"
+
+#: glade/prefs-shortcuts.ui:299 menus.ui:198
+msgid "Move Tab to Previous Position"
+msgstr "Переместить вкладку на предыдущую позицию"
+
+#: glade/prefs-shortcuts.ui:305 menus.ui:202
+msgid "Move Tab to Next Position"
+msgstr "Переместить вкладку на следующую позицию"
+
+#: glade/prefs-shortcuts.ui:311
+msgid "Set Custom Tab Title"
+msgstr "Изменить название вкладки"
+
+#: glade/prefs-shortcuts.ui:317
+msgid "Reset Tab Title"
+msgstr "Сбросить название вкладки"
+
+#: glade/prefs-shortcuts.ui:323 menus.ui:60
+msgid "Find"
+msgstr "Найти"
+
+#: glade/prefs-shortcuts.ui:329 glade/terminalpage.ui:271
+#: glade/terminalpage.ui:274
+msgid "Find Next"
+msgstr "Найти следующее"
+
+#: glade/prefs-shortcuts.ui:335 glade/terminalpage.ui:290
+#: glade/terminalpage.ui:293
+msgid "Find Previous"
+msgstr "Найти предыдущее"
+
+#: glade/prefs-shortcuts.ui:341
+msgid "Switch to Tab 1"
+msgstr "Переключиться на вкладку 1"
+
+#: glade/prefs-shortcuts.ui:347
+msgid "Switch to Tab 2"
+msgstr "Переключиться на вкладку 2"
+
+#: glade/prefs-shortcuts.ui:353
+msgid "Switch to Tab 3"
+msgstr "Переключиться на вкладку 3"
+
+#: glade/prefs-shortcuts.ui:359
+msgid "Switch to Tab 4"
+msgstr "Переключиться на вкладку 4"
+
+#: glade/prefs-shortcuts.ui:365
+msgid "Switch to Tab 5"
+msgstr "Переключиться на вкладку 5"
+
+#: glade/prefs-shortcuts.ui:371
+msgid "Switch to Tab 6"
+msgstr "Переключиться на вкладку 6"
+
+#: glade/prefs-shortcuts.ui:377
+msgid "Switch to Tab 7"
+msgstr "Переключиться на вкладку 7"
+
+#: glade/prefs-shortcuts.ui:383
+msgid "Switch to Tab 8"
+msgstr "Переключиться на вкладку 8"
+
+#: glade/prefs-shortcuts.ui:389
+msgid "Switch to Tab 9"
+msgstr "Переключиться на вкладку 9"
+
+#: glade/prefs-shortcuts.ui:395
+msgid "Switch to Tab 10"
+msgstr "Переключиться на вкладку 10"
+
+#: glade/prefs-tabs.ui:48
+msgid "Expand tabs"
+msgstr "Растянуть вкладки"
+
+#: glade/prefs-tabs.ui:64
+msgid "Show _close buttons"
+msgstr "Показывать кнопку закрытия вкладки"
+
+#: glade/prefs-tabs.ui:80
+msgid "\"_New Tab (Last)\" button"
+msgstr "Кнопка \"Новая вкладка (в конце)\""
+
+#: glade/prefs-tabs.ui:96
+msgid "Tab _switcher popup"
+msgstr "Меню переключения вкладок"
+
+#: glade/prefs-tabs.ui:115
+msgid "Show tab _bar:"
+msgstr "Показывать панель вкладок:"
+
+#: glade/prefs-tabs.ui:130 glade/prefs-text.ui:103
+msgid "Always"
+msgstr "Всегда"
+
+#: glade/prefs-tabs.ui:132 glade/prefs-text.ui:100
+msgid "Never"
+msgstr "Никогда"
+
+#: glade/prefs-tabs.ui:145
+msgid "Tab _title:"
+msgstr "Название вкладки:"
+
+#: glade/prefs-tabs.ui:170
+msgid "_Reset to default"
+msgstr "Восстановить значения по умолчанию"
+
+#: glade/prefs-tabs.ui:184
+msgid "\"_New Tab (First)\" button"
+msgstr "Кнопка \"Новая вкладка (в начале)\""
+
+#: glade/prefs-tabs.ui:203
+msgid "Tab bar position:"
+msgstr "Положение панели вкладок:"
+
+#: glade/prefs-tabs.ui:231
+msgid "Show border"
+msgstr "Показывать границу"
+
+#: glade/prefs-tabs.ui:250
+msgid "Tab width:"
+msgstr "Ширина вкладки:"
+
+#: glade/prefs-tabs.ui:278
+msgid "Ellipsize tab labels:"
+msgstr "Сокращение названия вкладок:"
+
+#: glade/prefs-tabs.ui:293
+msgid "Start"
+msgstr "В начале"
+
+#: glade/prefs-tabs.ui:294
+msgid "Middle"
+msgstr "В середине"
+
+#: glade/prefs-tabs.ui:295
+msgid "End"
+msgstr "В конце"
+
+#: glade/prefs-tabs.ui:308
+msgid ""
+"Tab title is generated from <a href=\"https://handlebarsjs.com/guide/"
+"\">handlebars.js</a> template. <a href=\"https://developer.gnome.org/pango/"
+"stable/pango-Markup.html\">Pango markup</a> can be used to format the "
+"title.\n"
+"\n"
+"Following variables are available:\n"
+"- <tt>window-title</tt>\n"
+"- <tt>icon-title</tt>\n"
+"- <tt>current-directory-uri</tt>\n"
+"- <tt>current-file-uri</tt>\n"
+"- <tt>current-container-name</tt>\n"
+"- <tt>current-container-runtime</tt>\n"
+"- <tt>switch-shortcut</tt>\n"
+"\n"
+"Following helpers are available:\n"
+"- <tt>filename-from-uri</tt>\n"
+"- <tt>hostname-from-uri</tt>\n"
+"- <tt>ellipsize</tt> or <tt>truncate-chars</tt>\n"
+"      example: <tt>{{ellipsize window-title 20}}</tt>"
+msgstr ""
+"Название вкладки генерируется по <a href=\\\"https://handlebarsjs.com/guide/\n"
+"\\\">handlebars.js</a> шаблону. <a "
+"href=\\\"https://developer.gnome.org/pango/\n"
+"stable/pango-Markup.html\\\">Pango markup</a> может быть использован  для "
+"форматирования.\n"
+"\n"
+"Доступны следующие значения:\n"
+"- <tt>window-title</tt>\n"
+"- <tt>icon-title</tt>\n"
+"- <tt>current-directory-uri</tt>\n"
+"- <tt>current-file-uri</tt>\n"
+"- <tt>current-container-name</tt>\n"
+"- <tt>current-container-runtime</tt>\n"
+"- <tt>switch-shortcut</tt>\n"
+"\n"
+"Доступны следующие вспомогательные функции:\n"
+"- <tt>filename-from-uri</tt>\n"
+"- <tt>hostname-from-uri</tt>\n"
+"- <tt>ellipsize</tt> или <tt>truncate-chars</tt>\n"
+"      пример: <tt>{{ellipsize window-title 20}}</tt>"
+
+#: glade/prefs-text.ui:39
+msgid "Custom _font:"
+msgstr "Пользовательский шрифт:"
+
+#: glade/prefs-text.ui:57
+msgid "Allow _blinking text:"
+msgstr "Разрешить моргание текста:"
+
+#: glade/prefs-text.ui:71
+msgid "Cursor _shape:"
+msgstr "Вид курсора:"
+
+#: glade/prefs-text.ui:85
+msgid "_Cursor blinking:"
+msgstr "Моргание курсора:"
+
+#: glade/prefs-text.ui:101
+msgid "When focused"
+msgstr "Когда в фокусе"
+
+#: glade/prefs-text.ui:102
+msgid "When unfocused"
+msgstr "Когда не в фокусе"
+
+#: glade/prefs-text.ui:117
+msgid "Block"
+msgstr "Блок"
+
+#: glade/prefs-text.ui:118
+msgid "I-Beam"
+msgstr "I-образный"
+
+#: glade/prefs-text.ui:119
+msgid "Underline"
+msgstr "Подчёркивание"
+
+#: glade/prefs-text.ui:134
+msgid "Enabled"
+msgstr "Включено"
+
+#: glade/prefs-text.ui:135
+msgid "Disabled"
+msgstr "Отключено"
+
+#: glade/prefs-text.ui:145
+msgid "Allow _hyperlinks"
+msgstr "Разрешить ссылки"
+
+#: glade/prefs-text.ui:161
+msgid "Audible _bell"
+msgstr "Звуковой сигнал"
+
+#: glade/prefs-text.ui:203
+msgid "Detect _URLs"
+msgstr "Определение ссылок (URL)"
+
+#: glade/prefs-text.ui:226
+msgid "Detect raw URLs (scheme://netloc/path)"
+msgstr "Прямые ссылки (схема://сетевой/путь)"
+
+#: glade/prefs-text.ui:241
+msgid "Detect file: URLs"
+msgstr "Ссылки на файлы"
+
+#: glade/prefs-text.ui:256
+msgid "Detect HTTP URLs"
+msgstr "Ссылки HTTP"
+
+#: glade/prefs-text.ui:271
+msgid "Detect VoIP URLs"
+msgstr "Ссылки VoIP"
+
+#: glade/prefs-text.ui:286
+msgid "Detect E-mail addresses"
+msgstr "Адреса E-mail"
+
+#: glade/prefs-text.ui:301
+msgid "Detect news:/man: URLs"
+msgstr "Ссылки вида \"news:/man\""
+
+#: glade/terminalpage.ui:169
+msgid "Case Sensitive"
+msgstr "Чувствительность к регистру"
+
+#: glade/terminalpage.ui:171
+msgid "Aa"
+msgstr "Aa"
+
+#: glade/terminalpage.ui:186
+msgid "Match Whole Word"
+msgstr "Совпадение слов целиком"
+
+#: glade/terminalpage.ui:188
+msgid "\"\""
+msgstr "\"\""
+
+#: glade/terminalpage.ui:203
+msgid "Wrap Around"
+msgstr "Прокрутка к результату"
+
+#: glade/terminalpage.ui:206
+msgid "Wrap"
+msgstr "Прокрутка"
+
+#: glade/terminalpage.ui:221
+msgid "Regular Expression"
+msgstr "Регулярное выражение"
+
+#: glade/terminalpage.ui:223
+msgid ".*"
+msgstr ".*"
+
+#: glade/terminalpage.ui:252
+msgid "Close Search Bar"
+msgstr "Закрыть панель поиска"
+
+#: glade/terminalpage.ui:255 menus.ui:76 menus.ui:175
+msgid "Close"
+msgstr "Закрыть"
+
+#: menus.ui:25
+msgid "Open Hyperlink"
+msgstr "Открыть ссылку"
+
+#: menus.ui:30
+msgid "Copy Hyperlink Address"
+msgstr "Копировать адрес ссылки"
+
+#: menus.ui:35
+msgid "Copy File Path"
+msgstr "Копировать путь к файлу"
+
+#: menus.ui:42
+msgid "Copy"
+msgstr "Копировать"
+
+#: menus.ui:46
+msgid "Copy HTML"
+msgstr "Копировать HTML"
+
+#: menus.ui:50
+msgid "Paste"
+msgstr "Вставить"
+
+#: menus.ui:82
+msgid "New Tab"
+msgstr "Новая вкладка"
+
+#: menus.ui:102 prefsdialog.js:39
+msgid "Preferences"
+msgstr "Параметры"
+
+#: menus.ui:105 menus.ui:207 panelicon.js:77
+msgid "Preferences..."
+msgstr "Параметры..."
+
+#: menus.ui:111
+msgid "Above All Windows"
+msgstr "Поверх всех окон"
+
+#: menus.ui:115
+msgid "On All Workspaces"
+msgstr "На всех рабочих столах"
+
+#: menus.ui:119
+msgid "Maximize Window"
+msgstr "На весь экран"
+
+#: menus.ui:123
+msgid "Transparent Background"
+msgstr "Прозрачный фон"
+
+#: menus.ui:129
+msgid "Hide When Application Loses Focus"
+msgstr "Скрывать при потере фокуса"
+
+#: menus.ui:133
+msgid "Hide When Esc Key Is Pressed"
+msgstr "Скрывать по клавише ESC"
+
+#: menus.ui:139
+msgid "Scroll On Output"
+msgstr "Прокрутка при выводе"
+
+#: menus.ui:143
+msgid "Scroll On Keystroke"
+msgstr "Прокрутка по нажатию клавиши"
+
+#: menus.ui:149
+msgid "Preserve Working Directory In New Tabs"
+msgstr "Сохранять рабочий каталог в новых вкладках"
+
+#: menus.ui:155
+msgid "Enable Keyboard Shortcuts"
+msgstr "Включить комбинации клавиш"
+
+#: menus.ui:164
+msgid "Use Custom Tab Title"
+msgstr "Использовать пользовательское именование вкладок"
+
+#: menus.ui:169
+msgid "Use Default Tab Title"
+msgstr "Использовать именование вкладок по умолчанию"
+
+#: menus.ui:180
+msgid "New Tab Before This Tab"
+msgstr "Новая вкладка перед указанной"
+
+#: menus.ui:184
+msgid "New Tab After This Tab"
+msgstr "Новая вкладка после указанной"
+
+#: panelicon.js:68
+msgid "Show"
+msgstr "Показать"
+
+#: prefsanimation.js:91
+msgid "Animation"
+msgstr "Анимация"
+
+#: prefsbehavior.js:63
+msgid "Behavior"
+msgstr "Поведение"
+
+#: prefscolors.js:268
+msgid "Colors"
+msgstr "Цвета"
+
+#: prefscommand.js:63
+msgid "Command"
+msgstr "Команда"
+
+#: prefscompatibility.js:64
+msgid "Compatibility"
+msgstr "Совместимость"
+
+#: prefspanelicon.js:49
+msgid "Panel Icon"
+msgstr "Значок на панели"
+
+#: prefspositionsize.js:147
+msgid "Position and Size"
+msgstr "Положение и размер"
+
+#: prefsscrolling.js:64
+msgid "Scrolling"
+msgstr "Прокрутка"
+
+#: prefsshortcuts.js:112
+msgid "Keyboard Shortcuts"
+msgstr "Комбинации клавиш"
+
+#: prefstabs.js:95
+msgid "Tabs"
+msgstr "Вкладки"
+
+#: prefstext.js:76
+msgid "Text"
+msgstr "Текст"
