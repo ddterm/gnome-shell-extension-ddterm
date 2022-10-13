@@ -1,1 +1,1 @@
-FROM ghcr.io/ddterm/gnome-shell-pod/fedora-36:master@sha256:dee83792f7f3099c19b9732aa586e1d214cc2bf2eb96fd90d46985e298e5a2ec
+FROM ghcr.io/ddterm/gnome-shell-pod/fedora-36:master@sha256:f4baa997755bf3ee77a515c65bc673b50a8a017712e356c1e272ce26ab396024
