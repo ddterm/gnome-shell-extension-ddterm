@@ -1,1 +1,1 @@
-FROM ghcr.io/ddterm/gnome-shell-pod/debian-11:master@sha256:00f21d20aaad0a5cfb9e65d920cbc48fc9780a9f92a9e01cd063f1d15edf26d4
+FROM ghcr.io/ddterm/gnome-shell-pod/debian-11:2022.10.19.0

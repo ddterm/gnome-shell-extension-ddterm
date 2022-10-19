@@ -15,7 +15,7 @@
     {
       "matchPackagePrefixes": ["ghcr.io/ddterm/gnome-shell-pod/"],
       "groupName": "GNOME Shell Container Images",
-      "pinDigests": true,
+      "pinDigests": false,
       "automerge": true
     },
     {
