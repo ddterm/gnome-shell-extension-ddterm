@@ -46,19 +46,17 @@ function recursion_guard() {
         if (!rxjs.isObservable(arg))
             return call(arg);
 
-        return new rxjs.Observable(subscriber => {
-            arg.subscribe({
-                next(value) {
-                    call(() => subscriber.next(value));
-                },
-                error(error) {
-                    subscriber.error(error);
-                },
-                complete() {
-                    subscriber.complete();
-                },
-            });
-        });
+        return new rxjs.Observable(subscriber => arg.subscribe({
+            next(value) {
+                call(() => subscriber.next(value));
+            },
+            error(error) {
+                subscriber.error(error);
+            },
+            complete() {
+                subscriber.complete();
+            },
+        }));
     };
 }
 
