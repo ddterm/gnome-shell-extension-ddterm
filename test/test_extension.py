@@ -317,11 +317,6 @@ class CommonTests:
             test_interface.TestShow('(dssis)', window_size, window_maximize, window_pos, monitor_config.current_index, monitor_config.setting)
 
     def test_show_h(self, test_interface, window_size, window_maximize, window_pos, monitor_config, screenshot):
-        if monitor_config.setting == 'primary':
-            target_monitor = self.PRIMARY_MONITOR
-        else:
-            target_monitor = monitor_config.current_index
-
         with screenshot:
             test_interface.TestShow('(dssis)', window_size, window_maximize, window_pos, monitor_config.current_index, monitor_config.setting)
 
