@@ -63,13 +63,15 @@ class SignalWait(SignalConnection):
         while not self.emissions and self.handler_id is not None:
             self.loop.run()
 
+        return self.emissions.popleft() if self.emissions else None
+
     def __iter__(self):
         return self
 
     def __next__(self):
-        self.wait()
+        result = self.wait()
 
-        if not self.emissions:
+        if result is None:
             raise StopIteration()
 
-        return self.emissions.popleft()
+        return result
