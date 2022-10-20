@@ -1,11 +1,24 @@
 #!/bin/bash
 
+IGNORE_DIRTY=0
+
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        -i|--ignore-dirty)
+            IGNORE_DIRTY=1
+            shift;;
+        *)
+            echo Unexpected argument $1
+            exit 2;;
+    esac
+done
+
 set -ex
 
 command -V jq
 
-if [ -n "$(git status --porcelain .)" ]; then
-    echo Working copy is dirty
+if [ $IGNORE_DIRTY -ne 1 ] && [ -n "$(git status --porcelain .)" ]; then
+    echo Working copy is dirty. Run $0 --ignore-dirty to ignore.
     git status .
     exit 1
 fi
