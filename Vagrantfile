@@ -6,8 +6,8 @@ require 'open3'
 CPUS = 4
 MEMORY = 2048
 
-FEDORA_VERSIONS = [32, 33, 34, 35, 36]
-UBUNTU_VERSIONS = ['focal', 'impish', 'jammy']
+FEDORA_VERSIONS = ['32', '33', '34', '35', '36', '37-beta']
+UBUNTU_VERSIONS = ['focal', 'impish', 'jammy', 'kinetic']
 
 def copy_env(libvirt, name)
   if ENV.key?(name)
