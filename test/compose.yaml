@@ -1,0 +1,26 @@
+# This is not a real docker/podman-compose file.
+# Anything except 'image's is ignored.
+# However, you could use this file to run 'podman-compose pull'.
+# Or 'tox -e podman-compose pull'.
+
+services:
+  debian-11:
+    image: ghcr.io/ddterm/gnome-shell-pod/debian-11:2022.10.20.0
+
+  fedora-35:
+    image: ghcr.io/ddterm/gnome-shell-pod/fedora-35:2022.10.20.0
+
+  fedora-36:
+    image: ghcr.io/ddterm/gnome-shell-pod/fedora-36:2022.10.20.0
+
+  fedora-37:
+    image: ghcr.io/ddterm/gnome-shell-pod/fedora-37:2022.10.20.0
+
+  ubuntu-20.04:
+    image: ghcr.io/ddterm/gnome-shell-pod/ubuntu-20.04:2022.10.20.0
+
+  ubuntu-22.04:
+    image: ghcr.io/ddterm/gnome-shell-pod/ubuntu-22.04:2022.10.20.0
+
+  ubuntu-22.10:
+    image: ghcr.io/ddterm/gnome-shell-pod/ubuntu-22.10:2022.10.20.0

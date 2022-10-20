@@ -1,17 +1,13 @@
 import contextlib
-import logging
 import math
 import os
 import pathlib
-import urllib.parse
 
-import filelock
 import pytest
+import yaml
 
 from . import container_util, xdist_sched
 
-
-LOGGER = logging.getLogger(__name__)
 
 TEST_SRC_DIR = pathlib.Path(__file__).parent.resolve()
 IMAGES_STASH_KEY = pytest.StashKey[list]();
@@ -28,27 +24,8 @@ def podman(pytestconfig):
 
 
 @pytest.fixture(scope='session')
-def iidfile_dir(global_tmp_path):
-    path = global_tmp_path / 'iidfiles'
-    path.mkdir(exist_ok=True)
-    return path
-
-
-@pytest.fixture(scope='session')
-def container_image(request, podman, iidfile_dir):
-    dockerfile = request.param
-    context = os.path.dirname(dockerfile)
-    iidfile = iidfile_dir / urllib.parse.quote_plus(dockerfile)
-
-    with filelock.FileLock(iidfile.with_suffix('.lock')):
-        if iidfile.exists():
-            LOGGER.info('Using cached result for %s', dockerfile)
-        else:
-            LOGGER.info('Building %s', dockerfile)
-            podman('build', '--iidfile', str(iidfile), '-f', str(dockerfile), context)
-            LOGGER.info('Built %s', dockerfile)
-
-        return iidfile.read_text()
+def container_image(request):
+    return request.param
 
 
 @pytest.fixture(scope='session')
@@ -58,24 +35,32 @@ def extension_pack(request):
 
 
 def pytest_addoption(parser):
-    parser.addoption('--dockerfile', action='append', default=[], type=pathlib.Path)
+    parser.addoption('--compose-service', action='append', default=[])
+    parser.addoption('--image', action='append', default=[])
     parser.addoption('--podman', default=['podman'], nargs='+')
     parser.addoption('--screenshot-failing-only', default=False, action='store_true')
     parser.addoption('--pack', default=None, type=pathlib.Path)
 
 
 def pytest_configure(config):
-    dockerfiles = config.getoption('--dockerfile')
+    images = config.getoption('--image')
+    compose_services = config.getoption('--compose-service')
 
-    if not dockerfiles:
-        dockerfiles = (TEST_SRC_DIR / 'images').glob('*.dockerfile')
+    if compose_services or not images:
+        with open('compose.yaml') as f:
+            compose_config = yaml.safe_load(f)
+
+        if not compose_services:
+            compose_services = compose_config['services'].keys()
+
+        images = images + [
+            compose_config['services'][name]['image']
+            for name in compose_services
+        ]
 
     config.stash[IMAGES_STASH_KEY] = [
-        pytest.param(
-            min(os.path.abspath(dockerfile), os.path.relpath(dockerfile), key=len),
-            marks=pytest.mark.uses_dockerfile.with_args(dockerfile)
-        )
-        for dockerfile in dockerfiles
+        pytest.param(image, marks=pytest.mark.uses_image.with_args(image))
+        for image in images
     ]
 
 

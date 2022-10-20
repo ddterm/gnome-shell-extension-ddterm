@@ -67,14 +67,11 @@ jobs:
       images: ${{ steps.generate.outputs.images }}
     steps:
       - uses: actions/checkout@v3
+      - run: pip3 install --use-pep517 -r requirements/podman-compose.txt
+        working-directory: test
       - id: generate
-        run: |
-          import json
-          import os.path
-          names = [os.path.splitext(dockerfile)[0] for dockerfile in os.listdir()]
-          print(f'::set-output name=images::{json.dumps(names)}')
-        shell: python
-        working-directory: test/images
+        run: echo "images=$(podman-compose config --services | jq -Rcn '[inputs]')" >>$GITHUB_OUTPUT
+        working-directory: test
 
   test:
     needs:
@@ -112,14 +109,10 @@ jobs:
       with:
         name: pack
     - run: mkdir -p "$HOME/.cache/pip"
+    - run: tox -e podman-compose -- pull ${{ matrix.image }}
+      working-directory: test
     - run: tox -vv --notest --sitepackages
       working-directory: test
-    - run: >-
-        for retry in 1 2 3;
-        do
-          podman build --pull -f ${{ matrix.image }}.dockerfile && break;
-        done
-      working-directory: test/images
     - run: |
         echo "::remove-matcher owner=generic::"
         echo "::remove-matcher owner=generic-nolocation::"
@@ -127,7 +120,7 @@ jobs:
         tox --sitepackages --
         --self-contained-html
         --junitxml=junit.xml
-        --dockerfile images/${{ matrix.image }}.dockerfile
+        --compose-service ${{ matrix.image }}
         --pack ../*.shell-extension.zip
         -n auto
         --screenshot-failing-only

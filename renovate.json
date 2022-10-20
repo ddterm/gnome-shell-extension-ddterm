@@ -5,9 +5,6 @@
     ":maintainLockFilesWeekly"
   ],
   "ignorePaths": [],
-  "dockerfile": {
-    "fileMatch": ["\\.dockerfile$"]
-  },
   "pip-compile": {
     "fileMatch": ["(^|/)requirements/?([\\w-]*)\\.in$"]
   },
