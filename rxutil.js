@@ -21,6 +21,7 @@
 
 const { GObject, Gio } = imports.gi;
 
+const System = imports.system;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const { rxjs } = Me.imports.rxjs;
 
