@@ -17,7 +17,7 @@ import pytest
 import wand.image
 
 from pytest_html import extras
-from gi.repository import GLib
+from gi.repository import GLib, Gio
 
 from . import container_util, dbus_util, glib_util
 
@@ -124,7 +124,7 @@ def screenshot(xvfb_fbdir, extra, pytestconfig):
 
 
 @pytest.mark.runtest_cm.with_args(lambda item, when: item.cls.journal_context(item, when))
-class CommonTests:
+class CommonFixtures:
     GNOME_SHELL_SESSION_NAME: str
     N_MONITORS: int
     PRIMARY_MONITOR = 0
@@ -271,6 +271,15 @@ class CommonTests:
         enable_extension(shell_extensions_interface, ddterm_metadata['uuid'])
 
     @pytest.fixture(scope='class')
+    def extension_interface(self, bus_connection, enable_ddterm):
+        return dbus_util.wait_interface(
+            bus_connection,
+            name='org.gnome.Shell',
+            path='/org/gnome/Shell/Extensions/ddterm',
+            interface='com.github.amezin.ddterm.Extension'
+        )
+
+    @pytest.fixture(scope='class')
     def enable_test(self, shell_extensions_interface, test_metadata, enable_ddterm):
         enable_extension(shell_extensions_interface, test_metadata['uuid'])
 
@@ -308,6 +317,8 @@ class CommonTests:
             for x in version_str.split('.')
         )
 
+
+class CommonTests(CommonFixtures):
     @pytest.mark.parametrize(
         ['window_size', 'window_maximize', 'window_pos'],
         mkpairs([MORE_SIZE_VALUES, MAXIMIZE_MODES, VERTICAL_RESIZE_POSITIONS])
@@ -428,3 +439,118 @@ class TestWaylandDualMonitor(DualMonitorTests, SmallScreenMixin):
         return super().mount_configs() + [
             '/etc/systemd/user/gnome-wayland-nested@.service.d/mutter-dual-monitor.conf'
         ]
+
+
+def wait_action_in_group(group, action):
+    with glib_util.SignalWait(group, f'action-added::{action}') as w:
+        while not group.has_action(action):
+            w.wait()
+
+
+def wait_action_in_group_enabled(group, action, enabled = True):
+    wait_action_in_group(group, action)
+
+    with glib_util.SignalWait(group, f'action-enabled-changed::{action}') as w:
+        while group.get_action_enabled(action) != enabled:
+            w.wait()
+
+
+class SubscriptionLeakChecker(contextlib.AbstractContextManager):
+    def __init__(self, container, app_actions):
+        super().__init__()
+
+        self.container = container
+        self.app_actions = app_actions
+
+    def __enter__(self):
+        wait_action_in_group(self.app_actions, 'begin-subscription-leak-check')
+        self.app_actions.activate_action('begin-subscription-leak-check', None)
+        return self
+
+    def __exit__(self, *_):
+        buffer = queue.SimpleQueue()
+
+        with self.container.console.with_output(container_util.QueueOutput(buffer)):
+            self.app_actions.activate_action('end-subscription-leak-check', None)
+
+            report_end = 'End of subscription leak report'.encode()
+            report_leak = 'Subscription leak'.encode()
+            n_leaks = 0
+
+            while True:
+                msg = buffer.get(timeout=1)
+
+                if report_end in msg:
+                    break
+
+                if report_leak in msg:
+                    n_leaks += 1
+
+        assert n_leaks == 0
+
+
+class TestSubscriptionLeaks(CommonFixtures):
+    GNOME_SHELL_SESSION_NAME = 'gnome-xsession'
+    N_MONITORS = 1
+
+    @pytest.fixture
+    def app_actions(self, bus_connection):
+        return Gio.DBusActionGroup.get(
+            bus_connection,
+            'com.github.amezin.ddterm',
+            '/com/github/amezin/ddterm'
+        )
+
+    @pytest.fixture
+    def win_actions(self, bus_connection):
+        return Gio.DBusActionGroup.get(
+            bus_connection,
+            'com.github.amezin.ddterm',
+            '/com/github/amezin/ddterm/window/1'
+        )
+
+    @pytest.fixture(autouse=True)
+    def run_app(self, bus_connection, extension_interface, app_actions, win_actions):
+        extension_interface.Activate()
+
+        def app_running():
+            return extension_interface.get_cached_property('IsAppRunning').unpack()
+
+        def has_window():
+            return extension_interface.get_cached_property('HasWindow').unpack()
+
+        with glib_util.SignalWait(extension_interface, 'g-properties-changed') as w:
+            while not app_running() or not has_window():
+                w.wait()
+
+        try:
+            yield
+
+        finally:
+            app_actions.activate_action('quit', None)
+
+            with glib_util.SignalWait(extension_interface, 'g-properties-changed') as w:
+                while app_running() or has_window():
+                    w.wait()
+
+    @pytest.fixture
+    def subscription_leak_check(self, app_actions, container):
+        return SubscriptionLeakChecker(container, app_actions)
+
+    def test_tab_leak(self, win_actions, subscription_leak_check):
+        wait_action_in_group(win_actions, 'new-tab')
+        wait_action_in_group(win_actions, 'close-current-tab')
+
+        with subscription_leak_check:
+            win_actions.activate_action('new-tab', None)
+            win_actions.activate_action('close-current-tab', None)
+
+    def test_prefs_leak(self, app_actions, subscription_leak_check):
+        wait_action_in_group(app_actions, 'preferences')
+        wait_action_in_group_enabled(app_actions, 'close-preferences', False)
+
+        with subscription_leak_check:
+            app_actions.activate_action('preferences', None)
+            wait_action_in_group_enabled(app_actions, 'close-preferences', True)
+            app_actions.activate_action('close-preferences', None)
+            wait_action_in_group_enabled(app_actions, 'close-preferences', False)
