@@ -25,16 +25,60 @@ const System = imports.system;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const { rxjs } = Me.imports.rxjs;
 
-function signal_subscription(source, handler_id) {
-    return new rxjs.Subscription(() => {
+let subscription_leaks = null;
+
+class SubscriptionLeak extends Error {
+    constructor(source, handler_id, signal_name) {
+        super(`${source} ${signal_name} (${handler_id})`);
+        this.name = 'SubscriptionLeak';
+    }
+}
+
+function signal_subscription(source, handler_id, signal_name) {
+    const subscription = new rxjs.Subscription(() => {
         GObject.signal_handler_disconnect(source, handler_id);
     });
+
+    if (!subscription_leaks)
+        return subscription;
+
+    const debug_info = new SubscriptionLeak(source, handler_id, signal_name);
+    subscription_leaks.add(debug_info);
+    log(`Connected ${debug_info.message}`);
+
+    // Beware! subscription_leaks might point to a different set (or null)
+    // when the finalizer will be run.
+    const captured_leaks = subscription_leaks;
+    subscription.add(() => {
+        captured_leaks.delete(debug_info);
+        log(`Disconnected ${debug_info.message}`);
+    });
+
+    return subscription;
 }
+
+function begin_subscription_leak_check() {
+    subscription_leaks = new Set();
+}
+
+function end_subscription_leak_check() {
+    if (!subscription_leaks)
+        throw new Error('No matching begin_signal_debug()');
+
+    for (let debug_info of subscription_leaks)
+        logError(debug_info, 'Subscription leak');
+
+    log('End of subscription leak report');
+    subscription_leaks = null;
+}
+
+/* exported begin_subscription_leak_check end_subscription_leak_check */
 
 function signal_connect(source, name, handler) {
     return signal_subscription(
         source,
-        GObject.signal_connect(source, name, handler)
+        GObject.signal_connect(source, name, handler),
+        name
     );
 }
 
@@ -43,7 +87,8 @@ function signal_connect(source, name, handler) {
 function signal_connect_after(source, name, handler) {
     return signal_subscription(
         source,
-        GObject.signal_connect_after(source, name, handler)
+        GObject.signal_connect_after(source, name, handler),
+        name
     );
 }
 
@@ -199,6 +244,9 @@ var Scope = class Scope extends Subscription {
 
         this.destroy_signal.subscribe(() => {
             this.unsubscribe();
+
+            if (subscription_leaks)
+                log(`Scope of ${obj} unsubscribed`);
         });
     }
 };

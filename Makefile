@@ -274,7 +274,7 @@ prefs enable disable reset info show:
 
 .PHONY: prefs enable disable reset info show
 
-toggle quit:
+toggle quit begin-subscription-leak-check end-subscription-leak-check:
 	gapplication action com.github.amezin.ddterm $@
 
-.PHONY: toggle quit
+.PHONY: toggle quit begin-subscription-leak-check end-subscription-leak-check

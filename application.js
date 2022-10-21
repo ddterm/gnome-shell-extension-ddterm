@@ -107,6 +107,8 @@ const Application = GObject.registerClass(
             const actions = {
                 'quit': () => this.quit(),
                 'preferences': () => this.preferences(),
+                'begin-subscription-leak-check': () => rxutil.begin_subscription_leak_check(),
+                'end-subscription-leak-check': () => rxutil.end_subscription_leak_check(),
             };
 
             for (const [name, func] of Object.entries(actions))
