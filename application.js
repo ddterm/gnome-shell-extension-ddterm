@@ -62,6 +62,13 @@ const { rxjs } = imports.rxjs;
 const { rxutil, settings, timers } = imports;
 
 const Application = GObject.registerClass(
+    {
+        Properties: {
+            'preferences-visible': GObject.ParamSpec.boolean(
+                'preferences-visible', '', '', GObject.ParamFlags.READABLE | GObject.ParamFlags.EXPLICIT_NOTIFY, false
+            ),
+        },
+    },
     class Application extends Gtk.Application {
         _init(params) {
             super._init(params);
@@ -104,6 +111,18 @@ const Application = GObject.registerClass(
 
             for (const [name, func] of Object.entries(actions))
                 this.add_action(this.rx.make_simple_action(name, func));
+
+            const close_preferences_action = this.rx.make_simple_action(
+                'close-preferences',
+                () => this.close_preferences()
+            );
+
+            this.rx.subscribe(
+                rxutil.property(this, 'preferences-visible'),
+                rxutil.property(close_preferences_action, 'enabled')
+            );
+
+            this.add_action(close_preferences_action);
 
             const settings_source = Gio.SettingsSchemaSource.new_from_directory(
                 APP_DATA_DIR.get_child('schemas').get_path(),
@@ -251,11 +270,23 @@ const Application = GObject.registerClass(
                     rxutil.signal(this.prefs_dialog, 'delete-event').pipe(rxjs.take(1)),
                     () => {
                         this.prefs_dialog = null;
+                        this.notify('preferences-visible');
                     }
                 );
+
+                this.notify('preferences-visible');
             }
 
             this.prefs_dialog.show();
+        }
+
+        close_preferences() {
+            if (this.prefs_dialog !== null)
+                this.prefs_dialog.close();
+        }
+
+        get preferences_visible() {
+            return this.prefs_dialog !== null;
         }
     }
 );
