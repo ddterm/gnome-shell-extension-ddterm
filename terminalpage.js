@@ -34,8 +34,6 @@ const TITLE_TERMINAL_PROPERTIES = [
     'icon-title',
     'current-directory-uri',
     'current-file-uri',
-    'current-container-name',
-    'current-container-runtime',
 ];
 
 Handlebars.registerHelper('filename-from-uri', uri => {

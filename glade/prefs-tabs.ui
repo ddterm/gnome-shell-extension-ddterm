@@ -312,8 +312,6 @@ Following variables are available:
 - &lt;tt&gt;icon-title&lt;/tt&gt;
 - &lt;tt&gt;current-directory-uri&lt;/tt&gt;
 - &lt;tt&gt;current-file-uri&lt;/tt&gt;
-- &lt;tt&gt;current-container-name&lt;/tt&gt;
-- &lt;tt&gt;current-container-runtime&lt;/tt&gt;
 - &lt;tt&gt;switch-shortcut&lt;/tt&gt;
 
 Following helpers are available:
