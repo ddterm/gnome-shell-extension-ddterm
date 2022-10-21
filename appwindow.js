@@ -126,6 +126,10 @@ var AppWindow = GObject.registerClass(
                 'new-tab-after-current': () => {
                     this.insert_page(this.notebook.get_current_page() + 1);
                 },
+                'close-current-tab': () => {
+                    const page = this.notebook.get_nth_page(this.notebook.page);
+                    page.emit('close-request');
+                },
                 'window-size-dec': () => {
                     if (this.settings['window-maximize'].value)
                         this.settings['window-size'].value = 1.0 - HEIGHT_MOD;
