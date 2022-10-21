@@ -98,14 +98,20 @@ var ObservableWritableValue = class ObservableWritableValue extends ObservableVa
 
 class Property extends ObservableWritableValue {
     constructor(object, name) {
-        const change = signal(object, `notify::${name}`);
         const pspec = GObject.Object.find_property.call(object.constructor.$gtype, name);
+        const change = signal(object, `notify::${pspec.name}`);
 
         super(change, change.pipe(rxjs.startWith([object, pspec])));
 
         this.object = object;
-        this.name = name;
         this.pspec = pspec;
+
+        if (System.version >= 16500 || pspec.name in object) {
+            this.name = pspec.name;
+        } else {
+            // gjs <= 1.64/Ubuntu 20.04, property defined in JavaScript subclassed GObject
+            this.name = pspec.name.replace(/-/, '_');
+        }
     }
 
     get value() {
