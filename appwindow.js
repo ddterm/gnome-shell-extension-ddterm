@@ -447,23 +447,25 @@ var AppWindow = GObject.registerClass(
             child.switcher_item.action_target = GLib.Variant.new_int32(page_num);
             this.tab_switch_menu_box.add(child.switcher_item);
             this.tab_switch_menu_box.reorder_child(child.switcher_item, page_num);
-            this.tab_switcher_update_actions(page_num + 1);
+            this.tab_switcher_update_actions();
         }
 
-        tab_switcher_remove(_notebook, child, page_num) {
+        tab_switcher_remove(_notebook, child, _page_num) {
             this.tab_switch_menu_box.remove(child.switcher_item);
-            this.tab_switcher_update_actions(page_num);
+            this.tab_switcher_update_actions();
         }
 
         tab_switcher_reorder(_notebook, child, page_num) {
             this.tab_switch_menu_box.reorder_child(child.switcher_item, page_num);
-            this.tab_switcher_update_actions(page_num);
+            this.tab_switcher_update_actions();
         }
 
-        tab_switcher_update_actions(start_page_num) {
-            const items = this.tab_switch_menu_box.get_children();
-            for (let i = start_page_num; i < items.length; i++)
-                items[i].action_target = GLib.Variant.new_int32(i);
+        tab_switcher_update_actions() {
+            const counter = { value: 0 };
+
+            this.tab_switch_menu_box.foreach(item => {
+                item.action_target = GLib.Variant.new_int32(counter.value++);
+            });
         }
 
         sync_size_with_extension() {
