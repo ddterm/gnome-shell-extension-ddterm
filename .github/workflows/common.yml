@@ -111,6 +111,7 @@ jobs:
     - uses: actions/download-artifact@v3
       with:
         name: pack
+    - run: mkdir -p "$HOME/.cache/pip"
     - run: tox -vv --notest --sitepackages
       working-directory: test
     - run: >-
