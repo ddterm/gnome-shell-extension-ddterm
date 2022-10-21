@@ -62,12 +62,21 @@ class AppDBusWatch {
         );
     }
 
+    _notify_running() {
+        dbus_interface.dbus.emit_property_changed(
+            'IsAppRunning',
+            GLib.Variant.new_boolean(dbus_interface.IsAppRunning)
+        );
+    }
+
     _appeared(connection, name) {
         this.action_group = Gio.DBusActionGroup.get(connection, name, APP_DBUS_PATH);
+        this._notify_running();
     }
 
     _disappeared() {
         this.action_group = null;
+        this._notify_running();
     }
 
     unwatch() {
@@ -117,6 +126,14 @@ class ExtensionDBusInterface {
 
     get TargetRect() {
         return this.GetTargetRect();
+    }
+
+    get IsAppRunning() {
+        return app_dbus.action_group !== null;
+    }
+
+    get HasWindow() {
+        return window_manager.current_window !== null;
     }
 }
 
@@ -177,6 +194,11 @@ function enable() {
 
     connections.connect(window_manager, 'notify::current-window', () => {
         panel_icon.active = window_manager.current_window !== null;
+
+        dbus_interface.dbus.emit_property_changed(
+            'HasWindow',
+            GLib.Variant.new_boolean(dbus_interface.HasWindow)
+        );
     });
 
     connections.connect(window_manager, 'notify::target-rect', () => {
