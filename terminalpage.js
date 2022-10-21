@@ -166,12 +166,16 @@ var TerminalPage = GObject.registerClass(
                 'cursor-shape',
                 'backspace-binding',
                 'delete-binding',
-                'cjk-utf8-ambiguous-width',
             ].forEach(
                 property => this.rx.subscribe(
                     this.settings[property].enum,
                     rxutil.property(this.terminal, property)
                 )
+            );
+
+            this.rx.subscribe(
+                this.settings['cjk-utf8-ambiguous-width'].enum,
+                rxutil.property(this.terminal, 'cjk-ambiguous-width')
             );
 
             const style_context = rxutil.signal(this.terminal, 'style-updated').pipe(
