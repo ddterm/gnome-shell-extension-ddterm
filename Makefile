@@ -1,5 +1,7 @@
 #!/usr/bin/env -S make -f
 
+# See docs/BUILD.md
+
 SHELL := /bin/bash
 
 EXTENSION_UUID := ddterm@amezin.github.com
