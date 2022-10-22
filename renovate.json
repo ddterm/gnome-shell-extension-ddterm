@@ -8,6 +8,14 @@
   "pip-compile": {
     "fileMatch": ["(^|/)requirements/?([\\w-]*)\\.in$"]
   },
+  "regexManagers": [
+    {
+      "fileMatch": [".+\\.sh$"],
+      "matchStrings": [
+        "#\\s*renovate:\\s+datasource=(?<datasource>[^\\s]+)\\s+depName=(?<depName>[^\\s]+)(\\s+(lookupName|packageName)=(?<packageName>[^\\s]+))?(\\s+versioning=(?<versioning>[^\\s]+))?\\n\\s*\\w+=[\"']?(?<currentValue>[^\\s\"']+)[\"']?(\\s|$)"
+      ]
+    }
+  ],
   "packageRules": [
     {
       "matchPackagePrefixes": ["ghcr.io/ddterm/gnome-shell-pod/"],
