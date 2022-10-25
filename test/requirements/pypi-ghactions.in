@@ -1,2 +1,0 @@
--c pypi.txt
-pytest-github-actions-annotate-failures~=0.1.7

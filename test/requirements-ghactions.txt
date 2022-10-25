@@ -1,3 +1,0 @@
--r requirements/pypi.txt
--r requirements/system.txt
--r requirements/pypi-ghactions.txt
