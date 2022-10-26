@@ -6,7 +6,7 @@ import pathlib
 import pytest
 import yaml
 
-from . import container_util, xdist_sched
+from . import container_util
 
 
 TEST_SRC_DIR = pathlib.Path(__file__).parent.resolve()
@@ -106,11 +106,6 @@ def pytest_runtest_call(item):
 def pytest_runtest_teardown(item):
     with get_runtest_cm(item, 'teardown'):
         yield
-
-
-def pytest_xdist_make_scheduler(config, log):
-    if config.getvalue('dist') == 'load':
-        return xdist_sched.LoadScheduling(config, log)
 
 
 @pytest.hookimpl(hookwrapper=True)
