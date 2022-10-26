@@ -43,6 +43,16 @@ jobs:
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
       working-directory: test
 
+    - run: |
+        RENOVATE_PYTHON_VER="Python $(jq -r .constraints.python renovate.json)"
+        IMAGE_PYTHON_VER="$(python3 --version)"
+        if [ "$RENOVATE_PYTHON_VER" != "$IMAGE_PYTHON_VER" ]; then
+          echo "Please fix Python version in renovate.json."
+          echo "Current version: $RENOVATE_PYTHON_VER Expected: $IMAGE_PYTHON_VER."
+          exit 1
+        fi
+      if: ${{ always() && steps.checkout.conclusion == 'success' }}
+
   pack:
     runs-on: ubuntu-latest
     container:
