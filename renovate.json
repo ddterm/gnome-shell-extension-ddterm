@@ -37,5 +37,8 @@
   ],
   "lockFileMaintenance": {
     "automerge": true
+  },
+  "constraints": {
+    "python": "3.10"
   }
 }
