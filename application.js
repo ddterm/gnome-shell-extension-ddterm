@@ -29,66 +29,16 @@ GLib.set_application_name('Drop Down Terminal');
 
 const APP_DATA_DIR = Gio.File.new_for_commandline_arg(System.programInvocationName).get_parent();
 
-Gettext.bindtextdomain('ddterm@amezin.github.com', APP_DATA_DIR.get_child('locale').get_path());
+imports.searchPath.unshift(APP_DATA_DIR.get_path());
 
-function notify_error(title, body) {
-    const proxy = Gio.DBusProxy.new_for_bus_sync(
-        Gio.BusType.SESSION,
-        Gio.DBusProxyFlags.DO_NOT_LOAD_PROPERTIES,
-        null,
-        'org.freedesktop.Notifications',
-        '/org/freedesktop/Notifications',
-        'org.freedesktop.Notifications',
-        null
-    );
+const { importcheck } = imports;
 
-    proxy.call_sync(
-        'Notify',
-        new GLib.Variant('(susssasa{sv}i)', [
-            '',
-            0,
-            'dialog-error',
-            title,
-            body,
-            [],
-            [],
-            -1,
-        ]),
-        Gio.DBusCallFlags.NONE,
-        -1,
-        null
-    );
-}
-
-/* eslint-disable-next-line consistent-return */
-function checked_import(libname, version) {
-    try {
-        imports.gi.versions[libname] = version;
-        return imports.gi[libname];
-    } catch (ex) {
-        const title = `Can't start ddterm - library ${libname}, version ${version} not available`;
-        const help = `You likely need to install the package that contains the file '${libname}-${version}.typelib'`;
-
-        logError(ex, title);
-        log(help);
-
-        notify_error(
-            title,
-            `<i>${GLib.markup_escape_text(help, -1)}</i>\n\n${GLib.markup_escape_text(ex.toString(), -1)}`
-        );
-
-        System.exit(1);
-    }
-}
-
-const Gtk = checked_import('Gtk', '3.0');
-const Gdk = checked_import('Gdk', '3.0');
+const Gtk = importcheck.checked_import('Gtk', '3.0');
+const Gdk = importcheck.checked_import('Gdk', '3.0');
 
 /* These are used in other modules - check that they are available, and set required versions */
-checked_import('Pango', '1.0');
-checked_import('Vte', '2.91');
-
-imports.searchPath.unshift(APP_DATA_DIR.get_path());
+importcheck.checked_import('Pango', '1.0');
+importcheck.checked_import('Vte', '2.91');
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 
@@ -96,6 +46,8 @@ Me.dir = APP_DATA_DIR;
 
 const { rxjs } = imports.rxjs;
 const { rxutil, settings, timers } = imports;
+
+Gettext.bindtextdomain('ddterm@amezin.github.com', APP_DATA_DIR.get_child('locale').get_path());
 
 timers.install();
 
