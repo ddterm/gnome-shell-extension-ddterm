@@ -22,6 +22,15 @@
 const System = imports.system;
 const Gettext = imports.gettext;
 
+const { GLib, GObject, Gio } = imports.gi;
+
+GLib.set_prgname('com.github.amezin.ddterm');
+GLib.set_application_name('Drop Down Terminal');
+
+const APP_DATA_DIR = Gio.File.new_for_commandline_arg(System.programInvocationName).get_parent();
+
+Gettext.bindtextdomain('ddterm@amezin.github.com', APP_DATA_DIR.get_child('locale').get_path());
+
 /* eslint-disable-next-line consistent-return */
 function checked_import(libname, version) {
     try {
@@ -32,16 +41,11 @@ function checked_import(libname, version) {
             `You likely need to install the package that contains the file '${libname}-${version}.typelib'`;
         printerr(message);
 
-        if (typeof GLib !== 'undefined')
-            GLib.spawn_sync(null, ['zenity', '--error', '--width=300', '--text', message], null, GLib.SpawnFlags.SEARCH_PATH, null);
+        GLib.spawn_sync(null, ['zenity', '--error', '--width=300', '--text', message], null, GLib.SpawnFlags.SEARCH_PATH, null);
 
         System.exit(1);
     }
 }
-
-const GLib = checked_import('GLib', '2.0');
-const GObject = checked_import('GObject', '2.0');
-const Gio = checked_import('Gio', '2.0');
 
 const Gtk = checked_import('Gtk', '3.0');
 const Gdk = checked_import('Gdk', '3.0');
@@ -49,8 +53,6 @@ const Gdk = checked_import('Gdk', '3.0');
 /* These are used in other modules - check that they are available, and set required versions */
 checked_import('Pango', '1.0');
 checked_import('Vte', '2.91');
-
-const APP_DATA_DIR = Gio.File.new_for_commandline_arg(System.programInvocationName).get_parent();
 
 imports.searchPath.unshift(APP_DATA_DIR.get_path());
 
@@ -60,6 +62,8 @@ Me.dir = APP_DATA_DIR;
 
 const { rxjs } = imports.rxjs;
 const { rxutil, settings, timers } = imports;
+
+timers.install();
 
 const Application = GObject.registerClass(
     {
@@ -292,13 +296,6 @@ const Application = GObject.registerClass(
         }
     }
 );
-
-GLib.set_prgname('com.github.amezin.ddterm');
-GLib.set_application_name('Drop Down Terminal');
-
-Gettext.bindtextdomain('ddterm@amezin.github.com', APP_DATA_DIR.get_child('locale').get_path());
-
-timers.install();
 
 const app = new Application({
     application_id: 'com.github.amezin.ddterm',
