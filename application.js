@@ -31,17 +31,51 @@ const APP_DATA_DIR = Gio.File.new_for_commandline_arg(System.programInvocationNa
 
 Gettext.bindtextdomain('ddterm@amezin.github.com', APP_DATA_DIR.get_child('locale').get_path());
 
+function notify_error(title, body) {
+    const proxy = Gio.DBusProxy.new_for_bus_sync(
+        Gio.BusType.SESSION,
+        Gio.DBusProxyFlags.DO_NOT_LOAD_PROPERTIES,
+        null,
+        'org.freedesktop.Notifications',
+        '/org/freedesktop/Notifications',
+        'org.freedesktop.Notifications',
+        null
+    );
+
+    proxy.call_sync(
+        'Notify',
+        new GLib.Variant('(susssasa{sv}i)', [
+            '',
+            0,
+            'dialog-error',
+            title,
+            body,
+            [],
+            [],
+            -1,
+        ]),
+        Gio.DBusCallFlags.NONE,
+        -1,
+        null
+    );
+}
+
 /* eslint-disable-next-line consistent-return */
 function checked_import(libname, version) {
     try {
         imports.gi.versions[libname] = version;
         return imports.gi[libname];
     } catch (ex) {
-        const message = `Can't start ddterm - library ${libname}, version ${version} not available:\n${ex}\n\n` +
-            `You likely need to install the package that contains the file '${libname}-${version}.typelib'`;
-        printerr(message);
+        const title = `Can't start ddterm - library ${libname}, version ${version} not available`;
+        const help = `You likely need to install the package that contains the file '${libname}-${version}.typelib'`;
 
-        GLib.spawn_sync(null, ['zenity', '--error', '--width=300', '--text', message], null, GLib.SpawnFlags.SEARCH_PATH, null);
+        logError(ex, title);
+        log(help);
+
+        notify_error(
+            title,
+            `<i>${GLib.markup_escape_text(help, -1)}</i>\n\n${GLib.markup_escape_text(ex.toString(), -1)}`
+        );
 
         System.exit(1);
     }
