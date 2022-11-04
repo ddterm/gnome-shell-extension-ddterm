@@ -1173,3 +1173,13 @@ msgstr "Onglets"
 #: prefstext.js:76
 msgid "Text"
 msgstr "Texte"
+
+#: terminalpage.js:738
+msgid "Close this terminal?"
+msgstr ""
+
+#: terminalpage.js:739
+msgid ""
+"There is still a process running in this terminal. Closing the terminal will "
+"kill it."
+msgstr ""
