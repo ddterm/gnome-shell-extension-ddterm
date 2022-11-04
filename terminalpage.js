@@ -24,7 +24,7 @@
 const { GLib, GObject, Gio, Gdk, Gtk, Vte } = imports.gi;
 const { Handlebars } = imports.handlebars;
 const { rxjs } = imports.rxjs;
-const { urldetect_patterns, rxutil, settings } = imports;
+const { urldetect_patterns, rxutil, settings, tcgetpgrp, translations } = imports;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 
 const GVARIANT_FALSE = GLib.Variant.new_boolean(false);
@@ -374,7 +374,7 @@ var TerminalPage = GObject.registerClass(
             this.setup_popup_menu(this.tab_label, 'tab-popup');
 
             const actions = this.rx.make_simple_actions({
-                'close': () => this.emit('close-request'),
+                'close': () => this.close(),
                 'new-tab-before': () => this.emit('new-tab-before-request'),
                 'new-tab-after': () => this.emit('new-tab-after-request'),
             });
@@ -706,6 +706,47 @@ var TerminalPage = GObject.registerClass(
         stop_search() {
             this.search_bar.reveal_child = false;
             this.terminal.grab_focus();
+        }
+
+        has_foreground_process() {
+            const pty = this.terminal.get_pty();
+
+            if (!pty)
+                return false;
+
+            try {
+                return tcgetpgrp.tcgetpgrp(pty.get_fd()) !== this.child_pid;
+            } catch (ex) {
+                if (!(ex instanceof tcgetpgrp.InterpreterNotFoundError))
+                    logError(ex, "Can't check foreground process group");
+
+                return false;
+            }
+        }
+
+        close() {
+            if (!this.has_foreground_process()) {
+                this.emit('close-request');
+                return;
+            }
+
+            const message = new Gtk.MessageDialog({
+                transient_for: this.get_toplevel(),
+                modal: true,
+                buttons: Gtk.ButtonsType.YES_NO,
+                message_type: Gtk.MessageType.QUESTION,
+                text: translations.gettext('Close this terminal?'),
+                secondary_text: translations.gettext('There is still a process running in this terminal. Closing the terminal will kill it.'),
+            });
+
+            message.connect('response', (_, response_id) => {
+                if (response_id === Gtk.ResponseType.YES)
+                    this.emit('close-request');
+
+                message.destroy();
+            });
+
+            message.show();
         }
     }
 );
