@@ -61,7 +61,9 @@ var Widget = GObject.registerClass(
             );
 
             [this.shortcuts_list, this.global_shortcuts_list].forEach(shortcuts_list => {
-                shortcuts_list.foreach((model, path, i) => {
+                shortcuts_list.foreach((model, path, iter) => {
+                    const i = iter.copy();
+
                     this.scope.subscribe(
                         this.settings[model.get_value(i, 0)],
                         shortcuts => {
