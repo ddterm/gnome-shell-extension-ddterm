@@ -3,16 +3,18 @@
 #
 msgid ""
 msgstr ""
-"MIME-Version: 1.0\n"
 "Project-Id-Version: ddterm\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-11-07 09:11+0300\n"
+"PO-Revision-Date: 2022-11-07 10:41+0300\n"
 "Last-Translator: vantu5z <vantu5z@mail.ru>\n"
 "Language-Team: Russian <>\n"
 "Language: ru\n"
+"MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
-"PO-Revision-Date: 2022-10-11 11:02+0300\n"
 "X-Generator: Gtranslator 40.0\n"
 
 #: glade/appwindow.ui:41
@@ -895,9 +897,10 @@ msgid ""
 "- <tt>ellipsize</tt> or <tt>truncate-chars</tt>\n"
 "      example: <tt>{{ellipsize window-title 20}}</tt>"
 msgstr ""
-"Название вкладки генерируется по <a href=\\\"https://handlebarsjs.com/guide/\n"
-"\\\">handlebars.js</a> шаблону. <a "
-"href=\\\"https://developer.gnome.org/pango/\n"
+"Название вкладки генерируется по <a href=\\\"https://handlebarsjs.com/"
+"guide/\n"
+"\\\">handlebars.js</a> шаблону. <a href=\\\"https://developer.gnome.org/"
+"pango/\n"
 "stable/pango-Markup.html\\\">Pango markup</a> может быть использован  для "
 "форматирования.\n"
 "\n"
@@ -1162,7 +1165,7 @@ msgstr "Положение и размер"
 msgid "Scrolling"
 msgstr "Прокрутка"
 
-#: prefsshortcuts.js:112
+#: prefsshortcuts.js:114
 msgid "Keyboard Shortcuts"
 msgstr "Комбинации клавиш"
 
@@ -1176,10 +1179,10 @@ msgstr "Текст"
 
 #: terminalpage.js:738
 msgid "Close this terminal?"
-msgstr ""
+msgstr "Закрыть терминал?"
 
 #: terminalpage.js:739
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."
-msgstr ""
+msgstr "В терминале запущены процессы. При закрытии терминала эти процессы будут завершены."
