@@ -42,7 +42,7 @@ pytest-github-actions-annotate-failures==0.1.7
     # via -r pypi.in
 pytest-html==3.2.0
     # via -r pypi.in
-pytest-metadata==2.0.2
+pytest-metadata==2.0.4
     # via pytest-html
 pytest-rerunfailures==10.2
     # via -r pypi.in
@@ -60,5 +60,5 @@ wand==0.6.10
     # via -r pypi.in
 
 # The following packages are considered to be unsafe in a requirements file:
-setuptools==65.5.0
+setuptools==65.5.1
     # via pytest-rerunfailures
