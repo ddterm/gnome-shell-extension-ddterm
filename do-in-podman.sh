@@ -2,7 +2,7 @@
 
 IMAGE=ghcr.io/ddterm/ci-docker-image
 # renovate: datasource=docker depName=ghcr.io/ddterm/ci-docker-image
-IMAGE_VERSION=2022.09.12.1
+IMAGE_VERSION=2022.11.07.0
 
 SCRIPT_DIR=$(CDPATH="" cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)
 
