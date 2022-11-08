@@ -36,6 +36,14 @@
   when: ansible_virtualization_type == 'virtualbox'
   register: vbox_additions
 
+- name: Install spice-vdagent
+  ansible.builtin.dnf:
+    name:
+      - spice-vdagent
+    state: latest
+  when: ansible_virtualization_type == 'kvm'
+  register: spice_vdagent
+
 - name: Check if reboot is necessary
   ansible.builtin.command: dnf needs-restarting -r
   register: needs_reboot
@@ -44,7 +52,7 @@
 
 - name: Reboot
   ansible.builtin.reboot:
-  when: needs_reboot.changed or vbox_additions.changed
+  when: needs_reboot.changed or vbox_additions.changed or spice_vdagent.changed
 
 - name: Check if systemd services should be restarted
   ansible.builtin.command: dnf needs-restarting -s

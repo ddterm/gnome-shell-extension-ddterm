@@ -9,12 +9,6 @@ MEMORY = 2048
 FEDORA_VERSIONS = ['32', '33', '34', '35', '36', '37-beta']
 UBUNTU_VERSIONS = ['focal', 'impish', 'jammy', 'kinetic']
 
-def copy_env(libvirt, name)
-  if ENV.key?(name)
-    libvirt.qemuenv name => ENV[name]
-  end
-end
-
 stdout, status = Open3.capture2('git', 'ls-files', '--exclude-standard', '-oi', '--directory')
 if status.success?
   rsync_excludes = stdout.split(/\n/)
@@ -42,30 +36,21 @@ Vagrant.configure("2") do |config|
 
     libvirt.qemu_use_session = true
 
-    libvirt.graphics_type = 'sdl'
-
-    copy_env(libvirt, 'DISPLAY')
-    copy_env(libvirt, 'XAUTHORITY')
-    copy_env(libvirt, 'WAYLAND_DISPLAY')
-    copy_env(libvirt, 'SDL_VIDEODRIVER')
-    copy_env(libvirt, 'XDG_CURRENT_DESKTOP')
-    copy_env(libvirt, 'XDG_SESSION_DESKTOP')
-    copy_env(libvirt, 'XDG_SESSION_TYPE')
-    copy_env(libvirt, 'XDG_SESSION_CLASS')
-    copy_env(libvirt, 'XDG_RUNTIME_DIR')
-    copy_env(libvirt, 'XDG_DATA_DIRS')
+    libvirt.graphics_type = 'spice'
+    libvirt.channel :type => 'spicevmc', :target_name => 'com.redhat.spice.0', :target_type => 'virtio'
 
     # https://github.com/vagrant-libvirt/vagrant-libvirt/pull/1386
-    if Vagrant.has_plugin?('vagrant-libvirt', '> 0.6.3')
+    if Vagrant.has_plugin?('vagrant-libvirt', '>= 0.7.0')
       libvirt.video_accel3d = true
       libvirt.video_type = 'virtio'
-    else
-      libvirt.qemuargs :value => '-display'
-      libvirt.qemuargs :value => 'sdl,gl=on'
-
-      libvirt.video_type = 'none'
-      libvirt.qemuargs :value => '-device'
-      libvirt.qemuargs :value => 'virtio-vga-gl' # virtio-vga-gl,id=video0,max_outputs=1,bus=pci.0,addr=0x2
+      libvirt.graphics_autoport = 'no'
+      if Vagrant.has_plugin?('vagrant-libvirt', '>= 0.8.0')
+        libvirt.graphics_port = nil
+        libvirt.graphics_ip = nil
+      else
+        libvirt.graphics_ip = 'none'
+        libvirt.graphics_port = 0
+      end
     end
   end
 

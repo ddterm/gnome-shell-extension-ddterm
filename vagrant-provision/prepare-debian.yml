@@ -43,6 +43,14 @@
     state: latest
   when: ansible_virtualization_type == 'virtualbox'
 
+- name: Install spice-vdagent
+  ansible.builtin.apt:
+    name:
+      - spice-vdagent
+    state: latest
+  when: ansible_virtualization_type == 'kvm'
+  register: spice_vdagent
+
 - name: Check if reboot is necessary
   ansible.builtin.stat:
     path: /run/reboot-required
@@ -51,7 +59,7 @@
 
 - name: Reboot
   ansible.builtin.reboot:
-  when: needs_reboot.changed
+  when: needs_reboot.changed or spice_vdagent.changed
 
 - name: Set graphical.target as the default
   ansible.builtin.file:
