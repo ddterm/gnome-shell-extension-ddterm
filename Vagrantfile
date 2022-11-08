@@ -6,9 +6,6 @@ require 'open3'
 CPUS = 4
 MEMORY = 2048
 
-FEDORA_VERSIONS = ['32', '33', '34', '35', '36', '37-beta']
-UBUNTU_VERSIONS = ['focal', 'impish', 'jammy', 'kinetic']
-
 stdout, status = Open3.capture2('git', 'ls-files', '--exclude-standard', '-oi', '--directory')
 if status.success?
   rsync_excludes = stdout.split(/\n/)
@@ -54,17 +51,28 @@ Vagrant.configure("2") do |config|
     end
   end
 
-  FEDORA_VERSIONS.each do |fedora_version|
-    is_latest = fedora_version == FEDORA_VERSIONS.last
-    config.vm.define "f#{fedora_version}", autostart: is_latest, primary: is_latest do |version|
-      version.vm.box = "fedora/#{fedora_version}-cloud-base"
-    end
+  config.vm.define "ubuntu2210", autostart: false do |version|
+    version.vm.box = "generic/ubuntu2210"
   end
 
-  UBUNTU_VERSIONS.each do |ubuntu_version|
-    config.vm.define "#{ubuntu_version}", autostart: false, primary: false do |version|
-      version.vm.box = "ubuntu/#{ubuntu_version}64"
-    end
+  config.vm.define "ubuntu2204", primary: true do |version|
+    version.vm.box = "generic/ubuntu2204"
+  end
+
+  config.vm.define "ubuntu2004", autostart: false do |version|
+    version.vm.box = "generic/ubuntu2004"
+  end
+
+  config.vm.define "fedora37", autostart: false do |version|
+    version.vm.box = "generic/fedora37"
+  end
+
+  config.vm.define "fedora36", autostart: false do |version|
+    version.vm.box = "generic/fedora36"
+  end
+
+  config.vm.define "fedora35", autostart: false do |version|
+    version.vm.box = "generic/fedora35"
   end
 
   config.vm.synced_folder '.', '/vagrant', type: 'rsync', rsync__exclude: rsync_excludes
