@@ -39,6 +39,6 @@
     "automerge": true
   },
   "constraints": {
-    "python": "3.10.6"
+    "python": "3.10.7"
   }
 }
