@@ -17,7 +17,7 @@ all:
 .PHONY: all
 
 CLEAN :=
-GENERATED_SOURCES :=
+GENERATED :=
 TRANSLATABLE_SOURCES :=
 
 # GSettings schemas
@@ -57,7 +57,7 @@ handlebars.js: node_modules/handlebars/dist/handlebars.js
 rxjs.js: node_modules/rxjs/dist/bundles/rxjs.umd.js
 	cp $< $@
 
-GENERATED_SOURCES += handlebars.js rxjs.js
+GENERATED += handlebars.js rxjs.js
 CLEAN += handlebars.js rxjs.js
 
 # Gtk 3 .ui
@@ -83,7 +83,7 @@ $(GTK3_MULTI_VERSION_UI): $(GTK3_MULTI_VERSION_UI_PATTERN): $(UI_SRC_PATTERN)
 
 GTK3_UI := $(GTK3_ONLY_UI_DST) $(GTK3_MULTI_VERSION_UI)
 
-GENERATED_SOURCES += $(GTK3_UI)
+GENERATED += $(GTK3_UI)
 CLEAN += $(GTK3_UI)
 
 # Gtk 4 .ui
@@ -110,7 +110,7 @@ $(GTK4_UI): $(GTK4_UI_PATTERN): $(GTK_3TO4_UI_PATTERN)
 	gtk4-builder-tool simplify $< >$@
 
 CLEAN += $(GTK_3TO4_UI) $(GTK_3TO4_FIXUP_UI) $(GTK4_UI)
-GENERATED_SOURCES += $(if $(call is-true,$(WITH_GTK4)), $(GTK4_UI))
+GENERATED += $(if $(call is-true,$(WITH_GTK4)), $(GTK4_UI))
 
 # metadata.json
 
@@ -120,19 +120,19 @@ GENERATED_SOURCES += $(if $(call is-true,$(WITH_GTK4)), $(GTK4_UI))
 metadata.json: metadata.json.in
 	cp $< $@
 
-GENERATED_SOURCES += metadata.json
+GENERATED += metadata.json
 CLEAN += metadata.json
 
 # package
 
-JS_SOURCES := $(filter-out $(GENERATED_SOURCES), $(wildcard *.js))
+JS_SOURCES := $(filter-out $(GENERATED), $(wildcard *.js))
 GTK3_HANDCRAFTED_UI := menus.ui
 TRANSLATABLE_SOURCES += $(JS_SOURCES) $(GTK3_HANDCRAFTED_UI)
 
 PACK_INPUTS := \
 	$(JS_SOURCES) \
 	style.css \
-	$(GENERATED_SOURCES) \
+	$(GENERATED) \
 	$(GTK3_HANDCRAFTED_UI) \
 	LICENSE \
 	com.github.amezin.ddterm \
