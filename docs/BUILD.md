@@ -111,6 +111,22 @@ You should never run `make install` with `./run-in-docker.sh` or
 `./run-in-podman.sh`. You want the extension installed on your host system, not
 in the container.
 
+You could run `make install` under `sudo` to install the package system-wide
+(to `/usr/share/gnome-shell/extensions`):
+
+    $ sudo make install
+
+However, `sudo` installation is not recommended. Instead, you should build and
+use OS-specific packages (`.deb`, `.rpm`). `make DESTDIR=... install` should
+work fine in DEB and RPM build scripts.
+
+There are explicit targets for system-wide and user installation:
+
+    $ make user-install
+    $ sudo make system-install
+
+`make install` just switches between them according to the current uid.
+
 ## 6.2. Restart GNOME Shell
 
 Described in [INSTALL.md - step 3](INSTALL.md#3-restart-gnome-shell).

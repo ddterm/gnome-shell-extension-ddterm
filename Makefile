@@ -128,24 +128,25 @@ CLEAN += metadata.json
 JS_SOURCES := $(filter-out $(GENERATED), $(wildcard *.js))
 GTK3_HANDCRAFTED_UI := menus.ui
 TRANSLATABLE_SOURCES += $(JS_SOURCES) $(GTK3_HANDCRAFTED_UI)
+EXECUTABLES := com.github.amezin.ddterm
 
-PACK_INPUTS := \
+PACK_CONTENT := \
 	$(JS_SOURCES) \
 	style.css \
 	$(GENERATED) \
 	$(GTK3_HANDCRAFTED_UI) \
 	LICENSE \
-	com.github.amezin.ddterm \
+	$(EXECUTABLES) \
 	com.github.amezin.ddterm.Extension.xml \
 	$(LOCALES_COMPILED) \
 	$(SCHEMAS) \
 	$(SCHEMAS_COMPILED)
 
-build: $(PACK_INPUTS)
+build: $(PACK_CONTENT)
 .PHONY: build
 
 EXTENSION_PACK := $(EXTENSION_UUID).shell-extension.zip
-$(EXTENSION_PACK): $(PACK_INPUTS)
+$(EXTENSION_PACK): $(PACK_CONTENT)
 	$(RM) $@
 	zip -y -nw $@ -- $^
 
@@ -155,17 +156,67 @@ pack: $(EXTENSION_PACK)
 all: pack
 CLEAN += $(EXTENSION_PACK)
 
-# install/uninstall package
+# install/uninstall package - user
 
-install: $(EXTENSION_PACK) develop-uninstall
+user-install: $(EXTENSION_PACK) develop-uninstall
 	gnome-extensions install -f $<
 
-.PHONY: install
-
-uninstall: develop-uninstall
+user-uninstall: develop-uninstall
 	gnome-extensions uninstall $(EXTENSION_UUID)
 
-.PHONY: uninstall
+.PHONY: user-install user-uninstall
+
+# install/uninstall package - system-wide
+
+# https://www.gnu.org/software/make/manual/html_node/Command-Variables.html
+INSTALL := install
+INSTALL_PROGRAM := $(INSTALL)
+INSTALL_DATA := $(INSTALL) -m 644
+
+# https://www.gnu.org/software/make/manual/html_node/Directory-Variables.html
+prefix := /usr
+datarootdir := $(prefix)/share
+datadir := $(datarootdir)
+
+extensiondir := $(datadir)/gnome-shell/extensions
+
+SYS_INSTALLED_FULL_PREFIX := $(DESTDIR)$(extensiondir)/$(EXTENSION_UUID)
+SYS_INSTALLED_CONTENT := $(addprefix $(SYS_INSTALLED_FULL_PREFIX)/,$(PACK_CONTENT))
+SYS_INSTALLED_DIRS := $(sort $(dir $(SYS_INSTALLED_CONTENT)))
+SYS_INSTALLED_EXECUTABLES := $(addprefix $(SYS_INSTALLED_FULL_PREFIX)/,$(EXECUTABLES))
+
+$(SYS_INSTALLED_DIRS):
+	mkdir -p $@
+
+installdirs: $(SYS_INSTALLED_DIRS)
+
+$(SYS_INSTALLED_CONTENT): $(SYS_INSTALLED_FULL_PREFIX)/%: % | installdirs
+	$(INSTALL) $< $@
+
+$(SYS_INSTALLED_CONTENT): INSTALL := $(INSTALL_DATA)
+$(SYS_INSTALLED_EXECUTABLES): INSTALL := $(INSTALL_PROGRAM)
+
+system-install: $(SYS_INSTALLED_CONTENT)
+
+system-uninstall:
+	$(RM) -r $(SYS_INSTALLED_FULL_PREFIX)
+
+.PHONY: system-install system-uninstall installdirs
+
+# System/user install autodetect
+
+ifneq ($(DESTDIR),)
+INSTALL_FLAVOR := system
+else ifeq ($(shell id -u),0)
+INSTALL_FLAVOR := system
+else
+INSTALL_FLAVOR := user
+endif
+
+install: $(INSTALL_FLAVOR)-install
+uninstall: $(INSTALL_FLAVOR)-uninstall
+
+.PHONY: install uninstall
 
 # develop/symlink install
 
@@ -180,14 +231,12 @@ develop: build
 		ln -snf "$(abspath .)" "$(DEVELOP_SYMLINK)"; \
 	fi
 
-.PHONY: develop
-
 develop-uninstall:
 	if [[ -L "$(DEVELOP_SYMLINK)" ]]; then \
 		unlink "$(DEVELOP_SYMLINK)"; \
 	fi
 
-.PHONY: develop-uninstall
+.PHONY: develop develop-uninstall
 
 # clean
 
