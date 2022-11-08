@@ -36,13 +36,6 @@
   when: (ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_version'] is version('21.10', '>=')) or
         (ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_version'] is version('12', '>='))
 
-- name: Install VirtualBox guest additions
-  ansible.builtin.apt:
-    name:
-      - virtualbox-guest-x11
-    state: latest
-  when: ansible_virtualization_type == 'virtualbox'
-
 - name: Install spice-vdagent
   ansible.builtin.apt:
     name:

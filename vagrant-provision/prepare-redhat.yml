@@ -28,14 +28,6 @@
       - langpacks-fr
     state: latest
 
-- name: Install VirtualBox guest additions
-  ansible.builtin.dnf:
-    name:
-      - virtualbox-guest-additions
-    state: latest
-  when: ansible_virtualization_type == 'virtualbox'
-  register: vbox_additions
-
 - name: Install spice-vdagent
   ansible.builtin.dnf:
     name:
@@ -52,7 +44,7 @@
 
 - name: Reboot
   ansible.builtin.reboot:
-  when: needs_reboot.changed or vbox_additions.changed or spice_vdagent.changed
+  when: needs_reboot.changed or spice_vdagent.changed
 
 - name: Check if systemd services should be restarted
   ansible.builtin.command: dnf needs-restarting -s
