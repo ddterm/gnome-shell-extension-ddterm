@@ -62,7 +62,7 @@ jobs:
     - uses: actions/checkout@v3
     - uses: actions/setup-node@v3
     - run: echo "::add-matcher::.github/problem-matchers/generic.json"
-    - run: npm ci
+    - run: npm ci --omit dev
     - run: xvfb-run make pack
     - id: upload
       uses: actions/upload-artifact@v3
