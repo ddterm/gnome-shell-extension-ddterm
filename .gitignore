@@ -16,3 +16,8 @@
 /metadata.json
 
 /.vagrant/
+
+/src/
+/pkg/
+/gnome-shell-extension-ddterm-git/
+/*.pkg.tar.*
