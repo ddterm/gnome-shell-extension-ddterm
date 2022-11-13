@@ -322,8 +322,8 @@ NPM_INSTALLED += $(ESLINT_CMD)
 lint/eslintrc-gjs.yml:
 	curl -o $@ 'https://gitlab.gnome.org/GNOME/gjs/-/raw/8c50f934bc81f224c6d8f521116ddaa5583eef66/.eslintrc.yml'
 
-lint: lint/eslintrc-gjs.yml $(ESLINT_CMD)
-	$(ESLINT_CMD) .
+lint: $(ESLINT_CMD) lint/eslintrc-gjs.yml
+	$< .
 
 .PHONY: lint
 all: lint
