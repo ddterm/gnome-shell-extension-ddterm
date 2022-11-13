@@ -10,8 +10,8 @@ EXTENSION_UUID := ddterm@amezin.github.com
 # (could be necessary on older distros without gtk4-builder-tool)
 WITH_GTK4 := yes
 
-TRUE_VALUES := yes YES true TRUE 1
-is-true = $(filter $(TRUE_VALUES),$(1))
+TRUE_VALUES := yes YES true TRUE on ON 1
+is-true = $(filter 1,$(words $(filter $(TRUE_VALUES),$(1))))
 
 all:
 .PHONY: all
@@ -110,7 +110,10 @@ $(GTK4_UI): $(GTK4_UI_PATTERN): $(GTK_3TO4_UI_PATTERN)
 	gtk4-builder-tool simplify $< >$@
 
 CLEAN += $(GTK_3TO4_UI) $(GTK_3TO4_FIXUP_UI) $(GTK4_UI)
-GENERATED += $(if $(call is-true,$(WITH_GTK4)), $(GTK4_UI))
+
+ifeq ($(call is-true,$(WITH_GTK4)),1)
+GENERATED += $(GTK4_UI)
+endif
 
 # metadata.json
 
@@ -261,7 +264,11 @@ $(GTK4_VALIDATE_UI): gtk-builder-validate/%: %
 
 .PHONY: $(GTK4_VALIDATE_UI)
 
-gtk-builder-validate: $(GTK3_VALIDATE_UI) $(if $(call is-true,$(WITH_GTK4)),$(GTK4_VALIDATE_UI))
+gtk-builder-validate: $(GTK3_VALIDATE_UI)
+
+ifeq ($(call is-true,$(WITH_GTK4)),1)
+gtk-builder-validate: $(GTK4_VALIDATE_UI)
+endif
 
 all: gtk-builder-validate
 .PHONY: gtk-builder-validate
