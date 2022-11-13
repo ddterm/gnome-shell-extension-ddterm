@@ -22,7 +22,7 @@ there.
 
 To build the extension package, you should have the following tools installed:
 
-- `make`
+- GNU `make`
 
 - `npm` and, thus, node.js.
 
@@ -33,7 +33,7 @@ To build the extension package, you should have the following tools installed:
 
 - `xsltproc` (`xsltproc` package on Ubuntu, `libxslt` on Fedora and Arch)
 
-- `msgcmp`, `msgmerge` (`gettext` package)
+- `msgcmp`, `msgmerge`, `xgettext` (`gettext` package)
 
 - `zip`
 
