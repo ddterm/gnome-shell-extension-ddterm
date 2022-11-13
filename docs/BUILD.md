@@ -53,7 +53,9 @@ run build commands with `./do-in-docker.sh` or `./do-in-podman.sh` wrapper:
 # 4. `npm install`
 
 The extension needs two JavaScript libraries from npm: handlebars and rxjs.
-To download them, run `npm install`:
+`make` should automatically run `npm install` when necessary to download them.
+
+However, you could also run `npm install` manually:
 
     $ npm install
 
@@ -69,6 +71,12 @@ You can also append `--omit dev` to `npm install` to speed up the process:
 In this case `npm` will not install development tools (currently only eslint).
 They aren't necessary if your only intention is to build the package without
 modifying the code.
+
+If you've ran `npm install` manually, `make` won't try to run it again, until
+`package.json` or `package-lock.json` changes. To disable automatic
+`npm install` completely, pass `NPM_INSTALL=no` to `make`:
+
+    $ make NPM_INSTALL=no ...
 
 # 5. `make pack`
 

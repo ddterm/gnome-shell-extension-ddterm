@@ -51,10 +51,14 @@ locales: $(LOCALES_COMPILED)
 
 # Bundled libs
 
-handlebars.js: node_modules/handlebars/dist/handlebars.js
-	cp $< $@
+HANDLEBARS_DIST := node_modules/handlebars/dist/handlebars.js
+RXJS_DIST := node_modules/rxjs/dist/bundles/rxjs.umd.js
+NPM_INSTALLED := $(HANDLEBARS_DIST) $(RXJS_DIST)
 
-rxjs.js: node_modules/rxjs/dist/bundles/rxjs.umd.js
+handlebars.js: $(HANDLEBARS_DIST)
+rxjs.js: $(RXJS_DIST)
+
+handlebars.js rxjs.js:
 	cp $< $@
 
 GENERATED += handlebars.js rxjs.js
@@ -313,6 +317,7 @@ msgmerge: $(MSGMERGE_GOALS)
 # ESLint
 
 ESLINT_CMD := node_modules/.bin/eslint
+NPM_INSTALLED += $(ESLINT_CMD)
 
 lint/eslintrc-gjs.yml:
 	curl -o $@ 'https://gitlab.gnome.org/GNOME/gjs/-/raw/8c50f934bc81f224c6d8f521116ddaa5583eef66/.eslintrc.yml'
@@ -322,6 +327,22 @@ lint: lint/eslintrc-gjs.yml $(ESLINT_CMD)
 
 .PHONY: lint
 all: lint
+
+# Automagic 'npm install'
+
+NPM_INSTALL := yes
+
+ifeq ($(call is-true,$(NPM_INSTALL)),1)
+
+$(NPM_INSTALLED): node_modules/.package-lock.json
+
+node_modules/.package-lock.json: package.json package-lock.json
+	npm install
+
+npm: node_modules/.package-lock.json
+.PHONY: npm
+
+endif
 
 # Various helpers
 
