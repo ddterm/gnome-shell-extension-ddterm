@@ -361,6 +361,9 @@ var WindowManager = GObject.registerClass(
 
             this.current_window_connections.connect(win, 'unmanaged', this._release_window.bind(this));
             this.current_window_connections.connect(win, 'unmanaging', () => {
+                if (!this._check_current_window(win))
+                    return;
+
                 if (this.settings.get_boolean('override-window-animation') && !this.hide_animation)
                     Main.wm.skipNextEffect(this.current_window.get_compositor_private());
             });
