@@ -161,7 +161,12 @@ var WindowManager = GObject.registerClass(
             if (!this.show_animation)
                 return;
 
+            const win = actor.meta_window;
+
             const func = () => {
+                if (this.current_window !== win || actor !== win.get_compositor_private())
+                    return;
+
                 actor.set_pivot_point(this.animation_pivot_x, this.animation_pivot_y);
 
                 const scale_x_anim = actor.get_transition('scale-x');
