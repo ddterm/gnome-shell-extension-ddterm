@@ -205,8 +205,10 @@ var WindowManager = GObject.registerClass(
             if (!this._check_current_window() || actor !== this.current_window.get_compositor_private())
                 return;
 
-            if (!this.hide_animation)
+            if (!this.hide_animation) {
+                this._release_window(this.current_window);
                 return;
+            }
 
             actor.set_pivot_point(this.animation_pivot_x, this.animation_pivot_y);
 
@@ -232,6 +234,8 @@ var WindowManager = GObject.registerClass(
                 scale_y_anim.progress_mode = this.hide_animation;
                 opacity_anim.duration = this.hide_animation_duration;
             }
+
+            this._release_window(this.current_window);
         }
 
         _hide_when_focus_lost() {
@@ -364,8 +368,10 @@ var WindowManager = GObject.registerClass(
                 if (!this._check_current_window(win))
                     return;
 
-                if (this.settings.get_boolean('override-window-animation') && !this.hide_animation)
+                if (this.settings.get_boolean('override-window-animation') && !this.hide_animation) {
                     Main.wm.skipNextEffect(this.current_window.get_compositor_private());
+                    this._release_window(win);
+                }
             });
 
             this._setup_maximized_handlers();
