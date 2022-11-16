@@ -37,7 +37,7 @@ A simple terminal emulator, written in GJS. A regular Gtk application, except:
 Application code heavily relies on [RxJS], and also uses [Handlebars]
 for tab titles.
 
-`rxutil.js` is an integration layer between GObject/Gtk and RxJS.
+[`rxutil.js`] is an integration layer between GObject/Gtk and RxJS.
 
 ## Preferences dialog
 
