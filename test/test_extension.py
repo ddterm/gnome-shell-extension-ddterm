@@ -8,7 +8,6 @@ import logging
 import pathlib
 import queue
 import subprocess
-import threading
 import time
 
 import allpairspy
@@ -17,7 +16,7 @@ import pytest
 import wand.image
 
 from pytest_html import extras
-from gi.repository import GLib, Gio
+from gi.repository import Gio
 
 from . import container_util, dbus_util, glib_util
 
@@ -198,7 +197,7 @@ class CommonFixtures:
             'DAC_READ_SEARCH',
         ]
 
-        with filelock.FileLock(global_tmp_path / 'container-starting.lock') as lock:
+        with filelock.FileLock(global_tmp_path / 'container-starting.lock'):
             c = container_util.Container.run(
                 podman,
                 '--rm',
@@ -239,7 +238,9 @@ class CommonFixtures:
 
     @pytest.fixture(scope='class')
     def gnome_shell_session(self, container, user_env, install_ddterm):
-        container.exec('systemctl', '--user', 'start', f'{self.GNOME_SHELL_SESSION_NAME}@:99', **user_env)
+        container.exec(
+            'systemctl', '--user', 'start', f'{self.GNOME_SHELL_SESSION_NAME}@:99', **user_env
+        )
         return self.GNOME_SHELL_SESSION_NAME
 
     @pytest.fixture(scope='class')
@@ -250,7 +251,7 @@ class CommonFixtures:
         ).returncode != 0:
             time.sleep(0.1)
 
-        hostport = container.inspect('{{json .NetworkSettings.Ports}}')['1234/tcp'][0];
+        hostport = container.inspect('{{json .NetworkSettings.Ports}}')['1234/tcp'][0]
         host = hostport['HostIp'] or '127.0.0.1'
         port = hostport['HostPort']
 
@@ -323,58 +324,172 @@ class CommonTests(CommonFixtures):
         ['window_size', 'window_maximize', 'window_pos'],
         mkpairs([MORE_SIZE_VALUES, MAXIMIZE_MODES, VERTICAL_RESIZE_POSITIONS])
     )
-    def test_show_v(self, test_interface, window_size, window_maximize, window_pos, monitor_config, screenshot):
+    def test_show_v(
+        self,
+        test_interface,
+        window_size,
+        window_maximize,
+        window_pos,
+        monitor_config,
+        screenshot
+    ):
         with screenshot:
-            test_interface.TestShow('(dssis)', window_size, window_maximize, window_pos, monitor_config.current_index, monitor_config.setting)
+            test_interface.TestShow(
+                '(dssis)',
+                window_size,
+                window_maximize,
+                window_pos,
+                monitor_config.current_index,
+                monitor_config.setting
+            )
 
-    def test_show_h(self, test_interface, window_size, window_maximize, window_pos, monitor_config, screenshot):
+    def test_show_h(
+        self,
+        test_interface,
+        window_size,
+        window_maximize,
+        window_pos,
+        monitor_config,
+        screenshot
+    ):
         with screenshot:
-            test_interface.TestShow('(dssis)', window_size, window_maximize, window_pos, monitor_config.current_index, monitor_config.setting)
+            test_interface.TestShow(
+                '(dssis)',
+                window_size,
+                window_maximize,
+                window_pos,
+                monitor_config.current_index,
+                monitor_config.setting
+            )
 
     @pytest.mark.parametrize(
         ['window_size', 'window_maximize', 'window_size2', 'window_pos'],
         mkpairs([SIZE_VALUES, MAXIMIZE_MODES, SIZE_VALUES, POSITIONS])
     )
     @pytest.mark.flaky
-    def test_resize_xte(self, test_interface, window_size, window_maximize, window_size2, window_pos, monitor_config, shell_version, screenshot):
+    def test_resize_xte(
+        self,
+        test_interface,
+        window_size,
+        window_maximize,
+        window_size2,
+        window_pos,
+        monitor_config,
+        shell_version,
+        screenshot
+    ):
         if shell_version < (3, 39):
             if monitor_config.current_index == 1 and window_pos == 'bottom' and window_size2 == 1:
                 pytest.xfail('For unknown reason it fails to resize to full height on 2nd monitor')
 
         with screenshot:
-            test_interface.TestResizeXte('(dsdsis)', window_size, window_maximize, window_size2, window_pos, monitor_config.current_index, monitor_config.setting)
+            test_interface.TestResizeXte(
+                '(dsdsis)',
+                window_size,
+                window_maximize,
+                window_size2,
+                window_pos,
+                monitor_config.current_index,
+                monitor_config.setting
+            )
 
     @pytest.mark.parametrize(
         ['window_pos', 'window_pos2', 'window_size'],
-        mkpairs([POSITIONS, POSITIONS, SIZE_VALUES], filter_func=lambda p: (len(p) < 2) or (p[0] != p[1]))
+        mkpairs(
+            [POSITIONS, POSITIONS, SIZE_VALUES],
+            filter_func=lambda p: (len(p) < 2) or (p[0] != p[1])
+        )
     )
-    def test_change_position(self, test_interface, window_size, window_pos, window_pos2, monitor_config, screenshot):
+    def test_change_position(
+        self,
+        test_interface,
+        window_size,
+        window_pos,
+        window_pos2,
+        monitor_config,
+        screenshot
+    ):
         with screenshot:
-            test_interface.TestChangePosition('(dssis)', window_size, window_pos, window_pos2, monitor_config.current_index, monitor_config.setting)
+            test_interface.TestChangePosition(
+                '(dssis)',
+                window_size,
+                window_pos,
+                window_pos2,
+                monitor_config.current_index,
+                monitor_config.setting
+            )
 
     @pytest.mark.parametrize(
         ['window_size', 'window_maximize', 'window_pos'],
         mkpairs([SIZE_VALUES, MAXIMIZE_MODES, POSITIONS])
     )
-    def test_unmaximize(self, test_interface, window_size, window_maximize, window_pos, monitor_config, screenshot):
+    def test_unmaximize(
+        self,
+        test_interface,
+        window_size,
+        window_maximize,
+        window_pos,
+        monitor_config,
+        screenshot
+    ):
         with screenshot:
-            test_interface.TestUnmaximize('(dssis)', window_size, window_maximize, window_pos, monitor_config.current_index, monitor_config.setting)
+            test_interface.TestUnmaximize(
+                '(dssis)',
+                window_size,
+                window_maximize,
+                window_pos,
+                monitor_config.current_index,
+                monitor_config.setting
+            )
 
     @pytest.mark.parametrize(
         ['window_size', 'window_size2', 'window_pos'],
         mkpairs([SIZE_VALUES, SIZE_VALUES, POSITIONS])
     )
-    def test_unmaximize_correct_size(self, test_interface, window_size, window_size2, window_pos, monitor_config, screenshot):
+    def test_unmaximize_correct_size(
+        self,
+        test_interface,
+        window_size,
+        window_size2,
+        window_pos,
+        monitor_config,
+        screenshot
+    ):
         with screenshot:
-            test_interface.TestUnmaximizeCorrectSize('(ddsis)', window_size, window_size2, window_pos, monitor_config.current_index, monitor_config.setting)
+            test_interface.TestUnmaximizeCorrectSize(
+                '(ddsis)',
+                window_size,
+                window_size2,
+                window_pos,
+                monitor_config.current_index,
+                monitor_config.setting
+            )
 
     @pytest.mark.parametrize(
         ['window_size', 'window_size2', 'window_pos'],
-        mkpairs([SIZE_VALUES, SIZE_VALUES, POSITIONS], filter_func=lambda p: (len(p) < 2) or (p[0] != p[1]))
+        mkpairs(
+            [SIZE_VALUES, SIZE_VALUES, POSITIONS],
+            filter_func=lambda p: (len(p) < 2) or (p[0] != p[1])
+        )
     )
-    def test_unmaximize_on_size_change(self, test_interface, window_size, window_size2, window_pos, monitor_config, screenshot):
+    def test_unmaximize_on_size_change(
+        self,
+        test_interface,
+        window_size,
+        window_size2,
+        window_pos,
+        monitor_config,
+        screenshot
+    ):
         with screenshot:
-            test_interface.TestUnmaximizeOnSizeChange('(ddsis)', window_size, window_size2, window_pos, monitor_config.current_index, monitor_config.setting)
+            test_interface.TestUnmaximizeOnSizeChange(
+                '(ddsis)',
+                window_size,
+                window_size2,
+                window_pos,
+                monitor_config.current_index,
+                monitor_config.setting
+            )
 
 
 class LargeScreenMixin(CommonTests):
@@ -447,7 +562,7 @@ def wait_action_in_group(group, action):
             w.wait()
 
 
-def wait_action_in_group_enabled(group, action, enabled = True):
+def wait_action_in_group_enabled(group, action, enabled=True):
     wait_action_in_group(group, action)
 
     with glib_util.SignalWait(group, f'action-enabled-changed::{action}') as w:

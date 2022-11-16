@@ -1,6 +1,5 @@
 import contextlib
 import math
-import os
 import pathlib
 
 import pytest
@@ -10,7 +9,7 @@ from . import container_util
 
 
 TEST_SRC_DIR = pathlib.Path(__file__).parent.resolve()
-IMAGES_STASH_KEY = pytest.StashKey[list]();
+IMAGES_STASH_KEY = pytest.StashKey[list]()
 
 
 @pytest.fixture(scope='session')

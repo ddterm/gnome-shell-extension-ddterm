@@ -115,7 +115,10 @@ def wait_interface(connection, name, path, interface):
 def connect_tcp(host, port):
     return Gio.DBusConnection.new_for_address_sync(
         f'tcp:host={host},port={port}',
-        Gio.DBusConnectionFlags.AUTHENTICATION_CLIENT | Gio.DBusConnectionFlags.MESSAGE_BUS_CONNECTION,
+        (
+            Gio.DBusConnectionFlags.AUTHENTICATION_CLIENT |
+            Gio.DBusConnectionFlags.MESSAGE_BUS_CONNECTION
+        ),
         None,
         None
     )

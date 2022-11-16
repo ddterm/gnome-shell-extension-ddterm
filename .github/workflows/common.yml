@@ -27,6 +27,15 @@ jobs:
 
     - run: make lint
 
+    - run: echo "::add-matcher::.github/problem-matchers/flake8.json"
+      if: ${{ always() && steps.checkout.conclusion == 'success' }}
+
+    - run: set -o pipefail; tox --sitepackages -e lint | sed -e 's:^\./:test/:'
+      env:
+        PY_COLORS: 0
+      if: ${{ always() && steps.checkout.conclusion == 'success' }}
+      working-directory: test
+
     - run: echo "::add-matcher::.github/problem-matchers/generic.json"
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
