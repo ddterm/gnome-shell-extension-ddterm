@@ -35,11 +35,42 @@ def extension_pack(request):
 
 
 def pytest_addoption(parser):
-    parser.addoption('--compose-service', action='append', default=[])
-    parser.addoption('--image', action='append', default=[])
-    parser.addoption('--podman', default=['podman'], nargs='+')
-    parser.addoption('--screenshot-failing-only', default=False, action='store_true')
-    parser.addoption('--pack', default=None, type=pathlib.Path)
+    parser.addoption(
+        '--compose-service',
+        action='append',
+        default=[],
+        help='run tests using the specified container image from compose.yaml. '
+             'Can be repeated multiple times to run tests with multiple images.'
+    )
+
+    parser.addoption(
+        '--image',
+        action='append',
+        default=[],
+        help='run tests using the specified container image. '
+             'Can be repeated multiple times to run tests with multiple images.'
+    )
+
+    parser.addoption(
+        '--podman',
+        default=['podman'],
+        nargs='+',
+        help='podman command/executable path'
+    )
+
+    parser.addoption(
+        '--screenshot-failing-only',
+        default=False,
+        action='store_true',
+        help='capture screenshots only for failing tests'
+    )
+
+    parser.addoption(
+        '--pack',
+        default=None,
+        type=pathlib.Path,
+        help='install ddterm from the specified package file'
+    )
 
 
 def pytest_configure(config):

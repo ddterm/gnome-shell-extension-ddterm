@@ -1,6 +1,8 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+# See docs/Vagrant.md
+
 require 'open3'
 
 CPUS = 4
