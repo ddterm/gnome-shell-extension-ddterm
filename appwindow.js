@@ -63,7 +63,12 @@ var AppWindow = GObject.registerClass(
             this.rx = rxutil.scope(this);
 
             this.extension_dbus = new ExtensionDBusProxy(
-                Gio.DBus.session, 'org.gnome.Shell', '/org/gnome/Shell/Extensions/ddterm'
+                Gio.DBus.session,
+                'org.gnome.Shell',
+                '/org/gnome/Shell/Extensions/ddterm',
+                undefined,
+                undefined,
+                Gio.DBusProxyFlags.DO_NOT_AUTO_START
             );
 
             this.rx.subscribe(
