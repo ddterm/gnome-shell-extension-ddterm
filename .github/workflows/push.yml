@@ -3,7 +3,6 @@ name: push
 on:
   push:
     branches-ignore:
-      - master
       - renovate/**
     tags-ignore:
       - v*
