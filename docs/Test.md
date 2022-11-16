@@ -10,6 +10,8 @@
 
 * [PyGObject] or its build dependencies.
 
+* [ImageMagick] library.
+
 ## Running
 
     $ tox [--sitepackages] -- <options...>
@@ -80,6 +82,7 @@ Sometimes also reading journal.
 [tox]: https://tox.wiki/
 [podman]: https://podman.io/
 [PyGObject]: https://pygobject.readthedocs.io/
+[ImageMagick]: https://imagemagick.org/
 [pairwise testing]: https://www.pairwise.org/
 [allpairspy]: https://github.com/thombashi/allpairspy
 
