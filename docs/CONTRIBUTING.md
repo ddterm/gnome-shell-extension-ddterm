@@ -1,4 +1,8 @@
-This is not a guide, just a list of documents to check out:
+If you want to report a bug, proceed to the
+[bug reporting form](https://github.com/ddterm/gnome-shell-extension-ddterm/issues/new?labels=bug&template=BUG.yml)
+
+If you want to implement a feature/fix a bug, you might find these documents
+useful:
 
 * [How to build and install the project from source](BUILD.md)
 
@@ -9,3 +13,5 @@ This is not a guide, just a list of documents to check out:
 * [Debugging/testing on multiple distros using Vagrant](Vagrant.md)
 
 TODO: add more
+
+Pull requests are preferred to feature requests :)
