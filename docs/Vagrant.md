@@ -63,4 +63,4 @@ You may omit `--provision-with deploy`:
 but the process might take longer in this case, because Ansible will try to
 upgrade OS packages.
 
-[`Vagrantfile`]: ../Vagrantfile
+[`Vagrantfile`]: /Vagrantfile

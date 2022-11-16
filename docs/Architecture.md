@@ -49,8 +49,8 @@ also uses [RxJS].
 [RxJS]: https://rxjs.dev/
 [Handlebars]: https://handlebarsjs.com/
 
-[`com.github.amezin.ddterm.Extension.xml`]: ../com.github.amezin.ddterm.Extension.xml
-[`extension.js`]: ../extension.js
-[`wm.js`]: ../wm.js
-[`rxutil.js`]: ../rxutil.js
-[`prefs.js`]: ../prefs.js
+[`com.github.amezin.ddterm.Extension.xml`]: /com.github.amezin.ddterm.Extension.xml
+[`extension.js`]: /extension.js
+[`wm.js`]: /wm.js
+[`rxutil.js`]: /rxutil.js
+[`prefs.js`]: /prefs.js

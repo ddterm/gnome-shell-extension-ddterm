@@ -4,13 +4,13 @@
 
 * Python 3
 
-* [tox]
+* tox: <https://tox.wiki/>
 
-* [podman]
+* podman: <https://podman.io/>
 
-* [PyGObject] or its build dependencies.
+* PyGObject: <https://pygobject.readthedocs.io/> or its build dependencies.
 
-* [ImageMagick] library.
+* ImageMagick library: <https://imagemagick.org/>.
 
 ## Running
 
@@ -72,20 +72,14 @@ communication channel.
 
 2. ddterm extension is installed and enabled.
 
-3. Then [another extension](../test/extension/extension.js) that provides an
-[additional D-Bus interface](../test/extension/com.github.amezin.ddterm.ExtensionTest.xml)
+3. Then [another extension](/test/extension/extension.js) that provides an
+[additional D-Bus interface](/test/extension/com.github.amezin.ddterm.ExtensionTest.xml)
 is installed and enabled too.
 
 4. Tests communicate with the installed extensions and application over D-Bus.
 Sometimes also reading journal.
 
-[tox]: https://tox.wiki/
-[podman]: https://podman.io/
-[PyGObject]: https://pygobject.readthedocs.io/
-[ImageMagick]: https://imagemagick.org/
 [pairwise testing]: https://www.pairwise.org/
 [allpairspy]: https://github.com/thombashi/allpairspy
-
 [GNOME Shell containers]: https://github.com/ddterm/gnome-shell-pod
-
-[`compose.yaml`]: ../test/compose.yaml
+[`compose.yaml`]: /test/compose.yaml
