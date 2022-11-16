@@ -226,11 +226,10 @@ function disable() {
         dbus_interface = null;
     }
 
-    if (Main.sessionMode.allowExtensions) {
+    if (!Main.sessionMode.isLocked) {
         // Stop the app only if the extension isn't being disabled because of
-        // lock screen/switch to other mode where extensions aren't allowed.
-        // Because when the session switches back to normal mode we want to
-        // keep all open terminals.
+        // lock screen. Because when the session switches back to normal mode
+        // we want to keep all open terminals.
         if (app_dbus && app_dbus.action_group)
             app_dbus.action_group.activate_action('quit', null);
         else if (subprocess)
