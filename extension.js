@@ -63,6 +63,9 @@ class AppDBusWatch {
     }
 
     _notify_running() {
+        if (!dbus_interface)
+            return;
+
         dbus_interface.dbus.emit_property_changed(
             'IsAppRunning',
             GLib.Variant.new_boolean(dbus_interface.IsAppRunning)
@@ -194,6 +197,9 @@ function enable() {
 
     connections.connect(window_manager, 'notify::current-window', () => {
         panel_icon.active = window_manager.current_window !== null;
+
+        if (!dbus_interface)
+            return;
 
         dbus_interface.dbus.emit_property_changed(
             'HasWindow',
