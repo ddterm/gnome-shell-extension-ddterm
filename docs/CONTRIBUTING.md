@@ -4,7 +4,7 @@ This is not a guide, just a list of documents to check out:
 
 * [Brief architecture description](Architecture.md)
 
-* [Automated tests](../test/README.md)
+* [Automated tests](Test.md)
 
 * [Debugging/testing on multiple distros using Vagrant](Vagrant.md)
 
