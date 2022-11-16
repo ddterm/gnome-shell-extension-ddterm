@@ -173,6 +173,7 @@ const Application = GObject.registerClass(
             });
 
             this.add_action(this.window.lookup_action('toggle'));
+            this.add_action(this.window.lookup_action('show'));
             this.add_action(this.window.lookup_action('hide'));
 
             const shortcut_actions = {

@@ -117,6 +117,7 @@ var AppWindow = GObject.registerClass(
 
             const actions = {
                 'toggle': this.toggle.bind(this),
+                'show': () => this.show(),
                 'hide': () => this.hide(),
                 'new-tab': this.insert_page.bind(this, -1),
                 'new-tab-front': this.insert_page.bind(this, 0),
