@@ -6,6 +6,8 @@ on:
       - renovate/**
     tags-ignore:
       - v*
+    paths-ignore:
+      - docs/**
 
 jobs:
   ci:
