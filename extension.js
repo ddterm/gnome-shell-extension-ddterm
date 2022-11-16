@@ -317,20 +317,29 @@ function subprocess_terminated(source) {
 }
 
 function toggle() {
-    if (!window_manager.current_window)
-        window_manager.update_monitor_index();
-
-    if (app_dbus.action_group)
-        app_dbus.action_group.activate_action('toggle', null);
-    else
-        spawn_app();
+    if (window_manager.current_window) {
+        if (app_dbus.action_group)
+            app_dbus.action_group.activate_action('hide', null);
+    } else {
+        activate();
+    }
 }
 
 function activate() {
-    if (window_manager.current_window)
+    if (!window_manager.current_window)
+        window_manager.update_monitor_index();
+
+    if (window_manager.current_window) {
         Main.activateWindow(window_manager.current_window);
-    else
-        toggle();
+    } else if (app_dbus.action_group) {
+        // Compatibility with old app version
+        if (app_dbus.action_group.has_action('show'))
+            app_dbus.action_group.activate_action('show', null);
+        else
+            app_dbus.action_group.activate_action('toggle', null);
+    } else {
+        spawn_app();
+    }
 }
 
 function set_skip_taskbar() {
