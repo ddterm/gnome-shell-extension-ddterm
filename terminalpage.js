@@ -84,7 +84,12 @@ function jit_regex(regex) {
 }
 
 function compile_regex(regex) {
-    const compiled = Vte.Regex.new_for_match(regex, -1, PCRE2_UTF | PCRE2_NO_UTF_CHECK | PCRE2_UCP | PCRE2_MULTILINE);
+    const compiled = Vte.Regex.new_for_match(
+        regex,
+        -1,
+        PCRE2_UTF | PCRE2_NO_UTF_CHECK | PCRE2_UCP | PCRE2_MULTILINE
+    );
+
     jit_regex(compiled);
     return compiled;
 }
@@ -120,10 +125,18 @@ var TerminalPage = GObject.registerClass(
         ],
         Properties: {
             'settings': GObject.ParamSpec.object(
-                'settings', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, settings.Settings
+                'settings',
+                '',
+                '',
+                GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+                settings.Settings
             ),
             'menus': GObject.ParamSpec.object(
-                'menus', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, Gtk.Builder
+                'menus',
+                '',
+                '',
+                GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+                Gtk.Builder
             ),
         },
         Signals: {
@@ -185,7 +198,8 @@ var TerminalPage = GObject.registerClass(
             );
 
             const foreground = this.settings.resolved_foreground_color(style_color('color'));
-            const background = this.settings.resolved_background_color(style_color('background-color'));
+            const background =
+                this.settings.resolved_background_color(style_color('background-color'));
 
             this.rx.subscribe(
                 rxjs.combineLatest(foreground, background, this.settings.palette),
@@ -222,6 +236,7 @@ var TerminalPage = GObject.registerClass(
                 rxjs.combineLatest(
                     url_regex(this.settings.resolved['detect-urls-as-is'], REGEX_URL_AS_IS),
                     url_regex(this.settings.resolved['detect-urls-file'], REGEX_URL_FILE),
+                    // eslint-disable-next-line max-len
                     url_regex(this.settings.resolved['detect-urls-http'], REGEX_URL_HTTP, 'http://'),
                     url_regex(this.settings.resolved['detect-urls-voip'], REGEX_URL_VOIP),
                     url_regex(this.settings.resolved['detect-urls-email'], REGEX_EMAIL, 'mailto:'),
@@ -400,16 +415,32 @@ var TerminalPage = GObject.registerClass(
                 'find-prev': this.find_prev.bind(this),
             });
 
-            this.search_match_case_action = Gio.SimpleAction.new_stateful('search-match-case', null, GVARIANT_FALSE);
+            this.search_match_case_action = Gio.SimpleAction.new_stateful(
+                'search-match-case',
+                null,
+                GVARIANT_FALSE
+            );
             terminal_actions.add_action(this.search_match_case_action);
 
-            this.search_whole_word_action = Gio.SimpleAction.new_stateful('search-whole-word', null, GVARIANT_FALSE);
+            this.search_whole_word_action = Gio.SimpleAction.new_stateful(
+                'search-whole-word',
+                null,
+                GVARIANT_FALSE
+            );
             terminal_actions.add_action(this.search_whole_word_action);
 
-            this.search_regex_action = Gio.SimpleAction.new_stateful('search-regex', null, GVARIANT_FALSE);
+            this.search_regex_action = Gio.SimpleAction.new_stateful(
+                'search-regex',
+                null,
+                GVARIANT_FALSE
+            );
             terminal_actions.add_action(this.search_regex_action);
 
-            const search_wrap_action = Gio.SimpleAction.new_stateful('search-wrap', null, GVARIANT_FALSE);
+            const search_wrap_action = Gio.SimpleAction.new_stateful(
+                'search-wrap',
+                null,
+                GVARIANT_FALSE
+            );
             terminal_actions.add_action(search_wrap_action);
 
             this.rx.subscribe(rxutil.property(search_wrap_action, 'state'), state => {
@@ -525,13 +556,23 @@ var TerminalPage = GObject.registerClass(
                     spawn_flags |= GLib.SpawnFlags.SEARCH_PATH_FROM_ENVP;
             }
 
-            this.terminal.spawn_async(Vte.PtyFlags.DEFAULT, cwd, argv, null, spawn_flags, null, -1, null, (terminal, pid, error) => {
-                if (error)
-                    terminal.feed(error.message);
+            this.terminal.spawn_async(
+                Vte.PtyFlags.DEFAULT,
+                cwd,
+                argv,
+                null,
+                spawn_flags,
+                null,
+                -1,
+                null,
+                (terminal, pid, error) => {
+                    if (error)
+                        terminal.feed(error.message);
 
-                if (pid)
-                    this.child_pid = pid;
-            });
+                    if (pid)
+                        this.child_pid = pid;
+                }
+            );
         }
 
         copy() {
@@ -559,7 +600,11 @@ var TerminalPage = GObject.registerClass(
         }
 
         open_hyperlink() {
-            Gtk.show_uri_on_window(this.get_ancestor(Gtk.Window), this.clicked_hyperlink.value, Gdk.CURRENT_TIME);
+            Gtk.show_uri_on_window(
+                this.get_ancestor(Gtk.Window),
+                this.clicked_hyperlink.value,
+                Gdk.CURRENT_TIME
+            );
         }
 
         copy_hyperlink() {
@@ -629,7 +674,12 @@ var TerminalPage = GObject.registerClass(
             this.switch_shortcut.next(label);
         }
 
-        setup_popup_menu(widget, menu_name, widget_anchor = Gdk.Gravity.SOUTH, menu_anchor = Gdk.Gravity.SOUTH) {
+        setup_popup_menu(
+            widget,
+            menu_name,
+            widget_anchor = Gdk.Gravity.SOUTH,
+            menu_anchor = Gdk.Gravity.SOUTH
+        ) {
             const menu = Gtk.Menu.new_from_model(this.menus.get_object(menu_name));
             menu.attach_widget = widget;
 
@@ -736,7 +786,10 @@ var TerminalPage = GObject.registerClass(
                 buttons: Gtk.ButtonsType.YES_NO,
                 message_type: Gtk.MessageType.QUESTION,
                 text: translations.gettext('Close this terminal?'),
-                secondary_text: translations.gettext('There is still a process running in this terminal. Closing the terminal will kill it.'),
+                secondary_text: translations.gettext(
+                    // eslint-disable-next-line max-len
+                    'There is still a process running in this terminal. Closing the terminal will kill it.'
+                ),
             });
 
             message.connect('response', (_, response_id) => {

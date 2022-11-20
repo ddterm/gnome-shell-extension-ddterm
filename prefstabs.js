@@ -35,7 +35,13 @@ var Widget = GObject.registerClass(
             'tab_title_template_text_view',
         ],
         Properties: {
-            'settings': GObject.ParamSpec.object('settings', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, settings.Settings),
+            'settings': GObject.ParamSpec.object(
+                'settings',
+                '',
+                '',
+                GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+                settings.Settings
+            ),
         },
     },
     class PrefsTabs extends Gtk.Grid {

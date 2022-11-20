@@ -54,14 +54,16 @@ function notify_error(title, body) {
 
 function import_error(ex, libname, version) {
     const title = `Can't start ddterm - library ${libname}, version ${version} not available`;
-    const help = `You likely need to install the package that contains the file '${libname}-${version}.typelib'`;
+    const typelib_file = `${libname}-${version}.typelib`;
+    const help = `You likely need to install the package that contains the file '${typelib_file}'`;
 
     logError(ex, title);
     log(help);
 
     notify_error(
         title,
-        `<i>${GLib.markup_escape_text(help, -1)}</i>\n\n${GLib.markup_escape_text(ex.toString(), -1)}`
+        `<i>${GLib.markup_escape_text(help, -1)}</i>\n\n` +
+        `${GLib.markup_escape_text(ex.toString(), -1)}`
     );
 }
 

@@ -31,7 +31,13 @@ var Widget = GObject.registerClass(
             'custom_command_entry',
         ],
         Properties: {
-            'settings': GObject.ParamSpec.object('settings', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, settings.Settings),
+            'settings': GObject.ParamSpec.object(
+                'settings',
+                '',
+                '',
+                GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+                settings.Settings
+            ),
         },
     },
     class PrefsCommand extends Gtk.Grid {

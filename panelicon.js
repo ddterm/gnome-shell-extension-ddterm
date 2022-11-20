@@ -34,7 +34,11 @@ const PanelIconBase = GObject.registerClass(
     {
         Properties: {
             'active': GObject.ParamSpec.boolean(
-                'active', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY, false
+                'active',
+                '',
+                '',
+                GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+                false
             ),
         },
         Signals: {
@@ -65,7 +69,10 @@ const PanelIconPopupMenu = GObject.registerClass(
         _init() {
             super._init(false);
 
-            this.toggle_item = new PopupMenu.PopupSwitchMenuItem(translations.gettext('Show'), false);
+            this.toggle_item = new PopupMenu.PopupSwitchMenuItem(
+                translations.gettext('Show'),
+                false
+            );
             this.menu.addMenuItem(this.toggle_item);
             this.connections.connect(this.toggle_item, 'toggled', (_, value) => {
                 this.emit('toggle', value);
@@ -74,7 +81,9 @@ const PanelIconPopupMenu = GObject.registerClass(
                 this.notify('active');
             });
 
-            this.preferences_item = new PopupMenu.PopupMenuItem(translations.gettext('Preferences...'));
+            this.preferences_item = new PopupMenu.PopupMenuItem(
+                translations.gettext('Preferences...')
+            );
             this.menu.addMenuItem(this.preferences_item);
             this.connections.connect(this.preferences_item, 'activate', () => {
                 this.emit('open-preferences');
@@ -140,10 +149,18 @@ var PanelIconProxy = GObject.registerClass(
     {
         Properties: {
             'active': GObject.ParamSpec.boolean(
-                'active', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY, false
+                'active',
+                '',
+                '',
+                GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+                false
             ),
             'type': GObject.ParamSpec.string(
-                'type', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY, 'none'
+                'type',
+                '',
+                '',
+                GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+                'none'
             ),
         },
         Signals: {

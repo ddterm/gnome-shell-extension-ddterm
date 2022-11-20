@@ -32,13 +32,25 @@ var WindowManager = GObject.registerClass(
     {
         Properties: {
             'settings': GObject.ParamSpec.object(
-                'settings', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, Gio.Settings
+                'settings',
+                '',
+                '',
+                GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+                Gio.Settings
             ),
             'current-window': GObject.ParamSpec.object(
-                'current-window', '', '', GObject.ParamFlags.READABLE | GObject.ParamFlags.EXPLICIT_NOTIFY, Meta.Window
+                'current-window',
+                '',
+                '',
+                GObject.ParamFlags.READABLE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+                Meta.Window
             ),
             'target-rect': GObject.ParamSpec.boxed(
-                'target-rect', '', '', GObject.ParamFlags.READABLE | GObject.ParamFlags.EXPLICIT_NOTIFY, Meta.Rectangle
+                'target-rect',
+                '',
+                '',
+                GObject.ParamFlags.READABLE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+                Meta.Rectangle
             ),
         },
         Signals: {
@@ -77,21 +89,95 @@ var WindowManager = GObject.registerClass(
             this.hide_when_focus_lost_connections = new ConnectionSet();
             this.geometry_fixup_connections = new ConnectionSet();
 
-            this.connections.connect(global.display, 'workareas-changed', this._update_workarea.bind(this));
-            this.connections.connect(this.settings, 'changed::window-above', this._set_window_above.bind(this));
-            this.connections.connect(this.settings, 'changed::window-stick', this._set_window_stick.bind(this));
-            this.connections.connect(this.settings, 'changed::window-size', this._update_target_rect.bind(this));
-            this.connections.connect(this.settings, 'changed::window-size', this._disable_window_maximize_setting.bind(this));
-            this.connections.connect(this.settings, 'changed::window-position', this._update_window_position.bind(this));
-            this.connections.connect(this.settings, 'changed::window-maximize', this._set_window_maximized.bind(this));
-            this.connections.connect(this.settings, 'changed::window-monitor', this.update_monitor_index.bind(this));
-            this.connections.connect(this.settings, 'changed::window-monitor-connector', this.update_monitor_index.bind(this));
-            this.connections.connect(this.settings, 'changed::override-window-animation', this._setup_animation_overrides.bind(this));
-            this.connections.connect(this.settings, 'changed::show-animation', this._update_show_animation.bind(this));
-            this.connections.connect(this.settings, 'changed::hide-animation', this._update_hide_animation.bind(this));
-            this.connections.connect(this.settings, 'changed::show-animation-duration', this._update_show_animation_duration.bind(this));
-            this.connections.connect(this.settings, 'changed::hide-animation-duration', this._update_hide_animation_duration.bind(this));
-            this.connections.connect(this.settings, 'changed::hide-when-focus-lost', this._setup_hide_when_focus_lost.bind(this));
+            this.connections.connect(
+                global.display,
+                'workareas-changed',
+                this._update_workarea.bind(this)
+            );
+
+            this.connections.connect(
+                this.settings,
+                'changed::window-above',
+                this._set_window_above.bind(this)
+            );
+
+            this.connections.connect(
+                this.settings,
+                'changed::window-stick',
+                this._set_window_stick.bind(this)
+            );
+
+            this.connections.connect(
+                this.settings,
+                'changed::window-size',
+                this._update_target_rect.bind(this)
+            );
+
+            this.connections.connect(
+                this.settings,
+                'changed::window-size',
+                this._disable_window_maximize_setting.bind(this)
+            );
+
+            this.connections.connect(
+                this.settings,
+                'changed::window-position',
+                this._update_window_position.bind(this)
+            );
+
+            this.connections.connect(
+                this.settings,
+                'changed::window-maximize',
+                this._set_window_maximized.bind(this)
+            );
+
+            this.connections.connect(
+                this.settings,
+                'changed::window-monitor',
+                this.update_monitor_index.bind(this)
+            );
+
+            this.connections.connect(
+                this.settings,
+                'changed::window-monitor-connector',
+                this.update_monitor_index.bind(this)
+            );
+
+            this.connections.connect(
+                this.settings,
+                'changed::override-window-animation',
+                this._setup_animation_overrides.bind(this)
+            );
+
+            this.connections.connect(
+                this.settings,
+                'changed::show-animation',
+                this._update_show_animation.bind(this)
+            );
+
+            this.connections.connect(
+                this.settings,
+                'changed::hide-animation',
+                this._update_hide_animation.bind(this)
+            );
+
+            this.connections.connect(
+                this.settings,
+                'changed::show-animation-duration',
+                this._update_show_animation_duration.bind(this)
+            );
+
+            this.connections.connect(
+                this.settings,
+                'changed::hide-animation-duration',
+                this._update_hide_animation_duration.bind(this)
+            );
+
+            this.connections.connect(
+                this.settings,
+                'changed::hide-when-focus-lost',
+                this._setup_hide_when_focus_lost.bind(this)
+            );
 
             this.update_monitor_index();
             this._update_window_position();
@@ -110,7 +196,10 @@ var WindowManager = GObject.registerClass(
             }
 
             if (match !== null && this.current_window !== match) {
-                logError(new Error(`current_window should be ${match}, but it is ${this.current_window}`));
+                logError(
+                    new Error(`current_window should be ${match}, but it is ${this.current_window}`)
+                );
+
                 return false;
             }
 
@@ -126,8 +215,17 @@ var WindowManager = GObject.registerClass(
             if (!this.settings.get_boolean('override-window-animation'))
                 return;
 
-            this.animation_overrides_connections.connect(global.window_manager, 'destroy', this._override_unmap_animation.bind(this));
-            this.animation_overrides_connections.connect(global.window_manager, 'map', this._override_map_animation.bind(this));
+            this.animation_overrides_connections.connect(
+                global.window_manager,
+                'destroy',
+                this._override_unmap_animation.bind(this)
+            );
+
+            this.animation_overrides_connections.connect(
+                global.window_manager,
+                'map',
+                this._override_map_animation.bind(this)
+            );
         }
 
         _animation_mode_from_settings(key) {
@@ -147,15 +245,20 @@ var WindowManager = GObject.registerClass(
         }
 
         _update_show_animation_duration() {
-            this.show_animation_duration = Math.floor(1000 * this.settings.get_double('show-animation-duration'));
+            this.show_animation_duration =
+                Math.floor(1000 * this.settings.get_double('show-animation-duration'));
         }
 
         _update_hide_animation_duration() {
-            this.hide_animation_duration = Math.floor(1000 * this.settings.get_double('hide-animation-duration'));
+            this.hide_animation_duration =
+                Math.floor(1000 * this.settings.get_double('hide-animation-duration'));
         }
 
         _override_map_animation(wm, actor) {
-            if (!this._check_current_window() || actor !== this.current_window.get_compositor_private())
+            if (!this._check_current_window())
+                return;
+
+            if (actor !== this.current_window.get_compositor_private())
                 return;
 
             if (!this.show_animation)
@@ -202,7 +305,10 @@ var WindowManager = GObject.registerClass(
         }
 
         _override_unmap_animation(wm, actor) {
-            if (!this._check_current_window() || actor !== this.current_window.get_compositor_private())
+            if (!this._check_current_window())
+                return;
+
+            if (actor !== this.current_window.get_compositor_private())
                 return;
 
             if (!this.hide_animation) {
@@ -244,7 +350,10 @@ var WindowManager = GObject.registerClass(
 
             const win = global.display.focus_window;
             if (win !== null) {
-                if (this.current_window === win || this.current_window.is_ancestor_of_transient(win))
+                if (this.current_window === win)
+                    return;
+
+                if (this.current_window.is_ancestor_of_transient(win))
                     return;
             }
 
@@ -254,8 +363,13 @@ var WindowManager = GObject.registerClass(
         _setup_hide_when_focus_lost() {
             this.hide_when_focus_lost_connections.disconnect();
 
-            if (this.current_window && this.settings.get_boolean('hide-when-focus-lost'))
-                this.hide_when_focus_lost_connections.connect(global.display, 'notify::focus-window', this._hide_when_focus_lost.bind(this));
+            if (this.current_window && this.settings.get_boolean('hide-when-focus-lost')) {
+                this.hide_when_focus_lost_connections.connect(
+                    global.display,
+                    'notify::focus-window',
+                    this._hide_when_focus_lost.bind(this)
+                );
+            }
         }
 
         _set_window_above() {
@@ -294,8 +408,11 @@ var WindowManager = GObject.registerClass(
                 return;
             }
 
-            this.current_workarea = Main.layoutManager.getWorkAreaForMonitor(this.current_monitor_index);
-            this.current_monitor_scale = global.display.get_monitor_scale(this.current_monitor_index);
+            this.current_workarea =
+                Main.layoutManager.getWorkAreaForMonitor(this.current_monitor_index);
+
+            this.current_monitor_scale =
+                global.display.get_monitor_scale(this.current_monitor_index);
 
             this._update_target_rect();
         }
@@ -316,7 +433,10 @@ var WindowManager = GObject.registerClass(
             if (window_monitor === 'connector') {
                 const monitor_manager = Meta.MonitorManager.get();
                 if (monitor_manager) {
-                    const index = monitor_manager.get_monitor_for_connector(this.settings.get_string('window-monitor-connector'));
+                    const index = monitor_manager.get_monitor_for_connector(
+                        this.settings.get_string('window-monitor-connector')
+                    );
+
                     if (index >= 0)
                         return index;
                 }
@@ -340,10 +460,19 @@ var WindowManager = GObject.registerClass(
             if (!this.current_window)
                 return;
 
-            if (this.resize_x)
-                this.current_window_maximized_connections.connect(this.current_window, 'notify::maximized-horizontally', this._handle_maximized_horizontally.bind(this));
-            else
-                this.current_window_maximized_connections.connect(this.current_window, 'notify::maximized-vertically', this._handle_maximized_vertically.bind(this));
+            if (this.resize_x) {
+                this.current_window_maximized_connections.connect(
+                    this.current_window,
+                    'notify::maximized-horizontally',
+                    this._handle_maximized_horizontally.bind(this)
+                );
+            } else {
+                this.current_window_maximized_connections.connect(
+                    this.current_window,
+                    'notify::maximized-vertically',
+                    this._handle_maximized_vertically.bind(this)
+                );
+            }
         }
 
         _current_window_mapped() {
@@ -363,12 +492,18 @@ var WindowManager = GObject.registerClass(
             this._current_window = win;
             this.notify('current-window');
 
-            this.current_window_connections.connect(win, 'unmanaged', this._release_window.bind(this));
+            this.current_window_connections.connect(
+                win,
+                'unmanaged',
+                this._release_window.bind(this)
+            );
+
             this.current_window_connections.connect(win, 'unmanaging', () => {
                 if (!this._check_current_window(win))
                     return;
 
-                if (this.settings.get_boolean('override-window-animation') && !this.hide_animation) {
+                if (this.settings.get_boolean('override-window-animation') &&
+                    !this.hide_animation) {
                     Main.wm.skipNextEffect(this.current_window.get_compositor_private());
                     this._release_window(win);
                 }
@@ -382,13 +517,20 @@ var WindowManager = GObject.registerClass(
                     this._schedule_geometry_fixup(this.current_window);
                     this.current_window.move_to_monitor(this.current_monitor_index);
 
-                    const map_handler_id = this.current_window_connections.connect(global.window_manager, 'map', (wm, actor) => {
-                        if (!this._check_current_window(win) || actor.meta_window !== win)
-                            return;
+                    const map_handler_id = this.current_window_connections.connect(
+                        global.window_manager,
+                        'map', (wm, actor) => {
+                            if (!this._check_current_window(win) || actor.meta_window !== win)
+                                return;
 
-                        this.current_window_connections.disconnect(global.window_manager, map_handler_id);
-                        this._update_window_geometry(true);
-                    });
+                            this.current_window_connections.disconnect(
+                                global.window_manager,
+                                map_handler_id
+                            );
+
+                            this._update_window_geometry(true);
+                        }
+                    );
                 } else {
                     this._update_window_geometry(true);
                 }
@@ -399,7 +541,12 @@ var WindowManager = GObject.registerClass(
                 this._update_window_geometry(true);
             }
 
-            this.current_window_connections.connect(global.display, 'grab-op-end', this.update_size_setting_on_grab_end.bind(this));
+            this.current_window_connections.connect(
+                global.display,
+                'grab-op-end',
+                this.update_size_setting_on_grab_end.bind(this)
+            );
+
             this._setup_hide_when_focus_lost();
             this._setup_animation_overrides();
 
@@ -468,12 +615,25 @@ var WindowManager = GObject.registerClass(
         }
 
         _schedule_geometry_fixup(win) {
-            if (!this._check_current_window(win) || win.get_client_type() !== Meta.WindowClientType.WAYLAND)
+            if (!this._check_current_window(win))
+                return;
+
+            if (win.get_client_type() !== Meta.WindowClientType.WAYLAND)
                 return;
 
             this.geometry_fixup_connections.disconnect();
-            this.geometry_fixup_connections.connect(win, 'position-changed', () => this._update_window_geometry());
-            this.geometry_fixup_connections.connect(win, 'size-changed', () => this._update_window_geometry());
+
+            this.geometry_fixup_connections.connect(
+                win,
+                'position-changed',
+                () => this._update_window_geometry()
+            );
+
+            this.geometry_fixup_connections.connect(
+                win,
+                'size-changed',
+                () => this._update_window_geometry()
+            );
         }
 
         _unmaximize_done() {
@@ -534,7 +694,14 @@ var WindowManager = GObject.registerClass(
         }
 
         _move_resize_window(win, target_rect) {
-            win.move_resize_frame(false, target_rect.x, target_rect.y, target_rect.width, target_rect.height);
+            win.move_resize_frame(
+                false,
+                target_rect.x,
+                target_rect.y,
+                target_rect.width,
+                target_rect.height
+            );
+
             this.emit('move-resize-requested', target_rect);
         }
 
@@ -542,7 +709,10 @@ var WindowManager = GObject.registerClass(
             if (!this.current_window)
                 return;
 
-            const is_maximized = this.resize_x ? this.current_window.maximized_horizontally : this.current_window.maximized_vertically;
+            const is_maximized = this.resize_x
+                ? this.current_window.maximized_horizontally
+                : this.current_window.maximized_vertically;
+
             const should_maximize = this.settings.get_boolean('window-maximize');
             if (is_maximized === should_maximize)
                 return;
@@ -550,13 +720,17 @@ var WindowManager = GObject.registerClass(
             if (should_maximize) {
                 this.current_window.maximize(Meta.MaximizeFlags.BOTH);
             } else {
-                this.current_window.unmaximize(this.resize_x ? Meta.MaximizeFlags.HORIZONTAL : Meta.MaximizeFlags.VERTICAL);
+                this.current_window.unmaximize(
+                    this.resize_x ? Meta.MaximizeFlags.HORIZONTAL : Meta.MaximizeFlags.VERTICAL
+                );
+
                 this._schedule_geometry_fixup(this.current_window);
             }
         }
 
         _disable_window_maximize_setting() {
-            if (this.current_target_rect.height < this.current_workarea.height || this.current_target_rect.width < this.current_workarea.width)
+            if (this.current_target_rect.height < this.current_workarea.height ||
+                this.current_target_rect.width < this.current_workarea.width)
                 this.settings.set_boolean('window-maximize', false);
         }
 
@@ -574,13 +748,15 @@ var WindowManager = GObject.registerClass(
             if (this.settings.get_boolean('window-maximize'))
                 return;
 
-            if (this.current_window.maximized_horizontally && this.current_target_rect.width < this.current_workarea.width) {
+            if (this.current_window.maximized_horizontally &&
+                this.current_target_rect.width < this.current_workarea.width) {
                 Main.wm.skipNextEffect(this.current_window.get_compositor_private());
                 this.current_window.unmaximize(Meta.MaximizeFlags.HORIZONTAL);
                 return;
             }
 
-            if (this.current_window.maximized_vertically && this.current_target_rect.height < this.current_workarea.height) {
+            if (this.current_window.maximized_vertically &&
+                this.current_target_rect.height < this.current_workarea.height) {
                 Main.wm.skipNextEffect(this.current_window.get_compositor_private());
                 this.current_window.unmaximize(Meta.MaximizeFlags.VERTICAL);
                 return;
@@ -588,7 +764,9 @@ var WindowManager = GObject.registerClass(
 
             this._move_resize_window(this.current_window, this.current_target_rect);
 
-            if (this.resize_x ? this.current_window.maximized_horizontally : this.current_window.maximized_vertically)
+            if (this.resize_x
+                ? this.current_window.maximized_horizontally
+                : this.current_window.maximized_vertically)
                 this.settings.set_boolean('window-maximize', true);
         }
 
@@ -606,7 +784,10 @@ var WindowManager = GObject.registerClass(
                 return;
 
             const frame_rect = win.get_frame_rect();
-            const size = this.resize_x ? frame_rect.width / this.current_workarea.width : frame_rect.height / this.current_workarea.height;
+            const size = this.resize_x
+                ? frame_rect.width / this.current_workarea.width
+                : frame_rect.height / this.current_workarea.height;
+
             this.settings.set_double('window-size', Math.min(1.0, size));
         }
 

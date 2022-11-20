@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /*
     Copyright © 2020, 2021 Aleksandr Mezin
 

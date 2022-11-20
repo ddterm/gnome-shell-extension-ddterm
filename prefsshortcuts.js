@@ -44,7 +44,13 @@ var Widget = GObject.registerClass(
             'shortcuts_treeview',
         ],
         Properties: {
-            'settings': GObject.ParamSpec.object('settings', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, settings.Settings),
+            'settings': GObject.ParamSpec.object(
+                'settings',
+                '',
+                '',
+                GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+                settings.Settings
+            ),
         },
     },
     class PrefsShortcuts extends Gtk.Box {
@@ -127,7 +133,15 @@ var Widget = GObject.registerClass(
         grab_global_keys(cell_renderer, editable) {
             const display = this.window.get_display();
             const seat = display.get_default_seat();
-            const status = seat.grab(this.window, Gdk.SeatCapabilities.KEYBOARD, false, null, null, null);
+            const status = seat.grab(
+                this.window,
+                Gdk.SeatCapabilities.KEYBOARD,
+                false,
+                null,
+                null,
+                null
+            );
+
             if (status !== Gdk.GrabStatus.SUCCESS)
                 return;
 

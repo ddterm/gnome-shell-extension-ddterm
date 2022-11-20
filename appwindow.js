@@ -49,10 +49,18 @@ var AppWindow = GObject.registerClass(
         ],
         Properties: {
             'menus': GObject.ParamSpec.object(
-                'menus', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, Gtk.Builder
+                'menus',
+                '',
+                '',
+                GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+                Gtk.Builder
             ),
             'settings': GObject.ParamSpec.object(
-                'settings', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, settings.Settings
+                'settings',
+                '',
+                '',
+                GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+                settings.Settings
             ),
         },
     },
@@ -171,18 +179,32 @@ var AppWindow = GObject.registerClass(
                 'move-tab-prev': () => {
                     const current = this.notebook.get_current_page();
 
-                    if (current === 0)
-                        this.notebook.reorder_child(this.notebook.get_nth_page(current), this.notebook.get_n_pages() - 1);
-                    else
-                        this.notebook.reorder_child(this.notebook.get_nth_page(current), current - 1);
+                    if (current === 0) {
+                        this.notebook.reorder_child(
+                            this.notebook.get_nth_page(current),
+                            this.notebook.get_n_pages() - 1
+                        );
+                    } else {
+                        this.notebook.reorder_child(
+                            this.notebook.get_nth_page(current),
+                            current - 1
+                        );
+                    }
                 },
                 'move-tab-next': () => {
                     const current = this.notebook.get_current_page();
 
-                    if (current === this.notebook.get_n_pages() - 1)
-                        this.notebook.reorder_child(this.notebook.get_nth_page(current), 0);
-                    else
-                        this.notebook.reorder_child(this.notebook.get_nth_page(current), current + 1);
+                    if (current === this.notebook.get_n_pages() - 1) {
+                        this.notebook.reorder_child(
+                            this.notebook.get_nth_page(current),
+                            0
+                        );
+                    } else {
+                        this.notebook.reorder_child(
+                            this.notebook.get_nth_page(current),
+                            current + 1
+                        );
+                    }
                 },
             };
 
@@ -201,10 +223,14 @@ var AppWindow = GObject.registerClass(
             const resize_boxes = horizontal_resize_boxes.concat(vertical_resize_boxes);
 
             for (let widget of resize_boxes) {
-                const cursor_name = vertical_resize_boxes.includes(widget) ? 'ns-resize' : 'ew-resize';
+                const cursor_name =
+                    vertical_resize_boxes.includes(widget) ? 'ns-resize' : 'ew-resize';
 
                 this.rx.connect(widget, 'realize', source => {
-                    source.window.cursor = Gdk.Cursor.new_from_name(source.get_display(), cursor_name);
+                    source.window.cursor = Gdk.Cursor.new_from_name(
+                        source.get_display(),
+                        cursor_name
+                    );
                 });
 
                 this.rx.connect(widget, 'button-press-event', this.start_resizing.bind(this));
@@ -283,9 +309,12 @@ var AppWindow = GObject.registerClass(
                 () => {
                     let i = 0;
                     this.notebook.foreach(page => {
-                        const shortcuts = this.application.get_accels_for_action(`win.switch-to-tab(${i})`);
-                        const shortcut = shortcuts && shortcuts.length > 0 ? shortcuts[0] : null;
-                        page.set_switch_shortcut(shortcut);
+                        const shortcuts =
+                            this.application.get_accels_for_action(`win.switch-to-tab(${i})`);
+
+                        page.set_switch_shortcut(
+                            shortcuts && shortcuts.length > 0 ? shortcuts[0] : null
+                        );
 
                         i += 1;
                     });
@@ -431,7 +460,14 @@ var AppWindow = GObject.registerClass(
             if (!coords_ok)
                 return;
 
-            this.window.begin_resize_drag_for_device(edge, event.get_device(), button, x_root, y_root, event.get_time());
+            this.window.begin_resize_drag_for_device(
+                edge,
+                event.get_device(),
+                button,
+                x_root,
+                y_root,
+                event.get_time()
+            );
         }
 
         draw(_widget, cr) {
@@ -444,8 +480,12 @@ var AppWindow = GObject.registerClass(
 
                 const context = this.get_style_context();
                 const allocation = this.get_child().get_allocation();
-                Gtk.render_background(context, cr, allocation.x, allocation.y, allocation.width, allocation.height);
-                Gtk.render_frame(context, cr, allocation.x, allocation.y, allocation.width, allocation.height);
+                Gtk.render_background(
+                    context, cr, allocation.x, allocation.y, allocation.width, allocation.height
+                );
+                Gtk.render_frame(
+                    context, cr, allocation.x, allocation.y, allocation.width, allocation.height
+                );
             } finally {
                 cr.$dispose();
             }
@@ -484,7 +524,8 @@ var AppWindow = GObject.registerClass(
 
             const display = this.get_display();
 
-            const [target_x, target_y, target_w, target_h] = this.extension_dbus.GetTargetRectSync();
+            const [target_x, target_y, target_w, target_h] =
+                this.extension_dbus.GetTargetRectSync();
             const target_monitor = display.get_monitor_at_point(target_x, target_y);
 
             const w = Math.floor(target_w / target_monitor.scale_factor);

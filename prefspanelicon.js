@@ -31,7 +31,13 @@ var Widget = GObject.registerClass(
             'panel_icon_type_combo',
         ],
         Properties: {
-            'settings': GObject.ParamSpec.object('settings', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, settings.Settings),
+            'settings': GObject.ParamSpec.object(
+                'settings',
+                '',
+                '',
+                GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+                settings.Settings
+            ),
         },
     },
     class PrefsPanelIcon extends Gtk.Grid {

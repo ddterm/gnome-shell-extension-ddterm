@@ -87,14 +87,21 @@ class DisplayConfig {
 var Widget = GObject.registerClass(
     {
         GTypeName: 'DDTermPrefsPositionSize',
-        Template: Me.dir.get_child(`prefs-position-size-gtk${Gtk.get_major_version()}.ui`).get_uri(),
+        Template:
+            Me.dir.get_child(`prefs-position-size-gtk${Gtk.get_major_version()}.ui`).get_uri(),
         Children: [
             'monitor_combo',
             'window_pos_combo',
             'window_size_scale',
         ],
         Properties: {
-            'settings': GObject.ParamSpec.object('settings', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, settings.Settings),
+            'settings': GObject.ParamSpec.object(
+                'settings',
+                '',
+                '',
+                GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+                settings.Settings
+            ),
         },
     },
     class PrefsPositionSize extends Gtk.Grid {

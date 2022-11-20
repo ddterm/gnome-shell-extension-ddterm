@@ -332,7 +332,9 @@ function rect_to_string(rect) {
 }
 
 function assert_rect_equals(expected_desc, expected, actual_desc, actual) {
+    // eslint-disable-next-line max-len
     message(`Checking if ${actual_desc}=${rect_to_string(actual)} matches ${expected_desc}=${rect_to_string(expected)}`);
+
     JsUnit.assertEquals('x', expected.x, actual.x);
     JsUnit.assertEquals('y', expected.y, actual.y);
     JsUnit.assertEquals('width', expected.width, actual.width);
@@ -362,10 +364,12 @@ function compute_target_rect(window_size, window_pos, monitor_index) {
 }
 
 function verify_window_geometry(window_size, window_maximize, window_pos, monitor_index) {
+    // eslint-disable-next-line max-len
     message(`Verifying window geometry (expected size=${window_size}, maximized=${window_maximize}, position=${window_pos})`);
     const win = extension.window_manager.current_window;
 
-    const maximize_prop = ['top', 'bottom'].includes(window_pos) ? 'maximized-vertically' : 'maximized-horizontally';
+    const top_or_bottom = ['top', 'bottom'].includes(window_pos);
+    const maximize_prop = top_or_bottom ? 'maximized-vertically' : 'maximized-horizontally';
     JsUnit.assertEquals(window_maximize, win[maximize_prop]);
     JsUnit.assertEquals(window_maximize, extension.settings.get_boolean('window-maximize'));
 
@@ -381,6 +385,7 @@ function verify_window_geometry(window_size, window_maximize, window_pos, monito
     assert_rect_equals(
         'target_rect_unmaximized',
         target_rect_unmaximized,
+        // eslint-disable-next-line max-len
         `extension.window_manager.target_rect_for_workarea_size(workarea, ${monitor_scale}, ${window_size})`,
         extension.window_manager.target_rect_for_workarea_size(workarea, monitor_scale, window_size)
     );
@@ -391,10 +396,21 @@ function verify_window_geometry(window_size, window_maximize, window_pos, monito
         extension.window_manager.current_target_rect
     );
 
-    if (window_maximize)
-        assert_rect_equals('workarea', workarea, 'win.get_frame_rect()', win.get_frame_rect());
-    else
-        assert_rect_equals('target_rect_unmaximized', target_rect_unmaximized, 'win.get_frame_rect()', win.get_frame_rect());
+    if (window_maximize) {
+        assert_rect_equals(
+            'workarea',
+            workarea,
+            'win.get_frame_rect()',
+            win.get_frame_rect()
+        );
+    } else {
+        assert_rect_equals(
+            'target_rect_unmaximized',
+            target_rect_unmaximized,
+            'win.get_frame_rect()',
+            win.get_frame_rect()
+        );
+    }
 
     message('Window geometry is fine');
 }
@@ -459,7 +475,15 @@ async function xte_mouse_button(button) {
     await idle();
 }
 
-function wait_move_resize(window_size, window_maximize, window_pos, monitor_index, max_signals = 2, idle_timeout_ms = DEFAULT_IDLE_TIMEOUT_MS, wait_timeout_ms = MOVE_RESIZE_WAIT_TIMEOUT_MS) {
+function wait_move_resize(
+    window_size,
+    window_maximize,
+    window_pos,
+    monitor_index,
+    max_signals = 2,
+    idle_timeout_ms = DEFAULT_IDLE_TIMEOUT_MS,
+    wait_timeout_ms = MOVE_RESIZE_WAIT_TIMEOUT_MS
+) {
     const connections = new ConnectionSet();
     const idle_timeout = new Timer();
     const wait_timeout = new Timer();
@@ -467,7 +491,8 @@ function wait_move_resize(window_size, window_maximize, window_pos, monitor_inde
     return new Promise((resolve, reject) => {
         const win = extension.window_manager.current_window;
 
-        const maximize_prop = ['top', 'bottom'].includes(window_pos) ? 'maximized-vertically' : 'maximized-horizontally';
+        const top_or_bottom = ['top', 'bottom'].includes(window_pos);
+        const maximize_prop = top_or_bottom ? 'maximized-vertically' : 'maximized-horizontally';
         const target_rect = window_maximize
             ? Main.layoutManager.getWorkAreaForMonitor(monitor_index)
             : compute_target_rect(window_size, window_pos, monitor_index);
@@ -489,6 +514,7 @@ function wait_move_resize(window_size, window_maximize, window_pos, monitor_inde
         });
 
         connections.connect(idle_timeout, 'dispatch', () => {
+            // eslint-disable-next-line max-len
             message(`Wait complete with move_count=${move_count} resize_count=${resize_count} maximize_count=${maximize_count}`);
             resolve({ move_count, resize_count, maximize_count });
         });
@@ -504,6 +530,7 @@ function wait_move_resize(window_size, window_maximize, window_pos, monitor_inde
                 return;
             }
 
+            // eslint-disable-next-line max-len
             message("Geometry and maximized state match expected value, verifying that it won't change again");
             wait_timeout.cancel();
             idle_timeout.schedule(idle_timeout_ms);
@@ -567,7 +594,14 @@ function wait_move_resize(window_size, window_maximize, window_pos, monitor_inde
     });
 }
 
-async function test_show(window_size, window_maximize, window_pos, current_monitor, window_monitor) {
+async function test_show(
+    window_size,
+    window_maximize,
+    window_pos,
+    current_monitor,
+    window_monitor
+) {
+    // eslint-disable-next-line max-len
     message(`Starting test with window size=${window_size}, maximize=${window_maximize}, position=${window_pos}`);
 
     await hide_window_async_wait();
@@ -599,8 +633,18 @@ async function test_show(window_size, window_maximize, window_pos, current_monit
     await wait;
 
     const monitor_index = window_monitor_index(window_monitor);
-    const should_maximize = window_maximize === WindowMaximizeMode.EARLY || (window_size === 1.0 && settings.get_boolean('window-maximize'));
-    await wait_move_resize(window_size, should_maximize, window_pos, monitor_index, prev_maximize === should_maximize ? 0 : 1);
+    const settings_maximize = settings.get_boolean('window-maximize');
+    const should_maximize =
+        window_maximize === WindowMaximizeMode.EARLY || (window_size === 1.0 && settings_maximize);
+
+    await wait_move_resize(
+        window_size,
+        should_maximize,
+        window_pos,
+        monitor_index,
+        prev_maximize === should_maximize ? 0 : 1
+    );
+
     verify_window_geometry(window_size, should_maximize, window_pos, monitor_index);
 
     if (window_maximize === WindowMaximizeMode.LATE) {
@@ -614,7 +658,13 @@ async function test_show(window_size, window_maximize, window_pos, current_monit
     }
 }
 
-async function test_unmaximize(window_size, window_maximize, window_pos, current_monitor, window_monitor) {
+async function test_unmaximize(
+    window_size,
+    window_maximize,
+    window_pos,
+    current_monitor,
+    window_monitor
+) {
     await test_show(window_size, window_maximize, window_pos, current_monitor, window_monitor);
 
     const monitor_index = window_monitor_index(window_monitor);
@@ -627,18 +677,40 @@ async function test_unmaximize(window_size, window_maximize, window_pos, current
     verify_window_geometry(window_size, false, window_pos, monitor_index);
 }
 
-async function test_unmaximize_correct_size(window_size, window_size2, window_pos, current_monitor, window_monitor) {
-    await test_show(window_size, WindowMaximizeMode.NOT_MAXIMIZED, window_pos, current_monitor, window_monitor);
+async function test_unmaximize_correct_size(
+    window_size,
+    window_size2,
+    window_pos,
+    current_monitor,
+    window_monitor
+) {
+    await test_show(
+        window_size,
+        WindowMaximizeMode.NOT_MAXIMIZED,
+        window_pos,
+        current_monitor,
+        window_monitor
+    );
 
     const monitor_index = window_monitor_index(window_monitor);
     const initially_maximized = extension.settings.get_boolean('window-maximize');
-    const geometry_wait1 = wait_move_resize(window_size2, window_size === 1.0 && window_size2 === 1.0 && initially_maximized, window_pos, monitor_index);
+    const geometry_wait1 = wait_move_resize(
+        window_size2,
+        window_size === 1.0 && window_size2 === 1.0 && initially_maximized,
+        window_pos,
+        monitor_index
+    );
 
     await set_settings_double('window-size', window_size2);
 
     await geometry_wait1;
 
-    verify_window_geometry(window_size2, window_size === 1.0 && window_size2 === 1.0 && initially_maximized, window_pos, monitor_index);
+    verify_window_geometry(
+        window_size2,
+        window_size === 1.0 && window_size2 === 1.0 && initially_maximized,
+        window_pos,
+        monitor_index
+    );
 
     const geometry_wait2 = wait_move_resize(window_size2, true, window_pos, monitor_index);
 
@@ -657,11 +729,28 @@ async function test_unmaximize_correct_size(window_size, window_size2, window_po
     verify_window_geometry(window_size2, false, window_pos, monitor_index);
 }
 
-async function test_unmaximize_on_size_change(window_size, window_size2, window_pos, current_monitor, window_monitor) {
-    await test_show(window_size, WindowMaximizeMode.EARLY, window_pos, current_monitor, window_monitor);
+async function test_unmaximize_on_size_change(
+    window_size,
+    window_size2,
+    window_pos,
+    current_monitor,
+    window_monitor
+) {
+    await test_show(
+        window_size,
+        WindowMaximizeMode.EARLY,
+        window_pos,
+        current_monitor,
+        window_monitor
+    );
 
     const monitor_index = window_monitor_index(window_monitor);
-    const geometry_wait = wait_move_resize(window_size2, window_size2 === 1.0, window_pos, monitor_index);
+    const geometry_wait = wait_move_resize(
+        window_size2,
+        window_size2 === 1.0,
+        window_pos,
+        monitor_index
+    );
 
     await set_settings_double('window-size', window_size2);
 
@@ -693,7 +782,14 @@ function resize_point(frame_rect, window_pos, monitor_scale) {
     return { x, y };
 }
 
-async function test_resize_xte(window_size, window_maximize, window_size2, window_pos, current_monitor, window_monitor) {
+async function test_resize_xte(
+    window_size,
+    window_maximize,
+    window_size2,
+    window_pos,
+    current_monitor,
+    window_monitor
+) {
     await test_show(window_size, window_maximize, window_pos, current_monitor, window_monitor);
 
     const win = extension.window_manager.current_window;
@@ -712,18 +808,44 @@ async function test_resize_xte(window_size, window_maximize, window_size2, windo
 
     await xte_mouse_move(initial.x, initial.y);
 
-    const target_frame_rect = extension.window_manager.target_rect_for_workarea_size(workarea, monitor_scale, window_size2);
+    const target_frame_rect = extension.window_manager.target_rect_for_workarea_size(
+        workarea,
+        monitor_scale,
+        window_size2
+    );
+
     const target = resize_point(target_frame_rect, window_pos, monitor_scale);
 
-    const geometry_wait1 = wait_move_resize(window_maximize !== WindowMaximizeMode.NOT_MAXIMIZED ? 1.0 : window_size, false, window_pos, monitor_index, 3, XTE_IDLE_TIMEOUT_MS);
+    const geometry_wait1 = wait_move_resize(
+        window_maximize !== WindowMaximizeMode.NOT_MAXIMIZED ? 1.0 : window_size,
+        false,
+        window_pos,
+        monitor_index,
+        3,
+        XTE_IDLE_TIMEOUT_MS
+    );
+
     await xte_mouse_button(true);
 
     try {
         await geometry_wait1;
 
-        verify_window_geometry(window_maximize !== WindowMaximizeMode.NOT_MAXIMIZED ? 1.0 : window_size, false, window_pos, monitor_index);
+        verify_window_geometry(
+            window_maximize !== WindowMaximizeMode.NOT_MAXIMIZED ? 1.0 : window_size,
+            false,
+            window_pos,
+            monitor_index
+        );
 
-        const geometry_wait2 = wait_move_resize(window_size2, false, window_pos, monitor_index, 3, XTE_IDLE_TIMEOUT_MS);
+        const geometry_wait2 = wait_move_resize(
+            window_size2,
+            false,
+            window_pos,
+            monitor_index,
+            3,
+            XTE_IDLE_TIMEOUT_MS
+        );
+
         await xte_mouse_move(target.x, target.y);
         await geometry_wait2;
     } finally {
@@ -732,29 +854,51 @@ async function test_resize_xte(window_size, window_maximize, window_size2, windo
 
     // TODO: 'grab-op-end' isn't emitted on Wayland when simulting mouse with xte.
     // For now, just call update_size_setting_on_grab_end()
-    if (Meta.is_wayland_compositor())
-        extension.window_manager.update_size_setting_on_grab_end(global.display, extension.window_manager.current_window);
+    if (Meta.is_wayland_compositor()) {
+        extension.window_manager.update_size_setting_on_grab_end(
+            global.display,
+            extension.window_manager.current_window
+        );
+    }
 
     verify_window_geometry(window_size2, false, window_pos, monitor_index);
 }
 
-async function test_change_position(window_size, window_pos, window_pos2, current_monitor, window_monitor) {
+async function test_change_position(
+    window_size,
+    window_pos,
+    window_pos2,
+    current_monitor,
+    window_monitor
+) {
     await test_show(window_size, false, window_pos, current_monitor, window_monitor);
     const initially_maximized = extension.settings.get_boolean('window-maximize');
 
     const monitor_index = window_monitor_index(window_monitor);
-    const geometry_wait = wait_move_resize(window_size, window_size === 1.0 && initially_maximized, window_pos2, monitor_index);
+    const geometry_wait = wait_move_resize(
+        window_size,
+        window_size === 1.0 && initially_maximized,
+        window_pos2,
+        monitor_index
+    );
 
     await set_settings_string('window-position', window_pos2);
 
     await geometry_wait;
 
-    verify_window_geometry(window_size, window_size === 1.0 && initially_maximized, window_pos2, monitor_index);
+    verify_window_geometry(
+        window_size,
+        window_size === 1.0 && initially_maximized,
+        window_pos2,
+        monitor_index
+    );
 }
 
 class ExtensionTestDBusInterface {
     constructor() {
-        let [_, xml] = Me.dir.get_child('com.github.amezin.ddterm.ExtensionTest.xml').load_contents(null);
+        let [_, xml] =
+            Me.dir.get_child('com.github.amezin.ddterm.ExtensionTest.xml').load_contents(null);
+
         this.dbus = Gio.DBusExportedObject.wrapJSObject(ByteArray.toString(xml), this);
     }
 

@@ -94,7 +94,9 @@ class AppDBusWatch {
 
 class ExtensionDBusInterface {
     constructor() {
-        let [_, xml] = Me.dir.get_child('com.github.amezin.ddterm.Extension.xml').load_contents(null);
+        let [_, xml] =
+            Me.dir.get_child('com.github.amezin.ddterm.Extension.xml').load_contents(null);
+
         this.dbus = Gio.DBusExportedObject.wrapJSObject(ByteArray.toString(xml), this);
     }
 
@@ -181,7 +183,12 @@ function enable() {
     dbus_interface.dbus.export(Gio.DBus.session, '/org/gnome/Shell/Extensions/ddterm');
 
     panel_icon = new PanelIconProxy();
-    settings.bind('panel-icon-type', panel_icon, 'type', Gio.SettingsBindFlags.GET | Gio.SettingsBindFlags.NO_SENSITIVITY);
+    settings.bind(
+        'panel-icon-type',
+        panel_icon,
+        'type',
+        Gio.SettingsBindFlags.GET | Gio.SettingsBindFlags.NO_SENSITIVITY
+    );
 
     connections.connect(panel_icon, 'toggle', (_, value) => {
         if (value !== (window_manager.current_window !== null))
@@ -208,7 +215,11 @@ function enable() {
     });
 
     connections.connect(window_manager, 'notify::target-rect', () => {
-        dbus_interface.dbus.emit_property_changed('TargetRect', new GLib.Variant('(iiii)', dbus_interface.TargetRect));
+        dbus_interface.dbus.emit_property_changed(
+            'TargetRect',
+            new GLib.Variant('(iiii)', dbus_interface.TargetRect)
+        );
+
         dbus_interface.dbus.flush();
     });
 

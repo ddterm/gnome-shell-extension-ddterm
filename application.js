@@ -55,7 +55,11 @@ const Application = GObject.registerClass(
     {
         Properties: {
             'preferences-visible': GObject.ParamSpec.boolean(
-                'preferences-visible', '', '', GObject.ParamFlags.READABLE | GObject.ParamFlags.EXPLICIT_NOTIFY, false
+                'preferences-visible',
+                '',
+                '',
+                GObject.ParamFlags.READABLE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+                false
             ),
         },
     },
@@ -66,13 +70,28 @@ const Application = GObject.registerClass(
             this.decorated = true;
 
             this.add_main_option(
-                'undecorated', 0, GLib.OptionFlags.NONE, GLib.OptionArg.NONE, 'Hide window decorations', null
+                'undecorated',
+                0,
+                GLib.OptionFlags.NONE,
+                GLib.OptionArg.NONE,
+                'Hide window decorations',
+                null
             );
             this.add_main_option(
-                'unset-gdk-backend', 0, GLib.OptionFlags.NONE, GLib.OptionArg.NONE, 'Unset GDK_BACKEND variable for subprocesses', null
+                'unset-gdk-backend',
+                0,
+                GLib.OptionFlags.NONE,
+                GLib.OptionArg.NONE,
+                'Unset GDK_BACKEND variable for subprocesses',
+                null
             );
             this.add_main_option(
-                'reset-gdk-backend', 0, GLib.OptionFlags.NONE, GLib.OptionArg.STRING, 'Set GDK_BACKEND variable for subprocesses', null
+                'reset-gdk-backend',
+                0,
+                GLib.OptionFlags.NONE,
+                GLib.OptionArg.STRING,
+                'Set GDK_BACKEND variable for subprocesses',
+                null
             );
 
             this.env_gdk_backend = null;
@@ -163,7 +182,11 @@ const Application = GObject.registerClass(
 
             const style = Gtk.CssProvider.new();
             style.load_from_path(APP_DATA_DIR.get_child('style.css').get_path());
-            Gtk.StyleContext.add_provider_for_screen(Gdk.Screen.get_default(), style, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
+            Gtk.StyleContext.add_provider_for_screen(
+                Gdk.Screen.get_default(),
+                style,
+                Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+            );
 
             this.window = new imports.appwindow.AppWindow({
                 application: this,
@@ -245,7 +268,11 @@ const Application = GObject.registerClass(
             if (options.contains('unset-gdk-backend'))
                 this.unset_gdk_backend = true;
 
-            this.env_gdk_backend = options.lookup_value('reset-gdk-backend', GLib.VariantType.new('s'));
+            this.env_gdk_backend = options.lookup_value(
+                'reset-gdk-backend',
+                GLib.VariantType.new('s')
+            );
+
             if (this.env_gdk_backend !== null)
                 this.env_gdk_backend = this.env_gdk_backend.unpack();
 

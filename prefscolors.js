@@ -149,7 +149,13 @@ var Widget = GObject.registerClass(
             'theme_variant_combo',
         ].concat(PALETTE_WIDGET_IDS),
         Properties: {
-            'settings': GObject.ParamSpec.object('settings', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, settings.Settings),
+            'settings': GObject.ParamSpec.object(
+                'settings',
+                '',
+                '',
+                GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+                settings.Settings
+            ),
         },
     },
     class PrefsColors extends Gtk.Grid {
@@ -275,7 +281,10 @@ var Widget = GObject.registerClass(
                 profile_list_schema = get_settings_schema('org.gnome.Terminal.ProfilesList');
                 profile_schema = get_settings_schema('org.gnome.Terminal.Legacy.Profile');
             } catch (e) {
-                show_dialog(this.get_toplevel(), `${e.message} Probably, GNOME Terminal is not installed.`);
+                show_dialog(
+                    this.get_toplevel(),
+                    `${e.message} Probably, GNOME Terminal is not installed.`
+                );
                 return;
             }
 
@@ -309,12 +318,16 @@ var Widget = GObject.registerClass(
 
                 // Check if key is valid
                 for (const key of profile_keys) {
-                    const type_gnome_terminal = get_settings_schema_key(profile_schema, key).get_value_type();
+                    const type_gnome_terminal =
+                        get_settings_schema_key(profile_schema, key).get_value_type();
+
                     const type_ddterm = this.settings[key].value_type;
 
                     if (!type_gnome_terminal.equal(type_ddterm)) {
                         throw new Error(
-                            `The type of key '${key}' in GNOME Terminal is '${type_gnome_terminal.dup_string()}', but '${type_ddterm.dup_string()}' is expected.`
+                            `The type of key '${key}' in GNOME Terminal is` +
+                            ` '${type_gnome_terminal.dup_string()}',` +
+                            ` but '${type_ddterm.dup_string()}' is expected.`
                         );
                     }
                 }
@@ -323,7 +336,10 @@ var Widget = GObject.registerClass(
                     this.settings[key].packed.value = gnome_terminal_profile.get_value(key);
                 });
             } catch (e) {
-                show_dialog(this.get_toplevel(), `Failed to copy color profile from GNOME Terminal. ${e.message}`);
+                show_dialog(
+                    this.get_toplevel(),
+                    `Failed to copy color profile from GNOME Terminal. ${e.message}`
+                );
             }
         }
     }

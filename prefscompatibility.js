@@ -26,14 +26,21 @@ const { prefsutil, settings, translations } = Me.imports;
 var Widget = GObject.registerClass(
     {
         GTypeName: 'DDTermPrefsCompatibility',
-        Template: Me.dir.get_child(`prefs-compatibility-gtk${Gtk.get_major_version()}.ui`).get_uri(),
+        Template:
+            Me.dir.get_child(`prefs-compatibility-gtk${Gtk.get_major_version()}.ui`).get_uri(),
         Children: [
             'backspace_binding_combo',
             'delete_binding_combo',
             'ambiguous_width_combo',
         ],
         Properties: {
-            'settings': GObject.ParamSpec.object('settings', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, settings.Settings),
+            'settings': GObject.ParamSpec.object(
+                'settings',
+                '',
+                '',
+                GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+                settings.Settings
+            ),
         },
     },
     class PrefsCompatibility extends Gtk.Grid {

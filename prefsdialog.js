@@ -29,7 +29,13 @@ const { settings, translations } = Me.imports;
 var PrefsDialog = GObject.registerClass(
     {
         Properties: {
-            settings: GObject.ParamSpec.object('settings', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, settings.Settings),
+            'settings': GObject.ParamSpec.object(
+                'settings',
+                '',
+                '',
+                GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+                settings.Settings
+            ),
         },
     },
     class PrefsDialog extends Gtk.Dialog {

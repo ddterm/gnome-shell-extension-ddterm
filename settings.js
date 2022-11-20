@@ -190,7 +190,11 @@ var Settings = GObject.registerClass(
     {
         Properties: {
             'gsettings': GObject.ParamSpec.object(
-                'gsettings', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, Gio.Settings
+                'gsettings',
+                '',
+                '',
+                GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+                Gio.Settings
             ),
         },
     },
@@ -274,8 +278,11 @@ var Settings = GObject.registerClass(
                         if (variant === 'prefer-dark')
                             return 'dark';
 
-                        if (variant !== 'default')
-                            printerr(`Unknown ${desktop_settings.schema_id}.color-scheme: ${variant}`);
+                        if (variant !== 'default') {
+                            printerr(
+                                `Unknown ${desktop_settings.schema_id}.color-scheme: ${variant}`
+                            );
+                        }
 
                         return 'default';
                     })

@@ -2,6 +2,9 @@ extends:
  - ./lint/eslintrc-gjs.yml
 
 rules:
+  max-len:
+    - error
+    - 100
   consistent-return: error
   key-spacing:
     - error

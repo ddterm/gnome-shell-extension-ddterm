@@ -1,3 +1,4 @@
+// eslint-disable-next-line max-len
 // https://gitlab.gnome.org/GNOME/gjs/-/blob/43689fecad1fa712974eabc5c939a71d2a7cb7fd/modules/esm/_timers.js
 
 // SPDX-License-Identifier: MIT OR LGPL-2.0-or-later

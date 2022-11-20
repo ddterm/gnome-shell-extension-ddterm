@@ -70,9 +70,13 @@ var ConnectionSet = class ConnectionSet {
             return;
         }
 
-        if (object_handlers.delete(match_handler_id))
+        if (object_handlers.delete(match_handler_id)) {
             match_object.disconnect(match_handler_id);
-        else
-            printerr(`No handler with id=${match_handler_id} found for object=${match_object} in group ${this}`);
+        } else {
+            printerr(
+                `No handler with id=${match_handler_id} found` +
+                ` for object=${match_object} in group ${this}`
+            );
+        }
     }
 };
