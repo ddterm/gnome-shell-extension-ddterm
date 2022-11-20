@@ -10,6 +10,11 @@ jobs:
     container:
       image: ghcr.io/ddterm/ci-docker-image:2022.11.07.0
 
+    env:
+      PY_COLORS: 1
+      TOX_TESTENV_PASSENV: PY_COLORS GITHUB_ACTIONS PIP_DISABLE_PIP_VERSION_CHECK
+      PIP_DISABLE_PIP_VERSION_CHECK: 1
+
     steps:
     - id: checkout
       uses: actions/checkout@v3
