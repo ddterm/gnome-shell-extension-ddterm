@@ -16,8 +16,8 @@ If you prefer VirtualBox, `vagrant-vbguest` plugin is recommended:
 If you prefer QEMU, it is supported through libvirt and
 [`vagrant-libvirt`](https://vagrant-libvirt.github.io/vagrant-libvirt/installation.html).
 
-QEMU/libvirt VMs use SPICE for display. So you'll have to install `virt-manager`
-or a similar GUI.
+QEMU/libvirt VMs use SPICE for display. So you'll have to install
+`virt-manager`, `virt-viewer`, GNOME Boxes, or a similar GUI.
 
 ## Start a VM
 
@@ -40,6 +40,9 @@ If you prefer QEMU, pass `--provider=libvirt` to `vagrant up`:
 Then connect to the VM using `virt-manager`. VMs are started in user session,
 so if you can't find the VM in `virt-manager`, click
 `File`->`Add Connection...`, choose `QEMU/KVM user session`, click `Connect`.
+
+Or you may try to connect to the VM with GNOME Boxes - it connects to the user
+session by default.
 
 ## Reinstall ddterm
 
