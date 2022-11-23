@@ -4,11 +4,11 @@
 #
 #    pip-compile --allow-unsafe --resolver=backtracking lint.in
 #
-flake8==5.0.4
+flake8==6.0.0
     # via -r lint.in
 mccabe==0.7.0
     # via flake8
-pycodestyle==2.9.1
+pycodestyle==2.10.0
     # via flake8
-pyflakes==2.5.0
+pyflakes==3.0.0
     # via flake8
