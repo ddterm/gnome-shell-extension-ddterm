@@ -15,7 +15,5 @@
         </method>
 
         <property type="(iiii)" name="TargetRect" access="read"/>
-        <property type="b" name="IsAppRunning" access="read"/>
-        <property type="b" name="HasWindow" access="read"/>
     </interface>
 </node>

@@ -4,10 +4,25 @@ import contextlib
 from gi.repository import GLib
 
 
+def flush_main_loop():
+    loop = GLib.MainLoop()
+
+    def idle_quit(*_):
+        loop.quit()
+        return GLib.SOURCE_REMOVE
+
+    GLib.idle_add(idle_quit)
+    loop.run()
+
+
 class OneShotTimer(contextlib.AbstractContextManager):
     def __init__(self):
         super().__init__()
         self.source = None
+
+    @property
+    def active(self):
+        return self.source is not None
 
     def cancel(self):
         if self.source is not None:

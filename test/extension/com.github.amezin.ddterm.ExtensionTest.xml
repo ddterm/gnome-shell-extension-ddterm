@@ -3,61 +3,131 @@
 
 <node>
     <interface name="com.github.amezin.ddterm.ExtensionTest">
+        <method name="LogMessage">
+            <arg name="msg" type="s" direction="in"/>
+        </method>
+
+        <method name="GetSetting">
+            <arg name="key" type="s" direction="in"/>
+            <arg name="value" type="v" direction="out"/>
+        </method>
+
+        <method name="SetSetting">
+            <arg name="key" type="s" direction="in"/>
+            <arg name="value" type="v" direction="in"/>
+        </method>
+
+        <method name="SyncSettings"/>
+
+        <signal name="SettingChanged">
+            <arg name="key" type="s"/>
+            <arg name="value" type="v"/>
+        </signal>
+
+        <method name="GetPointer">
+            <arg name="x" type="i" direction="out"/>
+            <arg name="y" type="i" direction="out"/>
+            <arg name="mods" type="i" direction="out"/>
+        </method>
+
+        <signal name="MoveResizeRequested">
+            <arg name="x" type="i"/>
+            <arg name="y" type="i"/>
+            <arg name="width" type="i"/>
+            <arg name="height" type="i"/>
+        </signal>
+
+        <signal name="PositionChanged">
+            <arg name="x" type="i"/>
+            <arg name="y" type="i"/>
+            <arg name="width" type="i"/>
+            <arg name="height" type="i"/>
+        </signal>
+
+        <signal name="SizeChanged">
+            <arg name="x" type="i"/>
+            <arg name="y" type="i"/>
+            <arg name="width" type="i"/>
+            <arg name="height" type="i"/>
+        </signal>
+
+        <method name="GetFrameRect">
+            <arg name="x" type="i" direction="out"/>
+            <arg name="y" type="i" direction="out"/>
+            <arg name="width" type="i" direction="out"/>
+            <arg name="height" type="i" direction="out"/>
+        </method>
+
+        <method name="GetTargetRect">
+            <arg name="x" type="i" direction="out"/>
+            <arg name="y" type="i" direction="out"/>
+            <arg name="width" type="i" direction="out"/>
+            <arg name="height" type="i" direction="out"/>
+        </method>
+
+        <signal name="MaximizedHorizontally">
+            <arg name="value" type="b"/>
+        </signal>
+
+        <signal name="MaximizedVertically">
+            <arg name="value" type="b"/>
+        </signal>
+
+        <method name="IsMaximizedHorizontally">
+            <arg name="value" type="b" direction="out"/>
+        </method>
+
+        <method name="IsMaximizedVertically">
+            <arg name="value" type="b" direction="out"/>
+        </method>
+
+        <property name="HasWindow" type="b" access="read"/>
+        <property name="IsAppRunning" type="b" access="read"/>
+        <property name="RenderedFirstFrame" type="b" access="read"/>
+        <property name="TransitionsActive" type="b" access="read"/>
+
+        <method name="Toggle"/>
         <method name="Setup"/>
 
         <method name="GetNMonitors">
             <arg name="n" type="i" direction="out"/>
         </method>
+
+        <method name="GetMonitorGeometry">
+            <arg name="index" type="i" direction="in"/>
+            <arg name="x" type="i" direction="out"/>
+            <arg name="y" type="i" direction="out"/>
+            <arg name="width" type="i" direction="out"/>
+            <arg name="height" type="i" direction="out"/>
+        </method>
+
+        <method name="GetMonitorScale">
+            <arg name="index" type="i" direction="in"/>
+            <arg name="scale" type="i" direction="out"/>
+        </method>
+
+        <method name="GetMonitorWorkarea">
+            <arg name="index" type="i" direction="in"/>
+            <arg name="x" type="i" direction="out"/>
+            <arg name="y" type="i" direction="out"/>
+            <arg name="width" type="i" direction="out"/>
+            <arg name="height" type="i" direction="out"/>
+        </method>
+
         <method name="GetPrimaryMonitor">
             <arg name="index" type="i" direction="out"/>
         </method>
 
-        <method name="LogMessage">
-            <arg name="msg" type="s" direction="in"/>
+        <method name="GetCurrentMonitor">
+            <arg name="index" type="i" direction="out"/>
         </method>
 
-        <method name="TestShow">
-            <arg name="window_size" type="d" direction="in"/>
-            <arg name="window_maximize" type="s" direction="in"/>
-            <arg name="window_pos" type="s" direction="in"/>
-            <arg name="current_monitor" type="i" direction="in"/>
-            <arg name="window_monitor" type="s" direction="in"/>
+        <method name="UpdateCurrentMonitor"/>
+
+        <method name="IsWaylandCompositor">
+            <arg name="value" type="b" direction="out"/>
         </method>
-        <method name="TestUnmaximize">
-            <arg name="window_size" type="d" direction="in"/>
-            <arg name="window_maximize" type="s" direction="in"/>
-            <arg name="window_pos" type="s" direction="in"/>
-            <arg name="current_monitor" type="i" direction="in"/>
-            <arg name="window_monitor" type="s" direction="in"/>
-        </method>
-        <method name="TestUnmaximizeCorrectSize">
-            <arg name="window_size" type="d" direction="in"/>
-            <arg name="window_size2" type="d" direction="in"/>
-            <arg name="window_pos" type="s" direction="in"/>
-            <arg name="current_monitor" type="i" direction="in"/>
-            <arg name="window_monitor" type="s" direction="in"/>
-        </method>
-        <method name="TestUnmaximizeOnSizeChange">
-            <arg name="window_size" type="d" direction="in"/>
-            <arg name="window_size2" type="d" direction="in"/>
-            <arg name="window_pos" type="s" direction="in"/>
-            <arg name="current_monitor" type="i" direction="in"/>
-            <arg name="window_monitor" type="s" direction="in"/>
-        </method>
-        <method name="TestResizeXte">
-            <arg name="window_size" type="d" direction="in"/>
-            <arg name="window_maximize" type="s" direction="in"/>
-            <arg name="window_size2" type="d" direction="in"/>
-            <arg name="window_pos" type="s" direction="in"/>
-            <arg name="current_monitor" type="i" direction="in"/>
-            <arg name="window_monitor" type="s" direction="in"/>
-        </method>
-        <method name="TestChangePosition">
-            <arg name="window_size" type="d" direction="in"/>
-            <arg name="window_pos" type="s" direction="in"/>
-            <arg name="window_pos2" type="s" direction="in"/>
-            <arg name="current_monitor" type="i" direction="in"/>
-            <arg name="window_monitor" type="s" direction="in"/>
-        </method>
+
+        <method name="GrabOpEnd"/>
     </interface>
 </node>

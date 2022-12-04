@@ -19,9 +19,9 @@
 
 'use strict';
 
-/* exported init enable disable settings toggle window_manager subprocess */
+/* exported init enable disable settings toggle window_manager app_dbus subprocess */
 
-const { GLib, Gio, Meta, Shell } = imports.gi;
+const { GLib, GObject, Gio, Meta, Shell } = imports.gi;
 const ByteArray = imports.byteArray;
 const Main = imports.ui.main;
 
@@ -37,7 +37,7 @@ let wayland_client = null;
 var subprocess = null;
 
 let panel_icon = null;
-let app_dbus = null;
+var app_dbus = null;
 
 let connections = null;
 let window_connections = null;
@@ -49,48 +49,57 @@ const APP_DBUS_PATH = '/com/github/amezin/ddterm';
 const WINDOW_PATH_PREFIX = `${APP_DBUS_PATH}/window/`;
 const SIGINT = 2;
 
-class AppDBusWatch {
-    constructor() {
-        this.action_group = null;
+const AppDBusWatch = GObject.registerClass(
+    {
+        Properties: {
+            'available': GObject.ParamSpec.boolean(
+                'available',
+                '',
+                '',
+                GObject.ParamFlags.READABLE,
+                false
+            ),
+        },
+    },
+    class DDTermAppDBusWatch extends GObject.Object {
+        _init(params) {
+            super._init(params);
 
-        this.watch_id = Gio.bus_watch_name(
-            Gio.BusType.SESSION,
-            APP_ID,
-            Gio.BusNameWatcherFlags.NONE,
-            this._appeared.bind(this),
-            this._disappeared.bind(this)
-        );
-    }
+            this.action_group = null;
 
-    _notify_running() {
-        if (!dbus_interface)
-            return;
-
-        dbus_interface.dbus.emit_property_changed(
-            'IsAppRunning',
-            GLib.Variant.new_boolean(dbus_interface.IsAppRunning)
-        );
-    }
-
-    _appeared(connection, name) {
-        this.action_group = Gio.DBusActionGroup.get(connection, name, APP_DBUS_PATH);
-        this._notify_running();
-    }
-
-    _disappeared() {
-        this.action_group = null;
-        this._notify_running();
-    }
-
-    unwatch() {
-        if (this.watch_id) {
-            Gio.bus_unwatch_name(this.watch_id);
-            this.watch_id = null;
+            this.watch_id = Gio.bus_watch_name(
+                Gio.BusType.SESSION,
+                APP_ID,
+                Gio.BusNameWatcherFlags.NONE,
+                this._appeared.bind(this),
+                this._disappeared.bind(this)
+            );
         }
 
-        this.action_group = null;
+        get available() {
+            return this.action_group !== null;
+        }
+
+        _appeared(connection, name) {
+            this.action_group = Gio.DBusActionGroup.get(connection, name, APP_DBUS_PATH);
+            this.notify('available');
+        }
+
+        _disappeared() {
+            this.action_group = null;
+            this.notify('available');
+        }
+
+        unwatch() {
+            if (this.watch_id) {
+                Gio.bus_unwatch_name(this.watch_id);
+                this.watch_id = null;
+            }
+
+            this.action_group = null;
+        }
     }
-}
+);
 
 class ExtensionDBusInterface {
     constructor() {
@@ -204,14 +213,6 @@ function enable() {
 
     connections.connect(window_manager, 'notify::current-window', () => {
         panel_icon.active = window_manager.current_window !== null;
-
-        if (!dbus_interface)
-            return;
-
-        dbus_interface.dbus.emit_property_changed(
-            'HasWindow',
-            GLib.Variant.new_boolean(dbus_interface.HasWindow)
-        );
     });
 
     connections.connect(window_manager, 'notify::target-rect', () => {
