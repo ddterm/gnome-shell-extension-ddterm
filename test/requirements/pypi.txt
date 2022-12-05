@@ -14,12 +14,14 @@ attrs==22.1.0
     # via pytest
 execnet==1.9.0
     # via pytest-xdist
-filelock==3.8.0
+filelock==3.8.2
     # via -r pypi.in
 iniconfig==1.1.1
     # via pytest
 packaging==21.3
-    # via pytest
+    # via
+    #   pytest
+    #   pytest-rerunfailures
 pluggy==1.0.0
     # via pytest
 psutil==5.9.4
@@ -44,7 +46,7 @@ pytest-html==3.2.0
     # via -r pypi.in
 pytest-metadata==2.0.4
     # via pytest-html
-pytest-rerunfailures==10.2
+pytest-rerunfailures==10.3
     # via -r pypi.in
 pytest-xdist==3.0.2
     # via -r pypi.in
@@ -58,7 +60,3 @@ tomli==2.0.1
     # via pytest
 wand==0.6.10
     # via -r pypi.in
-
-# The following packages are considered to be unsafe in a requirements file:
-setuptools==65.5.1
-    # via pytest-rerunfailures

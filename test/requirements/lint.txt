@@ -10,5 +10,5 @@ mccabe==0.7.0
     # via flake8
 pycodestyle==2.10.0
     # via flake8
-pyflakes==3.0.0
+pyflakes==3.0.1
     # via flake8
