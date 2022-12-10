@@ -838,6 +838,7 @@ class CommonTests(CommonFixtures):
         ['window_size', 'window_maximize', 'window_size2', 'window_pos'],
         mkpairs([SIZE_VALUES, MAXIMIZE_MODES, SIZE_VALUES, POSITIONS])
     )
+    @pytest.mark.flaky
     def test_resize_xte(
         self,
         test_interface,
