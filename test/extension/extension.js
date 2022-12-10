@@ -76,11 +76,7 @@ async function setup() {
 
     if (Main.layoutManager._startingUp) {
         message('Waiting for startup to complete');
-        await async_wait_signal(
-            Main.layoutManager,
-            'startup-complete',
-            () => !Main.layoutManager._startingUp
-        );
+        await async_wait_signal(Main.layoutManager, 'startup-complete');
         message('Startup complete');
     }
 
@@ -90,11 +86,7 @@ async function setup() {
         const ModalDialog = imports.ui.modalDialog;
         if (Main.welcomeDialog.state !== ModalDialog.State.CLOSED) {
             message('Closing welcome dialog');
-            const wait_close = async_wait_signal(
-                Main.welcomeDialog,
-                'closed',
-                () => Main.welcomeDialog.state === ModalDialog.State.CLOSED
-            );
+            const wait_close = async_wait_signal(Main.welcomeDialog, 'closed');
             Main.welcomeDialog.close();
             await wait_close;
             message('Welcome dialog closed');
@@ -103,11 +95,7 @@ async function setup() {
 
     if (Main.overview.visible) {
         message('Hiding overview');
-        const wait_hide = async_wait_signal(
-            Main.overview,
-            'hidden',
-            () => !Main.overview.visible
-        );
+        const wait_hide = async_wait_signal(Main.overview, 'hidden');
         Main.overview.hide();
         await wait_hide;
         message('Overview hidden');
@@ -116,21 +104,11 @@ async function setup() {
     message('Setup complete');
 }
 
-function async_wait_signal(object, signal, predicate = null) {
+function async_wait_signal(object, signal) {
     let handler = null;
 
     return new Promise(resolve => {
-        const pred_check = () => {
-            if (predicate())
-                resolve();
-        };
-
-        handler = object.connect(signal, pred_check);
-
-        if (predicate)
-            pred_check();
-        else
-            predicate = () => true;
+        handler = object.connect(signal, () => resolve());
     }).finally(() => {
         if (handler)
             object.disconnect(handler);
