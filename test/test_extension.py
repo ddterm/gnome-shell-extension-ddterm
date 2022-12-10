@@ -1180,6 +1180,7 @@ class TestWaylandDualMonitor(DualMonitorTests, SmallScreenMixin):
         ]
 
 
+@pytest.mark.flaky
 class TestWaylandMixedDPI(DualMonitorTests, SmallScreenMixin):
     GNOME_SHELL_SESSION_NAME = 'gnome-wayland-nested'
     IS_MIXED_DPI = True
