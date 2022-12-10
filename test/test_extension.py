@@ -701,71 +701,77 @@ class CommonFixtures:
     def mouse_sim(self, test_interface, container, shell_version):
         return MouseSim(container, test_interface, shell_version[:2] == (3, 38))
 
+    @pytest.fixture(scope='class')
+    def test_api(self, test_interface, layout, settings, mouse_sim):
+        return collections.namedtuple('TestAPI', ['dbus', 'layout', 'settings', 'mouse_sim'])(
+            dbus=test_interface,
+            layout=layout,
+            settings=settings,
+            mouse_sim=mouse_sim
+        )
+
 
 class CommonTests(CommonFixtures):
     def common_test_show(
         self,
-        test_interface,
+        test_api,
         window_size,
         window_maximize,
         window_pos,
-        monitor_config,
-        layout,
-        settings,
-        mouse_sim
+        monitor_config
     ):
         glib_util.flush_main_loop()
 
-        if test_interface.get_cached_property('HasWindow'):
-            with glib_util.SignalWait(test_interface, 'g-properties-changed') as prop_wait:
-                test_interface.Toggle()
+        if test_api.dbus.get_cached_property('HasWindow'):
+            with glib_util.SignalWait(test_api.dbus, 'g-properties-changed') as prop_wait:
+                test_api.dbus.Toggle()
 
-                while test_interface.get_cached_property('HasWindow'):
+                while test_api.dbus.get_cached_property('HasWindow'):
                     prop_wait.wait()
 
         glib_util.flush_main_loop()
 
-        current_monitor_rect = layout.monitors[monitor_config.current_index].geometry
+        current_monitor_rect = test_api.layout.monitors[monitor_config.current_index].geometry
 
-        mouse_sim.move_to(
+        test_api.mouse_sim.move_to(
             current_monitor_rect.x + math.floor(current_monitor_rect.width / 2),
             current_monitor_rect.y + math.floor(current_monitor_rect.height / 2)
         )
 
-        actual_current_monitor = test_interface.GetCurrentMonitor()
+        actual_current_monitor = test_api.dbus.GetCurrentMonitor()
 
         if actual_current_monitor != monitor_config.current_index:
-            test_interface.UpdateCurrentMonitor()
-            actual_current_monitor = test_interface.GetCurrentMonitor()
+            test_api.dbus.UpdateCurrentMonitor()
+            actual_current_monitor = test_api.dbus.GetCurrentMonitor()
 
         assert actual_current_monitor == monitor_config.current_index
 
-        window_monitor = layout.resolve_monitor(monitor_config)
-        prev_maximize = settings.get('window-maximize')
+        window_monitor = test_api.layout.resolve_monitor(monitor_config)
+        prev_maximize = test_api.settings.get('window-maximize')
 
-        settings.set_double('window-size', window_size)
-        settings.set_boolean('window-maximize', window_maximize == 'maximize-early')
-        settings.set_string('window-position', window_pos)
-        settings.set_string('window-monitor', monitor_config.setting)
+        test_api.settings.set_double('window-size', window_size)
+        test_api.settings.set_boolean('window-maximize', window_maximize == 'maximize-early')
+        test_api.settings.set_string('window-position', window_pos)
+        test_api.settings.set_string('window-monitor', monitor_config.setting)
 
         with glib_util.SignalWait(
-            source=test_interface,
+            source=test_api.dbus,
             signal='g-properties-changed',
             timeout=STARTUP_TIMEOUT_MS
         ) as prop_wait:
-            test_interface.Toggle()
+            test_api.dbus.Toggle()
 
-            while not test_interface.get_cached_property('RenderedFirstFrame'):
+            while not test_api.dbus.get_cached_property('RenderedFirstFrame'):
                 prop_wait.wait()
 
-        settings_maximize = settings.get('window-maximize')
+        settings_maximize = test_api.settings.get('window-maximize')
         should_maximize = \
             window_maximize == 'maximize-early' or (window_size == 1.0 and settings_maximize)
 
-        mixed_dpi_penalty = 2 if layout.is_mixed_dpi else 0
+        mixed_dpi_penalty = 2 if test_api.layout.is_mixed_dpi else 0
 
         with wait_move_resize(
-            test_interface,
+            test_api.dbus,
             window_size,
             should_maximize,
             window_pos,
@@ -776,14 +782,14 @@ class CommonTests(CommonFixtures):
 
         if window_maximize == 'maximize-late':
             with wait_move_resize(
-                test_interface,
+                test_api.dbus,
                 window_size,
                 True,
                 window_pos,
                 window_monitor,
                 1 + mixed_dpi_penalty
             ) as wait2:
-                settings.set_boolean('window-maximize', True)
+                test_api.settings.set_boolean('window-maximize', True)
                 wait2()
 
     @pytest.mark.parametrize(
@@ -792,52 +798,40 @@ class CommonTests(CommonFixtures):
     )
     def test_show_v(
         self,
-        test_interface,
+        test_api,
         window_size,
         window_maximize,
         window_pos,
         monitor_config,
         shell_version,
-        screenshot,
-        layout,
-        settings,
-        mouse_sim
+        screenshot
     ):
         with screenshot:
             self.common_test_show(
-                test_interface,
+                test_api,
                 window_size,
                 window_maximize,
                 window_pos,
-                monitor_config,
-                layout,
-                settings,
-                mouse_sim
+                monitor_config
             )
 
     def test_show_h(
         self,
-        test_interface,
+        test_api,
         window_size,
         window_maximize,
         window_pos,
         monitor_config,
         shell_version,
-        screenshot,
-        layout,
-        settings,
-        mouse_sim
+        screenshot
     ):
         with screenshot:
             self.common_test_show(
-                test_interface,
+                test_api,
                 window_size,
                 window_maximize,
                 window_pos,
-                monitor_config,
-                layout,
-                settings,
-                mouse_sim
+                monitor_config
             )
 
     @pytest.mark.parametrize(
@@ -847,7 +841,7 @@ class CommonTests(CommonFixtures):
     @pytest.mark.flaky
     def test_resize_xte(
         self,
-        test_interface,
+        test_api,
         window_size,
         window_maximize,
         window_size2,
@@ -855,9 +849,6 @@ class CommonTests(CommonFixtures):
         monitor_config,
         shell_version,
         screenshot,
-        layout,
-        settings,
-        mouse_sim,
         is_wayland_compositor
     ):
         if shell_version < (3, 39):
@@ -866,33 +857,30 @@ class CommonTests(CommonFixtures):
 
         with screenshot:
             self.common_test_show(
-                test_interface,
+                test_api,
                 window_size,
                 window_maximize,
                 window_pos,
-                monitor_config,
-                layout,
-                settings,
-                mouse_sim
+                monitor_config
             )
 
-            with glib_util.SignalWait(test_interface, 'g-properties-changed') as prop_wait:
-                while test_interface.get_cached_property('TransitionsActive'):
+            with glib_util.SignalWait(test_api.dbus, 'g-properties-changed') as prop_wait:
+                while test_api.dbus.get_cached_property('TransitionsActive'):
                     prop_wait.wait()
 
-            monitor = layout.resolve_monitor(monitor_config)
+            monitor = test_api.layout.resolve_monitor(monitor_config)
 
-            initial_frame_rect = Rect(*test_interface.GetFrameRect())
+            initial_frame_rect = Rect(*test_api.dbus.GetFrameRect())
 
             initial_x, initial_y = resize_point(initial_frame_rect, window_pos, monitor.scale)
 
-            mouse_sim.move_to(initial_x, initial_y)
+            test_api.mouse_sim.move_to(initial_x, initial_y)
 
             target_frame_rect = compute_target_rect(window_size2, window_pos, monitor)
             target_x, target_y = resize_point(target_frame_rect, window_pos, monitor.scale)
 
             with wait_move_resize(
-                test_interface,
+                test_api.dbus,
                 1.0 if window_maximize != 'not-maximized' else window_size,
                 False,
                 window_pos,
@@ -900,13 +888,13 @@ class CommonTests(CommonFixtures):
                 3,
                 XTE_IDLE_TIMEOUT_MS
             ) as wait1:
-                mouse_sim.button(True)
+                test_api.mouse_sim.button(True)
 
                 try:
                     wait1()
 
                     with wait_move_resize(
-                        test_interface,
+                        test_api.dbus,
                         window_size2,
                         False,
                         window_pos,
@@ -914,19 +902,19 @@ class CommonTests(CommonFixtures):
                         3,
                         XTE_IDLE_TIMEOUT_MS
                     ) as wait2:
-                        mouse_sim.move_to(target_x, target_y)
+                        test_api.mouse_sim.move_to(target_x, target_y)
                         wait2(check=False)
 
                 finally:
-                    mouse_sim.button(False)
+                    test_api.mouse_sim.button(False)
 
             # TODO: 'grab-op-end' isn't emitted on Wayland when simulting mouse with xte.
             # For now, just call update_size_setting_on_grab_end()
             if is_wayland_compositor:
-                test_interface.GrabOpEnd()
+                test_api.dbus.GrabOpEnd()
 
             verify_window_geometry(
-                test_interface=test_interface,
+                test_interface=test_api.dbus,
                 size=window_size2,
                 maximize=False,
                 pos=window_pos,
@@ -942,39 +930,33 @@ class CommonTests(CommonFixtures):
     )
     def test_change_position(
         self,
-        test_interface,
+        test_api,
         window_size,
         window_pos,
         window_pos2,
         monitor_config,
-        screenshot,
-        layout,
-        settings,
-        mouse_sim
+        screenshot
     ):
         with screenshot:
             self.common_test_show(
-                test_interface,
+                test_api,
                 window_size,
                 'not-maximized',
                 window_pos,
-                monitor_config,
-                layout,
-                settings,
-                mouse_sim
+                monitor_config
             )
 
-            initially_maximized = settings.get('window-maximize')
-            monitor = layout.resolve_monitor(monitor_config)
+            initially_maximized = test_api.settings.get('window-maximize')
+            monitor = test_api.layout.resolve_monitor(monitor_config)
 
             with wait_move_resize(
-                test_interface,
+                test_api.dbus,
                 window_size,
                 window_size == 1.0 and initially_maximized,
                 window_pos2,
                 monitor
             ) as wait:
-                settings.set_string('window-position', window_pos2)
+                test_api.settings.set_string('window-position', window_pos2)
                 wait()
 
     @pytest.mark.parametrize(
@@ -983,38 +965,32 @@ class CommonTests(CommonFixtures):
     )
     def test_unmaximize(
         self,
-        test_interface,
+        test_api,
         window_size,
         window_maximize,
         window_pos,
         monitor_config,
-        screenshot,
-        layout,
-        settings,
-        mouse_sim
+        screenshot
     ):
         with screenshot:
             self.common_test_show(
-                test_interface,
+                test_api,
                 window_size,
                 window_maximize,
                 window_pos,
-                monitor_config,
-                layout,
-                settings,
-                mouse_sim
+                monitor_config
             )
 
-            monitor = layout.resolve_monitor(monitor_config)
+            monitor = test_api.layout.resolve_monitor(monitor_config)
 
             with wait_move_resize(
-                test_interface,
+                test_api.dbus,
                 window_size,
                 False,
                 window_pos,
                 monitor
             ) as wait:
-                settings.set_boolean('window-maximize', False)
+                test_api.settings.set_boolean('window-maximize', False)
                 wait()
 
     @pytest.mark.parametrize(
@@ -1023,59 +999,53 @@ class CommonTests(CommonFixtures):
     )
     def test_unmaximize_correct_size(
         self,
-        test_interface,
+        test_api,
         window_size,
         window_size2,
         window_pos,
         monitor_config,
-        screenshot,
-        layout,
-        settings,
-        mouse_sim
+        screenshot
     ):
         with screenshot:
             self.common_test_show(
-                test_interface,
+                test_api,
                 window_size,
                 'not-maximized',
                 window_pos,
-                monitor_config,
-                layout,
-                settings,
-                mouse_sim
+                monitor_config
             )
 
-            monitor = layout.resolve_monitor(monitor_config)
-            initially_maximized = settings.get('window-maximize')
+            monitor = test_api.layout.resolve_monitor(monitor_config)
+            initially_maximized = test_api.settings.get('window-maximize')
 
             with wait_move_resize(
-                test_interface,
+                test_api.dbus,
                 window_size2,
                 window_size == 1.0 and window_size2 == 1.0 and initially_maximized,
                 window_pos,
                 monitor
             ) as wait1:
-                settings.set_double('window-size', window_size2)
+                test_api.settings.set_double('window-size', window_size2)
                 wait1()
 
             with wait_move_resize(
-                test_interface,
+                test_api.dbus,
                 window_size2,
                 True,
                 window_pos,
                 monitor
             ) as wait2:
-                settings.set_boolean('window-maximize', True)
+                test_api.settings.set_boolean('window-maximize', True)
                 wait2()
 
             with wait_move_resize(
-                test_interface,
+                test_api.dbus,
                 window_size2,
                 False,
                 window_pos,
                 monitor
             ) as wait3:
-                settings.set_boolean('window-maximize', False)
+                test_api.settings.set_boolean('window-maximize', False)
                 wait3()
 
     @pytest.mark.parametrize(
@@ -1087,38 +1057,32 @@ class CommonTests(CommonFixtures):
     )
     def test_unmaximize_on_size_change(
         self,
-        test_interface,
+        test_api,
         window_size,
         window_size2,
         window_pos,
         monitor_config,
-        screenshot,
-        layout,
-        settings,
-        mouse_sim
+        screenshot
     ):
         with screenshot:
             self.common_test_show(
-                test_interface,
+                test_api,
                 window_size,
                 'maximize-early',
                 window_pos,
-                monitor_config,
-                layout,
-                settings,
-                mouse_sim
+                monitor_config
             )
 
-            monitor = layout.resolve_monitor(monitor_config)
+            monitor = test_api.layout.resolve_monitor(monitor_config)
 
             with wait_move_resize(
-                test_interface,
+                test_api.dbus,
                 window_size2,
                 window_size2 == 1.0,
                 window_pos,
                 monitor
             ) as wait:
-                settings.set_double('window-size', window_size2)
+                test_api.settings.set_double('window-size', window_size2)
                 wait()
 
 
