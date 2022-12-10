@@ -47,6 +47,7 @@ DEFAULT_IDLE_TIMEOUT_MS = 200
 XTE_IDLE_TIMEOUT_MS = DEFAULT_IDLE_TIMEOUT_MS
 WAIT_TIMEOUT_MS = 2000
 MOVE_RESIZE_WAIT_TIMEOUT_MS = 1000
+STARTUP_TIMEOUT_MS = 10000
 
 
 def mkpairs(*args, **kwargs):
@@ -90,8 +91,12 @@ def common_volumes(ddterm_metadata, test_metadata, extension_pack, xvfb_fbdir):
 def enable_extension(shell_extensions_interface, uuid):
     info = None
 
-    with glib_util.SignalWait(shell_extensions_interface, 'g-signal') as g_signal:
-        shell_extensions_interface.EnableExtension('(s)', uuid)
+    with glib_util.SignalWait(
+        source=shell_extensions_interface,
+        signal='g-signal',
+        timeout=STARTUP_TIMEOUT_MS
+    ) as g_signal:
+        shell_extensions_interface.EnableExtension('(s)', uuid, timeout=STARTUP_TIMEOUT_MS)
 
         while not info:
             info = shell_extensions_interface.GetExtensionInfo('(s)', uuid)
@@ -658,7 +663,7 @@ class CommonFixtures:
 
     @pytest.fixture(scope='class', autouse=True)
     def test_setup(self, test_interface):
-        test_interface.Setup()
+        test_interface.Setup(timeout=STARTUP_TIMEOUT_MS)
 
     @pytest.fixture(scope='class')
     def layout(self, test_interface, test_setup):
@@ -737,7 +742,11 @@ class CommonTests(CommonFixtures):
         settings.set_string('window-position', window_pos)
         settings.set_string('window-monitor', monitor_config.setting)
 
-        with glib_util.SignalWait(test_interface, 'g-properties-changed') as prop_wait:
+        with glib_util.SignalWait(
+            source=test_interface,
+            signal='g-properties-changed',
+            timeout=STARTUP_TIMEOUT_MS
+        ) as prop_wait:
             test_interface.Toggle()
 
             while not test_interface.get_cached_property('RenderedFirstFrame'):
@@ -1291,7 +1300,7 @@ class TestSubscriptionLeaks(CommonFixtures):
         def has_window():
             return test_interface.get_cached_property('HasWindow').unpack()
 
-        with glib_util.SignalWait(test_interface, 'g-properties-changed') as w:
+        with glib_util.SignalWait(test_interface, 'g-properties-changed', STARTUP_TIMEOUT_MS) as w:
             while not app_running() or not has_window():
                 w.wait()
 

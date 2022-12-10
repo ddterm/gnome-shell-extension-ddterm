@@ -7,6 +7,8 @@ from . import glib_util
 
 LOGGER = logging.getLogger(__name__)
 
+DEFAULT_TIMEOUT_MS = 1000
+
 INTROSPECTABLE_IFACE = Gio.DBusNodeInfo.new_for_xml('''
     <!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN"
         "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
@@ -90,7 +92,7 @@ def wait_interface(connection, name, path, interface):
             'Introspect',
             None,
             Gio.DBusCallFlags.NONE,
-            -1,
+            DEFAULT_TIMEOUT_MS,
             cancellable,
             introspect_result
         )
@@ -101,7 +103,7 @@ def wait_interface(connection, name, path, interface):
         if not interface_info:
             loop.run()
 
-        return Gio.DBusProxy.new_sync(
+        proxy = Gio.DBusProxy.new_sync(
             connection,
             Gio.DBusProxyFlags.GET_INVALIDATED_PROPERTIES,
             interface_info,
@@ -110,6 +112,9 @@ def wait_interface(connection, name, path, interface):
             interface,
             None
         )
+
+        proxy.set_default_timeout(DEFAULT_TIMEOUT_MS)
+        return proxy
 
 
 def connect_tcp(host, port):

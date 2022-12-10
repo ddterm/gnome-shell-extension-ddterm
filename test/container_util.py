@@ -12,6 +12,8 @@ LOGGER = logging.getLogger(__name__)
 
 
 class Podman:
+    DEFAULT_TIMEOUT = 2
+
     def __init__(self, base_args=('podman',)):
         self.base_args = tuple(base_args)
 
@@ -20,7 +22,7 @@ class Podman:
 
     def __call__(self, *args, **kwargs):
         kwargs.setdefault('check', True)
-        kwargs.setdefault('timeout', 30)
+        kwargs.setdefault('timeout', self.DEFAULT_TIMEOUT)
 
         cmd = self.cmd(*args)
         cmd_str = shlex.join(cmd)
@@ -143,9 +145,9 @@ class Container:
         self.console = console
 
     @classmethod
-    def run(cls, podman, *args):
+    def run(cls, podman, *args, timeout=None):
         container_id = podman(
-            'run', '-td', *args, stdout=subprocess.PIPE, text=True
+            'run', '-td', *args, stdout=subprocess.PIPE, text=True, timeout=timeout
         ).stdout
 
         if container_id.endswith('\n'):

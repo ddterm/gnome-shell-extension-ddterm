@@ -61,10 +61,21 @@ class SignalConnection(contextlib.AbstractContextManager):
 
 
 class SignalWait(SignalConnection):
-    def __init__(self, source, signal):
+    DEFAULT_TIMEOUT_MS = 1000
+
+    def __init__(self, source, signal, timeout=DEFAULT_TIMEOUT_MS):
         super().__init__(source, signal, self.handler)
         self.emissions = collections.deque()
         self.loop = GLib.MainLoop()
+        self.timer = OneShotTimer()
+        self.timed_out = False
+
+        if timeout is not None:
+            def timeout_handler():
+                self.timed_out = True
+                self.loop.quit()
+
+            self.timer.schedule(timeout, timeout_handler)
 
     def handler(self, *args):
         self.emissions.append(args)
@@ -75,10 +86,14 @@ class SignalWait(SignalConnection):
         self.loop.quit()
 
     def wait(self):
-        while not self.emissions and self.handler_id is not None:
+        while not self.emissions and self.handler_id is not None and not self.timed_out:
             self.loop.run()
 
-        return self.emissions.popleft() if self.emissions else None
+        if self.emissions:
+            return self.emissions.popleft()
+
+        if self.timed_out:
+            raise TimeoutError()
 
     def __iter__(self):
         return self
