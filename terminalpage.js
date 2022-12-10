@@ -497,11 +497,8 @@ var TerminalPage = GObject.registerClass(
 
             // These widgets aren't children of the TerminalPage, so they must
             // be destroy()ed manually.
-            for (const widget of [this.tab_label, this.switcher_item, this.custom_title_popover]) {
-                this.rx.destroy_signal.subscribe(() => {
-                    widget.destroy();
-                });
-            }
+            for (const widget of [this.tab_label, this.switcher_item, this.custom_title_popover])
+                this.rx.add(() => widget.destroy());
 
             this.rx.subscribe(
                 rxjs.combineLatest(
@@ -516,7 +513,7 @@ var TerminalPage = GObject.registerClass(
 
         make_behavior_subject(value) {
             const subject = new rxjs.BehaviorSubject(value);
-            this.rx.destroy_signal.subscribe(() => subject.complete());
+            this.rx.add(() => subject.complete());
             return subject;
         }
 
