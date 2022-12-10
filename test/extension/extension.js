@@ -418,7 +418,10 @@ function enable() {
     }));
 
     trace_subscription.subscribe(
-        window_actor.pipe(switch_signal('transitions-completed')),
+        window_actor.pipe(
+            rxjs.takeUntil(window_actor.pipe(switch_signal('destroy'))),
+            switch_signal('transitions-completed')
+        ),
         ([actor]) => {
             dbus_interface.dbus.TransitionsActive =
                 actor.get_transition('scale-x') || actor.get_transition('scale-y');
