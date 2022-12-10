@@ -98,8 +98,14 @@ def enable_extension(shell_extensions_interface, uuid):
     ) as g_signal:
         shell_extensions_interface.EnableExtension('(s)', uuid, timeout=STARTUP_TIMEOUT_MS)
 
-        while not info:
-            info = shell_extensions_interface.GetExtensionInfo('(s)', uuid)
+        while True:
+            info = shell_extensions_interface.GetExtensionInfo(
+                '(s)', uuid, timeout=STARTUP_TIMEOUT_MS
+            )
+
+            if info:
+                break
+
             g_signal.wait()
 
     assert info['error'] == ''
