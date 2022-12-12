@@ -1,5 +1,35 @@
-#!/bin/sh
+#!/usr/bin/env gjs
 
-me_dir="$(CDPATH='' cd -- "$(dirname -- "$0")" && pwd)"
+/*
+    Copyright © 2020, 2021 Aleksandr Mezin
 
-exec gjs "${me_dir}/application.js" "$@"
+    This file is part of ddterm GNOME Shell extension.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
+
+'use strict';
+
+const { GLib, Gio } = imports.gi;
+const System = imports.system;
+
+GLib.set_prgname('com.github.amezin.ddterm');
+
+const APP_DATA_DIR = Gio.File.new_for_commandline_arg(System.programInvocationName).get_parent();
+imports.searchPath.unshift(APP_DATA_DIR.get_path());
+
+const Me = imports.misc.extensionUtils.getCurrentExtension();
+Me.dir = APP_DATA_DIR;
+
+imports.application.app.run([System.programInvocationName].concat(ARGV));
