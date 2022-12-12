@@ -22,14 +22,10 @@
 const System = imports.system;
 const Gettext = imports.gettext;
 
+const Me = imports.misc.extensionUtils.getCurrentExtension();
+Gettext.bindtextdomain('ddterm@amezin.github.com', Me.dir.get_child('locale').get_path());
+
 const { GLib, GObject, Gio } = imports.gi;
-
-GLib.set_prgname('com.github.amezin.ddterm');
-GLib.set_application_name('Drop Down Terminal');
-
-const APP_DATA_DIR = Gio.File.new_for_commandline_arg(System.programInvocationName).get_parent();
-
-imports.searchPath.unshift(APP_DATA_DIR.get_path());
 
 const { importcheck } = imports;
 
@@ -40,16 +36,12 @@ const Gdk = importcheck.checked_import('Gdk', '3.0');
 importcheck.checked_import('Pango', '1.0');
 importcheck.checked_import('Vte', '2.91');
 
-const Me = imports.misc.extensionUtils.getCurrentExtension();
-
-Me.dir = APP_DATA_DIR;
-
-const { rxjs } = imports.rxjs;
-const { rxutil, settings, timers } = imports;
-
-Gettext.bindtextdomain('ddterm@amezin.github.com', APP_DATA_DIR.get_child('locale').get_path());
+const { timers } = imports;
 
 timers.install();
+
+const { rxjs } = imports.rxjs;
+const { rxutil, settings } = imports;
 
 const Application = GObject.registerClass(
     {
@@ -66,6 +58,8 @@ const Application = GObject.registerClass(
     class Application extends Gtk.Application {
         _init(params) {
             super._init(params);
+
+            GLib.set_application_name('Drop Down Terminal');
 
             this.decorated = true;
 
@@ -136,7 +130,7 @@ const Application = GObject.registerClass(
             this.add_action(close_preferences_action);
 
             const settings_source = Gio.SettingsSchemaSource.new_from_directory(
-                APP_DATA_DIR.get_child('schemas').get_path(),
+                Me.dir.get_child('schemas').get_path(),
                 Gio.SettingsSchemaSource.get_default(),
                 false
             );
@@ -178,10 +172,10 @@ const Application = GObject.registerClass(
                 }
             );
 
-            const menus = Gtk.Builder.new_from_file(APP_DATA_DIR.get_child('menus.ui').get_path());
+            const menus = Gtk.Builder.new_from_file(Me.dir.get_child('menus.ui').get_path());
 
             const style = Gtk.CssProvider.new();
-            style.load_from_path(APP_DATA_DIR.get_child('style.css').get_path());
+            style.load_from_path(Me.dir.get_child('style.css').get_path());
             Gtk.StyleContext.add_provider_for_screen(
                 Gdk.Screen.get_default(),
                 style,
@@ -311,8 +305,9 @@ const Application = GObject.registerClass(
     }
 );
 
-const app = new Application({
+var app = new Application({
     application_id: 'com.github.amezin.ddterm',
     flags: Gio.ApplicationFlags.ALLOW_REPLACEMENT,
 });
-app.run([System.programInvocationName].concat(ARGV));
+
+/* exported app */
