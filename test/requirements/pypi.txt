@@ -18,7 +18,7 @@ filelock==3.8.2
     # via -r pypi.in
 iniconfig==1.1.1
     # via pytest
-packaging==21.3
+packaging==22.0
     # via
     #   pytest
     #   pytest-rerunfailures
@@ -30,8 +30,6 @@ py==1.11.0
     # via
     #   pytest
     #   pytest-html
-pyparsing==3.0.9
-    # via packaging
 pytest==7.1.3
     # via
     #   -r pypi.in
