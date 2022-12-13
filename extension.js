@@ -141,14 +141,6 @@ class ExtensionDBusInterface {
     get TargetRect() {
         return this.GetTargetRect();
     }
-
-    get IsAppRunning() {
-        return app_dbus.action_group !== null;
-    }
-
-    get HasWindow() {
-        return window_manager.current_window !== null;
-    }
 }
 
 function init() {
