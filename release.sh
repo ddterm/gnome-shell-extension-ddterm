@@ -38,4 +38,4 @@ make metadata.json
 
 sed -i "/^pkgver=/c\pkgver=${NEXT_VERSION}" PKGBUILD
 
-git commit -m "[ci skip] Post-release version bump" metadata.json.in
+git commit -m "[ci skip] Post-release version bump" metadata.json.in PKGBUILD
