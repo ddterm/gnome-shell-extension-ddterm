@@ -563,8 +563,8 @@ class CommonFixtures:
             c.attach()
             request.cls.current_container = c
 
-            c.exec('busctl', '--system', '--watch-bind=true', 'status', stdout=subprocess.DEVNULL)
-            c.exec('systemctl', 'is-system-running', '--wait')
+            c.exec('busctl', '--system', '--watch-bind=true', 'status', timeout=STARTUP_TIMEOUT_MS)
+            c.exec('systemctl', 'is-system-running', '--wait', timeout=STARTUP_TIMEOUT_MS)
 
             yield c
 
