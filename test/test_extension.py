@@ -34,6 +34,7 @@ SRC_DIR = THIS_DIR.parent
 
 EXTENSIONS_INSTALL_DIR = pathlib.PurePosixPath('/usr/share/gnome-shell/extensions')
 USER_NAME = 'gnomeshell'
+DISPLAY = ':99'
 
 MAXIMIZE_MODES = ['not-maximized', 'maximize-early', 'maximize-late']
 HORIZONTAL_RESIZE_POSITIONS = ['left', 'right']
@@ -419,7 +420,7 @@ class MouseSim:
         self.test_interface = test_interface
         self.mods_getter_broken = mods_getter_broken
         self.mouse_button_last = False
-        self.xte_env = dict(DISPLAY=':99')
+        self.xte_env = dict(DISPLAY=DISPLAY)
 
     def move_to(self, x, y):
         x = math.floor(x)
@@ -587,7 +588,7 @@ class CommonFixtures:
     @pytest.fixture(scope='class')
     def gnome_shell_session(self, container, user_env, install_ddterm):
         container.exec(
-            'systemctl', '--user', 'start', f'{self.GNOME_SHELL_SESSION_NAME}@:99', **user_env
+            'systemctl', '--user', 'start', f'{self.GNOME_SHELL_SESSION_NAME}@{DISPLAY}', **user_env
         )
         return self.GNOME_SHELL_SESSION_NAME
 
