@@ -147,7 +147,7 @@ jobs:
         --pack ../*.shell-extension.zip
         -n auto
         --screenshot-failing-only
-        -v
+        -vv
       working-directory: test
     - run: testspace --verbose "[${{ matrix.image }}]./test/junit.xml" "[${{ matrix.image }}]+./test/report.html"
       if: ${{ always() && steps.setup_testspace.outcome == 'success' }}
