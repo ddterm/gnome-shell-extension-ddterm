@@ -34,7 +34,10 @@ SRC_DIR = THIS_DIR.parent
 
 EXTENSIONS_INSTALL_DIR = pathlib.PurePosixPath('/usr/share/gnome-shell/extensions')
 USER_NAME = 'gnomeshell'
-DISPLAY = ':99'
+DISPLAY_NUMBER = 99
+X11_DISPLAY_BASE_PORT = 6000
+DISPLAY_PORT = X11_DISPLAY_BASE_PORT + DISPLAY_NUMBER
+DISPLAY = f':{DISPLAY_NUMBER}'
 DBUS_PORT = 1234
 
 MAXIMIZE_MODES = ['not-maximized', 'maximize-early', 'maximize-late']
@@ -421,7 +424,10 @@ class MouseSim:
         self.test_interface = test_interface
         self.mods_getter_broken = mods_getter_broken
         self.mouse_button_last = False
-        self.xte_env = dict(DISPLAY=DISPLAY)
+
+        host, port = container.get_port(DISPLAY_PORT)
+        display_number = int(port) - X11_DISPLAY_BASE_PORT
+        self.display = f'{host}:{display_number}'
 
     def move_to(self, x, y):
         x = math.floor(x)
@@ -433,7 +439,11 @@ class MouseSim:
             return
 
         LOGGER.info('Moving mouse from (%r, %r) to (%r, %r)', c_x, c_y, x, y)
-        self.container.exec('xte', f'mousemove {x} {y}', env=self.xte_env)
+
+        subprocess.run(
+            ['xte', '-x', self.display, f'mousemove {x} {y}'],
+            check=True
+        )
 
         while c_x != x or c_y != y:
             time.sleep(0.01)
@@ -451,7 +461,10 @@ class MouseSim:
 
         LOGGER.info('Pressing mouse button 1' if button else 'Releasing mouse button 1')
 
-        self.container.exec('xte', 'mousedown 1' if button else 'mouseup 1', env=self.xte_env)
+        subprocess.run(
+            ['xte', '-x', self.display, 'mousedown 1' if button else 'mouseup 1'],
+            check=True
+        )
 
         if self.mods_getter_broken:
             time.sleep(0.1)
@@ -525,7 +538,29 @@ class CommonFixtures:
         return ['/etc/systemd/system/xvfb@.service.d/fbdir.conf']
 
     @pytest.fixture(scope='class')
-    def container(self, podman, container_image, common_volumes, global_tmp_path, request):
+    def x11_port(self, global_tmp_path):
+        with filelock.FileLock(global_tmp_path / 'x11-port-alloc.lock'):
+            port_alloc_file = global_tmp_path / 'x11-port-alloc'
+
+            if port_alloc_file.exists():
+                allocated_port = int(port_alloc_file.read_text()) + 1
+            else:
+                allocated_port = X11_DISPLAY_BASE_PORT + 100
+
+            port_alloc_file.write_text(str(allocated_port))
+
+        return allocated_port
+
+    @pytest.fixture(scope='class')
+    def container(
+        self,
+        podman,
+        container_image,
+        common_volumes,
+        global_tmp_path,
+        x11_port,
+        request
+    ):
         assert request.cls is not CommonTests
         assert request.cls.current_container is None
 
@@ -547,12 +582,17 @@ class CommonFixtures:
             'DAC_READ_SEARCH',
         ]
 
+        publish_ports = [
+            ('127.0.0.1', '', DBUS_PORT),
+            ('127.0.0.1', x11_port, DISPLAY_PORT)
+        ]
+
         with filelock.FileLock(global_tmp_path / 'container-starting.lock'):
             c = container_util.Container.run(
                 podman,
                 '--rm',
-                f'--publish=127.0.0.1::{DBUS_PORT}',
                 '--log-driver=none',
+                f'--publish={",".join(":".join(str(p) for p in spec) for spec in publish_ports)}',
                 f'--cap-add={",".join(cap_add)}',
                 *itertools.chain.from_iterable(
                     ('-v', ':'.join(str(part) for part in parts))
