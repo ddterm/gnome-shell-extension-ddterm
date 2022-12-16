@@ -600,11 +600,7 @@ class CommonFixtures:
         ).returncode != 0:
             time.sleep(0.1)
 
-        hostport = container.inspect('{{json .NetworkSettings.Ports}}')['1234/tcp'][0]
-        host = hostport['HostIp'] or '127.0.0.1'
-        port = hostport['HostPort']
-
-        with contextlib.closing(dbus_util.connect_tcp(host, port)) as c:
+        with contextlib.closing(dbus_util.connect_tcp(*container.get_port(1234))) as c:
             yield c
 
     @pytest.fixture(scope='class')

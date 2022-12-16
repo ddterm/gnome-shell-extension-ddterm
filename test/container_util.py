@@ -172,3 +172,11 @@ class Container:
             'container', 'inspect', *format_args, self.container_id,
             stdout=subprocess.PIPE
         ).stdout)
+
+    def get_port(self, port):
+        host, port = self.podman(
+            'port', self.container_id, str(port),
+            stdout=subprocess.PIPE, text=True
+        ).stdout.strip().split(':', 1)
+
+        return host, int(port)
