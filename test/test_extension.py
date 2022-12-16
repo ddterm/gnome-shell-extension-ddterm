@@ -35,6 +35,7 @@ SRC_DIR = THIS_DIR.parent
 EXTENSIONS_INSTALL_DIR = pathlib.PurePosixPath('/usr/share/gnome-shell/extensions')
 USER_NAME = 'gnomeshell'
 DISPLAY = ':99'
+DBUS_PORT = 1234
 
 MAXIMIZE_MODES = ['not-maximized', 'maximize-early', 'maximize-late']
 HORIZONTAL_RESIZE_POSITIONS = ['left', 'right']
@@ -550,7 +551,7 @@ class CommonFixtures:
             c = container_util.Container.run(
                 podman,
                 '--rm',
-                '-P',
+                f'--publish=127.0.0.1::{DBUS_PORT}',
                 '--log-driver=none',
                 f'--cap-add={",".join(cap_add)}',
                 *itertools.chain.from_iterable(
@@ -600,7 +601,7 @@ class CommonFixtures:
         ).returncode != 0:
             time.sleep(0.1)
 
-        with contextlib.closing(dbus_util.connect_tcp(*container.get_port(1234))) as c:
+        with contextlib.closing(dbus_util.connect_tcp(*container.get_port(DBUS_PORT))) as c:
             yield c
 
     @pytest.fixture(scope='class')
