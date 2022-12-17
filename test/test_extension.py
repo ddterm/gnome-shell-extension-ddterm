@@ -318,7 +318,8 @@ def wait_move_resize(
         'PositionChanged': update_position,
         'SizeChanged': update_size,
         maximize_sig: update_maximized,
-        'MoveResizeRequested': lambda signal, _: restart_idle_timer(signal)
+        'MoveResizeRequested': lambda signal, _: restart_idle_timer(signal),
+        'SettingChanged': lambda signal, _: restart_idle_timer(signal),
     }
 
     def on_signal(proxy, sender, signal, params):
