@@ -12,8 +12,6 @@
 
 * ImageMagick library: <https://imagemagick.org/>.
 
-* xautomation: <https://www.hoopajoo.net/projects/xautomation.html> (for `xte` utility).
-
 ## Running
 
     $ tox [--sitepackages] -- <options...>

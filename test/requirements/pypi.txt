@@ -48,10 +48,14 @@ pytest-rerunfailures==10.3
     # via -r pypi.in
 pytest-xdist==3.1.0
     # via -r pypi.in
+python-xlib==0.31
+    # via -r pypi.in
 pyyaml==6.0
     # via -r pypi.in
 six==1.16.0
-    # via allpairspy
+    # via
+    #   allpairspy
+    #   python-xlib
 tomli==2.0.1
     # via pytest
 wand==0.6.10

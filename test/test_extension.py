@@ -15,6 +15,8 @@ import allpairspy
 import filelock
 import pytest
 import wand.image
+import Xlib.display
+import Xlib.X
 
 from pytest_html import extras
 from gi.repository import GLib, Gio
@@ -422,7 +424,7 @@ class Settings:
         self.change_value(key, GLib.Variant.new_string(value))
 
 
-class MouseSim:
+class MouseSim(contextlib.AbstractContextManager):
     def __init__(self, container, test_interface, mods_getter_broken):
         self.container = container
         self.test_interface = test_interface
@@ -431,7 +433,13 @@ class MouseSim:
 
         host, port = container.get_port(DISPLAY_PORT)
         display_number = int(port) - X11_DISPLAY_BASE_PORT
-        self.display = f'{host}:{display_number}'
+        self.display = Xlib.display.Display(f'{host}:{display_number}')
+
+    def close(self):
+        self.display.close()
+
+    def __exit__(self, *_):
+        self.close()
 
     def move_to(self, x, y):
         x = math.floor(x)
@@ -443,11 +451,8 @@ class MouseSim:
             return
 
         LOGGER.info('Moving mouse from (%r, %r) to (%r, %r)', c_x, c_y, x, y)
-
-        subprocess.run(
-            ['xte', '-x', self.display, f'mousemove {x} {y}'],
-            check=True
-        )
+        self.display.xtest_fake_input(Xlib.X.MotionNotify, x=x, y=y)
+        self.display.sync()
 
         while c_x != x or c_y != y:
             time.sleep(0.01)
@@ -464,11 +469,8 @@ class MouseSim:
             return
 
         LOGGER.info('Pressing mouse button 1' if button else 'Releasing mouse button 1')
-
-        subprocess.run(
-            ['xte', '-x', self.display, 'mousedown 1' if button else 'mouseup 1'],
-            check=True
-        )
+        self.display.xtest_fake_input(Xlib.X.ButtonPress if button else Xlib.X.ButtonRelease, 1)
+        self.display.sync()
 
         if self.mods_getter_broken:
             time.sleep(0.1)
@@ -741,7 +743,8 @@ class CommonFixtures:
 
     @pytest.fixture(scope='class')
     def mouse_sim(self, test_interface, container, shell_version):
-        return MouseSim(container, test_interface, shell_version[:2] == (3, 38))
+        with MouseSim(container, test_interface, shell_version[:2] == (3, 38)) as mouse_sim:
+            yield mouse_sim
 
     @pytest.fixture(scope='class')
     def test_api(self, test_interface, layout, settings, mouse_sim):
