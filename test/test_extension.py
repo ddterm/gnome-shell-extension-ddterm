@@ -359,10 +359,14 @@ class Layout:
         self.monitors = [
             MonitorInfo(
                 index=i,
-                geometry=Rect(*test_interface.GetMonitorGeometry('(i)', i)),
-                scale=test_interface.GetMonitorScale('(i)', i),
-                workarea=Rect(*test_interface.GetMonitorWorkarea('(i)', i))
-            ) for i in range(test_interface.GetNMonitors())
+                geometry=Rect(
+                    *test_interface.GetMonitorGeometry('(i)', i, timeout=STARTUP_TIMEOUT_MS)
+                ),
+                workarea=Rect(
+                    *test_interface.GetMonitorWorkarea('(i)', i, timeout=STARTUP_TIMEOUT_MS)
+                ),
+                scale=test_interface.GetMonitorScale('(i)', i, timeout=STARTUP_TIMEOUT_MS)
+            ) for i in range(test_interface.GetNMonitors(timeout=STARTUP_TIMEOUT_MS))
         ]
 
         self.primary_index = test_interface.GetPrimaryMonitor()
