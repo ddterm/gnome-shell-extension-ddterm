@@ -518,6 +518,7 @@ var WindowManager = GObject.registerClass(
             const mapped = this._current_window_mapped();
             if (!mapped) {
                 if (win.get_client_type() === Meta.WindowClientType.WAYLAND) {
+                    debug('Scheduling geometry fixup on map');
                     this._schedule_geometry_fixup(this.current_window);
                     this.current_window.move_to_monitor(this.current_monitor_index);
 
@@ -738,6 +739,7 @@ var WindowManager = GObject.registerClass(
                     this.resize_x ? Meta.MaximizeFlags.HORIZONTAL : Meta.MaximizeFlags.VERTICAL
                 );
 
+                debug('Sheduling geometry fixup from window-maximize setting change');
                 this._schedule_geometry_fixup(this.current_window);
             }
         }
@@ -759,6 +761,7 @@ var WindowManager = GObject.registerClass(
             debug('Updating window geometry');
 
             if (force_monitor || this.current_window.get_monitor() !== this.current_monitor_index) {
+                debug('Scheduling geometry fixup for move to another monitor');
                 this._schedule_geometry_fixup(this.current_window);
                 this.current_window.move_to_monitor(this.current_monitor_index);
             }
