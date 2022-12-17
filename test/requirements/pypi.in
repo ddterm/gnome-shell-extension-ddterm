@@ -1,14 +1,13 @@
 --only-binary :all:
 
 pytest~=7.1.3
-pytest-xdist~=3.1.0
+pytest-xdist[psutil,setproctitle]~=3.1.0
 pytest-html~=3.2.0
 pytest-rerunfailures~=10.2
 ansi2html~=1.8.0
 allpairspy~=2.5.0
 wand~=0.6.10
 filelock~=3.8.0
-psutil~=5.9.1
 pyyaml~=6.0
 python-xlib==0.31
 pytest-github-actions-annotate-failures~=0.1.7
