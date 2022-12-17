@@ -27,31 +27,11 @@ const Main = imports.ui.main;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 
 const ddterm = imports.ui.main.extensionManager.lookup('ddterm@amezin.github.com');
-const { extension, rxutil, timers } = ddterm.imports;
+const { extension, rxutil, timers, logger } = ddterm.imports;
 const { rxjs } = ddterm.imports.rxjs;
 
 const LOG_DOMAIN = 'ddterm-test';
-
-function _makeLogFunction(level) {
-    return message => {
-        let stack = new Error().stack;
-        let caller = stack.split('\n')[1];
-
-        let [code, line] = caller.split(':');
-        let [func, file] = code.split(/\W*@/);
-
-        GLib.log_structured(LOG_DOMAIN, level, {
-            'MESSAGE': message,
-            'SYSLOG_IDENTIFIER': 'ddterm.ExtensionTest',
-            'CODE_FILE': file,
-            'CODE_FUNC': func,
-            'CODE_LINE': line,
-        });
-    };
-}
-
-const message = _makeLogFunction(GLib.LogLevelFlags.LEVEL_MESSAGE);
-const info = _makeLogFunction(GLib.LogLevelFlags.LEVEL_INFO);
+const { message, info } = logger.context(LOG_DOMAIN, 'ddterm.ExtensionTest');
 
 function return_dbus_error(invocation, e) {
     if (e instanceof GLib.Error) {
@@ -275,7 +255,7 @@ const dbus_interface = new ExtensionTestDBusInterface();
 const trace_subscription = new rxutil.Subscription();
 
 function init() {
-    GLib.setenv('G_MESSAGES_DEBUG', LOG_DOMAIN, false);
+    GLib.setenv('G_MESSAGES_DEBUG', [LOG_DOMAIN, ddterm.imports.wm.LOG_DOMAIN].join(' '), false);
     timers.install();
 }
 

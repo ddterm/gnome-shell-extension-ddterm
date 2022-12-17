@@ -24,7 +24,11 @@ const Main = imports.ui.main;
 const WM = imports.ui.windowManager;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
+const { logger } = Me.imports;
 const { ConnectionSet } = Me.imports.connectionset;
+
+var LOG_DOMAIN = 'ddterm-wm';
+const { debug } = logger.context(LOG_DOMAIN, 'ddterm.WM');
 
 /* exported WindowManager */
 
@@ -621,6 +625,8 @@ var WindowManager = GObject.registerClass(
             if (win.get_client_type() !== Meta.WindowClientType.WAYLAND)
                 return;
 
+            debug('Scheduling geometry fixup');
+
             this.geometry_fixup_connections.disconnect();
 
             this.geometry_fixup_connections.connect(
@@ -637,6 +643,8 @@ var WindowManager = GObject.registerClass(
         }
 
         _unmaximize_done() {
+            debug('Unmaximize done');
+
             this.settings.set_boolean('window-maximize', false);
             this._update_window_geometry();
 
@@ -666,9 +674,11 @@ var WindowManager = GObject.registerClass(
                 return;
 
             if (this.current_target_rect.height < this.current_workarea.height) {
+                debug('Unmaximizing window because size expected to be less than full height');
                 Main.wm.skipNextEffect(this.current_window.get_compositor_private());
                 win.unmaximize(Meta.MaximizeFlags.VERTICAL);
             } else {
+                debug('Setting window-maximize=true because window is maximized');
                 this.settings.set_boolean('window-maximize', true);
             }
         }
@@ -686,9 +696,11 @@ var WindowManager = GObject.registerClass(
                 return;
 
             if (this.current_target_rect.width < this.current_workarea.width) {
+                debug('Unmaximizing window because size expected to be less than full width');
                 Main.wm.skipNextEffect(this.current_window.get_compositor_private());
                 win.unmaximize(Meta.MaximizeFlags.HORIZONTAL);
             } else {
+                debug('Setting window-maximize=true because window is maximized');
                 this.settings.set_boolean('window-maximize', true);
             }
         }
@@ -718,8 +730,10 @@ var WindowManager = GObject.registerClass(
                 return;
 
             if (should_maximize) {
+                debug('Maximizing window according to settings');
                 this.current_window.maximize(Meta.MaximizeFlags.BOTH);
             } else {
+                debug('Unmaximizing window according to settings');
                 this.current_window.unmaximize(
                     this.resize_x ? Meta.MaximizeFlags.HORIZONTAL : Meta.MaximizeFlags.VERTICAL
                 );
@@ -730,8 +744,10 @@ var WindowManager = GObject.registerClass(
 
         _disable_window_maximize_setting() {
             if (this.current_target_rect.height < this.current_workarea.height ||
-                this.current_target_rect.width < this.current_workarea.width)
+                this.current_target_rect.width < this.current_workarea.width) {
+                debug('Unmaximizing window because size expected to be less than workarea');
                 this.settings.set_boolean('window-maximize', false);
+            }
         }
 
         _update_window_geometry(force_monitor = false) {
@@ -739,6 +755,8 @@ var WindowManager = GObject.registerClass(
 
             if (!this.current_window)
                 return;
+
+            debug('Updating window geometry');
 
             if (force_monitor || this.current_window.get_monitor() !== this.current_monitor_index) {
                 this._schedule_geometry_fixup(this.current_window);
@@ -783,6 +801,8 @@ var WindowManager = GObject.registerClass(
             if (this.resize_x && this.current_window.maximized_horizontally)
                 return;
 
+            debug('Updating size setting on grab end');
+
             const frame_rect = win.get_frame_rect();
             const size = this.resize_x
                 ? frame_rect.width / this.current_workarea.width
@@ -796,6 +816,8 @@ var WindowManager = GObject.registerClass(
 
             if (!this.current_window || !(this.current_window.get_maximized() & flags))
                 return;
+
+            debug('Unmaximizing for resize');
 
             // There is a _update_window_geometry() call after successful unmaximize.
             // It must set window size to 100%.
