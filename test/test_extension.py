@@ -545,27 +545,12 @@ class CommonFixtures:
         return ['/etc/systemd/system/xvfb@.service.d/fbdir.conf']
 
     @pytest.fixture(scope='class')
-    def x11_port(self, global_tmp_path):
-        with filelock.FileLock(global_tmp_path / 'x11-port-alloc.lock'):
-            port_alloc_file = global_tmp_path / 'x11-port-alloc'
-
-            if port_alloc_file.exists():
-                allocated_port = int(port_alloc_file.read_text()) + 1
-            else:
-                allocated_port = X11_DISPLAY_BASE_PORT + 100
-
-            port_alloc_file.write_text(str(allocated_port))
-
-        return allocated_port
-
-    @pytest.fixture(scope='class')
     def container(
         self,
         podman,
         container_image,
         common_volumes,
         global_tmp_path,
-        x11_port,
         request
     ):
         assert request.cls is not CommonTests
@@ -591,7 +576,7 @@ class CommonFixtures:
 
         publish_ports = [
             ('127.0.0.1', '', DBUS_PORT),
-            ('127.0.0.1', x11_port, DISPLAY_PORT)
+            ('127.0.0.1', '', DISPLAY_PORT)
         ]
 
         with filelock.FileLock(global_tmp_path / 'container-starting.lock'):
