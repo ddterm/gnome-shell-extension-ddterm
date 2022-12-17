@@ -884,7 +884,7 @@ class CommonTests(CommonFixtures):
 
         # There are multiple issues with the 2nd monitor
         if monitor.index == 1:
-            if shell_version <= (40, 0) and window_pos == 'bottom' and window_size2 == 1:
+            if shell_version <= (38, 0) and window_pos == 'bottom' and window_size2 == 1:
                 pytest.xfail('For unknown reason it fails to resize to full height on 2nd monitor')
 
             if window_pos == 'right' and window_maximize == 'not-maximized' and window_size == 1 \
