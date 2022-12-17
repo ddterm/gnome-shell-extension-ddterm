@@ -325,8 +325,14 @@ def wait_move_resize(
         if handler:
             handler(signal, params.unpack())
 
+    signal_handler = glib_util.SignalConnection(test_interface, 'g-signal', on_signal)
+
     def run(check=True):
         loop.run()
+
+        signal_handler.disconnect()
+        idle_timer.cancel()
+        wait_timer.cancel()
 
         for signal, cnt in signal_counter.items():
             assert cnt <= max_signals, f'Too many {signal!r} signals'
@@ -339,8 +345,6 @@ def wait_move_resize(
                 pos=window_pos,
                 monitor=monitor
             )
-
-    signal_handler = glib_util.SignalConnection(test_interface, 'g-signal', on_signal)
 
     with idle_timer, wait_timer, signal_handler:
         restart_idle_timer(None)
