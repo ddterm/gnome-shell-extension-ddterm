@@ -84,7 +84,6 @@
         <property name="HasWindow" type="b" access="read"/>
         <property name="IsAppRunning" type="b" access="read"/>
         <property name="RenderedFirstFrame" type="b" access="read"/>
-        <property name="TransitionsActive" type="b" access="read"/>
 
         <method name="Toggle"/>
         <method name="Setup"/>
@@ -129,5 +128,7 @@
         </method>
 
         <method name="GrabOpEnd"/>
+
+        <method name="WaitLeisure"/>
     </interface>
 </node>

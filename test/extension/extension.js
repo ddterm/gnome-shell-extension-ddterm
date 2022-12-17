@@ -125,7 +125,6 @@ class ExtensionTestDBusInterface {
         this._has_window = false;
         this._is_app_running = false;
         this._first_frame_rendered = false;
-        this._transitions_active = false;
     }
 
     LogMessage(msg) {
@@ -176,10 +175,6 @@ class ExtensionTestDBusInterface {
         return this._first_frame_rendered;
     }
 
-    get TransitionsActive() {
-        return this._transitions_active;
-    }
-
     get IsAppRunning() {
         return this._is_app_running;
     }
@@ -198,14 +193,6 @@ class ExtensionTestDBusInterface {
 
         this._first_frame_rendered = value;
         this.emit_property_changed('RenderedFirstFrame', GLib.Variant.new_boolean(value));
-    }
-
-    set TransitionsActive(value) {
-        if (this._transitions_active === value)
-            return;
-
-        this._transitions_active = value;
-        this.emit_property_changed('TransitionsActive', GLib.Variant.new_boolean(value));
     }
 
     set IsAppRunning(value) {
@@ -267,6 +254,10 @@ class ExtensionTestDBusInterface {
             global.display,
             extension.window_manager.current_window
         );
+    }
+
+    WaitLeisureAsync(params, invocation) {
+        global.run_at_leisure(() => invocation.return_value(null));
     }
 
     emit_signal(name, arg) {
@@ -385,24 +376,6 @@ function enable() {
                 'MaximizedHorizontally',
                 new GLib.Variant('(b)', [win.maximized_horizontally])
             );
-        }
-    );
-
-    const window_actor = current_win.pipe(rxjs.switchMap(win => {
-        if (win === null)
-            return rxjs.EMPTY;
-
-        return win.get_compositor_private();
-    }));
-
-    trace_subscription.subscribe(
-        window_actor.pipe(
-            rxjs.takeUntil(window_actor.pipe(switch_signal('destroy'))),
-            switch_signal('transitions-completed')
-        ),
-        ([actor]) => {
-            dbus_interface.dbus.TransitionsActive =
-                actor.get_transition('scale-x') || actor.get_transition('scale-y');
         }
     );
 

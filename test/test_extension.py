@@ -909,9 +909,7 @@ class CommonTests(CommonFixtures):
                 monitor_config
             )
 
-            with glib_util.SignalWait(test_api.dbus, 'g-properties-changed') as prop_wait:
-                while test_api.dbus.get_cached_property('TransitionsActive'):
-                    prop_wait.wait()
+            test_api.dbus.WaitLeisure()
 
             monitor = test_api.layout.resolve_monitor(monitor_config)
 
