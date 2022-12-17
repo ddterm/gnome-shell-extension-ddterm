@@ -922,34 +922,33 @@ class CommonTests(CommonFixtures):
             target_frame_rect = compute_target_rect(window_size2, window_pos, monitor)
             target_x, target_y = resize_point(target_frame_rect, window_pos, monitor.scale)
 
-            with wait_move_resize(
-                test_api.dbus,
-                1.0 if window_maximize != 'not-maximized' else window_size,
-                False,
-                window_pos,
-                monitor,
-                3,
-                XTE_IDLE_TIMEOUT_MS
-            ) as wait1:
-                test_api.mouse_sim.button(True)
-
-                try:
+            try:
+                with wait_move_resize(
+                    test_api.dbus,
+                    1.0 if window_maximize != 'not-maximized' else window_size,
+                    False,
+                    window_pos,
+                    monitor,
+                    3,
+                    XTE_IDLE_TIMEOUT_MS
+                ) as wait1:
+                    test_api.mouse_sim.button(True)
                     wait1()
 
-                    with wait_move_resize(
-                        test_api.dbus,
-                        window_size2,
-                        False,
-                        window_pos,
-                        monitor,
-                        3,
-                        XTE_IDLE_TIMEOUT_MS
-                    ) as wait2:
-                        test_api.mouse_sim.move_to(target_x, target_y)
-                        wait2(check=False)
+                with wait_move_resize(
+                    test_api.dbus,
+                    window_size2,
+                    False,
+                    window_pos,
+                    monitor,
+                    3,
+                    XTE_IDLE_TIMEOUT_MS
+                ) as wait2:
+                    test_api.mouse_sim.move_to(target_x, target_y)
+                    wait2(check=False)
 
-                finally:
-                    test_api.mouse_sim.button(False)
+            finally:
+                test_api.mouse_sim.button(False)
 
             # TODO: 'grab-op-end' isn't emitted on Wayland when simulting mouse with xte.
             # For now, just call update_size_setting_on_grab_end()
