@@ -806,7 +806,7 @@ class CommonTests(CommonFixtures):
         should_maximize = \
             window_maximize == 'maximize-early' or (window_size == 1.0 and settings_maximize)
 
-        mixed_dpi_penalty = 2 if test_api.layout.is_mixed_dpi else 0
+        mixed_dpi_penalty = 3 if test_api.layout.is_mixed_dpi else 0
 
         with wait_move_resize(
             test_api.dbus,
