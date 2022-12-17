@@ -720,10 +720,6 @@ class CommonFixtures:
         )
 
     @pytest.fixture(scope='class')
-    def is_wayland_compositor(self, test_interface):
-        return test_interface.IsWaylandCompositor()
-
-    @pytest.fixture(scope='class')
     def settings(self, test_interface):
         return Settings(test_interface)
 
@@ -869,7 +865,6 @@ class CommonTests(CommonFixtures):
         ['window_size', 'window_maximize', 'window_size2', 'window_pos'],
         mkpairs([SIZE_VALUES, MAXIMIZE_MODES, SIZE_VALUES, POSITIONS])
     )
-    @pytest.mark.flaky
     def test_resize_xte(
         self,
         test_api,
@@ -879,12 +874,18 @@ class CommonTests(CommonFixtures):
         window_pos,
         monitor_config,
         shell_version,
-        screenshot,
-        is_wayland_compositor
+        screenshot
     ):
-        if shell_version < (3, 39):
-            if monitor_config.current_index == 1 and window_pos == 'bottom' and window_size2 == 1:
+        monitor = test_api.layout.resolve_monitor(monitor_config)
+
+        # There are multiple issues with the 2nd monitor
+        if monitor.index == 1:
+            if shell_version <= (40, 0) and window_pos == 'bottom' and window_size2 == 1:
                 pytest.xfail('For unknown reason it fails to resize to full height on 2nd monitor')
+
+            if window_pos == 'right' and window_maximize == 'not-maximized' and window_size == 1 \
+                    and shell_version >= (40, 0):
+                pytest.xfail('Window partially moves to 1st monitor')
 
         with screenshot:
             for _ in range(2) if window_maximize == 'maximize-early' else range(1):
@@ -897,8 +898,8 @@ class CommonTests(CommonFixtures):
                 )
 
             test_api.dbus.WaitLeisure()
-
-            monitor = test_api.layout.resolve_monitor(monitor_config)
+            glib_util.sleep(XTE_IDLE_TIMEOUT_MS)
+            test_api.dbus.WaitLeisure()
 
             initial_frame_rect = Rect(*test_api.dbus.GetFrameRect())
 
@@ -922,33 +923,37 @@ class CommonTests(CommonFixtures):
                     test_api.mouse_sim.button(True)
                     wait1()
 
-                with wait_move_resize(
-                    test_api.dbus,
-                    window_size2,
-                    False,
-                    window_pos,
-                    monitor,
-                    3,
-                    XTE_IDLE_TIMEOUT_MS
-                ) as wait2:
-                    test_api.mouse_sim.move_to(target_x, target_y)
-                    wait2(check=False)
+                test_api.mouse_sim.move_to(target_x, target_y)
+
+                # mutter doesn't emit position-changed/size-changed while resizing
+                time_wait = 0
+                while Rect(*test_api.dbus.GetFrameRect()) != target_frame_rect:
+                    assert time_wait < WAIT_TIMEOUT_MS
+                    glib_util.sleep(100)
+                    time_wait += 100
 
             finally:
                 test_api.mouse_sim.button(False)
 
-            # TODO: 'grab-op-end' isn't emitted on Wayland when simulting mouse with xte.
-            # For now, just call update_size_setting_on_grab_end()
-            if is_wayland_compositor:
-                test_api.dbus.GrabOpEnd()
+            time_wait = 0
+            while compute_target_rect(
+                test_api.settings.get('window-size'),
+                window_pos,
+                monitor
+            ) != target_frame_rect:
+                assert time_wait < WAIT_TIMEOUT_MS
+                glib_util.sleep(100)
+                time_wait += 100
 
-            verify_window_geometry(
-                test_interface=test_api.dbus,
-                size=window_size2,
-                maximize=False,
-                pos=window_pos,
-                monitor=monitor
-            )
+            with wait_move_resize(
+                test_api.dbus,
+                window_size2,
+                False,
+                window_pos,
+                monitor,
+                1
+            ) as wait4:
+                wait4()
 
     @pytest.mark.parametrize(
         ['window_pos', 'window_pos2', 'window_size'],

@@ -122,13 +122,6 @@
         </method>
 
         <method name="UpdateCurrentMonitor"/>
-
-        <method name="IsWaylandCompositor">
-            <arg name="value" type="b" direction="out"/>
-        </method>
-
-        <method name="GrabOpEnd"/>
-
         <method name="WaitLeisure"/>
     </interface>
 </node>

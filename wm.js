@@ -828,7 +828,6 @@ var WindowManager = GObject.registerClass(
 
             Main.wm.skipNextEffect(this.current_window.get_compositor_private());
             this.current_window.unmaximize(flags);
-            this._schedule_geometry_fixup(this.current_window);
         }
 
         _release_window(win) {

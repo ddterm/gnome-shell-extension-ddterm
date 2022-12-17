@@ -45,6 +45,14 @@ class OneShotTimer(contextlib.AbstractContextManager):
         self.cancel()
 
 
+def sleep(time_ms):
+    loop = GLib.MainLoop()
+
+    with OneShotTimer() as timer:
+        timer.schedule(time_ms, loop.quit)
+        loop.run()
+
+
 class SignalConnection(contextlib.AbstractContextManager):
     def __init__(self, source, signal, handler):
         super().__init__()

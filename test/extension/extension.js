@@ -225,17 +225,6 @@ class ExtensionTestDBusInterface {
         return Meta.MonitorManager.get().emit('monitors-changed-internal');
     }
 
-    IsWaylandCompositor() {
-        return Meta.is_wayland_compositor();
-    }
-
-    GrabOpEnd() {
-        extension.window_manager.update_size_setting_on_grab_end(
-            global.display,
-            extension.window_manager.current_window
-        );
-    }
-
     WaitLeisureAsync(params, invocation) {
         global.run_at_leisure(() => invocation.return_value(null));
     }
