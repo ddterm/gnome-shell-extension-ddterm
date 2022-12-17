@@ -902,13 +902,14 @@ class CommonTests(CommonFixtures):
                 pytest.xfail('For unknown reason it fails to resize to full height on 2nd monitor')
 
         with screenshot:
-            self.common_test_show(
-                test_api,
-                window_size,
-                window_maximize,
-                window_pos,
-                monitor_config
-            )
+            for _ in range(2) if window_maximize == 'maximize-early' else range(1):
+                self.common_test_show(
+                    test_api,
+                    window_size,
+                    window_maximize,
+                    window_pos,
+                    monitor_config
+                )
 
             test_api.dbus.WaitLeisure()
 
