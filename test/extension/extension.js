@@ -24,6 +24,7 @@
 const { GLib, Gio, Meta } = imports.gi;
 const ByteArray = imports.byteArray;
 const Main = imports.ui.main;
+const ModalDialog = imports.ui.modalDialog;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 
 const ddterm = imports.ui.main.extensionManager.lookup('ddterm@amezin.github.com');
@@ -33,66 +34,15 @@ const { rxjs } = ddterm.imports.rxjs;
 const LOG_DOMAIN = 'ddterm-test';
 const { message, info } = logger.context(LOG_DOMAIN, 'ddterm.ExtensionTest');
 
-function return_dbus_error(invocation, e) {
-    if (e instanceof GLib.Error) {
-        logError(e, `Exception in method call: ${invocation.get_method_name()}`);
-        invocation.return_gerror(e);
-    } else {
-        let name = e.name;
-        if (!name.includes('.')) {
-            // likely to be a normal JS error
-            name = `org.gnome.gjs.JSError.${name}`;
-        }
-        logError(e, `Exception in method call: ${invocation.get_method_name()}`);
-        invocation.return_dbus_error(name, `${e}\n\n${e.stack}`);
-    }
-}
-
-async function setup() {
-    message('Setting up GNOME Shell for tests');
-
-    if (global.settings.settings_schema.has_key('welcome-dialog-last-shown-version'))
-        global.settings.set_string('welcome-dialog-last-shown-version', '99.0');
-
-    if (Main.layoutManager._startingUp) {
-        message('Waiting for startup to complete');
-        await async_wait_signal(Main.layoutManager, 'startup-complete');
-        message('Startup complete');
-    }
-
-    Main.messageTray.bannerBlocked = true;
-
-    if (Main.welcomeDialog) {
-        const ModalDialog = imports.ui.modalDialog;
-        if (Main.welcomeDialog.state !== ModalDialog.State.CLOSED) {
-            message('Closing welcome dialog');
-            const wait_close = async_wait_signal(Main.welcomeDialog, 'closed');
-            Main.welcomeDialog.close();
-            await wait_close;
-            message('Welcome dialog closed');
-        }
-    }
-
-    if (Main.overview.visible) {
-        message('Hiding overview');
-        const wait_hide = async_wait_signal(Main.overview, 'hidden');
-        Main.overview.hide();
-        await wait_hide;
-        message('Overview hidden');
-    }
-
-    message('Setup complete');
-}
-
-function async_wait_signal(object, signal) {
-    let handler = null;
-
-    return new Promise(resolve => {
-        handler = object.connect(signal, () => resolve());
-    }).finally(() => {
-        if (handler)
-            object.disconnect(handler);
+function js_signal(obj, name) {
+    return new rxjs.Observable(observer => {
+        const handler = obj.connect(name, (...args) => observer.next(args));
+        return () => obj.disconnect(handler);
     });
+}
+
+function signal_with_init(obj, name) {
+    return rxutil.signal(obj, name).pipe(rxjs.startWith([obj]));
 }
 
 class ExtensionTestDBusInterface {
@@ -101,10 +51,14 @@ class ExtensionTestDBusInterface {
             Me.dir.get_child('com.github.amezin.ddterm.ExtensionTest.xml').load_contents(null);
 
         this.dbus = Gio.DBusExportedObject.wrapJSObject(ByteArray.toString(xml), this);
+    }
 
-        this._has_window = false;
-        this._is_app_running = false;
-        this._first_frame_rendered = false;
+    set_flag(name, value) {
+        if (this[name] === value)
+            return;
+
+        this[name] = value;
+        this.emit_property_changed(name, GLib.Variant.new_boolean(value));
     }
 
     LogMessage(msg) {
@@ -147,52 +101,8 @@ class ExtensionTestDBusInterface {
         return extension.window_manager.current_window.maximized_vertically;
     }
 
-    get HasWindow() {
-        return this._has_window;
-    }
-
-    get RenderedFirstFrame() {
-        return this._first_frame_rendered;
-    }
-
-    get IsAppRunning() {
-        return this._is_app_running;
-    }
-
-    set HasWindow(value) {
-        if (this._has_window === value)
-            return;
-
-        this._has_window = value;
-        this.emit_property_changed('HasWindow', GLib.Variant.new_boolean(value));
-    }
-
-    set RenderedFirstFrame(value) {
-        if (this._first_frame_rendered === value)
-            return;
-
-        this._first_frame_rendered = value;
-        this.emit_property_changed('RenderedFirstFrame', GLib.Variant.new_boolean(value));
-    }
-
-    set IsAppRunning(value) {
-        if (this._is_app_running === value)
-            return;
-
-        this._is_app_running = value;
-        this.emit_property_changed('IsAppRunning', GLib.Variant.new_boolean(value));
-    }
-
     Toggle() {
         extension.toggle();
-    }
-
-    SetupAsync(params, invocation) {
-        setup().then(() => {
-            invocation.return_value(null);
-        }).catch(e => {
-            return_dbus_error(invocation, e);
-        });
     }
 
     GetNMonitors() {
@@ -227,6 +137,24 @@ class ExtensionTestDBusInterface {
 
     WaitLeisureAsync(params, invocation) {
         global.run_at_leisure(() => invocation.return_value(null));
+    }
+
+    DisableWelcomeDialog() {
+        if (global.settings.settings_schema.has_key('welcome-dialog-last-shown-version'))
+            global.settings.set_string('welcome-dialog-last-shown-version', '99.0');
+    }
+
+    CloseWelcomeDialog() {
+        if (Main.welcomeDialog)
+            Main.welcomeDialog.close();
+    }
+
+    HideOverview() {
+        Main.overview.hide();
+    }
+
+    BlockBanner() {
+        Main.messageTray.bannerBlocked = true;
     }
 
     emit_signal(name, arg) {
@@ -273,7 +201,7 @@ function enable() {
     trace_subscription.subscribe(
         rxjs.combineLatest(rendered_windows, current_win),
         ([windows, current]) => {
-            dbus_interface.RenderedFirstFrame = windows.has(current);
+            dbus_interface.set_flag('RenderedFirstFrame', windows.has(current));
         }
     );
 
@@ -286,22 +214,21 @@ function enable() {
         });
     });
 
-    trace_subscription.subscribe(current_win, win => {
-        dbus_interface.HasWindow = win !== null;
-    });
+    trace_subscription.subscribe(
+        current_win,
+        win => dbus_interface.set_flag('HasWindow', win !== null)
+    );
 
     trace_subscription.subscribe(
         rxutil.property(extension.app_dbus, 'available'),
-        value => {
-            dbus_interface.IsAppRunning = value;
-        }
+        value => dbus_interface.set_flag('IsAppRunning', value)
     );
 
     const switch_signal = signal_name => rxjs.switchMap(source => {
         if (source === null)
             return rxjs.EMPTY;
 
-        return rxutil.signal(source, signal_name).pipe(rxjs.startWith([source]));
+        return signal_with_init(source, signal_name);
     });
 
     trace_subscription.subscribe(
@@ -346,6 +273,26 @@ function enable() {
                 new GLib.Variant('(b)', [win.maximized_horizontally])
             );
         }
+    );
+
+    trace_subscription.subscribe(
+        signal_with_init(Main.layoutManager, 'startup-complete'),
+        ([sender]) => dbus_interface.set_flag('StartingUp', sender._startingUp)
+    );
+
+    if (Main.welcomeDialog) {
+        trace_subscription.subscribe(
+            signal_with_init(Main.welcomeDialog, 'closed'),
+            ([sender]) => dbus_interface.set_flag(
+                'WelcomeDialogVisible',
+                sender.state !== ModalDialog.State.CLOSED
+            )
+        );
+    }
+
+    trace_subscription.subscribe(
+        js_signal(Main.overview, 'hidden').pipe(rxjs.startWith([Main.overview])),
+        ([sender]) => dbus_interface.set_flag('OverviewVisible', sender.visible)
     );
 
     dbus_interface.dbus.export(Gio.DBus.session, '/org/gnome/Shell/Extensions/ddterm');

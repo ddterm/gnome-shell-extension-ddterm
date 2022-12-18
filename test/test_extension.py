@@ -714,7 +714,28 @@ class CommonFixtures:
 
     @pytest.fixture(scope='class', autouse=True)
     def test_setup(self, test_interface):
-        test_interface.Setup(timeout=STARTUP_TIMEOUT_MS)
+        test_interface.DisableWelcomeDialog()
+
+        with glib_util.SignalWait(
+            test_interface,
+            'g-properties-changed',
+            timeout=STARTUP_TIMEOUT_MS
+        ) as wait1:
+            while test_interface.get_cached_property('StartingUp'):
+                wait1.wait()
+
+        test_interface.CloseWelcomeDialog()
+        test_interface.BlockBanner()
+        test_interface.HideOverview()
+
+        with glib_util.SignalWait(
+            test_interface,
+            'g-properties-changed',
+            timeout=STARTUP_TIMEOUT_MS
+        ) as wait2:
+            while test_interface.get_cached_property('OverviewVisible') or \
+                    test_interface.get_cached_property('WelcomeDialogVisible'):
+                wait2.wait()
 
     @pytest.fixture(scope='class')
     def layout(self, test_interface, test_setup):
