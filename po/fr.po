@@ -15,7 +15,7 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: appwindow.js:438
+#: appwindow.js:437
 msgid ""
 "Warning: ddterm extension version has changed. Log out, then login again to "
 "reload the extension."

@@ -23,9 +23,8 @@
 
 const { GLib, GObject, Gio, Gdk, Gtk } = imports.gi;
 const { rxjs } = imports.rxjs;
-const { rxutil, settings, terminalpage } = imports;
+const { rxutil, settings, terminalpage, translations } = imports;
 const ByteArray = imports.byteArray;
-const Gettext = imports.gettext;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 
 const EXTENSION_DBUS_XML = ByteArray.toString(
@@ -434,7 +433,7 @@ var AppWindow = GObject.registerClass(
             });
 
             if (this.extension_version_mismatch) {
-                const message = Gettext.gettext(
+                const message = translations.gettext(
                     'Warning: ddterm extension version has changed. ' +
                     'Log out, then login again to reload the extension.'
                 );
