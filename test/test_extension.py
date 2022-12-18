@@ -460,7 +460,7 @@ class MouseSim(contextlib.AbstractContextManager):
         self.display.sync()
 
         while c_x != x or c_y != y:
-            time.sleep(0.01)
+            glib_util.sleep(10)
             c_x, c_y, _ = self.test_interface.GetPointer()
 
         LOGGER.info('Mouse is at (%r, %r)', c_x, c_y)
@@ -478,12 +478,12 @@ class MouseSim(contextlib.AbstractContextManager):
         self.display.sync()
 
         if self.mods_getter_broken:
-            time.sleep(0.1)
+            glib_util.sleep(100)
             self.mouse_button_last = button
 
         else:
             while self.mouse_button_last != button:
-                time.sleep(0.01)
+                glib_util.sleep(10)
                 unused_x, unused_y, c_mods = self.test_interface.GetPointer()
                 self.mouse_button_last = c_mods != 0
 
