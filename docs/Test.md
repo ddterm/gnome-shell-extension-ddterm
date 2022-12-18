@@ -14,6 +14,12 @@
 
 ## Running
 
+### Download container images
+
+    $ tox -e podman-compose -- pull
+
+### Run tests
+
     $ tox [--sitepackages] -- <options...>
 
 Without `--sitepackages` you'll have to install PyGObject's build dependencies.

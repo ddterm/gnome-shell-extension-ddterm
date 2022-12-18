@@ -145,9 +145,9 @@ class Container:
         self.console = console
 
     @classmethod
-    def run(cls, podman, *args, timeout=None):
+    def run(cls, podman, *args, **kwargs):
         container_id = podman(
-            'run', '-td', *args, stdout=subprocess.PIPE, text=True, timeout=timeout
+            'run', '-td', *args, stdout=subprocess.PIPE, text=True, **kwargs
         ).stdout
 
         if container_id.endswith('\n'):

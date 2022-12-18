@@ -590,6 +590,7 @@ class CommonFixtures:
             c = container_util.Container.run(
                 podman,
                 '--rm',
+                '--pull=never',
                 '--log-driver=none',
                 f'--publish={",".join(":".join(str(p) for p in spec) for spec in publish_ports)}',
                 f'--cap-add={",".join(cap_add)}',
