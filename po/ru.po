@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-12-18 19:32+0300\n"
+"POT-Creation-Date: 2022-12-18 19:34+0300\n"
 "PO-Revision-Date: 2022-11-07 10:41+0300\n"
 "Last-Translator: vantu5z <vantu5z@mail.ru>\n"
 "Language-Team: Russian <>\n"
@@ -16,6 +16,12 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 "X-Generator: Gtranslator 40.0\n"
+
+#: appwindow.js:438
+msgid ""
+"Warning: ddterm extension version has changed. Log out, then login again to "
+"reload the extension."
+msgstr ""
 
 #: glade/appwindow.ui:41
 msgid "Drop Down Terminal"

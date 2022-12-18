@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-12-18 19:32+0300\n"
+"POT-Creation-Date: 2022-12-18 19:34+0300\n"
 "PO-Revision-Date: 2022-11-04 21:12+0100\n"
 "Last-Translator: FELDMANN arnaud <arnaud.feldmann at gmail dot com>\n"
 "Language-Team: \n"
@@ -14,6 +14,12 @@ msgstr ""
 "X-Generator: Poedit 3.1.1\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-SearchPath-0: .\n"
+
+#: appwindow.js:438
+msgid ""
+"Warning: ddterm extension version has changed. Log out, then login again to "
+"reload the extension."
+msgstr ""
 
 #: glade/appwindow.ui:41
 msgid "Drop Down Terminal"

@@ -133,6 +133,10 @@ class ExtensionDBusInterface {
     get TargetRect() {
         return this.GetTargetRect();
     }
+
+    get Version() {
+        return `${Me.metadata.version}`;
+    }
 }
 
 function init() {

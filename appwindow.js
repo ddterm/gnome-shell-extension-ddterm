@@ -25,11 +25,16 @@ const { GLib, GObject, Gio, Gdk, Gtk } = imports.gi;
 const { rxjs } = imports.rxjs;
 const { rxutil, settings, terminalpage } = imports;
 const ByteArray = imports.byteArray;
+const Gettext = imports.gettext;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 
 const EXTENSION_DBUS_XML = ByteArray.toString(
     Me.dir.get_child('com.github.amezin.ddterm.Extension.xml').load_contents(null)[1]
 );
+
+const APP_VERSION = JSON.parse(ByteArray.toString(
+    Me.dir.get_child('metadata.json').load_contents(null)[1]
+)).version;
 
 var ExtensionDBusProxy = Gio.DBusProxy.makeProxyWrapper(EXTENSION_DBUS_XML);
 
@@ -348,6 +353,16 @@ var AppWindow = GObject.registerClass(
                 return true;
             });
 
+            const extension_version = this.extension_dbus.Version;
+            this.extension_version_mismatch = extension_version !== `${APP_VERSION}`;
+
+            if (this.extension_version_mismatch) {
+                printerr(
+                    'ddterm extension version mismatch! ' +
+                    `app: ${APP_VERSION} extension: ${extension_version}`
+                );
+            }
+
             this.insert_page(0);
 
             const display = Gdk.Display.get_default();
@@ -417,6 +432,15 @@ var AppWindow = GObject.registerClass(
             page_scope.connect(page, 'new-tab-after-request', sender => {
                 this.insert_page(this.notebook.page_num(sender) + 1);
             });
+
+            if (this.extension_version_mismatch) {
+                const message = Gettext.gettext(
+                    'Warning: ddterm extension version has changed. ' +
+                    'Log out, then login again to reload the extension.'
+                );
+
+                page.terminal.feed(`\u001b[1;31m${message}\u001b[0m\n`);
+            }
 
             page.spawn(cwd);
 
