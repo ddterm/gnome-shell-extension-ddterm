@@ -9,7 +9,6 @@ import math
 import pathlib
 import queue
 import subprocess
-import time
 
 import allpairspy
 import filelock
@@ -459,9 +458,11 @@ class MouseSim(contextlib.AbstractContextManager):
         self.display.xtest_fake_input(Xlib.X.MotionNotify, x=x, y=y)
         self.display.sync()
 
-        while c_x != x or c_y != y:
-            glib_util.sleep(10)
+        for _ in glib_util.busy_wait(10, WAIT_TIMEOUT_MS):
             c_x, c_y, _ = self.test_interface.GetPointer()
+
+            if c_x == x and c_y == y:
+                break
 
         LOGGER.info('Mouse is at (%r, %r)', c_x, c_y)
 
@@ -482,10 +483,12 @@ class MouseSim(contextlib.AbstractContextManager):
             self.mouse_button_last = button
 
         else:
-            while self.mouse_button_last != button:
-                glib_util.sleep(10)
+            for _ in glib_util.busy_wait(10, WAIT_TIMEOUT_MS):
                 unused_x, unused_y, c_mods = self.test_interface.GetPointer()
                 self.mouse_button_last = c_mods != 0
+
+                if self.mouse_button_last == button:
+                    break
 
         LOGGER.info('Mouse button pressed = %s', self.mouse_button_last)
 
@@ -631,11 +634,12 @@ class CommonFixtures:
 
     @pytest.fixture(scope='class')
     def bus_connection(self, container, user_env):
-        while container.exec(
-            'busctl', '--user', '--watch-bind=true', 'status',
-            stdout=subprocess.DEVNULL, check=False, **user_env
-        ).returncode != 0:
-            time.sleep(0.1)
+        for _ in glib_util.busy_wait(100, STARTUP_TIMEOUT_MS):
+            if container.exec(
+                'busctl', '--user', '--watch-bind=true', 'status',
+                stdout=subprocess.DEVNULL, check=False, **user_env
+            ).returncode == 0:
+                break
 
         with contextlib.closing(dbus_util.connect_tcp(*container.get_port(DBUS_PORT))) as c:
             yield c
@@ -930,11 +934,9 @@ class CommonTests(CommonFixtures):
                 test_api.mouse_sim.move_to(target_x, target_y)
 
                 # mutter doesn't emit position-changed/size-changed while resizing
-                time_wait = 0
-                while Rect(*test_api.dbus.GetFrameRect()) != target_frame_rect:
-                    assert time_wait < WAIT_TIMEOUT_MS
-                    glib_util.sleep(100)
-                    time_wait += 100
+                for _ in glib_util.busy_wait(100, WAIT_TIMEOUT_MS):
+                    if Rect(*test_api.dbus.GetFrameRect()) == target_frame_rect:
+                        break
 
             finally:
                 test_api.mouse_sim.button(False)

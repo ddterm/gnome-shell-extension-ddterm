@@ -53,6 +53,28 @@ def sleep(time_ms):
         loop.run()
 
 
+def busy_wait(interval_ms, timeout_ms):
+    timed_out = False
+    loop = GLib.MainLoop()
+
+    def on_timeout():
+        nonlocal timed_out
+        timed_out = True
+        loop.quit()
+
+    with OneShotTimer() as timeout_timer:
+        timeout_timer.schedule(timeout_ms, on_timeout)
+
+        with OneShotTimer() as interval_timer:
+            while not timed_out:
+                yield
+                interval_timer.schedule(interval_ms, loop.quit)
+                loop.run()
+
+    if timed_out:
+        raise TimeoutError()
+
+
 class SignalConnection(contextlib.AbstractContextManager):
     def __init__(self, source, signal, handler):
         super().__init__()
