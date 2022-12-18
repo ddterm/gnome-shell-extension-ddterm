@@ -30,6 +30,17 @@ const { ConnectionSet } = Me.imports.connectionset;
 var LOG_DOMAIN = 'ddterm-wm';
 const { debug } = logger.context(LOG_DOMAIN, 'ddterm.WM');
 
+const MOUSE_RESIZE_GRABS = [
+    Meta.GrabOp.RESIZING_NW,
+    Meta.GrabOp.RESIZING_N,
+    Meta.GrabOp.RESIZING_NE,
+    Meta.GrabOp.RESIZING_E,
+    Meta.GrabOp.RESIZING_SW,
+    Meta.GrabOp.RESIZING_S,
+    Meta.GrabOp.RESIZING_SE,
+    Meta.GrabOp.RESIZING_W,
+];
+
 /* exported WindowManager */
 
 var WindowManager = GObject.registerClass(
@@ -548,6 +559,12 @@ var WindowManager = GObject.registerClass(
 
             this.current_window_connections.connect(
                 global.display,
+                'grab-op-begin',
+                this._grab_op_begin.bind(this)
+            );
+
+            this.current_window_connections.connect(
+                global.display,
                 'grab-op-end',
                 this.update_size_setting_on_grab_end.bind(this)
             );
@@ -789,6 +806,23 @@ var WindowManager = GObject.registerClass(
                 ? this.current_window.maximized_horizontally
                 : this.current_window.maximized_vertically)
                 this.settings.set_boolean('window-maximize', true);
+        }
+
+        _grab_op_begin(display, p0, p1, p2) {
+            // On Mutter <=3.38 p0 is display too. On 40 p0 is the window.
+            const win = p0 instanceof Meta.Window ? p0 : p1;
+
+            if (win !== this.current_window)
+                return;
+
+            const flags = p0 instanceof Meta.Window ? p1 : p2;
+
+            if (!MOUSE_RESIZE_GRABS.includes(flags))
+                return;
+
+            this.unmaximize_for_resize(
+                this.resize_x ? Meta.MaximizeFlags.HORIZONTAL : Meta.MaximizeFlags.VERTICAL
+            );
         }
 
         update_size_setting_on_grab_end(display, p0, p1) {

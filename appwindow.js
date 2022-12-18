@@ -450,12 +450,6 @@ var AppWindow = GObject.registerClass(
             else
                 return;
 
-            if (edge === Gdk.WindowEdge.NORTH || edge === Gdk.WindowEdge.SOUTH)
-                this.extension_dbus.BeginResizeVerticalSync();
-
-            else if (edge === Gdk.WindowEdge.EAST || edge === Gdk.WindowEdge.WEST)
-                this.extension_dbus.BeginResizeHorizontalSync();
-
             const [coords_ok, x_root, y_root] = event.get_root_coords();
             if (!coords_ok)
                 return;

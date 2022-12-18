@@ -109,14 +109,6 @@ class ExtensionDBusInterface {
         this.dbus = Gio.DBusExportedObject.wrapJSObject(ByteArray.toString(xml), this);
     }
 
-    BeginResizeVertical() {
-        window_manager.unmaximize_for_resize(Meta.MaximizeFlags.VERTICAL);
-    }
-
-    BeginResizeHorizontal() {
-        window_manager.unmaximize_for_resize(Meta.MaximizeFlags.HORIZONTAL);
-    }
-
     Toggle() {
         toggle();
     }

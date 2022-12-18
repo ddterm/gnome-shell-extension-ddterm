@@ -886,14 +886,9 @@ class CommonTests(CommonFixtures):
     ):
         monitor = test_api.layout.resolve_monitor(monitor_config)
 
-        # There are multiple issues with the 2nd monitor
-        if monitor.index == 1:
-            if shell_version <= (38, 0) and window_pos == 'bottom' and window_size2 == 1:
+        if shell_version < (3, 39):
+            if monitor_config.current_index == 1 and window_pos == 'bottom' and window_size2 == 1:
                 pytest.xfail('For unknown reason it fails to resize to full height on 2nd monitor')
-
-            if window_pos == 'right' and window_maximize == 'not-maximized' and window_size == 1 \
-                    and shell_version >= (40, 0):
-                pytest.xfail('Window partially moves to 1st monitor')
 
         with screenshot:
             for _ in range(2) if window_maximize == 'maximize-early' else range(1):
