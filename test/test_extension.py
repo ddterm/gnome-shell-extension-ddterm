@@ -939,15 +939,13 @@ class CommonTests(CommonFixtures):
             finally:
                 test_api.mouse_sim.button(False)
 
-            time_wait = 0
-            while compute_target_rect(
-                test_api.settings.get('window-size'),
-                window_pos,
-                monitor
-            ) != target_frame_rect:
-                assert time_wait < WAIT_TIMEOUT_MS
-                glib_util.sleep(100)
-                time_wait += 100
+            with glib_util.SignalWait(test_api.dbus, 'g-signal') as wait3:
+                while compute_target_rect(
+                    test_api.settings.get('window-size'),
+                    window_pos,
+                    monitor
+                ) != target_frame_rect:
+                    wait3.wait()
 
             with wait_move_resize(
                 test_api.dbus,
