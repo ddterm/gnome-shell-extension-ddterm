@@ -619,6 +619,7 @@ class CommonFixtures:
         bus_address = container.exec(
             'su', '-c', 'echo -n $DBUS_SESSION_BUS_ADDRESS', '-', USER_NAME, stdout=subprocess.PIPE
         ).stdout.decode()
+        assert bus_address
         return dict(user=USER_NAME, env=dict(DBUS_SESSION_BUS_ADDRESS=bus_address))
 
     @pytest.fixture(scope='class')
