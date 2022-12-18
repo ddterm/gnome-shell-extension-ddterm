@@ -24,6 +24,8 @@
       - gdm
       - xorg-x11-server-Xvfb
       - langpacks-fr
+      - PackageKit
+      - PackageKit-glib
     state: latest
 
 - name: Install spice-vdagent

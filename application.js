@@ -28,14 +28,14 @@ translations.init(Me.dir);
 
 const { GLib, GObject, Gio } = imports.gi;
 
-const { importcheck } = imports;
+imports.dependencies.gi_require({
+    'Gtk': '3.0',
+    'Gdk': '3.0',
+    'Pango': '1.0',
+    'Vte': '2.91',
+});
 
-const Gtk = importcheck.checked_import('Gtk', '3.0');
-const Gdk = importcheck.checked_import('Gdk', '3.0');
-
-/* These are used in other modules - check that they are available, and set required versions */
-importcheck.checked_import('Pango', '1.0');
-importcheck.checked_import('Vte', '2.91');
+const { Gdk, Gtk } = imports.gi;
 
 const { timers } = imports;
 
@@ -59,8 +59,6 @@ const Application = GObject.registerClass(
     class Application extends Gtk.Application {
         _init(params) {
             super._init(params);
-
-            GLib.set_application_name('Drop Down Terminal');
 
             this.decorated = true;
 

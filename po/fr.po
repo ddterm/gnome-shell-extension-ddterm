@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-12-18 19:34+0300\n"
+"POT-Creation-Date: 2022-12-19 00:47+0300\n"
 "PO-Revision-Date: 2022-11-04 21:12+0100\n"
 "Last-Translator: FELDMANN arnaud <arnaud.feldmann at gmail dot com>\n"
 "Language-Team: \n"
@@ -19,6 +19,22 @@ msgstr ""
 msgid ""
 "Warning: ddterm extension version has changed. Log out, then login again to "
 "reload the extension."
+msgstr ""
+
+#: dependencies-notification.js:105
+msgid "ddterm needs additional packages to run."
+msgstr ""
+
+#: dependencies-notification.js:111
+msgid "Please install the following packages manually:"
+msgstr ""
+
+#: dependencies-notification.js:120
+msgid "Please install packages that provide the following files manually:"
+msgstr ""
+
+#: dependencies-notification.js:133
+msgid "Missing dependencies"
 msgstr ""
 
 #: glade/appwindow.ui:41

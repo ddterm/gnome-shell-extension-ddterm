@@ -26,6 +26,8 @@
       - gettext
       - language-pack-gnome-fr
       - gnome-shell-extension-prefs
+      - packagekit
+      - gir1.2-packagekitglib-1.0
     state: latest
 
 - name: Install Gtk 4 packages

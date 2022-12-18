@@ -1370,3 +1370,24 @@ class TestSubscriptionLeaks(CommonFixtures):
             wait_action_in_group_enabled(app_actions, 'close-preferences', True)
             app_actions.activate_action('close-preferences', None)
             wait_action_in_group_enabled(app_actions, 'close-preferences', False)
+
+
+class TestDependencies(CommonFixtures):
+    GNOME_SHELL_SESSION_NAME = 'gnome-xsession'
+    N_MONITORS = 1
+
+    @pytest.fixture(scope='session')
+    def common_volumes(self, common_volumes):
+        mount = (SRC_DIR, SRC_DIR, 'ro')
+        if mount in common_volumes:
+            return common_volumes
+
+        return common_volumes + [mount]
+
+    def test_manifest(self, container, user_env):
+        container.exec(
+            str(SRC_DIR / 'dependencies-update.js'),
+            '--dry-run',
+            timeout=60,
+            **user_env
+        )

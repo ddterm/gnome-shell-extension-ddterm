@@ -132,10 +132,11 @@ CLEAN += metadata.json
 
 # package
 
-JS_SOURCES := $(filter-out $(GENERATED), $(wildcard *.js))
+JS_SOURCES_EXCLUDE := dependencies-update.js
+JS_SOURCES := $(filter-out $(GENERATED) $(JS_SOURCES_EXCLUDE), $(wildcard *.js))
 GTK3_HANDCRAFTED_UI := menus.ui
 TRANSLATABLE_SOURCES += $(JS_SOURCES) $(GTK3_HANDCRAFTED_UI)
-EXECUTABLES := com.github.amezin.ddterm
+EXECUTABLES := com.github.amezin.ddterm dependencies-notification.js
 
 PACK_CONTENT := \
 	$(JS_SOURCES) \
@@ -145,9 +146,12 @@ PACK_CONTENT := \
 	LICENSE \
 	$(EXECUTABLES) \
 	com.github.amezin.ddterm.Extension.xml \
+	dependencies.json \
 	$(LOCALES_COMPILED) \
 	$(SCHEMAS) \
 	$(SCHEMAS_COMPILED)
+
+PACK_CONTENT := $(sort $(PACK_CONTENT))
 
 build: $(PACK_CONTENT)
 .PHONY: build
