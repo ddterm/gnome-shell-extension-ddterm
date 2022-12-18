@@ -616,11 +616,12 @@ class CommonFixtures:
 
     @pytest.fixture(scope='class')
     def user_env(self, container):
-        bus_address = container.exec(
-            'su', '-c', 'echo -n $DBUS_SESSION_BUS_ADDRESS', '-', USER_NAME, stdout=subprocess.PIPE
-        ).stdout.decode()
-        assert bus_address
-        return dict(user=USER_NAME, env=dict(DBUS_SESSION_BUS_ADDRESS=bus_address))
+        uid = container.exec('id', '-u', USER_NAME, stdout=subprocess.PIPE).stdout.decode().strip()
+
+        return dict(
+            user=USER_NAME,
+            env=dict(DBUS_SESSION_BUS_ADDRESS=f'unix:path=/run/user/{uid}/bus')
+        )
 
     @pytest.fixture(scope='class')
     def install_ddterm(self, extension_pack, container, user_env):
