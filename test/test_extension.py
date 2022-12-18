@@ -626,12 +626,16 @@ class CommonFixtures:
     @pytest.fixture(scope='class')
     def install_ddterm(self, extension_pack, container, user_env):
         if extension_pack:
-            container.exec('gnome-extensions', 'install', str(extension_pack), **user_env)
+            container.exec(
+                'gnome-extensions', 'install', str(extension_pack),
+                timeout=STARTUP_TIMEOUT_MS, **user_env
+            )
 
     @pytest.fixture(scope='class')
     def gnome_shell_session(self, container, user_env, install_ddterm):
         container.exec(
-            'systemctl', '--user', 'start', f'{self.GNOME_SHELL_SESSION_NAME}@{DISPLAY}', **user_env
+            'systemctl', '--user', 'start', f'{self.GNOME_SHELL_SESSION_NAME}@{DISPLAY}',
+            timeout=STARTUP_TIMEOUT_MS, **user_env
         )
         return self.GNOME_SHELL_SESSION_NAME
 
@@ -639,7 +643,7 @@ class CommonFixtures:
     def bus_connection(self, container, user_env):
         for _ in glib_util.busy_wait(100, STARTUP_TIMEOUT_MS):
             if container.exec(
-                'busctl', '--user', '--watch-bind=true', 'status',
+                'busctl', '--user', '--watch-bind=true', '--timeout=1', 'status',
                 stdout=subprocess.DEVNULL, check=False, **user_env
             ).returncode == 0:
                 break
