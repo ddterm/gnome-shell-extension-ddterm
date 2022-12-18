@@ -14,8 +14,6 @@
       - gtk3-devel
       - gtk4-devel
       - glib2-devel
-      - xdotool
-      - xautomation
       - sudo
       - make
       - patch
@@ -36,6 +34,17 @@
   when: ansible_virtualization_type == 'kvm'
   register: spice_vdagent
 
+- name: Remove nomodeset from kernel command line
+  ansible.builtin.replace:
+    path: /etc/default/grub
+    regexp: " nomodeset "
+    replace: " "
+  register: kernel_cmdline
+
+- name: Update Grub config
+  ansible.builtin.command: grub2-mkconfig -o /boot/grub2/grub.cfg
+  when: kernel_cmdline.changed
+
 - name: Check if reboot is necessary
   ansible.builtin.command: dnf needs-restarting -r
   register: needs_reboot
@@ -44,7 +53,7 @@
 
 - name: Reboot
   ansible.builtin.reboot:
-  when: needs_reboot.changed or spice_vdagent.changed
+  when: needs_reboot.changed or spice_vdagent.changed or kernel_cmdline.changed
 
 - name: Check if systemd services should be restarted
   ansible.builtin.command: dnf needs-restarting -s
