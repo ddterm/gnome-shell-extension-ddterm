@@ -20,10 +20,11 @@
 'use strict';
 
 const System = imports.system;
-const Gettext = imports.gettext;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-Gettext.bindtextdomain('ddterm@amezin.github.com', Me.dir.get_child('locale').get_path());
+
+const { translations } = imports;
+translations.init(Me.dir);
 
 const { GLib, GObject, Gio } = imports.gi;
 

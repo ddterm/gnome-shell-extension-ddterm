@@ -20,10 +20,18 @@
 'use strict';
 
 const Gettext = imports.gettext;
-const Domain = Gettext.domain('ddterm@amezin.github.com');
+
+const DOMAIN = 'ddterm@amezin.github.com';
+const Domain = Gettext.domain(DOMAIN);
 
 function gettext(str) {
     return Domain.gettext(str);
 }
 
 /* exported gettext */
+
+function init(app_data_dir) {
+    Gettext.bindtextdomain(DOMAIN, app_data_dir.get_child('locale').get_path());
+}
+
+/* exported init */
