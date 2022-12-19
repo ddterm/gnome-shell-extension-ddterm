@@ -282,16 +282,21 @@ function enable() {
 
     if (Main.welcomeDialog) {
         trace_subscription.subscribe(
-            signal_with_init(Main.welcomeDialog, 'closed'),
-            ([sender]) => dbus_interface.set_flag(
+            rxutil.property(Main.welcomeDialog, 'state'),
+            state => dbus_interface.set_flag(
                 'WelcomeDialogVisible',
-                sender.state !== ModalDialog.State.CLOSED
+                state !== ModalDialog.State.CLOSED
             )
         );
     }
 
     trace_subscription.subscribe(
-        js_signal(Main.overview, 'hidden').pipe(rxjs.startWith([Main.overview])),
+        rxjs.merge(
+            js_signal(Main.overview, 'hiding'),
+            js_signal(Main.overview, 'hidden'),
+            js_signal(Main.overview, 'showing'),
+            js_signal(Main.overview, 'shown')
+        ).pipe(rxjs.startWith([Main.overview])),
         ([sender]) => dbus_interface.set_flag('OverviewVisible', sender.visible)
     );
 
