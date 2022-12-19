@@ -29,8 +29,10 @@ def container_image(request):
 
 @pytest.fixture(scope='session')
 def extension_pack(request):
-    if request.param:
-        return request.param.resolve()
+    pack = request.config.getoption('--pack')
+
+    if pack:
+        return pack.resolve()
 
 
 def pytest_addoption(parser):
@@ -99,14 +101,6 @@ def pytest_generate_tests(metafunc):
         metafunc.parametrize(
             'container_image',
             metafunc.config.stash[IMAGES_STASH_KEY],
-            indirect=True,
-            scope='session'
-        )
-
-    if 'extension_pack' in metafunc.fixturenames:
-        metafunc.parametrize(
-            'extension_pack',
-            [metafunc.config.getoption('--pack')],
             indirect=True,
             scope='session'
         )
