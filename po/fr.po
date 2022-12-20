@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-12-20 23:24+0300\n"
-"PO-Revision-Date: 2022-11-04 21:12+0100\n"
+"POT-Creation-Date: 2022-12-20 21:33+0100\n"
+"PO-Revision-Date: 2022-12-20 21:44+0100\n"
 "Last-Translator: FELDMANN arnaud <arnaud.feldmann at gmail dot com>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -11,8 +11,9 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 3.2.2\n"
 "X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-Basepath: ..\n"
 "X-Poedit-SearchPath-0: .\n"
 
 #: appwindow.js:437
@@ -20,22 +21,24 @@ msgid ""
 "Warning: ddterm version has changed. Log out, then log in again to load the "
 "updated extension."
 msgstr ""
+"Avertissement : La version de ddterm a changé. Fermez la session, puis "
+"reconnectez-vous pour charger l'extension mise à jour."
 
 #: dependencies-notification.js:135
 msgid "ddterm needs additional packages to run."
-msgstr ""
+msgstr "ddterm requiert des paquets supplémentaires pour son exécution."
 
 #: dependencies-notification.js:140
 msgid "Please install the following packages:"
-msgstr ""
+msgstr "Merci d'installer les paquets suivants :"
 
 #: dependencies-notification.js:148
 msgid "Please install packages that provide the following files:"
-msgstr ""
+msgstr "Merci d'installer les paquets contenant les fichiers suivants :"
 
 #: dependencies-notification.js:161
 msgid "Missing dependencies"
-msgstr ""
+msgstr "Dépendances manquantes"
 
 #: glade/appwindow.ui:41
 msgid "Drop Down Terminal"
