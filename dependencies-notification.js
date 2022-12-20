@@ -137,9 +137,7 @@ const Application = GObject.registerClass(
 
             if (this.packages.length > 0) {
                 message_lines.push(
-                    translations.gettext(
-                        'Please install the following packages manually:'
-                    ),
+                    translations.gettext('Please install the following packages:'),
                     ...this.packages.map(v => `- ${v}`)
                 );
             }
@@ -147,7 +145,7 @@ const Application = GObject.registerClass(
             if (this.files.length > 0) {
                 message_lines.push(
                     translations.gettext(
-                        'Please install packages that provide the following files manually:'
+                        'Please install packages that provide the following files:'
                     ),
                     ...this.files.map(v => `- ${v}`)
                 );
