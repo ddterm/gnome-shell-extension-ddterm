@@ -53,7 +53,8 @@ DEFAULT_IDLE_TIMEOUT_MS = 200
 XTE_IDLE_TIMEOUT_MS = DEFAULT_IDLE_TIMEOUT_MS
 WAIT_TIMEOUT_MS = 2000
 MOVE_RESIZE_WAIT_TIMEOUT_MS = 1000
-STARTUP_TIMEOUT_MS = 10000
+STARTUP_TIMEOUT_SEC = 10
+STARTUP_TIMEOUT_MS = STARTUP_TIMEOUT_SEC * 1000
 
 
 def mkpairs(*args, **kwargs):
@@ -605,8 +606,8 @@ class CommonFixtures:
             c.attach()
             request.cls.current_container = c
 
-            c.exec('busctl', '--system', '--watch-bind=true', 'status', timeout=STARTUP_TIMEOUT_MS)
-            c.exec('systemctl', 'is-system-running', '--wait', timeout=STARTUP_TIMEOUT_MS)
+            c.exec('busctl', '--system', '--watch-bind=true', 'status', timeout=STARTUP_TIMEOUT_SEC)
+            c.exec('systemctl', 'is-system-running', '--wait', timeout=STARTUP_TIMEOUT_SEC)
 
             yield c
 
@@ -628,14 +629,14 @@ class CommonFixtures:
         if extension_pack:
             container.exec(
                 'gnome-extensions', 'install', str(extension_pack),
-                timeout=STARTUP_TIMEOUT_MS, **user_env
+                timeout=STARTUP_TIMEOUT_SEC, **user_env
             )
 
     @pytest.fixture(scope='class')
     def gnome_shell_session(self, container, user_env, install_ddterm):
         container.exec(
             'systemctl', '--user', 'start', f'{self.GNOME_SHELL_SESSION_NAME}@{DISPLAY}',
-            timeout=STARTUP_TIMEOUT_MS, **user_env
+            timeout=STARTUP_TIMEOUT_SEC, **user_env
         )
         return self.GNOME_SHELL_SESSION_NAME
 
