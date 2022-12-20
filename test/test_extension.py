@@ -1229,9 +1229,12 @@ class TestWaylandMixedDPI(DualMonitorTests, SmallScreenMixin):
 
         super().test_show_v(*args, shell_version=shell_version, **kwargs)
 
-    @pytest.mark.skip
-    def test_show_h(self, monitor_config):
-        pass
+    @functools.wraps(SmallScreenMixin.test_show_v)
+    def test_show_h(self, *args, shell_version, **kwargs):
+        if shell_version < (42, 0):
+            pytest.skip('Mixed DPI is not supported before GNOME Shell 42')
+
+        super().test_show_h(*args, shell_version=shell_version, **kwargs)
 
     @pytest.mark.skip
     def test_resize_xte(self, monitor_config):
