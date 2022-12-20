@@ -130,10 +130,10 @@ function gi_require(imports_versions) {
 
     const { packages, unresolved } = resolve_packages(manifest, missing, os_ids);
 
-    show_notification(packages, unresolved);
-
-    if (packages.size !== 0 || unresolved.size !== 0)
+    if (packages.size + unresolved.size !== 0) {
+        show_notification(packages, unresolved);
         System.exit(1);
+    }
 }
 
 /* exported gi_require */
