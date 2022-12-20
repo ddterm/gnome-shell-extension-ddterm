@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-12-20 22:31+0300\n"
+"POT-Creation-Date: 2022-12-20 23:24+0300\n"
 "PO-Revision-Date: 2022-11-04 21:12+0100\n"
 "Last-Translator: FELDMANN arnaud <arnaud.feldmann at gmail dot com>\n"
 "Language-Team: \n"
@@ -17,8 +17,8 @@ msgstr ""
 
 #: appwindow.js:437
 msgid ""
-"Warning: ddterm extension version has changed. Log out, then login again to "
-"reload the extension."
+"Warning: ddterm version has changed. Log out, then log in again to load the "
+"updated extension."
 msgstr ""
 
 #: dependencies-notification.js:135

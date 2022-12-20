@@ -434,8 +434,8 @@ var AppWindow = GObject.registerClass(
 
             if (this.extension_version_mismatch) {
                 const message = translations.gettext(
-                    'Warning: ddterm extension version has changed. ' +
-                    'Log out, then login again to reload the extension.'
+                    'Warning: ddterm version has changed. ' +
+                    'Log out, then log in again to load the updated extension.'
                 );
 
                 page.terminal.feed(`\u001b[1;31m${message}\u001b[0m\n`);
