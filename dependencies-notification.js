@@ -89,16 +89,46 @@ const Application = GObject.registerClass(
 
             this.notification_id = 0;
 
+            this.connect('handle-local-options', this.handle_local_options.bind(this));
             this.connect('startup', this.startup.bind(this));
+            this.connect('activate', this.activate.bind(this));
             this.connect('shutdown', this.shutdown.bind(this));
-            this.connect('command-line', this.command_line.bind(this));
-            this.connect('activate', this.show.bind(this));
         }
 
-        show() {
-            this.close();
+        handle_local_options(_, options) {
+            function get_array_option(key) {
+                const variant_value =
+                    options.lookup_value(key, GLib.VariantType.new('as'));
 
-            if (this.packages.length === 0 && this.files.length === 0)
+                const unpacked = variant_value ? variant_value.deepUnpack() : [];
+
+                return Array.from(new Set(unpacked)).sort();
+            }
+
+            this.packages = get_array_option('package');
+            this.files = get_array_option('file');
+
+            return -1;
+        }
+
+        startup() {
+            this.notifications_proxy = NotificationsProxy(
+                this.get_dbus_connection(),
+                'org.freedesktop.Notifications',
+                '/org/freedesktop/Notifications'
+            );
+
+            this.notifications_proxy.connectSignal(
+                'NotificationClosed',
+                (proxy, owner, args) => {
+                    const [notification_id] = args;
+                    this.notification_closed(notification_id);
+                }
+            );
+        }
+
+        activate() {
+            if (this.notification_id)
                 return;
 
             const message_lines = [
@@ -141,22 +171,6 @@ const Application = GObject.registerClass(
                 this.hold();
         }
 
-        startup() {
-            this.notifications_proxy = NotificationsProxy(
-                this.get_dbus_connection(),
-                'org.freedesktop.Notifications',
-                '/org/freedesktop/Notifications'
-            );
-
-            this.notifications_proxy.connectSignal(
-                'NotificationClosed',
-                (proxy, owner, args) => {
-                    const [notification_id] = args;
-                    this.notification_closed(notification_id);
-                }
-            );
-        }
-
         notification_closed(notification_id) {
             if (this.notification_id !== notification_id)
                 return;
@@ -165,42 +179,21 @@ const Application = GObject.registerClass(
             this.release();
         }
 
-        close() {
+        shutdown() {
             const notification_id = this.notification_id;
 
             if (!notification_id)
                 return;
 
-            this.notification_closed(notification_id);
+            this.notification_closed(notification_id); // changes this.notification_id!
             this.notifications_proxy.CloseNotificationSync(notification_id);
-        }
-
-        shutdown() {
-            this.close();
-        }
-
-        command_line(_, command_line) {
-            const options = command_line.get_options_dict();
-
-            function get_array_option(key) {
-                const variant_value =
-                    options.lookup_value(key, GLib.VariantType.new('as'));
-
-                const unpacked = variant_value ? variant_value.deepUnpack() : [];
-
-                return Array.from(new Set(unpacked)).sort();
-            }
-
-            this.packages = get_array_option('package');
-            this.files = get_array_option('file');
-            this.show();
         }
     }
 );
 
 const app = new Application({
     application_id: 'com.github.amezin.ddterm.packagekit',
-    flags: Gio.ApplicationFlags.HANDLES_COMMAND_LINE,
+    flags: Gio.ApplicationFlags.ALLOW_REPLACEMENT | Gio.ApplicationFlags.REPLACE,
 });
 
 System.exit(app.run([System.programInvocationName].concat(ARGV)));
