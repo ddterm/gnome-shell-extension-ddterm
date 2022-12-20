@@ -600,6 +600,7 @@ class CommonFixtures:
                     for parts in volumes
                 ),
                 container_image,
+                timeout=STARTUP_TIMEOUT_SEC
             )
 
         try:
