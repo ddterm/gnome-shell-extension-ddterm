@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-12-20 23:24+0300\n"
-"PO-Revision-Date: 2022-11-07 10:41+0300\n"
+"PO-Revision-Date: 2022-12-21 13:31+0300\n"
 "Last-Translator: vantu5z <vantu5z@mail.ru>\n"
 "Language-Team: Russian <>\n"
 "Language: ru\n"
@@ -15,29 +15,31 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
-"X-Generator: Gtranslator 40.0\n"
+"X-Generator: Gtranslator 42.0\n"
 
 #: appwindow.js:437
 msgid ""
 "Warning: ddterm version has changed. Log out, then log in again to load the "
 "updated extension."
 msgstr ""
+"Внимание: версия ddterm изменилась. Завершите сессию и снова войдите для "
+"применения обновлений расширения."
 
 #: dependencies-notification.js:135
 msgid "ddterm needs additional packages to run."
-msgstr ""
+msgstr "ddterm требуются дополнительные пакеты для запуска."
 
 #: dependencies-notification.js:140
 msgid "Please install the following packages:"
-msgstr ""
+msgstr "Необходимо установить указанные пакеты:"
 
 #: dependencies-notification.js:148
 msgid "Please install packages that provide the following files:"
-msgstr ""
+msgstr "Необходимо установить пакеты, содержащие следующие файлы:"
 
 #: dependencies-notification.js:161
 msgid "Missing dependencies"
-msgstr ""
+msgstr "Отсутствуют зависимости"
 
 #: glade/appwindow.ui:41
 msgid "Drop Down Terminal"
