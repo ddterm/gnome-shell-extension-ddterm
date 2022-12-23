@@ -81,6 +81,10 @@ Vagrant.configure("2") do |config|
     version.vm.box = "generic/centos9s"
   end
 
+  config.vm.define "opensuse15", autostart: false do |version|
+    version.vm.box = "generic/opensuse15"
+  end
+
   config.vm.synced_folder '.', '/vagrant', type: 'rsync', rsync__exclude: rsync_excludes
 
   config.vm.provision 'prepare', type: 'ansible' do |ansible|
