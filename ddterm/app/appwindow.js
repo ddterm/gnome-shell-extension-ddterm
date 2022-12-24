@@ -441,7 +441,7 @@ var AppWindow = GObject.registerClass(
                     'Log out, then log in again to load the updated extension.'
                 );
 
-                page.terminal.feed(`\u001b[1;31m${message}\u001b[0m\n`);
+                page.terminal.feed(`\u001b[1;31m${message}\u001b[0m\r\n`);
             }
 
             page.spawn(cwd);
