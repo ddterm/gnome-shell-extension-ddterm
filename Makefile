@@ -17,8 +17,8 @@ all:
 .PHONY: all
 
 CLEAN :=
-GENERATED :=
 TRANSLATABLE_SOURCES :=
+PACK_CONTENT :=
 
 # GSettings schemas
 
@@ -29,6 +29,7 @@ $(SCHEMAS_COMPILED): $(SCHEMAS)
 	glib-compile-schemas --strict $(dir $@)
 
 CLEAN += $(SCHEMAS_COMPILED)
+PACK_CONTENT += $(SCHEMAS) $(SCHEMAS_COMPILED)
 
 schemas: $(SCHEMAS_COMPILED)
 .PHONY: schemas
@@ -45,6 +46,7 @@ $(LOCALES_COMPILED): $(LOCALE_COMPILED_PATTERN): $(LOCALE_SOURCE_PATTERN)
 	msgfmt --check --strict -o $@ $<
 
 CLEAN += $(LOCALES_COMPILED)
+PACK_CONTENT += $(LOCALES_COMPILED)
 
 locales: $(LOCALES_COMPILED)
 .PHONY: locales
@@ -55,68 +57,85 @@ HANDLEBARS_DIST := node_modules/handlebars/dist/handlebars.js
 RXJS_DIST := node_modules/rxjs/dist/bundles/rxjs.umd.js
 NPM_INSTALLED := $(HANDLEBARS_DIST) $(RXJS_DIST)
 
-handlebars.js: $(HANDLEBARS_DIST)
-rxjs.js: $(RXJS_DIST)
+ddterm/thirdparty:
+	mkdir -p $@
 
-handlebars.js rxjs.js:
+ddterm/thirdparty/handlebars.js: $(HANDLEBARS_DIST) | ddterm/thirdparty
+ddterm/thirdparty/rxjs.js: $(RXJS_DIST) | ddterm/thirdparty
+
+ddterm/thirdparty/handlebars.js ddterm/thirdparty/rxjs.js:
 	cp $< $@
 
-GENERATED += handlebars.js rxjs.js
-CLEAN += handlebars.js rxjs.js
+CLEAN += ddterm/thirdparty/handlebars.js ddterm/thirdparty/rxjs.js
+PACK_CONTENT += ddterm/thirdparty/handlebars.js ddterm/thirdparty/rxjs.js
+
+# Glade UI
+
+APP_GLADE_UI := $(wildcard ddterm/app/glade/*.ui)
+APP_GLADE_UI_PATTERN := ddterm/app/glade/%.ui
+PREFS_GLADE_UI := $(wildcard ddterm/pref/glade/*.ui)
+PREFS_GLADE_UI_PATTERN := ddterm/pref/glade/%.ui
+TRANSLATABLE_SOURCES += $(APP_GLADE_UI) $(PREFS_GLADE_UI)
+
+ddterm/app/ui ddterm/pref/ui:
+	mkdir -p $@
 
 # Gtk 3 .ui
 
-GLADE_UI := $(wildcard glade/*.ui)
-UI_SRC_PATTERN := glade/%.ui
-TRANSLATABLE_SOURCES += $(GLADE_UI)
+ddterm/pref/ui/gtk3: | ddterm/pref/ui
+	mkdir -p $@
 
-GTK_MULTI_VERSION_UI := $(wildcard glade/prefs-*.ui)
+APP_UI_PATTERN := ddterm/app/ui/%.ui
+APP_UI := $(patsubst $(APP_GLADE_UI_PATTERN),$(APP_UI_PATTERN),$(APP_GLADE_UI))
 
-GTK3_ONLY_UI_SRC := $(filter-out $(GTK_MULTI_VERSION_UI),$(GLADE_UI))
-GTK3_ONLY_UI_DST_PATTERN := %.ui
-GTK3_ONLY_UI_DST := $(patsubst $(UI_SRC_PATTERN),$(GTK3_ONLY_UI_DST_PATTERN),$(GTK3_ONLY_UI_SRC))
-
-$(GTK3_ONLY_UI_DST): $(GTK3_ONLY_UI_DST_PATTERN): $(UI_SRC_PATTERN)
+$(APP_UI): $(APP_UI_PATTERN): $(APP_GLADE_UI_PATTERN) | ddterm/app/ui
 	gtk-builder-tool simplify $< >$@
 
-GTK3_MULTI_VERSION_UI_PATTERN := %-gtk3.ui
-GTK3_MULTI_VERSION_UI := $(patsubst $(UI_SRC_PATTERN),$(GTK3_MULTI_VERSION_UI_PATTERN),$(GTK_MULTI_VERSION_UI))
+PREFS_UI_GTK3_PATTERN := ddterm/pref/ui/gtk3/%.ui
+PREFS_UI_GTK3 := $(patsubst $(PREFS_GLADE_UI_PATTERN),$(PREFS_UI_GTK3_PATTERN),$(PREFS_GLADE_UI))
 
-$(GTK3_MULTI_VERSION_UI): $(GTK3_MULTI_VERSION_UI_PATTERN): $(UI_SRC_PATTERN)
+$(PREFS_UI_GTK3): $(PREFS_UI_GTK3_PATTERN): $(PREFS_GLADE_UI_PATTERN) | ddterm/pref/ui/gtk3
 	gtk-builder-tool simplify $< >$@
 
-GTK3_UI := $(GTK3_ONLY_UI_DST) $(GTK3_MULTI_VERSION_UI)
+GTK3_GENERATED_UI := $(APP_UI) $(PREFS_UI_GTK3)
+GTK3_HANDCRAFTED_UI := ddterm/app/menus.ui
+GTK3_UI := $(GTK3_GENERATED_UI) $(GTK3_HANDCRAFTED_UI)
 
-GENERATED += $(GTK3_UI)
-CLEAN += $(GTK3_UI)
+CLEAN += $(GTK3_GENERATED_UI)
+PACK_CONTENT += $(GTK3_UI)
+TRANSLATABLE_SOURCES += $(GTK3_HANDCRAFTED_UI)
 
 # Gtk 4 .ui
 
-tmp:
-	mkdir -p tmp
+ddterm/pref/ui/gtk4 ddterm/pref/ui/gtk4/3to4-fixup ddterm/pref/ui/gtk4/3to4:
+	mkdir -p $@
 
-GTK_3TO4_FIXUP_UI_PATTERN := tmp/%-3to4-fixup.ui
-GTK_3TO4_FIXUP_UI := $(patsubst $(UI_SRC_PATTERN),$(GTK_3TO4_FIXUP_UI_PATTERN),$(GTK_MULTI_VERSION_UI))
+ddterm/pref/ui/gtk4/3to4-fixup ddterm/pref/ui/gtk4/3to4: | ddterm/pref/ui/gtk4
 
-$(GTK_3TO4_FIXUP_UI): $(GTK_3TO4_FIXUP_UI_PATTERN): $(UI_SRC_PATTERN) glade/3to4-fixup.xsl | tmp
-	xsltproc glade/3to4-fixup.xsl $< >$@
+PREFS_UI_3TO4_FIXUP_PATTERN := ddterm/pref/ui/gtk4/3to4-fixup/%.ui
+PREFS_UI_3TO4_FIXUP := $(patsubst $(PREFS_GLADE_UI_PATTERN),$(PREFS_UI_3TO4_FIXUP_PATTERN),$(PREFS_GLADE_UI))
 
-GTK_3TO4_UI_PATTERN := tmp/%-3to4.ui
-GTK_3TO4_UI := $(patsubst $(GTK_3TO4_FIXUP_UI_PATTERN),$(GTK_3TO4_UI_PATTERN),$(GTK_3TO4_FIXUP_UI))
+$(PREFS_UI_3TO4_FIXUP): $(PREFS_UI_3TO4_FIXUP_PATTERN): $(PREFS_GLADE_UI_PATTERN) ddterm/pref/glade/3to4-fixup.xsl | ddterm/pref/ui/gtk4/3to4-fixup
+	xsltproc ddterm/pref/glade/3to4-fixup.xsl $< >$@
 
-$(GTK_3TO4_UI): $(GTK_3TO4_UI_PATTERN): $(GTK_3TO4_FIXUP_UI_PATTERN) | tmp
+PREFS_UI_3TO4_PATTERN := ddterm/pref/ui/gtk4/3to4/%.ui
+PREFS_UI_3TO4 := $(patsubst $(PREFS_UI_3TO4_FIXUP_PATTERN),$(PREFS_UI_3TO4_PATTERN),$(PREFS_UI_3TO4_FIXUP))
+
+$(PREFS_UI_3TO4): $(PREFS_UI_3TO4_PATTERN): $(PREFS_UI_3TO4_FIXUP_PATTERN) | ddterm/pref/ui/gtk4/3to4
 	gtk4-builder-tool simplify --3to4 $< >$@
 
-GTK4_UI_PATTERN := %-gtk4.ui
-GTK4_UI := $(patsubst $(GTK_3TO4_UI_PATTERN),$(GTK4_UI_PATTERN),$(GTK_3TO4_UI))
+PREFS_UI_GTK4_PATTERN := ddterm/pref/ui/gtk4/%.ui
+PREFS_UI_GTK4 := $(patsubst $(PREFS_UI_3TO4_PATTERN),$(PREFS_UI_GTK4_PATTERN),$(PREFS_UI_3TO4))
 
-$(GTK4_UI): $(GTK4_UI_PATTERN): $(GTK_3TO4_UI_PATTERN)
+$(PREFS_UI_GTK4): $(PREFS_UI_GTK4_PATTERN): $(PREFS_UI_3TO4_PATTERN) | ddterm/pref/ui/gtk4
 	gtk4-builder-tool simplify $< >$@
 
-CLEAN += $(GTK_3TO4_UI) $(GTK_3TO4_FIXUP_UI) $(GTK4_UI)
+CLEAN += $(PREFS_UI_3TO4_FIXUP) $(PREFS_UI_3TO4) $(PREFS_UI_GTK4)
+
+GTK4_UI := $(PREFS_UI_GTK4)
 
 ifeq ($(call is-true,$(WITH_GTK4)),1)
-GENERATED += $(GTK4_UI)
+PACK_CONTENT += $(GTK4_UI)
 endif
 
 # metadata.json
@@ -127,29 +146,33 @@ endif
 metadata.json: metadata.json.in
 	cp $< $@
 
-GENERATED += metadata.json
+PACK_CONTENT += metadata.json
 CLEAN += metadata.json
+
+# JS sources
+
+JS_SOURCE_WILDCARDS := \
+	*.js \
+	ddterm/*.js \
+	ddterm/app/*.js \
+	ddterm/app/fakeext/*.js \
+	ddterm/common/*.js \
+	ddterm/pref/*.js \
+	ddterm/shell/*.js \
+
+JS_SOURCES := $(wildcard $(JS_SOURCE_WILDCARDS))
+EXECUTABLES := com.github.amezin.ddterm ddterm/app/dependencies-notification.js
+
+TRANSLATABLE_SOURCES += $(JS_SOURCES)
+PACK_CONTENT += $(EXECUTABLES) $(filter-out $(EXECUTABLES),$(JS_SOURCES))
 
 # package
 
-JS_SOURCES_EXCLUDE := dependencies-update.js
-JS_SOURCES := $(filter-out $(GENERATED) $(JS_SOURCES_EXCLUDE), $(wildcard *.js))
-GTK3_HANDCRAFTED_UI := menus.ui
-TRANSLATABLE_SOURCES += $(JS_SOURCES) $(GTK3_HANDCRAFTED_UI)
-EXECUTABLES := com.github.amezin.ddterm dependencies-notification.js
-
-PACK_CONTENT := \
-	$(JS_SOURCES) \
-	style.css \
-	$(GENERATED) \
-	$(GTK3_HANDCRAFTED_UI) \
+PACK_CONTENT += \
+	ddterm/app/style.css \
+	ddterm/app/dependencies.json \
+	ddterm/com.github.amezin.ddterm.Extension.xml \
 	LICENSE \
-	$(EXECUTABLES) \
-	com.github.amezin.ddterm.Extension.xml \
-	dependencies.json \
-	$(LOCALES_COMPILED) \
-	$(SCHEMAS) \
-	$(SCHEMAS_COMPILED)
 
 PACK_CONTENT := $(sort $(PACK_CONTENT))
 
@@ -258,7 +281,7 @@ clean:
 
 # .ui validation
 
-GTK3_VALIDATE_UI := $(addprefix gtk-builder-validate/,$(filter-out terminalpage.ui,$(GTK3_UI)) $(GTK3_HANDCRAFTED_UI))
+GTK3_VALIDATE_UI := $(addprefix gtk-builder-validate/,$(filter-out ddterm/app/ui/terminalpage.ui,$(GTK3_UI)))
 
 $(GTK3_VALIDATE_UI): gtk-builder-validate/%: %
 	gtk-builder-tool validate $<
@@ -283,9 +306,9 @@ all: gtk-builder-validate
 
 # Translation helpers
 
-POT_FILE := tmp/$(EXTENSION_UUID).pot
+POT_FILE := po/$(EXTENSION_UUID).pot
 
-$(POT_FILE): $(sort $(TRANSLATABLE_SOURCES)) | tmp
+$(POT_FILE): $(sort $(TRANSLATABLE_SOURCES))
 	xgettext \
 		--from-code=UTF-8 \
 		--default-domain=$(EXTENSION_UUID) \

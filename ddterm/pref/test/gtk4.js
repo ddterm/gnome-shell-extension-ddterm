@@ -1,7 +1,7 @@
 #!/usr/bin/env gjs
 
 /*
-    Copyright © 2020, 2021 Aleksandr Mezin
+    Copyright © 2021 Aleksandr Mezin
 
     This file is part of ddterm GNOME Shell extension.
 
@@ -21,12 +21,14 @@
 
 'use strict';
 
-const { GLib, Gio } = imports.gi;
+imports.gi.versions.Gdk = '4.0';
+imports.gi.versions.Gtk = '4.0';
+
 const System = imports.system;
+const { Gio } = imports.gi;
 
-GLib.set_prgname('com.github.amezin.ddterm');
-
-const ME_DIR = Gio.File.new_for_commandline_arg(System.programInvocationName).get_parent();
+const PREF_TEST_DIR = Gio.File.new_for_commandline_arg(System.programInvocationName).get_parent();
+const ME_DIR = PREF_TEST_DIR.get_parent().get_parent().get_parent();
 
 imports.searchPath.unshift(
     ME_DIR.get_child('ddterm').get_child('app').get_child('fakeext').get_path()
@@ -34,4 +36,5 @@ imports.searchPath.unshift(
 
 imports.misc.init(ME_DIR);
 
-imports.ddterm.app.application.main([System.programInvocationName].concat(ARGV));
+const app = new imports.ddterm.pref.test.common.Application();
+app.run([System.programInvocationName].concat(ARGV));

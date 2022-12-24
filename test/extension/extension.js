@@ -28,8 +28,9 @@ const ModalDialog = imports.ui.modalDialog;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 
 const ddterm = imports.ui.main.extensionManager.lookup('ddterm@amezin.github.com');
-const { extension, rxutil, timers, logger } = ddterm.imports;
-const { rxjs } = ddterm.imports.rxjs;
+const { extension, logger, wm } = ddterm.imports.ddterm.shell;
+const { rxjs } = ddterm.imports.ddterm.thirdparty.rxjs;
+const { rxutil, timers } = ddterm.imports.ddterm.common;
 
 const LOG_DOMAIN = 'ddterm-test';
 const { message, info } = logger.context(LOG_DOMAIN, 'ddterm.ExtensionTest');
@@ -172,7 +173,7 @@ const dbus_interface = new ExtensionTestDBusInterface();
 const trace_subscription = new rxutil.Subscription();
 
 function init() {
-    GLib.setenv('G_MESSAGES_DEBUG', [LOG_DOMAIN, ddterm.imports.wm.LOG_DOMAIN].join(' '), false);
+    GLib.setenv('G_MESSAGES_DEBUG', [LOG_DOMAIN, wm.LOG_DOMAIN].join(' '), false);
     timers.install();
 }
 

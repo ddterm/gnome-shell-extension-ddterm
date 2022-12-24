@@ -1,22 +1,21 @@
 *~
+/node_modules/
+
+# Makefile output
 /*.shell-extension.zip
+/ddterm/app/ui/
+/ddterm/pref/ui/
+/ddterm/thirdparty/
+/metadata.json
 /schemas/gschemas.compiled
+/po/*.pot
 /locale/
 /tmp/
 
-/appwindow.ui
-/prefs-*-gtk3.ui
-/prefs-*-gtk4.ui
-/terminalpage.ui
-
-/handlebars.js
-/rxjs.js
-/node_modules/
-
-/metadata.json
-
+# Vagrant
 /.vagrant/
 
+# Arch packaging
 /src/
 /pkg/
 /gnome-shell-extension-ddterm-git/

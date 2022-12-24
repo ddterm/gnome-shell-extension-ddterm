@@ -19,103 +19,18 @@
 
 'use strict';
 
-/* exported init buildPrefsWidget PrefsWidget */
+/* exported init buildPrefsWidget */
 
-const { GObject, Gtk } = imports.gi;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-const { settings } = Me.imports;
-
-var PrefsWidget = GObject.registerClass(
-    {
-        Properties: {
-            'settings': GObject.ParamSpec.object(
-                'settings',
-                '',
-                '',
-                GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-                settings.Settings
-            ),
-        },
-    },
-    class PrefsWidget extends Gtk.Box {
-        _init(params) {
-            super._init(params);
-
-            this.hexpand = true;
-            this.vexpand = true;
-            this.visible = true;
-
-            this.stack = new Gtk.Stack({
-                visible: true,
-                vhomogeneous: false,
-                'transition-type': Gtk.StackTransitionType.SLIDE_UP_DOWN,
-            });
-
-            const stack_sidebar = new Gtk.StackSidebar({
-                visible: true,
-                stack: this.stack,
-            });
-
-            if (this.append)
-                this.append(stack_sidebar);
-            else
-                this.pack_start(stack_sidebar, false, true, 0);
-
-            const scrolled_window = new Gtk.ScrolledWindow({
-                visible: true,
-                'hscrollbar-policy': Gtk.PolicyType.NEVER,
-                'propagate-natural-width': true,
-                'propagate-natural-height': true,
-            });
-
-            const viewport = new Gtk.Viewport({
-                visible: true,
-            });
-
-            if (viewport.set_child)
-                viewport.set_child(this.stack);
-            else
-                viewport.add(this.stack);
-
-            if (scrolled_window.set_child)
-                scrolled_window.set_child(viewport);
-            else
-                scrolled_window.add(viewport);
-
-            if (this.append)
-                this.append(scrolled_window);
-            else
-                this.pack_end(scrolled_window, true, true, 0);
-
-            const pages = {
-                'position-size': Me.imports.prefspositionsize.Widget,
-                'behavior': Me.imports.prefsbehavior.Widget,
-                'animation': Me.imports.prefsanimation.Widget,
-                'tabs': Me.imports.prefstabs.Widget,
-                'text': Me.imports.prefstext.Widget,
-                'colors': Me.imports.prefscolors.Widget,
-                'command': Me.imports.prefscommand.Widget,
-                'scrolling': Me.imports.prefsscrolling.Widget,
-                'compatibility': Me.imports.prefscompatibility.Widget,
-                'shortcuts': Me.imports.prefsshortcuts.Widget,
-                'panel-icon': Me.imports.prefspanelicon.Widget,
-            };
-
-            for (const [name, type] of Object.entries(pages)) {
-                const widget = new type({ settings: this.settings });
-                this.stack.add_titled(widget, name, widget.title);
-            }
-        }
-    }
-);
 
 function init() {
     imports.misc.extensionUtils.initTranslations();
+    Me.imports.ddterm.common.timers.install();
 }
 
 function buildPrefsWidget() {
-    const widget = new PrefsWidget({
-        settings: new settings.Settings({
+    const widget = new Me.imports.ddterm.pref.prefswidget.PrefsWidget({
+        settings: new Me.imports.ddterm.common.settings.Settings({
             gsettings: imports.misc.extensionUtils.getSettings(),
         }),
     });

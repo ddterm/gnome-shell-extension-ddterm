@@ -1388,7 +1388,7 @@ class TestDependencies(CommonFixtures):
 
     def test_manifest(self, container, user_env):
         container.exec(
-            str(SRC_DIR / 'dependencies-update.js'),
+            str(SRC_DIR / 'ddterm' / 'app' / 'tools' / 'dependencies-update.js'),
             '--dry-run',
             timeout=60,
             **user_env

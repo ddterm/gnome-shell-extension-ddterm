@@ -1,7 +1,5 @@
-#!/usr/bin/env gjs
-
 /*
-    Copyright © 2020, 2021 Aleksandr Mezin
+    Copyright © 2022 Aleksandr Mezin
 
     This file is part of ddterm GNOME Shell extension.
 
@@ -21,17 +19,19 @@
 
 'use strict';
 
-const { GLib, Gio } = imports.gi;
-const System = imports.system;
+const Gettext = imports.gettext;
 
-GLib.set_prgname('com.github.amezin.ddterm');
+const DOMAIN = 'ddterm@amezin.github.com';
+const Domain = Gettext.domain(DOMAIN);
 
-const ME_DIR = Gio.File.new_for_commandline_arg(System.programInvocationName).get_parent();
+function gettext(str) {
+    return Domain.gettext(str);
+}
 
-imports.searchPath.unshift(
-    ME_DIR.get_child('ddterm').get_child('app').get_child('fakeext').get_path()
-);
+/* exported gettext */
 
-imports.misc.init(ME_DIR);
+function init(me_dir) {
+    Gettext.bindtextdomain(DOMAIN, me_dir.get_child('locale').get_path());
+}
 
-imports.ddterm.app.application.main([System.programInvocationName].concat(ARGV));
+/* exported init */
