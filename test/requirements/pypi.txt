@@ -27,10 +27,8 @@ pluggy==1.0.0
 psutil==5.9.4
     # via pytest-xdist
 py==1.11.0
-    # via
-    #   pytest
-    #   pytest-html
-pytest==7.1.3
+    # via pytest-html
+pytest==7.2.0
     # via
     #   -r pypi.in
     #   pytest-github-actions-annotate-failures
@@ -58,7 +56,5 @@ six==1.16.0
     # via
     #   allpairspy
     #   python-xlib
-tomli==2.0.1
-    # via pytest
 wand==0.6.10
     # via -r pypi.in
