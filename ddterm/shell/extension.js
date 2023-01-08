@@ -140,6 +140,28 @@ class ExtensionDBusInterface {
     }
 }
 
+class DesktopEntry {
+    static file = Gio.File.new_for_path(
+        GLib.build_filenamev([GLib.get_user_data_dir(), 'applications', `${APP_ID}.desktop`])
+    )
+
+    static install(){
+        try {
+            Gio.File.new_for_path(
+                GLib.build_filenamev([GLib.get_user_data_dir(), 'gnome-shell', 'extensions', Me.metadata.uuid, 'ddterm', `${APP_ID}.desktop`])
+            ).copy(DesktopEntry.file, Gio.FileCopyFlags.NONE, null, null);
+        } catch (ex) {
+            if (ex.message.includes("File exists")){
+                return;
+            }
+        }
+    }
+
+    static uninstall(){
+        DesktopEntry.file.delete(null);
+    }
+}
+
 function init() {
     imports.misc.extensionUtils.initTranslations();
 }
@@ -216,6 +238,8 @@ function enable() {
     Meta.get_window_actors(global.display).forEach(actor => {
         watch_window(actor.meta_window);
     });
+
+    DesktopEntry.install();
 }
 
 function disable() {
@@ -264,6 +288,8 @@ function disable() {
     }
 
     settings = null;
+
+    DesktopEntry.uninstall();
 }
 
 function spawn_app() {
