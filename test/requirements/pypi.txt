@@ -16,9 +16,9 @@ execnet==1.9.0
     # via pytest-xdist
 filelock==3.9.0
     # via -r pypi.in
-iniconfig==1.1.1
+iniconfig==2.0.0
     # via pytest
-packaging==22.0
+packaging==23.0
     # via
     #   pytest
     #   pytest-rerunfailures
@@ -56,5 +56,5 @@ six==1.16.0
     # via
     #   allpairspy
     #   python-xlib
-wand==0.6.10
+wand==0.6.11
     # via -r pypi.in
