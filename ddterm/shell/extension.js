@@ -153,8 +153,12 @@ class DesktopEntry {
         ));
     }
 
+    _is_installed() {
+        return GLib.file_test(this.file.get_path(), GLib.FileTest.EXISTS);
+    }
+
     install() {
-        try {
+        if (!this._is_installed()) {
             Gio.File.new_for_path(GLib.build_filenamev(
                 [
                     GLib.get_user_data_dir(),
@@ -165,14 +169,13 @@ class DesktopEntry {
                     `${APP_ID}.desktop`,
                 ]
             )).copy(this.file, Gio.FileCopyFlags.NONE, null, null);
-        } catch (ex) {
-            if (!ex.message.includes('File exists'))
-                throw ex;
         }
     }
 
     uninstall() {
-        this.file.delete(null);
+        if (this._is_installed()) {
+            this.file.delete(null);
+        }
     }
 }
 
