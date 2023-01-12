@@ -514,7 +514,7 @@ class CommonFixtures:
         except Exception:
             LOGGER.exception("Can't send log message through D-Bus")
 
-        cls.current_container.exec('systemd-cat', input=msg.encode())
+        cls.current_container.exec('systemd-cat', input=msg.encode(), interactive=True)
 
     @classmethod
     def journal_sync(cls, msg):

@@ -155,14 +155,20 @@ class Container:
 
         return cls(podman, container_id)
 
-    def exec(self, *args, user=None, bg=False, env=None, **kwargs):
-        user_args = [] if user is None else ['--user', user]
+    def exec(self, *args, user=None, bg=False, interactive=False, env=None, **kwargs):
+        exec_args = []
+
+        if user is not None:
+            exec_args.extend(('--user', user))
 
         if env:
-            user_args.extend(f'--env={k}={v}' for k, v in env.items())
+            exec_args.extend(f'--env={k}={v}' for k, v in env.items())
+
+        if interactive:
+            exec_args.append('--interactive')
 
         return (self.podman.bg if bg else self.podman)(
-            'exec', *user_args, self.container_id, *args, **kwargs
+            'exec', *exec_args, self.container_id, *args, **kwargs
         )
 
     def inspect(self, format=None):
