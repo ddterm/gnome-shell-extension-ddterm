@@ -7,5 +7,4 @@ Icon=terminal
 Exec=gdbus call --session --dest org.gnome.Shell --object-path /org/gnome/Shell/Extensions/ddterm --method com.github.amezin.ddterm.Extension.Activate
 Actions=
 Categories=Utility;
-DBusActivatable=true
 StartupWMClass=Com.github.amezin.ddterm
