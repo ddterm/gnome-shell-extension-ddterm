@@ -144,24 +144,34 @@ class ExtensionDBusInterface {
 
 class DesktopEntry {
     constructor() {
-        this.file =
-            Gio.File.new_for_path(
-                GLib.build_filenamev([GLib.get_user_data_dir(), 'applications', `${APP_ID}.desktop`])
-            );
+        this.file = Gio.File.new_for_path(GLib.build_filenamev(
+            [
+                GLib.get_user_data_dir(),
+                'applications',
+                `${APP_ID}.desktop`,
+            ]
+        ));
     }
 
-    install(){
+    install() {
         try {
-            Gio.File.new_for_path(
-                GLib.build_filenamev([GLib.get_user_data_dir(), 'gnome-shell', 'extensions', Me.metadata.uuid, 'ddterm', `${APP_ID}.desktop`])
-            ).copy(this.file, Gio.FileCopyFlags.NONE, null, null);
+            Gio.File.new_for_path(GLib.build_filenamev(
+                [
+                    GLib.get_user_data_dir(),
+                    'gnome-shell',
+                    'extensions',
+                    Me.metadata.uuid,
+                    'ddterm',
+                    `${APP_ID}.desktop`,
+                ]
+            )).copy(this.file, Gio.FileCopyFlags.NONE, null, null);
         } catch (ex) {
             if (!ex.message.includes('File exists'))
                 throw ex;
         }
     }
 
-    uninstall(){
+    uninstall() {
         this.file.delete(null);
     }
 }
