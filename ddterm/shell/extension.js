@@ -165,7 +165,7 @@ class DesktopEntry {
 
     _ensure_install_directory_exists() {
         var install_directory = this.target_file.get_parent();
-        if (GLib.file_test(install_directory.get_path(), GLib.FileTest.IS_DIR))
+        if (!GLib.file_test(install_directory.get_path(), GLib.FileTest.IS_DIR))
             install_directory.make_directory_with_parents(null);
     }
 
