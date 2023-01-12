@@ -144,44 +144,45 @@ class ExtensionDBusInterface {
 
 class DesktopEntry {
     constructor() {
-        this.file = Gio.File.new_for_path(GLib.build_filenamev(
+        this.target_file = Gio.File.new_for_path(GLib.build_filenamev(
             [
                 GLib.get_user_data_dir(),
                 'applications',
                 `${APP_ID}.desktop`,
             ]
         ));
+        this.source_file = Gio.File.new_for_path(GLib.build_filenamev(
+            [
+                GLib.get_user_data_dir(),
+                'gnome-shell',
+                'extensions',
+                Me.metadata.uuid,
+                'ddterm',
+                `${APP_ID}.desktop`,
+            ]
+        ));
     }
 
     _ensure_install_directory_exists() {
-        install_directory = this.file.get_parent();
+        install_directory = this.target_file.get_parent();
         if (GLib.file_test(install_directory.get_path(), GLib.FileTest.IS_DIR))
             install_directory.make_directory_with_parents(null);
     }
 
     _is_installed() {
-        return GLib.file_test(this.file.get_path(), GLib.FileTest.EXISTS);
+        return GLib.file_test(this.target_file.get_path(), GLib.FileTest.EXISTS);
     }
 
     install() {
         if (!this._is_installed()) {
             this._ensure_install_directory_exists();
-            Gio.File.new_for_path(GLib.build_filenamev(
-                [
-                    GLib.get_user_data_dir(),
-                    'gnome-shell',
-                    'extensions',
-                    Me.metadata.uuid,
-                    'ddterm',
-                    `${APP_ID}.desktop`,
-                ]
-            )).copy(this.file, Gio.FileCopyFlags.NONE, null, null);
+            source_file.copy(this.target_file, Gio.FileCopyFlags.NONE, null, null);
         }
     }
 
     uninstall() {
         if (this._is_installed()) {
-            this.file.delete(null);
+            this.target_file.delete(null);
         }
     }
 }
