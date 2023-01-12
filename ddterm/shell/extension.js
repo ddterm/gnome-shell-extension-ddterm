@@ -43,6 +43,8 @@ let connections = null;
 let window_connections = null;
 let dbus_interface = null;
 
+let desktop_entry = null;
+
 const APP_ID = 'com.github.amezin.ddterm';
 const APP_WMCLASS = 'Com.github.amezin.ddterm';
 const APP_DBUS_PATH = '/com/github/amezin/ddterm';
@@ -141,15 +143,18 @@ class ExtensionDBusInterface {
 }
 
 class DesktopEntry {
-    static file = Gio.File.new_for_path(
-        GLib.build_filenamev([GLib.get_user_data_dir(), 'applications', `${APP_ID}.desktop`])
-    )
+    constructor() {
+        this.file =
+            Gio.File.new_for_path(
+                GLib.build_filenamev([GLib.get_user_data_dir(), 'applications', `${APP_ID}.desktop`])
+            );
+    }
 
-    static install(){
+    install(){
         try {
             Gio.File.new_for_path(
                 GLib.build_filenamev([GLib.get_user_data_dir(), 'gnome-shell', 'extensions', Me.metadata.uuid, 'ddterm', `${APP_ID}.desktop`])
-            ).copy(DesktopEntry.file, Gio.FileCopyFlags.NONE, null, null);
+            ).copy(this.file, Gio.FileCopyFlags.NONE, null, null);
         } catch (ex) {
             if (ex.message.includes("File exists")){
                 return;
@@ -157,8 +162,8 @@ class DesktopEntry {
         }
     }
 
-    static uninstall(){
-        DesktopEntry.file.delete(null);
+    uninstall(){
+        this.file.delete(null);
     }
 }
 
@@ -239,7 +244,8 @@ function enable() {
         watch_window(actor.meta_window);
     });
 
-    DesktopEntry.install();
+    desktop_entry = new DesktopEntry();
+    desktop_entry.install();
 }
 
 function disable() {
@@ -287,9 +293,12 @@ function disable() {
         panel_icon = null;
     }
 
-    settings = null;
+    if (desktop_entry) {
+        desktop_entry.uninstall();
+        desktop_entry = null;
+    }
 
-    DesktopEntry.uninstall();
+    settings = null;
 }
 
 function spawn_app() {
