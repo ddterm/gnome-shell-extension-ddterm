@@ -156,9 +156,8 @@ class DesktopEntry {
                 GLib.build_filenamev([GLib.get_user_data_dir(), 'gnome-shell', 'extensions', Me.metadata.uuid, 'ddterm', `${APP_ID}.desktop`])
             ).copy(this.file, Gio.FileCopyFlags.NONE, null, null);
         } catch (ex) {
-            if (ex.message.includes("File exists")){
-                return;
-            }
+            if (!ex.message.includes('File exists'))
+                throw ex;
         }
     }
 
