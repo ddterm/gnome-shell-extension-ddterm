@@ -164,7 +164,7 @@ class DesktopEntry {
     }
 
     _ensure_install_directory_exists() {
-        install_directory = this.target_file.get_parent();
+        var install_directory = this.target_file.get_parent();
         if (GLib.file_test(install_directory.get_path(), GLib.FileTest.IS_DIR))
             install_directory.make_directory_with_parents(null);
     }
@@ -176,14 +176,13 @@ class DesktopEntry {
     install() {
         if (!this._is_installed()) {
             this._ensure_install_directory_exists();
-            source_file.copy(this.target_file, Gio.FileCopyFlags.NONE, null, null);
+            this.source_file.copy(this.target_file, Gio.FileCopyFlags.NONE, null, null);
         }
     }
 
     uninstall() {
-        if (this._is_installed()) {
+        if (this._is_installed())
             this.target_file.delete(null);
-        }
     }
 }
 
