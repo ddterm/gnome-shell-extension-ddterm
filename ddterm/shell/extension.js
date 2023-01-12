@@ -153,12 +153,19 @@ class DesktopEntry {
         ));
     }
 
+    _ensure_install_directory_exists() {
+        install_directory = this.file.get_parent();
+        if (GLib.file_test(install_directory.get_path(), GLib.FileTest.IS_DIR))
+            install_directory.make_directory_with_parents(null);
+    }
+
     _is_installed() {
         return GLib.file_test(this.file.get_path(), GLib.FileTest.EXISTS);
     }
 
     install() {
         if (!this._is_installed()) {
+            this._ensure_install_directory_exists();
             Gio.File.new_for_path(GLib.build_filenamev(
                 [
                     GLib.get_user_data_dir(),
