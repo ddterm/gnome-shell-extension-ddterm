@@ -162,7 +162,7 @@ class DesktopEntry {
     uninstall() {
         try {
             this.target_file.delete(null);
-        } catch(e) {
+        } catch (e) {
             if (!e.matches(Gio.IOErrorEnum, Gio.IOErrorEnum.NOT_FOUND))
                 throw e;
         }
