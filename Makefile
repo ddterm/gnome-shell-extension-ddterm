@@ -172,6 +172,7 @@ PACK_CONTENT += \
 	ddterm/app/style.css \
 	ddterm/app/dependencies.json \
 	ddterm/com.github.amezin.ddterm.Extension.xml \
+	ddterm/com.github.amezin.ddterm.desktop \
 	LICENSE \
 
 PACK_CONTENT := $(sort $(PACK_CONTENT))

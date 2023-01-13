@@ -43,6 +43,8 @@ let connections = null;
 let window_connections = null;
 let dbus_interface = null;
 
+let desktop_entry = null;
+
 const APP_ID = 'com.github.amezin.ddterm';
 const APP_WMCLASS = 'Com.github.amezin.ddterm';
 const APP_DBUS_PATH = '/com/github/amezin/ddterm';
@@ -140,6 +142,32 @@ class ExtensionDBusInterface {
     }
 }
 
+class DesktopEntry {
+    constructor() {
+        this.source_file = Me.dir.get_child('ddterm').get_child('com.github.amezin.ddterm.desktop');
+        this.target_file = Gio.File.new_for_path(GLib.build_filenamev(
+            [
+                GLib.get_user_data_dir(),
+                'applications',
+                `${APP_ID}.desktop`,
+            ]
+        ));
+    }
+
+    install() {
+        GLib.mkdir_with_parents(this.target_file.get_parent().get_path(), 0o700);
+        this.source_file.copy(this.target_file, Gio.FileCopyFlags.OVERWRITE, null, null);
+    }
+
+    uninstall() {
+        try {
+            this.target_file.delete(null);
+        } catch (e) {
+            logError(e);
+        }
+    }
+}
+
 function init() {
     imports.misc.extensionUtils.initTranslations();
 }
@@ -216,6 +244,9 @@ function enable() {
     Meta.get_window_actors(global.display).forEach(actor => {
         watch_window(actor.meta_window);
     });
+
+    desktop_entry = new DesktopEntry();
+    desktop_entry.install();
 }
 
 function disable() {
@@ -261,6 +292,11 @@ function disable() {
         Gio.Settings.unbind(panel_icon, 'type');
         panel_icon.remove();
         panel_icon = null;
+    }
+
+    if (desktop_entry) {
+        desktop_entry.uninstall();
+        desktop_entry = null;
     }
 
     settings = null;
