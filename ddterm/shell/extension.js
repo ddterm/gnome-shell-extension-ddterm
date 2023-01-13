@@ -163,8 +163,7 @@ class DesktopEntry {
         try {
             this.target_file.delete(null);
         } catch (e) {
-            if (!e.matches(Gio.IOErrorEnum, Gio.IOErrorEnum.NOT_FOUND))
-                throw e;
+            logError(e);
         }
     }
 }
