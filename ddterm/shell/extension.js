@@ -155,10 +155,8 @@ class DesktopEntry {
     }
 
     install() {
-        if (!this._is_installed()) {
-            this._ensure_install_directory_exists();
-            this.source_file.copy(this.target_file, Gio.FileCopyFlags.NONE, null, null);
-        }
+        GLib.mkdir_with_parents(this.target_file.get_parent().get_path(), 0o644);
+        this.source_file.copy(this.target_file, Gio.FileCopyFlags.OVERWRITE, null, null);
     }
 
     uninstall() {
