@@ -155,7 +155,7 @@ class DesktopEntry {
     }
 
     install() {
-        GLib.mkdir_with_parents(this.target_file.get_parent().get_path(), 0o644);
+        GLib.mkdir_with_parents(this.target_file.get_parent().get_path(), 0o700);
         this.source_file.copy(this.target_file, Gio.FileCopyFlags.OVERWRITE, null, null);
     }
 
