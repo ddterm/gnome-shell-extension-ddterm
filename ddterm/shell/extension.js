@@ -144,6 +144,7 @@ class ExtensionDBusInterface {
 
 class DesktopEntry {
     constructor() {
+        this.source_file = Me.dir.get_child('ddterm').get_child('com.github.amezin.ddterm.desktop');
         this.target_file = Gio.File.new_for_path(GLib.build_filenamev(
             [
                 GLib.get_user_data_dir(),
@@ -151,26 +152,6 @@ class DesktopEntry {
                 `${APP_ID}.desktop`,
             ]
         ));
-        this.source_file = Gio.File.new_for_path(GLib.build_filenamev(
-            [
-                GLib.get_user_data_dir(),
-                'gnome-shell',
-                'extensions',
-                Me.metadata.uuid,
-                'ddterm',
-                `${APP_ID}.desktop`,
-            ]
-        ));
-    }
-
-    _ensure_install_directory_exists() {
-        var install_directory = this.target_file.get_parent();
-        if (!GLib.file_test(install_directory.get_path(), GLib.FileTest.IS_DIR))
-            install_directory.make_directory_with_parents(null);
-    }
-
-    _is_installed() {
-        return GLib.file_test(this.target_file.get_path(), GLib.FileTest.EXISTS);
     }
 
     install() {
