@@ -18,6 +18,10 @@
 
     $ tox -e podman-compose -- pull
 
+### Optional: remove outdated container images
+
+    $ tox -e remove-old-images
+
 ### Run tests
 
     $ tox [--sitepackages] -- <options...>
