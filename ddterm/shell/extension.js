@@ -295,7 +295,11 @@ function disable() {
     }
 
     if (desktop_entry) {
-        desktop_entry.uninstall();
+        // Don't uninstall the desktop file because of screen locking
+        // GNOME Shell picks up newly installed desktop files with a noticeable delay
+        if (!Main.sessionMode.isLocked)
+            desktop_entry.uninstall();
+
         desktop_entry = null;
     }
 
