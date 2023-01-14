@@ -184,14 +184,14 @@ function switch_on(condition, choices) {
 /* exported switch_on */
 
 function enable_if(condition, disabled_override = rxjs.EMPTY) {
-    return observable => switch_on(condition, {
+    return observable => switch_on(condition.pipe(rxjs.map(Boolean)), {
         true: observable,
         false: disabled_override,
     });
 }
 
 function disable_if(condition, disabled_override = rxjs.EMPTY) {
-    return observable => switch_on(condition, {
+    return observable => switch_on(condition.pipe(rxjs.map(Boolean)), {
         false: observable,
         true: disabled_override,
     });
