@@ -22,21 +22,35 @@ jobs:
 
     - run: git config --global --replace-all safe.directory "$GITHUB_WORKSPACE"
 
+    - name: Setup Testspace
+      id: setup_testspace
+      uses: testspace-com/setup-testspace@v1
+      with:
+        domain: ${{ github.repository_owner }}
+      continue-on-error: true
+
     - name: Setup NodeJS error matcher
       uses: actions/setup-node@v3
 
     - name: Install JS dependencies
+      id: npm
       run: npm ci
+      if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
     - name: Lint JS code
       run: make lint
+      if: ${{ always() && steps.npm.conclusion == 'success' }}
+
+    - name: Lint JS code with checkstyle XML report
+      run: make "ESLINT_OPTS=--format checkstyle --output-file eslint.xml" lint
+      if: ${{ always() && steps.npm.conclusion == 'success' }}
 
     - name: Enable flake8 error matcher
       run: echo "::add-matcher::.github/problem-matchers/flake8.json"
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
     - name: Lint Python test code
-      run: tox --sitepackages -e lint | sed -e 's:^\./:test/:'
+      run: tox --sitepackages -e lint | sed -e 's:^\./:test/:' | tee ../flake8.log
       shell: bash
       env:
         PY_COLORS: 0
@@ -48,19 +62,23 @@ jobs:
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
     - name: Compile GSettings schemas
-      run: make schemas
+      run: make schemas | tee schemas.log
+      shell: bash
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
     - name: Compile translations
-      run: make locales
+      run: make locales | tee locales.log
+      shell: bash
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
     - name: Validate Gtk .ui files
-      run: xvfb-run make gtk-builder-validate
+      run: xvfb-run make gtk-builder-validate | tee gtk-builder.log
+      shell: bash
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
     - name: Ensure translations are up to date
-      run: make msgcmp
+      run: make msgcmp | tee msgcmp.log
+      shell: bash
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
     - name: Ensure Python requirements .txt files are in sync with .in files
@@ -80,6 +98,10 @@ jobs:
           exit 1
         fi
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
+
+    - name: Upload reports to Testspace
+      run: testspace --verbose eslint.xml "*.log{lint}"
+      if: ${{ always() && steps.setup_testspace.outcome == 'success' }}
 
   pack:
     runs-on: ubuntu-latest

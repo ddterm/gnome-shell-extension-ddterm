@@ -345,13 +345,14 @@ msgmerge: $(MSGMERGE_GOALS)
 # ESLint
 
 ESLINT_CMD := node_modules/.bin/eslint
+ESLINT_OPTS :=
 NPM_INSTALLED += $(ESLINT_CMD)
 
 lint/eslintrc-gjs.yml:
 	curl -o $@ 'https://gitlab.gnome.org/GNOME/gjs/-/raw/8c50f934bc81f224c6d8f521116ddaa5583eef66/.eslintrc.yml'
 
 lint: $(ESLINT_CMD) lint/eslintrc-gjs.yml
-	$< .
+	$< $(ESLINT_OPTS) .
 
 .PHONY: lint
 all: lint
