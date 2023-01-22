@@ -16,48 +16,61 @@ jobs:
       PIP_DISABLE_PIP_VERSION_CHECK: 1
 
     steps:
-    - id: checkout
+    - name: Checkout
+      id: checkout
       uses: actions/checkout@v3
 
     - run: git config --global --replace-all safe.directory "$GITHUB_WORKSPACE"
 
-    - uses: actions/setup-node@v3
+    - name: Setup NodeJS error matcher
+      uses: actions/setup-node@v3
 
-    - run: npm ci
+    - name: Install JS dependencies
+      run: npm ci
 
-    - run: make lint
+    - name: Lint JS code
+      run: make lint
 
-    - run: echo "::add-matcher::.github/problem-matchers/flake8.json"
+    - name: Enable flake8 error matcher
+      run: echo "::add-matcher::.github/problem-matchers/flake8.json"
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
-    - run: set -o pipefail; tox --sitepackages -e lint | sed -e 's:^\./:test/:'
+    - name: Lint Python test code
+      run: set -o pipefail; tox --sitepackages -e lint | sed -e 's:^\./:test/:'
       env:
         PY_COLORS: 0
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
       working-directory: test
 
-    - run: echo "::add-matcher::.github/problem-matchers/generic.json"
+    - name: Enable generic error matcher
+      run: echo "::add-matcher::.github/problem-matchers/generic.json"
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
-    - run: make schemas
+    - name: Compile GSettings schemas
+      run: make schemas
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
-    - run: make locales
+    - name: Compile translations
+      run: make locales
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
-    - run: xvfb-run make gtk-builder-validate
+    - name: Validate Gtk .ui files
+      run: xvfb-run make gtk-builder-validate
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
-    - run: make msgcmp
+    - name: Ensure translations are up to date
+      run: make msgcmp
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
-    - run: |
+    - name: Ensure Python requirements .txt files are in sync with .in files
+      run: |
         tox --sitepackages -e pip-compile
         git diff --exit-code --color=always
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
       working-directory: test
 
-    - run: |
+    - name: Ensure Python version in renovate.json matches CI Docker image
+      run: |
         RENOVATE_PYTHON_VER="Python $(jq -r .constraints.python renovate.json)"
         IMAGE_PYTHON_VER="$(python3 --version)"
         if [ "$RENOVATE_PYTHON_VER" != "$IMAGE_PYTHON_VER" ]; then
@@ -73,12 +86,23 @@ jobs:
       image: ghcr.io/ddterm/ci-docker-image:2023.01.11.0
 
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
-    - run: echo "::add-matcher::.github/problem-matchers/generic.json"
-    - run: npm ci --omit dev
-    - run: xvfb-run make pack
-    - id: upload
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Setup NodeJS error matcher
+      uses: actions/setup-node@v3
+
+    - name: Enable generic error matcher
+      run: echo "::add-matcher::.github/problem-matchers/generic.json"
+
+    - name: Install JS dependencies
+      run: npm ci --omit dev
+
+    - name: Build extension package
+      run: xvfb-run make pack
+
+    - name: Upload extension package as artifact
+      id: upload
       uses: actions/upload-artifact@v3
       with:
         name: pack
@@ -90,10 +114,15 @@ jobs:
     outputs:
       images: ${{ steps.generate.outputs.images }}
     steps:
-      - uses: actions/checkout@v3
-      - run: pip3 install --use-pep517 -r requirements/podman-compose.txt
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install podman-compose
+        run: pip3 install --use-pep517 -r requirements/podman-compose.txt
         working-directory: test
-      - id: generate
+
+      - name: Get GNOME Shell container images list from compose.yaml
+        id: generate
         run: echo "images=$(podman-compose config --services | jq -Rcn '[inputs]')" >>$GITHUB_OUTPUT
         working-directory: test
 
@@ -119,27 +148,47 @@ jobs:
       PIP_DISABLE_PIP_VERSION_CHECK: 1
 
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
-    - run: echo "::add-matcher::.github/problem-matchers/generic.json"
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Setup NodeJS error matcher
+      uses: actions/setup-node@v3
+
+    - name: Enable generic error matcher
+      run: echo "::add-matcher::.github/problem-matchers/generic.json"
+
     - run: git config --global --replace-all safe.directory "$GITHUB_WORKSPACE"
-    - id: setup_testspace
+
+    - name: Setup Testspace
+      id: setup_testspace
       uses: testspace-com/setup-testspace@v1
       with:
         domain: ${{ github.repository_owner }}
       continue-on-error: true
-    - uses: actions/download-artifact@v3
+
+    - name: Download extension package
+      uses: actions/download-artifact@v3
       with:
         name: pack
-    - run: mkdir -p "$HOME/.cache/pip"
-    - run: tox -e podman-compose -- pull ${{ matrix.image }}
+
+    - name: Pre-create pip cache directory
+      run: mkdir -p "$HOME/.cache/pip"
+
+    - name: Pull GNOME Shell container image
+      run: tox -e podman-compose -- pull ${{ matrix.image }}
       working-directory: test
-    - run: tox -vv --notest --sitepackages
+
+    - name: Install Python test dependencies
+      run: tox -vv --notest --sitepackages
       working-directory: test
-    - run: |
+
+    - name: Disable generic error matcher
+      run: |
         echo "::remove-matcher owner=generic::"
         echo "::remove-matcher owner=generic-nolocation::"
-    - run: >-
+
+    - name: Run tests
+      run: >-
         tox --sitepackages --
         --self-contained-html
         --junitxml=junit.xml
@@ -149,9 +198,13 @@ jobs:
         --screenshot-failing-only
         -vv
       working-directory: test
-    - run: testspace --verbose "[${{ matrix.image }}]./test/junit.xml" "[${{ matrix.image }}]+./test/report.html"
+
+    - name: Upload report to Testspace
+      run: testspace --verbose "[${{ matrix.image }}]./test/junit.xml" "[${{ matrix.image }}]+./test/report.html"
       if: ${{ always() && steps.setup_testspace.outcome == 'success' }}
-    - uses: actions/upload-artifact@v3
+
+    - name: Upload report as artifact
+      uses: actions/upload-artifact@v3
       with:
         name: ${{ matrix.image }}
         path: |
