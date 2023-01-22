@@ -21,16 +21,38 @@
 
 const { GObject, Gtk } = imports.gi;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-const { prefsutil } = Me.imports.ddterm.pref;
+const { util } = Me.imports.ddterm.pref;
 const { settings } = Me.imports.ddterm.common;
 const { translations } = Me.imports.ddterm;
 
+function get_seconds_format() {
+    try {
+        return new Intl.NumberFormat(undefined, { style: 'unit', unit: 'second' });
+    } catch {
+        // Gnome 3.36 doesn't understand style: 'unit'
+        return new class {
+            format(v) {
+                return `${v} sec`;
+            }
+        }();
+    }
+}
+
+const SECONDS_FORMAT = get_seconds_format();
+
+function seconds_formatter(_, value) {
+    return SECONDS_FORMAT.format(value);
+}
+
 var Widget = GObject.registerClass(
     {
-        GTypeName: 'DDTermPrefsBehavior',
-        Template: prefsutil.ui_file_uri('prefs-behavior.ui'),
+        GTypeName: 'DDTermPrefsAnimation',
+        Template: util.ui_file_uri('prefs-animation.ui'),
         Children: [
-            'window_type_hint_combo',
+            'show_animation_combo',
+            'hide_animation_combo',
+            'show_animation_duration_scale',
+            'hide_animation_duration_scale',
         ],
         Properties: {
             'settings': GObject.ParamSpec.object(
@@ -42,33 +64,39 @@ var Widget = GObject.registerClass(
             ),
         },
     },
-    class PrefsBehavior extends Gtk.Grid {
+    class PrefsAnimation extends Gtk.Grid {
         _init(params) {
             super._init(params);
 
-            const scope = prefsutil.scope(this, this.settings);
+            const scope = util.scope(this, this.settings);
 
             scope.setup_widgets({
-                'window-type-hint': this.window_type_hint_combo,
+                'show-animation': this.show_animation_combo,
+                'hide-animation': this.hide_animation_combo,
+                'show-animation-duration': this.show_animation_duration_scale,
+                'hide-animation-duration': this.hide_animation_duration_scale,
             });
 
             this.insert_action_group(
                 'settings',
                 scope.make_actions([
-                    'window-resizable',
-                    'window-above',
-                    'window-stick',
-                    'window-skip-taskbar',
-                    'hide-when-focus-lost',
-                    'hide-window-on-esc',
-                    'pointer-autohide',
-                    'force-x11-gdk-backend',
+                    'override-window-animation',
                 ])
+            );
+
+            scope.set_scale_value_formatter(
+                this.show_animation_duration_scale,
+                seconds_formatter
+            );
+
+            scope.set_scale_value_formatter(
+                this.hide_animation_duration_scale,
+                seconds_formatter
             );
         }
 
         get title() {
-            return translations.gettext('Behavior');
+            return translations.gettext('Animation');
         }
     }
 );

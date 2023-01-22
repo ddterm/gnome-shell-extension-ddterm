@@ -29,7 +29,7 @@ function init() {
 }
 
 function buildPrefsWidget() {
-    const widget = new Me.imports.ddterm.pref.prefswidget.PrefsWidget({
+    const widget = new Me.imports.ddterm.pref.widget.PrefsWidget({
         settings: new Me.imports.ddterm.common.settings.Settings({
             gsettings: imports.misc.extensionUtils.getSettings(),
         }),

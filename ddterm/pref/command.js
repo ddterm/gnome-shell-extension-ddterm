@@ -21,16 +21,16 @@
 
 const { GObject, Gtk } = imports.gi;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-const { prefsutil } = Me.imports.ddterm.pref;
+const { util } = Me.imports.ddterm.pref;
 const { settings } = Me.imports.ddterm.common;
 const { translations } = Me.imports.ddterm;
 
 var Widget = GObject.registerClass(
     {
-        GTypeName: 'DDTermPrefsScrolling',
-        Template: prefsutil.ui_file_uri('prefs-scrolling.ui'),
+        GTypeName: 'DDTermPrefsCommand',
+        Template: util.ui_file_uri('prefs-command.ui'),
         Children: [
-            'scrollback_spin',
+            'custom_command_entry',
         ],
         Properties: {
             'settings': GObject.ParamSpec.object(
@@ -42,34 +42,33 @@ var Widget = GObject.registerClass(
             ),
         },
     },
-    class PrefsScrolling extends Gtk.Grid {
+    class PrefsCommand extends Gtk.Grid {
         _init(params) {
             super._init(params);
 
-            const scope = prefsutil.scope(this, this.settings);
+            const scope = util.scope(this, this.settings);
 
             scope.setup_widgets({
-                'scrollback-lines': this.scrollback_spin,
+                'custom-command': this.custom_command_entry,
             });
 
+            /*
+                GtkRadioButton: always build the group around the last one.
+                I. e. 'group' property of all buttons (except the last one)
+                should point to the last one. Otherwise, settings-based action
+                won't work correctly on Gtk 3.
+            */
             this.insert_action_group(
                 'settings',
                 scope.make_actions([
-                    'show-scrollbar',
-                    'scroll-on-output',
-                    'scroll-on-keystroke',
-                ])
-            );
-
-            this.insert_action_group('inverse-settings',
-                scope.make_inverse_actions([
-                    'scrollback-unlimited',
+                    'command',
+                    'preserve-working-directory',
                 ])
             );
         }
 
         get title() {
-            return translations.gettext('Scrolling');
+            return translations.gettext('Command');
         }
     }
 );

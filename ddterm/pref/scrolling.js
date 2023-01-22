@@ -21,19 +21,16 @@
 
 const { GObject, Gtk } = imports.gi;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-const { prefsutil } = Me.imports.ddterm.pref;
+const { util } = Me.imports.ddterm.pref;
 const { settings } = Me.imports.ddterm.common;
 const { translations } = Me.imports.ddterm;
 
 var Widget = GObject.registerClass(
     {
-        GTypeName: 'DDTermPrefsText',
-        Template: prefsutil.ui_file_uri('prefs-text.ui'),
+        GTypeName: 'DDTermPrefsScrolling',
+        Template: util.ui_file_uri('prefs-scrolling.ui'),
         Children: [
-            'font_chooser',
-            'text_blink_mode_combo',
-            'cursor_blink_mode_combo',
-            'cursor_shape_combo',
+            'scrollback_spin',
         ],
         Properties: {
             'settings': GObject.ParamSpec.object(
@@ -45,43 +42,34 @@ var Widget = GObject.registerClass(
             ),
         },
     },
-    class PrefsText extends Gtk.Grid {
+    class PrefsScrolling extends Gtk.Grid {
         _init(params) {
             super._init(params);
 
-            const scope = prefsutil.scope(this, this.settings);
+            const scope = util.scope(this, this.settings);
 
             scope.setup_widgets({
-                'text-blink-mode': this.text_blink_mode_combo,
-                'cursor-blink-mode': this.cursor_blink_mode_combo,
-                'cursor-shape': this.cursor_shape_combo,
-                'custom-font': this.font_chooser,
+                'scrollback-lines': this.scrollback_spin,
             });
 
             this.insert_action_group(
                 'settings',
                 scope.make_actions([
-                    'allow-hyperlink',
-                    'audible-bell',
-                    'detect-urls',
-                    'detect-urls-as-is',
-                    'detect-urls-file',
-                    'detect-urls-http',
-                    'detect-urls-voip',
-                    'detect-urls-email',
-                    'detect-urls-news-man',
+                    'show-scrollbar',
+                    'scroll-on-output',
+                    'scroll-on-keystroke',
                 ])
             );
 
             this.insert_action_group('inverse-settings',
                 scope.make_inverse_actions([
-                    'use-system-font',
+                    'scrollback-unlimited',
                 ])
             );
         }
 
         get title() {
-            return translations.gettext('Text');
+            return translations.gettext('Scrolling');
         }
     }
 );

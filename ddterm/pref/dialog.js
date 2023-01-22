@@ -22,7 +22,7 @@
 /* exported PrefsDialog */
 
 const { GObject, Gtk } = imports.gi;
-const { PrefsWidget } = imports.ddterm.pref.prefswidget;
+const { PrefsWidget } = imports.ddterm.pref.widget;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const { settings } = Me.imports.ddterm.common;
 const { translations } = Me.imports.ddterm;

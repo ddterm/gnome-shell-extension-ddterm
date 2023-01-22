@@ -22,7 +22,7 @@
 const { GObject, Gio, Gtk } = imports.gi;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const { rxjs } = Me.imports.ddterm.thirdparty.rxjs;
-const { prefsutil } = Me.imports.ddterm.pref;
+const { util } = Me.imports.ddterm.pref;
 const { rxutil, settings } = Me.imports.ddterm.common;
 const { translations } = Me.imports.ddterm;
 
@@ -136,7 +136,7 @@ function get_settings_schema_key(schema, name) {
 var Widget = GObject.registerClass(
     {
         GTypeName: 'DDTermPrefsColors',
-        Template: prefsutil.ui_file_uri('prefs-colors.ui'),
+        Template: util.ui_file_uri('prefs-colors.ui'),
         Children: [
             'foreground_color',
             'background_color',
@@ -164,7 +164,7 @@ var Widget = GObject.registerClass(
         _init(params) {
             super._init(params);
 
-            const scope = prefsutil.scope(this, this.settings);
+            const scope = util.scope(this, this.settings);
 
             scope.subscribe(
                 rxjs.combineLatest(
@@ -206,10 +206,10 @@ var Widget = GObject.registerClass(
 
             scope.set_scale_value_formatter(
                 this.opacity_scale,
-                prefsutil.percent_formatter
+                util.percent_formatter
             );
 
-            const color_scheme_guard = prefsutil.recursion_guard();
+            const color_scheme_guard = util.recursion_guard();
 
             scope.subscribe(
                 rxjs.combineLatest(
@@ -229,8 +229,8 @@ var Widget = GObject.registerClass(
                 }
             );
 
-            const palette_guard = prefsutil.recursion_guard();
-            const palette_edit_guard = prefsutil.recursion_guard();
+            const palette_guard = util.recursion_guard();
+            const palette_edit_guard = util.recursion_guard();
             const palette_widgets = PALETTE_WIDGET_IDS.map(v => this[v]);
 
             scope.subscribe(

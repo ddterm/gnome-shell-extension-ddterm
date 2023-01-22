@@ -22,7 +22,7 @@
 const { GLib, GObject, Gio, Gtk } = imports.gi;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const { rxjs } = Me.imports.ddterm.thirdparty.rxjs;
-const { prefsutil } = Me.imports.ddterm.pref;
+const { util } = Me.imports.ddterm.pref;
 const { rxutil, settings } = Me.imports.ddterm.common;
 const { translations } = Me.imports.ddterm;
 
@@ -89,7 +89,7 @@ class DisplayConfig {
 var Widget = GObject.registerClass(
     {
         GTypeName: 'DDTermPrefsPositionSize',
-        Template: prefsutil.ui_file_uri('prefs-position-size.ui'),
+        Template: util.ui_file_uri('prefs-position-size.ui'),
         Children: [
             'monitor_combo',
             'window_pos_combo',
@@ -109,7 +109,7 @@ var Widget = GObject.registerClass(
         _init(params) {
             super._init(params);
 
-            const scope = prefsutil.scope(this, this.settings);
+            const scope = util.scope(this, this.settings);
 
             scope.subscribe(new DisplayConfig().monitors, monitors => {
                 this.monitor_combo.freeze_notify();
@@ -147,7 +147,7 @@ var Widget = GObject.registerClass(
 
             scope.set_scale_value_formatter(
                 this.window_size_scale,
-                prefsutil.percent_formatter
+                util.percent_formatter
             );
         }
 

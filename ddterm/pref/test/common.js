@@ -19,7 +19,7 @@
 
 const { GObject, Gio, Gtk } = imports.gi;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-const { prefsdialog } = imports.ddterm.pref;
+const { dialog } = imports.ddterm.pref;
 const { settings } = imports.ddterm.common;
 
 var Application = GObject.registerClass(
@@ -50,7 +50,7 @@ var Application = GObject.registerClass(
         }
 
         preferences() {
-            const prefs_dialog = new prefsdialog.PrefsDialog({
+            const prefs_dialog = new dialog.PrefsDialog({
                 settings: this.settings,
                 application: this,
             });

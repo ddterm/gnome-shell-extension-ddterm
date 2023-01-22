@@ -21,14 +21,14 @@
 
 const { GObject, Gtk } = imports.gi;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-const { prefsutil } = Me.imports.ddterm.pref;
+const { util } = Me.imports.ddterm.pref;
 const { rxutil, settings } = Me.imports.ddterm.common;
 const { translations } = Me.imports.ddterm;
 
 var Widget = GObject.registerClass(
     {
         GTypeName: 'DDTermPrefsTabs',
-        Template: prefsutil.ui_file_uri('prefs-tabs.ui'),
+        Template: util.ui_file_uri('prefs-tabs.ui'),
         Children: [
             'tab_policy_combo',
             'tab_position_combo',
@@ -50,7 +50,7 @@ var Widget = GObject.registerClass(
         _init(params) {
             super._init(params);
 
-            const scope = prefsutil.scope(this, this.settings);
+            const scope = util.scope(this, this.settings);
 
             scope.setup_widgets({
                 'tab-policy': this.tab_policy_combo,
@@ -74,7 +74,7 @@ var Widget = GObject.registerClass(
 
             scope.set_scale_value_formatter(
                 this.tab_label_width_scale,
-                prefsutil.percent_formatter
+                util.percent_formatter
             );
 
             this.insert_action_group(

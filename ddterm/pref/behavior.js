@@ -21,16 +21,16 @@
 
 const { GObject, Gtk } = imports.gi;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-const { prefsutil } = Me.imports.ddterm.pref;
+const { util } = Me.imports.ddterm.pref;
 const { settings } = Me.imports.ddterm.common;
 const { translations } = Me.imports.ddterm;
 
 var Widget = GObject.registerClass(
     {
-        GTypeName: 'DDTermPrefsPanelIcon',
-        Template: prefsutil.ui_file_uri('prefs-panel-icon.ui'),
+        GTypeName: 'DDTermPrefsBehavior',
+        Template: util.ui_file_uri('prefs-behavior.ui'),
         Children: [
-            'panel_icon_type_combo',
+            'window_type_hint_combo',
         ],
         Properties: {
             'settings': GObject.ParamSpec.object(
@@ -42,19 +42,33 @@ var Widget = GObject.registerClass(
             ),
         },
     },
-    class PrefsPanelIcon extends Gtk.Grid {
+    class PrefsBehavior extends Gtk.Grid {
         _init(params) {
             super._init(params);
 
-            const scope = prefsutil.scope(this, this.settings);
+            const scope = util.scope(this, this.settings);
 
             scope.setup_widgets({
-                'panel-icon-type': this.panel_icon_type_combo,
+                'window-type-hint': this.window_type_hint_combo,
             });
+
+            this.insert_action_group(
+                'settings',
+                scope.make_actions([
+                    'window-resizable',
+                    'window-above',
+                    'window-stick',
+                    'window-skip-taskbar',
+                    'hide-when-focus-lost',
+                    'hide-window-on-esc',
+                    'pointer-autohide',
+                    'force-x11-gdk-backend',
+                ])
+            );
         }
 
         get title() {
-            return translations.gettext('Panel Icon');
+            return translations.gettext('Behavior');
         }
     }
 );

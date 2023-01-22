@@ -22,7 +22,7 @@
 const { GObject, Gdk, Gtk } = imports.gi;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const { rxjs } = Me.imports.ddterm.thirdparty.rxjs;
-const { prefsutil } = Me.imports.ddterm.pref;
+const { util } = Me.imports.ddterm.pref;
 const { rxutil, settings } = Me.imports.ddterm.common;
 const { translations } = Me.imports.ddterm;
 
@@ -37,7 +37,7 @@ function accelerator_parse(accel) {
 var Widget = GObject.registerClass(
     {
         GTypeName: 'DDTermPrefsShortcuts',
-        Template: prefsutil.ui_file_uri('prefs-shortcuts.ui'),
+        Template: util.ui_file_uri('prefs-shortcuts.ui'),
         Children: [
             'accel_renderer',
             'global_accel_renderer',
@@ -59,7 +59,7 @@ var Widget = GObject.registerClass(
         _init(params) {
             super._init(params);
 
-            this.scope = prefsutil.scope(this, this.settings);
+            this.scope = util.scope(this, this.settings);
 
             this.insert_action_group(
                 'settings',

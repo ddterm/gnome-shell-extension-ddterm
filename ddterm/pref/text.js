@@ -21,38 +21,19 @@
 
 const { GObject, Gtk } = imports.gi;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-const { prefsutil } = Me.imports.ddterm.pref;
+const { util } = Me.imports.ddterm.pref;
 const { settings } = Me.imports.ddterm.common;
 const { translations } = Me.imports.ddterm;
 
-function get_seconds_format() {
-    try {
-        return new Intl.NumberFormat(undefined, { style: 'unit', unit: 'second' });
-    } catch {
-        // Gnome 3.36 doesn't understand style: 'unit'
-        return new class {
-            format(v) {
-                return `${v} sec`;
-            }
-        }();
-    }
-}
-
-const SECONDS_FORMAT = get_seconds_format();
-
-function seconds_formatter(_, value) {
-    return SECONDS_FORMAT.format(value);
-}
-
 var Widget = GObject.registerClass(
     {
-        GTypeName: 'DDTermPrefsAnimation',
-        Template: prefsutil.ui_file_uri('prefs-animation.ui'),
+        GTypeName: 'DDTermPrefsText',
+        Template: util.ui_file_uri('prefs-text.ui'),
         Children: [
-            'show_animation_combo',
-            'hide_animation_combo',
-            'show_animation_duration_scale',
-            'hide_animation_duration_scale',
+            'font_chooser',
+            'text_blink_mode_combo',
+            'cursor_blink_mode_combo',
+            'cursor_shape_combo',
         ],
         Properties: {
             'settings': GObject.ParamSpec.object(
@@ -64,39 +45,43 @@ var Widget = GObject.registerClass(
             ),
         },
     },
-    class PrefsAnimation extends Gtk.Grid {
+    class PrefsText extends Gtk.Grid {
         _init(params) {
             super._init(params);
 
-            const scope = prefsutil.scope(this, this.settings);
+            const scope = util.scope(this, this.settings);
 
             scope.setup_widgets({
-                'show-animation': this.show_animation_combo,
-                'hide-animation': this.hide_animation_combo,
-                'show-animation-duration': this.show_animation_duration_scale,
-                'hide-animation-duration': this.hide_animation_duration_scale,
+                'text-blink-mode': this.text_blink_mode_combo,
+                'cursor-blink-mode': this.cursor_blink_mode_combo,
+                'cursor-shape': this.cursor_shape_combo,
+                'custom-font': this.font_chooser,
             });
 
             this.insert_action_group(
                 'settings',
                 scope.make_actions([
-                    'override-window-animation',
+                    'allow-hyperlink',
+                    'audible-bell',
+                    'detect-urls',
+                    'detect-urls-as-is',
+                    'detect-urls-file',
+                    'detect-urls-http',
+                    'detect-urls-voip',
+                    'detect-urls-email',
+                    'detect-urls-news-man',
                 ])
             );
 
-            scope.set_scale_value_formatter(
-                this.show_animation_duration_scale,
-                seconds_formatter
-            );
-
-            scope.set_scale_value_formatter(
-                this.hide_animation_duration_scale,
-                seconds_formatter
+            this.insert_action_group('inverse-settings',
+                scope.make_inverse_actions([
+                    'use-system-font',
+                ])
             );
         }
 
         get title() {
-            return translations.gettext('Animation');
+            return translations.gettext('Text');
         }
     }
 );

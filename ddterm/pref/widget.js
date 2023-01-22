@@ -88,17 +88,17 @@ var PrefsWidget = GObject.registerClass(
                 this.pack_end(scrolled_window, true, true, 0);
 
             const pages = {
-                'position-size': Me.imports.ddterm.pref.prefspositionsize.Widget,
-                'behavior': Me.imports.ddterm.pref.prefsbehavior.Widget,
-                'animation': Me.imports.ddterm.pref.prefsanimation.Widget,
-                'tabs': Me.imports.ddterm.pref.prefstabs.Widget,
-                'text': Me.imports.ddterm.pref.prefstext.Widget,
-                'colors': Me.imports.ddterm.pref.prefscolors.Widget,
-                'command': Me.imports.ddterm.pref.prefscommand.Widget,
-                'scrolling': Me.imports.ddterm.pref.prefsscrolling.Widget,
-                'compatibility': Me.imports.ddterm.pref.prefscompatibility.Widget,
-                'shortcuts': Me.imports.ddterm.pref.prefsshortcuts.Widget,
-                'panel-icon': Me.imports.ddterm.pref.prefspanelicon.Widget,
+                'position-size': Me.imports.ddterm.pref.positionsize.Widget,
+                'behavior': Me.imports.ddterm.pref.behavior.Widget,
+                'animation': Me.imports.ddterm.pref.animation.Widget,
+                'tabs': Me.imports.ddterm.pref.tabs.Widget,
+                'text': Me.imports.ddterm.pref.text.Widget,
+                'colors': Me.imports.ddterm.pref.colors.Widget,
+                'command': Me.imports.ddterm.pref.command.Widget,
+                'scrolling': Me.imports.ddterm.pref.scrolling.Widget,
+                'compatibility': Me.imports.ddterm.pref.compatibility.Widget,
+                'shortcuts': Me.imports.ddterm.pref.shortcuts.Widget,
+                'panel-icon': Me.imports.ddterm.pref.panelicon.Widget,
             };
 
             for (const [name, type] of Object.entries(pages)) {

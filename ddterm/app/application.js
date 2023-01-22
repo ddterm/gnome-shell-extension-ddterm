@@ -275,7 +275,7 @@ const Application = GObject.registerClass(
 
         preferences() {
             if (this.prefs_dialog === null) {
-                this.prefs_dialog = new imports.ddterm.pref.prefsdialog.PrefsDialog({
+                this.prefs_dialog = new imports.ddterm.pref.dialog.PrefsDialog({
                     transient_for: this.window,
                     settings: this.settings,
                 });

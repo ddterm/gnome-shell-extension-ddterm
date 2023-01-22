@@ -166,7 +166,7 @@ msgstr "Новая вкладка - Перед первой вкладкой"
 msgid "New Tab After Last Tab"
 msgstr "Новая вкладка - После последней вкладки"
 
-#: ddterm/app/menus.ui:102 ddterm/pref/prefsdialog.js:46
+#: ddterm/app/menus.ui:102 ddterm/pref/dialog.js:46
 msgid "Preferences"
 msgstr "Параметры"
 
@@ -1173,47 +1173,47 @@ msgstr "Адреса E-mail"
 msgid "Detect news:/man: URLs"
 msgstr "Ссылки вида \"news:/man\""
 
-#: ddterm/pref/prefsanimation.js:99
+#: ddterm/pref/animation.js:99
 msgid "Animation"
 msgstr "Анимация"
 
-#: ddterm/pref/prefsbehavior.js:71
+#: ddterm/pref/behavior.js:71
 msgid "Behavior"
 msgstr "Поведение"
 
-#: ddterm/pref/prefscolors.js:276
+#: ddterm/pref/colors.js:276
 msgid "Colors"
 msgstr "Цвета"
 
-#: ddterm/pref/prefscommand.js:71
+#: ddterm/pref/command.js:71
 msgid "Command"
 msgstr "Команда"
 
-#: ddterm/pref/prefscompatibility.js:72
+#: ddterm/pref/compatibility.js:72
 msgid "Compatibility"
 msgstr "Совместимость"
 
-#: ddterm/pref/prefspanelicon.js:57
+#: ddterm/pref/panelicon.js:57
 msgid "Panel Icon"
 msgstr "Значок на панели"
 
-#: ddterm/pref/prefspositionsize.js:155
+#: ddterm/pref/positionsize.js:155
 msgid "Position and Size"
 msgstr "Положение и размер"
 
-#: ddterm/pref/prefsscrolling.js:72
+#: ddterm/pref/scrolling.js:72
 msgid "Scrolling"
 msgstr "Прокрутка"
 
-#: ddterm/pref/prefsshortcuts.js:122
+#: ddterm/pref/shortcuts.js:122
 msgid "Keyboard Shortcuts"
 msgstr "Комбинации клавиш"
 
-#: ddterm/pref/prefstabs.js:103
+#: ddterm/pref/tabs.js:103
 msgid "Tabs"
 msgstr "Вкладки"
 
-#: ddterm/pref/prefstext.js:84
+#: ddterm/pref/text.js:84
 msgid "Text"
 msgstr "Текст"
 

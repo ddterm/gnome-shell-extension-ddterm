@@ -21,16 +21,18 @@
 
 const { GObject, Gtk } = imports.gi;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-const { prefsutil } = Me.imports.ddterm.pref;
+const { util } = Me.imports.ddterm.pref;
 const { settings } = Me.imports.ddterm.common;
 const { translations } = Me.imports.ddterm;
 
 var Widget = GObject.registerClass(
     {
-        GTypeName: 'DDTermPrefsCommand',
-        Template: prefsutil.ui_file_uri('prefs-command.ui'),
+        GTypeName: 'DDTermPrefsCompatibility',
+        Template: util.ui_file_uri('prefs-compatibility.ui'),
         Children: [
-            'custom_command_entry',
+            'backspace_binding_combo',
+            'delete_binding_combo',
+            'ambiguous_width_combo',
         ],
         Properties: {
             'settings': GObject.ParamSpec.object(
@@ -42,33 +44,32 @@ var Widget = GObject.registerClass(
             ),
         },
     },
-    class PrefsCommand extends Gtk.Grid {
+    class PrefsCompatibility extends Gtk.Grid {
         _init(params) {
             super._init(params);
 
-            const scope = prefsutil.scope(this, this.settings);
+            const scope = util.scope(this, this.settings);
 
             scope.setup_widgets({
-                'custom-command': this.custom_command_entry,
+                'backspace-binding': this.backspace_binding_combo,
+                'delete-binding': this.delete_binding_combo,
+                'cjk-utf8-ambiguous-width': this.ambiguous_width_combo,
             });
 
-            /*
-                GtkRadioButton: always build the group around the last one.
-                I. e. 'group' property of all buttons (except the last one)
-                should point to the last one. Otherwise, settings-based action
-                won't work correctly on Gtk 3.
-            */
             this.insert_action_group(
-                'settings',
-                scope.make_actions([
-                    'command',
-                    'preserve-working-directory',
-                ])
+                'aux',
+                scope.make_simple_actions({
+                    'reset-compatibility-options': () => {
+                        this.settings['backspace-binding'].reset();
+                        this.settings['delete-binding'].reset();
+                        this.settings['cjk-utf8-ambiguous-width'].reset();
+                    },
+                })
             );
         }
 
         get title() {
-            return translations.gettext('Command');
+            return translations.gettext('Compatibility');
         }
     }
 );
