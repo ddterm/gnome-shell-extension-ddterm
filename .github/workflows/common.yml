@@ -45,6 +45,10 @@ jobs:
       run: make "ESLINT_OPTS=--format checkstyle --output-file eslint.xml" lint
       if: ${{ always() && steps.npm.conclusion == 'success' }}
 
+    - name: Pre-create pip cache directory
+      run: mkdir -p "$HOME/.cache/pip"
+      if: ${{ always() && steps.checkout.conclusion == 'success' }}
+
     - name: Enable flake8 error matcher
       run: echo "::add-matcher::.github/problem-matchers/flake8.json"
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
