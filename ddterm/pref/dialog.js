@@ -24,7 +24,7 @@
 const { GObject, Gtk } = imports.gi;
 const { PrefsWidget } = imports.ddterm.pref.widget;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-const { settings } = Me.imports.ddterm.common;
+const { settings } = Me.imports.ddterm.rx;
 const { translations } = Me.imports.ddterm;
 
 var PrefsDialog = GObject.registerClass(

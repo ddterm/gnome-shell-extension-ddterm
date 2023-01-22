@@ -30,7 +30,7 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 const ddterm = imports.ui.main.extensionManager.lookup('ddterm@amezin.github.com');
 const { extension, logger, wm } = ddterm.imports.ddterm.shell;
 const { rxjs } = ddterm.imports.ddterm.thirdparty.rxjs;
-const { rxutil, timers } = ddterm.imports.ddterm.common;
+const { rxutil, timers } = ddterm.imports.ddterm.rx;
 
 const LOG_DOMAIN = 'ddterm-test';
 const { message, info } = logger.context(LOG_DOMAIN, 'ddterm.ExtensionTest');

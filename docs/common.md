@@ -1,8 +1,8 @@
-ddterm Common Utilities
------------------------
+ddterm Reactive/Rx Utilities
+----------------------------
 
-Modules in the [`ddterm/common`] directory are imported by both
-the [application] and [Preferences dialog].
+Modules in the [`ddterm/rx`] directory are imported by both the [application]
+and [Preferences dialog].
 
 However, they are never imported by the extension itself.
 
@@ -17,11 +17,11 @@ and also adds some application-specific settings logic.
 * [`timers.js`] is a backport of `setTimeout()`/`setInterval()` for older GJS
 versions (required by RxJS for correct error reporting and avoiding warnings).
 
-[`ddterm/common`]: /ddterm/common
+[`ddterm/rx`]: /ddterm/rx
 
 [application]: /ddterm/app
 [Preferences dialog]: /ddterm/pref
 
-[`rxutil.js`]: /ddterm/common/rxutil.js
-[`settings.js`]: /ddterm/common/settings.js
-[`timers.js`]: /ddterm/common/timers.js
+[`rxutil.js`]: /ddterm/rx/rxutil.js
+[`settings.js`]: /ddterm/rx/settings.js
+[`timers.js`]: /ddterm/rx/timers.js

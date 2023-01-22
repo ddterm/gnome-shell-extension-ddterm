@@ -25,7 +25,7 @@ const { GLib, GObject, Gio, Gdk, Gtk, Vte } = imports.gi;
 const { Handlebars } = imports.ddterm.thirdparty.handlebars;
 const { rxjs } = imports.ddterm.thirdparty.rxjs;
 const { urldetect_patterns, tcgetpgrp } = imports.ddterm.app;
-const { rxutil, settings } = imports.ddterm.common;
+const { rxutil, settings } = imports.ddterm.rx;
 const { translations } = imports.ddterm;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 

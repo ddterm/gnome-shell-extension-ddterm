@@ -22,7 +22,7 @@
 const { GObject, GLib, Gdk, Gio, Pango } = imports.gi;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-const { rxutil } = Me.imports.ddterm.common;
+const { rxutil } = Me.imports.ddterm.rx;
 const { rxjs } = Me.imports.ddterm.thirdparty.rxjs;
 const { Handlebars } = Me.imports.ddterm.thirdparty.handlebars;
 

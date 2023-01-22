@@ -25,12 +25,12 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 
 function init() {
     imports.misc.extensionUtils.initTranslations();
-    Me.imports.ddterm.common.timers.install();
+    Me.imports.ddterm.rx.timers.install();
 }
 
 function buildPrefsWidget() {
     const widget = new Me.imports.ddterm.pref.widget.PrefsWidget({
-        settings: new Me.imports.ddterm.common.settings.Settings({
+        settings: new Me.imports.ddterm.rx.settings.Settings({
             gsettings: imports.misc.extensionUtils.getSettings(),
         }),
     });

@@ -20,7 +20,7 @@
 const { GObject, Gio, Gtk } = imports.gi;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const { dialog } = imports.ddterm.pref;
-const { settings } = imports.ddterm.common;
+const { settings } = imports.ddterm.rx;
 
 var Application = GObject.registerClass(
     class Application extends Gtk.Application {

@@ -8,9 +8,10 @@ ddterm consists of three components:
 
 * [Preferences dialog], loaded by both application and extension.
 
-There is also some [shared utility code].
+There is also some [reactive/Rx utility code], used by the [GJS/Gtk application]
+and [Preferences dialog].
 
 [GNOME Shell extension]: /ddterm/shell
 [GJS/Gtk application]: /ddterm/app
 [Preferences dialog]: /ddterm/pref
-[shared utility code]: /ddterm/common
+[reactive/Rx utility code]: /ddterm/rx

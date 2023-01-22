@@ -15,7 +15,7 @@ GJS. A regular Gtk application, except:
 
 * On Wayland, the extension launches the app as a special, privileged client.
 
-It may import modules from [`common`] and [`pref`] directories.
+It may import modules from [`rx`] and [`pref`] directories.
 
 Application code heavily relies on [RxJS], and also uses [Handlebars]
 for tab titles.
@@ -24,7 +24,7 @@ for tab titles.
 [`com.github.amezin.ddterm`]: /com.github.amezin.ddterm
 [shell extension]: /ddterm/shell
 
-[`common`]: /ddterm/common
+[`rx`]: /ddterm/rx
 [`pref`]: /ddterm/pref
 
 [RxJS]: https://rxjs.dev/

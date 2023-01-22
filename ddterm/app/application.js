@@ -24,7 +24,7 @@ const System = imports.system;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 
 const { translations } = imports.ddterm;
-const { timers } = imports.ddterm.common;
+const { timers } = imports.ddterm.rx;
 
 translations.init(Me.dir);
 timers.install();
@@ -41,7 +41,7 @@ imports.ddterm.app.dependencies.gi_require({
 const { Gdk, Gtk } = imports.gi;
 
 const { rxjs } = imports.ddterm.thirdparty.rxjs;
-const { rxutil, settings } = imports.ddterm.common;
+const { rxutil, settings } = imports.ddterm.rx;
 
 const APP_DIR = Me.dir.get_child('ddterm').get_child('app');
 

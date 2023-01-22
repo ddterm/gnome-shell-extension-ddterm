@@ -22,7 +22,7 @@
 const { GLib, Gio, Gtk } = imports.gi;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const { rxjs } = Me.imports.ddterm.thirdparty.rxjs;
-const { rxutil } = Me.imports.ddterm.common;
+const { rxutil } = Me.imports.ddterm.rx;
 
 const GVARIANT_FALSE = GLib.Variant.new_boolean(false);
 const GVARIANT_BOOL = GVARIANT_FALSE.get_type();

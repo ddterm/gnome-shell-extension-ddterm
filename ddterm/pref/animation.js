@@ -22,7 +22,7 @@
 const { GObject, Gtk } = imports.gi;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const { util } = Me.imports.ddterm.pref;
-const { settings } = Me.imports.ddterm.common;
+const { settings } = Me.imports.ddterm.rx;
 const { translations } = Me.imports.ddterm;
 
 function get_seconds_format() {

@@ -23,7 +23,7 @@
 
 const { GLib, GObject, Gio, Gdk, Gtk } = imports.gi;
 const { rxjs } = imports.ddterm.thirdparty.rxjs;
-const { rxutil, settings } = imports.ddterm.common;
+const { rxutil, settings } = imports.ddterm.rx;
 const { terminalpage } = imports.ddterm.app;
 const { translations } = imports.ddterm;
 const ByteArray = imports.byteArray;

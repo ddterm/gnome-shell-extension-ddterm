@@ -23,7 +23,7 @@ const { GObject, Gio, Gtk } = imports.gi;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const { rxjs } = Me.imports.ddterm.thirdparty.rxjs;
 const { util } = Me.imports.ddterm.pref;
-const { rxutil, settings } = Me.imports.ddterm.common;
+const { rxutil, settings } = Me.imports.ddterm.rx;
 const { translations } = Me.imports.ddterm;
 
 const PALETTE_SIZE = 16;

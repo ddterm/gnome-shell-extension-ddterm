@@ -23,7 +23,7 @@
 
 const { GObject, Gtk } = imports.gi;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-const { settings } = Me.imports.ddterm.common;
+const { settings } = Me.imports.ddterm.rx;
 
 var PrefsWidget = GObject.registerClass(
     {
