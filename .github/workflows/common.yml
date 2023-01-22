@@ -36,7 +36,8 @@ jobs:
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
     - name: Lint Python test code
-      run: set -o pipefail; tox --sitepackages -e lint | sed -e 's:^\./:test/:'
+      run: tox --sitepackages -e lint | sed -e 's:^\./:test/:'
+      shell: bash
       env:
         PY_COLORS: 0
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
