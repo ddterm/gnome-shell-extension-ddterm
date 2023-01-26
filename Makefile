@@ -217,7 +217,8 @@ extensiondir := $(datadir)/gnome-shell/extensions
 
 SYS_INSTALLED_FULL_PREFIX := $(DESTDIR)$(extensiondir)/$(EXTENSION_UUID)
 SYS_INSTALLED_CONTENT := $(addprefix $(SYS_INSTALLED_FULL_PREFIX)/,$(PACK_CONTENT))
-SYS_INSTALLED_DIRS := $(sort $(dir $(SYS_INSTALLED_CONTENT)))
+SYS_INSTALLED_DESKTOP_ENTRY := $(DESTDIR)$(datadir)/applications/com.github.amezin.ddterm.desktop
+SYS_INSTALLED_DIRS := $(sort $(dir $(SYS_INSTALLED_CONTENT) $(SYS_INSTALLED_DESKTOP_ENTRY)))
 SYS_INSTALLED_EXECUTABLES := $(addprefix $(SYS_INSTALLED_FULL_PREFIX)/,$(EXECUTABLES))
 
 $(SYS_INSTALLED_DIRS):
@@ -231,10 +232,13 @@ $(SYS_INSTALLED_CONTENT): $(SYS_INSTALLED_FULL_PREFIX)/%: % | installdirs
 $(SYS_INSTALLED_CONTENT): INSTALL := $(INSTALL_DATA)
 $(SYS_INSTALLED_EXECUTABLES): INSTALL := $(INSTALL_PROGRAM)
 
-system-install: $(SYS_INSTALLED_CONTENT)
+$(SYS_INSTALLED_DESKTOP_ENTRY): ddterm/com.github.amezin.ddterm.desktop | installdirs
+	$(INSTALL_DATA) $< $@
+
+system-install: $(SYS_INSTALLED_CONTENT) $(SYS_INSTALLED_DESKTOP_ENTRY)
 
 system-uninstall:
-	$(RM) -r $(SYS_INSTALLED_FULL_PREFIX)
+	$(RM) -r $(SYS_INSTALLED_FULL_PREFIX) $(SYS_INSTALLED_DESKTOP_ENTRY)
 
 .PHONY: system-install system-uninstall installdirs
 
