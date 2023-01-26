@@ -157,6 +157,8 @@ class DesktopEntry {
     install() {
         GLib.mkdir_with_parents(this.target_file.get_parent().get_path(), 0o700);
         this.source_file.copy(this.target_file, Gio.FileCopyFlags.OVERWRITE, null, null);
+        // Without this hack the shell loads the new desktop file with a noticeable delay
+        Gio.AppInfoMonitor.get().emit('changed');
     }
 
     uninstall() {
