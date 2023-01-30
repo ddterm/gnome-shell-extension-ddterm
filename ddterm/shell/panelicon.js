@@ -55,7 +55,7 @@ const PanelIconBase = GObject.registerClass(
             this.connections = new ConnectionSet();
 
             this.add_actor(new St.Icon({
-                icon_name: 'utilities-terminal-symbolic',
+                icon_name: 'terminal-symbolic',
                 style_class: 'system-status-icon',
             }));
 
