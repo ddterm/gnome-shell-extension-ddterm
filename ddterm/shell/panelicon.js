@@ -95,28 +95,6 @@ const PanelIconPopupMenu = GObject.registerClass(
         }
 
         set active(value) {
-            this.toggle_item.setToggleState(value);
-        }
-
-        static type_name() {
-            return 'menu-button';
-        }
-    }
-);
-
-const PanelIconToggleButton = GObject.registerClass(
-    class DDTermPanelIconToggleButton extends PanelIconBase {
-        _init() {
-            super._init(true);
-
-            this.accessible_role = Atk.Role.TOGGLE_BUTTON;
-        }
-
-        get active() {
-            return this.has_style_pseudo_class('active');
-        }
-
-        set active(value) {
             if (value === this.active)
                 return;
 
@@ -128,18 +106,22 @@ const PanelIconToggleButton = GObject.registerClass(
                 this.remove_accessible_state(Atk.StateType.CHECKED);
             }
 
-            this.notify('active');
+            this.toggle_item.setToggleState(value);
         }
 
         static type_name() {
-            return 'toggle-button';
+            return 'menu-button';
         }
 
         vfunc_event(event) {
-            if (event.type() === Clutter.EventType.BUTTON_PRESS ||
-                event.type() === Clutter.EventType.TOUCH_BEGIN)
-                this.emit('toggle', !this.active);
-
+            if (event.type() === Clutter.EventType.TOUCH_BEGIN ||
+                event.type() === Clutter.EventType.BUTTON_PRESS) {
+                if (event.get_button() === Clutter.BUTTON_PRIMARY ||
+                    event.get_button() === Clutter.BUTTON_MIDDLE)
+                    this.emit('toggle', !this.active);
+                else
+                    super.vfunc_event(event);
+            }
             return Clutter.EVENT_PROPAGATE;
         }
     }
@@ -183,7 +165,6 @@ var PanelIconProxy = GObject.registerClass(
             };
 
             this.types[PanelIconPopupMenu.type_name()] = PanelIconPopupMenu;
-            this.types[PanelIconToggleButton.type_name()] = PanelIconToggleButton;
         }
 
         get type() {

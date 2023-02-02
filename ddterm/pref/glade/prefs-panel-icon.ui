@@ -54,7 +54,6 @@ along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licens
         <items>
           <item id="none" translatable="yes">None</item>
           <item id="menu-button" translatable="yes">With popup menu</item>
-          <item id="toggle-button" translatable="yes">Toggle button</item>
         </items>
       </object>
       <packing>
