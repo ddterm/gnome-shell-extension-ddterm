@@ -5,25 +5,25 @@
 
 services:
   debian-11:
-    image: ghcr.io/ddterm/gnome-shell-pod/debian-11:2023.02.02.0
+    image: ghcr.io/ddterm/gnome-shell-pod/debian-11:2023.02.04.0
 
   fedora-36:
-    image: ghcr.io/ddterm/gnome-shell-pod/fedora-36:2023.02.02.0
+    image: ghcr.io/ddterm/gnome-shell-pod/fedora-36:2023.02.04.0
 
   fedora-37:
-    image: ghcr.io/ddterm/gnome-shell-pod/fedora-37:2023.02.02.0
+    image: ghcr.io/ddterm/gnome-shell-pod/fedora-37:2023.02.04.0
 
   ubuntu-20.04:
-    image: ghcr.io/ddterm/gnome-shell-pod/ubuntu-20.04:2023.02.02.0
+    image: ghcr.io/ddterm/gnome-shell-pod/ubuntu-20.04:2023.02.04.0
 
   ubuntu-22.04:
-    image: ghcr.io/ddterm/gnome-shell-pod/ubuntu-22.04:2023.02.02.0
+    image: ghcr.io/ddterm/gnome-shell-pod/ubuntu-22.04:2023.02.04.0
 
   ubuntu-22.10:
-    image: ghcr.io/ddterm/gnome-shell-pod/ubuntu-22.10:2023.02.02.0
+    image: ghcr.io/ddterm/gnome-shell-pod/ubuntu-22.10:2023.02.04.0
 
   centos-9:
-    image: ghcr.io/ddterm/gnome-shell-pod/centos-9:2023.02.02.0
+    image: ghcr.io/ddterm/gnome-shell-pod/centos-9:2023.02.04.0
 
   archlinux:
-    image: ghcr.io/ddterm/gnome-shell-pod/archlinux:2023.02.02.0
+    image: ghcr.io/ddterm/gnome-shell-pod/archlinux:2023.02.04.0
