@@ -222,6 +222,7 @@ jobs:
         --compose-service ${{ matrix.image }}
         --pack ../*.shell-extension.zip
         -n auto
+        --dist worksteal
         --screenshot-failing-only
         -vv
       working-directory: test
