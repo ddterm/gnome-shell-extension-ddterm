@@ -1,5 +1,4 @@
 import contextlib
-import math
 import pathlib
 
 import pytest
@@ -130,9 +129,3 @@ def pytest_runtest_call(item):
 def pytest_runtest_teardown(item):
     with get_runtest_cm(item, 'teardown'):
         yield
-
-
-@pytest.hookimpl(hookwrapper=True)
-def pytest_xdist_auto_num_workers(config):
-    result = yield
-    result.force_result(math.ceil(result.get_result() * 2 / 3))
