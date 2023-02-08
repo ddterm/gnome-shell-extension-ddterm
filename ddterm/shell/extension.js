@@ -44,6 +44,7 @@ let window_connections = null;
 let dbus_interface = null;
 
 let desktop_entry = null;
+let dbus_service = null;
 
 const APP_ID = 'com.github.amezin.ddterm';
 const APP_WMCLASS = 'Com.github.amezin.ddterm';
@@ -142,16 +143,10 @@ class ExtensionDBusInterface {
     }
 }
 
-class DesktopEntry {
-    constructor() {
-        this.source_file = Me.dir.get_child('ddterm').get_child('com.github.amezin.ddterm.desktop');
-        this.target_file = Gio.File.new_for_path(GLib.build_filenamev(
-            [
-                GLib.get_user_data_dir(),
-                'applications',
-                `${APP_ID}.desktop`,
-            ]
-        ));
+class InstallableResource {
+    constructor(source_file, target_file) {
+        this.source_file = source_file;
+        this.target_file = target_file;
     }
 
     install() {
@@ -245,8 +240,41 @@ function enable() {
         watch_window(actor.meta_window);
     });
 
-    desktop_entry = new DesktopEntry();
+    desktop_entry = new InstallableResource(
+        Me.dir.get_child('ddterm').get_child('com.github.amezin.ddterm.desktop'),
+        Gio.File.new_for_path(GLib.build_filenamev(
+            [
+                GLib.get_user_data_dir(),
+                'applications',
+                `${APP_ID}.desktop`,
+            ]))
+    );
     desktop_entry.install();
+
+    dbus_service = new InstallableResource(
+        Me.dir.get_child('ddterm').get_child('com.github.amezin.ddterm.service'),
+        Gio.File.new_for_path(GLib.build_filenamev(
+            [
+                GLib.get_user_runtime_dir(),
+                'dbus-1',
+                'services',
+                'com.github.amezin.ddterm.service',
+            ]))
+    );
+    dbus_service.install();
+
+    Gio.DBus.session.call(
+        'org.freedesktop.DBus',
+        'org/freedesktop/DBus',
+        'org.freedesktop.DBus',
+        'ReloadConfig',
+        null,
+        null,
+        Gio.DBusCallFlags.NONE,
+        -1,
+        null,
+        null
+    );
 }
 
 function disable() {
@@ -301,6 +329,11 @@ function disable() {
             desktop_entry.uninstall();
 
         desktop_entry = null;
+    }
+
+    if (dbus_service) {
+        dbus_service.uninstall();
+        dbus_service = null;
     }
 
     settings = null;
