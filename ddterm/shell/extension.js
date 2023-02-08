@@ -252,13 +252,13 @@ function enable() {
     desktop_entry.install();
 
     dbus_service = new InstallableResource(
-        Me.dir.get_child('ddterm').get_child('org.gnome.Shell.Extensions.ddterm.service'),
+        Me.dir.get_child('ddterm').get_child('com.github.amezin.ddterm.service'),
         Gio.File.new_for_path(GLib.build_filenamev(
             [
                 GLib.get_user_runtime_dir(),
                 'dbus-1',
                 'services',
-                'org.gnome.Shell.Extensions.ddterm.service',
+                'com.github.amezin.ddterm.service',
             ]))
     );
     dbus_service.install();
