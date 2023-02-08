@@ -121,6 +121,10 @@ class ExtensionDBusInterface {
         activate();
     }
 
+    Service() {
+        spawn_app(true);
+    }
+
     GetTargetRect() {
         /*
          * Don't want to track mouse pointer continuously, so try to update the
@@ -339,7 +343,7 @@ function disable() {
     settings = null;
 }
 
-function spawn_app() {
+function spawn_app(service = false) {
     if (subprocess)
         return;
 
@@ -352,6 +356,9 @@ function spawn_app() {
         Me.dir.get_child(APP_ID).get_path(),
         '--undecorated',
     ];
+
+    if (service)
+        argv.push('--gapplication-service');
 
     if (settings.get_boolean('force-x11-gdk-backend')) {
         const prev_gdk_backend = subprocess_launcher.getenv('GDK_BACKEND');
