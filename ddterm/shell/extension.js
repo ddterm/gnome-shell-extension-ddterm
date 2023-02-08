@@ -273,8 +273,8 @@ function enable() {
         Gio.DBusCallFlags.NONE,
         -1,
         null,
-        null,
-    )
+        null
+    );
 }
 
 function disable() {
