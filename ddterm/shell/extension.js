@@ -408,17 +408,12 @@ function activate() {
     if (!window_manager.current_window)
         window_manager.update_monitor_index();
 
-    if (window_manager.current_window) {
+    if (window_manager.current_window)
         Main.activateWindow(window_manager.current_window);
-    } else if (app_dbus.action_group) {
-        // Compatibility with old app version
-        if (app_dbus.action_group.has_action('show'))
-            app_dbus.action_group.activate_action('show', null);
-        else
-            app_dbus.action_group.activate_action('toggle', null);
-    } else {
+    else if (app_dbus.action_group)
+        app_dbus.action_group.activate_action('show', null);
+    else
         spawn_app();
-    }
 }
 
 function set_skip_taskbar() {
