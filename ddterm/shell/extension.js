@@ -262,6 +262,19 @@ function enable() {
             ]))
     );
     dbus_service.install();
+
+    Gio.DBus.session.call(
+        'org.freedesktop.DBus',
+        'org/freedesktop/DBus',
+        'org.freedesktop.DBus',
+        'ReloadConfig',
+        null,
+        null,
+        Gio.DBusCallFlags.NONE,
+        -1,
+        null,
+        null,
+    )
 }
 
 function disable() {
