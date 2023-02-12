@@ -9,6 +9,7 @@ import math
 import pathlib
 import queue
 import subprocess
+import zipfile
 
 import allpairspy
 import filelock
@@ -61,19 +62,22 @@ def mkpairs(*args, **kwargs):
     return list(allpairspy.AllPairs(*args, **kwargs))
 
 
-def load_extension_metadata(src_dir, filename='metadata.json'):
-    with open(src_dir / filename, 'r') as f:
-        return json.load(f)
-
-
 @pytest.fixture(scope='session')
-def ddterm_metadata():
-    return load_extension_metadata(SRC_DIR, 'metadata.json.in')
+def ddterm_metadata(extension_pack):
+    if extension_pack:
+        with zipfile.ZipFile(extension_pack) as z:
+            with z.open('metadata.json') as f:
+                return json.load(f)
+
+    else:
+        with open(SRC_DIR / 'metadata.json', 'r') as f:
+            return json.load(f)
 
 
 @pytest.fixture(scope='session')
 def test_metadata():
-    return load_extension_metadata(TEST_SRC_DIR)
+    with open(TEST_SRC_DIR / 'metadata.json', 'r') as f:
+        return json.load(f)
 
 
 @pytest.fixture(scope='session')
