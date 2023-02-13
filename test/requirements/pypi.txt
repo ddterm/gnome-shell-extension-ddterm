@@ -23,7 +23,9 @@ packaging==23.0
     #   pytest
     #   pytest-rerunfailures
 pluggy==1.0.0
-    # via pytest
+    # via
+    #   -r pypi.in
+    #   pytest
 psutil==5.9.4
     # via pytest-xdist
 py==1.11.0

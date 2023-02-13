@@ -4,7 +4,7 @@ import contextlib
 import functools
 import itertools
 import json
-import logging
+import logging.handlers
 import math
 import pathlib
 import queue
@@ -21,7 +21,7 @@ import Xlib.X
 from pytest_html import extras
 from gi.repository import GLib, Gio
 
-from . import container_util, dbus_util, glib_util
+from . import container_util, dbus_util, glib_util, log_sync
 
 
 LOGGER = logging.getLogger(__name__)
@@ -86,7 +86,7 @@ def xvfb_fbdir(tmpdir_factory):
 
 
 @pytest.fixture(scope='session')
-def common_volumes(ddterm_metadata, test_metadata, extension_pack, xvfb_fbdir):
+def common_volumes(ddterm_metadata, test_metadata, extension_pack, xvfb_fbdir, syslog_server):
     if extension_pack:
         src_mount = (extension_pack, extension_pack, 'ro')
     else:
@@ -95,7 +95,8 @@ def common_volumes(ddterm_metadata, test_metadata, extension_pack, xvfb_fbdir):
     return [
         src_mount,
         (TEST_SRC_DIR, EXTENSIONS_INSTALL_DIR / test_metadata['uuid'], 'ro'),
-        (xvfb_fbdir, '/xvfb', 'rw')
+        (xvfb_fbdir, '/xvfb', 'rw'),
+        (syslog_server.server_address, '/run/systemd/journal/syslog'),
     ]
 
 
@@ -498,63 +499,46 @@ class MouseSim(contextlib.AbstractContextManager):
         LOGGER.info('Mouse button pressed = %s', self.mouse_button_last)
 
 
-@pytest.mark.runtest_cm.with_args(lambda item, when: item.cls.journal_context(item, when))
+class SyncMessageSystemdCat:
+    def __init__(self, container):
+        self.container = container
+
+    @log_sync.hookimpl
+    def log_sync_message(self, msg):
+        try:
+            self.container.exec('systemd-cat', input=msg.encode(), interactive=True)
+            return True
+
+        except Exception:
+            LOGGER.exception("Can't send syslog message with systemd-cat")
+
+
+class SyncMessageDBus:
+    def __init__(self, dbus_interface):
+        self.dbus_interface = dbus_interface
+
+    @log_sync.hookimpl
+    def log_sync_message(self, msg):
+        try:
+            self.dbus_interface.LogMessage('(s)', msg)
+            return True
+
+        except Exception:
+            LOGGER.exception("Can't send syslog message through D-Bus")
+
+
 class CommonFixtures:
     GNOME_SHELL_SESSION_NAME: str
     N_MONITORS: int
     PRIMARY_MONITOR = 0
     IS_MIXED_DPI = False
 
-    current_container: container_util.Container = None
-    current_dbus_interface = None
-
-    @classmethod
-    def journal_message(cls, msg):
-        try:
-            if cls.current_dbus_interface:
-                cls.current_dbus_interface.LogMessage('(s)', msg)
-                return
-
-        except Exception:
-            LOGGER.exception("Can't send log message through D-Bus")
-
-        cls.current_container.exec('systemd-cat', input=msg.encode(), interactive=True)
-
-    @classmethod
-    def journal_sync(cls, msg):
-        buffer = queue.SimpleQueue()
-        pattern = msg.encode()
-        grep = container_util.QueueOutput(buffer, lambda line: pattern in line)
-
-        with cls.current_container.console.with_output(grep):
-            cls.journal_message(msg)
-
-            try:
-                buffer.get(timeout=1)
-            except queue.Empty:
-                raise TimeoutError()
-
-    @classmethod
-    @contextlib.contextmanager
-    def journal_context(cls, item, when):
-        assert cls is not CommonTests
-
-        if cls.current_container is not None:
-            cls.journal_message(f'Beginning of {item.nodeid} {when}')
-
-        try:
-            yield
-
-        finally:
-            if cls.current_container is not None:
-                try:
-                    cls.journal_sync(f'End of {item.nodeid} {when}')
-                except Exception:
-                    LOGGER.exception("Can't sync journal")
-
     @classmethod
     def mount_configs(cls):
-        return ['/etc/systemd/system/xvfb@.service.d/fbdir.conf']
+        return [
+            '/etc/systemd/system/xvfb@.service.d/fbdir.conf',
+            '/etc/systemd/journald.conf.d/syslog.conf',
+        ]
 
     @pytest.fixture(scope='class')
     def container(
@@ -563,18 +547,15 @@ class CommonFixtures:
         container_image,
         common_volumes,
         global_tmp_path,
-        request
+        log_sync
     ):
-        assert request.cls is not CommonTests
-        assert request.cls.current_container is None
-
         volumes = common_volumes + [
             (
                 THIS_DIR / pathlib.PurePosixPath(path).relative_to('/'),
                 pathlib.PurePosixPath(path),
                 'ro'
             )
-            for path in request.cls.mount_configs()
+            for path in self.mount_configs()
         ]
 
         cap_add = [
@@ -609,15 +590,20 @@ class CommonFixtures:
 
         try:
             c.attach()
-            request.cls.current_container = c
 
-            c.exec('busctl', '--system', '--watch-bind=true', 'status', timeout=STARTUP_TIMEOUT_SEC)
-            c.exec('systemctl', 'is-system-running', '--wait', timeout=STARTUP_TIMEOUT_SEC)
+            with log_sync.with_registered(SyncMessageSystemdCat(c)):
+                c.exec(
+                    'busctl', '--system', '--watch-bind=true', 'status',
+                    timeout=STARTUP_TIMEOUT_SEC
+                )
+                c.exec(
+                    'systemctl', 'is-system-running', '--wait',
+                    timeout=STARTUP_TIMEOUT_SEC
+                )
 
-            yield c
+                yield c
 
         finally:
-            request.cls.current_container = None
             c.kill()
 
     @pytest.fixture(scope='class')
@@ -684,23 +670,16 @@ class CommonFixtures:
         enable_extension(shell_extensions_interface, test_metadata['uuid'])
 
     @pytest.fixture(scope='class')
-    def test_interface(self, bus_connection, enable_test, request):
-        assert request.cls is not CommonTests
-        assert request.cls.current_dbus_interface is None
-
+    def test_interface(self, bus_connection, enable_test, log_sync):
         iface = dbus_util.wait_interface(
             bus_connection,
             name='org.gnome.Shell',
             path='/org/gnome/Shell/Extensions/ddterm',
             interface='com.github.amezin.ddterm.ExtensionTest'
         )
-        request.cls.current_dbus_interface = iface
 
-        try:
+        with log_sync.with_registered(SyncMessageDBus(iface)):
             yield iface
-
-        finally:
-            request.cls.current_dbus_interface = None
 
     @pytest.fixture(scope='class', autouse=True)
     def trace(self, test_interface):
@@ -1276,38 +1255,31 @@ def wait_action_in_group_enabled(group, action, enabled=True):
             w.wait()
 
 
-class SubscriptionLeakChecker(contextlib.AbstractContextManager):
-    def __init__(self, container, app_actions):
-        super().__init__()
+@contextlib.contextmanager
+def detect_leaks(syslogger, app_actions):
+    app_actions.activate_action('begin-subscription-leak-check', None)
 
-        self.container = container
-        self.app_actions = app_actions
+    yield
 
-    def __enter__(self):
-        wait_action_in_group(self.app_actions, 'begin-subscription-leak-check')
-        self.app_actions.activate_action('begin-subscription-leak-check', None)
-        return self
+    leaks = []
 
-    def __exit__(self, *_):
-        buffer = queue.SimpleQueue()
+    handler = logging.handlers.QueueHandler(queue.SimpleQueue())
+    syslogger.addHandler(handler)
 
-        with self.container.console.with_output(container_util.QueueOutput(buffer)):
-            self.app_actions.activate_action('end-subscription-leak-check', None)
+    try:
+        app_actions.activate_action('end-subscription-leak-check', None)
 
-            report_end = 'End of subscription leak report'.encode()
-            report_leak = 'Subscription leak'.encode()
-            n_leaks = 0
+        for record in iter(lambda: handler.queue.get(timeout=1), None):
+            if record.message.endswith('End of subscription leak report'):
+                break
 
-            while True:
-                msg = buffer.get(timeout=1)
+            if 'Subscription leak' in record.message:
+                leaks.append(record.message)
 
-                if report_end in msg:
-                    break
+    finally:
+        syslogger.removeHandler(handler)
 
-                if report_leak in msg:
-                    n_leaks += 1
-
-        assert n_leaks == 0
+    assert leaks == []
 
 
 class TestSubscriptionLeaks(CommonFixtures):
@@ -1355,22 +1327,31 @@ class TestSubscriptionLeaks(CommonFixtures):
                     w.wait()
 
     @pytest.fixture
-    def subscription_leak_check(self, app_actions, container):
-        return SubscriptionLeakChecker(container, app_actions)
+    def actions_available(self, run_app, app_actions):
+        wait_action_in_group(app_actions, 'begin-subscription-leak-check')
+        wait_action_in_group(app_actions, 'end-subscription-leak-check')
 
-    def test_tab_leak(self, win_actions, subscription_leak_check):
+    @pytest.fixture
+    def leak_detector(self, syslog_server, app_actions, actions_available):
+        return functools.partial(
+            detect_leaks,
+            syslogger=syslog_server.logger,
+            app_actions=app_actions
+        )
+
+    def test_tab_leak(self, leak_detector, win_actions):
         wait_action_in_group(win_actions, 'new-tab')
         wait_action_in_group(win_actions, 'close-current-tab')
 
-        with subscription_leak_check:
+        with leak_detector():
             win_actions.activate_action('new-tab', None)
             win_actions.activate_action('close-current-tab', None)
 
-    def test_prefs_leak(self, app_actions, subscription_leak_check):
+    def test_prefs_leak(self, leak_detector, app_actions):
         wait_action_in_group(app_actions, 'preferences')
         wait_action_in_group_enabled(app_actions, 'close-preferences', False)
 
-        with subscription_leak_check:
+        with leak_detector():
             app_actions.activate_action('preferences', None)
             wait_action_in_group_enabled(app_actions, 'close-preferences', True)
             app_actions.activate_action('close-preferences', None)

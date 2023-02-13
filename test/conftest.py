@@ -1,10 +1,11 @@
-import contextlib
+import logging
 import pathlib
 
 import pytest
 import yaml
 
-from . import container_util
+from . import container_util, log_sync
+from .syslog_server import SyslogServer
 
 
 TEST_SRC_DIR = pathlib.Path(__file__).parent.resolve()
@@ -94,6 +95,8 @@ def pytest_configure(config):
         for image in images
     ]
 
+    config.pluginmanager.register(log_sync.LogSyncPlugin())
+
 
 def pytest_generate_tests(metafunc):
     if 'container_image' in metafunc.fixturenames:
@@ -105,27 +108,28 @@ def pytest_generate_tests(metafunc):
         )
 
 
-def get_runtest_cm(item, when):
-    cm = item.get_closest_marker('runtest_cm')
-    if cm:
-        return cm.args[0](item, when)
+class SyslogMessageMatcher(logging.Filter):
+    def __init__(self, msg, name=''):
+        super().__init__(name)
+        self.msg = msg
 
-    return contextlib.nullcontext()
+    def filter(self, record):
+        return super().filter(record) and record.message.endswith(self.msg)
 
+    class Factory:
+        def __init__(self, syslogger):
+            self.syslogger = syslogger
 
-@pytest.hookimpl(hookwrapper=True, trylast=True)
-def pytest_runtest_setup(item):
-    with get_runtest_cm(item, 'setup'):
-        yield
-
-
-@pytest.hookimpl(hookwrapper=True, trylast=True)
-def pytest_runtest_call(item):
-    with get_runtest_cm(item, 'call'):
-        yield
+        @log_sync.hookimpl
+        def log_sync_filter(self, msg):
+            return SyslogMessageMatcher(name=self.syslogger.name, msg=msg)
 
 
-@pytest.hookimpl(hookwrapper=True, trylast=True)
-def pytest_runtest_teardown(item):
-    with get_runtest_cm(item, 'teardown'):
-        yield
+@pytest.fixture(scope='session')
+def syslog_server(tmp_path_factory, log_sync):
+    path = tmp_path_factory.mktemp('syslog') / 'socket'
+
+    with SyslogServer(str(path)) as server:
+        with server.serve_forever_background(poll_interval=0.1):
+            with log_sync.with_registered(SyslogMessageMatcher.Factory(server.logger)):
+                yield server
