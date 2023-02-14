@@ -7,6 +7,6 @@
     },
     "devDependencies": {
         "eslint": "8.34.0",
-        "eslint-plugin-jsdoc": "39.8.0"
+        "eslint-plugin-jsdoc": "39.9.1"
     }
 }
