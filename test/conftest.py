@@ -13,11 +13,6 @@ IMAGES_STASH_KEY = pytest.StashKey[list]()
 
 
 @pytest.fixture(scope='session')
-def global_tmp_path(tmp_path_factory):
-    return tmp_path_factory.getbasetemp().parent
-
-
-@pytest.fixture(scope='session')
 def podman(pytestconfig):
     return container_util.Podman(pytestconfig.option.podman)
 

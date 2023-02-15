@@ -100,6 +100,11 @@ def common_volumes(ddterm_metadata, test_metadata, extension_pack, xvfb_fbdir, s
     ]
 
 
+@pytest.fixture(scope='session')
+def container_start_lock(request):
+    return filelock.FileLock(request.config.cache.mkdir('container-starting') / 'lock')
+
+
 def enable_extension(shell_extensions_interface, uuid):
     info = None
 
@@ -546,7 +551,7 @@ class CommonFixtures:
         podman,
         container_image,
         common_volumes,
-        global_tmp_path,
+        container_start_lock,
         log_sync
     ):
         volumes = common_volumes + [
@@ -572,7 +577,7 @@ class CommonFixtures:
             ('127.0.0.1', '', DISPLAY_PORT)
         ]
 
-        with filelock.FileLock(global_tmp_path / 'container-starting.lock'):
+        with container_start_lock:
             c = container_util.Container.run(
                 podman,
                 '--rm',
