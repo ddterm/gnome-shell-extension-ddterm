@@ -16,11 +16,15 @@
 
 ### Download container images
 
-    $ tox -e podman-compose -- pull
+    $ tox -e images -- pull
 
 ### Optional: remove outdated container images
 
-    $ tox -e remove-old-images
+    $ tox -e images -- prune
+
+Or to do both at the same time:
+
+    $ tox -e images -- pull --prune
 
 ### Run tests
 
