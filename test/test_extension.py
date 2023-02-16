@@ -763,6 +763,27 @@ class CommonFixtures:
             mouse_sim=mouse_sim
         )
 
+    @pytest.fixture(autouse=True)
+    def check_log_errors(self, caplog, syslog_server, ddterm_metadata):
+        pattern = f'@{EXTENSIONS_INSTALL_DIR / ddterm_metadata["uuid"]}'
+
+        yield
+
+        all_records = itertools.chain(
+            caplog.get_records('setup'),
+            caplog.get_records('call'),
+            caplog.get_records('teardown')
+        )
+
+        errors = [
+            record for record in all_records
+            if record.levelno >= logging.WARNING
+            and record.name.startswith(syslog_server.logger.name)
+            and pattern in record.message
+        ]
+
+        assert errors == []
+
 
 class CommonTests(CommonFixtures):
     def common_test_show(
