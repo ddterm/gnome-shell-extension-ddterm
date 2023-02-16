@@ -921,13 +921,16 @@ class CommonTests(CommonFixtures):
         window_pos,
         monitor_config,
         shell_version,
-        screenshot
+        screenshot,
+        request
     ):
         monitor = test_api.layout.resolve_monitor(monitor_config)
 
         if shell_version < (3, 39):
-            if monitor_config.current_index == 1 and window_pos == 'bottom' and window_size2 == 1:
-                pytest.xfail('For unknown reason it fails to resize to full height on 2nd monitor')
+            if monitor.index == 1 and window_pos == 'bottom' and window_size2 == 1:
+                request.applymarker(pytest.mark.xfail(
+                    reason='For unknown reason it fails to resize to full height on 2nd monitor'
+                ))
 
         with screenshot:
             self.common_test_show(
