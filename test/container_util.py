@@ -59,35 +59,39 @@ class Podman:
 
 
 class Container:
-    def __init__(self, podman, container_id):
-        self.container_id = container_id
+    def __init__(self, podman, *args, **kwargs):
         self.podman = podman
         self.console = None
 
-    def kill(self, **kwargs):
-        self.podman('kill', self.container_id, check=False, **kwargs)
+        self.container_id = podman(
+            'container', 'create', *args,
+            stdout=subprocess.PIPE, text=True, **kwargs
+        ).stdout.strip()
+
+    def rm(self, timeout=None, **kwargs):
+        timeout = self.podman.timeout if timeout is None else timeout
+
+        self.podman(
+            'container', 'rm', '-t', str(timeout), '--force', '--volumes', self.container_id,
+            timeout=timeout * 2, **kwargs
+        )
 
         if self.console:
-            self.console.wait(timeout=kwargs.get('timeout', self.podman.timeout))
+            self.console.wait(timeout=timeout)
+            self.console = None
 
-    def attach(self):
-        assert self.console is None
+    def start(self, **kwargs):
+        if self.console is not None:
+            raise RuntimeError(f'There is already a console process: {self.console}')
 
         self.console = self.podman.bg(
-            'attach', '--no-stdin', '--sig-proxy=false', self.container_id,
+            'container', 'start', '--attach', '--sig-proxy=false', self.container_id,
             stdin=subprocess.DEVNULL, stdout=None, stderr=None
         )
 
-    @classmethod
-    def run(cls, podman, *args, **kwargs):
-        container_id = podman(
-            'run', '-td', *args, stdout=subprocess.PIPE, text=True, **kwargs
-        ).stdout
-
-        if container_id.endswith('\n'):
-            container_id = container_id[:-1]
-
-        return cls(podman, container_id)
+        self.podman(
+            'container', 'wait', '--condition', 'running', self.container_id, **kwargs
+        )
 
     def exec(self, *args, user=None, bg=False, interactive=False, env=None, **kwargs):
         exec_args = []
@@ -102,7 +106,7 @@ class Container:
             exec_args.append('--interactive')
 
         return (self.podman.bg if bg else self.podman)(
-            'exec', *exec_args, self.container_id, *args, **kwargs
+            'container', 'exec', *exec_args, self.container_id, *args, **kwargs
         )
 
     def inspect(self, format=None, **kwargs):
@@ -115,7 +119,7 @@ class Container:
 
     def get_port(self, port, **kwargs):
         host, port = self.podman(
-            'port', self.container_id, str(port),
+            'container', 'port', self.container_id, str(port),
             stdout=subprocess.PIPE, text=True, **kwargs
         ).stdout.strip().split(':', 1)
 

@@ -578,11 +578,11 @@ class CommonFixtures:
         ]
 
         with container_start_lock:
-            c = container_util.Container.run(
+            c = container_util.Container(
                 podman,
-                '--rm',
                 '--pull=never',
                 '--log-driver=none',
+                '--tty',
                 f'--publish={",".join(":".join(str(p) for p in spec) for spec in publish_ports)}',
                 f'--cap-add={",".join(cap_add)}',
                 *itertools.chain.from_iterable(
@@ -594,7 +594,7 @@ class CommonFixtures:
             )
 
         try:
-            c.attach()
+            c.start(timeout=STARTUP_TIMEOUT_SEC)
 
             with log_sync.with_registered(SyncMessageSystemdCat(c)):
                 c.exec(
@@ -609,7 +609,7 @@ class CommonFixtures:
                 yield c
 
         finally:
-            c.kill()
+            c.rm(timeout=STARTUP_TIMEOUT_SEC)
 
     @pytest.fixture(scope='class')
     def user_env(self, container):
