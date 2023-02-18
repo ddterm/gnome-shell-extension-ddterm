@@ -10,30 +10,51 @@ LOGGER = logging.getLogger(__name__)
 class Podman:
     DEFAULT_TIMEOUT = 2
 
-    def __init__(self, base_args=('podman',)):
-        self.base_args = tuple(base_args)
+    def __init__(self, *args, timeout=DEFAULT_TIMEOUT, **kwargs):
+        self.args = args if args else ('podman',)
+        self.timeout = timeout
+        self.kwargs = kwargs
 
     def cmd(self, *args):
-        return self.base_args + args
+        return self.args + args
 
     def __call__(self, *args, **kwargs):
-        kwargs.setdefault('check', True)
-        kwargs.setdefault('timeout', self.DEFAULT_TIMEOUT)
+        kwargs = dict(self.kwargs, **kwargs)
+        check = kwargs.pop('check', True)
 
         cmd = self.cmd(*args)
         cmd_str = shlex.join(cmd)
 
-        LOGGER.info('Running: %s', cmd_str)
-        try:
-            proc = subprocess.run(cmd, **kwargs)
-        finally:
-            LOGGER.info('Done: %s', cmd_str)
+        LOGGER.info('%r: starting', cmd_str)
+        proc = subprocess.run(cmd, **kwargs)
+
+        ex = None if proc.returncode == 0 else subprocess.CalledProcessError(
+            proc.returncode, cmd_str, proc.stdout, proc.stderr
+        )
+
+        log_format = '%(ex)s' if ex else '%(cmd)r: completed'
+
+        if proc.stdout is not None:
+            log_format += ' stdout: %(stdout)r'
+
+        if proc.stderr is not None:
+            log_format += ' stderr: %(stderr)r'
+
+        LOGGER.info(
+            log_format,
+            dict(cmd=cmd_str, ex=ex, stdout=proc.stdout, stderr=proc.stderr)
+        )
+
+        if check and ex:
+            raise ex
 
         return proc
 
     def bg(self, *args, **kwargs):
+        kwargs = dict(self.kwargs, **kwargs)
         cmd = self.cmd(*args)
-        LOGGER.info('Starting in background: %s', shlex.join(cmd))
+
+        LOGGER.info('%r: starting in background', shlex.join(cmd))
         return subprocess.Popen(cmd, **kwargs)
 
 
@@ -43,18 +64,18 @@ class Container:
         self.podman = podman
         self.console = None
 
-    def kill(self):
-        self.podman('kill', self.container_id, check=False)
+    def kill(self, **kwargs):
+        self.podman('kill', self.container_id, check=False, **kwargs)
 
         if self.console:
-            self.console.wait(timeout=5)
+            self.console.wait(timeout=kwargs.get('timeout', self.podman.timeout))
 
     def attach(self):
         assert self.console is None
 
         self.console = self.podman.bg(
             'attach', '--no-stdin', '--sig-proxy=false', self.container_id,
-            stdin=subprocess.DEVNULL, bufsize=0
+            stdin=subprocess.DEVNULL, stdout=None, stderr=None
         )
 
     @classmethod
@@ -84,18 +105,18 @@ class Container:
             'exec', *exec_args, self.container_id, *args, **kwargs
         )
 
-    def inspect(self, format=None):
+    def inspect(self, format=None, **kwargs):
         format_args = () if format is None else ('--format', format)
 
         return json.loads(self.podman(
             'container', 'inspect', *format_args, self.container_id,
-            stdout=subprocess.PIPE
+            stdout=subprocess.PIPE, **kwargs  # text=True not required!
         ).stdout)
 
-    def get_port(self, port):
+    def get_port(self, port, **kwargs):
         host, port = self.podman(
             'port', self.container_id, str(port),
-            stdout=subprocess.PIPE, text=True
+            stdout=subprocess.PIPE, text=True, **kwargs
         ).stdout.strip().split(':', 1)
 
         return host, int(port)

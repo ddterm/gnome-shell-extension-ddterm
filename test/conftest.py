@@ -1,5 +1,6 @@
 import logging
 import pathlib
+import subprocess
 
 import pytest
 import yaml
@@ -14,7 +15,11 @@ IMAGES_STASH_KEY = pytest.StashKey[list]()
 
 @pytest.fixture(scope='session')
 def podman(pytestconfig):
-    return container_util.Podman(pytestconfig.option.podman)
+    return container_util.Podman(
+        *pytestconfig.option.podman,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE
+    )
 
 
 @pytest.fixture(scope='session')

@@ -69,7 +69,7 @@ def run_command(func, file, podman_cmd, **kwargs):
         compose_config = yaml.safe_load(f)
 
     func(
-        podman=container_util.Podman(podman_cmd),
+        podman=container_util.Podman(*podman_cmd),
         compose_config=compose_config,
         **kwargs
     )
