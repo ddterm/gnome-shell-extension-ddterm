@@ -145,6 +145,69 @@ const PanelIconToggleButton = GObject.registerClass(
     }
 );
 
+const PanelIconToggleAndMenu = GObject.registerClass(
+    class DDTermPanelIconToggleAndMenu extends PanelIconBase {
+        _init() {
+            super._init(false);
+
+            this.toggle_item = new PopupMenu.PopupSwitchMenuItem(
+                translations.gettext('Show'),
+                false
+            );
+            this.menu.addMenuItem(this.toggle_item);
+            this.connections.connect(this.toggle_item, 'toggled', (_, value) => {
+                this.emit('toggle', value);
+            });
+            this.connections.connect(this.toggle_item, 'notify::state', () => {
+                this.notify('active');
+            });
+
+            this.preferences_item = new PopupMenu.PopupMenuItem(
+                translations.gettext('Preferences...')
+            );
+            this.menu.addMenuItem(this.preferences_item);
+            this.connections.connect(this.preferences_item, 'activate', () => {
+                this.emit('open-preferences');
+            });
+        }
+
+        get active() {
+            return this.toggle_item.state;
+        }
+
+        set active(value) {
+            if (value === this.active)
+                return;
+
+            if (value) {
+                this.add_style_pseudo_class('active');
+                this.add_accessible_state(Atk.StateType.CHECKED);
+            } else {
+                this.remove_style_pseudo_class('active');
+                this.remove_accessible_state(Atk.StateType.CHECKED);
+            }
+
+            this.toggle_item.setToggleState(value);
+        }
+
+        static type_name() {
+            return 'toggle-and-menu-button';
+        }
+
+        vfunc_event(event) {
+            if (event.type() === Clutter.EventType.TOUCH_BEGIN ||
+                event.type() === Clutter.EventType.BUTTON_PRESS) {
+                if (event.get_button() === Clutter.BUTTON_PRIMARY ||
+                    event.get_button() === Clutter.BUTTON_MIDDLE)
+                    this.emit('toggle', !this.active);
+                else
+                    super.vfunc_event(event);
+            }
+            return Clutter.EVENT_PROPAGATE;
+        }
+    }
+);
+
 var PanelIconProxy = GObject.registerClass(
     {
         Properties: {
@@ -184,6 +247,7 @@ var PanelIconProxy = GObject.registerClass(
 
             this.types[PanelIconPopupMenu.type_name()] = PanelIconPopupMenu;
             this.types[PanelIconToggleButton.type_name()] = PanelIconToggleButton;
+            this.types[PanelIconToggleAndMenu.type_name()] = PanelIconToggleAndMenu;
         }
 
         get type() {

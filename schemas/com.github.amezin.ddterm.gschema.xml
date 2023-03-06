@@ -136,6 +136,7 @@
     <value nick="none" value="0"/>
     <value nick="menu-button" value="1"/>
     <value nick="toggle-button" value="2"/>
+    <value nick="toggle-and-menu-button" value="3"/>
   </enum>
 
   <enum id="com.github.amezin.ddterm.EllipsizeMode">

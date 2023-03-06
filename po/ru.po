@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-12-24 20:04+0300\n"
+"POT-Creation-Date: 2023-03-06 10:11-0300\n"
 "PO-Revision-Date: 2022-12-21 13:31+0300\n"
 "Last-Translator: vantu5z <vantu5z@mail.ru>\n"
 "Language-Team: Russian <>\n"
@@ -171,6 +171,7 @@ msgid "Preferences"
 msgstr "Параметры"
 
 #: ddterm/app/menus.ui:105 ddterm/app/menus.ui:207 ddterm/shell/panelicon.js:85
+#: ddterm/shell/panelicon.js:166
 msgid "Preferences..."
 msgstr "Параметры..."
 
@@ -249,6 +250,26 @@ msgid ""
 msgstr ""
 "В терминале запущены процессы. При закрытии терминала эти процессы будут "
 "завершены."
+
+#: ddterm/pref/animation.js:99
+msgid "Animation"
+msgstr "Анимация"
+
+#: ddterm/pref/behavior.js:71
+msgid "Behavior"
+msgstr "Поведение"
+
+#: ddterm/pref/colors.js:276
+msgid "Colors"
+msgstr "Цвета"
+
+#: ddterm/pref/command.js:71
+msgid "Command"
+msgstr "Команда"
+
+#: ddterm/pref/compatibility.js:72
+msgid "Compatibility"
+msgstr "Совместимость"
 
 #: ddterm/pref/glade/prefs-animation.ui:36
 msgid "Disable"
@@ -793,6 +814,10 @@ msgstr "С выпадающим меню"
 msgid "Toggle button"
 msgstr "Кнопка переключения"
 
+#: ddterm/pref/glade/prefs-panel-icon.ui:58
+msgid "Toggle button and popup menu"
+msgstr ""
+
 #: ddterm/pref/glade/prefs-position-size.ui:47
 msgid "Window _size:"
 msgstr "Размер окна:"
@@ -1173,26 +1198,6 @@ msgstr "Адреса E-mail"
 msgid "Detect news:/man: URLs"
 msgstr "Ссылки вида \"news:/man\""
 
-#: ddterm/pref/animation.js:99
-msgid "Animation"
-msgstr "Анимация"
-
-#: ddterm/pref/behavior.js:71
-msgid "Behavior"
-msgstr "Поведение"
-
-#: ddterm/pref/colors.js:276
-msgid "Colors"
-msgstr "Цвета"
-
-#: ddterm/pref/command.js:71
-msgid "Command"
-msgstr "Команда"
-
-#: ddterm/pref/compatibility.js:72
-msgid "Compatibility"
-msgstr "Совместимость"
-
 #: ddterm/pref/panelicon.js:57
 msgid "Panel Icon"
 msgstr "Значок на панели"
@@ -1217,6 +1222,6 @@ msgstr "Вкладки"
 msgid "Text"
 msgstr "Текст"
 
-#: ddterm/shell/panelicon.js:73
+#: ddterm/shell/panelicon.js:73 ddterm/shell/panelicon.js:154
 msgid "Show"
 msgstr "Показать"

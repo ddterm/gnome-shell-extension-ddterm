@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-12-24 20:04+0300\n"
+"POT-Creation-Date: 2023-03-06 10:11-0300\n"
 "PO-Revision-Date: 2022-12-20 21:44+0100\n"
 "Last-Translator: FELDMANN arnaud <arnaud.feldmann at gmail dot com>\n"
 "Language-Team: \n"
@@ -170,6 +170,7 @@ msgid "Preferences"
 msgstr "Préférences"
 
 #: ddterm/app/menus.ui:105 ddterm/app/menus.ui:207 ddterm/shell/panelicon.js:85
+#: ddterm/shell/panelicon.js:166
 msgid "Preferences..."
 msgstr "Préférences..."
 
@@ -248,6 +249,26 @@ msgid ""
 msgstr ""
 "Il reste un processus en cours d'exécution dans ce terminal. Fermer ce "
 "terminal va le tuer."
+
+#: ddterm/pref/animation.js:99
+msgid "Animation"
+msgstr "Animation"
+
+#: ddterm/pref/behavior.js:71
+msgid "Behavior"
+msgstr "Comportement"
+
+#: ddterm/pref/colors.js:276
+msgid "Colors"
+msgstr "Couleurs"
+
+#: ddterm/pref/command.js:71
+msgid "Command"
+msgstr "Commande"
+
+#: ddterm/pref/compatibility.js:72
+msgid "Compatibility"
+msgstr "Compatibilité"
 
 #: ddterm/pref/glade/prefs-animation.ui:36
 msgid "Disable"
@@ -792,6 +813,10 @@ msgstr "Avec un menu contextuel"
 msgid "Toggle button"
 msgstr "Bouton de basculement"
 
+#: ddterm/pref/glade/prefs-panel-icon.ui:58
+msgid "Toggle button and popup menu"
+msgstr ""
+
 #: ddterm/pref/glade/prefs-position-size.ui:47
 msgid "Window _size:"
 msgstr "Taille de la fenêtre :"
@@ -1170,26 +1195,6 @@ msgstr "Détecter les adresses email"
 msgid "Detect news:/man: URLs"
 msgstr "Détecter les URL de type « news: »"
 
-#: ddterm/pref/animation.js:99
-msgid "Animation"
-msgstr "Animation"
-
-#: ddterm/pref/behavior.js:71
-msgid "Behavior"
-msgstr "Comportement"
-
-#: ddterm/pref/colors.js:276
-msgid "Colors"
-msgstr "Couleurs"
-
-#: ddterm/pref/command.js:71
-msgid "Command"
-msgstr "Commande"
-
-#: ddterm/pref/compatibility.js:72
-msgid "Compatibility"
-msgstr "Compatibilité"
-
 #: ddterm/pref/panelicon.js:57
 msgid "Panel Icon"
 msgstr "Icône de panneau"
@@ -1214,6 +1219,6 @@ msgstr "Onglets"
 msgid "Text"
 msgstr "Texte"
 
-#: ddterm/shell/panelicon.js:73
+#: ddterm/shell/panelicon.js:73 ddterm/shell/panelicon.js:154
 msgid "Show"
 msgstr "Afficher"
