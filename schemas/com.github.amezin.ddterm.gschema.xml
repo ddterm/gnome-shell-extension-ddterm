@@ -164,7 +164,7 @@
       <default>''</default>
     </key>
     <key name="panel-icon-type" enum="com.github.amezin.ddterm.PanelIconType">
-      <default>'menu-button'</default>
+      <default>'toggle-and-menu-button'</default>
     </key>
     <key name="theme-variant" enum="com.github.amezin.ddterm.ThemeVariant">
       <default>'system'</default>
