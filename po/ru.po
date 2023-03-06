@@ -815,9 +815,8 @@ msgid "Toggle button"
 msgstr "Кнопка переключения"
 
 #: ddterm/pref/glade/prefs-panel-icon.ui:58
-#, fuzzy
 msgid "Toggle button and popup menu"
-msgstr "Кнопка переключения"
+msgstr ""
 
 #: ddterm/pref/glade/prefs-position-size.ui:47
 msgid "Window _size:"

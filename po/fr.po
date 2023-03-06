@@ -814,9 +814,8 @@ msgid "Toggle button"
 msgstr "Bouton de basculement"
 
 #: ddterm/pref/glade/prefs-panel-icon.ui:58
-#, fuzzy
 msgid "Toggle button and popup menu"
-msgstr "Bouton de basculement"
+msgstr ""
 
 #: ddterm/pref/glade/prefs-position-size.ui:47
 msgid "Window _size:"
