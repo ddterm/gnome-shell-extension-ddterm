@@ -80,7 +80,7 @@ jobs:
       shell: bash
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
-    - name: Ensure translations are up to date
+    - name: Ensure translations are up to date (run `make msgmerge` to fix)
       run: make msgcmp | tee msgcmp.log
       shell: bash
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
