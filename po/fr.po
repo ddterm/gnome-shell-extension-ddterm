@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-06 10:11-0300\n"
-"PO-Revision-Date: 2022-12-20 21:44+0100\n"
+"POT-Creation-Date: 2023-03-06 20:05+0100\n"
+"PO-Revision-Date: 2023-03-06 20:05+0100\n"
 "Last-Translator: FELDMANN arnaud <arnaud.feldmann at gmail dot com>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -40,7 +40,7 @@ msgstr "Merci d'installer les paquets contenant les fichiers suivants :"
 msgid "Missing dependencies"
 msgstr "Dépendances manquantes"
 
-#: ddterm/app/glade/appwindow.ui:41
+#: ddterm/app/glade/appwindow.ui:41 ddterm/com.github.amezin.ddterm.desktop:4
 msgid "Drop Down Terminal"
 msgstr "Terminal déroulant"
 
@@ -249,6 +249,14 @@ msgid ""
 msgstr ""
 "Il reste un processus en cours d'exécution dans ce terminal. Fermer ce "
 "terminal va le tuer."
+
+#: ddterm/com.github.amezin.ddterm.desktop:6
+msgid ""
+"Another drop down terminal extension for GNOME Shell. With tabs. Works on "
+"Wayland natively."
+msgstr ""
+"Une extension de terminal déroulant pour GNOME Shell. Avec des onglets. Qui "
+"fonctionne nativement sous Wayland."
 
 #: ddterm/pref/animation.js:99
 msgid "Animation"
@@ -815,7 +823,7 @@ msgstr "Bouton de basculement"
 
 #: ddterm/pref/glade/prefs-panel-icon.ui:58
 msgid "Toggle button and popup menu"
-msgstr ""
+msgstr "Bouton de basculement et menu contextuel"
 
 #: ddterm/pref/glade/prefs-position-size.ui:47
 msgid "Window _size:"
