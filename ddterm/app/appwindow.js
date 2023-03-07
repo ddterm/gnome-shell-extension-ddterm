@@ -411,6 +411,7 @@ var AppWindow = GObject.registerClass(
             const index = this.notebook.insert_page(page, page.tab_label, position);
             this.notebook.set_current_page(index);
             this.notebook.set_tab_reorderable(page, true);
+            this.notebook.set_can_focus(false);
 
             const page_scope = rxutil.scope(page, rxutil.signal(page, 'destroy'));
             this.rx.add(page_scope);
