@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-06 10:11-0300\n"
-"PO-Revision-Date: 2022-12-20 21:44+0100\n"
+"POT-Creation-Date: 2023-03-06 21:23+0100\n"
+"PO-Revision-Date: 2023-03-06 21:27+0100\n"
 "Last-Translator: FELDMANN arnaud <arnaud.feldmann at gmail dot com>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -13,8 +13,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Poedit 3.2.2\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-Basepath: ..\n"
-"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-Basepath: .\n"
 
 #: ddterm/app/appwindow.js:440
 msgid ""
@@ -815,7 +814,7 @@ msgstr "Bouton de basculement"
 
 #: ddterm/pref/glade/prefs-panel-icon.ui:58
 msgid "Toggle button and popup menu"
-msgstr ""
+msgstr "Bouton de basculement et menu contextuel"
 
 #: ddterm/pref/glade/prefs-position-size.ui:47
 msgid "Window _size:"
