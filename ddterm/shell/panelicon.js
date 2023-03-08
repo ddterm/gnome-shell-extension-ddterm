@@ -146,31 +146,7 @@ const PanelIconToggleButton = GObject.registerClass(
 );
 
 const PanelIconToggleAndMenu = GObject.registerClass(
-    class DDTermPanelIconToggleAndMenu extends PanelIconBase {
-        _init() {
-            super._init(false);
-
-            this.toggle_item = new PopupMenu.PopupSwitchMenuItem(
-                translations.gettext('Show'),
-                false
-            );
-            this.menu.addMenuItem(this.toggle_item);
-            this.connections.connect(this.toggle_item, 'toggled', (_, value) => {
-                this.emit('toggle', value);
-            });
-            this.connections.connect(this.toggle_item, 'notify::state', () => {
-                this.notify('active');
-            });
-
-            this.preferences_item = new PopupMenu.PopupMenuItem(
-                translations.gettext('Preferences...')
-            );
-            this.menu.addMenuItem(this.preferences_item);
-            this.connections.connect(this.preferences_item, 'activate', () => {
-                this.emit('open-preferences');
-            });
-        }
-
+    class DDTermPanelIconToggleAndMenu extends PanelIconPopupMenu {
         get active() {
             return this.toggle_item.state;
         }
