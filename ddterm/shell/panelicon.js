@@ -150,7 +150,7 @@ const PanelIconToggleButton = GObject.registerClass(
 const PanelIconToggleAndMenu = GObject.registerClass(
     class DDTermPanelIconToggleAndMenu extends PanelIconPopupMenu {
         get active() {
-            return this.toggle_item.state;
+            return super.active;
         }
 
         set active(value) {
@@ -165,7 +165,7 @@ const PanelIconToggleAndMenu = GObject.registerClass(
                 this.remove_accessible_state(Atk.StateType.CHECKED);
             }
 
-            this.toggle_item.setToggleState(value);
+            super.active = value;
         }
 
         static type_name() {
