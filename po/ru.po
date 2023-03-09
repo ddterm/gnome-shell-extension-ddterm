@@ -1,12 +1,12 @@
 #
-# vantu5z <vantu5z@mail.ru>, 2022.
+# vantu5z <vantu5z@mail.ru>, 2022-2023.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-03-06 10:11-0300\n"
-"PO-Revision-Date: 2022-12-21 13:31+0300\n"
+"PO-Revision-Date: 2023-03-09 13:56+0300\n"
 "Last-Translator: vantu5z <vantu5z@mail.ru>\n"
 "Language-Team: Russian <>\n"
 "Language: ru\n"
@@ -804,11 +804,11 @@ msgstr "Иконка на панели:"
 
 #: ddterm/pref/glade/prefs-panel-icon.ui:55 ddterm/pref/glade/prefs-tabs.ui:292
 msgid "None"
-msgstr "Отключено"
+msgstr "Нет"
 
 #: ddterm/pref/glade/prefs-panel-icon.ui:56
 msgid "With popup menu"
-msgstr "С выпадающим меню"
+msgstr "Выпадающее меню"
 
 #: ddterm/pref/glade/prefs-panel-icon.ui:57
 msgid "Toggle button"
@@ -816,7 +816,7 @@ msgstr "Кнопка переключения"
 
 #: ddterm/pref/glade/prefs-panel-icon.ui:58
 msgid "Toggle button and popup menu"
-msgstr ""
+msgstr "Кнопка переключения и выпадающее меню"
 
 #: ddterm/pref/glade/prefs-position-size.ui:47
 msgid "Window _size:"
