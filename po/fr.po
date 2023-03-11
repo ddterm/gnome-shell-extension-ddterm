@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-06 21:23+0100\n"
+"POT-Creation-Date: 2023-03-11 16:43+0200\n"
 "PO-Revision-Date: 2023-03-06 21:27+0100\n"
 "Last-Translator: FELDMANN arnaud <arnaud.feldmann at gmail dot com>\n"
 "Language-Team: \n"
@@ -169,7 +169,6 @@ msgid "Preferences"
 msgstr "Préférences"
 
 #: ddterm/app/menus.ui:105 ddterm/app/menus.ui:207 ddterm/shell/panelicon.js:85
-#: ddterm/shell/panelicon.js:166
 msgid "Preferences..."
 msgstr "Préférences..."
 
@@ -1218,6 +1217,6 @@ msgstr "Onglets"
 msgid "Text"
 msgstr "Texte"
 
-#: ddterm/shell/panelicon.js:73 ddterm/shell/panelicon.js:154
+#: ddterm/shell/panelicon.js:73
 msgid "Show"
 msgstr "Afficher"
