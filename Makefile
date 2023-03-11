@@ -322,7 +322,8 @@ $(POT_FILE): $(sort $(TRANSLATABLE_SOURCES))
 		--output=$@ \
 		$^
 
-CLEAN += $(POT_FILE)
+pot: $(POT_FILE)
+.PHONY: pot
 
 MSGCMP_GOALS := $(addprefix msgcmp/, $(LOCALES))
 
