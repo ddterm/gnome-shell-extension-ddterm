@@ -20,8 +20,6 @@ jobs:
       id: checkout
       uses: actions/checkout@v3
 
-    - run: git config --global --replace-all safe.directory "$GITHUB_WORKSPACE"
-
     - name: Setup Testspace
       id: setup_testspace
       uses: testspace-com/setup-testspace@v1
@@ -178,8 +176,6 @@ jobs:
 
     - name: Enable generic error matcher
       run: echo "::add-matcher::.github/problem-matchers/generic.json"
-
-    - run: git config --global --replace-all safe.directory "$GITHUB_WORKSPACE"
 
     - name: Setup Testspace
       id: setup_testspace
