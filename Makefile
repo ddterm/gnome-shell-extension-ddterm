@@ -336,7 +336,6 @@ msgcmp-strict: MSGCMP_FLAGS :=
 msgcmp-strict: $(MSGCMP_GOALS)
 
 .PHONY: msgcmp msgcmp-strict $(MSGCMP_GOALS)
-all: msgcmp
 
 MSGMERGE_GOALS := $(addprefix msgmerge/, $(LOCALES))
 

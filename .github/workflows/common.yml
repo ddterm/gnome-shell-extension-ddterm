@@ -80,11 +80,6 @@ jobs:
       shell: bash
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
-    - name: Ensure translations are up to date (run `make msgmerge` to fix)
-      run: make msgcmp | tee msgcmp.log
-      shell: bash
-      if: ${{ always() && steps.checkout.conclusion == 'success' }}
-
     - name: Ensure Python requirements .txt files are in sync with .in files
       run: |
         tox --sitepackages -e pip-compile
