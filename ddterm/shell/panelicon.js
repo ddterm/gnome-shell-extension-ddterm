@@ -154,9 +154,6 @@ const PanelIconToggleAndMenu = GObject.registerClass(
         }
 
         set active(value) {
-            if (value === this.active)
-                return;
-
             if (value) {
                 this.add_style_pseudo_class('checked');
                 this.add_accessible_state(Atk.StateType.CHECKED);
