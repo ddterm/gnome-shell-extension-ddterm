@@ -5,6 +5,8 @@ concurrency:
 name: pot
 
 on:
+  workflow_dispatch:
+  workflow_call:
   push:
     branches:
       - master
