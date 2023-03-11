@@ -5,15 +5,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: mezin.alexander@gmail.com\n"
 "POT-Creation-Date: 2023-03-11 16:43+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2023-03-11 23:16+0000\n"
+"Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
+"Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/"
+"gnome-shell-extension-ddterm/extension/nb_NO/>\n"
 "Language: nb_NO\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.16.2-dev\n"
 
 #: ddterm/app/appwindow.js:440
 msgid ""
@@ -51,15 +54,15 @@ msgstr ""
 
 #: ddterm/app/glade/terminalpage.ui:169
 msgid "Case Sensitive"
-msgstr ""
+msgstr "Forskjell på små og store bokstaver"
 
 #: ddterm/app/glade/terminalpage.ui:171
 msgid "Aa"
-msgstr ""
+msgstr "Aa"
 
 #: ddterm/app/glade/terminalpage.ui:186
 msgid "Match Whole Word"
-msgstr ""
+msgstr "Jamfør hele ord"
 
 #: ddterm/app/glade/terminalpage.ui:188
 msgid "\"\""
@@ -67,15 +70,15 @@ msgstr ""
 
 #: ddterm/app/glade/terminalpage.ui:203
 msgid "Wrap Around"
-msgstr ""
+msgstr "Linjebryt rundt"
 
 #: ddterm/app/glade/terminalpage.ui:206
 msgid "Wrap"
-msgstr ""
+msgstr "Linjebryt"
 
 #: ddterm/app/glade/terminalpage.ui:221
 msgid "Regular Expression"
-msgstr ""
+msgstr "Regulært uttrykk"
 
 #: ddterm/app/glade/terminalpage.ui:223
 msgid ".*"
@@ -88,119 +91,119 @@ msgstr ""
 #: ddterm/app/glade/terminalpage.ui:255 ddterm/app/menus.ui:76
 #: ddterm/app/menus.ui:175
 msgid "Close"
-msgstr ""
+msgstr "Lukk"
 
 #: ddterm/app/glade/terminalpage.ui:271 ddterm/app/glade/terminalpage.ui:274
 #: ddterm/pref/glade/prefs-shortcuts.ui:217
 msgid "Find Next"
-msgstr ""
+msgstr "Finn neste"
 
 #: ddterm/app/glade/terminalpage.ui:290 ddterm/app/glade/terminalpage.ui:293
 #: ddterm/pref/glade/prefs-shortcuts.ui:223
 msgid "Find Previous"
-msgstr ""
+msgstr "Finn forrige"
 
 #: ddterm/app/menus.ui:25
 msgid "Open Hyperlink"
-msgstr ""
+msgstr "Åpne hyperlenke"
 
 #: ddterm/app/menus.ui:30
 msgid "Copy Hyperlink Address"
-msgstr ""
+msgstr "Kopier hyperlenkeadresse"
 
 #: ddterm/app/menus.ui:35
 msgid "Copy File Path"
-msgstr ""
+msgstr "Kopier filsti"
 
 #: ddterm/app/menus.ui:42
 msgid "Copy"
-msgstr ""
+msgstr "Kopier"
 
 #: ddterm/app/menus.ui:46
 msgid "Copy HTML"
-msgstr ""
+msgstr "Kopier HTML"
 
 #: ddterm/app/menus.ui:50
 msgid "Paste"
-msgstr ""
+msgstr "Lim inn"
 
 #: ddterm/app/menus.ui:54 ddterm/pref/glade/prefs-shortcuts.ui:127
 msgid "Select All"
-msgstr ""
+msgstr "Velg alt"
 
 #: ddterm/app/menus.ui:60 ddterm/pref/glade/prefs-shortcuts.ui:211
 msgid "Find"
-msgstr ""
+msgstr "Finn"
 
 #: ddterm/app/menus.ui:66 ddterm/pref/glade/prefs-shortcuts.ui:133
 msgid "Reset"
-msgstr ""
+msgstr "Tilbakestill"
 
 #: ddterm/app/menus.ui:70 ddterm/pref/glade/prefs-shortcuts.ui:139
 msgid "Reset and Clear"
-msgstr ""
+msgstr "Tilbakestill og tøm"
 
 #: ddterm/app/menus.ui:82
 msgid "New Tab"
-msgstr ""
+msgstr "Ny fane"
 
 #: ddterm/app/menus.ui:84 ddterm/pref/glade/prefs-shortcuts.ui:157
 msgid "New Tab Before Current Tab"
-msgstr ""
+msgstr "Ny fane før nåværende"
 
 #: ddterm/app/menus.ui:88 ddterm/pref/glade/prefs-shortcuts.ui:163
 msgid "New Tab After Current Tab"
-msgstr ""
+msgstr "Ny fane etter nåværende"
 
 #: ddterm/app/menus.ui:92 ddterm/app/menus.ui:188
 #: ddterm/pref/glade/prefs-shortcuts.ui:151
 msgid "New Tab Before First Tab"
-msgstr ""
+msgstr "Ny fane før første"
 
 #: ddterm/app/menus.ui:96 ddterm/app/menus.ui:192
 #: ddterm/pref/glade/prefs-shortcuts.ui:145
 msgid "New Tab After Last Tab"
-msgstr ""
+msgstr "Ny fane etter siste"
 
 #: ddterm/app/menus.ui:102 ddterm/pref/dialog.js:46
 msgid "Preferences"
-msgstr ""
+msgstr "Innstillinger"
 
 #: ddterm/app/menus.ui:105 ddterm/app/menus.ui:207 ddterm/shell/panelicon.js:85
 msgid "Preferences..."
-msgstr ""
+msgstr "Innstillinger …"
 
 #: ddterm/app/menus.ui:111
 msgid "Above All Windows"
-msgstr ""
+msgstr "Over alle vinduer"
 
 #: ddterm/app/menus.ui:115
 msgid "On All Workspaces"
-msgstr ""
+msgstr "På alle arbeidsområder"
 
 #: ddterm/app/menus.ui:119
 msgid "Maximize Window"
-msgstr ""
+msgstr "Maksimer vindu"
 
 #: ddterm/app/menus.ui:123
 msgid "Transparent Background"
-msgstr ""
+msgstr "Gjennomsiktig bakgrunn"
 
 #: ddterm/app/menus.ui:129
 msgid "Hide When Application Loses Focus"
-msgstr ""
+msgstr "Skjul når programmet mister fokus"
 
 #: ddterm/app/menus.ui:133
 msgid "Hide When Esc Key Is Pressed"
-msgstr ""
+msgstr "Skjul når «Esc»-tasten trykkes"
 
 #: ddterm/app/menus.ui:139
 msgid "Scroll On Output"
-msgstr ""
+msgstr "Rull ved utdata"
 
 #: ddterm/app/menus.ui:143
 msgid "Scroll On Keystroke"
-msgstr ""
+msgstr "Rull ved tastetrykk"
 
 #: ddterm/app/menus.ui:149
 msgid "Preserve Working Directory In New Tabs"
@@ -208,7 +211,7 @@ msgstr ""
 
 #: ddterm/app/menus.ui:155
 msgid "Enable Keyboard Shortcuts"
-msgstr ""
+msgstr "Skru på tastatursnarveier"
 
 #: ddterm/app/menus.ui:164
 msgid "Use Custom Tab Title"
@@ -236,7 +239,7 @@ msgstr ""
 
 #: ddterm/app/terminalpage.js:789
 msgid "Close this terminal?"
-msgstr ""
+msgstr "Lukk denne terminalen?"
 
 #: ddterm/app/terminalpage.js:792
 msgid ""
@@ -246,27 +249,27 @@ msgstr ""
 
 #: ddterm/pref/animation.js:99
 msgid "Animation"
-msgstr ""
+msgstr "Animasjon"
 
 #: ddterm/pref/behavior.js:71
 msgid "Behavior"
-msgstr ""
+msgstr "Adferd"
 
 #: ddterm/pref/colors.js:276
 msgid "Colors"
-msgstr ""
+msgstr "Farger"
 
 #: ddterm/pref/command.js:71
 msgid "Command"
-msgstr ""
+msgstr "Kommando"
 
 #: ddterm/pref/compatibility.js:72
 msgid "Compatibility"
-msgstr ""
+msgstr "Kompabilitet"
 
 #: ddterm/pref/glade/prefs-animation.ui:36
 msgid "Disable"
-msgstr ""
+msgstr "Skru av"
 
 #: ddterm/pref/glade/prefs-animation.ui:40
 msgid "Linear tweening"
@@ -420,11 +423,11 @@ msgstr ""
 
 #: ddterm/pref/glade/prefs-behavior.ui:55
 msgid "_Above all windows"
-msgstr ""
+msgstr "_Over alle vinduer"
 
 #: ddterm/pref/glade/prefs-behavior.ui:71
 msgid "On all _workspaces"
-msgstr ""
+msgstr "På alle _arbeidsområder"
 
 #: ddterm/pref/glade/prefs-behavior.ui:87
 msgid "Hide when the application loses _focus"
@@ -482,7 +485,7 @@ msgstr ""
 
 #: ddterm/pref/glade/prefs-behavior.ui:193
 msgid "Toolbar"
-msgstr ""
+msgstr "Verktøylinje"
 
 #: ddterm/pref/glade/prefs-behavior.ui:194
 msgid "Popup menu"
@@ -490,43 +493,43 @@ msgstr ""
 
 #: ddterm/pref/glade/prefs-behavior.ui:195
 msgid "Tooltip"
-msgstr ""
+msgstr "Verktøytips"
 
 #: ddterm/pref/glade/prefs-behavior.ui:196
 msgid "Notification"
-msgstr ""
+msgstr "Merknad"
 
 #: ddterm/pref/glade/prefs-behavior.ui:197
 msgid "Combo"
-msgstr ""
+msgstr "Kombo"
 
 #: ddterm/pref/glade/prefs-colors.ui:38
 msgid "Black on light yellow"
-msgstr ""
+msgstr "Svart på lysegul"
 
 #: ddterm/pref/glade/prefs-colors.ui:43
 msgid "Black on white"
-msgstr ""
+msgstr "Svart på hvit"
 
 #: ddterm/pref/glade/prefs-colors.ui:48
 msgid "Gray on black"
-msgstr ""
+msgstr "Grå på svart"
 
 #: ddterm/pref/glade/prefs-colors.ui:53
 msgid "Green on black"
-msgstr ""
+msgstr "Grønn på svart"
 
 #: ddterm/pref/glade/prefs-colors.ui:58
 msgid "White on black"
-msgstr ""
+msgstr "Hvit på svart"
 
 #: ddterm/pref/glade/prefs-colors.ui:63
 msgid "GNOME light"
-msgstr ""
+msgstr "GNOME lys"
 
 #: ddterm/pref/glade/prefs-colors.ui:68
 msgid "GNOME dark"
-msgstr ""
+msgstr "GNOME mørk"
 
 #: ddterm/pref/glade/prefs-colors.ui:73
 msgid "Tango light"
@@ -550,19 +553,19 @@ msgstr ""
 
 #: ddterm/pref/glade/prefs-colors.ui:143
 msgid "GNOME"
-msgstr ""
+msgstr "GNOME"
 
 #: ddterm/pref/glade/prefs-colors.ui:162
 msgid "Tango"
-msgstr ""
+msgstr "Tango"
 
 #: ddterm/pref/glade/prefs-colors.ui:181
 msgid "Linux"
-msgstr ""
+msgstr "Linux"
 
 #: ddterm/pref/glade/prefs-colors.ui:200
 msgid "XTerm"
-msgstr ""
+msgstr "XTerm"
 
 #: ddterm/pref/glade/prefs-colors.ui:219
 msgid "RXVT"
@@ -570,23 +573,23 @@ msgstr ""
 
 #: ddterm/pref/glade/prefs-colors.ui:238
 msgid "Solarized"
-msgstr ""
+msgstr "Solarisert"
 
 #: ddterm/pref/glade/prefs-colors.ui:292
 msgid "Theme _variant:"
-msgstr ""
+msgstr "Drakt_variant:"
 
 #: ddterm/pref/glade/prefs-colors.ui:307 ddterm/pref/glade/prefs-text.ui:133
 msgid "Default"
-msgstr ""
+msgstr "Forvalg"
 
 #: ddterm/pref/glade/prefs-colors.ui:308
 msgid "Light"
-msgstr ""
+msgstr "Lys"
 
 #: ddterm/pref/glade/prefs-colors.ui:309
 msgid "Dark"
-msgstr ""
+msgstr "Mørk"
 
 #: ddterm/pref/glade/prefs-colors.ui:319
 msgid "Use colors from system _theme"
@@ -594,23 +597,23 @@ msgstr ""
 
 #: ddterm/pref/glade/prefs-colors.ui:344
 msgid "Foreground"
-msgstr ""
+msgstr "Forgrunn"
 
 #: ddterm/pref/glade/prefs-colors.ui:355
 msgid "Background"
-msgstr ""
+msgstr "Bakgrunn"
 
 #: ddterm/pref/glade/prefs-colors.ui:367
 msgid "Default color:"
-msgstr ""
+msgstr "Forvalgt farge:"
 
 #: ddterm/pref/glade/prefs-colors.ui:376
 msgid "Bold color:"
-msgstr ""
+msgstr "Fet farge:"
 
 #: ddterm/pref/glade/prefs-colors.ui:390
 msgid "Cursor color:"
-msgstr ""
+msgstr "Pekerfarge:"
 
 #: ddterm/pref/glade/prefs-colors.ui:404
 msgid "Highlight color:"
