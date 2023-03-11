@@ -1,0 +1,39 @@
+concurrency:
+  group: ${{ github.workflow }}/${{ github.ref }}
+  cancel-in-progress: true
+
+name: pot
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  pot:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/ddterm/ci-docker-image:2023.02.22.0
+
+    permissions:
+      contents: write
+
+    steps:
+    - name: Checkout
+      id: checkout
+      uses: actions/checkout@v3
+
+    - run: git config --global --replace-all safe.directory "$GITHUB_WORKSPACE"
+
+    - name: Enable generic error matcher
+      run: echo "::add-matcher::.github/problem-matchers/generic.json"
+
+    - name: Update .pot files
+      run: po/update-pot.sh
+
+    - uses: stefanzweifel/git-auto-commit-action@v4
+      with:
+        commit_message: Update .pot file
+        file_pattern: po/*.pot
+        skip_fetch: true
+        skip_checkout: true
