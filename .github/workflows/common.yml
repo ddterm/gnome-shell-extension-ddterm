@@ -8,7 +8,7 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/ddterm/ci-docker-image:2023.02.22.0
+      image: ghcr.io/ddterm/ci-docker-image:2023.03.11.0
 
     env:
       PY_COLORS: 1
@@ -105,7 +105,7 @@ jobs:
   pack:
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/ddterm/ci-docker-image:2023.02.22.0
+      image: ghcr.io/ddterm/ci-docker-image:2023.03.11.0
 
     steps:
     - name: Checkout
@@ -156,7 +156,7 @@ jobs:
 
     runs-on: ubuntu-22.04
     container:
-      image: ghcr.io/ddterm/ci-docker-image:2023.02.22.0
+      image: ghcr.io/ddterm/ci-docker-image:2023.03.11.0
       options: --privileged --cgroupns=host --tmpfs /tmp --tmpfs /run
 
     strategy:
