@@ -46,6 +46,13 @@ function signal_with_init(obj, name) {
     return rxutil.signal(obj, name).pipe(rxjs.startWith([obj]));
 }
 
+function get_monitor_manager() {
+    if (Meta.MonitorManager.get)
+        return Meta.MonitorManager.get();
+
+    return global.backend.get_monitor_manager();
+}
+
 class ExtensionTestDBusInterface {
     constructor() {
         let [_, xml] =
@@ -133,7 +140,7 @@ class ExtensionTestDBusInterface {
     }
 
     UpdateCurrentMonitor() {
-        return Meta.MonitorManager.get().emit('monitors-changed-internal');
+        return get_monitor_manager().emit('monitors-changed-internal');
     }
 
     WaitLeisureAsync(params, invocation) {

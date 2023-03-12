@@ -382,10 +382,15 @@ function spawn_app() {
 
     if (Meta.WaylandClient &&
         Meta.is_wayland_compositor() &&
-        subprocess_launcher.getenv('GDK_BACKEND') !== 'x11')
-        wayland_client = Meta.WaylandClient.new(subprocess_launcher);
-    else
+        subprocess_launcher.getenv('GDK_BACKEND') !== 'x11') {
+        try {
+            wayland_client = Meta.WaylandClient.new(global.context, subprocess_launcher);
+        } catch {
+            wayland_client = Meta.WaylandClient.new(subprocess_launcher);
+        }
+    } else {
         wayland_client = null;
+    }
 
     printerr(`Starting ddterm app: ${JSON.stringify(argv)}`);
 
