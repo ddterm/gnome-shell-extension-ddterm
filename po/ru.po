@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-11 16:43+0200\n"
+"POT-Creation-Date: 2023-03-12 13:25+0200\n"
 "PO-Revision-Date: 2023-03-09 13:56+0300\n"
 "Last-Translator: vantu5z <vantu5z@mail.ru>\n"
 "Language-Team: Russian <>\n"
@@ -57,17 +57,9 @@ msgstr "Новая вкладка (в конце)"
 msgid "Case Sensitive"
 msgstr "Чувствительность к регистру"
 
-#: ddterm/app/glade/terminalpage.ui:171
-msgid "Aa"
-msgstr "Aa"
-
 #: ddterm/app/glade/terminalpage.ui:186
 msgid "Match Whole Word"
 msgstr "Совпадение слов целиком"
-
-#: ddterm/app/glade/terminalpage.ui:188
-msgid "\"\""
-msgstr "\"\""
 
 #: ddterm/app/glade/terminalpage.ui:203
 msgid "Wrap Around"
@@ -80,10 +72,6 @@ msgstr "Прокрутка"
 #: ddterm/app/glade/terminalpage.ui:221
 msgid "Regular Expression"
 msgstr "Регулярное выражение"
-
-#: ddterm/app/glade/terminalpage.ui:223
-msgid ".*"
-msgstr ".*"
 
 #: ddterm/app/glade/terminalpage.ui:252
 msgid "Close Search Bar"
@@ -1224,3 +1212,12 @@ msgstr "Текст"
 #: ddterm/shell/panelicon.js:73
 msgid "Show"
 msgstr "Показать"
+
+#~ msgid "Aa"
+#~ msgstr "Aa"
+
+#~ msgid "\"\""
+#~ msgstr "\"\""
+
+#~ msgid ".*"
+#~ msgstr ".*"
