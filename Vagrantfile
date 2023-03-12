@@ -65,6 +65,21 @@ Vagrant.configure("2") do |config|
     version.vm.box = "generic/ubuntu2004"
   end
 
+  config.vm.define "fedora38", autostart: false do |version|
+    version.vm.box = "Fedora-Cloud-Base-Vagrant-38_Beta-1.3"
+    version.vm.box_download_checksum_type = 'sha256'
+
+    version.vm.provider 'virtualbox' do |virtualbox, override|
+      override.vm.box_url = "https://dl.fedoraproject.org/pub/fedora/linux/releases/test/38_Beta/Cloud/x86_64/images/Fedora-Cloud-Base-Vagrant-38_Beta-1.3.x86_64.vagrant-virtualbox.box"
+      override.vm.box_download_checksum = 'f518f3c49c6e91cb53807b6d92b02fca68449694894c4ece6117e4cc45a37b7e'
+    end
+
+    version.vm.provider 'libvirt' do |libvirt, override|
+      override.vm.box_url = "https://dl.fedoraproject.org/pub/fedora/linux/releases/test/38_Beta/Cloud/x86_64/images/Fedora-Cloud-Base-Vagrant-38_Beta-1.3.x86_64.vagrant-libvirt.box"
+      override.vm.box_download_checksum = 'f7d0d5a81676a84a6d51d780c41612afad9d1f6996e23fd367e24cad62759713'
+    end
+  end
+
   config.vm.define "fedora37", autostart: false do |version|
     version.vm.box = "generic/fedora37"
   end
