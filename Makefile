@@ -339,11 +339,15 @@ msgcmp-strict: $(MSGCMP_GOALS)
 .PHONY: msgcmp msgcmp-strict $(MSGCMP_GOALS)
 
 MSGMERGE_GOALS := $(addprefix msgmerge/, $(LOCALES))
+MSGMERGE_FLAGS := --no-fuzzy-matching --update
 
 $(MSGMERGE_GOALS): msgmerge/%: % $(POT_FILE)
-	msgmerge -U $^
+	msgmerge $(MSGMERGE_FLAGS) $^
 
 msgmerge: $(MSGMERGE_GOALS)
+
+msgmerge-fuzzy: MSGMERGE_FLAGS := --update
+msgmerge-fuzzy: $(MSGMERGE_GOALS)
 
 .PHONY: msgmerge $(MSGMERGE_GOALS)
 
