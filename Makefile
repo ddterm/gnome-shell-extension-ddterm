@@ -346,6 +346,9 @@ $(MSGMERGE_GOALS): msgmerge/%: % $(POT_FILE)
 
 msgmerge: $(MSGMERGE_GOALS)
 
+msgmerge-fuzzy: MSGMERGE_FLAGS := --update
+msgmerge-fuzzy: $(MSGMERGE_GOALS)
+
 .PHONY: msgmerge $(MSGMERGE_GOALS)
 
 # ESLint
