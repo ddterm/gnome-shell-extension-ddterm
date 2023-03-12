@@ -8,7 +8,7 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/ddterm/ci-docker-image:2023.02.22.0
+      image: ghcr.io/ddterm/ci-docker-image:2023.03.11.0
 
     env:
       PY_COLORS: 1
@@ -80,11 +80,6 @@ jobs:
       shell: bash
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
-    - name: Ensure translations are up to date (run `make msgmerge` to fix)
-      run: make msgcmp | tee msgcmp.log
-      shell: bash
-      if: ${{ always() && steps.checkout.conclusion == 'success' }}
-
     - name: Ensure Python requirements .txt files are in sync with .in files
       run: |
         tox --sitepackages -e pip-compile
@@ -93,14 +88,7 @@ jobs:
       working-directory: test
 
     - name: Ensure Python version in renovate.json matches CI Docker image
-      run: |
-        RENOVATE_PYTHON_VER="Python $(jq -r .constraints.python renovate.json)"
-        IMAGE_PYTHON_VER="$(python3 --version)"
-        if [ "$RENOVATE_PYTHON_VER" != "$IMAGE_PYTHON_VER" ]; then
-          echo "::error:: Please fix Python version in renovate.json."
-          echo "::error:: Current version: $RENOVATE_PYTHON_VER Expected: $IMAGE_PYTHON_VER."
-          exit 1
-        fi
+      run: .github/renovate-python-constraint.py
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
     - name: Upload reports to Testspace
@@ -110,7 +98,7 @@ jobs:
   pack:
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/ddterm/ci-docker-image:2023.02.22.0
+      image: ghcr.io/ddterm/ci-docker-image:2023.03.11.0
 
     steps:
     - name: Checkout
@@ -161,7 +149,7 @@ jobs:
 
     runs-on: ubuntu-22.04
     container:
-      image: ghcr.io/ddterm/ci-docker-image:2023.02.22.0
+      image: ghcr.io/ddterm/ci-docker-image:2023.03.11.0
       options: --privileged --cgroupns=host --tmpfs /tmp --tmpfs /run
 
     strategy:

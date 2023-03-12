@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-06 21:23+0100\n"
+"POT-Creation-Date: 2023-03-12 13:25+0200\n"
 "PO-Revision-Date: 2023-03-06 21:27+0100\n"
 "Last-Translator: FELDMANN arnaud <arnaud.feldmann at gmail dot com>\n"
 "Language-Team: \n"
@@ -55,17 +55,9 @@ msgstr "Nouvel onglet (en dernière position)"
 msgid "Case Sensitive"
 msgstr "Sensible à la casse"
 
-#: ddterm/app/glade/terminalpage.ui:171
-msgid "Aa"
-msgstr "Aa"
-
 #: ddterm/app/glade/terminalpage.ui:186
 msgid "Match Whole Word"
 msgstr "Mots entiers"
-
-#: ddterm/app/glade/terminalpage.ui:188
-msgid "\"\""
-msgstr "\"\""
 
 #: ddterm/app/glade/terminalpage.ui:203
 msgid "Wrap Around"
@@ -78,10 +70,6 @@ msgstr "Envelopper"
 #: ddterm/app/glade/terminalpage.ui:221
 msgid "Regular Expression"
 msgstr "Expression régulière"
-
-#: ddterm/app/glade/terminalpage.ui:223
-msgid ".*"
-msgstr ".*"
 
 #: ddterm/app/glade/terminalpage.ui:252
 msgid "Close Search Bar"
@@ -169,7 +157,6 @@ msgid "Preferences"
 msgstr "Préférences"
 
 #: ddterm/app/menus.ui:105 ddterm/app/menus.ui:207 ddterm/shell/panelicon.js:85
-#: ddterm/shell/panelicon.js:166
 msgid "Preferences..."
 msgstr "Préférences..."
 
@@ -1218,6 +1205,15 @@ msgstr "Onglets"
 msgid "Text"
 msgstr "Texte"
 
-#: ddterm/shell/panelicon.js:73 ddterm/shell/panelicon.js:154
+#: ddterm/shell/panelicon.js:73
 msgid "Show"
 msgstr "Afficher"
+
+#~ msgid "Aa"
+#~ msgstr "Aa"
+
+#~ msgid "\"\""
+#~ msgstr "\"\""
+
+#~ msgid ".*"
+#~ msgstr ".*"

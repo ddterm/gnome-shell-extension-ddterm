@@ -4,6 +4,7 @@ on:
   push:
     branches-ignore:
       - renovate/**
+      - weblate
     tags-ignore:
       - v*
     paths-ignore:

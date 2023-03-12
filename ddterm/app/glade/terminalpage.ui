@@ -168,7 +168,7 @@ along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licens
                 <property name="receives-default">True</property>
                 <property name="tooltip-text" translatable="yes">Case Sensitive</property>
                 <property name="action-name">terminal.search-match-case</property>
-                <property name="text" translatable="yes">Aa</property>
+                <property name="text">Aa</property>
                 <property name="centered">True</property>
                 <property name="iconic">True</property>
               </object>
@@ -185,7 +185,7 @@ along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licens
                 <property name="receives-default">True</property>
                 <property name="tooltip-text" translatable="yes">Match Whole Word</property>
                 <property name="action-name">terminal.search-whole-word</property>
-                <property name="text" translatable="yes">""</property>
+                <property name="text">""</property>
                 <property name="centered">True</property>
                 <property name="iconic">True</property>
               </object>
@@ -220,7 +220,7 @@ along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licens
                 <property name="receives-default">True</property>
                 <property name="tooltip-text" translatable="yes">Regular Expression</property>
                 <property name="action-name">terminal.search-regex</property>
-                <property name="text" translatable="yes">.*</property>
+                <property name="text">.*</property>
                 <property name="centered">True</property>
                 <property name="iconic">True</property>
               </object>

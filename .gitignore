@@ -8,7 +8,6 @@
 /ddterm/thirdparty/
 /metadata.json
 /schemas/gschemas.compiled
-/po/*.pot
 /locale/
 /tmp/
 

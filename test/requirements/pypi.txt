@@ -30,7 +30,7 @@ psutil==5.9.4
     # via pytest-xdist
 py==1.11.0
     # via pytest-html
-pytest==7.2.1
+pytest==7.2.2
     # via
     #   -r pypi.in
     #   pytest-github-actions-annotate-failures

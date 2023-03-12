@@ -322,21 +322,21 @@ $(POT_FILE): $(sort $(TRANSLATABLE_SOURCES))
 		--output=$@ \
 		$^
 
-CLEAN += $(POT_FILE)
+pot: $(POT_FILE)
+.PHONY: pot
 
 MSGCMP_GOALS := $(addprefix msgcmp/, $(LOCALES))
+MSGCMP_FLAGS := --use-untranslated
 
 $(MSGCMP_GOALS): msgcmp/%: % $(POT_FILE)
 	msgcmp $(MSGCMP_FLAGS) $^
 
-msgcmp: MSGCMP_FLAGS := --use-untranslated
 msgcmp: $(MSGCMP_GOALS)
 
 msgcmp-strict: MSGCMP_FLAGS :=
 msgcmp-strict: $(MSGCMP_GOALS)
 
 .PHONY: msgcmp msgcmp-strict $(MSGCMP_GOALS)
-all: msgcmp
 
 MSGMERGE_GOALS := $(addprefix msgmerge/, $(LOCALES))
 MSGMERGE_FLAGS := --no-fuzzy-matching --update
