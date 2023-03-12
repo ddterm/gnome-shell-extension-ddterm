@@ -41,6 +41,13 @@ const MOUSE_RESIZE_GRABS = [
     Meta.GrabOp.RESIZING_W,
 ];
 
+function get_monitor_manager() {
+    if (Meta.MonitorManager.get)
+        return Meta.MonitorManager.get();
+
+    return global.backend.get_monitor_manager();
+}
+
 /* exported WindowManager */
 
 var WindowManager = GObject.registerClass(
@@ -446,7 +453,7 @@ var WindowManager = GObject.registerClass(
             }
 
             if (window_monitor === 'connector') {
-                const monitor_manager = Meta.MonitorManager.get();
+                const monitor_manager = get_monitor_manager();
                 if (monitor_manager) {
                     const index = monitor_manager.get_monitor_for_connector(
                         this.settings.get_string('window-monitor-connector')
