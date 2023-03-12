@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-11 16:43+0200\n"
+"POT-Creation-Date: 2023-03-12 13:25+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -55,16 +55,8 @@ msgstr ""
 msgid "Case Sensitive"
 msgstr ""
 
-#: ddterm/app/glade/terminalpage.ui:171
-msgid "Aa"
-msgstr ""
-
 #: ddterm/app/glade/terminalpage.ui:186
 msgid "Match Whole Word"
-msgstr ""
-
-#: ddterm/app/glade/terminalpage.ui:188
-msgid "\"\""
 msgstr ""
 
 #: ddterm/app/glade/terminalpage.ui:203
@@ -77,10 +69,6 @@ msgstr ""
 
 #: ddterm/app/glade/terminalpage.ui:221
 msgid "Regular Expression"
-msgstr ""
-
-#: ddterm/app/glade/terminalpage.ui:223
-msgid ".*"
 msgstr ""
 
 #: ddterm/app/glade/terminalpage.ui:252
