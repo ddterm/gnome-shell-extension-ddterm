@@ -87,6 +87,14 @@ const Application = GObject.registerClass(
                 'Set GDK_BACKEND variable for subprocesses',
                 null
             );
+            this.add_main_option(
+                'launch-through-extension',
+                0,
+                GLib.OptionFlags.NONE,
+                GLib.OptionArg.NONE,
+                'Ask the extension to launch the app',
+                null
+            );
 
             this.env_gdk_backend = null;
             this.unset_gdk_backend = false;
@@ -256,6 +264,17 @@ const Application = GObject.registerClass(
         }
 
         handle_local_options(_, options) {
+            if (options.contains('launch-through-extension')) {
+                try {
+                    const iface = Me.imports.ddterm.app.extensiondbus.get();
+                    iface.ServiceSync();
+                    return 0;
+                } catch (e) {
+                    logError(e);
+                    return 1;
+                }
+            }
+
             if (options.contains('undecorated'))
                 this.decorated = false;
 
