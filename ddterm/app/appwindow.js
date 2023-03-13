@@ -24,21 +24,16 @@
 const { GLib, GObject, Gio, Gdk, Gtk } = imports.gi;
 const { rxjs } = imports.ddterm.thirdparty.rxjs;
 const { rxutil, settings } = imports.ddterm.rx;
-const { terminalpage } = imports.ddterm.app;
+const { extensiondbus, terminalpage } = imports.ddterm.app;
 const { translations } = imports.ddterm;
 const ByteArray = imports.byteArray;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 
 const DDTERM_DIR = Me.dir.get_child('ddterm');
-const EXTENSION_DBUS_XML = ByteArray.toString(
-    DDTERM_DIR.get_child('com.github.amezin.ddterm.Extension.xml').load_contents(null)[1]
-);
 
 const APP_VERSION = JSON.parse(ByteArray.toString(
     Me.dir.get_child('metadata.json').load_contents(null)[1]
 )).version;
-
-var ExtensionDBusProxy = Gio.DBusProxy.makeProxyWrapper(EXTENSION_DBUS_XML);
 
 var AppWindow = GObject.registerClass(
     {
@@ -77,14 +72,7 @@ var AppWindow = GObject.registerClass(
 
             this.rx = rxutil.scope(this);
 
-            this.extension_dbus = new ExtensionDBusProxy(
-                Gio.DBus.session,
-                'org.gnome.Shell',
-                '/org/gnome/Shell/Extensions/ddterm',
-                undefined,
-                undefined,
-                Gio.DBusProxyFlags.DO_NOT_AUTO_START
-            );
+            this.extension_dbus = extensiondbus.get();
 
             this.rx.subscribe(
                 rxutil.property(this, 'screen'),
