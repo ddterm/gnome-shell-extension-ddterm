@@ -1,0 +1,3 @@
+[D-BUS Service]
+Name=com.github.amezin.ddterm
+Exec="@LAUNCHER@" --launch-through-extension

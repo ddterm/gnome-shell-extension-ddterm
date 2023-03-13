@@ -155,13 +155,21 @@ class ExtensionDBusInterface {
 
 class InstallableResource {
     constructor(source_file, target_file) {
-        this.source_file = source_file;
+        this.content = ByteArray.toString(source_file.load_contents(null)[1]);
+        this.content = this.content.replace(/@LAUNCHER@/, Me.dir.get_child(APP_ID).get_path());
         this.target_file = target_file;
     }
 
     install() {
         GLib.mkdir_with_parents(this.target_file.get_parent().get_path(), 0o700);
-        this.source_file.copy(this.target_file, Gio.FileCopyFlags.OVERWRITE, null, null);
+
+        this.target_file.replace_contents(
+            ByteArray.fromString(this.content),
+            null,
+            false,
+            Gio.FileCreateFlags.REPLACE_DESTINATION,
+            null
+        );
     }
 
     uninstall() {
@@ -248,7 +256,7 @@ function enable() {
     });
 
     desktop_entry = new InstallableResource(
-        Me.dir.get_child('ddterm').get_child('com.github.amezin.ddterm.desktop'),
+        Me.dir.get_child('ddterm').get_child('com.github.amezin.ddterm.desktop.in'),
         Gio.File.new_for_path(GLib.build_filenamev(
             [
                 GLib.get_user_data_dir(),
@@ -259,13 +267,13 @@ function enable() {
     desktop_entry.install();
 
     dbus_service = new InstallableResource(
-        Me.dir.get_child('ddterm').get_child('com.github.amezin.ddterm.service'),
+        Me.dir.get_child('ddterm').get_child('com.github.amezin.ddterm.service.in'),
         Gio.File.new_for_path(GLib.build_filenamev(
             [
                 GLib.get_user_runtime_dir(),
                 'dbus-1',
                 'services',
-                'com.github.amezin.ddterm.service',
+                `${APP_ID}.service`,
             ]))
     );
     dbus_service.install();

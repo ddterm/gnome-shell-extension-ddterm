@@ -1,3 +1,0 @@
-[D-BUS Service]
-Name=com.github.amezin.ddterm
-Exec=/usr/bin/env gdbus call --session --dest org.gnome.Shell --object-path /org/gnome/Shell/Extensions/ddterm --method com.github.amezin.ddterm.Extension.Service

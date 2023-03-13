@@ -161,7 +161,8 @@ JS_SOURCE_WILDCARDS := \
 	ddterm/shell/*.js \
 
 JS_SOURCES := $(wildcard $(JS_SOURCE_WILDCARDS))
-EXECUTABLES := com.github.amezin.ddterm ddterm/app/dependencies-notification.js
+LAUNCHER := com.github.amezin.ddterm
+EXECUTABLES := $(LAUNCHER) ddterm/app/dependencies-notification.js
 
 TRANSLATABLE_SOURCES += $(JS_SOURCES)
 PACK_CONTENT += $(EXECUTABLES) $(filter-out $(EXECUTABLES),$(JS_SOURCES))
@@ -172,8 +173,8 @@ PACK_CONTENT += \
 	ddterm/app/style.css \
 	ddterm/app/dependencies.json \
 	ddterm/com.github.amezin.ddterm.Extension.xml \
-	ddterm/com.github.amezin.ddterm.desktop \
-	ddterm/com.github.amezin.ddterm.service \
+	ddterm/com.github.amezin.ddterm.desktop.in \
+	ddterm/com.github.amezin.ddterm.service.in \
 	LICENSE \
 
 PACK_CONTENT := $(sort $(PACK_CONTENT))
@@ -233,7 +234,14 @@ $(SYS_INSTALLED_CONTENT): $(SYS_INSTALLED_FULL_PREFIX)/%: % | installdirs
 $(SYS_INSTALLED_CONTENT): INSTALL := $(INSTALL_DATA)
 $(SYS_INSTALLED_EXECUTABLES): INSTALL := $(INSTALL_PROGRAM)
 
-$(SYS_INSTALLED_DESKTOP_ENTRY): ddterm/com.github.amezin.ddterm.desktop | installdirs
+CONFIGURED_DESKTOP_ENTRY := ddterm/com.github.amezin.ddterm.desktop
+
+$(CONFIGURED_DESKTOP_ENTRY): ddterm/com.github.amezin.ddterm.desktop.in
+	sed -e 's:@LAUNCHER@:$(filter %$(LAUNCHER),$(SYS_INSTALLED_EXECUTABLES)):g' $< >$@
+
+CLEAN += $(CONFIGURED_DESKTOP_ENTRY)
+
+$(SYS_INSTALLED_DESKTOP_ENTRY): $(CONFIGURED_DESKTOP_ENTRY) | installdirs
 	$(INSTALL_DATA) $< $@
 
 system-install: $(SYS_INSTALLED_CONTENT) $(SYS_INSTALLED_DESKTOP_ENTRY)
