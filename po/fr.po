@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-12 13:25+0200\n"
+"POT-Creation-Date: 2023-03-13 07:47+0000\n"
 "PO-Revision-Date: 2023-03-06 21:27+0100\n"
 "Last-Translator: FELDMANN arnaud <arnaud.feldmann at gmail dot com>\n"
 "Language-Team: \n"
@@ -15,7 +15,7 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-Basepath: .\n"
 
-#: ddterm/app/appwindow.js:440
+#: ddterm/app/appwindow.js:428
 msgid ""
 "Warning: ddterm version has changed. Log out, then log in again to load the "
 "updated extension."
