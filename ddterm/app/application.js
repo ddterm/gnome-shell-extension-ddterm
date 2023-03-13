@@ -270,6 +270,9 @@ const Application = GObject.registerClass(
             if (this.env_gdk_backend !== null)
                 this.env_gdk_backend = this.env_gdk_backend.unpack();
 
+            if (!(this.flags & Gio.ApplicationFlags.IS_SERVICE))
+                this.flags |= Gio.ApplicationFlags.IS_LAUNCHER;
+
             return -1;
         }
 
@@ -308,7 +311,6 @@ const Application = GObject.registerClass(
 function main(argv) {
     const app = new Application({
         application_id: 'com.github.amezin.ddterm',
-        flags: Gio.ApplicationFlags.ALLOW_REPLACEMENT,
     });
 
     System.exit(app.run(argv));

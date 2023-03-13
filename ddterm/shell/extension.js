@@ -68,7 +68,11 @@ const AppDBusWatch = GObject.registerClass(
         _init(params) {
             super._init(params);
 
-            this.action_group = null;
+            this.action_group = Gio.DBusActionGroup.get(
+                Gio.DBus.session,
+                APP_ID,
+                APP_DBUS_PATH
+            );
 
             this.watch_id = Gio.bus_watch_name(
                 Gio.BusType.SESSION,
@@ -77,19 +81,21 @@ const AppDBusWatch = GObject.registerClass(
                 this._appeared.bind(this),
                 this._disappeared.bind(this)
             );
+
+            this._available = false;
         }
 
         get available() {
-            return this.action_group !== null;
+            return this._available;
         }
 
-        _appeared(connection, name) {
-            this.action_group = Gio.DBusActionGroup.get(connection, name, APP_DBUS_PATH);
+        _appeared() {
+            this._available = true;
             this.notify('available');
         }
 
         _disappeared() {
-            this.action_group = null;
+            this._available = false;
             this.notify('available');
         }
 
@@ -122,7 +128,7 @@ class ExtensionDBusInterface {
     }
 
     Service() {
-        spawn_app(true);
+        spawn_app();
     }
 
     GetTargetRect() {
@@ -200,7 +206,7 @@ function enable() {
     window_manager = new WindowManager({ settings });
 
     connections.connect(window_manager, 'hide-request', () => {
-        if (app_dbus.action_group)
+        if (app_dbus.available)
             app_dbus.action_group.activate_action('hide', null);
     });
 
@@ -221,10 +227,7 @@ function enable() {
     });
 
     connections.connect(panel_icon, 'open-preferences', () => {
-        if (app_dbus.action_group)
-            app_dbus.action_group.activate_action('preferences', null);
-        else
-            imports.misc.extensionUtils.openPrefs();
+        app_dbus.action_group.activate_action('preferences', null);
     });
 
     connections.connect(window_manager, 'notify::current-window', () => {
@@ -294,7 +297,7 @@ function disable() {
         // Stop the app only if the extension isn't being disabled because of
         // lock screen. Because when the session switches back to normal mode
         // we want to keep all open terminals.
-        if (app_dbus && app_dbus.action_group)
+        if (app_dbus && app_dbus.available)
             app_dbus.action_group.activate_action('quit', null);
         else if (subprocess)
             subprocess.send_signal(SIGINT);
@@ -343,7 +346,7 @@ function disable() {
     settings = null;
 }
 
-function spawn_app(service = false) {
+function spawn_app() {
     if (subprocess)
         return;
 
@@ -355,10 +358,8 @@ function spawn_app(service = false) {
     let argv = [
         Me.dir.get_child(APP_ID).get_path(),
         '--undecorated',
+        '--gapplication-service',
     ];
-
-    if (service)
-        argv.push('--gapplication-service');
 
     if (settings.get_boolean('force-x11-gdk-backend')) {
         const prev_gdk_backend = subprocess_launcher.getenv('GDK_BACKEND');
@@ -404,7 +405,7 @@ function subprocess_terminated(source) {
 
 function toggle() {
     if (window_manager.current_window) {
-        if (app_dbus.action_group)
+        if (app_dbus.available)
             app_dbus.action_group.activate_action('hide', null);
     } else {
         activate();
@@ -417,10 +418,8 @@ function activate() {
 
     if (window_manager.current_window)
         Main.activateWindow(window_manager.current_window);
-    else if (app_dbus.action_group)
-        app_dbus.action_group.activate_action('show', null);
     else
-        spawn_app();
+        app_dbus.action_group.activate_action('show', null);
 }
 
 function set_skip_taskbar() {
