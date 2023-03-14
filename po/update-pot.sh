@@ -23,4 +23,4 @@ do
     fi
 done
 
-make msgmerge
+make msgmerge-fuzzy
