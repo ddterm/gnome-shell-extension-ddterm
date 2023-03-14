@@ -1,11 +1,12 @@
 # Arnaud Feldmann <arnaud.feldmann@gmail.com>, 2023.
+# Aleksandr Mezin <mezin.alexander@gmail.com>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: mezin.alexander@gmail.com\n"
 "POT-Creation-Date: 2023-03-13 07:47+0000\n"
-"PO-Revision-Date: 2023-03-14 12:18+0000\n"
-"Last-Translator: Arnaud Feldmann <arnaud.feldmann@gmail.com>\n"
+"PO-Revision-Date: 2023-03-14 12:19+0000\n"
+"Last-Translator: Aleksandr Mezin <mezin.alexander@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/"
 "gnome-shell-extension-ddterm/extension/fr/>\n"
 "Language: fr\n"
