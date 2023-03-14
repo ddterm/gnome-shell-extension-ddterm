@@ -1,7 +1,7 @@
 # This is not a real docker/podman-compose file.
 # Anything except 'image's is ignored.
 # However, you could use this file to run 'podman-compose pull'.
-# Or 'tox -e podman-compose pull'.
+# Or 'tox -e images pull'.
 
 services:
   debian-11:
