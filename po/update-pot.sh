@@ -23,4 +23,4 @@ do
     fi
 done
 
-make msgmerge-fuzzy
+make -C "$MAKEFILE_DIR" msgmerge-fuzzy
