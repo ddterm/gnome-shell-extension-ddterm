@@ -334,7 +334,7 @@ pot: $(POT_FILE)
 .PHONY: pot
 
 MSGCMP_GOALS := $(addprefix msgcmp/, $(LOCALES))
-MSGCMP_FLAGS := --use-untranslated
+MSGCMP_FLAGS := --use-untranslated --use-fuzzy
 
 $(MSGCMP_GOALS): msgcmp/%: % $(POT_FILE)
 	msgcmp $(MSGCMP_FLAGS) $^
