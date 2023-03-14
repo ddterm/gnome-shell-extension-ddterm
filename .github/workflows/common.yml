@@ -80,6 +80,11 @@ jobs:
       shell: bash
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
+    - name: Ensure .po files are in sync with .pot
+      run: make -k msgcmp | tee msgcmp.log
+      shell: bash
+      if: ${{ always() && steps.checkout.conclusion == 'success' }}
+
     - name: Ensure Python requirements .txt files are in sync with .in files
       run: |
         tox --sitepackages -e pip-compile
