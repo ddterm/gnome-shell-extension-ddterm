@@ -54,7 +54,7 @@ jobs:
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
     - name: Lint Python test code
-      run: tox --sitepackages -e lint | sed -e 's:^\./:test/:' | tee ../flake8.log
+      run: tox --sitepackages -e lint 2>&1 | sed -e 's:^\./:test/:' | tee ../flake8.log
       shell: bash
       env:
         PY_COLORS: 0
@@ -66,24 +66,24 @@ jobs:
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
     - name: Compile GSettings schemas
-      run: make schemas | tee schemas.log
+      run: make schemas 2>&1 | tee schemas.log
       shell: bash
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
     - name: Compile translations
-      run: make locales | tee locales.log
+      run: make locales 2>&1 | tee locales.log
       shell: bash
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
     - name: Validate Gtk .ui files
-      run: xvfb-run make gtk-builder-validate | tee gtk-builder.log
+      run: xvfb-run make gtk-builder-validate 2>&1 | tee gtk-builder.log
       shell: bash
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
     - name: Ensure .po files are in sync with .pot
       run: |
         touch po/*.pot  # Make sure .pot won't be re-generated
-        make -k msgcmp | tee msgcmp.log
+        make -k msgcmp 2>&1 | tee msgcmp.log
       shell: bash
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
