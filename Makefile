@@ -341,7 +341,7 @@ $(MSGCMP_GOALS): msgcmp/%: % $(POT_FILE)
 
 msgcmp: $(MSGCMP_GOALS)
 
-msgcmp-strict: MSGCMP_FLAGS :=
+msgcmp-strict: override MSGCMP_FLAGS :=
 msgcmp-strict: $(MSGCMP_GOALS)
 
 .PHONY: msgcmp msgcmp-strict $(MSGCMP_GOALS)
@@ -354,7 +354,7 @@ $(MSGMERGE_GOALS): msgmerge/%: % $(POT_FILE)
 
 msgmerge: $(MSGMERGE_GOALS)
 
-msgmerge-fuzzy: MSGMERGE_FLAGS := --update --previous
+msgmerge-fuzzy: override MSGMERGE_FLAGS := --update --previous
 msgmerge-fuzzy: $(MSGMERGE_GOALS)
 
 .PHONY: msgmerge $(MSGMERGE_GOALS)
