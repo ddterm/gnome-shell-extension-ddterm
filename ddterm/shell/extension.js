@@ -280,7 +280,7 @@ function enable() {
 
     Gio.DBus.session.call(
         'org.freedesktop.DBus',
-        'org/freedesktop/DBus',
+        '/org/freedesktop/DBus',
         'org.freedesktop.DBus',
         'ReloadConfig',
         null,
