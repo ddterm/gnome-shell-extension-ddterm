@@ -19,5 +19,8 @@ do
     if diff <(remove_potcdate "$POTFILE~") <(remove_potcdate "$POTFILE")
     then
         mv "$POTFILE~" "$POTFILE"  # restore old file if no changes
+        exit 0
     fi
 done
+
+make msgmerge

@@ -34,7 +34,7 @@ jobs:
 
     - uses: stefanzweifel/git-auto-commit-action@v4
       with:
-        commit_message: "[ci skip] Update .pot file"
-        file_pattern: po/*.pot
+        commit_message: "[ci skip] Update translation files"
+        file_pattern: po/*
         skip_fetch: true
         skip_checkout: true
