@@ -29,7 +29,7 @@ const APP_DIR = Gio.File.new_for_commandline_arg(System.programInvocationName).g
 const ME_DIR = APP_DIR.get_parent().get_parent();
 imports.searchPath.unshift(ME_DIR.get_path());
 
-const { translations } = imports.ddterm;
+const { translations } = imports.ddterm.util;
 translations.init(ME_DIR);
 
 const NOTIFICATIONS_INTERFACE_XML = `

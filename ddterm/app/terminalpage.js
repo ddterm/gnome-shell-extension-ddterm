@@ -26,7 +26,7 @@ const { Handlebars } = imports.ddterm.thirdparty.handlebars;
 const { rxjs } = imports.ddterm.thirdparty.rxjs;
 const { urldetect_patterns, tcgetpgrp } = imports.ddterm.app;
 const { rxutil, settings } = imports.ddterm.rx;
-const { translations } = imports.ddterm;
+const { translations } = imports.ddterm.util;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 
 const APP_DIR = Me.dir.get_child('ddterm').get_child('app');

@@ -28,7 +28,7 @@ const PopupMenu = imports.ui.popupMenu;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const { ConnectionSet } = Me.imports.ddterm.shell.connectionset;
-const { translations } = Me.imports.ddterm;
+const { translations } = Me.imports.ddterm.util;
 
 const PanelIconBase = GObject.registerClass(
     {

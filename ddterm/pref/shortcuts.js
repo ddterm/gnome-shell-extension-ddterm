@@ -24,7 +24,7 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 const { rxjs } = Me.imports.ddterm.thirdparty.rxjs;
 const { util } = Me.imports.ddterm.pref;
 const { rxutil, settings } = Me.imports.ddterm.rx;
-const { translations } = Me.imports.ddterm;
+const { translations } = Me.imports.ddterm.util;
 
 const IS_GTK3 = Gtk.get_major_version() === 3;
 

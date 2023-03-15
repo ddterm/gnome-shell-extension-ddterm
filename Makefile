@@ -159,6 +159,7 @@ JS_SOURCE_WILDCARDS := \
 	ddterm/rx/*.js \
 	ddterm/pref/*.js \
 	ddterm/shell/*.js \
+	ddterm/util/*.js \
 
 JS_SOURCES := $(wildcard $(JS_SOURCE_WILDCARDS))
 LAUNCHER := com.github.amezin.ddterm

@@ -25,7 +25,7 @@ const { GLib, GObject, Gio, Gdk, Gtk } = imports.gi;
 const { rxjs } = imports.ddterm.thirdparty.rxjs;
 const { rxutil, settings } = imports.ddterm.rx;
 const { extensiondbus, terminalpage } = imports.ddterm.app;
-const { translations } = imports.ddterm;
+const { translations } = imports.ddterm.util;
 const ByteArray = imports.byteArray;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 

@@ -23,7 +23,7 @@ const System = imports.system;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 
-const { translations } = imports.ddterm;
+const { translations } = imports.ddterm.util;
 const { timers } = imports.ddterm.rx;
 
 translations.init(Me.dir);

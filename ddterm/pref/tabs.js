@@ -23,7 +23,7 @@ const { GObject, Gtk } = imports.gi;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const { util } = Me.imports.ddterm.pref;
 const { rxutil, settings } = Me.imports.ddterm.rx;
-const { translations } = Me.imports.ddterm;
+const { translations } = Me.imports.ddterm.util;
 
 var Widget = GObject.registerClass(
     {
