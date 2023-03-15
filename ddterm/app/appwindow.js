@@ -25,7 +25,7 @@ const { GLib, GObject, Gio, Gdk, Gtk } = imports.gi;
 const { rxjs } = imports.ddterm.thirdparty.rxjs;
 const { rxutil, settings } = imports.ddterm.rx;
 const { extensiondbus, terminalpage } = imports.ddterm.app;
-const { translations } = imports.ddterm.util;
+const { translations, simpleaction } = imports.ddterm.util;
 const ByteArray = imports.byteArray;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 
@@ -203,8 +203,8 @@ var AppWindow = GObject.registerClass(
                 },
             };
 
-            for (const [name, func] of Object.entries(actions))
-                this.add_action(this.rx.make_simple_action(name, func));
+            for (const [name, activate] of Object.entries(actions))
+                this.add_action(new simpleaction.Action({ name, activate }));
 
             this.tab_select_action = new Gio.PropertyAction({
                 name: 'switch-to-tab',

@@ -26,7 +26,7 @@ const { Handlebars } = imports.ddterm.thirdparty.handlebars;
 const { rxjs } = imports.ddterm.thirdparty.rxjs;
 const { urldetect_patterns, tcgetpgrp } = imports.ddterm.app;
 const { rxutil, settings } = imports.ddterm.rx;
-const { translations } = imports.ddterm.util;
+const { translations, simpleaction } = imports.ddterm.util;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 
 const APP_DIR = Me.dir.get_child('ddterm').get_child('app');
@@ -392,7 +392,7 @@ var TerminalPage = GObject.registerClass(
             this.terminal_popup_menu = this.setup_popup_menu(this.terminal, 'terminal-popup');
             this.setup_popup_menu(this.tab_label, 'tab-popup');
 
-            const actions = this.rx.make_simple_actions({
+            const actions = simpleaction.group({
                 'close': () => this.close(),
                 'new-tab-before': () => this.emit('new-tab-before-request'),
                 'new-tab-after': () => this.emit('new-tab-after-request'),
@@ -403,7 +403,7 @@ var TerminalPage = GObject.registerClass(
             this.insert_action_group('page', actions);
             this.tab_label.insert_action_group('page', actions);
 
-            const terminal_actions = this.rx.make_simple_actions({
+            const terminal_actions = simpleaction.group({
                 'copy': this.copy.bind(this),
                 'copy-html': this.copy_html.bind(this),
                 'open-hyperlink': this.open_hyperlink.bind(this),

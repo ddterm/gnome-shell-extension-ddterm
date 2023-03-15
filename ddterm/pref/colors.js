@@ -24,7 +24,7 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 const { rxjs } = Me.imports.ddterm.thirdparty.rxjs;
 const { util } = Me.imports.ddterm.pref;
 const { rxutil, settings } = Me.imports.ddterm.rx;
-const { translations } = Me.imports.ddterm.util;
+const { translations, simpleaction } = Me.imports.ddterm.util;
 
 const PALETTE_SIZE = 16;
 
@@ -264,7 +264,7 @@ var Widget = GObject.registerClass(
 
             this.insert_action_group(
                 'aux',
-                scope.make_simple_actions({
+                simpleaction.group({
                     'copy-gnome-terminal-profile': () => {
                         this.copy_gnome_terminal_profile();
                     },

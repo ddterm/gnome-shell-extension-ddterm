@@ -23,7 +23,7 @@ const { GObject, Gtk } = imports.gi;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const { util } = Me.imports.ddterm.pref;
 const { rxutil, settings } = Me.imports.ddterm.rx;
-const { translations } = Me.imports.ddterm.util;
+const { translations, simpleaction } = Me.imports.ddterm.util;
 
 var Widget = GObject.registerClass(
     {
@@ -79,7 +79,7 @@ var Widget = GObject.registerClass(
 
             this.insert_action_group(
                 'aux',
-                scope.make_simple_actions({
+                simpleaction.group({
                     'reset-tab-title': () => {
                         this.settings['tab-title-template'].reset();
                     },

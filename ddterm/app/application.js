@@ -23,7 +23,7 @@ const System = imports.system;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 
-const { translations } = imports.ddterm.util;
+const { translations, simpleaction } = imports.ddterm.util;
 const { timers } = imports.ddterm.rx;
 
 translations.init(Me.dir);
@@ -122,13 +122,13 @@ const Application = GObject.registerClass(
                 'end-subscription-leak-check': () => rxutil.end_subscription_leak_check(),
             };
 
-            for (const [name, func] of Object.entries(actions))
-                this.add_action(this.rx.make_simple_action(name, func));
+            for (const [name, activate] of Object.entries(actions))
+                this.add_action(new simpleaction.Action({ name, activate }));
 
-            const close_preferences_action = this.rx.make_simple_action(
-                'close-preferences',
-                () => this.close_preferences()
-            );
+            const close_preferences_action = new simpleaction.Action({
+                name: 'close-preferences',
+                activate: () => this.close_preferences(),
+            });
 
             this.rx.subscribe(
                 rxutil.property(this, 'preferences-visible'),
