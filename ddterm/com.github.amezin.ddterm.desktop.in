@@ -1,10 +1,16 @@
 [Desktop Entry]
 Type=Application
 Name=Drop Down Terminal
-NoDisplay=true
 Comment=Another drop down terminal extension for GNOME Shell. With tabs. Works on Wayland natively.
 Icon=utilities-terminal
 Exec="@LAUNCHER@"
 Categories=Utility;
 StartupWMClass=Com.github.amezin.ddterm
 DBusActivatable=true
+Actions=toggle;preferences;
+
+[Desktop Action toggle]
+Name=Toggle
+
+[Desktop Action preferences]
+Name=Preferences...
