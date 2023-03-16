@@ -24,7 +24,7 @@ const Main = imports.ui.main;
 const WM = imports.ui.windowManager;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-const { logger } = Me.imports.ddterm.shell;
+const { logger } = Me.imports.ddterm.util;
 const { ConnectionSet } = Me.imports.ddterm.shell.connectionset;
 
 var LOG_DOMAIN = 'ddterm-wm';

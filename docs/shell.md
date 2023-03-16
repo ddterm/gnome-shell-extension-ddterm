@@ -25,11 +25,9 @@ Currently, extension code consists of multiple modules:
 
 * [`panelicon.js`](/ddterm/shell/panelicon.js): ddterm's panel icon implementation
 
-There are also few utility modules:
+There is also a utility module:
 
 * [`connectionset.js`](/ddterm/shell/connectionset.js): semi-automatic signal disconnection
-
-* [`logger.js`](/ddterm/shell/logger.js): debug logging (disabled by default)
 
 Extension code doesn't (and shouldn't) use any third party (npm) libraries.
 
