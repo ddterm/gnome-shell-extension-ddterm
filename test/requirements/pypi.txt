@@ -14,7 +14,7 @@ attrs==22.2.0
     # via pytest
 execnet==1.9.0
     # via pytest-xdist
-filelock==3.9.0
+filelock==3.10.0
     # via -r pypi.in
 iniconfig==2.0.0
     # via pytest
