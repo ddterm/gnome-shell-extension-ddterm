@@ -19,11 +19,10 @@
 
 'use strict';
 
-const { GObject, Gtk } = imports.gi;
+const { GObject, Gio, Gtk } = imports.gi;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const { backport } = Me.imports.ddterm;
 const { util } = Me.imports.ddterm.pref;
-const { settings } = Me.imports.ddterm.rx;
 const { translations } = Me.imports.ddterm.util;
 
 var Widget = backport.GObject.registerClass(
@@ -39,7 +38,7 @@ var Widget = backport.GObject.registerClass(
                 '',
                 '',
                 GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-                settings.Settings
+                Gio.Settings
             ),
         },
     },
@@ -47,11 +46,7 @@ var Widget = backport.GObject.registerClass(
         _init(params) {
             super._init(params);
 
-            const scope = util.scope(this, this.settings);
-
-            scope.setup_widgets({
-                'panel-icon-type': this.panel_icon_type_combo,
-            });
+            util.bind_widget(this.settings, 'panel-icon-type', this.panel_icon_type_combo);
         }
 
         get title() {

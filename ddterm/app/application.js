@@ -145,16 +145,8 @@ const Application = backport.GObject.registerClass(
 
             this.add_action(close_preferences_action);
 
-            const settings_source = Gio.SettingsSchemaSource.new_from_directory(
-                Me.dir.get_child('schemas').get_path(),
-                Gio.SettingsSchemaSource.get_default(),
-                false
-            );
-
             this.settings = new settings.Settings({
-                gsettings: new Gio.Settings({
-                    settings_schema: settings_source.lookup('com.github.amezin.ddterm', true),
-                }),
+                gsettings: imports.ddterm.util.settings.get_settings(),
             });
 
             [
@@ -307,7 +299,7 @@ const Application = backport.GObject.registerClass(
             if (this.prefs_dialog === null) {
                 this.prefs_dialog = new imports.ddterm.pref.dialog.PrefsDialog({
                     transient_for: this.window,
-                    settings: this.settings,
+                    settings: this.settings.gsettings,
                 });
 
                 this.rx.subscribe(

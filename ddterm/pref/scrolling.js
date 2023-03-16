@@ -19,11 +19,10 @@
 
 'use strict';
 
-const { GObject, Gtk } = imports.gi;
+const { GObject, Gio, Gtk } = imports.gi;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const { backport } = Me.imports.ddterm;
 const { util } = Me.imports.ddterm.pref;
-const { settings } = Me.imports.ddterm.rx;
 const { translations } = Me.imports.ddterm.util;
 
 var Widget = backport.GObject.registerClass(
@@ -32,6 +31,7 @@ var Widget = backport.GObject.registerClass(
         Template: util.ui_file_uri('prefs-scrolling.ui'),
         Children: [
             'scrollback_spin',
+            'limit_scrollback_check',
         ],
         Properties: {
             'settings': GObject.ParamSpec.object(
@@ -39,7 +39,7 @@ var Widget = backport.GObject.registerClass(
                 '',
                 '',
                 GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-                settings.Settings
+                Gio.Settings
             ),
         },
     },
@@ -47,25 +47,26 @@ var Widget = backport.GObject.registerClass(
         _init(params) {
             super._init(params);
 
-            const scope = util.scope(this, this.settings);
+            util.insert_settings_actions(this, this.settings, [
+                'show-scrollbar',
+                'scroll-on-output',
+                'scroll-on-keystroke',
+            ]);
 
-            scope.setup_widgets({
-                'scrollback-lines': this.scrollback_spin,
-            });
-
-            this.insert_action_group(
-                'settings',
-                scope.make_actions([
-                    'show-scrollbar',
-                    'scroll-on-output',
-                    'scroll-on-keystroke',
-                ])
+            util.bind_widget(
+                this.settings,
+                'scrollback-unlimited',
+                this.limit_scrollback_check,
+                Gio.SettingsBindFlags.INVERT_BOOLEAN
             );
 
-            this.insert_action_group('inverse-settings',
-                scope.make_inverse_actions([
-                    'scrollback-unlimited',
-                ])
+            util.bind_widget(this.settings, 'scrollback-lines', this.scrollback_spin);
+
+            util.bind_sensitive(
+                this.settings,
+                'scrollback-unlimited',
+                this.scrollback_spin.parent,
+                true
             );
         }
 

@@ -19,12 +19,10 @@
 
 'use strict';
 
-const { GObject, Gdk, Gtk } = imports.gi;
+const { GObject, Gio, Gdk, Gtk } = imports.gi;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const { backport } = Me.imports.ddterm;
-const { rxjs } = Me.imports.ddterm.thirdparty.rxjs;
 const { util } = Me.imports.ddterm.pref;
-const { rxutil, settings } = Me.imports.ddterm.rx;
 const { translations } = Me.imports.ddterm.util;
 
 const IS_GTK3 = Gtk.get_major_version() === 3;
@@ -34,6 +32,11 @@ function accelerator_parse(accel) {
 
     return IS_GTK3 ? parsed : parsed.slice(1);
 }
+
+const COLUMN_SETTINGS_KEY = 0;
+const COLUMN_ACCEL_KEY = 2;
+const COLUMN_ACCEL_MODS = 3;
+const COLUMN_EDITABLE = 4;
 
 var Widget = backport.GObject.registerClass(
     {
@@ -52,7 +55,7 @@ var Widget = backport.GObject.registerClass(
                 '',
                 '',
                 GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-                settings.Settings
+                Gio.Settings
             ),
         },
     },
@@ -60,67 +63,69 @@ var Widget = backport.GObject.registerClass(
         _init(params) {
             super._init(params);
 
-            this.scope = util.scope(this, this.settings);
-
-            this.insert_action_group(
-                'settings',
-                this.scope.make_actions([
-                    'shortcuts-enabled',
-                ])
-            );
+            util.insert_settings_actions(this, this.settings, ['shortcuts-enabled']);
 
             [this.shortcuts_list, this.global_shortcuts_list].forEach(shortcuts_list => {
                 shortcuts_list.foreach((model, path, iter) => {
                     const i = iter.copy();
+                    const key = model.get_value(i, COLUMN_SETTINGS_KEY);
 
-                    this.scope.subscribe(
-                        this.settings[model.get_value(i, 0)],
-                        shortcuts => {
-                            if (shortcuts && shortcuts.length > 0)
-                                model.set(i, [2, 3], accelerator_parse(shortcuts[0]));
-                            else
-                                model.set(i, [2, 3], [0, 0]);
-                        }
+                    const handler = this.settings.connect(
+                        `changed::${key}`,
+                        this.update_model.bind(this, model, i)
                     );
+                    this.connect('destroy', () => this.settings.disconnect(handler));
+                    this.update_model(model, i, this.settings, key);
+
+                    const editable_handler = this.settings.connect(
+                        `writable-changed::${key}`,
+                        this.update_editable.bind(this, model, i)
+                    );
+                    this.connect('destroy', () => this.settings.disconnect(editable_handler));
+                    this.update_editable(model, i, this.settings, key);
 
                     return false;
                 });
             });
 
-            this.scope.subscribe(
-                rxjs.merge(
-                    rxutil.signal(this.accel_renderer, 'accel-edited'),
-                    rxutil.signal(this.accel_renderer, 'accel-cleared')
-                ),
-                args => {
-                    this.save_shortcut(this.shortcuts_list, ...args);
-                }
-            );
+            for (const signal of ['accel-edited', 'accel-cleared']) {
+                this.accel_renderer.connect(
+                    signal,
+                    this.save_shortcut.bind(this, this.shortcuts_list)
+                );
 
-            this.scope.subscribe(
-                rxjs.merge(
-                    rxutil.signal(this.global_accel_renderer, 'accel-edited'),
-                    rxutil.signal(this.global_accel_renderer, 'accel-cleared')
-                ),
-                args => {
-                    this.save_shortcut(this.global_shortcuts_list, ...args);
-                }
-            );
+                this.global_accel_renderer.connect(
+                    signal,
+                    this.save_shortcut.bind(this, this.global_shortcuts_list)
+                );
+            }
 
-            this.scope.subscribe(
-                this.settings['shortcuts-enabled'],
-                rxutil.property(this.shortcuts_treeview, 'sensitive')
-            );
-
-            this.scope.connect(
-                this.global_accel_renderer,
+            this.global_accel_renderer.connect(
                 'editing-started',
                 (IS_GTK3 ? this.grab_global_keys : this.inhibit_system_shortcuts).bind(this)
             );
+
+            util.bind_sensitive(this.settings, 'shortcuts-enabled', this.shortcuts_treeview);
         }
 
         get title() {
             return translations.gettext('Keyboard Shortcuts');
+        }
+
+        update_model(model, iter, settings, key) {
+            const strv = settings.get_strv(key);
+            const [accel_key, accel_mods] =
+                strv.length > 0 ? accelerator_parse(strv[0]) : [0, 0];
+
+            model.set(
+                iter,
+                [COLUMN_ACCEL_KEY, COLUMN_ACCEL_MODS],
+                [accel_key, accel_mods]
+            );
+        }
+
+        update_editable(model, iter, settings, key) {
+            model.set_value(iter, COLUMN_EDITABLE, settings.is_writable(key));
         }
 
         save_shortcut(shortcuts_list, _, path, accel_key = null, accel_mods = null) {
@@ -128,9 +133,10 @@ var Widget = backport.GObject.registerClass(
             if (!ok)
                 return;
 
-            const action = shortcuts_list.get_value(iter, 0);
-            const key_names = accel_key ? [Gtk.accelerator_name(accel_key, accel_mods)] : [];
-            this.settings[action].value = key_names;
+            this.settings.set_strv(
+                shortcuts_list.get_value(iter, COLUMN_SETTINGS_KEY),
+                accel_key ? [Gtk.accelerator_name(accel_key, accel_mods)] : []
+            );
         }
 
         grab_global_keys(cell_renderer, editable) {
@@ -148,24 +154,20 @@ var Widget = backport.GObject.registerClass(
             if (status !== Gdk.GrabStatus.SUCCESS)
                 return;
 
-            this.scope.subscribe(
-                rxutil.signal(editable, 'editing-done').pipe(rxjs.take(1)),
-                () => {
-                    seat.ungrab();
-                }
-            );
+            const done_handler = editable.connect('editing-done', () => {
+                seat.ungrab();
+                editable.disconnect(done_handler);
+            });
         }
 
         inhibit_system_shortcuts(cell_renderer, editable) {
             const toplevel = this.root.get_surface();
             toplevel.inhibit_system_shortcuts(null);
 
-            this.scope.subscribe(
-                rxutil.signal(editable, 'editing-done').pipe(rxjs.take(1)),
-                () => {
-                    toplevel.restore_system_shortcuts();
-                }
-            );
+            const done_handler = editable.connect('editing-done', () => {
+                toplevel.restore_system_shortcuts();
+                editable.disconnect(done_handler);
+            });
         }
     }
 );

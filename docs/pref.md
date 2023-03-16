@@ -8,12 +8,6 @@ It can be loaded (imported) by both the [application] and the
 
 Code of this component must support both Gtk 3 and Gtk 4.
 
-It may import modules from [`rx`] directory.
-
-Even though [`prefs.js`] is considered part of the extension, it isn't loaded
-into the main GNOME Shell process, so it's more similar to the application code
-and also uses [RxJS].
-
 [`test`] directory contains a few scripts that enable manual testing of the
 dialog without installation:
 
@@ -27,7 +21,6 @@ the required `*.ui` files.
 [`ddterm/pref`]: /ddterm/pref
 [application]: /ddterm/app
 [shell extension]: /ddterm/shell
-[`rx`]: /ddterm/rx
 [`test`]: /ddterm/pref/test
 [`gtk3.js`]: /ddterm/pref/test/gtk3.js
 [`gtk4.js`]: /ddterm/pref/test/gtk4.js

@@ -19,11 +19,10 @@
 
 'use strict';
 
-const { GObject, Gtk } = imports.gi;
+const { GObject, Gio, Gtk } = imports.gi;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const { backport } = Me.imports.ddterm;
 const { util } = Me.imports.ddterm.pref;
-const { settings } = Me.imports.ddterm.rx;
 const { translations } = Me.imports.ddterm.util;
 
 var Widget = backport.GObject.registerClass(
@@ -39,7 +38,7 @@ var Widget = backport.GObject.registerClass(
                 '',
                 '',
                 GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-                settings.Settings
+                Gio.Settings
             ),
         },
     },
@@ -47,29 +46,28 @@ var Widget = backport.GObject.registerClass(
         _init(params) {
             super._init(params);
 
-            const scope = util.scope(this, this.settings);
+            util.insert_settings_actions(this, this.settings, [
+                'command',
+                'preserve-working-directory',
+            ]);
 
-            scope.setup_widgets({
-                'custom-command': this.custom_command_entry,
-            });
+            util.bind_widget(this.settings, 'custom-command', this.custom_command_entry);
 
-            /*
-                GtkRadioButton: always build the group around the last one.
-                I. e. 'group' property of all buttons (except the last one)
-                should point to the last one. Otherwise, settings-based action
-                won't work correctly on Gtk 3.
-            */
-            this.insert_action_group(
-                'settings',
-                scope.make_actions([
-                    'command',
-                    'preserve-working-directory',
-                ])
+            const handler = this.settings.connect(
+                'changed::command',
+                this.enable_custom_command_entry.bind(this)
             );
+            this.connect('destroy', () => this.settings.disconnect(handler));
+            this.enable_custom_command_entry();
         }
 
         get title() {
             return translations.gettext('Command');
+        }
+
+        enable_custom_command_entry() {
+            this.custom_command_entry.parent.sensitive =
+                this.settings.get_string('command') === 'custom-command';
         }
     }
 );

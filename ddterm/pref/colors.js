@@ -19,89 +19,11 @@
 
 'use strict';
 
-const { GObject, Gio, Gtk } = imports.gi;
+const { GLib, GObject, Gio, Gdk, Gtk } = imports.gi;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const { backport } = Me.imports.ddterm;
-const { rxjs } = Me.imports.ddterm.thirdparty.rxjs;
 const { util } = Me.imports.ddterm.pref;
-const { rxutil, settings } = Me.imports.ddterm.rx;
-const { translations, simpleaction } = Me.imports.ddterm.util;
-
-const PALETTE_SIZE = 16;
-
-function palette_widget_ids() {
-    const widgets = [];
-
-    for (let i = 0; i < PALETTE_SIZE; i++)
-        widgets.push(`palette${i}`);
-
-    return widgets;
-}
-
-const PALETTE_WIDGET_IDS = palette_widget_ids();
-
-function model_row(model, i) {
-    const strv = [];
-
-    for (let j = 0; j < model.get_n_columns(); j++)
-        strv.push(model.get_value(i, j));
-
-    return strv;
-}
-
-function is_custom_colors_row(row) {
-    return row.every(v => !v);
-}
-
-function find_colors_in_model(model, colors) {
-    if (!colors.every(v => v))
-        return null;
-
-    let [ok, iter] = model.get_iter_first();
-
-    while (ok) {
-        const row = model_row(model, iter).slice(1);
-
-        if (is_custom_colors_row(row))
-            return iter;
-
-        if (row.map(settings.parse_rgba).every((v, j) => v && v.equal(colors[j])))
-            return iter;
-
-        ok = model.iter_next(iter);
-    }
-
-    return null;
-}
-
-function select_colors_in_combo(combo, colors) {
-    const iter = find_colors_in_model(combo.model, colors);
-
-    if (iter)
-        combo.set_active_iter(iter);
-}
-
-function combo_active_iter(combo) {
-    return rxutil.signal(combo, 'changed').pipe(
-        rxjs.map(([sender]) => sender.get_active_iter()),
-        rxjs.filter(([ok]) => ok),
-        rxjs.map(([_, v]) => v)
-    );
-}
-
-function combo_active_model_row(combo) {
-    return combo_active_iter(combo).pipe(
-        rxjs.map(iter => model_row(combo.model, iter))
-    );
-}
-
-function palette_selector(combo) {
-    return combo_active_model_row(combo).pipe(
-        rxjs.map(row => row.slice(1)),
-        rxjs.filter(row => !is_custom_colors_row(row)),
-        rxjs.map(row => row.map(settings.parse_rgba))
-    );
-}
+const { translations } = Me.imports.ddterm.util;
 
 function show_dialog(parent_window, message, message_type = Gtk.MessageType.ERROR) {
     const dialog = new Gtk.MessageDialog({
@@ -134,11 +56,248 @@ function get_settings_schema_key(schema, name) {
     return schema.get_key(name);
 }
 
+// eslint-disable-next-line no-shadow
+function copy_gnome_terminal_profile(settings) {
+    // Lookup gnome terminal's setting schemas
+    let profile_list_schema, profile_schema;
+    try {
+        profile_list_schema = get_settings_schema('org.gnome.Terminal.ProfilesList');
+        profile_schema = get_settings_schema('org.gnome.Terminal.Legacy.Profile');
+    } catch (e) {
+        throw new Error(`${e.message} Probably, GNOME Terminal is not installed.`);
+    }
+
+    // Find default gnome terminal profile
+    let profiles_list = Gio.Settings.new_full(profile_list_schema, null, null);
+    let profilePath = profiles_list.settings_schema.get_path();
+    let uuid = profiles_list.get_string('default');
+    let gnome_terminal_profile = Gio.Settings.new_full(
+        profile_schema,
+        null,
+        `${profilePath}:${uuid}/`
+    );
+
+    // Copy color profile
+    try {
+        const profile_keys = [
+            'use-theme-colors',
+            'foreground-color',
+            'background-color',
+            'bold-color-same-as-fg',
+            'bold-color',
+            'cursor-colors-set',
+            'cursor-foreground-color',
+            'cursor-background-color',
+            'highlight-colors-set',
+            'highlight-foreground-color',
+            'highlight-background-color',
+            'palette',
+            'bold-is-bright',
+        ];
+
+        // Check if key is valid
+        for (const key of profile_keys) {
+            const type_gnome_terminal =
+                get_settings_schema_key(profile_schema, key).get_value_type();
+
+            const type_ddterm = settings.settings_schema.get_key(key).get_value_type();
+
+            if (!type_gnome_terminal.equal(type_ddterm)) {
+                throw new Error(
+                    `The type of key '${key}' in GNOME Terminal is` +
+                    ` '${type_gnome_terminal.dup_string()}',` +
+                    ` but '${type_ddterm.dup_string()}' is expected.`
+                );
+            }
+        }
+
+        profile_keys.forEach(key => {
+            settings.set_value(key, gnome_terminal_profile.get_value(key));
+        });
+    } catch (e) {
+        throw new Error(`Failed to copy color profile from GNOME Terminal. ${e.message}`);
+    }
+}
+
+function parse_rgba(str) {
+    if (str) {
+        const rgba = new Gdk.RGBA();
+
+        if (rgba.parse(str))
+            return rgba;
+    }
+
+    throw Error(`Cannot parse ${JSON.stringify(str)} as color`);
+}
+
+const Color = backport.GObject.registerClass(
+    {
+        Properties: {
+            'rgba': GObject.ParamSpec.boxed(
+                'rgba',
+                '',
+                '',
+                GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+                Gdk.RGBA
+            ),
+            'str': GObject.ParamSpec.string(
+                'str',
+                '',
+                '',
+                GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+                null
+            ),
+        },
+    },
+    class DDTermPrefsColorsColor extends GObject.Object {
+        _init(params) {
+            this._rgba = null;
+
+            super._init(params);
+        }
+
+        get rgba() {
+            return this._rgba;
+        }
+
+        set rgba(value) {
+            if (this._rgba && this._rgba.equal(value))
+                return;
+
+            this._rgba = value;
+            this.notify('rgba');
+            this.notify('str');
+        }
+
+        get str() {
+            return this.rgba && this.rgba.to_string();
+        }
+
+        set str(value) {
+            this.rgba = parse_rgba(value);
+        }
+    }
+);
+
+const ColorScheme = backport.GObject.registerClass(
+    {
+        Properties: {
+            'active-preset': GObject.ParamSpec.int(
+                'active-preset',
+                '',
+                '',
+                GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+                -1,
+                GLib.MAXINT32,
+                -1
+            ),
+            'presets': GObject.ParamSpec.object(
+                'presets',
+                '',
+                '',
+                GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+                Gtk.TreeModel
+            ),
+            'strv': GObject.ParamSpec.boxed(
+                'strv',
+                '',
+                '',
+                GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+                GObject.type_from_name('GStrv')
+            ),
+        },
+    },
+    class DDTermPrefsColorsColorScheme extends GObject.Object {
+        _init(params) {
+            super._init(params);
+
+            this.colors = Array.from(
+                { length: this.presets.get_n_columns() - 1 },
+                () => new Color()
+            );
+
+            for (const color of this.colors) {
+                color.connect('notify::str', () => this.notify('strv'));
+                color.connect('notify::rgba', () => this.notify('active-preset'));
+            }
+
+            this._model_handlers = ['row-changed', 'row-deleted', 'row-inserted'].map(
+                signal => this.presets.connect(signal, () => this.notify('active-preset'))
+            );
+        }
+
+        get active_preset() {
+            const rgbav = this.colors.map(color => color.rgba);
+            let preset = -1;
+
+            this.presets.foreach((model, path, iter) => {
+                if (!this.preset_matches(iter, rgbav))
+                    return false;
+
+                [preset] = path.get_indices();
+                return true;
+            });
+
+            return preset;
+        }
+
+        set active_preset(value) {
+            const [ok, iter] = this.presets.iter_nth_child(null, value);
+
+            if (!ok)
+                return;
+
+            this.strv = Array.from(
+                { length: this.presets.get_n_columns() - 1 },
+                (_, index) => this.presets.get_value(iter, index + 1)
+            );
+        }
+
+        get strv() {
+            return this.colors.map(color => color.str);
+        }
+
+        set strv(value) {
+            this.freeze_notify();
+            try {
+                value.forEach((str, index) => {
+                    if (str)
+                        this.colors[index].str = str;
+                });
+            } finally {
+                this.thaw_notify();
+            }
+        }
+
+        destroy() {
+            for (const handler_id of this._model_handlers)
+                this.presets.disconnect(handler_id);
+
+            this._model_handlers = [];
+        }
+
+        preset_matches(iter, rgbav) {
+            return rgbav.every((rgba, index) => {
+                if (!rgba)
+                    return true;
+
+                const model_str = this.presets.get_value(iter, index + 1);
+                return !model_str || rgba.equal(parse_rgba(model_str));
+            });
+        }
+    }
+);
+
+const PALETTE_WIDGET_IDS = Array.from({ length: 16 }, (_, i) => `palette${i}`);
+
 var Widget = backport.GObject.registerClass(
     {
         GTypeName: 'DDTermPrefsColors',
         Template: util.ui_file_uri('prefs-colors.ui'),
         Children: [
+            'theme_variant_combo',
+            'color_scheme_editor',
+            'color_scheme_combo',
             'foreground_color',
             'background_color',
             'opacity_scale',
@@ -147,9 +306,8 @@ var Widget = backport.GObject.registerClass(
             'cursor_background_color',
             'highlight_foreground_color',
             'highlight_background_color',
-            'color_scheme_combo',
             'palette_combo',
-            'theme_variant_combo',
+            'bold_color_check',
         ].concat(PALETTE_WIDGET_IDS),
         Properties: {
             'settings': GObject.ParamSpec.object(
@@ -157,7 +315,7 @@ var Widget = backport.GObject.registerClass(
                 '',
                 '',
                 GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-                settings.Settings
+                Gio.Settings
             ),
         },
     },
@@ -165,185 +323,170 @@ var Widget = backport.GObject.registerClass(
         _init(params) {
             super._init(params);
 
-            const scope = util.scope(this, this.settings);
+            util.insert_settings_actions(this, this.settings, [
+                'cursor-colors-set',
+                'highlight-colors-set',
+                'bold-is-bright',
+                'use-theme-colors',
+                'transparent-background',
+            ]);
 
-            scope.subscribe(
-                rxjs.combineLatest(
-                    scope.setting_editable('background-color'),
-                    scope.setting_editable('foreground-color')
-                ).pipe(rxjs.map(v => v.every(rxjs.identity))),
-                rxutil.property(this.color_scheme_combo, 'sensitive')
+            util.bind_widget(this.settings, 'theme-variant', this.theme_variant_combo);
+
+            util.bind_sensitive(
+                this.settings,
+                'use-theme-colors',
+                this.color_scheme_editor,
+                true
             );
 
-            scope.setup_widgets({
-                'theme-variant': this.theme_variant_combo,
-                'foreground-color': this.foreground_color,
-                'background-color': this.background_color,
-                'background-opacity': this.opacity_scale,
-                'bold-color': this.bold_color,
-                'cursor-foreground-color': this.cursor_foreground_color,
-                'cursor-background-color': this.cursor_background_color,
-                'highlight-foreground-color': this.highlight_foreground_color,
-                'highlight-background-color': this.highlight_background_color,
+            this.color_scheme = new ColorScheme({
+                presets: this.color_scheme_combo.model,
+            });
+            this.connect('destroy', () => this.color_scheme.destroy());
+
+            this.bind_color('foreground-color', this.foreground_color, this.color_scheme.colors[0]);
+            this.bind_color('background-color', this.background_color, this.color_scheme.colors[1]);
+
+            this.color_scheme.bind_property(
+                'active-preset',
+                this.color_scheme_combo,
+                'active',
+                GObject.BindingFlags.SYNC_CREATE | GObject.BindingFlags.BIDIRECTIONAL
+            );
+
+            const color_scheme_enable_handlers = [
+                this.settings.connect(
+                    'writable-changed::foreground-color',
+                    this.enable_color_scheme_combo.bind(this)
+                ),
+                this.settings.connect(
+                    'writable-changed::background-color',
+                    this.enable_color_scheme_combo.bind(this)
+                ),
+            ];
+            this.connect('destroy', () => {
+                color_scheme_enable_handlers.forEach(handler => this.settings.disconnect(handler));
+            });
+            this.enable_color_scheme_combo();
+
+            util.bind_widget(this.settings, 'background-opacity', this.opacity_scale);
+            util.bind_sensitive(this.settings, 'transparent-background', this.opacity_scale.parent);
+            util.set_scale_value_formatter(this.opacity_scale, util.percent_formatter);
+
+            util.bind_widget(
+                this.settings,
+                'bold-color-same-as-fg',
+                this.bold_color_check,
+                Gio.SettingsBindFlags.INVERT_BOOLEAN
+            );
+
+            this.bind_color('bold-color', this.bold_color);
+
+            util.bind_sensitive(
+                this.settings,
+                'bold-color-same-as-fg',
+                this.bold_color.parent,
+                true
+            );
+
+            this.bind_color('cursor-foreground-color', this.cursor_foreground_color);
+            this.bind_color('cursor-background-color', this.cursor_background_color);
+
+            [
+                this.cursor_foreground_color,
+                this.cursor_background_color,
+            ].forEach(widget => {
+                util.bind_sensitive(this.settings, 'cursor-colors-set', widget);
             });
 
-            this.insert_action_group(
-                'settings',
-                scope.make_actions([
-                    'cursor-colors-set',
-                    'highlight-colors-set',
-                    'bold-is-bright',
-                    'use-theme-colors',
-                    'transparent-background',
-                ])
+            this.bind_color('highlight-foreground-color', this.highlight_foreground_color);
+            this.bind_color('highlight-background-color', this.highlight_background_color);
+
+            [
+                this.highlight_foreground_color,
+                this.highlight_background_color,
+            ].forEach(widget => {
+                util.bind_sensitive(this.settings, 'highlight-colors-set', widget);
+            });
+
+            this.palette = new ColorScheme({
+                presets: this.palette_combo.model,
+            });
+            this.connect('destroy', () => this.palette.destroy());
+
+            this.settings.bind(
+                'palette',
+                this.palette,
+                'strv',
+                Gio.SettingsBindFlags.NO_SENSITIVITY
             );
 
-            this.insert_action_group(
-                'inverse-settings',
-                scope.make_inverse_actions([
-                    'bold-color-same-as-fg',
-                ])
+            this.settings.bind_writable('palette', this.palette_combo, 'sensitive', false);
+
+            PALETTE_WIDGET_IDS.map(key => this[key]).forEach((widget, index) => {
+                this.settings.bind_writable('palette', widget, 'sensitive', false);
+
+                this.palette.colors[index].bind_property(
+                    'rgba',
+                    widget,
+                    'rgba',
+                    GObject.BindingFlags.SYNC_CREATE | GObject.BindingFlags.BIDIRECTIONAL
+                );
+            });
+
+            this.palette.bind_property(
+                'active-preset',
+                this.palette_combo,
+                'active',
+                GObject.BindingFlags.SYNC_CREATE | GObject.BindingFlags.BIDIRECTIONAL
             );
 
-            scope.set_scale_value_formatter(
-                this.opacity_scale,
-                util.percent_formatter
-            );
+            const copy_from_gnome_terminal_action = new Gio.SimpleAction({
+                name: 'copy-gnome-terminal-profile',
+            });
 
-            const color_scheme_guard = util.recursion_guard();
-
-            scope.subscribe(
-                rxjs.combineLatest(
-                    this.settings['foreground-color'],
-                    this.settings['background-color']
-                ).pipe(color_scheme_guard),
-                scheme => {
-                    select_colors_in_combo(this.color_scheme_combo, scheme);
+            copy_from_gnome_terminal_action.connect('activate', () => {
+                try {
+                    copy_gnome_terminal_profile(this.settings);
+                } catch (e) {
+                    show_dialog(this.get_toplevel(), e.message);
                 }
-            );
+            });
 
-            scope.subscribe(
-                palette_selector(this.color_scheme_combo).pipe(color_scheme_guard),
-                row => {
-                    this.settings['foreground-color'].value = row[0];
-                    this.settings['background-color'].value = row[1];
-                }
-            );
-
-            const palette_guard = util.recursion_guard();
-            const palette_edit_guard = util.recursion_guard();
-            const palette_widgets = PALETTE_WIDGET_IDS.map(v => this[v]);
-
-            scope.subscribe(
-                this.settings['palette'],
-                palette => {
-                    palette_edit_guard(() => {
-                        palette_widgets.forEach((widget, i) => {
-                            widget.rgba = palette[i];
-                        });
-                    });
-
-                    palette_guard(() => {
-                        select_colors_in_combo(this.palette_combo, palette);
-                    });
-                }
-            );
-
-            scope.subscribe(
-                palette_selector(this.palette_combo).pipe(palette_guard),
-                this.settings['palette']
-            );
-
-            const palette_colors = palette_widgets.map(
-                widget => rxutil.property(widget, 'rgba')
-            );
-
-            scope.subscribe(
-                rxjs.combineLatest(...palette_colors).pipe(palette_edit_guard),
-                this.settings['palette']
-            );
-
-            this.insert_action_group(
-                'aux',
-                simpleaction.group({
-                    'copy-gnome-terminal-profile': () => {
-                        this.copy_gnome_terminal_profile();
-                    },
-                })
-            );
+            const aux_actions = new Gio.SimpleActionGroup();
+            aux_actions.add_action(copy_from_gnome_terminal_action);
+            this.insert_action_group('aux', aux_actions);
         }
 
         get title() {
             return translations.gettext('Colors');
         }
 
-        copy_gnome_terminal_profile() {
-            // Lookup gnome terminal's setting schemas
-            let profile_list_schema, profile_schema;
-            try {
-                profile_list_schema = get_settings_schema('org.gnome.Terminal.ProfilesList');
-                profile_schema = get_settings_schema('org.gnome.Terminal.Legacy.Profile');
-            } catch (e) {
-                show_dialog(
-                    this.get_toplevel(),
-                    `${e.message} Probably, GNOME Terminal is not installed.`
-                );
-                return;
+        bind_color(key, widget, color = null) {
+            if (!color) {
+                color = new Color();
+
+                // Prevent color object from being garbage collected while the widget is alive
+                widget._bound_color = color;
             }
 
-            // Find default gnome terminal profile
-            let profiles_list = Gio.Settings.new_full(profile_list_schema, null, null);
-            let profilePath = profiles_list.settings_schema.get_path();
-            let uuid = profiles_list.get_string('default');
-            let gnome_terminal_profile = Gio.Settings.new_full(
-                profile_schema,
-                null,
-                `${profilePath}:${uuid}/`
+            this.settings.bind(key, color, 'str', Gio.SettingsBindFlags.NO_SENSITIVITY);
+
+            color.bind_property(
+                'rgba',
+                widget,
+                'rgba',
+                GObject.BindingFlags.BIDIRECTIONAL | GObject.BindingFlags.SYNC_CREATE
             );
 
-            // Copy color profile
-            try {
-                const profile_keys = [
-                    'use-theme-colors',
-                    'foreground-color',
-                    'background-color',
-                    'bold-color-same-as-fg',
-                    'bold-color',
-                    'cursor-colors-set',
-                    'cursor-foreground-color',
-                    'cursor-background-color',
-                    'highlight-colors-set',
-                    'highlight-foreground-color',
-                    'highlight-background-color',
-                    'palette',
-                    'bold-is-bright',
-                ];
+            this.settings.bind_writable(key, widget, 'sensitive', false);
+        }
 
-                // Check if key is valid
-                for (const key of profile_keys) {
-                    const type_gnome_terminal =
-                        get_settings_schema_key(profile_schema, key).get_value_type();
-
-                    const type_ddterm = this.settings[key].value_type;
-
-                    if (!type_gnome_terminal.equal(type_ddterm)) {
-                        throw new Error(
-                            `The type of key '${key}' in GNOME Terminal is` +
-                            ` '${type_gnome_terminal.dup_string()}',` +
-                            ` but '${type_ddterm.dup_string()}' is expected.`
-                        );
-                    }
-                }
-
-                profile_keys.forEach(key => {
-                    this.settings[key].packed.value = gnome_terminal_profile.get_value(key);
-                });
-            } catch (e) {
-                show_dialog(
-                    this.get_toplevel(),
-                    `Failed to copy color profile from GNOME Terminal. ${e.message}`
-                );
-            }
+        enable_color_scheme_combo() {
+            this.color_scheme_combo.sensitive =
+                this.settings.is_writable('foreground-color') &&
+                this.settings.is_writable('background-color');
         }
     }
 );

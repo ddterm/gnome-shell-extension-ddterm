@@ -17,11 +17,9 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-const { Gio, Gtk } = imports.gi;
-const Me = imports.misc.extensionUtils.getCurrentExtension();
-const { backport } = Me.imports.ddterm;
+const { Gtk } = imports.gi;
+const { backport } = imports.ddterm;
 const { dialog } = imports.ddterm.pref;
-const { settings } = imports.ddterm.rx;
 
 var Application = backport.GObject.registerClass(
     class Application extends Gtk.Application {
@@ -33,17 +31,7 @@ var Application = backport.GObject.registerClass(
         }
 
         startup() {
-            const settings_source = Gio.SettingsSchemaSource.new_from_directory(
-                Me.dir.get_child('schemas').get_path(),
-                Gio.SettingsSchemaSource.get_default(),
-                false
-            );
-
-            this.settings = new settings.Settings({
-                gsettings: new Gio.Settings({
-                    settings_schema: settings_source.lookup('com.github.amezin.ddterm', true),
-                }),
-            });
+            this.settings = imports.ddterm.util.settings.get_settings();
         }
 
         activate() {

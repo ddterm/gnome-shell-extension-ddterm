@@ -19,12 +19,11 @@
 
 'use strict';
 
-const { GObject, Gtk } = imports.gi;
+const { GObject, Gio, Gtk } = imports.gi;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const { backport } = Me.imports.ddterm;
 const { util } = Me.imports.ddterm.pref;
-const { settings } = Me.imports.ddterm.rx;
-const { translations, simpleaction } = Me.imports.ddterm.util;
+const { translations } = Me.imports.ddterm.util;
 
 var Widget = backport.GObject.registerClass(
     {
@@ -41,7 +40,7 @@ var Widget = backport.GObject.registerClass(
                 '',
                 '',
                 GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-                settings.Settings
+                Gio.Settings
             ),
         },
     },
@@ -49,24 +48,25 @@ var Widget = backport.GObject.registerClass(
         _init(params) {
             super._init(params);
 
-            const scope = util.scope(this, this.settings);
-
-            scope.setup_widgets({
+            util.bind_widgets(this.settings, {
                 'backspace-binding': this.backspace_binding_combo,
                 'delete-binding': this.delete_binding_combo,
                 'cjk-utf8-ambiguous-width': this.ambiguous_width_combo,
             });
 
-            this.insert_action_group(
-                'aux',
-                simpleaction.group({
-                    'reset-compatibility-options': () => {
-                        this.settings['backspace-binding'].reset();
-                        this.settings['delete-binding'].reset();
-                        this.settings['cjk-utf8-ambiguous-width'].reset();
-                    },
-                })
-            );
+            const reset_action = new Gio.SimpleAction({
+                name: 'reset-compatibility-options',
+            });
+
+            reset_action.connect('activate', () => {
+                this.settings.reset('backspace-binding');
+                this.settings.reset('delete-binding');
+                this.settings.reset('cjk-utf8-ambiguous-width');
+            });
+
+            const aux_actions = new Gio.SimpleActionGroup();
+            aux_actions.add_action(reset_action);
+            this.insert_action_group('aux', aux_actions);
         }
 
         get title() {

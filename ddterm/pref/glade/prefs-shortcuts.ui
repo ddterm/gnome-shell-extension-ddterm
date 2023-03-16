@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.38.2 
+<!-- Generated with glade 3.40.0 
 
 Copyright (C) 2022 Aleksandr Mezin
 
@@ -34,6 +34,8 @@ along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licens
       <column type="guint"/>
       <!-- column-name accel-mods -->
       <column type="guint"/>
+      <!-- column-name editable -->
+      <column type="gboolean"/>
     </columns>
     <data>
       <row>
@@ -41,12 +43,14 @@ along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licens
         <col id="1" translatable="yes">Toggle Terminal Window</col>
         <col id="2">0</col>
         <col id="3">0</col>
+        <col id="4">False</col>
       </row>
       <row>
         <col id="0">ddterm-activate-hotkey</col>
         <col id="1" translatable="yes">Show/Activate Terminal Window</col>
         <col id="2">0</col>
         <col id="3">0</col>
+        <col id="4">False</col>
       </row>
     </data>
   </object>
@@ -60,6 +64,8 @@ along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licens
       <column type="guint"/>
       <!-- column-name accel-mods -->
       <column type="guint"/>
+      <!-- column-name editable -->
+      <column type="gboolean"/>
     </columns>
     <data>
       <row>
@@ -67,222 +73,259 @@ along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licens
         <col id="1" translatable="yes">Hide the Window</col>
         <col id="2">0</col>
         <col id="3">0</col>
+        <col id="4">False</col>
       </row>
       <row>
         <col id="0">shortcut-toggle-maximize</col>
         <col id="1" translatable="yes">Maximize/Unmaximize the Window</col>
         <col id="2">0</col>
         <col id="3">0</col>
+        <col id="4">False</col>
       </row>
       <row>
         <col id="0">shortcut-window-size-inc</col>
         <col id="1" translatable="yes">Increase Window Height</col>
         <col id="2">0</col>
         <col id="3">0</col>
+        <col id="4">False</col>
       </row>
       <row>
         <col id="0">shortcut-window-size-dec</col>
         <col id="1" translatable="yes">Decrease Window Height</col>
         <col id="2">0</col>
         <col id="3">0</col>
+        <col id="4">False</col>
       </row>
       <row>
         <col id="0">shortcut-background-opacity-inc</col>
         <col id="1" translatable="yes">Increase Background Opacity</col>
         <col id="2">0</col>
         <col id="3">0</col>
+        <col id="4">False</col>
       </row>
       <row>
         <col id="0">shortcut-background-opacity-dec</col>
         <col id="1" translatable="yes">Decrease Background Opacity</col>
         <col id="2">0</col>
         <col id="3">0</col>
+        <col id="4">False</col>
       </row>
       <row>
         <col id="0">shortcut-toggle-transparent-background</col>
         <col id="1" translatable="yes">Enable/Disable Background Transparency</col>
         <col id="2">0</col>
         <col id="3">0</col>
+        <col id="4">False</col>
       </row>
       <row>
         <col id="0">shortcut-terminal-copy</col>
         <col id="1" translatable="yes">Copy Selected Text</col>
         <col id="2">0</col>
         <col id="3">0</col>
+        <col id="4">False</col>
       </row>
       <row>
         <col id="0">shortcut-terminal-copy-html</col>
         <col id="1" translatable="yes">Copy Selected Text as HTML</col>
         <col id="2">0</col>
         <col id="3">0</col>
+        <col id="4">False</col>
       </row>
       <row>
         <col id="0">shortcut-terminal-paste</col>
         <col id="1" translatable="yes">Paste Text from Clipboard</col>
         <col id="2">0</col>
         <col id="3">0</col>
+        <col id="4">False</col>
       </row>
       <row>
         <col id="0">shortcut-terminal-select-all</col>
         <col id="1" translatable="yes">Select All</col>
         <col id="2">0</col>
         <col id="3">0</col>
+        <col id="4">False</col>
       </row>
       <row>
         <col id="0">shortcut-terminal-reset</col>
         <col id="1" translatable="yes">Reset</col>
         <col id="2">0</col>
         <col id="3">0</col>
+        <col id="4">False</col>
       </row>
       <row>
         <col id="0">shortcut-terminal-reset-and-clear</col>
         <col id="1" translatable="yes">Reset and Clear</col>
         <col id="2">0</col>
         <col id="3">0</col>
+        <col id="4">False</col>
       </row>
       <row>
         <col id="0">shortcut-win-new-tab</col>
         <col id="1" translatable="yes">New Tab After Last Tab</col>
         <col id="2">0</col>
         <col id="3">0</col>
+        <col id="4">False</col>
       </row>
       <row>
         <col id="0">shortcut-win-new-tab-front</col>
         <col id="1" translatable="yes">New Tab Before First Tab</col>
         <col id="2">0</col>
         <col id="3">0</col>
+        <col id="4">False</col>
       </row>
       <row>
         <col id="0">shortcut-win-new-tab-before-current</col>
         <col id="1" translatable="yes">New Tab Before Current Tab</col>
         <col id="2">0</col>
         <col id="3">0</col>
+        <col id="4">False</col>
       </row>
       <row>
         <col id="0">shortcut-win-new-tab-after-current</col>
         <col id="1" translatable="yes">New Tab After Current Tab</col>
         <col id="2">0</col>
         <col id="3">0</col>
+        <col id="4">False</col>
       </row>
       <row>
         <col id="0">shortcut-page-close</col>
         <col id="1" translatable="yes">Close Current Tab</col>
         <col id="2">0</col>
         <col id="3">0</col>
+        <col id="4">False</col>
       </row>
       <row>
         <col id="0">shortcut-prev-tab</col>
         <col id="1" translatable="yes">Switch to Previous Tab</col>
         <col id="2">0</col>
         <col id="3">0</col>
+        <col id="4">False</col>
       </row>
       <row>
         <col id="0">shortcut-next-tab</col>
         <col id="1" translatable="yes">Switch to Next Tab</col>
         <col id="2">0</col>
         <col id="3">0</col>
+        <col id="4">False</col>
       </row>
       <row>
         <col id="0">shortcut-move-tab-prev</col>
         <col id="1" translatable="yes">Move Tab to Previous Position</col>
         <col id="2">0</col>
         <col id="3">0</col>
+        <col id="4">False</col>
       </row>
       <row>
         <col id="0">shortcut-move-tab-next</col>
         <col id="1" translatable="yes">Move Tab to Next Position</col>
         <col id="2">0</col>
         <col id="3">0</col>
+        <col id="4">False</col>
       </row>
       <row>
         <col id="0">shortcut-set-custom-tab-title</col>
         <col id="1" translatable="yes">Set Custom Tab Title</col>
         <col id="2">0</col>
         <col id="3">0</col>
+        <col id="4">False</col>
       </row>
       <row>
         <col id="0">shortcut-reset-tab-title</col>
         <col id="1" translatable="yes">Reset Tab Title</col>
         <col id="2">0</col>
         <col id="3">0</col>
+        <col id="4">False</col>
       </row>
       <row>
         <col id="0">shortcut-find</col>
         <col id="1" translatable="yes">Find</col>
         <col id="2">0</col>
         <col id="3">0</col>
+        <col id="4">False</col>
       </row>
       <row>
         <col id="0">shortcut-find-next</col>
         <col id="1" translatable="yes">Find Next</col>
         <col id="2">0</col>
         <col id="3">0</col>
+        <col id="4">False</col>
       </row>
       <row>
         <col id="0">shortcut-find-prev</col>
         <col id="1" translatable="yes">Find Previous</col>
         <col id="2">0</col>
         <col id="3">0</col>
+        <col id="4">False</col>
       </row>
       <row>
         <col id="0">shortcut-switch-to-tab-1</col>
         <col id="1" translatable="yes">Switch to Tab 1</col>
         <col id="2">0</col>
         <col id="3">0</col>
+        <col id="4">False</col>
       </row>
       <row>
         <col id="0">shortcut-switch-to-tab-2</col>
         <col id="1" translatable="yes">Switch to Tab 2</col>
         <col id="2">0</col>
         <col id="3">0</col>
+        <col id="4">False</col>
       </row>
       <row>
         <col id="0">shortcut-switch-to-tab-3</col>
         <col id="1" translatable="yes">Switch to Tab 3</col>
         <col id="2">0</col>
         <col id="3">0</col>
+        <col id="4">False</col>
       </row>
       <row>
         <col id="0">shortcut-switch-to-tab-4</col>
         <col id="1" translatable="yes">Switch to Tab 4</col>
         <col id="2">0</col>
         <col id="3">0</col>
+        <col id="4">False</col>
       </row>
       <row>
         <col id="0">shortcut-switch-to-tab-5</col>
         <col id="1" translatable="yes">Switch to Tab 5</col>
         <col id="2">0</col>
         <col id="3">0</col>
+        <col id="4">False</col>
       </row>
       <row>
         <col id="0">shortcut-switch-to-tab-6</col>
         <col id="1" translatable="yes">Switch to Tab 6</col>
         <col id="2">0</col>
         <col id="3">0</col>
+        <col id="4">False</col>
       </row>
       <row>
         <col id="0">shortcut-switch-to-tab-7</col>
         <col id="1" translatable="yes">Switch to Tab 7</col>
         <col id="2">0</col>
         <col id="3">0</col>
+        <col id="4">False</col>
       </row>
       <row>
         <col id="0">shortcut-switch-to-tab-8</col>
         <col id="1" translatable="yes">Switch to Tab 8</col>
         <col id="2">0</col>
         <col id="3">0</col>
+        <col id="4">False</col>
       </row>
       <row>
         <col id="0">shortcut-switch-to-tab-9</col>
         <col id="1" translatable="yes">Switch to Tab 9</col>
         <col id="2">0</col>
         <col id="3">0</col>
+        <col id="4">False</col>
       </row>
       <row>
         <col id="0">shortcut-switch-to-tab-10</col>
         <col id="1" translatable="yes">Switch to Tab 10</col>
         <col id="2">0</col>
         <col id="3">0</col>
+        <col id="4">False</col>
       </row>
     </data>
   </object>
@@ -326,10 +369,9 @@ along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licens
                 <property name="resizable">True</property>
                 <property name="title" translatable="yes">Global Shortcut</property>
                 <child>
-                  <object class="GtkCellRendererAccel" id="global_accel_renderer">
-                    <property name="editable">True</property>
-                  </object>
+                  <object class="GtkCellRendererAccel" id="global_accel_renderer"/>
                   <attributes>
+                    <attribute name="editable">4</attribute>
                     <attribute name="accel-key">2</attribute>
                     <attribute name="accel-mods">3</attribute>
                   </attributes>
@@ -391,10 +433,9 @@ along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licens
                 <property name="resizable">True</property>
                 <property name="title" translatable="yes">Shortcut</property>
                 <child>
-                  <object class="GtkCellRendererAccel" id="accel_renderer">
-                    <property name="editable">True</property>
-                  </object>
+                  <object class="GtkCellRendererAccel" id="accel_renderer"/>
                   <attributes>
+                    <attribute name="editable">4</attribute>
                     <attribute name="accel-key">2</attribute>
                     <attribute name="accel-mods">3</attribute>
                   </attributes>

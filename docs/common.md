@@ -1,13 +1,11 @@
 ddterm Reactive/Rx Utilities
 ----------------------------
 
-Modules in the [`ddterm/rx`] directory are imported by both the [application]
-and [Preferences dialog].
+In the process of removal.
 
-However, they are never imported by the extension itself.
+Modules in the [`ddterm/rx`] directory are imported by the [application].
 
-Because this component is used by the [Preferences dialog] code, it must also
-support both Gtk 3 and Gtk 4.
+They are never imported by the shell extension.
 
 * [`rxutil.js`] is an integration layer between GObject/Gtk and RxJS.
 
@@ -18,10 +16,7 @@ and also adds some application-specific settings logic.
 versions (required by RxJS for correct error reporting and avoiding warnings).
 
 [`ddterm/rx`]: /ddterm/rx
-
 [application]: /ddterm/app
-[Preferences dialog]: /ddterm/pref
-
 [`rxutil.js`]: /ddterm/rx/rxutil.js
 [`settings.js`]: /ddterm/rx/settings.js
 [`timers.js`]: /ddterm/rx/timers.js

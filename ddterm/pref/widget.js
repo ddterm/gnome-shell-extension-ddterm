@@ -21,10 +21,9 @@
 
 /* exported PrefsWidget */
 
-const { GObject, Gtk } = imports.gi;
+const { GObject, Gio, Gtk } = imports.gi;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const { backport } = Me.imports.ddterm;
-const { settings } = Me.imports.ddterm.rx;
 
 var PrefsWidget = backport.GObject.registerClass(
     {
@@ -34,7 +33,7 @@ var PrefsWidget = backport.GObject.registerClass(
                 '',
                 '',
                 GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-                settings.Settings
+                Gio.Settings
             ),
         },
     },

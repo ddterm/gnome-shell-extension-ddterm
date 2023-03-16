@@ -19,11 +19,10 @@
 
 'use strict';
 
-const { GObject, Gtk } = imports.gi;
+const { GObject, Gio, Gtk } = imports.gi;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const { backport } = Me.imports.ddterm;
 const { util } = Me.imports.ddterm.pref;
-const { settings } = Me.imports.ddterm.rx;
 const { translations } = Me.imports.ddterm.util;
 
 function get_seconds_format() {
@@ -50,6 +49,7 @@ var Widget = backport.GObject.registerClass(
         GTypeName: 'DDTermPrefsAnimation',
         Template: util.ui_file_uri('prefs-animation.ui'),
         Children: [
+            'animation_prefs',
             'show_animation_combo',
             'hide_animation_combo',
             'show_animation_duration_scale',
@@ -61,39 +61,26 @@ var Widget = backport.GObject.registerClass(
                 '',
                 '',
                 GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-                settings.Settings
+                Gio.Settings
             ),
         },
     },
-    class PrefsAnimation extends Gtk.Grid {
+    class PrefsAnimation extends Gtk.Box {
         _init(params) {
             super._init(params);
 
-            const scope = util.scope(this, this.settings);
+            util.insert_settings_actions(this, this.settings, ['override-window-animation']);
+            util.bind_sensitive(this.settings, 'override-window-animation', this.animation_prefs);
 
-            scope.setup_widgets({
+            util.bind_widgets(this.settings, {
                 'show-animation': this.show_animation_combo,
-                'hide-animation': this.hide_animation_combo,
                 'show-animation-duration': this.show_animation_duration_scale,
+                'hide-animation': this.hide_animation_combo,
                 'hide-animation-duration': this.hide_animation_duration_scale,
             });
 
-            this.insert_action_group(
-                'settings',
-                scope.make_actions([
-                    'override-window-animation',
-                ])
-            );
-
-            scope.set_scale_value_formatter(
-                this.show_animation_duration_scale,
-                seconds_formatter
-            );
-
-            scope.set_scale_value_formatter(
-                this.hide_animation_duration_scale,
-                seconds_formatter
-            );
+            util.set_scale_value_formatter(this.show_animation_duration_scale, seconds_formatter);
+            util.set_scale_value_formatter(this.hide_animation_duration_scale, seconds_formatter);
         }
 
         get title() {

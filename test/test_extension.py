@@ -1289,33 +1289,6 @@ def wait_action_in_group_enabled(group, action, enabled=True):
 
 
 @contextlib.contextmanager
-def detect_subscription_leaks(syslogger, app_actions):
-    app_actions.activate_action('begin-subscription-leak-check', None)
-
-    yield
-
-    leaks = []
-
-    handler = logging.handlers.QueueHandler(queue.SimpleQueue())
-    syslogger.addHandler(handler)
-
-    try:
-        app_actions.activate_action('end-subscription-leak-check', None)
-
-        for record in iter(lambda: handler.queue.get(timeout=1), None):
-            if record.message.endswith('End of subscription leak report'):
-                break
-
-            if 'Subscription leak' in record.message:
-                leaks.append(record.message)
-
-    finally:
-        syslogger.removeHandler(handler)
-
-    assert leaks == []
-
-
-@contextlib.contextmanager
 def detect_heap_leaks(syslogger, app_actions, heap_dump_dir):
 
     def dump_heap():
@@ -1353,7 +1326,7 @@ def detect_heap_leaks(syslogger, app_actions, heap_dump_dir):
         '--diff-heap',
         str(dump_pre),
         str(dump_post),
-        'GObject'
+        'GObject_Object'
     ]
 
     LOGGER.info('Running heapgraph: %r', shlex.join(heapgraph_argv))
@@ -1370,7 +1343,7 @@ def detect_heap_leaks(syslogger, app_actions, heap_dump_dir):
     assert heapgraph.stdout == ''
 
 
-class LeakFixtures(CommonFixtures):
+class TestHeapLeaks(CommonFixtures):
     GNOME_SHELL_SESSION_NAME = 'gnome-xsession'
     N_MONITORS = 1
 
@@ -1414,39 +1387,6 @@ class LeakFixtures(CommonFixtures):
                 while app_running() or has_window():
                     w.wait()
 
-
-class TestSubscriptionLeaks(LeakFixtures):
-    @pytest.fixture
-    def leak_detector(self, syslog_server, app_actions):
-        wait_action_in_group(app_actions, 'begin-subscription-leak-check')
-        wait_action_in_group(app_actions, 'end-subscription-leak-check')
-
-        return functools.partial(
-            detect_subscription_leaks,
-            syslogger=syslog_server.logger,
-            app_actions=app_actions
-        )
-
-    def test_tab_leak(self, leak_detector, win_actions):
-        wait_action_in_group(win_actions, 'new-tab')
-        wait_action_in_group(win_actions, 'close-current-tab')
-
-        with leak_detector():
-            win_actions.activate_action('new-tab', None)
-            win_actions.activate_action('close-current-tab', None)
-
-    def test_prefs_leak(self, leak_detector, app_actions):
-        wait_action_in_group(app_actions, 'preferences')
-        wait_action_in_group_enabled(app_actions, 'close-preferences', False)
-
-        with leak_detector():
-            app_actions.activate_action('preferences', None)
-            wait_action_in_group_enabled(app_actions, 'close-preferences', True)
-            app_actions.activate_action('close-preferences', None)
-            wait_action_in_group_enabled(app_actions, 'close-preferences', False)
-
-
-class TestHeapLeaks(LeakFixtures):
     @pytest.fixture(scope='session')
     def heap_dump_dir(self, tmp_path_factory):
         path = tmp_path_factory.mktemp('heap')
@@ -1476,6 +1416,23 @@ class TestHeapLeaks(LeakFixtures):
         with leak_detector():
             win_actions.activate_action('new-tab', None)
             win_actions.activate_action('close-current-tab', None)
+            time.sleep(0.5)
+
+    def test_prefs_leak(self, leak_detector, app_actions, win_actions):
+        wait_action_in_group(app_actions, 'preferences')
+        wait_action_in_group_enabled(app_actions, 'close-preferences', False)
+
+        def open_close_prefs():
+            app_actions.activate_action('preferences', None)
+            wait_action_in_group_enabled(app_actions, 'close-preferences', True)
+            app_actions.activate_action('close-preferences', None)
+            wait_action_in_group_enabled(app_actions, 'close-preferences', False)
+
+        open_close_prefs()
+        time.sleep(0.5)
+
+        with leak_detector():
+            open_close_prefs()
             time.sleep(0.5)
 
 

@@ -93,7 +93,6 @@ along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licens
         <property name="visible">True</property>
         <property name="can-focus">True</property>
         <property name="receives-default">False</property>
-        <property name="action-name">inverse-settings.scrollback-unlimited</property>
         <property name="use-underline">True</property>
         <property name="draw-indicator">True</property>
       </object>

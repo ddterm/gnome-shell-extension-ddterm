@@ -19,11 +19,10 @@
 
 'use strict';
 
-const { GObject, Gtk } = imports.gi;
+const { GObject, Gio, Gtk } = imports.gi;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const { backport } = Me.imports.ddterm;
 const { util } = Me.imports.ddterm.pref;
-const { settings } = Me.imports.ddterm.rx;
 const { translations } = Me.imports.ddterm.util;
 
 var Widget = backport.GObject.registerClass(
@@ -31,10 +30,12 @@ var Widget = backport.GObject.registerClass(
         GTypeName: 'DDTermPrefsText',
         Template: util.ui_file_uri('prefs-text.ui'),
         Children: [
+            'custom_font_check',
             'font_chooser',
             'text_blink_mode_combo',
             'cursor_blink_mode_combo',
             'cursor_shape_combo',
+            'detect_urls_container',
         ],
         Properties: {
             'settings': GObject.ParamSpec.object(
@@ -42,7 +43,7 @@ var Widget = backport.GObject.registerClass(
                 '',
                 '',
                 GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-                settings.Settings
+                Gio.Settings
             ),
         },
     },
@@ -50,35 +51,41 @@ var Widget = backport.GObject.registerClass(
         _init(params) {
             super._init(params);
 
-            const scope = util.scope(this, this.settings);
+            util.bind_widget(
+                this.settings,
+                'use-system-font',
+                this.custom_font_check,
+                Gio.SettingsBindFlags.INVERT_BOOLEAN
+            );
 
-            scope.setup_widgets({
+            util.bind_widget(this.settings, 'custom-font', this.font_chooser);
+
+            util.bind_sensitive(
+                this.settings,
+                'use-system-font',
+                this.font_chooser.parent,
+                true
+            );
+
+            util.bind_widgets(this.settings, {
                 'text-blink-mode': this.text_blink_mode_combo,
-                'cursor-blink-mode': this.cursor_blink_mode_combo,
                 'cursor-shape': this.cursor_shape_combo,
-                'custom-font': this.font_chooser,
+                'cursor-blink-mode': this.cursor_blink_mode_combo,
             });
 
-            this.insert_action_group(
-                'settings',
-                scope.make_actions([
-                    'allow-hyperlink',
-                    'audible-bell',
-                    'detect-urls',
-                    'detect-urls-as-is',
-                    'detect-urls-file',
-                    'detect-urls-http',
-                    'detect-urls-voip',
-                    'detect-urls-email',
-                    'detect-urls-news-man',
-                ])
-            );
+            util.insert_settings_actions(this, this.settings, [
+                'allow-hyperlink',
+                'audible-bell',
+                'detect-urls',
+                'detect-urls-as-is',
+                'detect-urls-file',
+                'detect-urls-http',
+                'detect-urls-voip',
+                'detect-urls-email',
+                'detect-urls-news-man',
+            ]);
 
-            this.insert_action_group('inverse-settings',
-                scope.make_inverse_actions([
-                    'use-system-font',
-                ])
-            );
+            util.bind_sensitive(this.settings, 'detect-urls', this.detect_urls_container);
         }
 
         get title() {

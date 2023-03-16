@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.38.2 
+<!-- Generated with glade 3.40.0 
 
 Copyright (C) 2022 Aleksandr Mezin
 
@@ -172,151 +172,167 @@ along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licens
     <property name="step-increment">0.01</property>
     <property name="page-increment">0.10</property>
   </object>
-  <!-- n-columns=2 n-rows=5 -->
-  <template class="DDTermPrefsAnimation" parent="GtkGrid">
+  <template class="DDTermPrefsAnimation" parent="GtkBox">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
-    <property name="margin-start">10</property>
-    <property name="margin-end">10</property>
-    <property name="margin-top">10</property>
-    <property name="margin-bottom">10</property>
     <property name="orientation">vertical</property>
-    <property name="row-spacing">10</property>
-    <property name="column-spacing">10</property>
     <child>
       <object class="GtkCheckButton">
         <property name="label" translatable="yes">_Override default window animations</property>
         <property name="visible">True</property>
         <property name="can-focus">True</property>
         <property name="receives-default">False</property>
+        <property name="margin-start">10</property>
+        <property name="margin-end">10</property>
+        <property name="margin-top">10</property>
+        <property name="margin-bottom">10</property>
         <property name="action-name">settings.override-window-animation</property>
         <property name="use-underline">True</property>
         <property name="draw-indicator">True</property>
       </object>
       <packing>
-        <property name="left-attach">0</property>
-        <property name="top-attach">0</property>
-        <property name="width">2</property>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="position">0</property>
       </packing>
     </child>
     <child>
-      <object class="GtkLabel">
+      <!-- n-columns=2 n-rows=4 -->
+      <object class="GtkGrid" id="animation_prefs">
         <property name="visible">True</property>
         <property name="can-focus">False</property>
-        <property name="halign">start</property>
-        <property name="label" translatable="yes">_Show animation:</property>
-        <property name="use-underline">True</property>
-        <property name="mnemonic-widget">show_animation_combo</property>
-      </object>
-      <packing>
-        <property name="left-attach">0</property>
-        <property name="top-attach">1</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkLabel">
-        <property name="visible">True</property>
-        <property name="can-focus">False</property>
-        <property name="halign">start</property>
-        <property name="label" translatable="yes">_Hide animation:</property>
-        <property name="use-underline">True</property>
-        <property name="mnemonic-widget">hide_animation_combo</property>
-      </object>
-      <packing>
-        <property name="left-attach">0</property>
-        <property name="top-attach">3</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkComboBox" id="show_animation_combo">
-        <property name="visible">True</property>
-        <property name="can-focus">True</property>
-        <property name="hexpand">True</property>
-        <property name="model">animation_mode_list</property>
-        <property name="id-column">1</property>
+        <property name="margin-start">10</property>
+        <property name="margin-end">10</property>
+        <property name="margin-top">10</property>
+        <property name="margin-bottom">10</property>
+        <property name="orientation">vertical</property>
+        <property name="row-spacing">10</property>
+        <property name="column-spacing">10</property>
         <child>
-          <object class="GtkCellRendererText"/>
-          <attributes>
-            <attribute name="text">0</attribute>
-          </attributes>
+          <object class="GtkLabel">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="halign">start</property>
+            <property name="label" translatable="yes">_Show animation:</property>
+            <property name="use-underline">True</property>
+            <property name="mnemonic-widget">show_animation_combo</property>
+          </object>
+          <packing>
+            <property name="left-attach">0</property>
+            <property name="top-attach">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="halign">start</property>
+            <property name="label" translatable="yes">_Hide animation:</property>
+            <property name="use-underline">True</property>
+            <property name="mnemonic-widget">hide_animation_combo</property>
+          </object>
+          <packing>
+            <property name="left-attach">0</property>
+            <property name="top-attach">2</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkComboBox" id="show_animation_combo">
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="hexpand">True</property>
+            <property name="model">animation_mode_list</property>
+            <property name="id-column">1</property>
+            <child>
+              <object class="GtkCellRendererText"/>
+              <attributes>
+                <attribute name="text">0</attribute>
+              </attributes>
+            </child>
+          </object>
+          <packing>
+            <property name="left-attach">1</property>
+            <property name="top-attach">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkComboBox" id="hide_animation_combo">
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="hexpand">True</property>
+            <property name="model">animation_mode_list</property>
+            <property name="id-column">1</property>
+            <child>
+              <object class="GtkCellRendererText"/>
+              <attributes>
+                <attribute name="text">0</attribute>
+              </attributes>
+            </child>
+          </object>
+          <packing>
+            <property name="left-attach">1</property>
+            <property name="top-attach">2</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="halign">start</property>
+            <property name="label" translatable="yes">_Hide animation duration:</property>
+            <property name="use-underline">True</property>
+          </object>
+          <packing>
+            <property name="left-attach">0</property>
+            <property name="top-attach">3</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="halign">start</property>
+            <property name="label" translatable="yes">_Show animation duration:</property>
+            <property name="use-underline">True</property>
+          </object>
+          <packing>
+            <property name="left-attach">0</property>
+            <property name="top-attach">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkScale" id="show_animation_duration_scale">
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="adjustment">show_animation_duration_adjustment</property>
+            <property name="show-fill-level">True</property>
+            <property name="round-digits">2</property>
+            <property name="digits">2</property>
+          </object>
+          <packing>
+            <property name="left-attach">1</property>
+            <property name="top-attach">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkScale" id="hide_animation_duration_scale">
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="adjustment">hide_animation_duration_adjustment</property>
+            <property name="show-fill-level">True</property>
+            <property name="round-digits">2</property>
+            <property name="digits">2</property>
+          </object>
+          <packing>
+            <property name="left-attach">1</property>
+            <property name="top-attach">3</property>
+          </packing>
         </child>
       </object>
       <packing>
-        <property name="left-attach">1</property>
-        <property name="top-attach">1</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkComboBox" id="hide_animation_combo">
-        <property name="visible">True</property>
-        <property name="can-focus">True</property>
-        <property name="hexpand">True</property>
-        <property name="model">animation_mode_list</property>
-        <property name="id-column">1</property>
-        <child>
-          <object class="GtkCellRendererText"/>
-          <attributes>
-            <attribute name="text">0</attribute>
-          </attributes>
-        </child>
-      </object>
-      <packing>
-        <property name="left-attach">1</property>
-        <property name="top-attach">3</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkLabel">
-        <property name="visible">True</property>
-        <property name="can-focus">False</property>
-        <property name="halign">start</property>
-        <property name="label" translatable="yes">_Hide animation duration:</property>
-        <property name="use-underline">True</property>
-      </object>
-      <packing>
-        <property name="left-attach">0</property>
-        <property name="top-attach">4</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkLabel">
-        <property name="visible">True</property>
-        <property name="can-focus">False</property>
-        <property name="halign">start</property>
-        <property name="label" translatable="yes">_Show animation duration:</property>
-        <property name="use-underline">True</property>
-      </object>
-      <packing>
-        <property name="left-attach">0</property>
-        <property name="top-attach">2</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkScale" id="show_animation_duration_scale">
-        <property name="visible">True</property>
-        <property name="can-focus">True</property>
-        <property name="adjustment">show_animation_duration_adjustment</property>
-        <property name="show-fill-level">True</property>
-        <property name="round-digits">2</property>
-        <property name="digits">2</property>
-      </object>
-      <packing>
-        <property name="left-attach">1</property>
-        <property name="top-attach">2</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkScale" id="hide_animation_duration_scale">
-        <property name="visible">True</property>
-        <property name="can-focus">True</property>
-        <property name="adjustment">hide_animation_duration_adjustment</property>
-        <property name="show-fill-level">True</property>
-        <property name="round-digits">2</property>
-        <property name="digits">2</property>
-      </object>
-      <packing>
-        <property name="left-attach">1</property>
-        <property name="top-attach">4</property>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="position">1</property>
       </packing>
     </child>
   </template>

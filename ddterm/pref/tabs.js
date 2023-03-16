@@ -19,12 +19,11 @@
 
 'use strict';
 
-const { GObject, Gtk } = imports.gi;
+const { GObject, Gio, Gtk } = imports.gi;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const { backport } = Me.imports.ddterm;
 const { util } = Me.imports.ddterm.pref;
-const { rxutil, settings } = Me.imports.ddterm.rx;
-const { translations, simpleaction } = Me.imports.ddterm.util;
+const { translations } = Me.imports.ddterm.util;
 
 var Widget = backport.GObject.registerClass(
     {
@@ -43,7 +42,7 @@ var Widget = backport.GObject.registerClass(
                 '',
                 '',
                 GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-                settings.Settings
+                Gio.Settings
             ),
         },
     },
@@ -51,9 +50,7 @@ var Widget = backport.GObject.registerClass(
         _init(params) {
             super._init(params);
 
-            const scope = util.scope(this, this.settings);
-
-            scope.setup_widgets({
+            util.bind_widgets(this.settings, {
                 'tab-policy': this.tab_policy_combo,
                 'tab-position': this.tab_position_combo,
                 'tab-label-ellipsize-mode': this.tab_label_ellipsize_combo,
@@ -61,43 +58,36 @@ var Widget = backport.GObject.registerClass(
                 'tab-title-template': this.tab_title_template_text_view,
             });
 
-            this.insert_action_group(
-                'settings',
-                scope.make_actions([
-                    'tab-expand',
-                    'tab-close-buttons',
-                    'new-tab-button',
-                    'new-tab-front-button',
-                    'tab-switcher-popup',
-                    'notebook-border',
-                ])
-            );
+            util.set_scale_value_formatter(this.tab_label_width_scale, util.percent_formatter);
 
-            scope.set_scale_value_formatter(
-                this.tab_label_width_scale,
-                util.percent_formatter
-            );
+            util.insert_settings_actions(this, this.settings, [
+                'tab-expand',
+                'tab-close-buttons',
+                'new-tab-button',
+                'new-tab-front-button',
+                'tab-switcher-popup',
+                'notebook-border',
+            ]);
 
-            this.insert_action_group(
-                'aux',
-                simpleaction.group({
-                    'reset-tab-title': () => {
-                        this.settings['tab-title-template'].reset();
-                    },
-                })
-            );
+            const reset_action = new Gio.SimpleAction({
+                name: 'reset-tab-title',
+            });
 
-            scope.subscribe(
-                rxutil.property(this.tab_position_combo, 'active-id').skip_initial,
-                position => {
-                    if (['top', 'bottom'].includes(position)) {
-                        const setting = this.settings['tab-label-ellipsize-mode'];
+            reset_action.connect('activate', () => {
+                this.settings.reset('tab-title-template');
+            });
 
-                        if (setting.value === 'none')
-                            setting.value = 'middle';
-                    }
+            const aux_actions = new Gio.SimpleActionGroup();
+            aux_actions.add_action(reset_action);
+            this.insert_action_group('aux', aux_actions);
+
+            const tab_position_handler = this.settings.connect('changed::tab-position', () => {
+                if (['top', 'bottom'].includes(this.settings.get_string('tab-position'))) {
+                    if (this.settings.get_string('tab-label-ellipsize-mode') === 'none')
+                        this.settings.set_string('tab-label-ellipsize-mode', 'middle');
                 }
-            );
+            });
+            this.connect('destroy', () => this.settings.disconnect(tab_position_handler));
         }
 
         get title() {
