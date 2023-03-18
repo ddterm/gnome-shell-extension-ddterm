@@ -11,6 +11,9 @@ on:
     branches:
       - master
 
+env:
+  PO_FILES: po/*.po po/*.pot
+
 jobs:
   pot:
     runs-on: ubuntu-latest
@@ -32,9 +35,17 @@ jobs:
     - name: Update .pot files
       run: po/update-pot.sh
 
-    - uses: stefanzweifel/git-auto-commit-action@v4
-      with:
-        commit_message: "[ci skip] Update translation files"
-        file_pattern: po/*
-        skip_fetch: true
-        skip_checkout: true
+    - name: Check if there are any changes
+      id: diff
+      run: |
+        DIFF="$(git diff --color=always -- $PO_FILES)"
+        echo "$DIFF"
+        .github/set-multiline.sh diff "$DIFF" >> "$GITHUB_OUTPUT"
+
+    - name: Commit and push
+      if: diff.outputs.diff != ''
+      run: |
+        git config user.name 'github-actions[bot]'
+        git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+        git commit -am '[ci skip] Update translation files' -- $PO_FILES
+        git push
