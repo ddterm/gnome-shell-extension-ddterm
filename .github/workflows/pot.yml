@@ -43,7 +43,7 @@ jobs:
         .github/set-multiline.sh diff "$DIFF" >> "$GITHUB_OUTPUT"
 
     - name: Commit and push
-      if: diff.outputs.diff != ''
+      if: steps.diff.outputs.diff != ''
       run: |
         git config user.name 'github-actions[bot]'
         git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
