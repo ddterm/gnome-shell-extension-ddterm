@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-18 08:16+0000\n"
+"POT-Creation-Date: 2023-03-19 23:04+0000\n"
 "PO-Revision-Date: 2023-03-14 13:45+0000\n"
 "Last-Translator: Aleksandr Mezin <mezin.alexander@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/gnome-shell-"
@@ -17,7 +17,7 @@ msgstr ""
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 4.16.2-dev\n"
 
-#: ddterm/app/appwindow.js:429
+#: ddterm/app/appwindow.js:430
 msgid ""
 "Warning: ddterm version has changed. Log out, then log in again to load the "
 "updated extension."
@@ -25,19 +25,19 @@ msgstr ""
 "Внимание: версия ddterm изменилась. Завершите сессию и снова войдите для "
 "применения обновлений расширения."
 
-#: ddterm/app/dependencies-notification.js:136
+#: ddterm/app/dependencies-notification.js:137
 msgid "ddterm needs additional packages to run."
 msgstr "ddterm требуются дополнительные пакеты для запуска."
 
-#: ddterm/app/dependencies-notification.js:141
+#: ddterm/app/dependencies-notification.js:142
 msgid "Please install the following packages:"
 msgstr "Необходимо установить указанные пакеты:"
 
-#: ddterm/app/dependencies-notification.js:149
+#: ddterm/app/dependencies-notification.js:150
 msgid "Please install packages that provide the following files:"
 msgstr "Необходимо установить пакеты, содержащие следующие файлы:"
 
-#: ddterm/app/dependencies-notification.js:162
+#: ddterm/app/dependencies-notification.js:163
 msgid "Missing dependencies"
 msgstr "Отсутствуют зависимости"
 
@@ -154,11 +154,11 @@ msgstr "Новая вкладка - Перед первой вкладкой"
 msgid "New Tab After Last Tab"
 msgstr "Новая вкладка - После последней вкладки"
 
-#: ddterm/app/menus.ui:102 ddterm/pref/dialog.js:46
+#: ddterm/app/menus.ui:102 ddterm/pref/dialog.js:47
 msgid "Preferences"
 msgstr "Параметры"
 
-#: ddterm/app/menus.ui:105 ddterm/app/menus.ui:207 ddterm/shell/panelicon.js:85
+#: ddterm/app/menus.ui:105 ddterm/app/menus.ui:207 ddterm/shell/panelicon.js:86
 msgid "Preferences..."
 msgstr "Параметры..."
 
@@ -226,11 +226,11 @@ msgstr "Переместить вкладку на предыдущую пози
 msgid "Move Tab to Next Position"
 msgstr "Переместить вкладку на следующую позицию"
 
-#: ddterm/app/terminalpage.js:789
+#: ddterm/app/terminalpage.js:790
 msgid "Close this terminal?"
 msgstr "Закрыть терминал?"
 
-#: ddterm/app/terminalpage.js:792
+#: ddterm/app/terminalpage.js:793
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."
@@ -238,23 +238,23 @@ msgstr ""
 "В терминале запущены процессы. При закрытии терминала эти процессы будут "
 "завершены."
 
-#: ddterm/pref/animation.js:99
+#: ddterm/pref/animation.js:100
 msgid "Animation"
 msgstr "Анимация"
 
-#: ddterm/pref/behavior.js:71
+#: ddterm/pref/behavior.js:72
 msgid "Behavior"
 msgstr "Поведение"
 
-#: ddterm/pref/colors.js:276
+#: ddterm/pref/colors.js:277
 msgid "Colors"
 msgstr "Цвета"
 
-#: ddterm/pref/command.js:71
+#: ddterm/pref/command.js:72
 msgid "Command"
 msgstr "Команда"
 
-#: ddterm/pref/compatibility.js:72
+#: ddterm/pref/compatibility.js:73
 msgid "Compatibility"
 msgstr "Совместимость"
 
@@ -1185,31 +1185,31 @@ msgstr "Адреса E-mail"
 msgid "Detect news:/man: URLs"
 msgstr "Ссылки вида \"news:/man\""
 
-#: ddterm/pref/panelicon.js:57
+#: ddterm/pref/panelicon.js:58
 msgid "Panel Icon"
 msgstr "Значок на панели"
 
-#: ddterm/pref/positionsize.js:155
+#: ddterm/pref/positionsize.js:156
 msgid "Position and Size"
 msgstr "Положение и размер"
 
-#: ddterm/pref/scrolling.js:72
+#: ddterm/pref/scrolling.js:73
 msgid "Scrolling"
 msgstr "Прокрутка"
 
-#: ddterm/pref/shortcuts.js:122
+#: ddterm/pref/shortcuts.js:123
 msgid "Keyboard Shortcuts"
 msgstr "Комбинации клавиш"
 
-#: ddterm/pref/tabs.js:103
+#: ddterm/pref/tabs.js:104
 msgid "Tabs"
 msgstr "Вкладки"
 
-#: ddterm/pref/text.js:84
+#: ddterm/pref/text.js:85
 msgid "Text"
 msgstr "Текст"
 
-#: ddterm/shell/panelicon.js:73
+#: ddterm/shell/panelicon.js:74
 msgid "Show"
 msgstr "Показать"
 

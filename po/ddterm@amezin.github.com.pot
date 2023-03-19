@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-18 08:16+0000\n"
+"POT-Creation-Date: 2023-03-19 23:04+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,25 +17,25 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ddterm/app/appwindow.js:429
+#: ddterm/app/appwindow.js:430
 msgid ""
 "Warning: ddterm version has changed. Log out, then log in again to load the "
 "updated extension."
 msgstr ""
 
-#: ddterm/app/dependencies-notification.js:136
+#: ddterm/app/dependencies-notification.js:137
 msgid "ddterm needs additional packages to run."
 msgstr ""
 
-#: ddterm/app/dependencies-notification.js:141
+#: ddterm/app/dependencies-notification.js:142
 msgid "Please install the following packages:"
 msgstr ""
 
-#: ddterm/app/dependencies-notification.js:149
+#: ddterm/app/dependencies-notification.js:150
 msgid "Please install packages that provide the following files:"
 msgstr ""
 
-#: ddterm/app/dependencies-notification.js:162
+#: ddterm/app/dependencies-notification.js:163
 msgid "Missing dependencies"
 msgstr ""
 
@@ -152,11 +152,11 @@ msgstr ""
 msgid "New Tab After Last Tab"
 msgstr ""
 
-#: ddterm/app/menus.ui:102 ddterm/pref/dialog.js:46
+#: ddterm/app/menus.ui:102 ddterm/pref/dialog.js:47
 msgid "Preferences"
 msgstr ""
 
-#: ddterm/app/menus.ui:105 ddterm/app/menus.ui:207 ddterm/shell/panelicon.js:85
+#: ddterm/app/menus.ui:105 ddterm/app/menus.ui:207 ddterm/shell/panelicon.js:86
 msgid "Preferences..."
 msgstr ""
 
@@ -224,33 +224,33 @@ msgstr ""
 msgid "Move Tab to Next Position"
 msgstr ""
 
-#: ddterm/app/terminalpage.js:789
+#: ddterm/app/terminalpage.js:790
 msgid "Close this terminal?"
 msgstr ""
 
-#: ddterm/app/terminalpage.js:792
+#: ddterm/app/terminalpage.js:793
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."
 msgstr ""
 
-#: ddterm/pref/animation.js:99
+#: ddterm/pref/animation.js:100
 msgid "Animation"
 msgstr ""
 
-#: ddterm/pref/behavior.js:71
+#: ddterm/pref/behavior.js:72
 msgid "Behavior"
 msgstr ""
 
-#: ddterm/pref/colors.js:276
+#: ddterm/pref/colors.js:277
 msgid "Colors"
 msgstr ""
 
-#: ddterm/pref/command.js:71
+#: ddterm/pref/command.js:72
 msgid "Command"
 msgstr ""
 
-#: ddterm/pref/compatibility.js:72
+#: ddterm/pref/compatibility.js:73
 msgid "Compatibility"
 msgstr ""
 
@@ -1160,30 +1160,30 @@ msgstr ""
 msgid "Detect news:/man: URLs"
 msgstr ""
 
-#: ddterm/pref/panelicon.js:57
+#: ddterm/pref/panelicon.js:58
 msgid "Panel Icon"
 msgstr ""
 
-#: ddterm/pref/positionsize.js:155
+#: ddterm/pref/positionsize.js:156
 msgid "Position and Size"
 msgstr ""
 
-#: ddterm/pref/scrolling.js:72
+#: ddterm/pref/scrolling.js:73
 msgid "Scrolling"
 msgstr ""
 
-#: ddterm/pref/shortcuts.js:122
+#: ddterm/pref/shortcuts.js:123
 msgid "Keyboard Shortcuts"
 msgstr ""
 
-#: ddterm/pref/tabs.js:103
+#: ddterm/pref/tabs.js:104
 msgid "Tabs"
 msgstr ""
 
-#: ddterm/pref/text.js:84
+#: ddterm/pref/text.js:85
 msgid "Text"
 msgstr ""
 
-#: ddterm/shell/panelicon.js:73
+#: ddterm/shell/panelicon.js:74
 msgid "Show"
 msgstr ""
