@@ -21,6 +21,7 @@
 
 const { GObject, Gdk, Gtk } = imports.gi;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
+const { backport } = Me.imports.ddterm;
 const { rxjs } = Me.imports.ddterm.thirdparty.rxjs;
 const { util } = Me.imports.ddterm.pref;
 const { rxutil, settings } = Me.imports.ddterm.rx;
@@ -34,7 +35,7 @@ function accelerator_parse(accel) {
     return IS_GTK3 ? parsed : parsed.slice(1);
 }
 
-var Widget = GObject.registerClass(
+var Widget = backport.GObject.registerClass(
     {
         GTypeName: 'DDTermPrefsShortcuts',
         Template: util.ui_file_uri('prefs-shortcuts.ui'),

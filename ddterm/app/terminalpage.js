@@ -22,6 +22,7 @@
 /* exported TerminalPage TerminalSettings */
 
 const { GLib, GObject, Gio, Gdk, Gtk, Vte } = imports.gi;
+const { backport } = imports.ddterm;
 const { Handlebars } = imports.ddterm.thirdparty.handlebars;
 const { rxjs } = imports.ddterm.thirdparty.rxjs;
 const { urldetect_patterns, tcgetpgrp } = imports.ddterm.app;
@@ -112,7 +113,7 @@ const REGEX_NEWS_MAN = compile_regex(urldetect_patterns.REGEX_NEWS_MAN);
 GObject.type_ensure(Vte.Terminal);
 GObject.type_ensure(Gio.ThemedIcon);
 
-var TerminalPage = GObject.registerClass(
+var TerminalPage = backport.GObject.registerClass(
     {
         Template: APP_DIR.get_child('ui').get_child('terminalpage.ui').get_uri(),
         Children: [

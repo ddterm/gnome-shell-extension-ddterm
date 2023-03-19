@@ -17,12 +17,13 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-const { GObject, Gio, Gtk } = imports.gi;
+const { Gio, Gtk } = imports.gi;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
+const { backport } = Me.imports.ddterm;
 const { dialog } = imports.ddterm.pref;
 const { settings } = imports.ddterm.rx;
 
-var Application = GObject.registerClass(
+var Application = backport.GObject.registerClass(
     class Application extends Gtk.Application {
         _init(params) {
             super._init(params);

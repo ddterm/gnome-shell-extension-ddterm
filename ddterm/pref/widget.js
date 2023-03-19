@@ -23,9 +23,10 @@
 
 const { GObject, Gtk } = imports.gi;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
+const { backport } = Me.imports.ddterm;
 const { settings } = Me.imports.ddterm.rx;
 
-var PrefsWidget = GObject.registerClass(
+var PrefsWidget = backport.GObject.registerClass(
     {
         Properties: {
             'settings': GObject.ParamSpec.object(

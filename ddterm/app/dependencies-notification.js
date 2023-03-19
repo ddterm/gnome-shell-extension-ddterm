@@ -23,12 +23,13 @@
 
 const System = imports.system;
 
-const { GLib, GObject, Gio } = imports.gi;
+const { GLib, Gio } = imports.gi;
 
 const APP_DIR = Gio.File.new_for_commandline_arg(System.programInvocationName).get_parent();
 const ME_DIR = APP_DIR.get_parent().get_parent();
 imports.searchPath.unshift(ME_DIR.get_path());
 
+const { backport } = imports.ddterm;
 const { translations } = imports.ddterm.util;
 translations.init(ME_DIR);
 
@@ -63,7 +64,7 @@ const NOTIFICATIONS_INTERFACE_XML = `
 
 const NotificationsProxy = Gio.DBusProxy.makeProxyWrapper(NOTIFICATIONS_INTERFACE_XML);
 
-const Application = GObject.registerClass(
+const Application = backport.GObject.registerClass(
     class DDTermPackageKitApplication extends Gio.Application {
         _init(params) {
             super._init(params);

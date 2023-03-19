@@ -21,11 +21,12 @@
 
 const { GObject, Gtk } = imports.gi;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
+const { backport } = Me.imports.ddterm;
 const { util } = Me.imports.ddterm.pref;
 const { settings } = Me.imports.ddterm.rx;
 const { translations } = Me.imports.ddterm.util;
 
-var Widget = GObject.registerClass(
+var Widget = backport.GObject.registerClass(
     {
         GTypeName: 'DDTermPrefsScrolling',
         Template: util.ui_file_uri('prefs-scrolling.ui'),

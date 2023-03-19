@@ -21,6 +21,7 @@
 
 const { GObject, Gio, Gtk } = imports.gi;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
+const { backport } = Me.imports.ddterm;
 const { rxjs } = Me.imports.ddterm.thirdparty.rxjs;
 const { util } = Me.imports.ddterm.pref;
 const { rxutil, settings } = Me.imports.ddterm.rx;
@@ -133,7 +134,7 @@ function get_settings_schema_key(schema, name) {
     return schema.get_key(name);
 }
 
-var Widget = GObject.registerClass(
+var Widget = backport.GObject.registerClass(
     {
         GTypeName: 'DDTermPrefsColors',
         Template: util.ui_file_uri('prefs-colors.ui'),

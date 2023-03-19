@@ -23,6 +23,7 @@ const System = imports.system;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 
+const { backport } = imports.ddterm;
 const { translations, simpleaction } = imports.ddterm.util;
 const { timers } = imports.ddterm.rx;
 
@@ -45,7 +46,7 @@ const { rxutil, settings } = imports.ddterm.rx;
 
 const APP_DIR = Me.dir.get_child('ddterm').get_child('app');
 
-const Application = GObject.registerClass(
+const Application = backport.GObject.registerClass(
     {
         Properties: {
             'preferences-visible': GObject.ParamSpec.boolean(

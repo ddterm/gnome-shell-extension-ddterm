@@ -22,6 +22,7 @@
 const { GObject, GLib, Gdk, Gio, Pango } = imports.gi;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
+const { backport } = Me.imports.ddterm;
 const { rxutil } = Me.imports.ddterm.rx;
 const { rxjs } = Me.imports.ddterm.thirdparty.rxjs;
 const { Handlebars } = Me.imports.ddterm.thirdparty.handlebars;
@@ -186,7 +187,7 @@ const CUSTOM_SETTINGS_TYPES = {
     'palette': PaletteSetting,
 };
 
-var Settings = GObject.registerClass(
+var Settings = backport.GObject.registerClass(
     {
         Properties: {
             'gsettings': GObject.ParamSpec.object(

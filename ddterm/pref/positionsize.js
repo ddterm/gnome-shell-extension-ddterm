@@ -21,6 +21,7 @@
 
 const { GLib, GObject, Gio, Gtk } = imports.gi;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
+const { backport } = Me.imports.ddterm;
 const { rxjs } = Me.imports.ddterm.thirdparty.rxjs;
 const { util } = Me.imports.ddterm.pref;
 const { rxutil, settings } = Me.imports.ddterm.rx;
@@ -86,7 +87,7 @@ class DisplayConfig {
     }
 }
 
-var Widget = GObject.registerClass(
+var Widget = backport.GObject.registerClass(
     {
         GTypeName: 'DDTermPrefsPositionSize',
         Template: util.ui_file_uri('prefs-position-size.ui'),

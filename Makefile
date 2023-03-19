@@ -156,6 +156,7 @@ JS_SOURCE_WILDCARDS := \
 	ddterm/*.js \
 	ddterm/app/*.js \
 	ddterm/app/fakeext/*.js \
+	ddterm/backport/*.js \
 	ddterm/rx/*.js \
 	ddterm/pref/*.js \
 	ddterm/shell/*.js \

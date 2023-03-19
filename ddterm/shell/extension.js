@@ -26,6 +26,7 @@ const ByteArray = imports.byteArray;
 const Main = imports.ui.main;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
+const { backport } = Me.imports.ddterm;
 const { ConnectionSet } = Me.imports.ddterm.shell.connectionset;
 const { PanelIconProxy } = Me.imports.ddterm.shell.panelicon;
 const { WindowManager } = Me.imports.ddterm.shell.wm;
@@ -52,7 +53,7 @@ const APP_DBUS_PATH = '/com/github/amezin/ddterm';
 const WINDOW_PATH_PREFIX = `${APP_DBUS_PATH}/window/`;
 const SIGINT = 2;
 
-const AppDBusWatch = GObject.registerClass(
+const AppDBusWatch = backport.GObject.registerClass(
     {
         Properties: {
             'available': GObject.ParamSpec.boolean(

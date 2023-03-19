@@ -21,6 +21,7 @@
 
 const { GObject, Gtk } = imports.gi;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
+const { backport } = Me.imports.ddterm;
 const { util } = Me.imports.ddterm.pref;
 const { settings } = Me.imports.ddterm.rx;
 const { translations } = Me.imports.ddterm.util;
@@ -44,7 +45,7 @@ function seconds_formatter(_, value) {
     return SECONDS_FORMAT.format(value);
 }
 
-var Widget = GObject.registerClass(
+var Widget = backport.GObject.registerClass(
     {
         GTypeName: 'DDTermPrefsAnimation',
         Template: util.ui_file_uri('prefs-animation.ui'),
