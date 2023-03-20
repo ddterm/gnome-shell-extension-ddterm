@@ -14,4 +14,6 @@ useful:
 
 TODO: add more
 
+You could also help [translating the user interface](Translations.md).
+
 Pull requests are preferred to feature requests :)

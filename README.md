@@ -36,6 +36,22 @@ A new release may be available here on GitHub, but not on
 
 If you want to install from GitHub: see [docs/INSTALL.md](docs/INSTALL.md)
 
+## Contribute
+
+Pull requests are always welcome.
+
+See [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md).
+
+## Translations
+
+You could help translating the user interface using
+[Weblate](https://hosted.weblate.org/engage/gnome-shell-extension-ddterm/),
+or by opening a pull request on GitHub.
+
+[![Translation status](https://hosted.weblate.org/widgets/gnome-shell-extension-ddterm/-/multi-auto.svg)](https://hosted.weblate.org/engage/gnome-shell-extension-ddterm/)
+
+See [docs/Translations.md](docs/Translations.md).
+
 ## Toggle the terminal through D-Bus
 
 It's possible to toggle the terminal externally through D-Bus. For example,
