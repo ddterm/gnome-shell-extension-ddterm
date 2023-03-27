@@ -25,24 +25,6 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 
 const { _checkAccessors } = Me.imports.ddterm.backport._common;
 
-function _resolveLegacyClassFunction(klass, func) {
-    // Find the "least derived" class with a _classInit static function; there
-    // definitely is one, since this class must inherit from GObject
-    let initclass = klass;
-    while (typeof initclass[func] === 'undefined')
-        initclass = Object.getPrototypeOf(initclass.prototype).constructor;
-    return initclass[func];
-}
-
-function _findClassInit(klass) {
-    if ('_classInit' in klass) {
-        return klass._classInit;
-    } else {
-        // Lang.Class compatibility.
-        return _resolveLegacyClassFunction(klass, '_classInit');
-    }
-}
-
 function _checkProperties(klass) {
     if (!klass.hasOwnProperty(GObject.properties))
         return;
@@ -51,17 +33,20 @@ function _checkProperties(klass) {
         _checkAccessors(klass.prototype, pspec, GObject);
 }
 
-function _classInit(chain, klass) {
-    _checkProperties(klass);
-
-    // eslint-disable-next-line no-invalid-this
-    return chain.call(this, klass);
-}
-
 function _registerClass(...args) {
     const klass = args[args.length - 1];
 
-    klass._classInit = _classInit.bind(klass, _findClassInit(klass));
+    let initclass = klass;
+    while (typeof initclass._classInit === 'undefined')
+        initclass = Object.getPrototypeOf(initclass.prototype).constructor;
+
+    const prevClassInit = initclass._classInit;
+
+    // eslint-disable-next-line no-shadow
+    klass._classInit = function (klass) {
+        _checkProperties(klass);
+        return prevClassInit.call(initclass, klass);
+    };
 
     return GObject.registerClass(...args);
 }
