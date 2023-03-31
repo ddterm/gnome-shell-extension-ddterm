@@ -36,5 +36,5 @@ imports.searchPath.unshift(
 
 imports.misc.init(ME_DIR);
 
-const app = new imports.ddterm.pref.test.rx.Application();
+const app = new imports.ddterm.pref.test.common.Application();
 app.run([System.programInvocationName].concat(ARGV));
