@@ -7,358 +7,369 @@ msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-03-19 23:04+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2023-04-01 10:50+0000\n"
+"Last-Translator: Jörn Weigend <das.jott@gmail.com>\n"
+"Language-Team: German <https://hosted.weblate.org/projects/"
+"gnome-shell-extension-ddterm/extension/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.17-dev\n"
 
 #: ddterm/app/appwindow.js:430
 msgid ""
 "Warning: ddterm version has changed. Log out, then log in again to load the "
 "updated extension."
 msgstr ""
+"Warnung: Die Version von ddterm hat sich geändert. Melden Sie sich ab und "
+"wieder an, um die aktualisierte Erweiterung zu laden."
 
 #: ddterm/app/dependencies-notification.js:137
 msgid "ddterm needs additional packages to run."
-msgstr ""
+msgstr "ddterm benötigt zusätzliche Pakete zur Ausführung."
 
 #: ddterm/app/dependencies-notification.js:142
 msgid "Please install the following packages:"
-msgstr ""
+msgstr "Bitte installieren Sie die folgenden Pakete:"
 
 #: ddterm/app/dependencies-notification.js:150
 msgid "Please install packages that provide the following files:"
-msgstr ""
+msgstr "Bitte installieren Sie Pakete, die folgenden Dateien enthalten:"
 
 #: ddterm/app/dependencies-notification.js:163
 msgid "Missing dependencies"
-msgstr ""
+msgstr "Fehlende Abhängigkeiten"
 
 #: ddterm/app/glade/appwindow.ui:41
 msgid "Drop Down Terminal"
-msgstr ""
+msgstr "Drop Down Terminal"
 
 #: ddterm/app/glade/appwindow.ui:66
 msgid "New Tab (First)"
-msgstr ""
+msgstr "Neuer Tab (Erster)"
 
 #: ddterm/app/glade/appwindow.ui:91
 msgid "New Tab (Last)"
-msgstr ""
+msgstr "Neuer Tab (Letzter)"
 
 #: ddterm/app/glade/terminalpage.ui:169
 msgid "Case Sensitive"
-msgstr ""
+msgstr "Groß- und Kleinschreibung beachten"
 
 #: ddterm/app/glade/terminalpage.ui:186
 msgid "Match Whole Word"
-msgstr ""
+msgstr "Ganzes Wort"
 
 #: ddterm/app/glade/terminalpage.ui:203
+#, fuzzy
 msgid "Wrap Around"
-msgstr ""
+msgstr "Wrap Around"
 
 #: ddterm/app/glade/terminalpage.ui:206
+#, fuzzy
 msgid "Wrap"
-msgstr ""
+msgstr "Wrap"
 
 #: ddterm/app/glade/terminalpage.ui:221
 msgid "Regular Expression"
-msgstr ""
+msgstr "Regulärer Ausdruck"
 
 #: ddterm/app/glade/terminalpage.ui:252
 msgid "Close Search Bar"
-msgstr ""
+msgstr "Suchleiste schließen"
 
 #: ddterm/app/glade/terminalpage.ui:255 ddterm/app/menus.ui:76
 #: ddterm/app/menus.ui:175
 msgid "Close"
-msgstr ""
+msgstr "Schließen"
 
 #: ddterm/app/glade/terminalpage.ui:271 ddterm/app/glade/terminalpage.ui:274
 #: ddterm/pref/glade/prefs-shortcuts.ui:217
+#, fuzzy
 msgid "Find Next"
-msgstr ""
+msgstr "Zum nächsten Suchergebnis"
 
 #: ddterm/app/glade/terminalpage.ui:290 ddterm/app/glade/terminalpage.ui:293
 #: ddterm/pref/glade/prefs-shortcuts.ui:223
+#, fuzzy
 msgid "Find Previous"
-msgstr ""
+msgstr "Zum vorigen Suchergebnis"
 
 #: ddterm/app/menus.ui:25
 msgid "Open Hyperlink"
-msgstr ""
+msgstr "Link öffnen"
 
 #: ddterm/app/menus.ui:30
 msgid "Copy Hyperlink Address"
-msgstr ""
+msgstr "Linkadresse kopieren"
 
 #: ddterm/app/menus.ui:35
 msgid "Copy File Path"
-msgstr ""
+msgstr "Dateipfad kopieren"
 
 #: ddterm/app/menus.ui:42
 msgid "Copy"
-msgstr ""
+msgstr "Kopieren"
 
 #: ddterm/app/menus.ui:46
 msgid "Copy HTML"
-msgstr ""
+msgstr "HTML kopieren"
 
 #: ddterm/app/menus.ui:50
 msgid "Paste"
-msgstr ""
+msgstr "Einfügen"
 
 #: ddterm/app/menus.ui:54 ddterm/pref/glade/prefs-shortcuts.ui:127
 msgid "Select All"
-msgstr ""
+msgstr "Alles auswählen"
 
 #: ddterm/app/menus.ui:60 ddterm/pref/glade/prefs-shortcuts.ui:211
 msgid "Find"
-msgstr ""
+msgstr "Suchen"
 
 #: ddterm/app/menus.ui:66 ddterm/pref/glade/prefs-shortcuts.ui:133
 msgid "Reset"
-msgstr ""
+msgstr "Zurücksetzen"
 
 #: ddterm/app/menus.ui:70 ddterm/pref/glade/prefs-shortcuts.ui:139
 msgid "Reset and Clear"
-msgstr ""
+msgstr "Zurücksetzen und leeren"
 
 #: ddterm/app/menus.ui:82
 msgid "New Tab"
-msgstr ""
+msgstr "Neuer Tab"
 
 #: ddterm/app/menus.ui:84 ddterm/pref/glade/prefs-shortcuts.ui:157
 msgid "New Tab Before Current Tab"
-msgstr ""
+msgstr "Neuer Tab vor aktivem Tab"
 
 #: ddterm/app/menus.ui:88 ddterm/pref/glade/prefs-shortcuts.ui:163
 msgid "New Tab After Current Tab"
-msgstr ""
+msgstr "Neuer Tab nach aktivem Tab"
 
 #: ddterm/app/menus.ui:92 ddterm/app/menus.ui:188
 #: ddterm/pref/glade/prefs-shortcuts.ui:151
 msgid "New Tab Before First Tab"
-msgstr ""
+msgstr "Neuer Tab vor den ersten Tab"
 
 #: ddterm/app/menus.ui:96 ddterm/app/menus.ui:192
 #: ddterm/pref/glade/prefs-shortcuts.ui:145
 msgid "New Tab After Last Tab"
-msgstr ""
+msgstr "Neuer Tab nach dem letzten Tab"
 
 #: ddterm/app/menus.ui:102 ddterm/pref/dialog.js:47
 msgid "Preferences"
-msgstr ""
+msgstr "Einstellungen"
 
 #: ddterm/app/menus.ui:105 ddterm/app/menus.ui:207 ddterm/shell/panelicon.js:86
 msgid "Preferences..."
-msgstr ""
+msgstr "Einstellungen..."
 
 #: ddterm/app/menus.ui:111
 msgid "Above All Windows"
-msgstr ""
+msgstr "Über allen Fenstern"
 
 #: ddterm/app/menus.ui:115
 msgid "On All Workspaces"
-msgstr ""
+msgstr "Auf allen Arbeitsflächen"
 
 #: ddterm/app/menus.ui:119
 msgid "Maximize Window"
-msgstr ""
+msgstr "Fenster maximieren"
 
 #: ddterm/app/menus.ui:123
 msgid "Transparent Background"
-msgstr ""
+msgstr "Transparenter Hintergrund"
 
 #: ddterm/app/menus.ui:129
 msgid "Hide When Application Loses Focus"
-msgstr ""
+msgstr "Verstecken wenn nicht mehr im Focus"
 
 #: ddterm/app/menus.ui:133
 msgid "Hide When Esc Key Is Pressed"
-msgstr ""
+msgstr "Verstecken mit Esc Taste"
 
 #: ddterm/app/menus.ui:139
 msgid "Scroll On Output"
-msgstr ""
+msgstr "Weiterscrollen durch Ausgabe"
 
 #: ddterm/app/menus.ui:143
 msgid "Scroll On Keystroke"
-msgstr ""
+msgstr "Weiterscrollen durch Tastendruck"
 
 #: ddterm/app/menus.ui:149
 msgid "Preserve Working Directory In New Tabs"
-msgstr ""
+msgstr "Arbeitsverzeichnis in neue Tabs übernehmen"
 
 #: ddterm/app/menus.ui:155
 msgid "Enable Keyboard Shortcuts"
-msgstr ""
+msgstr "Tastenkombinationen aktivieren"
 
 #: ddterm/app/menus.ui:164
 msgid "Use Custom Tab Title"
-msgstr ""
+msgstr "Eigene Tab-Namen verwenden"
 
 #: ddterm/app/menus.ui:169
 msgid "Use Default Tab Title"
-msgstr ""
+msgstr "Standard Tab-Namen verwenden"
 
 #: ddterm/app/menus.ui:180
 msgid "New Tab Before This Tab"
-msgstr ""
+msgstr "Neuer Tab vor diesem Tab"
 
 #: ddterm/app/menus.ui:184
 msgid "New Tab After This Tab"
-msgstr ""
+msgstr "Neuer Tab nach diesem Tab"
 
 #: ddterm/app/menus.ui:198 ddterm/pref/glade/prefs-shortcuts.ui:187
 msgid "Move Tab to Previous Position"
-msgstr ""
+msgstr "Verschiebe Tab zur vorigen Position"
 
 #: ddterm/app/menus.ui:202 ddterm/pref/glade/prefs-shortcuts.ui:193
 msgid "Move Tab to Next Position"
-msgstr ""
+msgstr "Verschiebe Tab zur nächsten Position"
 
 #: ddterm/app/terminalpage.js:790
 msgid "Close this terminal?"
-msgstr ""
+msgstr "Dieses Terminal schließen?"
 
 #: ddterm/app/terminalpage.js:793
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."
 msgstr ""
+"Es läuft noch ein Prozess in diesem Terminal. Das Schließen wird den Prozess "
+"abbrechen."
 
 #: ddterm/pref/animation.js:100
 msgid "Animation"
-msgstr ""
+msgstr "Animation"
 
 #: ddterm/pref/behavior.js:72
 msgid "Behavior"
-msgstr ""
+msgstr "Verhalten"
 
 #: ddterm/pref/colors.js:277
 msgid "Colors"
-msgstr ""
+msgstr "Farben"
 
 #: ddterm/pref/command.js:72
 msgid "Command"
-msgstr ""
+msgstr "Kommando"
 
 #: ddterm/pref/compatibility.js:73
 msgid "Compatibility"
-msgstr ""
+msgstr "Kompatibilität"
 
 #: ddterm/pref/glade/prefs-animation.ui:36
 msgid "Disable"
-msgstr ""
+msgstr "Deaktivieren"
 
 #: ddterm/pref/glade/prefs-animation.ui:40
 msgid "Linear tweening"
-msgstr ""
+msgstr "Lineares Tweening"
 
 #: ddterm/pref/glade/prefs-animation.ui:44
 msgid "Quadratic tweening"
-msgstr ""
+msgstr "Quadratisches Tweening"
 
 #: ddterm/pref/glade/prefs-animation.ui:48
 msgid "Quadratic tweening, inverse"
-msgstr ""
+msgstr "Quadratisches Tweening, invertiert"
 
 #: ddterm/pref/glade/prefs-animation.ui:52
 msgid "Quadratic tweening, combining direct and inverse"
-msgstr ""
+msgstr "Quadratisches Tweening, Kombination aus direkt und invertiert"
 
 #: ddterm/pref/glade/prefs-animation.ui:56
 msgid "Cubic tweening"
-msgstr ""
+msgstr "Kubisches Tweening"
 
 #: ddterm/pref/glade/prefs-animation.ui:60
 msgid "Cubic tweening, inverse"
-msgstr ""
+msgstr "Kubisches Tweening, invertiert"
 
 #: ddterm/pref/glade/prefs-animation.ui:64
 msgid "Cubic tweening, combining direct and inverse"
-msgstr ""
+msgstr "Kubisches Tweening, Kombination aus direkt und invertiert"
 
 #: ddterm/pref/glade/prefs-animation.ui:68
 msgid "Quartic tweening"
-msgstr ""
+msgstr "Quartisches Tweening"
 
 #: ddterm/pref/glade/prefs-animation.ui:72
 msgid "Quartic tweening, inverse"
-msgstr ""
+msgstr "Quartisches Tweening, invertiert"
 
 #: ddterm/pref/glade/prefs-animation.ui:76
 msgid "Quartic tweening, combining direct and inverse"
-msgstr ""
+msgstr "Quartisches Tweening, Kombination aus direkt und invertiert"
 
 #: ddterm/pref/glade/prefs-animation.ui:80
 msgid "Quintic tweening"
-msgstr ""
+msgstr "Quintisches Tweening"
 
 #: ddterm/pref/glade/prefs-animation.ui:84
 msgid "Quintic tweening, inverse"
-msgstr ""
+msgstr "Quintisches Tweening, invertiert"
 
 #: ddterm/pref/glade/prefs-animation.ui:88
 msgid "Quintic tweening, combining direct and inverse"
-msgstr ""
+msgstr "Quintisches Tweening, Kombination aus direkt und invertiert"
 
 #: ddterm/pref/glade/prefs-animation.ui:92
 msgid "Sinusoidal tweening"
-msgstr ""
+msgstr "Sinusförmiges Tweening"
 
 #: ddterm/pref/glade/prefs-animation.ui:96
 msgid "Sinusoidal tweening, inverse"
-msgstr ""
+msgstr "Sinusförmiges Tweening, invertiert"
 
 #: ddterm/pref/glade/prefs-animation.ui:100
 msgid "Sinusoidal tweening, combining direct and inverse"
-msgstr ""
+msgstr "Sinusförmiges Tweening, Kombination aus direkt und invertiert"
 
 #: ddterm/pref/glade/prefs-animation.ui:104
 msgid "Exponential tweening"
-msgstr ""
+msgstr "Exponentielles Tweening"
 
 #: ddterm/pref/glade/prefs-animation.ui:108
 msgid "Exponential tweening, inverse"
-msgstr ""
+msgstr "Exponentielles Tweening, invertiert"
 
 #: ddterm/pref/glade/prefs-animation.ui:112
 msgid "Exponential tweening, combining direct and inverse"
-msgstr ""
+msgstr "Exponentielles Tweening, Kombination aus direkt und invertiert"
 
 #: ddterm/pref/glade/prefs-animation.ui:116
 msgid "Circular tweening"
-msgstr ""
+msgstr "Zirkuläres Tweening"
 
 #: ddterm/pref/glade/prefs-animation.ui:120
 msgid "Circular tweening, inverse"
-msgstr ""
+msgstr "Zirkuläres Tweening, invertiert"
 
 #: ddterm/pref/glade/prefs-animation.ui:124
 msgid "Circular tweening, combining direct and inverse"
-msgstr ""
+msgstr "Zirkuläres Tweening, Kombination aus direkt und invertiert"
 
 #: ddterm/pref/glade/prefs-animation.ui:128
 msgid "Elastic tweening, with offshoot on start"
-msgstr ""
+msgstr "Elastisches Tweening, Abschuss am Anfang"
 
 #: ddterm/pref/glade/prefs-animation.ui:132
 msgid "Elastic tweening, with offshoot on end"
-msgstr ""
+msgstr "Elastisches Tweening, zum Ende"
 
 #: ddterm/pref/glade/prefs-animation.ui:136
 msgid "Elastic tweening with offshoot on both ends"
-msgstr ""
+msgstr "Elastisches Tweening, zu Anfang und Ende"
 
 #: ddterm/pref/glade/prefs-animation.ui:140
 msgid "Overshooting cubic tweening, with backtracking on start"
-msgstr ""
+msgstr "Überlappendes, kubisches Tweening zum Start zurück"
 
 #: ddterm/pref/glade/prefs-animation.ui:144
 msgid "Overshooting cubic tweening, with backtracking on end"
