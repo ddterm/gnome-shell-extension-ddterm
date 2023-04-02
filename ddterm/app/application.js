@@ -121,10 +121,17 @@ const Application = backport.GObject.registerClass(
                 'preferences': () => this.preferences(),
                 'begin-subscription-leak-check': () => rxutil.begin_subscription_leak_check(),
                 'end-subscription-leak-check': () => rxutil.end_subscription_leak_check(),
+                'gc': () => System.gc(),
             };
 
             for (const [name, activate] of Object.entries(actions))
                 this.add_action(new simpleaction.Action({ name, activate }));
+
+            this.add_action(new simpleaction.Action({
+                name: 'dump-heap',
+                activate: arg => this.dump_heap(arg.deepUnpack()),
+                parameter_type: new GLib.VariantType('s'),
+            }));
 
             const close_preferences_action = new simpleaction.Action({
                 name: 'close-preferences',
@@ -324,6 +331,27 @@ const Application = backport.GObject.registerClass(
 
         get preferences_visible() {
             return this.prefs_dialog !== null;
+        }
+
+        dump_heap(path = null) {
+            if (!path) {
+                path = GLib.build_filenamev([
+                    GLib.get_user_state_dir(),
+                    this.application_id,
+                ]);
+                GLib.mkdir_with_parents(path, 0o700);
+            }
+
+            if (GLib.file_test(path, GLib.FileTest.IS_DIR)) {
+                path = GLib.build_filenamev([
+                    path,
+                    `${this.application_id}-${new Date().toISOString().replace(/:/g, '-')}.heap`,
+                ]);
+            }
+
+            printerr(`Dumping heap to ${path}`);
+            System.dumpHeap(path);
+            printerr(`Dumped heap to ${path}`);
         }
     }
 );
