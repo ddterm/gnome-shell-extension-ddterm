@@ -1,6 +1,7 @@
 import base64
 import collections
 import contextlib
+import datetime
 import functools
 import itertools
 import json
@@ -8,7 +9,10 @@ import logging.handlers
 import math
 import pathlib
 import queue
+import shlex
 import subprocess
+import sys
+import time
 import zipfile
 
 import allpairspy
@@ -1285,7 +1289,7 @@ def wait_action_in_group_enabled(group, action, enabled=True):
 
 
 @contextlib.contextmanager
-def detect_leaks(syslogger, app_actions):
+def detect_subscription_leaks(syslogger, app_actions):
     app_actions.activate_action('begin-subscription-leak-check', None)
 
     yield
@@ -1311,7 +1315,62 @@ def detect_leaks(syslogger, app_actions):
     assert leaks == []
 
 
-class TestSubscriptionLeaks(CommonFixtures):
+@contextlib.contextmanager
+def detect_heap_leaks(syslogger, app_actions, heap_dump_dir):
+
+    def dump_heap():
+        timestamp = datetime.datetime.now(datetime.timezone.utc)
+        heap_dump_file = heap_dump_dir / f'{timestamp.isoformat().replace(":", "-")}.heap'
+
+        app_actions.activate_action('gc', None)
+
+        handler = logging.handlers.QueueHandler(queue.SimpleQueue())
+        syslogger.addHandler(handler)
+
+        try:
+            app_actions.activate_action('dump-heap', GLib.Variant('s', str(heap_dump_file)))
+
+            for record in iter(lambda: handler.queue.get(timeout=1), None):
+                if record.message.endswith(f'Dumped heap to {heap_dump_file}'):
+                    return heap_dump_file
+
+        finally:
+            syslogger.removeHandler(handler)
+
+    dump_pre = dump_heap()
+
+    yield
+
+    dump_post = dump_heap()
+
+    heapgraph_argv = [
+        sys.executable,
+        str(SRC_DIR / 'tools' / 'heapgraph.py'),
+        '--hide-node',
+        '_init/Gtk',
+        '--no-gray-roots',
+        '--no-weak-maps',
+        '--diff-heap',
+        str(dump_pre),
+        str(dump_post),
+        'GObject'
+    ]
+
+    LOGGER.info('Running heapgraph: %r', shlex.join(heapgraph_argv))
+
+    heapgraph = subprocess.run(
+        heapgraph_argv,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        check=True,
+        text=True
+    )
+
+    LOGGER.info('heapgraph stderr:\n%s\nstdout:\n%s\n', heapgraph.stderr, heapgraph.stdout)
+    assert heapgraph.stdout == ''
+
+
+class LeakFixtures(CommonFixtures):
     GNOME_SHELL_SESSION_NAME = 'gnome-xsession'
     N_MONITORS = 1
 
@@ -1355,15 +1414,15 @@ class TestSubscriptionLeaks(CommonFixtures):
                 while app_running() or has_window():
                     w.wait()
 
+
+class TestSubscriptionLeaks(LeakFixtures):
     @pytest.fixture
-    def actions_available(self, run_app, app_actions):
+    def leak_detector(self, syslog_server, app_actions):
         wait_action_in_group(app_actions, 'begin-subscription-leak-check')
         wait_action_in_group(app_actions, 'end-subscription-leak-check')
 
-    @pytest.fixture
-    def leak_detector(self, syslog_server, app_actions, actions_available):
         return functools.partial(
-            detect_leaks,
+            detect_subscription_leaks,
             syslogger=syslog_server.logger,
             app_actions=app_actions
         )
@@ -1385,6 +1444,39 @@ class TestSubscriptionLeaks(CommonFixtures):
             wait_action_in_group_enabled(app_actions, 'close-preferences', True)
             app_actions.activate_action('close-preferences', None)
             wait_action_in_group_enabled(app_actions, 'close-preferences', False)
+
+
+class TestHeapLeaks(LeakFixtures):
+    @pytest.fixture(scope='session')
+    def heap_dump_dir(self, tmp_path_factory):
+        path = tmp_path_factory.mktemp('heap')
+        path.chmod(0o777)
+        return path
+
+    @pytest.fixture(scope='session')
+    def common_volumes(self, common_volumes, heap_dump_dir):
+        return common_volumes + [(heap_dump_dir, heap_dump_dir)]
+
+    @pytest.fixture
+    def leak_detector(self, syslog_server, app_actions, heap_dump_dir):
+        wait_action_in_group(app_actions, 'gc')
+        wait_action_in_group(app_actions, 'dump-heap')
+
+        return functools.partial(
+            detect_heap_leaks,
+            syslogger=syslog_server.logger,
+            app_actions=app_actions,
+            heap_dump_dir=heap_dump_dir
+        )
+
+    def test_tab_leak(self, leak_detector, win_actions):
+        wait_action_in_group(win_actions, 'new-tab')
+        wait_action_in_group(win_actions, 'close-current-tab')
+
+        with leak_detector():
+            win_actions.activate_action('new-tab', None)
+            win_actions.activate_action('close-current-tab', None)
+            time.sleep(0.5)
 
 
 class TestDependencies(CommonFixtures):
