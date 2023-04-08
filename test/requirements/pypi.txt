@@ -10,8 +10,6 @@ allpairspy==2.5.0
     # via -r pypi.in
 ansi2html==1.8.0
     # via -r pypi.in
-attrs==22.2.0
-    # via pytest
 execnet==1.9.0
     # via pytest-xdist
 filelock==3.10.0
@@ -30,7 +28,7 @@ psutil==5.9.4
     # via pytest-xdist
 py==1.11.0
     # via pytest-html
-pytest==7.2.2
+pytest==7.3.0
     # via
     #   -r pypi.in
     #   pytest-github-actions-annotate-failures
