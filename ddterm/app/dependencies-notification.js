@@ -64,7 +64,7 @@ const NOTIFICATIONS_INTERFACE_XML = `
 const NotificationsProxy = Gio.DBusProxy.makeProxyWrapper(NOTIFICATIONS_INTERFACE_XML);
 
 const Application = GObject.registerClass(
-    class DDTermPackageKitApplication extends Gio.Application {
+    class DDTermMissingDependencyNotificationApplication extends Gio.Application {
         _init(params) {
             super._init(params);
 
@@ -191,7 +191,7 @@ const Application = GObject.registerClass(
 );
 
 const app = new Application({
-    application_id: 'com.github.amezin.ddterm.packagekit',
+    application_id: 'com.github.amezin.ddterm.deps',
     flags: Gio.ApplicationFlags.ALLOW_REPLACEMENT | Gio.ApplicationFlags.REPLACE,
 });
 
