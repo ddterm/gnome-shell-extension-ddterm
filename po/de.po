@@ -6,11 +6,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-19 23:04+0000\n"
+"POT-Creation-Date: 2023-04-11 03:03+0000\n"
 "PO-Revision-Date: 2023-04-03 13:37+0000\n"
 "Last-Translator: Jörn Weigend <das.jott@gmail.com>\n"
-"Language-Team: German <https://hosted.weblate.org/projects/"
-"gnome-shell-extension-ddterm/extension/de/>\n"
+"Language-Team: German <https://hosted.weblate.org/projects/gnome-shell-"
+"extension-ddterm/extension/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,19 +26,19 @@ msgstr ""
 "Warnung: Die Version von ddterm hat sich geändert. Melden Sie sich ab und "
 "wieder an, um die aktualisierte Erweiterung zu laden."
 
-#: ddterm/app/dependencies-notification.js:137
+#: ddterm/app/dependencies-notification.js:136
 msgid "ddterm needs additional packages to run."
 msgstr "ddterm benötigt zusätzliche Pakete zur Ausführung."
 
-#: ddterm/app/dependencies-notification.js:142
+#: ddterm/app/dependencies-notification.js:141
 msgid "Please install the following packages:"
 msgstr "Bitte installieren Sie die folgenden Pakete:"
 
-#: ddterm/app/dependencies-notification.js:150
+#: ddterm/app/dependencies-notification.js:149
 msgid "Please install packages that provide the following files:"
 msgstr "Bitte installieren Sie Pakete, die folgenden Dateien enthalten:"
 
-#: ddterm/app/dependencies-notification.js:163
+#: ddterm/app/dependencies-notification.js:162
 msgid "Missing dependencies"
 msgstr "Fehlende Abhängigkeiten"
 
@@ -1086,8 +1086,8 @@ msgid ""
 "- <tt>ellipsize</tt> or <tt>truncate-chars</tt>\n"
 "      example: <tt>{{ellipsize window-title 20}}</tt>"
 msgstr ""
-"Der Tab-Name wird generiert von <a href=\"https://handlebarsjs.com/guide/\""
-">handlebars.js</a> template. <a href=\"https://developer.gnome.org/pango/"
+"Der Tab-Name wird generiert von <a href=\"https://handlebarsjs.com/guide/"
+"\">handlebars.js</a> template. <a href=\"https://developer.gnome.org/pango/"
 "stable/pango-Markup.html\">Pango markup</a> kann zur Formatierung genutzt "
 "werden.\n"
 "\n"
