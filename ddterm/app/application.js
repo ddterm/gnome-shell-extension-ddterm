@@ -24,7 +24,7 @@ const System = imports.system;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 
 const { backport } = imports.ddterm;
-const { translations, simpleaction } = imports.ddterm.util;
+const { translations } = imports.ddterm.util;
 const { timers } = imports.ddterm.rx;
 
 translations.init(Me.dir);
@@ -41,20 +41,27 @@ imports.ddterm.app.dependencies.gi_require({
 
 const { Gdk, Gtk } = imports.gi;
 
-const { rxjs } = imports.ddterm.thirdparty.rxjs;
-const { rxutil, settings } = imports.ddterm.rx;
+const { AppWindow } = imports.ddterm.app.appwindow;
+const { PrefsDialog } = imports.ddterm.pref.dialog;
 
 const APP_DIR = Me.dir.get_child('ddterm').get_child('app');
 
 const Application = backport.GObject.registerClass(
     {
         Properties: {
-            'preferences-visible': GObject.ParamSpec.boolean(
-                'preferences-visible',
+            'window': GObject.ParamSpec.object(
+                'window',
                 '',
                 '',
-                GObject.ParamFlags.READABLE | GObject.ParamFlags.EXPLICIT_NOTIFY,
-                false
+                GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+                AppWindow
+            ),
+            'prefs-dialog': GObject.ParamSpec.object(
+                'prefs-dialog',
+                '',
+                '',
+                GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+                PrefsDialog
             ),
         },
     },
@@ -97,14 +104,11 @@ const Application = backport.GObject.registerClass(
                 null
             );
 
-            this.env_gdk_backend = null;
-            this.unset_gdk_backend = false;
-
             this.connect('startup', this.startup.bind(this));
             this.connect('handle-local-options', this.handle_local_options.bind(this));
 
-            this.window = null;
-            this.prefs_dialog = null;
+            this.env_gdk_backend = null;
+            this.unset_gdk_backend = false;
         }
 
         startup() {
@@ -114,40 +118,27 @@ const Application = backport.GObject.registerClass(
             if (this.env_gdk_backend !== null)
                 GLib.setenv('GDK_BACKEND', this.env_gdk_backend, true);
 
-            this.rx = rxutil.scope(this, rxutil.signal(this, 'shutdown'));
+            this.simple_action('quit', () => this.quit());
+            this.simple_action('preferences', () => this.preferences());
+            this.simple_action('gc', () => System.gc());
 
-            const actions = {
-                'quit': () => this.quit(),
-                'preferences': () => this.preferences(),
-                'begin-subscription-leak-check': () => rxutil.begin_subscription_leak_check(),
-                'end-subscription-leak-check': () => rxutil.end_subscription_leak_check(),
-                'gc': () => System.gc(),
-            };
-
-            for (const [name, activate] of Object.entries(actions))
-                this.add_action(new simpleaction.Action({ name, activate }));
-
-            this.add_action(new simpleaction.Action({
-                name: 'dump-heap',
-                activate: arg => this.dump_heap(arg.deepUnpack()),
-                parameter_type: new GLib.VariantType('s'),
-            }));
-
-            const close_preferences_action = new simpleaction.Action({
-                name: 'close-preferences',
-                activate: () => this.close_preferences(),
-            });
-
-            this.rx.subscribe(
-                rxutil.property(this, 'preferences-visible'),
-                rxutil.property(close_preferences_action, 'enabled')
+            this.simple_action(
+                'dump-heap',
+                (_, param) => this.dump_heap(param.deepUnpack()),
+                { parameter_type: new GLib.VariantType('s') }
             );
 
-            this.add_action(close_preferences_action);
+            const close_preferences_action = this.simple_action(
+                'close-preferences',
+                () => this.close_preferences(),
+                { enabled: false }
+            );
 
-            this.settings = new settings.Settings({
-                gsettings: imports.ddterm.util.settings.get_settings(),
+            this.connect('notify::prefs-dialog', () => {
+                close_preferences_action.enabled = this.prefs_dialog !== null;
             });
+
+            this.settings = imports.ddterm.util.settings.get_settings();
 
             [
                 'window-above',
@@ -161,24 +152,11 @@ const Application = backport.GObject.registerClass(
                 'preserve-working-directory',
                 'transparent-background',
             ].forEach(key => {
-                this.add_action(this.settings.gsettings.create_action(key));
+                this.add_action(this.settings.create_action(key));
             });
 
-            const gtk_settings = Gtk.Settings.get_default();
-
-            this.rx.subscribe(
-                this.settings.resolved['theme-variant'],
-                theme => {
-                    if (theme === 'default')
-                        gtk_settings.reset_property('gtk-application-prefer-dark-theme');
-                    else if (theme === 'dark')
-                        gtk_settings.gtk_application_prefer_dark_theme = true;
-                    else if (theme === 'light')
-                        gtk_settings.gtk_application_prefer_dark_theme = false;
-                    else
-                        printerr(`Unknown theme-variant: ${theme}`);
-                }
-            );
+            this.settings.connect('changed::theme-variant', this.update_theme.bind(this));
+            this.update_theme();
 
             const menus = Gtk.Builder.new_from_file(APP_DIR.get_child('menus.ui').get_path());
 
@@ -190,10 +168,10 @@ const Application = backport.GObject.registerClass(
                 Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
             );
 
-            this.window = new imports.ddterm.app.appwindow.AppWindow({
+            this.window = new AppWindow({
                 application: this,
                 decorated: this.decorated,
-                settings: this.settings,
+                gsettings: this.settings,
                 menus,
             });
 
@@ -234,26 +212,11 @@ const Application = backport.GObject.registerClass(
             for (let i = 0; i < 10; i += 1)
                 shortcut_actions[`shortcut-switch-to-tab-${i + 1}`] = `win.switch-to-tab(${i})`;
 
-            const shortcuts_enabled = this.settings['shortcuts-enabled'];
+            Object.entries(shortcut_actions).forEach(([key, action]) => {
+                this.bind_shortcut(action, key);
+            });
 
-            const append_escape = rxjs.pipe(
-                rxjs.combineLatestWith(this.settings['hide-window-on-esc']),
-                rxjs.map(([shortcuts, append]) => append ? shortcuts.concat(['Escape']) : shortcuts)
-            );
-
-            for (const [key, action] of Object.entries(shortcut_actions)) {
-                this.rx.subscribe(
-                    rxutil.switch_on(shortcuts_enabled, {
-                        true: this.settings[key],
-                        false: rxjs.of([]),
-                    }).pipe(action === 'win.hide' ? append_escape : rxjs.identity),
-                    value => {
-                        this.set_accels_for_action(action, value);
-                    }
-                );
-            }
-
-            this.rx.connect(this, 'activate', this.activate.bind(this));
+            this.connect('activate', this.activate.bind(this));
         }
 
         activate() {
@@ -297,20 +260,14 @@ const Application = backport.GObject.registerClass(
 
         preferences() {
             if (this.prefs_dialog === null) {
-                this.prefs_dialog = new imports.ddterm.pref.dialog.PrefsDialog({
+                this.prefs_dialog = new PrefsDialog({
                     transient_for: this.window,
-                    settings: this.settings.gsettings,
+                    settings: this.settings,
                 });
 
-                this.rx.subscribe(
-                    rxutil.signal(this.prefs_dialog, 'delete-event').pipe(rxjs.take(1)),
-                    () => {
-                        this.prefs_dialog = null;
-                        this.notify('preferences-visible');
-                    }
-                );
-
-                this.notify('preferences-visible');
+                this.prefs_dialog.connect('destroy', () => {
+                    this.prefs_dialog = null;
+                });
             }
 
             this.prefs_dialog.show();
@@ -319,10 +276,6 @@ const Application = backport.GObject.registerClass(
         close_preferences() {
             if (this.prefs_dialog !== null)
                 this.prefs_dialog.close();
-        }
-
-        get preferences_visible() {
-            return this.prefs_dialog !== null;
         }
 
         dump_heap(path = null) {
@@ -344,6 +297,60 @@ const Application = backport.GObject.registerClass(
             printerr(`Dumping heap to ${path}`);
             System.dumpHeap(path);
             printerr(`Dumped heap to ${path}`);
+        }
+
+        simple_action(name, activate, params = {}) {
+            const action = new Gio.SimpleAction({
+                name,
+                ...params,
+            });
+            action.connect('activate', activate);
+            this.add_action(action);
+            return action;
+        }
+
+        update_theme() {
+            const gtk_settings = Gtk.Settings.get_default();
+            const theme = this.settings.get_string('theme-variant');
+
+            switch (theme) {
+            case 'system':
+                gtk_settings.reset_property('gtk-application-prefer-dark-theme');
+                break;
+
+            case 'dark':
+                gtk_settings.gtk_application_prefer_dark_theme = true;
+                break;
+
+            case 'light':
+                gtk_settings.gtk_application_prefer_dark_theme = false;
+                break;
+
+            default:
+                printerr(`Unknown theme-variant: ${theme}`);
+            }
+        }
+
+        bind_shortcut(action, settings_key) {
+            const handler = this.update_shortcut.bind(this, action, settings_key);
+
+            this.settings.connect(`changed::${settings_key}`, handler);
+            this.settings.connect('changed::shortcuts-enabled', handler);
+
+            if (action === 'win.hide')
+                this.settings.connect('changed::hide-window-on-esc', handler);
+
+            handler();
+        }
+
+        update_shortcut(action, settings_key) {
+            const enable = this.settings.get_boolean('shortcuts-enabled');
+            const keys = enable ? this.settings.get_strv(settings_key) : [];
+
+            if (action === 'win.hide' && this.settings.get_boolean('hide-window-on-esc'))
+                keys.push('Escape');
+
+            this.set_accels_for_action(action, keys);
         }
     }
 );

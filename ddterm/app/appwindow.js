@@ -58,18 +58,20 @@ var AppWindow = backport.GObject.registerClass(
                 GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
                 Gtk.Builder
             ),
-            'settings': GObject.ParamSpec.object(
-                'settings',
+            'gsettings': GObject.ParamSpec.object(
+                'gsettings',
                 '',
                 '',
                 GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-                settings.Settings
+                Gio.Settings
             ),
         },
     },
     class AppWindow extends Gtk.ApplicationWindow {
         _init(params) {
             super._init(params);
+
+            this.settings = new settings.Settings({ gsettings: this.gsettings });
 
             this.rx = rxutil.scope(this);
 
