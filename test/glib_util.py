@@ -79,6 +79,7 @@ class SignalConnection(contextlib.AbstractContextManager):
     def __init__(self, source, signal, handler):
         super().__init__()
         self.source = source
+        self.signal = signal
         self.handler_id = source.connect(signal, handler)
 
     def disconnect(self):
@@ -123,7 +124,7 @@ class SignalWait(SignalConnection):
             return self.emissions.popleft()
 
         if self.timed_out:
-            raise TimeoutError()
+            raise TimeoutError(f'Timed out waiting for signal {self.signal!r} on {self.source!r}')
 
     def __iter__(self):
         return self
