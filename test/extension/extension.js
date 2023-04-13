@@ -29,23 +29,10 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 
 const ddterm = imports.ui.main.extensionManager.lookup('ddterm@amezin.github.com');
 const { extension, wm } = ddterm.imports.ddterm.shell;
-const { rxjs } = ddterm.imports.ddterm.thirdparty.rxjs;
-const { rxutil, timers } = ddterm.imports.ddterm.rx;
 const { logger } = ddterm.imports.ddterm.util;
 
 const LOG_DOMAIN = 'ddterm-test';
 const { message, info } = logger.context(LOG_DOMAIN, 'ddterm.ExtensionTest');
-
-function js_signal(obj, name) {
-    return new rxjs.Observable(observer => {
-        const handler = obj.connect(name, (...args) => observer.next(args));
-        return () => obj.disconnect(handler);
-    });
-}
-
-function signal_with_init(obj, name) {
-    return rxutil.signal(obj, name).pipe(rxjs.startWith([obj]));
-}
 
 function get_monitor_manager() {
     if (Meta.MonitorManager.get)
@@ -177,142 +164,159 @@ class ExtensionTestDBusInterface {
     }
 }
 
-const dbus_interface = new ExtensionTestDBusInterface();
-const trace_subscription = new rxutil.Subscription();
+const teardown = [];
 
 function init() {
     GLib.setenv('G_MESSAGES_DEBUG', [LOG_DOMAIN, wm.LOG_DOMAIN].join(' '), false);
-    timers.install();
 }
 
 function enable() {
-    trace_subscription.connect(extension.settings, 'changed', (settings, key) => {
+    const dbus_interface = new ExtensionTestDBusInterface();
+
+    const connect = (source, signal, handler) => {
+        const handler_id = source.connect(signal, handler);
+        teardown.push(() => source.disconnect(handler_id));
+    };
+
+    connect(extension.settings, 'changed', (settings, key) => {
         dbus_interface.emit_signal(
             'SettingChanged',
             new GLib.Variant('(sv)', [key, settings.get_value(key)])
         );
     });
 
-    trace_subscription.connect(extension.window_manager, 'move-resize-requested', (_, rect) => {
+    connect(extension.window_manager, 'move-resize-requested', (_, rect) => {
         dbus_interface.emit_signal(
             'MoveResizeRequested',
             new GLib.Variant('(iiii)', [rect.x, rect.y, rect.width, rect.height])
         );
     });
 
-    const current_win = rxutil.property(extension.window_manager, 'current-window').pipe(
-        rxjs.shareReplay({ bufferSize: 1, refCount: true })
-    );
+    const rendered_windows = new Set();
 
-    const rendered_windows = new rxjs.BehaviorSubject(new Set());
-    trace_subscription.add(() => rendered_windows.complete());
+    const check_rendered = () => {
+        const current = extension.window_manager.current_window;
+        dbus_interface.set_flag('RenderedFirstFrame', current && rendered_windows.has(current));
+    };
 
-    trace_subscription.subscribe(
-        rxjs.combineLatest(rendered_windows, current_win),
-        ([windows, current]) => {
-            dbus_interface.set_flag('RenderedFirstFrame', windows.has(current));
-        }
-    );
+    connect(extension.window_manager, 'notify::current-window', check_rendered);
 
-    trace_subscription.connect(global.display, 'window-created', (_, win) => {
-        const win_scope = new rxutil.Scope(win, rxutil.signal(win, 'unmanaged'));
-        win_scope.connect(win.get_compositor_private(), 'first-frame', () => {
-            const windows = rendered_windows.value;
-            windows.add(win);
-            rendered_windows.next(windows);
+    connect(global.display, 'window-created', (_, win) => {
+        const frame_handler = win.get_compositor_private().connect('first-frame', () => {
+            rendered_windows.add(win);
+            check_rendered();
         });
+
+        const disconnect = () => {
+            win.disconnect(frame_handler);
+            win.disconnect(unmanaged_handler);
+
+            const index = teardown.indexOf(disconnect);
+            if (index >= 0)
+                teardown.splice(index, 1);
+        };
+
+        const unmanaged_handler = win.connect('unmanaged', disconnect);
+        teardown.push(disconnect);
     });
 
-    trace_subscription.subscribe(
-        current_win,
-        win => dbus_interface.set_flag('HasWindow', win !== null)
-    );
+    check_rendered();
 
-    trace_subscription.subscribe(
-        rxutil.property(extension.app_dbus, 'available'),
-        value => dbus_interface.set_flag('IsAppRunning', value)
-    );
+    const update_has_window = () => {
+        dbus_interface.set_flag('HasWindow', extension.window_manager.current_window !== null);
+    };
+    connect(extension.window_manager, 'notify::current-window', update_has_window);
+    update_has_window();
 
-    const switch_signal = signal_name => rxjs.switchMap(source => {
-        if (source === null)
-            return rxjs.EMPTY;
+    const update_is_app_running = () => {
+        dbus_interface.set_flag('IsAppRunning', extension.app_dbus.available);
+    };
+    connect(extension.app_dbus, 'notify::available', update_is_app_running);
+    update_is_app_running();
 
-        return signal_with_init(source, signal_name);
-    });
+    const current_win_subscription = [];
+    const unsubscribe_current_win = () => {
+        while (current_win_subscription.length > 0)
+            current_win_subscription.pop()();
+    };
+    teardown.push(unsubscribe_current_win);
 
-    trace_subscription.subscribe(
-        current_win.pipe(switch_signal('position-changed')),
-        ([win]) => {
+    connect(extension.window_manager, 'notify::current-window', () => {
+        unsubscribe_current_win();
+
+        const win = extension.window_manager.current_window;
+        if (!win)
+            return;
+
+        const connect_win = (signal, handler) => {
+            const handler_id = win.connect(signal, handler);
+            current_win_subscription.push(() => win.disconnect(handler_id));
+        };
+
+        connect_win('position-changed', () => {
             const rect = win.get_frame_rect();
 
             dbus_interface.emit_signal(
                 'PositionChanged',
                 new GLib.Variant('(iiii)', [rect.x, rect.y, rect.width, rect.height])
             );
-        }
-    );
+        });
 
-    trace_subscription.subscribe(
-        current_win.pipe(switch_signal('size-changed')),
-        ([win]) => {
+        connect_win('size-changed', () => {
             const rect = win.get_frame_rect();
 
             dbus_interface.emit_signal(
                 'SizeChanged',
                 new GLib.Variant('(iiii)', [rect.x, rect.y, rect.width, rect.height])
             );
-        }
-    );
+        });
 
-    trace_subscription.subscribe(
-        current_win.pipe(switch_signal('notify::maximized-vertically')),
-        ([win]) => {
+        connect_win('notify::maximized-vertically', () => {
             dbus_interface.emit_signal(
                 'MaximizedVertically',
                 new GLib.Variant('(b)', [win.maximized_vertically])
             );
-        }
-    );
+        });
 
-    trace_subscription.subscribe(
-        current_win.pipe(switch_signal('notify::maximized-horizontally')),
-        ([win]) => {
+        connect_win('notify::maximized-horizontally', () => {
             dbus_interface.emit_signal(
                 'MaximizedHorizontally',
                 new GLib.Variant('(b)', [win.maximized_horizontally])
             );
-        }
-    );
+        });
+    });
 
-    trace_subscription.subscribe(
-        signal_with_init(Main.layoutManager, 'startup-complete'),
-        ([sender]) => dbus_interface.set_flag('StartingUp', sender._startingUp)
-    );
+    const update_starting_up = () => {
+        dbus_interface.set_flag('StartingUp', Main.layoutManager._startingUp);
+    };
+    connect(Main.layoutManager, 'startup-complete', update_starting_up);
+    update_starting_up();
 
     if (Main.welcomeDialog) {
-        trace_subscription.subscribe(
-            rxutil.property(Main.welcomeDialog, 'state'),
-            state => dbus_interface.set_flag(
+        const update_welcome_dialog_visible = () => {
+            dbus_interface.set_flag(
                 'WelcomeDialogVisible',
-                state !== ModalDialog.State.CLOSED
-            )
-        );
+                Main.welcomeDialog.state !== ModalDialog.State.CLOSED
+            );
+        };
+        connect(Main.welcomeDialog, 'notify::state', update_welcome_dialog_visible);
+        update_welcome_dialog_visible();
     }
 
-    trace_subscription.subscribe(
-        rxjs.merge(
-            js_signal(Main.overview, 'hiding'),
-            js_signal(Main.overview, 'hidden'),
-            js_signal(Main.overview, 'showing'),
-            js_signal(Main.overview, 'shown')
-        ).pipe(rxjs.startWith([Main.overview])),
-        ([sender]) => dbus_interface.set_flag('OverviewVisible', sender.visible)
-    );
+    const update_overview_visible = () => {
+        dbus_interface.set_flag('OverviewVisible', Main.overview.visible);
+    };
+
+    for (const signal of ['hiding', 'hidden', 'showing', 'shown'])
+        connect(Main.overview, signal, update_overview_visible);
+
+    update_overview_visible();
 
     dbus_interface.dbus.export(Gio.DBus.session, '/org/gnome/Shell/Extensions/ddterm');
+    teardown.push(() => dbus_interface.dbus.unexport());
 }
 
 function disable() {
-    dbus_interface.dbus.unexport();
-    trace_subscription.unsubscribe();
+    while (teardown.length > 0)
+        teardown.pop()();
 }
