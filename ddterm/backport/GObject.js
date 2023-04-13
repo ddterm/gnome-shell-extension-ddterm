@@ -33,6 +33,8 @@ function _checkProperties(klass) {
         _checkAccessors(klass.prototype, pspec, GObject);
 }
 
+const patched = Symbol('_classInit-patched');
+
 function _registerClass(...args) {
     const klass = args[args.length - 1];
 
@@ -42,11 +44,15 @@ function _registerClass(...args) {
 
     const prevClassInit = initclass._classInit;
 
-    // eslint-disable-next-line no-shadow
-    klass._classInit = function (klass) {
-        _checkProperties(klass);
-        return prevClassInit.call(initclass, klass);
-    };
+    if (!prevClassInit[patched]) {
+        // eslint-disable-next-line no-shadow
+        klass._classInit = function (klass) {
+            _checkProperties(klass);
+            return prevClassInit.call(initclass, klass);
+        };
+
+        klass._classInit[patched] = true;
+    }
 
     return GObject.registerClass(...args);
 }
