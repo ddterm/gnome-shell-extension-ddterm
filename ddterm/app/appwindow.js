@@ -22,10 +22,9 @@
 /* exported AppWindow */
 
 const { GLib, GObject, Gio, Gdk, Gtk } = imports.gi;
-const { rxjs } = imports.ddterm.thirdparty.rxjs;
-const { rxutil, settings } = imports.ddterm.rx;
+const { settings } = imports.ddterm.rx;
 const { extensiondbus, terminalpage } = imports.ddterm.app;
-const { translations, simpleaction } = imports.ddterm.util;
+const { translations } = imports.ddterm.util;
 const ByteArray = imports.byteArray;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 
@@ -57,8 +56,8 @@ var AppWindow = GObject.registerClass(
                 GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
                 Gtk.Builder
             ),
-            'gsettings': GObject.ParamSpec.object(
-                'gsettings',
+            'settings': GObject.ParamSpec.object(
+                'settings',
                 '',
                 '',
                 GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
@@ -70,57 +69,25 @@ var AppWindow = GObject.registerClass(
         _init(params) {
             super._init(params);
 
-            this.settings = new settings.Settings({ gsettings: this.gsettings });
-
-            this.rx = rxutil.scope(this);
+            this.rx_settings = new settings.Settings({ gsettings: this.settings });
 
             this.extension_dbus = extensiondbus.get();
 
-            this.rx.subscribe(
-                rxutil.property(this, 'screen'),
-                screen => {
-                    const visual = screen.get_rgba_visual();
+            this.connect('notify::screen', () => this.update_visual());
+            this.update_visual();
 
-                    if (visual)
-                        this.set_visual(visual);
+            let draw_handler = null;
+            this.map_settings(['transparent-background'], () => {
+                if (draw_handler) {
+                    this.disconnect(draw_handler);
+                    draw_handler = null;
                 }
-            );
 
-            this.draw_subscription = new rxjs.Subscription();
+                if (this.settings.get_boolean('transparent-background'))
+                    draw_handler = this.connect('draw', this.draw.bind(this));
 
-            this.rx.subscribe(
-                this.settings['transparent-background'],
-                transparent => {
-                    this.app_paintable = transparent;
-
-                    this.draw_subscription.unsubscribe();
-
-                    if (transparent) {
-                        this.draw_subscription = this.rx.connect(
-                            this, 'draw', this.draw.bind(this)
-                        );
-                    }
-
-                    this.queue_draw();
-                }
-            );
-
-            const page_added = rxutil.signal(this.notebook, 'page-added');
-            const page_removed = rxutil.signal(this.notebook, 'page-removed');
-            const page_reordered = rxutil.signal(this.notebook, 'page-reordered');
-
-            const n_pages = rxjs.merge(page_added, page_removed).pipe(
-                rxjs.startWith([this.notebook]),
-                rxjs.map(([notebook]) => notebook.get_n_pages())
-            );
-
-            this.rx.subscribe(
-                n_pages.pipe(rxjs.skip(1)),
-                n => {
-                    if (n === 0)
-                        this.close();
-                }
-            );
+                this.queue_draw();
+            });
 
             const HEIGHT_MOD = 0.05;
             const OPACITY_MOD = 0.05;
@@ -142,13 +109,13 @@ var AppWindow = GObject.registerClass(
                     page.emit('close-request');
                 },
                 'window-size-dec': () => {
-                    if (this.settings['window-maximize'].value)
-                        this.settings['window-size'].value = 1.0 - HEIGHT_MOD;
+                    if (this.settings.get_boolean('window-maximize'))
+                        this.settings.set_double('window-size', 1.0 - HEIGHT_MOD);
                     else
                         this.adjust_double_setting('window-size', -HEIGHT_MOD);
                 },
                 'window-size-inc': () => {
-                    if (!this.settings['window-maximize'].value)
+                    if (!this.settings.get_boolean('window-maximize'))
                         this.adjust_double_setting('window-size', HEIGHT_MOD);
                 },
                 'background-opacity-dec': () => {
@@ -205,8 +172,11 @@ var AppWindow = GObject.registerClass(
                 },
             };
 
-            for (const [name, activate] of Object.entries(actions))
-                this.add_action(new simpleaction.Action({ name, activate }));
+            for (const [name, activate] of Object.entries(actions)) {
+                const action = new Gio.SimpleAction({ name });
+                action.connect('activate', activate);
+                this.add_action(action);
+            }
 
             this.tab_select_action = new Gio.PropertyAction({
                 name: 'switch-to-tab',
@@ -223,18 +193,15 @@ var AppWindow = GObject.registerClass(
                 const cursor_name =
                     vertical_resize_boxes.includes(widget) ? 'ns-resize' : 'ew-resize';
 
-                this.rx.connect(widget, 'realize', source => {
+                widget.connect('realize', source => {
                     source.window.cursor = Gdk.Cursor.new_from_name(
                         source.get_display(),
                         cursor_name
                     );
                 });
 
-                this.rx.connect(widget, 'button-press-event', this.start_resizing.bind(this));
+                widget.connect('button-press-event', this.start_resizing.bind(this));
             }
-
-            const resizable = this.settings['window-resizable'];
-            const window_pos = this.settings['window-position'];
 
             const resize_box_for_window_pos = {
                 'top': this.bottom_resize_box,
@@ -243,17 +210,13 @@ var AppWindow = GObject.registerClass(
                 'right': this.left_resize_box,
             };
 
-            for (const pos of Object.keys(resize_box_for_window_pos)) {
-                this.rx.subscribe(
-                    resizable.pipe(
-                        rxutil.enable_if(
-                            window_pos.pipe(rxjs.map(p => p === pos)),
-                            rxjs.of(false)
-                        )
-                    ),
-                    rxutil.property(resize_box_for_window_pos[pos], 'visible')
-                );
-            }
+            this.map_settings(['window-resizable', 'window-position'], () => {
+                const resizable = this.settings.get_boolean('window-resizable');
+                const window_pos = this.settings.get_string('window-position');
+
+                for (const [pos, widget] of Object.entries(resize_box_for_window_pos))
+                    widget.visible = resizable && window_pos === pos;
+            });
 
             const visibility_settings = {
                 'new-tab-button': this.new_tab_button,
@@ -261,21 +224,15 @@ var AppWindow = GObject.registerClass(
                 'tab-switcher-popup': this.tab_switch_button,
             };
 
-            for (const [setting, widget] of Object.entries(visibility_settings)) {
-                this.rx.subscribe(
-                    this.settings[setting],
-                    rxutil.property(widget, 'visible')
-                );
-            }
+            Object.entries(visibility_settings).forEach(([setting, widget]) => {
+                this.map_settings([setting], () => {
+                    widget.visible = this.settings.get_boolean(setting);
+                });
+            });
 
-            this.rx.subscribe(
-                rxutil.switch_on(this.settings['tab-policy'], {
-                    'always': rxjs.of(true),
-                    'never': rxjs.of(false),
-                    'automatic': n_pages.pipe(rxjs.map(n => n > 1)),
-                }),
-                rxutil.property(this.notebook, 'show-tabs')
-            );
+            this.map_settings(['tab-policy'], this.update_tabs_visible.bind(this));
+            this.notebook.connect('page-added', this.update_tabs_visible.bind(this));
+            this.notebook.connect('page-removed', this.update_tabs_visible.bind(this));
 
             const tab_pos = {
                 'top': Gtk.PositionType.TOP,
@@ -291,58 +248,45 @@ var AppWindow = GObject.registerClass(
                 'right': Gtk.ArrowType.LEFT,
             };
 
-            this.rx.subscribe(
-                this.settings['tab-position'],
-                position => {
-                    this.notebook.tab_pos = tab_pos[position];
-                    this.tab_switch_button.direction = switch_arrow_direction_for_tab_pos[position];
-                }
-            );
+            this.map_settings(['tab-position'], () => {
+                const position = this.settings.get_string('tab-position');
+                this.notebook.tab_pos = tab_pos[position];
+                this.tab_switch_button.direction = switch_arrow_direction_for_tab_pos[position];
+            });
 
-            const keys_changed = rxutil.signal(this, 'keys-changed');
+            this.map_settings(['notebook-border'], () => {
+                this.notebook.show_border = this.settings.get_boolean('notebook-border');
+            });
 
-            this.rx.subscribe(
-                rxjs.merge(page_added, page_removed, page_reordered, keys_changed),
-                () => {
-                    let i = 0;
-                    this.notebook.foreach(page => {
-                        const shortcuts =
-                            this.application.get_accels_for_action(`win.switch-to-tab(${i})`);
+            this.notebook.connect('page-added', this.tab_switcher_add.bind(this));
+            this.notebook.connect('page-removed', this.tab_switcher_remove.bind(this));
+            this.notebook.connect('page-reordered', this.tab_switcher_reorder.bind(this));
 
-                        page.set_switch_shortcut(
-                            shortcuts && shortcuts.length > 0 ? shortcuts[0] : null
-                        );
+            this.notebook.connect('page-added', this.update_tab_switch_shortcuts.bind(this));
+            this.notebook.connect('page-removed', this.update_tab_switch_shortcuts.bind(this));
+            this.notebook.connect('page-reordered', this.update_tab_switch_shortcuts.bind(this));
+            this.connect('keys-changed', this.update_tab_switch_shortcuts.bind(this));
 
-                        i += 1;
-                    });
-                }
-            );
-
-            this.rx.subscribe(
-                this.settings['notebook-border'],
-                rxutil.property(this.notebook, 'show-border')
-            );
-
-            this.rx.connect(this.notebook, 'page-added', this.tab_switcher_add.bind(this));
-            this.rx.connect(this.notebook, 'page-removed', this.tab_switcher_remove.bind(this));
-            this.rx.connect(this.notebook, 'page-reordered', this.tab_switcher_reorder.bind(this));
-
-            this.rx.subscribe(
-                this.settings['window-type-hint'],
-                rxutil.property(this, 'type-hint')
-            );
-
-            this.rx.subscribe(
-                this.settings['window-skip-taskbar'],
-                value => {
-                    this.skip_taskbar_hint = value;
-                    this.skip_pager_hint = value;
-                }
-            );
-
-            this.suppress_delete_subscription = this.rx.connect(this, 'delete-event', () => {
+            const suppress_delete_handler = this.connect('delete-event', () => {
                 this.hide();
                 return true;
+            });
+
+            this.notebook.connect('page-removed', () => {
+                if (this.notebook.get_n_pages() === 0) {
+                    this.disconnect(suppress_delete_handler);
+                    this.close();
+                }
+            });
+
+            this.map_settings(['window-type-hint'], () => {
+                this.type_hint = this.settings.get_enum('window-type-hint');
+            });
+
+            this.map_settings(['window-skip-taskbar'], () => {
+                const value = this.settings.get_boolean('window-skip-taskbar');
+                this.skip_taskbar_hint = value;
+                this.skip_pager_hint = value;
             });
 
             const extension_version = this.extension_dbus.Version;
@@ -360,21 +304,31 @@ var AppWindow = GObject.registerClass(
             const display = Gdk.Display.get_default();
 
             if (display.constructor.$gtype.name === 'GdkWaylandDisplay') {
-                this.rx.connect(this.extension_dbus, 'g-properties-changed', () => {
+                const dbus_handler = this.extension_dbus.connect('g-properties-changed', () => {
                     if (!this.visible)
                         this.sync_size_with_extension();
                 });
-                this.rx.connect(this, 'unmap-event', () => {
+                this.connect('destroy', () => this.extension_dbus.disconnect(dbus_handler));
+                this.connect('unmap-event', () => {
                     this.sync_size_with_extension();
                 });
                 this.sync_size_with_extension();
             }
         }
 
+        map_settings(keys, func) {
+            keys.forEach(key => {
+                const handler = this.settings.connect(`changed::${key}`, func);
+                this.connect('destroy', () => this.settings.disconnect(handler));
+            });
+
+            func();
+        }
+
         adjust_double_setting(name, difference, min = 0.0, max = 1.0) {
-            const current = this.settings[name].value;
+            const current = this.settings.get_double(name);
             const new_setting = current + difference;
-            this.settings[name].value = Math.min(Math.max(new_setting, min), max);
+            this.settings.set_double(name, Math.min(Math.max(new_setting, min), max));
         }
 
         toggle() {
@@ -391,10 +345,11 @@ var AppWindow = GObject.registerClass(
         }
 
         insert_page(position) {
-            const cwd = this.settings['preserve-working-directory'].value ? this.get_cwd() : null;
+            const cwd =
+                this.settings.get_boolean('preserve-working-directory') ? this.get_cwd() : null;
 
             const page = new terminalpage.TerminalPage({
-                settings: this.settings,
+                settings: this.rx_settings,
                 menus: this.menus,
             });
 
@@ -403,27 +358,33 @@ var AppWindow = GObject.registerClass(
             this.notebook.set_tab_reorderable(page, true);
             this.notebook.set_can_focus(false);
 
-            const page_scope = rxutil.scope(page, rxutil.signal(page, 'destroy'));
-            this.rx.add(page_scope);
+            const update_tab_expand = () => {
+                this.notebook.child_set_property(
+                    page,
+                    'tab-expand',
+                    this.settings.get_boolean('tab-expand')
+                );
+            };
 
-            page_scope.subscribe(
-                this.settings['tab-expand'],
-                expand => {
-                    this.notebook.child_set_property(page, 'tab-expand', expand);
-                }
+            const tab_expand_handler = this.settings.connect(
+                'changed::tab-expand',
+                update_tab_expand
             );
+            page.connect('destroy', () => this.settings.disconnect(tab_expand_handler));
 
-            page_scope.connect(page, 'close-request', sender => {
-                this.notebook.remove(sender);
-                sender.destroy();
+            update_tab_expand();
+
+            page.connect('close-request', () => {
+                this.notebook.remove(page);
+                page.destroy();
             });
 
-            page_scope.connect(page, 'new-tab-before-request', sender => {
-                this.insert_page(this.notebook.page_num(sender));
+            page.connect('new-tab-before-request', () => {
+                this.insert_page(this.notebook.page_num(page));
             });
 
-            page_scope.connect(page, 'new-tab-after-request', sender => {
-                this.insert_page(this.notebook.page_num(sender) + 1);
+            page.connect('new-tab-after-request', () => {
+                this.insert_page(this.notebook.page_num(page) + 1);
             });
 
             if (this.extension_version_mismatch) {
@@ -438,11 +399,6 @@ var AppWindow = GObject.registerClass(
             page.spawn(cwd);
 
             page.terminal.grab_focus();
-        }
-
-        close() {
-            this.suppress_delete_subscription.unsubscribe();
-            super.close();
         }
 
         start_resizing(source, event) {
@@ -479,6 +435,13 @@ var AppWindow = GObject.registerClass(
                 y_root,
                 event.get_time()
             );
+        }
+
+        update_visual() {
+            const visual = this.screen.get_rgba_visual();
+
+            if (visual)
+                this.set_visual(visual);
         }
 
         draw(_widget, cr) {
@@ -527,6 +490,36 @@ var AppWindow = GObject.registerClass(
             this.tab_switch_menu_box.foreach(item => {
                 item.action_target = GLib.Variant.new_int32(counter.value++);
             });
+        }
+
+        update_tab_switch_shortcuts() {
+            let i = 0;
+
+            this.notebook.foreach(page => {
+                const shortcuts =
+                    this.application.get_accels_for_action(`win.switch-to-tab(${i})`);
+
+                page.set_switch_shortcut(
+                    shortcuts && shortcuts.length > 0 ? shortcuts[0] : null
+                );
+
+                i += 1;
+            });
+        }
+
+        update_tabs_visible() {
+            switch (this.settings.get_string('tab-policy')) {
+            case 'always':
+                this.notebook.show_tabs = true;
+                break;
+
+            case 'never':
+                this.notebook.show_tabs = false;
+                break;
+
+            case 'automatic':
+                this.notebook.show_tabs = this.notebook.get_n_pages() > 1;
+            }
         }
 
         sync_size_with_extension() {

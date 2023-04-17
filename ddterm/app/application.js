@@ -179,7 +179,7 @@ const Application = GObject.registerClass(
             this.window = new AppWindow({
                 application: this,
                 decorated: this.decorated,
-                gsettings: this.settings,
+                settings: this.settings,
                 menus,
             });
 
