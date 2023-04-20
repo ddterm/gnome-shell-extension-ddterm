@@ -21,17 +21,26 @@
 
 /* exported TerminalPage TerminalSettings */
 
-const { GLib, GObject, Gio, Gdk, Gtk, Vte } = imports.gi;
+const { GLib, GObject, Gio, Gdk, Gtk, Pango, Vte } = imports.gi;
 const { Handlebars } = imports.ddterm.thirdparty.handlebars;
-const { rxjs } = imports.ddterm.thirdparty.rxjs;
 const { urldetect_patterns, tcgetpgrp } = imports.ddterm.app;
-const { rxutil, settings } = imports.ddterm.rx;
-const { translations, simpleaction } = imports.ddterm.util;
+const { translations } = imports.ddterm.util;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 
 const APP_DIR = Me.dir.get_child('ddterm').get_child('app');
 
 const GVARIANT_FALSE = GLib.Variant.new_boolean(false);
+
+function parse_rgba(str) {
+    if (str) {
+        const rgba = new Gdk.RGBA();
+
+        if (rgba.parse(str))
+            return rgba;
+    }
+
+    throw Error(`Cannot parse ${JSON.stringify(str)} as color`);
+}
 
 const TITLE_TERMINAL_PROPERTIES = [
     'window-title',
@@ -102,12 +111,28 @@ function escape_regex(string) {
     return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
-const REGEX_URL_AS_IS = compile_regex(urldetect_patterns.REGEX_URL_AS_IS);
-const REGEX_URL_FILE = compile_regex(urldetect_patterns.REGEX_URL_FILE);
-const REGEX_URL_HTTP = compile_regex(urldetect_patterns.REGEX_URL_HTTP);
-const REGEX_URL_VOIP = compile_regex(urldetect_patterns.REGEX_URL_VOIP);
-const REGEX_EMAIL = compile_regex(urldetect_patterns.REGEX_EMAIL);
-const REGEX_NEWS_MAN = compile_regex(urldetect_patterns.REGEX_NEWS_MAN);
+const URL_REGEX = {
+    'detect-urls-as-is': {
+        regex: compile_regex(urldetect_patterns.REGEX_URL_AS_IS),
+    },
+    'detect-urls-file': {
+        regex: compile_regex(urldetect_patterns.REGEX_URL_FILE),
+    },
+    'detect-urls-http': {
+        regex: compile_regex(urldetect_patterns.REGEX_URL_HTTP),
+        prefix: 'http://',
+    },
+    'detect-urls-voip': {
+        regex: compile_regex(urldetect_patterns.REGEX_URL_VOIP),
+    },
+    'detect-urls-email': {
+        regex: compile_regex(urldetect_patterns.REGEX_EMAIL),
+        prefix: 'mailto:',
+    },
+    'detect-urls-news-man': {
+        regex: compile_regex(urldetect_patterns.REGEX_NEWS_MAN),
+    },
+};
 
 GObject.type_ensure(Vte.Terminal);
 GObject.type_ensure(Gio.ThemedIcon);
@@ -133,7 +158,7 @@ var TerminalPage = GObject.registerClass(
                 '',
                 '',
                 GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-                settings.Settings
+                Gio.Settings
             ),
             'menus': GObject.ParamSpec.object(
                 'menus',
@@ -141,6 +166,41 @@ var TerminalPage = GObject.registerClass(
                 '',
                 GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
                 Gtk.Builder
+            ),
+            'desktop-settings': GObject.ParamSpec.object(
+                'desktop-settings',
+                '',
+                '',
+                GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+                Gio.Settings
+            ),
+            'switch-shortcut': GObject.ParamSpec.string(
+                'switch-shortcut',
+                '',
+                '',
+                GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+                ''
+            ),
+            'clicked-hyperlink': GObject.ParamSpec.string(
+                'clicked-hyperlink',
+                '',
+                '',
+                GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+                null
+            ),
+            'clicked-filename': GObject.ParamSpec.string(
+                'clicked-filename',
+                '',
+                '',
+                GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+                null
+            ),
+            'title-template': GObject.ParamSpec.string(
+                'title-template',
+                '',
+                '',
+                GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+                null
             ),
         },
         Signals: {
@@ -157,8 +217,6 @@ var TerminalPage = GObject.registerClass(
             this.primary_selection = Gtk.Clipboard.get(Gdk.Atom.intern('PRIMARY', true));
             this.child_pid = null;
 
-            this.rx = rxutil.scope(this);
-
             [
                 'scroll-on-output',
                 'scroll-on-keystroke',
@@ -166,225 +224,180 @@ var TerminalPage = GObject.registerClass(
                 'audible-bell',
                 'bold-is-bright',
                 'pointer-autohide',
-                'scrollback-lines',
-                'font-desc',
-            ].forEach(property => {
-                this.rx.subscribe(
-                    this.settings.resolved[property] || this.settings[property],
-                    rxutil.property(this.terminal, property)
-                );
-            });
-
-            [
                 'text-blink-mode',
                 'cursor-blink-mode',
                 'cursor-shape',
                 'backspace-binding',
                 'delete-binding',
-            ].forEach(
-                property => this.rx.subscribe(
-                    this.settings[property].enum,
-                    rxutil.property(this.terminal, property)
-                )
-            );
-
-            this.rx.subscribe(
-                this.settings['cjk-utf8-ambiguous-width'].enum,
-                rxutil.property(this.terminal, 'cjk-ambiguous-width')
-            );
-
-            const style_context = rxutil.signal(this.terminal, 'style-updated').pipe(
-                rxjs.startWith([this.terminal]),
-                rxjs.map(([widget]) => widget.get_style_context())
-            );
-            const style_color = property => style_context.pipe(
-                rxjs.map(context => context.get_property(property, context.get_state()))
-            );
-
-            const foreground = this.settings.resolved_foreground_color(style_color('color'));
-            const background =
-                this.settings.resolved_background_color(style_color('background-color'));
-
-            this.rx.subscribe(
-                rxjs.combineLatest(foreground, background, this.settings.palette),
-                args => this.terminal.set_colors(...args)
-            );
-
-            this.rx.subscribe(this.settings.resolved['bold-color'], color => {
-                this.terminal.set_color_bold(color);
+            ].forEach(key => {
+                this.settings.bind(key, this.terminal, key, Gio.SettingsBindFlags.GET);
             });
 
-            this.rx.subscribe(this.settings.resolved['cursor-background-color'], color => {
-                this.terminal.set_color_cursor(color);
+            this.map_settings(['cjk-utf8-ambiguous-width'], () => {
+                this.terminal.cjk_ambiguous_width =
+                    this.settings.get_enum('cjk-utf8-ambiguous-width');
             });
 
-            this.rx.subscribe(this.settings.resolved['cursor-foreground-color'], color => {
-                this.terminal.set_color_cursor_foreground(color);
+            this.map_settings(['scrollback-lines', 'scrollback-unlimited'], () => {
+                this.terminal.scrollback_lines =
+                    this.settings.get_boolean('scrollback-unlimited')
+                        ? -1 : this.settings.get_int('scrollback-lines');
             });
 
-            this.rx.subscribe(this.settings.resolved['highlight-background-color'], color => {
-                this.terminal.set_color_highlight(color);
-            });
+            this.map_settings(['custom-font', 'use-system-font'], this.update_font.bind(this));
+            const system_font_handler = this.desktop_settings.connect(
+                'changed::monospace-font-name',
+                this.update_font.bind(this)
+            );
+            this.connect('destroy', () => this.desktop_settings.disconnect(system_font_handler));
 
-            this.rx.subscribe(this.settings.resolved['highlight-foreground-color'], color => {
-                this.terminal.set_color_highlight_foreground(color);
-            });
+            this.map_settings(
+                [
+                    'use-theme-colors',
+                    'foreground-color',
+                    'background-color',
+                    'transparent-background',
+                    'background-opacity',
+                    'palette',
+                ],
+                this.update_colors.bind(this)
+            );
+            this.terminal.connect('style-updated', this.update_colors.bind(this));
 
-            const url_regex = (enable, regex, prefix) => {
-                return enable.pipe(
-                    rxjs.map(v => v ? { regex, prefix } : null)
-                );
-            };
-
-            this.rx.subscribe(
-                rxjs.combineLatest(
-                    url_regex(this.settings.resolved['detect-urls-as-is'], REGEX_URL_AS_IS),
-                    url_regex(this.settings.resolved['detect-urls-file'], REGEX_URL_FILE),
-                    // eslint-disable-next-line max-len
-                    url_regex(this.settings.resolved['detect-urls-http'], REGEX_URL_HTTP, 'http://'),
-                    url_regex(this.settings.resolved['detect-urls-voip'], REGEX_URL_VOIP),
-                    url_regex(this.settings.resolved['detect-urls-email'], REGEX_EMAIL, 'mailto:'),
-                    url_regex(this.settings.resolved['detect-urls-news-man'], REGEX_NEWS_MAN)
-                ),
-                configs => {
-                    this.terminal.match_remove_all();
-
-                    this.url_prefix = Object.fromEntries(
-                        configs.filter(Boolean).map(({ regex, prefix }) => {
-                            const tag = this.terminal.match_add_regex(regex, 0);
-                            this.terminal.match_set_cursor_name(tag, 'pointer');
-                            return [tag, prefix];
-                        })
+            this.map_settings(['use-theme-colors', 'bold-color-same-as-fg', 'bold-color'], () => {
+                if (this.settings.get_boolean('use-theme-colors') ||
+                    this.settings.get_boolean('bold-color-same-as-fg')) {
+                    this.terminal.set_color_bold(null);
+                } else {
+                    this.terminal.set_color_bold(
+                        parse_rgba(this.settings.get_string('bold-color'))
                     );
                 }
+            });
+
+            this.map_color(
+                'cursor-colors-set',
+                'cursor-background-color',
+                color => this.terminal.set_color_cursor(color)
             );
 
-            const toplevel = rxutil.signal(this, 'hierarchy-changed').pipe(
-                rxjs.startWith([this]),
-                rxjs.map(([widget]) => widget.get_toplevel())
+            this.map_color(
+                'cursor-colors-set',
+                'cursor-foreground-color',
+                color => this.terminal.set_color_cursor_foreground(color)
             );
 
-            const window_width = toplevel.pipe(
-                rxjs.switchMap(
-                    widget => rxutil.signal(widget, 'configure-event').pipe(
-                        rxjs.startWith([widget])
-                    )
-                ),
-                rxjs.map(([widget]) => widget.get_allocated_width())
+            this.map_color(
+                'highlight-colors-set',
+                'highlight-background-color',
+                color => this.terminal.set_color_highlight(color)
             );
 
-            const tab_label_width = rxjs.combineLatest(
-                window_width,
-                this.settings['tab-label-width']
-            ).pipe(
-                rxjs.map(([a, b]) => Math.floor(a * b))
+            this.map_color(
+                'highlight-colors-set',
+                'highlight-foreground-color',
+                color => this.terminal.set_color_highlight_foreground(color)
             );
 
-            this.rx.subscribe(
-                tab_label_width,
-                rxutil.property(this.tab_label, 'width_request')
+            this.map_settings(
+                [
+                    'detect-urls',
+                    ...Object.keys(URL_REGEX),
+                ],
+                this.update_url_regex.bind(this)
             );
 
-            this.rx.subscribe(
-                this.settings['tab-label-ellipsize-mode'].enum,
-                rxutil.property(this.tab_label_label, 'ellipsize')
+            let toplevel_handler = null;
+            this.connect('hierarchy-changed', (_, prev_toplevel) => {
+                if (toplevel_handler)
+                    prev_toplevel.disconnect(toplevel_handler);
+
+                toplevel_handler = this.get_toplevel().connect(
+                    'configure-event',
+                    this.update_tab_label_width.bind(this)
+                );
+
+                this.update_tab_label_width();
+            });
+            this.connect('destroy', () => this.get_toplevel().disconnect(toplevel_handler));
+            this.map_settings(['tab-label-width'], this.update_tab_label_width.bind(this));
+
+            this.settings.bind(
+                'tab-label-ellipsize-mode',
+                this.tab_label_label,
+                'ellipsize',
+                Gio.SettingsBindFlags.GET
             );
 
-            this.rx.subscribe(
-                this.settings['show-scrollbar'],
-                rxutil.property(this.scrollbar, 'visible')
+            this.settings.bind(
+                'show-scrollbar',
+                this.scrollbar,
+                'visible',
+                Gio.SettingsBindFlags.GET
             );
 
-            this.rx.subscribe(
-                this.settings['tab-close-buttons'],
-                rxutil.property(this.close_button, 'visible')
+            this.settings.bind(
+                'tab-close-buttons',
+                this.close_button,
+                'visible',
+                Gio.SettingsBindFlags.GET
             );
 
-            const custom_title_template = rxutil.property(this.custom_tab_title_entry, 'text');
-            const custom_title_template_compiled = custom_title_template.pipe(
-                rxjs.mergeMap(template => {
-                    try {
-                        return rxjs.of(Handlebars.compile(template));
-                    } catch {
-                        return rxjs.EMPTY;
-                    }
-                }),
-                settings.share()
-            );
+            this.connect('notify::title-template', () => {
+                this.title_template_compiled = Handlebars.compile(this.title_template);
+                this.update_title();
+            });
+
+            for (const prop of TITLE_TERMINAL_PROPERTIES)
+                this.terminal.connect(`notify::${prop}`, this.update_title.bind(this));
+
+            this.connect('notify::switch-shortcut', this.update_title.bind(this));
 
             this.use_custom_title_action = new Gio.SimpleAction({
                 'name': 'use-custom-title',
                 'state': GVARIANT_FALSE,
                 'parameter-type': GVARIANT_FALSE.get_type(),
             });
-            const use_custom_title = rxutil.property(this.use_custom_title_action, 'state').pipe(
-                rxjs.map(v => v.unpack())
-            );
-            const title_template_compiled = rxutil.switch_on(use_custom_title, {
-                true: custom_title_template_compiled,
-                false: this.settings.title_template_compiled,
-            });
 
-            const context_entry = name => rxjs.pipe(
-                rxjs.distinctUntilChanged(),
-                rxjs.map(v => [name, v])
-            );
+            this.use_custom_title_action.connect('notify::state', () => {
+                const use_custom_title = this.use_custom_title_action.state.get_boolean();
 
-            this.switch_shortcut = this.make_behavior_subject();
-
-            const title_context_entries = TITLE_TERMINAL_PROPERTIES.map(
-                prop => rxutil.property(this.terminal, prop).pipe(context_entry(prop))
-            ).concat([
-                this.switch_shortcut.pipe(context_entry('switch-shortcut')),
-            ]);
-
-            const title_context = rxjs.combineLatest(...title_context_entries).pipe(
-                rxjs.map(Object.fromEntries),
-                settings.share()
-            );
-
-            const title = rxjs.combineLatest(
-                title_context,
-                title_template_compiled
-            ).pipe(
-                rxjs.mergeMap(([context, template]) => {
-                    try {
-                        return rxjs.of(template(context));
-                    } catch {
-                        try {
-                            return rxjs.of(this.settings.fallback_title_template(context));
-                        } catch {
-                            logError("Can't apply template");
-                            return rxjs.EMPTY;
-                        }
-                    }
-                })
-            );
-
-            this.rx.subscribe(title, value => {
-                this.tab_label_label.label = value;
-                this.switcher_item.text = value;
-                this.switcher_item.use_markup = true;
-            });
-
-            this.rx.subscribe(use_custom_title, state => {
-                if (state)
+                if (use_custom_title) {
+                    Gio.Settings.unbind(this, 'title-template');
                     this.custom_title_popover.popup();
+                } else {
+                    this.settings.bind(
+                        'tab-title-template',
+                        this,
+                        'title-template',
+                        Gio.SettingsBindFlags.GET
+                    );
+                }
             });
 
-            this.rx.subscribe(
-                this.settings['tab-title-template'].pipe(rxutil.disable_if(use_custom_title)),
-                rxutil.property(this.custom_tab_title_entry, 'text')
+            this.settings.bind(
+                'tab-title-template',
+                this,
+                'title-template',
+                Gio.SettingsBindFlags.GET
             );
 
-            this.rx.subscribe(
-                rxutil.property(this.custom_tab_title_entry, 'text-length'),
-                rxutil.property(this.custom_tab_title_entry, 'width-chars')
+            this.bind_property(
+                'title-template',
+                this.custom_tab_title_entry,
+                'text',
+                GObject.BindingFlags.SYNC_CREATE | GObject.BindingFlags.BIDIRECTIONAL
+            );
+
+            this.custom_tab_title_entry.bind_property(
+                'text-length',
+                this.custom_tab_title_entry,
+                'width-chars',
+                GObject.BindingFlags.SYNC_CREATE
             );
 
             // Should be connected before setup_popup_menu() on this.terminal!
-            this.rx.connect(
-                this.terminal,
+            this.terminal.connect(
                 'button-press-event',
                 this.terminal_button_press_early.bind(this)
             );
@@ -392,109 +405,160 @@ var TerminalPage = GObject.registerClass(
             this.terminal_popup_menu = this.setup_popup_menu(this.terminal, 'terminal-popup');
             this.setup_popup_menu(this.tab_label, 'tab-popup');
 
-            const actions = simpleaction.group({
-                'close': () => this.close(),
-                'new-tab-before': () => this.emit('new-tab-before-request'),
-                'new-tab-after': () => this.emit('new-tab-after-request'),
+            const page_actions = new Gio.SimpleActionGroup();
+
+            const close_action = new Gio.SimpleAction({ name: 'close' });
+            close_action.connect('activate', () => this.close());
+            page_actions.add_action(close_action);
+
+            const new_tab_before_action = new Gio.SimpleAction({ name: 'new-tab-before' });
+            new_tab_before_action.connect('activate', () => this.emit('new-tab-before-request'));
+            page_actions.add_action(new_tab_before_action);
+
+            const new_tab_after_action = new Gio.SimpleAction({ name: 'new-tab-after' });
+            new_tab_after_action.connect('activate', () => this.emit('new-tab-after-request'));
+            page_actions.add_action(new_tab_after_action);
+
+            page_actions.add_action(this.use_custom_title_action);
+
+            this.insert_action_group('page', page_actions);
+            this.tab_label.insert_action_group('page', page_actions);
+
+            const terminal_actions = new Gio.SimpleActionGroup();
+
+            const copy_action = new Gio.SimpleAction({
+                name: 'copy',
+                enabled: this.terminal.get_has_selection(),
+            });
+            copy_action.connect('activate', this.copy.bind(this));
+            terminal_actions.add_action(copy_action);
+
+            const copy_html_action = new Gio.SimpleAction({
+                name: 'copy-html',
+                enabled: this.terminal.get_has_selection(),
+            });
+            copy_html_action.connect('activate', this.copy_html.bind(this));
+            terminal_actions.add_action(copy_html_action);
+
+            this.terminal.connect('selection-changed', () => {
+                copy_action.enabled = this.terminal.get_has_selection();
+                copy_html_action.enabled = this.terminal.get_has_selection();
             });
 
-            actions.add_action(this.use_custom_title_action);
+            const open_hyperlink_action = new Gio.SimpleAction({
+                name: 'open-hyperlink',
+                enabled: this.clicked_hyperlink !== null,
+            });
+            open_hyperlink_action.connect('activate', this.open_hyperlink.bind(this));
+            terminal_actions.add_action(open_hyperlink_action);
 
-            this.insert_action_group('page', actions);
-            this.tab_label.insert_action_group('page', actions);
+            const copy_hyperlink_action = new Gio.SimpleAction({
+                name: 'copy-hyperlink',
+                enabled: this.clicked_hyperlink !== null,
+            });
+            copy_hyperlink_action.connect('activate', this.copy_hyperlink.bind(this));
+            terminal_actions.add_action(copy_hyperlink_action);
 
-            const terminal_actions = simpleaction.group({
-                'copy': this.copy.bind(this),
-                'copy-html': this.copy_html.bind(this),
-                'open-hyperlink': this.open_hyperlink.bind(this),
-                'copy-hyperlink': this.copy_hyperlink.bind(this),
-                'copy-filename': this.copy_filename.bind(this),
-                'paste': this.paste.bind(this),
-                'select-all': this.select_all.bind(this),
-                'reset': this.reset.bind(this),
-                'reset-and-clear': this.reset_and_clear.bind(this),
-                'find': this.find.bind(this),
-                'stop-search': this.stop_search.bind(this),
-                'find-next': this.find_next.bind(this),
-                'find-prev': this.find_prev.bind(this),
+            this.connect('notify::clicked-hyperlink', () => {
+                open_hyperlink_action.enabled = this.clicked_hyperlink !== null;
+                copy_hyperlink_action.enabled = this.clicked_hyperlink !== null;
             });
 
-            this.search_match_case_action = Gio.SimpleAction.new_stateful(
-                'search-match-case',
-                null,
-                GVARIANT_FALSE
-            );
+            const copy_filename_action = new Gio.SimpleAction({
+                name: 'copy-filename',
+                enabled: this.clicked_filename !== null,
+            });
+            copy_filename_action.connect('activate', this.copy_filename.bind(this));
+            terminal_actions.add_action(copy_filename_action);
+
+            this.connect('notify::clicked-filename', () => {
+                copy_filename_action.enabled = this.clicked_filename !== null;
+            });
+
+            const paste_action = new Gio.SimpleAction({ name: 'paste' });
+            paste_action.connect('activate', this.paste.bind(this));
+            terminal_actions.add_action(paste_action);
+
+            const select_all_action = new Gio.SimpleAction({ name: 'select-all' });
+            select_all_action.connect('activate', this.select_all.bind(this));
+            terminal_actions.add_action(select_all_action);
+
+            const reset_action = new Gio.SimpleAction({ name: 'reset' });
+            reset_action.connect('activate', this.reset.bind(this));
+            terminal_actions.add_action(reset_action);
+
+            const reset_and_clear_action = new Gio.SimpleAction({ name: 'reset-and-clear' });
+            reset_and_clear_action.connect('activate', this.reset_and_clear.bind(this));
+            terminal_actions.add_action(reset_and_clear_action);
+
+            const find_action = new Gio.SimpleAction({ name: 'find' });
+            find_action.connect('activate', this.find.bind(this));
+            terminal_actions.add_action(find_action);
+
+            const stop_search_action = new Gio.SimpleAction({ name: 'stop-search' });
+            stop_search_action.connect('activate', this.stop_search.bind(this));
+            terminal_actions.add_action(stop_search_action);
+
+            const find_next_action = new Gio.SimpleAction({ name: 'find-next' });
+            find_next_action.connect('activate', this.find_next.bind(this));
+            terminal_actions.add_action(find_next_action);
+
+            const find_prev_action = new Gio.SimpleAction({ name: 'find-prev' });
+            find_prev_action.connect('activate', this.find_prev.bind(this));
+            terminal_actions.add_action(find_prev_action);
+
+            this.search_match_case_action = new Gio.SimpleAction({
+                name: 'search-match-case',
+                state: GVARIANT_FALSE,
+            });
             terminal_actions.add_action(this.search_match_case_action);
 
-            this.search_whole_word_action = Gio.SimpleAction.new_stateful(
-                'search-whole-word',
-                null,
-                GVARIANT_FALSE
-            );
+            this.search_whole_word_action = new Gio.SimpleAction({
+                name: 'search-whole-word',
+                state: GVARIANT_FALSE,
+            });
             terminal_actions.add_action(this.search_whole_word_action);
 
-            this.search_regex_action = Gio.SimpleAction.new_stateful(
-                'search-regex',
-                null,
-                GVARIANT_FALSE
-            );
+            this.search_regex_action = new Gio.SimpleAction({
+                name: 'search-regex',
+                state: GVARIANT_FALSE,
+            });
             terminal_actions.add_action(this.search_regex_action);
 
-            const search_wrap_action = Gio.SimpleAction.new_stateful(
-                'search-wrap',
-                null,
-                GVARIANT_FALSE
-            );
+            const search_wrap_action = new Gio.SimpleAction({
+                name: 'search-wrap',
+                state: GVARIANT_FALSE,
+            });
             terminal_actions.add_action(search_wrap_action);
 
-            this.rx.subscribe(rxutil.property(search_wrap_action, 'state'), state => {
-                this.terminal.search_set_wrap_around(state.unpack());
+            search_wrap_action.connect('notify::state', () => {
+                this.terminal.search_set_wrap_around(search_wrap_action.state.unpack());
             });
 
-            const has_selection = rxutil.signal(this.terminal, 'selection-changed').pipe(
-                rxjs.startWith([this.terminal]),
-                rxjs.map(([widget]) => widget.get_has_selection())
-            );
-
-            this.clicked_hyperlink = this.make_behavior_subject();
-            this.clicked_filename = this.make_behavior_subject();
-
-            const is_nonnull = rxjs.map(value => value !== null);
-
-            const has_clicked_hyperlink = this.clicked_hyperlink.pipe(is_nonnull);
-            const has_clicked_filename = this.clicked_filename.pipe(is_nonnull);
-
-            const search_bar_revealed = rxutil.property(this.search_bar, 'reveal-child');
-
-            const terminal_actions_enable = {
-                'copy': has_selection,
-                'copy-html': has_selection,
-                'open-hyperlink': has_clicked_hyperlink,
-                'copy-hyperlink': has_clicked_hyperlink,
-                'copy-filename': has_clicked_filename,
-                'find-next': search_bar_revealed,
-                'find-prev': search_bar_revealed,
-                'search-match-case': search_bar_revealed,
-                'search-whole-word': search_bar_revealed,
-                'search-regex': search_bar_revealed,
-                'search-wrap': search_bar_revealed,
-            };
-
-            for (const [name, observable] of Object.entries(terminal_actions_enable)) {
-                const action = terminal_actions.lookup_action(name);
-                this.rx.subscribe(observable, rxutil.property(action, 'enabled'));
-            }
+            [
+                find_next_action,
+                find_prev_action,
+                this.search_match_case_action,
+                this.search_whole_word_action,
+                this.search_regex_action,
+                search_wrap_action,
+                stop_search_action,
+            ].forEach(action => this.search_bar.bind_property(
+                'reveal-child',
+                action,
+                'enabled',
+                GObject.BindingFlags.SYNC_CREATE
+            ));
 
             this.insert_action_group('terminal', terminal_actions);
 
-            this.rx.connect(this.search_entry, 'stop-search', this.stop_search.bind(this));
-            this.rx.connect(this.search_entry, 'previous-match', this.find_prev.bind(this));
-            this.rx.connect(this.search_entry, 'next-match', this.find_next.bind(this));
-            this.rx.connect(this.search_entry, 'activate', this.find_next.bind(this));
+            this.search_entry.connect('stop-search', this.stop_search.bind(this));
+            this.search_entry.connect('previous-match', this.find_prev.bind(this));
+            this.search_entry.connect('next-match', this.find_next.bind(this));
+            this.search_entry.connect('activate', this.find_next.bind(this));
 
-            // These signal handlers return values - can't be handled by rxutil.signal()
             for (const signal_name of ['key-press-event', 'key-release-event']) {
-                this.rx.connect(this.search_bar, signal_name, (_, event) => {
+                this.search_bar.connect(signal_name, (_, event) => {
                     return this.search_entry.handle_event(event);
                 });
             }
@@ -502,23 +566,98 @@ var TerminalPage = GObject.registerClass(
             // These widgets aren't children of the TerminalPage, so they must
             // be destroy()ed manually.
             for (const widget of [this.tab_label, this.switcher_item, this.custom_title_popover])
-                this.rx.add(() => widget.destroy());
+                this.connect('destroy', () => widget.destroy());
 
-            this.rx.subscribe(
-                rxjs.combineLatest(
-                    rxutil.signal(this.terminal, 'eof'),
-                    rxutil.signal(this.terminal, 'child-exited')
-                ),
-                () => {
-                    this.emit('close-request');
-                }
+            this.terminal.connect('child-exited', () => this.emit('close-request'));
+        }
+
+        map_settings(keys, func) {
+            keys.forEach(key => {
+                const handler = this.settings.connect(`changed::${key}`, func);
+                this.connect('destroy', () => this.settings.disconnect(handler));
+            });
+
+            func();
+        }
+
+        map_color(enable_key, key, func) {
+            this.map_settings(['use-theme-colors', enable_key, key], () => {
+                if (this.settings.get_boolean('use-theme-colors') ||
+                    !this.settings.get_boolean(enable_key))
+                    func(null);
+
+                else
+                    func(parse_rgba(this.settings.get_string(key)));
+            });
+        }
+
+        update_font() {
+            this.terminal.font_desc = Pango.FontDescription.from_string(
+                this.settings.get_boolean('use-system-font')
+                    ? this.desktop_settings.get_string('monospace-font-name')
+                    : this.settings.get_string('custom-font')
             );
         }
 
-        make_behavior_subject(value) {
-            const subject = new rxjs.BehaviorSubject(value);
-            this.rx.add(() => subject.complete());
-            return subject;
+        update_colors() {
+            let foreground, background;
+
+            if (this.settings.get_boolean('use-theme-colors')) {
+                const style = this.terminal.get_style_context();
+                const state = style.get_state();
+
+                foreground = style.get_property('color', state);
+                background = style.get_property('background-color', state);
+            } else {
+                foreground = parse_rgba(this.settings.get_string('foreground-color'));
+                background = parse_rgba(this.settings.get_string('background-color'));
+            }
+
+            if (this.settings.get_boolean('transparent-background'))
+                background.alpha *= this.settings.get_double('background-opacity');
+
+            const palette = this.settings.get_strv('palette').map(parse_rgba);
+            this.terminal.set_colors(foreground, background, palette);
+        }
+
+        update_url_regex() {
+            this.terminal.match_remove_all();
+            this.url_prefix = [];
+
+            if (!this.settings.get_boolean('detect-urls'))
+                return;
+
+            for (const [key, { regex, prefix }] of Object.entries(URL_REGEX)) {
+                if (!this.settings.get_boolean(key))
+                    continue;
+
+                const tag = this.terminal.match_add_regex(regex, 0);
+                this.terminal.match_set_cursor_name(tag, 'pointer');
+                this.url_prefix[tag] = prefix;
+            }
+        }
+
+        update_tab_label_width() {
+            this.tab_label.width_request = Math.floor(
+                this.settings.get_double('tab-label-width') *
+                this.get_toplevel().get_allocated_width()
+            );
+        }
+
+        update_title() {
+            const context = Object.fromEntries(
+                TITLE_TERMINAL_PROPERTIES.map(
+                    prop => [prop, this.terminal[prop]]
+                ).concat([
+                    ['switch-shortcut', this['switch-shortcut']],
+                ])
+            );
+
+            const title = this.title_template_compiled(context);
+
+            this.tab_label_label.label = title;
+            this.switcher_item.text = title;
+            this.switcher_item.use_markup = true;
         }
 
         get_cwd() {
@@ -536,8 +675,9 @@ var TerminalPage = GObject.registerClass(
         spawn(cwd = null) {
             let argv;
             let spawn_flags;
+            const command_type = this.settings.get_string('command');
 
-            if (this.settings['command'].value === 'custom-command') {
+            if (command_type === 'custom-command') {
                 let _;
                 [_, argv] = GLib.shell_parse_argv(this.settings['custom-command'].value);
 
@@ -546,7 +686,7 @@ var TerminalPage = GObject.registerClass(
                 const shell = Vte.get_user_shell();
                 const name = GLib.path_get_basename(shell);
 
-                if (this.settings['command'].value === 'user-shell-login')
+                if (command_type === 'user-shell-login')
                     argv = [shell, `-${name}`];
                 else
                     argv = [shell, name];
@@ -603,17 +743,17 @@ var TerminalPage = GObject.registerClass(
         open_hyperlink() {
             Gtk.show_uri_on_window(
                 this.get_ancestor(Gtk.Window),
-                this.clicked_hyperlink.value,
+                this.clicked_hyperlink,
                 Gdk.CURRENT_TIME
             );
         }
 
         copy_hyperlink() {
-            this.clipboard.set_text(this.clicked_hyperlink.value, -1);
+            this.clipboard.set_text(this.clicked_hyperlink, -1);
         }
 
         copy_filename() {
-            this.clipboard.set_text(this.clicked_filename.value, -1);
+            this.clipboard.set_text(this.clicked_filename, -1);
         }
 
         terminal_button_press_early(_terminal, event) {
@@ -642,8 +782,8 @@ var TerminalPage = GObject.registerClass(
                 }
             }
 
-            this.clicked_filename.next(clicked_filename);
-            this.clicked_hyperlink.next(clicked_hyperlink);
+            this.clicked_filename = clicked_filename;
+            this.clicked_hyperlink = clicked_hyperlink;
 
             if (state & Gdk.ModifierType.CONTROL_MASK) {
                 if ([Gdk.BUTTON_PRIMARY, Gdk.BUTTON_MIDDLE].includes(button)) {
@@ -672,7 +812,7 @@ var TerminalPage = GObject.registerClass(
                     label = Gtk.accelerator_get_label(key, mods);
             }
 
-            this.switch_shortcut.next(label);
+            this.switch_shortcut = label;
         }
 
         setup_popup_menu(
@@ -687,8 +827,7 @@ var TerminalPage = GObject.registerClass(
             // https://github.com/ddterm/gnome-shell-extension-ddterm/issues/116
             menu.get_style_context().add_class(Gtk.STYLE_CLASS_CONTEXT_MENU);
 
-            // Signal handlers that return values can't be implemented with rxutil.signal()
-            this.rx.connect_after(widget, 'button-press-event', (_, event) => {
+            widget.connect_after('button-press-event', (_, event) => {
                 if (!event.triggers_context_menu())
                     return false;
 
@@ -696,8 +835,7 @@ var TerminalPage = GObject.registerClass(
                 return true;
             });
 
-            // Signal handlers that return values can't be implemented with rxutil.signal()
-            this.rx.connect(widget, 'popup-menu', () => {
+            widget.connect('popup-menu', () => {
                 menu.popup_at_widget(widget, widget_anchor, menu_anchor, null);
                 return true;
             });

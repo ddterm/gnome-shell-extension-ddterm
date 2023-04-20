@@ -22,7 +22,6 @@
 /* exported AppWindow */
 
 const { GLib, GObject, Gio, Gdk, Gtk } = imports.gi;
-const { settings } = imports.ddterm.rx;
 const { extensiondbus, terminalpage } = imports.ddterm.app;
 const { translations } = imports.ddterm.util;
 const ByteArray = imports.byteArray;
@@ -68,8 +67,6 @@ var AppWindow = GObject.registerClass(
     class AppWindow extends Gtk.ApplicationWindow {
         _init(params) {
             super._init(params);
-
-            this.rx_settings = new settings.Settings({ gsettings: this.settings });
 
             this.extension_dbus = extensiondbus.get();
 
@@ -299,6 +296,10 @@ var AppWindow = GObject.registerClass(
                 );
             }
 
+            this.desktop_settings = new Gio.Settings({
+                schema_id: 'org.gnome.desktop.interface',
+            });
+
             this.insert_page(0);
 
             const display = Gdk.Display.get_default();
@@ -349,8 +350,9 @@ var AppWindow = GObject.registerClass(
                 this.settings.get_boolean('preserve-working-directory') ? this.get_cwd() : null;
 
             const page = new terminalpage.TerminalPage({
-                settings: this.rx_settings,
+                settings: this.settings,
                 menus: this.menus,
+                desktop_settings: this.desktop_settings,
             });
 
             const index = this.notebook.insert_page(page, page.tab_label, position);
