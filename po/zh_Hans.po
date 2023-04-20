@@ -7,843 +7,852 @@ msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-04-11 03:03+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2023-04-20 10:59+0000\n"
+"Last-Translator: yuh <yuhldr@qq.com>\n"
+"Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
+"gnome-shell-extension-ddterm/extension/zh_Hans/>\n"
 "Language: zh_Hans\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 4.18-dev\n"
 
 #: ddterm/app/appwindow.js:430
 msgid ""
 "Warning: ddterm version has changed. Log out, then log in again to load the "
 "updated extension."
-msgstr ""
+msgstr "警告：ddterm版本已改变。注销后重新登录，方可生效。"
 
 #: ddterm/app/dependencies-notification.js:136
 msgid "ddterm needs additional packages to run."
-msgstr ""
+msgstr "ddterm需要额外的软件包才能运行。"
 
 #: ddterm/app/dependencies-notification.js:141
 msgid "Please install the following packages:"
-msgstr ""
+msgstr "请安装以下软件包："
 
 #: ddterm/app/dependencies-notification.js:149
 msgid "Please install packages that provide the following files:"
-msgstr ""
+msgstr "请安装提供以下文件的软件包："
 
 #: ddterm/app/dependencies-notification.js:162
 msgid "Missing dependencies"
-msgstr ""
+msgstr "缺少的依赖关系"
 
 #: ddterm/app/glade/appwindow.ui:41
 msgid "Drop Down Terminal"
-msgstr ""
+msgstr "下拉终端"
 
 #: ddterm/app/glade/appwindow.ui:66
 msgid "New Tab (First)"
-msgstr ""
+msgstr "新建选项卡(第一个)"
 
 #: ddterm/app/glade/appwindow.ui:91
 msgid "New Tab (Last)"
-msgstr ""
+msgstr "新建选项卡(最后一个)"
 
 #: ddterm/app/glade/terminalpage.ui:169
 msgid "Case Sensitive"
-msgstr ""
+msgstr "区分大小写的"
 
 #: ddterm/app/glade/terminalpage.ui:186
 msgid "Match Whole Word"
-msgstr ""
+msgstr "匹配整个单词"
 
 #: ddterm/app/glade/terminalpage.ui:203
 msgid "Wrap Around"
-msgstr ""
+msgstr "环绕"
 
 #: ddterm/app/glade/terminalpage.ui:206
 msgid "Wrap"
-msgstr ""
+msgstr "包装"
 
 #: ddterm/app/glade/terminalpage.ui:221
 msgid "Regular Expression"
-msgstr ""
+msgstr "正则表达式"
 
 #: ddterm/app/glade/terminalpage.ui:252
 msgid "Close Search Bar"
-msgstr ""
+msgstr "关闭搜索栏"
 
 #: ddterm/app/glade/terminalpage.ui:255 ddterm/app/menus.ui:76
 #: ddterm/app/menus.ui:175
 msgid "Close"
-msgstr ""
+msgstr "关闭"
 
 #: ddterm/app/glade/terminalpage.ui:271 ddterm/app/glade/terminalpage.ui:274
 #: ddterm/pref/glade/prefs-shortcuts.ui:217
 msgid "Find Next"
-msgstr ""
+msgstr "查找下一个"
 
 #: ddterm/app/glade/terminalpage.ui:290 ddterm/app/glade/terminalpage.ui:293
 #: ddterm/pref/glade/prefs-shortcuts.ui:223
 msgid "Find Previous"
-msgstr ""
+msgstr "找到前一个"
 
 #: ddterm/app/menus.ui:25
 msgid "Open Hyperlink"
-msgstr ""
+msgstr "打开链接"
 
 #: ddterm/app/menus.ui:30
 msgid "Copy Hyperlink Address"
-msgstr ""
+msgstr "复制链接地址"
 
 #: ddterm/app/menus.ui:35
 msgid "Copy File Path"
-msgstr ""
+msgstr "复制文件路径"
 
 #: ddterm/app/menus.ui:42
 msgid "Copy"
-msgstr ""
+msgstr "复制"
 
 #: ddterm/app/menus.ui:46
 msgid "Copy HTML"
-msgstr ""
+msgstr "复制为HTML"
 
 #: ddterm/app/menus.ui:50
 msgid "Paste"
-msgstr ""
+msgstr "粘贴"
 
 #: ddterm/app/menus.ui:54 ddterm/pref/glade/prefs-shortcuts.ui:127
 msgid "Select All"
-msgstr ""
+msgstr "选择所有"
 
 #: ddterm/app/menus.ui:60 ddterm/pref/glade/prefs-shortcuts.ui:211
 msgid "Find"
-msgstr ""
+msgstr "查找"
 
 #: ddterm/app/menus.ui:66 ddterm/pref/glade/prefs-shortcuts.ui:133
 msgid "Reset"
-msgstr ""
+msgstr "重置"
 
 #: ddterm/app/menus.ui:70 ddterm/pref/glade/prefs-shortcuts.ui:139
 msgid "Reset and Clear"
-msgstr ""
+msgstr "重置并清除"
 
 #: ddterm/app/menus.ui:82
 msgid "New Tab"
-msgstr ""
+msgstr "新标签页"
 
 #: ddterm/app/menus.ui:84 ddterm/pref/glade/prefs-shortcuts.ui:157
 msgid "New Tab Before Current Tab"
-msgstr ""
+msgstr "新建选项卡（在当前选项卡之前）"
 
 #: ddterm/app/menus.ui:88 ddterm/pref/glade/prefs-shortcuts.ui:163
 msgid "New Tab After Current Tab"
-msgstr ""
+msgstr "新建选项卡（在当前选项卡之后）"
 
 #: ddterm/app/menus.ui:92 ddterm/app/menus.ui:188
 #: ddterm/pref/glade/prefs-shortcuts.ui:151
 msgid "New Tab Before First Tab"
-msgstr ""
+msgstr "新建选项卡（在第一个选项卡之前）"
 
 #: ddterm/app/menus.ui:96 ddterm/app/menus.ui:192
 #: ddterm/pref/glade/prefs-shortcuts.ui:145
 msgid "New Tab After Last Tab"
-msgstr ""
+msgstr "新建选项卡（在最后一个选项卡之后）"
 
 #: ddterm/app/menus.ui:102 ddterm/pref/dialog.js:47
 msgid "Preferences"
-msgstr ""
+msgstr "首选项"
 
 #: ddterm/app/menus.ui:105 ddterm/app/menus.ui:207 ddterm/shell/panelicon.js:86
 msgid "Preferences..."
-msgstr ""
+msgstr "首选项..."
 
 #: ddterm/app/menus.ui:111
 msgid "Above All Windows"
-msgstr ""
+msgstr "上面所有窗口"
 
 #: ddterm/app/menus.ui:115
 msgid "On All Workspaces"
-msgstr ""
+msgstr "在所有工作区"
 
 #: ddterm/app/menus.ui:119
 msgid "Maximize Window"
-msgstr ""
+msgstr "最大化窗口"
 
 #: ddterm/app/menus.ui:123
 msgid "Transparent Background"
-msgstr ""
+msgstr "透明的背景"
 
 #: ddterm/app/menus.ui:129
 msgid "Hide When Application Loses Focus"
-msgstr ""
+msgstr "当应用程序失去焦点时隐藏"
 
 #: ddterm/app/menus.ui:133
 msgid "Hide When Esc Key Is Pressed"
-msgstr ""
+msgstr "当按Esc键时隐藏"
 
 #: ddterm/app/menus.ui:139
 msgid "Scroll On Output"
-msgstr ""
+msgstr "滚动输出"
 
 #: ddterm/app/menus.ui:143
 msgid "Scroll On Keystroke"
-msgstr ""
+msgstr "按键时滚动"
 
 #: ddterm/app/menus.ui:149
 msgid "Preserve Working Directory In New Tabs"
-msgstr ""
+msgstr "在新选项卡中保留工作目录"
 
 #: ddterm/app/menus.ui:155
 msgid "Enable Keyboard Shortcuts"
-msgstr ""
+msgstr "启用键盘快捷键"
 
 #: ddterm/app/menus.ui:164
 msgid "Use Custom Tab Title"
-msgstr ""
+msgstr "使用自定义标签标题"
 
 #: ddterm/app/menus.ui:169
 msgid "Use Default Tab Title"
-msgstr ""
+msgstr "使用默认标签标题"
 
 #: ddterm/app/menus.ui:180
 msgid "New Tab Before This Tab"
-msgstr ""
+msgstr "在此选项卡之前新建选项卡"
 
 #: ddterm/app/menus.ui:184
 msgid "New Tab After This Tab"
-msgstr ""
+msgstr "此选项卡后的新选项卡"
 
 #: ddterm/app/menus.ui:198 ddterm/pref/glade/prefs-shortcuts.ui:187
 msgid "Move Tab to Previous Position"
-msgstr ""
+msgstr "移动标签到上一个位置"
 
 #: ddterm/app/menus.ui:202 ddterm/pref/glade/prefs-shortcuts.ui:193
 msgid "Move Tab to Next Position"
-msgstr ""
+msgstr "移动标签到下一个位置"
 
 #: ddterm/app/terminalpage.js:790
 msgid "Close this terminal?"
-msgstr ""
+msgstr "关闭这个终端？"
 
 #: ddterm/app/terminalpage.js:793
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."
-msgstr ""
+msgstr "该终端中仍有一个进程在运行。关闭终端，将会销毁该进程。"
 
 #: ddterm/pref/animation.js:100
 msgid "Animation"
-msgstr ""
+msgstr "动画"
 
 #: ddterm/pref/behavior.js:72
 msgid "Behavior"
-msgstr ""
+msgstr "行为"
 
 #: ddterm/pref/colors.js:277
 msgid "Colors"
-msgstr ""
+msgstr "颜色"
 
 #: ddterm/pref/command.js:72
 msgid "Command"
-msgstr ""
+msgstr "命令"
 
 #: ddterm/pref/compatibility.js:73
 msgid "Compatibility"
-msgstr ""
+msgstr "兼容性"
 
 #: ddterm/pref/glade/prefs-animation.ui:36
 msgid "Disable"
-msgstr ""
+msgstr "禁用"
 
 #: ddterm/pref/glade/prefs-animation.ui:40
 msgid "Linear tweening"
-msgstr ""
+msgstr "线性渐变"
 
 #: ddterm/pref/glade/prefs-animation.ui:44
 msgid "Quadratic tweening"
-msgstr ""
+msgstr "二次渐变"
 
 #: ddterm/pref/glade/prefs-animation.ui:48
 msgid "Quadratic tweening, inverse"
-msgstr ""
+msgstr "二次逆渐变"
 
 #: ddterm/pref/glade/prefs-animation.ui:52
 msgid "Quadratic tweening, combining direct and inverse"
-msgstr ""
+msgstr "二次渐变，正逆结合"
 
 #: ddterm/pref/glade/prefs-animation.ui:56
 msgid "Cubic tweening"
-msgstr ""
+msgstr "立方渐变"
 
 #: ddterm/pref/glade/prefs-animation.ui:60
 msgid "Cubic tweening, inverse"
-msgstr ""
+msgstr "三次逆渐变"
 
 #: ddterm/pref/glade/prefs-animation.ui:64
 msgid "Cubic tweening, combining direct and inverse"
-msgstr ""
+msgstr "三次渐变，正逆结合"
 
 #: ddterm/pref/glade/prefs-animation.ui:68
 msgid "Quartic tweening"
-msgstr ""
+msgstr "四次渐变"
 
 #: ddterm/pref/glade/prefs-animation.ui:72
 msgid "Quartic tweening, inverse"
-msgstr ""
+msgstr "四次逆渐变"
 
 #: ddterm/pref/glade/prefs-animation.ui:76
 msgid "Quartic tweening, combining direct and inverse"
-msgstr ""
+msgstr "四次渐变，正逆结合"
 
 #: ddterm/pref/glade/prefs-animation.ui:80
 msgid "Quintic tweening"
-msgstr ""
+msgstr "五次渐变"
 
 #: ddterm/pref/glade/prefs-animation.ui:84
 msgid "Quintic tweening, inverse"
-msgstr ""
+msgstr "五次逆渐变"
 
 #: ddterm/pref/glade/prefs-animation.ui:88
 msgid "Quintic tweening, combining direct and inverse"
-msgstr ""
+msgstr "五次渐变，正逆结合"
 
 #: ddterm/pref/glade/prefs-animation.ui:92
 msgid "Sinusoidal tweening"
-msgstr ""
+msgstr "正弦渐变"
 
 #: ddterm/pref/glade/prefs-animation.ui:96
 msgid "Sinusoidal tweening, inverse"
-msgstr ""
+msgstr "正弦逆渐变"
 
 #: ddterm/pref/glade/prefs-animation.ui:100
 msgid "Sinusoidal tweening, combining direct and inverse"
-msgstr ""
+msgstr "正弦渐变，正逆结合"
 
 #: ddterm/pref/glade/prefs-animation.ui:104
 msgid "Exponential tweening"
-msgstr ""
+msgstr "指数渐变"
 
 #: ddterm/pref/glade/prefs-animation.ui:108
 msgid "Exponential tweening, inverse"
-msgstr ""
+msgstr "指数逆渐变"
 
 #: ddterm/pref/glade/prefs-animation.ui:112
 msgid "Exponential tweening, combining direct and inverse"
-msgstr ""
+msgstr "指数渐变，正逆结合"
 
 #: ddterm/pref/glade/prefs-animation.ui:116
 msgid "Circular tweening"
-msgstr ""
+msgstr "圆形渐变"
 
 #: ddterm/pref/glade/prefs-animation.ui:120
 msgid "Circular tweening, inverse"
-msgstr ""
+msgstr "圆形逆渐变"
 
 #: ddterm/pref/glade/prefs-animation.ui:124
 msgid "Circular tweening, combining direct and inverse"
-msgstr ""
+msgstr "圆形渐变，正逆结合"
 
 #: ddterm/pref/glade/prefs-animation.ui:128
 msgid "Elastic tweening, with offshoot on start"
-msgstr ""
+msgstr "弹性渐变，开始时带有分支"
 
 #: ddterm/pref/glade/prefs-animation.ui:132
 msgid "Elastic tweening, with offshoot on end"
-msgstr ""
+msgstr "弹性补间，结束时带有分支"
 
 #: ddterm/pref/glade/prefs-animation.ui:136
 msgid "Elastic tweening with offshoot on both ends"
-msgstr ""
+msgstr "弹性渐变，两端带有分支"
 
 #: ddterm/pref/glade/prefs-animation.ui:140
 msgid "Overshooting cubic tweening, with backtracking on start"
-msgstr ""
+msgstr "超调立方渐变，开始时带回溯"
 
 #: ddterm/pref/glade/prefs-animation.ui:144
 msgid "Overshooting cubic tweening, with backtracking on end"
-msgstr ""
+msgstr "超调立方渐变，结束时带回溯"
 
 #: ddterm/pref/glade/prefs-animation.ui:148
 msgid "Overshooting cubic tweening, with backtracking on both ends"
-msgstr ""
+msgstr "超调立方渐变，两端都有回溯"
 
 #: ddterm/pref/glade/prefs-animation.ui:152
 msgid ""
 "Exponentially decaying parabolic (bounce) tweening, with bounce on start"
-msgstr ""
+msgstr "指数衰减抛物线(弹跳)渐变，开始时弹跳"
 
 #: ddterm/pref/glade/prefs-animation.ui:156
 msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on end"
-msgstr ""
+msgstr "指数衰减抛物线(弹跳)渐变，结束时弹跳"
 
 #: ddterm/pref/glade/prefs-animation.ui:160
 msgid ""
 "Exponentially decaying parabolic (bounce) tweening, with bounce on both ends"
-msgstr ""
+msgstr "指数衰减抛物线(弹跳)渐变，两端都有弹跳"
 
 #: ddterm/pref/glade/prefs-animation.ui:188
 msgid "_Override default window animations"
-msgstr ""
+msgstr "覆盖默认的窗口动画"
 
 #: ddterm/pref/glade/prefs-animation.ui:207
 msgid "_Show animation:"
-msgstr ""
+msgstr "展示动画："
 
 #: ddterm/pref/glade/prefs-animation.ui:221
 msgid "_Hide animation:"
-msgstr ""
+msgstr "隐藏动画："
 
 #: ddterm/pref/glade/prefs-animation.ui:273
 msgid "_Hide animation duration:"
-msgstr ""
+msgstr "隐藏动画持续时间："
 
 #: ddterm/pref/glade/prefs-animation.ui:286
 msgid "_Show animation duration:"
-msgstr ""
+msgstr "显示动画持续时间："
 
 #: ddterm/pref/glade/prefs-behavior.ui:39
 msgid "_Resizable"
-msgstr ""
+msgstr "可调整大小"
 
 #: ddterm/pref/glade/prefs-behavior.ui:55
 msgid "_Above all windows"
-msgstr ""
+msgstr "所有窗口上方"
 
 #: ddterm/pref/glade/prefs-behavior.ui:71
 msgid "On all _workspaces"
-msgstr ""
+msgstr "在所有工作区上"
 
 #: ddterm/pref/glade/prefs-behavior.ui:87
 msgid "Hide when the application loses _focus"
-msgstr ""
+msgstr "当应用程序失去焦点时隐藏"
 
 #: ddterm/pref/glade/prefs-behavior.ui:103
 msgid "Hide when _Esc key is pressed"
-msgstr ""
+msgstr "当按Esc键时隐藏"
 
 #: ddterm/pref/glade/prefs-behavior.ui:119
 msgid "Exclude from _overview/task bar"
-msgstr ""
+msgstr "从概览/任务栏中排除"
 
 #: ddterm/pref/glade/prefs-behavior.ui:135
 msgid "Hide mouse _pointer when typing"
-msgstr ""
+msgstr "在输入时隐藏鼠标指针"
 
 #: ddterm/pref/glade/prefs-behavior.ui:151
 msgid ""
 "Force _X11 GDK backend (XWayland).\n"
 "You'll have to close all tabs for this option to take effect."
 msgstr ""
+"强制X11 GDK后端（XWayland）。\n"
+"您必须关闭所有选项卡才能使此选项生效。"
 
 #: ddterm/pref/glade/prefs-behavior.ui:171
 msgid "Window type _hint (X11 only):"
-msgstr ""
+msgstr "窗口类型提示(仅限X11):"
 
 #: ddterm/pref/glade/prefs-behavior.ui:186
 msgid "Normal"
-msgstr ""
+msgstr "标准的"
 
 #: ddterm/pref/glade/prefs-behavior.ui:187
 msgid "Dialog"
-msgstr ""
+msgstr "对话框"
 
 #: ddterm/pref/glade/prefs-behavior.ui:188
 msgid "Splash screen"
-msgstr ""
+msgstr "启动页"
 
 #: ddterm/pref/glade/prefs-behavior.ui:189
 msgid "Utility"
-msgstr ""
+msgstr "实用程序"
 
 #: ddterm/pref/glade/prefs-behavior.ui:190
 msgid "Dock"
-msgstr ""
+msgstr "Dock栏"
 
 #: ddterm/pref/glade/prefs-behavior.ui:191
 msgid "Dropdown menu"
-msgstr ""
+msgstr "下拉菜单"
 
 #: ddterm/pref/glade/prefs-behavior.ui:192
 msgid "Menu"
-msgstr ""
+msgstr "菜单"
 
 #: ddterm/pref/glade/prefs-behavior.ui:193
 msgid "Toolbar"
-msgstr ""
+msgstr "工具栏"
 
 #: ddterm/pref/glade/prefs-behavior.ui:194
 msgid "Popup menu"
-msgstr ""
+msgstr "弹出菜单"
 
 #: ddterm/pref/glade/prefs-behavior.ui:195
 msgid "Tooltip"
-msgstr ""
+msgstr "工具提示"
 
 #: ddterm/pref/glade/prefs-behavior.ui:196
 msgid "Notification"
-msgstr ""
+msgstr "通知"
 
 #: ddterm/pref/glade/prefs-behavior.ui:197
 msgid "Combo"
-msgstr ""
+msgstr "组合"
 
 #: ddterm/pref/glade/prefs-colors.ui:38
 msgid "Black on light yellow"
-msgstr ""
+msgstr "浅黄的黑"
 
 #: ddterm/pref/glade/prefs-colors.ui:43
 msgid "Black on white"
-msgstr ""
+msgstr "白底黑字"
 
 #: ddterm/pref/glade/prefs-colors.ui:48
 msgid "Gray on black"
-msgstr ""
+msgstr "灰底黑字"
 
 #: ddterm/pref/glade/prefs-colors.ui:53
 msgid "Green on black"
-msgstr ""
+msgstr "黑底绿字"
 
 #: ddterm/pref/glade/prefs-colors.ui:58
 msgid "White on black"
-msgstr ""
+msgstr "黑底白字"
 
 #: ddterm/pref/glade/prefs-colors.ui:63
 msgid "GNOME light"
-msgstr ""
+msgstr "GNOME亮色"
 
 #: ddterm/pref/glade/prefs-colors.ui:68
 msgid "GNOME dark"
-msgstr ""
+msgstr "GNOME暗色"
 
 #: ddterm/pref/glade/prefs-colors.ui:73
 msgid "Tango light"
-msgstr ""
+msgstr "Tango亮色"
 
 #: ddterm/pref/glade/prefs-colors.ui:78
 msgid "Tango dark"
-msgstr ""
+msgstr "Tango暗色"
 
 #: ddterm/pref/glade/prefs-colors.ui:83
 msgid "Solarized light"
-msgstr ""
+msgstr "Solarized亮色"
 
 #: ddterm/pref/glade/prefs-colors.ui:88
 msgid "Solarized dark"
-msgstr ""
+msgstr "Solarized暗色"
 
 #: ddterm/pref/glade/prefs-colors.ui:93 ddterm/pref/glade/prefs-colors.ui:257
 msgid "Custom"
-msgstr ""
+msgstr "定制"
 
 #: ddterm/pref/glade/prefs-colors.ui:143
 msgid "GNOME"
-msgstr ""
+msgstr "GNOME"
 
 #: ddterm/pref/glade/prefs-colors.ui:162
+#, fuzzy
 msgid "Tango"
-msgstr ""
+msgstr "Tango"
 
 #: ddterm/pref/glade/prefs-colors.ui:181
 msgid "Linux"
-msgstr ""
+msgstr "Linux"
 
 #: ddterm/pref/glade/prefs-colors.ui:200
+#, fuzzy
 msgid "XTerm"
-msgstr ""
+msgstr "XTerm"
 
 #: ddterm/pref/glade/prefs-colors.ui:219
 msgid "RXVT"
-msgstr ""
+msgstr "RXVT"
 
 #: ddterm/pref/glade/prefs-colors.ui:238
 msgid "Solarized"
-msgstr ""
+msgstr "Solarized"
 
 #: ddterm/pref/glade/prefs-colors.ui:292
 msgid "Theme _variant:"
-msgstr ""
+msgstr "主题变体："
 
 #: ddterm/pref/glade/prefs-colors.ui:307 ddterm/pref/glade/prefs-text.ui:133
 msgid "Default"
-msgstr ""
+msgstr "默认样式"
 
 #: ddterm/pref/glade/prefs-colors.ui:308
 msgid "Light"
-msgstr ""
+msgstr "亮色"
 
 #: ddterm/pref/glade/prefs-colors.ui:309
 msgid "Dark"
-msgstr ""
+msgstr "暗色"
 
 #: ddterm/pref/glade/prefs-colors.ui:319
 msgid "Use colors from system _theme"
-msgstr ""
+msgstr "使用系统中的颜色主题"
 
 #: ddterm/pref/glade/prefs-colors.ui:344
 msgid "Foreground"
-msgstr ""
+msgstr "前景"
 
 #: ddterm/pref/glade/prefs-colors.ui:355
 msgid "Background"
-msgstr ""
+msgstr "背景"
 
 #: ddterm/pref/glade/prefs-colors.ui:367
 msgid "Default color:"
-msgstr ""
+msgstr "默认颜色："
 
 #: ddterm/pref/glade/prefs-colors.ui:376
 msgid "Bold color:"
-msgstr ""
+msgstr "粗体颜色："
 
 #: ddterm/pref/glade/prefs-colors.ui:390
 msgid "Cursor color:"
-msgstr ""
+msgstr "光标颜色："
 
 #: ddterm/pref/glade/prefs-colors.ui:404
 msgid "Highlight color:"
-msgstr ""
+msgstr "高亮颜色："
 
 #: ddterm/pref/glade/prefs-colors.ui:421
 msgid "Color _scheme:"
-msgstr ""
+msgstr "配色方案："
 
 #: ddterm/pref/glade/prefs-colors.ui:469
 msgid "Foreground Color"
-msgstr ""
+msgstr "前景颜色"
 
 #: ddterm/pref/glade/prefs-colors.ui:493
 msgid "Background Color"
-msgstr ""
+msgstr "背景色"
 
 #: ddterm/pref/glade/prefs-colors.ui:517
 msgid "Bold Color"
-msgstr ""
+msgstr "粗体颜色"
 
 #: ddterm/pref/glade/prefs-colors.ui:541
 msgid "Cursor Foreground Color"
-msgstr ""
+msgstr "光标前景色"
 
 #: ddterm/pref/glade/prefs-colors.ui:565
 msgid "Cursor Background Color"
-msgstr ""
+msgstr "光标背景色"
 
 #: ddterm/pref/glade/prefs-colors.ui:589
 msgid "Highlight Foreground Color"
-msgstr ""
+msgstr "高亮前景色"
 
 #: ddterm/pref/glade/prefs-colors.ui:613
 msgid "Highlight Background Color"
-msgstr ""
+msgstr "强调背景色"
 
 #: ddterm/pref/glade/prefs-colors.ui:642
 msgid "_Background opacity:"
-msgstr ""
+msgstr "背景不透明度："
 
 #: ddterm/pref/glade/prefs-colors.ui:687
 msgid "_Palette:"
-msgstr ""
+msgstr "调色板："
 
 #: ddterm/pref/glade/prefs-colors.ui:729
 msgid "Palette Color 0"
-msgstr ""
+msgstr "调色板颜色 0"
 
 #: ddterm/pref/glade/prefs-colors.ui:742
 msgid "Palette Color 1"
-msgstr ""
+msgstr "调色板颜色1"
 
 #: ddterm/pref/glade/prefs-colors.ui:755
 msgid "Palette Color 2"
-msgstr ""
+msgstr "调色板颜色2"
 
 #: ddterm/pref/glade/prefs-colors.ui:768
 msgid "Palette Color 3"
-msgstr ""
+msgstr "调色板颜色3"
 
 #: ddterm/pref/glade/prefs-colors.ui:781
 msgid "Palette Color 4"
-msgstr ""
+msgstr "调色板颜色4"
 
 #: ddterm/pref/glade/prefs-colors.ui:794
 msgid "Palette Color 5"
-msgstr ""
+msgstr "调色板颜色5"
 
 #: ddterm/pref/glade/prefs-colors.ui:807
 msgid "Palette Color 6"
-msgstr ""
+msgstr "调色板颜色6"
 
 #: ddterm/pref/glade/prefs-colors.ui:820
 msgid "Palette Color 7"
-msgstr ""
+msgstr "调色板颜色7"
 
 #: ddterm/pref/glade/prefs-colors.ui:833
 msgid "Palette Color 8"
-msgstr ""
+msgstr "调色板颜色8"
 
 #: ddterm/pref/glade/prefs-colors.ui:846
 msgid "Palette Color 9"
-msgstr ""
+msgstr "调色板颜色9"
 
 #: ddterm/pref/glade/prefs-colors.ui:859
 msgid "Palette Color 10"
-msgstr ""
+msgstr "调色板颜色10"
 
 #: ddterm/pref/glade/prefs-colors.ui:872
 msgid "Palette Color 11"
-msgstr ""
+msgstr "调色板颜色11"
 
 #: ddterm/pref/glade/prefs-colors.ui:885
 msgid "Palette Color 12"
-msgstr ""
+msgstr "调色板颜色12"
 
 #: ddterm/pref/glade/prefs-colors.ui:898
 msgid "Palette Color 13"
-msgstr ""
+msgstr "调色板颜色13"
 
 #: ddterm/pref/glade/prefs-colors.ui:911
 msgid "Palette Color 14"
-msgstr ""
+msgstr "调色板颜色14"
 
 #: ddterm/pref/glade/prefs-colors.ui:924
 msgid "Palette Color 15"
-msgstr ""
+msgstr "调色板颜色15"
 
 #: ddterm/pref/glade/prefs-colors.ui:940
 msgid "Show bold text in _bright colors"
-msgstr ""
+msgstr "在亮色中使用粗体"
 
 #: ddterm/pref/glade/prefs-colors.ui:956
 msgid "Copy profile from GNOME Terminal"
-msgstr ""
+msgstr "从GNOME终端复制配置文件"
 
 #: ddterm/pref/glade/prefs-command.ui:39
 msgid "User _shell"
-msgstr ""
+msgstr "用户shell"
 
 #: ddterm/pref/glade/prefs-command.ui:57
 msgid "User shell as _login shell"
-msgstr ""
+msgstr "用户shell为登录shell"
 
 #: ddterm/pref/glade/prefs-command.ui:75
 msgid "Custom _command:"
-msgstr ""
+msgstr "自定义命令："
 
 #: ddterm/pref/glade/prefs-command.ui:114
 msgid "Preserve working directory"
-msgstr ""
+msgstr "保存工作目录"
 
 #: ddterm/pref/glade/prefs-compatibility.ui:36
 #: ddterm/pref/glade/prefs-tabs.ui:131
 msgid "Automatic"
-msgstr ""
+msgstr "自动的"
 
 #: ddterm/pref/glade/prefs-compatibility.ui:40
 msgid "Control-H"
-msgstr ""
+msgstr "Control-H"
 
 #: ddterm/pref/glade/prefs-compatibility.ui:44
+#, fuzzy
 msgid "ASCII DEL"
-msgstr ""
+msgstr "ASCII DEL"
 
 #: ddterm/pref/glade/prefs-compatibility.ui:48
 msgid "Escape sequence"
-msgstr ""
+msgstr "转义序列"
 
 #: ddterm/pref/glade/prefs-compatibility.ui:52
+#, fuzzy
 msgid "TTY Erase"
-msgstr ""
+msgstr "TTY Erase"
 
 #: ddterm/pref/glade/prefs-compatibility.ui:72
 msgid "_Backspace key generates:"
-msgstr ""
+msgstr "退格键生成："
 
 #: ddterm/pref/glade/prefs-compatibility.ui:86
 msgid "_Delete key generates:"
-msgstr ""
+msgstr "Delete 键生成："
 
 #: ddterm/pref/glade/prefs-compatibility.ui:100
 msgid "Ambiguous-_width characters:"
-msgstr ""
+msgstr "不明确宽度的字符："
 
 #: ddterm/pref/glade/prefs-compatibility.ui:153
 msgid "Narrow"
-msgstr ""
+msgstr "狭窄的"
 
 #: ddterm/pref/glade/prefs-compatibility.ui:154
 msgid "Wide"
-msgstr ""
+msgstr "宽的"
 
 #: ddterm/pref/glade/prefs-compatibility.ui:164
 msgid "_Reset Compatibility Options to Defaults"
-msgstr ""
+msgstr "将兼容性选项重设为默认值"
 
 #: ddterm/pref/glade/prefs-panel-icon.ui:42
 msgid "Panel icon:"
-msgstr ""
+msgstr "面板图标："
 
 #: ddterm/pref/glade/prefs-panel-icon.ui:55 ddterm/pref/glade/prefs-tabs.ui:292
 msgid "None"
-msgstr ""
+msgstr "无"
 
 #: ddterm/pref/glade/prefs-panel-icon.ui:56
 msgid "With popup menu"
-msgstr ""
+msgstr "随着弹出菜单"
 
 #: ddterm/pref/glade/prefs-panel-icon.ui:57
 msgid "Toggle button"
-msgstr ""
+msgstr "切换按钮"
 
 #: ddterm/pref/glade/prefs-panel-icon.ui:58
 msgid "Toggle button and popup menu"
-msgstr ""
+msgstr "切换按钮和弹出菜单"
 
 #: ddterm/pref/glade/prefs-position-size.ui:47
 msgid "Window _size:"
-msgstr ""
+msgstr "窗口大小："
 
 #: ddterm/pref/glade/prefs-position-size.ui:76
 msgid "_Window position:"
-msgstr ""
+msgstr "窗口位置："
 
 #: ddterm/pref/glade/prefs-position-size.ui:91
 #: ddterm/pref/glade/prefs-tabs.ui:219
 msgid "Top"
-msgstr ""
+msgstr "顶部"
 
 #: ddterm/pref/glade/prefs-position-size.ui:92
 #: ddterm/pref/glade/prefs-tabs.ui:218
 msgid "Bottom"
-msgstr ""
+msgstr "底部"
 
 #: ddterm/pref/glade/prefs-position-size.ui:93
 #: ddterm/pref/glade/prefs-tabs.ui:220
 msgid "Left"
-msgstr ""
+msgstr "左边"
 
 #: ddterm/pref/glade/prefs-position-size.ui:94
 #: ddterm/pref/glade/prefs-tabs.ui:221
 msgid "Right"
-msgstr ""
+msgstr "右边"
 
 #: ddterm/pref/glade/prefs-position-size.ui:104
 msgid "On the monitor that contains the mouse pointer"
-msgstr ""
+msgstr "在包含鼠标指针的显示器上"
 
 #: ddterm/pref/glade/prefs-position-size.ui:122
 msgid "On the _primary monitor"
-msgstr ""
+msgstr "在主显示器上"
 
 #: ddterm/pref/glade/prefs-position-size.ui:140
 msgid "On the monitor with keyboard _focus"
-msgstr ""
+msgstr "在键盘聚焦的显示器上"
 
 #: ddterm/pref/glade/prefs-position-size.ui:158
 msgid "On _monitor:"
-msgstr ""
+msgstr "在显示器上："
 
 #: ddterm/pref/glade/prefs-scrolling.ui:44
 msgid "Show _scrollbar"
-msgstr ""
+msgstr "显示滚动条"
 
 #: ddterm/pref/glade/prefs-scrolling.ui:60
 msgid "Scroll on _output"
