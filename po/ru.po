@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-11 03:03+0000\n"
+"POT-Creation-Date: 2023-04-20 23:14+0000\n"
 "PO-Revision-Date: 2023-03-14 13:45+0000\n"
 "Last-Translator: Aleksandr Mezin <mezin.alexander@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/gnome-shell-"
@@ -17,7 +17,7 @@ msgstr ""
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 4.16.2-dev\n"
 
-#: ddterm/app/appwindow.js:430
+#: ddterm/app/appwindow.js:432
 msgid ""
 "Warning: ddterm version has changed. Log out, then log in again to load the "
 "updated extension."
@@ -83,12 +83,12 @@ msgid "Close"
 msgstr "Закрыть"
 
 #: ddterm/app/glade/terminalpage.ui:271 ddterm/app/glade/terminalpage.ui:274
-#: ddterm/pref/glade/prefs-shortcuts.ui:217
+#: ddterm/pref/glade/prefs-shortcuts.ui:248
 msgid "Find Next"
 msgstr "Найти следующее"
 
 #: ddterm/app/glade/terminalpage.ui:290 ddterm/app/glade/terminalpage.ui:293
-#: ddterm/pref/glade/prefs-shortcuts.ui:223
+#: ddterm/pref/glade/prefs-shortcuts.ui:255
 msgid "Find Previous"
 msgstr "Найти предыдущее"
 
@@ -116,19 +116,19 @@ msgstr "Копировать HTML"
 msgid "Paste"
 msgstr "Вставить"
 
-#: ddterm/app/menus.ui:54 ddterm/pref/glade/prefs-shortcuts.ui:127
+#: ddterm/app/menus.ui:54 ddterm/pref/glade/prefs-shortcuts.ui:143
 msgid "Select All"
 msgstr "Выбрать все"
 
-#: ddterm/app/menus.ui:60 ddterm/pref/glade/prefs-shortcuts.ui:211
+#: ddterm/app/menus.ui:60 ddterm/pref/glade/prefs-shortcuts.ui:241
 msgid "Find"
 msgstr "Найти"
 
-#: ddterm/app/menus.ui:66 ddterm/pref/glade/prefs-shortcuts.ui:133
+#: ddterm/app/menus.ui:66 ddterm/pref/glade/prefs-shortcuts.ui:150
 msgid "Reset"
 msgstr "Сбросить"
 
-#: ddterm/app/menus.ui:70 ddterm/pref/glade/prefs-shortcuts.ui:139
+#: ddterm/app/menus.ui:70 ddterm/pref/glade/prefs-shortcuts.ui:157
 msgid "Reset and Clear"
 msgstr "Сбросить и очистить"
 
@@ -136,25 +136,25 @@ msgstr "Сбросить и очистить"
 msgid "New Tab"
 msgstr "Новая вкладка"
 
-#: ddterm/app/menus.ui:84 ddterm/pref/glade/prefs-shortcuts.ui:157
+#: ddterm/app/menus.ui:84 ddterm/pref/glade/prefs-shortcuts.ui:178
 msgid "New Tab Before Current Tab"
 msgstr "Новая вкладка - Перед текущей вкладкой"
 
-#: ddterm/app/menus.ui:88 ddterm/pref/glade/prefs-shortcuts.ui:163
+#: ddterm/app/menus.ui:88 ddterm/pref/glade/prefs-shortcuts.ui:185
 msgid "New Tab After Current Tab"
 msgstr "Новая вкладка - После текущей вкладки"
 
 #: ddterm/app/menus.ui:92 ddterm/app/menus.ui:188
-#: ddterm/pref/glade/prefs-shortcuts.ui:151
+#: ddterm/pref/glade/prefs-shortcuts.ui:171
 msgid "New Tab Before First Tab"
 msgstr "Новая вкладка - Перед первой вкладкой"
 
 #: ddterm/app/menus.ui:96 ddterm/app/menus.ui:192
-#: ddterm/pref/glade/prefs-shortcuts.ui:145
+#: ddterm/pref/glade/prefs-shortcuts.ui:164
 msgid "New Tab After Last Tab"
 msgstr "Новая вкладка - После последней вкладки"
 
-#: ddterm/app/menus.ui:102 ddterm/pref/dialog.js:47
+#: ddterm/app/menus.ui:102 ddterm/pref/dialog.js:46
 msgid "Preferences"
 msgstr "Параметры"
 
@@ -218,11 +218,11 @@ msgstr "Новая вкладка перед указанной"
 msgid "New Tab After This Tab"
 msgstr "Новая вкладка после указанной"
 
-#: ddterm/app/menus.ui:198 ddterm/pref/glade/prefs-shortcuts.ui:187
+#: ddterm/app/menus.ui:198 ddterm/pref/glade/prefs-shortcuts.ui:213
 msgid "Move Tab to Previous Position"
 msgstr "Переместить вкладку на предыдущую позицию"
 
-#: ddterm/app/menus.ui:202 ddterm/pref/glade/prefs-shortcuts.ui:193
+#: ddterm/app/menus.ui:202 ddterm/pref/glade/prefs-shortcuts.ui:220
 msgid "Move Tab to Next Position"
 msgstr "Переместить вкладку на следующую позицию"
 
@@ -238,19 +238,19 @@ msgstr ""
 "В терминале запущены процессы. При закрытии терминала эти процессы будут "
 "завершены."
 
-#: ddterm/pref/animation.js:100
+#: ddterm/pref/animation.js:87
 msgid "Animation"
 msgstr "Анимация"
 
-#: ddterm/pref/behavior.js:72
+#: ddterm/pref/behavior.js:64
 msgid "Behavior"
 msgstr "Поведение"
 
-#: ddterm/pref/colors.js:277
+#: ddterm/pref/colors.js:463
 msgid "Colors"
 msgstr "Цвета"
 
-#: ddterm/pref/command.js:72
+#: ddterm/pref/command.js:65
 msgid "Command"
 msgstr "Команда"
 
@@ -388,23 +388,23 @@ msgid ""
 "Exponentially decaying parabolic (bounce) tweening, with bounce on both ends"
 msgstr "Экспоненциально затухающая параболическая с отскоком в начале и конце"
 
-#: ddterm/pref/glade/prefs-animation.ui:188
+#: ddterm/pref/glade/prefs-animation.ui:181
 msgid "_Override default window animations"
 msgstr "Переопределить анимацию окна по умолчанию"
 
-#: ddterm/pref/glade/prefs-animation.ui:207
+#: ddterm/pref/glade/prefs-animation.ui:216
 msgid "_Show animation:"
 msgstr "Анимация открытия:"
 
-#: ddterm/pref/glade/prefs-animation.ui:221
+#: ddterm/pref/glade/prefs-animation.ui:230
 msgid "_Hide animation:"
 msgstr "Анимация закрытия:"
 
-#: ddterm/pref/glade/prefs-animation.ui:273
+#: ddterm/pref/glade/prefs-animation.ui:282
 msgid "_Hide animation duration:"
 msgstr "Длительность анимации закрытия:"
 
-#: ddterm/pref/glade/prefs-animation.ui:286
+#: ddterm/pref/glade/prefs-animation.ui:295
 msgid "_Show animation duration:"
 msgstr "Длительность анимации открытия:"
 
@@ -572,7 +572,7 @@ msgstr "Solarized"
 msgid "Theme _variant:"
 msgstr "Вариант темы:"
 
-#: ddterm/pref/glade/prefs-colors.ui:307 ddterm/pref/glade/prefs-text.ui:133
+#: ddterm/pref/glade/prefs-colors.ui:307 ddterm/pref/glade/prefs-text.ui:132
 msgid "Default"
 msgstr "По умолчанию"
 
@@ -588,141 +588,141 @@ msgstr "Тёмная"
 msgid "Use colors from system _theme"
 msgstr "_Использовать цвета из системной темы"
 
-#: ddterm/pref/glade/prefs-colors.ui:344
-msgid "Foreground"
-msgstr "Текст"
-
-#: ddterm/pref/glade/prefs-colors.ui:355
-msgid "Background"
-msgstr "Фон"
-
-#: ddterm/pref/glade/prefs-colors.ui:367
-msgid "Default color:"
-msgstr "Цвет по умолчанию:"
-
-#: ddterm/pref/glade/prefs-colors.ui:376
-msgid "Bold color:"
-msgstr "Жирный цвет:"
-
-#: ddterm/pref/glade/prefs-colors.ui:390
-msgid "Cursor color:"
-msgstr "Цвет курсора:"
-
-#: ddterm/pref/glade/prefs-colors.ui:404
-msgid "Highlight color:"
-msgstr "Цвет подсветки:"
-
-#: ddterm/pref/glade/prefs-colors.ui:421
-msgid "Color _scheme:"
-msgstr "Цветовая схема:"
-
-#: ddterm/pref/glade/prefs-colors.ui:469
-msgid "Foreground Color"
-msgstr "Цвет текста"
-
-#: ddterm/pref/glade/prefs-colors.ui:493
-msgid "Background Color"
-msgstr "Цвет фона"
-
-#: ddterm/pref/glade/prefs-colors.ui:517
-msgid "Bold Color"
-msgstr "Жирный цвет"
-
-#: ddterm/pref/glade/prefs-colors.ui:541
-msgid "Cursor Foreground Color"
-msgstr "Цвет текста в курсоре"
-
-#: ddterm/pref/glade/prefs-colors.ui:565
-msgid "Cursor Background Color"
-msgstr "Цвет фона курсора"
-
-#: ddterm/pref/glade/prefs-colors.ui:589
-msgid "Highlight Foreground Color"
-msgstr "Цвет подсветки текста"
-
-#: ddterm/pref/glade/prefs-colors.ui:613
-msgid "Highlight Background Color"
-msgstr "Цвет подсветки фона"
-
-#: ddterm/pref/glade/prefs-colors.ui:642
+#: ddterm/pref/glade/prefs-colors.ui:335
 msgid "_Background opacity:"
 msgstr "Непрозрачность фона:"
 
-#: ddterm/pref/glade/prefs-colors.ui:687
+#: ddterm/pref/glade/prefs-colors.ui:380
 msgid "_Palette:"
 msgstr "Палитра:"
 
-#: ddterm/pref/glade/prefs-colors.ui:729
+#: ddterm/pref/glade/prefs-colors.ui:423
 msgid "Palette Color 0"
 msgstr "Цвет палитры 0"
 
-#: ddterm/pref/glade/prefs-colors.ui:742
+#: ddterm/pref/glade/prefs-colors.ui:436
 msgid "Palette Color 1"
 msgstr "Цвет палитры 1"
 
-#: ddterm/pref/glade/prefs-colors.ui:755
+#: ddterm/pref/glade/prefs-colors.ui:449
 msgid "Palette Color 2"
 msgstr "Цвет палитры 2"
 
-#: ddterm/pref/glade/prefs-colors.ui:768
+#: ddterm/pref/glade/prefs-colors.ui:462
 msgid "Palette Color 3"
 msgstr "Цвет палитры 3"
 
-#: ddterm/pref/glade/prefs-colors.ui:781
+#: ddterm/pref/glade/prefs-colors.ui:475
 msgid "Palette Color 4"
 msgstr "Цвет палитры 4"
 
-#: ddterm/pref/glade/prefs-colors.ui:794
+#: ddterm/pref/glade/prefs-colors.ui:488
 msgid "Palette Color 5"
 msgstr "Цвет палитры 5"
 
-#: ddterm/pref/glade/prefs-colors.ui:807
+#: ddterm/pref/glade/prefs-colors.ui:501
 msgid "Palette Color 6"
 msgstr "Цвет палитры 6"
 
-#: ddterm/pref/glade/prefs-colors.ui:820
+#: ddterm/pref/glade/prefs-colors.ui:514
 msgid "Palette Color 7"
 msgstr "Цвет палитры 7"
 
-#: ddterm/pref/glade/prefs-colors.ui:833
+#: ddterm/pref/glade/prefs-colors.ui:527
 msgid "Palette Color 8"
 msgstr "Цвет палитры 8"
 
-#: ddterm/pref/glade/prefs-colors.ui:846
+#: ddterm/pref/glade/prefs-colors.ui:540
 msgid "Palette Color 9"
 msgstr "Цвет палитры 9"
 
-#: ddterm/pref/glade/prefs-colors.ui:859
+#: ddterm/pref/glade/prefs-colors.ui:553
 msgid "Palette Color 10"
 msgstr "Цвет палитры 10"
 
-#: ddterm/pref/glade/prefs-colors.ui:872
+#: ddterm/pref/glade/prefs-colors.ui:566
 msgid "Palette Color 11"
 msgstr "Цвет палитры 11"
 
-#: ddterm/pref/glade/prefs-colors.ui:885
+#: ddterm/pref/glade/prefs-colors.ui:579
 msgid "Palette Color 12"
 msgstr "Цвет палитры 12"
 
-#: ddterm/pref/glade/prefs-colors.ui:898
+#: ddterm/pref/glade/prefs-colors.ui:592
 msgid "Palette Color 13"
 msgstr "Цвет палитры 13"
 
-#: ddterm/pref/glade/prefs-colors.ui:911
+#: ddterm/pref/glade/prefs-colors.ui:605
 msgid "Palette Color 14"
 msgstr "Цвет палитры 14"
 
-#: ddterm/pref/glade/prefs-colors.ui:924
+#: ddterm/pref/glade/prefs-colors.ui:618
 msgid "Palette Color 15"
 msgstr "Цвет палитры 15"
 
-#: ddterm/pref/glade/prefs-colors.ui:940
+#: ddterm/pref/glade/prefs-colors.ui:634
 msgid "Show bold text in _bright colors"
 msgstr "Отображать жирный текст в ярких цветах"
 
-#: ddterm/pref/glade/prefs-colors.ui:956
+#: ddterm/pref/glade/prefs-colors.ui:650
 msgid "Copy profile from GNOME Terminal"
 msgstr "Скопировать профиль из терминала GNOME"
+
+#: ddterm/pref/glade/prefs-colors.ui:673
+msgid "Foreground"
+msgstr "Текст"
+
+#: ddterm/pref/glade/prefs-colors.ui:684
+msgid "Background"
+msgstr "Фон"
+
+#: ddterm/pref/glade/prefs-colors.ui:696
+msgid "Default color:"
+msgstr "Цвет по умолчанию:"
+
+#: ddterm/pref/glade/prefs-colors.ui:705
+msgid "Bold color:"
+msgstr "Жирный цвет:"
+
+#: ddterm/pref/glade/prefs-colors.ui:718
+msgid "Cursor color:"
+msgstr "Цвет курсора:"
+
+#: ddterm/pref/glade/prefs-colors.ui:732
+msgid "Highlight color:"
+msgstr "Цвет подсветки:"
+
+#: ddterm/pref/glade/prefs-colors.ui:749
+msgid "Color _scheme:"
+msgstr "Цветовая схема:"
+
+#: ddterm/pref/glade/prefs-colors.ui:767
+msgid "Background Color"
+msgstr "Цвет фона"
+
+#: ddterm/pref/glade/prefs-colors.ui:791
+msgid "Bold Color"
+msgstr "Жирный цвет"
+
+#: ddterm/pref/glade/prefs-colors.ui:815
+msgid "Cursor Foreground Color"
+msgstr "Цвет текста в курсоре"
+
+#: ddterm/pref/glade/prefs-colors.ui:839
+msgid "Cursor Background Color"
+msgstr "Цвет фона курсора"
+
+#: ddterm/pref/glade/prefs-colors.ui:863
+msgid "Highlight Foreground Color"
+msgstr "Цвет подсветки текста"
+
+#: ddterm/pref/glade/prefs-colors.ui:887
+msgid "Highlight Background Color"
+msgstr "Цвет подсветки фона"
+
+#: ddterm/pref/glade/prefs-colors.ui:930
+msgid "Foreground Color"
+msgstr "Цвет текста"
 
 #: ddterm/pref/glade/prefs-command.ui:39
 msgid "User _shell"
@@ -865,135 +865,135 @@ msgstr "Прокручивать при нажатии клавиши"
 msgid "_Limit scrollback to:"
 msgstr "Ограничить прокрутку:"
 
-#: ddterm/pref/glade/prefs-scrolling.ui:129
+#: ddterm/pref/glade/prefs-scrolling.ui:128
 msgid "lines"
 msgstr "строками"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:41
+#: ddterm/pref/glade/prefs-shortcuts.ui:43
 msgid "Toggle Terminal Window"
 msgstr "Переключение видимости окна терминала"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:47
+#: ddterm/pref/glade/prefs-shortcuts.ui:50
 msgid "Show/Activate Terminal Window"
 msgstr "Показать/активировать окно терминала"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:67
+#: ddterm/pref/glade/prefs-shortcuts.ui:73
 msgid "Hide the Window"
 msgstr "Скрыть окно"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:73
+#: ddterm/pref/glade/prefs-shortcuts.ui:80
 msgid "Maximize/Unmaximize the Window"
 msgstr "Развернуть/свернуть окно"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:79
+#: ddterm/pref/glade/prefs-shortcuts.ui:87
 msgid "Increase Window Height"
 msgstr "Увеличить высоту окна"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:85
+#: ddterm/pref/glade/prefs-shortcuts.ui:94
 msgid "Decrease Window Height"
 msgstr "Уменьшить высоту окна"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:91
+#: ddterm/pref/glade/prefs-shortcuts.ui:101
 msgid "Increase Background Opacity"
 msgstr "Увеличить непрозрачность фона"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:97
+#: ddterm/pref/glade/prefs-shortcuts.ui:108
 msgid "Decrease Background Opacity"
 msgstr "Уменьшить непрозрачность фона"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:103
+#: ddterm/pref/glade/prefs-shortcuts.ui:115
 msgid "Enable/Disable Background Transparency"
 msgstr "Вкл/выкл прозрачности фона"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:109
+#: ddterm/pref/glade/prefs-shortcuts.ui:122
 msgid "Copy Selected Text"
 msgstr "Копировать выбранный текст"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:115
+#: ddterm/pref/glade/prefs-shortcuts.ui:129
 msgid "Copy Selected Text as HTML"
 msgstr "Копировать выбранный текст как HTML"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:121
+#: ddterm/pref/glade/prefs-shortcuts.ui:136
 msgid "Paste Text from Clipboard"
 msgstr "Вставить текст из буфера обмена"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:169
+#: ddterm/pref/glade/prefs-shortcuts.ui:192
 msgid "Close Current Tab"
 msgstr "Закрыть текущую вкладку"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:175
+#: ddterm/pref/glade/prefs-shortcuts.ui:199
 msgid "Switch to Previous Tab"
 msgstr "Переключится на предыдущую вкладку"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:181
+#: ddterm/pref/glade/prefs-shortcuts.ui:206
 msgid "Switch to Next Tab"
 msgstr "Переключится на следующую вкладку"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:199
+#: ddterm/pref/glade/prefs-shortcuts.ui:227
 msgid "Set Custom Tab Title"
 msgstr "Изменить название вкладки"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:205
+#: ddterm/pref/glade/prefs-shortcuts.ui:234
 msgid "Reset Tab Title"
 msgstr "Сбросить название вкладки"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:229
+#: ddterm/pref/glade/prefs-shortcuts.ui:262
 msgid "Switch to Tab 1"
 msgstr "Переключиться на вкладку 1"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:235
+#: ddterm/pref/glade/prefs-shortcuts.ui:269
 msgid "Switch to Tab 2"
 msgstr "Переключиться на вкладку 2"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:241
+#: ddterm/pref/glade/prefs-shortcuts.ui:276
 msgid "Switch to Tab 3"
 msgstr "Переключиться на вкладку 3"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:247
+#: ddterm/pref/glade/prefs-shortcuts.ui:283
 msgid "Switch to Tab 4"
 msgstr "Переключиться на вкладку 4"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:253
+#: ddterm/pref/glade/prefs-shortcuts.ui:290
 msgid "Switch to Tab 5"
 msgstr "Переключиться на вкладку 5"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:259
+#: ddterm/pref/glade/prefs-shortcuts.ui:297
 msgid "Switch to Tab 6"
 msgstr "Переключиться на вкладку 6"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:265
+#: ddterm/pref/glade/prefs-shortcuts.ui:304
 msgid "Switch to Tab 7"
 msgstr "Переключиться на вкладку 7"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:271
+#: ddterm/pref/glade/prefs-shortcuts.ui:311
 msgid "Switch to Tab 8"
 msgstr "Переключиться на вкладку 8"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:277
+#: ddterm/pref/glade/prefs-shortcuts.ui:318
 msgid "Switch to Tab 9"
 msgstr "Переключиться на вкладку 9"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:283
+#: ddterm/pref/glade/prefs-shortcuts.ui:325
 msgid "Switch to Tab 10"
 msgstr "Переключиться на вкладку 10"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:315
+#: ddterm/pref/glade/prefs-shortcuts.ui:358
 msgid "Global Action"
 msgstr "Глобальное действие"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:327
+#: ddterm/pref/glade/prefs-shortcuts.ui:370
 msgid "Global Shortcut"
 msgstr "Глобальная комбинация клавиш"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:350
+#: ddterm/pref/glade/prefs-shortcuts.ui:392
 msgid "_Enable application shortcuts"
 msgstr "Включить комбинации клавиш для приложения"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:380
+#: ddterm/pref/glade/prefs-shortcuts.ui:422
 msgid "Action"
 msgstr "Действие"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:392
+#: ddterm/pref/glade/prefs-shortcuts.ui:434
 msgid "Shortcut"
 msgstr "Комбинация клавиш"
 
@@ -1017,11 +1017,11 @@ msgstr "Меню переключения вкладок"
 msgid "Show tab _bar:"
 msgstr "Показывать панель вкладок:"
 
-#: ddterm/pref/glade/prefs-tabs.ui:130 ddterm/pref/glade/prefs-text.ui:103
+#: ddterm/pref/glade/prefs-tabs.ui:130 ddterm/pref/glade/prefs-text.ui:102
 msgid "Always"
 msgstr "Всегда"
 
-#: ddterm/pref/glade/prefs-tabs.ui:132 ddterm/pref/glade/prefs-text.ui:100
+#: ddterm/pref/glade/prefs-tabs.ui:132 ddterm/pref/glade/prefs-text.ui:99
 msgid "Never"
 msgstr "Никогда"
 
@@ -1109,103 +1109,103 @@ msgstr ""
 msgid "Custom _font:"
 msgstr "Пользовательский шрифт:"
 
-#: ddterm/pref/glade/prefs-text.ui:57
+#: ddterm/pref/glade/prefs-text.ui:56
 msgid "Allow _blinking text:"
 msgstr "Разрешить моргание текста:"
 
-#: ddterm/pref/glade/prefs-text.ui:71
+#: ddterm/pref/glade/prefs-text.ui:70
 msgid "Cursor _shape:"
 msgstr "Вид курсора:"
 
-#: ddterm/pref/glade/prefs-text.ui:85
+#: ddterm/pref/glade/prefs-text.ui:84
 msgid "_Cursor blinking:"
 msgstr "Моргание курсора:"
 
-#: ddterm/pref/glade/prefs-text.ui:101
+#: ddterm/pref/glade/prefs-text.ui:100
 msgid "When focused"
 msgstr "Когда в фокусе"
 
-#: ddterm/pref/glade/prefs-text.ui:102
+#: ddterm/pref/glade/prefs-text.ui:101
 msgid "When unfocused"
 msgstr "Когда не в фокусе"
 
-#: ddterm/pref/glade/prefs-text.ui:117
+#: ddterm/pref/glade/prefs-text.ui:116
 msgid "Block"
 msgstr "Блок"
 
-#: ddterm/pref/glade/prefs-text.ui:118
+#: ddterm/pref/glade/prefs-text.ui:117
 msgid "I-Beam"
 msgstr "I-образный"
 
-#: ddterm/pref/glade/prefs-text.ui:119
+#: ddterm/pref/glade/prefs-text.ui:118
 msgid "Underline"
 msgstr "Подчёркивание"
 
-#: ddterm/pref/glade/prefs-text.ui:134
+#: ddterm/pref/glade/prefs-text.ui:133
 msgid "Enabled"
 msgstr "Включено"
 
-#: ddterm/pref/glade/prefs-text.ui:135
+#: ddterm/pref/glade/prefs-text.ui:134
 msgid "Disabled"
 msgstr "Отключено"
 
-#: ddterm/pref/glade/prefs-text.ui:145
+#: ddterm/pref/glade/prefs-text.ui:144
 msgid "Allow _hyperlinks"
 msgstr "Разрешить ссылки"
 
-#: ddterm/pref/glade/prefs-text.ui:161
+#: ddterm/pref/glade/prefs-text.ui:160
 msgid "Audible _bell"
 msgstr "Звуковой сигнал"
 
-#: ddterm/pref/glade/prefs-text.ui:203
+#: ddterm/pref/glade/prefs-text.ui:202
 msgid "Detect _URLs"
 msgstr "Определение ссылок (URL)"
 
-#: ddterm/pref/glade/prefs-text.ui:226
+#: ddterm/pref/glade/prefs-text.ui:225
 msgid "Detect raw URLs (scheme://netloc/path)"
 msgstr "Прямые ссылки (схема://сетевой/путь)"
 
-#: ddterm/pref/glade/prefs-text.ui:241
+#: ddterm/pref/glade/prefs-text.ui:240
 msgid "Detect file: URLs"
 msgstr "Ссылки на файлы"
 
-#: ddterm/pref/glade/prefs-text.ui:256
+#: ddterm/pref/glade/prefs-text.ui:255
 msgid "Detect HTTP URLs"
 msgstr "Ссылки HTTP"
 
-#: ddterm/pref/glade/prefs-text.ui:271
+#: ddterm/pref/glade/prefs-text.ui:270
 msgid "Detect VoIP URLs"
 msgstr "Ссылки VoIP"
 
-#: ddterm/pref/glade/prefs-text.ui:286
+#: ddterm/pref/glade/prefs-text.ui:285
 msgid "Detect E-mail addresses"
 msgstr "Адреса E-mail"
 
-#: ddterm/pref/glade/prefs-text.ui:301
+#: ddterm/pref/glade/prefs-text.ui:300
 msgid "Detect news:/man: URLs"
 msgstr "Ссылки вида \"news:/man\""
 
-#: ddterm/pref/panelicon.js:58
+#: ddterm/pref/panelicon.js:53
 msgid "Panel Icon"
 msgstr "Значок на панели"
 
-#: ddterm/pref/positionsize.js:156
+#: ddterm/pref/positionsize.js:373
 msgid "Position and Size"
 msgstr "Положение и размер"
 
-#: ddterm/pref/scrolling.js:73
+#: ddterm/pref/scrolling.js:74
 msgid "Scrolling"
 msgstr "Прокрутка"
 
-#: ddterm/pref/shortcuts.js:123
+#: ddterm/pref/shortcuts.js:112
 msgid "Keyboard Shortcuts"
 msgstr "Комбинации клавиш"
 
-#: ddterm/pref/tabs.js:104
+#: ddterm/pref/tabs.js:94
 msgid "Tabs"
 msgstr "Вкладки"
 
-#: ddterm/pref/text.js:85
+#: ddterm/pref/text.js:92
 msgid "Text"
 msgstr "Текст"
 
