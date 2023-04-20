@@ -38,9 +38,7 @@ jobs:
     - name: Check if there are any changes
       id: diff
       run: |
-        DIFF="$(git diff --color=always -- $PO_FILES)"
-        echo "$DIFF"
-        .github/set-multiline.sh diff "$DIFF" >> "$GITHUB_OUTPUT"
+        git diff --color=always -- $PO_FILES | tee /dev/stderr | .github/set-multiline.sh diff >> "$GITHUB_OUTPUT"
 
     - name: Commit and push
       if: steps.diff.outputs.diff != ''
