@@ -11,8 +11,8 @@ jobs:
       image: ghcr.io/ddterm/ci-docker-image:2023.04.21.0
 
     env:
-      PY_COLORS: 1
-      TOX_TESTENV_PASSENV: PY_COLORS GITHUB_ACTIONS PIP_DISABLE_PIP_VERSION_CHECK
+      FORCE_COLOR: 1
+      TOX_TESTENV_PASSENV: FORCE_COLOR GITHUB_ACTIONS PIP_DISABLE_PIP_VERSION_CHECK
       PIP_DISABLE_PIP_VERSION_CHECK: 1
 
     steps:
@@ -57,7 +57,7 @@ jobs:
       run: tox --sitepackages -e lint 2>&1 | sed -e 's:^\./:test/:' | tee ../flake8.log
       shell: bash
       env:
-        PY_COLORS: 0
+        FORCE_COLOR: 0
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
       working-directory: test
 
@@ -170,8 +170,8 @@ jobs:
         image: ${{ fromJson(needs.configure-test-matrix.outputs.images) }}
 
     env:
-      PY_COLORS: 1
-      TOX_TESTENV_PASSENV: PY_COLORS GITHUB_ACTIONS PIP_DISABLE_PIP_VERSION_CHECK
+      FORCE_COLOR: 1
+      TOX_TESTENV_PASSENV: FORCE_COLOR GITHUB_ACTIONS PIP_DISABLE_PIP_VERSION_CHECK
       PIP_DISABLE_PIP_VERSION_CHECK: 1
 
     steps:
