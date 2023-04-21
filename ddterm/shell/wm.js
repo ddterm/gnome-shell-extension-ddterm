@@ -24,7 +24,6 @@ const Main = imports.ui.main;
 const WM = imports.ui.windowManager;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-const { backport } = Me.imports.ddterm;
 const { logger } = Me.imports.ddterm.util;
 const { ConnectionSet } = Me.imports.ddterm.shell.connectionset;
 
@@ -51,7 +50,7 @@ function get_monitor_manager() {
 
 /* exported WindowManager */
 
-var WindowManager = backport.GObject.registerClass(
+var WindowManager = GObject.registerClass(
     {
         Properties: {
             'settings': GObject.ParamSpec.object(

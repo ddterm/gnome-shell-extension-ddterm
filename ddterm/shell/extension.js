@@ -26,7 +26,6 @@ const ByteArray = imports.byteArray;
 const Main = imports.ui.main;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-const { backport } = Me.imports.ddterm;
 const { ConnectionSet } = Me.imports.ddterm.shell.connectionset;
 const { PanelIconProxy } = Me.imports.ddterm.shell.panelicon;
 const { WindowManager } = Me.imports.ddterm.shell.wm;
@@ -53,7 +52,7 @@ const APP_DBUS_PATH = '/com/github/amezin/ddterm';
 const WINDOW_PATH_PREFIX = `${APP_DBUS_PATH}/window/`;
 const SIGINT = 2;
 
-const AppDBusWatch = backport.GObject.registerClass(
+const AppDBusWatch = GObject.registerClass(
     {
         Properties: {
             'available': GObject.ParamSpec.boolean(
@@ -381,8 +380,7 @@ function spawn_app() {
         subprocess_launcher.setenv('GDK_BACKEND', 'x11', true);
     }
 
-    if (Meta.WaylandClient &&
-        Meta.is_wayland_compositor() &&
+    if (Meta.is_wayland_compositor() &&
         subprocess_launcher.getenv('GDK_BACKEND') !== 'x11') {
         try {
             wayland_client = Meta.WaylandClient.new(global.context, subprocess_launcher);
@@ -461,8 +459,7 @@ function watch_window(win) {
             if (!wayland_client.owns_window(win))
                 return;
         } else if (subprocess) {
-            const pid = win.get_pid();
-            if (pid > 0 && pid.toString() !== subprocess.get_identifier())
+            if (win.get_pid().toString() !== subprocess.get_identifier())
                 return;
         }
 

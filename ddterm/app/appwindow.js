@@ -22,7 +22,6 @@
 /* exported AppWindow */
 
 const { GLib, GObject, Gio, Gdk, Gtk } = imports.gi;
-const { backport } = imports.ddterm;
 const { rxjs } = imports.ddterm.thirdparty.rxjs;
 const { rxutil, settings } = imports.ddterm.rx;
 const { extensiondbus, terminalpage } = imports.ddterm.app;
@@ -36,7 +35,7 @@ const APP_VERSION = JSON.parse(ByteArray.toString(
     Me.dir.get_child('metadata.json').load_contents(null)[1]
 )).version;
 
-var AppWindow = backport.GObject.registerClass(
+var AppWindow = GObject.registerClass(
     {
         Template: DDTERM_DIR.get_child('app').get_child('ui').get_child('appwindow.ui').get_uri(),
         Children: [

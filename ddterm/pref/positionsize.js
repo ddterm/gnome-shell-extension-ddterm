@@ -21,11 +21,10 @@
 
 const { GLib, GObject, Gio, Gtk } = imports.gi;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-const { backport } = Me.imports.ddterm;
 const { util } = Me.imports.ddterm.pref;
 const { translations } = Me.imports.ddterm.util;
 
-const Monitor = backport.GObject.registerClass(
+const Monitor = GObject.registerClass(
     {
         Properties: {
             'connector': GObject.ParamSpec.string(
@@ -48,7 +47,7 @@ const Monitor = backport.GObject.registerClass(
     }
 );
 
-const MonitorList = backport.GObject.registerClass(
+const MonitorList = GObject.registerClass(
     class DDTermPrefsMonitorList extends Gio.ListStore {
         _init(params) {
             super._init({
@@ -203,7 +202,7 @@ const MonitorList = backport.GObject.registerClass(
     }
 );
 
-const ListToTreeModelAdapter = backport.GObject.registerClass(
+const ListToTreeModelAdapter = GObject.registerClass(
     {
         Properties: {
             'source': GObject.ParamSpec.object(
@@ -318,7 +317,7 @@ const ListToTreeModelAdapter = backport.GObject.registerClass(
     }
 );
 
-var Widget = backport.GObject.registerClass(
+var Widget = GObject.registerClass(
     {
         GTypeName: 'DDTermPrefsPositionSize',
         Template: util.ui_file_uri('prefs-position-size.ui'),

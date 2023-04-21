@@ -61,10 +61,6 @@ Vagrant.configure("2") do |config|
     version.vm.box = "generic/ubuntu2204"
   end
 
-  config.vm.define "ubuntu2004", autostart: false do |version|
-    version.vm.box = "generic/ubuntu2004"
-  end
-
   config.vm.define "fedora38", autostart: false do |version|
     version.vm.box = "Fedora-Cloud-Base-Vagrant-38_Beta-1.3"
     version.vm.box_download_checksum_type = 'sha256'

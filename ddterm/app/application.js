@@ -23,7 +23,6 @@ const System = imports.system;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 
-const { backport } = imports.ddterm;
 const { translations } = imports.ddterm.util;
 const { timers } = imports.ddterm.rx;
 
@@ -46,7 +45,7 @@ const { PrefsDialog } = imports.ddterm.pref.dialog;
 
 const APP_DIR = Me.dir.get_child('ddterm').get_child('app');
 
-const Application = backport.GObject.registerClass(
+const Application = GObject.registerClass(
     {
         Properties: {
             'window': GObject.ParamSpec.object(

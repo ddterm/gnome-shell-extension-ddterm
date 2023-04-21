@@ -21,11 +21,10 @@
 
 const { GObject, Gio, Gtk } = imports.gi;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-const { backport } = Me.imports.ddterm;
 const { util } = Me.imports.ddterm.pref;
 const { translations } = Me.imports.ddterm.util;
 
-var Widget = backport.GObject.registerClass(
+var Widget = GObject.registerClass(
     {
         GTypeName: 'DDTermPrefsBehavior',
         Template: util.ui_file_uri('prefs-behavior.ui'),

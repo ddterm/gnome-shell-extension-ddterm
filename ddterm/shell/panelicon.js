@@ -27,11 +27,10 @@ const PanelMenu = imports.ui.panelMenu;
 const PopupMenu = imports.ui.popupMenu;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-const { backport } = Me.imports.ddterm;
 const { ConnectionSet } = Me.imports.ddterm.shell.connectionset;
 const { translations } = Me.imports.ddterm.util;
 
-const PanelIconBase = backport.GObject.registerClass(
+const PanelIconBase = GObject.registerClass(
     {
         Properties: {
             'active': GObject.ParamSpec.boolean(
@@ -65,7 +64,7 @@ const PanelIconBase = backport.GObject.registerClass(
     }
 );
 
-const PanelIconPopupMenu = backport.GObject.registerClass(
+const PanelIconPopupMenu = GObject.registerClass(
     class DDTermPanelIconPopupMenu extends PanelIconBase {
         _init() {
             super._init(false);
@@ -105,7 +104,7 @@ const PanelIconPopupMenu = backport.GObject.registerClass(
     }
 );
 
-const PanelIconToggleButton = backport.GObject.registerClass(
+const PanelIconToggleButton = GObject.registerClass(
     class DDTermPanelIconToggleButton extends PanelIconBase {
         _init() {
             super._init(true);
@@ -148,7 +147,7 @@ const PanelIconToggleButton = backport.GObject.registerClass(
     }
 );
 
-const PanelIconToggleAndMenu = backport.GObject.registerClass(
+const PanelIconToggleAndMenu = GObject.registerClass(
     class DDTermPanelIconToggleAndMenu extends PanelIconPopupMenu {
         get active() {
             return super.active;
@@ -185,7 +184,7 @@ const PanelIconToggleAndMenu = backport.GObject.registerClass(
     }
 );
 
-var PanelIconProxy = backport.GObject.registerClass(
+var PanelIconProxy = GObject.registerClass(
     {
         Properties: {
             'active': GObject.ParamSpec.boolean(

@@ -21,7 +21,6 @@
 
 const { GObject, Gio, Gdk, Gtk } = imports.gi;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-const { backport } = Me.imports.ddterm;
 const { util } = Me.imports.ddterm.pref;
 const { translations } = Me.imports.ddterm.util;
 
@@ -38,7 +37,7 @@ const COLUMN_ACCEL_KEY = 2;
 const COLUMN_ACCEL_MODS = 3;
 const COLUMN_EDITABLE = 4;
 
-var Widget = backport.GObject.registerClass(
+var Widget = GObject.registerClass(
     {
         GTypeName: 'DDTermPrefsShortcuts',
         Template: util.ui_file_uri('prefs-shortcuts.ui'),

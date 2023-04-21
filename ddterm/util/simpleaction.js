@@ -19,12 +19,9 @@
 
 'use strict';
 
-const { Gio } = imports.gi;
+const { GObject, Gio } = imports.gi;
 
-const Me = imports.misc.extensionUtils.getCurrentExtension();
-const { backport } = Me.imports.ddterm;
-
-var Action = backport.GObject.registerClass(
+var Action = GObject.registerClass(
     class DDTermSimpleAction extends Gio.SimpleAction {
         _init(params) {
             this.activate_callback = params.activate;

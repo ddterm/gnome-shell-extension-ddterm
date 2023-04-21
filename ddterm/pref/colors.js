@@ -21,7 +21,6 @@
 
 const { GLib, GObject, Gio, Gdk, Gtk } = imports.gi;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-const { backport } = Me.imports.ddterm;
 const { util } = Me.imports.ddterm.pref;
 const { translations } = Me.imports.ddterm.util;
 
@@ -130,7 +129,7 @@ function parse_rgba(str) {
     throw Error(`Cannot parse ${JSON.stringify(str)} as color`);
 }
 
-const Color = backport.GObject.registerClass(
+const Color = GObject.registerClass(
     {
         Properties: {
             'rgba': GObject.ParamSpec.boxed(
@@ -179,7 +178,7 @@ const Color = backport.GObject.registerClass(
     }
 );
 
-const ColorScheme = backport.GObject.registerClass(
+const ColorScheme = GObject.registerClass(
     {
         Properties: {
             'active-preset': GObject.ParamSpec.int(
@@ -290,7 +289,7 @@ const ColorScheme = backport.GObject.registerClass(
 
 const PALETTE_WIDGET_IDS = Array.from({ length: 16 }, (_, i) => `palette${i}`);
 
-var Widget = backport.GObject.registerClass(
+var Widget = GObject.registerClass(
     {
         GTypeName: 'DDTermPrefsColors',
         Template: util.ui_file_uri('prefs-colors.ui'),
