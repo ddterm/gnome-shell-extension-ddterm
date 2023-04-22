@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-20 23:14+0000\n"
+"POT-Creation-Date: 2023-04-22 09:28+0000\n"
 "PO-Revision-Date: 2023-03-14 12:19+0000\n"
 "Last-Translator: Aleksandr Mezin <mezin.alexander@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/gnome-shell-"
@@ -18,7 +18,7 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-Basepath: .\n"
 
-#: ddterm/app/appwindow.js:432
+#: ddterm/app/appwindow.js:431
 msgid ""
 "Warning: ddterm version has changed. Log out, then log in again to load the "
 "updated extension."
@@ -155,11 +155,11 @@ msgstr "Nouvel onglet avant le premier"
 msgid "New Tab After Last Tab"
 msgstr "Nouvel onglet après le dernier"
 
-#: ddterm/app/menus.ui:102 ddterm/pref/dialog.js:46
+#: ddterm/app/menus.ui:102 ddterm/pref/dialog.js:45
 msgid "Preferences"
 msgstr "Préférences"
 
-#: ddterm/app/menus.ui:105 ddterm/app/menus.ui:207 ddterm/shell/panelicon.js:86
+#: ddterm/app/menus.ui:105 ddterm/app/menus.ui:207 ddterm/shell/panelicon.js:85
 msgid "Preferences..."
 msgstr "Préférences..."
 
@@ -227,11 +227,11 @@ msgstr "Déplacer l'onglet vers la position précédente"
 msgid "Move Tab to Next Position"
 msgstr "Déplacer l'onglet vers la position suivante"
 
-#: ddterm/app/terminalpage.js:790
+#: ddterm/app/terminalpage.js:789
 msgid "Close this terminal?"
 msgstr "Fermer ce terminal ?"
 
-#: ddterm/app/terminalpage.js:793
+#: ddterm/app/terminalpage.js:792
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."
@@ -239,23 +239,23 @@ msgstr ""
 "Il reste un processus en cours d'exécution dans ce terminal. Fermer ce "
 "terminal va le tuer."
 
-#: ddterm/pref/animation.js:87
+#: ddterm/pref/animation.js:86
 msgid "Animation"
 msgstr "Animation"
 
-#: ddterm/pref/behavior.js:64
+#: ddterm/pref/behavior.js:63
 msgid "Behavior"
 msgstr "Comportement"
 
-#: ddterm/pref/colors.js:463
+#: ddterm/pref/colors.js:462
 msgid "Colors"
 msgstr "Couleurs"
 
-#: ddterm/pref/command.js:65
+#: ddterm/pref/command.js:64
 msgid "Command"
 msgstr "Commande"
 
-#: ddterm/pref/compatibility.js:73
+#: ddterm/pref/compatibility.js:72
 msgid "Compatibility"
 msgstr "Compatibilité"
 
@@ -1184,31 +1184,31 @@ msgstr "Détecter les adresses email"
 msgid "Detect news:/man: URLs"
 msgstr "Détecter les URL de type « news: »"
 
-#: ddterm/pref/panelicon.js:53
+#: ddterm/pref/panelicon.js:52
 msgid "Panel Icon"
 msgstr "Icône de panneau"
 
-#: ddterm/pref/positionsize.js:373
+#: ddterm/pref/positionsize.js:372
 msgid "Position and Size"
 msgstr "Position et taille"
 
-#: ddterm/pref/scrolling.js:74
+#: ddterm/pref/scrolling.js:73
 msgid "Scrolling"
 msgstr "Défilement"
 
-#: ddterm/pref/shortcuts.js:112
+#: ddterm/pref/shortcuts.js:111
 msgid "Keyboard Shortcuts"
 msgstr "Raccourcis claviers"
 
-#: ddterm/pref/tabs.js:94
+#: ddterm/pref/tabs.js:93
 msgid "Tabs"
 msgstr "Onglets"
 
-#: ddterm/pref/text.js:92
+#: ddterm/pref/text.js:91
 msgid "Text"
 msgstr "Texte"
 
-#: ddterm/shell/panelicon.js:74
+#: ddterm/shell/panelicon.js:73
 msgid "Show"
 msgstr "Afficher"
 

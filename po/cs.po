@@ -6,11 +6,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-20 23:14+0000\n"
+"POT-Creation-Date: 2023-04-22 09:28+0000\n"
 "PO-Revision-Date: 2023-04-22 07:37+0000\n"
 "Last-Translator: Pavel Novák <pavelnov32@gmail.com>\n"
-"Language-Team: Czech <https://hosted.weblate.org/projects/"
-"gnome-shell-extension-ddterm/extension/cs/>\n"
+"Language-Team: Czech <https://hosted.weblate.org/projects/gnome-shell-"
+"extension-ddterm/extension/cs/>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Weblate 4.18-dev\n"
 
-#: ddterm/app/appwindow.js:432
+#: ddterm/app/appwindow.js:431
 msgid ""
 "Warning: ddterm version has changed. Log out, then log in again to load the "
 "updated extension."
@@ -155,11 +155,11 @@ msgstr "Nový panel před první panel"
 msgid "New Tab After Last Tab"
 msgstr "Nový panel za poslední panel"
 
-#: ddterm/app/menus.ui:102 ddterm/pref/dialog.js:46
+#: ddterm/app/menus.ui:102 ddterm/pref/dialog.js:45
 msgid "Preferences"
 msgstr "Předvolby"
 
-#: ddterm/app/menus.ui:105 ddterm/app/menus.ui:207 ddterm/shell/panelicon.js:86
+#: ddterm/app/menus.ui:105 ddterm/app/menus.ui:207 ddterm/shell/panelicon.js:85
 msgid "Preferences..."
 msgstr "Předvolby..."
 
@@ -227,33 +227,33 @@ msgstr "Posunout panel do předchozí pozice"
 msgid "Move Tab to Next Position"
 msgstr "Posunout panel do další pozice"
 
-#: ddterm/app/terminalpage.js:790
+#: ddterm/app/terminalpage.js:789
 msgid "Close this terminal?"
 msgstr "Zavřít tento terminál?"
 
-#: ddterm/app/terminalpage.js:793
+#: ddterm/app/terminalpage.js:792
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."
 msgstr "V tomto terminálu stále běží proces. Zavření terminálu jej ukončí."
 
-#: ddterm/pref/animation.js:87
+#: ddterm/pref/animation.js:86
 msgid "Animation"
 msgstr "Animace"
 
-#: ddterm/pref/behavior.js:64
+#: ddterm/pref/behavior.js:63
 msgid "Behavior"
 msgstr "Chování"
 
-#: ddterm/pref/colors.js:463
+#: ddterm/pref/colors.js:462
 msgid "Colors"
 msgstr "Barvy"
 
-#: ddterm/pref/command.js:65
+#: ddterm/pref/command.js:64
 msgid "Command"
 msgstr "Příkaz"
 
-#: ddterm/pref/compatibility.js:73
+#: ddterm/pref/compatibility.js:72
 msgid "Compatibility"
 msgstr "Kompatibilita"
 
@@ -1169,30 +1169,30 @@ msgstr ""
 msgid "Detect news:/man: URLs"
 msgstr ""
 
-#: ddterm/pref/panelicon.js:53
+#: ddterm/pref/panelicon.js:52
 msgid "Panel Icon"
 msgstr ""
 
-#: ddterm/pref/positionsize.js:373
+#: ddterm/pref/positionsize.js:372
 msgid "Position and Size"
 msgstr ""
 
-#: ddterm/pref/scrolling.js:74
+#: ddterm/pref/scrolling.js:73
 msgid "Scrolling"
 msgstr ""
 
-#: ddterm/pref/shortcuts.js:112
+#: ddterm/pref/shortcuts.js:111
 msgid "Keyboard Shortcuts"
 msgstr ""
 
-#: ddterm/pref/tabs.js:94
+#: ddterm/pref/tabs.js:93
 msgid "Tabs"
 msgstr ""
 
-#: ddterm/pref/text.js:92
+#: ddterm/pref/text.js:91
 msgid "Text"
 msgstr ""
 
-#: ddterm/shell/panelicon.js:74
+#: ddterm/shell/panelicon.js:73
 msgid "Show"
 msgstr ""

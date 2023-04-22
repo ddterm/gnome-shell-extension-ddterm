@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-20 23:14+0000\n"
+"POT-Creation-Date: 2023-04-22 09:28+0000\n"
 "PO-Revision-Date: 2023-04-20 17:06+0000\n"
 "Last-Translator: yuh <yuhldr@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 4.18-dev\n"
 
-#: ddterm/app/appwindow.js:432
+#: ddterm/app/appwindow.js:431
 msgid ""
 "Warning: ddterm version has changed. Log out, then log in again to load the "
 "updated extension."
@@ -153,11 +153,11 @@ msgstr "新建标签页（在第一个标签页之前）"
 msgid "New Tab After Last Tab"
 msgstr "新建标签页（在最后一个标签页之后）"
 
-#: ddterm/app/menus.ui:102 ddterm/pref/dialog.js:46
+#: ddterm/app/menus.ui:102 ddterm/pref/dialog.js:45
 msgid "Preferences"
 msgstr "首选项"
 
-#: ddterm/app/menus.ui:105 ddterm/app/menus.ui:207 ddterm/shell/panelicon.js:86
+#: ddterm/app/menus.ui:105 ddterm/app/menus.ui:207 ddterm/shell/panelicon.js:85
 msgid "Preferences..."
 msgstr "首选项..."
 
@@ -225,33 +225,33 @@ msgstr "移动标签页到上一个位置"
 msgid "Move Tab to Next Position"
 msgstr "移动标签页到下一个位置"
 
-#: ddterm/app/terminalpage.js:790
+#: ddterm/app/terminalpage.js:789
 msgid "Close this terminal?"
 msgstr "关闭这个终端？"
 
-#: ddterm/app/terminalpage.js:793
+#: ddterm/app/terminalpage.js:792
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."
 msgstr "该终端中仍有一个进程在运行。关闭终端，将会销毁该进程。"
 
-#: ddterm/pref/animation.js:87
+#: ddterm/pref/animation.js:86
 msgid "Animation"
 msgstr "动画"
 
-#: ddterm/pref/behavior.js:64
+#: ddterm/pref/behavior.js:63
 msgid "Behavior"
 msgstr "行为"
 
-#: ddterm/pref/colors.js:463
+#: ddterm/pref/colors.js:462
 msgid "Colors"
 msgstr "颜色"
 
-#: ddterm/pref/command.js:65
+#: ddterm/pref/command.js:64
 msgid "Command"
 msgstr "命令"
 
-#: ddterm/pref/compatibility.js:73
+#: ddterm/pref/compatibility.js:72
 msgid "Compatibility"
 msgstr "兼容性"
 
@@ -1181,30 +1181,30 @@ msgstr "检测邮件地址"
 msgid "Detect news:/man: URLs"
 msgstr "检测新闻、文档URL"
 
-#: ddterm/pref/panelicon.js:53
+#: ddterm/pref/panelicon.js:52
 msgid "Panel Icon"
 msgstr "面板图标"
 
-#: ddterm/pref/positionsize.js:373
+#: ddterm/pref/positionsize.js:372
 msgid "Position and Size"
 msgstr "位置和尺寸"
 
-#: ddterm/pref/scrolling.js:74
+#: ddterm/pref/scrolling.js:73
 msgid "Scrolling"
 msgstr "滚动"
 
-#: ddterm/pref/shortcuts.js:112
+#: ddterm/pref/shortcuts.js:111
 msgid "Keyboard Shortcuts"
 msgstr "键盘快捷键"
 
-#: ddterm/pref/tabs.js:94
+#: ddterm/pref/tabs.js:93
 msgid "Tabs"
 msgstr "标签页"
 
-#: ddterm/pref/text.js:92
+#: ddterm/pref/text.js:91
 msgid "Text"
 msgstr "文本"
 
-#: ddterm/shell/panelicon.js:74
+#: ddterm/shell/panelicon.js:73
 msgid "Show"
 msgstr "显示"
