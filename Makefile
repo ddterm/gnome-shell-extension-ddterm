@@ -16,6 +16,17 @@ is-true = $(filter 1,$(words $(filter $(TRUE_VALUES),$(1))))
 all:
 .PHONY: all
 
+find-tool = $(or $(shell command -v $(1)),tool-not-found/$(1))
+
+define tool-not-found-message
+$* not found and is required.
+You could use do-in-docker.sh or do-in-podman.sh to avoid installing build dependencies.
+Please check docs/BUILD.md
+endef
+
+tool-not-found/%:
+	$(error $(tool-not-found-message))
+
 CLEAN :=
 TRANSLATABLE_SOURCES :=
 PACK_CONTENT :=
@@ -25,8 +36,10 @@ PACK_CONTENT :=
 SCHEMAS := $(wildcard schemas/*.gschema.xml)
 SCHEMAS_COMPILED := schemas/gschemas.compiled
 
-$(SCHEMAS_COMPILED): $(SCHEMAS)
-	glib-compile-schemas --strict $(dir $@)
+GLIB_COMPILE_SCHEMAS := $(call find-tool,glib-compile-schemas)
+
+$(SCHEMAS_COMPILED): $(SCHEMAS) $(GLIB_COMPILE_SCHEMAS)
+	$(GLIB_COMPILE_SCHEMAS) --strict $(dir $@)
 
 CLEAN += $(SCHEMAS_COMPILED)
 PACK_CONTENT += $(SCHEMAS) $(SCHEMAS_COMPILED)
@@ -41,9 +54,11 @@ LOCALE_SOURCE_PATTERN := po/%.po
 LOCALE_COMPILED_PATTERN := locale/%/LC_MESSAGES/$(EXTENSION_UUID).mo
 LOCALES_COMPILED := $(patsubst $(LOCALE_SOURCE_PATTERN),$(LOCALE_COMPILED_PATTERN),$(LOCALES))
 
-$(LOCALES_COMPILED): $(LOCALE_COMPILED_PATTERN): $(LOCALE_SOURCE_PATTERN)
+MSGFMT := $(call find-tool,msgfmt)
+
+$(LOCALES_COMPILED): $(LOCALE_COMPILED_PATTERN): $(LOCALE_SOURCE_PATTERN) $(MSGFMT)
 	mkdir -p $(dir $@)
-	msgfmt --check --strict -o $@ $<
+	$(MSGFMT) --check --strict -o $@ $<
 
 CLEAN += $(LOCALES_COMPILED)
 PACK_CONTENT += $(LOCALES_COMPILED)
@@ -82,20 +97,22 @@ ddterm/app/ui ddterm/pref/ui:
 
 # Gtk 3 .ui
 
+GTK_BUILDER_TOOL := $(call find-tool,gtk-builder-tool)
+
 ddterm/pref/ui/gtk3: | ddterm/pref/ui
 	mkdir -p $@
 
 APP_UI_PATTERN := ddterm/app/ui/%.ui
 APP_UI := $(patsubst $(APP_GLADE_UI_PATTERN),$(APP_UI_PATTERN),$(APP_GLADE_UI))
 
-$(APP_UI): $(APP_UI_PATTERN): $(APP_GLADE_UI_PATTERN) | ddterm/app/ui
-	gtk-builder-tool simplify $< >$@
+$(APP_UI): $(APP_UI_PATTERN): $(APP_GLADE_UI_PATTERN) $(GTK_BUILDER_TOOL) | ddterm/app/ui
+	$(GTK_BUILDER_TOOL) simplify $< >$@
 
 PREFS_UI_GTK3_PATTERN := ddterm/pref/ui/gtk3/%.ui
 PREFS_UI_GTK3 := $(patsubst $(PREFS_GLADE_UI_PATTERN),$(PREFS_UI_GTK3_PATTERN),$(PREFS_GLADE_UI))
 
-$(PREFS_UI_GTK3): $(PREFS_UI_GTK3_PATTERN): $(PREFS_GLADE_UI_PATTERN) | ddterm/pref/ui/gtk3
-	gtk-builder-tool simplify $< >$@
+$(PREFS_UI_GTK3): $(PREFS_UI_GTK3_PATTERN): $(PREFS_GLADE_UI_PATTERN) $(GTK_BUILDER_TOOL) | ddterm/pref/ui/gtk3
+	$(GTK_BUILDER_TOOL) simplify $< >$@
 
 GTK3_GENERATED_UI := $(APP_UI) $(PREFS_UI_GTK3)
 GTK3_HANDCRAFTED_UI := ddterm/app/menus.ui
@@ -107,6 +124,9 @@ TRANSLATABLE_SOURCES += $(GTK3_HANDCRAFTED_UI)
 
 # Gtk 4 .ui
 
+GTK4_BUILDER_TOOL := $(call find-tool,gtk4-builder-tool)
+XSLTPROC := $(call find-tool,xsltproc)
+
 ddterm/pref/ui/gtk4 ddterm/pref/ui/gtk4/3to4-fixup ddterm/pref/ui/gtk4/3to4:
 	mkdir -p $@
 
@@ -115,20 +135,20 @@ ddterm/pref/ui/gtk4/3to4-fixup ddterm/pref/ui/gtk4/3to4: | ddterm/pref/ui/gtk4
 PREFS_UI_3TO4_FIXUP_PATTERN := ddterm/pref/ui/gtk4/3to4-fixup/%.ui
 PREFS_UI_3TO4_FIXUP := $(patsubst $(PREFS_GLADE_UI_PATTERN),$(PREFS_UI_3TO4_FIXUP_PATTERN),$(PREFS_GLADE_UI))
 
-$(PREFS_UI_3TO4_FIXUP): $(PREFS_UI_3TO4_FIXUP_PATTERN): $(PREFS_GLADE_UI_PATTERN) ddterm/pref/glade/3to4-fixup.xsl | ddterm/pref/ui/gtk4/3to4-fixup
-	xsltproc ddterm/pref/glade/3to4-fixup.xsl $< >$@
+$(PREFS_UI_3TO4_FIXUP): $(PREFS_UI_3TO4_FIXUP_PATTERN): $(PREFS_GLADE_UI_PATTERN) ddterm/pref/glade/3to4-fixup.xsl $(XSLTPROC) | ddterm/pref/ui/gtk4/3to4-fixup
+	$(XSLTPROC) ddterm/pref/glade/3to4-fixup.xsl $< >$@
 
 PREFS_UI_3TO4_PATTERN := ddterm/pref/ui/gtk4/3to4/%.ui
 PREFS_UI_3TO4 := $(patsubst $(PREFS_UI_3TO4_FIXUP_PATTERN),$(PREFS_UI_3TO4_PATTERN),$(PREFS_UI_3TO4_FIXUP))
 
-$(PREFS_UI_3TO4): $(PREFS_UI_3TO4_PATTERN): $(PREFS_UI_3TO4_FIXUP_PATTERN) | ddterm/pref/ui/gtk4/3to4
-	gtk4-builder-tool simplify --3to4 $< >$@
+$(PREFS_UI_3TO4): $(PREFS_UI_3TO4_PATTERN): $(PREFS_UI_3TO4_FIXUP_PATTERN) $(GTK4_BUILDER_TOOL) | ddterm/pref/ui/gtk4/3to4
+	$(GTK4_BUILDER_TOOL) simplify --3to4 $< >$@
 
 PREFS_UI_GTK4_PATTERN := ddterm/pref/ui/gtk4/%.ui
 PREFS_UI_GTK4 := $(patsubst $(PREFS_UI_3TO4_PATTERN),$(PREFS_UI_GTK4_PATTERN),$(PREFS_UI_3TO4))
 
-$(PREFS_UI_GTK4): $(PREFS_UI_GTK4_PATTERN): $(PREFS_UI_3TO4_PATTERN) | ddterm/pref/ui/gtk4
-	gtk4-builder-tool simplify $< >$@
+$(PREFS_UI_GTK4): $(PREFS_UI_GTK4_PATTERN): $(PREFS_UI_3TO4_PATTERN) $(GTK4_BUILDER_TOOL) | ddterm/pref/ui/gtk4
+	$(GTK4_BUILDER_TOOL) simplify $< >$@
 
 CLEAN += $(PREFS_UI_3TO4_FIXUP) $(PREFS_UI_3TO4) $(PREFS_UI_GTK4)
 
@@ -184,10 +204,12 @@ PACK_CONTENT := $(sort $(PACK_CONTENT))
 build: $(PACK_CONTENT)
 .PHONY: build
 
+ZIP := $(call find-tool,zip)
+
 EXTENSION_PACK := $(EXTENSION_UUID).shell-extension.zip
-$(EXTENSION_PACK): $(PACK_CONTENT)
+$(EXTENSION_PACK): $(PACK_CONTENT) $(ZIP)
 	$(RM) $@
-	zip -y -nw $@ -- $^
+	$(ZIP) -y -nw $@ -- $(PACK_CONTENT)
 
 pack: $(EXTENSION_PACK)
 .PHONY: pack
@@ -299,15 +321,15 @@ clean:
 
 GTK3_VALIDATE_UI := $(addprefix gtk-builder-validate/,$(filter-out ddterm/app/ui/terminalpage.ui,$(GTK3_UI)))
 
-$(GTK3_VALIDATE_UI): gtk-builder-validate/%: %
-	gtk-builder-tool validate $<
+$(GTK3_VALIDATE_UI): gtk-builder-validate/%: % $(GTK_BUILDER_TOOL)
+	$(GTK_BUILDER_TOOL) validate $<
 
 .PHONY: $(GTK3_VALIDATE_UI)
 
 GTK4_VALIDATE_UI := $(addprefix gtk-builder-validate/,$(GTK4_UI))
 
-$(GTK4_VALIDATE_UI): gtk-builder-validate/%: %
-	gtk4-builder-tool validate $<
+$(GTK4_VALIDATE_UI): gtk-builder-validate/%: % $(GTK4_BUILDER_TOOL)
+	$(GTK4_BUILDER_TOOL) validate $<
 
 .PHONY: $(GTK4_VALIDATE_UI)
 
@@ -323,23 +345,25 @@ all: gtk-builder-validate
 # Translation helpers
 
 POT_FILE := po/$(EXTENSION_UUID).pot
+XGETTEXT := $(call find-tool,xgettext)
 
-$(POT_FILE): $(sort $(TRANSLATABLE_SOURCES))
-	xgettext \
+$(POT_FILE): $(TRANSLATABLE_SOURCES) $(XGETTEXT)
+	$(XGETTEXT) \
 		--from-code=UTF-8 \
 		--default-domain=$(EXTENSION_UUID) \
 		--package-name=ddterm \
 		--output=$@ \
-		$^
+		$(sort $(TRANSLATABLE_SOURCES))
 
 pot: $(POT_FILE)
 .PHONY: pot
 
 MSGCMP_GOALS := $(addprefix msgcmp/, $(LOCALES))
 MSGCMP_FLAGS := --use-untranslated --use-fuzzy
+MSGCMP := $(call find-tool,msgcmp)
 
-$(MSGCMP_GOALS): msgcmp/%: % $(POT_FILE)
-	msgcmp $(MSGCMP_FLAGS) $^
+$(MSGCMP_GOALS): msgcmp/%: % $(POT_FILE) $(MSGCMP)
+	$(MSGCMP) $(MSGCMP_FLAGS) $< $(POT_FILE)
 
 msgcmp: $(MSGCMP_GOALS)
 
@@ -350,9 +374,10 @@ msgcmp-strict: $(MSGCMP_GOALS)
 
 MSGMERGE_GOALS := $(addprefix msgmerge/, $(LOCALES))
 MSGMERGE_FLAGS := --no-fuzzy-matching --update
+MSGMERGE := $(call find-tool,msgmerge)
 
-$(MSGMERGE_GOALS): msgmerge/%: % $(POT_FILE)
-	msgmerge $(MSGMERGE_FLAGS) $^
+$(MSGMERGE_GOALS): msgmerge/%: % $(POT_FILE) $(MSGMERGE)
+	$(MSGMERGE) $(MSGMERGE_FLAGS) $< $(POT_FILE)
 
 msgmerge: $(MSGMERGE_GOALS)
 
@@ -383,9 +408,10 @@ NPM_INSTALL := yes
 ifeq ($(call is-true,$(NPM_INSTALL)),1)
 
 $(NPM_INSTALLED): node_modules/.package-lock.json
+NPM := $(call find-tool,npm)
 
-node_modules/.package-lock.json: package.json package-lock.json
-	npm install
+node_modules/.package-lock.json: package.json package-lock.json $(NPM)
+	$(NPM) install
 
 npm: node_modules/.package-lock.json
 .PHONY: npm
