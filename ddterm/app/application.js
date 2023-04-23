@@ -42,6 +42,7 @@ const { Gdk, Gtk } = imports.gi;
 
 const { AppWindow } = imports.ddterm.app.appwindow;
 const { PrefsDialog } = imports.ddterm.pref.dialog;
+const { GtkThemeManager } = imports.ddterm.app.gtktheme;
 
 const APP_DIR = Me.dir.get_child('ddterm').get_child('app');
 
@@ -154,8 +155,16 @@ const Application = GObject.registerClass(
                 this.add_action(this.settings.create_action(key));
             });
 
-            this.settings.connect('changed::theme-variant', this.update_theme.bind(this));
-            this.update_theme();
+            this.theme_manager = new GtkThemeManager({
+                'gtk-settings': Gtk.Settings.get_default(),
+            });
+
+            this.settings.bind(
+                'theme-variant',
+                this.theme_manager,
+                'theme-variant',
+                Gio.SettingsBindFlags.GET
+            );
 
             const menus = Gtk.Builder.new_from_file(APP_DIR.get_child('menus.ui').get_path());
 
@@ -306,28 +315,6 @@ const Application = GObject.registerClass(
             action.connect('activate', activate);
             this.add_action(action);
             return action;
-        }
-
-        update_theme() {
-            const gtk_settings = Gtk.Settings.get_default();
-            const theme = this.settings.get_string('theme-variant');
-
-            switch (theme) {
-            case 'system':
-                gtk_settings.reset_property('gtk-application-prefer-dark-theme');
-                break;
-
-            case 'dark':
-                gtk_settings.gtk_application_prefer_dark_theme = true;
-                break;
-
-            case 'light':
-                gtk_settings.gtk_application_prefer_dark_theme = false;
-                break;
-
-            default:
-                printerr(`Unknown theme-variant: ${theme}`);
-            }
         }
 
         bind_shortcut(action, settings_key) {
