@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-22 09:28+0000\n"
+"POT-Creation-Date: 2023-04-24 18:33+0000\n"
 "PO-Revision-Date: 2023-04-20 17:06+0000\n"
 "Last-Translator: yuh <yuhldr@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 4.18-dev\n"
 
-#: ddterm/app/appwindow.js:431
+#: ddterm/app/appwindow.js:394
 msgid ""
 "Warning: ddterm version has changed. Log out, then log in again to load the "
 "updated extension."
@@ -225,11 +225,11 @@ msgstr "移动标签页到上一个位置"
 msgid "Move Tab to Next Position"
 msgstr "移动标签页到下一个位置"
 
-#: ddterm/app/terminalpage.js:789
+#: ddterm/app/terminalpage.js:927
 msgid "Close this terminal?"
 msgstr "关闭这个终端？"
 
-#: ddterm/app/terminalpage.js:792
+#: ddterm/app/terminalpage.js:930
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."

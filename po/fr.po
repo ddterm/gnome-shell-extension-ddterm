@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-22 09:28+0000\n"
+"POT-Creation-Date: 2023-04-24 18:33+0000\n"
 "PO-Revision-Date: 2023-03-14 12:19+0000\n"
 "Last-Translator: Aleksandr Mezin <mezin.alexander@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/gnome-shell-"
@@ -18,7 +18,7 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-Basepath: .\n"
 
-#: ddterm/app/appwindow.js:431
+#: ddterm/app/appwindow.js:394
 msgid ""
 "Warning: ddterm version has changed. Log out, then log in again to load the "
 "updated extension."
@@ -227,11 +227,11 @@ msgstr "Déplacer l'onglet vers la position précédente"
 msgid "Move Tab to Next Position"
 msgstr "Déplacer l'onglet vers la position suivante"
 
-#: ddterm/app/terminalpage.js:789
+#: ddterm/app/terminalpage.js:927
 msgid "Close this terminal?"
 msgstr "Fermer ce terminal ?"
 
-#: ddterm/app/terminalpage.js:792
+#: ddterm/app/terminalpage.js:930
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."
