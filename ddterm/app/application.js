@@ -23,12 +23,6 @@ const System = imports.system;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 
-const { translations } = imports.ddterm.util;
-const { timers } = imports.ddterm.rx;
-
-translations.init(Me.dir);
-timers.install();
-
 const { GLib, GObject, Gio } = imports.gi;
 
 imports.ddterm.app.dependencies.gi_require({
@@ -39,6 +33,9 @@ imports.ddterm.app.dependencies.gi_require({
 });
 
 const { Gdk, Gtk } = imports.gi;
+
+const { translations } = imports.ddterm.util;
+translations.init(Me.dir);
 
 const { AppWindow } = imports.ddterm.app.appwindow;
 const { PrefsDialog } = imports.ddterm.pref.dialog;

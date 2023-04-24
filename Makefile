@@ -69,20 +69,16 @@ locales: $(LOCALES_COMPILED)
 # Bundled libs
 
 HANDLEBARS_DIST := node_modules/handlebars/dist/handlebars.js
-RXJS_DIST := node_modules/rxjs/dist/bundles/rxjs.umd.js
-NPM_INSTALLED := $(HANDLEBARS_DIST) $(RXJS_DIST)
+NPM_INSTALLED := $(HANDLEBARS_DIST)
 
 ddterm/thirdparty:
 	mkdir -p $@
 
 ddterm/thirdparty/handlebars.js: $(HANDLEBARS_DIST) | ddterm/thirdparty
-ddterm/thirdparty/rxjs.js: $(RXJS_DIST) | ddterm/thirdparty
-
-ddterm/thirdparty/handlebars.js ddterm/thirdparty/rxjs.js:
 	cp $< $@
 
-CLEAN += ddterm/thirdparty/handlebars.js ddterm/thirdparty/rxjs.js
-PACK_CONTENT += ddterm/thirdparty/handlebars.js ddterm/thirdparty/rxjs.js
+CLEAN += ddterm/thirdparty/handlebars.js
+PACK_CONTENT += ddterm/thirdparty/handlebars.js
 
 # Glade UI
 
@@ -177,7 +173,6 @@ JS_SOURCE_WILDCARDS := \
 	ddterm/app/*.js \
 	ddterm/app/fakeext/*.js \
 	ddterm/backport/*.js \
-	ddterm/rx/*.js \
 	ddterm/pref/*.js \
 	ddterm/shell/*.js \
 	ddterm/util/*.js \

@@ -1326,7 +1326,7 @@ def detect_heap_leaks(syslogger, app_actions, heap_dump_dir):
         '--diff-heap',
         str(dump_pre),
         str(dump_post),
-        'GObject_Object'
+        'GObject'
     ]
 
     LOGGER.info('Running heapgraph: %r', shlex.join(heapgraph_argv))
