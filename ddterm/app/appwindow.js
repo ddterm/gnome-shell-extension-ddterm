@@ -215,17 +215,26 @@ var AppWindow = GObject.registerClass(
                     widget.visible = resizable && window_pos === pos;
             });
 
-            const visibility_settings = {
-                'new-tab-button': this.new_tab_button,
-                'new-tab-front-button': this.new_tab_front_button,
-                'tab-switcher-popup': this.tab_switch_button,
-            };
+            this.settings.bind(
+                'new-tab-button',
+                this.new_tab_button,
+                'visible',
+                Gio.SettingsBindFlags.GET
+            );
 
-            Object.entries(visibility_settings).forEach(([setting, widget]) => {
-                this.map_settings([setting], () => {
-                    widget.visible = this.settings.get_boolean(setting);
-                });
-            });
+            this.settings.bind(
+                'new-tab-front-button',
+                this.new_tab_front_button,
+                'visible',
+                Gio.SettingsBindFlags.GET
+            );
+
+            this.settings.bind(
+                'tab-switcher-popup',
+                this.tab_switch_button,
+                'visible',
+                Gio.SettingsBindFlags.GET
+            );
 
             this.map_settings(['tab-policy'], this.update_tabs_visible.bind(this));
             this.notebook.connect('page-added', this.update_tabs_visible.bind(this));
@@ -251,9 +260,12 @@ var AppWindow = GObject.registerClass(
                 this.tab_switch_button.direction = switch_arrow_direction_for_tab_pos[position];
             });
 
-            this.map_settings(['notebook-border'], () => {
-                this.notebook.show_border = this.settings.get_boolean('notebook-border');
-            });
+            this.settings.bind(
+                'notebook-border',
+                this.notebook,
+                'show-border',
+                Gio.SettingsBindFlags.GET
+            );
 
             this.notebook.connect('page-added', this.tab_switcher_add.bind(this));
             this.notebook.connect('page-removed', this.tab_switcher_remove.bind(this));
@@ -276,15 +288,26 @@ var AppWindow = GObject.registerClass(
                 }
             });
 
-            this.map_settings(['window-type-hint'], () => {
-                this.type_hint = this.settings.get_enum('window-type-hint');
-            });
+            this.settings.bind(
+                'window-type-hint',
+                this,
+                'type-hint',
+                Gio.SettingsBindFlags.GET
+            );
 
-            this.map_settings(['window-skip-taskbar'], () => {
-                const value = this.settings.get_boolean('window-skip-taskbar');
-                this.skip_taskbar_hint = value;
-                this.skip_pager_hint = value;
-            });
+            this.settings.bind(
+                'window-skip-taskbar',
+                this,
+                'skip-taskbar-hint',
+                Gio.SettingsBindFlags.GET
+            );
+
+            this.settings.bind(
+                'window-skip-taskbar',
+                this,
+                'skip-pager-hint',
+                Gio.SettingsBindFlags.GET
+            );
 
             const extension_version = this.extension_dbus.Version;
             this.extension_version_mismatch = extension_version !== `${APP_VERSION}`;
