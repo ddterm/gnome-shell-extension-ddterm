@@ -16,7 +16,7 @@ filelock==3.11.0
     # via -r pypi.in
 iniconfig==2.0.0
     # via pytest
-packaging==23.0
+packaging==23.1
     # via
     #   pytest
     #   pytest-rerunfailures
@@ -24,11 +24,11 @@ pluggy==1.0.0
     # via
     #   -r pypi.in
     #   pytest
-psutil==5.9.4
+psutil==5.9.5
     # via pytest-xdist
 py==1.11.0
     # via pytest-html
-pytest==7.3.0
+pytest==7.3.1
     # via
     #   -r pypi.in
     #   pytest-github-actions-annotate-failures
