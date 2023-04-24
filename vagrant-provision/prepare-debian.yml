@@ -24,7 +24,6 @@
       - gdm3
       - xvfb
       - gettext
-      - language-pack-gnome-fr
       - gnome-shell-extension-prefs
       - packagekit
       - gir1.2-packagekitglib-1.0
@@ -42,6 +41,7 @@
   ansible.builtin.apt:
     name:
       - spice-vdagent
+      - qemu-guest-agent
     state: latest
   when: ansible_virtualization_type == 'kvm'
   register: spice_vdagent
