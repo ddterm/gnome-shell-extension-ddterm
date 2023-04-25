@@ -7,11 +7,11 @@ msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-04-24 18:33+0000\n"
-"PO-Revision-Date: 2023-04-20 17:06+0000\n"
+"PO-Revision-Date: 2023-04-25 12:23+0000\n"
 "Last-Translator: yuh <yuhldr@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "gnome-shell-extension-ddterm/extension/zh_Hans/>\n"
-"Language: zh_Hans\n"
+"Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -62,7 +62,7 @@ msgstr "匹配整个单词"
 
 #: ddterm/app/glade/terminalpage.ui:203
 msgid "Wrap Around"
-msgstr "环绕"
+msgstr "回到文档头部继续搜索"
 
 #: ddterm/app/glade/terminalpage.ui:206
 msgid "Wrap"
@@ -175,7 +175,7 @@ msgstr "最大化窗口"
 
 #: ddterm/app/menus.ui:123
 msgid "Transparent Background"
-msgstr "透明的背景"
+msgstr "背景透明"
 
 #: ddterm/app/menus.ui:129
 msgid "Hide When Application Loses Focus"
@@ -187,11 +187,11 @@ msgstr "当按Esc键时隐藏"
 
 #: ddterm/app/menus.ui:139
 msgid "Scroll On Output"
-msgstr "滚动输出"
+msgstr "输出时滚动"
 
 #: ddterm/app/menus.ui:143
 msgid "Scroll On Keystroke"
-msgstr "按键时滚动"
+msgstr "击键时滚动"
 
 #: ddterm/app/menus.ui:149
 msgid "Preserve Working Directory In New Tabs"
@@ -419,11 +419,11 @@ msgstr "在所有工作区上"
 
 #: ddterm/pref/glade/prefs-behavior.ui:87
 msgid "Hide when the application loses _focus"
-msgstr "当应用程序失去焦点时隐藏"
+msgstr "应用程序失去焦点时隐藏"
 
 #: ddterm/pref/glade/prefs-behavior.ui:103
 msgid "Hide when _Esc key is pressed"
-msgstr "当按Esc键时隐藏"
+msgstr "按Esc键时隐藏"
 
 #: ddterm/pref/glade/prefs-behavior.ui:119
 msgid "Exclude from _overview/task bar"
@@ -539,7 +539,7 @@ msgstr "Solarized暗色"
 
 #: ddterm/pref/glade/prefs-colors.ui:93 ddterm/pref/glade/prefs-colors.ui:257
 msgid "Custom"
-msgstr "定制"
+msgstr "自定义"
 
 #: ddterm/pref/glade/prefs-colors.ui:143
 msgid "GNOME"
@@ -727,7 +727,7 @@ msgstr "用户shell"
 
 #: ddterm/pref/glade/prefs-command.ui:57
 msgid "User shell as _login shell"
-msgstr "用户shell为登录shell"
+msgstr "以登录 shell 方式运行命令"
 
 #: ddterm/pref/glade/prefs-command.ui:75
 msgid "Custom _command:"
@@ -740,7 +740,7 @@ msgstr "保存工作目录"
 #: ddterm/pref/glade/prefs-compatibility.ui:36
 #: ddterm/pref/glade/prefs-tabs.ui:131
 msgid "Automatic"
-msgstr "自动的"
+msgstr "自动"
 
 #: ddterm/pref/glade/prefs-compatibility.ui:40
 msgid "Control-H"
@@ -752,31 +752,31 @@ msgstr "ASCII DEL"
 
 #: ddterm/pref/glade/prefs-compatibility.ui:48
 msgid "Escape sequence"
-msgstr "转义序列"
+msgstr "Esc 序列"
 
 #: ddterm/pref/glade/prefs-compatibility.ui:52
 msgid "TTY Erase"
-msgstr "TTY Erase"
+msgstr "TTY 擦除"
 
 #: ddterm/pref/glade/prefs-compatibility.ui:72
 msgid "_Backspace key generates:"
-msgstr "退格键生成："
+msgstr "按 Backspace 键产生："
 
 #: ddterm/pref/glade/prefs-compatibility.ui:86
 msgid "_Delete key generates:"
-msgstr "Delete 键生成："
+msgstr "按 Delete 键产生："
 
 #: ddterm/pref/glade/prefs-compatibility.ui:100
 msgid "Ambiguous-_width characters:"
-msgstr "不明确宽度的字符："
+msgstr "宽度有歧义的字符："
 
 #: ddterm/pref/glade/prefs-compatibility.ui:153
 msgid "Narrow"
-msgstr "狭窄的"
+msgstr "窄"
 
 #: ddterm/pref/glade/prefs-compatibility.ui:154
 msgid "Wide"
-msgstr "宽的"
+msgstr "宽"
 
 #: ddterm/pref/glade/prefs-compatibility.ui:164
 msgid "_Reset Compatibility Options to Defaults"
@@ -852,15 +852,15 @@ msgstr "显示滚动条"
 
 #: ddterm/pref/glade/prefs-scrolling.ui:60
 msgid "Scroll on _output"
-msgstr "在输出上滚动"
+msgstr "输出时滚动"
 
 #: ddterm/pref/glade/prefs-scrolling.ui:76
 msgid "Scroll on _keystroke"
-msgstr "按键滚动"
+msgstr "击键时滚动"
 
 #: ddterm/pref/glade/prefs-scrolling.ui:92
 msgid "_Limit scrollback to:"
-msgstr "限制回滚到："
+msgstr "回滚限制到："
 
 #: ddterm/pref/glade/prefs-scrolling.ui:128
 msgid "lines"
@@ -1020,7 +1020,7 @@ msgstr "总是"
 
 #: ddterm/pref/glade/prefs-tabs.ui:132 ddterm/pref/glade/prefs-text.ui:99
 msgid "Never"
-msgstr "绝不"
+msgstr "从不"
 
 #: ddterm/pref/glade/prefs-tabs.ui:145
 msgid "Tab _title:"
@@ -1127,7 +1127,7 @@ msgstr "未聚焦时"
 
 #: ddterm/pref/glade/prefs-text.ui:116
 msgid "Block"
-msgstr "块"
+msgstr "方块"
 
 #: ddterm/pref/glade/prefs-text.ui:117
 msgid "I-Beam"
@@ -1139,11 +1139,11 @@ msgstr "下划线"
 
 #: ddterm/pref/glade/prefs-text.ui:133
 msgid "Enabled"
-msgstr "启用"
+msgstr "已启用"
 
 #: ddterm/pref/glade/prefs-text.ui:134
 msgid "Disabled"
-msgstr "禁用"
+msgstr "已禁用"
 
 #: ddterm/pref/glade/prefs-text.ui:144
 msgid "Allow _hyperlinks"
