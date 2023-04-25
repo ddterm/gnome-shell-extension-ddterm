@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-24 18:33+0000\n"
+"POT-Creation-Date: 2023-04-26 06:52+0300\n"
 "PO-Revision-Date: 2023-04-25 12:23+0000\n"
 "Last-Translator: yuh <yuhldr@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -18,11 +18,9 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 4.18-dev\n"
 
-#: ddterm/app/appwindow.js:394
-msgid ""
-"Warning: ddterm version has changed. Log out, then log in again to load the "
-"updated extension."
-msgstr "警告：ddterm版本已改变。注销后重新登录，方可生效。"
+#: ddterm/app/appwindow.js:110
+msgid "Drop Down Terminal"
+msgstr "下拉终端"
 
 #: ddterm/app/dependencies-notification.js:136
 msgid "ddterm needs additional packages to run."
@@ -40,15 +38,11 @@ msgstr "请安装提供以下文件的软件包："
 msgid "Missing dependencies"
 msgstr "缺少的依赖关系"
 
-#: ddterm/app/glade/appwindow.ui:41
-msgid "Drop Down Terminal"
-msgstr "下拉终端"
-
-#: ddterm/app/glade/appwindow.ui:66
+#: ddterm/app/glade/notebook.ui:55
 msgid "New Tab (First)"
 msgstr "新建标签页（第一个）"
 
-#: ddterm/app/glade/appwindow.ui:91
+#: ddterm/app/glade/notebook.ui:80
 msgid "New Tab (Last)"
 msgstr "新建标签页（最后一个）"
 
@@ -224,6 +218,12 @@ msgstr "移动标签页到上一个位置"
 #: ddterm/app/menus.ui:202 ddterm/pref/glade/prefs-shortcuts.ui:220
 msgid "Move Tab to Next Position"
 msgstr "移动标签页到下一个位置"
+
+#: ddterm/app/notebook.js:285
+msgid ""
+"Warning: ddterm version has changed. Log out, then log in again to load the "
+"updated extension."
+msgstr "警告：ddterm版本已改变。注销后重新登录，方可生效。"
 
 #: ddterm/app/terminalpage.js:927
 msgid "Close this terminal?"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-24 18:33+0000\n"
+"POT-Creation-Date: 2023-04-26 06:52+0300\n"
 "PO-Revision-Date: 2023-04-03 13:37+0000\n"
 "Last-Translator: Jörn Weigend <das.jott@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/gnome-shell-"
@@ -18,13 +18,9 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 4.17-dev\n"
 
-#: ddterm/app/appwindow.js:394
-msgid ""
-"Warning: ddterm version has changed. Log out, then log in again to load the "
-"updated extension."
-msgstr ""
-"Warnung: Die Version von ddterm hat sich geändert. Melden Sie sich ab und "
-"wieder an, um die aktualisierte Erweiterung zu laden."
+#: ddterm/app/appwindow.js:110
+msgid "Drop Down Terminal"
+msgstr "Drop-Down-Terminal"
 
 #: ddterm/app/dependencies-notification.js:136
 msgid "ddterm needs additional packages to run."
@@ -42,15 +38,11 @@ msgstr "Bitte installieren Sie Pakete, die folgenden Dateien enthalten:"
 msgid "Missing dependencies"
 msgstr "Fehlende Abhängigkeiten"
 
-#: ddterm/app/glade/appwindow.ui:41
-msgid "Drop Down Terminal"
-msgstr "Drop-Down-Terminal"
-
-#: ddterm/app/glade/appwindow.ui:66
+#: ddterm/app/glade/notebook.ui:55
 msgid "New Tab (First)"
 msgstr "Neuer Tab (Erster)"
 
-#: ddterm/app/glade/appwindow.ui:91
+#: ddterm/app/glade/notebook.ui:80
 msgid "New Tab (Last)"
 msgstr "Neuer Tab (Letzter)"
 
@@ -226,6 +218,14 @@ msgstr "Verschiebe Tab zur vorigen Position"
 #: ddterm/app/menus.ui:202 ddterm/pref/glade/prefs-shortcuts.ui:220
 msgid "Move Tab to Next Position"
 msgstr "Verschiebe Tab zur nächsten Position"
+
+#: ddterm/app/notebook.js:285
+msgid ""
+"Warning: ddterm version has changed. Log out, then log in again to load the "
+"updated extension."
+msgstr ""
+"Warnung: Die Version von ddterm hat sich geändert. Melden Sie sich ab und "
+"wieder an, um die aktualisierte Erweiterung zu laden."
 
 #: ddterm/app/terminalpage.js:927
 msgid "Close this terminal?"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-24 18:33+0000\n"
+"POT-Creation-Date: 2023-04-26 06:52+0300\n"
 "PO-Revision-Date: 2023-03-12 16:07+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/gnome-"
@@ -18,13 +18,9 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 4.16.2-dev\n"
 
-#: ddterm/app/appwindow.js:394
-msgid ""
-"Warning: ddterm version has changed. Log out, then log in again to load the "
-"updated extension."
-msgstr ""
-"Advarsel: ddterm-versjonen har endret seg. Logg ut og inn igjen for å laste "
-"inn oppdatert utvidelse."
+#: ddterm/app/appwindow.js:110
+msgid "Drop Down Terminal"
+msgstr "Rullegardinsterminal"
 
 #: ddterm/app/dependencies-notification.js:136
 msgid "ddterm needs additional packages to run."
@@ -42,15 +38,11 @@ msgstr "Installer pakkene som tilbyr følgende filer:"
 msgid "Missing dependencies"
 msgstr "Manglende avhengigheter"
 
-#: ddterm/app/glade/appwindow.ui:41
-msgid "Drop Down Terminal"
-msgstr "Rullegardinsterminal"
-
-#: ddterm/app/glade/appwindow.ui:66
+#: ddterm/app/glade/notebook.ui:55
 msgid "New Tab (First)"
 msgstr "Ny fane (først)"
 
-#: ddterm/app/glade/appwindow.ui:91
+#: ddterm/app/glade/notebook.ui:80
 msgid "New Tab (Last)"
 msgstr "Ny fane (sist)"
 
@@ -226,6 +218,14 @@ msgstr "Flytt fane til forrige posisjon"
 #: ddterm/app/menus.ui:202 ddterm/pref/glade/prefs-shortcuts.ui:220
 msgid "Move Tab to Next Position"
 msgstr "Flytt fane til neste posisjon"
+
+#: ddterm/app/notebook.js:285
+msgid ""
+"Warning: ddterm version has changed. Log out, then log in again to load the "
+"updated extension."
+msgstr ""
+"Advarsel: ddterm-versjonen har endret seg. Logg ut og inn igjen for å laste "
+"inn oppdatert utvidelse."
 
 #: ddterm/app/terminalpage.js:927
 msgid "Close this terminal?"

@@ -1356,15 +1356,15 @@ class TestHeapLeaks(CommonFixtures):
         )
 
     @pytest.fixture
-    def win_actions(self, bus_connection):
+    def notebook_actions(self, bus_connection):
         return Gio.DBusActionGroup.get(
             bus_connection,
             'com.github.amezin.ddterm',
-            '/com/github/amezin/ddterm/window/1'
+            '/com/github/amezin/ddterm/window/1/notebook'
         )
 
     @pytest.fixture(autouse=True)
-    def run_app(self, extension_interface, test_interface, app_actions, win_actions):
+    def run_app(self, extension_interface, test_interface, app_actions):
         extension_interface.Activate()
 
         def app_running():
@@ -1409,16 +1409,16 @@ class TestHeapLeaks(CommonFixtures):
             heap_dump_dir=heap_dump_dir
         )
 
-    def test_tab_leak(self, leak_detector, win_actions):
-        wait_action_in_group(win_actions, 'new-tab')
-        wait_action_in_group(win_actions, 'close-current-tab')
+    def test_tab_leak(self, leak_detector, notebook_actions):
+        wait_action_in_group(notebook_actions, 'new-tab')
+        wait_action_in_group(notebook_actions, 'close-current-tab')
 
         with leak_detector():
-            win_actions.activate_action('new-tab', None)
-            win_actions.activate_action('close-current-tab', None)
+            notebook_actions.activate_action('new-tab', None)
+            notebook_actions.activate_action('close-current-tab', None)
             time.sleep(0.5)
 
-    def test_prefs_leak(self, leak_detector, app_actions, win_actions):
+    def test_prefs_leak(self, leak_detector, app_actions):
         wait_action_in_group(app_actions, 'preferences')
         wait_action_in_group_enabled(app_actions, 'close-preferences', False)
 

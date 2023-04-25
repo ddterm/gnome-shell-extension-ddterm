@@ -82,19 +82,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <attribute name="label" translatable="yes">New Tab</attribute>
         <item>
           <attribute name="label" translatable="yes">New Tab Before Current Tab</attribute>
-          <attribute name="action">win.new-tab-before-current</attribute>
+          <attribute name="action">notebook.new-tab-before-current</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">New Tab After Current Tab</attribute>
-          <attribute name="action">win.new-tab-after-current</attribute>
+          <attribute name="action">notebook.new-tab-after-current</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">New Tab Before First Tab</attribute>
-          <attribute name="action">win.new-tab-front</attribute>
+          <attribute name="action">notebook.new-tab-front</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">New Tab After Last Tab</attribute>
-          <attribute name="action">win.new-tab</attribute>
+          <attribute name="action">notebook.new-tab</attribute>
         </item>
       </submenu>
     </section>
@@ -186,21 +186,21 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
       </item>
       <item>
         <attribute name="label" translatable="yes">New Tab Before First Tab</attribute>
-        <attribute name="action">win.new-tab-front</attribute>
+        <attribute name="action">notebook.new-tab-front</attribute>
       </item>
       <item>
         <attribute name="label" translatable="yes">New Tab After Last Tab</attribute>
-        <attribute name="action">win.new-tab</attribute>
+        <attribute name="action">notebook.new-tab</attribute>
       </item>
     </section>
     <section>
       <item>
         <attribute name="label" translatable="yes">Move Tab to Previous Position</attribute>
-        <attribute name="action">win.move-tab-prev</attribute>
+        <attribute name="action">notebook.move-tab-prev</attribute>
       </item>
       <item>
         <attribute name="label" translatable="yes">Move Tab to Next Position</attribute>
-        <attribute name="action">win.move-tab-next</attribute>
+        <attribute name="action">notebook.move-tab-next</attribute>
       </item>
     </section>
     <item>

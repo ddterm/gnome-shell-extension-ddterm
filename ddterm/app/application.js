@@ -37,9 +37,8 @@ const { Gdk, Gtk } = imports.gi;
 const { translations } = imports.ddterm.util;
 translations.init(Me.dir);
 
-const { AppWindow } = imports.ddterm.app.appwindow;
+const { appwindow, extensiondbus, gtktheme, metadata } = imports.ddterm.app;
 const { PrefsDialog } = imports.ddterm.pref.dialog;
-const { GtkThemeManager } = imports.ddterm.app.gtktheme;
 
 const APP_DIR = Me.dir.get_child('ddterm').get_child('app');
 
@@ -51,7 +50,7 @@ const Application = GObject.registerClass(
                 '',
                 '',
                 GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
-                AppWindow
+                appwindow.AppWindow
             ),
             'prefs-dialog': GObject.ParamSpec.object(
                 'prefs-dialog',
@@ -152,7 +151,7 @@ const Application = GObject.registerClass(
                 this.add_action(this.settings.create_action(key));
             });
 
-            this.theme_manager = new GtkThemeManager({
+            this.theme_manager = new gtktheme.GtkThemeManager({
                 'gtk-settings': Gtk.Settings.get_default(),
             });
 
@@ -173,10 +172,26 @@ const Application = GObject.registerClass(
                 Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
             );
 
-            this.window = new AppWindow({
+            this.desktop_settings = new Gio.Settings({
+                schema_id: 'org.gnome.desktop.interface',
+            });
+
+            this.extension_dbus = extensiondbus.get();
+
+            const extension_version = this.extension_dbus.Version;
+            if (extension_version !== `${metadata.version}`) {
+                printerr(
+                    'ddterm extension version mismatch! ' +
+                    `app: ${metadata.version} extension: ${extension_version}`
+                );
+            }
+
+            this.window = new appwindow.AppWindow({
                 application: this,
                 decorated: this.decorated,
                 settings: this.settings,
+                desktop_settings: this.desktop_settings,
+                extension_dbus: this.extension_dbus,
                 menus,
             });
 
@@ -198,15 +213,15 @@ const Application = GObject.registerClass(
                 'shortcut-terminal-select-all': 'terminal.select-all',
                 'shortcut-terminal-reset': 'terminal.reset',
                 'shortcut-terminal-reset-and-clear': 'terminal.reset-and-clear',
-                'shortcut-win-new-tab': 'win.new-tab',
-                'shortcut-win-new-tab-front': 'win.new-tab-front',
-                'shortcut-win-new-tab-before-current': 'win.new-tab-before-current',
-                'shortcut-win-new-tab-after-current': 'win.new-tab-after-current',
+                'shortcut-win-new-tab': 'notebook.new-tab',
+                'shortcut-win-new-tab-front': 'notebook.new-tab-front',
+                'shortcut-win-new-tab-before-current': 'notebook.new-tab-before-current',
+                'shortcut-win-new-tab-after-current': 'notebook.new-tab-after-current',
                 'shortcut-page-close': 'page.close',
-                'shortcut-prev-tab': 'win.prev-tab',
-                'shortcut-next-tab': 'win.next-tab',
-                'shortcut-move-tab-prev': 'win.move-tab-prev',
-                'shortcut-move-tab-next': 'win.move-tab-next',
+                'shortcut-prev-tab': 'notebook.prev-tab',
+                'shortcut-next-tab': 'notebook.next-tab',
+                'shortcut-move-tab-prev': 'notebook.move-tab-prev',
+                'shortcut-move-tab-next': 'notebook.move-tab-next',
                 'shortcut-set-custom-tab-title': 'page.use-custom-title(true)',
                 'shortcut-reset-tab-title': 'page.use-custom-title(false)',
                 'shortcut-find': 'terminal.find',
@@ -214,8 +229,10 @@ const Application = GObject.registerClass(
                 'shortcut-find-prev': 'terminal.find-prev',
             };
 
-            for (let i = 0; i < 10; i += 1)
-                shortcut_actions[`shortcut-switch-to-tab-${i + 1}`] = `win.switch-to-tab(${i})`;
+            for (let i = 0; i < 10; i += 1) {
+                shortcut_actions[`shortcut-switch-to-tab-${i + 1}`] =
+                    `notebook.switch-to-tab(${i})`;
+            }
 
             Object.entries(shortcut_actions).forEach(([key, action]) => {
                 this.bind_shortcut(action, key);
@@ -234,7 +251,7 @@ const Application = GObject.registerClass(
         handle_local_options(_, options) {
             if (options.contains('launch-through-extension')) {
                 try {
-                    const iface = Me.imports.ddterm.app.extensiondbus.get();
+                    const iface = extensiondbus.get();
                     iface.ServiceSync();
                     return 0;
                 } catch (e) {

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-24 18:33+0000\n"
+"POT-Creation-Date: 2023-04-26 06:52+0300\n"
 "PO-Revision-Date: 2023-04-24 02:48+0000\n"
 "Last-Translator: Pavel Novák <pavelnov32@gmail.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/gnome-shell-"
@@ -18,13 +18,9 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Weblate 4.18-dev\n"
 
-#: ddterm/app/appwindow.js:394
-msgid ""
-"Warning: ddterm version has changed. Log out, then log in again to load the "
-"updated extension."
-msgstr ""
-"Varování: Verze ddterm byla změněna. Znovu se přihlašte pro načtení "
-"aktualizovaného rozšíření."
+#: ddterm/app/appwindow.js:110
+msgid "Drop Down Terminal"
+msgstr "Rozbalovací Terminál"
 
 #: ddterm/app/dependencies-notification.js:136
 msgid "ddterm needs additional packages to run."
@@ -42,15 +38,11 @@ msgstr "Nainstalujte balíčky které poskytují tyto soubory:"
 msgid "Missing dependencies"
 msgstr "Chybějící závislosti"
 
-#: ddterm/app/glade/appwindow.ui:41
-msgid "Drop Down Terminal"
-msgstr "Rozbalovací Terminál"
-
-#: ddterm/app/glade/appwindow.ui:66
+#: ddterm/app/glade/notebook.ui:55
 msgid "New Tab (First)"
 msgstr "Nový panel (První)"
 
-#: ddterm/app/glade/appwindow.ui:91
+#: ddterm/app/glade/notebook.ui:80
 msgid "New Tab (Last)"
 msgstr "Nový panel (Poslední)"
 
@@ -226,6 +218,14 @@ msgstr "Posunout panel do předchozí pozice"
 #: ddterm/app/menus.ui:202 ddterm/pref/glade/prefs-shortcuts.ui:220
 msgid "Move Tab to Next Position"
 msgstr "Posunout panel do další pozice"
+
+#: ddterm/app/notebook.js:285
+msgid ""
+"Warning: ddterm version has changed. Log out, then log in again to load the "
+"updated extension."
+msgstr ""
+"Varování: Verze ddterm byla změněna. Znovu se přihlašte pro načtení "
+"aktualizovaného rozšíření."
 
 #: ddterm/app/terminalpage.js:927
 msgid "Close this terminal?"

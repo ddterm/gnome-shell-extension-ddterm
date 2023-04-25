@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-24 18:33+0000\n"
+"POT-Creation-Date: 2023-04-26 06:52+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,10 +17,8 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ddterm/app/appwindow.js:394
-msgid ""
-"Warning: ddterm version has changed. Log out, then log in again to load the "
-"updated extension."
+#: ddterm/app/appwindow.js:110
+msgid "Drop Down Terminal"
 msgstr ""
 
 #: ddterm/app/dependencies-notification.js:136
@@ -39,15 +37,11 @@ msgstr ""
 msgid "Missing dependencies"
 msgstr ""
 
-#: ddterm/app/glade/appwindow.ui:41
-msgid "Drop Down Terminal"
-msgstr ""
-
-#: ddterm/app/glade/appwindow.ui:66
+#: ddterm/app/glade/notebook.ui:55
 msgid "New Tab (First)"
 msgstr ""
 
-#: ddterm/app/glade/appwindow.ui:91
+#: ddterm/app/glade/notebook.ui:80
 msgid "New Tab (Last)"
 msgstr ""
 
@@ -222,6 +216,12 @@ msgstr ""
 
 #: ddterm/app/menus.ui:202 ddterm/pref/glade/prefs-shortcuts.ui:220
 msgid "Move Tab to Next Position"
+msgstr ""
+
+#: ddterm/app/notebook.js:285
+msgid ""
+"Warning: ddterm version has changed. Log out, then log in again to load the "
+"updated extension."
 msgstr ""
 
 #: ddterm/app/terminalpage.js:927
