@@ -5,7 +5,7 @@
         "handlebars": "4.7.7"
     },
     "devDependencies": {
-        "eslint": "8.38.0",
+        "eslint": "8.39.0",
         "eslint-plugin-jsdoc": "41.1.2"
     }
 }
