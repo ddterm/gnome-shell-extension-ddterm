@@ -248,7 +248,7 @@ var AppWindow = GObject.registerClass(
                 }
             });
 
-            const display = Gdk.Display.get_default();
+            const display = this.get_display();
 
             if (display.constructor.$gtype.name === 'GdkWaylandDisplay') {
                 const dbus_handler = this.extension_dbus.connect('g-properties-changed', () => {
