@@ -21,7 +21,7 @@
 
 /* exported AppWindow */
 
-const { GObject, Gio, Gdk, Gtk } = imports.gi;
+const { GLib, GObject, Gio, Gdk, Gtk } = imports.gi;
 const { notebook } = imports.ddterm.app;
 const { translations } = imports.ddterm.util;
 
@@ -251,14 +251,32 @@ var AppWindow = GObject.registerClass(
             const display = this.get_display();
 
             if (display.constructor.$gtype.name === 'GdkWaylandDisplay') {
-                const dbus_handler = this.extension_dbus.connect('g-properties-changed', () => {
-                    if (!this.visible)
-                        this.sync_size_with_extension();
-                });
+                const rect_type = new GLib.VariantType('(iiii)');
+
+                const dbus_handler = this.extension_dbus.connect(
+                    'g-properties-changed',
+                    (_, changed, invalidated) => {
+                        if (this.visible)
+                            return;
+
+                        if (invalidated.includes('TargetRect')) {
+                            this.sync_size_with_extension();
+                            return;
+                        }
+
+                        const value = changed.lookup_value('TargetRect', rect_type);
+
+                        if (value)
+                            this.sync_size_with_extension(value.deepUnpack());
+                    }
+                );
+
                 this.connect('destroy', () => this.extension_dbus.disconnect(dbus_handler));
+
                 this.connect('unmap-event', () => {
                     this.sync_size_with_extension();
                 });
+
                 this.sync_size_with_extension();
             }
 
@@ -346,14 +364,16 @@ var AppWindow = GObject.registerClass(
             return false;
         }
 
-        sync_size_with_extension() {
+        sync_size_with_extension(rect = null) {
             if (this.is_maximized)
                 return;
 
-            const display = this.get_display();
+            if (!rect)
+                rect = this.extension_dbus.GetTargetRectSync();
 
-            const [target_x, target_y, target_w, target_h] =
-                this.extension_dbus.GetTargetRectSync();
+            const [target_x, target_y, target_w, target_h] = rect;
+
+            const display = this.get_display();
             const target_monitor = display.get_monitor_at_point(target_x, target_y);
 
             const w = Math.floor(target_w / target_monitor.scale_factor);
