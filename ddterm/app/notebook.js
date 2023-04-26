@@ -189,25 +189,8 @@ var Notebook = GObject.registerClass(
                 Gio.SettingsBindFlags.GET
             );
 
-            this.connect('notify::tab-pos', () => {
-                switch (this.tab_pos) {
-                case Gtk.PositionType.TOP:
-                    this.tab_switch_button.direction = Gtk.ArrowType.DOWN;
-                    break;
-
-                case Gtk.PositionType.BOTTOM:
-                    this.tab_switch_button.direction = Gtk.ArrowType.UP;
-                    break;
-
-                case Gtk.PositionType.LEFT:
-                    this.tab_switch_button.direction = Gtk.ArrowType.RIGHT;
-                    break;
-
-                case Gtk.PositionType.RIGHT:
-                    this.tab_switch_button.direction = Gtk.ArrowType.LEFT;
-                    break;
-                }
-            });
+            this.connect('notify::tab-pos', this.update_tab_pos.bind(this));
+            this.update_tab_pos();
 
             this.settings.bind(
                 'notebook-border',
@@ -346,6 +329,26 @@ var Notebook = GObject.registerClass(
 
             case 'automatic':
                 this.show_tabs = this.get_n_pages() > 1;
+            }
+        }
+
+        update_tab_pos() {
+            switch (this.tab_pos) {
+            case Gtk.PositionType.TOP:
+                this.tab_switch_button.direction = Gtk.ArrowType.DOWN;
+                break;
+
+            case Gtk.PositionType.BOTTOM:
+                this.tab_switch_button.direction = Gtk.ArrowType.UP;
+                break;
+
+            case Gtk.PositionType.LEFT:
+                this.tab_switch_button.direction = Gtk.ArrowType.RIGHT;
+                break;
+
+            case Gtk.PositionType.RIGHT:
+                this.tab_switch_button.direction = Gtk.ArrowType.LEFT;
+                break;
             }
         }
 
