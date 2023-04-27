@@ -211,7 +211,6 @@ var PanelIconProxy = GObject.registerClass(
             super._init();
 
             this.icon = null;
-            this._active = false;
 
             this.types = {
                 'none': null,
@@ -248,7 +247,7 @@ var PanelIconProxy = GObject.registerClass(
             this.icon = new type_resolved();
             Main.panel.addToStatusArea('ddterm', this.icon);
 
-            this.icon.active = this._active;
+            this.bind_property('active', this.icon, 'active', GObject.BindingFlags.SYNC_CREATE);
 
             this.icon.connect('toggle', (_, v) => {
                 this.emit('toggle', v);
@@ -258,22 +257,6 @@ var PanelIconProxy = GObject.registerClass(
             });
 
             this.notify('type');
-        }
-
-        get active() {
-            return this._active;
-        }
-
-        set active(value) {
-            if (value === this._active)
-                return;
-
-            this._active = value;
-
-            if (this.icon)
-                this.icon.active = value;
-
-            this.notify('active');
         }
 
         _remove_no_notify() {
