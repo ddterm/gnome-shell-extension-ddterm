@@ -225,7 +225,7 @@ function enable() {
     settings.bind(
         'panel-icon-type',
         panel_icon,
-        'type',
+        'type-name',
         Gio.SettingsBindFlags.GET | Gio.SettingsBindFlags.NO_SENSITIVITY
     );
 

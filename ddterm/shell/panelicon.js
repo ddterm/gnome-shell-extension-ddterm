@@ -181,6 +181,15 @@ const PanelIconToggleAndMenu = GObject.registerClass(
     }
 );
 
+const TYPE_BY_NAME = {
+    'none': null,
+    ...Object.fromEntries([
+        PanelIconPopupMenu,
+        PanelIconToggleButton,
+        PanelIconToggleAndMenu,
+    ].map(t => [t.type_name(), t])),
+};
+
 var PanelIconProxy = GObject.registerClass(
     {
         Properties: {
@@ -191,8 +200,8 @@ var PanelIconProxy = GObject.registerClass(
                 GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
                 false
             ),
-            'type': GObject.ParamSpec.string(
-                'type',
+            'type-name': GObject.ParamSpec.string(
+                'type-name',
                 '',
                 '',
                 GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
@@ -207,71 +216,62 @@ var PanelIconProxy = GObject.registerClass(
         },
     },
     class DDTermPanelIconProxy extends GObject.Object {
-        _init() {
-            super._init();
+        _init(params) {
+            super._init(params);
 
             this.icon = null;
-
-            this.types = {
-                'none': null,
-            };
-
-            this.types[PanelIconPopupMenu.type_name()] = PanelIconPopupMenu;
-            this.types[PanelIconToggleButton.type_name()] = PanelIconToggleButton;
-            this.types[PanelIconToggleAndMenu.type_name()] = PanelIconToggleAndMenu;
         }
 
-        get type() {
-            if (this.icon === null)
+        get type_name() {
+            if (!this.icon)
                 return 'none';
 
             return this.icon.type_name();
         }
 
-        set type(value) {
-            if (!this.types.hasOwnProperty(value))
+        set type_name(value) {
+            if (!TYPE_BY_NAME.hasOwnProperty(value))
                 throw new Error(`${value} is not a vaild icon type`);
 
-            const type_resolved = this.types[value];
-
-            if (!type_resolved) {
-                this.remove();
-                return;
-            }
+            const type_resolved = TYPE_BY_NAME[value];
 
             if (this.icon instanceof type_resolved)
                 return;
 
-            this._remove_no_notify();
+            this.freeze_notify();
 
-            this.icon = new type_resolved();
-            Main.panel.addToStatusArea('ddterm', this.icon);
+            try {
+                this.remove();
 
-            this.bind_property('active', this.icon, 'active', GObject.BindingFlags.SYNC_CREATE);
+                if (!type_resolved)
+                    return;
 
-            this.icon.connect('toggle', (_, v) => {
-                this.emit('toggle', v);
-            });
-            this.icon.connect('open-preferences', () => {
-                this.emit('open-preferences');
-            });
+                this.icon = new type_resolved();
+                Main.panel.addToStatusArea('ddterm', this.icon);
 
-            this.notify('type');
-        }
+                this.bind_property(
+                    'active',
+                    this.icon,
+                    'active',
+                    GObject.BindingFlags.SYNC_CREATE
+                );
 
-        _remove_no_notify() {
-            if (!this.icon)
-                return false;
+                this.icon.connect('toggle', (_, v) => {
+                    this.emit('toggle', v);
+                });
 
-            this.icon.destroy();
-            this.icon = null;
-
-            return true;
+                this.icon.connect('open-preferences', () => {
+                    this.emit('open-preferences');
+                });
+            } finally {
+                this.thaw_notify();
+            }
         }
 
         remove() {
-            if (this._remove_no_notify())
-                this.notify('type');
+            this.icon?.destroy();
+            this.icon = null;
+            this.notify('type-name');
         }
     }
 );
