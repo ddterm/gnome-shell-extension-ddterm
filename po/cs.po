@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-27 20:41+0000\n"
+"POT-Creation-Date: 2023-04-28 12:26+0300\n"
 "PO-Revision-Date: 2023-04-24 02:48+0000\n"
 "Last-Translator: Pavel Novák <pavelnov32@gmail.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/gnome-shell-"
@@ -151,7 +151,7 @@ msgstr "Nový panel za poslední panel"
 msgid "Preferences"
 msgstr "Předvolby"
 
-#: ddterm/app/menus.ui:105 ddterm/app/menus.ui:207 ddterm/shell/panelicon.js:85
+#: ddterm/app/menus.ui:105 ddterm/app/menus.ui:207 ddterm/shell/panelicon.js:82
 msgid "Preferences..."
 msgstr "Předvolby..."
 
@@ -1210,6 +1210,6 @@ msgstr "Panely"
 msgid "Text"
 msgstr "Text"
 
-#: ddterm/shell/panelicon.js:73
+#: ddterm/shell/panelicon.js:70
 msgid "Show"
 msgstr "Zobrazit"

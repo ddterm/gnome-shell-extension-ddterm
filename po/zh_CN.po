@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-27 20:41+0000\n"
+"POT-Creation-Date: 2023-04-28 12:26+0300\n"
 "PO-Revision-Date: 2023-04-25 12:23+0000\n"
 "Last-Translator: yuh <yuhldr@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -151,7 +151,7 @@ msgstr "新建标签页（在最后一个标签页之后）"
 msgid "Preferences"
 msgstr "首选项"
 
-#: ddterm/app/menus.ui:105 ddterm/app/menus.ui:207 ddterm/shell/panelicon.js:85
+#: ddterm/app/menus.ui:105 ddterm/app/menus.ui:207 ddterm/shell/panelicon.js:82
 msgid "Preferences..."
 msgstr "首选项..."
 
@@ -1205,6 +1205,6 @@ msgstr "标签页"
 msgid "Text"
 msgstr "文本"
 
-#: ddterm/shell/panelicon.js:73
+#: ddterm/shell/panelicon.js:70
 msgid "Show"
 msgstr "显示"

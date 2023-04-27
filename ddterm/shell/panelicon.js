@@ -27,7 +27,6 @@ const PanelMenu = imports.ui.panelMenu;
 const PopupMenu = imports.ui.popupMenu;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-const { ConnectionSet } = Me.imports.ddterm.shell.connectionset;
 const { translations } = Me.imports.ddterm.util;
 
 const PanelIconBase = GObject.registerClass(
@@ -52,8 +51,6 @@ const PanelIconBase = GObject.registerClass(
         _init(dontCreateMenu) {
             super._init(null, 'ddterm', dontCreateMenu);
 
-            this.connections = new ConnectionSet();
-
             this.add_actor(new St.Icon({
                 icon_name: 'utilities-terminal',
                 style_class: 'system-status-icon',
@@ -74,10 +71,10 @@ const PanelIconPopupMenu = GObject.registerClass(
                 false
             );
             this.menu.addMenuItem(this.toggle_item);
-            this.connections.connect(this.toggle_item, 'toggled', (_, value) => {
+            this.toggle_item.connect('toggled', (_, value) => {
                 this.emit('toggle', value);
             });
-            this.connections.connect(this.toggle_item, 'notify::state', () => {
+            this.toggle_item.connect('notify::state', () => {
                 this.notify('active');
             });
 
@@ -85,7 +82,7 @@ const PanelIconPopupMenu = GObject.registerClass(
                 translations.gettext('Preferences...')
             );
             this.menu.addMenuItem(this.preferences_item);
-            this.connections.connect(this.preferences_item, 'activate', () => {
+            this.preferences_item.connect('activate', () => {
                 this.emit('open-preferences');
             });
         }
@@ -213,7 +210,6 @@ var PanelIconProxy = GObject.registerClass(
         _init() {
             super._init();
 
-            this.connections = new ConnectionSet();
             this.icon = null;
             this._active = false;
 
@@ -254,10 +250,10 @@ var PanelIconProxy = GObject.registerClass(
 
             this.icon.active = this._active;
 
-            this.connections.connect(this.icon, 'toggle', (_, v) => {
+            this.icon.connect('toggle', (_, v) => {
                 this.emit('toggle', v);
             });
-            this.connections.connect(this.icon, 'open-preferences', () => {
+            this.icon.connect('open-preferences', () => {
                 this.emit('open-preferences');
             });
 
@@ -281,12 +277,9 @@ var PanelIconProxy = GObject.registerClass(
         }
 
         _remove_no_notify() {
-            this.connections.disconnect();
-
             if (!this.icon)
                 return false;
 
-            this.icon.connections.disconnect();
             this.icon.destroy();
             this.icon = null;
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-27 20:41+0000\n"
+"POT-Creation-Date: 2023-04-28 12:26+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -150,7 +150,7 @@ msgstr ""
 msgid "Preferences"
 msgstr ""
 
-#: ddterm/app/menus.ui:105 ddterm/app/menus.ui:207 ddterm/shell/panelicon.js:85
+#: ddterm/app/menus.ui:105 ddterm/app/menus.ui:207 ddterm/shell/panelicon.js:82
 msgid "Preferences..."
 msgstr ""
 
@@ -1184,6 +1184,6 @@ msgstr ""
 msgid "Text"
 msgstr ""
 
-#: ddterm/shell/panelicon.js:73
+#: ddterm/shell/panelicon.js:70
 msgid "Show"
 msgstr ""

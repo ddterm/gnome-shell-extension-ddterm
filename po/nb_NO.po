@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-27 20:41+0000\n"
+"POT-Creation-Date: 2023-04-28 12:26+0300\n"
 "PO-Revision-Date: 2023-03-12 16:07+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/gnome-"
@@ -151,7 +151,7 @@ msgstr "Ny fane etter siste"
 msgid "Preferences"
 msgstr "Innstillinger"
 
-#: ddterm/app/menus.ui:105 ddterm/app/menus.ui:207 ddterm/shell/panelicon.js:85
+#: ddterm/app/menus.ui:105 ddterm/app/menus.ui:207 ddterm/shell/panelicon.js:82
 msgid "Preferences..."
 msgstr "Innstillinger …"
 
@@ -1225,7 +1225,7 @@ msgstr "Faner"
 msgid "Text"
 msgstr "Tekst"
 
-#: ddterm/shell/panelicon.js:73
+#: ddterm/shell/panelicon.js:70
 msgid "Show"
 msgstr "Vis"
 
