@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-26 06:52+0300\n"
+"POT-Creation-Date: 2023-04-27 20:41+0000\n"
 "PO-Revision-Date: 2023-03-14 12:19+0000\n"
 "Last-Translator: Aleksandr Mezin <mezin.alexander@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/gnome-shell-"
@@ -219,7 +219,7 @@ msgstr "Déplacer l'onglet vers la position précédente"
 msgid "Move Tab to Next Position"
 msgstr "Déplacer l'onglet vers la position suivante"
 
-#: ddterm/app/notebook.js:285
+#: ddterm/app/notebook.js:268
 msgid ""
 "Warning: ddterm version has changed. Log out, then log in again to load the "
 "updated extension."

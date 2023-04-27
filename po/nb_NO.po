@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-26 06:52+0300\n"
+"POT-Creation-Date: 2023-04-27 20:41+0000\n"
 "PO-Revision-Date: 2023-03-12 16:07+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/gnome-"
@@ -219,7 +219,7 @@ msgstr "Flytt fane til forrige posisjon"
 msgid "Move Tab to Next Position"
 msgstr "Flytt fane til neste posisjon"
 
-#: ddterm/app/notebook.js:285
+#: ddterm/app/notebook.js:268
 msgid ""
 "Warning: ddterm version has changed. Log out, then log in again to load the "
 "updated extension."
