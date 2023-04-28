@@ -122,14 +122,19 @@ var AppWindow = GObject.registerClass(
                 menus: this.menus,
                 settings: this.settings,
                 desktop_settings: this.desktop_settings,
-                extension_dbus: this.extension_dbus,
             });
-            grid.attach(this.notebook, 1, 1, 1, 1);
+            grid.attach(this.notebook, 1, 2, 1, 1);
 
             this.notebook_actions_dbus_unexport = () => undefined;
             this.connect('destroy', () => this.notebook_actions_dbus_unexport());
             this.connect('notify::application', this.export_notebook_actions.bind(this));
             this.export_notebook_actions();
+
+            this.banners = new Gtk.Box({
+                visible: true,
+                orientation: Gtk.Orientation.VERTICAL,
+            });
+            grid.attach(this.banners, 1, 1, 1, 1);
 
             const add_resize_box = (edge, x, y, orientation) => {
                 const box = make_resizer(orientation);
@@ -145,10 +150,10 @@ var AppWindow = GObject.registerClass(
                 update_visible();
             };
 
-            add_resize_box(Gdk.WindowEdge.SOUTH, 1, 2, Gtk.Orientation.HORIZONTAL);
+            add_resize_box(Gdk.WindowEdge.SOUTH, 1, 3, Gtk.Orientation.HORIZONTAL);
             add_resize_box(Gdk.WindowEdge.NORTH, 1, 0, Gtk.Orientation.HORIZONTAL);
-            add_resize_box(Gdk.WindowEdge.EAST, 2, 1, Gtk.Orientation.VERTICAL);
-            add_resize_box(Gdk.WindowEdge.WEST, 0, 1, Gtk.Orientation.VERTICAL);
+            add_resize_box(Gdk.WindowEdge.EAST, 2, 2, Gtk.Orientation.VERTICAL);
+            add_resize_box(Gdk.WindowEdge.WEST, 0, 2, Gtk.Orientation.VERTICAL);
 
             this.settings.bind(
                 'window-resizable',
@@ -403,6 +408,26 @@ var AppWindow = GObject.registerClass(
                 connection.unexport_action_group(exported);
                 this.notebook_actions_dbus_unexport = () => undefined;
             };
+        }
+
+        show_version_mismatch_warning() {
+            const warning = new Gtk.InfoBar({
+                message_type: Gtk.MessageType.WARNING,
+                show_close_button: true,
+                visible: true,
+                revealed: true,
+            });
+
+            warning.get_content_area().add(new Gtk.Label({
+                visible: true,
+                label: translations.gettext(
+                    'Warning: ddterm version has changed. ' +
+                    'Log out, then log in again to load the updated extension.'
+                ),
+            }));
+
+            warning.connect('response', widget => widget.destroy());
+            this.banners.add(warning);
         }
     }
 );

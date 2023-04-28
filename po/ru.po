@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-28 12:26+0300\n"
+"POT-Creation-Date: 2023-04-28 17:54+0300\n"
 "PO-Revision-Date: 2023-03-14 13:45+0000\n"
 "Last-Translator: Aleksandr Mezin <mezin.alexander@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/gnome-shell-"
@@ -17,9 +17,17 @@ msgstr ""
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 4.16.2-dev\n"
 
-#: ddterm/app/appwindow.js:110
+#: ddterm/app/appwindow.js:103
 msgid "Drop Down Terminal"
 msgstr "Выпадающий терминал"
+
+#: ddterm/app/appwindow.js:413
+msgid ""
+"Warning: ddterm version has changed. Log out, then log in again to load the "
+"updated extension."
+msgstr ""
+"Внимание: версия ddterm изменилась. Завершите сессию и снова войдите для "
+"применения обновлений расширения."
 
 #: ddterm/app/dependencies-notification.js:136
 msgid "ddterm needs additional packages to run."
@@ -217,14 +225,6 @@ msgstr "Переместить вкладку на предыдущую пози
 #: ddterm/app/menus.ui:202 ddterm/pref/glade/prefs-shortcuts.ui:220
 msgid "Move Tab to Next Position"
 msgstr "Переместить вкладку на следующую позицию"
-
-#: ddterm/app/notebook.js:268
-msgid ""
-"Warning: ddterm version has changed. Log out, then log in again to load the "
-"updated extension."
-msgstr ""
-"Внимание: версия ddterm изменилась. Завершите сессию и снова войдите для "
-"применения обновлений расширения."
 
 #: ddterm/app/terminalpage.js:927
 msgid "Close this terminal?"

@@ -22,8 +22,7 @@
 /* exported Notebook */
 
 const { GLib, GObject, Gio, Gtk } = imports.gi;
-const { metadata, terminalpage } = imports.ddterm.app;
-const { translations } = imports.ddterm.util;
+const { terminalpage } = imports.ddterm.app;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 
@@ -60,13 +59,6 @@ var Notebook = GObject.registerClass(
                 '',
                 GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
                 Gio.Settings
-            ),
-            'extension-dbus': GObject.ParamSpec.object(
-                'extension-dbus',
-                '',
-                '',
-                GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-                Gio.DBusProxy
             ),
         },
     },
@@ -262,15 +254,6 @@ var Notebook = GObject.registerClass(
             page.connect('new-tab-after-request', () => {
                 this.new_page(this.page_num(page) + 1);
             });
-
-            if (this.extension_dbus.Version !== `${metadata.version}`) {
-                const message = translations.gettext(
-                    'Warning: ddterm version has changed. ' +
-                    'Log out, then log in again to load the updated extension.'
-                );
-
-                page.terminal.feed(`\u001b[1;31m${message}\u001b[0m\r\n`);
-            }
 
             page.spawn(cwd);
 

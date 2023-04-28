@@ -178,14 +178,6 @@ const Application = GObject.registerClass(
 
             this.extension_dbus = extensiondbus.get();
 
-            const extension_version = this.extension_dbus.Version;
-            if (extension_version !== `${metadata.version}`) {
-                printerr(
-                    'ddterm extension version mismatch! ' +
-                    `app: ${metadata.version} extension: ${extension_version}`
-                );
-            }
-
             this.window = new appwindow.AppWindow({
                 application: this,
                 decorated: this.decorated,
@@ -239,6 +231,15 @@ const Application = GObject.registerClass(
             });
 
             this.connect('activate', this.activate.bind(this));
+
+            if (this.extension_dbus.Version !== `${metadata.version}`) {
+                printerr(
+                    'ddterm extension version mismatch! ' +
+                    `app: ${metadata.version} extension: ${this.extension_dbus.Version}`
+                );
+
+                this.window.show_version_mismatch_warning();
+            }
         }
 
         activate() {
