@@ -80,13 +80,6 @@ var AppWindow = GObject.registerClass(
                 GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
                 Gio.DBusProxy
             ),
-            'transparent-background': GObject.ParamSpec.boolean(
-                'transparent-background',
-                '',
-                '',
-                GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
-                false
-            ),
             'resize-handle': GObject.ParamSpec.boolean(
                 'resize-handle',
                 '',
@@ -182,10 +175,13 @@ var AppWindow = GObject.registerClass(
             this.update_visual();
 
             this.draw_handler = null;
+            this.connect('notify::app-paintable', this.setup_draw_handler.bind(this));
+            this.setup_draw_handler();
+
             this.settings.bind(
                 'transparent-background',
                 this,
-                'transparent-background',
+                'app-paintable',
                 Gio.SettingsBindFlags.GET
             );
 
@@ -288,23 +284,16 @@ var AppWindow = GObject.registerClass(
             this.notebook.new_page(0);
         }
 
-        get transparent_background() {
-            return this.draw_handler !== null;
-        }
-
-        set transparent_background(value) {
-            if (value === this.transparent_background)
-                return;
-
-            if (value) {
-                this.draw_handler = this.connect('draw', this.draw.bind(this));
-            } else {
+        setup_draw_handler() {
+            if (this.app_paintable) {
+                if (!this.draw_handler)
+                    this.draw_handler = this.connect('draw', this.draw.bind(this));
+            } else if (this.draw_handler) {
                 this.disconnect(this.draw_handler);
                 this.draw_handler = null;
             }
 
             this.queue_draw();
-            this.notify('transparent-background');
         }
 
         adjust_double_setting(name, difference, min = 0.0, max = 1.0) {
