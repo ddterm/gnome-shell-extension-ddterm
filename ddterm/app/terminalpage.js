@@ -204,7 +204,6 @@ var TerminalPage = GObject.registerClass(
             ),
         },
         Signals: {
-            'close-request': {},
             'new-tab-before-request': {},
             'new-tab-after-request': {},
         },
@@ -568,7 +567,7 @@ var TerminalPage = GObject.registerClass(
             for (const widget of [this.tab_label, this.switcher_item, this.custom_title_popover])
                 this.connect('destroy', () => widget.destroy());
 
-            this.terminal.connect('child-exited', () => this.emit('close-request'));
+            this.terminal.connect('child-exited', () => this.destroy());
         }
 
         map_settings(keys, func) {
@@ -915,7 +914,7 @@ var TerminalPage = GObject.registerClass(
 
         close() {
             if (!this.has_foreground_process()) {
-                this.emit('close-request');
+                this.destroy();
                 return;
             }
 
@@ -933,7 +932,7 @@ var TerminalPage = GObject.registerClass(
 
             message.connect('response', (_, response_id) => {
                 if (response_id === Gtk.ResponseType.YES)
-                    this.emit('close-request');
+                    this.destroy();
 
                 message.destroy();
             });

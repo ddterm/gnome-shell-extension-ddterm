@@ -91,7 +91,7 @@ var Notebook = GObject.registerClass(
                 },
                 'close-current-tab': () => {
                     const page = this.get_nth_page(this.page);
-                    page.emit('close-request');
+                    page.destroy();
                 },
                 'next-tab': () => {
                     const current = this.get_current_page();
@@ -231,11 +231,6 @@ var Notebook = GObject.registerClass(
             this.child_set_property(child, 'tab-expand', this.tab_expand);
             this.set_can_focus(false);
 
-            const close_handler = child.connect('close-request', () => {
-                this.remove(child);
-                child.destroy();
-            });
-
             const new_tab_before_handler = child.connect('new-tab-before-request', () => {
                 this.new_page(this.page_num(child));
             });
@@ -245,7 +240,6 @@ var Notebook = GObject.registerClass(
             });
 
             this.page_disconnect.set(child, () => {
-                child.disconnect(close_handler);
                 child.disconnect(new_tab_before_handler);
                 child.disconnect(new_tab_after_handler);
             });
