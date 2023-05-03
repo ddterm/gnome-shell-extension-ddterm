@@ -60,6 +60,20 @@ var Notebook = GObject.registerClass(
                 GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
                 Gio.Settings
             ),
+            'tab-expand': GObject.ParamSpec.boolean(
+                'tab-expand',
+                '',
+                '',
+                GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+                true
+            ),
+            'tab-policy': GObject.ParamSpec.string(
+                'tab-policy',
+                '',
+                '',
+                GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+                'always'
+            ),
         },
     },
     class Notebook extends Gtk.Notebook {
@@ -167,11 +181,14 @@ var Notebook = GObject.registerClass(
             this.connect('page-added', this.update_tabs_visible.bind(this));
             this.connect('page-removed', this.update_tabs_visible.bind(this));
 
-            const tab_policy_handler = this.settings.connect(
-                'changed::tab-policy',
-                this.update_tabs_visible.bind(this)
+            this.settings.bind(
+                'tab-policy',
+                this,
+                'tab-policy',
+                Gio.SettingsBindFlags.GET
             );
-            this.connect('destroy', () => this.settings.disconnect(tab_policy_handler));
+
+            this.connect('notify::tab-policy', this.update_tabs_visible.bind(this));
             this.update_tabs_visible();
 
             this.settings.bind(
@@ -185,24 +202,74 @@ var Notebook = GObject.registerClass(
             this.update_tab_pos();
 
             this.settings.bind(
+                'tab-expand',
+                this,
+                'tab-expand',
+                Gio.SettingsBindFlags.GET
+            );
+
+            this.connect('notify::tab-expand', this.update_tab_expand.bind(this));
+            this.update_tab_expand();
+
+            this.settings.bind(
                 'notebook-border',
                 this,
                 'show-border',
                 Gio.SettingsBindFlags.GET
             );
 
-            this.connect('page-added', this.tab_switcher_add.bind(this));
-            this.connect('page-removed', this.tab_switcher_remove.bind(this));
-            this.connect('page-reordered', this.tab_switcher_reorder.bind(this));
-
-            this.connect('page-added', this.update_tab_switch_shortcuts.bind(this));
-            this.connect('page-removed', this.update_tab_switch_shortcuts.bind(this));
-            this.connect('page-reordered', this.update_tab_switch_shortcuts.bind(this));
-
             this.disconnect_toplevel = Function();
             this.connect('hierarchy-changed', this.update_toplevel.bind(this));
             this.connect('destroy', () => this.disconnect_toplevel());
             this.update_toplevel();
+
+            this.page_disconnect = new Map();
+        }
+
+        on_page_added(child, page_num) {
+            this.set_tab_reorderable(child, true);
+            this.child_set_property(child, 'tab-expand', this.tab_expand);
+            this.set_can_focus(false);
+
+            const close_handler = child.connect('close-request', () => {
+                this.remove(child);
+                child.destroy();
+            });
+
+            const new_tab_before_handler = child.connect('new-tab-before-request', () => {
+                this.new_page(this.page_num(child));
+            });
+
+            const new_tab_after_handler = child.connect('new-tab-after-request', () => {
+                this.new_page(this.page_num(child) + 1);
+            });
+
+            this.page_disconnect.set(child, () => {
+                child.disconnect(close_handler);
+                child.disconnect(new_tab_before_handler);
+                child.disconnect(new_tab_after_handler);
+            });
+
+            child.switcher_item.action_target = GLib.Variant.new_int32(page_num);
+            this.tab_switch_menu_box.add(child.switcher_item);
+            this.tab_switch_menu_box.reorder_child(child.switcher_item, page_num);
+            this.tab_switcher_update_actions();
+        }
+
+        on_page_removed(child, _page_num) {
+            const disconnect = this.page_disconnect.get(child);
+            this.page_disconnect.delete(child);
+
+            if (disconnect)
+                disconnect();
+
+            this.tab_switch_menu_box.remove(child.switcher_item);
+            this.tab_switcher_update_actions();
+        }
+
+        on_page_reordered(child, page_num) {
+            this.tab_switch_menu_box.reorder_child(child.switcher_item, page_num);
+            this.tab_switcher_update_actions();
         }
 
         get_cwd() {
@@ -222,67 +289,19 @@ var Notebook = GObject.registerClass(
             });
 
             const index = this.insert_page(page, page.tab_label, position);
-            this.set_current_page(index);
-            this.set_tab_reorderable(page, true);
-            this.set_can_focus(false);
-
-            const update_tab_expand = () => {
-                this.child_set_property(
-                    page,
-                    'tab-expand',
-                    this.settings.get_boolean('tab-expand')
-                );
-            };
-
-            const tab_expand_handler = this.settings.connect(
-                'changed::tab-expand',
-                update_tab_expand
-            );
-            page.connect('destroy', () => this.settings.disconnect(tab_expand_handler));
-
-            update_tab_expand();
-
-            page.connect('close-request', () => {
-                this.remove(page);
-                page.destroy();
-            });
-
-            page.connect('new-tab-before-request', () => {
-                this.new_page(this.page_num(page));
-            });
-
-            page.connect('new-tab-after-request', () => {
-                this.new_page(this.page_num(page) + 1);
-            });
-
             page.spawn(cwd);
-
+            this.set_current_page(index);
             page.terminal.grab_focus();
         }
 
-        tab_switcher_add(_notebook, child, page_num) {
-            child.switcher_item.action_target = GLib.Variant.new_int32(page_num);
-            this.tab_switch_menu_box.add(child.switcher_item);
-            this.tab_switch_menu_box.reorder_child(child.switcher_item, page_num);
-            this.tab_switcher_update_actions();
-        }
-
-        tab_switcher_remove(_notebook, child, _page_num) {
-            this.tab_switch_menu_box.remove(child.switcher_item);
-            this.tab_switcher_update_actions();
-        }
-
-        tab_switcher_reorder(_notebook, child, page_num) {
-            this.tab_switch_menu_box.reorder_child(child.switcher_item, page_num);
-            this.tab_switcher_update_actions();
-        }
-
         tab_switcher_update_actions() {
-            const counter = { value: 0 };
+            let i = 0;
 
             this.tab_switch_menu_box.foreach(item => {
-                item.action_target = GLib.Variant.new_int32(counter.value++);
+                item.action_target = GLib.Variant.new_int32(i++);
             });
+
+            this.update_tab_switch_shortcuts();
         }
 
         update_tab_switch_shortcuts() {
@@ -290,13 +309,18 @@ var Notebook = GObject.registerClass(
             let i = 0;
 
             this.foreach(page => {
-                const shortcuts = application.get_accels_for_action(`notebook.switch-to-tab(${i})`);
+                const shortcuts =
+                    application.get_accels_for_action(`notebook.switch-to-tab(${i++})`);
 
                 page.set_switch_shortcut(
                     shortcuts && shortcuts.length > 0 ? shortcuts[0] : null
                 );
+            });
+        }
 
-                i += 1;
+        update_tab_expand() {
+            this.foreach(page => {
+                this.child_set_property(page, 'tab-expand', this.tab_expand);
             });
         }
 
