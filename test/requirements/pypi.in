@@ -11,4 +11,4 @@ wand~=0.6.10
 filelock~=3.11.0
 pyyaml~=6.0
 python-xlib==0.33
-pytest-github-actions-annotate-failures~=0.1.7
+pytest-github-actions-annotate-failures~=0.2.0
