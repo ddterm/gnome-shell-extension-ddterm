@@ -276,7 +276,6 @@ var Notebook = GObject.registerClass(
         on_page_added(child, page_num) {
             this.set_tab_reorderable(child, true);
             this.child_set_property(child, 'tab-expand', this.tab_expand);
-            this.set_can_focus(false);
 
             const new_tab_before_handler = child.connect('new-tab-before-request', () => {
                 this.new_page(this.page_num(child));
@@ -418,6 +417,12 @@ var Notebook = GObject.registerClass(
             };
 
             this.update_tab_switch_shortcuts();
+        }
+
+        vfunc_grab_focus() {
+            const current_page = this.get_nth_page(this.get_current_page());
+
+            current_page.grab_focus();
         }
     }
 );
