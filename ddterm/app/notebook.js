@@ -319,7 +319,7 @@ var Notebook = GObject.registerClass(
         }
 
         update_tabs_visible() {
-            switch (this.settings.get_string('tab-policy')) {
+            switch (this.tab_policy) {
             case 'always':
                 this.show_tabs = true;
                 break;
