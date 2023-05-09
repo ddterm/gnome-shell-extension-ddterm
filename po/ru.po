@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-06 14:15+0000\n"
+"POT-Creation-Date: 2023-05-10 00:06+0300\n"
 "PO-Revision-Date: 2023-03-14 13:45+0000\n"
 "Last-Translator: Aleksandr Mezin <mezin.alexander@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/gnome-shell-"
@@ -21,7 +21,7 @@ msgstr ""
 msgid "Drop Down Terminal"
 msgstr "Выпадающий терминал"
 
-#: ddterm/app/appwindow.js:413
+#: ddterm/app/appwindow.js:416
 msgid ""
 "Warning: ddterm version has changed. Log out, then log in again to load the "
 "updated extension."
@@ -44,14 +44,6 @@ msgstr "Необходимо установить пакеты, содержащ
 #: ddterm/app/dependencies-notification.js:162
 msgid "Missing dependencies"
 msgstr "Отсутствуют зависимости"
-
-#: ddterm/app/glade/notebook.ui:55
-msgid "New Tab (First)"
-msgstr "Новая вкладка (в начале)"
-
-#: ddterm/app/glade/notebook.ui:80
-msgid "New Tab (Last)"
-msgstr "Новая вкладка (в конце)"
 
 #: ddterm/app/glade/terminalpage.ui:169
 msgid "Case Sensitive"
@@ -225,6 +217,14 @@ msgstr "Переместить вкладку на предыдущую пози
 #: ddterm/app/menus.ui:202 ddterm/pref/glade/prefs-shortcuts.ui:220
 msgid "Move Tab to Next Position"
 msgstr "Переместить вкладку на следующую позицию"
+
+#: ddterm/app/notebook.js:84
+msgid "New Tab (Last)"
+msgstr "Новая вкладка (в конце)"
+
+#: ddterm/app/notebook.js:116
+msgid "New Tab (First)"
+msgstr "Новая вкладка (в начале)"
 
 #: ddterm/app/terminalpage.js:926
 msgid "Close this terminal?"

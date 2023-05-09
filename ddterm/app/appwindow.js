@@ -115,6 +115,9 @@ var AppWindow = GObject.registerClass(
                 menus: this.menus,
                 settings: this.settings,
                 desktop_settings: this.desktop_settings,
+                visible: true,
+                hexpand: true,
+                vexpand: true,
             });
             grid.attach(this.notebook, 1, 2, 1, 1);
 

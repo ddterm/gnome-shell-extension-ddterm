@@ -23,21 +23,11 @@
 
 const { GLib, GObject, Gio, Gtk } = imports.gi;
 const { terminalpage } = imports.ddterm.app;
-
-const Me = imports.misc.extensionUtils.getCurrentExtension();
-
-const DDTERM_DIR = Me.dir.get_child('ddterm');
+const { translations } = imports.ddterm.util;
 
 var Notebook = GObject.registerClass(
     {
-        Template: DDTERM_DIR.get_child('app').get_child('ui').get_child('notebook.ui').get_uri(),
         GTypeName: 'DDTermNotebook',
-        Children: [
-            'tab_switch_button',
-            'new_tab_button',
-            'new_tab_front_button',
-            'tab_switch_menu_box',
-        ],
         Properties: {
             'menus': GObject.ParamSpec.object(
                 'menus',
@@ -86,6 +76,49 @@ var Notebook = GObject.registerClass(
     class Notebook extends Gtk.Notebook {
         _init(params) {
             super._init(params);
+
+            const button_box = new Gtk.Box({ visible: true });
+
+            this.new_tab_button = new Gtk.Button({
+                image: Gtk.Image.new_from_icon_name('list-add', Gtk.IconSize.MENU),
+                tooltip_text: translations.gettext('New Tab (Last)'),
+                action_name: 'notebook.new-tab',
+                relief: Gtk.ReliefStyle.NONE,
+                visible: true,
+            });
+            button_box.add(this.new_tab_button);
+
+            this.tab_switch_menu_box = new Gtk.Box({
+                visible: true,
+                orientation: Gtk.Orientation.VERTICAL,
+                spacing: 10,
+                margin_top: 10,
+                margin_bottom: 10,
+                margin_start: 10,
+                margin_end: 10,
+            });
+
+            this.tab_switch_button = new Gtk.MenuButton({
+                popover: new Gtk.Popover({
+                    child: this.tab_switch_menu_box,
+                }),
+                focus_on_click: false,
+                relief: Gtk.ReliefStyle.NONE,
+                visible: true,
+            });
+            // this.tab_switch_button.popover.relative_to = this.tab_switch_button;
+            button_box.add(this.tab_switch_button);
+
+            this.set_action_widget(button_box, Gtk.PackType.END);
+
+            this.new_tab_front_button = new Gtk.Button({
+                image: Gtk.Image.new_from_icon_name('list-add', Gtk.IconSize.MENU),
+                tooltip_text: translations.gettext('New Tab (First)'),
+                action_name: 'notebook.new-tab-front',
+                relief: Gtk.ReliefStyle.NONE,
+                visible: true,
+            });
+            this.set_action_widget(this.new_tab_front_button, Gtk.PackType.START);
 
             const actions = {
                 'new-tab': this.new_page.bind(this, -1),

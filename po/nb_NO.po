@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-06 14:15+0000\n"
+"POT-Creation-Date: 2023-05-10 00:06+0300\n"
 "PO-Revision-Date: 2023-03-12 16:07+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/gnome-"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "Drop Down Terminal"
 msgstr "Rullegardinsterminal"
 
-#: ddterm/app/appwindow.js:413
+#: ddterm/app/appwindow.js:416
 msgid ""
 "Warning: ddterm version has changed. Log out, then log in again to load the "
 "updated extension."
@@ -45,14 +45,6 @@ msgstr "Installer pakkene som tilbyr følgende filer:"
 #: ddterm/app/dependencies-notification.js:162
 msgid "Missing dependencies"
 msgstr "Manglende avhengigheter"
-
-#: ddterm/app/glade/notebook.ui:55
-msgid "New Tab (First)"
-msgstr "Ny fane (først)"
-
-#: ddterm/app/glade/notebook.ui:80
-msgid "New Tab (Last)"
-msgstr "Ny fane (sist)"
 
 #: ddterm/app/glade/terminalpage.ui:169
 msgid "Case Sensitive"
@@ -226,6 +218,14 @@ msgstr "Flytt fane til forrige posisjon"
 #: ddterm/app/menus.ui:202 ddterm/pref/glade/prefs-shortcuts.ui:220
 msgid "Move Tab to Next Position"
 msgstr "Flytt fane til neste posisjon"
+
+#: ddterm/app/notebook.js:84
+msgid "New Tab (Last)"
+msgstr "Ny fane (sist)"
+
+#: ddterm/app/notebook.js:116
+msgid "New Tab (First)"
+msgstr "Ny fane (først)"
 
 #: ddterm/app/terminalpage.js:926
 msgid "Close this terminal?"
