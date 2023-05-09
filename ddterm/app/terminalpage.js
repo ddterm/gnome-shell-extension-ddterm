@@ -202,6 +202,13 @@ var TerminalPage = GObject.registerClass(
                 GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
                 null
             ),
+            'title': GObject.ParamSpec.string(
+                'title',
+                '',
+                '',
+                GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+                ''
+            ),
         },
         Signals: {
             'new-tab-before-request': {},
@@ -351,6 +358,24 @@ var TerminalPage = GObject.registerClass(
                 this.terminal.connect(`notify::${prop}`, this.update_title.bind(this));
 
             this.connect('notify::switch-shortcut', this.update_title.bind(this));
+
+            this.bind_property(
+                'title',
+                this.tab_label_label,
+                'label',
+                GObject.BindingFlags.SYNC_CREATE
+            );
+
+            this.bind_property(
+                'title',
+                this.switcher_item,
+                'text',
+                GObject.BindingFlags.SYNC_CREATE
+            );
+
+            this.switcher_item.connect('notify::text', source => {
+                source.use_markup = true;
+            });
 
             this.use_custom_title_action = new Gio.SimpleAction({
                 'name': 'use-custom-title',
@@ -652,11 +677,7 @@ var TerminalPage = GObject.registerClass(
                 ])
             );
 
-            const title = this.title_template_compiled(context);
-
-            this.tab_label_label.label = title;
-            this.switcher_item.text = title;
-            this.switcher_item.use_markup = true;
+            this.title = this.title_template_compiled(context);
         }
 
         get_cwd() {
