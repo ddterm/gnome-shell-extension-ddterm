@@ -19,6 +19,7 @@
 
 const { GObject, Gtk } = imports.gi;
 const { dialog } = imports.ddterm.pref;
+const Me = imports.misc.extensionUtils.getCurrentExtension();
 
 var Application = GObject.registerClass(
     class Application extends Gtk.Application {
@@ -30,7 +31,7 @@ var Application = GObject.registerClass(
         }
 
         startup() {
-            this.settings = imports.ddterm.util.settings.get_settings();
+            this.settings = imports.ddterm.util.settings.get_settings(Me.dir);
         }
 
         activate() {

@@ -21,13 +21,11 @@
 
 const { Gio } = imports.gi;
 
-const Me = imports.misc.extensionUtils.getCurrentExtension();
-
 const SCHEMA_NAME = 'com.github.amezin.ddterm';
 
-function get_schema_source() {
+function get_schema_source(me_dir) {
     const default_source = Gio.SettingsSchemaSource.get_default();
-    const schema_dir = Me.dir.get_child('schemas');
+    const schema_dir = me_dir.get_child('schemas');
 
     if (!schema_dir.query_exists(null))
         return default_source;
@@ -39,12 +37,12 @@ function get_schema_source() {
     );
 }
 
-function get_schema() {
-    return get_schema_source().lookup(SCHEMA_NAME, true);
+function get_schema(me_dir) {
+    return get_schema_source(me_dir).lookup(SCHEMA_NAME, true);
 }
 
-function get_settings() {
-    const schema = get_schema();
+function get_settings(me_dir) {
+    const schema = get_schema(me_dir);
     if (!schema)
         throw new Error(`Schema ${SCHEMA_NAME} could not be found. Please check your installation`);
 

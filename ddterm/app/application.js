@@ -134,7 +134,7 @@ const Application = GObject.registerClass(
                 close_preferences_action.enabled = this.prefs_dialog !== null;
             });
 
-            this.settings = imports.ddterm.util.settings.get_settings();
+            this.settings = imports.ddterm.util.settings.get_settings(Me.dir);
 
             [
                 'window-above',
