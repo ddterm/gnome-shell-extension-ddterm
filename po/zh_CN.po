@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-10 00:06+0300\n"
+"POT-Creation-Date: 2023-05-09 22:15+0000\n"
 "PO-Revision-Date: 2023-04-25 12:23+0000\n"
 "Last-Translator: yuh <yuhldr@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -225,11 +225,11 @@ msgstr "新建标签页（最后一个）"
 msgid "New Tab (First)"
 msgstr "新建标签页（第一个）"
 
-#: ddterm/app/terminalpage.js:926
+#: ddterm/app/terminalpage.js:947
 msgid "Close this terminal?"
 msgstr "关闭这个终端？"
 
-#: ddterm/app/terminalpage.js:929
+#: ddterm/app/terminalpage.js:950
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."
