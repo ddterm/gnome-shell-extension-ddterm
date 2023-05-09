@@ -74,6 +74,13 @@ var Notebook = GObject.registerClass(
                 GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
                 'always'
             ),
+            'preserve-working-directory': GObject.ParamSpec.boolean(
+                'preserve-working-directory',
+                '',
+                '',
+                GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+                true
+            ),
         },
     },
     class Notebook extends Gtk.Notebook {
@@ -218,6 +225,13 @@ var Notebook = GObject.registerClass(
                 Gio.SettingsBindFlags.GET
             );
 
+            this.settings.bind(
+                'preserve-working-directory',
+                this,
+                'preserve-working-directory',
+                Gio.SettingsBindFlags.GET
+            );
+
             this.disconnect_toplevel = Function();
             this.connect('hierarchy-changed', this.update_toplevel.bind(this));
             this.connect('destroy', () => this.disconnect_toplevel());
@@ -273,8 +287,7 @@ var Notebook = GObject.registerClass(
         }
 
         new_page(position) {
-            const cwd =
-                this.settings.get_boolean('preserve-working-directory') ? this.get_cwd() : null;
+            const cwd = this.preserve_working_directory ? this.get_cwd() : null;
 
             const page = new terminalpage.TerminalPage({
                 settings: this.settings,
