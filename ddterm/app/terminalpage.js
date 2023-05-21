@@ -698,8 +698,10 @@ var TerminalPage = GObject.registerClass(
             const command_type = this.settings.get_string('command');
 
             if (command_type === 'custom-command') {
+                const command = this.settings.get_string('custom-command');
+
                 let _;
-                [_, argv] = GLib.shell_parse_argv(this.settings['custom-command'].value);
+                [_, argv] = GLib.shell_parse_argv(command);
 
                 spawn_flags = GLib.SpawnFlags.SEARCH_PATH_FROM_ENVP;
             } else {
