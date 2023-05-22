@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-09 22:15+0000\n"
+"POT-Creation-Date: 2023-05-22 20:16+0000\n"
 "PO-Revision-Date: 2023-03-14 12:19+0000\n"
 "Last-Translator: Aleksandr Mezin <mezin.alexander@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/gnome-shell-"
@@ -227,11 +227,11 @@ msgstr "Nouvel onglet (en dernière position)"
 msgid "New Tab (First)"
 msgstr "Nouvel onglet (en première position)"
 
-#: ddterm/app/terminalpage.js:947
+#: ddterm/app/terminalpage.js:949
 msgid "Close this terminal?"
 msgstr "Fermer ce terminal ?"
 
-#: ddterm/app/terminalpage.js:950
+#: ddterm/app/terminalpage.js:952
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."
