@@ -76,22 +76,6 @@ const Application = GObject.registerClass(
                 null
             );
             this.add_main_option(
-                'unset-gdk-backend',
-                0,
-                GLib.OptionFlags.NONE,
-                GLib.OptionArg.NONE,
-                'Unset GDK_BACKEND variable for subprocesses',
-                null
-            );
-            this.add_main_option(
-                'reset-gdk-backend',
-                0,
-                GLib.OptionFlags.NONE,
-                GLib.OptionArg.STRING,
-                'Set GDK_BACKEND variable for subprocesses',
-                null
-            );
-            this.add_main_option(
                 'launch-through-extension',
                 0,
                 GLib.OptionFlags.NONE,
@@ -103,17 +87,13 @@ const Application = GObject.registerClass(
             this.connect('startup', this.startup.bind(this));
             this.connect('handle-local-options', this.handle_local_options.bind(this));
 
-            this.env_gdk_backend = null;
-            this.unset_gdk_backend = false;
+            this.settings = imports.ddterm.util.settings.get_settings(Me.dir);
+
+            if (this.settings.get_boolean('force-x11-gdk-backend'))
+                Gdk.set_allowed_backends('x11');
         }
 
         startup() {
-            if (this.unset_gdk_backend)
-                GLib.unsetenv('GDK_BACKEND');
-
-            if (this.env_gdk_backend !== null)
-                GLib.setenv('GDK_BACKEND', this.env_gdk_backend, true);
-
             this.simple_action('quit', () => this.quit());
             this.simple_action('preferences', () => this.preferences());
             this.simple_action('gc', () => System.gc());
@@ -133,8 +113,6 @@ const Application = GObject.registerClass(
             this.connect('notify::prefs-dialog', () => {
                 close_preferences_action.enabled = this.prefs_dialog !== null;
             });
-
-            this.settings = imports.ddterm.util.settings.get_settings(Me.dir);
 
             [
                 'window-above',
@@ -263,17 +241,6 @@ const Application = GObject.registerClass(
 
             if (options.contains('undecorated'))
                 this.decorated = false;
-
-            if (options.contains('unset-gdk-backend'))
-                this.unset_gdk_backend = true;
-
-            this.env_gdk_backend = options.lookup_value(
-                'reset-gdk-backend',
-                GLib.VariantType.new('s')
-            );
-
-            if (this.env_gdk_backend !== null)
-                this.env_gdk_backend = this.env_gdk_backend.unpack();
 
             if (!(this.flags & Gio.ApplicationFlags.IS_SERVICE))
                 this.flags |= Gio.ApplicationFlags.IS_LAUNCHER;

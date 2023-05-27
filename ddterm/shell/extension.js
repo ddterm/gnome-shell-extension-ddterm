@@ -369,19 +369,8 @@ function spawn_app() {
         '--gapplication-service',
     ];
 
-    if (settings.get_boolean('force-x11-gdk-backend')) {
-        const prev_gdk_backend = subprocess_launcher.getenv('GDK_BACKEND');
-
-        if (prev_gdk_backend === null)
-            argv.push('--unset-gdk-backend');
-        else
-            argv.push('--reset-gdk-backend', prev_gdk_backend);
-
-        subprocess_launcher.setenv('GDK_BACKEND', 'x11', true);
-    }
-
     if (Meta.is_wayland_compositor() &&
-        subprocess_launcher.getenv('GDK_BACKEND') !== 'x11') {
+        !settings.get_boolean('force-x11-gdk-backend')) {
         try {
             wayland_client = Meta.WaylandClient.new(global.context, subprocess_launcher);
         } catch {
