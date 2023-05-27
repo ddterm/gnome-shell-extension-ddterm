@@ -86,14 +86,14 @@ const Application = GObject.registerClass(
 
             this.connect('startup', this.startup.bind(this));
             this.connect('handle-local-options', this.handle_local_options.bind(this));
+        }
 
+        startup() {
             this.settings = imports.ddterm.util.settings.get_settings(Me.dir);
 
             if (this.settings.get_boolean('force-x11-gdk-backend'))
                 Gdk.set_allowed_backends('x11');
-        }
 
-        startup() {
             this.simple_action('quit', () => this.quit());
             this.simple_action('preferences', () => this.preferences());
             this.simple_action('gc', () => System.gc());
