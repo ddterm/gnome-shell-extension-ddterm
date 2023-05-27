@@ -83,6 +83,14 @@ const Application = GObject.registerClass(
                 'Ask the extension to launch the app',
                 null
             );
+            this.add_main_option(
+                'attach-unit',
+                0,
+                GLib.OptionFlags.NONE,
+                GLib.OptionArg.STRING,
+                'Attach launched application process to the specified systemd unit',
+                'UNIT_NAME'
+            );
 
             this.connect('startup', this.startup.bind(this));
             this.connect('handle-local-options', this.handle_local_options.bind(this));
@@ -228,11 +236,24 @@ const Application = GObject.registerClass(
         }
 
         handle_local_options(_, options) {
+            const attach_unit = options.lookup('attach-unit');
+
             if (options.lookup('launch-through-extension')) {
                 try {
-                    const iface = extensiondbus.get();
-                    iface.ServiceSync();
+                    extensiondbus.get().ServiceSync(
+                        attach_unit ? ['--attach-unit', attach_unit] : []
+                    );
+
                     return 0;
+                } catch (e) {
+                    logError(e);
+                    return 1;
+                }
+            }
+
+            if (attach_unit) {
+                try {
+                    this.attach_unit(attach_unit);
                 } catch (e) {
                     logError(e);
                     return 1;
@@ -245,6 +266,27 @@ const Application = GObject.registerClass(
                 this.flags |= Gio.ApplicationFlags.IS_LAUNCHER;
 
             return -1;
+        }
+
+        attach_unit(unit) {
+            Gio.DBus.session.call_sync(
+                'org.freedesktop.systemd1',
+                '/org/freedesktop/systemd1',
+                'org.freedesktop.systemd1.Manager',
+                'AttachProcessesToUnit',
+                GLib.Variant.new_tuple([
+                    GLib.Variant.new_string(unit),
+                    GLib.Variant.new_string(''),
+                    GLib.Variant.new_array(
+                        new GLib.VariantType('u'),
+                        [GLib.Variant.new_uint32(Gio.Credentials.new().get_unix_pid())]
+                    ),
+                ]),
+                null,
+                Gio.DBusCallFlags.NONE,
+                -1,
+                null
+            );
         }
 
         preferences() {

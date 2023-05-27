@@ -5,7 +5,9 @@
     <interface name="com.github.amezin.ddterm.Extension">
         <method name="Toggle"/>
         <method name="Activate"/>
-        <method name="Service"/>
+        <method name="Service">
+            <arg type="as" name="args" direction="in"/>
+        </method>
         <method name="GetTargetRect">
             <arg type="i" name="x" direction="out"/>
             <arg type="i" name="y" direction="out"/>

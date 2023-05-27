@@ -1,0 +1,5 @@
+[Service]
+Type=forking
+BusName=com.github.amezin.ddterm
+ExecStart="@LAUNCHER@" --launch-through-extension --attach-unit "%n"
+Delegate=

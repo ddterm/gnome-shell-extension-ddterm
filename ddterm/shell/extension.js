@@ -44,6 +44,7 @@ let window_connections = null;
 let dbus_interface = null;
 
 let desktop_entry = null;
+let systemd_service = null;
 let dbus_service = null;
 
 const APP_ID = 'com.github.amezin.ddterm';
@@ -127,8 +128,28 @@ class ExtensionDBusInterface {
         activate();
     }
 
-    Service() {
-        spawn_app();
+    ServiceAsync(params, invocation) {
+        const return_error = err => {
+            logError(err);
+
+            if (err instanceof GLib.Error) {
+                invocation.return_gerror(err);
+            } else {
+                let name = err.name;
+                if (!name.includes('.'))
+                    name = `org.gnome.gjs.JSError.${name}`;
+
+                invocation.return_dbus_error(name, err.message);
+            }
+        };
+
+        try {
+            const [args] = params;
+
+            spawn_app(args).then(() => invocation.return_value(null)).catch(return_error);
+        } catch (err) {
+            return_error(err);
+        }
     }
 
     GetTargetRect() {
@@ -266,6 +287,31 @@ function enable() {
     );
     desktop_entry.install();
 
+    systemd_service = new InstallableResource(
+        Me.dir.get_child('ddterm').get_child('dbus-com.github.amezin.ddterm.service.in'),
+        Gio.File.new_for_path(GLib.build_filenamev(
+            [
+                GLib.get_user_runtime_dir(),
+                'systemd',
+                'user',
+                `dbus-${APP_ID}.service`,
+            ]))
+    );
+    systemd_service.install();
+
+    Gio.DBus.session.call(
+        'org.freedesktop.systemd1',
+        '/org/freedesktop/systemd1',
+        'org.freedesktop.systemd1.Manager',
+        'Reload',
+        null,
+        null,
+        Gio.DBusCallFlags.NO_AUTO_START,
+        -1,
+        null,
+        null
+    );
+
     dbus_service = new InstallableResource(
         Me.dir.get_child('ddterm').get_child('com.github.amezin.ddterm.service.in'),
         Gio.File.new_for_path(GLib.build_filenamev(
@@ -346,6 +392,11 @@ function disable() {
         desktop_entry = null;
     }
 
+    if (systemd_service) {
+        systemd_service.uninstall();
+        systemd_service = null;
+    }
+
     if (dbus_service) {
         dbus_service.uninstall();
         dbus_service = null;
@@ -354,7 +405,7 @@ function disable() {
     settings = null;
 }
 
-function spawn_app() {
+async function spawn_app(args) {
     if (subprocess)
         return;
 
@@ -367,6 +418,7 @@ function spawn_app() {
         Me.dir.get_child(APP_ID).get_path(),
         '--undecorated',
         '--gapplication-service',
+        ...args,
     ];
 
     if (Meta.is_wayland_compositor()) {
@@ -381,12 +433,35 @@ function spawn_app() {
 
     printerr(`Starting ddterm app: ${JSON.stringify(argv)}`);
 
-    if (wayland_client)
-        subprocess = wayland_client.spawnv(global.display, argv);
-    else
-        subprocess = subprocess_launcher.spawnv(argv);
+    let available_handler = null;
 
-    subprocess.wait_async(null, subprocess_terminated);
+    const registered = new Promise(resolve => {
+        available_handler = app_dbus.connect('notify::available', source => {
+            if (source.available)
+                resolve();
+        });
+    });
+
+    try {
+        if (wayland_client)
+            subprocess = wayland_client.spawnv(global.display, argv);
+        else
+            subprocess = subprocess_launcher.spawnv(argv);
+
+        const terminated = new Promise(resolve => {
+            subprocess.wait_async(null, source => {
+                subprocess_terminated(source);
+                resolve();
+            });
+        });
+
+        await Promise.race([terminated, registered]);
+    } finally {
+        app_dbus.disconnect(available_handler);
+    }
+
+    if (!subprocess)
+        throw new Error('ddterm app exited without acquiring bus name');
 }
 
 function subprocess_terminated(source) {
