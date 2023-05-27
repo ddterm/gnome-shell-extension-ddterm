@@ -228,7 +228,7 @@ const Application = GObject.registerClass(
         }
 
         handle_local_options(_, options) {
-            if (options.contains('launch-through-extension')) {
+            if (options.lookup('launch-through-extension')) {
                 try {
                     const iface = extensiondbus.get();
                     iface.ServiceSync();
@@ -239,8 +239,7 @@ const Application = GObject.registerClass(
                 }
             }
 
-            if (options.contains('undecorated'))
-                this.decorated = false;
+            this.decorated = !options.lookup('undecorated');
 
             if (!(this.flags & Gio.ApplicationFlags.IS_SERVICE))
                 this.flags |= Gio.ApplicationFlags.IS_LAUNCHER;
