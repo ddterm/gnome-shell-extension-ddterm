@@ -369,8 +369,7 @@ function spawn_app() {
         '--gapplication-service',
     ];
 
-    if (Meta.is_wayland_compositor() &&
-        !settings.get_boolean('force-x11-gdk-backend')) {
+    if (Meta.is_wayland_compositor()) {
         try {
             wayland_client = Meta.WaylandClient.new(global.context, subprocess_launcher);
         } catch {
@@ -424,13 +423,15 @@ function activate() {
 }
 
 function set_skip_taskbar() {
-    if (!wayland_client || !window_manager.current_window)
+    const win = window_manager.current_window;
+
+    if (!win || win.get_client_type() !== Meta.WindowClientType.WAYLAND)
         return;
 
     if (settings.get_boolean('window-skip-taskbar'))
-        wayland_client.hide_from_window_list(window_manager.current_window);
+        wayland_client.hide_from_window_list(win);
     else
-        wayland_client.show_in_window_list(window_manager.current_window);
+        wayland_client.show_in_window_list(win);
 }
 
 function watch_window(win) {
@@ -444,7 +445,7 @@ function watch_window(win) {
     const check = () => {
         disconnect();
 
-        if (wayland_client) {
+        if (win.get_client_type() === Meta.WindowClientType.WAYLAND) {
             if (!wayland_client.owns_window(win))
                 return;
         } else if (subprocess) {
