@@ -446,7 +446,7 @@ function watch_window(win) {
         disconnect();
 
         if (win.get_client_type() === Meta.WindowClientType.WAYLAND) {
-            if (!wayland_client.owns_window(win))
+            if (wayland_client === null || !wayland_client.owns_window(win))
                 return;
         } else if (subprocess) {
             if (win.get_pid().toString() !== subprocess.get_identifier())
