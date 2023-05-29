@@ -40,7 +40,7 @@ pytest-github-actions-annotate-failures==0.2.0
     # via -r pypi.in
 pytest-html==3.2.0
     # via -r pypi.in
-pytest-metadata==2.0.4
+pytest-metadata==3.0.0
     # via pytest-html
 pytest-rerunfailures==11.1.2
     # via -r pypi.in
