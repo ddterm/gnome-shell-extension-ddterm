@@ -369,6 +369,9 @@ function main(argv) {
         application_id: 'com.github.amezin.ddterm',
     });
 
+    GLib.unix_signal_add(GLib.PRIORITY_HIGH, 2 /* SIGINT */, () => app.quit());
+    GLib.unix_signal_add(GLib.PRIORITY_HIGH, 15 /* SIGTERM */, () => app.quit());
+
     System.exit(app.run(argv));
 }
 
