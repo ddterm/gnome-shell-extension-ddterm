@@ -118,6 +118,7 @@ var AppWindow = GObject.registerClass(
                 visible: true,
                 hexpand: true,
                 vexpand: true,
+                scrollable: true,
             });
             grid.attach(this.notebook, 1, 2, 1, 1);
 
