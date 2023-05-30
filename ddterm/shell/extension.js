@@ -411,9 +411,6 @@ async function spawn_app(args) {
 
     const subprocess_launcher = Gio.SubprocessLauncher.new(Gio.SubprocessFlags.NONE);
 
-    const context = global.create_app_launch_context(0, -1);
-    subprocess_launcher.set_environ(context.get_environment());
-
     let argv = [
         Me.dir.get_child(APP_ID).get_path(),
         '--undecorated',
