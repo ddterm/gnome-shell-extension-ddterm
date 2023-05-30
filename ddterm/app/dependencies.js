@@ -22,7 +22,7 @@
 const ByteArray = imports.byteArray;
 const System = imports.system;
 
-const { GLib } = imports.gi;
+const { GLib, Gio } = imports.gi;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 
@@ -98,15 +98,51 @@ function show_notification(packages, filenames) {
     for (const filename of filenames)
         cmd.push('--file', filename);
 
-    const [_, pid] = GLib.spawn_async(
+    const proc = Gio.Subprocess.new(cmd, Gio.SubprocessFlags.NONE);
+
+    if (!ARGV.includes('--attach-unit'))
+        return;
+
+    const pid = parseInt(proc.get_identifier(), 10);
+
+    Gio.DBus.session.call_sync(
+        'org.freedesktop.systemd1',
+        '/org/freedesktop/systemd1',
+        'org.freedesktop.systemd1.Manager',
+        'StartTransientUnit',
+        GLib.Variant.new_tuple([
+            GLib.Variant.new_string(`com.github.amezin.ddterm.deps-${pid}.scope`),
+            GLib.Variant.new_string('fail'),
+            GLib.Variant.new_array(
+                new GLib.VariantType('(sv)'),
+                [
+                    GLib.Variant.new_tuple([
+                        GLib.Variant.new_string('PIDs'),
+                        GLib.Variant.new_variant(
+                            GLib.Variant.new_array(
+                                new GLib.VariantType('u'),
+                                [GLib.Variant.new_uint32(pid)]
+                            )
+                        ),
+                    ]),
+                    GLib.Variant.new_tuple([
+                        GLib.Variant.new_string('CollectMode'),
+                        GLib.Variant.new_variant(
+                            GLib.Variant.new_string('inactive-or-failed')
+                        ),
+                    ]),
+                ]
+            ),
+            GLib.Variant.new_array(
+                new GLib.VariantType('(sa(sv))'),
+                []
+            ),
+        ]),
         null,
-        cmd,
-        null,
-        GLib.SpawnFlags.DEFAULT,
+        Gio.DBusCallFlags.NO_AUTO_START,
+        -1,
         null
     );
-
-    GLib.spawn_close_pid(pid);
 }
 
 function gi_require(imports_versions) {
