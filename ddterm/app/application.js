@@ -240,9 +240,14 @@ const Application = GObject.registerClass(
 
             if (options.lookup('launch-through-extension')) {
                 try {
+                    const fds = new Gio.UnixFDList();
+
                     extensiondbus.get().ServiceSync(
                         attach_unit ? ['--attach-unit', attach_unit] : [],
-                        GLib.get_environ()
+                        GLib.get_environ(),
+                        fds.append(1),
+                        fds.append(2),
+                        fds
                     );
 
                     return 0;

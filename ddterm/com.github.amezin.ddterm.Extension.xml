@@ -8,6 +8,8 @@
         <method name="Service">
             <arg type="as" name="args" direction="in"/>
             <arg type="as" name="env" direction="in"/>
+            <arg type="h" name="stdout" direction="in"/>
+            <arg type="h" name="stderr" direction="in"/>
         </method>
         <method name="GetTargetRect">
             <arg type="i" name="x" direction="out"/>

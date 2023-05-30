@@ -144,9 +144,10 @@ class ExtensionDBusInterface {
         };
 
         try {
-            const [args, env] = params;
+            const [args, env, stdout, stderr] = params;
+            const fds = invocation.get_message().get_unix_fd_list();
 
-            spawn_app(args, env).then(
+            spawn_app(args, env, fds.get(stdout), fds.get(stderr)).then(
                 () => invocation.return_value(null)
             ).catch(return_error);
         } catch (err) {
@@ -407,12 +408,24 @@ function disable() {
     settings = null;
 }
 
-async function spawn_app(args, env) {
+async function spawn_app(args, env, stdout, stderr) {
+    const subprocess_launcher = Gio.SubprocessLauncher.new(Gio.SubprocessFlags.NONE);
+
+    try {
+        subprocess_launcher.set_environ(env);
+        subprocess_launcher.take_stdout_fd(stdout);
+        subprocess_launcher.take_stderr_fd(stderr);
+
+        return await spawn_app_with_launcher(args, subprocess_launcher);
+    } finally {
+        if (typeof subprocess_launcher['close'] === 'function')
+            subprocess_launcher.close();
+    }
+}
+
+async function spawn_app_with_launcher(args, subprocess_launcher) {
     if (subprocess)
         return;
-
-    const subprocess_launcher = Gio.SubprocessLauncher.new(Gio.SubprocessFlags.NONE);
-    subprocess_launcher.set_environ(env);
 
     let argv = [
         Me.dir.get_child(APP_ID).get_path(),
