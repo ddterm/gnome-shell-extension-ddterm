@@ -7,6 +7,7 @@
         <method name="Activate"/>
         <method name="Service">
             <arg type="as" name="args" direction="in"/>
+            <arg type="as" name="env" direction="in"/>
         </method>
         <method name="GetTargetRect">
             <arg type="i" name="x" direction="out"/>

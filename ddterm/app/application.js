@@ -241,7 +241,8 @@ const Application = GObject.registerClass(
             if (options.lookup('launch-through-extension')) {
                 try {
                     extensiondbus.get().ServiceSync(
-                        attach_unit ? ['--attach-unit', attach_unit] : []
+                        attach_unit ? ['--attach-unit', attach_unit] : [],
+                        GLib.get_environ()
                     );
 
                     return 0;

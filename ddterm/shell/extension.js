@@ -144,9 +144,11 @@ class ExtensionDBusInterface {
         };
 
         try {
-            const [args] = params;
+            const [args, env] = params;
 
-            spawn_app(args).then(() => invocation.return_value(null)).catch(return_error);
+            spawn_app(args, env).then(
+                () => invocation.return_value(null)
+            ).catch(return_error);
         } catch (err) {
             return_error(err);
         }
@@ -405,11 +407,12 @@ function disable() {
     settings = null;
 }
 
-async function spawn_app(args) {
+async function spawn_app(args, env) {
     if (subprocess)
         return;
 
     const subprocess_launcher = Gio.SubprocessLauncher.new(Gio.SubprocessFlags.NONE);
+    subprocess_launcher.set_environ(env);
 
     let argv = [
         Me.dir.get_child(APP_ID).get_path(),
