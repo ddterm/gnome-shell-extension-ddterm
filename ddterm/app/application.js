@@ -228,23 +228,21 @@ const Application = GObject.registerClass(
         }
 
         handle_local_options(_, options) {
-            if (options.lookup('launch-through-extension')) {
-                try {
-                    const iface = extensiondbus.get();
-                    iface.ServiceSync();
-                    return 0;
-                } catch (e) {
-                    logError(e);
-                    return 1;
-                }
+            if (this.flags & Gio.ApplicationFlags.IS_SERVICE) {
+                this.decorated = !options.lookup('undecorated');
+                return -1;
             }
 
-            this.decorated = !options.lookup('undecorated');
+            this.flags |= Gio.ApplicationFlags.IS_LAUNCHER;
 
-            if (!(this.flags & Gio.ApplicationFlags.IS_SERVICE))
-                this.flags |= Gio.ApplicationFlags.IS_LAUNCHER;
+            try {
+                extensiondbus.get().ServiceSync();
+            } catch (e) {
+                logError(e);
+                return 1;
+            }
 
-            return -1;
+            return options.lookup('launch-through-extension') ? 0 : -1;
         }
 
         preferences() {
