@@ -274,7 +274,6 @@ function spawn_app() {
 
     let argv = [
         Me.dir.get_child(APP_ID).get_path(),
-        '--undecorated',
         '--gapplication-service',
     ];
 

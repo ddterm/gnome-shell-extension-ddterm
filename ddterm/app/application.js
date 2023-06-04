@@ -65,16 +65,6 @@ const Application = GObject.registerClass(
         _init(params) {
             super._init(params);
 
-            this.decorated = true;
-
-            this.add_main_option(
-                'undecorated',
-                0,
-                GLib.OptionFlags.NONE,
-                GLib.OptionArg.NONE,
-                'Hide window decorations',
-                null
-            );
             this.add_main_option(
                 'launch-through-extension',
                 0,
@@ -158,7 +148,7 @@ const Application = GObject.registerClass(
 
             this.window = new appwindow.AppWindow({
                 application: this,
-                decorated: this.decorated,
+                decorated: false,
                 settings: this.settings,
                 desktop_settings: this.desktop_settings,
                 extension_dbus: this.extension_dbus,
@@ -228,10 +218,8 @@ const Application = GObject.registerClass(
         }
 
         handle_local_options(_, options) {
-            if (this.flags & Gio.ApplicationFlags.IS_SERVICE) {
-                this.decorated = !options.lookup('undecorated');
+            if (this.flags & Gio.ApplicationFlags.IS_SERVICE)
                 return -1;
-            }
 
             this.flags |= Gio.ApplicationFlags.IS_LAUNCHER;
 
