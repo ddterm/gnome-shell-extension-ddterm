@@ -86,7 +86,8 @@ class File {
         try {
             this.target_file.delete(null);
         } catch (e) {
-            logError(e);
+            if (!e.matches(Gio.io_error_quark(), Gio.IOErrorEnum.NOT_FOUND))
+                logError(e, `Can't delete ${JSON.stringify(this.target_file.get_path())}`);
         }
     }
 }
