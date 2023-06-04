@@ -24,17 +24,22 @@ const ByteArray = imports.byteArray;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 
+function to_gio_file(file_or_path) {
+    // `<string> instanceof Gio.File` causes a crash!
+    if (file_or_path instanceof GObject.Object && file_or_path instanceof Gio.File)
+        return file_or_path;
+
+    return Gio.File.new_for_path(file_or_path);
+}
+
 class File {
-    constructor(source_file, target_file) {
-        // `<string> instanceof Gio.File` causes a crash
-        if (!(source_file instanceof GObject.Object))
-            source_file = Gio.File.new_for_path(source_file);
+    constructor(source_file, target_file, fallback_files = []) {
+        this.content = ByteArray.toString(
+            to_gio_file(source_file).load_contents(null)[1]
+        );
 
-        if (!(target_file instanceof GObject.Object))
-            target_file = Gio.File.new_for_path(target_file);
-
-        this.content = ByteArray.toString(source_file.load_contents(null)[1]);
-        this.target_file = target_file;
+        this.target_file = to_gio_file(target_file);
+        this.fallback_files = fallback_files.map(to_gio_file);
     }
 
     configure(mapping) {
@@ -42,17 +47,24 @@ class File {
             this.content = this.content.replace(new RegExp(`@${key}@`, 'g'), value);
     }
 
+    get_existing_content() {
+        for (const existing_file of [this.target_file, ...this.fallback_files]) {
+            try {
+                return existing_file.load_contents(null)[1];
+            } catch (ex) {
+                if (!ex.matches(Gio.io_error_quark(), Gio.IOErrorEnum.NOT_FOUND))
+                    logError(ex, `Can't read ${JSON.stringify(existing_file.get_path())}`);
+            }
+        }
+
+        return null;
+    }
+
     install() {
         GLib.mkdir_with_parents(this.target_file.get_parent().get_path(), 0o700);
 
-        let existing_content = null;
-
-        try {
-            existing_content = this.target_file.load_contents(null)[1];
-        } catch {
-        }
-
         const new_content = ByteArray.fromString(this.content);
+        const existing_content = this.get_existing_content();
 
         if (existing_content &&
             existing_content.length === new_content.length &&
@@ -79,31 +91,38 @@ class File {
     }
 }
 
+function desktop_entry_path(basedir) {
+    return GLib.build_filenamev(
+        [basedir, 'applications', 'com.github.amezin.ddterm.desktop']
+    );
+}
+
+function dbus_service_path(basedir) {
+    return GLib.build_filenamev(
+        [basedir, 'dbus-1', 'services', 'com.github.amezin.ddterm.service']
+    );
+}
+
 var Installer = class Installer {
     constructor() {
         const configure_vars = {
             LAUNCHER: Me.dir.get_child('com.github.amezin.ddterm').get_path(),
         };
 
+        const system_data_dirs = GLib.get_system_data_dirs();
+
         this.desktop_entry = new File(
             Me.dir.get_child('ddterm').get_child('com.github.amezin.ddterm.desktop.in'),
-            GLib.build_filenamev([
-                GLib.get_user_data_dir(),
-                'applications',
-                'com.github.amezin.ddterm.desktop',
-            ])
+            desktop_entry_path(GLib.get_user_data_dir()),
+            system_data_dirs.map(desktop_entry_path)
         );
 
         this.desktop_entry.configure(configure_vars);
 
         this.dbus_service = new File(
             Me.dir.get_child('ddterm').get_child('com.github.amezin.ddterm.service.in'),
-            GLib.build_filenamev([
-                GLib.get_user_runtime_dir(),
-                'dbus-1',
-                'services',
-                'com.github.amezin.ddterm.service',
-            ])
+            dbus_service_path(GLib.get_user_runtime_dir()),
+            system_data_dirs.map(dbus_service_path)
         );
 
         this.dbus_service.configure(configure_vars);
