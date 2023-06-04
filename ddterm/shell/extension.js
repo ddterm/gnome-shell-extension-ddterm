@@ -103,6 +103,30 @@ const AppDBusWatch = GObject.registerClass(
     }
 );
 
+function report_dbus_error_async(e, invocation) {
+    if (e instanceof GLib.Error) {
+        invocation.return_gerror(e);
+        return;
+    }
+
+    let name = e.name;
+    if (!name.includes('.'))
+        name = `org.gnome.gjs.JSError.${name}`;
+
+    logError(e, `Exception in method call: ${invocation.get_method_name()}`);
+    invocation.return_dbus_error(name, e.message);
+}
+
+function handle_dbus_method_call_async(func, params, invocation) {
+    try {
+        Promise.resolve(func(...params)).then(result => {
+            invocation.return_value(result === undefined ? null : result);
+        }).catch(e => report_dbus_error_async(e, invocation));
+    } catch (e) {
+        report_dbus_error_async(e, invocation);
+    }
+}
+
 class ExtensionDBusInterface {
     constructor() {
         const xml_file =
@@ -116,12 +140,12 @@ class ExtensionDBusInterface {
         toggle();
     }
 
-    Activate() {
-        activate();
+    ActivateAsync(params, invocation) {
+        handle_dbus_method_call_async(activate, params, invocation);
     }
 
-    Service() {
-        spawn_app();
+    ServiceAsync(params, invocation) {
+        handle_dbus_method_call_async(ensure_app_on_bus, params, invocation);
     }
 
     GetTargetRect() {
@@ -385,6 +409,42 @@ function spawn_app() {
     subprocess.wait_async(null, subprocess_terminated);
 }
 
+async function ensure_app_on_bus() {
+    if (app_dbus.available)
+        return;
+
+    const cancellable = Gio.Cancellable.new();
+
+    try {
+        const wait_registered = new Promise(resolve => {
+            const handler = app_dbus.connect('notify::available', source => {
+                if (source.available)
+                    resolve(true);
+            });
+
+            cancellable.connect(() => app_dbus.disconnect(handler));
+        });
+
+        spawn_app();
+
+        const wait_terminated = new Promise(resolve => {
+            subprocess.wait_async(cancellable, (source, res) => {
+                if (cancellable.is_cancelled())
+                    return;
+
+                source.wait_finish(res);
+                resolve(false);
+            });
+        });
+
+        const registered = await Promise.race([wait_registered, wait_terminated]);
+        if (!registered)
+            throw new Error('ddterm app terminated without registering on D-Bus');
+    } finally {
+        cancellable.cancel();
+    }
+}
+
 function subprocess_terminated(source) {
     if (subprocess === source) {
         subprocess = null;
@@ -404,20 +464,18 @@ function toggle() {
         if (app_dbus.available)
             app_actions.activate_action('hide', null);
     } else {
-        activate();
+        activate().catch(err => logError(err));
     }
 }
 
-function activate() {
+async function activate() {
     if (!window_manager.current_window)
         window_manager.update_monitor_index();
 
     if (window_manager.current_window) {
         Main.activateWindow(window_manager.current_window);
     } else {
-        if (!app_dbus.available)
-            spawn_app();
-
+        await ensure_app_on_bus();
         app_actions.activate_action('show', null);
     }
 }
