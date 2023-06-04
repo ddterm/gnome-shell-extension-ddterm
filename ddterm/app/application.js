@@ -66,11 +66,11 @@ const Application = GObject.registerClass(
             super._init(params);
 
             this.add_main_option(
-                'launch-through-extension',
+                'activate-only',
                 0,
                 GLib.OptionFlags.NONE,
                 GLib.OptionArg.NONE,
-                'Ask the extension to launch the app',
+                'Start the application, but do not show the window',
                 null
             );
 
@@ -230,7 +230,7 @@ const Application = GObject.registerClass(
                 return 1;
             }
 
-            return options.lookup('launch-through-extension') ? 0 : -1;
+            return options.lookup('activate-only') ? 0 : -1;
         }
 
         preferences() {
