@@ -28,6 +28,7 @@ const Main = imports.ui.main;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const { BusNameWatch } = Me.imports.ddterm.shell.buswatch;
 const { ConnectionSet } = Me.imports.ddterm.shell.connectionset;
+const { Installer } = Me.imports.ddterm.shell.install;
 const { PanelIconProxy } = Me.imports.ddterm.shell.panelicon;
 const { WindowManager } = Me.imports.ddterm.shell.wm;
 
@@ -45,8 +46,7 @@ let connections = null;
 let window_connections = null;
 let dbus_interface = null;
 
-let desktop_entry = null;
-let dbus_service = null;
+let installer = null;
 
 const APP_ID = 'com.github.amezin.ddterm';
 const APP_WMCLASS = 'Com.github.amezin.ddterm';
@@ -118,34 +118,6 @@ class ExtensionDBusInterface {
 
     get Version() {
         return `${Me.metadata.version}`;
-    }
-}
-
-class InstallableResource {
-    constructor(source_file, target_file) {
-        this.content = ByteArray.toString(source_file.load_contents(null)[1]);
-        this.content = this.content.replace(/@LAUNCHER@/, Me.dir.get_child(APP_ID).get_path());
-        this.target_file = target_file;
-    }
-
-    install() {
-        GLib.mkdir_with_parents(this.target_file.get_parent().get_path(), 0o700);
-
-        this.target_file.replace_contents(
-            ByteArray.fromString(this.content),
-            null,
-            false,
-            Gio.FileCreateFlags.REPLACE_DESTINATION,
-            null
-        );
-    }
-
-    uninstall() {
-        try {
-            this.target_file.delete(null);
-        } catch (e) {
-            logError(e);
-        }
     }
 }
 
@@ -228,41 +200,8 @@ function enable() {
         watch_window(actor.meta_window);
     });
 
-    desktop_entry = new InstallableResource(
-        Me.dir.get_child('ddterm').get_child('com.github.amezin.ddterm.desktop.in'),
-        Gio.File.new_for_path(GLib.build_filenamev(
-            [
-                GLib.get_user_data_dir(),
-                'applications',
-                `${APP_ID}.desktop`,
-            ]))
-    );
-    desktop_entry.install();
-
-    dbus_service = new InstallableResource(
-        Me.dir.get_child('ddterm').get_child('com.github.amezin.ddterm.service.in'),
-        Gio.File.new_for_path(GLib.build_filenamev(
-            [
-                GLib.get_user_runtime_dir(),
-                'dbus-1',
-                'services',
-                `${APP_ID}.service`,
-            ]))
-    );
-    dbus_service.install();
-
-    Gio.DBus.session.call(
-        'org.freedesktop.DBus',
-        '/org/freedesktop/DBus',
-        'org.freedesktop.DBus',
-        'ReloadConfig',
-        null,
-        null,
-        Gio.DBusCallFlags.NONE,
-        -1,
-        null,
-        null
-    );
+    installer = new Installer();
+    installer.install();
 }
 
 function disable() {
@@ -312,18 +251,13 @@ function disable() {
         panel_icon = null;
     }
 
-    if (desktop_entry) {
-        // Don't uninstall the desktop file because of screen locking
+    if (installer) {
+        // Don't uninstall desktop/service files because of screen locking
         // GNOME Shell picks up newly installed desktop files with a noticeable delay
         if (!Main.sessionMode.isLocked)
-            desktop_entry.uninstall();
+            installer.uninstall();
 
-        desktop_entry = null;
-    }
-
-    if (dbus_service) {
-        dbus_service.uninstall();
-        dbus_service = null;
+        installer = null;
     }
 
     settings = null;
