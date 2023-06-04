@@ -19,13 +19,14 @@
 
 'use strict';
 
-/* exported init enable disable settings toggle window_manager app_dbus_watch subprocess */
+/* exported init enable disable settings toggle window_manager app_dbus_watch */
 
 const { GLib, Gio, Meta, Shell } = imports.gi;
 const ByteArray = imports.byteArray;
 const Main = imports.ui.main;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
+const { application } = Me.imports.ddterm.shell;
 const { BusNameWatch } = Me.imports.ddterm.shell.buswatch;
 const { ConnectionSet } = Me.imports.ddterm.shell.connectionset;
 const { Installer } = Me.imports.ddterm.shell.install;
@@ -35,8 +36,7 @@ const { WindowManager } = Me.imports.ddterm.shell.wm;
 var settings = null;
 var window_manager = null;
 
-let wayland_client = null;
-var subprocess = null;
+let app = null;
 
 let panel_icon = null;
 var app_dbus_watch = null;
@@ -219,8 +219,8 @@ function disable() {
         // we want to keep all open terminals.
         if (app_dbus_watch && app_dbus_watch.is_registered)
             app_actions.activate_action('quit', null);
-        else if (subprocess)
-            subprocess.send_signal(SIGINT);
+        else if (app)
+            app.subprocess.send_signal(SIGINT);
     }
 
     if (app_dbus_watch) {
@@ -263,45 +263,11 @@ function disable() {
     settings = null;
 }
 
-function spawn_app() {
-    if (subprocess)
-        return;
-
-    const subprocess_launcher = Gio.SubprocessLauncher.new(Gio.SubprocessFlags.NONE);
-
-    const context = global.create_app_launch_context(0, -1);
-    subprocess_launcher.set_environ(context.get_environment());
-
-    let argv = [
-        Me.dir.get_child(APP_ID).get_path(),
-        '--gapplication-service',
-    ];
-
-    if (Meta.is_wayland_compositor()) {
-        try {
-            wayland_client = Meta.WaylandClient.new(global.context, subprocess_launcher);
-        } catch {
-            wayland_client = Meta.WaylandClient.new(subprocess_launcher);
-        }
-    } else {
-        wayland_client = null;
-    }
-
-    printerr(`Starting ddterm app: ${JSON.stringify(argv)}`);
-
-    if (wayland_client)
-        subprocess = wayland_client.spawnv(global.display, argv);
-    else
-        subprocess = subprocess_launcher.spawnv(argv);
-
-    subprocess.wait_async(null, subprocess_terminated);
-}
-
 async function ensure_app_on_bus() {
     if (app_dbus_watch.is_registered)
         return;
 
-    const cancellable = Gio.Cancellable.new();
+    const disconnect = [];
 
     try {
         const wait_registered = new Promise(resolve => {
@@ -310,40 +276,34 @@ async function ensure_app_on_bus() {
                     resolve(true);
             });
 
-            cancellable.connect(() => app_dbus_watch.disconnect(handler));
+            disconnect.push([app_dbus_watch, handler]);
         });
 
-        spawn_app();
+        if (!app) {
+            app = application.spawn([
+                Me.dir.get_child(APP_ID).get_path(),
+                '--gapplication-service',
+            ]);
+
+            app.connect('terminated', () => {
+                app = null;
+            });
+        }
 
         const wait_terminated = new Promise(resolve => {
-            subprocess.wait_async(cancellable, (source, res) => {
-                if (cancellable.is_cancelled())
-                    return;
-
-                source.wait_finish(res);
+            const handler = app.connect('terminated', () => {
                 resolve(false);
             });
+
+            disconnect.push([app, handler]);
         });
 
         const registered = await Promise.race([wait_registered, wait_terminated]);
         if (!registered)
             throw new Error('ddterm app terminated without registering on D-Bus');
     } finally {
-        cancellable.cancel();
-    }
-}
-
-function subprocess_terminated(source) {
-    if (subprocess === source) {
-        subprocess = null;
-        wayland_client = null;
-    }
-
-    if (source.get_if_signaled()) {
-        const signum = source.get_term_sig();
-        printerr(`ddterm app killed by signal ${signum} (${GLib.strsignal(signum)})`);
-    } else {
-        printerr(`ddterm app exited with status ${source.get_exit_status()}`);
+        for (const [obj, handler] of disconnect)
+            obj.disconnect(handler);
     }
 }
 
@@ -375,9 +335,9 @@ function set_skip_taskbar() {
         return;
 
     if (settings.get_boolean('window-skip-taskbar'))
-        wayland_client.hide_from_window_list(win);
+        app.wayland_client.hide_from_window_list(win);
     else
-        wayland_client.show_in_window_list(win);
+        app.wayland_client.show_in_window_list(win);
 }
 
 function watch_window(win) {
@@ -391,11 +351,16 @@ function watch_window(win) {
     const check = () => {
         disconnect();
 
-        if (win.get_client_type() === Meta.WindowClientType.WAYLAND) {
-            if (wayland_client === null || !wayland_client.owns_window(win))
-                return;
-        } else if (subprocess) {
-            if (win.get_pid().toString() !== subprocess.get_identifier())
+        /*
+            With X11 window:
+            - Shell can be restarted without logging out
+            - Application doesn't have to be started using WaylandClient
+
+            So if we did not launch the app, allow this check to be skipped
+            on X11.
+        */
+        if (app || win.get_client_type() === Meta.WindowClientType.WAYLAND) {
+            if (!app.owns_window(win))
                 return;
         }
 

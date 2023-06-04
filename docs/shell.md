@@ -30,10 +30,13 @@ D-Bus `.service` files for the application
 
 There are also utility modules:
 
-* [`connectionset.js`](/ddterm/shell/connectionset.js): semi-automatic signal disconnection
+* [`application.js`](/ddterm/shell/application.js): starts the application as
+a subprocess and tracks its termination
 
 * [`buswatch.js`](/ddterm/shell/buswatch.js): object-oriented wrapper for
 `Gio.bus_watch_name_on_connection()`
+
+* [`connectionset.js`](/ddterm/shell/connectionset.js): semi-automatic signal disconnection
 
 Extension code doesn't (and shouldn't) use any third party (npm) libraries.
 
