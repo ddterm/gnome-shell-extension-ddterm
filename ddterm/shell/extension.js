@@ -19,13 +19,14 @@
 
 'use strict';
 
-/* exported init enable disable settings toggle window_manager app_dbus subprocess */
+/* exported init enable disable settings toggle window_manager app_dbus_watch subprocess */
 
-const { GLib, GObject, Gio, Meta, Shell } = imports.gi;
+const { GLib, Gio, Meta, Shell } = imports.gi;
 const ByteArray = imports.byteArray;
 const Main = imports.ui.main;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
+const { BusNameWatch } = Me.imports.ddterm.shell.buswatch;
 const { ConnectionSet } = Me.imports.ddterm.shell.connectionset;
 const { PanelIconProxy } = Me.imports.ddterm.shell.panelicon;
 const { WindowManager } = Me.imports.ddterm.shell.wm;
@@ -37,7 +38,7 @@ let wayland_client = null;
 var subprocess = null;
 
 let panel_icon = null;
-var app_dbus = null;
+var app_dbus_watch = null;
 let app_actions = null;
 
 let connections = null;
@@ -52,56 +53,6 @@ const APP_WMCLASS = 'Com.github.amezin.ddterm';
 const APP_DBUS_PATH = '/com/github/amezin/ddterm';
 const WINDOW_PATH_PREFIX = `${APP_DBUS_PATH}/window/`;
 const SIGINT = 2;
-
-const AppDBusWatch = GObject.registerClass(
-    {
-        Properties: {
-            'available': GObject.ParamSpec.boolean(
-                'available',
-                '',
-                '',
-                GObject.ParamFlags.READABLE,
-                false
-            ),
-        },
-    },
-    class DDTermAppDBusWatch extends GObject.Object {
-        _init(params) {
-            super._init(params);
-
-            this.watch_id = Gio.bus_watch_name(
-                Gio.BusType.SESSION,
-                APP_ID,
-                Gio.BusNameWatcherFlags.NONE,
-                this._appeared.bind(this),
-                this._disappeared.bind(this)
-            );
-
-            this._available = false;
-        }
-
-        get available() {
-            return this._available;
-        }
-
-        _appeared() {
-            this._available = true;
-            this.notify('available');
-        }
-
-        _disappeared() {
-            this._available = false;
-            this.notify('available');
-        }
-
-        unwatch() {
-            if (this.watch_id) {
-                Gio.bus_unwatch_name(this.watch_id);
-                this.watch_id = null;
-            }
-        }
-    }
-);
 
 function report_dbus_error_async(e, invocation) {
     if (e instanceof GLib.Error) {
@@ -220,7 +171,11 @@ function enable() {
         activate
     );
 
-    app_dbus = new AppDBusWatch();
+    app_dbus_watch = new BusNameWatch({
+        connection: Gio.DBus.session,
+        name: APP_ID,
+    });
+
     app_actions = Gio.DBusActionGroup.get(Gio.DBus.session, APP_ID, APP_DBUS_PATH);
 
     connections = new ConnectionSet();
@@ -232,7 +187,7 @@ function enable() {
     window_manager = new WindowManager({ settings });
 
     connections.connect(window_manager, 'hide-request', () => {
-        if (app_dbus.available)
+        if (app_dbus_watch.is_registered)
             app_actions.activate_action('hide', null);
     });
 
@@ -323,15 +278,15 @@ function disable() {
         // Stop the app only if the extension isn't being disabled because of
         // lock screen. Because when the session switches back to normal mode
         // we want to keep all open terminals.
-        if (app_dbus && app_dbus.available)
+        if (app_dbus_watch && app_dbus_watch.is_registered)
             app_actions.activate_action('quit', null);
         else if (subprocess)
             subprocess.send_signal(SIGINT);
     }
 
-    if (app_dbus) {
-        app_dbus.unwatch();
-        app_dbus = null;
+    if (app_dbus_watch) {
+        app_dbus_watch.unwatch();
+        app_dbus_watch = null;
     }
 
     app_actions = null;
@@ -410,19 +365,19 @@ function spawn_app() {
 }
 
 async function ensure_app_on_bus() {
-    if (app_dbus.available)
+    if (app_dbus_watch.is_registered)
         return;
 
     const cancellable = Gio.Cancellable.new();
 
     try {
         const wait_registered = new Promise(resolve => {
-            const handler = app_dbus.connect('notify::available', source => {
-                if (source.available)
+            const handler = app_dbus_watch.connect('notify::is-registered', source => {
+                if (source.is_registered)
                     resolve(true);
             });
 
-            cancellable.connect(() => app_dbus.disconnect(handler));
+            cancellable.connect(() => app_dbus_watch.disconnect(handler));
         });
 
         spawn_app();
@@ -461,7 +416,7 @@ function subprocess_terminated(source) {
 
 function toggle() {
     if (window_manager.current_window) {
-        if (app_dbus.available)
+        if (app_dbus_watch.is_registered)
             app_actions.activate_action('hide', null);
     } else {
         activate().catch(err => logError(err));

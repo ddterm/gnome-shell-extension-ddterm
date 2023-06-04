@@ -229,9 +229,9 @@ function enable() {
     update_has_window();
 
     const update_is_app_running = () => {
-        dbus_interface.set_flag('IsAppRunning', extension.app_dbus.available);
+        dbus_interface.set_flag('IsAppRunning', extension.app_dbus_watch.is_registered);
     };
-    connect(extension.app_dbus, 'notify::available', update_is_app_running);
+    connect(extension.app_dbus_watch, 'notify::is-registered', update_is_app_running);
     update_is_app_running();
 
     const current_win_subscription = [];
