@@ -45,13 +45,29 @@ class File {
     install() {
         GLib.mkdir_with_parents(this.target_file.get_parent().get_path(), 0o700);
 
+        let existing_content = null;
+
+        try {
+            existing_content = this.target_file.load_contents(null)[1];
+        } catch {
+        }
+
+        const new_content = ByteArray.fromString(this.content);
+
+        if (existing_content &&
+            existing_content.length === new_content.length &&
+            existing_content.every((v, i) => v === new_content[i]))
+            return false;
+
         this.target_file.replace_contents(
-            ByteArray.fromString(this.content),
+            new_content,
             null,
             false,
             Gio.FileCreateFlags.REPLACE_DESTINATION,
             null
         );
+
+        return true;
     }
 
     uninstall() {
@@ -95,20 +111,21 @@ var Installer = class Installer {
 
     install() {
         this.desktop_entry.install();
-        this.dbus_service.install();
 
-        Gio.DBus.session.call(
-            'org.freedesktop.DBus',
-            '/org/freedesktop/DBus',
-            'org.freedesktop.DBus',
-            'ReloadConfig',
-            null,
-            null,
-            Gio.DBusCallFlags.NONE,
-            -1,
-            null,
-            null
-        );
+        if (this.dbus_service.install()) {
+            Gio.DBus.session.call(
+                'org.freedesktop.DBus',
+                '/org/freedesktop/DBus',
+                'org.freedesktop.DBus',
+                'ReloadConfig',
+                null,
+                null,
+                Gio.DBusCallFlags.NONE,
+                -1,
+                null,
+                null
+            );
+        }
     }
 
     uninstall() {
