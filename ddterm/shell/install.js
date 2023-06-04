@@ -61,8 +61,6 @@ class File {
     }
 
     install() {
-        GLib.mkdir_with_parents(this.target_file.get_parent().get_path(), 0o700);
-
         const new_content = ByteArray.fromString(this.content);
         const existing_content = this.get_existing_content();
 
@@ -70,6 +68,8 @@ class File {
             existing_content.length === new_content.length &&
             existing_content.every((v, i) => v === new_content[i]))
             return false;
+
+        GLib.mkdir_with_parents(this.target_file.get_parent().get_path(), 0o700);
 
         this.target_file.replace_contents(
             new_content,
