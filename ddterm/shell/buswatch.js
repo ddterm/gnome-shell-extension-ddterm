@@ -81,6 +81,8 @@ var BusNameWatch = GObject.registerClass(
             if (this._owner === owner)
                 return;
 
+            printerr(`${JSON.stringify(this.name)} owner changed to ${JSON.stringify(owner)}`);
+
             const prev_registered = this.is_registered;
 
             this._owner = owner;
