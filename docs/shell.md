@@ -25,9 +25,15 @@ Currently, extension code consists of multiple modules:
 
 * [`panelicon.js`](/ddterm/shell/panelicon.js): ddterm's panel icon implementation
 
-There is also a utility module:
+* [`install.js`](/ddterm/shell/install.js): installation of `.desktop` and
+D-Bus `.service` files for the application
+
+There are also utility modules:
 
 * [`connectionset.js`](/ddterm/shell/connectionset.js): semi-automatic signal disconnection
+
+* [`buswatch.js`](/ddterm/shell/buswatch.js): object-oriented wrapper for
+`Gio.bus_watch_name_on_connection()`
 
 Extension code doesn't (and shouldn't) use any third party (npm) libraries.
 
