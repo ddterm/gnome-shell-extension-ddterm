@@ -416,10 +416,14 @@ function activate() {
     if (!window_manager.current_window)
         window_manager.update_monitor_index();
 
-    if (window_manager.current_window)
+    if (window_manager.current_window) {
         Main.activateWindow(window_manager.current_window);
-    else
+    } else {
+        if (!app_dbus.available)
+            spawn_app();
+
         app_dbus.action_group.activate_action('show', null);
+    }
 }
 
 function set_skip_taskbar() {
