@@ -38,6 +38,7 @@ var subprocess = null;
 
 let panel_icon = null;
 var app_dbus = null;
+let app_actions = null;
 
 let connections = null;
 let window_connections = null;
@@ -67,12 +68,6 @@ const AppDBusWatch = GObject.registerClass(
     class DDTermAppDBusWatch extends GObject.Object {
         _init(params) {
             super._init(params);
-
-            this.action_group = Gio.DBusActionGroup.get(
-                Gio.DBus.session,
-                APP_ID,
-                APP_DBUS_PATH
-            );
 
             this.watch_id = Gio.bus_watch_name(
                 Gio.BusType.SESSION,
@@ -104,8 +99,6 @@ const AppDBusWatch = GObject.registerClass(
                 Gio.bus_unwatch_name(this.watch_id);
                 this.watch_id = null;
             }
-
-            this.action_group = null;
         }
     }
 );
@@ -204,6 +197,7 @@ function enable() {
     );
 
     app_dbus = new AppDBusWatch();
+    app_actions = Gio.DBusActionGroup.get(Gio.DBus.session, APP_ID, APP_DBUS_PATH);
 
     connections = new ConnectionSet();
     window_connections = new ConnectionSet();
@@ -215,7 +209,7 @@ function enable() {
 
     connections.connect(window_manager, 'hide-request', () => {
         if (app_dbus.available)
-            app_dbus.action_group.activate_action('hide', null);
+            app_actions.activate_action('hide', null);
     });
 
     dbus_interface = new ExtensionDBusInterface();
@@ -235,7 +229,7 @@ function enable() {
     });
 
     connections.connect(panel_icon, 'open-preferences', () => {
-        app_dbus.action_group.activate_action('preferences', null);
+        app_actions.activate_action('preferences', null);
     });
 
     connections.connect(window_manager, 'notify::current-window', () => {
@@ -306,7 +300,7 @@ function disable() {
         // lock screen. Because when the session switches back to normal mode
         // we want to keep all open terminals.
         if (app_dbus && app_dbus.available)
-            app_dbus.action_group.activate_action('quit', null);
+            app_actions.activate_action('quit', null);
         else if (subprocess)
             subprocess.send_signal(SIGINT);
     }
@@ -315,6 +309,8 @@ function disable() {
         app_dbus.unwatch();
         app_dbus = null;
     }
+
+    app_actions = null;
 
     if (window_connections) {
         window_connections.disconnect();
@@ -406,7 +402,7 @@ function subprocess_terminated(source) {
 function toggle() {
     if (window_manager.current_window) {
         if (app_dbus.available)
-            app_dbus.action_group.activate_action('hide', null);
+            app_actions.activate_action('hide', null);
     } else {
         activate();
     }
@@ -422,7 +418,7 @@ function activate() {
         if (!app_dbus.available)
             spawn_app();
 
-        app_dbus.action_group.activate_action('show', null);
+        app_actions.activate_action('show', null);
     }
 }
 
