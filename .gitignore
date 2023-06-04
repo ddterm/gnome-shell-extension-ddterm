@@ -7,6 +7,7 @@
 /ddterm/pref/ui/
 /ddterm/thirdparty/
 /ddterm/com.github.amezin.ddterm.desktop
+/ddterm/com.github.amezin.ddterm.service
 /metadata.json
 /schemas/gschemas.compiled
 /locale/
