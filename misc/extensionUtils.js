@@ -1,5 +1,5 @@
 /*
-    Copyright © 2022 Aleksandr Mezin
+    Copyright © 2023 Aleksandr Mezin
 
     This file is part of ddterm GNOME Shell extension.
 
@@ -19,20 +19,12 @@
 
 'use strict';
 
-/* exported extensionUtils init */
+/* exported getCurrentExtension */
 
 const Me = {};
 
-/* Fake current extension object in the application outside of GNOME Shell */
+/* fake current extension object to make 'Me.imports' and 'Me.dir' work in application context */
 
-var extensionUtils = {
-    getCurrentExtension() {
-        return Me;
-    },
-};
-
-function init(me_dir) {
-    imports.searchPath.unshift(me_dir.get_path());
-    Me['imports'] = imports;
-    Me['dir'] = me_dir;
+function getCurrentExtension() {
+    return Me;
 }

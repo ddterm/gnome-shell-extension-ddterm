@@ -29,11 +29,8 @@ const { Gio, GIRepository, PackageKitGlib } = imports.gi;
 const TOOLS_DIR = Gio.File.new_for_commandline_arg(System.programInvocationName).get_parent();
 const ME_DIR = TOOLS_DIR.get_parent().get_parent().get_parent();
 
-imports.searchPath.unshift(
-    ME_DIR.get_child('ddterm').get_child('app').get_child('fakeext').get_path()
-);
-
-imports.misc.init(ME_DIR);
+imports.searchPath.unshift(ME_DIR.get_path());
+Object.assign(imports.misc.extensionUtils.getCurrentExtension(), { imports, dir: ME_DIR });
 
 const { dependencies } = imports.ddterm.app;
 

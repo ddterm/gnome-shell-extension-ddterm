@@ -30,11 +30,8 @@ const { Gio } = imports.gi;
 const PREF_TEST_DIR = Gio.File.new_for_commandline_arg(System.programInvocationName).get_parent();
 const ME_DIR = PREF_TEST_DIR.get_parent().get_parent().get_parent();
 
-imports.searchPath.unshift(
-    ME_DIR.get_child('ddterm').get_child('app').get_child('fakeext').get_path()
-);
-
-imports.misc.init(ME_DIR);
+imports.searchPath.unshift(ME_DIR.get_path());
+Object.assign(imports.misc.extensionUtils.getCurrentExtension(), { imports, dir: ME_DIR });
 
 const app = new imports.ddterm.pref.test.common.Application();
 app.run([System.programInvocationName].concat(ARGV));

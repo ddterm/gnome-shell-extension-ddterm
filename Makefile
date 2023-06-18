@@ -171,11 +171,11 @@ JS_SOURCE_WILDCARDS := \
 	*.js \
 	ddterm/*.js \
 	ddterm/app/*.js \
-	ddterm/app/fakeext/*.js \
 	ddterm/backport/*.js \
 	ddterm/pref/*.js \
 	ddterm/shell/*.js \
 	ddterm/util/*.js \
+	misc/*.js \
 
 JS_SOURCES := $(wildcard $(JS_SOURCE_WILDCARDS))
 LAUNCHER := com.github.amezin.ddterm
