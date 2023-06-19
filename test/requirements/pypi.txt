@@ -12,7 +12,7 @@ ansi2html==1.8.0
     # via -r pypi.in
 execnet==1.9.0
     # via pytest-xdist
-filelock==3.12.1
+filelock==3.12.2
     # via -r pypi.in
 iniconfig==2.0.0
     # via pytest
