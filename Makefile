@@ -71,14 +71,14 @@ locales: $(LOCALES_COMPILED)
 HANDLEBARS_DIST := node_modules/handlebars/dist/handlebars.js
 NPM_INSTALLED := $(HANDLEBARS_DIST)
 
-ddterm/thirdparty:
+ddterm/app/thirdparty:
 	mkdir -p $@
 
-ddterm/thirdparty/handlebars.js: $(HANDLEBARS_DIST) | ddterm/thirdparty
+ddterm/app/thirdparty/handlebars.js: $(HANDLEBARS_DIST) | ddterm/app/thirdparty
 	cp $< $@
 
-CLEAN += ddterm/thirdparty/handlebars.js
-PACK_CONTENT += ddterm/thirdparty/handlebars.js
+CLEAN += ddterm/app/thirdparty/handlebars.js
+PACK_CONTENT += ddterm/app/thirdparty/handlebars.js
 
 # Glade UI
 

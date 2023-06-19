@@ -22,7 +22,7 @@
 /* exported TerminalPage TerminalSettings */
 
 const { GLib, GObject, Gio, Gdk, Gtk, Pango, Vte } = imports.gi;
-const { Handlebars } = imports.ddterm.thirdparty.handlebars;
+const { Handlebars } = imports.ddterm.app.thirdparty.handlebars;
 const { urldetect_patterns, tcgetpgrp } = imports.ddterm.app;
 const { translations } = imports.ddterm.util;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
