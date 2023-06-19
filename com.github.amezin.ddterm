@@ -29,8 +29,20 @@ GLib.set_prgname('com.github.amezin.ddterm');
 const ME_DIR = Gio.File.new_for_commandline_arg(System.programInvocationName).get_parent();
 
 imports.searchPath.unshift(ME_DIR.get_path());
+imports.ddterm.util.translations.init(ME_DIR);
 
 /* fake current extension object to make 'Me.imports' and 'Me.dir' work in application context */
 Object.assign(imports.misc.extensionUtils.getCurrentExtension(), { imports, dir: ME_DIR });
 
-imports.ddterm.app.application.main([System.programInvocationName].concat(ARGV));
+imports.ddterm.app.dependencies.gi_require({
+    'Gtk': '3.0',
+    'Gdk': '3.0',
+    'Pango': '1.0',
+    'Vte': '2.91',
+});
+
+const app = new imports.ddterm.app.application.Application({
+    application_id: 'com.github.amezin.ddterm',
+});
+
+System.exit(app.run([System.programInvocationName].concat(ARGV)));

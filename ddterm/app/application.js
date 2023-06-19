@@ -21,28 +21,15 @@
 
 const System = imports.system;
 
-const Me = imports.misc.extensionUtils.getCurrentExtension();
-
-const { GLib, GObject, Gio } = imports.gi;
-
-imports.ddterm.app.dependencies.gi_require({
-    'Gtk': '3.0',
-    'Gdk': '3.0',
-    'Pango': '1.0',
-    'Vte': '2.91',
-});
-
-const { Gdk, Gtk } = imports.gi;
-
-const { translations } = imports.ddterm.util;
-translations.init(Me.dir);
+const { GLib, GObject, Gio, Gdk, Gtk } = imports.gi;
 
 const { appwindow, extensiondbus, gtktheme, metadata } = imports.ddterm.app;
 const { PrefsDialog } = imports.ddterm.pref.dialog;
 
+const Me = imports.misc.extensionUtils.getCurrentExtension();
 const APP_DIR = Me.dir.get_child('ddterm').get_child('app');
 
-const Application = GObject.registerClass(
+var Application = GObject.registerClass(
     {
         Properties: {
             'window': GObject.ParamSpec.object(
@@ -308,12 +295,4 @@ const Application = GObject.registerClass(
     }
 );
 
-function main(argv) {
-    const app = new Application({
-        application_id: 'com.github.amezin.ddterm',
-    });
-
-    System.exit(app.run(argv));
-}
-
-/* exported main */
+/* exported Application */
