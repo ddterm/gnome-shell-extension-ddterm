@@ -71,7 +71,7 @@ const MonitorList = GObject.registerClass(
                     try {
                         this.dbus_proxy = Gio.DBusProxy.new_finish(res);
                     } catch (error) {
-                        if (error.matches(Gio.IOErrorEnum, Gio.IOErrorEnum.CANCELLED))
+                        if (error.matches(Gio.io_error_quark(), Gio.IOErrorEnum.CANCELLED))
                             return;
 
                         throw error;
@@ -121,7 +121,7 @@ const MonitorList = GObject.registerClass(
                     try {
                         response = source.call_finish(res);
                     } catch (error) {
-                        if (error.matches(Gio.IOErrorEnum, Gio.IOErrorEnum.CANCELLED))
+                        if (error.matches(Gio.io_error_quark(), Gio.IOErrorEnum.CANCELLED))
                             return;
 
                         throw error;
