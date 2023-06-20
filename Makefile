@@ -396,7 +396,7 @@ ESLINT_OPTS :=
 NPM_INSTALLED += $(ESLINT_CMD)
 
 lint/eslintrc-gjs.yml:
-	curl -o $@ 'https://gitlab.gnome.org/GNOME/gjs/-/raw/43689fecad1fa712974eabc5c939a71d2a7cb7fd/.eslintrc.yml'
+	curl -o $@ 'https://gitlab.gnome.org/GNOME/gnome-shell/-/raw/39ed7f83fd97a5a3f688d77adb73e00fd24b7bfe/lint/eslintrc-gjs.yml'
 
 lint: $(ESLINT_CMD) lint/eslintrc-gjs.yml
 	$< $(ESLINT_OPTS) .
