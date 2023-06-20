@@ -21,3 +21,5 @@ rules:
   jsdoc/require-jsdoc: off
 globals:
   global: readonly
+parserOptions:
+  ecmaVersion: 2020
