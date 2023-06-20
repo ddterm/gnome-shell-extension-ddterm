@@ -19,20 +19,28 @@
 
 'use strict';
 
-const ByteArray = imports.ByteArray;
+const ByteArray = imports.byteArray;
 const System = imports.system;
 
 const { GLib, GObject, Gio, Gdk, Gtk } = imports.gi;
 
-const { appwindow, extensiondbus, gtktheme } = imports.ddterm.app;
+const { appwindow, gtktheme } = imports.ddterm.app;
 const { PrefsDialog } = imports.ddterm.pref.dialog;
 
-const Me = imports.misc.extensionUtils.getCurrentExtension();
-const APP_DIR = Me.dir.get_child('ddterm').get_child('app');
+function load_text(file) {
+    return ByteArray.toString(file.load_contents(null)[1]);
+}
 
 var Application = GObject.registerClass(
     {
         Properties: {
+            'install-dir': GObject.ParamSpec.object(
+                'install-dir',
+                '',
+                '',
+                GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+                Gio.File
+            ),
             'window': GObject.ParamSpec.object(
                 'window',
                 '',
@@ -53,6 +61,22 @@ var Application = GObject.registerClass(
         _init(params) {
             super._init(params);
 
+            this.ddterm_dir = this.install_dir.get_child('ddterm');
+            this.app_dir = this.ddterm_dir.get_child('app');
+
+            const extension_dbus_factory = Gio.DBusProxy.makeProxyWrapper(load_text(
+                this.ddterm_dir.get_child('com.github.amezin.ddterm.Extension.xml')
+            ));
+
+            this.extension_dbus = extension_dbus_factory(
+                Gio.DBus.session,
+                'org.gnome.Shell',
+                '/org/gnome/Shell/Extensions/ddterm',
+                undefined,
+                undefined,
+                Gio.DBusProxyFlags.DO_NOT_AUTO_START
+            );
+
             this.add_main_option(
                 'activate-only',
                 0,
@@ -65,7 +89,7 @@ var Application = GObject.registerClass(
             this.connect('startup', this.startup.bind(this));
             this.connect('handle-local-options', this.handle_local_options.bind(this));
 
-            this.settings = imports.ddterm.util.settings.get_settings(Me.dir);
+            this.settings = imports.ddterm.util.settings.get_settings(this.install_dir);
 
             if (this.settings.get_boolean('force-x11-gdk-backend'))
                 Gdk.set_allowed_backends('x11');
@@ -118,10 +142,12 @@ var Application = GObject.registerClass(
                 Gio.SettingsBindFlags.GET
             );
 
-            const menus = Gtk.Builder.new_from_file(APP_DIR.get_child('menus.ui').get_path());
+            const menus = Gtk.Builder.new_from_file(
+                this.app_dir.get_child('menus.ui').get_path()
+            );
 
             const style = Gtk.CssProvider.new();
-            style.load_from_path(APP_DIR.get_child('style.css').get_path());
+            style.load_from_path(this.app_dir.get_child('style.css').get_path());
             Gtk.StyleContext.add_provider_for_screen(
                 Gdk.Screen.get_default(),
                 style,
@@ -131,8 +157,6 @@ var Application = GObject.registerClass(
             this.desktop_settings = new Gio.Settings({
                 schema_id: 'org.gnome.desktop.interface',
             });
-
-            this.extension_dbus = extensiondbus.get();
 
             this.window = new appwindow.AppWindow({
                 application: this,
@@ -188,9 +212,7 @@ var Application = GObject.registerClass(
 
             this.connect('activate', this.activate.bind(this));
 
-            const metadata = JSON.parse(ByteArray.toString(
-                Me.dir.get_child('metadata.json').load_contents(null)[1]
-            ));
+            const metadata = JSON.parse(load_text(this.install_dir.get_child('metadata.json')));
 
             if (this.extension_dbus.Version !== `${metadata.version}`) {
                 printerr(
@@ -216,7 +238,7 @@ var Application = GObject.registerClass(
             this.flags |= Gio.ApplicationFlags.IS_LAUNCHER;
 
             try {
-                extensiondbus.get().ServiceSync();
+                this.extension_dbus.ServiceSync();
             } catch (e) {
                 logError(e);
                 return 1;

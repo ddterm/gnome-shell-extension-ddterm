@@ -43,6 +43,7 @@ imports.ddterm.app.dependencies.gi_require(ME_DIR, {
 
 const app = new imports.ddterm.app.application.Application({
     application_id: 'com.github.amezin.ddterm',
+    install_dir: ME_DIR,
 });
 
 System.exit(app.run([System.programInvocationName].concat(ARGV)));
