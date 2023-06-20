@@ -34,7 +34,7 @@ imports.ddterm.util.translations.init(ME_DIR);
 /* fake current extension object to make 'Me.imports' and 'Me.dir' work in application context */
 Object.assign(imports.misc.extensionUtils.getCurrentExtension(), { imports, dir: ME_DIR });
 
-imports.ddterm.app.dependencies.gi_require({
+imports.ddterm.app.dependencies.gi_require(ME_DIR, {
     'Gtk': '3.0',
     'Gdk': '3.0',
     'Pango': '1.0',

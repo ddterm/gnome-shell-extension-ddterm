@@ -30,12 +30,11 @@ const TOOLS_DIR = Gio.File.new_for_commandline_arg(System.programInvocationName)
 const ME_DIR = TOOLS_DIR.get_parent().get_parent().get_parent();
 
 imports.searchPath.unshift(ME_DIR.get_path());
-Object.assign(imports.misc.extensionUtils.getCurrentExtension(), { imports, dir: ME_DIR });
 
 const { dependencies } = imports.ddterm.app;
 
 function update_manifest(dry_run = false) {
-    const manifest = dependencies.load_manifest();
+    const manifest = dependencies.load_manifest(ME_DIR);
     const os_ids = dependencies.get_os_ids();
     const client = PackageKitGlib.Client.new();
     let updated = false;
@@ -83,7 +82,7 @@ function update_manifest(dry_run = false) {
     }
 
     if (!dry_run) {
-        dependencies.MANIFEST_FILE.replace_contents(
+        dependencies.get_manifest_file(ME_DIR).replace_contents(
             ByteArray.fromString(JSON.stringify(manifest, undefined, 1)),
             null,
             false,

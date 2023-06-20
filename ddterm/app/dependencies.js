@@ -24,14 +24,15 @@ const System = imports.system;
 
 const { GLib } = imports.gi;
 
-const Me = imports.misc.extensionUtils.getCurrentExtension();
+function get_app_dir(me_dir) {
+    return me_dir.get_child('ddterm').get_child('app');
+}
 
-const APP_DIR = Me.dir.get_child('ddterm').get_child('app');
+function get_manifest_file(me_dir) {
+    return get_app_dir(me_dir).get_child('dependencies.json');
+}
 
-var MANIFEST_FILE = APP_DIR.get_child('dependencies.json');
-/* exported MANIFEST_FILE */
-
-const NOTIFICATION_HELPER = APP_DIR.get_child('dependencies-notification.js');
+/* exported get_manifest_file */
 
 function get_os_ids() {
     const res = [GLib.get_os_info('ID')];
@@ -45,10 +46,10 @@ function get_os_ids() {
 
 /* exported get_os_ids */
 
-function load_manifest() {
+function load_manifest(me_dir) {
     return JSON.parse(
         ByteArray.toString(
-            MANIFEST_FILE.load_contents(null)[1]
+            get_manifest_file(me_dir).load_contents(null)[1]
         )
     );
 }
@@ -89,8 +90,8 @@ function resolve_packages(manifest, lib_versions, os_ids) {
     return { packages, unresolved };
 }
 
-function show_notification(packages, filenames) {
-    const cmd = [NOTIFICATION_HELPER.get_path()];
+function show_notification(me_dir, packages, filenames) {
+    const cmd = [get_app_dir(me_dir).get_child('dependencies-notification.js').get_path()];
 
     for (const pkg of packages)
         cmd.push('--package', pkg);
@@ -109,8 +110,8 @@ function show_notification(packages, filenames) {
     GLib.spawn_close_pid(pid);
 }
 
-function gi_require(imports_versions) {
-    const manifest = load_manifest();
+function gi_require(me_dir, imports_versions) {
+    const manifest = load_manifest(me_dir);
     const os_ids = get_os_ids();
     const missing = {};
 
@@ -133,7 +134,7 @@ function gi_require(imports_versions) {
     const { packages, unresolved } = resolve_packages(manifest, missing, os_ids);
 
     if (packages.size + unresolved.size !== 0) {
-        show_notification(packages, unresolved);
+        show_notification(me_dir, packages, unresolved);
         System.exit(1);
     }
 }
