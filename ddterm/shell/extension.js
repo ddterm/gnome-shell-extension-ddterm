@@ -21,7 +21,7 @@
 
 /* exported init enable disable settings toggle window_manager app_dbus_watch */
 
-const { GLib, Gio, Meta, Shell } = imports.gi;
+const { GLib, GObject, Gio, Meta, Shell } = imports.gi;
 const ByteArray = imports.byteArray;
 const Main = imports.ui.main;
 
@@ -87,8 +87,8 @@ class ExtensionDBusInterface {
         this.dbus = Gio.DBusExportedObject.wrapJSObject(ByteArray.toString(xml), this);
     }
 
-    Toggle() {
-        toggle();
+    ToggleAsync(params, invocation) {
+        handle_dbus_method_call_async(toggle, params, invocation);
     }
 
     ActivateAsync(params, invocation) {
@@ -133,14 +133,18 @@ function enable() {
         settings,
         Meta.KeyBindingFlags.NONE,
         Shell.ActionMode.NORMAL,
-        toggle
+        () => {
+            toggle().catch(e => logError(e, 'Failed to toggle ddterm by keybinding'));
+        }
     );
     Main.wm.addKeybinding(
         'ddterm-activate-hotkey',
         settings,
         Meta.KeyBindingFlags.NONE,
         Shell.ActionMode.NORMAL,
-        activate
+        () => {
+            activate().catch(e => logError(e, 'Failed to activate ddterm by keybinding'));
+        }
     );
 
     app_dbus_watch = new BusNameWatch({
@@ -263,21 +267,46 @@ function disable() {
     settings = null;
 }
 
+function wait_signal(obj, signal, cancellable = null, check = null) {
+    return new Promise((resolve, reject) => {
+        const cancel_handler = cancellable ? cancellable.connect(() => {
+            obj.disconnect(handler);
+
+            reject(GLib.Error.new_literal(
+                Gio.io_error_quark(),
+                Gio.IOErrorEnum.CANCELLED,
+                'Cancelled'
+            ));
+        }) : null;
+
+        const handler = obj.connect(signal, (...args) => {
+            if (check && !check(...args))
+                return;
+
+            if (cancellable)
+                cancellable.disconnect(cancel_handler);
+
+            obj.disconnect(handler);
+            resolve(args);
+        });
+    });
+}
+
+function wait_property(obj, prop, check, cancellable = null) {
+    if (check(obj[prop]))
+        return Promise.resolve([obj, GObject.Object.find_property.call(obj.$gtype, prop)]);
+
+    return wait_signal(obj, `notify::${prop}`, cancellable, () => check(obj[prop]));
+}
+
 async function ensure_app_on_bus() {
     if (app_dbus_watch.is_registered)
         return;
 
-    const disconnect = [];
+    const cancellable = Gio.Cancellable.new();
 
     try {
-        const wait_registered = new Promise(resolve => {
-            const handler = app_dbus_watch.connect('notify::is-registered', source => {
-                if (source.is_registered)
-                    resolve(true);
-            });
-
-            disconnect.push([app_dbus_watch, handler]);
-        });
+        const wait_registered = wait_property(app_dbus_watch, 'is-registered', v => v, cancellable);
 
         if (!app) {
             app = application.spawn([
@@ -290,29 +319,57 @@ async function ensure_app_on_bus() {
             });
         }
 
-        const wait_terminated = new Promise(resolve => {
-            const handler = app.connect('terminated', () => {
-                resolve(false);
-            });
+        const wait_terminated = wait_signal(app, 'terminated', cancellable);
 
-            disconnect.push([app, handler]);
-        });
+        const [source] = await Promise.race([wait_registered, wait_terminated]);
 
-        const registered = await Promise.race([wait_registered, wait_terminated]);
-        if (!registered)
+        if (source !== app_dbus_watch)
             throw new Error('ddterm app terminated without registering on D-Bus');
     } finally {
-        for (const [obj, handler] of disconnect)
-            obj.disconnect(handler);
+        cancellable.cancel();
     }
 }
 
-function toggle() {
+async function wait_app_window_visible(visible) {
+    visible = Boolean(visible);
+
+    if (Boolean(window_manager.current_window) === visible)
+        return;
+
+    const cancellable = Gio.Cancellable.new();
+
+    try {
+        const wait_window = wait_property(
+            window_manager,
+            'current-window',
+            v => Boolean(v) === visible,
+            cancellable
+        );
+
+        const wait_dbus = wait_signal(
+            app_dbus_watch,
+            'notify::owner',
+            cancellable,
+            /* Don't interrupt when target state is 'hidden' and the app has stopped */
+            () => visible || app_dbus_watch.owner
+        );
+
+        const [source] = await Promise.race([wait_window, wait_dbus]);
+        if (source !== window_manager)
+            throw new Error(visible ? 'ddterm failed to show' : 'ddterm failed to hide');
+    } finally {
+        cancellable.cancel();
+    }
+}
+
+async function toggle() {
     if (window_manager.current_window) {
         if (app_dbus_watch.is_registered)
             app_actions.activate_action('hide', null);
+
+        await wait_app_window_visible(false);
     } else {
-        activate().catch(err => logError(err));
+        await activate();
     }
 }
 
@@ -322,10 +379,13 @@ async function activate() {
 
     if (window_manager.current_window) {
         Main.activateWindow(window_manager.current_window);
-    } else {
-        await ensure_app_on_bus();
-        app_actions.activate_action('show', null);
+        return;
     }
+
+    await ensure_app_on_bus();
+
+    app_actions.activate_action('show', null);
+    await wait_app_window_visible(true);
 }
 
 function set_skip_taskbar() {

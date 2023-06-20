@@ -41,6 +41,30 @@ function get_monitor_manager() {
     return global.backend.get_monitor_manager();
 }
 
+function report_dbus_error_async(e, invocation) {
+    if (e instanceof GLib.Error) {
+        invocation.return_gerror(e);
+        return;
+    }
+
+    let name = e.name;
+    if (!name.includes('.'))
+        name = `org.gnome.gjs.JSError.${name}`;
+
+    logError(e, `Exception in method call: ${invocation.get_method_name()}`);
+    invocation.return_dbus_error(name, e.message);
+}
+
+function handle_dbus_method_call_async(func, params, invocation) {
+    try {
+        Promise.resolve(func(...params)).then(result => {
+            invocation.return_value(result === undefined ? null : result);
+        }).catch(e => report_dbus_error_async(e, invocation));
+    } catch (e) {
+        report_dbus_error_async(e, invocation);
+    }
+}
+
 class ExtensionTestDBusInterface {
     constructor() {
         let [_, xml] =
@@ -97,8 +121,8 @@ class ExtensionTestDBusInterface {
         return extension.window_manager.current_window.maximized_vertically;
     }
 
-    Toggle() {
-        extension.toggle();
+    ToggleAsync(params, invocation) {
+        handle_dbus_method_call_async(extension.toggle, params, invocation);
     }
 
     GetNMonitors() {
