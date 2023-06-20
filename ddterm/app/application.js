@@ -19,11 +19,12 @@
 
 'use strict';
 
+const ByteArray = imports.ByteArray;
 const System = imports.system;
 
 const { GLib, GObject, Gio, Gdk, Gtk } = imports.gi;
 
-const { appwindow, extensiondbus, gtktheme, metadata } = imports.ddterm.app;
+const { appwindow, extensiondbus, gtktheme } = imports.ddterm.app;
 const { PrefsDialog } = imports.ddterm.pref.dialog;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
@@ -186,6 +187,10 @@ var Application = GObject.registerClass(
             });
 
             this.connect('activate', this.activate.bind(this));
+
+            const metadata = JSON.parse(ByteArray.toString(
+                Me.dir.get_child('metadata.json').load_contents(null)[1]
+            ));
 
             if (this.extension_dbus.Version !== `${metadata.version}`) {
                 printerr(
