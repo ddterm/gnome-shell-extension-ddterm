@@ -359,8 +359,8 @@ function watch_window(win) {
             So if we did not launch the app, allow this check to be skipped
             on X11.
         */
-        if (app || win.get_client_type() === Meta.WindowClientType.WAYLAND) {
-            if (!app.owns_window(win))
+        if (!app?.owns_window(win)) {
+            if (app || win.get_client_type() === Meta.WindowClientType.WAYLAND)
                 return;
         }
 
