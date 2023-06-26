@@ -837,7 +837,7 @@ class CommonTests(CommonFixtures):
             signal='g-properties-changed',
             timeout=STARTUP_TIMEOUT_MS
         ) as prop_wait:
-            test_api.dbus.Toggle()
+            test_api.dbus.Toggle(timeout=STARTUP_TIMEOUT_MS)
 
             while not test_api.dbus.get_cached_property('RenderedFirstFrame'):
                 prop_wait.wait()
