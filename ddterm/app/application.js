@@ -142,7 +142,7 @@ var Application = GObject.registerClass(
                 Gio.SettingsBindFlags.GET
             );
 
-            const menus = Gtk.Builder.new_from_file(
+            this.menus = Gtk.Builder.new_from_file(
                 this.app_dir.get_child('menus.ui').get_path()
             );
 
@@ -158,18 +158,9 @@ var Application = GObject.registerClass(
                 schema_id: 'org.gnome.desktop.interface',
             });
 
-            this.window = new appwindow.AppWindow({
-                application: this,
-                decorated: false,
-                settings: this.settings,
-                desktop_settings: this.desktop_settings,
-                extension_dbus: this.extension_dbus,
-                menus,
-            });
-
-            this.add_action(this.window.lookup_action('toggle'));
-            this.add_action(this.window.lookup_action('show'));
-            this.add_action(this.window.lookup_action('hide'));
+            this.simple_action('toggle', () => this.ensure_window().toggle());
+            this.simple_action('show', () => this.ensure_window().show());
+            this.simple_action('hide', () => this.window?.hide());
 
             const shortcut_actions = {
                 'shortcut-window-hide': 'win.hide',
@@ -212,23 +203,11 @@ var Application = GObject.registerClass(
 
             this.connect('activate', this.activate.bind(this));
 
-            const metadata = JSON.parse(load_text(this.install_dir.get_child('metadata.json')));
-
-            if (this.extension_dbus.Version !== `${metadata.version}`) {
-                printerr(
-                    'ddterm extension version mismatch! ' +
-                    `app: ${metadata.version} extension: ${this.extension_dbus.Version}`
-                );
-
-                this.window.show_version_mismatch_warning();
-            }
+            this.metadata = JSON.parse(load_text(this.install_dir.get_child('metadata.json')));
         }
 
         activate() {
-            if (!this.window)  // There was an exception in startup()
-                System.exit(1);
-
-            this.window.show();
+            this.ensure_window().show();
         }
 
         handle_local_options(_, options) {
@@ -247,6 +226,36 @@ var Application = GObject.registerClass(
             return options.lookup('activate-only') ? 0 : -1;
         }
 
+        ensure_window() {
+            if (this.window)
+                return this.window;
+
+            this.window = new appwindow.AppWindow({
+                application: this,
+                decorated: false,
+                settings: this.settings,
+                desktop_settings: this.desktop_settings,
+                extension_dbus: this.extension_dbus,
+                menus: this.menus,
+            });
+
+            this.window.connect('destroy', source => {
+                if (source === this.window)
+                    this.window = null;
+            });
+
+            if (this.extension_dbus.Version !== `${this.metadata.version}`) {
+                printerr(
+                    'ddterm extension version mismatch! ' +
+                    `app: ${this.metadata.version} extension: ${this.extension_dbus.Version}`
+                );
+
+                this.window.show_version_mismatch_warning();
+            }
+
+            return this.window;
+        }
+
         preferences() {
             if (this.prefs_dialog === null) {
                 this.prefs_dialog = new PrefsDialog({
@@ -254,8 +263,9 @@ var Application = GObject.registerClass(
                     settings: this.settings,
                 });
 
-                this.prefs_dialog.connect('destroy', () => {
-                    this.prefs_dialog = null;
+                this.prefs_dialog.connect('destroy', source => {
+                    if (source === this.prefs_dialog)
+                        this.prefs_dialog = null;
                 });
             }
 
