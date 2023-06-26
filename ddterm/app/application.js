@@ -86,13 +86,14 @@ var Application = GObject.registerClass(
                 null
             );
 
-            this.connect('startup', this.startup.bind(this));
-            this.connect('handle-local-options', this.handle_local_options.bind(this));
-
             this.settings = imports.ddterm.util.settings.get_settings(this.install_dir);
 
             if (this.settings.get_boolean('force-x11-gdk-backend'))
                 Gdk.set_allowed_backends('x11');
+
+            this.connect('activate', this.activate.bind(this));
+            this.connect('handle-local-options', this.handle_local_options.bind(this));
+            this.connect('startup', this.startup.bind(this));
         }
 
         startup() {
@@ -200,8 +201,6 @@ var Application = GObject.registerClass(
             Object.entries(shortcut_actions).forEach(([key, action]) => {
                 this.bind_shortcut(action, key);
             });
-
-            this.connect('activate', this.activate.bind(this));
 
             this.metadata = JSON.parse(load_text(this.install_dir.get_child('metadata.json')));
         }
