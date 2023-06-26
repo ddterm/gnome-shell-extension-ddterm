@@ -319,12 +319,11 @@ async function ensure_app_on_bus() {
             });
         }
 
-        const wait_terminated = wait_signal(app, 'terminated', cancellable);
-
-        const [source] = await Promise.race([wait_registered, wait_terminated]);
-
-        if (source !== app_dbus_watch)
+        const wait_terminated = wait_signal(app, 'terminated', cancellable).then(() => {
             throw new Error('ddterm app terminated without registering on D-Bus');
+        });
+
+        await Promise.race([wait_registered, wait_terminated]);
     } finally {
         cancellable.cancel();
     }
@@ -352,11 +351,11 @@ async function wait_app_window_visible(visible) {
             cancellable,
             /* Don't interrupt when target state is 'hidden' and the app has stopped */
             () => visible || app_dbus_watch.owner
-        );
-
-        const [source] = await Promise.race([wait_window, wait_dbus]);
-        if (source !== window_manager)
+        ).then(() => {
             throw new Error(visible ? 'ddterm failed to show' : 'ddterm failed to hide');
+        });
+
+        await Promise.race([wait_window, wait_dbus]);
     } finally {
         cancellable.cancel();
     }
