@@ -267,26 +267,34 @@ function disable() {
     settings = null;
 }
 
+function handle_cancel(cancellable, callback) {
+    if (!cancellable)
+        return () => {};
+
+    const handler_id = cancellable.connect(() => {
+        try {
+            cancellable.set_error_if_cancelled();
+        } catch (ex) {
+            callback(ex);
+        }
+    });
+
+    return () => cancellable.disconnect(handler_id);
+}
+
 function wait_signal(obj, signal, cancellable = null, check = null) {
     return new Promise((resolve, reject) => {
-        const cancel_handler = cancellable ? cancellable.connect(() => {
-            obj.disconnect(handler);
+        const cancel_disconnect = handle_cancel(cancellable, ex => {
+            obj.disconnect(handler_id);
+            reject(ex);
+        });
 
-            reject(GLib.Error.new_literal(
-                Gio.io_error_quark(),
-                Gio.IOErrorEnum.CANCELLED,
-                'Cancelled'
-            ));
-        }) : null;
-
-        const handler = obj.connect(signal, (...args) => {
+        const handler_id = obj.connect(signal, (...args) => {
             if (check && !check(...args))
                 return;
 
-            if (cancellable)
-                cancellable.disconnect(cancel_handler);
-
-            obj.disconnect(handler);
+            cancel_disconnect();
+            obj.disconnect(handler_id);
             resolve(args);
         });
     });
@@ -299,6 +307,21 @@ function wait_property(obj, prop, check, cancellable = null) {
     return wait_signal(obj, `notify::${prop}`, cancellable, () => check(obj[prop]));
 }
 
+function wait_timeout(timeout_ms, cancellable = null) {
+    return new Promise((resolve, reject) => {
+        const cancel_disconnect = handle_cancel(cancellable, ex => {
+            GLib.Source.remove(source);
+            reject(ex);
+        });
+
+        const source = GLib.timeout_add(GLib.PRIORITY_DEFAULT, timeout_ms, () => {
+            cancel_disconnect();
+            resolve();
+            return GLib.SOURCE_REMOVE;
+        });
+    });
+}
+
 async function ensure_app_on_bus() {
     if (app_dbus_watch.is_registered)
         return;
@@ -306,7 +329,7 @@ async function ensure_app_on_bus() {
     const cancellable = Gio.Cancellable.new();
 
     try {
-        const wait_registered = wait_property(app_dbus_watch, 'is-registered', v => v, cancellable);
+        const registered = wait_property(app_dbus_watch, 'is-registered', v => v, cancellable);
 
         if (!app) {
             app = application.spawn([
@@ -319,11 +342,19 @@ async function ensure_app_on_bus() {
             });
         }
 
-        const wait_terminated = wait_signal(app, 'terminated', cancellable).then(() => {
+        const terminated = wait_signal(app, 'terminated', cancellable).then(() => {
             throw new Error('ddterm app terminated without registering on D-Bus');
         });
 
-        await Promise.race([wait_registered, wait_terminated]);
+        const timeout = wait_timeout(10000, cancellable).then(() => {
+            throw GLib.Error.new_literal(
+                Gio.io_error_quark(),
+                Gio.IOErrorEnum.TIMED_OUT,
+                'ddterm app failed to start in 10 seconds'
+            );
+        });
+
+        await Promise.race([registered, terminated, timeout]);
     } finally {
         cancellable.cancel();
     }
@@ -355,7 +386,17 @@ async function wait_app_window_visible(visible) {
             throw new Error(visible ? 'ddterm failed to show' : 'ddterm failed to hide');
         });
 
-        await Promise.race([wait_window, wait_dbus]);
+        const timeout = wait_timeout(10000, cancellable).then(() => {
+            throw GLib.Error.new_literal(
+                Gio.io_error_quark(),
+                Gio.IOErrorEnum.TIMED_OUT,
+                visible
+                    ? 'ddterm failed to show in 10 seconds'
+                    : 'ddterm failed to hide in 10 seconds'
+            );
+        });
+
+        await Promise.race([wait_window, wait_dbus, timeout]);
     } finally {
         cancellable.cancel();
     }
