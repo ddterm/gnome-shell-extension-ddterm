@@ -815,14 +815,9 @@ var WindowManager = GObject.registerClass(
                 this.settings.set_boolean('window-maximize', true);
         }
 
-        _grab_op_begin(display, p0, p1, p2) {
-            // On Mutter <=3.38 p0 is display too. On 40 p0 is the window.
-            const win = p0 instanceof Meta.Window ? p0 : p1;
-
+        _grab_op_begin(display, win, flags) {
             if (win !== this.current_window)
                 return;
-
-            const flags = p0 instanceof Meta.Window ? p1 : p2;
 
             if (!MOUSE_RESIZE_GRABS.includes(flags))
                 return;
@@ -832,10 +827,7 @@ var WindowManager = GObject.registerClass(
             );
         }
 
-        update_size_setting_on_grab_end(display, p0, p1) {
-            // On Mutter <=3.38 p0 is display too. On 40 p0 is the window.
-            const win = p0 instanceof Meta.Window ? p0 : p1;
-
+        update_size_setting_on_grab_end(display, win) {
             if (win !== this.current_window)
                 return;
 
