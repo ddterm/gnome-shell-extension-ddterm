@@ -5,7 +5,6 @@
   "gettext-domain": "ddterm@amezin.github.com",
   "settings-schema": "com.github.amezin.ddterm",
   "shell-version": [
-    "3.38",
     "40",
     "41",
     "42",

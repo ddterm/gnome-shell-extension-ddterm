@@ -444,10 +444,9 @@ class Settings:
 
 
 class MouseSim(contextlib.AbstractContextManager):
-    def __init__(self, container, test_interface, mods_getter_broken):
+    def __init__(self, container, test_interface):
         self.container = container
         self.test_interface = test_interface
-        self.mods_getter_broken = mods_getter_broken
         self.mouse_button_last = False
 
         host, port = container.get_port(DISPLAY_PORT)
@@ -482,9 +481,8 @@ class MouseSim(contextlib.AbstractContextManager):
         LOGGER.info('Mouse is at (%r, %r)', c_x, c_y)
 
     def button(self, button):
-        if not self.mods_getter_broken:
-            unused_x, unused_y, c_mods = self.test_interface.GetPointer()
-            self.mouse_button_last = c_mods != 0
+        unused_x, unused_y, c_mods = self.test_interface.GetPointer()
+        self.mouse_button_last = c_mods != 0
 
         if self.mouse_button_last == button:
             return
@@ -493,17 +491,12 @@ class MouseSim(contextlib.AbstractContextManager):
         self.display.xtest_fake_input(Xlib.X.ButtonPress if button else Xlib.X.ButtonRelease, 1)
         self.display.sync()
 
-        if self.mods_getter_broken:
-            glib_util.sleep(100)
-            self.mouse_button_last = button
+        for _ in glib_util.busy_wait(10, WAIT_TIMEOUT_MS):
+            unused_x, unused_y, c_mods = self.test_interface.GetPointer()
+            self.mouse_button_last = c_mods != 0
 
-        else:
-            for _ in glib_util.busy_wait(10, WAIT_TIMEOUT_MS):
-                unused_x, unused_y, c_mods = self.test_interface.GetPointer()
-                self.mouse_button_last = c_mods != 0
-
-                if self.mouse_button_last == button:
-                    break
+            if self.mouse_button_last == button:
+                break
 
         LOGGER.info('Mouse button pressed = %s', self.mouse_button_last)
 
@@ -756,7 +749,7 @@ class CommonFixtures:
 
     @pytest.fixture(scope='class')
     def mouse_sim(self, test_interface, container, shell_version):
-        with MouseSim(container, test_interface, shell_version[:2] == (3, 38)) as mouse_sim:
+        with MouseSim(container, test_interface) as mouse_sim:
             yield mouse_sim
 
     @pytest.fixture(scope='class')

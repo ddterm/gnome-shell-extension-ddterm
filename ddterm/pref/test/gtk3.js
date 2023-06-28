@@ -27,7 +27,7 @@ imports.gi.versions.Gtk = '3.0';
 const System = imports.system;
 const { Gio } = imports.gi;
 
-const PREF_TEST_DIR = Gio.File.new_for_commandline_arg(System.programInvocationName).get_parent();
+const PREF_TEST_DIR = Gio.File.new_for_path(System.programPath).get_parent();
 const ME_DIR = PREF_TEST_DIR.get_parent().get_parent().get_parent();
 
 imports.searchPath.unshift(ME_DIR.get_path());

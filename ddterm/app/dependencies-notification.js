@@ -25,7 +25,7 @@ const System = imports.system;
 
 const { GLib, GObject, Gio } = imports.gi;
 
-const APP_DIR = Gio.File.new_for_commandline_arg(System.programInvocationName).get_parent();
+const APP_DIR = Gio.File.new_for_path(System.programPath).get_parent();
 const ME_DIR = APP_DIR.get_parent().get_parent();
 imports.searchPath.unshift(ME_DIR.get_path());
 

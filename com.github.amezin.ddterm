@@ -26,10 +26,7 @@ const System = imports.system;
 
 GLib.set_prgname('com.github.amezin.ddterm');
 
-const THIS_FILE = 'programPath' in System
-    ? Gio.File.new_for_path(System.programPath)
-    : Gio.File.new_for_commandline_arg(System.programInvocationName);
-
+const THIS_FILE = Gio.File.new_for_path(System.programPath)
 const ME_DIR = THIS_FILE.get_parent();
 
 imports.searchPath.unshift(ME_DIR.get_path());

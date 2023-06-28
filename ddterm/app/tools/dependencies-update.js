@@ -26,7 +26,7 @@ const System = imports.system;
 
 const { Gio, GIRepository, PackageKitGlib } = imports.gi;
 
-const TOOLS_DIR = Gio.File.new_for_commandline_arg(System.programInvocationName).get_parent();
+const TOOLS_DIR = Gio.File.new_for_path(System.programPath).get_parent();
 const ME_DIR = TOOLS_DIR.get_parent().get_parent().get_parent();
 
 imports.searchPath.unshift(ME_DIR.get_path());

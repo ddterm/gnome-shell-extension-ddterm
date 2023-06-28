@@ -4,8 +4,8 @@
 # Or 'tox -e images pull'.
 
 services:
-  debian-11:
-    image: ghcr.io/ddterm/gnome-shell-pod/debian-11:2023.06.28.0
+  debian-12:
+    image: ghcr.io/ddterm/gnome-shell-pod/debian-12:2023.06.28.0
 
   fedora-37:
     image: ghcr.io/ddterm/gnome-shell-pod/fedora-37:2023.06.28.0
