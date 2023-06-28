@@ -64,19 +64,6 @@ var Application = GObject.registerClass(
             this.ddterm_dir = this.install_dir.get_child('ddterm');
             this.app_dir = this.ddterm_dir.get_child('app');
 
-            const extension_dbus_factory = Gio.DBusProxy.makeProxyWrapper(load_text(
-                this.ddterm_dir.get_child('com.github.amezin.ddterm.Extension.xml')
-            ));
-
-            this.extension_dbus = extension_dbus_factory(
-                Gio.DBus.session,
-                'org.gnome.Shell',
-                '/org/gnome/Shell/Extensions/ddterm',
-                undefined,
-                undefined,
-                Gio.DBusProxyFlags.DO_NOT_AUTO_START
-            );
-
             this.add_main_option(
                 'activate-only',
                 0,
@@ -234,6 +221,26 @@ var Application = GObject.registerClass(
             }
 
             return options.lookup('activate-only') ? 0 : -1;
+        }
+
+        get extension_dbus() {
+            if ('_extension_dbus' in this)
+                return this._extension_dbus;
+
+            const extension_dbus_factory = Gio.DBusProxy.makeProxyWrapper(load_text(
+                this.ddterm_dir.get_child('com.github.amezin.ddterm.Extension.xml')
+            ));
+
+            this._extension_dbus = extension_dbus_factory(
+                Gio.DBus.session,
+                'org.gnome.Shell',
+                '/org/gnome/Shell/Extensions/ddterm',
+                undefined,
+                undefined,
+                Gio.DBusProxyFlags.DO_NOT_AUTO_START
+            );
+
+            return this._extension_dbus;
         }
 
         ensure_window() {
