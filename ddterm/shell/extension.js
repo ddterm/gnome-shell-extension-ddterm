@@ -332,9 +332,13 @@ async function ensure_app_on_bus() {
         const registered = wait_property(app_dbus_watch, 'is-registered', v => v, cancellable);
 
         if (!app) {
+            const xwayland_flag =
+                settings.get_boolean('force-x11-gdk-backend') ? ['--allowed-gdk-backends=x11'] : [];
+
             app = application.spawn([
                 Me.dir.get_child(APP_ID).get_path(),
                 '--gapplication-service',
+                ...xwayland_flag,
             ]);
 
             app.connect('terminated', () => {

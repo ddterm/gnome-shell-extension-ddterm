@@ -86,10 +86,14 @@ var Application = GObject.registerClass(
                 null
             );
 
-            this.settings = imports.ddterm.util.settings.get_settings(this.install_dir);
-
-            if (this.settings.get_boolean('force-x11-gdk-backend'))
-                Gdk.set_allowed_backends('x11');
+            this.add_main_option(
+                'allowed-gdk-backends',
+                0,
+                GLib.OptionFlags.NONE,
+                GLib.OptionArg.STRING,
+                'Comma-separated list of backends that GDK should try to use',
+                null
+            );
 
             this.connect('activate', this.activate.bind(this));
             this.connect('handle-local-options', this.handle_local_options.bind(this));
@@ -97,6 +101,8 @@ var Application = GObject.registerClass(
         }
 
         startup() {
+            this.settings = imports.ddterm.util.settings.get_settings(this.install_dir);
+
             this.simple_action('quit', () => this.quit());
             this.simple_action('preferences', () => this.preferences());
             this.simple_action('gc', () => System.gc());
@@ -210,6 +216,11 @@ var Application = GObject.registerClass(
         }
 
         handle_local_options(_, options) {
+            const allowed_gdk_backends = options.lookup('allowed-gdk-backends');
+
+            if (allowed_gdk_backends)
+                Gdk.set_allowed_backends(allowed_gdk_backends);
+
             if (this.flags & Gio.ApplicationFlags.IS_SERVICE)
                 return -1;
 
