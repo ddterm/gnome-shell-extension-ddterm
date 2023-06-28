@@ -6,10 +6,6 @@ SHELL := /bin/bash
 
 EXTENSION_UUID := ddterm@amezin.github.com
 
-# run 'make WITH_GTK4=no' to disable Gtk 4/GNOME 40 support
-# (could be necessary on older distros without gtk4-builder-tool)
-WITH_GTK4 := yes
-
 TRUE_VALUES := yes YES true TRUE on ON 1
 is-true = $(filter 1,$(words $(filter $(TRUE_VALUES),$(1))))
 
@@ -150,9 +146,7 @@ CLEAN += $(PREFS_UI_3TO4_FIXUP) $(PREFS_UI_3TO4) $(PREFS_UI_GTK4)
 
 GTK4_UI := $(PREFS_UI_GTK4)
 
-ifeq ($(call is-true,$(WITH_GTK4)),1)
 PACK_CONTENT += $(GTK4_UI)
-endif
 
 # metadata.json
 
@@ -336,11 +330,7 @@ $(GTK4_VALIDATE_UI): gtk-builder-validate/%: % $(GTK4_BUILDER_TOOL)
 
 .PHONY: $(GTK4_VALIDATE_UI)
 
-gtk-builder-validate: $(GTK3_VALIDATE_UI)
-
-ifeq ($(call is-true,$(WITH_GTK4)),1)
-gtk-builder-validate: $(GTK4_VALIDATE_UI)
-endif
+gtk-builder-validate: $(GTK3_VALIDATE_UI) $(GTK4_VALIDATE_UI)
 
 all: gtk-builder-validate
 .PHONY: gtk-builder-validate

@@ -37,10 +37,6 @@ To build the extension package, you should have the following tools installed:
 
 - `zip`
 
-`gtk4-build-tool` and `xsltproc` are only necessary if you want Gtk 4/GNOME 40
-support. To build without them, add `WITH_GTK4=no` argument every time you run
-`make`.
-
 ## 3.b) Build in a container
 
 Alternatively, you can use `docker` or `podman` to perform build steps in a
@@ -89,14 +85,6 @@ If you want to build in a docker/podman container, prepend `./do-in-docker.sh`/
 
     $ ./do-in-docker.sh make pack
 
-You can also add `WITH_GTK4=no` to `make pack` to build the package without
-Gtk 4/GNOME 40 support:
-
-    $ make WITH_GTK4=no pack
-
-It might be necessary if you want to build the package on an old distribution
-without `gtk4-builder-tool`.
-
 # 6. Install the package
 
 The installation process is described in
@@ -109,11 +97,6 @@ Alternatively, you could use `make` to install the package too.
 To install the package, run:
 
     $ make install
-
-If you built the package without Gtk 4 support, you'd have to pass
-`WITH_GTK4=no` here too:
-
-    $ make WITH_GTK4=no install
 
 You should never run `make install` with `./run-in-docker.sh` or
 `./run-in-podman.sh`. You want the extension installed on your host system, not
