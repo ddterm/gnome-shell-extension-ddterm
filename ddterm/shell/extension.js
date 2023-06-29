@@ -22,11 +22,10 @@
 /* exported init enable disable settings toggle window_manager app_dbus_watch */
 
 const { GLib, GObject, Gio, Meta, Shell } = imports.gi;
-const ByteArray = imports.byteArray;
 const Main = imports.ui.main;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-const { application } = Me.imports.ddterm.shell;
+const { application, dbusapi } = Me.imports.ddterm.shell;
 const { BusNameWatch } = Me.imports.ddterm.shell.buswatch;
 const { Installer } = Me.imports.ddterm.shell.install;
 const { PanelIconProxy } = Me.imports.ddterm.shell.panelicon;
@@ -49,73 +48,6 @@ const APP_WMCLASS = 'Com.github.amezin.ddterm';
 const APP_DBUS_PATH = '/com/github/amezin/ddterm';
 const WINDOW_PATH_PREFIX = `${APP_DBUS_PATH}/window/`;
 const SIGINT = 2;
-
-function report_dbus_error_async(e, invocation) {
-    if (e instanceof GLib.Error) {
-        invocation.return_gerror(e);
-        return;
-    }
-
-    let name = e.name;
-    if (!name.includes('.'))
-        name = `org.gnome.gjs.JSError.${name}`;
-
-    logError(e, `Exception in method call: ${invocation.get_method_name()}`);
-    invocation.return_dbus_error(name, e.message);
-}
-
-function handle_dbus_method_call_async(func, params, invocation) {
-    try {
-        Promise.resolve(func(...params)).then(result => {
-            invocation.return_value(result === undefined ? null : result);
-        }).catch(e => report_dbus_error_async(e, invocation));
-    } catch (e) {
-        report_dbus_error_async(e, invocation);
-    }
-}
-
-class ExtensionDBusInterface {
-    constructor() {
-        const xml_file =
-            Me.dir.get_child('ddterm').get_child('com.github.amezin.ddterm.Extension.xml');
-
-        const [_, xml] = xml_file.load_contents(null);
-        this.dbus = Gio.DBusExportedObject.wrapJSObject(ByteArray.toString(xml), this);
-    }
-
-    ToggleAsync(params, invocation) {
-        handle_dbus_method_call_async(toggle, params, invocation);
-    }
-
-    ActivateAsync(params, invocation) {
-        handle_dbus_method_call_async(activate, params, invocation);
-    }
-
-    ServiceAsync(params, invocation) {
-        handle_dbus_method_call_async(ensure_app_on_bus, params, invocation);
-    }
-
-    GetTargetRect() {
-        /*
-         * Don't want to track mouse pointer continuously, so try to update the
-         * index manually in multiple places. Also, Meta.CursorTracker doesn't
-         * seem to work properly in X11 session.
-         */
-        if (!window_manager.current_window)
-            window_manager.update_monitor_index();
-
-        const r = window_manager.target_rect;
-        return [r.x, r.y, r.width, r.height];
-    }
-
-    get TargetRect() {
-        return this.GetTargetRect();
-    }
-
-    get Version() {
-        return `${Me.metadata.version}`;
-    }
-}
 
 function init() {
     imports.misc.extensionUtils.initTranslations();
@@ -173,11 +105,32 @@ function enable() {
             window_manager.manage_window(window_matcher.current_window);
     });
 
+    dbus_interface = new dbusapi.Api();
+
+    dbus_interface.connect('toggle', toggle);
+    dbus_interface.connect('activate', activate);
+    dbus_interface.connect('service', ensure_app_on_bus);
+    dbus_interface.connect('refresh-target-rect', () => {
+        /*
+         * Don't want to track mouse pointer continuously, so try to update the
+         * index manually in multiple places. Also, Meta.CursorTracker doesn't
+         * seem to work properly in X11 session.
+         */
+        if (!window_manager.current_window)
+            window_manager.update_monitor_index();
+    });
+
+    window_manager.bind_property(
+        'target-rect',
+        dbus_interface,
+        'target-rect',
+        GObject.BindingFlags.SYNC_CREATE
+    );
+
+    dbus_interface.dbus.export(Gio.DBus.session, '/org/gnome/Shell/Extensions/ddterm');
+
     if (window_matcher.current_window)
         window_manager.manage_window(window_matcher.current_window);
-
-    dbus_interface = new ExtensionDBusInterface();
-    dbus_interface.dbus.export(Gio.DBus.session, '/org/gnome/Shell/Extensions/ddterm');
 
     panel_icon = new PanelIconProxy();
     settings.bind(
@@ -198,15 +151,6 @@ function enable() {
 
     window_manager.connect('notify::current-window', () => {
         panel_icon.active = window_manager.current_window !== null;
-    });
-
-    window_manager.connect('notify::target-rect', () => {
-        dbus_interface.dbus.emit_property_changed(
-            'TargetRect',
-            new GLib.Variant('(iiii)', dbus_interface.TargetRect)
-        );
-
-        dbus_interface.dbus.flush();
     });
 
     installer = new Installer();

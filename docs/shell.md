@@ -21,6 +21,8 @@ Currently, extension code consists of multiple modules:
 
 * [`extension.js`](/ddterm/shell/extension.js): the main entry point
 
+* [`dbusapi.js`](/ddterm/shell/dbusapi.js): D-Bus API skeleton
+
 * [`windowmatch.js`](/ddterm/shell/windowmatch.js): monitors opened windows and
 finds ddterm's main window
 
