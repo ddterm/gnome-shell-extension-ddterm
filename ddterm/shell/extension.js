@@ -411,13 +411,12 @@ async function toggle() {
 }
 
 async function activate() {
-    if (!window_manager.current_window)
-        window_manager.update_monitor_index();
-
     if (window_manager.current_window) {
         Main.activateWindow(window_manager.current_window);
         return;
     }
+
+    window_manager.update_monitor_index();
 
     await ensure_app_on_bus();
 
