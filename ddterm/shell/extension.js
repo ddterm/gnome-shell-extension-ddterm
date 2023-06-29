@@ -217,56 +217,42 @@ function disable() {
     Main.wm.removeKeybinding('ddterm-toggle-hotkey');
     Main.wm.removeKeybinding('ddterm-activate-hotkey');
 
-    if (dbus_interface) {
-        dbus_interface.dbus.unexport();
-        dbus_interface = null;
-    }
+    dbus_interface?.dbus.unexport();
+    dbus_interface = null;
 
     if (!Main.sessionMode.isLocked) {
         // Stop the app only if the extension isn't being disabled because of
         // lock screen. Because when the session switches back to normal mode
         // we want to keep all open terminals.
-        if (app_dbus_watch && app_dbus_watch.is_registered)
+        if (app_dbus_watch?.is_registered)
             app_actions.activate_action('quit', null);
         else if (app)
             app.subprocess.send_signal(SIGINT);
     }
 
-    if (app_dbus_watch) {
-        app_dbus_watch.unwatch();
-        app_dbus_watch = null;
-    }
+    app_dbus_watch?.unwatch();
+    app_dbus_watch = null;
 
     app_actions = null;
 
-    if (window_matcher) {
-        window_matcher.disable();
-        window_matcher = null;
-    }
+    window_matcher?.disable();
+    window_matcher = null;
 
-    if (window_manager) {
-        window_manager.disable();
-        window_manager = null;
-    }
+    window_manager?.disable();
+    window_manager = null;
 
-    if (panel_icon) {
-        panel_icon.remove();
-        panel_icon = null;
-    }
+    panel_icon?.remove();
+    panel_icon = null;
 
-    if (installer) {
-        // Don't uninstall desktop/service files because of screen locking
-        // GNOME Shell picks up newly installed desktop files with a noticeable delay
-        if (!Main.sessionMode.isLocked)
-            installer.uninstall();
+    // Don't uninstall desktop/service files because of screen locking
+    // GNOME Shell picks up newly installed desktop files with a noticeable delay
+    if (!Main.sessionMode.isLocked)
+        installer?.uninstall();
 
-        installer = null;
-    }
+    installer = null;
 
-    if (settings) {
-        settings.run_dispose();
-        settings = null;
-    }
+    settings?.run_dispose();
+    settings = null;
 }
 
 function handle_cancel(cancellable, callback) {
@@ -442,7 +428,7 @@ async function activate() {
 function set_skip_taskbar() {
     const win = window_manager.current_window;
 
-    if (!win || win.get_client_type() !== Meta.WindowClientType.WAYLAND)
+    if (win?.get_client_type() !== Meta.WindowClientType.WAYLAND)
         return;
 
     if (settings.get_boolean('window-skip-taskbar'))
