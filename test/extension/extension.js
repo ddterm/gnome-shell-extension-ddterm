@@ -21,7 +21,7 @@
 
 /* exported init enable disable */
 
-const { GLib, Gio, Meta } = imports.gi;
+const { GLib, GObject, Gio, Meta } = imports.gi;
 const ByteArray = imports.byteArray;
 const Main = imports.ui.main;
 const ModalDialog = imports.ui.modalDialog;
@@ -63,6 +63,13 @@ function handle_dbus_method_call_async(func, params, invocation) {
     } catch (e) {
         report_dbus_error_async(e, invocation);
     }
+}
+
+function disconnect_traced(obj, handler) {
+    if (!GObject.signal_handler_is_connected(obj, handler))
+        throw new Error(`Signal handler ${handler} is not connected to ${obj}`);
+
+    obj.disconnect(handler);
 }
 
 class ExtensionTestDBusInterface {
@@ -199,7 +206,7 @@ function enable() {
 
     const connect = (source, signal, handler) => {
         const handler_id = source.connect(signal, handler);
-        teardown.push(() => source.disconnect(handler_id));
+        teardown.push(() => disconnect_traced(source, handler_id));
     };
 
     connect(extension.settings, 'changed', (settings, key) => {
@@ -226,14 +233,15 @@ function enable() {
     connect(extension.window_manager, 'notify::current-window', check_rendered);
 
     connect(global.display, 'window-created', (_, win) => {
-        const frame_handler = win.get_compositor_private().connect('first-frame', () => {
+        const actor = win.get_compositor_private();
+        const frame_handler = actor.connect('first-frame', () => {
             rendered_windows.add(win);
             check_rendered();
         });
 
         const disconnect = () => {
-            win.disconnect(frame_handler);
-            win.disconnect(unmanaged_handler);
+            disconnect_traced(actor, frame_handler);
+            disconnect_traced(win, unmanaged_handler);
 
             const index = teardown.indexOf(disconnect);
             if (index >= 0)
@@ -274,7 +282,7 @@ function enable() {
 
         const connect_win = (signal, handler) => {
             const handler_id = win.connect(signal, handler);
-            current_win_subscription.push(() => win.disconnect(handler_id));
+            current_win_subscription.push(() => disconnect_traced(win, handler_id));
         };
 
         connect_win('position-changed', () => {
