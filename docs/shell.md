@@ -21,6 +21,9 @@ Currently, extension code consists of multiple modules:
 
 * [`extension.js`](/ddterm/shell/extension.js): the main entry point
 
+* [`windowmatch.js`](/ddterm/shell/windowmatch.js): monitors opened windows and
+finds ddterm's main window
+
 * [`wm.js`](/ddterm/shell/wm.js): window management code
 
 * [`panelicon.js`](/ddterm/shell/panelicon.js): ddterm's panel icon implementation

@@ -21,7 +21,7 @@
 
 const { GLib, GObject, Gio, Meta } = imports.gi;
 
-const Application = GObject.registerClass(
+var Application = GObject.registerClass(
     {
         Properties: {
             'subprocess': GObject.ParamSpec.object(
@@ -101,4 +101,4 @@ function spawn(argv) {
     }
 }
 
-/* exported spawn */
+/* exported Application spawn */

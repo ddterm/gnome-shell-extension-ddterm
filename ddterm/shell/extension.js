@@ -32,9 +32,11 @@ const { ConnectionSet } = Me.imports.ddterm.shell.connectionset;
 const { Installer } = Me.imports.ddterm.shell.install;
 const { PanelIconProxy } = Me.imports.ddterm.shell.panelicon;
 const { WindowManager } = Me.imports.ddterm.shell.wm;
+const { WindowMatch } = Me.imports.ddterm.shell.windowmatch;
 
 var settings = null;
 var window_manager = null;
+let window_matcher = null;
 
 let app = null;
 
@@ -43,7 +45,6 @@ var app_dbus_watch = null;
 let app_actions = null;
 
 let connections = null;
-let window_connections = null;
 let dbus_interface = null;
 
 let installer = null;
@@ -155,9 +156,6 @@ function enable() {
     app_actions = Gio.DBusActionGroup.get(Gio.DBus.session, APP_ID, APP_DBUS_PATH);
 
     connections = new ConnectionSet();
-    window_connections = new ConnectionSet();
-
-    connections.connect(global.display, 'window-created', (_, win) => watch_window(win));
     connections.connect(settings, 'changed::window-skip-taskbar', set_skip_taskbar);
 
     window_manager = new WindowManager({ settings });
@@ -166,6 +164,24 @@ function enable() {
         if (app_dbus_watch.is_registered)
             app_actions.activate_action('hide', null);
     });
+
+    connections.connect(window_manager, 'notify::current-window', set_skip_taskbar);
+
+    window_matcher = new WindowMatch({
+        app,
+        display: global.display,
+        gtk_application_id: APP_ID,
+        gtk_window_object_path_prefix: WINDOW_PATH_PREFIX,
+        wm_class: APP_WMCLASS,
+    });
+
+    window_matcher.connect('notify::current-window', () => {
+        if (window_matcher.current_window)
+            window_manager.manage_window(window_matcher.current_window);
+    });
+
+    if (window_matcher.current_window)
+        window_manager.manage_window(window_matcher.current_window);
 
     dbus_interface = new ExtensionDBusInterface();
     dbus_interface.dbus.export(Gio.DBus.session, '/org/gnome/Shell/Extensions/ddterm');
@@ -200,10 +216,6 @@ function enable() {
         dbus_interface.dbus.flush();
     });
 
-    Meta.get_window_actors(global.display).forEach(actor => {
-        watch_window(actor.meta_window);
-    });
-
     installer = new Installer();
     installer.install();
 }
@@ -234,9 +246,9 @@ function disable() {
 
     app_actions = null;
 
-    if (window_connections) {
-        window_connections.disconnect();
-        window_connections = null;
+    if (window_matcher) {
+        window_matcher.disable();
+        window_matcher = null;
     }
 
     if (window_manager) {
@@ -343,7 +355,12 @@ async function ensure_app_on_bus() {
 
             app.connect('terminated', () => {
                 app = null;
+
+                if (window_matcher)
+                    window_matcher.app = null;
             });
+
+            window_matcher.app = app;
         }
 
         const terminated = wait_signal(app, 'terminated', cancellable).then(() => {
@@ -442,62 +459,4 @@ function set_skip_taskbar() {
         app.wayland_client.hide_from_window_list(win);
     else
         app.wayland_client.show_in_window_list(win);
-}
-
-function watch_window(win) {
-    const handler_ids = [];
-
-    const disconnect = () => {
-        while (handler_ids.length > 0)
-            window_connections.disconnect(win, handler_ids.pop());
-    };
-
-    const check = () => {
-        disconnect();
-
-        /*
-            With X11 window:
-            - Shell can be restarted without logging out
-            - Application doesn't have to be started using WaylandClient
-
-            So if we did not launch the app, allow this check to be skipped
-            on X11.
-        */
-        if (!app?.owns_window(win)) {
-            if (app || win.get_client_type() === Meta.WindowClientType.WAYLAND)
-                return;
-        }
-
-        const wm_class = win.wm_class;
-        if (wm_class) {
-            if (wm_class !== APP_WMCLASS && wm_class !== APP_ID)
-                return;
-
-            const gtk_application_id = win.gtk_application_id;
-            if (gtk_application_id) {
-                if (gtk_application_id !== APP_ID)
-                    return;
-
-                const gtk_window_object_path = win.gtk_window_object_path;
-                if (gtk_window_object_path) {
-                    if (gtk_window_object_path.startsWith(WINDOW_PATH_PREFIX)) {
-                        window_manager.manage_window(win);
-                        set_skip_taskbar();
-                    }
-
-                    return;
-                }
-            }
-        }
-
-        handler_ids.push(
-            window_connections.connect(win, 'notify::gtk-application-id', check),
-            window_connections.connect(win, 'notify::gtk-window-object-path', check),
-            window_connections.connect(win, 'notify::wm-class', check),
-            window_connections.connect(win, 'unmanaging', disconnect),
-            window_connections.connect(win, 'unmanaged', disconnect)
-        );
-    };
-
-    check();
 }
