@@ -257,7 +257,7 @@ var PanelIconProxy = GObject.registerClass(
                     'active',
                     this.icon,
                     'active',
-                    GObject.BindingFlags.SYNC_CREATE
+                    GObject.BindingFlags.SYNC_CREATE | GObject.BindingFlags.BIDIRECTIONAL
                 );
 
                 this.icon.connect('toggle', (_, v) => {
