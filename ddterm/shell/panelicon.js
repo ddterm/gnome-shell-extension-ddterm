@@ -235,8 +235,12 @@ var PanelIconProxy = GObject.registerClass(
 
             const type_resolved = TYPE_BY_NAME[value];
 
-            if (this.icon instanceof type_resolved)
+            if (type_resolved) {
+                if (this.icon instanceof type_resolved)
+                    return;
+            } else if (this.icon === null) {
                 return;
+            }
 
             this.freeze_notify();
 
