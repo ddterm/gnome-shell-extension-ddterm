@@ -28,26 +28,21 @@ const Main = imports.ui.main;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const { application } = Me.imports.ddterm.shell;
 const { BusNameWatch } = Me.imports.ddterm.shell.buswatch;
-const { ConnectionSet } = Me.imports.ddterm.shell.connectionset;
 const { Installer } = Me.imports.ddterm.shell.install;
 const { PanelIconProxy } = Me.imports.ddterm.shell.panelicon;
 const { WindowManager } = Me.imports.ddterm.shell.wm;
 const { WindowMatch } = Me.imports.ddterm.shell.windowmatch;
 
+let app = null;
+
 var settings = null;
 var window_manager = null;
 let window_matcher = null;
-
-let app = null;
-
-let panel_icon = null;
 var app_dbus_watch = null;
 let app_actions = null;
-
-let connections = null;
 let dbus_interface = null;
-
 let installer = null;
+let panel_icon = null;
 
 const APP_ID = 'com.github.amezin.ddterm';
 const APP_WMCLASS = 'Com.github.amezin.ddterm';
@@ -155,17 +150,15 @@ function enable() {
 
     app_actions = Gio.DBusActionGroup.get(Gio.DBus.session, APP_ID, APP_DBUS_PATH);
 
-    connections = new ConnectionSet();
-    connections.connect(settings, 'changed::window-skip-taskbar', set_skip_taskbar);
-
     window_manager = new WindowManager({ settings });
 
-    connections.connect(window_manager, 'hide-request', () => {
+    window_manager.connect('hide-request', () => {
         if (app_dbus_watch.is_registered)
             app_actions.activate_action('hide', null);
     });
 
-    connections.connect(window_manager, 'notify::current-window', set_skip_taskbar);
+    window_manager.connect('notify::current-window', set_skip_taskbar);
+    settings.connect('changed::window-skip-taskbar', set_skip_taskbar);
 
     window_matcher = new WindowMatch({
         app,
@@ -194,20 +187,20 @@ function enable() {
         Gio.SettingsBindFlags.GET | Gio.SettingsBindFlags.NO_SENSITIVITY
     );
 
-    connections.connect(panel_icon, 'toggle', (_, value) => {
+    panel_icon.connect('toggle', (_, value) => {
         if (value !== (window_manager.current_window !== null))
             toggle();
     });
 
-    connections.connect(panel_icon, 'open-preferences', () => {
+    panel_icon.connect('open-preferences', () => {
         app_actions.activate_action('preferences', null);
     });
 
-    connections.connect(window_manager, 'notify::current-window', () => {
+    window_manager.connect('notify::current-window', () => {
         panel_icon.active = window_manager.current_window !== null;
     });
 
-    connections.connect(window_manager, 'notify::target-rect', () => {
+    window_manager.connect('notify::target-rect', () => {
         dbus_interface.dbus.emit_property_changed(
             'TargetRect',
             new GLib.Variant('(iiii)', dbus_interface.TargetRect)
@@ -256,13 +249,7 @@ function disable() {
         window_manager = null;
     }
 
-    if (connections) {
-        connections.disconnect();
-        connections = null;
-    }
-
     if (panel_icon) {
-        Gio.Settings.unbind(panel_icon, 'type');
         panel_icon.remove();
         panel_icon = null;
     }
@@ -276,7 +263,10 @@ function disable() {
         installer = null;
     }
 
-    settings = null;
+    if (settings) {
+        settings.run_dispose();
+        settings = null;
+    }
 }
 
 function handle_cancel(cancellable, callback) {
