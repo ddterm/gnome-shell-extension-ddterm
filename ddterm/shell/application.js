@@ -39,20 +39,12 @@ var Application = GObject.registerClass(
                 Meta.WaylandClient
             ),
         },
-        Signals: {
-            'terminated': {},
-        },
     },
     class DDTermApplication extends GObject.Object {
         _init(params) {
             super._init(params);
 
-            this.subprocess.wait_async(null, (source, result) => {
-                source.wait_finish(result);
-                this.emit('terminated');
-            });
-
-            this.connect('terminated', () => {
+            this.wait().then(() => {
                 if (this.subprocess.get_if_signaled()) {
                     const signum = this.subprocess.get_term_sig();
                     printerr(`ddterm app killed by signal ${signum} (${GLib.strsignal(signum)})`);
@@ -67,6 +59,18 @@ var Application = GObject.registerClass(
                 return this.wayland_client && this.wayland_client.owns_window(win);
             else
                 return win.get_pid().toString() === this.subprocess.get_identifier();
+        }
+
+        wait(cancellable = null) {
+            return new Promise((resolve, reject) => {
+                this.subprocess.wait_async(cancellable, (source, result) => {
+                    try {
+                        resolve(source.wait_finish(result));
+                    } catch (ex) {
+                        reject(ex);
+                    }
+                });
+            });
         }
     }
 );

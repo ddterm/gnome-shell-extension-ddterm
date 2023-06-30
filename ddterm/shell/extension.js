@@ -273,7 +273,7 @@ async function ensure_app_on_bus() {
                 ...xwayland_flag,
             ]);
 
-            app.connect('terminated', () => {
+            app.wait().finally(() => {
                 app = null;
 
                 if (window_matcher)
@@ -283,7 +283,7 @@ async function ensure_app_on_bus() {
             window_matcher.app = app;
         }
 
-        const terminated = wait_signal(app, 'terminated', cancellable).then(() => {
+        const terminated = (app?.wait(cancellable) ?? Promise.resolve()).then(() => {
             throw new Error('ddterm app terminated without registering on D-Bus');
         });
 
