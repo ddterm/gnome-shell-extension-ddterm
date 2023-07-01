@@ -23,6 +23,12 @@ Currently, extension code consists of multiple modules:
 
 * [`dbusapi.js`](/ddterm/shell/dbusapi.js): D-Bus API skeleton
 
+* [`service.js`](/ddterm/shell/service.js): starts ddterm application as a
+D-Bus service, if necessary
+
+* [`subprocess.js`](/ddterm/shell/subprocess.js): a running ddterm application
+subprocess, with the corresponding `Meta.WaylandClient`
+
 * [`windowmatch.js`](/ddterm/shell/windowmatch.js): monitors opened windows and
 finds ddterm's main window
 
@@ -34,12 +40,6 @@ finds ddterm's main window
 D-Bus `.service` files for the application
 
 There are also utility modules:
-
-* [`subprocess.js`](/ddterm/shell/subprocess.js): starts the application as
-a subprocess and tracks its termination
-
-* [`buswatch.js`](/ddterm/shell/buswatch.js): object-oriented wrapper for
-`Gio.bus_watch_name_on_connection()`
 
 * [`connectionset.js`](/ddterm/shell/connectionset.js): semi-automatic signal disconnection
 

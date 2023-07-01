@@ -19,16 +19,16 @@
 
 'use strict';
 
-/* exported init enable disable settings toggle window_manager app_dbus_watch */
+/* exported init enable disable settings toggle window_manager service */
 
 const { GLib, GObject, Gio, Meta, Shell } = imports.gi;
 const Main = imports.ui.main;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-const { dbusapi, subprocess } = Me.imports.ddterm.shell;
-const { BusNameWatch } = Me.imports.ddterm.shell.buswatch;
+const { dbusapi } = Me.imports.ddterm.shell;
 const { Installer } = Me.imports.ddterm.shell.install;
 const { PanelIconProxy } = Me.imports.ddterm.shell.panelicon;
+const { Service } = Me.imports.ddterm.shell.service;
 const { WindowManager } = Me.imports.ddterm.shell.wm;
 const { WindowMatch } = Me.imports.ddterm.shell.windowmatch;
 
@@ -37,7 +37,7 @@ let app_process = null;
 var settings = null;
 var window_manager = null;
 let window_matcher = null;
-var app_dbus_watch = null;
+var service = null;
 let app_actions = null;
 let dbus_interface = null;
 let installer = null;
@@ -74,9 +74,29 @@ function enable() {
         }
     );
 
-    app_dbus_watch = new BusNameWatch({
-        connection: Gio.DBus.session,
-        name: APP_ID,
+    const base_argv = [Me.dir.get_child(APP_ID).get_path(), '--gapplication-service'];
+    const xwayland_argv = [...base_argv, '--allowed-gdk-backends=x11'];
+    const get_argv =
+        () => settings.get_boolean('force-x11-gdk-backend') ? xwayland_argv : base_argv;
+
+    service = new Service({
+        bus: Gio.DBus.session,
+        bus_name: APP_ID,
+        argv: get_argv(),
+        subprocess: app_process,
+    });
+
+    settings.connect('changed::force-x11-gdk-backend', () => {
+        service.argv = get_argv();
+    });
+
+    service.connect('notify::subprocess', () => {
+        app_process = service.subprocess;
+
+        /* In case the app terminates when the extension is disabled */
+        app_process?.wait().finally(() => {
+            app_process = null;
+        });
     });
 
     app_actions = Gio.DBusActionGroup.get(Gio.DBus.session, APP_ID, APP_DBUS_PATH);
@@ -84,7 +104,7 @@ function enable() {
     window_manager = new WindowManager({ settings });
 
     window_manager.connect('hide-request', () => {
-        if (app_dbus_watch.is_registered)
+        if (service.is_registered)
             app_actions.activate_action('hide', null);
     });
 
@@ -92,12 +112,19 @@ function enable() {
     settings.connect('changed::window-skip-taskbar', set_skip_taskbar);
 
     window_matcher = new WindowMatch({
-        subprocess: app_process,
+        subprocess: service.subprocess,
         display: global.display,
         gtk_application_id: APP_ID,
         gtk_window_object_path_prefix: WINDOW_PATH_PREFIX,
         wm_class: APP_WMCLASS,
     });
+
+    service.bind_property(
+        'subprocess',
+        window_matcher,
+        'subprocess',
+        GObject.BindingFlags.DEFAULT
+    );
 
     window_matcher.connect('notify::current-window', () => {
         if (window_matcher.current_window)
@@ -167,14 +194,14 @@ function disable() {
         // Stop the app only if the extension isn't being disabled because of
         // lock screen. Because when the session switches back to normal mode
         // we want to keep all open terminals.
-        if (app_dbus_watch?.is_registered)
+        if (service?.is_registered)
             app_actions.activate_action('quit', null);
-        else if (app_process)
-            app_process.terminate();
+        else
+            service.terminate();
     }
 
-    app_dbus_watch?.unwatch();
-    app_dbus_watch = null;
+    service?.unwatch();
+    service = null;
 
     app_actions = null;
 
@@ -198,103 +225,35 @@ function disable() {
     settings = null;
 }
 
-function handle_cancel(cancellable, callback) {
-    if (!cancellable)
-        return () => {};
-
-    const handler_id = cancellable.connect(() => {
-        try {
-            cancellable.set_error_if_cancelled();
-        } catch (ex) {
-            callback(ex);
-        }
-    });
-
-    return () => cancellable.disconnect(handler_id);
-}
-
-function wait_signal(obj, signal, cancellable = null, check = null) {
-    return new Promise((resolve, reject) => {
-        const cancel_disconnect = handle_cancel(cancellable, ex => {
-            obj.disconnect(handler_id);
-            reject(ex);
-        });
-
-        const handler_id = obj.connect(signal, (...args) => {
-            if (check && !check(...args))
-                return;
-
-            cancel_disconnect();
-            obj.disconnect(handler_id);
-            resolve(args);
-        });
-    });
-}
-
-function wait_property(obj, prop, check, cancellable = null) {
-    if (check(obj[prop]))
-        return Promise.resolve([obj, GObject.Object.find_property.call(obj.$gtype, prop)]);
-
-    return wait_signal(obj, `notify::${prop}`, cancellable, () => check(obj[prop]));
-}
-
-function wait_timeout(timeout_ms, cancellable = null) {
-    return new Promise((resolve, reject) => {
-        const cancel_disconnect = handle_cancel(cancellable, ex => {
-            GLib.Source.remove(source);
-            reject(ex);
-        });
-
+async function wait_timeout(message, timeout_ms, cancellable = null) {
+    await new Promise(resolve => {
         const source = GLib.timeout_add(GLib.PRIORITY_DEFAULT, timeout_ms, () => {
-            cancel_disconnect();
+            cancellable?.disconnect(cancel_handler);
             resolve();
             return GLib.SOURCE_REMOVE;
         });
+
+        const cancel_handler = cancellable?.connect(() => {
+            GLib.Source.remove(source);
+            resolve();
+        });
     });
+
+    cancellable?.set_error_if_cancelled();
+    throw GLib.Error.new_literal(Gio.io_error_quark(), Gio.IOErrorEnum.TIMED_OUT, message);
 }
 
 async function ensure_app_on_bus() {
-    if (app_dbus_watch.is_registered)
+    if (service.is_registered)
         return;
 
     const cancellable = Gio.Cancellable.new();
 
     try {
-        const registered = wait_property(app_dbus_watch, 'is-registered', v => v, cancellable);
-
-        if (!app_process) {
-            const xwayland_flag =
-                settings.get_boolean('force-x11-gdk-backend') ? ['--allowed-gdk-backends=x11'] : [];
-
-            app_process = subprocess.spawn([
-                Me.dir.get_child(APP_ID).get_path(),
-                '--gapplication-service',
-                ...xwayland_flag,
-            ]);
-
-            app_process.wait().finally(() => {
-                app_process = null;
-
-                if (window_matcher)
-                    window_matcher.subprocess = null;
-            });
-
-            window_matcher.subprocess = app_process;
-        }
-
-        const terminated = (app_process?.wait(cancellable) ?? Promise.resolve()).then(() => {
-            throw new Error('ddterm app terminated without registering on D-Bus');
-        });
-
-        const timeout = wait_timeout(10000, cancellable).then(() => {
-            throw GLib.Error.new_literal(
-                Gio.io_error_quark(),
-                Gio.IOErrorEnum.TIMED_OUT,
-                'ddterm app failed to start in 10 seconds'
-            );
-        });
-
-        await Promise.race([registered, terminated, timeout]);
+        await Promise.race([
+            service.start(cancellable),
+            wait_timeout('ddterm app failed to start in 10 seconds', 10000, cancellable),
+        ]);
     } finally {
         cancellable.cancel();
     }
@@ -309,34 +268,30 @@ async function wait_app_window_visible(visible) {
     const cancellable = Gio.Cancellable.new();
 
     try {
-        const wait_window = wait_property(
-            window_manager,
-            'current-window',
-            v => Boolean(v) === visible,
-            cancellable
-        );
+        const wait = new Promise((resolve, reject) => {
+            const window_handler = window_manager.connect('notify::current-window', () => {
+                if (Boolean(window_manager.current_window) === visible)
+                    resolve();
+            });
 
-        const wait_dbus = wait_signal(
-            app_dbus_watch,
-            'notify::owner',
-            cancellable,
-            /* Don't interrupt when target state is 'hidden' and the app has stopped */
-            () => visible || app_dbus_watch.owner
-        ).then(() => {
-            throw new Error(visible ? 'ddterm failed to show' : 'ddterm failed to hide');
+            cancellable.connect(() => window_manager.disconnect(window_handler));
+
+            const dbus_handler = service.connect('notify::bus-name-owner', () => {
+                reject(new Error(visible ? 'ddterm failed to show' : 'ddterm failed to hide'));
+            });
+
+            cancellable.connect(() => service.disconnect(dbus_handler));
         });
 
-        const timeout = wait_timeout(10000, cancellable).then(() => {
-            throw GLib.Error.new_literal(
-                Gio.io_error_quark(),
-                Gio.IOErrorEnum.TIMED_OUT,
-                visible
-                    ? 'ddterm failed to show in 10 seconds'
-                    : 'ddterm failed to hide in 10 seconds'
-            );
-        });
-
-        await Promise.race([wait_window, wait_dbus, timeout]);
+        await Promise.race([
+            wait,
+            wait_timeout(
+                // eslint-disable-next-line max-len
+                visible ? 'ddterm failed to show in 10 seconds' : 'ddterm failed to hide in 10 seconds',
+                10000,
+                cancellable
+            ),
+        ]);
     } finally {
         cancellable.cancel();
     }
@@ -344,7 +299,7 @@ async function wait_app_window_visible(visible) {
 
 async function toggle() {
     if (window_manager.current_window) {
-        if (app_dbus_watch.is_registered)
+        if (service.is_registered)
             app_actions.activate_action('hide', null);
 
         await wait_app_window_visible(false);
