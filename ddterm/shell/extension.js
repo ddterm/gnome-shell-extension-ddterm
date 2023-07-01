@@ -58,25 +58,6 @@ function enable() {
 
     settings = imports.misc.extensionUtils.getSettings();
 
-    Main.wm.addKeybinding(
-        'ddterm-toggle-hotkey',
-        settings,
-        Meta.KeyBindingFlags.NONE,
-        Shell.ActionMode.NORMAL,
-        () => {
-            toggle().catch(e => logError(e, 'Failed to toggle ddterm by keybinding'));
-        }
-    );
-    Main.wm.addKeybinding(
-        'ddterm-activate-hotkey',
-        settings,
-        Meta.KeyBindingFlags.NONE,
-        Shell.ActionMode.NORMAL,
-        () => {
-            activate().catch(e => logError(e, 'Failed to activate ddterm by keybinding'));
-        }
-    );
-
     const base_argv = [Me.dir.get_child(APP_ID).get_path(), '--gapplication-service'];
     const xwayland_argv = [...base_argv, '--allowed-gdk-backends=x11'];
     const get_argv =
@@ -101,8 +82,6 @@ function enable() {
             app_process = null;
         });
     });
-
-    app_actions = Gio.DBusActionGroup.get(Gio.DBus.session, APP_ID, APP_DBUS_PATH);
 
     window_manager = new WindowManager({ settings });
 
@@ -134,6 +113,8 @@ function enable() {
             window_manager.manage_window(window_matcher.current_window);
     });
 
+    app_actions = Gio.DBusActionGroup.get(Gio.DBus.session, APP_ID, APP_DBUS_PATH);
+
     dbus_interface = new dbusapi.Api();
 
     dbus_interface.connect('toggle', toggle);
@@ -160,6 +141,26 @@ function enable() {
 
     if (window_matcher.current_window)
         window_manager.manage_window(window_matcher.current_window);
+
+    Main.wm.addKeybinding(
+        'ddterm-toggle-hotkey',
+        settings,
+        Meta.KeyBindingFlags.NONE,
+        Shell.ActionMode.NORMAL,
+        () => {
+            toggle().catch(e => logError(e, 'Failed to toggle ddterm by keybinding'));
+        }
+    );
+
+    Main.wm.addKeybinding(
+        'ddterm-activate-hotkey',
+        settings,
+        Meta.KeyBindingFlags.NONE,
+        Shell.ActionMode.NORMAL,
+        () => {
+            activate().catch(e => logError(e, 'Failed to activate ddterm by keybinding'));
+        }
+    );
 
     panel_icon = new PanelIconProxy();
     settings.bind(
@@ -193,7 +194,6 @@ function disable() {
     Main.wm.removeKeybinding('ddterm-activate-hotkey');
 
     dbus_interface?.dbus.unexport();
-    dbus_interface = null;
 
     if (!Main.sessionMode.isLocked) {
         // Stop the app only if the extension isn't being disabled because of
@@ -206,29 +206,25 @@ function disable() {
     }
 
     service?.unwatch();
-    service = null;
-
-    app_actions = null;
-
     window_matcher?.disable();
-    window_matcher = null;
-
     window_manager?.disable();
-    window_manager = null;
-
     panel_icon?.remove();
-    panel_icon = null;
 
     // Don't uninstall desktop/service files because of screen locking
     // GNOME Shell picks up newly installed desktop files with a noticeable delay
     if (!Main.sessionMode.isLocked)
         installer?.uninstall();
 
-    installer = null;
-
     settings?.run_dispose();
-    settings = null;
 
+    settings = null;
+    window_manager = null;
+    window_matcher = null;
+    service = null;
+    app_actions = null;
+    dbus_interface = null;
+    installer = null;
+    panel_icon = null;
     disable_cancellable = null;
 }
 
