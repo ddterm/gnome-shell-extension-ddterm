@@ -47,12 +47,17 @@ var Subprocess = GObject.registerClass(
             super._init(params);
 
             this.wait().then(() => {
+                const name = this.g_subprocess.argv[0];
+
                 if (this.g_subprocess.get_if_signaled()) {
                     const signum = this.g_subprocess.get_term_sig();
-                    printerr(`ddterm app killed by signal ${signum} (${GLib.strsignal(signum)})`);
+                    const strsig = GLib.strsignal(signum);
+
+                    printerr(`${name} killed by signal ${signum} (${strsig})`);
                 } else {
                     const status = this.g_subprocess.get_exit_status();
-                    printerr(`ddterm app exited with status ${status}`);
+
+                    printerr(`${name} exited with status ${status}`);
                 }
             });
         }
@@ -100,7 +105,10 @@ function spawn(argv) {
     const context = global.create_app_launch_context(0, -1);
     subprocess_launcher.set_environ(context.get_environment());
 
-    printerr(`Starting ddterm app: ${JSON.stringify(argv)}`);
+    if (wayland_client)
+        printerr(`Starting wayland client subprocess: ${JSON.stringify(argv)}`);
+    else
+        printerr(`Starting subprocess: ${JSON.stringify(argv)}`);
 
     if (wayland_client) {
         return new Subprocess({
