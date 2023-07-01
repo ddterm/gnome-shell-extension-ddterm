@@ -702,7 +702,7 @@ class CommonFixtures:
 
     @pytest.fixture(scope='class', autouse=True)
     def test_setup(self, test_interface):
-        test_interface.DisableWelcomeDialog()
+        test_interface.DisableWelcomeDialog(timeout=STARTUP_TIMEOUT_MS)
 
         with glib_util.SignalWait(
             test_interface,
@@ -712,9 +712,9 @@ class CommonFixtures:
             while test_interface.get_cached_property('StartingUp'):
                 wait1.wait()
 
-        test_interface.CloseWelcomeDialog()
-        test_interface.BlockBanner()
-        test_interface.HideOverview()
+        test_interface.CloseWelcomeDialog(timeout=STARTUP_TIMEOUT_MS)
+        test_interface.BlockBanner(timeout=STARTUP_TIMEOUT_MS)
+        test_interface.HideOverview(timeout=STARTUP_TIMEOUT_MS)
 
         with glib_util.SignalWait(
             test_interface,
@@ -1359,7 +1359,7 @@ class TestHeapLeaks(CommonFixtures):
 
     @pytest.fixture(autouse=True)
     def run_app(self, extension_interface, test_interface, app_actions):
-        extension_interface.Activate()
+        extension_interface.Activate(timeout=STARTUP_TIMEOUT_MS)
 
         def app_running():
             return test_interface.get_cached_property('IsAppRunning').unpack()
