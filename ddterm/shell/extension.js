@@ -42,6 +42,7 @@ let app_actions = null;
 let dbus_interface = null;
 let installer = null;
 let panel_icon = null;
+let disable_cancellable = null;
 
 const APP_ID = 'com.github.amezin.ddterm';
 const APP_WMCLASS = 'Com.github.amezin.ddterm';
@@ -53,6 +54,8 @@ function init() {
 }
 
 function enable() {
+    disable_cancellable = Gio.Cancellable.new();
+
     settings = imports.misc.extensionUtils.getSettings();
 
     Main.wm.addKeybinding(
@@ -184,6 +187,8 @@ function enable() {
 }
 
 function disable() {
+    disable_cancellable.cancel();
+
     Main.wm.removeKeybinding('ddterm-toggle-hotkey');
     Main.wm.removeKeybinding('ddterm-activate-hotkey');
 
@@ -223,6 +228,8 @@ function disable() {
 
     settings?.run_dispose();
     settings = null;
+
+    disable_cancellable = null;
 }
 
 async function wait_timeout(message, timeout_ms, cancellable = null) {
@@ -248,6 +255,7 @@ async function ensure_app_on_bus() {
         return;
 
     const cancellable = Gio.Cancellable.new();
+    const disable_handler = disable_cancellable.connect(() => cancellable.cancel());
 
     try {
         await Promise.race([
@@ -255,6 +263,7 @@ async function ensure_app_on_bus() {
             wait_timeout('ddterm app failed to start in 10 seconds', 10000, cancellable),
         ]);
     } finally {
+        disable_cancellable.disconnect(disable_handler);
         cancellable.cancel();
     }
 }
@@ -266,6 +275,7 @@ async function wait_app_window_visible(visible) {
         return;
 
     const cancellable = Gio.Cancellable.new();
+    const disable_handler = disable_cancellable.connect(() => cancellable.cancel());
 
     try {
         const wait = new Promise((resolve, reject) => {
@@ -293,6 +303,7 @@ async function wait_app_window_visible(visible) {
             ),
         ]);
     } finally {
+        disable_cancellable.disconnect(disable_handler);
         cancellable.cancel();
     }
 }
