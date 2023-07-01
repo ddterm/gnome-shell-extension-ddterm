@@ -47,7 +47,6 @@ const APP_ID = 'com.github.amezin.ddterm';
 const APP_WMCLASS = 'Com.github.amezin.ddterm';
 const APP_DBUS_PATH = '/com/github/amezin/ddterm';
 const WINDOW_PATH_PREFIX = `${APP_DBUS_PATH}/window/`;
-const SIGINT = 2;
 
 function init() {
     imports.misc.extensionUtils.initTranslations();
@@ -171,7 +170,7 @@ function disable() {
         if (app_dbus_watch?.is_registered)
             app_actions.activate_action('quit', null);
         else if (app_process)
-            app_process.g_subprocess.send_signal(SIGINT);
+            app_process.terminate();
     }
 
     app_dbus_watch?.unwatch();

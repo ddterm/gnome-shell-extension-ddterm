@@ -21,6 +21,8 @@
 
 const { GLib, GObject, Gio, Meta } = imports.gi;
 
+const SIGTERM = 15;
+
 var Subprocess = GObject.registerClass(
     {
         Properties: {
@@ -72,6 +74,10 @@ var Subprocess = GObject.registerClass(
                     }
                 });
             });
+        }
+
+        terminate() {
+            this.g_subprocess.send_signal(SIGTERM);
         }
     }
 );
