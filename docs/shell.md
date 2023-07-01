@@ -35,7 +35,7 @@ D-Bus `.service` files for the application
 
 There are also utility modules:
 
-* [`application.js`](/ddterm/shell/application.js): starts the application as
+* [`subprocess.js`](/ddterm/shell/subprocess.js): starts the application as
 a subprocess and tracks its termination
 
 * [`buswatch.js`](/ddterm/shell/buswatch.js): object-oriented wrapper for

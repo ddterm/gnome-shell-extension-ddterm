@@ -25,14 +25,14 @@ const { GLib, GObject, Gio, Meta, Shell } = imports.gi;
 const Main = imports.ui.main;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-const { application, dbusapi } = Me.imports.ddterm.shell;
+const { dbusapi, subprocess } = Me.imports.ddterm.shell;
 const { BusNameWatch } = Me.imports.ddterm.shell.buswatch;
 const { Installer } = Me.imports.ddterm.shell.install;
 const { PanelIconProxy } = Me.imports.ddterm.shell.panelicon;
 const { WindowManager } = Me.imports.ddterm.shell.wm;
 const { WindowMatch } = Me.imports.ddterm.shell.windowmatch;
 
-let app = null;
+let app_process = null;
 
 var settings = null;
 var window_manager = null;
@@ -93,7 +93,7 @@ function enable() {
     settings.connect('changed::window-skip-taskbar', set_skip_taskbar);
 
     window_matcher = new WindowMatch({
-        app,
+        subprocess: app_process,
         display: global.display,
         gtk_application_id: APP_ID,
         gtk_window_object_path_prefix: WINDOW_PATH_PREFIX,
@@ -170,8 +170,8 @@ function disable() {
         // we want to keep all open terminals.
         if (app_dbus_watch?.is_registered)
             app_actions.activate_action('quit', null);
-        else if (app)
-            app.subprocess.send_signal(SIGINT);
+        else if (app_process)
+            app_process.g_subprocess.send_signal(SIGINT);
     }
 
     app_dbus_watch?.unwatch();
@@ -263,27 +263,27 @@ async function ensure_app_on_bus() {
     try {
         const registered = wait_property(app_dbus_watch, 'is-registered', v => v, cancellable);
 
-        if (!app) {
+        if (!app_process) {
             const xwayland_flag =
                 settings.get_boolean('force-x11-gdk-backend') ? ['--allowed-gdk-backends=x11'] : [];
 
-            app = application.spawn([
+            app_process = subprocess.spawn([
                 Me.dir.get_child(APP_ID).get_path(),
                 '--gapplication-service',
                 ...xwayland_flag,
             ]);
 
-            app.wait().finally(() => {
-                app = null;
+            app_process.wait().finally(() => {
+                app_process = null;
 
                 if (window_matcher)
-                    window_matcher.app = null;
+                    window_matcher.subprocess = null;
             });
 
-            window_matcher.app = app;
+            window_matcher.subprocess = app_process;
         }
 
-        const terminated = (app?.wait(cancellable) ?? Promise.resolve()).then(() => {
+        const terminated = (app_process?.wait(cancellable) ?? Promise.resolve()).then(() => {
             throw new Error('ddterm app terminated without registering on D-Bus');
         });
 
@@ -375,7 +375,7 @@ function set_skip_taskbar() {
         return;
 
     if (settings.get_boolean('window-skip-taskbar'))
-        app.wayland_client.hide_from_window_list(win);
+        app_process.wayland_client.hide_from_window_list(win);
     else
-        app.wayland_client.show_in_window_list(win);
+        app_process.wayland_client.show_in_window_list(win);
 }

@@ -21,11 +21,11 @@
 
 const { GLib, GObject, Gio, Meta } = imports.gi;
 
-var Application = GObject.registerClass(
+var Subprocess = GObject.registerClass(
     {
         Properties: {
-            'subprocess': GObject.ParamSpec.object(
-                'subprocess',
+            'g-subprocess': GObject.ParamSpec.object(
+                'g-subprocess',
                 '',
                 '',
                 GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
@@ -40,16 +40,17 @@ var Application = GObject.registerClass(
             ),
         },
     },
-    class DDTermApplication extends GObject.Object {
+    class DDTermSubprocess extends GObject.Object {
         _init(params) {
             super._init(params);
 
             this.wait().then(() => {
-                if (this.subprocess.get_if_signaled()) {
-                    const signum = this.subprocess.get_term_sig();
+                if (this.g_subprocess.get_if_signaled()) {
+                    const signum = this.g_subprocess.get_term_sig();
                     printerr(`ddterm app killed by signal ${signum} (${GLib.strsignal(signum)})`);
                 } else {
-                    printerr(`ddterm app exited with status ${this.subprocess.get_exit_status()}`);
+                    const status = this.g_subprocess.get_exit_status();
+                    printerr(`ddterm app exited with status ${status}`);
                 }
             });
         }
@@ -58,12 +59,12 @@ var Application = GObject.registerClass(
             if (win.get_client_type() === Meta.WindowClientType.WAYLAND)
                 return this.wayland_client && this.wayland_client.owns_window(win);
             else
-                return win.get_pid().toString() === this.subprocess.get_identifier();
+                return win.get_pid().toString() === this.g_subprocess.get_identifier();
         }
 
         wait(cancellable = null) {
             return new Promise((resolve, reject) => {
-                this.subprocess.wait_async(cancellable, (source, result) => {
+                this.g_subprocess.wait_async(cancellable, (source, result) => {
                     try {
                         resolve(source.wait_finish(result));
                     } catch (ex) {
@@ -96,13 +97,13 @@ function spawn(argv) {
     printerr(`Starting ddterm app: ${JSON.stringify(argv)}`);
 
     if (wayland_client) {
-        return new Application({
-            subprocess: wayland_client.spawnv(global.display, argv),
+        return new Subprocess({
+            g_subprocess: wayland_client.spawnv(global.display, argv),
             wayland_client,
         });
     } else {
-        return new Application({ subprocess: subprocess_launcher.spawnv(argv) });
+        return new Subprocess({ g_subprocess: subprocess_launcher.spawnv(argv) });
     }
 }
 
-/* exported Application spawn */
+/* exported Subprocess spawn */

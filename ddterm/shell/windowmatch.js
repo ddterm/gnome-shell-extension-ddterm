@@ -22,17 +22,17 @@
 const { GObject, Meta } = imports.gi;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-const { application } = Me.imports.ddterm.shell;
+const { Subprocess } = Me.imports.ddterm.shell.subprocess;
 
 var WindowMatch = GObject.registerClass(
     {
         'Properties': {
-            'app': GObject.ParamSpec.object(
-                'app',
+            'subprocess': GObject.ParamSpec.object(
+                'subprocess',
                 '',
                 '',
                 GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
-                application.Application
+                Subprocess
             ),
             'display': GObject.ParamSpec.object(
                 'display',
@@ -110,7 +110,7 @@ var WindowMatch = GObject.registerClass(
             if (win === this._window)
                 return true;
 
-            if (!this.app?.owns_window(win)) {
+            if (!this.subprocess?.owns_window(win)) {
                 /*
                     With X11 window:
                     - Shell can be restarted without logging out
@@ -119,7 +119,7 @@ var WindowMatch = GObject.registerClass(
                     So if we did not launch the app, allow this check to be skipped
                     on X11.
                 */
-                if (this.app || win.get_client_type() === Meta.WindowClientType.WAYLAND)
+                if (this.subprocess || win.get_client_type() === Meta.WindowClientType.WAYLAND)
                     return true;
             }
 
