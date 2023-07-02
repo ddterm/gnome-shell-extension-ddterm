@@ -43,6 +43,8 @@ There are also utility modules:
 
 * [`connectionset.js`](/ddterm/shell/connectionset.js): semi-automatic signal disconnection
 
+* [`sd_journal.js`](/ddterm/shell/sd_journal.js): connection to systemd-journald
+
 Extension code doesn't (and shouldn't) use any third party (npm) libraries.
 
 [`ddterm/shell`]: /ddterm/shell

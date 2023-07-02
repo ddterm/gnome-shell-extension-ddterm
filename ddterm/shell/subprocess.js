@@ -21,6 +21,9 @@
 
 const { GLib, GObject, Gio, Meta } = imports.gi;
 
+const Me = imports.misc.extensionUtils.getCurrentExtension();
+const { sd_journal_stream_fd } = Me.imports.ddterm.shell.sd_journal;
+
 const SIGTERM = 15;
 
 var Subprocess = GObject.registerClass(
@@ -77,10 +80,36 @@ var Subprocess = GObject.registerClass(
     }
 );
 
+function make_subprocess_launcher(journal_identifier) {
+    const subprocess_launcher = Gio.SubprocessLauncher.new(Gio.SubprocessFlags.NONE);
+
+    if (GLib.log_writer_is_journald?.(1)) {
+        /* eslint-disable max-len */
+        /*
+         * ShellApp.launch() connects to journald from the main GNOME Shell process too:
+         * https://gitlab.gnome.org/GNOME/gnome-shell/-/blob/51dc50144ecacc9ac1f807dcc6bdf4f1d49343ae/src/shell-app.c#L1452
+         * So shouldn't be a problem here too.
+         */
+        try {
+            const fd = sd_journal_stream_fd(journal_identifier);
+            subprocess_launcher.take_stdout_fd(fd);
+            subprocess_launcher.set_flags(Gio.SubprocessFlags.STDERR_MERGE);
+        } catch (ex) {
+            logError(ex, "Can't connect to systemd-journald");
+        }
+    }
+
+    return subprocess_launcher;
+}
+
+function executable_name(argv) {
+    return GLib.path_get_basename(argv[0]);
+}
+
 function spawn(argv) {
     log(`Starting subprocess: ${JSON.stringify(argv)}`);
 
-    const subprocess_launcher = Gio.SubprocessLauncher.new(Gio.SubprocessFlags.NONE);
+    const subprocess_launcher = make_subprocess_launcher(executable_name(argv));
 
     return new Subprocess({ g_subprocess: subprocess_launcher.spawnv(argv) });
 }
@@ -118,7 +147,7 @@ function make_wayland_client(subprocess_launcher) {
 function spawn_wayland_client(argv) {
     log(`Starting wayland client subprocess: ${JSON.stringify(argv)}`);
 
-    const subprocess_launcher = Gio.SubprocessLauncher.new(Gio.SubprocessFlags.NONE);
+    const subprocess_launcher = make_subprocess_launcher(executable_name(argv));
     const wayland_client = make_wayland_client(subprocess_launcher);
 
     return new WaylandSubprocess({
