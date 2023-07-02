@@ -102,9 +102,6 @@ function spawn(argv) {
     const subprocess_launcher = Gio.SubprocessLauncher.new(Gio.SubprocessFlags.NONE);
     const wayland_client = make_wayland_client(subprocess_launcher);
 
-    const context = global.create_app_launch_context(0, -1);
-    subprocess_launcher.set_environ(context.get_environment());
-
     if (wayland_client)
         printerr(`Starting wayland client subprocess: ${JSON.stringify(argv)}`);
     else
