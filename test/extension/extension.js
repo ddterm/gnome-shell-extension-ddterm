@@ -29,10 +29,6 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 
 const ddterm = imports.ui.main.extensionManager.lookup('ddterm@amezin.github.com');
 const { extension, wm } = ddterm.imports.ddterm.shell;
-const { logger } = ddterm.imports.ddterm.util;
-
-const LOG_DOMAIN = 'ddterm-test';
-const { message, info } = logger.context(LOG_DOMAIN, 'ddterm.ExtensionTest');
 
 function get_monitor_manager() {
     if (Meta.MonitorManager.get)
@@ -89,7 +85,7 @@ class ExtensionTestDBusInterface {
     }
 
     LogMessage(msg) {
-        message(msg);
+        log(msg);
     }
 
     GetSetting(key) {
@@ -185,12 +181,12 @@ class ExtensionTestDBusInterface {
     }
 
     emit_signal(name, arg) {
-        info(`${name} ${arg.print(true)}`);
+        log(`${name} ${arg.print(true)}`);
         this.dbus.emit_signal(name, arg);
     }
 
     emit_property_changed(name, value) {
-        info(`${name} = ${value.print(true)}`);
+        log(`${name} = ${value.print(true)}`);
         this.dbus.emit_property_changed(name, value);
     }
 }
@@ -198,7 +194,7 @@ class ExtensionTestDBusInterface {
 const teardown = [];
 
 function init() {
-    GLib.setenv('G_MESSAGES_DEBUG', [LOG_DOMAIN, wm.LOG_DOMAIN].join(' '), false);
+    wm.debug = log;
 }
 
 function enable() {
