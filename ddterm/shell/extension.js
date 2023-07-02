@@ -74,6 +74,15 @@ function enable() {
         service.argv = get_argv();
     });
 
+    if (Meta.is_wayland_compositor()) {
+        settings.bind(
+            'force-x11-gdk-backend',
+            service,
+            'wayland-client',
+            Gio.SettingsBindFlags.GET | Gio.SettingsBindFlags.INVERT_BOOLEAN
+        );
+    }
+
     service.connect('notify::subprocess', () => {
         app_process = service.subprocess;
 

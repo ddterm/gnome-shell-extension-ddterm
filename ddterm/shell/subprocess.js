@@ -33,13 +33,6 @@ var Subprocess = GObject.registerClass(
                 GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
                 Gio.Subprocess
             ),
-            'wayland-client': GObject.ParamSpec.object(
-                'wayland-client',
-                '',
-                '',
-                GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-                Meta.WaylandClient
-            ),
         },
     },
     class DDTermSubprocess extends GObject.Object {
@@ -63,10 +56,7 @@ var Subprocess = GObject.registerClass(
         }
 
         owns_window(win) {
-            if (win.get_client_type() === Meta.WindowClientType.WAYLAND)
-                return this.wayland_client && this.wayland_client.owns_window(win);
-            else
-                return win.get_pid().toString() === this.g_subprocess.get_identifier();
+            return win.get_pid().toString() === this.g_subprocess.get_identifier();
         }
 
         wait(cancellable = null) {
@@ -87,10 +77,37 @@ var Subprocess = GObject.registerClass(
     }
 );
 
-function make_wayland_client(subprocess_launcher) {
-    if (!Meta.is_wayland_compositor())
-        return null;
+function spawn(argv) {
+    log(`Starting subprocess: ${JSON.stringify(argv)}`);
 
+    const subprocess_launcher = Gio.SubprocessLauncher.new(Gio.SubprocessFlags.NONE);
+
+    return new Subprocess({ g_subprocess: subprocess_launcher.spawnv(argv) });
+}
+
+const WaylandSubprocess = GObject.registerClass(
+    {
+        Properties: {
+            'wayland-client': GObject.ParamSpec.object(
+                'wayland-client',
+                '',
+                '',
+                GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+                Meta.WaylandClient
+            ),
+        },
+    },
+    class DDTermWaylandSubprocess extends Subprocess {
+        owns_window(win) {
+            if (win.get_client_type() === Meta.WindowClientType.WAYLAND)
+                return this.wayland_client && this.wayland_client.owns_window(win);
+
+            return super.owns_window(win);
+        }
+    }
+);
+
+function make_wayland_client(subprocess_launcher) {
     try {
         return Meta.WaylandClient.new(global.context, subprocess_launcher);
     } catch {
@@ -98,23 +115,16 @@ function make_wayland_client(subprocess_launcher) {
     }
 }
 
-function spawn(argv) {
+function spawn_wayland_client(argv) {
+    log(`Starting wayland client subprocess: ${JSON.stringify(argv)}`);
+
     const subprocess_launcher = Gio.SubprocessLauncher.new(Gio.SubprocessFlags.NONE);
     const wayland_client = make_wayland_client(subprocess_launcher);
 
-    if (wayland_client)
-        log(`Starting wayland client subprocess: ${JSON.stringify(argv)}`);
-    else
-        log(`Starting subprocess: ${JSON.stringify(argv)}`);
-
-    if (wayland_client) {
-        return new Subprocess({
-            g_subprocess: wayland_client.spawnv(global.display, argv),
-            wayland_client,
-        });
-    } else {
-        return new Subprocess({ g_subprocess: subprocess_launcher.spawnv(argv) });
-    }
+    return new WaylandSubprocess({
+        g_subprocess: wayland_client.spawnv(global.display, argv),
+        wayland_client,
+    });
 }
 
-/* exported Subprocess spawn */
+/* exported Subprocess spawn spawn_wayland_client */

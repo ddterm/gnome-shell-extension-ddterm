@@ -48,6 +48,13 @@ var Service = GObject.registerClass(
                 GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
                 GObject.type_from_name('GStrv')
             ),
+            'wayland-client': GObject.ParamSpec.boolean(
+                'wayland-client',
+                '',
+                '',
+                GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+                false
+            ),
             'subprocess': GObject.ParamSpec.object(
                 'subprocess',
                 '',
@@ -116,7 +123,10 @@ var Service = GObject.registerClass(
             if (this.subprocess)
                 return this.subprocess;
 
-            const new_subprocess = subprocess.spawn(this.argv);
+            const new_subprocess = this.wayland_client
+                ? subprocess.spawn_wayland_client(this.argv)
+                : subprocess.spawn(this.argv);
+
             this._subprocess = new_subprocess;
 
             new_subprocess.wait().finally(() => {
