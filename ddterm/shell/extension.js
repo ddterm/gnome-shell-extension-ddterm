@@ -25,7 +25,7 @@ const { GLib, GObject, Gio, Meta, Shell } = imports.gi;
 const Main = imports.ui.main;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-const { dbusapi } = Me.imports.ddterm.shell;
+const { dbusapi, subprocess } = Me.imports.ddterm.shell;
 const { Installer } = Me.imports.ddterm.shell.install;
 const { PanelIconProxy } = Me.imports.ddterm.shell.panelicon;
 const { Service } = Me.imports.ddterm.shell.service;
@@ -58,30 +58,23 @@ function enable() {
 
     settings = imports.misc.extensionUtils.getSettings();
 
-    const base_argv = [Me.dir.get_child(APP_ID).get_path(), '--gapplication-service'];
-    const xwayland_argv = [...base_argv, '--allowed-gdk-backends=x11'];
-    const get_argv =
-        () => settings.get_boolean('force-x11-gdk-backend') ? xwayland_argv : base_argv;
-
     service = new Service({
         bus: Gio.DBus.session,
         bus_name: APP_ID,
-        argv: get_argv(),
         subprocess: app_process,
     });
 
-    settings.connect('changed::force-x11-gdk-backend', () => {
-        service.argv = get_argv();
-    });
+    service.connect('spawn', () => {
+        const argv = [Me.dir.get_child(APP_ID).get_path(), '--gapplication-service'];
 
-    if (Meta.is_wayland_compositor()) {
-        settings.bind(
-            'force-x11-gdk-backend',
-            service,
-            'wayland-client',
-            Gio.SettingsBindFlags.GET | Gio.SettingsBindFlags.INVERT_BOOLEAN
-        );
-    }
+        if (settings.get_boolean('force-x11-gdk-backend'))
+            argv.push('--allowed-gdk-backends=x11');
+
+        else if (Meta.is_wayland_compositor())
+            return subprocess.spawn_wayland_client(argv);
+
+        return subprocess.spawn(argv);
+    });
 
     service.connect('notify::subprocess', () => {
         app_process = service.subprocess;
