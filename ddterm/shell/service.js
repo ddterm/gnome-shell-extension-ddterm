@@ -132,7 +132,7 @@ var Service = GObject.registerClass(
             if (this._bus_name_owner === owner)
                 return;
 
-            printerr(`${this.bus_name}: name owner changed to ${JSON.stringify(owner)}`);
+            log(`${this.bus_name}: name owner changed to ${JSON.stringify(owner)}`);
             this._bus_name_owner = owner;
             this.notify('bus-name-owner');
             this.notify('is-registered');

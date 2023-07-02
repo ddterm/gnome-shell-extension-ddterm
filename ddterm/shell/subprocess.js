@@ -53,11 +53,11 @@ var Subprocess = GObject.registerClass(
                     const signum = this.g_subprocess.get_term_sig();
                     const strsig = GLib.strsignal(signum);
 
-                    printerr(`${name} killed by signal ${signum} (${strsig})`);
+                    log(`${name} killed by signal ${signum} (${strsig})`);
                 } else {
                     const status = this.g_subprocess.get_exit_status();
 
-                    printerr(`${name} exited with status ${status}`);
+                    log(`${name} exited with status ${status}`);
                 }
             });
         }
@@ -103,9 +103,9 @@ function spawn(argv) {
     const wayland_client = make_wayland_client(subprocess_launcher);
 
     if (wayland_client)
-        printerr(`Starting wayland client subprocess: ${JSON.stringify(argv)}`);
+        log(`Starting wayland client subprocess: ${JSON.stringify(argv)}`);
     else
-        printerr(`Starting subprocess: ${JSON.stringify(argv)}`);
+        log(`Starting subprocess: ${JSON.stringify(argv)}`);
 
     if (wayland_client) {
         return new Subprocess({

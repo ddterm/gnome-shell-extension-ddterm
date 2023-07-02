@@ -56,7 +56,7 @@ var ConnectionSet = class ConnectionSet {
         const object_handlers = this.connections.get(match_object);
 
         if (object_handlers === null) {
-            printerr(`No handlers for object=${match_object} found in group ${this}`);
+            logError(new Error(`No handlers for object=${match_object} found in group ${this}`));
             return;
         }
 
@@ -73,10 +73,10 @@ var ConnectionSet = class ConnectionSet {
         if (object_handlers.delete(match_handler_id)) {
             match_object.disconnect(match_handler_id);
         } else {
-            printerr(
+            logError(new Error(
                 `No handler with id=${match_handler_id} found` +
                 ` for object=${match_object} in group ${this}`
-            );
+            ));
         }
     }
 };
