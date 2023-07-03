@@ -111,7 +111,11 @@ function spawn(argv) {
 
     const subprocess_launcher = make_subprocess_launcher(executable_name(argv));
 
-    return new Subprocess({ g_subprocess: subprocess_launcher.spawnv(argv) });
+    try {
+        return new Subprocess({ g_subprocess: subprocess_launcher.spawnv(argv) });
+    } finally {
+        subprocess_launcher.close();
+    }
 }
 
 const WaylandSubprocess = GObject.registerClass(
@@ -148,12 +152,17 @@ function spawn_wayland_client(argv) {
     log(`Starting wayland client subprocess: ${JSON.stringify(argv)}`);
 
     const subprocess_launcher = make_subprocess_launcher(executable_name(argv));
-    const wayland_client = make_wayland_client(subprocess_launcher);
 
-    return new WaylandSubprocess({
-        g_subprocess: wayland_client.spawnv(global.display, argv),
-        wayland_client,
-    });
+    try {
+        const wayland_client = make_wayland_client(subprocess_launcher);
+
+        return new WaylandSubprocess({
+            g_subprocess: wayland_client.spawnv(global.display, argv),
+            wayland_client,
+        });
+    } finally {
+        subprocess_launcher.close();
+    }
 }
 
 /* exported Subprocess spawn spawn_wayland_client */

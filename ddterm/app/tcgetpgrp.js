@@ -71,15 +71,19 @@ function dup(fd) {
 
 function tcgetpgrp(fd) {
     const argv = find_interpreter();
-
     const launcher = Gio.SubprocessLauncher.new(Gio.SubprocessFlags.STDOUT_PIPE);
-    launcher.take_fd(dup(fd), TARGET_FD);
 
-    const subprocess = launcher.spawnv(argv);
-    const [_, stdout] = subprocess.communicate_utf8(null, null);
-    subprocess.wait_check(null);
+    try {
+        launcher.take_fd(dup(fd), TARGET_FD);
 
-    return parseInt(stdout, 10);
+        const subprocess = launcher.spawnv(argv);
+        const [_, stdout] = subprocess.communicate_utf8(null, null);
+        subprocess.wait_check(null);
+
+        return parseInt(stdout, 10);
+    } finally {
+        launcher.close();
+    }
 }
 
 /* exported tcgetpgrp InterpreterNotFoundError */
