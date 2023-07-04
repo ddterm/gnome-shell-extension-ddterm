@@ -132,10 +132,7 @@ const WaylandSubprocess = GObject.registerClass(
     },
     class DDTermWaylandSubprocess extends Subprocess {
         owns_window(win) {
-            if (win.get_client_type() === Meta.WindowClientType.WAYLAND)
-                return this.wayland_client && this.wayland_client.owns_window(win);
-
-            return super.owns_window(win);
+            return this.wayland_client.owns_window(win);
         }
     }
 );
