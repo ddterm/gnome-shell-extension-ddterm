@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-29 14:59+0000\n"
+"POT-Creation-Date: 2023-07-08 20:01+0000\n"
 "PO-Revision-Date: 2023-04-03 13:37+0000\n"
 "Last-Translator: Jörn Weigend <das.jott@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/gnome-shell-"
@@ -46,41 +46,41 @@ msgstr "Bitte installieren Sie Pakete, die folgenden Dateien enthalten:"
 msgid "Missing dependencies"
 msgstr "Fehlende Abhängigkeiten"
 
-#: ddterm/app/glade/terminalpage.ui:169
+#: ddterm/app/glade/terminalpage.ui:162
 msgid "Case Sensitive"
 msgstr "Groß- und Kleinschreibung beachten"
 
-#: ddterm/app/glade/terminalpage.ui:186
+#: ddterm/app/glade/terminalpage.ui:179
 msgid "Match Whole Word"
 msgstr "Ganzes Wort"
 
-#: ddterm/app/glade/terminalpage.ui:203
+#: ddterm/app/glade/terminalpage.ui:196
 msgid "Wrap Around"
 msgstr "Am Ende der Seite zum Anfang springen"
 
-#: ddterm/app/glade/terminalpage.ui:206
+#: ddterm/app/glade/terminalpage.ui:199
 msgid "Wrap"
 msgstr "Umbrechen"
 
-#: ddterm/app/glade/terminalpage.ui:221
+#: ddterm/app/glade/terminalpage.ui:214
 msgid "Regular Expression"
 msgstr "Regulärer Ausdruck"
 
-#: ddterm/app/glade/terminalpage.ui:252
+#: ddterm/app/glade/terminalpage.ui:245
 msgid "Close Search Bar"
 msgstr "Suchleiste schließen"
 
-#: ddterm/app/glade/terminalpage.ui:255 ddterm/app/menus.ui:76
+#: ddterm/app/glade/terminalpage.ui:248 ddterm/app/menus.ui:76
 #: ddterm/app/menus.ui:175
 msgid "Close"
 msgstr "Schließen"
 
-#: ddterm/app/glade/terminalpage.ui:271 ddterm/app/glade/terminalpage.ui:274
+#: ddterm/app/glade/terminalpage.ui:264 ddterm/app/glade/terminalpage.ui:267
 #: ddterm/pref/glade/prefs-shortcuts.ui:248
 msgid "Find Next"
 msgstr "Finde nächstes"
 
-#: ddterm/app/glade/terminalpage.ui:290 ddterm/app/glade/terminalpage.ui:293
+#: ddterm/app/glade/terminalpage.ui:283 ddterm/app/glade/terminalpage.ui:286
 #: ddterm/pref/glade/prefs-shortcuts.ui:255
 msgid "Find Previous"
 msgstr "finde vorheriges"
@@ -227,11 +227,11 @@ msgstr "Neuer Tab (Letzter)"
 msgid "New Tab (First)"
 msgstr "Neuer Tab (Erster)"
 
-#: ddterm/app/terminalpage.js:949
+#: ddterm/app/terminalpage.js:953
 msgid "Close this terminal?"
 msgstr "Dieses Terminal schließen?"
 
-#: ddterm/app/terminalpage.js:952
+#: ddterm/app/terminalpage.js:956
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."
