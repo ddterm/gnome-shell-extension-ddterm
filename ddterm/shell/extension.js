@@ -190,7 +190,7 @@ function enable() {
 }
 
 function disable() {
-    disable_cancellable.cancel();
+    disable_cancellable?.cancel();
 
     Main.wm.removeKeybinding('ddterm-toggle-hotkey');
     Main.wm.removeKeybinding('ddterm-activate-hotkey');
@@ -201,10 +201,10 @@ function disable() {
         // Stop the app only if the extension isn't being disabled because of
         // lock screen. Because when the session switches back to normal mode
         // we want to keep all open terminals.
-        if (service?.is_registered)
+        if (service?.is_registered && app_actions)
             app_actions.activate_action('quit', null);
         else
-            service.terminate();
+            service?.terminate();
     }
 
     service?.unwatch();
