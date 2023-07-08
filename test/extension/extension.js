@@ -237,14 +237,14 @@ function enable() {
 
         const disconnect = () => {
             disconnect_traced(actor, frame_handler);
-            disconnect_traced(win, unmanaged_handler);
+            disconnect_traced(actor, destroy_handler);
 
             const index = teardown.indexOf(disconnect);
             if (index >= 0)
                 teardown.splice(index, 1);
         };
 
-        const unmanaged_handler = win.connect('unmanaged', disconnect);
+        const destroy_handler = actor.connect('destroy', disconnect);
         teardown.push(disconnect);
     });
 
