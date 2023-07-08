@@ -26,60 +26,6 @@ const { sd_journal_stream_fd } = Me.imports.ddterm.shell.sd_journal;
 
 const SIGTERM = 15;
 
-var Subprocess = GObject.registerClass(
-    {
-        Properties: {
-            'g-subprocess': GObject.ParamSpec.object(
-                'g-subprocess',
-                '',
-                '',
-                GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-                Gio.Subprocess
-            ),
-        },
-    },
-    class DDTermSubprocess extends GObject.Object {
-        _init(params) {
-            super._init(params);
-
-            this.wait().then(() => {
-                const name = this.g_subprocess.argv[0];
-
-                if (this.g_subprocess.get_if_signaled()) {
-                    const signum = this.g_subprocess.get_term_sig();
-                    const strsig = GLib.strsignal(signum);
-
-                    log(`${name} killed by signal ${signum} (${strsig})`);
-                } else {
-                    const status = this.g_subprocess.get_exit_status();
-
-                    log(`${name} exited with status ${status}`);
-                }
-            });
-        }
-
-        owns_window(win) {
-            return win.get_pid().toString() === this.g_subprocess.get_identifier();
-        }
-
-        wait(cancellable = null) {
-            return new Promise((resolve, reject) => {
-                this.g_subprocess.wait_async(cancellable, (source, result) => {
-                    try {
-                        resolve(source.wait_finish(result));
-                    } catch (ex) {
-                        reject(ex);
-                    }
-                });
-            });
-        }
-
-        terminate() {
-            this.g_subprocess.send_signal(SIGTERM);
-        }
-    }
-);
-
 function make_subprocess_launcher(journal_identifier) {
     const subprocess_launcher = Gio.SubprocessLauncher.new(Gio.SubprocessFlags.NONE);
 
@@ -102,41 +48,6 @@ function make_subprocess_launcher(journal_identifier) {
     return subprocess_launcher;
 }
 
-function executable_name(argv) {
-    return GLib.path_get_basename(argv[0]);
-}
-
-function spawn(argv) {
-    log(`Starting subprocess: ${JSON.stringify(argv)}`);
-
-    const subprocess_launcher = make_subprocess_launcher(executable_name(argv));
-
-    try {
-        return new Subprocess({ g_subprocess: subprocess_launcher.spawnv(argv) });
-    } finally {
-        subprocess_launcher.close();
-    }
-}
-
-const WaylandSubprocess = GObject.registerClass(
-    {
-        Properties: {
-            'wayland-client': GObject.ParamSpec.object(
-                'wayland-client',
-                '',
-                '',
-                GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-                Meta.WaylandClient
-            ),
-        },
-    },
-    class DDTermWaylandSubprocess extends Subprocess {
-        owns_window(win) {
-            return this.wayland_client.owns_window(win);
-        }
-    }
-);
-
 function make_wayland_client(subprocess_launcher) {
     try {
         return Meta.WaylandClient.new(global.context, subprocess_launcher);
@@ -145,21 +56,118 @@ function make_wayland_client(subprocess_launcher) {
     }
 }
 
-function spawn_wayland_client(argv) {
-    log(`Starting wayland client subprocess: ${JSON.stringify(argv)}`);
+var Subprocess = GObject.registerClass(
+    {
+        Properties: {
+            'journal-identifier': GObject.ParamSpec.string(
+                'journal-identifier',
+                '',
+                '',
+                GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+                null
+            ),
+            'argv': GObject.ParamSpec.boxed(
+                'argv',
+                '',
+                '',
+                GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+                GObject.type_from_name('GStrv')
+            ),
+            'g-subprocess': GObject.ParamSpec.object(
+                'g-subprocess',
+                '',
+                '',
+                GObject.ParamFlags.READABLE,
+                Gio.Subprocess
+            ),
+        },
+    },
+    class DDTermSubprocess extends GObject.Object {
+        _init(params) {
+            super._init(params);
 
-    const subprocess_launcher = make_subprocess_launcher(executable_name(argv));
+            const subprocess_launcher = make_subprocess_launcher(this.journal_identifier);
 
-    try {
-        const wayland_client = make_wayland_client(subprocess_launcher);
+            try {
+                this._subprocess = this._spawn(subprocess_launcher);
+            } finally {
+                subprocess_launcher.close();
+            }
 
-        return new WaylandSubprocess({
-            g_subprocess: wayland_client.spawnv(global.display, argv),
-            wayland_client,
-        });
-    } finally {
-        subprocess_launcher.close();
+            this.wait().then(() => {
+                const name = this.argv[0];
+
+                if (this.g_subprocess.get_if_signaled()) {
+                    const signum = this.g_subprocess.get_term_sig();
+                    const strsig = GLib.strsignal(signum);
+
+                    log(`${name} killed by signal ${signum} (${strsig})`);
+                } else {
+                    const status = this.g_subprocess.get_exit_status();
+
+                    log(`${name} exited with status ${status}`);
+                }
+            }).catch(logError);
+        }
+
+        get g_subprocess() {
+            return this._subprocess;
+        }
+
+        owns_window(win) {
+            return win.get_pid().toString() === this.g_subprocess.get_identifier();
+        }
+
+        wait(cancellable = null) {
+            return new Promise((resolve, reject) => {
+                this.g_subprocess.wait_async(cancellable, (source, result) => {
+                    try {
+                        resolve(source.wait_finish(result));
+                    } catch (ex) {
+                        reject(ex);
+                    }
+                });
+            });
+        }
+
+        terminate() {
+            this.g_subprocess.send_signal(SIGTERM);
+        }
+
+        _spawn(subprocess_launcher) {
+            log(`Starting subprocess: ${JSON.stringify(this.argv)}`);
+            return subprocess_launcher.spawnv(this.argv);
+        }
     }
-}
+);
 
-/* exported Subprocess spawn spawn_wayland_client */
+var WaylandSubprocess = GObject.registerClass(
+    {
+        Properties: {
+            'wayland-client': GObject.ParamSpec.object(
+                'wayland-client',
+                '',
+                '',
+                GObject.ParamFlags.READABLE,
+                Meta.WaylandClient
+            ),
+        },
+    },
+    class DDTermWaylandSubprocess extends Subprocess {
+        owns_window(win) {
+            return this.wayland_client.owns_window(win);
+        }
+
+        _spawn(subprocess_launcher) {
+            log(`Starting wayland client subprocess: ${JSON.stringify(this.argv)}`);
+            this._wayland_client = make_wayland_client(subprocess_launcher);
+            return this._wayland_client.spawnv(global.display, this.argv);
+        }
+
+        get wayland_client() {
+            return this._wayland_client;
+        }
+    }
+);
+
+/* exported Subprocess WaylandSubprocess */

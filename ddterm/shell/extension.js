@@ -71,15 +71,15 @@ function enable() {
             argv.push('--allowed-gdk-backends=x11');
 
         else if (Meta.is_wayland_compositor())
-            return subprocess.spawn_wayland_client(argv);
+            return new subprocess.WaylandSubprocess({ journal_identifier: APP_ID, argv });
 
-        return subprocess.spawn(argv);
+        return new subprocess.Subprocess({ journal_identifier: APP_ID, argv });
     });
 
     service.connect('notify::subprocess', () => {
         app_process = service.subprocess;
 
-        /* In case the app terminates when the extension is disabled */
+        /* In case the app terminates while the extension is disabled */
         app_process?.wait().finally(() => {
             app_process = null;
         });
