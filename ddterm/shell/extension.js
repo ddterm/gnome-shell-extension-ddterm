@@ -43,6 +43,7 @@ let dbus_interface = null;
 let installer = null;
 let panel_icon = null;
 let disable_cancellable = null;
+let shutdown_handler = null;
 
 const APP_ID = 'com.github.amezin.ddterm';
 const APP_WMCLASS = 'Com.github.amezin.ddterm';
@@ -187,6 +188,9 @@ function enable() {
 
     installer = new Installer();
     installer.install();
+
+    if (GObject.signal_lookup('shutdown', Shell.Global))
+        shutdown_handler = global.connect('shutdown', () => installer.uninstall());
 }
 
 function disable() {
@@ -216,6 +220,11 @@ function disable() {
     // GNOME Shell picks up newly installed desktop files with a noticeable delay
     if (!Main.sessionMode.isLocked)
         installer?.uninstall();
+
+    if (shutdown_handler) {
+        global.disconnect(shutdown_handler);
+        shutdown_handler = null;
+    }
 
     settings?.run_dispose();
 
