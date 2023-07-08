@@ -94,13 +94,6 @@ along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licens
   <object class="GThemedIcon" id="search_wrap_icon">
     <property name="names">view-wrapped</property>
   </object>
-  <object class="GtkModelButton" id="switcher_item">
-    <property name="visible">True</property>
-    <property name="can-focus">True</property>
-    <property name="receives-default">False</property>
-    <property name="action-name">notebook.switch-to-tab</property>
-    <property name="use-markup">True</property>
-  </object>
   <object class="GtkAdjustment" id="terminal_vscroll">
     <property name="upper">100</property>
     <property name="step-increment">1</property>

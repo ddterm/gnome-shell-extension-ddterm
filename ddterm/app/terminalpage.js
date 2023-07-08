@@ -146,7 +146,6 @@ var TerminalPage = GObject.registerClass(
             'tab_label_label',
             'scrollbar',
             'close_button',
-            'switcher_item',
             'custom_title_popover',
             'custom_tab_title_entry',
             'search_bar',
@@ -366,16 +365,21 @@ var TerminalPage = GObject.registerClass(
                 GObject.BindingFlags.SYNC_CREATE
             );
 
+            this.switcher_item = new Gtk.ModelButton({
+                visible: true,
+                action_name: 'notebook.switch-to-tab',
+            });
+
+            this.switcher_item.connect('notify::text', source => {
+                source.use_markup = true;
+            });
+
             this.bind_property(
                 'title',
                 this.switcher_item,
                 'text',
                 GObject.BindingFlags.SYNC_CREATE
             );
-
-            this.switcher_item.connect('notify::text', source => {
-                source.use_markup = true;
-            });
 
             this.use_custom_title_action = new Gio.SimpleAction({
                 'name': 'use-custom-title',
