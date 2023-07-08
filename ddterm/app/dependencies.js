@@ -117,7 +117,7 @@ function gi_require(me_dir, imports_versions) {
 
     for (const [lib, version] of Object.entries(imports_versions)) {
         if (!manifest[lib] || !manifest[lib][version]) {
-            printerr(`Please add ${lib} ${version} to packagekit.json`);
+            printerr(`Please add ${lib} ${version} to dependencies.json`);
             System.exit(1);
         }
 
