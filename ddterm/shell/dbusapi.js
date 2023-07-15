@@ -1,5 +1,5 @@
 /*
-    Copyright © 2020, 2021 Aleksandr Mezin
+    Copyright © 2023 Aleksandr Mezin
 
     This file is part of ddterm GNOME Shell extension.
 
