@@ -81,7 +81,7 @@ function enable() {
         app_process = service.subprocess;
 
         /* In case the app terminates while the extension is disabled */
-        app_process?.wait().finally(() => {
+        app_process?.wait().then(() => {
             app_process = null;
         });
     });

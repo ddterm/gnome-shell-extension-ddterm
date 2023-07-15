@@ -19,7 +19,7 @@
 
 'use strict';
 
-const { GObject, Gio } = imports.gi;
+const { GLib, GObject, Gio } = imports.gi;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const { subprocess } = Me.imports.ddterm.shell;
@@ -76,7 +76,7 @@ var Service = GObject.registerClass(
             const { subprocess, ...rest } = params;
             super._init(rest);
 
-            this._subprocess = subprocess;
+            this._set_subprocess(subprocess);
             this._bus_name_owner = null;
 
             this._bus_watch = Gio.bus_watch_name_on_connection(
@@ -101,6 +101,8 @@ var Service = GObject.registerClass(
         }
 
         unwatch() {
+            this._subprocess_wait_cancel?.cancel();
+
             if (this._bus_watch) {
                 Gio.bus_unwatch_name(this._bus_watch);
                 this._bus_watch = null;
@@ -111,19 +113,39 @@ var Service = GObject.registerClass(
             this.subprocess?.terminate();
         }
 
+        _set_subprocess(new_subprocess) {
+            if (new_subprocess === this._subprocess)
+                return;
+
+            this._subprocess_wait_cancel?.cancel();
+
+            this._subprocess = new_subprocess;
+            this._subprocess_wait_cancel = new Gio.Cancellable();
+
+            new_subprocess?.wait(this._subprocess_wait_cancel).then(() => {
+                if (this._subprocess !== new_subprocess) {
+                    throw new Error(
+                        `this._subprocess: ${this._subprocess} isn't ${new_subprocess}`
+                    );
+                }
+
+                this._subprocess = null;
+                this.notify('subprocess');
+            }).catch(ex => {
+                if (!(ex instanceof GLib.Error &&
+                      ex.matches(Gio.io_error_quark(), Gio.IOErrorEnum.CANCELLED)))
+                    printerr(ex);
+            });
+
+            this.notify('subprocess');
+        }
+
         _activate() {
             if (this.subprocess)
                 return this.subprocess;
 
             const new_subprocess = this.emit('activate');
-            this._subprocess = new_subprocess;
-
-            new_subprocess.wait().finally(() => {
-                this._subprocess = null;
-                this.notify('subprocess');
-            });
-
-            this.notify('subprocess');
+            this._set_subprocess(new_subprocess);
             return new_subprocess;
         }
 
