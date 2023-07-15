@@ -65,7 +65,7 @@ function enable() {
         subprocess: app_process,
     });
 
-    service.connect('spawn', () => {
+    service.connect('activate', () => {
         const argv = [Me.dir.get_child(APP_ID).get_path(), '--gapplication-service'];
 
         if (settings.get_boolean('force-x11-gdk-backend'))

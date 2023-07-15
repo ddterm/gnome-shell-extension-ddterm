@@ -64,7 +64,7 @@ var Service = GObject.registerClass(
             ),
         },
         Signals: {
-            'spawn': {
+            'activate': {
                 return_type: subprocess.Subprocess,
                 accumulator: GObject.AccumulatorType.FIRST_WINS,
             },
@@ -111,11 +111,11 @@ var Service = GObject.registerClass(
             this.subprocess?.terminate();
         }
 
-        _spawn_subprocess() {
+        _activate() {
             if (this.subprocess)
                 return this.subprocess;
 
-            const new_subprocess = this.emit('spawn');
+            const new_subprocess = this.emit('activate');
             this._subprocess = new_subprocess;
 
             new_subprocess.wait().finally(() => {
@@ -156,7 +156,7 @@ var Service = GObject.registerClass(
                     });
                 });
 
-                const terminated = this._spawn_subprocess().wait(inner_cancellable).then(() => {
+                const terminated = this._activate().wait(inner_cancellable).then(() => {
                     throw new Error(
                         `${this.bus_name}: subprocess terminated without registering on D-Bus`
                     );
