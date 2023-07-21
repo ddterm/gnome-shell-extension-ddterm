@@ -23,7 +23,7 @@
 
 const { GLib, GObject, Gio, Gdk, Gtk, Pango, Vte } = imports.gi;
 const { Handlebars } = imports.ddterm.app.thirdparty.handlebars;
-const { urldetect_patterns, tcgetpgrp } = imports.ddterm.app;
+const { pcre2, tcgetpgrp, urldetect_patterns } = imports.ddterm.app;
 const { translations } = imports.ddterm.util;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 
@@ -73,36 +73,26 @@ function ellipsize(str, length) {
 Handlebars.registerHelper('truncate-chars', ellipsize);
 Handlebars.registerHelper('ellipsize', ellipsize);
 
-const PCRE2_UTF = 0x00080000;
-const PCRE2_NO_UTF_CHECK = 0x40000000;
-const PCRE2_UCP = 0x00020000;
-const PCRE2_MULTILINE = 0x00000400;
-const PCRE2_JIT_COMPLETE = 0x00000001;
-const PCRE2_JIT_PARTIAL_SOFT = 0x00000002;
-const PCRE2_CASELESS = 0x00000008;
-
 function jit_regex(regex) {
     try {
-        regex.jit(PCRE2_JIT_COMPLETE);
+        regex.jit(pcre2.PCRE2_JIT_COMPLETE);
     } catch (ex) {
         logError(ex, `Can't JIT compile ${regex} (PCRE2_JIT_COMPLETE)`);
         return;
     }
 
     try {
-        regex.jit(PCRE2_JIT_PARTIAL_SOFT);
+        regex.jit(pcre2.PCRE2_JIT_PARTIAL_SOFT);
     } catch (ex) {
         logError(ex, `Can't JIT compile ${regex} (PCRE2_JIT_PARTIAL_SOFT)`);
     }
 }
 
-function compile_regex(regex) {
-    const compiled = Vte.Regex.new_for_match(
-        regex,
-        -1,
-        PCRE2_UTF | PCRE2_NO_UTF_CHECK | PCRE2_UCP | PCRE2_MULTILINE
-    );
+const BASE_REGEX_FLAGS =
+    pcre2.PCRE2_UTF | pcre2.PCRE2_NO_UTF_CHECK | pcre2.PCRE2_UCP | pcre2.PCRE2_MULTILINE;
 
+function compile_regex(regex) {
+    const compiled = Vte.Regex.new_for_match(regex, -1, BASE_REGEX_FLAGS);
     jit_regex(compiled);
     return compiled;
 }
@@ -882,9 +872,9 @@ var TerminalPage = GObject.registerClass(
             if (this.search_whole_word_action.state.unpack())
                 pattern = `\\b${pattern}\\b`;
 
-            let search_flags = PCRE2_UTF | PCRE2_NO_UTF_CHECK | PCRE2_UCP | PCRE2_MULTILINE;
+            let search_flags = BASE_REGEX_FLAGS;
             if (!this.search_match_case_action.state.unpack())
-                search_flags |= PCRE2_CASELESS;
+                search_flags |= pcre2.PCRE2_CASELESS;
 
             const search_regex = Vte.Regex.new_for_search(pattern, -1, search_flags);
             jit_regex(search_regex);
