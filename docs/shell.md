@@ -13,6 +13,11 @@ Shell extension is responsible for:
 * Handling "global" keyboard shortcuts (i. e. shortcuts that work without the
 application window).
 
+* Launching the [ddterm application](/ddterm/app).
+
+* Installing/uninstalling [`.desktop`](/ddterm/com.github.amezin.ddterm.desktop.in)
+and [`.service`](/ddterm/com.github.amezin.ddterm.service.in) files.
+
 The extension exports a simple D-Bus interface
 (see [`com.github.amezin.ddterm.Extension.xml`]) on GNOME Shell well-known name
 `org.gnome.Shell`, path `/org/gnome/Shell/Extensions/ddterm`.
