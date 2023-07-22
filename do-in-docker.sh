@@ -17,4 +17,4 @@ fi
 
 set -ex
 
-exec "${docker_cmd[@]}" run --init --rm -i $TTY_FLAG -u $UID_GID -v "${SCRIPT_DIR}:${SCRIPT_DIR}" -w "${PWD}" "${IMAGE}:${IMAGE_VERSION}" xvfb-run "$@"
+exec "${docker_cmd[@]}" run --init --rm -i $TTY_FLAG -u $UID_GID -e HOME=${PWD} -v "${SCRIPT_DIR}:${SCRIPT_DIR}:z" -w "${PWD}" "${IMAGE}:${IMAGE_VERSION}" xvfb-run "$@"
