@@ -92,10 +92,7 @@ var Notebook = GObject.registerClass(
                 visible: true,
                 orientation: Gtk.Orientation.VERTICAL,
                 spacing: 10,
-                margin_top: 10,
-                margin_bottom: 10,
-                margin_start: 10,
-                margin_end: 10,
+                border_width: 10,
             });
 
             this.tab_switch_button = new Gtk.MenuButton({
