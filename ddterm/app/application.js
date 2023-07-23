@@ -25,7 +25,6 @@ const System = imports.system;
 const { GLib, GObject, Gio, Gdk, Gtk } = imports.gi;
 
 const { appwindow, gtktheme } = imports.ddterm.app;
-const { PrefsDialog } = imports.ddterm.pref.dialog;
 
 function load_text(file) {
     return ByteArray.toString(file.load_contents(null)[1]);
@@ -53,7 +52,7 @@ var Application = GObject.registerClass(
                 '',
                 '',
                 GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
-                PrefsDialog
+                Gtk.Dialog
             ),
         },
     },
@@ -279,7 +278,7 @@ var Application = GObject.registerClass(
 
         preferences() {
             if (this.prefs_dialog === null) {
-                this.prefs_dialog = new PrefsDialog({
+                this.prefs_dialog = new imports.ddterm.pref.dialog.PrefsDialog({
                     transient_for: this.window,
                     settings: this.settings,
                 });
