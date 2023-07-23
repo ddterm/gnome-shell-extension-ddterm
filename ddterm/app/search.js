@@ -360,10 +360,12 @@ var SearchBar = GObject.registerClass(
         }
 
         find_next() {
+            this.pattern.update();
             this.emit('find-next');
         }
 
         find_prev() {
+            this.pattern.update();
             this.emit('find-prev');
         }
     }
