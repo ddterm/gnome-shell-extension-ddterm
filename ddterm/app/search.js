@@ -205,6 +205,7 @@ var SearchBar = GObject.registerClass(
                 image: new Gtk.Image({ icon_name: 'uppercase' }),
                 tooltip_text: translations.gettext('Case Sensitive'),
                 visible: true,
+                focus_on_click: false,
             });
 
             layout.pack_start(case_sensitive_button, false, false, 0);
@@ -220,6 +221,7 @@ var SearchBar = GObject.registerClass(
                 image: new Gtk.Image({ icon_name: 'quotation' }),
                 tooltip_text: translations.gettext('Match Whole Word'),
                 visible: true,
+                focus_on_click: false,
             });
 
             layout.pack_start(whole_word_button, false, false, 0);
@@ -235,6 +237,7 @@ var SearchBar = GObject.registerClass(
                 image: new Gtk.Image({ icon_name: 'regex' }),
                 tooltip_text: translations.gettext('Regular Expression'),
                 visible: true,
+                focus_on_click: false,
             });
 
             layout.pack_start(regex_button, false, false, 0);
@@ -302,6 +305,7 @@ var SearchBar = GObject.registerClass(
                 image: new Gtk.Image({ icon_name: 'window-close' }),
                 tooltip_text: translations.gettext('Close Search Bar'),
                 visible: true,
+                focus_on_click: false,
             });
 
             layout.pack_end(close_button, false, false, 0);
@@ -312,6 +316,7 @@ var SearchBar = GObject.registerClass(
                 image: new Gtk.Image({ icon_name: 'view-wrapped' }),
                 tooltip_text: translations.gettext('Wrap Around'),
                 visible: true,
+                focus_on_click: false,
             });
 
             layout.pack_end(wrap_button, false, false, 0);
@@ -327,6 +332,7 @@ var SearchBar = GObject.registerClass(
                 image: new Gtk.Image({ icon_name: 'go-down' }),
                 tooltip_text: translations.gettext('Find Next'),
                 visible: true,
+                focus_on_click: false,
             });
 
             layout.pack_end(find_next_button, false, false, 0);
@@ -337,6 +343,7 @@ var SearchBar = GObject.registerClass(
                 image: new Gtk.Image({ icon_name: 'go-up' }),
                 tooltip_text: translations.gettext('Find Previous'),
                 visible: true,
+                focus_on_click: false,
             });
 
             layout.pack_end(find_prev_button, false, false, 0);
