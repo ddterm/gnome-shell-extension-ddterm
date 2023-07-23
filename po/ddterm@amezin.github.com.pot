@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-23 05:05+0000\n"
+"POT-Creation-Date: 2023-07-23 11:20+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ddterm/app/appwindow.js:103
+#: ddterm/app/appwindow.js:112
 msgid "Drop Down Terminal"
 msgstr ""
 
-#: ddterm/app/appwindow.js:417
+#: ddterm/app/appwindow.js:415
 msgid ""
 "Warning: ddterm version has changed. Log out, then log in again to load the "
 "updated extension."
@@ -41,45 +41,6 @@ msgstr ""
 
 #: ddterm/app/dependencies-notification.js:162
 msgid "Missing dependencies"
-msgstr ""
-
-#: ddterm/app/glade/terminalpage.ui:162
-msgid "Case Sensitive"
-msgstr ""
-
-#: ddterm/app/glade/terminalpage.ui:179
-msgid "Match Whole Word"
-msgstr ""
-
-#: ddterm/app/glade/terminalpage.ui:196
-msgid "Wrap Around"
-msgstr ""
-
-#: ddterm/app/glade/terminalpage.ui:199
-msgid "Wrap"
-msgstr ""
-
-#: ddterm/app/glade/terminalpage.ui:214
-msgid "Regular Expression"
-msgstr ""
-
-#: ddterm/app/glade/terminalpage.ui:245
-msgid "Close Search Bar"
-msgstr ""
-
-#: ddterm/app/glade/terminalpage.ui:248 ddterm/app/menus.ui:76
-#: ddterm/app/menus.ui:175
-msgid "Close"
-msgstr ""
-
-#: ddterm/app/glade/terminalpage.ui:264 ddterm/app/glade/terminalpage.ui:267
-#: ddterm/pref/glade/prefs-shortcuts.ui:248
-msgid "Find Next"
-msgstr ""
-
-#: ddterm/app/glade/terminalpage.ui:283 ddterm/app/glade/terminalpage.ui:286
-#: ddterm/pref/glade/prefs-shortcuts.ui:255
-msgid "Find Previous"
 msgstr ""
 
 #: ddterm/app/menus.ui:25
@@ -120,6 +81,10 @@ msgstr ""
 
 #: ddterm/app/menus.ui:70 ddterm/pref/glade/prefs-shortcuts.ui:157
 msgid "Reset and Clear"
+msgstr ""
+
+#: ddterm/app/menus.ui:76 ddterm/app/menus.ui:175 ddterm/app/tablabel.js:94
+msgid "Close"
 msgstr ""
 
 #: ddterm/app/menus.ui:82
@@ -216,19 +181,47 @@ msgstr ""
 msgid "Move Tab to Next Position"
 msgstr ""
 
-#: ddterm/app/notebook.js:114
+#: ddterm/app/notebook.js:137
 msgid "New Tab (Last)"
 msgstr ""
 
-#: ddterm/app/notebook.js:143
+#: ddterm/app/notebook.js:165
 msgid "New Tab (First)"
 msgstr ""
 
-#: ddterm/app/terminalpage.js:927
+#: ddterm/app/search.js:179
+msgid "Case Sensitive"
+msgstr ""
+
+#: ddterm/app/search.js:194
+msgid "Match Whole Word"
+msgstr ""
+
+#: ddterm/app/search.js:209
+msgid "Regular Expression"
+msgstr ""
+
+#: ddterm/app/search.js:250
+msgid "Close Search Bar"
+msgstr ""
+
+#: ddterm/app/search.js:260
+msgid "Wrap Around"
+msgstr ""
+
+#: ddterm/app/search.js:275 ddterm/pref/glade/prefs-shortcuts.ui:248
+msgid "Find Next"
+msgstr ""
+
+#: ddterm/app/search.js:285 ddterm/pref/glade/prefs-shortcuts.ui:255
+msgid "Find Previous"
+msgstr ""
+
+#: ddterm/app/terminalpage.js:836
 msgid "Close this terminal?"
 msgstr ""
 
-#: ddterm/app/terminalpage.js:930
+#: ddterm/app/terminalpage.js:839
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."
