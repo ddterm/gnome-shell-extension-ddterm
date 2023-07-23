@@ -19,7 +19,7 @@
 
 'use strict';
 
-const { GObject, Gtk, Vte } = imports.gi;
+const { GLib, GObject, Gtk, Vte } = imports.gi;
 const { pcre2 } = imports.ddterm.app;
 const { translations } = imports.ddterm.util;
 
@@ -104,6 +104,13 @@ var SearchPattern = GObject.registerClass(
                 GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
                 false
             ),
+            'error': GObject.ParamSpec.boxed(
+                'error',
+                '',
+                '',
+                GObject.ParamFlags.READABLE,
+                GLib.Error
+            ),
         },
     },
     class DDTermSearchPattern extends GObject.Object {
@@ -112,26 +119,46 @@ var SearchPattern = GObject.registerClass(
 
             this._regex = REGEX_OUTDATED;
 
-            this.connect('notify::text', this._discard_regex.bind(this));
-            this.connect('notify::use-regex', this._discard_regex.bind(this));
-            this.connect('notify::whole-word', this._discard_regex.bind(this));
-            this.connect('notify::case-sensitive', this._discard_regex.bind(this));
+            this.connect('notify::text', this.invalidate.bind(this));
+            this.connect('notify::use-regex', this.invalidate.bind(this));
+            this.connect('notify::whole-word', this.invalidate.bind(this));
+            this.connect('notify::case-sensitive', this.invalidate.bind(this));
         }
 
-        get regex() {
-            if (this._regex === REGEX_OUTDATED) {
+        update() {
+            if (this._regex !== REGEX_OUTDATED)
+                return;
+
+            try {
                 this._regex = compile_regex(
                     this.text,
                     this.use_regex,
                     this.whole_word,
                     this.case_sensitive
                 );
-            }
 
+                if (this._error) {
+                    this._error = null;
+                    this.notify('error');
+                }
+            } catch (ex) {
+                this._regex = null;
+                this._error = ex;
+                this.notify('error');
+            }
+        }
+
+        get regex() {
+            this.update();
             return this._regex;
         }
 
-        _discard_regex() {
+        get error() {
+            this.update();
+            return this._error;
+        }
+
+        invalidate() {
             this._regex = REGEX_OUTDATED;
             this.notify('regex');
         }
@@ -232,10 +259,37 @@ var SearchBar = GObject.registerClass(
                 GObject.BindingFlags.BIDIRECTIONAL | GObject.BindingFlags.SYNC_CREATE
             );
 
-            entry.connect('activate', this.find_next.bind(this));
-            entry.connect('next-match', this.find_next.bind(this));
-            entry.connect('previous-match', this.find_prev.bind(this));
-            entry.connect('stop-search', this.close.bind(this));
+            const error_popover = new Gtk.Popover({
+                relative_to: entry,
+                modal: false,
+                border_width: 5,
+            });
+
+            this.connect('destroy', () => error_popover.destroy());
+
+            const error_label = new Gtk.Label({
+                parent: error_popover,
+                visible: true,
+            });
+
+            error_label.get_style_context().add_class('error');
+
+            this.pattern.connect('notify::error', () => {
+                if (this.pattern.error) {
+                    entry.get_style_context().add_class('error');
+                    error_label.label = this.pattern.error.message;
+                    error_popover.popup();
+                } else {
+                    entry.get_style_context().remove_class('error');
+                    error_popover.popdown();
+                }
+            });
+
+            entry.connect('activate', () => this.find_next());
+            entry.connect('next-match', () => this.find_next());
+            entry.connect('previous-match', () => this.find_prev());
+            entry.connect('stop-search', () => this.close());
+            entry.connect('search-changed', () => this.pattern.update());
 
             this.connect('key-press-event', (_, event) => entry.handle_event(event));
             this.connect('key-release-event', (_, event) => entry.handle_event(event));
