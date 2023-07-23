@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-08 20:01+0000\n"
+"POT-Creation-Date: 2023-07-23 05:05+0000\n"
 "PO-Revision-Date: 2023-03-14 13:45+0000\n"
 "Last-Translator: Aleksandr Mezin <mezin.alexander@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/gnome-shell-"
@@ -218,19 +218,19 @@ msgstr "Переместить вкладку на предыдущую пози
 msgid "Move Tab to Next Position"
 msgstr "Переместить вкладку на следующую позицию"
 
-#: ddterm/app/notebook.js:84
+#: ddterm/app/notebook.js:114
 msgid "New Tab (Last)"
 msgstr "Новая вкладка (в конце)"
 
-#: ddterm/app/notebook.js:116
+#: ddterm/app/notebook.js:143
 msgid "New Tab (First)"
 msgstr "Новая вкладка (в начале)"
 
-#: ddterm/app/terminalpage.js:953
+#: ddterm/app/terminalpage.js:927
 msgid "Close this terminal?"
 msgstr "Закрыть терминал?"
 
-#: ddterm/app/terminalpage.js:956
+#: ddterm/app/terminalpage.js:930
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."

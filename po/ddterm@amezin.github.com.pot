@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-08 20:01+0000\n"
+"POT-Creation-Date: 2023-07-23 05:05+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -216,19 +216,19 @@ msgstr ""
 msgid "Move Tab to Next Position"
 msgstr ""
 
-#: ddterm/app/notebook.js:84
+#: ddterm/app/notebook.js:114
 msgid "New Tab (Last)"
 msgstr ""
 
-#: ddterm/app/notebook.js:116
+#: ddterm/app/notebook.js:143
 msgid "New Tab (First)"
 msgstr ""
 
-#: ddterm/app/terminalpage.js:953
+#: ddterm/app/terminalpage.js:927
 msgid "Close this terminal?"
 msgstr ""
 
-#: ddterm/app/terminalpage.js:956
+#: ddterm/app/terminalpage.js:930
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."
