@@ -25,6 +25,36 @@ const { GLib, GObject, Gio, Gtk } = imports.gi;
 const { terminalpage } = imports.ddterm.app;
 const { translations } = imports.ddterm.util;
 
+var SwitchButton = GObject.registerClass(
+    {
+        Properties: {
+            'page': GObject.ParamSpec.object(
+                'page',
+                '',
+                '',
+                GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+                terminalpage.TerminalPage
+            ),
+        },
+    },
+    class DDTermTabSwitchButton extends Gtk.ModelButton {
+        _init(params) {
+            super._init(params);
+
+            this.connect('notify::text', () => {
+                this.use_markup = true;
+            });
+
+            this.page?.bind_property(
+                'title',
+                this,
+                'text',
+                GObject.BindingFlags.SYNC_CREATE
+            );
+        }
+    }
+);
+
 var Notebook = GObject.registerClass(
     {
         GTypeName: 'DDTermNotebook',
@@ -287,25 +317,35 @@ var Notebook = GObject.registerClass(
                 child.disconnect(new_tab_after_handler);
             });
 
-            child.switcher_item.action_target = GLib.Variant.new_int32(page_num);
-            this.tab_switch_menu_box.add(child.switcher_item);
-            this.tab_switch_menu_box.reorder_child(child.switcher_item, page_num);
+            const switch_button = new SwitchButton({
+                page: child,
+                visible: true,
+                action_name: 'notebook.switch-to-tab',
+                action_target: GLib.Variant.new_int32(page_num),
+            });
+
+            this.tab_switch_menu_box.add(switch_button);
+            this.tab_switch_menu_box.reorder_child(switch_button, page_num);
             this.tab_switcher_update_actions();
         }
 
-        on_page_removed(child, _page_num) {
+        on_page_removed(child, page_num) {
             const disconnect = this.page_disconnect.get(child);
             this.page_disconnect.delete(child);
 
             if (disconnect)
                 disconnect();
 
-            this.tab_switch_menu_box.remove(child.switcher_item);
+            this.tab_switch_menu_box.remove(this.tab_switch_menu_box.get_children()[page_num]);
             this.tab_switcher_update_actions();
         }
 
         on_page_reordered(child, page_num) {
-            this.tab_switch_menu_box.reorder_child(child.switcher_item, page_num);
+            this.tab_switch_menu_box.foreach(item => {
+                if (item.page === child)
+                    this.tab_switch_menu_box.reorder_child(item, page_num);
+            });
+
             this.tab_switcher_update_actions();
         }
 

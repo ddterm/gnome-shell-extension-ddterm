@@ -355,22 +355,6 @@ var TerminalPage = GObject.registerClass(
                 GObject.BindingFlags.SYNC_CREATE
             );
 
-            this.switcher_item = new Gtk.ModelButton({
-                visible: true,
-                action_name: 'notebook.switch-to-tab',
-            });
-
-            this.switcher_item.connect('notify::text', source => {
-                source.use_markup = true;
-            });
-
-            this.bind_property(
-                'title',
-                this.switcher_item,
-                'text',
-                GObject.BindingFlags.SYNC_CREATE
-            );
-
             this.use_custom_title_action = new Gio.SimpleAction({
                 'name': 'use-custom-title',
                 'state': GVARIANT_FALSE,
@@ -583,7 +567,7 @@ var TerminalPage = GObject.registerClass(
 
             // These widgets aren't children of the TerminalPage, so they must
             // be destroy()ed manually.
-            for (const widget of [this.tab_label, this.switcher_item, this.custom_title_popover])
+            for (const widget of [this.tab_label, this.custom_title_popover])
                 this.connect('destroy', () => widget.destroy());
 
             this.terminal.connect('child-exited', () => this.destroy());
