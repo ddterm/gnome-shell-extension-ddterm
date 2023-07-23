@@ -23,7 +23,7 @@
 
 const { GLib, GObject, Gio, Gdk, Gtk, Pango, Vte } = imports.gi;
 const { Handlebars } = imports.ddterm.app.thirdparty.handlebars;
-const { pcre2, tcgetpgrp, urldetect_patterns } = imports.ddterm.app;
+const { pcre2, tablabel, tcgetpgrp, urldetect_patterns } = imports.ddterm.app;
 const { translations } = imports.ddterm.util;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 
@@ -132,12 +132,7 @@ var TerminalPage = GObject.registerClass(
         Template: APP_DIR.get_child('ui').get_child('terminalpage.ui').get_uri(),
         Children: [
             'terminal',
-            'tab_label',
-            'tab_label_label',
             'scrollbar',
-            'close_button',
-            'custom_title_popover',
-            'custom_tab_title_entry',
             'search_bar',
             'search_entry',
         ],
@@ -211,6 +206,30 @@ var TerminalPage = GObject.registerClass(
             this.clipboard = Gtk.Clipboard.get_default(Gdk.Display.get_default());
             this.primary_selection = Gtk.Clipboard.get(Gdk.Atom.intern('PRIMARY', true));
             this.child_pid = null;
+
+            this.tab_label = new tablabel.TabLabel({ visible_window: false });
+            this.tab_label.connect('close', () => this.close());
+
+            this.bind_property(
+                'title',
+                this.tab_label,
+                'markup',
+                GObject.BindingFlags.SYNC_CREATE
+            );
+
+            this.settings.bind(
+                'tab-label-ellipsize-mode',
+                this.tab_label,
+                'ellipsize',
+                Gio.SettingsBindFlags.GET
+            );
+
+            this.settings.bind(
+                'tab-close-buttons',
+                this.tab_label,
+                'close-button',
+                Gio.SettingsBindFlags.GET
+            );
 
             [
                 'scroll-on-output',
@@ -303,22 +322,8 @@ var TerminalPage = GObject.registerClass(
             );
 
             this.settings.bind(
-                'tab-label-ellipsize-mode',
-                this.tab_label_label,
-                'ellipsize',
-                Gio.SettingsBindFlags.GET
-            );
-
-            this.settings.bind(
                 'show-scrollbar',
                 this.scrollbar,
-                'visible',
-                Gio.SettingsBindFlags.GET
-            );
-
-            this.settings.bind(
-                'tab-close-buttons',
-                this.close_button,
                 'visible',
                 Gio.SettingsBindFlags.GET
             );
@@ -333,13 +338,6 @@ var TerminalPage = GObject.registerClass(
 
             this.connect('notify::switch-shortcut', this.update_title.bind(this));
 
-            this.bind_property(
-                'title',
-                this.tab_label_label,
-                'label',
-                GObject.BindingFlags.SYNC_CREATE
-            );
-
             this.use_custom_title_action = new Gio.SimpleAction({
                 'name': 'use-custom-title',
                 'state': GVARIANT_FALSE,
@@ -351,7 +349,7 @@ var TerminalPage = GObject.registerClass(
 
                 if (use_custom_title) {
                     Gio.Settings.unbind(this, 'title-template');
-                    this.custom_title_popover.popup();
+                    this.tab_label.edit();
                 } else {
                     this.settings.bind(
                         'tab-title-template',
@@ -371,16 +369,9 @@ var TerminalPage = GObject.registerClass(
 
             this.bind_property(
                 'title-template',
-                this.custom_tab_title_entry,
-                'text',
+                this.tab_label,
+                'template',
                 GObject.BindingFlags.SYNC_CREATE | GObject.BindingFlags.BIDIRECTIONAL
-            );
-
-            this.custom_tab_title_entry.bind_property(
-                'text-length',
-                this.custom_tab_title_entry,
-                'width-chars',
-                GObject.BindingFlags.SYNC_CREATE
             );
 
             // Should be connected before setup_popup_menu() on this.terminal!
@@ -550,12 +541,9 @@ var TerminalPage = GObject.registerClass(
                 });
             }
 
-            // These widgets aren't children of the TerminalPage, so they must
-            // be destroy()ed manually.
-            for (const widget of [this.tab_label, this.custom_title_popover])
-                this.connect('destroy', () => widget.destroy());
-
             this.terminal.connect('child-exited', () => this.destroy());
+
+            this.connect('destroy', () => this.tab_label.destroy());
         }
 
         map_settings(keys, func) {
