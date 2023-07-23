@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-23 11:20+0000\n"
+"POT-Creation-Date: 2023-07-23 12:11+0000\n"
 "PO-Revision-Date: 2023-03-12 16:07+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/gnome-"
@@ -192,31 +192,31 @@ msgstr "Ny fane (sist)"
 msgid "New Tab (First)"
 msgstr "Ny fane (først)"
 
-#: ddterm/app/search.js:179
+#: ddterm/app/search.js:206
 msgid "Case Sensitive"
 msgstr "Forskjell på små og store bokstaver"
 
-#: ddterm/app/search.js:194
+#: ddterm/app/search.js:222
 msgid "Match Whole Word"
 msgstr "Jamfør hele ord"
 
-#: ddterm/app/search.js:209
+#: ddterm/app/search.js:238
 msgid "Regular Expression"
 msgstr "Regulært uttrykk"
 
-#: ddterm/app/search.js:250
+#: ddterm/app/search.js:306
 msgid "Close Search Bar"
 msgstr "Lukk søkefelt"
 
-#: ddterm/app/search.js:260
+#: ddterm/app/search.js:317
 msgid "Wrap Around"
 msgstr "Linjebryt rundt"
 
-#: ddterm/app/search.js:275 ddterm/pref/glade/prefs-shortcuts.ui:248
+#: ddterm/app/search.js:333 ddterm/pref/glade/prefs-shortcuts.ui:248
 msgid "Find Next"
 msgstr "Finn neste"
 
-#: ddterm/app/search.js:285 ddterm/pref/glade/prefs-shortcuts.ui:255
+#: ddterm/app/search.js:344 ddterm/pref/glade/prefs-shortcuts.ui:255
 msgid "Find Previous"
 msgstr "Finn forrige"
 
