@@ -133,7 +133,6 @@ var Notebook = GObject.registerClass(
                 relief: Gtk.ReliefStyle.NONE,
                 visible: true,
             });
-            // this.tab_switch_button.popover.relative_to = this.tab_switch_button;
             button_box.add(this.tab_switch_button);
 
             this.set_action_widget(button_box, Gtk.PackType.END);
