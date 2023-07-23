@@ -196,6 +196,10 @@ var Application = GObject.registerClass(
             });
 
             this.metadata = JSON.parse(load_text(this.install_dir.get_child('metadata.json')));
+
+            Gtk.IconTheme.get_default().append_search_path(
+                this.install_dir.get_child('ddterm').get_child('app').get_child('icons').get_path()
+            );
         }
 
         activate() {

@@ -175,7 +175,7 @@ var SearchBar = GObject.registerClass(
             });
 
             const case_sensitive_button = new Gtk.ToggleButton({
-                label: 'Aa',
+                image: new Gtk.Image({ icon_name: 'uppercase' }),
                 tooltip_text: translations.gettext('Case Sensitive'),
                 visible: true,
             });
@@ -190,7 +190,7 @@ var SearchBar = GObject.registerClass(
             );
 
             const whole_word_button = new Gtk.ToggleButton({
-                label: '""',
+                image: new Gtk.Image({ icon_name: 'quotation' }),
                 tooltip_text: translations.gettext('Match Whole Word'),
                 visible: true,
             });
@@ -220,7 +220,7 @@ var SearchBar = GObject.registerClass(
             );
 
             const regex_button = new Gtk.ToggleButton({
-                label: '.*',
+                image: new Gtk.Image({ icon_name: 'regex' }),
                 tooltip_text: translations.gettext('Regular Expression'),
                 visible: true,
             });

@@ -175,6 +175,7 @@ PACK_CONTENT += $(EXECUTABLES) $(filter-out $(EXECUTABLES),$(JS_SOURCES))
 PACK_CONTENT += \
 	ddterm/app/style.css \
 	ddterm/app/dependencies.json \
+	ddterm/app/icons/* \
 	ddterm/com.github.amezin.ddterm.Extension.xml \
 	ddterm/com.github.amezin.ddterm.desktop.in \
 	ddterm/com.github.amezin.ddterm.service.in \
