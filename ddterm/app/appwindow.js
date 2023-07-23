@@ -95,6 +95,15 @@ var AppWindow = GObject.registerClass(
                 Gdk.WindowEdge,
                 Gdk.WindowEdge.SOUTH
             ),
+            'tab-label-width': GObject.ParamSpec.double(
+                'tab-label-width',
+                '',
+                '',
+                GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+                0.0,
+                0.5,
+                0.1
+            ),
         },
     },
     class AppWindow extends Gtk.ApplicationWindow {
@@ -121,6 +130,17 @@ var AppWindow = GObject.registerClass(
                 scrollable: true,
             });
             grid.attach(this.notebook, 1, 2, 1, 1);
+
+            this.connect('notify::tab-label-width', this.update_tab_label_width.bind(this));
+            this.connect('configure-event', this.update_tab_label_width.bind(this));
+            this.update_tab_label_width();
+
+            this.settings.bind(
+                'tab-label-width',
+                this,
+                'tab-label-width',
+                Gio.SettingsBindFlags.GET
+            );
 
             this.notebook_actions_dbus_unexport = () => undefined;
             this.connect('destroy', () => this.notebook_actions_dbus_unexport());
@@ -421,6 +441,11 @@ var AppWindow = GObject.registerClass(
 
             warning.connect('response', widget => widget.destroy());
             this.banners.add(warning);
+        }
+
+        update_tab_label_width() {
+            this.notebook.tab_label_width =
+                Math.floor(this.tab_label_width * this.get_allocated_width());
         }
     }
 );

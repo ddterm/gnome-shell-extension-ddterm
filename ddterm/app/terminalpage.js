@@ -302,21 +302,6 @@ var TerminalPage = GObject.registerClass(
                 this.update_url_regex.bind(this)
             );
 
-            let toplevel_handler = null;
-            this.connect('hierarchy-changed', (_, prev_toplevel) => {
-                if (toplevel_handler)
-                    prev_toplevel.disconnect(toplevel_handler);
-
-                toplevel_handler = this.get_toplevel().connect(
-                    'configure-event',
-                    this.update_tab_label_width.bind(this)
-                );
-
-                this.update_tab_label_width();
-            });
-            this.connect('destroy', () => this.get_toplevel().disconnect(toplevel_handler));
-            this.map_settings(['tab-label-width'], this.update_tab_label_width.bind(this));
-
             this.settings.bind(
                 'tab-label-ellipsize-mode',
                 this.tab_label_label,
@@ -637,13 +622,6 @@ var TerminalPage = GObject.registerClass(
                 this.terminal.match_set_cursor_name(tag, 'pointer');
                 this.url_prefix[tag] = prefix;
             }
-        }
-
-        update_tab_label_width() {
-            this.tab_label.width_request = Math.floor(
-                this.settings.get_double('tab-label-width') *
-                this.get_toplevel().get_allocated_width()
-            );
         }
 
         update_title() {

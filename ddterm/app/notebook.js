@@ -87,6 +87,15 @@ var Notebook = GObject.registerClass(
                 GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
                 true
             ),
+            'tab-label-width': GObject.ParamSpec.int(
+                'tab-label-width',
+                '',
+                '',
+                GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+                -1,
+                GLib.MAXINT32,
+                -1
+            ),
             'tab-policy': GObject.ParamSpec.string(
                 'tab-policy',
                 '',
@@ -311,9 +320,17 @@ var Notebook = GObject.registerClass(
                 this.new_page(this.page_num(child) + 1);
             });
 
+            const label_width_binding = this.bind_property(
+                'tab-label-width',
+                this.get_tab_label(child),
+                'width-request',
+                GObject.BindingFlags.SYNC_CREATE
+            );
+
             this.page_disconnect.set(child, () => {
                 child.disconnect(new_tab_before_handler);
                 child.disconnect(new_tab_after_handler);
+                label_width_binding.unbind();
             });
 
             const switch_button = new SwitchButton({
