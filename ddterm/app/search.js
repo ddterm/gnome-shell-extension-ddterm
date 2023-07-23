@@ -204,21 +204,6 @@ var SearchBar = GObject.registerClass(
                 GObject.BindingFlags.BIDIRECTIONAL | GObject.BindingFlags.SYNC_CREATE
             );
 
-            const wrap_button = new Gtk.ToggleButton({
-                image: new Gtk.Image({ icon_name: 'view-wrapped' }),
-                tooltip_text: translations.gettext('Wrap Around'),
-                visible: true,
-            });
-
-            layout.pack_start(wrap_button, false, false, 0);
-
-            this.bind_property(
-                'wrap',
-                wrap_button,
-                'active',
-                GObject.BindingFlags.BIDIRECTIONAL | GObject.BindingFlags.SYNC_CREATE
-            );
-
             const regex_button = new Gtk.ToggleButton({
                 image: new Gtk.Image({ icon_name: 'regex' }),
                 tooltip_text: translations.gettext('Regular Expression'),
@@ -269,6 +254,21 @@ var SearchBar = GObject.registerClass(
             layout.pack_end(close_button, false, false, 0);
 
             close_button.connect('clicked', this.close.bind(this));
+
+            const wrap_button = new Gtk.ToggleButton({
+                image: new Gtk.Image({ icon_name: 'view-wrapped' }),
+                tooltip_text: translations.gettext('Wrap Around'),
+                visible: true,
+            });
+
+            layout.pack_end(wrap_button, false, false, 0);
+
+            this.bind_property(
+                'wrap',
+                wrap_button,
+                'active',
+                GObject.BindingFlags.BIDIRECTIONAL | GObject.BindingFlags.SYNC_CREATE
+            );
 
             const find_next_button = new Gtk.Button({
                 image: new Gtk.Image({ icon_name: 'go-down' }),
