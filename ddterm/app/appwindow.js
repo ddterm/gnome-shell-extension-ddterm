@@ -128,6 +128,9 @@ var AppWindow = GObject.registerClass(
                 hexpand: true,
                 vexpand: true,
                 scrollable: true,
+                dbus_connection: this.application.get_dbus_connection(),
+                // eslint-disable-next-line max-len
+                dbus_object_path: `${this.application.get_dbus_object_path()}/window/${this.get_id()}/notebook`,
             });
             grid.attach(this.notebook, 1, 2, 1, 1);
 
@@ -141,11 +144,6 @@ var AppWindow = GObject.registerClass(
                 'tab-label-width',
                 Gio.SettingsBindFlags.GET
             );
-
-            this.notebook_actions_dbus_unexport = () => undefined;
-            this.connect('destroy', () => this.notebook_actions_dbus_unexport());
-            this.connect('notify::application', this.export_notebook_actions.bind(this));
-            this.export_notebook_actions();
 
             this.banners = new Gtk.Box({
                 visible: true,
@@ -401,26 +399,6 @@ var AppWindow = GObject.registerClass(
 
             if (this.window)
                 this.window.resize(w, h);
-        }
-
-        export_notebook_actions() {
-            this.notebook_actions_dbus_unexport();
-
-            const application = this.application;
-
-            if (!application)
-                return;
-
-            const connection = application.get_dbus_connection();
-            const exported = connection.export_action_group(
-                `${application.get_dbus_object_path()}/window/${this.get_id()}/notebook`,
-                this.notebook.actions
-            );
-
-            this.notebook_actions_dbus_unexport = () => {
-                connection.unexport_action_group(exported);
-                this.notebook_actions_dbus_unexport = () => undefined;
-            };
         }
 
         show_version_mismatch_warning() {

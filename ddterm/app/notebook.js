@@ -80,6 +80,20 @@ var Notebook = GObject.registerClass(
                 GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
                 Gio.Settings
             ),
+            'dbus-connection': GObject.ParamSpec.object(
+                'dbus-connection',
+                '',
+                '',
+                GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+                Gio.DBusConnection
+            ),
+            'dbus-object-path': GObject.ParamSpec.string(
+                'dbus-object-path',
+                '',
+                '',
+                GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+                ''
+            ),
             'tab-expand': GObject.ParamSpec.boolean(
                 'tab-expand',
                 '',
@@ -306,6 +320,17 @@ var Notebook = GObject.registerClass(
             this.update_toplevel();
 
             this.page_disconnect = new Map();
+
+            if (this.dbus_connection && this.dbus_object_path) {
+                const action_group_id = this.dbus_connection.export_action_group(
+                    this.dbus_object_path,
+                    this.actions
+                );
+
+                this.connect('destroy', () => {
+                    Gio.DBus.session.unexport_action_group(action_group_id);
+                });
+            }
         }
 
         on_page_added(child, page_num) {
