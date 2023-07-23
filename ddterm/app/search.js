@@ -220,7 +220,6 @@ var SearchBar = GObject.registerClass(
             );
 
             const entry = new Gtk.SearchEntry({
-                primary_icon_name: 'edit-find-symbolic',
                 visible: true,
             });
 
