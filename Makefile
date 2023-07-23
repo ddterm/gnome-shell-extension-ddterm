@@ -78,13 +78,11 @@ PACK_CONTENT += ddterm/app/thirdparty/handlebars.js
 
 # Glade UI
 
-APP_GLADE_UI := $(wildcard ddterm/app/glade/*.ui)
-APP_GLADE_UI_PATTERN := ddterm/app/glade/%.ui
 PREFS_GLADE_UI := $(wildcard ddterm/pref/glade/*.ui)
 PREFS_GLADE_UI_PATTERN := ddterm/pref/glade/%.ui
 TRANSLATABLE_SOURCES += $(APP_GLADE_UI) $(PREFS_GLADE_UI)
 
-ddterm/app/ui ddterm/pref/ui:
+ddterm/pref/ui:
 	mkdir -p $@
 
 # Gtk 3 .ui
@@ -93,12 +91,6 @@ GTK_BUILDER_TOOL := $(call find-tool,gtk-builder-tool)
 
 ddterm/pref/ui/gtk3: | ddterm/pref/ui
 	mkdir -p $@
-
-APP_UI_PATTERN := ddterm/app/ui/%.ui
-APP_UI := $(patsubst $(APP_GLADE_UI_PATTERN),$(APP_UI_PATTERN),$(APP_GLADE_UI))
-
-$(APP_UI): $(APP_UI_PATTERN): $(APP_GLADE_UI_PATTERN) $(GTK_BUILDER_TOOL) | ddterm/app/ui
-	$(GTK_BUILDER_TOOL) simplify $< >$@
 
 PREFS_UI_GTK3_PATTERN := ddterm/pref/ui/gtk3/%.ui
 PREFS_UI_GTK3 := $(patsubst $(PREFS_GLADE_UI_PATTERN),$(PREFS_UI_GTK3_PATTERN),$(PREFS_GLADE_UI))
@@ -316,7 +308,7 @@ clean:
 
 # .ui validation
 
-GTK3_VALIDATE_UI := $(addprefix gtk-builder-validate/,$(filter-out ddterm/app/ui/terminalpage.ui,$(GTK3_UI)))
+GTK3_VALIDATE_UI := $(addprefix gtk-builder-validate/,$(GTK3_UI))
 
 $(GTK3_VALIDATE_UI): gtk-builder-validate/%: % $(GTK_BUILDER_TOOL)
 	$(GTK_BUILDER_TOOL) validate $<

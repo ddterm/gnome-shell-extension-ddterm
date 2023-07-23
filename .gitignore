@@ -3,7 +3,6 @@
 
 # Makefile output
 /*.shell-extension.zip
-/ddterm/app/ui/
 /ddterm/pref/ui/
 /ddterm/app/thirdparty/
 /ddterm/com.github.amezin.ddterm.desktop

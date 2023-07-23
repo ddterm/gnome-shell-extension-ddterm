@@ -403,6 +403,7 @@ var Notebook = GObject.registerClass(
                 settings: this.settings,
                 menus: this.menus,
                 desktop_settings: this.desktop_settings,
+                visible: true,
             });
 
             const index = this.insert_page(page, page.tab_label, position);

@@ -23,11 +23,8 @@
 
 const { GLib, GObject, Gio, Gdk, Gtk, Pango, Vte } = imports.gi;
 const { Handlebars } = imports.ddterm.app.thirdparty.handlebars;
-const { pcre2, tablabel, tcgetpgrp, urldetect_patterns } = imports.ddterm.app;
+const { pcre2, search, tablabel, tcgetpgrp, urldetect_patterns } = imports.ddterm.app;
 const { translations } = imports.ddterm.util;
-const Me = imports.misc.extensionUtils.getCurrentExtension();
-
-const APP_DIR = Me.dir.get_child('ddterm').get_child('app');
 
 const GVARIANT_FALSE = GLib.Variant.new_boolean(false);
 
@@ -97,10 +94,6 @@ function compile_regex(regex) {
     return compiled;
 }
 
-function escape_regex(string) {
-    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-}
-
 const URL_REGEX = {
     'detect-urls-as-is': {
         regex: compile_regex(urldetect_patterns.REGEX_URL_AS_IS),
@@ -124,18 +117,8 @@ const URL_REGEX = {
     },
 };
 
-GObject.type_ensure(Vte.Terminal);
-GObject.type_ensure(Gio.ThemedIcon);
-
 var TerminalPage = GObject.registerClass(
     {
-        Template: APP_DIR.get_child('ui').get_child('terminalpage.ui').get_uri(),
-        Children: [
-            'terminal',
-            'scrollbar',
-            'search_bar',
-            'search_entry',
-        ],
         Properties: {
             'settings': GObject.ParamSpec.object(
                 'settings',
@@ -230,6 +213,45 @@ var TerminalPage = GObject.registerClass(
                 'close-button',
                 Gio.SettingsBindFlags.GET
             );
+
+            const terminal_with_scrollbar = new Gtk.Box({
+                visible: true,
+                orientation: Gtk.Orientation.HORIZONTAL,
+            });
+
+            this.terminal = new Vte.Terminal({ visible: true });
+            terminal_with_scrollbar.pack_start(this.terminal, true, true, 0);
+
+            this.scrollbar = new Gtk.Scrollbar({
+                orientation: Gtk.Orientation.VERTICAL,
+                adjustment: this.terminal.vadjustment,
+                visible: true,
+            });
+
+            terminal_with_scrollbar.pack_end(this.scrollbar, false, false, 0);
+
+            this.orientation = Gtk.Orientation.VERTICAL;
+            this.pack_start(terminal_with_scrollbar, true, true, 0);
+
+            this.search_bar = new search.SearchBar({
+                visible: true,
+            });
+
+            this.pack_end(this.search_bar, false, false, 0);
+
+            this.search_bar.connect('find-next', this.find_next.bind(this));
+            this.search_bar.connect('find-prev', this.find_prev.bind(this));
+
+            this.search_bar.connect('notify::wrap', () => {
+                this.terminal.search_set_wrap_around(this.search_bar.wrap);
+            });
+
+            this.terminal.search_set_wrap_around(this.search_bar.wrap);
+
+            this.search_bar.connect('notify::reveal-child', () => {
+                if (!this.search_bar.reveal_child)
+                    this.terminal.grab_focus();
+            });
 
             [
                 'scroll-on-output',
@@ -473,10 +495,6 @@ var TerminalPage = GObject.registerClass(
             find_action.connect('activate', this.find.bind(this));
             terminal_actions.add_action(find_action);
 
-            const stop_search_action = new Gio.SimpleAction({ name: 'stop-search' });
-            stop_search_action.connect('activate', this.stop_search.bind(this));
-            terminal_actions.add_action(stop_search_action);
-
             const find_next_action = new Gio.SimpleAction({ name: 'find-next' });
             find_next_action.connect('activate', this.find_next.bind(this));
             terminal_actions.add_action(find_next_action);
@@ -485,42 +503,9 @@ var TerminalPage = GObject.registerClass(
             find_prev_action.connect('activate', this.find_prev.bind(this));
             terminal_actions.add_action(find_prev_action);
 
-            this.search_match_case_action = new Gio.SimpleAction({
-                name: 'search-match-case',
-                state: GVARIANT_FALSE,
-            });
-            terminal_actions.add_action(this.search_match_case_action);
-
-            this.search_whole_word_action = new Gio.SimpleAction({
-                name: 'search-whole-word',
-                state: GVARIANT_FALSE,
-            });
-            terminal_actions.add_action(this.search_whole_word_action);
-
-            this.search_regex_action = new Gio.SimpleAction({
-                name: 'search-regex',
-                state: GVARIANT_FALSE,
-            });
-            terminal_actions.add_action(this.search_regex_action);
-
-            const search_wrap_action = new Gio.SimpleAction({
-                name: 'search-wrap',
-                state: GVARIANT_FALSE,
-            });
-            terminal_actions.add_action(search_wrap_action);
-
-            search_wrap_action.connect('notify::state', () => {
-                this.terminal.search_set_wrap_around(search_wrap_action.state.unpack());
-            });
-
             [
                 find_next_action,
                 find_prev_action,
-                this.search_match_case_action,
-                this.search_whole_word_action,
-                this.search_regex_action,
-                search_wrap_action,
-                stop_search_action,
             ].forEach(action => this.search_bar.bind_property(
                 'reveal-child',
                 action,
@@ -529,17 +514,6 @@ var TerminalPage = GObject.registerClass(
             ));
 
             this.insert_action_group('terminal', terminal_actions);
-
-            this.search_entry.connect('stop-search', this.stop_search.bind(this));
-            this.search_entry.connect('previous-match', this.find_prev.bind(this));
-            this.search_entry.connect('next-match', this.find_next.bind(this));
-            this.search_entry.connect('activate', this.find_next.bind(this));
-
-            for (const signal_name of ['key-press-event', 'key-release-event']) {
-                this.search_bar.connect(signal_name, (_, event) => {
-                    return this.search_entry.handle_event(event);
-                });
-            }
 
             this.terminal.connect('child-exited', () => this.destroy());
 
@@ -809,58 +783,27 @@ var TerminalPage = GObject.registerClass(
             return menu;
         }
 
-        update_search_regex() {
-            let pattern = this.search_entry.text;
-            if (!pattern) {
-                this.terminal.search_set_regex(null, 0);
-                return;
-            }
-
-            if (!this.search_regex_action.state.unpack())
-                pattern = escape_regex(pattern);
-
-            if (this.search_whole_word_action.state.unpack())
-                pattern = `\\b${pattern}\\b`;
-
-            let search_flags = BASE_REGEX_FLAGS;
-            if (!this.search_match_case_action.state.unpack())
-                search_flags |= pcre2.PCRE2_CASELESS;
-
-            const search_regex = Vte.Regex.new_for_search(pattern, -1, search_flags);
-            jit_regex(search_regex);
-            this.terminal.search_set_regex(search_regex, 0);
-        }
-
         find_next() {
-            this.update_search_regex();
+            this.terminal.search_set_regex(this.search_bar.pattern.regex, 0);
             this.terminal.search_find_next();
         }
 
         find_prev() {
-            this.update_search_regex();
+            this.terminal.search_set_regex(this.search_bar.pattern.regex, 0);
             this.terminal.search_find_previous();
         }
 
         find() {
-            this.search_bar.reveal_child = true;
+            if (this.terminal.get_has_selection()) {
+                this.terminal.copy_primary();
 
-            if (!this.terminal.get_has_selection()) {
-                this.search_entry.grab_focus();
-                return;
+                this.primary_selection.request_text((_, text) => {
+                    if (text)
+                        this.search_bar.text = text;
+                });
             }
 
-            this.terminal.copy_primary();
-            this.primary_selection.request_text((_, text) => {
-                if (text)
-                    this.search_entry.text = text;
-
-                this.search_entry.grab_focus();
-            });
-        }
-
-        stop_search() {
-            this.search_bar.reveal_child = false;
-            this.terminal.grab_focus();
+            this.search_bar.reveal_child = true;
         }
 
         has_foreground_process() {
