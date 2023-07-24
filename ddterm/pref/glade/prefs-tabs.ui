@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.38.2 
+<!-- Generated with glade 3.40.0 
 
 Copyright (C) 2022 Aleksandr Mezin
 
@@ -29,11 +29,7 @@ along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licens
     <property name="step-increment">0.01</property>
     <property name="page-increment">0.10</property>
   </object>
-  <object class="GtkTextTagTable" id="tab_title_tag_table"/>
-  <object class="GtkTextBuffer" id="tab_title_template_buffer">
-    <property name="tag-table">tab_title_tag_table</property>
-  </object>
-  <!-- n-columns=2 n-rows=13 -->
+  <!-- n-columns=2 n-rows=10 -->
   <template class="DDTermPrefsTabs" parent="GtkGrid">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
@@ -135,48 +131,6 @@ along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licens
       <packing>
         <property name="left-attach">1</property>
         <property name="top-attach">0</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkLabel">
-        <property name="visible">True</property>
-        <property name="can-focus">False</property>
-        <property name="halign">start</property>
-        <property name="label" translatable="yes">Tab _title:</property>
-        <property name="use-underline">True</property>
-        <property name="mnemonic-widget">tab_title_template_text_view</property>
-      </object>
-      <packing>
-        <property name="left-attach">0</property>
-        <property name="top-attach">10</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkTextView" id="tab_title_template_text_view">
-        <property name="visible">True</property>
-        <property name="can-focus">True</property>
-        <property name="hexpand">True</property>
-        <property name="wrap-mode">word</property>
-        <property name="buffer">tab_title_template_buffer</property>
-        <property name="monospace">True</property>
-      </object>
-      <packing>
-        <property name="left-attach">1</property>
-        <property name="top-attach">10</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkButton">
-        <property name="label" translatable="yes">_Reset to default</property>
-        <property name="visible">True</property>
-        <property name="can-focus">True</property>
-        <property name="receives-default">True</property>
-        <property name="action-name">aux.reset-tab-title</property>
-        <property name="use-underline">True</property>
-      </object>
-      <packing>
-        <property name="left-attach">1</property>
-        <property name="top-attach">11</property>
       </packing>
     </child>
     <child>
@@ -299,39 +253,6 @@ along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licens
         <property name="left-attach">1</property>
         <property name="top-attach">3</property>
       </packing>
-    </child>
-    <child>
-      <object class="GtkLabel">
-        <property name="visible">True</property>
-        <property name="can-focus">True</property>
-        <property name="halign">start</property>
-        <property name="label" translatable="yes">Tab title is generated from &lt;a href="https://handlebarsjs.com/guide/"&gt;handlebars.js&lt;/a&gt; template. &lt;a href="https://developer.gnome.org/pango/stable/pango-Markup.html"&gt;Pango markup&lt;/a&gt; can be used to format the title.
-
-Following variables are available:
-- &lt;tt&gt;window-title&lt;/tt&gt;
-- &lt;tt&gt;icon-title&lt;/tt&gt;
-- &lt;tt&gt;current-directory-uri&lt;/tt&gt;
-- &lt;tt&gt;current-file-uri&lt;/tt&gt;
-- &lt;tt&gt;switch-shortcut&lt;/tt&gt;
-
-Following helpers are available:
-- &lt;tt&gt;filename-from-uri&lt;/tt&gt;
-- &lt;tt&gt;hostname-from-uri&lt;/tt&gt;
-- &lt;tt&gt;ellipsize&lt;/tt&gt; or &lt;tt&gt;truncate-chars&lt;/tt&gt;
-      example: &lt;tt&gt;{{ellipsize window-title 20}}&lt;/tt&gt;</property>
-        <property name="use-markup">True</property>
-        <property name="wrap">True</property>
-        <property name="selectable">True</property>
-        <property name="xalign">0</property>
-      </object>
-      <packing>
-        <property name="left-attach">0</property>
-        <property name="top-attach">12</property>
-        <property name="width">2</property>
-      </packing>
-    </child>
-    <child>
-      <placeholder/>
     </child>
   </template>
 </interface>

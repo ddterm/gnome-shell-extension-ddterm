@@ -62,20 +62,6 @@ PACK_CONTENT += $(LOCALES_COMPILED)
 locales: $(LOCALES_COMPILED)
 .PHONY: locales
 
-# Bundled libs
-
-HANDLEBARS_DIST := node_modules/handlebars/dist/handlebars.js
-NPM_INSTALLED := $(HANDLEBARS_DIST)
-
-ddterm/app/thirdparty:
-	mkdir -p $@
-
-ddterm/app/thirdparty/handlebars.js: $(HANDLEBARS_DIST) | ddterm/app/thirdparty
-	cp $< $@
-
-CLEAN += ddterm/app/thirdparty/handlebars.js
-PACK_CONTENT += ddterm/app/thirdparty/handlebars.js
-
 # Glade UI
 
 PREFS_GLADE_UI := $(wildcard ddterm/pref/glade/*.ui)

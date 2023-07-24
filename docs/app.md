@@ -15,14 +15,10 @@ GJS. A regular Gtk application, except:
 
 * On Wayland, the extension launches the app as a special, privileged client.
 
-Application code uses [Handlebars] to generate tab titles.
-
 [`ddterm/app`]: /ddterm/app
 [`com.github.amezin.ddterm`]: /com.github.amezin.ddterm
 [shell extension]: /ddterm/shell
 
 [`pref`]: /ddterm/pref
-
-[Handlebars]: https://handlebarsjs.com/
 
 [`com.github.amezin.ddterm.Extension.xml`]: /ddterm/com.github.amezin.ddterm.Extension.xml

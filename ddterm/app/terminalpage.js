@@ -22,11 +22,8 @@
 /* exported TerminalPage TerminalSettings */
 
 const { GLib, GObject, Gio, Gdk, Gtk, Pango, Vte } = imports.gi;
-const { Handlebars } = imports.ddterm.app.thirdparty.handlebars;
 const { pcre2, search, tablabel, tcgetpgrp, urldetect_patterns } = imports.ddterm.app;
 const { translations } = imports.ddterm.util;
-
-const GVARIANT_FALSE = GLib.Variant.new_boolean(false);
 
 function parse_rgba(str) {
     if (str) {
@@ -38,37 +35,6 @@ function parse_rgba(str) {
 
     throw Error(`Cannot parse ${JSON.stringify(str)} as color`);
 }
-
-const TITLE_TERMINAL_PROPERTIES = [
-    'window-title',
-    'icon-title',
-    'current-directory-uri',
-    'current-file-uri',
-];
-
-Handlebars.registerHelper('filename-from-uri', uri => {
-    if (uri)
-        return GLib.filename_from_uri(uri)[0];
-
-    return '';
-});
-
-Handlebars.registerHelper('hostname-from-uri', uri => {
-    if (uri)
-        return GLib.filename_from_uri(uri)[1];
-
-    return '';
-});
-
-function ellipsize(str, length) {
-    if (str.length > length)
-        return `${str.slice(0, length)}…`;
-
-    return str;
-}
-
-Handlebars.registerHelper('truncate-chars', ellipsize);
-Handlebars.registerHelper('ellipsize', ellipsize);
 
 function jit_regex(regex) {
     try {
@@ -141,13 +107,6 @@ var TerminalPage = GObject.registerClass(
                 GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
                 Gio.Settings
             ),
-            'switch-shortcut': GObject.ParamSpec.string(
-                'switch-shortcut',
-                '',
-                '',
-                GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
-                ''
-            ),
             'clicked-hyperlink': GObject.ParamSpec.string(
                 'clicked-hyperlink',
                 '',
@@ -162,20 +121,6 @@ var TerminalPage = GObject.registerClass(
                 GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
                 null
             ),
-            'title-template': GObject.ParamSpec.string(
-                'title-template',
-                '',
-                '',
-                GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
-                null
-            ),
-            'title': GObject.ParamSpec.string(
-                'title',
-                '',
-                '',
-                GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
-                ''
-            ),
         },
         Signals: {
             'new-tab-before-request': {},
@@ -189,30 +134,6 @@ var TerminalPage = GObject.registerClass(
             this.clipboard = Gtk.Clipboard.get_default(Gdk.Display.get_default());
             this.primary_selection = Gtk.Clipboard.get(Gdk.Atom.intern('PRIMARY', true));
             this.child_pid = null;
-
-            this.tab_label = new tablabel.TabLabel({ visible_window: false });
-            this.tab_label.connect('close', () => this.close());
-
-            this.bind_property(
-                'title',
-                this.tab_label,
-                'markup',
-                GObject.BindingFlags.SYNC_CREATE
-            );
-
-            this.settings.bind(
-                'tab-label-ellipsize-mode',
-                this.tab_label,
-                'ellipsize',
-                Gio.SettingsBindFlags.GET
-            );
-
-            this.settings.bind(
-                'tab-close-buttons',
-                this.tab_label,
-                'close-button',
-                Gio.SettingsBindFlags.GET
-            );
 
             const terminal_with_scrollbar = new Gtk.Box({
                 visible: true,
@@ -252,6 +173,30 @@ var TerminalPage = GObject.registerClass(
                 if (!this.search_bar.reveal_child)
                     this.terminal.grab_focus();
             });
+
+            this.tab_label = new tablabel.TabLabel({ visible_window: false });
+            this.tab_label.connect('close', () => this.close());
+
+            this.terminal.bind_property(
+                'window-title',
+                this.tab_label,
+                'label',
+                GObject.BindingFlags.SYNC_CREATE
+            );
+
+            this.settings.bind(
+                'tab-label-ellipsize-mode',
+                this.tab_label,
+                'ellipsize',
+                Gio.SettingsBindFlags.GET
+            );
+
+            this.settings.bind(
+                'tab-close-buttons',
+                this.tab_label,
+                'close-button',
+                Gio.SettingsBindFlags.GET
+            );
 
             [
                 'scroll-on-output',
@@ -350,52 +295,6 @@ var TerminalPage = GObject.registerClass(
                 Gio.SettingsBindFlags.GET
             );
 
-            this.connect('notify::title-template', () => {
-                this.title_template_compiled = Handlebars.compile(this.title_template);
-                this.update_title();
-            });
-
-            for (const prop of TITLE_TERMINAL_PROPERTIES)
-                this.terminal.connect(`notify::${prop}`, this.update_title.bind(this));
-
-            this.connect('notify::switch-shortcut', this.update_title.bind(this));
-
-            this.use_custom_title_action = new Gio.SimpleAction({
-                'name': 'use-custom-title',
-                'state': GVARIANT_FALSE,
-                'parameter-type': GVARIANT_FALSE.get_type(),
-            });
-
-            this.use_custom_title_action.connect('notify::state', () => {
-                const use_custom_title = this.use_custom_title_action.state.get_boolean();
-
-                if (use_custom_title) {
-                    Gio.Settings.unbind(this, 'title-template');
-                    this.tab_label.edit();
-                } else {
-                    this.settings.bind(
-                        'tab-title-template',
-                        this,
-                        'title-template',
-                        Gio.SettingsBindFlags.GET
-                    );
-                }
-            });
-
-            this.settings.bind(
-                'tab-title-template',
-                this,
-                'title-template',
-                Gio.SettingsBindFlags.GET
-            );
-
-            this.bind_property(
-                'title-template',
-                this.tab_label,
-                'template',
-                GObject.BindingFlags.SYNC_CREATE | GObject.BindingFlags.BIDIRECTIONAL
-            );
-
             // Should be connected before setup_popup_menu() on this.terminal!
             this.terminal.connect(
                 'button-press-event',
@@ -418,8 +317,6 @@ var TerminalPage = GObject.registerClass(
             const new_tab_after_action = new Gio.SimpleAction({ name: 'new-tab-after' });
             new_tab_after_action.connect('activate', () => this.emit('new-tab-after-request'));
             page_actions.add_action(new_tab_after_action);
-
-            page_actions.add_action(this.use_custom_title_action);
 
             this.insert_action_group('page', page_actions);
             this.tab_label.insert_action_group('page', page_actions);
@@ -586,18 +483,6 @@ var TerminalPage = GObject.registerClass(
             }
         }
 
-        update_title() {
-            const context = Object.fromEntries(
-                TITLE_TERMINAL_PROPERTIES.map(
-                    prop => [prop, this.terminal[prop]]
-                ).concat([
-                    ['switch-shortcut', this['switch-shortcut']],
-                ])
-            );
-
-            this.title = this.title_template_compiled(context);
-        }
-
         get_cwd() {
             const uri = this.terminal.current_directory_uri;
             if (uri)
@@ -742,17 +627,6 @@ var TerminalPage = GObject.registerClass(
             }
 
             return false;
-        }
-
-        set_switch_shortcut(value) {
-            let label = '';
-            if (value) {
-                const [key, mods] = Gtk.accelerator_parse(value);
-                if (key)
-                    label = Gtk.accelerator_get_label(key, mods);
-            }
-
-            this.switch_shortcut = label;
         }
 
         setup_popup_menu(

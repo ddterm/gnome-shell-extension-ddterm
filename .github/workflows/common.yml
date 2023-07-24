@@ -115,14 +115,8 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
-    - name: Setup NodeJS error matcher
-      uses: actions/setup-node@v3
-
     - name: Enable generic error matcher
       run: echo "::add-matcher::.github/problem-matchers/generic.json"
-
-    - name: Install JS dependencies
-      run: npm ci --omit dev
 
     - name: Build extension package
       run: xvfb-run make pack
@@ -175,9 +169,6 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v3
-
-    - name: Setup NodeJS error matcher
-      uses: actions/setup-node@v3
 
     - name: Enable generic error matcher
       run: echo "::add-matcher::.github/problem-matchers/generic.json"
