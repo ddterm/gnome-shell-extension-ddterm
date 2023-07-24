@@ -336,9 +336,11 @@ var Notebook = GObject.registerClass(
                 this.new_page(this.page_num(child) + 1);
             });
 
+            const label = this.get_tab_label(child);
+
             const label_width_binding = this.bind_property(
                 'tab-label-width',
-                this.get_tab_label(child),
+                label,
                 'width-request',
                 GObject.BindingFlags.SYNC_CREATE
             );
@@ -355,6 +357,9 @@ var Notebook = GObject.registerClass(
                 action_name: 'notebook.switch-to-tab',
                 action_target: GLib.Variant.new_int32(page_num),
             });
+
+            label.action_name = switch_button.action_name;
+            label.action_target = switch_button.action_target;
 
             this.tab_switch_menu_box.add(switch_button);
             this.tab_switch_menu_box.reorder_child(switch_button, page_num);
@@ -407,7 +412,9 @@ var Notebook = GObject.registerClass(
             let i = 0;
 
             this.tab_switch_menu_box.foreach(item => {
-                item.action_target = GLib.Variant.new_int32(i++);
+                const value = GLib.Variant.new_int32(i++);
+                item.action_target = value;
+                this.get_tab_label(item.page).action_target = value;
             });
         }
 

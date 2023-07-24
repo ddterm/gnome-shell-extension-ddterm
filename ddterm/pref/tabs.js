@@ -64,6 +64,7 @@ var Widget = GObject.registerClass(
                 'new-tab-front-button',
                 'tab-switcher-popup',
                 'notebook-border',
+                'tab-show-shortcuts',
             ]);
 
             this.saved_ellipsize_mode = this.settings.get_string('tab-label-ellipsize-mode');

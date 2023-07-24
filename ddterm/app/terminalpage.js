@@ -198,6 +198,13 @@ var TerminalPage = GObject.registerClass(
                 Gio.SettingsBindFlags.GET
             );
 
+            this.settings.bind(
+                'tab-show-shortcuts',
+                this.tab_label,
+                'show-shortcut',
+                Gio.SettingsBindFlags.GET
+            );
+
             [
                 'scroll-on-output',
                 'scroll-on-keystroke',

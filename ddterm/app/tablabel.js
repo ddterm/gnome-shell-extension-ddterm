@@ -20,10 +20,12 @@
 'use strict';
 
 const { GObject, Gtk, Pango } = imports.gi;
+const { accellabel } = imports.ddterm.app;
 const { translations } = imports.ddterm.util;
 
 var TabLabel = GObject.registerClass(
     {
+        Implements: [Gtk.Actionable],
         Properties: {
             'label': GObject.ParamSpec.string(
                 'label',
@@ -47,6 +49,15 @@ var TabLabel = GObject.registerClass(
                 Pango.EllipsizeMode,
                 Pango.EllipsizeMode.NONE
             ),
+            'show-shortcut': GObject.ParamSpec.boolean(
+                'show-shortcut',
+                '',
+                '',
+                GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+                true
+            ),
+            'action-name': GObject.ParamSpec.override('action-name', Gtk.Actionable),
+            'action-target': GObject.ParamSpec.override('action-target', Gtk.Actionable),
         },
         Signals: {
             'close': {},
@@ -61,6 +72,21 @@ var TabLabel = GObject.registerClass(
                 spacing: 10,
                 parent: this,
             });
+
+            this.shortcut_label = new accellabel.AccelLabel({
+                visible: true,
+            });
+
+            layout.pack_start(this.shortcut_label, false, false, 0);
+
+            this.bind_property(
+                'show-shortcut',
+                this.shortcut_label,
+                'visible',
+                GObject.BindingFlags.SYNC_CREATE
+            );
+
+            this.shortcut_label.get_style_context().add_class('tab-title-shortcut');
 
             const label = new Gtk.Label({
                 visible: true,
@@ -103,6 +129,38 @@ var TabLabel = GObject.registerClass(
             );
 
             close_button.connect('clicked', () => this.emit('close'));
+        }
+
+        get action_name() {
+            return this.shortcut_label.action_name;
+        }
+
+        vfunc_get_action_name() {
+            return this.shortcut_label.get_action_name();
+        }
+
+        get action_target() {
+            return this.shortcut_label.action_target;
+        }
+
+        vfunc_get_action_target_value() {
+            return this.shortcut_label.get_action_target_value();
+        }
+
+        set action_name(value) {
+            this.shortcut_label.action_name = value;
+        }
+
+        vfunc_set_action_name(value) {
+            this.shortcut_label.set_action_name(value);
+        }
+
+        set action_target(value) {
+            this.shortcut_label.action_target = value;
+        }
+
+        vfunc_set_action_target_value(value) {
+            this.shortcut_label.set_action_target_value(value);
         }
     }
 );

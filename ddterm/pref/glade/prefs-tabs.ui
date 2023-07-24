@@ -29,7 +29,7 @@ along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licens
     <property name="step-increment">0.01</property>
     <property name="page-increment">0.10</property>
   </object>
-  <!-- n-columns=2 n-rows=10 -->
+  <!-- n-columns=2 n-rows=11 -->
   <template class="DDTermPrefsTabs" parent="GtkGrid">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
@@ -83,7 +83,7 @@ along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licens
       </object>
       <packing>
         <property name="left-attach">0</property>
-        <property name="top-attach">7</property>
+        <property name="top-attach">8</property>
         <property name="width">2</property>
       </packing>
     </child>
@@ -99,7 +99,7 @@ along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licens
       </object>
       <packing>
         <property name="left-attach">0</property>
-        <property name="top-attach">8</property>
+        <property name="top-attach">9</property>
         <property name="width">2</property>
       </packing>
     </child>
@@ -145,7 +145,7 @@ along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licens
       </object>
       <packing>
         <property name="left-attach">0</property>
-        <property name="top-attach">6</property>
+        <property name="top-attach">7</property>
         <property name="width">2</property>
       </packing>
     </child>
@@ -192,7 +192,7 @@ along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licens
       </object>
       <packing>
         <property name="left-attach">0</property>
-        <property name="top-attach">9</property>
+        <property name="top-attach">10</property>
         <property name="width">2</property>
       </packing>
     </child>
@@ -252,6 +252,22 @@ along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licens
       <packing>
         <property name="left-attach">1</property>
         <property name="top-attach">3</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkCheckButton" id="show_tab_shortcuts">
+        <property name="label" translatable="yes">Show keyboard shortcuts</property>
+        <property name="visible">True</property>
+        <property name="can-focus">True</property>
+        <property name="receives-default">False</property>
+        <property name="action-name">settings.tab-show-shortcuts</property>
+        <property name="use-underline">True</property>
+        <property name="draw-indicator">True</property>
+      </object>
+      <packing>
+        <property name="left-attach">0</property>
+        <property name="top-attach">6</property>
+        <property name="width">2</property>
       </packing>
     </child>
   </template>
