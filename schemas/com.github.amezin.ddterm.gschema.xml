@@ -224,6 +224,9 @@
     <key name="tab-close-buttons" type="b">
       <default>true</default>
     </key>
+    <key name="tab-show-shortcuts" type="b">
+      <default>true</default>
+    </key>
     <key name="tab-label-width" type="d">
       <default>0.1</default>
       <range min="0.0" max="0.5"/>
