@@ -25,8 +25,8 @@ const { translations } = imports.ddterm.util;
 var TabLabel = GObject.registerClass(
     {
         Properties: {
-            'markup': GObject.ParamSpec.string(
-                'markup',
+            'label': GObject.ParamSpec.string(
+                'label',
                 '',
                 '',
                 GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
@@ -47,13 +47,6 @@ var TabLabel = GObject.registerClass(
                 Pango.EllipsizeMode,
                 Pango.EllipsizeMode.NONE
             ),
-            'template': GObject.ParamSpec.string(
-                'template',
-                '',
-                '',
-                GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
-                ''
-            ),
         },
         Signals: {
             'close': {},
@@ -71,13 +64,12 @@ var TabLabel = GObject.registerClass(
 
             const label = new Gtk.Label({
                 visible: true,
-                use_markup: true,
             });
 
             layout.pack_start(label, true, true, 0);
 
             this.bind_property(
-                'markup',
+                'label',
                 label,
                 'label',
                 GObject.BindingFlags.SYNC_CREATE
@@ -111,35 +103,6 @@ var TabLabel = GObject.registerClass(
             );
 
             close_button.connect('clicked', () => this.emit('close'));
-
-            this.edit_popover = new Gtk.Popover({
-                relative_to: this,
-            });
-
-            this.connect('destroy', () => this.edit_popover.destroy());
-
-            const edit_entry = new Gtk.Entry({
-                visible: true,
-                parent: this.edit_popover,
-            });
-
-            edit_entry.bind_property(
-                'text-length',
-                edit_entry,
-                'width-chars',
-                GObject.BindingFlags.SYNC_CREATE
-            );
-
-            this.bind_property(
-                'template',
-                edit_entry,
-                'text',
-                GObject.BindingFlags.SYNC_CREATE | GObject.BindingFlags.BIDIRECTIONAL
-            );
-        }
-
-        edit() {
-            this.edit_popover.popup();
         }
     }
 );

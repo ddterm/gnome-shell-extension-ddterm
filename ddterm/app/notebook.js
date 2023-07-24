@@ -41,12 +41,8 @@ var SwitchButton = GObject.registerClass(
         _init(params) {
             super._init(params);
 
-            this.connect('notify::text', () => {
-                this.use_markup = true;
-            });
-
-            this.page?.bind_property(
-                'title',
+            this.page?.terminal.bind_property(
+                'window-title',
                 this,
                 'text',
                 GObject.BindingFlags.SYNC_CREATE
@@ -314,11 +310,6 @@ var Notebook = GObject.registerClass(
                 Gio.SettingsBindFlags.GET
             );
 
-            this.disconnect_toplevel = Function();
-            this.connect('hierarchy-changed', this.update_toplevel.bind(this));
-            this.connect('destroy', () => this.disconnect_toplevel());
-            this.update_toplevel();
-
             this.page_disconnect = new Map();
 
             if (this.dbus_connection && this.dbus_object_path) {
@@ -418,22 +409,6 @@ var Notebook = GObject.registerClass(
             this.tab_switch_menu_box.foreach(item => {
                 item.action_target = GLib.Variant.new_int32(i++);
             });
-
-            this.update_tab_switch_shortcuts();
-        }
-
-        update_tab_switch_shortcuts() {
-            const application = this.get_toplevel().application;
-            let i = 0;
-
-            this.foreach(page => {
-                const shortcuts =
-                    application.get_accels_for_action(`notebook.switch-to-tab(${i++})`);
-
-                page.set_switch_shortcut(
-                    shortcuts && shortcuts.length > 0 ? shortcuts[0] : null
-                );
-            });
         }
 
         update_tab_expand() {
@@ -475,27 +450,6 @@ var Notebook = GObject.registerClass(
                 this.tab_switch_button.direction = Gtk.ArrowType.LEFT;
                 break;
             }
-        }
-
-        update_toplevel() {
-            this.disconnect_toplevel();
-
-            const toplevel = this.get_toplevel();
-
-            if (!(toplevel instanceof Gtk.Window))
-                return;
-
-            const toplevel_handler = toplevel.connect(
-                'keys-changed',
-                this.update_tab_switch_shortcuts.bind(this)
-            );
-
-            this.disconnect_toplevel = () => {
-                toplevel.disconnect(toplevel_handler);
-                this.disconnect_toplevel = Function();
-            };
-
-            this.update_tab_switch_shortcuts();
         }
 
         vfunc_grab_focus() {

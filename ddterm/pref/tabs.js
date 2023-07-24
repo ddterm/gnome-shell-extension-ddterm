@@ -33,7 +33,6 @@ var Widget = GObject.registerClass(
             'tab_position_combo',
             'tab_label_width_scale',
             'tab_label_ellipsize_combo',
-            'tab_title_template_text_view',
         ],
         Properties: {
             'settings': GObject.ParamSpec.object(
@@ -54,7 +53,6 @@ var Widget = GObject.registerClass(
                 'tab-position': this.tab_position_combo,
                 'tab-label-ellipsize-mode': this.tab_label_ellipsize_combo,
                 'tab-label-width': this.tab_label_width_scale,
-                'tab-title-template': this.tab_title_template_text_view,
             });
 
             util.set_scale_value_formatter(this.tab_label_width_scale, util.percent_formatter);
@@ -67,18 +65,6 @@ var Widget = GObject.registerClass(
                 'tab-switcher-popup',
                 'notebook-border',
             ]);
-
-            const reset_action = new Gio.SimpleAction({
-                name: 'reset-tab-title',
-            });
-
-            reset_action.connect('activate', () => {
-                this.settings.reset('tab-title-template');
-            });
-
-            const aux_actions = new Gio.SimpleActionGroup();
-            aux_actions.add_action(reset_action);
-            this.insert_action_group('aux', aux_actions);
 
             this.saved_ellipsize_mode = this.settings.get_string('tab-label-ellipsize-mode');
 

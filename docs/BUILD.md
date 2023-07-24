@@ -24,8 +24,6 @@ To build the extension package, you should have the following tools installed:
 
 - GNU `make`
 
-- `npm` and, thus, node.js.
-
 - `gtk-builder-tool` (`libgtk-3-bin` package on Ubuntu, `gtk3-devel` on Fedora,
 `gtk3` package on Arch)
 
@@ -46,35 +44,7 @@ run build commands with `./do-in-docker.sh` or `./do-in-podman.sh` wrapper:
     $ ./do-in-docker.sh npm install
     $ ./do-in-docker.sh make pack
 
-# 4. `npm install`
-
-The extension needs two JavaScript libraries from npm: handlebars and rxjs.
-`make` should automatically run `npm install` when necessary to download them.
-
-However, you could also run `npm install` manually:
-
-    $ npm install
-
-If you want to build in a docker/podman container, prepend `./do-in-docker.sh`/
-`./do-in-podman.sh`:
-
-    $ ./do-in-docker.sh npm install
-
-You can also append `--omit dev` to `npm install` to speed up the process:
-
-    $ npm install --omit dev
-
-In this case `npm` will not install development tools (currently only eslint).
-They aren't necessary if your only intention is to build the package without
-modifying the code.
-
-If you've ran `npm install` manually, `make` won't try to run it again, until
-`package.json` or `package-lock.json` changes. To disable automatic
-`npm install` completely, pass `NPM_INSTALL=no` to `make`:
-
-    $ make NPM_INSTALL=no ...
-
-# 5. `make pack`
+# 4. `make pack`
 
 To build the package, run `make pack`:
 
@@ -85,14 +55,14 @@ If you want to build in a docker/podman container, prepend `./do-in-docker.sh`/
 
     $ ./do-in-docker.sh make pack
 
-# 6. Install the package
+# 5. Install the package
 
 The installation process is described in
 [INSTALL.md - continue from step 2](INSTALL.md#2-install-the-package).
 
 Alternatively, you could use `make` to install the package too.
 
-## 6.1. `make install`
+## 5.1. `make install`
 
 To install the package, run:
 
@@ -118,11 +88,11 @@ There are explicit targets for system-wide and user installation:
 
 `make install` just switches between them according to the current uid.
 
-## 6.2. Restart GNOME Shell
+## 5.2. Restart GNOME Shell
 
 Described in [INSTALL.md - step 3](INSTALL.md#3-restart-gnome-shell).
 
-## 6.3. Enable the extension
+## 5.3. Enable the extension
 
 You can enable the extension as described in
 [INSTALL.md - step 4](INSTALL.md#4-enable-the-extension), or by running:

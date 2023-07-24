@@ -8,18 +8,13 @@ license=('GPL3')
 conflicts=('gnome-shell-extension-ddterm')
 provides=('gnome-shell-extension-ddterm')
 depends=('gjs' 'gtk3' 'vte3')
-makedepends=('git' 'npm' 'gtk4' 'libxslt')
+makedepends=('git' 'gtk4' 'libxslt')
 source=("$pkgname::git+file://$(git rev-parse --show-toplevel)")
 md5sums=('SKIP')
 
 pkgver() {
     cd "$pkgname"
     git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
-}
-
-prepare() {
-    cd "$pkgname"
-    npm install --omit dev
 }
 
 build() {

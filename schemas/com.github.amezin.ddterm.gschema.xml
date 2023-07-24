@@ -243,9 +243,6 @@
     <key name="notebook-border" type="b">
       <default>true</default>
     </key>
-    <key name="tab-title-template" type="s">
-      <default>"{{#if switch-shortcut}}&lt;span alpha=\"50%\"&gt;{{switch-shortcut}}&lt;/span&gt; {{/if}}{{window-title}}"</default>
-    </key>
 
     <key name="custom-font" type="s">
       <default>"Monospace Regular 10"</default>
@@ -467,12 +464,6 @@
     </key>
     <key name="shortcut-move-tab-next" type="as">
       <default><![CDATA[['<Ctrl><Shift>Page_Down']]]></default>
-    </key>
-    <key name="shortcut-set-custom-tab-title" type="as">
-      <default><![CDATA[[]]]></default>
-    </key>
-    <key name="shortcut-reset-tab-title" type="as">
-      <default><![CDATA[[]]]></default>
     </key>
     <key name="shortcut-find" type="as">
       <default><![CDATA[['<Ctrl><Shift>F']]]></default>

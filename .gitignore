@@ -4,7 +4,6 @@
 # Makefile output
 /*.shell-extension.zip
 /ddterm/pref/ui/
-/ddterm/app/thirdparty/
 /ddterm/com.github.amezin.ddterm.desktop
 /ddterm/com.github.amezin.ddterm.service
 /metadata.json
