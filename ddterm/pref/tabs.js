@@ -80,17 +80,42 @@ var Widget = GObject.registerClass(
             aux_actions.add_action(reset_action);
             this.insert_action_group('aux', aux_actions);
 
+            this.saved_ellipsize_mode = this.settings.get_string('tab-label-ellipsize-mode');
+
+            if (this.saved_ellipsize_mode === 'none')
+                this.saved_ellipsize_mode = 'middle';
+
             const tab_position_handler = this.settings.connect('changed::tab-position', () => {
-                if (['top', 'bottom'].includes(this.settings.get_string('tab-position'))) {
-                    if (this.settings.get_string('tab-label-ellipsize-mode') === 'none')
-                        this.settings.set_string('tab-label-ellipsize-mode', 'middle');
-                }
+                this.auto_enable_ellipsize();
             });
             this.connect('destroy', () => this.settings.disconnect(tab_position_handler));
+
+            const tab_expand_handler = this.settings.connect('changed::tab-expand', () => {
+                this.auto_enable_ellipsize();
+            });
+            this.connect('destroy', () => this.settings.disconnect(tab_expand_handler));
         }
 
         get title() {
             return translations.gettext('Tabs');
+        }
+
+        auto_enable_ellipsize() {
+            const current_mode = this.settings.get_string('tab-label-ellipsize-mode');
+            const current_enabled = current_mode !== 'none';
+            const should_enable =
+                ['left', 'right'].includes(this.settings.get_string('tab-position')) ||
+                    this.settings.get_boolean('tab-expand');
+
+            if (current_enabled === should_enable)
+                return;
+
+            if (should_enable) {
+                this.settings.set_string('tab-label-ellipsize-mode', this.saved_ellipsize_mode);
+            } else {
+                this.saved_ellipsize_mode = current_mode;
+                this.settings.set_string('tab-label-ellipsize-mode', 'none');
+            }
         }
     }
 );
