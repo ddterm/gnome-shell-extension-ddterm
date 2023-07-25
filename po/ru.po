@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-23 12:11+0000\n"
+"POT-Creation-Date: 2023-07-25 09:11+0000\n"
 "PO-Revision-Date: 2023-03-14 13:45+0000\n"
 "Last-Translator: Aleksandr Mezin <mezin.alexander@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/gnome-shell-"
@@ -1194,7 +1194,7 @@ msgstr "Прокрутка"
 msgid "Keyboard Shortcuts"
 msgstr "Комбинации клавиш"
 
-#: ddterm/pref/tabs.js:93
+#: ddterm/pref/tabs.js:100
 msgid "Tabs"
 msgstr "Вкладки"
 

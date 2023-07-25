@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-23 12:11+0000\n"
+"POT-Creation-Date: 2023-07-25 09:11+0000\n"
 "PO-Revision-Date: 2023-04-03 13:37+0000\n"
 "Last-Translator: Jörn Weigend <das.jott@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/gnome-shell-"
@@ -1193,7 +1193,7 @@ msgstr "Scrollen"
 msgid "Keyboard Shortcuts"
 msgstr "Tastenkombinationen"
 
-#: ddterm/pref/tabs.js:93
+#: ddterm/pref/tabs.js:100
 msgid "Tabs"
 msgstr "Tabs"
 

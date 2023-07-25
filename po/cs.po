@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-23 12:11+0000\n"
+"POT-Creation-Date: 2023-07-25 09:11+0000\n"
 "PO-Revision-Date: 2023-04-24 02:48+0000\n"
 "Last-Translator: Pavel Novák <pavelnov32@gmail.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/gnome-shell-"
@@ -1195,7 +1195,7 @@ msgstr "Posouvání"
 msgid "Keyboard Shortcuts"
 msgstr "Klávesové zkratky"
 
-#: ddterm/pref/tabs.js:93
+#: ddterm/pref/tabs.js:100
 msgid "Tabs"
 msgstr "Panely"
 

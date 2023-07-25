@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-23 12:11+0000\n"
+"POT-Creation-Date: 2023-07-25 09:11+0000\n"
 "PO-Revision-Date: 2023-03-12 16:07+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/gnome-"
@@ -1210,7 +1210,7 @@ msgstr "Rulling"
 msgid "Keyboard Shortcuts"
 msgstr "Tastatursnarveier"
 
-#: ddterm/pref/tabs.js:93
+#: ddterm/pref/tabs.js:100
 msgid "Tabs"
 msgstr "Faner"
 

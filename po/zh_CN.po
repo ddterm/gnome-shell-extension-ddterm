@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-23 12:11+0000\n"
+"POT-Creation-Date: 2023-07-25 09:11+0000\n"
 "PO-Revision-Date: 2023-04-25 12:23+0000\n"
 "Last-Translator: yuh <yuhldr@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -1190,7 +1190,7 @@ msgstr "滚动"
 msgid "Keyboard Shortcuts"
 msgstr "键盘快捷键"
 
-#: ddterm/pref/tabs.js:93
+#: ddterm/pref/tabs.js:100
 msgid "Tabs"
 msgstr "标签页"
 
