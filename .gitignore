@@ -12,6 +12,9 @@
 /locale/
 /tmp/
 
+# do-in-docker.sh/do-in-podman.sh
+/.container-home/
+
 # Vagrant
 /.vagrant/
 
