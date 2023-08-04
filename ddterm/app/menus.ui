@@ -159,6 +159,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </submenu>
   </menu>
   <menu id="tab-popup">
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">Use Custom Tab Title</attribute>
+        <attribute name="action">page.use-custom-title</attribute>
+        <attribute name="target" type="b">true</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Use Default Tab Title</attribute>
+        <attribute name="action">page.use-custom-title</attribute>
+        <attribute name="target" type="b">false</attribute>
+      </item>
+    </section>
     <item>
       <attribute name="label" translatable="yes">Close</attribute>
       <attribute name="action">page.close</attribute>

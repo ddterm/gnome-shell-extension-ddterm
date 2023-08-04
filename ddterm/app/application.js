@@ -178,6 +178,8 @@ var Application = GObject.registerClass(
                 'shortcut-next-tab': 'notebook.next-tab',
                 'shortcut-move-tab-prev': 'notebook.move-tab-prev',
                 'shortcut-move-tab-next': 'notebook.move-tab-next',
+                'shortcut-set-custom-tab-title': 'page.use-custom-title(true)',
+                'shortcut-reset-tab-title': 'page.use-custom-title(false)',
                 'shortcut-find': 'terminal.find',
                 'shortcut-find-next': 'terminal.find-next',
                 'shortcut-find-prev': 'terminal.find-prev',
