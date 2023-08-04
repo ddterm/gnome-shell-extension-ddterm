@@ -25,32 +25,6 @@ const { GLib, GObject, Gio, Gtk } = imports.gi;
 const { terminalpage } = imports.ddterm.app;
 const { translations } = imports.ddterm.util;
 
-var SwitchButton = GObject.registerClass(
-    {
-        Properties: {
-            'page': GObject.ParamSpec.object(
-                'page',
-                '',
-                '',
-                GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-                terminalpage.TerminalPage
-            ),
-        },
-    },
-    class DDTermTabSwitchButton extends Gtk.ModelButton {
-        _init(params) {
-            super._init(params);
-
-            this.page?.bind_property(
-                'title',
-                this,
-                'text',
-                GObject.BindingFlags.SYNC_CREATE
-            );
-        }
-    }
-);
-
 var Notebook = GObject.registerClass(
     {
         GTypeName: 'DDTermNotebook',
@@ -351,19 +325,11 @@ var Notebook = GObject.registerClass(
                 label_width_binding.unbind();
             });
 
-            const switch_button = new SwitchButton({
-                page: child,
-                visible: true,
-                action_name: 'notebook.switch-to-tab',
-                action_target: GLib.Variant.new_int32(page_num),
-            });
+            this.update_tab_switch_actions();
 
-            label.action_name = switch_button.action_name;
-            label.action_target = switch_button.action_target;
-
-            this.tab_switch_menu_box.add(switch_button);
-            this.tab_switch_menu_box.reorder_child(switch_button, page_num);
-            this.tab_switcher_update_actions();
+            const menu_label = this.get_menu_label(child);
+            this.tab_switch_menu_box.add(menu_label);
+            this.tab_switch_menu_box.reorder_child(menu_label, page_num);
         }
 
         on_page_removed(child, page_num) {
@@ -374,16 +340,13 @@ var Notebook = GObject.registerClass(
                 disconnect();
 
             this.tab_switch_menu_box.remove(this.tab_switch_menu_box.get_children()[page_num]);
-            this.tab_switcher_update_actions();
+            this.update_tab_switch_actions();
         }
 
         on_page_reordered(child, page_num) {
-            this.tab_switch_menu_box.foreach(item => {
-                if (item.page === child)
-                    this.tab_switch_menu_box.reorder_child(item, page_num);
-            });
-
-            this.tab_switcher_update_actions();
+            const menu_label = this.get_menu_label(child);
+            this.tab_switch_menu_box.reorder_child(menu_label, page_num);
+            this.update_tab_switch_actions();
         }
 
         get_cwd() {
@@ -402,19 +365,22 @@ var Notebook = GObject.registerClass(
                 visible: true,
             });
 
-            const index = this.insert_page(page, page.tab_label, position);
+            const index = this.insert_page_menu(page, page.tab_label, page.menu_label, position);
             page.spawn(cwd);
             this.set_current_page(index);
             page.terminal.grab_focus();
         }
 
-        tab_switcher_update_actions() {
+        update_tab_switch_actions() {
             let i = 0;
 
-            this.tab_switch_menu_box.foreach(item => {
+            this.foreach(child => {
+                const label = this.get_tab_label(child);
+                const menu_label = this.get_menu_label(child);
                 const value = GLib.Variant.new_int32(i++);
-                item.action_target = value;
-                this.get_tab_label(item.page).action_target = value;
+
+                menu_label.action_target = label.action_target = value;
+                menu_label.action_name = label.action_name = 'notebook.switch-to-tab';
             });
         }
 

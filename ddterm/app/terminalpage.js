@@ -212,6 +212,15 @@ var TerminalPage = GObject.registerClass(
                 Gio.SettingsBindFlags.GET
             );
 
+            this.menu_label = new Gtk.ModelButton({ visible: true });
+
+            this.terminal.bind_property(
+                'window-title',
+                this.menu_label,
+                'text',
+                GObject.BindingFlags.SYNC_CREATE
+            );
+
             [
                 'scroll-on-output',
                 'scroll-on-keystroke',
