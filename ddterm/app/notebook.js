@@ -41,8 +41,8 @@ var SwitchButton = GObject.registerClass(
         _init(params) {
             super._init(params);
 
-            this.page?.terminal.bind_property(
-                'window-title',
+            this.page?.bind_property(
+                'title',
                 this,
                 'text',
                 GObject.BindingFlags.SYNC_CREATE

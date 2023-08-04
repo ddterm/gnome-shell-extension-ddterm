@@ -129,6 +129,35 @@ var TabLabel = GObject.registerClass(
             );
 
             close_button.connect('clicked', () => this.emit('close'));
+
+            this.edit_popover = new Gtk.Popover({
+                relative_to: this,
+            });
+
+            this.connect('destroy', () => this.edit_popover.destroy());
+
+            const edit_entry = new Gtk.Entry({
+                visible: true,
+                parent: this.edit_popover,
+            });
+
+            edit_entry.bind_property(
+                'text-length',
+                edit_entry,
+                'width-chars',
+                GObject.BindingFlags.SYNC_CREATE
+            );
+
+            this.bind_property(
+                'label',
+                edit_entry,
+                'text',
+                GObject.BindingFlags.SYNC_CREATE | GObject.BindingFlags.BIDIRECTIONAL
+            );
+        }
+
+        edit() {
+            this.edit_popover.popup();
         }
 
         get action_name() {

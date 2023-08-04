@@ -468,6 +468,12 @@
     <key name="shortcut-move-tab-next" type="as">
       <default><![CDATA[['<Ctrl><Shift>Page_Down']]]></default>
     </key>
+    <key name="shortcut-set-custom-tab-title" type="as">
+      <default><![CDATA[[]]]></default>
+    </key>
+    <key name="shortcut-reset-tab-title" type="as">
+      <default><![CDATA[[]]]></default>
+    </key>
     <key name="shortcut-find" type="as">
       <default><![CDATA[['<Ctrl><Shift>F']]]></default>
     </key>

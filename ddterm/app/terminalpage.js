@@ -107,6 +107,13 @@ var TerminalPage = GObject.registerClass(
                 GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
                 Gio.Settings
             ),
+            'title': GObject.ParamSpec.string(
+                'title',
+                '',
+                '',
+                GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+                ''
+            ),
             'clicked-hyperlink': GObject.ParamSpec.string(
                 'clicked-hyperlink',
                 '',
@@ -177,11 +184,11 @@ var TerminalPage = GObject.registerClass(
             this.tab_label = new tablabel.TabLabel({ visible_window: false });
             this.tab_label.connect('close', () => this.close());
 
-            this.terminal.bind_property(
-                'window-title',
+            this.bind_property(
+                'title',
                 this.tab_label,
                 'label',
-                GObject.BindingFlags.SYNC_CREATE
+                GObject.BindingFlags.SYNC_CREATE | GObject.BindingFlags.BIDIRECTIONAL
             );
 
             this.settings.bind(
@@ -324,6 +331,24 @@ var TerminalPage = GObject.registerClass(
             const new_tab_after_action = new Gio.SimpleAction({ name: 'new-tab-after' });
             new_tab_after_action.connect('activate', () => this.emit('new-tab-after-request'));
             page_actions.add_action(new_tab_after_action);
+
+            this.use_custom_title_action = new Gio.SimpleAction({
+                'name': 'use-custom-title',
+                'state': GLib.Variant.new_boolean(false),
+                'parameter-type': GLib.VariantType.new('b'),
+            });
+            this.use_custom_title_action.connect('activate', (_, param) => {
+                this.use_custom_title_action.change_state(param);
+
+                if (param.get_boolean())
+                    this.tab_label.edit();
+            });
+            this._title_binding = null;
+            this.use_custom_title_action.connect('notify::state', () => {
+                this.update_title_binding();
+            });
+            this.update_title_binding();
+            page_actions.add_action(this.use_custom_title_action);
 
             this.insert_action_group('page', page_actions);
             this.tab_label.insert_action_group('page', page_actions);
@@ -729,6 +754,25 @@ var TerminalPage = GObject.registerClass(
             });
 
             message.show();
+        }
+
+        update_title_binding() {
+            const state = this.use_custom_title_action.state.get_boolean();
+
+            if (state === !this._title_binding)
+                return;
+
+            if (state) {
+                this._title_binding?.unbind();
+                this._title_binding = null;
+            } else {
+                this._title_binding = this.terminal.bind_property(
+                    'window-title',
+                    this,
+                    'title',
+                    GObject.BindingFlags.SYNC_CREATE
+                );
+            }
         }
     }
 );
