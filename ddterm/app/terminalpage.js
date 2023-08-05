@@ -22,7 +22,7 @@
 /* exported TerminalPage TerminalSettings */
 
 const { GLib, GObject, Gio, Gdk, Gtk, Pango, Vte } = imports.gi;
-const { pcre2, search, tablabel, tcgetpgrp, urldetect_patterns } = imports.ddterm.app;
+const { pcre2, resources, search, tablabel, tcgetpgrp, urldetect_patterns } = imports.ddterm.app;
 const { translations } = imports.ddterm.util;
 
 function parse_rgba(str) {
@@ -93,12 +93,12 @@ var TerminalPage = GObject.registerClass(
                 GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
                 Gio.Settings
             ),
-            'menus': GObject.ParamSpec.object(
-                'menus',
+            'resources': GObject.ParamSpec.object(
+                'resources',
                 '',
                 '',
                 GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-                Gtk.Builder
+                resources.Resources
             ),
             'desktop-settings': GObject.ParamSpec.object(
                 'desktop-settings',
@@ -676,7 +676,7 @@ var TerminalPage = GObject.registerClass(
             widget_anchor = Gdk.Gravity.SOUTH,
             menu_anchor = Gdk.Gravity.SOUTH
         ) {
-            const menu = Gtk.Menu.new_from_model(this.menus.get_object(menu_name));
+            const menu = Gtk.Menu.new_from_model(this.resources.menus.get_object(menu_name));
             menu.attach_widget = widget;
 
             // https://github.com/ddterm/gnome-shell-extension-ddterm/issues/116

@@ -24,7 +24,7 @@ const System = imports.system;
 
 const { GLib, GObject, Gio, Gdk, Gtk } = imports.gi;
 
-const { gtktheme } = imports.ddterm.app;
+const { gtktheme, resources } = imports.ddterm.app;
 
 function load_text(file) {
     return ByteArray.toString(file.load_contents(null)[1]);
@@ -61,7 +61,6 @@ var Application = GObject.registerClass(
             super._init(params);
 
             this.ddterm_dir = this.install_dir.get_child('ddterm');
-            this.app_dir = this.ddterm_dir.get_child('app');
 
             this.add_main_option(
                 'activate-only',
@@ -87,6 +86,7 @@ var Application = GObject.registerClass(
         }
 
         startup() {
+            this.resources = resources.Resources.load(this.install_dir);
             this.settings = imports.ddterm.util.settings.get_settings(this.install_dir);
 
             this.simple_action('quit', () => this.quit());
@@ -135,15 +135,9 @@ var Application = GObject.registerClass(
                 Gio.SettingsBindFlags.GET
             );
 
-            this.menus = Gtk.Builder.new_from_file(
-                this.app_dir.get_child('menus.ui').get_path()
-            );
-
-            const style = Gtk.CssProvider.new();
-            style.load_from_path(this.app_dir.get_child('style.css').get_path());
             Gtk.StyleContext.add_provider_for_screen(
                 Gdk.Screen.get_default(),
-                style,
+                this.resources.style,
                 Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
             );
 
@@ -197,7 +191,7 @@ var Application = GObject.registerClass(
             this.metadata = JSON.parse(load_text(this.install_dir.get_child('metadata.json')));
 
             Gtk.IconTheme.get_default().append_search_path(
-                this.install_dir.get_child('ddterm').get_child('app').get_child('icons').get_path()
+                this.ddterm_dir.get_child('app').get_child('icons').get_path()
             );
         }
 
@@ -256,7 +250,7 @@ var Application = GObject.registerClass(
                 settings: this.settings,
                 desktop_settings: this.desktop_settings,
                 extension_dbus: this.extension_dbus,
-                menus: this.menus,
+                resources: this.resources,
             });
 
             this.window.connect('destroy', source => {

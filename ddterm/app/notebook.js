@@ -22,19 +22,19 @@
 /* exported Notebook */
 
 const { GLib, GObject, Gio, Gtk } = imports.gi;
-const { terminalpage } = imports.ddterm.app;
+const { resources, terminalpage } = imports.ddterm.app;
 const { translations } = imports.ddterm.util;
 
 var Notebook = GObject.registerClass(
     {
         GTypeName: 'DDTermNotebook',
         Properties: {
-            'menus': GObject.ParamSpec.object(
-                'menus',
+            'resources': GObject.ParamSpec.object(
+                'resources',
                 '',
                 '',
                 GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-                Gtk.Builder
+                resources.Resources
             ),
             'settings': GObject.ParamSpec.object(
                 'settings',
@@ -360,7 +360,7 @@ var Notebook = GObject.registerClass(
 
             const page = new terminalpage.TerminalPage({
                 settings: this.settings,
-                menus: this.menus,
+                resources: this.resources,
                 desktop_settings: this.desktop_settings,
                 visible: true,
             });
