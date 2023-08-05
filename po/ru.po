@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-25 09:11+0000\n"
+"POT-Creation-Date: 2023-08-05 01:00+0000\n"
 "PO-Revision-Date: 2023-03-14 13:45+0000\n"
 "Last-Translator: Aleksandr Mezin <mezin.alexander@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/gnome-shell-"
@@ -85,7 +85,7 @@ msgstr "Сбросить"
 msgid "Reset and Clear"
 msgstr "Сбросить и очистить"
 
-#: ddterm/app/menus.ui:76 ddterm/app/menus.ui:175 ddterm/app/tablabel.js:94
+#: ddterm/app/menus.ui:76 ddterm/app/menus.ui:175 ddterm/app/tablabel.js:112
 msgid "Close"
 msgstr "Закрыть"
 
@@ -183,11 +183,11 @@ msgstr "Переместить вкладку на предыдущую пози
 msgid "Move Tab to Next Position"
 msgstr "Переместить вкладку на следующую позицию"
 
-#: ddterm/app/notebook.js:137
+#: ddterm/app/notebook.js:133
 msgid "New Tab (Last)"
 msgstr "Новая вкладка (в конце)"
 
-#: ddterm/app/notebook.js:165
+#: ddterm/app/notebook.js:161
 msgid "New Tab (First)"
 msgstr "Новая вкладка (в начале)"
 
@@ -219,11 +219,11 @@ msgstr "Найти следующее"
 msgid "Find Previous"
 msgstr "Найти предыдущее"
 
-#: ddterm/app/terminalpage.js:836
+#: ddterm/app/terminalpage.js:742
 msgid "Close this terminal?"
 msgstr "Закрыть терминал?"
 
-#: ddterm/app/terminalpage.js:839
+#: ddterm/app/terminalpage.js:745
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."
@@ -734,7 +734,7 @@ msgid "Preserve working directory"
 msgstr "Сохранять рабочий каталог"
 
 #: ddterm/pref/glade/prefs-compatibility.ui:36
-#: ddterm/pref/glade/prefs-tabs.ui:131
+#: ddterm/pref/glade/prefs-tabs.ui:127
 msgid "Automatic"
 msgstr "Автоматически"
 
@@ -782,7 +782,7 @@ msgstr "Восстановить параметры совместимости �
 msgid "Panel icon:"
 msgstr "Иконка на панели:"
 
-#: ddterm/pref/glade/prefs-panel-icon.ui:55 ddterm/pref/glade/prefs-tabs.ui:292
+#: ddterm/pref/glade/prefs-panel-icon.ui:55 ddterm/pref/glade/prefs-tabs.ui:246
 msgid "None"
 msgstr "Нет"
 
@@ -807,22 +807,22 @@ msgid "_Window position:"
 msgstr "Положение окна:"
 
 #: ddterm/pref/glade/prefs-position-size.ui:91
-#: ddterm/pref/glade/prefs-tabs.ui:219
+#: ddterm/pref/glade/prefs-tabs.ui:173
 msgid "Top"
 msgstr "Сверху"
 
 #: ddterm/pref/glade/prefs-position-size.ui:92
-#: ddterm/pref/glade/prefs-tabs.ui:218
+#: ddterm/pref/glade/prefs-tabs.ui:172
 msgid "Bottom"
 msgstr "Внизу"
 
 #: ddterm/pref/glade/prefs-position-size.ui:93
-#: ddterm/pref/glade/prefs-tabs.ui:220
+#: ddterm/pref/glade/prefs-tabs.ui:174
 msgid "Left"
 msgstr "Слева"
 
 #: ddterm/pref/glade/prefs-position-size.ui:94
-#: ddterm/pref/glade/prefs-tabs.ui:221
+#: ddterm/pref/glade/prefs-tabs.ui:175
 msgid "Right"
 msgstr "Справа"
 
@@ -990,113 +990,71 @@ msgstr "Действие"
 msgid "Shortcut"
 msgstr "Комбинация клавиш"
 
-#: ddterm/pref/glade/prefs-tabs.ui:48
+#: ddterm/pref/glade/prefs-tabs.ui:44
 msgid "Expand tabs"
 msgstr "Растянуть вкладки"
 
-#: ddterm/pref/glade/prefs-tabs.ui:64
+#: ddterm/pref/glade/prefs-tabs.ui:60
 msgid "Show _close buttons"
 msgstr "Показывать кнопку закрытия вкладки"
 
-#: ddterm/pref/glade/prefs-tabs.ui:80
+#: ddterm/pref/glade/prefs-tabs.ui:76
 msgid "\"_New Tab (Last)\" button"
 msgstr "Кнопка \"Новая вкладка (в конце)\""
 
-#: ddterm/pref/glade/prefs-tabs.ui:96
+#: ddterm/pref/glade/prefs-tabs.ui:92
 msgid "Tab _switcher popup"
 msgstr "Меню переключения вкладок"
 
-#: ddterm/pref/glade/prefs-tabs.ui:115
+#: ddterm/pref/glade/prefs-tabs.ui:111
 msgid "Show tab _bar:"
 msgstr "Показывать панель вкладок:"
 
-#: ddterm/pref/glade/prefs-tabs.ui:130 ddterm/pref/glade/prefs-text.ui:102
+#: ddterm/pref/glade/prefs-tabs.ui:126 ddterm/pref/glade/prefs-text.ui:102
 msgid "Always"
 msgstr "Всегда"
 
-#: ddterm/pref/glade/prefs-tabs.ui:132 ddterm/pref/glade/prefs-text.ui:99
+#: ddterm/pref/glade/prefs-tabs.ui:128 ddterm/pref/glade/prefs-text.ui:99
 msgid "Never"
 msgstr "Никогда"
 
-#: ddterm/pref/glade/prefs-tabs.ui:145
-msgid "Tab _title:"
-msgstr "Название вкладки:"
-
-#: ddterm/pref/glade/prefs-tabs.ui:170
-msgid "_Reset to default"
-msgstr "Восстановить значения по умолчанию"
-
-#: ddterm/pref/glade/prefs-tabs.ui:184
+#: ddterm/pref/glade/prefs-tabs.ui:138
 msgid "\"_New Tab (First)\" button"
 msgstr "Кнопка \"Новая вкладка (в начале)\""
 
-#: ddterm/pref/glade/prefs-tabs.ui:203
+#: ddterm/pref/glade/prefs-tabs.ui:157
 msgid "Tab bar position:"
 msgstr "Положение панели вкладок:"
 
-#: ddterm/pref/glade/prefs-tabs.ui:231
+#: ddterm/pref/glade/prefs-tabs.ui:185
 msgid "Show border"
 msgstr "Показывать границу"
 
-#: ddterm/pref/glade/prefs-tabs.ui:250
+#: ddterm/pref/glade/prefs-tabs.ui:204
 msgid "Tab width:"
 msgstr "Ширина вкладки:"
 
-#: ddterm/pref/glade/prefs-tabs.ui:278
+#: ddterm/pref/glade/prefs-tabs.ui:232
 msgid "Ellipsize tab labels:"
 msgstr "Сокращение названия вкладок:"
 
-#: ddterm/pref/glade/prefs-tabs.ui:293
+#: ddterm/pref/glade/prefs-tabs.ui:247
 msgid "Start"
 msgstr "В начале"
 
-#: ddterm/pref/glade/prefs-tabs.ui:294
+#: ddterm/pref/glade/prefs-tabs.ui:248
 msgid "Middle"
 msgstr "В середине"
 
-#: ddterm/pref/glade/prefs-tabs.ui:295
+#: ddterm/pref/glade/prefs-tabs.ui:249
 msgid "End"
 msgstr "В конце"
 
-#: ddterm/pref/glade/prefs-tabs.ui:308
-msgid ""
-"Tab title is generated from <a href=\"https://handlebarsjs.com/guide/"
-"\">handlebars.js</a> template. <a href=\"https://developer.gnome.org/pango/"
-"stable/pango-Markup.html\">Pango markup</a> can be used to format the "
-"title.\n"
-"\n"
-"Following variables are available:\n"
-"- <tt>window-title</tt>\n"
-"- <tt>icon-title</tt>\n"
-"- <tt>current-directory-uri</tt>\n"
-"- <tt>current-file-uri</tt>\n"
-"- <tt>switch-shortcut</tt>\n"
-"\n"
-"Following helpers are available:\n"
-"- <tt>filename-from-uri</tt>\n"
-"- <tt>hostname-from-uri</tt>\n"
-"- <tt>ellipsize</tt> or <tt>truncate-chars</tt>\n"
-"      example: <tt>{{ellipsize window-title 20}}</tt>"
-msgstr ""
-"Название вкладки генерируется по <a href=\\\"https://handlebarsjs.com/"
-"guide/\n"
-"\\\">handlebars.js</a> шаблону. <a href=\\\"https://developer.gnome.org/"
-"pango/\n"
-"stable/pango-Markup.html\\\">Pango markup</a> может быть использован  для "
-"форматирования.\n"
-"\n"
-"Доступны следующие значения:\n"
-"- <tt>window-title</tt>\n"
-"- <tt>icon-title</tt>\n"
-"- <tt>current-directory-uri</tt>\n"
-"- <tt>current-file-uri</tt>\n"
-"- <tt>switch-shortcut</tt>\n"
-"\n"
-"Доступны следующие вспомогательные функции:\n"
-"- <tt>filename-from-uri</tt>\n"
-"- <tt>hostname-from-uri</tt>\n"
-"- <tt>ellipsize</tt> или <tt>truncate-chars</tt>\n"
-"      пример: <tt>{{ellipsize window-title 20}}</tt>"
+#: ddterm/pref/glade/prefs-tabs.ui:259
+#, fuzzy
+#| msgid "Keyboard Shortcuts"
+msgid "Show keyboard shortcuts"
+msgstr "Комбинации клавиш"
 
 #: ddterm/pref/glade/prefs-text.ui:39
 msgid "Custom _font:"
@@ -1194,7 +1152,7 @@ msgstr "Прокрутка"
 msgid "Keyboard Shortcuts"
 msgstr "Комбинации клавиш"
 
-#: ddterm/pref/tabs.js:100
+#: ddterm/pref/tabs.js:87
 msgid "Tabs"
 msgstr "Вкладки"
 
@@ -1205,6 +1163,51 @@ msgstr "Текст"
 #: ddterm/shell/panelicon.js:70
 msgid "Show"
 msgstr "Показать"
+
+#~ msgid "Tab _title:"
+#~ msgstr "Название вкладки:"
+
+#~ msgid "_Reset to default"
+#~ msgstr "Восстановить значения по умолчанию"
+
+#~ msgid ""
+#~ "Tab title is generated from <a href=\"https://handlebarsjs.com/guide/"
+#~ "\">handlebars.js</a> template. <a href=\"https://developer.gnome.org/"
+#~ "pango/stable/pango-Markup.html\">Pango markup</a> can be used to format "
+#~ "the title.\n"
+#~ "\n"
+#~ "Following variables are available:\n"
+#~ "- <tt>window-title</tt>\n"
+#~ "- <tt>icon-title</tt>\n"
+#~ "- <tt>current-directory-uri</tt>\n"
+#~ "- <tt>current-file-uri</tt>\n"
+#~ "- <tt>switch-shortcut</tt>\n"
+#~ "\n"
+#~ "Following helpers are available:\n"
+#~ "- <tt>filename-from-uri</tt>\n"
+#~ "- <tt>hostname-from-uri</tt>\n"
+#~ "- <tt>ellipsize</tt> or <tt>truncate-chars</tt>\n"
+#~ "      example: <tt>{{ellipsize window-title 20}}</tt>"
+#~ msgstr ""
+#~ "Название вкладки генерируется по <a href=\\\"https://handlebarsjs.com/"
+#~ "guide/\n"
+#~ "\\\">handlebars.js</a> шаблону. <a href=\\\"https://developer.gnome.org/"
+#~ "pango/\n"
+#~ "stable/pango-Markup.html\\\">Pango markup</a> может быть использован  для "
+#~ "форматирования.\n"
+#~ "\n"
+#~ "Доступны следующие значения:\n"
+#~ "- <tt>window-title</tt>\n"
+#~ "- <tt>icon-title</tt>\n"
+#~ "- <tt>current-directory-uri</tt>\n"
+#~ "- <tt>current-file-uri</tt>\n"
+#~ "- <tt>switch-shortcut</tt>\n"
+#~ "\n"
+#~ "Доступны следующие вспомогательные функции:\n"
+#~ "- <tt>filename-from-uri</tt>\n"
+#~ "- <tt>hostname-from-uri</tt>\n"
+#~ "- <tt>ellipsize</tt> или <tt>truncate-chars</tt>\n"
+#~ "      пример: <tt>{{ellipsize window-title 20}}</tt>"
 
 #~ msgid "Wrap"
 #~ msgstr "Прокрутка"

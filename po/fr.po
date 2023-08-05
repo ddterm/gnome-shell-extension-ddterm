@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-25 09:11+0000\n"
+"POT-Creation-Date: 2023-08-05 01:00+0000\n"
 "PO-Revision-Date: 2023-03-14 12:19+0000\n"
 "Last-Translator: Aleksandr Mezin <mezin.alexander@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/gnome-shell-"
@@ -86,7 +86,7 @@ msgstr "Réinitialiser"
 msgid "Reset and Clear"
 msgstr "Réinitialiser et effacer"
 
-#: ddterm/app/menus.ui:76 ddterm/app/menus.ui:175 ddterm/app/tablabel.js:94
+#: ddterm/app/menus.ui:76 ddterm/app/menus.ui:175 ddterm/app/tablabel.js:112
 msgid "Close"
 msgstr "Fermer"
 
@@ -184,11 +184,11 @@ msgstr "Déplacer l'onglet vers la position précédente"
 msgid "Move Tab to Next Position"
 msgstr "Déplacer l'onglet vers la position suivante"
 
-#: ddterm/app/notebook.js:137
+#: ddterm/app/notebook.js:133
 msgid "New Tab (Last)"
 msgstr "Nouvel onglet (en dernière position)"
 
-#: ddterm/app/notebook.js:165
+#: ddterm/app/notebook.js:161
 msgid "New Tab (First)"
 msgstr "Nouvel onglet (en première position)"
 
@@ -220,11 +220,11 @@ msgstr "Rechercher le suivant"
 msgid "Find Previous"
 msgstr "Rechercher le précédent"
 
-#: ddterm/app/terminalpage.js:836
+#: ddterm/app/terminalpage.js:742
 msgid "Close this terminal?"
 msgstr "Fermer ce terminal ?"
 
-#: ddterm/app/terminalpage.js:839
+#: ddterm/app/terminalpage.js:745
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."
@@ -735,7 +735,7 @@ msgid "Preserve working directory"
 msgstr "Préserver le répertoire de travail"
 
 #: ddterm/pref/glade/prefs-compatibility.ui:36
-#: ddterm/pref/glade/prefs-tabs.ui:131
+#: ddterm/pref/glade/prefs-tabs.ui:127
 msgid "Automatic"
 msgstr "Automatique"
 
@@ -783,7 +783,7 @@ msgstr "Réinitialiser les options de compatibilité aux valeurs par défaut"
 msgid "Panel icon:"
 msgstr "Icône de panneau :"
 
-#: ddterm/pref/glade/prefs-panel-icon.ui:55 ddterm/pref/glade/prefs-tabs.ui:292
+#: ddterm/pref/glade/prefs-panel-icon.ui:55 ddterm/pref/glade/prefs-tabs.ui:246
 msgid "None"
 msgstr "Aucun"
 
@@ -808,22 +808,22 @@ msgid "_Window position:"
 msgstr "Position de la fenêtre :"
 
 #: ddterm/pref/glade/prefs-position-size.ui:91
-#: ddterm/pref/glade/prefs-tabs.ui:219
+#: ddterm/pref/glade/prefs-tabs.ui:173
 msgid "Top"
 msgstr "Haut"
 
 #: ddterm/pref/glade/prefs-position-size.ui:92
-#: ddterm/pref/glade/prefs-tabs.ui:218
+#: ddterm/pref/glade/prefs-tabs.ui:172
 msgid "Bottom"
 msgstr "Bas"
 
 #: ddterm/pref/glade/prefs-position-size.ui:93
-#: ddterm/pref/glade/prefs-tabs.ui:220
+#: ddterm/pref/glade/prefs-tabs.ui:174
 msgid "Left"
 msgstr "Gauche"
 
 #: ddterm/pref/glade/prefs-position-size.ui:94
-#: ddterm/pref/glade/prefs-tabs.ui:221
+#: ddterm/pref/glade/prefs-tabs.ui:175
 msgid "Right"
 msgstr "Droite"
 
@@ -991,111 +991,71 @@ msgstr "Action"
 msgid "Shortcut"
 msgstr "Raccourci"
 
-#: ddterm/pref/glade/prefs-tabs.ui:48
+#: ddterm/pref/glade/prefs-tabs.ui:44
 msgid "Expand tabs"
 msgstr "Élargir les onglets"
 
-#: ddterm/pref/glade/prefs-tabs.ui:64
+#: ddterm/pref/glade/prefs-tabs.ui:60
 msgid "Show _close buttons"
 msgstr "Afficher les boutons de fermeture"
 
-#: ddterm/pref/glade/prefs-tabs.ui:80
+#: ddterm/pref/glade/prefs-tabs.ui:76
 msgid "\"_New Tab (Last)\" button"
 msgstr "Bouton « Nouvel onglet (en dernière position) »"
 
-#: ddterm/pref/glade/prefs-tabs.ui:96
+#: ddterm/pref/glade/prefs-tabs.ui:92
 msgid "Tab _switcher popup"
 msgstr "Popup de changement d'onglets"
 
-#: ddterm/pref/glade/prefs-tabs.ui:115
+#: ddterm/pref/glade/prefs-tabs.ui:111
 msgid "Show tab _bar:"
 msgstr "Afficher la barre d'onglets :"
 
-#: ddterm/pref/glade/prefs-tabs.ui:130 ddterm/pref/glade/prefs-text.ui:102
+#: ddterm/pref/glade/prefs-tabs.ui:126 ddterm/pref/glade/prefs-text.ui:102
 msgid "Always"
 msgstr "Toujours"
 
-#: ddterm/pref/glade/prefs-tabs.ui:132 ddterm/pref/glade/prefs-text.ui:99
+#: ddterm/pref/glade/prefs-tabs.ui:128 ddterm/pref/glade/prefs-text.ui:99
 msgid "Never"
 msgstr "Jamais"
 
-#: ddterm/pref/glade/prefs-tabs.ui:145
-msgid "Tab _title:"
-msgstr "Titre d'onglet :"
-
-#: ddterm/pref/glade/prefs-tabs.ui:170
-msgid "_Reset to default"
-msgstr "Réinitialiser aux valeurs par défaut"
-
-#: ddterm/pref/glade/prefs-tabs.ui:184
+#: ddterm/pref/glade/prefs-tabs.ui:138
 msgid "\"_New Tab (First)\" button"
 msgstr "Bouton « Nouvel onglet (en première position) »"
 
-#: ddterm/pref/glade/prefs-tabs.ui:203
+#: ddterm/pref/glade/prefs-tabs.ui:157
 msgid "Tab bar position:"
 msgstr "Position de la barre d'onglets :"
 
-#: ddterm/pref/glade/prefs-tabs.ui:231
+#: ddterm/pref/glade/prefs-tabs.ui:185
 msgid "Show border"
 msgstr "Afficher la bordure"
 
-#: ddterm/pref/glade/prefs-tabs.ui:250
+#: ddterm/pref/glade/prefs-tabs.ui:204
 msgid "Tab width:"
 msgstr "Largeur des onglets :"
 
-#: ddterm/pref/glade/prefs-tabs.ui:278
+#: ddterm/pref/glade/prefs-tabs.ui:232
 msgid "Ellipsize tab labels:"
 msgstr "Raccourcir les noms d'onglets :"
 
-#: ddterm/pref/glade/prefs-tabs.ui:293
+#: ddterm/pref/glade/prefs-tabs.ui:247
 msgid "Start"
 msgstr "Début"
 
-#: ddterm/pref/glade/prefs-tabs.ui:294
+#: ddterm/pref/glade/prefs-tabs.ui:248
 msgid "Middle"
 msgstr "Milieu"
 
-#: ddterm/pref/glade/prefs-tabs.ui:295
+#: ddterm/pref/glade/prefs-tabs.ui:249
 msgid "End"
 msgstr "Fin"
 
-#: ddterm/pref/glade/prefs-tabs.ui:308
-msgid ""
-"Tab title is generated from <a href=\"https://handlebarsjs.com/guide/"
-"\">handlebars.js</a> template. <a href=\"https://developer.gnome.org/pango/"
-"stable/pango-Markup.html\">Pango markup</a> can be used to format the "
-"title.\n"
-"\n"
-"Following variables are available:\n"
-"- <tt>window-title</tt>\n"
-"- <tt>icon-title</tt>\n"
-"- <tt>current-directory-uri</tt>\n"
-"- <tt>current-file-uri</tt>\n"
-"- <tt>switch-shortcut</tt>\n"
-"\n"
-"Following helpers are available:\n"
-"- <tt>filename-from-uri</tt>\n"
-"- <tt>hostname-from-uri</tt>\n"
-"- <tt>ellipsize</tt> or <tt>truncate-chars</tt>\n"
-"      example: <tt>{{ellipsize window-title 20}}</tt>"
-msgstr ""
-"Le titre d'onglet est généré par le modèle <a href=\"https://handlebarsjs."
-"com/guide/\">handlebars.js</a>. <a href=\"https://developer.gnome.org/pango/"
-"stable/pango-Markup.html\">Pango markup</a> peut être utilisé pour formater "
-"ce titre.\n"
-"\n"
-"Les variables suivantes sont disponibles :\n"
-"- <tt>window-title</tt>\n"
-"- <tt>icon-title</tt>\n"
-"- <tt>current-directory-uri</tt>\n"
-"- <tt>current-file-uri</tt>\n"
-"- <tt>switch-shortcut</tt>\n"
-"\n"
-"Les assistants suivants sont disponibles :\n"
-"- <tt>filename-from-uri</tt>\n"
-"- <tt>hostname-from-uri</tt>\n"
-"- <tt>ellipsize</tt> or <tt>truncate-chars</tt>\n"
-"      example: <tt>{{ellipsize window-title 20}}</tt>"
+#: ddterm/pref/glade/prefs-tabs.ui:259
+#, fuzzy
+#| msgid "Keyboard Shortcuts"
+msgid "Show keyboard shortcuts"
+msgstr "Raccourcis claviers"
 
 #: ddterm/pref/glade/prefs-text.ui:39
 msgid "Custom _font:"
@@ -1193,7 +1153,7 @@ msgstr "Défilement"
 msgid "Keyboard Shortcuts"
 msgstr "Raccourcis claviers"
 
-#: ddterm/pref/tabs.js:100
+#: ddterm/pref/tabs.js:87
 msgid "Tabs"
 msgstr "Onglets"
 
@@ -1204,6 +1164,49 @@ msgstr "Texte"
 #: ddterm/shell/panelicon.js:70
 msgid "Show"
 msgstr "Afficher"
+
+#~ msgid "Tab _title:"
+#~ msgstr "Titre d'onglet :"
+
+#~ msgid "_Reset to default"
+#~ msgstr "Réinitialiser aux valeurs par défaut"
+
+#~ msgid ""
+#~ "Tab title is generated from <a href=\"https://handlebarsjs.com/guide/"
+#~ "\">handlebars.js</a> template. <a href=\"https://developer.gnome.org/"
+#~ "pango/stable/pango-Markup.html\">Pango markup</a> can be used to format "
+#~ "the title.\n"
+#~ "\n"
+#~ "Following variables are available:\n"
+#~ "- <tt>window-title</tt>\n"
+#~ "- <tt>icon-title</tt>\n"
+#~ "- <tt>current-directory-uri</tt>\n"
+#~ "- <tt>current-file-uri</tt>\n"
+#~ "- <tt>switch-shortcut</tt>\n"
+#~ "\n"
+#~ "Following helpers are available:\n"
+#~ "- <tt>filename-from-uri</tt>\n"
+#~ "- <tt>hostname-from-uri</tt>\n"
+#~ "- <tt>ellipsize</tt> or <tt>truncate-chars</tt>\n"
+#~ "      example: <tt>{{ellipsize window-title 20}}</tt>"
+#~ msgstr ""
+#~ "Le titre d'onglet est généré par le modèle <a href=\"https://handlebarsjs."
+#~ "com/guide/\">handlebars.js</a>. <a href=\"https://developer.gnome.org/"
+#~ "pango/stable/pango-Markup.html\">Pango markup</a> peut être utilisé pour "
+#~ "formater ce titre.\n"
+#~ "\n"
+#~ "Les variables suivantes sont disponibles :\n"
+#~ "- <tt>window-title</tt>\n"
+#~ "- <tt>icon-title</tt>\n"
+#~ "- <tt>current-directory-uri</tt>\n"
+#~ "- <tt>current-file-uri</tt>\n"
+#~ "- <tt>switch-shortcut</tt>\n"
+#~ "\n"
+#~ "Les assistants suivants sont disponibles :\n"
+#~ "- <tt>filename-from-uri</tt>\n"
+#~ "- <tt>hostname-from-uri</tt>\n"
+#~ "- <tt>ellipsize</tt> or <tt>truncate-chars</tt>\n"
+#~ "      example: <tt>{{ellipsize window-title 20}}</tt>"
 
 #~ msgid "Wrap"
 #~ msgstr "Envelopper"
