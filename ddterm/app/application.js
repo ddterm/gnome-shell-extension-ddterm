@@ -24,7 +24,7 @@ const System = imports.system;
 
 const { GLib, GObject, Gio, Gdk, Gtk } = imports.gi;
 
-const { appwindow, gtktheme } = imports.ddterm.app;
+const { gtktheme } = imports.ddterm.app;
 
 function load_text(file) {
     return ByteArray.toString(file.load_contents(null)[1]);
@@ -45,7 +45,7 @@ var Application = GObject.registerClass(
                 '',
                 '',
                 GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
-                appwindow.AppWindow
+                Gtk.ApplicationWindow
             ),
             'prefs-dialog': GObject.ParamSpec.object(
                 'prefs-dialog',
@@ -250,7 +250,7 @@ var Application = GObject.registerClass(
             if (this.window)
                 return this.window;
 
-            this.window = new appwindow.AppWindow({
+            this.window = new imports.ddterm.app.appwindow.AppWindow({
                 application: this,
                 decorated: false,
                 settings: this.settings,
