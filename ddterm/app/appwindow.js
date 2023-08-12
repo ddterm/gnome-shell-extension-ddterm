@@ -422,8 +422,8 @@ var AppWindow = GObject.registerClass(
         }
 
         update_tab_label_width() {
-            this.notebook.tab_label_width =
-                Math.floor(this.tab_label_width * this.get_allocated_width());
+            const [width] = this.get_size();
+            this.notebook.tab_label_width = Math.floor(this.tab_label_width * width);
         }
     }
 );
