@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-05 01:00+0000\n"
+"POT-Creation-Date: 2023-08-12 12:28+0000\n"
 "PO-Revision-Date: 2023-04-24 02:48+0000\n"
 "Last-Translator: Pavel Novák <pavelnov32@gmail.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/gnome-shell-"
@@ -184,11 +184,11 @@ msgstr "Posunout panel do předchozí pozice"
 msgid "Move Tab to Next Position"
 msgstr "Posunout panel do další pozice"
 
-#: ddterm/app/notebook.js:133
+#: ddterm/app/notebook.js:107
 msgid "New Tab (Last)"
 msgstr "Nový panel (Poslední)"
 
-#: ddterm/app/notebook.js:161
+#: ddterm/app/notebook.js:135
 msgid "New Tab (First)"
 msgstr "Nový panel (První)"
 
@@ -220,11 +220,11 @@ msgstr "Klávesové zkratky"
 msgid "Find Previous"
 msgstr "Najít předchozí"
 
-#: ddterm/app/terminalpage.js:742
+#: ddterm/app/terminalpage.js:751
 msgid "Close this terminal?"
 msgstr "Zavřít tento terminál?"
 
-#: ddterm/app/terminalpage.js:745
+#: ddterm/app/terminalpage.js:754
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."

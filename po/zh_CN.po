@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-05 01:00+0000\n"
+"POT-Creation-Date: 2023-08-12 12:28+0000\n"
 "PO-Revision-Date: 2023-04-25 12:23+0000\n"
 "Last-Translator: yuh <yuhldr@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -182,11 +182,11 @@ msgstr "移动标签页到上一个位置"
 msgid "Move Tab to Next Position"
 msgstr "移动标签页到下一个位置"
 
-#: ddterm/app/notebook.js:133
+#: ddterm/app/notebook.js:107
 msgid "New Tab (Last)"
 msgstr "新建标签页（最后一个）"
 
-#: ddterm/app/notebook.js:161
+#: ddterm/app/notebook.js:135
 msgid "New Tab (First)"
 msgstr "新建标签页（第一个）"
 
@@ -218,11 +218,11 @@ msgstr "查找下一个"
 msgid "Find Previous"
 msgstr "找到前一个"
 
-#: ddterm/app/terminalpage.js:742
+#: ddterm/app/terminalpage.js:751
 msgid "Close this terminal?"
 msgstr "关闭这个终端？"
 
-#: ddterm/app/terminalpage.js:745
+#: ddterm/app/terminalpage.js:754
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."
