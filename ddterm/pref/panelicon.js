@@ -28,9 +28,6 @@ var Widget = GObject.registerClass(
     {
         GTypeName: 'DDTermPrefsPanelIcon',
         Template: util.ui_file_uri('prefs-panel-icon.ui'),
-        Children: [
-            'panel_icon_type_combo',
-        ],
         Properties: {
             'settings': GObject.ParamSpec.object(
                 'settings',
@@ -41,11 +38,11 @@ var Widget = GObject.registerClass(
             ),
         },
     },
-    class PrefsPanelIcon extends Gtk.Grid {
+    class PrefsPanelIcon extends Gtk.Box {
         _init(params) {
             super._init(params);
 
-            util.bind_widget(this.settings, 'panel-icon-type', this.panel_icon_type_combo);
+            util.insert_settings_actions(this, this.settings, ['panel-icon-type']);
         }
 
         get title() {
