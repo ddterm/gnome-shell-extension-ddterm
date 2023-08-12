@@ -128,6 +128,11 @@ var Widget = GObject.registerClass(
         }
 
         save_shortcut(shortcuts_list, _, path, accel_key = null, accel_mods = null) {
+            if (accel_key) {
+                this.remove_shortcut(this.shortcuts_list, accel_key, accel_mods);
+                this.remove_shortcut(this.global_shortcuts_list, accel_key, accel_mods);
+            }
+
             const [ok, iter] = shortcuts_list.get_iter_from_string(path);
             if (!ok)
                 return;
@@ -136,6 +141,22 @@ var Widget = GObject.registerClass(
                 shortcuts_list.get_value(iter, COLUMN_SETTINGS_KEY),
                 accel_key ? [Gtk.accelerator_name(accel_key, accel_mods)] : []
             );
+        }
+
+        remove_shortcut(shortcuts_list, accel_key, accel_mods) {
+            shortcuts_list.foreach((model, path, iter) => {
+                const settings_key = model.get_value(iter, COLUMN_SETTINGS_KEY);
+                const value = this.settings.get_strv(settings_key);
+                const index = value.findIndex(accel => {
+                    const [key, mods] = accelerator_parse(accel);
+                    return key === accel_key && mods === accel_mods;
+                });
+
+                if (index !== -1) {
+                    value.splice(index, 1);
+                    this.settings.set_strv(settings_key, value);
+                }
+            });
         }
 
         grab_global_keys(cell_renderer, editable) {
