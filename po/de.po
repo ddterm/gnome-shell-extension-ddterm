@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-12 12:28+0000\n"
+"POT-Creation-Date: 2023-08-12 15:23+0000\n"
 "PO-Revision-Date: 2023-04-03 13:37+0000\n"
 "Last-Translator: Jörn Weigend <das.jott@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/gnome-shell-"
@@ -779,11 +779,7 @@ msgstr "Breit"
 msgid "_Reset Compatibility Options to Defaults"
 msgstr "Kompatibilitäts-Optionen auf Standard zurücksetzen"
 
-#: ddterm/pref/glade/prefs-panel-icon.ui:42
-msgid "Panel icon:"
-msgstr "Leistensymbol:"
-
-#: ddterm/pref/glade/prefs-panel-icon.ui:55 ddterm/pref/glade/prefs-tabs.ui:246
+#: ddterm/pref/glade/prefs-panel-icon.ui:38 ddterm/pref/glade/prefs-tabs.ui:246
 msgid "None"
 msgstr "Keins"
 
@@ -791,11 +787,11 @@ msgstr "Keins"
 msgid "With popup menu"
 msgstr "Mit Popup-Menü"
 
-#: ddterm/pref/glade/prefs-panel-icon.ui:57
+#: ddterm/pref/glade/prefs-panel-icon.ui:74
 msgid "Toggle button"
 msgstr "Umschalttaste"
 
-#: ddterm/pref/glade/prefs-panel-icon.ui:58
+#: ddterm/pref/glade/prefs-panel-icon.ui:92
 msgid "Toggle button and popup menu"
 msgstr "Umschalttaste und Popup-Menü"
 
@@ -1137,7 +1133,7 @@ msgstr "Erkenne E-Mail-Adressen"
 msgid "Detect news:/man: URLs"
 msgstr "Erkenne news:/man: URLs"
 
-#: ddterm/pref/panelicon.js:52
+#: ddterm/pref/panelicon.js:49
 msgid "Panel Icon"
 msgstr "Leisten-Symbol"
 
@@ -1164,6 +1160,9 @@ msgstr "Text"
 #: ddterm/shell/panelicon.js:70
 msgid "Show"
 msgstr "Anzeigen"
+
+#~ msgid "Panel icon:"
+#~ msgstr "Leistensymbol:"
 
 #~ msgid "Tab _title:"
 #~ msgstr "_Tab-Name:"

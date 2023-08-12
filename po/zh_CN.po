@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-12 12:28+0000\n"
+"POT-Creation-Date: 2023-08-12 15:23+0000\n"
 "PO-Revision-Date: 2023-04-25 12:23+0000\n"
 "Last-Translator: yuh <yuhldr@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -775,11 +775,7 @@ msgstr "宽"
 msgid "_Reset Compatibility Options to Defaults"
 msgstr "将兼容性选项重设为默认值"
 
-#: ddterm/pref/glade/prefs-panel-icon.ui:42
-msgid "Panel icon:"
-msgstr "面板图标："
-
-#: ddterm/pref/glade/prefs-panel-icon.ui:55 ddterm/pref/glade/prefs-tabs.ui:246
+#: ddterm/pref/glade/prefs-panel-icon.ui:38 ddterm/pref/glade/prefs-tabs.ui:246
 msgid "None"
 msgstr "无"
 
@@ -787,11 +783,11 @@ msgstr "无"
 msgid "With popup menu"
 msgstr "随着弹出菜单"
 
-#: ddterm/pref/glade/prefs-panel-icon.ui:57
+#: ddterm/pref/glade/prefs-panel-icon.ui:74
 msgid "Toggle button"
 msgstr "切换按钮"
 
-#: ddterm/pref/glade/prefs-panel-icon.ui:58
+#: ddterm/pref/glade/prefs-panel-icon.ui:92
 msgid "Toggle button and popup menu"
 msgstr "切换按钮和弹出菜单"
 
@@ -1133,7 +1129,7 @@ msgstr "检测邮件地址"
 msgid "Detect news:/man: URLs"
 msgstr "检测新闻、文档URL"
 
-#: ddterm/pref/panelicon.js:52
+#: ddterm/pref/panelicon.js:49
 msgid "Panel Icon"
 msgstr "面板图标"
 
@@ -1160,6 +1156,9 @@ msgstr "文本"
 #: ddterm/shell/panelicon.js:70
 msgid "Show"
 msgstr "显示"
+
+#~ msgid "Panel icon:"
+#~ msgstr "面板图标："
 
 #~ msgid "Tab _title:"
 #~ msgstr "标签页标题："

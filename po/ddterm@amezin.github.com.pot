@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-12 12:28+0000\n"
+"POT-Creation-Date: 2023-08-12 15:23+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -772,11 +772,7 @@ msgstr ""
 msgid "_Reset Compatibility Options to Defaults"
 msgstr ""
 
-#: ddterm/pref/glade/prefs-panel-icon.ui:42
-msgid "Panel icon:"
-msgstr ""
-
-#: ddterm/pref/glade/prefs-panel-icon.ui:55 ddterm/pref/glade/prefs-tabs.ui:246
+#: ddterm/pref/glade/prefs-panel-icon.ui:38 ddterm/pref/glade/prefs-tabs.ui:246
 msgid "None"
 msgstr ""
 
@@ -784,11 +780,11 @@ msgstr ""
 msgid "With popup menu"
 msgstr ""
 
-#: ddterm/pref/glade/prefs-panel-icon.ui:57
+#: ddterm/pref/glade/prefs-panel-icon.ui:74
 msgid "Toggle button"
 msgstr ""
 
-#: ddterm/pref/glade/prefs-panel-icon.ui:58
+#: ddterm/pref/glade/prefs-panel-icon.ui:92
 msgid "Toggle button and popup menu"
 msgstr ""
 
@@ -1128,7 +1124,7 @@ msgstr ""
 msgid "Detect news:/man: URLs"
 msgstr ""
 
-#: ddterm/pref/panelicon.js:52
+#: ddterm/pref/panelicon.js:49
 msgid "Panel Icon"
 msgstr ""
 

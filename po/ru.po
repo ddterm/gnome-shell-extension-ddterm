@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-12 12:28+0000\n"
+"POT-Creation-Date: 2023-08-12 15:23+0000\n"
 "PO-Revision-Date: 2023-03-14 13:45+0000\n"
 "Last-Translator: Aleksandr Mezin <mezin.alexander@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/gnome-shell-"
@@ -778,11 +778,7 @@ msgstr "Широкие"
 msgid "_Reset Compatibility Options to Defaults"
 msgstr "Восстановить параметры совместимости по умолчанию"
 
-#: ddterm/pref/glade/prefs-panel-icon.ui:42
-msgid "Panel icon:"
-msgstr "Иконка на панели:"
-
-#: ddterm/pref/glade/prefs-panel-icon.ui:55 ddterm/pref/glade/prefs-tabs.ui:246
+#: ddterm/pref/glade/prefs-panel-icon.ui:38 ddterm/pref/glade/prefs-tabs.ui:246
 msgid "None"
 msgstr "Нет"
 
@@ -790,11 +786,11 @@ msgstr "Нет"
 msgid "With popup menu"
 msgstr "Выпадающее меню"
 
-#: ddterm/pref/glade/prefs-panel-icon.ui:57
+#: ddterm/pref/glade/prefs-panel-icon.ui:74
 msgid "Toggle button"
 msgstr "Кнопка переключения"
 
-#: ddterm/pref/glade/prefs-panel-icon.ui:58
+#: ddterm/pref/glade/prefs-panel-icon.ui:92
 msgid "Toggle button and popup menu"
 msgstr "Кнопка переключения и выпадающее меню"
 
@@ -1136,7 +1132,7 @@ msgstr "Адреса E-mail"
 msgid "Detect news:/man: URLs"
 msgstr "Ссылки вида \"news:/man\""
 
-#: ddterm/pref/panelicon.js:52
+#: ddterm/pref/panelicon.js:49
 msgid "Panel Icon"
 msgstr "Значок на панели"
 
@@ -1163,6 +1159,9 @@ msgstr "Текст"
 #: ddterm/shell/panelicon.js:70
 msgid "Show"
 msgstr "Показать"
+
+#~ msgid "Panel icon:"
+#~ msgstr "Иконка на панели:"
 
 #~ msgid "Tab _title:"
 #~ msgstr "Название вкладки:"

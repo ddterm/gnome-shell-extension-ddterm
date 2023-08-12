@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-12 12:28+0000\n"
+"POT-Creation-Date: 2023-08-12 15:23+0000\n"
 "PO-Revision-Date: 2023-03-14 12:19+0000\n"
 "Last-Translator: Aleksandr Mezin <mezin.alexander@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/gnome-shell-"
@@ -779,11 +779,7 @@ msgstr "Larges"
 msgid "_Reset Compatibility Options to Defaults"
 msgstr "Réinitialiser les options de compatibilité aux valeurs par défaut"
 
-#: ddterm/pref/glade/prefs-panel-icon.ui:42
-msgid "Panel icon:"
-msgstr "Icône de panneau :"
-
-#: ddterm/pref/glade/prefs-panel-icon.ui:55 ddterm/pref/glade/prefs-tabs.ui:246
+#: ddterm/pref/glade/prefs-panel-icon.ui:38 ddterm/pref/glade/prefs-tabs.ui:246
 msgid "None"
 msgstr "Aucun"
 
@@ -791,11 +787,11 @@ msgstr "Aucun"
 msgid "With popup menu"
 msgstr "Avec un menu contextuel"
 
-#: ddterm/pref/glade/prefs-panel-icon.ui:57
+#: ddterm/pref/glade/prefs-panel-icon.ui:74
 msgid "Toggle button"
 msgstr "Bouton de basculement"
 
-#: ddterm/pref/glade/prefs-panel-icon.ui:58
+#: ddterm/pref/glade/prefs-panel-icon.ui:92
 msgid "Toggle button and popup menu"
 msgstr "Bouton de basculement et menu contextuel"
 
@@ -1137,7 +1133,7 @@ msgstr "Détecter les adresses email"
 msgid "Detect news:/man: URLs"
 msgstr "Détecter les URL de type « news: »"
 
-#: ddterm/pref/panelicon.js:52
+#: ddterm/pref/panelicon.js:49
 msgid "Panel Icon"
 msgstr "Icône de panneau"
 
@@ -1164,6 +1160,9 @@ msgstr "Texte"
 #: ddterm/shell/panelicon.js:70
 msgid "Show"
 msgstr "Afficher"
+
+#~ msgid "Panel icon:"
+#~ msgstr "Icône de panneau :"
 
 #~ msgid "Tab _title:"
 #~ msgstr "Titre d'onglet :"
