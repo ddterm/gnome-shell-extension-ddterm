@@ -22,7 +22,7 @@
 /* exported TerminalPage TerminalSettings */
 
 const { GLib, GObject, Gio, Gdk, Gtk, Pango, Vte } = imports.gi;
-const { pcre2, resources, search, tablabel, tcgetpgrp, urldetect_patterns } = imports.ddterm.app;
+const { resources, search, tablabel, tcgetpgrp, urldetect } = imports.ddterm.app;
 const { translations } = imports.ddterm.util;
 
 function parse_rgba(str) {
@@ -35,53 +35,6 @@ function parse_rgba(str) {
 
     throw Error(`Cannot parse ${JSON.stringify(str)} as color`);
 }
-
-function jit_regex(regex) {
-    try {
-        regex.jit(pcre2.PCRE2_JIT_COMPLETE);
-    } catch (ex) {
-        logError(ex, `Can't JIT compile ${regex} (PCRE2_JIT_COMPLETE)`);
-        return;
-    }
-
-    try {
-        regex.jit(pcre2.PCRE2_JIT_PARTIAL_SOFT);
-    } catch (ex) {
-        logError(ex, `Can't JIT compile ${regex} (PCRE2_JIT_PARTIAL_SOFT)`);
-    }
-}
-
-const BASE_REGEX_FLAGS =
-    pcre2.PCRE2_UTF | pcre2.PCRE2_NO_UTF_CHECK | pcre2.PCRE2_UCP | pcre2.PCRE2_MULTILINE;
-
-function compile_regex(regex) {
-    const compiled = Vte.Regex.new_for_match(regex, -1, BASE_REGEX_FLAGS);
-    jit_regex(compiled);
-    return compiled;
-}
-
-const URL_REGEX = {
-    'detect-urls-as-is': {
-        regex: compile_regex(urldetect_patterns.REGEX_URL_AS_IS),
-    },
-    'detect-urls-file': {
-        regex: compile_regex(urldetect_patterns.REGEX_URL_FILE),
-    },
-    'detect-urls-http': {
-        regex: compile_regex(urldetect_patterns.REGEX_URL_HTTP),
-        prefix: 'http://',
-    },
-    'detect-urls-voip': {
-        regex: compile_regex(urldetect_patterns.REGEX_URL_VOIP),
-    },
-    'detect-urls-email': {
-        regex: compile_regex(urldetect_patterns.REGEX_EMAIL),
-        prefix: 'mailto:',
-    },
-    'detect-urls-news-man': {
-        regex: compile_regex(urldetect_patterns.REGEX_NEWS_MAN),
-    },
-};
 
 var TerminalPage = GObject.registerClass(
     {
@@ -141,6 +94,7 @@ var TerminalPage = GObject.registerClass(
             this.clipboard = Gtk.Clipboard.get_default(Gdk.Display.get_default());
             this.primary_selection = Gtk.Clipboard.get(Gdk.Atom.intern('PRIMARY', true));
             this.child_pid = null;
+            this._url_detect = null;
 
             const terminal_with_scrollbar = new Gtk.Box({
                 visible: true,
@@ -303,14 +257,6 @@ var TerminalPage = GObject.registerClass(
                 color => this.terminal.set_color_highlight_foreground(color)
             );
 
-            this.map_settings(
-                [
-                    'detect-urls',
-                    ...Object.keys(URL_REGEX),
-                ],
-                this.update_url_regex.bind(this)
-            );
-
             this.settings.bind(
                 'show-scrollbar',
                 this.scrollbar,
@@ -326,6 +272,8 @@ var TerminalPage = GObject.registerClass(
 
             this.terminal_popup_menu = this.setup_popup_menu(this.terminal, 'terminal-popup');
             this.setup_popup_menu(this.tab_label, 'tab-popup');
+
+            this.map_settings(['detect-urls'], this.setup_url_detect.bind(this));
 
             const page_actions = new Gio.SimpleActionGroup();
 
@@ -507,20 +455,22 @@ var TerminalPage = GObject.registerClass(
             this.terminal.set_colors(foreground, background, palette);
         }
 
-        update_url_regex() {
-            this.terminal.match_remove_all();
-            this.url_prefix = [];
+        setup_url_detect() {
+            if (this.settings.get_boolean('detect-urls')) {
+                if (!this._url_detect) {
+                    this._url_detect = new urldetect.UrlDetect({
+                        terminal: this.terminal,
+                        ...Object.fromEntries(urldetect.SETTINGS.map(
+                            name => [name, this.settings.get_boolean(name)]
+                        )),
+                    });
 
-            if (!this.settings.get_boolean('detect-urls'))
-                return;
-
-            for (const [key, { regex, prefix }] of Object.entries(URL_REGEX)) {
-                if (!this.settings.get_boolean(key))
-                    continue;
-
-                const tag = this.terminal.match_add_regex(regex, 0);
-                this.terminal.match_set_cursor_name(tag, 'pointer');
-                this.url_prefix[tag] = prefix;
+                    for (const name of urldetect.SETTINGS)
+                        this.settings.bind(name, this._url_detect, name, Gio.SettingsBindFlags.GET);
+                }
+            } else if (this._url_detect) {
+                this._url_detect.disable();
+                this._url_detect = null;
             }
         }
 
@@ -623,21 +573,10 @@ var TerminalPage = GObject.registerClass(
         }
 
         terminal_button_press_early(_terminal, event) {
-            const state = event.get_state()[1];
-            const button = event.get_button()[1];
-
             let clicked_hyperlink = this.terminal.hyperlink_check_event(event);
 
-            if (!clicked_hyperlink) {
-                const [url, tag] = this.terminal.match_check_event(event);
-                if (url && tag !== null) {
-                    const prefix = this.url_prefix[tag];
-                    if (prefix && !url.toLowerCase().startsWith(prefix))
-                        clicked_hyperlink = prefix + url;
-                    else
-                        clicked_hyperlink = url;
-                }
-            }
+            if (!clicked_hyperlink && this._url_detect)
+                clicked_hyperlink = this._url_detect.check_event(event);
 
             let clicked_filename = null;
 
@@ -651,7 +590,11 @@ var TerminalPage = GObject.registerClass(
             this.clicked_filename = clicked_filename;
             this.clicked_hyperlink = clicked_hyperlink;
 
+            const state = event.get_state()[1];
+
             if (state & Gdk.ModifierType.CONTROL_MASK) {
+                const button = event.get_button()[1];
+
                 if ([Gdk.BUTTON_PRIMARY, Gdk.BUTTON_MIDDLE].includes(button)) {
                     this.open_hyperlink();
                     return true;
