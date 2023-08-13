@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-12 15:23+0000\n"
+"POT-Creation-Date: 2023-08-13 11:10+0000\n"
 "PO-Revision-Date: 2023-04-03 13:37+0000\n"
 "Last-Translator: Jörn Weigend <das.jott@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/gnome-shell-"
@@ -220,11 +220,11 @@ msgstr "Finde nächstes"
 msgid "Find Previous"
 msgstr "finde vorheriges"
 
-#: ddterm/app/terminalpage.js:751
+#: ddterm/app/terminalpage.js:694
 msgid "Close this terminal?"
 msgstr "Dieses Terminal schließen?"
 
-#: ddterm/app/terminalpage.js:754
+#: ddterm/app/terminalpage.js:697
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."
