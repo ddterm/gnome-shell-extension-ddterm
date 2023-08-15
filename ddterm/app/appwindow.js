@@ -22,7 +22,7 @@
 /* exported AppWindow */
 
 const { GLib, GObject, Gio, Gdk, Gtk } = imports.gi;
-const { notebook, resources } = imports.ddterm.app;
+const { displayconfig, notebook, resources } = imports.ddterm.app;
 const { translations } = imports.ddterm.util;
 
 function make_resizer(orientation) {
@@ -274,6 +274,9 @@ var AppWindow = GObject.registerClass(
             const display = this.get_display();
 
             if (display.constructor.$gtype.name === 'GdkWaylandDisplay') {
+                this.display_config = new displayconfig.DisplayConfig();
+                this.connect('destroy', () => this.display_config.unwatch());
+
                 const rect_type = new GLib.VariantType('(iiii)');
 
                 const dbus_handler = this.extension_dbus.connect(
@@ -387,18 +390,20 @@ var AppWindow = GObject.registerClass(
             if (!rect)
                 rect = this.extension_dbus.GetTargetRectSync();
 
-            const [target_x, target_y, target_w, target_h] = rect;
+            let [target_x, target_y, target_w, target_h] = rect;
 
-            const display = this.get_display();
-            const target_monitor = display.get_monitor_at_point(target_x, target_y);
+            if (this.display_config.layout_mode !== displayconfig.LayoutMode.LOGICAL) {
+                const display = this.get_display();
+                const target_monitor = display.get_monitor_at_point(target_x, target_y);
 
-            const w = Math.floor(target_w / target_monitor.scale_factor);
-            const h = Math.floor(target_h / target_monitor.scale_factor);
+                target_w = Math.floor(target_w / target_monitor.scale_factor);
+                target_h = Math.floor(target_h / target_monitor.scale_factor);
+            }
 
-            this.resize(w, h);
+            this.resize(target_w, target_h);
 
             if (this.window)
-                this.window.resize(w, h);
+                this.window.resize(target_w, target_h);
         }
 
         show_version_mismatch_warning() {
