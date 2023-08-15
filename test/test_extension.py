@@ -183,18 +183,23 @@ def screenshot(xvfb_fbdir, extra, pytestconfig):
     )
 
 
-def compute_target_rect(size, pos, monitor):
+def compute_target_rect(size, pos, monitor, logical_pixels):
     x, y, width, height = monitor.workarea
 
+    round_to = int(monitor.scale)
+
+    if logical_pixels:
+        round_to *= round_to
+
     if pos in ['top', 'bottom']:
-        height = math.trunc(height * size)
-        height -= height % monitor.scale
+        height *= size
+        height -= height % round_to
 
         if pos == 'bottom':
             y += monitor.workarea.height - height
     else:
-        width = math.trunc(width * size)
-        width -= width % monitor.scale
+        width *= size
+        width -= width % round_to
 
         if pos == 'right':
             x += monitor.workarea.width - width
@@ -202,7 +207,7 @@ def compute_target_rect(size, pos, monitor):
     return Rect(x, y, width, height)
 
 
-def verify_window_geometry(test_interface, size, maximize, pos, monitor):
+def verify_window_geometry(test_interface, size, maximize, pos, monitor, logical_pixels):
     if pos in ['top', 'bottom']:
         actual_maximized = test_interface.IsMaximizedVertically()
     else:
@@ -210,7 +215,12 @@ def verify_window_geometry(test_interface, size, maximize, pos, monitor):
 
     assert maximize == actual_maximized
 
-    target_rect_unmaximized = compute_target_rect(size=size, pos=pos, monitor=monitor)
+    target_rect_unmaximized = compute_target_rect(
+        size=size,
+        pos=pos,
+        monitor=monitor,
+        logical_pixels=logical_pixels
+    )
 
     assert all(
         coord % monitor.scale == 0
@@ -236,6 +246,7 @@ def wait_move_resize(
     window_maximize,
     window_pos,
     monitor,
+    logical_pixels,
     max_signals=2,
     idle_timeout_ms=DEFAULT_IDLE_TIMEOUT_MS,
     wait_timeout_ms=MOVE_RESIZE_WAIT_TIMEOUT_MS
@@ -256,7 +267,8 @@ def wait_move_resize(
         target_rect = compute_target_rect(
             size=window_size,
             pos=window_pos,
-            monitor=monitor
+            monitor=monitor,
+            logical_pixels=logical_pixels
         )
 
     if top_or_bottom:
@@ -359,7 +371,8 @@ def wait_move_resize(
                 size=window_size,
                 maximize=window_maximize,
                 pos=window_pos,
-                monitor=monitor
+                monitor=monitor,
+                logical_pixels=logical_pixels
             )
 
     with idle_timer, wait_timer, signal_handler:
@@ -533,6 +546,8 @@ class CommonFixtures:
     N_MONITORS: int
     PRIMARY_MONITOR = 0
     IS_MIXED_DPI = False
+    MUTTER_EXPERIMENTAL_FEATURES = []
+    LOGICAL_PIXELS = False
 
     @classmethod
     def mount_configs(cls):
@@ -596,9 +611,16 @@ class CommonFixtures:
     @pytest.fixture(scope='class')
     def gnome_shell_session(self, container, install_ddterm):
         container.exec(
+            'gsettings', 'set', 'org.gnome.mutter', 'experimental-features',
+            json.dumps(self.MUTTER_EXPERIMENTAL_FEATURES),
+            timeout=STARTUP_TIMEOUT_SEC, user=USER_NAME
+        )
+
+        container.exec(
             'systemctl', 'start', f'{self.GNOME_SHELL_SESSION_NAME}@{DISPLAY}.target',
             timeout=STARTUP_TIMEOUT_SEC
         )
+
         return self.GNOME_SHELL_SESSION_NAME
 
     @pytest.fixture(scope='class')
@@ -808,6 +830,7 @@ class CommonTests(CommonFixtures):
             should_maximize,
             window_pos,
             window_monitor,
+            self.LOGICAL_PIXELS,
             (0 if prev_maximize == should_maximize else 1) + mixed_dpi_penalty
         ) as wait1:
             wait1()
@@ -819,6 +842,7 @@ class CommonTests(CommonFixtures):
                 True,
                 window_pos,
                 window_monitor,
+                self.LOGICAL_PIXELS,
                 1 + mixed_dpi_penalty
             ) as wait2:
                 test_api.settings.set_boolean('window-maximize', True)
@@ -909,7 +933,13 @@ class CommonTests(CommonFixtures):
 
             test_api.mouse_sim.move_to(initial_x, initial_y)
 
-            target_frame_rect = compute_target_rect(window_size2, window_pos, monitor)
+            target_frame_rect = compute_target_rect(
+                size=window_size2,
+                pos=window_pos,
+                monitor=monitor,
+                logical_pixels=self.LOGICAL_PIXELS
+            )
+
             target_x, target_y = resize_point(target_frame_rect, window_pos, monitor.scale)
 
             try:
@@ -919,6 +949,7 @@ class CommonTests(CommonFixtures):
                     False,
                     window_pos,
                     monitor,
+                    self.LOGICAL_PIXELS,
                     3,
                     XTE_IDLE_TIMEOUT_MS
                 ) as wait1:
@@ -937,9 +968,10 @@ class CommonTests(CommonFixtures):
 
             with glib_util.SignalWait(test_api.dbus, 'g-signal') as wait3:
                 while compute_target_rect(
-                    test_api.settings.get('window-size'),
-                    window_pos,
-                    monitor
+                    size=test_api.settings.get('window-size'),
+                    pos=window_pos,
+                    monitor=monitor,
+                    logical_pixels=self.LOGICAL_PIXELS
                 ) != target_frame_rect:
                     wait3.wait()
 
@@ -949,6 +981,7 @@ class CommonTests(CommonFixtures):
                 False,
                 window_pos,
                 monitor,
+                self.LOGICAL_PIXELS,
                 1
             ) as wait4:
                 wait4()
@@ -986,7 +1019,8 @@ class CommonTests(CommonFixtures):
                 window_size,
                 window_size == 1.0 and initially_maximized,
                 window_pos2,
-                monitor
+                monitor,
+                self.LOGICAL_PIXELS
             ) as wait:
                 test_api.settings.set_string('window-position', window_pos2)
                 wait()
@@ -1020,7 +1054,8 @@ class CommonTests(CommonFixtures):
                 window_size,
                 False,
                 window_pos,
-                monitor
+                monitor,
+                self.LOGICAL_PIXELS
             ) as wait:
                 test_api.settings.set_boolean('window-maximize', False)
                 wait()
@@ -1055,7 +1090,8 @@ class CommonTests(CommonFixtures):
                 window_size2,
                 window_size == 1.0 and window_size2 == 1.0 and initially_maximized,
                 window_pos,
-                monitor
+                monitor,
+                self.LOGICAL_PIXELS
             ) as wait1:
                 test_api.settings.set_double('window-size', window_size2)
                 wait1()
@@ -1065,7 +1101,8 @@ class CommonTests(CommonFixtures):
                 window_size2,
                 True,
                 window_pos,
-                monitor
+                monitor,
+                self.LOGICAL_PIXELS
             ) as wait2:
                 test_api.settings.set_boolean('window-maximize', True)
                 wait2()
@@ -1075,7 +1112,8 @@ class CommonTests(CommonFixtures):
                 window_size2,
                 False,
                 window_pos,
-                monitor
+                monitor,
+                self.LOGICAL_PIXELS
             ) as wait3:
                 test_api.settings.set_boolean('window-maximize', False)
                 wait3()
@@ -1112,7 +1150,8 @@ class CommonTests(CommonFixtures):
                 window_size2,
                 window_size2 == 1.0,
                 window_pos,
-                monitor
+                monitor,
+                self.LOGICAL_PIXELS
             ) as wait:
                 test_api.settings.set_double('window-size', window_size2)
                 wait()
@@ -1226,6 +1265,18 @@ class TestWaylandMixedDPI(DualMonitorTests, SmallScreenMixin):
     @pytest.mark.skip
     def test_unmaximize_on_size_change(self, monitor_config):
         pass
+
+
+class TestWaylandFractionalScale(SingleMonitorTests, LargeScreenMixin):
+    GNOME_SHELL_SESSION_NAME = 'gnome-session-wayland'
+    MUTTER_EXPERIMENTAL_FEATURES = ['scale-monitor-framebuffer']
+    LOGICAL_PIXELS = True
+
+    @classmethod
+    def mount_configs(cls):
+        return super().mount_configs() + [
+            '/etc/systemd/system/gnome-session-wayland@.service.d/mutter-fractional.conf'
+        ]
 
 
 def wait_action_in_group(group, action):

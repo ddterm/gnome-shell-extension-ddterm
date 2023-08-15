@@ -431,8 +431,9 @@ var WindowManager = GObject.registerClass(
             this.current_workarea =
                 Main.layoutManager.getWorkAreaForMonitor(this.current_monitor_index);
 
-            this.current_monitor_scale =
-                global.display.get_monitor_scale(this.current_monitor_index);
+            this.current_monitor_scale = Math.floor(
+                global.display.get_monitor_scale(this.current_monitor_index)
+            );
 
             this._update_target_rect();
         }
