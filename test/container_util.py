@@ -109,11 +109,9 @@ class Container:
             'container', 'exec', *exec_args, self.container_id, *args, **kwargs
         )
 
-    def inspect(self, format=None, **kwargs):
-        format_args = () if format is None else ('--format', format)
-
+    def inspect(self, format='.', **kwargs):
         return json.loads(self.podman(
-            'container', 'inspect', *format_args, self.container_id,
+            'container', 'inspect', f'--format={{json {format}}}', self.container_id,
             **kwargs, stdout=subprocess.PIPE  # text=True not required!
         ).stdout)
 
