@@ -25,7 +25,7 @@ import Xlib.X
 from pytest_html import extras
 from gi.repository import GLib, Gio
 
-from . import container_util, dbus_util, glib_util, log_sync
+from . import dbus_util, glib_util, log_sync, systemd_container
 
 
 LOGGER = logging.getLogger(__name__)
@@ -90,7 +90,7 @@ def xvfb_fbdir(tmpdir_factory):
 
 
 @pytest.fixture(scope='session')
-def common_volumes(ddterm_metadata, test_metadata, extension_pack, xvfb_fbdir, syslog_server):
+def common_volumes(ddterm_metadata, test_metadata, extension_pack, xvfb_fbdir):
     if extension_pack:
         src_mount = (extension_pack, extension_pack, 'ro')
     else:
@@ -100,7 +100,6 @@ def common_volumes(ddterm_metadata, test_metadata, extension_pack, xvfb_fbdir, s
         src_mount,
         (TEST_SRC_DIR, EXTENSIONS_INSTALL_DIR / test_metadata['uuid'], 'ro'),
         (xvfb_fbdir, '/xvfb', 'rw'),
-        (syslog_server.server_address, '/run/systemd/journal/syslog'),
     ]
 
 
@@ -508,7 +507,7 @@ class SyncMessageSystemdCat:
     @log_sync.hookimpl
     def log_sync_message(self, msg):
         try:
-            self.container.exec('systemd-cat', input=msg.encode(), interactive=True)
+            self.container.journal_message(msg)
             return True
 
         except Exception:
@@ -539,7 +538,6 @@ class CommonFixtures:
     def mount_configs(cls):
         return [
             '/etc/systemd/system/xvfb@.service.d/fbdir.conf',
-            '/etc/systemd/journald.conf.d/syslog.conf',
         ]
 
     @pytest.fixture(scope='class')
@@ -548,6 +546,7 @@ class CommonFixtures:
         podman,
         container_image,
         common_volumes,
+        syslog_server,
         container_start_lock,
         log_sync
     ):
@@ -560,88 +559,50 @@ class CommonFixtures:
             for path in self.mount_configs()
         ]
 
-        cap_add = [
-            'SYS_NICE',
-            'SYS_PTRACE',
-            'SETPCAP',
-            'NET_RAW',
-            'NET_BIND_SERVICE',
-            'DAC_READ_SEARCH',
-            'IPC_LOCK',
-        ]
-
         publish_ports = [
             ('127.0.0.1', '', DBUS_PORT),
             ('127.0.0.1', '', DISPLAY_PORT)
         ]
 
         with container_start_lock:
-            c = container_util.Container(
+            c = systemd_container.SystemdContainer.create(
                 podman,
-                '--pull=never',
-                '--log-driver=none',
-                '--tty',
-                f'--publish={",".join(":".join(str(p) for p in spec) for spec in publish_ports)}',
-                f'--cap-add={",".join(cap_add)}',
-                *itertools.chain.from_iterable(
-                    ('-v', ':'.join(str(part) for part in parts))
-                    for parts in volumes
-                ),
                 container_image,
-                timeout=STARTUP_TIMEOUT_SEC
+                publish=publish_ports,
+                volumes=volumes,
+                timeout=STARTUP_TIMEOUT_SEC,
+                syslog_server=syslog_server,
             )
 
         try:
             c.start(timeout=STARTUP_TIMEOUT_SEC)
 
             with log_sync.with_registered(SyncMessageSystemdCat(c)):
-                c.exec(
-                    'busctl', '--system', '--watch-bind=true', 'status',
-                    timeout=STARTUP_TIMEOUT_SEC
-                )
-                c.exec(
-                    'systemctl', 'is-system-running', '--wait',
-                    timeout=STARTUP_TIMEOUT_SEC
-                )
-
+                c.wait_system_running(timeout=STARTUP_TIMEOUT_SEC)
                 yield c
 
         finally:
             c.rm(timeout=STARTUP_TIMEOUT_SEC)
 
     @pytest.fixture(scope='class')
-    def user_env(self, container):
-        uid = container.exec('id', '-u', USER_NAME, stdout=subprocess.PIPE).stdout.decode().strip()
-
-        return dict(
-            user=USER_NAME,
-            env=dict(DBUS_SESSION_BUS_ADDRESS=f'unix:path=/run/user/{uid}/bus')
-        )
-
-    @pytest.fixture(scope='class')
-    def install_ddterm(self, extension_pack, container, user_env):
+    def install_ddterm(self, extension_pack, container):
         if extension_pack:
             container.exec(
                 'gnome-extensions', 'install', str(extension_pack),
-                timeout=STARTUP_TIMEOUT_SEC, **user_env
+                timeout=STARTUP_TIMEOUT_SEC, user=USER_NAME
             )
 
     @pytest.fixture(scope='class')
-    def gnome_shell_session(self, container, user_env, install_ddterm):
+    def gnome_shell_session(self, container, install_ddterm):
         container.exec(
             'systemctl', '--user', 'start', f'{self.GNOME_SHELL_SESSION_NAME}@{DISPLAY}',
-            timeout=STARTUP_TIMEOUT_SEC, **user_env
+            timeout=STARTUP_TIMEOUT_SEC, user=USER_NAME
         )
         return self.GNOME_SHELL_SESSION_NAME
 
     @pytest.fixture(scope='class')
-    def bus_connection(self, container, user_env):
-        for _ in glib_util.busy_wait(100, STARTUP_TIMEOUT_MS):
-            if container.exec(
-                'busctl', '--user', '--watch-bind=true', '--timeout=1', 'status',
-                stdout=subprocess.DEVNULL, check=False, **user_env
-            ).returncode == 0:
-                break
+    def bus_connection(self, container):
+        container.wait_user_bus(USER_NAME, timeout=STARTUP_TIMEOUT_SEC)
 
         with contextlib.closing(dbus_util.connect_tcp(*container.get_port(DBUS_PORT))) as c:
             yield c
@@ -1442,10 +1403,10 @@ class TestDependencies(CommonFixtures):
 
         return common_volumes + [mount]
 
-    def test_manifest(self, container, user_env):
+    def test_manifest(self, container):
         container.exec(
             str(SRC_DIR / 'ddterm' / 'app' / 'tools' / 'dependencies-update.js'),
             '--dry-run',
             timeout=60,
-            **user_env
+            user=USER_NAME,
         )

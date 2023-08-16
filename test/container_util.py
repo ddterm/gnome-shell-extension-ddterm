@@ -59,16 +59,48 @@ class Podman:
 
 
 class Container:
-    def __init__(self, podman, *args, **kwargs):
+    def __init__(self, podman, container_id):
         self.podman = podman
         self.console = None
+        self.container_id = container_id
 
-        self.container_id = podman(
-            'container', 'create', *args,
-            stdout=subprocess.PIPE, text=True, **kwargs
-        ).stdout.strip()
+    @classmethod
+    def create(
+        cls,
+        podman,
+        image,
+        *cmd,
+        volumes=[],
+        publish=[],
+        cap_add=[],
+        tty=False,
+        user=None,
+        **kwargs
+    ):
+        args = ['container', 'create', '--pull=never', '--log-driver=none']
 
-    def rm(self, timeout=None, **kwargs):
+        if tty:
+            args.append('--tty')
+
+        for volume_spec in volumes:
+            args.extend(('--volume', ':'.join(str(part) for part in volume_spec)))
+
+        for port_spec in publish:
+            args.extend(('--publish', ':'.join(str(part) for part in port_spec)))
+
+        if cap_add:
+            args.extend(('--cap-add', ','.join(cap_add)))
+
+        if user:
+            args.extend(('--user', str(user)))
+
+        args.append(image)
+        args.extend(cmd)
+
+        cid = podman(*args, **kwargs, stdout=subprocess.PIPE, text=True).stdout.strip()
+        return cls(podman, cid)
+
+    def rm(self, *, timeout=None, **kwargs):
         timeout = self.podman.timeout if timeout is None else timeout
 
         self.podman(
@@ -97,7 +129,7 @@ class Container:
         exec_args = []
 
         if user is not None:
-            exec_args.extend(('--user', user))
+            exec_args.append(f'--user={user}')
 
         if env:
             exec_args.extend(f'--env={k}={v}' for k, v in env.items())
