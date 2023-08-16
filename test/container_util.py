@@ -114,13 +114,13 @@ class Container:
 
         return json.loads(self.podman(
             'container', 'inspect', *format_args, self.container_id,
-            stdout=subprocess.PIPE, **kwargs  # text=True not required!
+            **kwargs, stdout=subprocess.PIPE  # text=True not required!
         ).stdout)
 
     def get_port(self, port, **kwargs):
         host, port = self.podman(
             'container', 'port', self.container_id, str(port),
-            stdout=subprocess.PIPE, text=True, **kwargs
+            **kwargs, stdout=subprocess.PIPE, text=True
         ).stdout.strip().split(':', 1)
 
         return host, int(port)
