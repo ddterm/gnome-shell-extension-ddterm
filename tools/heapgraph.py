@@ -99,6 +99,7 @@ filt_opts.add_argument('--hide-node', '-hn', dest='hide_nodes', action='append',
                                                  'GIRepositoryNamespace',
                                                  'GjsFileImporter',
                                                  'GjsGlobal',
+                                                 'GjsInternalGlobal',
                                                  'GjsModule'],
                        help='Don\'t show nodes with labels containing LABEL')
 
@@ -667,6 +668,7 @@ if __name__ == "__main__":
     # Node and Root Filtering
     if args.show_global:
         args.hide_nodes.remove('GjsGlobal')
+        args.hide_nodes.remove('GjsInternalGlobal')
     if args.show_imports:
         args.hide_nodes.remove('GjsFileImporter')
         args.hide_nodes.remove('GjsModule')
