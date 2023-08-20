@@ -37,7 +37,7 @@ class OneShotTimer(contextlib.AbstractContextManager):
             callback()
             return GLib.SOURCE_REMOVE
 
-        self.source = GLib.timeout_source_new(timeout)
+        self.source = GLib.timeout_source_new(max(0, timeout))
         self.source.set_callback(handler)
         self.source.attach(context)
 
