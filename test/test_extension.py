@@ -572,6 +572,7 @@ class CommonFixtures:
                 volumes=volumes,
                 timeout=STARTUP_TIMEOUT_SEC,
                 syslog_server=syslog_server,
+                unit='multi-user.target'
             )
 
         try:
@@ -595,20 +596,18 @@ class CommonFixtures:
     @pytest.fixture(scope='class')
     def gnome_shell_session(self, container, install_ddterm):
         container.exec(
-            'systemctl', '--user', 'start', f'{self.GNOME_SHELL_SESSION_NAME}@{DISPLAY}',
-            timeout=STARTUP_TIMEOUT_SEC, user=USER_NAME
+            'systemctl', 'start', f'{self.GNOME_SHELL_SESSION_NAME}@{DISPLAY}.target',
+            timeout=STARTUP_TIMEOUT_SEC
         )
         return self.GNOME_SHELL_SESSION_NAME
 
     @pytest.fixture(scope='class')
-    def bus_connection(self, container):
-        container.wait_user_bus(USER_NAME, timeout=STARTUP_TIMEOUT_SEC)
-
+    def bus_connection(self, container, gnome_shell_session):
         with contextlib.closing(dbus_util.connect_tcp(*container.get_port(DBUS_PORT))) as c:
             yield c
 
     @pytest.fixture(scope='class')
-    def shell_extensions_interface(self, bus_connection, gnome_shell_session):
+    def shell_extensions_interface(self, bus_connection):
         return dbus_util.wait_interface(
             bus_connection,
             name='org.gnome.Shell',
@@ -1156,42 +1155,42 @@ class DualMonitorTests(CommonTests):
 
 
 class TestXSession(SingleMonitorTests, LargeScreenMixin):
-    GNOME_SHELL_SESSION_NAME = 'gnome-xsession'
+    GNOME_SHELL_SESSION_NAME = 'gnome-session-x11'
 
 
 class TestWayland(SingleMonitorTests, LargeScreenMixin):
-    GNOME_SHELL_SESSION_NAME = 'gnome-wayland-nested'
+    GNOME_SHELL_SESSION_NAME = 'gnome-session-wayland'
 
 
 class TestWaylandHighDpi(SingleMonitorTests, SmallScreenMixin):
-    GNOME_SHELL_SESSION_NAME = 'gnome-wayland-nested'
+    GNOME_SHELL_SESSION_NAME = 'gnome-session-wayland'
 
     @classmethod
     def mount_configs(cls):
         return super().mount_configs() + [
-            '/etc/systemd/user/gnome-wayland-nested@.service.d/mutter-highdpi.conf'
+            '/etc/systemd/system/gnome-session-wayland@.service.d/mutter-highdpi.conf'
         ]
 
 
 class TestWaylandDualMonitor(DualMonitorTests, SmallScreenMixin):
-    GNOME_SHELL_SESSION_NAME = 'gnome-wayland-nested'
+    GNOME_SHELL_SESSION_NAME = 'gnome-session-wayland'
 
     @classmethod
     def mount_configs(cls):
         return super().mount_configs() + [
-            '/etc/systemd/user/gnome-wayland-nested@.service.d/mutter-dual-monitor.conf'
+            '/etc/systemd/system/gnome-session-wayland@.service.d/mutter-dual-monitor.conf'
         ]
 
 
 @pytest.mark.flaky
 class TestWaylandMixedDPI(DualMonitorTests, SmallScreenMixin):
-    GNOME_SHELL_SESSION_NAME = 'gnome-wayland-nested'
+    GNOME_SHELL_SESSION_NAME = 'gnome-session-wayland'
     IS_MIXED_DPI = True
 
     @classmethod
     def mount_configs(cls):
         return super().mount_configs() + [
-            '/etc/systemd/user/gnome-wayland-nested@.service.d/mutter-mixed-dpi.conf'
+            '/etc/systemd/system/gnome-session-wayland@.service.d/mutter-mixed-dpi.conf'
         ]
 
     @functools.wraps(CommonTests.test_show_v)
@@ -1299,7 +1298,7 @@ def detect_heap_leaks(syslogger, app_actions, heap_dump_dir):
 
 
 class TestHeapLeaks(CommonFixtures):
-    GNOME_SHELL_SESSION_NAME = 'gnome-xsession'
+    GNOME_SHELL_SESSION_NAME = 'gnome-session-x11'
     N_MONITORS = 1
 
     @pytest.fixture
@@ -1392,7 +1391,7 @@ class TestHeapLeaks(CommonFixtures):
 
 
 class TestDependencies(CommonFixtures):
-    GNOME_SHELL_SESSION_NAME = 'gnome-xsession'
+    GNOME_SHELL_SESSION_NAME = 'gnome-session-x11'
     N_MONITORS = 1
 
     @pytest.fixture(scope='session')

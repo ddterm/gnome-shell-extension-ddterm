@@ -35,10 +35,12 @@ class SystemdContainer(container_util.Container):
     ]
 
     @classmethod
-    def create(cls, podman, image, *args, syslog_server=None, **kwargs):
+    def create(cls, podman, image, *args, syslog_server=None, unit=None, **kwargs):
         kwargs.setdefault('tty', True)
         kwargs.setdefault('cap_add', cls.REQUIRED_CAPS)
         kwargs.setdefault('user', '0')
+
+        extra_args = []
 
         if syslog_server:
             kwargs.setdefault('volumes', [])
@@ -48,12 +50,13 @@ class SystemdContainer(container_util.Container):
                 '/run/systemd/journal/syslog'
             ))
 
-            args += (
-                'systemd.journald.forward_to_syslog=1',
-                'systemd.journald.forward_to_console=0',
-            )
+            extra_args.append('systemd.journald.forward_to_syslog=1')
+            extra_args.append('systemd.journald.forward_to_console=0')
 
-        return super().create(podman, image, '/sbin/init', *args, **kwargs)
+        if unit:
+            extra_args.append(f'systemd.unit={unit}')
+
+        return super().create(podman, image, '/sbin/init', *extra_args, *args, **kwargs)
 
     def wait_system_running(self, **kwargs):
         timeout = kwargs.pop('timeout', self.podman.timeout)
@@ -117,23 +120,3 @@ class SystemdContainer(container_util.Container):
             env=env,
             timeout=deadline - time.monotonic()
         )
-
-    def wait_user_bus(self, user=None, **kwargs):
-        timeout = kwargs.pop('timeout', self.podman.timeout)
-        iter_time = timeout / 10
-        deadline = time.monotonic() + timeout
-
-        kwargs['env'] = self.get_user_env(**kwargs, user=user, timeout=timeout)
-
-        while super().exec(
-            'busctl',
-            '--user',
-            '--watch-bind=true',
-            f'--timeout={min(iter_time, (deadline - time.monotonic()) / 2)}',
-            'status',
-            **kwargs,
-            user=user,
-            check=False,
-            timeout=deadline - time.monotonic()
-        ).returncode != 0:
-            time.sleep(min(iter_time, (deadline - time.monotonic()) / 2))
