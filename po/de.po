@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-13 11:10+0000\n"
+"POT-Creation-Date: 2023-08-20 19:44+0000\n"
 "PO-Revision-Date: 2023-04-03 13:37+0000\n"
 "Last-Translator: Jörn Weigend <das.jott@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/gnome-shell-"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "Drop Down Terminal"
 msgstr "Drop-Down-Terminal"
 
-#: ddterm/app/appwindow.js:415
+#: ddterm/app/appwindow.js:420
 msgid ""
 "Warning: ddterm version has changed. Log out, then log in again to load the "
 "updated extension."
