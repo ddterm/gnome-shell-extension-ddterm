@@ -104,8 +104,8 @@ def common_volumes(ddterm_metadata, test_metadata, extension_pack, xvfb_fbdir):
 
 
 @pytest.fixture(scope='session')
-def container_start_lock(request):
-    return filelock.FileLock(request.config.cache.mkdir('container-starting') / 'lock')
+def container_create_lock(request):
+    return filelock.FileLock(request.config.cache.mkdir('container-creating') / 'lock')
 
 
 def enable_extension(shell_extensions_interface, uuid):
@@ -562,7 +562,7 @@ class CommonFixtures:
         container_image,
         common_volumes,
         syslog_server,
-        container_start_lock,
+        container_create_lock,
         log_sync
     ):
         volumes = common_volumes + [
@@ -579,7 +579,7 @@ class CommonFixtures:
             ('127.0.0.1', '', DISPLAY_PORT)
         ]
 
-        with container_start_lock:
+        with container_create_lock:
             c = systemd_container.SystemdContainer.create(
                 podman,
                 container_image,
