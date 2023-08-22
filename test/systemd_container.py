@@ -43,7 +43,7 @@ class SystemdContainer(container_util.Container):
         extra_args = []
 
         if syslog_server:
-            kwargs.setdefault('volumes', [])
+            kwargs['volumes'] = list(kwargs.get('volumes', []))
 
             kwargs['volumes'].append((
                 get_socket_address(syslog_server),
