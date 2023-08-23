@@ -57,7 +57,12 @@ class SystemdContainer(container_util.Container):
 
         super().__init__(podman, image, '/sbin/init', *extra_args, *args, **kwargs)
 
+        self._ready = False
+
     def wait_system_running(self, **kwargs):
+        if self._ready:
+            return
+
         timeout = kwargs.pop('timeout', self.podman.timeout)
         deadline = time.monotonic() + timeout
 
@@ -70,6 +75,8 @@ class SystemdContainer(container_util.Container):
             'systemctl', 'is-system-running', '--wait',
             **kwargs, timeout=deadline - time.monotonic()
         )
+
+        self._ready = True
 
     def journal_message(self, msg, **kwargs):
         self.exec('systemd-cat', **kwargs, input=msg.encode(), interactive=True)
