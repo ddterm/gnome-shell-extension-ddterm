@@ -162,16 +162,6 @@ class ExtensionTestDBusInterface {
         global.run_at_leisure(() => invocation.return_value(null));
     }
 
-    DisableWelcomeDialog() {
-        if (global.settings.settings_schema.has_key('welcome-dialog-last-shown-version'))
-            global.settings.set_string('welcome-dialog-last-shown-version', '99.0');
-    }
-
-    CloseWelcomeDialog() {
-        if (Main.welcomeDialog)
-            Main.welcomeDialog.close();
-    }
-
     HideOverview() {
         Main.overview.hide();
     }

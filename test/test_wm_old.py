@@ -1,22 +1,13 @@
 import base64
 import collections
 import contextlib
-import datetime
 import functools
-import itertools
 import json
 import logging.handlers
 import math
 import pathlib
-import queue
-import shlex
-import subprocess
-import sys
-import time
-import zipfile
 
 import allpairspy
-import filelock
 import pytest
 import wand.image
 import Xlib.display
@@ -25,7 +16,7 @@ import Xlib.X
 from pytest_html import extras
 from gi.repository import GLib, Gio
 
-from . import dbus_util, glib_util, log_sync, systemd_container
+from . import glib_util
 
 
 LOGGER = logging.getLogger(__name__)
@@ -67,69 +58,26 @@ def mkpairs(*args, **kwargs):
 
 
 @pytest.fixture(scope='session')
-def ddterm_metadata(extension_pack):
-    if extension_pack:
-        with zipfile.ZipFile(extension_pack) as z:
-            with z.open('metadata.json') as f:
-                return json.load(f)
-
-    else:
-        with open(SRC_DIR / 'metadata.json', 'r') as f:
-            return json.load(f)
-
-
-@pytest.fixture(scope='session')
-def test_metadata():
-    with open(TEST_SRC_DIR / 'metadata.json', 'r') as f:
-        return json.load(f)
-
-
-@pytest.fixture(scope='session')
 def xvfb_fbdir(tmpdir_factory):
     return tmpdir_factory.mktemp('xvfb')
 
 
-@pytest.fixture(scope='session')
-def common_volumes(ddterm_metadata, test_metadata, extension_pack, xvfb_fbdir):
-    if extension_pack:
-        src_mount = (extension_pack, extension_pack, 'ro')
-    else:
-        src_mount = (SRC_DIR, EXTENSIONS_INSTALL_DIR / ddterm_metadata['uuid'], 'ro')
+def config_volume(path):
+    path = pathlib.Path(path).resolve()
 
-    return [
-        src_mount,
-        (TEST_SRC_DIR, EXTENSIONS_INSTALL_DIR / test_metadata['uuid'], 'ro'),
+    return (
+        path,
+        pathlib.PurePosixPath('/') / pathlib.PurePosixPath(path.relative_to(THIS_DIR)),
+        'ro'
+    )
+
+
+@pytest.fixture(scope='session')
+def container_volumes(container_volumes, xvfb_fbdir):
+    return container_volumes + (
         (xvfb_fbdir, '/xvfb', 'rw'),
-    ]
-
-
-@pytest.fixture(scope='session')
-def container_create_lock(request):
-    return filelock.FileLock(request.config.cache.mkdir('container-creating') / 'lock')
-
-
-def enable_extension(shell_extensions_interface, uuid):
-    info = None
-
-    with glib_util.SignalWait(
-        source=shell_extensions_interface,
-        signal='g-signal',
-        timeout=STARTUP_TIMEOUT_MS
-    ) as g_signal:
-        shell_extensions_interface.EnableExtension('(s)', uuid, timeout=STARTUP_TIMEOUT_MS)
-
-        while True:
-            info = shell_extensions_interface.GetExtensionInfo(
-                '(s)', uuid, timeout=STARTUP_TIMEOUT_MS
-            )
-
-            if info:
-                break
-
-            g_signal.wait()
-
-    assert info['error'] == ''
-    assert info['state'] == 1
+        config_volume(THIS_DIR / 'etc' / 'systemd' / 'system' / 'xvfb@.service.d' / 'fbdir.conf')
+    )
 
 
 def resize_point(frame_rect, window_pos, monitor_scale):
@@ -455,21 +403,11 @@ class Settings:
         self.change_value(key, GLib.Variant.new_string(value))
 
 
-class MouseSim(contextlib.AbstractContextManager):
-    def __init__(self, container, test_interface):
-        self.container = container
+class MouseSim:
+    def __init__(self, x11_display, test_interface):
+        self.display = x11_display
         self.test_interface = test_interface
         self.mouse_button_last = False
-
-        host, port = container.get_port(DISPLAY_PORT)
-        display_number = int(port) - X11_DISPLAY_BASE_PORT
-        self.display = Xlib.display.Display(f'{host}:{display_number}')
-
-    def close(self):
-        self.display.close()
-
-    def __exit__(self, *_):
-        self.close()
 
     def move_to(self, x, y):
         x = math.floor(x)
@@ -513,256 +451,73 @@ class MouseSim(contextlib.AbstractContextManager):
         LOGGER.info('Mouse button pressed = %s', self.mouse_button_last)
 
 
-class SyncMessageSystemdCat:
-    def __init__(self, container):
-        self.container = container
+@pytest.fixture(scope='session', autouse=True)
+def test_setup(test_interface):
+    with glib_util.SignalWait(
+        test_interface,
+        'g-properties-changed',
+        timeout=STARTUP_TIMEOUT_MS
+    ) as wait1:
+        while test_interface.get_cached_property('StartingUp'):
+            wait1.wait()
 
-    @log_sync.hookimpl
-    def log_sync_message(self, msg):
-        try:
-            self.container.journal_message(msg)
-            return True
+    test_interface.BlockBanner(timeout=STARTUP_TIMEOUT_MS)
+    test_interface.HideOverview(timeout=STARTUP_TIMEOUT_MS)
 
-        except Exception:
-            LOGGER.exception("Can't send syslog message with systemd-cat")
+    with glib_util.SignalWait(
+        test_interface,
+        'g-properties-changed',
+        timeout=STARTUP_TIMEOUT_MS
+    ) as wait2:
+        while test_interface.get_cached_property('OverviewVisible') or \
+                test_interface.get_cached_property('WelcomeDialogVisible'):
+            wait2.wait()
 
 
-class SyncMessageDBus:
-    def __init__(self, dbus_interface):
-        self.dbus_interface = dbus_interface
+@pytest.fixture(scope='session')
+def layout(test_interface):
+    return Layout(test_interface)
 
-    @log_sync.hookimpl
-    def log_sync_message(self, msg):
-        try:
-            self.dbus_interface.LogMessage('(s)', msg)
-            return True
 
-        except Exception:
-            LOGGER.exception("Can't send syslog message through D-Bus")
+@pytest.fixture(scope='session')
+def shell_version(shell_dbus_api):
+    return shell_dbus_api.version
+
+
+@pytest.fixture(scope='session')
+def settings(test_interface):
+    return Settings(test_interface)
+
+
+@pytest.fixture(scope='session')
+def mouse_sim(test_interface, x11_display):
+    return MouseSim(x11_display, test_interface)
+
+
+@pytest.fixture(scope='session')
+def test_api(test_interface, layout, settings, mouse_sim):
+    return collections.namedtuple('TestAPI', ['dbus', 'layout', 'settings', 'mouse_sim'])(
+        dbus=test_interface,
+        layout=layout,
+        settings=settings,
+        mouse_sim=mouse_sim
+    )
 
 
 class CommonFixtures:
-    GNOME_SHELL_SESSION_NAME: str
-    N_MONITORS: int
     PRIMARY_MONITOR = 0
     IS_MIXED_DPI = False
-    MUTTER_EXPERIMENTAL_FEATURES = []
     LOGICAL_PIXELS = False
 
-    @classmethod
-    def mount_configs(cls):
-        return [
-            '/etc/systemd/system/xvfb@.service.d/fbdir.conf',
-        ]
-
-    @pytest.fixture(scope='class')
-    def container(
-        self,
-        podman,
-        container_image,
-        common_volumes,
-        syslog_server,
-        container_create_lock,
-        log_sync
-    ):
-        volumes = common_volumes + [
-            (
-                THIS_DIR / pathlib.PurePosixPath(path).relative_to('/'),
-                pathlib.PurePosixPath(path),
-                'ro'
-            )
-            for path in self.mount_configs()
-        ]
-
-        publish_ports = [
-            ('127.0.0.1', '', DBUS_PORT),
-            ('127.0.0.1', '', DISPLAY_PORT)
-        ]
-
-        with container_create_lock:
-            c = systemd_container.SystemdContainer.create(
-                podman,
-                container_image,
-                publish=publish_ports,
-                volumes=volumes,
-                timeout=STARTUP_TIMEOUT_SEC,
-                syslog_server=syslog_server,
-                unit='multi-user.target'
-            )
-
-        try:
-            c.start(timeout=STARTUP_TIMEOUT_SEC)
-
-            with log_sync.with_registered(SyncMessageSystemdCat(c)):
-                c.wait_system_running(timeout=STARTUP_TIMEOUT_SEC)
-                yield c
-
-        finally:
-            c.rm(timeout=STARTUP_TIMEOUT_SEC)
-
-    @pytest.fixture(scope='class')
-    def install_ddterm(self, extension_pack, container):
-        if extension_pack:
-            container.exec(
-                'gnome-extensions', 'install', str(extension_pack),
-                timeout=STARTUP_TIMEOUT_SEC, user=USER_NAME
-            )
-
-    @pytest.fixture(scope='class')
-    def gnome_shell_session(self, container, install_ddterm):
-        container.exec(
-            'gsettings', 'set', 'org.gnome.mutter', 'experimental-features',
-            json.dumps(self.MUTTER_EXPERIMENTAL_FEATURES),
-            timeout=STARTUP_TIMEOUT_SEC, user=USER_NAME
-        )
-
-        container.exec(
-            'systemctl', 'start', f'{self.GNOME_SHELL_SESSION_NAME}@{DISPLAY}.target',
-            timeout=STARTUP_TIMEOUT_SEC
-        )
-
+    @pytest.fixture(scope='session')
+    def shell_session_name(self):
         return self.GNOME_SHELL_SESSION_NAME
 
-    @pytest.fixture(scope='class')
-    def bus_connection(self, container, gnome_shell_session):
-        with contextlib.closing(dbus_util.connect_tcp(*container.get_port(DBUS_PORT))) as c:
-            yield c
-
-    @pytest.fixture(scope='class')
-    def shell_extensions_interface(self, bus_connection):
-        return dbus_util.wait_interface(
-            bus_connection,
-            name='org.gnome.Shell',
-            path='/org/gnome/Shell',
-            interface='org.gnome.Shell.Extensions',
-        )
-
-    @pytest.fixture(scope='class')
-    def enable_ddterm(self, shell_extensions_interface, ddterm_metadata, install_ddterm):
-        enable_extension(shell_extensions_interface, ddterm_metadata['uuid'])
-
-    @pytest.fixture(scope='class')
-    def extension_interface(self, bus_connection, enable_ddterm):
-        return dbus_util.wait_interface(
-            bus_connection,
-            name='org.gnome.Shell',
-            path='/org/gnome/Shell/Extensions/ddterm',
-            interface='com.github.amezin.ddterm.Extension'
-        )
-
-    @pytest.fixture(scope='class')
-    def enable_test(self, shell_extensions_interface, test_metadata, enable_ddterm):
-        enable_extension(shell_extensions_interface, test_metadata['uuid'])
-
-    @pytest.fixture(scope='class')
-    def test_interface(self, bus_connection, enable_test, log_sync):
-        iface = dbus_util.wait_interface(
-            bus_connection,
-            name='org.gnome.Shell',
-            path='/org/gnome/Shell/Extensions/ddterm',
-            interface='com.github.amezin.ddterm.ExtensionTest'
-        )
-
-        with log_sync.with_registered(SyncMessageDBus(iface)):
-            yield iface
-
-    @pytest.fixture(scope='class', autouse=True)
-    def trace(self, test_interface):
-        def trace_signal(proxy, sender, signal, params):
-            LOGGER.info('%s %r', signal, params.unpack())
-
-        def trace_props(proxy, changed, invalidated):
-            for prop in changed.keys():
-                LOGGER.info('%s = %r', prop, changed[prop])
-
-            for prop in invalidated:
-                LOGGER.info('%s invalidated', prop)
-
-        with glib_util.SignalConnection(test_interface, 'g-signal', trace_signal):
-            with glib_util.SignalConnection(test_interface, 'g-properties-changed', trace_props):
-                yield
-
-    @pytest.fixture(scope='class', autouse=True)
-    def test_setup(self, test_interface):
-        test_interface.DisableWelcomeDialog(timeout=STARTUP_TIMEOUT_MS)
-
-        with glib_util.SignalWait(
-            test_interface,
-            'g-properties-changed',
-            timeout=STARTUP_TIMEOUT_MS
-        ) as wait1:
-            while test_interface.get_cached_property('StartingUp'):
-                wait1.wait()
-
-        test_interface.CloseWelcomeDialog(timeout=STARTUP_TIMEOUT_MS)
-        test_interface.BlockBanner(timeout=STARTUP_TIMEOUT_MS)
-        test_interface.HideOverview(timeout=STARTUP_TIMEOUT_MS)
-
-        with glib_util.SignalWait(
-            test_interface,
-            'g-properties-changed',
-            timeout=STARTUP_TIMEOUT_MS
-        ) as wait2:
-            while test_interface.get_cached_property('OverviewVisible') or \
-                    test_interface.get_cached_property('WelcomeDialogVisible'):
-                wait2.wait()
-
-    @pytest.fixture(scope='class')
-    def layout(self, test_interface, test_setup):
-        return Layout(test_interface)
-
-    @pytest.fixture(scope='class', autouse=True)
+    @pytest.fixture(scope='session', autouse=True)
     def check_layout(self, layout):
-        assert len(layout.monitors) == self.N_MONITORS
         assert layout.primary_index == self.PRIMARY_MONITOR
+        assert len(layout.monitors) == self.N_MONITORS
         assert layout.is_mixed_dpi == self.IS_MIXED_DPI
-
-    @pytest.fixture(scope='class')
-    def shell_version(self, shell_extensions_interface):
-        version_str = shell_extensions_interface.get_cached_property('ShellVersion').unpack()
-        return tuple(
-            int(x) if x.isdecimal() else x
-            for x in version_str.split('.')
-        )
-
-    @pytest.fixture(scope='class')
-    def settings(self, test_interface):
-        return Settings(test_interface)
-
-    @pytest.fixture(scope='class')
-    def mouse_sim(self, test_interface, container, shell_version):
-        with MouseSim(container, test_interface) as mouse_sim:
-            yield mouse_sim
-
-    @pytest.fixture(scope='class')
-    def test_api(self, test_interface, layout, settings, mouse_sim):
-        return collections.namedtuple('TestAPI', ['dbus', 'layout', 'settings', 'mouse_sim'])(
-            dbus=test_interface,
-            layout=layout,
-            settings=settings,
-            mouse_sim=mouse_sim
-        )
-
-    @pytest.fixture(autouse=True)
-    def check_log_errors(self, caplog, syslog_server, ddterm_metadata):
-        pattern = f'@{EXTENSIONS_INSTALL_DIR / ddterm_metadata["uuid"]}'
-
-        yield
-
-        all_records = itertools.chain(
-            caplog.get_records('setup'),
-            caplog.get_records('call'),
-            caplog.get_records('teardown')
-        )
-
-        errors = [
-            record for record in all_records
-            if record.levelno >= logging.WARNING
-            and record.name.startswith(syslog_server.logger.name)
-            and pattern in record.message
-        ]
-
-        assert errors == []
 
 
 class CommonTests(CommonFixtures):
@@ -1188,43 +943,59 @@ class DualMonitorTests(CommonTests):
 
 
 class TestXSession(SingleMonitorTests, LargeScreenMixin):
-    GNOME_SHELL_SESSION_NAME = 'gnome-session-x11'
+    @pytest.fixture(scope='session')
+    def shell_session_name(self):
+        return 'gnome-session-x11'
+
+
+def mutter_config_volume(name):
+    BASE_PATH = THIS_DIR / 'etc' / 'systemd' / 'system' / 'gnome-session-wayland@.service.d'
+    return config_volume(BASE_PATH / name)
 
 
 class TestWayland(SingleMonitorTests, LargeScreenMixin):
-    GNOME_SHELL_SESSION_NAME = 'gnome-session-wayland'
+    @pytest.fixture(scope='session')
+    def shell_session_name(self):
+        return 'gnome-session-wayland'
 
 
 class TestWaylandHighDpi(SingleMonitorTests, SmallScreenMixin):
-    GNOME_SHELL_SESSION_NAME = 'gnome-session-wayland'
+    @pytest.fixture(scope='session')
+    def shell_session_name(self):
+        return 'gnome-session-wayland'
 
-    @classmethod
-    def mount_configs(cls):
-        return super().mount_configs() + [
-            '/etc/systemd/system/gnome-session-wayland@.service.d/mutter-highdpi.conf'
-        ]
+    @pytest.fixture(scope='session')
+    def container_volumes(self, container_volumes):
+        return container_volumes + (
+            mutter_config_volume('mutter-highdpi.conf'),
+        )
 
 
 class TestWaylandDualMonitor(DualMonitorTests, SmallScreenMixin):
-    GNOME_SHELL_SESSION_NAME = 'gnome-session-wayland'
+    @pytest.fixture(scope='session')
+    def shell_session_name(self):
+        return 'gnome-session-wayland'
 
-    @classmethod
-    def mount_configs(cls):
-        return super().mount_configs() + [
-            '/etc/systemd/system/gnome-session-wayland@.service.d/mutter-dual-monitor.conf'
-        ]
+    @pytest.fixture(scope='session')
+    def container_volumes(self, container_volumes):
+        return container_volumes + (
+            mutter_config_volume('mutter-dual-monitor.conf'),
+        )
 
 
 @pytest.mark.flaky
 class TestWaylandMixedDPI(DualMonitorTests, SmallScreenMixin):
-    GNOME_SHELL_SESSION_NAME = 'gnome-session-wayland'
     IS_MIXED_DPI = True
 
-    @classmethod
-    def mount_configs(cls):
-        return super().mount_configs() + [
-            '/etc/systemd/system/gnome-session-wayland@.service.d/mutter-mixed-dpi.conf'
-        ]
+    @pytest.fixture(scope='session')
+    def shell_session_name(self):
+        return 'gnome-session-wayland'
+
+    @pytest.fixture(scope='session')
+    def container_volumes(self, container_volumes):
+        return container_volumes + (
+            mutter_config_volume('mutter-mixed-dpi.conf'),
+        )
 
     @functools.wraps(CommonTests.test_show_v)
     def test_show_v(self, *args, shell_version, **kwargs):
@@ -1262,195 +1033,22 @@ class TestWaylandMixedDPI(DualMonitorTests, SmallScreenMixin):
 
 
 class TestWaylandFractionalScale(SingleMonitorTests, LargeScreenMixin):
-    GNOME_SHELL_SESSION_NAME = 'gnome-session-wayland'
-    MUTTER_EXPERIMENTAL_FEATURES = ['scale-monitor-framebuffer']
     LOGICAL_PIXELS = True
 
-    @classmethod
-    def mount_configs(cls):
-        return super().mount_configs() + [
-            '/etc/systemd/system/gnome-session-wayland@.service.d/mutter-fractional.conf'
-        ]
-
-
-def wait_action_in_group(group, action):
-    with glib_util.SignalWait(group, f'action-added::{action}') as w:
-        while not group.has_action(action):
-            w.wait()
-
-
-def wait_action_in_group_enabled(group, action, enabled=True):
-    wait_action_in_group(group, action)
-
-    with glib_util.SignalWait(group, f'action-enabled-changed::{action}') as w:
-        while group.get_action_enabled(action) != enabled:
-            w.wait()
-
-
-@contextlib.contextmanager
-def detect_heap_leaks(syslogger, app_actions, heap_dump_dir):
-
-    def dump_heap():
-        timestamp = datetime.datetime.now(datetime.timezone.utc)
-        heap_dump_file = heap_dump_dir / f'{timestamp.isoformat().replace(":", "-")}.heap'
-
-        app_actions.activate_action('gc', None)
-
-        handler = logging.handlers.QueueHandler(queue.SimpleQueue())
-        syslogger.addHandler(handler)
-
-        try:
-            app_actions.activate_action('dump-heap', GLib.Variant('s', str(heap_dump_file)))
-
-            for record in iter(lambda: handler.queue.get(timeout=1), None):
-                if record.message.endswith(f'Dumped heap to {heap_dump_file}'):
-                    return heap_dump_file
-
-        finally:
-            syslogger.removeHandler(handler)
-
-    dump_pre = dump_heap()
-
-    yield
-
-    dump_post = dump_heap()
-
-    heapgraph_argv = [
-        sys.executable,
-        str(SRC_DIR / 'tools' / 'heapgraph.py'),
-        '--hide-node',
-        '_init/Gtk',
-        '--no-gray-roots',
-        '--no-weak-maps',
-        '--diff-heap',
-        str(dump_pre),
-        str(dump_post),
-        'GObject'
-    ]
-
-    LOGGER.info('Running heapgraph: %r', shlex.join(heapgraph_argv))
-
-    heapgraph = subprocess.run(
-        heapgraph_argv,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        check=True,
-        text=True
-    )
-
-    LOGGER.info('heapgraph stderr:\n%s\nstdout:\n%s\n', heapgraph.stderr, heapgraph.stdout)
-    assert heapgraph.stdout == ''
-
-
-class TestHeapLeaks(CommonFixtures):
-    GNOME_SHELL_SESSION_NAME = 'gnome-session-x11'
-    N_MONITORS = 1
-
-    @pytest.fixture
-    def app_actions(self, bus_connection):
-        return Gio.DBusActionGroup.get(
-            bus_connection,
-            'com.github.amezin.ddterm',
-            '/com/github/amezin/ddterm'
-        )
-
-    @pytest.fixture
-    def notebook_actions(self, bus_connection):
-        return Gio.DBusActionGroup.get(
-            bus_connection,
-            'com.github.amezin.ddterm',
-            '/com/github/amezin/ddterm/window/1/notebook'
-        )
-
-    @pytest.fixture(autouse=True)
-    def run_app(self, extension_interface, test_interface, app_actions):
-        extension_interface.Activate(timeout=STARTUP_TIMEOUT_MS)
-
-        def app_running():
-            return test_interface.get_cached_property('IsAppRunning').unpack()
-
-        def has_window():
-            return test_interface.get_cached_property('HasWindow').unpack()
-
-        with glib_util.SignalWait(test_interface, 'g-properties-changed', STARTUP_TIMEOUT_MS) as w:
-            while not app_running() or not has_window():
-                w.wait()
-
-        try:
-            yield
-
-        finally:
-            app_actions.activate_action('quit', None)
-
-            with glib_util.SignalWait(test_interface, 'g-properties-changed') as w:
-                while app_running() or has_window():
-                    w.wait()
+    @pytest.fixture(scope='session')
+    def shell_session_name(self):
+        return 'gnome-session-wayland'
 
     @pytest.fixture(scope='session')
-    def heap_dump_dir(self, tmp_path_factory):
-        path = tmp_path_factory.mktemp('heap')
-        path.chmod(0o777)
-        return path
-
-    @pytest.fixture(scope='session')
-    def common_volumes(self, common_volumes, heap_dump_dir):
-        return common_volumes + [(heap_dump_dir, heap_dump_dir)]
-
-    @pytest.fixture
-    def leak_detector(self, syslog_server, app_actions, heap_dump_dir):
-        wait_action_in_group(app_actions, 'gc')
-        wait_action_in_group(app_actions, 'dump-heap')
-
-        return functools.partial(
-            detect_heap_leaks,
-            syslogger=syslog_server.logger,
-            app_actions=app_actions,
-            heap_dump_dir=heap_dump_dir
+    def container_volumes(self, container_volumes):
+        return container_volumes + (
+            mutter_config_volume('mutter-fractional.conf'),
         )
 
-    def test_tab_leak(self, leak_detector, notebook_actions):
-        wait_action_in_group(notebook_actions, 'new-tab')
-        wait_action_in_group(notebook_actions, 'close-current-tab')
-
-        with leak_detector():
-            notebook_actions.activate_action('new-tab', None)
-            notebook_actions.activate_action('close-current-tab', None)
-            time.sleep(0.5)
-
-    def test_prefs_leak(self, leak_detector, app_actions):
-        wait_action_in_group(app_actions, 'preferences')
-        wait_action_in_group_enabled(app_actions, 'close-preferences', False)
-
-        def open_close_prefs():
-            app_actions.activate_action('preferences', None)
-            wait_action_in_group_enabled(app_actions, 'close-preferences', True)
-            app_actions.activate_action('close-preferences', None)
-            wait_action_in_group_enabled(app_actions, 'close-preferences', False)
-
-        open_close_prefs()
-        time.sleep(0.5)
-
-        with leak_detector():
-            open_close_prefs()
-            time.sleep(0.5)
-
-
-class TestDependencies(CommonFixtures):
-    GNOME_SHELL_SESSION_NAME = 'gnome-session-x11'
-    N_MONITORS = 1
-
     @pytest.fixture(scope='session')
-    def common_volumes(self, common_volumes):
-        mount = (SRC_DIR, SRC_DIR, 'ro')
-        if mount in common_volumes:
-            return common_volumes
-
-        return common_volumes + [mount]
-
-    def test_manifest(self, container):
+    def configure_shell_session(self, configure_shell_session, container):
         container.exec(
-            str(SRC_DIR / 'ddterm' / 'app' / 'tools' / 'dependencies-update.js'),
-            '--dry-run',
-            timeout=60,
-            user=USER_NAME,
+            'gsettings', 'set', 'org.gnome.mutter', 'experimental-features',
+            json.dumps(['scale-monitor-framebuffer']),
+            timeout=STARTUP_TIMEOUT_SEC, user=USER_NAME
         )
