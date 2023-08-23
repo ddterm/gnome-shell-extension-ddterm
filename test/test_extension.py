@@ -2,6 +2,7 @@ import base64
 import collections
 import contextlib
 import datetime
+import enum
 import functools
 import itertools
 import json
@@ -46,10 +47,6 @@ DISPLAY_PORT = X11_DISPLAY_BASE_PORT + DISPLAY_NUMBER
 DISPLAY = f':{DISPLAY_NUMBER}'
 DBUS_PORT = 1234
 
-MAXIMIZE_MODES = ['not-maximized', 'maximize-early', 'maximize-late']
-HORIZONTAL_RESIZE_POSITIONS = ['left', 'right']
-VERTICAL_RESIZE_POSITIONS = ['top', 'bottom']
-POSITIONS = VERTICAL_RESIZE_POSITIONS + HORIZONTAL_RESIZE_POSITIONS
 SIZE_VALUES = [0.5, 0.9, 1.0]
 SMALL_SCREEN_SIZE_VALUES = [0.8, 0.85, 0.91]
 MORE_SIZE_VALUES = [0.31, 0.36, 0.4] + SMALL_SCREEN_SIZE_VALUES
@@ -60,6 +57,28 @@ WAIT_TIMEOUT_MS = 2000
 MOVE_RESIZE_WAIT_TIMEOUT_MS = 1000
 STARTUP_TIMEOUT_SEC = 15
 STARTUP_TIMEOUT_MS = STARTUP_TIMEOUT_SEC * 1000
+
+
+class MaximizeMode(enum.StrEnum):
+    NOT_MAXIMIZED = 'not_maximized'
+    MAXIMIZE_EARLY = 'maximize_early'
+    MAXIMIZE_LATE = 'maximize_late'
+
+
+class WindowPosition(enum.StrEnum):
+    LEFT = 'left'
+    RIGHT = 'right'
+    TOP = 'top'
+    BOTTOM = 'bottom'
+
+
+HORIZONTAL_RESIZE_POSITIONS = [WindowPosition.LEFT, WindowPosition.RIGHT]
+VERTICAL_RESIZE_POSITIONS = [WindowPosition.TOP, WindowPosition.BOTTOM]
+
+
+class MonitorSetting(enum.StrEnum):
+    PRIMARY = 'primary'
+    CURRENT = 'current'
 
 
 def mkpairs(*args, **kwargs):
@@ -137,17 +156,17 @@ def resize_point(frame_rect, window_pos, monitor_scale):
     y = frame_rect.y
     edge_offset = 3 * monitor_scale
 
-    if window_pos == 'left' or window_pos == 'right':
+    if window_pos == WindowPosition.LEFT or window_pos == WindowPosition.RIGHT:
         y += math.floor(frame_rect.height / 2)
 
-        if window_pos == 'left':
+        if window_pos == WindowPosition.LEFT:
             x += frame_rect.width - edge_offset
         else:
             x += edge_offset
     else:
         x += math.floor(frame_rect.width / 2)
 
-        if window_pos == 'top':
+        if window_pos == WindowPosition.TOP:
             y += frame_rect.height - edge_offset
         else:
             y += edge_offset
@@ -191,24 +210,24 @@ def compute_target_rect(size, pos, monitor, logical_pixels):
     if logical_pixels:
         round_to *= round_to
 
-    if pos in ['top', 'bottom']:
+    if pos in [WindowPosition.TOP, WindowPosition.BOTTOM]:
         height *= size
         height -= height % round_to
 
-        if pos == 'bottom':
+        if pos == WindowPosition.BOTTOM:
             y += monitor.workarea.height - height
     else:
         width *= size
         width -= width % round_to
 
-        if pos == 'right':
+        if pos == WindowPosition.RIGHT:
             x += monitor.workarea.width - width
 
     return Rect(x, y, width, height)
 
 
 def verify_window_geometry(test_interface, size, maximize, pos, monitor, logical_pixels):
-    if pos in ['top', 'bottom']:
+    if pos in [WindowPosition.TOP, WindowPosition.BOTTOM]:
         actual_maximized = test_interface.IsMaximizedVertically()
     else:
         actual_maximized = test_interface.IsMaximizedHorizontally()
@@ -258,7 +277,7 @@ def wait_move_resize(
         window_size, window_maximize, window_pos, monitor.index
     )
 
-    top_or_bottom = window_pos in ['top', 'bottom']
+    top_or_bottom = window_pos in [WindowPosition.TOP, WindowPosition.BOTTOM]
     maximize_sig = 'MaximizedVertically' if top_or_bottom else 'MaximizedHorizontally'
 
     if window_maximize:
@@ -401,7 +420,7 @@ class Layout:
         self.is_mixed_dpi = len(dpis) > 1
 
     def resolve_monitor_index(self, monitor_config):
-        if monitor_config.setting == 'current':
+        if monitor_config.setting == MonitorSetting.CURRENT:
             return monitor_config.current_index
         else:
             return self.primary_index
@@ -804,9 +823,12 @@ class CommonTests(CommonFixtures):
         prev_maximize = test_api.settings.get('window-maximize')
 
         test_api.settings.set_double('window-size', window_size)
-        test_api.settings.set_boolean('window-maximize', window_maximize == 'maximize-early')
         test_api.settings.set_string('window-position', window_pos)
         test_api.settings.set_string('window-monitor', monitor_config.setting)
+        test_api.settings.set_boolean(
+            'window-maximize',
+            window_maximize == MaximizeMode.MAXIMIZE_EARLY
+        )
 
         with glib_util.SignalWait(
             source=test_api.dbus,
@@ -819,8 +841,10 @@ class CommonTests(CommonFixtures):
                 prop_wait.wait()
 
         settings_maximize = test_api.settings.get('window-maximize')
-        should_maximize = \
-            window_maximize == 'maximize-early' or (window_size == 1.0 and settings_maximize)
+        should_maximize = (
+            window_maximize == MaximizeMode.MAXIMIZE_EARLY or
+            (window_size == 1.0 and settings_maximize)
+        )
 
         mixed_dpi_penalty = 3 if test_api.layout.is_mixed_dpi else 0
 
@@ -835,7 +859,7 @@ class CommonTests(CommonFixtures):
         ) as wait1:
             wait1()
 
-        if window_maximize == 'maximize-late':
+        if window_maximize == MaximizeMode.MAXIMIZE_LATE:
             with wait_move_resize(
                 test_api.dbus,
                 window_size,
@@ -850,7 +874,7 @@ class CommonTests(CommonFixtures):
 
     @pytest.mark.parametrize(
         ['window_size', 'window_maximize', 'window_pos'],
-        mkpairs([MORE_SIZE_VALUES, MAXIMIZE_MODES, VERTICAL_RESIZE_POSITIONS])
+        mkpairs([MORE_SIZE_VALUES, list(MaximizeMode), VERTICAL_RESIZE_POSITIONS])
     )
     def test_show_v(
         self,
@@ -892,7 +916,7 @@ class CommonTests(CommonFixtures):
 
     @pytest.mark.parametrize(
         ['window_size', 'window_maximize', 'window_size2', 'window_pos'],
-        mkpairs([SIZE_VALUES, MAXIMIZE_MODES, SIZE_VALUES, POSITIONS])
+        mkpairs([SIZE_VALUES, list(MaximizeMode), SIZE_VALUES, list(WindowPosition)])
     )
     def test_resize_xte(
         self,
@@ -939,7 +963,7 @@ class CommonTests(CommonFixtures):
             try:
                 with wait_move_resize(
                     test_api.dbus,
-                    1.0 if window_maximize != 'not-maximized' else window_size,
+                    1.0 if window_maximize != MaximizeMode.NOT_MAXIMIZED else window_size,
                     False,
                     window_pos,
                     monitor,
@@ -983,7 +1007,7 @@ class CommonTests(CommonFixtures):
     @pytest.mark.parametrize(
         ['window_pos', 'window_pos2', 'window_size'],
         mkpairs(
-            [POSITIONS, POSITIONS, SIZE_VALUES],
+            [list(WindowPosition), list(WindowPosition), SIZE_VALUES],
             filter_func=lambda p: (len(p) < 2) or (p[0] != p[1])
         )
     )
@@ -1000,7 +1024,7 @@ class CommonTests(CommonFixtures):
             self.common_test_show(
                 test_api,
                 window_size,
-                'not-maximized',
+                MaximizeMode.NOT_MAXIMIZED,
                 window_pos,
                 monitor_config
             )
@@ -1021,7 +1045,7 @@ class CommonTests(CommonFixtures):
 
     @pytest.mark.parametrize(
         ['window_size', 'window_maximize', 'window_pos'],
-        mkpairs([SIZE_VALUES, MAXIMIZE_MODES, POSITIONS])
+        mkpairs([SIZE_VALUES, list(MaximizeMode), list(WindowPosition)])
     )
     def test_unmaximize(
         self,
@@ -1056,7 +1080,7 @@ class CommonTests(CommonFixtures):
 
     @pytest.mark.parametrize(
         ['window_size', 'window_size2', 'window_pos'],
-        mkpairs([SIZE_VALUES, SIZE_VALUES, POSITIONS])
+        mkpairs([SIZE_VALUES, SIZE_VALUES, list(WindowPosition)])
     )
     def test_unmaximize_correct_size(
         self,
@@ -1071,7 +1095,7 @@ class CommonTests(CommonFixtures):
             self.common_test_show(
                 test_api,
                 window_size,
-                'not-maximized',
+                MaximizeMode.NOT_MAXIMIZED,
                 window_pos,
                 monitor_config
             )
@@ -1115,7 +1139,7 @@ class CommonTests(CommonFixtures):
     @pytest.mark.parametrize(
         ['window_size', 'window_size2', 'window_pos'],
         mkpairs(
-            [SIZE_VALUES, SIZE_VALUES, POSITIONS],
+            [SIZE_VALUES, SIZE_VALUES, list(WindowPosition)],
             filter_func=lambda p: (len(p) < 2) or (p[0] != p[1])
         )
     )
@@ -1132,7 +1156,7 @@ class CommonTests(CommonFixtures):
             self.common_test_show(
                 test_api,
                 window_size,
-                'maximize-early',
+                MaximizeMode.MAXIMIZE_EARLY,
                 window_pos,
                 monitor_config
             )
@@ -1154,7 +1178,7 @@ class CommonTests(CommonFixtures):
 class LargeScreenMixin(CommonTests):
     @pytest.mark.parametrize(
         ['window_size', 'window_maximize', 'window_pos'],
-        mkpairs([MORE_SIZE_VALUES, MAXIMIZE_MODES, HORIZONTAL_RESIZE_POSITIONS])
+        mkpairs([MORE_SIZE_VALUES, list(MaximizeMode), HORIZONTAL_RESIZE_POSITIONS])
     )
     @functools.wraps(CommonTests.test_show_h)
     def test_show_h(self, *args, **kwargs):
@@ -1164,7 +1188,7 @@ class LargeScreenMixin(CommonTests):
 class SmallScreenMixin(CommonTests):
     @pytest.mark.parametrize(
         ['window_size', 'window_maximize', 'window_pos'],
-        mkpairs([SMALL_SCREEN_SIZE_VALUES, MAXIMIZE_MODES, HORIZONTAL_RESIZE_POSITIONS])
+        mkpairs([SMALL_SCREEN_SIZE_VALUES, list(MaximizeMode), HORIZONTAL_RESIZE_POSITIONS])
     )
     @functools.wraps(CommonTests.test_show_h)
     def test_show_h(self, *args, **kwargs):
@@ -1172,16 +1196,16 @@ class SmallScreenMixin(CommonTests):
 
 
 @pytest.mark.parametrize('monitor_config', [
-    MonitorConfig(0, 'current')
+    MonitorConfig(0, MonitorSetting.CURRENT)
 ])
 class SingleMonitorTests(CommonTests):
     N_MONITORS = 1
 
 
 @pytest.mark.parametrize('monitor_config', [
-    MonitorConfig(1, 'primary'),
-    MonitorConfig(1, 'current'),
-    # MonitorConfig(0, 'current'), # not interesting
+    MonitorConfig(1, MonitorSetting.PRIMARY),
+    MonitorConfig(1, MonitorSetting.CURRENT),
+    # MonitorConfig(0, MonitorSetting.CURRENT), # not interesting
 ])
 class DualMonitorTests(CommonTests):
     N_MONITORS = 2
