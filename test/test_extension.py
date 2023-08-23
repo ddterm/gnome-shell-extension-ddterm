@@ -479,14 +479,10 @@ class Settings:
 
 
 class MouseSim(contextlib.AbstractContextManager):
-    def __init__(self, container, test_interface):
-        self.container = container
+    def __init__(self, x11_display, test_interface):
+        self.display = x11_display
         self.test_interface = test_interface
         self.mouse_button_last = False
-
-        host, port = container.get_port(DISPLAY_PORT)
-        display_number = int(port) - X11_DISPLAY_BASE_PORT
-        self.display = Xlib.display.Display(f'{host}:{display_number}')
 
     def close(self):
         self.display.close()
@@ -753,9 +749,16 @@ class CommonFixtures:
         return Settings(test_interface)
 
     @pytest.fixture(scope='class')
-    def mouse_sim(self, test_interface, container, shell_version):
-        with MouseSim(container, test_interface) as mouse_sim:
-            yield mouse_sim
+    def x11_display(self, container):
+        host, port = container.get_port(DISPLAY_PORT)
+        display_number = int(port) - X11_DISPLAY_BASE_PORT
+        display = Xlib.display.Display(f'{host}:{display_number}')
+        yield display
+        display.close()
+
+    @pytest.fixture(scope='class')
+    def mouse_sim(self, test_interface, x11_display):
+        return MouseSim(x11_display, test_interface)
 
     @pytest.fixture(scope='class')
     def test_api(self, test_interface, layout, settings, mouse_sim):
