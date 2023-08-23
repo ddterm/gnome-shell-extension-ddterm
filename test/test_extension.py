@@ -1270,25 +1270,11 @@ class TestWaylandMixedDPI(DualMonitorTests, SmallScreenMixin):
 
         super().test_show_h(*args, shell_version=shell_version, **kwargs)
 
-    @pytest.mark.skip
-    def test_resize_xte(self, monitor_config):
-        pass
-
-    @pytest.mark.skip
-    def test_change_position(self, monitor_config):
-        pass
-
-    @pytest.mark.skip
-    def test_unmaximize(self, monitor_config):
-        pass
-
-    @pytest.mark.skip
-    def test_unmaximize_correct_size(self, monitor_config):
-        pass
-
-    @pytest.mark.skip
-    def test_unmaximize_on_size_change(self, monitor_config):
-        pass
+    test_resize_xte = None
+    test_change_position = None
+    test_unmaximize = None
+    test_unmaximize_correct_size = None
+    test_unmaximize_on_size_change = None
 
 
 class TestWaylandFractionalScale(SingleMonitorTests, LargeScreenMixin):
