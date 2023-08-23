@@ -14,10 +14,8 @@ import shlex
 import subprocess
 import sys
 import time
-import zipfile
 
 import allpairspy
-import filelock
 import pytest
 import wand.image
 import Xlib.display
@@ -92,24 +90,6 @@ def mkpairs(*args, **kwargs):
 
 
 @pytest.fixture(scope='session')
-def ddterm_metadata(extension_pack):
-    if extension_pack:
-        with zipfile.ZipFile(extension_pack) as z:
-            with z.open('metadata.json') as f:
-                return json.load(f)
-
-    else:
-        with open(SRC_DIR / 'metadata.json', 'r') as f:
-            return json.load(f)
-
-
-@pytest.fixture(scope='session')
-def test_metadata():
-    with open(TEST_SRC_DIR / 'metadata.json', 'r') as f:
-        return json.load(f)
-
-
-@pytest.fixture(scope='session')
 def xvfb_fbdir(tmpdir_factory):
     return tmpdir_factory.mktemp('xvfb')
 
@@ -126,11 +106,6 @@ def common_volumes(ddterm_metadata, test_metadata, extension_pack, xvfb_fbdir):
         (TEST_SRC_DIR, EXTENSIONS_INSTALL_DIR / test_metadata['uuid'], 'ro'),
         (xvfb_fbdir, '/xvfb', 'rw'),
     ]
-
-
-@pytest.fixture(scope='session')
-def container_create_lock(request):
-    return filelock.FileLock(request.config.cache.mkdir('container-creating') / 'lock')
 
 
 def resize_point(frame_rect, window_pos, monitor_scale):

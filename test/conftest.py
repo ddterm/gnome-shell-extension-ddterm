@@ -1,15 +1,21 @@
+import json
 import logging
 import pathlib
 import subprocess
 
+import filelock
 import pytest
 import yaml
+import zipfile
 
 from . import container_util, log_sync
 from .syslog_server import SyslogServer
 
 
-TEST_SRC_DIR = pathlib.Path(__file__).parent.resolve()
+THIS_DIR = pathlib.Path(__file__).parent.resolve()
+TEST_SRC_DIR = THIS_DIR / 'extension'
+SRC_DIR = THIS_DIR.parent
+
 IMAGES_STASH_KEY = pytest.StashKey[list]()
 
 
@@ -133,3 +139,26 @@ def syslog_server(tmp_path_factory, log_sync):
         with server.serve_forever_background(poll_interval=0.1):
             with log_sync.with_registered(SyslogMessageMatcher.Factory(server.logger)):
                 yield server
+
+
+@pytest.fixture(scope='session')
+def ddterm_metadata(extension_pack):
+    if extension_pack:
+        with zipfile.ZipFile(extension_pack) as z:
+            with z.open('metadata.json') as f:
+                return json.load(f)
+
+    else:
+        with open(SRC_DIR / 'metadata.json', 'r') as f:
+            return json.load(f)
+
+
+@pytest.fixture(scope='session')
+def test_metadata():
+    with open(TEST_SRC_DIR / 'metadata.json', 'r') as f:
+        return json.load(f)
+
+
+@pytest.fixture(scope='session')
+def container_create_lock(request):
+    return filelock.FileLock(request.config.cache.mkdir('container-creating') / 'lock')
