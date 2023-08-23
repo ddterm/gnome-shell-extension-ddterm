@@ -27,6 +27,7 @@ from pytest_html import extras
 from gi.repository import GLib, Gio
 
 from . import dbus_util, glib_util, log_sync, systemd_container
+from .shell_dbus_api import GnomeShellDBusApi
 
 
 LOGGER = logging.getLogger(__name__)
@@ -34,6 +35,7 @@ LOGGER = logging.getLogger(__name__)
 Rect = collections.namedtuple('Rect', ('x', 'y', 'width', 'height'))
 MonitorConfig = collections.namedtuple('MonitorConfig', ('current_index', 'setting'))
 MonitorInfo = collections.namedtuple('MonitorInfo', ('index', 'geometry', 'scale', 'workarea'))
+Api = collections.namedtuple('TestApi', ('dbus', 'layout', 'settings', 'mouse_sim', 'shell'))
 
 THIS_DIR = pathlib.Path(__file__).parent.resolve()
 TEST_SRC_DIR = THIS_DIR / 'extension'
@@ -129,30 +131,6 @@ def common_volumes(ddterm_metadata, test_metadata, extension_pack, xvfb_fbdir):
 @pytest.fixture(scope='session')
 def container_create_lock(request):
     return filelock.FileLock(request.config.cache.mkdir('container-creating') / 'lock')
-
-
-def enable_extension(shell_extensions_interface, uuid):
-    info = None
-
-    with glib_util.SignalWait(
-        source=shell_extensions_interface,
-        signal='g-signal',
-        timeout=STARTUP_TIMEOUT_MS
-    ) as g_signal:
-        shell_extensions_interface.EnableExtension('(s)', uuid, timeout=STARTUP_TIMEOUT_MS)
-
-        while True:
-            info = shell_extensions_interface.GetExtensionInfo(
-                '(s)', uuid, timeout=STARTUP_TIMEOUT_MS
-            )
-
-            if info:
-                break
-
-            g_signal.wait()
-
-    assert info['error'] == ''
-    assert info['state'] == 1
 
 
 def resize_point(frame_rect, window_pos, monitor_scale):
@@ -654,17 +632,12 @@ class CommonFixtures:
             yield c
 
     @pytest.fixture(scope='class')
-    def shell_extensions_interface(self, bus_connection):
-        return dbus_util.wait_interface(
-            bus_connection,
-            name='org.gnome.Shell',
-            path='/org/gnome/Shell',
-            interface='org.gnome.Shell.Extensions',
-        )
+    def shell_dbus_api(self, bus_connection):
+        return GnomeShellDBusApi(bus_connection)
 
     @pytest.fixture(scope='class')
-    def enable_ddterm(self, shell_extensions_interface, ddterm_metadata, install_ddterm):
-        enable_extension(shell_extensions_interface, ddterm_metadata['uuid'])
+    def enable_ddterm(self, shell_dbus_api, ddterm_metadata, install_ddterm):
+        shell_dbus_api.enable_extension(ddterm_metadata['uuid'])
 
     @pytest.fixture(scope='class')
     def extension_interface(self, bus_connection, enable_ddterm):
@@ -676,8 +649,8 @@ class CommonFixtures:
         )
 
     @pytest.fixture(scope='class')
-    def enable_test(self, shell_extensions_interface, test_metadata, enable_ddterm):
-        enable_extension(shell_extensions_interface, test_metadata['uuid'])
+    def enable_test(self, shell_dbus_api, test_metadata, enable_ddterm):
+        shell_dbus_api.enable_extension(test_metadata['uuid'])
 
     @pytest.fixture(scope='class')
     def test_interface(self, bus_connection, enable_test, log_sync):
@@ -740,14 +713,6 @@ class CommonFixtures:
         assert layout.is_mixed_dpi == self.IS_MIXED_DPI
 
     @pytest.fixture(scope='class')
-    def shell_version(self, shell_extensions_interface):
-        version_str = shell_extensions_interface.get_cached_property('ShellVersion').unpack()
-        return tuple(
-            int(x) if x.isdecimal() else x
-            for x in version_str.split('.')
-        )
-
-    @pytest.fixture(scope='class')
     def settings(self, test_interface):
         return Settings(test_interface)
 
@@ -764,12 +729,13 @@ class CommonFixtures:
         return MouseSim(x11_display, test_interface)
 
     @pytest.fixture(scope='class')
-    def test_api(self, test_interface, layout, settings, mouse_sim):
-        return collections.namedtuple('TestAPI', ['dbus', 'layout', 'settings', 'mouse_sim'])(
+    def test_api(self, test_interface, layout, settings, mouse_sim, shell_dbus_api):
+        return Api(
             dbus=test_interface,
             layout=layout,
             settings=settings,
-            mouse_sim=mouse_sim
+            mouse_sim=mouse_sim,
+            shell=shell_dbus_api,
         )
 
     @pytest.fixture(autouse=True)
@@ -895,7 +861,6 @@ class CommonTests(CommonFixtures):
         window_maximize,
         window_pos,
         monitor_config,
-        shell_version,
         screenshot
     ):
         with screenshot:
@@ -914,7 +879,6 @@ class CommonTests(CommonFixtures):
         window_maximize,
         window_pos,
         monitor_config,
-        shell_version,
         screenshot
     ):
         with screenshot:
@@ -938,7 +902,6 @@ class CommonTests(CommonFixtures):
         window_size2,
         window_pos,
         monitor_config,
-        shell_version,
         screenshot,
         request
     ):
@@ -1263,18 +1226,18 @@ class TestWaylandMixedDPI(DualMonitorTests, SmallScreenMixin):
         ]
 
     @functools.wraps(CommonTests.test_show_v)
-    def test_show_v(self, *args, shell_version, **kwargs):
-        if shell_version < (42, 0):
+    def test_show_v(self, *args, test_api, **kwargs):
+        if test_api.shell.version < (42, 0):
             pytest.skip('Mixed DPI is not supported before GNOME Shell 42')
 
-        super().test_show_v(*args, shell_version=shell_version, **kwargs)
+        super().test_show_v(*args, test_api=test_api, **kwargs)
 
     @functools.wraps(SmallScreenMixin.test_show_v)
-    def test_show_h(self, *args, shell_version, **kwargs):
-        if shell_version < (42, 0):
+    def test_show_h(self, *args, test_api, **kwargs):
+        if test_api.shell.version < (42, 0):
             pytest.skip('Mixed DPI is not supported before GNOME Shell 42')
 
-        super().test_show_h(*args, shell_version=shell_version, **kwargs)
+        super().test_show_h(*args, test_api=test_api, **kwargs)
 
     test_resize_xte = None
     test_change_position = None
