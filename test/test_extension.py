@@ -39,8 +39,12 @@ THIS_DIR = pathlib.Path(__file__).parent.resolve()
 TEST_SRC_DIR = THIS_DIR / 'extension'
 SRC_DIR = THIS_DIR.parent
 
-EXTENSIONS_INSTALL_DIR = pathlib.PurePosixPath('/usr/share/gnome-shell/extensions')
+EXTENSIONS_INSTALL_DIR_REL = pathlib.PurePosixPath('share/gnome-shell/extensions')
+EXTENSIONS_INSTALL_DIR = pathlib.PurePosixPath('/usr') / EXTENSIONS_INSTALL_DIR_REL
 USER_NAME = 'gnomeshell'
+EXTENSIONS_INSTALL_DIR_USER = \
+    pathlib.PurePosixPath('/home') / USER_NAME / '.local' / EXTENSIONS_INSTALL_DIR_REL
+
 DISPLAY_NUMBER = 99
 X11_DISPLAY_BASE_PORT = 6000
 DISPLAY_PORT = X11_DISPLAY_BASE_PORT + DISPLAY_NUMBER
@@ -764,7 +768,9 @@ class CommonFixtures:
 
     @pytest.fixture(autouse=True)
     def check_log_errors(self, caplog, syslog_server, ddterm_metadata):
-        pattern = f'@{EXTENSIONS_INSTALL_DIR / ddterm_metadata["uuid"]}'
+        uuid = ddterm_metadata['uuid']
+        paths = [EXTENSIONS_INSTALL_DIR / uuid, EXTENSIONS_INSTALL_DIR_USER / uuid]
+        patterns = [f'@{path}' for path in paths]
 
         yield
 
@@ -778,7 +784,7 @@ class CommonFixtures:
             record for record in all_records
             if record.levelno >= logging.WARNING
             and record.name.startswith(syslog_server.logger.name)
-            and pattern in record.message
+            and any(pattern in record.message for pattern in patterns)
         ]
 
         assert errors == []
