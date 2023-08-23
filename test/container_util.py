@@ -20,6 +20,7 @@ class Podman:
 
     def __call__(self, *args, **kwargs):
         kwargs = dict(self.kwargs, **kwargs)
+        kwargs.setdefault('timeout', self.timeout)
         check = kwargs.pop('check', True)
 
         cmd = self.cmd(*args)
