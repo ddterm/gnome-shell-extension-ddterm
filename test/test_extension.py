@@ -636,6 +636,12 @@ class CommonFixtures:
         )
 
         container.exec(
+            'gsettings', 'set', 'org.gnome.shell', 'welcome-dialog-last-shown-version',
+            json.dumps('99.0'),
+            timeout=STARTUP_TIMEOUT_SEC, user=USER_NAME
+        )
+
+        container.exec(
             'systemctl', 'start', f'{self.GNOME_SHELL_SESSION_NAME}@{DISPLAY}.target',
             timeout=STARTUP_TIMEOUT_SEC
         )
@@ -703,8 +709,6 @@ class CommonFixtures:
 
     @pytest.fixture(scope='class', autouse=True)
     def test_setup(self, test_interface):
-        test_interface.DisableWelcomeDialog(timeout=STARTUP_TIMEOUT_MS)
-
         with glib_util.SignalWait(
             test_interface,
             'g-properties-changed',
@@ -713,7 +717,6 @@ class CommonFixtures:
             while test_interface.get_cached_property('StartingUp'):
                 wait1.wait()
 
-        test_interface.CloseWelcomeDialog(timeout=STARTUP_TIMEOUT_MS)
         test_interface.BlockBanner(timeout=STARTUP_TIMEOUT_MS)
         test_interface.HideOverview(timeout=STARTUP_TIMEOUT_MS)
 
