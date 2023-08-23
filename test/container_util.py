@@ -59,14 +59,8 @@ class Podman:
 
 
 class Container:
-    def __init__(self, podman, container_id):
-        self.podman = podman
-        self.console = None
-        self.container_id = container_id
-
-    @classmethod
-    def create(
-        cls,
+    def __init__(
+        self,
         podman,
         image,
         *cmd,
@@ -77,6 +71,9 @@ class Container:
         user=None,
         **kwargs
     ):
+        self.podman = podman
+        self.console = None
+
         args = ['container', 'create', '--pull=never', '--log-driver=none']
 
         if tty:
@@ -97,8 +94,9 @@ class Container:
         args.append(image)
         args.extend(cmd)
 
-        cid = podman(*args, **kwargs, stdout=subprocess.PIPE, text=True).stdout.strip()
-        return cls(podman, cid)
+        self.container_id = podman(
+            *args, **kwargs, stdout=subprocess.PIPE, text=True
+        ).stdout.strip()
 
     def rm(self, *, timeout=None, **kwargs):
         timeout = self.podman.timeout if timeout is None else timeout

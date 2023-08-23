@@ -34,10 +34,9 @@ class SystemdContainer(container_util.Container):
         'IPC_LOCK',
     ]
 
-    @classmethod
-    def create(cls, podman, image, *args, syslog_server=None, unit=None, **kwargs):
+    def __init__(self, podman, image, *args, syslog_server=None, unit=None, **kwargs):
         kwargs.setdefault('tty', True)
-        kwargs.setdefault('cap_add', cls.REQUIRED_CAPS)
+        kwargs.setdefault('cap_add', self.REQUIRED_CAPS)
         kwargs.setdefault('user', '0')
 
         extra_args = []
@@ -56,7 +55,7 @@ class SystemdContainer(container_util.Container):
         if unit:
             extra_args.append(f'systemd.unit={unit}')
 
-        return super().create(podman, image, '/sbin/init', *extra_args, *args, **kwargs)
+        super().__init__(podman, image, '/sbin/init', *extra_args, *args, **kwargs)
 
     def wait_system_running(self, **kwargs):
         timeout = kwargs.pop('timeout', self.podman.timeout)

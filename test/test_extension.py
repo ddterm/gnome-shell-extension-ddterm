@@ -577,7 +577,7 @@ class CommonFixtures:
         ]
 
         with container_create_lock:
-            c = systemd_container.SystemdContainer.create(
+            c = systemd_container.SystemdContainer(
                 podman,
                 container_image,
                 publish=publish_ports,
