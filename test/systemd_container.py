@@ -60,21 +60,24 @@ class SystemdContainer(container_util.Container):
 
         self._ready = False
 
+    def start(self, **kwargs):
+        timeout = kwargs.pop('timeout', self.podman.timeout)
+        deadline = time.monotonic() + timeout
+
+        super().start(**kwargs, timeout=timeout)
+
+        self.exec(
+            'busctl', '--system', '--watch-bind=true', 'status',
+            **kwargs, timeout=deadline - time.monotonic()
+        )
+
     def wait_system_running(self, **kwargs):
         if self._ready:
             return
 
-        timeout = kwargs.pop('timeout', self.podman.timeout)
-        deadline = time.monotonic() + timeout
-
-        self.exec(
-            'busctl', '--system', '--watch-bind=true', 'status',
-            **kwargs, timeout=timeout
-        )
-
         self.exec(
             'systemctl', 'is-system-running', '--wait',
-            **kwargs, timeout=deadline - time.monotonic()
+            **kwargs
         )
 
         self._ready = True
