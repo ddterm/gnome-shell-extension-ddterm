@@ -622,7 +622,8 @@ class CommonFixtures:
             bus_connection,
             name='org.gnome.Shell',
             path='/org/gnome/Shell/Extensions/ddterm',
-            interface='com.github.amezin.ddterm.Extension'
+            interface='com.github.amezin.ddterm.Extension',
+            timeout=STARTUP_TIMEOUT_MS
         )
 
     @pytest.fixture(scope='class')
@@ -635,7 +636,8 @@ class CommonFixtures:
             bus_connection,
             name='org.gnome.Shell',
             path='/org/gnome/Shell/Extensions/ddterm',
-            interface='com.github.amezin.ddterm.ExtensionTest'
+            interface='com.github.amezin.ddterm.ExtensionTest',
+            timeout=STARTUP_TIMEOUT_MS
         )
 
         with log_sync.with_registered(SyncMessageDBus(iface)):

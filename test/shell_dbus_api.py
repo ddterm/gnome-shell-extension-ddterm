@@ -18,6 +18,7 @@ class GnomeShellDBusApi:
             name='org.gnome.Shell',
             path='/org/gnome/Shell',
             interface='org.gnome.Shell.Extensions',
+            timeout=STARTUP_TIMEOUT_MS
         )
 
     def enable_extension(self, uuid):
