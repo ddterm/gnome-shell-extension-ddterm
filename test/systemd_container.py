@@ -1,5 +1,6 @@
 import contextlib
 import functools
+import pathlib
 import socket
 import socketserver
 import subprocess
@@ -126,3 +127,11 @@ class SystemdContainer(container_util.Container):
             env=env,
             timeout=deadline - time.monotonic()
         )
+
+    def get_user_home(self, **kwargs):
+        path = super().exec(
+            'sh', '-c', 'echo -n "$HOME"',
+            **kwargs, stdout=subprocess.PIPE, text=True
+        ).stdout
+
+        return pathlib.PurePosixPath(path)
