@@ -33,7 +33,7 @@ def wait_interface(connection, name, path, interface):
         None
     )
 
-    loop = GLib.MainLoop.new(None, False)
+    loop = GLib.MainLoop.new(GLib.MainContext.get_thread_default(), False)
     retry = glib_util.OneShotTimer()
     interface_info = None
 
@@ -118,7 +118,7 @@ def wait_interface(connection, name, path, interface):
 
 
 def connect_tcp(host, port, timeout=None):
-    loop = GLib.MainLoop.new(None, False)
+    loop = GLib.MainLoop.new(GLib.MainContext.get_thread_default(), False)
     cancellable = Gio.Cancellable()
     res = None
 

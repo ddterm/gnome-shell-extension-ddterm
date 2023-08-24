@@ -5,7 +5,7 @@ from gi.repository import GLib
 
 
 def flush_main_loop():
-    loop = GLib.MainLoop()
+    loop = GLib.MainLoop.new(GLib.MainContext.get_thread_default(), False)
 
     def idle_quit(*_):
         loop.quit()
@@ -30,6 +30,9 @@ class OneShotTimer(contextlib.AbstractContextManager):
             self.source = None
 
     def schedule(self, timeout, callback, context=None):
+        if context is None:
+            context = GLib.MainContext.get_thread_default()
+
         self.cancel()
 
         def handler(*_):
@@ -46,7 +49,7 @@ class OneShotTimer(contextlib.AbstractContextManager):
 
 
 def sleep(time_ms):
-    loop = GLib.MainLoop()
+    loop = GLib.MainLoop.new(GLib.MainContext.get_thread_default(), False)
 
     with OneShotTimer() as timer:
         timer.schedule(time_ms, loop.quit)
@@ -55,7 +58,7 @@ def sleep(time_ms):
 
 def busy_wait(interval_ms, timeout_ms):
     timed_out = False
-    loop = GLib.MainLoop()
+    loop = GLib.MainLoop.new(GLib.MainContext.get_thread_default(), False)
 
     def on_timeout():
         nonlocal timed_out
@@ -97,7 +100,7 @@ class SignalWait(SignalConnection):
     def __init__(self, source, signal, timeout=DEFAULT_TIMEOUT_MS):
         super().__init__(source, signal, self.handler)
         self.emissions = collections.deque()
-        self.loop = GLib.MainLoop()
+        self.loop = GLib.MainLoop.new(GLib.MainContext.get_thread_default(), False)
         self.timer = OneShotTimer()
         self.timed_out = False
 

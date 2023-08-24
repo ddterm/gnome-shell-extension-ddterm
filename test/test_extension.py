@@ -256,7 +256,7 @@ def wait_move_resize(
     signal_counter = dict()
     idle_timer = glib_util.OneShotTimer()
     wait_timer = glib_util.OneShotTimer()
-    loop = GLib.MainLoop()
+    loop = GLib.MainLoop.new(GLib.MainContext.get_thread_default(), False)
 
     def wait_timed_out():
         LOGGER.warning('Expected window geometry not reached')
