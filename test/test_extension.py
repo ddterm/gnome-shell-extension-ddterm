@@ -5,7 +5,6 @@ import datetime
 import enum
 import functools
 import itertools
-import json
 import logging.handlers
 import math
 import pathlib
@@ -24,7 +23,7 @@ import Xlib.X
 from pytest_html import extras
 from gi.repository import GLib, Gio
 
-from . import dbus_util, glib_util, log_sync, systemd_container
+from . import dbus_util, glib_util, log_sync, gnome_container
 from .shell_dbus_api import GnomeShellDBusApi
 
 
@@ -38,18 +37,6 @@ Api = collections.namedtuple('TestApi', ('dbus', 'layout', 'settings', 'mouse_si
 THIS_DIR = pathlib.Path(__file__).parent.resolve()
 TEST_SRC_DIR = THIS_DIR / 'extension'
 SRC_DIR = THIS_DIR.parent
-
-EXTENSIONS_INSTALL_DIR_REL = pathlib.PurePosixPath('share/gnome-shell/extensions')
-EXTENSIONS_INSTALL_DIR = pathlib.PurePosixPath('/usr') / EXTENSIONS_INSTALL_DIR_REL
-USER_NAME = 'gnomeshell'
-EXTENSIONS_INSTALL_DIR_USER = \
-    pathlib.PurePosixPath('/home') / USER_NAME / '.local' / EXTENSIONS_INSTALL_DIR_REL
-
-DISPLAY_NUMBER = 99
-X11_DISPLAY_BASE_PORT = 6000
-DISPLAY_PORT = X11_DISPLAY_BASE_PORT + DISPLAY_NUMBER
-DISPLAY = f':{DISPLAY_NUMBER}'
-DBUS_PORT = 1234
 
 SIZE_VALUES = [0.5, 0.9, 1.0]
 SMALL_SCREEN_SIZE_VALUES = [0.8, 0.85, 0.91]
@@ -96,14 +83,16 @@ def xvfb_fbdir(tmpdir_factory):
 
 @pytest.fixture(scope='session')
 def common_volumes(ddterm_metadata, test_metadata, extension_pack, xvfb_fbdir):
+    sys_install_dir = gnome_container.GnomeContainer.extensions_system_install_path()
+
     if extension_pack:
         src_mount = (extension_pack, extension_pack, 'ro')
     else:
-        src_mount = (SRC_DIR, EXTENSIONS_INSTALL_DIR / ddterm_metadata['uuid'], 'ro')
+        src_mount = (SRC_DIR, sys_install_dir / ddterm_metadata['uuid'], 'ro')
 
     return [
         src_mount,
-        (TEST_SRC_DIR, EXTENSIONS_INSTALL_DIR / test_metadata['uuid'], 'ro'),
+        (TEST_SRC_DIR, sys_install_dir / test_metadata['uuid'], 'ro'),
         (xvfb_fbdir, '/xvfb', 'rw'),
     ]
 
@@ -546,16 +535,10 @@ class CommonFixtures:
             for path in self.mount_configs()
         ]
 
-        publish_ports = [
-            ('127.0.0.1', '', DBUS_PORT),
-            ('127.0.0.1', '', DISPLAY_PORT)
-        ]
-
         with container_create_lock:
-            c = systemd_container.SystemdContainer(
+            c = gnome_container.GnomeContainer(
                 podman,
                 container_image,
-                publish=publish_ports,
                 volumes=volumes,
                 timeout=STARTUP_TIMEOUT_SEC,
                 syslog_server=syslog_server,
@@ -575,38 +558,25 @@ class CommonFixtures:
     @pytest.fixture(scope='class')
     def install_ddterm(self, extension_pack, container):
         if extension_pack:
-            container.exec(
-                'gnome-extensions', 'install', str(extension_pack),
-                timeout=STARTUP_TIMEOUT_SEC, user=USER_NAME
-            )
+            container.install_extension(extension_pack, timeout=STARTUP_TIMEOUT_SEC)
 
     @pytest.fixture(scope='class')
     def gnome_shell_session(self, container, install_ddterm):
-        container.exec(
-            'gsettings', 'set', 'org.gnome.mutter', 'experimental-features',
-            json.dumps(self.MUTTER_EXPERIMENTAL_FEATURES),
-            timeout=STARTUP_TIMEOUT_SEC, user=USER_NAME
-        )
-
-        container.exec(
-            'gsettings', 'set', 'org.gnome.shell', 'welcome-dialog-last-shown-version',
-            json.dumps('99.0'),
-            timeout=STARTUP_TIMEOUT_SEC, user=USER_NAME
-        )
-
-        container.exec(
-            'systemctl', 'start', f'{self.GNOME_SHELL_SESSION_NAME}@{DISPLAY}.target',
+        container.gsettings_set(
+            'org.gnome.mutter', 'experimental-features', self.MUTTER_EXPERIMENTAL_FEATURES,
             timeout=STARTUP_TIMEOUT_SEC
         )
+
+        container.disable_welcome_dialog(timeout=STARTUP_TIMEOUT_SEC)
+        container.start_session(self.GNOME_SHELL_SESSION_NAME, timeout=STARTUP_TIMEOUT_SEC)
 
         return self.GNOME_SHELL_SESSION_NAME
 
     @pytest.fixture(scope='class')
     def bus_connection(self, container, gnome_shell_session):
-        with contextlib.closing(
-            dbus_util.connect_tcp(*container.get_port(DBUS_PORT), timeout=STARTUP_TIMEOUT_MS)
-        ) as c:
-            yield c
+        connection = container.connect_user_bus(timeout=STARTUP_TIMEOUT_SEC)
+        yield connection
+        connection.close()
 
     @pytest.fixture(scope='class')
     def shell_dbus_api(self, bus_connection):
@@ -697,9 +667,7 @@ class CommonFixtures:
 
     @pytest.fixture(scope='class')
     def x11_display(self, container):
-        host, port = container.get_port(DISPLAY_PORT)
-        display_number = int(port) - X11_DISPLAY_BASE_PORT
-        display = Xlib.display.Display(f'{host}:{display_number}')
+        display = container.connect_x11_display(timeout=STARTUP_TIMEOUT_SEC)
         yield display
         display.close()
 
@@ -718,9 +686,12 @@ class CommonFixtures:
         )
 
     @pytest.fixture(autouse=True)
-    def check_log_errors(self, caplog, syslog_server, ddterm_metadata):
+    def check_log_errors(self, caplog, container, syslog_server, ddterm_metadata):
         uuid = ddterm_metadata['uuid']
-        paths = [EXTENSIONS_INSTALL_DIR / uuid, EXTENSIONS_INSTALL_DIR_USER / uuid]
+        paths = [
+            gnome_container.GnomeContainer.extensions_system_install_path() / uuid,
+            container.extensions_user_install_path() / uuid
+        ]
         patterns = [f'@{path}' for path in paths]
 
         yield
@@ -1416,5 +1387,5 @@ class TestDependencies(CommonFixtures):
             str(SRC_DIR / 'ddterm' / 'app' / 'tools' / 'dependencies-update.js'),
             '--dry-run',
             timeout=60,
-            user=USER_NAME,
+            user=container.user,
         )
