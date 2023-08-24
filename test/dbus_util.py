@@ -210,3 +210,31 @@ def connect_tcp(host, port, timeout=None):
     )
 
     return sync.run(timeout)
+
+
+def set_property(proxy, property_name, value, timeout=None):
+    if_info = proxy.get_interface_info()
+
+    if if_info is not None:
+        prop_info = if_info.lookup_property(property_name)
+
+        if prop_info is not None:
+            if not isinstance(value, GLib.Variant) or \
+                    value.get_type_string() != prop_info.signature:
+                value = GLib.Variant(prop_info.signature, value)
+
+    proxy.get_connection().call_sync(
+        proxy.get_name(),
+        proxy.get_object_path(),
+        'org.freedesktop.DBus.Properties',
+        'Set',
+        GLib.Variant.new_tuple(
+            GLib.Variant.new_string(proxy.get_interface_name()),
+            GLib.Variant.new_string(property_name),
+            GLib.Variant.new_variant(value),
+        ),
+        None,
+        Gio.DBusCallFlags.NONE,
+        proxy.get_default_timeout() if timeout is None else timeout,
+        None
+    )
