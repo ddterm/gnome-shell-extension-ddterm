@@ -8,7 +8,7 @@ import pytest
 import yaml
 import zipfile
 
-from . import container_util, log_sync
+from . import container_util, gnome_container, log_sync
 from .syslog_server import SyslogServer
 
 
@@ -162,3 +162,19 @@ def test_metadata():
 @pytest.fixture(scope='session')
 def container_create_lock(request):
     return filelock.FileLock(request.config.cache.mkdir('container-creating') / 'lock')
+
+
+@pytest.fixture(scope='session')
+def container_volumes(ddterm_metadata, test_metadata, extension_pack):
+    sys_install_dir = gnome_container.GnomeContainer.extensions_system_install_path()
+
+    if extension_pack:
+        install_mount = (extension_pack, extension_pack, 'ro')
+    else:
+        install_mount = (SRC_DIR, sys_install_dir / ddterm_metadata['uuid'], 'ro')
+
+    return (
+        (SRC_DIR, SRC_DIR, 'ro'),
+        install_mount,
+        (TEST_SRC_DIR, sys_install_dir / test_metadata['uuid'], 'ro'),
+    )
