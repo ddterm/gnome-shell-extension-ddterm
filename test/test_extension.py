@@ -603,7 +603,9 @@ class CommonFixtures:
 
     @pytest.fixture(scope='class')
     def bus_connection(self, container, gnome_shell_session):
-        with contextlib.closing(dbus_util.connect_tcp(*container.get_port(DBUS_PORT))) as c:
+        with contextlib.closing(
+            dbus_util.connect_tcp(*container.get_port(DBUS_PORT), timeout=STARTUP_TIMEOUT_MS)
+        ) as c:
             yield c
 
     @pytest.fixture(scope='class')

@@ -117,13 +117,49 @@ def wait_interface(connection, name, path, interface):
         return proxy
 
 
-def connect_tcp(host, port):
-    return Gio.DBusConnection.new_for_address_sync(
+def connect_tcp(host, port, timeout=None):
+    loop = GLib.MainLoop.new(None, False)
+    cancellable = Gio.Cancellable()
+    res = None
+
+    def callback(source, result, *_):
+        nonlocal res
+
+        try:
+            res = source.new_for_address_finish(result)
+
+        except BaseException as ex:
+            res = ex
+
+        loop.quit()
+
+    Gio.DBusConnection.new_for_address(
         f'tcp:host={host},port={port}',
         (
             Gio.DBusConnectionFlags.AUTHENTICATION_CLIENT |
             Gio.DBusConnectionFlags.MESSAGE_BUS_CONNECTION
         ),
         None,
-        None
+        cancellable,
+        callback
     )
+
+    try:
+        with glib_util.OneShotTimer() as timer:
+            if timeout is not None:
+                timer.schedule(timeout, cancellable.cancel)
+
+            loop.run()
+
+    finally:
+        if cancellable.is_cancelled():
+            raise TimeoutError()
+
+        if res is None:
+            cancellable.cancel()
+            loop.run()
+
+    if isinstance(res, BaseException):
+        raise res
+
+    return res
