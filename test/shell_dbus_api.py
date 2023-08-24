@@ -1,51 +1,51 @@
-import functools
-
 from gi.repository import GLib
 
 from . import dbus_util, glib_util
 
 
-STARTUP_TIMEOUT_SEC = 15
-STARTUP_TIMEOUT_MS = STARTUP_TIMEOUT_SEC * 1000
-
-
 class GnomeShellDBusApi:
-    def __init__(self, connection):
-        self.connection = connection
+    def __init__(self, connection, timeout):
+        deadline = GLib.get_monotonic_time() // 1000 + timeout
 
-    @functools.cached_property
-    def shell_interface(self):
-        return dbus_util.wait_interface(
-            self.connection,
+        self.shell_interface = dbus_util.wait_interface(
+            connection,
             name='org.gnome.Shell',
             path='/org/gnome/Shell',
             interface='org.gnome.Shell',
-            timeout=STARTUP_TIMEOUT_MS
+            timeout=timeout
         )
 
-    @functools.cached_property
-    def extensions_interface(self):
-        return dbus_util.wait_interface(
-            self.connection,
+        self.extensions_interface = dbus_util.wait_interface(
+            connection,
             name='org.gnome.Shell',
             path='/org/gnome/Shell',
             interface='org.gnome.Shell.Extensions',
-            timeout=STARTUP_TIMEOUT_MS
+            timeout=max(0, deadline - GLib.get_monotonic_time() // 1000)
         )
 
-    def enable_extension(self, uuid):
+    def enable_extension(self, uuid, timeout=None):
+        if timeout is None:
+            timeout = self.extensions_interface.get_default_timeout()
+
+        deadline = GLib.get_monotonic_time() // 1000 + timeout
         info = None
 
         with glib_util.SignalWait(
             source=self.extensions_interface,
             signal='g-signal',
-            timeout=STARTUP_TIMEOUT_MS
+            timeout=timeout
         ) as g_signal:
-            self.extensions_interface.EnableExtension('(s)', uuid, timeout=STARTUP_TIMEOUT_MS)
+            self.extensions_interface.EnableExtension(
+                '(s)',
+                uuid,
+                timeout=timeout
+            )
 
             while True:
                 info = self.extensions_interface.GetExtensionInfo(
-                    '(s)', uuid, timeout=STARTUP_TIMEOUT_MS
+                    '(s)',
+                    uuid,
+                    timeout=max(0, deadline - GLib.get_monotonic_time() // 1000)
                 )
 
                 if info:
@@ -56,7 +56,7 @@ class GnomeShellDBusApi:
         assert info['error'] == ''
         assert info['state'] == 1
 
-    @functools.cached_property
+    @property
     def version(self):
         version_str = self.extensions_interface.get_cached_property('ShellVersion').unpack()
 
@@ -69,17 +69,20 @@ class GnomeShellDBusApi:
     def overview_active(self):
         return self.shell_interface.get_cached_property('OverviewActive').unpack()
 
-    def set_overview_active(self, value):
+    def set_overview_active(self, value, timeout=None):
+        if timeout is None:
+            timeout = self.shell_interface.get_default_timeout()
+
         with glib_util.SignalWait(
             source=self.shell_interface,
             signal='g-properties-changed',
-            timeout=STARTUP_TIMEOUT_MS
+            timeout=timeout
         ) as wait:
             dbus_util.set_property(
                 self.shell_interface,
                 'OverviewActive',
                 value,
-                timeout=STARTUP_TIMEOUT_MS
+                timeout=timeout
             )
 
             while self.overview_active != value:

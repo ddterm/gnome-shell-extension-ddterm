@@ -580,11 +580,11 @@ class CommonFixtures:
 
     @pytest.fixture(scope='class')
     def shell_dbus_api(self, bus_connection):
-        return GnomeShellDBusApi(bus_connection)
+        return GnomeShellDBusApi(bus_connection, timeout=STARTUP_TIMEOUT_MS)
 
     @pytest.fixture(scope='class')
     def enable_ddterm(self, shell_dbus_api, ddterm_metadata, install_ddterm):
-        shell_dbus_api.enable_extension(ddterm_metadata['uuid'])
+        shell_dbus_api.enable_extension(ddterm_metadata['uuid'], timeout=STARTUP_TIMEOUT_MS)
 
     @pytest.fixture(scope='class')
     def extension_interface(self, bus_connection, enable_ddterm):
@@ -598,7 +598,7 @@ class CommonFixtures:
 
     @pytest.fixture(scope='class')
     def enable_test(self, shell_dbus_api, test_metadata, enable_ddterm):
-        shell_dbus_api.enable_extension(test_metadata['uuid'])
+        shell_dbus_api.enable_extension(test_metadata['uuid'], timeout=STARTUP_TIMEOUT_MS)
 
     @pytest.fixture(scope='class')
     def test_interface(self, bus_connection, enable_test, log_sync):
@@ -640,7 +640,7 @@ class CommonFixtures:
                 wait1.wait()
 
         test_interface.BlockBanner(timeout=STARTUP_TIMEOUT_MS)
-        shell_dbus_api.set_overview_active(False)
+        shell_dbus_api.set_overview_active(False, timeout=STARTUP_TIMEOUT_MS)
 
     @pytest.fixture(scope='class')
     def layout(self, test_interface, test_setup):
