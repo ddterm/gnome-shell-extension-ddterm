@@ -118,20 +118,14 @@ def wait_interface(connection, name, path, interface):
 
 
 def connect_tcp(host, port, timeout=None):
-    loop = GLib.MainLoop.new(GLib.MainContext.get_thread_default(), False)
-    cancellable = Gio.Cancellable()
-    res = None
+    sync = glib_util.SyncCall()
 
     def callback(source, result, *_):
-        nonlocal res
-
         try:
-            res = source.new_for_address_finish(result)
+            sync.set_result(source.new_for_address_finish(result))
 
-        except BaseException as ex:
-            res = ex
-
-        loop.quit()
+        except GLib.Error as ex:
+            sync.set_exception(ex)
 
     Gio.DBusConnection.new_for_address(
         f'tcp:host={host},port={port}',
@@ -140,26 +134,8 @@ def connect_tcp(host, port, timeout=None):
             Gio.DBusConnectionFlags.MESSAGE_BUS_CONNECTION
         ),
         None,
-        cancellable,
+        sync.cancellable,
         callback
     )
 
-    try:
-        with glib_util.OneShotTimer() as timer:
-            if timeout is not None:
-                timer.schedule(timeout, cancellable.cancel)
-
-            loop.run()
-
-    finally:
-        if cancellable.is_cancelled():
-            raise TimeoutError()
-
-        if res is None:
-            cancellable.cancel()
-            loop.run()
-
-    if isinstance(res, BaseException):
-        raise res
-
-    return res
+    return sync.run(timeout)

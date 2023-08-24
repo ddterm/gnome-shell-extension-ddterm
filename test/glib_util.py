@@ -1,7 +1,7 @@
 import collections
 import contextlib
 
-from gi.repository import GLib
+from gi.repository import GLib, Gio
 
 
 def flush_main_loop():
@@ -139,3 +139,58 @@ class SignalWait(SignalConnection):
             raise StopIteration()
 
         return result
+
+
+class SyncCall:
+    def __init__(self):
+        self.loop = GLib.MainLoop.new(GLib.MainContext.get_thread_default(), False)
+        self.cancellable = Gio.Cancellable()
+        self.result = None
+        self.exception = None
+        self.done = False
+
+    def set_result(self, result):
+        assert not self.done
+
+        self.result = result
+        self.done = True
+        self.loop.quit()
+
+    def set_exception(self, exception):
+        assert not self.done
+
+        if self.exception is not None:
+            assert isinstance(exception, GLib.Error)
+            assert exception.matches(Gio.io_error_quark(), Gio.IOErrorEnum.CANCELLED)
+
+        else:
+            self.exception = exception
+
+        self.done = True
+        self.loop.quit()
+
+    def time_out(self):
+        if self.exception is None:
+            self.exception = TimeoutError()
+
+        self.cancellable.cancel()
+
+    def run(self, timeout=None):
+        try:
+            with OneShotTimer() as timer:
+                if timeout is not None:
+                    timer.schedule(timeout, self.time_out)
+
+                self.loop.run()
+
+        finally:
+            if not self.done:
+                self.cancellable.cancel()
+
+            if not self.done:
+                self.loop.run()
+
+        if self.exception:
+            raise self.exception
+
+        return self.result
