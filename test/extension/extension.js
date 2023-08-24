@@ -24,7 +24,6 @@
 const { GLib, GObject, Gio, Meta } = imports.gi;
 const ByteArray = imports.byteArray;
 const Main = imports.ui.main;
-const ModalDialog = imports.ui.modalDialog;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 
 const ddterm = imports.ui.main.extensionManager.lookup('ddterm@amezin.github.com');
@@ -305,17 +304,6 @@ function enable() {
     };
     connect(Main.layoutManager, 'startup-complete', update_starting_up);
     update_starting_up();
-
-    if (Main.welcomeDialog) {
-        const update_welcome_dialog_visible = () => {
-            dbus_interface.set_flag(
-                'WelcomeDialogVisible',
-                Main.welcomeDialog.state !== ModalDialog.State.CLOSED
-            );
-        };
-        connect(Main.welcomeDialog, 'notify::state', update_welcome_dialog_visible);
-        update_welcome_dialog_visible();
-    }
 
     dbus_interface.dbus.export(Gio.DBus.session, '/org/gnome/Shell/Extensions/ddterm');
     teardown.push(() => dbus_interface.dbus.unexport());

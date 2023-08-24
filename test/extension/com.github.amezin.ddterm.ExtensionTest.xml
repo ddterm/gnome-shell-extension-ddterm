@@ -84,7 +84,6 @@
         <property name="HasWindow" type="b" access="read"/>
         <property name="IsAppRunning" type="b" access="read"/>
         <property name="RenderedFirstFrame" type="b" access="read"/>
-        <property name="WelcomeDialogVisible" type="b" access="read"/>
         <property name="StartingUp" type="b" access="read"/>
 
         <method name="Toggle"/>
