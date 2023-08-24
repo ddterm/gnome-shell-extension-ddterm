@@ -180,6 +180,7 @@ const teardown = [];
 
 function init() {
     wm.debug = log;
+    extension.app_enable_heap_dump = true;
 }
 
 function enable() {

@@ -163,6 +163,7 @@ PACK_CONTENT += \
 	ddterm/app/dependencies.json \
 	$(wildcard ddterm/app/icons/*) \
 	ddterm/com.github.amezin.ddterm.Extension.xml \
+	ddterm/com.github.amezin.ddterm.HeapDump.xml \
 	ddterm/com.github.amezin.ddterm.desktop.in \
 	ddterm/com.github.amezin.ddterm.service.in \
 	LICENSE \

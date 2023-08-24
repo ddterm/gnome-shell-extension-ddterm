@@ -45,6 +45,8 @@ let panel_icon = null;
 let disable_cancellable = null;
 let shutdown_handler = null;
 
+var app_enable_heap_dump = false;
+
 const APP_ID = 'com.github.amezin.ddterm';
 const APP_WMCLASS = 'Com.github.amezin.ddterm';
 const APP_DBUS_PATH = '/com/github/amezin/ddterm';
@@ -73,6 +75,9 @@ function enable() {
 
         else if (Meta.is_wayland_compositor())
             return new subprocess.WaylandSubprocess({ journal_identifier: APP_ID, argv });
+
+        if (app_enable_heap_dump)
+            argv.push('--allow-heap-dump');
 
         return new subprocess.Subprocess({ journal_identifier: APP_ID, argv });
     });

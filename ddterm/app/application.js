@@ -20,11 +20,10 @@
 'use strict';
 
 const ByteArray = imports.byteArray;
-const System = imports.system;
 
 const { GLib, GObject, Gio, Gdk, Gtk } = imports.gi;
 
-const { gtktheme, resources } = imports.ddterm.app;
+const { gtktheme, resources, heapdump } = imports.ddterm.app;
 
 function load_text(file) {
     return ByteArray.toString(file.load_contents(null)[1]);
@@ -80,6 +79,15 @@ var Application = GObject.registerClass(
                 null
             );
 
+            this.add_main_option(
+                'allow-heap-dump',
+                0,
+                GLib.OptionFlags.NONE,
+                GLib.OptionArg.NONE,
+                'Enable HeapDump D-Bus interface (for testing/debug)',
+                null
+            );
+
             this.connect('activate', this.activate.bind(this));
             this.connect('handle-local-options', this.handle_local_options.bind(this));
             this.connect('startup', this.startup.bind(this));
@@ -91,13 +99,6 @@ var Application = GObject.registerClass(
 
             this.simple_action('quit', () => this.quit());
             this.simple_action('preferences', () => this.preferences());
-            this.simple_action('gc', () => System.gc());
-
-            this.simple_action(
-                'dump-heap',
-                (_, param) => this.dump_heap(param.deepUnpack()),
-                { parameter_type: new GLib.VariantType('s') }
-            );
 
             const close_preferences_action = this.simple_action(
                 'close-preferences',
@@ -193,6 +194,11 @@ var Application = GObject.registerClass(
             Gtk.IconTheme.get_default().append_search_path(
                 this.ddterm_dir.get_child('app').get_child('icons').get_path()
             );
+
+            if (this.allow_heap_dump) {
+                const heap_dumper = new heapdump.HeapDumper(this.install_dir.get_child('ddterm'));
+                heap_dumper.dbus.export(this.get_dbus_connection(), this.get_dbus_object_path());
+            }
         }
 
         activate() {
@@ -204,6 +210,8 @@ var Application = GObject.registerClass(
 
             if (allowed_gdk_backends)
                 Gdk.set_allowed_backends(allowed_gdk_backends);
+
+            this.allow_heap_dump = options.lookup('allow-heap-dump');
 
             if (this.flags & Gio.ApplicationFlags.IS_SERVICE)
                 return -1;
@@ -289,27 +297,6 @@ var Application = GObject.registerClass(
         close_preferences() {
             if (this.prefs_dialog !== null)
                 this.prefs_dialog.close();
-        }
-
-        dump_heap(path = null) {
-            if (!path) {
-                path = GLib.build_filenamev([
-                    GLib.get_user_state_dir(),
-                    this.application_id,
-                ]);
-                GLib.mkdir_with_parents(path, 0o700);
-            }
-
-            if (GLib.file_test(path, GLib.FileTest.IS_DIR)) {
-                path = GLib.build_filenamev([
-                    path,
-                    `${this.application_id}-${new Date().toISOString().replace(/:/g, '-')}.heap`,
-                ]);
-            }
-
-            printerr(`Dumping heap to ${path}`);
-            System.dumpHeap(path);
-            printerr(`Dumped heap to ${path}`);
         }
 
         simple_action(name, activate, params = {}) {

@@ -1,9 +1,5 @@
-import contextlib
-import datetime
-import functools
 import logging
 import pathlib
-import queue
 import shlex
 import subprocess
 import sys
@@ -11,9 +7,9 @@ import time
 
 import pytest
 
-from gi.repository import GLib, Gio
+from gi.repository import Gio
 
-from . import ddterm_fixtures, glib_util
+from . import dbus_util, ddterm_fixtures, glib_util
 
 
 LOGGER = logging.getLogger(__name__)
@@ -37,34 +33,7 @@ def wait_action_in_group_enabled(group, action, enabled=True):
             w.wait()
 
 
-@contextlib.contextmanager
-def detect_heap_leaks(syslogger, app_actions, heap_dump_dir):
-
-    def dump_heap():
-        timestamp = datetime.datetime.now(datetime.timezone.utc)
-        heap_dump_file = heap_dump_dir / f'{timestamp.isoformat().replace(":", "-")}.heap'
-
-        app_actions.activate_action('gc', None)
-
-        handler = logging.handlers.QueueHandler(queue.SimpleQueue())
-        syslogger.addHandler(handler)
-
-        try:
-            app_actions.activate_action('dump-heap', GLib.Variant('s', str(heap_dump_file)))
-
-            for record in iter(lambda: handler.queue.get(timeout=1), None):
-                if record.message.endswith(f'Dumped heap to {heap_dump_file}'):
-                    return heap_dump_file
-
-        finally:
-            syslogger.removeHandler(handler)
-
-    dump_pre = dump_heap()
-
-    yield
-
-    dump_post = dump_heap()
-
+def compare_heap_dumps(dump_pre, dump_post):
     heapgraph_argv = [
         sys.executable,
         str(SRC_DIR / 'tools' / 'heapgraph.py'),
@@ -92,7 +61,7 @@ def detect_heap_leaks(syslogger, app_actions, heap_dump_dir):
     assert heapgraph.stdout == ''
 
 
-class TestHeapLeaks(ddterm_fixtures.DDTermFixtures):
+class TestApp(ddterm_fixtures.DDTermFixtures):
     @pytest.fixture
     def app_actions(self, user_bus_connection):
         return Gio.DBusActionGroup.get(
@@ -109,7 +78,7 @@ class TestHeapLeaks(ddterm_fixtures.DDTermFixtures):
             '/com/github/amezin/ddterm/window/1/notebook'
         )
 
-    @pytest.fixture(autouse=True)
+    @pytest.fixture
     def run_app(self, ddterm_extension_interface, test_extension_interface, app_actions):
         ddterm_extension_interface.Activate(timeout=self.START_STOP_TIMEOUT_MS)
 
@@ -150,27 +119,38 @@ class TestHeapLeaks(ddterm_fixtures.DDTermFixtures):
         )
 
     @pytest.fixture
-    def leak_detector(self, syslog_server, app_actions, heap_dump_dir):
-        wait_action_in_group(app_actions, 'gc')
-        wait_action_in_group(app_actions, 'dump-heap')
-
-        return functools.partial(
-            detect_heap_leaks,
-            syslogger=syslog_server.logger,
-            app_actions=app_actions,
-            heap_dump_dir=heap_dump_dir
+    def heap_dump_api(self, user_bus_connection, run_app):
+        return dbus_util.wait_interface(
+            user_bus_connection,
+            'com.github.amezin.ddterm',
+            '/com/github/amezin/ddterm',
+            'com.github.amezin.ddterm.HeapDump',
+            timeout=self.START_STOP_TIMEOUT_MS
         )
 
-    def test_tab_leak(self, leak_detector, notebook_actions):
+    def test_tab_leak(self, heap_dump_api, heap_dump_dir, notebook_actions):
         wait_action_in_group(notebook_actions, 'new-tab')
         wait_action_in_group(notebook_actions, 'close-current-tab')
 
-        with leak_detector():
-            notebook_actions.activate_action('new-tab', None)
-            notebook_actions.activate_action('close-current-tab', None)
-            time.sleep(0.5)
+        heap_dump_api.GC(timeout=self.START_STOP_TIMEOUT_MS)
+        dump_pre = heap_dump_api.Dump(
+            '(s)', str(heap_dump_dir),
+            timeout=self.START_STOP_TIMEOUT_MS
+        )
 
-    def test_prefs_leak(self, leak_detector, app_actions):
+        notebook_actions.activate_action('new-tab', None)
+        notebook_actions.activate_action('close-current-tab', None)
+        time.sleep(0.5)
+
+        heap_dump_api.GC(timeout=self.START_STOP_TIMEOUT_MS)
+        dump_post = heap_dump_api.Dump(
+            '(s)', str(heap_dump_dir),
+            timeout=self.START_STOP_TIMEOUT_MS
+        )
+
+        compare_heap_dumps(dump_pre, dump_post)
+
+    def test_prefs_leak(self, heap_dump_api, heap_dump_dir, app_actions):
         wait_action_in_group(app_actions, 'preferences')
         wait_action_in_group_enabled(app_actions, 'close-preferences', False)
 
@@ -181,14 +161,24 @@ class TestHeapLeaks(ddterm_fixtures.DDTermFixtures):
             wait_action_in_group_enabled(app_actions, 'close-preferences', False)
 
         open_close_prefs()
+
+        heap_dump_api.GC(timeout=self.START_STOP_TIMEOUT_MS)
+        dump_pre = heap_dump_api.Dump(
+            '(s)', str(heap_dump_dir),
+            timeout=self.START_STOP_TIMEOUT_MS
+        )
+
+        open_close_prefs()
         time.sleep(0.5)
 
-        with leak_detector():
-            open_close_prefs()
-            time.sleep(0.5)
+        heap_dump_api.GC(timeout=self.START_STOP_TIMEOUT_MS)
+        dump_post = heap_dump_api.Dump(
+            '(s)', str(heap_dump_dir),
+            timeout=self.START_STOP_TIMEOUT_MS
+        )
 
+        compare_heap_dumps(dump_pre, dump_post)
 
-class TestDependencies(ddterm_fixtures.DDTermFixtures):
     def test_manifest(self, container):
         container.exec(
             str(SRC_DIR / 'ddterm' / 'app' / 'tools' / 'dependencies-update.js'),
