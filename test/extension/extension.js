@@ -162,10 +162,6 @@ class ExtensionTestDBusInterface {
         global.run_at_leisure(() => invocation.return_value(null));
     }
 
-    HideOverview() {
-        Main.overview.hide();
-    }
-
     BlockBanner() {
         Main.messageTray.bannerBlocked = true;
     }
@@ -320,15 +316,6 @@ function enable() {
         connect(Main.welcomeDialog, 'notify::state', update_welcome_dialog_visible);
         update_welcome_dialog_visible();
     }
-
-    const update_overview_visible = () => {
-        dbus_interface.set_flag('OverviewVisible', Main.overview.visible);
-    };
-
-    for (const signal of ['hiding', 'hidden', 'showing', 'shown'])
-        connect(Main.overview, signal, update_overview_visible);
-
-    update_overview_visible();
 
     dbus_interface.dbus.export(Gio.DBus.session, '/org/gnome/Shell/Extensions/ddterm');
     teardown.push(() => dbus_interface.dbus.unexport());

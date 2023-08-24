@@ -86,7 +86,6 @@
         <property name="RenderedFirstFrame" type="b" access="read"/>
         <property name="WelcomeDialogVisible" type="b" access="read"/>
         <property name="StartingUp" type="b" access="read"/>
-        <property name="OverviewVisible" type="b" access="read"/>
 
         <method name="Toggle"/>
 
@@ -126,7 +125,6 @@
         <method name="UpdateCurrentMonitor"/>
         <method name="WaitLeisure"/>
 
-        <method name="HideOverview"/>
         <method name="BlockBanner"/>
     </interface>
 </node>

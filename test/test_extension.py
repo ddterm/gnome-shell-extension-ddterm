@@ -630,7 +630,7 @@ class CommonFixtures:
                 yield
 
     @pytest.fixture(scope='class', autouse=True)
-    def test_setup(self, test_interface):
+    def test_setup(self, test_interface, shell_dbus_api):
         with glib_util.SignalWait(
             test_interface,
             'g-properties-changed',
@@ -640,16 +640,7 @@ class CommonFixtures:
                 wait1.wait()
 
         test_interface.BlockBanner(timeout=STARTUP_TIMEOUT_MS)
-        test_interface.HideOverview(timeout=STARTUP_TIMEOUT_MS)
-
-        with glib_util.SignalWait(
-            test_interface,
-            'g-properties-changed',
-            timeout=STARTUP_TIMEOUT_MS
-        ) as wait2:
-            while test_interface.get_cached_property('OverviewVisible') or \
-                    test_interface.get_cached_property('WelcomeDialogVisible'):
-                wait2.wait()
+        shell_dbus_api.set_overview_active(False)
 
     @pytest.fixture(scope='class')
     def layout(self, test_interface, test_setup):
