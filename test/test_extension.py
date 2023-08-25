@@ -3,6 +3,8 @@ import collections
 import contextlib
 import enum
 import functools
+import inspect
+import itertools
 import logging.handlers
 import math
 import pathlib
@@ -30,16 +32,19 @@ THIS_DIR = pathlib.Path(__file__).parent.resolve()
 TEST_SRC_DIR = THIS_DIR / 'extension'
 SRC_DIR = THIS_DIR.parent
 
-SIZE_VALUES = [0.5, 0.9, 1.0]
-SMALL_SCREEN_SIZE_VALUES = [0.8, 0.85, 0.91]
-MORE_SIZE_VALUES = [0.31, 0.36, 0.4] + SMALL_SCREEN_SIZE_VALUES
-
 DEFAULT_IDLE_TIMEOUT_MS = 200
 XTE_IDLE_TIMEOUT_MS = DEFAULT_IDLE_TIMEOUT_MS
 WAIT_TIMEOUT_MS = 2000
 MOVE_RESIZE_WAIT_TIMEOUT_MS = 1000
 STARTUP_TIMEOUT_SEC = 15
 STARTUP_TIMEOUT_MS = STARTUP_TIMEOUT_SEC * 1000
+
+
+class WindowSize(float):
+    pass
+
+
+SIZE_VALUES = tuple(WindowSize(s) for s in (0.31, 0.36, 0.4, 0.5, 0.8, 0.85, 0.9, 0.91, 1.0))
 
 
 class MaximizeMode(enum.StrEnum):
@@ -64,8 +69,27 @@ class MonitorSetting(enum.StrEnum):
     CURRENT = 'current'
 
 
-def mkpairs(*args, **kwargs):
-    return list(allpairspy.AllPairs(*args, **kwargs))
+MONITOR_CONFIGS = (
+    MonitorConfig(0, MonitorSetting.CURRENT),
+    # MonitorConfig(0, MonitorSetting.PRIMARY), - the same
+    MonitorConfig(1, MonitorSetting.CURRENT),
+    MonitorConfig(1, MonitorSetting.PRIMARY),
+)
+
+
+VALUE_RANGES = {
+    WindowSize: SIZE_VALUES,
+    MonitorConfig: MONITOR_CONFIGS,
+    WindowPosition: list(WindowPosition),
+    MaximizeMode: list(MaximizeMode),
+}
+
+
+def gen_id(value):
+    if isinstance(value, MonitorConfig):
+        return f'{value.setting}{value.current_index}'
+
+    return None
 
 
 @pytest.fixture(scope='module')
@@ -469,10 +493,18 @@ class MouseSim(contextlib.AbstractContextManager):
 
 
 class CommonTests(ddterm_fixtures.DDTermFixtures):
-    N_MONITORS: int
+    N_MONITORS = 1
     PRIMARY_MONITOR = 0
     IS_MIXED_DPI = False
     LOGICAL_PIXELS = False
+
+    SUBCLASSES = []
+
+    def __init_subclass__(cls, **kwargs):
+        super().__init_subclass__(**kwargs)
+
+        if cls.__name__.startswith('Test'):
+            cls.SUBCLASSES.append(cls)
 
     @pytest.fixture(scope='class', autouse=True)
     def test_setup(self, test_extension_interface, shell_dbus_api):
@@ -602,17 +634,13 @@ class CommonTests(ddterm_fixtures.DDTermFixtures):
                 test_api.settings.set_boolean('window-maximize', True)
                 wait2()
 
-    @pytest.mark.parametrize(
-        ['window_size', 'window_maximize', 'window_pos'],
-        mkpairs([MORE_SIZE_VALUES, list(MaximizeMode), VERTICAL_RESIZE_POSITIONS])
-    )
-    def test_show_v(
+    def test_show(
         self,
         test_api,
-        window_size,
-        window_maximize,
-        window_pos,
-        monitor_config,
+        monitor_config: MonitorConfig,
+        window_pos: WindowPosition,
+        window_size: WindowSize,
+        window_maximize: MaximizeMode,
         screenshot
     ):
         with screenshot:
@@ -624,36 +652,14 @@ class CommonTests(ddterm_fixtures.DDTermFixtures):
                 monitor_config
             )
 
-    def test_show_h(
+    def test_mouse_resize(
         self,
         test_api,
-        window_size,
-        window_maximize,
-        window_pos,
-        monitor_config,
-        screenshot
-    ):
-        with screenshot:
-            self.common_test_show(
-                test_api,
-                window_size,
-                window_maximize,
-                window_pos,
-                monitor_config
-            )
-
-    @pytest.mark.parametrize(
-        ['window_size', 'window_maximize', 'window_size2', 'window_pos'],
-        mkpairs([SIZE_VALUES, list(MaximizeMode), SIZE_VALUES, list(WindowPosition)])
-    )
-    def test_resize_xte(
-        self,
-        test_api,
-        window_size,
-        window_maximize,
-        window_size2,
-        window_pos,
-        monitor_config,
+        monitor_config: MonitorConfig,
+        window_pos: WindowPosition,
+        window_size: WindowSize,
+        window_size2: WindowSize,
+        window_maximize: MaximizeMode,
         screenshot,
         request
     ):
@@ -731,20 +737,13 @@ class CommonTests(ddterm_fixtures.DDTermFixtures):
             ) as wait4:
                 wait4()
 
-    @pytest.mark.parametrize(
-        ['window_pos', 'window_pos2', 'window_size'],
-        mkpairs(
-            [list(WindowPosition), list(WindowPosition), SIZE_VALUES],
-            filter_func=lambda p: (len(p) < 2) or (p[0] != p[1])
-        )
-    )
     def test_change_position(
         self,
         test_api,
-        window_size,
-        window_pos,
-        window_pos2,
-        monitor_config,
+        monitor_config: MonitorConfig,
+        window_pos: WindowPosition,
+        window_pos2: WindowPosition,
+        window_size: WindowSize,
         screenshot
     ):
         with screenshot:
@@ -770,17 +769,13 @@ class CommonTests(ddterm_fixtures.DDTermFixtures):
                 test_api.settings.set_string('window-position', window_pos2)
                 wait()
 
-    @pytest.mark.parametrize(
-        ['window_size', 'window_maximize', 'window_pos'],
-        mkpairs([SIZE_VALUES, list(MaximizeMode), list(WindowPosition)])
-    )
     def test_unmaximize(
         self,
         test_api,
-        window_size,
-        window_maximize,
-        window_pos,
-        monitor_config,
+        monitor_config: MonitorConfig,
+        window_pos: WindowPosition,
+        window_size: WindowSize,
+        window_maximize: MaximizeMode,
         screenshot
     ):
         with screenshot:
@@ -805,17 +800,13 @@ class CommonTests(ddterm_fixtures.DDTermFixtures):
                 test_api.settings.set_boolean('window-maximize', False)
                 wait()
 
-    @pytest.mark.parametrize(
-        ['window_size', 'window_size2', 'window_pos'],
-        mkpairs([SIZE_VALUES, SIZE_VALUES, list(WindowPosition)])
-    )
     def test_unmaximize_correct_size(
         self,
         test_api,
-        window_size,
-        window_size2,
-        window_pos,
-        monitor_config,
+        monitor_config: MonitorConfig,
+        window_pos: WindowPosition,
+        window_size: WindowSize,
+        window_size2: WindowSize,
         screenshot
     ):
         with screenshot:
@@ -863,20 +854,13 @@ class CommonTests(ddterm_fixtures.DDTermFixtures):
                 test_api.settings.set_boolean('window-maximize', False)
                 wait3()
 
-    @pytest.mark.parametrize(
-        ['window_size', 'window_size2', 'window_pos'],
-        mkpairs(
-            [SIZE_VALUES, SIZE_VALUES, list(WindowPosition)],
-            filter_func=lambda p: (len(p) < 2) or (p[0] != p[1])
-        )
-    )
     def test_unmaximize_on_size_change(
         self,
         test_api,
-        window_size,
-        window_size2,
-        window_pos,
-        monitor_config,
+        monitor_config: MonitorConfig,
+        window_pos: WindowPosition,
+        window_size: WindowSize,
+        window_size2: WindowSize,
         screenshot
     ):
         with screenshot:
@@ -901,54 +885,107 @@ class CommonTests(ddterm_fixtures.DDTermFixtures):
                 test_api.settings.set_double('window-size', window_size2)
                 wait()
 
+    @classmethod
+    def valid_window_size(cls, position, size):
+        return True
 
-class LargeScreenMixin(CommonTests):
-    @pytest.mark.parametrize(
-        ['window_size', 'window_maximize', 'window_pos'],
-        mkpairs([MORE_SIZE_VALUES, list(MaximizeMode), HORIZONTAL_RESIZE_POSITIONS])
-    )
-    @functools.wraps(CommonTests.test_show_h)
-    def test_show_h(self, *args, **kwargs):
-        super().test_show_h(*args, **kwargs)
+    @classmethod
+    def valid_parametrization(cls, method_name, params):
+        monitor_config = None
+        window_size = []
+        window_pos = []
+
+        for p in params:
+            if isinstance(p, MonitorConfig):
+                assert monitor_config is None
+                monitor_config = p
+
+            elif isinstance(p, WindowSize):
+                window_size.append(p)
+
+            elif isinstance(p, WindowPosition):
+                window_pos.append(p)
+
+        if monitor_config is not None:
+            if monitor_config.current_index >= cls.N_MONITORS:
+                return False
+
+        if len(window_size) >= 2:
+            assert len(window_size) == 2
+
+            if window_size[0] == window_size[1]:
+                return False
+
+        if len(window_pos) >= 2:
+            assert len(window_pos) == 2
+
+            if window_pos[0] == window_pos[1]:
+                return False
+
+        return all(
+            cls.valid_window_size(pos, size)
+            for pos, size in itertools.product(window_pos, window_size)
+        )
+
+    @staticmethod
+    @functools.lru_cache
+    def gen_parametrization_static(subclasses, method_name, func):
+        testclasses = [
+            subclass for subclass in subclasses
+            if getattr(subclass, method_name) == func
+        ]
+
+        signature = inspect.signature(func)
+
+        paramnames = []
+        paramranges = [testclasses]
+
+        for param in signature.parameters.values():
+            if param.annotation == inspect.Parameter.empty:
+                continue
+
+            paramnames.append(param.name)
+            paramranges.append(VALUE_RANGES[param.annotation])
+
+        paramvalues_perclass = collections.defaultdict(list)
+
+        for params in allpairspy.AllPairs(
+            paramranges,
+            filter_func=lambda p: p[0].valid_parametrization(method_name, p[1:]),
+            n=3 if method_name == 'test_show' else 2
+        ):
+            paramvalues_perclass[params[0]].append(params[1:])
+
+        return paramnames, paramvalues_perclass
+
+    @classmethod
+    def gen_parametrization(cls, method_name, func):
+        subclasses = tuple(reversed(cls.SUBCLASSES))
+        paramnames, paramvalues = cls.gen_parametrization_static(subclasses, method_name, func)
+        return paramnames, paramvalues[cls]
+
+    def pytest_generate_tests(self, metafunc):
+        metafunc.parametrize(
+            *self.gen_parametrization(metafunc.definition.originalname, metafunc.function),
+            ids=gen_id
+        )
 
 
-class SmallScreenMixin(CommonTests):
-    @pytest.mark.parametrize(
-        ['window_size', 'window_maximize', 'window_pos'],
-        mkpairs([SMALL_SCREEN_SIZE_VALUES, list(MaximizeMode), HORIZONTAL_RESIZE_POSITIONS])
-    )
-    @functools.wraps(CommonTests.test_show_h)
-    def test_show_h(self, *args, **kwargs):
-        super().test_show_h(*args, **kwargs)
-
-
-@pytest.mark.parametrize('monitor_config', [
-    MonitorConfig(0, MonitorSetting.CURRENT)
-])
-class SingleMonitorTests(CommonTests):
-    N_MONITORS = 1
-
-
-@pytest.mark.parametrize('monitor_config', [
-    MonitorConfig(1, MonitorSetting.PRIMARY),
-    MonitorConfig(1, MonitorSetting.CURRENT),
-    # MonitorConfig(0, MonitorSetting.CURRENT), # not interesting
-])
-class DualMonitorTests(CommonTests):
-    N_MONITORS = 2
-
-
-class TestXSession(SingleMonitorTests, LargeScreenMixin):
+class TestXSession(CommonTests):
     GNOME_SHELL_SESSION_NAME = 'gnome-session-x11'
 
 
-class TestWayland(SingleMonitorTests, LargeScreenMixin):
+class TestWaylandSession(CommonTests):
     GNOME_SHELL_SESSION_NAME = 'gnome-session-wayland'
 
 
-class TestWaylandHighDpi(SingleMonitorTests, SmallScreenMixin):
-    GNOME_SHELL_SESSION_NAME = 'gnome-session-wayland'
+class SmallScreenTests(TestWaylandSession):
+    @classmethod
+    def valid_window_size(cls, position, size):
+        return position in [WindowPosition.TOP, WindowPosition.BOTTOM] or size >= 0.8
 
+
+class TestWaylandHighDpi(SmallScreenTests):
     @pytest.fixture(scope='class')
     def container_volumes(self, container_volumes):
         return container_volumes + (
@@ -958,8 +995,8 @@ class TestWaylandHighDpi(SingleMonitorTests, SmallScreenMixin):
         )
 
 
-class TestWaylandDualMonitor(DualMonitorTests, SmallScreenMixin):
-    GNOME_SHELL_SESSION_NAME = 'gnome-session-wayland'
+class TestWaylandDualMonitor(SmallScreenTests):
+    N_MONITORS = 2
 
     @pytest.fixture(scope='class')
     def container_volumes(self, container_volumes):
@@ -971,8 +1008,7 @@ class TestWaylandDualMonitor(DualMonitorTests, SmallScreenMixin):
 
 
 @pytest.mark.flaky
-class TestWaylandMixedDPI(DualMonitorTests, SmallScreenMixin):
-    GNOME_SHELL_SESSION_NAME = 'gnome-session-wayland'
+class TestWaylandMixedDPI(TestWaylandDualMonitor):
     IS_MIXED_DPI = True
 
     @pytest.fixture(scope='class')
@@ -983,29 +1019,19 @@ class TestWaylandMixedDPI(DualMonitorTests, SmallScreenMixin):
             ),
         )
 
-    @functools.wraps(CommonTests.test_show_v)
-    def test_show_v(self, *args, test_api, **kwargs):
-        if test_api.shell.version < (42, 0):
-            pytest.skip('Mixed DPI is not supported before GNOME Shell 42')
+    @pytest.fixture(scope='class', autouse=True)
+    def check_mixed_dpi_supported(self, shell_dbus_api):
+        if shell_dbus_api.version < (42, 0):
+            pytest.skip('Mixed DPI is not supported by ddterm on GNOME Shell <42')
 
-        super().test_show_v(*args, test_api=test_api, **kwargs)
-
-    @functools.wraps(SmallScreenMixin.test_show_v)
-    def test_show_h(self, *args, test_api, **kwargs):
-        if test_api.shell.version < (42, 0):
-            pytest.skip('Mixed DPI is not supported before GNOME Shell 42')
-
-        super().test_show_h(*args, test_api=test_api, **kwargs)
-
-    test_resize_xte = None
+    test_mouse_resize = None
     test_change_position = None
     test_unmaximize = None
     test_unmaximize_correct_size = None
     test_unmaximize_on_size_change = None
 
 
-class TestWaylandFractionalScale(SingleMonitorTests, LargeScreenMixin):
-    GNOME_SHELL_SESSION_NAME = 'gnome-session-wayland'
+class TestWaylandFractionalScaling(SmallScreenTests):
     LOGICAL_PIXELS = True
 
     @pytest.fixture(scope='class')
