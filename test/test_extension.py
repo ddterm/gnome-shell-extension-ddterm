@@ -73,10 +73,21 @@ def xvfb_fbdir(tmpdir_factory):
     return tmpdir_factory.mktemp('xvfb')
 
 
+def config_volume(path):
+    host_path = THIS_DIR / pathlib.Path(path)
+
+    return (
+        host_path,
+        pathlib.PurePosixPath('/') / host_path.relative_to(THIS_DIR),
+        'ro'
+    )
+
+
 @pytest.fixture(scope='module')
 def container_volumes(container_volumes, xvfb_fbdir):
     return container_volumes + (
         (xvfb_fbdir, '/xvfb', 'rw'),
+        config_volume('etc/systemd/system/xvfb@.service.d/fbdir.conf')
     )
 
 
@@ -457,28 +468,11 @@ class MouseSim(contextlib.AbstractContextManager):
         LOGGER.info('Mouse button pressed = %s', self.mouse_button_last)
 
 
-class CommonFixtures(ddterm_fixtures.DDTermFixtures):
+class CommonTests(ddterm_fixtures.DDTermFixtures):
     N_MONITORS: int
     PRIMARY_MONITOR = 0
     IS_MIXED_DPI = False
     LOGICAL_PIXELS = False
-
-    @classmethod
-    def mount_configs(cls):
-        return [
-            '/etc/systemd/system/xvfb@.service.d/fbdir.conf',
-        ]
-
-    @pytest.fixture(scope='class')
-    def container_volumes(self, container_volumes):
-        return container_volumes + tuple(
-            (
-                THIS_DIR / pathlib.PurePosixPath(path).relative_to('/'),
-                pathlib.PurePosixPath(path),
-                'ro'
-            )
-            for path in self.mount_configs()
-        )
 
     @pytest.fixture(scope='class', autouse=True)
     def test_setup(self, test_extension_interface, shell_dbus_api):
@@ -521,8 +515,6 @@ class CommonFixtures(ddterm_fixtures.DDTermFixtures):
             shell=shell_dbus_api,
         )
 
-
-class CommonTests(CommonFixtures):
     def common_test_show(
         self,
         test_api,
@@ -957,21 +949,25 @@ class TestWayland(SingleMonitorTests, LargeScreenMixin):
 class TestWaylandHighDpi(SingleMonitorTests, SmallScreenMixin):
     GNOME_SHELL_SESSION_NAME = 'gnome-session-wayland'
 
-    @classmethod
-    def mount_configs(cls):
-        return super().mount_configs() + [
-            '/etc/systemd/system/gnome-session-wayland@.service.d/mutter-highdpi.conf'
-        ]
+    @pytest.fixture(scope='class')
+    def container_volumes(self, container_volumes):
+        return container_volumes + (
+            config_volume(
+                'etc/systemd/system/gnome-session-wayland@.service.d/mutter-highdpi.conf'
+            ),
+        )
 
 
 class TestWaylandDualMonitor(DualMonitorTests, SmallScreenMixin):
     GNOME_SHELL_SESSION_NAME = 'gnome-session-wayland'
 
-    @classmethod
-    def mount_configs(cls):
-        return super().mount_configs() + [
-            '/etc/systemd/system/gnome-session-wayland@.service.d/mutter-dual-monitor.conf'
-        ]
+    @pytest.fixture(scope='class')
+    def container_volumes(self, container_volumes):
+        return container_volumes + (
+            config_volume(
+                'etc/systemd/system/gnome-session-wayland@.service.d/mutter-dual-monitor.conf'
+            ),
+        )
 
 
 @pytest.mark.flaky
@@ -979,11 +975,13 @@ class TestWaylandMixedDPI(DualMonitorTests, SmallScreenMixin):
     GNOME_SHELL_SESSION_NAME = 'gnome-session-wayland'
     IS_MIXED_DPI = True
 
-    @classmethod
-    def mount_configs(cls):
-        return super().mount_configs() + [
-            '/etc/systemd/system/gnome-session-wayland@.service.d/mutter-mixed-dpi.conf'
-        ]
+    @pytest.fixture(scope='class')
+    def container_volumes(self, container_volumes):
+        return container_volumes + (
+            config_volume(
+                'etc/systemd/system/gnome-session-wayland@.service.d/mutter-mixed-dpi.conf'
+            ),
+        )
 
     @functools.wraps(CommonTests.test_show_v)
     def test_show_v(self, *args, test_api, **kwargs):
@@ -1010,11 +1008,13 @@ class TestWaylandFractionalScale(SingleMonitorTests, LargeScreenMixin):
     GNOME_SHELL_SESSION_NAME = 'gnome-session-wayland'
     LOGICAL_PIXELS = True
 
-    @classmethod
-    def mount_configs(cls):
-        return super().mount_configs() + [
-            '/etc/systemd/system/gnome-session-wayland@.service.d/mutter-fractional.conf'
-        ]
+    @pytest.fixture(scope='class')
+    def container_volumes(self, container_volumes):
+        return container_volumes + (
+            config_volume(
+                'etc/systemd/system/gnome-session-wayland@.service.d/mutter-fractional.conf'
+            ),
+        )
 
     def configure_session(self, container, request):
         container.gsettings_set(
