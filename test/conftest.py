@@ -18,6 +18,8 @@ SRC_DIR = THIS_DIR.parent
 
 IMAGES_STASH_KEY = pytest.StashKey[list]()
 
+pytest_plugins = ['markdown_report']
+
 
 @pytest.fixture(scope='session')
 def podman(pytestconfig):

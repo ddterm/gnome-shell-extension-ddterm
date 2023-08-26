@@ -214,6 +214,7 @@ jobs:
         --dist worksteal
         --screenshot-failing-only
         -vv
+        --markdown-report $GITHUB_STEP_SUMMARY
       working-directory: test
 
     - name: Upload report to Testspace
