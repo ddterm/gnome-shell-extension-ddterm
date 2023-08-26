@@ -34,8 +34,7 @@ class Reporter:
     def __init__(self, config, path):
         self.config = config
         self.path = pathlib.Path(path)
-        self.reports = collections.defaultdict(lambda: collections.defaultdict(list))
-        self.node_markup = collections.defaultdict(dict)
+        self.reports = collections.defaultdict(list)
 
     def pytest_runtest_logreport(self, report):
         category, letter, word = \
@@ -65,38 +64,28 @@ class Reporter:
                 markup = {}
 
         if category:
-            self.reports[category][report.nodeid].append(report)
-
-            if markup:
-                self.node_markup[report.nodeid] = markup
+            self.reports[category].append((report, markup))
 
     def pytest_sessionfinish(self):
         content = []
 
-        for category, reports_by_nodeid in self.reports.items():
+        for category, reports in self.reports.items():
             content.append('<details>')
             content.append('')
             content.append(
-                f'<summary><b>{html.escape(category)} - {len(reports_by_nodeid)}</b></summary>'
+                f'<summary><b>{html.escape(category)} - {len(reports)}</b></summary>'
             )
             content.append('')
 
-            for nodeid, reports in reports_by_nodeid.items():
-                emoji = emoji_for_markup(self.node_markup[nodeid])
+            for report, markup in reports:
+                emoji = emoji_for_markup(markup)
 
                 content.append('<details>')
                 content.append('')
-                content.append(f'<summary>{emoji} {html.escape(nodeid)}</summary>')
+                content.append(f'<summary>{emoji} {html.escape(report.nodeid)}</summary>')
                 content.append('')
 
-                for report in reports:
-                    if not report.longreprtext:
-                        continue
-
-                    title = join_words((getattr(report, 'head_line', ''), report.when))
-
-                    content.append(f'+ *{html.escape(title)}*')
-                    content.append('')
+                if report.longreprtext:
                     content.append('````python')
                     content.append(report.longreprtext)
                     content.append('````')
