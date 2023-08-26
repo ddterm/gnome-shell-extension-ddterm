@@ -6,7 +6,7 @@ pytest-html~=3.2.0
 pytest-rerunfailures~=12.0
 pluggy~=1.2.0
 ansi2html~=1.8.0
-allpairspy~=2.5.0
+allpairspy @ git+https://github.com/amezin/allpairspy.git@66df42dee8c784033d8e4851b4e952403f4d287b
 wand~=0.6.10
 filelock~=3.12.0
 pyyaml~=6.0
