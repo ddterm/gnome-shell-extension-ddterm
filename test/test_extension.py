@@ -115,10 +115,10 @@ def container_volumes(container_volumes, xvfb_fbdir):
     )
 
 
-def resize_point(frame_rect, window_pos, monitor_scale):
+def resize_point(frame_rect, window_pos):
     x = frame_rect.x
     y = frame_rect.y
-    edge_offset = 3 * monitor_scale
+    edge_offset = 3
 
     if window_pos == WindowPosition.LEFT or window_pos == WindowPosition.RIGHT:
         y += math.floor(frame_rect.height / 2)
@@ -166,13 +166,10 @@ def screenshot(xvfb_fbdir, extra, pytestconfig):
     )
 
 
-def compute_target_rect(size, pos, monitor, logical_pixels):
+def compute_target_rect(size, pos, monitor):
     x, y, width, height = monitor.workarea
 
     round_to = int(monitor.scale)
-
-    if logical_pixels:
-        round_to *= round_to
 
     if pos in [WindowPosition.TOP, WindowPosition.BOTTOM]:
         height *= size
@@ -190,7 +187,7 @@ def compute_target_rect(size, pos, monitor, logical_pixels):
     return Rect(x, y, width, height)
 
 
-def verify_window_geometry(test_interface, size, maximize, pos, monitor, logical_pixels):
+def verify_window_geometry(test_interface, size, maximize, pos, monitor):
     if pos in [WindowPosition.TOP, WindowPosition.BOTTOM]:
         actual_maximized = test_interface.IsMaximizedVertically()
     else:
@@ -201,8 +198,7 @@ def verify_window_geometry(test_interface, size, maximize, pos, monitor, logical
     target_rect_unmaximized = compute_target_rect(
         size=size,
         pos=pos,
-        monitor=monitor,
-        logical_pixels=logical_pixels
+        monitor=monitor
     )
 
     assert all(
@@ -229,7 +225,6 @@ def wait_move_resize(
     window_maximize,
     window_pos,
     monitor,
-    logical_pixels,
     max_signals=2,
     idle_timeout_ms=DEFAULT_IDLE_TIMEOUT_MS,
     wait_timeout_ms=MOVE_RESIZE_WAIT_TIMEOUT_MS
@@ -250,8 +245,7 @@ def wait_move_resize(
         target_rect = compute_target_rect(
             size=window_size,
             pos=window_pos,
-            monitor=monitor,
-            logical_pixels=logical_pixels
+            monitor=monitor
         )
 
     if top_or_bottom:
@@ -354,8 +348,7 @@ def wait_move_resize(
                 size=window_size,
                 maximize=window_maximize,
                 pos=window_pos,
-                monitor=monitor,
-                logical_pixels=logical_pixels
+                monitor=monitor
             )
 
     with idle_timer, wait_timer, signal_handler:
@@ -496,7 +489,6 @@ class CommonTests(ddterm_fixtures.DDTermFixtures):
     N_MONITORS = 1
     PRIMARY_MONITOR = 0
     IS_MIXED_DPI = False
-    LOGICAL_PIXELS = False
 
     SUBCLASSES = []
 
@@ -616,7 +608,6 @@ class CommonTests(ddterm_fixtures.DDTermFixtures):
             should_maximize,
             window_pos,
             window_monitor,
-            self.LOGICAL_PIXELS,
             (0 if prev_maximize == should_maximize else 1) + mixed_dpi_penalty
         ) as wait1:
             wait1()
@@ -628,7 +619,6 @@ class CommonTests(ddterm_fixtures.DDTermFixtures):
                 True,
                 window_pos,
                 window_monitor,
-                self.LOGICAL_PIXELS,
                 1 + mixed_dpi_penalty
             ) as wait2:
                 test_api.settings.set_boolean('window-maximize', True)
@@ -680,18 +670,17 @@ class CommonTests(ddterm_fixtures.DDTermFixtures):
 
             initial_frame_rect = Rect(*test_api.dbus.GetFrameRect())
 
-            initial_x, initial_y = resize_point(initial_frame_rect, window_pos, monitor.scale)
+            initial_x, initial_y = resize_point(initial_frame_rect, window_pos)
 
             test_api.mouse_sim.move_to(initial_x, initial_y)
 
             target_frame_rect = compute_target_rect(
                 size=window_size2,
                 pos=window_pos,
-                monitor=monitor,
-                logical_pixels=self.LOGICAL_PIXELS
+                monitor=monitor
             )
 
-            target_x, target_y = resize_point(target_frame_rect, window_pos, monitor.scale)
+            target_x, target_y = resize_point(target_frame_rect, window_pos)
 
             try:
                 with wait_move_resize(
@@ -700,7 +689,6 @@ class CommonTests(ddterm_fixtures.DDTermFixtures):
                     False,
                     window_pos,
                     monitor,
-                    self.LOGICAL_PIXELS,
                     3,
                     XTE_IDLE_TIMEOUT_MS
                 ) as wait1:
@@ -721,8 +709,7 @@ class CommonTests(ddterm_fixtures.DDTermFixtures):
                 while compute_target_rect(
                     size=test_api.settings.get('window-size'),
                     pos=window_pos,
-                    monitor=monitor,
-                    logical_pixels=self.LOGICAL_PIXELS
+                    monitor=monitor
                 ) != target_frame_rect:
                     wait3.wait()
 
@@ -732,7 +719,6 @@ class CommonTests(ddterm_fixtures.DDTermFixtures):
                 False,
                 window_pos,
                 monitor,
-                self.LOGICAL_PIXELS,
                 1
             ) as wait4:
                 wait4()
@@ -764,7 +750,6 @@ class CommonTests(ddterm_fixtures.DDTermFixtures):
                 window_size == 1.0 and initially_maximized,
                 window_pos2,
                 monitor,
-                self.LOGICAL_PIXELS
             ) as wait:
                 test_api.settings.set_string('window-position', window_pos2)
                 wait()
@@ -795,7 +780,6 @@ class CommonTests(ddterm_fixtures.DDTermFixtures):
                 False,
                 window_pos,
                 monitor,
-                self.LOGICAL_PIXELS
             ) as wait:
                 test_api.settings.set_boolean('window-maximize', False)
                 wait()
@@ -827,7 +811,6 @@ class CommonTests(ddterm_fixtures.DDTermFixtures):
                 window_size == 1.0 and window_size2 == 1.0 and initially_maximized,
                 window_pos,
                 monitor,
-                self.LOGICAL_PIXELS
             ) as wait1:
                 test_api.settings.set_double('window-size', window_size2)
                 wait1()
@@ -838,7 +821,6 @@ class CommonTests(ddterm_fixtures.DDTermFixtures):
                 True,
                 window_pos,
                 monitor,
-                self.LOGICAL_PIXELS
             ) as wait2:
                 test_api.settings.set_boolean('window-maximize', True)
                 wait2()
@@ -849,7 +831,6 @@ class CommonTests(ddterm_fixtures.DDTermFixtures):
                 False,
                 window_pos,
                 monitor,
-                self.LOGICAL_PIXELS
             ) as wait3:
                 test_api.settings.set_boolean('window-maximize', False)
                 wait3()
@@ -880,7 +861,6 @@ class CommonTests(ddterm_fixtures.DDTermFixtures):
                 window_size2 == 1.0,
                 window_pos,
                 monitor,
-                self.LOGICAL_PIXELS
             ) as wait:
                 test_api.settings.set_double('window-size', window_size2)
                 wait()
@@ -984,6 +964,16 @@ class SmallScreenTests(TestWaylandSession):
         return position in [WindowPosition.TOP, WindowPosition.BOTTOM] or size >= 0.8
 
 
+class ScaleFramebufferMixin(TestWaylandSession):
+    def configure_session(self, container, request):
+        container.gsettings_set(
+            'org.gnome.mutter', 'experimental-features', ['scale-monitor-framebuffer'],
+            timeout=STARTUP_TIMEOUT_SEC
+        )
+
+        super().configure_session(container, request)
+
+
 class TestWaylandHighDpi(SmallScreenTests):
     @pytest.fixture(scope='class')
     def container_volumes(self, container_volumes):
@@ -1024,10 +1014,11 @@ class TestWaylandMixedDPI(TestWaylandDualMonitor):
             pytest.skip('Mixed DPI is not supported by ddterm on GNOME Shell <42')
 
     @pytest.fixture(autouse=True)
-    def check_broken_test(self, window_pos, window_size, window_maximize, request):
-        if window_pos in [WindowPosition.LEFT, WindowPosition.RIGHT]:
-            if window_maximize == MaximizeMode.MAXIMIZE_LATE and window_size != 1.0:
-                request.applymarker(pytest.mark.xfail())
+    def check_broken_test(self, window_pos, monitor_config, request):
+        if window_pos == WindowPosition.RIGHT:
+            if monitor_config.current_index != self.PRIMARY_MONITOR:
+                if monitor_config.setting == MonitorSetting.PRIMARY:
+                    request.applymarker(pytest.mark.xfail())
 
     test_mouse_resize = None
     test_change_position = None
@@ -1036,9 +1027,7 @@ class TestWaylandMixedDPI(TestWaylandDualMonitor):
     test_unmaximize_on_size_change = None
 
 
-class TestWaylandFractionalScaling(SmallScreenTests):
-    LOGICAL_PIXELS = True
-
+class TestWaylandFractionalScaling(SmallScreenTests, ScaleFramebufferMixin):
     @pytest.fixture(scope='class')
     def container_volumes(self, container_volumes):
         return container_volumes + (
@@ -1047,10 +1036,6 @@ class TestWaylandFractionalScaling(SmallScreenTests):
             ),
         )
 
-    def configure_session(self, container, request):
-        container.gsettings_set(
-            'org.gnome.mutter', 'experimental-features', ['scale-monitor-framebuffer'],
-            timeout=STARTUP_TIMEOUT_SEC
-        )
 
-        super().configure_session(container, request)
+class TestWaylandHighDpiScaleFramebuffer(TestWaylandHighDpi, ScaleFramebufferMixin):
+    pass
