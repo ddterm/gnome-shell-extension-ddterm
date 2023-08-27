@@ -1,4 +1,3 @@
-import base64
 import collections
 import contextlib
 import enum
@@ -11,11 +10,8 @@ import pathlib
 
 import allpairspy
 import pytest
-import wand.image
-import Xlib.display
 import Xlib.X
 
-from pytest_html import extras
 from gi.repository import GLib, Gio
 
 from . import ddterm_fixtures, glib_util
@@ -92,29 +88,6 @@ def gen_id(value):
     return None
 
 
-@pytest.fixture(scope='module')
-def xvfb_fbdir(tmpdir_factory):
-    return tmpdir_factory.mktemp('xvfb')
-
-
-def config_volume(path):
-    host_path = THIS_DIR / pathlib.Path(path)
-
-    return (
-        host_path,
-        pathlib.PurePosixPath('/') / host_path.relative_to(THIS_DIR),
-        'ro'
-    )
-
-
-@pytest.fixture(scope='module')
-def container_volumes(container_volumes, xvfb_fbdir):
-    return container_volumes + (
-        (xvfb_fbdir, '/xvfb', 'rw'),
-        config_volume('etc/systemd/system/xvfb@.service.d/fbdir.conf')
-    )
-
-
 def resize_point(frame_rect, window_pos):
     x = frame_rect.x
     y = frame_rect.y
@@ -136,34 +109,6 @@ def resize_point(frame_rect, window_pos):
             y += edge_offset
 
     return x, y
-
-
-class ScreenshotContextManager(contextlib.AbstractContextManager):
-    def __init__(self, failing_only, screen_path, extra):
-        super().__init__()
-        self.failing_only = failing_only
-        self.screen_path = screen_path
-        self.extra = extra
-
-    def __exit__(self, exc_type, exc_value, traceback):
-        if exc_type is None and self.failing_only:
-            return
-
-        xwd_blob = pathlib.Path(self.screen_path).read_bytes()
-
-        with wand.image.Image(blob=xwd_blob, format='xwd') as img:
-            png_blob = img.make_blob('png')
-
-        self.extra.append(extras.png(base64.b64encode(png_blob).decode('ascii')))
-
-
-@pytest.fixture
-def screenshot(xvfb_fbdir, extra, pytestconfig):
-    return ScreenshotContextManager(
-        pytestconfig.getoption('--screenshot-failing-only'),
-        xvfb_fbdir / 'Xvfb_screen0',
-        extra
-    )
 
 
 def compute_target_rect(size, pos, monitor):
@@ -520,6 +465,10 @@ class CommonTests(ddterm_fixtures.DDTermFixtures):
     def mouse_sim(self, test_extension_interface, x11_display):
         return MouseSim(x11_display, test_extension_interface)
 
+    @pytest.fixture(autouse=True)
+    def enable_screenshots(self, x11_display, screencap):
+        screencap.enable(x11_display)
+
     @pytest.fixture(scope='class')
     def test_api(self, test_extension_interface, layout, settings, mouse_sim, shell_dbus_api):
         return Api(
@@ -530,13 +479,13 @@ class CommonTests(ddterm_fixtures.DDTermFixtures):
             shell=shell_dbus_api,
         )
 
-    def common_test_show(
+    def test_show(
         self,
         test_api,
-        window_size,
-        window_maximize,
-        window_pos,
-        monitor_config
+        monitor_config: MonitorConfig,
+        window_pos: WindowPosition,
+        window_size: WindowSize,
+        window_maximize: MaximizeMode
     ):
         glib_util.flush_main_loop()
 
@@ -615,24 +564,6 @@ class CommonTests(ddterm_fixtures.DDTermFixtures):
                 test_api.settings.set_boolean('window-maximize', True)
                 wait2()
 
-    def test_show(
-        self,
-        test_api,
-        monitor_config: MonitorConfig,
-        window_pos: WindowPosition,
-        window_size: WindowSize,
-        window_maximize: MaximizeMode,
-        screenshot
-    ):
-        with screenshot:
-            self.common_test_show(
-                test_api,
-                window_size,
-                window_maximize,
-                window_pos,
-                monitor_config
-            )
-
     def test_mouse_resize(
         self,
         test_api,
@@ -641,78 +572,76 @@ class CommonTests(ddterm_fixtures.DDTermFixtures):
         window_size: WindowSize,
         window_size2: WindowSize,
         window_maximize: MaximizeMode,
-        screenshot,
         request
     ):
         monitor = test_api.layout.resolve_monitor(monitor_config)
 
-        with screenshot:
-            self.common_test_show(
-                test_api,
-                window_size,
-                window_maximize,
-                window_pos,
-                monitor_config
-            )
+        self.test_show(
+            test_api=test_api,
+            window_size=window_size,
+            window_maximize=window_maximize,
+            window_pos=window_pos,
+            monitor_config=monitor_config
+        )
 
-            test_api.dbus.WaitLeisure()
-            glib_util.sleep(XTE_IDLE_TIMEOUT_MS)
-            test_api.dbus.WaitLeisure()
+        test_api.dbus.WaitLeisure()
+        glib_util.sleep(XTE_IDLE_TIMEOUT_MS)
+        test_api.dbus.WaitLeisure()
 
-            initial_frame_rect = Rect(*test_api.dbus.GetFrameRect())
+        initial_frame_rect = Rect(*test_api.dbus.GetFrameRect())
 
-            initial_x, initial_y = resize_point(initial_frame_rect, window_pos)
+        initial_x, initial_y = resize_point(initial_frame_rect, window_pos)
 
-            test_api.mouse_sim.move_to(initial_x, initial_y)
+        test_api.mouse_sim.move_to(initial_x, initial_y)
 
-            target_frame_rect = compute_target_rect(
-                size=window_size2,
-                pos=window_pos,
-                monitor=monitor
-            )
+        target_frame_rect = compute_target_rect(
+            size=window_size2,
+            pos=window_pos,
+            monitor=monitor
+        )
 
-            target_x, target_y = resize_point(target_frame_rect, window_pos)
+        target_x, target_y = resize_point(target_frame_rect, window_pos)
 
-            try:
-                with wait_move_resize(
-                    test_api.dbus,
-                    1.0 if window_maximize != MaximizeMode.NOT_MAXIMIZED else window_size,
-                    False,
-                    window_pos,
-                    monitor,
-                    3,
-                    XTE_IDLE_TIMEOUT_MS
-                ) as wait1:
-                    test_api.mouse_sim.button(True)
-                    wait1()
-
-                test_api.mouse_sim.move_to(target_x, target_y)
-
-                # mutter doesn't emit position-changed/size-changed while resizing
-                for _ in glib_util.busy_wait(100, WAIT_TIMEOUT_MS):
-                    if Rect(*test_api.dbus.GetFrameRect()) == target_frame_rect:
-                        break
-
-            finally:
-                test_api.mouse_sim.button(False)
-
-            with glib_util.SignalWait(test_api.dbus, 'g-signal') as wait3:
-                while compute_target_rect(
-                    size=test_api.settings.get('window-size'),
-                    pos=window_pos,
-                    monitor=monitor
-                ) != target_frame_rect:
-                    wait3.wait()
-
+        try:
             with wait_move_resize(
                 test_api.dbus,
-                window_size2,
+                1.0 if window_maximize != MaximizeMode.NOT_MAXIMIZED else window_size,
                 False,
                 window_pos,
                 monitor,
-                1
-            ) as wait4:
-                wait4()
+                3,
+                XTE_IDLE_TIMEOUT_MS
+            ) as wait1:
+                test_api.mouse_sim.button(True)
+                wait1()
+
+            test_api.mouse_sim.move_to(target_x, target_y)
+
+            # mutter doesn't emit position-changed/size-changed while resizing
+            for _ in glib_util.busy_wait(100, WAIT_TIMEOUT_MS):
+                if Rect(*test_api.dbus.GetFrameRect()) == target_frame_rect:
+                    break
+
+        finally:
+            test_api.mouse_sim.button(False)
+
+        with glib_util.SignalWait(test_api.dbus, 'g-signal') as wait3:
+            while compute_target_rect(
+                size=test_api.settings.get('window-size'),
+                pos=window_pos,
+                monitor=monitor
+            ) != target_frame_rect:
+                wait3.wait()
+
+        with wait_move_resize(
+            test_api.dbus,
+            window_size2,
+            False,
+            window_pos,
+            monitor,
+            1
+        ) as wait4:
+            wait4()
 
     def test_change_position(
         self,
@@ -720,30 +649,28 @@ class CommonTests(ddterm_fixtures.DDTermFixtures):
         monitor_config: MonitorConfig,
         window_pos: WindowPosition,
         window_pos2: WindowPosition,
-        window_size: WindowSize,
-        screenshot
+        window_size: WindowSize
     ):
-        with screenshot:
-            self.common_test_show(
-                test_api,
-                window_size,
-                MaximizeMode.NOT_MAXIMIZED,
-                window_pos,
-                monitor_config
-            )
+        self.test_show(
+            test_api=test_api,
+            window_size=window_size,
+            window_maximize=MaximizeMode.NOT_MAXIMIZED,
+            window_pos=window_pos,
+            monitor_config=monitor_config
+        )
 
-            initially_maximized = test_api.settings.get('window-maximize')
-            monitor = test_api.layout.resolve_monitor(monitor_config)
+        initially_maximized = test_api.settings.get('window-maximize')
+        monitor = test_api.layout.resolve_monitor(monitor_config)
 
-            with wait_move_resize(
-                test_api.dbus,
-                window_size,
-                window_size == 1.0 and initially_maximized,
-                window_pos2,
-                monitor,
-            ) as wait:
-                test_api.settings.set_string('window-position', window_pos2)
-                wait()
+        with wait_move_resize(
+            test_api.dbus,
+            window_size,
+            window_size == 1.0 and initially_maximized,
+            window_pos2,
+            monitor,
+        ) as wait:
+            test_api.settings.set_string('window-position', window_pos2)
+            wait()
 
     def test_unmaximize(
         self,
@@ -751,29 +678,27 @@ class CommonTests(ddterm_fixtures.DDTermFixtures):
         monitor_config: MonitorConfig,
         window_pos: WindowPosition,
         window_size: WindowSize,
-        window_maximize: MaximizeMode,
-        screenshot
+        window_maximize: MaximizeMode
     ):
-        with screenshot:
-            self.common_test_show(
-                test_api,
-                window_size,
-                window_maximize,
-                window_pos,
-                monitor_config
-            )
+        self.test_show(
+            test_api=test_api,
+            window_size=window_size,
+            window_maximize=window_maximize,
+            window_pos=window_pos,
+            monitor_config=monitor_config
+        )
 
-            monitor = test_api.layout.resolve_monitor(monitor_config)
+        monitor = test_api.layout.resolve_monitor(monitor_config)
 
-            with wait_move_resize(
-                test_api.dbus,
-                window_size,
-                False,
-                window_pos,
-                monitor,
-            ) as wait:
-                test_api.settings.set_boolean('window-maximize', False)
-                wait()
+        with wait_move_resize(
+            test_api.dbus,
+            window_size,
+            False,
+            window_pos,
+            monitor,
+        ) as wait:
+            test_api.settings.set_boolean('window-maximize', False)
+            wait()
 
     def test_unmaximize_correct_size(
         self,
@@ -781,50 +706,48 @@ class CommonTests(ddterm_fixtures.DDTermFixtures):
         monitor_config: MonitorConfig,
         window_pos: WindowPosition,
         window_size: WindowSize,
-        window_size2: WindowSize,
-        screenshot
+        window_size2: WindowSize
     ):
-        with screenshot:
-            self.common_test_show(
-                test_api,
-                window_size,
-                MaximizeMode.NOT_MAXIMIZED,
-                window_pos,
-                monitor_config
-            )
+        self.test_show(
+            test_api=test_api,
+            window_size=window_size,
+            window_maximize=MaximizeMode.NOT_MAXIMIZED,
+            window_pos=window_pos,
+            monitor_config=monitor_config
+        )
 
-            monitor = test_api.layout.resolve_monitor(monitor_config)
-            initially_maximized = test_api.settings.get('window-maximize')
+        monitor = test_api.layout.resolve_monitor(monitor_config)
+        initially_maximized = test_api.settings.get('window-maximize')
 
-            with wait_move_resize(
-                test_api.dbus,
-                window_size2,
-                window_size == 1.0 and window_size2 == 1.0 and initially_maximized,
-                window_pos,
-                monitor,
-            ) as wait1:
-                test_api.settings.set_double('window-size', window_size2)
-                wait1()
+        with wait_move_resize(
+            test_api.dbus,
+            window_size2,
+            window_size == 1.0 and window_size2 == 1.0 and initially_maximized,
+            window_pos,
+            monitor,
+        ) as wait1:
+            test_api.settings.set_double('window-size', window_size2)
+            wait1()
 
-            with wait_move_resize(
-                test_api.dbus,
-                window_size2,
-                True,
-                window_pos,
-                monitor,
-            ) as wait2:
-                test_api.settings.set_boolean('window-maximize', True)
-                wait2()
+        with wait_move_resize(
+            test_api.dbus,
+            window_size2,
+            True,
+            window_pos,
+            monitor,
+        ) as wait2:
+            test_api.settings.set_boolean('window-maximize', True)
+            wait2()
 
-            with wait_move_resize(
-                test_api.dbus,
-                window_size2,
-                False,
-                window_pos,
-                monitor,
-            ) as wait3:
-                test_api.settings.set_boolean('window-maximize', False)
-                wait3()
+        with wait_move_resize(
+            test_api.dbus,
+            window_size2,
+            False,
+            window_pos,
+            monitor,
+        ) as wait3:
+            test_api.settings.set_boolean('window-maximize', False)
+            wait3()
 
     def test_unmaximize_on_size_change(
         self,
@@ -832,29 +755,27 @@ class CommonTests(ddterm_fixtures.DDTermFixtures):
         monitor_config: MonitorConfig,
         window_pos: WindowPosition,
         window_size: WindowSize,
-        window_size2: WindowSize,
-        screenshot
+        window_size2: WindowSize
     ):
-        with screenshot:
-            self.common_test_show(
-                test_api,
-                window_size,
-                MaximizeMode.MAXIMIZE_EARLY,
-                window_pos,
-                monitor_config
-            )
+        self.test_show(
+            test_api=test_api,
+            window_size=window_size,
+            window_maximize=MaximizeMode.MAXIMIZE_EARLY,
+            window_pos=window_pos,
+            monitor_config=monitor_config
+        )
 
-            monitor = test_api.layout.resolve_monitor(monitor_config)
+        monitor = test_api.layout.resolve_monitor(monitor_config)
 
-            with wait_move_resize(
-                test_api.dbus,
-                window_size2,
-                window_size2 == 1.0,
-                window_pos,
-                monitor,
-            ) as wait:
-                test_api.settings.set_double('window-size', window_size2)
-                wait()
+        with wait_move_resize(
+            test_api.dbus,
+            window_size2,
+            window_size2 == 1.0,
+            window_pos,
+            monitor,
+        ) as wait:
+            test_api.settings.set_double('window-size', window_size2)
+            wait()
 
     @classmethod
     def valid_window_size(cls, position, size):
@@ -963,6 +884,16 @@ class ScaleFramebufferMixin(TestWaylandSession):
         )
 
         super().configure_session(container, request)
+
+
+def config_volume(path):
+    host_path = THIS_DIR / pathlib.Path(path)
+
+    return (
+        host_path,
+        pathlib.PurePosixPath('/') / host_path.relative_to(THIS_DIR),
+        'ro'
+    )
 
 
 class TestWaylandHighDpi(SmallScreenTests):

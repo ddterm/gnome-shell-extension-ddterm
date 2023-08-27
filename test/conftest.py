@@ -18,7 +18,7 @@ SRC_DIR = THIS_DIR.parent
 
 IMAGES_STASH_KEY = pytest.StashKey[list]()
 
-pytest_plugins = ['markdown_report']
+pytest_plugins = ['markdown_report', 'screenshot']
 
 
 @pytest.fixture(scope='session')
@@ -65,13 +65,6 @@ def pytest_addoption(parser):
         default=['podman'],
         nargs='+',
         help='podman command/executable path'
-    )
-
-    parser.addoption(
-        '--screenshot-failing-only',
-        default=False,
-        action='store_true',
-        help='capture screenshots only for failing tests'
     )
 
     parser.addoption(
