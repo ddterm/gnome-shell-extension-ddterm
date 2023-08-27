@@ -224,7 +224,7 @@ jobs:
     - name: Upload report as artifact
       uses: actions/upload-artifact@v3
       with:
-        name: ${{ matrix.image }}
+        name: ${{ matrix.image }}-reports
         path: |
           test/report.html
           test/junit.xml
