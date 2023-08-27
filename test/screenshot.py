@@ -105,7 +105,7 @@ class ScreenCap:
             if self.plugin.display != display:
                 raise RuntimeError('Already enabled for a different display')
             else:
-                return
+                return self.plugin
 
         self.plugin = Screenshoter(
             display=display,
