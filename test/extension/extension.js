@@ -300,12 +300,6 @@ function enable() {
         });
     });
 
-    const update_starting_up = () => {
-        dbus_interface.set_flag('StartingUp', Main.layoutManager._startingUp);
-    };
-    connect(Main.layoutManager, 'startup-complete', update_starting_up);
-    update_starting_up();
-
     dbus_interface.dbus.export(Gio.DBus.session, '/org/gnome/Shell/Extensions/ddterm');
     teardown.push(() => dbus_interface.dbus.unexport());
 }

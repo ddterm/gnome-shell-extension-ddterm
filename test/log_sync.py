@@ -1,9 +1,11 @@
 import contextlib
 import queue
-import logging.handlers
+import logging
 
 import pluggy
 import pytest
+
+from . import log_filter
 
 
 LOGGER = logging.getLogger(__name__)
@@ -38,26 +40,21 @@ class LogSyncPlugin(pluggy.PluginManager):
             self.unregister(plugin, name)
 
     def sync(self, msg):
-        root = logging.getLogger()
-        handler = None
+        stack = contextlib.ExitStack()
         msg_filter = self.hook.log_sync_filter(msg=msg)
+        msg_queue = None
 
-        if msg_filter is not None:
-            handler = logging.handlers.QueueHandler(queue.SimpleQueue())
-            handler.addFilter(msg_filter)
-            root.addHandler(handler)
+        with stack:
+            if msg_filter is not None:
+                msg_queue = stack.enter_context(log_filter.capture_logs(msg_filter))
 
-        try:
             if not self.hook.log_sync_message(msg=msg):
                 return
 
             try:
-                handler.queue.get(timeout=1)
+                msg_queue.get(timeout=1)
             except queue.Empty:
                 raise TimeoutError()
-
-        finally:
-            root.removeHandler(handler)
 
     def context(self, item, when):
         try:

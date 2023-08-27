@@ -1,8 +1,9 @@
 import logging
+import queue
 
 import pytest
 
-from . import gnome_container, log_sync
+from . import gnome_container, log_filter, log_sync
 from .shell_dbus_api import GnomeShellDBusApi
 
 
@@ -64,9 +65,25 @@ class ContainerFixtures:
             container.disable_welcome_dialog(timeout=self.START_STOP_TIMEOUT_SEC)
 
     @pytest.fixture(scope='class')
-    def gnome_shell_session(self, container, request):
+    def gnome_shell_session(self, container, request, syslog_server):
         self.configure_session(container, request)
-        container.start_session(self.GNOME_SHELL_SESSION_NAME, timeout=self.START_STOP_TIMEOUT_SEC)
+
+        filter = log_filter.RegexLogFilter(
+            name=syslog_server.logger.name,
+            pattern=r' gnome-shell\[\d+\]: GNOME Shell started at '
+        )
+
+        with log_filter.capture_logs(filter) as msg_queue:
+            container.start_session(
+                self.GNOME_SHELL_SESSION_NAME,
+                timeout=self.START_STOP_TIMEOUT_SEC
+            )
+
+            try:
+                msg_queue.get(timeout=self.START_STOP_TIMEOUT_SEC)
+            except queue.Empty:
+                raise TimeoutError('Timed out waiting for "GNOME Shell started" message')
+
         return self.GNOME_SHELL_SESSION_NAME
 
     @pytest.fixture(scope='class')

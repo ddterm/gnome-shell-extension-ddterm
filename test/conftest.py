@@ -1,6 +1,6 @@
 import json
-import logging
 import pathlib
+import re
 import subprocess
 
 import filelock
@@ -8,7 +8,7 @@ import pytest
 import yaml
 import zipfile
 
-from . import container_util, gnome_container, log_sync
+from . import container_util, gnome_container, log_filter, log_sync
 from .syslog_server import SyslogServer
 
 
@@ -116,21 +116,16 @@ def pytest_generate_tests(metafunc):
         )
 
 
-class SyslogMessageMatcher(logging.Filter):
-    def __init__(self, msg, name=''):
-        super().__init__(name)
-        self.msg = msg
+class SyslogMessageMatcher:
+    def __init__(self, syslogger):
+        self.syslogger = syslogger
 
-    def filter(self, record):
-        return super().filter(record) and record.message.endswith(self.msg)
-
-    class Factory:
-        def __init__(self, syslogger):
-            self.syslogger = syslogger
-
-        @log_sync.hookimpl
-        def log_sync_filter(self, msg):
-            return SyslogMessageMatcher(name=self.syslogger.name, msg=msg)
+    @log_sync.hookimpl
+    def log_sync_filter(self, msg):
+        return log_filter.RegexLogFilter(
+            name=self.syslogger.name,
+            pattern=f': {re.escape(msg)}$'
+        )
 
 
 @pytest.fixture(scope='session')
@@ -139,7 +134,7 @@ def syslog_server(tmp_path_factory, log_sync):
 
     with SyslogServer(str(path)) as server:
         with server.serve_forever_background(poll_interval=0.1):
-            with log_sync.with_registered(SyslogMessageMatcher.Factory(server.logger)):
+            with log_sync.with_registered(SyslogMessageMatcher(server.logger)):
                 yield server
 
 
