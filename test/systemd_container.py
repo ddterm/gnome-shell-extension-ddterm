@@ -1,12 +1,10 @@
 import contextlib
 import functools
-import pathlib
 import socket
 import socketserver
-import subprocess
 import time
 
-from . import container_util
+from . import coreutils_container
 
 
 @functools.singledispatch
@@ -24,7 +22,7 @@ def _(arg: socket.socket):
     return arg.getsockname()
 
 
-class SystemdContainer(container_util.Container):
+class SystemdContainer(coreutils_container.CoreutilsContainer):
     REQUIRED_CAPS = [
         'SYS_NICE',
         'SYS_PTRACE',
@@ -85,31 +83,15 @@ class SystemdContainer(container_util.Container):
     def journal_message(self, msg, **kwargs):
         self.exec('systemd-cat', **kwargs, input=msg.encode(), interactive=True)
 
-    def get_uid(self, user=None, **kwargs):
-        if user in (None, 0, '0', 'root'):
-            return 0  # Container starts under 'root' explicitly, see '.create()'
-
-        with contextlib.suppress(ValueError):
-            return int(user.split(':', maxsplit=1)[0])
-
-        return int(
-            super().exec(
-                'id', '-u', **kwargs, user=user, stdout=subprocess.PIPE, text=True
-            ).stdout.strip()
-        )
-
-    def get_user_dbus_address(self, user, **kwargs):
+    def get_user_dbus_address(self, user, *, env=dict(), **kwargs):
         with contextlib.suppress(KeyError):
-            return kwargs['env']['DBUS_SESSION_BUS_ADDRESS']
+            return env['DBUS_SESSION_BUS_ADDRESS']
 
-        uid = self.get_uid(user, **kwargs)
+        uid = self.get_uid(user, **kwargs, env=dict(env, DBUS_SESSION_BUS_ADDRESS=''))
 
         return None if uid == 0 else f'unix:path=/run/user/{uid}/bus'
 
     def get_user_env(self, user=None, env=dict(), **kwargs):
-        if 'DBUS_SESSION_BUS_ADDRESS' in env:
-            return env
-
         dbus_address = self.get_user_dbus_address(user, **kwargs, env=env)
 
         if dbus_address is None:
@@ -130,11 +112,3 @@ class SystemdContainer(container_util.Container):
             env=env,
             timeout=deadline - time.monotonic()
         )
-
-    def get_user_home(self, **kwargs):
-        path = super().exec(
-            'sh', '-c', 'echo -n "$HOME"',
-            **kwargs, stdout=subprocess.PIPE, text=True
-        ).stdout
-
-        return pathlib.PurePosixPath(path)
