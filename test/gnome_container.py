@@ -9,8 +9,13 @@ from . import dbus_util, systemd_container
 
 USER_NAME = 'gnomeshell'
 
-EXTENSIONS_INSTALL_DIR_RELATIVE = pathlib.PurePosixPath('share/gnome-shell/extensions')
-EXTENSIONS_INSTALL_DIR_SYSTEM = pathlib.PurePosixPath('/usr') / EXTENSIONS_INSTALL_DIR_RELATIVE
+SYSTEM_DATA_DIR = pathlib.PurePosixPath('/usr') / 'share' / 'gnome-shell'
+USER_DATA_DIR = pathlib.PurePosixPath('~') / '.local' / 'share' / 'gnome-shell'
+
+EXTENSIONS_INSTALL_DIR_SYSTEM = SYSTEM_DATA_DIR / 'extensions'
+EXTENSIONS_INSTALL_DIR_USER = USER_DATA_DIR / 'extensions'
+
+LOCK_SCREEN_WARNING_FILE = USER_DATA_DIR / 'lock-warning-shown'
 
 DISPLAY_NUMBER = 99
 X11_DISPLAY_BASE_PORT = 6000
@@ -84,19 +89,43 @@ class GnomeContainer(systemd_container.SystemdContainer):
             user=self.user, **kwargs
         )
 
-    def disable_welcome_dialog(self, **kwargs):
+    def enable_welcome_dialog(self, enable, **kwargs):
+        last_shown_version = '' if enable else '99.0'
+
         return self.gsettings_set(
-            'org.gnome.shell', 'welcome-dialog-last-shown-version', '99.0',
+            'org.gnome.shell', 'welcome-dialog-last-shown-version', last_shown_version,
             **kwargs
         )
+
+    def enable_lock_screen_warning(self, enable, *, timeout=_DEFAULT, **kwargs):
+        kwargs.setdefault('user', self.user)
+
+        if timeout is _DEFAULT:
+            timeout = self.podman.timeout
+
+        deadline = time.monotonic() + timeout
+        path = self.expanduser(LOCK_SCREEN_WARNING_FILE, **kwargs, timeout=timeout)
+
+        if enable:
+            return self.rm_path(path, **kwargs, timeout=deadline - time.monotonic())
+        else:
+            self.mkdir(path, **kwargs, timeout=deadline - time.monotonic())
+
+            return self.touch(path, **kwargs, timeout=deadline - time.monotonic())
 
     @staticmethod
     def extensions_system_install_path():
         return EXTENSIONS_INSTALL_DIR_SYSTEM
 
+    @staticmethod
+    def system_data_dir():
+        return SYSTEM_DATA_DIR
+
     def extensions_user_install_path(self, **kwargs):
-        home = self.get_user_home(user=self.user, **kwargs)
-        return home / '.local' / EXTENSIONS_INSTALL_DIR_RELATIVE
+        return self.expanduser(EXTENSIONS_INSTALL_DIR_USER, user=self.user, **kwargs)
+
+    def user_data_dir(self, **kwargs):
+        return self.expanduser(USER_DATA_DIR, user=self.user, **kwargs)
 
     def start_session(self, unit_name, **kwargs):
         return self.exec(

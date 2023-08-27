@@ -30,6 +30,7 @@ class ContainerFixtures:
 
     GNOME_SHELL_SESSION_NAME = 'gnome-session-x11'
     ENABLE_WELCOME_DIALOG = False
+    ENABLE_LOCK_SCREEN_WARNING = False
 
     @pytest.fixture(scope='class')
     def container(
@@ -61,8 +62,15 @@ class ContainerFixtures:
             c.rm(timeout=self.START_STOP_TIMEOUT_SEC)
 
     def configure_session(self, container, request):
-        if not self.ENABLE_WELCOME_DIALOG:
-            container.disable_welcome_dialog(timeout=self.START_STOP_TIMEOUT_SEC)
+        container.enable_welcome_dialog(
+            self.ENABLE_WELCOME_DIALOG,
+            timeout=self.START_STOP_TIMEOUT_SEC
+        )
+
+        container.enable_lock_screen_warning(
+            self.ENABLE_LOCK_SCREEN_WARNING,
+            timeout=self.START_STOP_TIMEOUT_SEC
+        )
 
     @pytest.fixture(scope='class')
     def gnome_shell_session(self, container, request, syslog_server):

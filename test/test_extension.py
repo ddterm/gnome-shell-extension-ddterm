@@ -500,7 +500,6 @@ class CommonTests(ddterm_fixtures.DDTermFixtures):
 
     @pytest.fixture(scope='class', autouse=True)
     def test_setup(self, test_extension_interface, shell_dbus_api):
-        test_extension_interface.BlockBanner(timeout=STARTUP_TIMEOUT_MS)
         shell_dbus_api.set_overview_active(False, timeout=STARTUP_TIMEOUT_MS)
 
     @pytest.fixture(scope='class')

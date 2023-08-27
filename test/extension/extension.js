@@ -161,10 +161,6 @@ class ExtensionTestDBusInterface {
         global.run_at_leisure(() => invocation.return_value(null));
     }
 
-    BlockBanner() {
-        Main.messageTray.bannerBlocked = true;
-    }
-
     emit_signal(name, arg) {
         log(`${name} ${arg.print(true)}`);
         this.dbus.emit_signal(name, arg);

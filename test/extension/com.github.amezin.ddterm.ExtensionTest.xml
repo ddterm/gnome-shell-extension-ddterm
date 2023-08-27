@@ -122,7 +122,5 @@
 
         <method name="UpdateCurrentMonitor"/>
         <method name="WaitLeisure"/>
-
-        <method name="BlockBanner"/>
     </interface>
 </node>
