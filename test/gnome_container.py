@@ -109,7 +109,7 @@ class GnomeContainer(systemd_container.SystemdContainer):
         if enable:
             return self.rm_path(path, **kwargs, timeout=deadline - time.monotonic())
         else:
-            self.mkdir(path, **kwargs, timeout=deadline - time.monotonic())
+            self.mkdir(path.parent, **kwargs, timeout=deadline - time.monotonic())
 
             return self.touch(path, **kwargs, timeout=deadline - time.monotonic())
 
