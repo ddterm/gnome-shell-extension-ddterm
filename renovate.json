@@ -6,6 +6,7 @@
     "npm:unpublishSafe"
   ],
   "ignorePaths": [],
+  "automerge": true,
   "pip-compile": {
     "fileMatch": ["(^|/)requirements/?([\\w-]*)\\.in$"]
   },
@@ -21,23 +22,14 @@
     {
       "matchPackagePrefixes": ["ghcr.io/ddterm/gnome-shell-pod/"],
       "groupName": "GNOME Shell Container Images",
-      "pinDigests": false,
-      "automerge": true
+      "pinDigests": false
     },
     {
       "matchPackageNames": ["ghcr.io/ddterm/ci-docker-image"],
       "groupName": "Build/Dev Environment",
-      "pinDigests": false,
-      "automerge": true
-    },
-    {
-      "matchDepTypes": ["devDependencies"],
-      "automerge": true
+      "pinDigests": false
     }
   ],
-  "lockFileMaintenance": {
-    "automerge": true
-  },
   "constraints": {
     "python": "==3.11"
   }
