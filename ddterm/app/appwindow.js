@@ -22,7 +22,7 @@
 /* exported AppWindow */
 
 const { GLib, GObject, Gio, Gdk, Gtk } = imports.gi;
-const { displayconfig, notebook, resources } = imports.ddterm.app;
+const { displayconfig, notebook, resources, terminalsettings } = imports.ddterm.app;
 const { translations } = imports.ddterm.util;
 
 function make_resizer(orientation) {
@@ -66,12 +66,12 @@ var AppWindow = GObject.registerClass(
                 GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
                 Gio.Settings
             ),
-            'desktop-settings': GObject.ParamSpec.object(
-                'desktop-settings',
+            'terminal-settings': GObject.ParamSpec.object(
+                'terminal-settings',
                 '',
                 '',
                 GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-                Gio.Settings
+                terminalsettings.TerminalSettings
             ),
             'extension-dbus': GObject.ParamSpec.object(
                 'extension-dbus',
@@ -123,7 +123,7 @@ var AppWindow = GObject.registerClass(
             this.notebook = new notebook.Notebook({
                 resources: this.resources,
                 settings: this.settings,
-                desktop_settings: this.desktop_settings,
+                terminal_settings: this.terminal_settings,
                 visible: true,
                 hexpand: true,
                 vexpand: true,

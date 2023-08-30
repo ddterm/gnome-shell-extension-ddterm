@@ -21,20 +21,9 @@
 
 /* exported TerminalPage TerminalSettings */
 
-const { GLib, GObject, Gio, Gdk, Gtk, Pango, Vte } = imports.gi;
-const { resources, search, tablabel, tcgetpgrp, urldetect } = imports.ddterm.app;
+const { GLib, GObject, Gio, Gdk, Gtk, Vte } = imports.gi;
+const { resources, search, tablabel, terminal, terminalsettings } = imports.ddterm.app;
 const { translations } = imports.ddterm.util;
-
-function parse_rgba(str) {
-    if (str) {
-        const rgba = new Gdk.RGBA();
-
-        if (rgba.parse(str))
-            return rgba;
-    }
-
-    throw Error(`Cannot parse ${JSON.stringify(str)} as color`);
-}
 
 var TerminalPage = GObject.registerClass(
     {
@@ -53,12 +42,12 @@ var TerminalPage = GObject.registerClass(
                 GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
                 resources.Resources
             ),
-            'desktop-settings': GObject.ParamSpec.object(
-                'desktop-settings',
+            'terminal-settings': GObject.ParamSpec.object(
+                'terminal-settings',
                 '',
                 '',
                 GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-                Gio.Settings
+                terminalsettings.TerminalSettings
             ),
             'title': GObject.ParamSpec.string(
                 'title',
@@ -66,20 +55,6 @@ var TerminalPage = GObject.registerClass(
                 '',
                 GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
                 ''
-            ),
-            'clicked-hyperlink': GObject.ParamSpec.string(
-                'clicked-hyperlink',
-                '',
-                '',
-                GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
-                null
-            ),
-            'clicked-filename': GObject.ParamSpec.string(
-                'clicked-filename',
-                '',
-                '',
-                GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
-                null
             ),
         },
         Signals: {
@@ -93,16 +68,16 @@ var TerminalPage = GObject.registerClass(
 
             this.clipboard = Gtk.Clipboard.get_default(Gdk.Display.get_default());
             this.primary_selection = Gtk.Clipboard.get(Gdk.Atom.intern('PRIMARY', true));
-            this.child_pid = null;
-            this._url_detect = null;
 
             const terminal_with_scrollbar = new Gtk.Box({
                 visible: true,
                 orientation: Gtk.Orientation.HORIZONTAL,
             });
 
-            this.terminal = new Vte.Terminal({ visible: true });
+            this.terminal = new terminal.Terminal({ visible: true });
             terminal_with_scrollbar.pack_start(this.terminal, true, true, 0);
+
+            this.terminal_settings.bind_terminal(this.terminal);
 
             this.scrollbar = new Gtk.Scrollbar({
                 orientation: Gtk.Orientation.VERTICAL,
@@ -175,88 +150,6 @@ var TerminalPage = GObject.registerClass(
                 GObject.BindingFlags.SYNC_CREATE
             );
 
-            [
-                'scroll-on-output',
-                'scroll-on-keystroke',
-                'allow-hyperlink',
-                'audible-bell',
-                'bold-is-bright',
-                'pointer-autohide',
-                'text-blink-mode',
-                'cursor-blink-mode',
-                'cursor-shape',
-                'backspace-binding',
-                'delete-binding',
-            ].forEach(key => {
-                this.settings.bind(key, this.terminal, key, Gio.SettingsBindFlags.GET);
-            });
-
-            this.map_settings(['cjk-utf8-ambiguous-width'], () => {
-                this.terminal.cjk_ambiguous_width =
-                    this.settings.get_enum('cjk-utf8-ambiguous-width');
-            });
-
-            this.map_settings(['scrollback-lines', 'scrollback-unlimited'], () => {
-                this.terminal.scrollback_lines =
-                    this.settings.get_boolean('scrollback-unlimited')
-                        ? -1 : this.settings.get_int('scrollback-lines');
-            });
-
-            this.map_settings(['custom-font', 'use-system-font'], this.update_font.bind(this));
-            const system_font_handler = this.desktop_settings.connect(
-                'changed::monospace-font-name',
-                this.update_font.bind(this)
-            );
-            this.connect('destroy', () => this.desktop_settings.disconnect(system_font_handler));
-
-            this.map_settings(
-                [
-                    'use-theme-colors',
-                    'foreground-color',
-                    'background-color',
-                    'transparent-background',
-                    'background-opacity',
-                    'palette',
-                ],
-                this.update_colors.bind(this)
-            );
-            this.terminal.connect('style-updated', this.update_colors.bind(this));
-
-            this.map_settings(['use-theme-colors', 'bold-color-same-as-fg', 'bold-color'], () => {
-                if (this.settings.get_boolean('use-theme-colors') ||
-                    this.settings.get_boolean('bold-color-same-as-fg')) {
-                    this.terminal.set_color_bold(null);
-                } else {
-                    this.terminal.set_color_bold(
-                        parse_rgba(this.settings.get_string('bold-color'))
-                    );
-                }
-            });
-
-            this.map_color(
-                'cursor-colors-set',
-                'cursor-background-color',
-                color => this.terminal.set_color_cursor(color)
-            );
-
-            this.map_color(
-                'cursor-colors-set',
-                'cursor-foreground-color',
-                color => this.terminal.set_color_cursor_foreground(color)
-            );
-
-            this.map_color(
-                'highlight-colors-set',
-                'highlight-background-color',
-                color => this.terminal.set_color_highlight(color)
-            );
-
-            this.map_color(
-                'highlight-colors-set',
-                'highlight-foreground-color',
-                color => this.terminal.set_color_highlight_foreground(color)
-            );
-
             this.settings.bind(
                 'show-scrollbar',
                 this.scrollbar,
@@ -272,8 +165,6 @@ var TerminalPage = GObject.registerClass(
 
             this.terminal_popup_menu = this.setup_popup_menu(this.terminal, 'terminal-popup');
             this.setup_popup_menu(this.tab_label, 'tab-popup');
-
-            this.map_settings(['detect-urls'], this.setup_url_detect.bind(this));
 
             const page_actions = new Gio.SimpleActionGroup();
 
@@ -333,32 +224,34 @@ var TerminalPage = GObject.registerClass(
 
             const open_hyperlink_action = new Gio.SimpleAction({
                 name: 'open-hyperlink',
-                enabled: this.clicked_hyperlink !== null,
+                enabled: this.terminal.last_clicked_hyperlink !== null,
             });
             open_hyperlink_action.connect('activate', this.open_hyperlink.bind(this));
             terminal_actions.add_action(open_hyperlink_action);
 
             const copy_hyperlink_action = new Gio.SimpleAction({
                 name: 'copy-hyperlink',
-                enabled: this.clicked_hyperlink !== null,
+                enabled: this.terminal.last_clicked_hyperlink !== null,
             });
             copy_hyperlink_action.connect('activate', this.copy_hyperlink.bind(this));
             terminal_actions.add_action(copy_hyperlink_action);
 
-            this.connect('notify::clicked-hyperlink', () => {
-                open_hyperlink_action.enabled = this.clicked_hyperlink !== null;
-                copy_hyperlink_action.enabled = this.clicked_hyperlink !== null;
+            this.terminal.connect('notify::last-clicked-hyperlink', () => {
+                const enable = this.terminal.last_clicked_hyperlink !== null;
+                open_hyperlink_action.enabled = enable;
+                copy_hyperlink_action.enabled = enable;
             });
 
             const copy_filename_action = new Gio.SimpleAction({
                 name: 'copy-filename',
-                enabled: this.clicked_filename !== null,
+                enabled: this.terminal.last_clicked_filename !== null,
             });
             copy_filename_action.connect('activate', this.copy_filename.bind(this));
             terminal_actions.add_action(copy_filename_action);
 
-            this.connect('notify::clicked-filename', () => {
-                copy_filename_action.enabled = this.clicked_filename !== null;
+            this.terminal.connect('notify::last-clicked-filename', () => {
+                const enable = this.terminal.last_clicked_filename !== null;
+                copy_filename_action.enabled = enable;
             });
 
             const paste_action = new Gio.SimpleAction({ name: 'paste' });
@@ -406,84 +299,8 @@ var TerminalPage = GObject.registerClass(
             this.connect('destroy', () => this.tab_label.destroy());
         }
 
-        map_settings(keys, func) {
-            keys.forEach(key => {
-                const handler = this.settings.connect(`changed::${key}`, func);
-                this.connect('destroy', () => this.settings.disconnect(handler));
-            });
-
-            func();
-        }
-
-        map_color(enable_key, key, func) {
-            this.map_settings(['use-theme-colors', enable_key, key], () => {
-                if (this.settings.get_boolean('use-theme-colors') ||
-                    !this.settings.get_boolean(enable_key))
-                    func(null);
-
-                else
-                    func(parse_rgba(this.settings.get_string(key)));
-            });
-        }
-
-        update_font() {
-            this.terminal.font_desc = Pango.FontDescription.from_string(
-                this.settings.get_boolean('use-system-font')
-                    ? this.desktop_settings.get_string('monospace-font-name')
-                    : this.settings.get_string('custom-font')
-            );
-        }
-
-        update_colors() {
-            let foreground, background;
-
-            if (this.settings.get_boolean('use-theme-colors')) {
-                const style = this.terminal.get_style_context();
-                const state = style.get_state();
-
-                foreground = style.get_property('color', state);
-                background = style.get_property('background-color', state);
-            } else {
-                foreground = parse_rgba(this.settings.get_string('foreground-color'));
-                background = parse_rgba(this.settings.get_string('background-color'));
-            }
-
-            if (this.settings.get_boolean('transparent-background'))
-                background.alpha *= this.settings.get_double('background-opacity');
-
-            const palette = this.settings.get_strv('palette').map(parse_rgba);
-            this.terminal.set_colors(foreground, background, palette);
-        }
-
-        setup_url_detect() {
-            if (this.settings.get_boolean('detect-urls')) {
-                if (!this._url_detect) {
-                    this._url_detect = new urldetect.UrlDetect({
-                        terminal: this.terminal,
-                        ...Object.fromEntries(urldetect.SETTINGS.map(
-                            name => [name, this.settings.get_boolean(name)]
-                        )),
-                    });
-
-                    for (const name of urldetect.SETTINGS)
-                        this.settings.bind(name, this._url_detect, name, Gio.SettingsBindFlags.GET);
-                }
-            } else if (this._url_detect) {
-                this._url_detect.disable();
-                this._url_detect = null;
-            }
-        }
-
         get_cwd() {
-            const uri = this.terminal.current_directory_uri;
-            if (uri)
-                return GLib.filename_from_uri(uri)[0];
-
-            try {
-                return GLib.file_read_link(`/proc/${this.child_pid}/cwd`);
-            } catch {
-                return null;
-            }
+            return this.terminal.get_cwd();
         }
 
         spawn(cwd = null) {
@@ -522,12 +339,9 @@ var TerminalPage = GObject.registerClass(
                 null,
                 -1,
                 null,
-                (terminal, pid, error) => {
+                (terminal_, pid, error) => {
                     if (error)
-                        terminal.feed(error.message);
-
-                    if (pid)
-                        this.child_pid = pid;
+                        this.terminal.feed(error.message);
                 }
             );
         }
@@ -559,37 +373,20 @@ var TerminalPage = GObject.registerClass(
         open_hyperlink() {
             Gtk.show_uri_on_window(
                 this.get_ancestor(Gtk.Window),
-                this.clicked_hyperlink,
+                this.terminal.last_clicked_hyperlink,
                 Gdk.CURRENT_TIME
             );
         }
 
         copy_hyperlink() {
-            this.clipboard.set_text(this.clicked_hyperlink, -1);
+            this.clipboard.set_text(this.terminal.last_clicked_hyperlink, -1);
         }
 
         copy_filename() {
-            this.clipboard.set_text(this.clicked_filename, -1);
+            this.clipboard.set_text(this.terminal.last_clicked_filename, -1);
         }
 
         terminal_button_press_early(_terminal, event) {
-            let clicked_hyperlink = this.terminal.hyperlink_check_event(event);
-
-            if (!clicked_hyperlink && this._url_detect)
-                clicked_hyperlink = this._url_detect.check_event(event);
-
-            let clicked_filename = null;
-
-            if (clicked_hyperlink) {
-                try {
-                    clicked_filename = GLib.filename_from_uri(clicked_hyperlink)[0];
-                } catch {
-                }
-            }
-
-            this.clicked_filename = clicked_filename;
-            this.clicked_hyperlink = clicked_hyperlink;
-
             const state = event.get_state()[1];
 
             if (state & Gdk.ModifierType.CONTROL_MASK) {
@@ -664,24 +461,8 @@ var TerminalPage = GObject.registerClass(
             this.search_bar.reveal_child = true;
         }
 
-        has_foreground_process() {
-            const pty = this.terminal.get_pty();
-
-            if (!pty)
-                return false;
-
-            try {
-                return tcgetpgrp.tcgetpgrp(pty.get_fd()) !== this.child_pid;
-            } catch (ex) {
-                if (!(ex instanceof tcgetpgrp.InterpreterNotFoundError))
-                    logError(ex, "Can't check foreground process group");
-
-                return false;
-            }
-        }
-
         close() {
-            if (!this.has_foreground_process()) {
+            if (!this.terminal.has_foreground_process()) {
                 this.destroy();
                 return;
             }

@@ -22,7 +22,7 @@
 const { GObject, Vte } = imports.gi;
 const { pcre2, urldetect_patterns } = imports.ddterm.app;
 
-/* exported UrlDetect SETTINGS */
+/* exported UrlDetect UrlDetectSettings */
 
 function jit_regex(regex) {
     try {
@@ -71,7 +71,24 @@ const URL_REGEX = {
     },
 };
 
-var SETTINGS = Object.keys(URL_REGEX);
+var UrlDetectSettings = GObject.registerClass(
+    {
+        Properties: Object.fromEntries(
+            Object.keys(URL_REGEX).map(name => [
+                name,
+                GObject.ParamSpec.boolean(
+                    name,
+                    '',
+                    '',
+                    GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+                    true
+                ),
+            ])
+        ),
+    },
+    class DDTermUrlDetectSettings extends GObject.Object {
+    }
+);
 
 var UrlDetect = GObject.registerClass(
     {
@@ -83,16 +100,13 @@ var UrlDetect = GObject.registerClass(
                 GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
                 Vte.Terminal
             ),
-            ...Object.fromEntries(SETTINGS.map(name => [
-                name,
-                GObject.ParamSpec.boolean(
-                    name,
-                    '',
-                    '',
-                    GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
-                    true
-                ),
-            ])),
+            'settings': GObject.ParamSpec.object(
+                'settings',
+                '',
+                '',
+                GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+                UrlDetectSettings
+            ),
         },
     },
     class DDTermUrlDetect extends GObject.Object {
@@ -101,18 +115,18 @@ var UrlDetect = GObject.registerClass(
 
             this._url_prefix = new Map();
 
-            SETTINGS.forEach(name => {
-                this.connect(`notify::${name}`, this.setup.bind(this));
-            });
-
+            this.connect('notify::settings', this.setup.bind(this));
             this.setup();
         }
 
         setup() {
             this.disable();
 
+            if (!this.settings)
+                return;
+
             for (const [key, { regex, prefix }] of Object.entries(URL_REGEX)) {
-                if (!this[key])
+                if (!this.settings[key])
                     continue;
 
                 const tag = this.terminal.match_add_regex(regex, 0);
@@ -131,7 +145,7 @@ var UrlDetect = GObject.registerClass(
         check_event(event) {
             const [url, tag] = this.terminal.match_check_event(event);
 
-            if (url && tag !== null) {
+            if (url && tag !== null && this._url_prefix.has(tag)) {
                 const prefix = this._url_prefix.get(tag);
                 if (prefix && !url.toLowerCase().startsWith(prefix))
                     return prefix + url;

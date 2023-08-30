@@ -22,7 +22,7 @@
 /* exported Notebook */
 
 const { GLib, GObject, Gio, Gtk } = imports.gi;
-const { resources, terminalpage } = imports.ddterm.app;
+const { resources, terminalpage, terminalsettings } = imports.ddterm.app;
 const { translations } = imports.ddterm.util;
 
 var Notebook = GObject.registerClass(
@@ -43,12 +43,12 @@ var Notebook = GObject.registerClass(
                 GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
                 Gio.Settings
             ),
-            'desktop-settings': GObject.ParamSpec.object(
-                'desktop-settings',
+            'terminal-settings': GObject.ParamSpec.object(
+                'terminal-settings',
                 '',
                 '',
                 GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-                Gio.Settings
+                terminalsettings.TerminalSettings
             ),
             'dbus-connection': GObject.ParamSpec.object(
                 'dbus-connection',
@@ -361,7 +361,7 @@ var Notebook = GObject.registerClass(
             const page = new terminalpage.TerminalPage({
                 settings: this.settings,
                 resources: this.resources,
-                desktop_settings: this.desktop_settings,
+                terminal_settings: this.terminal_settings,
                 visible: true,
             });
 

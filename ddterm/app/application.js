@@ -23,7 +23,7 @@ const ByteArray = imports.byteArray;
 
 const { GLib, GObject, Gio, Gdk, Gtk } = imports.gi;
 
-const { gtktheme, resources, heapdump } = imports.ddterm.app;
+const { gtktheme, heapdump, resources, terminalsettings } = imports.ddterm.app;
 
 function load_text(file) {
     return ByteArray.toString(file.load_contents(null)[1]);
@@ -142,9 +142,11 @@ var Application = GObject.registerClass(
                 Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
             );
 
-            this.desktop_settings = new Gio.Settings({
-                schema_id: 'org.gnome.desktop.interface',
-            });
+            this.terminal_settings = new terminalsettings.TerminalSettings();
+
+            new terminalsettings.TerminalSettingsParser({
+                gsettings: this.settings,
+            }).bind_settings(this.terminal_settings);
 
             this.simple_action('toggle', () => this.ensure_window().toggle());
             this.simple_action('show', () => this.ensure_window().show());
@@ -256,7 +258,7 @@ var Application = GObject.registerClass(
                 application: this,
                 decorated: false,
                 settings: this.settings,
-                desktop_settings: this.desktop_settings,
+                terminal_settings: this.terminal_settings,
                 extension_dbus: this.extension_dbus,
                 resources: this.resources,
             });
