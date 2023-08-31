@@ -429,6 +429,8 @@ var Notebook = GObject.registerClass(
         }
 
         new_page(position) {
+            const cwd = this.preserve_working_directory ? this.get_cwd() : null;
+
             const page = new terminalpage.TerminalPage({
                 resources: this.resources,
                 terminal_settings: this.terminal_settings,
@@ -441,7 +443,6 @@ var Notebook = GObject.registerClass(
 
             let argv;
             let spawn_flags;
-            const cwd = this.preserve_working_directory ? this.get_cwd() : null;
 
             if (this.new_page_command_type === 'custom-command') {
                 let _;
