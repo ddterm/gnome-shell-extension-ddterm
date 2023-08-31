@@ -233,8 +233,7 @@ var Notebook = GObject.registerClass(
                     this.new_page(this.get_current_page() + 1);
                 },
                 'close-current-tab': () => {
-                    const page = this.get_nth_page(this.page);
-                    page.destroy();
+                    this.current_child?.destroy();
                 },
                 'next-tab': () => {
                     const current = this.get_current_page();
@@ -255,32 +254,18 @@ var Notebook = GObject.registerClass(
                 'move-tab-prev': () => {
                     const current = this.get_current_page();
 
-                    if (current === 0) {
-                        this.reorder_child(
-                            this.get_nth_page(current),
-                            this.get_n_pages() - 1
-                        );
-                    } else {
-                        this.reorder_child(
-                            this.get_nth_page(current),
-                            current - 1
-                        );
-                    }
+                    if (current === 0)
+                        this.reorder_child(this.current_child, this.get_n_pages() - 1);
+                    else
+                        this.reorder_child(this.current_child, current - 1);
                 },
                 'move-tab-next': () => {
                     const current = this.get_current_page();
 
-                    if (current === this.get_n_pages() - 1) {
-                        this.reorder_child(
-                            this.get_nth_page(current),
-                            0
-                        );
-                    } else {
-                        this.reorder_child(
-                            this.get_nth_page(current),
-                            current + 1
-                        );
-                    }
+                    if (current === this.get_n_pages() - 1)
+                        this.reorder_child(this.current_child, 0);
+                    else
+                        this.reorder_child(this.current_child, current + 1);
                 },
             };
 
