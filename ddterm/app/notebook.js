@@ -56,6 +56,20 @@ var Notebook = GObject.registerClass(
                 GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
                 ''
             ),
+            'current-child': GObject.ParamSpec.object(
+                'current-child',
+                '',
+                '',
+                GObject.ParamFlags.READABLE,
+                Gtk.Widget
+            ),
+            'current-title': GObject.ParamSpec.string(
+                'current-title',
+                '',
+                '',
+                GObject.ParamFlags.READABLE,
+                null
+            ),
             'tab-expand': GObject.ParamSpec.boolean(
                 'tab-expand',
                 '',
@@ -298,6 +312,28 @@ var Notebook = GObject.registerClass(
             this.connect('notify::tab-expand', this.update_tab_expand.bind(this));
             this.update_tab_expand();
 
+            this._current_child = null;
+
+            this.connect('switch-page', (notebook, page) => {
+                this._current_child = page;
+                this.notify('current-child');
+            });
+
+            this.connect('notify::current-child', () => {
+                const child = this.current_child;
+
+                const title_handler = child?.connect('notify::title', () => {
+                    this.notify('current-title');
+                });
+
+                const disconnect_handler = this.connect('notify::current-child', () => {
+                    child.disconnect(title_handler);
+                    this.disconnect(disconnect_handler);
+                });
+
+                this.notify('current-title');
+            });
+
             this.page_disconnect = new Map();
 
             if (this.dbus_connection && this.dbus_object_path) {
@@ -389,9 +425,7 @@ var Notebook = GObject.registerClass(
         }
 
         get_cwd() {
-            const current_page = this.get_nth_page(this.get_current_page());
-
-            return current_page ? current_page.get_cwd() : null;
+            return this.current_child?.get_cwd() ?? null;
         }
 
         new_page(position) {
@@ -500,9 +534,15 @@ var Notebook = GObject.registerClass(
         }
 
         vfunc_grab_focus() {
-            const current_page = this.get_nth_page(this.get_current_page());
+            this.current_child?.grab_focus();
+        }
 
-            current_page.grab_focus();
+        get current_child() {
+            return this._current_child;
+        }
+
+        get current_title() {
+            return this.current_child?.title ?? null;
         }
     }
 );

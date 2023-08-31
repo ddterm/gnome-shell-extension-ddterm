@@ -137,6 +137,13 @@ var AppWindow = GObject.registerClass(
             this.connect('configure-event', this.update_tab_label_width.bind(this));
             this.update_tab_label_width();
 
+            this.notebook.bind_property(
+                'current-title',
+                this,
+                'title',
+                GObject.BindingFlags.SYNC_CREATE
+            );
+
             this.settings.bind(
                 'tab-label-width',
                 this,
