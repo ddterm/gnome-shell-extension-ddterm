@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-31 03:02+0000\n"
+"POT-Creation-Date: 2023-08-31 07:03+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,7 +21,7 @@ msgstr ""
 msgid "Drop Down Terminal"
 msgstr ""
 
-#: ddterm/app/appwindow.js:510
+#: ddterm/app/appwindow.js:517
 msgid ""
 "Warning: ddterm version has changed. Log out, then log in again to load the "
 "updated extension."
@@ -181,11 +181,11 @@ msgstr ""
 msgid "Move Tab to Next Position"
 msgstr ""
 
-#: ddterm/app/notebook.js:156
+#: ddterm/app/notebook.js:170
 msgid "New Tab (Last)"
 msgstr ""
 
-#: ddterm/app/notebook.js:198
+#: ddterm/app/notebook.js:212
 msgid "New Tab (First)"
 msgstr ""
 

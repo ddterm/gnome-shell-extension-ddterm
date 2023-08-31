@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-31 03:02+0000\n"
+"POT-Creation-Date: 2023-08-31 07:03+0000\n"
 "PO-Revision-Date: 2023-03-12 16:07+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/gnome-"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "Drop Down Terminal"
 msgstr "Rullegardinsterminal"
 
-#: ddterm/app/appwindow.js:510
+#: ddterm/app/appwindow.js:517
 msgid ""
 "Warning: ddterm version has changed. Log out, then log in again to load the "
 "updated extension."
@@ -184,11 +184,11 @@ msgstr "Flytt fane til forrige posisjon"
 msgid "Move Tab to Next Position"
 msgstr "Flytt fane til neste posisjon"
 
-#: ddterm/app/notebook.js:156
+#: ddterm/app/notebook.js:170
 msgid "New Tab (Last)"
 msgstr "Ny fane (sist)"
 
-#: ddterm/app/notebook.js:198
+#: ddterm/app/notebook.js:212
 msgid "New Tab (First)"
 msgstr "Ny fane (først)"
 

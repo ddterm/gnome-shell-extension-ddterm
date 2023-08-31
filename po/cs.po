@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-31 03:02+0000\n"
+"POT-Creation-Date: 2023-08-31 07:03+0000\n"
 "PO-Revision-Date: 2023-04-24 02:48+0000\n"
 "Last-Translator: Pavel Novák <pavelnov32@gmail.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/gnome-shell-"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "Drop Down Terminal"
 msgstr "Rozbalovací Terminál"
 
-#: ddterm/app/appwindow.js:510
+#: ddterm/app/appwindow.js:517
 msgid ""
 "Warning: ddterm version has changed. Log out, then log in again to load the "
 "updated extension."
@@ -184,11 +184,11 @@ msgstr "Posunout panel do předchozí pozice"
 msgid "Move Tab to Next Position"
 msgstr "Posunout panel do další pozice"
 
-#: ddterm/app/notebook.js:156
+#: ddterm/app/notebook.js:170
 msgid "New Tab (Last)"
 msgstr "Nový panel (Poslední)"
 
-#: ddterm/app/notebook.js:198
+#: ddterm/app/notebook.js:212
 msgid "New Tab (First)"
 msgstr "Nový panel (První)"
 

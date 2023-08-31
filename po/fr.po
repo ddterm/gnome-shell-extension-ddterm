@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-31 03:02+0000\n"
+"POT-Creation-Date: 2023-08-31 07:03+0000\n"
 "PO-Revision-Date: 2023-03-14 12:19+0000\n"
 "Last-Translator: Aleksandr Mezin <mezin.alexander@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/gnome-shell-"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "Drop Down Terminal"
 msgstr "Terminal déroulant"
 
-#: ddterm/app/appwindow.js:510
+#: ddterm/app/appwindow.js:517
 msgid ""
 "Warning: ddterm version has changed. Log out, then log in again to load the "
 "updated extension."
@@ -184,11 +184,11 @@ msgstr "Déplacer l'onglet vers la position précédente"
 msgid "Move Tab to Next Position"
 msgstr "Déplacer l'onglet vers la position suivante"
 
-#: ddterm/app/notebook.js:156
+#: ddterm/app/notebook.js:170
 msgid "New Tab (Last)"
 msgstr "Nouvel onglet (en dernière position)"
 
-#: ddterm/app/notebook.js:198
+#: ddterm/app/notebook.js:212
 msgid "New Tab (First)"
 msgstr "Nouvel onglet (en première position)"
 

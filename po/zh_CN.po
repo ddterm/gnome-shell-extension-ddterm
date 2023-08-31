@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-31 03:02+0000\n"
+"POT-Creation-Date: 2023-08-31 07:03+0000\n"
 "PO-Revision-Date: 2023-04-25 12:23+0000\n"
 "Last-Translator: yuh <yuhldr@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "Drop Down Terminal"
 msgstr "下拉终端"
 
-#: ddterm/app/appwindow.js:510
+#: ddterm/app/appwindow.js:517
 msgid ""
 "Warning: ddterm version has changed. Log out, then log in again to load the "
 "updated extension."
@@ -182,11 +182,11 @@ msgstr "移动标签页到上一个位置"
 msgid "Move Tab to Next Position"
 msgstr "移动标签页到下一个位置"
 
-#: ddterm/app/notebook.js:156
+#: ddterm/app/notebook.js:170
 msgid "New Tab (Last)"
 msgstr "新建标签页（最后一个）"
 
-#: ddterm/app/notebook.js:198
+#: ddterm/app/notebook.js:212
 msgid "New Tab (First)"
 msgstr "新建标签页（第一个）"
 
