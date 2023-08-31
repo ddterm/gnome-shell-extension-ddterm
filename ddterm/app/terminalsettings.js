@@ -123,6 +123,13 @@ var TerminalSettings = GObject.registerClass(
                 GLib.MAXUINT32,
                 TERMINAL_PSPECS['scrollback-lines'].get_default_value()
             ),
+            'show-scrollbar': GObject.ParamSpec.boolean(
+                'show-scrollbar',
+                '',
+                '',
+                DEFAULT_FLAGS,
+                true
+            ),
             // has effect only when background color from style is used
             'background-opacity': GObject.ParamSpec.double(
                 'background-opacity',

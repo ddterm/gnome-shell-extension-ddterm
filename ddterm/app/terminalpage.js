@@ -28,13 +28,6 @@ const { translations } = imports.ddterm.util;
 var TerminalPage = GObject.registerClass(
     {
         Properties: {
-            'settings': GObject.ParamSpec.object(
-                'settings',
-                '',
-                '',
-                GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-                Gio.Settings
-            ),
             'resources': GObject.ParamSpec.object(
                 'resources',
                 '',
@@ -62,7 +55,7 @@ var TerminalPage = GObject.registerClass(
             'new-tab-after-request': {},
         },
     },
-    class TerminalPage extends Gtk.Box {
+    class DDTermTerminalPage extends Gtk.Box {
         _init(params) {
             super._init(params);
 
@@ -120,27 +113,6 @@ var TerminalPage = GObject.registerClass(
                 GObject.BindingFlags.SYNC_CREATE | GObject.BindingFlags.BIDIRECTIONAL
             );
 
-            this.settings.bind(
-                'tab-label-ellipsize-mode',
-                this.tab_label,
-                'ellipsize',
-                Gio.SettingsBindFlags.GET
-            );
-
-            this.settings.bind(
-                'tab-close-buttons',
-                this.tab_label,
-                'close-button',
-                Gio.SettingsBindFlags.GET
-            );
-
-            this.settings.bind(
-                'tab-show-shortcuts',
-                this.tab_label,
-                'show-shortcut',
-                Gio.SettingsBindFlags.GET
-            );
-
             this.menu_label = new Gtk.ModelButton({ visible: true });
 
             this.terminal.bind_property(
@@ -150,11 +122,11 @@ var TerminalPage = GObject.registerClass(
                 GObject.BindingFlags.SYNC_CREATE
             );
 
-            this.settings.bind(
+            this.terminal_settings.bind_property(
                 'show-scrollbar',
                 this.scrollbar,
                 'visible',
-                Gio.SettingsBindFlags.GET
+                GObject.BindingFlags.SYNC_CREATE
             );
 
             // Should be connected before setup_popup_menu() on this.terminal!
@@ -301,49 +273,6 @@ var TerminalPage = GObject.registerClass(
 
         get_cwd() {
             return this.terminal.get_cwd();
-        }
-
-        spawn(cwd = null) {
-            let argv;
-            let spawn_flags;
-            const command_type = this.settings.get_string('command');
-
-            if (command_type === 'custom-command') {
-                const command = this.settings.get_string('custom-command');
-
-                let _;
-                [_, argv] = GLib.shell_parse_argv(command);
-
-                spawn_flags = GLib.SpawnFlags.SEARCH_PATH_FROM_ENVP;
-            } else {
-                const shell = Vte.get_user_shell();
-                const name = GLib.path_get_basename(shell);
-
-                if (command_type === 'user-shell-login')
-                    argv = [shell, `-${name}`];
-                else
-                    argv = [shell, name];
-
-                spawn_flags = GLib.SpawnFlags.FILE_AND_ARGV_ZERO;
-
-                if (name !== shell)
-                    spawn_flags |= GLib.SpawnFlags.SEARCH_PATH_FROM_ENVP;
-            }
-
-            this.terminal.spawn_async(
-                Vte.PtyFlags.DEFAULT,
-                cwd,
-                argv,
-                null,
-                spawn_flags,
-                null,
-                -1,
-                null,
-                (terminal_, pid, error) => {
-                    if (error)
-                        this.terminal.feed(error.message);
-                }
-            );
         }
 
         copy() {

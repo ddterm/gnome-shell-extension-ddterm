@@ -21,13 +21,12 @@
 
 /* exported Notebook */
 
-const { GLib, GObject, Gio, Gtk } = imports.gi;
+const { GLib, GObject, Gio, Gtk, Pango, Vte } = imports.gi;
 const { resources, terminalpage, terminalsettings } = imports.ddterm.app;
 const { translations } = imports.ddterm.util;
 
 var Notebook = GObject.registerClass(
     {
-        GTypeName: 'DDTermNotebook',
         Properties: {
             'resources': GObject.ParamSpec.object(
                 'resources',
@@ -35,13 +34,6 @@ var Notebook = GObject.registerClass(
                 '',
                 GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
                 resources.Resources
-            ),
-            'settings': GObject.ParamSpec.object(
-                'settings',
-                '',
-                '',
-                GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-                Gio.Settings
             ),
             'terminal-settings': GObject.ParamSpec.object(
                 'terminal-settings',
@@ -87,6 +79,42 @@ var Notebook = GObject.registerClass(
                 GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
                 'always'
             ),
+            'tab-close-buttons': GObject.ParamSpec.boolean(
+                'tab-close-buttons',
+                '',
+                '',
+                GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+                true
+            ),
+            'tab-show-shortcuts': GObject.ParamSpec.boolean(
+                'tab-show-shortcuts',
+                '',
+                '',
+                GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+                true
+            ),
+            'tab-label-ellipsize-mode': GObject.ParamSpec.enum(
+                'tab-label-ellipsize-mode',
+                '',
+                '',
+                GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+                Pango.EllipsizeMode,
+                Pango.EllipsizeMode.NONE
+            ),
+            'new-page-command-type': GObject.ParamSpec.string(
+                'new-page-command-type',
+                '',
+                '',
+                GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+                'user-shell'
+            ),
+            'new-page-custom-command': GObject.ParamSpec.string(
+                'new-page-custom-command',
+                '',
+                '',
+                GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+                ''
+            ),
             'preserve-working-directory': GObject.ParamSpec.boolean(
                 'preserve-working-directory',
                 '',
@@ -94,9 +122,30 @@ var Notebook = GObject.registerClass(
                 GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
                 true
             ),
+            'show-new-tab-button': GObject.ParamSpec.boolean(
+                'show-new-tab-button',
+                '',
+                '',
+                GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+                true
+            ),
+            'show-new-tab-front-button': GObject.ParamSpec.boolean(
+                'show-new-tab-front-button',
+                '',
+                '',
+                GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+                true
+            ),
+            'show-tab-switch-popup': GObject.ParamSpec.boolean(
+                'show-tab-switch-popup',
+                '',
+                '',
+                GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+                true
+            ),
         },
     },
-    class Notebook extends Gtk.Notebook {
+    class DDTermNotebook extends Gtk.Notebook {
         _init(params) {
             super._init(params);
 
@@ -110,6 +159,13 @@ var Notebook = GObject.registerClass(
                 visible: true,
             });
             button_box.add(this.new_tab_button);
+
+            this.bind_property(
+                'show-new-tab-button',
+                this.new_tab_button,
+                'visible',
+                GObject.BindingFlags.BIDIRECTIONAL | GObject.BindingFlags.SYNC_CREATE
+            );
 
             this.tab_switch_menu_box = new Gtk.Box({
                 visible: true,
@@ -128,6 +184,13 @@ var Notebook = GObject.registerClass(
             });
             button_box.add(this.tab_switch_button);
 
+            this.bind_property(
+                'show-tab-switch-popup',
+                this.tab_switch_button,
+                'visible',
+                GObject.BindingFlags.BIDIRECTIONAL | GObject.BindingFlags.SYNC_CREATE
+            );
+
             this.set_action_widget(button_box, Gtk.PackType.END);
 
             this.new_tab_front_button = new Gtk.Button({
@@ -138,6 +201,13 @@ var Notebook = GObject.registerClass(
                 visible: true,
             });
             this.set_action_widget(this.new_tab_front_button, Gtk.PackType.START);
+
+            this.bind_property(
+                'show-new-tab-front-button',
+                this.new_tab_front_button,
+                'visible',
+                GObject.BindingFlags.BIDIRECTIONAL | GObject.BindingFlags.SYNC_CREATE
+            );
 
             const actions = {
                 'new-tab': this.new_page.bind(this, -1),
@@ -216,73 +286,17 @@ var Notebook = GObject.registerClass(
             });
             this.actions.add_action(this.tab_select_action);
 
-            this.settings.bind(
-                'new-tab-button',
-                this.new_tab_button,
-                'visible',
-                Gio.SettingsBindFlags.GET
-            );
-
-            this.settings.bind(
-                'new-tab-front-button',
-                this.new_tab_front_button,
-                'visible',
-                Gio.SettingsBindFlags.GET
-            );
-
-            this.settings.bind(
-                'tab-switcher-popup',
-                this.tab_switch_button,
-                'visible',
-                Gio.SettingsBindFlags.GET
-            );
-
             this.connect('page-added', this.update_tabs_visible.bind(this));
             this.connect('page-removed', this.update_tabs_visible.bind(this));
-
-            this.settings.bind(
-                'tab-policy',
-                this,
-                'tab-policy',
-                Gio.SettingsBindFlags.GET
-            );
 
             this.connect('notify::tab-policy', this.update_tabs_visible.bind(this));
             this.update_tabs_visible();
 
-            this.settings.bind(
-                'tab-position',
-                this,
-                'tab-pos',
-                Gio.SettingsBindFlags.GET
-            );
-
             this.connect('notify::tab-pos', this.update_tab_pos.bind(this));
             this.update_tab_pos();
 
-            this.settings.bind(
-                'tab-expand',
-                this,
-                'tab-expand',
-                Gio.SettingsBindFlags.GET
-            );
-
             this.connect('notify::tab-expand', this.update_tab_expand.bind(this));
             this.update_tab_expand();
-
-            this.settings.bind(
-                'notebook-border',
-                this,
-                'show-border',
-                Gio.SettingsBindFlags.GET
-            );
-
-            this.settings.bind(
-                'preserve-working-directory',
-                this,
-                'preserve-working-directory',
-                Gio.SettingsBindFlags.GET
-            );
 
             this.page_disconnect = new Map();
 
@@ -310,20 +324,45 @@ var Notebook = GObject.registerClass(
                 this.new_page(this.page_num(child) + 1);
             });
 
-            const label = this.get_tab_label(child);
-
-            const label_width_binding = this.bind_property(
-                'tab-label-width',
-                label,
-                'width-request',
-                GObject.BindingFlags.SYNC_CREATE
-            );
+            const bindings = [];
 
             this.page_disconnect.set(child, () => {
                 child.disconnect(new_tab_before_handler);
                 child.disconnect(new_tab_after_handler);
-                label_width_binding.unbind();
+
+                while (bindings.length > 0)
+                    bindings.pop().unbind();
             });
+
+            const label = this.get_tab_label(child);
+
+            bindings.push(this.bind_property(
+                'tab-label-width',
+                label,
+                'width-request',
+                GObject.BindingFlags.SYNC_CREATE
+            ));
+
+            bindings.push(this.bind_property(
+                'tab-label-ellipsize-mode',
+                label,
+                'ellipsize',
+                GObject.BindingFlags.SYNC_CREATE
+            ));
+
+            bindings.push(this.bind_property(
+                'tab-close-buttons',
+                label,
+                'close-button',
+                GObject.BindingFlags.SYNC_CREATE
+            ));
+
+            bindings.push(this.bind_property(
+                'tab-show-shortcuts',
+                label,
+                'show-shortcut',
+                GObject.BindingFlags.SYNC_CREATE
+            ));
 
             this.update_tab_switch_actions();
 
@@ -356,19 +395,54 @@ var Notebook = GObject.registerClass(
         }
 
         new_page(position) {
-            const cwd = this.preserve_working_directory ? this.get_cwd() : null;
-
             const page = new terminalpage.TerminalPage({
-                settings: this.settings,
                 resources: this.resources,
                 terminal_settings: this.terminal_settings,
                 visible: true,
             });
 
             const index = this.insert_page_menu(page, page.tab_label, page.menu_label, position);
-            page.spawn(cwd);
             this.set_current_page(index);
             page.terminal.grab_focus();
+
+            let argv;
+            let spawn_flags;
+            const cwd = this.preserve_working_directory ? this.get_cwd() : null;
+
+            if (this.new_page_command_type === 'custom-command') {
+                let _;
+                [_, argv] = GLib.shell_parse_argv(this.new_page_custom_command);
+
+                spawn_flags = GLib.SpawnFlags.SEARCH_PATH_FROM_ENVP;
+            } else {
+                const shell = Vte.get_user_shell();
+                const name = GLib.path_get_basename(shell);
+
+                if (this.new_page_command_type === 'user-shell-login')
+                    argv = [shell, `-${name}`];
+                else
+                    argv = [shell, name];
+
+                spawn_flags = GLib.SpawnFlags.FILE_AND_ARGV_ZERO;
+
+                if (name !== shell)
+                    spawn_flags |= GLib.SpawnFlags.SEARCH_PATH_FROM_ENVP;
+            }
+
+            page.terminal.spawn_async(
+                Vte.PtyFlags.DEFAULT,
+                cwd,
+                argv,
+                null,
+                spawn_flags,
+                null,
+                -1,
+                null,
+                (terminal_, pid, error) => {
+                    if (error)
+                        page.terminal.feed(error.message);
+                }
+            );
         }
 
         update_tab_switch_actions() {

@@ -122,7 +122,6 @@ var AppWindow = GObject.registerClass(
 
             this.notebook = new notebook.Notebook({
                 resources: this.resources,
-                settings: this.settings,
                 terminal_settings: this.terminal_settings,
                 visible: true,
                 hexpand: true,
@@ -142,6 +141,97 @@ var AppWindow = GObject.registerClass(
                 'tab-label-width',
                 this,
                 'tab-label-width',
+                Gio.SettingsBindFlags.GET
+            );
+
+            this.settings.bind(
+                'new-tab-button',
+                this.notebook,
+                'show-new-tab-button',
+                Gio.SettingsBindFlags.GET
+            );
+
+            this.settings.bind(
+                'new-tab-front-button',
+                this.notebook,
+                'show-new-tab-front-button',
+                Gio.SettingsBindFlags.GET
+            );
+
+            this.settings.bind(
+                'tab-switcher-popup',
+                this.notebook,
+                'show-tab-switch-popup',
+                Gio.SettingsBindFlags.GET
+            );
+
+            this.settings.bind(
+                'tab-policy',
+                this.notebook,
+                'tab-policy',
+                Gio.SettingsBindFlags.GET
+            );
+
+            this.settings.bind(
+                'tab-position',
+                this.notebook,
+                'tab-pos',
+                Gio.SettingsBindFlags.GET
+            );
+
+            this.settings.bind(
+                'tab-expand',
+                this.notebook,
+                'tab-expand',
+                Gio.SettingsBindFlags.GET
+            );
+
+            this.settings.bind(
+                'notebook-border',
+                this.notebook,
+                'show-border',
+                Gio.SettingsBindFlags.GET
+            );
+
+            this.settings.bind(
+                'command',
+                this.notebook,
+                'new-page-command-type',
+                Gio.SettingsBindFlags.GET
+            );
+
+            this.settings.bind(
+                'custom-command',
+                this.notebook,
+                'new-page-custom-command',
+                Gio.SettingsBindFlags.GET
+            );
+
+            this.settings.bind(
+                'preserve-working-directory',
+                this.notebook,
+                'preserve-working-directory',
+                Gio.SettingsBindFlags.GET
+            );
+
+            this.settings.bind(
+                'tab-label-ellipsize-mode',
+                this.notebook,
+                'tab-label-ellipsize-mode',
+                Gio.SettingsBindFlags.GET
+            );
+
+            this.settings.bind(
+                'tab-close-buttons',
+                this.notebook,
+                'tab-close-buttons',
+                Gio.SettingsBindFlags.GET
+            );
+
+            this.settings.bind(
+                'tab-show-shortcuts',
+                this.notebook,
+                'tab-show-shortcuts',
                 Gio.SettingsBindFlags.GET
             );
 
