@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-20 19:44+0000\n"
+"POT-Creation-Date: 2023-08-31 03:02+0000\n"
 "PO-Revision-Date: 2023-03-14 12:19+0000\n"
 "Last-Translator: Aleksandr Mezin <mezin.alexander@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/gnome-shell-"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "Drop Down Terminal"
 msgstr "Terminal déroulant"
 
-#: ddterm/app/appwindow.js:420
+#: ddterm/app/appwindow.js:510
 msgid ""
 "Warning: ddterm version has changed. Log out, then log in again to load the "
 "updated extension."
@@ -184,11 +184,11 @@ msgstr "Déplacer l'onglet vers la position précédente"
 msgid "Move Tab to Next Position"
 msgstr "Déplacer l'onglet vers la position suivante"
 
-#: ddterm/app/notebook.js:107
+#: ddterm/app/notebook.js:156
 msgid "New Tab (Last)"
 msgstr "Nouvel onglet (en dernière position)"
 
-#: ddterm/app/notebook.js:135
+#: ddterm/app/notebook.js:198
 msgid "New Tab (First)"
 msgstr "Nouvel onglet (en première position)"
 
@@ -220,11 +220,11 @@ msgstr "Rechercher le suivant"
 msgid "Find Previous"
 msgstr "Rechercher le précédent"
 
-#: ddterm/app/terminalpage.js:694
+#: ddterm/app/terminalpage.js:404
 msgid "Close this terminal?"
 msgstr "Fermer ce terminal ?"
 
-#: ddterm/app/terminalpage.js:697
+#: ddterm/app/terminalpage.js:407
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."
