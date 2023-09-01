@@ -19,10 +19,10 @@
 
 'use strict';
 
-const { GLib, GObject, Gio, Gtk } = imports.gi;
+const { GObject, Gio, Gtk } = imports.gi;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const { util } = Me.imports.ddterm.pref;
-const { translations } = Me.imports.ddterm.util;
+const { displayconfig, translations } = Me.imports.ddterm.util;
 
 const Monitor = GObject.registerClass(
     {
@@ -55,99 +55,20 @@ const MonitorList = GObject.registerClass(
                 ...params,
             });
 
-            this.dbus_proxy = null;
-            this._dbus_signal_handler_id = null;
-            this._cancellable = Gio.Cancellable.new();
+            this.display_config = new displayconfig.DisplayConfig({
+                dbus_connection: Gio.DBus.session,
+            });
 
-            Gio.DBusProxy.new(
-                Gio.DBus.session,
-                Gio.DBusProxyFlags.NONE,
-                null,
-                'org.gnome.Mutter.DisplayConfig',
-                '/org/gnome/Mutter/DisplayConfig',
-                'org.gnome.Mutter.DisplayConfig',
-                this._cancellable,
-                (source, res) => {
-                    try {
-                        this.dbus_proxy = Gio.DBusProxy.new_finish(res);
-                    } catch (error) {
-                        if (error.matches(Gio.io_error_quark(), Gio.IOErrorEnum.CANCELLED))
-                            return;
+            this.display_config.connect('notify::monitors', () => {
+                this._update(this.display_config.monitors);
+            });
 
-                        throw error;
-                    }
-
-                    this._dbus_signal_handler_id = this.dbus_proxy.connect(
-                        'g-signal',
-                        this._handle_dbus_signal.bind(this)
-                    );
-
-                    this.refresh();
-                }
-            );
-        }
-
-        _handle_dbus_signal(source, sender, name) {
-            if (name === 'MonitorsChanged')
-                this.refresh();
+            this.display_config.update_async();
         }
 
         destroy() {
-            this._cancellable.cancel();
-
-            if (this.dbus_proxy) {
-                if (this._dbus_signal_handler_id)
-                    this.dbus_proxy.disconnect(this._dbus_signal_handler_id);
-
-                this._dbus_signal_handler_id = null;
-                this.dbus_proxy = null;
-            }
-
+            this.display_config.unwatch();
             this.remove_all();
-        }
-
-        refresh() {
-            this._cancellable.cancel();
-            this._cancellable = Gio.Cancellable.new();
-
-            this.dbus_proxy.call(
-                'GetCurrentState',
-                null,
-                Gio.DBusCallFlags.NONE,
-                -1,
-                this._cancellable,
-                (source, res) => {
-                    let response;
-                    try {
-                        response = source.call_finish(res);
-                    } catch (error) {
-                        if (error.matches(Gio.io_error_quark(), Gio.IOErrorEnum.CANCELLED))
-                            return;
-
-                        throw error;
-                    }
-
-                    this._update(MonitorList.parse(response));
-                }
-            );
-        }
-
-        static parse_monitor(monitor) {
-            const [ids, modes_, props] = monitor.unpack();
-            const [connector, vendor_, model, monitor_serial_] = ids.deep_unpack();
-            let display_name = props.deep_unpack()['display-name'];
-
-            if (display_name instanceof GLib.Variant)
-                display_name = display_name.unpack();
-
-            const description = `${display_name} - ${model} (${connector})`;
-
-            return { connector, description };
-        }
-
-        static parse(response) {
-            const [serial_, monitor_list] = response.unpack();
-            return monitor_list.unpack().map(this.parse_monitor);
         }
 
         find_by_connector(connector) {
@@ -186,8 +107,9 @@ const MonitorList = GObject.registerClass(
 
             this._filter(item => connectors.includes(item.connector));
 
-            for (const { connector, description } of entries) {
+            for (const { connector, model, display_name } of entries) {
                 const found = this.find_by_connector(connector);
+                const description = `${display_name} - ${model} (${connector})`;
 
                 if (found) {
                     found.item.description = description;

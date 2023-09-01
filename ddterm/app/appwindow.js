@@ -22,8 +22,8 @@
 /* exported AppWindow */
 
 const { GLib, GObject, Gio, Gdk, Gtk } = imports.gi;
-const { displayconfig, notebook, resources, terminalsettings } = imports.ddterm.app;
-const { translations } = imports.ddterm.util;
+const { notebook, resources, terminalsettings } = imports.ddterm.app;
+const { displayconfig, translations } = imports.ddterm.util;
 
 function make_resizer(orientation) {
     const box = new Gtk.EventBox({ visible: true });
@@ -371,8 +371,11 @@ var AppWindow = GObject.registerClass(
             const display = this.get_display();
 
             if (display.constructor.$gtype.name === 'GdkWaylandDisplay') {
-                this.display_config = new displayconfig.DisplayConfig();
+                this.display_config = new displayconfig.DisplayConfig({
+                    dbus_connection: this.application.get_dbus_connection(),
+                });
                 this.connect('destroy', () => this.display_config.unwatch());
+                this.display_config.update_sync();
 
                 const rect_type = new GLib.VariantType('(iiii)');
 

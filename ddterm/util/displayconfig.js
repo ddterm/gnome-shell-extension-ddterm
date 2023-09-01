@@ -42,6 +42,13 @@ const CURRENT_STATE_TYPE = GLib.VariantType.new_tuple([
 var DisplayConfig = GObject.registerClass(
     {
         Properties: {
+            'dbus-connection': GObject.ParamSpec.object(
+                'dbus-connection',
+                '',
+                '',
+                GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+                Gio.DBusConnection
+            ),
             'current-state': GObject.param_spec_variant(
                 'current-state',
                 '',
@@ -57,6 +64,12 @@ var DisplayConfig = GObject.registerClass(
                 GObject.ParamFlags.READABLE,
                 0
             ),
+            'monitors': GObject.ParamSpec.jsobject(
+                'monitors',
+                '',
+                '',
+                GObject.ParamFlags.READABLE
+            ),
         },
     },
     class DDTermDisplayConfig extends GObject.Object {
@@ -65,8 +78,9 @@ var DisplayConfig = GObject.registerClass(
 
             this._cancellable = null;
             this._layout_mode = 0;
+            this._monitors = [];
 
-            this._change_handler = Gio.DBus.session.signal_subscribe(
+            this._change_handler = this.dbus_connection.signal_subscribe(
                 BUS_NAME,
                 INTERFACE_NAME,
                 'MonitorsChanged',
@@ -75,8 +89,6 @@ var DisplayConfig = GObject.registerClass(
                 Gio.DBusSignalFlags.NONE,
                 () => this.update_async()
             );
-
-            this.update();
         }
 
         get current_state() {
@@ -87,12 +99,16 @@ var DisplayConfig = GObject.registerClass(
             return this._layout_mode;
         }
 
-        update() {
+        get monitors() {
+            return this._monitors;
+        }
+
+        update_sync() {
             this._cancellable?.cancel();
             this._cancellable = new Gio.Cancellable();
 
             this._parse_current_state(
-                Gio.DBus.session.call_sync(
+                this.dbus_connection.call_sync(
                     BUS_NAME,
                     OBJECT_PATH,
                     INTERFACE_NAME,
@@ -110,7 +126,7 @@ var DisplayConfig = GObject.registerClass(
             this._cancellable?.cancel();
             this._cancellable = new Gio.Cancellable();
 
-            Gio.DBus.session.call(
+            this.dbus_connection.call(
                 BUS_NAME,
                 OBJECT_PATH,
                 INTERFACE_NAME,
@@ -132,6 +148,17 @@ var DisplayConfig = GObject.registerClass(
             );
         }
 
+        static _parse_monitor(monitor) {
+            const [ids, modes_, props] = monitor.unpack();
+            const [connector, vendor_, model, monitor_serial_] = ids.deep_unpack();
+            let display_name = props.deep_unpack()['display-name'];
+
+            if (display_name instanceof GLib.Variant)
+                display_name = display_name.unpack();
+
+            return { connector, model, display_name };
+        }
+
         _parse_current_state(state) {
             if (this._current_state?.equal(state))
                 return;
@@ -140,6 +167,8 @@ var DisplayConfig = GObject.registerClass(
             this.freeze_notify();
 
             try {
+                this.notify('current-state');
+
                 const properties = this.current_state.get_child_value(3);
                 const layout_mode = properties.lookup_value('layout-mode', null)?.unpack();
 
@@ -147,6 +176,10 @@ var DisplayConfig = GObject.registerClass(
                     this._layout_mode = layout_mode;
                     this.notify('layout-mode');
                 }
+
+                const monitors = this.current_state.get_child_value(1);
+                this._monitors = monitors.unpack().map(DisplayConfig._parse_monitor);
+                this.notify('monitors');
             } finally {
                 this.thaw_notify();
             }
@@ -154,7 +187,7 @@ var DisplayConfig = GObject.registerClass(
 
         unwatch() {
             if (this._change_handler) {
-                Gio.DBus.session.signal_unsubscribe(this._change_handler);
+                this.dbus_connection.signal_unsubscribe(this._change_handler);
                 this._change_handler = null;
             }
 
