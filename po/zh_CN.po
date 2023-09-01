@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-31 07:03+0000\n"
+"POT-Creation-Date: 2023-09-01 00:43+0000\n"
 "PO-Revision-Date: 2023-04-25 12:23+0000\n"
 "Last-Translator: yuh <yuhldr@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "Drop Down Terminal"
 msgstr "下拉终端"
 
-#: ddterm/app/appwindow.js:517
+#: ddterm/app/appwindow.js:520
 msgid ""
 "Warning: ddterm version has changed. Log out, then log in again to load the "
 "updated extension."
@@ -1133,7 +1133,7 @@ msgstr "检测新闻、文档URL"
 msgid "Panel Icon"
 msgstr "面板图标"
 
-#: ddterm/pref/positionsize.js:372
+#: ddterm/pref/positionsize.js:294
 msgid "Position and Size"
 msgstr "位置和尺寸"
 

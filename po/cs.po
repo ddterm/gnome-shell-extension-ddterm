@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-31 07:03+0000\n"
+"POT-Creation-Date: 2023-09-01 00:43+0000\n"
 "PO-Revision-Date: 2023-04-24 02:48+0000\n"
 "Last-Translator: Pavel Novák <pavelnov32@gmail.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/gnome-shell-"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "Drop Down Terminal"
 msgstr "Rozbalovací Terminál"
 
-#: ddterm/app/appwindow.js:517
+#: ddterm/app/appwindow.js:520
 msgid ""
 "Warning: ddterm version has changed. Log out, then log in again to load the "
 "updated extension."
@@ -1139,7 +1139,7 @@ msgstr "Detekovat novinky:/man:URL adresy"
 msgid "Panel Icon"
 msgstr "Ikona na panelu"
 
-#: ddterm/pref/positionsize.js:372
+#: ddterm/pref/positionsize.js:294
 msgid "Position and Size"
 msgstr "Pozice a velikost"
 
