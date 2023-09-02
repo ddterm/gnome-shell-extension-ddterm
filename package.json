@@ -3,6 +3,6 @@
     "private": true,
     "devDependencies": {
         "eslint": "8.48.0",
-        "eslint-plugin-jsdoc": "46.5.0"
+        "eslint-plugin-jsdoc": "46.5.1"
     }
 }
