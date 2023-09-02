@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-01 00:43+0000\n"
+"POT-Creation-Date: 2023-09-02 09:45+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,7 +21,7 @@ msgstr ""
 msgid "Drop Down Terminal"
 msgstr ""
 
-#: ddterm/app/appwindow.js:520
+#: ddterm/app/appwindow.js:499
 msgid ""
 "Warning: ddterm version has changed. Log out, then log in again to load the "
 "updated extension."
@@ -181,11 +181,11 @@ msgstr ""
 msgid "Move Tab to Next Position"
 msgstr ""
 
-#: ddterm/app/notebook.js:170
+#: ddterm/app/notebook.js:149
 msgid "New Tab (Last)"
 msgstr ""
 
-#: ddterm/app/notebook.js:212
+#: ddterm/app/notebook.js:191
 msgid "New Tab (First)"
 msgstr ""
 
@@ -217,11 +217,11 @@ msgstr ""
 msgid "Find Previous"
 msgstr ""
 
-#: ddterm/app/terminalpage.js:404
+#: ddterm/app/terminalpage.js:422
 msgid "Close this terminal?"
 msgstr ""
 
-#: ddterm/app/terminalpage.js:407
+#: ddterm/app/terminalpage.js:425
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."
