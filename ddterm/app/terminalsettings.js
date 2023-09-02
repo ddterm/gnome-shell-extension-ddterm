@@ -101,6 +101,14 @@ const CLONED_PSPECS = Object.fromEntries(
     )
 );
 
+var Command = {
+    USER_SHELL: 'user-shell',
+    USER_SHELL_LOGIN: 'user-shell-login',
+    CUSTOM_COMMAND: 'custom-command',
+};
+
+/* exported Command */
+
 var TerminalSettings = GObject.registerClass(
     {
         Properties: {
@@ -139,6 +147,27 @@ var TerminalSettings = GObject.registerClass(
                 0,
                 1,
                 1
+            ),
+            'command': GObject.ParamSpec.string(
+                'command',
+                '',
+                '',
+                DEFAULT_FLAGS,
+                Command.USER_SHELL
+            ),
+            'custom-command': GObject.ParamSpec.string(
+                'custom-command',
+                '',
+                '',
+                DEFAULT_FLAGS,
+                ''
+            ),
+            'preserve-working-directory': GObject.ParamSpec.boolean(
+                'preserve-working-directory',
+                '',
+                '',
+                GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+                true
             ),
         },
     },

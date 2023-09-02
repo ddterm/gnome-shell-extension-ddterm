@@ -201,27 +201,6 @@ var AppWindow = GObject.registerClass(
             );
 
             this.settings.bind(
-                'command',
-                this.notebook,
-                'new-page-command-type',
-                Gio.SettingsBindFlags.GET
-            );
-
-            this.settings.bind(
-                'custom-command',
-                this.notebook,
-                'new-page-custom-command',
-                Gio.SettingsBindFlags.GET
-            );
-
-            this.settings.bind(
-                'preserve-working-directory',
-                this.notebook,
-                'preserve-working-directory',
-                Gio.SettingsBindFlags.GET
-            );
-
-            this.settings.bind(
                 'tab-label-ellipsize-mode',
                 this.notebook,
                 'tab-label-ellipsize-mode',

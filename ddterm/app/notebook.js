@@ -115,27 +115,6 @@ var Notebook = GObject.registerClass(
                 Pango.EllipsizeMode,
                 Pango.EllipsizeMode.NONE
             ),
-            'new-page-command-type': GObject.ParamSpec.string(
-                'new-page-command-type',
-                '',
-                '',
-                GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
-                'user-shell'
-            ),
-            'new-page-custom-command': GObject.ParamSpec.string(
-                'new-page-custom-command',
-                '',
-                '',
-                GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
-                ''
-            ),
-            'preserve-working-directory': GObject.ParamSpec.boolean(
-                'preserve-working-directory',
-                '',
-                '',
-                GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
-                true
-            ),
             'show-new-tab-button': GObject.ParamSpec.boolean(
                 'show-new-tab-button',
                 '',
@@ -414,7 +393,7 @@ var Notebook = GObject.registerClass(
         }
 
         new_page(position) {
-            const cwd = this.preserve_working_directory ? this.get_cwd() : null;
+            const cwd = this.terminal_settings.preserve_working_directory ? this.get_cwd() : null;
 
             const page = new terminalpage.TerminalPage({
                 resources: this.resources,
@@ -429,16 +408,16 @@ var Notebook = GObject.registerClass(
             let argv;
             let spawn_flags;
 
-            if (this.new_page_command_type === 'custom-command') {
+            if (this.terminal_settings.command === terminalsettings.Command.CUSTOM_COMMAND) {
                 let _;
-                [_, argv] = GLib.shell_parse_argv(this.new_page_custom_command);
+                [_, argv] = GLib.shell_parse_argv(this.terminal_settings.custom_command);
 
                 spawn_flags = GLib.SpawnFlags.SEARCH_PATH_FROM_ENVP;
             } else {
                 const shell = Vte.get_user_shell();
                 const name = GLib.path_get_basename(shell);
 
-                if (this.new_page_command_type === 'user-shell-login')
+                if (this.terminal_settings.command === terminalsettings.Command.USER_SHELL_LOGIN)
                     argv = [shell, `-${name}`];
                 else
                     argv = [shell, name];
