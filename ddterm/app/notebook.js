@@ -424,7 +424,7 @@ var Notebook = GObject.registerClass(
 
                 spawn_flags = GLib.SpawnFlags.FILE_AND_ARGV_ZERO;
 
-                if (name !== shell)
+                if (name === shell)
                     spawn_flags |= GLib.SpawnFlags.SEARCH_PATH_FROM_ENVP;
             }
 
