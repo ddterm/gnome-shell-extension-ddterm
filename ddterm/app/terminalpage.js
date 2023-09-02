@@ -275,6 +275,24 @@ var TerminalPage = GObject.registerClass(
             return this.terminal.get_cwd();
         }
 
+        spawn_configured_command(cwd = null) {
+            const callback = (terminal_, pid, error) => {
+                if (error)
+                    this.terminal.feed(error.message);
+
+                this.terminal.grab_focus();
+            };
+
+            if (this.terminal_settings.command === terminalsettings.Command.CUSTOM_COMMAND) {
+                this.terminal.spawn_command(this.terminal_settings.custom_command, cwd, callback);
+            } else {
+                const login =
+                    this.terminal_settings.command === terminalsettings.Command.USER_SHELL_LOGIN;
+
+                this.terminal.spawn_shell(login, cwd, callback);
+            }
+        }
+
         copy() {
             this.terminal.copy_clipboard_format(Vte.Format.TEXT);
         }

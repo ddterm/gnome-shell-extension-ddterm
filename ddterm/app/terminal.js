@@ -317,7 +317,7 @@ var Terminal = GObject.registerClass(
                 this._child_pid = pid;
                 this.notify('child-pid');
 
-                callback(...args);
+                callback?.(...args);
             };
 
             super.spawn_async(
@@ -339,6 +339,43 @@ var Terminal = GObject.registerClass(
 
         spawn_with_fds_async() {
             throw new Error('Not implemented');
+        }
+
+        spawn_shell(login = false, cwd = null, callback = null) {
+            const shell = Vte.get_user_shell();
+            const name = GLib.path_get_basename(shell);
+            const argv = [shell, login ? `-${name}` : name];
+            const spawn_flags = GLib.SpawnFlags.FILE_AND_ARGV_ZERO |
+                (name === shell ? GLib.SpawnFlags.SEARCH_PATH_FROM_ENVP : 0);
+
+            this.spawn_async(
+                Vte.PtyFlags.DEFAULT,
+                cwd,
+                argv,
+                null,
+                spawn_flags,
+                null,
+                -1,
+                null,
+                callback
+            );
+        }
+
+        spawn_command(command, cwd = null, callback = null) {
+            const [_, argv] = GLib.shell_parse_argv(command);
+            const spawn_flags = GLib.SpawnFlags.SEARCH_PATH_FROM_ENVP;
+
+            this.spawn_async(
+                Vte.PtyFlags.DEFAULT,
+                cwd,
+                argv,
+                null,
+                spawn_flags,
+                null,
+                -1,
+                null,
+                callback
+            );
         }
 
         get last_clicked_hyperlink() {

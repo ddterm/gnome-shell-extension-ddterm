@@ -21,7 +21,7 @@
 
 /* exported Notebook */
 
-const { GLib, GObject, Gio, Gtk, Pango, Vte } = imports.gi;
+const { GLib, GObject, Gio, Gtk, Pango } = imports.gi;
 const { resources, terminalpage, terminalsettings } = imports.ddterm.app;
 const { translations } = imports.ddterm.util;
 
@@ -403,45 +403,7 @@ var Notebook = GObject.registerClass(
 
             const index = this.insert_page_menu(page, page.tab_label, page.menu_label, position);
             this.set_current_page(index);
-            page.terminal.grab_focus();
-
-            let argv;
-            let spawn_flags;
-
-            if (this.terminal_settings.command === terminalsettings.Command.CUSTOM_COMMAND) {
-                let _;
-                [_, argv] = GLib.shell_parse_argv(this.terminal_settings.custom_command);
-
-                spawn_flags = GLib.SpawnFlags.SEARCH_PATH_FROM_ENVP;
-            } else {
-                const shell = Vte.get_user_shell();
-                const name = GLib.path_get_basename(shell);
-
-                if (this.terminal_settings.command === terminalsettings.Command.USER_SHELL_LOGIN)
-                    argv = [shell, `-${name}`];
-                else
-                    argv = [shell, name];
-
-                spawn_flags = GLib.SpawnFlags.FILE_AND_ARGV_ZERO;
-
-                if (name === shell)
-                    spawn_flags |= GLib.SpawnFlags.SEARCH_PATH_FROM_ENVP;
-            }
-
-            page.terminal.spawn_async(
-                Vte.PtyFlags.DEFAULT,
-                cwd,
-                argv,
-                null,
-                spawn_flags,
-                null,
-                -1,
-                null,
-                (terminal_, pid, error) => {
-                    if (error)
-                        page.terminal.feed(error.message);
-                }
-            );
+            page.spawn_configured_command(cwd);
         }
 
         update_tab_switch_actions() {
