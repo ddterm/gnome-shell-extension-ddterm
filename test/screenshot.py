@@ -77,13 +77,13 @@ class Screenshoter:
 
         png_blob = screenshot(self.display)
 
-        extra = getattr(report, 'extra', [])
+        extras = getattr(report, 'extras', [])
 
-        extra.append(
+        extras.append(
             pytest_html.extras.png(base64.b64encode(png_blob).decode('ascii'))
         )
 
-        report.extra = extra
+        report.extras = extras
 
 
 def pytest_addoption(parser):
