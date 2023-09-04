@@ -17,7 +17,7 @@ jobs:
     steps:
     - name: Checkout
       id: checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - run: git config --global --replace-all safe.directory "$GITHUB_WORKSPACE"
 
@@ -113,7 +113,7 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Enable generic error matcher
       run: echo "::add-matcher::.github/problem-matchers/generic.json"
@@ -135,7 +135,7 @@ jobs:
       images: ${{ steps.generate.outputs.images }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Install dependencies
         run: pip3 install --use-pep517 -r requirements/images.txt
@@ -168,7 +168,7 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Enable generic error matcher
       run: echo "::add-matcher::.github/problem-matchers/generic.json"
