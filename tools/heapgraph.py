@@ -216,6 +216,11 @@ def parse_graph(fobj):
                 node_color = node.group(2)
                 node_label = node.group(3)
 
+                # Don't hide atoms matching hide_nodes, as they may be labels
+                if atom_regex.match(node_label) is not None:
+                    addNode(node_addr, node_label)
+                    continue
+
                 # Use this opportunity to map hide_nodes to addresses
                 for hide_node in args.hide_nodes:
                     if hide_node in node_label:
