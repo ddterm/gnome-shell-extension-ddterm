@@ -117,12 +117,12 @@ GraphAttribs = namedtuple('GraphAttribs',
 WeakMapEntry = namedtuple('WeakMapEntry', 'weakMap key keyDelegate value')
 
 
-addr_regex = re.compile('[A-F0-9]+$|0x[a-f0-9]+$')
-node_regex = re.compile ('((?:0x)?[a-fA-F0-9]+) (?:(B|G|W) )?([^\r\n]*)\r?$')
-edge_regex = re.compile ('> ((?:0x)?[a-fA-F0-9]+) (?:(B|G|W) )?([^\r\n]*)\r?$')
+addr_regex = re.compile(r'[A-F0-9]+$|0x[a-f0-9]+$')
+node_regex = re.compile(r'((?:0x)?[a-fA-F0-9]+) (?:(B|G|W) )?([^\r\n]*)\r?$')
+edge_regex = re.compile(r'> ((?:0x)?[a-fA-F0-9]+) (?:(B|G|W) )?([^\r\n]*)\r?$')
 wme_regex = re.compile(r'WeakMapEntry map=((?:0x)?[a-zA-Z0-9]+|\(nil\)) key=((?:0x)?[a-zA-Z0-9]+|\(nil\)) keyDelegate=((?:0x)?[a-zA-Z0-9]+|\(nil\)) value=((?:0x)?[a-zA-Z0-9]+)')
 
-func_regex = re.compile('Function(?: ([^/]+)(?:/([<|\w]+))?)?')
+func_regex = re.compile(r'Function(?: ([^/]+)(?:/([<|\w]+))?)?')
 priv_regex = re.compile(r'([^ ]+) (0x[a-fA-F0-9]+$)')
 atom_regex = re.compile(r'^string <atom: length (?:\d+)> (.*)\r?$')
 
