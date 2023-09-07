@@ -79,6 +79,7 @@ var DisplayConfig = GObject.registerClass(
             this._cancellable = null;
             this._layout_mode = 0;
             this._monitors = [];
+            this._serial = -1;
 
             this._change_handler = this.dbus_connection.signal_subscribe(
                 BUS_NAME,
@@ -160,10 +161,12 @@ var DisplayConfig = GObject.registerClass(
         }
 
         _parse_current_state(state) {
-            if (this._current_state?.equal(state))
+            const serial = state.get_child_value(0).get_uint32();
+            if (serial <= this._serial)
                 return;
 
             this._current_state = state;
+            this._serial = serial;
             this.freeze_notify();
 
             try {
