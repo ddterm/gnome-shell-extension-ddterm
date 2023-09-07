@@ -21,17 +21,16 @@
 
 const { GLib, Gio } = imports.gi;
 
-const ByteArray = imports.byteArray;
 const System = imports.system;
 
 /* exported HeapDumper */
 
 var HeapDumper = class {
-    constructor(xml_dir) {
-        const xml_file = xml_dir.get_child('com.github.amezin.ddterm.HeapDump.xml');
-
-        const [_, xml] = xml_file.load_contents(null);
-        this.dbus = Gio.DBusExportedObject.wrapJSObject(ByteArray.toString(xml), this);
+    constructor(resources) {
+        this.dbus = Gio.DBusExportedObject.wrapJSObject(
+            resources.dbus_interfaces.get('ddterm/com.github.amezin.ddterm.HeapDump.xml'),
+            this
+        );
     }
 
     GC() {

@@ -19,40 +19,136 @@
 
 'use strict';
 
-const { GObject, Gtk } = imports.gi;
+const ByteArray = imports.byteArray;
+
+const { GLib, GObject, Gio, Gtk } = imports.gi;
+
+function is_file_object(value) {
+    // `<string> instanceof Gio.File` causes a crash!
+    return value instanceof GObject.Object && value instanceof Gio.File;
+}
+
+class Cache extends Map {
+    constructor(base_uri) {
+        super();
+        this.base_uri = base_uri;
+    }
+
+    get_uri(key) {
+        if (is_file_object(key))
+            return key.get_uri();
+
+        return GLib.Uri.resolve_relative(this.base_uri, key, GLib.UriFlags.NONE);
+    }
+
+    get_file(key) {
+        if (is_file_object(key))
+            return key;
+
+        return Gio.File.new_for_uri(this.get_uri(key));
+    }
+
+    get(key) {
+        const uri = this.get_uri(key);
+
+        const cached = super.get(uri);
+        if (cached !== undefined)
+            return cached;
+
+        const loaded = this.load(this.get_file(key));
+        super.set(uri, loaded);
+        return loaded;
+    }
+
+    has(key) {
+        return super.has(this.get_uri(key));
+    }
+
+    set(key, value) {
+        return super.set(this.get_uri(key), value);
+    }
+
+    delete(key) {
+        return super.delete(this.get_uri(key));
+    }
+}
+
+class BinaryCache extends Cache {
+    load(file) {
+        const [ok_, contents] = file.load_contents(null);
+        return contents;
+    }
+}
+
+class BinaryCacheWrapper extends Cache {
+    constructor(binary_cache, base_uri = null) {
+        super(base_uri ?? binary_cache.base_uri);
+        this.binary_cache = binary_cache;
+    }
+}
+
+class CssProviderCache extends BinaryCacheWrapper {
+    load(file) {
+        const loaded = Gtk.CssProvider.new();
+        loaded.load_from_data(this.binary_cache.get(file));
+        return loaded;
+    }
+}
+
+class TextCache extends BinaryCacheWrapper {
+    load(file) {
+        return ByteArray.toString(this.binary_cache.get(file));
+    }
+}
+
+class TextCacheWrapper extends Cache {
+    constructor(text_cache, base_uri = null) {
+        super(base_uri ?? text_cache.base_uri);
+        this.text_cache = text_cache;
+    }
+}
+
+class GtkBuilderCache extends TextCacheWrapper {
+    load(file) {
+        return Gtk.Builder.new_from_string(this.text_cache.get(file), -1);
+    }
+}
+
+class DBusInterfaceInfoCache extends TextCacheWrapper {
+    load(file) {
+        return Gio.DBusInterfaceInfo.new_for_xml(this.text_cache.get(file));
+    }
+}
 
 var Resources = GObject.registerClass(
     {
         Properties: {
-            'menus': GObject.ParamSpec.object(
-                'menus',
+            'base-uri': GObject.ParamSpec.string(
+                'base-uri',
                 '',
                 '',
                 GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-                Gtk.Builder
-            ),
-            'style': GObject.ParamSpec.object(
-                'style',
-                '',
-                '',
-                GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-                Gtk.CssProvider
+                null
             ),
         },
     },
     class DDTermAppResources extends GObject.Object {
-        static load(path) {
-            const app_dir = path.get_child('ddterm').get_child('app');
+        _init(params) {
+            super._init(params);
 
-            const menus = Gtk.Builder.new_from_file(app_dir.get_child('menus.ui').get_path());
+            this.binary_files = new BinaryCache(this.base_uri);
+            this.css_providers = new CssProviderCache(this.binary_files);
+            this.text_files = new TextCache(this.binary_files);
+            this.gtk_builders = new GtkBuilderCache(this.text_files);
+            this.dbus_interfaces = new DBusInterfaceInfoCache(this.text_files);
+        }
 
-            const style = Gtk.CssProvider.new();
-            style.load_from_path(app_dir.get_child('style.css').get_path());
+        get menus() {
+            return this.gtk_builders.get('ddterm/app/menus.ui');
+        }
 
-            return new Resources({
-                menus,
-                style,
-            });
+        get_file(key) {
+            return this.binary_files.get_file(key);
         }
     }
 );

@@ -19,15 +19,9 @@
 
 'use strict';
 
-const ByteArray = imports.byteArray;
-
 const { GLib, GObject, Gio, Gdk, Gtk } = imports.gi;
 
 const { gtktheme, heapdump, resources, terminalsettings } = imports.ddterm.app;
-
-function load_text(file) {
-    return ByteArray.toString(file.load_contents(null)[1]);
-}
 
 var Application = GObject.registerClass(
     {
@@ -59,7 +53,9 @@ var Application = GObject.registerClass(
         _init(params) {
             super._init(params);
 
-            this.ddterm_dir = this.install_dir.get_child('ddterm');
+            this.resources = new resources.Resources({
+                base_uri: `${this.install_dir.get_uri()}/`,
+            });
 
             this.add_main_option(
                 'activate-only',
@@ -94,7 +90,6 @@ var Application = GObject.registerClass(
         }
 
         startup() {
-            this.resources = resources.Resources.load(this.install_dir);
             this.settings = imports.ddterm.util.settings.get_settings(this.install_dir);
 
             this.simple_action('quit', () => this.quit());
@@ -138,7 +133,7 @@ var Application = GObject.registerClass(
 
             Gtk.StyleContext.add_provider_for_screen(
                 Gdk.Screen.get_default(),
-                this.resources.style,
+                this.resources.css_providers.get('ddterm/app/style.css'),
                 Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
             );
 
@@ -191,14 +186,14 @@ var Application = GObject.registerClass(
                 this.bind_shortcut(action, key);
             });
 
-            this.metadata = JSON.parse(load_text(this.install_dir.get_child('metadata.json')));
+            this.metadata = JSON.parse(this.resources.text_files.get('metadata.json'));
 
             Gtk.IconTheme.get_default().append_search_path(
-                this.ddterm_dir.get_child('app').get_child('icons').get_path()
+                this.resources.get_file('ddterm/app/icons').get_path()
             );
 
             if (this.allow_heap_dump) {
-                const heap_dumper = new heapdump.HeapDumper(this.install_dir.get_child('ddterm'));
+                const heap_dumper = new heapdump.HeapDumper(this.resources);
                 heap_dumper.dbus.export(this.get_dbus_connection(), this.get_dbus_object_path());
             }
         }
@@ -234,9 +229,9 @@ var Application = GObject.registerClass(
             if ('_extension_dbus' in this)
                 return this._extension_dbus;
 
-            const extension_dbus_factory = Gio.DBusProxy.makeProxyWrapper(load_text(
-                this.ddterm_dir.get_child('com.github.amezin.ddterm.Extension.xml')
-            ));
+            const extension_dbus_factory = Gio.DBusProxy.makeProxyWrapper(
+                this.resources.text_files.get('ddterm/com.github.amezin.ddterm.Extension.xml')
+            );
 
             this._extension_dbus = extension_dbus_factory(
                 Gio.DBus.session,
