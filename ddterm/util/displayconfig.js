@@ -142,7 +142,7 @@ var DisplayConfig = GObject.registerClass(
                     } catch (error) {
                         if (!(error instanceof GLib.Error &&
                               error.matches(Gio.io_error_quark(), Gio.IOErrorEnum.CANCELLED)))
-                            throw error;
+                            logError(error);
                     }
                 }
             );
