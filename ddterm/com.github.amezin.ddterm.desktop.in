@@ -8,6 +8,7 @@ Categories=Utility;
 StartupWMClass=Com.github.amezin.ddterm
 DBusActivatable=true
 Actions=toggle;preferences;
+OnlyShowIn=GNOME;
 
 [Desktop Action toggle]
 Name=Toggle
