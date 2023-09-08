@@ -3,6 +3,8 @@
     "private": true,
     "devDependencies": {
         "eslint": "8.48.0",
+        "eslint-formatter-checkstyle": "^8.40.0",
+        "eslint-formatter-stylish": "^8.40.0",
         "eslint-plugin-jsdoc": "46.5.1"
     }
 }

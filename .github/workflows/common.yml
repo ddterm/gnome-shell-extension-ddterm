@@ -37,11 +37,7 @@ jobs:
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
     - name: Lint JS code
-      run: make lint
-      if: ${{ always() && steps.npm.conclusion == 'success' }}
-
-    - name: Lint JS code with checkstyle XML report
-      run: make "ESLINT_OPTS=--format checkstyle --output-file eslint.xml" lint
+      run: make "ESLINT_OPTS=--format .github/eslint-formatter.js" lint
       if: ${{ always() && steps.npm.conclusion == 'success' }}
 
     - name: Pre-create pip cache directory
