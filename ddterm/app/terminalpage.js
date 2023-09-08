@@ -25,6 +25,8 @@ const { GLib, GObject, Gio, Gdk, Gtk, Vte } = imports.gi;
 const { resources, search, tablabel, terminal, terminalsettings } = imports.ddterm.app;
 const { translations } = imports.ddterm.util;
 
+let next_id = 1;
+
 var TerminalPage = GObject.registerClass(
     {
         Properties: {
@@ -62,6 +64,13 @@ var TerminalPage = GObject.registerClass(
                 '',
                 GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
                 false
+            ),
+            'dbus-object-manager': GObject.ParamSpec.object(
+                'dbus-object-manager',
+                '',
+                '',
+                GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+                Gio.DBusObjectManagerServer
             ),
         },
         Signals: {
@@ -292,6 +301,29 @@ var TerminalPage = GObject.registerClass(
 
             this.insert_action_group('terminal', actions);
             this.tab_label.insert_action_group('terminal', actions);
+
+            if (this.dbus_object_manager) {
+                this.dbus_object_path =
+                    `${this.dbus_object_manager.object_path}/terminal/${next_id++}`;
+
+                const connection = this.dbus_object_manager.connection;
+                const action_group_id = connection.export_action_group(
+                    this.dbus_object_path,
+                    actions
+                );
+
+                this.connect('destroy', () => {
+                    connection.unexport_action_group(action_group_id);
+                });
+
+                this.dbus_object = Gio.DBusObjectSkeleton.new(this.dbus_object_path);
+                this.dbus_object_manager.export(this.dbus_object);
+
+                this.connect('destroy', () => {
+                    this.dbus_object.flush();
+                    this.dbus_object_manager.unexport(this.dbus_object.get_object_path());
+                });
+            }
 
             this.terminal.connect_after('child-exited', () => {
                 if (!this.keep_open_after_exit)

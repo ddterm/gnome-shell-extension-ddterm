@@ -104,6 +104,13 @@ var AppWindow = GObject.registerClass(
                 0.5,
                 0.1
             ),
+            'dbus-object-manager': GObject.ParamSpec.object(
+                'dbus-object-manager',
+                '',
+                '',
+                GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+                Gio.DBusObjectManagerServer
+            ),
         },
     },
     class AppWindow extends Gtk.ApplicationWindow {
@@ -114,6 +121,13 @@ var AppWindow = GObject.registerClass(
                 window_position: Gtk.WindowPosition.CENTER,
                 ...params,
             });
+
+            if (this.dbus_object_manager) {
+                const object_path =
+                    `${this.dbus_object_manager.object_path}/window/${this.get_id()}`;
+
+                this.dbus_object = Gio.DBusObjectSkeleton.new(object_path);
+            }
 
             const grid = new Gtk.Grid({
                 parent: this,
@@ -127,9 +141,9 @@ var AppWindow = GObject.registerClass(
                 hexpand: true,
                 vexpand: true,
                 scrollable: true,
-                dbus_connection: this.application.get_dbus_connection(),
-                // eslint-disable-next-line max-len
-                dbus_object_path: `${this.application.get_dbus_object_path()}/window/${this.get_id()}/notebook`,
+                dbus_object_manager: this.dbus_object_manager,
+                dbus_object_path:
+                    this.dbus_object && `${this.dbus_object.get_object_path()}/notebook`,
             });
             grid.attach(this.notebook, 1, 1, 1, 1);
 
@@ -340,6 +354,14 @@ var AppWindow = GObject.registerClass(
                     this.close();
                 }
             });
+
+            if (this.dbus_object) {
+                this.dbus_object_manager.export(this.dbus_object);
+
+                this.connect('destroy', () => {
+                    this.dbus_object_manager.unexport(this.dbus_object.get_object_path());
+                });
+            }
 
             const display = this.get_display();
 

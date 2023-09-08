@@ -312,6 +312,11 @@ var Application = GObject.registerClass(
         }
 
         vfunc_dbus_register(connection, object_path) {
+            this.dbus_object_manager = new Gio.DBusObjectManagerServer({
+                connection,
+                object_path,
+            });
+
             if (this.allow_heap_dump) {
                 this.heap_dump_dbus_interface = new heapdump.HeapDumper(this.resources);
                 this.heap_dump_dbus_interface.dbus.export(connection, object_path);
@@ -321,6 +326,8 @@ var Application = GObject.registerClass(
         }
 
         vfunc_dbus_unregister(connection, object_path) {
+            this.dbus_object_manager.set_connection(null);
+
             if (this.allow_heap_dump)
                 this.heap_dump_dbus_interface.dbus.unexport_from_connection(connection);
 
@@ -463,6 +470,7 @@ var Application = GObject.registerClass(
                 terminal_settings: this.terminal_settings,
                 extension_dbus: this.extension_dbus,
                 resources: this.resources,
+                dbus_object_manager: this.dbus_object_manager,
             });
 
             this.window.connect('destroy', source => {
