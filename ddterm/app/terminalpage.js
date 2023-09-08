@@ -279,8 +279,6 @@ var TerminalPage = GObject.registerClass(
             const callback = (terminal_, pid, error) => {
                 if (error)
                     this.terminal.feed(error.message);
-
-                this.terminal.grab_focus();
             };
 
             if (this.terminal_settings.command === terminalsettings.Command.CUSTOM_COMMAND) {
@@ -453,6 +451,10 @@ var TerminalPage = GObject.registerClass(
                     GObject.BindingFlags.SYNC_CREATE
                 );
             }
+        }
+
+        vfunc_grab_focus() {
+            this.terminal.grab_focus();
         }
     }
 );

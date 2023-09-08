@@ -403,6 +403,7 @@ var Notebook = GObject.registerClass(
 
             const index = this.insert_page_menu(page, page.tab_label, page.menu_label, position);
             this.set_current_page(index);
+            this.grab_focus();
             page.spawn_configured_command(cwd);
         }
 
