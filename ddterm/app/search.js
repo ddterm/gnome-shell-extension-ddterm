@@ -111,6 +111,13 @@ var SearchPattern = GObject.registerClass(
                 GObject.ParamFlags.READABLE,
                 GLib.Error
             ),
+            'regex-set': GObject.ParamSpec.boolean(
+                'regex-set',
+                '',
+                '',
+                GObject.ParamFlags.READABLE,
+                false
+            ),
         },
     },
     class DDTermSearchPattern extends GObject.Object {
@@ -158,9 +165,14 @@ var SearchPattern = GObject.registerClass(
             return this._error;
         }
 
+        get regex_set() {
+            return this.regex !== null;
+        }
+
         invalidate() {
             this._regex = REGEX_OUTDATED;
             this.notify('regex');
+            this.notify('regex-set');
         }
     }
 );
@@ -337,6 +349,13 @@ var SearchBar = GObject.registerClass(
 
             layout.pack_end(find_next_button, false, false, 0);
 
+            this._pattern.bind_property(
+                'regex-set',
+                find_next_button,
+                'sensitive',
+                GObject.BindingFlags.SYNC_CREATE
+            );
+
             find_next_button.connect('clicked', this.find_next.bind(this));
 
             const find_prev_button = new Gtk.Button({
@@ -347,6 +366,13 @@ var SearchBar = GObject.registerClass(
             });
 
             layout.pack_end(find_prev_button, false, false, 0);
+
+            this._pattern.bind_property(
+                'regex-set',
+                find_prev_button,
+                'sensitive',
+                GObject.BindingFlags.SYNC_CREATE
+            );
 
             find_prev_button.connect('clicked', this.find_prev.bind(this));
         }
