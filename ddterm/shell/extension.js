@@ -70,14 +70,14 @@ function enable() {
     service.connect('activate', () => {
         const argv = [Me.dir.get_child(APP_ID).get_path(), '--gapplication-service'];
 
+        if (app_enable_heap_dump)
+            argv.push('--allow-heap-dump');
+
         if (settings.get_boolean('force-x11-gdk-backend'))
             argv.push('--allowed-gdk-backends=x11');
 
         else if (Meta.is_wayland_compositor())
             return new subprocess.WaylandSubprocess({ journal_identifier: APP_ID, argv });
-
-        if (app_enable_heap_dump)
-            argv.push('--allow-heap-dump');
 
         return new subprocess.Subprocess({ journal_identifier: APP_ID, argv });
     });
