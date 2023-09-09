@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-02 09:45+0000\n"
+"POT-Creation-Date: 2023-09-09 07:41+0000\n"
 "PO-Revision-Date: 2023-04-25 12:23+0000\n"
 "Last-Translator: yuh <yuhldr@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -190,39 +190,39 @@ msgstr "新建标签页（最后一个）"
 msgid "New Tab (First)"
 msgstr "新建标签页（第一个）"
 
-#: ddterm/app/search.js:206
+#: ddterm/app/search.js:218
 msgid "Case Sensitive"
 msgstr "区分大小写的"
 
-#: ddterm/app/search.js:222
+#: ddterm/app/search.js:234
 msgid "Match Whole Word"
 msgstr "匹配整个单词"
 
-#: ddterm/app/search.js:238
+#: ddterm/app/search.js:250
 msgid "Regular Expression"
 msgstr "正则表达式"
 
-#: ddterm/app/search.js:306
+#: ddterm/app/search.js:318
 msgid "Close Search Bar"
 msgstr "关闭搜索栏"
 
-#: ddterm/app/search.js:317
+#: ddterm/app/search.js:329
 msgid "Wrap Around"
 msgstr "回到文档头部继续搜索"
 
-#: ddterm/app/search.js:333 ddterm/pref/glade/prefs-shortcuts.ui:248
+#: ddterm/app/search.js:345 ddterm/pref/glade/prefs-shortcuts.ui:248
 msgid "Find Next"
 msgstr "查找下一个"
 
-#: ddterm/app/search.js:344 ddterm/pref/glade/prefs-shortcuts.ui:255
+#: ddterm/app/search.js:363 ddterm/pref/glade/prefs-shortcuts.ui:255
 msgid "Find Previous"
 msgstr "找到前一个"
 
-#: ddterm/app/terminalpage.js:422
+#: ddterm/app/terminalpage.js:420
 msgid "Close this terminal?"
 msgstr "关闭这个终端？"
 
-#: ddterm/app/terminalpage.js:425
+#: ddterm/app/terminalpage.js:423
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."

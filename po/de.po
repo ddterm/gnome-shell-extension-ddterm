@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-02 09:45+0000\n"
+"POT-Creation-Date: 2023-09-09 07:41+0000\n"
 "PO-Revision-Date: 2023-04-03 13:37+0000\n"
 "Last-Translator: Jörn Weigend <das.jott@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/gnome-shell-"
@@ -192,39 +192,39 @@ msgstr "Neuer Tab (Letzter)"
 msgid "New Tab (First)"
 msgstr "Neuer Tab (Erster)"
 
-#: ddterm/app/search.js:206
+#: ddterm/app/search.js:218
 msgid "Case Sensitive"
 msgstr "Groß- und Kleinschreibung beachten"
 
-#: ddterm/app/search.js:222
+#: ddterm/app/search.js:234
 msgid "Match Whole Word"
 msgstr "Ganzes Wort"
 
-#: ddterm/app/search.js:238
+#: ddterm/app/search.js:250
 msgid "Regular Expression"
 msgstr "Regulärer Ausdruck"
 
-#: ddterm/app/search.js:306
+#: ddterm/app/search.js:318
 msgid "Close Search Bar"
 msgstr "Suchleiste schließen"
 
-#: ddterm/app/search.js:317
+#: ddterm/app/search.js:329
 msgid "Wrap Around"
 msgstr "Am Ende der Seite zum Anfang springen"
 
-#: ddterm/app/search.js:333 ddterm/pref/glade/prefs-shortcuts.ui:248
+#: ddterm/app/search.js:345 ddterm/pref/glade/prefs-shortcuts.ui:248
 msgid "Find Next"
 msgstr "Finde nächstes"
 
-#: ddterm/app/search.js:344 ddterm/pref/glade/prefs-shortcuts.ui:255
+#: ddterm/app/search.js:363 ddterm/pref/glade/prefs-shortcuts.ui:255
 msgid "Find Previous"
 msgstr "finde vorheriges"
 
-#: ddterm/app/terminalpage.js:422
+#: ddterm/app/terminalpage.js:420
 msgid "Close this terminal?"
 msgstr "Dieses Terminal schließen?"
 
-#: ddterm/app/terminalpage.js:425
+#: ddterm/app/terminalpage.js:423
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."
