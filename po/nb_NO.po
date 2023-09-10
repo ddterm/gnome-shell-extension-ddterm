@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-09 07:41+0000\n"
+"POT-Creation-Date: 2023-09-10 20:37+0000\n"
 "PO-Revision-Date: 2023-03-12 16:07+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/gnome-"
@@ -18,17 +18,10 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 4.16.2-dev\n"
 
-#: ddterm/app/appwindow.js:112
+#: ddterm/app/appwindow.js:112 ddterm/shell/extension.js:393
+#: ddterm/shell/extension.js:409
 msgid "Drop Down Terminal"
 msgstr "Rullegardinsterminal"
-
-#: ddterm/app/appwindow.js:499
-msgid ""
-"Warning: ddterm version has changed. Log out, then log in again to load the "
-"updated extension."
-msgstr ""
-"Advarsel: ddterm-versjonen har endret seg. Logg ut og inn igjen for å laste "
-"inn oppdatert utvidelse."
 
 #: ddterm/app/dependencies-notification.js:136
 msgid "ddterm needs additional packages to run."
@@ -1173,6 +1166,14 @@ msgstr "Faner"
 #: ddterm/pref/text.js:91
 msgid "Text"
 msgstr "Tekst"
+
+#: ddterm/shell/extension.js:411
+msgid ""
+"Warning: ddterm version has changed. Log out, then log in again to load the "
+"updated extension."
+msgstr ""
+"Advarsel: ddterm-versjonen har endret seg. Logg ut og inn igjen for å laste "
+"inn oppdatert utvidelse."
 
 #: ddterm/shell/panelicon.js:70
 msgid "Show"
