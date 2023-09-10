@@ -22,10 +22,13 @@
 /* exported init enable disable settings toggle window_manager service */
 
 const { GLib, GObject, Gio, Meta, Shell } = imports.gi;
+const ByteArray = imports.byteArray;
 const Main = imports.ui.main;
+const MessageTray = imports.ui.messageTray;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const { dbusapi, subprocess } = Me.imports.ddterm.shell;
+const { translations } = Me.imports.ddterm.util;
 const { Installer } = Me.imports.ddterm.shell.install;
 const { PanelIconProxy } = Me.imports.ddterm.shell.panelicon;
 const { Service } = Me.imports.ddterm.shell.service;
@@ -47,12 +50,18 @@ let shutdown_handler = null;
 
 var app_enable_heap_dump = false;
 
+let revision = null;
+
+let notification_source = null;
+let revision_mismatch_notification = null;
+
 const APP_ID = 'com.github.amezin.ddterm';
 const APP_WMCLASS = 'Com.github.amezin.ddterm';
 const APP_DBUS_PATH = '/com/github/amezin/ddterm';
 const WINDOW_PATH_PREFIX = `${APP_DBUS_PATH}/window/`;
 
 function init() {
+    revision = read_revision();
     imports.misc.extensionUtils.initTranslations();
 }
 
@@ -68,6 +77,9 @@ function enable() {
     });
 
     service.connect('activate', () => {
+        if (revision !== read_revision())
+            show_revision_mismatch_notification();
+
         const argv = [Me.dir.get_child(APP_ID).get_path(), '--gapplication-service'];
 
         if (app_enable_heap_dump)
@@ -233,6 +245,9 @@ function disable() {
 
     settings?.run_dispose();
 
+    notification_source?.destroy(MessageTray.NotificationDestroyedReason.SOURCE_CLOSED);
+    revision_mismatch_notification?.destroy(MessageTray.NotificationDestroyedReason.SOURCE_CLOSED);
+
     settings = null;
     window_manager = null;
     window_matcher = null;
@@ -355,4 +370,58 @@ function set_skip_taskbar() {
         app_process.wayland_client.hide_from_window_list(win);
     else
         app_process.wayland_client.show_in_window_list(win);
+}
+
+function read_revision() {
+    try {
+        const [ok_, data] = Me.dir.get_child('revision.txt').load_contents(null);
+        return ByteArray.toString(data);
+    } catch (ex) {
+        if (ex instanceof GLib.Error &&
+            ex.matches(Gio.io_error_quark(), Gio.IOErrorEnum.NOT_FOUND))
+            return null;
+
+        throw ex;
+    }
+}
+
+function ensure_notification_source() {
+    if (notification_source)
+        return notification_source;
+
+    notification_source = new MessageTray.Source(
+        translations.gettext('Drop Down Terminal'),
+        'utilities-terminal'
+    );
+
+    notification_source.connect('destroy', () => {
+        notification_source = null;
+    });
+
+    Main.messageTray.add(notification_source);
+    return notification_source;
+}
+
+function ensure_revision_mismatch_notification() {
+    if (revision_mismatch_notification)
+        return revision_mismatch_notification;
+
+    const title = translations.gettext('Drop Down Terminal');
+    const msg = translations.gettext(
+        'Warning: ddterm version has changed. ' +
+        'Log out, then log in again to load the updated extension.'
+    );
+
+    revision_mismatch_notification =
+        new MessageTray.Notification(ensure_notification_source(), title, msg);
+
+    revision_mismatch_notification.connect('destroy', () => {
+        revision_mismatch_notification = null;
+    });
+
+    return revision_mismatch_notification;
+}
+
+function show_revision_mismatch_notification() {
+    ensure_notification_source().showNotification(ensure_revision_mismatch_notification());
 }
