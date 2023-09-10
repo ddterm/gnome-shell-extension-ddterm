@@ -111,6 +111,8 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
+    - run: git config --global --replace-all safe.directory "$GITHUB_WORKSPACE"
+
     - name: Enable generic error matcher
       run: echo "::add-matcher::.github/problem-matchers/generic.json"
 

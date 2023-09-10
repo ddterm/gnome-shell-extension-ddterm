@@ -27,6 +27,25 @@ CLEAN :=
 TRANSLATABLE_SOURCES :=
 PACK_CONTENT :=
 
+# Git revision file
+
+ifeq ($(file <revision.txt.in),$$Format:%H$$)
+
+GIT_TOOL := $(call find-tool,git)
+
+revision.txt: $(GIT_TOOL) .git
+	$(GIT_TOOL) rev-parse HEAD >$@
+
+else
+
+revision.txt: revision.txt.in
+	cat $< >$@
+
+endif
+
+CLEAN += revision.txt
+PACK_CONTENT += revision.txt
+
 # GSettings schemas
 
 SCHEMAS := $(wildcard schemas/*.gschema.xml)
