@@ -316,12 +316,15 @@ var TerminalPage = GObject.registerClass(
                     connection.unexport_action_group(action_group_id);
                 });
 
+                this.dbus_interface = new DBusInterface(this);
                 this.dbus_object = Gio.DBusObjectSkeleton.new(this.dbus_object_path);
+                this.dbus_object.add_interface(this.dbus_interface.skeleton);
                 this.dbus_object_manager.export(this.dbus_object);
 
                 this.connect('destroy', () => {
                     this.dbus_object.flush();
                     this.dbus_object_manager.unexport(this.dbus_object.get_object_path());
+                    this.dbus_object.remove_interface(this.dbus_interface.skeleton);
                 });
             }
 
@@ -509,3 +512,54 @@ var TerminalPage = GObject.registerClass(
         }
     }
 );
+
+class DBusInterface {
+    constructor(page) {
+        this.page = page;
+
+        this.info = page.resources.dbus_interfaces.get(
+            'ddterm/com.github.amezin.ddterm.Terminal.xml'
+        );
+
+        this.skeleton = Gio.DBusExportedObject.wrapJSObject(this.info, this);
+
+        this.page.connect('notify::title', () => {
+            this.skeleton.emit_property_changed(
+                'Title',
+                GLib.Variant.new_string(this.Title)
+            );
+        });
+
+        this.terminal = page.terminal;
+
+        this.terminal.connect('child-exited', (_, status) => {
+            this.skeleton.emit_signal(
+                'ChildExited',
+                GLib.Variant.new_tuple([GLib.Variant.new_int32(status)])
+            );
+        });
+
+        this.terminal.connect('notify::child-pid', () => {
+            this.skeleton.emit_property_changed(
+                'Pid',
+                GLib.Variant.new_int32(this.Pid)
+            );
+        });
+    }
+
+    get Title() {
+        return this.page.title;
+    }
+
+    GetWorkingDirectory() {
+        return this.page.get_cwd();
+    }
+
+    get Pid() {
+        return this.terminal.child_pid;
+    }
+
+    Close() {
+        this.page.destroy();
+    }
+}

@@ -1,0 +1,18 @@
+<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN"
+    "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+
+<node>
+    <interface name="com.github.amezin.ddterm.Terminal">
+        <property type="s" name="Title" access="read"/>
+        <property type="i" name="Pid" access="read"/>
+
+        <method name="Close"/>
+        <method name="GetWorkingDirectory">
+            <arg name="cwd" type="s" direction="out"/>
+        </method>
+
+        <signal name="ChildExited">
+            <arg name="status" type="i"/>
+        </signal>
+    </interface>
+</node>
