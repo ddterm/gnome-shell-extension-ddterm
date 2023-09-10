@@ -135,7 +135,7 @@ function enable() {
 
     app_actions = Gio.DBusActionGroup.get(Gio.DBus.session, APP_ID, APP_DBUS_PATH);
 
-    dbus_interface = new dbusapi.Api();
+    dbus_interface = new dbusapi.Api({ revision });
 
     dbus_interface.connect('toggle', toggle);
     dbus_interface.connect('activate', activate);

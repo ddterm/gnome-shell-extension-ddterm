@@ -76,6 +76,13 @@ var Api = GObject.registerClass(
                 GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
                 Meta.Rectangle
             ),
+            'revision': GObject.ParamSpec.string(
+                'revision',
+                '',
+                '',
+                GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+                ''
+            ),
         },
         'Signals': {
             'toggle': {
@@ -129,6 +136,10 @@ var Api = GObject.registerClass(
 
         get Version() {
             return `${Me.metadata.version}`;
+        }
+
+        get Revision() {
+            return this.revision;
         }
 
         get target_rect() {

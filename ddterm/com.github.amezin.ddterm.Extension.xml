@@ -15,5 +15,6 @@
 
         <property type="(iiii)" name="TargetRect" access="read"/>
         <property type="s" name="Version" access="read"/>
+        <property type="s" name="Revision" access="read"/>
     </interface>
 </node>
