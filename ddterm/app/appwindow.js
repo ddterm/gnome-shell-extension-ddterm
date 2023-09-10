@@ -131,7 +131,7 @@ var AppWindow = GObject.registerClass(
                 // eslint-disable-next-line max-len
                 dbus_object_path: `${this.application.get_dbus_object_path()}/window/${this.get_id()}/notebook`,
             });
-            grid.attach(this.notebook, 1, 2, 1, 1);
+            grid.attach(this.notebook, 1, 1, 1, 1);
 
             this.connect('notify::tab-label-width', this.update_tab_label_width.bind(this));
             this.connect('configure-event', this.update_tab_label_width.bind(this));
@@ -221,12 +221,6 @@ var AppWindow = GObject.registerClass(
                 Gio.SettingsBindFlags.GET
             );
 
-            this.banners = new Gtk.Box({
-                visible: true,
-                orientation: Gtk.Orientation.VERTICAL,
-            });
-            grid.attach(this.banners, 1, 1, 1, 1);
-
             const add_resize_box = (edge, x, y, orientation) => {
                 const box = make_resizer(orientation);
                 box.connect('button-press-event', this.start_resizing.bind(this, edge));
@@ -241,10 +235,10 @@ var AppWindow = GObject.registerClass(
                 update_visible();
             };
 
-            add_resize_box(Gdk.WindowEdge.SOUTH, 1, 3, Gtk.Orientation.HORIZONTAL);
+            add_resize_box(Gdk.WindowEdge.SOUTH, 1, 2, Gtk.Orientation.HORIZONTAL);
             add_resize_box(Gdk.WindowEdge.NORTH, 1, 0, Gtk.Orientation.HORIZONTAL);
-            add_resize_box(Gdk.WindowEdge.EAST, 2, 2, Gtk.Orientation.VERTICAL);
-            add_resize_box(Gdk.WindowEdge.WEST, 0, 2, Gtk.Orientation.VERTICAL);
+            add_resize_box(Gdk.WindowEdge.EAST, 2, 1, Gtk.Orientation.VERTICAL);
+            add_resize_box(Gdk.WindowEdge.WEST, 0, 1, Gtk.Orientation.VERTICAL);
 
             this.settings.bind(
                 'window-resizable',
@@ -483,26 +477,6 @@ var AppWindow = GObject.registerClass(
 
             if (this.window)
                 this.window.resize(target_w, target_h);
-        }
-
-        show_version_mismatch_warning() {
-            const warning = new Gtk.InfoBar({
-                message_type: Gtk.MessageType.WARNING,
-                show_close_button: true,
-                visible: true,
-                revealed: true,
-            });
-
-            warning.get_content_area().add(new Gtk.Label({
-                visible: true,
-                label: translations.gettext(
-                    'Warning: ddterm version has changed. ' +
-                    'Log out, then log in again to load the updated extension.'
-                ),
-            }));
-
-            warning.connect('response', widget => widget.destroy());
-            this.banners.add(warning);
         }
 
         update_tab_label_width() {

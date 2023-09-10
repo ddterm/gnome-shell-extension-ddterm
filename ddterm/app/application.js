@@ -186,8 +186,6 @@ var Application = GObject.registerClass(
                 this.bind_shortcut(action, key);
             });
 
-            this.metadata = JSON.parse(this.resources.text_files.get('metadata.json'));
-
             Gtk.IconTheme.get_default().append_search_path(
                 this.resources.get_file('ddterm/app/icons').get_path()
             );
@@ -262,15 +260,6 @@ var Application = GObject.registerClass(
                 if (source === this.window)
                     this.window = null;
             });
-
-            if (this.extension_dbus.Version !== `${this.metadata.version}`) {
-                printerr(
-                    'ddterm extension version mismatch! ' +
-                    `app: ${this.metadata.version} extension: ${this.extension_dbus.Version}`
-                );
-
-                this.window.show_version_mismatch_warning();
-            }
 
             return this.window;
         }
