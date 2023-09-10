@@ -104,6 +104,7 @@ var TerminalPage = GObject.registerClass(
             });
 
             this.tab_label = new tablabel.TabLabel({ visible_window: false });
+            this.connect('destroy', () => this.tab_label.destroy());
             this.tab_label.connect('close', () => this.close());
 
             this.bind_property(
@@ -267,8 +268,6 @@ var TerminalPage = GObject.registerClass(
             this.insert_action_group('terminal', terminal_actions);
 
             this.terminal.connect('child-exited', () => this.destroy());
-
-            this.connect('destroy', () => this.tab_label.destroy());
         }
 
         get_cwd() {
