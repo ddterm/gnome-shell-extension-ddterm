@@ -315,17 +315,34 @@ var Notebook = GObject.registerClass(
                     connection.unexport_action_group(action_group_id);
                 });
 
-                this.dbus_interface = new DBusInterface(this);
                 this.dbus_object = Gio.DBusObjectSkeleton.new(this.dbus_object_path);
-                this.dbus_object.add_interface(this.dbus_interface.skeleton);
-                this.dbus_object_manager.export(this.dbus_object);
+                this.dbus_interface = new DBusInterface(this);
 
                 this.connect('destroy', () => {
                     this.dbus_object.flush();
                     this.dbus_object_manager.unexport(this.dbus_object.get_object_path());
-                    this.dbus_object.remove_interface(this.dbus_interface.skeleton);
+                    this._export_dbus_interface(false);
                 });
+
+                this.connect('notify::current-child', () => {
+                    this._export_dbus_interface(this._current_child !== null);
+                });
+
+                this._export_dbus_interface(this._current_child !== null);
+                this.dbus_object_manager.export(this.dbus_object);
             }
+        }
+
+        _export_dbus_interface(should_export) {
+            const existing = this.dbus_object.get_interface(this.dbus_interface.info.name);
+
+            if (Boolean(existing) === Boolean(should_export))
+                return;
+
+            if (should_export)
+                this.dbus_object.add_interface(this.dbus_interface.skeleton);
+            else
+                this.dbus_object.remove_interface(this.dbus_interface.skeleton);
         }
 
         on_page_added(child, page_num) {
@@ -532,6 +549,13 @@ class DBusInterface {
 
         notebook.connect('page-added', on_pages_changed);
         notebook.connect('page-removed', on_pages_changed);
+
+        notebook.connect('notify::current-child', () => {
+            this.skeleton.emit_property_changed(
+                'ActivePage',
+                notebook.current_child ? GLib.Variant.new_object_path(this.ActivePage) : null
+            );
+        });
     }
 
     get NPages() {
@@ -546,5 +570,9 @@ class DBusInterface {
         });
 
         return result;
+    }
+
+    get ActivePage() {
+        return this.notebook.current_child.dbus_object_path;
     }
 }

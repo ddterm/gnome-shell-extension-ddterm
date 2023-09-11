@@ -5,5 +5,6 @@
     <interface name="com.github.amezin.ddterm.Notebook">
         <property type="ao" name="Pages" access="read"/>
         <property type="u" name="NPages" access="read"/>
+        <property type="o" name="ActivePage" access="read"/>
     </interface>
 </node>
