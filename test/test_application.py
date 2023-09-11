@@ -33,14 +33,19 @@ def wait_action_in_group_enabled(group, action, enabled=True):
             w.wait()
 
 
-def compare_heap_dumps(dump_pre, dump_post):
+def compare_heap_dumps(dump_pre, dump_post, ignore=[]):
+    ignore_args = [
+        '--no-gray-roots',
+        '--no-weak-maps',
+    ]
+
+    for ignore_node in ignore:
+        ignore_args.extend(('--hide-node', ignore_node))
+
     heapgraph_argv = [
         sys.executable,
         str(SRC_DIR / 'tools' / 'heapgraph.py'),
-        '--hide-node',
-        '_init/Gtk',
-        '--no-gray-roots',
-        '--no-weak-maps',
+        *ignore_args,
         '--diff-heap',
         str(dump_pre),
         str(dump_post),
@@ -148,7 +153,7 @@ class TestApp(ddterm_fixtures.DDTermFixtures):
             timeout=self.START_STOP_TIMEOUT_MS
         )
 
-        compare_heap_dumps(dump_pre, dump_post)
+        compare_heap_dumps(dump_pre, dump_post, ignore=[])
 
     def test_prefs_leak(self, heap_dump_api, heap_dump_dir, app_actions):
         wait_action_in_group(app_actions, 'preferences')
@@ -177,7 +182,7 @@ class TestApp(ddterm_fixtures.DDTermFixtures):
             timeout=self.START_STOP_TIMEOUT_MS
         )
 
-        compare_heap_dumps(dump_pre, dump_post)
+        compare_heap_dumps(dump_pre, dump_post, ignore=['_init/Gtk'])
 
     def test_manifest(self, container):
         container.exec(
