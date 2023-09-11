@@ -315,12 +315,15 @@ var Notebook = GObject.registerClass(
                     connection.unexport_action_group(action_group_id);
                 });
 
+                this.dbus_interface = new DBusInterface(this);
                 this.dbus_object = Gio.DBusObjectSkeleton.new(this.dbus_object_path);
+                this.dbus_object.add_interface(this.dbus_interface.skeleton);
                 this.dbus_object_manager.export(this.dbus_object);
 
                 this.connect('destroy', () => {
                     this.dbus_object.flush();
                     this.dbus_object_manager.unexport(this.dbus_object.get_object_path());
+                    this.dbus_object.remove_interface(this.dbus_interface.skeleton);
                 });
             }
         }
@@ -504,3 +507,44 @@ var Notebook = GObject.registerClass(
         }
     }
 );
+
+class DBusInterface {
+    constructor(notebook) {
+        this.notebook = notebook;
+
+        this.info = notebook.resources.dbus_interfaces.get(
+            'ddterm/com.github.amezin.ddterm.Notebook.xml'
+        );
+
+        this.skeleton = Gio.DBusExportedObject.wrapJSObject(this.info, this);
+
+        const on_pages_changed = () => {
+            this.skeleton.emit_property_changed(
+                'NPages',
+                GLib.Variant.new_uint32(this.NPages)
+            );
+
+            this.skeleton.emit_property_changed(
+                'Pages',
+                null
+            );
+        };
+
+        notebook.connect('page-added', on_pages_changed);
+        notebook.connect('page-removed', on_pages_changed);
+    }
+
+    get NPages() {
+        return this.notebook.get_n_pages();
+    }
+
+    get Pages() {
+        const result = [];
+
+        this.notebook.foreach(child => {
+            result.push(child.dbus_object_path);
+        });
+
+        return result;
+    }
+}

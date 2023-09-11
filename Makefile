@@ -184,6 +184,7 @@ PACK_CONTENT += \
 	ddterm/com.github.amezin.ddterm.Extension.xml \
 	ddterm/com.github.amezin.ddterm.HeapDump.xml \
 	ddterm/com.github.amezin.ddterm.Terminal.xml \
+	ddterm/com.github.amezin.ddterm.Notebook.xml \
 	ddterm/com.github.amezin.ddterm.desktop.in \
 	ddterm/com.github.amezin.ddterm.service.in \
 	LICENSE \

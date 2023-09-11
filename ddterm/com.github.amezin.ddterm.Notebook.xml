@@ -1,0 +1,9 @@
+<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN"
+    "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+
+<node>
+    <interface name="com.github.amezin.ddterm.Notebook">
+        <property type="ao" name="Pages" access="read"/>
+        <property type="u" name="NPages" access="read"/>
+    </interface>
+</node>
