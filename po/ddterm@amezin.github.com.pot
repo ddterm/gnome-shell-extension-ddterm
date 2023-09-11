@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-10 23:15+0000\n"
+"POT-Creation-Date: 2023-09-11 02:36+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -372,23 +372,23 @@ msgid ""
 "Exponentially decaying parabolic (bounce) tweening, with bounce on both ends"
 msgstr ""
 
-#: ddterm/pref/glade/prefs-animation.ui:181
+#: ddterm/pref/glade/prefs-animation.ui:183
 msgid "_Override default window animations"
 msgstr ""
 
-#: ddterm/pref/glade/prefs-animation.ui:216
+#: ddterm/pref/glade/prefs-animation.ui:218
 msgid "_Show animation:"
 msgstr ""
 
-#: ddterm/pref/glade/prefs-animation.ui:230
+#: ddterm/pref/glade/prefs-animation.ui:232
 msgid "_Hide animation:"
 msgstr ""
 
-#: ddterm/pref/glade/prefs-animation.ui:282
+#: ddterm/pref/glade/prefs-animation.ui:284
 msgid "_Hide animation duration:"
 msgstr ""
 
-#: ddterm/pref/glade/prefs-animation.ui:295
+#: ddterm/pref/glade/prefs-animation.ui:297
 msgid "_Show animation duration:"
 msgstr ""
 

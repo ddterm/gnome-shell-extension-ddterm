@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-10 23:15+0000\n"
+"POT-Creation-Date: 2023-09-11 02:36+0000\n"
 "PO-Revision-Date: 2023-04-25 12:23+0000\n"
 "Last-Translator: yuh <yuhldr@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -373,23 +373,23 @@ msgid ""
 "Exponentially decaying parabolic (bounce) tweening, with bounce on both ends"
 msgstr "指数衰减抛物线(弹跳)渐变，两端都有弹跳"
 
-#: ddterm/pref/glade/prefs-animation.ui:181
+#: ddterm/pref/glade/prefs-animation.ui:183
 msgid "_Override default window animations"
 msgstr "覆盖默认的窗口动画"
 
-#: ddterm/pref/glade/prefs-animation.ui:216
+#: ddterm/pref/glade/prefs-animation.ui:218
 msgid "_Show animation:"
 msgstr "展示动画："
 
-#: ddterm/pref/glade/prefs-animation.ui:230
+#: ddterm/pref/glade/prefs-animation.ui:232
 msgid "_Hide animation:"
 msgstr "隐藏动画："
 
-#: ddterm/pref/glade/prefs-animation.ui:282
+#: ddterm/pref/glade/prefs-animation.ui:284
 msgid "_Hide animation duration:"
 msgstr "隐藏动画持续时间："
 
-#: ddterm/pref/glade/prefs-animation.ui:295
+#: ddterm/pref/glade/prefs-animation.ui:297
 msgid "_Show animation duration:"
 msgstr "显示动画持续时间："
 

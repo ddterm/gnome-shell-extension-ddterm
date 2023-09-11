@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-10 23:15+0000\n"
+"POT-Creation-Date: 2023-09-11 02:36+0000\n"
 "PO-Revision-Date: 2023-03-12 16:07+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/gnome-"
@@ -382,23 +382,23 @@ msgstr ""
 "Eksponentielt avtagende parabolisk (sprett-) mellomtegning, med sprett i "
 "begge ender"
 
-#: ddterm/pref/glade/prefs-animation.ui:181
+#: ddterm/pref/glade/prefs-animation.ui:183
 msgid "_Override default window animations"
 msgstr "_Overstyr forvalgte vindusanimasjoner"
 
-#: ddterm/pref/glade/prefs-animation.ui:216
+#: ddterm/pref/glade/prefs-animation.ui:218
 msgid "_Show animation:"
 msgstr "_Vis animasjon:"
 
-#: ddterm/pref/glade/prefs-animation.ui:230
+#: ddterm/pref/glade/prefs-animation.ui:232
 msgid "_Hide animation:"
 msgstr "_Skjul animasjon:"
 
-#: ddterm/pref/glade/prefs-animation.ui:282
+#: ddterm/pref/glade/prefs-animation.ui:284
 msgid "_Hide animation duration:"
 msgstr "_Skjul animasjonsvarighet:"
 
-#: ddterm/pref/glade/prefs-animation.ui:295
+#: ddterm/pref/glade/prefs-animation.ui:297
 msgid "_Show animation duration:"
 msgstr "_Vis animasjonsvarighet:"
 

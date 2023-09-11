@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-10 23:15+0000\n"
+"POT-Creation-Date: 2023-09-11 02:36+0000\n"
 "PO-Revision-Date: 2023-04-03 13:37+0000\n"
 "Last-Translator: Jörn Weigend <das.jott@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/gnome-shell-"
@@ -375,23 +375,23 @@ msgid ""
 "Exponentially decaying parabolic (bounce) tweening, with bounce on both ends"
 msgstr "Exponentiell abklingend, geschwungen, mit Sprung an Anfang und Ende"
 
-#: ddterm/pref/glade/prefs-animation.ui:181
+#: ddterm/pref/glade/prefs-animation.ui:183
 msgid "_Override default window animations"
 msgstr "Standard Fensteranimationen überschreiben"
 
-#: ddterm/pref/glade/prefs-animation.ui:216
+#: ddterm/pref/glade/prefs-animation.ui:218
 msgid "_Show animation:"
 msgstr "Animation beim Anzeigen:"
 
-#: ddterm/pref/glade/prefs-animation.ui:230
+#: ddterm/pref/glade/prefs-animation.ui:232
 msgid "_Hide animation:"
 msgstr "Animation beim Verbergen:"
 
-#: ddterm/pref/glade/prefs-animation.ui:282
+#: ddterm/pref/glade/prefs-animation.ui:284
 msgid "_Hide animation duration:"
 msgstr "Dauer der Animation beim Verbergen:"
 
-#: ddterm/pref/glade/prefs-animation.ui:295
+#: ddterm/pref/glade/prefs-animation.ui:297
 msgid "_Show animation duration:"
 msgstr "_Dauer der Animantion beim Anzeigen:"
 
