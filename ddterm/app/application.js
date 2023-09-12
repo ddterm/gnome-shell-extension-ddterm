@@ -84,6 +84,15 @@ var Application = GObject.registerClass(
                 null
             );
 
+            this.add_main_option(
+                'version',
+                0,
+                GLib.OptionFlags.NONE,
+                GLib.OptionArg.NONE,
+                'Show version information and exit',
+                null
+            );
+
             this.connect('activate', this.activate.bind(this));
             this.connect('handle-local-options', this.handle_local_options.bind(this));
             this.connect('startup', this.startup.bind(this));
@@ -201,6 +210,13 @@ var Application = GObject.registerClass(
         }
 
         handle_local_options(_, options) {
+            if (options.lookup('version')) {
+                const metadata = JSON.parse(this.resources.text_files.get('metadata.json'));
+                const revision = this.resources.text_files.get('revision.txt').trim();
+                print(metadata.name, metadata.version, 'revision', revision);
+                return 0;
+            }
+
             const allowed_gdk_backends = options.lookup('allowed-gdk-backends');
 
             if (allowed_gdk_backends)
