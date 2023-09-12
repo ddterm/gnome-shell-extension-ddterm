@@ -375,7 +375,7 @@ function set_skip_taskbar() {
 function read_revision() {
     try {
         const [ok_, data] = Me.dir.get_child('revision.txt').load_contents(null);
-        return ByteArray.toString(data);
+        return ByteArray.toString(data).trim();
     } catch (ex) {
         if (ex instanceof GLib.Error &&
             ex.matches(Gio.io_error_quark(), Gio.IOErrorEnum.NOT_FOUND))
