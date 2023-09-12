@@ -53,8 +53,8 @@ Vagrant.configure("2") do |config|
     end
   end
 
-  config.vm.define "debian11", autostart: false do |version|
-    version.vm.box = "debian/bullseye64"
+  config.vm.define "debian12", autostart: false do |version|
+    version.vm.box = "debian/bookworm64"
 
     if Vagrant.has_plugin?('vagrant-libvirt', '> 0.5.3')
       # Official Debian images have no qemu guest agent preinstalled
