@@ -27,7 +27,8 @@ To build the extension package, you should have the following tools installed:
 - `gtk-builder-tool` (`libgtk-3-bin` package on Ubuntu, `gtk3-devel` on Fedora,
 `gtk3` package on Arch)
 
-- `gtk4-builder-tool` (`gtk4-devel` package on Fedora, `gtk4` package on Arch)
+- `gtk4-builder-tool` (`libgtk-4-bin` package on Ubuntu, `gtk4-devel` package
+on Fedora, `gtk4` package on Arch)
 
 - `xsltproc` (`xsltproc` package on Ubuntu, `libxslt` on Fedora and Arch)
 
