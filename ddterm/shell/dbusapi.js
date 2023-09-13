@@ -23,30 +23,7 @@ const { GLib, GObject, Gio, Meta } = imports.gi;
 const ByteArray = imports.byteArray;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-
-function report_dbus_error_async(e, invocation) {
-    if (e instanceof GLib.Error) {
-        invocation.return_gerror(e);
-        return;
-    }
-
-    let name = e.name;
-    if (!name.includes('.'))
-        name = `org.gnome.gjs.JSError.${name}`;
-
-    logError(e, `Exception in method call: ${invocation.get_method_name()}`);
-    invocation.return_dbus_error(name, e.message);
-}
-
-function handle_dbus_method_call_async(func, params, invocation) {
-    try {
-        Promise.resolve(func(...params)).then(result => {
-            invocation.return_value(result === undefined ? null : result);
-        }).catch(e => report_dbus_error_async(e, invocation));
-    } catch (e) {
-        report_dbus_error_async(e, invocation);
-    }
-}
+const { util } = Me.imports.ddterm;
 
 function meta_rect_to_list(meta_rect) {
     return [
@@ -114,15 +91,15 @@ var Api = GObject.registerClass(
         }
 
         ToggleAsync(params, invocation) {
-            handle_dbus_method_call_async(() => this.emit('toggle'), params, invocation);
+            util.dbus.handle_method_call_async(() => this.emit('toggle'), params, invocation);
         }
 
         ActivateAsync(params, invocation) {
-            handle_dbus_method_call_async(() => this.emit('activate'), params, invocation);
+            util.dbus.handle_method_call_async(() => this.emit('activate'), params, invocation);
         }
 
         ServiceAsync(params, invocation) {
-            handle_dbus_method_call_async(() => this.emit('service'), params, invocation);
+            util.dbus.handle_method_call_async(() => this.emit('service'), params, invocation);
         }
 
         GetTargetRect() {

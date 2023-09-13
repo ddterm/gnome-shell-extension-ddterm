@@ -27,6 +27,7 @@ const Main = imports.ui.main;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 
 const ddterm = imports.ui.main.extensionManager.lookup('ddterm@amezin.github.com');
+const { util } = ddterm.imports.ddterm;
 const { extension, wm } = ddterm.imports.ddterm.shell;
 
 function get_monitor_manager() {
@@ -34,30 +35,6 @@ function get_monitor_manager() {
         return Meta.MonitorManager.get();
 
     return global.backend.get_monitor_manager();
-}
-
-function report_dbus_error_async(e, invocation) {
-    if (e instanceof GLib.Error) {
-        invocation.return_gerror(e);
-        return;
-    }
-
-    let name = e.name;
-    if (!name.includes('.'))
-        name = `org.gnome.gjs.JSError.${name}`;
-
-    logError(e, `Exception in method call: ${invocation.get_method_name()}`);
-    invocation.return_dbus_error(name, e.message);
-}
-
-function handle_dbus_method_call_async(func, params, invocation) {
-    try {
-        Promise.resolve(func(...params)).then(result => {
-            invocation.return_value(result === undefined ? null : result);
-        }).catch(e => report_dbus_error_async(e, invocation));
-    } catch (e) {
-        report_dbus_error_async(e, invocation);
-    }
 }
 
 function disconnect_traced(obj, handler) {
@@ -124,7 +101,7 @@ class ExtensionTestDBusInterface {
     }
 
     ToggleAsync(params, invocation) {
-        handle_dbus_method_call_async(extension.toggle, params, invocation);
+        util.dbus.handle_method_call_async(extension.toggle, params, invocation);
     }
 
     GetNMonitors() {
