@@ -1,0 +1,17 @@
+<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN"
+    "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+
+<node>
+    <interface name="com.github.amezin.ddterm.Launcher">
+        <method name="CreateTerminal">
+            <arg name="options" type="a{sv}" direction="in"/>
+            <arg name="terminal" type="o" direction="out"/>
+        </method>
+
+        <method name="CreateTerminalArgv">
+            <arg name="argv" type="as" direction="in"/>
+            <arg name="options" type="a{sv}" direction="in"/>
+            <arg name="terminal" type="o" direction="out"/>
+        </method>
+    </interface>
+</node>

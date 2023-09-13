@@ -22,8 +22,8 @@
 /* exported Notebook */
 
 const { GLib, GObject, Gio, Gtk, Pango } = imports.gi;
-const { resources, terminalpage, terminalsettings } = imports.ddterm.app;
-const { translations } = imports.ddterm.util;
+const { resources, terminal, terminalpage, terminalsettings } = imports.ddterm.app;
+const { util } = imports.ddterm;
 
 var Notebook = GObject.registerClass(
     {
@@ -146,7 +146,7 @@ var Notebook = GObject.registerClass(
 
             this.new_tab_button = new Gtk.Button({
                 image: Gtk.Image.new_from_icon_name('list-add', Gtk.IconSize.MENU),
-                tooltip_text: translations.gettext('New Tab (Last)'),
+                tooltip_text: util.translations.gettext('New Tab (Last)'),
                 action_name: 'notebook.new-tab',
                 relief: Gtk.ReliefStyle.NONE,
                 visible: true,
@@ -188,7 +188,7 @@ var Notebook = GObject.registerClass(
 
             this.new_tab_front_button = new Gtk.Button({
                 image: Gtk.Image.new_from_icon_name('list-add', Gtk.IconSize.MENU),
-                tooltip_text: translations.gettext('New Tab (First)'),
+                tooltip_text: util.translations.gettext('New Tab (First)'),
                 action_name: 'notebook.new-tab-front',
                 relief: Gtk.ReliefStyle.NONE,
                 visible: true,
@@ -317,11 +317,13 @@ var Notebook = GObject.registerClass(
 
                 this.dbus_object = Gio.DBusObjectSkeleton.new(this.dbus_object_path);
                 this.dbus_interface = new DBusInterface(this);
+                this.launcher_dbus_interface = new LauncherDBusInterface(this);
 
                 this.connect('destroy', () => {
                     this.dbus_object.flush();
                     this.dbus_object_manager.unexport(this.dbus_object.get_object_path());
                     this._export_dbus_interface(false);
+                    this.dbus_object.remove_interface(this.launcher_dbus_interface.skeleton);
                 });
 
                 this.connect('notify::current-child', () => {
@@ -329,6 +331,7 @@ var Notebook = GObject.registerClass(
                 });
 
                 this._export_dbus_interface(this._current_child !== null);
+                this.dbus_object.add_interface(this.launcher_dbus_interface.skeleton);
                 this.dbus_object_manager.export(this.dbus_object);
             }
         }
@@ -574,5 +577,82 @@ class DBusInterface {
 
     get ActivePage() {
         return this.notebook.current_child.dbus_object_path;
+    }
+}
+
+class LauncherDBusInterface {
+    constructor(notebook) {
+        this.notebook = notebook;
+
+        this.info = notebook.resources.dbus_interfaces.get(
+            'ddterm/com.github.amezin.ddterm.Launcher.xml'
+        );
+
+        this.skeleton = Gio.DBusExportedObject.wrapJSObject(this.info, this);
+    }
+
+    static unpack_options(options) {
+        const { position, working_directory, envv } = options;
+
+        return {
+            position: position?.unpack() ?? -1,
+            working_directory: working_directory?.unpack() ?? null,
+            envv: envv?.deepUnpack() ?? null,
+        };
+    }
+
+    create_terminal_async(position, command) {
+        return new Promise((resolve, reject) => {
+            const callback = (...args) => {
+                const [terminal_, pid_, error] = args;
+
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(GLib.Variant.new_tuple(
+                        [GLib.Variant.new_object_path(page.dbus_object_path)]
+                    ));
+                }
+            };
+
+            const page = this.notebook.new_page(position, command, -1, callback);
+        });
+    }
+
+    create_terminal_default_async(options = {}) {
+        const { position, working_directory, envv } =
+            LauncherDBusInterface.unpack_options(options);
+
+        const command = this.notebook.get_command_from_settings(working_directory, envv);
+        return this.create_terminal_async(position, command);
+    }
+
+    create_terminal_argv_async(argv, options = {}) {
+        const { position, working_directory, envv } =
+            LauncherDBusInterface.unpack_options(options);
+
+        const command = new terminal.TerminalCommand({
+            argv,
+            envv,
+            working_directory,
+        });
+
+        return this.create_terminal_async(position, command);
+    }
+
+    CreateTerminalAsync(params, invocation) {
+        util.dbus.handle_method_call_async(
+            this.create_terminal_default_async.bind(this),
+            params,
+            invocation
+        );
+    }
+
+    CreateTerminalArgvAsync(params, invocation) {
+        util.dbus.handle_method_call_async(
+            this.create_terminal_argv_async.bind(this),
+            params,
+            invocation
+        );
     }
 }
