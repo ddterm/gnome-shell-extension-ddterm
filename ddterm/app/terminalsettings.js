@@ -178,6 +178,22 @@ var TerminalSettings = GObject.registerClass(
                 settings: this,
             });
         }
+
+        get_command(working_directory = null, envv = null) {
+            switch (this.command) {
+            case Command.CUSTOM_COMMAND:
+                return terminal.TerminalCommand.parse(this.custom_command, working_directory, envv);
+
+            case Command.USER_SHELL_LOGIN:
+                return terminal.TerminalCommand.login_shell(working_directory, envv);
+
+            case Command.USER_SHELL:
+                return terminal.TerminalCommand.shell(working_directory, envv);
+
+            default:
+                throw new Error(`Unknown command type ${this.command}`);
+            }
+        }
     }
 );
 

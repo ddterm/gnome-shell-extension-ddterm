@@ -203,8 +203,12 @@ var Notebook = GObject.registerClass(
             );
 
             const actions = {
-                'new-tab': this.new_page.bind(this, -1),
-                'new-tab-front': this.new_page.bind(this, 0),
+                'new-tab': () => {
+                    this.new_page(-1);
+                },
+                'new-tab-front': () => {
+                    this.new_page(0);
+                },
                 'new-tab-before-current': () => {
                     this.new_page(this.get_current_page());
                 },
@@ -392,9 +396,7 @@ var Notebook = GObject.registerClass(
             return this.current_child?.get_cwd() ?? null;
         }
 
-        new_page(position) {
-            const cwd = this.terminal_settings.preserve_working_directory ? this.get_cwd() : null;
-
+        new_empty_page(position = -1) {
             const page = new terminalpage.TerminalPage({
                 resources: this.resources,
                 terminal_settings: this.terminal_settings,
@@ -404,7 +406,24 @@ var Notebook = GObject.registerClass(
             const index = this.insert_page_menu(page, page.tab_label, page.menu_label, position);
             this.set_current_page(index);
             this.grab_focus();
-            page.spawn_configured_command(cwd);
+
+            return page;
+        }
+
+        get_command_from_settings(working_directory = null, envv = null) {
+            if (!working_directory && this.terminal_settings.preserve_working_directory)
+                working_directory = this.get_cwd();
+
+            return this.terminal_settings.get_command(working_directory, envv);
+        }
+
+        new_page(position = -1, command = null, timeout = -1, callback = null) {
+            if (!command)
+                command = this.get_command_from_settings();
+
+            const page = this.new_empty_page(position);
+            page.spawn(command, timeout, callback);
+            return page;
         }
 
         update_tab_switch_actions() {

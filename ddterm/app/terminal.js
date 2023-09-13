@@ -19,10 +19,10 @@
 
 'use strict';
 
-const { GLib, GObject, Gdk, Vte } = imports.gi;
+const { GLib, GObject, Gio, Gdk, Vte } = imports.gi;
 const { tcgetpgrp, urldetect } = imports.ddterm.app;
 
-/* exported Terminal TerminalColors PALETTE_SIZE */
+/* exported Terminal TerminalColors TerminalCommand PALETTE_SIZE */
 
 var PALETTE_SIZE = 16;
 
@@ -69,6 +69,89 @@ var TerminalColors = GObject.registerClass(
                 ...Object.fromEntries(
                     palette.map((value, index) => [PALETTE_PROPERTIES[index], value])
                 ),
+            });
+        }
+    }
+);
+
+var TerminalCommand = GObject.registerClass(
+    {
+        Properties: {
+            'argv': GObject.ParamSpec.boxed(
+                'argv',
+                '',
+                '',
+                GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+                GObject.type_from_name('GStrv')
+            ),
+            'envv': GObject.ParamSpec.boxed(
+                'envv',
+                '',
+                '',
+                GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+                GObject.type_from_name('GStrv')
+            ),
+            'working-directory': GObject.ParamSpec.object(
+                'working-directory',
+                '',
+                '',
+                GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+                Gio.File
+            ),
+            'search-path': GObject.ParamSpec.boolean(
+                'search-path',
+                '',
+                '',
+                GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+                true
+            ),
+            'file-and-argv-zero': GObject.ParamSpec.boolean(
+                'file-and-argv-zero',
+                '',
+                '',
+                GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+                false
+            ),
+        },
+    },
+    class DDTermTerminalCommand extends GObject.Object {
+        get spawn_flags() {
+            let result = GLib.SpawnFlags.DEFAULT;
+
+            if (this.search_path)
+                result |= GLib.SpawnFlags.SEARCH_PATH_FROM_ENVP;
+
+            if (this.file_and_argv_zero)
+                result |= GLib.SpawnFlags.FILE_AND_ARGV_ZERO;
+
+            return result;
+        }
+
+        static shell(working_directory = null, envv = null, login = false) {
+            const shell = Vte.get_user_shell();
+            const name = GLib.path_get_basename(shell);
+            const argv = [shell, login ? `-${name}` : name];
+
+            return new TerminalCommand({
+                argv,
+                envv,
+                working_directory,
+                search_path: name === shell,
+                file_and_argv_zero: true,
+            });
+        }
+
+        static login_shell(working_directory = null, envv = null) {
+            return TerminalCommand.shell(working_directory, envv, true);
+        }
+
+        static parse(command, working_directory = null, envv = null) {
+            const [_, argv] = GLib.shell_parse_argv(command);
+
+            return new TerminalCommand({
+                argv,
+                envv,
+                working_directory,
             });
         }
     }
@@ -268,10 +351,12 @@ var Terminal = GObject.registerClass(
             const uri = this.current_directory_uri;
 
             if (uri)
-                return GLib.filename_from_uri(uri)[0];
+                return Gio.File.new_for_uri(uri);
 
             try {
-                return GLib.file_read_link(`/proc/${this.child_pid}/cwd`);
+                return Gio.File.new_for_path(
+                    GLib.file_read_link(`/proc/${this.child_pid}/cwd`)
+                );
             } catch {
                 return null;
             }
@@ -341,40 +426,26 @@ var Terminal = GObject.registerClass(
             throw new Error('Not implemented');
         }
 
-        spawn_shell(login = false, cwd = null, callback = null) {
-            const shell = Vte.get_user_shell();
-            const name = GLib.path_get_basename(shell);
-            const argv = [shell, login ? `-${name}` : name];
-            const spawn_flags = GLib.SpawnFlags.FILE_AND_ARGV_ZERO |
-                (name === shell ? GLib.SpawnFlags.SEARCH_PATH_FROM_ENVP : 0);
+        spawn(command_object, timeout = -1, callback = null) {
+            const error_callback = (...args) => {
+                const [terminal, pid_, error] = args;
+
+                if (error)
+                    terminal.feed(error.message);
+
+                callback?.(...args);
+            };
 
             this.spawn_async(
                 Vte.PtyFlags.DEFAULT,
-                cwd,
-                argv,
+                command_object.working_directory?.get_path() ?? null,
+                command_object.argv,
+                command_object.envv,
+                command_object.spawn_flags,
                 null,
-                spawn_flags,
+                timeout,
                 null,
-                -1,
-                null,
-                callback
-            );
-        }
-
-        spawn_command(command, cwd = null, callback = null) {
-            const [_, argv] = GLib.shell_parse_argv(command);
-            const spawn_flags = GLib.SpawnFlags.SEARCH_PATH_FROM_ENVP;
-
-            this.spawn_async(
-                Vte.PtyFlags.DEFAULT,
-                cwd,
-                argv,
-                null,
-                spawn_flags,
-                null,
-                -1,
-                null,
-                callback
+                error_callback
             );
         }
 
