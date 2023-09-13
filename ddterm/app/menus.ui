@@ -74,7 +74,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <section>
       <item>
         <attribute name="label" translatable="yes">Close</attribute>
-        <attribute name="action">page.close</attribute>
+        <attribute name="action">terminal.close</attribute>
       </item>
       <item>
         <attribute name="label" translatable="yes">Keep Open After Exit</attribute>
@@ -166,18 +166,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <section>
       <item>
         <attribute name="label" translatable="yes">Use Custom Tab Title</attribute>
-        <attribute name="action">page.use-custom-title</attribute>
+        <attribute name="action">terminal.use-custom-title</attribute>
         <attribute name="target" type="b">true</attribute>
       </item>
       <item>
         <attribute name="label" translatable="yes">Use Default Tab Title</attribute>
-        <attribute name="action">page.use-custom-title</attribute>
+        <attribute name="action">terminal.use-custom-title</attribute>
         <attribute name="target" type="b">false</attribute>
       </item>
     </section>
     <item>
       <attribute name="label" translatable="yes">Close</attribute>
-      <attribute name="action">page.close</attribute>
+      <attribute name="action">terminal.close</attribute>
     </item>
     <item>
       <attribute name="label" translatable="yes">Keep Open After Exit</attribute>
@@ -186,11 +186,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <section>
       <item>
         <attribute name="label" translatable="yes">New Tab Before This Tab</attribute>
-        <attribute name="action">page.new-tab-before</attribute>
+        <attribute name="action">terminal.new-tab-before</attribute>
       </item>
       <item>
         <attribute name="label" translatable="yes">New Tab After This Tab</attribute>
-        <attribute name="action">page.new-tab-after</attribute>
+        <attribute name="action">terminal.new-tab-after</attribute>
       </item>
       <item>
         <attribute name="label" translatable="yes">New Tab Before First Tab</attribute>

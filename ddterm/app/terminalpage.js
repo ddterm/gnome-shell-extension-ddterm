@@ -153,11 +153,11 @@ var TerminalPage = GObject.registerClass(
             this.terminal_popup_menu = this.setup_popup_menu(this.terminal, 'terminal-popup');
             this.setup_popup_menu(this.tab_label, 'tab-popup');
 
-            const page_actions = new Gio.SimpleActionGroup();
+            const actions = new Gio.SimpleActionGroup();
 
             const close_action = new Gio.SimpleAction({ name: 'close' });
             close_action.connect('activate', () => this.close());
-            page_actions.add_action(close_action);
+            actions.add_action(close_action);
 
             const keep_open_action = new Gio.PropertyAction({
                 name: 'keep-open-after-exit',
@@ -168,11 +168,11 @@ var TerminalPage = GObject.registerClass(
 
             const new_tab_before_action = new Gio.SimpleAction({ name: 'new-tab-before' });
             new_tab_before_action.connect('activate', () => this.emit('new-tab-before-request'));
-            page_actions.add_action(new_tab_before_action);
+            actions.add_action(new_tab_before_action);
 
             const new_tab_after_action = new Gio.SimpleAction({ name: 'new-tab-after' });
             new_tab_after_action.connect('activate', () => this.emit('new-tab-after-request'));
-            page_actions.add_action(new_tab_after_action);
+            actions.add_action(new_tab_after_action);
 
             this._title_binding = null;
             this.connect('notify::use-custom-title', () => {
@@ -199,26 +199,21 @@ var TerminalPage = GObject.registerClass(
                 if (param.get_boolean())
                     this.tab_label.edit();
             });
-            page_actions.add_action(use_custom_title_action);
-
-            this.insert_action_group('page', page_actions);
-            this.tab_label.insert_action_group('page', page_actions);
-
-            const terminal_actions = new Gio.SimpleActionGroup();
+            actions.add_action(use_custom_title_action);
 
             const copy_action = new Gio.SimpleAction({
                 name: 'copy',
                 enabled: this.terminal.get_has_selection(),
             });
             copy_action.connect('activate', this.copy.bind(this));
-            terminal_actions.add_action(copy_action);
+            actions.add_action(copy_action);
 
             const copy_html_action = new Gio.SimpleAction({
                 name: 'copy-html',
                 enabled: this.terminal.get_has_selection(),
             });
             copy_html_action.connect('activate', this.copy_html.bind(this));
-            terminal_actions.add_action(copy_html_action);
+            actions.add_action(copy_html_action);
 
             this.terminal.connect('selection-changed', () => {
                 copy_action.enabled = this.terminal.get_has_selection();
@@ -230,14 +225,14 @@ var TerminalPage = GObject.registerClass(
                 enabled: this.terminal.last_clicked_hyperlink !== null,
             });
             open_hyperlink_action.connect('activate', this.open_hyperlink.bind(this));
-            terminal_actions.add_action(open_hyperlink_action);
+            actions.add_action(open_hyperlink_action);
 
             const copy_hyperlink_action = new Gio.SimpleAction({
                 name: 'copy-hyperlink',
                 enabled: this.terminal.last_clicked_hyperlink !== null,
             });
             copy_hyperlink_action.connect('activate', this.copy_hyperlink.bind(this));
-            terminal_actions.add_action(copy_hyperlink_action);
+            actions.add_action(copy_hyperlink_action);
 
             this.terminal.connect('notify::last-clicked-hyperlink', () => {
                 const enable = this.terminal.last_clicked_hyperlink !== null;
@@ -250,7 +245,7 @@ var TerminalPage = GObject.registerClass(
                 enabled: this.terminal.last_clicked_filename !== null,
             });
             copy_filename_action.connect('activate', this.copy_filename.bind(this));
-            terminal_actions.add_action(copy_filename_action);
+            actions.add_action(copy_filename_action);
 
             this.terminal.connect('notify::last-clicked-filename', () => {
                 const enable = this.terminal.last_clicked_filename !== null;
@@ -259,31 +254,31 @@ var TerminalPage = GObject.registerClass(
 
             const paste_action = new Gio.SimpleAction({ name: 'paste' });
             paste_action.connect('activate', this.paste.bind(this));
-            terminal_actions.add_action(paste_action);
+            actions.add_action(paste_action);
 
             const select_all_action = new Gio.SimpleAction({ name: 'select-all' });
             select_all_action.connect('activate', this.select_all.bind(this));
-            terminal_actions.add_action(select_all_action);
+            actions.add_action(select_all_action);
 
             const reset_action = new Gio.SimpleAction({ name: 'reset' });
             reset_action.connect('activate', this.reset.bind(this));
-            terminal_actions.add_action(reset_action);
+            actions.add_action(reset_action);
 
             const reset_and_clear_action = new Gio.SimpleAction({ name: 'reset-and-clear' });
             reset_and_clear_action.connect('activate', this.reset_and_clear.bind(this));
-            terminal_actions.add_action(reset_and_clear_action);
+            actions.add_action(reset_and_clear_action);
 
             const find_action = new Gio.SimpleAction({ name: 'find' });
             find_action.connect('activate', this.find.bind(this));
-            terminal_actions.add_action(find_action);
+            actions.add_action(find_action);
 
             const find_next_action = new Gio.SimpleAction({ name: 'find-next' });
             find_next_action.connect('activate', this.find_next.bind(this));
-            terminal_actions.add_action(find_next_action);
+            actions.add_action(find_next_action);
 
             const find_prev_action = new Gio.SimpleAction({ name: 'find-prev' });
             find_prev_action.connect('activate', this.find_prev.bind(this));
-            terminal_actions.add_action(find_prev_action);
+            actions.add_action(find_prev_action);
 
             [
                 find_next_action,
@@ -295,7 +290,8 @@ var TerminalPage = GObject.registerClass(
                 GObject.BindingFlags.SYNC_CREATE
             ));
 
-            this.insert_action_group('terminal', terminal_actions);
+            this.insert_action_group('terminal', actions);
+            this.tab_label.insert_action_group('terminal', actions);
 
             this.terminal.connect_after('child-exited', () => {
                 if (!this.keep_open_after_exit)
