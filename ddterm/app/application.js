@@ -60,7 +60,7 @@ var Application = GObject.registerClass(
             this.add_main_option(
                 'activate-only',
                 0,
-                GLib.OptionFlags.NONE,
+                GLib.OptionFlags.HIDDEN,
                 GLib.OptionArg.NONE,
                 'Start the application, but do not show the window',
                 null
@@ -69,7 +69,7 @@ var Application = GObject.registerClass(
             this.add_main_option(
                 'allowed-gdk-backends',
                 0,
-                GLib.OptionFlags.NONE,
+                GLib.OptionFlags.HIDDEN,
                 GLib.OptionArg.STRING,
                 'Comma-separated list of backends that GDK should try to use',
                 null
@@ -78,7 +78,7 @@ var Application = GObject.registerClass(
             this.add_main_option(
                 'allow-heap-dump',
                 0,
-                GLib.OptionFlags.NONE,
+                GLib.OptionFlags.HIDDEN,
                 GLib.OptionArg.NONE,
                 'Enable HeapDump D-Bus interface (for testing/debug)',
                 null
