@@ -93,8 +93,17 @@ var Application = GObject.registerClass(
                 null
             );
 
-            this.connect('activate', this.activate.bind(this));
-            this.connect('handle-local-options', this.handle_local_options.bind(this));
+            this.connect('activate', () => this.activate());
+
+            this.connect('handle-local-options', (_, options) => {
+                try {
+                    return this.handle_local_options(options);
+                } catch (ex) {
+                    logError(ex);
+                    return 1;
+                }
+            });
+
             this.connect('startup', this.startup.bind(this));
         }
 
@@ -209,7 +218,7 @@ var Application = GObject.registerClass(
             this.ensure_window().show();
         }
 
-        handle_local_options(_, options) {
+        handle_local_options(options) {
             if (options.lookup('version')) {
                 const metadata = JSON.parse(this.resources.text_files.get('metadata.json'));
                 const revision = this.resources.text_files.get('revision.txt').trim();
@@ -229,12 +238,7 @@ var Application = GObject.registerClass(
 
             this.flags |= Gio.ApplicationFlags.IS_LAUNCHER;
 
-            try {
-                this.extension_dbus.ServiceSync();
-            } catch (e) {
-                logError(e);
-                return 1;
-            }
+            this.extension_dbus.ServiceSync();
 
             return options.lookup('activate-only') ? 0 : -1;
         }
