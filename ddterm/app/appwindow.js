@@ -378,8 +378,6 @@ var AppWindow = GObject.registerClass(
 
                 this.sync_size_with_extension();
             }
-
-            this.notebook.new_page(0);
         }
 
         setup_draw_handler() {

@@ -272,7 +272,7 @@ var Application = GObject.registerClass(
             return this._extension_dbus;
         }
 
-        ensure_window() {
+        ensure_window(with_terminal = true) {
             if (this.window)
                 return this.window;
 
@@ -289,6 +289,9 @@ var Application = GObject.registerClass(
                 if (source === this.window)
                     this.window = null;
             });
+
+            if (with_terminal)
+                this.window.notebook.new_page();
 
             return this.window;
         }
