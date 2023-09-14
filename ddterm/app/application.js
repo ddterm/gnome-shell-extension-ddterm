@@ -93,7 +93,9 @@ var Application = GObject.registerClass(
                 null
             );
 
-            this.connect('activate', () => this.activate());
+            this.connect('activate', () => {
+                this.ensure_window().show();
+            });
 
             this.connect('handle-local-options', (_, options) => {
                 try {
@@ -212,10 +214,6 @@ var Application = GObject.registerClass(
                 const heap_dumper = new heapdump.HeapDumper(this.resources);
                 heap_dumper.dbus.export(this.get_dbus_connection(), this.get_dbus_object_path());
             }
-        }
-
-        activate() {
-            this.ensure_window().show();
         }
 
         handle_local_options(options) {
