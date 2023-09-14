@@ -267,7 +267,7 @@ var TerminalPage = GObject.registerClass(
 
             this.insert_action_group('terminal', terminal_actions);
 
-            this.terminal.connect('child-exited', () => this.destroy());
+            this.terminal.connect_after('child-exited', () => this.destroy());
         }
 
         get_cwd() {

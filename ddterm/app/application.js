@@ -19,9 +19,22 @@
 
 'use strict';
 
+const System = imports.system;
+
 const { GLib, GObject, Gio, Gdk, Gtk } = imports.gi;
 
-const { gtktheme, heapdump, resources, terminalsettings } = imports.ddterm.app;
+const { gtktheme, heapdump, resources, terminal, terminalsettings } = imports.ddterm.app;
+
+function WEXITSTATUS(status) {
+    return (status >> 8) & 0xff;
+}
+
+function schedule_gc() {
+    GLib.idle_add(GLib.PRIORITY_DEFAULT, () => {
+        System.gc();
+        return GLib.SOURCE_REMOVE;
+    });
+}
 
 var Application = GObject.registerClass(
     {
@@ -93,6 +106,54 @@ var Application = GObject.registerClass(
                 null
             );
 
+            this.add_main_option(
+                GLib.OPTION_REMAINING,
+                0,
+                GLib.OptionFlags.NONE,
+                GLib.OptionArg.STRING_ARRAY,
+                'Run the specified command',
+                null
+            );
+
+            this.set_option_context_parameter_string('[-- COMMAND…]');
+            this.flags |= Gio.ApplicationFlags.HANDLES_COMMAND_LINE;
+
+            this.add_main_option(
+                'wait',
+                0,
+                GLib.OptionFlags.NONE,
+                GLib.OptionArg.NONE,
+                'Wait for the command to exit, and return its exit code',
+                null
+            );
+
+            this.add_main_option(
+                'working-directory',
+                0,
+                GLib.OptionFlags.NONE,
+                GLib.OptionArg.STRING,
+                'Set the working directory',
+                null
+            );
+
+            this.add_main_option(
+                'no-environment',
+                0,
+                GLib.OptionFlags.NONE,
+                GLib.OptionArg.NONE,
+                'Do not pass the environment',
+                null
+            );
+
+            this.add_main_option(
+                'tab',
+                0,
+                GLib.OptionFlags.NONE,
+                GLib.OptionArg.NONE,
+                'Open a new tab',
+                null
+            );
+
             this.connect('activate', () => {
                 this.ensure_window().present_with_time(Gdk.CURRENT_TIME);
             });
@@ -103,6 +164,18 @@ var Application = GObject.registerClass(
                 } catch (ex) {
                     logError(ex);
                     return 1;
+                }
+            });
+
+            this.connect('command-line', (_, command_line) => {
+                try {
+                    return this.command_line(command_line);
+                } catch (ex) {
+                    logError(ex);
+                    return 1;
+                } finally {
+                    // https://gitlab.gnome.org/GNOME/glib/-/issues/596
+                    schedule_gc();
                 }
             });
 
@@ -249,7 +322,60 @@ var Application = GObject.registerClass(
 
             this.extension_dbus.ServiceSync();
 
+            if (!options.lookup('no-environment'))
+                this.flags |= Gio.ApplicationFlags.SEND_ENVIRONMENT;
+
             return options.lookup('activate-only') ? 0 : -1;
+        }
+
+        command_line(command_line) {
+            const options = command_line.get_options_dict();
+            const argv = options.lookup(GLib.OPTION_REMAINING, 'as', true);
+            const working_directory_arg = options.lookup('working-directory');
+            const wait = options.lookup('wait');
+
+            if (!argv?.length && !options.lookup('tab') && !working_directory_arg && !wait) {
+                this.activate();
+                return 0;
+            }
+
+            const envv = command_line.get_environ();
+            const working_directory =
+                command_line.create_file_for_arg(working_directory_arg ?? '');
+
+            const notebook = this.ensure_window(false).notebook;
+            const command = argv?.length
+                ? new terminal.TerminalCommand({ argv, envv, working_directory })
+                : notebook.get_command_from_settings(working_directory, envv);
+
+            const page = notebook.new_empty_page();
+            let exit_status = 0;
+
+            const set_exit_status = value => {
+                if (!command_line)
+                    return;
+
+                exit_status = value;
+                command_line.set_exit_status(value);
+
+                // https://gitlab.gnome.org/GNOME/glib/-/issues/596
+                command_line = null;
+                schedule_gc();
+            };
+
+            if (wait) {
+                page.terminal.connect('child-exited', (terminal_, status) => {
+                    set_exit_status(WEXITSTATUS(status));
+                });
+            }
+
+            page.spawn(command, -1, (terminal_, pid, error) => {
+                if (error || !wait)
+                    set_exit_status(error ? 1 : 0);
+            });
+
+            this.activate();
+            return exit_status;
         }
 
         get extension_dbus() {
