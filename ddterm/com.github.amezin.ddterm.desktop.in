@@ -6,6 +6,7 @@ Icon=utilities-terminal
 Exec="@LAUNCHER@"
 Categories=Utility;
 StartupWMClass=Com.github.amezin.ddterm
+StartupNotify=true
 DBusActivatable=true
 Actions=toggle;preferences;
 OnlyShowIn=GNOME;
