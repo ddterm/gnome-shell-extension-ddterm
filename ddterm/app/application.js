@@ -317,6 +317,9 @@ var Application = GObject.registerClass(
                 object_path,
             });
 
+            this.launcher_dbus_interface = new LauncherDBusInterface(this);
+            this.launcher_dbus_interface.skeleton.export(connection, object_path);
+
             if (this.allow_heap_dump) {
                 this.heap_dump_dbus_interface = new heapdump.HeapDumper(this.resources);
                 this.heap_dump_dbus_interface.dbus.export(connection, object_path);
@@ -327,6 +330,7 @@ var Application = GObject.registerClass(
 
         vfunc_dbus_unregister(connection, object_path) {
             this.dbus_object_manager.set_connection(null);
+            this.launcher_dbus_interface.skeleton.unexport_from_connection(connection);
 
             if (this.allow_heap_dump)
                 this.heap_dump_dbus_interface.dbus.unexport_from_connection(connection);
@@ -540,3 +544,29 @@ var Application = GObject.registerClass(
 );
 
 /* exported Application */
+
+class LauncherDBusInterface {
+    constructor(application) {
+        this.application = application;
+
+        this.info = application.resources.dbus_interfaces.get(
+            'ddterm/com.github.amezin.ddterm.Launcher.xml'
+        );
+
+        this.skeleton = Gio.DBusExportedObject.wrapJSObject(this.info, this);
+    }
+
+    get_delegate() {
+        const notebook = this.application.ensure_window(false).notebook;
+
+        return notebook.launcher_dbus_interface;
+    }
+
+    CreateTerminalAsync(params, invocation) {
+        return this.get_delegate().CreateTerminalAsync(params, invocation);
+    }
+
+    CreateTerminalArgvAsync(params, invocation) {
+        return this.get_delegate().CreateTerminalArgvAsync(params, invocation);
+    }
+}
