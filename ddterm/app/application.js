@@ -209,11 +209,22 @@ var Application = GObject.registerClass(
             Gtk.IconTheme.get_default().append_search_path(
                 this.resources.get_file('ddterm/app/icons').get_path()
             );
+        }
 
+        vfunc_dbus_register(connection, object_path) {
             if (this.allow_heap_dump) {
-                const heap_dumper = new heapdump.HeapDumper(this.resources);
-                heap_dumper.dbus.export(this.get_dbus_connection(), this.get_dbus_object_path());
+                this.heap_dump_dbus_interface = new heapdump.HeapDumper(this.resources);
+                this.heap_dump_dbus_interface.dbus.export(connection, object_path);
             }
+
+            return super.vfunc_dbus_register(connection, object_path);
+        }
+
+        vfunc_dbus_unregister(connection, object_path) {
+            if (this.allow_heap_dump)
+                this.heap_dump_dbus_interface.dbus.unexport_from_connection(connection);
+
+            return super.vfunc_dbus_unregister(connection, object_path);
         }
 
         handle_local_options(options) {
