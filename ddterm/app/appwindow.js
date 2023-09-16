@@ -282,7 +282,7 @@ var AppWindow = GObject.registerClass(
 
             const actions = {
                 'toggle': this.toggle.bind(this),
-                'show': () => this.show(),
+                'show': () => this.present_with_time(Gdk.CURRENT_TIME),
                 'hide': () => this.hide(),
                 'window-size-dec': () => {
                     if (this.settings.get_boolean('window-maximize'))
@@ -404,7 +404,7 @@ var AppWindow = GObject.registerClass(
             if (this.visible)
                 this.hide();
             else
-                this.show();
+                this.present_with_time(Gdk.CURRENT_TIME);
         }
 
         start_resizing(edge, source, event) {

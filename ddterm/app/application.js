@@ -94,7 +94,7 @@ var Application = GObject.registerClass(
             );
 
             this.connect('activate', () => {
-                this.ensure_window().show();
+                this.ensure_window().present_with_time(Gdk.CURRENT_TIME);
             });
 
             this.connect('handle-local-options', (_, options) => {
