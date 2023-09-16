@@ -116,7 +116,9 @@ var Application = GObject.registerClass(
             );
 
             this.set_option_context_parameter_string('[-- COMMAND…]');
-            this.flags |= Gio.ApplicationFlags.HANDLES_COMMAND_LINE;
+            this.flags |=
+                Gio.ApplicationFlags.HANDLES_COMMAND_LINE |
+                Gio.ApplicationFlags.HANDLES_OPEN;
 
             this.add_main_option(
                 'wait',
@@ -177,6 +179,13 @@ var Application = GObject.registerClass(
                     // https://gitlab.gnome.org/GNOME/glib/-/issues/596
                     schedule_gc();
                 }
+            });
+
+            this.connect('open', (_, files) => {
+                for (const file of files)
+                    this.open_file(file);
+
+                this.activate();
             });
 
             this.connect('startup', this.startup.bind(this));
@@ -376,6 +385,17 @@ var Application = GObject.registerClass(
 
             this.activate();
             return exit_status;
+        }
+
+        open_file(file) {
+            const file_type = file.query_file_type(Gio.FileQueryInfoFlags.NONE, null);
+            const notebook = this.ensure_window(false).notebook;
+            const command = file_type === Gio.FileType.DIRECTORY
+                ? notebook.get_command_from_settings(file)
+                : new terminal.TerminalCommand({ argv: [file.get_path()] });
+
+            notebook.new_page(-1, command);
+            this.activate();
         }
 
         get extension_dbus() {
