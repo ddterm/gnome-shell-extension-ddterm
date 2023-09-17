@@ -83,6 +83,10 @@ class TestApp(ddterm_fixtures.DDTermFixtures):
             '/com/github/amezin/ddterm/window/1/notebook'
         )
 
+    @pytest.fixture(autouse=True)
+    def enable_screenshots(self, x11_display, screencap):
+        screencap.enable(x11_display)
+
     @pytest.fixture
     def run_app(self, ddterm_extension_interface, test_extension_interface, app_actions):
         ddterm_extension_interface.Activate(timeout=self.START_STOP_TIMEOUT_MS)
