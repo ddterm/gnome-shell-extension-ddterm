@@ -111,17 +111,9 @@ class TestApp(ddterm_fixtures.DDTermFixtures):
                 while app_running() or has_window():
                     w.wait()
 
-    @pytest.fixture(scope='class')
-    def heap_dump_dir(self, tmp_path_factory):
-        path = tmp_path_factory.mktemp('heap')
-        path.chmod(0o777)
-        return path
-
-    @pytest.fixture(scope='class')
-    def container_volumes(self, container_volumes, heap_dump_dir):
-        return container_volumes + (
-            (heap_dump_dir, heap_dump_dir),
-        )
+    @pytest.fixture(autouse=True)
+    def configure_tmp_dir(self, tmp_path):
+        tmp_path.chmod(0o777)
 
     @pytest.fixture
     def heap_dump_api(self, user_bus_connection, run_app):
@@ -133,13 +125,13 @@ class TestApp(ddterm_fixtures.DDTermFixtures):
             timeout=self.START_STOP_TIMEOUT_MS
         )
 
-    def test_tab_leak(self, heap_dump_api, heap_dump_dir, notebook_actions):
+    def test_tab_leak(self, heap_dump_api, tmp_path, notebook_actions):
         wait_action_in_group(notebook_actions, 'new-tab')
         wait_action_in_group(notebook_actions, 'close-current-tab')
 
         heap_dump_api.GC(timeout=self.START_STOP_TIMEOUT_MS)
         dump_pre = heap_dump_api.Dump(
-            '(s)', str(heap_dump_dir),
+            '(s)', str(tmp_path),
             timeout=self.START_STOP_TIMEOUT_MS
         )
 
@@ -149,13 +141,13 @@ class TestApp(ddterm_fixtures.DDTermFixtures):
 
         heap_dump_api.GC(timeout=self.START_STOP_TIMEOUT_MS)
         dump_post = heap_dump_api.Dump(
-            '(s)', str(heap_dump_dir),
+            '(s)', str(tmp_path),
             timeout=self.START_STOP_TIMEOUT_MS
         )
 
         compare_heap_dumps(dump_pre, dump_post, ignore=[])
 
-    def test_prefs_leak(self, heap_dump_api, heap_dump_dir, app_actions):
+    def test_prefs_leak(self, heap_dump_api, tmp_path, app_actions):
         wait_action_in_group(app_actions, 'preferences')
         wait_action_in_group_enabled(app_actions, 'close-preferences', False)
 
@@ -169,7 +161,7 @@ class TestApp(ddterm_fixtures.DDTermFixtures):
 
         heap_dump_api.GC(timeout=self.START_STOP_TIMEOUT_MS)
         dump_pre = heap_dump_api.Dump(
-            '(s)', str(heap_dump_dir),
+            '(s)', str(tmp_path),
             timeout=self.START_STOP_TIMEOUT_MS
         )
 
@@ -178,7 +170,7 @@ class TestApp(ddterm_fixtures.DDTermFixtures):
 
         heap_dump_api.GC(timeout=self.START_STOP_TIMEOUT_MS)
         dump_post = heap_dump_api.Dump(
-            '(s)', str(heap_dump_dir),
+            '(s)', str(tmp_path),
             timeout=self.START_STOP_TIMEOUT_MS
         )
 
