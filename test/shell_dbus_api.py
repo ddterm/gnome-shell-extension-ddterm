@@ -23,6 +23,12 @@ class GnomeShellDBusApi:
             timeout=max(0, deadline - GLib.get_monotonic_time() // 1000)
         )
 
+    def get_extension_info(self, uuid, timeout=None):
+        if timeout is None:
+            timeout = self.extensions_interface.get_default_timeout()
+
+        return self.extensions_interface.GetExtensionInfo('(s)', uuid, timeout=timeout)
+
     def enable_extension(self, uuid, timeout=None):
         if timeout is None:
             timeout = self.extensions_interface.get_default_timeout()
@@ -42,8 +48,7 @@ class GnomeShellDBusApi:
             )
 
             while True:
-                info = self.extensions_interface.GetExtensionInfo(
-                    '(s)',
+                info = self.get_extension_info(
                     uuid,
                     timeout=max(0, deadline - GLib.get_monotonic_time() // 1000)
                 )
@@ -55,6 +60,8 @@ class GnomeShellDBusApi:
 
         assert info['error'] == ''
         assert info['state'] == 1
+
+        return info
 
     @property
     def version(self):

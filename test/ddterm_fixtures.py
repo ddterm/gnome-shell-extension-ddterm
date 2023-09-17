@@ -34,7 +34,14 @@ class DDTermFixtures(container_fixtures.ContainerFixtures):
 
     @pytest.fixture(scope='class')
     def enable_ddterm_extension(self, shell_dbus_api, ddterm_metadata):
-        shell_dbus_api.enable_extension(ddterm_metadata['uuid'], timeout=self.START_STOP_TIMEOUT_MS)
+        return shell_dbus_api.enable_extension(
+            ddterm_metadata['uuid'],
+            timeout=self.START_STOP_TIMEOUT_MS
+        )
+
+    @pytest.fixture(scope='class')
+    def ddterm_extension_info(self, enable_ddterm_extension):
+        return enable_ddterm_extension
 
     @pytest.fixture(scope='class')
     def ddterm_extension_interface(self, user_bus_connection, enable_ddterm_extension):
@@ -48,7 +55,14 @@ class DDTermFixtures(container_fixtures.ContainerFixtures):
 
     @pytest.fixture(scope='class')
     def enable_test_extension(self, shell_dbus_api, test_metadata, enable_ddterm_extension):
-        shell_dbus_api.enable_extension(test_metadata['uuid'], timeout=self.START_STOP_TIMEOUT_MS)
+        return shell_dbus_api.enable_extension(
+            test_metadata['uuid'],
+            timeout=self.START_STOP_TIMEOUT_MS
+        )
+
+    @pytest.fixture(scope='class')
+    def test_extension_info(self, enable_test_extension):
+        return enable_test_extension
 
     @pytest.fixture(scope='class')
     def test_extension_interface(self, user_bus_connection, enable_test_extension, log_sync):

@@ -88,6 +88,10 @@ class TestApp(ddterm_fixtures.DDTermFixtures):
         screencap.enable(x11_display)
 
     @pytest.fixture
+    def app_executable(self, ddterm_extension_info):
+        return pathlib.PurePosixPath(ddterm_extension_info['path']) / 'com.github.amezin.ddterm'
+
+    @pytest.fixture
     def run_app(self, ddterm_extension_interface, test_extension_interface, app_actions):
         ddterm_extension_interface.Activate(timeout=self.START_STOP_TIMEOUT_MS)
 
@@ -142,6 +146,47 @@ class TestApp(ddterm_fixtures.DDTermFixtures):
         notebook_actions.activate_action('new-tab', None)
         notebook_actions.activate_action('close-current-tab', None)
         time.sleep(0.5)
+
+        heap_dump_api.GC(timeout=self.START_STOP_TIMEOUT_MS)
+        dump_post = heap_dump_api.Dump(
+            '(s)', str(tmp_path),
+            timeout=self.START_STOP_TIMEOUT_MS
+        )
+
+        compare_heap_dumps(dump_pre, dump_post, ignore=[])
+
+    def test_cli_leak(self, container, heap_dump_api, tmp_path, app_executable):
+        test_file = tmp_path / 'testfile'
+
+        container.exec(
+            str(app_executable),
+            '--wait',
+            '--',
+            'bash',
+            '-c',
+            f'echo 1 >{shlex.quote(str(test_file))}',
+            user=container.user,
+        )
+
+        assert test_file.read_text() == '1\n'
+
+        heap_dump_api.GC(timeout=self.START_STOP_TIMEOUT_MS)
+        dump_pre = heap_dump_api.Dump(
+            '(s)', str(tmp_path),
+            timeout=self.START_STOP_TIMEOUT_MS
+        )
+
+        container.exec(
+            str(app_executable),
+            '--wait',
+            '--',
+            'bash',
+            '-c',
+            f'echo 2 >{shlex.quote(str(test_file))}',
+            user=container.user,
+        )
+
+        assert test_file.read_text() == '2\n'
 
         heap_dump_api.GC(timeout=self.START_STOP_TIMEOUT_MS)
         dump_post = heap_dump_api.Dump(
