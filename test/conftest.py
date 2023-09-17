@@ -155,7 +155,7 @@ def container_create_lock(request):
 
 
 @pytest.fixture(scope='session')
-def container_volumes(ddterm_metadata, test_metadata, extension_pack):
+def container_volumes(ddterm_metadata, test_metadata, extension_pack, tmp_path_factory):
     sys_install_dir = gnome_container.GnomeContainer.extensions_system_install_path()
 
     if extension_pack:
@@ -163,8 +163,12 @@ def container_volumes(ddterm_metadata, test_metadata, extension_pack):
     else:
         install_mount = (SRC_DIR, sys_install_dir / ddterm_metadata['uuid'], 'ro')
 
+    basetemp = tmp_path_factory.getbasetemp()
+    basetemp.chmod(0o777)
+
     return (
         (SRC_DIR, SRC_DIR, 'ro'),
         install_mount,
         (TEST_SRC_DIR, sys_install_dir / test_metadata['uuid'], 'ro'),
+        (basetemp, basetemp)
     )
