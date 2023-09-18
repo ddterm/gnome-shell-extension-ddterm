@@ -33,14 +33,17 @@ def wait_action_in_group_enabled(group, action, enabled=True):
             w.wait()
 
 
-def compare_heap_dumps(dump_pre, dump_post, ignore=[]):
+def compare_heap_dumps(dump_pre, dump_post, hide_node=[], hide_edge=[]):
     ignore_args = [
         '--no-gray-roots',
         '--no-weak-maps',
     ]
 
-    for ignore_node in ignore:
-        ignore_args.extend(('--hide-node', ignore_node))
+    for node in hide_node:
+        ignore_args.extend(('--hide-node', node))
+
+    for edge in hide_edge:
+        ignore_args.extend(('--hide-edge', edge))
 
     heapgraph_argv = [
         sys.executable,
@@ -87,43 +90,23 @@ class TestApp(ddterm_fixtures.DDTermFixtures):
     def enable_screenshots(self, x11_display, screencap):
         screencap.enable(x11_display)
 
-    @pytest.fixture
-    def app_executable(self, ddterm_extension_info):
+    @pytest.fixture(scope='class')
+    def app_executable(self, ddterm_extension_info, enable_test_extension):
         return pathlib.PurePosixPath(ddterm_extension_info['path']) / 'com.github.amezin.ddterm'
 
-    @pytest.fixture
-    def run_app(self, ddterm_extension_interface, test_extension_interface, app_actions):
-        ddterm_extension_interface.Activate(timeout=self.START_STOP_TIMEOUT_MS)
-
-        def app_running():
-            return test_extension_interface.get_cached_property('IsAppRunning').unpack()
-
-        def has_window():
-            return test_extension_interface.get_cached_property('HasWindow').unpack()
-
-        with glib_util.SignalWait(
-            test_extension_interface,
-            'g-properties-changed',
-            timeout=self.START_STOP_TIMEOUT_MS
-        ) as w:
-            while not app_running() or not has_window():
-                w.wait()
-
-        try:
-            yield
-
-        finally:
-            app_actions.activate_action('quit', None)
-
-            with glib_util.SignalWait(test_extension_interface, 'g-properties-changed') as w:
-                while app_running() or has_window():
-                    w.wait()
+    @pytest.fixture(scope='class')
+    def run_app(self, container, app_executable):
+        container.exec(
+            str(app_executable),
+            timeout=self.START_STOP_TIMEOUT_SEC,
+            user=container.user,
+        )
 
     @pytest.fixture(autouse=True)
     def configure_tmp_dir(self, tmp_path):
         tmp_path.chmod(0o777)
 
-    @pytest.fixture
+    @pytest.fixture(scope='class')
     def heap_dump_api(self, user_bus_connection, run_app):
         return dbus_util.wait_interface(
             user_bus_connection,
@@ -153,7 +136,7 @@ class TestApp(ddterm_fixtures.DDTermFixtures):
             timeout=self.START_STOP_TIMEOUT_MS
         )
 
-        compare_heap_dumps(dump_pre, dump_post, ignore=[])
+        compare_heap_dumps(dump_pre, dump_post)
 
     def test_cli_leak(self, container, heap_dump_api, tmp_path, app_executable):
         test_file = tmp_path / 'testfile'
@@ -194,7 +177,7 @@ class TestApp(ddterm_fixtures.DDTermFixtures):
             timeout=self.START_STOP_TIMEOUT_MS
         )
 
-        compare_heap_dumps(dump_pre, dump_post, ignore=[])
+        compare_heap_dumps(dump_pre, dump_post)
 
     def test_prefs_leak(self, heap_dump_api, tmp_path, app_actions):
         wait_action_in_group(app_actions, 'preferences')
@@ -215,7 +198,6 @@ class TestApp(ddterm_fixtures.DDTermFixtures):
         )
 
         open_close_prefs()
-        time.sleep(0.5)
 
         heap_dump_api.GC(timeout=self.START_STOP_TIMEOUT_MS)
         dump_post = heap_dump_api.Dump(
@@ -223,7 +205,12 @@ class TestApp(ddterm_fixtures.DDTermFixtures):
             timeout=self.START_STOP_TIMEOUT_MS
         )
 
-        compare_heap_dumps(dump_pre, dump_post, ignore=['_init/Gtk'])
+        compare_heap_dumps(
+            dump_pre,
+            dump_post,
+            hide_node=['_init/Gtk'],
+            hide_edge=['cacheir-object']
+        )
 
     def test_manifest(self, container):
         container.exec(
