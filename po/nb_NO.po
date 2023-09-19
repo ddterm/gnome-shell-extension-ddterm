@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-19 07:03+0000\n"
+"POT-Creation-Date: 2023-09-19 07:39+0000\n"
 "PO-Revision-Date: 2023-03-12 16:07+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/gnome-"
@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 4.16.2-dev\n"
 
-#: ddterm/app/appwindow.js:112 ddterm/shell/extension.js:393
+#: ddterm/app/appwindow.js:111 ddterm/shell/extension.js:393
 #: ddterm/shell/extension.js:409
 msgid "Drop Down Terminal"
 msgstr "Rullegardinsterminal"
@@ -79,7 +79,7 @@ msgstr "Tilbakestill"
 msgid "Reset and Clear"
 msgstr "Tilbakestill og tøm"
 
-#: ddterm/app/menus.ui:76 ddterm/app/menus.ui:179 ddterm/app/tablabel.js:112
+#: ddterm/app/menus.ui:76 ddterm/app/menus.ui:179 ddterm/app/tablabel.js:110
 msgid "Close"
 msgstr "Lukk"
 
@@ -109,11 +109,11 @@ msgstr "Ny fane før første"
 msgid "New Tab After Last Tab"
 msgstr "Ny fane etter siste"
 
-#: ddterm/app/menus.ui:106 ddterm/pref/dialog.js:45
+#: ddterm/app/menus.ui:106 ddterm/pref/dialog.js:43
 msgid "Preferences"
 msgstr "Innstillinger"
 
-#: ddterm/app/menus.ui:109 ddterm/app/menus.ui:215 ddterm/shell/panelicon.js:82
+#: ddterm/app/menus.ui:109 ddterm/app/menus.ui:215 ddterm/shell/panelicon.js:79
 msgid "Preferences..."
 msgstr "Innstillinger …"
 
@@ -181,47 +181,47 @@ msgstr "Flytt fane til forrige posisjon"
 msgid "Move Tab to Next Position"
 msgstr "Flytt fane til neste posisjon"
 
-#: ddterm/app/notebook.js:149
+#: ddterm/app/notebook.js:147
 msgid "New Tab (Last)"
 msgstr "Ny fane (sist)"
 
-#: ddterm/app/notebook.js:191
+#: ddterm/app/notebook.js:189
 msgid "New Tab (First)"
 msgstr "Ny fane (først)"
 
-#: ddterm/app/search.js:218
+#: ddterm/app/search.js:214
 msgid "Case Sensitive"
 msgstr "Forskjell på små og store bokstaver"
 
-#: ddterm/app/search.js:234
+#: ddterm/app/search.js:230
 msgid "Match Whole Word"
 msgstr "Jamfør hele ord"
 
-#: ddterm/app/search.js:250
+#: ddterm/app/search.js:246
 msgid "Regular Expression"
 msgstr "Regulært uttrykk"
 
-#: ddterm/app/search.js:318
+#: ddterm/app/search.js:314
 msgid "Close Search Bar"
 msgstr "Lukk søkefelt"
 
-#: ddterm/app/search.js:329
+#: ddterm/app/search.js:325
 msgid "Wrap Around"
 msgstr "Linjebryt rundt"
 
-#: ddterm/app/search.js:345 ddterm/pref/glade/prefs-shortcuts.ui:248
+#: ddterm/app/search.js:341 ddterm/pref/glade/prefs-shortcuts.ui:248
 msgid "Find Next"
 msgstr "Finn neste"
 
-#: ddterm/app/search.js:363 ddterm/pref/glade/prefs-shortcuts.ui:255
+#: ddterm/app/search.js:359 ddterm/pref/glade/prefs-shortcuts.ui:255
 msgid "Find Previous"
 msgstr "Finn forrige"
 
-#: ddterm/app/terminalpage.js:443
+#: ddterm/app/terminalpage.js:441
 msgid "Close this terminal?"
 msgstr "Lukk denne terminalen?"
 
-#: ddterm/app/terminalpage.js:446
+#: ddterm/app/terminalpage.js:444
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."
@@ -229,23 +229,23 @@ msgstr ""
 "Det er fremdeles en kjørende prosess i denne terminalen som drepes hvis den "
 "lukkes."
 
-#: ddterm/pref/animation.js:86
+#: ddterm/pref/animation.js:84
 msgid "Animation"
 msgstr "Animasjon"
 
-#: ddterm/pref/behavior.js:63
+#: ddterm/pref/behavior.js:61
 msgid "Behavior"
 msgstr "Adferd"
 
-#: ddterm/pref/colors.js:462
+#: ddterm/pref/colors.js:454
 msgid "Colors"
 msgstr "Farger"
 
-#: ddterm/pref/command.js:64
+#: ddterm/pref/command.js:62
 msgid "Command"
 msgstr "Kommando"
 
-#: ddterm/pref/compatibility.js:72
+#: ddterm/pref/compatibility.js:70
 msgid "Compatibility"
 msgstr "Kompabilitet"
 
@@ -1147,27 +1147,27 @@ msgstr "Oppdag e-postadresser"
 msgid "Detect news:/man: URLs"
 msgstr "Oppdag nyheter:/man: -nettadresser"
 
-#: ddterm/pref/panelicon.js:49
+#: ddterm/pref/panelicon.js:47
 msgid "Panel Icon"
 msgstr "Panelikon"
 
-#: ddterm/pref/positionsize.js:294
+#: ddterm/pref/positionsize.js:285
 msgid "Position and Size"
 msgstr "Posisjon og størrelse"
 
-#: ddterm/pref/scrolling.js:73
+#: ddterm/pref/scrolling.js:71
 msgid "Scrolling"
 msgstr "Rulling"
 
-#: ddterm/pref/shortcuts.js:111
+#: ddterm/pref/shortcuts.js:109
 msgid "Keyboard Shortcuts"
 msgstr "Tastatursnarveier"
 
-#: ddterm/pref/tabs.js:87
+#: ddterm/pref/tabs.js:85
 msgid "Tabs"
 msgstr "Faner"
 
-#: ddterm/pref/text.js:91
+#: ddterm/pref/text.js:89
 msgid "Text"
 msgstr "Tekst"
 
@@ -1179,7 +1179,7 @@ msgstr ""
 "Advarsel: ddterm-versjonen har endret seg. Logg ut og inn igjen for å laste "
 "inn oppdatert utvidelse."
 
-#: ddterm/shell/panelicon.js:70
+#: ddterm/shell/panelicon.js:67
 msgid "Show"
 msgstr "Vis"
 

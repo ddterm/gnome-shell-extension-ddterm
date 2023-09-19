@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-19 07:03+0000\n"
+"POT-Creation-Date: 2023-09-19 07:39+0000\n"
 "PO-Revision-Date: 2023-03-14 13:45+0000\n"
 "Last-Translator: Aleksandr Mezin <mezin.alexander@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/gnome-shell-"
@@ -17,7 +17,7 @@ msgstr ""
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 4.16.2-dev\n"
 
-#: ddterm/app/appwindow.js:112 ddterm/shell/extension.js:393
+#: ddterm/app/appwindow.js:111 ddterm/shell/extension.js:393
 #: ddterm/shell/extension.js:409
 msgid "Drop Down Terminal"
 msgstr "Выпадающий терминал"
@@ -78,7 +78,7 @@ msgstr "Сбросить"
 msgid "Reset and Clear"
 msgstr "Сбросить и очистить"
 
-#: ddterm/app/menus.ui:76 ddterm/app/menus.ui:179 ddterm/app/tablabel.js:112
+#: ddterm/app/menus.ui:76 ddterm/app/menus.ui:179 ddterm/app/tablabel.js:110
 msgid "Close"
 msgstr "Закрыть"
 
@@ -108,11 +108,11 @@ msgstr "Новая вкладка - Перед первой вкладкой"
 msgid "New Tab After Last Tab"
 msgstr "Новая вкладка - После последней вкладки"
 
-#: ddterm/app/menus.ui:106 ddterm/pref/dialog.js:45
+#: ddterm/app/menus.ui:106 ddterm/pref/dialog.js:43
 msgid "Preferences"
 msgstr "Параметры"
 
-#: ddterm/app/menus.ui:109 ddterm/app/menus.ui:215 ddterm/shell/panelicon.js:82
+#: ddterm/app/menus.ui:109 ddterm/app/menus.ui:215 ddterm/shell/panelicon.js:79
 msgid "Preferences..."
 msgstr "Параметры..."
 
@@ -180,47 +180,47 @@ msgstr "Переместить вкладку на предыдущую пози
 msgid "Move Tab to Next Position"
 msgstr "Переместить вкладку на следующую позицию"
 
-#: ddterm/app/notebook.js:149
+#: ddterm/app/notebook.js:147
 msgid "New Tab (Last)"
 msgstr "Новая вкладка (в конце)"
 
-#: ddterm/app/notebook.js:191
+#: ddterm/app/notebook.js:189
 msgid "New Tab (First)"
 msgstr "Новая вкладка (в начале)"
 
-#: ddterm/app/search.js:218
+#: ddterm/app/search.js:214
 msgid "Case Sensitive"
 msgstr "Чувствительность к регистру"
 
-#: ddterm/app/search.js:234
+#: ddterm/app/search.js:230
 msgid "Match Whole Word"
 msgstr "Совпадение слов целиком"
 
-#: ddterm/app/search.js:250
+#: ddterm/app/search.js:246
 msgid "Regular Expression"
 msgstr "Регулярное выражение"
 
-#: ddterm/app/search.js:318
+#: ddterm/app/search.js:314
 msgid "Close Search Bar"
 msgstr "Закрыть панель поиска"
 
-#: ddterm/app/search.js:329
+#: ddterm/app/search.js:325
 msgid "Wrap Around"
 msgstr "Прокрутка к результату"
 
-#: ddterm/app/search.js:345 ddterm/pref/glade/prefs-shortcuts.ui:248
+#: ddterm/app/search.js:341 ddterm/pref/glade/prefs-shortcuts.ui:248
 msgid "Find Next"
 msgstr "Найти следующее"
 
-#: ddterm/app/search.js:363 ddterm/pref/glade/prefs-shortcuts.ui:255
+#: ddterm/app/search.js:359 ddterm/pref/glade/prefs-shortcuts.ui:255
 msgid "Find Previous"
 msgstr "Найти предыдущее"
 
-#: ddterm/app/terminalpage.js:443
+#: ddterm/app/terminalpage.js:441
 msgid "Close this terminal?"
 msgstr "Закрыть терминал?"
 
-#: ddterm/app/terminalpage.js:446
+#: ddterm/app/terminalpage.js:444
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."
@@ -228,23 +228,23 @@ msgstr ""
 "В терминале запущены процессы. При закрытии терминала эти процессы будут "
 "завершены."
 
-#: ddterm/pref/animation.js:86
+#: ddterm/pref/animation.js:84
 msgid "Animation"
 msgstr "Анимация"
 
-#: ddterm/pref/behavior.js:63
+#: ddterm/pref/behavior.js:61
 msgid "Behavior"
 msgstr "Поведение"
 
-#: ddterm/pref/colors.js:462
+#: ddterm/pref/colors.js:454
 msgid "Colors"
 msgstr "Цвета"
 
-#: ddterm/pref/command.js:64
+#: ddterm/pref/command.js:62
 msgid "Command"
 msgstr "Команда"
 
-#: ddterm/pref/compatibility.js:72
+#: ddterm/pref/compatibility.js:70
 msgid "Compatibility"
 msgstr "Совместимость"
 
@@ -1129,27 +1129,27 @@ msgstr "Адреса E-mail"
 msgid "Detect news:/man: URLs"
 msgstr "Ссылки вида \"news:/man\""
 
-#: ddterm/pref/panelicon.js:49
+#: ddterm/pref/panelicon.js:47
 msgid "Panel Icon"
 msgstr "Значок на панели"
 
-#: ddterm/pref/positionsize.js:294
+#: ddterm/pref/positionsize.js:285
 msgid "Position and Size"
 msgstr "Положение и размер"
 
-#: ddterm/pref/scrolling.js:73
+#: ddterm/pref/scrolling.js:71
 msgid "Scrolling"
 msgstr "Прокрутка"
 
-#: ddterm/pref/shortcuts.js:111
+#: ddterm/pref/shortcuts.js:109
 msgid "Keyboard Shortcuts"
 msgstr "Комбинации клавиш"
 
-#: ddterm/pref/tabs.js:87
+#: ddterm/pref/tabs.js:85
 msgid "Tabs"
 msgstr "Вкладки"
 
-#: ddterm/pref/text.js:91
+#: ddterm/pref/text.js:89
 msgid "Text"
 msgstr "Текст"
 
@@ -1161,7 +1161,7 @@ msgstr ""
 "Внимание: версия ddterm изменилась. Завершите сессию и снова войдите для "
 "применения обновлений расширения."
 
-#: ddterm/shell/panelicon.js:70
+#: ddterm/shell/panelicon.js:67
 msgid "Show"
 msgstr "Показать"
 

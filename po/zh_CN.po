@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-19 07:03+0000\n"
+"POT-Creation-Date: 2023-09-19 07:39+0000\n"
 "PO-Revision-Date: 2023-04-25 12:23+0000\n"
 "Last-Translator: yuh <yuhldr@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 4.18-dev\n"
 
-#: ddterm/app/appwindow.js:112 ddterm/shell/extension.js:393
+#: ddterm/app/appwindow.js:111 ddterm/shell/extension.js:393
 #: ddterm/shell/extension.js:409
 msgid "Drop Down Terminal"
 msgstr "下拉终端"
@@ -79,7 +79,7 @@ msgstr "重置"
 msgid "Reset and Clear"
 msgstr "重置并清除"
 
-#: ddterm/app/menus.ui:76 ddterm/app/menus.ui:179 ddterm/app/tablabel.js:112
+#: ddterm/app/menus.ui:76 ddterm/app/menus.ui:179 ddterm/app/tablabel.js:110
 msgid "Close"
 msgstr "关闭"
 
@@ -109,11 +109,11 @@ msgstr "新建标签页（在第一个标签页之前）"
 msgid "New Tab After Last Tab"
 msgstr "新建标签页（在最后一个标签页之后）"
 
-#: ddterm/app/menus.ui:106 ddterm/pref/dialog.js:45
+#: ddterm/app/menus.ui:106 ddterm/pref/dialog.js:43
 msgid "Preferences"
 msgstr "首选项"
 
-#: ddterm/app/menus.ui:109 ddterm/app/menus.ui:215 ddterm/shell/panelicon.js:82
+#: ddterm/app/menus.ui:109 ddterm/app/menus.ui:215 ddterm/shell/panelicon.js:79
 msgid "Preferences..."
 msgstr "首选项..."
 
@@ -181,69 +181,69 @@ msgstr "移动标签页到上一个位置"
 msgid "Move Tab to Next Position"
 msgstr "移动标签页到下一个位置"
 
-#: ddterm/app/notebook.js:149
+#: ddterm/app/notebook.js:147
 msgid "New Tab (Last)"
 msgstr "新建标签页（最后一个）"
 
-#: ddterm/app/notebook.js:191
+#: ddterm/app/notebook.js:189
 msgid "New Tab (First)"
 msgstr "新建标签页（第一个）"
 
-#: ddterm/app/search.js:218
+#: ddterm/app/search.js:214
 msgid "Case Sensitive"
 msgstr "区分大小写的"
 
-#: ddterm/app/search.js:234
+#: ddterm/app/search.js:230
 msgid "Match Whole Word"
 msgstr "匹配整个单词"
 
-#: ddterm/app/search.js:250
+#: ddterm/app/search.js:246
 msgid "Regular Expression"
 msgstr "正则表达式"
 
-#: ddterm/app/search.js:318
+#: ddterm/app/search.js:314
 msgid "Close Search Bar"
 msgstr "关闭搜索栏"
 
-#: ddterm/app/search.js:329
+#: ddterm/app/search.js:325
 msgid "Wrap Around"
 msgstr "回到文档头部继续搜索"
 
-#: ddterm/app/search.js:345 ddterm/pref/glade/prefs-shortcuts.ui:248
+#: ddterm/app/search.js:341 ddterm/pref/glade/prefs-shortcuts.ui:248
 msgid "Find Next"
 msgstr "查找下一个"
 
-#: ddterm/app/search.js:363 ddterm/pref/glade/prefs-shortcuts.ui:255
+#: ddterm/app/search.js:359 ddterm/pref/glade/prefs-shortcuts.ui:255
 msgid "Find Previous"
 msgstr "找到前一个"
 
-#: ddterm/app/terminalpage.js:443
+#: ddterm/app/terminalpage.js:441
 msgid "Close this terminal?"
 msgstr "关闭这个终端？"
 
-#: ddterm/app/terminalpage.js:446
+#: ddterm/app/terminalpage.js:444
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."
 msgstr "该终端中仍有一个进程在运行。关闭终端，将会销毁该进程。"
 
-#: ddterm/pref/animation.js:86
+#: ddterm/pref/animation.js:84
 msgid "Animation"
 msgstr "动画"
 
-#: ddterm/pref/behavior.js:63
+#: ddterm/pref/behavior.js:61
 msgid "Behavior"
 msgstr "行为"
 
-#: ddterm/pref/colors.js:462
+#: ddterm/pref/colors.js:454
 msgid "Colors"
 msgstr "颜色"
 
-#: ddterm/pref/command.js:64
+#: ddterm/pref/command.js:62
 msgid "Command"
 msgstr "命令"
 
-#: ddterm/pref/compatibility.js:72
+#: ddterm/pref/compatibility.js:70
 msgid "Compatibility"
 msgstr "兼容性"
 
@@ -1128,27 +1128,27 @@ msgstr "检测邮件地址"
 msgid "Detect news:/man: URLs"
 msgstr "检测新闻、文档URL"
 
-#: ddterm/pref/panelicon.js:49
+#: ddterm/pref/panelicon.js:47
 msgid "Panel Icon"
 msgstr "面板图标"
 
-#: ddterm/pref/positionsize.js:294
+#: ddterm/pref/positionsize.js:285
 msgid "Position and Size"
 msgstr "位置和尺寸"
 
-#: ddterm/pref/scrolling.js:73
+#: ddterm/pref/scrolling.js:71
 msgid "Scrolling"
 msgstr "滚动"
 
-#: ddterm/pref/shortcuts.js:111
+#: ddterm/pref/shortcuts.js:109
 msgid "Keyboard Shortcuts"
 msgstr "键盘快捷键"
 
-#: ddterm/pref/tabs.js:87
+#: ddterm/pref/tabs.js:85
 msgid "Tabs"
 msgstr "标签页"
 
-#: ddterm/pref/text.js:91
+#: ddterm/pref/text.js:89
 msgid "Text"
 msgstr "文本"
 
@@ -1158,7 +1158,7 @@ msgid ""
 "updated extension."
 msgstr "警告：ddterm版本已改变。注销后重新登录，方可生效。"
 
-#: ddterm/shell/panelicon.js:70
+#: ddterm/shell/panelicon.js:67
 msgid "Show"
 msgstr "显示"
 
