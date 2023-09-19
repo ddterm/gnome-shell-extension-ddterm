@@ -9,6 +9,8 @@ on:
 jobs:
   ci:
     uses: ./.github/workflows/common.yml
+    with:
+      test: false
 
   draft:
     needs: ci

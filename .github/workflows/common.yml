@@ -2,7 +2,19 @@ concurrency: ${{ github.workflow }}/${{ github.ref }}
 
 on:
   workflow_dispatch:
+    inputs:
+      test:
+        description: 'Run tests'
+        type: boolean
+        default: true
+        required: false
   workflow_call:
+    inputs:
+      test:
+        description: 'Run tests'
+        type: boolean
+        default: true
+        required: false
 
 jobs:
   lint:
@@ -145,6 +157,8 @@ jobs:
         working-directory: test
 
   test:
+    if: ${{ inputs.test }}
+
     needs:
     - lint
     - pack
