@@ -1,5 +1,5 @@
 pkgname=gnome-shell-extension-ddterm-git
-pkgver=44
+pkgver=45
 pkgrel=1
 pkgdesc="Another Drop Down Terminal Extension for GNOME Shell"
 arch=('any')
