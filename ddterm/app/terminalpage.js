@@ -49,6 +49,13 @@ var TerminalPage = GObject.registerClass(
                 GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
                 ''
             ),
+            'use-custom-title': GObject.ParamSpec.boolean(
+                'use-custom-title',
+                '',
+                '',
+                GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+                false
+            ),
         },
         Signals: {
             'new-tab-before-request': {},
@@ -153,23 +160,32 @@ var TerminalPage = GObject.registerClass(
             new_tab_after_action.connect('activate', () => this.emit('new-tab-after-request'));
             page_actions.add_action(new_tab_after_action);
 
-            this.use_custom_title_action = new Gio.SimpleAction({
+            this._title_binding = null;
+            this.connect('notify::use-custom-title', () => {
+                this.update_title_binding();
+            });
+            this.update_title_binding();
+
+            const use_custom_title_action = new Gio.SimpleAction({
                 'name': 'use-custom-title',
-                'state': GLib.Variant.new_boolean(false),
+                'state': GLib.Variant.new_boolean(this.use_custom_title),
                 'parameter-type': GLib.VariantType.new('b'),
             });
-            this.use_custom_title_action.connect('activate', (_, param) => {
-                this.use_custom_title_action.change_state(param);
+            use_custom_title_action.connect('change-state', (_, value) => {
+                this.use_custom_title = value.get_boolean();
+            });
+            this.connect('notify::use-custom-title', () => {
+                use_custom_title_action.set_state(
+                    GLib.Variant.new_boolean(this.use_custom_title)
+                );
+            });
+            use_custom_title_action.connect('activate', (_, param) => {
+                use_custom_title_action.change_state(param);
 
                 if (param.get_boolean())
                     this.tab_label.edit();
             });
-            this._title_binding = null;
-            this.use_custom_title_action.connect('notify::state', () => {
-                this.update_title_binding();
-            });
-            this.update_title_binding();
-            page_actions.add_action(this.use_custom_title_action);
+            page_actions.add_action(use_custom_title_action);
 
             this.insert_action_group('page', page_actions);
             this.tab_label.insert_action_group('page', page_actions);
@@ -274,8 +290,11 @@ var TerminalPage = GObject.registerClass(
             return this.terminal.get_cwd();
         }
 
-        spawn(...args) {
-            return this.terminal.spawn(...args);
+        spawn(command_object, ...args) {
+            if (!this.use_custom_title)
+                this.title = command_object.argv[0];
+
+            return this.terminal.spawn(command_object, ...args);
         }
 
         copy() {
@@ -422,21 +441,21 @@ var TerminalPage = GObject.registerClass(
         }
 
         update_title_binding() {
-            const state = this.use_custom_title_action.state.get_boolean();
+            const enable = !this.use_custom_title;
 
-            if (state === !this._title_binding)
+            if (enable === Boolean(this._title_binding))
                 return;
 
-            if (state) {
-                this._title_binding?.unbind();
-                this._title_binding = null;
-            } else {
+            if (enable) {
                 this._title_binding = this.terminal.bind_property(
                     'window-title',
                     this,
                     'title',
                     GObject.BindingFlags.SYNC_CREATE
                 );
+            } else {
+                this._title_binding?.unbind();
+                this._title_binding = null;
             }
         }
 

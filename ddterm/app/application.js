@@ -139,6 +139,15 @@ var Application = GObject.registerClass(
             );
 
             this.add_main_option(
+                'title',
+                0,
+                GLib.OptionFlags.NONE,
+                GLib.OptionArg.STRING,
+                'Set tab title',
+                null
+            );
+
+            this.add_main_option(
                 'no-environment',
                 0,
                 GLib.OptionFlags.NONE,
@@ -340,24 +349,35 @@ var Application = GObject.registerClass(
         command_line(command_line) {
             const options = command_line.get_options_dict();
             const argv = options.lookup(GLib.OPTION_REMAINING, 'as', true);
-            const working_directory_arg = options.lookup('working-directory');
-            const wait = options.lookup('wait');
 
-            if (!argv?.length && !options.lookup('tab') && !working_directory_arg && !wait) {
+            const has_tab_options =
+                options.contains('working-directory') |
+                options.contains('title') |
+                options.contains('wait');
+
+            if (!argv?.length && !options.lookup('tab') && !has_tab_options) {
                 this.activate();
                 return 0;
             }
 
             const envv = command_line.get_environ();
             const working_directory =
-                command_line.create_file_for_arg(working_directory_arg ?? '');
+                command_line.create_file_for_arg(options.lookup('working-directory') ?? '');
+
+            const properties = {};
+            const title = options.lookup('title');
+
+            if (title !== null) {
+                properties.title = title;
+                properties.use_custom_title = true;
+            }
 
             const notebook = this.ensure_window(false).notebook;
             const command = argv?.length
                 ? new terminal.TerminalCommand({ argv, envv, working_directory })
                 : notebook.get_command_from_settings(working_directory, envv);
 
-            const page = notebook.new_empty_page();
+            const page = notebook.new_empty_page(-1, properties);
             let exit_status = 0;
 
             const set_exit_status = value => {
@@ -371,6 +391,8 @@ var Application = GObject.registerClass(
                 command_line = null;
                 schedule_gc();
             };
+
+            const wait = options.lookup('wait');
 
             if (wait) {
                 page.terminal.connect('child-exited', (terminal_, status) => {

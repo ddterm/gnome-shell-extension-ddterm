@@ -204,7 +204,7 @@ var Notebook = GObject.registerClass(
 
             const actions = {
                 'new-tab': () => {
-                    this.new_page(-1);
+                    this.new_page();
                 },
                 'new-tab-front': () => {
                     this.new_page(0);
@@ -396,11 +396,12 @@ var Notebook = GObject.registerClass(
             return this.current_child?.get_cwd() ?? null;
         }
 
-        new_empty_page(position = -1) {
+        new_empty_page(position = -1, properties = {}) {
             const page = new terminalpage.TerminalPage({
                 resources: this.resources,
                 terminal_settings: this.terminal_settings,
                 visible: true,
+                ...properties,
             });
 
             const index = this.insert_page_menu(page, page.tab_label, page.menu_label, position);
@@ -417,12 +418,12 @@ var Notebook = GObject.registerClass(
             return this.terminal_settings.get_command(working_directory, envv);
         }
 
-        new_page(position = -1, command = null, timeout = -1, callback = null) {
+        new_page(position = -1, command = null) {
             if (!command)
                 command = this.get_command_from_settings();
 
             const page = this.new_empty_page(position);
-            page.spawn(command, timeout, callback);
+            page.spawn(command);
             return page;
         }
 
