@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-19 06:00+0000\n"
+"POT-Creation-Date: 2023-09-19 07:03+0000\n"
 "PO-Revision-Date: 2023-04-03 13:37+0000\n"
 "Last-Translator: Jörn Weigend <das.jott@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/gnome-shell-"
@@ -79,101 +79,105 @@ msgstr "Zurücksetzen"
 msgid "Reset and Clear"
 msgstr "Zurücksetzen und leeren"
 
-#: ddterm/app/menus.ui:76 ddterm/app/menus.ui:175 ddterm/app/tablabel.js:112
+#: ddterm/app/menus.ui:76 ddterm/app/menus.ui:179 ddterm/app/tablabel.js:112
 msgid "Close"
 msgstr "Schließen"
 
-#: ddterm/app/menus.ui:82
+#: ddterm/app/menus.ui:80 ddterm/app/menus.ui:183
+msgid "Keep Open After Exit"
+msgstr ""
+
+#: ddterm/app/menus.ui:86
 msgid "New Tab"
 msgstr "Neuer Tab"
 
-#: ddterm/app/menus.ui:84 ddterm/pref/glade/prefs-shortcuts.ui:178
+#: ddterm/app/menus.ui:88 ddterm/pref/glade/prefs-shortcuts.ui:178
 msgid "New Tab Before Current Tab"
 msgstr "Neuer Tab vor aktivem Tab"
 
-#: ddterm/app/menus.ui:88 ddterm/pref/glade/prefs-shortcuts.ui:185
+#: ddterm/app/menus.ui:92 ddterm/pref/glade/prefs-shortcuts.ui:185
 msgid "New Tab After Current Tab"
 msgstr "Neuer Tab nach aktivem Tab"
 
-#: ddterm/app/menus.ui:92 ddterm/app/menus.ui:188
+#: ddterm/app/menus.ui:96 ddterm/app/menus.ui:196
 #: ddterm/pref/glade/prefs-shortcuts.ui:171
 msgid "New Tab Before First Tab"
 msgstr "Neuer Tab vor den ersten Tab"
 
-#: ddterm/app/menus.ui:96 ddterm/app/menus.ui:192
+#: ddterm/app/menus.ui:100 ddterm/app/menus.ui:200
 #: ddterm/pref/glade/prefs-shortcuts.ui:164
 msgid "New Tab After Last Tab"
 msgstr "Neuer Tab nach dem letzten Tab"
 
-#: ddterm/app/menus.ui:102 ddterm/pref/dialog.js:45
+#: ddterm/app/menus.ui:106 ddterm/pref/dialog.js:45
 msgid "Preferences"
 msgstr "Einstellungen"
 
-#: ddterm/app/menus.ui:105 ddterm/app/menus.ui:207 ddterm/shell/panelicon.js:82
+#: ddterm/app/menus.ui:109 ddterm/app/menus.ui:215 ddterm/shell/panelicon.js:82
 msgid "Preferences..."
 msgstr "Einstellungen..."
 
-#: ddterm/app/menus.ui:111
+#: ddterm/app/menus.ui:115
 msgid "Above All Windows"
 msgstr "Über allen Fenstern"
 
-#: ddterm/app/menus.ui:115
+#: ddterm/app/menus.ui:119
 msgid "On All Workspaces"
 msgstr "Auf allen Arbeitsflächen"
 
-#: ddterm/app/menus.ui:119
+#: ddterm/app/menus.ui:123
 msgid "Maximize Window"
 msgstr "Fenster maximieren"
 
-#: ddterm/app/menus.ui:123
+#: ddterm/app/menus.ui:127
 msgid "Transparent Background"
 msgstr "Transparenter Hintergrund"
 
-#: ddterm/app/menus.ui:129
+#: ddterm/app/menus.ui:133
 msgid "Hide When Application Loses Focus"
 msgstr "Verstecken wenn nicht mehr im Focus"
 
-#: ddterm/app/menus.ui:133
+#: ddterm/app/menus.ui:137
 msgid "Hide When Esc Key Is Pressed"
 msgstr "Verstecken mit Esc Taste"
 
-#: ddterm/app/menus.ui:139
+#: ddterm/app/menus.ui:143
 msgid "Scroll On Output"
 msgstr "Weiterscrollen durch Ausgabe"
 
-#: ddterm/app/menus.ui:143
+#: ddterm/app/menus.ui:147
 msgid "Scroll On Keystroke"
 msgstr "Weiterscrollen durch Tastendruck"
 
-#: ddterm/app/menus.ui:149
+#: ddterm/app/menus.ui:153
 msgid "Preserve Working Directory In New Tabs"
 msgstr "Arbeitsverzeichnis in neue Tabs übernehmen"
 
-#: ddterm/app/menus.ui:155
+#: ddterm/app/menus.ui:159
 msgid "Enable Keyboard Shortcuts"
 msgstr "Tastenkombinationen aktivieren"
 
-#: ddterm/app/menus.ui:164
+#: ddterm/app/menus.ui:168
 msgid "Use Custom Tab Title"
 msgstr "Eigene Tab-Namen verwenden"
 
-#: ddterm/app/menus.ui:169
+#: ddterm/app/menus.ui:173
 msgid "Use Default Tab Title"
 msgstr "Standard Tab-Namen verwenden"
 
-#: ddterm/app/menus.ui:180
+#: ddterm/app/menus.ui:188
 msgid "New Tab Before This Tab"
 msgstr "Neuer Tab vor diesem Tab"
 
-#: ddterm/app/menus.ui:184
+#: ddterm/app/menus.ui:192
 msgid "New Tab After This Tab"
 msgstr "Neuer Tab nach diesem Tab"
 
-#: ddterm/app/menus.ui:198 ddterm/pref/glade/prefs-shortcuts.ui:213
+#: ddterm/app/menus.ui:206 ddterm/pref/glade/prefs-shortcuts.ui:213
 msgid "Move Tab to Previous Position"
 msgstr "Verschiebe Tab zur vorigen Position"
 
-#: ddterm/app/menus.ui:202 ddterm/pref/glade/prefs-shortcuts.ui:220
+#: ddterm/app/menus.ui:210 ddterm/pref/glade/prefs-shortcuts.ui:220
 msgid "Move Tab to Next Position"
 msgstr "Verschiebe Tab zur nächsten Position"
 
@@ -213,11 +217,11 @@ msgstr "Finde nächstes"
 msgid "Find Previous"
 msgstr "finde vorheriges"
 
-#: ddterm/app/terminalpage.js:426
+#: ddterm/app/terminalpage.js:443
 msgid "Close this terminal?"
 msgstr "Dieses Terminal schließen?"
 
-#: ddterm/app/terminalpage.js:429
+#: ddterm/app/terminalpage.js:446
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."
