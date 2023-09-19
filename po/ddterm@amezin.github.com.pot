@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-11 02:36+0000\n"
+"POT-Creation-Date: 2023-09-19 04:39+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -212,11 +212,11 @@ msgstr ""
 msgid "Find Previous"
 msgstr ""
 
-#: ddterm/app/terminalpage.js:419
+#: ddterm/app/terminalpage.js:407
 msgid "Close this terminal?"
 msgstr ""
 
-#: ddterm/app/terminalpage.js:422
+#: ddterm/app/terminalpage.js:410
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."
