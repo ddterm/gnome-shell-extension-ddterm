@@ -43,49 +43,46 @@ function seconds_formatter(_, value) {
     return SECONDS_FORMAT.format(value);
 }
 
-var Widget = GObject.registerClass(
-    {
-        GTypeName: 'DDTermPrefsAnimation',
-        Template: util.ui_file_uri('prefs-animation.ui'),
-        Children: [
-            'animation_prefs',
-            'show_animation_combo',
-            'hide_animation_combo',
-            'show_animation_duration_scale',
-            'hide_animation_duration_scale',
-        ],
-        Properties: {
-            'settings': GObject.ParamSpec.object(
-                'settings',
-                '',
-                '',
-                GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-                Gio.Settings
-            ),
-        },
+var Widget = GObject.registerClass({
+    GTypeName: 'DDTermPrefsAnimation',
+    Template: util.ui_file_uri('prefs-animation.ui'),
+    Children: [
+        'animation_prefs',
+        'show_animation_combo',
+        'hide_animation_combo',
+        'show_animation_duration_scale',
+        'hide_animation_duration_scale',
+    ],
+    Properties: {
+        'settings': GObject.ParamSpec.object(
+            'settings',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+            Gio.Settings
+        ),
     },
-    class PrefsAnimation extends Gtk.Box {
-        _init(params) {
-            super._init(params);
+}, class PrefsAnimation extends Gtk.Box {
+    _init(params) {
+        super._init(params);
 
-            util.insert_settings_actions(this, this.settings, ['override-window-animation']);
-            util.bind_sensitive(this.settings, 'override-window-animation', this.animation_prefs);
+        util.insert_settings_actions(this, this.settings, ['override-window-animation']);
+        util.bind_sensitive(this.settings, 'override-window-animation', this.animation_prefs);
 
-            util.bind_widgets(this.settings, {
-                'show-animation': this.show_animation_combo,
-                'show-animation-duration': this.show_animation_duration_scale,
-                'hide-animation': this.hide_animation_combo,
-                'hide-animation-duration': this.hide_animation_duration_scale,
-            });
+        util.bind_widgets(this.settings, {
+            'show-animation': this.show_animation_combo,
+            'show-animation-duration': this.show_animation_duration_scale,
+            'hide-animation': this.hide_animation_combo,
+            'hide-animation-duration': this.hide_animation_duration_scale,
+        });
 
-            util.set_scale_value_formatter(this.show_animation_duration_scale, seconds_formatter);
-            util.set_scale_value_formatter(this.hide_animation_duration_scale, seconds_formatter);
-        }
-
-        get title() {
-            return translations.gettext('Animation');
-        }
+        util.set_scale_value_formatter(this.show_animation_duration_scale, seconds_formatter);
+        util.set_scale_value_formatter(this.hide_animation_duration_scale, seconds_formatter);
     }
-);
+
+    get title() {
+        return translations.gettext('Animation');
+    }
+});
 
 /* exported Widget */

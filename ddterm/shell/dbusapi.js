@@ -66,97 +66,94 @@ function meta_rect_to_variant(meta_rect) {
     ]);
 }
 
-var Api = GObject.registerClass(
-    {
-        'Properties': {
-            'target-rect': GObject.ParamSpec.boxed(
-                'target-rect',
-                '',
-                '',
-                GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
-                Meta.Rectangle
-            ),
-            'revision': GObject.ParamSpec.string(
-                'revision',
-                '',
-                '',
-                GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-                ''
-            ),
-        },
-        'Signals': {
-            'toggle': {
-                return_type: GObject.TYPE_JSOBJECT,
-                accumulator: GObject.AccumulatorType.FIRST_WINS,
-            },
-            'activate': {
-                return_type: GObject.TYPE_JSOBJECT,
-                accumulator: GObject.AccumulatorType.FIRST_WINS,
-            },
-            'service': {
-                return_type: GObject.TYPE_JSOBJECT,
-                accumulator: GObject.AccumulatorType.FIRST_WINS,
-            },
-            'refresh-target-rect': {},
-        },
+var Api = GObject.registerClass({
+    Properties: {
+        'target-rect': GObject.ParamSpec.boxed(
+            'target-rect',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+            Meta.Rectangle
+        ),
+        'revision': GObject.ParamSpec.string(
+            'revision',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+            ''
+        ),
     },
-    class DDTermDBusApi extends GObject.Object {
-        _init(params) {
-            super._init(params);
+    Signals: {
+        'toggle': {
+            return_type: GObject.TYPE_JSOBJECT,
+            accumulator: GObject.AccumulatorType.FIRST_WINS,
+        },
+        'activate': {
+            return_type: GObject.TYPE_JSOBJECT,
+            accumulator: GObject.AccumulatorType.FIRST_WINS,
+        },
+        'service': {
+            return_type: GObject.TYPE_JSOBJECT,
+            accumulator: GObject.AccumulatorType.FIRST_WINS,
+        },
+        'refresh-target-rect': {},
+    },
+}, class DDTermDBusApi extends GObject.Object {
+    _init(params) {
+        super._init(params);
 
-            this._target_rect = new Meta.Rectangle({ x: 0, y: 0, width: 0, height: 0 });
+        this._target_rect = new Meta.Rectangle({ x: 0, y: 0, width: 0, height: 0 });
 
-            const xml_file =
-                Me.dir.get_child('ddterm').get_child('com.github.amezin.ddterm.Extension.xml');
+        const xml_file =
+            Me.dir.get_child('ddterm').get_child('com.github.amezin.ddterm.Extension.xml');
 
-            const [_, xml] = xml_file.load_contents(null);
-            this.dbus = Gio.DBusExportedObject.wrapJSObject(ByteArray.toString(xml), this);
-        }
-
-        ToggleAsync(params, invocation) {
-            handle_dbus_method_call_async(() => this.emit('toggle'), params, invocation);
-        }
-
-        ActivateAsync(params, invocation) {
-            handle_dbus_method_call_async(() => this.emit('activate'), params, invocation);
-        }
-
-        ServiceAsync(params, invocation) {
-            handle_dbus_method_call_async(() => this.emit('service'), params, invocation);
-        }
-
-        GetTargetRect() {
-            this.emit('refresh-target-rect');
-            return meta_rect_to_list(this._target_rect);
-        }
-
-        get TargetRect() {
-            return this.GetTargetRect();
-        }
-
-        get Version() {
-            return `${Me.metadata.version}`;
-        }
-
-        get Revision() {
-            return this.revision;
-        }
-
-        get target_rect() {
-            return this._target_rect;
-        }
-
-        set target_rect(value) {
-            if (this._target_rect.equal(value))
-                return;
-
-            this._target_rect = value;
-            this.notify('target-rect');
-
-            this.dbus.emit_property_changed('TargetRect', meta_rect_to_variant(value));
-            this.dbus.flush();
-        }
+        const [_, xml] = xml_file.load_contents(null);
+        this.dbus = Gio.DBusExportedObject.wrapJSObject(ByteArray.toString(xml), this);
     }
-);
+
+    ToggleAsync(params, invocation) {
+        handle_dbus_method_call_async(() => this.emit('toggle'), params, invocation);
+    }
+
+    ActivateAsync(params, invocation) {
+        handle_dbus_method_call_async(() => this.emit('activate'), params, invocation);
+    }
+
+    ServiceAsync(params, invocation) {
+        handle_dbus_method_call_async(() => this.emit('service'), params, invocation);
+    }
+
+    GetTargetRect() {
+        this.emit('refresh-target-rect');
+        return meta_rect_to_list(this._target_rect);
+    }
+
+    get TargetRect() {
+        return this.GetTargetRect();
+    }
+
+    get Version() {
+        return `${Me.metadata.version}`;
+    }
+
+    get Revision() {
+        return this.revision;
+    }
+
+    get target_rect() {
+        return this._target_rect;
+    }
+
+    set target_rect(value) {
+        if (this._target_rect.equal(value))
+            return;
+
+        this._target_rect = value;
+        this.notify('target-rect');
+
+        this.dbus.emit_property_changed('TargetRect', meta_rect_to_variant(value));
+        this.dbus.flush();
+    }
+});
 
 /* exported Api */

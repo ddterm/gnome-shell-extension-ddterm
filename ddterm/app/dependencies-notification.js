@@ -63,132 +63,131 @@ const NOTIFICATIONS_INTERFACE_XML = `
 
 const NotificationsProxy = Gio.DBusProxy.makeProxyWrapper(NOTIFICATIONS_INTERFACE_XML);
 
-const Application = GObject.registerClass(
-    class DDTermMissingDependencyNotificationApplication extends Gio.Application {
-        _init(params) {
-            super._init(params);
+const Application = GObject.registerClass({
+}, class DDTermMissingDependencyNotificationApplication extends Gio.Application {
+    _init(params) {
+        super._init(params);
 
-            this.add_main_option(
-                'package',
-                0,
-                GLib.OptionFlags.NONE,
-                GLib.OptionArg.STRING_ARRAY,
-                'Request package to be installed',
-                'PACKAGE_NAME'
-            );
+        this.add_main_option(
+            'package',
+            0,
+            GLib.OptionFlags.NONE,
+            GLib.OptionArg.STRING_ARRAY,
+            'Request package to be installed',
+            'PACKAGE_NAME'
+        );
 
-            this.add_main_option(
-                'file',
-                0,
-                GLib.OptionFlags.NONE,
-                GLib.OptionArg.STRING_ARRAY,
-                'Request file to be installed',
-                'FILENAME'
-            );
+        this.add_main_option(
+            'file',
+            0,
+            GLib.OptionFlags.NONE,
+            GLib.OptionArg.STRING_ARRAY,
+            'Request file to be installed',
+            'FILENAME'
+        );
 
-            GLib.set_application_name('Drop Down Terminal');
+        GLib.set_application_name('Drop Down Terminal');
 
-            this.notification_id = 0;
+        this.notification_id = 0;
 
-            this.connect('handle-local-options', this.handle_local_options.bind(this));
-            this.connect('startup', this.startup.bind(this));
-            this.connect('activate', this.activate.bind(this));
-            this.connect('shutdown', this.shutdown.bind(this));
-        }
-
-        handle_local_options(_, options) {
-            function get_array_option(key) {
-                const variant_value =
-                    options.lookup_value(key, GLib.VariantType.new('as'));
-
-                const unpacked = variant_value ? variant_value.deepUnpack() : [];
-
-                return Array.from(new Set(unpacked)).sort();
-            }
-
-            this.packages = get_array_option('package');
-            this.files = get_array_option('file');
-
-            return -1;
-        }
-
-        startup() {
-            this.notifications_proxy = NotificationsProxy(
-                this.get_dbus_connection(),
-                'org.freedesktop.Notifications',
-                '/org/freedesktop/Notifications'
-            );
-
-            this.notifications_proxy.connectSignal(
-                'NotificationClosed',
-                (proxy, owner, args) => {
-                    const [notification_id] = args;
-                    this.notification_closed(notification_id);
-                }
-            );
-        }
-
-        activate() {
-            if (this.notification_id)
-                return;
-
-            const message_lines = [
-                translations.gettext('ddterm needs additional packages to run.'),
-            ];
-
-            if (this.packages.length > 0) {
-                message_lines.push(
-                    translations.gettext('Please install the following packages:'),
-                    ...this.packages.map(v => `- ${v}`)
-                );
-            }
-
-            if (this.files.length > 0) {
-                message_lines.push(
-                    translations.gettext(
-                        'Please install packages that provide the following files:'
-                    ),
-                    ...this.files.map(v => `- ${v}`)
-                );
-            }
-
-            const message_body = message_lines.join('\n');
-            printerr(message_body);
-
-            [this.notification_id] = this.notifications_proxy.NotifySync(
-                GLib.get_application_name(),
-                0,
-                '',
-                translations.gettext('Missing dependencies'),
-                message_body,
-                [],
-                [],
-                -1
-            );
-
-            if (this.notification_id)
-                this.hold();
-        }
-
-        notification_closed(notification_id) {
-            if (this.notification_id !== notification_id)
-                return;
-
-            this.notification_id = 0;
-            this.release();
-        }
-
-        shutdown() {
-            const notification_id = this.notification_id;
-
-            if (!notification_id)
-                return;
-
-            this.notification_closed(notification_id); // changes this.notification_id!
-            this.notifications_proxy.CloseNotificationSync(notification_id);
-        }
+        this.connect('handle-local-options', this.handle_local_options.bind(this));
+        this.connect('startup', this.startup.bind(this));
+        this.connect('activate', this.activate.bind(this));
+        this.connect('shutdown', this.shutdown.bind(this));
     }
-);
+
+    handle_local_options(_, options) {
+        function get_array_option(key) {
+            const variant_value =
+                options.lookup_value(key, GLib.VariantType.new('as'));
+
+            const unpacked = variant_value ? variant_value.deepUnpack() : [];
+
+            return Array.from(new Set(unpacked)).sort();
+        }
+
+        this.packages = get_array_option('package');
+        this.files = get_array_option('file');
+
+        return -1;
+    }
+
+    startup() {
+        this.notifications_proxy = NotificationsProxy(
+            this.get_dbus_connection(),
+            'org.freedesktop.Notifications',
+            '/org/freedesktop/Notifications'
+        );
+
+        this.notifications_proxy.connectSignal(
+            'NotificationClosed',
+            (proxy, owner, args) => {
+                const [notification_id] = args;
+                this.notification_closed(notification_id);
+            }
+        );
+    }
+
+    activate() {
+        if (this.notification_id)
+            return;
+
+        const message_lines = [
+            translations.gettext('ddterm needs additional packages to run.'),
+        ];
+
+        if (this.packages.length > 0) {
+            message_lines.push(
+                translations.gettext('Please install the following packages:'),
+                ...this.packages.map(v => `- ${v}`)
+            );
+        }
+
+        if (this.files.length > 0) {
+            message_lines.push(
+                translations.gettext(
+                    'Please install packages that provide the following files:'
+                ),
+                ...this.files.map(v => `- ${v}`)
+            );
+        }
+
+        const message_body = message_lines.join('\n');
+        printerr(message_body);
+
+        [this.notification_id] = this.notifications_proxy.NotifySync(
+            GLib.get_application_name(),
+            0,
+            '',
+            translations.gettext('Missing dependencies'),
+            message_body,
+            [],
+            [],
+            -1
+        );
+
+        if (this.notification_id)
+            this.hold();
+    }
+
+    notification_closed(notification_id) {
+        if (this.notification_id !== notification_id)
+            return;
+
+        this.notification_id = 0;
+        this.release();
+    }
+
+    shutdown() {
+        const notification_id = this.notification_id;
+
+        if (!notification_id)
+            return;
+
+        this.notification_closed(notification_id); // changes this.notification_id!
+        this.notifications_proxy.CloseNotificationSync(notification_id);
+    }
+});
 
 const app = new Application({
     application_id: 'com.github.amezin.ddterm.deps',

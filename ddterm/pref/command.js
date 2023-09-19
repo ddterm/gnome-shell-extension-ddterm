@@ -24,51 +24,48 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 const { util } = Me.imports.ddterm.pref;
 const { translations } = Me.imports.ddterm.util;
 
-var Widget = GObject.registerClass(
-    {
-        GTypeName: 'DDTermPrefsCommand',
-        Template: util.ui_file_uri('prefs-command.ui'),
-        Children: [
-            'custom_command_entry',
-        ],
-        Properties: {
-            'settings': GObject.ParamSpec.object(
-                'settings',
-                '',
-                '',
-                GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-                Gio.Settings
-            ),
-        },
+var Widget = GObject.registerClass({
+    GTypeName: 'DDTermPrefsCommand',
+    Template: util.ui_file_uri('prefs-command.ui'),
+    Children: [
+        'custom_command_entry',
+    ],
+    Properties: {
+        'settings': GObject.ParamSpec.object(
+            'settings',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+            Gio.Settings
+        ),
     },
-    class PrefsCommand extends Gtk.Grid {
-        _init(params) {
-            super._init(params);
+}, class PrefsCommand extends Gtk.Grid {
+    _init(params) {
+        super._init(params);
 
-            util.insert_settings_actions(this, this.settings, [
-                'command',
-                'preserve-working-directory',
-            ]);
+        util.insert_settings_actions(this, this.settings, [
+            'command',
+            'preserve-working-directory',
+        ]);
 
-            util.bind_widget(this.settings, 'custom-command', this.custom_command_entry);
+        util.bind_widget(this.settings, 'custom-command', this.custom_command_entry);
 
-            const handler = this.settings.connect(
-                'changed::command',
-                this.enable_custom_command_entry.bind(this)
-            );
-            this.connect('destroy', () => this.settings.disconnect(handler));
-            this.enable_custom_command_entry();
-        }
-
-        get title() {
-            return translations.gettext('Command');
-        }
-
-        enable_custom_command_entry() {
-            this.custom_command_entry.parent.sensitive =
-                this.settings.get_string('command') === 'custom-command';
-        }
+        const handler = this.settings.connect(
+            'changed::command',
+            this.enable_custom_command_entry.bind(this)
+        );
+        this.connect('destroy', () => this.settings.disconnect(handler));
+        this.enable_custom_command_entry();
     }
-);
+
+    get title() {
+        return translations.gettext('Command');
+    }
+
+    enable_custom_command_entry() {
+        this.custom_command_entry.parent.sensitive =
+            this.settings.get_string('command') === 'custom-command';
+    }
+});
 
 /* exported Widget */

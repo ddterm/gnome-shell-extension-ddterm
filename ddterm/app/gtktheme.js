@@ -21,45 +21,43 @@
 
 const { GObject, Gtk } = imports.gi;
 
-var GtkThemeManager = GObject.registerClass(
-    {
-        Properties: {
-            'gtk-settings': GObject.ParamSpec.object(
-                'gtk-settings',
-                '',
-                '',
-                GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-                Gtk.Settings
-            ),
-            'theme-variant': GObject.ParamSpec.string(
-                'theme-variant',
-                '',
-                '',
-                GObject.ParamFlags.WRITABLE,
-                null
-            ),
-        },
+var GtkThemeManager = GObject.registerClass({
+    Properties: {
+        'gtk-settings': GObject.ParamSpec.object(
+            'gtk-settings',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+            Gtk.Settings
+        ),
+        'theme-variant': GObject.ParamSpec.string(
+            'theme-variant',
+            '',
+            '',
+            GObject.ParamFlags.WRITABLE,
+            null
+        ),
     },
-    class DDTermGtkThemeManager extends GObject.Object {
-        set theme_variant(value) {
-            switch (value) {
-            case 'system':
-                this.gtk_settings.reset_property('gtk-application-prefer-dark-theme');
-                break;
+},
+class DDTermGtkThemeManager extends GObject.Object {
+    set theme_variant(value) {
+        switch (value) {
+        case 'system':
+            this.gtk_settings.reset_property('gtk-application-prefer-dark-theme');
+            break;
 
-            case 'dark':
-                this.gtk_settings.gtk_application_prefer_dark_theme = true;
-                break;
+        case 'dark':
+            this.gtk_settings.gtk_application_prefer_dark_theme = true;
+            break;
 
-            case 'light':
-                this.gtk_settings.gtk_application_prefer_dark_theme = false;
-                break;
+        case 'light':
+            this.gtk_settings.gtk_application_prefer_dark_theme = false;
+            break;
 
-            default:
-                printerr(`Unknown theme-variant: ${value}`);
-            }
+        default:
+            printerr(`Unknown theme-variant: ${value}`);
         }
     }
-);
+});
 
 /* exported GtkThemeManager */

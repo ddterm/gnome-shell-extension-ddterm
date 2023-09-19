@@ -48,438 +48,436 @@ function make_resizer(orientation) {
     return box;
 }
 
-var AppWindow = GObject.registerClass(
-    {
-        GTypeName: 'DDTermAppWindow',
-        Properties: {
-            'resources': GObject.ParamSpec.object(
-                'resources',
-                '',
-                '',
-                GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-                resources.Resources
-            ),
-            'settings': GObject.ParamSpec.object(
-                'settings',
-                '',
-                '',
-                GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-                Gio.Settings
-            ),
-            'terminal-settings': GObject.ParamSpec.object(
-                'terminal-settings',
-                '',
-                '',
-                GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-                terminalsettings.TerminalSettings
-            ),
-            'extension-dbus': GObject.ParamSpec.object(
-                'extension-dbus',
-                '',
-                '',
-                GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-                Gio.DBusProxy
-            ),
-            'resize-handle': GObject.ParamSpec.boolean(
-                'resize-handle',
-                '',
-                '',
-                GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
-                true
-            ),
-            'resize-edge': GObject.ParamSpec.enum(
-                'resize-edge',
-                '',
-                '',
-                GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
-                Gdk.WindowEdge,
-                Gdk.WindowEdge.SOUTH
-            ),
-            'tab-label-width': GObject.ParamSpec.double(
-                'tab-label-width',
-                '',
-                '',
-                GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
-                0.0,
-                0.5,
-                0.1
-            ),
-        },
+var AppWindow = GObject.registerClass({
+    GTypeName: 'DDTermAppWindow',
+    Properties: {
+        'resources': GObject.ParamSpec.object(
+            'resources',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+            resources.Resources
+        ),
+        'settings': GObject.ParamSpec.object(
+            'settings',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+            Gio.Settings
+        ),
+        'terminal-settings': GObject.ParamSpec.object(
+            'terminal-settings',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+            terminalsettings.TerminalSettings
+        ),
+        'extension-dbus': GObject.ParamSpec.object(
+            'extension-dbus',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+            Gio.DBusProxy
+        ),
+        'resize-handle': GObject.ParamSpec.boolean(
+            'resize-handle',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+            true
+        ),
+        'resize-edge': GObject.ParamSpec.enum(
+            'resize-edge',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+            Gdk.WindowEdge,
+            Gdk.WindowEdge.SOUTH
+        ),
+        'tab-label-width': GObject.ParamSpec.double(
+            'tab-label-width',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+            0.0,
+            0.5,
+            0.1
+        ),
     },
-    class AppWindow extends Gtk.ApplicationWindow {
-        _init(params) {
-            super._init({
-                title: translations.gettext('Drop Down Terminal'),
-                icon_name: 'utilities-terminal',
-                window_position: Gtk.WindowPosition.CENTER,
-                ...params,
-            });
+},
+class AppWindow extends Gtk.ApplicationWindow {
+    _init(params) {
+        super._init({
+            title: translations.gettext('Drop Down Terminal'),
+            icon_name: 'utilities-terminal',
+            window_position: Gtk.WindowPosition.CENTER,
+            ...params,
+        });
 
-            const grid = new Gtk.Grid({
-                parent: this,
-                visible: true,
-            });
+        const grid = new Gtk.Grid({
+            parent: this,
+            visible: true,
+        });
 
-            this.notebook = new notebook.Notebook({
-                resources: this.resources,
-                terminal_settings: this.terminal_settings,
-                visible: true,
-                hexpand: true,
-                vexpand: true,
-                scrollable: true,
-                dbus_connection: this.application.get_dbus_connection(),
-                // eslint-disable-next-line max-len
-                dbus_object_path: `${this.application.get_dbus_object_path()}/window/${this.get_id()}/notebook`,
-            });
-            grid.attach(this.notebook, 1, 1, 1, 1);
+        this.notebook = new notebook.Notebook({
+            resources: this.resources,
+            terminal_settings: this.terminal_settings,
+            visible: true,
+            hexpand: true,
+            vexpand: true,
+            scrollable: true,
+            dbus_connection: this.application.get_dbus_connection(),
+            // eslint-disable-next-line max-len
+            dbus_object_path: `${this.application.get_dbus_object_path()}/window/${this.get_id()}/notebook`,
+        });
+        grid.attach(this.notebook, 1, 1, 1, 1);
 
-            this.connect('notify::tab-label-width', this.update_tab_label_width.bind(this));
-            this.connect('configure-event', this.update_tab_label_width.bind(this));
-            this.update_tab_label_width();
+        this.connect('notify::tab-label-width', this.update_tab_label_width.bind(this));
+        this.connect('configure-event', this.update_tab_label_width.bind(this));
+        this.update_tab_label_width();
 
-            this.notebook.bind_property(
-                'current-title',
-                this,
-                'title',
-                GObject.BindingFlags.SYNC_CREATE
-            );
+        this.notebook.bind_property(
+            'current-title',
+            this,
+            'title',
+            GObject.BindingFlags.SYNC_CREATE
+        );
 
-            this.settings.bind(
-                'tab-label-width',
-                this,
-                'tab-label-width',
-                Gio.SettingsBindFlags.GET
-            );
+        this.settings.bind(
+            'tab-label-width',
+            this,
+            'tab-label-width',
+            Gio.SettingsBindFlags.GET
+        );
 
-            this.settings.bind(
-                'new-tab-button',
-                this.notebook,
-                'show-new-tab-button',
-                Gio.SettingsBindFlags.GET
-            );
+        this.settings.bind(
+            'new-tab-button',
+            this.notebook,
+            'show-new-tab-button',
+            Gio.SettingsBindFlags.GET
+        );
 
-            this.settings.bind(
-                'new-tab-front-button',
-                this.notebook,
-                'show-new-tab-front-button',
-                Gio.SettingsBindFlags.GET
-            );
+        this.settings.bind(
+            'new-tab-front-button',
+            this.notebook,
+            'show-new-tab-front-button',
+            Gio.SettingsBindFlags.GET
+        );
 
-            this.settings.bind(
-                'tab-switcher-popup',
-                this.notebook,
-                'show-tab-switch-popup',
-                Gio.SettingsBindFlags.GET
-            );
+        this.settings.bind(
+            'tab-switcher-popup',
+            this.notebook,
+            'show-tab-switch-popup',
+            Gio.SettingsBindFlags.GET
+        );
 
-            this.settings.bind(
-                'tab-policy',
-                this.notebook,
-                'tab-policy',
-                Gio.SettingsBindFlags.GET
-            );
+        this.settings.bind(
+            'tab-policy',
+            this.notebook,
+            'tab-policy',
+            Gio.SettingsBindFlags.GET
+        );
 
-            this.settings.bind(
-                'tab-position',
-                this.notebook,
-                'tab-pos',
-                Gio.SettingsBindFlags.GET
-            );
+        this.settings.bind(
+            'tab-position',
+            this.notebook,
+            'tab-pos',
+            Gio.SettingsBindFlags.GET
+        );
 
-            this.settings.bind(
-                'tab-expand',
-                this.notebook,
-                'tab-expand',
-                Gio.SettingsBindFlags.GET
-            );
+        this.settings.bind(
+            'tab-expand',
+            this.notebook,
+            'tab-expand',
+            Gio.SettingsBindFlags.GET
+        );
 
-            this.settings.bind(
-                'notebook-border',
-                this.notebook,
-                'show-border',
-                Gio.SettingsBindFlags.GET
-            );
+        this.settings.bind(
+            'notebook-border',
+            this.notebook,
+            'show-border',
+            Gio.SettingsBindFlags.GET
+        );
 
-            this.settings.bind(
-                'tab-label-ellipsize-mode',
-                this.notebook,
-                'tab-label-ellipsize-mode',
-                Gio.SettingsBindFlags.GET
-            );
+        this.settings.bind(
+            'tab-label-ellipsize-mode',
+            this.notebook,
+            'tab-label-ellipsize-mode',
+            Gio.SettingsBindFlags.GET
+        );
 
-            this.settings.bind(
-                'tab-close-buttons',
-                this.notebook,
-                'tab-close-buttons',
-                Gio.SettingsBindFlags.GET
-            );
+        this.settings.bind(
+            'tab-close-buttons',
+            this.notebook,
+            'tab-close-buttons',
+            Gio.SettingsBindFlags.GET
+        );
 
-            this.settings.bind(
-                'tab-show-shortcuts',
-                this.notebook,
-                'tab-show-shortcuts',
-                Gio.SettingsBindFlags.GET
-            );
+        this.settings.bind(
+            'tab-show-shortcuts',
+            this.notebook,
+            'tab-show-shortcuts',
+            Gio.SettingsBindFlags.GET
+        );
 
-            const add_resize_box = (edge, x, y, orientation) => {
-                const box = make_resizer(orientation);
-                box.connect('button-press-event', this.start_resizing.bind(this, edge));
-                grid.attach(box, x, y, 1, 1);
+        const add_resize_box = (edge, x, y, orientation) => {
+            const box = make_resizer(orientation);
+            box.connect('button-press-event', this.start_resizing.bind(this, edge));
+            grid.attach(box, x, y, 1, 1);
 
-                const update_visible = () => {
-                    box.visible = this.resize_handle && this.resize_edge === edge;
-                };
-
-                this.connect('notify::resize-handle', update_visible);
-                this.connect('notify::resize-edge', update_visible);
-                update_visible();
+            const update_visible = () => {
+                box.visible = this.resize_handle && this.resize_edge === edge;
             };
 
-            add_resize_box(Gdk.WindowEdge.SOUTH, 1, 2, Gtk.Orientation.HORIZONTAL);
-            add_resize_box(Gdk.WindowEdge.NORTH, 1, 0, Gtk.Orientation.HORIZONTAL);
-            add_resize_box(Gdk.WindowEdge.EAST, 2, 1, Gtk.Orientation.VERTICAL);
-            add_resize_box(Gdk.WindowEdge.WEST, 0, 1, Gtk.Orientation.VERTICAL);
+            this.connect('notify::resize-handle', update_visible);
+            this.connect('notify::resize-edge', update_visible);
+            update_visible();
+        };
 
-            this.settings.bind(
-                'window-resizable',
-                this,
-                'resize-handle',
-                Gio.SettingsBindFlags.GET
-            );
+        add_resize_box(Gdk.WindowEdge.SOUTH, 1, 2, Gtk.Orientation.HORIZONTAL);
+        add_resize_box(Gdk.WindowEdge.NORTH, 1, 0, Gtk.Orientation.HORIZONTAL);
+        add_resize_box(Gdk.WindowEdge.EAST, 2, 1, Gtk.Orientation.VERTICAL);
+        add_resize_box(Gdk.WindowEdge.WEST, 0, 1, Gtk.Orientation.VERTICAL);
 
-            const window_pos_to_resize_edge = {
-                top: Gdk.WindowEdge.SOUTH,
-                bottom: Gdk.WindowEdge.NORTH,
-                left: Gdk.WindowEdge.EAST,
-                right: Gdk.WindowEdge.WEST,
-            };
+        this.settings.bind(
+            'window-resizable',
+            this,
+            'resize-handle',
+            Gio.SettingsBindFlags.GET
+        );
 
-            const edge_handler = this.settings.connect('changed::window-position', () => {
-                this.resize_edge =
-                    window_pos_to_resize_edge[this.settings.get_string('window-position')];
-            });
-            this.connect('destroy', () => this.settings.disconnect(edge_handler));
+        const window_pos_to_resize_edge = {
+            top: Gdk.WindowEdge.SOUTH,
+            bottom: Gdk.WindowEdge.NORTH,
+            left: Gdk.WindowEdge.EAST,
+            right: Gdk.WindowEdge.WEST,
+        };
 
+        const edge_handler = this.settings.connect('changed::window-position', () => {
             this.resize_edge =
                 window_pos_to_resize_edge[this.settings.get_string('window-position')];
+        });
+        this.connect('destroy', () => this.settings.disconnect(edge_handler));
 
-            this.connect('notify::screen', () => this.update_visual());
-            this.update_visual();
+        this.resize_edge =
+            window_pos_to_resize_edge[this.settings.get_string('window-position')];
 
-            this.draw_handler = null;
-            this.connect('notify::app-paintable', this.setup_draw_handler.bind(this));
-            this.setup_draw_handler();
+        this.connect('notify::screen', () => this.update_visual());
+        this.update_visual();
 
-            this.settings.bind(
-                'transparent-background',
-                this,
-                'app-paintable',
-                Gio.SettingsBindFlags.GET
-            );
+        this.draw_handler = null;
+        this.connect('notify::app-paintable', this.setup_draw_handler.bind(this));
+        this.setup_draw_handler();
 
-            const HEIGHT_MOD = 0.05;
-            const OPACITY_MOD = 0.05;
+        this.settings.bind(
+            'transparent-background',
+            this,
+            'app-paintable',
+            Gio.SettingsBindFlags.GET
+        );
 
-            const actions = {
-                'toggle': this.toggle.bind(this),
-                'show': () => this.present_with_time(Gdk.CURRENT_TIME),
-                'hide': () => this.hide(),
-                'window-size-dec': () => {
-                    if (this.settings.get_boolean('window-maximize'))
-                        this.settings.set_double('window-size', 1.0 - HEIGHT_MOD);
-                    else
-                        this.adjust_double_setting('window-size', -HEIGHT_MOD);
-                },
-                'window-size-inc': () => {
-                    if (!this.settings.get_boolean('window-maximize'))
-                        this.adjust_double_setting('window-size', HEIGHT_MOD);
-                },
-                'background-opacity-dec': () => {
-                    this.adjust_double_setting('background-opacity', -OPACITY_MOD);
-                },
-                'background-opacity-inc': () => {
-                    this.adjust_double_setting('background-opacity', OPACITY_MOD);
-                },
-            };
+        const HEIGHT_MOD = 0.05;
+        const OPACITY_MOD = 0.05;
 
-            for (const [name, activate] of Object.entries(actions)) {
-                const action = new Gio.SimpleAction({ name });
-                action.connect('activate', activate);
-                this.add_action(action);
+        const actions = {
+            'toggle': this.toggle.bind(this),
+            'show': () => this.present_with_time(Gdk.CURRENT_TIME),
+            'hide': () => this.hide(),
+            'window-size-dec': () => {
+                if (this.settings.get_boolean('window-maximize'))
+                    this.settings.set_double('window-size', 1.0 - HEIGHT_MOD);
+                else
+                    this.adjust_double_setting('window-size', -HEIGHT_MOD);
+            },
+            'window-size-inc': () => {
+                if (!this.settings.get_boolean('window-maximize'))
+                    this.adjust_double_setting('window-size', HEIGHT_MOD);
+            },
+            'background-opacity-dec': () => {
+                this.adjust_double_setting('background-opacity', -OPACITY_MOD);
+            },
+            'background-opacity-inc': () => {
+                this.adjust_double_setting('background-opacity', OPACITY_MOD);
+            },
+        };
+
+        for (const [name, activate] of Object.entries(actions)) {
+            const action = new Gio.SimpleAction({ name });
+            action.connect('activate', activate);
+            this.add_action(action);
+        }
+
+        this.settings.bind(
+            'window-type-hint',
+            this,
+            'type-hint',
+            Gio.SettingsBindFlags.GET
+        );
+
+        this.settings.bind(
+            'window-skip-taskbar',
+            this,
+            'skip-taskbar-hint',
+            Gio.SettingsBindFlags.GET
+        );
+
+        this.settings.bind(
+            'window-skip-taskbar',
+            this,
+            'skip-pager-hint',
+            Gio.SettingsBindFlags.GET
+        );
+
+        const suppress_delete_handler = this.connect('delete-event', () => {
+            this.hide();
+            return true;
+        });
+
+        this.notebook.connect('page-removed', () => {
+            if (this.notebook.get_n_pages() === 0) {
+                this.disconnect(suppress_delete_handler);
+                this.close();
             }
+        });
 
-            this.settings.bind(
-                'window-type-hint',
-                this,
-                'type-hint',
-                Gio.SettingsBindFlags.GET
-            );
+        const display = this.get_display();
 
-            this.settings.bind(
-                'window-skip-taskbar',
-                this,
-                'skip-taskbar-hint',
-                Gio.SettingsBindFlags.GET
-            );
-
-            this.settings.bind(
-                'window-skip-taskbar',
-                this,
-                'skip-pager-hint',
-                Gio.SettingsBindFlags.GET
-            );
-
-            const suppress_delete_handler = this.connect('delete-event', () => {
-                this.hide();
-                return true;
+        if (display.constructor.$gtype.name === 'GdkWaylandDisplay') {
+            this.display_config = new displayconfig.DisplayConfig({
+                dbus_connection: this.application.get_dbus_connection(),
             });
+            this.connect('destroy', () => this.display_config.unwatch());
+            this.display_config.update_sync();
 
-            this.notebook.connect('page-removed', () => {
-                if (this.notebook.get_n_pages() === 0) {
-                    this.disconnect(suppress_delete_handler);
-                    this.close();
-                }
-            });
+            const rect_type = new GLib.VariantType('(iiii)');
 
-            const display = this.get_display();
+            const dbus_handler = this.extension_dbus.connect(
+                'g-properties-changed',
+                (_, changed, invalidated) => {
+                    if (this.visible)
+                        return;
 
-            if (display.constructor.$gtype.name === 'GdkWaylandDisplay') {
-                this.display_config = new displayconfig.DisplayConfig({
-                    dbus_connection: this.application.get_dbus_connection(),
-                });
-                this.connect('destroy', () => this.display_config.unwatch());
-                this.display_config.update_sync();
-
-                const rect_type = new GLib.VariantType('(iiii)');
-
-                const dbus_handler = this.extension_dbus.connect(
-                    'g-properties-changed',
-                    (_, changed, invalidated) => {
-                        if (this.visible)
-                            return;
-
-                        if (invalidated.includes('TargetRect')) {
-                            this.sync_size_with_extension();
-                            return;
-                        }
-
-                        const value = changed.lookup_value('TargetRect', rect_type);
-
-                        if (value)
-                            this.sync_size_with_extension(value.deepUnpack());
+                    if (invalidated.includes('TargetRect')) {
+                        this.sync_size_with_extension();
+                        return;
                     }
-                );
 
-                this.connect('destroy', () => this.extension_dbus.disconnect(dbus_handler));
+                    const value = changed.lookup_value('TargetRect', rect_type);
 
-                this.connect('unmap-event', () => {
-                    this.sync_size_with_extension();
-                });
-
-                this.sync_size_with_extension();
-            }
-        }
-
-        setup_draw_handler() {
-            if (this.app_paintable) {
-                if (!this.draw_handler)
-                    this.draw_handler = this.connect('draw', this.draw.bind(this));
-            } else if (this.draw_handler) {
-                this.disconnect(this.draw_handler);
-                this.draw_handler = null;
-            }
-
-            this.queue_draw();
-        }
-
-        adjust_double_setting(name, difference, min = 0.0, max = 1.0) {
-            const current = this.settings.get_double(name);
-            const new_setting = current + difference;
-            this.settings.set_double(name, Math.min(Math.max(new_setting, min), max));
-        }
-
-        toggle() {
-            if (this.visible)
-                this.hide();
-            else
-                this.present_with_time(Gdk.CURRENT_TIME);
-        }
-
-        start_resizing(edge, source, event) {
-            const [button_ok, button] = event.get_button();
-            if (!button_ok || button !== Gdk.BUTTON_PRIMARY)
-                return;
-
-            const [coords_ok, x_root, y_root] = event.get_root_coords();
-            if (!coords_ok)
-                return;
-
-            this.window.begin_resize_drag_for_device(
-                edge,
-                event.get_device(),
-                button,
-                x_root,
-                y_root,
-                event.get_time()
+                    if (value)
+                        this.sync_size_with_extension(value.deepUnpack());
+                }
             );
-        }
 
-        update_visual() {
-            const visual = this.screen.get_rgba_visual();
+            this.connect('destroy', () => this.extension_dbus.disconnect(dbus_handler));
 
-            if (visual)
-                this.set_visual(visual);
-        }
+            this.connect('unmap-event', () => {
+                this.sync_size_with_extension();
+            });
 
-        draw(_widget, cr) {
-            try {
-                if (!this.app_paintable)
-                    return false;
-
-                if (!Gtk.cairo_should_draw_window(cr, this.window))
-                    return false;
-
-                const context = this.get_style_context();
-                const allocation = this.get_child().get_allocation();
-                Gtk.render_background(
-                    context, cr, allocation.x, allocation.y, allocation.width, allocation.height
-                );
-                Gtk.render_frame(
-                    context, cr, allocation.x, allocation.y, allocation.width, allocation.height
-                );
-            } finally {
-                cr.$dispose();
-            }
-
-            return false;
-        }
-
-        sync_size_with_extension(rect = null) {
-            if (this.is_maximized)
-                return;
-
-            if (!rect)
-                rect = this.extension_dbus.GetTargetRectSync();
-
-            let [target_x, target_y, target_w, target_h] = rect;
-
-            if (this.display_config.layout_mode !== displayconfig.LayoutMode.LOGICAL) {
-                const display = this.get_display();
-                const target_monitor = display.get_monitor_at_point(target_x, target_y);
-
-                target_w = Math.floor(target_w / target_monitor.scale_factor);
-                target_h = Math.floor(target_h / target_monitor.scale_factor);
-            }
-
-            this.resize(target_w, target_h);
-
-            if (this.window)
-                this.window.resize(target_w, target_h);
-        }
-
-        update_tab_label_width() {
-            const [width] = this.get_size();
-            this.notebook.tab_label_width = Math.floor(this.tab_label_width * width);
+            this.sync_size_with_extension();
         }
     }
-);
+
+    setup_draw_handler() {
+        if (this.app_paintable) {
+            if (!this.draw_handler)
+                this.draw_handler = this.connect('draw', this.draw.bind(this));
+        } else if (this.draw_handler) {
+            this.disconnect(this.draw_handler);
+            this.draw_handler = null;
+        }
+
+        this.queue_draw();
+    }
+
+    adjust_double_setting(name, difference, min = 0.0, max = 1.0) {
+        const current = this.settings.get_double(name);
+        const new_setting = current + difference;
+        this.settings.set_double(name, Math.min(Math.max(new_setting, min), max));
+    }
+
+    toggle() {
+        if (this.visible)
+            this.hide();
+        else
+            this.present_with_time(Gdk.CURRENT_TIME);
+    }
+
+    start_resizing(edge, source, event) {
+        const [button_ok, button] = event.get_button();
+        if (!button_ok || button !== Gdk.BUTTON_PRIMARY)
+            return;
+
+        const [coords_ok, x_root, y_root] = event.get_root_coords();
+        if (!coords_ok)
+            return;
+
+        this.window.begin_resize_drag_for_device(
+            edge,
+            event.get_device(),
+            button,
+            x_root,
+            y_root,
+            event.get_time()
+        );
+    }
+
+    update_visual() {
+        const visual = this.screen.get_rgba_visual();
+
+        if (visual)
+            this.set_visual(visual);
+    }
+
+    draw(_widget, cr) {
+        try {
+            if (!this.app_paintable)
+                return false;
+
+            if (!Gtk.cairo_should_draw_window(cr, this.window))
+                return false;
+
+            const context = this.get_style_context();
+            const allocation = this.get_child().get_allocation();
+            Gtk.render_background(
+                context, cr, allocation.x, allocation.y, allocation.width, allocation.height
+            );
+            Gtk.render_frame(
+                context, cr, allocation.x, allocation.y, allocation.width, allocation.height
+            );
+        } finally {
+            cr.$dispose();
+        }
+
+        return false;
+    }
+
+    sync_size_with_extension(rect = null) {
+        if (this.is_maximized)
+            return;
+
+        if (!rect)
+            rect = this.extension_dbus.GetTargetRectSync();
+
+        let [target_x, target_y, target_w, target_h] = rect;
+
+        if (this.display_config.layout_mode !== displayconfig.LayoutMode.LOGICAL) {
+            const display = this.get_display();
+            const target_monitor = display.get_monitor_at_point(target_x, target_y);
+
+            target_w = Math.floor(target_w / target_monitor.scale_factor);
+            target_h = Math.floor(target_h / target_monitor.scale_factor);
+        }
+
+        this.resize(target_w, target_h);
+
+        if (this.window)
+            this.window.resize(target_w, target_h);
+    }
+
+    update_tab_label_width() {
+        const [width] = this.get_size();
+        this.notebook.tab_label_width = Math.floor(this.tab_label_width * width);
+    }
+});

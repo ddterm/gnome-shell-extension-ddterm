@@ -24,54 +24,51 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 const { util } = Me.imports.ddterm.pref;
 const { translations } = Me.imports.ddterm.util;
 
-var Widget = GObject.registerClass(
-    {
-        GTypeName: 'DDTermPrefsCompatibility',
-        Template: util.ui_file_uri('prefs-compatibility.ui'),
-        Children: [
-            'backspace_binding_combo',
-            'delete_binding_combo',
-            'ambiguous_width_combo',
-        ],
-        Properties: {
-            'settings': GObject.ParamSpec.object(
-                'settings',
-                '',
-                '',
-                GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-                Gio.Settings
-            ),
-        },
+var Widget = GObject.registerClass({
+    GTypeName: 'DDTermPrefsCompatibility',
+    Template: util.ui_file_uri('prefs-compatibility.ui'),
+    Children: [
+        'backspace_binding_combo',
+        'delete_binding_combo',
+        'ambiguous_width_combo',
+    ],
+    Properties: {
+        'settings': GObject.ParamSpec.object(
+            'settings',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+            Gio.Settings
+        ),
     },
-    class PrefsCompatibility extends Gtk.Grid {
-        _init(params) {
-            super._init(params);
+}, class PrefsCompatibility extends Gtk.Grid {
+    _init(params) {
+        super._init(params);
 
-            util.bind_widgets(this.settings, {
-                'backspace-binding': this.backspace_binding_combo,
-                'delete-binding': this.delete_binding_combo,
-                'cjk-utf8-ambiguous-width': this.ambiguous_width_combo,
-            });
+        util.bind_widgets(this.settings, {
+            'backspace-binding': this.backspace_binding_combo,
+            'delete-binding': this.delete_binding_combo,
+            'cjk-utf8-ambiguous-width': this.ambiguous_width_combo,
+        });
 
-            const reset_action = new Gio.SimpleAction({
-                name: 'reset-compatibility-options',
-            });
+        const reset_action = new Gio.SimpleAction({
+            name: 'reset-compatibility-options',
+        });
 
-            reset_action.connect('activate', () => {
-                this.settings.reset('backspace-binding');
-                this.settings.reset('delete-binding');
-                this.settings.reset('cjk-utf8-ambiguous-width');
-            });
+        reset_action.connect('activate', () => {
+            this.settings.reset('backspace-binding');
+            this.settings.reset('delete-binding');
+            this.settings.reset('cjk-utf8-ambiguous-width');
+        });
 
-            const aux_actions = new Gio.SimpleActionGroup();
-            aux_actions.add_action(reset_action);
-            this.insert_action_group('aux', aux_actions);
-        }
-
-        get title() {
-            return translations.gettext('Compatibility');
-        }
+        const aux_actions = new Gio.SimpleActionGroup();
+        aux_actions.add_action(reset_action);
+        this.insert_action_group('aux', aux_actions);
     }
-);
+
+    get title() {
+        return translations.gettext('Compatibility');
+    }
+});
 
 /* exported Widget */

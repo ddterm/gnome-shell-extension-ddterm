@@ -26,36 +26,33 @@ const { PrefsWidget } = imports.ddterm.pref.widget;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const { translations } = Me.imports.ddterm.util;
 
-var PrefsDialog = GObject.registerClass(
-    {
-        Properties: {
-            'settings': GObject.ParamSpec.object(
-                'settings',
-                '',
-                '',
-                GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-                Gio.Settings
-            ),
-        },
+var PrefsDialog = GObject.registerClass({
+    Properties: {
+        'settings': GObject.ParamSpec.object(
+            'settings',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+            Gio.Settings
+        ),
     },
-    class PrefsDialog extends Gtk.Dialog {
-        _init(params) {
-            super._init(params);
+}, class PrefsDialog extends Gtk.Dialog {
+    _init(params) {
+        super._init(params);
 
-            this.set_title(translations.gettext('Preferences'));
-            this.set_default_size(640, 576);
-            this.set_icon_name('preferences-system');
+        this.set_title(translations.gettext('Preferences'));
+        this.set_default_size(640, 576);
+        this.set_icon_name('preferences-system');
 
-            const widget = new PrefsWidget({
-                settings: this.settings,
-            });
+        const widget = new PrefsWidget({
+            settings: this.settings,
+        });
 
-            const content_area = this.get_content_area();
+        const content_area = this.get_content_area();
 
-            if (content_area.append)
-                content_area.append(widget);
-            else
-                content_area.pack_start(widget, true, true, 0);
-        }
+        if (content_area.append)
+            content_area.append(widget);
+        else
+            content_area.pack_start(widget, true, true, 0);
     }
-);
+});

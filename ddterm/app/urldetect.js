@@ -71,89 +71,83 @@ const URL_REGEX = {
     },
 };
 
-var UrlDetectSettings = GObject.registerClass(
-    {
-        Properties: Object.fromEntries(
-            Object.keys(URL_REGEX).map(name => [
+var UrlDetectSettings = GObject.registerClass({
+    Properties: Object.fromEntries(
+        Object.keys(URL_REGEX).map(name => [
+            name,
+            GObject.ParamSpec.boolean(
                 name,
-                GObject.ParamSpec.boolean(
-                    name,
-                    '',
-                    '',
-                    GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-                    true
-                ),
-            ])
-        ),
-    },
-    class DDTermUrlDetectSettings extends GObject.Object {
-    }
-);
-
-var UrlDetect = GObject.registerClass(
-    {
-        Properties: {
-            'terminal': GObject.ParamSpec.object(
-                'terminal',
                 '',
                 '',
                 GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-                Vte.Terminal
+                true
             ),
-            'settings': GObject.ParamSpec.object(
-                'settings',
-                '',
-                '',
-                GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
-                UrlDetectSettings
-            ),
-        },
+        ])
+    ),
+}, class DDTermUrlDetectSettings extends GObject.Object {
+});
+
+var UrlDetect = GObject.registerClass({
+    Properties: {
+        'terminal': GObject.ParamSpec.object(
+            'terminal',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+            Vte.Terminal
+        ),
+        'settings': GObject.ParamSpec.object(
+            'settings',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+            UrlDetectSettings
+        ),
     },
-    class DDTermUrlDetect extends GObject.Object {
-        _init(params) {
-            super._init(params);
+}, class DDTermUrlDetect extends GObject.Object {
+    _init(params) {
+        super._init(params);
 
-            this._url_prefix = new Map();
+        this._url_prefix = new Map();
 
-            this.connect('notify::settings', this.setup.bind(this));
-            this.setup();
-        }
+        this.connect('notify::settings', this.setup.bind(this));
+        this.setup();
+    }
 
-        setup() {
-            this.disable();
+    setup() {
+        this.disable();
 
-            if (!this.settings)
-                return;
+        if (!this.settings)
+            return;
 
-            for (const [key, { regex, prefix }] of Object.entries(URL_REGEX)) {
-                if (!this.settings[key])
-                    continue;
+        for (const [key, { regex, prefix }] of Object.entries(URL_REGEX)) {
+            if (!this.settings[key])
+                continue;
 
-                const tag = this.terminal.match_add_regex(regex, 0);
-                this.terminal.match_set_cursor_name(tag, 'pointer');
-                this._url_prefix.set(tag, prefix);
-            }
-        }
-
-        disable() {
-            this._url_prefix.forEach((value, key) => {
-                this.terminal.match_remove(key);
-                this._url_prefix.delete(key);
-            });
-        }
-
-        check_event(event) {
-            const [url, tag] = this.terminal.match_check_event(event);
-
-            if (url && tag !== null && this._url_prefix.has(tag)) {
-                const prefix = this._url_prefix.get(tag);
-                if (prefix && !url.toLowerCase().startsWith(prefix))
-                    return prefix + url;
-                else
-                    return url;
-            }
-
-            return null;
+            const tag = this.terminal.match_add_regex(regex, 0);
+            this.terminal.match_set_cursor_name(tag, 'pointer');
+            this._url_prefix.set(tag, prefix);
         }
     }
-);
+
+    disable() {
+        this._url_prefix.forEach((value, key) => {
+            this.terminal.match_remove(key);
+            this._url_prefix.delete(key);
+        });
+    }
+
+    check_event(event) {
+        const [url, tag] = this.terminal.match_check_event(event);
+
+        if (url && tag !== null && this._url_prefix.has(tag)) {
+            const prefix = this._url_prefix.get(tag);
+            if (prefix && !url.toLowerCase().startsWith(prefix))
+                return prefix + url;
+            else
+                return url;
+        }
+
+        return null;
+    }
+});

@@ -24,55 +24,52 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 const { util } = Me.imports.ddterm.pref;
 const { translations } = Me.imports.ddterm.util;
 
-var Widget = GObject.registerClass(
-    {
-        GTypeName: 'DDTermPrefsScrolling',
-        Template: util.ui_file_uri('prefs-scrolling.ui'),
-        Children: [
-            'scrollback_spin',
-            'limit_scrollback_check',
-        ],
-        Properties: {
-            'settings': GObject.ParamSpec.object(
-                'settings',
-                '',
-                '',
-                GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-                Gio.Settings
-            ),
-        },
+var Widget = GObject.registerClass({
+    GTypeName: 'DDTermPrefsScrolling',
+    Template: util.ui_file_uri('prefs-scrolling.ui'),
+    Children: [
+        'scrollback_spin',
+        'limit_scrollback_check',
+    ],
+    Properties: {
+        'settings': GObject.ParamSpec.object(
+            'settings',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+            Gio.Settings
+        ),
     },
-    class PrefsScrolling extends Gtk.Grid {
-        _init(params) {
-            super._init(params);
+}, class PrefsScrolling extends Gtk.Grid {
+    _init(params) {
+        super._init(params);
 
-            util.insert_settings_actions(this, this.settings, [
-                'show-scrollbar',
-                'scroll-on-output',
-                'scroll-on-keystroke',
-            ]);
+        util.insert_settings_actions(this, this.settings, [
+            'show-scrollbar',
+            'scroll-on-output',
+            'scroll-on-keystroke',
+        ]);
 
-            util.bind_widget(
-                this.settings,
-                'scrollback-unlimited',
-                this.limit_scrollback_check,
-                Gio.SettingsBindFlags.INVERT_BOOLEAN
-            );
+        util.bind_widget(
+            this.settings,
+            'scrollback-unlimited',
+            this.limit_scrollback_check,
+            Gio.SettingsBindFlags.INVERT_BOOLEAN
+        );
 
-            util.bind_widget(this.settings, 'scrollback-lines', this.scrollback_spin);
+        util.bind_widget(this.settings, 'scrollback-lines', this.scrollback_spin);
 
-            util.bind_sensitive(
-                this.settings,
-                'scrollback-unlimited',
-                this.scrollback_spin.parent,
-                true
-            );
-        }
-
-        get title() {
-            return translations.gettext('Scrolling');
-        }
+        util.bind_sensitive(
+            this.settings,
+            'scrollback-unlimited',
+            this.scrollback_spin.parent,
+            true
+        );
     }
-);
+
+    get title() {
+        return translations.gettext('Scrolling');
+    }
+});
 
 /* exported Widget */

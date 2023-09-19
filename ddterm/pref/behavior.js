@@ -24,45 +24,42 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 const { util } = Me.imports.ddterm.pref;
 const { translations } = Me.imports.ddterm.util;
 
-var Widget = GObject.registerClass(
-    {
-        GTypeName: 'DDTermPrefsBehavior',
-        Template: util.ui_file_uri('prefs-behavior.ui'),
-        Children: [
-            'window_type_hint_combo',
-        ],
-        Properties: {
-            'settings': GObject.ParamSpec.object(
-                'settings',
-                '',
-                '',
-                GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-                Gio.Settings
-            ),
-        },
+var Widget = GObject.registerClass({
+    GTypeName: 'DDTermPrefsBehavior',
+    Template: util.ui_file_uri('prefs-behavior.ui'),
+    Children: [
+        'window_type_hint_combo',
+    ],
+    Properties: {
+        'settings': GObject.ParamSpec.object(
+            'settings',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+            Gio.Settings
+        ),
     },
-    class PrefsBehavior extends Gtk.Grid {
-        _init(params) {
-            super._init(params);
+}, class PrefsBehavior extends Gtk.Grid {
+    _init(params) {
+        super._init(params);
 
-            util.insert_settings_actions(this, this.settings, [
-                'window-resizable',
-                'window-above',
-                'window-stick',
-                'window-skip-taskbar',
-                'hide-when-focus-lost',
-                'hide-window-on-esc',
-                'pointer-autohide',
-                'force-x11-gdk-backend',
-            ]);
+        util.insert_settings_actions(this, this.settings, [
+            'window-resizable',
+            'window-above',
+            'window-stick',
+            'window-skip-taskbar',
+            'hide-when-focus-lost',
+            'hide-window-on-esc',
+            'pointer-autohide',
+            'force-x11-gdk-backend',
+        ]);
 
-            util.bind_widget(this.settings, 'window-type-hint', this.window_type_hint_combo);
-        }
-
-        get title() {
-            return translations.gettext('Behavior');
-        }
+        util.bind_widget(this.settings, 'window-type-hint', this.window_type_hint_combo);
     }
-);
+
+    get title() {
+        return translations.gettext('Behavior');
+    }
+});
 
 /* exported Widget */

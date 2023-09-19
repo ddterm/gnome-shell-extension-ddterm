@@ -39,95 +39,75 @@ const CURRENT_STATE_TYPE = GLib.VariantType.new_tuple([
     new GLib.VariantType('a{sv}'), // properties
 ]);
 
-var DisplayConfig = GObject.registerClass(
-    {
-        Properties: {
-            'dbus-connection': GObject.ParamSpec.object(
-                'dbus-connection',
-                '',
-                '',
-                GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-                Gio.DBusConnection
-            ),
-            'current-state': GObject.param_spec_variant(
-                'current-state',
-                '',
-                '',
-                CURRENT_STATE_TYPE,
-                null,
-                GObject.ParamFlags.READABLE
-            ),
-            'layout-mode': GObject.ParamSpec.int(
-                'layout-mode',
-                '',
-                '',
-                GObject.ParamFlags.READABLE,
-                0
-            ),
-            'monitors': GObject.ParamSpec.jsobject(
-                'monitors',
-                '',
-                '',
-                GObject.ParamFlags.READABLE
-            ),
-        },
+var DisplayConfig = GObject.registerClass({
+    Properties: {
+        'dbus-connection': GObject.ParamSpec.object(
+            'dbus-connection',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+            Gio.DBusConnection
+        ),
+        'current-state': GObject.param_spec_variant(
+            'current-state',
+            '',
+            '',
+            CURRENT_STATE_TYPE,
+            null,
+            GObject.ParamFlags.READABLE
+        ),
+        'layout-mode': GObject.ParamSpec.int(
+            'layout-mode',
+            '',
+            '',
+            GObject.ParamFlags.READABLE,
+            0
+        ),
+        'monitors': GObject.ParamSpec.jsobject(
+            'monitors',
+            '',
+            '',
+            GObject.ParamFlags.READABLE
+        ),
     },
-    class DDTermDisplayConfig extends GObject.Object {
-        _init(params) {
-            super._init(params);
+}, class DDTermDisplayConfig extends GObject.Object {
+    _init(params) {
+        super._init(params);
 
-            this._cancellable = null;
-            this._layout_mode = 0;
-            this._monitors = [];
-            this._serial = -1;
+        this._cancellable = null;
+        this._layout_mode = 0;
+        this._monitors = [];
+        this._serial = -1;
 
-            this._change_handler = this.dbus_connection.signal_subscribe(
-                BUS_NAME,
-                INTERFACE_NAME,
-                'MonitorsChanged',
-                OBJECT_PATH,
-                null,
-                Gio.DBusSignalFlags.NONE,
-                () => this.update_async()
-            );
-        }
+        this._change_handler = this.dbus_connection.signal_subscribe(
+            BUS_NAME,
+            INTERFACE_NAME,
+            'MonitorsChanged',
+            OBJECT_PATH,
+            null,
+            Gio.DBusSignalFlags.NONE,
+            () => this.update_async()
+        );
+    }
 
-        get current_state() {
-            return this._current_state;
-        }
+    get current_state() {
+        return this._current_state;
+    }
 
-        get layout_mode() {
-            return this._layout_mode;
-        }
+    get layout_mode() {
+        return this._layout_mode;
+    }
 
-        get monitors() {
-            return this._monitors;
-        }
+    get monitors() {
+        return this._monitors;
+    }
 
-        update_sync() {
-            this._cancellable?.cancel();
-            this._cancellable = new Gio.Cancellable();
+    update_sync() {
+        this._cancellable?.cancel();
+        this._cancellable = new Gio.Cancellable();
 
-            this._parse_current_state(
-                this.dbus_connection.call_sync(
-                    BUS_NAME,
-                    OBJECT_PATH,
-                    INTERFACE_NAME,
-                    'GetCurrentState',
-                    null,
-                    CURRENT_STATE_TYPE,
-                    Gio.DBusCallFlags.NO_AUTO_START,
-                    -1,
-                    this._cancellable
-                )
-            );
-        }
-
-        update_async() {
-            this._cancellable?.cancel();
-            this._cancellable = new Gio.Cancellable();
-
-            this.dbus_connection.call(
+        this._parse_current_state(
+            this.dbus_connection.call_sync(
                 BUS_NAME,
                 OBJECT_PATH,
                 INTERFACE_NAME,
@@ -136,65 +116,82 @@ var DisplayConfig = GObject.registerClass(
                 CURRENT_STATE_TYPE,
                 Gio.DBusCallFlags.NO_AUTO_START,
                 -1,
-                this._cancellable,
-                (source, result) => {
-                    try {
-                        this._parse_current_state(source.call_finish(result));
-                    } catch (error) {
-                        if (!(error instanceof GLib.Error &&
-                              error.matches(Gio.io_error_quark(), Gio.IOErrorEnum.CANCELLED)))
-                            logError(error);
-                    }
+                this._cancellable
+            )
+        );
+    }
+
+    update_async() {
+        this._cancellable?.cancel();
+        this._cancellable = new Gio.Cancellable();
+
+        this.dbus_connection.call(
+            BUS_NAME,
+            OBJECT_PATH,
+            INTERFACE_NAME,
+            'GetCurrentState',
+            null,
+            CURRENT_STATE_TYPE,
+            Gio.DBusCallFlags.NO_AUTO_START,
+            -1,
+            this._cancellable,
+            (source, result) => {
+                try {
+                    this._parse_current_state(source.call_finish(result));
+                } catch (error) {
+                    if (!(error instanceof GLib.Error &&
+                          error.matches(Gio.io_error_quark(), Gio.IOErrorEnum.CANCELLED)))
+                        logError(error);
                 }
-            );
-        }
-
-        static _parse_monitor(monitor) {
-            const [ids, modes_, props] = monitor.unpack();
-            const [connector, vendor_, model, monitor_serial_] = ids.deep_unpack();
-            let display_name = props.deep_unpack()['display-name'];
-
-            if (display_name instanceof GLib.Variant)
-                display_name = display_name.unpack();
-
-            return { connector, model, display_name };
-        }
-
-        _parse_current_state(state) {
-            const serial = state.get_child_value(0).get_uint32();
-            if (serial <= this._serial)
-                return;
-
-            this._current_state = state;
-            this._serial = serial;
-            this.freeze_notify();
-
-            try {
-                this.notify('current-state');
-
-                const properties = this.current_state.get_child_value(3);
-                const layout_mode = properties.lookup_value('layout-mode', null)?.unpack();
-
-                if (layout_mode !== this._layout_mode) {
-                    this._layout_mode = layout_mode;
-                    this.notify('layout-mode');
-                }
-
-                const monitors = this.current_state.get_child_value(1);
-                this._monitors = monitors.unpack().map(DisplayConfig._parse_monitor);
-                this.notify('monitors');
-            } finally {
-                this.thaw_notify();
             }
-        }
+        );
+    }
 
-        unwatch() {
-            if (this._change_handler) {
-                this.dbus_connection.signal_unsubscribe(this._change_handler);
-                this._change_handler = null;
+    static _parse_monitor(monitor) {
+        const [ids, modes_, props] = monitor.unpack();
+        const [connector, vendor_, model, monitor_serial_] = ids.deep_unpack();
+        let display_name = props.deep_unpack()['display-name'];
+
+        if (display_name instanceof GLib.Variant)
+            display_name = display_name.unpack();
+
+        return { connector, model, display_name };
+    }
+
+    _parse_current_state(state) {
+        const serial = state.get_child_value(0).get_uint32();
+        if (serial <= this._serial)
+            return;
+
+        this._current_state = state;
+        this._serial = serial;
+        this.freeze_notify();
+
+        try {
+            this.notify('current-state');
+
+            const properties = this.current_state.get_child_value(3);
+            const layout_mode = properties.lookup_value('layout-mode', null)?.unpack();
+
+            if (layout_mode !== this._layout_mode) {
+                this._layout_mode = layout_mode;
+                this.notify('layout-mode');
             }
 
-            this._cancellable?.cancel();
+            const monitors = this.current_state.get_child_value(1);
+            this._monitors = monitors.unpack().map(DisplayConfig._parse_monitor);
+            this.notify('monitors');
+        } finally {
+            this.thaw_notify();
         }
     }
-);
+
+    unwatch() {
+        if (this._change_handler) {
+            this.dbus_connection.signal_unsubscribe(this._change_handler);
+            this._change_handler = null;
+        }
+
+        this._cancellable?.cancel();
+    }
+});

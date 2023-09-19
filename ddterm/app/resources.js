@@ -120,37 +120,35 @@ class DBusInterfaceInfoCache extends TextCacheWrapper {
     }
 }
 
-var Resources = GObject.registerClass(
-    {
-        Properties: {
-            'base-uri': GObject.ParamSpec.string(
-                'base-uri',
-                '',
-                '',
-                GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-                null
-            ),
-        },
+var Resources = GObject.registerClass({
+    Properties: {
+        'base-uri': GObject.ParamSpec.string(
+            'base-uri',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+            null
+        ),
     },
-    class DDTermAppResources extends GObject.Object {
-        _init(params) {
-            super._init(params);
+},
+class DDTermAppResources extends GObject.Object {
+    _init(params) {
+        super._init(params);
 
-            this.binary_files = new BinaryCache(this.base_uri);
-            this.css_providers = new CssProviderCache(this.binary_files);
-            this.text_files = new TextCache(this.binary_files);
-            this.gtk_builders = new GtkBuilderCache(this.text_files);
-            this.dbus_interfaces = new DBusInterfaceInfoCache(this.text_files);
-        }
-
-        get menus() {
-            return this.gtk_builders.get('ddterm/app/menus.ui');
-        }
-
-        get_file(key) {
-            return this.binary_files.get_file(key);
-        }
+        this.binary_files = new BinaryCache(this.base_uri);
+        this.css_providers = new CssProviderCache(this.binary_files);
+        this.text_files = new TextCache(this.binary_files);
+        this.gtk_builders = new GtkBuilderCache(this.text_files);
+        this.dbus_interfaces = new DBusInterfaceInfoCache(this.text_files);
     }
-);
+
+    get menus() {
+        return this.gtk_builders.get('ddterm/app/menus.ui');
+    }
+
+    get_file(key) {
+        return this.binary_files.get_file(key);
+    }
+});
 
 /* exported Resources */

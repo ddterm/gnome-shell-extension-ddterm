@@ -21,32 +21,31 @@ const { GObject, Gtk } = imports.gi;
 const { dialog } = imports.ddterm.pref;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 
-var Application = GObject.registerClass(
-    class Application extends Gtk.Application {
-        _init(params) {
-            super._init(params);
+var Application = GObject.registerClass({
+}, class Application extends Gtk.Application {
+    _init(params) {
+        super._init(params);
 
-            this.connect('startup', this.startup.bind(this));
-            this.connect('activate', this.activate.bind(this));
-        }
-
-        startup() {
-            this.settings = imports.ddterm.util.settings.get_settings(Me.dir);
-        }
-
-        activate() {
-            this.preferences();
-        }
-
-        preferences() {
-            const prefs_dialog = new dialog.PrefsDialog({
-                settings: this.settings,
-                application: this,
-            });
-
-            prefs_dialog.show();
-        }
+        this.connect('startup', this.startup.bind(this));
+        this.connect('activate', this.activate.bind(this));
     }
-);
+
+    startup() {
+        this.settings = imports.ddterm.util.settings.get_settings(Me.dir);
+    }
+
+    activate() {
+        this.preferences();
+    }
+
+    preferences() {
+        const prefs_dialog = new dialog.PrefsDialog({
+            settings: this.settings,
+            application: this,
+        });
+
+        prefs_dialog.show();
+    }
+});
 
 /* exported Application */

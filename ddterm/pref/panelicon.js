@@ -24,31 +24,28 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 const { util } = Me.imports.ddterm.pref;
 const { translations } = Me.imports.ddterm.util;
 
-var Widget = GObject.registerClass(
-    {
-        GTypeName: 'DDTermPrefsPanelIcon',
-        Template: util.ui_file_uri('prefs-panel-icon.ui'),
-        Properties: {
-            'settings': GObject.ParamSpec.object(
-                'settings',
-                '',
-                '',
-                GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-                Gio.Settings
-            ),
-        },
+var Widget = GObject.registerClass({
+    GTypeName: 'DDTermPrefsPanelIcon',
+    Template: util.ui_file_uri('prefs-panel-icon.ui'),
+    Properties: {
+        'settings': GObject.ParamSpec.object(
+            'settings',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+            Gio.Settings
+        ),
     },
-    class PrefsPanelIcon extends Gtk.Box {
-        _init(params) {
-            super._init(params);
+}, class PrefsPanelIcon extends Gtk.Box {
+    _init(params) {
+        super._init(params);
 
-            util.insert_settings_actions(this, this.settings, ['panel-icon-type']);
-        }
-
-        get title() {
-            return translations.gettext('Panel Icon');
-        }
+        util.insert_settings_actions(this, this.settings, ['panel-icon-type']);
     }
-);
+
+    get title() {
+        return translations.gettext('Panel Icon');
+    }
+});
 
 /* exported Widget */
