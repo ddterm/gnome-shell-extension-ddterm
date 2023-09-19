@@ -148,6 +148,15 @@ var Application = GObject.registerClass(
             );
 
             this.add_main_option(
+                'keep-open',
+                0,
+                GLib.OptionFlags.NONE,
+                GLib.OptionArg.NONE,
+                'Keep the terminal open after the command has exited',
+                null
+            );
+
+            this.add_main_option(
                 'no-environment',
                 0,
                 GLib.OptionFlags.NONE,
@@ -351,9 +360,10 @@ var Application = GObject.registerClass(
             const argv = options.lookup(GLib.OPTION_REMAINING, 'as', true);
 
             const has_tab_options =
-                options.contains('working-directory') |
-                options.contains('title') |
-                options.contains('wait');
+                options.contains('working-directory') ||
+                options.contains('title') ||
+                options.contains('wait') ||
+                options.contains('keep-open');
 
             if (!argv?.length && !options.lookup('tab') && !has_tab_options) {
                 this.activate();
@@ -364,9 +374,11 @@ var Application = GObject.registerClass(
             const working_directory =
                 command_line.create_file_for_arg(options.lookup('working-directory') ?? '');
 
-            const properties = {};
-            const title = options.lookup('title');
+            const properties = {
+                keep_open_after_exit: options.lookup('keep-open'),
+            };
 
+            const title = options.lookup('title');
             if (title !== null) {
                 properties.title = title;
                 properties.use_custom_title = true;

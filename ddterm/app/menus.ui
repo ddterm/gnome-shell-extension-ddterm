@@ -76,6 +76,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <attribute name="label" translatable="yes">Close</attribute>
         <attribute name="action">page.close</attribute>
       </item>
+      <item>
+        <attribute name="label" translatable="yes">Keep Open After Exit</attribute>
+        <attribute name="action">page.keep-open-after-exit</attribute>
+      </item>
     </section>
     <section>
       <submenu>
@@ -174,6 +178,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <item>
       <attribute name="label" translatable="yes">Close</attribute>
       <attribute name="action">page.close</attribute>
+    </item>
+    <item>
+      <attribute name="label" translatable="yes">Keep Open After Exit</attribute>
+      <attribute name="action">page.keep-open-after-exit</attribute>
     </item>
     <section>
       <item>

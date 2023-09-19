@@ -56,6 +56,13 @@ var TerminalPage = GObject.registerClass(
                 GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
                 false
             ),
+            'keep-open-after-exit': GObject.ParamSpec.boolean(
+                'keep-open-after-exit',
+                '',
+                '',
+                GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+                false
+            ),
         },
         Signals: {
             'new-tab-before-request': {},
@@ -151,6 +158,13 @@ var TerminalPage = GObject.registerClass(
             const close_action = new Gio.SimpleAction({ name: 'close' });
             close_action.connect('activate', () => this.close());
             page_actions.add_action(close_action);
+
+            const keep_open_action = new Gio.PropertyAction({
+                name: 'keep-open-after-exit',
+                object: this,
+                property_name: 'keep-open-after-exit',
+            });
+            page_actions.add_action(keep_open_action);
 
             const new_tab_before_action = new Gio.SimpleAction({ name: 'new-tab-before' });
             new_tab_before_action.connect('activate', () => this.emit('new-tab-before-request'));
@@ -283,7 +297,10 @@ var TerminalPage = GObject.registerClass(
 
             this.insert_action_group('terminal', terminal_actions);
 
-            this.terminal.connect_after('child-exited', () => this.destroy());
+            this.terminal.connect_after('child-exited', () => {
+                if (!this.keep_open_after_exit)
+                    this.destroy();
+            });
         }
 
         get_cwd() {
