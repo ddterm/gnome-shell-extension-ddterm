@@ -116,8 +116,8 @@ var TerminalPage = GObject.registerClass(
 
             this.menu_label = new Gtk.ModelButton({ visible: true });
 
-            this.terminal.bind_property(
-                'window-title',
+            this.bind_property(
+                'title',
                 this.menu_label,
                 'text',
                 GObject.BindingFlags.SYNC_CREATE
