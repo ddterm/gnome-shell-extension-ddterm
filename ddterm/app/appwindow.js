@@ -49,7 +49,6 @@ function make_resizer(orientation) {
 }
 
 var AppWindow = GObject.registerClass({
-    GTypeName: 'DDTermAppWindow',
     Properties: {
         'resources': GObject.ParamSpec.object(
             'resources',
@@ -105,7 +104,7 @@ var AppWindow = GObject.registerClass({
         ),
     },
 },
-class AppWindow extends Gtk.ApplicationWindow {
+class DDTermAppWindow extends Gtk.ApplicationWindow {
     _init(params) {
         super._init({
             title: translations.gettext('Drop Down Terminal'),
