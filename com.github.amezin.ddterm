@@ -21,10 +21,12 @@
 
 'use strict';
 
-const { GLib, Gio } = imports.gi;
+const { GLib, GObject, Gio } = imports.gi;
 const System = imports.system;
 
 GLib.set_prgname('com.github.amezin.ddterm');
+
+GObject.gtypeNameBasedOnJSPath = true;
 
 const THIS_FILE = Gio.File.new_for_path(System.programPath);
 const ME_DIR = THIS_FILE.get_parent();
