@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-19 07:39+0000\n"
+"POT-Creation-Date: 2023-09-20 06:16+0000\n"
 "PO-Revision-Date: 2023-03-14 12:19+0000\n"
 "Last-Translator: Aleksandr Mezin <mezin.alexander@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/gnome-shell-"
@@ -18,7 +18,7 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-Basepath: .\n"
 
-#: ddterm/app/appwindow.js:111 ddterm/shell/extension.js:393
+#: ddterm/app/appwindow.js:110 ddterm/shell/extension.js:393
 #: ddterm/shell/extension.js:409
 msgid "Drop Down Terminal"
 msgstr "Terminal déroulant"

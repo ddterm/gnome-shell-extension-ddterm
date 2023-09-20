@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-19 07:39+0000\n"
+"POT-Creation-Date: 2023-09-20 06:16+0000\n"
 "PO-Revision-Date: 2023-04-25 12:23+0000\n"
 "Last-Translator: yuh <yuhldr@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 4.18-dev\n"
 
-#: ddterm/app/appwindow.js:111 ddterm/shell/extension.js:393
+#: ddterm/app/appwindow.js:110 ddterm/shell/extension.js:393
 #: ddterm/shell/extension.js:409
 msgid "Drop Down Terminal"
 msgstr "下拉终端"
