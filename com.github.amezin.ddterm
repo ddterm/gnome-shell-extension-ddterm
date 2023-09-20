@@ -28,7 +28,14 @@ GLib.set_prgname('com.github.amezin.ddterm');
 
 GObject.gtypeNameBasedOnJSPath = true;
 
-const THIS_FILE = Gio.File.new_for_path(System.programPath);
+function resolve_symlink(path) {
+    while (GLib.file_test(path, GLib.FileTest.IS_SYMLINK))
+        path = GLib.file_read_link(path);
+
+    return path;
+}
+
+const THIS_FILE = Gio.File.new_for_path(resolve_symlink(System.programPath));
 const ME_DIR = THIS_FILE.get_parent();
 
 imports.searchPath.unshift(ME_DIR.get_path());
