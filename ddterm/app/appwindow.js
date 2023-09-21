@@ -125,9 +125,6 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
             hexpand: true,
             vexpand: true,
             scrollable: true,
-            dbus_connection: this.application.get_dbus_connection(),
-            // eslint-disable-next-line max-len
-            dbus_object_path: `${this.application.get_dbus_object_path()}/window/${this.get_id()}/notebook`,
         });
         grid.attach(this.notebook, 1, 1, 1, 1);
 

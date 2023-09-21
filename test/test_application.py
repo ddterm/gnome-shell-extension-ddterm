@@ -3,7 +3,6 @@ import pathlib
 import shlex
 import subprocess
 import sys
-import time
 
 import pytest
 
@@ -78,14 +77,6 @@ class TestApp(ddterm_fixtures.DDTermFixtures):
             '/com/github/amezin/ddterm'
         )
 
-    @pytest.fixture
-    def notebook_actions(self, user_bus_connection):
-        return Gio.DBusActionGroup.get(
-            user_bus_connection,
-            'com.github.amezin.ddterm',
-            '/com/github/amezin/ddterm/window/1/notebook'
-        )
-
     @pytest.fixture(autouse=True)
     def enable_screenshots(self, x11_display, screencap):
         screencap.enable(x11_display)
@@ -115,28 +106,6 @@ class TestApp(ddterm_fixtures.DDTermFixtures):
             'com.github.amezin.ddterm.HeapDump',
             timeout=self.START_STOP_TIMEOUT_MS
         )
-
-    def test_tab_leak(self, heap_dump_api, tmp_path, notebook_actions):
-        wait_action_in_group(notebook_actions, 'new-tab')
-        wait_action_in_group(notebook_actions, 'close-current-tab')
-
-        heap_dump_api.GC(timeout=self.START_STOP_TIMEOUT_MS)
-        dump_pre = heap_dump_api.Dump(
-            '(s)', str(tmp_path),
-            timeout=self.START_STOP_TIMEOUT_MS
-        )
-
-        notebook_actions.activate_action('new-tab', None)
-        notebook_actions.activate_action('close-current-tab', None)
-        time.sleep(0.5)
-
-        heap_dump_api.GC(timeout=self.START_STOP_TIMEOUT_MS)
-        dump_post = heap_dump_api.Dump(
-            '(s)', str(tmp_path),
-            timeout=self.START_STOP_TIMEOUT_MS
-        )
-
-        compare_heap_dumps(dump_pre, dump_post)
 
     def test_cli_leak(self, container, heap_dump_api, tmp_path, app_executable):
         test_file = tmp_path / 'testfile'
