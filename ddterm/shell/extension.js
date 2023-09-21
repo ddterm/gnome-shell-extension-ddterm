@@ -80,7 +80,10 @@ function enable() {
         if (revision !== read_revision())
             show_revision_mismatch_notification();
 
-        const argv = [Me.dir.get_child(APP_ID).get_path(), '--gapplication-service'];
+        const argv = [
+            Me.dir.get_child('bin').get_child(APP_ID).get_path(),
+            '--gapplication-service',
+        ];
 
         if (app_enable_heap_dump)
             argv.push('--allow-heap-dump');

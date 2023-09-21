@@ -107,7 +107,7 @@ function dbus_service_path(basedir) {
 var Installer = class Installer {
     constructor() {
         const configure_vars = {
-            LAUNCHER: Me.dir.get_child('com.github.amezin.ddterm').get_path(),
+            LAUNCHER: Me.dir.get_child('bin').get_child('com.github.amezin.ddterm').get_path(),
         };
 
         const system_data_dirs = GLib.get_system_data_dirs();

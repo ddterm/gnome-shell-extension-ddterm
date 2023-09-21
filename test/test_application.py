@@ -92,7 +92,7 @@ class TestApp(ddterm_fixtures.DDTermFixtures):
 
     @pytest.fixture(scope='class')
     def app_executable(self, ddterm_extension_info, enable_test_extension):
-        return pathlib.PurePosixPath(ddterm_extension_info['path']) / 'com.github.amezin.ddterm'
+        return pathlib.PurePosixPath(ddterm_extension_info['path']) / 'bin/com.github.amezin.ddterm'
 
     @pytest.fixture(scope='class')
     def run_app(self, container, app_executable):

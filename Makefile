@@ -169,7 +169,7 @@ JS_SOURCE_WILDCARDS := \
 	misc/*.js \
 
 JS_SOURCES := $(wildcard $(JS_SOURCE_WILDCARDS))
-LAUNCHER := com.github.amezin.ddterm
+LAUNCHER := bin/com.github.amezin.ddterm
 EXECUTABLES := $(LAUNCHER) ddterm/app/dependencies-notification.js
 
 TRANSLATABLE_SOURCES += $(JS_SOURCES)
@@ -224,8 +224,10 @@ INSTALL_DATA := $(INSTALL) -m 644
 
 # https://www.gnu.org/software/make/manual/html_node/Directory-Variables.html
 prefix := /usr
+exec_prefix := $(prefix)
 datarootdir := $(prefix)/share
 datadir := $(datarootdir)
+bindir := $(exec_prefix)/bin
 
 extensiondir := $(datadir)/gnome-shell/extensions
 
@@ -233,8 +235,16 @@ SYS_INSTALLED_EXTENSION_DIR := $(extensiondir)/$(EXTENSION_UUID)
 SYS_INSTALLED_CONTENT := $(addprefix $(SYS_INSTALLED_EXTENSION_DIR)/,$(PACK_CONTENT))
 SYS_INSTALLED_DESKTOP_ENTRY := $(datadir)/applications/com.github.amezin.ddterm.desktop
 SYS_INSTALLED_DBUS_SERVICE := $(datadir)/dbus-1/services/com.github.amezin.ddterm.service
-SYS_INSTALLED_DIRS := $(sort $(dir $(SYS_INSTALLED_CONTENT) $(SYS_INSTALLED_DESKTOP_ENTRY) $(SYS_INSTALLED_DBUS_SERVICE)))
 SYS_INSTALLED_EXECUTABLES := $(addprefix $(SYS_INSTALLED_EXTENSION_DIR)/,$(EXECUTABLES))
+SYS_INSTALLED_LAUNCHER := $(filter %$(LAUNCHER),$(SYS_INSTALLED_EXECUTABLES))
+SYS_INSTALLED_LAUNCHER_SYMLINK := $(bindir)/$(notdir $(LAUNCHER))
+SYS_INSTALLED_ALL := \
+	$(SYS_INSTALLED_CONTENT) \
+	$(SYS_INSTALLED_DESKTOP_ENTRY) \
+	$(SYS_INSTALLED_DBUS_SERVICE) \
+	$(SYS_INSTALLED_LAUNCHER_SYMLINK) \
+
+SYS_INSTALLED_DIRS := $(sort $(dir $(SYS_INSTALLED_ALL)))
 
 $(addprefix $(DESTDIR),$(SYS_INSTALLED_DIRS)):
 	mkdir -p $@
@@ -251,7 +261,7 @@ CONFIGURED_DESKTOP_ENTRY := ddterm/com.github.amezin.ddterm.desktop
 CONFIGURED_DBUS_SERVICE := ddterm/com.github.amezin.ddterm.service
 
 $(CONFIGURED_DESKTOP_ENTRY) $(CONFIGURED_DBUS_SERVICE):
-	sed -e 's:@LAUNCHER@:$(filter %$(LAUNCHER),$(SYS_INSTALLED_EXECUTABLES)):g' $< >$@
+	sed -e 's:@LAUNCHER@:$(SYS_INSTALLED_LAUNCHER):g' $< >$@
 
 $(CONFIGURED_DESKTOP_ENTRY): ddterm/com.github.amezin.ddterm.desktop.in
 $(CONFIGURED_DBUS_SERVICE): ddterm/com.github.amezin.ddterm.service.in
@@ -264,10 +274,14 @@ $(addprefix $(DESTDIR),$(SYS_INSTALLED_DESKTOP_ENTRY) $(SYS_INSTALLED_DBUS_SERVI
 $(addprefix $(DESTDIR),$(SYS_INSTALLED_DESKTOP_ENTRY)): $(CONFIGURED_DESKTOP_ENTRY)
 $(addprefix $(DESTDIR),$(SYS_INSTALLED_DBUS_SERVICE)): $(CONFIGURED_DBUS_SERVICE)
 
-system-install: $(addprefix $(DESTDIR),$(SYS_INSTALLED_CONTENT) $(SYS_INSTALLED_DESKTOP_ENTRY) $(SYS_INSTALLED_DBUS_SERVICE))
+$(addprefix $(DESTDIR),$(SYS_INSTALLED_LAUNCHER_SYMLINK)): | installdirs
+	ln -s $(SYS_INSTALLED_LAUNCHER) $@
+
+system-install: $(addprefix $(DESTDIR),$(SYS_INSTALLED_ALL))
 
 system-uninstall:
-	$(RM) -r $(addprefix $(DESTDIR),$(SYS_INSTALLED_FULL_PREFIX) $(SYS_INSTALLED_DESKTOP_ENTRY) $(SYS_INSTALLED_DBUS_SERVICE))
+	$(RM) $(addprefix $(DESTDIR),$(SYS_INSTALLED_ALL))
+	$(RM) -r $(addprefix $(DESTDIR),$(SYS_INSTALLED_FULL_PREFIX))
 
 .PHONY: system-install system-uninstall installdirs
 

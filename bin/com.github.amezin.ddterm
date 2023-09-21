@@ -36,7 +36,8 @@ function resolve_symlink(path) {
 }
 
 const THIS_FILE = Gio.File.new_for_path(resolve_symlink(System.programPath));
-const ME_DIR = THIS_FILE.get_parent();
+const BIN_DIR = THIS_FILE.get_parent();
+const ME_DIR = BIN_DIR.get_parent();
 
 imports.searchPath.unshift(ME_DIR.get_path());
 imports.ddterm.util.translations.init(ME_DIR);
@@ -50,6 +51,11 @@ imports.ddterm.app.dependencies.gi_require(ME_DIR, {
     'Pango': '1.0',
     'Vte': '2.91',
 });
+
+const PATH = GLib.getenv('PATH').split(GLib.SEARCHPATH_SEPARATOR_S);
+
+if (!PATH.includes(BIN_DIR.get_path()))
+    GLib.setenv('PATH', [BIN_DIR.get_path(), ...PATH].join(GLib.SEARCHPATH_SEPARATOR_S), true);
 
 const app = new imports.ddterm.app.application.Application({
     application_id: 'com.github.amezin.ddterm',
