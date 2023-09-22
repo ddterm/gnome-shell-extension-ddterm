@@ -34,6 +34,7 @@ class DDTermAccelLabel extends Gtk.Label {
     _init(params) {
         this._name = null;
         this._target_value = null;
+        this._toplevel = null;
         this._keys_handler = null;
 
         super._init(params);
@@ -45,7 +46,7 @@ class DDTermAccelLabel extends Gtk.Label {
             }
         });
 
-        this.on_hierarchy_changed(null);
+        this.on_hierarchy_changed();
     }
 
     get action_name() {
@@ -91,16 +92,17 @@ class DDTermAccelLabel extends Gtk.Label {
         this.update_label();
     }
 
-    on_hierarchy_changed(previous_toplevel) {
+    on_hierarchy_changed() {
         if (this._keys_handler) {
-            previous_toplevel.disconnect(this._keys_handler);
+            this._toplevel.disconnect(this._keys_handler);
             this._keys_handler = null;
+            this._toplevel = null;
         }
 
-        const toplevel = this.get_toplevel();
+        this._toplevel = this.get_toplevel();
 
-        if (toplevel instanceof Gtk.Window) {
-            this._keys_handler = this.get_toplevel()?.connect(
+        if (this._toplevel instanceof Gtk.Window) {
+            this._keys_handler = this._toplevel.connect(
                 'keys-changed',
                 () => this.update_label()
             );
