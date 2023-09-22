@@ -119,6 +119,34 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </item>
       </submenu>
     </section>
+    <section>
+      <submenu>
+        <attribute name="label" translatable="yes">Layout</attribute>
+        <section>
+          <item>
+            <attribute name="label" translatable="yes">No Split</attribute>
+            <attribute name="action">page.split-layout</attribute>
+            <attribute name="target">no-split</attribute>
+          </item>
+          <item>
+            <attribute name="label" translatable="yes">Split Horizontally</attribute>
+            <attribute name="action">page.split-layout</attribute>
+            <attribute name="target">horizontal-split</attribute>
+          </item>
+          <item>
+            <attribute name="label" translatable="yes">Split Vertically</attribute>
+            <attribute name="action">page.split-layout</attribute>
+            <attribute name="target">vertical-split</attribute>
+          </item>
+        </section>
+        <section>
+          <item>
+            <attribute name="label" translatable="yes">Move Tab to Other Pane</attribute>
+            <attribute name="action">page.move-to-other-pane</attribute>
+          </item>
+        </section>
+      </submenu>
+    </section>
     <submenu>
       <attribute name="label" translatable="yes">Preferences</attribute>
       <section>
@@ -228,9 +256,54 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <attribute name="action">page.move-next</attribute>
       </item>
     </section>
+    <section>
+      <submenu>
+        <attribute name="label" translatable="yes">Layout</attribute>
+        <section>
+          <item>
+            <attribute name="label" translatable="yes">No Split</attribute>
+            <attribute name="action">page.split-layout</attribute>
+            <attribute name="target">no-split</attribute>
+          </item>
+          <item>
+            <attribute name="label" translatable="yes">Split Horizontally</attribute>
+            <attribute name="action">page.split-layout</attribute>
+            <attribute name="target">horizontal-split</attribute>
+          </item>
+          <item>
+            <attribute name="label" translatable="yes">Split Vertically</attribute>
+            <attribute name="action">page.split-layout</attribute>
+            <attribute name="target">vertical-split</attribute>
+          </item>
+        </section>
+        <section>
+          <item>
+            <attribute name="label" translatable="yes">Move Tab to Other Pane</attribute>
+            <attribute name="action">page.move-to-other-pane</attribute>
+          </item>
+        </section>
+      </submenu>
+    </section>
     <item>
       <attribute name="label" translatable="yes">Preferences...</attribute>
       <attribute name="action">app.preferences</attribute>
+    </item>
+  </menu>
+  <menu id="notebook-layout">
+    <item>
+      <attribute name="label" translatable="yes">No Split</attribute>
+      <attribute name="action">notebook.split-layout</attribute>
+      <attribute name="target">no-split</attribute>
+    </item>
+    <item>
+      <attribute name="label" translatable="yes">Split Horizontally</attribute>
+      <attribute name="action">notebook.split-layout</attribute>
+      <attribute name="target">horizontal-split</attribute>
+    </item>
+    <item>
+      <attribute name="label" translatable="yes">Split Vertically</attribute>
+      <attribute name="action">notebook.split-layout</attribute>
+      <attribute name="target">vertical-split</attribute>
     </item>
   </menu>
 </interface>

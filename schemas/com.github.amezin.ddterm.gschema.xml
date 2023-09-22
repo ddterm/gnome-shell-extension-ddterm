@@ -468,6 +468,21 @@
     <key name="shortcut-move-tab-next" type="as">
       <default><![CDATA[['<Ctrl><Shift>Page_Down']]]></default>
     </key>
+    <key name="shortcut-split-horizontal" type="as">
+      <default><![CDATA[[]]]></default>
+    </key>
+    <key name="shortcut-split-vertical" type="as">
+      <default><![CDATA[[]]]></default>
+    </key>
+    <key name="shortcut-move-tab-to-other-pane" type="as">
+      <default><![CDATA[[]]]></default>
+    </key>
+    <key name="shortcut-split-position-inc" type="as">
+      <default><![CDATA[[]]]></default>
+    </key>
+    <key name="shortcut-split-position-dec" type="as">
+      <default><![CDATA[[]]]></default>
+    </key>
     <key name="shortcut-set-custom-tab-title" type="as">
       <default><![CDATA[[]]]></default>
     </key>

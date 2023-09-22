@@ -22,8 +22,9 @@
 /* exported AppWindow */
 
 const { GLib, GObject, Gio, Gdk, Gtk } = imports.gi;
-const { notebook, resources, terminalsettings } = imports.ddterm.app;
+const { resources, terminalsettings } = imports.ddterm.app;
 const { displayconfig, translations } = imports.ddterm.util;
+const { Notebook } = imports.ddterm.app.notebook;
 
 function make_resizer(orientation) {
     const box = new Gtk.EventBox({ visible: true });
@@ -47,6 +48,13 @@ function make_resizer(orientation) {
 
     return box;
 }
+
+const WINDOW_POS_TO_RESIZE_EDGE = {
+    top: Gdk.WindowEdge.SOUTH,
+    bottom: Gdk.WindowEdge.NORTH,
+    left: Gdk.WindowEdge.EAST,
+    right: Gdk.WindowEdge.WEST,
+};
 
 var AppWindow = GObject.registerClass({
     Properties: {
@@ -102,6 +110,48 @@ var AppWindow = GObject.registerClass({
             0.5,
             0.1
         ),
+        'tab-show-shortcuts': GObject.ParamSpec.boolean(
+            'tab-show-shortcuts',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+            true
+        ),
+        'active-notebook': GObject.ParamSpec.object(
+            'active-notebook',
+            '',
+            '',
+            GObject.ParamFlags.READABLE,
+            Notebook
+        ),
+        'is-empty': GObject.ParamSpec.boolean(
+            'is-empty',
+            '',
+            '',
+            GObject.ParamFlags.READABLE,
+            false
+        ),
+        'is-split': GObject.ParamSpec.boolean(
+            'is-split',
+            '',
+            '',
+            GObject.ParamFlags.READABLE,
+            false
+        ),
+        'can-split': GObject.ParamSpec.boolean(
+            'can-split',
+            '',
+            '',
+            GObject.ParamFlags.READABLE,
+            false
+        ),
+        'split-layout': GObject.ParamSpec.string(
+            'split-layout',
+            '',
+            '',
+            GObject.ParamFlags.READABLE,
+            'no-split'
+        ),
     },
 },
 class DDTermAppWindow extends Gtk.ApplicationWindow {
@@ -118,101 +168,57 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
             visible: true,
         });
 
-        this.notebook = new notebook.Notebook({
-            resources: this.resources,
-            terminal_settings: this.terminal_settings,
+        this.paned = new Gtk.Paned({
             visible: true,
+            border_width: 0,
             hexpand: true,
             vexpand: true,
-            scrollable: true,
         });
-        grid.attach(this.notebook, 1, 1, 1, 1);
+        grid.attach(this.paned, 1, 1, 1, 1);
+
+        this._title_binding = null;
+        this.paned.connect('set-focus-child', (paned, child) => {
+            this._title_binding?.unbind();
+            this._title_binding = child?.bind_property(
+                'current-title',
+                this,
+                'title',
+                GObject.BindingFlags.SYNC_CREATE
+            );
+
+            this.notify('active-notebook');
+        });
+
+        const notebook1 = this.create_notebook();
+        this.paned.pack1(notebook1, true, false);
+        this.paned.set_focus_child(notebook1);
+
+        const notebook2 = this.create_notebook();
+        this.paned.pack2(notebook2, true, false);
+
+        const move_page = (child, src, dst) => {
+            const label = src.get_tab_label(child);
+            this.freeze_notify();
+
+            try {
+                src.remove(child);
+                dst.insert_page(child, label, -1);
+            } finally {
+                this.thaw_notify();
+            }
+        };
+
+        notebook1.connect('move-to-other-pane', (_, page) => move_page(page, notebook1, notebook2));
+        notebook2.connect('move-to-other-pane', (_, page) => move_page(page, notebook2, notebook1));
 
         this.connect('notify::tab-label-width', this.update_tab_label_width.bind(this));
         this.connect('configure-event', this.update_tab_label_width.bind(this));
         this.update_tab_label_width();
 
-        this.notebook.bind_property(
-            'current-title',
-            this,
-            'title',
-            GObject.BindingFlags.SYNC_CREATE
-        );
-
         this.settings.bind(
             'tab-label-width',
             this,
             'tab-label-width',
-            Gio.SettingsBindFlags.GET
-        );
-
-        this.settings.bind(
-            'new-tab-button',
-            this.notebook,
-            'show-new-tab-button',
-            Gio.SettingsBindFlags.GET
-        );
-
-        this.settings.bind(
-            'new-tab-front-button',
-            this.notebook,
-            'show-new-tab-front-button',
-            Gio.SettingsBindFlags.GET
-        );
-
-        this.settings.bind(
-            'tab-switcher-popup',
-            this.notebook,
-            'show-tab-switch-popup',
-            Gio.SettingsBindFlags.GET
-        );
-
-        this.settings.bind(
-            'tab-policy',
-            this.notebook,
-            'tab-policy',
-            Gio.SettingsBindFlags.GET
-        );
-
-        this.settings.bind(
-            'tab-position',
-            this.notebook,
-            'tab-pos',
-            Gio.SettingsBindFlags.GET
-        );
-
-        this.settings.bind(
-            'tab-expand',
-            this.notebook,
-            'tab-expand',
-            Gio.SettingsBindFlags.GET
-        );
-
-        this.settings.bind(
-            'notebook-border',
-            this.notebook,
-            'show-border',
-            Gio.SettingsBindFlags.GET
-        );
-
-        this.settings.bind(
-            'tab-label-ellipsize-mode',
-            this.notebook,
-            'tab-label-ellipsize-mode',
-            Gio.SettingsBindFlags.GET
-        );
-
-        this.settings.bind(
-            'tab-close-buttons',
-            this.notebook,
-            'tab-close-buttons',
-            Gio.SettingsBindFlags.GET
-        );
-
-        this.settings.bind(
-            'tab-show-shortcuts',
-            this.notebook,
-            'tab-show-shortcuts',
             Gio.SettingsBindFlags.GET
         );
 
@@ -242,21 +248,11 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
             Gio.SettingsBindFlags.GET
         );
 
-        const window_pos_to_resize_edge = {
-            top: Gdk.WindowEdge.SOUTH,
-            bottom: Gdk.WindowEdge.NORTH,
-            left: Gdk.WindowEdge.EAST,
-            right: Gdk.WindowEdge.WEST,
-        };
-
         const edge_handler = this.settings.connect('changed::window-position', () => {
-            this.resize_edge =
-                window_pos_to_resize_edge[this.settings.get_string('window-position')];
+            this.update_window_pos();
         });
         this.connect('destroy', () => this.settings.disconnect(edge_handler));
-
-        this.resize_edge =
-            window_pos_to_resize_edge[this.settings.get_string('window-position')];
+        this.update_window_pos();
 
         this.connect('notify::screen', () => this.update_visual());
         this.update_visual();
@@ -295,6 +291,14 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
             'background-opacity-inc': () => {
                 this.adjust_double_setting('background-opacity', OPACITY_MOD);
             },
+            'split-position-inc': () => {
+                const step = (this.paned.max_position - this.paned.min_position) / 10;
+                this.paned.position = Math.min(this.paned.position + step, this.paned.max_position);
+            },
+            'split-position-dec': () => {
+                const step = (this.paned.max_position - this.paned.min_position) / 10;
+                this.paned.position = Math.max(this.paned.position - step, this.paned.min_position);
+            },
         };
 
         for (const [name, activate] of Object.entries(actions)) {
@@ -302,6 +306,12 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
             action.connect('activate', activate);
             this.add_action(action);
         }
+
+        ['split-position-inc', 'split-position-dec'].map(
+            key => this.lookup_action(key)
+        ).forEach(action => {
+            this.bind_property('is-split', action, 'enabled', GObject.BindingFlags.SYNC_CREATE);
+        });
 
         this.settings.bind(
             'window-type-hint',
@@ -324,16 +334,28 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
             Gio.SettingsBindFlags.GET
         );
 
-        const suppress_delete_handler = this.connect('delete-event', () => {
+        this.settings.bind(
+            'tab-show-shortcuts',
+            this,
+            'tab-show-shortcuts',
+            Gio.SettingsBindFlags.GET
+        );
+
+        this.connect('notify::tab-show-shortcuts', () => this.update_show_shortcuts());
+        this.connect('notify::active-notebook', () => this.update_show_shortcuts());
+        this.update_show_shortcuts();
+
+        this.connect('delete-event', () => {
+            if (this.is_empty)
+                return false;
+
             this.hide();
             return true;
         });
 
-        this.notebook.connect('page-removed', () => {
-            if (this.notebook.get_n_pages() === 0) {
-                this.disconnect(suppress_delete_handler);
+        this.connect('notify::is-empty', () => {
+            if (this.is_empty)
                 this.close();
-            }
         });
 
         const display = this.get_display();
@@ -373,6 +395,129 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
 
             this.sync_size_with_extension();
         }
+    }
+
+    create_notebook() {
+        const notebook = new Notebook({
+            resources: this.resources,
+            terminal_settings: this.terminal_settings,
+            scrollable: true,
+            group_name: 'ddtermnotebook',
+        });
+
+        const update_notebook_visibility = () => {
+            notebook.visible = notebook.get_n_pages() > 0;
+
+            this.notify('can-split');
+
+            if (!notebook.visible)
+                this.grab_focus();
+        };
+
+        notebook.connect('page-added', update_notebook_visibility);
+        notebook.connect('page-removed', update_notebook_visibility);
+
+        notebook.connect('notify::visible', () => {
+            this.freeze_notify();
+            this.notify('is-empty');
+            this.notify('is-split');
+            this.thaw_notify();
+        });
+
+        notebook.connect('split-layout', (_, page, mode) => {
+            if (mode === 'no-split') {
+                this.reset_layout();
+                return;
+            }
+
+            this.paned.orientation =
+                mode === 'vertical-split' ? Gtk.Orientation.HORIZONTAL : Gtk.Orientation.VERTICAL;
+
+            if (!this.is_split)
+                notebook.emit('move-to-other-pane', page);
+        });
+
+        this.paned.connect('notify::orientation', () => this.notify('split-layout'));
+        this.connect('notify::is-split', () => this.notify('split-layout'));
+
+        this.bind_property(
+            'can-split',
+            notebook,
+            'can-split',
+            GObject.BindingFlags.SYNC_CREATE
+        );
+
+        this.bind_property(
+            'split-layout',
+            notebook,
+            'split-layout',
+            GObject.BindingFlags.SYNC_CREATE
+        );
+
+        this.settings.bind(
+            'new-tab-button',
+            notebook,
+            'show-new-tab-button',
+            Gio.SettingsBindFlags.GET
+        );
+
+        this.settings.bind(
+            'new-tab-front-button',
+            notebook,
+            'show-new-tab-front-button',
+            Gio.SettingsBindFlags.GET
+        );
+
+        this.settings.bind(
+            'tab-switcher-popup',
+            notebook,
+            'show-tab-switch-popup',
+            Gio.SettingsBindFlags.GET
+        );
+
+        this.settings.bind(
+            'tab-policy',
+            notebook,
+            'tab-policy',
+            Gio.SettingsBindFlags.GET
+        );
+
+        this.settings.bind(
+            'tab-position',
+            notebook,
+            'tab-pos',
+            Gio.SettingsBindFlags.GET
+        );
+
+        this.settings.bind(
+            'tab-expand',
+            notebook,
+            'tab-expand',
+            Gio.SettingsBindFlags.GET
+        );
+
+        this.settings.bind(
+            'notebook-border',
+            notebook,
+            'show-border',
+            Gio.SettingsBindFlags.GET
+        );
+
+        this.settings.bind(
+            'tab-label-ellipsize-mode',
+            notebook,
+            'tab-label-ellipsize-mode',
+            Gio.SettingsBindFlags.GET
+        );
+
+        this.settings.bind(
+            'tab-close-buttons',
+            notebook,
+            'tab-close-buttons',
+            Gio.SettingsBindFlags.GET
+        );
+
+        return notebook;
     }
 
     setup_draw_handler() {
@@ -474,6 +619,90 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
 
     update_tab_label_width() {
         const [width] = this.get_size();
-        this.notebook.tab_label_width = Math.floor(this.tab_label_width * width);
+        const tab_label_width = Math.floor(this.tab_label_width * width);
+
+        this.paned.foreach(child => {
+            child.tab_label_width = tab_label_width;
+        });
+    }
+
+    get active_notebook() {
+        return this.paned.get_focus_child();
+    }
+
+    get is_empty() {
+        return this.paned.get_children().every(nb => !nb.visible);
+    }
+
+    get is_split() {
+        return this.paned.get_children().every(nb => nb.visible);
+    }
+
+    get can_split() {
+        const total =
+            this.paned.get_children().reduce((sum, nb) => sum + nb.get_n_pages(), 0);
+
+        return total > 1;
+    }
+
+    get split_layout() {
+        if (!this.is_split)
+            return 'no-split';
+
+        if (this.paned.orientation === Gtk.Orientation.HORIZONTAL)
+            return 'vertical-split';
+
+        return 'horizontal-split';
+    }
+
+    reset_layout() {
+        if (!this.is_split)
+            return;
+
+        const dst = this.paned.get_child1();
+        const src = this.paned.get_child2();
+        const current_page = this.active_notebook?.current_child;
+
+        this.freeze_notify();
+
+        try {
+            for (const child of src.get_children()) {
+                const label = src.get_tab_label(child);
+
+                src.remove(child);
+                dst.insert_page(child, label, -1);
+            }
+
+            if (current_page)
+                dst.set_current_page(dst.page_num(current_page));
+        } finally {
+            this.thaw_notify();
+        }
+    }
+
+    update_window_pos() {
+        const pos = this.settings.get_string('window-position');
+
+        this.resize_edge = WINDOW_POS_TO_RESIZE_EDGE[pos];
+    }
+
+    update_show_shortcuts() {
+        this.paned.foreach(child => {
+            child.tab_show_shortcuts = this.tab_show_shortcuts && child === this.active_notebook;
+        });
+    }
+
+    vfunc_grab_focus() {
+        if (this.active_notebook?.visible) {
+            this.active_notebook.grab_focus();
+            return;
+        }
+
+        for (const notebook of this.paned.get_children()) {
+            if (notebook.visible) {
+                notebook.grab_focus();
+                return;
+            }
+        }
     }
 });

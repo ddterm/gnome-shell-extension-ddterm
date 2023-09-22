@@ -62,12 +62,30 @@ var TerminalPage = GObject.registerClass({
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             false
         ),
+        'split-layout': GObject.ParamSpec.string(
+            'split-layout',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+            'no-split'
+        ),
+        'can-split': GObject.ParamSpec.boolean(
+            'can-split',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+            false
+        ),
     },
     Signals: {
         'new-tab-before-request': {},
         'new-tab-after-request': {},
         'move-prev-request': {},
         'move-next-request': {},
+        'split-layout-request': {
+            param_types: [String],
+        },
+        'move-to-other-pane-request': {},
     },
 }, class DDTermTerminalPage extends Gtk.Box {
     _init(params) {
@@ -169,6 +187,42 @@ var TerminalPage = GObject.registerClass({
         const move_next_action = new Gio.SimpleAction({ name: 'move-next' });
         move_next_action.connect('activate', () => this.emit('move-next-request'));
         page_actions.add_action(move_next_action);
+
+        const split_layout_action = new Gio.SimpleAction({
+            name: 'split-layout',
+            parameter_type: new GLib.VariantType('s'),
+            state: GLib.Variant.new_string(this.split_layout),
+        });
+        this.connect('notify::split-layout', () => {
+            split_layout_action.state = GLib.Variant.new_string(this.split_layout);
+        });
+        split_layout_action.connect('change-state', (_, value) => {
+            this.emit('split-layout-request', value.unpack());
+        });
+        split_layout_action.set_state_hint(new GLib.Variant('as', [
+            'no-split',
+            'horizontal-split',
+            'vertical-split',
+        ]));
+        this.bind_property(
+            'can-split',
+            split_layout_action,
+            'enabled',
+            GObject.BindingFlags.SYNC_CREATE
+        );
+        page_actions.add_action(split_layout_action);
+
+        const move_to_other_pane_action = new Gio.SimpleAction({ name: 'move-to-other-pane' });
+        move_to_other_pane_action.connect('activate', () => {
+            this.emit('move-to-other-pane-request');
+        });
+        this.bind_property(
+            'can-split',
+            move_to_other_pane_action,
+            'enabled',
+            GObject.BindingFlags.SYNC_CREATE
+        );
+        page_actions.add_action(move_to_other_pane_action);
 
         this._title_binding = null;
         this.connect('notify::use-custom-title', () => {

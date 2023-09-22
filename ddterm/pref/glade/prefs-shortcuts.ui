@@ -223,6 +223,41 @@ along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licens
         <col id="4">False</col>
       </row>
       <row>
+        <col id="0">shortcut-split-horizontal</col>
+        <col id="1" translatable="yes">Split Horizontally</col>
+        <col id="2">0</col>
+        <col id="3">0</col>
+        <col id="4">False</col>
+      </row>
+      <row>
+        <col id="0">shortcut-split-vertical</col>
+        <col id="1" translatable="yes">Split Vertically</col>
+        <col id="2">0</col>
+        <col id="3">0</col>
+        <col id="4">False</col>
+      </row>
+      <row>
+        <col id="0">shortcut-move-tab-to-other-pane</col>
+        <col id="1" translatable="yes">Move Tab to Other Split Pane</col>
+        <col id="2">0</col>
+        <col id="3">0</col>
+        <col id="4">False</col>
+      </row>
+      <row>
+        <col id="0">shortcut-split-position-inc</col>
+        <col id="1" translatable="yes">Increase First Split Pane Size</col>
+        <col id="2">0</col>
+        <col id="3">0</col>
+        <col id="4">False</col>
+      </row>
+      <row>
+        <col id="0">shortcut-split-position-dec</col>
+        <col id="1" translatable="yes">Decrease First Split Pane Size</col>
+        <col id="2">0</col>
+        <col id="3">0</col>
+        <col id="4">False</col>
+      </row>
+      <row>
         <col id="0">shortcut-set-custom-tab-title</col>
         <col id="1" translatable="yes">Set Custom Tab Title</col>
         <col id="2">0</col>

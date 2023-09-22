@@ -289,6 +289,11 @@ class Application extends Gtk.Application {
             'shortcut-next-tab': 'notebook.next-tab',
             'shortcut-move-tab-prev': 'page.move-prev',
             'shortcut-move-tab-next': 'page.move-next',
+            'shortcut-split-horizontal': 'page.split-layout("horizontal-split")',
+            'shortcut-split-vertical': 'page.split-layout("vertical-split")',
+            'shortcut-move-tab-to-other-pane': 'page.move-to-other-pane',
+            'shortcut-split-position-inc': 'win.split-position-inc',
+            'shortcut-split-position-dec': 'win.split-position-dec',
             'shortcut-set-custom-tab-title': 'page.use-custom-title(true)',
             'shortcut-reset-tab-title': 'page.use-custom-title(false)',
             'shortcut-find': 'terminal.find',
@@ -386,7 +391,7 @@ class Application extends Gtk.Application {
             properties.use_custom_title = true;
         }
 
-        const notebook = this.ensure_window(false).notebook;
+        const notebook = this.ensure_window(false).active_notebook;
         const command = argv?.length
             ? new terminal.TerminalCommand({ argv, envv, working_directory })
             : notebook.get_command_from_settings(working_directory, envv);
@@ -425,7 +430,7 @@ class Application extends Gtk.Application {
 
     open_file(file) {
         const file_type = file.query_file_type(Gio.FileQueryInfoFlags.NONE, null);
-        const notebook = this.ensure_window(false).notebook;
+        const notebook = this.ensure_window(false).active_notebook;
         const command = file_type === Gio.FileType.DIRECTORY
             ? notebook.get_command_from_settings(file)
             : new terminal.TerminalCommand({ argv: [file.get_path()] });
@@ -473,7 +478,7 @@ class Application extends Gtk.Application {
         });
 
         if (with_terminal)
-            this.window.notebook.new_page();
+            this.window.active_notebook.new_page();
 
         return this.window;
     }

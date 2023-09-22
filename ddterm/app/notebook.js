@@ -121,6 +121,28 @@ var Notebook = GObject.registerClass({
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             true
         ),
+        'split-layout': GObject.ParamSpec.string(
+            'split-layout',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+            'no-split'
+        ),
+        'can-split': GObject.ParamSpec.boolean(
+            'can-split',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+            false
+        ),
+    },
+    Signals: {
+        'split-layout': {
+            param_types: [terminalpage.TerminalPage, String],
+        },
+        'move-to-other-pane': {
+            param_types: [terminalpage.TerminalPage],
+        },
     },
 }, class DDTermNotebook extends Gtk.Notebook {
     _init(params) {
@@ -144,8 +166,12 @@ var Notebook = GObject.registerClass({
             GObject.BindingFlags.BIDIRECTIONAL | GObject.BindingFlags.SYNC_CREATE
         );
 
+        const menu = new Gio.Menu();
+        menu.append_section(null, new NotebookMenu({ notebook: this }));
+        menu.append_section(null, this.resources.menus.get_object('notebook-layout'));
+
         this.tab_switch_button = new Gtk.MenuButton({
-            menu_model: new NotebookMenu({ notebook: this }),
+            menu_model: menu,
             focus_on_click: false,
             relief: Gtk.ReliefStyle.NONE,
             visible: true,
@@ -224,6 +250,30 @@ var Notebook = GObject.registerClass({
         });
         this.actions.add_action(this.tab_select_action);
 
+        const split_layout_action = new Gio.SimpleAction({
+            name: 'split-layout',
+            parameter_type: new GLib.VariantType('s'),
+            state: GLib.Variant.new_string(this.split_layout),
+        });
+        this.connect('notify::split-layout', () => {
+            split_layout_action.state = GLib.Variant.new_string(this.split_layout);
+        });
+        split_layout_action.connect('change-state', (_, value) => {
+            this.emit('split-layout', this.current_child, value.unpack());
+        });
+        split_layout_action.set_state_hint(new GLib.Variant('as', [
+            'no-split',
+            'horizontal-split',
+            'vertical-split',
+        ]));
+        this.bind_property(
+            'can-split',
+            split_layout_action,
+            'enabled',
+            GObject.BindingFlags.SYNC_CREATE
+        );
+        this.actions.add_action(split_layout_action);
+
         this.connect('page-added', this.update_tabs_visible.bind(this));
         this.connect('page-removed', this.update_tabs_visible.bind(this));
 
@@ -261,8 +311,9 @@ var Notebook = GObject.registerClass({
         this.page_disconnect = new Map();
     }
 
-    on_page_added(child, _page_num) {
+    on_page_added(child, page_num) {
         this.set_tab_reorderable(child, true);
+        this.set_tab_detachable(child, true);
         this.child_set_property(child, 'tab-expand', this.tab_expand);
 
         const handlers = [
@@ -283,6 +334,12 @@ var Notebook = GObject.registerClass({
                 const n_pages = this.get_n_pages();
 
                 this.reorder_child(child, (current + 1) % n_pages);
+            }),
+            child.connect('split-layout-request', (_, param) => {
+                this.emit('split-layout', child, param);
+            }),
+            child.connect('move-to-other-pane-request', () => {
+                this.emit('move-to-other-pane', child);
             }),
         ];
 
@@ -313,6 +370,18 @@ var Notebook = GObject.registerClass({
                 'show-shortcut',
                 GObject.BindingFlags.SYNC_CREATE
             ),
+            this.bind_property(
+                'split-layout',
+                child,
+                'split-layout',
+                GObject.BindingFlags.SYNC_CREATE
+            ),
+            this.bind_property(
+                'can-split',
+                child,
+                'can-split',
+                GObject.BindingFlags.SYNC_CREATE
+            ),
         ];
 
         this.page_disconnect.set(child, () => {
@@ -324,6 +393,8 @@ var Notebook = GObject.registerClass({
         });
 
         this.update_tab_switch_actions();
+        this.set_current_page(page_num);
+        this.grab_focus();
     }
 
     on_page_removed(child, _page_num) {
@@ -352,10 +423,7 @@ var Notebook = GObject.registerClass({
             ...properties,
         });
 
-        const index = this.insert_page(page, page.tab_label, position);
-        this.set_current_page(index);
-        this.grab_focus();
-
+        this.insert_page(page, page.tab_label, position);
         return page;
     }
 
