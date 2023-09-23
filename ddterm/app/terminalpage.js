@@ -293,6 +293,48 @@ var TerminalPage = GObject.registerClass({
             GObject.BindingFlags.SYNC_CREATE
         ));
 
+        const font_scale_increase_action = new Gio.SimpleAction({
+            name: 'font-scale-increase',
+        });
+        font_scale_increase_action.connect('activate', () => {
+            this.terminal.increase_font_scale();
+        });
+        terminal_actions.add_action(font_scale_increase_action);
+
+        this.terminal.bind_property(
+            'can-increase-font-scale',
+            font_scale_increase_action,
+            'enabled',
+            GObject.BindingFlags.SYNC_CREATE
+        );
+
+        const font_scale_decrease_action = new Gio.SimpleAction({
+            name: 'font-scale-decrease',
+        });
+        font_scale_decrease_action.connect('activate', () => {
+            this.terminal.decrease_font_scale();
+        });
+        terminal_actions.add_action(font_scale_decrease_action);
+
+        this.terminal.bind_property(
+            'can-decrease-font-scale',
+            font_scale_decrease_action,
+            'enabled',
+            GObject.BindingFlags.SYNC_CREATE
+        );
+
+        const font_scale_reset_action = new Gio.SimpleAction({
+            name: 'font-scale-reset',
+            enabled: this.terminal.font_scale !== 1,
+        });
+        font_scale_reset_action.connect('activate', () => {
+            this.terminal.font_scale = 1;
+        });
+        this.terminal.connect('notify::font-scale', () => {
+            font_scale_reset_action.enabled = this.terminal.font_scale !== 1;
+        });
+        terminal_actions.add_action(font_scale_reset_action);
+
         this.insert_action_group('terminal', terminal_actions);
 
         this.terminal.connect_after('child-exited', () => {

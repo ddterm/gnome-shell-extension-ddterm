@@ -24,6 +24,61 @@ const { tcgetpgrp, urldetect } = imports.ddterm.app;
 
 /* exported Terminal TerminalColors TerminalCommand PALETTE_SIZE */
 
+const PANGO_SCALE_XX_SMALL = 0.5787037037037;
+const PANGO_SCALE_X_SMALL = 0.6944444444444;
+const PANGO_SCALE_SMALL = 0.8333333333333;
+const PANGO_SCALE_MEDIUM = 1.0;
+const PANGO_SCALE_LARGE = 1.2;
+const PANGO_SCALE_X_LARGE = 1.44;
+const PANGO_SCALE_XX_LARGE = 1.728;
+
+const TERMINAL_SCALE_XXX_SMALL = PANGO_SCALE_XX_SMALL / 1.2;
+const TERMINAL_SCALE_XXXX_SMALL = TERMINAL_SCALE_XXX_SMALL / 1.2;
+const TERMINAL_SCALE_XXXXX_SMALL = TERMINAL_SCALE_XXXX_SMALL / 1.2;
+const TERMINAL_SCALE_XXX_LARGE = PANGO_SCALE_XX_LARGE * 1.2;
+const TERMINAL_SCALE_XXXX_LARGE = TERMINAL_SCALE_XXX_LARGE * 1.2;
+const TERMINAL_SCALE_XXXXX_LARGE = TERMINAL_SCALE_XXXX_LARGE * 1.2;
+const TERMINAL_SCALE_MINIMUM = TERMINAL_SCALE_XXXXX_SMALL / 1.2;
+const TERMINAL_SCALE_MAXIMUM = TERMINAL_SCALE_XXXXX_LARGE * 1.2;
+
+const ZOOM_FACTORS = [
+    TERMINAL_SCALE_MINIMUM,
+    TERMINAL_SCALE_XXXXX_SMALL,
+    TERMINAL_SCALE_XXXX_SMALL,
+    TERMINAL_SCALE_XXX_SMALL,
+    PANGO_SCALE_XX_SMALL,
+    PANGO_SCALE_X_SMALL,
+    PANGO_SCALE_SMALL,
+    PANGO_SCALE_MEDIUM,
+    PANGO_SCALE_LARGE,
+    PANGO_SCALE_X_LARGE,
+    PANGO_SCALE_XX_LARGE,
+    TERMINAL_SCALE_XXX_LARGE,
+    TERMINAL_SCALE_XXXX_LARGE,
+    TERMINAL_SCALE_XXXXX_LARGE,
+    TERMINAL_SCALE_MAXIMUM,
+];
+
+const ZOOM_FACTORS_REVERSE = ZOOM_FACTORS.slice().reverse();
+
+function find_larger_zoom_factor(current) {
+    for (const factor of ZOOM_FACTORS) {
+        if (factor - current > 1e-6)
+            return factor;
+    }
+
+    return null;
+}
+
+function find_smaller_zoom_factor(current) {
+    for (const factor of ZOOM_FACTORS_REVERSE) {
+        if (current - factor > 1e-6)
+            return factor;
+    }
+
+    return null;
+}
+
 var PALETTE_SIZE = 16;
 
 const PALETTE_PROPERTIES = Array.from(
@@ -209,6 +264,20 @@ var Terminal = GObject.registerClass({
             GObject.ParamFlags.READABLE,
             null
         ),
+        'can-increase-font-scale': GObject.ParamSpec.boolean(
+            'can-increase-font-scale',
+            '',
+            '',
+            GObject.ParamFlags.READABLE,
+            true
+        ),
+        'can-decrease-font-scale': GObject.ParamSpec.boolean(
+            'can-decrease-font-scale',
+            '',
+            '',
+            GObject.ParamFlags.READABLE,
+            true
+        ),
     },
 }, class DDTermTerminal extends Vte.Terminal {
     _init(params) {
@@ -244,6 +313,11 @@ var Terminal = GObject.registerClass({
 
         if (this._background_from_style)
             this.set_color_background(null);
+
+        this.connect('notify::font-scale', () => {
+            this.notify('can-increase-font-scale');
+            this.notify('can-decrease-font-scale');
+        });
     }
 
     get child_pid() {
@@ -337,6 +411,28 @@ var Terminal = GObject.registerClass({
 
     set color_highlight_foreground(value) {
         this.set_color_highlight_foreground(value);
+    }
+
+    get can_increase_font_scale() {
+        return find_larger_zoom_factor(this.font_scale) !== null;
+    }
+
+    increase_font_scale() {
+        const new_scale = find_larger_zoom_factor(this.font_scale);
+
+        if (new_scale !== null)
+            this.font_scale = new_scale;
+    }
+
+    get can_decrease_font_scale() {
+        return find_smaller_zoom_factor(this.font_scale) !== null;
+    }
+
+    decrease_font_scale() {
+        const new_scale = find_smaller_zoom_factor(this.font_scale);
+
+        if (new_scale !== null)
+            this.font_scale = new_scale;
     }
 
     get_cwd() {
