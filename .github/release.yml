@@ -1,4 +1,4 @@
 changelog:
   exclude:
     authors:
-      - "renovate[bot]"
+      - renovate
