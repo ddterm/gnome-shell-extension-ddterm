@@ -80,10 +80,6 @@ Vagrant.configure("2") do |config|
     version.vm.box = "fedora/37-cloud-base"
   end
 
-  config.vm.define "fedora36", autostart: false do |version|
-    version.vm.box = "fedora/36-cloud-base"
-  end
-
   config.vm.define "centos9", autostart: false do |version|
     version.vm.box = "generic/centos9s"
   end
