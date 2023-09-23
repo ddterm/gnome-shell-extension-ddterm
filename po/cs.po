@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-22 13:18+0000\n"
+"POT-Creation-Date: 2023-09-23 10:21+0000\n"
 "PO-Revision-Date: 2023-04-24 02:48+0000\n"
 "Last-Translator: Pavel Novák <pavelnov32@gmail.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/gnome-shell-"
@@ -217,11 +217,11 @@ msgstr "Klávesové zkratky"
 msgid "Find Previous"
 msgstr "Najít předchozí"
 
-#: ddterm/app/terminalpage.js:441
+#: ddterm/app/terminalpage.js:451
 msgid "Close this terminal?"
 msgstr "Zavřít tento terminál?"
 
-#: ddterm/app/terminalpage.js:444
+#: ddterm/app/terminalpage.js:454
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."
