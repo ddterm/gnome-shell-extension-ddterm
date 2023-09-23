@@ -483,6 +483,15 @@
     <key name="shortcut-find-prev" type="as">
       <default><![CDATA[['<Ctrl><Shift>H']]]></default>
     </key>
+    <key name="shortcut-font-scale-increase" type="as">
+      <default><![CDATA[['<Ctrl>plus']]]></default>
+    </key>
+    <key name="shortcut-font-scale-decrease" type="as">
+      <default><![CDATA[['<Ctrl>minus']]]></default>
+    </key>
+    <key name="shortcut-font-scale-reset" type="as">
+      <default><![CDATA[['<Ctrl>0']]]></default>
+    </key>
 
     <key name="shortcut-switch-to-tab-1" type="as">
       <default><![CDATA[['<Alt>1']]]></default>

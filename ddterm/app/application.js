@@ -294,6 +294,9 @@ class Application extends Gtk.Application {
             'shortcut-find': 'terminal.find',
             'shortcut-find-next': 'terminal.find-next',
             'shortcut-find-prev': 'terminal.find-prev',
+            'shortcut-font-scale-increase': 'terminal.font-scale-increase',
+            'shortcut-font-scale-decrease': 'terminal.font-scale-decrease',
+            'shortcut-font-scale-reset': 'terminal.font-scale-reset',
         };
 
         for (let i = 0; i < 10; i += 1) {

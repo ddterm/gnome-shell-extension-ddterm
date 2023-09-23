@@ -72,6 +72,23 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
       </item>
     </section>
     <section>
+      <submenu>
+        <attribute name="label" translatable="yes">Zoom</attribute>
+        <item>
+          <attribute name="label" translatable="yes">Zoom In</attribute>
+          <attribute name="action">terminal.font-scale-increase</attribute>
+        </item>
+        <item>
+          <attribute name="label" translatable="yes">Zoom Out</attribute>
+          <attribute name="action">terminal.font-scale-decrease</attribute>
+        </item>
+        <item>
+          <attribute name="label" translatable="yes">Normal Size</attribute>
+          <attribute name="action">terminal.font-scale-reset</attribute>
+        </item>
+      </submenu>
+    </section>
+    <section>
       <item>
         <attribute name="label" translatable="yes">Close</attribute>
         <attribute name="action">page.close</attribute>
