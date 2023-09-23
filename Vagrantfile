@@ -64,8 +64,8 @@ Vagrant.configure("2") do |config|
     end
   end
 
-  config.vm.define "ubuntu2210", autostart: false do |version|
-    version.vm.box = "generic/ubuntu2210"
+  config.vm.define "ubuntu2304", autostart: false do |version|
+    version.vm.box = "generic/ubuntu2304"
   end
 
   config.vm.define "ubuntu2204", primary: true do |version|
