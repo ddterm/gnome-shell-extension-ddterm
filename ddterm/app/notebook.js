@@ -218,35 +218,15 @@ var Notebook = GObject.registerClass({
             },
             'next-tab': () => {
                 const current = this.get_current_page();
+                const n_pages = this.get_n_pages();
 
-                if (current === this.get_n_pages() - 1)
-                    this.set_current_page(0);
-                else
-                    this.set_current_page(current + 1);
+                this.set_current_page((current + 1) % n_pages);
             },
             'prev-tab': () => {
                 const current = this.get_current_page();
+                const n_pages = this.get_n_pages();
 
-                if (current === 0)
-                    this.set_current_page(this.get_n_pages() - 1);
-                else
-                    this.set_current_page(current - 1);
-            },
-            'move-tab-prev': () => {
-                const current = this.get_current_page();
-
-                if (current === 0)
-                    this.reorder_child(this.current_child, this.get_n_pages() - 1);
-                else
-                    this.reorder_child(this.current_child, current - 1);
-            },
-            'move-tab-next': () => {
-                const current = this.get_current_page();
-
-                if (current === this.get_n_pages() - 1)
-                    this.reorder_child(this.current_child, 0);
-                else
-                    this.reorder_child(this.current_child, current + 1);
+                this.set_current_page((n_pages + current - 1) % n_pages);
             },
         };
 
@@ -318,57 +298,67 @@ var Notebook = GObject.registerClass({
         this.set_tab_reorderable(child, true);
         this.child_set_property(child, 'tab-expand', this.tab_expand);
 
-        const new_tab_before_handler = child.connect('new-tab-before-request', () => {
-            this.new_page(this.page_num(child));
-        });
+        const handlers = [
+            child.connect('new-tab-before-request', () => {
+                this.new_page(this.page_num(child));
+            }),
+            child.connect('new-tab-after-request', () => {
+                this.new_page(this.page_num(child) + 1);
+            }),
+            child.connect('move-prev-request', () => {
+                const current = this.page_num(child);
+                const n_pages = this.get_n_pages();
 
-        const new_tab_after_handler = child.connect('new-tab-after-request', () => {
-            this.new_page(this.page_num(child) + 1);
-        });
+                this.reorder_child(child, (n_pages + current - 1) % n_pages);
+            }),
+            child.connect('move-next-request', () => {
+                const current = this.page_num(child);
+                const n_pages = this.get_n_pages();
 
-        const bindings = [];
+                this.reorder_child(child, (current + 1) % n_pages);
+            }),
+        ];
+
+        const label = this.get_tab_label(child);
+        const menu_label = this.get_menu_label(child);
+
+        const bindings = [
+            this.bind_property(
+                'tab-label-width',
+                label,
+                'width-request',
+                GObject.BindingFlags.SYNC_CREATE
+            ),
+            this.bind_property(
+                'tab-label-ellipsize-mode',
+                label,
+                'ellipsize',
+                GObject.BindingFlags.SYNC_CREATE
+            ),
+            this.bind_property(
+                'tab-close-buttons',
+                label,
+                'close-button',
+                GObject.BindingFlags.SYNC_CREATE
+            ),
+            this.bind_property(
+                'tab-show-shortcuts',
+                label,
+                'show-shortcut',
+                GObject.BindingFlags.SYNC_CREATE
+            ),
+        ];
 
         this.page_disconnect.set(child, () => {
-            child.disconnect(new_tab_before_handler);
-            child.disconnect(new_tab_after_handler);
+            while (handlers.length > 0)
+                child.disconnect(handlers.pop());
 
             while (bindings.length > 0)
                 bindings.pop().unbind();
         });
 
-        const label = this.get_tab_label(child);
-
-        bindings.push(this.bind_property(
-            'tab-label-width',
-            label,
-            'width-request',
-            GObject.BindingFlags.SYNC_CREATE
-        ));
-
-        bindings.push(this.bind_property(
-            'tab-label-ellipsize-mode',
-            label,
-            'ellipsize',
-            GObject.BindingFlags.SYNC_CREATE
-        ));
-
-        bindings.push(this.bind_property(
-            'tab-close-buttons',
-            label,
-            'close-button',
-            GObject.BindingFlags.SYNC_CREATE
-        ));
-
-        bindings.push(this.bind_property(
-            'tab-show-shortcuts',
-            label,
-            'show-shortcut',
-            GObject.BindingFlags.SYNC_CREATE
-        ));
-
         this.update_tab_switch_actions();
 
-        const menu_label = this.get_menu_label(child);
         this.tab_switch_menu_box.add(menu_label);
         this.tab_switch_menu_box.reorder_child(menu_label, page_num);
     }

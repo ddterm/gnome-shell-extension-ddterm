@@ -66,6 +66,8 @@ var TerminalPage = GObject.registerClass({
     Signals: {
         'new-tab-before-request': {},
         'new-tab-after-request': {},
+        'move-prev-request': {},
+        'move-next-request': {},
     },
 }, class DDTermTerminalPage extends Gtk.Box {
     _init(params) {
@@ -171,6 +173,14 @@ var TerminalPage = GObject.registerClass({
         const new_tab_after_action = new Gio.SimpleAction({ name: 'new-tab-after' });
         new_tab_after_action.connect('activate', () => this.emit('new-tab-after-request'));
         page_actions.add_action(new_tab_after_action);
+
+        const move_prev_action = new Gio.SimpleAction({ name: 'move-prev' });
+        move_prev_action.connect('activate', () => this.emit('move-prev-request'));
+        page_actions.add_action(move_prev_action);
+
+        const move_next_action = new Gio.SimpleAction({ name: 'move-next' });
+        move_next_action.connect('activate', () => this.emit('move-next-request'));
+        page_actions.add_action(move_next_action);
 
         this._title_binding = null;
         this.connect('notify::use-custom-title', () => {

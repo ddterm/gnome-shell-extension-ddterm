@@ -204,11 +204,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <section>
       <item>
         <attribute name="label" translatable="yes">Move Tab to Previous Position</attribute>
-        <attribute name="action">notebook.move-tab-prev</attribute>
+        <attribute name="action">page.move-prev</attribute>
       </item>
       <item>
         <attribute name="label" translatable="yes">Move Tab to Next Position</attribute>
-        <attribute name="action">notebook.move-tab-next</attribute>
+        <attribute name="action">page.move-next</attribute>
       </item>
     </section>
     <item>
