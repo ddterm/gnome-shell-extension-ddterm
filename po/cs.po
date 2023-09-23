@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-23 15:25+0000\n"
+"POT-Creation-Date: 2023-09-23 17:04+0000\n"
 "PO-Revision-Date: 2023-04-24 02:48+0000\n"
 "Last-Translator: Pavel Novák <pavelnov32@gmail.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/gnome-shell-"
@@ -199,11 +199,11 @@ msgstr "Posunout panel do předchozí pozice"
 msgid "Move Tab to Next Position"
 msgstr "Posunout panel do další pozice"
 
-#: ddterm/app/notebook.js:147
+#: ddterm/app/notebook.js:133
 msgid "New Tab (Last)"
 msgstr "Nový panel (Poslední)"
 
-#: ddterm/app/notebook.js:189
+#: ddterm/app/notebook.js:175
 msgid "New Tab (First)"
 msgstr "Nový panel (První)"
 

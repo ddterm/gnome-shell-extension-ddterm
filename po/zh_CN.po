@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-23 15:25+0000\n"
+"POT-Creation-Date: 2023-09-23 17:04+0000\n"
 "PO-Revision-Date: 2023-04-25 12:23+0000\n"
 "Last-Translator: yuh <yuhldr@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -199,11 +199,11 @@ msgstr "移动标签页到上一个位置"
 msgid "Move Tab to Next Position"
 msgstr "移动标签页到下一个位置"
 
-#: ddterm/app/notebook.js:147
+#: ddterm/app/notebook.js:133
 msgid "New Tab (Last)"
 msgstr "新建标签页（最后一个）"
 
-#: ddterm/app/notebook.js:189
+#: ddterm/app/notebook.js:175
 msgid "New Tab (First)"
 msgstr "新建标签页（第一个）"
 

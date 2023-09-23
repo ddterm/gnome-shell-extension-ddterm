@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-23 15:25+0000\n"
+"POT-Creation-Date: 2023-09-23 17:04+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -196,11 +196,11 @@ msgstr ""
 msgid "Move Tab to Next Position"
 msgstr ""
 
-#: ddterm/app/notebook.js:147
+#: ddterm/app/notebook.js:133
 msgid "New Tab (Last)"
 msgstr ""
 
-#: ddterm/app/notebook.js:189
+#: ddterm/app/notebook.js:175
 msgid "New Tab (First)"
 msgstr ""
 

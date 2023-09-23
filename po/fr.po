@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-23 15:25+0000\n"
+"POT-Creation-Date: 2023-09-23 17:04+0000\n"
 "PO-Revision-Date: 2023-03-14 12:19+0000\n"
 "Last-Translator: Aleksandr Mezin <mezin.alexander@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/gnome-shell-"
@@ -199,11 +199,11 @@ msgstr "Déplacer l'onglet vers la position précédente"
 msgid "Move Tab to Next Position"
 msgstr "Déplacer l'onglet vers la position suivante"
 
-#: ddterm/app/notebook.js:147
+#: ddterm/app/notebook.js:133
 msgid "New Tab (Last)"
 msgstr "Nouvel onglet (en dernière position)"
 
-#: ddterm/app/notebook.js:189
+#: ddterm/app/notebook.js:175
 msgid "New Tab (First)"
 msgstr "Nouvel onglet (en première position)"
 
