@@ -1,6 +1,9 @@
 name: push
 
+concurrency: ${{ github.workflow }}/${{ github.ref }}
+
 on:
+  workflow_dispatch:
   push:
     branches-ignore:
       - renovate/**
@@ -11,5 +14,11 @@ on:
       - docs/**
 
 jobs:
-  ci:
-    uses: ./.github/workflows/common.yml
+  build:
+    uses: ./.github/workflows/build.yml
+    with:
+      testspace: true
+
+  test:
+    needs: build
+    uses: ./.github/workflows/test.yml

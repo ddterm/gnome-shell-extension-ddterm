@@ -1,11 +1,22 @@
 name: pr
 
+concurrency: ${{ github.workflow }}/${{ github.ref }}
+
 on:
   pull_request:
     paths-ignore:
       - docs/**
 
 jobs:
-  ci:
-    uses: ./.github/workflows/common.yml
-    if: ${{ startsWith(github.event.pull_request.head.ref, 'renovate/') || github.event.pull_request.base.repo.node_id != github.event.pull_request.head.repo.node_id }}
+  build:
+    uses: ./.github/workflows/build.yml
+    with:
+      testspace: true
+
+    if: >-
+      startsWith(github.event.pull_request.head.ref, 'renovate/')
+      || github.event.pull_request.base.repo.node_id != github.event.pull_request.head.repo.node_id
+
+  test:
+    needs: build
+    uses: ./.github/workflows/test.yml
