@@ -41,7 +41,6 @@ along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licens
         <property name="receives-default">False</property>
         <property name="action-name">settings.panel-icon-type</property>
         <property name="action-target">'none'</property>
-        <property name="active">True</property>
         <property name="draw-indicator">True</property>
         <property name="group">panel_icon_toggle_and_menu_radio</property>
       </object>
@@ -59,7 +58,6 @@ along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licens
         <property name="receives-default">False</property>
         <property name="action-name">settings.panel-icon-type</property>
         <property name="action-target">'menu-button'</property>
-        <property name="active">True</property>
         <property name="draw-indicator">True</property>
         <property name="group">panel_icon_toggle_and_menu_radio</property>
       </object>
@@ -77,7 +75,6 @@ along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licens
         <property name="receives-default">False</property>
         <property name="action-name">settings.panel-icon-type</property>
         <property name="action-target">'toggle-button'</property>
-        <property name="active">True</property>
         <property name="draw-indicator">True</property>
         <property name="group">panel_icon_toggle_and_menu_radio</property>
       </object>
@@ -95,7 +92,6 @@ along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licens
         <property name="receives-default">False</property>
         <property name="action-name">settings.panel-icon-type</property>
         <property name="action-target">'toggle-and-menu-button'</property>
-        <property name="active">True</property>
         <property name="draw-indicator">True</property>
       </object>
       <packing>
