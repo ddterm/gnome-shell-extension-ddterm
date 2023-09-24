@@ -22,11 +22,8 @@
 const { Gio, Gtk } = imports.gi;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 
-const UI_DIR = Me.dir.get_child('ddterm').get_child('pref').get_child('ui');
-const VERSIONED_UI_DIR = UI_DIR.get_child(`gtk${Gtk.get_major_version()}`);
-
 function ui_file_uri(name) {
-    return VERSIONED_UI_DIR.get_child(name).get_uri();
+    return `${Me.dir.get_uri()}/ddterm/pref/ui/gtk${Gtk.get_major_version()}/${name}`;
 }
 
 /* exported ui_file_uri */
