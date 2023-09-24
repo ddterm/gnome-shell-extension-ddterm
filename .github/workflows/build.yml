@@ -67,6 +67,10 @@ jobs:
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
       working-directory: test
 
+    - name: Disable flake8 error matcher
+      run: echo "::remove-matcher owner=flake8::"
+      if: ${{ always() && steps.checkout.conclusion == 'success' }}
+
     - name: Enable generic error matcher
       run: echo "::add-matcher::.github/problem-matchers/generic.json"
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
