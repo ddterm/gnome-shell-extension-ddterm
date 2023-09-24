@@ -7,17 +7,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  version:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Read version from metadata
-        id: get_version
-        run: |
-          echo "version=$(jq .version metadata.json.in)" >>$GITHUB_OUTPUT
-
-      - name: Check version matches the tag
-        run: |
-          test v${{ steps.get_version.outputs.version }} = ${{ github.ref_name }}
+  check-version:
+    uses: ./.github/workflows/check-version.yml
 
   build:
     uses: ./.github/workflows/build.yml
@@ -25,7 +16,7 @@ jobs:
   draft:
     needs:
       - build
-      - version
+      - check-version
     runs-on: ubuntu-latest
     permissions:
       contents: write
