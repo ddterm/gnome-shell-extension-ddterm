@@ -53,7 +53,8 @@ var Widget = GObject.registerClass({
             'tab-label-width': this.tab_label_width_scale,
         });
 
-        util.set_scale_value_formatter(this.tab_label_width_scale, util.percent_formatter);
+        const percent_format = new Intl.NumberFormat(undefined, { style: 'percent' });
+        util.set_scale_value_format(this.tab_label_width_scale, percent_format);
 
         util.insert_settings_actions(this, this.settings, [
             'tab-expand',

@@ -28,22 +28,16 @@ function ui_file_uri(name) {
 
 /* exported ui_file_uri */
 
-const PERCENT_FORMAT = new Intl.NumberFormat(undefined, { style: 'percent' });
+function set_scale_value_format(scale, format) {
+    const formatter = (_, value) => format.format(value);
 
-function percent_formatter(_, value) {
-    return PERCENT_FORMAT.format(value);
-}
-
-/* exported percent_formatter */
-
-function set_scale_value_formatter(scale, formatter) {
     if (scale.set_format_value_func)
         scale.set_format_value_func(formatter);
     else
         scale.connect('format-value', formatter);
 }
 
-/* exported set_scale_value_formatter */
+/* exported set_scale_value_format */
 
 function bind_widget(settings, key, widget, flags = Gio.SettingsBindFlags.DEFAULT) {
     if (!(flags & Gio.SettingsBindFlags.NO_SENSITIVITY)) {

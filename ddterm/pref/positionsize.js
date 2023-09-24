@@ -278,7 +278,9 @@ var Widget = GObject.registerClass({
 
         util.bind_widget(this.settings, 'window-position', this.window_pos_combo);
         util.bind_widget(this.settings, 'window-size', this.window_size_scale);
-        util.set_scale_value_formatter(this.window_size_scale, util.percent_formatter);
+
+        const percent_format = new Intl.NumberFormat(undefined, { style: 'percent' });
+        util.set_scale_value_format(this.window_size_scale, percent_format);
     }
 
     get title() {

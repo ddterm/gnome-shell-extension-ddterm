@@ -363,7 +363,9 @@ var Widget = GObject.registerClass({
 
         util.bind_widget(this.settings, 'background-opacity', this.opacity_scale);
         util.bind_sensitive(this.settings, 'transparent-background', this.opacity_scale.parent);
-        util.set_scale_value_formatter(this.opacity_scale, util.percent_formatter);
+
+        const percent_format = new Intl.NumberFormat(undefined, { style: 'percent' });
+        util.set_scale_value_format(this.opacity_scale, percent_format);
 
         util.bind_widget(
             this.settings,

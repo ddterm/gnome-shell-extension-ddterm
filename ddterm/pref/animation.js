@@ -24,25 +24,6 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 const { util } = Me.imports.ddterm.pref;
 const { translations } = Me.imports.ddterm.util;
 
-function get_seconds_format() {
-    try {
-        return new Intl.NumberFormat(undefined, { style: 'unit', unit: 'second' });
-    } catch {
-        // Gnome 3.36 doesn't understand style: 'unit'
-        return new class {
-            format(v) {
-                return `${v} sec`;
-            }
-        }();
-    }
-}
-
-const SECONDS_FORMAT = get_seconds_format();
-
-function seconds_formatter(_, value) {
-    return SECONDS_FORMAT.format(value);
-}
-
 var Widget = GObject.registerClass({
     GTypeName: 'DDTermPrefsAnimation',
     Template: util.ui_file_uri('prefs-animation.ui'),
@@ -76,8 +57,9 @@ var Widget = GObject.registerClass({
             'hide-animation-duration': this.hide_animation_duration_scale,
         });
 
-        util.set_scale_value_formatter(this.show_animation_duration_scale, seconds_formatter);
-        util.set_scale_value_formatter(this.hide_animation_duration_scale, seconds_formatter);
+        const seconds_format = new Intl.NumberFormat(undefined, { style: 'unit', unit: 'second' });
+        util.set_scale_value_format(this.show_animation_duration_scale, seconds_format);
+        util.set_scale_value_format(this.hide_animation_duration_scale, seconds_format);
     }
 
     get title() {
