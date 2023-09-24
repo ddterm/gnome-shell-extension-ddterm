@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-23 17:04+0000\n"
+"POT-Creation-Date: 2023-09-24 16:39+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -242,7 +242,23 @@ msgid ""
 "kill it."
 msgstr ""
 
-#: ddterm/pref/animation.js:84
+#: ddterm/pref/adw.js:42
+msgid "Window"
+msgstr ""
+
+#: ddterm/pref/adw.js:81
+msgid "Terminal"
+msgstr ""
+
+#: ddterm/pref/adw.js:121 ddterm/pref/shortcuts.js:109
+msgid "Keyboard Shortcuts"
+msgstr ""
+
+#: ddterm/pref/adw.js:152
+msgid "Miscellaneous"
+msgstr ""
+
+#: ddterm/pref/animation.js:66
 msgid "Animation"
 msgstr ""
 
@@ -250,7 +266,7 @@ msgstr ""
 msgid "Behavior"
 msgstr ""
 
-#: ddterm/pref/colors.js:454
+#: ddterm/pref/colors.js:456
 msgid "Colors"
 msgstr ""
 
@@ -791,15 +807,15 @@ msgstr ""
 msgid "None"
 msgstr ""
 
-#: ddterm/pref/glade/prefs-panel-icon.ui:56
+#: ddterm/pref/glade/prefs-panel-icon.ui:55
 msgid "With popup menu"
 msgstr ""
 
-#: ddterm/pref/glade/prefs-panel-icon.ui:74
+#: ddterm/pref/glade/prefs-panel-icon.ui:72
 msgid "Toggle button"
 msgstr ""
 
-#: ddterm/pref/glade/prefs-panel-icon.ui:92
+#: ddterm/pref/glade/prefs-panel-icon.ui:89
 msgid "Toggle button and popup menu"
 msgstr ""
 
@@ -1143,7 +1159,7 @@ msgstr ""
 msgid "Panel Icon"
 msgstr ""
 
-#: ddterm/pref/positionsize.js:285
+#: ddterm/pref/positionsize.js:287
 msgid "Position and Size"
 msgstr ""
 
@@ -1151,11 +1167,7 @@ msgstr ""
 msgid "Scrolling"
 msgstr ""
 
-#: ddterm/pref/shortcuts.js:109
-msgid "Keyboard Shortcuts"
-msgstr ""
-
-#: ddterm/pref/tabs.js:85
+#: ddterm/pref/tabs.js:86
 msgid "Tabs"
 msgstr ""
 

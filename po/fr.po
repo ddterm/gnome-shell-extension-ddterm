@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-23 17:04+0000\n"
+"POT-Creation-Date: 2023-09-24 16:39+0000\n"
 "PO-Revision-Date: 2023-03-14 12:19+0000\n"
 "Last-Translator: Aleksandr Mezin <mezin.alexander@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/gnome-shell-"
@@ -247,7 +247,27 @@ msgstr ""
 "Il reste un processus en cours d'exécution dans ce terminal. Fermer ce "
 "terminal va le tuer."
 
-#: ddterm/pref/animation.js:84
+#: ddterm/pref/adw.js:42
+#, fuzzy
+#| msgid "Window _size:"
+msgid "Window"
+msgstr "Taille de la fenêtre :"
+
+#: ddterm/pref/adw.js:81
+#, fuzzy
+#| msgid "Drop Down Terminal"
+msgid "Terminal"
+msgstr "Terminal déroulant"
+
+#: ddterm/pref/adw.js:121 ddterm/pref/shortcuts.js:109
+msgid "Keyboard Shortcuts"
+msgstr "Raccourcis claviers"
+
+#: ddterm/pref/adw.js:152
+msgid "Miscellaneous"
+msgstr ""
+
+#: ddterm/pref/animation.js:66
 msgid "Animation"
 msgstr "Animation"
 
@@ -255,7 +275,7 @@ msgstr "Animation"
 msgid "Behavior"
 msgstr "Comportement"
 
-#: ddterm/pref/colors.js:454
+#: ddterm/pref/colors.js:456
 msgid "Colors"
 msgstr "Couleurs"
 
@@ -798,15 +818,15 @@ msgstr "Réinitialiser les options de compatibilité aux valeurs par défaut"
 msgid "None"
 msgstr "Aucun"
 
-#: ddterm/pref/glade/prefs-panel-icon.ui:56
+#: ddterm/pref/glade/prefs-panel-icon.ui:55
 msgid "With popup menu"
 msgstr "Avec un menu contextuel"
 
-#: ddterm/pref/glade/prefs-panel-icon.ui:74
+#: ddterm/pref/glade/prefs-panel-icon.ui:72
 msgid "Toggle button"
 msgstr "Bouton de basculement"
 
-#: ddterm/pref/glade/prefs-panel-icon.ui:92
+#: ddterm/pref/glade/prefs-panel-icon.ui:89
 msgid "Toggle button and popup menu"
 msgstr "Bouton de basculement et menu contextuel"
 
@@ -1152,7 +1172,7 @@ msgstr "Détecter les URL de type « news: »"
 msgid "Panel Icon"
 msgstr "Icône de panneau"
 
-#: ddterm/pref/positionsize.js:285
+#: ddterm/pref/positionsize.js:287
 msgid "Position and Size"
 msgstr "Position et taille"
 
@@ -1160,11 +1180,7 @@ msgstr "Position et taille"
 msgid "Scrolling"
 msgstr "Défilement"
 
-#: ddterm/pref/shortcuts.js:109
-msgid "Keyboard Shortcuts"
-msgstr "Raccourcis claviers"
-
-#: ddterm/pref/tabs.js:85
+#: ddterm/pref/tabs.js:86
 msgid "Tabs"
 msgstr "Onglets"
 

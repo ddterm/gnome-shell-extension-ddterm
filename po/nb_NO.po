@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-23 17:04+0000\n"
+"POT-Creation-Date: 2023-09-24 16:39+0000\n"
 "PO-Revision-Date: 2023-03-12 16:07+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/gnome-"
@@ -247,7 +247,27 @@ msgstr ""
 "Det er fremdeles en kjørende prosess i denne terminalen som drepes hvis den "
 "lukkes."
 
-#: ddterm/pref/animation.js:84
+#: ddterm/pref/adw.js:42
+#, fuzzy
+#| msgid "Window _size:"
+msgid "Window"
+msgstr "Vindus_størrelse:"
+
+#: ddterm/pref/adw.js:81
+#, fuzzy
+#| msgid "Drop Down Terminal"
+msgid "Terminal"
+msgstr "Rullegardinsterminal"
+
+#: ddterm/pref/adw.js:121 ddterm/pref/shortcuts.js:109
+msgid "Keyboard Shortcuts"
+msgstr "Tastatursnarveier"
+
+#: ddterm/pref/adw.js:152
+msgid "Miscellaneous"
+msgstr ""
+
+#: ddterm/pref/animation.js:66
 msgid "Animation"
 msgstr "Animasjon"
 
@@ -255,7 +275,7 @@ msgstr "Animasjon"
 msgid "Behavior"
 msgstr "Adferd"
 
-#: ddterm/pref/colors.js:454
+#: ddterm/pref/colors.js:456
 msgid "Colors"
 msgstr "Farger"
 
@@ -810,15 +830,15 @@ msgstr "_Tilbakestill kompatibilitetsalternativer til forvalg"
 msgid "None"
 msgstr "Ingen"
 
-#: ddterm/pref/glade/prefs-panel-icon.ui:56
+#: ddterm/pref/glade/prefs-panel-icon.ui:55
 msgid "With popup menu"
 msgstr "Med oppsprettsmeny"
 
-#: ddterm/pref/glade/prefs-panel-icon.ui:74
+#: ddterm/pref/glade/prefs-panel-icon.ui:72
 msgid "Toggle button"
 msgstr "Vekslingsknapp"
 
-#: ddterm/pref/glade/prefs-panel-icon.ui:92
+#: ddterm/pref/glade/prefs-panel-icon.ui:89
 msgid "Toggle button and popup menu"
 msgstr "Vekslingsknapp og oppsprettsmeny"
 
@@ -1169,7 +1189,7 @@ msgstr "Oppdag nyheter:/man: -nettadresser"
 msgid "Panel Icon"
 msgstr "Panelikon"
 
-#: ddterm/pref/positionsize.js:285
+#: ddterm/pref/positionsize.js:287
 msgid "Position and Size"
 msgstr "Posisjon og størrelse"
 
@@ -1177,11 +1197,7 @@ msgstr "Posisjon og størrelse"
 msgid "Scrolling"
 msgstr "Rulling"
 
-#: ddterm/pref/shortcuts.js:109
-msgid "Keyboard Shortcuts"
-msgstr "Tastatursnarveier"
-
-#: ddterm/pref/tabs.js:85
+#: ddterm/pref/tabs.js:86
 msgid "Tabs"
 msgstr "Faner"
 

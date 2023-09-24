@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-23 17:04+0000\n"
+"POT-Creation-Date: 2023-09-24 16:39+0000\n"
 "PO-Revision-Date: 2023-04-25 12:23+0000\n"
 "Last-Translator: yuh <yuhldr@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -245,7 +245,27 @@ msgid ""
 "kill it."
 msgstr "该终端中仍有一个进程在运行。关闭终端，将会销毁该进程。"
 
-#: ddterm/pref/animation.js:84
+#: ddterm/pref/adw.js:42
+#, fuzzy
+#| msgid "Window _size:"
+msgid "Window"
+msgstr "窗口大小："
+
+#: ddterm/pref/adw.js:81
+#, fuzzy
+#| msgid "Drop Down Terminal"
+msgid "Terminal"
+msgstr "下拉终端"
+
+#: ddterm/pref/adw.js:121 ddterm/pref/shortcuts.js:109
+msgid "Keyboard Shortcuts"
+msgstr "键盘快捷键"
+
+#: ddterm/pref/adw.js:152
+msgid "Miscellaneous"
+msgstr ""
+
+#: ddterm/pref/animation.js:66
 msgid "Animation"
 msgstr "动画"
 
@@ -253,7 +273,7 @@ msgstr "动画"
 msgid "Behavior"
 msgstr "行为"
 
-#: ddterm/pref/colors.js:454
+#: ddterm/pref/colors.js:456
 msgid "Colors"
 msgstr "颜色"
 
@@ -796,15 +816,15 @@ msgstr "将兼容性选项重设为默认值"
 msgid "None"
 msgstr "无"
 
-#: ddterm/pref/glade/prefs-panel-icon.ui:56
+#: ddterm/pref/glade/prefs-panel-icon.ui:55
 msgid "With popup menu"
 msgstr "随着弹出菜单"
 
-#: ddterm/pref/glade/prefs-panel-icon.ui:74
+#: ddterm/pref/glade/prefs-panel-icon.ui:72
 msgid "Toggle button"
 msgstr "切换按钮"
 
-#: ddterm/pref/glade/prefs-panel-icon.ui:92
+#: ddterm/pref/glade/prefs-panel-icon.ui:89
 msgid "Toggle button and popup menu"
 msgstr "切换按钮和弹出菜单"
 
@@ -1150,7 +1170,7 @@ msgstr "检测新闻、文档URL"
 msgid "Panel Icon"
 msgstr "面板图标"
 
-#: ddterm/pref/positionsize.js:285
+#: ddterm/pref/positionsize.js:287
 msgid "Position and Size"
 msgstr "位置和尺寸"
 
@@ -1158,11 +1178,7 @@ msgstr "位置和尺寸"
 msgid "Scrolling"
 msgstr "滚动"
 
-#: ddterm/pref/shortcuts.js:109
-msgid "Keyboard Shortcuts"
-msgstr "键盘快捷键"
-
-#: ddterm/pref/tabs.js:85
+#: ddterm/pref/tabs.js:86
 msgid "Tabs"
 msgstr "标签页"
 
