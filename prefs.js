@@ -19,7 +19,7 @@
 
 'use strict';
 
-/* exported init buildPrefsWidget */
+/* exported init buildPrefsWidget fillPreferencesWindow */
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 
@@ -28,9 +28,16 @@ function init() {
 }
 
 function buildPrefsWidget() {
-    const widget = new Me.imports.ddterm.pref.widget.PrefsWidget({
+    return new Me.imports.ddterm.pref.widget.PrefsWidget({
         settings: imports.misc.extensionUtils.getSettings(),
     });
+}
 
-    return widget;
+function  fillPreferencesWindow(win) {
+    const settings = imports.misc.extensionUtils.getSettings();
+
+    win.add(new Me.imports.ddterm.pref.adw.WindowPage({ settings }));
+    win.add(new Me.imports.ddterm.pref.adw.TerminalPage({ settings }));
+    win.add(new Me.imports.ddterm.pref.adw.ShortcutsPage({ settings }));
+    win.add(new Me.imports.ddterm.pref.adw.MiscPage({ settings }));
 }
