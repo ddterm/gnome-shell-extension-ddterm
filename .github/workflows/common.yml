@@ -39,6 +39,7 @@ jobs:
       with:
         domain: ${{ github.repository_owner }}
       continue-on-error: true
+      if: ${{ inputs.test }}
 
     - name: Setup NodeJS error matcher
       uses: actions/setup-node@v3
