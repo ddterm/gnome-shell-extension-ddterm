@@ -14,15 +14,15 @@ on:
         default: false
         required: false
 
+env:
+  FORCE_COLOR: 1
+  PIP_DISABLE_PIP_VERSION_CHECK: 1
+
 jobs:
   lint:
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/ddterm/ci-docker-image:2023.09.13.0
-
-    env:
-      FORCE_COLOR: 1
-      PIP_DISABLE_PIP_VERSION_CHECK: 1
 
     steps:
     - name: Checkout

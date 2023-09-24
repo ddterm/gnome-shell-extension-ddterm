@@ -1,6 +1,10 @@
 on:
   workflow_call:
 
+env:
+  FORCE_COLOR: 1
+  PIP_DISABLE_PIP_VERSION_CHECK: 1
+
 jobs:
   configure:
     runs-on: ubuntu-latest
@@ -31,10 +35,6 @@ jobs:
       fail-fast: false
       matrix:
         image: ${{ fromJson(needs.configure.outputs.images) }}
-
-    env:
-      FORCE_COLOR: 1
-      PIP_DISABLE_PIP_VERSION_CHECK: 1
 
     steps:
     - name: Checkout
