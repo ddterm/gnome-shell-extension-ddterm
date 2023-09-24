@@ -3,16 +3,29 @@ name: release
 on:
   push:
     tags:
-      - v*
+      - "v[0-9]+"
   workflow_dispatch:
 
 jobs:
+  version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Read version from metadata
+        id: get_version
+        run: |
+          echo "version=$(jq .version metadata.json.in)" >>$GITHUB_OUTPUT
+
+      - name: Check version matches the tag
+        run: |
+          test v${{ steps.get_version.outputs.version }} = ${{ github.ref_name }}
+
   build:
     uses: ./.github/workflows/build.yml
 
   draft:
-    needs: build
-    if: always()
+    needs:
+      - build
+      - version
     runs-on: ubuntu-latest
     permissions:
       contents: write
