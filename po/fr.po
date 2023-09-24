@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-24 16:39+0000\n"
+"POT-Creation-Date: 2023-09-24 18:13+0000\n"
 "PO-Revision-Date: 2023-03-14 12:19+0000\n"
 "Last-Translator: Aleksandr Mezin <mezin.alexander@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/gnome-shell-"
@@ -18,8 +18,8 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-Basepath: .\n"
 
-#: ddterm/app/appwindow.js:110 ddterm/shell/extension.js:396
-#: ddterm/shell/extension.js:412
+#: ddterm/app/appwindow.js:110 ddterm/shell/extension.js:398
+#: ddterm/shell/extension.js:414
 msgid "Drop Down Terminal"
 msgstr "Terminal déroulant"
 
@@ -1188,7 +1188,7 @@ msgstr "Onglets"
 msgid "Text"
 msgstr "Texte"
 
-#: ddterm/shell/extension.js:414
+#: ddterm/shell/extension.js:416
 msgid ""
 "Warning: ddterm version has changed. Log out, then log in again to load the "
 "updated extension."

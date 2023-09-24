@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-24 16:39+0000\n"
+"POT-Creation-Date: 2023-09-24 18:13+0000\n"
 "PO-Revision-Date: 2023-03-14 13:45+0000\n"
 "Last-Translator: Aleksandr Mezin <mezin.alexander@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/gnome-shell-"
@@ -17,8 +17,8 @@ msgstr ""
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 4.16.2-dev\n"
 
-#: ddterm/app/appwindow.js:110 ddterm/shell/extension.js:396
-#: ddterm/shell/extension.js:412
+#: ddterm/app/appwindow.js:110 ddterm/shell/extension.js:398
+#: ddterm/shell/extension.js:414
 msgid "Drop Down Terminal"
 msgstr "Выпадающий терминал"
 
@@ -1187,7 +1187,7 @@ msgstr "Вкладки"
 msgid "Text"
 msgstr "Текст"
 
-#: ddterm/shell/extension.js:414
+#: ddterm/shell/extension.js:416
 msgid ""
 "Warning: ddterm version has changed. Log out, then log in again to load the "
 "updated extension."
