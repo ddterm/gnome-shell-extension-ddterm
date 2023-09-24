@@ -114,7 +114,11 @@ function enable() {
     });
 
     window_manager.connect('notify::current-window', set_skip_taskbar);
-    settings.connect('changed::window-skip-taskbar', set_skip_taskbar);
+
+    const window_skip_taskbar_setting_handler =
+        settings.connect('changed::window-skip-taskbar', set_skip_taskbar);
+
+    disable_cancellable.connect(() => settings.disconnect(window_skip_taskbar_setting_handler));
 
     window_matcher = new WindowMatch({
         subprocess: service.subprocess,
@@ -245,8 +249,6 @@ function disable() {
         global.disconnect(shutdown_handler);
         shutdown_handler = null;
     }
-
-    settings?.run_dispose();
 
     notification_source?.destroy(MessageTray.NotificationDestroyedReason.SOURCE_CLOSED);
     revision_mismatch_notification?.destroy(MessageTray.NotificationDestroyedReason.SOURCE_CLOSED);
