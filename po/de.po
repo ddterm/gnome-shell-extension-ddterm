@@ -2,21 +2,22 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the ddterm package.
 # Jörn Weigend <das.jott@gmail.com>, 2023.
+# Ettore Atalan <atalanttore@googlemail.com>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-09-24 18:13+0000\n"
-"PO-Revision-Date: 2023-04-03 13:37+0000\n"
-"Last-Translator: Jörn Weigend <das.jott@gmail.com>\n"
-"Language-Team: German <https://hosted.weblate.org/projects/gnome-shell-"
-"extension-ddterm/extension/de/>\n"
+"PO-Revision-Date: 2023-09-24 20:51+0000\n"
+"Last-Translator: Ettore Atalan <atalanttore@googlemail.com>\n"
+"Language-Team: German <https://hosted.weblate.org/projects/"
+"gnome-shell-extension-ddterm/extension/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.17-dev\n"
+"X-Generator: Weblate 5.1-dev\n"
 
 #: ddterm/app/appwindow.js:110 ddterm/shell/extension.js:398
 #: ddterm/shell/extension.js:414
@@ -81,21 +82,19 @@ msgstr "Zurücksetzen und leeren"
 
 #: ddterm/app/menus.ui:76
 msgid "Zoom"
-msgstr ""
+msgstr "Zoom"
 
 #: ddterm/app/menus.ui:78 ddterm/pref/glade/prefs-shortcuts.ui:262
 msgid "Zoom In"
-msgstr ""
+msgstr "Heranzoomen"
 
 #: ddterm/app/menus.ui:82 ddterm/pref/glade/prefs-shortcuts.ui:269
 msgid "Zoom Out"
-msgstr ""
+msgstr "Herauszoomen"
 
 #: ddterm/app/menus.ui:86 ddterm/pref/glade/prefs-shortcuts.ui:276
-#, fuzzy
-#| msgid "Normal"
 msgid "Normal Size"
-msgstr "Normal"
+msgstr "Normale Größe"
 
 #: ddterm/app/menus.ui:93 ddterm/app/menus.ui:196 ddterm/app/tablabel.js:110
 msgid "Close"
@@ -103,7 +102,7 @@ msgstr "Schließen"
 
 #: ddterm/app/menus.ui:97 ddterm/app/menus.ui:200
 msgid "Keep Open After Exit"
-msgstr ""
+msgstr "Nach dem Beenden offen halten"
 
 #: ddterm/app/menus.ui:103
 msgid "New Tab"
@@ -248,16 +247,12 @@ msgstr ""
 "abbrechen."
 
 #: ddterm/pref/adw.js:42
-#, fuzzy
-#| msgid "Window _size:"
 msgid "Window"
-msgstr "Fen_stergröße:"
+msgstr "Fenster"
 
 #: ddterm/pref/adw.js:81
-#, fuzzy
-#| msgid "Drop Down Terminal"
 msgid "Terminal"
-msgstr "Drop-Down-Terminal"
+msgstr "Terminal"
 
 #: ddterm/pref/adw.js:121 ddterm/pref/shortcuts.js:109
 msgid "Keyboard Shortcuts"
@@ -265,7 +260,7 @@ msgstr "Tastenkombinationen"
 
 #: ddterm/pref/adw.js:152
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Sonstiges"
 
 #: ddterm/pref/animation.js:66
 msgid "Animation"
@@ -1083,10 +1078,8 @@ msgid "End"
 msgstr "Ende"
 
 #: ddterm/pref/glade/prefs-tabs.ui:259
-#, fuzzy
-#| msgid "Keyboard Shortcuts"
 msgid "Show keyboard shortcuts"
-msgstr "Tastenkombinationen"
+msgstr "Tastenkombinationen anzeigen"
 
 #: ddterm/pref/glade/prefs-text.ui:39
 msgid "Custom _font:"
