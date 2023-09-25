@@ -24,10 +24,9 @@
 const { GLib, GObject, Gio, Meta, Shell } = imports.gi;
 const ByteArray = imports.byteArray;
 const Main = imports.ui.main;
-const MessageTray = imports.ui.messageTray;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-const { dbusapi, subprocess } = Me.imports.ddterm.shell;
+const { dbusapi, notifications, subprocess } = Me.imports.ddterm.shell;
 const { translations } = Me.imports.ddterm.util;
 const { Installer } = Me.imports.ddterm.shell.install;
 const { PanelIconProxy } = Me.imports.ddterm.shell.panelicon;
@@ -70,6 +69,20 @@ function enable() {
 
     settings = imports.misc.extensionUtils.getSettings();
 
+    notification_source = new notifications.SharedSource(
+        translations.gettext('Drop Down Terminal'),
+        'utilities-terminal'
+    );
+
+    revision_mismatch_notification = new notifications.SharedNotification(
+        notification_source,
+        translations.gettext('Drop Down Terminal'),
+        translations.gettext(
+            'Warning: ddterm version has changed. ' +
+            'Log out, then log in again to load the updated extension.'
+        )
+    );
+
     service = new Service({
         bus: Gio.DBus.session,
         bus_name: APP_ID,
@@ -78,7 +91,7 @@ function enable() {
 
     service.connect('activate', () => {
         if (revision !== read_revision())
-            show_revision_mismatch_notification();
+            revision_mismatch_notification.show();
 
         const argv = [
             Me.dir.get_child('bin').get_child(APP_ID).get_path(),
@@ -250,8 +263,8 @@ function disable() {
         shutdown_handler = null;
     }
 
-    notification_source?.destroy(MessageTray.NotificationDestroyedReason.SOURCE_CLOSED);
-    revision_mismatch_notification?.destroy(MessageTray.NotificationDestroyedReason.SOURCE_CLOSED);
+    notification_source?.destroy();
+    revision_mismatch_notification?.destroy();
 
     settings = null;
     window_manager = null;
@@ -261,6 +274,8 @@ function disable() {
     dbus_interface = null;
     installer = null;
     panel_icon = null;
+    notification_source = null;
+    revision_mismatch_notification = null;
     disable_cancellable = null;
 }
 
@@ -388,45 +403,4 @@ function read_revision() {
 
         throw ex;
     }
-}
-
-function ensure_notification_source() {
-    if (notification_source)
-        return notification_source;
-
-    notification_source = new MessageTray.Source(
-        translations.gettext('Drop Down Terminal'),
-        'utilities-terminal'
-    );
-
-    notification_source.connect('destroy', () => {
-        notification_source = null;
-    });
-
-    Main.messageTray.add(notification_source);
-    return notification_source;
-}
-
-function ensure_revision_mismatch_notification() {
-    if (revision_mismatch_notification)
-        return revision_mismatch_notification;
-
-    const title = translations.gettext('Drop Down Terminal');
-    const msg = translations.gettext(
-        'Warning: ddterm version has changed. ' +
-        'Log out, then log in again to load the updated extension.'
-    );
-
-    revision_mismatch_notification =
-        new MessageTray.Notification(ensure_notification_source(), title, msg);
-
-    revision_mismatch_notification.connect('destroy', () => {
-        revision_mismatch_notification = null;
-    });
-
-    return revision_mismatch_notification;
-}
-
-function show_revision_mismatch_notification() {
-    ensure_notification_source().showNotification(ensure_revision_mismatch_notification());
 }
