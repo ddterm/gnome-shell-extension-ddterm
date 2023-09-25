@@ -124,7 +124,7 @@ class ExtensionTestDBusInterface {
     }
 
     ToggleAsync(params, invocation) {
-        handle_dbus_method_call_async(extension.toggle, params, invocation);
+        handle_dbus_method_call_async(() => extension.app_control.toggle(), params, invocation);
     }
 
     GetNMonitors() {

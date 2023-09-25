@@ -19,14 +19,14 @@
 
 'use strict';
 
-/* exported init enable disable settings toggle window_manager service */
+/* exported init enable disable settings app_control window_manager service */
 
 const { GLib, GObject, Gio, Meta, Shell } = imports.gi;
 const ByteArray = imports.byteArray;
 const Main = imports.ui.main;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-const { dbusapi, notifications, subprocess } = Me.imports.ddterm.shell;
+const { appcontrol, dbusapi, notifications, subprocess } = Me.imports.ddterm.shell;
 const { translations } = Me.imports.ddterm.util;
 const { Installer } = Me.imports.ddterm.shell.install;
 const { PanelIconProxy } = Me.imports.ddterm.shell.panelicon;
@@ -40,12 +40,12 @@ var settings = null;
 var window_manager = null;
 let window_matcher = null;
 var service = null;
-let app_actions = null;
+var app_control = null;
 let dbus_interface = null;
 let installer = null;
 let panel_icon = null;
-let disable_cancellable = null;
 let shutdown_handler = null;
+let skip_taskbar_handler = null;
 
 var app_enable_heap_dump = false;
 
@@ -65,8 +65,6 @@ function init() {
 }
 
 function enable() {
-    disable_cancellable = Gio.Cancellable.new();
-
     settings = imports.misc.extensionUtils.getSettings();
 
     notification_source = new notifications.SharedSource(
@@ -121,17 +119,19 @@ function enable() {
 
     window_manager = new WindowManager({ settings });
 
+    app_control = new appcontrol.AppControl({
+        service,
+        window_manager,
+    });
+
     window_manager.connect('hide-request', () => {
-        if (service.is_registered)
-            app_actions.activate_action('hide', null);
+        app_control.hide(false);
     });
 
     window_manager.connect('notify::current-window', set_skip_taskbar);
 
-    const window_skip_taskbar_setting_handler =
+    skip_taskbar_handler =
         settings.connect('changed::window-skip-taskbar', set_skip_taskbar);
-
-    disable_cancellable.connect(() => settings.disconnect(window_skip_taskbar_setting_handler));
 
     window_matcher = new WindowMatch({
         subprocess: service.subprocess,
@@ -153,13 +153,11 @@ function enable() {
             window_manager.manage_window(window_matcher.current_window);
     });
 
-    app_actions = Gio.DBusActionGroup.get(Gio.DBus.session, APP_ID, APP_DBUS_PATH);
-
     dbus_interface = new dbusapi.Api({ revision });
 
-    dbus_interface.connect('toggle', toggle);
-    dbus_interface.connect('activate', activate);
-    dbus_interface.connect('service', ensure_app_on_bus);
+    dbus_interface.connect('toggle', () => app_control.toggle());
+    dbus_interface.connect('activate', () => app_control.activate());
+    dbus_interface.connect('service', () => app_control.ensure_running());
     dbus_interface.connect('refresh-target-rect', () => {
         /*
          * Don't want to track mouse pointer continuously, so try to update the
@@ -188,7 +186,9 @@ function enable() {
         Meta.KeyBindingFlags.NONE,
         Shell.ActionMode.NORMAL,
         () => {
-            toggle().catch(e => logError(e, 'Failed to toggle ddterm by keybinding'));
+            app_control.toggle().catch(
+                e => logError(e, 'Failed to toggle ddterm by keybinding')
+            );
         }
     );
 
@@ -198,7 +198,9 @@ function enable() {
         Meta.KeyBindingFlags.NONE,
         Shell.ActionMode.NORMAL,
         () => {
-            activate().catch(e => logError(e, 'Failed to activate ddterm by keybinding'));
+            app_control.activate().catch(
+                e => logError(e, 'Failed to activate ddterm by keybinding')
+            );
         }
     );
 
@@ -212,11 +214,11 @@ function enable() {
 
     panel_icon.connect('toggle', (_, value) => {
         if (value !== (window_manager.current_window !== null))
-            toggle();
+            app_control.toggle(false);
     });
 
     panel_icon.connect('open-preferences', () => {
-        app_actions.activate_action('preferences', null);
+        app_control.preferences();
     });
 
     window_manager.connect('notify::current-window', () => {
@@ -231,10 +233,13 @@ function enable() {
 }
 
 function disable() {
-    disable_cancellable?.cancel();
-
     Main.wm.removeKeybinding('ddterm-toggle-hotkey');
     Main.wm.removeKeybinding('ddterm-activate-hotkey');
+
+    if (skip_taskbar_handler) {
+        settings.disconnect(skip_taskbar_handler);
+        skip_taskbar_handler = null;
+    }
 
     dbus_interface?.dbus.unexport();
 
@@ -242,12 +247,11 @@ function disable() {
         // Stop the app only if the extension isn't being disabled because of
         // lock screen. Because when the session switches back to normal mode
         // we want to keep all open terminals.
-        if (service?.is_registered && app_actions)
-            app_actions.activate_action('quit', null);
-        else
-            service?.terminate();
+        if (!app_control?.quit())
+            app_process?.terminate();
     }
 
+    app_control?.disable();
     service?.unwatch();
     window_matcher?.disable();
     window_manager?.disable();
@@ -270,114 +274,12 @@ function disable() {
     window_manager = null;
     window_matcher = null;
     service = null;
-    app_actions = null;
+    app_control = null;
     dbus_interface = null;
     installer = null;
     panel_icon = null;
     notification_source = null;
     revision_mismatch_notification = null;
-    disable_cancellable = null;
-}
-
-async function wait_timeout(message, timeout_ms, cancellable = null) {
-    await new Promise(resolve => {
-        const source = GLib.timeout_add(GLib.PRIORITY_DEFAULT, timeout_ms, () => {
-            cancellable?.disconnect(cancel_handler);
-            resolve();
-            return GLib.SOURCE_REMOVE;
-        });
-
-        const cancel_handler = cancellable?.connect(() => {
-            GLib.Source.remove(source);
-            resolve();
-        });
-    });
-
-    cancellable?.set_error_if_cancelled();
-    throw GLib.Error.new_literal(Gio.io_error_quark(), Gio.IOErrorEnum.TIMED_OUT, message);
-}
-
-async function ensure_app_on_bus() {
-    if (service.is_registered)
-        return;
-
-    const cancellable = Gio.Cancellable.new();
-    const disable_handler = disable_cancellable.connect(() => cancellable.cancel());
-
-    try {
-        await Promise.race([
-            service.start(cancellable),
-            wait_timeout('ddterm app failed to start in 10 seconds', 10000, cancellable),
-        ]);
-    } finally {
-        disable_cancellable.disconnect(disable_handler);
-        cancellable.cancel();
-    }
-}
-
-async function wait_app_window_visible(visible) {
-    visible = Boolean(visible);
-
-    if (Boolean(window_manager.current_window) === visible)
-        return;
-
-    const cancellable = Gio.Cancellable.new();
-    const disable_handler = disable_cancellable.connect(() => cancellable.cancel());
-
-    try {
-        const wait = new Promise((resolve, reject) => {
-            const window_handler = window_manager.connect('notify::current-window', () => {
-                if (Boolean(window_manager.current_window) === visible)
-                    resolve();
-            });
-
-            cancellable.connect(() => window_manager.disconnect(window_handler));
-
-            const dbus_handler = service.connect('notify::bus-name-owner', () => {
-                reject(new Error(visible ? 'ddterm failed to show' : 'ddterm failed to hide'));
-            });
-
-            cancellable.connect(() => service.disconnect(dbus_handler));
-        });
-
-        await Promise.race([
-            wait,
-            wait_timeout(
-                // eslint-disable-next-line max-len
-                visible ? 'ddterm failed to show in 10 seconds' : 'ddterm failed to hide in 10 seconds',
-                10000,
-                cancellable
-            ),
-        ]);
-    } finally {
-        disable_cancellable.disconnect(disable_handler);
-        cancellable.cancel();
-    }
-}
-
-async function toggle() {
-    if (window_manager.current_window) {
-        if (service.is_registered)
-            app_actions.activate_action('hide', null);
-
-        await wait_app_window_visible(false);
-    } else {
-        await activate();
-    }
-}
-
-async function activate() {
-    if (window_manager.current_window) {
-        Main.activateWindow(window_manager.current_window);
-        return;
-    }
-
-    window_manager.update_monitor_index();
-
-    await ensure_app_on_bus();
-
-    app_actions.activate_action('show', null);
-    await wait_app_window_visible(true);
 }
 
 function set_skip_taskbar() {
