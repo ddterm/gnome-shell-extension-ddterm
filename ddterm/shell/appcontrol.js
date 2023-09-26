@@ -112,6 +112,12 @@ var AppControl = GObject.registerClass({
             this.service.connect('notify::bus-name-owner', () => this._update_actions());
 
         this._cancellable.connect(() => this.service.disconnect(bus_name_handler));
+
+        const hide_request_handler =
+            this.window_manager.connect('hide-request', () => this.hide(false));
+
+        this._cancellable.connect(() => this.window_manager.disconnect(hide_request_handler));
+
         this._update_actions();
     }
 

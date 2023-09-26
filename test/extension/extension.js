@@ -89,12 +89,12 @@ class ExtensionTestDBusInterface {
 
     GetSetting(key) {
         return GLib.Variant.new_tuple([
-            GLib.Variant.new_variant(extension.settings.get_value(key)),
+            GLib.Variant.new_variant(extension.enabled_state.settings.get_value(key)),
         ]);
     }
 
     SetSetting(key, value) {
-        extension.settings.set_value(key, value);
+        extension.enabled_state.settings.set_value(key, value);
     }
 
     SyncSettings() {
@@ -106,25 +106,29 @@ class ExtensionTestDBusInterface {
     }
 
     GetFrameRect() {
-        const rect = extension.window_manager.current_window.get_frame_rect();
+        const rect = extension.enabled_state.window_manager.current_window.get_frame_rect();
         return [rect.x, rect.y, rect.width, rect.height];
     }
 
     GetTargetRect() {
-        const rect = extension.window_manager.current_target_rect;
+        const rect = extension.enabled_state.window_manager.current_target_rect;
         return [rect.x, rect.y, rect.width, rect.height];
     }
 
     IsMaximizedHorizontally() {
-        return extension.window_manager.current_window.maximized_horizontally;
+        return extension.enabled_state.window_manager.current_window.maximized_horizontally;
     }
 
     IsMaximizedVertically() {
-        return extension.window_manager.current_window.maximized_vertically;
+        return extension.enabled_state.window_manager.current_window.maximized_vertically;
     }
 
     ToggleAsync(params, invocation) {
-        handle_dbus_method_call_async(() => extension.app_control.toggle(), params, invocation);
+        handle_dbus_method_call_async(
+            () => extension.enabled_state.app_control.toggle(),
+            params,
+            invocation
+        );
     }
 
     GetNMonitors() {
@@ -187,14 +191,16 @@ function enable() {
         teardown.push(() => disconnect_traced(source, handler_id));
     };
 
-    connect(extension.settings, 'changed', (settings, key) => {
+    const enabled_state = extension.enabled_state;
+
+    connect(enabled_state.settings, 'changed', (settings, key) => {
         dbus_interface.emit_signal(
             'SettingChanged',
             new GLib.Variant('(sv)', [key, settings.get_value(key)])
         );
     });
 
-    connect(extension.window_manager, 'move-resize-requested', (_, rect) => {
+    connect(enabled_state.window_manager, 'move-resize-requested', (_, rect) => {
         dbus_interface.emit_signal(
             'MoveResizeRequested',
             new GLib.Variant('(iiii)', [rect.x, rect.y, rect.width, rect.height])
@@ -204,11 +210,11 @@ function enable() {
     const rendered_windows = new Set();
 
     const check_rendered = () => {
-        const current = extension.window_manager.current_window;
+        const current = enabled_state.window_manager.current_window;
         dbus_interface.set_flag('RenderedFirstFrame', current && rendered_windows.has(current));
     };
 
-    connect(extension.window_manager, 'notify::current-window', check_rendered);
+    connect(enabled_state.window_manager, 'notify::current-window', check_rendered);
 
     connect(global.display, 'window-created', (_, win) => {
         const actor = win.get_compositor_private();
@@ -233,15 +239,15 @@ function enable() {
     check_rendered();
 
     const update_has_window = () => {
-        dbus_interface.set_flag('HasWindow', extension.window_manager.current_window !== null);
+        dbus_interface.set_flag('HasWindow', enabled_state.window_manager.current_window !== null);
     };
-    connect(extension.window_manager, 'notify::current-window', update_has_window);
+    connect(enabled_state.window_manager, 'notify::current-window', update_has_window);
     update_has_window();
 
     const update_is_app_running = () => {
-        dbus_interface.set_flag('IsAppRunning', extension.service.is_registered);
+        dbus_interface.set_flag('IsAppRunning', enabled_state.service.is_registered);
     };
-    connect(extension.service, 'notify::is-registered', update_is_app_running);
+    connect(enabled_state.service, 'notify::is-registered', update_is_app_running);
     update_is_app_running();
 
     const current_win_subscription = [];
@@ -251,10 +257,10 @@ function enable() {
     };
     teardown.push(unsubscribe_current_win);
 
-    connect(extension.window_manager, 'notify::current-window', () => {
+    connect(enabled_state.window_manager, 'notify::current-window', () => {
         unsubscribe_current_win();
 
-        const win = extension.window_manager.current_window;
+        const win = enabled_state.window_manager.current_window;
         if (!win)
             return;
 
