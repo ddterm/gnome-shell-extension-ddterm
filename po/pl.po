@@ -7,11 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-25 09:11+0000\n"
+"POT-Creation-Date: 2023-09-24 18:13+0000\n"
 "PO-Revision-Date: 2023-09-24 16:39+0000\n"
 "Last-Translator: Eryk Michalak <gnu.ewm@protonmail.com>\n"
-"Language-Team: Polish <https://hosted.weblate.org/projects/"
-"gnome-shell-extension-ddterm/extension/pl/>\n"
+"Language-Team: Polish <https://hosted.weblate.org/projects/gnome-shell-"
+"extension-ddterm/extension/pl/>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,17 +20,10 @@ msgstr ""
 "|| n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 5.1-dev\n"
 
-#: ddterm/app/appwindow.js:112
+#: ddterm/app/appwindow.js:110 ddterm/shell/extension.js:398
+#: ddterm/shell/extension.js:414
 msgid "Drop Down Terminal"
 msgstr "Rozwijany Terminal"
-
-#: ddterm/app/appwindow.js:415
-msgid ""
-"Warning: ddterm version has changed. Log out, then log in again to load the "
-"updated extension."
-msgstr ""
-"Ostrzeżenie: wersja ddterm zmieniła się. Zaloguj się ponownie, aby załadować "
-"aktualne rozszerzenie."
 
 #: ddterm/app/dependencies-notification.js:136
 msgid "ddterm needs additional packages to run."
@@ -88,167 +81,209 @@ msgstr "Resetuj"
 msgid "Reset and Clear"
 msgstr "Resetuj i wyczyść"
 
-#: ddterm/app/menus.ui:76 ddterm/app/menus.ui:175 ddterm/app/tablabel.js:94
+#: ddterm/app/menus.ui:76
+msgid "Zoom"
+msgstr ""
+
+#: ddterm/app/menus.ui:78 ddterm/pref/glade/prefs-shortcuts.ui:262
+msgid "Zoom In"
+msgstr ""
+
+#: ddterm/app/menus.ui:82 ddterm/pref/glade/prefs-shortcuts.ui:269
+msgid "Zoom Out"
+msgstr ""
+
+#: ddterm/app/menus.ui:86 ddterm/pref/glade/prefs-shortcuts.ui:276
+#, fuzzy
+#| msgid "Normal"
+msgid "Normal Size"
+msgstr "Normalne"
+
+#: ddterm/app/menus.ui:93 ddterm/app/menus.ui:196 ddterm/app/tablabel.js:110
 msgid "Close"
 msgstr "Zamknij"
 
-#: ddterm/app/menus.ui:82
+#: ddterm/app/menus.ui:97 ddterm/app/menus.ui:200
+msgid "Keep Open After Exit"
+msgstr ""
+
+#: ddterm/app/menus.ui:103
 msgid "New Tab"
 msgstr "Nowa karta"
 
-#: ddterm/app/menus.ui:84 ddterm/pref/glade/prefs-shortcuts.ui:178
+#: ddterm/app/menus.ui:105 ddterm/pref/glade/prefs-shortcuts.ui:178
 msgid "New Tab Before Current Tab"
 msgstr "Nowa karta przed bieżącą kartą"
 
-#: ddterm/app/menus.ui:88 ddterm/pref/glade/prefs-shortcuts.ui:185
+#: ddterm/app/menus.ui:109 ddterm/pref/glade/prefs-shortcuts.ui:185
 msgid "New Tab After Current Tab"
 msgstr "Nowa karta po bieżącej karcie"
 
-#: ddterm/app/menus.ui:92 ddterm/app/menus.ui:188
+#: ddterm/app/menus.ui:113 ddterm/app/menus.ui:213
 #: ddterm/pref/glade/prefs-shortcuts.ui:171
 msgid "New Tab Before First Tab"
 msgstr "Nowa karta przed pierwszą kartą"
 
-#: ddterm/app/menus.ui:96 ddterm/app/menus.ui:192
+#: ddterm/app/menus.ui:117 ddterm/app/menus.ui:217
 #: ddterm/pref/glade/prefs-shortcuts.ui:164
 msgid "New Tab After Last Tab"
 msgstr "Nowa karta po ostatniej karcie"
 
-#: ddterm/app/menus.ui:102 ddterm/pref/dialog.js:45
+#: ddterm/app/menus.ui:123 ddterm/pref/dialog.js:43
 msgid "Preferences"
 msgstr "Preferencje"
 
-#: ddterm/app/menus.ui:105 ddterm/app/menus.ui:207 ddterm/shell/panelicon.js:82
+#: ddterm/app/menus.ui:126 ddterm/app/menus.ui:232 ddterm/shell/panelicon.js:79
 msgid "Preferences..."
 msgstr "Preferencje..."
 
-#: ddterm/app/menus.ui:111
+#: ddterm/app/menus.ui:132
 msgid "Above All Windows"
 msgstr "Powyżej wszystkimi oknami"
 
-#: ddterm/app/menus.ui:115
+#: ddterm/app/menus.ui:136
 msgid "On All Workspaces"
 msgstr "Na wszystkich obszarach roboczych"
 
-#: ddterm/app/menus.ui:119
+#: ddterm/app/menus.ui:140
 msgid "Maximize Window"
 msgstr "Maksymalizuj okno"
 
-#: ddterm/app/menus.ui:123
+#: ddterm/app/menus.ui:144
 msgid "Transparent Background"
 msgstr "Przezroczyste tło"
 
-#: ddterm/app/menus.ui:129
+#: ddterm/app/menus.ui:150
 msgid "Hide When Application Loses Focus"
 msgstr "Ukryj kiedy okno nie jest aktywne"
 
-#: ddterm/app/menus.ui:133
+#: ddterm/app/menus.ui:154
 msgid "Hide When Esc Key Is Pressed"
 msgstr "Ukryj po naciśnięciu klawisza Esc"
 
-#: ddterm/app/menus.ui:139
+#: ddterm/app/menus.ui:160
 msgid "Scroll On Output"
 msgstr ""
 
-#: ddterm/app/menus.ui:143
+#: ddterm/app/menus.ui:164
 msgid "Scroll On Keystroke"
 msgstr ""
 
-#: ddterm/app/menus.ui:149
+#: ddterm/app/menus.ui:170
 msgid "Preserve Working Directory In New Tabs"
 msgstr ""
 
-#: ddterm/app/menus.ui:155
+#: ddterm/app/menus.ui:176
 msgid "Enable Keyboard Shortcuts"
 msgstr "Włącz skróty klawiszowe"
 
-#: ddterm/app/menus.ui:164
+#: ddterm/app/menus.ui:185
 msgid "Use Custom Tab Title"
 msgstr "Użyj własnego tytułu karty"
 
-#: ddterm/app/menus.ui:169
+#: ddterm/app/menus.ui:190
 msgid "Use Default Tab Title"
 msgstr "Użyj domyślnego tytułu karty"
 
-#: ddterm/app/menus.ui:180
+#: ddterm/app/menus.ui:205
 msgid "New Tab Before This Tab"
 msgstr "Nowa karta przed tą kartą"
 
-#: ddterm/app/menus.ui:184
+#: ddterm/app/menus.ui:209
 msgid "New Tab After This Tab"
 msgstr "Nowa karta po tej karcie"
 
-#: ddterm/app/menus.ui:198 ddterm/pref/glade/prefs-shortcuts.ui:213
+#: ddterm/app/menus.ui:223 ddterm/pref/glade/prefs-shortcuts.ui:213
 msgid "Move Tab to Previous Position"
 msgstr ""
 
-#: ddterm/app/menus.ui:202 ddterm/pref/glade/prefs-shortcuts.ui:220
+#: ddterm/app/menus.ui:227 ddterm/pref/glade/prefs-shortcuts.ui:220
 msgid "Move Tab to Next Position"
 msgstr ""
 
-#: ddterm/app/notebook.js:137
+#: ddterm/app/notebook.js:133
 msgid "New Tab (Last)"
 msgstr "Nowa karta (ostatnia)"
 
-#: ddterm/app/notebook.js:165
+#: ddterm/app/notebook.js:175
 msgid "New Tab (First)"
 msgstr "Nowa karta (pierwsza)"
 
-#: ddterm/app/search.js:206
+#: ddterm/app/search.js:214
 msgid "Case Sensitive"
 msgstr "Uwzględnij wielkość liter"
 
-#: ddterm/app/search.js:222
+#: ddterm/app/search.js:230
 msgid "Match Whole Word"
 msgstr "Dopasowywanie całych słów"
 
-#: ddterm/app/search.js:238
+#: ddterm/app/search.js:246
 msgid "Regular Expression"
 msgstr "Wyrażenie regularne"
 
-#: ddterm/app/search.js:306
+#: ddterm/app/search.js:314
 msgid "Close Search Bar"
 msgstr "Zamknij pasek wyszukiwania"
 
-#: ddterm/app/search.js:317
+#: ddterm/app/search.js:325
 msgid "Wrap Around"
 msgstr ""
 
-#: ddterm/app/search.js:333 ddterm/pref/glade/prefs-shortcuts.ui:248
+#: ddterm/app/search.js:341 ddterm/pref/glade/prefs-shortcuts.ui:248
 msgid "Find Next"
 msgstr "Wyszukaj następne"
 
-#: ddterm/app/search.js:344 ddterm/pref/glade/prefs-shortcuts.ui:255
+#: ddterm/app/search.js:359 ddterm/pref/glade/prefs-shortcuts.ui:255
 msgid "Find Previous"
 msgstr "Wyszukaj poprzednie"
 
-#: ddterm/app/terminalpage.js:836
+#: ddterm/app/terminalpage.js:493
 msgid "Close this terminal?"
 msgstr "Zamknąć ten terminal?"
 
-#: ddterm/app/terminalpage.js:839
+#: ddterm/app/terminalpage.js:496
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."
 msgstr ""
 
-#: ddterm/pref/animation.js:86
+#: ddterm/pref/adw.js:42
+#, fuzzy
+#| msgid "Window _size:"
+msgid "Window"
+msgstr "_Rozmiar okna:"
+
+#: ddterm/pref/adw.js:81
+#, fuzzy
+#| msgid "Drop Down Terminal"
+msgid "Terminal"
+msgstr "Rozwijany Terminal"
+
+#: ddterm/pref/adw.js:121 ddterm/pref/shortcuts.js:109
+msgid "Keyboard Shortcuts"
+msgstr "Skróty klawiszowe"
+
+#: ddterm/pref/adw.js:152
+msgid "Miscellaneous"
+msgstr ""
+
+#: ddterm/pref/animation.js:66
 msgid "Animation"
 msgstr "Animacja"
 
-#: ddterm/pref/behavior.js:63
+#: ddterm/pref/behavior.js:61
 msgid "Behavior"
 msgstr "Zachowanie"
 
-#: ddterm/pref/colors.js:462
+#: ddterm/pref/colors.js:456
 msgid "Colors"
 msgstr "Kolory"
 
-#: ddterm/pref/command.js:64
+#: ddterm/pref/command.js:62
 msgid "Command"
 msgstr "Komenda"
 
-#: ddterm/pref/compatibility.js:72
+#: ddterm/pref/compatibility.js:70
 msgid "Compatibility"
 msgstr "Zgodność"
 
@@ -382,23 +417,23 @@ msgid ""
 "Exponentially decaying parabolic (bounce) tweening, with bounce on both ends"
 msgstr ""
 
-#: ddterm/pref/glade/prefs-animation.ui:181
+#: ddterm/pref/glade/prefs-animation.ui:183
 msgid "_Override default window animations"
 msgstr ""
 
-#: ddterm/pref/glade/prefs-animation.ui:216
+#: ddterm/pref/glade/prefs-animation.ui:218
 msgid "_Show animation:"
 msgstr "_Pokaż animację:"
 
-#: ddterm/pref/glade/prefs-animation.ui:230
+#: ddterm/pref/glade/prefs-animation.ui:232
 msgid "_Hide animation:"
 msgstr "_Ukryj animację:"
 
-#: ddterm/pref/glade/prefs-animation.ui:282
+#: ddterm/pref/glade/prefs-animation.ui:284
 msgid "_Hide animation duration:"
 msgstr "Czas trwania animacji _ukrywania:"
 
-#: ddterm/pref/glade/prefs-animation.ui:295
+#: ddterm/pref/glade/prefs-animation.ui:297
 msgid "_Show animation duration:"
 msgstr "Czas trwania animacji _pokazywania:"
 
@@ -733,7 +768,7 @@ msgid "Preserve working directory"
 msgstr ""
 
 #: ddterm/pref/glade/prefs-compatibility.ui:36
-#: ddterm/pref/glade/prefs-tabs.ui:131
+#: ddterm/pref/glade/prefs-tabs.ui:127
 msgid "Automatic"
 msgstr "Automatyczne"
 
@@ -777,23 +812,19 @@ msgstr "Szerokie"
 msgid "_Reset Compatibility Options to Defaults"
 msgstr ""
 
-#: ddterm/pref/glade/prefs-panel-icon.ui:42
-msgid "Panel icon:"
-msgstr ""
-
-#: ddterm/pref/glade/prefs-panel-icon.ui:55 ddterm/pref/glade/prefs-tabs.ui:292
+#: ddterm/pref/glade/prefs-panel-icon.ui:38 ddterm/pref/glade/prefs-tabs.ui:246
 msgid "None"
 msgstr "Brak"
 
-#: ddterm/pref/glade/prefs-panel-icon.ui:56
+#: ddterm/pref/glade/prefs-panel-icon.ui:55
 msgid "With popup menu"
 msgstr ""
 
-#: ddterm/pref/glade/prefs-panel-icon.ui:57
+#: ddterm/pref/glade/prefs-panel-icon.ui:72
 msgid "Toggle button"
 msgstr "Ikona przełączania"
 
-#: ddterm/pref/glade/prefs-panel-icon.ui:58
+#: ddterm/pref/glade/prefs-panel-icon.ui:89
 msgid "Toggle button and popup menu"
 msgstr ""
 
@@ -806,22 +837,22 @@ msgid "_Window position:"
 msgstr "Pozycja _okna:"
 
 #: ddterm/pref/glade/prefs-position-size.ui:91
-#: ddterm/pref/glade/prefs-tabs.ui:219
+#: ddterm/pref/glade/prefs-tabs.ui:173
 msgid "Top"
 msgstr "Góra"
 
 #: ddterm/pref/glade/prefs-position-size.ui:92
-#: ddterm/pref/glade/prefs-tabs.ui:218
+#: ddterm/pref/glade/prefs-tabs.ui:172
 msgid "Bottom"
 msgstr "Dół"
 
 #: ddterm/pref/glade/prefs-position-size.ui:93
-#: ddterm/pref/glade/prefs-tabs.ui:220
+#: ddterm/pref/glade/prefs-tabs.ui:174
 msgid "Left"
 msgstr "Lewo"
 
 #: ddterm/pref/glade/prefs-position-size.ui:94
-#: ddterm/pref/glade/prefs-tabs.ui:221
+#: ddterm/pref/glade/prefs-tabs.ui:175
 msgid "Right"
 msgstr "Prawo"
 
@@ -929,154 +960,131 @@ msgstr ""
 msgid "Reset Tab Title"
 msgstr ""
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:262
+#: ddterm/pref/glade/prefs-shortcuts.ui:283
 msgid "Switch to Tab 1"
 msgstr ""
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:269
+#: ddterm/pref/glade/prefs-shortcuts.ui:290
 msgid "Switch to Tab 2"
 msgstr ""
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:276
+#: ddterm/pref/glade/prefs-shortcuts.ui:297
 msgid "Switch to Tab 3"
 msgstr ""
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:283
+#: ddterm/pref/glade/prefs-shortcuts.ui:304
 msgid "Switch to Tab 4"
 msgstr ""
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:290
+#: ddterm/pref/glade/prefs-shortcuts.ui:311
 msgid "Switch to Tab 5"
 msgstr ""
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:297
+#: ddterm/pref/glade/prefs-shortcuts.ui:318
 msgid "Switch to Tab 6"
 msgstr ""
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:304
+#: ddterm/pref/glade/prefs-shortcuts.ui:325
 msgid "Switch to Tab 7"
 msgstr ""
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:311
+#: ddterm/pref/glade/prefs-shortcuts.ui:332
 msgid "Switch to Tab 8"
 msgstr ""
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:318
+#: ddterm/pref/glade/prefs-shortcuts.ui:339
 msgid "Switch to Tab 9"
 msgstr ""
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:325
+#: ddterm/pref/glade/prefs-shortcuts.ui:346
 msgid "Switch to Tab 10"
 msgstr ""
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:358
+#: ddterm/pref/glade/prefs-shortcuts.ui:379
 msgid "Global Action"
 msgstr "Akcja globalna"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:370
+#: ddterm/pref/glade/prefs-shortcuts.ui:391
 msgid "Global Shortcut"
 msgstr "Globalne skróty"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:392
+#: ddterm/pref/glade/prefs-shortcuts.ui:413
 msgid "_Enable application shortcuts"
 msgstr ""
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:422
+#: ddterm/pref/glade/prefs-shortcuts.ui:443
 msgid "Action"
 msgstr "Akcja"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:434
+#: ddterm/pref/glade/prefs-shortcuts.ui:455
 msgid "Shortcut"
 msgstr "Skrót"
 
-#: ddterm/pref/glade/prefs-tabs.ui:48
+#: ddterm/pref/glade/prefs-tabs.ui:44
 msgid "Expand tabs"
 msgstr ""
 
-#: ddterm/pref/glade/prefs-tabs.ui:64
+#: ddterm/pref/glade/prefs-tabs.ui:60
 msgid "Show _close buttons"
 msgstr ""
 
-#: ddterm/pref/glade/prefs-tabs.ui:80
+#: ddterm/pref/glade/prefs-tabs.ui:76
 msgid "\"_New Tab (Last)\" button"
 msgstr ""
 
-#: ddterm/pref/glade/prefs-tabs.ui:96
+#: ddterm/pref/glade/prefs-tabs.ui:92
 msgid "Tab _switcher popup"
 msgstr ""
 
-#: ddterm/pref/glade/prefs-tabs.ui:115
+#: ddterm/pref/glade/prefs-tabs.ui:111
 msgid "Show tab _bar:"
 msgstr ""
 
-#: ddterm/pref/glade/prefs-tabs.ui:130 ddterm/pref/glade/prefs-text.ui:102
+#: ddterm/pref/glade/prefs-tabs.ui:126 ddterm/pref/glade/prefs-text.ui:102
 msgid "Always"
 msgstr "Zawsze"
 
-#: ddterm/pref/glade/prefs-tabs.ui:132 ddterm/pref/glade/prefs-text.ui:99
+#: ddterm/pref/glade/prefs-tabs.ui:128 ddterm/pref/glade/prefs-text.ui:99
 msgid "Never"
 msgstr "Nigdy"
 
-#: ddterm/pref/glade/prefs-tabs.ui:145
-msgid "Tab _title:"
-msgstr ""
-
-#: ddterm/pref/glade/prefs-tabs.ui:170
-msgid "_Reset to default"
-msgstr ""
-
-#: ddterm/pref/glade/prefs-tabs.ui:184
+#: ddterm/pref/glade/prefs-tabs.ui:138
 msgid "\"_New Tab (First)\" button"
 msgstr ""
 
-#: ddterm/pref/glade/prefs-tabs.ui:203
+#: ddterm/pref/glade/prefs-tabs.ui:157
 msgid "Tab bar position:"
 msgstr ""
 
-#: ddterm/pref/glade/prefs-tabs.ui:231
+#: ddterm/pref/glade/prefs-tabs.ui:185
 msgid "Show border"
 msgstr "Pokaż obramowanie"
 
-#: ddterm/pref/glade/prefs-tabs.ui:250
+#: ddterm/pref/glade/prefs-tabs.ui:204
 msgid "Tab width:"
 msgstr "Szerokość karty:"
 
-#: ddterm/pref/glade/prefs-tabs.ui:278
+#: ddterm/pref/glade/prefs-tabs.ui:232
 msgid "Ellipsize tab labels:"
 msgstr ""
 
-#: ddterm/pref/glade/prefs-tabs.ui:293
+#: ddterm/pref/glade/prefs-tabs.ui:247
 msgid "Start"
 msgstr "Początek"
 
-#: ddterm/pref/glade/prefs-tabs.ui:294
+#: ddterm/pref/glade/prefs-tabs.ui:248
 msgid "Middle"
 msgstr "Środek"
 
-#: ddterm/pref/glade/prefs-tabs.ui:295
+#: ddterm/pref/glade/prefs-tabs.ui:249
 msgid "End"
 msgstr "Koniec"
 
-#: ddterm/pref/glade/prefs-tabs.ui:308
-msgid ""
-"Tab title is generated from <a href=\"https://handlebarsjs.com/guide/"
-"\">handlebars.js</a> template. <a href=\"https://developer.gnome.org/pango/"
-"stable/pango-Markup.html\">Pango markup</a> can be used to format the "
-"title.\n"
-"\n"
-"Following variables are available:\n"
-"- <tt>window-title</tt>\n"
-"- <tt>icon-title</tt>\n"
-"- <tt>current-directory-uri</tt>\n"
-"- <tt>current-file-uri</tt>\n"
-"- <tt>switch-shortcut</tt>\n"
-"\n"
-"Following helpers are available:\n"
-"- <tt>filename-from-uri</tt>\n"
-"- <tt>hostname-from-uri</tt>\n"
-"- <tt>ellipsize</tt> or <tt>truncate-chars</tt>\n"
-"      example: <tt>{{ellipsize window-title 20}}</tt>"
-msgstr ""
+#: ddterm/pref/glade/prefs-tabs.ui:259
+#, fuzzy
+#| msgid "Keyboard Shortcuts"
+msgid "Show keyboard shortcuts"
+msgstr "Skróty klawiszowe"
 
 #: ddterm/pref/glade/prefs-text.ui:39
 msgid "Custom _font:"
@@ -1158,30 +1166,34 @@ msgstr ""
 msgid "Detect news:/man: URLs"
 msgstr ""
 
-#: ddterm/pref/panelicon.js:52
+#: ddterm/pref/panelicon.js:47
 msgid "Panel Icon"
 msgstr "Ikona panelu"
 
-#: ddterm/pref/positionsize.js:372
+#: ddterm/pref/positionsize.js:287
 msgid "Position and Size"
 msgstr ""
 
-#: ddterm/pref/scrolling.js:73
+#: ddterm/pref/scrolling.js:71
 msgid "Scrolling"
 msgstr "Przewijanie"
 
-#: ddterm/pref/shortcuts.js:111
-msgid "Keyboard Shortcuts"
-msgstr "Skróty klawiszowe"
-
-#: ddterm/pref/tabs.js:100
+#: ddterm/pref/tabs.js:86
 msgid "Tabs"
 msgstr "Karty"
 
-#: ddterm/pref/text.js:91
+#: ddterm/pref/text.js:89
 msgid "Text"
 msgstr "Tekst"
 
-#: ddterm/shell/panelicon.js:70
+#: ddterm/shell/extension.js:416
+msgid ""
+"Warning: ddterm version has changed. Log out, then log in again to load the "
+"updated extension."
+msgstr ""
+"Ostrzeżenie: wersja ddterm zmieniła się. Zaloguj się ponownie, aby załadować "
+"aktualne rozszerzenie."
+
+#: ddterm/shell/panelicon.js:67
 msgid "Show"
 msgstr "Pokaż"
