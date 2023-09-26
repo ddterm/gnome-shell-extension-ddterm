@@ -1,0 +1,1187 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the ddterm package.
+# Matteo Cerri <mttcerri@hotmail.com>, 2023.
+msgid ""
+msgstr ""
+"Project-Id-Version: ddterm\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-05-29 14:59+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: it\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ddterm/app/appwindow.js:103
+msgid "Drop Down Terminal"
+msgstr ""
+
+#: ddterm/app/appwindow.js:417
+msgid ""
+"Warning: ddterm version has changed. Log out, then log in again to load the "
+"updated extension."
+msgstr ""
+
+#: ddterm/app/dependencies-notification.js:136
+msgid "ddterm needs additional packages to run."
+msgstr ""
+
+#: ddterm/app/dependencies-notification.js:141
+msgid "Please install the following packages:"
+msgstr ""
+
+#: ddterm/app/dependencies-notification.js:149
+msgid "Please install packages that provide the following files:"
+msgstr ""
+
+#: ddterm/app/dependencies-notification.js:162
+msgid "Missing dependencies"
+msgstr ""
+
+#: ddterm/app/glade/terminalpage.ui:169
+msgid "Case Sensitive"
+msgstr ""
+
+#: ddterm/app/glade/terminalpage.ui:186
+msgid "Match Whole Word"
+msgstr ""
+
+#: ddterm/app/glade/terminalpage.ui:203
+msgid "Wrap Around"
+msgstr ""
+
+#: ddterm/app/glade/terminalpage.ui:206
+msgid "Wrap"
+msgstr ""
+
+#: ddterm/app/glade/terminalpage.ui:221
+msgid "Regular Expression"
+msgstr ""
+
+#: ddterm/app/glade/terminalpage.ui:252
+msgid "Close Search Bar"
+msgstr ""
+
+#: ddterm/app/glade/terminalpage.ui:255 ddterm/app/menus.ui:76
+#: ddterm/app/menus.ui:175
+msgid "Close"
+msgstr ""
+
+#: ddterm/app/glade/terminalpage.ui:271 ddterm/app/glade/terminalpage.ui:274
+#: ddterm/pref/glade/prefs-shortcuts.ui:248
+msgid "Find Next"
+msgstr ""
+
+#: ddterm/app/glade/terminalpage.ui:290 ddterm/app/glade/terminalpage.ui:293
+#: ddterm/pref/glade/prefs-shortcuts.ui:255
+msgid "Find Previous"
+msgstr ""
+
+#: ddterm/app/menus.ui:25
+msgid "Open Hyperlink"
+msgstr ""
+
+#: ddterm/app/menus.ui:30
+msgid "Copy Hyperlink Address"
+msgstr ""
+
+#: ddterm/app/menus.ui:35
+msgid "Copy File Path"
+msgstr ""
+
+#: ddterm/app/menus.ui:42
+msgid "Copy"
+msgstr ""
+
+#: ddterm/app/menus.ui:46
+msgid "Copy HTML"
+msgstr ""
+
+#: ddterm/app/menus.ui:50
+msgid "Paste"
+msgstr ""
+
+#: ddterm/app/menus.ui:54 ddterm/pref/glade/prefs-shortcuts.ui:143
+msgid "Select All"
+msgstr ""
+
+#: ddterm/app/menus.ui:60 ddterm/pref/glade/prefs-shortcuts.ui:241
+msgid "Find"
+msgstr ""
+
+#: ddterm/app/menus.ui:66 ddterm/pref/glade/prefs-shortcuts.ui:150
+msgid "Reset"
+msgstr ""
+
+#: ddterm/app/menus.ui:70 ddterm/pref/glade/prefs-shortcuts.ui:157
+msgid "Reset and Clear"
+msgstr ""
+
+#: ddterm/app/menus.ui:82
+msgid "New Tab"
+msgstr ""
+
+#: ddterm/app/menus.ui:84 ddterm/pref/glade/prefs-shortcuts.ui:178
+msgid "New Tab Before Current Tab"
+msgstr ""
+
+#: ddterm/app/menus.ui:88 ddterm/pref/glade/prefs-shortcuts.ui:185
+msgid "New Tab After Current Tab"
+msgstr ""
+
+#: ddterm/app/menus.ui:92 ddterm/app/menus.ui:188
+#: ddterm/pref/glade/prefs-shortcuts.ui:171
+msgid "New Tab Before First Tab"
+msgstr ""
+
+#: ddterm/app/menus.ui:96 ddterm/app/menus.ui:192
+#: ddterm/pref/glade/prefs-shortcuts.ui:164
+msgid "New Tab After Last Tab"
+msgstr ""
+
+#: ddterm/app/menus.ui:102 ddterm/pref/dialog.js:45
+msgid "Preferences"
+msgstr ""
+
+#: ddterm/app/menus.ui:105 ddterm/app/menus.ui:207 ddterm/shell/panelicon.js:82
+msgid "Preferences..."
+msgstr ""
+
+#: ddterm/app/menus.ui:111
+msgid "Above All Windows"
+msgstr ""
+
+#: ddterm/app/menus.ui:115
+msgid "On All Workspaces"
+msgstr ""
+
+#: ddterm/app/menus.ui:119
+msgid "Maximize Window"
+msgstr ""
+
+#: ddterm/app/menus.ui:123
+msgid "Transparent Background"
+msgstr ""
+
+#: ddterm/app/menus.ui:129
+msgid "Hide When Application Loses Focus"
+msgstr ""
+
+#: ddterm/app/menus.ui:133
+msgid "Hide When Esc Key Is Pressed"
+msgstr ""
+
+#: ddterm/app/menus.ui:139
+msgid "Scroll On Output"
+msgstr ""
+
+#: ddterm/app/menus.ui:143
+msgid "Scroll On Keystroke"
+msgstr ""
+
+#: ddterm/app/menus.ui:149
+msgid "Preserve Working Directory In New Tabs"
+msgstr ""
+
+#: ddterm/app/menus.ui:155
+msgid "Enable Keyboard Shortcuts"
+msgstr ""
+
+#: ddterm/app/menus.ui:164
+msgid "Use Custom Tab Title"
+msgstr ""
+
+#: ddterm/app/menus.ui:169
+msgid "Use Default Tab Title"
+msgstr ""
+
+#: ddterm/app/menus.ui:180
+msgid "New Tab Before This Tab"
+msgstr ""
+
+#: ddterm/app/menus.ui:184
+msgid "New Tab After This Tab"
+msgstr ""
+
+#: ddterm/app/menus.ui:198 ddterm/pref/glade/prefs-shortcuts.ui:213
+msgid "Move Tab to Previous Position"
+msgstr ""
+
+#: ddterm/app/menus.ui:202 ddterm/pref/glade/prefs-shortcuts.ui:220
+msgid "Move Tab to Next Position"
+msgstr ""
+
+#: ddterm/app/notebook.js:84
+msgid "New Tab (Last)"
+msgstr ""
+
+#: ddterm/app/notebook.js:116
+msgid "New Tab (First)"
+msgstr ""
+
+#: ddterm/app/terminalpage.js:949
+msgid "Close this terminal?"
+msgstr ""
+
+#: ddterm/app/terminalpage.js:952
+msgid ""
+"There is still a process running in this terminal. Closing the terminal will "
+"kill it."
+msgstr ""
+
+#: ddterm/pref/animation.js:86
+msgid "Animation"
+msgstr ""
+
+#: ddterm/pref/behavior.js:63
+msgid "Behavior"
+msgstr ""
+
+#: ddterm/pref/colors.js:462
+msgid "Colors"
+msgstr ""
+
+#: ddterm/pref/command.js:64
+msgid "Command"
+msgstr ""
+
+#: ddterm/pref/compatibility.js:72
+msgid "Compatibility"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-animation.ui:36
+msgid "Disable"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-animation.ui:40
+msgid "Linear tweening"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-animation.ui:44
+msgid "Quadratic tweening"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-animation.ui:48
+msgid "Quadratic tweening, inverse"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-animation.ui:52
+msgid "Quadratic tweening, combining direct and inverse"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-animation.ui:56
+msgid "Cubic tweening"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-animation.ui:60
+msgid "Cubic tweening, inverse"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-animation.ui:64
+msgid "Cubic tweening, combining direct and inverse"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-animation.ui:68
+msgid "Quartic tweening"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-animation.ui:72
+msgid "Quartic tweening, inverse"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-animation.ui:76
+msgid "Quartic tweening, combining direct and inverse"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-animation.ui:80
+msgid "Quintic tweening"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-animation.ui:84
+msgid "Quintic tweening, inverse"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-animation.ui:88
+msgid "Quintic tweening, combining direct and inverse"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-animation.ui:92
+msgid "Sinusoidal tweening"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-animation.ui:96
+msgid "Sinusoidal tweening, inverse"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-animation.ui:100
+msgid "Sinusoidal tweening, combining direct and inverse"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-animation.ui:104
+msgid "Exponential tweening"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-animation.ui:108
+msgid "Exponential tweening, inverse"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-animation.ui:112
+msgid "Exponential tweening, combining direct and inverse"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-animation.ui:116
+msgid "Circular tweening"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-animation.ui:120
+msgid "Circular tweening, inverse"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-animation.ui:124
+msgid "Circular tweening, combining direct and inverse"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-animation.ui:128
+msgid "Elastic tweening, with offshoot on start"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-animation.ui:132
+msgid "Elastic tweening, with offshoot on end"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-animation.ui:136
+msgid "Elastic tweening with offshoot on both ends"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-animation.ui:140
+msgid "Overshooting cubic tweening, with backtracking on start"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-animation.ui:144
+msgid "Overshooting cubic tweening, with backtracking on end"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-animation.ui:148
+msgid "Overshooting cubic tweening, with backtracking on both ends"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-animation.ui:152
+msgid ""
+"Exponentially decaying parabolic (bounce) tweening, with bounce on start"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-animation.ui:156
+msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on end"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-animation.ui:160
+msgid ""
+"Exponentially decaying parabolic (bounce) tweening, with bounce on both ends"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-animation.ui:181
+msgid "_Override default window animations"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-animation.ui:216
+msgid "_Show animation:"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-animation.ui:230
+msgid "_Hide animation:"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-animation.ui:282
+msgid "_Hide animation duration:"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-animation.ui:295
+msgid "_Show animation duration:"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-behavior.ui:39
+msgid "_Resizable"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-behavior.ui:55
+msgid "_Above all windows"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-behavior.ui:71
+msgid "On all _workspaces"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-behavior.ui:87
+msgid "Hide when the application loses _focus"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-behavior.ui:103
+msgid "Hide when _Esc key is pressed"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-behavior.ui:119
+msgid "Exclude from _overview/task bar"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-behavior.ui:135
+msgid "Hide mouse _pointer when typing"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-behavior.ui:151
+msgid ""
+"Force _X11 GDK backend (XWayland).\n"
+"You'll have to close all tabs for this option to take effect."
+msgstr ""
+
+#: ddterm/pref/glade/prefs-behavior.ui:171
+msgid "Window type _hint (X11 only):"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-behavior.ui:186
+msgid "Normal"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-behavior.ui:187
+msgid "Dialog"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-behavior.ui:188
+msgid "Splash screen"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-behavior.ui:189
+msgid "Utility"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-behavior.ui:190
+msgid "Dock"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-behavior.ui:191
+msgid "Dropdown menu"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-behavior.ui:192
+msgid "Menu"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-behavior.ui:193
+msgid "Toolbar"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-behavior.ui:194
+msgid "Popup menu"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-behavior.ui:195
+msgid "Tooltip"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-behavior.ui:196
+msgid "Notification"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-behavior.ui:197
+msgid "Combo"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-colors.ui:38
+msgid "Black on light yellow"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-colors.ui:43
+msgid "Black on white"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-colors.ui:48
+msgid "Gray on black"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-colors.ui:53
+msgid "Green on black"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-colors.ui:58
+msgid "White on black"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-colors.ui:63
+msgid "GNOME light"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-colors.ui:68
+msgid "GNOME dark"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-colors.ui:73
+msgid "Tango light"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-colors.ui:78
+msgid "Tango dark"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-colors.ui:83
+msgid "Solarized light"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-colors.ui:88
+msgid "Solarized dark"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-colors.ui:93 ddterm/pref/glade/prefs-colors.ui:257
+msgid "Custom"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-colors.ui:143
+msgid "GNOME"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-colors.ui:162
+msgid "Tango"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-colors.ui:181
+msgid "Linux"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-colors.ui:200
+msgid "XTerm"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-colors.ui:219
+msgid "RXVT"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-colors.ui:238
+msgid "Solarized"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-colors.ui:292
+msgid "Theme _variant:"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-colors.ui:307 ddterm/pref/glade/prefs-text.ui:132
+msgid "Default"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-colors.ui:308
+msgid "Light"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-colors.ui:309
+msgid "Dark"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-colors.ui:319
+msgid "Use colors from system _theme"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-colors.ui:335
+msgid "_Background opacity:"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-colors.ui:380
+msgid "_Palette:"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-colors.ui:423
+msgid "Palette Color 0"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-colors.ui:436
+msgid "Palette Color 1"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-colors.ui:449
+msgid "Palette Color 2"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-colors.ui:462
+msgid "Palette Color 3"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-colors.ui:475
+msgid "Palette Color 4"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-colors.ui:488
+msgid "Palette Color 5"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-colors.ui:501
+msgid "Palette Color 6"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-colors.ui:514
+msgid "Palette Color 7"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-colors.ui:527
+msgid "Palette Color 8"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-colors.ui:540
+msgid "Palette Color 9"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-colors.ui:553
+msgid "Palette Color 10"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-colors.ui:566
+msgid "Palette Color 11"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-colors.ui:579
+msgid "Palette Color 12"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-colors.ui:592
+msgid "Palette Color 13"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-colors.ui:605
+msgid "Palette Color 14"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-colors.ui:618
+msgid "Palette Color 15"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-colors.ui:634
+msgid "Show bold text in _bright colors"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-colors.ui:650
+msgid "Copy profile from GNOME Terminal"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-colors.ui:673
+msgid "Foreground"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-colors.ui:684
+msgid "Background"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-colors.ui:696
+msgid "Default color:"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-colors.ui:705
+msgid "Bold color:"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-colors.ui:718
+msgid "Cursor color:"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-colors.ui:732
+msgid "Highlight color:"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-colors.ui:749
+msgid "Color _scheme:"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-colors.ui:767
+msgid "Background Color"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-colors.ui:791
+msgid "Bold Color"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-colors.ui:815
+msgid "Cursor Foreground Color"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-colors.ui:839
+msgid "Cursor Background Color"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-colors.ui:863
+msgid "Highlight Foreground Color"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-colors.ui:887
+msgid "Highlight Background Color"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-colors.ui:930
+msgid "Foreground Color"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-command.ui:39
+msgid "User _shell"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-command.ui:57
+msgid "User shell as _login shell"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-command.ui:75
+msgid "Custom _command:"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-command.ui:114
+msgid "Preserve working directory"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-compatibility.ui:36
+#: ddterm/pref/glade/prefs-tabs.ui:131
+msgid "Automatic"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-compatibility.ui:40
+msgid "Control-H"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-compatibility.ui:44
+msgid "ASCII DEL"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-compatibility.ui:48
+msgid "Escape sequence"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-compatibility.ui:52
+msgid "TTY Erase"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-compatibility.ui:72
+msgid "_Backspace key generates:"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-compatibility.ui:86
+msgid "_Delete key generates:"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-compatibility.ui:100
+msgid "Ambiguous-_width characters:"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-compatibility.ui:153
+msgid "Narrow"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-compatibility.ui:154
+msgid "Wide"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-compatibility.ui:164
+msgid "_Reset Compatibility Options to Defaults"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-panel-icon.ui:42
+msgid "Panel icon:"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-panel-icon.ui:55 ddterm/pref/glade/prefs-tabs.ui:292
+msgid "None"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-panel-icon.ui:56
+msgid "With popup menu"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-panel-icon.ui:57
+msgid "Toggle button"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-panel-icon.ui:58
+msgid "Toggle button and popup menu"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-position-size.ui:47
+msgid "Window _size:"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-position-size.ui:76
+msgid "_Window position:"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-position-size.ui:91
+#: ddterm/pref/glade/prefs-tabs.ui:219
+msgid "Top"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-position-size.ui:92
+#: ddterm/pref/glade/prefs-tabs.ui:218
+msgid "Bottom"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-position-size.ui:93
+#: ddterm/pref/glade/prefs-tabs.ui:220
+msgid "Left"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-position-size.ui:94
+#: ddterm/pref/glade/prefs-tabs.ui:221
+msgid "Right"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-position-size.ui:104
+msgid "On the monitor that contains the mouse pointer"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-position-size.ui:122
+msgid "On the _primary monitor"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-position-size.ui:140
+msgid "On the monitor with keyboard _focus"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-position-size.ui:158
+msgid "On _monitor:"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-scrolling.ui:44
+msgid "Show _scrollbar"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-scrolling.ui:60
+msgid "Scroll on _output"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-scrolling.ui:76
+msgid "Scroll on _keystroke"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-scrolling.ui:92
+msgid "_Limit scrollback to:"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-scrolling.ui:128
+msgid "lines"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-shortcuts.ui:43
+msgid "Toggle Terminal Window"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-shortcuts.ui:50
+msgid "Show/Activate Terminal Window"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-shortcuts.ui:73
+msgid "Hide the Window"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-shortcuts.ui:80
+msgid "Maximize/Unmaximize the Window"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-shortcuts.ui:87
+msgid "Increase Window Height"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-shortcuts.ui:94
+msgid "Decrease Window Height"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-shortcuts.ui:101
+msgid "Increase Background Opacity"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-shortcuts.ui:108
+msgid "Decrease Background Opacity"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-shortcuts.ui:115
+msgid "Enable/Disable Background Transparency"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-shortcuts.ui:122
+msgid "Copy Selected Text"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-shortcuts.ui:129
+msgid "Copy Selected Text as HTML"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-shortcuts.ui:136
+msgid "Paste Text from Clipboard"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-shortcuts.ui:192
+msgid "Close Current Tab"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-shortcuts.ui:199
+msgid "Switch to Previous Tab"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-shortcuts.ui:206
+msgid "Switch to Next Tab"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-shortcuts.ui:227
+msgid "Set Custom Tab Title"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-shortcuts.ui:234
+msgid "Reset Tab Title"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-shortcuts.ui:262
+msgid "Switch to Tab 1"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-shortcuts.ui:269
+msgid "Switch to Tab 2"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-shortcuts.ui:276
+msgid "Switch to Tab 3"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-shortcuts.ui:283
+msgid "Switch to Tab 4"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-shortcuts.ui:290
+msgid "Switch to Tab 5"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-shortcuts.ui:297
+msgid "Switch to Tab 6"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-shortcuts.ui:304
+msgid "Switch to Tab 7"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-shortcuts.ui:311
+msgid "Switch to Tab 8"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-shortcuts.ui:318
+msgid "Switch to Tab 9"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-shortcuts.ui:325
+msgid "Switch to Tab 10"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-shortcuts.ui:358
+msgid "Global Action"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-shortcuts.ui:370
+msgid "Global Shortcut"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-shortcuts.ui:392
+msgid "_Enable application shortcuts"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-shortcuts.ui:422
+msgid "Action"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-shortcuts.ui:434
+msgid "Shortcut"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-tabs.ui:48
+msgid "Expand tabs"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-tabs.ui:64
+msgid "Show _close buttons"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-tabs.ui:80
+msgid "\"_New Tab (Last)\" button"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-tabs.ui:96
+msgid "Tab _switcher popup"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-tabs.ui:115
+msgid "Show tab _bar:"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-tabs.ui:130 ddterm/pref/glade/prefs-text.ui:102
+msgid "Always"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-tabs.ui:132 ddterm/pref/glade/prefs-text.ui:99
+msgid "Never"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-tabs.ui:145
+msgid "Tab _title:"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-tabs.ui:170
+msgid "_Reset to default"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-tabs.ui:184
+msgid "\"_New Tab (First)\" button"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-tabs.ui:203
+msgid "Tab bar position:"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-tabs.ui:231
+msgid "Show border"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-tabs.ui:250
+msgid "Tab width:"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-tabs.ui:278
+msgid "Ellipsize tab labels:"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-tabs.ui:293
+msgid "Start"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-tabs.ui:294
+msgid "Middle"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-tabs.ui:295
+msgid "End"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-tabs.ui:308
+msgid ""
+"Tab title is generated from <a href=\"https://handlebarsjs.com/guide/"
+"\">handlebars.js</a> template. <a href=\"https://developer.gnome.org/pango/"
+"stable/pango-Markup.html\">Pango markup</a> can be used to format the "
+"title.\n"
+"\n"
+"Following variables are available:\n"
+"- <tt>window-title</tt>\n"
+"- <tt>icon-title</tt>\n"
+"- <tt>current-directory-uri</tt>\n"
+"- <tt>current-file-uri</tt>\n"
+"- <tt>switch-shortcut</tt>\n"
+"\n"
+"Following helpers are available:\n"
+"- <tt>filename-from-uri</tt>\n"
+"- <tt>hostname-from-uri</tt>\n"
+"- <tt>ellipsize</tt> or <tt>truncate-chars</tt>\n"
+"      example: <tt>{{ellipsize window-title 20}}</tt>"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-text.ui:39
+msgid "Custom _font:"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-text.ui:56
+msgid "Allow _blinking text:"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-text.ui:70
+msgid "Cursor _shape:"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-text.ui:84
+msgid "_Cursor blinking:"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-text.ui:100
+msgid "When focused"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-text.ui:101
+msgid "When unfocused"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-text.ui:116
+msgid "Block"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-text.ui:117
+msgid "I-Beam"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-text.ui:118
+msgid "Underline"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-text.ui:133
+msgid "Enabled"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-text.ui:134
+msgid "Disabled"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-text.ui:144
+msgid "Allow _hyperlinks"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-text.ui:160
+msgid "Audible _bell"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-text.ui:202
+msgid "Detect _URLs"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-text.ui:225
+msgid "Detect raw URLs (scheme://netloc/path)"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-text.ui:240
+msgid "Detect file: URLs"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-text.ui:255
+msgid "Detect HTTP URLs"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-text.ui:270
+msgid "Detect VoIP URLs"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-text.ui:285
+msgid "Detect E-mail addresses"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-text.ui:300
+msgid "Detect news:/man: URLs"
+msgstr ""
+
+#: ddterm/pref/panelicon.js:52
+msgid "Panel Icon"
+msgstr ""
+
+#: ddterm/pref/positionsize.js:372
+msgid "Position and Size"
+msgstr ""
+
+#: ddterm/pref/scrolling.js:73
+msgid "Scrolling"
+msgstr ""
+
+#: ddterm/pref/shortcuts.js:111
+msgid "Keyboard Shortcuts"
+msgstr ""
+
+#: ddterm/pref/tabs.js:93
+msgid "Tabs"
+msgstr ""
+
+#: ddterm/pref/text.js:91
+msgid "Text"
+msgstr ""
+
+#: ddterm/shell/panelicon.js:70
+msgid "Show"
+msgstr ""
