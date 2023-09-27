@@ -8,7 +8,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-09-24 18:13+0000\n"
 "PO-Revision-Date: 2023-09-27 06:00+0000\n"
-"Last-Translator: Stephane LE CAER <stephane@slc66.net>\n"
+"Last-Translator: fail a fail <yassadmi@proton.me>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/"
 "gnome-shell-extension-ddterm/extension/fr/>\n"
 "Language: fr\n"
@@ -248,10 +248,8 @@ msgstr ""
 "terminal va le tuer."
 
 #: ddterm/pref/adw.js:42
-#, fuzzy
-#| msgid "Window _size:"
 msgid "Window"
-msgstr "Taille de la fenêtre :"
+msgstr "Fenêtre"
 
 #: ddterm/pref/adw.js:81
 msgid "Terminal"
