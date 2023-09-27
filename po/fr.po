@@ -1,13 +1,14 @@
 # Arnaud Feldmann <arnaud.feldmann@gmail.com>, 2023.
 # Aleksandr Mezin <mezin.alexander@gmail.com>, 2023.
 # fail a fail <yassadmi@proton.me>, 2023.
+# Stephane LE CAER <stephane@slc66.net>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-09-24 18:13+0000\n"
-"PO-Revision-Date: 2023-09-26 01:07+0000\n"
-"Last-Translator: fail a fail <yassadmi@proton.me>\n"
+"PO-Revision-Date: 2023-09-27 06:00+0000\n"
+"Last-Translator: Stephane LE CAER <stephane@slc66.net>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/"
 "gnome-shell-extension-ddterm/extension/fr/>\n"
 "Language: fr\n"
@@ -253,10 +254,8 @@ msgid "Window"
 msgstr "Taille de la fenêtre :"
 
 #: ddterm/pref/adw.js:81
-#, fuzzy
-#| msgid "Drop Down Terminal"
 msgid "Terminal"
-msgstr "Terminal déroulant"
+msgstr "Terminal"
 
 #: ddterm/pref/adw.js:121 ddterm/pref/shortcuts.js:109
 msgid "Keyboard Shortcuts"
@@ -1082,8 +1081,6 @@ msgid "End"
 msgstr "Fin"
 
 #: ddterm/pref/glade/prefs-tabs.ui:259
-#, fuzzy
-#| msgid "Keyboard Shortcuts"
 msgid "Show keyboard shortcuts"
 msgstr "Raccourcis claviers"
 
