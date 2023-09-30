@@ -389,8 +389,11 @@ var Terminal = GObject.registerClass({
         if (this._foreground_from_style)
             super.set_color_foreground(style.get_property('color', state));
 
-        if (this._background_from_style)
-            super.set_color_background(style.get_property('background-color', state));
+        if (this._background_from_style) {
+            const value = style.get_property('background-color', state);
+            value.alpha = this.background_opacity;
+            super.set_color_background(value);
+        }
     }
 
     set color_bold(value) {
