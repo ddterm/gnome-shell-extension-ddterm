@@ -51,6 +51,7 @@ body:
       description: >
         Output of `dconf dump /com/github/amezin/ddterm/`
       placeholder: dconf dump /com/github/amezin/ddterm/
+      render: ini
 
   - type: textarea
     id: description
