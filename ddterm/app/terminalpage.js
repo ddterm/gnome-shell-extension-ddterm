@@ -73,9 +73,6 @@ var TerminalPage = GObject.registerClass({
     _init(params) {
         super._init(params);
 
-        this.clipboard = Gtk.Clipboard.get_default(Gdk.Display.get_default());
-        this.primary_selection = Gtk.Clipboard.get(Gdk.Atom.intern('PRIMARY', true));
-
         const terminal_with_scrollbar = new Gtk.Box({
             visible: true,
             orientation: Gtk.Orientation.HORIZONTAL,
@@ -397,11 +394,13 @@ var TerminalPage = GObject.registerClass({
     }
 
     copy_hyperlink() {
-        this.clipboard.set_text(this.terminal.last_clicked_hyperlink, -1);
+        const clipboard = Gtk.Clipboard.get_default(this.get_display());
+        clipboard.set_text(this.terminal.last_clicked_hyperlink, -1);
     }
 
     copy_filename() {
-        this.clipboard.set_text(this.terminal.last_clicked_filename, -1);
+        const clipboard = Gtk.Clipboard.get_default(this.get_display());
+        clipboard.set_text(this.terminal.last_clicked_filename, -1);
     }
 
     terminal_button_press_early(_terminal, event) {
@@ -468,9 +467,14 @@ var TerminalPage = GObject.registerClass({
 
     find() {
         if (this.terminal.get_has_selection()) {
+            const primary_selection = Gtk.Clipboard.get_for_display(
+                this.get_display(),
+                Gdk.Atom.intern('PRIMARY', true)
+            );
+
             this.terminal.copy_primary();
 
-            this.primary_selection.request_text((_, text) => {
+            primary_selection.request_text((_, text) => {
                 if (text)
                     this.search_bar.pattern.text = text;
             });
