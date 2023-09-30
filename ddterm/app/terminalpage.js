@@ -472,7 +472,7 @@ var TerminalPage = GObject.registerClass({
 
             this.primary_selection.request_text((_, text) => {
                 if (text)
-                    this.search_bar.text = text;
+                    this.search_bar.pattern.text = text;
             });
         }
 
