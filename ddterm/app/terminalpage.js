@@ -492,8 +492,8 @@ var TerminalPage = GObject.registerClass({
         const message = new Gtk.MessageDialog({
             transient_for: this.get_toplevel(),
             modal: true,
-            buttons: Gtk.ButtonsType.YES_NO,
-            message_type: Gtk.MessageType.QUESTION,
+            buttons: Gtk.ButtonsType.CANCEL,
+            message_type: Gtk.MessageType.WARNING,
             text: translations.gettext('Close this terminal?'),
             secondary_text: translations.gettext(
                 'There is still a process running in this terminal.' +
@@ -501,13 +501,21 @@ var TerminalPage = GObject.registerClass({
             ),
         });
 
+        const remove_button = message.add_button(
+            translations.gettext('Close Terminal'),
+            Gtk.ResponseType.ACCEPT
+        );
+
+        remove_button.get_style_context().add_class('destructive-action');
+
         message.connect('response', (_, response_id) => {
-            if (response_id === Gtk.ResponseType.YES)
+            if (response_id === Gtk.ResponseType.ACCEPT)
                 this.destroy();
 
             message.destroy();
         });
 
+        message.set_default_response(Gtk.ResponseType.ACCEPT);
         message.show();
     }
 
