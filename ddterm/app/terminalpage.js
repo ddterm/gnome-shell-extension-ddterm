@@ -496,8 +496,8 @@ var TerminalPage = GObject.registerClass({
             message_type: Gtk.MessageType.QUESTION,
             text: translations.gettext('Close this terminal?'),
             secondary_text: translations.gettext(
-                // eslint-disable-next-line max-len
-                'There is still a process running in this terminal. Closing the terminal will kill it.'
+                'There is still a process running in this terminal.' +
+                ' Closing the terminal will kill it.'
             ),
         });
 
