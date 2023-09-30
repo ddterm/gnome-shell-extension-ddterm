@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-24 18:13+0000\n"
+"POT-Creation-Date: 2023-09-30 09:58+0000\n"
 "PO-Revision-Date: 2023-09-26 17:35+0300\n"
 "Last-Translator: Anagnostakis Ioannis <rizitis@gmail.com>\n"
 "Language-Team: Greek, Modern (1453-) <>\n"
@@ -232,17 +232,23 @@ msgstr "Μετακίνηση στο επόμενο"
 msgid "Find Previous"
 msgstr "Μετακίνηση στο επόμενο"
 
-#: ddterm/app/terminalpage.js:493
+#: ddterm/app/terminalpage.js:497
 msgid "Close this terminal?"
 msgstr "Να κλείσει το Τερματικό ;"
 
-#: ddterm/app/terminalpage.js:496
+#: ddterm/app/terminalpage.js:499
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."
 msgstr ""
 "Μία αργασία εκτελείτε ακόμα σε αυτό το τερματικό. Το κλείσιμο θα την "
 "διακόψει."
+
+#: ddterm/app/terminalpage.js:505
+#, fuzzy
+#| msgid "Close this terminal?"
+msgid "Close Terminal"
+msgstr "Να κλείσει το Τερματικό ;"
 
 #: ddterm/pref/adw.js:42
 msgid "Window"
