@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-02 16:39+0000\n"
+"POT-Creation-Date: 2023-10-02 19:47+0000\n"
 "PO-Revision-Date: 2023-03-12 16:07+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/gnome-"
@@ -953,11 +953,15 @@ msgid "Maximize/Unmaximize the Window"
 msgstr "Maksimer/opphev maksimering av vinduet"
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:87
-msgid "Increase Window Height"
+#, fuzzy
+#| msgid "Increase Window Height"
+msgid "Increase Window Size"
 msgstr "Øk vindushøyde"
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:94
-msgid "Decrease Window Height"
+#, fuzzy
+#| msgid "Decrease Window Height"
+msgid "Decrease Window Size"
 msgstr "Reduser vindushøyde"
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:101
