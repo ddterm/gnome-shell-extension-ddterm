@@ -146,6 +146,8 @@ var TabLabel = GObject.registerClass({
             GObject.BindingFlags.SYNC_CREATE
         );
 
+        edit_entry.connect('activate', () => this.edit_popover.popdown());
+
         this.bind_property(
             'label',
             edit_entry,
