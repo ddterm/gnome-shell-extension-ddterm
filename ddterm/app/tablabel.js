@@ -139,13 +139,6 @@ var TabLabel = GObject.registerClass({
             parent: this.edit_popover,
         });
 
-        edit_entry.bind_property(
-            'text-length',
-            edit_entry,
-            'width-chars',
-            GObject.BindingFlags.SYNC_CREATE
-        );
-
         edit_entry.connect('activate', () => this.edit_popover.popdown());
 
         this.bind_property(
@@ -154,6 +147,10 @@ var TabLabel = GObject.registerClass({
             'text',
             GObject.BindingFlags.SYNC_CREATE | GObject.BindingFlags.BIDIRECTIONAL
         );
+
+        this.connect('size-allocate', (_, allocation) => {
+            edit_entry.width_request = allocation.width;
+        });
     }
 
     edit() {
