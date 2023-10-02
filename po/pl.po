@@ -98,7 +98,6 @@ msgid "Normal Size"
 msgstr "Normalny rozmiar"
 
 #: ddterm/app/menus.ui:93 ddterm/app/menus.ui:224 ddterm/app/tablabel.js:111
-#: ddterm/app/tablabel.js:110
 msgid "Close"
 msgstr "Zamknij"
 
@@ -258,17 +257,17 @@ msgstr "Wyszukaj następne"
 msgid "Find Previous"
 msgstr "Wyszukaj poprzednie"
 
-#: ddterm/app/terminalpage.js:545 ddterm/app/terminalpage.js:542
+#: ddterm/app/terminalpage.js:545
 msgid "Close this terminal?"
 msgstr "Zamknąć ten terminal?"
 
-#: ddterm/app/terminalpage.js:547 ddterm/app/terminalpage.js:544
+#: ddterm/app/terminalpage.js:547
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."
 msgstr ""
 
-#: ddterm/app/terminalpage.js:553 ddterm/app/terminalpage.js:550
+#: ddterm/app/terminalpage.js:553
 #, fuzzy
 msgid "Close Terminal"
 msgstr "Zamknąć ten terminal?"
