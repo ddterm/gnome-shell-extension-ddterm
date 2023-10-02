@@ -125,15 +125,6 @@ var TerminalPage = GObject.registerClass({
             GObject.BindingFlags.SYNC_CREATE | GObject.BindingFlags.BIDIRECTIONAL
         );
 
-        this.menu_label = new Gtk.ModelButton({ visible: true });
-
-        this.bind_property(
-            'title',
-            this.menu_label,
-            'text',
-            GObject.BindingFlags.SYNC_CREATE
-        );
-
         this.terminal_settings.bind_property(
             'show-scrollbar',
             this.scrollbar,

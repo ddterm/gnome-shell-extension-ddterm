@@ -144,20 +144,12 @@ var Notebook = GObject.registerClass({
             GObject.BindingFlags.BIDIRECTIONAL | GObject.BindingFlags.SYNC_CREATE
         );
 
-        this.tab_switch_menu_box = new Gtk.Box({
-            visible: true,
-            orientation: Gtk.Orientation.VERTICAL,
-            spacing: 10,
-            border_width: 10,
-        });
-
         this.tab_switch_button = new Gtk.MenuButton({
-            popover: new Gtk.Popover({
-                child: this.tab_switch_menu_box,
-            }),
+            menu_model: new NotebookMenu({ notebook: this }),
             focus_on_click: false,
             relief: Gtk.ReliefStyle.NONE,
             visible: true,
+            use_popover: false,
         });
         button_box.add(this.tab_switch_button);
 
@@ -269,7 +261,7 @@ var Notebook = GObject.registerClass({
         this.page_disconnect = new Map();
     }
 
-    on_page_added(child, page_num) {
+    on_page_added(child, _page_num) {
         this.set_tab_reorderable(child, true);
         this.child_set_property(child, 'tab-expand', this.tab_expand);
 
@@ -295,7 +287,6 @@ var Notebook = GObject.registerClass({
         ];
 
         const label = this.get_tab_label(child);
-        const menu_label = this.get_menu_label(child);
 
         const bindings = [
             this.bind_property(
@@ -333,25 +324,19 @@ var Notebook = GObject.registerClass({
         });
 
         this.update_tab_switch_actions();
-
-        this.tab_switch_menu_box.add(menu_label);
-        this.tab_switch_menu_box.reorder_child(menu_label, page_num);
     }
 
-    on_page_removed(child, page_num) {
+    on_page_removed(child, _page_num) {
         const disconnect = this.page_disconnect.get(child);
         this.page_disconnect.delete(child);
 
         if (disconnect)
             disconnect();
 
-        this.tab_switch_menu_box.remove(this.tab_switch_menu_box.get_children()[page_num]);
         this.update_tab_switch_actions();
     }
 
-    on_page_reordered(child, page_num) {
-        const menu_label = this.get_menu_label(child);
-        this.tab_switch_menu_box.reorder_child(menu_label, page_num);
+    on_page_reordered(_child, _page_num) {
         this.update_tab_switch_actions();
     }
 
@@ -367,7 +352,7 @@ var Notebook = GObject.registerClass({
             ...properties,
         });
 
-        const index = this.insert_page_menu(page, page.tab_label, page.menu_label, position);
+        const index = this.insert_page(page, page.tab_label, position);
         this.set_current_page(index);
         this.grab_focus();
 
@@ -395,11 +380,9 @@ var Notebook = GObject.registerClass({
 
         this.foreach(child => {
             const label = this.get_tab_label(child);
-            const menu_label = this.get_menu_label(child);
-            const value = GLib.Variant.new_int32(i++);
 
-            menu_label.action_target = label.action_target = value;
-            menu_label.action_name = label.action_name = 'notebook.switch-to-tab';
+            label.action_target = GLib.Variant.new_int32(i++);
+            label.action_name = 'notebook.switch-to-tab';
         });
     }
 
@@ -454,5 +437,115 @@ var Notebook = GObject.registerClass({
 
     get current_title() {
         return this.current_child?.title ?? null;
+    }
+});
+
+function array_common_prefix(a, b) {
+    let len = Math.min(a.length, b.length);
+    let i = 0;
+
+    while (i < len && a[i] === b[i])
+        i++;
+
+    return i;
+}
+
+function array_common_suffix(a, b) {
+    return array_common_prefix(a.slice().reverse(), b.slice().reverse());
+}
+
+const NotebookMenu = GObject.registerClass({
+    Properties: {
+        'notebook': GObject.ParamSpec.object(
+            'notebook',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+            Notebook
+        ),
+    },
+}, class DDTermNotebookMenu extends Gio.MenuModel {
+    _init(params) {
+        super._init(params);
+
+        this._label = [];
+        this._action = GLib.Variant.new_string('notebook.switch-to-tab');
+        this._target = [];
+        this._update_source = null;
+
+        this.notebook.connect('page-added', () => this._schedule_update());
+        this.notebook.connect('page-removed', () => this._schedule_update());
+        this.notebook.connect('page-reordered', () => this._schedule_update());
+
+        const page_handlers = new Map();
+
+        this.notebook.connect('page-added', (_, page) => {
+            const handler = page.connect('notify::title', () => this._schedule_update());
+            page_handlers.set(page, handler);
+        });
+
+        this.notebook.connect('page-removed', (_, page) => {
+            page.disconnect(page_handlers.get(page));
+            page_handlers.delete(page);
+        });
+    }
+
+    _update() {
+        const prev = this._label;
+        const update = this.notebook.get_children().map(page => page.title);
+
+        const common_prefix = array_common_prefix(prev, update);
+
+        if (common_prefix === update.length && common_prefix === prev.length)
+            return;
+
+        const common = prev.length === update.length
+            ? common_prefix + array_common_suffix(prev, update)
+            : common_prefix;
+
+        this._label = update;
+        this._target.length = update.length;
+
+        this.items_changed(common_prefix, prev.length - common, update.length - common);
+    }
+
+    _schedule_update() {
+        if (this._update_source !== null) {
+            GLib.Source.remove(this._update_source);
+            this._update_source = null;
+        }
+
+        this._update_source = GLib.idle_add(GLib.PRIORITY_HIGH, () => {
+            this._update_source = null;
+            this._update();
+            return GLib.SOURCE_REMOVE;
+        });
+    }
+
+    vfunc_is_mutable() {
+        return true;
+    }
+
+    vfunc_get_n_items() {
+        return this._label.length;
+    }
+
+    vfunc_get_item_attributes(item_index) {
+        let target = this._target[item_index];
+
+        if (!target) {
+            target = GLib.Variant.new_int32(item_index);
+            this._target[item_index] = target;
+        }
+
+        return {
+            [Gio.MENU_ATTRIBUTE_LABEL]: GLib.Variant.new_string(this._label[item_index]),
+            [Gio.MENU_ATTRIBUTE_ACTION]: this._action,
+            [Gio.MENU_ATTRIBUTE_TARGET]: target,
+        };
+    }
+
+    vfunc_get_item_links(_) {
+        return {};
     }
 });
