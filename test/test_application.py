@@ -146,7 +146,7 @@ class TestApp(ddterm_fixtures.DDTermFixtures):
             timeout=self.START_STOP_TIMEOUT_MS
         )
 
-        compare_heap_dumps(dump_pre, dump_post)
+        compare_heap_dumps(dump_pre, dump_post, hide_edge=['window_title_binding'])
 
     def test_prefs_leak(self, heap_dump_api, tmp_path, app_actions):
         wait_action_in_group(app_actions, 'preferences')

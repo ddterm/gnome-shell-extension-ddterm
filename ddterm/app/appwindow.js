@@ -176,10 +176,10 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
         });
         grid.attach(this.paned, 1, 1, 1, 1);
 
-        this._title_binding = null;
+        let window_title_binding = null;
         this.paned.connect('set-focus-child', (paned, child) => {
-            this._title_binding?.unbind();
-            this._title_binding = child?.bind_property(
+            window_title_binding?.unbind();
+            window_title_binding = child?.bind_property(
                 'current-title',
                 this,
                 'title',
