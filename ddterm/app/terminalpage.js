@@ -110,13 +110,13 @@ var TerminalPage = GObject.registerClass({
         terminal_with_scrollbar.pack_end(this.scrollbar, false, false, 0);
 
         this.orientation = Gtk.Orientation.VERTICAL;
-        this.pack_start(terminal_with_scrollbar, true, true, 0);
 
         this.search_bar = new search.SearchBar({
             visible: true,
         });
 
         this.pack_end(this.search_bar, false, false, 0);
+        this.pack_end(terminal_with_scrollbar, true, true, 0);
 
         this.search_bar.connect('find-next', this.find_next.bind(this));
         this.search_bar.connect('find-prev', this.find_prev.bind(this));
@@ -402,11 +402,36 @@ var TerminalPage = GObject.registerClass({
         return this.terminal.get_cwd();
     }
 
-    spawn(command_object, ...args) {
+    add_banner(message, message_type = Gtk.MessageType.ERROR) {
+        const label = new Gtk.Label({
+            label: message,
+            visible: true,
+        });
+
+        const banner = new Gtk.InfoBar({
+            message_type,
+            visible: true,
+            revealed: true,
+        });
+
+        banner.get_content_area().pack_start(label, false, false, 0);
+        this.pack_start(banner, false, false, 0);
+    }
+
+    spawn(command_object, timeout = -1, callback = null) {
         if (!this.use_custom_title)
             this.title = command_object.argv[0];
 
-        return this.terminal.spawn(command_object, ...args);
+        const callback_wrapper = (...args) => {
+            const [terminal_, pid_, error] = args;
+
+            if (error)
+                this.add_banner(error.message);
+
+            callback?.(...args);
+        };
+
+        return this.terminal.spawn(command_object, timeout, callback_wrapper);
     }
 
     copy() {

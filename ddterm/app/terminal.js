@@ -518,15 +518,6 @@ var Terminal = GObject.registerClass({
     }
 
     spawn(command_object, timeout = -1, callback = null) {
-        const error_callback = (...args) => {
-            const [terminal, pid_, error] = args;
-
-            if (error)
-                terminal.feed(error.message);
-
-            callback?.(...args);
-        };
-
         this.spawn_async(
             Vte.PtyFlags.DEFAULT,
             command_object.working_directory?.get_path() ?? null,
@@ -536,7 +527,7 @@ var Terminal = GObject.registerClass({
             null,
             timeout,
             null,
-            error_callback
+            callback
         );
     }
 
