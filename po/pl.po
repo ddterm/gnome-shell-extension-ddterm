@@ -83,29 +83,28 @@ msgstr "Resetuj i wyczyść"
 
 #: ddterm/app/menus.ui:76
 msgid "Zoom"
-msgstr ""
+msgstr "Powiększenie"
 
 #: ddterm/app/menus.ui:78 ddterm/pref/glade/prefs-shortcuts.ui:297
 msgid "Zoom In"
-msgstr ""
+msgstr "Powiększ"
 
 #: ddterm/app/menus.ui:82 ddterm/pref/glade/prefs-shortcuts.ui:304
 msgid "Zoom Out"
-msgstr ""
+msgstr "Oddal"
 
 #: ddterm/app/menus.ui:86 ddterm/pref/glade/prefs-shortcuts.ui:311
-#, fuzzy
-#| msgid "Normal"
 msgid "Normal Size"
-msgstr "Normalne"
+msgstr "Normalny rozmiar"
 
 #: ddterm/app/menus.ui:93 ddterm/app/menus.ui:224 ddterm/app/tablabel.js:111
+#: ddterm/app/tablabel.js:110
 msgid "Close"
 msgstr "Zamknij"
 
 #: ddterm/app/menus.ui:97 ddterm/app/menus.ui:228
 msgid "Keep Open After Exit"
-msgstr ""
+msgstr "Pozostaw otwarte po wyjściu"
 
 #: ddterm/app/menus.ui:103
 msgid "New Tab"
@@ -131,21 +130,21 @@ msgstr "Nowa karta po ostatniej karcie"
 
 #: ddterm/app/menus.ui:124 ddterm/app/menus.ui:261
 msgid "Layout"
-msgstr ""
+msgstr "Układ"
 
 #: ddterm/app/menus.ui:127 ddterm/app/menus.ui:264 ddterm/app/menus.ui:294
 msgid "No Split"
-msgstr ""
+msgstr "Bez podziału"
 
 #: ddterm/app/menus.ui:132 ddterm/app/menus.ui:269 ddterm/app/menus.ui:299
 #: ddterm/pref/glade/prefs-shortcuts.ui:227
 msgid "Split Horizontally"
-msgstr ""
+msgstr "Podział poziomy"
 
 #: ddterm/app/menus.ui:137 ddterm/app/menus.ui:274 ddterm/app/menus.ui:304
 #: ddterm/pref/glade/prefs-shortcuts.ui:234
 msgid "Split Vertically"
-msgstr ""
+msgstr "Podział pionowy"
 
 #: ddterm/app/menus.ui:144 ddterm/app/menus.ui:281
 msgid "Move Tab to Other Pane"
@@ -259,31 +258,28 @@ msgstr "Wyszukaj następne"
 msgid "Find Previous"
 msgstr "Wyszukaj poprzednie"
 
-#: ddterm/app/terminalpage.js:545
+#: ddterm/app/terminalpage.js:545 ddterm/app/terminalpage.js:542
 msgid "Close this terminal?"
 msgstr "Zamknąć ten terminal?"
 
-#: ddterm/app/terminalpage.js:547
+#: ddterm/app/terminalpage.js:547 ddterm/app/terminalpage.js:544
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."
 msgstr ""
 
-#: ddterm/app/terminalpage.js:553
+#: ddterm/app/terminalpage.js:553 ddterm/app/terminalpage.js:550
 #, fuzzy
-#| msgid "Close this terminal?"
 msgid "Close Terminal"
 msgstr "Zamknąć ten terminal?"
 
 #: ddterm/pref/adw.js:42
 #, fuzzy
-#| msgid "Window _size:"
 msgid "Window"
 msgstr "_Rozmiar okna:"
 
 #: ddterm/pref/adw.js:81
 #, fuzzy
-#| msgid "Drop Down Terminal"
 msgid "Terminal"
 msgstr "Rozwijany Terminal"
 
@@ -938,13 +934,11 @@ msgstr "Maksymalizuj/odmaksymalizuj okno"
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:87
 #, fuzzy
-#| msgid "Increase Window Height"
 msgid "Increase Window Size"
 msgstr "Zwiększ wysokość okna"
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:94
 #, fuzzy
-#| msgid "Decrease Window Height"
 msgid "Decrease Window Size"
 msgstr "Zmniejsz wysokość okna"
 
@@ -1126,7 +1120,6 @@ msgstr "Koniec"
 
 #: ddterm/pref/glade/prefs-tabs.ui:259
 #, fuzzy
-#| msgid "Keyboard Shortcuts"
 msgid "Show keyboard shortcuts"
 msgstr "Skróty klawiszowe"
 
