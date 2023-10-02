@@ -16,7 +16,7 @@ filelock==3.12.4
     # via -r pypi.in
 iniconfig==2.0.0
     # via pytest
-packaging==23.1
+packaging==23.2
     # via
     #   pytest
     #   pytest-rerunfailures
