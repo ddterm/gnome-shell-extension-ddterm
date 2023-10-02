@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-02 19:47+0000\n"
+"POT-Creation-Date: 2023-10-02 22:20+0000\n"
 "PO-Revision-Date: 2023-09-26 13:16+0000\n"
 "Last-Translator: ilham adi setiawan <ilhamsetiawan2000@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/gnome-shell-"
@@ -95,7 +95,7 @@ msgstr ""
 msgid "Normal Size"
 msgstr ""
 
-#: ddterm/app/menus.ui:93 ddterm/app/menus.ui:224 ddterm/app/tablabel.js:110
+#: ddterm/app/menus.ui:93 ddterm/app/menus.ui:224 ddterm/app/tablabel.js:111
 msgid "Close"
 msgstr ""
 
@@ -255,17 +255,17 @@ msgstr ""
 msgid "Find Previous"
 msgstr ""
 
-#: ddterm/app/terminalpage.js:542
+#: ddterm/app/terminalpage.js:545
 msgid "Close this terminal?"
 msgstr ""
 
-#: ddterm/app/terminalpage.js:544
+#: ddterm/app/terminalpage.js:547
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."
 msgstr ""
 
-#: ddterm/app/terminalpage.js:550
+#: ddterm/app/terminalpage.js:553
 msgid "Close Terminal"
 msgstr ""
 

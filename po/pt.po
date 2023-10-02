@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-02 19:47+0000\n"
+"POT-Creation-Date: 2023-10-02 22:20+0000\n"
 "PO-Revision-Date: 2023-10-02 00:02+0000\n"
 "Last-Translator: Luiz Carlos de Souza Santos <lcdessantos@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/gnome-shell-"
@@ -96,7 +96,7 @@ msgstr "Diminuir Zoom"
 msgid "Normal Size"
 msgstr "Restaurar Tamanho"
 
-#: ddterm/app/menus.ui:93 ddterm/app/menus.ui:224 ddterm/app/tablabel.js:110
+#: ddterm/app/menus.ui:93 ddterm/app/menus.ui:224 ddterm/app/tablabel.js:111
 msgid "Close"
 msgstr "Fechar"
 
@@ -258,18 +258,18 @@ msgstr "Localizar próximo"
 msgid "Find Previous"
 msgstr "Localizar anterior"
 
-#: ddterm/app/terminalpage.js:542
+#: ddterm/app/terminalpage.js:545
 msgid "Close this terminal?"
 msgstr "Fechar este terminal?"
 
-#: ddterm/app/terminalpage.js:544
+#: ddterm/app/terminalpage.js:547
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."
 msgstr ""
 "Ainda há um processo rodando neste terminal. Fechar o terminal irá matá-lo."
 
-#: ddterm/app/terminalpage.js:550
+#: ddterm/app/terminalpage.js:553
 msgid "Close Terminal"
 msgstr "Fechar Terminal"
 

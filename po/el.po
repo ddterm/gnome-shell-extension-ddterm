@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-02 19:47+0000\n"
+"POT-Creation-Date: 2023-10-02 22:20+0000\n"
 "PO-Revision-Date: 2023-09-26 17:35+0300\n"
 "Last-Translator: Anagnostakis Ioannis <rizitis@gmail.com>\n"
 "Language-Team: Greek, Modern (1453-) <>\n"
@@ -94,7 +94,7 @@ msgstr "Σμίκρυνση"
 msgid "Normal Size"
 msgstr "Κανονικό μέγεθος"
 
-#: ddterm/app/menus.ui:93 ddterm/app/menus.ui:224 ddterm/app/tablabel.js:110
+#: ddterm/app/menus.ui:93 ddterm/app/menus.ui:224 ddterm/app/tablabel.js:111
 msgid "Close"
 msgstr "Κλείσιμο"
 
@@ -256,11 +256,11 @@ msgstr "Μετακίνηση στο επόμενο"
 msgid "Find Previous"
 msgstr "Μετακίνηση στο επόμενο"
 
-#: ddterm/app/terminalpage.js:542
+#: ddterm/app/terminalpage.js:545
 msgid "Close this terminal?"
 msgstr "Να κλείσει το Τερματικό ;"
 
-#: ddterm/app/terminalpage.js:544
+#: ddterm/app/terminalpage.js:547
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."
@@ -268,7 +268,7 @@ msgstr ""
 "Μία αργασία εκτελείτε ακόμα σε αυτό το τερματικό. Το κλείσιμο θα την "
 "διακόψει."
 
-#: ddterm/app/terminalpage.js:550
+#: ddterm/app/terminalpage.js:553
 #, fuzzy
 #| msgid "Close this terminal?"
 msgid "Close Terminal"
