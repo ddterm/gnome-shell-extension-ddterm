@@ -235,11 +235,11 @@ msgstr "Localizar próximo"
 msgid "Find Previous"
 msgstr "Localizar anterior"
 
-#: ddterm/app/terminalpage.js:493
+#: ddterm/app/terminalpage.js:497
 msgid "Close this terminal?"
 msgstr "Fechar este terminal?"
 
-#: ddterm/app/terminalpage.js:496
+#: ddterm/app/terminalpage.js:499
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."
