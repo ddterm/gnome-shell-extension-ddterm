@@ -60,6 +60,7 @@ var TabLabel = GObject.registerClass({
     },
     Signals: {
         'close': {},
+        'reset-label': {},
     },
 }, class DDTermTabLabel extends Gtk.EventBox {
     _init(params) {
@@ -137,9 +138,17 @@ var TabLabel = GObject.registerClass({
         const edit_entry = new Gtk.Entry({
             visible: true,
             parent: this.edit_popover,
+            secondary_icon_name: 'edit-clear',
+            secondary_icon_activatable: true,
+            secondary_icon_sensitive: true,
         });
 
         edit_entry.connect('activate', () => this.edit_popover.popdown());
+
+        edit_entry.connect('icon-press', () => {
+            this.edit_popover.popdown();
+            this.emit('reset-label');
+        });
 
         this.bind_property(
             'label',

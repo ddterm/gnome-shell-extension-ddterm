@@ -135,6 +135,9 @@ var TerminalPage = GObject.registerClass({
         this.tab_label = new tablabel.TabLabel({ visible_window: false });
         this.connect('destroy', () => this.tab_label.destroy());
         this.tab_label.connect('close', () => this.close());
+        this.tab_label.connect('reset-label', () => {
+            this.use_custom_title = false;
+        });
 
         this.bind_property(
             'title',
