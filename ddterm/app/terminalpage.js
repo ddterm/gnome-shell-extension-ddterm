@@ -263,14 +263,18 @@ var TerminalPage = GObject.registerClass({
             name: 'copy',
             enabled: this.terminal.get_has_selection(),
         });
-        copy_action.connect('activate', this.copy.bind(this));
+        copy_action.connect('activate', () => {
+            this.terminal.copy_clipboard_format(Vte.Format.TEXT);
+        });
         terminal_actions.add_action(copy_action);
 
         const copy_html_action = new Gio.SimpleAction({
             name: 'copy-html',
             enabled: this.terminal.get_has_selection(),
         });
-        copy_html_action.connect('activate', this.copy_html.bind(this));
+        copy_html_action.connect('activate', () => {
+            this.terminal.copy_clipboard_format(Vte.Format.HTML);
+        });
         terminal_actions.add_action(copy_html_action);
 
         this.terminal.connect('selection-changed', () => {
@@ -311,19 +315,27 @@ var TerminalPage = GObject.registerClass({
         });
 
         const paste_action = new Gio.SimpleAction({ name: 'paste' });
-        paste_action.connect('activate', this.paste.bind(this));
+        paste_action.connect('activate', () => {
+            this.terminal.paste_clipboard();
+        });
         terminal_actions.add_action(paste_action);
 
         const select_all_action = new Gio.SimpleAction({ name: 'select-all' });
-        select_all_action.connect('activate', this.select_all.bind(this));
+        select_all_action.connect('activate', () => {
+            this.terminal.select_all();
+        });
         terminal_actions.add_action(select_all_action);
 
         const reset_action = new Gio.SimpleAction({ name: 'reset' });
-        reset_action.connect('activate', this.reset.bind(this));
+        reset_action.connect('activate', () => {
+            this.terminal.reset(true, false);
+        });
         terminal_actions.add_action(reset_action);
 
         const reset_and_clear_action = new Gio.SimpleAction({ name: 'reset-and-clear' });
-        reset_and_clear_action.connect('activate', this.reset_and_clear.bind(this));
+        reset_and_clear_action.connect('activate', () => {
+            this.terminal.reset(true, true);
+        });
         terminal_actions.add_action(reset_and_clear_action);
 
         const find_action = new Gio.SimpleAction({ name: 'find' });
@@ -432,30 +444,6 @@ var TerminalPage = GObject.registerClass({
         };
 
         return this.terminal.spawn(command_object, timeout, callback_wrapper);
-    }
-
-    copy() {
-        this.terminal.copy_clipboard_format(Vte.Format.TEXT);
-    }
-
-    copy_html() {
-        this.terminal.copy_clipboard_format(Vte.Format.HTML);
-    }
-
-    paste() {
-        this.terminal.paste_clipboard();
-    }
-
-    select_all() {
-        this.terminal.select_all();
-    }
-
-    reset() {
-        this.terminal.reset(true, false);
-    }
-
-    reset_and_clear() {
-        this.terminal.reset(true, true);
     }
 
     open_hyperlink() {
