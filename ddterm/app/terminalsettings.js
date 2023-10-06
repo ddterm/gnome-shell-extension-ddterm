@@ -86,7 +86,7 @@ const PROPERTIES_CLONE = [
     'color-cursor-foreground',
     'color-highlight',
     'color-highlight-foreground',
-    'url-detect-settings',
+    'url-detect-patterns',
 ];
 
 const TERMINAL_PSPECS = Object.fromEntries(
@@ -325,8 +325,8 @@ var TerminalSettingsParser = GObject.registerClass({
             TerminalSettings[GObject.properties]['color-highlight-foreground'],
             GObject.ParamFlags.READABLE
         ),
-        'url-detect-settings': clone_pspec(
-            TerminalSettings[GObject.properties]['url-detect-settings'],
+        'url-detect-patterns': clone_pspec(
+            TerminalSettings[GObject.properties]['url-detect-patterns'],
             GObject.ParamFlags.READABLE
         ),
     },
@@ -386,11 +386,8 @@ var TerminalSettingsParser = GObject.registerClass({
         this.add_dependency('highlight-colors-set', 'color-highlight-foreground');
         this.add_dependency('highlight-foreground-color', 'color-highlight-foreground');
 
-        const urldetect_pspecs =
-            GObject.Object.list_properties.call(urldetect.UrlDetectSettings);
-
-        for (const key of ['detect-urls', ...urldetect_pspecs.map(pspec => pspec.name)])
-            this.add_dependency(key, 'url-detect-settings');
+        for (const key of ['detect-urls', ...urldetect.PATTERN_NAMES])
+            this.add_dependency(key, 'url-detect-patterns');
     }
 
     add_dependency(gsettings_key, property) {
@@ -494,20 +491,18 @@ var TerminalSettingsParser = GObject.registerClass({
         return parse_rgba(this.gsettings.get_string('highlight-foreground-color'));
     }
 
-    get url_detect_settings() {
+    get url_detect_patterns() {
         if (!this.gsettings.get_boolean('detect-urls'))
             return null;
 
-        const urldetect_pspecs =
-            GObject.Object.list_properties.call(urldetect.UrlDetectSettings);
+        const flags = [];
 
-        return new urldetect.UrlDetectSettings(
-            Object.fromEntries(
-                urldetect_pspecs.map(
-                    pspec => [pspec.name, this.gsettings.get_boolean(pspec.name)]
-                )
-            )
-        );
+        for (const name of urldetect.PATTERN_NAMES) {
+            if (this.gsettings.get_boolean(name))
+                flags.push(name);
+        }
+
+        return flags;
     }
 
     destroy() {

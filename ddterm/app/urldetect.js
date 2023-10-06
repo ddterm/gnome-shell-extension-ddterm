@@ -22,7 +22,7 @@
 const { GObject, Vte } = imports.gi;
 const { pcre2, urldetect_patterns } = imports.ddterm.app;
 
-/* exported UrlDetect UrlDetectSettings */
+/* exported UrlDetect PATTERN_NAMES */
 
 function jit_regex(regex) {
     try {
@@ -71,21 +71,7 @@ const URL_REGEX = {
     },
 };
 
-var UrlDetectSettings = GObject.registerClass({
-    Properties: Object.fromEntries(
-        Object.keys(URL_REGEX).map(name => [
-            name,
-            GObject.ParamSpec.boolean(
-                name,
-                '',
-                '',
-                GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-                true
-            ),
-        ])
-    ),
-}, class DDTermUrlDetectSettings extends GObject.Object {
-});
+var PATTERN_NAMES = Object.keys(URL_REGEX);
 
 var UrlDetect = GObject.registerClass({
     Properties: {
@@ -96,12 +82,12 @@ var UrlDetect = GObject.registerClass({
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             Vte.Terminal
         ),
-        'settings': GObject.ParamSpec.object(
-            'settings',
+        'enabled-patterns': GObject.ParamSpec.boxed(
+            'enabled-patterns',
             '',
             '',
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
-            UrlDetectSettings
+            GObject.type_from_name('GStrv')
         ),
     },
 }, class DDTermUrlDetect extends GObject.Object {
@@ -110,18 +96,18 @@ var UrlDetect = GObject.registerClass({
 
         this._url_prefix = new Map();
 
-        this.connect('notify::settings', this.setup.bind(this));
+        this.connect('notify::enabled-patterns', this.setup.bind(this));
         this.setup();
     }
 
     setup() {
         this.disable();
 
-        if (!this.settings)
+        if (!this.enabled_patterns)
             return;
 
         for (const [key, { regex, prefix }] of Object.entries(URL_REGEX)) {
-            if (!this.settings[key])
+            if (!this.enabled_patterns.includes(key))
                 continue;
 
             const tag = this.terminal.match_add_regex(regex, 0);

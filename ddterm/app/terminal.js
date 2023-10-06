@@ -236,12 +236,12 @@ var Terminal = GObject.registerClass({
             1,
             1
         ),
-        'url-detect-settings': GObject.ParamSpec.object(
-            'url-detect-settings',
+        'url-detect-patterns': GObject.ParamSpec.boxed(
+            'url-detect-patterns',
             '',
             '',
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
-            urldetect.UrlDetectSettings
+            GObject.type_from_name('GStrv')
         ),
         'child-pid': GObject.ParamSpec.int(
             'child-pid',
@@ -291,13 +291,13 @@ var Terminal = GObject.registerClass({
 
         this._url_detect = new urldetect.UrlDetect({
             terminal: this,
-            settings: this.url_detect_settings,
+            enabled_patterns: this.url_detect_patterns,
         });
 
         this.bind_property(
-            'url-detect-settings',
+            'url-detect-patterns',
             this._url_detect,
-            'settings',
+            'enabled-patterns',
             GObject.BindingFlags.DEFAULT
         );
 
