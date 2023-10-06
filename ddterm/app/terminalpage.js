@@ -467,12 +467,12 @@ var TerminalPage = GObject.registerClass({
     }
 
     copy_hyperlink() {
-        const clipboard = Gtk.Clipboard.get_default(this.get_display());
+        const clipboard = this.terminal.get_clipboard(null);
         clipboard.set_text(this.terminal.last_clicked_hyperlink, -1);
     }
 
     copy_filename() {
-        const clipboard = Gtk.Clipboard.get_default(this.get_display());
+        const clipboard = this.terminal.get_clipboard(null);
         clipboard.set_text(this.terminal.last_clicked_filename, -1);
     }
 
@@ -540,8 +540,7 @@ var TerminalPage = GObject.registerClass({
 
     find() {
         if (this.terminal.get_has_selection()) {
-            const primary_selection = Gtk.Clipboard.get_for_display(
-                this.get_display(),
+            const primary_selection = this.terminal.get_clipboard(
                 Gdk.Atom.intern('PRIMARY', true)
             );
 
