@@ -418,7 +418,10 @@ class Application extends Gtk.Application {
 
         if (wait) {
             page.terminal.connect('child-exited', (terminal_, status) => {
-                set_exit_status(waitstatus.WEXITSTATUS(status));
+                if (waitstatus.WIFEXITED(status))
+                    set_exit_status(waitstatus.WEXITSTATUS(status));
+                else
+                    set_exit_status(128 + waitstatus.WTERMSIG(status));
             });
         }
 
