@@ -25,10 +25,6 @@ const { GLib, GObject, Gio, Gdk, Gtk } = imports.gi;
 
 const { resources } = imports.ddterm.app;
 
-function WEXITSTATUS(status) {
-    return (status >> 8) & 0xff;
-}
-
 function schedule_gc() {
     GLib.idle_add(GLib.PRIORITY_DEFAULT, () => {
         System.gc();
@@ -368,6 +364,8 @@ class Application extends Gtk.Application {
     }
 
     command_line(command_line) {
+        const { terminal, waitstatus } = imports.ddterm.app;
+
         const options = command_line.get_options_dict();
         const argv = options.lookup(GLib.OPTION_REMAINING, 'as', true);
 
@@ -398,7 +396,7 @@ class Application extends Gtk.Application {
 
         const notebook = this.ensure_window(false).active_notebook;
         const command = argv?.length
-            ? new imports.ddterm.app.terminal.TerminalCommand({ argv, envv, working_directory })
+            ? new terminal.TerminalCommand({ argv, envv, working_directory })
             : notebook.get_command_from_settings(working_directory, envv);
 
         const page = notebook.new_empty_page(-1, properties);
@@ -420,7 +418,7 @@ class Application extends Gtk.Application {
 
         if (wait) {
             page.terminal.connect('child-exited', (terminal_, status) => {
-                set_exit_status(WEXITSTATUS(status));
+                set_exit_status(waitstatus.WEXITSTATUS(status));
             });
         }
 
