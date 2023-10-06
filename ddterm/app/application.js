@@ -23,7 +23,7 @@ const System = imports.system;
 
 const { GLib, GObject, Gio, Gdk, Gtk } = imports.gi;
 
-const { gtktheme, heapdump, resources, terminal, terminalsettings } = imports.ddterm.app;
+const { resources } = imports.ddterm.app;
 
 function WEXITSTATUS(status) {
     return (status >> 8) & 0xff;
@@ -209,7 +209,10 @@ class Application extends Gtk.Application {
     }
 
     startup() {
-        this.settings = imports.ddterm.util.settings.get_settings(this.install_dir);
+        const { gtktheme, terminalsettings } = imports.ddterm.app;
+        const { settings } = imports.ddterm.util;
+
+        this.settings = settings.get_settings(this.install_dir);
 
         this.simple_action('quit', () => this.quit());
         this.simple_action('preferences', () => this.preferences());
@@ -320,6 +323,8 @@ class Application extends Gtk.Application {
 
     vfunc_dbus_register(connection, object_path) {
         if (this.allow_heap_dump) {
+            const { heapdump } = imports.ddterm.app;
+
             this.heap_dump_dbus_interface = new heapdump.HeapDumper(this.resources);
             this.heap_dump_dbus_interface.dbus.export(connection, object_path);
         }
@@ -393,7 +398,7 @@ class Application extends Gtk.Application {
 
         const notebook = this.ensure_window(false).active_notebook;
         const command = argv?.length
-            ? new terminal.TerminalCommand({ argv, envv, working_directory })
+            ? new imports.ddterm.app.terminal.TerminalCommand({ argv, envv, working_directory })
             : notebook.get_command_from_settings(working_directory, envv);
 
         const page = notebook.new_empty_page(-1, properties);
@@ -433,7 +438,7 @@ class Application extends Gtk.Application {
         const notebook = this.ensure_window(false).active_notebook;
         const command = file_type === Gio.FileType.DIRECTORY
             ? notebook.get_command_from_settings(file)
-            : new terminal.TerminalCommand({ argv: [file.get_path()] });
+            : new imports.ddterm.app.terminal.TerminalCommand({ argv: [file.get_path()] });
 
         notebook.new_page(-1, command);
         this.activate();
