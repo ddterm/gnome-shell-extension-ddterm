@@ -263,25 +263,22 @@ msgid "Restart"
 msgstr "Start"
 
 #: ddterm/app/terminalpage.js:440 ddterm/app/terminalpage.js:615
-#: ddterm/app/terminalpage.js:592 ddterm/app/terminalpage.js:553
 msgid "Close Terminal"
 msgstr "Terminal schließen"
 
-#: ddterm/app/terminalpage.js:463 ddterm/app/terminalpage.js:441
+#: ddterm/app/terminalpage.js:463
 msgid "The child process exited with status:"
 msgstr ""
 
-#: ddterm/app/terminalpage.js:473 ddterm/app/terminalpage.js:451
+#: ddterm/app/terminalpage.js:473
 msgid "The child process was aborted by signal:"
 msgstr ""
 
-#: ddterm/app/terminalpage.js:607 ddterm/app/terminalpage.js:584
-#: ddterm/app/terminalpage.js:545
+#: ddterm/app/terminalpage.js:607
 msgid "Close this terminal?"
 msgstr "Dieses Terminal schließen?"
 
-#: ddterm/app/terminalpage.js:609 ddterm/app/terminalpage.js:586
-#: ddterm/app/terminalpage.js:547
+#: ddterm/app/terminalpage.js:609
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."
