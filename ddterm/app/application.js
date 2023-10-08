@@ -401,10 +401,14 @@ class Application extends Gtk.Application {
 
         const page = notebook.new_page(-1, properties);
         let exit_status = 0;
+        let wait_handler = null;
 
         const set_exit_status = value => {
             if (!command_line)
                 return;
+
+            if (wait_handler)
+                page.terminal.disconnect(wait_handler);
 
             exit_status = value;
             command_line.set_exit_status(value);
@@ -417,7 +421,7 @@ class Application extends Gtk.Application {
         const wait = options.lookup('wait');
 
         if (wait) {
-            page.terminal.connect('child-exited', (terminal_, status) => {
+            wait_handler = page.terminal.connect('child-exited', (terminal_, status) => {
                 if (waitstatus.WIFEXITED(status))
                     set_exit_status(waitstatus.WEXITSTATUS(status));
                 else

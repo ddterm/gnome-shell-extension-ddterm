@@ -436,6 +436,21 @@ var TerminalPage = GObject.registerClass({
         });
 
         banner.get_content_area().pack_start(label, false, false, 0);
+        banner.add_button(translations.gettext('Restart'), 0);
+        banner.add_button(translations.gettext('Close Terminal'), 1);
+
+        banner.connect('response', (_, response) => {
+            switch (response) {
+            case 0:
+                this.spawn();
+                banner.destroy();
+                break;
+            case 1:
+                this.destroy();
+                break;
+            }
+        });
+
         this.pack_start(banner, false, false, 0);
     }
 
@@ -477,6 +492,7 @@ var TerminalPage = GObject.registerClass({
             callback?.(...args);
         };
 
+        this.grab_focus();
         return this.terminal.spawn(this.command, timeout, callback_wrapper);
     }
 
