@@ -395,11 +395,11 @@ class Application extends Gtk.Application {
         }
 
         const notebook = this.ensure_window(false).active_notebook;
-        const command = argv?.length
+        properties.command = argv?.length
             ? new terminal.TerminalCommand({ argv, envv, working_directory })
             : notebook.get_command_from_settings(working_directory, envv);
 
-        const page = notebook.new_empty_page(-1, properties);
+        const page = notebook.new_page(-1, properties);
         let exit_status = 0;
 
         const set_exit_status = value => {
@@ -425,7 +425,7 @@ class Application extends Gtk.Application {
             });
         }
 
-        page.spawn(command, -1, (terminal_, pid, error) => {
+        page.spawn((terminal_, pid, error) => {
             if (error || !wait)
                 set_exit_status(error ? 1 : 0);
         });
@@ -441,7 +441,7 @@ class Application extends Gtk.Application {
             ? notebook.get_command_from_settings(file)
             : new imports.ddterm.app.terminal.TerminalCommand({ argv: [file.get_path()] });
 
-        notebook.new_page(-1, command);
+        notebook.new_page(-1, { command }).spawn();
         this.activate();
     }
 
@@ -484,7 +484,7 @@ class Application extends Gtk.Application {
         });
 
         if (with_terminal)
-            this.window.active_notebook.new_page();
+            this.window.active_notebook.new_page().spawn();
 
         return this.window;
     }

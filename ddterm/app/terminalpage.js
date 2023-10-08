@@ -41,6 +41,13 @@ var TerminalPage = GObject.registerClass({
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             terminalsettings.TerminalSettings
         ),
+        'command': GObject.ParamSpec.object(
+            'command',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+            terminal.TerminalCommand
+        ),
         'title': GObject.ParamSpec.string(
             'title',
             '',
@@ -457,9 +464,9 @@ var TerminalPage = GObject.registerClass({
         }
     }
 
-    spawn(command_object, timeout = -1, callback = null) {
+    spawn(callback = null, timeout = -1) {
         if (!this.use_custom_title)
-            this.title = command_object.argv[0];
+            this.title = this.command.argv[0];
 
         const callback_wrapper = (...args) => {
             const [terminal_, pid_, error] = args;
@@ -470,7 +477,7 @@ var TerminalPage = GObject.registerClass({
             callback?.(...args);
         };
 
-        return this.terminal.spawn(command_object, timeout, callback_wrapper);
+        return this.terminal.spawn(this.command, timeout, callback_wrapper);
     }
 
     open_hyperlink() {

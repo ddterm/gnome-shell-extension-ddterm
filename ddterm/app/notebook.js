@@ -206,16 +206,16 @@ var Notebook = GObject.registerClass({
 
         const actions = {
             'new-tab': () => {
-                this.new_page();
+                this.new_page().spawn();
             },
             'new-tab-front': () => {
-                this.new_page(0);
+                this.new_page(0).spawn();
             },
             'new-tab-before-current': () => {
-                this.new_page(this.get_current_page());
+                this.new_page(this.get_current_page()).spawn();
             },
             'new-tab-after-current': () => {
-                this.new_page(this.get_current_page() + 1);
+                this.new_page(this.get_current_page() + 1).spawn();
             },
             'close-current-tab': () => {
                 this.current_child?.destroy();
@@ -318,10 +318,10 @@ var Notebook = GObject.registerClass({
 
         const handlers = [
             child.connect('new-tab-before-request', () => {
-                this.new_page(this.page_num(child));
+                this.new_page(this.page_num(child)).spawn();
             }),
             child.connect('new-tab-after-request', () => {
-                this.new_page(this.page_num(child) + 1);
+                this.new_page(this.page_num(child) + 1).spawn();
             }),
             child.connect('move-prev-request', () => {
                 const current = this.page_num(child);
@@ -415,12 +415,13 @@ var Notebook = GObject.registerClass({
         return this.current_child?.get_cwd() ?? null;
     }
 
-    new_empty_page(position = -1, properties = {}) {
+    new_page(position = -1, properties = {}) {
         const page = new terminalpage.TerminalPage({
             resources: this.resources,
             terminal_settings: this.terminal_settings,
             visible: true,
             ...properties,
+            command: properties['command'] ?? this.get_command_from_settings(),
         });
 
         this.insert_page(page, page.tab_label, position);
@@ -432,15 +433,6 @@ var Notebook = GObject.registerClass({
             working_directory = this.get_cwd();
 
         return this.terminal_settings.get_command(working_directory, envv);
-    }
-
-    new_page(position = -1, command = null) {
-        if (!command)
-            command = this.get_command_from_settings();
-
-        const page = this.new_empty_page(position);
-        page.spawn(command);
-        return page;
     }
 
     update_tab_switch_actions() {
