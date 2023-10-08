@@ -132,21 +132,20 @@ msgstr ""
 
 #: ddterm/app/menus.ui:127 ddterm/app/menus.ui:264 ddterm/app/menus.ui:294
 msgid "No Split"
-msgstr ""
+msgstr "Keine Teilung"
 
 #: ddterm/app/menus.ui:132 ddterm/app/menus.ui:269 ddterm/app/menus.ui:299
 #: ddterm/pref/glade/prefs-shortcuts.ui:227
 msgid "Split Horizontally"
-msgstr ""
+msgstr "Horizontal geteilt"
 
 #: ddterm/app/menus.ui:137 ddterm/app/menus.ui:274 ddterm/app/menus.ui:304
 #: ddterm/pref/glade/prefs-shortcuts.ui:234
 msgid "Split Vertically"
-msgstr ""
+msgstr "Vertikal geteilt"
 
 #: ddterm/app/menus.ui:144 ddterm/app/menus.ui:281
 #, fuzzy
-#| msgid "Move Tab to Next Position"
 msgid "Move Tab to Other Pane"
 msgstr "Verschiebe Tab zur nächsten Position"
 
@@ -260,27 +259,29 @@ msgstr "finde vorheriges"
 
 #: ddterm/app/terminalpage.js:439
 #, fuzzy
-#| msgid "Start"
 msgid "Restart"
 msgstr "Start"
 
 #: ddterm/app/terminalpage.js:440 ddterm/app/terminalpage.js:615
+#: ddterm/app/terminalpage.js:592 ddterm/app/terminalpage.js:553
 msgid "Close Terminal"
 msgstr "Terminal schließen"
 
-#: ddterm/app/terminalpage.js:463
+#: ddterm/app/terminalpage.js:463 ddterm/app/terminalpage.js:441
 msgid "The child process exited with status:"
 msgstr ""
 
-#: ddterm/app/terminalpage.js:473
+#: ddterm/app/terminalpage.js:473 ddterm/app/terminalpage.js:451
 msgid "The child process was aborted by signal:"
 msgstr ""
 
-#: ddterm/app/terminalpage.js:607
+#: ddterm/app/terminalpage.js:607 ddterm/app/terminalpage.js:584
+#: ddterm/app/terminalpage.js:545
 msgid "Close this terminal?"
 msgstr "Dieses Terminal schließen?"
 
-#: ddterm/app/terminalpage.js:609
+#: ddterm/app/terminalpage.js:609 ddterm/app/terminalpage.js:586
+#: ddterm/app/terminalpage.js:547
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."
@@ -948,16 +949,12 @@ msgid "Maximize/Unmaximize the Window"
 msgstr "Fenster maximieren/wiederherstellen"
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:87
-#, fuzzy
-#| msgid "Increase Window Height"
 msgid "Increase Window Size"
-msgstr "Fensterhöhe vergrößern"
+msgstr "Fenstergröße erhöhen"
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:94
-#, fuzzy
-#| msgid "Decrease Window Height"
 msgid "Decrease Window Size"
-msgstr "Fensterhöhe verringern"
+msgstr "Fenstergröße verringern"
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:101
 msgid "Increase Background Opacity"
@@ -997,7 +994,6 @@ msgstr "Zum nächsten Tab wechseln"
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:241
 #, fuzzy
-#| msgid "Move Tab to Next Position"
 msgid "Move Tab to Other Split Pane"
 msgstr "Verschiebe Tab zur nächsten Position"
 
