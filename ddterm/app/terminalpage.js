@@ -22,7 +22,7 @@
 /* exported TerminalPage TerminalSettings */
 
 const { GLib, GObject, Gio, Gdk, Gtk, Vte } = imports.gi;
-const { resources, search, tablabel, terminal, terminalsettings } = imports.ddterm.app;
+const { resources, search, tablabel, terminal, terminalsettings, waitstatus } = imports.ddterm.app;
 const { translations } = imports.ddterm.util;
 
 var TerminalPage = GObject.registerClass({
@@ -404,8 +404,10 @@ var TerminalPage = GObject.registerClass({
 
         this.insert_action_group('terminal', terminal_actions);
 
-        this.terminal.connect_after('child-exited', () => {
-            if (!this.keep_open_after_exit)
+        this.terminal.connect_after('child-exited', (terminal_, status) => {
+            if (this.keep_open_after_exit)
+                this.add_exit_status_banner(status);
+            else
                 this.destroy();
         });
     }
@@ -428,6 +430,31 @@ var TerminalPage = GObject.registerClass({
 
         banner.get_content_area().pack_start(label, false, false, 0);
         this.pack_start(banner, false, false, 0);
+    }
+
+    add_exit_status_banner(status) {
+        if (waitstatus.WIFEXITED(status)) {
+            const code = waitstatus.WEXITSTATUS(status);
+
+            this.add_banner(
+                [
+                    translations.gettext('The child process exited with status:'),
+                    code,
+                ].join(' '),
+                code === 0 ? Gtk.MessageType.INFO : Gtk.MessageType.WARNING
+            );
+        } else {
+            const signum = waitstatus.WTERMSIG(status);
+
+            this.add_banner(
+                [
+                    translations.gettext('The child process was aborted by signal:'),
+                    signum,
+                    GLib.strsignal(signum),
+                ].join(' '),
+                Gtk.MessageType.WARNING
+            );
+        }
     }
 
     spawn(command_object, timeout = -1, callback = null) {
