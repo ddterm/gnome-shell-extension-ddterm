@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-02 22:20+0000\n"
+"POT-Creation-Date: 2023-10-08 21:20+0000\n"
 "PO-Revision-Date: 2023-10-02 00:02+0000\n"
 "Last-Translator: Luiz Carlos de Souza Santos <lcdessantos@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/gnome-shell-"
@@ -258,18 +258,26 @@ msgstr "Localizar próximo"
 msgid "Find Previous"
 msgstr "Localizar anterior"
 
-#: ddterm/app/terminalpage.js:545
+#: ddterm/app/terminalpage.js:441
+msgid "The child process exited with status:"
+msgstr ""
+
+#: ddterm/app/terminalpage.js:451
+msgid "The child process was aborted by signal:"
+msgstr ""
+
+#: ddterm/app/terminalpage.js:584
 msgid "Close this terminal?"
 msgstr "Fechar este terminal?"
 
-#: ddterm/app/terminalpage.js:547
+#: ddterm/app/terminalpage.js:586
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."
 msgstr ""
 "Ainda há um processo rodando neste terminal. Fechar o terminal irá matá-lo."
 
-#: ddterm/app/terminalpage.js:553
+#: ddterm/app/terminalpage.js:592
 msgid "Close Terminal"
 msgstr "Fechar Terminal"
 
