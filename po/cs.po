@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-08 21:20+0000\n"
+"POT-Creation-Date: 2023-10-08 23:35+0000\n"
 "PO-Revision-Date: 2023-04-24 02:48+0000\n"
 "Last-Translator: Pavel Novák <pavelnov32@gmail.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/gnome-shell-"
@@ -259,29 +259,35 @@ msgstr "Klávesové zkratky"
 msgid "Find Previous"
 msgstr "Najít předchozí"
 
-#: ddterm/app/terminalpage.js:441
-msgid "The child process exited with status:"
-msgstr ""
+#: ddterm/app/terminalpage.js:439
+#, fuzzy
+#| msgid "Start"
+msgid "Restart"
+msgstr "Začátek"
 
-#: ddterm/app/terminalpage.js:451
-msgid "The child process was aborted by signal:"
-msgstr ""
-
-#: ddterm/app/terminalpage.js:584
-msgid "Close this terminal?"
-msgstr "Zavřít tento terminál?"
-
-#: ddterm/app/terminalpage.js:586
-msgid ""
-"There is still a process running in this terminal. Closing the terminal will "
-"kill it."
-msgstr "V tomto terminálu stále běží proces. Zavření terminálu jej ukončí."
-
-#: ddterm/app/terminalpage.js:592
+#: ddterm/app/terminalpage.js:440 ddterm/app/terminalpage.js:615
 #, fuzzy
 #| msgid "Close this terminal?"
 msgid "Close Terminal"
 msgstr "Zavřít tento terminál?"
+
+#: ddterm/app/terminalpage.js:463
+msgid "The child process exited with status:"
+msgstr ""
+
+#: ddterm/app/terminalpage.js:473
+msgid "The child process was aborted by signal:"
+msgstr ""
+
+#: ddterm/app/terminalpage.js:607
+msgid "Close this terminal?"
+msgstr "Zavřít tento terminál?"
+
+#: ddterm/app/terminalpage.js:609
+msgid ""
+"There is still a process running in this terminal. Closing the terminal will "
+"kill it."
+msgstr "V tomto terminálu stále běží proces. Zavření terminálu jej ukončí."
 
 #: ddterm/pref/adw.js:42
 #, fuzzy

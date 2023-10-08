@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-08 21:20+0000\n"
+"POT-Creation-Date: 2023-10-08 23:35+0000\n"
 "PO-Revision-Date: 2023-09-26 17:35+0300\n"
 "Last-Translator: Anagnostakis Ioannis <rizitis@gmail.com>\n"
 "Language-Team: Greek, Modern (1453-) <>\n"
@@ -256,31 +256,37 @@ msgstr "Μετακίνηση στο επόμενο"
 msgid "Find Previous"
 msgstr "Μετακίνηση στο επόμενο"
 
-#: ddterm/app/terminalpage.js:441
+#: ddterm/app/terminalpage.js:439
+#, fuzzy
+#| msgid "Start"
+msgid "Restart"
+msgstr "Αρχή"
+
+#: ddterm/app/terminalpage.js:440 ddterm/app/terminalpage.js:615
+#, fuzzy
+#| msgid "Close this terminal?"
+msgid "Close Terminal"
+msgstr "Να κλείσει το Τερματικό ;"
+
+#: ddterm/app/terminalpage.js:463
 msgid "The child process exited with status:"
 msgstr ""
 
-#: ddterm/app/terminalpage.js:451
+#: ddterm/app/terminalpage.js:473
 msgid "The child process was aborted by signal:"
 msgstr ""
 
-#: ddterm/app/terminalpage.js:584
+#: ddterm/app/terminalpage.js:607
 msgid "Close this terminal?"
 msgstr "Να κλείσει το Τερματικό ;"
 
-#: ddterm/app/terminalpage.js:586
+#: ddterm/app/terminalpage.js:609
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."
 msgstr ""
 "Μία αργασία εκτελείτε ακόμα σε αυτό το τερματικό. Το κλείσιμο θα την "
 "διακόψει."
-
-#: ddterm/app/terminalpage.js:592
-#, fuzzy
-#| msgid "Close this terminal?"
-msgid "Close Terminal"
-msgstr "Να κλείσει το Τερματικό ;"
 
 #: ddterm/pref/adw.js:42
 msgid "Window"
