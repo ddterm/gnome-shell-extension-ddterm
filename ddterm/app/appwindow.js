@@ -705,4 +705,57 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
             }
         }
     }
+
+    serialize_state() {
+        if (this.is_empty)
+            return null;
+
+        const properties = GLib.VariantDict.new(null);
+
+        properties.insert_value(
+            'split-orientation',
+            GLib.Variant.new_int32(this.paned.orientation)
+        );
+
+        if (this.paned.position_set && this.is_split) {
+            const position_rel =
+                this.paned.position / (this.paned.max_position - this.paned.min_position);
+
+            properties.insert_value(
+                'split-position',
+                GLib.Variant.new_double(position_rel)
+            );
+        }
+
+        properties.insert_value('notebook1', this.paned.get_child1().serialize_state());
+        properties.insert_value('notebook2', this.paned.get_child2().serialize_state());
+
+        return properties.end();
+    }
+
+    deserialize_state(variant) {
+        const variant_dict_type = new GLib.VariantType('a{sv}');
+        const dict = GLib.VariantDict.new(variant);
+        const orientation = dict.lookup('split-orientation', 'i');
+        const position = dict.lookup('split-position', 'd');
+        const notebook1_data = dict.lookup_value('notebook1', variant_dict_type);
+        const notebook2_data = dict.lookup_value('notebook2', variant_dict_type);
+
+        if (orientation !== null)
+            this.paned.orientation = orientation;
+
+        if (notebook1_data)
+            this.paned.get_child1().deserialize_state(notebook1_data);
+
+        if (notebook2_data)
+            this.paned.get_child2().deserialize_state(notebook2_data);
+
+        if (position !== null)
+            this.paned.position = (this.paned.max_position - this.paned.min_position) * position;
+    }
+
+    ensure_terminal() {
+        if (this.is_empty)
+            this.active_notebook.new_page().spawn();
+    }
 });

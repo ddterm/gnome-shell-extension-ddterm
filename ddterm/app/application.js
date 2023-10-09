@@ -24,6 +24,7 @@ const System = imports.system;
 const { GLib, GObject, Gio, Gdk, Gtk } = imports.gi;
 
 const { resources } = imports.ddterm.app;
+const { translations } = imports.ddterm.util;
 
 function schedule_gc() {
     GLib.idle_add(GLib.PRIORITY_DEFAULT, () => {
@@ -170,7 +171,7 @@ class Application extends Gtk.Application {
         );
 
         this.connect('activate', () => {
-            this.ensure_window().present_with_time(Gdk.CURRENT_TIME);
+            this.ensure_window_with_terminal().present_with_time(Gdk.CURRENT_TIME);
         });
 
         this.connect('handle-local-options', (_, options) => {
@@ -210,7 +211,11 @@ class Application extends Gtk.Application {
 
         this.settings = settings.get_settings(this.install_dir);
 
-        this.simple_action('quit', () => this.quit());
+        this.simple_action('quit', () => {
+            this.save_session();
+            this.quit();
+        });
+
         this.simple_action('preferences', () => this.preferences());
 
         const close_preferences_action = this.simple_action(
@@ -261,8 +266,8 @@ class Application extends Gtk.Application {
             gsettings: this.settings,
         }).bind_settings(this.terminal_settings);
 
-        this.simple_action('toggle', () => this.ensure_window().toggle());
-        this.simple_action('show', () => this.ensure_window().show());
+        this.simple_action('toggle', () => this.ensure_window_with_terminal().toggle());
+        this.simple_action('show', () => this.ensure_window_with_terminal().show());
         this.simple_action('hide', () => this.window?.hide());
 
         const shortcut_actions = {
@@ -315,6 +320,36 @@ class Application extends Gtk.Application {
         Gtk.IconTheme.get_default().append_search_path(
             this.resources.get_file('ddterm/app/icons').get_path()
         );
+
+        const session_file_path = GLib.build_filenamev([
+            GLib.get_user_cache_dir(),
+            this.application_id,
+            'session',
+        ]);
+
+        this.session_file = Gio.File.new_for_path(session_file_path);
+
+        try {
+            this.restore_session();
+        } catch (ex) {
+            if (!(ex instanceof GLib.Error &&
+                ex.matches(Gio.io_error_quark(), Gio.IOErrorEnum.NOT_FOUND)))
+                logError(ex, "Can't restore session");
+        }
+
+        this.connect('query-end', () => {
+            const cookie = this.inhibit(
+                null,
+                Gtk.ApplicationInhibitFlags.LOGOUT,
+                translations.gettext('Saving session...')
+            );
+
+            try {
+                this.save_session();
+            } finally {
+                this.uninhibit(cookie);
+            }
+        });
     }
 
     vfunc_dbus_register(connection, object_path) {
@@ -394,7 +429,7 @@ class Application extends Gtk.Application {
             properties.use_custom_title = true;
         }
 
-        const notebook = this.ensure_window(false).active_notebook;
+        const notebook = this.ensure_window().active_notebook;
         properties.command = argv?.length
             ? new terminal.TerminalCommand({ argv, envv, working_directory })
             : notebook.get_command_from_settings(working_directory, envv);
@@ -440,7 +475,7 @@ class Application extends Gtk.Application {
 
     open_file(file) {
         const file_type = file.query_file_type(Gio.FileQueryInfoFlags.NONE, null);
-        const notebook = this.ensure_window(false).active_notebook;
+        const notebook = this.ensure_window().active_notebook;
         const command = file_type === Gio.FileType.DIRECTORY
             ? notebook.get_command_from_settings(file)
             : new imports.ddterm.app.terminal.TerminalCommand({ argv: [file.get_path()] });
@@ -469,7 +504,7 @@ class Application extends Gtk.Application {
         return this._extension_dbus;
     }
 
-    ensure_window(with_terminal = true) {
+    ensure_window() {
         if (this.window)
             return this.window;
 
@@ -487,8 +522,11 @@ class Application extends Gtk.Application {
                 this.window = null;
         });
 
-        if (with_terminal)
-            this.window.active_notebook.new_page().spawn();
+        return this.window;
+    }
+
+    ensure_window_with_terminal() {
+        this.ensure_window().ensure_terminal();
 
         return this.window;
     }
@@ -544,6 +582,34 @@ class Application extends Gtk.Application {
             keys.push('Escape');
 
         this.set_accels_for_action(action, keys);
+    }
+
+    restore_session() {
+        const [ok_, data] = this.session_file.load_contents(null);
+
+        if (data?.length) {
+            const data_variant = GLib.Variant.new_from_bytes(
+                new GLib.VariantType('a{sv}'),
+                data,
+                false
+            );
+
+            this.ensure_window().deserialize_state(data_variant);
+        }
+    }
+
+    save_session() {
+        const data = this.window?.serialize_state();
+
+        GLib.mkdir_with_parents(this.session_file.get_parent().get_path(), 0o700);
+
+        this.session_file.replace_contents(
+            data?.get_data_as_bytes().toArray() ?? [],
+            null,
+            false,
+            Gio.FileCreateFlags.PRIVATE | Gio.FileCreateFlags.REPLACE_DESTINATION,
+            null
+        );
     }
 });
 

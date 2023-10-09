@@ -22,6 +22,7 @@
 /* exported TerminalPage TerminalSettings */
 
 const { GLib, GObject, Gio, Gdk, Gtk, Vte } = imports.gi;
+
 const { resources, search, tablabel, terminal, terminalsettings, waitstatus } = imports.ddterm.app;
 const { translations } = imports.ddterm.util;
 
@@ -650,5 +651,39 @@ var TerminalPage = GObject.registerClass({
 
     vfunc_grab_focus() {
         this.terminal.grab_focus();
+    }
+
+    serialize_state() {
+        const properties = GLib.VariantDict.new(null);
+        const cwd = this.get_cwd();
+        const command = cwd ? this.command.override_working_directory(cwd) : this.command;
+
+        properties.insert_value('command', command.to_gvariant());
+        properties.insert_value('title', GLib.Variant.new_string(this.title));
+        properties.insert_value(
+            'use-custom-title',
+            GLib.Variant.new_boolean(this.use_custom_title)
+        );
+        properties.insert_value(
+            'keep-open-after-exit',
+            GLib.Variant.new_boolean(this.keep_open_after_exit)
+        );
+
+        return properties.end();
+    }
+
+    static deserialize_state(variant, properties) {
+        const variant_dict_type = new GLib.VariantType('a{sv}');
+        const dict = GLib.VariantDict.new(variant);
+        const command_data = dict.lookup_value('command', variant_dict_type);
+        const page = new TerminalPage({
+            command: command_data ? terminal.TerminalCommand.from_gvariant(command_data) : null,
+            title: dict.lookup('title', 's'),
+            use_custom_title: dict.lookup('use-custom-title', 'b'),
+            keep_open_after_exit: dict.lookup('keep-open-after-exit', 'b'),
+            ...properties,
+        });
+
+        return page;
     }
 });

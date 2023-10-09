@@ -204,6 +204,50 @@ var TerminalCommand = GObject.registerClass({
             working_directory,
         });
     }
+
+    override_working_directory(new_cwd) {
+        return new TerminalCommand({
+            argv: this.argv,
+            envv: this.envv,
+            working_directory: new_cwd,
+            search_path: this.search_path,
+            file_and_argv_zero: this.file_and_argv_zero,
+        });
+    }
+
+    to_gvariant() {
+        const dict = GLib.VariantDict.new(null);
+
+        dict.insert_value('argv', new GLib.Variant('as', this.argv));
+
+        if (this.envv)
+            dict.insert_value('envv', new GLib.Variant('as', this.envv));
+
+        if (this.working_directory) {
+            dict.insert_value(
+                'working-directory',
+                GLib.Variant.new_string(this.working_directory.get_path())
+            );
+        }
+
+        dict.insert_value('search-path', GLib.Variant.new_boolean(this.search_path));
+        dict.insert_value('file-and-argv-zero', GLib.Variant.new_boolean(this.file_and_argv_zero));
+
+        return dict.end();
+    }
+
+    static from_gvariant(variant) {
+        const dict = GLib.VariantDict.new(variant);
+        const working_directory =  dict.lookup('working-directory', 's');
+
+        return new TerminalCommand({
+            argv: dict.lookup('argv', 'as', true),
+            envv: dict.lookup('envv', 'as', true),
+            working_directory: working_directory ? Gio.File.new_for_path(working_directory) : null,
+            search_path: dict.lookup('search-path', 'b'),
+            file_and_argv_zero: dict.lookup('file-and-argv-zero', 'b'),
+        });
+    }
 });
 
 var Terminal = GObject.registerClass({

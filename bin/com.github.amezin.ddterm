@@ -59,6 +59,7 @@ if (!PATH.includes(BIN_DIR.get_path()))
 
 const app = new imports.ddterm.app.application.Application({
     application_id: 'com.github.amezin.ddterm',
+    register_session: true,
     install_dir: ME_DIR,
 });
 

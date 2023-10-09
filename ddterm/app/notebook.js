@@ -498,6 +498,52 @@ var Notebook = GObject.registerClass({
     get current_title() {
         return this.current_child?.title ?? null;
     }
+
+    serialize_state() {
+        const properties = GLib.VariantDict.new(null);
+        const variant_dict_type = new GLib.VariantType('a{sv}');
+        const pages = [];
+
+        for (const page of this.get_children()) {
+            try {
+                pages.push(page.serialize_state());
+            } catch (ex) {
+                logError(ex, "Can't serialize terminal state");
+            }
+        }
+
+        properties.insert_value('pages', GLib.Variant.new_array(variant_dict_type, pages));
+        properties.insert_value('current-page', GLib.Variant.new_int32(this.get_current_page()));
+        return properties.end();
+    }
+
+    deserialize_state(variant) {
+        const dict = GLib.VariantDict.new(variant);
+        const pages = dict.lookup('pages', 'aa{sv}');
+
+        if (!pages)
+            return;
+
+        for (const page_serialized of pages) {
+            try {
+                const page = terminalpage.TerminalPage.deserialize_state(page_serialized, {
+                    resources: this.resources,
+                    terminal_settings: this.terminal_settings,
+                    visible: true,
+                });
+
+                this.append_page(page, page.tab_label);
+                page.spawn();
+            } catch (ex) {
+                logError(ex, "Can't restore terminal");
+            }
+        }
+
+        const current_page = dict.lookup('current-page', 'i');
+
+        if (current_page !== null)
+            this.set_current_page(current_page);
+    }
 });
 
 function array_common_prefix(a, b) {
