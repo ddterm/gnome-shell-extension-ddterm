@@ -113,6 +113,13 @@ var Widget = GObject.registerClass({
         this.global_accel_toggle.connect('toggled', (_, path) => {
             this.save_shortcut(this.global_shortcuts_list, _, path);
         });
+
+        const reset_action = new Gio.SimpleAction({ name: 'reset' });
+        reset_action.connect('activate', this.reset.bind(this));
+
+        const aux_actions = new Gio.SimpleActionGroup();
+        aux_actions.add_action(reset_action);
+        this.insert_action_group('aux', aux_actions);
     }
 
     get title() {
@@ -149,6 +156,15 @@ var Widget = GObject.registerClass({
             shortcuts_list.get_value(iter, COLUMN_SETTINGS_KEY),
             accel_key ? [Gtk.accelerator_name(accel_key, accel_mods)] : []
         );
+    }
+
+    reset() {
+        [this.shortcuts_list, this.global_shortcuts_list].forEach(shortcuts_list => {
+            shortcuts_list.foreach((model, path, iter) => {
+                const key = model.get_value(iter, COLUMN_SETTINGS_KEY);
+                this.settings.reset(key);
+            });
+        });
     }
 
     remove_shortcut(shortcuts_list, accel_key, accel_mods) {
