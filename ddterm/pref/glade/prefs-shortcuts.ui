@@ -425,6 +425,14 @@ along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licens
                 <property name="resizable">True</property>
                 <property name="title" translatable="yes">Global Shortcut</property>
                 <child>
+                  <object class="GtkCellRendererToggle" id="global_accel_toggle"/>
+                  <attributes>
+                    <attribute name="visible">2</attribute>
+                    <attribute name="activatable">4</attribute>
+                    <attribute name="active">2</attribute>
+                  </attributes>
+                </child>
+                <child>
                   <object class="GtkCellRendererAccel" id="global_accel_renderer"/>
                   <attributes>
                     <attribute name="editable">4</attribute>
@@ -488,6 +496,14 @@ along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licens
               <object class="GtkTreeViewColumn">
                 <property name="resizable">True</property>
                 <property name="title" translatable="yes">Shortcut</property>
+                <child>
+                  <object class="GtkCellRendererToggle" id="accel_toggle"/>
+                  <attributes>
+                    <attribute name="visible">2</attribute>
+                    <attribute name="activatable">4</attribute>
+                    <attribute name="active">2</attribute>
+                  </attributes>
+                </child>
                 <child>
                   <object class="GtkCellRendererAccel" id="accel_renderer"/>
                   <attributes>

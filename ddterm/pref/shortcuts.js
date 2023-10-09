@@ -42,7 +42,9 @@ var Widget = GObject.registerClass({
     Template: util.ui_file_uri('prefs-shortcuts.ui'),
     Children: [
         'accel_renderer',
+        'accel_toggle',
         'global_accel_renderer',
+        'global_accel_toggle',
         'shortcuts_list',
         'global_shortcuts_list',
         'shortcuts_treeview',
@@ -103,6 +105,14 @@ var Widget = GObject.registerClass({
         );
 
         util.bind_sensitive(this.settings, 'shortcuts-enabled', this.shortcuts_treeview);
+
+        this.accel_toggle.connect('toggled', (_, path) => {
+            this.save_shortcut(this.shortcuts_list, _, path);
+        });
+
+        this.global_accel_toggle.connect('toggled', (_, path) => {
+            this.save_shortcut(this.global_shortcuts_list, _, path);
+        });
     }
 
     get title() {
