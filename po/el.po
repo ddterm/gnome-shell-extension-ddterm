@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-09 04:41+0000\n"
+"POT-Creation-Date: 2023-10-09 06:00+0000\n"
 "PO-Revision-Date: 2023-09-26 17:35+0300\n"
 "Last-Translator: Anagnostakis Ioannis <rizitis@gmail.com>\n"
 "Language-Team: Greek, Modern (1453-) <>\n"
@@ -300,7 +300,7 @@ msgstr "Παράθυρο"
 msgid "Terminal"
 msgstr "Τερματικό"
 
-#: ddterm/pref/adw.js:121 ddterm/pref/shortcuts.js:109
+#: ddterm/pref/adw.js:121 ddterm/pref/shortcuts.js:126
 msgid "Keyboard Shortcuts"
 msgstr "Συντομεύσεις Πληκτρολογίου"
 
@@ -1069,17 +1069,23 @@ msgstr "Γενικές Δράσεις"
 msgid "Global Shortcut"
 msgstr "Γενικές Συντομεύσεις"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:448
+#: ddterm/pref/glade/prefs-shortcuts.ui:456
 msgid "_Enable application shortcuts"
 msgstr "_Ενεργοποίηση συντομεύσεων εφαρμογών"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:478
+#: ddterm/pref/glade/prefs-shortcuts.ui:486
 msgid "Action"
 msgstr "Δράση"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:490
+#: ddterm/pref/glade/prefs-shortcuts.ui:498
 msgid "Shortcut"
 msgstr "Συντομεύεσεις"
+
+#: ddterm/pref/glade/prefs-shortcuts.ui:528
+#, fuzzy
+#| msgid "_Reset to default"
+msgid "Reset All Shortcuts to Defaults"
+msgstr "Réinitialiser aux valeurs par défaut"
 
 #: ddterm/pref/glade/prefs-tabs.ui:44
 msgid "Expand tabs"
@@ -1229,7 +1235,7 @@ msgstr "Εντόπιση news:/man: URLs"
 msgid "Panel Icon"
 msgstr "Εικονίδιο Πάνελ"
 
-#: ddterm/pref/positionsize.js:287
+#: ddterm/pref/positionsize.js:75
 msgid "Position and Size"
 msgstr "Θέση και μέγεθος"
 
@@ -1262,9 +1268,6 @@ msgstr "Εμφάνιση"
 
 #~ msgid "Tab _title:"
 #~ msgstr "Titre d'onglet :"
-
-#~ msgid "_Reset to default"
-#~ msgstr "Réinitialiser aux valeurs par défaut"
 
 #~ msgid ""
 #~ "Tab title is generated from <a href=\"https://handlebarsjs.com/guide/"

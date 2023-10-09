@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-09 04:41+0000\n"
+"POT-Creation-Date: 2023-10-09 06:00+0000\n"
 "PO-Revision-Date: 2023-04-25 12:23+0000\n"
 "Last-Translator: yuh <yuhldr@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -305,7 +305,7 @@ msgstr "窗口大小："
 msgid "Terminal"
 msgstr "下拉终端"
 
-#: ddterm/pref/adw.js:121 ddterm/pref/shortcuts.js:109
+#: ddterm/pref/adw.js:121 ddterm/pref/shortcuts.js:126
 msgid "Keyboard Shortcuts"
 msgstr "键盘快捷键"
 
@@ -1074,17 +1074,23 @@ msgstr "全局活动"
 msgid "Global Shortcut"
 msgstr "全局快捷键"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:448
+#: ddterm/pref/glade/prefs-shortcuts.ui:456
 msgid "_Enable application shortcuts"
 msgstr "启用应用程序的快捷方式"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:478
+#: ddterm/pref/glade/prefs-shortcuts.ui:486
 msgid "Action"
 msgstr "活动"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:490
+#: ddterm/pref/glade/prefs-shortcuts.ui:498
 msgid "Shortcut"
 msgstr "快捷键"
+
+#: ddterm/pref/glade/prefs-shortcuts.ui:528
+#, fuzzy
+#| msgid "_Reset to default"
+msgid "Reset All Shortcuts to Defaults"
+msgstr "重置为默认"
 
 #: ddterm/pref/glade/prefs-tabs.ui:44
 msgid "Expand tabs"
@@ -1236,7 +1242,7 @@ msgstr "检测新闻、文档URL"
 msgid "Panel Icon"
 msgstr "面板图标"
 
-#: ddterm/pref/positionsize.js:287
+#: ddterm/pref/positionsize.js:75
 msgid "Position and Size"
 msgstr "位置和尺寸"
 
@@ -1267,9 +1273,6 @@ msgstr "显示"
 
 #~ msgid "Tab _title:"
 #~ msgstr "标签页标题："
-
-#~ msgid "_Reset to default"
-#~ msgstr "重置为默认"
 
 #~ msgid ""
 #~ "Tab title is generated from <a href=\"https://handlebarsjs.com/guide/"

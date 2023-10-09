@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-09 04:41+0000\n"
+"POT-Creation-Date: 2023-10-09 06:00+0000\n"
 "PO-Revision-Date: 2023-10-02 00:02+0000\n"
 "Last-Translator: Luiz Carlos de Souza Santos <lcdessantos@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/gnome-shell-"
@@ -299,7 +299,7 @@ msgstr "Janela"
 msgid "Terminal"
 msgstr "Terminal"
 
-#: ddterm/pref/adw.js:121 ddterm/pref/shortcuts.js:109
+#: ddterm/pref/adw.js:121 ddterm/pref/shortcuts.js:126
 msgid "Keyboard Shortcuts"
 msgstr "Atalhos de Teclado"
 
@@ -1072,17 +1072,23 @@ msgstr "Ação Global"
 msgid "Global Shortcut"
 msgstr "Atalho Global"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:448
+#: ddterm/pref/glade/prefs-shortcuts.ui:456
 msgid "_Enable application shortcuts"
 msgstr "Habilitar atalhos"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:478
+#: ddterm/pref/glade/prefs-shortcuts.ui:486
 msgid "Action"
 msgstr "Ação"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:490
+#: ddterm/pref/glade/prefs-shortcuts.ui:498
 msgid "Shortcut"
 msgstr "Atalho"
+
+#: ddterm/pref/glade/prefs-shortcuts.ui:528
+#, fuzzy
+#| msgid "_Reset Compatibility Options to Defaults"
+msgid "Reset All Shortcuts to Defaults"
+msgstr "Redefinir Opções de Compatibilidade para os Padrões de Fábrica"
 
 #: ddterm/pref/glade/prefs-tabs.ui:44
 msgid "Expand tabs"
@@ -1232,7 +1238,7 @@ msgstr "Detectar endereços dos schemes news:/ e man:/"
 msgid "Panel Icon"
 msgstr "Ícone 'Painel'"
 
-#: ddterm/pref/positionsize.js:287
+#: ddterm/pref/positionsize.js:75
 msgid "Position and Size"
 msgstr "Posição e Tamanho"
 

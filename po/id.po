@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-09 04:41+0000\n"
+"POT-Creation-Date: 2023-10-09 06:00+0000\n"
 "PO-Revision-Date: 2023-09-26 13:16+0000\n"
 "Last-Translator: ilham adi setiawan <ilhamsetiawan2000@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/gnome-shell-"
@@ -293,7 +293,7 @@ msgstr ""
 msgid "Terminal"
 msgstr ""
 
-#: ddterm/pref/adw.js:121 ddterm/pref/shortcuts.js:109
+#: ddterm/pref/adw.js:121 ddterm/pref/shortcuts.js:126
 msgid "Keyboard Shortcuts"
 msgstr ""
 
@@ -1054,16 +1054,20 @@ msgstr ""
 msgid "Global Shortcut"
 msgstr ""
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:448
+#: ddterm/pref/glade/prefs-shortcuts.ui:456
 msgid "_Enable application shortcuts"
 msgstr ""
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:478
+#: ddterm/pref/glade/prefs-shortcuts.ui:486
 msgid "Action"
 msgstr ""
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:490
+#: ddterm/pref/glade/prefs-shortcuts.ui:498
 msgid "Shortcut"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-shortcuts.ui:528
+msgid "Reset All Shortcuts to Defaults"
 msgstr ""
 
 #: ddterm/pref/glade/prefs-tabs.ui:44
@@ -1214,7 +1218,7 @@ msgstr ""
 msgid "Panel Icon"
 msgstr ""
 
-#: ddterm/pref/positionsize.js:287
+#: ddterm/pref/positionsize.js:75
 msgid "Position and Size"
 msgstr ""
 

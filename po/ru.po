@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-09 04:41+0000\n"
+"POT-Creation-Date: 2023-10-09 06:00+0000\n"
 "PO-Revision-Date: 2023-03-14 13:45+0000\n"
 "Last-Translator: Aleksandr Mezin <mezin.alexander@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/gnome-shell-"
@@ -306,7 +306,7 @@ msgstr "Размер окна:"
 msgid "Terminal"
 msgstr "Выпадающий терминал"
 
-#: ddterm/pref/adw.js:121 ddterm/pref/shortcuts.js:109
+#: ddterm/pref/adw.js:121 ddterm/pref/shortcuts.js:126
 msgid "Keyboard Shortcuts"
 msgstr "Комбинации клавиш"
 
@@ -1075,17 +1075,23 @@ msgstr "Глобальное действие"
 msgid "Global Shortcut"
 msgstr "Глобальная комбинация клавиш"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:448
+#: ddterm/pref/glade/prefs-shortcuts.ui:456
 msgid "_Enable application shortcuts"
 msgstr "Включить комбинации клавиш для приложения"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:478
+#: ddterm/pref/glade/prefs-shortcuts.ui:486
 msgid "Action"
 msgstr "Действие"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:490
+#: ddterm/pref/glade/prefs-shortcuts.ui:498
 msgid "Shortcut"
 msgstr "Комбинация клавиш"
+
+#: ddterm/pref/glade/prefs-shortcuts.ui:528
+#, fuzzy
+#| msgid "_Reset to default"
+msgid "Reset All Shortcuts to Defaults"
+msgstr "Восстановить значения по умолчанию"
 
 #: ddterm/pref/glade/prefs-tabs.ui:44
 msgid "Expand tabs"
@@ -1237,7 +1243,7 @@ msgstr "Ссылки вида \"news:/man\""
 msgid "Panel Icon"
 msgstr "Значок на панели"
 
-#: ddterm/pref/positionsize.js:287
+#: ddterm/pref/positionsize.js:75
 msgid "Position and Size"
 msgstr "Положение и размер"
 
@@ -1270,9 +1276,6 @@ msgstr "Показать"
 
 #~ msgid "Tab _title:"
 #~ msgstr "Название вкладки:"
-
-#~ msgid "_Reset to default"
-#~ msgstr "Восстановить значения по умолчанию"
 
 #~ msgid ""
 #~ "Tab title is generated from <a href=\"https://handlebarsjs.com/guide/"

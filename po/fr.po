@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-09 04:41+0000\n"
+"POT-Creation-Date: 2023-10-09 06:00+0000\n"
 "PO-Revision-Date: 2023-09-27 06:00+0000\n"
 "Last-Translator: fail a fail <yassadmi@proton.me>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/gnome-shell-"
@@ -303,7 +303,7 @@ msgstr "Fenêtre"
 msgid "Terminal"
 msgstr "Terminal"
 
-#: ddterm/pref/adw.js:121 ddterm/pref/shortcuts.js:109
+#: ddterm/pref/adw.js:121 ddterm/pref/shortcuts.js:126
 msgid "Keyboard Shortcuts"
 msgstr "Raccourcis claviers"
 
@@ -1072,17 +1072,23 @@ msgstr "Action globale"
 msgid "Global Shortcut"
 msgstr "Raccourci global"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:448
+#: ddterm/pref/glade/prefs-shortcuts.ui:456
 msgid "_Enable application shortcuts"
 msgstr "Activer les raccourcis"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:478
+#: ddterm/pref/glade/prefs-shortcuts.ui:486
 msgid "Action"
 msgstr "Action"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:490
+#: ddterm/pref/glade/prefs-shortcuts.ui:498
 msgid "Shortcut"
 msgstr "Raccourci"
+
+#: ddterm/pref/glade/prefs-shortcuts.ui:528
+#, fuzzy
+#| msgid "_Reset to default"
+msgid "Reset All Shortcuts to Defaults"
+msgstr "Réinitialiser aux valeurs par défaut"
 
 #: ddterm/pref/glade/prefs-tabs.ui:44
 msgid "Expand tabs"
@@ -1232,7 +1238,7 @@ msgstr "Détecter les URL de type « news: »"
 msgid "Panel Icon"
 msgstr "Icône de panneau"
 
-#: ddterm/pref/positionsize.js:287
+#: ddterm/pref/positionsize.js:75
 msgid "Position and Size"
 msgstr "Position et taille"
 
@@ -1265,9 +1271,6 @@ msgstr "Afficher"
 
 #~ msgid "Tab _title:"
 #~ msgstr "Titre d'onglet :"
-
-#~ msgid "_Reset to default"
-#~ msgstr "Réinitialiser aux valeurs par défaut"
 
 #~ msgid ""
 #~ "Tab title is generated from <a href=\"https://handlebarsjs.com/guide/"

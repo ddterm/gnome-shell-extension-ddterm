@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-09 04:41+0000\n"
+"POT-Creation-Date: 2023-10-09 06:00+0000\n"
 "PO-Revision-Date: 2023-04-24 02:48+0000\n"
 "Last-Translator: Pavel Novák <pavelnov32@gmail.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/gnome-shell-"
@@ -305,7 +305,7 @@ msgstr "_Velikost okna:"
 msgid "Terminal"
 msgstr "Rozbalovací Terminál"
 
-#: ddterm/pref/adw.js:121 ddterm/pref/shortcuts.js:109
+#: ddterm/pref/adw.js:121 ddterm/pref/shortcuts.js:126
 msgid "Keyboard Shortcuts"
 msgstr "Klávesové zkratky"
 
@@ -1078,17 +1078,23 @@ msgstr "Globální akce"
 msgid "Global Shortcut"
 msgstr "Globální klávesová zkratka"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:448
+#: ddterm/pref/glade/prefs-shortcuts.ui:456
 msgid "_Enable application shortcuts"
 msgstr "_Povolit klávesové zkratky aplikace"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:478
+#: ddterm/pref/glade/prefs-shortcuts.ui:486
 msgid "Action"
 msgstr "Akce"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:490
+#: ddterm/pref/glade/prefs-shortcuts.ui:498
 msgid "Shortcut"
 msgstr "Klávesová zkratka"
+
+#: ddterm/pref/glade/prefs-shortcuts.ui:528
+#, fuzzy
+#| msgid "_Reset to default"
+msgid "Reset All Shortcuts to Defaults"
+msgstr "_Resetovat na výchozí hodnotu"
 
 #: ddterm/pref/glade/prefs-tabs.ui:44
 msgid "Expand tabs"
@@ -1240,7 +1246,7 @@ msgstr "Detekovat novinky:/man:URL adresy"
 msgid "Panel Icon"
 msgstr "Ikona na panelu"
 
-#: ddterm/pref/positionsize.js:287
+#: ddterm/pref/positionsize.js:75
 msgid "Position and Size"
 msgstr "Pozice a velikost"
 
@@ -1273,9 +1279,6 @@ msgstr "Zobrazit"
 
 #~ msgid "Tab _title:"
 #~ msgstr "_Název panelu:"
-
-#~ msgid "_Reset to default"
-#~ msgstr "_Resetovat na výchozí hodnotu"
 
 #~ msgid ""
 #~ "Tab title is generated from <a href=\"https://handlebarsjs.com/guide/"
