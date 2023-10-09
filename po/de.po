@@ -10,7 +10,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/ddterm/gnome-shell-extension-ddterm/"
 "issues\n"
 "POT-Creation-Date: 2023-10-09 06:00+0000\n"
-"PO-Revision-Date: 2023-10-02 00:02+0000\n"
+"PO-Revision-Date: 2023-10-10 01:34+0200\n"
 "Last-Translator: Philipp Kiemle <philipp.kiemle@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/gnome-shell-"
 "extension-ddterm/extension/de/>\n"
@@ -19,11 +19,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Poedit 3.3.2\n"
+"X-Generator: Poedit 3.4\n"
 
 #: ddterm/app/application.js:344
 msgid "Saving session..."
-msgstr ""
+msgstr "Sitzung wird gespeichert …"
 
 #: ddterm/app/appwindow.js:160 ddterm/shell/extension.js:398
 #: ddterm/shell/extension.js:414
@@ -135,7 +135,7 @@ msgstr "Neuer Reiter nach dem letzten Reiter"
 
 #: ddterm/app/menus.ui:124 ddterm/app/menus.ui:261
 msgid "Layout"
-msgstr ""
+msgstr "Anordnung"
 
 #: ddterm/app/menus.ui:127 ddterm/app/menus.ui:264 ddterm/app/menus.ui:294
 msgid "No Split"
@@ -265,9 +265,8 @@ msgid "Find Previous"
 msgstr "Finde vorheriges"
 
 #: ddterm/app/terminalpage.js:440
-#, fuzzy
 msgid "Restart"
-msgstr "Start"
+msgstr "Neu starten"
 
 #: ddterm/app/terminalpage.js:441 ddterm/app/terminalpage.js:616
 msgid "Close Terminal"
@@ -275,11 +274,11 @@ msgstr "Terminal schließen"
 
 #: ddterm/app/terminalpage.js:464
 msgid "The child process exited with status:"
-msgstr ""
+msgstr "Der Unterprozess wurde mit folgendem Status beendet:"
 
 #: ddterm/app/terminalpage.js:474
 msgid "The child process was aborted by signal:"
-msgstr ""
+msgstr "Der Unterprozess wurde durch folgendes Signal abgebrochen:"
 
 #: ddterm/app/terminalpage.js:608
 msgid "Close this terminal?"
@@ -1078,10 +1077,8 @@ msgid "Shortcut"
 msgstr "Tastenkürzel"
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:528
-#, fuzzy
-#| msgid "_Reset to default"
 msgid "Reset All Shortcuts to Defaults"
-msgstr "Auf Standard zurücksetzen"
+msgstr "Alle Tastenkürzel auf Standardwerte zurücksetzen"
 
 #: ddterm/pref/glade/prefs-tabs.ui:44
 msgid "Expand tabs"
