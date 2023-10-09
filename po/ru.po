@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-08 23:35+0000\n"
+"POT-Creation-Date: 2023-10-09 04:41+0000\n"
 "PO-Revision-Date: 2023-03-14 13:45+0000\n"
 "Last-Translator: Aleksandr Mezin <mezin.alexander@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/gnome-shell-"
@@ -16,6 +16,10 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 4.16.2-dev\n"
+
+#: ddterm/app/application.js:344
+msgid "Saving session..."
+msgstr ""
 
 #: ddterm/app/appwindow.js:160 ddterm/shell/extension.js:398
 #: ddterm/shell/extension.js:414
@@ -258,31 +262,31 @@ msgstr "Найти следующее"
 msgid "Find Previous"
 msgstr "Найти предыдущее"
 
-#: ddterm/app/terminalpage.js:439
+#: ddterm/app/terminalpage.js:440
 #, fuzzy
 #| msgid "Start"
 msgid "Restart"
 msgstr "В начале"
 
-#: ddterm/app/terminalpage.js:440 ddterm/app/terminalpage.js:615
+#: ddterm/app/terminalpage.js:441 ddterm/app/terminalpage.js:616
 #, fuzzy
 #| msgid "Close this terminal?"
 msgid "Close Terminal"
 msgstr "Закрыть терминал?"
 
-#: ddterm/app/terminalpage.js:463
+#: ddterm/app/terminalpage.js:464
 msgid "The child process exited with status:"
 msgstr ""
 
-#: ddterm/app/terminalpage.js:473
+#: ddterm/app/terminalpage.js:474
 msgid "The child process was aborted by signal:"
 msgstr ""
 
-#: ddterm/app/terminalpage.js:607
+#: ddterm/app/terminalpage.js:608
 msgid "Close this terminal?"
 msgstr "Закрыть терминал?"
 
-#: ddterm/app/terminalpage.js:609
+#: ddterm/app/terminalpage.js:610
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."

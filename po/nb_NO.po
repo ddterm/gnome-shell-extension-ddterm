@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-08 23:35+0000\n"
+"POT-Creation-Date: 2023-10-09 04:41+0000\n"
 "PO-Revision-Date: 2023-03-12 16:07+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/gnome-"
@@ -17,6 +17,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 4.16.2-dev\n"
+
+#: ddterm/app/application.js:344
+msgid "Saving session..."
+msgstr ""
 
 #: ddterm/app/appwindow.js:160 ddterm/shell/extension.js:398
 #: ddterm/shell/extension.js:414
@@ -259,31 +263,31 @@ msgstr "Finn neste"
 msgid "Find Previous"
 msgstr "Finn forrige"
 
-#: ddterm/app/terminalpage.js:439
+#: ddterm/app/terminalpage.js:440
 #, fuzzy
 #| msgid "Start"
 msgid "Restart"
 msgstr "Starten"
 
-#: ddterm/app/terminalpage.js:440 ddterm/app/terminalpage.js:615
+#: ddterm/app/terminalpage.js:441 ddterm/app/terminalpage.js:616
 #, fuzzy
 #| msgid "Close this terminal?"
 msgid "Close Terminal"
 msgstr "Lukk denne terminalen?"
 
-#: ddterm/app/terminalpage.js:463
+#: ddterm/app/terminalpage.js:464
 msgid "The child process exited with status:"
 msgstr ""
 
-#: ddterm/app/terminalpage.js:473
+#: ddterm/app/terminalpage.js:474
 msgid "The child process was aborted by signal:"
 msgstr ""
 
-#: ddterm/app/terminalpage.js:607
+#: ddterm/app/terminalpage.js:608
 msgid "Close this terminal?"
 msgstr "Lukk denne terminalen?"
 
-#: ddterm/app/terminalpage.js:609
+#: ddterm/app/terminalpage.js:610
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."
