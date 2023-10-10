@@ -2,7 +2,7 @@
 
 [<img src="docs/get-it-on-ego.svg?sanitize=true" alt="Get it on GNOME Extensions" height="100" align="middle">][extensions.gnome.org]
 
-<img src="docs/dropdown.gif" />
+<img src="docs/screenshots/dropdown.gif" />
 
 Inspired by
 
@@ -18,7 +18,7 @@ Inspired by
 
 - `Preferences` window with a lot of different settings
 
-<img src="docs/prefs.gif" />
+<img src="docs/screenshots/prefs.gif" />
 
 ## Review by [TechHut](https://www.youtube.com/channel/UCjSEJkpGbcZhvo0lr-44X_w)
 
