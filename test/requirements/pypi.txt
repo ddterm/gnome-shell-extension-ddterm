@@ -16,6 +16,10 @@ filelock==3.12.4
     # via -r pypi.in
 iniconfig==2.0.0
     # via pytest
+jinja2==3.1.2
+    # via pytest-html
+markupsafe==2.1.3
+    # via jinja2
 packaging==23.2
     # via
     #   pytest
@@ -26,8 +30,6 @@ pluggy==1.3.0
     #   pytest
 psutil==5.9.5
     # via pytest-xdist
-py==1.11.0
-    # via pytest-html
 pytest==7.4.2
     # via
     #   -r pypi.in
@@ -35,7 +37,7 @@ pytest==7.4.2
     #   pytest-metadata
     #   pytest-rerunfailures
     #   pytest-xdist
-pytest-html==3.2.0
+pytest-html==4.0.2
     # via -r pypi.in
 pytest-metadata==3.0.0
     # via pytest-html
