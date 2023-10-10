@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-10-09 06:00+0000\n"
-"PO-Revision-Date: 2023-09-24 16:39+0000\n"
+"PO-Revision-Date: 2023-10-10 04:03+0000\n"
 "Last-Translator: Eryk Michalak <gnu.ewm@protonmail.com>\n"
-"Language-Team: Polish <https://hosted.weblate.org/projects/gnome-shell-"
-"extension-ddterm/extension/pl/>\n"
+"Language-Team: Polish <https://hosted.weblate.org/projects/"
+"gnome-shell-extension-ddterm/extension/pl/>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,7 +22,7 @@ msgstr ""
 
 #: ddterm/app/application.js:344
 msgid "Saving session..."
-msgstr ""
+msgstr "Zapisywanie sesji..."
 
 #: ddterm/app/appwindow.js:160 ddterm/shell/extension.js:398
 #: ddterm/shell/extension.js:414
@@ -195,7 +195,7 @@ msgstr ""
 
 #: ddterm/app/menus.ui:198
 msgid "Preserve Working Directory In New Tabs"
-msgstr ""
+msgstr "Zachowaj katalog roboczy w nowych kartach"
 
 #: ddterm/app/menus.ui:204
 msgid "Enable Keyboard Shortcuts"
@@ -219,11 +219,11 @@ msgstr "Nowa karta po tej karcie"
 
 #: ddterm/app/menus.ui:251 ddterm/pref/glade/prefs-shortcuts.ui:213
 msgid "Move Tab to Previous Position"
-msgstr ""
+msgstr "Przenieś kartę do poprzedniej pozycji"
 
 #: ddterm/app/menus.ui:255 ddterm/pref/glade/prefs-shortcuts.ui:220
 msgid "Move Tab to Next Position"
-msgstr ""
+msgstr "Przenieś kartę do następnej pozycji"
 
 #: ddterm/app/notebook.js:155
 msgid "New Tab (Last)"
@@ -251,7 +251,7 @@ msgstr "Zamknij pasek wyszukiwania"
 
 #: ddterm/app/search.js:325
 msgid "Wrap Around"
-msgstr ""
+msgstr "Zawijanie dookoła"
 
 #: ddterm/app/search.js:341 ddterm/pref/glade/prefs-shortcuts.ui:283
 msgid "Find Next"
@@ -262,15 +262,12 @@ msgid "Find Previous"
 msgstr "Wyszukaj poprzednie"
 
 #: ddterm/app/terminalpage.js:440
-#, fuzzy
-#| msgid "Start"
 msgid "Restart"
-msgstr "Początek"
+msgstr "Uruchom ponownie"
 
 #: ddterm/app/terminalpage.js:441 ddterm/app/terminalpage.js:616
-#, fuzzy
 msgid "Close Terminal"
-msgstr "Zamknąć ten terminal?"
+msgstr "Zamknij terminal"
 
 #: ddterm/app/terminalpage.js:464
 msgid "The child process exited with status:"
@@ -291,14 +288,12 @@ msgid ""
 msgstr ""
 
 #: ddterm/pref/adw.js:42
-#, fuzzy
 msgid "Window"
-msgstr "_Rozmiar okna:"
+msgstr "Okno"
 
 #: ddterm/pref/adw.js:81
-#, fuzzy
 msgid "Terminal"
-msgstr "Rozwijany Terminal"
+msgstr "Terminal"
 
 #: ddterm/pref/adw.js:121 ddterm/pref/shortcuts.js:126
 msgid "Keyboard Shortcuts"
@@ -306,7 +301,7 @@ msgstr "Skróty klawiszowe"
 
 #: ddterm/pref/adw.js:152
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Różne"
 
 #: ddterm/pref/animation.js:66
 msgid "Animation"
@@ -566,7 +561,7 @@ msgstr "Kombo"
 
 #: ddterm/pref/glade/prefs-colors.ui:38
 msgid "Black on light yellow"
-msgstr ""
+msgstr "Czarny na jasnożółtym"
 
 #: ddterm/pref/glade/prefs-colors.ui:43
 msgid "Black on white"
@@ -654,7 +649,7 @@ msgstr "Ciemny"
 
 #: ddterm/pref/glade/prefs-colors.ui:319
 msgid "Use colors from system _theme"
-msgstr ""
+msgstr "Użyj kolorów z _motywu systemowego"
 
 #: ddterm/pref/glade/prefs-colors.ui:335
 msgid "_Background opacity:"
@@ -730,11 +725,11 @@ msgstr "Paleta kolorów 15"
 
 #: ddterm/pref/glade/prefs-colors.ui:634
 msgid "Show bold text in _bright colors"
-msgstr ""
+msgstr "Wyświetlanie pogrubionego tekstu w _jasnych kolorach"
 
 #: ddterm/pref/glade/prefs-colors.ui:650
 msgid "Copy profile from GNOME Terminal"
-msgstr ""
+msgstr "Kopiuj profil z Terminala GNOME"
 
 #: ddterm/pref/glade/prefs-colors.ui:673
 msgid "Foreground"
@@ -950,14 +945,12 @@ msgid "Maximize/Unmaximize the Window"
 msgstr "Maksymalizuj/odmaksymalizuj okno"
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:87
-#, fuzzy
 msgid "Increase Window Size"
-msgstr "Zwiększ wysokość okna"
+msgstr "Zwiększ rozmiar okna"
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:94
-#, fuzzy
 msgid "Decrease Window Size"
-msgstr "Zmniejsz wysokość okna"
+msgstr "Zmniejsz rozmiar okna"
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:101
 msgid "Increase Background Opacity"
@@ -1140,9 +1133,8 @@ msgid "End"
 msgstr "Koniec"
 
 #: ddterm/pref/glade/prefs-tabs.ui:259
-#, fuzzy
 msgid "Show keyboard shortcuts"
-msgstr "Skróty klawiszowe"
+msgstr "Pokaż skróty klawiszowe"
 
 #: ddterm/pref/glade/prefs-text.ui:39
 msgid "Custom _font:"
