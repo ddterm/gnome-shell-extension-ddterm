@@ -132,7 +132,7 @@ jobs:
       run: echo "::add-matcher::.github/problem-matchers/generic.json"
 
     - name: Build extension package
-      run: xvfb-run make pack
+      run: xvfb-run make ONLY_RELEASE_LOCALES=true pack
 
     - name: Upload extension package as artifact
       id: upload

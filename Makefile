@@ -64,7 +64,27 @@ schemas: $(SCHEMAS_COMPILED)
 
 # Locales
 
-LOCALES := $(wildcard po/*.po)
+LOCALES_RELEASE := \
+	po/cs.po \
+	po/de.po \
+	po/el.po \
+	po/fr.po \
+	po/nb_NO.po \
+	po/pl.po \
+	po/pt.po \
+	po/ru.po \
+	po/zh_CN.po
+
+LOCALES_ALL := $(wildcard po/*.po)
+
+ONLY_RELEASE_LOCALES := no
+
+ifeq ($(call is-true,$(ONLY_RELEASE_LOCALES)),1)
+LOCALES := $(LOCALES_RELEASE)
+else
+LOCALES := $(LOCALES_ALL)
+endif
+
 LOCALE_SOURCE_PATTERN := po/%.po
 LOCALE_COMPILED_PATTERN := locale/%/LC_MESSAGES/$(EXTENSION_UUID).mo
 LOCALES_COMPILED := $(patsubst $(LOCALE_SOURCE_PATTERN),$(LOCALE_COMPILED_PATTERN),$(LOCALES))
