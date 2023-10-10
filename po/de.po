@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-10-09 06:00+0000\n"
-"PO-Revision-Date: 2023-10-02 00:02+0000\n"
-"Last-Translator: Ettore Atalan <atalanttore@googlemail.com>\n"
-"Language-Team: German <https://hosted.weblate.org/projects/gnome-shell-"
-"extension-ddterm/extension/de/>\n"
+"PO-Revision-Date: 2023-10-10 04:03+0000\n"
+"Last-Translator: Jörn Weigend <das.jott@gmail.com>\n"
+"Language-Team: German <https://hosted.weblate.org/projects/"
+"gnome-shell-extension-ddterm/extension/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,7 +21,7 @@ msgstr ""
 
 #: ddterm/app/application.js:344
 msgid "Saving session..."
-msgstr ""
+msgstr "Sitzung wird gespeichert..."
 
 #: ddterm/app/appwindow.js:160 ddterm/shell/extension.js:398
 #: ddterm/shell/extension.js:414
@@ -106,7 +106,7 @@ msgstr "Schließen"
 
 #: ddterm/app/menus.ui:97 ddterm/app/menus.ui:228
 msgid "Keep Open After Exit"
-msgstr "Nach dem Beenden offen halten"
+msgstr "Nach dem Beenden geöffnet lassen"
 
 #: ddterm/app/menus.ui:103
 msgid "New Tab"
@@ -132,7 +132,7 @@ msgstr "Neuer Tab nach dem letzten Tab"
 
 #: ddterm/app/menus.ui:124 ddterm/app/menus.ui:261
 msgid "Layout"
-msgstr ""
+msgstr "Darstellung"
 
 #: ddterm/app/menus.ui:127 ddterm/app/menus.ui:264 ddterm/app/menus.ui:294
 msgid "No Split"
@@ -141,17 +141,16 @@ msgstr "Keine Teilung"
 #: ddterm/app/menus.ui:132 ddterm/app/menus.ui:269 ddterm/app/menus.ui:299
 #: ddterm/pref/glade/prefs-shortcuts.ui:227
 msgid "Split Horizontally"
-msgstr "Horizontal geteilt"
+msgstr "Horizontal teilen"
 
 #: ddterm/app/menus.ui:137 ddterm/app/menus.ui:274 ddterm/app/menus.ui:304
 #: ddterm/pref/glade/prefs-shortcuts.ui:234
 msgid "Split Vertically"
-msgstr "Vertikal geteilt"
+msgstr "Vertikal teilen"
 
 #: ddterm/app/menus.ui:144 ddterm/app/menus.ui:281
-#, fuzzy
 msgid "Move Tab to Other Pane"
-msgstr "Verschiebe Tab zur nächsten Position"
+msgstr "Verschiebe Tab in nächsten Bereich"
 
 #: ddterm/app/menus.ui:151 ddterm/pref/dialog.js:43
 msgid "Preferences"
@@ -187,11 +186,11 @@ msgstr "Verstecken mit Esc Taste"
 
 #: ddterm/app/menus.ui:188
 msgid "Scroll On Output"
-msgstr "Weiterscrollen durch Ausgabe"
+msgstr "Weiterscrollen bei Ausgabe"
 
 #: ddterm/app/menus.ui:192
 msgid "Scroll On Keystroke"
-msgstr "Weiterscrollen durch Tastendruck"
+msgstr "Weiterscrollen nach Tastendruck"
 
 #: ddterm/app/menus.ui:198
 msgid "Preserve Working Directory In New Tabs"
@@ -259,12 +258,11 @@ msgstr "Finde nächstes"
 
 #: ddterm/app/search.js:359 ddterm/pref/glade/prefs-shortcuts.ui:290
 msgid "Find Previous"
-msgstr "finde vorheriges"
+msgstr "Finde vorheriges"
 
 #: ddterm/app/terminalpage.js:440
-#, fuzzy
 msgid "Restart"
-msgstr "Start"
+msgstr "Neustart"
 
 #: ddterm/app/terminalpage.js:441 ddterm/app/terminalpage.js:616
 msgid "Close Terminal"
@@ -272,11 +270,11 @@ msgstr "Terminal schließen"
 
 #: ddterm/app/terminalpage.js:464
 msgid "The child process exited with status:"
-msgstr ""
+msgstr "Der Unterprozess endete mit Status:"
 
 #: ddterm/app/terminalpage.js:474
 msgid "The child process was aborted by signal:"
-msgstr ""
+msgstr "Der Unterprozess wurde abgebrochen durch Signal:"
 
 #: ddterm/app/terminalpage.js:608
 msgid "Close this terminal?"
@@ -320,7 +318,7 @@ msgstr "Farben"
 
 #: ddterm/pref/command.js:62
 msgid "Command"
-msgstr "Kommando"
+msgstr "Befehl"
 
 #: ddterm/pref/compatibility.js:70
 msgid "Compatibility"
@@ -474,11 +472,11 @@ msgstr "Dauer der Animation beim Verbergen:"
 
 #: ddterm/pref/glade/prefs-animation.ui:297
 msgid "_Show animation duration:"
-msgstr "_Dauer der Animantion beim Anzeigen:"
+msgstr "_Dauer der Animation beim Anzeigen:"
 
 #: ddterm/pref/glade/prefs-behavior.ui:39
 msgid "_Resizable"
-msgstr "In der _Größe veränderbar"
+msgstr "In der Größe veränderbar"
 
 #: ddterm/pref/glade/prefs-behavior.ui:55
 msgid "_Above all windows"
@@ -498,11 +496,11 @@ msgstr "Verbergen wenn _Esc gedrückt wird"
 
 #: ddterm/pref/glade/prefs-behavior.ui:119
 msgid "Exclude from _overview/task bar"
-msgstr "Aus der Übersicht/_Taskbar ausschließen"
+msgstr "Aus der Übersicht/Taskbar ausschließen"
 
 #: ddterm/pref/glade/prefs-behavior.ui:135
 msgid "Hide mouse _pointer when typing"
-msgstr "_Mauszeiger beim Tippen verbergen"
+msgstr "Mauszeiger beim Tippen verbergen"
 
 #: ddterm/pref/glade/prefs-behavior.ui:151
 msgid ""
@@ -658,7 +656,7 @@ msgstr "Farben vom System-_Thema nutzen"
 
 #: ddterm/pref/glade/prefs-colors.ui:335
 msgid "_Background opacity:"
-msgstr "_Hintergrund-Deckkraft:"
+msgstr "Hintergrund-Deckkraft:"
 
 #: ddterm/pref/glade/prefs-colors.ui:380
 msgid "_Palette:"
@@ -730,7 +728,7 @@ msgstr "Palette Farbe 15"
 
 #: ddterm/pref/glade/prefs-colors.ui:634
 msgid "Show bold text in _bright colors"
-msgstr "Zeige fetten Text in _hellen Farben"
+msgstr "Zeige fetten Text in hellen Farben"
 
 #: ddterm/pref/glade/prefs-colors.ui:650
 msgid "Copy profile from GNOME Terminal"
@@ -919,7 +917,7 @@ msgstr "_Scrollbar anzeigen"
 
 #: ddterm/pref/glade/prefs-scrolling.ui:60
 msgid "Scroll on _output"
-msgstr "Scrollen druch Ausgabe"
+msgstr "Scrollen bei Ausgabe"
 
 #: ddterm/pref/glade/prefs-scrolling.ui:76
 msgid "Scroll on _keystroke"
@@ -994,17 +992,16 @@ msgid "Switch to Next Tab"
 msgstr "Zum nächsten Tab wechseln"
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:241
-#, fuzzy
 msgid "Move Tab to Other Split Pane"
-msgstr "Verschiebe Tab zur nächsten Position"
+msgstr "Verschiebe Tab zum nächsten Teilbereich"
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:248
 msgid "Increase First Split Pane Size"
-msgstr ""
+msgstr "Ersten Teilbereich vergrößern"
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:255
 msgid "Decrease First Split Pane Size"
-msgstr ""
+msgstr "Ersten Teilbereich verkleinern"
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:262
 msgid "Set Custom Tab Title"
@@ -1075,10 +1072,8 @@ msgid "Shortcut"
 msgstr "Tastenkombination"
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:528
-#, fuzzy
-#| msgid "_Reset to default"
 msgid "Reset All Shortcuts to Defaults"
-msgstr "Auf Standard zurücksetzen"
+msgstr "Tastenkombinationen auf Standard zurücksetzen"
 
 #: ddterm/pref/glade/prefs-tabs.ui:44
 msgid "Expand tabs"
