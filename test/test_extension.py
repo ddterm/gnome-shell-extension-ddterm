@@ -14,7 +14,7 @@ import Xlib.X
 
 from gi.repository import GLib, Gio
 
-from . import ddterm_fixtures, glib_util
+from . import dbus_util, ddterm_fixtures, glib_util
 
 
 LOGGER = logging.getLogger(__name__)
@@ -86,6 +86,21 @@ def gen_id(value):
         return f'{value.setting}{value.current_index}'
 
     return None
+
+
+DUMMY_APP_ID = 'com.github.ddterm.testapp'
+
+
+@pytest.fixture(scope='module')
+def container_volumes(container_volumes):
+    return container_volumes + (
+        (THIS_DIR / 'dummyapp' / 'dummyapp.js', f'/usr/local/bin/{DUMMY_APP_ID}', 'ro'),
+        (
+            THIS_DIR / 'dummyapp' / f'{DUMMY_APP_ID}.service',
+            f'/usr/share/dbus-1/services/{DUMMY_APP_ID}.service',
+            'ro'
+        ),
+    )
 
 
 def resize_point(frame_rect, window_pos):
@@ -478,6 +493,26 @@ class CommonTests(ddterm_fixtures.DDTermFixtures):
             mouse_sim=mouse_sim,
             shell=shell_dbus_api,
         )
+
+    @pytest.fixture(scope='class', autouse=True)
+    def make_dummy_window(self, test_api, user_bus_connection):
+        with glib_util.SignalWait(
+            test_api.dbus,
+            'g-properties-changed',
+            timeout=STARTUP_TIMEOUT_MS
+        ) as prop_wait:
+            app_interface = dbus_util.wait_interface(
+                user_bus_connection,
+                DUMMY_APP_ID,
+                '/' + DUMMY_APP_ID.replace('.', '/'),
+                'org.freedesktop.Application',
+                timeout=STARTUP_TIMEOUT_MS
+            )
+
+            app_interface.Activate('(a{sv})', {}, timeout=STARTUP_TIMEOUT_MS)
+
+            while test_api.dbus.get_cached_property('ActiveApp').unpack() != DUMMY_APP_ID:
+                prop_wait.wait()
 
     def test_show(
         self,
