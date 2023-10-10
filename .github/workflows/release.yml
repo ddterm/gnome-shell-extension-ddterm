@@ -7,20 +7,31 @@ on:
   workflow_dispatch:
 
 jobs:
-  check-version:
-    uses: ./.github/workflows/check-version.yml
-
   build:
     uses: ./.github/workflows/build.yml
 
   draft:
     needs:
       - build
-      - check-version
     runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        fetch-tags: true
+
+    - name: Read version from metadata
+      id: get_version
+      run: |
+        echo "version=$(jq .version metadata.json.in)" >>$GITHUB_OUTPUT
+
+    - name: Check version matches the tag
+      run: |
+        test "v${{ steps.get_version.outputs.version }}" = "${{ github.ref_name }}"
+
     - uses: actions/download-artifact@v3
       with:
         name: pack

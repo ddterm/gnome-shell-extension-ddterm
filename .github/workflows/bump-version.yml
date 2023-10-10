@@ -4,12 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  check:
-    uses: ./.github/workflows/check-version.yml
-
   bump:
-    needs: check
-
     runs-on: ubuntu-latest
 
     permissions:
@@ -19,7 +14,19 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
-    - run: git config --global --replace-all safe.directory "$GITHUB_WORKSPACE"
+    - name: Read version from metadata
+      id: get_version
+      run: |
+        echo "version=$(jq .version metadata.json.in)" >>$GITHUB_OUTPUT
+
+    - name: Get latest version tag
+      id: get_tag
+      run: |
+        echo "tag=$(git describe --tags --match="v[0-9]*" --abbrev=0 HEAD)" >>$GITHUB_OUTPUT
+
+    - name: Check version matches the latest tag
+      run: |
+        test "v${{ steps.get_version.outputs.version }}" = "${{ steps.get_tag.outputs.tag }}"
 
     - name: Setup Git user
       run: |
