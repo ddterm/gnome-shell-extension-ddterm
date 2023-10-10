@@ -165,6 +165,11 @@ class ExtensionTestDBusInterface {
         global.run_at_leisure(() => invocation.return_value(null));
     }
 
+    IsAppFocused() {
+        return global.display.focus_window ===
+            extension.enabled_state.window_manager.current_window;
+    }
+
     emit_signal(name, arg) {
         log(`${name} ${arg.print(true)}`);
         this.dbus.emit_signal(name, arg);

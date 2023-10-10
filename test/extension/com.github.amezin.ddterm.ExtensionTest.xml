@@ -122,5 +122,9 @@
 
         <method name="UpdateCurrentMonitor"/>
         <method name="WaitLeisure"/>
+
+        <method name="IsAppFocused">
+            <arg name="result" type="b" direction="out"/>
+        </method>
     </interface>
 </node>
