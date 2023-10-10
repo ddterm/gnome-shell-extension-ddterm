@@ -165,9 +165,8 @@ class ExtensionTestDBusInterface {
         global.run_at_leisure(() => invocation.return_value(null));
     }
 
-    IsAppFocused() {
-        return global.display.focus_window ===
-            extension.enabled_state.window_manager.current_window;
+    get ActiveApp() {
+        return global.display.focus_window?.gtk_application_id ?? '';
     }
 
     emit_signal(name, arg) {
@@ -306,6 +305,35 @@ function enable() {
             );
         });
     });
+
+    let disconnect_active_app_watch = null;
+
+    connect(global.display, 'notify::focus-window', () => {
+        disconnect_active_app_watch?.();
+
+        const focus_window = global.display.focus_window;
+
+        if (focus_window) {
+            const handler = focus_window.connect('notify::gtk-application-id', () => {
+                dbus_interface.emit_property_changed(
+                    'ActiveApp',
+                    GLib.Variant.new_string(focus_window?.gtk_application_id ?? '')
+                );
+            });
+
+            disconnect_active_app_watch = () => {
+                disconnect_traced(focus_window, handler);
+                disconnect_active_app_watch = null;
+            };
+        }
+
+        dbus_interface.emit_property_changed(
+            'ActiveApp',
+            GLib.Variant.new_string(focus_window?.gtk_application_id ?? '')
+        );
+    });
+
+    teardown.push(() => disconnect_active_app_watch?.());
 
     dbus_interface.dbus.export(Gio.DBus.session, '/org/gnome/Shell/Extensions/ddterm');
     teardown.push(() => dbus_interface.dbus.unexport());

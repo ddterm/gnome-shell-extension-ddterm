@@ -564,7 +564,7 @@ class CommonTests(ddterm_fixtures.DDTermFixtures):
                 test_api.settings.set_boolean('window-maximize', True)
                 wait2()
 
-        assert test_api.dbus.IsAppFocused()
+        assert test_api.dbus.get_cached_property('ActiveApp').unpack() == 'com.github.amezin.ddterm'
 
     def test_mouse_resize(
         self,
