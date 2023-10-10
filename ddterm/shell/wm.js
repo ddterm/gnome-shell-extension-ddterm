@@ -576,7 +576,7 @@ var WindowManager = GObject.registerClass({
         this._setup_hide_when_focus_lost();
         this._setup_animation_overrides();
 
-        if (!mapped)
+        if (win.get_client_type() === Meta.WindowClientType.X11)
             Main.activateWindow(win);
 
         this._set_window_above();
