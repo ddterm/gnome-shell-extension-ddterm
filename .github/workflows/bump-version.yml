@@ -19,21 +19,21 @@ jobs:
       run: |
         echo "version=$(jq .version metadata.json.in)" >>$GITHUB_OUTPUT
 
-    - name: Get latest version tag
-      id: get_tag
-      run: |
-        echo "tag=$(git describe --tags --match="v[0-9]*" --abbrev=0 HEAD)" >>$GITHUB_OUTPUT
-
-    - name: Check version matches the latest tag
-      run: |
-        test "v${{ steps.get_version.outputs.version }}" = "${{ steps.get_tag.outputs.tag }}"
-
     - name: Setup Git user
       run: |
         git config user.name 'github-actions[bot]'
         git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
 
     - run: .github/bump-version.sh
+
+    - name: Get latest version tag
+      id: get_tag
+      run: |
+        echo "tag=$(git describe --tags --match='v[0-9]*' --abbrev=0 HEAD)" >>$GITHUB_OUTPUT
+
+    - name: Check version matches the latest tag
+      run: |
+        test "v${{ steps.get_version.outputs.version }}" = "${{ steps.get_tag.outputs.tag }}"
 
     - name: Push
       run: |
