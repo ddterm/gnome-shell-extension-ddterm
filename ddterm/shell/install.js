@@ -17,9 +17,8 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-'use strict';
-
-const { GLib, Gio } = imports.gi;
+import GLib from 'gi://GLib';
+import Gio from 'gi://Gio';
 
 function arrays_equal(a, b) {
     if (a.length !== b.length)
@@ -31,10 +30,7 @@ function arrays_equal(a, b) {
 class File {
     constructor(source_file, target_file, fallback_files = []) {
         const [ok_, content_bytes] = GLib.file_get_contents(source_file);
-
-        this.content = globalThis.TextDecoder
-            ? new TextDecoder().decode(content_bytes)
-            : imports.byteArray.toString(content_bytes);
+        this.content = new TextDecoder().decode(content_bytes);
 
         this.target_file = target_file;
         this.fallback_files = fallback_files;
@@ -61,10 +57,7 @@ class File {
     }
 
     install() {
-        const new_content = globalThis.TextEncoder
-            ? new TextEncoder().encode(this.content)
-            : imports.byteArray.fromString(this.content);
-
+        const new_content = new TextEncoder().encode(this.content);
         const existing_content = this.get_existing_content();
 
         if (existing_content && arrays_equal(existing_content, new_content))
@@ -104,7 +97,7 @@ function dbus_service_path(basedir) {
     );
 }
 
-var Installer = class Installer {
+export class Installer {
     constructor(src_dir, launcher_path) {
         const configure_vars = {
             LAUNCHER: launcher_path,
@@ -152,6 +145,4 @@ var Installer = class Installer {
         this.desktop_entry.uninstall();
         this.dbus_service.uninstall();
     }
-};
-
-/* exported Installer */
+}

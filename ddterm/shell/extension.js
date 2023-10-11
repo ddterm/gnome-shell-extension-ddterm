@@ -17,24 +17,24 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-'use strict';
+import GLib from 'gi://GLib';
+import GObject from 'gi://GObject';
+import Gio from 'gi://Gio';
+import Meta from 'gi://Meta';
+import Shell from 'gi://Shell';
 
-/* exported Extension */
+import { Extension } from 'resource:///org/gnome/shell/extensions/extension.js';
+import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 
-const { GLib, GObject, Gio, Meta, Shell } = imports.gi;
-const Gettext = imports.gettext;
-const Main = imports.ui.main;
-
-const Me = imports.misc.extensionUtils.getCurrentExtension();
-const { AppControl } = Me.imports.ddterm.shell.appcontrol;
-const { DBusApi } = Me.imports.ddterm.shell.dbusapi;
-const { Installer } = Me.imports.ddterm.shell.install;
-const { PanelIconProxy } = Me.imports.ddterm.shell.panelicon;
-const { Service } = Me.imports.ddterm.shell.service;
-const { SharedNotificationSource, SharedNotification } = Me.imports.ddterm.shell.notifications;
-const { Subprocess, WaylandSubprocess } = Me.imports.ddterm.shell.subprocess;
-const { WindowManager } = Me.imports.ddterm.shell.wm;
-const { WindowMatch } = Me.imports.ddterm.shell.windowmatch;
+import { AppControl } from './appcontrol.js';
+import { DBusApi } from './dbusapi.js';
+import { Installer } from './install.js';
+import { PanelIconProxy } from './panelicon.js';
+import { Service } from './service.js';
+import { SharedNotificationSource, SharedNotification } from './notifications.js';
+import { Subprocess, WaylandSubprocess } from './subprocess.js';
+import { WindowManager } from './wm.js';
+import { WindowMatch } from './windowmatch.js';
 
 const APP_ID = 'com.github.amezin.ddterm';
 const APP_WMCLASS = 'Com.github.amezin.ddterm';
@@ -239,7 +239,7 @@ class EnabledExtension {
     _enable() {
         const rollback = this._disable_callbacks;
 
-        this.settings = imports.misc.extensionUtils.getSettings();
+        this.settings = this.extension.getSettings();
 
         const notification_source = new SharedNotificationSource(
             this.extension.gettext('Drop Down Terminal'),
@@ -376,14 +376,9 @@ class EnabledExtension {
     }
 }
 
-var Extension = class DDTermExtension {
+export default class DDTermExtension extends Extension {
     constructor(meta) {
-        this.uuid = meta.uuid;
-        this.dir = meta.dir;
-        this.path = meta.path;
-        this.metadata = meta.metadata;
-
-        Object.assign(this, Gettext.domain(this.metadata['gettext-domain'] ?? this.uuid));
+        super(meta);
 
         this.install_src_dir = GLib.build_filenamev([this.path, 'ddterm']);
         this.launcher_path = GLib.build_filenamev([this.path, 'bin', APP_ID]);
@@ -444,4 +439,4 @@ var Extension = class DDTermExtension {
         this.enabled_state?.disable();
         this.enabled_state = null;
     }
-};
+}

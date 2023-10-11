@@ -17,11 +17,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-'use strict';
-
-/* exported ConnectionSet */
-
-var ConnectionSet = class ConnectionSet {
+export class ConnectionSet {
     constructor() {
         this.connections = new Map();
     }
@@ -79,4 +75,4 @@ var ConnectionSet = class ConnectionSet {
             ));
         }
     }
-};
+}

@@ -17,12 +17,12 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-'use strict';
+import GObject from 'gi://GObject';
+import Gio from 'gi://Gio';
+import Gdk from 'gi://Gdk';
+import Gtk from 'gi://Gtk';
 
-const { GObject, Gio, Gdk, Gtk } = imports.gi;
-
-const Me = imports.misc.extensionUtils.getCurrentExtension();
-const { bind_sensitive, insert_settings_actions, ui_file_uri } = Me.imports.ddterm.pref.util;
+import { bind_sensitive, insert_settings_actions, ui_file_uri } from './util.js';
 
 const IS_GTK3 = Gtk.get_major_version() === 3;
 
@@ -37,7 +37,7 @@ const COLUMN_ACCEL_KEY = 2;
 const COLUMN_ACCEL_MODS = 3;
 const COLUMN_EDITABLE = 4;
 
-var Widget = GObject.registerClass({
+export const Widget = GObject.registerClass({
     GTypeName: 'DDTermPrefsShortcuts',
     Template: ui_file_uri('prefs-shortcuts.ui'),
     Children: [
@@ -221,4 +221,4 @@ var Widget = GObject.registerClass({
     }
 });
 
-/* exported Widget */
+export default Widget;

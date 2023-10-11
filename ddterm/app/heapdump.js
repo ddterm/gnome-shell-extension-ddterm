@@ -22,8 +22,6 @@ import Gio from 'gi://Gio';
 
 import System from 'system';
 
-import './encoding.js';
-
 function get_file(relative_path) {
     return Gio.File.new_for_uri(
         GLib.Uri.resolve_relative(import.meta.url, relative_path, GLib.UriFlags.NONE)

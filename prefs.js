@@ -17,30 +17,25 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-'use strict';
+import {
+    ExtensionPreferences
+} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 
-/* exported init buildPrefsWidget fillPreferencesWindow */
+import {
+    WindowPage,
+    TerminalPage,
+    ShortcutsPage,
+    MiscPage
+} from './ddterm/pref/adw.js';
 
-const Gettext = imports.gettext;
-const Me = imports.misc.extensionUtils.getCurrentExtension();
+export default class extends ExtensionPreferences {
+    fillPreferencesWindow(win) {
+        const settings = this.getSettings();
+        const gettext_context = this;
 
-function init() {
-    imports.misc.extensionUtils.initTranslations();
-}
-
-function buildPrefsWidget() {
-    return new Me.imports.ddterm.pref.widget.PrefsWidget({
-        settings: imports.misc.extensionUtils.getSettings(),
-        gettext_context: Gettext.domain(Me.metadata['gettext-domain']),
-    });
-}
-
-function  fillPreferencesWindow(win) {
-    const settings = imports.misc.extensionUtils.getSettings();
-    const gettext_context = Gettext.domain(Me.metadata['gettext-domain']);
-
-    win.add(new Me.imports.ddterm.pref.adw.WindowPage({ settings, gettext_context }));
-    win.add(new Me.imports.ddterm.pref.adw.TerminalPage({ settings, gettext_context }));
-    win.add(new Me.imports.ddterm.pref.adw.ShortcutsPage({ settings, gettext_context }));
-    win.add(new Me.imports.ddterm.pref.adw.MiscPage({ settings, gettext_context }));
+        win.add(new WindowPage({ settings, gettext_context }));
+        win.add(new TerminalPage({ settings, gettext_context }));
+        win.add(new ShortcutsPage({ settings, gettext_context }));
+        win.add(new MiscPage({ settings, gettext_context }));
+    }
 }

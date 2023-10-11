@@ -17,24 +17,21 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-'use strict';
+import GObject from 'gi://GObject';
+import Gio from 'gi://Gio';
+import Adw from 'gi://Adw';
 
-/* exported WindowPage TerminalPage ShortcutsPage MiscPage */
-
-const { GObject, Gio, Adw } = imports.gi;
-
-const Me = imports.misc.extensionUtils.getCurrentExtension();
-const PositionSizeWidget = Me.imports.ddterm.pref.positionsize.Widget;
-const BehaviorWidget = Me.imports.ddterm.pref.behavior.Widget;
-const AnimationWidget = Me.imports.ddterm.pref.animation.Widget;
-const TabsWidget = Me.imports.ddterm.pref.tabs.Widget;
-const TextWidget = Me.imports.ddterm.pref.text.Widget;
-const ColorsWidget = Me.imports.ddterm.pref.colors.Widget;
-const CommandWidget = Me.imports.ddterm.pref.command.Widget;
-const ScrollingWidget = Me.imports.ddterm.pref.scrolling.Widget;
-const CompatibilityWidget = Me.imports.ddterm.pref.compatibility.Widget;
-const ShortcutsWidget = Me.imports.ddterm.pref.shortcuts.Widget;
-const PanelIconWidget = Me.imports.ddterm.pref.panelicon.Widget;
+import PositionSizeWidget from './positionsize.js';
+import BehaviorWidget from './behavior.js';
+import AnimationWidget from './animation.js';
+import TabsWidget from './tabs.js';
+import TextWidget from './text.js';
+import ColorsWidget from './colors.js';
+import CommandWidget from './command.js';
+import ScrollingWidget from './scrolling.js';
+import CompatibilityWidget from './compatibility.js';
+import ShortcutsWidget from './shortcuts.js';
+import PanelIconWidget from './panelicon.js';
 
 const Page = GObject.registerClass({
     Properties: {
@@ -68,7 +65,7 @@ const Page = GObject.registerClass({
     }
 });
 
-var WindowPage = GObject.registerClass({
+export const WindowPage = GObject.registerClass({
 }, class DDTermWindowPrefsPage extends Page {
     _init(params) {
         super._init({
@@ -88,7 +85,7 @@ var WindowPage = GObject.registerClass({
     }
 });
 
-var TerminalPage = GObject.registerClass({
+export const TerminalPage = GObject.registerClass({
 }, class DDTermTerminalPrefsPage extends Page {
     _init(params) {
         super._init({
@@ -109,7 +106,7 @@ var TerminalPage = GObject.registerClass({
     }
 });
 
-var ShortcutsPage = GObject.registerClass({
+export const ShortcutsPage = GObject.registerClass({
 }, class DDTermShortcutsPrefsPage extends Page {
     _init(params) {
         super._init({
@@ -124,7 +121,7 @@ var ShortcutsPage = GObject.registerClass({
     }
 });
 
-var MiscPage = GObject.registerClass({
+export const MiscPage = GObject.registerClass({
 }, class DDTermMiscPrefsPage extends Page {
     _init(params) {
         super._init({

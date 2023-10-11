@@ -17,14 +17,16 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-'use strict';
+import GObject from 'gi://GObject';
+import Gio from 'gi://Gio';
+import Clutter from 'gi://Clutter';
+import Meta from 'gi://Meta';
+import Mtk from 'gi://Mtk';
 
-const { Clutter, GObject, Gio, Meta } = imports.gi;
-const Main = imports.ui.main;
-const WM = imports.ui.windowManager;
+import * as Main from 'resource:///org/gnome/shell/ui/main.js';
+import * as WM from 'resource:///org/gnome/shell/ui/windowManager.js';
 
-const Me = imports.misc.extensionUtils.getCurrentExtension();
-const { ConnectionSet } = Me.imports.ddterm.shell.connectionset;
+import { ConnectionSet } from './connectionset.js';
 
 const MOUSE_RESIZE_GRABS = [
     Meta.GrabOp.RESIZING_NW,
@@ -44,9 +46,9 @@ function get_monitor_manager() {
     return global.backend.get_monitor_manager();
 }
 
-/* exported WindowManager */
+export { WindowManager };
 
-var WindowManager = GObject.registerClass({
+const WindowManager = GObject.registerClass({
     Properties: {
         'settings': GObject.ParamSpec.object(
             'settings',
@@ -67,13 +69,13 @@ var WindowManager = GObject.registerClass({
             '',
             '',
             GObject.ParamFlags.READABLE | GObject.ParamFlags.EXPLICIT_NOTIFY,
-            Meta.Rectangle
+            Mtk.Rectangle
         ),
     },
     Signals: {
         'hide-request': {},
         'move-resize-requested': {
-            param_types: [Meta.Rectangle.$gtype],
+            param_types: [Mtk.Rectangle.$gtype],
         },
     },
 }, class DDTermWindowManager extends GObject.Object {

@@ -17,26 +17,23 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-'use strict';
+import GObject from 'gi://GObject';
+import Gio from 'gi://Gio';
+import Gtk from 'gi://Gtk';
 
-/* exported PrefsWidget */
+import PositionSizeWidget from './positionsize.js';
+import BehaviorWidget from './behavior.js';
+import AnimationWidget from './animation.js';
+import TabsWidget from './tabs.js';
+import TextWidget from './text.js';
+import ColorsWidget from './colors.js';
+import CommandWidget from './command.js';
+import ScrollingWidget from './scrolling.js';
+import CompatibilityWidget from './compatibility.js';
+import ShortcutsWidget from './shortcuts.js';
+import PanelIconWidget from './panelicon.js';
 
-const { GObject, Gio, Gtk } = imports.gi;
-
-const Me = imports.misc.extensionUtils.getCurrentExtension();
-const PositionSizeWidget = Me.imports.ddterm.pref.positionsize.Widget;
-const BehaviorWidget = Me.imports.ddterm.pref.behavior.Widget;
-const AnimationWidget = Me.imports.ddterm.pref.animation.Widget;
-const TabsWidget = Me.imports.ddterm.pref.tabs.Widget;
-const TextWidget = Me.imports.ddterm.pref.text.Widget;
-const ColorsWidget = Me.imports.ddterm.pref.colors.Widget;
-const CommandWidget = Me.imports.ddterm.pref.command.Widget;
-const ScrollingWidget = Me.imports.ddterm.pref.scrolling.Widget;
-const CompatibilityWidget = Me.imports.ddterm.pref.compatibility.Widget;
-const ShortcutsWidget = Me.imports.ddterm.pref.shortcuts.Widget;
-const PanelIconWidget = Me.imports.ddterm.pref.panelicon.Widget;
-
-var PrefsWidget = GObject.registerClass({
+export const PrefsWidget = GObject.registerClass({
     Properties: {
         'settings': GObject.ParamSpec.object(
             'settings',

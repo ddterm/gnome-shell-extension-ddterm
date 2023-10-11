@@ -17,15 +17,4 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-'use strict';
-
-/* exported init enable disable */
-
-const Me = imports.misc.extensionUtils.getCurrentExtension();
-const impl = Me.imports.ddterm.shell.extension;
-
-function init(meta) {
-    imports.misc.extensionUtils.initTranslations();
-
-    return new impl.Extension(meta);
-}
+export { default } from './ddterm/shell/extension.js';

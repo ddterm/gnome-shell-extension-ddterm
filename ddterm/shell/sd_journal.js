@@ -17,9 +17,8 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-'use strict';
-
-const { GLib, Gio } = imports.gi;
+import GLib from 'gi://GLib';
+import Gio from 'gi://Gio';
 
 /* We only care about Linux here, because otherwise it won't be systemd */
 const SOL_SOCKET = 1;
@@ -54,9 +53,7 @@ function sd_journal_stream_fd(identifier, priority = LOG_INFO, level_prefix = fa
         '', /* add newline in the end */
     ].join('\n');
 
-    const header_bytes = globalThis.TextEncoder
-        ? new TextEncoder().encode(header)
-        : imports.byteArray.fromString(header);
+    const header_bytes = new TextEncoder().encode(header);
 
     const addr = Gio.UnixSocketAddress.new('/run/systemd/journal/stdout');
 
@@ -88,4 +85,4 @@ function sd_journal_stream_fd(identifier, priority = LOG_INFO, level_prefix = fa
     }
 }
 
-/* exported sd_journal_stream_fd */
+export { sd_journal_stream_fd };

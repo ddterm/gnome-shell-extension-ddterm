@@ -17,14 +17,16 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-'use strict';
+export { PanelIconProxy };
 
-/* exported PanelIconProxy */
+import GObject from 'gi://GObject';
+import Atk from 'gi://Atk';
+import Clutter from 'gi://Clutter';
+import St from 'gi://St';
 
-const { GObject, Atk, Clutter, St } = imports.gi;
-const Main = imports.ui.main;
-const PanelMenu = imports.ui.panelMenu;
-const PopupMenu = imports.ui.popupMenu;
+import * as Main from 'resource:///org/gnome/shell/ui/main.js';
+import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js';
+import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
 
 const PanelIconBase = GObject.registerClass({
     Properties: {
@@ -181,7 +183,7 @@ const TYPE_BY_NAME = {
     ].map(t => [t.type_name(), t])),
 };
 
-var PanelIconProxy = GObject.registerClass({
+const PanelIconProxy = GObject.registerClass({
     Properties: {
         'active': GObject.ParamSpec.boolean(
             'active',

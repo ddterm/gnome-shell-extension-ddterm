@@ -17,14 +17,13 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-'use strict';
+import GObject from 'gi://GObject';
+import Gio from 'gi://Gio';
+import Gtk from 'gi://Gtk';
 
-const { GObject, Gio, Gtk } = imports.gi;
+import { bind_widget, insert_settings_actions, ui_file_uri } from './util.js';
 
-const Me = imports.misc.extensionUtils.getCurrentExtension();
-const { bind_widget, insert_settings_actions, ui_file_uri } = Me.imports.ddterm.pref.util;
-
-var Widget = GObject.registerClass({
+export const Widget = GObject.registerClass({
     GTypeName: 'DDTermPrefsBehavior',
     Template: ui_file_uri('prefs-behavior.ui'),
     Children: [
@@ -68,4 +67,4 @@ var Widget = GObject.registerClass({
     }
 });
 
-/* exported Widget */
+export default Widget;

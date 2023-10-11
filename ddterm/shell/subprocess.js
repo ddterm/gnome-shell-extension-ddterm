@@ -17,12 +17,12 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-'use strict';
+import GLib from 'gi://GLib';
+import GObject from 'gi://GObject';
+import Gio from 'gi://Gio';
+import Meta from 'gi://Meta';
 
-const { GLib, GObject, Gio, Meta } = imports.gi;
-
-const Me = imports.misc.extensionUtils.getCurrentExtension();
-const { sd_journal_stream_fd } = Me.imports.ddterm.shell.sd_journal;
+import { sd_journal_stream_fd } from './sd_journal.js';
 
 const SIGTERM = 15;
 
@@ -56,7 +56,7 @@ function make_wayland_client(subprocess_launcher) {
     }
 }
 
-var Subprocess = GObject.registerClass({
+const Subprocess = GObject.registerClass({
     Properties: {
         'journal-identifier': GObject.ParamSpec.string(
             'journal-identifier',
@@ -141,7 +141,7 @@ var Subprocess = GObject.registerClass({
     }
 });
 
-var WaylandSubprocess = GObject.registerClass({
+const WaylandSubprocess = GObject.registerClass({
     Properties: {
         'wayland-client': GObject.ParamSpec.object(
             'wayland-client',
@@ -167,4 +167,4 @@ var WaylandSubprocess = GObject.registerClass({
     }
 });
 
-/* exported Subprocess WaylandSubprocess */
+export { Subprocess, WaylandSubprocess };

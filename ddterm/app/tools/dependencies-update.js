@@ -26,7 +26,6 @@ import PackageKitGlib from 'gi://PackageKitGlib';
 import System from 'system';
 
 import { load_manifest, get_os_ids, resolve_package, get_manifest_file } from '../dependencies.js';
-import '../encoding.js';
 
 function update_manifest(dry_run = false) {
     const manifest = load_manifest();

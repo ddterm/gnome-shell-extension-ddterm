@@ -53,39 +53,8 @@ Vagrant.configure("2") do |config|
     end
   end
 
-  config.vm.define "debian12", autostart: false do |version|
-    version.vm.box = "debian/bookworm64"
-
-    if Vagrant.has_plugin?('vagrant-libvirt', '> 0.5.3')
-      # Official Debian images have no qemu guest agent preinstalled
-      version.vm.provider 'libvirt' do |libvirt, override|
-        libvirt.qemu_use_agent = false
-      end
-    end
-  end
-
-  config.vm.define "ubuntu2304", autostart: false do |version|
-    version.vm.box = "generic/ubuntu2304"
-  end
-
-  config.vm.define "ubuntu2204", primary: true do |version|
-    version.vm.box = "generic/ubuntu2204"
-  end
-
-  config.vm.define "fedora38", autostart: false do |version|
-    version.vm.box = "fedora/38-cloud-base"
-  end
-
-  config.vm.define "fedora37", autostart: false do |version|
-    version.vm.box = "fedora/37-cloud-base"
-  end
-
-  config.vm.define "centos9", autostart: false do |version|
-    version.vm.box = "generic/centos9s"
-  end
-
-  config.vm.define "opensuse15", autostart: false do |version|
-    version.vm.box = "generic/opensuse15"
+  config.vm.define "fedora39", primary: true do |version|
+    version.vm.box = "fedora/39-beta-cloud-base"
   end
 
   config.vm.synced_folder '.', '/vagrant', type: 'rsync', rsync__exclude: rsync_excludes

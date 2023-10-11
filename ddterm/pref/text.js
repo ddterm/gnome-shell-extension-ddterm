@@ -17,21 +17,19 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-'use strict';
+import GObject from 'gi://GObject';
+import Gio from 'gi://Gio';
+import Gtk from 'gi://Gtk';
 
-const { GObject, Gio, Gtk } = imports.gi;
-
-const Me = imports.misc.extensionUtils.getCurrentExtension();
-
-const {
+import {
     bind_sensitive,
     bind_widget,
     bind_widgets,
     insert_settings_actions,
-    ui_file_uri,
-} = Me.imports.ddterm.pref.util;
+    ui_file_uri
+} from './util.js';
 
-var Widget = GObject.registerClass({
+export const Widget = GObject.registerClass({
     GTypeName: 'DDTermPrefsText',
     Template: ui_file_uri('prefs-text.ui'),
     Children: [
@@ -103,4 +101,4 @@ var Widget = GObject.registerClass({
     }
 });
 
-/* exported Widget */
+export default Widget;

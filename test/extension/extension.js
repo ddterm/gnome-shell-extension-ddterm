@@ -17,12 +17,14 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-'use strict';
+import GLib from 'gi://GLib';
+import GObject from 'gi://GObject';
+import Gio from 'gi://Gio';
+import Meta from 'gi://Meta';
+import Shell from 'gi://Shell';
 
-/* exported init */
-
-const { GLib, GObject, Gio, Meta, Shell } = imports.gi;
-const Main = imports.ui.main;
+import { Extension } from 'resource:///org/gnome/shell/extensions/extension.js';
+import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 
 function get_monitor_manager() {
     if (Meta.MonitorManager.get)
@@ -332,15 +334,15 @@ class ExtensionTestDBusInterface {
     }
 }
 
-class Extension {
+export default class TestExtension extends Extension {
     constructor(meta) {
-        this.path = meta.path;
+        super(meta);
+
         this.dbus_interface = null;
     }
 
     enable() {
-        const ddterm = imports.ui.main.extensionManager.lookup('ddterm@amezin.github.com');
-        const extension = ddterm.stateObj;
+        const extension = Extension.lookupByUUID('ddterm@amezin.github.com');
 
         extension.debug = log;
         extension.app_enable_heap_dump = true;
@@ -355,8 +357,4 @@ class Extension {
         this.dbus_interface?.disable();
         this.dbus_interface = null;
     }
-}
-
-function init(meta) {
-    return new Extension(meta);
 }

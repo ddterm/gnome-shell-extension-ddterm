@@ -17,9 +17,11 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-'use strict';
-
-const { GLib, GObject, Gio, Meta, Shell } = imports.gi;
+import GLib from 'gi://GLib';
+import GObject from 'gi://GObject';
+import Gio from 'gi://Gio';
+import Mtk from 'gi://Mtk';
+import Shell from 'gi://Shell';
 
 function report_dbus_error_async(e, invocation) {
     if (e instanceof GLib.Error) {
@@ -63,7 +65,7 @@ function meta_rect_to_variant(meta_rect) {
     ]);
 }
 
-var DBusApi = GObject.registerClass({
+const DBusApi = GObject.registerClass({
     Properties: {
         'xml-file-path': GObject.ParamSpec.string(
             'xml-file-path',
@@ -91,7 +93,7 @@ var DBusApi = GObject.registerClass({
             '',
             '',
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
-            Meta.Rectangle
+            Mtk.Rectangle
         ),
     },
     Signals: {
@@ -113,7 +115,7 @@ var DBusApi = GObject.registerClass({
     _init(params) {
         super._init(params);
 
-        this._target_rect = new Meta.Rectangle({ x: 0, y: 0, width: 0, height: 0 });
+        this._target_rect = new Mtk.Rectangle({ x: 0, y: 0, width: 0, height: 0 });
 
         this.dbus = Gio.DBusExportedObject.wrapJSObject(
             Shell.get_file_contents_utf8_sync(this.xml_file_path),
@@ -166,4 +168,4 @@ var DBusApi = GObject.registerClass({
     }
 });
 
-/* exported DBusApi */
+export { DBusApi };

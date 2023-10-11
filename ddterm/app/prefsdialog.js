@@ -23,7 +23,8 @@ import Gtk from 'gi://Gtk';
 
 import Gettext from 'gettext';
 
-import { metadata, dir } from './meta.js';
+import { metadata } from './meta.js';
+import { PrefsWidget } from '../pref/widget.js';
 
 export const PrefsDialog = GObject.registerClass({
     Properties: {
@@ -45,23 +46,7 @@ export const PrefsDialog = GObject.registerClass({
         this.set_default_size(640, 576);
         this.set_icon_name('preferences-system');
 
-        const import_path = dir.get_path();
-
-        if (!imports.searchPath.includes(import_path))
-            imports.searchPath.unshift(import_path);
-
-        /*
-         * fake current extension object to make `Me.imports` and `Me.dir`
-         * work in application context
-         */
-        Object.assign(imports.misc.extensionUtils.getCurrentExtension(), {
-            imports,
-            dir,
-            path: dir.get_path(),
-            metadata,
-        });
-
-        const widget = new imports.ddterm.pref.widget.PrefsWidget({
+        const widget = new PrefsWidget({
             settings: this.settings,
             gettext_context,
         });

@@ -17,14 +17,12 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-'use strict';
+import GObject from 'gi://GObject';
+import Meta from 'gi://Meta';
 
-const { GObject, Meta } = imports.gi;
+import { Subprocess } from './subprocess.js';
 
-const Me = imports.misc.extensionUtils.getCurrentExtension();
-const { Subprocess } = Me.imports.ddterm.shell.subprocess;
-
-var WindowMatch = GObject.registerClass({
+const WindowMatch = GObject.registerClass({
     Properties: {
         'subprocess': GObject.ParamSpec.object(
             'subprocess',
@@ -198,4 +196,4 @@ var WindowMatch = GObject.registerClass({
     }
 });
 
-/* exported WindowMatch */
+export { WindowMatch };

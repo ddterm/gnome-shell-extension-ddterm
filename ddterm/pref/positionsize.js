@@ -17,20 +17,20 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-'use strict';
+import GObject from 'gi://GObject';
+import Gio from 'gi://Gio';
+import Gtk from 'gi://Gtk';
 
-const { GObject, Gio, Gtk } = imports.gi;
+import { DisplayConfig } from '../util/displayconfig.js';
 
-const Me = imports.misc.extensionUtils.getCurrentExtension();
-
-const {
+import {
     bind_widget,
     insert_settings_actions,
     set_scale_value_format,
-    ui_file_uri,
-} = Me.imports.ddterm.pref.util;
+    ui_file_uri
+} from './util.js';
 
-var Widget = GObject.registerClass({
+export const Widget = GObject.registerClass({
     GTypeName: 'DDTermPrefsPositionSize',
     Template: ui_file_uri('prefs-position-size.ui'),
     Children: [
@@ -59,24 +59,17 @@ var Widget = GObject.registerClass({
 
         insert_settings_actions(this, this.settings, ['window-monitor']);
 
-        const destroy_cancel = new Gio.Cancellable();
-        this.connect('destroy', () => destroy_cancel.cancel());
-
-        import('../util/displayconfig.js').then(displayconfig => {
-            destroy_cancel.set_error_if_cancelled();
-
-            const display_config = new displayconfig.DisplayConfig({
-                dbus_connection: Gio.DBus.session,
-            });
-
-            destroy_cancel.connect(() => display_config.unwatch());
-
-            display_config.connect('notify::monitors', () => {
-                this.update_monitors(display_config.monitors);
-            });
-
-            display_config.update_async();
+        const display_config = new DisplayConfig({
+            dbus_connection: Gio.DBus.session,
         });
+
+        this.connect('destroy', () => display_config.unwatch());
+
+        display_config.connect('notify::monitors', () => {
+            this.update_monitors(display_config.monitors);
+        });
+
+        display_config.update_async();
 
         bind_widget(this.settings, 'window-monitor-connector', this.monitor_combo);
 
@@ -121,4 +114,4 @@ var Widget = GObject.registerClass({
     }
 });
 
-/* exported Widget */
+export default Widget;

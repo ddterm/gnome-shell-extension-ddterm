@@ -27,7 +27,6 @@ import Gettext from 'gettext';
 import System from 'system';
 
 import { AppWindow } from './appwindow.js';
-import './encoding.js';
 import { GtkThemeManager } from './gtktheme.js';
 import { HeapDumper } from './heapdump.js';
 import { metadata } from './meta.js';

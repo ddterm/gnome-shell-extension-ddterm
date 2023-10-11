@@ -17,19 +17,19 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-'use strict';
+import GLib from 'gi://GLib';
+import GObject from 'gi://GObject';
+import Gio from 'gi://Gio';
+import Gdk from 'gi://Gdk';
+import Gtk from 'gi://Gtk';
 
-const { GLib, GObject, Gio, Gdk, Gtk } = imports.gi;
-
-const Me = imports.misc.extensionUtils.getCurrentExtension();
-
-const {
+import {
     bind_sensitive,
     bind_widget,
     insert_settings_actions,
     set_scale_value_format,
-    ui_file_uri,
-} = Me.imports.ddterm.pref.util;
+    ui_file_uri
+} from './util.js';
 
 function show_dialog(parent_window, message, message_type = Gtk.MessageType.ERROR) {
     const dialog = new Gtk.MessageDialog({
@@ -290,7 +290,7 @@ const ColorScheme = GObject.registerClass({
 
 const PALETTE_WIDGET_IDS = Array.from({ length: 16 }, (_, i) => `palette${i}`);
 
-var Widget = GObject.registerClass({
+export const Widget = GObject.registerClass({
     GTypeName: 'DDTermPrefsColors',
     Template: ui_file_uri('prefs-colors.ui'),
     Children: [
@@ -496,4 +496,4 @@ var Widget = GObject.registerClass({
     }
 });
 
-/* exported Widget */
+export default Widget;

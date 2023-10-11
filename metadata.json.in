@@ -5,11 +5,7 @@
   "gettext-domain": "ddterm@amezin.github.com",
   "settings-schema": "com.github.amezin.ddterm",
   "shell-version": [
-    "40",
-    "41",
-    "42",
-    "43",
-    "44"
+    "45"
   ],
   "version": 48,
   "url": "https://github.com/ddterm/gnome-shell-extension-ddterm"

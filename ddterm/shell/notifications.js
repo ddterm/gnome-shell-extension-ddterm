@@ -17,12 +17,8 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-'use strict';
-
-/* exported SharedNotificationSource SharedNotification */
-
-const Main = imports.ui.main;
-const MessageTray = imports.ui.messageTray;
+import * as Main from 'resource:///org/gnome/shell/ui/main.js';
+import * as MessageTray from 'resource:///org/gnome/shell/ui/messageTray.js';
 
 class SharedBase {
     constructor(factory) {
@@ -48,7 +44,7 @@ class SharedBase {
     }
 }
 
-var SharedNotificationSource = class SharedNotificationSource extends SharedBase {
+export class SharedNotificationSource extends SharedBase {
     constructor(title, icon_name) {
         super(() => {
             const source = new MessageTray.Source(title, icon_name);
@@ -56,9 +52,9 @@ var SharedNotificationSource = class SharedNotificationSource extends SharedBase
             return source;
         });
     }
-};
+}
 
-var SharedNotification = class SharedNotification extends SharedBase {
+export class SharedNotification extends SharedBase {
     constructor(source, title, banner, params) {
         super(() => new MessageTray.Notification(source.get(), title, banner, params));
     }
@@ -68,4 +64,4 @@ var SharedNotification = class SharedNotification extends SharedBase {
 
         notification.source.showNotification(notification);
     }
-};
+}
