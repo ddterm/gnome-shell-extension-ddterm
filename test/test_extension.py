@@ -524,15 +524,6 @@ class CommonTests(ddterm_fixtures.DDTermFixtures):
     ):
         glib_util.flush_main_loop()
 
-        if test_api.dbus.get_cached_property('HasWindow'):
-            with glib_util.SignalWait(test_api.dbus, 'g-properties-changed') as prop_wait:
-                test_api.dbus.Toggle()
-
-                while test_api.dbus.get_cached_property('HasWindow'):
-                    prop_wait.wait()
-
-        glib_util.flush_main_loop()
-
         current_monitor_rect = test_api.layout.monitors[monitor_config.current_index].geometry
 
         test_api.mouse_sim.move_to(
@@ -558,6 +549,15 @@ class CommonTests(ddterm_fixtures.DDTermFixtures):
             'window-maximize',
             window_maximize == MaximizeMode.MAXIMIZE_EARLY
         )
+
+        if test_api.dbus.get_cached_property('HasWindow'):
+            with glib_util.SignalWait(test_api.dbus, 'g-properties-changed') as prop_wait:
+                test_api.dbus.Toggle()
+
+                while test_api.dbus.get_cached_property('HasWindow'):
+                    prop_wait.wait()
+
+        glib_util.flush_main_loop()
 
         with glib_util.SignalWait(
             source=test_api.dbus,
