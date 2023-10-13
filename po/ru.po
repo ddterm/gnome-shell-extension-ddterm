@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-10 06:37+0000\n"
+"POT-Creation-Date: 2023-10-13 17:23+0000\n"
 "PO-Revision-Date: 2023-03-14 13:45+0000\n"
 "Last-Translator: Aleksandr Mezin <mezin.alexander@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/gnome-shell-"
@@ -21,8 +21,8 @@ msgstr ""
 msgid "Saving session..."
 msgstr ""
 
-#: ddterm/app/appwindow.js:160 ddterm/shell/extension.js:274
-#: ddterm/shell/extension.js:284
+#: ddterm/app/appwindow.js:160 ddterm/shell/extension.js:255
+#: ddterm/shell/extension.js:265
 msgid "Drop Down Terminal"
 msgstr "Выпадающий терминал"
 
@@ -1259,7 +1259,7 @@ msgstr "Вкладки"
 msgid "Text"
 msgstr "Текст"
 
-#: ddterm/shell/extension.js:286
+#: ddterm/shell/extension.js:267
 msgid ""
 "Warning: ddterm version has changed. Log out, then log in again to load the "
 "updated extension."

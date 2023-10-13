@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-10 06:37+0000\n"
+"POT-Creation-Date: 2023-10-13 17:23+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,8 +21,8 @@ msgstr ""
 msgid "Saving session..."
 msgstr ""
 
-#: ddterm/app/appwindow.js:160 ddterm/shell/extension.js:274
-#: ddterm/shell/extension.js:284
+#: ddterm/app/appwindow.js:160 ddterm/shell/extension.js:255
+#: ddterm/shell/extension.js:265
 msgid "Drop Down Terminal"
 msgstr ""
 
@@ -1233,7 +1233,7 @@ msgstr ""
 msgid "Text"
 msgstr ""
 
-#: ddterm/shell/extension.js:286
+#: ddterm/shell/extension.js:267
 msgid ""
 "Warning: ddterm version has changed. Log out, then log in again to load the "
 "updated extension."
