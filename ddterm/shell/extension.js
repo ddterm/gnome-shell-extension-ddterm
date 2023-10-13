@@ -19,7 +19,7 @@
 
 'use strict';
 
-/* exported init enable disable enabled_state */
+/* exported Extension */
 
 const { GLib, GObject, Gio, Meta, Shell } = imports.gi;
 const ByteArray = imports.byteArray;
@@ -33,11 +33,6 @@ const { PanelIconProxy } = Me.imports.ddterm.shell.panelicon;
 const { Service } = Me.imports.ddterm.shell.service;
 const { WindowManager } = Me.imports.ddterm.shell.wm;
 const { WindowMatch } = Me.imports.ddterm.shell.windowmatch;
-
-let revision = null;
-let app_process = null;
-var enabled_state = null;
-var app_enable_heap_dump = false;
 
 const APP_ID = 'com.github.amezin.ddterm';
 const APP_WMCLASS = 'Com.github.amezin.ddterm';
@@ -57,12 +52,7 @@ function read_revision() {
     }
 }
 
-function init() {
-    revision = read_revision();
-    imports.misc.extensionUtils.initTranslations();
-}
-
-function create_subprocess(settings) {
+function create_subprocess(settings, app_enable_heap_dump) {
     const argv = [
         Me.dir.get_child('bin').get_child(APP_ID).get_path(),
         '--gapplication-service',
@@ -78,16 +68,6 @@ function create_subprocess(settings) {
         return new subprocess.WaylandSubprocess({ journal_identifier: APP_ID, argv });
 
     return new subprocess.Subprocess({ journal_identifier: APP_ID, argv });
-}
-
-function start_app_process(settings) {
-    app_process = create_subprocess(settings);
-
-    app_process?.wait().then(() => {
-        app_process = null;
-    });
-
-    return app_process;
 }
 
 function create_window_matcher(service, window_manager, rollback) {
@@ -121,8 +101,8 @@ function create_window_matcher(service, window_manager, rollback) {
     return window_matcher;
 }
 
-function create_dbus_interface(window_manager, app_control, rollback) {
-    const dbus_interface = new dbusapi.Api({ revision });
+function create_dbus_interface(window_manager, app_control, extension, rollback) {
+    const dbus_interface = new dbusapi.Api({ revision: extension.revision });
 
     dbus_interface.connect('toggle', () => app_control.toggle());
     dbus_interface.connect('activate', () => app_control.activate());
@@ -244,7 +224,8 @@ function bind_keys(settings, app_control, rollback) {
 }
 
 class EnabledExtension {
-    constructor() {
+    constructor(extension) {
+        this.extension = extension;
         this._disable_callbacks = [];
 
         try {
@@ -295,7 +276,7 @@ class EnabledExtension {
         this.service = new Service({
             bus: Gio.DBus.session,
             bus_name: APP_ID,
-            subprocess: app_process,
+            subprocess: this.extension.app_process,
         });
 
         rollback.push(() => {
@@ -303,10 +284,10 @@ class EnabledExtension {
         });
 
         this.service.connect('activate', () => {
-            if (revision !== read_revision())
+            if (this.extension.revision !== read_revision())
                 revision_mismatch_notification.show();
 
-            return start_app_process(this.settings);
+            return this.extension.start_app_process(this.settings);
         });
 
         this.window_manager = new WindowManager({ settings: this.settings });
@@ -347,7 +328,7 @@ class EnabledExtension {
             this.settings.disconnect(skip_taskbar_handler);
         });
 
-        create_dbus_interface(this.window_manager, this.app_control, rollback);
+        create_dbus_interface(this.window_manager, this.app_control, this.extension, rollback);
         create_window_matcher(this.service, this.window_manager, rollback);
         bind_keys(this.settings, this.app_control, rollback);
         create_panel_icon(this.settings, this.window_manager, this.app_control, rollback);
@@ -369,11 +350,30 @@ class EnabledExtension {
     }
 }
 
-function enable() {
-    enabled_state = new EnabledExtension();
-}
+var Extension = class DDTermExtension {
+    constructor() {
+        this.revision = read_revision();
+        this.app_process = null;
+        this.enabled_state = null;
+        this.app_enable_heap_dump = false;
+    }
 
-function disable() {
-    enabled_state?.disable();
-    enabled_state = null;
-}
+    start_app_process(settings) {
+        this.app_process = create_subprocess(settings, this.app_enable_heap_dump);
+
+        this.app_process?.wait().then(() => {
+            this.app_process = null;
+        });
+
+        return this.app_process;
+    }
+
+    enable() {
+        this.enabled_state = new EnabledExtension(this);
+    }
+
+    disable() {
+        this.enabled_state?.disable();
+        this.enabled_state = null;
+    }
+};

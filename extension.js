@@ -25,13 +25,7 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 const impl = Me.imports.ddterm.shell.extension;
 
 function init() {
-    impl.init();
-}
+    imports.misc.extensionUtils.initTranslations();
 
-function enable() {
-    impl.enable();
-}
-
-function disable() {
-    impl.disable();
+    return new impl.Extension();
 }

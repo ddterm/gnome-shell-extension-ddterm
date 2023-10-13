@@ -19,15 +19,12 @@
 
 'use strict';
 
-/* exported init enable disable */
+/* exported init */
 
 const { GLib, GObject, Gio, Meta } = imports.gi;
 const ByteArray = imports.byteArray;
 const Main = imports.ui.main;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-
-const ddterm = imports.ui.main.extensionManager.lookup('ddterm@amezin.github.com');
-const { extension, wm } = ddterm.imports.ddterm.shell;
 
 function get_monitor_manager() {
     if (Meta.MonitorManager.get)
@@ -68,11 +65,167 @@ function disconnect_traced(obj, handler) {
 }
 
 class ExtensionTestDBusInterface {
-    constructor() {
-        let [_, xml] =
+    constructor(enabled_state) {
+        let [ok_, xml] =
             Me.dir.get_child('com.github.amezin.ddterm.ExtensionTest.xml').load_contents(null);
 
+        this.enabled_state = enabled_state;
         this.dbus = Gio.DBusExportedObject.wrapJSObject(ByteArray.toString(xml), this);
+        this.teardown = [];
+
+        const connect = (source, signal, handler) => {
+            const handler_id = source.connect(signal, handler);
+            this.teardown.push(() => disconnect_traced(source, handler_id));
+        };
+
+        connect(enabled_state.settings, 'changed', (settings, key) => {
+            this.emit_signal(
+                'SettingChanged',
+                new GLib.Variant('(sv)', [key, settings.get_value(key)])
+            );
+        });
+
+        connect(enabled_state.window_manager, 'move-resize-requested', (_, rect) => {
+            this.emit_signal(
+                'MoveResizeRequested',
+                new GLib.Variant('(iiii)', [rect.x, rect.y, rect.width, rect.height])
+            );
+        });
+
+        const rendered_windows = new Set();
+
+        const check_rendered = () => {
+            const current = enabled_state.window_manager.current_window;
+            this.set_flag('RenderedFirstFrame', current && rendered_windows.has(current));
+        };
+
+        connect(enabled_state.window_manager, 'notify::current-window', check_rendered);
+
+        connect(global.display, 'window-created', (_, win) => {
+            const actor = win.get_compositor_private();
+            const frame_handler = actor.connect('first-frame', () => {
+                rendered_windows.add(win);
+                check_rendered();
+            });
+
+            const disconnect = () => {
+                disconnect_traced(actor, frame_handler);
+                disconnect_traced(actor, destroy_handler);
+
+                const index = this.teardown.indexOf(disconnect);
+                if (index >= 0)
+                    this.teardown.splice(index, 1);
+            };
+
+            const destroy_handler = actor.connect('destroy', disconnect);
+            this.teardown.push(disconnect);
+        });
+
+        check_rendered();
+
+        const update_has_window = () => {
+            this.set_flag(
+                'HasWindow',
+                enabled_state.window_manager.current_window !== null
+            );
+        };
+        connect(enabled_state.window_manager, 'notify::current-window', update_has_window);
+        update_has_window();
+
+        const update_is_app_running = () => {
+            this.set_flag('IsAppRunning', enabled_state.service.is_registered);
+        };
+        connect(enabled_state.service, 'notify::is-registered', update_is_app_running);
+        update_is_app_running();
+
+        const current_win_subscription = [];
+        const unsubscribe_current_win = () => {
+            while (current_win_subscription.length > 0)
+                current_win_subscription.pop()();
+        };
+        this.teardown.push(unsubscribe_current_win);
+
+        connect(enabled_state.window_manager, 'notify::current-window', () => {
+            unsubscribe_current_win();
+
+            const win = enabled_state.window_manager.current_window;
+            if (!win)
+                return;
+
+            const connect_win = (signal, handler) => {
+                const handler_id = win.connect(signal, handler);
+                current_win_subscription.push(() => disconnect_traced(win, handler_id));
+            };
+
+            connect_win('position-changed', () => {
+                const rect = win.get_frame_rect();
+
+                this.emit_signal(
+                    'PositionChanged',
+                    new GLib.Variant('(iiii)', [rect.x, rect.y, rect.width, rect.height])
+                );
+            });
+
+            connect_win('size-changed', () => {
+                const rect = win.get_frame_rect();
+
+                this.emit_signal(
+                    'SizeChanged',
+                    new GLib.Variant('(iiii)', [rect.x, rect.y, rect.width, rect.height])
+                );
+            });
+
+            connect_win('notify::maximized-vertically', () => {
+                this.emit_signal(
+                    'MaximizedVertically',
+                    new GLib.Variant('(b)', [win.maximized_vertically])
+                );
+            });
+
+            connect_win('notify::maximized-horizontally', () => {
+                this.emit_signal(
+                    'MaximizedHorizontally',
+                    new GLib.Variant('(b)', [win.maximized_horizontally])
+                );
+            });
+        });
+
+        let disconnect_active_app_watch = null;
+
+        connect(global.display, 'notify::focus-window', () => {
+            disconnect_active_app_watch?.();
+
+            const focus_window = global.display.focus_window;
+
+            if (focus_window) {
+                const handler = focus_window.connect('notify::gtk-application-id', () => {
+                    this.emit_property_changed(
+                        'ActiveApp',
+                        GLib.Variant.new_string(focus_window?.gtk_application_id ?? '')
+                    );
+                });
+
+                disconnect_active_app_watch = () => {
+                    disconnect_traced(focus_window, handler);
+                    disconnect_active_app_watch = null;
+                };
+            }
+
+            this.emit_property_changed(
+                'ActiveApp',
+                GLib.Variant.new_string(focus_window?.gtk_application_id ?? '')
+            );
+        });
+
+        this.teardown.push(() => disconnect_active_app_watch?.());
+
+        this.dbus.export(Gio.DBus.session, '/org/gnome/Shell/Extensions/ddterm');
+        this.teardown.push(() => this.dbus.unexport());
+    }
+
+    disable() {
+        while (this.teardown.length > 0)
+            this.teardown.pop()();
     }
 
     set_flag(name, value) {
@@ -89,12 +242,12 @@ class ExtensionTestDBusInterface {
 
     GetSetting(key) {
         return GLib.Variant.new_tuple([
-            GLib.Variant.new_variant(extension.enabled_state.settings.get_value(key)),
+            GLib.Variant.new_variant(this.enabled_state.settings.get_value(key)),
         ]);
     }
 
     SetSetting(key, value) {
-        extension.enabled_state.settings.set_value(key, value);
+        this.enabled_state.settings.set_value(key, value);
     }
 
     SyncSettings() {
@@ -106,26 +259,26 @@ class ExtensionTestDBusInterface {
     }
 
     GetFrameRect() {
-        const rect = extension.enabled_state.window_manager.current_window.get_frame_rect();
+        const rect = this.enabled_state.window_manager.current_window.get_frame_rect();
         return [rect.x, rect.y, rect.width, rect.height];
     }
 
     GetTargetRect() {
-        const rect = extension.enabled_state.window_manager.current_target_rect;
+        const rect = this.enabled_state.window_manager.current_target_rect;
         return [rect.x, rect.y, rect.width, rect.height];
     }
 
     IsMaximizedHorizontally() {
-        return extension.enabled_state.window_manager.current_window.maximized_horizontally;
+        return this.enabled_state.window_manager.current_window.maximized_horizontally;
     }
 
     IsMaximizedVertically() {
-        return extension.enabled_state.window_manager.current_window.maximized_vertically;
+        return this.enabled_state.window_manager.current_window.maximized_vertically;
     }
 
     ToggleAsync(params, invocation) {
         handle_dbus_method_call_async(
-            () => extension.enabled_state.app_control.toggle(),
+            () => this.enabled_state.app_control.toggle(),
             params,
             invocation
         );
@@ -180,166 +333,27 @@ class ExtensionTestDBusInterface {
     }
 }
 
-const teardown = [];
+class Extension {
+    constructor() {
+        this.dbus_interface = null;
+    }
+
+    enable() {
+        const ddterm = imports.ui.main.extensionManager.lookup('ddterm@amezin.github.com');
+        const extension = ddterm.stateObj;
+
+        ddterm.imports.ddterm.shell.wm.debug = log;
+        extension.app_enable_heap_dump = true;
+
+        this.dbus_interface = new ExtensionTestDBusInterface(extension.enabled_state);
+    }
+
+    disable() {
+        this.dbus_interface?.disable();
+        this.dbus_interface = null;
+    }
+}
 
 function init() {
-    wm.debug = log;
-    extension.app_enable_heap_dump = true;
-}
-
-function enable() {
-    const dbus_interface = new ExtensionTestDBusInterface();
-
-    const connect = (source, signal, handler) => {
-        const handler_id = source.connect(signal, handler);
-        teardown.push(() => disconnect_traced(source, handler_id));
-    };
-
-    const enabled_state = extension.enabled_state;
-
-    connect(enabled_state.settings, 'changed', (settings, key) => {
-        dbus_interface.emit_signal(
-            'SettingChanged',
-            new GLib.Variant('(sv)', [key, settings.get_value(key)])
-        );
-    });
-
-    connect(enabled_state.window_manager, 'move-resize-requested', (_, rect) => {
-        dbus_interface.emit_signal(
-            'MoveResizeRequested',
-            new GLib.Variant('(iiii)', [rect.x, rect.y, rect.width, rect.height])
-        );
-    });
-
-    const rendered_windows = new Set();
-
-    const check_rendered = () => {
-        const current = enabled_state.window_manager.current_window;
-        dbus_interface.set_flag('RenderedFirstFrame', current && rendered_windows.has(current));
-    };
-
-    connect(enabled_state.window_manager, 'notify::current-window', check_rendered);
-
-    connect(global.display, 'window-created', (_, win) => {
-        const actor = win.get_compositor_private();
-        const frame_handler = actor.connect('first-frame', () => {
-            rendered_windows.add(win);
-            check_rendered();
-        });
-
-        const disconnect = () => {
-            disconnect_traced(actor, frame_handler);
-            disconnect_traced(actor, destroy_handler);
-
-            const index = teardown.indexOf(disconnect);
-            if (index >= 0)
-                teardown.splice(index, 1);
-        };
-
-        const destroy_handler = actor.connect('destroy', disconnect);
-        teardown.push(disconnect);
-    });
-
-    check_rendered();
-
-    const update_has_window = () => {
-        dbus_interface.set_flag('HasWindow', enabled_state.window_manager.current_window !== null);
-    };
-    connect(enabled_state.window_manager, 'notify::current-window', update_has_window);
-    update_has_window();
-
-    const update_is_app_running = () => {
-        dbus_interface.set_flag('IsAppRunning', enabled_state.service.is_registered);
-    };
-    connect(enabled_state.service, 'notify::is-registered', update_is_app_running);
-    update_is_app_running();
-
-    const current_win_subscription = [];
-    const unsubscribe_current_win = () => {
-        while (current_win_subscription.length > 0)
-            current_win_subscription.pop()();
-    };
-    teardown.push(unsubscribe_current_win);
-
-    connect(enabled_state.window_manager, 'notify::current-window', () => {
-        unsubscribe_current_win();
-
-        const win = enabled_state.window_manager.current_window;
-        if (!win)
-            return;
-
-        const connect_win = (signal, handler) => {
-            const handler_id = win.connect(signal, handler);
-            current_win_subscription.push(() => disconnect_traced(win, handler_id));
-        };
-
-        connect_win('position-changed', () => {
-            const rect = win.get_frame_rect();
-
-            dbus_interface.emit_signal(
-                'PositionChanged',
-                new GLib.Variant('(iiii)', [rect.x, rect.y, rect.width, rect.height])
-            );
-        });
-
-        connect_win('size-changed', () => {
-            const rect = win.get_frame_rect();
-
-            dbus_interface.emit_signal(
-                'SizeChanged',
-                new GLib.Variant('(iiii)', [rect.x, rect.y, rect.width, rect.height])
-            );
-        });
-
-        connect_win('notify::maximized-vertically', () => {
-            dbus_interface.emit_signal(
-                'MaximizedVertically',
-                new GLib.Variant('(b)', [win.maximized_vertically])
-            );
-        });
-
-        connect_win('notify::maximized-horizontally', () => {
-            dbus_interface.emit_signal(
-                'MaximizedHorizontally',
-                new GLib.Variant('(b)', [win.maximized_horizontally])
-            );
-        });
-    });
-
-    let disconnect_active_app_watch = null;
-
-    connect(global.display, 'notify::focus-window', () => {
-        disconnect_active_app_watch?.();
-
-        const focus_window = global.display.focus_window;
-
-        if (focus_window) {
-            const handler = focus_window.connect('notify::gtk-application-id', () => {
-                dbus_interface.emit_property_changed(
-                    'ActiveApp',
-                    GLib.Variant.new_string(focus_window?.gtk_application_id ?? '')
-                );
-            });
-
-            disconnect_active_app_watch = () => {
-                disconnect_traced(focus_window, handler);
-                disconnect_active_app_watch = null;
-            };
-        }
-
-        dbus_interface.emit_property_changed(
-            'ActiveApp',
-            GLib.Variant.new_string(focus_window?.gtk_application_id ?? '')
-        );
-    });
-
-    teardown.push(() => disconnect_active_app_watch?.());
-
-    dbus_interface.dbus.export(Gio.DBus.session, '/org/gnome/Shell/Extensions/ddterm');
-    teardown.push(() => dbus_interface.dbus.unexport());
-}
-
-function disable() {
-    while (teardown.length > 0)
-        teardown.pop()();
+    return new Extension();
 }
