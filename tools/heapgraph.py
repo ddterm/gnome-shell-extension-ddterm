@@ -49,6 +49,10 @@ targ_opts.add_argument('--string', '-s', dest='string_targets',
                        action='append', default=[],
                        help='Add a string literal or String() to the list of targets')
 
+targ_opts.add_argument('--annotation', '-a', dest='annotation_targets',
+                       action='append', default=[],
+                       help=f'Add a {NAME_ANNOTATION} annotation to the list of targets')
+
 ### Output Options
 out_opts = parser.add_argument_group('Output Options')
 
@@ -655,6 +659,14 @@ def target_type(graph, target):
     return targets
 
 
+def target_annotation(graph, target):
+    targets = {addr for addr, label in graph.annotations.items()
+                    if label == target}
+
+    sys.stderr.write(f'Found {len(targets)} targets with annotation "{target}"\n')
+    return targets
+
+
 def select_targets(args, edges, graph):
     targets = set()
     for target in args.targets:
@@ -675,6 +687,8 @@ def select_targets(args, edges, graph):
         targets.update(target_func(graph, target))
     for target in args.string_targets:
         targets.update(target_string(graph, target))
+    for target in args.annotation_targets:
+        targets.update(target_annotation(graph, target))
 
     return list(targets)
 
