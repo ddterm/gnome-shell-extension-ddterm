@@ -194,8 +194,40 @@ def parse_graph(fobj):
             edge_labels[source].setdefault(target, []).append(edge_label)
 
     node_addr = None
+    second_pass_lines = []
 
     for line in fobj:
+        if edge_regex.match(line):
+            second_pass_lines.append(line)
+            continue
+
+        node = node_regex.match(line)
+
+        if node:
+            second_pass_lines.append(line)
+            node_addr = node.group(1)
+            node_color = node.group(2)
+            node_label = node.group(3)
+
+            # Don't hide strings matching hide_nodes, as they may be labels
+            if string_regex.match(node_label) is not None:
+                addNode(node_addr, node_label)
+                continue
+
+            # Use this opportunity to map hide_nodes to addresses
+            for hide_node in args.hide_nodes:
+                if hide_node in node_label:
+                    args.hide_addrs.append(node_addr)
+                    break
+            else:
+                addNode(node_addr, node_label)
+        # Skip comments, arenas, realms and zones
+        elif line[0] == '#':
+            continue
+        else:
+            sys.stderr.write('Error: Unknown line: {}\n'.format(line[:-1]))
+
+    for line in second_pass_lines:
         e = edge_regex.match(line)
 
         if e:
@@ -213,26 +245,6 @@ def parse_graph(fobj):
 
             if node:
                 node_addr = node.group(1)
-                node_color = node.group(2)
-                node_label = node.group(3)
-
-                # Don't hide strings matching hide_nodes, as they may be labels
-                if string_regex.match(node_label) is not None:
-                    addNode(node_addr, node_label)
-                    continue
-
-                # Use this opportunity to map hide_nodes to addresses
-                for hide_node in args.hide_nodes:
-                    if hide_node in node_label:
-                        args.hide_addrs.append(node_addr)
-                        break
-                else:
-                    addNode(node_addr, node_label)
-            # Skip comments, arenas, realms and zones
-            elif line[0] == '#':
-                continue
-            else:
-                sys.stderr.write('Error: Unknown line: {}\n'.format(line[:-1]))
 
     # yar, should pass the root crud in and wedge it in here, or somewhere
     return [edges, edge_labels, node_labels, annotations]
