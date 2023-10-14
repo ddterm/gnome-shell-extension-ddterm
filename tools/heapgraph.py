@@ -124,7 +124,7 @@ wme_regex = re.compile(r'WeakMapEntry map=((?:0x)?[a-zA-Z0-9]+|\(nil\)) key=((?:
 
 func_regex = re.compile(r'Function(?: ([^/]+)(?:/([<|\w]+))?)?')
 priv_regex = re.compile(r'([^ ]+) (0x[a-fA-F0-9]+$)')
-atom_regex = re.compile(r'^string <atom: length (?:\d+)> (.*)\r?$')
+string_regex = re.compile(r'^(?:sub)?string <(?:dependent|(?:permanent )?atom|(?:fat )?inline|linear): length (?:\d+)> (.*)\r?$')
 
 ###############################################################################
 # Heap Parsing
@@ -201,9 +201,9 @@ def parse_graph(fobj):
         if e:
             target, edge_label = e.group(1, 3)
             if edge_label == NAME_ANNOTATION:
-                a = atom_regex.match(node_labels[target])
-                if a:
-                    annotations[node_addr] = a.group(1)
+                s = string_regex.match(node_labels[target])
+                if s:
+                    annotations[node_addr] = s.group(1)
 
             if (node_addr not in args.hide_addrs and
                     edge_label not in args.hide_edges):
@@ -216,8 +216,8 @@ def parse_graph(fobj):
                 node_color = node.group(2)
                 node_label = node.group(3)
 
-                # Don't hide atoms matching hide_nodes, as they may be labels
-                if atom_regex.match(node_label) is not None:
+                # Don't hide strings matching hide_nodes, as they may be labels
+                if string_regex.match(node_label) is not None:
                     addNode(node_addr, node_label)
                     continue
 
