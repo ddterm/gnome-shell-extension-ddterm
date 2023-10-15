@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-15 04:32+0000\n"
+"POT-Creation-Date: 2023-10-15 10:18+0000\n"
 "PO-Revision-Date: 2023-04-24 02:48+0000\n"
 "Last-Translator: Pavel Novák <pavelnov32@gmail.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/gnome-shell-"
@@ -22,8 +22,8 @@ msgstr ""
 msgid "Saving session..."
 msgstr ""
 
-#: ddterm/app/appwindow.js:160 ddterm/shell/extension.js:242
-#: ddterm/shell/extension.js:252
+#: ddterm/app/appwindow.js:160 ddterm/shell/extension.js:245
+#: ddterm/shell/extension.js:255
 msgid "Drop Down Terminal"
 msgstr "Rozbalovací Terminál"
 
@@ -1262,7 +1262,7 @@ msgstr "Panely"
 msgid "Text"
 msgstr "Text"
 
-#: ddterm/shell/extension.js:254
+#: ddterm/shell/extension.js:257
 msgid ""
 "Warning: ddterm version has changed. Log out, then log in again to load the "
 "updated extension."
