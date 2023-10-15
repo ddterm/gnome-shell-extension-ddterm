@@ -71,7 +71,7 @@ class Application extends Gtk.Application {
             0,
             GLib.OptionFlags.HIDDEN,
             GLib.OptionArg.NONE,
-            'Start the application, but do not show the window',
+            translations.gettext('Start the application, but do not show the window'),
             null
         );
 
@@ -80,7 +80,7 @@ class Application extends Gtk.Application {
             0,
             GLib.OptionFlags.HIDDEN,
             GLib.OptionArg.STRING,
-            'Comma-separated list of backends that GDK should try to use',
+            translations.gettext('Comma-separated list of backends that GDK should try to use'),
             null
         );
 
@@ -89,7 +89,7 @@ class Application extends Gtk.Application {
             0,
             GLib.OptionFlags.HIDDEN,
             GLib.OptionArg.NONE,
-            'Enable HeapDump D-Bus interface (for testing/debug)',
+            translations.gettext('Enable HeapDump D-Bus interface (for testing/debug)'),
             null
         );
 
@@ -98,7 +98,7 @@ class Application extends Gtk.Application {
             0,
             GLib.OptionFlags.NONE,
             GLib.OptionArg.NONE,
-            'Show version information and exit',
+            translations.gettext('Show version information and exit'),
             null
         );
 
@@ -107,7 +107,7 @@ class Application extends Gtk.Application {
             0,
             GLib.OptionFlags.NONE,
             GLib.OptionArg.STRING_ARRAY,
-            'Run the specified command',
+            translations.gettext('Run the specified command'),
             null
         );
 
@@ -121,7 +121,7 @@ class Application extends Gtk.Application {
             0,
             GLib.OptionFlags.NONE,
             GLib.OptionArg.NONE,
-            'Wait for the command to exit, and return its exit code',
+            translations.gettext('Wait for the command to exit, and return its exit code'),
             null
         );
 
@@ -130,7 +130,7 @@ class Application extends Gtk.Application {
             0,
             GLib.OptionFlags.NONE,
             GLib.OptionArg.STRING,
-            'Set the working directory',
+            translations.gettext('Set the working directory'),
             null
         );
 
@@ -139,7 +139,7 @@ class Application extends Gtk.Application {
             0,
             GLib.OptionFlags.NONE,
             GLib.OptionArg.STRING,
-            'Set tab title',
+            translations.gettext('Set tab title'),
             null
         );
 
@@ -148,7 +148,7 @@ class Application extends Gtk.Application {
             0,
             GLib.OptionFlags.NONE,
             GLib.OptionArg.NONE,
-            'Keep the terminal open after the command has exited',
+            translations.gettext('Keep the terminal open after the command has exited'),
             null
         );
 
@@ -157,7 +157,7 @@ class Application extends Gtk.Application {
             0,
             GLib.OptionFlags.NONE,
             GLib.OptionArg.NONE,
-            'Do not pass the environment',
+            translations.gettext('Do not pass the environment'),
             null
         );
 
@@ -166,7 +166,7 @@ class Application extends Gtk.Application {
             0,
             GLib.OptionFlags.NONE,
             GLib.OptionArg.NONE,
-            'Open a new tab',
+            translations.gettext('Open a new tab'),
             null
         );
 
