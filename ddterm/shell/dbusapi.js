@@ -19,10 +19,7 @@
 
 'use strict';
 
-const { GLib, GObject, Gio, Meta } = imports.gi;
-const ByteArray = imports.byteArray;
-
-const Me = imports.misc.extensionUtils.getCurrentExtension();
+const { GLib, GObject, Gio, Meta, Shell } = imports.gi;
 
 function report_dbus_error_async(e, invocation) {
     if (e instanceof GLib.Error) {
@@ -68,12 +65,19 @@ function meta_rect_to_variant(meta_rect) {
 
 var Api = GObject.registerClass({
     Properties: {
-        'target-rect': GObject.ParamSpec.boxed(
-            'target-rect',
+        'xml-file-path': GObject.ParamSpec.string(
+            'xml-file-path',
             '',
             '',
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
-            Meta.Rectangle
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+            null
+        ),
+        'version': GObject.ParamSpec.string(
+            'version',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+            ''
         ),
         'revision': GObject.ParamSpec.string(
             'revision',
@@ -81,6 +85,13 @@ var Api = GObject.registerClass({
             '',
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             ''
+        ),
+        'target-rect': GObject.ParamSpec.boxed(
+            'target-rect',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+            Meta.Rectangle
         ),
     },
     Signals: {
@@ -104,11 +115,10 @@ var Api = GObject.registerClass({
 
         this._target_rect = new Meta.Rectangle({ x: 0, y: 0, width: 0, height: 0 });
 
-        const xml_file =
-            Me.dir.get_child('ddterm').get_child('com.github.amezin.ddterm.Extension.xml');
-
-        const [_, xml] = xml_file.load_contents(null);
-        this.dbus = Gio.DBusExportedObject.wrapJSObject(ByteArray.toString(xml), this);
+        this.dbus = Gio.DBusExportedObject.wrapJSObject(
+            Shell.get_file_contents_utf8_sync(this.xml_file_path),
+            this
+        );
     }
 
     ToggleAsync(params, invocation) {
@@ -133,7 +143,7 @@ var Api = GObject.registerClass({
     }
 
     get Version() {
-        return `${Me.metadata.version}`;
+        return this.version;
     }
 
     get Revision() {

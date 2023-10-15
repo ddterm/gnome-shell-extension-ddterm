@@ -85,7 +85,11 @@ function create_window_matcher(service, window_manager, rollback) {
 }
 
 function create_dbus_interface(window_manager, app_control, extension, rollback) {
-    const dbus_interface = new dbusapi.Api({ revision: extension.revision });
+    const dbus_interface = new dbusapi.Api({
+        xml_file_path: extension.dbus_xml_file_path,
+        version: `${Me.metadata.version}`,
+        revision: extension.revision,
+    });
 
     dbus_interface.connect('toggle', () => app_control.toggle());
     dbus_interface.connect('activate', () => app_control.activate());
@@ -336,6 +340,9 @@ class EnabledExtension {
 var Extension = class DDTermExtension {
     constructor() {
         this.launcher_path = GLib.build_filenamev([Me.path, 'bin', APP_ID]);
+        this.dbus_xml_file_path = GLib.build_filenamev(
+            [Me.path, 'ddterm', 'com.github.amezin.ddterm.Extension.xml']
+        );
         this.revision_file_path = GLib.build_filenamev([Me.path, 'revision.txt']);
         this.revision = this.read_revision();
 
