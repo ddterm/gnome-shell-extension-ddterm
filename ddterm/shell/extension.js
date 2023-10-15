@@ -22,7 +22,6 @@
 /* exported Extension */
 
 const { GLib, GObject, Gio, Meta, Shell } = imports.gi;
-const ByteArray = imports.byteArray;
 const Main = imports.ui.main;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
@@ -38,19 +37,6 @@ const APP_ID = 'com.github.amezin.ddterm';
 const APP_WMCLASS = 'Com.github.amezin.ddterm';
 const APP_DBUS_PATH = '/com/github/amezin/ddterm';
 const WINDOW_PATH_PREFIX = `${APP_DBUS_PATH}/window/`;
-
-function read_revision() {
-    try {
-        const [ok_, data] = Me.dir.get_child('revision.txt').load_contents(null);
-        return ByteArray.toString(data).trim();
-    } catch (ex) {
-        if (ex instanceof GLib.Error &&
-            ex.matches(Gio.io_error_quark(), Gio.IOErrorEnum.NOT_FOUND))
-            return null;
-
-        throw ex;
-    }
-}
 
 function create_subprocess(launcher, settings, app_enable_heap_dump) {
     const argv = [launcher, '--gapplication-service'];
@@ -281,7 +267,7 @@ class EnabledExtension {
         });
 
         this.service.connect('activate', () => {
-            if (this.extension.revision !== read_revision())
+            if (!this.extension.check_revision_match())
                 revision_mismatch_notification.show();
 
             return this.extension.start_app_process(this.settings);
@@ -350,10 +336,20 @@ class EnabledExtension {
 var Extension = class DDTermExtension {
     constructor() {
         this.launcher_path = GLib.build_filenamev([Me.path, 'bin', APP_ID]);
-        this.revision = read_revision();
+        this.revision_file_path = GLib.build_filenamev([Me.path, 'revision.txt']);
+        this.revision = this.read_revision();
+
         this.app_process = null;
         this.enabled_state = null;
         this.app_enable_heap_dump = false;
+    }
+
+    read_revision() {
+        return Shell.get_file_contents_utf8_sync(this.revision_file_path).trim();
+    }
+
+    check_revision_match() {
+        return this.revision === this.read_revision();
     }
 
     start_app_process(settings) {
