@@ -28,6 +28,10 @@ Currently, extension code consists of multiple modules:
 
 * [`dbusapi.js`](/ddterm/shell/dbusapi.js): D-Bus API skeleton
 
+* [`appcontrol.js`](/ddterm/shell/appcontrol.js): high-level actions:
+show/activate the application, hide, show preferences. Interacts with the
+application through applications' exported `GAction`s.
+
 * [`service.js`](/ddterm/shell/service.js): starts ddterm application as a
 D-Bus service, if necessary
 
@@ -49,6 +53,8 @@ There are also utility modules:
 * [`connectionset.js`](/ddterm/shell/connectionset.js): semi-automatic signal disconnection
 
 * [`sd_journal.js`](/ddterm/shell/sd_journal.js): connection to systemd-journald
+
+* [`notifications.js`](/ddterm/shell/notifications.js): convenient notifications
 
 Extension code doesn't (and shouldn't) use any third party (npm) libraries.
 
