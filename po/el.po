@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-15 10:18+0000\n"
+"POT-Creation-Date: 2023-10-15 14:25+0000\n"
 "PO-Revision-Date: 2023-09-26 17:35+0300\n"
 "Last-Translator: Anagnostakis Ioannis <rizitis@gmail.com>\n"
 "Language-Team: Greek, Modern (1453-) <>\n"
@@ -16,6 +16,54 @@ msgstr ""
 "X-Generator: Gtranslator 42.0\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-Basepath: .\n"
+
+#: ddterm/app/application.js:74
+msgid "Start the application, but do not show the window"
+msgstr ""
+
+#: ddterm/app/application.js:83
+msgid "Comma-separated list of backends that GDK should try to use"
+msgstr ""
+
+#: ddterm/app/application.js:92
+msgid "Enable HeapDump D-Bus interface (for testing/debug)"
+msgstr ""
+
+#: ddterm/app/application.js:101
+msgid "Show version information and exit"
+msgstr ""
+
+#: ddterm/app/application.js:110
+msgid "Run the specified command"
+msgstr ""
+
+#: ddterm/app/application.js:124
+msgid "Wait for the command to exit, and return its exit code"
+msgstr ""
+
+#: ddterm/app/application.js:133
+#, fuzzy
+#| msgid "Preserve working directory"
+msgid "Set the working directory"
+msgstr "Διατήρηση του καταλόγου εργασίας"
+
+#: ddterm/app/application.js:142
+#, fuzzy
+#| msgid "Set Custom Tab Title"
+msgid "Set tab title"
+msgstr "Παραμετροποίση τίτλου καρτέλας"
+
+#: ddterm/app/application.js:151
+msgid "Keep the terminal open after the command has exited"
+msgstr ""
+
+#: ddterm/app/application.js:160
+msgid "Do not pass the environment"
+msgstr ""
+
+#: ddterm/app/application.js:169
+msgid "Open a new tab"
+msgstr ""
 
 #: ddterm/app/application.js:344
 msgid "Saving session..."
