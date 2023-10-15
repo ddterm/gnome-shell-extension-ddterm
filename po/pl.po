@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the ddterm package.
 # Michał Olejniczak <blind.x6@gmail.com>, 2023.
 # Eryk Michalak <gnu.ewm@protonmail.com>, 2023.
+# Defender94 <defender94.business@gmail.com>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-10-15 14:25+0000\n"
-"PO-Revision-Date: 2023-10-10 04:03+0000\n"
-"Last-Translator: Eryk Michalak <gnu.ewm@protonmail.com>\n"
-"Language-Team: Polish <https://hosted.weblate.org/projects/gnome-shell-"
-"extension-ddterm/extension/pl/>\n"
+"PO-Revision-Date: 2023-10-15 19:58+0000\n"
+"Last-Translator: Defender94 <defender94.business@gmail.com>\n"
+"Language-Team: Polish <https://hosted.weblate.org/projects/"
+"gnome-shell-extension-ddterm/extension/pl/>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,7 +23,7 @@ msgstr ""
 
 #: ddterm/app/application.js:74
 msgid "Start the application, but do not show the window"
-msgstr ""
+msgstr "Uruchom aplikację, ale nie pokazuj okna"
 
 #: ddterm/app/application.js:83
 msgid "Comma-separated list of backends that GDK should try to use"
@@ -34,37 +35,35 @@ msgstr ""
 
 #: ddterm/app/application.js:101
 msgid "Show version information and exit"
-msgstr ""
+msgstr "Pokaż numer wersji i wyjdź"
 
 #: ddterm/app/application.js:110
 msgid "Run the specified command"
-msgstr ""
+msgstr "Uruchom polecenie"
 
 #: ddterm/app/application.js:124
 msgid "Wait for the command to exit, and return its exit code"
-msgstr ""
+msgstr "Poczekaj no wykonanie polecenia i zwróć wynik jego działania"
 
 #: ddterm/app/application.js:133
 msgid "Set the working directory"
-msgstr ""
+msgstr "Zmień aktualny folder"
 
 #: ddterm/app/application.js:142
-#, fuzzy
-#| msgid "Use Custom Tab Title"
 msgid "Set tab title"
-msgstr "Użyj własnego tytułu karty"
+msgstr "Ustaw inny tytuł karty"
 
 #: ddterm/app/application.js:151
 msgid "Keep the terminal open after the command has exited"
-msgstr ""
+msgstr "Nie zamykaj konsoli po wykonaniu polecenia"
 
 #: ddterm/app/application.js:160
 msgid "Do not pass the environment"
-msgstr ""
+msgstr "Nie przekazuj zmiennych środowiskowych"
 
 #: ddterm/app/application.js:169
 msgid "Open a new tab"
-msgstr ""
+msgstr "Otwórz nową kartę"
 
 #: ddterm/app/application.js:344
 msgid "Saving session..."
@@ -197,7 +196,7 @@ msgstr "Podział pionowy"
 
 #: ddterm/app/menus.ui:144 ddterm/app/menus.ui:281
 msgid "Move Tab to Other Pane"
-msgstr ""
+msgstr "Przesuń kartę na drugi widok"
 
 #: ddterm/app/menus.ui:151 ddterm/pref/dialog.js:43
 msgid "Preferences"
@@ -233,11 +232,11 @@ msgstr "Ukryj po naciśnięciu klawisza Esc"
 
 #: ddterm/app/menus.ui:188
 msgid "Scroll On Output"
-msgstr ""
+msgstr "Przesuwaj na wyjściu"
 
 #: ddterm/app/menus.ui:192
 msgid "Scroll On Keystroke"
-msgstr ""
+msgstr "Przesuwaj po wciśnięciu klawisza"
 
 #: ddterm/app/menus.ui:198
 msgid "Preserve Working Directory In New Tabs"
@@ -317,11 +316,11 @@ msgstr "Zamknij terminal"
 
 #: ddterm/app/terminalpage.js:464
 msgid "The child process exited with status:"
-msgstr ""
+msgstr "Otwarty proces zakończył się ze statusem:"
 
 #: ddterm/app/terminalpage.js:474
 msgid "The child process was aborted by signal:"
-msgstr ""
+msgstr "Otwarty proces został zakończony sygnałem:"
 
 #: ddterm/app/terminalpage.js:608
 msgid "Close this terminal?"
@@ -332,6 +331,8 @@ msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."
 msgstr ""
+"W tej konsoli wciąż wykonuje się polecenie. Zamknięcie konsoli spowoduje "
+"zakończenie procesu."
 
 #: ddterm/pref/adw.js:42
 msgid "Window"
@@ -1268,7 +1269,7 @@ msgstr "Ikona panelu"
 
 #: ddterm/pref/positionsize.js:75
 msgid "Position and Size"
-msgstr ""
+msgstr "Pozycja i rozmiar"
 
 #: ddterm/pref/scrolling.js:71
 msgid "Scrolling"
