@@ -24,8 +24,8 @@
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const impl = Me.imports.ddterm.shell.extension;
 
-function init() {
+function init(meta) {
     imports.misc.extensionUtils.initTranslations();
 
-    return new impl.Extension();
+    return new impl.Extension(meta);
 }

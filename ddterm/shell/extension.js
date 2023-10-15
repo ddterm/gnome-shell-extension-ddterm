@@ -87,7 +87,7 @@ function create_window_matcher(service, window_manager, rollback) {
 function create_dbus_interface(window_manager, app_control, extension, rollback) {
     const dbus_interface = new dbusapi.Api({
         xml_file_path: extension.dbus_xml_file_path,
-        version: `${Me.metadata.version}`,
+        version: `${extension.metadata.version}`,
         revision: extension.revision,
     });
 
@@ -154,8 +154,8 @@ function create_panel_icon(settings, window_manager, app_control, rollback) {
     return panel_icon;
 }
 
-function install(launcher, rollback) {
-    const installer = new Installer(Me.dir.get_child('ddterm'), launcher);
+function install(src_dir, launcher, rollback) {
+    const installer = new Installer(src_dir, launcher);
     installer.install();
 
     if (GObject.signal_lookup('shutdown', Shell.Global)) {
@@ -319,7 +319,7 @@ class EnabledExtension {
         create_window_matcher(this.service, this.window_manager, rollback);
         bind_keys(this.settings, this.app_control, rollback);
         create_panel_icon(this.settings, this.window_manager, this.app_control, rollback);
-        install(this.extension.launcher_path, rollback);
+        install(this.extension.install_src_dir, this.extension.launcher_path, rollback);
     }
 
     _set_skip_taskbar() {
@@ -338,12 +338,19 @@ class EnabledExtension {
 }
 
 var Extension = class DDTermExtension {
-    constructor() {
-        this.launcher_path = GLib.build_filenamev([Me.path, 'bin', APP_ID]);
+    constructor(meta) {
+        this.uuid = meta.uuid;
+        this.dir = meta.dir;
+        this.path = meta.path;
+        this.metadata = meta.metadata;
+
+        this.install_src_dir = GLib.build_filenamev([this.path, 'ddterm']);
+        this.launcher_path = GLib.build_filenamev([this.path, 'bin', APP_ID]);
         this.dbus_xml_file_path = GLib.build_filenamev(
-            [Me.path, 'ddterm', 'com.github.amezin.ddterm.Extension.xml']
+            [this.path, 'ddterm', 'com.github.amezin.ddterm.Extension.xml']
         );
-        this.revision_file_path = GLib.build_filenamev([Me.path, 'revision.txt']);
+
+        this.revision_file_path = GLib.build_filenamev([this.path, 'revision.txt']);
         this.revision = this.read_revision();
 
         this.app_process = null;
