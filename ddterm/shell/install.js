@@ -22,6 +22,13 @@
 const { GLib, Gio } = imports.gi;
 const ByteArray = imports.byteArray;
 
+function arrays_equal(a, b) {
+    if (a.length !== b.length)
+        return false;
+
+    return a.every((v, i) => v === b[i]);
+}
+
 class File {
     constructor(source_file, target_file, fallback_files = []) {
         const [ok_, content_bytes] = GLib.file_get_contents(source_file);
@@ -55,9 +62,7 @@ class File {
         const new_content = ByteArray.fromString(this.content);
         const existing_content = this.get_existing_content();
 
-        if (existing_content &&
-            existing_content.length === new_content.length &&
-            existing_content.every((v, i) => v === new_content[i]))
+        if (existing_content && arrays_equal(existing_content, new_content))
             return false;
 
         GLib.mkdir_with_parents(
