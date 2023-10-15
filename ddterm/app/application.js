@@ -350,19 +350,17 @@ class Application extends Gtk.Application {
             this.resources.get_file('ddterm/app/icons').get_path()
         );
 
-        const session_file_path = GLib.build_filenamev([
+        this.session_file_path = GLib.build_filenamev([
             GLib.get_user_cache_dir(),
             this.application_id,
             'session',
         ]);
 
-        this.session_file = Gio.File.new_for_path(session_file_path);
-
         try {
             this.restore_session();
         } catch (ex) {
             if (!(ex instanceof GLib.Error &&
-                ex.matches(Gio.io_error_quark(), Gio.IOErrorEnum.NOT_FOUND)))
+                ex.matches(GLib.file_error_quark(), GLib.FileError.NOENT)))
                 logError(ex, "Can't restore session");
         }
 
@@ -643,7 +641,7 @@ class Application extends Gtk.Application {
     }
 
     restore_session() {
-        const [ok_, data] = this.session_file.load_contents(null);
+        const [ok_, data] = GLib.file_get_contents(this.session_file_path);
 
         if (data?.length) {
             const data_variant = GLib.Variant.new_from_bytes(
@@ -655,20 +653,20 @@ class Application extends Gtk.Application {
             this.ensure_window().deserialize_state(data_variant);
         }
 
-        this.session_file.delete(null);
+        GLib.unlink(this.session_file_path);
     }
 
     save_session() {
         const data = this.window?.serialize_state();
+        const bytes = data?.get_data_as_bytes().toArray() ?? [];
 
-        GLib.mkdir_with_parents(this.session_file.get_parent().get_path(), 0o700);
+        GLib.mkdir_with_parents(GLib.path_get_dirname(this.session_file_path), 0o700);
 
-        this.session_file.replace_contents(
-            data?.get_data_as_bytes().toArray() ?? [],
-            null,
-            false,
-            Gio.FileCreateFlags.PRIVATE | Gio.FileCreateFlags.REPLACE_DESTINATION,
-            null
+        GLib.file_set_contents_full(
+            this.session_file_path,
+            bytes,
+            GLib.FileSetContentsFlags.CONSISTENT | GLib.FileSetContentsFlags.DURABLE,
+            0o600
         );
     }
 });
