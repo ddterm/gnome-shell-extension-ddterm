@@ -1,6 +1,20 @@
+import enum
+
 from gi.repository import GLib
 
 from . import dbus_util, glib_util
+
+
+# https://gitlab.gnome.org/GNOME/gnome-shell/-/blob/main/js/misc/extensionUtils.js
+class ExtensionState(enum.IntEnum):
+    ENABLED = 1
+    DISABLED = 2
+    ERROR = 3
+    OUT_OF_DATE = 4
+    DOWNLOADING = 5
+    INITIALIZED = 6
+    DISABLING = 7
+    ENABLING = 8
 
 
 class GnomeShellDBusApi:
@@ -53,13 +67,32 @@ class GnomeShellDBusApi:
                     timeout=max(0, deadline - GLib.get_monotonic_time() // 1000)
                 )
 
-                if info:
+                state = info.get('state') if info else None
+
+                if state not in [None, ExtensionState.ENABLING, ExtensionState.INITIALIZED]:
                     break
 
                 g_signal.wait()
 
-        assert info['error'] == ''
-        assert info['state'] == 1
+        errors = self.extensions_interface.GetExtensionErrors(
+            '(s)',
+            uuid,
+            timeout=max(0, deadline - GLib.get_monotonic_time() // 1000)
+        )
+
+        if errors:
+            errors = "\n\n".join(errors)
+            raise Exception(f'Errors when enabling extension {uuid!r}: {errors}')
+
+        error = info['error']
+
+        if error:
+            raise Exception(f'Error when enabling extension {uuid!r}: {error}')
+
+        state = ExtensionState(info['state'])
+
+        if state != ExtensionState.ENABLED:
+            raise Exception(f'Invalid extension {uuid!r} state {state!r}')
 
         return info
 
