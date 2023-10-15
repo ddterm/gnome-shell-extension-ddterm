@@ -177,6 +177,10 @@ var TerminalCommand = GObject.registerClass({
         return result;
     }
 
+    get title() {
+        return this.argv[this.file_and_argv_zero ? 1 : 0];
+    }
+
     static shell(working_directory = null, envv = null, login = false) {
         const shell = Vte.get_user_shell();
         const name = GLib.path_get_basename(shell);

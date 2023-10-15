@@ -482,7 +482,7 @@ var TerminalPage = GObject.registerClass({
 
     spawn(callback = null, timeout = -1) {
         if (!this.use_custom_title)
-            this.title = this.command.argv[0];
+            this.title = this.command.title;
 
         const callback_wrapper = (...args) => {
             const [terminal_, pid_, error] = args;
