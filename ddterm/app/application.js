@@ -654,6 +654,8 @@ class Application extends Gtk.Application {
 
             this.ensure_window().deserialize_state(data_variant);
         }
+
+        this.session_file.delete(null);
     }
 
     save_session() {
