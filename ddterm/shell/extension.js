@@ -22,11 +22,11 @@
 /* exported Extension */
 
 const { GLib, GObject, Gio, Meta, Shell } = imports.gi;
+const Gettext = imports.gettext;
 const Main = imports.ui.main;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const { appcontrol, dbusapi, notifications, subprocess } = Me.imports.ddterm.shell;
-const { translations } = Me.imports.ddterm.util;
 const { Installer } = Me.imports.ddterm.shell.install;
 const { PanelIconProxy } = Me.imports.ddterm.shell.panelicon;
 const { Service } = Me.imports.ddterm.shell.service;
@@ -120,8 +120,8 @@ function create_dbus_interface(window_manager, app_control, extension, rollback)
     return dbus_interface;
 }
 
-function create_panel_icon(settings, window_manager, app_control, rollback) {
-    const panel_icon = new PanelIconProxy();
+function create_panel_icon(settings, window_manager, app_control, gettext_context, rollback) {
+    const panel_icon = new PanelIconProxy({ gettext_context });
 
     rollback.push(() => {
         panel_icon.remove();
@@ -239,7 +239,7 @@ class EnabledExtension {
         this.settings = imports.misc.extensionUtils.getSettings();
 
         const notification_source = new notifications.SharedSource(
-            translations.gettext('Drop Down Terminal'),
+            this.extension.gettext('Drop Down Terminal'),
             'utilities-terminal'
         );
 
@@ -249,8 +249,8 @@ class EnabledExtension {
 
         const revision_mismatch_notification = new notifications.SharedNotification(
             notification_source,
-            translations.gettext('Drop Down Terminal'),
-            translations.gettext(
+            this.extension.gettext('Drop Down Terminal'),
+            this.extension.gettext(
                 'Warning: ddterm version has changed. ' +
                 'Log out, then log in again to load the updated extension.'
             )
@@ -315,11 +315,38 @@ class EnabledExtension {
             this.settings.disconnect(skip_taskbar_handler);
         });
 
-        create_dbus_interface(this.window_manager, this.app_control, this.extension, rollback);
-        create_window_matcher(this.service, this.window_manager, rollback);
-        bind_keys(this.settings, this.app_control, rollback);
-        create_panel_icon(this.settings, this.window_manager, this.app_control, rollback);
-        install(this.extension.install_src_dir, this.extension.launcher_path, rollback);
+        create_dbus_interface(
+            this.window_manager,
+            this.app_control,
+            this.extension,
+            rollback
+        );
+
+        create_window_matcher(
+            this.service,
+            this.window_manager,
+            rollback
+        );
+
+        bind_keys(
+            this.settings,
+            this.app_control,
+            rollback
+        );
+
+        create_panel_icon(
+            this.settings,
+            this.window_manager,
+            this.app_control,
+            this.extension,
+            rollback
+        );
+
+        install(
+            this.extension.install_src_dir,
+            this.extension.launcher_path,
+            rollback
+        );
     }
 
     _set_skip_taskbar() {
@@ -343,6 +370,8 @@ var Extension = class DDTermExtension {
         this.dir = meta.dir;
         this.path = meta.path;
         this.metadata = meta.metadata;
+
+        Object.assign(this, Gettext.domain(this.metadata['gettext-domain'] ?? this.uuid));
 
         this.install_src_dir = GLib.build_filenamev([this.path, 'ddterm']);
         this.launcher_path = GLib.build_filenamev([this.path, 'bin', APP_ID]);

@@ -26,9 +26,6 @@ const Main = imports.ui.main;
 const PanelMenu = imports.ui.panelMenu;
 const PopupMenu = imports.ui.popupMenu;
 
-const Me = imports.misc.extensionUtils.getCurrentExtension();
-const { translations } = Me.imports.ddterm.util;
-
 const PanelIconBase = GObject.registerClass({
     Properties: {
         'active': GObject.ParamSpec.boolean(
@@ -60,11 +57,11 @@ const PanelIconBase = GObject.registerClass({
 
 const PanelIconPopupMenu = GObject.registerClass({
 }, class DDTermPanelIconPopupMenu extends PanelIconBase {
-    _init() {
+    _init(gettext_context) {
         super._init(false);
 
         this.toggle_item = new PopupMenu.PopupSwitchMenuItem(
-            translations.gettext('Show'),
+            gettext_context.gettext('Show'),
             false
         );
         this.menu.addMenuItem(this.toggle_item);
@@ -76,7 +73,7 @@ const PanelIconPopupMenu = GObject.registerClass({
         });
 
         this.preferences_item = new PopupMenu.PopupMenuItem(
-            translations.gettext('Preferences...')
+            gettext_context.gettext('Preferences...')
         );
         this.menu.addMenuItem(this.preferences_item);
         this.preferences_item.connect('activate', () => {
@@ -200,6 +197,12 @@ var PanelIconProxy = GObject.registerClass({
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             'none'
         ),
+        'gettext-context': GObject.ParamSpec.jsobject(
+            'gettext-context',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY
+        ),
     },
     Signals: {
         'toggle': {
@@ -242,7 +245,7 @@ var PanelIconProxy = GObject.registerClass({
             if (!type_resolved)
                 return;
 
-            this.icon = new type_resolved();
+            this.icon = new type_resolved(this.gettext_context);
             Main.panel.addToStatusArea('ddterm', this.icon);
 
             this.bind_property(
