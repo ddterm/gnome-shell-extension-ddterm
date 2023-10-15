@@ -22,8 +22,6 @@
 const { GLib, GObject, Gio } = imports.gi;
 const ByteArray = imports.byteArray;
 
-const Me = imports.misc.extensionUtils.getCurrentExtension();
-
 function to_gio_file(file_or_path) {
     // `<string> instanceof Gio.File` causes a crash!
     if (file_or_path instanceof GObject.Object && file_or_path instanceof Gio.File)
@@ -105,15 +103,17 @@ function dbus_service_path(basedir) {
 }
 
 var Installer = class Installer {
-    constructor() {
+    constructor(src_dir, launcher_path) {
+        src_dir = to_gio_file(src_dir);
+
         const configure_vars = {
-            LAUNCHER: Me.dir.get_child('bin').get_child('com.github.amezin.ddterm').get_path(),
+            LAUNCHER: to_gio_file(launcher_path).get_path(),
         };
 
         const system_data_dirs = GLib.get_system_data_dirs();
 
         this.desktop_entry = new File(
-            Me.dir.get_child('ddterm').get_child('com.github.amezin.ddterm.desktop.in'),
+            src_dir.get_child('com.github.amezin.ddterm.desktop.in'),
             desktop_entry_path(GLib.get_user_data_dir()),
             system_data_dirs.map(desktop_entry_path)
         );
@@ -121,7 +121,7 @@ var Installer = class Installer {
         this.desktop_entry.configure(configure_vars);
 
         this.dbus_service = new File(
-            Me.dir.get_child('ddterm').get_child('com.github.amezin.ddterm.service.in'),
+            src_dir.get_child('com.github.amezin.ddterm.service.in'),
             dbus_service_path(GLib.get_user_runtime_dir()),
             system_data_dirs.map(dbus_service_path)
         );

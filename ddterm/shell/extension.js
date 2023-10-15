@@ -52,11 +52,8 @@ function read_revision() {
     }
 }
 
-function create_subprocess(settings, app_enable_heap_dump) {
-    const argv = [
-        Me.dir.get_child('bin').get_child(APP_ID).get_path(),
-        '--gapplication-service',
-    ];
+function create_subprocess(launcher, settings, app_enable_heap_dump) {
+    const argv = [launcher, '--gapplication-service'];
 
     if (app_enable_heap_dump)
         argv.push('--allow-heap-dump');
@@ -167,8 +164,8 @@ function create_panel_icon(settings, window_manager, app_control, rollback) {
     return panel_icon;
 }
 
-function install(rollback) {
-    const installer = new Installer();
+function install(launcher, rollback) {
+    const installer = new Installer(Me.dir.get_child('ddterm'), launcher);
     installer.install();
 
     if (GObject.signal_lookup('shutdown', Shell.Global)) {
@@ -332,7 +329,7 @@ class EnabledExtension {
         create_window_matcher(this.service, this.window_manager, rollback);
         bind_keys(this.settings, this.app_control, rollback);
         create_panel_icon(this.settings, this.window_manager, this.app_control, rollback);
-        install(rollback);
+        install(this.extension.launcher_path, rollback);
     }
 
     _set_skip_taskbar() {
@@ -352,6 +349,7 @@ class EnabledExtension {
 
 var Extension = class DDTermExtension {
     constructor() {
+        this.launcher_path = GLib.build_filenamev([Me.path, 'bin', APP_ID]);
         this.revision = read_revision();
         this.app_process = null;
         this.enabled_state = null;
@@ -359,7 +357,11 @@ var Extension = class DDTermExtension {
     }
 
     start_app_process(settings) {
-        this.app_process = create_subprocess(settings, this.app_enable_heap_dump);
+        this.app_process = create_subprocess(
+            this.launcher_path,
+            settings,
+            this.app_enable_heap_dump
+        );
 
         this.app_process?.wait().then(() => {
             this.app_process = null;
