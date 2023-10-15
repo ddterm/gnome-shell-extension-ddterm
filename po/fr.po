@@ -46,13 +46,11 @@ msgstr ""
 
 #: ddterm/app/application.js:133
 #, fuzzy
-#| msgid "Preserve working directory"
 msgid "Set the working directory"
 msgstr "Préserver le répertoire de travail"
 
 #: ddterm/app/application.js:142
 #, fuzzy
-#| msgid "Set Custom Tab Title"
 msgid "Set tab title"
 msgstr "Définir un titre d'onglet personnalisé"
 
@@ -181,25 +179,24 @@ msgstr "Nouvel onglet après le dernier"
 
 #: ddterm/app/menus.ui:124 ddterm/app/menus.ui:261
 msgid "Layout"
-msgstr ""
+msgstr "Disposition"
 
 #: ddterm/app/menus.ui:127 ddterm/app/menus.ui:264 ddterm/app/menus.ui:294
 msgid "No Split"
-msgstr ""
+msgstr "Pas de division"
 
 #: ddterm/app/menus.ui:132 ddterm/app/menus.ui:269 ddterm/app/menus.ui:299
 #: ddterm/pref/glade/prefs-shortcuts.ui:227
 msgid "Split Horizontally"
-msgstr ""
+msgstr "Diviser horizontalement"
 
 #: ddterm/app/menus.ui:137 ddterm/app/menus.ui:274 ddterm/app/menus.ui:304
 #: ddterm/pref/glade/prefs-shortcuts.ui:234
 msgid "Split Vertically"
-msgstr ""
+msgstr "Diviser verticalement"
 
 #: ddterm/app/menus.ui:144 ddterm/app/menus.ui:281
 #, fuzzy
-#| msgid "Move Tab to Next Position"
 msgid "Move Tab to Other Pane"
 msgstr "Déplacer l'onglet vers la position suivante"
 
@@ -313,13 +310,11 @@ msgstr "Rechercher le précédent"
 
 #: ddterm/app/terminalpage.js:440
 #, fuzzy
-#| msgid "Start"
 msgid "Restart"
 msgstr "Début"
 
 #: ddterm/app/terminalpage.js:441 ddterm/app/terminalpage.js:616
 #, fuzzy
-#| msgid "Close this terminal?"
 msgid "Close Terminal"
 msgstr "Fermer ce terminal ?"
 
@@ -1004,13 +999,11 @@ msgstr "Agrandir/réduire la fenêtre"
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:87
 #, fuzzy
-#| msgid "Increase Window Height"
 msgid "Increase Window Size"
 msgstr "Augmenter la hauteur de fenêtre"
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:94
 #, fuzzy
-#| msgid "Decrease Window Height"
 msgid "Decrease Window Size"
 msgstr "Diminuer la hauteur de fenêtre"
 
@@ -1052,7 +1045,6 @@ msgstr "Basculer vers l'onglet suivant"
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:241
 #, fuzzy
-#| msgid "Move Tab to Next Position"
 msgid "Move Tab to Other Split Pane"
 msgstr "Déplacer l'onglet vers la position suivante"
 
@@ -1134,7 +1126,6 @@ msgstr "Raccourci"
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:528
 #, fuzzy
-#| msgid "_Reset to default"
 msgid "Reset All Shortcuts to Defaults"
 msgstr "Réinitialiser aux valeurs par défaut"
 
