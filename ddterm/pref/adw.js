@@ -25,7 +25,7 @@ const { GObject, Gio, Adw } = imports.gi;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const { translations } = Me.imports.ddterm.util;
 
-var WindowPage = GObject.registerClass({
+const Page = GObject.registerClass({
     Properties: {
         'settings': GObject.ParamSpec.object(
             'settings',
@@ -35,7 +35,21 @@ var WindowPage = GObject.registerClass({
             Gio.Settings
         ),
     },
-}, class WindowPage extends Adw.PreferencesPage {
+}, class DDTermPrefsPage extends Adw.PreferencesPage {
+    add_widget(widget_type) {
+        const widget = new widget_type({ settings: this.settings });
+
+        const group = new Adw.PreferencesGroup({
+            title: widget.title,
+        });
+
+        group.add(widget);
+        this.add(group);
+    }
+});
+
+var WindowPage = GObject.registerClass({
+}, class DDTermWindowPrefsPage extends Page {
     _init(params) {
         super._init({
             name: 'window',
@@ -44,37 +58,17 @@ var WindowPage = GObject.registerClass({
             ...params,
         });
 
-        const widget_types = [
+        [
             Me.imports.ddterm.pref.positionsize.Widget,
             Me.imports.ddterm.pref.behavior.Widget,
             Me.imports.ddterm.pref.animation.Widget,
             Me.imports.ddterm.pref.tabs.Widget,
-        ];
-
-        for (const widget_type of widget_types) {
-            const widget = new widget_type({ settings: this.settings });
-
-            const group = new Adw.PreferencesGroup({
-                title: widget.title,
-            });
-
-            group.add(widget);
-            this.add(group);
-        }
+        ].forEach(widget_type => this.add_widget(widget_type));
     }
 });
 
 var TerminalPage = GObject.registerClass({
-    Properties: {
-        'settings': GObject.ParamSpec.object(
-            'settings',
-            '',
-            '',
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-            Gio.Settings
-        ),
-    },
-}, class TerminalPage extends Adw.PreferencesPage {
+}, class DDTermTerminalPrefsPage extends Page {
     _init(params) {
         super._init({
             name: 'terminal',
@@ -83,38 +77,18 @@ var TerminalPage = GObject.registerClass({
             ...params,
         });
 
-        const widget_types = [
+        [
             Me.imports.ddterm.pref.text.Widget,
             Me.imports.ddterm.pref.colors.Widget,
             Me.imports.ddterm.pref.command.Widget,
             Me.imports.ddterm.pref.scrolling.Widget,
             Me.imports.ddterm.pref.compatibility.Widget,
-        ];
-
-        for (const widget_type of widget_types) {
-            const widget = new widget_type({ settings: this.settings });
-
-            const group = new Adw.PreferencesGroup({
-                title: widget.title,
-            });
-
-            group.add(widget);
-            this.add(group);
-        }
+        ].forEach(widget_type => this.add_widget(widget_type));
     }
 });
 
 var ShortcutsPage = GObject.registerClass({
-    Properties: {
-        'settings': GObject.ParamSpec.object(
-            'settings',
-            '',
-            '',
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-            Gio.Settings
-        ),
-    },
-}, class ShortcutsPage extends Adw.PreferencesPage {
+}, class DDTermShortcutsPrefsPage extends Page {
     _init(params) {
         super._init({
             name: 'shortcuts',
@@ -123,29 +97,12 @@ var ShortcutsPage = GObject.registerClass({
             ...params,
         });
 
-        const widget =
-            new Me.imports.ddterm.pref.shortcuts.Widget({ settings: this.settings });
-
-        const group = new Adw.PreferencesGroup({
-            title: widget.title,
-        });
-
-        group.add(widget);
-        this.add(group);
+        this.add_widget(Me.imports.ddterm.pref.shortcuts.Widget);
     }
 });
 
 var MiscPage = GObject.registerClass({
-    Properties: {
-        'settings': GObject.ParamSpec.object(
-            'settings',
-            '',
-            '',
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-            Gio.Settings
-        ),
-    },
-}, class MiscPage extends Adw.PreferencesPage {
+}, class DDTermMiscPrefsPage extends Page {
     _init(params) {
         super._init({
             name: 'misc',
@@ -154,14 +111,6 @@ var MiscPage = GObject.registerClass({
             ...params,
         });
 
-        const widget =
-            new Me.imports.ddterm.pref.panelicon.Widget({ settings: this.settings });
-
-        const group = new Adw.PreferencesGroup({
-            title: widget.title,
-        });
-
-        group.add(widget);
-        this.add(group);
+        this.add_widget(Me.imports.ddterm.pref.panelicon.Widget);
     }
 });
