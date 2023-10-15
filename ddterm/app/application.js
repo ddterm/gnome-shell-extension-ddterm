@@ -501,13 +501,23 @@ class Application extends Gtk.Application {
     }
 
     open_file(file) {
-        const file_type = file.query_file_type(Gio.FileQueryInfoFlags.NONE, null);
-        const notebook = this.ensure_window().active_notebook;
-        const command = file_type === Gio.FileType.DIRECTORY
-            ? notebook.get_command_from_settings(file)
-            : new imports.ddterm.app.terminal.TerminalCommand({ argv: [file.get_path()] });
+        if (file.query_file_type(Gio.FileQueryInfoFlags.NONE, null) === Gio.FileType.DIRECTORY) {
+            const notebook = this.ensure_window().active_notebook;
+            const command = notebook.get_command_from_settings(file);
 
-        notebook.new_page(-1, { command }).spawn();
+            notebook.new_page(-1, { command }).spawn();
+        } else {
+            const argv = [file.get_path()];
+            const command = new imports.ddterm.app.terminal.TerminalCommand({ argv });
+            const notebook = this.ensure_window().active_notebook;
+            const page = notebook.new_page(-1, {
+                command,
+                keep_open_after_exit: true,
+            });
+
+            page.spawn();
+        }
+
         this.activate();
     }
 
