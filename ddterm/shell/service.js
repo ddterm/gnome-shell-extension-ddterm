@@ -22,7 +22,7 @@
 const { GLib, GObject, Gio } = imports.gi;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-const { subprocess } = Me.imports.ddterm.shell;
+const { Subprocess } = Me.imports.ddterm.shell.subprocess;
 
 var Service = GObject.registerClass({
     Properties: {
@@ -45,7 +45,7 @@ var Service = GObject.registerClass({
             '',
             '',
             GObject.ParamFlags.READABLE,
-            subprocess.Subprocess
+            Subprocess
         ),
         'bus-name-owner': GObject.ParamSpec.string(
             'bus-name-owner',
@@ -64,7 +64,7 @@ var Service = GObject.registerClass({
     },
     Signals: {
         'activate': {
-            return_type: subprocess.Subprocess,
+            return_type: Subprocess,
             accumulator: GObject.AccumulatorType.FIRST_WINS,
         },
     },

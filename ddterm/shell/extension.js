@@ -26,10 +26,13 @@ const Gettext = imports.gettext;
 const Main = imports.ui.main;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-const { appcontrol, dbusapi, notifications, subprocess } = Me.imports.ddterm.shell;
+const { AppControl } = Me.imports.ddterm.shell.appcontrol;
+const { DBusApi } = Me.imports.ddterm.shell.dbusapi;
 const { Installer } = Me.imports.ddterm.shell.install;
 const { PanelIconProxy } = Me.imports.ddterm.shell.panelicon;
 const { Service } = Me.imports.ddterm.shell.service;
+const { SharedNotificationSource, SharedNotification } = Me.imports.ddterm.shell.notifications;
+const { Subprocess, WaylandSubprocess } = Me.imports.ddterm.shell.subprocess;
 const { WindowManager } = Me.imports.ddterm.shell.wm;
 const { WindowMatch } = Me.imports.ddterm.shell.windowmatch;
 
@@ -48,9 +51,9 @@ function create_subprocess(launcher, settings, app_enable_heap_dump) {
         argv.push('--allowed-gdk-backends=x11');
 
     else if (Meta.is_wayland_compositor())
-        return new subprocess.WaylandSubprocess({ journal_identifier: APP_ID, argv });
+        return new WaylandSubprocess({ journal_identifier: APP_ID, argv });
 
-    return new subprocess.Subprocess({ journal_identifier: APP_ID, argv });
+    return new Subprocess({ journal_identifier: APP_ID, argv });
 }
 
 function create_window_matcher(service, window_manager, rollback) {
@@ -85,7 +88,7 @@ function create_window_matcher(service, window_manager, rollback) {
 }
 
 function create_dbus_interface(window_manager, app_control, extension, rollback) {
-    const dbus_interface = new dbusapi.Api({
+    const dbus_interface = new DBusApi({
         xml_file_path: extension.dbus_xml_file_path,
         version: `${extension.metadata.version}`,
         revision: extension.revision,
@@ -238,7 +241,7 @@ class EnabledExtension {
 
         this.settings = imports.misc.extensionUtils.getSettings();
 
-        const notification_source = new notifications.SharedSource(
+        const notification_source = new SharedNotificationSource(
             this.extension.gettext('Drop Down Terminal'),
             'utilities-terminal'
         );
@@ -247,7 +250,7 @@ class EnabledExtension {
             notification_source.destroy();
         });
 
-        const revision_mismatch_notification = new notifications.SharedNotification(
+        const revision_mismatch_notification = new SharedNotification(
             notification_source,
             this.extension.gettext('Drop Down Terminal'),
             this.extension.gettext(
@@ -284,7 +287,7 @@ class EnabledExtension {
             this.window_manager.disable();
         });
 
-        this.app_control = new appcontrol.AppControl({
+        this.app_control = new AppControl({
             service: this.service,
             window_manager: this.window_manager,
         });

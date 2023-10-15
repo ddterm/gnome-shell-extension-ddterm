@@ -24,7 +24,8 @@ const { GLib, GObject, Gio } = imports.gi;
 const Main = imports.ui.main;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-const { service, wm } = Me.imports.ddterm.shell;
+const { Service } = Me.imports.ddterm.shell.service;
+const { WindowManager } = Me.imports.ddterm.shell.wm;
 
 /* exported AppControl */
 
@@ -83,14 +84,14 @@ var AppControl = GObject.registerClass({
             '',
             '',
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-            service.Service
+            Service
         ),
         'window-manager': GObject.ParamSpec.object(
             'window-manager',
             '',
             '',
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-            wm.WindowManager
+            WindowManager
         ),
         'actions': GObject.ParamSpec.object(
             'actions',

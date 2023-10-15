@@ -19,7 +19,7 @@
 
 'use strict';
 
-/* exported SharedSource SharedNotification */
+/* exported SharedNotificationSource SharedNotification */
 
 const Main = imports.ui.main;
 const MessageTray = imports.ui.messageTray;
@@ -48,7 +48,7 @@ class SharedBase {
     }
 }
 
-var SharedSource = class SharedSource extends SharedBase {
+var SharedNotificationSource = class SharedNotificationSource extends SharedBase {
     constructor(title, icon_name) {
         super(() => {
             const source = new MessageTray.Source(title, icon_name);

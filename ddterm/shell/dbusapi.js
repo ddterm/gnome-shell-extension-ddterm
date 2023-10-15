@@ -63,7 +63,7 @@ function meta_rect_to_variant(meta_rect) {
     ]);
 }
 
-var Api = GObject.registerClass({
+var DBusApi = GObject.registerClass({
     Properties: {
         'xml-file-path': GObject.ParamSpec.string(
             'xml-file-path',
@@ -166,4 +166,4 @@ var Api = GObject.registerClass({
     }
 });
 
-/* exported Api */
+/* exported DBusApi */
