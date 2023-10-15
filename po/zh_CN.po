@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-13 17:23+0000\n"
+"POT-Creation-Date: 2023-10-15 04:32+0000\n"
 "PO-Revision-Date: 2023-04-25 12:23+0000\n"
 "Last-Translator: yuh <yuhldr@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -22,8 +22,8 @@ msgstr ""
 msgid "Saving session..."
 msgstr ""
 
-#: ddterm/app/appwindow.js:160 ddterm/shell/extension.js:255
-#: ddterm/shell/extension.js:265
+#: ddterm/app/appwindow.js:160 ddterm/shell/extension.js:242
+#: ddterm/shell/extension.js:252
 msgid "Drop Down Terminal"
 msgstr "下拉终端"
 
@@ -159,7 +159,7 @@ msgstr "移动标签页到下一个位置"
 msgid "Preferences"
 msgstr "首选项"
 
-#: ddterm/app/menus.ui:154 ddterm/app/menus.ui:288 ddterm/shell/panelicon.js:79
+#: ddterm/app/menus.ui:154 ddterm/app/menus.ui:288 ddterm/shell/panelicon.js:76
 msgid "Preferences..."
 msgstr "首选项..."
 
@@ -1258,13 +1258,13 @@ msgstr "标签页"
 msgid "Text"
 msgstr "文本"
 
-#: ddterm/shell/extension.js:267
+#: ddterm/shell/extension.js:254
 msgid ""
 "Warning: ddterm version has changed. Log out, then log in again to load the "
 "updated extension."
 msgstr "警告：ddterm版本已改变。注销后重新登录，方可生效。"
 
-#: ddterm/shell/panelicon.js:67
+#: ddterm/shell/panelicon.js:64
 msgid "Show"
 msgstr "显示"
 

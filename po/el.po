@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-13 17:23+0000\n"
+"POT-Creation-Date: 2023-10-15 04:32+0000\n"
 "PO-Revision-Date: 2023-09-26 17:35+0300\n"
 "Last-Translator: Anagnostakis Ioannis <rizitis@gmail.com>\n"
 "Language-Team: Greek, Modern (1453-) <>\n"
@@ -21,8 +21,8 @@ msgstr ""
 msgid "Saving session..."
 msgstr ""
 
-#: ddterm/app/appwindow.js:160 ddterm/shell/extension.js:255
-#: ddterm/shell/extension.js:265
+#: ddterm/app/appwindow.js:160 ddterm/shell/extension.js:242
+#: ddterm/shell/extension.js:252
 msgid "Drop Down Terminal"
 msgstr "Ανάπτυξη Τερματικού"
 
@@ -156,7 +156,7 @@ msgstr "Επανατοποθέτηση καρτέλας μετά"
 msgid "Preferences"
 msgstr "Προτιμήσεις"
 
-#: ddterm/app/menus.ui:154 ddterm/app/menus.ui:288 ddterm/shell/panelicon.js:79
+#: ddterm/app/menus.ui:154 ddterm/app/menus.ui:288 ddterm/shell/panelicon.js:76
 msgid "Preferences..."
 msgstr "Προτιμήσεις..."
 
@@ -1251,7 +1251,7 @@ msgstr "Καρτέλες"
 msgid "Text"
 msgstr "Κείμενο"
 
-#: ddterm/shell/extension.js:267
+#: ddterm/shell/extension.js:254
 msgid ""
 "Warning: ddterm version has changed. Log out, then log in again to load the "
 "updated extension."
@@ -1259,7 +1259,7 @@ msgstr ""
 "Προειδοποίηση: η έκδοση ddterm έχει αλλάξει. Αποσυνδεθείτε και, στη "
 "συνέχεια, συνδεθείτε ξανά για να φορτώσετε την ενημερωμένη επέκταση."
 
-#: ddterm/shell/panelicon.js:67
+#: ddterm/shell/panelicon.js:64
 msgid "Show"
 msgstr "Εμφάνιση"
 

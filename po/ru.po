@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-13 17:23+0000\n"
+"POT-Creation-Date: 2023-10-15 04:32+0000\n"
 "PO-Revision-Date: 2023-03-14 13:45+0000\n"
 "Last-Translator: Aleksandr Mezin <mezin.alexander@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/gnome-shell-"
@@ -21,8 +21,8 @@ msgstr ""
 msgid "Saving session..."
 msgstr ""
 
-#: ddterm/app/appwindow.js:160 ddterm/shell/extension.js:255
-#: ddterm/shell/extension.js:265
+#: ddterm/app/appwindow.js:160 ddterm/shell/extension.js:242
+#: ddterm/shell/extension.js:252
 msgid "Drop Down Terminal"
 msgstr "Выпадающий терминал"
 
@@ -158,7 +158,7 @@ msgstr "Переместить вкладку на следующую позиц
 msgid "Preferences"
 msgstr "Параметры"
 
-#: ddterm/app/menus.ui:154 ddterm/app/menus.ui:288 ddterm/shell/panelicon.js:79
+#: ddterm/app/menus.ui:154 ddterm/app/menus.ui:288 ddterm/shell/panelicon.js:76
 msgid "Preferences..."
 msgstr "Параметры..."
 
@@ -1259,7 +1259,7 @@ msgstr "Вкладки"
 msgid "Text"
 msgstr "Текст"
 
-#: ddterm/shell/extension.js:267
+#: ddterm/shell/extension.js:254
 msgid ""
 "Warning: ddterm version has changed. Log out, then log in again to load the "
 "updated extension."
@@ -1267,7 +1267,7 @@ msgstr ""
 "Внимание: версия ddterm изменилась. Завершите сессию и снова войдите для "
 "применения обновлений расширения."
 
-#: ddterm/shell/panelicon.js:67
+#: ddterm/shell/panelicon.js:64
 msgid "Show"
 msgstr "Показать"
 
