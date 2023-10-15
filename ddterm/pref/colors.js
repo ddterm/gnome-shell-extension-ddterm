@@ -22,7 +22,6 @@
 const { GLib, GObject, Gio, Gdk, Gtk } = imports.gi;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const { util } = Me.imports.ddterm.pref;
-const { translations } = Me.imports.ddterm.util;
 
 function show_dialog(parent_window, message, message_type = Gtk.MessageType.ERROR) {
     const dialog = new Gtk.MessageDialog({
@@ -309,6 +308,12 @@ var Widget = GObject.registerClass({
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             Gio.Settings
         ),
+        'gettext-context': GObject.ParamSpec.jsobject(
+            'gettext-context',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY
+        ),
     },
 }, class PrefsColors extends Gtk.Grid {
     _init(params) {
@@ -453,7 +458,7 @@ var Widget = GObject.registerClass({
     }
 
     get title() {
-        return translations.gettext('Colors');
+        return this.gettext_context.gettext('Colors');
     }
 
     bind_color(key, widget, color = null) {

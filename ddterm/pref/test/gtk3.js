@@ -33,5 +33,5 @@ const ME_DIR = PREF_TEST_DIR.get_parent().get_parent().get_parent();
 imports.searchPath.unshift(ME_DIR.get_path());
 Object.assign(imports.misc.extensionUtils.getCurrentExtension(), { imports, dir: ME_DIR });
 
-const app = new imports.ddterm.pref.test.common.Application();
+const app = new imports.ddterm.pref.test.common.Application({ install_dir: ME_DIR });
 app.run([System.programInvocationName].concat(ARGV));

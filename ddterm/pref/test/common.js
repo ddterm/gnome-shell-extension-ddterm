@@ -17,11 +17,44 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-const { GObject, Gtk } = imports.gi;
+const { GObject, Gio, Gtk } = imports.gi;
+const ByteArray = imports.byteArray;
+const Gettext = imports.gettext;
+
 const { dialog } = imports.ddterm.pref;
-const Me = imports.misc.extensionUtils.getCurrentExtension();
+
+function load_metadata(install_dir) {
+    const metadata_file = install_dir.get_child('metadata.json');
+    const [ok_, metadata_bytes] = metadata_file.load_contents(null);
+    const metadata_str = ByteArray.toString(metadata_bytes);
+
+    return JSON.parse(metadata_str);
+}
+
+function get_schema_source(me_dir) {
+    const default_source = Gio.SettingsSchemaSource.get_default();
+    const schema_dir = me_dir.get_child('schemas');
+
+    if (!schema_dir.query_exists(null))
+        return default_source;
+
+    return Gio.SettingsSchemaSource.new_from_directory(
+        schema_dir.get_path(),
+        default_source,
+        false
+    );
+}
 
 var Application = GObject.registerClass({
+    Properties: {
+        'install-dir': GObject.ParamSpec.object(
+            'install-dir',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+            Gio.File
+        ),
+    },
 }, class Application extends Gtk.Application {
     _init(params) {
         super._init(params);
@@ -31,7 +64,19 @@ var Application = GObject.registerClass({
     }
 
     startup() {
-        this.settings = imports.ddterm.util.settings.get_settings(Me.dir);
+        const metadata = load_metadata(this.install_dir);
+
+        Gettext.bindtextdomain(
+            metadata['gettext-domain'],
+            this.install_dir.get_child('locale').get_path()
+        );
+
+        this.gettext_domain = Gettext.domain(metadata['gettext-domain']);
+
+        const settings_schema =
+            get_schema_source(this.install_dir).lookup(metadata['settings-schema'], true);
+
+        this.settings = new Gio.Settings({ settings_schema });
     }
 
     activate() {
@@ -42,6 +87,7 @@ var Application = GObject.registerClass({
         const prefs_dialog = new dialog.PrefsDialog({
             settings: this.settings,
             application: this,
+            gettext_context: this.gettext_domain,
         });
 
         prefs_dialog.show();

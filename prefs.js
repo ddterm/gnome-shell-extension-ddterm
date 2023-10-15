@@ -21,6 +21,7 @@
 
 /* exported init buildPrefsWidget fillPreferencesWindow */
 
+const Gettext = imports.gettext;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 
 function init() {
@@ -30,14 +31,16 @@ function init() {
 function buildPrefsWidget() {
     return new Me.imports.ddterm.pref.widget.PrefsWidget({
         settings: imports.misc.extensionUtils.getSettings(),
+        gettext_context: Gettext.domain(Me.metadata['gettext-domain']),
     });
 }
 
 function  fillPreferencesWindow(win) {
     const settings = imports.misc.extensionUtils.getSettings();
+    const gettext_context = Gettext.domain(Me.metadata['gettext-domain']);
 
-    win.add(new Me.imports.ddterm.pref.adw.WindowPage({ settings }));
-    win.add(new Me.imports.ddterm.pref.adw.TerminalPage({ settings }));
-    win.add(new Me.imports.ddterm.pref.adw.ShortcutsPage({ settings }));
-    win.add(new Me.imports.ddterm.pref.adw.MiscPage({ settings }));
+    win.add(new Me.imports.ddterm.pref.adw.WindowPage({ settings, gettext_context }));
+    win.add(new Me.imports.ddterm.pref.adw.TerminalPage({ settings, gettext_context }));
+    win.add(new Me.imports.ddterm.pref.adw.ShortcutsPage({ settings, gettext_context }));
+    win.add(new Me.imports.ddterm.pref.adw.MiscPage({ settings, gettext_context }));
 }

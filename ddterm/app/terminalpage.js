@@ -22,9 +22,9 @@
 /* exported TerminalPage TerminalSettings */
 
 const { GLib, GObject, Gio, Gdk, Gtk, Vte } = imports.gi;
+const Gettext = imports.gettext;
 
 const { resources, search, tablabel, terminal, terminalsettings, waitstatus } = imports.ddterm.app;
-const { translations } = imports.ddterm.util;
 
 var TerminalPage = GObject.registerClass({
     Properties: {
@@ -437,8 +437,8 @@ var TerminalPage = GObject.registerClass({
         });
 
         banner.get_content_area().pack_start(label, false, false, 0);
-        banner.add_button(translations.gettext('Restart'), 0);
-        banner.add_button(translations.gettext('Close Terminal'), 1);
+        banner.add_button(Gettext.gettext('Restart'), 0);
+        banner.add_button(Gettext.gettext('Close Terminal'), 1);
 
         banner.connect('response', (_, response) => {
             switch (response) {
@@ -461,7 +461,7 @@ var TerminalPage = GObject.registerClass({
 
             this.add_banner(
                 [
-                    translations.gettext('The child process exited with status:'),
+                    Gettext.gettext('The child process exited with status:'),
                     code,
                 ].join(' '),
                 code === 0 ? Gtk.MessageType.INFO : Gtk.MessageType.WARNING
@@ -471,7 +471,7 @@ var TerminalPage = GObject.registerClass({
 
             this.add_banner(
                 [
-                    translations.gettext('The child process was aborted by signal:'),
+                    Gettext.gettext('The child process was aborted by signal:'),
                     signum,
                     GLib.strsignal(signum),
                 ].join(' '),
@@ -605,15 +605,15 @@ var TerminalPage = GObject.registerClass({
             modal: true,
             buttons: Gtk.ButtonsType.CANCEL,
             message_type: Gtk.MessageType.WARNING,
-            text: translations.gettext('Close this terminal?'),
-            secondary_text: translations.gettext(
+            text: Gettext.gettext('Close this terminal?'),
+            secondary_text: Gettext.gettext(
                 'There is still a process running in this terminal.' +
                 ' Closing the terminal will kill it.'
             ),
         });
 
         const remove_button = message.add_button(
-            translations.gettext('Close Terminal'),
+            Gettext.gettext('Close Terminal'),
             Gtk.ResponseType.ACCEPT
         );
 

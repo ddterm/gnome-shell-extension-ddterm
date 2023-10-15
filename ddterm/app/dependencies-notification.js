@@ -21,16 +21,27 @@
 
 'use strict';
 
+const ByteArray = imports.byteArray;
+const Gettext = imports.gettext;
 const System = imports.system;
 
 const { GLib, GObject, Gio } = imports.gi;
 
-const APP_DIR = Gio.File.new_for_path(System.programPath).get_parent();
-const ME_DIR = APP_DIR.get_parent().get_parent();
-imports.searchPath.unshift(ME_DIR.get_path());
+const app_dir = Gio.File.new_for_path(System.programPath).get_parent();
+const me_dir = app_dir.get_parent().get_parent();
 
-const { translations } = imports.ddterm.util;
-translations.init(ME_DIR);
+function load_metadata(install_dir) {
+    const metadata_file = install_dir.get_child('metadata.json');
+    const [ok_, metadata_bytes] = metadata_file.load_contents(null);
+    const metadata_str = ByteArray.toString(metadata_bytes);
+
+    return JSON.parse(metadata_str);
+}
+
+const metadata = load_metadata(me_dir);
+
+Gettext.bindtextdomain(metadata['gettext-domain'], me_dir.get_child('locale').get_path());
+Gettext.textdomain(metadata['gettext-domain']);
 
 const NOTIFICATIONS_INTERFACE_XML = `
 <node>
@@ -133,19 +144,19 @@ const Application = GObject.registerClass({
             return;
 
         const message_lines = [
-            translations.gettext('ddterm needs additional packages to run.'),
+            Gettext.gettext('ddterm needs additional packages to run.'),
         ];
 
         if (this.packages.length > 0) {
             message_lines.push(
-                translations.gettext('Please install the following packages:'),
+                Gettext.gettext('Please install the following packages:'),
                 ...this.packages.map(v => `- ${v}`)
             );
         }
 
         if (this.files.length > 0) {
             message_lines.push(
-                translations.gettext(
+                Gettext.gettext(
                     'Please install packages that provide the following files:'
                 ),
                 ...this.files.map(v => `- ${v}`)
@@ -159,7 +170,7 @@ const Application = GObject.registerClass({
             GLib.get_application_name(),
             0,
             '',
-            translations.gettext('Missing dependencies'),
+            Gettext.gettext('Missing dependencies'),
             message_body,
             [],
             [],

@@ -22,7 +22,6 @@
 const { GObject, Gio, Gtk } = imports.gi;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const { util } = Me.imports.ddterm.pref;
-const { translations } = Me.imports.ddterm.util;
 
 var Widget = GObject.registerClass({
     GTypeName: 'DDTermPrefsBehavior',
@@ -37,6 +36,12 @@ var Widget = GObject.registerClass({
             '',
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             Gio.Settings
+        ),
+        'gettext-context': GObject.ParamSpec.jsobject(
+            'gettext-context',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY
         ),
     },
 }, class PrefsBehavior extends Gtk.Grid {
@@ -58,7 +63,7 @@ var Widget = GObject.registerClass({
     }
 
     get title() {
-        return translations.gettext('Behavior');
+        return this.gettext_context.gettext('Behavior');
     }
 });
 

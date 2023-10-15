@@ -23,7 +23,6 @@
 
 const { GObject, Gio, Adw } = imports.gi;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-const { translations } = Me.imports.ddterm.util;
 
 const Page = GObject.registerClass({
     Properties: {
@@ -34,10 +33,19 @@ const Page = GObject.registerClass({
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             Gio.Settings
         ),
+        'gettext-context': GObject.ParamSpec.jsobject(
+            'gettext-context',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY
+        ),
     },
 }, class DDTermPrefsPage extends Adw.PreferencesPage {
     add_widget(widget_type) {
-        const widget = new widget_type({ settings: this.settings });
+        const widget = new widget_type({
+            settings: this.settings,
+            gettext_context: this.gettext_context,
+        });
 
         const group = new Adw.PreferencesGroup({
             title: widget.title,
@@ -53,10 +61,11 @@ var WindowPage = GObject.registerClass({
     _init(params) {
         super._init({
             name: 'window',
-            title: translations.gettext('Window'),
             icon_name: 'preferences-desktop-display',
             ...params,
         });
+
+        this.title = this.gettext_context.gettext('Window');
 
         [
             Me.imports.ddterm.pref.positionsize.Widget,
@@ -72,10 +81,11 @@ var TerminalPage = GObject.registerClass({
     _init(params) {
         super._init({
             name: 'terminal',
-            title: translations.gettext('Terminal'),
             icon_name: 'utilities-terminal',
             ...params,
         });
+
+        this.title = this.gettext_context.gettext('Terminal');
 
         [
             Me.imports.ddterm.pref.text.Widget,
@@ -92,10 +102,11 @@ var ShortcutsPage = GObject.registerClass({
     _init(params) {
         super._init({
             name: 'shortcuts',
-            title: translations.gettext('Keyboard Shortcuts'),
             icon_name: 'preferences-desktop-keyboard-shortcuts',
             ...params,
         });
+
+        this.title = this.gettext_context.gettext('Keyboard Shortcuts');
 
         this.add_widget(Me.imports.ddterm.pref.shortcuts.Widget);
     }
@@ -106,10 +117,11 @@ var MiscPage = GObject.registerClass({
     _init(params) {
         super._init({
             name: 'misc',
-            title: translations.gettext('Miscellaneous'),
             icon_name: 'preferences-other',
             ...params,
         });
+
+        this.title = this.gettext_context.gettext('Miscellaneous');
 
         this.add_widget(Me.imports.ddterm.pref.panelicon.Widget);
     }

@@ -23,8 +23,6 @@
 
 const { GObject, Gio, Gtk } = imports.gi;
 const { PrefsWidget } = imports.ddterm.pref.widget;
-const Me = imports.misc.extensionUtils.getCurrentExtension();
-const { translations } = Me.imports.ddterm.util;
 
 var PrefsDialog = GObject.registerClass({
     Properties: {
@@ -35,17 +33,24 @@ var PrefsDialog = GObject.registerClass({
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             Gio.Settings
         ),
+        'gettext-context': GObject.ParamSpec.jsobject(
+            'gettext-context',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY
+        ),
     },
 }, class PrefsDialog extends Gtk.Dialog {
     _init(params) {
         super._init(params);
 
-        this.set_title(translations.gettext('Preferences'));
+        this.set_title(this.gettext_context.gettext('Preferences'));
         this.set_default_size(640, 576);
         this.set_icon_name('preferences-system');
 
         const widget = new PrefsWidget({
             settings: this.settings,
+            gettext_context: this.gettext_context,
         });
 
         const content_area = this.get_content_area();

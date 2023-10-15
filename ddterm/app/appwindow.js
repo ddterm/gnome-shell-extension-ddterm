@@ -22,8 +22,9 @@
 /* exported AppWindow */
 
 const { GLib, GObject, Gio, Gdk, Gtk } = imports.gi;
+const Gettext = imports.gettext;
 const { resources, terminalsettings } = imports.ddterm.app;
-const { displayconfig, translations } = imports.ddterm.util;
+const { displayconfig } = imports.ddterm.util;
 const { Notebook } = imports.ddterm.app.notebook;
 
 function make_resizer(orientation) {
@@ -157,7 +158,7 @@ var AppWindow = GObject.registerClass({
 class DDTermAppWindow extends Gtk.ApplicationWindow {
     _init(params) {
         super._init({
-            title: translations.gettext('Drop Down Terminal'),
+            title: Gettext.gettext('Drop Down Terminal'),
             icon_name: 'utilities-terminal',
             window_position: Gtk.WindowPosition.CENTER,
             ...params,

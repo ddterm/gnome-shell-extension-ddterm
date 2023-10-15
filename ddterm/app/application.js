@@ -19,18 +19,32 @@
 
 'use strict';
 
+const Gettext = imports.gettext;
 const System = imports.system;
 
 const { GLib, GObject, Gio, Gdk, Gtk } = imports.gi;
 
 const { resources } = imports.ddterm.app;
-const { translations } = imports.ddterm.util;
 
 function schedule_gc() {
     GLib.idle_add(GLib.PRIORITY_DEFAULT, () => {
         System.gc();
         return GLib.SOURCE_REMOVE;
     });
+}
+
+function get_schema_source(me_dir) {
+    const default_source = Gio.SettingsSchemaSource.get_default();
+    const schema_dir = me_dir.get_child('schemas');
+
+    if (!schema_dir.query_exists(null))
+        return default_source;
+
+    return Gio.SettingsSchemaSource.new_from_directory(
+        schema_dir.get_path(),
+        default_source,
+        false
+    );
 }
 
 var Application = GObject.registerClass({
@@ -41,6 +55,12 @@ var Application = GObject.registerClass({
             '',
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             Gio.File
+        ),
+        'metadata': GObject.ParamSpec.jsobject(
+            'metadata',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY
         ),
         'window': GObject.ParamSpec.object(
             'window',
@@ -71,7 +91,7 @@ class Application extends Gtk.Application {
             0,
             GLib.OptionFlags.HIDDEN,
             GLib.OptionArg.NONE,
-            translations.gettext('Start the application, but do not show the window'),
+            Gettext.gettext('Start the application, but do not show the window'),
             null
         );
 
@@ -80,7 +100,7 @@ class Application extends Gtk.Application {
             0,
             GLib.OptionFlags.HIDDEN,
             GLib.OptionArg.STRING,
-            translations.gettext('Comma-separated list of backends that GDK should try to use'),
+            Gettext.gettext('Comma-separated list of backends that GDK should try to use'),
             null
         );
 
@@ -89,7 +109,7 @@ class Application extends Gtk.Application {
             0,
             GLib.OptionFlags.HIDDEN,
             GLib.OptionArg.NONE,
-            translations.gettext('Enable HeapDump D-Bus interface (for testing/debug)'),
+            Gettext.gettext('Enable HeapDump D-Bus interface (for testing/debug)'),
             null
         );
 
@@ -98,7 +118,7 @@ class Application extends Gtk.Application {
             0,
             GLib.OptionFlags.NONE,
             GLib.OptionArg.NONE,
-            translations.gettext('Show version information and exit'),
+            Gettext.gettext('Show version information and exit'),
             null
         );
 
@@ -107,7 +127,7 @@ class Application extends Gtk.Application {
             0,
             GLib.OptionFlags.NONE,
             GLib.OptionArg.STRING_ARRAY,
-            translations.gettext('Run the specified command'),
+            Gettext.gettext('Run the specified command'),
             null
         );
 
@@ -121,7 +141,7 @@ class Application extends Gtk.Application {
             0,
             GLib.OptionFlags.NONE,
             GLib.OptionArg.NONE,
-            translations.gettext('Wait for the command to exit, and return its exit code'),
+            Gettext.gettext('Wait for the command to exit, and return its exit code'),
             null
         );
 
@@ -130,7 +150,7 @@ class Application extends Gtk.Application {
             0,
             GLib.OptionFlags.NONE,
             GLib.OptionArg.STRING,
-            translations.gettext('Set the working directory'),
+            Gettext.gettext('Set the working directory'),
             null
         );
 
@@ -139,7 +159,7 @@ class Application extends Gtk.Application {
             0,
             GLib.OptionFlags.NONE,
             GLib.OptionArg.STRING,
-            translations.gettext('Set tab title'),
+            Gettext.gettext('Set tab title'),
             null
         );
 
@@ -148,7 +168,7 @@ class Application extends Gtk.Application {
             0,
             GLib.OptionFlags.NONE,
             GLib.OptionArg.NONE,
-            translations.gettext('Keep the terminal open after the command has exited'),
+            Gettext.gettext('Keep the terminal open after the command has exited'),
             null
         );
 
@@ -157,7 +177,7 @@ class Application extends Gtk.Application {
             0,
             GLib.OptionFlags.NONE,
             GLib.OptionArg.NONE,
-            translations.gettext('Do not pass the environment'),
+            Gettext.gettext('Do not pass the environment'),
             null
         );
 
@@ -166,7 +186,7 @@ class Application extends Gtk.Application {
             0,
             GLib.OptionFlags.NONE,
             GLib.OptionArg.NONE,
-            translations.gettext('Open a new tab'),
+            Gettext.gettext('Open a new tab'),
             null
         );
 
@@ -207,9 +227,18 @@ class Application extends Gtk.Application {
 
     startup() {
         const { gtktheme, terminalsettings } = imports.ddterm.app;
-        const { settings } = imports.ddterm.util;
 
-        this.settings = settings.get_settings(this.install_dir);
+        const settings_schema_name = this.metadata['settings-schema'];
+        const settings_schema =
+            get_schema_source(this.install_dir).lookup(settings_schema_name, true);
+
+        if (!settings_schema) {
+            throw new Error(
+                `Schema ${settings_schema_name} could not be found. Please check your installation`
+            );
+        }
+
+        this.settings = new Gio.Settings({ settings_schema });
 
         this.simple_action('quit', () => {
             this.save_session();
@@ -341,7 +370,7 @@ class Application extends Gtk.Application {
             const cookie = this.inhibit(
                 null,
                 Gtk.ApplicationInhibitFlags.LOGOUT,
-                translations.gettext('Saving session...')
+                Gettext.gettext('Saving session...')
             );
 
             try {
@@ -483,9 +512,8 @@ class Application extends Gtk.Application {
     }
 
     print_version_info() {
-        const metadata = JSON.parse(this.resources.text_files.get('metadata.json'));
         const revision = this.resources.text_files.get('revision.txt').trim();
-        print(metadata.name, metadata.version, 'revision', revision);
+        print(this.metadata.name, this.metadata.version, 'revision', revision);
 
         try {
             const ext_version = this.extension_dbus.get_cached_property('Version')?.unpack();
@@ -493,7 +521,7 @@ class Application extends Gtk.Application {
             print('Extension', ext_version, 'revision', ext_revision);
 
             if (revision !== ext_revision) {
-                print(translations.gettext(
+                print(Gettext.gettext(
                     'Warning: ddterm version has changed. ' +
                     'Log out, then log in again to load the updated extension.'
                 ));
@@ -555,6 +583,7 @@ class Application extends Gtk.Application {
             this.prefs_dialog = new imports.ddterm.pref.dialog.PrefsDialog({
                 transient_for: this.window,
                 settings: this.settings,
+                gettext_context: Gettext.domain(null),
             });
 
             this.prefs_dialog.connect('destroy', source => {

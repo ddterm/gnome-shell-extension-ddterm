@@ -22,7 +22,6 @@
 const { GObject, Gio, Gdk, Gtk } = imports.gi;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const { util } = Me.imports.ddterm.pref;
-const { translations } = Me.imports.ddterm.util;
 
 const IS_GTK3 = Gtk.get_major_version() === 3;
 
@@ -56,6 +55,12 @@ var Widget = GObject.registerClass({
             '',
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             Gio.Settings
+        ),
+        'gettext-context': GObject.ParamSpec.jsobject(
+            'gettext-context',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY
         ),
     },
 }, class PrefsShortcuts extends Gtk.Box {
@@ -123,7 +128,7 @@ var Widget = GObject.registerClass({
     }
 
     get title() {
-        return translations.gettext('Keyboard Shortcuts');
+        return this.gettext_context.gettext('Keyboard Shortcuts');
     }
 
     update_model(model, iter, settings, key) {

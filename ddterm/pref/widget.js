@@ -33,6 +33,12 @@ var PrefsWidget = GObject.registerClass({
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             Gio.Settings
         ),
+        'gettext-context': GObject.ParamSpec.jsobject(
+            'gettext-context',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY
+        ),
     },
 }, class PrefsWidget extends Gtk.Box {
     _init(params) {
@@ -99,7 +105,10 @@ var PrefsWidget = GObject.registerClass({
         };
 
         for (const [name, type] of Object.entries(pages)) {
-            const widget = new type({ settings: this.settings });
+            const widget = new type({
+                settings: this.settings,
+                gettext_context: this.gettext_context,
+            });
             this.stack.add_titled(widget, name, widget.title);
         }
     }

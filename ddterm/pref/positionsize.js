@@ -22,7 +22,7 @@
 const { GObject, Gio, Gtk } = imports.gi;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const { util } = Me.imports.ddterm.pref;
-const { displayconfig, translations } = Me.imports.ddterm.util;
+const { displayconfig } = Me.imports.ddterm.util;
 
 var Widget = GObject.registerClass({
     GTypeName: 'DDTermPrefsPositionSize',
@@ -39,6 +39,12 @@ var Widget = GObject.registerClass({
             '',
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             Gio.Settings
+        ),
+        'gettext-context': GObject.ParamSpec.jsobject(
+            'gettext-context',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY
         ),
     },
 }, class PrefsPositionSize extends Gtk.Grid {
@@ -72,7 +78,7 @@ var Widget = GObject.registerClass({
     }
 
     get title() {
-        return translations.gettext('Position and Size');
+        return this.gettext_context.gettext('Position and Size');
     }
 
     enable_monitor_combo() {

@@ -22,8 +22,8 @@
 /* exported Notebook */
 
 const { GLib, GObject, Gio, Gtk, Pango } = imports.gi;
+const Gettext = imports.gettext;
 const { resources, terminalpage, terminalsettings } = imports.ddterm.app;
-const { translations } = imports.ddterm.util;
 
 var Notebook = GObject.registerClass({
     Properties: {
@@ -152,7 +152,7 @@ var Notebook = GObject.registerClass({
 
         this.new_tab_button = new Gtk.Button({
             image: Gtk.Image.new_from_icon_name('list-add', Gtk.IconSize.MENU),
-            tooltip_text: translations.gettext('New Tab (Last)'),
+            tooltip_text: Gettext.gettext('New Tab (Last)'),
             action_name: 'notebook.new-tab',
             relief: Gtk.ReliefStyle.NONE,
             visible: true,
@@ -190,7 +190,7 @@ var Notebook = GObject.registerClass({
 
         this.new_tab_front_button = new Gtk.Button({
             image: Gtk.Image.new_from_icon_name('list-add', Gtk.IconSize.MENU),
-            tooltip_text: translations.gettext('New Tab (First)'),
+            tooltip_text: Gettext.gettext('New Tab (First)'),
             action_name: 'notebook.new-tab-front',
             relief: Gtk.ReliefStyle.NONE,
             visible: true,

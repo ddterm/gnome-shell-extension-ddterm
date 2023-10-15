@@ -20,8 +20,8 @@
 'use strict';
 
 const { GObject, Gtk, Pango } = imports.gi;
+const Gettext = imports.gettext;
 const { accellabel } = imports.ddterm.app;
-const { translations } = imports.ddterm.util;
 
 var TabLabel = GObject.registerClass({
     Implements: [Gtk.Actionable],
@@ -108,7 +108,7 @@ var TabLabel = GObject.registerClass({
         );
 
         const close_button = new Gtk.Button({
-            tooltip_text: translations.gettext('Close'),
+            tooltip_text: Gettext.gettext('Close'),
             image: new Gtk.Image({
                 icon_name: 'window-close',
                 visible: true,
