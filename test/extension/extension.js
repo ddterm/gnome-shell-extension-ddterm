@@ -21,10 +21,8 @@
 
 /* exported init */
 
-const { GLib, GObject, Gio, Meta } = imports.gi;
-const ByteArray = imports.byteArray;
+const { GLib, GObject, Gio, Meta, Shell } = imports.gi;
 const Main = imports.ui.main;
-const Me = imports.misc.extensionUtils.getCurrentExtension();
 
 function get_monitor_manager() {
     if (Meta.MonitorManager.get)
@@ -65,13 +63,14 @@ function disconnect_traced(obj, handler) {
 }
 
 class ExtensionTestDBusInterface {
-    constructor(enabled_state) {
-        let [ok_, xml] =
-            Me.dir.get_child('com.github.amezin.ddterm.ExtensionTest.xml').load_contents(null);
-
+    constructor(xml_file_path, enabled_state) {
         this.enabled_state = enabled_state;
-        this.dbus = Gio.DBusExportedObject.wrapJSObject(ByteArray.toString(xml), this);
         this.teardown = [];
+
+        this.dbus = Gio.DBusExportedObject.wrapJSObject(
+            Shell.get_file_contents_utf8_sync(xml_file_path),
+            this
+        );
 
         const connect = (source, signal, handler) => {
             const handler_id = source.connect(signal, handler);
@@ -334,7 +333,8 @@ class ExtensionTestDBusInterface {
 }
 
 class Extension {
-    constructor() {
+    constructor(meta) {
+        this.path = meta.path;
         this.dbus_interface = null;
     }
 
@@ -345,7 +345,10 @@ class Extension {
         ddterm.imports.ddterm.shell.wm.debug = log;
         extension.app_enable_heap_dump = true;
 
-        this.dbus_interface = new ExtensionTestDBusInterface(extension.enabled_state);
+        this.dbus_interface = new ExtensionTestDBusInterface(
+            GLib.build_filenamev([this.path, 'com.github.amezin.ddterm.ExtensionTest.xml']),
+            extension.enabled_state
+        );
     }
 
     disable() {
@@ -354,6 +357,6 @@ class Extension {
     }
 }
 
-function init() {
-    return new Extension();
+function init(meta) {
+    return new Extension(meta);
 }
