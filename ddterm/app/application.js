@@ -372,9 +372,7 @@ class Application extends Gtk.Application {
 
     handle_local_options(options) {
         if (options.lookup('version')) {
-            const metadata = JSON.parse(this.resources.text_files.get('metadata.json'));
-            const revision = this.resources.text_files.get('revision.txt').trim();
-            print(metadata.name, metadata.version, 'revision', revision);
+            this.print_version_info();
             return 0;
         }
 
@@ -482,6 +480,27 @@ class Application extends Gtk.Application {
 
         notebook.new_page(-1, { command }).spawn();
         this.activate();
+    }
+
+    print_version_info() {
+        const metadata = JSON.parse(this.resources.text_files.get('metadata.json'));
+        const revision = this.resources.text_files.get('revision.txt').trim();
+        print(metadata.name, metadata.version, 'revision', revision);
+
+        try {
+            const ext_version = this.extension_dbus.get_cached_property('Version')?.unpack();
+            const ext_revision = this.extension_dbus.get_cached_property('Revision')?.unpack();
+            print('Extension', ext_version, 'revision', ext_revision);
+
+            if (revision !== ext_revision) {
+                print(translations.gettext(
+                    'Warning: ddterm version has changed. ' +
+                    'Log out, then log in again to load the updated extension.'
+                ));
+            }
+        } catch (ex) {
+            logError(ex, "Can't get version information from the extension");
+        }
     }
 
     get extension_dbus() {
