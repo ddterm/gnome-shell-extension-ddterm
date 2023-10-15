@@ -342,7 +342,7 @@ class Extension {
         const ddterm = imports.ui.main.extensionManager.lookup('ddterm@amezin.github.com');
         const extension = ddterm.stateObj;
 
-        ddterm.imports.ddterm.shell.wm.debug = log;
+        extension.debug = log;
         extension.app_enable_heap_dump = true;
 
         this.dbus_interface = new ExtensionTestDBusInterface(

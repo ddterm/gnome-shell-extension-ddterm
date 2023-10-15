@@ -278,6 +278,7 @@ class EnabledExtension {
         });
 
         this.window_manager = new WindowManager({ settings: this.settings });
+        this.window_manager.debug = this.extension.debug;
 
         rollback.push(() => {
             this.window_manager.disable();
@@ -362,6 +363,14 @@ class EnabledExtension {
         else
             wayland_client.show_in_window_list(win);
     }
+
+    get debug() {
+        return this.window_manager.debug;
+    }
+
+    set debug(func) {
+        this.window_manager.debug = func;
+    }
 }
 
 var Extension = class DDTermExtension {
@@ -385,6 +394,18 @@ var Extension = class DDTermExtension {
         this.app_process = null;
         this.enabled_state = null;
         this.app_enable_heap_dump = false;
+        this._debug = null;
+    }
+
+    get debug() {
+        return this._debug;
+    }
+
+    set debug(func) {
+        this._debug = func;
+
+        if (this.enabled_state)
+            this.enabled_state.debug = func;
     }
 
     read_revision() {
