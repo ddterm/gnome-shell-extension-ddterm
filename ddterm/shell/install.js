@@ -70,6 +70,8 @@ class File {
             0o700
         );
 
+        this.uninstall();
+
         GLib.file_set_contents_full(
             this.target_file,
             new_content,
