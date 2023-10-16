@@ -24,7 +24,7 @@ pluggy==1.3.0
     # via
     #   -r pypi.in
     #   pytest
-psutil==5.9.5
+psutil==5.9.6
     # via pytest-xdist
 py==1.11.0
     # via pytest-html
