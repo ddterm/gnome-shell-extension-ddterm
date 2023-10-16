@@ -22,7 +22,19 @@
 /* exported PrefsWidget */
 
 const { GObject, Gio, Gtk } = imports.gi;
+
 const Me = imports.misc.extensionUtils.getCurrentExtension();
+const PositionSizeWidget = Me.imports.ddterm.pref.positionsize.Widget;
+const BehaviorWidget = Me.imports.ddterm.pref.behavior.Widget;
+const AnimationWidget = Me.imports.ddterm.pref.animation.Widget;
+const TabsWidget = Me.imports.ddterm.pref.tabs.Widget;
+const TextWidget = Me.imports.ddterm.pref.text.Widget;
+const ColorsWidget = Me.imports.ddterm.pref.colors.Widget;
+const CommandWidget = Me.imports.ddterm.pref.command.Widget;
+const ScrollingWidget = Me.imports.ddterm.pref.scrolling.Widget;
+const CompatibilityWidget = Me.imports.ddterm.pref.compatibility.Widget;
+const ShortcutsWidget = Me.imports.ddterm.pref.shortcuts.Widget;
+const PanelIconWidget = Me.imports.ddterm.pref.panelicon.Widget;
 
 var PrefsWidget = GObject.registerClass({
     Properties: {
@@ -90,26 +102,25 @@ var PrefsWidget = GObject.registerClass({
         else
             this.pack_end(scrolled_window, true, true, 0);
 
-        const pages = {
-            'position-size': Me.imports.ddterm.pref.positionsize.Widget,
-            'behavior': Me.imports.ddterm.pref.behavior.Widget,
-            'animation': Me.imports.ddterm.pref.animation.Widget,
-            'tabs': Me.imports.ddterm.pref.tabs.Widget,
-            'text': Me.imports.ddterm.pref.text.Widget,
-            'colors': Me.imports.ddterm.pref.colors.Widget,
-            'command': Me.imports.ddterm.pref.command.Widget,
-            'scrolling': Me.imports.ddterm.pref.scrolling.Widget,
-            'compatibility': Me.imports.ddterm.pref.compatibility.Widget,
-            'shortcuts': Me.imports.ddterm.pref.shortcuts.Widget,
-            'panel-icon': Me.imports.ddterm.pref.panelicon.Widget,
-        };
+        this.add_page('position-size', PositionSizeWidget);
+        this.add_page('behavior', BehaviorWidget);
+        this.add_page('animation', AnimationWidget);
+        this.add_page('tabs', TabsWidget);
+        this.add_page('text', TextWidget);
+        this.add_page('colors', ColorsWidget);
+        this.add_page('command', CommandWidget);
+        this.add_page('scrolling', ScrollingWidget);
+        this.add_page('compatibility', CompatibilityWidget);
+        this.add_page('shortcuts', ShortcutsWidget);
+        this.add_page('panel-icon', PanelIconWidget);
+    }
 
-        for (const [name, type] of Object.entries(pages)) {
-            const widget = new type({
-                settings: this.settings,
-                gettext_context: this.gettext_context,
-            });
-            this.stack.add_titled(widget, name, widget.title);
-        }
+    add_page(name, widget_type) {
+        const widget = new widget_type({
+            settings: this.settings,
+            gettext_context: this.gettext_context,
+        });
+
+        this.stack.add_titled(widget, name, widget.title);
     }
 });

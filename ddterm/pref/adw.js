@@ -22,7 +22,19 @@
 /* exported WindowPage TerminalPage ShortcutsPage MiscPage */
 
 const { GObject, Gio, Adw } = imports.gi;
+
 const Me = imports.misc.extensionUtils.getCurrentExtension();
+const PositionSizeWidget = Me.imports.ddterm.pref.positionsize.Widget;
+const BehaviorWidget = Me.imports.ddterm.pref.behavior.Widget;
+const AnimationWidget = Me.imports.ddterm.pref.animation.Widget;
+const TabsWidget = Me.imports.ddterm.pref.tabs.Widget;
+const TextWidget = Me.imports.ddterm.pref.text.Widget;
+const ColorsWidget = Me.imports.ddterm.pref.colors.Widget;
+const CommandWidget = Me.imports.ddterm.pref.command.Widget;
+const ScrollingWidget = Me.imports.ddterm.pref.scrolling.Widget;
+const CompatibilityWidget = Me.imports.ddterm.pref.compatibility.Widget;
+const ShortcutsWidget = Me.imports.ddterm.pref.shortcuts.Widget;
+const PanelIconWidget = Me.imports.ddterm.pref.panelicon.Widget;
 
 const Page = GObject.registerClass({
     Properties: {
@@ -68,10 +80,10 @@ var WindowPage = GObject.registerClass({
         this.title = this.gettext_context.gettext('Window');
 
         [
-            Me.imports.ddterm.pref.positionsize.Widget,
-            Me.imports.ddterm.pref.behavior.Widget,
-            Me.imports.ddterm.pref.animation.Widget,
-            Me.imports.ddterm.pref.tabs.Widget,
+            PositionSizeWidget,
+            BehaviorWidget,
+            AnimationWidget,
+            TabsWidget,
         ].forEach(widget_type => this.add_widget(widget_type));
     }
 });
@@ -88,11 +100,11 @@ var TerminalPage = GObject.registerClass({
         this.title = this.gettext_context.gettext('Terminal');
 
         [
-            Me.imports.ddterm.pref.text.Widget,
-            Me.imports.ddterm.pref.colors.Widget,
-            Me.imports.ddterm.pref.command.Widget,
-            Me.imports.ddterm.pref.scrolling.Widget,
-            Me.imports.ddterm.pref.compatibility.Widget,
+            TextWidget,
+            ColorsWidget,
+            CommandWidget,
+            ScrollingWidget,
+            CompatibilityWidget,
         ].forEach(widget_type => this.add_widget(widget_type));
     }
 });
@@ -108,7 +120,7 @@ var ShortcutsPage = GObject.registerClass({
 
         this.title = this.gettext_context.gettext('Keyboard Shortcuts');
 
-        this.add_widget(Me.imports.ddterm.pref.shortcuts.Widget);
+        this.add_widget(ShortcutsWidget);
     }
 });
 
@@ -123,6 +135,6 @@ var MiscPage = GObject.registerClass({
 
         this.title = this.gettext_context.gettext('Miscellaneous');
 
-        this.add_widget(Me.imports.ddterm.pref.panelicon.Widget);
+        this.add_widget(PanelIconWidget);
     }
 });
