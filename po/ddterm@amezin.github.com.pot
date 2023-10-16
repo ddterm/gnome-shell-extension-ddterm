@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-15 20:28+0000\n"
+"POT-Creation-Date: 2023-10-16 06:16+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -61,11 +61,11 @@ msgstr ""
 msgid "Open a new tab"
 msgstr ""
 
-#: ddterm/app/application.js:373
+#: ddterm/app/application.js:371
 msgid "Saving session..."
 msgstr ""
 
-#: ddterm/app/application.js:525 ddterm/shell/extension.js:257
+#: ddterm/app/application.js:533 ddterm/shell/extension.js:257
 msgid ""
 "Warning: ddterm version has changed. Log out, then log in again to load the "
 "updated extension."
@@ -334,19 +334,19 @@ msgid ""
 "kill it."
 msgstr ""
 
-#: ddterm/pref/adw.js:68
+#: ddterm/pref/adw.js:80
 msgid "Window"
 msgstr ""
 
-#: ddterm/pref/adw.js:88
+#: ddterm/pref/adw.js:100
 msgid "Terminal"
 msgstr ""
 
-#: ddterm/pref/adw.js:109 ddterm/pref/shortcuts.js:131
+#: ddterm/pref/adw.js:121 ddterm/pref/shortcuts.js:131
 msgid "Keyboard Shortcuts"
 msgstr ""
 
-#: ddterm/pref/adw.js:124
+#: ddterm/pref/adw.js:136
 msgid "Miscellaneous"
 msgstr ""
 

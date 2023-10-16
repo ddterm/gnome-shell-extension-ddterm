@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-15 20:28+0000\n"
+"POT-Creation-Date: 2023-10-16 06:16+0000\n"
 "PO-Revision-Date: 2023-03-12 16:07+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/gnome-"
@@ -66,11 +66,11 @@ msgstr ""
 msgid "Open a new tab"
 msgstr ""
 
-#: ddterm/app/application.js:373
+#: ddterm/app/application.js:371
 msgid "Saving session..."
 msgstr ""
 
-#: ddterm/app/application.js:525 ddterm/shell/extension.js:257
+#: ddterm/app/application.js:533 ddterm/shell/extension.js:257
 msgid ""
 "Warning: ddterm version has changed. Log out, then log in again to load the "
 "updated extension."
@@ -351,23 +351,23 @@ msgstr ""
 "Det er fremdeles en kjørende prosess i denne terminalen som drepes hvis den "
 "lukkes."
 
-#: ddterm/pref/adw.js:68
+#: ddterm/pref/adw.js:80
 #, fuzzy
 #| msgid "Window _size:"
 msgid "Window"
 msgstr "Vindus_størrelse:"
 
-#: ddterm/pref/adw.js:88
+#: ddterm/pref/adw.js:100
 #, fuzzy
 #| msgid "Drop Down Terminal"
 msgid "Terminal"
 msgstr "Rullegardinsterminal"
 
-#: ddterm/pref/adw.js:109 ddterm/pref/shortcuts.js:131
+#: ddterm/pref/adw.js:121 ddterm/pref/shortcuts.js:131
 msgid "Keyboard Shortcuts"
 msgstr "Tastatursnarveier"
 
-#: ddterm/pref/adw.js:124
+#: ddterm/pref/adw.js:136
 msgid "Miscellaneous"
 msgstr ""
 

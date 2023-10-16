@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-15 20:28+0000\n"
+"POT-Creation-Date: 2023-10-16 06:16+0000\n"
 "PO-Revision-Date: 2023-03-14 13:45+0000\n"
 "Last-Translator: Aleksandr Mezin <mezin.alexander@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/gnome-shell-"
@@ -65,11 +65,11 @@ msgstr ""
 msgid "Open a new tab"
 msgstr ""
 
-#: ddterm/app/application.js:373
+#: ddterm/app/application.js:371
 msgid "Saving session..."
 msgstr ""
 
-#: ddterm/app/application.js:525 ddterm/shell/extension.js:257
+#: ddterm/app/application.js:533 ddterm/shell/extension.js:257
 msgid ""
 "Warning: ddterm version has changed. Log out, then log in again to load the "
 "updated extension."
@@ -350,23 +350,23 @@ msgstr ""
 "В терминале запущены процессы. При закрытии терминала эти процессы будут "
 "завершены."
 
-#: ddterm/pref/adw.js:68
+#: ddterm/pref/adw.js:80
 #, fuzzy
 #| msgid "Window _size:"
 msgid "Window"
 msgstr "Размер окна:"
 
-#: ddterm/pref/adw.js:88
+#: ddterm/pref/adw.js:100
 #, fuzzy
 #| msgid "Drop Down Terminal"
 msgid "Terminal"
 msgstr "Выпадающий терминал"
 
-#: ddterm/pref/adw.js:109 ddterm/pref/shortcuts.js:131
+#: ddterm/pref/adw.js:121 ddterm/pref/shortcuts.js:131
 msgid "Keyboard Shortcuts"
 msgstr "Комбинации клавиш"
 
-#: ddterm/pref/adw.js:124
+#: ddterm/pref/adw.js:136
 msgid "Miscellaneous"
 msgstr ""
 
