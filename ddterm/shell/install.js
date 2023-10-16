@@ -83,7 +83,7 @@ class File {
     }
 
     uninstall() {
-        this.unlink(this.target_file);
+        GLib.unlink(this.target_file);
     }
 }
 
