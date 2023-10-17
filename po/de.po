@@ -1,16 +1,18 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the ddterm package.
+#
 # Jörn Weigend <das.jott@gmail.com>, 2023.
 # Ettore Atalan <atalanttore@googlemail.com>, 2023.
 # Philipp Kiemle <philipp.kiemle@gmail.com>, 2023.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-10-16 06:16+0000\n"
-"PO-Revision-Date: 2023-10-10 04:03+0000\n"
-"Last-Translator: Jörn Weigend <das.jott@gmail.com>\n"
+"PO-Revision-Date: 2023-10-17 11:38+0200\n"
+"Last-Translator: Philipp Kiemle <philipp.kiemle@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/gnome-shell-"
 "extension-ddterm/extension/de/>\n"
 "Language: de\n"
@@ -22,51 +24,48 @@ msgstr ""
 
 #: ddterm/app/application.js:94
 msgid "Start the application, but do not show the window"
-msgstr ""
+msgstr "Die Anwendung starten, aber das Fenster nicht anzeigen"
 
 #: ddterm/app/application.js:103
 msgid "Comma-separated list of backends that GDK should try to use"
 msgstr ""
+"Durch Kommata getrennte Liste von Backends, die GDK ausprobieren sollte"
 
 #: ddterm/app/application.js:112
 msgid "Enable HeapDump D-Bus interface (for testing/debug)"
-msgstr ""
+msgstr "HeapDump-D-Bus-Interface aktivieren (Für Testzwecke/Fehlersuche)"
 
 #: ddterm/app/application.js:121
 msgid "Show version information and exit"
-msgstr ""
+msgstr "Versionsinformationen anzeigen und beenden"
 
 #: ddterm/app/application.js:130
 msgid "Run the specified command"
-msgstr ""
+msgstr "Den angegebenen Befehl ausführen"
 
 #: ddterm/app/application.js:144
 msgid "Wait for the command to exit, and return its exit code"
-msgstr ""
+msgstr "Auf das Beenden des Befehls warten und dessen Status zurückgeben"
 
 #: ddterm/app/application.js:153
-#, fuzzy
-#| msgid "Preserve working directory"
 msgid "Set the working directory"
-msgstr "Arbeitsverzeichnis beibehalten"
+msgstr "Arbeitsverzeichnis setzen"
 
 #: ddterm/app/application.js:162
-#, fuzzy
-#| msgid "Set Custom Tab Title"
 msgid "Set tab title"
-msgstr "Benutzerdefinierten Reitertitel festlegen"
+msgstr "Reitertitel festlegen"
 
 #: ddterm/app/application.js:171
 msgid "Keep the terminal open after the command has exited"
-msgstr ""
+msgstr "Das Terminal nach dem Beenden des Befehls geöffnet lassen"
 
 #: ddterm/app/application.js:180
 msgid "Do not pass the environment"
-msgstr ""
+msgstr "Die Umgebung nicht weitergeben"
 
 #: ddterm/app/application.js:189
 msgid "Open a new tab"
-msgstr ""
+msgstr "Einen neuen Reiter öffnen"
 
 #: ddterm/app/application.js:371
 msgid "Saving session..."
