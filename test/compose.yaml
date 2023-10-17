@@ -21,6 +21,3 @@ services:
 
   centos-9:
     image: ghcr.io/ddterm/gnome-shell-pod/centos-9:2023.10.15.1
-
-  archlinux:
-    image: ghcr.io/ddterm/gnome-shell-pod/archlinux:2023.10.15.1
