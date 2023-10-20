@@ -12,4 +12,4 @@ case ":${PATH:="$bindir"}:" in
     PATH="$bindir:$PATH";;
 esac
 
-exec gjs "${bindir%/*}/ddterm/app/main.js" "$@"
+exec gjs -m "${bindir%/*}/ddterm/app/main.js" "$@"

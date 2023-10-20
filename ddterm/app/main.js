@@ -17,22 +17,22 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-'use strict';
+import GLib from 'gi://GLib';
+import GObject from 'gi://GObject';
+import Gio from 'gi://Gio';
 
-const { GLib, GObject, Gio } = imports.gi;
+import Gettext from 'gettext';
+import System from 'system';
 
 const ByteArray = imports.byteArray;
-const Gettext = imports.gettext;
-const System = imports.system;
 
 GLib.set_prgname('com.github.amezin.ddterm');
 
 GObject.gtypeNameBasedOnJSPath = true;
 
-const THIS_FILE = Gio.File.new_for_path(System.programPath);
-const APP_DIR = THIS_FILE.get_parent();
-const DDTERM_DIR = APP_DIR.get_parent();
-const ME_DIR = DDTERM_DIR.get_parent();
+const ME_DIR = Gio.File.new_for_uri(
+    GLib.Uri.resolve_relative(import.meta.url, '../..', GLib.UriFlags.NONE)
+);
 
 imports.searchPath.unshift(ME_DIR.get_path());
 

@@ -23,3 +23,8 @@ globals:
   global: readonly
 parserOptions:
   ecmaVersion: 2020
+overrides:
+  - files:
+      - ddterm/app/main.js
+    parserOptions:
+      sourceType: module
