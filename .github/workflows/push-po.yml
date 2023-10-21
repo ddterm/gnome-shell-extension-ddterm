@@ -5,6 +5,8 @@ concurrency: ${{ github.workflow }}/${{ github.ref }}
 on:
   workflow_dispatch:
   push:
+    branches-ignore:
+      - weblate
     tags-ignore:
       - v*
     paths:

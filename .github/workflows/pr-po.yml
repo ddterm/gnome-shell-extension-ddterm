@@ -13,4 +13,6 @@ jobs:
     with:
       testspace: false
 
-    if: github.event.pull_request.base.repo.node_id != github.event.pull_request.head.repo.node_id
+    if: >-
+      github.event.pull_request.head.ref == 'weblate'
+      || github.event.pull_request.base.repo.node_id != github.event.pull_request.head.repo.node_id
