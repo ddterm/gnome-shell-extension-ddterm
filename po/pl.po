@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-16 06:16+0000\n"
+"POT-Creation-Date: 2023-10-21 07:18+0000\n"
 "PO-Revision-Date: 2023-10-15 19:58+0000\n"
 "Last-Translator: Defender94 <defender94.business@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/gnome-shell-"
@@ -21,55 +21,55 @@ msgstr ""
 "|| n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 5.1-dev\n"
 
-#: ddterm/app/application.js:94
+#: ddterm/app/application.js:79
 msgid "Start the application, but do not show the window"
 msgstr "Uruchom aplikację, ale nie pokazuj okna"
 
-#: ddterm/app/application.js:103
+#: ddterm/app/application.js:88
 msgid "Comma-separated list of backends that GDK should try to use"
 msgstr ""
 
-#: ddterm/app/application.js:112
+#: ddterm/app/application.js:97
 msgid "Enable HeapDump D-Bus interface (for testing/debug)"
 msgstr ""
 
-#: ddterm/app/application.js:121
+#: ddterm/app/application.js:106
 msgid "Show version information and exit"
 msgstr "Pokaż numer wersji i wyjdź"
 
-#: ddterm/app/application.js:130
+#: ddterm/app/application.js:115
 msgid "Run the specified command"
 msgstr "Uruchom polecenie"
 
-#: ddterm/app/application.js:144
+#: ddterm/app/application.js:129
 msgid "Wait for the command to exit, and return its exit code"
 msgstr "Poczekaj no wykonanie polecenia i zwróć wynik jego działania"
 
-#: ddterm/app/application.js:153
+#: ddterm/app/application.js:138
 msgid "Set the working directory"
 msgstr "Zmień aktualny folder"
 
-#: ddterm/app/application.js:162
+#: ddterm/app/application.js:147
 msgid "Set tab title"
 msgstr "Ustaw inny tytuł karty"
 
-#: ddterm/app/application.js:171
+#: ddterm/app/application.js:156
 msgid "Keep the terminal open after the command has exited"
 msgstr "Nie zamykaj konsoli po wykonaniu polecenia"
 
-#: ddterm/app/application.js:180
+#: ddterm/app/application.js:165
 msgid "Do not pass the environment"
 msgstr "Nie przekazuj zmiennych środowiskowych"
 
-#: ddterm/app/application.js:189
+#: ddterm/app/application.js:174
 msgid "Open a new tab"
 msgstr "Otwórz nową kartę"
 
-#: ddterm/app/application.js:371
+#: ddterm/app/application.js:345
 msgid "Saving session..."
 msgstr "Zapisywanie sesji..."
 
-#: ddterm/app/application.js:533 ddterm/shell/extension.js:257
+#: ddterm/app/application.js:504 ddterm/shell/extension.js:257
 msgid ""
 "Warning: ddterm version has changed. Log out, then log in again to load the "
 "updated extension."
@@ -77,24 +77,24 @@ msgstr ""
 "Ostrzeżenie: wersja ddterm zmieniła się. Zaloguj się ponownie, aby załadować "
 "aktualne rozszerzenie."
 
-#: ddterm/app/appwindow.js:161 ddterm/shell/extension.js:245
+#: ddterm/app/appwindow.js:156 ddterm/shell/extension.js:245
 #: ddterm/shell/extension.js:255
 msgid "Drop Down Terminal"
 msgstr "Rozwijany Terminal"
 
-#: ddterm/app/dependencies-notification.js:147
+#: ddterm/app/dependencies-notification.js:135
 msgid "ddterm needs additional packages to run."
 msgstr "ddterm potrzebuje dodatkowych pakietów, aby mógł działać."
 
-#: ddterm/app/dependencies-notification.js:152
+#: ddterm/app/dependencies-notification.js:140
 msgid "Please install the following packages:"
 msgstr "Zainstaluj poniższe pakiety:"
 
-#: ddterm/app/dependencies-notification.js:160
+#: ddterm/app/dependencies-notification.js:148
 msgid "Please install packages that provide the following files:"
 msgstr "Prosimy zainstalować pakiety, które dostarczają następujące pliki:"
 
-#: ddterm/app/dependencies-notification.js:173
+#: ddterm/app/dependencies-notification.js:161
 msgid "Missing dependencies"
 msgstr "Brakujące zależności"
 
@@ -154,7 +154,7 @@ msgstr "Oddal"
 msgid "Normal Size"
 msgstr "Normalny rozmiar"
 
-#: ddterm/app/menus.ui:93 ddterm/app/menus.ui:224 ddterm/app/tablabel.js:111
+#: ddterm/app/menus.ui:93 ddterm/app/menus.ui:224 ddterm/app/tablabel.js:113
 msgid "Close"
 msgstr "Zamknij"
 
@@ -206,7 +206,7 @@ msgstr "Podział pionowy"
 msgid "Move Tab to Other Pane"
 msgstr "Przesuń kartę na drugi widok"
 
-#: ddterm/app/menus.ui:151 ddterm/pref/dialog.js:47
+#: ddterm/app/menus.ui:151 ddterm/app/prefsdialog.js:46
 msgid "Preferences"
 msgstr "Preferencje"
 
@@ -278,63 +278,63 @@ msgstr "Przenieś kartę do poprzedniej pozycji"
 msgid "Move Tab to Next Position"
 msgstr "Przenieś kartę do następnej pozycji"
 
-#: ddterm/app/notebook.js:155
+#: ddterm/app/notebook.js:157
 msgid "New Tab (Last)"
 msgstr "Nowa karta (ostatnia)"
 
-#: ddterm/app/notebook.js:193
+#: ddterm/app/notebook.js:197
 msgid "New Tab (First)"
 msgstr "Nowa karta (pierwsza)"
 
-#: ddterm/app/search.js:214
+#: ddterm/app/search.js:224
 msgid "Case Sensitive"
 msgstr "Uwzględnij wielkość liter"
 
-#: ddterm/app/search.js:230
+#: ddterm/app/search.js:240
 msgid "Match Whole Word"
 msgstr "Dopasowywanie całych słów"
 
-#: ddterm/app/search.js:246
+#: ddterm/app/search.js:256
 msgid "Regular Expression"
 msgstr "Wyrażenie regularne"
 
-#: ddterm/app/search.js:314
+#: ddterm/app/search.js:324
 msgid "Close Search Bar"
 msgstr "Zamknij pasek wyszukiwania"
 
-#: ddterm/app/search.js:325
+#: ddterm/app/search.js:335
 msgid "Wrap Around"
 msgstr "Zawijanie dookoła"
 
-#: ddterm/app/search.js:341 ddterm/pref/glade/prefs-shortcuts.ui:283
+#: ddterm/app/search.js:351 ddterm/pref/glade/prefs-shortcuts.ui:283
 msgid "Find Next"
 msgstr "Wyszukaj następne"
 
-#: ddterm/app/search.js:359 ddterm/pref/glade/prefs-shortcuts.ui:290
+#: ddterm/app/search.js:369 ddterm/pref/glade/prefs-shortcuts.ui:290
 msgid "Find Previous"
 msgstr "Wyszukaj poprzednie"
 
-#: ddterm/app/terminalpage.js:440
+#: ddterm/app/terminalpage.js:453
 msgid "Restart"
 msgstr "Uruchom ponownie"
 
-#: ddterm/app/terminalpage.js:441 ddterm/app/terminalpage.js:616
+#: ddterm/app/terminalpage.js:454 ddterm/app/terminalpage.js:629
 msgid "Close Terminal"
 msgstr "Zamknij terminal"
 
-#: ddterm/app/terminalpage.js:464
+#: ddterm/app/terminalpage.js:477
 msgid "The child process exited with status:"
 msgstr "Otwarty proces zakończył się ze statusem:"
 
-#: ddterm/app/terminalpage.js:474
+#: ddterm/app/terminalpage.js:487
 msgid "The child process was aborted by signal:"
 msgstr "Otwarty proces został zakończony sygnałem:"
 
-#: ddterm/app/terminalpage.js:608
+#: ddterm/app/terminalpage.js:621
 msgid "Close this terminal?"
 msgstr "Zamknąć ten terminal?"
 
-#: ddterm/app/terminalpage.js:610
+#: ddterm/app/terminalpage.js:623
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."
@@ -1275,7 +1275,7 @@ msgstr ""
 msgid "Panel Icon"
 msgstr "Ikona panelu"
 
-#: ddterm/pref/positionsize.js:81
+#: ddterm/pref/positionsize.js:91
 msgid "Position and Size"
 msgstr "Pozycja i rozmiar"
 

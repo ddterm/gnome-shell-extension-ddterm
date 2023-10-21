@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-16 06:16+0000\n"
+"POT-Creation-Date: 2023-10-21 07:18+0000\n"
 "PO-Revision-Date: 2023-04-25 12:23+0000\n"
 "Last-Translator: yuh <yuhldr@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -18,82 +18,82 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 4.18-dev\n"
 
-#: ddterm/app/application.js:94
+#: ddterm/app/application.js:79
 msgid "Start the application, but do not show the window"
 msgstr ""
 
-#: ddterm/app/application.js:103
+#: ddterm/app/application.js:88
 msgid "Comma-separated list of backends that GDK should try to use"
 msgstr ""
 
-#: ddterm/app/application.js:112
+#: ddterm/app/application.js:97
 msgid "Enable HeapDump D-Bus interface (for testing/debug)"
 msgstr ""
 
-#: ddterm/app/application.js:121
+#: ddterm/app/application.js:106
 msgid "Show version information and exit"
 msgstr ""
 
-#: ddterm/app/application.js:130
+#: ddterm/app/application.js:115
 msgid "Run the specified command"
 msgstr ""
 
-#: ddterm/app/application.js:144
+#: ddterm/app/application.js:129
 msgid "Wait for the command to exit, and return its exit code"
 msgstr ""
 
-#: ddterm/app/application.js:153
+#: ddterm/app/application.js:138
 #, fuzzy
 #| msgid "Preserve working directory"
 msgid "Set the working directory"
 msgstr "保存工作目录"
 
-#: ddterm/app/application.js:162
+#: ddterm/app/application.js:147
 #, fuzzy
 #| msgid "Set Custom Tab Title"
 msgid "Set tab title"
 msgstr "设置自定义标签页标题"
 
-#: ddterm/app/application.js:171
+#: ddterm/app/application.js:156
 msgid "Keep the terminal open after the command has exited"
 msgstr ""
 
-#: ddterm/app/application.js:180
+#: ddterm/app/application.js:165
 msgid "Do not pass the environment"
 msgstr ""
 
-#: ddterm/app/application.js:189
+#: ddterm/app/application.js:174
 msgid "Open a new tab"
 msgstr ""
 
-#: ddterm/app/application.js:371
+#: ddterm/app/application.js:345
 msgid "Saving session..."
 msgstr ""
 
-#: ddterm/app/application.js:533 ddterm/shell/extension.js:257
+#: ddterm/app/application.js:504 ddterm/shell/extension.js:257
 msgid ""
 "Warning: ddterm version has changed. Log out, then log in again to load the "
 "updated extension."
 msgstr "警告：ddterm版本已改变。注销后重新登录，方可生效。"
 
-#: ddterm/app/appwindow.js:161 ddterm/shell/extension.js:245
+#: ddterm/app/appwindow.js:156 ddterm/shell/extension.js:245
 #: ddterm/shell/extension.js:255
 msgid "Drop Down Terminal"
 msgstr "下拉终端"
 
-#: ddterm/app/dependencies-notification.js:147
+#: ddterm/app/dependencies-notification.js:135
 msgid "ddterm needs additional packages to run."
 msgstr "ddterm需要额外的软件包才能运行。"
 
-#: ddterm/app/dependencies-notification.js:152
+#: ddterm/app/dependencies-notification.js:140
 msgid "Please install the following packages:"
 msgstr "请安装以下软件包："
 
-#: ddterm/app/dependencies-notification.js:160
+#: ddterm/app/dependencies-notification.js:148
 msgid "Please install packages that provide the following files:"
 msgstr "请安装提供以下文件的软件包："
 
-#: ddterm/app/dependencies-notification.js:173
+#: ddterm/app/dependencies-notification.js:161
 msgid "Missing dependencies"
 msgstr "缺少的依赖关系"
 
@@ -155,7 +155,7 @@ msgstr ""
 msgid "Normal Size"
 msgstr "标准的"
 
-#: ddterm/app/menus.ui:93 ddterm/app/menus.ui:224 ddterm/app/tablabel.js:111
+#: ddterm/app/menus.ui:93 ddterm/app/menus.ui:224 ddterm/app/tablabel.js:113
 msgid "Close"
 msgstr "关闭"
 
@@ -209,7 +209,7 @@ msgstr ""
 msgid "Move Tab to Other Pane"
 msgstr "移动标签页到下一个位置"
 
-#: ddterm/app/menus.ui:151 ddterm/pref/dialog.js:47
+#: ddterm/app/menus.ui:151 ddterm/app/prefsdialog.js:46
 msgid "Preferences"
 msgstr "首选项"
 
@@ -281,67 +281,67 @@ msgstr "移动标签页到上一个位置"
 msgid "Move Tab to Next Position"
 msgstr "移动标签页到下一个位置"
 
-#: ddterm/app/notebook.js:155
+#: ddterm/app/notebook.js:157
 msgid "New Tab (Last)"
 msgstr "新建标签页（最后一个）"
 
-#: ddterm/app/notebook.js:193
+#: ddterm/app/notebook.js:197
 msgid "New Tab (First)"
 msgstr "新建标签页（第一个）"
 
-#: ddterm/app/search.js:214
+#: ddterm/app/search.js:224
 msgid "Case Sensitive"
 msgstr "区分大小写的"
 
-#: ddterm/app/search.js:230
+#: ddterm/app/search.js:240
 msgid "Match Whole Word"
 msgstr "匹配整个单词"
 
-#: ddterm/app/search.js:246
+#: ddterm/app/search.js:256
 msgid "Regular Expression"
 msgstr "正则表达式"
 
-#: ddterm/app/search.js:314
+#: ddterm/app/search.js:324
 msgid "Close Search Bar"
 msgstr "关闭搜索栏"
 
-#: ddterm/app/search.js:325
+#: ddterm/app/search.js:335
 msgid "Wrap Around"
 msgstr "回到文档头部继续搜索"
 
-#: ddterm/app/search.js:341 ddterm/pref/glade/prefs-shortcuts.ui:283
+#: ddterm/app/search.js:351 ddterm/pref/glade/prefs-shortcuts.ui:283
 msgid "Find Next"
 msgstr "查找下一个"
 
-#: ddterm/app/search.js:359 ddterm/pref/glade/prefs-shortcuts.ui:290
+#: ddterm/app/search.js:369 ddterm/pref/glade/prefs-shortcuts.ui:290
 msgid "Find Previous"
 msgstr "找到前一个"
 
-#: ddterm/app/terminalpage.js:440
+#: ddterm/app/terminalpage.js:453
 #, fuzzy
 #| msgid "Start"
 msgid "Restart"
 msgstr "开头"
 
-#: ddterm/app/terminalpage.js:441 ddterm/app/terminalpage.js:616
+#: ddterm/app/terminalpage.js:454 ddterm/app/terminalpage.js:629
 #, fuzzy
 #| msgid "Close this terminal?"
 msgid "Close Terminal"
 msgstr "关闭这个终端？"
 
-#: ddterm/app/terminalpage.js:464
+#: ddterm/app/terminalpage.js:477
 msgid "The child process exited with status:"
 msgstr ""
 
-#: ddterm/app/terminalpage.js:474
+#: ddterm/app/terminalpage.js:487
 msgid "The child process was aborted by signal:"
 msgstr ""
 
-#: ddterm/app/terminalpage.js:608
+#: ddterm/app/terminalpage.js:621
 msgid "Close this terminal?"
 msgstr "关闭这个终端？"
 
-#: ddterm/app/terminalpage.js:610
+#: ddterm/app/terminalpage.js:623
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."
@@ -1296,7 +1296,7 @@ msgstr "检测新闻、文档URL"
 msgid "Panel Icon"
 msgstr "面板图标"
 
-#: ddterm/pref/positionsize.js:81
+#: ddterm/pref/positionsize.js:91
 msgid "Position and Size"
 msgstr "位置和尺寸"
 
