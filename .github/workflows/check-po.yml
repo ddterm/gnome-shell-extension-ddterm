@@ -60,7 +60,9 @@ jobs:
       run: echo "::add-matcher::.github/problem-matchers/generic.json"
 
     - name: Compile translation
-      run: make msgfmt/${{ matrix.pofile }}
+      run: |
+        make msgfmt/${{ matrix.pofile }}
+        echo
       shell: bash
 
     - name: Disable gettext stats problem matcher

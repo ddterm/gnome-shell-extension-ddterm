@@ -5,11 +5,11 @@
             "severity": "warning",
             "pattern": [
                 {
-                    "regexp": "msgfmt .* --statistics .* (po/.*\\.po)$",
+                    "regexp": "msgfmt .* --statistics .* (po/.*\\.po)",
                     "file": 1
                 },
                 {
-                    "regexp": "^((\\d+) translated messages?,.*)",
+                    "regexp": "^((\\d+) translated messages?,.*)$",
                     "message": 1
                 }
             ]
