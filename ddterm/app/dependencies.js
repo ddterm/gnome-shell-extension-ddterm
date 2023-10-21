@@ -20,6 +20,7 @@
 import GLib from 'gi://GLib';
 import Gio from 'gi://Gio';
 
+import Gi from 'gi';
 import System from 'system';
 
 import './encoding.js';
@@ -115,10 +116,8 @@ export function gi_require(imports_versions) {
             System.exit(1);
         }
 
-        imports.gi.versions[lib] = version;
-
         try {
-            const _ = imports.gi[lib];
+            Gi.require(lib, version);
         } catch (ex) {
             missing[lib] = version;
             logError(ex, `Failed to import library ${lib}, version ${version}`);
