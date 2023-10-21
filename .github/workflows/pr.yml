@@ -6,19 +6,18 @@ on:
   pull_request:
     paths-ignore:
       - docs/**
+      - po/**
 
 jobs:
   build:
     uses: ./.github/workflows/build.yml
     with:
-      testspace: ${{ github.event.pull_request.head.ref != 'weblate' }}
+      testspace: true
 
     if: >-
       startsWith(github.event.pull_request.head.ref, 'renovate/')
-      || github.event.pull_request.head.ref == 'weblate'
       || github.event.pull_request.base.repo.node_id != github.event.pull_request.head.repo.node_id
 
   test:
     needs: build
     uses: ./.github/workflows/test.yml
-    if: ${{ github.event.pull_request.head.ref != 'weblate' }}

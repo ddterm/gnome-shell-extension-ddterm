@@ -1,0 +1,16 @@
+name: pr-po
+
+concurrency: ${{ github.workflow }}/${{ github.ref }}
+
+on:
+  pull_request:
+    paths:
+      - po/**
+
+jobs:
+  build:
+    uses: ./.github/workflows/build.yml
+    with:
+      testspace: false
+
+    if: github.event.pull_request.base.repo.node_id != github.event.pull_request.head.repo.node_id

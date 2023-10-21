@@ -41,9 +41,22 @@ jobs:
         git diff --color=always -- $PO_FILES | tee /dev/stderr | .github/set-multiline.sh diff >> "$GITHUB_OUTPUT"
 
     - name: Commit and push
+      id: push
       if: steps.diff.outputs.diff != ''
       run: |
         git config user.name 'github-actions[bot]'
         git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
         git commit -m 'Update translation files' -- $PO_FILES
         git push
+
+    - name: Trigger translation check
+      if: steps.push.outcome == 'success'
+      uses: actions/github-script@v6
+      with:
+        script: |
+          github.rest.actions.createWorkflowDispatch({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            workflow_id: 'push-po.yml',
+            ref: '${{ github.ref }}',
+          })
