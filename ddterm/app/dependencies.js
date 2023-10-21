@@ -141,7 +141,7 @@ export function gi_require(imports_versions) {
             Gi.require(lib, version);
         } catch (ex) {
             missing[lib] = version;
-            logError(ex, `Failed to import library ${lib}, version ${version}`);
+            logError(ex);
         }
     }
 
