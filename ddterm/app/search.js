@@ -17,25 +17,35 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-'use strict';
+import GLib from 'gi://GLib';
+import GObject from 'gi://GObject';
+import Gtk from 'gi://Gtk';
+import Vte from 'gi://Vte';
 
-const { GLib, GObject, Gtk, Vte } = imports.gi;
-const Gettext = imports.gettext;
-const { pcre2 } = imports.ddterm.app;
+import Gettext from 'gettext';
 
-const BASE_REGEX_FLAGS =
-    pcre2.PCRE2_UTF | pcre2.PCRE2_NO_UTF_CHECK | pcre2.PCRE2_UCP | pcre2.PCRE2_MULTILINE;
+import {
+    PCRE2_UTF,
+    PCRE2_NO_UTF_CHECK,
+    PCRE2_UCP,
+    PCRE2_MULTILINE,
+    PCRE2_JIT_COMPLETE,
+    PCRE2_JIT_PARTIAL_SOFT,
+    PCRE2_CASELESS
+} from './pcre2.js';
+
+const BASE_REGEX_FLAGS = PCRE2_UTF | PCRE2_NO_UTF_CHECK | PCRE2_UCP | PCRE2_MULTILINE;
 
 function jit_regex(regex) {
     try {
-        regex.jit(pcre2.PCRE2_JIT_COMPLETE);
+        regex.jit(PCRE2_JIT_COMPLETE);
     } catch (ex) {
         logError(ex, `Can't JIT compile ${regex} (PCRE2_JIT_COMPLETE)`);
         return;
     }
 
     try {
-        regex.jit(pcre2.PCRE2_JIT_PARTIAL_SOFT);
+        regex.jit(PCRE2_JIT_PARTIAL_SOFT);
     } catch (ex) {
         logError(ex, `Can't JIT compile ${regex} (PCRE2_JIT_PARTIAL_SOFT)`);
     }
@@ -57,7 +67,7 @@ function compile_regex(pattern, use_regex, whole_word, case_sensitive) {
 
     let search_flags = BASE_REGEX_FLAGS;
     if (!case_sensitive)
-        search_flags |= pcre2.PCRE2_CASELESS;
+        search_flags |= PCRE2_CASELESS;
 
     const regex = Vte.Regex.new_for_search(pattern, -1, search_flags);
     jit_regex(regex);
@@ -66,7 +76,7 @@ function compile_regex(pattern, use_regex, whole_word, case_sensitive) {
 
 const REGEX_OUTDATED = Symbol('regex-outdated');
 
-var SearchPattern = GObject.registerClass({
+export const SearchPattern = GObject.registerClass({
     Properties: {
         'regex': GObject.ParamSpec.boxed(
             'regex',
@@ -174,7 +184,7 @@ var SearchPattern = GObject.registerClass({
     }
 });
 
-var SearchBar = GObject.registerClass({
+export const SearchBar = GObject.registerClass({
     Properties: {
         'pattern': GObject.ParamSpec.object(
             'pattern',
@@ -391,5 +401,3 @@ class DDTermSearchBar extends Gtk.Revealer {
         this.emit('find-prev');
     }
 });
-
-/* exported SearchBar SearchPattern */

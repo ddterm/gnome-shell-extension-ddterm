@@ -17,10 +17,22 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-export const PCRE2_UTF = 0x00080000;
-export const PCRE2_NO_UTF_CHECK = 0x40000000;
-export const PCRE2_UCP = 0x00020000;
-export const PCRE2_MULTILINE = 0x00000400;
-export const PCRE2_JIT_COMPLETE = 0x00000001;
-export const PCRE2_JIT_PARTIAL_SOFT = 0x00000002;
-export const PCRE2_CASELESS = 0x00000008;
+import GLib from 'gi://GLib';
+import Gio from 'gi://Gio';
+
+import './encoding.js';
+
+export const dir = Gio.File.new_for_uri(
+    GLib.Uri.resolve_relative(import.meta.url, '../..', GLib.UriFlags.NONE)
+);
+
+function load_metadata() {
+    const [ok_, bytes] = dir.get_child('metadata.json').load_contents(null);
+
+    return JSON.parse(new TextDecoder().decode(bytes));
+}
+
+export const metadata = load_metadata();
+export default metadata;
+
+export const { name, uuid, version } = metadata;

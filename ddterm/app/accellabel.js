@@ -17,13 +17,11 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-'use strict';
+import GObject from 'gi://GObject';
+import Gio from 'gi://Gio';
+import Gtk from 'gi://Gtk';
 
-/* exported AccelLabel */
-
-const { GObject, Gio, Gtk } = imports.gi;
-
-var AccelLabel = GObject.registerClass({
+export const AccelLabel = GObject.registerClass({
     Implements: [Gtk.Actionable],
     Properties: {
         'action-name': GObject.ParamSpec.override('action-name', Gtk.Actionable),

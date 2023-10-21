@@ -1,4 +1,4 @@
-#!/usr/bin/env gjs
+#!/usr/bin/env -S gjs -m
 
 /*
     Copyright © 2021 Aleksandr Mezin
@@ -19,19 +19,12 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-'use strict';
+import 'gi://Gdk?version=4.0';
+import 'gi://Gtk?version=4.0';
 
-imports.gi.versions.Gdk = '4.0';
-imports.gi.versions.Gtk = '4.0';
+import System from 'system';
 
-const System = imports.system;
-const { Gio } = imports.gi;
+import { Application } from './common.js';
 
-const PREF_TEST_DIR = Gio.File.new_for_path(System.programPath).get_parent();
-const ME_DIR = PREF_TEST_DIR.get_parent().get_parent().get_parent();
-
-imports.searchPath.unshift(ME_DIR.get_path());
-Object.assign(imports.misc.extensionUtils.getCurrentExtension(), { imports, dir: ME_DIR });
-
-const app = new imports.ddterm.pref.test.common.Application({ install_dir: ME_DIR });
+const app = new Application();
 app.run([System.programInvocationName].concat(ARGV));

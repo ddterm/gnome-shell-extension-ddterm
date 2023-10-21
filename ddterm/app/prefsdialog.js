@@ -1,5 +1,5 @@
 /*
-    Copyright © 2020, 2021 Aleksandr Mezin
+    Copyright © 2023 Aleksandr Mezin
 
     This file is part of ddterm GNOME Shell extension.
 
@@ -17,14 +17,15 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-'use strict';
+import GObject from 'gi://GObject';
+import Gio from 'gi://Gio';
+import Gtk from 'gi://Gtk';
 
-/* exported PrefsDialog */
+import Gettext from 'gettext';
 
-const { GObject, Gio, Gtk } = imports.gi;
-const { PrefsWidget } = imports.ddterm.pref.widget;
+import { metadata, dir } from './meta.js';
 
-var PrefsDialog = GObject.registerClass({
+export const PrefsDialog = GObject.registerClass({
     Properties: {
         'settings': GObject.ParamSpec.object(
             'settings',
@@ -33,24 +34,31 @@ var PrefsDialog = GObject.registerClass({
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             Gio.Settings
         ),
-        'gettext-context': GObject.ParamSpec.jsobject(
-            'gettext-context',
-            '',
-            '',
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY
-        ),
     },
 }, class PrefsDialog extends Gtk.Dialog {
     _init(params) {
         super._init(params);
 
-        this.set_title(this.gettext_context.gettext('Preferences'));
+        const gettext_context = Gettext.domain(metadata['gettext-domain']);
+
+        this.set_title(gettext_context.gettext('Preferences'));
         this.set_default_size(640, 576);
         this.set_icon_name('preferences-system');
 
-        const widget = new PrefsWidget({
+        /*
+         * fake current extension object to make `Me.imports` and `Me.dir`
+         * work in application context
+         */
+        Object.assign(imports.misc.extensionUtils.getCurrentExtension(), {
+            imports,
+            dir,
+            path: dir.get_path(),
+            metadata,
+        });
+
+        const widget = new imports.ddterm.pref.widget.PrefsWidget({
             settings: this.settings,
-            gettext_context: this.gettext_context,
+            gettext_context,
         });
 
         const content_area = this.get_content_area();

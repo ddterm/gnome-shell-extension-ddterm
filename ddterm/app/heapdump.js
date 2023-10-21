@@ -17,18 +17,26 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-'use strict';
+import GLib from 'gi://GLib';
+import Gio from 'gi://Gio';
 
-const { GLib, Gio } = imports.gi;
+import System from 'system';
 
-const System = imports.system;
+import './encoding.js';
 
-/* exported HeapDumper */
+function get_file(relative_path) {
+    return Gio.File.new_for_uri(
+        GLib.Uri.resolve_relative(import.meta.url, relative_path, GLib.UriFlags.NONE)
+    );
+}
 
-var HeapDumper = class {
-    constructor(resources) {
+export class HeapDumper {
+    constructor() {
+        const [ok_, bytes] =
+            get_file('../com.github.amezin.ddterm.HeapDump.xml').load_contents(null);
+
         this.dbus = Gio.DBusExportedObject.wrapJSObject(
-            resources.dbus_interfaces.get('ddterm/com.github.amezin.ddterm.HeapDump.xml'),
+            new TextDecoder().decode(bytes),
             this
         );
     }
@@ -59,4 +67,4 @@ var HeapDumper = class {
 
         return path;
     }
-};
+}

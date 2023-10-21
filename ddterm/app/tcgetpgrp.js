@@ -17,9 +17,8 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-'use strict';
-
-const { GLib, Gio } = imports.gi;
+import GLib from 'gi://GLib';
+import Gio from 'gi://Gio';
 
 /* There's no way to call tcgetpgrp from GJS, as far as I know. So here we are */
 
@@ -31,12 +30,12 @@ const PY_CODE = `
     print(os.tcgetpgrp(${TARGET_FD}))
 `;
 
-var InterpreterNotFoundError = class InterpreterNotFoundError extends Error {
+export class InterpreterNotFoundError extends Error {
     constructor(message) {
         super(message);
         this.name = 'InterpreterNotFoundError';
     }
-};
+}
 
 function find_program(variants) {
     for (let name of variants) {
@@ -69,7 +68,7 @@ function dup(fd) {
     return duper.steal_fds()[0];
 }
 
-function tcgetpgrp(fd) {
+export function tcgetpgrp(fd) {
     const argv = find_interpreter();
     const launcher = Gio.SubprocessLauncher.new(Gio.SubprocessFlags.STDOUT_PIPE);
 
@@ -85,5 +84,3 @@ function tcgetpgrp(fd) {
         launcher.close();
     }
 }
-
-/* exported tcgetpgrp InterpreterNotFoundError */

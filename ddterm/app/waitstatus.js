@@ -17,16 +17,14 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-/* exported WEXITSTATUS WTERMSIG WIFEXITED */
-
-function WEXITSTATUS(status) {
+export function WEXITSTATUS(status) {
     return (status & 0xff00) >> 8;
 }
 
-function WTERMSIG(status) {
+export function WTERMSIG(status) {
     return status & 0x7f;
 }
 
-function WIFEXITED(status) {
+export function WIFEXITED(status) {
     return WTERMSIG(status) === 0;
 }

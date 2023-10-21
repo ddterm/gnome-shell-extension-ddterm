@@ -17,30 +17,44 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-'use strict';
+import GObject from 'gi://GObject';
+import Vte from 'gi://Vte';
 
-const { GObject, Vte } = imports.gi;
-const { pcre2, urldetect_patterns } = imports.ddterm.app;
+import {
+    PCRE2_UTF,
+    PCRE2_NO_UTF_CHECK,
+    PCRE2_UCP,
+    PCRE2_MULTILINE,
+    PCRE2_JIT_COMPLETE,
+    PCRE2_JIT_PARTIAL_SOFT
+} from './pcre2.js';
 
-/* exported UrlDetect PATTERN_NAMES */
+import {
+    REGEX_URL_AS_IS,
+    REGEX_URL_FILE,
+    REGEX_URL_HTTP,
+    REGEX_URL_VOIP,
+    REGEX_EMAIL,
+    REGEX_NEWS_MAN
+} from './urldetect_patterns.js';
 
 function jit_regex(regex) {
     try {
-        regex.jit(pcre2.PCRE2_JIT_COMPLETE);
+        regex.jit(PCRE2_JIT_COMPLETE);
     } catch (ex) {
         logError(ex, `Can't JIT compile ${regex} (PCRE2_JIT_COMPLETE)`);
         return;
     }
 
     try {
-        regex.jit(pcre2.PCRE2_JIT_PARTIAL_SOFT);
+        regex.jit(PCRE2_JIT_PARTIAL_SOFT);
     } catch (ex) {
         logError(ex, `Can't JIT compile ${regex} (PCRE2_JIT_PARTIAL_SOFT)`);
     }
 }
 
 const BASE_REGEX_FLAGS =
-    pcre2.PCRE2_UTF | pcre2.PCRE2_NO_UTF_CHECK | pcre2.PCRE2_UCP | pcre2.PCRE2_MULTILINE;
+    PCRE2_UTF | PCRE2_NO_UTF_CHECK | PCRE2_UCP | PCRE2_MULTILINE;
 
 function compile_regex(regex) {
     const compiled = Vte.Regex.new_for_match(regex, -1, BASE_REGEX_FLAGS);
@@ -50,30 +64,30 @@ function compile_regex(regex) {
 
 const URL_REGEX = {
     'detect-urls-as-is': {
-        regex: compile_regex(urldetect_patterns.REGEX_URL_AS_IS),
+        regex: compile_regex(REGEX_URL_AS_IS),
     },
     'detect-urls-file': {
-        regex: compile_regex(urldetect_patterns.REGEX_URL_FILE),
+        regex: compile_regex(REGEX_URL_FILE),
     },
     'detect-urls-http': {
-        regex: compile_regex(urldetect_patterns.REGEX_URL_HTTP),
+        regex: compile_regex(REGEX_URL_HTTP),
         prefix: 'http://',
     },
     'detect-urls-voip': {
-        regex: compile_regex(urldetect_patterns.REGEX_URL_VOIP),
+        regex: compile_regex(REGEX_URL_VOIP),
     },
     'detect-urls-email': {
-        regex: compile_regex(urldetect_patterns.REGEX_EMAIL),
+        regex: compile_regex(REGEX_EMAIL),
         prefix: 'mailto:',
     },
     'detect-urls-news-man': {
-        regex: compile_regex(urldetect_patterns.REGEX_NEWS_MAN),
+        regex: compile_regex(REGEX_NEWS_MAN),
     },
 };
 
-var PATTERN_NAMES = Object.keys(URL_REGEX);
+export const PATTERN_NAMES = Object.keys(URL_REGEX);
 
-var UrlDetect = GObject.registerClass({
+export const UrlDetect = GObject.registerClass({
     Properties: {
         'terminal': GObject.ParamSpec.object(
             'terminal',

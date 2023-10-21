@@ -17,37 +17,50 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-'use strict';
+import GLib from 'gi://GLib';
+import GObject from 'gi://GObject';
+import Gio from 'gi://Gio';
+import Gdk from 'gi://Gdk';
+import Gtk from 'gi://Gtk';
+import Vte from 'gi://Vte';
 
-/* exported TerminalPage TerminalSettings */
+import Gettext from 'gettext';
 
-const { GLib, GObject, Gio, Gdk, Gtk, Vte } = imports.gi;
-const Gettext = imports.gettext;
+import { SearchBar } from './search.js';
+import { TabLabel } from './tablabel.js';
+import { Terminal, TerminalCommand } from './terminal.js';
+import { TerminalSettings } from './terminalsettings.js';
+import { WIFEXITED, WEXITSTATUS, WTERMSIG } from './waitstatus.js';
 
-const { resources, search, tablabel, terminal, terminalsettings, waitstatus } = imports.ddterm.app;
-
-var TerminalPage = GObject.registerClass({
+export const TerminalPage = GObject.registerClass({
     Properties: {
-        'resources': GObject.ParamSpec.object(
-            'resources',
-            '',
-            '',
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-            resources.Resources
-        ),
         'terminal-settings': GObject.ParamSpec.object(
             'terminal-settings',
             '',
             '',
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-            terminalsettings.TerminalSettings
+            TerminalSettings
+        ),
+        'terminal-menu': GObject.ParamSpec.object(
+            'terminal-menu',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+            Gio.MenuModel
+        ),
+        'tab-menu': GObject.ParamSpec.object(
+            'tab-menu',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+            Gio.MenuModel
         ),
         'command': GObject.ParamSpec.object(
             'command',
             '',
             '',
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-            terminal.TerminalCommand
+            TerminalCommand
         ),
         'title': GObject.ParamSpec.string(
             'title',
@@ -104,7 +117,7 @@ var TerminalPage = GObject.registerClass({
             orientation: Gtk.Orientation.HORIZONTAL,
         });
 
-        this.terminal = new terminal.Terminal({ visible: true });
+        this.terminal = new Terminal({ visible: true });
         terminal_with_scrollbar.pack_start(this.terminal, true, true, 0);
 
         this.terminal_settings.bind_terminal(this.terminal);
@@ -119,7 +132,7 @@ var TerminalPage = GObject.registerClass({
 
         this.orientation = Gtk.Orientation.VERTICAL;
 
-        this.search_bar = new search.SearchBar({
+        this.search_bar = new SearchBar({
             visible: true,
         });
 
@@ -140,7 +153,7 @@ var TerminalPage = GObject.registerClass({
                 this.terminal.grab_focus();
         });
 
-        this.tab_label = new tablabel.TabLabel({ visible_window: false });
+        this.tab_label = new TabLabel({ visible_window: false });
         this.connect('destroy', () => this.tab_label.destroy());
         this.tab_label.connect('close', () => this.close());
         this.tab_label.connect('reset-label', () => {
@@ -167,8 +180,8 @@ var TerminalPage = GObject.registerClass({
             this.terminal_button_press_early.bind(this)
         );
 
-        this.terminal_popup_menu = this.setup_popup_menu(this.terminal, 'terminal-popup');
-        this.setup_popup_menu(this.tab_label, 'tab-popup');
+        this.terminal_popup_menu = this.setup_popup_menu(this.terminal, this.terminal_menu);
+        this.setup_popup_menu(this.tab_label, this.tab_menu);
 
         const page_actions = new Gio.SimpleActionGroup();
 
@@ -456,8 +469,8 @@ var TerminalPage = GObject.registerClass({
     }
 
     add_exit_status_banner(status) {
-        if (waitstatus.WIFEXITED(status)) {
-            const code = waitstatus.WEXITSTATUS(status);
+        if (WIFEXITED(status)) {
+            const code = WEXITSTATUS(status);
 
             this.add_banner(
                 [
@@ -467,7 +480,7 @@ var TerminalPage = GObject.registerClass({
                 code === 0 ? Gtk.MessageType.INFO : Gtk.MessageType.WARNING
             );
         } else {
-            const signum = waitstatus.WTERMSIG(status);
+            const signum = WTERMSIG(status);
 
             this.add_banner(
                 [
@@ -541,11 +554,11 @@ var TerminalPage = GObject.registerClass({
 
     setup_popup_menu(
         widget,
-        menu_name,
+        menu_model,
         widget_anchor = Gdk.Gravity.SOUTH,
         menu_anchor = Gdk.Gravity.SOUTH
     ) {
-        const menu = Gtk.Menu.new_from_model(this.resources.menus.get_object(menu_name));
+        const menu = Gtk.Menu.new_from_model(menu_model);
         menu.attach_widget = widget;
 
         // https://github.com/ddterm/gnome-shell-extension-ddterm/issues/116
@@ -677,7 +690,7 @@ var TerminalPage = GObject.registerClass({
         const dict = GLib.VariantDict.new(variant);
         const command_data = dict.lookup_value('command', variant_dict_type);
         const page = new TerminalPage({
-            command: command_data ? terminal.TerminalCommand.from_gvariant(command_data) : null,
+            command: command_data ? TerminalCommand.from_gvariant(command_data) : null,
             title: dict.lookup('title', 's'),
             use_custom_title: dict.lookup('use-custom-title', 'b'),
             keep_open_after_exit: dict.lookup('keep-open-after-exit', 'b'),

@@ -17,29 +17,31 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-'use strict';
+import GLib from 'gi://GLib';
+import GObject from 'gi://GObject';
+import Gio from 'gi://Gio';
+import Gtk from 'gi://Gtk';
+import Pango from 'gi://Pango';
 
-/* exported Notebook */
+import Gettext from 'gettext';
 
-const { GLib, GObject, Gio, Gtk, Pango } = imports.gi;
-const Gettext = imports.gettext;
-const { resources, terminalpage, terminalsettings } = imports.ddterm.app;
+import { TerminalPage } from './terminalpage.js';
+import { TerminalSettings } from './terminalsettings.js';
 
-var Notebook = GObject.registerClass({
+function get_file(relative_path) {
+    return Gio.File.new_for_uri(
+        GLib.Uri.resolve_relative(import.meta.url, relative_path, GLib.UriFlags.NONE)
+    );
+}
+
+export const Notebook = GObject.registerClass({
     Properties: {
-        'resources': GObject.ParamSpec.object(
-            'resources',
-            '',
-            '',
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-            resources.Resources
-        ),
         'terminal-settings': GObject.ParamSpec.object(
             'terminal-settings',
             '',
             '',
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-            terminalsettings.TerminalSettings
+            TerminalSettings
         ),
         'current-child': GObject.ParamSpec.object(
             'current-child',
@@ -138,10 +140,10 @@ var Notebook = GObject.registerClass({
     },
     Signals: {
         'split-layout': {
-            param_types: [terminalpage.TerminalPage, String],
+            param_types: [TerminalPage, String],
         },
         'move-to-other-pane': {
-            param_types: [terminalpage.TerminalPage],
+            param_types: [TerminalPage],
         },
     },
 }, class DDTermNotebook extends Gtk.Notebook {
@@ -166,9 +168,11 @@ var Notebook = GObject.registerClass({
             GObject.BindingFlags.BIDIRECTIONAL | GObject.BindingFlags.SYNC_CREATE
         );
 
+        this.menus = Gtk.Builder.new_from_file(get_file('menus.ui').get_path());
+
         const menu = new Gio.Menu();
         menu.append_section(null, new NotebookMenu({ notebook: this }));
-        menu.append_section(null, this.resources.menus.get_object('notebook-layout'));
+        menu.append_section(null, this.menus.get_object('notebook-layout'));
 
         this.tab_switch_button = new Gtk.MenuButton({
             menu_model: menu,
@@ -416,9 +420,10 @@ var Notebook = GObject.registerClass({
     }
 
     new_page(position = -1, properties = {}) {
-        const page = new terminalpage.TerminalPage({
-            resources: this.resources,
+        const page = new TerminalPage({
             terminal_settings: this.terminal_settings,
+            terminal_menu: this.menus.get_object('terminal-popup'),
+            tab_menu: this.menus.get_object('tab-popup'),
             visible: true,
             ...properties,
             command: properties['command'] ?? this.get_command_from_settings(),
@@ -526,9 +531,10 @@ var Notebook = GObject.registerClass({
 
         for (const page_serialized of pages) {
             try {
-                const page = terminalpage.TerminalPage.deserialize_state(page_serialized, {
-                    resources: this.resources,
+                const page = TerminalPage.deserialize_state(page_serialized, {
                     terminal_settings: this.terminal_settings,
+                    terminal_menu: this.menus.get_object('terminal-popup'),
+                    tab_menu: this.menus.get_object('tab-popup'),
                     visible: true,
                 });
 

@@ -22,10 +22,6 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-'use strict';
-
-/* exported REGEX_URL_AS_IS REGEX_URL_FILE REGEX_URL_HTTP REGEX_URL_VOIP REGEX_EMAIL REGEX_NEWS_MAN */
-
 /* Lookbehind to see if there's a preceding apostrophe.
  * Unlike the other *_DEF macros which define regex subroutines,
  * this one is a named capture that defines APOS_START to either
@@ -129,15 +125,15 @@ const VOIP_PATH = '(?x: [;?](?&PATH) )?';
 
 const DEFS = APOS_START_DEF + IP_DEF + PATH_INNER_DEF + PATH_DEF;
 
-var REGEX_URL_AS_IS = `${DEFS + SCHEME}://${USERPASS}${URL_HOST}${PORT}${URLPATH}`;
+export const REGEX_URL_AS_IS = `${DEFS + SCHEME}://${USERPASS}${URL_HOST}${PORT}${URLPATH}`;
 /* TODO: also support file:/etc/passwd */
-var REGEX_URL_FILE = `${DEFS}(?ix: file:/ (?: / (?: ${HOSTNAME1} )? / )? (?! / ) )(?&PATH)`;
+export const REGEX_URL_FILE = `${DEFS}(?ix: file:/ (?: / (?: ${HOSTNAME1} )? / )? (?! / ) )(?&PATH)`;
 /* Lookbehind so that we don't catch "abc.www.foo.bar", bug 739757. Lookahead for www/ftp for convenience (so that we can reuse HOSTNAME1). */
 /* The commented-out variant looks more like our other definitions, but fails with PCRE 10.34. See GNOME/gnome-terminal#221.
  * TODO: revert to this nicer pattern some time after 10.35's release.
  * const REGEX_URL_HTTP = DEFS "(?<!(?:" HOSTNAMESEGMENTCHARS_CLASS "|[.]))(?=(?i:www|ftp))" HOSTNAME1 PORT URLPATH
  */
-var REGEX_URL_HTTP = `${APOS_START_DEF}(?<!(?:${HOSTNAMESEGMENTCHARS_CLASS}|[.]))(?=(?i:www|ftp))${HOSTNAME1}${PORT}${PATH_INNER_DEF}${PATH_DEF}${URLPATH}`;
-var REGEX_URL_VOIP = `${DEFS}(?i:h323:|sips?:)${USERPASS}${URL_HOST}${PORT}${VOIP_PATH}`;
-var REGEX_EMAIL = `${DEFS}(?i:mailto:)?${USER}@${EMAIL_HOST}`;
-var REGEX_NEWS_MAN = "(?i:news:|man:|info:)[-[:alnum:]\\Q^_{|}~!\"#$%&'()*+,./;:=?`\\E]+";
+export const REGEX_URL_HTTP = `${APOS_START_DEF}(?<!(?:${HOSTNAMESEGMENTCHARS_CLASS}|[.]))(?=(?i:www|ftp))${HOSTNAME1}${PORT}${PATH_INNER_DEF}${PATH_DEF}${URLPATH}`;
+export const REGEX_URL_VOIP = `${DEFS}(?i:h323:|sips?:)${USERPASS}${URL_HOST}${PORT}${VOIP_PATH}`;
+export const REGEX_EMAIL = `${DEFS}(?i:mailto:)?${USER}@${EMAIL_HOST}`;
+export const REGEX_NEWS_MAN = "(?i:news:|man:|info:)[-[:alnum:]\\Q^_{|}~!\"#$%&'()*+,./;:=?`\\E]+";

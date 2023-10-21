@@ -17,24 +17,24 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-'use strict';
+import GLib from 'gi://GLib';
+import Gio from 'gi://Gio';
 
-const ByteArray = imports.byteArray;
-const System = imports.system;
+import System from 'system';
 
-const { GLib } = imports.gi;
+import './encoding.js';
 
-function get_app_dir(me_dir) {
-    return me_dir.get_child('ddterm').get_child('app');
+function get_file(relative_path) {
+    return Gio.File.new_for_uri(
+        GLib.Uri.resolve_relative(import.meta.url, relative_path, GLib.UriFlags.NONE)
+    );
 }
 
-function get_manifest_file(me_dir) {
-    return get_app_dir(me_dir).get_child('dependencies.json');
+export function get_manifest_file() {
+    return get_file('dependencies.json');
 }
 
-/* exported get_manifest_file */
-
-function get_os_ids() {
+export function get_os_ids() {
     const res = [GLib.get_os_info('ID')];
     const fallback = GLib.get_os_info('ID_LIKE');
 
@@ -44,19 +44,15 @@ function get_os_ids() {
     return res;
 }
 
-/* exported get_os_ids */
-
-function load_manifest(me_dir) {
+export function load_manifest() {
     return JSON.parse(
-        ByteArray.toString(
-            get_manifest_file(me_dir).load_contents(null)[1]
+        new TextDecoder().decode(
+            get_manifest_file().load_contents(null)[1]
         )
     );
 }
 
-/* exported load_manifest */
-
-function resolve_package(distros, os_ids) {
+export function resolve_package(distros, os_ids) {
     if (!distros)
         return null;
 
@@ -69,8 +65,6 @@ function resolve_package(distros, os_ids) {
 
     return null;
 }
-
-/* exported resolve_package */
 
 function resolve_packages(manifest, lib_versions, os_ids) {
     const packages = new Set();
@@ -90,8 +84,8 @@ function resolve_packages(manifest, lib_versions, os_ids) {
     return { packages, unresolved };
 }
 
-function show_notification(me_dir, packages, filenames) {
-    const cmd = [get_app_dir(me_dir).get_child('dependencies-notification.js').get_path()];
+function show_notification(packages, filenames) {
+    const cmd = [get_file('dependencies-notification.js').get_path()];
 
     for (const pkg of packages)
         cmd.push('--package', pkg);
@@ -110,8 +104,8 @@ function show_notification(me_dir, packages, filenames) {
     GLib.spawn_close_pid(pid);
 }
 
-function gi_require(me_dir, imports_versions) {
-    const manifest = load_manifest(me_dir);
+export function gi_require(imports_versions) {
+    const manifest = load_manifest();
     const os_ids = get_os_ids();
     const missing = {};
 
@@ -134,9 +128,7 @@ function gi_require(me_dir, imports_versions) {
     const { packages, unresolved } = resolve_packages(manifest, missing, os_ids);
 
     if (packages.size + unresolved.size !== 0) {
-        show_notification(me_dir, packages, unresolved);
+        show_notification(packages, unresolved);
         System.exit(1);
     }
 }
-
-/* exported gi_require */

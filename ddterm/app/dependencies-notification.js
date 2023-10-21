@@ -1,4 +1,4 @@
-#!/usr/bin/env gjs
+#!/usr/bin/env -S gjs -m
 
 /*
     Copyright © 2022 Aleksandr Mezin
@@ -19,28 +19,16 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-'use strict';
+import GLib from 'gi://GLib';
+import GObject from 'gi://GObject';
+import Gio from 'gi://Gio';
 
-const ByteArray = imports.byteArray;
-const Gettext = imports.gettext;
-const System = imports.system;
+import Gettext from 'gettext';
+import System from 'system';
 
-const { GLib, GObject, Gio } = imports.gi;
+import { dir, metadata } from './meta.js';
 
-const app_dir = Gio.File.new_for_path(System.programPath).get_parent();
-const me_dir = app_dir.get_parent().get_parent();
-
-function load_metadata(install_dir) {
-    const metadata_file = install_dir.get_child('metadata.json');
-    const [ok_, metadata_bytes] = metadata_file.load_contents(null);
-    const metadata_str = ByteArray.toString(metadata_bytes);
-
-    return JSON.parse(metadata_str);
-}
-
-const metadata = load_metadata(me_dir);
-
-Gettext.bindtextdomain(metadata['gettext-domain'], me_dir.get_child('locale').get_path());
+Gettext.bindtextdomain(metadata['gettext-domain'], dir.get_child('locale').get_path());
 Gettext.textdomain(metadata['gettext-domain']);
 
 const NOTIFICATIONS_INTERFACE_XML = `

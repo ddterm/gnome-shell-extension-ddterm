@@ -17,12 +17,14 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-'use strict';
+import GLib from 'gi://GLib';
+import GObject from 'gi://GObject';
+import Gio from 'gi://Gio';
+import Gdk from 'gi://Gdk';
+import Vte from 'gi://Vte';
 
-const { GLib, GObject, Gio, Gdk, Vte } = imports.gi;
-const { tcgetpgrp, urldetect } = imports.ddterm.app;
-
-/* exported Terminal TerminalColors TerminalCommand PALETTE_SIZE */
+import { tcgetpgrp, InterpreterNotFoundError } from './tcgetpgrp.js';
+import { UrlDetect } from './urldetect.js';
 
 const PANGO_SCALE_XX_SMALL = 0.5787037037037;
 const PANGO_SCALE_X_SMALL = 0.6944444444444;
@@ -79,7 +81,7 @@ function find_smaller_zoom_factor(current) {
     return null;
 }
 
-var PALETTE_SIZE = 16;
+export const PALETTE_SIZE = 16;
 
 const PALETTE_PROPERTIES = Array.from(
     { length: PALETTE_SIZE },
@@ -96,7 +98,7 @@ function color_pspec(name, flags) {
     );
 }
 
-var TerminalColors = GObject.registerClass({
+export const TerminalColors = GObject.registerClass({
     Properties: Object.fromEntries(
         [
             'foreground',
@@ -126,7 +128,7 @@ var TerminalColors = GObject.registerClass({
     }
 });
 
-var TerminalCommand = GObject.registerClass({
+export const TerminalCommand = GObject.registerClass({
     Properties: {
         'argv': GObject.ParamSpec.boxed(
             'argv',
@@ -254,7 +256,7 @@ var TerminalCommand = GObject.registerClass({
     }
 });
 
-var Terminal = GObject.registerClass({
+export const Terminal = GObject.registerClass({
     Properties: {
         'colors': GObject.ParamSpec.object(
             'colors',
@@ -337,7 +339,7 @@ var Terminal = GObject.registerClass({
 
         super._init(params);
 
-        this._url_detect = new urldetect.UrlDetect({
+        this._url_detect = new UrlDetect({
             terminal: this,
             enabled_patterns: this.url_detect_patterns,
         });
@@ -508,9 +510,9 @@ var Terminal = GObject.registerClass({
             return false;
 
         try {
-            return tcgetpgrp.tcgetpgrp(pty.get_fd()) !== this.child_pid;
+            return tcgetpgrp(pty.get_fd()) !== this.child_pid;
         } catch (ex) {
-            if (!(ex instanceof tcgetpgrp.InterpreterNotFoundError))
+            if (!(ex instanceof InterpreterNotFoundError))
                 logError(ex, "Can't check foreground process group");
 
             return false;

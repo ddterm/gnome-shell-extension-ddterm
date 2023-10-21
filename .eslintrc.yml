@@ -25,6 +25,7 @@ parserOptions:
   ecmaVersion: 2020
 overrides:
   - files:
-      - ddterm/app/main.js
+      - ddterm/app/**
+      - ddterm/pref/test/**
     parserOptions:
       sourceType: module

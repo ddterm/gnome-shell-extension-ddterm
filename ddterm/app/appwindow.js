@@ -17,15 +17,18 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-'use strict';
+import GLib from 'gi://GLib';
+import GObject from 'gi://GObject';
+import Gio from 'gi://Gio';
+import Gdk from 'gi://Gdk';
+import Gtk from 'gi://Gtk';
 
-/* exported AppWindow */
+import Gettext from 'gettext';
 
-const { GLib, GObject, Gio, Gdk, Gtk } = imports.gi;
-const Gettext = imports.gettext;
-const { resources, terminalsettings } = imports.ddterm.app;
+import { TerminalSettings } from './terminalsettings.js';
+import { Notebook } from './notebook.js';
+
 const { displayconfig } = imports.ddterm.util;
-const { Notebook } = imports.ddterm.app.notebook;
 
 function make_resizer(orientation) {
     const box = new Gtk.EventBox({ visible: true });
@@ -57,15 +60,8 @@ const WINDOW_POS_TO_RESIZE_EDGE = {
     right: Gdk.WindowEdge.WEST,
 };
 
-var AppWindow = GObject.registerClass({
+export const AppWindow = GObject.registerClass({
     Properties: {
-        'resources': GObject.ParamSpec.object(
-            'resources',
-            '',
-            '',
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-            resources.Resources
-        ),
         'settings': GObject.ParamSpec.object(
             'settings',
             '',
@@ -78,7 +74,7 @@ var AppWindow = GObject.registerClass({
             '',
             '',
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-            terminalsettings.TerminalSettings
+            TerminalSettings
         ),
         'extension-dbus': GObject.ParamSpec.object(
             'extension-dbus',
@@ -400,7 +396,6 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
 
     create_notebook() {
         const notebook = new Notebook({
-            resources: this.resources,
             terminal_settings: this.terminal_settings,
             scrollable: true,
             group_name: 'ddtermnotebook',

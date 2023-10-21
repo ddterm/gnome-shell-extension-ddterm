@@ -1,4 +1,4 @@
-#!/usr/bin/env gjs
+#!/usr/bin/env -S gjs -m
 
 /*
     Copyright © 2022 Aleksandr Mezin
@@ -19,23 +19,18 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-'use strict';
+import Gio from 'gi://Gio';
+import GIRepository from 'gi://GIRepository';
+import PackageKitGlib from 'gi://PackageKitGlib';
 
-const ByteArray = imports.byteArray;
-const System = imports.system;
+import System from 'system';
 
-const { Gio, GIRepository, PackageKitGlib } = imports.gi;
-
-const TOOLS_DIR = Gio.File.new_for_path(System.programPath).get_parent();
-const ME_DIR = TOOLS_DIR.get_parent().get_parent().get_parent();
-
-imports.searchPath.unshift(ME_DIR.get_path());
-
-const { dependencies } = imports.ddterm.app;
+import { load_manifest, get_os_ids, resolve_package, get_manifest_file } from '../dependencies.js';
+import '../encoding.js';
 
 function update_manifest(dry_run = false) {
-    const manifest = dependencies.load_manifest(ME_DIR);
-    const os_ids = dependencies.get_os_ids();
+    const manifest = load_manifest();
+    const os_ids = get_os_ids();
     const client = PackageKitGlib.Client.new();
     let updated = false;
 
@@ -70,7 +65,7 @@ function update_manifest(dry_run = false) {
             }
 
             const package_name = found[0].get_name();
-            const resolved = dependencies.resolve_package(version_manifest, os_ids);
+            const resolved = resolve_package(version_manifest, os_ids);
 
             printerr(`${filepath} found package: ${package_name} manifest: ${resolved}`);
 
@@ -82,8 +77,8 @@ function update_manifest(dry_run = false) {
     }
 
     if (!dry_run) {
-        dependencies.get_manifest_file(ME_DIR).replace_contents(
-            ByteArray.fromString(JSON.stringify(manifest, undefined, 1)),
+        get_manifest_file().replace_contents(
+            new TextEncoder().encode(JSON.stringify(manifest, undefined, 1)),
             null,
             false,
             Gio.FileCreateFlags.NONE,

@@ -17,14 +17,25 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-'use strict';
+import GLib from 'gi://GLib';
+import GObject from 'gi://GObject';
+import Gio from 'gi://Gio';
+import Gdk from 'gi://Gdk';
+import Gtk from 'gi://Gtk';
 
-const Gettext = imports.gettext;
-const System = imports.system;
+import Gettext from 'gettext';
+import System from 'system';
 
-const { GLib, GObject, Gio, Gdk, Gtk } = imports.gi;
-
-const { resources } = imports.ddterm.app;
+import { AppWindow } from './appwindow.js';
+import './encoding.js';
+import { GtkThemeManager } from './gtktheme.js';
+import { HeapDumper } from './heapdump.js';
+import { metadata } from './meta.js';
+import { PrefsDialog } from './prefsdialog.js';
+import { get_settings } from './settings.js';
+import { TerminalCommand } from './terminal.js';
+import { TerminalSettings, TerminalSettingsParser } from './terminalsettings.js';
+import { WIFEXITED, WEXITSTATUS, WTERMSIG } from './waitstatus.js';
 
 function schedule_gc() {
     GLib.idle_add(GLib.PRIORITY_DEFAULT, () => {
@@ -33,35 +44,14 @@ function schedule_gc() {
     });
 }
 
-function get_schema_source(me_dir) {
-    const default_source = Gio.SettingsSchemaSource.get_default();
-    const schema_dir = me_dir.get_child('schemas');
-
-    if (!schema_dir.query_exists(null))
-        return default_source;
-
-    return Gio.SettingsSchemaSource.new_from_directory(
-        schema_dir.get_path(),
-        default_source,
-        false
+function get_file(relative_path) {
+    return Gio.File.new_for_uri(
+        GLib.Uri.resolve_relative(import.meta.url, relative_path, GLib.UriFlags.NONE)
     );
 }
 
-var Application = GObject.registerClass({
+export const Application = GObject.registerClass({
     Properties: {
-        'install-dir': GObject.ParamSpec.object(
-            'install-dir',
-            '',
-            '',
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-            Gio.File
-        ),
-        'metadata': GObject.ParamSpec.jsobject(
-            'metadata',
-            '',
-            '',
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY
-        ),
         'window': GObject.ParamSpec.object(
             'window',
             '',
@@ -81,10 +71,6 @@ var Application = GObject.registerClass({
 class Application extends Gtk.Application {
     _init(params) {
         super._init(params);
-
-        this.resources = new resources.Resources({
-            base_uri: `${this.install_dir.get_uri()}/`,
-        });
 
         this.add_main_option(
             'activate-only',
@@ -226,19 +212,7 @@ class Application extends Gtk.Application {
     }
 
     startup() {
-        const { gtktheme, terminalsettings } = imports.ddterm.app;
-
-        const settings_schema_name = this.metadata['settings-schema'];
-        const settings_schema =
-            get_schema_source(this.install_dir).lookup(settings_schema_name, true);
-
-        if (!settings_schema) {
-            throw new Error(
-                `Schema ${settings_schema_name} could not be found. Please check your installation`
-            );
-        }
-
-        this.settings = new Gio.Settings({ settings_schema });
+        this.settings = get_settings();
 
         this.simple_action('quit', () => {
             this.save_session();
@@ -272,7 +246,7 @@ class Application extends Gtk.Application {
             this.add_action(this.settings.create_action(key));
         });
 
-        this.theme_manager = new gtktheme.GtkThemeManager({
+        this.theme_manager = new GtkThemeManager({
             'gtk-settings': Gtk.Settings.get_default(),
         });
 
@@ -283,15 +257,18 @@ class Application extends Gtk.Application {
             Gio.SettingsBindFlags.GET
         );
 
+        const css_provider = Gtk.CssProvider.new();
+        css_provider.load_from_file(get_file('style.css'));
+
         Gtk.StyleContext.add_provider_for_screen(
             Gdk.Screen.get_default(),
-            this.resources.css_providers.get('ddterm/app/style.css'),
+            css_provider,
             Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
         );
 
-        this.terminal_settings = new terminalsettings.TerminalSettings();
+        this.terminal_settings = new TerminalSettings();
 
-        new terminalsettings.TerminalSettingsParser({
+        new TerminalSettingsParser({
             gsettings: this.settings,
         }).bind_settings(this.terminal_settings);
 
@@ -346,9 +323,7 @@ class Application extends Gtk.Application {
             this.bind_shortcut(action, key);
         });
 
-        Gtk.IconTheme.get_default().append_search_path(
-            this.resources.get_file('ddterm/app/icons').get_path()
-        );
+        Gtk.IconTheme.get_default().append_search_path(get_file('icons').get_path());
 
         this.session_file_path = GLib.build_filenamev([
             GLib.get_user_cache_dir(),
@@ -381,9 +356,7 @@ class Application extends Gtk.Application {
 
     vfunc_dbus_register(connection, object_path) {
         if (this.allow_heap_dump) {
-            const { heapdump } = imports.ddterm.app;
-
-            this.heap_dump_dbus_interface = new heapdump.HeapDumper(this.resources);
+            this.heap_dump_dbus_interface = new HeapDumper();
             this.heap_dump_dbus_interface.dbus.export(connection, object_path);
         }
 
@@ -424,8 +397,6 @@ class Application extends Gtk.Application {
     }
 
     command_line(command_line) {
-        const { terminal, waitstatus } = imports.ddterm.app;
-
         const options = command_line.get_options_dict();
         const argv = options.lookup(GLib.OPTION_REMAINING, 'as', true);
 
@@ -456,7 +427,7 @@ class Application extends Gtk.Application {
 
         const notebook = this.ensure_window().active_notebook;
         properties.command = argv?.length
-            ? new terminal.TerminalCommand({ argv, envv, working_directory })
+            ? new TerminalCommand({ argv, envv, working_directory })
             : notebook.get_command_from_settings(working_directory, envv);
 
         const page = notebook.new_page(-1, properties);
@@ -482,10 +453,10 @@ class Application extends Gtk.Application {
 
         if (wait) {
             wait_handler = page.terminal.connect('child-exited', (terminal_, status) => {
-                if (waitstatus.WIFEXITED(status))
-                    set_exit_status(waitstatus.WEXITSTATUS(status));
+                if (WIFEXITED(status))
+                    set_exit_status(WEXITSTATUS(status));
                 else
-                    set_exit_status(128 + waitstatus.WTERMSIG(status));
+                    set_exit_status(128 + WTERMSIG(status));
             });
         }
 
@@ -506,7 +477,7 @@ class Application extends Gtk.Application {
             notebook.new_page(-1, { command }).spawn();
         } else {
             const argv = [file.get_path()];
-            const command = new imports.ddterm.app.terminal.TerminalCommand({ argv });
+            const command = new TerminalCommand({ argv });
             const notebook = this.ensure_window().active_notebook;
             const page = notebook.new_page(-1, {
                 command,
@@ -520,8 +491,9 @@ class Application extends Gtk.Application {
     }
 
     print_version_info() {
-        const revision = this.resources.text_files.get('revision.txt').trim();
-        print(this.metadata.name, this.metadata.version, 'revision', revision);
+        const [ok_, bytes] = get_file('../../revision.txt').load_contents(null);
+        const revision = new TextDecoder().decode(bytes).trim();
+        print(metadata.name, metadata.version, 'revision', revision);
 
         try {
             const ext_version = this.extension_dbus.get_cached_property('Version')?.unpack();
@@ -543,8 +515,11 @@ class Application extends Gtk.Application {
         if ('_extension_dbus' in this)
             return this._extension_dbus;
 
+        const [ok_, bytes] =
+            get_file('../com.github.amezin.ddterm.Extension.xml').load_contents(null);
+
         const extension_dbus_factory = Gio.DBusProxy.makeProxyWrapper(
-            this.resources.text_files.get('ddterm/com.github.amezin.ddterm.Extension.xml')
+            new TextDecoder().decode(bytes)
         );
 
         this._extension_dbus = extension_dbus_factory(
@@ -563,13 +538,12 @@ class Application extends Gtk.Application {
         if (this.window)
             return this.window;
 
-        this.window = new imports.ddterm.app.appwindow.AppWindow({
+        this.window = new AppWindow({
             application: this,
             decorated: false,
             settings: this.settings,
             terminal_settings: this.terminal_settings,
             extension_dbus: this.extension_dbus,
-            resources: this.resources,
         });
 
         this.window.connect('destroy', source => {
@@ -588,10 +562,9 @@ class Application extends Gtk.Application {
 
     preferences() {
         if (this.prefs_dialog === null) {
-            this.prefs_dialog = new imports.ddterm.pref.dialog.PrefsDialog({
+            this.prefs_dialog = new PrefsDialog({
                 transient_for: this.window,
                 settings: this.settings,
-                gettext_context: Gettext.domain(null),
             });
 
             this.prefs_dialog.connect('destroy', source => {
@@ -670,5 +643,3 @@ class Application extends Gtk.Application {
         );
     }
 });
-
-/* exported Application */

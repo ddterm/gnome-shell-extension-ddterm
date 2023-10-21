@@ -17,11 +17,10 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-'use strict';
+import GObject from 'gi://GObject';
+import Gtk from 'gi://Gtk';
 
-const { GObject, Gtk } = imports.gi;
-
-var GtkThemeManager = GObject.registerClass({
+export const GtkThemeManager = GObject.registerClass({
     Properties: {
         'gtk-settings': GObject.ParamSpec.object(
             'gtk-settings',
@@ -59,5 +58,3 @@ class DDTermGtkThemeManager extends GObject.Object {
         }
     }
 });
-
-/* exported GtkThemeManager */

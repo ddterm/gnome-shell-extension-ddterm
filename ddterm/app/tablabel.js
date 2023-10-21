@@ -17,13 +17,15 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-'use strict';
+import GObject from 'gi://GObject';
+import Gtk from 'gi://Gtk';
+import Pango from 'gi://Pango';
 
-const { GObject, Gtk, Pango } = imports.gi;
-const Gettext = imports.gettext;
-const { accellabel } = imports.ddterm.app;
+import Gettext from 'gettext';
 
-var TabLabel = GObject.registerClass({
+import { AccelLabel } from './accellabel.js';
+
+export const TabLabel = GObject.registerClass({
     Implements: [Gtk.Actionable],
     Properties: {
         'label': GObject.ParamSpec.string(
@@ -72,7 +74,7 @@ var TabLabel = GObject.registerClass({
             parent: this,
         });
 
-        this.shortcut_label = new accellabel.AccelLabel({
+        this.shortcut_label = new AccelLabel({
             visible: true,
         });
 
@@ -198,5 +200,3 @@ var TabLabel = GObject.registerClass({
         this.shortcut_label.set_action_target_value(value);
     }
 });
-
-/* exported TabLabel */

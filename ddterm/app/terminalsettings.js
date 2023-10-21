@@ -17,10 +17,14 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-'use strict';
+import GLib from 'gi://GLib';
+import GObject from 'gi://GObject';
+import Gio from 'gi://Gio';
+import Gdk from 'gi://Gdk';
+import Pango from 'gi://Pango';
 
-const { GLib, GObject, Gio, Gdk, Pango } = imports.gi;
-const { terminal, urldetect } = imports.ddterm.app;
+import { Terminal, TerminalColors, TerminalCommand } from './terminal.js';
+import { PATTERN_NAMES } from './urldetect.js';
 
 const DEFAULT_FLAGS = GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY;
 
@@ -90,7 +94,7 @@ const PROPERTIES_CLONE = [
 ];
 
 const TERMINAL_PSPECS = Object.fromEntries(
-    GObject.Object.list_properties.call(terminal.Terminal).map(
+    GObject.Object.list_properties.call(Terminal).map(
         pspec => [pspec.get_name(), pspec]
     )
 );
@@ -101,15 +105,13 @@ const CLONED_PSPECS = Object.fromEntries(
     )
 );
 
-var Command = {
+export const Command = {
     USER_SHELL: 'user-shell',
     USER_SHELL_LOGIN: 'user-shell-login',
     CUSTOM_COMMAND: 'custom-command',
 };
 
-/* exported Command */
-
-var TerminalSettings = GObject.registerClass({
+export const TerminalSettings = GObject.registerClass({
     Properties: {
         ...CLONED_PSPECS,
         'cjk-ambiguous-width': GObject.ParamSpec.int(
@@ -180,21 +182,19 @@ var TerminalSettings = GObject.registerClass({
     get_command(working_directory = null, envv = null) {
         switch (this.command) {
         case Command.CUSTOM_COMMAND:
-            return terminal.TerminalCommand.parse(this.custom_command, working_directory, envv);
+            return TerminalCommand.parse(this.custom_command, working_directory, envv);
 
         case Command.USER_SHELL_LOGIN:
-            return terminal.TerminalCommand.login_shell(working_directory, envv);
+            return TerminalCommand.login_shell(working_directory, envv);
 
         case Command.USER_SHELL:
-            return terminal.TerminalCommand.shell(working_directory, envv);
+            return TerminalCommand.shell(working_directory, envv);
 
         default:
             throw new Error(`Unknown command type ${this.command}`);
         }
     }
 });
-
-/* exported TerminalSettings */
 
 const MultiBinding = GObject.registerClass({
 }, class DDTermTerminalSettingsMultiBinding extends GObject.Object {
@@ -223,14 +223,14 @@ const MultiBinding = GObject.registerClass({
     }
 });
 
-var TerminalSettingsBinding = GObject.registerClass({
+export const TerminalSettingsBinding = GObject.registerClass({
     Properties: {
         'terminal': GObject.ParamSpec.object(
             'terminal',
             '',
             '',
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-            terminal.Terminal
+            Terminal
         ),
         'settings': GObject.ParamSpec.object(
             'settings',
@@ -245,15 +245,13 @@ var TerminalSettingsBinding = GObject.registerClass({
         super._init(params);
 
         GObject.Object.list_properties.call(TerminalSettings).forEach(pspec => {
-            if (GObject.Object.find_property.call(terminal.Terminal, pspec.name))
+            if (GObject.Object.find_property.call(Terminal, pspec.name))
                 this.add_property_binding(this.settings, this.terminal, pspec.name);
         });
     }
 });
 
-/* exported TerminalSettingsBinding */
-
-var TerminalSettingsParser = GObject.registerClass({
+export const TerminalSettingsParser = GObject.registerClass({
     Properties: {
         'gsettings': GObject.ParamSpec.object(
             'gsettings',
@@ -386,7 +384,7 @@ var TerminalSettingsParser = GObject.registerClass({
         this.add_dependency('highlight-colors-set', 'color-highlight-foreground');
         this.add_dependency('highlight-foreground-color', 'color-highlight-foreground');
 
-        for (const key of ['detect-urls', ...urldetect.PATTERN_NAMES])
+        for (const key of ['detect-urls', ...PATTERN_NAMES])
             this.add_dependency(key, 'url-detect-patterns');
     }
 
@@ -438,7 +436,7 @@ var TerminalSettingsParser = GObject.registerClass({
 
         const palette = this.gsettings.get_strv('palette').map(parse_rgba);
 
-        return terminal.TerminalColors.new(foreground, background, palette);
+        return TerminalColors.new(foreground, background, palette);
     }
 
     get color_bold() {
@@ -497,7 +495,7 @@ var TerminalSettingsParser = GObject.registerClass({
 
         const flags = [];
 
-        for (const name of urldetect.PATTERN_NAMES) {
+        for (const name of PATTERN_NAMES) {
             if (this.gsettings.get_boolean(name))
                 flags.push(name);
         }
@@ -517,9 +515,7 @@ var TerminalSettingsParser = GObject.registerClass({
     }
 });
 
-/* exported TerminalSettingsParser */
-
-var TerminalSettingsParserBinding = GObject.registerClass({
+export const TerminalSettingsParserBinding = GObject.registerClass({
     Properties: {
         'settings': GObject.ParamSpec.object(
             'settings',
@@ -548,5 +544,3 @@ var TerminalSettingsParserBinding = GObject.registerClass({
         });
     }
 });
-
-/* exported TerminalSettingsParserBinding */
