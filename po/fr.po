@@ -85,18 +85,22 @@ msgid "Drop Down Terminal"
 msgstr "Terminal déroulant"
 
 #: ddterm/app/dependencies-notification.js:133
+#: ddterm/app/dependencies-notification.js:135
 msgid "ddterm needs additional packages to run."
 msgstr "ddterm requiert des paquets supplémentaires pour son exécution."
 
 #: ddterm/app/dependencies-notification.js:138
+#: ddterm/app/dependencies-notification.js:140
 msgid "Please install the following packages:"
 msgstr "Merci d'installer les paquets suivants :"
 
 #: ddterm/app/dependencies-notification.js:146
+#: ddterm/app/dependencies-notification.js:148
 msgid "Please install packages that provide the following files:"
 msgstr "Merci d'installer les paquets contenant les fichiers suivants :"
 
 #: ddterm/app/dependencies-notification.js:159
+#: ddterm/app/dependencies-notification.js:161
 msgid "Missing dependencies"
 msgstr "Dépendances manquantes"
 
@@ -223,7 +227,7 @@ msgstr "Toujours au premier plan"
 
 #: ddterm/app/menus.ui:164
 msgid "On All Workspaces"
-msgstr "Toujours sur l'espace de travail visible"
+msgstr "Sur tous les espaces de travail"
 
 #: ddterm/app/menus.ui:168
 msgid "Maximize Window"
@@ -251,7 +255,7 @@ msgstr "Défilement sur pression de touche"
 
 #: ddterm/app/menus.ui:198
 msgid "Preserve Working Directory In New Tabs"
-msgstr "Préserver le répertoire de travail"
+msgstr "Conserver le répertoire de travail dans les nouveaux onglets"
 
 #: ddterm/app/menus.ui:204
 msgid "Enable Keyboard Shortcuts"
