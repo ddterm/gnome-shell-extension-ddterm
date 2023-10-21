@@ -60,9 +60,7 @@ jobs:
       run: echo "::add-matcher::.github/problem-matchers/generic.json"
 
     - name: Compile translation
-      run: |
-        make msgfmt/${{ matrix.pofile }}
-        echo
+      run: make msgfmt/${{ matrix.pofile }} 2>&1
       shell: bash
 
     - name: Disable gettext stats problem matcher
@@ -70,7 +68,7 @@ jobs:
 
     - name: Ensure .po file is in sync with .pot
       run: |
-        touch po/*.pot  # Make sure .pot won't be re-generated
-        make msgcmp/${{ matrix.pofile }}
+        touch po/*.pot # Make sure .pot won't be re-generated
+        make msgcmp/${{ matrix.pofile }} 2>&1
       shell: bash
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
