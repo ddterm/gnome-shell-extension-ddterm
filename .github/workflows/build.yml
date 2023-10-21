@@ -80,9 +80,17 @@ jobs:
       shell: bash
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
+    - name: Enable gettext stats error matcher
+      run: echo "::add-matcher::.github/problem-matchers/gettext-stats.json"
+      if: ${{ always() && steps.checkout.conclusion == 'success' }}
+
     - name: Compile translations
-      run: make locales 2>&1 | tee locales.log
+      run: make -k locales 2>&1 | tee locales.log
       shell: bash
+      if: ${{ always() && steps.checkout.conclusion == 'success' }}
+
+    - name: Disable gettext stats error matcher
+      run: echo "::remove-matcher owner=gettext-stats::"
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
     - name: Validate Gtk .ui files
