@@ -8,7 +8,7 @@ on:
       - po/**
 
 jobs:
-  build:
+  po:
     uses: ./.github/workflows/check-po.yml
 
     if: >-
