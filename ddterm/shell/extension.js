@@ -420,17 +420,20 @@ var Extension = class DDTermExtension {
     }
 
     start_app_process(settings) {
-        this.app_process = create_subprocess(
+        const app_process = create_subprocess(
             this.launcher_path,
             settings,
             this.app_enable_heap_dump
         );
 
-        this.app_process?.wait().then(() => {
-            this.app_process = null;
+        this.app_process = app_process;
+
+        app_process.wait().finally(() => {
+            if (this.app_process === app_process)
+                this.app_process = null;
         });
 
-        return this.app_process;
+        return app_process;
     }
 
     enable() {
