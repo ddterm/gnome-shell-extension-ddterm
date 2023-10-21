@@ -27,8 +27,7 @@ import Gettext from 'gettext';
 
 import { TerminalSettings } from './terminalsettings.js';
 import { Notebook } from './notebook.js';
-
-const { displayconfig } = imports.ddterm.util;
+import { DisplayConfig, LayoutMode } from '../util/displayconfig.js';
 
 function make_resizer(orientation) {
     const box = new Gtk.EventBox({ visible: true });
@@ -358,7 +357,7 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
         const display = this.get_display();
 
         if (display.constructor.$gtype.name === 'GdkWaylandDisplay') {
-            this.display_config = new displayconfig.DisplayConfig({
+            this.display_config = new DisplayConfig({
                 dbus_connection: this.application.get_dbus_connection(),
             });
             this.connect('destroy', () => this.display_config.unwatch());
@@ -599,7 +598,7 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
 
         let [target_x, target_y, target_w, target_h] = rect;
 
-        if (this.display_config.layout_mode !== displayconfig.LayoutMode.LOGICAL) {
+        if (this.display_config.layout_mode !== LayoutMode.LOGICAL) {
             const display = this.get_display();
             const target_monitor = display.get_monitor_at_point(target_x, target_y);
 

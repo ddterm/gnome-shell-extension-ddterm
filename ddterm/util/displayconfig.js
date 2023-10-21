@@ -17,13 +17,11 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-'use strict';
+import GLib from 'gi://GLib';
+import GObject from 'gi://GObject';
+import Gio from 'gi://Gio';
 
-const { GLib, GObject, Gio } = imports.gi;
-
-/* exported DisplayConfig LayoutMode */
-
-var LayoutMode = {
+export const LayoutMode = {
     LOGICAL: 1,
     PHYSICAL: 2,
 };
@@ -39,7 +37,7 @@ const CURRENT_STATE_TYPE = GLib.VariantType.new_tuple([
     new GLib.VariantType('a{sv}'), // properties
 ]);
 
-var DisplayConfig = GObject.registerClass({
+export const DisplayConfig = GObject.registerClass({
     Properties: {
         'dbus-connection': GObject.ParamSpec.object(
             'dbus-connection',

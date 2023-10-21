@@ -38,5 +38,3 @@ gi_require({
     'Pango': '1.0',
     'Vte': '2.91',
 });
-
-imports.searchPath.unshift(dir.get_path());

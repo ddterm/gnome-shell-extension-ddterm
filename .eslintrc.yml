@@ -27,5 +27,6 @@ overrides:
   - files:
       - ddterm/app/**
       - ddterm/pref/test/**
+      - ddterm/util/**
     parserOptions:
       sourceType: module

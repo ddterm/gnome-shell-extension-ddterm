@@ -25,6 +25,8 @@ import Gettext from 'gettext';
 
 import { metadata, dir } from './meta.js';
 
+imports.searchPath.unshift(dir.get_path());
+
 export const PrefsDialog = GObject.registerClass({
     Properties: {
         'settings': GObject.ParamSpec.object(

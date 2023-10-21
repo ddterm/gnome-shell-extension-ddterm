@@ -22,7 +22,6 @@
 const { GObject, Gio, Gtk } = imports.gi;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const { util } = Me.imports.ddterm.pref;
-const { displayconfig } = Me.imports.ddterm.util;
 
 var Widget = GObject.registerClass({
     GTypeName: 'DDTermPrefsPositionSize',
@@ -53,13 +52,24 @@ var Widget = GObject.registerClass({
 
         util.insert_settings_actions(this, this.settings, ['window-monitor']);
 
-        this.display_config = new displayconfig.DisplayConfig({
-            dbus_connection: Gio.DBus.session,
-        });
-        this.connect('destroy', () => this.display_config.unwatch());
+        const destroy_cancel = new Gio.Cancellable();
+        this.connect('destroy', () => destroy_cancel.cancel());
 
-        this.display_config.connect('notify::monitors', this.update_monitors.bind(this));
-        this.display_config.update_async();
+        import('../util/displayconfig.js').then(displayconfig => {
+            destroy_cancel.set_error_if_cancelled();
+
+            const display_config = new displayconfig.DisplayConfig({
+                dbus_connection: Gio.DBus.session,
+            });
+
+            destroy_cancel.connect(() => display_config.unwatch());
+
+            display_config.connect('notify::monitors', () => {
+                this.update_monitors(display_config.monitors);
+            });
+
+            display_config.update_async();
+        });
 
         util.bind_widget(this.settings, 'window-monitor-connector', this.monitor_combo);
 
@@ -86,13 +96,13 @@ var Widget = GObject.registerClass({
             this.settings.get_string('window-monitor') === 'connector';
     }
 
-    update_monitors() {
+    update_monitors(monitors) {
         this.monitor_combo.freeze_notify();
 
         try {
             this.monitor_combo.remove_all();
 
-            for (const { connector, model, display_name } of this.display_config.monitors) {
+            for (const { connector, model, display_name } of monitors) {
                 const description = `${display_name} - ${model} (${connector})`;
                 this.monitor_combo.append(connector, description);
             }

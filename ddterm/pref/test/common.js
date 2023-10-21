@@ -49,8 +49,6 @@ export const Application = GObject.registerClass({
     }
 
     preferences() {
-        imports.searchPath.unshift(dir.get_path());
-
         const prefs_dialog = new PrefsDialog({
             settings: this.settings,
             application: this,
