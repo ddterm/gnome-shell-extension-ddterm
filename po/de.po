@@ -24,16 +24,15 @@ msgstr ""
 
 #: ddterm/app/application.js:79
 msgid "Start the application, but do not show the window"
-msgstr "Die Anwendung starten, aber das Fenster nicht anzeigen"
+msgstr "Die Anwendung starten ohne das Fenster anzuzeigen"
 
 #: ddterm/app/application.js:88
 msgid "Comma-separated list of backends that GDK should try to use"
-msgstr ""
-"Durch Kommata getrennte Liste von Backends, die GDK ausprobieren sollte"
+msgstr "Kommaseparierte Liste von Backends, die GDK versuchen sollte zu nutzen"
 
 #: ddterm/app/application.js:97
 msgid "Enable HeapDump D-Bus interface (for testing/debug)"
-msgstr "HeapDump-D-Bus-Interface aktivieren (Für Testzwecke/Fehlersuche)"
+msgstr "HeapDump-D-Bus-Interface aktivieren (Testzwecke/Fehlersuche)"
 
 #: ddterm/app/application.js:106
 msgid "Show version information and exit"
@@ -49,11 +48,11 @@ msgstr "Auf das Beenden des Befehls warten und dessen Status zurückgeben"
 
 #: ddterm/app/application.js:138
 msgid "Set the working directory"
-msgstr "Arbeitsverzeichnis setzen"
+msgstr "Arbeitsverzeichnis festlegen"
 
 #: ddterm/app/application.js:147
 msgid "Set tab title"
-msgstr "Reitertitel festlegen"
+msgstr "Reiter-Titel festlegen"
 
 #: ddterm/app/application.js:156
 msgid "Keep the terminal open after the command has exited"
@@ -85,19 +84,22 @@ msgid "Drop Down Terminal"
 msgstr "Drop-Down-Terminal"
 
 #: ddterm/app/dependencies-notification.js:133
+#: ddterm/app/dependencies-notification.js:135
 msgid "ddterm needs additional packages to run."
 msgstr "ddterm benötigt zusätzliche Pakete zur Ausführung."
 
 #: ddterm/app/dependencies-notification.js:138
+#: ddterm/app/dependencies-notification.js:140
 msgid "Please install the following packages:"
 msgstr "Bitte installieren Sie die folgenden Pakete:"
 
 #: ddterm/app/dependencies-notification.js:146
+#: ddterm/app/dependencies-notification.js:148
 msgid "Please install packages that provide the following files:"
-msgstr ""
-"Bitte installieren Sie Pakete, die die folgenden Dateien bereitstellen:"
+msgstr "Bitte installieren Sie Pakete, die folgende Dateien bereitstellen:"
 
 #: ddterm/app/dependencies-notification.js:159
+#: ddterm/app/dependencies-notification.js:161
 msgid "Missing dependencies"
 msgstr "Fehlende Abhängigkeiten"
 
@@ -167,7 +169,7 @@ msgstr "Nach dem Beenden geöffnet lassen"
 
 #: ddterm/app/menus.ui:103
 msgid "New Tab"
-msgstr "Neuer Reiter"
+msgstr "Neuer Tab"
 
 #: ddterm/app/menus.ui:105 ddterm/pref/glade/prefs-shortcuts.ui:178
 msgid "New Tab Before Current Tab"
@@ -207,7 +209,7 @@ msgstr "Vertikal teilen"
 
 #: ddterm/app/menus.ui:144 ddterm/app/menus.ui:281
 msgid "Move Tab to Other Pane"
-msgstr "Verschiebe Tab in nächsten Bereich"
+msgstr "Verschiebe Reiter in anderen Bereich"
 
 #: ddterm/app/menus.ui:151 ddterm/app/prefsdialog.js:46
 msgid "Preferences"
@@ -263,7 +265,7 @@ msgstr "Benutzerdefinierte Reitertitel verwenden"
 
 #: ddterm/app/menus.ui:218
 msgid "Use Default Tab Title"
-msgstr "Vorgabe-Reitertitel verwenden"
+msgstr "Standard-Reitertitel verwenden"
 
 #: ddterm/app/menus.ui:233
 msgid "New Tab Before This Tab"
@@ -355,7 +357,7 @@ msgstr "Terminal"
 
 #: ddterm/pref/adw.js:121 ddterm/pref/shortcuts.js:131
 msgid "Keyboard Shortcuts"
-msgstr "Tastenkürzel"
+msgstr "Tastenkombinationen"
 
 #: ddterm/pref/adw.js:136
 msgid "Miscellaneous"
@@ -487,15 +489,15 @@ msgstr "Elastisch, schwingen an Anfang und Ende"
 
 #: ddterm/pref/glade/prefs-animation.ui:140
 msgid "Overshooting cubic tweening, with backtracking on start"
-msgstr "Kubisch, kurz überragend am Anfang"
+msgstr "Kubisch, Überlauf am Anfang"
 
 #: ddterm/pref/glade/prefs-animation.ui:144
 msgid "Overshooting cubic tweening, with backtracking on end"
-msgstr "Kubisch, kurz überragend am Ende"
+msgstr "Kubisch, Überlauf am Ende"
 
 #: ddterm/pref/glade/prefs-animation.ui:148
 msgid "Overshooting cubic tweening, with backtracking on both ends"
-msgstr "Kubisch, kurz überragend an Anfang und Ende"
+msgstr "Kubisch, Überlauf an Anfang und Ende"
 
 #: ddterm/pref/glade/prefs-animation.ui:152
 msgid ""
@@ -513,43 +515,43 @@ msgstr "Exponentiell abklingend, geschwungen, mit Sprung an Anfang und Ende"
 
 #: ddterm/pref/glade/prefs-animation.ui:183
 msgid "_Override default window animations"
-msgstr "V_orgabe-Fensteranimationen überschreiben"
+msgstr "Standard-Fensteranimationen überschreiben"
 
 #: ddterm/pref/glade/prefs-animation.ui:218
 msgid "_Show animation:"
-msgstr "Animation beim _Anzeigen:"
+msgstr "Animation beim Anzeigen:"
 
 #: ddterm/pref/glade/prefs-animation.ui:232
 msgid "_Hide animation:"
-msgstr "Animation beim _Verbergen:"
+msgstr "Animation beim Ausblenden:"
 
 #: ddterm/pref/glade/prefs-animation.ui:284
 msgid "_Hide animation duration:"
-msgstr "Dauer der Animation beim _Verbergen:"
+msgstr "Dauer der Animation beim Ausblenden:"
 
 #: ddterm/pref/glade/prefs-animation.ui:297
 msgid "_Show animation duration:"
-msgstr "_Dauer der Animation beim Anzeigen:"
+msgstr "Dauer der Animation beim Anzeigen:"
 
 #: ddterm/pref/glade/prefs-behavior.ui:39
 msgid "_Resizable"
-msgstr "In der Größe veränderbar"
+msgstr "G_röße veränderbar"
 
 #: ddterm/pref/glade/prefs-behavior.ui:55
 msgid "_Above all windows"
-msgstr "_Über allen Fenstern"
+msgstr "Über _allen Fenstern"
 
 #: ddterm/pref/glade/prefs-behavior.ui:71
 msgid "On all _workspaces"
-msgstr "Auf allen _Arbeitsflächen"
+msgstr "Auf allen Arbeitsflächen"
 
 #: ddterm/pref/glade/prefs-behavior.ui:87
 msgid "Hide when the application loses _focus"
-msgstr "Verbergen, wenn die Anwendung den _Fokus verliert"
+msgstr "Ausblenden, wenn die Anwendung den _Fokus verliert"
 
 #: ddterm/pref/glade/prefs-behavior.ui:103
 msgid "Hide when _Esc key is pressed"
-msgstr "Verbergen, wenn die _Esc-Taste gedrückt wird"
+msgstr "Ausblenden, wenn _Esc-Taste gedrückt wird"
 
 #: ddterm/pref/glade/prefs-behavior.ui:119
 msgid "Exclude from _overview/task bar"
@@ -557,7 +559,7 @@ msgstr "Aus der Übersicht/Taskbar ausschließen"
 
 #: ddterm/pref/glade/prefs-behavior.ui:135
 msgid "Hide mouse _pointer when typing"
-msgstr "Mauszeiger beim Tippen verbergen"
+msgstr "Mauszeiger beim Tippen ausblenden"
 
 #: ddterm/pref/glade/prefs-behavior.ui:151
 msgid ""
@@ -581,7 +583,7 @@ msgstr "Dialog"
 
 #: ddterm/pref/glade/prefs-behavior.ui:188
 msgid "Splash screen"
-msgstr "Splash-Screen"
+msgstr "Startbildschirm"
 
 #: ddterm/pref/glade/prefs-behavior.ui:189
 msgid "Utility"
@@ -609,7 +611,7 @@ msgstr "Aufklapp-Menü"
 
 #: ddterm/pref/glade/prefs-behavior.ui:195
 msgid "Tooltip"
-msgstr "Minihilfe"
+msgstr "Quick-Info"
 
 #: ddterm/pref/glade/prefs-behavior.ui:196
 msgid "Notification"
@@ -657,11 +659,11 @@ msgstr "Tango dunkel"
 
 #: ddterm/pref/glade/prefs-colors.ui:83
 msgid "Solarized light"
-msgstr "Solarisiert hell"
+msgstr "Solarized hell"
 
 #: ddterm/pref/glade/prefs-colors.ui:88
 msgid "Solarized dark"
-msgstr "Solarisiert dunkel"
+msgstr "Solarized dunkel"
 
 #: ddterm/pref/glade/prefs-colors.ui:93 ddterm/pref/glade/prefs-colors.ui:257
 msgid "Custom"
@@ -689,7 +691,7 @@ msgstr "RXVT"
 
 #: ddterm/pref/glade/prefs-colors.ui:238
 msgid "Solarized"
-msgstr "Solarisiert"
+msgstr "Solarized"
 
 #: ddterm/pref/glade/prefs-colors.ui:292
 msgid "Theme _variant:"
@@ -697,7 +699,7 @@ msgstr "Thema-_Variante:"
 
 #: ddterm/pref/glade/prefs-colors.ui:307 ddterm/pref/glade/prefs-text.ui:132
 msgid "Default"
-msgstr "Vorgabe"
+msgstr "Standard"
 
 #: ddterm/pref/glade/prefs-colors.ui:308
 msgid "Light"
@@ -785,7 +787,7 @@ msgstr "Palette Farbe 15"
 
 #: ddterm/pref/glade/prefs-colors.ui:634
 msgid "Show bold text in _bright colors"
-msgstr "Zeige fetten Text in hellen Farben"
+msgstr "Fetten Text in hellen Farben anzeigen"
 
 #: ddterm/pref/glade/prefs-colors.ui:650
 msgid "Copy profile from GNOME Terminal"
@@ -829,11 +831,11 @@ msgstr "Fett Farbe"
 
 #: ddterm/pref/glade/prefs-colors.ui:815
 msgid "Cursor Foreground Color"
-msgstr "Vordergrundfarbe Cursor"
+msgstr "Cursor Vordergrundfarbe"
 
 #: ddterm/pref/glade/prefs-colors.ui:839
 msgid "Cursor Background Color"
-msgstr "Hintergrundfarbe Cursor"
+msgstr "Cursor Hintergrundfarbe"
 
 #: ddterm/pref/glade/prefs-colors.ui:863
 msgid "Highlight Foreground Color"
@@ -886,15 +888,15 @@ msgstr "TTY-Löschen"
 
 #: ddterm/pref/glade/prefs-compatibility.ui:72
 msgid "_Backspace key generates:"
-msgstr "_Rücktaste erzeugt:"
+msgstr "Rücktaste erzeugt:"
 
 #: ddterm/pref/glade/prefs-compatibility.ui:86
 msgid "_Delete key generates:"
-msgstr "_Entfernen-Taste erzeugt:"
+msgstr "Entfernen-Taste erzeugt:"
 
 #: ddterm/pref/glade/prefs-compatibility.ui:100
 msgid "Ambiguous-_width characters:"
-msgstr "Zeichen mit mehrfacher Breite:"
+msgstr "Zeichen mit unterschiedlicher Breite:"
 
 #: ddterm/pref/glade/prefs-compatibility.ui:153
 msgid "Narrow"
@@ -906,7 +908,7 @@ msgstr "Breit"
 
 #: ddterm/pref/glade/prefs-compatibility.ui:164
 msgid "_Reset Compatibility Options to Defaults"
-msgstr "Kompatibilitäts-Optionen auf Vorgabe zurücksetzen"
+msgstr "Kompatibilitäts-Optionen auf Standard zu_rücksetzen"
 
 #: ddterm/pref/glade/prefs-panel-icon.ui:38 ddterm/pref/glade/prefs-tabs.ui:246
 msgid "None"
@@ -970,7 +972,7 @@ msgstr "Auf _Monitor:"
 
 #: ddterm/pref/glade/prefs-scrolling.ui:44
 msgid "Show _scrollbar"
-msgstr "_Bildlaufleiste anzeigen"
+msgstr "Bildlauflei_ste anzeigen"
 
 #: ddterm/pref/glade/prefs-scrolling.ui:60
 msgid "Scroll on _output"
@@ -998,7 +1000,7 @@ msgstr "Terminalfenster zeigen/aktivieren"
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:73
 msgid "Hide the Window"
-msgstr "Das Fenster verbergen"
+msgstr "Das Fenster ausblenden"
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:80
 msgid "Maximize/Unmaximize the Window"
@@ -1050,7 +1052,7 @@ msgstr "Zum nächsten Reiter wechseln"
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:241
 msgid "Move Tab to Other Split Pane"
-msgstr "Verschiebe Tab zum nächsten Teilbereich"
+msgstr "Verschiebe Reiter zum nächsten Teilbereich"
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:248
 msgid "Increase First Split Pane Size"
@@ -1118,7 +1120,7 @@ msgstr "Globales Tastenkürzel"
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:456
 msgid "_Enable application shortcuts"
-msgstr "Anwendungs-Tastenkürzel _aktivieren"
+msgstr "Anwendungs-Tastenkürz_el aktivieren"
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:486
 msgid "Action"
@@ -1126,7 +1128,7 @@ msgstr "Aktion"
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:498
 msgid "Shortcut"
-msgstr "Tastenkürzel"
+msgstr "Tastenkombination"
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:528
 msgid "Reset All Shortcuts to Defaults"
@@ -1134,7 +1136,7 @@ msgstr "Tastenkombinationen auf Standard zurücksetzen"
 
 #: ddterm/pref/glade/prefs-tabs.ui:44
 msgid "Expand tabs"
-msgstr "Reiter erweitern"
+msgstr "Reiter ausdehnen"
 
 #: ddterm/pref/glade/prefs-tabs.ui:60
 msgid "Show _close buttons"
@@ -1158,7 +1160,7 @@ msgstr "Immer"
 
 #: ddterm/pref/glade/prefs-tabs.ui:128 ddterm/pref/glade/prefs-text.ui:99
 msgid "Never"
-msgstr "Nie"
+msgstr "Niemals"
 
 #: ddterm/pref/glade/prefs-tabs.ui:138
 msgid "\"_New Tab (First)\" button"
@@ -1242,11 +1244,11 @@ msgstr "Deaktiviert"
 
 #: ddterm/pref/glade/prefs-text.ui:144
 msgid "Allow _hyperlinks"
-msgstr "_Verweise zulassen"
+msgstr "_Links zulassen"
 
 #: ddterm/pref/glade/prefs-text.ui:160
 msgid "Audible _bell"
-msgstr "Hörbares _Klingeln"
+msgstr "Hör_bares Klingeln"
 
 #: ddterm/pref/glade/prefs-text.ui:202
 msgid "Detect _URLs"
@@ -1258,7 +1260,7 @@ msgstr "Komplette URLs erkennen (schema://netloc/path)"
 
 #: ddterm/pref/glade/prefs-text.ui:240
 msgid "Detect file: URLs"
-msgstr "file:-URLs erkennen"
+msgstr "\"file:\"-URLs erkennen"
 
 #: ddterm/pref/glade/prefs-text.ui:255
 msgid "Detect HTTP URLs"
@@ -1274,7 +1276,7 @@ msgstr "E-Mail-Adressen erkennen"
 
 #: ddterm/pref/glade/prefs-text.ui:300
 msgid "Detect news:/man: URLs"
-msgstr "news:/man:-URLs erkennen"
+msgstr "\"news:\"/\"man:\"-URLs erkennen"
 
 #: ddterm/pref/panelicon.js:52
 msgid "Panel Icon"
