@@ -95,11 +95,13 @@ $(LOCALES_COMPILED): $(LOCALE_COMPILED_PATTERN): $(LOCALE_SOURCE_PATTERN) $(MSGF
 	mkdir -p $(dir $@)
 	$(MSGFMT) --check --strict --statistics -o $@ $<
 
+$(addprefix msgfmt/,$(LOCALES)): msgfmt/$(LOCALE_SOURCE_PATTERN): $(LOCALE_COMPILED_PATTERN)
+
 CLEAN += $(LOCALES_COMPILED)
 PACK_CONTENT += $(LOCALES_COMPILED)
 
-locales: $(LOCALES_COMPILED)
-.PHONY: locales
+locales msgfmt: $(LOCALES_COMPILED)
+.PHONY: locales msgfmt
 
 # Glade UI
 

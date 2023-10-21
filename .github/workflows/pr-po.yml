@@ -9,9 +9,7 @@ on:
 
 jobs:
   build:
-    uses: ./.github/workflows/build.yml
-    with:
-      testspace: false
+    uses: ./.github/workflows/check-po.yml
 
     if: >-
       github.event.pull_request.head.ref == 'weblate'

@@ -1,0 +1,71 @@
+on:
+  workflow_dispatch:
+  workflow_call:
+
+env:
+  FORCE_COLOR: 1
+  PIP_DISABLE_PIP_VERSION_CHECK: 1
+
+jobs:
+  configure:
+    runs-on: ubuntu-latest
+
+    outputs:
+      pofiles: ${{ steps.generate.outputs.pofiles }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Generate .po file list
+        id: generate
+        shell: python
+        run: |
+          import json
+          import os
+          import pathlib
+          import uuid
+
+          delimiter = f'ghadelimiter_{uuid.uuid4()}'
+          value = json.dumps([str(p) for p in pathlib.Path('.').glob('po/*.po')])
+
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as fp:
+            print(f'pofiles<<{delimiter}', file=fp)
+            print(value, file=fp)
+            print(delimiter, file=fp)
+
+  check:
+    needs: configure
+
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/ddterm/ci-docker-image:2023.10.06.0
+
+    strategy:
+      fail-fast: false
+      matrix:
+        pofile: ${{ fromJson(needs.configure.outputs.pofiles) }}
+
+    steps:
+    - name: Checkout
+      id: checkout
+      uses: actions/checkout@v4
+
+    - run: git config --global --replace-all safe.directory "$GITHUB_WORKSPACE"
+
+    - name: Enable generic error matcher
+      run: echo "::add-matcher::.github/problem-matchers/generic.json"
+
+    - name: Enable gettext stats error matcher
+      run: echo "::add-matcher::.github/problem-matchers/gettext-stats.json"
+
+    - name: Compile translation
+      run: make msgfmt/${{ matrix.pofile }}
+      shell: bash
+
+    - name: Ensure .po file is in sync with .pot
+      run: |
+        touch po/*.pot  # Make sure .pot won't be re-generated
+        make msgcmp/${{ matrix.pofile }}
+      shell: bash
+      if: ${{ always() && steps.checkout.conclusion == 'success' }}
