@@ -53,15 +53,18 @@ jobs:
 
     - run: git config --global --replace-all safe.directory "$GITHUB_WORKSPACE"
 
-    - name: Enable generic error matcher
-      run: echo "::add-matcher::.github/problem-matchers/generic.json"
-
-    - name: Enable gettext stats error matcher
+    - name: Enable gettext stats problem matcher
       run: echo "::add-matcher::.github/problem-matchers/gettext-stats.json"
+
+    - name: Enable generic problem matcher
+      run: echo "::add-matcher::.github/problem-matchers/generic.json"
 
     - name: Compile translation
       run: make msgfmt/${{ matrix.pofile }}
       shell: bash
+
+    - name: Disable gettext stats problem matcher
+      run: echo "::remove-matcher owner=gettext-stats::"
 
     - name: Ensure .po file is in sync with .pot
       run: |
