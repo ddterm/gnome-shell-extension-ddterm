@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-21 07:18+0000\n"
+"POT-Creation-Date: 2023-10-21 19:27+0000\n"
 "PO-Revision-Date: 2023-10-02 00:02+0000\n"
 "Last-Translator: Luiz Carlos de Souza Santos <lcdessantos@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/gnome-shell-"
@@ -84,19 +84,19 @@ msgstr ""
 msgid "Drop Down Terminal"
 msgstr "Terminal Suspenso"
 
-#: ddterm/app/dependencies-notification.js:135
+#: ddterm/app/dependencies-notification.js:133
 msgid "ddterm needs additional packages to run."
 msgstr "ddterm requer pacotes adicionais para rodar."
 
-#: ddterm/app/dependencies-notification.js:140
+#: ddterm/app/dependencies-notification.js:138
 msgid "Please install the following packages:"
 msgstr "Por favor, instale os seguintes pacotes:"
 
-#: ddterm/app/dependencies-notification.js:148
+#: ddterm/app/dependencies-notification.js:146
 msgid "Please install packages that provide the following files:"
 msgstr "Por favor, instale os pacotes que proveem os seguintes arquivos:"
 
-#: ddterm/app/dependencies-notification.js:161
+#: ddterm/app/dependencies-notification.js:159
 msgid "Missing dependencies"
 msgstr "Dependências faltando"
 

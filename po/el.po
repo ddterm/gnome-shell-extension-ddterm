@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-21 07:18+0000\n"
+"POT-Creation-Date: 2023-10-21 19:27+0000\n"
 "PO-Revision-Date: 2023-09-26 17:35+0300\n"
 "Last-Translator: Anagnostakis Ioannis <rizitis@gmail.com>\n"
 "Language-Team: Greek, Modern (1453-) <>\n"
@@ -82,19 +82,19 @@ msgstr ""
 msgid "Drop Down Terminal"
 msgstr "Ανάπτυξη Τερματικού"
 
-#: ddterm/app/dependencies-notification.js:135
+#: ddterm/app/dependencies-notification.js:133
 msgid "ddterm needs additional packages to run."
 msgstr "Το ddterm χρειάζεται επιπλέον πακέτα για να τρέξει."
 
-#: ddterm/app/dependencies-notification.js:140
+#: ddterm/app/dependencies-notification.js:138
 msgid "Please install the following packages:"
 msgstr "Χρειάζετε να εγκατασταθούν τα ακόλουθα πακέτα:"
 
-#: ddterm/app/dependencies-notification.js:148
+#: ddterm/app/dependencies-notification.js:146
 msgid "Please install packages that provide the following files:"
 msgstr "Παρακαλώ εγκαταστείστε τα πακέτα που περιγράφουν τα παρακάτω αρχεία :"
 
-#: ddterm/app/dependencies-notification.js:161
+#: ddterm/app/dependencies-notification.js:159
 msgid "Missing dependencies"
 msgstr "Εξαρτήσεις που λοίπουν"
 
