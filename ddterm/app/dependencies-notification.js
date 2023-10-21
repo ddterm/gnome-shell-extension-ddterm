@@ -1,5 +1,3 @@
-#!/usr/bin/env -S gjs -m
-
 /*
     Copyright © 2022 Aleksandr Mezin
 

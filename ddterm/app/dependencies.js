@@ -85,8 +85,29 @@ function resolve_packages(manifest, lib_versions, os_ids) {
     return { packages, unresolved };
 }
 
+function get_interpreter() {
+    try {
+        const pid = Gio.Credentials.new().get_unix_pid();
+        const [ok_, bytes] = GLib.file_get_contents(`/proc/${pid}/cmdline`);
+        const argv0_bytes = bytes.slice(0, bytes.indexOf(0));
+        const argv0 = new TextDecoder().decode(argv0_bytes);
+        const fullpath = GLib.find_program_in_path(argv0);
+
+        if (fullpath)
+            return fullpath;
+    } catch (ex) {
+        logError(ex);
+    }
+
+    return 'gjs';
+}
+
 function show_notification(packages, filenames) {
-    const cmd = [get_file('dependencies-notification.js').get_path()];
+    const cmd = [
+        get_interpreter(),
+        '-m',
+        get_file('dependencies-notification.js').get_path(),
+    ];
 
     for (const pkg of packages)
         cmd.push('--package', pkg);
@@ -98,7 +119,7 @@ function show_notification(packages, filenames) {
         null,
         cmd,
         null,
-        GLib.SpawnFlags.DEFAULT,
+        GLib.SpawnFlags.SEARCH_PATH,
         null
     );
 
