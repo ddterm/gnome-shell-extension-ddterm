@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-10-16 06:16+0000\n"
-"PO-Revision-Date: 2023-10-19 06:24+0000\n"
+"PO-Revision-Date: 2023-10-21 05:19+0000\n"
 "Last-Translator: Ivan Vantu5z <vantu5z@mail.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/"
 "gnome-shell-extension-ddterm/extension/ru/>\n"
@@ -37,7 +37,6 @@ msgid "Show version information and exit"
 msgstr "Показать информацию о версии и выйти"
 
 #: ddterm/app/application.js:130
-#, fuzzy
 msgid "Run the specified command"
 msgstr "Запустить указанную команду"
 
@@ -46,8 +45,6 @@ msgid "Wait for the command to exit, and return its exit code"
 msgstr "Ожидать завершения команды и вернуть код выхода"
 
 #: ddterm/app/application.js:153
-#, fuzzy
-#| msgid "Preserve working directory"
 msgid "Set the working directory"
 msgstr "Установить рабочий каталог"
 
@@ -317,8 +314,6 @@ msgid "Find Previous"
 msgstr "Найти предыдущее"
 
 #: ddterm/app/terminalpage.js:440
-#, fuzzy
-#| msgid "Start"
 msgid "Restart"
 msgstr "Перезагрузить"
 
@@ -1130,8 +1125,6 @@ msgid "Shortcut"
 msgstr "Комбинация клавиш"
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:528
-#, fuzzy
-#| msgid "_Reset to default"
 msgid "Reset All Shortcuts to Defaults"
 msgstr "Восстановить значения по умолчанию"
 
