@@ -92,20 +92,11 @@ var Subprocess = GObject.registerClass({
             subprocess_launcher.close();
         }
 
-        this.wait().then(() => {
-            const name = this.argv[0];
-
-            if (this.g_subprocess.get_if_signaled()) {
-                const signum = this.g_subprocess.get_term_sig();
-                const strsig = GLib.strsignal(signum);
-
-                log(`${name} killed by signal ${signum} (${strsig})`);
-            } else {
-                const status = this.g_subprocess.get_exit_status();
-
-                log(`${name} exited with status ${status}`);
-            }
-        }).catch(logError);
+        this.wait_check().then(() => {
+            log(`${this.argv[0]} exited cleanly`);
+        }).catch(ex => {
+            logError(ex, this.argv[0]);
+        });
     }
 
     get g_subprocess() {
@@ -121,6 +112,18 @@ var Subprocess = GObject.registerClass({
             this.g_subprocess.wait_async(cancellable, (source, result) => {
                 try {
                     resolve(source.wait_finish(result));
+                } catch (ex) {
+                    reject(ex);
+                }
+            });
+        });
+    }
+
+    wait_check(cancellable = null) {
+        return new Promise((resolve, reject) => {
+            this.g_subprocess.wait_check_async(cancellable, (source, result) => {
+                try {
+                    resolve(source.wait_check_finish(result));
                 } catch (ex) {
                     reject(ex);
                 }
