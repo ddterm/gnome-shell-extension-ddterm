@@ -93,7 +93,7 @@ MSGFMT := $(call find-tool,msgfmt)
 
 $(LOCALES_COMPILED): $(LOCALE_COMPILED_PATTERN): $(LOCALE_SOURCE_PATTERN) $(MSGFMT)
 	mkdir -p $(dir $@)
-	$(MSGFMT) --check --strict -o $@ $<
+	$(MSGFMT) --check --strict --statistics -o $@ $<
 
 CLEAN += $(LOCALES_COMPILED)
 PACK_CONTENT += $(LOCALES_COMPILED)
