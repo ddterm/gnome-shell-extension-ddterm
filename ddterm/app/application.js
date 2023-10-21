@@ -31,7 +31,6 @@ import './encoding.js';
 import { GtkThemeManager } from './gtktheme.js';
 import { HeapDumper } from './heapdump.js';
 import { metadata } from './meta.js';
-import { PrefsDialog } from './prefsdialog.js';
 import { get_settings } from './settings.js';
 import { TerminalCommand } from './terminal.js';
 import { TerminalSettings, TerminalSettingsParser } from './terminalsettings.js';
@@ -219,7 +218,7 @@ class Application extends Gtk.Application {
             this.quit();
         });
 
-        this.simple_action('preferences', () => this.preferences());
+        this.simple_action('preferences', () => this.preferences().catch(logError));
 
         const close_preferences_action = this.simple_action(
             'close-preferences',
@@ -560,20 +559,35 @@ class Application extends Gtk.Application {
         return this.window;
     }
 
-    preferences() {
-        if (this.prefs_dialog === null) {
-            this.prefs_dialog = new PrefsDialog({
+    async preferences() {
+        if (this.prefs_dialog !== null) {
+            this.prefs_dialog.present_with_time(Gdk.CURRENT_TIME);
+            return;
+        }
+
+        if (!this._prefs_dialog_module)
+            this._prefs_dialog_module = import('./prefsdialog.js');
+
+        try {
+            this.hold();
+
+            const mod = await this._prefs_dialog_module;
+
+            this.prefs_dialog = new mod.PrefsDialog({
                 transient_for: this.window,
                 settings: this.settings,
+                application: this,
             });
 
             this.prefs_dialog.connect('destroy', source => {
                 if (source === this.prefs_dialog)
                     this.prefs_dialog = null;
             });
+        } finally {
+            this.release();
         }
 
-        this.prefs_dialog.show();
+        this.prefs_dialog.present_with_time(Gdk.CURRENT_TIME);
     }
 
     close_preferences() {
