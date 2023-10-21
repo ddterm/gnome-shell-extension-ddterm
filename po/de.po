@@ -84,22 +84,18 @@ msgid "Drop Down Terminal"
 msgstr "Drop-Down-Terminal"
 
 #: ddterm/app/dependencies-notification.js:133
-#: ddterm/app/dependencies-notification.js:135
 msgid "ddterm needs additional packages to run."
 msgstr "ddterm benötigt zusätzliche Pakete zur Ausführung."
 
 #: ddterm/app/dependencies-notification.js:138
-#: ddterm/app/dependencies-notification.js:140
 msgid "Please install the following packages:"
 msgstr "Bitte installieren Sie die folgenden Pakete:"
 
 #: ddterm/app/dependencies-notification.js:146
-#: ddterm/app/dependencies-notification.js:148
 msgid "Please install packages that provide the following files:"
 msgstr "Bitte installieren Sie Pakete, die folgende Dateien bereitstellen:"
 
 #: ddterm/app/dependencies-notification.js:159
-#: ddterm/app/dependencies-notification.js:161
 msgid "Missing dependencies"
 msgstr "Fehlende Abhängigkeiten"
 
