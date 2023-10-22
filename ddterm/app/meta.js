@@ -20,8 +20,6 @@
 import GLib from 'gi://GLib';
 import Gio from 'gi://Gio';
 
-import './encoding.js';
-
 export const dir = Gio.File.new_for_uri(
     GLib.Uri.resolve_relative(import.meta.url, '../..', GLib.UriFlags.NONE)
 );
@@ -29,7 +27,11 @@ export const dir = Gio.File.new_for_uri(
 function load_metadata() {
     const [ok_, bytes] = dir.get_child('metadata.json').load_contents(null);
 
-    return JSON.parse(new TextDecoder().decode(bytes));
+    const text = globalThis.TextDecoder
+        ? new TextDecoder().decode(bytes)
+        : imports.byteArray.toString(bytes);
+
+    return JSON.parse(text);
 }
 
 export const metadata = load_metadata();
