@@ -134,13 +134,6 @@ export const AppWindow = GObject.registerClass({
             GObject.ParamFlags.READABLE,
             false
         ),
-        'can-split': GObject.ParamSpec.boolean(
-            'can-split',
-            '',
-            '',
-            GObject.ParamFlags.READABLE,
-            false
-        ),
         'split-layout': GObject.ParamSpec.string(
             'split-layout',
             '',
@@ -403,8 +396,6 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
         const update_notebook_visibility = () => {
             notebook.visible = notebook.get_n_pages() > 0;
 
-            this.notify('can-split');
-
             if (!notebook.visible)
                 this.grab_focus();
         };
@@ -428,19 +419,20 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
             this.paned.orientation =
                 mode === 'vertical-split' ? Gtk.Orientation.HORIZONTAL : Gtk.Orientation.VERTICAL;
 
-            if (!this.is_split)
+            if (this.is_split)
+                return;
+
+            if (notebook.get_n_pages() > 1) {
                 notebook.emit('move-to-other-pane', page);
+            } else {
+                const new_page = notebook.new_page();
+                notebook.emit('move-to-other-pane', new_page);
+                new_page.spawn();
+            }
         });
 
         this.paned.connect('notify::orientation', () => this.notify('split-layout'));
         this.connect('notify::is-split', () => this.notify('split-layout'));
-
-        this.bind_property(
-            'can-split',
-            notebook,
-            'can-split',
-            GObject.BindingFlags.SYNC_CREATE
-        );
 
         this.bind_property(
             'split-layout',
@@ -631,13 +623,6 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
 
     get is_split() {
         return this.paned.get_children().every(nb => nb.visible);
-    }
-
-    get can_split() {
-        const total =
-            this.paned.get_children().reduce((sum, nb) => sum + nb.get_n_pages(), 0);
-
-        return total > 1;
     }
 
     get split_layout() {

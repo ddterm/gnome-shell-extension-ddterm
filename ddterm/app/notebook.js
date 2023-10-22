@@ -130,13 +130,6 @@ export const Notebook = GObject.registerClass({
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             'no-split'
         ),
-        'can-split': GObject.ParamSpec.boolean(
-            'can-split',
-            '',
-            '',
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
-            false
-        ),
     },
     Signals: {
         'split-layout': {
@@ -270,12 +263,6 @@ export const Notebook = GObject.registerClass({
             'horizontal-split',
             'vertical-split',
         ]));
-        this.bind_property(
-            'can-split',
-            split_layout_action,
-            'enabled',
-            GObject.BindingFlags.SYNC_CREATE
-        );
         this.actions.add_action(split_layout_action);
 
         this.connect('page-added', this.update_tabs_visible.bind(this));
@@ -385,12 +372,6 @@ export const Notebook = GObject.registerClass({
                 'split-layout',
                 child,
                 'split-layout',
-                GObject.BindingFlags.SYNC_CREATE
-            ),
-            this.bind_property(
-                'can-split',
-                child,
-                'can-split',
                 GObject.BindingFlags.SYNC_CREATE
             ),
         ];

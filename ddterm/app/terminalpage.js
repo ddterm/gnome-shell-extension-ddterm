@@ -90,13 +90,6 @@ export const TerminalPage = GObject.registerClass({
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             'no-split'
         ),
-        'can-split': GObject.ParamSpec.boolean(
-            'can-split',
-            '',
-            '',
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
-            false
-        ),
     },
     Signals: {
         'new-tab-before-request': {},
@@ -228,24 +221,12 @@ export const TerminalPage = GObject.registerClass({
             'horizontal-split',
             'vertical-split',
         ]));
-        this.bind_property(
-            'can-split',
-            split_layout_action,
-            'enabled',
-            GObject.BindingFlags.SYNC_CREATE
-        );
         page_actions.add_action(split_layout_action);
 
         const move_to_other_pane_action = new Gio.SimpleAction({ name: 'move-to-other-pane' });
         move_to_other_pane_action.connect('activate', () => {
             this.emit('move-to-other-pane-request');
         });
-        this.bind_property(
-            'can-split',
-            move_to_other_pane_action,
-            'enabled',
-            GObject.BindingFlags.SYNC_CREATE
-        );
         page_actions.add_action(move_to_other_pane_action);
 
         this._title_binding = null;
