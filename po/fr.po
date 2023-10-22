@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-10-21 19:27+0000\n"
-"PO-Revision-Date: 2023-10-21 05:19+0000\n"
+"PO-Revision-Date: 2023-10-22 14:34+0000\n"
 "Last-Translator: Arnaud Feldmann <arnaud.feldmann@gmail.com>\n"
-"Language-Team: French <https://hosted.weblate.org/projects/gnome-shell-"
-"extension-ddterm/extension/fr/>\n"
+"Language-Team: French <https://hosted.weblate.org/projects/"
+"gnome-shell-extension-ddterm/extension/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,7 +27,7 @@ msgstr "Démarrer l'application, mais ne pas afficher la fenêtre"
 #: ddterm/app/application.js:88
 msgid "Comma-separated list of backends that GDK should try to use"
 msgstr ""
-"Liste, séparée par des virgules,, des backend que GDK doit essayer d'utiliser"
+"Liste, séparée par des virgules, des backend que GDK doit essayer d'utiliser"
 
 #: ddterm/app/application.js:97
 msgid "Enable HeapDump D-Bus interface (for testing/debug)"
@@ -46,14 +46,12 @@ msgid "Wait for the command to exit, and return its exit code"
 msgstr "Attendre que la commande soit exécutée et retourner son code de sortie"
 
 #: ddterm/app/application.js:138
-#, fuzzy
 msgid "Set the working directory"
-msgstr "Préserver le répertoire de travail"
+msgstr "Définir le répertoire de travail"
 
 #: ddterm/app/application.js:147
-#, fuzzy
 msgid "Set tab title"
-msgstr "Définir un titre d'onglet personnalisé"
+msgstr "Définir un titre d'onglet"
 
 #: ddterm/app/application.js:156
 msgid "Keep the terminal open after the command has exited"
@@ -170,7 +168,7 @@ msgstr "Nouvel onglet"
 
 #: ddterm/app/menus.ui:105 ddterm/pref/glade/prefs-shortcuts.ui:178
 msgid "New Tab Before Current Tab"
-msgstr "Nouvel onglet avant celui-ci"
+msgstr "Nouvel onglet avant l'onglet actuel"
 
 #: ddterm/app/menus.ui:109 ddterm/pref/glade/prefs-shortcuts.ui:185
 msgid "New Tab After Current Tab"
@@ -205,9 +203,8 @@ msgid "Split Vertically"
 msgstr "Diviser verticalement"
 
 #: ddterm/app/menus.ui:144 ddterm/app/menus.ui:281
-#, fuzzy
 msgid "Move Tab to Other Pane"
-msgstr "Déplacer l'onglet vers la position suivante"
+msgstr "Changer l'onglet de panneau"
 
 #: ddterm/app/menus.ui:151 ddterm/app/prefsdialog.js:46
 msgid "Preferences"
@@ -318,22 +315,20 @@ msgid "Find Previous"
 msgstr "Rechercher le précédent"
 
 #: ddterm/app/terminalpage.js:453
-#, fuzzy
 msgid "Restart"
-msgstr "Début"
+msgstr "Redémarrer"
 
 #: ddterm/app/terminalpage.js:454 ddterm/app/terminalpage.js:629
-#, fuzzy
 msgid "Close Terminal"
-msgstr "Fermer ce terminal ?"
+msgstr "Fermer ce terminal"
 
 #: ddterm/app/terminalpage.js:477
 msgid "The child process exited with status:"
-msgstr "Le processus fils s'est terminé avec le statut  :"
+msgstr "Le processus fils s'est terminé avec le statut :"
 
 #: ddterm/app/terminalpage.js:487
 msgid "The child process was aborted by signal:"
-msgstr "Le processus de l'enfant a été interrompu par le signal  :"
+msgstr "Le processus de l'enfant a été interrompu par le signal :"
 
 #: ddterm/app/terminalpage.js:621
 msgid "Close this terminal?"
@@ -417,15 +412,15 @@ msgstr "Tweening cubique, combinant cubique et inverse"
 
 #: ddterm/pref/glade/prefs-animation.ui:68
 msgid "Quartic tweening"
-msgstr "Tweening quadratique"
+msgstr "Tweening quartique"
 
 #: ddterm/pref/glade/prefs-animation.ui:72
 msgid "Quartic tweening, inverse"
-msgstr "Tweening quadratique, inverse"
+msgstr "Tweening quartique, inverse"
 
 #: ddterm/pref/glade/prefs-animation.ui:76
 msgid "Quartic tweening, combining direct and inverse"
-msgstr "Tweening quadratique, combinant directe et inverse"
+msgstr "Tweening quartique, combinant directe et inverse"
 
 #: ddterm/pref/glade/prefs-animation.ui:80
 msgid "Quintic tweening"
@@ -1007,12 +1002,10 @@ msgid "Maximize/Unmaximize the Window"
 msgstr "Agrandir/réduire la fenêtre"
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:87
-#, fuzzy
 msgid "Increase Window Size"
 msgstr "Augmenter la hauteur de fenêtre"
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:94
-#, fuzzy
 msgid "Decrease Window Size"
 msgstr "Diminuer la hauteur de fenêtre"
 
@@ -1053,9 +1046,8 @@ msgid "Switch to Next Tab"
 msgstr "Basculer vers l'onglet suivant"
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:241
-#, fuzzy
 msgid "Move Tab to Other Split Pane"
-msgstr "Déplacer l'onglet vers la position suivante"
+msgstr "Changer l'onglet de division de panneau"
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:248
 msgid "Increase First Split Pane Size"
@@ -1134,7 +1126,6 @@ msgid "Shortcut"
 msgstr "Raccourci"
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:528
-#, fuzzy
 msgid "Reset All Shortcuts to Defaults"
 msgstr "Réinitialiser aux valeurs par défaut"
 
@@ -1200,7 +1191,7 @@ msgstr "Fin"
 
 #: ddterm/pref/glade/prefs-tabs.ui:259
 msgid "Show keyboard shortcuts"
-msgstr "Raccourcis claviers"
+msgstr "Afficher les raccourcis claviers"
 
 #: ddterm/pref/glade/prefs-text.ui:39
 msgid "Custom _font:"
