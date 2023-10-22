@@ -20,7 +20,6 @@
 'use strict';
 
 const { GLib, Gio } = imports.gi;
-const ByteArray = imports.byteArray;
 
 function arrays_equal(a, b) {
     if (a.length !== b.length)
@@ -33,7 +32,10 @@ class File {
     constructor(source_file, target_file, fallback_files = []) {
         const [ok_, content_bytes] = GLib.file_get_contents(source_file);
 
-        this.content = ByteArray.toString(content_bytes);
+        this.content = globalThis.TextDecoder
+            ? new TextDecoder().decode(content_bytes)
+            : imports.byteArray.toString(content_bytes);
+
         this.target_file = target_file;
         this.fallback_files = fallback_files;
     }
@@ -59,7 +61,10 @@ class File {
     }
 
     install() {
-        const new_content = ByteArray.fromString(this.content);
+        const new_content = globalThis.TextEncoder
+            ? new TextEncoder().encode(this.content)
+            : imports.byteArray.fromString(this.content);
+
         const existing_content = this.get_existing_content();
 
         if (existing_content && arrays_equal(existing_content, new_content))

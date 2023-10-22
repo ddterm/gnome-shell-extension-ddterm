@@ -19,8 +19,6 @@
 
 'use strict';
 
-const ByteArray = imports.byteArray;
-
 const { GLib, Gio } = imports.gi;
 
 /* We only care about Linux here, because otherwise it won't be systemd */
@@ -45,7 +43,7 @@ function sd_journal_stream_fd(identifier, priority = LOG_INFO, level_prefix = fa
     if (priority > 7)
         priority = 7;
 
-    const header = ByteArray.fromString([
+    const header = [
         identifier || '',
         '', /* empty unit ID */
         `${priority}`,
@@ -54,7 +52,11 @@ function sd_journal_stream_fd(identifier, priority = LOG_INFO, level_prefix = fa
         '0', /* don't forward to kmsg */
         '0', /* don't forward to console */
         '', /* add newline in the end */
-    ].join('\n'));
+    ].join('\n');
+
+    const header_bytes = globalThis.TextEncoder
+        ? new TextEncoder().encode(header)
+        : imports.byteArray.fromString(header);
 
     const addr = Gio.UnixSocketAddress.new('/run/systemd/journal/stdout');
 
@@ -70,7 +72,7 @@ function sd_journal_stream_fd(identifier, priority = LOG_INFO, level_prefix = fa
         socket.connect(addr, null);
         socket.shutdown(true, false);
         socket.set_option(SOL_SOCKET, SO_SNDBUF, LARGE_BUFFER_SIZE);
-        socket.send(header, null);
+        socket.send(header_bytes, null);
 
         fd = dup(socket.fd);
     } finally {
