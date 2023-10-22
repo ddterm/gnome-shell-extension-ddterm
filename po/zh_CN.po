@@ -20,55 +20,51 @@ msgstr ""
 
 #: ddterm/app/application.js:79
 msgid "Start the application, but do not show the window"
-msgstr ""
+msgstr "开始应用，但没有显示窗口"
 
 #: ddterm/app/application.js:88
 msgid "Comma-separated list of backends that GDK should try to use"
-msgstr ""
+msgstr "GDK 应尝试使用的以逗号分隔的后端列表"
 
 #: ddterm/app/application.js:97
 msgid "Enable HeapDump D-Bus interface (for testing/debug)"
-msgstr ""
+msgstr "启用堆转储 D-Bus 接口（用于测试/调试）"
 
 #: ddterm/app/application.js:106
 msgid "Show version information and exit"
-msgstr ""
+msgstr "显示版本信息并退出"
 
 #: ddterm/app/application.js:115
 msgid "Run the specified command"
-msgstr ""
+msgstr "运行指定的命令"
 
 #: ddterm/app/application.js:129
 msgid "Wait for the command to exit, and return its exit code"
-msgstr ""
+msgstr "等待退出命令，并返回其退出代码"
 
 #: ddterm/app/application.js:138
-#, fuzzy
-#| msgid "Preserve working directory"
 msgid "Set the working directory"
-msgstr "保存工作目录"
+msgstr "设置工作目录"
 
 #: ddterm/app/application.js:147
-#, fuzzy
-#| msgid "Set Custom Tab Title"
 msgid "Set tab title"
-msgstr "设置自定义标签页标题"
+msgstr "设置标签页标题"
 
 #: ddterm/app/application.js:156
 msgid "Keep the terminal open after the command has exited"
-msgstr ""
+msgstr "命令退出后保持终端打开"
 
 #: ddterm/app/application.js:165
 msgid "Do not pass the environment"
-msgstr ""
+msgstr "不要通过环境"
 
 #: ddterm/app/application.js:174
 msgid "Open a new tab"
-msgstr ""
+msgstr "打开新标签"
 
 #: ddterm/app/application.js:345
 msgid "Saving session..."
-msgstr ""
+msgstr "会话保存中……"
 
 #: ddterm/app/application.js:504 ddterm/shell/extension.js:257
 msgid ""
@@ -77,7 +73,7 @@ msgid ""
 msgstr "警告：ddterm版本已改变。注销后重新登录，方可生效。"
 
 #: ddterm/app/appwindow.js:149 ddterm/shell/extension.js:245
-#: ddterm/shell/extension.js:255
+#: ddterm/shell/extension.js:255 ddterm/app/appwindow.js:156
 msgid "Drop Down Terminal"
 msgstr "下拉终端"
 
@@ -139,21 +135,19 @@ msgstr "重置并清除"
 
 #: ddterm/app/menus.ui:76
 msgid "Zoom"
-msgstr ""
+msgstr "缩放"
 
 #: ddterm/app/menus.ui:78 ddterm/pref/glade/prefs-shortcuts.ui:297
 msgid "Zoom In"
-msgstr ""
+msgstr "放大"
 
 #: ddterm/app/menus.ui:82 ddterm/pref/glade/prefs-shortcuts.ui:304
 msgid "Zoom Out"
-msgstr ""
+msgstr "缩小"
 
 #: ddterm/app/menus.ui:86 ddterm/pref/glade/prefs-shortcuts.ui:311
-#, fuzzy
-#| msgid "Normal"
 msgid "Normal Size"
-msgstr "标准的"
+msgstr "标准大小"
 
 #: ddterm/app/menus.ui:93 ddterm/app/menus.ui:224 ddterm/app/tablabel.js:113
 msgid "Close"
@@ -161,7 +155,7 @@ msgstr "关闭"
 
 #: ddterm/app/menus.ui:97 ddterm/app/menus.ui:228
 msgid "Keep Open After Exit"
-msgstr ""
+msgstr "退出后保持打开"
 
 #: ddterm/app/menus.ui:103
 msgid "New Tab"
@@ -187,29 +181,28 @@ msgstr "新建标签页（在最后一个标签页之后）"
 
 #: ddterm/app/menus.ui:124 ddterm/app/menus.ui:261
 msgid "Layout"
-msgstr ""
+msgstr "布局"
 
 #: ddterm/app/menus.ui:127 ddterm/app/menus.ui:264 ddterm/app/menus.ui:294
 msgid "No Split"
-msgstr ""
+msgstr "无拆分"
 
 #: ddterm/app/menus.ui:132 ddterm/app/menus.ui:269 ddterm/app/menus.ui:299
 #: ddterm/pref/glade/prefs-shortcuts.ui:227
 msgid "Split Horizontally"
-msgstr ""
+msgstr "水平拆分"
 
 #: ddterm/app/menus.ui:137 ddterm/app/menus.ui:274 ddterm/app/menus.ui:304
 #: ddterm/pref/glade/prefs-shortcuts.ui:234
 msgid "Split Vertically"
-msgstr ""
+msgstr "垂直拆分"
 
 #: ddterm/app/menus.ui:144 ddterm/app/menus.ui:281
-#, fuzzy
-#| msgid "Move Tab to Next Position"
 msgid "Move Tab to Other Pane"
-msgstr "移动标签页到下一个位置"
+msgstr "移动标签页到下一个面板"
 
 #: ddterm/app/menus.ui:151 ddterm/app/prefsdialog.js:44
+#: ddterm/app/prefsdialog.js:46
 msgid "Preferences"
 msgstr "首选项"
 
@@ -281,11 +274,11 @@ msgstr "移动标签页到上一个位置"
 msgid "Move Tab to Next Position"
 msgstr "移动标签页到下一个位置"
 
-#: ddterm/app/notebook.js:150
+#: ddterm/app/notebook.js:150 ddterm/app/notebook.js:157
 msgid "New Tab (Last)"
 msgstr "新建标签页（最后一个）"
 
-#: ddterm/app/notebook.js:190
+#: ddterm/app/notebook.js:190 ddterm/app/notebook.js:197
 msgid "New Tab (First)"
 msgstr "新建标签页（第一个）"
 
@@ -317,73 +310,66 @@ msgstr "查找下一个"
 msgid "Find Previous"
 msgstr "找到前一个"
 
-#: ddterm/app/terminalpage.js:434
-#, fuzzy
-#| msgid "Start"
+#: ddterm/app/terminalpage.js:453
 msgid "Restart"
-msgstr "开头"
+msgstr "重新开始"
 
-#: ddterm/app/terminalpage.js:435 ddterm/app/terminalpage.js:610
-#, fuzzy
-#| msgid "Close this terminal?"
+#: ddterm/app/terminalpage.js:454 ddterm/app/terminalpage.js:629
 msgid "Close Terminal"
-msgstr "关闭这个终端？"
+msgstr "关闭终端"
 
-#: ddterm/app/terminalpage.js:458
+#: ddterm/app/terminalpage.js:477
 msgid "The child process exited with status:"
-msgstr ""
+msgstr "子进程退出，状态为："
 
-#: ddterm/app/terminalpage.js:468
+#: ddterm/app/terminalpage.js:487
 msgid "The child process was aborted by signal:"
-msgstr ""
+msgstr "子进程被信号中止："
 
-#: ddterm/app/terminalpage.js:602
+#: ddterm/app/terminalpage.js:602 ddterm/app/terminalpage.js:621
 msgid "Close this terminal?"
 msgstr "关闭这个终端？"
 
-#: ddterm/app/terminalpage.js:604
+#: ddterm/app/terminalpage.js:604 ddterm/app/terminalpage.js:623
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."
 msgstr "该终端中仍有一个进程在运行。关闭终端，将会销毁该进程。"
 
 #: ddterm/pref/adw.js:80
-#, fuzzy
-#| msgid "Window _size:"
 msgid "Window"
-msgstr "窗口大小："
+msgstr "窗口"
 
 #: ddterm/pref/adw.js:100
-#, fuzzy
-#| msgid "Drop Down Terminal"
 msgid "Terminal"
-msgstr "下拉终端"
+msgstr "终端"
 
 #: ddterm/pref/adw.js:121 ddterm/pref/shortcuts.js:132
+#: ddterm/pref/shortcuts.js:131
 msgid "Keyboard Shortcuts"
 msgstr "键盘快捷键"
 
 #: ddterm/pref/adw.js:136
 msgid "Miscellaneous"
-msgstr ""
+msgstr "杂项"
 
-#: ddterm/pref/animation.js:79
+#: ddterm/pref/animation.js:79 ddterm/pref/animation.js:71
 msgid "Animation"
 msgstr "动画"
 
-#: ddterm/pref/behavior.js:67
+#: ddterm/pref/behavior.js:67 ddterm/pref/behavior.js:66
 msgid "Behavior"
 msgstr "行为"
 
-#: ddterm/pref/colors.js:469
+#: ddterm/pref/colors.js:469 ddterm/pref/colors.js:461
 msgid "Colors"
 msgstr "颜色"
 
-#: ddterm/pref/command.js:68
+#: ddterm/pref/command.js:68 ddterm/pref/command.js:67
 msgid "Command"
 msgstr "命令"
 
-#: ddterm/pref/compatibility.js:76
+#: ddterm/pref/compatibility.js:76 ddterm/pref/compatibility.js:75
 msgid "Compatibility"
 msgstr "兼容性"
 
@@ -1011,16 +997,12 @@ msgid "Maximize/Unmaximize the Window"
 msgstr "最大化/取消最大化窗口"
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:87
-#, fuzzy
-#| msgid "Increase Window Height"
 msgid "Increase Window Size"
-msgstr "增加窗口高度"
+msgstr "增加窗口大小"
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:94
-#, fuzzy
-#| msgid "Decrease Window Height"
 msgid "Decrease Window Size"
-msgstr "降低窗口高度"
+msgstr "降低窗口大小"
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:101
 msgid "Increase Background Opacity"
@@ -1059,18 +1041,16 @@ msgid "Switch to Next Tab"
 msgstr "切换到下一个标签页"
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:241
-#, fuzzy
-#| msgid "Move Tab to Next Position"
 msgid "Move Tab to Other Split Pane"
-msgstr "移动标签页到下一个位置"
+msgstr "移动标签页到其他的拆分面板"
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:248
 msgid "Increase First Split Pane Size"
-msgstr ""
+msgstr "增加第一个拆分面板的大小"
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:255
 msgid "Decrease First Split Pane Size"
-msgstr ""
+msgstr "减少第一个拆分面板的大小"
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:262
 msgid "Set Custom Tab Title"
@@ -1141,10 +1121,8 @@ msgid "Shortcut"
 msgstr "快捷键"
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:528
-#, fuzzy
-#| msgid "_Reset to default"
 msgid "Reset All Shortcuts to Defaults"
-msgstr "重置为默认"
+msgstr "重置快捷键"
 
 #: ddterm/pref/glade/prefs-tabs.ui:44
 msgid "Expand tabs"
@@ -1207,10 +1185,8 @@ msgid "End"
 msgstr "结尾"
 
 #: ddterm/pref/glade/prefs-tabs.ui:259
-#, fuzzy
-#| msgid "Keyboard Shortcuts"
 msgid "Show keyboard shortcuts"
-msgstr "键盘快捷键"
+msgstr "显示键盘快捷键"
 
 #: ddterm/pref/glade/prefs-text.ui:39
 msgid "Custom _font:"
@@ -1292,23 +1268,23 @@ msgstr "检测邮件地址"
 msgid "Detect news:/man: URLs"
 msgstr "检测新闻、文档URL"
 
-#: ddterm/pref/panelicon.js:53
+#: ddterm/pref/panelicon.js:53 ddterm/pref/panelicon.js:52
 msgid "Panel Icon"
 msgstr "面板图标"
 
-#: ddterm/pref/positionsize.js:98
+#: ddterm/pref/positionsize.js:98 ddterm/pref/positionsize.js:91
 msgid "Position and Size"
 msgstr "位置和尺寸"
 
-#: ddterm/pref/scrolling.js:83
+#: ddterm/pref/scrolling.js:83 ddterm/pref/scrolling.js:76
 msgid "Scrolling"
 msgstr "滚动"
 
-#: ddterm/pref/tabs.js:98
+#: ddterm/pref/tabs.js:98 ddterm/pref/tabs.js:91
 msgid "Tabs"
 msgstr "标签页"
 
-#: ddterm/pref/text.js:102
+#: ddterm/pref/text.js:102 ddterm/pref/text.js:94
 msgid "Text"
 msgstr "文本"
 
