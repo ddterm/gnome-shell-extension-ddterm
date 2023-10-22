@@ -73,7 +73,7 @@ msgid ""
 msgstr "警告：ddterm版本已改变。注销后重新登录，方可生效。"
 
 #: ddterm/app/appwindow.js:149 ddterm/shell/extension.js:245
-#: ddterm/shell/extension.js:255 ddterm/app/appwindow.js:156
+#: ddterm/shell/extension.js:255
 msgid "Drop Down Terminal"
 msgstr "下拉终端"
 
@@ -202,7 +202,6 @@ msgid "Move Tab to Other Pane"
 msgstr "移动标签页到下一个面板"
 
 #: ddterm/app/menus.ui:151 ddterm/app/prefsdialog.js:44
-#: ddterm/app/prefsdialog.js:46
 msgid "Preferences"
 msgstr "首选项"
 
@@ -274,11 +273,11 @@ msgstr "移动标签页到上一个位置"
 msgid "Move Tab to Next Position"
 msgstr "移动标签页到下一个位置"
 
-#: ddterm/app/notebook.js:150 ddterm/app/notebook.js:157
+#: ddterm/app/notebook.js:150
 msgid "New Tab (Last)"
 msgstr "新建标签页（最后一个）"
 
-#: ddterm/app/notebook.js:190 ddterm/app/notebook.js:197
+#: ddterm/app/notebook.js:190
 msgid "New Tab (First)"
 msgstr "新建标签页（第一个）"
 
@@ -310,27 +309,27 @@ msgstr "查找下一个"
 msgid "Find Previous"
 msgstr "找到前一个"
 
-#: ddterm/app/terminalpage.js:453
+#: ddterm/app/terminalpage.js:434
 msgid "Restart"
 msgstr "重新开始"
 
-#: ddterm/app/terminalpage.js:454 ddterm/app/terminalpage.js:629
+#: ddterm/app/terminalpage.js:435 ddterm/app/terminalpage.js:610
 msgid "Close Terminal"
 msgstr "关闭终端"
 
-#: ddterm/app/terminalpage.js:477
+#: ddterm/app/terminalpage.js:458
 msgid "The child process exited with status:"
 msgstr "子进程退出，状态为："
 
-#: ddterm/app/terminalpage.js:487
+#: ddterm/app/terminalpage.js:468
 msgid "The child process was aborted by signal:"
 msgstr "子进程被信号中止："
 
-#: ddterm/app/terminalpage.js:602 ddterm/app/terminalpage.js:621
+#: ddterm/app/terminalpage.js:602
 msgid "Close this terminal?"
 msgstr "关闭这个终端？"
 
-#: ddterm/app/terminalpage.js:604 ddterm/app/terminalpage.js:623
+#: ddterm/app/terminalpage.js:604
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."
@@ -345,7 +344,6 @@ msgid "Terminal"
 msgstr "终端"
 
 #: ddterm/pref/adw.js:121 ddterm/pref/shortcuts.js:132
-#: ddterm/pref/shortcuts.js:131
 msgid "Keyboard Shortcuts"
 msgstr "键盘快捷键"
 
@@ -353,23 +351,23 @@ msgstr "键盘快捷键"
 msgid "Miscellaneous"
 msgstr "杂项"
 
-#: ddterm/pref/animation.js:79 ddterm/pref/animation.js:71
+#: ddterm/pref/animation.js:79
 msgid "Animation"
 msgstr "动画"
 
-#: ddterm/pref/behavior.js:67 ddterm/pref/behavior.js:66
+#: ddterm/pref/behavior.js:67
 msgid "Behavior"
 msgstr "行为"
 
-#: ddterm/pref/colors.js:469 ddterm/pref/colors.js:461
+#: ddterm/pref/colors.js:469
 msgid "Colors"
 msgstr "颜色"
 
-#: ddterm/pref/command.js:68 ddterm/pref/command.js:67
+#: ddterm/pref/command.js:68
 msgid "Command"
 msgstr "命令"
 
-#: ddterm/pref/compatibility.js:76 ddterm/pref/compatibility.js:75
+#: ddterm/pref/compatibility.js:76
 msgid "Compatibility"
 msgstr "兼容性"
 
@@ -1268,23 +1266,23 @@ msgstr "检测邮件地址"
 msgid "Detect news:/man: URLs"
 msgstr "检测新闻、文档URL"
 
-#: ddterm/pref/panelicon.js:53 ddterm/pref/panelicon.js:52
+#: ddterm/pref/panelicon.js:53
 msgid "Panel Icon"
 msgstr "面板图标"
 
-#: ddterm/pref/positionsize.js:98 ddterm/pref/positionsize.js:91
+#: ddterm/pref/positionsize.js:98
 msgid "Position and Size"
 msgstr "位置和尺寸"
 
-#: ddterm/pref/scrolling.js:83 ddterm/pref/scrolling.js:76
+#: ddterm/pref/scrolling.js:83
 msgid "Scrolling"
 msgstr "滚动"
 
-#: ddterm/pref/tabs.js:98 ddterm/pref/tabs.js:91
+#: ddterm/pref/tabs.js:98
 msgid "Tabs"
 msgstr "标签页"
 
-#: ddterm/pref/text.js:102 ddterm/pref/text.js:94
+#: ddterm/pref/text.js:102
 msgid "Text"
 msgstr "文本"
 
