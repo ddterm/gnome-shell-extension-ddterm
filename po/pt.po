@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-21 19:27+0000\n"
+"POT-Creation-Date: 2023-10-22 17:40+0000\n"
 "PO-Revision-Date: 2023-10-02 00:02+0000\n"
 "Last-Translator: Luiz Carlos de Souza Santos <lcdessantos@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/gnome-shell-"
@@ -79,7 +79,7 @@ msgstr ""
 "Aviso: A extensão ddterm foi atualizada. Saia, e em seguida faça login "
 "novamente para carregar a nova versão."
 
-#: ddterm/app/appwindow.js:156 ddterm/shell/extension.js:245
+#: ddterm/app/appwindow.js:149 ddterm/shell/extension.js:245
 #: ddterm/shell/extension.js:255
 msgid "Drop Down Terminal"
 msgstr "Terminal Suspenso"
@@ -210,7 +210,7 @@ msgstr ""
 msgid "Move Tab to Other Pane"
 msgstr "Mover Aba para a Próxima Posição"
 
-#: ddterm/app/menus.ui:151 ddterm/app/prefsdialog.js:46
+#: ddterm/app/menus.ui:151 ddterm/app/prefsdialog.js:44
 msgid "Preferences"
 msgstr "Preferências"
 
@@ -282,11 +282,11 @@ msgstr "Mover Aba para a Posição Anterior"
 msgid "Move Tab to Next Position"
 msgstr "Mover Aba para a Próxima Posição"
 
-#: ddterm/app/notebook.js:157
+#: ddterm/app/notebook.js:150
 msgid "New Tab (Last)"
 msgstr "Nova Aba (Última)"
 
-#: ddterm/app/notebook.js:197
+#: ddterm/app/notebook.js:190
 msgid "New Tab (First)"
 msgstr "Nova Aba (Primeira)"
 
@@ -318,29 +318,29 @@ msgstr "Localizar próximo"
 msgid "Find Previous"
 msgstr "Localizar anterior"
 
-#: ddterm/app/terminalpage.js:453
+#: ddterm/app/terminalpage.js:434
 #, fuzzy
 #| msgid "Start"
 msgid "Restart"
 msgstr "Inicio"
 
-#: ddterm/app/terminalpage.js:454 ddterm/app/terminalpage.js:629
+#: ddterm/app/terminalpage.js:435 ddterm/app/terminalpage.js:610
 msgid "Close Terminal"
 msgstr "Fechar Terminal"
 
-#: ddterm/app/terminalpage.js:477
+#: ddterm/app/terminalpage.js:458
 msgid "The child process exited with status:"
 msgstr ""
 
-#: ddterm/app/terminalpage.js:487
+#: ddterm/app/terminalpage.js:468
 msgid "The child process was aborted by signal:"
 msgstr ""
 
-#: ddterm/app/terminalpage.js:621
+#: ddterm/app/terminalpage.js:602
 msgid "Close this terminal?"
 msgstr "Fechar este terminal?"
 
-#: ddterm/app/terminalpage.js:623
+#: ddterm/app/terminalpage.js:604
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."
@@ -355,7 +355,7 @@ msgstr "Janela"
 msgid "Terminal"
 msgstr "Terminal"
 
-#: ddterm/pref/adw.js:121 ddterm/pref/shortcuts.js:131
+#: ddterm/pref/adw.js:121 ddterm/pref/shortcuts.js:132
 msgid "Keyboard Shortcuts"
 msgstr "Atalhos de Teclado"
 
@@ -363,23 +363,23 @@ msgstr "Atalhos de Teclado"
 msgid "Miscellaneous"
 msgstr "Miscelânea"
 
-#: ddterm/pref/animation.js:71
+#: ddterm/pref/animation.js:79
 msgid "Animation"
 msgstr "Animação"
 
-#: ddterm/pref/behavior.js:66
+#: ddterm/pref/behavior.js:67
 msgid "Behavior"
 msgstr "Comportamento"
 
-#: ddterm/pref/colors.js:461
+#: ddterm/pref/colors.js:469
 msgid "Colors"
 msgstr "Cores"
 
-#: ddterm/pref/command.js:67
+#: ddterm/pref/command.js:68
 msgid "Command"
 msgstr "Comando"
 
-#: ddterm/pref/compatibility.js:75
+#: ddterm/pref/compatibility.js:76
 msgid "Compatibility"
 msgstr "Compatibilidade"
 
@@ -1290,23 +1290,23 @@ msgstr "Detectar endereços de e-mail"
 msgid "Detect news:/man: URLs"
 msgstr "Detectar endereços dos schemes news:/ e man:/"
 
-#: ddterm/pref/panelicon.js:52
+#: ddterm/pref/panelicon.js:53
 msgid "Panel Icon"
 msgstr "Ícone 'Painel'"
 
-#: ddterm/pref/positionsize.js:91
+#: ddterm/pref/positionsize.js:98
 msgid "Position and Size"
 msgstr "Posição e Tamanho"
 
-#: ddterm/pref/scrolling.js:76
+#: ddterm/pref/scrolling.js:83
 msgid "Scrolling"
 msgstr "Rolagem"
 
-#: ddterm/pref/tabs.js:91
+#: ddterm/pref/tabs.js:98
 msgid "Tabs"
 msgstr "Abas"
 
-#: ddterm/pref/text.js:94
+#: ddterm/pref/text.js:102
 msgid "Text"
 msgstr "Texto"
 

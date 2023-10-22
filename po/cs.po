@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-21 19:27+0000\n"
+"POT-Creation-Date: 2023-10-22 17:40+0000\n"
 "PO-Revision-Date: 2023-04-24 02:48+0000\n"
 "Last-Translator: Pavel Novák <pavelnov32@gmail.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/gnome-shell-"
@@ -78,7 +78,7 @@ msgstr ""
 "Varování: Verze ddterm byla změněna. Znovu se přihlašte pro načtení "
 "aktualizovaného rozšíření."
 
-#: ddterm/app/appwindow.js:156 ddterm/shell/extension.js:245
+#: ddterm/app/appwindow.js:149 ddterm/shell/extension.js:245
 #: ddterm/shell/extension.js:255
 msgid "Drop Down Terminal"
 msgstr "Rozbalovací Terminál"
@@ -211,7 +211,7 @@ msgstr ""
 msgid "Move Tab to Other Pane"
 msgstr "Posunout panel do další pozice"
 
-#: ddterm/app/menus.ui:151 ddterm/app/prefsdialog.js:46
+#: ddterm/app/menus.ui:151 ddterm/app/prefsdialog.js:44
 msgid "Preferences"
 msgstr "Předvolby"
 
@@ -283,11 +283,11 @@ msgstr "Posunout panel do předchozí pozice"
 msgid "Move Tab to Next Position"
 msgstr "Posunout panel do další pozice"
 
-#: ddterm/app/notebook.js:157
+#: ddterm/app/notebook.js:150
 msgid "New Tab (Last)"
 msgstr "Nový panel (Poslední)"
 
-#: ddterm/app/notebook.js:197
+#: ddterm/app/notebook.js:190
 msgid "New Tab (First)"
 msgstr "Nový panel (První)"
 
@@ -319,31 +319,31 @@ msgstr "Klávesové zkratky"
 msgid "Find Previous"
 msgstr "Najít předchozí"
 
-#: ddterm/app/terminalpage.js:453
+#: ddterm/app/terminalpage.js:434
 #, fuzzy
 #| msgid "Start"
 msgid "Restart"
 msgstr "Začátek"
 
-#: ddterm/app/terminalpage.js:454 ddterm/app/terminalpage.js:629
+#: ddterm/app/terminalpage.js:435 ddterm/app/terminalpage.js:610
 #, fuzzy
 #| msgid "Close this terminal?"
 msgid "Close Terminal"
 msgstr "Zavřít tento terminál?"
 
-#: ddterm/app/terminalpage.js:477
+#: ddterm/app/terminalpage.js:458
 msgid "The child process exited with status:"
 msgstr ""
 
-#: ddterm/app/terminalpage.js:487
+#: ddterm/app/terminalpage.js:468
 msgid "The child process was aborted by signal:"
 msgstr ""
 
-#: ddterm/app/terminalpage.js:621
+#: ddterm/app/terminalpage.js:602
 msgid "Close this terminal?"
 msgstr "Zavřít tento terminál?"
 
-#: ddterm/app/terminalpage.js:623
+#: ddterm/app/terminalpage.js:604
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."
@@ -361,7 +361,7 @@ msgstr "_Velikost okna:"
 msgid "Terminal"
 msgstr "Rozbalovací Terminál"
 
-#: ddterm/pref/adw.js:121 ddterm/pref/shortcuts.js:131
+#: ddterm/pref/adw.js:121 ddterm/pref/shortcuts.js:132
 msgid "Keyboard Shortcuts"
 msgstr "Klávesové zkratky"
 
@@ -369,23 +369,23 @@ msgstr "Klávesové zkratky"
 msgid "Miscellaneous"
 msgstr ""
 
-#: ddterm/pref/animation.js:71
+#: ddterm/pref/animation.js:79
 msgid "Animation"
 msgstr "Animace"
 
-#: ddterm/pref/behavior.js:66
+#: ddterm/pref/behavior.js:67
 msgid "Behavior"
 msgstr "Chování"
 
-#: ddterm/pref/colors.js:461
+#: ddterm/pref/colors.js:469
 msgid "Colors"
 msgstr "Barvy"
 
-#: ddterm/pref/command.js:67
+#: ddterm/pref/command.js:68
 msgid "Command"
 msgstr "Příkaz"
 
-#: ddterm/pref/compatibility.js:75
+#: ddterm/pref/compatibility.js:76
 msgid "Compatibility"
 msgstr "Kompatibilita"
 
@@ -1298,23 +1298,23 @@ msgstr "Detekovat E-mailové adresy"
 msgid "Detect news:/man: URLs"
 msgstr "Detekovat novinky:/man:URL adresy"
 
-#: ddterm/pref/panelicon.js:52
+#: ddterm/pref/panelicon.js:53
 msgid "Panel Icon"
 msgstr "Ikona na panelu"
 
-#: ddterm/pref/positionsize.js:91
+#: ddterm/pref/positionsize.js:98
 msgid "Position and Size"
 msgstr "Pozice a velikost"
 
-#: ddterm/pref/scrolling.js:76
+#: ddterm/pref/scrolling.js:83
 msgid "Scrolling"
 msgstr "Posouvání"
 
-#: ddterm/pref/tabs.js:91
+#: ddterm/pref/tabs.js:98
 msgid "Tabs"
 msgstr "Panely"
 
-#: ddterm/pref/text.js:94
+#: ddterm/pref/text.js:102
 msgid "Text"
 msgstr "Text"
 

@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-21 19:27+0000\n"
+"POT-Creation-Date: 2023-10-22 17:40+0000\n"
 "PO-Revision-Date: 2023-09-26 17:35+0300\n"
 "Last-Translator: Anagnostakis Ioannis <rizitis@gmail.com>\n"
 "Language-Team: Greek, Modern (1453-) <>\n"
@@ -77,7 +77,7 @@ msgstr ""
 "Προειδοποίηση: η έκδοση ddterm έχει αλλάξει. Αποσυνδεθείτε και, στη "
 "συνέχεια, συνδεθείτε ξανά για να φορτώσετε την ενημερωμένη επέκταση."
 
-#: ddterm/app/appwindow.js:156 ddterm/shell/extension.js:245
+#: ddterm/app/appwindow.js:149 ddterm/shell/extension.js:245
 #: ddterm/shell/extension.js:255
 msgid "Drop Down Terminal"
 msgstr "Ανάπτυξη Τερματικού"
@@ -208,7 +208,7 @@ msgstr ""
 msgid "Move Tab to Other Pane"
 msgstr "Επανατοποθέτηση καρτέλας μετά"
 
-#: ddterm/app/menus.ui:151 ddterm/app/prefsdialog.js:46
+#: ddterm/app/menus.ui:151 ddterm/app/prefsdialog.js:44
 msgid "Preferences"
 msgstr "Προτιμήσεις"
 
@@ -280,11 +280,11 @@ msgstr "Επανατοποθέτηση καρτέλας πριν"
 msgid "Move Tab to Next Position"
 msgstr "Επανατοποθέτηση καρτέλας μετά"
 
-#: ddterm/app/notebook.js:157
+#: ddterm/app/notebook.js:150
 msgid "New Tab (Last)"
 msgstr "Νέα καρτέλα (Τέλος)"
 
-#: ddterm/app/notebook.js:197
+#: ddterm/app/notebook.js:190
 msgid "New Tab (First)"
 msgstr "Νέα καρτέλα (Αρχή)"
 
@@ -316,31 +316,31 @@ msgstr "Μετακίνηση στο επόμενο"
 msgid "Find Previous"
 msgstr "Μετακίνηση στο επόμενο"
 
-#: ddterm/app/terminalpage.js:453
+#: ddterm/app/terminalpage.js:434
 #, fuzzy
 #| msgid "Start"
 msgid "Restart"
 msgstr "Αρχή"
 
-#: ddterm/app/terminalpage.js:454 ddterm/app/terminalpage.js:629
+#: ddterm/app/terminalpage.js:435 ddterm/app/terminalpage.js:610
 #, fuzzy
 #| msgid "Close this terminal?"
 msgid "Close Terminal"
 msgstr "Να κλείσει το Τερματικό ;"
 
-#: ddterm/app/terminalpage.js:477
+#: ddterm/app/terminalpage.js:458
 msgid "The child process exited with status:"
 msgstr ""
 
-#: ddterm/app/terminalpage.js:487
+#: ddterm/app/terminalpage.js:468
 msgid "The child process was aborted by signal:"
 msgstr ""
 
-#: ddterm/app/terminalpage.js:621
+#: ddterm/app/terminalpage.js:602
 msgid "Close this terminal?"
 msgstr "Να κλείσει το Τερματικό ;"
 
-#: ddterm/app/terminalpage.js:623
+#: ddterm/app/terminalpage.js:604
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."
@@ -356,7 +356,7 @@ msgstr "Παράθυρο"
 msgid "Terminal"
 msgstr "Τερματικό"
 
-#: ddterm/pref/adw.js:121 ddterm/pref/shortcuts.js:131
+#: ddterm/pref/adw.js:121 ddterm/pref/shortcuts.js:132
 msgid "Keyboard Shortcuts"
 msgstr "Συντομεύσεις Πληκτρολογίου"
 
@@ -364,23 +364,23 @@ msgstr "Συντομεύσεις Πληκτρολογίου"
 msgid "Miscellaneous"
 msgstr "Διάφορα"
 
-#: ddterm/pref/animation.js:71
+#: ddterm/pref/animation.js:79
 msgid "Animation"
 msgstr "Animation"
 
-#: ddterm/pref/behavior.js:66
+#: ddterm/pref/behavior.js:67
 msgid "Behavior"
 msgstr "Συμπεριφορά"
 
-#: ddterm/pref/colors.js:461
+#: ddterm/pref/colors.js:469
 msgid "Colors"
 msgstr "Χρώμματα"
 
-#: ddterm/pref/command.js:67
+#: ddterm/pref/command.js:68
 msgid "Command"
 msgstr "Εντολή"
 
-#: ddterm/pref/compatibility.js:75
+#: ddterm/pref/compatibility.js:76
 msgid "Compatibility"
 msgstr "Συμβατότητα"
 
@@ -1287,23 +1287,23 @@ msgstr "Εύρεση adresses email"
 msgid "Detect news:/man: URLs"
 msgstr "Εντόπιση news:/man: URLs"
 
-#: ddterm/pref/panelicon.js:52
+#: ddterm/pref/panelicon.js:53
 msgid "Panel Icon"
 msgstr "Εικονίδιο Πάνελ"
 
-#: ddterm/pref/positionsize.js:91
+#: ddterm/pref/positionsize.js:98
 msgid "Position and Size"
 msgstr "Θέση και μέγεθος"
 
-#: ddterm/pref/scrolling.js:76
+#: ddterm/pref/scrolling.js:83
 msgid "Scrolling"
 msgstr "Κύλιση"
 
-#: ddterm/pref/tabs.js:91
+#: ddterm/pref/tabs.js:98
 msgid "Tabs"
 msgstr "Καρτέλες"
 
-#: ddterm/pref/text.js:94
+#: ddterm/pref/text.js:102
 msgid "Text"
 msgstr "Κείμενο"
 

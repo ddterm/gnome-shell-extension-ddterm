@@ -6,11 +6,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-21 19:27+0000\n"
+"POT-Creation-Date: 2023-10-22 17:40+0000\n"
 "PO-Revision-Date: 2023-10-22 14:34+0000\n"
 "Last-Translator: Arnaud Feldmann <arnaud.feldmann@gmail.com>\n"
-"Language-Team: French <https://hosted.weblate.org/projects/"
-"gnome-shell-extension-ddterm/extension/fr/>\n"
+"Language-Team: French <https://hosted.weblate.org/projects/gnome-shell-"
+"extension-ddterm/extension/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -77,7 +77,7 @@ msgstr ""
 "Avertissement : La version de ddterm a changé. Fermez la session, puis "
 "reconnectez-vous pour charger l'extension mise à jour."
 
-#: ddterm/app/appwindow.js:156 ddterm/shell/extension.js:245
+#: ddterm/app/appwindow.js:149 ddterm/shell/extension.js:245
 #: ddterm/shell/extension.js:255
 msgid "Drop Down Terminal"
 msgstr "Terminal déroulant"
@@ -206,7 +206,7 @@ msgstr "Diviser verticalement"
 msgid "Move Tab to Other Pane"
 msgstr "Changer l'onglet de panneau"
 
-#: ddterm/app/menus.ui:151 ddterm/app/prefsdialog.js:46
+#: ddterm/app/menus.ui:151 ddterm/app/prefsdialog.js:44
 msgid "Preferences"
 msgstr "Préférences"
 
@@ -278,11 +278,11 @@ msgstr "Déplacer l'onglet vers la position précédente"
 msgid "Move Tab to Next Position"
 msgstr "Déplacer l'onglet vers la position suivante"
 
-#: ddterm/app/notebook.js:157
+#: ddterm/app/notebook.js:150
 msgid "New Tab (Last)"
 msgstr "Nouvel onglet (en dernière position)"
 
-#: ddterm/app/notebook.js:197
+#: ddterm/app/notebook.js:190
 msgid "New Tab (First)"
 msgstr "Nouvel onglet (en première position)"
 
@@ -314,27 +314,27 @@ msgstr "Rechercher le suivant"
 msgid "Find Previous"
 msgstr "Rechercher le précédent"
 
-#: ddterm/app/terminalpage.js:453
+#: ddterm/app/terminalpage.js:434
 msgid "Restart"
 msgstr "Redémarrer"
 
-#: ddterm/app/terminalpage.js:454 ddterm/app/terminalpage.js:629
+#: ddterm/app/terminalpage.js:435 ddterm/app/terminalpage.js:610
 msgid "Close Terminal"
 msgstr "Fermer ce terminal"
 
-#: ddterm/app/terminalpage.js:477
+#: ddterm/app/terminalpage.js:458
 msgid "The child process exited with status:"
 msgstr "Le processus fils s'est terminé avec le statut :"
 
-#: ddterm/app/terminalpage.js:487
+#: ddterm/app/terminalpage.js:468
 msgid "The child process was aborted by signal:"
 msgstr "Le processus de l'enfant a été interrompu par le signal :"
 
-#: ddterm/app/terminalpage.js:621
+#: ddterm/app/terminalpage.js:602
 msgid "Close this terminal?"
 msgstr "Fermer ce terminal ?"
 
-#: ddterm/app/terminalpage.js:623
+#: ddterm/app/terminalpage.js:604
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."
@@ -350,7 +350,7 @@ msgstr "Fenêtre"
 msgid "Terminal"
 msgstr "Terminal"
 
-#: ddterm/pref/adw.js:121 ddterm/pref/shortcuts.js:131
+#: ddterm/pref/adw.js:121 ddterm/pref/shortcuts.js:132
 msgid "Keyboard Shortcuts"
 msgstr "Raccourcis claviers"
 
@@ -358,23 +358,23 @@ msgstr "Raccourcis claviers"
 msgid "Miscellaneous"
 msgstr "Divers"
 
-#: ddterm/pref/animation.js:71
+#: ddterm/pref/animation.js:79
 msgid "Animation"
 msgstr "Animation"
 
-#: ddterm/pref/behavior.js:66
+#: ddterm/pref/behavior.js:67
 msgid "Behavior"
 msgstr "Comportement"
 
-#: ddterm/pref/colors.js:461
+#: ddterm/pref/colors.js:469
 msgid "Colors"
 msgstr "Couleurs"
 
-#: ddterm/pref/command.js:67
+#: ddterm/pref/command.js:68
 msgid "Command"
 msgstr "Commande"
 
-#: ddterm/pref/compatibility.js:75
+#: ddterm/pref/compatibility.js:76
 msgid "Compatibility"
 msgstr "Compatibilité"
 
@@ -1273,23 +1273,23 @@ msgstr "Détecter les adresses email"
 msgid "Detect news:/man: URLs"
 msgstr "Détecter les URL de type « news: »"
 
-#: ddterm/pref/panelicon.js:52
+#: ddterm/pref/panelicon.js:53
 msgid "Panel Icon"
 msgstr "Icône de panneau"
 
-#: ddterm/pref/positionsize.js:91
+#: ddterm/pref/positionsize.js:98
 msgid "Position and Size"
 msgstr "Position et taille"
 
-#: ddterm/pref/scrolling.js:76
+#: ddterm/pref/scrolling.js:83
 msgid "Scrolling"
 msgstr "Défilement"
 
-#: ddterm/pref/tabs.js:91
+#: ddterm/pref/tabs.js:98
 msgid "Tabs"
 msgstr "Onglets"
 
-#: ddterm/pref/text.js:94
+#: ddterm/pref/text.js:102
 msgid "Text"
 msgstr "Texte"
 

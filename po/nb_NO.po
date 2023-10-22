@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-21 19:27+0000\n"
+"POT-Creation-Date: 2023-10-22 17:40+0000\n"
 "PO-Revision-Date: 2023-03-12 16:07+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/gnome-"
@@ -74,7 +74,7 @@ msgstr ""
 "Advarsel: ddterm-versjonen har endret seg. Logg ut og inn igjen for å laste "
 "inn oppdatert utvidelse."
 
-#: ddterm/app/appwindow.js:156 ddterm/shell/extension.js:245
+#: ddterm/app/appwindow.js:149 ddterm/shell/extension.js:245
 #: ddterm/shell/extension.js:255
 msgid "Drop Down Terminal"
 msgstr "Rullegardinsterminal"
@@ -204,7 +204,7 @@ msgstr "Del loddrett"
 msgid "Move Tab to Other Pane"
 msgstr "Flytt fane til neste flate"
 
-#: ddterm/app/menus.ui:151 ddterm/app/prefsdialog.js:46
+#: ddterm/app/menus.ui:151 ddterm/app/prefsdialog.js:44
 msgid "Preferences"
 msgstr "Innstillinger"
 
@@ -276,11 +276,11 @@ msgstr "Flytt fane til forrige posisjon"
 msgid "Move Tab to Next Position"
 msgstr "Flytt fane til neste posisjon"
 
-#: ddterm/app/notebook.js:157
+#: ddterm/app/notebook.js:150
 msgid "New Tab (Last)"
 msgstr "Ny fane (sist)"
 
-#: ddterm/app/notebook.js:197
+#: ddterm/app/notebook.js:190
 msgid "New Tab (First)"
 msgstr "Ny fane (først)"
 
@@ -312,27 +312,27 @@ msgstr "Finn neste"
 msgid "Find Previous"
 msgstr "Finn forrige"
 
-#: ddterm/app/terminalpage.js:453
+#: ddterm/app/terminalpage.js:434
 msgid "Restart"
 msgstr "Omstart"
 
-#: ddterm/app/terminalpage.js:454 ddterm/app/terminalpage.js:629
+#: ddterm/app/terminalpage.js:435 ddterm/app/terminalpage.js:610
 msgid "Close Terminal"
 msgstr "Lukk terminal?"
 
-#: ddterm/app/terminalpage.js:477
+#: ddterm/app/terminalpage.js:458
 msgid "The child process exited with status:"
 msgstr "Underprosessen avsluttet med status:"
 
-#: ddterm/app/terminalpage.js:487
+#: ddterm/app/terminalpage.js:468
 msgid "The child process was aborted by signal:"
 msgstr "Et signal avbrøt underprosessen:"
 
-#: ddterm/app/terminalpage.js:621
+#: ddterm/app/terminalpage.js:602
 msgid "Close this terminal?"
 msgstr "Lukk denne terminalen?"
 
-#: ddterm/app/terminalpage.js:623
+#: ddterm/app/terminalpage.js:604
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."
@@ -348,7 +348,7 @@ msgstr "Vindu"
 msgid "Terminal"
 msgstr "Terminal"
 
-#: ddterm/pref/adw.js:121 ddterm/pref/shortcuts.js:131
+#: ddterm/pref/adw.js:121 ddterm/pref/shortcuts.js:132
 msgid "Keyboard Shortcuts"
 msgstr "Tastatursnarveier"
 
@@ -356,23 +356,23 @@ msgstr "Tastatursnarveier"
 msgid "Miscellaneous"
 msgstr "Ymse"
 
-#: ddterm/pref/animation.js:71
+#: ddterm/pref/animation.js:79
 msgid "Animation"
 msgstr "Animasjon"
 
-#: ddterm/pref/behavior.js:66
+#: ddterm/pref/behavior.js:67
 msgid "Behavior"
 msgstr "Adferd"
 
-#: ddterm/pref/colors.js:461
+#: ddterm/pref/colors.js:469
 msgid "Colors"
 msgstr "Farger"
 
-#: ddterm/pref/command.js:67
+#: ddterm/pref/command.js:68
 msgid "Command"
 msgstr "Kommando"
 
-#: ddterm/pref/compatibility.js:75
+#: ddterm/pref/compatibility.js:76
 msgid "Compatibility"
 msgstr "Kompabilitet"
 
@@ -1289,23 +1289,23 @@ msgstr "Oppdag e-postadresser"
 msgid "Detect news:/man: URLs"
 msgstr "Oppdag nyheter:/man: -nettadresser"
 
-#: ddterm/pref/panelicon.js:52
+#: ddterm/pref/panelicon.js:53
 msgid "Panel Icon"
 msgstr "Panelikon"
 
-#: ddterm/pref/positionsize.js:91
+#: ddterm/pref/positionsize.js:98
 msgid "Position and Size"
 msgstr "Posisjon og størrelse"
 
-#: ddterm/pref/scrolling.js:76
+#: ddterm/pref/scrolling.js:83
 msgid "Scrolling"
 msgstr "Rulling"
 
-#: ddterm/pref/tabs.js:91
+#: ddterm/pref/tabs.js:98
 msgid "Tabs"
 msgstr "Faner"
 
-#: ddterm/pref/text.js:94
+#: ddterm/pref/text.js:102
 msgid "Text"
 msgstr "Tekst"
 
