@@ -304,8 +304,15 @@ export const Notebook = GObject.registerClass({
                 this.notify('current-title');
             });
 
-            const disconnect_handler = this.connect('notify::current-child', () => {
+            const destroy_handler = child?.connect('destroy', () => {
                 child.disconnect(title_handler);
+                child.disconnect(destroy_handler);
+                this.disconnect(disconnect_handler);
+            });
+
+            const disconnect_handler = this.connect('notify::current-child', () => {
+                child?.disconnect(title_handler);
+                child?.disconnect(destroy_handler);
                 this.disconnect(disconnect_handler);
             });
 
