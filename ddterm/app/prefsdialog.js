@@ -25,8 +25,6 @@ import Gettext from 'gettext';
 
 import { metadata, dir } from './meta.js';
 
-imports.searchPath.unshift(dir.get_path());
-
 export const PrefsDialog = GObject.registerClass({
     Properties: {
         'settings': GObject.ParamSpec.object(
@@ -46,6 +44,11 @@ export const PrefsDialog = GObject.registerClass({
         this.set_title(gettext_context.gettext('Preferences'));
         this.set_default_size(640, 576);
         this.set_icon_name('preferences-system');
+
+        const import_path = dir.get_path();
+
+        if (!imports.searchPath.includes(import_path))
+            imports.searchPath.unshift(import_path);
 
         /*
          * fake current extension object to make `Me.imports` and `Me.dir`
