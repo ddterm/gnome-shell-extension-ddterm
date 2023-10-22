@@ -5,11 +5,9 @@ set -e
 resolved="$(realpath -- "$0")"
 bindir="${resolved%/*}"
 
-case ":${PATH:="$bindir"}:" in
-(*:"$bindir":*)
-    ;;
-(*)
-    PATH="$bindir:$PATH";;
-esac
+if [ "$(realpath -- "$(command -v com.github.amezin.ddterm)" 2>/dev/null)" != "$resolved" ]
+then
+    PATH="$bindir${PATH:+:${PATH}}"
+fi
 
 exec gjs -m "${bindir%/*}/ddterm/app/main.js" "$@"
