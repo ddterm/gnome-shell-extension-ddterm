@@ -20,12 +20,19 @@
 'use strict';
 
 const { GObject, Gio, Gtk } = imports.gi;
+
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-const { util } = Me.imports.ddterm.pref;
+
+const {
+    bind_widgets,
+    insert_settings_actions,
+    set_scale_value_format,
+    ui_file_uri,
+} = Me.imports.ddterm.pref.util;
 
 var Widget = GObject.registerClass({
     GTypeName: 'DDTermPrefsTabs',
-    Template: util.ui_file_uri('prefs-tabs.ui'),
+    Template: ui_file_uri('prefs-tabs.ui'),
     Children: [
         'tab_policy_combo',
         'tab_position_combo',
@@ -51,7 +58,7 @@ var Widget = GObject.registerClass({
     _init(params) {
         super._init(params);
 
-        util.bind_widgets(this.settings, {
+        bind_widgets(this.settings, {
             'tab-policy': this.tab_policy_combo,
             'tab-position': this.tab_position_combo,
             'tab-label-ellipsize-mode': this.tab_label_ellipsize_combo,
@@ -59,9 +66,9 @@ var Widget = GObject.registerClass({
         });
 
         const percent_format = new Intl.NumberFormat(undefined, { style: 'percent' });
-        util.set_scale_value_format(this.tab_label_width_scale, percent_format);
+        set_scale_value_format(this.tab_label_width_scale, percent_format);
 
-        util.insert_settings_actions(this, this.settings, [
+        insert_settings_actions(this, this.settings, [
             'tab-expand',
             'tab-close-buttons',
             'new-tab-button',

@@ -20,8 +20,16 @@
 'use strict';
 
 const { GLib, GObject, Gio, Gdk, Gtk } = imports.gi;
+
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-const { util } = Me.imports.ddterm.pref;
+
+const {
+    bind_sensitive,
+    bind_widget,
+    insert_settings_actions,
+    set_scale_value_format,
+    ui_file_uri,
+} = Me.imports.ddterm.pref.util;
 
 function show_dialog(parent_window, message, message_type = Gtk.MessageType.ERROR) {
     const dialog = new Gtk.MessageDialog({
@@ -284,7 +292,7 @@ const PALETTE_WIDGET_IDS = Array.from({ length: 16 }, (_, i) => `palette${i}`);
 
 var Widget = GObject.registerClass({
     GTypeName: 'DDTermPrefsColors',
-    Template: util.ui_file_uri('prefs-colors.ui'),
+    Template: ui_file_uri('prefs-colors.ui'),
     Children: [
         'theme_variant_combo',
         'color_scheme_editor',
@@ -319,7 +327,7 @@ var Widget = GObject.registerClass({
     _init(params) {
         super._init(params);
 
-        util.insert_settings_actions(this, this.settings, [
+        insert_settings_actions(this, this.settings, [
             'cursor-colors-set',
             'highlight-colors-set',
             'bold-is-bright',
@@ -327,9 +335,9 @@ var Widget = GObject.registerClass({
             'transparent-background',
         ]);
 
-        util.bind_widget(this.settings, 'theme-variant', this.theme_variant_combo);
+        bind_widget(this.settings, 'theme-variant', this.theme_variant_combo);
 
-        util.bind_sensitive(
+        bind_sensitive(
             this.settings,
             'use-theme-colors',
             this.color_scheme_editor,
@@ -366,13 +374,13 @@ var Widget = GObject.registerClass({
         });
         this.enable_color_scheme_combo();
 
-        util.bind_widget(this.settings, 'background-opacity', this.opacity_scale);
-        util.bind_sensitive(this.settings, 'transparent-background', this.opacity_scale.parent);
+        bind_widget(this.settings, 'background-opacity', this.opacity_scale);
+        bind_sensitive(this.settings, 'transparent-background', this.opacity_scale.parent);
 
         const percent_format = new Intl.NumberFormat(undefined, { style: 'percent' });
-        util.set_scale_value_format(this.opacity_scale, percent_format);
+        set_scale_value_format(this.opacity_scale, percent_format);
 
-        util.bind_widget(
+        bind_widget(
             this.settings,
             'bold-color-same-as-fg',
             this.bold_color_check,
@@ -381,7 +389,7 @@ var Widget = GObject.registerClass({
 
         this.bind_color('bold-color', this.bold_color);
 
-        util.bind_sensitive(
+        bind_sensitive(
             this.settings,
             'bold-color-same-as-fg',
             this.bold_color.parent,
@@ -395,7 +403,7 @@ var Widget = GObject.registerClass({
             this.cursor_foreground_color,
             this.cursor_background_color,
         ].forEach(widget => {
-            util.bind_sensitive(this.settings, 'cursor-colors-set', widget);
+            bind_sensitive(this.settings, 'cursor-colors-set', widget);
         });
 
         this.bind_color('highlight-foreground-color', this.highlight_foreground_color);
@@ -405,7 +413,7 @@ var Widget = GObject.registerClass({
             this.highlight_foreground_color,
             this.highlight_background_color,
         ].forEach(widget => {
-            util.bind_sensitive(this.settings, 'highlight-colors-set', widget);
+            bind_sensitive(this.settings, 'highlight-colors-set', widget);
         });
 
         this.palette = new ColorScheme({

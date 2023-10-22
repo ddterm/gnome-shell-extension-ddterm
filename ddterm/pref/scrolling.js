@@ -20,12 +20,19 @@
 'use strict';
 
 const { GObject, Gio, Gtk } = imports.gi;
+
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-const { util } = Me.imports.ddterm.pref;
+
+const {
+    bind_sensitive,
+    bind_widget,
+    insert_settings_actions,
+    ui_file_uri,
+} = Me.imports.ddterm.pref.util;
 
 var Widget = GObject.registerClass({
     GTypeName: 'DDTermPrefsScrolling',
-    Template: util.ui_file_uri('prefs-scrolling.ui'),
+    Template: ui_file_uri('prefs-scrolling.ui'),
     Children: [
         'scrollback_spin',
         'limit_scrollback_check',
@@ -49,22 +56,22 @@ var Widget = GObject.registerClass({
     _init(params) {
         super._init(params);
 
-        util.insert_settings_actions(this, this.settings, [
+        insert_settings_actions(this, this.settings, [
             'show-scrollbar',
             'scroll-on-output',
             'scroll-on-keystroke',
         ]);
 
-        util.bind_widget(
+        bind_widget(
             this.settings,
             'scrollback-unlimited',
             this.limit_scrollback_check,
             Gio.SettingsBindFlags.INVERT_BOOLEAN
         );
 
-        util.bind_widget(this.settings, 'scrollback-lines', this.scrollback_spin);
+        bind_widget(this.settings, 'scrollback-lines', this.scrollback_spin);
 
-        util.bind_sensitive(
+        bind_sensitive(
             this.settings,
             'scrollback-unlimited',
             this.scrollback_spin.parent,

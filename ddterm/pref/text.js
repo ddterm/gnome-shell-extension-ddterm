@@ -20,12 +20,20 @@
 'use strict';
 
 const { GObject, Gio, Gtk } = imports.gi;
+
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-const { util } = Me.imports.ddterm.pref;
+
+const {
+    bind_sensitive,
+    bind_widget,
+    bind_widgets,
+    insert_settings_actions,
+    ui_file_uri,
+} = Me.imports.ddterm.pref.util;
 
 var Widget = GObject.registerClass({
     GTypeName: 'DDTermPrefsText',
-    Template: util.ui_file_uri('prefs-text.ui'),
+    Template: ui_file_uri('prefs-text.ui'),
     Children: [
         'custom_font_check',
         'font_chooser',
@@ -53,29 +61,29 @@ var Widget = GObject.registerClass({
     _init(params) {
         super._init(params);
 
-        util.bind_widget(
+        bind_widget(
             this.settings,
             'use-system-font',
             this.custom_font_check,
             Gio.SettingsBindFlags.INVERT_BOOLEAN
         );
 
-        util.bind_widget(this.settings, 'custom-font', this.font_chooser);
+        bind_widget(this.settings, 'custom-font', this.font_chooser);
 
-        util.bind_sensitive(
+        bind_sensitive(
             this.settings,
             'use-system-font',
             this.font_chooser.parent,
             true
         );
 
-        util.bind_widgets(this.settings, {
+        bind_widgets(this.settings, {
             'text-blink-mode': this.text_blink_mode_combo,
             'cursor-shape': this.cursor_shape_combo,
             'cursor-blink-mode': this.cursor_blink_mode_combo,
         });
 
-        util.insert_settings_actions(this, this.settings, [
+        insert_settings_actions(this, this.settings, [
             'allow-hyperlink',
             'audible-bell',
             'detect-urls',
@@ -87,7 +95,7 @@ var Widget = GObject.registerClass({
             'detect-urls-news-man',
         ]);
 
-        util.bind_sensitive(this.settings, 'detect-urls', this.detect_urls_container);
+        bind_sensitive(this.settings, 'detect-urls', this.detect_urls_container);
     }
 
     get title() {

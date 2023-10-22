@@ -20,12 +20,13 @@
 'use strict';
 
 const { GObject, Gio, Gtk } = imports.gi;
+
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-const { util } = Me.imports.ddterm.pref;
+const { bind_widgets, ui_file_uri } = Me.imports.ddterm.pref.util;
 
 var Widget = GObject.registerClass({
     GTypeName: 'DDTermPrefsCompatibility',
-    Template: util.ui_file_uri('prefs-compatibility.ui'),
+    Template: ui_file_uri('prefs-compatibility.ui'),
     Children: [
         'backspace_binding_combo',
         'delete_binding_combo',
@@ -50,7 +51,7 @@ var Widget = GObject.registerClass({
     _init(params) {
         super._init(params);
 
-        util.bind_widgets(this.settings, {
+        bind_widgets(this.settings, {
             'backspace-binding': this.backspace_binding_combo,
             'delete-binding': this.delete_binding_combo,
             'cjk-utf8-ambiguous-width': this.ambiguous_width_combo,

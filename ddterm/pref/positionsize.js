@@ -20,12 +20,19 @@
 'use strict';
 
 const { GObject, Gio, Gtk } = imports.gi;
+
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-const { util } = Me.imports.ddterm.pref;
+
+const {
+    bind_widget,
+    insert_settings_actions,
+    set_scale_value_format,
+    ui_file_uri,
+} = Me.imports.ddterm.pref.util;
 
 var Widget = GObject.registerClass({
     GTypeName: 'DDTermPrefsPositionSize',
-    Template: util.ui_file_uri('prefs-position-size.ui'),
+    Template: ui_file_uri('prefs-position-size.ui'),
     Children: [
         'monitor_combo',
         'window_pos_combo',
@@ -50,7 +57,7 @@ var Widget = GObject.registerClass({
     _init(params) {
         super._init(params);
 
-        util.insert_settings_actions(this, this.settings, ['window-monitor']);
+        insert_settings_actions(this, this.settings, ['window-monitor']);
 
         const destroy_cancel = new Gio.Cancellable();
         this.connect('destroy', () => destroy_cancel.cancel());
@@ -71,7 +78,7 @@ var Widget = GObject.registerClass({
             display_config.update_async();
         });
 
-        util.bind_widget(this.settings, 'window-monitor-connector', this.monitor_combo);
+        bind_widget(this.settings, 'window-monitor-connector', this.monitor_combo);
 
         const window_monitor_handler = this.settings.connect(
             'changed::window-monitor',
@@ -80,11 +87,11 @@ var Widget = GObject.registerClass({
         this.connect('destroy', () => this.settings.disconnect(window_monitor_handler));
         this.enable_monitor_combo();
 
-        util.bind_widget(this.settings, 'window-position', this.window_pos_combo);
-        util.bind_widget(this.settings, 'window-size', this.window_size_scale);
+        bind_widget(this.settings, 'window-position', this.window_pos_combo);
+        bind_widget(this.settings, 'window-size', this.window_size_scale);
 
         const percent_format = new Intl.NumberFormat(undefined, { style: 'percent' });
-        util.set_scale_value_format(this.window_size_scale, percent_format);
+        set_scale_value_format(this.window_size_scale, percent_format);
     }
 
     get title() {

@@ -20,12 +20,20 @@
 'use strict';
 
 const { GObject, Gio, Gtk } = imports.gi;
+
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-const { util } = Me.imports.ddterm.pref;
+
+const {
+    bind_sensitive,
+    bind_widgets,
+    insert_settings_actions,
+    set_scale_value_format,
+    ui_file_uri,
+} = Me.imports.ddterm.pref.util;
 
 var Widget = GObject.registerClass({
     GTypeName: 'DDTermPrefsAnimation',
-    Template: util.ui_file_uri('prefs-animation.ui'),
+    Template: ui_file_uri('prefs-animation.ui'),
     Children: [
         'animation_prefs',
         'show_animation_combo',
@@ -52,10 +60,10 @@ var Widget = GObject.registerClass({
     _init(params) {
         super._init(params);
 
-        util.insert_settings_actions(this, this.settings, ['override-window-animation']);
-        util.bind_sensitive(this.settings, 'override-window-animation', this.animation_prefs);
+        insert_settings_actions(this, this.settings, ['override-window-animation']);
+        bind_sensitive(this.settings, 'override-window-animation', this.animation_prefs);
 
-        util.bind_widgets(this.settings, {
+        bind_widgets(this.settings, {
             'show-animation': this.show_animation_combo,
             'show-animation-duration': this.show_animation_duration_scale,
             'hide-animation': this.hide_animation_combo,
@@ -63,8 +71,8 @@ var Widget = GObject.registerClass({
         });
 
         const seconds_format = new Intl.NumberFormat(undefined, { style: 'unit', unit: 'second' });
-        util.set_scale_value_format(this.show_animation_duration_scale, seconds_format);
-        util.set_scale_value_format(this.hide_animation_duration_scale, seconds_format);
+        set_scale_value_format(this.show_animation_duration_scale, seconds_format);
+        set_scale_value_format(this.hide_animation_duration_scale, seconds_format);
     }
 
     get title() {

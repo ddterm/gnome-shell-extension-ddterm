@@ -20,12 +20,13 @@
 'use strict';
 
 const { GObject, Gio, Gtk } = imports.gi;
+
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-const { util } = Me.imports.ddterm.pref;
+const { insert_settings_actions, ui_file_uri } = Me.imports.ddterm.pref.util;
 
 var Widget = GObject.registerClass({
     GTypeName: 'DDTermPrefsPanelIcon',
-    Template: util.ui_file_uri('prefs-panel-icon.ui'),
+    Template: ui_file_uri('prefs-panel-icon.ui'),
     Properties: {
         'settings': GObject.ParamSpec.object(
             'settings',
@@ -45,7 +46,7 @@ var Widget = GObject.registerClass({
     _init(params) {
         super._init(params);
 
-        util.insert_settings_actions(this, this.settings, ['panel-icon-type']);
+        insert_settings_actions(this, this.settings, ['panel-icon-type']);
     }
 
     get title() {

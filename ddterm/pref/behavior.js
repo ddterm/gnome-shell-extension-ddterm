@@ -20,12 +20,13 @@
 'use strict';
 
 const { GObject, Gio, Gtk } = imports.gi;
+
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-const { util } = Me.imports.ddterm.pref;
+const { bind_widget, insert_settings_actions, ui_file_uri } = Me.imports.ddterm.pref.util;
 
 var Widget = GObject.registerClass({
     GTypeName: 'DDTermPrefsBehavior',
-    Template: util.ui_file_uri('prefs-behavior.ui'),
+    Template: ui_file_uri('prefs-behavior.ui'),
     Children: [
         'window_type_hint_combo',
     ],
@@ -48,7 +49,7 @@ var Widget = GObject.registerClass({
     _init(params) {
         super._init(params);
 
-        util.insert_settings_actions(this, this.settings, [
+        insert_settings_actions(this, this.settings, [
             'window-resizable',
             'window-above',
             'window-stick',
@@ -59,7 +60,7 @@ var Widget = GObject.registerClass({
             'force-x11-gdk-backend',
         ]);
 
-        util.bind_widget(this.settings, 'window-type-hint', this.window_type_hint_combo);
+        bind_widget(this.settings, 'window-type-hint', this.window_type_hint_combo);
     }
 
     get title() {

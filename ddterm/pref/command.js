@@ -20,12 +20,13 @@
 'use strict';
 
 const { GObject, Gio, Gtk } = imports.gi;
+
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-const { util } = Me.imports.ddterm.pref;
+const { bind_widget, insert_settings_actions, ui_file_uri } = Me.imports.ddterm.pref.util;
 
 var Widget = GObject.registerClass({
     GTypeName: 'DDTermPrefsCommand',
-    Template: util.ui_file_uri('prefs-command.ui'),
+    Template: ui_file_uri('prefs-command.ui'),
     Children: [
         'custom_command_entry',
     ],
@@ -48,12 +49,12 @@ var Widget = GObject.registerClass({
     _init(params) {
         super._init(params);
 
-        util.insert_settings_actions(this, this.settings, [
+        insert_settings_actions(this, this.settings, [
             'command',
             'preserve-working-directory',
         ]);
 
-        util.bind_widget(this.settings, 'custom-command', this.custom_command_entry);
+        bind_widget(this.settings, 'custom-command', this.custom_command_entry);
 
         const handler = this.settings.connect(
             'changed::command',

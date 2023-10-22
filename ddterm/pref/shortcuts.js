@@ -20,8 +20,9 @@
 'use strict';
 
 const { GObject, Gio, Gdk, Gtk } = imports.gi;
+
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-const { util } = Me.imports.ddterm.pref;
+const { bind_sensitive, insert_settings_actions, ui_file_uri } = Me.imports.ddterm.pref.util;
 
 const IS_GTK3 = Gtk.get_major_version() === 3;
 
@@ -38,7 +39,7 @@ const COLUMN_EDITABLE = 4;
 
 var Widget = GObject.registerClass({
     GTypeName: 'DDTermPrefsShortcuts',
-    Template: util.ui_file_uri('prefs-shortcuts.ui'),
+    Template: ui_file_uri('prefs-shortcuts.ui'),
     Children: [
         'accel_renderer',
         'accel_toggle',
@@ -67,7 +68,7 @@ var Widget = GObject.registerClass({
     _init(params) {
         super._init(params);
 
-        util.insert_settings_actions(this, this.settings, ['shortcuts-enabled']);
+        insert_settings_actions(this, this.settings, ['shortcuts-enabled']);
 
         [this.shortcuts_list, this.global_shortcuts_list].forEach(shortcuts_list => {
             shortcuts_list.foreach((model, path, iter) => {
@@ -109,7 +110,7 @@ var Widget = GObject.registerClass({
             (IS_GTK3 ? this.grab_global_keys : this.inhibit_system_shortcuts).bind(this)
         );
 
-        util.bind_sensitive(this.settings, 'shortcuts-enabled', this.shortcuts_treeview);
+        bind_sensitive(this.settings, 'shortcuts-enabled', this.shortcuts_treeview);
 
         this.accel_toggle.connect('toggled', (_, path) => {
             this.save_shortcut(this.shortcuts_list, _, path);
