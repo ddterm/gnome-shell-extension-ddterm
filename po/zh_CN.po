@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-10-23 04:04+0300\n"
-"PO-Revision-Date: 2023-04-25 12:23+0000\n"
+"PO-Revision-Date: 2023-10-23 03:31+0000\n"
 "Last-Translator: yuh <yuhldr@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "gnome-shell-extension-ddterm/extension/zh_Hans/>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.18-dev\n"
+"X-Generator: Weblate 5.1\n"
 
 #: ddterm/app/application.js:79
 msgid "Start the application, but do not show the window"
@@ -503,63 +503,63 @@ msgstr "指数衰减抛物线(弹跳)渐变，两端都有弹跳"
 
 #: ddterm/pref/glade/prefs-animation.ui:183
 msgid "_Override default window animations"
-msgstr "覆盖默认的窗口动画"
+msgstr "_覆盖默认的窗口动画"
 
 #: ddterm/pref/glade/prefs-animation.ui:218
 msgid "_Show animation:"
-msgstr "展示动画："
+msgstr "_展示动画："
 
 #: ddterm/pref/glade/prefs-animation.ui:232
 msgid "_Hide animation:"
-msgstr "隐藏动画："
+msgstr "_隐藏动画："
 
 #: ddterm/pref/glade/prefs-animation.ui:284
 msgid "_Hide animation duration:"
-msgstr "隐藏动画持续时间："
+msgstr "_隐藏动画持续时间："
 
 #: ddterm/pref/glade/prefs-animation.ui:297
 msgid "_Show animation duration:"
-msgstr "显示动画持续时间："
+msgstr "_显示动画持续时间："
 
 #: ddterm/pref/glade/prefs-behavior.ui:39
 msgid "_Resizable"
-msgstr "可调整大小"
+msgstr "_可调整大小"
 
 #: ddterm/pref/glade/prefs-behavior.ui:55
 msgid "_Above all windows"
-msgstr "所有窗口上方"
+msgstr "_所有窗口上方"
 
 #: ddterm/pref/glade/prefs-behavior.ui:71
 msgid "On all _workspaces"
-msgstr "在所有工作区上"
+msgstr "在所有_工作区上"
 
 #: ddterm/pref/glade/prefs-behavior.ui:87
 msgid "Hide when the application loses _focus"
-msgstr "应用程序失去焦点时隐藏"
+msgstr "应用程序失去_焦点时隐藏"
 
 #: ddterm/pref/glade/prefs-behavior.ui:103
 msgid "Hide when _Esc key is pressed"
-msgstr "按Esc键时隐藏"
+msgstr "按 _Esc 键时隐藏"
 
 #: ddterm/pref/glade/prefs-behavior.ui:119
 msgid "Exclude from _overview/task bar"
-msgstr "从概览/任务栏中排除"
+msgstr "从_概览/任务栏中排除"
 
 #: ddterm/pref/glade/prefs-behavior.ui:135
 msgid "Hide mouse _pointer when typing"
-msgstr "在输入时隐藏鼠标指针"
+msgstr "在输入时隐藏鼠标_指针"
 
 #: ddterm/pref/glade/prefs-behavior.ui:151
 msgid ""
 "Force _X11 GDK backend (XWayland).\n"
 "You'll have to close all tabs for this option to take effect."
 msgstr ""
-"强制X11 GDK后端（XWayland）。\n"
+"强制 _X11 GDK后端（XWayland）。\n"
 "您必须关闭所有标签页才能使此选项生效。"
 
 #: ddterm/pref/glade/prefs-behavior.ui:171
 msgid "Window type _hint (X11 only):"
-msgstr "窗口类型提示(仅限X11):"
+msgstr "窗口类型 _提示（仅限X11）:"
 
 #: ddterm/pref/glade/prefs-behavior.ui:186
 msgid "Normal"
@@ -683,7 +683,7 @@ msgstr "Solarized"
 
 #: ddterm/pref/glade/prefs-colors.ui:292
 msgid "Theme _variant:"
-msgstr "主题变体："
+msgstr "主题 _变体："
 
 #: ddterm/pref/glade/prefs-colors.ui:307 ddterm/pref/glade/prefs-text.ui:132
 msgid "Default"
@@ -699,15 +699,15 @@ msgstr "暗色"
 
 #: ddterm/pref/glade/prefs-colors.ui:319
 msgid "Use colors from system _theme"
-msgstr "使用系统中的颜色主题"
+msgstr "使用系统 _主题颜色"
 
 #: ddterm/pref/glade/prefs-colors.ui:335
 msgid "_Background opacity:"
-msgstr "背景不透明度："
+msgstr "_背景不透明度："
 
 #: ddterm/pref/glade/prefs-colors.ui:380
 msgid "_Palette:"
-msgstr "调色板："
+msgstr "_调色板："
 
 #: ddterm/pref/glade/prefs-colors.ui:423
 msgid "Palette Color 0"
@@ -775,7 +775,7 @@ msgstr "调色板颜色15"
 
 #: ddterm/pref/glade/prefs-colors.ui:634
 msgid "Show bold text in _bright colors"
-msgstr "在亮色中使用粗体"
+msgstr "在_亮色中使用粗体"
 
 #: ddterm/pref/glade/prefs-colors.ui:650
 msgid "Copy profile from GNOME Terminal"
@@ -807,7 +807,7 @@ msgstr "高亮颜色："
 
 #: ddterm/pref/glade/prefs-colors.ui:749
 msgid "Color _scheme:"
-msgstr "配色方案："
+msgstr "配色_方案："
 
 #: ddterm/pref/glade/prefs-colors.ui:767
 msgid "Background Color"
@@ -839,15 +839,15 @@ msgstr "前景颜色"
 
 #: ddterm/pref/glade/prefs-command.ui:39
 msgid "User _shell"
-msgstr "用户shell"
+msgstr "用户 _shell"
 
 #: ddterm/pref/glade/prefs-command.ui:57
 msgid "User shell as _login shell"
-msgstr "以登录 shell 方式运行命令"
+msgstr "用户 Shell 作为 _登录 Shell"
 
 #: ddterm/pref/glade/prefs-command.ui:75
 msgid "Custom _command:"
-msgstr "自定义命令："
+msgstr "自定义 _命令："
 
 #: ddterm/pref/glade/prefs-command.ui:114
 msgid "Preserve working directory"
@@ -876,15 +876,15 @@ msgstr "TTY 擦除"
 
 #: ddterm/pref/glade/prefs-compatibility.ui:72
 msgid "_Backspace key generates:"
-msgstr "按 Backspace 键产生："
+msgstr "_Backspace 键生成："
 
 #: ddterm/pref/glade/prefs-compatibility.ui:86
 msgid "_Delete key generates:"
-msgstr "按 Delete 键产生："
+msgstr "_Delete 键生成："
 
 #: ddterm/pref/glade/prefs-compatibility.ui:100
 msgid "Ambiguous-_width characters:"
-msgstr "宽度有歧义的字符："
+msgstr "有歧义 _宽度的字符："
 
 #: ddterm/pref/glade/prefs-compatibility.ui:153
 msgid "Narrow"
@@ -896,7 +896,7 @@ msgstr "宽"
 
 #: ddterm/pref/glade/prefs-compatibility.ui:164
 msgid "_Reset Compatibility Options to Defaults"
-msgstr "将兼容性选项重设为默认值"
+msgstr "将兼容性选项_重设为默认值"
 
 #: ddterm/pref/glade/prefs-panel-icon.ui:38 ddterm/pref/glade/prefs-tabs.ui:246
 msgid "None"
@@ -916,11 +916,11 @@ msgstr "切换按钮和弹出菜单"
 
 #: ddterm/pref/glade/prefs-position-size.ui:47
 msgid "Window _size:"
-msgstr "窗口大小："
+msgstr "窗口 _大小："
 
 #: ddterm/pref/glade/prefs-position-size.ui:76
 msgid "_Window position:"
-msgstr "窗口位置："
+msgstr "_窗口位置："
 
 #: ddterm/pref/glade/prefs-position-size.ui:91
 #: ddterm/pref/glade/prefs-tabs.ui:173
@@ -948,31 +948,31 @@ msgstr "在包含鼠标指针的显示器上"
 
 #: ddterm/pref/glade/prefs-position-size.ui:122
 msgid "On the _primary monitor"
-msgstr "在主显示器上"
+msgstr "在 _主显示器上"
 
 #: ddterm/pref/glade/prefs-position-size.ui:140
 msgid "On the monitor with keyboard _focus"
-msgstr "在键盘聚焦的显示器上"
+msgstr "在键盘 _聚焦的显示器上"
 
 #: ddterm/pref/glade/prefs-position-size.ui:158
 msgid "On _monitor:"
-msgstr "在显示器上："
+msgstr "在 _显示器上："
 
 #: ddterm/pref/glade/prefs-scrolling.ui:44
 msgid "Show _scrollbar"
-msgstr "显示滚动条"
+msgstr "显示 _滚动条"
 
 #: ddterm/pref/glade/prefs-scrolling.ui:60
 msgid "Scroll on _output"
-msgstr "输出时滚动"
+msgstr "在 _输出上滚动"
 
 #: ddterm/pref/glade/prefs-scrolling.ui:76
 msgid "Scroll on _keystroke"
-msgstr "击键时滚动"
+msgstr "在 _按键上滚动"
 
 #: ddterm/pref/glade/prefs-scrolling.ui:92
 msgid "_Limit scrollback to:"
-msgstr "回滚限制到："
+msgstr "_限制回滚到："
 
 #: ddterm/pref/glade/prefs-scrolling.ui:128
 msgid "lines"
@@ -1108,7 +1108,7 @@ msgstr "全局快捷键"
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:456
 msgid "_Enable application shortcuts"
-msgstr "启用应用程序的快捷方式"
+msgstr "_启用应用程序的快捷方式"
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:486
 msgid "Action"
@@ -1128,19 +1128,19 @@ msgstr "扩展标签页"
 
 #: ddterm/pref/glade/prefs-tabs.ui:60
 msgid "Show _close buttons"
-msgstr "显示关闭按钮"
+msgstr "显示 _关闭按钮"
 
 #: ddterm/pref/glade/prefs-tabs.ui:76
 msgid "\"_New Tab (Last)\" button"
-msgstr "\"新建标签页（最后）\"按钮"
+msgstr "\"_新建标签页（最后）\"按钮"
 
 #: ddterm/pref/glade/prefs-tabs.ui:92
 msgid "Tab _switcher popup"
-msgstr "标签页切换器"
+msgstr "标签页 _切换器"
 
 #: ddterm/pref/glade/prefs-tabs.ui:111
 msgid "Show tab _bar:"
-msgstr "显示标签栏："
+msgstr "显示标签 _栏："
 
 #: ddterm/pref/glade/prefs-tabs.ui:126 ddterm/pref/glade/prefs-text.ui:102
 msgid "Always"
@@ -1152,7 +1152,7 @@ msgstr "从不"
 
 #: ddterm/pref/glade/prefs-tabs.ui:138
 msgid "\"_New Tab (First)\" button"
-msgstr "“新建标签页（第一个）”按钮"
+msgstr "“_新建标签页（第一个）”按钮"
 
 #: ddterm/pref/glade/prefs-tabs.ui:157
 msgid "Tab bar position:"
@@ -1188,19 +1188,19 @@ msgstr "显示键盘快捷键"
 
 #: ddterm/pref/glade/prefs-text.ui:39
 msgid "Custom _font:"
-msgstr "自定义字体："
+msgstr "自定义 _字体："
 
 #: ddterm/pref/glade/prefs-text.ui:56
 msgid "Allow _blinking text:"
-msgstr "允许闪烁文本："
+msgstr "允许 _闪烁文本："
 
 #: ddterm/pref/glade/prefs-text.ui:70
 msgid "Cursor _shape:"
-msgstr "光标形状："
+msgstr "光标 _形状："
 
 #: ddterm/pref/glade/prefs-text.ui:84
 msgid "_Cursor blinking:"
-msgstr "光标闪烁："
+msgstr "_光标闪烁："
 
 #: ddterm/pref/glade/prefs-text.ui:100
 msgid "When focused"
@@ -1232,25 +1232,23 @@ msgstr "已禁用"
 
 #: ddterm/pref/glade/prefs-text.ui:144
 msgid "Allow _hyperlinks"
-msgstr "允许超链接"
+msgstr "允许 _超链接"
 
 #: ddterm/pref/glade/prefs-text.ui:160
 msgid "Audible _bell"
-msgstr "响铃"
+msgstr "_响铃"
 
 #: ddterm/pref/glade/prefs-text.ui:202
 msgid "Detect _URLs"
-msgstr "检测URL"
+msgstr "检测 _URLs"
 
 #: ddterm/pref/glade/prefs-text.ui:225
 msgid "Detect raw URLs (scheme://netloc/path)"
 msgstr "检测原始URL（scheme://netloc/path）"
 
 #: ddterm/pref/glade/prefs-text.ui:240
-#, fuzzy
-#| msgid "Detect file: URLs"
 msgid "Detect \"file:\" URLs"
-msgstr "检测文件地址"
+msgstr "检测 \"file:\" 地址"
 
 #: ddterm/pref/glade/prefs-text.ui:255
 msgid "Detect HTTP URLs"
@@ -1265,10 +1263,8 @@ msgid "Detect E-mail addresses"
 msgstr "检测邮件地址"
 
 #: ddterm/pref/glade/prefs-text.ui:300
-#, fuzzy
-#| msgid "Detect news:/man: URLs"
 msgid "Detect \"news:\", \"man:\" URLs"
-msgstr "检测新闻、文档URL"
+msgstr "检测 \"news:\"、\"man:\" URLs"
 
 #: ddterm/pref/panelicon.js:53
 msgid "Panel Icon"
