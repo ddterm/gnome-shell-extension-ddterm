@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-22 17:40+0000\n"
+"POT-Creation-Date: 2023-10-23 04:04+0300\n"
 "PO-Revision-Date: 2023-10-21 05:19+0000\n"
 "Last-Translator: Ivan Vantu5z <vantu5z@mail.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/gnome-shell-"
@@ -1253,7 +1253,7 @@ msgid "Detect raw URLs (scheme://netloc/path)"
 msgstr "Прямые ссылки (схема://сетевой/путь)"
 
 #: ddterm/pref/glade/prefs-text.ui:240
-msgid "Detect file: URLs"
+msgid "Detect \"file:\" URLs"
 msgstr "Ссылки на файлы"
 
 #: ddterm/pref/glade/prefs-text.ui:255
@@ -1269,8 +1269,8 @@ msgid "Detect E-mail addresses"
 msgstr "Адреса E-mail"
 
 #: ddterm/pref/glade/prefs-text.ui:300
-msgid "Detect news:/man: URLs"
-msgstr "Ссылки вида \"news:/man\""
+msgid "Detect \"news:\", \"man:\" URLs"
+msgstr "Ссылки вида \"news:\", \"man:\""
 
 #: ddterm/pref/panelicon.js:53
 msgid "Panel Icon"

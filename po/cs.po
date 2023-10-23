@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-22 17:40+0000\n"
+"POT-Creation-Date: 2023-10-23 04:04+0300\n"
 "PO-Revision-Date: 2023-04-24 02:48+0000\n"
 "Last-Translator: Pavel Novák <pavelnov32@gmail.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/gnome-shell-"
@@ -1279,8 +1279,8 @@ msgid "Detect raw URLs (scheme://netloc/path)"
 msgstr "Detekovat nezpracované URL adresy(scheme://netloc/path)"
 
 #: ddterm/pref/glade/prefs-text.ui:240
-msgid "Detect file: URLs"
-msgstr "Detekovat soubor: URL adresy"
+msgid "Detect \"file:\" URLs"
+msgstr "Detekovat \"file:\" URL adresy"
 
 #: ddterm/pref/glade/prefs-text.ui:255
 msgid "Detect HTTP URLs"
@@ -1295,8 +1295,8 @@ msgid "Detect E-mail addresses"
 msgstr "Detekovat E-mailové adresy"
 
 #: ddterm/pref/glade/prefs-text.ui:300
-msgid "Detect news:/man: URLs"
-msgstr "Detekovat novinky:/man:URL adresy"
+msgid "Detect \"news:\", \"man:\" URLs"
+msgstr "Detekovat \"news:\", \"man:\" URL adresy"
 
 #: ddterm/pref/panelicon.js:53
 msgid "Panel Icon"

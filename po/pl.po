@@ -1255,8 +1255,8 @@ msgid "Detect raw URLs (scheme://netloc/path)"
 msgstr "Wykrywaj surowe adresy URL (schemat://netloc/ścieżka)"
 
 #: ddterm/pref/glade/prefs-text.ui:240
-msgid "Detect file: URLs"
-msgstr "Wykryj plik: URL"
+msgid "Detect \"file:\" URLs"
+msgstr "Wykryj \"file:\" URL"
 
 #: ddterm/pref/glade/prefs-text.ui:255
 msgid "Detect HTTP URLs"
@@ -1271,8 +1271,8 @@ msgid "Detect E-mail addresses"
 msgstr "Wykrywaj adresy e-mail"
 
 #: ddterm/pref/glade/prefs-text.ui:300
-msgid "Detect news:/man: URLs"
-msgstr "Wykrywaj adresy URL news:/man:"
+msgid "Detect \"news:\", \"man:\" URLs"
+msgstr "Wykrywaj adresy URL \"news:\", \"man:\""
 
 #: ddterm/pref/panelicon.js:53
 msgid "Panel Icon"

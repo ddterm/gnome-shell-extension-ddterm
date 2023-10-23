@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-22 17:40+0000\n"
+"POT-Creation-Date: 2023-10-23 04:04+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -1242,7 +1242,7 @@ msgid "Detect raw URLs (scheme://netloc/path)"
 msgstr ""
 
 #: ddterm/pref/glade/prefs-text.ui:240
-msgid "Detect file: URLs"
+msgid "Detect \"file:\" URLs"
 msgstr ""
 
 #: ddterm/pref/glade/prefs-text.ui:255
@@ -1258,7 +1258,7 @@ msgid "Detect E-mail addresses"
 msgstr ""
 
 #: ddterm/pref/glade/prefs-text.ui:300
-msgid "Detect news:/man: URLs"
+msgid "Detect \"news:\", \"man:\" URLs"
 msgstr ""
 
 #: ddterm/pref/panelicon.js:53

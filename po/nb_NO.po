@@ -6,11 +6,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-22 17:40+0000\n"
+"POT-Creation-Date: 2023-10-23 04:04+0300\n"
 "PO-Revision-Date: 2023-10-22 20:00+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
-"Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/"
-"gnome-shell-extension-ddterm/extension/nb_NO/>\n"
+"Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/gnome-"
+"shell-extension-ddterm/extension/nb_NO/>\n"
 "Language: nb_NO\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1257,8 +1257,8 @@ msgid "Detect raw URLs (scheme://netloc/path)"
 msgstr "Oppdag rå-nettadresser (scheme://netloc/sti)"
 
 #: ddterm/pref/glade/prefs-text.ui:240
-msgid "Detect file: URLs"
-msgstr "Oppdag fil: nettadresser"
+msgid "Detect \"file:\" URLs"
+msgstr "Oppdag \"file:\" nettadresser"
 
 #: ddterm/pref/glade/prefs-text.ui:255
 msgid "Detect HTTP URLs"
@@ -1273,8 +1273,8 @@ msgid "Detect E-mail addresses"
 msgstr "Oppdag e-postadresser"
 
 #: ddterm/pref/glade/prefs-text.ui:300
-msgid "Detect news:/man: URLs"
-msgstr "Oppdag nyheter:/man: -nettadresser"
+msgid "Detect \"news:\", \"man:\" URLs"
+msgstr "Oppdag \"news:\", \"man:\" -nettadresser"
 
 #: ddterm/pref/panelicon.js:53
 msgid "Panel Icon"
