@@ -40,7 +40,7 @@ jobs:
       if: ${{ inputs.testspace }}
 
     - name: Setup NodeJS error matcher
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
 
     - name: Install JS dependencies
       id: npm
