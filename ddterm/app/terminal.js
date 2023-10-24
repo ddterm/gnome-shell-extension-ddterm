@@ -298,6 +298,8 @@ export const Terminal = GObject.registerClass({
             '',
             '',
             GObject.ParamFlags.READABLE,
+            -1,
+            GLib.MAXINT32,
             -1
         ),
         'last-clicked-hyperlink': GObject.ParamSpec.string(
