@@ -5,11 +5,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-23 04:04+0300\n"
+"POT-Creation-Date: 2023-10-25 09:56+0000\n"
 "PO-Revision-Date: 2023-10-25 03:29+0000\n"
 "Last-Translator: Aleksandr Mezin <mezin.alexander@gmail.com>\n"
-"Language-Team: Russian <https://hosted.weblate.org/projects/"
-"gnome-shell-extension-ddterm/extension/ru/>\n"
+"Language-Team: Russian <https://hosted.weblate.org/projects/gnome-shell-"
+"extension-ddterm/extension/ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,57 +18,57 @@ msgstr ""
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 5.1.1-dev\n"
 
-#: ddterm/app/application.js:79
+#: ddterm/app/application.js:78
 msgid "Start the application, but do not show the window"
 msgstr "Запустить приложение, но не показывать окно"
 
-#: ddterm/app/application.js:88
+#: ddterm/app/application.js:87
 msgid "Comma-separated list of backends that GDK should try to use"
 msgstr ""
 "Разделенный запятыми список backend'ов, которые GDK будет пытаться "
 "использовать"
 
-#: ddterm/app/application.js:97
+#: ddterm/app/application.js:96
 msgid "Enable HeapDump D-Bus interface (for testing/debug)"
 msgstr "Включить HeapDump D-Bus интерфейс (для проверки/отладки)"
 
-#: ddterm/app/application.js:106
+#: ddterm/app/application.js:105
 msgid "Show version information and exit"
 msgstr "Показать информацию о версии и выйти"
 
-#: ddterm/app/application.js:115
+#: ddterm/app/application.js:114
 msgid "Run the specified command"
 msgstr "Запустить указанную команду"
 
-#: ddterm/app/application.js:129
+#: ddterm/app/application.js:128
 msgid "Wait for the command to exit, and return its exit code"
 msgstr "Ожидать завершения команды и вернуть код выхода"
 
-#: ddterm/app/application.js:138
+#: ddterm/app/application.js:137
 msgid "Set the working directory"
 msgstr "Установить рабочий каталог"
 
-#: ddterm/app/application.js:147
+#: ddterm/app/application.js:146
 msgid "Set tab title"
 msgstr "Установить название вкладки"
 
-#: ddterm/app/application.js:156
+#: ddterm/app/application.js:155
 msgid "Keep the terminal open after the command has exited"
 msgstr "Не закрывать терминал после завершения команды"
 
-#: ddterm/app/application.js:165
+#: ddterm/app/application.js:164
 msgid "Do not pass the environment"
 msgstr "Не передавать переменные окружения"
 
-#: ddterm/app/application.js:174
+#: ddterm/app/application.js:173
 msgid "Open a new tab"
 msgstr "Открыть новую вкладку"
 
-#: ddterm/app/application.js:345
+#: ddterm/app/application.js:344
 msgid "Saving session..."
 msgstr "Сохранение сессии..."
 
-#: ddterm/app/application.js:504 ddterm/shell/extension.js:257
+#: ddterm/app/application.js:503 ddterm/shell/extension.js:257
 msgid ""
 "Warning: ddterm version has changed. Log out, then log in again to load the "
 "updated extension."
@@ -205,11 +205,11 @@ msgstr "Разделить вертикально"
 msgid "Move Tab to Other Pane"
 msgstr "Переместить вкладку на другую панель"
 
-#: ddterm/app/menus.ui:151 ddterm/app/prefsdialog.js:44
+#: ddterm/app/menus.ui:151 ddterm/app/prefsdialog.js:45
 msgid "Preferences"
 msgstr "Параметры"
 
-#: ddterm/app/menus.ui:154 ddterm/app/menus.ui:288 ddterm/shell/panelicon.js:76
+#: ddterm/app/menus.ui:154 ddterm/app/menus.ui:288 ddterm/shell/panelicon.js:78
 msgid "Preferences..."
 msgstr "Параметры..."
 
@@ -341,27 +341,27 @@ msgstr ""
 "В терминале запущены процессы. При закрытии терминала эти процессы будут "
 "завершены."
 
-#: ddterm/pref/adw.js:80
+#: ddterm/pref/adw.js:77
 msgid "Window"
 msgstr "Окно"
 
-#: ddterm/pref/adw.js:100
+#: ddterm/pref/adw.js:97
 msgid "Terminal"
 msgstr "Терминал"
 
-#: ddterm/pref/adw.js:121 ddterm/pref/shortcuts.js:132
+#: ddterm/pref/adw.js:118 ddterm/pref/shortcuts.js:132
 msgid "Keyboard Shortcuts"
 msgstr "Комбинации клавиш"
 
-#: ddterm/pref/adw.js:136
+#: ddterm/pref/adw.js:133
 msgid "Miscellaneous"
 msgstr "Разное"
 
-#: ddterm/pref/animation.js:79
+#: ddterm/pref/animation.js:77
 msgid "Animation"
 msgstr "Анимация"
 
-#: ddterm/pref/behavior.js:67
+#: ddterm/pref/behavior.js:66
 msgid "Behavior"
 msgstr "Поведение"
 
@@ -369,11 +369,11 @@ msgstr "Поведение"
 msgid "Colors"
 msgstr "Цвета"
 
-#: ddterm/pref/command.js:68
+#: ddterm/pref/command.js:67
 msgid "Command"
 msgstr "Команда"
 
-#: ddterm/pref/compatibility.js:76
+#: ddterm/pref/compatibility.js:75
 msgid "Compatibility"
 msgstr "Совместимость"
 
@@ -1272,27 +1272,27 @@ msgstr "Адреса E-mail"
 msgid "Detect \"news:\", \"man:\" URLs"
 msgstr "Ссылки вида \"news:\", \"man:\""
 
-#: ddterm/pref/panelicon.js:53
+#: ddterm/pref/panelicon.js:52
 msgid "Panel Icon"
 msgstr "Значок на панели"
 
-#: ddterm/pref/positionsize.js:98
+#: ddterm/pref/positionsize.js:91
 msgid "Position and Size"
 msgstr "Положение и размер"
 
-#: ddterm/pref/scrolling.js:83
+#: ddterm/pref/scrolling.js:81
 msgid "Scrolling"
 msgstr "Прокрутка"
 
-#: ddterm/pref/tabs.js:98
+#: ddterm/pref/tabs.js:96
 msgid "Tabs"
 msgstr "Вкладки"
 
-#: ddterm/pref/text.js:102
+#: ddterm/pref/text.js:100
 msgid "Text"
 msgstr "Текст"
 
-#: ddterm/shell/panelicon.js:64
+#: ddterm/shell/panelicon.js:66
 msgid "Show"
 msgstr "Показать"
 

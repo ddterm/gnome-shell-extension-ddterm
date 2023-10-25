@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-23 04:04+0300\n"
+"POT-Creation-Date: 2023-10-25 09:56+0000\n"
 "PO-Revision-Date: 2023-10-02 00:02+0000\n"
 "Last-Translator: Luiz Carlos de Souza Santos <lcdessantos@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/gnome-shell-"
@@ -19,59 +19,59 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
 "X-Generator: Weblate 5.1-dev\n"
 
-#: ddterm/app/application.js:79
+#: ddterm/app/application.js:78
 msgid "Start the application, but do not show the window"
 msgstr ""
 
-#: ddterm/app/application.js:88
+#: ddterm/app/application.js:87
 msgid "Comma-separated list of backends that GDK should try to use"
 msgstr ""
 
-#: ddterm/app/application.js:97
+#: ddterm/app/application.js:96
 msgid "Enable HeapDump D-Bus interface (for testing/debug)"
 msgstr ""
 
-#: ddterm/app/application.js:106
+#: ddterm/app/application.js:105
 msgid "Show version information and exit"
 msgstr ""
 
-#: ddterm/app/application.js:115
+#: ddterm/app/application.js:114
 msgid "Run the specified command"
 msgstr ""
 
-#: ddterm/app/application.js:129
+#: ddterm/app/application.js:128
 msgid "Wait for the command to exit, and return its exit code"
 msgstr ""
 
-#: ddterm/app/application.js:138
+#: ddterm/app/application.js:137
 #, fuzzy
 #| msgid "Preserve working directory"
 msgid "Set the working directory"
 msgstr "Preserve o diretório atual"
 
-#: ddterm/app/application.js:147
+#: ddterm/app/application.js:146
 #, fuzzy
 #| msgid "Set Custom Tab Title"
 msgid "Set tab title"
 msgstr "Definir Título da Aba"
 
-#: ddterm/app/application.js:156
+#: ddterm/app/application.js:155
 msgid "Keep the terminal open after the command has exited"
 msgstr ""
 
-#: ddterm/app/application.js:165
+#: ddterm/app/application.js:164
 msgid "Do not pass the environment"
 msgstr ""
 
-#: ddterm/app/application.js:174
+#: ddterm/app/application.js:173
 msgid "Open a new tab"
 msgstr ""
 
-#: ddterm/app/application.js:345
+#: ddterm/app/application.js:344
 msgid "Saving session..."
 msgstr ""
 
-#: ddterm/app/application.js:504 ddterm/shell/extension.js:257
+#: ddterm/app/application.js:503 ddterm/shell/extension.js:257
 msgid ""
 "Warning: ddterm version has changed. Log out, then log in again to load the "
 "updated extension."
@@ -210,11 +210,11 @@ msgstr ""
 msgid "Move Tab to Other Pane"
 msgstr "Mover Aba para a Próxima Posição"
 
-#: ddterm/app/menus.ui:151 ddterm/app/prefsdialog.js:44
+#: ddterm/app/menus.ui:151 ddterm/app/prefsdialog.js:45
 msgid "Preferences"
 msgstr "Preferências"
 
-#: ddterm/app/menus.ui:154 ddterm/app/menus.ui:288 ddterm/shell/panelicon.js:76
+#: ddterm/app/menus.ui:154 ddterm/app/menus.ui:288 ddterm/shell/panelicon.js:78
 msgid "Preferences..."
 msgstr "Preferências..."
 
@@ -347,27 +347,27 @@ msgid ""
 msgstr ""
 "Ainda há um processo rodando neste terminal. Fechar o terminal irá matá-lo."
 
-#: ddterm/pref/adw.js:80
+#: ddterm/pref/adw.js:77
 msgid "Window"
 msgstr "Janela"
 
-#: ddterm/pref/adw.js:100
+#: ddterm/pref/adw.js:97
 msgid "Terminal"
 msgstr "Terminal"
 
-#: ddterm/pref/adw.js:121 ddterm/pref/shortcuts.js:132
+#: ddterm/pref/adw.js:118 ddterm/pref/shortcuts.js:132
 msgid "Keyboard Shortcuts"
 msgstr "Atalhos de Teclado"
 
-#: ddterm/pref/adw.js:136
+#: ddterm/pref/adw.js:133
 msgid "Miscellaneous"
 msgstr "Miscelânea"
 
-#: ddterm/pref/animation.js:79
+#: ddterm/pref/animation.js:77
 msgid "Animation"
 msgstr "Animação"
 
-#: ddterm/pref/behavior.js:67
+#: ddterm/pref/behavior.js:66
 msgid "Behavior"
 msgstr "Comportamento"
 
@@ -375,11 +375,11 @@ msgstr "Comportamento"
 msgid "Colors"
 msgstr "Cores"
 
-#: ddterm/pref/command.js:68
+#: ddterm/pref/command.js:67
 msgid "Command"
 msgstr "Comando"
 
-#: ddterm/pref/compatibility.js:76
+#: ddterm/pref/compatibility.js:75
 msgid "Compatibility"
 msgstr "Compatibilidade"
 
@@ -1292,26 +1292,26 @@ msgstr "Detectar endereços de e-mail"
 msgid "Detect \"news:\", \"man:\" URLs"
 msgstr "Detectar endereços dos schemes news:/ e man:/"
 
-#: ddterm/pref/panelicon.js:53
+#: ddterm/pref/panelicon.js:52
 msgid "Panel Icon"
 msgstr "Ícone 'Painel'"
 
-#: ddterm/pref/positionsize.js:98
+#: ddterm/pref/positionsize.js:91
 msgid "Position and Size"
 msgstr "Posição e Tamanho"
 
-#: ddterm/pref/scrolling.js:83
+#: ddterm/pref/scrolling.js:81
 msgid "Scrolling"
 msgstr "Rolagem"
 
-#: ddterm/pref/tabs.js:98
+#: ddterm/pref/tabs.js:96
 msgid "Tabs"
 msgstr "Abas"
 
-#: ddterm/pref/text.js:102
+#: ddterm/pref/text.js:100
 msgid "Text"
 msgstr "Texto"
 
-#: ddterm/shell/panelicon.js:64
+#: ddterm/shell/panelicon.js:66
 msgid "Show"
 msgstr "Mostrar"

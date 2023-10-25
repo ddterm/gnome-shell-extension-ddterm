@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-23 04:04+0300\n"
+"POT-Creation-Date: 2023-10-25 09:56+0000\n"
 "PO-Revision-Date: 2023-10-22 20:00+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/gnome-"
@@ -18,55 +18,55 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.1\n"
 
-#: ddterm/app/application.js:79
+#: ddterm/app/application.js:78
 msgid "Start the application, but do not show the window"
 msgstr "Start programmet, men ikke vis vinduet"
 
-#: ddterm/app/application.js:88
+#: ddterm/app/application.js:87
 msgid "Comma-separated list of backends that GDK should try to use"
 msgstr "Kommainndelt liste over bakender GDK forsøksvist skal benytte"
 
-#: ddterm/app/application.js:97
+#: ddterm/app/application.js:96
 msgid "Enable HeapDump D-Bus interface (for testing/debug)"
 msgstr "Skru på HeapDumå D-Bus-grensesnitt (for testing/avlusing)"
 
-#: ddterm/app/application.js:106
+#: ddterm/app/application.js:105
 msgid "Show version information and exit"
 msgstr "Vis versjonsinfo og avslutt"
 
-#: ddterm/app/application.js:115
+#: ddterm/app/application.js:114
 msgid "Run the specified command"
 msgstr "Kjør angitt kommando"
 
-#: ddterm/app/application.js:129
+#: ddterm/app/application.js:128
 msgid "Wait for the command to exit, and return its exit code"
 msgstr "Vent på kommandoslutt, og returner dens avslutningskode"
 
-#: ddterm/app/application.js:138
+#: ddterm/app/application.js:137
 msgid "Set the working directory"
 msgstr "Sett arbeidskatalog"
 
-#: ddterm/app/application.js:147
+#: ddterm/app/application.js:146
 msgid "Set tab title"
 msgstr "Sett fanenavn"
 
-#: ddterm/app/application.js:156
+#: ddterm/app/application.js:155
 msgid "Keep the terminal open after the command has exited"
 msgstr "Behold terminalen åpen etter kommandoens slutt"
 
-#: ddterm/app/application.js:165
+#: ddterm/app/application.js:164
 msgid "Do not pass the environment"
 msgstr "Ikke send miljøet"
 
-#: ddterm/app/application.js:174
+#: ddterm/app/application.js:173
 msgid "Open a new tab"
 msgstr "Åpne en ny fane"
 
-#: ddterm/app/application.js:345
+#: ddterm/app/application.js:344
 msgid "Saving session..."
 msgstr "Lagrer økt …"
 
-#: ddterm/app/application.js:504 ddterm/shell/extension.js:257
+#: ddterm/app/application.js:503 ddterm/shell/extension.js:257
 msgid ""
 "Warning: ddterm version has changed. Log out, then log in again to load the "
 "updated extension."
@@ -203,11 +203,11 @@ msgstr "Del loddrett"
 msgid "Move Tab to Other Pane"
 msgstr "Flytt fane til neste flate"
 
-#: ddterm/app/menus.ui:151 ddterm/app/prefsdialog.js:44
+#: ddterm/app/menus.ui:151 ddterm/app/prefsdialog.js:45
 msgid "Preferences"
 msgstr "Innstillinger"
 
-#: ddterm/app/menus.ui:154 ddterm/app/menus.ui:288 ddterm/shell/panelicon.js:76
+#: ddterm/app/menus.ui:154 ddterm/app/menus.ui:288 ddterm/shell/panelicon.js:78
 msgid "Preferences..."
 msgstr "Innstillinger …"
 
@@ -339,27 +339,27 @@ msgstr ""
 "Det er fremdeles en kjørende prosess i denne terminalen som drepes hvis den "
 "lukkes."
 
-#: ddterm/pref/adw.js:80
+#: ddterm/pref/adw.js:77
 msgid "Window"
 msgstr "Vindu"
 
-#: ddterm/pref/adw.js:100
+#: ddterm/pref/adw.js:97
 msgid "Terminal"
 msgstr "Terminal"
 
-#: ddterm/pref/adw.js:121 ddterm/pref/shortcuts.js:132
+#: ddterm/pref/adw.js:118 ddterm/pref/shortcuts.js:132
 msgid "Keyboard Shortcuts"
 msgstr "Tastatursnarveier"
 
-#: ddterm/pref/adw.js:136
+#: ddterm/pref/adw.js:133
 msgid "Miscellaneous"
 msgstr "Ymse"
 
-#: ddterm/pref/animation.js:79
+#: ddterm/pref/animation.js:77
 msgid "Animation"
 msgstr "Animasjon"
 
-#: ddterm/pref/behavior.js:67
+#: ddterm/pref/behavior.js:66
 msgid "Behavior"
 msgstr "Adferd"
 
@@ -367,11 +367,11 @@ msgstr "Adferd"
 msgid "Colors"
 msgstr "Farger"
 
-#: ddterm/pref/command.js:68
+#: ddterm/pref/command.js:67
 msgid "Command"
 msgstr "Kommando"
 
-#: ddterm/pref/compatibility.js:76
+#: ddterm/pref/compatibility.js:75
 msgid "Compatibility"
 msgstr "Kompabilitet"
 
@@ -1276,27 +1276,27 @@ msgstr "Oppdag e-postadresser"
 msgid "Detect \"news:\", \"man:\" URLs"
 msgstr "Oppdag \"news:\", \"man:\" -nettadresser"
 
-#: ddterm/pref/panelicon.js:53
+#: ddterm/pref/panelicon.js:52
 msgid "Panel Icon"
 msgstr "Panelikon"
 
-#: ddterm/pref/positionsize.js:98
+#: ddterm/pref/positionsize.js:91
 msgid "Position and Size"
 msgstr "Posisjon og størrelse"
 
-#: ddterm/pref/scrolling.js:83
+#: ddterm/pref/scrolling.js:81
 msgid "Scrolling"
 msgstr "Rulling"
 
-#: ddterm/pref/tabs.js:98
+#: ddterm/pref/tabs.js:96
 msgid "Tabs"
 msgstr "Faner"
 
-#: ddterm/pref/text.js:102
+#: ddterm/pref/text.js:100
 msgid "Text"
 msgstr "Tekst"
 
-#: ddterm/shell/panelicon.js:64
+#: ddterm/shell/panelicon.js:66
 msgid "Show"
 msgstr "Vis"
 
