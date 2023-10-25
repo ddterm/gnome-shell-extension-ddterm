@@ -41,6 +41,8 @@ subprocess, with the corresponding `Meta.WaylandClient`
 * [`windowmatch.js`](/ddterm/shell/windowmatch.js): monitors opened windows and
 finds ddterm's main window
 
+* [`geometry.js`](/ddterm/shell/geometry.js): computes window position and size
+
 * [`wm.js`](/ddterm/shell/wm.js): window management code
 
 * [`panelicon.js`](/ddterm/shell/panelicon.js): ddterm's panel icon implementation

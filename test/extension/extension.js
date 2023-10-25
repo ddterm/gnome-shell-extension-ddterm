@@ -86,21 +86,14 @@ class ExtensionTestDBusInterface {
             );
         });
 
-        connect(enabled_state.window_manager, 'move-resize-requested', (_, rect) => {
-            this.emit_signal(
-                'MoveResizeRequested',
-                new GLib.Variant('(iiii)', [rect.x, rect.y, rect.width, rect.height])
-            );
-        });
-
         const rendered_windows = new Set();
 
         const check_rendered = () => {
-            const current = enabled_state.window_manager.current_window;
+            const current = enabled_state.window_matcher.current_window;
             this.set_flag('RenderedFirstFrame', current && rendered_windows.has(current));
         };
 
-        connect(enabled_state.window_manager, 'notify::current-window', check_rendered);
+        connect(enabled_state.window_matcher, 'notify::current-window', check_rendered);
 
         connect(global.display, 'window-created', (_, win) => {
             const actor = win.get_compositor_private();
@@ -127,10 +120,10 @@ class ExtensionTestDBusInterface {
         const update_has_window = () => {
             this.set_flag(
                 'HasWindow',
-                enabled_state.window_manager.current_window !== null
+                enabled_state.window_matcher.current_window !== null
             );
         };
-        connect(enabled_state.window_manager, 'notify::current-window', update_has_window);
+        connect(enabled_state.window_matcher, 'notify::current-window', update_has_window);
         update_has_window();
 
         const update_is_app_running = () => {
@@ -146,10 +139,10 @@ class ExtensionTestDBusInterface {
         };
         this.teardown.push(unsubscribe_current_win);
 
-        connect(enabled_state.window_manager, 'notify::current-window', () => {
+        connect(enabled_state.window_matcher, 'notify::current-window', () => {
             unsubscribe_current_win();
 
-            const win = enabled_state.window_manager.current_window;
+            const win = enabled_state.window_matcher.current_window;
             if (!win)
                 return;
 
@@ -189,6 +182,17 @@ class ExtensionTestDBusInterface {
                     new GLib.Variant('(b)', [win.maximized_horizontally])
                 );
             });
+
+            const wm = enabled_state.window_manager;
+
+            const move_resize_handler_id = wm.connect('move-resize-requested', (_, rect) => {
+                this.emit_signal(
+                    'MoveResizeRequested',
+                    new GLib.Variant('(iiii)', [rect.x, rect.y, rect.width, rect.height])
+                );
+            });
+
+            current_win_subscription.push(() => disconnect_traced(wm, move_resize_handler_id));
         });
 
         let disconnect_active_app_watch = null;
@@ -260,21 +264,21 @@ class ExtensionTestDBusInterface {
     }
 
     GetFrameRect() {
-        const rect = this.enabled_state.window_manager.current_window.get_frame_rect();
+        const rect = this.enabled_state.window_matcher.current_window.get_frame_rect();
         return [rect.x, rect.y, rect.width, rect.height];
     }
 
     GetTargetRect() {
-        const rect = this.enabled_state.window_manager.current_target_rect;
+        const rect = this.enabled_state.window_geometry.target_rect;
         return [rect.x, rect.y, rect.width, rect.height];
     }
 
     IsMaximizedHorizontally() {
-        return this.enabled_state.window_manager.current_window.maximized_horizontally;
+        return this.enabled_state.window_matcher.current_window.maximized_horizontally;
     }
 
     IsMaximizedVertically() {
-        return this.enabled_state.window_manager.current_window.maximized_vertically;
+        return this.enabled_state.window_matcher.current_window.maximized_vertically;
     }
 
     ToggleAsync(params, invocation) {

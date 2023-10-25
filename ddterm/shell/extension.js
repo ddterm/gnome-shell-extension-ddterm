@@ -28,6 +28,7 @@ import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 
 import { AppControl } from './appcontrol.js';
 import { DBusApi } from './dbusapi.js';
+import { WindowGeometry } from './geometry.js';
 import { Installer } from './install.js';
 import { PanelIconProxy } from './panelicon.js';
 import { Service } from './service.js';
@@ -56,7 +57,7 @@ function create_subprocess(launcher, settings, app_enable_heap_dump) {
     return new Subprocess({ journal_identifier: APP_ID, argv });
 }
 
-function create_window_matcher(service, window_manager, rollback) {
+function create_window_matcher(service, rollback) {
     const window_matcher = new WindowMatch({
         subprocess: service.subprocess,
         display: global.display,
@@ -76,18 +77,10 @@ function create_window_matcher(service, window_manager, rollback) {
         GObject.BindingFlags.DEFAULT
     );
 
-    window_matcher.connect('notify::current-window', () => {
-        if (window_matcher.current_window)
-            window_manager.manage_window(window_matcher.current_window);
-    });
-
-    if (window_matcher.current_window)
-        window_manager.manage_window(window_matcher.current_window);
-
     return window_matcher;
 }
 
-function create_dbus_interface(window_manager, app_control, extension, rollback) {
+function create_dbus_interface(window_geometry, window_matcher, app_control, extension, rollback) {
     const dbus_interface = new DBusApi({
         xml_file_path: extension.dbus_xml_file_path,
         version: `${extension.metadata.version}`,
@@ -103,11 +96,11 @@ function create_dbus_interface(window_manager, app_control, extension, rollback)
          * index manually in multiple places. Also, Meta.CursorTracker doesn't
          * seem to work properly in X11 session.
          */
-        if (!window_manager.current_window)
-            window_manager.update_monitor_index();
+        if (!window_matcher.current_window)
+            window_geometry.update_monitor();
     });
 
-    window_manager.bind_property(
+    window_geometry.bind_property(
         'target-rect',
         dbus_interface,
         'target-rect',
@@ -123,7 +116,7 @@ function create_dbus_interface(window_manager, app_control, extension, rollback)
     return dbus_interface;
 }
 
-function create_panel_icon(settings, window_manager, app_control, gettext_context, rollback) {
+function create_panel_icon(settings, window_matcher, app_control, gettext_context, rollback) {
     const panel_icon = new PanelIconProxy({ gettext_context });
 
     rollback.push(() => {
@@ -138,7 +131,7 @@ function create_panel_icon(settings, window_manager, app_control, gettext_contex
     );
 
     panel_icon.connect('toggle', (_, value) => {
-        const window_visible = window_manager.current_window !== null;
+        const window_visible = window_matcher.current_window !== null;
 
         if (value !== window_visible)
             app_control.toggle(false);
@@ -148,11 +141,11 @@ function create_panel_icon(settings, window_manager, app_control, gettext_contex
         app_control.preferences();
     });
 
-    window_manager.connect('notify::current-window', () => {
-        panel_icon.active = window_manager.current_window !== null;
+    window_matcher.connect('notify::current-window', () => {
+        panel_icon.active = window_matcher.current_window !== null;
     });
 
-    panel_icon.active = window_manager.current_window !== null;
+    panel_icon.active = window_matcher.current_window !== null;
 
     return panel_icon;
 }
@@ -179,7 +172,7 @@ function install(src_dir, launcher, rollback) {
     });
 }
 
-function bind_keys(settings, app_control, rollback) {
+function bind_keys(settings, app_control, window_geometry, rollback) {
     Main.wm.addKeybinding(
         'ddterm-toggle-hotkey',
         settings,
@@ -280,16 +273,19 @@ class EnabledExtension {
             return this.extension.start_app_process(this.settings);
         });
 
-        this.window_manager = new WindowManager({ settings: this.settings });
-        this.window_manager.debug = this.extension.debug;
+        this.window_geometry = new WindowGeometry();
+        this.window_geometry.bind_settings(this.settings);
 
         rollback.push(() => {
-            this.window_manager.disable();
+            this.window_geometry.disable();
         });
+
+        this.window_matcher = create_window_matcher(this.service, rollback);
 
         this.app_control = new AppControl({
             service: this.service,
-            window_manager: this.window_manager,
+            window_matcher: this.window_matcher,
+            window_geometry: this.window_geometry,
         });
 
         rollback.push(() => {
@@ -307,7 +303,17 @@ class EnabledExtension {
                 this.service.terminate();
         });
 
-        this.window_manager.connect('notify::current-window', () => {
+        this.window_matcher.connect('notify::current-window', () => {
+            this._create_window_manager();
+        });
+
+        rollback.push(() => {
+            this.window_manager?.disable();
+        });
+
+        this._create_window_manager();
+
+        this.window_matcher.connect('notify::current-window', () => {
             this._set_skip_taskbar();
         });
 
@@ -320,27 +326,23 @@ class EnabledExtension {
         });
 
         create_dbus_interface(
-            this.window_manager,
+            this.window_geometry,
+            this.window_matcher,
             this.app_control,
             this.extension,
-            rollback
-        );
-
-        create_window_matcher(
-            this.service,
-            this.window_manager,
             rollback
         );
 
         bind_keys(
             this.settings,
             this.app_control,
+            this.window_geometry,
             rollback
         );
 
         create_panel_icon(
             this.settings,
-            this.window_manager,
+            this.window_matcher,
             this.app_control,
             this.extension,
             rollback
@@ -354,7 +356,7 @@ class EnabledExtension {
     }
 
     _set_skip_taskbar() {
-        const win = this.window_manager.current_window;
+        const win = this.window_matcher.current_window;
 
         if (win?.get_client_type() !== Meta.WindowClientType.WAYLAND)
             return;
@@ -367,12 +369,34 @@ class EnabledExtension {
             wayland_client.show_in_window_list(win);
     }
 
+    _create_window_manager() {
+        this.window_manager?.disable();
+        this.window_manager = null;
+
+        const win = this.window_matcher.current_window;
+
+        if (!win)
+            return;
+
+        this.window_manager = new WindowManager({
+            window: win,
+            settings: this.settings,
+            geometry: this.window_geometry,
+        });
+
+        this.window_manager.debug = this.debug;
+        this.window_manager.connect('hide-request', () => this.app_control.hide(false));
+    }
+
     get debug() {
-        return this.window_manager.debug;
+        return this._debug;
     }
 
     set debug(func) {
-        this.window_manager.debug = func;
+        this._debug = func;
+
+        if (this.window_manager)
+            this.window_manager.debug = func;
     }
 }
 

@@ -24,7 +24,8 @@ import Gio from 'gi://Gio';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 
 import { Service } from './service.js';
-import { WindowManager } from './wm.js';
+import { WindowGeometry } from './geometry.js';
+import { WindowMatch } from './windowmatch.js';
 
 export { AppControl };
 
@@ -85,12 +86,19 @@ const AppControl = GObject.registerClass({
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             Service
         ),
-        'window-manager': GObject.ParamSpec.object(
-            'window-manager',
+        'window-matcher': GObject.ParamSpec.object(
+            'window-matcher',
             '',
             '',
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-            WindowManager
+            WindowMatch
+        ),
+        'window-geometry': GObject.ParamSpec.object(
+            'window-geometry',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+            WindowGeometry
         ),
         'actions': GObject.ParamSpec.object(
             'actions',
@@ -112,11 +120,6 @@ const AppControl = GObject.registerClass({
             this.service.connect('notify::bus-name-owner', () => this._update_actions());
 
         this._cancellable.connect(() => this.service.disconnect(bus_name_handler));
-
-        const hide_request_handler =
-            this.window_manager.connect('hide-request', () => this.hide(false));
-
-        this._cancellable.connect(() => this.window_manager.disconnect(hide_request_handler));
 
         this._update_actions();
     }
@@ -167,7 +170,7 @@ const AppControl = GObject.registerClass({
         visible = Boolean(visible);
         const expected_actions = this.actions;
 
-        if (Boolean(this.window_manager.current_window) === visible)
+        if (Boolean(this.window_matcher.current_window) === visible)
             return;
 
         const cancellable = Gio.Cancellable.new();
@@ -175,7 +178,7 @@ const AppControl = GObject.registerClass({
 
         try {
             const wait_window = wait_property(
-                this.window_manager,
+                this.window_matcher,
                 'current-window',
                 current_window => Boolean(current_window) === visible,
                 cancellable
@@ -208,21 +211,21 @@ const AppControl = GObject.registerClass({
     }
 
     async toggle(wait = true) {
-        if (this.window_manager.current_window)
+        if (this.window_matcher.current_window)
             await this.hide(wait);
         else
             await this.activate(wait);
     }
 
     async activate(wait = true) {
-        if (this.window_manager.current_window) {
-            Main.activateWindow(this.window_manager.current_window);
+        if (this.window_matcher.current_window) {
+            Main.activateWindow(this.window_matcher.current_window);
             return;
         }
 
-        this.window_manager.update_monitor_index();
-
         await this.ensure_running();
+
+        this.window_geometry.update_monitor();
 
         this.actions.activate_action('show', null);
 
@@ -231,7 +234,7 @@ const AppControl = GObject.registerClass({
     }
 
     async hide(wait = true) {
-        if (!this.window_manager.current_window)
+        if (!this.window_matcher.current_window)
             return;
 
         this.actions.activate_action('hide', null);
