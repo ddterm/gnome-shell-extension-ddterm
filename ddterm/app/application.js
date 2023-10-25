@@ -30,7 +30,6 @@ import System from 'system';
 
 import { AppWindow } from './appwindow.js';
 import { create_extension_dbus_proxy } from './extensiondbus.js';
-import { ThemeManager } from './gtktheme.js';
 import { HeapDumper } from './heapdump.js';
 import { metadata } from './meta.js';
 import { get_resource_file, get_resource_text } from './resources.js';
@@ -254,22 +253,11 @@ class Application extends Gtk.Application {
             this.add_action(this.settings.create_action(key));
         });
 
-        this.theme_manager = new ThemeManager({
-            theme_variant: this.settings.get_string('theme-variant'),
-        });
-
-        this.settings.bind(
-            'theme-variant',
-            this.theme_manager,
-            'theme-variant',
-            Gio.SettingsBindFlags.GET
-        );
-
         const css_provider = Gtk.CssProvider.new();
         css_provider.load_from_file(get_resource_file('style.css'));
 
-        Gtk.StyleContext.add_provider_for_screen(
-            Gdk.Screen.get_default(),
+        Gtk.StyleContext.add_provider_for_display(
+            Gdk.Display.get_default(),
             css_provider,
             Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
         );
@@ -337,7 +325,8 @@ class Application extends Gtk.Application {
             this.bind_shortcut(action, key);
         });
 
-        Gtk.IconTheme.get_default().append_search_path(get_resource_file('icons').get_path());
+        const icon_theme = Gtk.IconTheme.get_for_display(Gdk.Display.get_default());
+        icon_theme.add_search_path(get_resource_file('icons').get_path());
 
         this.session_file_path = GLib.build_filenamev([
             GLib.get_user_cache_dir(),

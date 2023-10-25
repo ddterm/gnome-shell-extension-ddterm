@@ -64,7 +64,7 @@ export const TabLabel = GObject.registerClass({
         'close': {},
         'reset-label': {},
     },
-}, class DDTermTabLabel extends Gtk.EventBox {
+}, class DDTermTabLabel extends Gtk.Widget {
     _init(params) {
         super._init(params);
 
@@ -111,10 +111,7 @@ export const TabLabel = GObject.registerClass({
 
         const close_button = new Gtk.Button({
             tooltip_text: Gettext.gettext('Close'),
-            image: new Gtk.Image({
-                icon_name: 'window-close',
-                visible: true,
-            }),
+            icon_name: 'window-close',
             visible: true,
             focus_on_click: false,
             relief: Gtk.ReliefStyle.NONE,

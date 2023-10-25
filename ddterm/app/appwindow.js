@@ -30,7 +30,7 @@ import { Notebook } from './notebook.js';
 import { DisplayConfig, LayoutMode } from '../util/displayconfig.js';
 
 function make_resizer(orientation) {
-    const box = new Gtk.EventBox({ visible: true });
+    const box = new Gtk.Widget({ visible: true });
 
     new Gtk.Separator({
         visible: true,
@@ -53,10 +53,10 @@ function make_resizer(orientation) {
 }
 
 const WINDOW_POS_TO_RESIZE_EDGE = {
-    top: Gdk.WindowEdge.SOUTH,
-    bottom: Gdk.WindowEdge.NORTH,
-    left: Gdk.WindowEdge.EAST,
-    right: Gdk.WindowEdge.WEST,
+    top: Gdk.SurfaceEdge.SOUTH,
+    bottom: Gdk.SurfaceEdge.NORTH,
+    left: Gdk.SurfaceEdge.EAST,
+    right: Gdk.SurfaceEdge.WEST,
 };
 
 export const AppWindow = GObject.registerClass({
@@ -94,8 +94,8 @@ export const AppWindow = GObject.registerClass({
             '',
             '',
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
-            Gdk.WindowEdge,
-            Gdk.WindowEdge.SOUTH
+            Gdk.SurfaceEdge,
+            Gdk.SurfaceEdge.SOUTH
         ),
         'tab-label-width': GObject.ParamSpec.double(
             'tab-label-width',
@@ -148,27 +148,26 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
         super._init({
             title: Gettext.gettext('ddterm'),
             icon_name: 'utilities-terminal',
-            window_position: Gtk.WindowPosition.CENTER,
             ...params,
         });
 
         const grid = new Gtk.Grid({
-            parent: this,
             visible: true,
         });
 
+        this.set_child(grid);
+
         this.paned = new Gtk.Paned({
             visible: true,
-            border_width: 0,
             hexpand: true,
             vexpand: true,
         });
         grid.attach(this.paned, 1, 1, 1, 1);
 
         let window_title_binding = null;
-        this.paned.connect('set-focus-child', (paned, child) => {
+        this.connect('notify::focus-widget', () => {
             window_title_binding?.unbind();
-            window_title_binding = child?.bind_property(
+            window_title_binding = this.active_notebook?.bind_property(
                 'current-title',
                 this,
                 'title',
@@ -228,10 +227,10 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
             update_visible();
         };
 
-        add_resize_box(Gdk.WindowEdge.SOUTH, 1, 2, Gtk.Orientation.HORIZONTAL);
-        add_resize_box(Gdk.WindowEdge.NORTH, 1, 0, Gtk.Orientation.HORIZONTAL);
-        add_resize_box(Gdk.WindowEdge.EAST, 2, 1, Gtk.Orientation.VERTICAL);
-        add_resize_box(Gdk.WindowEdge.WEST, 0, 1, Gtk.Orientation.VERTICAL);
+        add_resize_box(Gdk.SurfaceEdge.SOUTH, 1, 2, Gtk.Orientation.HORIZONTAL);
+        add_resize_box(Gdk.SurfaceEdge.NORTH, 1, 0, Gtk.Orientation.HORIZONTAL);
+        add_resize_box(Gdk.SurfaceEdge.EAST, 2, 1, Gtk.Orientation.VERTICAL);
+        add_resize_box(Gdk.SurfaceEdge.WEST, 0, 1, Gtk.Orientation.VERTICAL);
 
         this.settings.bind(
             'window-resizable',

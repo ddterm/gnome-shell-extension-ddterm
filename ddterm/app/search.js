@@ -214,13 +214,12 @@ class DDTermSearchBar extends Gtk.Revealer {
 
         const layout = new Gtk.Box({
             visible: true,
-            border_width: 5,
             spacing: 5,
             parent: this,
         });
 
         const case_sensitive_button = new Gtk.ToggleButton({
-            image: new Gtk.Image({ icon_name: 'uppercase' }),
+            icon_name: 'uppercase',
             tooltip_text: Gettext.gettext('Case Sensitive'),
             visible: true,
             focus_on_click: false,
@@ -236,7 +235,7 @@ class DDTermSearchBar extends Gtk.Revealer {
         );
 
         const whole_word_button = new Gtk.ToggleButton({
-            image: new Gtk.Image({ icon_name: 'quotation' }),
+            icon_name: 'quotation',
             tooltip_text: Gettext.gettext('Match Whole Word'),
             visible: true,
             focus_on_click: false,
@@ -252,7 +251,7 @@ class DDTermSearchBar extends Gtk.Revealer {
         );
 
         const regex_button = new Gtk.ToggleButton({
-            image: new Gtk.Image({ icon_name: 'regex' }),
+            icon_name: 'regex',
             tooltip_text: Gettext.gettext('Regular Expression'),
             visible: true,
             focus_on_click: false,
@@ -283,7 +282,6 @@ class DDTermSearchBar extends Gtk.Revealer {
         const error_popover = new Gtk.Popover({
             relative_to: entry,
             modal: false,
-            border_width: 5,
         });
 
         this.connect('destroy', () => error_popover.destroy());
@@ -320,7 +318,7 @@ class DDTermSearchBar extends Gtk.Revealer {
         });
 
         const close_button = new Gtk.Button({
-            image: new Gtk.Image({ icon_name: 'window-close' }),
+            icon_name: 'window-close',
             tooltip_text: Gettext.gettext('Close Search Bar'),
             visible: true,
             focus_on_click: false,
@@ -331,7 +329,7 @@ class DDTermSearchBar extends Gtk.Revealer {
         close_button.connect('clicked', this.close.bind(this));
 
         const wrap_button = new Gtk.ToggleButton({
-            image: new Gtk.Image({ icon_name: 'view-wrapped' }),
+            icon_name: 'view-wrapped',
             tooltip_text: Gettext.gettext('Wrap Around'),
             visible: true,
             focus_on_click: false,
@@ -347,7 +345,7 @@ class DDTermSearchBar extends Gtk.Revealer {
         );
 
         const find_next_button = new Gtk.Button({
-            image: new Gtk.Image({ icon_name: 'go-down' }),
+            icon_name: 'go-down',
             tooltip_text: Gettext.gettext('Find Next'),
             visible: true,
             focus_on_click: false,
@@ -365,7 +363,7 @@ class DDTermSearchBar extends Gtk.Revealer {
         find_next_button.connect('clicked', this.find_next.bind(this));
 
         const find_prev_button = new Gtk.Button({
-            image: new Gtk.Image({ icon_name: 'go-up' }),
+            icon_name: 'go-up',
             tooltip_text: Gettext.gettext('Find Previous'),
             visible: true,
             focus_on_click: false,

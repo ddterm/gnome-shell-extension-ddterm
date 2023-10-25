@@ -146,13 +146,12 @@ export const Notebook = GObject.registerClass({
         const button_box = new Gtk.Box({ visible: true });
 
         this.new_tab_button = new Gtk.Button({
-            image: Gtk.Image.new_from_icon_name('list-add', Gtk.IconSize.MENU),
+            icon_name: 'list-add',
             tooltip_text: Gettext.gettext('New Tab (Last)'),
             action_name: 'notebook.new-tab',
-            relief: Gtk.ReliefStyle.NONE,
             visible: true,
         });
-        button_box.add(this.new_tab_button);
+        button_box.append(this.new_tab_button);
 
         this.bind_property(
             'show-new-tab-button',
@@ -170,11 +169,9 @@ export const Notebook = GObject.registerClass({
         this.tab_switch_button = new Gtk.MenuButton({
             menu_model: menu,
             focus_on_click: false,
-            relief: Gtk.ReliefStyle.NONE,
             visible: true,
-            use_popover: false,
         });
-        button_box.add(this.tab_switch_button);
+        button_box.append(this.tab_switch_button);
 
         this.bind_property(
             'show-tab-switch-popup',
@@ -186,10 +183,9 @@ export const Notebook = GObject.registerClass({
         this.set_action_widget(button_box, Gtk.PackType.END);
 
         this.new_tab_front_button = new Gtk.Button({
-            image: Gtk.Image.new_from_icon_name('list-add', Gtk.IconSize.MENU),
+            icon_name: 'list-add',
             tooltip_text: Gettext.gettext('New Tab (First)'),
             action_name: 'notebook.new-tab-front',
-            relief: Gtk.ReliefStyle.NONE,
             visible: true,
         });
         this.set_action_widget(this.new_tab_front_button, Gtk.PackType.START);

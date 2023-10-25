@@ -7,8 +7,8 @@ url='https://github.com/ddterm/gnome-shell-extension-ddterm'
 license=('GPL-3.0-or-later')
 conflicts=('gnome-shell-extension-ddterm')
 provides=('gnome-shell-extension-ddterm')
-depends=('gjs' 'gtk3' 'vte3' 'libhandy')
-makedepends=('meson' 'git' 'gtk4' 'libxslt' 'xorg-server-xvfb')
+depends=('gjs' 'gtk4' 'vte4' 'libadwaita')
+makedepends=('meson' 'git' 'libxslt' 'xorg-server-xvfb')
 source=("$pkgname::git+file://$(git rev-parse --show-toplevel)")
 md5sums=('SKIP')
 
