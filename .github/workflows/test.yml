@@ -28,7 +28,7 @@ jobs:
 
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/ddterm/ci-docker-image:2023.10.25.2
+      image: ghcr.io/ddterm/ci-docker-image:2023.10.26.0
       options: --privileged --cgroupns=host --tmpfs /tmp --tmpfs /run
 
     strategy:
