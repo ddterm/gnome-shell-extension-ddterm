@@ -7,16 +7,16 @@ msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-10-25 09:56+0000\n"
-"PO-Revision-Date: 2023-10-24 15:28+0000\n"
+"PO-Revision-Date: 2023-10-28 23:49+0000\n"
 "Last-Translator: Adrian Alberdi Ainciburu <adrian1992@gmail.com>\n"
-"Language-Team: Spanish <https://hosted.weblate.org/projects/gnome-shell-"
-"extension-ddterm/extension/es/>\n"
+"Language-Team: Spanish <https://hosted.weblate.org/projects/"
+"gnome-shell-extension-ddterm/extension/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.1.1-dev\n"
+"X-Generator: Weblate 5.2-dev\n"
 
 #: ddterm/app/application.js:78
 msgid "Start the application, but do not show the window"
@@ -247,23 +247,23 @@ msgstr "Desplazarse con la pulsación de teclas"
 
 #: ddterm/app/menus.ui:198
 msgid "Preserve Working Directory In New Tabs"
-msgstr ""
+msgstr "Mantener directorio de trabajo en nuevas pestañas"
 
 #: ddterm/app/menus.ui:204
 msgid "Enable Keyboard Shortcuts"
-msgstr ""
+msgstr "Activar atajos de teclado"
 
 #: ddterm/app/menus.ui:213
 msgid "Use Custom Tab Title"
-msgstr ""
+msgstr "Cambiar el título de la pestaña"
 
 #: ddterm/app/menus.ui:218
 msgid "Use Default Tab Title"
-msgstr ""
+msgstr "Título por defecto para la pestaña"
 
 #: ddterm/app/menus.ui:233
 msgid "New Tab Before This Tab"
-msgstr ""
+msgstr "Nueva pestaña antes que esta"
 
 #: ddterm/app/menus.ui:237
 msgid "New Tab After This Tab"
@@ -279,11 +279,11 @@ msgstr ""
 
 #: ddterm/app/notebook.js:150
 msgid "New Tab (Last)"
-msgstr ""
+msgstr "Nueva pestaña (Última)"
 
 #: ddterm/app/notebook.js:190
 msgid "New Tab (First)"
-msgstr ""
+msgstr "Nueva pestaña (Primera)"
 
 #: ddterm/app/search.js:224
 msgid "Case Sensitive"
@@ -299,7 +299,7 @@ msgstr ""
 
 #: ddterm/app/search.js:324
 msgid "Close Search Bar"
-msgstr ""
+msgstr "Cerrar barra de busqueda"
 
 #: ddterm/app/search.js:335
 msgid "Wrap Around"
@@ -307,77 +307,79 @@ msgstr ""
 
 #: ddterm/app/search.js:351 ddterm/pref/glade/prefs-shortcuts.ui:283
 msgid "Find Next"
-msgstr ""
+msgstr "Encontrar siguiente"
 
 #: ddterm/app/search.js:369 ddterm/pref/glade/prefs-shortcuts.ui:290
 msgid "Find Previous"
-msgstr ""
+msgstr "Encontrar anterior"
 
 #: ddterm/app/terminalpage.js:434
 msgid "Restart"
-msgstr ""
+msgstr "Reiniciar"
 
 #: ddterm/app/terminalpage.js:435 ddterm/app/terminalpage.js:610
 msgid "Close Terminal"
-msgstr ""
+msgstr "Cerrar terminal"
 
 #: ddterm/app/terminalpage.js:458
 msgid "The child process exited with status:"
-msgstr ""
+msgstr "El proceso terminó con el siguiente estado:"
 
 #: ddterm/app/terminalpage.js:468
 msgid "The child process was aborted by signal:"
-msgstr ""
+msgstr "El proceso fué parado con la señal:"
 
 #: ddterm/app/terminalpage.js:602
 msgid "Close this terminal?"
-msgstr ""
+msgstr "¿Cerrar esta terminal?"
 
 #: ddterm/app/terminalpage.js:604
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."
 msgstr ""
+"Un proceso aún está corriendo en esta terminal. Cerrar la terminal lo "
+"terminaría."
 
 #: ddterm/pref/adw.js:77
 msgid "Window"
-msgstr ""
+msgstr "Ventana"
 
 #: ddterm/pref/adw.js:97
 msgid "Terminal"
-msgstr ""
+msgstr "Terminal"
 
 #: ddterm/pref/adw.js:118 ddterm/pref/shortcuts.js:132
 msgid "Keyboard Shortcuts"
-msgstr ""
+msgstr "Acortes de teclado"
 
 #: ddterm/pref/adw.js:133
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Otros"
 
 #: ddterm/pref/animation.js:77
 msgid "Animation"
-msgstr ""
+msgstr "Animación"
 
 #: ddterm/pref/behavior.js:66
 msgid "Behavior"
-msgstr ""
+msgstr "Comportamiento"
 
 #: ddterm/pref/colors.js:469
 msgid "Colors"
-msgstr ""
+msgstr "Colores"
 
 #: ddterm/pref/command.js:67
 msgid "Command"
-msgstr ""
+msgstr "Commando"
 
 #: ddterm/pref/compatibility.js:75
 msgid "Compatibility"
-msgstr ""
+msgstr "Compatibilidad"
 
 #: ddterm/pref/glade/prefs-animation.ui:36
 msgid "Disable"
-msgstr ""
+msgstr "Deshabilitar"
 
 #: ddterm/pref/glade/prefs-animation.ui:40
 msgid "Linear tweening"
@@ -511,15 +513,15 @@ msgstr ""
 
 #: ddterm/pref/glade/prefs-animation.ui:218
 msgid "_Show animation:"
-msgstr ""
+msgstr "_Mostrar animación:"
 
 #: ddterm/pref/glade/prefs-animation.ui:232
 msgid "_Hide animation:"
-msgstr ""
+msgstr "_Ocultar animación:"
 
 #: ddterm/pref/glade/prefs-animation.ui:284
 msgid "_Hide animation duration:"
-msgstr ""
+msgstr "_Duración de la animación de ocultar:"
 
 #: ddterm/pref/glade/prefs-animation.ui:297
 msgid "_Show animation duration:"
