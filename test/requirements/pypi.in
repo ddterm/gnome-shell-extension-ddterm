@@ -8,6 +8,6 @@ pluggy~=1.3.0
 ansi2html~=1.8.0
 allpairspy @ git+https://github.com/amezin/allpairspy.git@66df42dee8c784033d8e4851b4e952403f4d287b
 wand~=0.6.10
-filelock~=3.12.0
+filelock~=3.13.0
 pyyaml~=6.0
 python-xlib==0.33
