@@ -6,11 +6,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-25 09:56+0000\n"
+"POT-Creation-Date: 2023-10-29 21:14+0000\n"
 "PO-Revision-Date: 2023-10-28 23:49+0000\n"
 "Last-Translator: Adrian Alberdi Ainciburu <adrian1992@gmail.com>\n"
-"Language-Team: Spanish <https://hosted.weblate.org/projects/"
-"gnome-shell-extension-ddterm/extension/es/>\n"
+"Language-Team: Spanish <https://hosted.weblate.org/projects/gnome-shell-"
+"extension-ddterm/extension/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -68,7 +68,7 @@ msgstr "Abrir nueva pestaña"
 msgid "Saving session..."
 msgstr "Guardando la sesión..."
 
-#: ddterm/app/application.js:503 ddterm/shell/extension.js:257
+#: ddterm/app/application.js:503 ddterm/shell/extension.js:250
 msgid ""
 "Warning: ddterm version has changed. Log out, then log in again to load the "
 "updated extension."
@@ -76,8 +76,8 @@ msgstr ""
 "Atención: La versión de ddterm ha cambiado. Salir y entrar para cargar la "
 "versión actualizada de la extensión."
 
-#: ddterm/app/appwindow.js:149 ddterm/shell/extension.js:245
-#: ddterm/shell/extension.js:255
+#: ddterm/app/appwindow.js:149 ddterm/shell/extension.js:238
+#: ddterm/shell/extension.js:248
 msgid "Drop Down Terminal"
 msgstr "Terminal en Cascada"
 

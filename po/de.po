@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-25 09:56+0000\n"
+"POT-Creation-Date: 2023-10-29 21:14+0000\n"
 "PO-Revision-Date: 2023-10-23 14:59+0000\n"
 "Last-Translator: Philipp Kiemle <philipp.kiemle@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/gnome-shell-"
@@ -69,7 +69,7 @@ msgstr "Einen neuen Reiter öffnen"
 msgid "Saving session..."
 msgstr "Sitzung wird gespeichert …"
 
-#: ddterm/app/application.js:503 ddterm/shell/extension.js:257
+#: ddterm/app/application.js:503 ddterm/shell/extension.js:250
 msgid ""
 "Warning: ddterm version has changed. Log out, then log in again to load the "
 "updated extension."
@@ -77,8 +77,8 @@ msgstr ""
 "Warnung: Die Version von ddterm hat sich geändert. Melden Sie sich ab und "
 "wieder an, um die aktualisierte Erweiterung zu laden."
 
-#: ddterm/app/appwindow.js:149 ddterm/shell/extension.js:245
-#: ddterm/shell/extension.js:255
+#: ddterm/app/appwindow.js:149 ddterm/shell/extension.js:238
+#: ddterm/shell/extension.js:248
 msgid "Drop Down Terminal"
 msgstr "Drop-Down-Terminal"
 

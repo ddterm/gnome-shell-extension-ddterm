@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-25 09:56+0000\n"
+"POT-Creation-Date: 2023-10-29 21:14+0000\n"
 "PO-Revision-Date: 2023-09-26 17:35+0300\n"
 "Last-Translator: Anagnostakis Ioannis <rizitis@gmail.com>\n"
 "Language-Team: Greek, Modern (1453-) <>\n"
@@ -69,7 +69,7 @@ msgstr ""
 msgid "Saving session..."
 msgstr ""
 
-#: ddterm/app/application.js:503 ddterm/shell/extension.js:257
+#: ddterm/app/application.js:503 ddterm/shell/extension.js:250
 msgid ""
 "Warning: ddterm version has changed. Log out, then log in again to load the "
 "updated extension."
@@ -77,8 +77,8 @@ msgstr ""
 "Προειδοποίηση: η έκδοση ddterm έχει αλλάξει. Αποσυνδεθείτε και, στη "
 "συνέχεια, συνδεθείτε ξανά για να φορτώσετε την ενημερωμένη επέκταση."
 
-#: ddterm/app/appwindow.js:149 ddterm/shell/extension.js:245
-#: ddterm/shell/extension.js:255
+#: ddterm/app/appwindow.js:149 ddterm/shell/extension.js:238
+#: ddterm/shell/extension.js:248
 msgid "Drop Down Terminal"
 msgstr "Ανάπτυξη Τερματικού"
 
