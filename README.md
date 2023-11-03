@@ -20,6 +20,8 @@ Inspired by
 
 <img src="docs/screenshots/prefs.gif" />
 
+- Can be controlled from the [command line](docs/cmdline.md)
+
 ## Review by [TechHut](https://www.youtube.com/channel/UCjSEJkpGbcZhvo0lr-44X_w)
 
 [![my favorite GNOME extension](http://img.youtube.com/vi/tF6_FJYca64/0.jpg)](http://www.youtube.com/watch?v=tF6_FJYca64)
@@ -62,30 +64,3 @@ from command line:
 Or simply show/activate:
 
     $ gdbus call --session --dest org.gnome.Shell --object-path /org/gnome/Shell/Extensions/ddterm --method com.github.amezin.ddterm.Extension.Activate
-
-## `gapplication`
-
-You could also interact with ddterm through `gapplication` utility:
-
-    $ gapplication action com.github.amezin.ddterm show
-    $ gapplication action com.github.amezin.ddterm hide
-    $ gapplication action com.github.amezin.ddterm toggle
-
-Open a new tab with the specified working directory:
-
-    $ gapplication launch com.github.amezin.ddterm ~/directory
-
-Or launch a script:
-
-    $ gapplication launch com.github.amezin.ddterm ~/script.sh
-
-## Command line
-
-You can open a new tab from the command line:
-
-    $ com.github.amezin.ddterm -- ssh localhost
-
-See `com.github.amezin.ddterm --help` for options.
-
-You'll need to add
-`~/.local/share/gnome-shell/extensions/ddterm@amezin.github.com/bin` to `PATH`.
