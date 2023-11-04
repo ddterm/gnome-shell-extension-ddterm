@@ -1,7 +1,7 @@
 [Desktop Entry]
 Type=Application
 Name=ddterm
-Comment=Another drop down terminal extension for GNOME Shell. With tabs. Works on Wayland natively.
+Comment=Another drop down terminal extension for GNOME Shell
 Icon=utilities-terminal
 TryExec=@LAUNCHER@
 Exec="@LAUNCHER@"
