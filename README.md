@@ -14,13 +14,13 @@ Inspired by
 
 - Runs on Wayland natively
 
+- Can be controlled from the [command line](docs/cmdline.md)
+
 - Terminal window can be resized by dragging the border with mouse
 
 - `Preferences` window with a lot of different settings
 
 <img src="docs/screenshots/prefs.gif" />
-
-- Can be controlled from the [command line](docs/cmdline.md)
 
 ## Review by [TechHut](https://www.youtube.com/channel/UCjSEJkpGbcZhvo0lr-44X_w)
 
