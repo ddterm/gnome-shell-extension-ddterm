@@ -90,6 +90,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </section>
     <section>
       <item>
+        <attribute name="label" translatable="yes">Show in File Manager</attribute>
+        <attribute name="action">terminal.show-in-file-manager</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
         <attribute name="label" translatable="yes">Close</attribute>
         <attribute name="action">page.close</attribute>
       </item>

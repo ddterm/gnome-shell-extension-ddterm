@@ -404,6 +404,14 @@ export const TerminalPage = GObject.registerClass({
         });
         terminal_actions.add_action(font_scale_reset_action);
 
+        const show_in_file_manager_action = new Gio.SimpleAction({
+            name: 'show-in-file-manager',
+        });
+        show_in_file_manager_action.connect('activate', () => {
+            this.show_in_file_manager();
+        });
+        terminal_actions.add_action(show_in_file_manager_action);
+
         this.insert_action_group('terminal', terminal_actions);
 
         this.terminal.connect_after('child-exited', (terminal_, status) => {
@@ -586,6 +594,27 @@ export const TerminalPage = GObject.registerClass({
         }
 
         this.search_bar.reveal_child = true;
+    }
+
+    show_in_file_manager() {
+        const method = this.terminal.current_file_uri ? 'ShowItems' : 'ShowFolders';
+        const uri = this.terminal.current_file_uri || this.get_cwd().get_uri();
+
+        Gio.DBus.session.call(
+            'org.freedesktop.FileManager1',
+            '/org/freedesktop/FileManager1',
+            'org.freedesktop.FileManager1',
+            method,
+            GLib.Variant.new_tuple([
+                GLib.Variant.new_array(new GLib.VariantType('s'), [GLib.Variant.new_string(uri)]),
+                GLib.Variant.new_string(''),
+            ]),
+            null,
+            Gio.DBusCallFlags.NONE,
+            -1,
+            null,
+            null
+        );
     }
 
     close() {
