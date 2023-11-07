@@ -189,7 +189,8 @@ class Application extends Gtk.Application {
 
         this.connect('command-line', (_, command_line) => {
             try {
-                return this.command_line(command_line);
+                this.command_line(command_line);
+                return command_line.get_exit_status();
             } catch (ex) {
                 logError(ex);
                 return 1;
@@ -407,7 +408,7 @@ class Application extends Gtk.Application {
 
         if (!argv?.length && !options.lookup('tab') && !has_tab_options) {
             this.activate();
-            return 0;
+            return;
         }
 
         const envv = command_line.get_environ();
@@ -430,7 +431,6 @@ class Application extends Gtk.Application {
             : notebook.get_command_from_settings(working_directory, envv);
 
         const page = notebook.new_page(-1, properties);
-        let exit_status = 0;
         let wait_handler = null;
 
         const set_exit_status = value => {
@@ -440,7 +440,6 @@ class Application extends Gtk.Application {
             if (wait_handler)
                 page.terminal.disconnect(wait_handler);
 
-            exit_status = value;
             command_line.set_exit_status(value);
 
             // https://gitlab.gnome.org/GNOME/glib/-/issues/596
@@ -465,7 +464,6 @@ class Application extends Gtk.Application {
         });
 
         this.activate();
-        return exit_status;
     }
 
     open_file(file) {
