@@ -237,6 +237,13 @@ along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licens
         <col id="4">False</col>
       </row>
       <row>
+        <col id="0">shortcut-focus-other-pane</col>
+        <col id="1" translatable="yes">Move Keyboard Focus to Other Split Pane</col>
+        <col id="2">0</col>
+        <col id="3">0</col>
+        <col id="4">False</col>
+      </row>
+      <row>
         <col id="0">shortcut-move-tab-to-other-pane</col>
         <col id="1" translatable="yes">Move Tab to Other Split Pane</col>
         <col id="2">0</col>

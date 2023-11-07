@@ -310,6 +310,7 @@ class Application extends Gtk.Application {
             'shortcut-font-scale-increase': 'terminal.font-scale-increase',
             'shortcut-font-scale-decrease': 'terminal.font-scale-decrease',
             'shortcut-font-scale-reset': 'terminal.font-scale-reset',
+            'shortcut-focus-other-pane': 'win.focus-other-pane',
         };
 
         for (let i = 0; i < 10; i += 1) {

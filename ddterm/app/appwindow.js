@@ -288,6 +288,12 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
                 const step = (this.paned.max_position - this.paned.min_position) / 10;
                 this.paned.position = Math.max(this.paned.position - step, this.paned.min_position);
             },
+            'focus-other-pane': () => {
+                if (this.active_notebook === notebook1)
+                    notebook2.grab_focus();
+                else
+                    notebook1.grab_focus();
+            },
         };
 
         for (const [name, activate] of Object.entries(actions)) {
@@ -296,7 +302,7 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
             this.add_action(action);
         }
 
-        ['split-position-inc', 'split-position-dec'].map(
+        ['split-position-inc', 'split-position-dec', 'focus-other-pane'].map(
             key => this.lookup_action(key)
         ).forEach(action => {
             this.bind_property('is-split', action, 'enabled', GObject.BindingFlags.SYNC_CREATE);
