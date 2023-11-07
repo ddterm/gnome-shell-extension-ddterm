@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-07 06:46+0000\n"
+"POT-Creation-Date: 2023-11-07 07:39+0000\n"
 "PO-Revision-Date: 2023-10-22 20:00+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/gnome-"
@@ -151,127 +151,131 @@ msgstr "Forminsk"
 msgid "Normal Size"
 msgstr "Normal størrelse"
 
-#: ddterm/app/menus.ui:93 ddterm/app/menus.ui:224 ddterm/app/tablabel.js:113
+#: ddterm/app/menus.ui:93
+msgid "Show in File Manager"
+msgstr ""
+
+#: ddterm/app/menus.ui:99 ddterm/app/menus.ui:230 ddterm/app/tablabel.js:113
 msgid "Close"
 msgstr "Lukk"
 
-#: ddterm/app/menus.ui:97 ddterm/app/menus.ui:228
+#: ddterm/app/menus.ui:103 ddterm/app/menus.ui:234
 msgid "Keep Open After Exit"
 msgstr "Behold åpen etter avslutning"
 
-#: ddterm/app/menus.ui:103
+#: ddterm/app/menus.ui:109
 msgid "New Tab"
 msgstr "Ny fane"
 
-#: ddterm/app/menus.ui:105 ddterm/pref/glade/prefs-shortcuts.ui:178
+#: ddterm/app/menus.ui:111 ddterm/pref/glade/prefs-shortcuts.ui:178
 msgid "New Tab Before Current Tab"
 msgstr "Ny fane før nåværende"
 
-#: ddterm/app/menus.ui:109 ddterm/pref/glade/prefs-shortcuts.ui:185
+#: ddterm/app/menus.ui:115 ddterm/pref/glade/prefs-shortcuts.ui:185
 msgid "New Tab After Current Tab"
 msgstr "Ny fane etter nåværende"
 
-#: ddterm/app/menus.ui:113 ddterm/app/menus.ui:241
+#: ddterm/app/menus.ui:119 ddterm/app/menus.ui:247
 #: ddterm/pref/glade/prefs-shortcuts.ui:171
 msgid "New Tab Before First Tab"
 msgstr "Ny fane før første"
 
-#: ddterm/app/menus.ui:117 ddterm/app/menus.ui:245
+#: ddterm/app/menus.ui:123 ddterm/app/menus.ui:251
 #: ddterm/pref/glade/prefs-shortcuts.ui:164
 msgid "New Tab After Last Tab"
 msgstr "Ny fane etter siste"
 
-#: ddterm/app/menus.ui:124 ddterm/app/menus.ui:261
+#: ddterm/app/menus.ui:130 ddterm/app/menus.ui:267
 msgid "Layout"
 msgstr "Plassering"
 
-#: ddterm/app/menus.ui:127 ddterm/app/menus.ui:264 ddterm/app/menus.ui:294
+#: ddterm/app/menus.ui:133 ddterm/app/menus.ui:270 ddterm/app/menus.ui:300
 msgid "No Split"
 msgstr "Ingen inndeling"
 
-#: ddterm/app/menus.ui:132 ddterm/app/menus.ui:269 ddterm/app/menus.ui:299
+#: ddterm/app/menus.ui:138 ddterm/app/menus.ui:275 ddterm/app/menus.ui:305
 #: ddterm/pref/glade/prefs-shortcuts.ui:227
 msgid "Split Horizontally"
 msgstr "Del vannrett"
 
-#: ddterm/app/menus.ui:137 ddterm/app/menus.ui:274 ddterm/app/menus.ui:304
+#: ddterm/app/menus.ui:143 ddterm/app/menus.ui:280 ddterm/app/menus.ui:310
 #: ddterm/pref/glade/prefs-shortcuts.ui:234
 msgid "Split Vertically"
 msgstr "Del loddrett"
 
-#: ddterm/app/menus.ui:144 ddterm/app/menus.ui:281
+#: ddterm/app/menus.ui:150 ddterm/app/menus.ui:287
 msgid "Move Tab to Other Pane"
 msgstr "Flytt fane til neste flate"
 
-#: ddterm/app/menus.ui:151 ddterm/app/prefsdialog.js:45
+#: ddterm/app/menus.ui:157 ddterm/app/prefsdialog.js:45
 msgid "Preferences"
 msgstr "Innstillinger"
 
-#: ddterm/app/menus.ui:154 ddterm/app/menus.ui:288 ddterm/shell/panelicon.js:78
+#: ddterm/app/menus.ui:160 ddterm/app/menus.ui:294 ddterm/shell/panelicon.js:78
 msgid "Preferences..."
 msgstr "Innstillinger …"
 
-#: ddterm/app/menus.ui:160
+#: ddterm/app/menus.ui:166
 msgid "Above All Windows"
 msgstr "Over alle vinduer"
 
-#: ddterm/app/menus.ui:164
+#: ddterm/app/menus.ui:170
 msgid "On All Workspaces"
 msgstr "På alle arbeidsområder"
 
-#: ddterm/app/menus.ui:168
+#: ddterm/app/menus.ui:174
 msgid "Maximize Window"
 msgstr "Maksimer vindu"
 
-#: ddterm/app/menus.ui:172
+#: ddterm/app/menus.ui:178
 msgid "Transparent Background"
 msgstr "Gjennomsiktig bakgrunn"
 
-#: ddterm/app/menus.ui:178
+#: ddterm/app/menus.ui:184
 msgid "Hide When Application Loses Focus"
 msgstr "Skjul når programmet mister fokus"
 
-#: ddterm/app/menus.ui:182
+#: ddterm/app/menus.ui:188
 msgid "Hide When Esc Key Is Pressed"
 msgstr "Skjul når «Esc»-tasten trykkes"
 
-#: ddterm/app/menus.ui:188
+#: ddterm/app/menus.ui:194
 msgid "Scroll On Output"
 msgstr "Rull ved utdata"
 
-#: ddterm/app/menus.ui:192
+#: ddterm/app/menus.ui:198
 msgid "Scroll On Keystroke"
 msgstr "Rull ved tastetrykk"
 
-#: ddterm/app/menus.ui:198
+#: ddterm/app/menus.ui:204
 msgid "Preserve Working Directory In New Tabs"
 msgstr "Bevar arbeidskatalog for nye faner"
 
-#: ddterm/app/menus.ui:204
+#: ddterm/app/menus.ui:210
 msgid "Enable Keyboard Shortcuts"
 msgstr "Skru på tastatursnarveier"
 
-#: ddterm/app/menus.ui:213
+#: ddterm/app/menus.ui:219
 msgid "Use Custom Tab Title"
 msgstr "Bruk egendefinerte fanenavn"
 
-#: ddterm/app/menus.ui:218
+#: ddterm/app/menus.ui:224
 msgid "Use Default Tab Title"
 msgstr "Bruk forvalgt fanenavn"
 
-#: ddterm/app/menus.ui:233
+#: ddterm/app/menus.ui:239
 msgid "New Tab Before This Tab"
 msgstr "Ny fane før denne"
 
-#: ddterm/app/menus.ui:237
+#: ddterm/app/menus.ui:243
 msgid "New Tab After This Tab"
 msgstr "Ny fane etter denne"
 
-#: ddterm/app/menus.ui:251 ddterm/pref/glade/prefs-shortcuts.ui:213
+#: ddterm/app/menus.ui:257 ddterm/pref/glade/prefs-shortcuts.ui:213
 msgid "Move Tab to Previous Position"
 msgstr "Flytt fane til forrige posisjon"
 
-#: ddterm/app/menus.ui:255 ddterm/pref/glade/prefs-shortcuts.ui:220
+#: ddterm/app/menus.ui:261 ddterm/pref/glade/prefs-shortcuts.ui:220
 msgid "Move Tab to Next Position"
 msgstr "Flytt fane til neste posisjon"
 
@@ -311,27 +315,27 @@ msgstr "Finn neste"
 msgid "Find Previous"
 msgstr "Finn forrige"
 
-#: ddterm/app/terminalpage.js:434
+#: ddterm/app/terminalpage.js:442
 msgid "Restart"
 msgstr "Omstart"
 
-#: ddterm/app/terminalpage.js:435 ddterm/app/terminalpage.js:610
+#: ddterm/app/terminalpage.js:443 ddterm/app/terminalpage.js:639
 msgid "Close Terminal"
 msgstr "Lukk terminal?"
 
-#: ddterm/app/terminalpage.js:458
+#: ddterm/app/terminalpage.js:466
 msgid "The child process exited with status:"
 msgstr "Underprosessen avsluttet med status:"
 
-#: ddterm/app/terminalpage.js:468
+#: ddterm/app/terminalpage.js:476
 msgid "The child process was aborted by signal:"
 msgstr "Et signal avbrøt underprosessen:"
 
-#: ddterm/app/terminalpage.js:602
+#: ddterm/app/terminalpage.js:631
 msgid "Close this terminal?"
 msgstr "Lukk denne terminalen?"
 
-#: ddterm/app/terminalpage.js:604
+#: ddterm/app/terminalpage.js:633
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."
