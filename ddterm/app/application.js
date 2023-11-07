@@ -190,13 +190,15 @@ class Application extends Gtk.Application {
         this.connect('command-line', (_, command_line) => {
             try {
                 this.command_line(command_line);
+
                 return command_line.get_exit_status();
             } catch (ex) {
                 logError(ex);
-                return 1;
-            } finally {
+
                 // https://gitlab.gnome.org/GNOME/glib/-/issues/596
                 schedule_gc();
+
+                return 1;
             }
         });
 
@@ -408,6 +410,10 @@ class Application extends Gtk.Application {
 
         if (!argv?.length && !options.lookup('tab') && !has_tab_options) {
             this.activate();
+
+            // https://gitlab.gnome.org/GNOME/glib/-/issues/596
+            schedule_gc();
+
             return;
         }
 
