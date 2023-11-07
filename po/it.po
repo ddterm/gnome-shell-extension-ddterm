@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-29 21:14+0000\n"
+"POT-Creation-Date: 2023-11-07 06:46+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -59,11 +59,11 @@ msgstr ""
 msgid "Open a new tab"
 msgstr ""
 
-#: ddterm/app/application.js:344
+#: ddterm/app/application.js:345
 msgid "Saving session..."
 msgstr ""
 
-#: ddterm/app/application.js:503 ddterm/shell/extension.js:250
+#: ddterm/app/application.js:504 ddterm/shell/extension.js:250
 msgid ""
 "Warning: ddterm version has changed. Log out, then log in again to load the "
 "updated extension."
@@ -118,7 +118,7 @@ msgstr ""
 msgid "Select All"
 msgstr ""
 
-#: ddterm/app/menus.ui:60 ddterm/pref/glade/prefs-shortcuts.ui:276
+#: ddterm/app/menus.ui:60 ddterm/pref/glade/prefs-shortcuts.ui:283
 msgid "Find"
 msgstr ""
 
@@ -134,15 +134,15 @@ msgstr ""
 msgid "Zoom"
 msgstr ""
 
-#: ddterm/app/menus.ui:78 ddterm/pref/glade/prefs-shortcuts.ui:297
+#: ddterm/app/menus.ui:78 ddterm/pref/glade/prefs-shortcuts.ui:304
 msgid "Zoom In"
 msgstr ""
 
-#: ddterm/app/menus.ui:82 ddterm/pref/glade/prefs-shortcuts.ui:304
+#: ddterm/app/menus.ui:82 ddterm/pref/glade/prefs-shortcuts.ui:311
 msgid "Zoom Out"
 msgstr ""
 
-#: ddterm/app/menus.ui:86 ddterm/pref/glade/prefs-shortcuts.ui:311
+#: ddterm/app/menus.ui:86 ddterm/pref/glade/prefs-shortcuts.ui:318
 msgid "Normal Size"
 msgstr ""
 
@@ -298,11 +298,11 @@ msgstr ""
 msgid "Wrap Around"
 msgstr ""
 
-#: ddterm/app/search.js:351 ddterm/pref/glade/prefs-shortcuts.ui:283
+#: ddterm/app/search.js:351 ddterm/pref/glade/prefs-shortcuts.ui:290
 msgid "Find Next"
 msgstr ""
 
-#: ddterm/app/search.js:369 ddterm/pref/glade/prefs-shortcuts.ui:290
+#: ddterm/app/search.js:369 ddterm/pref/glade/prefs-shortcuts.ui:297
 msgid "Find Previous"
 msgstr ""
 
@@ -1034,86 +1034,90 @@ msgid "Switch to Next Tab"
 msgstr ""
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:241
-msgid "Move Tab to Other Split Pane"
+msgid "Move Keyboard Focus to Other Split Pane"
 msgstr ""
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:248
-msgid "Increase First Split Pane Size"
+msgid "Move Tab to Other Split Pane"
 msgstr ""
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:255
-msgid "Decrease First Split Pane Size"
+msgid "Increase First Split Pane Size"
 msgstr ""
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:262
-msgid "Set Custom Tab Title"
+msgid "Decrease First Split Pane Size"
 msgstr ""
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:269
+msgid "Set Custom Tab Title"
+msgstr ""
+
+#: ddterm/pref/glade/prefs-shortcuts.ui:276
 msgid "Reset Tab Title"
 msgstr ""
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:318
+#: ddterm/pref/glade/prefs-shortcuts.ui:325
 msgid "Switch to Tab 1"
 msgstr ""
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:325
+#: ddterm/pref/glade/prefs-shortcuts.ui:332
 msgid "Switch to Tab 2"
 msgstr ""
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:332
+#: ddterm/pref/glade/prefs-shortcuts.ui:339
 msgid "Switch to Tab 3"
 msgstr ""
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:339
+#: ddterm/pref/glade/prefs-shortcuts.ui:346
 msgid "Switch to Tab 4"
 msgstr ""
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:346
+#: ddterm/pref/glade/prefs-shortcuts.ui:353
 msgid "Switch to Tab 5"
 msgstr ""
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:353
+#: ddterm/pref/glade/prefs-shortcuts.ui:360
 msgid "Switch to Tab 6"
 msgstr ""
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:360
+#: ddterm/pref/glade/prefs-shortcuts.ui:367
 msgid "Switch to Tab 7"
 msgstr ""
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:367
+#: ddterm/pref/glade/prefs-shortcuts.ui:374
 msgid "Switch to Tab 8"
 msgstr ""
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:374
+#: ddterm/pref/glade/prefs-shortcuts.ui:381
 msgid "Switch to Tab 9"
 msgstr ""
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:381
+#: ddterm/pref/glade/prefs-shortcuts.ui:388
 msgid "Switch to Tab 10"
 msgstr ""
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:414
+#: ddterm/pref/glade/prefs-shortcuts.ui:421
 msgid "Global Action"
 msgstr ""
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:426
+#: ddterm/pref/glade/prefs-shortcuts.ui:433
 msgid "Global Shortcut"
 msgstr ""
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:456
+#: ddterm/pref/glade/prefs-shortcuts.ui:463
 msgid "_Enable application shortcuts"
 msgstr ""
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:486
+#: ddterm/pref/glade/prefs-shortcuts.ui:493
 msgid "Action"
 msgstr ""
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:498
+#: ddterm/pref/glade/prefs-shortcuts.ui:505
 msgid "Shortcut"
 msgstr ""
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:528
+#: ddterm/pref/glade/prefs-shortcuts.ui:535
 msgid "Reset All Shortcuts to Defaults"
 msgstr ""
 

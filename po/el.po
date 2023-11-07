@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-29 21:14+0000\n"
+"POT-Creation-Date: 2023-11-07 06:46+0000\n"
 "PO-Revision-Date: 2023-09-26 17:35+0300\n"
 "Last-Translator: Anagnostakis Ioannis <rizitis@gmail.com>\n"
 "Language-Team: Greek, Modern (1453-) <>\n"
@@ -65,11 +65,11 @@ msgstr ""
 msgid "Open a new tab"
 msgstr ""
 
-#: ddterm/app/application.js:344
+#: ddterm/app/application.js:345
 msgid "Saving session..."
 msgstr ""
 
-#: ddterm/app/application.js:503 ddterm/shell/extension.js:250
+#: ddterm/app/application.js:504 ddterm/shell/extension.js:250
 msgid ""
 "Warning: ddterm version has changed. Log out, then log in again to load the "
 "updated extension."
@@ -126,7 +126,7 @@ msgstr "Επικόλληση"
 msgid "Select All"
 msgstr "Επιλογή όλων"
 
-#: ddterm/app/menus.ui:60 ddterm/pref/glade/prefs-shortcuts.ui:276
+#: ddterm/app/menus.ui:60 ddterm/pref/glade/prefs-shortcuts.ui:283
 msgid "Find"
 msgstr "Εύρεση"
 
@@ -142,15 +142,15 @@ msgstr "Επαναφορά και εκκαθάριση"
 msgid "Zoom"
 msgstr "Εστίαση"
 
-#: ddterm/app/menus.ui:78 ddterm/pref/glade/prefs-shortcuts.ui:297
+#: ddterm/app/menus.ui:78 ddterm/pref/glade/prefs-shortcuts.ui:304
 msgid "Zoom In"
 msgstr "μεγέθυνση"
 
-#: ddterm/app/menus.ui:82 ddterm/pref/glade/prefs-shortcuts.ui:304
+#: ddterm/app/menus.ui:82 ddterm/pref/glade/prefs-shortcuts.ui:311
 msgid "Zoom Out"
 msgstr "Σμίκρυνση"
 
-#: ddterm/app/menus.ui:86 ddterm/pref/glade/prefs-shortcuts.ui:311
+#: ddterm/app/menus.ui:86 ddterm/pref/glade/prefs-shortcuts.ui:318
 msgid "Normal Size"
 msgstr "Κανονικό μέγεθος"
 
@@ -308,11 +308,11 @@ msgstr "Κλείσιμο Αναζήτησης"
 msgid "Wrap Around"
 msgstr ""
 
-#: ddterm/app/search.js:351 ddterm/pref/glade/prefs-shortcuts.ui:283
+#: ddterm/app/search.js:351 ddterm/pref/glade/prefs-shortcuts.ui:290
 msgid "Find Next"
 msgstr "Μετακίνηση στο επόμενο"
 
-#: ddterm/app/search.js:369 ddterm/pref/glade/prefs-shortcuts.ui:290
+#: ddterm/app/search.js:369 ddterm/pref/glade/prefs-shortcuts.ui:297
 msgid "Find Previous"
 msgstr "Μετακίνηση στο επόμενο"
 
@@ -1058,86 +1058,92 @@ msgstr "Επόμενη καρτέλα"
 #: ddterm/pref/glade/prefs-shortcuts.ui:241
 #, fuzzy
 #| msgid "Move Tab to Next Position"
-msgid "Move Tab to Other Split Pane"
+msgid "Move Keyboard Focus to Other Split Pane"
 msgstr "Επανατοποθέτηση καρτέλας μετά"
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:248
+#, fuzzy
+#| msgid "Move Tab to Next Position"
+msgid "Move Tab to Other Split Pane"
+msgstr "Επανατοποθέτηση καρτέλας μετά"
+
+#: ddterm/pref/glade/prefs-shortcuts.ui:255
 msgid "Increase First Split Pane Size"
 msgstr ""
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:255
+#: ddterm/pref/glade/prefs-shortcuts.ui:262
 msgid "Decrease First Split Pane Size"
 msgstr ""
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:262
+#: ddterm/pref/glade/prefs-shortcuts.ui:269
 msgid "Set Custom Tab Title"
 msgstr "Παραμετροποίση τίτλου καρτέλας"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:269
+#: ddterm/pref/glade/prefs-shortcuts.ui:276
 msgid "Reset Tab Title"
 msgstr "Επαναφορά Τίτλου Καρτέλας"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:318
+#: ddterm/pref/glade/prefs-shortcuts.ui:325
 msgid "Switch to Tab 1"
 msgstr "Μετάβαση καρτέλα 1"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:325
+#: ddterm/pref/glade/prefs-shortcuts.ui:332
 msgid "Switch to Tab 2"
 msgstr "Μετάβαση καρτέλα 2"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:332
+#: ddterm/pref/glade/prefs-shortcuts.ui:339
 msgid "Switch to Tab 3"
 msgstr "Μετάβαση καρτέλα 3"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:339
+#: ddterm/pref/glade/prefs-shortcuts.ui:346
 msgid "Switch to Tab 4"
 msgstr "Μετάβαση καρτέλα 4"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:346
+#: ddterm/pref/glade/prefs-shortcuts.ui:353
 msgid "Switch to Tab 5"
 msgstr "Μετάβαση καρτέλα 5"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:353
+#: ddterm/pref/glade/prefs-shortcuts.ui:360
 msgid "Switch to Tab 6"
 msgstr "Basculer vers l'onglet 6"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:360
+#: ddterm/pref/glade/prefs-shortcuts.ui:367
 msgid "Switch to Tab 7"
 msgstr "Μετάβαση καρτέλα 7"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:367
+#: ddterm/pref/glade/prefs-shortcuts.ui:374
 msgid "Switch to Tab 8"
 msgstr "Μετάβαση καρτέλα 8"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:374
+#: ddterm/pref/glade/prefs-shortcuts.ui:381
 msgid "Switch to Tab 9"
 msgstr "Μετάβαση καρτέλα 9"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:381
+#: ddterm/pref/glade/prefs-shortcuts.ui:388
 msgid "Switch to Tab 10"
 msgstr "Μετάβαση καρτέλα 10"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:414
+#: ddterm/pref/glade/prefs-shortcuts.ui:421
 msgid "Global Action"
 msgstr "Γενικές Δράσεις"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:426
+#: ddterm/pref/glade/prefs-shortcuts.ui:433
 msgid "Global Shortcut"
 msgstr "Γενικές Συντομεύσεις"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:456
+#: ddterm/pref/glade/prefs-shortcuts.ui:463
 msgid "_Enable application shortcuts"
 msgstr "_Ενεργοποίηση συντομεύσεων εφαρμογών"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:486
+#: ddterm/pref/glade/prefs-shortcuts.ui:493
 msgid "Action"
 msgstr "Δράση"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:498
+#: ddterm/pref/glade/prefs-shortcuts.ui:505
 msgid "Shortcut"
 msgstr "Συντομεύεσεις"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:528
+#: ddterm/pref/glade/prefs-shortcuts.ui:535
 #, fuzzy
 #| msgid "_Reset to default"
 msgid "Reset All Shortcuts to Defaults"

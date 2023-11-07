@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-29 21:14+0000\n"
+"POT-Creation-Date: 2023-11-07 06:46+0000\n"
 "PO-Revision-Date: 2023-10-23 03:31+0000\n"
 "Last-Translator: yuh <yuhldr@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -62,11 +62,11 @@ msgstr "不要通过环境"
 msgid "Open a new tab"
 msgstr "打开新标签"
 
-#: ddterm/app/application.js:344
+#: ddterm/app/application.js:345
 msgid "Saving session..."
 msgstr "会话保存中……"
 
-#: ddterm/app/application.js:503 ddterm/shell/extension.js:250
+#: ddterm/app/application.js:504 ddterm/shell/extension.js:250
 msgid ""
 "Warning: ddterm version has changed. Log out, then log in again to load the "
 "updated extension."
@@ -121,7 +121,7 @@ msgstr "粘贴"
 msgid "Select All"
 msgstr "选择所有"
 
-#: ddterm/app/menus.ui:60 ddterm/pref/glade/prefs-shortcuts.ui:276
+#: ddterm/app/menus.ui:60 ddterm/pref/glade/prefs-shortcuts.ui:283
 msgid "Find"
 msgstr "查找"
 
@@ -137,15 +137,15 @@ msgstr "重置并清除"
 msgid "Zoom"
 msgstr "缩放"
 
-#: ddterm/app/menus.ui:78 ddterm/pref/glade/prefs-shortcuts.ui:297
+#: ddterm/app/menus.ui:78 ddterm/pref/glade/prefs-shortcuts.ui:304
 msgid "Zoom In"
 msgstr "放大"
 
-#: ddterm/app/menus.ui:82 ddterm/pref/glade/prefs-shortcuts.ui:304
+#: ddterm/app/menus.ui:82 ddterm/pref/glade/prefs-shortcuts.ui:311
 msgid "Zoom Out"
 msgstr "缩小"
 
-#: ddterm/app/menus.ui:86 ddterm/pref/glade/prefs-shortcuts.ui:311
+#: ddterm/app/menus.ui:86 ddterm/pref/glade/prefs-shortcuts.ui:318
 msgid "Normal Size"
 msgstr "标准大小"
 
@@ -301,11 +301,11 @@ msgstr "关闭搜索栏"
 msgid "Wrap Around"
 msgstr "回到文档头部继续搜索"
 
-#: ddterm/app/search.js:351 ddterm/pref/glade/prefs-shortcuts.ui:283
+#: ddterm/app/search.js:351 ddterm/pref/glade/prefs-shortcuts.ui:290
 msgid "Find Next"
 msgstr "查找下一个"
 
-#: ddterm/app/search.js:369 ddterm/pref/glade/prefs-shortcuts.ui:290
+#: ddterm/app/search.js:369 ddterm/pref/glade/prefs-shortcuts.ui:297
 msgid "Find Previous"
 msgstr "找到前一个"
 
@@ -1039,86 +1039,92 @@ msgid "Switch to Next Tab"
 msgstr "切换到下一个标签页"
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:241
-msgid "Move Tab to Other Split Pane"
+#, fuzzy
+#| msgid "Move Tab to Other Split Pane"
+msgid "Move Keyboard Focus to Other Split Pane"
 msgstr "移动标签页到其他的拆分面板"
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:248
+msgid "Move Tab to Other Split Pane"
+msgstr "移动标签页到其他的拆分面板"
+
+#: ddterm/pref/glade/prefs-shortcuts.ui:255
 msgid "Increase First Split Pane Size"
 msgstr "增加第一个拆分面板的大小"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:255
+#: ddterm/pref/glade/prefs-shortcuts.ui:262
 msgid "Decrease First Split Pane Size"
 msgstr "减少第一个拆分面板的大小"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:262
+#: ddterm/pref/glade/prefs-shortcuts.ui:269
 msgid "Set Custom Tab Title"
 msgstr "设置自定义标签页标题"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:269
+#: ddterm/pref/glade/prefs-shortcuts.ui:276
 msgid "Reset Tab Title"
 msgstr "重置标签页标题"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:318
+#: ddterm/pref/glade/prefs-shortcuts.ui:325
 msgid "Switch to Tab 1"
 msgstr "切换到标签1"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:325
+#: ddterm/pref/glade/prefs-shortcuts.ui:332
 msgid "Switch to Tab 2"
 msgstr "切换到Tab 2"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:332
+#: ddterm/pref/glade/prefs-shortcuts.ui:339
 msgid "Switch to Tab 3"
 msgstr "切换到标签1"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:339
+#: ddterm/pref/glade/prefs-shortcuts.ui:346
 msgid "Switch to Tab 4"
 msgstr "切换到标签4"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:346
+#: ddterm/pref/glade/prefs-shortcuts.ui:353
 msgid "Switch to Tab 5"
 msgstr "切换到标签5"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:353
+#: ddterm/pref/glade/prefs-shortcuts.ui:360
 msgid "Switch to Tab 6"
 msgstr "切换到标签6"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:360
+#: ddterm/pref/glade/prefs-shortcuts.ui:367
 msgid "Switch to Tab 7"
 msgstr "切换到标签7"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:367
+#: ddterm/pref/glade/prefs-shortcuts.ui:374
 msgid "Switch to Tab 8"
 msgstr "切换到标签8"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:374
+#: ddterm/pref/glade/prefs-shortcuts.ui:381
 msgid "Switch to Tab 9"
 msgstr "切换到标签9"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:381
+#: ddterm/pref/glade/prefs-shortcuts.ui:388
 msgid "Switch to Tab 10"
 msgstr "切换到标签10"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:414
+#: ddterm/pref/glade/prefs-shortcuts.ui:421
 msgid "Global Action"
 msgstr "全局活动"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:426
+#: ddterm/pref/glade/prefs-shortcuts.ui:433
 msgid "Global Shortcut"
 msgstr "全局快捷键"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:456
+#: ddterm/pref/glade/prefs-shortcuts.ui:463
 msgid "_Enable application shortcuts"
 msgstr "_启用应用程序的快捷方式"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:486
+#: ddterm/pref/glade/prefs-shortcuts.ui:493
 msgid "Action"
 msgstr "活动"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:498
+#: ddterm/pref/glade/prefs-shortcuts.ui:505
 msgid "Shortcut"
 msgstr "快捷键"
 
-#: ddterm/pref/glade/prefs-shortcuts.ui:528
+#: ddterm/pref/glade/prefs-shortcuts.ui:535
 msgid "Reset All Shortcuts to Defaults"
 msgstr "重置快捷键"
 
