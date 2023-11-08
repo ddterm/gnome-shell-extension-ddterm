@@ -61,6 +61,7 @@ PACK_CONTENT += $(SCHEMAS)
 
 schemas: $(SCHEMAS_COMPILED)
 .PHONY: schemas
+all: schemas
 
 # Locales
 
@@ -254,7 +255,7 @@ bindir := $(exec_prefix)/bin
 extensiondir := $(datadir)/gnome-shell/extensions
 
 SYS_INSTALLED_EXTENSION_DIR := $(extensiondir)/$(EXTENSION_UUID)
-SYS_INSTALLED_CONTENT := $(addprefix $(SYS_INSTALLED_EXTENSION_DIR)/,$(PACK_CONTENT) schemas/gschemas.compiled)
+SYS_INSTALLED_CONTENT := $(addprefix $(SYS_INSTALLED_EXTENSION_DIR)/,$(PACK_CONTENT) $(SCHEMAS_COMPILED))
 SYS_INSTALLED_DESKTOP_ENTRY := $(datadir)/applications/com.github.amezin.ddterm.desktop
 SYS_INSTALLED_DBUS_SERVICE := $(datadir)/dbus-1/services/com.github.amezin.ddterm.service
 SYS_INSTALLED_EXECUTABLES := $(addprefix $(SYS_INSTALLED_EXTENSION_DIR)/,$(EXECUTABLES))
