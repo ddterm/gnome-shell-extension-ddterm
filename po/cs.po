@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-07 07:39+0000\n"
+"POT-Creation-Date: 2023-11-08 05:59+0000\n"
 "PO-Revision-Date: 2023-10-24 22:14+0000\n"
 "Last-Translator: Pavel Novák <pavelnov32@gmail.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/gnome-shell-"
@@ -62,11 +62,11 @@ msgstr "Nepředávat prostředí"
 msgid "Open a new tab"
 msgstr "Otevřít nový panel"
 
-#: ddterm/app/application.js:345
+#: ddterm/app/application.js:348
 msgid "Saving session..."
 msgstr "Ukládám sezení..."
 
-#: ddterm/app/application.js:504 ddterm/shell/extension.js:250
+#: ddterm/app/application.js:508 ddterm/shell/extension.js:250
 msgid ""
 "Warning: ddterm version has changed. Log out, then log in again to load the "
 "updated extension."

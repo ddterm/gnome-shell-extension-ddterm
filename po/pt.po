@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-07 07:39+0000\n"
+"POT-Creation-Date: 2023-11-08 05:59+0000\n"
 "PO-Revision-Date: 2023-10-02 00:02+0000\n"
 "Last-Translator: Luiz Carlos de Souza Santos <lcdessantos@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/gnome-shell-"
@@ -67,11 +67,11 @@ msgstr ""
 msgid "Open a new tab"
 msgstr ""
 
-#: ddterm/app/application.js:345
+#: ddterm/app/application.js:348
 msgid "Saving session..."
 msgstr ""
 
-#: ddterm/app/application.js:504 ddterm/shell/extension.js:250
+#: ddterm/app/application.js:508 ddterm/shell/extension.js:250
 msgid ""
 "Warning: ddterm version has changed. Log out, then log in again to load the "
 "updated extension."

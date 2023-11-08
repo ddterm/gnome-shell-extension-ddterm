@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-07 07:39+0000\n"
+"POT-Creation-Date: 2023-11-08 05:59+0000\n"
 "PO-Revision-Date: 2023-10-23 00:33+0000\n"
 "Last-Translator: Eryk Michalak <gnu.ewm@protonmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/gnome-shell-"
@@ -66,11 +66,11 @@ msgstr "Nie przekazuj zmiennych środowiskowych"
 msgid "Open a new tab"
 msgstr "Otwórz nową kartę"
 
-#: ddterm/app/application.js:345
+#: ddterm/app/application.js:348
 msgid "Saving session..."
 msgstr "Zapisywanie sesji..."
 
-#: ddterm/app/application.js:504 ddterm/shell/extension.js:250
+#: ddterm/app/application.js:508 ddterm/shell/extension.js:250
 msgid ""
 "Warning: ddterm version has changed. Log out, then log in again to load the "
 "updated extension."
