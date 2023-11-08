@@ -17,6 +17,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
 import Meta from 'gi://Meta';
 
@@ -104,7 +105,7 @@ const WindowMatch = GObject.registerClass({
 
     check_window(win) {
         if (win === this._window)
-            return true;
+            return GLib.SOURCE_REMOVE;
 
         if (!this.subprocess?.owns_window(win)) {
             /*
@@ -116,29 +117,29 @@ const WindowMatch = GObject.registerClass({
                 on X11.
             */
             if (this.subprocess || win.get_client_type() === Meta.WindowClientType.WAYLAND)
-                return true;
+                return GLib.SOURCE_REMOVE;
         }
 
         const wm_class = win.wm_class;
         if (!wm_class)
-            return false;
+            return GLib.SOURCE_CONTINUE;
 
         if (wm_class !== this.wm_class && wm_class !== this.gtk_application_id)
-            return true;
+            return GLib.SOURCE_REMOVE;
 
         const gtk_application_id = win.gtk_application_id;
         if (!gtk_application_id)
-            return false;
+            return GLib.SOURCE_CONTINUE;
 
         if (gtk_application_id !== this.gtk_application_id)
-            return true;
+            return GLib.SOURCE_REMOVE;
 
         const gtk_window_object_path = win.gtk_window_object_path;
         if (!gtk_window_object_path)
-            return false;
+            return GLib.SOURCE_CONTINUE;
 
         if (!gtk_window_object_path.startsWith(this.gtk_window_object_path_prefix))
-            return true;
+            return GLib.SOURCE_REMOVE;
 
         this.freeze_notify();
 
@@ -155,11 +156,11 @@ const WindowMatch = GObject.registerClass({
             this.thaw_notify();
         }
 
-        return true;
+        return GLib.SOURCE_REMOVE;
     }
 
     watch_window(win) {
-        if (this.check_window(win))
+        if (this.check_window(win) === GLib.SOURCE_REMOVE)
             return;
 
         const disconnect = () => {
@@ -168,7 +169,7 @@ const WindowMatch = GObject.registerClass({
         };
 
         const check = () => {
-            if (this.check_window(win))
+            if (this.check_window(win) === GLib.SOURCE_REMOVE)
                 disconnect();
         };
 
