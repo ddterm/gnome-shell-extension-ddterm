@@ -87,6 +87,15 @@ const WindowManager = GObject.registerClass({
         this.animation_scale_x = 1.0;
         this.animation_scale_y = 0.0;
 
+        try {
+            this._enable();
+        } catch (ex) {
+            this.disable();
+            throw ex;
+        }
+    }
+
+    _enable() {
         this._settings_handlers = Object.entries({
             'changed::window-above': this._set_window_above.bind(this),
             'changed::window-stick': this._set_window_stick.bind(this),
@@ -590,13 +599,13 @@ const WindowManager = GObject.registerClass({
     }
 
     disable() {
-        while (this._settings_handlers.length > 0)
+        while (this._settings_handlers?.length)
             this.settings.disconnect(this._settings_handlers.pop());
 
-        while (this._geometry_handlers.length > 0)
+        while (this._geometry_handlers?.length)
             this.geometry.disconnect(this._geometry_handlers.pop());
 
-        while (this._window_handlers.length > 0)
+        while (this._window_handlers?.length)
             this.window.disconnect(this._window_handlers.pop());
 
         if (this._map_handler) {
@@ -604,7 +613,7 @@ const WindowManager = GObject.registerClass({
             this._map_handler = null;
         }
 
-        while (this._display_handlers.length > 0)
+        while (this._display_handlers?.length)
             global.display.disconnect(this._display_handlers.pop());
 
         if (this._maximized_handler) {
