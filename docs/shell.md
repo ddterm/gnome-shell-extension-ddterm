@@ -52,8 +52,6 @@ D-Bus `.service` files for the application
 
 There are also utility modules:
 
-* [`connectionset.js`](/ddterm/shell/connectionset.js): semi-automatic signal disconnection
-
 * [`sd_journal.js`](/ddterm/shell/sd_journal.js): connection to systemd-journald
 
 * [`notifications.js`](/ddterm/shell/notifications.js): convenient notifications

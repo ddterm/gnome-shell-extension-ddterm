@@ -26,7 +26,6 @@ import Mtk from 'gi://Mtk';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import * as WM from 'resource:///org/gnome/shell/ui/windowManager.js';
 
-import { ConnectionSet } from './connectionset.js';
 import { WindowGeometry } from './geometry.js';
 
 const MOUSE_RESIZE_GRABS = [
@@ -88,11 +87,6 @@ const WindowManager = GObject.registerClass({
         this.animation_scale_x = 1.0;
         this.animation_scale_y = 0.0;
 
-        this.maximized_connections = new ConnectionSet();
-        this.animation_overrides_connections = new ConnectionSet();
-        this.hide_when_focus_lost_connections = new ConnectionSet();
-        this.geometry_fixup_connections = new ConnectionSet();
-
         this._settings_handlers = Object.entries({
             'changed::window-above': this._set_window_above.bind(this),
             'changed::window-stick': this._set_window_stick.bind(this),
@@ -145,7 +139,7 @@ const WindowManager = GObject.registerClass({
         if (!mapped) {
             if (this.window.get_client_type() === Meta.WindowClientType.WAYLAND) {
                 this.debug?.('Scheduling geometry fixup on map');
-                this._schedule_geometry_fixup(this.window);
+                this._schedule_geometry_fixup();
                 this.window.move_to_monitor(this.geometry.monitor_index);
 
                 this._map_handler = global.window_manager.connect('map', (wm, actor) => {
@@ -185,23 +179,21 @@ const WindowManager = GObject.registerClass({
             this.window.maximize(Meta.MaximizeFlags.BOTH);
     }
 
+    _disable_animation_overrides() {
+        while (this._animation_handlers?.length)
+            global.window_manager.disconnect(this._animation_handlers.pop());
+    }
+
     _setup_animation_overrides() {
-        this.animation_overrides_connections.disconnect();
+        this._disable_animation_overrides();
 
         if (!this.settings.get_boolean('override-window-animation'))
             return;
 
-        this.animation_overrides_connections.connect(
-            global.window_manager,
-            'destroy',
-            this._override_unmap_animation.bind(this)
-        );
-
-        this.animation_overrides_connections.connect(
-            global.window_manager,
-            'map',
-            this._override_map_animation.bind(this)
-        );
+        this._animation_handlers = [
+            global.window_manager.connect('destroy', this._override_unmap_animation.bind(this)),
+            global.window_manager.connect('map', this._override_map_animation.bind(this)),
+        ];
     }
 
     _animation_mode_from_settings(key) {
@@ -329,15 +321,18 @@ const WindowManager = GObject.registerClass({
     }
 
     _setup_hide_when_focus_lost() {
-        this.hide_when_focus_lost_connections.disconnect();
-
-        if (this.window && this.settings.get_boolean('hide-when-focus-lost')) {
-            this.hide_when_focus_lost_connections.connect(
-                global.display,
-                'notify::focus-window',
-                this._hide_when_focus_lost.bind(this)
-            );
+        if (this._focus_window_handler) {
+            global.display.disconnect(this._focus_window_handler);
+            this._focus_window_handler = null;
         }
+
+        if (!this.settings.get_boolean('hide-when-focus-lost'))
+            return;
+
+        this._focus_window_handler = global.display.connect(
+            'notify::focus-window',
+            this._hide_when_focus_lost.bind(this)
+        );
     }
 
     _set_window_above() {
@@ -360,17 +355,18 @@ const WindowManager = GObject.registerClass({
     }
 
     _setup_maximized_handlers() {
-        this.maximized_connections.disconnect();
+        if (this._maximized_handler) {
+            this.window.disconnect(this._maximized_handler);
+            this._maximized_handler = null;
+        }
 
         if (this.geometry.resize_x) {
-            this.maximized_connections.connect(
-                this.window,
+            this._maximized_handler = this.window.connect(
                 'notify::maximized-horizontally',
                 this._handle_maximized_horizontally.bind(this)
             );
         } else {
-            this.maximized_connections.connect(
-                this.window,
+            this._maximized_handler = this.window.connect(
                 'notify::maximized-vertically',
                 this._handle_maximized_vertically.bind(this)
             );
@@ -390,25 +386,23 @@ const WindowManager = GObject.registerClass({
         this.animation_scale_y = this.geometry.resize_x ? 1.0 : 0.0;
     }
 
-    _schedule_geometry_fixup(win) {
-        if (win.get_client_type() !== Meta.WindowClientType.WAYLAND)
+    _cancel_geometry_fixup() {
+        while (this._geometry_fixup_handlers?.length)
+            this.window.disconnect(this._geometry_fixup_handlers.pop());
+    }
+
+    _schedule_geometry_fixup() {
+        if (this.window.get_client_type() !== Meta.WindowClientType.WAYLAND)
             return;
 
         this.debug?.('Scheduling geometry fixup');
 
-        this.geometry_fixup_connections.disconnect();
+        this._cancel_geometry_fixup();
 
-        this.geometry_fixup_connections.connect(
-            win,
-            'position-changed',
-            () => this._update_window_geometry()
-        );
-
-        this.geometry_fixup_connections.connect(
-            win,
-            'size-changed',
-            () => this._update_window_geometry()
-        );
+        this._geometry_fixup_handlers = [
+            this.window.connect('position-changed', () => this._update_window_geometry()),
+            this.window.connect('size-changed', () => this._update_window_geometry()),
+        ];
     }
 
     _unmaximize_done() {
@@ -499,7 +493,7 @@ const WindowManager = GObject.registerClass({
             );
 
             this.debug?.('Sheduling geometry fixup from window-maximize setting change');
-            this._schedule_geometry_fixup(this.window);
+            this._schedule_geometry_fixup();
         }
     }
 
@@ -512,13 +506,13 @@ const WindowManager = GObject.registerClass({
     }
 
     _update_window_geometry(force_monitor = false) {
-        this.geometry_fixup_connections.disconnect();
+        this._cancel_geometry_fixup();
 
         this.debug?.('Updating window geometry');
 
         if (force_monitor || this.window.get_monitor() !== this.geometry.monitor_index) {
             this.debug?.('Scheduling geometry fixup for move to another monitor');
-            this._schedule_geometry_fixup(this.window);
+            this._schedule_geometry_fixup();
             this.window.move_to_monitor(this.geometry.monitor_index);
         }
 
@@ -580,7 +574,7 @@ const WindowManager = GObject.registerClass({
     }
 
     unmaximize_for_resize(flags) {
-        this.geometry_fixup_connections.disconnect();
+        this._cancel_geometry_fixup();
 
         if (!(this.window.get_maximized() & flags))
             return;
@@ -613,9 +607,18 @@ const WindowManager = GObject.registerClass({
         while (this._display_handlers.length > 0)
             global.display.disconnect(this._display_handlers.pop());
 
-        this.maximized_connections.disconnect();
-        this.geometry_fixup_connections.disconnect();
-        this.hide_when_focus_lost_connections.disconnect();
-        this.animation_overrides_connections.disconnect();
+        if (this._maximized_handler) {
+            this.window.disconnect(this._maximized_handler);
+            this._maximized_handler = null;
+        }
+
+        this._cancel_geometry_fixup();
+
+        if (this._focus_window_handler) {
+            global.display.disconnect(this._focus_window_handler);
+            this._focus_window_handler = null;
+        }
+
+        this._disable_animation_overrides();
     }
 });
