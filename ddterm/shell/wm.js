@@ -88,102 +88,38 @@ const WindowManager = GObject.registerClass({
         this.animation_scale_x = 1.0;
         this.animation_scale_y = 0.0;
 
-        this.connections = new ConnectionSet();
         this.maximized_connections = new ConnectionSet();
         this.animation_overrides_connections = new ConnectionSet();
         this.hide_when_focus_lost_connections = new ConnectionSet();
         this.geometry_fixup_connections = new ConnectionSet();
 
-        this.connections.connect(
-            this.settings,
-            'changed::window-above',
-            this._set_window_above.bind(this)
+        this._settings_handlers = Object.entries({
+            'changed::window-above': this._set_window_above.bind(this),
+            'changed::window-stick': this._set_window_stick.bind(this),
+            'changed::window-size': this._disable_window_maximize_setting.bind(this),
+            'changed::window-maximize': this._set_window_maximized.bind(this),
+            'changed::override-window-animation': this._setup_animation_overrides.bind(this),
+            'changed::show-animation': this._update_show_animation.bind(this),
+            'changed::hide-animation': this._update_hide_animation.bind(this),
+            'changed::show-animation-duration': this._update_show_animation_duration.bind(this),
+            'changed::hide-animation-duration': this._update_hide_animation_duration.bind(this),
+            'changed::hide-when-focus-lost': this._setup_hide_when_focus_lost.bind(this),
+        }).map(
+            ([signal, callback]) => this.settings.connect(signal, callback)
         );
 
-        this.connections.connect(
-            this.settings,
-            'changed::window-stick',
-            this._set_window_stick.bind(this)
-        );
-
-        this.connections.connect(
-            this.settings,
-            'changed::window-size',
-            this._disable_window_maximize_setting.bind(this)
-        );
-
-        this.connections.connect(
-            this.settings,
-            'changed::window-maximize',
-            this._set_window_maximized.bind(this)
-        );
-
-        this.connections.connect(
-            this.geometry,
-            'notify::monitor-index',
-            () => {
+        this._geometry_handlers = Object.entries({
+            'notify::monitor-index': () => {
                 this.window.move_to_monitor(this.geometry.monitor_index);
-            }
-        );
-
-        this.connections.connect(
-            this.geometry,
-            'notify::resize-x',
-            this._update_animation_direction.bind(this)
-        );
-
-        this.connections.connect(
-            this.geometry,
-            'notify::resize-x',
-            this._setup_maximized_handlers.bind(this)
-        );
-
-        this.connections.connect(
-            this.geometry,
-            'notify::right-or-bottom',
-            this._update_animation_direction.bind(this)
-        );
-
-        this.connections.connect(
-            this.geometry,
-            'notify::target-rect',
-            () => this._update_window_geometry()
-        );
-
-        this.connections.connect(
-            this.settings,
-            'changed::override-window-animation',
-            this._setup_animation_overrides.bind(this)
-        );
-
-        this.connections.connect(
-            this.settings,
-            'changed::show-animation',
-            this._update_show_animation.bind(this)
-        );
-
-        this.connections.connect(
-            this.settings,
-            'changed::hide-animation',
-            this._update_hide_animation.bind(this)
-        );
-
-        this.connections.connect(
-            this.settings,
-            'changed::show-animation-duration',
-            this._update_show_animation_duration.bind(this)
-        );
-
-        this.connections.connect(
-            this.settings,
-            'changed::hide-animation-duration',
-            this._update_hide_animation_duration.bind(this)
-        );
-
-        this.connections.connect(
-            this.settings,
-            'changed::hide-when-focus-lost',
-            this._setup_hide_when_focus_lost.bind(this)
+            },
+            'notify::resize-x': () => {
+                this._update_animation_direction();
+                this._setup_maximized_handlers();
+            },
+            'notify::right-or-bottom': () => this._update_animation_direction(),
+            'notify::target-rect': () => this._update_window_geometry(),
+        }).map(
+            ([signal, callback]) => this.geometry.connect(signal, callback)
         );
 
         this._update_animation_direction();
@@ -192,19 +128,16 @@ const WindowManager = GObject.registerClass({
         this._update_show_animation_duration();
         this._update_hide_animation_duration();
 
-        this.connections.connect(
-            this.window,
-            'unmanaged',
-            this.disable.bind(this)
-        );
+        this._window_handlers = [
+            this.window.connect('unmanaged', this.disable.bind(this)),
+            this.window.connect('unmanaging', () => {
+                if (!this.settings.get_boolean('override-window-animation') || this.hide_animation)
+                    return;
 
-        this.connections.connect(this.window, 'unmanaging', () => {
-            if (this.settings.get_boolean('override-window-animation') &&
-                !this.hide_animation) {
                 Main.wm.skipNextEffect(this.window.get_compositor_private());
                 this.disable();
-            }
-        });
+            }),
+        ];
 
         this._setup_maximized_handlers();
 
@@ -215,20 +148,15 @@ const WindowManager = GObject.registerClass({
                 this._schedule_geometry_fixup(this.window);
                 this.window.move_to_monitor(this.geometry.monitor_index);
 
-                const map_handler_id = this.connections.connect(
-                    global.window_manager,
-                    'map', (wm, actor) => {
-                        if (actor.meta_window !== this.window)
-                            return;
+                this._map_handler = global.window_manager.connect('map', (wm, actor) => {
+                    if (actor.meta_window !== this.window)
+                        return;
 
-                        this.connections.disconnect(
-                            global.window_manager,
-                            map_handler_id
-                        );
+                    global.window_manager.disconnect(this._map_handler);
+                    this._map_handler = null;
 
-                        this._update_window_geometry(true);
-                    }
-                );
+                    this._update_window_geometry(true);
+                });
             } else {
                 this._update_window_geometry(true);
             }
@@ -239,17 +167,10 @@ const WindowManager = GObject.registerClass({
             this._update_window_geometry(true);
         }
 
-        this.connections.connect(
-            global.display,
-            'grab-op-begin',
-            this._grab_op_begin.bind(this)
-        );
-
-        this.connections.connect(
-            global.display,
-            'grab-op-end',
-            this.update_size_setting_on_grab_end.bind(this)
-        );
+        this._display_handlers = [
+            global.display.connect('grab-op-begin', this._grab_op_begin.bind(this)),
+            global.display.connect('grab-op-end', this.update_size_setting_on_grab_end.bind(this)),
+        ];
 
         this._setup_hide_when_focus_lost();
         this._setup_animation_overrides();
@@ -675,7 +596,23 @@ const WindowManager = GObject.registerClass({
     }
 
     disable() {
-        this.connections.disconnect();
+        while (this._settings_handlers.length > 0)
+            this.settings.disconnect(this._settings_handlers.pop());
+
+        while (this._geometry_handlers.length > 0)
+            this.geometry.disconnect(this._geometry_handlers.pop());
+
+        while (this._window_handlers.length > 0)
+            this.window.disconnect(this._window_handlers.pop());
+
+        if (this._map_handler) {
+            global.window_manager.disconnect(this._map_handler);
+            this._map_handler = null;
+        }
+
+        while (this._display_handlers.length > 0)
+            global.display.disconnect(this._display_handlers.pop());
+
         this.maximized_connections.disconnect();
         this.geometry_fixup_connections.disconnect();
         this.hide_when_focus_lost_connections.disconnect();
