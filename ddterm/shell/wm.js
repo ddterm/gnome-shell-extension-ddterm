@@ -144,7 +144,7 @@ const WindowManager = GObject.registerClass({
 
         this._setup_maximized_handlers();
 
-        const mapped = this._current_window_mapped();
+        const mapped = this._window_mapped();
         if (!mapped) {
             if (this.window.get_client_type() === Meta.WindowClientType.WAYLAND) {
                 this.debug?.('Scheduling geometry fixup on map');
@@ -382,7 +382,7 @@ const WindowManager = GObject.registerClass({
         }
     }
 
-    _current_window_mapped() {
+    _window_mapped() {
         return this.window.get_compositor_private()?.visible ?? false;
     }
 
@@ -427,7 +427,7 @@ const WindowManager = GObject.registerClass({
             this._set_window_above();
         }
 
-        if (!this._current_window_mapped()) {
+        if (!this._window_mapped()) {
             if (this.settings.get_boolean('override-window-animation') && !this.show_animation)
                 Main.wm.skipNextEffect(this.window.get_compositor_private());
         }
