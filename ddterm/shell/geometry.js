@@ -118,12 +118,6 @@ export const WindowGeometry = GObject.registerClass({
     _init(params) {
         super._init(params);
 
-        this._workarea = null;
-        this._target_rect = null;
-        this._monitor_index = 0;
-        this._pivot_point = null;
-        this._orientation = Clutter.Orientation.VERTICAL;
-        this._maximize_flag = Meta.MaximizeFlags.VERTICAL;
         this._workareas_changed_handler =
             global.display.connect('workareas-changed', this._update_workarea.bind(this));
 
@@ -132,8 +126,8 @@ export const WindowGeometry = GObject.registerClass({
         this.connect('notify::window-monitor', this.update_monitor.bind(this));
         this.connect('notify::window-monitor-connector', this.update_monitor.bind(this));
 
-        this.update_monitor();
         this._update_window_position();
+        this.update_monitor();
     }
 
     disable() {
