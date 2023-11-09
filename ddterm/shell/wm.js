@@ -345,7 +345,7 @@ const WindowManager = GObject.registerClass({
             const opacity_anim = actor.get_transition('opacity');
 
             if (opacity_anim) {
-                scale_y_anim.progress_mode = this.show_animation;
+                opacity_anim.progress_mode = this.show_animation;
                 opacity_anim.duration = this.show_animation_duration;
             }
         };
@@ -386,7 +386,7 @@ const WindowManager = GObject.registerClass({
         const opacity_anim = actor.get_transition('opacity');
 
         if (opacity_anim) {
-            scale_y_anim.progress_mode = this.hide_animation;
+            opacity_anim.progress_mode = this.hide_animation;
             opacity_anim.duration = this.hide_animation_duration;
         }
 
