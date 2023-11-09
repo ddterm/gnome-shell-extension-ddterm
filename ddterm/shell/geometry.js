@@ -80,12 +80,13 @@ export const WindowGeometry = GObject.registerClass({
             1,
             0.6
         ),
-        'window-position': GObject.ParamSpec.string(
+        'window-position': GObject.ParamSpec.enum(
             'window-position',
             '',
             '',
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
-            'top'
+            Meta.Side,
+            Meta.Side.TOP
         ),
         'window-monitor': GObject.ParamSpec.string(
             'window-monitor',
@@ -270,8 +271,13 @@ export const WindowGeometry = GObject.registerClass({
     }
 
     _update_window_position() {
-        this._set_resize_x(['left', 'right'].includes(this.window_position));
-        this._set_right_or_bottom(['right', 'bottom'].includes(this.window_position));
+        this._set_resize_x(
+            [Meta.Side.LEFT, Meta.Side.RIGHT].includes(this.window_position)
+        );
+
+        this._set_right_or_bottom(
+            [Meta.Side.RIGHT, Meta.Side.BOTTOM].includes(this.window_position)
+        );
 
         this._update_target_rect();
     }
