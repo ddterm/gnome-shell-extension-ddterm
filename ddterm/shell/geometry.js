@@ -20,6 +20,7 @@
 import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
+import Clutter from 'gi://Clutter';
 import Graphene from 'gi://Graphene';
 import Meta from 'gi://Meta';
 import Mtk from 'gi://Mtk';
@@ -65,19 +66,21 @@ export const WindowGeometry = GObject.registerClass({
             GObject.ParamFlags.READABLE,
             Graphene.Point
         ),
-        'resize-x': GObject.ParamSpec.boolean(
-            'resize-x',
+        'orientation': GObject.ParamSpec.enum(
+            'orientation',
             '',
             '',
             GObject.ParamFlags.READABLE,
-            false
+            Clutter.Orientation,
+            Clutter.Orientation.VERTICAL
         ),
-        'right-or-bottom': GObject.ParamSpec.boolean(
-            'right-or-bottom',
+        'maximize-flag': GObject.ParamSpec.flags(
+            'maximize-flag',
             '',
             '',
             GObject.ParamFlags.READABLE,
-            false
+            Meta.MaximizeFlags,
+            Meta.MaximizeFlags.VERTICAL
         ),
         'window-size': GObject.ParamSpec.double(
             'window-size',
@@ -119,8 +122,8 @@ export const WindowGeometry = GObject.registerClass({
         this._target_rect = null;
         this._monitor_index = 0;
         this._pivot_point = null;
-        this._resize_x = false;
-        this._right_or_bottom = false;
+        this._orientation = Clutter.Orientation.VERTICAL;
+        this._maximize_flag = Meta.MaximizeFlags.VERTICAL;
         this._workareas_changed_handler =
             global.display.connect('workareas-changed', this._update_workarea.bind(this));
 
@@ -140,20 +143,20 @@ export const WindowGeometry = GObject.registerClass({
         }
     }
 
-    static get_target_rect(workarea, monitor_scale, size, resize_x, right_or_bottom) {
+    static get_target_rect(workarea, monitor_scale, size, window_pos) {
         const target_rect = workarea.copy();
 
-        if (resize_x) {
+        if (window_pos === Meta.Side.LEFT || window_pos === Meta.Side.RIGHT) {
             target_rect.width *= size;
             target_rect.width -= target_rect.width % monitor_scale;
 
-            if (right_or_bottom)
+            if (window_pos === Meta.Side.RIGHT)
                 target_rect.x += workarea.width - target_rect.width;
         } else {
             target_rect.height *= size;
             target_rect.height -= target_rect.height % monitor_scale;
 
-            if (right_or_bottom)
+            if (window_pos === Meta.Side.BOTTOM)
                 target_rect.y += workarea.height - target_rect.height;
         }
 
@@ -187,12 +190,12 @@ export const WindowGeometry = GObject.registerClass({
         return this._pivot_point;
     }
 
-    get resize_x() {
-        return this._resize_x;
+    get orientation() {
+        return this._orientation;
     }
 
-    get right_or_bottom() {
-        return this._right_or_bottom;
+    get maximize_flag() {
+        return this._maximize_flag;
     }
 
     _set_workarea(new_workarea) {
@@ -219,22 +222,6 @@ export const WindowGeometry = GObject.registerClass({
         this.notify('monitor-index');
     }
 
-    _set_resize_x(new_resize_x) {
-        if (this._resize_x === new_resize_x)
-            return;
-
-        this._resize_x = new_resize_x;
-        this.notify('resize-x');
-    }
-
-    _set_right_or_bottom(new_right_or_bottom) {
-        if (this._right_or_bottom === new_right_or_bottom)
-            return;
-
-        this._right_or_bottom = new_right_or_bottom;
-        this.notify('right-or-bottom');
-    }
-
     _set_pivot_point(x, y) {
         if (this._pivot_point?.x === x && this._pivot_point?.y === y)
             return;
@@ -243,19 +230,41 @@ export const WindowGeometry = GObject.registerClass({
         this.notify('pivot-point');
     }
 
+    _set_orientation(new_orientation) {
+        if (this._orientation === new_orientation)
+            return;
+
+        this._orientation = new_orientation;
+        this.notify('orientation');
+    }
+
+    _set_maximize_flag(new_maximize_flag) {
+        if (this._maximize_flag === new_maximize_flag)
+            return;
+
+        this._maximize_flag = new_maximize_flag;
+        this.notify('maximize-flag');
+    }
+
     _update_workarea() {
-        const n_monitors = global.display.get_n_monitors();
+        this.freeze_notify();
 
-        if (n_monitors === 0)
-            return;
+        try {
+            const n_monitors = global.display.get_n_monitors();
 
-        if (this._monitor_index >= n_monitors) {
-            this.update_monitor();
-            return;
+            if (n_monitors === 0)
+                return;
+
+            if (this._monitor_index >= n_monitors) {
+                this.update_monitor();
+                return;
+            }
+
+            this._set_workarea(Main.layoutManager.getWorkAreaForMonitor(this._monitor_index));
+            this._update_target_rect();
+        } finally {
+            this.thaw_notify();
         }
-
-        this._set_workarea(Main.layoutManager.getWorkAreaForMonitor(this._monitor_index));
-        this._update_target_rect();
     }
 
     _get_monitor_index() {
@@ -286,27 +295,42 @@ export const WindowGeometry = GObject.registerClass({
     }
 
     update_monitor() {
-        this._set_monitor_index(this._get_monitor_index());
+        this.freeze_notify();
 
-        this._update_workarea();
+        try {
+            this._set_monitor_index(this._get_monitor_index());
+            this._update_workarea();
+        } finally {
+            this.thaw_notify();
+        }
     }
 
     _update_window_position() {
-        this._set_resize_x(
-            [Meta.Side.LEFT, Meta.Side.RIGHT].includes(this.window_position)
-        );
+        this.freeze_notify();
 
-        this._set_right_or_bottom(
-            [Meta.Side.RIGHT, Meta.Side.BOTTOM].includes(this.window_position)
-        );
+        try {
+            switch (this.window_position) {
+            case Meta.Side.LEFT:
+            case Meta.Side.RIGHT:
+                this._set_orientation(Clutter.Orientation.HORIZONTAL);
+                this._set_maximize_flag(Meta.MaximizeFlags.HORIZONTAL);
+                break;
 
-        const resizing_direction_pivot = this._right_or_bottom ? 1.0 : 0.0;
-        const animation_pivot_x = this._resize_x ? resizing_direction_pivot : 0.5;
-        const animation_pivot_y = !this._resize_x ? resizing_direction_pivot : 0.5;
+            case Meta.Side.TOP:
+            case Meta.Side.BOTTOM:
+                this._set_orientation(Clutter.Orientation.VERTICAL);
+                this._set_maximize_flag(Meta.MaximizeFlags.VERTICAL);
+            }
 
-        this._set_pivot_point(animation_pivot_x, animation_pivot_y);
+            if (this._orientation === Clutter.Orientation.HORIZONTAL)
+                this._set_pivot_point(this.window_position === Meta.Side.RIGHT ? 1.0 : 0.0, 0.5);
+            else
+                this._set_pivot_point(0.5, this.window_position === Meta.Side.BOTTOM ? 1.0 : 0.0);
 
-        this._update_target_rect();
+            this._update_target_rect();
+        } finally {
+            this.thaw_notify();
+        }
     }
 
     _update_target_rect() {
@@ -317,8 +341,7 @@ export const WindowGeometry = GObject.registerClass({
             this._workarea,
             Math.floor(global.display.get_monitor_scale(this._monitor_index)),
             this.window_size,
-            this._resize_x,
-            this._right_or_bottom
+            this.window_position
         );
 
         this._set_target_rect(target_rect);

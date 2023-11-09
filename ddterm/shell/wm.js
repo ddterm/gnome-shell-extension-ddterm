@@ -82,9 +82,6 @@ const WindowManager = GObject.registerClass({
         this.hide_animation = Clutter.AnimationMode.LINEAR;
         this.hide_animation_duration = WM.DESTROY_WINDOW_ANIMATION_TIME;
 
-        this.animation_scale_x = 1.0;
-        this.animation_scale_y = 0.0;
-
         try {
             this._enable();
         } catch (ex) {
@@ -113,8 +110,7 @@ const WindowManager = GObject.registerClass({
             'notify::monitor-index': () => {
                 this.window.move_to_monitor(this.geometry.monitor_index);
             },
-            'notify::resize-x': () => {
-                this._update_animation_direction();
+            'notify::maximize-flag': () => {
                 this._setup_maximized_handlers();
             },
             'notify::target-rect': () => this._update_window_geometry(),
@@ -122,7 +118,6 @@ const WindowManager = GObject.registerClass({
             ([signal, callback]) => this.geometry.connect(signal, callback)
         );
 
-        this._update_animation_direction();
         this._update_show_animation();
         this._update_hide_animation();
         this._update_show_animation_duration();
@@ -246,7 +241,10 @@ const WindowManager = GObject.registerClass({
             const scale_x_anim = actor.get_transition('scale-x');
 
             if (scale_x_anim) {
-                scale_x_anim.set_from(this.animation_scale_x);
+                scale_x_anim.set_from(
+                    this.geometry.orientation === Clutter.Orientation.HORIZONTAL ? 0.0 : 1.0
+                );
+
                 scale_x_anim.set_to(1.0);
                 scale_x_anim.progress_mode = this.show_animation;
                 scale_x_anim.duration = this.show_animation_duration;
@@ -255,7 +253,10 @@ const WindowManager = GObject.registerClass({
             const scale_y_anim = actor.get_transition('scale-y');
 
             if (scale_y_anim) {
-                scale_y_anim.set_from(this.animation_scale_y);
+                scale_y_anim.set_from(
+                    this.geometry.orientation === Clutter.Orientation.VERTICAL ? 0.0 : 1.0
+                );
+
                 scale_y_anim.set_to(1.0);
                 scale_y_anim.progress_mode = this.show_animation;
                 scale_y_anim.duration = this.show_animation_duration;
@@ -289,7 +290,10 @@ const WindowManager = GObject.registerClass({
         const scale_x_anim = actor.get_transition('scale-x');
 
         if (scale_x_anim) {
-            scale_x_anim.set_to(this.animation_scale_x);
+            scale_x_anim.set_to(
+                this.geometry.orientation === Clutter.Orientation.HORIZONTAL ? 0.0 : 1.0
+            );
+
             scale_x_anim.progress_mode = this.hide_animation;
             scale_x_anim.duration = this.hide_animation_duration;
         }
@@ -297,7 +301,10 @@ const WindowManager = GObject.registerClass({
         const scale_y_anim = actor.get_transition('scale-y');
 
         if (scale_y_anim) {
-            scale_y_anim.set_to(this.animation_scale_y);
+            scale_y_anim.set_to(
+                this.geometry.orientation === Clutter.Orientation.VERTICAL ? 0.0 : 1.0
+            );
+
             scale_y_anim.progress_mode = this.hide_animation;
             scale_y_anim.duration = this.hide_animation_duration;
         }
@@ -366,7 +373,7 @@ const WindowManager = GObject.registerClass({
             this._maximized_handler = null;
         }
 
-        if (this.geometry.resize_x) {
+        if (this.geometry.maximize_flag === Meta.MaximizeFlags.HORIZONTAL) {
             this._maximized_handler = this.window.connect(
                 'notify::maximized-horizontally',
                 this._handle_maximized_horizontally.bind(this)
@@ -381,11 +388,6 @@ const WindowManager = GObject.registerClass({
 
     _window_mapped() {
         return this.window.get_compositor_private()?.visible ?? false;
-    }
-
-    _update_animation_direction() {
-        this.animation_scale_x = this.geometry.resize_x ? 0.0 : 1.0;
-        this.animation_scale_y = this.geometry.resize_x ? 1.0 : 0.0;
     }
 
     _cancel_geometry_fixup() {
@@ -476,12 +478,14 @@ const WindowManager = GObject.registerClass({
         this.emit('move-resize-requested', target_rect);
     }
 
-    _set_window_maximized() {
-        const is_maximized = this.geometry.resize_x
-            ? this.window.maximized_horizontally
-            : this.window.maximized_vertically;
+    _is_maximized() {
+        return Boolean(this.window.get_maximized() & this.geometry.maximize_flag);
+    }
 
+    _set_window_maximized() {
+        const is_maximized = Boolean(this._is_maximized());
         const should_maximize = this.settings.get_boolean('window-maximize');
+
         if (is_maximized === should_maximize)
             return;
 
@@ -490,9 +494,7 @@ const WindowManager = GObject.registerClass({
             this.window.maximize(Meta.MaximizeFlags.BOTH);
         } else {
             this.debug?.('Unmaximizing window according to settings');
-            this.window.unmaximize(
-                this.geometry.resize_x ? Meta.MaximizeFlags.HORIZONTAL : Meta.MaximizeFlags.VERTICAL
-            );
+            this.window.unmaximize(this.geometry.maximize_flag);
 
             this.debug?.('Sheduling geometry fixup from window-maximize setting change');
             this._schedule_geometry_fixup();
@@ -537,9 +539,7 @@ const WindowManager = GObject.registerClass({
 
         this._move_resize_window(this.window, this.geometry.target_rect);
 
-        if (this.geometry.resize_x
-            ? this.window.maximized_horizontally
-            : this.window.maximized_vertically)
+        if (this._is_maximized())
             this.settings.set_boolean('window-maximize', true);
     }
 
@@ -547,28 +547,21 @@ const WindowManager = GObject.registerClass({
         if (win !== this.window)
             return;
 
-        if (!MOUSE_RESIZE_GRABS.includes(flags))
-            return;
-
-        this.unmaximize_for_resize(
-            this.geometry.resize_x ? Meta.MaximizeFlags.HORIZONTAL : Meta.MaximizeFlags.VERTICAL
-        );
+        if (MOUSE_RESIZE_GRABS.includes(flags))
+            this.unmaximize_for_resize(this.geometry.maximize_flag);
     }
 
     update_size_setting_on_grab_end(display, win) {
         if (win !== this.window)
             return;
 
-        if (!this.geometry.resize_x && this.window.maximized_vertically)
-            return;
-
-        if (this.geometry.resize_x && this.window.maximized_horizontally)
+        if (this._is_maximized())
             return;
 
         this.debug?.('Updating size setting on grab end');
 
         const frame_rect = win.get_frame_rect();
-        const size = this.geometry.resize_x
+        const size = this.geometry.orientation === Clutter.Orientation.HORIZONTAL
             ? frame_rect.width / this.geometry.workarea.width
             : frame_rect.height / this.geometry.workarea.height;
 
