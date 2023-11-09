@@ -18,7 +18,7 @@ jobs:
   pot:
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/ddterm/ci-docker-image:2023.11.03.0
+      image: ghcr.io/ddterm/ci-docker-image:2023.11.08.0
 
     permissions:
       contents: write
