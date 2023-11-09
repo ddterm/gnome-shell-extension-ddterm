@@ -82,8 +82,6 @@ const WindowManager = GObject.registerClass({
         this.hide_animation = Clutter.AnimationMode.LINEAR;
         this.hide_animation_duration = WM.DESTROY_WINDOW_ANIMATION_TIME;
 
-        this.animation_pivot_x = 0.5;
-        this.animation_pivot_y = 0;
         this.animation_scale_x = 1.0;
         this.animation_scale_y = 0.0;
 
@@ -119,7 +117,6 @@ const WindowManager = GObject.registerClass({
                 this._update_animation_direction();
                 this._setup_maximized_handlers();
             },
-            'notify::right-or-bottom': () => this._update_animation_direction(),
             'notify::target-rect': () => this._update_window_geometry(),
         }).map(
             ([signal, callback]) => this.geometry.connect(signal, callback)
@@ -244,7 +241,7 @@ const WindowManager = GObject.registerClass({
             if (actor !== win.get_compositor_private())
                 return;
 
-            actor.set_pivot_point(this.animation_pivot_x, this.animation_pivot_y);
+            actor.pivot_point = this.geometry.pivot_point;
 
             const scale_x_anim = actor.get_transition('scale-x');
 
@@ -287,7 +284,7 @@ const WindowManager = GObject.registerClass({
             return;
         }
 
-        actor.set_pivot_point(this.animation_pivot_x, this.animation_pivot_y);
+        actor.pivot_point = this.geometry.pivot_point;
 
         const scale_x_anim = actor.get_transition('scale-x');
 
@@ -387,10 +384,6 @@ const WindowManager = GObject.registerClass({
     }
 
     _update_animation_direction() {
-        const resizing_direction_pivot = this.geometry.right_or_bottom ? 1.0 : 0.0;
-        this.animation_pivot_x = this.geometry.resize_x ? resizing_direction_pivot : 0.5;
-        this.animation_pivot_y = !this.geometry.resize_x ? resizing_direction_pivot : 0.5;
-
         this.animation_scale_x = this.geometry.resize_x ? 0.0 : 1.0;
         this.animation_scale_y = this.geometry.resize_x ? 1.0 : 0.0;
     }

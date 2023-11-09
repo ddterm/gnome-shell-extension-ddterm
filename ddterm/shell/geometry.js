@@ -20,6 +20,7 @@
 import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
+import Graphene from 'gi://Graphene';
 import Meta from 'gi://Meta';
 import Mtk from 'gi://Mtk';
 
@@ -56,6 +57,13 @@ export const WindowGeometry = GObject.registerClass({
             0,
             GLib.MAXINT32,
             0
+        ),
+        'pivot-point': GObject.ParamSpec.boxed(
+            'pivot-point',
+            '',
+            '',
+            GObject.ParamFlags.READABLE,
+            Graphene.Point
         ),
         'resize-x': GObject.ParamSpec.boolean(
             'resize-x',
@@ -110,6 +118,7 @@ export const WindowGeometry = GObject.registerClass({
         this._workarea = null;
         this._target_rect = null;
         this._monitor_index = 0;
+        this._pivot_point = null;
         this._resize_x = false;
         this._right_or_bottom = false;
         this._workareas_changed_handler =
@@ -174,6 +183,10 @@ export const WindowGeometry = GObject.registerClass({
         return this._monitor_index;
     }
 
+    get pivot_point() {
+        return this._pivot_point;
+    }
+
     get resize_x() {
         return this._resize_x;
     }
@@ -220,6 +233,14 @@ export const WindowGeometry = GObject.registerClass({
 
         this._right_or_bottom = new_right_or_bottom;
         this.notify('right-or-bottom');
+    }
+
+    _set_pivot_point(x, y) {
+        if (this._pivot_point?.x === x && this._pivot_point?.y === y)
+            return;
+
+        this._pivot_point = new Graphene.Point({ x, y });
+        this.notify('pivot-point');
     }
 
     _update_workarea() {
@@ -278,6 +299,12 @@ export const WindowGeometry = GObject.registerClass({
         this._set_right_or_bottom(
             [Meta.Side.RIGHT, Meta.Side.BOTTOM].includes(this.window_position)
         );
+
+        const resizing_direction_pivot = this._right_or_bottom ? 1.0 : 0.0;
+        const animation_pivot_x = this._resize_x ? resizing_direction_pivot : 0.5;
+        const animation_pivot_y = !this._resize_x ? resizing_direction_pivot : 0.5;
+
+        this._set_pivot_point(animation_pivot_x, animation_pivot_y);
 
         this._update_target_rect();
     }
