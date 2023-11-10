@@ -70,6 +70,7 @@ LOCALES_RELEASE := \
 	po/de.po \
 	po/el.po \
 	po/fr.po \
+	po/it.po \
 	po/nb_NO.po \
 	po/pl.po \
 	po/pt.po \
