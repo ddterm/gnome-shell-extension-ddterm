@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-11-08 05:59+0000\n"
-"PO-Revision-Date: 2023-10-23 03:31+0000\n"
+"PO-Revision-Date: 2023-11-23 08:05+0000\n"
 "Last-Translator: yuh <yuhldr@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "gnome-shell-extension-ddterm/extension/zh_Hans/>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.1\n"
+"X-Generator: Weblate 5.2.1-rc\n"
 
 #: ddterm/app/application.js:78
 msgid "Start the application, but do not show the window"
@@ -151,7 +151,7 @@ msgstr "标准大小"
 
 #: ddterm/app/menus.ui:93
 msgid "Show in File Manager"
-msgstr ""
+msgstr "在文件管理器中显示"
 
 #: ddterm/app/menus.ui:99 ddterm/app/menus.ui:230 ddterm/app/tablabel.js:113
 msgid "Close"
@@ -1043,8 +1043,6 @@ msgid "Switch to Next Tab"
 msgstr "切换到下一个标签页"
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:241
-#, fuzzy
-#| msgid "Move Tab to Other Split Pane"
 msgid "Move Keyboard Focus to Other Split Pane"
 msgstr "移动标签页到其他的拆分面板"
 
