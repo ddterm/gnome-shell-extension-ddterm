@@ -5,10 +5,10 @@
 
 services:
   fedora-39:
-    image: ghcr.io/ddterm/gnome-shell-pod/fedora-39:2023.11.28.0
+    image: ghcr.io/ddterm/gnome-shell-pod/fedora-39:2023.11.29.0
 
   ubuntu-23.10:
-    image: ghcr.io/ddterm/gnome-shell-pod/ubuntu-23.10:2023.11.28.0
+    image: ghcr.io/ddterm/gnome-shell-pod/ubuntu-23.10:2023.11.29.0
 
   archlinux:
-    image: ghcr.io/ddterm/gnome-shell-pod/archlinux:2023.11.28.0
+    image: ghcr.io/ddterm/gnome-shell-pod/archlinux:2023.11.29.0
