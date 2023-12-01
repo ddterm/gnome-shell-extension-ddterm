@@ -4,14 +4,10 @@ set -ex
 
 command -V jq
 
-CURRENT_VERSION=$(jq .version metadata.json.in)
+CURRENT_VERSION=$(meson rewrite kwargs info project / 2>&1 | jq -r '.kwargs."project#/".version')
 NEXT_VERSION=$(( ${CURRENT_VERSION} + 1 ))
 
-git tag v${CURRENT_VERSION}
-
-jq ".version=${NEXT_VERSION}" metadata.json.in > metadata.json.next
-mv -f metadata.json.next metadata.json.in
-
+meson rewrite kwargs set project / version "${NEXT_VERSION}"
 sed -i "/^pkgver=/c\pkgver=${NEXT_VERSION}" PKGBUILD
 
-git add metadata.json.in PKGBUILD
+git add meson.build PKGBUILD

@@ -8,7 +8,7 @@ license=('GPL3')
 conflicts=('gnome-shell-extension-ddterm')
 provides=('gnome-shell-extension-ddterm')
 depends=('gjs' 'gtk3' 'vte3')
-makedepends=('git' 'gtk4' 'libxslt' 'xorg-server-xvfb')
+makedepends=('meson' 'git' 'gtk4' 'libxslt' 'xorg-server-xvfb')
 source=("$pkgname::git+file://$(git rev-parse --show-toplevel)")
 md5sums=('SKIP')
 
@@ -18,13 +18,12 @@ pkgver() {
 }
 
 build() {
-    cd "$pkgname"
+    arch-meson $pkgname build
 
     # gtk-builder-tool needs X or Wayland
-    LIBGL_ALWAYS_SOFTWARE=1 xvfb-run -- make build
+    LIBGL_ALWAYS_SOFTWARE=1 xvfb-run -- meson compile -C build
 }
 
 package() {
-    cd "$pkgname"
-    make DESTDIR="$pkgdir/" install
+    meson install -C build --destdir "$pkgdir"
 }

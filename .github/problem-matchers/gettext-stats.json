@@ -5,7 +5,7 @@
             "severity": "warning",
             "pattern": [
                 {
-                    "regexp": "msgfmt .* --statistics .* (po/.*\\.po)",
+                    "regexp": "(?:^|\\s)(?:\\.\\./)?(locale/.*\\.po)$",
                     "file": 1
                 },
                 {

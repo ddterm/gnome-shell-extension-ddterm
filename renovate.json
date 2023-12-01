@@ -12,7 +12,7 @@
   },
   "regexManagers": [
     {
-      "fileMatch": [".+\\.sh$"],
+      "fileMatch": [".+\\.sh$", "^\\.github/workflows/.+\\.ya?ml"],
       "matchStrings": [
         "#\\s*renovate:\\s+datasource=(?<datasource>[^\\s]+)\\s+depName=(?<depName>[^\\s]+)(\\s+(lookupName|packageName)=(?<packageName>[^\\s]+))?(\\s+versioning=(?<versioning>[^\\s]+))?\\n\\s*\\w+=[\"']?(?<currentValue>[^\\s\"']+)[\"']?(\\s|$)"
       ]

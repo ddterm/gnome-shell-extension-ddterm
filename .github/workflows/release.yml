@@ -42,7 +42,7 @@ jobs:
 
     - name: Check version matches the tag
       run: |
-        test "v$(jq .version metadata.json.in)" = "${{ github.ref_name }}"
+        test "v$(meson rewrite kwargs info project / 2>&1 | jq -r '.kwargs."project#/".version')" = "${{ github.ref_name }}"
 
     - name: Bump version
       run: |

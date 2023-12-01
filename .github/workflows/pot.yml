@@ -1,20 +1,30 @@
-concurrency:
-  group: ${{ github.workflow }}/${{ github.ref }}
-
-name: pot
-
 on:
   workflow_dispatch:
+    inputs:
+      commit:
+        description: Commit changes
+        required: false
+        default: false
+        type: boolean
+
   workflow_call:
-  push:
-    branches:
-      - master
-    paths-ignore:
-      - docs/**
-      - po/*.po
-      - README.md
-      - Vagrantfile
-      - vagrant-provision/**
+    inputs:
+      commit:
+        description: Commit changes
+        required: false
+        default: false
+        type: boolean
+    secrets:
+      APP_ID:
+        description: 'ID of the committer application'
+        required: false
+      APP_KEY:
+        description: 'Private key of the committer application'
+        required: false
+
+env:
+  FORCE_COLOR: 1
+  TERM: xterm-color
 
 jobs:
   pot:
@@ -23,28 +33,31 @@ jobs:
       image: ghcr.io/ddterm/ci-docker-image:2024.01.21.0
 
     steps:
-    - name: Get app token
-      id: app-token
-      uses: actions/create-github-app-token@v1
-      with:
-        app-id: ${{ secrets.APP_ID }}
-        private-key: ${{ secrets.APP_KEY }}
-
     - name: Checkout
       uses: actions/checkout@v4
-      with:
-        token: ${{ steps.app-token.outputs.token }}
 
     - run: git config --global --replace-all safe.directory "$GITHUB_WORKSPACE"
 
     - name: Enable generic error matcher
       run: echo "::add-matcher::.github/problem-matchers/generic.json"
 
-    - name: Update .pot files
-      run: po/update-pot.sh
+    - name: Prepare build directory
+      run: .github/faketty.sh meson setup build
+
+    - name: Update POTFILES.in
+      run: ninja -j1 potfiles
+      working-directory: build
+
+    - name: Update .pot file
+      run: ninja -j1 msgmerge
+      working-directory: build
+
+    - name: Update .po files
+      run: for pofile in *.po; do msgmerge --update --previous "$pofile" *.pot; done
+      working-directory: po
 
     - name: Stage changes
-      run: git add po/*.po po/*.pot
+      run: git add po/*.po po/*.pot po/POTFILES.in
 
     - name: Check if there are any changes
       id: diff
@@ -52,12 +65,20 @@ jobs:
       with:
         result-encoding: string
         script: |
-          const { stdout } = await exec.getExecOutput('git', ['diff', '--cached']);
+          const { stdout } = await exec.getExecOutput('git', ['diff', '--cached', '--ignore-matching-lines=^"POT-Creation-Date: ']);
           return stdout.trim();
+
+    - name: Get commit token
+      id: app-token
+      uses: actions/create-github-app-token@v1
+      with:
+        app-id: ${{ secrets.APP_ID }}
+        private-key: ${{ secrets.APP_KEY }}
+      if: inputs.commit
 
     - name: Commit
       uses: ddterm/github-api-commit-action@ccf9b520c5698380ad3b9619c5add427369b7ef1
-      if: steps.diff.outputs.result != ''
       with:
         token: ${{ steps.app-token.outputs.token }}
         commit-message: 'Update translation files'
+      if: inputs.commit && steps.diff.outputs.result

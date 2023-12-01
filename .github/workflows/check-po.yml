@@ -4,7 +4,6 @@ on:
 
 env:
   FORCE_COLOR: 1
-  PIP_DISABLE_PIP_VERSION_CHECK: 1
 
 defaults:
   run:
@@ -27,7 +26,7 @@ jobs:
           echo -n linguas= >>$GITHUB_OUTPUT
           grep -Ev '^\s*#.*' LINGUAS | jq -Rcn '[inputs | scan("\\S+")]' >>$GITHUB_OUTPUT
         shell: bash
-        working-directory: po
+        working-directory: locale
 
   check:
     needs: configure
@@ -43,25 +42,26 @@ jobs:
 
     steps:
     - name: Checkout
-      id: checkout
       uses: actions/checkout@v4
 
     - run: git config --global --replace-all safe.directory "$GITHUB_WORKSPACE"
 
-    - name: Enable gettext stats problem matcher
-      run: echo "::add-matcher::.github/problem-matchers/gettext-stats.json"
-
     - name: Enable generic problem matcher
       run: echo "::add-matcher::.github/problem-matchers/generic.json"
 
+    - name: Enable gettext stats problem matcher
+      run: echo "::add-matcher::.github/problem-matchers/gettext-stats.json"
+
     - name: Compile translation
-      run: make msgfmt/${{ matrix.lang }} 2>&1 | tee $GITHUB_STEP_SUMMARY
+      run: |
+        echo locale/${{ matrix.lang }}.po
+        msgfmt --check -v -o /dev/null locale/${{ matrix.lang }}.po 2>&1 | tee $GITHUB_STEP_SUMMARY
+      shell: bash
 
     - name: Disable gettext stats problem matcher
       run: echo "::remove-matcher owner=gettext-stats::"
 
     - name: Ensure .po file is in sync with .pot
-      run: |
-        touch po/*.pot # Make sure .pot won't be re-generated
-        make msgcmp/${{ matrix.lang }} 2>&1
-      if: ${{ always() && steps.checkout.conclusion == 'success' }}
+      run: msgcmp --use-untranslated --use-fuzzy locale/${{ matrix.lang }}.po locale/*.pot
+      shell: bash
+      if: ${{ always() && steps.meson-setup.conclusion == 'success' }}

@@ -4,13 +4,15 @@
 # See docs/Vagrant.md
 
 require 'open3'
+require 'pathname'
 
 CPUS = 4
 MEMORY = 2048
-PROJECT_DIR = File.dirname(File.expand_path(__FILE__))
-SYNCED_FOLDER = "/home/vagrant/#{File.basename(PROJECT_DIR)}"
+PROJECT_DIR = Pathname.new(__FILE__).realpath.dirname
+SYNCED_FOLDER = "/home/vagrant/#{PROJECT_DIR.basename}"
 UUID = 'ddterm@amezin.github.com'
-PACK_FILE_NAME = "#{UUID}.shell-extension.zip"
+PACK_FILE = ENV.fetch('DDTERM_BUILT_PACK', Pathname.getwd / "#{UUID}.shell-extension.zip")
+PACK_FILE_NAME = PACK_FILE.basename
 
 stdout, status = Open3.capture2(
   'git',
@@ -55,8 +57,8 @@ Vagrant.configure("2") do |config|
 
   config.vm.provision 'copy',
     type: 'file',
-    source: PACK_FILE_NAME,
-    destination: '$HOME/',
+    source: PACK_FILE,
+    destination: "$HOME/#{PACK_FILE_NAME}",
     before: 'install',
     run: 'always'
 

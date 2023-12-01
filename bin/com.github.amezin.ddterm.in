@@ -10,4 +10,4 @@ then
     PATH="$bindir${PATH:+:${PATH}}"
 fi
 
-exec gjs -m "${bindir%/*}/ddterm/app/main.js" "$@"
+exec "@GJS@" -m "${bindir%/*}/ddterm/app/main.js" "$@"

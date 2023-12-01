@@ -28,9 +28,7 @@ class DDTermFixtures(container_fixtures.ContainerFixtures):
         super().configure_session(container, request)
 
         extension_pack = request.getfixturevalue('extension_pack')
-
-        if extension_pack:
-            container.install_extension(extension_pack, timeout=self.START_STOP_TIMEOUT_SEC)
+        container.install_extension(extension_pack, timeout=self.START_STOP_TIMEOUT_SEC)
 
     @pytest.fixture(scope='class')
     def enable_ddterm_extension(self, shell_dbus_api, ddterm_metadata):

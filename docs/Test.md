@@ -28,11 +28,20 @@ Or to do both at the same time:
 
 ### Run tests
 
-    $ tox [--sitepackages] -- <options...>
+    $ tox [--sitepackages] -- [--pack=path] <other-options...>
 
-Without `--sitepackages` you'll have to install PyGObject's build dependencies.
+Before running tests, you need to [build the extension package](/docs/BUILD.md).
 
-Options:
+You either have to specify:
+
+    `--pack=path/to/built/ddterm@amezin.github.com.shell-extension.zip`
+
+or run tox from `meson devenv -C build-dir` shell.
+
+Without `--sitepackages` you'll have to install PyGObject's build dependencies,
+and PyGObject will be automatically built from source by `tox`.
+
+#### Other options:
 
 `--image=IMAGE` - run tests using the specified container image `IMAGE`. Can
 be repeated multiple times to run tests with multiple images.
@@ -42,8 +51,6 @@ image from [`compose.yaml`]. Can be repeated multiple times to run tests
 with multiple images.
 
 `--screenshot-failing-only` - capture screenshots only for failing tests.
-
-`--pack=PACK` - install ddterm from the specified `PACK` package file.
 
 `-n numprocesses` - run `numprocesses` parallel test processes.
 

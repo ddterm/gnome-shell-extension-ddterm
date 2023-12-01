@@ -6,7 +6,10 @@ on:
   pull_request:
     paths-ignore:
       - docs/**
-      - po/**
+      - po/*.po
+      - po/*.pot
+      - po/POTFILES
+      - po/POTFILES.in
       - README.md
       - Vagrantfile
       - vagrant-provision/**
@@ -24,3 +27,9 @@ jobs:
   test:
     needs: build
     uses: ./.github/workflows/test.yml
+
+  translations:
+    uses: ./.github/workflows/pot.yml
+    with:
+      commit: false
+    secrets: inherit

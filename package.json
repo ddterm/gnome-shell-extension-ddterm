@@ -10,6 +10,7 @@
     },
     "scripts": {
         "lint": "eslint .",
-        "lint:fix": "eslint --fix ."
+        "lint:fix": "eslint --fix .",
+        "postinstall": "if [ -n \"$DDTERM_POST_INSTALL_STAMP\" ]; then touch \"$DDTERM_POST_INSTALL_STAMP\"; fi"
     }
 }

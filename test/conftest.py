@@ -1,4 +1,5 @@
 import json
+import os
 import pathlib
 import re
 import subprocess
@@ -37,10 +38,7 @@ def container_image(request):
 
 @pytest.fixture(scope='session')
 def extension_pack(request):
-    pack = request.config.getoption('--pack')
-
-    if pack:
-        return pack.resolve()
+    return request.config.getoption('--pack').resolve()
 
 
 def pytest_addoption(parser):
@@ -67,11 +65,14 @@ def pytest_addoption(parser):
         help='podman command/executable path'
     )
 
+    pack_from_env = os.getenv('DDTERM_BUILT_PACK')
+
     parser.addoption(
         '--pack',
-        default=None,
+        default=pathlib.Path(pack_from_env) if pack_from_env else None,
+        required=not pack_from_env,
         type=pathlib.Path,
-        help='install ddterm from the specified package file'
+        help='built ddterm extension package (ddterm@amezin.github.com.shell-extension.zip)',
     )
 
 
@@ -133,13 +134,8 @@ def syslog_server(tmp_path_factory, log_sync):
 
 @pytest.fixture(scope='session')
 def ddterm_metadata(extension_pack):
-    if extension_pack:
-        with zipfile.ZipFile(extension_pack) as z:
-            with z.open('metadata.json') as f:
-                return json.load(f)
-
-    else:
-        with open(SRC_DIR / 'metadata.json', 'r') as f:
+    with zipfile.ZipFile(extension_pack) as z:
+        with z.open('metadata.json') as f:
             return json.load(f)
 
 
@@ -157,11 +153,7 @@ def container_create_lock(request):
 @pytest.fixture(scope='session')
 def container_volumes(ddterm_metadata, test_metadata, extension_pack, tmp_path_factory):
     sys_install_dir = gnome_container.GnomeContainer.extensions_system_install_path()
-
-    if extension_pack:
-        install_mount = (extension_pack, extension_pack, 'ro')
-    else:
-        install_mount = (SRC_DIR, sys_install_dir / ddterm_metadata['uuid'], 'ro')
+    install_mount = (extension_pack, extension_pack, 'ro')
 
     basetemp = tmp_path_factory.getbasetemp()
     basetemp.chmod(0o777)
