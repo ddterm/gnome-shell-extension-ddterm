@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-08 05:59+0000\n"
+"POT-Creation-Date: 2023-12-09 08:11+0000\n"
 "PO-Revision-Date: 2023-10-23 00:33+0000\n"
 "Last-Translator: Eryk Michalak <gnu.ewm@protonmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/gnome-shell-"
@@ -215,7 +215,9 @@ msgstr "Przesuń kartę na drugi widok"
 msgid "Preferences"
 msgstr "Preferencje"
 
-#: ddterm/app/menus.ui:160 ddterm/app/menus.ui:294 ddterm/shell/panelicon.js:78
+#: ddterm/app/menus.ui:160 ddterm/app/menus.ui:294
+#: ddterm/com.github.amezin.ddterm.desktop.in.in:23
+#: ddterm/shell/panelicon.js:78
 msgid "Preferences..."
 msgstr "Preferencje..."
 
@@ -346,6 +348,25 @@ msgid ""
 msgstr ""
 "W tej konsoli wciąż wykonuje się polecenie. Zamknięcie konsoli spowoduje "
 "zakończenie procesu."
+
+#: ddterm/com.github.amezin.ddterm.desktop.in.in:4
+msgid "ddterm"
+msgstr ""
+
+#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: ddterm/com.github.amezin.ddterm.desktop.in.in:6
+msgid "shell;prompt;command;commandline;cmd;run;terminal;"
+msgstr ""
+
+#: ddterm/com.github.amezin.ddterm.desktop.in.in:7
+msgid "Another drop down terminal extension for GNOME Shell"
+msgstr ""
+
+#: ddterm/com.github.amezin.ddterm.desktop.in.in:20
+#, fuzzy
+#| msgid "Toggle button"
+msgid "Toggle"
+msgstr "Ikona przełączania"
 
 #: ddterm/pref/adw.js:77
 msgid "Window"
