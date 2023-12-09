@@ -199,6 +199,22 @@ EXECUTABLES := $(LAUNCHER) ddterm/app/dependencies-notification.js
 TRANSLATABLE_SOURCES += $(JS_SOURCES)
 PACK_CONTENT += $(EXECUTABLES) $(filter-out $(EXECUTABLES),$(JS_SOURCES))
 
+# .desktop entry
+
+UNTRANSLATED_DESKTOP_ENTRY := ddterm/com.github.amezin.ddterm.desktop.in.in
+TRANSLATABLE_SOURCES += $(UNTRANSLATED_DESKTOP_ENTRY)
+
+UNCONFIGURED_DESKTOP_ENTRY := $(basename $(UNTRANSLATED_DESKTOP_ENTRY))
+
+$(UNCONFIGURED_DESKTOP_ENTRY): $(UNTRANSLATED_DESKTOP_ENTRY) $(LOCALES) $(MSGFMT)
+	$(MSGFMT) --desktop -o $@ --template=$< -d po
+
+$(UNCONFIGURED_DESKTOP_ENTRY): export LINGUAS := $(patsubst po/%.po,%,$(LOCALES))
+
+CLEAN += $(UNCONFIGURED_DESKTOP_ENTRY)
+
+UNCONFIGURED_DBUS_SERVICE := ddterm/com.github.amezin.ddterm.service.in
+
 # package
 
 PACK_CONTENT += \
@@ -207,8 +223,8 @@ PACK_CONTENT += \
 	$(wildcard ddterm/app/icons/*) \
 	ddterm/com.github.amezin.ddterm.Extension.xml \
 	ddterm/com.github.amezin.ddterm.HeapDump.xml \
-	ddterm/com.github.amezin.ddterm.desktop.in \
-	ddterm/com.github.amezin.ddterm.service.in \
+	$(UNCONFIGURED_DESKTOP_ENTRY) \
+	$(UNCONFIGURED_DBUS_SERVICE) \
 	LICENSE \
 
 PACK_CONTENT := $(sort $(PACK_CONTENT))
@@ -255,10 +271,13 @@ bindir := $(exec_prefix)/bin
 
 extensiondir := $(datadir)/gnome-shell/extensions
 
+CONFIGURED_DESKTOP_ENTRY := $(basename $(UNCONFIGURED_DESKTOP_ENTRY))
+CONFIGURED_DBUS_SERVICE := $(basename $(UNCONFIGURED_DBUS_SERVICE))
+
 SYS_INSTALLED_EXTENSION_DIR := $(extensiondir)/$(EXTENSION_UUID)
 SYS_INSTALLED_CONTENT := $(addprefix $(SYS_INSTALLED_EXTENSION_DIR)/,$(PACK_CONTENT) $(SCHEMAS_COMPILED))
-SYS_INSTALLED_DESKTOP_ENTRY := $(datadir)/applications/com.github.amezin.ddterm.desktop
-SYS_INSTALLED_DBUS_SERVICE := $(datadir)/dbus-1/services/com.github.amezin.ddterm.service
+SYS_INSTALLED_DESKTOP_ENTRY := $(datadir)/applications/$(notdir $(CONFIGURED_DESKTOP_ENTRY))
+SYS_INSTALLED_DBUS_SERVICE := $(datadir)/dbus-1/services/$(notdir $(CONFIGURED_DBUS_SERVICE))
 SYS_INSTALLED_EXECUTABLES := $(addprefix $(SYS_INSTALLED_EXTENSION_DIR)/,$(EXECUTABLES))
 SYS_INSTALLED_LAUNCHER := $(filter %$(LAUNCHER),$(SYS_INSTALLED_EXECUTABLES))
 SYS_INSTALLED_LAUNCHER_SYMLINK := $(bindir)/$(notdir $(LAUNCHER))
@@ -281,14 +300,11 @@ $(addprefix $(DESTDIR),$(SYS_INSTALLED_CONTENT)): $(DESTDIR)$(SYS_INSTALLED_EXTE
 $(addprefix $(DESTDIR),$(SYS_INSTALLED_CONTENT)): INSTALL := $(INSTALL_DATA)
 $(addprefix $(DESTDIR),$(SYS_INSTALLED_EXECUTABLES)): INSTALL := $(INSTALL_PROGRAM)
 
-CONFIGURED_DESKTOP_ENTRY := ddterm/com.github.amezin.ddterm.desktop
-CONFIGURED_DBUS_SERVICE := ddterm/com.github.amezin.ddterm.service
-
 $(CONFIGURED_DESKTOP_ENTRY) $(CONFIGURED_DBUS_SERVICE):
 	sed -e 's:@LAUNCHER@:$(SYS_INSTALLED_LAUNCHER):g' $< >$@
 
-$(CONFIGURED_DESKTOP_ENTRY): ddterm/com.github.amezin.ddterm.desktop.in
-$(CONFIGURED_DBUS_SERVICE): ddterm/com.github.amezin.ddterm.service.in
+$(CONFIGURED_DESKTOP_ENTRY): $(UNCONFIGURED_DESKTOP_ENTRY)
+$(CONFIGURED_DBUS_SERVICE): $(UNCONFIGURED_DBUS_SERVICE)
 
 CLEAN += $(CONFIGURED_DESKTOP_ENTRY) $(CONFIGURED_DBUS_SERVICE)
 
@@ -382,6 +398,7 @@ $(POT_FILE): $(TRANSLATABLE_SOURCES) $(XGETTEXT)
 		--from-code=UTF-8 \
 		--default-domain=$(EXTENSION_UUID) \
 		--package-name=ddterm \
+		--add-comments \
 		--output=$@ \
 		$(sort $(TRANSLATABLE_SOURCES))
 

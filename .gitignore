@@ -5,6 +5,7 @@
 /*.shell-extension.zip
 /ddterm/pref/ui/
 /ddterm/com.github.amezin.ddterm.desktop
+/ddterm/com.github.amezin.ddterm.desktop.in
 /ddterm/com.github.amezin.ddterm.service
 /metadata.json
 /schemas/gschemas.compiled
