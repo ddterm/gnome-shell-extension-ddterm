@@ -65,19 +65,10 @@ all: schemas
 
 # Locales
 
-LOCALES_RELEASE := \
-	po/cs.po \
-	po/de.po \
-	po/el.po \
-	po/fr.po \
-	po/it.po \
-	po/nb_NO.po \
-	po/pl.po \
-	po/pt.po \
-	po/ru.po \
-	po/zh_CN.po
-
-LOCALES_ALL := $(wildcard po/*.po)
+LINGUAS_FILE := po/LINGUAS
+LOCALES_RELEASE := cs de el fr it nb_NO pl pt ru zh_CN
+LOCALE_SOURCE_PATTERN := po/%.po
+LOCALES_ALL := $(shell grep -Exv '\s*|\s*#.*' $(LINGUAS_FILE))
 
 ONLY_RELEASE_LOCALES := no
 
@@ -87,9 +78,8 @@ else
 LOCALES := $(LOCALES_ALL)
 endif
 
-LOCALE_SOURCE_PATTERN := po/%.po
 LOCALE_COMPILED_PATTERN := locale/%/LC_MESSAGES/$(EXTENSION_UUID).mo
-LOCALES_COMPILED := $(patsubst $(LOCALE_SOURCE_PATTERN),$(LOCALE_COMPILED_PATTERN),$(LOCALES))
+LOCALES_COMPILED := $(patsubst %,$(LOCALE_COMPILED_PATTERN),$(LOCALES))
 
 MSGFMT := $(call find-tool,msgfmt)
 
@@ -97,7 +87,7 @@ $(LOCALES_COMPILED): $(LOCALE_COMPILED_PATTERN): $(LOCALE_SOURCE_PATTERN) $(MSGF
 	mkdir -p $(dir $@)
 	$(MSGFMT) --check --strict --statistics -o $@ $<
 
-$(addprefix msgfmt/,$(LOCALES)): msgfmt/$(LOCALE_SOURCE_PATTERN): $(LOCALE_COMPILED_PATTERN)
+$(addprefix msgfmt/,$(LOCALES)): msgfmt/%: $(LOCALE_COMPILED_PATTERN)
 
 CLEAN += $(LOCALES_COMPILED)
 PACK_CONTENT += $(LOCALES_COMPILED)
@@ -206,10 +196,13 @@ TRANSLATABLE_SOURCES += $(UNTRANSLATED_DESKTOP_ENTRY)
 
 UNCONFIGURED_DESKTOP_ENTRY := $(basename $(UNTRANSLATED_DESKTOP_ENTRY))
 
-$(UNCONFIGURED_DESKTOP_ENTRY): $(UNTRANSLATED_DESKTOP_ENTRY) $(LOCALES) $(MSGFMT)
+$(UNCONFIGURED_DESKTOP_ENTRY): $(UNTRANSLATED_DESKTOP_ENTRY) $(MSGFMT)
 	$(MSGFMT) --desktop -o $@ --template=$< -d po
 
-$(UNCONFIGURED_DESKTOP_ENTRY): export LINGUAS := $(patsubst po/%.po,%,$(LOCALES))
+$(UNCONFIGURED_DESKTOP_ENTRY): $(patsubst %,$(LOCALE_SOURCE_PATTERN),$(LOCALES))
+$(UNCONFIGURED_DESKTOP_ENTRY): $(LINGUAS_FILE)
+
+$(UNCONFIGURED_DESKTOP_ENTRY): export LINGUAS := $(LOCALES)
 
 CLEAN += $(UNCONFIGURED_DESKTOP_ENTRY)
 
@@ -235,7 +228,7 @@ build: $(PACK_CONTENT)
 ZIP := $(call find-tool,zip)
 
 EXTENSION_PACK := $(EXTENSION_UUID).shell-extension.zip
-$(EXTENSION_PACK): $(PACK_CONTENT) $(ZIP)
+$(EXTENSION_PACK): $(PACK_CONTENT) $(ZIP) $(LINGUAS_FILE)
 	$(RM) $@
 	$(ZIP) -y -nw $@ -- $(PACK_CONTENT)
 
@@ -409,7 +402,7 @@ MSGCMP_GOALS := $(addprefix msgcmp/, $(LOCALES))
 MSGCMP_FLAGS := --use-untranslated --use-fuzzy
 MSGCMP := $(call find-tool,msgcmp)
 
-$(MSGCMP_GOALS): msgcmp/%: % $(POT_FILE) $(MSGCMP)
+$(MSGCMP_GOALS): msgcmp/%: $(LOCALE_SOURCE_PATTERN) $(POT_FILE) $(MSGCMP)
 	$(MSGCMP) $(MSGCMP_FLAGS) $< $(POT_FILE)
 
 msgcmp: $(MSGCMP_GOALS)
@@ -423,7 +416,7 @@ MSGMERGE_GOALS := $(addprefix msgmerge/, $(LOCALES))
 MSGMERGE_FLAGS := --no-fuzzy-matching --update
 MSGMERGE := $(call find-tool,msgmerge)
 
-$(MSGMERGE_GOALS): msgmerge/%: % $(POT_FILE) $(MSGMERGE)
+$(MSGMERGE_GOALS): msgmerge/%: $(LOCALE_SOURCE_PATTERN) $(POT_FILE) $(MSGMERGE)
 	$(MSGMERGE) $(MSGMERGE_FLAGS) $< $(POT_FILE)
 
 msgmerge: $(MSGMERGE_GOALS)
