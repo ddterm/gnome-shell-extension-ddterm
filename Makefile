@@ -68,7 +68,7 @@ all: schemas
 LINGUAS_FILE := po/LINGUAS
 LOCALES_RELEASE := cs de el fr it nb_NO pl pt ru zh_CN
 LOCALE_SOURCE_PATTERN := po/%.po
-LOCALES_ALL := $(shell grep -Exv '\s*|\s*#.*' $(LINGUAS_FILE))
+LOCALES_ALL := $(shell grep -Ev '^\s*#.*' $(LINGUAS_FILE))
 
 ONLY_RELEASE_LOCALES := no
 
