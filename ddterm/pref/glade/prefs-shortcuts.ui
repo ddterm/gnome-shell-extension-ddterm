@@ -418,7 +418,7 @@ along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licens
             <child>
               <object class="GtkTreeViewColumn">
                 <property name="resizable">True</property>
-                <property name="title" translatable="yes">Global Action</property>
+                <property name="title" translatable="yes">Action</property>
                 <child>
                   <object class="GtkCellRendererText"/>
                   <attributes>

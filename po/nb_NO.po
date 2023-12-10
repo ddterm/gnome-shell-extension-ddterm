@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-10 13:38+0200\n"
+"POT-Creation-Date: 2023-12-10 14:04+0200\n"
 "PO-Revision-Date: 2023-10-22 20:00+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/gnome-"
@@ -1140,8 +1140,9 @@ msgid "Switch to Tab 10"
 msgstr "Bytt til fane 10"
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:421
-msgid "Global Action"
-msgstr "Global handling"
+#: ddterm/pref/glade/prefs-shortcuts.ui:493
+msgid "Action"
+msgstr "Handling"
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:433
 msgid "Global Shortcut"
@@ -1150,10 +1151,6 @@ msgstr "Global snarvei"
 #: ddterm/pref/glade/prefs-shortcuts.ui:463
 msgid "_Enable application shortcuts"
 msgstr "_Skru på programsnarveier"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:493
-msgid "Action"
-msgstr "Handling"
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:505
 msgid "Shortcut"
@@ -1330,6 +1327,9 @@ msgstr "Tekst"
 #: ddterm/shell/panelicon.js:66
 msgid "Show"
 msgstr "Vis"
+
+#~ msgid "Global Action"
+#~ msgstr "Global handling"
 
 #~ msgid "Panel icon:"
 #~ msgstr "Panelikon:"

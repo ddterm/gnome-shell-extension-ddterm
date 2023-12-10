@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-10 13:38+0200\n"
+"POT-Creation-Date: 2023-12-10 14:04+0200\n"
 "PO-Revision-Date: 2023-10-25 03:29+0000\n"
 "Last-Translator: Aleksandr Mezin <mezin.alexander@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/gnome-shell-"
@@ -1140,8 +1140,9 @@ msgid "Switch to Tab 10"
 msgstr "Переключиться на вкладку 10"
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:421
-msgid "Global Action"
-msgstr "Глобальное действие"
+#: ddterm/pref/glade/prefs-shortcuts.ui:493
+msgid "Action"
+msgstr "Действие"
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:433
 msgid "Global Shortcut"
@@ -1150,10 +1151,6 @@ msgstr "Глобальная комбинация клавиш"
 #: ddterm/pref/glade/prefs-shortcuts.ui:463
 msgid "_Enable application shortcuts"
 msgstr "Включить комбинации клавиш для приложения"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:493
-msgid "Action"
-msgstr "Действие"
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:505
 msgid "Shortcut"
@@ -1330,6 +1327,9 @@ msgstr "Текст"
 #: ddterm/shell/panelicon.js:66
 msgid "Show"
 msgstr "Показать"
+
+#~ msgid "Global Action"
+#~ msgstr "Глобальное действие"
 
 #~ msgid "Preferences..."
 #~ msgstr "Параметры..."

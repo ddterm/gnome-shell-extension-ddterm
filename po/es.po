@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-10 13:38+0200\n"
+"POT-Creation-Date: 2023-12-10 14:04+0200\n"
 "PO-Revision-Date: 2023-10-28 23:49+0000\n"
 "Last-Translator: Adrian Alberdi Ainciburu <adrian1992@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/gnome-shell-"
@@ -1136,7 +1136,8 @@ msgid "Switch to Tab 10"
 msgstr ""
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:421
-msgid "Global Action"
+#: ddterm/pref/glade/prefs-shortcuts.ui:493
+msgid "Action"
 msgstr ""
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:433
@@ -1145,10 +1146,6 @@ msgstr ""
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:463
 msgid "_Enable application shortcuts"
-msgstr ""
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:493
-msgid "Action"
 msgstr ""
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:505

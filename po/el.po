@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-10 13:38+0200\n"
+"POT-Creation-Date: 2023-12-10 14:04+0200\n"
 "PO-Revision-Date: 2023-09-26 17:35+0300\n"
 "Last-Translator: Anagnostakis Ioannis <rizitis@gmail.com>\n"
 "Language-Team: Greek, Modern (1453-) <>\n"
@@ -1151,8 +1151,9 @@ msgid "Switch to Tab 10"
 msgstr "Μετάβαση καρτέλα 10"
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:421
-msgid "Global Action"
-msgstr "Γενικές Δράσεις"
+#: ddterm/pref/glade/prefs-shortcuts.ui:493
+msgid "Action"
+msgstr "Δράση"
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:433
 msgid "Global Shortcut"
@@ -1161,10 +1162,6 @@ msgstr "Γενικές Συντομεύσεις"
 #: ddterm/pref/glade/prefs-shortcuts.ui:463
 msgid "_Enable application shortcuts"
 msgstr "_Ενεργοποίηση συντομεύσεων εφαρμογών"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:493
-msgid "Action"
-msgstr "Δράση"
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:505
 msgid "Shortcut"
@@ -1343,6 +1340,9 @@ msgstr "Κείμενο"
 #: ddterm/shell/panelicon.js:66
 msgid "Show"
 msgstr "Εμφάνιση"
+
+#~ msgid "Global Action"
+#~ msgstr "Γενικές Δράσεις"
 
 #~ msgid "Preferences..."
 #~ msgstr "Προτιμήσεις..."
