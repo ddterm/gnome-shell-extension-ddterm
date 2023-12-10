@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-09 08:11+0000\n"
+"POT-Creation-Date: 2023-12-10 13:31+0200\n"
 "PO-Revision-Date: 2023-11-10 09:35+0000\n"
 "Last-Translator: Frankie McEyes <mceyes@protonmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/gnome-shell-"
@@ -65,7 +65,9 @@ msgid "Open a new tab"
 msgstr "Aprire una nuova scheda"
 
 #: ddterm/app/application.js:348
-msgid "Saving session..."
+#, fuzzy
+#| msgid "Saving session..."
+msgid "Saving session…"
 msgstr "Salvataggio della sessione..."
 
 #: ddterm/app/application.js:508 ddterm/shell/extension.js:250

@@ -345,7 +345,7 @@ class Application extends Gtk.Application {
             const cookie = this.inhibit(
                 null,
                 Gtk.ApplicationInhibitFlags.LOGOUT,
-                Gettext.gettext('Saving session...')
+                Gettext.gettext('Saving session…')
             );
 
             try {
