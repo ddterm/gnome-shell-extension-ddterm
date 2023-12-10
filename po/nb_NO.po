@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-10 13:31+0200\n"
+"POT-Creation-Date: 2023-12-10 13:38+0200\n"
 "PO-Revision-Date: 2023-10-22 20:00+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/gnome-"
@@ -214,7 +214,7 @@ msgstr "Innstillinger"
 #: ddterm/app/menus.ui:160 ddterm/app/menus.ui:294
 #: ddterm/com.github.amezin.ddterm.desktop.in.in:23
 #: ddterm/shell/panelicon.js:78
-msgid "Preferences..."
+msgid "Preferences…"
 msgstr "Innstillinger …"
 
 #: ddterm/app/menus.ui:166

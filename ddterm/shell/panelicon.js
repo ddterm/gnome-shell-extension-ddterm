@@ -75,7 +75,7 @@ const PanelIconPopupMenu = GObject.registerClass({
         });
 
         this.preferences_item = new PopupMenu.PopupMenuItem(
-            gettext_context.gettext('Preferences...')
+            gettext_context.gettext('Preferences…')
         );
         this.menu.addMenuItem(this.preferences_item);
         this.preferences_item.connect('activate', () => {

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-10 13:31+0200\n"
+"POT-Creation-Date: 2023-12-10 13:38+0200\n"
 "PO-Revision-Date: 2023-10-24 22:14+0000\n"
 "Last-Translator: Pavel Novák <pavelnov32@gmail.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/gnome-shell-"
@@ -216,8 +216,10 @@ msgstr "Předvolby"
 #: ddterm/app/menus.ui:160 ddterm/app/menus.ui:294
 #: ddterm/com.github.amezin.ddterm.desktop.in.in:23
 #: ddterm/shell/panelicon.js:78
-msgid "Preferences..."
-msgstr "Předvolby..."
+#, fuzzy
+#| msgid "Preferences"
+msgid "Preferences…"
+msgstr "Předvolby"
 
 #: ddterm/app/menus.ui:166
 msgid "Above All Windows"
@@ -1334,6 +1336,9 @@ msgstr "Text"
 #: ddterm/shell/panelicon.js:66
 msgid "Show"
 msgstr "Zobrazit"
+
+#~ msgid "Preferences..."
+#~ msgstr "Předvolby..."
 
 #~ msgid "Panel icon:"
 #~ msgstr "Ikona na panelu:"

@@ -157,7 +157,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
       <attribute name="label" translatable="yes">Preferences</attribute>
       <section>
         <item>
-          <attribute name="label" translatable="yes">Preferences...</attribute>
+          <attribute name="label" translatable="yes">Preferences…</attribute>
           <attribute name="action">app.preferences</attribute>
         </item>
       </section>
@@ -291,7 +291,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
       </submenu>
     </section>
     <item>
-      <attribute name="label" translatable="yes">Preferences...</attribute>
+      <attribute name="label" translatable="yes">Preferences…</attribute>
       <attribute name="action">app.preferences</attribute>
     </item>
   </menu>

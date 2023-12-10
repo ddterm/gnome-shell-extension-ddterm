@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-10 13:31+0200\n"
+"POT-Creation-Date: 2023-12-10 13:38+0200\n"
 "PO-Revision-Date: 2023-11-23 08:05+0000\n"
 "Last-Translator: yuh <yuhldr@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -212,8 +212,10 @@ msgstr "首选项"
 #: ddterm/app/menus.ui:160 ddterm/app/menus.ui:294
 #: ddterm/com.github.amezin.ddterm.desktop.in.in:23
 #: ddterm/shell/panelicon.js:78
-msgid "Preferences..."
-msgstr "首选项..."
+#, fuzzy
+#| msgid "Preferences"
+msgid "Preferences…"
+msgstr "首选项"
 
 #: ddterm/app/menus.ui:166
 msgid "Above All Windows"
@@ -1318,6 +1320,9 @@ msgstr "文本"
 #: ddterm/shell/panelicon.js:66
 msgid "Show"
 msgstr "显示"
+
+#~ msgid "Preferences..."
+#~ msgstr "首选项..."
 
 #~ msgid "Panel icon:"
 #~ msgstr "面板图标："

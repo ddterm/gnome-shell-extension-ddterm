@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-10 13:31+0200\n"
+"POT-Creation-Date: 2023-12-10 13:38+0200\n"
 "PO-Revision-Date: 2023-09-26 17:35+0300\n"
 "Last-Translator: Anagnostakis Ioannis <rizitis@gmail.com>\n"
 "Language-Team: Greek, Modern (1453-) <>\n"
@@ -219,8 +219,10 @@ msgstr "Προτιμήσεις"
 #: ddterm/app/menus.ui:160 ddterm/app/menus.ui:294
 #: ddterm/com.github.amezin.ddterm.desktop.in.in:23
 #: ddterm/shell/panelicon.js:78
-msgid "Preferences..."
-msgstr "Προτιμήσεις..."
+#, fuzzy
+#| msgid "Preferences"
+msgid "Preferences…"
+msgstr "Προτιμήσεις"
 
 #: ddterm/app/menus.ui:166
 msgid "Above All Windows"
@@ -1341,6 +1343,9 @@ msgstr "Κείμενο"
 #: ddterm/shell/panelicon.js:66
 msgid "Show"
 msgstr "Εμφάνιση"
+
+#~ msgid "Preferences..."
+#~ msgstr "Προτιμήσεις..."
 
 #~ msgid "Panel icon:"
 #~ msgstr "Icône de panneau :"

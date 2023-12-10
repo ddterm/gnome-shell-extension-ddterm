@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-10 13:31+0200\n"
+"POT-Creation-Date: 2023-12-10 13:38+0200\n"
 "PO-Revision-Date: 2023-10-28 23:49+0000\n"
 "Last-Translator: Adrian Alberdi Ainciburu <adrian1992@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/gnome-shell-"
@@ -218,8 +218,10 @@ msgstr "Ajustes"
 #: ddterm/app/menus.ui:160 ddterm/app/menus.ui:294
 #: ddterm/com.github.amezin.ddterm.desktop.in.in:23
 #: ddterm/shell/panelicon.js:78
-msgid "Preferences..."
-msgstr "Ajustes..."
+#, fuzzy
+#| msgid "Preferences"
+msgid "Preferences…"
+msgstr "Ajustes"
 
 #: ddterm/app/menus.ui:166
 msgid "Above All Windows"
@@ -1324,3 +1326,6 @@ msgstr ""
 #: ddterm/shell/panelicon.js:66
 msgid "Show"
 msgstr ""
+
+#~ msgid "Preferences..."
+#~ msgstr "Ajustes..."
