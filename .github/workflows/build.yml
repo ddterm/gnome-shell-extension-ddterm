@@ -124,7 +124,7 @@ jobs:
 
     - name: Upload extension package as artifact
       id: upload
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: pack
         path: "*.shell-extension.zip"

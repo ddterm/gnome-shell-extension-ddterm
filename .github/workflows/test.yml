@@ -92,7 +92,7 @@ jobs:
       if: ${{ always() && steps.setup_testspace.outcome == 'success' }}
 
     - name: Upload report as artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: ${{ matrix.image }}-reports
         path: |
