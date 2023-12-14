@@ -21,7 +21,7 @@ jobs:
         id: generate
         run: |
           echo -n linguas= >>$GITHUB_OUTPUT
-          awk '/^\s*[^#]/ {$1=$1; print}' LINGUAS | jq -Rcn '[inputs | split(" ")] | flatten' >>$GITHUB_OUTPUT
+          grep -Ev '^\s*#.*' LINGUAS | jq -Rcn '[inputs | scan("\\S+"; "")]' >>$GITHUB_OUTPUT
         shell: bash
         working-directory: po
 
