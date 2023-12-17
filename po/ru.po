@@ -1,22 +1,23 @@
 # vantu5z <vantu5z@mail.ru>, 2022-2023.
 # Aleksandr Mezin <mezin.alexander@gmail.com>, 2023.
 # Ivan Vantu5z <vantu5z@mail.ru>, 2023.
+# gfbdrgng <hnaofegnp@hldrive.com>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-12-10 14:04+0200\n"
-"PO-Revision-Date: 2023-10-25 03:29+0000\n"
-"Last-Translator: Aleksandr Mezin <mezin.alexander@gmail.com>\n"
-"Language-Team: Russian <https://hosted.weblate.org/projects/gnome-shell-"
-"extension-ddterm/extension/ru/>\n"
+"PO-Revision-Date: 2023-12-17 05:10+0000\n"
+"Last-Translator: gfbdrgng <hnaofegnp@hldrive.com>\n"
+"Language-Team: Russian <https://hosted.weblate.org/projects/"
+"gnome-shell-extension-ddterm/extension/ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.1.1-dev\n"
+"X-Generator: Weblate 5.3\n"
 
 #: ddterm/app/application.js:78
 msgid "Start the application, but do not show the window"
@@ -65,10 +66,8 @@ msgid "Open a new tab"
 msgstr "Открыть новую вкладку"
 
 #: ddterm/app/application.js:348
-#, fuzzy
-#| msgid "Saving session..."
 msgid "Saving session…"
-msgstr "Сохранение сессии..."
+msgstr "Сохранение сессии…"
 
 #: ddterm/app/application.js:508 ddterm/shell/extension.js:250
 msgid ""
@@ -157,7 +156,7 @@ msgstr "Нормальный размер"
 
 #: ddterm/app/menus.ui:93
 msgid "Show in File Manager"
-msgstr ""
+msgstr "Показать в диспетчере файлов"
 
 #: ddterm/app/menus.ui:99 ddterm/app/menus.ui:230 ddterm/app/tablabel.js:113
 msgid "Close"
@@ -218,10 +217,8 @@ msgstr "Параметры"
 #: ddterm/app/menus.ui:160 ddterm/app/menus.ui:294
 #: ddterm/com.github.amezin.ddterm.desktop.in.in:23
 #: ddterm/shell/panelicon.js:78
-#, fuzzy
-#| msgid "Preferences"
 msgid "Preferences…"
-msgstr "Параметры"
+msgstr "Параметры…"
 
 #: ddterm/app/menus.ui:166
 msgid "Above All Windows"
@@ -352,23 +349,23 @@ msgstr ""
 "завершены."
 
 #: ddterm/com.github.amezin.ddterm.desktop.in.in:4
+#, fuzzy
 msgid "ddterm"
-msgstr ""
+msgstr "ddterm"
 
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: ddterm/com.github.amezin.ddterm.desktop.in.in:6
+#, fuzzy
 msgid "shell;prompt;command;commandline;cmd;run;terminal;"
-msgstr ""
+msgstr "shell;prompt;command;commandline;cmd;run;terminal;"
 
 #: ddterm/com.github.amezin.ddterm.desktop.in.in:7
 msgid "Another drop down terminal extension for GNOME Shell"
-msgstr ""
+msgstr "Еще одно расширение выпадающего терминала для GNOME Shell"
 
 #: ddterm/com.github.amezin.ddterm.desktop.in.in:20
-#, fuzzy
-#| msgid "Toggle button"
 msgid "Toggle"
-msgstr "Кнопка переключения"
+msgstr "Переключатель"
 
 #: ddterm/pref/adw.js:77
 msgid "Window"
@@ -1074,10 +1071,8 @@ msgid "Switch to Next Tab"
 msgstr "Переключится на следующую вкладку"
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:241
-#, fuzzy
-#| msgid "Move Tab to Other Split Pane"
 msgid "Move Keyboard Focus to Other Split Pane"
-msgstr "Переместить вкладку на другую разделенную панель"
+msgstr "Перемещение фокуса клавиатуры на другую панель разделения"
 
 #: ddterm/pref/glade/prefs-shortcuts.ui:248
 msgid "Move Tab to Other Split Pane"
