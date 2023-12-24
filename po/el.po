@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-10 14:04+0200\n"
+"POT-Creation-Date: 2023-12-24 21:22+0000\n"
 "PO-Revision-Date: 2023-09-26 17:35+0300\n"
 "Last-Translator: Anagnostakis Ioannis <rizitis@gmail.com>\n"
 "Language-Team: Greek, Modern (1453-) <>\n"
@@ -217,7 +217,7 @@ msgid "Preferences"
 msgstr "Προτιμήσεις"
 
 #: ddterm/app/menus.ui:160 ddterm/app/menus.ui:294
-#: ddterm/com.github.amezin.ddterm.desktop.in.in:23
+#: ddterm/com.github.amezin.ddterm.desktop.in.in:24
 #: ddterm/shell/panelicon.js:78
 #, fuzzy
 #| msgid "Preferences"
