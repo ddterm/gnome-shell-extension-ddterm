@@ -301,6 +301,17 @@ $(CONFIGURED_DBUS_SERVICE): $(UNCONFIGURED_DBUS_SERVICE)
 
 CLEAN += $(CONFIGURED_DESKTOP_ENTRY) $(CONFIGURED_DBUS_SERVICE)
 
+DESKTOP_FILE_VALIDATE_TOOL := $(call find-tool,desktop-file-validate)
+
+desktop-file-validate: $(DESKTOP_FILE_VALIDATE_TOOL) $(CONFIGURED_DESKTOP_ENTRY)
+	$^
+
+.PHONY: desktop-file-validate
+
+ifneq (tool-not-found/desktop-file-validate,$(DESKTOP_FILE_VALIDATE_TOOL))
+all: desktop-file-validate
+endif
+
 $(addprefix $(DESTDIR),$(SYS_INSTALLED_DESKTOP_ENTRY) $(SYS_INSTALLED_DBUS_SERVICE)): | installdirs
 	$(INSTALL_DATA) $< $@
 

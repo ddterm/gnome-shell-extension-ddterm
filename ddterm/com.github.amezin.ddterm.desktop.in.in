@@ -17,6 +17,8 @@ X-ExecArg=--
 
 [Desktop Action toggle]
 Name=Toggle
+Exec=gapplication action com.github.amezin.ddterm toggle
 
 [Desktop Action preferences]
 Name=Preferences…
+Exec=gapplication action com.github.amezin.ddterm preferences

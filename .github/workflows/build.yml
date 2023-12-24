@@ -80,6 +80,10 @@ jobs:
       shell: bash
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
+    - name: Validate .desktop file
+      run: make desktop-file-validate 2>&1 | tee desktop-file.log
+      if: ${{ always() && steps.checkout.conclusion == 'success' }}
+
     - name: Validate Gtk .ui files
       run: xvfb-run make gtk-builder-validate 2>&1 | tee gtk-builder.log
       shell: bash
