@@ -50,6 +50,7 @@ PACK_CONTENT += revision.txt
 
 SCHEMAS := $(wildcard schemas/*.gschema.xml)
 SCHEMAS_COMPILED := schemas/gschemas.compiled
+SCHEMAS_ALL := $(SCHEMAS) $(SCHEMAS_COMPILED)
 
 GLIB_COMPILE_SCHEMAS := $(call find-tool,glib-compile-schemas)
 
@@ -268,7 +269,8 @@ CONFIGURED_DESKTOP_ENTRY := $(basename $(UNCONFIGURED_DESKTOP_ENTRY))
 CONFIGURED_DBUS_SERVICE := $(basename $(UNCONFIGURED_DBUS_SERVICE))
 
 SYS_INSTALLED_EXTENSION_DIR := $(extensiondir)/$(EXTENSION_UUID)
-SYS_INSTALLED_CONTENT := $(addprefix $(SYS_INSTALLED_EXTENSION_DIR)/,$(PACK_CONTENT) $(SCHEMAS_COMPILED))
+SYS_INSTALLED_CONTENT := $(addprefix $(SYS_INSTALLED_EXTENSION_DIR)/,$(filter-out $(SCHEMAS_ALL),$(PACK_CONTENT)))
+SYS_INSTALLED_SCHEMAS := $(addprefix $(datadir)/glib-2.0/,$(SCHEMAS))
 SYS_INSTALLED_DESKTOP_ENTRY := $(datadir)/applications/$(notdir $(CONFIGURED_DESKTOP_ENTRY))
 SYS_INSTALLED_DBUS_SERVICE := $(datadir)/dbus-1/services/$(notdir $(CONFIGURED_DBUS_SERVICE))
 SYS_INSTALLED_EXECUTABLES := $(addprefix $(SYS_INSTALLED_EXTENSION_DIR)/,$(EXECUTABLES))
@@ -276,6 +278,7 @@ SYS_INSTALLED_LAUNCHER := $(filter %$(LAUNCHER),$(SYS_INSTALLED_EXECUTABLES))
 SYS_INSTALLED_LAUNCHER_SYMLINK := $(bindir)/$(notdir $(LAUNCHER))
 SYS_INSTALLED_ALL := \
 	$(SYS_INSTALLED_CONTENT) \
+	$(SYS_INSTALLED_SCHEMAS) \
 	$(SYS_INSTALLED_DESKTOP_ENTRY) \
 	$(SYS_INSTALLED_DBUS_SERVICE) \
 	$(SYS_INSTALLED_LAUNCHER_SYMLINK) \
@@ -290,7 +293,10 @@ installdirs: $(addprefix $(DESTDIR),$(SYS_INSTALLED_DIRS))
 $(addprefix $(DESTDIR),$(SYS_INSTALLED_CONTENT)): $(DESTDIR)$(SYS_INSTALLED_EXTENSION_DIR)/%: % | installdirs
 	$(INSTALL) $< $@
 
-$(addprefix $(DESTDIR),$(SYS_INSTALLED_CONTENT)): INSTALL := $(INSTALL_DATA)
+$(addprefix $(DESTDIR),$(SYS_INSTALLED_SCHEMAS)): $(DESTDIR)$(datadir)/glib-2.0/%: % | installdirs
+	$(INSTALL) $< $@
+
+$(addprefix $(DESTDIR),$(SYS_INSTALLED_CONTENT) $(SYS_INSTALLED_SCHEMAS)): INSTALL := $(INSTALL_DATA)
 $(addprefix $(DESTDIR),$(SYS_INSTALLED_EXECUTABLES)): INSTALL := $(INSTALL_PROGRAM)
 
 $(CONFIGURED_DESKTOP_ENTRY) $(CONFIGURED_DBUS_SERVICE):
@@ -321,6 +327,13 @@ $(addprefix $(DESTDIR),$(SYS_INSTALLED_DBUS_SERVICE)): $(CONFIGURED_DBUS_SERVICE
 $(addprefix $(DESTDIR),$(SYS_INSTALLED_LAUNCHER_SYMLINK)): | installdirs
 	ln -s $(SYS_INSTALLED_LAUNCHER) $@
 
+system-schemas-compile system-schemas-compile-nodeps: $(GLIB_COMPILE_SCHEMAS)
+	$(GLIB_COMPILE_SCHEMAS) $(DESTDIR)$(datadir)/glib-2.0/schemas
+
+system-schemas-compile: $(addprefix $(DESTDIR),$(SYS_INSTALLED_SCHEMAS))
+
+.PHONY: system-schemas-compile system-schemas-compile-nodeps
+
 system-install: $(addprefix $(DESTDIR),$(SYS_INSTALLED_ALL))
 
 system-uninstall:
@@ -328,6 +341,11 @@ system-uninstall:
 	$(RM) -r $(addprefix $(DESTDIR),$(SYS_INSTALLED_FULL_PREFIX))
 
 .PHONY: system-install system-uninstall installdirs
+
+ifeq ($(DESTDIR),)
+system-install: system-schemas-compile
+system-uninstall: system-schemas-compile-nodeps
+endif
 
 # System/user install autodetect
 
