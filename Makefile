@@ -338,7 +338,7 @@ system-install: $(addprefix $(DESTDIR),$(SYS_INSTALLED_ALL))
 
 system-uninstall:
 	$(RM) $(addprefix $(DESTDIR),$(SYS_INSTALLED_ALL))
-	$(RM) -r $(addprefix $(DESTDIR),$(SYS_INSTALLED_FULL_PREFIX))
+	$(RM) -r $(DESTDIR)$(SYS_INSTALLED_EXTENSION_DIR)
 
 .PHONY: system-install system-uninstall installdirs
 
