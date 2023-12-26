@@ -53,14 +53,3 @@ or by opening a pull request on GitHub.
 [![Translation status](https://hosted.weblate.org/widgets/gnome-shell-extension-ddterm/-/multi-auto.svg)](https://hosted.weblate.org/engage/gnome-shell-extension-ddterm/)
 
 See [docs/Translations.md](docs/Translations.md).
-
-## Toggle the terminal through D-Bus
-
-It's possible to toggle the terminal externally through D-Bus. For example,
-from command line:
-
-    $ gdbus call --session --dest org.gnome.Shell --object-path /org/gnome/Shell/Extensions/ddterm --method com.github.amezin.ddterm.Extension.Toggle
-
-Or simply show/activate:
-
-    $ gdbus call --session --dest org.gnome.Shell --object-path /org/gnome/Shell/Extensions/ddterm --method com.github.amezin.ddterm.Extension.Activate
