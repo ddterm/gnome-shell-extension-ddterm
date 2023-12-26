@@ -7,6 +7,9 @@ on:
     paths-ignore:
       - docs/**
       - po/**
+      - README.md
+      - Vagrantfile
+      - vagrant-provision/**
 
 jobs:
   build:
