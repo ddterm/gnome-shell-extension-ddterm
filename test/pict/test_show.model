@@ -1,0 +1,16 @@
+session: TestXSession, TestWaylandSession, TestWaylandHighDpi, TestWaylandDualMonitor, TestWaylandMixedDPI, TestWaylandFractionalScaling, TestWaylandHighDpiScaleFramebuffer
+
+monitor_setting: primary, current
+monitor_current: 0, 1
+
+window_size: 0.5, 0.78, 0.8, 0.9, 0.92, 1.0
+window_pos: left, right, top, bottom
+window_maximize: not_maximized (2), maximize_early, maximize_late
+
+IF NOT [session] IN {"TestWaylandDualMonitor", "TestWaylandMixedDPI"}
+    THEN [monitor_current] = 0;
+
+IF [session] IN {"TestWaylandMixedDPI"}
+    AND [window_pos] IN {"left", "right"}
+    AND ([monitor_current] = 0 OR [monitor_setting] = "primary")
+    THEN [window_size] >= 1.0;

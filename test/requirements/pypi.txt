@@ -6,8 +6,6 @@
 #
 --only-binary :all:
 
-allpairspy @ git+https://github.com/amezin/allpairspy.git@66df42dee8c784033d8e4851b4e952403f4d287b
-    # via -r pypi.in
 ansi2html==1.9.1
     # via -r pypi.in
 execnet==2.0.2

@@ -65,7 +65,7 @@ You could also request a report in JUnit format by adding
 * Window management: tests verify that for a specific combination of settings
 (window size, position, maximized/unmaximized flag) the window shows at the
 correct location and has the correct size. To reduce the number of settings
-combinations, [pairwise testing] (using [allpairspy]) is applied.
+combinations, [pairwise testing] (using [PICT]) is applied.
 
 * Basic memory leak tests.
 
@@ -94,6 +94,6 @@ is installed and enabled too.
 Sometimes also reading journal.
 
 [pairwise testing]: https://www.pairwise.org/
-[allpairspy]: https://github.com/thombashi/allpairspy
+[PICT]: https://github.com/microsoft/pict
 [GNOME Shell containers]: https://github.com/ddterm/gnome-shell-pod
 [`compose.yaml`]: /test/compose.yaml
