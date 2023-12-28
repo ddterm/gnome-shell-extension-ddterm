@@ -858,19 +858,6 @@ class TestWaylandMixedDPI(TestWaylandDualMonitor):
         if shell_dbus_api.version < (42, 0):
             pytest.skip('Mixed DPI is not supported by ddterm on GNOME Shell <42')
 
-    @pytest.fixture(autouse=True)
-    def check_broken_test(self, window_pos, monitor_config, request):
-        if window_pos == WindowPosition.RIGHT:
-            if monitor_config.current_index != self.PRIMARY_MONITOR:
-                if monitor_config.setting == MonitorSetting.PRIMARY:
-                    request.applymarker(pytest.mark.xfail())
-
-    test_mouse_resize = None
-    test_change_position = None
-    test_unmaximize = None
-    test_unmaximize_correct_size = None
-    test_unmaximize_on_size_change = None
-
 
 class TestWaylandFractionalScaling(TestWaylandSession):
     @pytest.fixture(scope='class')
