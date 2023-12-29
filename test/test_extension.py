@@ -445,20 +445,10 @@ class CommonTests(ddterm_fixtures.DDTermFixtures):
     def enable_screenshots(self, x11_display, screencap):
         screencap.enable(x11_display)
 
-    @pytest.fixture(scope='class')
-    def test_api(self, test_extension_interface, layout, settings, mouse_sim, shell_dbus_api):
-        return Api(
-            dbus=test_extension_interface,
-            layout=layout,
-            settings=settings,
-            mouse_sim=mouse_sim,
-            shell=shell_dbus_api,
-        )
-
     @pytest.fixture(scope='class', autouse=True)
-    def make_dummy_window(self, test_api, user_bus_connection):
+    def make_dummy_window(self, test_extension_interface, user_bus_connection):
         with glib_util.SignalWait(
-            test_api.dbus,
+            test_extension_interface,
             'g-properties-changed',
             timeout=STARTUP_TIMEOUT_MS
         ) as prop_wait:
@@ -472,8 +462,19 @@ class CommonTests(ddterm_fixtures.DDTermFixtures):
 
             app_interface.Activate('(a{sv})', {}, timeout=STARTUP_TIMEOUT_MS)
 
-            while test_api.dbus.get_cached_property('ActiveApp').unpack() != DUMMY_APP_ID:
+            app_id = GLib.Variant.new_string(DUMMY_APP_ID)
+            while test_extension_interface.get_cached_property('ActiveApp') != app_id:
                 prop_wait.wait()
+
+    @pytest.fixture
+    def test_api(self, test_extension_interface, layout, settings, mouse_sim, shell_dbus_api):
+        return Api(
+            dbus=test_extension_interface,
+            layout=layout,
+            settings=settings,
+            mouse_sim=mouse_sim,
+            shell=shell_dbus_api,
+        )
 
     @pytest.fixture
     def monitor_config(self, monitor_setting, monitor_current):
