@@ -432,6 +432,9 @@ export const Terminal = GObject.registerClass({
     }
 
     on_style_updated() {
+        // VTE bug? https://github.com/ddterm/gnome-shell-extension-ddterm/issues/674
+        this.set_font(this.get_font());
+
         if (!this._foreground_from_style && !this._background_from_style)
             return;
 
