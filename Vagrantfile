@@ -54,7 +54,7 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.define "fedora39", primary: true do |version|
-    version.vm.box = "fedora/39-beta-cloud-base"
+    version.vm.box = "fedora/39-cloud-base"
   end
 
   config.vm.synced_folder '.', '/vagrant', type: 'rsync', rsync__exclude: rsync_excludes
