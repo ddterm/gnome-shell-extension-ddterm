@@ -11,18 +11,11 @@ on:
     branches:
       - master
 
-env:
-  PO_FILES: po/*.po po/*.pot
-
 jobs:
   pot:
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/ddterm/ci-docker-image:2023.12.26.0
-
-    permissions:
-      contents: write
-      actions: write
 
     steps:
     - name: Checkout
@@ -36,28 +29,15 @@ jobs:
     - name: Update .pot files
       run: po/update-pot.sh
 
-    - name: Check if there are any changes
-      id: diff
-      run: |
-        git diff --color=always -- $PO_FILES | tee /dev/stderr | .github/set-multiline.sh diff >> "$GITHUB_OUTPUT"
-
-    - name: Commit and push
-      id: push
-      if: steps.diff.outputs.diff != ''
-      run: |
-        git config user.name 'github-actions[bot]'
-        git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-        git commit -m 'Update translation files' -- $PO_FILES
-        git push
-
-    - name: Trigger translation check
-      if: steps.push.outcome == 'success'
-      uses: actions/github-script@v7
+    - name: Get app token
+      id: app-token
+      uses: getsentry/action-github-app-token@v2
       with:
-        script: |
-          github.rest.actions.createWorkflowDispatch({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            workflow_id: 'push-po.yml',
-            ref: '${{ github.ref }}',
-          })
+        app_id: ${{ secrets.APP_ID }}
+        private_key: ${{ secrets.APP_KEY }}
+
+    - name: Commit
+      uses: getsentry/action-github-commit@v1
+      with:
+        github-token: ${{ steps.app-token.outputs.token }}
+        message: 'Update translation files'
