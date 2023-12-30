@@ -77,7 +77,7 @@ function update_manifest(dry_run = false) {
 
     if (!dry_run) {
         get_manifest_file().replace_contents(
-            new TextEncoder().encode(JSON.stringify(manifest, undefined, 1)),
+            JSON.stringify(manifest, undefined, 1),
             null,
             false,
             Gio.FileCreateFlags.NONE,

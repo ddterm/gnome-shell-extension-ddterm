@@ -53,8 +53,6 @@ function sd_journal_stream_fd(identifier, priority = LOG_INFO, level_prefix = fa
         '', /* add newline in the end */
     ].join('\n');
 
-    const header_bytes = new TextEncoder().encode(header);
-
     const addr = Gio.UnixSocketAddress.new('/run/systemd/journal/stdout');
 
     const socket = Gio.Socket.new(
@@ -69,7 +67,7 @@ function sd_journal_stream_fd(identifier, priority = LOG_INFO, level_prefix = fa
         socket.connect(addr, null);
         socket.shutdown(true, false);
         socket.set_option(SOL_SOCKET, SO_SNDBUF, LARGE_BUFFER_SIZE);
-        socket.send(header_bytes, null);
+        socket.send(header, null);
 
         fd = dup(socket.fd);
     } finally {
