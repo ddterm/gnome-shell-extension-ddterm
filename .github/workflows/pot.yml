@@ -37,7 +37,7 @@ jobs:
         private_key: ${{ secrets.APP_KEY }}
 
     - name: Commit
-      uses: getsentry/action-github-commit@v1
+      uses: getsentry/action-github-commit@v1.1.0
       with:
         github-token: ${{ steps.app-token.outputs.token }}
         message: 'Update translation files'
