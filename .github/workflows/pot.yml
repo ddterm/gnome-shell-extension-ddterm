@@ -36,10 +36,10 @@ jobs:
 
     - name: Get app token
       id: app-token
-      uses: getsentry/action-github-app-token@v2
+      uses: actions/create-github-app-token@v1
       with:
-        app_id: ${{ secrets.APP_ID }}
-        private_key: ${{ secrets.APP_KEY }}
+        app-id: ${{ secrets.APP_ID }}
+        private-key: ${{ secrets.APP_KEY }}
 
     - name: Commit
       uses: getsentry/action-github-commit@v1.1.0
