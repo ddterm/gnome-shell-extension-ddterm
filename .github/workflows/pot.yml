@@ -10,6 +10,12 @@ on:
   push:
     branches:
       - master
+    paths-ignore:
+      - docs/**
+      - po/*.po
+      - README.md
+      - Vagrantfile
+      - vagrant-provision/**
 
 jobs:
   pot:
