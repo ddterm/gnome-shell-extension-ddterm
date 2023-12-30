@@ -25,6 +25,7 @@ import Shell from 'gi://Shell';
 
 import { Extension } from 'resource:///org/gnome/shell/extensions/extension.js';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
+import * as MessageTray from 'resource:///org/gnome/shell/ui/messageTray.js';
 
 import { AppControl } from './appcontrol.js';
 import { DBusApi } from './dbusapi.js';
@@ -32,7 +33,9 @@ import { WindowGeometry } from './geometry.js';
 import { Installer } from './install.js';
 import { PanelIconProxy } from './panelicon.js';
 import { Service } from './service.js';
-import { SharedNotificationSource, SharedNotification } from './notifications.js';
+import {
+    SharedNotificationSource, SharedNotification, ErrorLogNotification
+} from './notifications.js';
 import { Subprocess, WaylandSubprocess } from './subprocess.js';
 import { WindowManager } from './wm.js';
 import { WindowMatch } from './windowmatch.js';
@@ -234,17 +237,17 @@ class EnabledExtension {
 
         this.settings = this.extension.getSettings();
 
-        const notification_source = new SharedNotificationSource(
+        this.notification_source = new SharedNotificationSource(
             this.extension.gettext('Drop Down Terminal'),
             'utilities-terminal'
         );
 
         rollback.push(() => {
-            notification_source.destroy();
+            this.notification_source.destroy();
         });
 
         const revision_mismatch_notification = new SharedNotification(
-            notification_source,
+            this.notification_source,
             this.extension.gettext('Drop Down Terminal'),
             this.extension.gettext(
                 'Warning: ddterm version has changed. ' +
@@ -398,6 +401,15 @@ class EnabledExtension {
         if (this.window_manager)
             this.window_manager.debug = func;
     }
+
+    show_error_notification(message, use_markup = true) {
+        const source = this.notification_source.get();
+        const notification =
+            new ErrorLogNotification(source, source.title, message, { bannerMarkup: use_markup });
+
+        notification.setUrgency(MessageTray.Urgency.CRITICAL);
+        source.showNotification(notification);
+    }
 }
 
 export default class DDTermExtension extends Extension {
@@ -447,7 +459,29 @@ export default class DDTermExtension extends Extension {
 
         this.app_process = app_process;
 
-        app_process.wait().finally(() => {
+        app_process.wait_check().then(() => {
+            log(`${this.launcher_path} exited cleanly`);
+        }).catch(ex => {
+            logError(ex, this.launcher_path);
+
+            const escape = value => GLib.markup_escape_text(`${value}`, -1);
+            const message = `<b>${escape(ex.message || ex)}</b>`;
+
+            if (!app_process.log_collector) {
+                this.enabled_state?.show_error_notification(message);
+                return;
+            }
+
+            app_process.log_collector?.collect().then(output => {
+                this.enabled_state?.show_error_notification(
+                    output ? `${message}\n\n${escape(output)}` : message
+                );
+            }).catch(ex2 => {
+                logError(ex2, 'Failed to collect logs');
+
+                this.enabled_state?.show_error_notification(message);
+            });
+        }).finally(() => {
             if (this.app_process === app_process)
                 this.app_process = null;
         });

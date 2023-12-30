@@ -20,6 +20,7 @@
 import GLib from 'gi://GLib';
 import Gio from 'gi://Gio';
 
+import Gettext from 'gettext';
 import Gi from 'gi';
 import System from 'system';
 
@@ -83,47 +84,6 @@ function resolve_packages(manifest, lib_versions, os_ids) {
     return { packages, unresolved };
 }
 
-function get_interpreter() {
-    try {
-        const pid = Gio.Credentials.new().get_unix_pid();
-        const [ok_, bytes] = GLib.file_get_contents(`/proc/${pid}/cmdline`);
-        const argv0_bytes = bytes.slice(0, bytes.indexOf(0));
-        const argv0 = new TextDecoder().decode(argv0_bytes);
-        const fullpath = GLib.find_program_in_path(argv0);
-
-        if (fullpath)
-            return fullpath;
-    } catch (ex) {
-        logError(ex);
-    }
-
-    return 'gjs';
-}
-
-function show_notification(packages, filenames) {
-    const cmd = [
-        get_interpreter(),
-        '-m',
-        get_file('dependencies-notification.js').get_path(),
-    ];
-
-    for (const pkg of packages)
-        cmd.push('--package', pkg);
-
-    for (const filename of filenames)
-        cmd.push('--file', filename);
-
-    const [_, pid] = GLib.spawn_async(
-        null,
-        cmd,
-        null,
-        GLib.SpawnFlags.SEARCH_PATH,
-        null
-    );
-
-    GLib.spawn_close_pid(pid);
-}
-
 export function gi_require(imports_versions) {
     const manifest = load_manifest();
     const os_ids = get_os_ids();
@@ -139,14 +99,32 @@ export function gi_require(imports_versions) {
             Gi.require(lib, version);
         } catch (ex) {
             missing[lib] = version;
-            logError(ex);
         }
     }
 
     const { packages, unresolved } = resolve_packages(manifest, missing, os_ids);
 
-    if (packages.size + unresolved.size !== 0) {
-        show_notification(packages, unresolved);
-        System.exit(1);
+    if (packages.size === 0 && unresolved.size === 0)
+        return;
+
+    const message_lines = [
+        Gettext.gettext('ddterm needs additional packages to run.'),
+    ];
+
+    if (packages.size > 0) {
+        message_lines.push(
+            Gettext.gettext('Please install the following packages: ') +
+            Array.from(packages).join(', ')
+        );
     }
+
+    if (unresolved.size > 0) {
+        message_lines.push(
+            Gettext.gettext('Please install packages that provide the following files: ') +
+            Array.from(unresolved).join(', ')
+        );
+    }
+
+    printerr(message_lines.join('\n'));
+    System.exit(1);
 }

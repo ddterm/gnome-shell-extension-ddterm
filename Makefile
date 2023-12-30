@@ -185,7 +185,7 @@ JS_SOURCE_WILDCARDS := \
 
 JS_SOURCES := $(wildcard $(JS_SOURCE_WILDCARDS))
 LAUNCHER := bin/com.github.amezin.ddterm
-EXECUTABLES := $(LAUNCHER) ddterm/app/dependencies-notification.js
+EXECUTABLES := $(LAUNCHER)
 
 TRANSLATABLE_SOURCES += $(JS_SOURCES)
 PACK_CONTENT += $(EXECUTABLES) $(filter-out $(EXECUTABLES),$(JS_SOURCES))

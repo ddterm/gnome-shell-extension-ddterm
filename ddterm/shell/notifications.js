@@ -17,7 +17,12 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+import GObject from 'gi://GObject';
+import Pango from 'gi://Pango';
+import St from 'gi://St';
+
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
+import * as MessageList from 'resource:///org/gnome/shell/ui/messageList.js';
 import * as MessageTray from 'resource:///org/gnome/shell/ui/messageTray.js';
 
 class SharedBase {
@@ -65,3 +70,57 @@ export class SharedNotification extends SharedBase {
         notification.source.showNotification(notification);
     }
 }
+
+const ErrorLogNotificationBanner = GObject.registerClass({
+}, class DDTermErrorLogNotificationBanner extends MessageTray.NotificationBanner {
+    _init(notification) {
+        super._init(notification);
+
+        const expand_label = new MessageList.URLHighlighter(
+            notification.bannerBodyText,
+            true,
+            notification.bannerBodyMarkup
+        );
+
+        expand_label.clutter_text.ellipsize = Pango.EllipsizeMode.NONE;
+
+        const scroll_area = new St.ScrollView({
+            style_class: 'vfade',
+            overlay_scrollbars: true,
+            hscrollbar_policy: St.PolicyType.NEVER,
+            vscrollbar_policy: St.PolicyType.AUTOMATIC,
+            visible: this.expanded,
+        });
+
+        const viewport = new St.BoxLayout({ vertical: true });
+
+        viewport.add_actor(expand_label);
+        scroll_area.add_actor(viewport);
+        this.setExpandedBody(scroll_area);
+
+        const disconnect = [];
+
+        const disconnect_all = () => {
+            while (disconnect.length)
+                disconnect.pop()();
+        };
+
+        const connect = (source, signal, handler) => {
+            const handler_id = source.connect(signal, handler);
+            disconnect.push(() => source.disconnect(handler_id));
+        };
+
+        connect(this, 'destroy', disconnect_all);
+        connect(notification, 'destroy', disconnect_all);
+        connect(notification, 'updated', () => {
+            expand_label.setMarkup(notification.bannerBodyText, notification.bannerBodyMarkup);
+        });
+    }
+});
+
+export const ErrorLogNotification = GObject.registerClass({
+}, class DDTermErrorLogNotification extends MessageTray.Notification {
+    createBanner() {
+        return new ErrorLogNotificationBanner(this);
+    }
+});
