@@ -76,7 +76,7 @@ export function tcgetpgrp(fd) {
         launcher.take_fd(dup(fd), TARGET_FD);
 
         const subprocess = launcher.spawnv(argv);
-        const [_, stdout] = subprocess.communicate_utf8(null, null);
+        const [, stdout] = subprocess.communicate_utf8(null, null);
         subprocess.wait_check(null);
 
         return parseInt(stdout, 10);

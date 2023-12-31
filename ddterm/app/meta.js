@@ -25,7 +25,7 @@ export const dir = Gio.File.new_for_uri(
 );
 
 function load_metadata() {
-    const [ok_, bytes] = dir.get_child('metadata.json').load_contents(null);
+    const [, bytes] = dir.get_child('metadata.json').load_contents(null);
     const text = new TextDecoder().decode(bytes);
 
     return JSON.parse(text);

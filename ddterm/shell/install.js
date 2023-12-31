@@ -29,7 +29,7 @@ function arrays_equal(a, b) {
 
 class File {
     constructor(source_file, target_file, fallback_files = []) {
-        const [ok_, content_bytes] = GLib.file_get_contents(source_file);
+        const [, content_bytes] = GLib.file_get_contents(source_file);
         this.content = new TextDecoder().decode(content_bytes);
 
         this.target_file = target_file;
@@ -44,7 +44,7 @@ class File {
     get_existing_content() {
         for (const existing_file of [this.target_file, ...this.fallback_files]) {
             try {
-                const [ok_, content_bytes] = GLib.file_get_contents(existing_file);
+                const [, content_bytes] = GLib.file_get_contents(existing_file);
 
                 return content_bytes;
             } catch (ex) {

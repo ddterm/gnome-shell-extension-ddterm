@@ -81,7 +81,7 @@ class JournalctlLogCollector {
 
     _finish(resolve, reject, source, result) {
         try {
-            const [ok_, stdout_buf] = source.communicate_utf8_finish(result);
+            const [, stdout_buf] = source.communicate_utf8_finish(result);
             resolve(stdout_buf);
         } catch (ex) {
             reject(ex);

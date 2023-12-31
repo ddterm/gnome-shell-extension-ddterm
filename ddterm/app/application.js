@@ -494,7 +494,7 @@ class Application extends Gtk.Application {
     }
 
     print_version_info() {
-        const [ok_, bytes] = get_file('../../revision.txt').load_contents(null);
+        const [, bytes] = get_file('../../revision.txt').load_contents(null);
         const revision = new TextDecoder().decode(bytes).trim();
         print(metadata.name, metadata.version, 'revision', revision);
 
@@ -518,7 +518,7 @@ class Application extends Gtk.Application {
         if ('_extension_dbus' in this)
             return this._extension_dbus;
 
-        const [ok_, bytes] =
+        const [, bytes] =
             get_file('../com.github.amezin.ddterm.Extension.xml').load_contents(null);
 
         const extension_dbus_factory = Gio.DBusProxy.makeProxyWrapper(
@@ -632,7 +632,7 @@ class Application extends Gtk.Application {
     }
 
     restore_session() {
-        const [ok_, data] = GLib.file_get_contents(this.session_file_path);
+        const [, data] = GLib.file_get_contents(this.session_file_path);
 
         if (data?.length) {
             const data_variant = GLib.Variant.new_from_bytes(

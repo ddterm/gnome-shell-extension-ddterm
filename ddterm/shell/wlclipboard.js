@@ -33,7 +33,7 @@ export function is_wlclipboard(win) {
     const pid = win.get_pid();
 
     try {
-        const [ok_, bytes] = GLib.file_get_contents(`/proc/${pid}/cmdline`);
+        const [, bytes] = GLib.file_get_contents(`/proc/${pid}/cmdline`);
         const argv0_bytes = bytes.slice(0, bytes.indexOf(0));
         const argv0 = new TextDecoder().decode(argv0_bytes);
 

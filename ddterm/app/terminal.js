@@ -202,7 +202,7 @@ export const TerminalCommand = GObject.registerClass({
     }
 
     static parse(command, working_directory = null, envv = null) {
-        const [_, argv] = GLib.shell_parse_argv(command);
+        const [, argv] = GLib.shell_parse_argv(command);
 
         return new TerminalCommand({
             argv,

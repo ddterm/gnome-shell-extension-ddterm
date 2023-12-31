@@ -30,7 +30,7 @@ function get_file(relative_path) {
 
 export class HeapDumper {
     constructor() {
-        const [ok_, bytes] =
+        const [, bytes] =
             get_file('../com.github.amezin.ddterm.HeapDump.xml').load_contents(null);
 
         this.dbus = Gio.DBusExportedObject.wrapJSObject(
