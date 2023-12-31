@@ -137,8 +137,9 @@ const WindowManager = GObject.registerClass({
         this._setup_maximized_handlers();
 
         const mapped = this._window_mapped();
+        const client_type = this.window.get_client_type();
         if (!mapped) {
-            if (this.window.get_client_type() === Meta.WindowClientType.WAYLAND) {
+            if (client_type === Meta.WindowClientType.WAYLAND) {
                 this.debug?.('Scheduling geometry fixup on map');
                 this._schedule_geometry_fixup();
                 this.window.move_to_monitor(this.geometry.monitor_index);
@@ -151,6 +152,9 @@ const WindowManager = GObject.registerClass({
                     this._map_handler = null;
 
                     this._update_window_geometry(true);
+
+                    this._set_window_above();
+                    this._set_window_stick();
                 });
             } else {
                 this._update_window_geometry(true);
@@ -170,11 +174,13 @@ const WindowManager = GObject.registerClass({
         this._setup_hide_when_focus_lost();
         this._setup_animation_overrides();
 
-        if (this.window.get_client_type() === Meta.WindowClientType.X11)
+        if (client_type === Meta.WindowClientType.X11)
             Main.activateWindow(this.window);
 
-        this._set_window_above();
-        this._set_window_stick();
+        if (mapped && client_type !== Meta.WindowClientType.WAYLAND) {
+            this._set_window_above();
+            this._set_window_stick();
+        }
 
         if (this.settings.get_boolean('window-maximize'))
             this.window.maximize(Meta.MaximizeFlags.BOTH);
