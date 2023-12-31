@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-31 03:30+0200\n"
+"POT-Creation-Date: 2023-12-31 23:36+0000\n"
 "PO-Revision-Date: 2023-11-23 08:05+0000\n"
 "Last-Translator: yuh <yuhldr@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -66,14 +66,14 @@ msgstr "打开新标签"
 msgid "Saving session…"
 msgstr "会话保存中……"
 
-#: ddterm/app/application.js:508 ddterm/shell/extension.js:253
+#: ddterm/app/application.js:508 ddterm/shell/extension.js:254
 msgid ""
 "Warning: ddterm version has changed. Log out, then log in again to load the "
 "updated extension."
 msgstr "警告：ddterm版本已改变。注销后重新登录，方可生效。"
 
-#: ddterm/app/appwindow.js:149 ddterm/shell/extension.js:241
-#: ddterm/shell/extension.js:251
+#: ddterm/app/appwindow.js:149 ddterm/shell/extension.js:242
+#: ddterm/shell/extension.js:252
 msgid "Drop Down Terminal"
 msgstr "下拉终端"
 
@@ -1309,6 +1309,12 @@ msgstr "标签页"
 #: ddterm/pref/text.js:100
 msgid "Text"
 msgstr "文本"
+
+#: ddterm/shell/extension.js:486
+#, fuzzy
+#| msgid "Paste Text from Clipboard"
+msgid "Copy to Clipboard"
+msgstr "从剪贴板上粘贴文本"
 
 #: ddterm/shell/panelicon.js:66
 msgid "Show"

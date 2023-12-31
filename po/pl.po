@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-31 03:30+0200\n"
+"POT-Creation-Date: 2023-12-31 23:36+0000\n"
 "PO-Revision-Date: 2023-10-23 00:33+0000\n"
 "Last-Translator: Eryk Michalak <gnu.ewm@protonmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/gnome-shell-"
@@ -70,7 +70,7 @@ msgstr "Otwórz nową kartę"
 msgid "Saving session…"
 msgstr "Zapisywanie sesji…"
 
-#: ddterm/app/application.js:508 ddterm/shell/extension.js:253
+#: ddterm/app/application.js:508 ddterm/shell/extension.js:254
 msgid ""
 "Warning: ddterm version has changed. Log out, then log in again to load the "
 "updated extension."
@@ -78,8 +78,8 @@ msgstr ""
 "Ostrzeżenie: wersja ddterm zmieniła się. Zaloguj się ponownie, aby załadować "
 "aktualne rozszerzenie."
 
-#: ddterm/app/appwindow.js:149 ddterm/shell/extension.js:241
-#: ddterm/shell/extension.js:251
+#: ddterm/app/appwindow.js:149 ddterm/shell/extension.js:242
+#: ddterm/shell/extension.js:252
 msgid "Drop Down Terminal"
 msgstr "Rozwijany Terminal"
 
@@ -1317,6 +1317,12 @@ msgstr "Karty"
 #: ddterm/pref/text.js:100
 msgid "Text"
 msgstr "Tekst"
+
+#: ddterm/shell/extension.js:486
+#, fuzzy
+#| msgid "Paste Text from Clipboard"
+msgid "Copy to Clipboard"
+msgstr "Wklej tekst ze schowka"
 
 #: ddterm/shell/panelicon.js:66
 msgid "Show"

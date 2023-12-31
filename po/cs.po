@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-31 03:30+0200\n"
+"POT-Creation-Date: 2023-12-31 23:36+0000\n"
 "PO-Revision-Date: 2023-10-24 22:14+0000\n"
 "Last-Translator: Pavel Novák <pavelnov32@gmail.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/gnome-shell-"
@@ -66,7 +66,7 @@ msgstr "Otevřít nový panel"
 msgid "Saving session…"
 msgstr "Ukládám sezení…"
 
-#: ddterm/app/application.js:508 ddterm/shell/extension.js:253
+#: ddterm/app/application.js:508 ddterm/shell/extension.js:254
 msgid ""
 "Warning: ddterm version has changed. Log out, then log in again to load the "
 "updated extension."
@@ -74,8 +74,8 @@ msgstr ""
 "Varování: Verze ddterm byla změněna. Znovu se přihlašte pro načtení "
 "aktualizovaného rozšíření."
 
-#: ddterm/app/appwindow.js:149 ddterm/shell/extension.js:241
-#: ddterm/shell/extension.js:251
+#: ddterm/app/appwindow.js:149 ddterm/shell/extension.js:242
+#: ddterm/shell/extension.js:252
 msgid "Drop Down Terminal"
 msgstr "Rozbalovací Terminál"
 
@@ -1321,6 +1321,12 @@ msgstr "Panely"
 #: ddterm/pref/text.js:100
 msgid "Text"
 msgstr "Text"
+
+#: ddterm/shell/extension.js:486
+#, fuzzy
+#| msgid "Paste Text from Clipboard"
+msgid "Copy to Clipboard"
+msgstr "Vložit zkopírovaný text"
 
 #: ddterm/shell/panelicon.js:66
 msgid "Show"

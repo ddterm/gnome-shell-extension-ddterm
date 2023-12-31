@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-31 03:30+0200\n"
+"POT-Creation-Date: 2023-12-31 23:36+0000\n"
 "PO-Revision-Date: 2023-11-05 23:33+0000\n"
 "Last-Translator: fail a fail <yassadmi@proton.me>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/gnome-shell-"
@@ -69,7 +69,7 @@ msgstr "Ouvrir un nouvel onglet"
 msgid "Saving session…"
 msgstr "Enregistrement de la session…"
 
-#: ddterm/app/application.js:508 ddterm/shell/extension.js:253
+#: ddterm/app/application.js:508 ddterm/shell/extension.js:254
 msgid ""
 "Warning: ddterm version has changed. Log out, then log in again to load the "
 "updated extension."
@@ -77,8 +77,8 @@ msgstr ""
 "Avertissement : La version de ddterm a changé. Fermez la session, puis "
 "reconnectez-vous pour charger l'extension mise à jour."
 
-#: ddterm/app/appwindow.js:149 ddterm/shell/extension.js:241
-#: ddterm/shell/extension.js:251
+#: ddterm/app/appwindow.js:149 ddterm/shell/extension.js:242
+#: ddterm/shell/extension.js:252
 msgid "Drop Down Terminal"
 msgstr "Terminal déroulant"
 
@@ -1316,6 +1316,12 @@ msgstr "Onglets"
 #: ddterm/pref/text.js:100
 msgid "Text"
 msgstr "Texte"
+
+#: ddterm/shell/extension.js:486
+#, fuzzy
+#| msgid "Paste Text from Clipboard"
+msgid "Copy to Clipboard"
+msgstr "Coller depuis le presse-papier"
 
 #: ddterm/shell/panelicon.js:66
 msgid "Show"
