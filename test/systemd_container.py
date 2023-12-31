@@ -24,6 +24,7 @@ def _(arg: socket.socket):
 
 class SystemdContainer(coreutils_container.CoreutilsContainer):
     REQUIRED_CAPS = [
+        'SYS_ADMIN',
         'SYS_NICE',
         'SYS_PTRACE',
         'SETPCAP',
