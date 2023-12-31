@@ -46,8 +46,18 @@ jobs:
     - name: Stage changes
       run: git add po/*.po po/*.pot
 
+    - name: Check if there are any changes
+      id: diff
+      uses: actions/github-script@v7
+      with:
+        result-encoding: string
+        script: |
+          const { stdout } = await getExecOutput('git', ['diff', '--cached']);
+          return stdout.trim();
+
     - name: Commit
-      uses: ddterm/github-api-commit-action@v0
+      uses: ddterm/github-api-commit-action@ccf9b520c5698380ad3b9619c5add427369b7ef1
+      if: steps.diff.outputs.result != ''
       with:
         token: ${{ steps.app-token.outputs.token }}
         commit-message: 'Update translation files'
