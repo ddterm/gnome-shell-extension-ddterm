@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-31 01:17+0000\n"
+"POT-Creation-Date: 2023-12-31 03:30+0200\n"
 "PO-Revision-Date: 2023-12-26 17:07+0000\n"
 "Last-Translator: Ettore Atalan <atalanttore@googlemail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/gnome-shell-"
@@ -87,15 +87,11 @@ msgid "ddterm needs additional packages to run."
 msgstr "ddterm benötigt zusätzliche Pakete zur Ausführung."
 
 #: ddterm/app/dependencies.js:116
-#, fuzzy
-#| msgid "Please install the following packages:"
-msgid "Please install the following packages: "
+msgid "Please install the following packages:"
 msgstr "Bitte installieren Sie die folgenden Pakete:"
 
 #: ddterm/app/dependencies.js:123
-#, fuzzy
-#| msgid "Please install packages that provide the following files:"
-msgid "Please install packages that provide the following files: "
+msgid "Please install packages that provide the following files:"
 msgstr "Bitte installieren Sie Pakete, die folgende Dateien bereitstellen:"
 
 #: ddterm/app/menus.ui:25

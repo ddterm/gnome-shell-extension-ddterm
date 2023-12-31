@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-31 01:17+0000\n"
+"POT-Creation-Date: 2023-12-31 03:30+0200\n"
 "PO-Revision-Date: 2023-11-23 08:05+0000\n"
 "Last-Translator: yuh <yuhldr@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -82,15 +82,11 @@ msgid "ddterm needs additional packages to run."
 msgstr "ddterm需要额外的软件包才能运行。"
 
 #: ddterm/app/dependencies.js:116
-#, fuzzy
-#| msgid "Please install the following packages:"
-msgid "Please install the following packages: "
+msgid "Please install the following packages:"
 msgstr "请安装以下软件包："
 
 #: ddterm/app/dependencies.js:123
-#, fuzzy
-#| msgid "Please install packages that provide the following files:"
-msgid "Please install packages that provide the following files: "
+msgid "Please install packages that provide the following files:"
 msgstr "请安装提供以下文件的软件包："
 
 #: ddterm/app/menus.ui:25
