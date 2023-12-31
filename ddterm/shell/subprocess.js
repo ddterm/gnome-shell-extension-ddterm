@@ -29,7 +29,7 @@ const SIGTERM = 15;
 const STDOUT_FD = 1;
 const STDERR_FD = 2;
 
-const KEEP_LOG_LINES = 5;
+const KEEP_LOG_LINES = 50;
 
 function make_subprocess_launcher_journald(journal_identifier) {
     const subprocess_launcher = Gio.SubprocessLauncher.new(Gio.SubprocessFlags.NONE);

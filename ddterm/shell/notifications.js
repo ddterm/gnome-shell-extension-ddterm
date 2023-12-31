@@ -97,6 +97,7 @@ const ErrorLogNotificationBanner = GObject.registerClass({
         viewport.add_actor(expand_label);
         scroll_area.add_actor(viewport);
         this.setExpandedBody(scroll_area);
+        this.setExpandedLines(12);  /* like in Telepathy notifications */
 
         const disconnect = [];
 
