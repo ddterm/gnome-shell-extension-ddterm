@@ -464,17 +464,16 @@ export default class DDTermExtension extends Extension {
         }).catch(ex => {
             logError(ex, this.launcher_path);
 
-            const escape = value => GLib.markup_escape_text(`${value}`, -1);
-            const message = `<b>${escape(ex.message || ex)}</b>`;
+            const message = `<b>${GLib.markup_escape_text(ex.message || ex, -1)}</b>`;
 
             if (!app_process.log_collector) {
                 this.enabled_state?.show_error_notification(message);
                 return;
             }
 
-            app_process.log_collector?.collect().then(output => {
+            app_process.log_collector?.collect().then(s => s.trim()).then(output => {
                 this.enabled_state?.show_error_notification(
-                    output ? `${message}\n\n${escape(output)}` : message
+                    output ? `${message}\n\n${GLib.markup_escape_text(output, -1)}` : message
                 );
             }).catch(ex2 => {
                 logError(ex2, 'Failed to collect logs');
