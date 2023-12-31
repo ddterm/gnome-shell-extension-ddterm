@@ -52,7 +52,7 @@ jobs:
       with:
         result-encoding: string
         script: |
-          const { stdout } = await getExecOutput('git', ['diff', '--cached']);
+          const { stdout } = await exec.getExecOutput('git', ['diff', '--cached']);
           return stdout.trim();
 
     - name: Commit
