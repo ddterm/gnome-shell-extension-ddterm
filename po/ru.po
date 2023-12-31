@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-24 21:22+0000\n"
+"POT-Creation-Date: 2023-12-31 01:17+0000\n"
 "PO-Revision-Date: 2023-12-17 05:10+0000\n"
 "Last-Translator: gfbdrgng <hnaofegnp@hldrive.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/gnome-shell-"
@@ -69,7 +69,7 @@ msgstr "Открыть новую вкладку"
 msgid "Saving session…"
 msgstr "Сохранение сессии…"
 
-#: ddterm/app/application.js:508 ddterm/shell/extension.js:250
+#: ddterm/app/application.js:508 ddterm/shell/extension.js:253
 msgid ""
 "Warning: ddterm version has changed. Log out, then log in again to load the "
 "updated extension."
@@ -77,26 +77,26 @@ msgstr ""
 "Внимание: версия ddterm изменилась. Завершите сессию и снова войдите для "
 "применения обновлений расширения."
 
-#: ddterm/app/appwindow.js:149 ddterm/shell/extension.js:238
-#: ddterm/shell/extension.js:248
+#: ddterm/app/appwindow.js:149 ddterm/shell/extension.js:241
+#: ddterm/shell/extension.js:251
 msgid "Drop Down Terminal"
 msgstr "Выпадающий терминал"
 
-#: ddterm/app/dependencies-notification.js:133
+#: ddterm/app/dependencies.js:111
 msgid "ddterm needs additional packages to run."
 msgstr "ddterm требуются дополнительные пакеты для запуска."
 
-#: ddterm/app/dependencies-notification.js:138
-msgid "Please install the following packages:"
+#: ddterm/app/dependencies.js:116
+#, fuzzy
+#| msgid "Please install the following packages:"
+msgid "Please install the following packages: "
 msgstr "Необходимо установить указанные пакеты:"
 
-#: ddterm/app/dependencies-notification.js:146
-msgid "Please install packages that provide the following files:"
+#: ddterm/app/dependencies.js:123
+#, fuzzy
+#| msgid "Please install packages that provide the following files:"
+msgid "Please install packages that provide the following files: "
 msgstr "Необходимо установить пакеты, содержащие следующие файлы:"
-
-#: ddterm/app/dependencies-notification.js:159
-msgid "Missing dependencies"
-msgstr "Отсутствуют зависимости"
 
 #: ddterm/app/menus.ui:25
 msgid "Open Hyperlink"
@@ -1322,6 +1322,9 @@ msgstr "Текст"
 #: ddterm/shell/panelicon.js:66
 msgid "Show"
 msgstr "Показать"
+
+#~ msgid "Missing dependencies"
+#~ msgstr "Отсутствуют зависимости"
 
 #~ msgid "Global Action"
 #~ msgstr "Глобальное действие"
