@@ -220,4 +220,4 @@ const WindowMatch = GObject.registerClass({
     }
 });
 
-export { WindowMatch };
+export { WindowMatch, WindowMatchGeneric };

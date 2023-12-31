@@ -27,6 +27,7 @@ import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import * as WM from 'resource:///org/gnome/shell/ui/windowManager.js';
 
 import { WindowGeometry } from './geometry.js';
+import { is_wlclipboard, WlClipboardActivator } from './wlclipboard.js';
 
 const MOUSE_RESIZE_GRABS = [
     Meta.GrabOp.RESIZING_NW,
@@ -336,6 +337,9 @@ const WindowManager = GObject.registerClass({
         if (win && this.window.is_ancestor_of_transient(win))
             return;
 
+        if (is_wlclipboard(win))
+            return;
+
         this.emit('hide-request');
     }
 
@@ -356,6 +360,18 @@ const WindowManager = GObject.registerClass({
 
     _set_window_above() {
         const should_be_above = this.settings.get_boolean('window-above');
+
+        if (should_be_above) {
+            if (!this._wl_clipboard_activator) {
+                this._wl_clipboard_activator = new WlClipboardActivator({
+                    display: global.display,
+                });
+            }
+        } else {
+            this._wl_clipboard_activator?.disable();
+            this._wl_clipboard_activator = null;
+        }
+
         // Both make_above() and unmake_above() raise the window, so check is necessary
         if (this.window.above === should_be_above)
             return;
@@ -621,5 +637,7 @@ const WindowManager = GObject.registerClass({
         }
 
         this._disable_animation_overrides();
+
+        this._wl_clipboard_activator?.disable();
     }
 });

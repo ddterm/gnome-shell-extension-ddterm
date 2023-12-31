@@ -41,6 +41,9 @@ subprocess, with the corresponding `Meta.WaylandClient`
 * [`windowmatch.js`](/ddterm/shell/windowmatch.js): monitors opened windows and
 finds ddterm's main window
 
+* [`wlclipboard.js`](/ddterm/shell/wlclipboard.js): detects [wl-clipboard]
+utilities windows and implements workarounds for them.
+
 * [`geometry.js`](/ddterm/shell/geometry.js): computes window position and size
 
 * [`wm.js`](/ddterm/shell/wm.js): window management code
@@ -60,3 +63,5 @@ Extension code doesn't (and shouldn't) use any third party (npm) libraries.
 
 [`ddterm/shell`]: /ddterm/shell
 [`com.github.amezin.ddterm.Extension.xml`]: /ddterm/com.github.amezin.ddterm.Extension.xml
+
+[wl-clipboard]: https://github.com/bugaevc/wl-clipboard
