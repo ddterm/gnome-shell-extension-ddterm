@@ -23,8 +23,17 @@ jobs:
       image: ghcr.io/ddterm/ci-docker-image:2023.12.26.0
 
     steps:
+    - name: Get app token
+      id: app-token
+      uses: actions/create-github-app-token@v1
+      with:
+        app-id: ${{ secrets.APP_ID }}
+        private-key: ${{ secrets.APP_KEY }}
+
     - name: Checkout
       uses: actions/checkout@v4
+      with:
+        token: ${{ steps.app-token.outputs.token }}
 
     - run: git config --global --replace-all safe.directory "$GITHUB_WORKSPACE"
 
@@ -34,15 +43,11 @@ jobs:
     - name: Update .pot files
       run: po/update-pot.sh
 
-    - name: Get app token
-      id: app-token
-      uses: actions/create-github-app-token@v1
-      with:
-        app-id: ${{ secrets.APP_ID }}
-        private-key: ${{ secrets.APP_KEY }}
+    - name: Stage changes
+      run: git add po/*.po po/*.pot
 
     - name: Commit
-      uses: getsentry/action-github-commit@v1.1.0
+      uses: ddterm/github-api-commit-action@v0
       with:
-        github-token: ${{ steps.app-token.outputs.token }}
-        message: 'Update translation files'
+        token: ${{ steps.app-token.outputs.token }}
+        commit-message: 'Update translation files'
