@@ -22,6 +22,7 @@ import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
 import Meta from 'gi://Meta';
 import Shell from 'gi://Shell';
+import St from 'gi://St';
 
 import { Extension } from 'resource:///org/gnome/shell/extensions/extension.js';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
@@ -402,13 +403,18 @@ class EnabledExtension {
             this.window_manager.debug = func;
     }
 
-    show_error_notification(message, use_markup = true) {
+    create_error_notification(message, use_markup = true) {
         const source = this.notification_source.get();
         const notification =
             new ErrorLogNotification(source, source.title, message, { bannerMarkup: use_markup });
 
         notification.setUrgency(MessageTray.Urgency.CRITICAL);
-        source.showNotification(notification);
+        return notification;
+    }
+
+    show_error_notification(message, use_markup = true) {
+        const notification = this.create_error_notification(message, use_markup);
+        notification.source.showNotification(notification);
     }
 }
 
@@ -472,9 +478,16 @@ export default class DDTermExtension extends Extension {
             }
 
             app_process.log_collector?.collect().then(s => s.trim()).then(output => {
-                this.enabled_state?.show_error_notification(
+                const notification = this.enabled_state?.create_error_notification(
                     output ? `${message}\n\n${GLib.markup_escape_text(output, -1)}` : message
                 );
+
+                notification?.addAction(
+                    this.gettext('Copy to Clipboard'),
+                    () => St.Clipboard.get_default().set_text(St.ClipboardType.CLIPBOARD, output)
+                );
+
+                notification?.source.showNotification(notification);
             }).catch(ex2 => {
                 logError(ex2, 'Failed to collect logs');
 
