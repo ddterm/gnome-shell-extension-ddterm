@@ -63,10 +63,8 @@ msgid "Open a new tab"
 msgstr "Otevřít nový panel"
 
 #: ddterm/app/application.js:348
-#, fuzzy
-#| msgid "Saving session..."
 msgid "Saving session…"
-msgstr "Ukládám sezení..."
+msgstr "Ukládám sezení…"
 
 #: ddterm/app/application.js:508 ddterm/shell/extension.js:253
 msgid ""
@@ -212,10 +210,8 @@ msgstr "Předvolby"
 #: ddterm/app/menus.ui:160 ddterm/app/menus.ui:294
 #: ddterm/com.github.amezin.ddterm.desktop.in.in:24
 #: ddterm/shell/panelicon.js:78
-#, fuzzy
-#| msgid "Preferences"
 msgid "Preferences…"
-msgstr "Předvolby"
+msgstr "Předvolby…"
 
 #: ddterm/app/menus.ui:166
 msgid "Above All Windows"

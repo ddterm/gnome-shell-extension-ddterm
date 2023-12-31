@@ -211,7 +211,7 @@ msgstr "首选项"
 #, fuzzy
 #| msgid "Preferences"
 msgid "Preferences…"
-msgstr "首选项"
+msgstr "首选项…"
 
 #: ddterm/app/menus.ui:166
 msgid "Above All Windows"
