@@ -40,9 +40,8 @@ on Fedora, `gtk4` package on Arch)
 
 Alternatively, you can use `docker` or `podman` to perform build steps in a
 container - the same image/environment that's used by the CI system. To do it,
-run build commands with `./do-in-docker.sh` or `./do-in-podman.sh` wrapper:
+run build command with `./do-in-docker.sh` or `./do-in-podman.sh` wrapper:
 
-    $ ./do-in-docker.sh npm install
     $ ./do-in-docker.sh make pack
 
 # 4. `make pack`
@@ -110,7 +109,6 @@ for you:
 
     $ git clone https://github.com/ddterm/gnome-shell-extension-ddterm.git
     $ cd gnome-shell-extension-ddterm
-    $ npm install
     $ make develop
 
 `make develop` replaces steps 5 and 6.1, but you still have to restart GNOME
