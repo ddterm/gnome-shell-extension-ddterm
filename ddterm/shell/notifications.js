@@ -99,21 +99,15 @@ const ErrorLogNotificationBanner = GObject.registerClass({
         this.setExpandedBody(scroll_area);
         this.setExpandedLines(12);  /* like in Telepathy notifications */
 
-        const disconnect = [];
-
-        const disconnect_all = () => {
-            while (disconnect.length)
-                disconnect.pop()();
+        const disconnect = () => {
+            this.disconnect(destroy_banner_handler);
+            notification.disconnect(destroy_notification_handler);
+            notification.disconnect(update_handler);
         };
 
-        const connect = (source, signal, handler) => {
-            const handler_id = source.connect(signal, handler);
-            disconnect.push(() => source.disconnect(handler_id));
-        };
-
-        connect(this, 'destroy', disconnect_all);
-        connect(notification, 'destroy', disconnect_all);
-        connect(notification, 'updated', () => {
+        const destroy_banner_handler = this.connect('destroy', disconnect);
+        const destroy_notification_handler = notification.connect('destroy', disconnect);
+        const update_handler = notification.connect('updated', () => {
             expand_label.setMarkup(notification.bannerBodyText, notification.bannerBodyMarkup);
         });
     }
