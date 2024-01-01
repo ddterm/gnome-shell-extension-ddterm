@@ -35,7 +35,7 @@ function dup(fd) {
 }
 
 /* like gio-launch-desktop */
-function sd_journal_stream_fd(identifier, priority = LOG_INFO, level_prefix = false) {
+export function sd_journal_stream_fd(identifier, priority = LOG_INFO, level_prefix = false) {
     if (priority < 0)
         priority = 0;
 
@@ -82,5 +82,3 @@ function sd_journal_stream_fd(identifier, priority = LOG_INFO, level_prefix = fa
         throw ex;
     }
 }
-
-export { sd_journal_stream_fd };

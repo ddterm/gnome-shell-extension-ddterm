@@ -23,7 +23,7 @@ import Meta from 'gi://Meta';
 
 import { Subprocess } from './subprocess.js';
 
-const WindowMatchGeneric = GObject.registerClass({
+export const WindowMatchGeneric = GObject.registerClass({
     Properties: {
         'display': GObject.ParamSpec.object(
             'display',
@@ -93,7 +93,7 @@ const WindowMatchGeneric = GObject.registerClass({
     }
 });
 
-const WindowMatch = GObject.registerClass({
+export const WindowMatch = GObject.registerClass({
     Properties: {
         'subprocess': GObject.ParamSpec.object(
             'subprocess',
@@ -219,5 +219,3 @@ const WindowMatch = GObject.registerClass({
         this.notify('current-window');
     }
 });
-
-export { WindowMatch, WindowMatchGeneric };

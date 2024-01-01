@@ -145,7 +145,7 @@ function make_wayland_client(subprocess_launcher) {
     }
 }
 
-const Subprocess = GObject.registerClass({
+export const Subprocess = GObject.registerClass({
     Properties: {
         'journal-identifier': GObject.ParamSpec.string(
             'journal-identifier',
@@ -232,7 +232,7 @@ const Subprocess = GObject.registerClass({
     }
 });
 
-const WaylandSubprocess = GObject.registerClass({
+export const WaylandSubprocess = GObject.registerClass({
     Properties: {
         'wayland-client': GObject.ParamSpec.object(
             'wayland-client',
@@ -257,5 +257,3 @@ const WaylandSubprocess = GObject.registerClass({
         return this._wayland_client;
     }
 });
-
-export { Subprocess, WaylandSubprocess };

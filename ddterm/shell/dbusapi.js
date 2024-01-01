@@ -65,7 +65,7 @@ function meta_rect_to_variant(meta_rect) {
     ]);
 }
 
-const DBusApi = GObject.registerClass({
+export const DBusApi = GObject.registerClass({
     Properties: {
         'xml-file-path': GObject.ParamSpec.string(
             'xml-file-path',
@@ -167,5 +167,3 @@ const DBusApi = GObject.registerClass({
         this.dbus.flush();
     }
 });
-
-export { DBusApi };

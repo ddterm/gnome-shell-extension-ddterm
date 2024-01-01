@@ -23,7 +23,7 @@ import Gio from 'gi://Gio';
 
 import { Subprocess } from './subprocess.js';
 
-const Service = GObject.registerClass({
+export const Service = GObject.registerClass({
     Properties: {
         'bus': GObject.ParamSpec.object(
             'bus',
@@ -188,5 +188,3 @@ const Service = GObject.registerClass({
         }
     }
 });
-
-export { Service };

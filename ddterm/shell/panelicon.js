@@ -17,8 +17,6 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-export { PanelIconProxy };
-
 import GObject from 'gi://GObject';
 import Atk from 'gi://Atk';
 import Clutter from 'gi://Clutter';
@@ -183,7 +181,7 @@ const TYPE_BY_NAME = {
     ].map(t => [t.type_name(), t])),
 };
 
-const PanelIconProxy = GObject.registerClass({
+export const PanelIconProxy = GObject.registerClass({
     Properties: {
         'active': GObject.ParamSpec.boolean(
             'active',

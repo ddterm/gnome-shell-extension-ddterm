@@ -27,8 +27,6 @@ import { Service } from './service.js';
 import { WindowGeometry } from './geometry.js';
 import { WindowMatch } from './windowmatch.js';
 
-export { AppControl };
-
 async function wait_timeout(message, timeout_ms, cancellable = null) {
     await new Promise(resolve => {
         const source = GLib.timeout_add(GLib.PRIORITY_DEFAULT, timeout_ms, () => {
@@ -77,7 +75,7 @@ async function wait_property(object, property, predicate, cancellable = null) {
     return result;
 }
 
-const AppControl = GObject.registerClass({
+export const AppControl = GObject.registerClass({
     Properties: {
         'service': GObject.ParamSpec.object(
             'service',

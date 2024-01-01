@@ -40,9 +40,7 @@ const MOUSE_RESIZE_GRABS = [
     Meta.GrabOp.RESIZING_W,
 ];
 
-export { WindowManager };
-
-const WindowManager = GObject.registerClass({
+export const WindowManager = GObject.registerClass({
     Properties: {
         'settings': GObject.ParamSpec.object(
             'settings',
