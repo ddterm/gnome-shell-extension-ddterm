@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-31 23:36+0000\n"
+"POT-Creation-Date: 2024-01-01 00:54+0000\n"
 "PO-Revision-Date: 2023-11-10 09:35+0000\n"
 "Last-Translator: Frankie McEyes <mceyes@protonmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/gnome-shell-"
@@ -319,7 +319,7 @@ msgstr "Trova precedente"
 msgid "Restart"
 msgstr "Riavviare"
 
-#: ddterm/app/terminalpage.js:443 ddterm/app/terminalpage.js:639
+#: ddterm/app/terminalpage.js:443 ddterm/app/terminalpage.js:631
 msgid "Close Terminal"
 msgstr "Chiudi terminale"
 
@@ -331,11 +331,11 @@ msgstr "Il processo figlio è uscito con lo stato:"
 msgid "The child process was aborted by signal:"
 msgstr "Il processo figlio è stato interrotto da un segnale:"
 
-#: ddterm/app/terminalpage.js:631
+#: ddterm/app/terminalpage.js:623
 msgid "Close this terminal?"
 msgstr "Chiudere questo terminale?"
 
-#: ddterm/app/terminalpage.js:633
+#: ddterm/app/terminalpage.js:625
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."
