@@ -580,20 +580,12 @@ export const TerminalPage = GObject.registerClass({
     }
 
     find() {
-        if (this.terminal.get_has_selection()) {
-            const primary_selection = this.terminal.get_clipboard(
-                Gdk.Atom.intern('PRIMARY', true)
-            );
+        this.terminal.get_text_selected_async().then(text => {
+            if (text)
+                this.search_bar.pattern.text = text;
 
-            this.terminal.copy_primary();
-
-            primary_selection.request_text((_, text) => {
-                if (text)
-                    this.search_bar.pattern.text = text;
-            });
-        }
-
-        this.search_bar.reveal_child = true;
+            this.search_bar.reveal_child = true;
+        });
     }
 
     show_in_file_manager() {
