@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-01 00:54+0000\n"
+"POT-Creation-Date: 2024-01-01 03:46+0000\n"
 "PO-Revision-Date: 2023-12-26 17:07+0000\n"
 "Last-Translator: Ettore Atalan <atalanttore@googlemail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/gnome-shell-"
@@ -212,7 +212,7 @@ msgstr "Einstellungen"
 
 #: ddterm/app/menus.ui:160 ddterm/app/menus.ui:294
 #: ddterm/com.github.amezin.ddterm.desktop.in.in:24
-#: ddterm/shell/panelicon.js:78
+#: ddterm/shell/panelicon.js:76
 msgid "Preferences…"
 msgstr "Einstellungen …"
 
@@ -1321,7 +1321,7 @@ msgstr "Text"
 msgid "Copy to Clipboard"
 msgstr "Text aus Zwischenablage einfügen"
 
-#: ddterm/shell/panelicon.js:66
+#: ddterm/shell/panelicon.js:64
 msgid "Show"
 msgstr "Anzeigen"
 

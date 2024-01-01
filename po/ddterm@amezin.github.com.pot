@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-01 00:54+0000\n"
+"POT-Creation-Date: 2024-01-01 03:46+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -206,7 +206,7 @@ msgstr ""
 
 #: ddterm/app/menus.ui:160 ddterm/app/menus.ui:294
 #: ddterm/com.github.amezin.ddterm.desktop.in.in:24
-#: ddterm/shell/panelicon.js:78
+#: ddterm/shell/panelicon.js:76
 msgid "Preferences…"
 msgstr ""
 
@@ -1307,6 +1307,6 @@ msgstr ""
 msgid "Copy to Clipboard"
 msgstr ""
 
-#: ddterm/shell/panelicon.js:66
+#: ddterm/shell/panelicon.js:64
 msgid "Show"
 msgstr ""
