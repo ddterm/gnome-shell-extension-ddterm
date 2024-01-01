@@ -23,7 +23,7 @@ import Gtk from 'gi://Gtk';
 
 import { bind_widgets, ui_file_uri } from './util.js';
 
-export const Widget = GObject.registerClass({
+export const CompatibilityWidget = GObject.registerClass({
     GTypeName: 'DDTermPrefsCompatibility',
     Template: ui_file_uri('prefs-compatibility.ui'),
     Children: [
@@ -75,5 +75,3 @@ export const Widget = GObject.registerClass({
         return this.gettext_context.gettext('Compatibility');
     }
 });
-
-export default Widget;

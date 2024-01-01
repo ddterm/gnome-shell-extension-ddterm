@@ -290,7 +290,7 @@ const ColorScheme = GObject.registerClass({
 
 const PALETTE_WIDGET_IDS = Array.from({ length: 16 }, (_, i) => `palette${i}`);
 
-export const Widget = GObject.registerClass({
+export const ColorsWidget = GObject.registerClass({
     GTypeName: 'DDTermPrefsColors',
     Template: ui_file_uri('prefs-colors.ui'),
     Children: [
@@ -495,5 +495,3 @@ export const Widget = GObject.registerClass({
             this.settings.is_writable('background-color');
     }
 });
-
-export default Widget;

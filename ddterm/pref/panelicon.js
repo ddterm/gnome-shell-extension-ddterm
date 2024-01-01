@@ -23,7 +23,7 @@ import Gtk from 'gi://Gtk';
 
 import { insert_settings_actions, ui_file_uri } from './util.js';
 
-export const Widget = GObject.registerClass({
+export const PanelIconWidget = GObject.registerClass({
     GTypeName: 'DDTermPrefsPanelIcon',
     Template: ui_file_uri('prefs-panel-icon.ui'),
     Properties: {
@@ -52,5 +52,3 @@ export const Widget = GObject.registerClass({
         return this.gettext_context.gettext('Panel Icon');
     }
 });
-
-export default Widget;

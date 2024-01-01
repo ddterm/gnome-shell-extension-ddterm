@@ -21,17 +21,17 @@ import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
 import Adw from 'gi://Adw';
 
-import PositionSizeWidget from './positionsize.js';
-import BehaviorWidget from './behavior.js';
-import AnimationWidget from './animation.js';
-import TabsWidget from './tabs.js';
-import TextWidget from './text.js';
-import ColorsWidget from './colors.js';
-import CommandWidget from './command.js';
-import ScrollingWidget from './scrolling.js';
-import CompatibilityWidget from './compatibility.js';
-import ShortcutsWidget from './shortcuts.js';
-import PanelIconWidget from './panelicon.js';
+import { AnimationWidget } from './animation.js';
+import { BehaviorWidget } from './behavior.js';
+import { ColorsWidget } from './colors.js';
+import { CommandWidget } from './command.js';
+import { CompatibilityWidget } from './compatibility.js';
+import { PanelIconWidget } from './panelicon.js';
+import { PositionSizeWidget } from './positionsize.js';
+import { ScrollingWidget } from './scrolling.js';
+import { ShortcutsWidget } from './shortcuts.js';
+import { TabsWidget } from './tabs.js';
+import { TextWidget } from './text.js';
 
 const Page = GObject.registerClass({
     Properties: {

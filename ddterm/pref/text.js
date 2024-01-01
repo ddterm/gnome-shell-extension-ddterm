@@ -29,7 +29,7 @@ import {
     ui_file_uri
 } from './util.js';
 
-export const Widget = GObject.registerClass({
+export const TextWidget = GObject.registerClass({
     GTypeName: 'DDTermPrefsText',
     Template: ui_file_uri('prefs-text.ui'),
     Children: [
@@ -100,5 +100,3 @@ export const Widget = GObject.registerClass({
         return this.gettext_context.gettext('Text');
     }
 });
-
-export default Widget;

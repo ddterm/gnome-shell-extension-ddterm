@@ -28,7 +28,7 @@ import {
     ui_file_uri
 } from './util.js';
 
-export const Widget = GObject.registerClass({
+export const TabsWidget = GObject.registerClass({
     GTypeName: 'DDTermPrefsTabs',
     Template: ui_file_uri('prefs-tabs.ui'),
     Children: [
@@ -114,5 +114,3 @@ export const Widget = GObject.registerClass({
         }
     }
 });
-
-export default Widget;

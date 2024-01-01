@@ -29,7 +29,7 @@ import {
     ui_file_uri
 } from './util.js';
 
-export const Widget = GObject.registerClass({
+export const AnimationWidget = GObject.registerClass({
     GTypeName: 'DDTermPrefsAnimation',
     Template: ui_file_uri('prefs-animation.ui'),
     Children: [
@@ -77,5 +77,3 @@ export const Widget = GObject.registerClass({
         return this.gettext_context.gettext('Animation');
     }
 });
-
-export default Widget;

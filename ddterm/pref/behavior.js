@@ -23,7 +23,7 @@ import Gtk from 'gi://Gtk';
 
 import { bind_widget, insert_settings_actions, ui_file_uri } from './util.js';
 
-export const Widget = GObject.registerClass({
+export const BehaviorWidget = GObject.registerClass({
     GTypeName: 'DDTermPrefsBehavior',
     Template: ui_file_uri('prefs-behavior.ui'),
     Children: [
@@ -66,5 +66,3 @@ export const Widget = GObject.registerClass({
         return this.gettext_context.gettext('Behavior');
     }
 });
-
-export default Widget;

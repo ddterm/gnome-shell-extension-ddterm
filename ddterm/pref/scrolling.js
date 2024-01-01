@@ -28,7 +28,7 @@ import {
     ui_file_uri
 } from './util.js';
 
-export const Widget = GObject.registerClass({
+export const ScrollingWidget = GObject.registerClass({
     GTypeName: 'DDTermPrefsScrolling',
     Template: ui_file_uri('prefs-scrolling.ui'),
     Children: [
@@ -81,5 +81,3 @@ export const Widget = GObject.registerClass({
         return this.gettext_context.gettext('Scrolling');
     }
 });
-
-export default Widget;

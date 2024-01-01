@@ -37,7 +37,7 @@ const COLUMN_ACCEL_KEY = 2;
 const COLUMN_ACCEL_MODS = 3;
 const COLUMN_EDITABLE = 4;
 
-export const Widget = GObject.registerClass({
+export const ShortcutsWidget = GObject.registerClass({
     GTypeName: 'DDTermPrefsShortcuts',
     Template: ui_file_uri('prefs-shortcuts.ui'),
     Children: [
@@ -220,5 +220,3 @@ export const Widget = GObject.registerClass({
         });
     }
 });
-
-export default Widget;

@@ -30,7 +30,7 @@ import {
     ui_file_uri
 } from './util.js';
 
-export const Widget = GObject.registerClass({
+export const PositionSizeWidget = GObject.registerClass({
     GTypeName: 'DDTermPrefsPositionSize',
     Template: ui_file_uri('prefs-position-size.ui'),
     Children: [
@@ -113,5 +113,3 @@ export const Widget = GObject.registerClass({
         }
     }
 });
-
-export default Widget;

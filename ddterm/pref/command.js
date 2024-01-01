@@ -23,7 +23,7 @@ import Gtk from 'gi://Gtk';
 
 import { bind_widget, insert_settings_actions, ui_file_uri } from './util.js';
 
-export const Widget = GObject.registerClass({
+export const CommandWidget = GObject.registerClass({
     GTypeName: 'DDTermPrefsCommand',
     Template: ui_file_uri('prefs-command.ui'),
     Children: [
@@ -72,5 +72,3 @@ export const Widget = GObject.registerClass({
             this.settings.get_string('command') === 'custom-command';
     }
 });
-
-export default Widget;
