@@ -34,7 +34,6 @@ const KEEP_LOG_LINES = 50;
 function make_subprocess_launcher_journald(journal_identifier) {
     const subprocess_launcher = Gio.SubprocessLauncher.new(Gio.SubprocessFlags.NONE);
 
-    /* eslint-disable max-len */
     /*
      * ShellApp.launch() connects to journald from the main GNOME Shell process too:
      * https://gitlab.gnome.org/GNOME/gnome-shell/-/blob/51dc50144ecacc9ac1f807dcc6bdf4f1d49343ae/src/shell-app.c#L1452

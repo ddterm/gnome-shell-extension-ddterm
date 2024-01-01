@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 /*
     Copyright © 2020, 2021 Aleksandr Mezin
 
@@ -21,6 +20,8 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
+
+/* eslint-disable max-len */
 
 /* Lookbehind to see if there's a preceding apostrophe.
  * Unlike the other *_DEF macros which define regex subroutines,

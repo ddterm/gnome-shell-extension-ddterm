@@ -5,6 +5,7 @@ rules:
   max-len:
     - error
     - 100
+    - ignoreUrls: true
   consistent-return: error
   key-spacing:
     - error
