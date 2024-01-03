@@ -122,16 +122,19 @@ export const WindowManager = GObject.registerClass({
         this._update_show_animation_duration();
         this._update_hide_animation_duration();
 
-        this._window_handlers = [
-            this.window.connect('unmanaged', this.disable.bind(this)),
-            this.window.connect('unmanaging', () => {
+        this._window_handlers = Object.entries({
+            'unmanaged': this.disable.bind(this),
+            'unmanaging': () => {
                 if (!this.settings.get_boolean('override-window-animation') || this.hide_animation)
                     return;
 
                 Main.wm.skipNextEffect(this.window.get_compositor_private());
                 this.disable();
-            }),
-        ];
+            },
+            'notify::above': this._setup_wl_clipboard_activator.bind(this),
+        }).map(
+            ([signal, callback]) => this.window.connect(signal, callback)
+        );
 
         this._setup_maximized_handlers();
 
@@ -182,6 +185,8 @@ export const WindowManager = GObject.registerClass({
 
         if (this.settings.get_boolean('window-maximize'))
             this.window.maximize(Meta.MaximizeFlags.BOTH);
+
+        this._setup_wl_clipboard_activator();
     }
 
     _disable_animation_overrides() {
@@ -355,10 +360,8 @@ export const WindowManager = GObject.registerClass({
         );
     }
 
-    _set_window_above() {
-        const should_be_above = this.settings.get_boolean('window-above');
-
-        if (should_be_above) {
+    _setup_wl_clipboard_activator() {
+        if (this.window.above) {
             if (!this._wl_clipboard_activator) {
                 this._wl_clipboard_activator = new WlClipboardActivator({
                     display: global.display,
@@ -368,6 +371,10 @@ export const WindowManager = GObject.registerClass({
             this._wl_clipboard_activator?.disable();
             this._wl_clipboard_activator = null;
         }
+    }
+
+    _set_window_above() {
+        const should_be_above = this.settings.get_boolean('window-above');
 
         // Both make_above() and unmake_above() raise the window, so check is necessary
         if (this.window.above === should_be_above)
