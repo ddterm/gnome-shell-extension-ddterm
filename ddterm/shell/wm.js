@@ -154,11 +154,11 @@ export const WindowManager = GObject.registerClass({
                     this._map_handler = null;
 
                     this._update_window_geometry(true);
-
                     this._set_window_above();
                 });
             } else {
                 this._update_window_geometry(true);
+                this._set_window_above();
             }
 
             if (this.settings.get_boolean('override-window-animation') && !this.show_animation)
@@ -178,7 +178,7 @@ export const WindowManager = GObject.registerClass({
         if (client_type === Meta.WindowClientType.X11)
             Main.activateWindow(this.window);
 
-        if (mapped && client_type !== Meta.WindowClientType.WAYLAND)
+        if (mapped)
             this._set_window_above();
 
         this._set_window_stick();
