@@ -67,6 +67,9 @@ body:
         for sensitive data before uploading (it may contain other application
         names, document/file names, window titles, etc.).
 
+        On non-systemd distributions, session logs are located in
+        `~/.cache/gdm/session.log`.
+
       placeholder: >
         Tip: You can attach images or log files by clicking this area to
         highlight it and then dragging files in.
