@@ -3,6 +3,13 @@ description: File a bug report
 labels: ["bug"]
 
 body:
+  - type: markdown
+    attributes:
+      value: |
+        Please check GNOME session logs for relevant error messages:
+          - `journalctl --user -b` on systemd-based operating systems
+          - `~/.cache/gdm/session.log` otherwise
+
   - type: input
     id: shell-version
     attributes:
