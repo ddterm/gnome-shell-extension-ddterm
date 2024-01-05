@@ -29,9 +29,9 @@ body:
         - label: More than one monitor
 
   - type: input
-    id: version
+    id: extension-version
     attributes:
-      label: ddterm version
+      label: Extension version
       description: >
         Output of `gnome-extensions info ddterm@amezin.github.com | grep -Po 'Version:\s*\K\S+'`
       placeholder: gnome-extensions info ddterm@amezin.github.com | grep -Po 'Version:\s*\K\S+'
@@ -43,6 +43,14 @@ body:
       description: >
         Output of `grep -Po '^PRETTY_NAME=\K.*' /etc/os-release`
       placeholder: grep -Po '^PRETTY_NAME=\K.*' /etc/os-release
+
+  - type: textarea
+    id: version-verbose
+    attributes:
+      label: Verbose version information
+      description: >
+        Output of `com.github.amezin.ddterm --version || ~/.local/share/gnome-shell/extensions/ddterm@amezin.github.com/bin/com.github.amezin.ddterm --version`
+      placeholder: com.github.amezin.ddterm --version || ~/.local/share/gnome-shell/extensions/ddterm@amezin.github.com/bin/com.github.amezin.ddterm --version
 
   - type: textarea
     id: dconf-dump
