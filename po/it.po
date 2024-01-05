@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-05 04:47+0000\n"
+"POT-Creation-Date: 2024-01-05 21:56+0000\n"
 "PO-Revision-Date: 2023-11-10 09:35+0000\n"
 "Last-Translator: Frankie McEyes <mceyes@protonmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/gnome-shell-"
@@ -68,7 +68,7 @@ msgstr "Aprire una nuova scheda"
 msgid "Saving session…"
 msgstr "Salvataggio della sessione…"
 
-#: ddterm/app/application.js:508 ddterm/shell/extension.js:254
+#: ddterm/app/application.js:508 ddterm/shell/notifications.js:138
 msgid ""
 "Warning: ddterm version has changed. Log out, then log in again to load the "
 "updated extension."
@@ -76,8 +76,7 @@ msgstr ""
 "Attenzione: la versione di ddterm è cambiata. Uscire e rientrare per "
 "caricare l'estensione aggiornata."
 
-#: ddterm/app/appwindow.js:149 ddterm/shell/extension.js:242
-#: ddterm/shell/extension.js:252
+#: ddterm/app/appwindow.js:149
 msgid "Drop Down Terminal"
 msgstr "Terminale a discesa"
 
@@ -344,6 +343,7 @@ msgstr ""
 "terminale lo terminerà forzatamente."
 
 #: ddterm/com.github.amezin.ddterm.desktop.in.in:4
+#: ddterm/shell/notifications.js:125
 msgid "ddterm"
 msgstr ""
 
@@ -1320,7 +1320,7 @@ msgstr "Schede"
 msgid "Text"
 msgstr "Testo"
 
-#: ddterm/shell/extension.js:486
+#: ddterm/shell/notifications.js:171
 #, fuzzy
 #| msgid "Paste Text from Clipboard"
 msgid "Copy to Clipboard"
