@@ -25,6 +25,7 @@ import Shell from 'gi://Shell';
 
 import { Extension } from 'resource:///org/gnome/shell/extensions/extension.js';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
+import * as MessageTray from 'resource:///org/gnome/shell/ui/messageTray.js';
 
 import { AppControl } from './appcontrol.js';
 import { DBusApi } from './dbusapi.js';
@@ -251,6 +252,10 @@ class EnabledExtension {
         });
 
         this.service.connect('activate', () => {
+            this.notifications.destroy(
+                MessageTray.NotificationDestroyedReason.EXPIRED
+            );
+
             if (!this.extension.check_revision_match())
                 this.notifications.show_version_mismatch();
 

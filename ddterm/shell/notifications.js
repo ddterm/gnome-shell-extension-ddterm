@@ -73,31 +73,7 @@ const Notification = GObject.registerClass({
     createBanner() {
         return new Banner(this);
     }
-
-    show() {
-        this.source.showNotification(this);
-    }
 });
-
-class NotificationSlot {
-    constructor(source_factory) {
-        this._source_factory = source_factory;
-        this._notification = null;
-    }
-
-    create(banner, title, params) {
-        this._notification?.destroy(MessageTray.NotificationDestroyedReason.REPLACED);
-
-        const source = this._source_factory.create_source();
-
-        this._notification = new Notification(source, title ?? source.title, banner, params);
-        this._notification.connect('destroy', () => {
-            this._notification = null;
-        });
-
-        return this._notification;
-    }
-}
 
 export const Notifications = GObject.registerClass({
     Properties: {
@@ -113,8 +89,6 @@ export const Notifications = GObject.registerClass({
         super._init(params);
 
         this._source = null;
-        this._version_mismatch_notification = new NotificationSlot(this);
-        this._error_notification = new NotificationSlot(this);
     }
 
     create_source() {
@@ -133,49 +107,50 @@ export const Notifications = GObject.registerClass({
     }
 
     show_version_mismatch() {
-        this._version_mismatch_notification.create(
-            this.gettext_context.gettext(
-                'Warning: ddterm version has changed. ' +
-                'Log out, then log in again to load the updated extension.'
-            )
-        ).show();
-    }
+        const banner = this.gettext_context.gettext(
+            'Warning: ddterm version has changed. ' +
+            'Log out, then log in again to load the updated extension.'
+        );
 
-    create_error(message, params) {
-        const notification = this._error_notification.create(message, null, params);
-        notification.setUrgency(MessageTray.Urgency.CRITICAL);
-        return notification;
+        const source = this.create_source();
+        source.showNotification(new Notification(source, source.title, banner));
     }
 
     show_error(message, trace) {
+        const source = this.create_source();
+
         if (message instanceof Error || message instanceof GLib.Error)
             message = message.message;
 
         message = `${message}`;
 
         if (!trace?.trim()) {
-            this.create_error(message).show();
+            const notification = new Notification(source, source.title, message);
+            notification.setUrgency(MessageTray.Urgency.CRITICAL);
+            source.showNotification(notification);
             return;
         }
 
-        const notification = this.create_error(
-            [
-                `<b>${GLib.markup_escape_text(message, -1)}</b>`,
-                '',
-                GLib.markup_escape_text(trace, -1),
-            ].join('\n'),
-            { bannerMarkup: true }
-        );
+        const plain = [message, '', trace].join('\n');
+        const markup = [
+            `<b>${GLib.markup_escape_text(message, -1)}</b>`,
+            '',
+            GLib.markup_escape_text(trace, -1),
+        ].join('\n');
+
+        const notification =
+            new Notification(source, source.title, markup, { bannerMarkup: true });
 
         notification.addAction(
             this.gettext_context.gettext('Copy to Clipboard'),
-            () => St.Clipboard.get_default().set_text(St.ClipboardType.CLIPBOARD, trace)
+            () => St.Clipboard.get_default().set_text(St.ClipboardType.CLIPBOARD, plain)
         );
 
-        notification.show();
+        notification.setUrgency(MessageTray.Urgency.CRITICAL);
+        source.showNotification(notification);
     }
 
-    destroy() {
-        this._source?.destroy(MessageTray.NotificationDestroyedReason.SOURCE_CLOSED);
+    destroy(reason = MessageTray.NotificationDestroyedReason.SOURCE_CLOSED) {
+        this._source?.destroy(reason);
     }
 });
