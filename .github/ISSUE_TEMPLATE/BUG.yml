@@ -70,10 +70,10 @@ body:
 
         Screenshots are appreciated, but not required.
 
-        Also, you could save `journalctl -b` output to a file
-        (`journactl -b >journal.txt`) and upload it here. However, check it
-        for sensitive data before uploading (it may contain other application
-        names, document/file names, window titles, etc.).
+        Also, you could save `journalctl --user -b` output to a file
+        (`journactl --user -b >journal.txt`) and upload it here. However,
+        check it for sensitive data before uploading (it may contain other
+        application names, document/file names, window titles, etc.).
 
         On non-systemd distributions, session logs are located in
         `~/.cache/gdm/session.log`.
