@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-01 03:46+0000\n"
+"POT-Creation-Date: 2024-01-05 03:40+0000\n"
 "PO-Revision-Date: 2023-11-23 08:05+0000\n"
 "Last-Translator: yuh <yuhldr@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -77,15 +77,15 @@ msgstr "警告：ddterm版本已改变。注销后重新登录，方可生效。
 msgid "Drop Down Terminal"
 msgstr "下拉终端"
 
-#: ddterm/app/dependencies.js:111
+#: ddterm/app/dependencies.js:114
 msgid "ddterm needs additional packages to run."
 msgstr "ddterm需要额外的软件包才能运行。"
 
-#: ddterm/app/dependencies.js:116
+#: ddterm/app/dependencies.js:119
 msgid "Please install the following packages:"
 msgstr "请安装以下软件包："
 
-#: ddterm/app/dependencies.js:123
+#: ddterm/app/dependencies.js:126
 msgid "Please install packages that provide the following files:"
 msgstr "请安装提供以下文件的软件包："
 
