@@ -22,21 +22,17 @@ import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
 import Meta from 'gi://Meta';
 import Shell from 'gi://Shell';
-import St from 'gi://St';
 
 import { Extension } from 'resource:///org/gnome/shell/extensions/extension.js';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
-import * as MessageTray from 'resource:///org/gnome/shell/ui/messageTray.js';
 
 import { AppControl } from './appcontrol.js';
 import { DBusApi } from './dbusapi.js';
 import { WindowGeometry } from './geometry.js';
 import { Installer } from './install.js';
+import { Notifications } from './notifications.js';
 import { PanelIconProxy } from './panelicon.js';
 import { Service } from './service.js';
-import {
-    SharedNotificationSource, SharedNotification, ErrorLogNotification
-} from './notifications.js';
 import { Subprocess, WaylandSubprocess } from './subprocess.js';
 import { WindowManager } from './wm.js';
 import { WindowMatch } from './windowmatch.js';
@@ -238,26 +234,10 @@ class EnabledExtension {
 
         this.settings = this.extension.getSettings();
 
-        this.notification_source = new SharedNotificationSource(
-            this.extension.gettext('Drop Down Terminal'),
-            'utilities-terminal'
-        );
+        this.notifications = new Notifications({ gettext_context: this.extension });
 
         rollback.push(() => {
-            this.notification_source.destroy();
-        });
-
-        const revision_mismatch_notification = new SharedNotification(
-            this.notification_source,
-            this.extension.gettext('Drop Down Terminal'),
-            this.extension.gettext(
-                'Warning: ddterm version has changed. ' +
-                'Log out, then log in again to load the updated extension.'
-            )
-        );
-
-        rollback.push(() => {
-            revision_mismatch_notification.destroy();
+            this.notifications.destroy();
         });
 
         this.service = new Service({
@@ -272,7 +252,7 @@ class EnabledExtension {
 
         this.service.connect('activate', () => {
             if (!this.extension.check_revision_match())
-                revision_mismatch_notification.show();
+                this.notifications.show_version_mismatch();
 
             return this.extension.start_app_process(this.settings);
         });
@@ -402,20 +382,6 @@ class EnabledExtension {
         if (this.window_manager)
             this.window_manager.debug = func;
     }
-
-    create_error_notification(message, use_markup = true) {
-        const source = this.notification_source.get();
-        const notification =
-            new ErrorLogNotification(source, source.title, message, { bannerMarkup: use_markup });
-
-        notification.setUrgency(MessageTray.Urgency.CRITICAL);
-        return notification;
-    }
-
-    show_error_notification(message, use_markup = true) {
-        const notification = this.create_error_notification(message, use_markup);
-        notification.source.showNotification(notification);
-    }
 }
 
 export default class DDTermExtension extends Extension {
@@ -470,28 +436,18 @@ export default class DDTermExtension extends Extension {
         }).catch(ex => {
             logError(ex, this.launcher_path);
 
-            const message = `<b>${GLib.markup_escape_text(ex.message || ex, -1)}</b>`;
+            const notifications = this.enabled_state?.notifications;
 
             if (!app_process.log_collector) {
-                this.enabled_state?.show_error_notification(message);
+                notifications?.show_error(ex);
                 return;
             }
 
-            app_process.log_collector?.collect().then(s => s.trim()).then(output => {
-                const notification = this.enabled_state?.create_error_notification(
-                    output ? `${message}\n\n${GLib.markup_escape_text(output, -1)}` : message
-                );
-
-                notification?.addAction(
-                    this.gettext('Copy to Clipboard'),
-                    () => St.Clipboard.get_default().set_text(St.ClipboardType.CLIPBOARD, output)
-                );
-
-                notification?.source.showNotification(notification);
+            app_process.log_collector?.collect().then(output => {
+                notifications?.show_error(ex, output);
             }).catch(ex2 => {
                 logError(ex2, 'Failed to collect logs');
-
-                this.enabled_state?.show_error_notification(message);
+                notifications?.show_error(ex);
             });
         }).finally(() => {
             if (this.app_process === app_process)

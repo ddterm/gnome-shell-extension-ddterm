@@ -50,14 +50,14 @@ utilities windows and implements workarounds for them.
 
 * [`panelicon.js`](/ddterm/shell/panelicon.js): ddterm's panel icon implementation
 
+* [`notifications.js`](/ddterm/shell/notifications.js): notifications UI
+
 * [`install.js`](/ddterm/shell/install.js): installation of `.desktop` and
 D-Bus `.service` files for the application
 
 There are also utility modules:
 
 * [`sd_journal.js`](/ddterm/shell/sd_journal.js): connection to systemd-journald
-
-* [`notifications.js`](/ddterm/shell/notifications.js): convenient notifications
 
 Extension code doesn't (and shouldn't) use any third party (npm) libraries.
 

@@ -17,6 +17,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
 import Pango from 'gi://Pango';
 import St from 'gi://St';
@@ -25,54 +26,8 @@ import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import * as MessageList from 'resource:///org/gnome/shell/ui/messageList.js';
 import * as MessageTray from 'resource:///org/gnome/shell/ui/messageTray.js';
 
-class SharedBase {
-    constructor(factory) {
-        this._factory = factory;
-        this._instance = null;
-    }
-
-    get() {
-        if (this._instance)
-            return this._instance;
-
-        this._instance = this._factory();
-
-        this._instance.connect('destroy', () => {
-            this._instance = null;
-        });
-
-        return this._instance;
-    }
-
-    destroy(reason = MessageTray.NotificationDestroyedReason.SOURCE_CLOSED) {
-        this._instance?.destroy(reason);
-    }
-}
-
-export class SharedNotificationSource extends SharedBase {
-    constructor(title, icon_name) {
-        super(() => {
-            const source = new MessageTray.Source(title, icon_name);
-            Main.messageTray.add(source);
-            return source;
-        });
-    }
-}
-
-export class SharedNotification extends SharedBase {
-    constructor(source, title, banner, params) {
-        super(() => new MessageTray.Notification(source.get(), title, banner, params));
-    }
-
-    show() {
-        const notification = this.get();
-
-        notification.source.showNotification(notification);
-    }
-}
-
-const ErrorLogNotificationBanner = GObject.registerClass({
-}, class DDTermErrorLogNotificationBanner extends MessageTray.NotificationBanner {
+const Banner = GObject.registerClass({
+}, class DDTermNotificationBanner extends MessageTray.NotificationBanner {
     _init(notification) {
         super._init(notification);
 
@@ -113,9 +68,114 @@ const ErrorLogNotificationBanner = GObject.registerClass({
     }
 });
 
-export const ErrorLogNotification = GObject.registerClass({
-}, class DDTermErrorLogNotification extends MessageTray.Notification {
+const Notification = GObject.registerClass({
+}, class DDTermNotification extends MessageTray.Notification {
     createBanner() {
-        return new ErrorLogNotificationBanner(this);
+        return new Banner(this);
+    }
+
+    show() {
+        this.source.showNotification(this);
+    }
+});
+
+class NotificationSlot {
+    constructor(source_factory) {
+        this._source_factory = source_factory;
+        this._notification = null;
+    }
+
+    create(banner, title, params) {
+        this._notification?.destroy(MessageTray.NotificationDestroyedReason.REPLACED);
+
+        const source = this._source_factory.create_source();
+
+        this._notification = new Notification(source, title ?? source.title, banner, params);
+        this._notification.connect('destroy', () => {
+            this._notification = null;
+        });
+
+        return this._notification;
+    }
+}
+
+export const Notifications = GObject.registerClass({
+    Properties: {
+        'gettext-context': GObject.ParamSpec.jsobject(
+            'gettext-context',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY
+        ),
+    },
+}, class DDTermNotifications extends GObject.Object {
+    _init(params) {
+        super._init(params);
+
+        this._source = null;
+        this._version_mismatch_notification = new NotificationSlot(this);
+        this._error_notification = new NotificationSlot(this);
+    }
+
+    create_source() {
+        if (this._source)
+            return this._source;
+
+        this._source =
+            new MessageTray.Source(this.gettext_context.gettext('ddterm'), 'utilities-terminal');
+
+        this._source.connect('destroy', () => {
+            this._source = null;
+        });
+
+        Main.messageTray.add(this._source);
+        return this._source;
+    }
+
+    show_version_mismatch() {
+        this._version_mismatch_notification.create(
+            this.gettext_context.gettext(
+                'Warning: ddterm version has changed. ' +
+                'Log out, then log in again to load the updated extension.'
+            )
+        ).show();
+    }
+
+    create_error(message, params) {
+        const notification = this._error_notification.create(message, null, params);
+        notification.setUrgency(MessageTray.Urgency.CRITICAL);
+        return notification;
+    }
+
+    show_error(message, trace) {
+        if (message instanceof Error || message instanceof GLib.Error)
+            message = message.message;
+
+        message = `${message}`;
+
+        if (!trace?.trim()) {
+            this.create_error(message).show();
+            return;
+        }
+
+        const notification = this.create_error(
+            [
+                `<b>${GLib.markup_escape_text(message, -1)}</b>`,
+                '',
+                GLib.markup_escape_text(trace, -1),
+            ].join('\n'),
+            { bannerMarkup: true }
+        );
+
+        notification.addAction(
+            this.gettext_context.gettext('Copy to Clipboard'),
+            () => St.Clipboard.get_default().set_text(St.ClipboardType.CLIPBOARD, trace)
+        );
+
+        notification.show();
+    }
+
+    destroy() {
+        this._source?.destroy(MessageTray.NotificationDestroyedReason.SOURCE_CLOSED);
     }
 });
