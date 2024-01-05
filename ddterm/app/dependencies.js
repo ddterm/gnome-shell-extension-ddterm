@@ -41,6 +41,9 @@ export function get_os_ids() {
     if (fallback)
         res.push(...fallback.split(' '));
 
+    if (res.includes('alpine'))
+        res.push('arch')
+
     return res;
 }
 
