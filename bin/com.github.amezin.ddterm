@@ -2,10 +2,10 @@
 
 set -e
 
-resolved="$(realpath -- "$0")"
+resolved="$(realpath "$0")"
 bindir="${resolved%/*}"
 
-if [ "$(realpath -- "$(command -v com.github.amezin.ddterm)" 2>/dev/null)" != "$resolved" ]
+if [ "$(realpath "$(command -v com.github.amezin.ddterm)" 2>/dev/null)" != "$resolved" ]
 then
     PATH="$bindir${PATH:+:${PATH}}"
 fi
