@@ -173,7 +173,7 @@ function install(src_dir, launcher, rollback) {
     });
 }
 
-function bind_keys(settings, app_control, window_geometry, rollback) {
+function bind_keys(settings, app_control, rollback) {
     Main.wm.addKeybinding(
         'ddterm-toggle-hotkey',
         settings,
@@ -325,7 +325,6 @@ class EnabledExtension {
         bind_keys(
             this.settings,
             this.app_control,
-            this.window_geometry,
             rollback
         );
 
