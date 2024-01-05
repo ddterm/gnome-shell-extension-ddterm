@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-05 03:40+0000\n"
+"POT-Creation-Date: 2024-01-05 04:47+0000\n"
 "PO-Revision-Date: 2023-10-24 22:14+0000\n"
 "Last-Translator: Pavel Novák <pavelnov32@gmail.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/gnome-shell-"
@@ -79,15 +79,15 @@ msgstr ""
 msgid "Drop Down Terminal"
 msgstr "Rozbalovací Terminál"
 
-#: ddterm/app/dependencies.js:114
+#: ddterm/app/dependencies.js:122
 msgid "ddterm needs additional packages to run."
 msgstr "ddterm potřebuje pro funkčnost další balíčky."
 
-#: ddterm/app/dependencies.js:119
+#: ddterm/app/dependencies.js:127
 msgid "Please install the following packages:"
 msgstr "Nainstalujte prosím tyto balíčky:"
 
-#: ddterm/app/dependencies.js:126
+#: ddterm/app/dependencies.js:134
 msgid "Please install packages that provide the following files:"
 msgstr "Nainstalujte balíčky které poskytují tyto soubory:"
 

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-05 03:40+0000\n"
+"POT-Creation-Date: 2024-01-05 04:47+0000\n"
 "PO-Revision-Date: 2023-12-17 05:10+0000\n"
 "Last-Translator: gfbdrgng <hnaofegnp@hldrive.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/gnome-shell-"
@@ -82,15 +82,15 @@ msgstr ""
 msgid "Drop Down Terminal"
 msgstr "Выпадающий терминал"
 
-#: ddterm/app/dependencies.js:114
+#: ddterm/app/dependencies.js:122
 msgid "ddterm needs additional packages to run."
 msgstr "ddterm требуются дополнительные пакеты для запуска."
 
-#: ddterm/app/dependencies.js:119
+#: ddterm/app/dependencies.js:127
 msgid "Please install the following packages:"
 msgstr "Необходимо установить указанные пакеты:"
 
-#: ddterm/app/dependencies.js:126
+#: ddterm/app/dependencies.js:134
 msgid "Please install packages that provide the following files:"
 msgstr "Необходимо установить пакеты, содержащие следующие файлы:"
 

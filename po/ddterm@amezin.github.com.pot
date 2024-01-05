@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-05 03:40+0000\n"
+"POT-Creation-Date: 2024-01-05 04:47+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -76,15 +76,15 @@ msgstr ""
 msgid "Drop Down Terminal"
 msgstr ""
 
-#: ddterm/app/dependencies.js:114
+#: ddterm/app/dependencies.js:122
 msgid "ddterm needs additional packages to run."
 msgstr ""
 
-#: ddterm/app/dependencies.js:119
+#: ddterm/app/dependencies.js:127
 msgid "Please install the following packages:"
 msgstr ""
 
-#: ddterm/app/dependencies.js:126
+#: ddterm/app/dependencies.js:134
 msgid "Please install packages that provide the following files:"
 msgstr ""
 

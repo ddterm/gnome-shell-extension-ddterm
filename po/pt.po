@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-05 03:40+0000\n"
+"POT-Creation-Date: 2024-01-05 04:47+0000\n"
 "PO-Revision-Date: 2023-10-02 00:02+0000\n"
 "Last-Translator: Luiz Carlos de Souza Santos <lcdessantos@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/gnome-shell-"
@@ -84,15 +84,15 @@ msgstr ""
 msgid "Drop Down Terminal"
 msgstr "Terminal Suspenso"
 
-#: ddterm/app/dependencies.js:114
+#: ddterm/app/dependencies.js:122
 msgid "ddterm needs additional packages to run."
 msgstr "ddterm requer pacotes adicionais para rodar."
 
-#: ddterm/app/dependencies.js:119
+#: ddterm/app/dependencies.js:127
 msgid "Please install the following packages:"
 msgstr "Por favor, instale os seguintes pacotes:"
 
-#: ddterm/app/dependencies.js:126
+#: ddterm/app/dependencies.js:134
 msgid "Please install packages that provide the following files:"
 msgstr "Por favor, instale os pacotes que proveem os seguintes arquivos:"
 
