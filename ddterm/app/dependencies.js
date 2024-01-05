@@ -41,8 +41,16 @@ export function get_os_ids() {
     if (fallback)
         res.push(...fallback.split(' '));
 
-    if (res.includes('alpine'))
+    if (res.includes('alpine') && !res.includes('arch'))
         res.push('arch');
+
+    if (res.includes('ubuntu') && !res.includes('debian'))
+        res.push('debian');
+
+    if (res.includes('rhel') || res.includes('centos')) {
+        if (!res.includes('fedora'))
+            res.push('fedora');
+    }
 
     return res;
 }
