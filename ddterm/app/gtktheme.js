@@ -20,15 +20,10 @@
 import GObject from 'gi://GObject';
 import Gtk from 'gi://Gtk';
 
+import Gi from 'gi';
+
 export const GtkThemeManager = GObject.registerClass({
     Properties: {
-        'gtk-settings': GObject.ParamSpec.object(
-            'gtk-settings',
-            '',
-            '',
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-            Gtk.Settings
-        ),
         'theme-variant': GObject.ParamSpec.string(
             'theme-variant',
             '',
@@ -39,22 +34,46 @@ export const GtkThemeManager = GObject.registerClass({
     },
 },
 class DDTermGtkThemeManager extends GObject.Object {
+    _init(params) {
+        super._init(params);
+
+        this._gtk_settings = Gtk.Settings.get_default();
+
+        try {
+            this._handy = Gi.require('Handy', '1');
+            this._handy_style_manager = this._handy.StyleManager?.get_default();
+        } catch (ex) {
+            logError(ex, "Can't load libhandy, color scheme switch might not work");
+        }
+    }
+
     set theme_variant(value) {
         switch (value) {
         case 'system':
-            this.gtk_settings.reset_property('gtk-application-prefer-dark-theme');
+            if (this._handy_style_manager?.system_supports_color_schemes)
+                this._handy_style_manager.set_color_scheme(this._handy.ColorScheme.PREFER_LIGHT);
+            else
+                this._gtk_settings.reset_property('gtk-application-prefer-dark-theme');
+
             break;
 
         case 'dark':
-            this.gtk_settings.gtk_application_prefer_dark_theme = true;
+            if (this._handy_style_manager?.system_supports_color_schemes)
+                this._handy_style_manager.set_color_scheme(this._handy.ColorScheme.FORCE_DARK);
+            else
+                this._gtk_settings.gtk_application_prefer_dark_theme = true;
+
             break;
 
         case 'light':
-            this.gtk_settings.gtk_application_prefer_dark_theme = false;
+            if (this._handy_style_manager?.system_supports_color_schemes)
+                this._handy_style_manager.set_color_scheme(this._handy.ColorScheme.FORCE_LIGHT);
+            else
+                this._gtk_settings.gtk_application_prefer_dark_theme = false;
             break;
 
         default:
-            printerr(`Unknown theme-variant: ${value}`);
+            throw new Error(`Unknown theme-variant: ${value}`);
         }
     }
 });
