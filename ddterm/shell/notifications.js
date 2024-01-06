@@ -89,6 +89,7 @@ export const Notifications = GObject.registerClass({
         super._init(params);
 
         this._source = null;
+        this._version_mismatch_notifications = new Set();
     }
 
     create_source() {
@@ -113,7 +114,14 @@ export const Notifications = GObject.registerClass({
         );
 
         const source = this.create_source();
-        source.showNotification(new Notification(source, source.title, banner));
+        const notification = new Notification(source, source.title, banner);
+        source.showNotification(notification);
+
+        this._version_mismatch_notifications.add(notification);
+
+        notification.connect('destroy', () => {
+            this._version_mismatch_notifications.delete(notification);
+        });
     }
 
     show_error(message, trace) {
@@ -145,6 +153,9 @@ export const Notifications = GObject.registerClass({
             this.gettext_context.gettext('Copy to Clipboard'),
             () => St.Clipboard.get_default().set_text(St.ClipboardType.CLIPBOARD, plain)
         );
+
+        for (const version_mismatch_notification of this._version_mismatch_notifications)
+            version_mismatch_notification.setUrgency(MessageTray.Urgency.CRITICAL);
 
         notification.setUrgency(MessageTray.Urgency.CRITICAL);
         source.showNotification(notification);
