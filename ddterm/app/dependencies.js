@@ -18,21 +18,15 @@
 */
 
 import GLib from 'gi://GLib';
-import Gio from 'gi://Gio';
 
 import Gettext from 'gettext';
 import Gi from 'gi';
 import System from 'system';
 
-function get_file(relative_path) {
-    return Gio.File.new_for_uri(
-        GLib.Uri.resolve_relative(import.meta.url, relative_path, GLib.UriFlags.NONE)
-    );
-}
+import { get_resource_file, get_resource_text } from './resources.js';
 
-export function get_manifest_file() {
-    return get_file('dependencies.json');
-}
+export const manifest_file = get_resource_file('dependencies.json');
+export const manifest = JSON.parse(get_resource_text(manifest_file));
 
 export function get_os_ids() {
     const res = [GLib.get_os_info('ID')];
@@ -55,14 +49,6 @@ export function get_os_ids() {
     return res;
 }
 
-export function load_manifest() {
-    return JSON.parse(
-        new TextDecoder().decode(
-            get_manifest_file().load_contents(null)[1]
-        )
-    );
-}
-
 export function resolve_package(distros, os_ids) {
     if (!distros)
         return null;
@@ -77,7 +63,7 @@ export function resolve_package(distros, os_ids) {
     return null;
 }
 
-function resolve_packages(manifest, lib_versions, os_ids) {
+function resolve_packages(lib_versions, os_ids) {
     const packages = new Set();
     const unresolved = new Set();
 
@@ -96,7 +82,6 @@ function resolve_packages(manifest, lib_versions, os_ids) {
 }
 
 export function gi_require(imports_versions) {
-    const manifest = load_manifest();
     const os_ids = get_os_ids();
     const missing = {};
 
@@ -113,7 +98,7 @@ export function gi_require(imports_versions) {
         }
     }
 
-    const { packages, unresolved } = resolve_packages(manifest, missing, os_ids);
+    const { packages, unresolved } = resolve_packages(missing, os_ids);
 
     if (packages.size === 0 && unresolved.size === 0)
         return;

@@ -30,6 +30,7 @@ import { AppWindow } from './appwindow.js';
 import { GtkThemeManager } from './gtktheme.js';
 import { HeapDumper } from './heapdump.js';
 import { metadata } from './meta.js';
+import { get_resource_file, get_resource_text } from './resources.js';
 import { get_settings } from './settings.js';
 import { TerminalCommand } from './terminal.js';
 import { TerminalSettings, TerminalSettingsParser } from './terminalsettings.js';
@@ -40,12 +41,6 @@ function schedule_gc() {
         System.gc();
         return GLib.SOURCE_REMOVE;
     });
-}
-
-function get_file(relative_path) {
-    return Gio.File.new_for_uri(
-        GLib.Uri.resolve_relative(import.meta.url, relative_path, GLib.UriFlags.NONE)
-    );
 }
 
 export const Application = GObject.registerClass({
@@ -259,7 +254,7 @@ class Application extends Gtk.Application {
         );
 
         const css_provider = Gtk.CssProvider.new();
-        css_provider.load_from_file(get_file('style.css'));
+        css_provider.load_from_file(get_resource_file('style.css'));
 
         Gtk.StyleContext.add_provider_for_screen(
             Gdk.Screen.get_default(),
@@ -325,7 +320,7 @@ class Application extends Gtk.Application {
             this.bind_shortcut(action, key);
         });
 
-        Gtk.IconTheme.get_default().append_search_path(get_file('icons').get_path());
+        Gtk.IconTheme.get_default().append_search_path(get_resource_file('icons').get_path());
 
         this.session_file_path = GLib.build_filenamev([
             GLib.get_user_cache_dir(),
@@ -494,8 +489,7 @@ class Application extends Gtk.Application {
     }
 
     print_version_info() {
-        const [, bytes] = get_file('../../revision.txt').load_contents(null);
-        const revision = new TextDecoder().decode(bytes).trim();
+        const revision = get_resource_text('../../revision.txt');
         print(metadata.name, metadata.version, 'revision', revision);
 
         try {
@@ -518,11 +512,8 @@ class Application extends Gtk.Application {
         if ('_extension_dbus' in this)
             return this._extension_dbus;
 
-        const [, bytes] =
-            get_file('../com.github.amezin.ddterm.Extension.xml').load_contents(null);
-
         const extension_dbus_factory = Gio.DBusProxy.makeProxyWrapper(
-            new TextDecoder().decode(bytes)
+            get_resource_text('../com.github.amezin.ddterm.Extension.xml')
         );
 
         this._extension_dbus = extension_dbus_factory(

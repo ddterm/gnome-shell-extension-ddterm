@@ -17,21 +17,10 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import GLib from 'gi://GLib';
-import Gio from 'gi://Gio';
+import { get_resource_file, get_resource_text } from './resources.js';
 
-export const dir = Gio.File.new_for_uri(
-    GLib.Uri.resolve_relative(import.meta.url, '../..', GLib.UriFlags.NONE)
-);
-
-function load_metadata() {
-    const [, bytes] = dir.get_child('metadata.json').load_contents(null);
-    const text = new TextDecoder().decode(bytes);
-
-    return JSON.parse(text);
-}
-
-export const metadata = load_metadata();
+export const dir = get_resource_file('../..');
+export const metadata = JSON.parse(get_resource_text(dir.get_child('metadata.json')));
 export default metadata;
 
 export const { name, uuid, version } = metadata;

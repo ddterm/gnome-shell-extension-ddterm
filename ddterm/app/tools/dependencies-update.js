@@ -25,10 +25,9 @@ import PackageKitGlib from 'gi://PackageKitGlib';
 
 import System from 'system';
 
-import { load_manifest, get_os_ids, resolve_package, get_manifest_file } from '../dependencies.js';
+import { manifest, manifest_file, get_os_ids, resolve_package } from '../dependencies.js';
 
 function update_manifest(dry_run = false) {
-    const manifest = load_manifest();
     const os_ids = get_os_ids();
     const client = PackageKitGlib.Client.new();
     let updated = false;
@@ -76,7 +75,7 @@ function update_manifest(dry_run = false) {
     }
 
     if (!dry_run) {
-        get_manifest_file().replace_contents(
+        manifest_file.replace_contents(
             JSON.stringify(manifest, undefined, 1),
             null,
             false,

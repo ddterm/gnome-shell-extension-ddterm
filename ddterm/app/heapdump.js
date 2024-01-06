@@ -22,19 +22,12 @@ import Gio from 'gi://Gio';
 
 import System from 'system';
 
-function get_file(relative_path) {
-    return Gio.File.new_for_uri(
-        GLib.Uri.resolve_relative(import.meta.url, relative_path, GLib.UriFlags.NONE)
-    );
-}
+import { get_resource_text } from './resources.js';
 
 export class HeapDumper {
     constructor() {
-        const [, bytes] =
-            get_file('../com.github.amezin.ddterm.HeapDump.xml').load_contents(null);
-
         this.dbus = Gio.DBusExportedObject.wrapJSObject(
-            new TextDecoder().decode(bytes),
+            get_resource_text('../com.github.amezin.ddterm.HeapDump.xml'),
             this
         );
     }
