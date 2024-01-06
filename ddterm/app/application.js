@@ -28,7 +28,7 @@ import System from 'system';
 
 import { AppWindow } from './appwindow.js';
 import { create_extension_dbus_proxy } from './extensiondbus.js';
-import { GtkThemeManager } from './gtktheme.js';
+import { ThemeManager } from './gtktheme.js';
 import { HeapDumper } from './heapdump.js';
 import { metadata } from './meta.js';
 import { get_resource_file, get_resource_text } from './resources.js';
@@ -247,18 +247,10 @@ class Application extends Gtk.Application {
             schema_id: 'org.gnome.desktop.interface',
         });
 
-        this.theme_manager = new GtkThemeManager({
-            'gtk-settings': Gtk.Settings.get_default(),
-        });
-
-        if (desktop_settings.settings_schema.has_key('color-scheme')) {
-            desktop_settings.bind(
-                'color-scheme',
-                this.theme_manager,
-                'desktop-color-scheme',
-                Gio.SettingsBindFlags.GET
-            );
-        }
+        this.theme_manager = ThemeManager.create(
+            this.settings.get_string('theme-variant'),
+            desktop_settings
+        );
 
         this.settings.bind(
             'theme-variant',

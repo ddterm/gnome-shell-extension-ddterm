@@ -18,24 +18,21 @@
 */
 
 import GObject from 'gi://GObject';
+import Gio from 'gi://Gio';
 import Gtk from 'gi://Gtk';
 
-export const GtkThemeManager = GObject.registerClass({
+import Gi from 'gi';
+
+let Handy = null;
+
+try {
+    Handy = Gi.require('Handy', '1');
+} catch (ex) {
+    logError(ex, "Can't load libhandy");
+}
+
+export const ThemeManager = GObject.registerClass({
     Properties: {
-        'gtk-settings': GObject.ParamSpec.object(
-            'gtk-settings',
-            '',
-            '',
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-            Gtk.Settings
-        ),
-        'desktop-color-scheme': GObject.ParamSpec.string(
-            'desktop-color-scheme',
-            '',
-            '',
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
-            'default'
-        ),
         'theme-variant': GObject.ParamSpec.string(
             'theme-variant',
             '',
@@ -44,41 +41,63 @@ export const GtkThemeManager = GObject.registerClass({
             'system'
         ),
     },
-},
-class DDTermGtkThemeManager extends GObject.Object {
+}, class DDTermThemeManager extends GObject.Object {
+    static create(theme_variant, desktop_settings) {
+        const style_manager = Handy?.StyleManager?.get_default();
+
+        if (style_manager)
+            return new HandyThemeManager({ style_manager, theme_variant });
+
+        const gtk_settings = Gtk.Settings.get_default();
+
+        if (!desktop_settings.settings_schema.has_key('color-scheme'))
+            return new GtkThemeManager({ gtk_settings, theme_variant });
+
+        const desktop_color_scheme = desktop_settings.get_string('color-scheme');
+
+        const theme_manager = new DesktopSettingsThemeManager({
+            gtk_settings,
+            desktop_color_scheme,
+            theme_variant,
+        });
+
+        desktop_settings.bind(
+            'color-scheme',
+            theme_manager,
+            'desktop-color-scheme',
+            Gio.SettingsBindFlags.GET
+        );
+
+        return theme_manager;
+    }
+});
+
+const GtkThemeManager = GObject.registerClass({
+    Properties: {
+        'gtk-settings': GObject.ParamSpec.object(
+            'gtk-settings',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+            Gtk.Settings
+        ),
+    },
+}, class DDTermThemeManagerGtk extends ThemeManager {
     _init(params) {
         super._init(params);
 
-        this.connect('notify::theme-variant', this._update.bind(this));
-        this.connect('notify::desktop-color-scheme', this._update.bind(this));
+        this.connect('notify::theme-variant', () => this._update());
         this._update();
     }
 
-    _get_desktop_settings_theme_variant() {
-        switch (this.desktop_color_scheme) {
-        case 'prefer-dark':
-            return 'dark';
-
-        case 'prefer-light':
-            return 'light';
-
-        case 'default':
-            return 'system';
-
-        default:
-            logError(new Error(`Unknown color-scheme: ${this.desktop_color_scheme}`));
-            return 'system';
-        }
+    _set_system_theme() {
+        this.gtk_settings.reset_property('gtk-application-prefer-dark-theme');
     }
 
     _update() {
-        const theme_variant = this.theme_variant === 'system'
-            ? this._get_desktop_settings_theme_variant()
-            : this.theme_variant;
-
-        switch (theme_variant) {
+        switch (this.theme_variant) {
         case 'system':
-            this.gtk_settings.reset_property('gtk-application-prefer-dark-theme');
+            this._set_system_theme();
             break;
 
         case 'dark':
@@ -90,7 +109,82 @@ class DDTermGtkThemeManager extends GObject.Object {
             break;
 
         default:
-            logError(new Error(`Unknown theme-variant: ${theme_variant}`));
+            logError(new Error(`Unknown theme-variant: ${this.theme_variant}`));
         }
     }
 });
+
+const DesktopSettingsThemeManager = GObject.registerClass({
+    Properties: {
+        'desktop-color-scheme': GObject.ParamSpec.string(
+            'desktop-color-scheme',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+            'default'
+        ),
+    },
+}, class DDTermThemeManagerDesktopSettings extends GtkThemeManager {
+    _init(params) {
+        super._init(params);
+
+        this.connect('notify::desktop-color-scheme', () => this._update());
+    }
+
+    _set_system_theme() {
+        switch (this.desktop_color_scheme) {
+        case 'prefer-dark':
+            this.gtk_settings.gtk_application_prefer_dark_theme = true;
+            break;
+
+        case 'prefer-light':
+            this.gtk_settings.gtk_application_prefer_dark_theme = false;
+            break;
+
+        case 'default':
+            super._set_system_theme();
+            break;
+
+        default:
+            logError(new Error(`Unknown color-scheme: ${this.desktop_color_scheme}`));
+        }
+    }
+});
+
+const HandyThemeManager = Handy?.StyleManager ? GObject.registerClass({
+    Properties: {
+        'style-manager': GObject.ParamSpec.object(
+            'style-manager',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+            Handy.StyleManager
+        ),
+    },
+}, class DDTermThemeManagerHandy extends ThemeManager {
+    _init(params) {
+        super._init(params);
+
+        this.connect('notify::theme-variant', () => this._update());
+        this._update();
+    }
+
+    _update() {
+        switch (this.theme_variant) {
+        case 'system':
+            this.style_manager.color_scheme = Handy.ColorScheme.PREFER_LIGHT;
+            break;
+
+        case 'dark':
+            this.style_manager.color_scheme = Handy.ColorScheme.FORCE_DARK;
+            break;
+
+        case 'light':
+            this.style_manager.color_scheme = Handy.ColorScheme.FORCE_LIGHT;
+            break;
+
+        default:
+            logError(new Error(`Unknown theme-variant: ${this.theme_variant}`));
+        }
+    }
+}) : null;
