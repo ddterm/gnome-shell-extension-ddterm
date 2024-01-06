@@ -19,12 +19,15 @@
 
 import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
+import Gio from 'gi://Gio';
 import Pango from 'gi://Pango';
 import St from 'gi://St';
 
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import * as MessageList from 'resource:///org/gnome/shell/ui/messageList.js';
 import * as MessageTray from 'resource:///org/gnome/shell/ui/messageTray.js';
+
+import { create_packagekit_proxy } from './packagekit.js';
 
 const Banner = GObject.registerClass({
 }, class DDTermNotificationBanner extends MessageTray.NotificationBanner {
@@ -165,7 +168,7 @@ export const Notifications = GObject.registerClass({
         source.showNotification(notification);
     }
 
-    show_missing_dependencies(packages, files) {
+    async show_missing_dependencies(packages, files, app_id) {
         const lines = [
             this.gettext_context.gettext('ddterm needs additional packages to run.'),
         ];
@@ -188,6 +191,25 @@ export const Notifications = GObject.registerClass({
 
         const source = this.create_source();
         const notification = new Notification(source, source.title, lines.join('\n'));
+
+        if (packages.length > 0) {
+            const cancellable = new Gio.Cancellable();
+            const cancel_handler = source.connect('destroy', () => cancellable.cancel());
+
+            try {
+                const packagekit = await create_packagekit_proxy(cancellable);
+
+                notification.setForFeedback(true);
+                notification.addAction(
+                    this.gettext_context.gettext('Install'),
+                    () => packagekit.install_package_names(packages, app_id)
+                );
+            } catch (ex) {
+                logError(ex, "Can't access packagekit session interface");
+            } finally {
+                source.disconnect(cancel_handler);
+            }
+        }
 
         notification.setUrgency(MessageTray.Urgency.CRITICAL);
         source.showNotification(notification);
