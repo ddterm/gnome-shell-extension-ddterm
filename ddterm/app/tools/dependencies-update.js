@@ -23,6 +23,7 @@ import Gio from 'gi://Gio';
 import GIRepository from 'gi://GIRepository';
 import PackageKitGlib from 'gi://PackageKitGlib';
 
+import Gi from 'gi';
 import System from 'system';
 
 import { manifest, manifest_file, get_os_ids, resolve_package } from '../dependencies.js';
@@ -34,8 +35,7 @@ function update_manifest(dry_run = false) {
 
     for (const [lib, lib_manifest] of Object.entries(manifest)) {
         for (const [version, version_manifest] of Object.entries(lib_manifest)) {
-            imports.gi.versions[lib] = version;
-            const discard_ = imports.gi[lib];
+            Gi.require(lib, version);
 
             const filepath = GIRepository.Repository.get_default().get_typelib_path(lib);
             const basename = Gio.File.new_for_path(filepath).get_basename();
