@@ -27,6 +27,7 @@ import Gettext from 'gettext';
 import System from 'system';
 
 import { AppWindow } from './appwindow.js';
+import { create_extension_dbus_proxy } from './extensiondbus.js';
 import { GtkThemeManager } from './gtktheme.js';
 import { HeapDumper } from './heapdump.js';
 import { metadata } from './meta.js';
@@ -512,19 +513,7 @@ class Application extends Gtk.Application {
         if ('_extension_dbus' in this)
             return this._extension_dbus;
 
-        const extension_dbus_factory = Gio.DBusProxy.makeProxyWrapper(
-            get_resource_text('../com.github.amezin.ddterm.Extension.xml')
-        );
-
-        this._extension_dbus = extension_dbus_factory(
-            Gio.DBus.session,
-            'org.gnome.Shell',
-            '/org/gnome/Shell/Extensions/ddterm',
-            undefined,
-            undefined,
-            Gio.DBusProxyFlags.DO_NOT_AUTO_START
-        );
-
+        this._extension_dbus = create_extension_dbus_proxy();
         return this._extension_dbus;
     }
 
