@@ -29,18 +29,54 @@ export const GtkThemeManager = GObject.registerClass({
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             Gtk.Settings
         ),
+        'desktop-color-scheme': GObject.ParamSpec.string(
+            'desktop-color-scheme',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+            'default'
+        ),
         'theme-variant': GObject.ParamSpec.string(
             'theme-variant',
             '',
             '',
-            GObject.ParamFlags.WRITABLE,
-            null
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+            'system'
         ),
     },
 },
 class DDTermGtkThemeManager extends GObject.Object {
-    set theme_variant(value) {
-        switch (value) {
+    _init(params) {
+        super._init(params);
+
+        this.connect('notify::theme-variant', this._update.bind(this));
+        this.connect('notify::desktop-color-scheme', this._update.bind(this));
+        this._update();
+    }
+
+    _get_desktop_settings_theme_variant() {
+        switch (this.desktop_color_scheme) {
+        case 'prefer-dark':
+            return 'dark';
+
+        case 'prefer-light':
+            return 'light';
+
+        case 'default':
+            return 'system';
+
+        default:
+            logError(new Error(`Unknown color-scheme: ${this.desktop_color_scheme}`));
+            return 'system';
+        }
+    }
+
+    _update() {
+        const theme_variant = this.theme_variant === 'system'
+            ? this._get_desktop_settings_theme_variant()
+            : this.theme_variant;
+
+        switch (theme_variant) {
         case 'system':
             this.gtk_settings.reset_property('gtk-application-prefer-dark-theme');
             break;
@@ -54,7 +90,7 @@ class DDTermGtkThemeManager extends GObject.Object {
             break;
 
         default:
-            printerr(`Unknown theme-variant: ${value}`);
+            logError(new Error(`Unknown theme-variant: ${theme_variant}`));
         }
     }
 });

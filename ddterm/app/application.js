@@ -243,9 +243,22 @@ class Application extends Gtk.Application {
             this.add_action(this.settings.create_action(key));
         });
 
+        const desktop_settings = new Gio.Settings({
+            schema_id: 'org.gnome.desktop.interface',
+        });
+
         this.theme_manager = new GtkThemeManager({
             'gtk-settings': Gtk.Settings.get_default(),
         });
+
+        if (desktop_settings.settings_schema.has_key('color-scheme')) {
+            desktop_settings.bind(
+                'color-scheme',
+                this.theme_manager,
+                'desktop-color-scheme',
+                Gio.SettingsBindFlags.GET
+            );
+        }
 
         this.settings.bind(
             'theme-variant',
@@ -267,6 +280,7 @@ class Application extends Gtk.Application {
 
         new TerminalSettingsParser({
             gsettings: this.settings,
+            desktop_settings,
         }).bind_settings(this.terminal_settings);
 
         this.simple_action('toggle', () => this.ensure_window_with_terminal().toggle());

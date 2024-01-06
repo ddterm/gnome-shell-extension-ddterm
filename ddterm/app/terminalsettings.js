@@ -333,15 +333,6 @@ export const TerminalSettingsParser = GObject.registerClass({
     },
 }, class DDTermTerminalSettingsParser extends GObject.Object {
     _init(params) {
-        if (!params['desktop-settings'] && !params['desktop_settings']) {
-            params = {
-                ...params,
-                desktop_settings: new Gio.Settings({
-                    schema_id: 'org.gnome.desktop.interface',
-                }),
-            };
-        }
-
         super._init(params);
 
         this.add_dependency('cjk-utf8-ambiguous-width', 'cjk-ambiguous-width');
