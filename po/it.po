@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-05 21:56+0000\n"
+"POT-Creation-Date: 2024-01-06 08:05+0000\n"
 "PO-Revision-Date: 2023-11-10 09:35+0000\n"
 "Last-Translator: Frankie McEyes <mceyes@protonmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/gnome-shell-"
@@ -19,56 +19,56 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.2-dev\n"
 
-#: ddterm/app/application.js:78
+#: ddterm/app/application.js:74
 msgid "Start the application, but do not show the window"
 msgstr "Avvia l'applicazione, ma non mostrare la finestra"
 
-#: ddterm/app/application.js:87
+#: ddterm/app/application.js:83
 msgid "Comma-separated list of backends that GDK should try to use"
 msgstr ""
 "Elenco separato da virgole di backend che GDK dovrebbe provare a utilizzare"
 
-#: ddterm/app/application.js:96
+#: ddterm/app/application.js:92
 msgid "Enable HeapDump D-Bus interface (for testing/debug)"
 msgstr "Abilitare l'interfaccia D-Bus di HeapDump (per test/debug)"
 
-#: ddterm/app/application.js:105
+#: ddterm/app/application.js:101
 msgid "Show version information and exit"
 msgstr "Mostra informazioni sulla versione per poi uscire"
 
-#: ddterm/app/application.js:114
+#: ddterm/app/application.js:110
 msgid "Run the specified command"
 msgstr "Eseguire il comando specificato"
 
-#: ddterm/app/application.js:128
+#: ddterm/app/application.js:124
 msgid "Wait for the command to exit, and return its exit code"
 msgstr "Attendere l'uscita del comando e restituire il suo codice di uscita"
 
-#: ddterm/app/application.js:137
+#: ddterm/app/application.js:133
 msgid "Set the working directory"
 msgstr "Impostare la directory di lavoro"
 
-#: ddterm/app/application.js:146
+#: ddterm/app/application.js:142
 msgid "Set tab title"
 msgstr "Impostare il titolo della scheda"
 
-#: ddterm/app/application.js:155
+#: ddterm/app/application.js:151
 msgid "Keep the terminal open after the command has exited"
 msgstr "Mantenere aperto il terminale dopo l'uscita del comando"
 
-#: ddterm/app/application.js:164
+#: ddterm/app/application.js:160
 msgid "Do not pass the environment"
 msgstr "Non passare l'ambiente"
 
-#: ddterm/app/application.js:173
+#: ddterm/app/application.js:169
 msgid "Open a new tab"
 msgstr "Aprire una nuova scheda"
 
-#: ddterm/app/application.js:348
+#: ddterm/app/application.js:344
 msgid "Saving session…"
 msgstr "Salvataggio della sessione…"
 
-#: ddterm/app/application.js:508 ddterm/shell/notifications.js:138
+#: ddterm/app/application.js:503 ddterm/shell/notifications.js:116
 msgid ""
 "Warning: ddterm version has changed. Log out, then log in again to load the "
 "updated extension."
@@ -80,15 +80,15 @@ msgstr ""
 msgid "Drop Down Terminal"
 msgstr "Terminale a discesa"
 
-#: ddterm/app/dependencies.js:122
+#: ddterm/app/dependencies.js:108 ddterm/shell/notifications.js:173
 msgid "ddterm needs additional packages to run."
 msgstr "ddterm ha bisogno di pacchetti aggiuntivi per funzionare."
 
-#: ddterm/app/dependencies.js:127
+#: ddterm/app/dependencies.js:113 ddterm/shell/notifications.js:178
 msgid "Please install the following packages:"
 msgstr "Installare i seguenti pacchetti:"
 
-#: ddterm/app/dependencies.js:134
+#: ddterm/app/dependencies.js:120 ddterm/shell/notifications.js:186
 msgid "Please install packages that provide the following files:"
 msgstr "Installare i pacchetti che forniscono i seguenti file:"
 
@@ -343,7 +343,7 @@ msgstr ""
 "terminale lo terminerà forzatamente."
 
 #: ddterm/com.github.amezin.ddterm.desktop.in.in:4
-#: ddterm/shell/notifications.js:125
+#: ddterm/shell/notifications.js:104
 msgid "ddterm"
 msgstr ""
 
@@ -1320,11 +1320,15 @@ msgstr "Schede"
 msgid "Text"
 msgstr "Testo"
 
-#: ddterm/shell/notifications.js:171
+#: ddterm/shell/notifications.js:160
 #, fuzzy
 #| msgid "Paste Text from Clipboard"
 msgid "Copy to Clipboard"
 msgstr "Incolla il testo dagli appunti"
+
+#: ddterm/shell/notifications.js:204
+msgid "Install"
+msgstr ""
 
 #: ddterm/shell/panelicon.js:64
 msgid "Show"

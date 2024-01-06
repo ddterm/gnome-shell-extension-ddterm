@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-05 21:56+0000\n"
+"POT-Creation-Date: 2024-01-06 08:05+0000\n"
 "PO-Revision-Date: 2023-11-23 08:05+0000\n"
 "Last-Translator: yuh <yuhldr@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -18,55 +18,55 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 5.2.1-rc\n"
 
-#: ddterm/app/application.js:78
+#: ddterm/app/application.js:74
 msgid "Start the application, but do not show the window"
 msgstr "开始应用，但没有显示窗口"
 
-#: ddterm/app/application.js:87
+#: ddterm/app/application.js:83
 msgid "Comma-separated list of backends that GDK should try to use"
 msgstr "GDK 应尝试使用的以逗号分隔的后端列表"
 
-#: ddterm/app/application.js:96
+#: ddterm/app/application.js:92
 msgid "Enable HeapDump D-Bus interface (for testing/debug)"
 msgstr "启用堆转储 D-Bus 接口（用于测试/调试）"
 
-#: ddterm/app/application.js:105
+#: ddterm/app/application.js:101
 msgid "Show version information and exit"
 msgstr "显示版本信息并退出"
 
-#: ddterm/app/application.js:114
+#: ddterm/app/application.js:110
 msgid "Run the specified command"
 msgstr "运行指定的命令"
 
-#: ddterm/app/application.js:128
+#: ddterm/app/application.js:124
 msgid "Wait for the command to exit, and return its exit code"
 msgstr "等待退出命令，并返回其退出代码"
 
-#: ddterm/app/application.js:137
+#: ddterm/app/application.js:133
 msgid "Set the working directory"
 msgstr "设置工作目录"
 
-#: ddterm/app/application.js:146
+#: ddterm/app/application.js:142
 msgid "Set tab title"
 msgstr "设置标签页标题"
 
-#: ddterm/app/application.js:155
+#: ddterm/app/application.js:151
 msgid "Keep the terminal open after the command has exited"
 msgstr "命令退出后保持终端打开"
 
-#: ddterm/app/application.js:164
+#: ddterm/app/application.js:160
 msgid "Do not pass the environment"
 msgstr "不要通过环境"
 
-#: ddterm/app/application.js:173
+#: ddterm/app/application.js:169
 msgid "Open a new tab"
 msgstr "打开新标签"
 
-#: ddterm/app/application.js:348
+#: ddterm/app/application.js:344
 msgid "Saving session…"
 msgstr "会话保存中……"
 
-#: ddterm/app/application.js:508 ddterm/shell/notifications.js:138
+#: ddterm/app/application.js:503 ddterm/shell/notifications.js:116
 msgid ""
 "Warning: ddterm version has changed. Log out, then log in again to load the "
 "updated extension."
@@ -76,15 +76,15 @@ msgstr "警告：ddterm版本已改变。注销后重新登录，方可生效。
 msgid "Drop Down Terminal"
 msgstr "下拉终端"
 
-#: ddterm/app/dependencies.js:122
+#: ddterm/app/dependencies.js:108 ddterm/shell/notifications.js:173
 msgid "ddterm needs additional packages to run."
 msgstr "ddterm需要额外的软件包才能运行。"
 
-#: ddterm/app/dependencies.js:127
+#: ddterm/app/dependencies.js:113 ddterm/shell/notifications.js:178
 msgid "Please install the following packages:"
 msgstr "请安装以下软件包："
 
-#: ddterm/app/dependencies.js:134
+#: ddterm/app/dependencies.js:120 ddterm/shell/notifications.js:186
 msgid "Please install packages that provide the following files:"
 msgstr "请安装提供以下文件的软件包："
 
@@ -339,7 +339,7 @@ msgid ""
 msgstr "该终端中仍有一个进程在运行。关闭终端，将会销毁该进程。"
 
 #: ddterm/com.github.amezin.ddterm.desktop.in.in:4
-#: ddterm/shell/notifications.js:125
+#: ddterm/shell/notifications.js:104
 msgid "ddterm"
 msgstr ""
 
@@ -1310,11 +1310,15 @@ msgstr "标签页"
 msgid "Text"
 msgstr "文本"
 
-#: ddterm/shell/notifications.js:171
+#: ddterm/shell/notifications.js:160
 #, fuzzy
 #| msgid "Paste Text from Clipboard"
 msgid "Copy to Clipboard"
 msgstr "从剪贴板上粘贴文本"
+
+#: ddterm/shell/notifications.js:204
+msgid "Install"
+msgstr ""
 
 #: ddterm/shell/panelicon.js:64
 msgid "Show"

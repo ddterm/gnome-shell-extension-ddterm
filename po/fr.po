@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-05 21:56+0000\n"
+"POT-Creation-Date: 2024-01-06 08:05+0000\n"
 "PO-Revision-Date: 2023-11-05 23:33+0000\n"
 "Last-Translator: fail a fail <yassadmi@proton.me>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/gnome-shell-"
@@ -20,56 +20,56 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-Basepath: .\n"
 
-#: ddterm/app/application.js:78
+#: ddterm/app/application.js:74
 msgid "Start the application, but do not show the window"
 msgstr "Démarrer l'application, mais ne pas afficher la fenêtre"
 
-#: ddterm/app/application.js:87
+#: ddterm/app/application.js:83
 msgid "Comma-separated list of backends that GDK should try to use"
 msgstr ""
 "Liste, séparée par des virgules, des backend que GDK doit essayer d'utiliser"
 
-#: ddterm/app/application.js:96
+#: ddterm/app/application.js:92
 msgid "Enable HeapDump D-Bus interface (for testing/debug)"
 msgstr "Activer l'interface HeapDump D-Bus (pour le test/debug)"
 
-#: ddterm/app/application.js:105
+#: ddterm/app/application.js:101
 msgid "Show version information and exit"
 msgstr "Afficher les informations de version et quitter"
 
-#: ddterm/app/application.js:114
+#: ddterm/app/application.js:110
 msgid "Run the specified command"
 msgstr "Exécutez la commande spécifiée"
 
-#: ddterm/app/application.js:128
+#: ddterm/app/application.js:124
 msgid "Wait for the command to exit, and return its exit code"
 msgstr "Attendre que la commande soit exécutée et retourner son code de sortie"
 
-#: ddterm/app/application.js:137
+#: ddterm/app/application.js:133
 msgid "Set the working directory"
 msgstr "Définir le répertoire de travail"
 
-#: ddterm/app/application.js:146
+#: ddterm/app/application.js:142
 msgid "Set tab title"
 msgstr "Définir un titre d'onglet"
 
-#: ddterm/app/application.js:155
+#: ddterm/app/application.js:151
 msgid "Keep the terminal open after the command has exited"
 msgstr "Gardez le terminal ouvert après la fin de la commande"
 
-#: ddterm/app/application.js:164
+#: ddterm/app/application.js:160
 msgid "Do not pass the environment"
 msgstr "Ne pas transmettre l'environnement"
 
-#: ddterm/app/application.js:173
+#: ddterm/app/application.js:169
 msgid "Open a new tab"
 msgstr "Ouvrir un nouvel onglet"
 
-#: ddterm/app/application.js:348
+#: ddterm/app/application.js:344
 msgid "Saving session…"
 msgstr "Enregistrement de la session…"
 
-#: ddterm/app/application.js:508 ddterm/shell/notifications.js:138
+#: ddterm/app/application.js:503 ddterm/shell/notifications.js:116
 msgid ""
 "Warning: ddterm version has changed. Log out, then log in again to load the "
 "updated extension."
@@ -81,15 +81,15 @@ msgstr ""
 msgid "Drop Down Terminal"
 msgstr "Terminal déroulant"
 
-#: ddterm/app/dependencies.js:122
+#: ddterm/app/dependencies.js:108 ddterm/shell/notifications.js:173
 msgid "ddterm needs additional packages to run."
 msgstr "ddterm requiert des paquets supplémentaires pour son exécution."
 
-#: ddterm/app/dependencies.js:127
+#: ddterm/app/dependencies.js:113 ddterm/shell/notifications.js:178
 msgid "Please install the following packages:"
 msgstr "Merci d'installer les paquets suivants :"
 
-#: ddterm/app/dependencies.js:134
+#: ddterm/app/dependencies.js:120 ddterm/shell/notifications.js:186
 msgid "Please install packages that provide the following files:"
 msgstr "Merci d'installer les paquets contenant les fichiers suivants :"
 
@@ -344,7 +344,7 @@ msgstr ""
 "terminal va le tuer."
 
 #: ddterm/com.github.amezin.ddterm.desktop.in.in:4
-#: ddterm/shell/notifications.js:125
+#: ddterm/shell/notifications.js:104
 msgid "ddterm"
 msgstr ""
 
@@ -1317,11 +1317,15 @@ msgstr "Onglets"
 msgid "Text"
 msgstr "Texte"
 
-#: ddterm/shell/notifications.js:171
+#: ddterm/shell/notifications.js:160
 #, fuzzy
 #| msgid "Paste Text from Clipboard"
 msgid "Copy to Clipboard"
 msgstr "Coller depuis le presse-papier"
+
+#: ddterm/shell/notifications.js:204
+msgid "Install"
+msgstr ""
 
 #: ddterm/shell/panelicon.js:64
 msgid "Show"

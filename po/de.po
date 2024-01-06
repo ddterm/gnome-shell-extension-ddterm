@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-05 21:56+0000\n"
+"POT-Creation-Date: 2024-01-06 08:05+0000\n"
 "PO-Revision-Date: 2023-12-26 17:07+0000\n"
 "Last-Translator: Ettore Atalan <atalanttore@googlemail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/gnome-shell-"
@@ -21,55 +21,55 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.4-dev\n"
 
-#: ddterm/app/application.js:78
+#: ddterm/app/application.js:74
 msgid "Start the application, but do not show the window"
 msgstr "Die Anwendung starten, ohne das Fenster anzuzeigen"
 
-#: ddterm/app/application.js:87
+#: ddterm/app/application.js:83
 msgid "Comma-separated list of backends that GDK should try to use"
 msgstr "Kommaseparierte Liste von Backends, die GDK versuchen sollte zu nutzen"
 
-#: ddterm/app/application.js:96
+#: ddterm/app/application.js:92
 msgid "Enable HeapDump D-Bus interface (for testing/debug)"
 msgstr "HeapDump-D-Bus-Interface aktivieren (Testzwecke/Fehlersuche)"
 
-#: ddterm/app/application.js:105
+#: ddterm/app/application.js:101
 msgid "Show version information and exit"
 msgstr "Versionsinformationen anzeigen und beenden"
 
-#: ddterm/app/application.js:114
+#: ddterm/app/application.js:110
 msgid "Run the specified command"
 msgstr "Den angegebenen Befehl ausführen"
 
-#: ddterm/app/application.js:128
+#: ddterm/app/application.js:124
 msgid "Wait for the command to exit, and return its exit code"
 msgstr "Auf das Beenden des Befehls warten und dessen Status zurückgeben"
 
-#: ddterm/app/application.js:137
+#: ddterm/app/application.js:133
 msgid "Set the working directory"
 msgstr "Arbeitsverzeichnis festlegen"
 
-#: ddterm/app/application.js:146
+#: ddterm/app/application.js:142
 msgid "Set tab title"
 msgstr "Reiter-Titel festlegen"
 
-#: ddterm/app/application.js:155
+#: ddterm/app/application.js:151
 msgid "Keep the terminal open after the command has exited"
 msgstr "Das Terminal nach dem Beenden des Befehls geöffnet lassen"
 
-#: ddterm/app/application.js:164
+#: ddterm/app/application.js:160
 msgid "Do not pass the environment"
 msgstr "Die Umgebung nicht weitergeben"
 
-#: ddterm/app/application.js:173
+#: ddterm/app/application.js:169
 msgid "Open a new tab"
 msgstr "Einen neuen Reiter öffnen"
 
-#: ddterm/app/application.js:348
+#: ddterm/app/application.js:344
 msgid "Saving session…"
 msgstr "Sitzung wird gespeichert …"
 
-#: ddterm/app/application.js:508 ddterm/shell/notifications.js:138
+#: ddterm/app/application.js:503 ddterm/shell/notifications.js:116
 msgid ""
 "Warning: ddterm version has changed. Log out, then log in again to load the "
 "updated extension."
@@ -81,15 +81,15 @@ msgstr ""
 msgid "Drop Down Terminal"
 msgstr "Drop-Down-Terminal"
 
-#: ddterm/app/dependencies.js:122
+#: ddterm/app/dependencies.js:108 ddterm/shell/notifications.js:173
 msgid "ddterm needs additional packages to run."
 msgstr "ddterm benötigt zusätzliche Pakete zur Ausführung."
 
-#: ddterm/app/dependencies.js:127
+#: ddterm/app/dependencies.js:113 ddterm/shell/notifications.js:178
 msgid "Please install the following packages:"
 msgstr "Bitte installieren Sie die folgenden Pakete:"
 
-#: ddterm/app/dependencies.js:134
+#: ddterm/app/dependencies.js:120 ddterm/shell/notifications.js:186
 msgid "Please install packages that provide the following files:"
 msgstr "Bitte installieren Sie Pakete, die folgende Dateien bereitstellen:"
 
@@ -344,7 +344,7 @@ msgstr ""
 "abbrechen."
 
 #: ddterm/com.github.amezin.ddterm.desktop.in.in:4
-#: ddterm/shell/notifications.js:125
+#: ddterm/shell/notifications.js:104
 msgid "ddterm"
 msgstr ""
 
@@ -1315,11 +1315,15 @@ msgstr "Reiter"
 msgid "Text"
 msgstr "Text"
 
-#: ddterm/shell/notifications.js:171
+#: ddterm/shell/notifications.js:160
 #, fuzzy
 #| msgid "Paste Text from Clipboard"
 msgid "Copy to Clipboard"
 msgstr "Text aus Zwischenablage einfügen"
+
+#: ddterm/shell/notifications.js:204
+msgid "Install"
+msgstr ""
 
 #: ddterm/shell/panelicon.js:64
 msgid "Show"
