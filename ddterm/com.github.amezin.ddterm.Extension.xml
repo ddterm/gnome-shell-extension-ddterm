@@ -12,6 +12,10 @@
             <arg type="i" name="width" direction="out"/>
             <arg type="i" name="height" direction="out"/>
         </method>
+        <method name="MissingDependencies">
+            <arg type="as" name="packages" direction="in"/>
+            <arg type="as" name="files" direction="in"/>
+        </method>
 
         <property type="(iiii)" name="TargetRect" access="read"/>
         <property type="s" name="Version" access="read"/>

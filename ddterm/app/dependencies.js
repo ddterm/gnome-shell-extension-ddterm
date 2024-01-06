@@ -23,6 +23,7 @@ import Gettext from 'gettext';
 import Gi from 'gi';
 import System from 'system';
 
+import { create_extension_dbus_proxy } from './extensiondbus.js';
 import { get_resource_file, get_resource_text } from './resources.js';
 
 export const manifest_file = get_resource_file('dependencies.json');
@@ -78,7 +79,7 @@ function resolve_packages(lib_versions, os_ids) {
             unresolved.add(version_manifest.filename);
     }
 
-    return { packages, unresolved };
+    return { packages: Array.from(packages), unresolved: Array.from(unresolved) };
 }
 
 export function gi_require(imports_versions) {
@@ -100,27 +101,34 @@ export function gi_require(imports_versions) {
 
     const { packages, unresolved } = resolve_packages(missing, os_ids);
 
-    if (packages.size === 0 && unresolved.size === 0)
+    if (packages.length === 0 && unresolved.length === 0)
         return;
 
     const message_lines = [
         Gettext.gettext('ddterm needs additional packages to run.'),
     ];
 
-    if (packages.size > 0) {
+    if (packages.length > 0) {
         message_lines.push(
             Gettext.gettext('Please install the following packages:'),
-            Array.from(packages).join(', ')
+            packages.join(', ')
         );
     }
 
-    if (unresolved.size > 0) {
+    if (unresolved.length > 0) {
         message_lines.push(
             Gettext.gettext('Please install packages that provide the following files:'),
-            Array.from(unresolved).join(', ')
+            unresolved.join(', ')
         );
     }
 
     printerr(message_lines.join('\n'));
+
+    try {
+        create_extension_dbus_proxy().MissingDependenciesSync(packages, unresolved);
+    } catch (ex) {
+        logError(ex);
+    }
+
     System.exit(1);
 }

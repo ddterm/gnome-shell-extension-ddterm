@@ -109,6 +109,9 @@ export const DBusApi = GObject.registerClass({
             return_type: GObject.TYPE_JSOBJECT,
             accumulator: GObject.AccumulatorType.FIRST_WINS,
         },
+        'missing-dependencies': {
+            param_types: [GObject.type_from_name('GStrv'), GObject.type_from_name('GStrv')],
+        },
         'refresh-target-rect': {},
     },
 }, class DDTermDBusApi extends GObject.Object {
@@ -133,6 +136,10 @@ export const DBusApi = GObject.registerClass({
 
     ServiceAsync(params, invocation) {
         handle_dbus_method_call_async(() => this.emit('service'), params, invocation);
+    }
+
+    MissingDependencies(packages, files) {
+        this.emit('missing-dependencies', packages, files);
     }
 
     GetTargetRect() {

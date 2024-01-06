@@ -90,6 +90,7 @@ export const Notifications = GObject.registerClass({
 
         this._source = null;
         this._version_mismatch_notifications = new Set();
+        this._missing_dependencies_notifications = new Set();
     }
 
     create_source() {
@@ -125,6 +126,9 @@ export const Notifications = GObject.registerClass({
     }
 
     show_error(message, trace) {
+        if (this._missing_dependencies_notifications.size > 0)
+            return;
+
         const source = this.create_source();
 
         if (message instanceof Error || message instanceof GLib.Error)
@@ -159,6 +163,40 @@ export const Notifications = GObject.registerClass({
 
         notification.setUrgency(MessageTray.Urgency.CRITICAL);
         source.showNotification(notification);
+    }
+
+    show_missing_dependencies(packages, files) {
+        const lines = [
+            this.gettext_context.gettext('ddterm needs additional packages to run.'),
+        ];
+
+        if (packages.length > 0) {
+            lines.push(
+                this.gettext_context.gettext('Please install the following packages:'),
+                packages.join(', ')
+            );
+        }
+
+        if (files.length > 0) {
+            lines.push(
+                this.gettext_context.gettext(
+                    'Please install packages that provide the following files:'
+                ),
+                files.join(', ')
+            );
+        }
+
+        const source = this.create_source();
+        const notification = new Notification(source, source.title, lines.join('\n'));
+
+        notification.setUrgency(MessageTray.Urgency.CRITICAL);
+        source.showNotification(notification);
+
+        this._missing_dependencies_notifications.add(notification);
+
+        notification.connect('destroy', () => {
+            this._missing_dependencies_notifications.delete(notification);
+        });
     }
 
     destroy(reason = MessageTray.NotificationDestroyedReason.SOURCE_CLOSED) {

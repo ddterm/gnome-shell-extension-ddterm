@@ -81,7 +81,14 @@ function create_window_matcher(service, rollback) {
     return window_matcher;
 }
 
-function create_dbus_interface(window_geometry, window_matcher, app_control, extension, rollback) {
+function create_dbus_interface(
+    window_geometry,
+    window_matcher,
+    app_control,
+    notifications,
+    extension,
+    rollback
+) {
     const dbus_interface = new DBusApi({
         xml_file_path: extension.dbus_xml_file_path,
         version: `${extension.metadata.version}`,
@@ -99,6 +106,9 @@ function create_dbus_interface(window_geometry, window_matcher, app_control, ext
          */
         if (!window_matcher.current_window)
             window_geometry.update_monitor();
+    });
+    dbus_interface.connect('missing-dependencies', (_, packages, files) => {
+        notifications.show_missing_dependencies(packages, files);
     });
 
     window_geometry.bind_property(
@@ -318,6 +328,7 @@ class EnabledExtension {
             this.window_geometry,
             this.window_matcher,
             this.app_control,
+            this.notifications,
             this.extension,
             rollback
         );
