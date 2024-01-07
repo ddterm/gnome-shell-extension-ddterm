@@ -176,7 +176,7 @@ export const Notifications = GObject.registerClass({
         if (packages.length > 0) {
             lines.push(
                 this.gettext_context.gettext('Please install the following packages:'),
-                packages.join(', ')
+                packages.join(' ')
             );
         }
 
@@ -185,7 +185,7 @@ export const Notifications = GObject.registerClass({
                 this.gettext_context.gettext(
                     'Please install packages that provide the following files:'
                 ),
-                files.join(', ')
+                files.join(' ')
             );
         }
 

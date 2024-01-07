@@ -111,14 +111,14 @@ export function gi_require(imports_versions) {
     if (packages.length > 0) {
         message_lines.push(
             Gettext.gettext('Please install the following packages:'),
-            packages.join(', ')
+            packages.join(' ')
         );
     }
 
     if (unresolved.length > 0) {
         message_lines.push(
             Gettext.gettext('Please install packages that provide the following files:'),
-            unresolved.join(', ')
+            unresolved.join(' ')
         );
     }
 
