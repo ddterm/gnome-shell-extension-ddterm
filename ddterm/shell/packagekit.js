@@ -20,22 +20,31 @@
 import GLib from 'gi://GLib';
 import Gio from 'gi://Gio';
 
-const modify2_interface_spec = `
-<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN"
-"http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
-<node name="/org/freedesktop/PackageKit" xmlns:doc="http://www.freedesktop.org/dbus/1.0/doc.dtd">
-    <interface name="org.freedesktop.PackageKit.Modify2">
-        <method name="InstallPackageNames">
-            <arg type="as" name="packages" direction="in"/>
-            <arg type="s" name="interaction" direction="in"/>
-            <arg type="s" name="desktop_id" direction="in"/>
-            <arg type="a{sv}" name="platform_data" direction="in"/>
-        </method>
-    </interface>
-</node>
-`;
+const BUS_NAME = 'org.freedesktop.PackageKit';
+const OBJECT_PATH = '/org/freedesktop/PackageKit';
 
-class PackageKit {
+class PackageKitModify {
+    constructor(proxy) {
+        this._proxy = proxy;
+    }
+
+    install_package_names(names) {
+        this._proxy.call(
+            'InstallPackageNames',
+            GLib.Variant.new_tuple([
+                GLib.Variant.new_uint32(0),
+                GLib.Variant.new_strv(names),
+                GLib.Variant.new_string('hide-confirm-search'),
+            ]),
+            Gio.DBusCallFlags.ALLOW_INTERACTIVE_AUTHORIZATION,
+            -1,
+            null,
+            null
+        );
+    }
+}
+
+class PackageKitModify2 {
     constructor(proxy) {
         this._proxy = proxy;
     }
@@ -57,25 +66,65 @@ class PackageKit {
     }
 }
 
-export function create_packagekit_proxy(cancellable) {
+function create_proxy_async(connection, interface_info, cancellable) {
     return new Promise((resolve, reject) => {
-        const node_info = Gio.DBusNodeInfo.new_for_xml(modify2_interface_spec);
-
         Gio.DBusProxy.new(
-            Gio.DBus.session,
+            connection,
             Gio.DBusProxyFlags.DO_NOT_LOAD_PROPERTIES | Gio.DBusProxyFlags.DO_NOT_CONNECT_SIGNALS,
-            node_info.interfaces[0],
-            'org.freedesktop.PackageKit',
-            node_info.path,
-            node_info.interfaces[0].name,
+            interface_info,
+            BUS_NAME,
+            OBJECT_PATH,
+            interface_info.name,
             cancellable,
             (source, result) => {
                 try {
-                    resolve(new PackageKit(Gio.DBusProxy.new_finish(result)));
+                    resolve(Gio.DBusProxy.new_finish(result));
                 } catch (ex) {
                     reject(ex);
                 }
             }
         );
     });
+}
+
+function introspect(connection, cancellable) {
+    return new Promise((resolve, reject) => {
+        connection.call(
+            BUS_NAME,
+            OBJECT_PATH,
+            'org.freedesktop.DBus.Introspectable',
+            'Introspect',
+            null,
+            new GLib.VariantType('(s)'),
+            Gio.DBusCallFlags.NONE,
+            -1,
+            cancellable,
+            (source, result) => {
+                try {
+                    const result_variant = source.call_finish(result);
+                    const [result_string] = result_variant.get_child_value(0).get_string();
+
+                    resolve(Gio.DBusNodeInfo.new_for_xml(result_string));
+                } catch (ex) {
+                    reject(ex);
+                }
+            }
+        );
+    });
+}
+
+export async function create_packagekit_proxy(cancellable) {
+    const connection = Gio.DBus.session;
+    const introspection = await introspect(connection, cancellable);
+    const modify2 = introspection.lookup_interface('org.freedesktop.PackageKit.Modify2');
+
+    if (modify2)
+        return new PackageKitModify2(await create_proxy_async(connection, modify2, cancellable));
+
+    const modify = introspection.lookup_interface('org.freedesktop.PackageKit.Modify');
+
+    if (modify)
+        return new PackageKitModify(await create_proxy_async(connection, modify, cancellable));
+
+    throw new Error('No known interface found');
 }
