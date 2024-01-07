@@ -59,6 +59,9 @@ There are also utility modules:
 
 * [`sd_journal.js`](/ddterm/shell/sd_journal.js): connection to systemd-journald
 
+* [`packagekit.js`](/ddterm/shell/packagekit.js): missing dependency installation
+using packagekit session interface (usually gnome-software)
+
 Extension code doesn't (and shouldn't) use any third party (npm) libraries.
 
 [`ddterm/shell`]: /ddterm/shell
