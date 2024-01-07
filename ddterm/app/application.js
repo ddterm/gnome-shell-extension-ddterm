@@ -490,7 +490,7 @@ class Application extends Gtk.Application {
     }
 
     print_version_info() {
-        const revision = get_resource_text('../../revision.txt');
+        const revision = get_resource_text('../../revision.txt').trim();
         print(metadata.name, metadata.version, 'revision', revision);
 
         try {
