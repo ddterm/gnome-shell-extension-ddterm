@@ -57,9 +57,9 @@ function make_subprocess_launcher_fallback() {
 }
 
 class JournalctlLogCollector {
-    constructor(since, pid) {
+    constructor(journalctl, since, pid) {
         this._argv = [
-            'journalctl',
+            journalctl,
             '--user',
             '-b',
             `--since=${since.format('%C%y-%m-%d %H:%M:%S UTC')}`,
@@ -173,7 +173,8 @@ export const Subprocess = GObject.registerClass({
         super._init(params);
 
         const start_date = GLib.DateTime.new_now_utc();
-        const logging_to_journald = GLib.log_writer_is_journald?.(STDOUT_FD);
+        const journalctl = GLib.find_program_in_path('journalctl');
+        const logging_to_journald = journalctl && GLib.log_writer_is_journald?.(STDOUT_FD);
         const subprocess_launcher = logging_to_journald
             ? make_subprocess_launcher_journald(this.journal_identifier)
             : make_subprocess_launcher_fallback();
@@ -185,7 +186,7 @@ export const Subprocess = GObject.registerClass({
         }
 
         this.log_collector = logging_to_journald
-            ? new JournalctlLogCollector(start_date, this._subprocess.get_identifier())
+            ? new JournalctlLogCollector(journalctl, start_date, this._subprocess.get_identifier())
             : new TeeLogCollector(this._subprocess.get_stdout_pipe());
     }
 
