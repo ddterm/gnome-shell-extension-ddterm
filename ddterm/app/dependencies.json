@@ -4,7 +4,8 @@
    "arch": "gtk3",
    "debian": "gir1.2-gtk-3.0",
    "fedora": "gtk3",
-   "filename": "Gtk-3.0.typelib"
+   "filename": "Gtk-3.0.typelib",
+   "suse": "typelib-1_0-Gtk-3_0"
   }
  },
  "Gdk": {
@@ -12,7 +13,8 @@
    "arch": "gtk3",
    "debian": "gir1.2-gtk-3.0",
    "fedora": "gtk3",
-   "filename": "Gdk-3.0.typelib"
+   "filename": "Gdk-3.0.typelib",
+   "suse": "typelib-1_0-Gtk-3_0"
   }
  },
  "Vte": {
@@ -20,7 +22,8 @@
    "arch": "vte3",
    "debian": "gir1.2-vte-2.91",
    "fedora": "vte291",
-   "filename": "Vte-2.91.typelib"
+   "filename": "Vte-2.91.typelib",
+   "suse": "typelib-1_0-Vte-2_91"
   }
  },
  "Pango": {
@@ -28,7 +31,8 @@
    "arch": "pango",
    "debian": "gir1.2-pango-1.0",
    "fedora": "pango",
-   "filename": "Pango-1.0.typelib"
+   "filename": "Pango-1.0.typelib",
+   "suse": "typelib-1_0-Pango-1_0"
   }
  }
 }
