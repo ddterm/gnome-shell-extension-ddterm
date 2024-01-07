@@ -37,9 +37,9 @@ class PackageKitModify {
                 GLib.Variant.new_string('hide-confirm-search'),
             ]),
             Gio.DBusCallFlags.ALLOW_INTERACTIVE_AUTHORIZATION,
-            -1,
+            1000,  /* Wait 1 sec for obvious errors */
             null,
-            null
+            check_call_result_ignore_timed_out
         );
     }
 }
@@ -59,10 +59,23 @@ class PackageKitModify2 {
                 GLib.VariantDict.new(null).end(),
             ]),
             Gio.DBusCallFlags.ALLOW_INTERACTIVE_AUTHORIZATION,
-            -1,
+            1000,  /* Wait 1 sec for obvious errors */
             null,
-            null
+            check_call_result_ignore_timed_out
         );
+    }
+}
+
+function check_call_result_ignore_timed_out(source, result) {
+    try {
+        source.call_finish(result);
+    } catch (ex) {
+        if (ex instanceof GLib.Error) {
+            if (ex.matches(Gio.io_error_quark(), Gio.IOErrorEnum.TIMED_OUT))
+                return;
+        }
+
+        logError(ex, 'PackageKit D-Bus call failed');
     }
 }
 
