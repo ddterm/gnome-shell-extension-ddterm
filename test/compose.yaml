@@ -5,13 +5,13 @@
 
 services:
   fedora-39:
-    image: ghcr.io/ddterm/gnome-shell-pod/fedora-39:2024.01.08.1
+    image: ghcr.io/ddterm/gnome-shell-pod/fedora-39:2024.01.09.0
 
   ubuntu-23.10:
-    image: ghcr.io/ddterm/gnome-shell-pod/ubuntu-23.10:2024.01.08.1
+    image: ghcr.io/ddterm/gnome-shell-pod/ubuntu-23.10:2024.01.09.0
 
   archlinux:
-    image: ghcr.io/ddterm/gnome-shell-pod/archlinux:2024.01.08.1
+    image: ghcr.io/ddterm/gnome-shell-pod/archlinux:2024.01.09.0
 
   opensuse-tumbleweed:
-    image: ghcr.io/ddterm/gnome-shell-pod/opensuse-tumbleweed:2024.01.08.1
+    image: ghcr.io/ddterm/gnome-shell-pod/opensuse-tumbleweed:2024.01.09.0
