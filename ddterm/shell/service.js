@@ -164,6 +164,17 @@ export const Service = GObject.registerClass({
         const cancellable_chain = cancellable?.connect(() => inner_cancellable.cancel());
 
         try {
+            const new_subprocess = this._activate();
+
+            if (!new_subprocess)
+                throw new Error(`${this.bus_name}: subprocess failed to start`);
+
+            const terminated = new_subprocess.wait(inner_cancellable).then(() => {
+                throw new Error(
+                    `${this.bus_name}: subprocess terminated without registering on D-Bus`
+                );
+            });
+
             const registered = new Promise(resolve => {
                 const handler = this.connect('notify::is-registered', () => {
                     if (this.is_registered)
@@ -173,12 +184,6 @@ export const Service = GObject.registerClass({
                 inner_cancellable.connect(() => {
                     this.disconnect(handler);
                 });
-            });
-
-            const terminated = this._activate().wait(inner_cancellable).then(() => {
-                throw new Error(
-                    `${this.bus_name}: subprocess terminated without registering on D-Bus`
-                );
             });
 
             await Promise.race([registered, terminated]);

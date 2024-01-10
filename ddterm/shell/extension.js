@@ -269,7 +269,18 @@ class EnabledExtension {
             if (!this.extension.check_revision_match())
                 this.notifications.show_version_mismatch();
 
-            return this.extension.start_app_process(this.settings);
+            try {
+                return this.extension.start_app_process(this.settings);
+            } catch (ex) {
+                logError(ex, 'Failed to launch application/service process');
+
+                this.notifications.show_error(
+                    this.extension.gettext('Failed to launch ddterm application'),
+                    ex
+                );
+
+                return null;
+            }
         });
 
         this.window_geometry = new WindowGeometry();
@@ -451,18 +462,16 @@ export default class DDTermExtension extends Extension {
         }).catch(ex => {
             logError(ex, this.launcher_path);
 
-            const notifications = this.enabled_state?.notifications;
-
             if (!app_process.log_collector) {
-                notifications?.show_error(ex);
+                this.enabled_state?.notifications.show_error(ex);
                 return;
             }
 
             app_process.log_collector?.collect().then(output => {
-                notifications?.show_error(ex, output);
+                this.enabled_state?.notifications.show_error(ex, output);
             }).catch(ex2 => {
                 logError(ex2, 'Failed to collect logs');
-                notifications?.show_error(ex);
+                this.enabled_state?.notifications.show_error(ex);
             });
         }).finally(() => {
             if (this.app_process === app_process)
