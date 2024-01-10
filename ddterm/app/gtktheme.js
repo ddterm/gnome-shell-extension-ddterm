@@ -43,6 +43,8 @@ export const ThemeManager = GObject.registerClass({
     },
 }, class DDTermThemeManager extends GObject.Object {
     static create(theme_variant, desktop_settings) {
+        Handy?.init();
+
         const style_manager = Handy?.StyleManager?.get_default();
 
         if (style_manager)
