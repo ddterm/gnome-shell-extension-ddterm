@@ -44,6 +44,15 @@ function schedule_gc() {
     });
 }
 
+function is_dbus_interface_error(ex) {
+    if (!(ex instanceof GLib.Error))
+        return false;
+
+    return ex.matches(Gio.DBusError.quark(), Gio.DBusError.UNKNOWN_METHOD) ||
+        ex.matches(Gio.DBusError.quark(), Gio.DBusError.UNKNOWN_OBJECT) ||
+        ex.matches(Gio.DBusError.quark(), Gio.DBusError.UNKNOWN_INTERFACE);
+}
+
 export const Application = GObject.registerClass({
     Properties: {
         'window': GObject.ParamSpec.object(
@@ -392,7 +401,20 @@ class Application extends Gtk.Application {
 
         this.flags |= Gio.ApplicationFlags.IS_LAUNCHER;
 
-        this.extension_dbus.ServiceSync();
+        try {
+            this.extension_dbus.ServiceSync();
+        } catch (ex) {
+            if (is_dbus_interface_error(ex)) {
+                printerr(Gettext.gettext("Can't contact the extension."));
+                print(Gettext.gettext(
+                    'Please, make sure ddterm GNOME Shell extension is enabled.'
+                ));
+                return 1;
+            }
+
+            logError(ex, "Can't start the service");
+            return 1;
+        }
 
         if (!options.lookup('no-environment'))
             this.flags |= Gio.ApplicationFlags.SEND_ENVIRONMENT;
@@ -504,7 +526,12 @@ class Application extends Gtk.Application {
             const ext_revision = this.extension_dbus.get_cached_property('Revision')?.unpack();
             print('Extension', ext_version, 'revision', ext_revision);
 
-            if (revision !== ext_revision) {
+            if (ext_version === undefined && ext_revision === undefined) {
+                print(Gettext.gettext("Can't read the version of the loaded extension."));
+                print(Gettext.gettext(
+                    'Please, make sure ddterm GNOME Shell extension is enabled.'
+                ));
+            } else if (revision !== ext_revision) {
                 print(Gettext.gettext(
                     'Warning: ddterm version has changed. ' +
                     'Log out, then log in again to load the updated extension.'
