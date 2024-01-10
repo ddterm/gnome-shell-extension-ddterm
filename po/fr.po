@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-10 02:01+0000\n"
+"POT-Creation-Date: 2024-01-10 03:20+0000\n"
 "PO-Revision-Date: 2023-11-05 23:33+0000\n"
 "Last-Translator: fail a fail <yassadmi@proton.me>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/gnome-shell-"
@@ -553,11 +553,11 @@ msgstr "Animation d'apparition :"
 msgid "_Hide animation:"
 msgstr "Animation de disparition :"
 
-#: ddterm/pref/glade/prefs-animation.ui:284
+#: ddterm/pref/glade/prefs-animation.ui:288
 msgid "_Hide animation duration:"
 msgstr "Durée de l'animation d'apparition :"
 
-#: ddterm/pref/glade/prefs-animation.ui:297
+#: ddterm/pref/glade/prefs-animation.ui:301
 msgid "_Show animation duration:"
 msgstr "Durée de l'animation de disparition :"
 

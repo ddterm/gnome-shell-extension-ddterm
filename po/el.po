@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-10 02:01+0000\n"
+"POT-Creation-Date: 2024-01-10 03:20+0000\n"
 "PO-Revision-Date: 2023-09-26 17:35+0300\n"
 "Last-Translator: Anagnostakis Ioannis <rizitis@gmail.com>\n"
 "Language-Team: Greek, Modern (1453-) <>\n"
@@ -561,11 +561,11 @@ msgstr "_Εμφάνιση κινούμενων εικόνων:"
 msgid "_Hide animation:"
 msgstr "_Απόκρυψη κινούμενων εικόνων:"
 
-#: ddterm/pref/glade/prefs-animation.ui:284
+#: ddterm/pref/glade/prefs-animation.ui:288
 msgid "_Hide animation duration:"
 msgstr "_Απόκρυψη διάρκειας κινούμενης εικόνας:"
 
-#: ddterm/pref/glade/prefs-animation.ui:297
+#: ddterm/pref/glade/prefs-animation.ui:301
 msgid "_Show animation duration:"
 msgstr "_Εμφάνιση διάρκειας κινούμενης εικόνας:"
 

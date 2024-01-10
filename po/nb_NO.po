@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-10 02:01+0000\n"
+"POT-Creation-Date: 2024-01-10 03:20+0000\n"
 "PO-Revision-Date: 2023-10-22 20:00+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/gnome-"
@@ -556,11 +556,11 @@ msgstr "_Vis animasjon:"
 msgid "_Hide animation:"
 msgstr "_Skjul animasjon:"
 
-#: ddterm/pref/glade/prefs-animation.ui:284
+#: ddterm/pref/glade/prefs-animation.ui:288
 msgid "_Hide animation duration:"
 msgstr "_Skjul animasjonsvarighet:"
 
-#: ddterm/pref/glade/prefs-animation.ui:297
+#: ddterm/pref/glade/prefs-animation.ui:301
 msgid "_Show animation duration:"
 msgstr "_Vis animasjonsvarighet:"
 
