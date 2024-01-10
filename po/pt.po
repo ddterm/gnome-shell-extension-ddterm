@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-10 03:20+0000\n"
+"POT-Creation-Date: 2024-01-10 05:32+0000\n"
 "PO-Revision-Date: 2023-10-02 00:02+0000\n"
 "Last-Translator: Luiz Carlos de Souza Santos <lcdessantos@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/gnome-shell-"
@@ -95,15 +95,15 @@ msgstr ""
 msgid "Drop Down Terminal"
 msgstr "Terminal Suspenso"
 
-#: ddterm/app/dependencies.js:108 ddterm/shell/notifications.js:173
+#: ddterm/app/dependencies.js:108 ddterm/shell/notifications.js:176
 msgid "ddterm needs additional packages to run."
 msgstr "ddterm requer pacotes adicionais para rodar."
 
-#: ddterm/app/dependencies.js:113 ddterm/shell/notifications.js:178
+#: ddterm/app/dependencies.js:113 ddterm/shell/notifications.js:181
 msgid "Please install the following packages:"
 msgstr "Por favor, instale os seguintes pacotes:"
 
-#: ddterm/app/dependencies.js:120 ddterm/shell/notifications.js:186
+#: ddterm/app/dependencies.js:120 ddterm/shell/notifications.js:189
 msgid "Please install packages that provide the following files:"
 msgstr "Por favor, instale os pacotes que proveem os seguintes arquivos:"
 
@@ -1348,13 +1348,17 @@ msgstr "Abas"
 msgid "Text"
 msgstr "Texto"
 
-#: ddterm/shell/notifications.js:160
+#: ddterm/shell/extension.js:278
+msgid "Failed to launch ddterm application"
+msgstr ""
+
+#: ddterm/shell/notifications.js:163
 #, fuzzy
 #| msgid "Paste Text from Clipboard"
 msgid "Copy to Clipboard"
 msgstr "Colar texto da Área de Transferência"
 
-#: ddterm/shell/notifications.js:204
+#: ddterm/shell/notifications.js:207
 msgid "Install"
 msgstr ""
 

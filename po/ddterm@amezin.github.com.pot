@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-10 03:20+0000\n"
+"POT-Creation-Date: 2024-01-10 05:32+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -87,15 +87,15 @@ msgstr ""
 msgid "Drop Down Terminal"
 msgstr ""
 
-#: ddterm/app/dependencies.js:108 ddterm/shell/notifications.js:173
+#: ddterm/app/dependencies.js:108 ddterm/shell/notifications.js:176
 msgid "ddterm needs additional packages to run."
 msgstr ""
 
-#: ddterm/app/dependencies.js:113 ddterm/shell/notifications.js:178
+#: ddterm/app/dependencies.js:113 ddterm/shell/notifications.js:181
 msgid "Please install the following packages:"
 msgstr ""
 
-#: ddterm/app/dependencies.js:120 ddterm/shell/notifications.js:186
+#: ddterm/app/dependencies.js:120 ddterm/shell/notifications.js:189
 msgid "Please install packages that provide the following files:"
 msgstr ""
 
@@ -1315,11 +1315,15 @@ msgstr ""
 msgid "Text"
 msgstr ""
 
-#: ddterm/shell/notifications.js:160
+#: ddterm/shell/extension.js:278
+msgid "Failed to launch ddterm application"
+msgstr ""
+
+#: ddterm/shell/notifications.js:163
 msgid "Copy to Clipboard"
 msgstr ""
 
-#: ddterm/shell/notifications.js:204
+#: ddterm/shell/notifications.js:207
 msgid "Install"
 msgstr ""
 
