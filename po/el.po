@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-07 04:45+0000\n"
+"POT-Creation-Date: 2024-01-10 02:01+0000\n"
 "PO-Revision-Date: 2023-09-26 17:35+0300\n"
 "Last-Translator: Anagnostakis Ioannis <rizitis@gmail.com>\n"
 "Language-Team: Greek, Modern (1453-) <>\n"
@@ -17,59 +17,71 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-Basepath: .\n"
 
-#: ddterm/app/application.js:74
+#: ddterm/app/application.js:83
 msgid "Start the application, but do not show the window"
 msgstr ""
 
-#: ddterm/app/application.js:83
+#: ddterm/app/application.js:92
 msgid "Comma-separated list of backends that GDK should try to use"
 msgstr ""
 
-#: ddterm/app/application.js:92
+#: ddterm/app/application.js:101
 msgid "Enable HeapDump D-Bus interface (for testing/debug)"
 msgstr ""
 
-#: ddterm/app/application.js:101
+#: ddterm/app/application.js:110
 msgid "Show version information and exit"
 msgstr ""
 
-#: ddterm/app/application.js:110
+#: ddterm/app/application.js:119
 msgid "Run the specified command"
 msgstr ""
 
-#: ddterm/app/application.js:124
+#: ddterm/app/application.js:133
 msgid "Wait for the command to exit, and return its exit code"
 msgstr ""
 
-#: ddterm/app/application.js:133
+#: ddterm/app/application.js:142
 #, fuzzy
 #| msgid "Preserve working directory"
 msgid "Set the working directory"
 msgstr "Διατήρηση του καταλόγου εργασίας"
 
-#: ddterm/app/application.js:142
+#: ddterm/app/application.js:151
 #, fuzzy
 #| msgid "Set Custom Tab Title"
 msgid "Set tab title"
 msgstr "Παραμετροποίση τίτλου καρτέλας"
 
-#: ddterm/app/application.js:151
+#: ddterm/app/application.js:160
 msgid "Keep the terminal open after the command has exited"
 msgstr ""
 
-#: ddterm/app/application.js:160
+#: ddterm/app/application.js:169
 msgid "Do not pass the environment"
 msgstr ""
 
-#: ddterm/app/application.js:169
+#: ddterm/app/application.js:178
 msgid "Open a new tab"
 msgstr ""
 
-#: ddterm/app/application.js:350
+#: ddterm/app/application.js:359
 msgid "Saving session…"
 msgstr ""
 
-#: ddterm/app/application.js:509 ddterm/shell/notifications.js:116
+#: ddterm/app/application.js:408
+msgid "Can't contact the extension."
+msgstr ""
+
+#: ddterm/app/application.js:410 ddterm/app/application.js:532
+msgid "Please, make sure ddterm GNOME Shell extension is enabled."
+msgstr ""
+
+#: ddterm/app/application.js:530
+msgid "Can't read the version of the loaded extension."
+msgstr ""
+
+#: ddterm/app/application.js:536 ddterm/shell/notifications.js:116
 msgid ""
 "Warning: ddterm version has changed. Log out, then log in again to load the "
 "updated extension."

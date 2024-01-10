@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-07 04:45+0000\n"
+"POT-Creation-Date: 2024-01-10 02:01+0000\n"
 "PO-Revision-Date: 2023-12-17 05:10+0000\n"
 "Last-Translator: gfbdrgng <hnaofegnp@hldrive.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/gnome-shell-"
@@ -19,57 +19,69 @@ msgstr ""
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 5.3\n"
 
-#: ddterm/app/application.js:74
+#: ddterm/app/application.js:83
 msgid "Start the application, but do not show the window"
 msgstr "Запустить приложение, но не показывать окно"
 
-#: ddterm/app/application.js:83
+#: ddterm/app/application.js:92
 msgid "Comma-separated list of backends that GDK should try to use"
 msgstr ""
 "Разделенный запятыми список backend'ов, которые GDK будет пытаться "
 "использовать"
 
-#: ddterm/app/application.js:92
+#: ddterm/app/application.js:101
 msgid "Enable HeapDump D-Bus interface (for testing/debug)"
 msgstr "Включить HeapDump D-Bus интерфейс (для проверки/отладки)"
 
-#: ddterm/app/application.js:101
+#: ddterm/app/application.js:110
 msgid "Show version information and exit"
 msgstr "Показать информацию о версии и выйти"
 
-#: ddterm/app/application.js:110
+#: ddterm/app/application.js:119
 msgid "Run the specified command"
 msgstr "Запустить указанную команду"
 
-#: ddterm/app/application.js:124
+#: ddterm/app/application.js:133
 msgid "Wait for the command to exit, and return its exit code"
 msgstr "Ожидать завершения команды и вернуть код выхода"
 
-#: ddterm/app/application.js:133
+#: ddterm/app/application.js:142
 msgid "Set the working directory"
 msgstr "Установить рабочий каталог"
 
-#: ddterm/app/application.js:142
+#: ddterm/app/application.js:151
 msgid "Set tab title"
 msgstr "Установить название вкладки"
 
-#: ddterm/app/application.js:151
+#: ddterm/app/application.js:160
 msgid "Keep the terminal open after the command has exited"
 msgstr "Не закрывать терминал после завершения команды"
 
-#: ddterm/app/application.js:160
+#: ddterm/app/application.js:169
 msgid "Do not pass the environment"
 msgstr "Не передавать переменные окружения"
 
-#: ddterm/app/application.js:169
+#: ddterm/app/application.js:178
 msgid "Open a new tab"
 msgstr "Открыть новую вкладку"
 
-#: ddterm/app/application.js:350
+#: ddterm/app/application.js:359
 msgid "Saving session…"
 msgstr "Сохранение сессии…"
 
-#: ddterm/app/application.js:509 ddterm/shell/notifications.js:116
+#: ddterm/app/application.js:408
+msgid "Can't contact the extension."
+msgstr ""
+
+#: ddterm/app/application.js:410 ddterm/app/application.js:532
+msgid "Please, make sure ddterm GNOME Shell extension is enabled."
+msgstr ""
+
+#: ddterm/app/application.js:530
+msgid "Can't read the version of the loaded extension."
+msgstr ""
+
+#: ddterm/app/application.js:536 ddterm/shell/notifications.js:116
 msgid ""
 "Warning: ddterm version has changed. Log out, then log in again to load the "
 "updated extension."

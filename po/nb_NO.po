@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-07 04:45+0000\n"
+"POT-Creation-Date: 2024-01-10 02:01+0000\n"
 "PO-Revision-Date: 2023-10-22 20:00+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/gnome-"
@@ -18,55 +18,67 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.1\n"
 
-#: ddterm/app/application.js:74
+#: ddterm/app/application.js:83
 msgid "Start the application, but do not show the window"
 msgstr "Start programmet, men ikke vis vinduet"
 
-#: ddterm/app/application.js:83
+#: ddterm/app/application.js:92
 msgid "Comma-separated list of backends that GDK should try to use"
 msgstr "Kommainndelt liste over bakender GDK forsøksvist skal benytte"
 
-#: ddterm/app/application.js:92
+#: ddterm/app/application.js:101
 msgid "Enable HeapDump D-Bus interface (for testing/debug)"
 msgstr "Skru på HeapDumå D-Bus-grensesnitt (for testing/avlusing)"
 
-#: ddterm/app/application.js:101
+#: ddterm/app/application.js:110
 msgid "Show version information and exit"
 msgstr "Vis versjonsinfo og avslutt"
 
-#: ddterm/app/application.js:110
+#: ddterm/app/application.js:119
 msgid "Run the specified command"
 msgstr "Kjør angitt kommando"
 
-#: ddterm/app/application.js:124
+#: ddterm/app/application.js:133
 msgid "Wait for the command to exit, and return its exit code"
 msgstr "Vent på kommandoslutt, og returner dens avslutningskode"
 
-#: ddterm/app/application.js:133
+#: ddterm/app/application.js:142
 msgid "Set the working directory"
 msgstr "Sett arbeidskatalog"
 
-#: ddterm/app/application.js:142
+#: ddterm/app/application.js:151
 msgid "Set tab title"
 msgstr "Sett fanenavn"
 
-#: ddterm/app/application.js:151
+#: ddterm/app/application.js:160
 msgid "Keep the terminal open after the command has exited"
 msgstr "Behold terminalen åpen etter kommandoens slutt"
 
-#: ddterm/app/application.js:160
+#: ddterm/app/application.js:169
 msgid "Do not pass the environment"
 msgstr "Ikke send miljøet"
 
-#: ddterm/app/application.js:169
+#: ddterm/app/application.js:178
 msgid "Open a new tab"
 msgstr "Åpne en ny fane"
 
-#: ddterm/app/application.js:350
+#: ddterm/app/application.js:359
 msgid "Saving session…"
 msgstr "Lagrer økt …"
 
-#: ddterm/app/application.js:509 ddterm/shell/notifications.js:116
+#: ddterm/app/application.js:408
+msgid "Can't contact the extension."
+msgstr ""
+
+#: ddterm/app/application.js:410 ddterm/app/application.js:532
+msgid "Please, make sure ddterm GNOME Shell extension is enabled."
+msgstr ""
+
+#: ddterm/app/application.js:530
+msgid "Can't read the version of the loaded extension."
+msgstr ""
+
+#: ddterm/app/application.js:536 ddterm/shell/notifications.js:116
 msgid ""
 "Warning: ddterm version has changed. Log out, then log in again to load the "
 "updated extension."
