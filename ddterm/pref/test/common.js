@@ -31,8 +31,8 @@ export const Application = GObject.registerClass({
     _init(params) {
         super._init(params);
 
-        this.connect('startup', this.startup.bind(this));
-        this.connect('activate', this.activate.bind(this));
+        this.connect('startup', () => this.startup());
+        this.connect('activate', () => this.activate());
     }
 
     startup() {
@@ -42,6 +42,7 @@ export const Application = GObject.registerClass({
         );
 
         this.settings = get_settings();
+        this.gettext_context = Gettext.domain(metadata['gettext-domain']);
     }
 
     activate() {
