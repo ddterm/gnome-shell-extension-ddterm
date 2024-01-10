@@ -137,6 +137,9 @@ export const Notifications = GObject.registerClass({
         if (message instanceof Error || message instanceof GLib.Error)
             message = message.message;
 
+        if (trace instanceof Error || trace instanceof GLib.Error)
+            trace = trace.message;
+
         message = `${message}`;
 
         if (!trace?.trim()) {
