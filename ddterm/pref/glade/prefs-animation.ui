@@ -246,7 +246,9 @@ along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licens
             <property name="model">animation_mode_list</property>
             <property name="id-column">1</property>
             <child>
-              <object class="GtkCellRendererText"/>
+              <object class="GtkCellRendererText">
+                <property name="ellipsize">middle</property>
+              </object>
               <attributes>
                 <attribute name="text">0</attribute>
               </attributes>
@@ -265,7 +267,9 @@ along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licens
             <property name="model">animation_mode_list</property>
             <property name="id-column">1</property>
             <child>
-              <object class="GtkCellRendererText"/>
+              <object class="GtkCellRendererText">
+                <property name="ellipsize">middle</property>
+              </object>
               <attributes>
                 <attribute name="text">0</attribute>
               </attributes>
