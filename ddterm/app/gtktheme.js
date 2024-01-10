@@ -23,13 +23,16 @@ import Gtk from 'gi://Gtk';
 
 import Gi from 'gi';
 
-let Handy = null;
-
-try {
-    Handy = Gi.require('Handy', '1');
-} catch (ex) {
-    logError(ex, "Can't load libhandy");
+function import_libhandy() {
+    try {
+        return Gi.require('Handy', '1');
+    } catch (ex) {
+        logError(ex, "Can't load libhandy");
+        return null;
+    }
 }
+
+const Handy = import_libhandy();
 
 export const ThemeManager = GObject.registerClass({
     Properties: {
