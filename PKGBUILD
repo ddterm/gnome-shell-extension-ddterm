@@ -8,7 +8,7 @@ license=('GPL3')
 conflicts=('gnome-shell-extension-ddterm')
 provides=('gnome-shell-extension-ddterm')
 depends=('gjs' 'gtk3' 'vte3')
-makedepends=('git' 'gtk4' 'libxslt')
+makedepends=('git' 'gtk4' 'libxslt' 'xorg-server-xvfb')
 source=("$pkgname::git+file://$(git rev-parse --show-toplevel)")
 md5sums=('SKIP')
 
@@ -19,7 +19,9 @@ pkgver() {
 
 build() {
     cd "$pkgname"
-    make build
+
+    # gtk-builder-tool needs X or Wayland
+    LIBGL_ALWAYS_SOFTWARE=1 xvfb-run -- make build
 }
 
 package() {
