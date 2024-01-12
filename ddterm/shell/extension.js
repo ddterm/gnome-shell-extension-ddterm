@@ -97,6 +97,7 @@ function create_dbus_interface(
 
     dbus_interface.connect('toggle', () => app_control.toggle());
     dbus_interface.connect('activate', () => app_control.activate());
+    dbus_interface.connect('hide', () => app_control.hide());
     dbus_interface.connect('service', () => app_control.ensure_running());
     dbus_interface.connect('refresh-target-rect', () => {
         /*
