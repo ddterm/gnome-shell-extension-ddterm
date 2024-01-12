@@ -92,6 +92,10 @@ var Api = GObject.registerClass({
             return_type: GObject.TYPE_JSOBJECT,
             accumulator: GObject.AccumulatorType.FIRST_WINS,
         },
+        'hide': {
+            return_type: GObject.TYPE_JSOBJECT,
+            accumulator: GObject.AccumulatorType.FIRST_WINS,
+        },
         'service': {
             return_type: GObject.TYPE_JSOBJECT,
             accumulator: GObject.AccumulatorType.FIRST_WINS,
@@ -117,6 +121,10 @@ var Api = GObject.registerClass({
 
     ActivateAsync(params, invocation) {
         handle_dbus_method_call_async(() => this.emit('activate'), params, invocation);
+    }
+
+    HideAsync(params, invocation) {
+        handle_dbus_method_call_async(() => this.emit('hide'), params, invocation);
     }
 
     ServiceAsync(params, invocation) {
