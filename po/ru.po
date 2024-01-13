@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-10 05:32+0000\n"
+"POT-Creation-Date: 2024-01-13 08:23+0000\n"
 "PO-Revision-Date: 2023-12-17 05:10+0000\n"
 "Last-Translator: gfbdrgng <hnaofegnp@hldrive.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/gnome-shell-"
@@ -1327,7 +1327,7 @@ msgstr "Вкладки"
 msgid "Text"
 msgstr "Текст"
 
-#: ddterm/shell/extension.js:278
+#: ddterm/shell/extension.js:279
 msgid "Failed to launch ddterm application"
 msgstr ""
 
