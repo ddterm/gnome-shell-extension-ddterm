@@ -7,6 +7,9 @@ require 'open3'
 
 CPUS = 4
 MEMORY = 2048
+SYNCED_FOLDER = '/home/vagrant/gnome-shell-extension-ddterm'
+UUID = 'ddterm@amezin.github.com'
+PACK_FILE_NAME = "#{UUID}.shell-extension.zip"
 
 stdout, status = Open3.capture2('git', 'ls-files', '--exclude-standard', '-oi', '--directory')
 if status.success?
@@ -16,60 +19,55 @@ else
 end
 
 Vagrant.configure("2") do |config|
-  config.vm.provider 'virtualbox' do |virtualbox, override|
-    virtualbox.cpus = CPUS
-    virtualbox.memory = MEMORY
-    virtualbox.gui = true
-    virtualbox.default_nic_type = 'virtio'
-    virtualbox.customize ['modifyvm', :id, '--accelerate3d', 'on', '--vram', '128', '--graphicscontroller', 'vmsvga']
-  end
-
   config.vm.provider 'libvirt' do |libvirt, override|
+    libvirt.qemu_use_session = true
     libvirt.cpus = CPUS
     libvirt.memory = MEMORY
-
-    if Vagrant.has_plugin?('vagrant-libvirt', '> 0.5.3')
-      libvirt.channel :type => 'unix', :target_name => 'org.qemu.guest_agent.0', :target_type => 'virtio'
-      libvirt.qemu_use_agent = true
-    end
-
-    libvirt.qemu_use_session = true
-
-    libvirt.graphics_type = 'spice'
-    libvirt.channel :type => 'spicevmc', :target_name => 'com.redhat.spice.0', :target_type => 'virtio'
-
-    # https://github.com/vagrant-libvirt/vagrant-libvirt/pull/1386
-    if Vagrant.has_plugin?('vagrant-libvirt', '>= 0.7.0')
-      libvirt.video_accel3d = true
-      libvirt.video_type = 'virtio'
-      libvirt.graphics_autoport = 'no'
-      if Vagrant.has_plugin?('vagrant-libvirt', '>= 0.8.0')
-        libvirt.graphics_port = nil
-        libvirt.graphics_ip = nil
-      else
-        libvirt.graphics_ip = 'none'
-        libvirt.graphics_port = 0
-      end
-    end
+    libvirt.cputopology :sockets => '1', :cores => "#{CPUS}", :threads => '1'
   end
+
+  config.vm.synced_folder '.', '/vagrant', disabled: true
+  config.vm.synced_folder '.', SYNCED_FOLDER, type: 'rsync', rsync__exclude: rsync_excludes
+
+  config.vm.provision 'copy',
+    type: 'file',
+    source: PACK_FILE_NAME,
+    destination: '$HOME/',
+    before: 'install',
+    run: 'always'
+
+  config.vm.provision 'install', type: 'shell', privileged: false, run: 'always', inline: <<-SCRIPT
+    gnome-extensions install -f $HOME/#{PACK_FILE_NAME}
+    gnome-extensions enable #{UUID}
+  SCRIPT
+
+  config.vm.provision 'reload', type: 'shell', run: 'always', after: 'install', inline: <<-SCRIPT
+    loginctl terminate-user vagrant
+  SCRIPT
 
   config.vm.define "fedora39", primary: true do |version|
-    version.vm.box = "fedora/39-cloud-base"
+    version.vm.box = "mezinalexander/fedora39"
   end
 
-  config.vm.synced_folder '.', '/vagrant', type: 'rsync', rsync__exclude: rsync_excludes
-
-  config.vm.provision 'prepare', type: 'ansible' do |ansible|
-    ansible.playbook = 'vagrant-provision/prepare.yml'
-    ansible.groups = {
-      'all:vars' => { 'ansible_python_interpreter' => '/usr/bin/python3' }
-    }
+  config.vm.define "ubuntu2310", autostart: false do |version|
+    version.vm.box = "mezinalexander/ubuntu2310"
   end
 
-  config.vm.provision 'deploy', type: 'ansible', run: 'always' do |ansible|
-    ansible.playbook = 'vagrant-provision/deploy.yml'
-    ansible.groups = {
-      'all:vars' => { 'ansible_python_interpreter' => '/usr/bin/python3' }
-    }
+  config.vm.define "silverblue39", autostart: false do |version|
+    version.vm.box = "mezinalexander/silverblue39"
+  end
+
+  config.vm.define "opensusetumbleweed", autostart: false do |version|
+    version.vm.box = "mezinalexander/opensusetumbleweed"
+  end
+
+  config.vm.define "alpine319", autostart: false do |version|
+    version.vm.box = "mezinalexander/alpine319"
+    version.ssh.sudo_command = "doas -n -u root %c"
+
+    version.vm.synced_folder '.', SYNCED_FOLDER,
+      type: 'rsync',
+      rsync__exclude: rsync_excludes,
+      rsync__rsync_path: 'doas -u root rsync'
   end
 end

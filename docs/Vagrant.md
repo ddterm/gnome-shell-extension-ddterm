@@ -5,16 +5,8 @@ to spin up testing VMs with different Linux distros. For the actual list of
 distributions (and also VM names), look at `config.vm.define` blocks in the
 [`Vagrantfile`].
 
-## Dependencies
-
-Besides Vagrant, Ansible will be required to configure the VM.
-
-If you prefer VirtualBox, `vagrant-vbguest` plugin is recommended:
-
-    $ vagrant plugin install vagrant-vbguest
-
-If you prefer QEMU, it is supported through libvirt and
-[`vagrant-libvirt`](https://vagrant-libvirt.github.io/vagrant-libvirt/installation.html).
+Currently, all VMs are custom-built boxes, with [`vagrant-libvirt`] provider
+only.
 
 QEMU/libvirt VMs use SPICE for display. So you'll have to install
 `virt-manager`, `virt-viewer`, GNOME Boxes, or a similar GUI.
@@ -28,14 +20,9 @@ haven't built the package yet, you'll need to do so:
 
 Then:
 
-    $ vagrant up ubuntu2204
+    $ vagrant up --provider=libvirt fedora39
 
-will start Ubuntu 22.04 VirtualBox VM, install the necessary packages
-(primarily GNOME Shell with dependencies), and will install ddterm into the VM.
-
-If you prefer QEMU, pass `--provider=libvirt` to `vagrant up`:
-
-    $ vagrant up --provider=libvirt ubuntu2204
+will start Fedora 39 VM, and will install ddterm into the VM.
 
 Then connect to the VM using `virt-manager`. VMs are started in user session,
 so if you can't find the VM in `virt-manager`, click
@@ -53,17 +40,11 @@ the package:
 
 and reinstall it:
 
-    $ vagrant provision --provision-with deploy ubuntu2204
+    $ vagrant provision fedora39
 
 GNOME Shell session in the VM will automatically be terminated, you'll have to
 login again - because GNOME Shell can't reload extensions without a complete
 restart.
 
-You may omit `--provision-with deploy`:
-
-    $ vagrant provision --provision-with deploy ubuntu2204
-
-but the process might take longer in this case, because Ansible will try to
-upgrade OS packages.
-
 [`Vagrantfile`]: /Vagrantfile
+[`vagrant-libvirt`]: https://vagrant-libvirt.github.io/vagrant-libvirt/installation.html
