@@ -11,12 +11,19 @@ SYNCED_FOLDER = '/home/vagrant/gnome-shell-extension-ddterm'
 UUID = 'ddterm@amezin.github.com'
 PACK_FILE_NAME = "#{UUID}.shell-extension.zip"
 
-stdout, status = Open3.capture2('git', 'ls-files', '--exclude-standard', '-oi', '--directory')
+stdout, status = Open3.capture2('git', 'ls-files', '--exclude-standard', '-oi', '--directory', '--full-name')
 if status.success?
-  rsync_excludes = stdout.split(/\n/)
+  rsync_excludes = stdout.split(/\n/).map { |p| "/#{p}" }
 else
   rsync_excludes = []
 end
+
+rsync_args = [
+  '-avcS',
+  '--exclude-from=.gitignore',
+  '--exclude-from=test/.gitignore',
+  '--exclude-from=tools/.gitignore',
+]
 
 Vagrant.configure("2") do |config|
   config.vm.provider 'libvirt' do |libvirt, override|
@@ -27,7 +34,10 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.synced_folder '.', '/vagrant', disabled: true
-  config.vm.synced_folder '.', SYNCED_FOLDER, type: 'rsync', rsync__exclude: rsync_excludes
+  config.vm.synced_folder '.', SYNCED_FOLDER,
+    type: 'rsync',
+    rsync__exclude: rsync_excludes,
+    rsync__args: rsync_args
 
   config.vm.provision 'copy',
     type: 'file',
@@ -68,6 +78,7 @@ Vagrant.configure("2") do |config|
     version.vm.synced_folder '.', SYNCED_FOLDER,
       type: 'rsync',
       rsync__exclude: rsync_excludes,
-      rsync__rsync_path: 'doas -u root rsync'
+      rsync__rsync_path: 'doas -u root rsync',
+      rsync__args: rsync_args
   end
 end
