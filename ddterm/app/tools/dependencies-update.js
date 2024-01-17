@@ -19,18 +19,52 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+import GLib from 'gi://GLib';
 import Gio from 'gi://Gio';
 import GIRepository from 'gi://GIRepository';
-import PackageKitGlib from 'gi://PackageKitGlib';
 
 import Gi from 'gi';
 import System from 'system';
 
 import { manifest, manifest_file, get_os_ids, resolve_package } from '../dependencies.js';
 
+function find_owner_command(os_ids) {
+    for (const os of os_ids) {
+        if (os === 'alpine')
+            return filepath => ['apk', 'info', '-Wq', filepath];
+
+        if (os === 'arch')
+            return filepath => ['pacman', '-Qqo', filepath];
+
+        if (os === 'debian')
+            return filepath => ['dpkg-query', '-S', filepath];
+
+        if (os === 'fedora' || os === 'suse')
+            return filepath => ['rpm', '--queryformat', '%{NAME}\n', '-qf', filepath];
+    }
+
+    return null;
+}
+
+function find_owner(filepath, os_ids) {
+    const command = find_owner_command(os_ids);
+
+    const spawn_flags = GLib.SpawnFlags.SEARCH_PATH | GLib.SpawnFlags.CHILD_INHERITS_STDERR;
+
+    const [, stdout, , wait_status] =
+        GLib.spawn_sync(null, command(filepath), null, spawn_flags, null);
+
+    GLib.spawn_check_wait_status(wait_status);
+
+    const output = new TextDecoder().decode(stdout);
+    return output
+        .split(/[,:]?\s+/)
+        .map(v => v.replace(/:(amd64|arm64|armel|armhf|i386|mips64el|ppc64el|s390x)/, ''))
+        .filter(v => v !== '' && v !== filepath);
+}
+
 function update_manifest(dry_run = false) {
     const os_ids = get_os_ids();
-    const client = PackageKitGlib.Client.new();
     let updated = false;
 
     for (const [lib, lib_manifest] of Object.entries(manifest)) {
@@ -45,36 +79,29 @@ function update_manifest(dry_run = false) {
                 updated = true;
             }
 
-            const found = client.search_files(
-                1 << PackageKitGlib.FilterEnum.INSTALLED,
-                [filepath],
-                null,
-                () => {}
-            ).get_package_array();
+            const found = find_owner(filepath, os_ids);
 
             if (found.length === 0)
                 throw new Error(`Can't find package for file ${filepath}`);
 
             if (found.length > 1) {
                 throw new Error(
-                    `Multiple packages found for ${filepath}: ` +
-                    `${found.map(p => p.get_id()).join(', ')}`
+                    `Multiple packages found for ${filepath}: ${found.join(' ')}`
                 );
             }
 
-            const package_name = found[0].get_name();
             const resolved = resolve_package(version_manifest, os_ids);
 
-            printerr(`${filepath} found package: ${package_name} manifest: ${resolved}`);
+            printerr(`${filepath} found package: ${found[0]} manifest: ${resolved}`);
 
-            if (resolved !== package_name) {
-                version_manifest[os_ids[0]] = package_name;
+            if (resolved !== found[0]) {
+                version_manifest[os_ids[0]] = found[0];
                 updated = true;
             }
         }
     }
 
-    if (!dry_run) {
+    if (!dry_run && updated) {
         manifest_file.replace_contents(
             JSON.stringify(manifest, undefined, 1),
             null,

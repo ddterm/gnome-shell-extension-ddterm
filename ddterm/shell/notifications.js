@@ -27,7 +27,7 @@ import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import * as MessageList from 'resource:///org/gnome/shell/ui/messageList.js';
 import * as MessageTray from 'resource:///org/gnome/shell/ui/messageTray.js';
 
-import { create_packagekit_proxy } from './packagekit.js';
+import { find_package_installer } from './packagemanager.js';
 
 const Banner = GObject.registerClass({
 }, class DDTermNotificationBanner extends MessageTray.NotificationBanner {
@@ -200,15 +200,13 @@ export const Notifications = GObject.registerClass({
             const cancel_handler = source.connect('destroy', () => cancellable.cancel());
 
             try {
-                const packagekit = await create_packagekit_proxy(cancellable);
+                const installer = await find_package_installer(cancellable);
 
                 notification.setForFeedback(true);
                 notification.addAction(
                     this.gettext_context.gettext('Install'),
-                    () => packagekit.install_package_names(packages, app_id)
+                    () => installer(packages, app_id)
                 );
-            } catch (ex) {
-                logError(ex, "Can't access packagekit session interface");
             } finally {
                 source.disconnect(cancel_handler);
             }

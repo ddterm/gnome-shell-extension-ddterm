@@ -31,21 +31,14 @@ export const manifest = JSON.parse(get_resource_text(manifest_file));
 
 export function get_os_ids() {
     const res = [GLib.get_os_info('ID')];
-    const fallback = GLib.get_os_info('ID_LIKE');
 
-    if (fallback)
-        res.push(...fallback.split(' '));
-
-    if (res.includes('alpine') && !res.includes('arch'))
-        res.push('arch');
+    for (const id_like of GLib.get_os_info('ID_LIKE')?.split(' ') ?? []) {
+        if (id_like)
+            res.push(id_like);
+    }
 
     if (res.includes('ubuntu') && !res.includes('debian'))
         res.push('debian');
-
-    if (res.includes('rhel') || res.includes('centos')) {
-        if (!res.includes('fedora'))
-            res.push('fedora');
-    }
 
     return res;
 }
