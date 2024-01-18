@@ -67,17 +67,8 @@ all: schemas
 # Locales
 
 LINGUAS_FILE := po/LINGUAS
-LOCALES_RELEASE := cs de el fr it nb_NO pl pt ru zh_CN
 LOCALE_SOURCE_PATTERN := po/%.po
-LOCALES_ALL := $(shell grep -Ev '^\s*#.*' $(LINGUAS_FILE))
-
-ONLY_RELEASE_LOCALES := no
-
-ifeq ($(call is-true,$(ONLY_RELEASE_LOCALES)),1)
-LOCALES := $(LOCALES_RELEASE)
-else
-LOCALES := $(LOCALES_ALL)
-endif
+LOCALES := $(shell grep -Ev '^\s*#.*' $(LINGUAS_FILE))
 
 LOCALE_COMPILED_PATTERN := locale/%/LC_MESSAGES/$(EXTENSION_UUID).mo
 LOCALES_COMPILED := $(patsubst %,$(LOCALE_COMPILED_PATTERN),$(LOCALES))

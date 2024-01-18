@@ -124,7 +124,7 @@ jobs:
 
     - name: Build extension package
       id: pack
-      run: xvfb-run make ONLY_RELEASE_LOCALES=true pack
+      run: xvfb-run make pack
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
     - name: Upload extension package as artifact
