@@ -1,39 +1,79 @@
 name: release
 
 on:
-  push:
-    tags:
-      - "v[0-9]+"
-  workflow_dispatch:
+  release:
+    types:
+    - created
 
 jobs:
   build:
     uses: ./.github/workflows/build.yml
+    with:
+      ref: refs/tags/${{ github.event.release.tag_name }}
 
-  draft:
+  bump-version:
     needs:
       - build
+
     runs-on: ubuntu-latest
+
+    container:
+      image: ghcr.io/ddterm/ci-docker-image:2023.12.26.0
+
     permissions:
       contents: write
+
     steps:
+    - name: Get app token
+      id: app-token
+      uses: actions/create-github-app-token@v1
+      with:
+        app-id: ${{ secrets.APP_ID }}
+        private-key: ${{ secrets.APP_KEY }}
+
     - name: Checkout
       uses: actions/checkout@v4
+      with:
+        token: ${{ steps.app-token.outputs.token }}
+        ref: refs/heads/master
 
-    - name: Read version from metadata
-      id: get_version
+    - run: git config --global --replace-all safe.directory "$GITHUB_WORKSPACE"
+
+    - name: Check branch SHA matches tag SHA
       run: |
-        echo "version=$(jq .version metadata.json.in)" >>$GITHUB_OUTPUT
+        git fetch origin "refs/tags/${{ github.event.release.tag_name }}"
+        test "$(git rev-parse HEAD)" = "$(git rev-parse FETCH_HEAD)"
 
     - name: Check version matches the tag
       run: |
-        test "v${{ steps.get_version.outputs.version }}" = "${{ github.ref_name }}"
+        test "v$(jq .version metadata.json.in)" = "${{ github.event.release.tag_name }}"
 
+    - name: Bump version
+      run: |
+        ./bump-version.sh
+
+    - name: Commit
+      uses: ddterm/github-api-commit-action@ccf9b520c5698380ad3b9619c5add427369b7ef1
+      with:
+        token: ${{ steps.app-token.outputs.token }}
+        commit-message: 'Post-release version bump [ci skip]'
+
+  upload-artifacts:
+    needs:
+      - build
+      - bump-version
+
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
     - uses: actions/download-artifact@v4
       with:
         name: pack
-    - uses: softprops/action-gh-release@v1
-      with:
-        files: "*.shell-extension.zip"
-        draft: true
-        generate_release_notes: true
+
+    - run: |
+        gh release upload ${{ github.ref_name }} *.shell-extension.zip
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

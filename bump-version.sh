@@ -14,4 +14,4 @@ mv -f metadata.json.next metadata.json.in
 
 sed -i "/^pkgver=/c\pkgver=${NEXT_VERSION}" PKGBUILD
 
-git commit -m "[ci skip] Post-release version bump" metadata.json.in PKGBUILD
+git add metadata.json.in PKGBUILD
