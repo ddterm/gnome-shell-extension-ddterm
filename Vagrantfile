@@ -11,7 +11,18 @@ SYNCED_FOLDER = '/home/vagrant/gnome-shell-extension-ddterm'
 UUID = 'ddterm@amezin.github.com'
 PACK_FILE_NAME = "#{UUID}.shell-extension.zip"
 
-stdout, status = Open3.capture2('git', 'ls-files', '--exclude-standard', '-oi', '--directory', '--full-name')
+stdout, status = Open3.capture2(
+  'git',
+  'ls-files',
+  '--exclude-standard',
+  '-oi',
+  '--deduplicate',
+  '--directory',
+  '--no-empty-directory',
+  '--full-name',
+  ':/'
+)
+
 if status.success?
   rsync_excludes = stdout.split(/\n/).map { |p| "/#{p}" }
 else
