@@ -7,6 +7,6 @@
   "shell-version": [
     "45"
   ],
-  "version": 50,
+  "version": 51,
   "url": "https://github.com/ddterm/gnome-shell-extension-ddterm"
 }
