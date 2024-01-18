@@ -6,6 +6,10 @@ env:
   FORCE_COLOR: 1
   PIP_DISABLE_PIP_VERSION_CHECK: 1
 
+defaults:
+  run:
+    shell: bash
+
 jobs:
   configure:
     runs-on: ubuntu-latest
@@ -52,7 +56,6 @@ jobs:
 
     - name: Compile translation
       run: make msgfmt/${{ matrix.lang }} 2>&1 | tee $GITHUB_STEP_SUMMARY
-      shell: bash
 
     - name: Disable gettext stats problem matcher
       run: echo "::remove-matcher owner=gettext-stats::"
@@ -61,5 +64,4 @@ jobs:
       run: |
         touch po/*.pot # Make sure .pot won't be re-generated
         make msgcmp/${{ matrix.lang }} 2>&1
-      shell: bash
       if: ${{ always() && steps.checkout.conclusion == 'success' }}

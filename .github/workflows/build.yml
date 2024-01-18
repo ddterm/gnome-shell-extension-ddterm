@@ -28,6 +28,10 @@ env:
   FORCE_COLOR: 1
   PIP_DISABLE_PIP_VERSION_CHECK: 1
 
+defaults:
+  run:
+    shell: bash
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -73,7 +77,6 @@ jobs:
 
     - name: Lint Python test code
       run: tox --sitepackages -e lint 2>&1 | sed -e 's:^\./:test/:' | tee ../flake8.log
-      shell: bash
       env:
         FORCE_COLOR: 0
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
@@ -89,7 +92,6 @@ jobs:
 
     - name: Compile GSettings schemas
       run: make schemas 2>&1 | tee schemas.log
-      shell: bash
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
     - name: Validate .desktop file
@@ -98,7 +100,6 @@ jobs:
 
     - name: Validate Gtk .ui files
       run: xvfb-run make gtk-builder-validate 2>&1 | tee gtk-builder.log
-      shell: bash
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
     - name: Ensure Python requirements .txt files are in sync with .in files
