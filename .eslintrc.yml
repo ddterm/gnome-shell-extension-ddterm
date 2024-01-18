@@ -1,5 +1,6 @@
 extends:
  - ./lint/eslintrc-gjs.yml
+ - plugin:import/recommended
 
 rules:
   max-len:
@@ -20,8 +21,22 @@ rules:
     - error
     - max: 1
   jsdoc/require-jsdoc: off
+settings:
+  import/resolver: tools/import-resolver.js
+  import/core-modules:
+    - gettext
+    - gi
+    - system
+plugins:
+  - import
 globals:
   global: readonly
+overrides:
+  - files: tools/import-resolver.js
+    parserOptions:
+      sourceType: commonjs
+    env:
+      node: true
 parserOptions:
   ecmaVersion: 2020
   sourceType: module
