@@ -20,7 +20,7 @@ haven't built the package yet, you'll need to do so:
 
 Then:
 
-    $ vagrant up --provider=libvirt fedora39
+    $ vagrant up fedora39
 
 will start Fedora 39 VM, and will install ddterm into the VM.
 
