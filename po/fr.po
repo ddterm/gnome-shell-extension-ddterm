@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-13 08:23+0000\n"
+"POT-Creation-Date: 2024-01-18 16:36+0000\n"
 "PO-Revision-Date: 2023-11-05 23:33+0000\n"
 "Last-Translator: fail a fail <yassadmi@proton.me>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/gnome-shell-"
@@ -93,15 +93,15 @@ msgstr ""
 msgid "Drop Down Terminal"
 msgstr "Terminal déroulant"
 
-#: ddterm/app/dependencies.js:108 ddterm/shell/notifications.js:176
+#: ddterm/app/dependencies.js:101 ddterm/shell/notifications.js:176
 msgid "ddterm needs additional packages to run."
 msgstr "ddterm requiert des paquets supplémentaires pour son exécution."
 
-#: ddterm/app/dependencies.js:113 ddterm/shell/notifications.js:181
+#: ddterm/app/dependencies.js:106 ddterm/shell/notifications.js:181
 msgid "Please install the following packages:"
 msgstr "Merci d'installer les paquets suivants :"
 
-#: ddterm/app/dependencies.js:120 ddterm/shell/notifications.js:189
+#: ddterm/app/dependencies.js:113 ddterm/shell/notifications.js:189
 msgid "Please install packages that provide the following files:"
 msgstr "Merci d'installer les paquets contenant les fichiers suivants :"
 

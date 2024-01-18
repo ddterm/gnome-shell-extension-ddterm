@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-13 08:23+0000\n"
+"POT-Creation-Date: 2024-01-18 16:36+0000\n"
 "PO-Revision-Date: 2023-10-22 20:00+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/gnome-"
@@ -90,15 +90,15 @@ msgstr ""
 msgid "Drop Down Terminal"
 msgstr "Rullegardinsterminal"
 
-#: ddterm/app/dependencies.js:108 ddterm/shell/notifications.js:176
+#: ddterm/app/dependencies.js:101 ddterm/shell/notifications.js:176
 msgid "ddterm needs additional packages to run."
 msgstr "ddterm trenger ytterligere pakker for å kjøre."
 
-#: ddterm/app/dependencies.js:113 ddterm/shell/notifications.js:181
+#: ddterm/app/dependencies.js:106 ddterm/shell/notifications.js:181
 msgid "Please install the following packages:"
 msgstr "Installer følgende pakker først:"
 
-#: ddterm/app/dependencies.js:120 ddterm/shell/notifications.js:189
+#: ddterm/app/dependencies.js:113 ddterm/shell/notifications.js:189
 msgid "Please install packages that provide the following files:"
 msgstr "Installer pakkene som tilbyr følgende filer:"
 
