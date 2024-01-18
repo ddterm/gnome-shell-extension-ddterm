@@ -26,6 +26,8 @@ rsync_args = [
 ]
 
 Vagrant.configure("2") do |config|
+  config.vagrant.plugins = 'vagrant-libvirt'
+
   config.vm.provider 'libvirt' do |libvirt, override|
     libvirt.qemu_use_session = true
     libvirt.cpus = CPUS
