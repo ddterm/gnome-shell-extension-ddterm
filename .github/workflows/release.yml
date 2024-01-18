@@ -1,15 +1,14 @@
 name: release
 
 on:
-  release:
-    types:
-    - created
+  push:
+    tags:
+      - "v[0-9]+"
+  workflow_dispatch:
 
 jobs:
   build:
     uses: ./.github/workflows/build.yml
-    with:
-      ref: refs/tags/${{ github.event.release.tag_name }}
 
   bump-version:
     needs:
@@ -19,9 +18,6 @@ jobs:
 
     container:
       image: ghcr.io/ddterm/ci-docker-image:2023.12.26.0
-
-    permissions:
-      contents: write
 
     steps:
     - name: Get app token
@@ -41,12 +37,12 @@ jobs:
 
     - name: Check branch SHA matches tag SHA
       run: |
-        git fetch origin "refs/tags/${{ github.event.release.tag_name }}"
+        git fetch origin "${{ github.ref }}"
         test "$(git rev-parse HEAD)" = "$(git rev-parse FETCH_HEAD)"
 
     - name: Check version matches the tag
       run: |
-        test "v$(jq .version metadata.json.in)" = "${{ github.event.release.tag_name }}"
+        test "v$(jq .version metadata.json.in)" = "${{ github.ref_name }}"
 
     - name: Bump version
       run: |
@@ -58,22 +54,29 @@ jobs:
         token: ${{ steps.app-token.outputs.token }}
         commit-message: 'Post-release version bump [ci skip]'
 
-  upload-artifacts:
+  draft:
     needs:
       - build
       - bump-version
 
     runs-on: ubuntu-latest
 
-    permissions:
-      contents: write
-
     steps:
+    - name: Get app token
+      id: app-token
+      uses: actions/create-github-app-token@v1
+      with:
+        app-id: ${{ secrets.APP_ID }}
+        private-key: ${{ secrets.APP_KEY }}
+
     - uses: actions/download-artifact@v4
       with:
         name: pack
 
-    - run: |
-        gh release upload ${{ github.ref_name }} *.shell-extension.zip
-      env:
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - uses: softprops/action-gh-release@v1
+      with:
+        token: ${{ steps.app-token.outputs.token }}
+        files: "*.shell-extension.zip"
+        fail_on_unmatched_files: true
+        draft: true
+        generate_release_notes: true
