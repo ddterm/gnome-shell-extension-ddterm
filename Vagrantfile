@@ -7,7 +7,8 @@ require 'open3'
 
 CPUS = 4
 MEMORY = 2048
-SYNCED_FOLDER = '/home/vagrant/gnome-shell-extension-ddterm'
+PROJECT_DIR = File.dirname(File.expand_path(__FILE__))
+SYNCED_FOLDER = "/home/vagrant/#{File.basename(PROJECT_DIR)}"
 UUID = 'ddterm@amezin.github.com'
 PACK_FILE_NAME = "#{UUID}.shell-extension.zip"
 
