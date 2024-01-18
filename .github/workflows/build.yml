@@ -29,7 +29,7 @@ env:
   PIP_DISABLE_PIP_VERSION_CHECK: 1
 
 jobs:
-  lint:
+  build:
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/ddterm/ci-docker-image:2023.12.26.0
@@ -121,24 +121,10 @@ jobs:
       run: testspace --verbose eslint.xml "*.log{lint}"
       if: ${{ always() && steps.setup_testspace.outcome == 'success' }}
 
-  pack:
-    runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/ddterm/ci-docker-image:2023.12.26.0
-
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-      with:
-        ref: ${{ inputs.ref }}
-
-    - run: git config --global --replace-all safe.directory "$GITHUB_WORKSPACE"
-
-    - name: Enable generic error matcher
-      run: echo "::add-matcher::.github/problem-matchers/generic.json"
-
     - name: Build extension package
+      id: pack
       run: xvfb-run make ONLY_RELEASE_LOCALES=true pack
+      if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
     - name: Upload extension package as artifact
       id: upload
@@ -147,3 +133,4 @@ jobs:
         name: pack
         path: "*.shell-extension.zip"
         if-no-files-found: error
+      if: ${{ always() && steps.pack.conclusion == 'success' }}
