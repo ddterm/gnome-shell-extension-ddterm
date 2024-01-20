@@ -38,5 +38,15 @@
    "suse": "typelib-1_0-Pango-1_0",
    "alpine": "pango"
   }
+ },
+ "Handy": {
+  "1": {
+   "filename": "Handy-1.typelib",
+   "arch": "libhandy",
+   "alpine": "libhandy1",
+   "suse": "typelib-1_0-Handy-1_0",
+   "fedora": "libhandy",
+   "debian": "gir1.2-handy-1"
+  }
  }
 }

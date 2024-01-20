@@ -57,54 +57,41 @@ export function resolve_package(distros, os_ids) {
     return null;
 }
 
-function resolve_packages(lib_versions, os_ids) {
-    const packages = new Set();
-    const unresolved = new Set();
-
-    for (const [lib, version] of Object.entries(lib_versions)) {
-        const lib_manifest = manifest[lib];
-        const version_manifest = lib_manifest ? lib_manifest[version] : null;
-        const pkg = resolve_package(version_manifest, os_ids);
-
-        if (pkg)
-            packages.add(pkg);
-        else
-            unresolved.add(version_manifest.filename);
-    }
-
-    return { packages: Array.from(packages), unresolved: Array.from(unresolved) };
-}
-
-export function gi_require(imports_versions) {
+export function gi_require_optional(imports_versions) {
     const os_ids = get_os_ids();
-    const missing = {};
+    const loaded = {};
+    const missing = [];
+    const unresolved = [];
 
     for (const [lib, version] of Object.entries(imports_versions)) {
-        if (!manifest[lib] || !manifest[lib][version]) {
-            printerr(`Please add ${lib} ${version} to dependencies.json`);
-            System.exit(1);
-        }
+        const version_manifest = manifest[lib]?.[version];
+
+        if (!version_manifest)
+            throw new Error(`Please add ${lib} ${version} to dependencies.json`);
 
         try {
-            Gi.require(lib, version);
+            loaded[lib] = Gi.require(lib, version);
         } catch (ex) {
-            missing[lib] = version;
+            const pkg = resolve_package(version_manifest, os_ids);
+
+            if (pkg)
+                missing.push(pkg);
+            else
+                unresolved.push(version_manifest.filename);
         }
     }
 
-    const { packages, unresolved } = resolve_packages(missing, os_ids);
-
-    if (packages.length === 0 && unresolved.length === 0)
-        return;
+    if (missing.length === 0 && unresolved.length === 0)
+        return loaded;
 
     const message_lines = [
         Gettext.gettext('ddterm needs additional packages to run.'),
     ];
 
-    if (packages.length > 0) {
+    if (missing.length > 0) {
         message_lines.push(
             Gettext.gettext('Please install the following packages:'),
-            packages.join(' ')
+            missing.join(' ')
         );
     }
 
@@ -118,10 +105,20 @@ export function gi_require(imports_versions) {
     printerr(message_lines.join('\n'));
 
     try {
-        create_extension_dbus_proxy().MissingDependenciesSync(packages, unresolved);
+        create_extension_dbus_proxy().MissingDependenciesSync(missing, unresolved);
     } catch (ex) {
         logError(ex);
     }
 
-    System.exit(1);
+    return loaded;
+}
+
+export function gi_require(imports_versions) {
+    const loaded = gi_require_optional(imports_versions);
+
+    if (Object.getOwnPropertyNames(loaded).length !==
+        Object.getOwnPropertyNames(imports_versions).length)
+        System.exit(1);
+
+    return loaded;
 }

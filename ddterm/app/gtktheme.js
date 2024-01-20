@@ -21,18 +21,9 @@ import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
 import Gtk from 'gi://Gtk';
 
-import Gi from 'gi';
+import { gi_require_optional } from './dependencies.js';
 
-function import_libhandy() {
-    try {
-        return Gi.require('Handy', '1');
-    } catch (ex) {
-        logError(ex, "Can't load libhandy");
-        return null;
-    }
-}
-
-const Handy = import_libhandy();
+const { Handy } = gi_require_optional({ 'Handy': '1' });
 
 export const ThemeManager = GObject.registerClass({
     Properties: {
