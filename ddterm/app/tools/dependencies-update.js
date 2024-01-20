@@ -114,7 +114,38 @@ function update_manifest(dry_run = false) {
     return updated;
 }
 
-const check = ARGV.includes('--dry-run') || ARGV.includes('-n');
-const diff = update_manifest(check);
+const app = Gio.Application.new(null, 0);
 
-System.exit(check && diff ? 1 : 0);
+app.add_main_option(
+    'dry-run',
+    'n',
+    GLib.OptionFlags.NONE,
+    GLib.OptionArg.NONE,
+    "Check, don't update, exit with code 1 if updates are necessary",
+    null
+);
+
+app.add_main_option(
+    GLib.OPTION_REMAINING,
+    0,
+    GLib.OptionFlags.NONE,
+    GLib.OptionArg.STRING_ARRAY,
+    '',
+    null
+);
+
+app.connect('handle-local-options', (_, options) => {
+    const unexpected = options.lookup(GLib.OPTION_REMAINING, 'as', true);
+
+    if (unexpected?.length) {
+        printerr(`Unexpected arguments: ${unexpected.join(' ')}`);
+        return 1;
+    }
+
+    const check = Boolean(options.lookup('dry-run', 'b'));
+    const updated = update_manifest(check);
+
+    return check && updated ? 1 : 0;
+});
+
+System.exit(app.run([System.programInvocationName].concat(ARGV)));
