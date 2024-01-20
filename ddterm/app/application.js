@@ -673,4 +673,18 @@ class Application extends Gtk.Application {
             0o600
         );
     }
+
+    vfunc_local_command_line(argv) {
+        for (let i = 1; i < argv.length; i++) {
+            if (argv[i] === '--')
+                break;
+
+            if (argv[i] === '-e') {
+                argv[i] = '--';
+                break;
+            }
+        }
+
+        return super.vfunc_local_command_line(argv);
+    }
 });
