@@ -21,12 +21,13 @@ import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
 import Gtk from 'gi://Gtk';
 
+import { ui_file_uri } from './resources.js';
+
 import {
     bind_sensitive,
     bind_widgets,
     insert_settings_actions,
-    set_scale_value_format,
-    ui_file_uri
+    set_scale_value_format
 } from './util.js';
 
 export const AnimationWidget = GObject.registerClass({

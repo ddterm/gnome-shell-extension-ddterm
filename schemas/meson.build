@@ -13,6 +13,10 @@ schemas_compiled = custom_target(
   output: 'gschemas.compiled',
 )
 
+if not get_option('esm')
+  pack += schemas_compiled
+endif
+
 test(
   fs.parent(schema) / fs.name(schema),
   glib_compile_schemas_tool,

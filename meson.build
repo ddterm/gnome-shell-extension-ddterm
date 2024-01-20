@@ -6,7 +6,7 @@ project(
   default_options : ['prefix=/usr']
 )
 
-gjs = find_program('gjs', version: '>=1.78.0')
+gjs = find_program('gjs', version: get_option('esm') ? '>=1.78.0' : '>=1.70.0')
 
 fs = import('fs')
 i18n = import('i18n')
@@ -27,12 +27,14 @@ dbus_service_dir = datadir / 'dbus-1' / 'services'
 pack = []
 
 pack += fs.copyfile(
+  get_option('esm') ? 'extension.js' : 'extension.legacy.js',
   'extension.js',
   install: true,
   install_dir: extension_dir
 )
 
 pack += fs.copyfile(
+  get_option('esm') ? 'prefs.js' : 'prefs.legacy.js',
   'prefs.js',
   install: true,
   install_dir: extension_dir
@@ -47,8 +49,8 @@ metadata.set_quoted('gettext_domain', gettext_domain)
 metadata.set_quoted('settings_schema', settings_schema)
 
 pack += configure_file(
-  input: 'metadata.json.in',
-  output: '@BASENAME@',
+  input: get_option('esm') ? 'metadata.json.in' : 'metadata.legacy.json.in',
+  output: 'metadata.json',
   configuration: metadata,
   install: true,
   install_dir: extension_dir,
@@ -90,10 +92,13 @@ gjs_config.set('GJS', gjs.full_path())
 
 gtk3_builder_tool = find_program('gtk-builder-tool')
 
+gjs_translate_esm = [gjs, '-m', files('tools' / 'translate-esm.js'), '-o', '@OUTPUT@', '@INPUT@']
+
 subdir('bin')
 subdir('schemas')
 subdir('ddterm')
 subdir('locale')
+subdir('misc')
 
 pack_target = custom_target(
   command: [

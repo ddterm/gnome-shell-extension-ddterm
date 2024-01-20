@@ -1,0 +1,6 @@
+option(
+  'esm',
+  type : 'boolean',
+  value: true,
+  description : 'Target GNOME >= 45'
+)

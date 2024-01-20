@@ -23,12 +23,13 @@ import Gio from 'gi://Gio';
 import Gdk from 'gi://Gdk';
 import Gtk from 'gi://Gtk';
 
+import { ui_file_uri } from './resources.js';
+
 import {
     bind_sensitive,
     bind_widget,
     insert_settings_actions,
-    set_scale_value_format,
-    ui_file_uri
+    set_scale_value_format
 } from './util.js';
 
 function show_dialog(parent_window, message, message_type = Gtk.MessageType.ERROR) {

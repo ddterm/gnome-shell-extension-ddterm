@@ -14,10 +14,11 @@ from .syslog_server import SyslogServer
 
 
 THIS_DIR = pathlib.Path(__file__).parent.resolve()
-TEST_SRC_DIR = THIS_DIR / 'extension'
 SRC_DIR = THIS_DIR.parent
 
+DDTERM_METADATA_KEY = pytest.StashKey[dict]()
 IMAGES_STASH_KEY = pytest.StashKey[list]()
+LEGACY_MODE_KEY = pytest.StashKey[bool]()
 
 pytest_plugins = ['markdown_report', 'screenshot']
 
@@ -79,13 +80,29 @@ def pytest_addoption(parser):
 def pytest_configure(config):
     images = config.getoption('--image')
     compose_services = config.getoption('--compose-service')
+    extension_pack = config.getoption('--pack')
+
+    with zipfile.ZipFile(extension_pack) as z:
+        with z.open('metadata.json') as f:
+            ddterm_metadata = json.load(f)
+
+    config.stash[DDTERM_METADATA_KEY] = ddterm_metadata
+
+    legacy_mode = '45' not in ddterm_metadata['shell-version']
+    config.stash[LEGACY_MODE_KEY] = legacy_mode
+
+    image_profile = 'legacy' if legacy_mode else 'esm'
 
     if compose_services or not images:
         with open('compose.yaml') as f:
             compose_config = yaml.safe_load(f)
 
         if not compose_services:
-            compose_services = compose_config['services'].keys()
+            compose_services = [
+                name
+                for name, desc in compose_config['services'].items()
+                if image_profile in desc.get('profiles', [])
+            ]
 
         images = images + [
             compose_config['services'][name]['image']
@@ -133,15 +150,23 @@ def syslog_server(tmp_path_factory, log_sync):
 
 
 @pytest.fixture(scope='session')
-def ddterm_metadata(extension_pack):
-    with zipfile.ZipFile(extension_pack) as z:
-        with z.open('metadata.json') as f:
-            return json.load(f)
+def ddterm_metadata(request):
+    return request.config.stash[DDTERM_METADATA_KEY]
 
 
 @pytest.fixture(scope='session')
-def test_metadata():
-    with open(TEST_SRC_DIR / 'metadata.json', 'r') as f:
+def legacy_mode(request):
+    return request.config.stash[LEGACY_MODE_KEY]
+
+
+@pytest.fixture(scope='session')
+def test_extension_src_dir(legacy_mode):
+    return THIS_DIR / ('extension-legacy' if legacy_mode else 'extension')
+
+
+@pytest.fixture(scope='session')
+def test_metadata(test_extension_src_dir):
+    with open(test_extension_src_dir / 'metadata.json', 'r') as f:
         return json.load(f)
 
 
@@ -151,7 +176,13 @@ def container_create_lock(request):
 
 
 @pytest.fixture(scope='session')
-def container_volumes(ddterm_metadata, test_metadata, extension_pack, tmp_path_factory):
+def container_volumes(
+    ddterm_metadata,
+    test_metadata,
+    extension_pack,
+    tmp_path_factory,
+    test_extension_src_dir
+):
     sys_install_dir = gnome_container.GnomeContainer.extensions_system_install_path()
     install_mount = (extension_pack, extension_pack, 'ro')
 
@@ -161,6 +192,6 @@ def container_volumes(ddterm_metadata, test_metadata, extension_pack, tmp_path_f
     return (
         (SRC_DIR, SRC_DIR, 'ro'),
         install_mount,
-        (TEST_SRC_DIR, sys_install_dir / test_metadata['uuid'], 'ro'),
+        (test_extension_src_dir, sys_install_dir / test_metadata['uuid'], 'ro'),
         (basetemp, basetemp)
     )

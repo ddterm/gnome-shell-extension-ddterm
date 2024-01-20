@@ -17,17 +17,8 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import GLib from 'gi://GLib';
 import Gio from 'gi://Gio';
 import Gtk from 'gi://Gtk';
-
-export function ui_file_uri(name) {
-    return GLib.Uri.resolve_relative(
-        import.meta.url,
-        `ui/gtk${Gtk.get_major_version()}/${name}`,
-        GLib.UriFlags.NONE
-    );
-}
 
 export function set_scale_value_format(scale, format) {
     const formatter = (_, value) => format.format(value);

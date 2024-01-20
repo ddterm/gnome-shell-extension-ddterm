@@ -14,7 +14,6 @@ from . import dbus_util, ddterm_fixtures, glib_util
 LOGGER = logging.getLogger(__name__)
 
 THIS_DIR = pathlib.Path(__file__).parent.resolve()
-TEST_SRC_DIR = THIS_DIR / 'extension'
 SRC_DIR = THIS_DIR.parent
 
 

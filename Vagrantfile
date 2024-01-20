@@ -87,8 +87,23 @@ Vagrant.configure("2") do |config|
     version.vm.box = "mezinalexander/opensusetumbleweed"
   end
 
+  config.vm.define "opensuseleap155", autostart: false do |version|
+    version.vm.box = "mezinalexander/opensuseleap155"
+  end
+
   config.vm.define "alpine319", autostart: false do |version|
     version.vm.box = "mezinalexander/alpine319"
+    version.ssh.sudo_command = "doas -n -u root %c"
+
+    version.vm.synced_folder '.', SYNCED_FOLDER,
+      type: 'rsync',
+      rsync__exclude: rsync_excludes,
+      rsync__rsync_path: 'doas -u root rsync',
+      rsync__args: rsync_args
+  end
+
+  config.vm.define "alpine318", autostart: false do |version|
+    version.vm.box = "mezinalexander/alpine318"
     version.ssh.sudo_command = "doas -n -u root %c"
 
     version.vm.synced_folder '.', SYNCED_FOLDER,

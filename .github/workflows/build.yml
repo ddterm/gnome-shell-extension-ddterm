@@ -145,10 +145,28 @@ jobs:
       if: ${{ always() && steps.meson-setup.conclusion == 'success' }}
 
     - name: Upload extension package as artifact
-      id: upload
       uses: actions/upload-artifact@v4
       with:
         name: pack
         path: "build/*.shell-extension.zip"
         if-no-files-found: error
       if: ${{ always() && steps.pack.conclusion == 'success' }}
+
+    - id: meson-setup-legacy
+      name: Prepare build directory (legacy)
+      run: .github/faketty.sh meson setup -Desm=false build-legacy
+      if: ${{ always() && steps.checkout.conclusion == 'success' }}
+
+    - name: Build extension package (legacy)
+      id: pack-legacy
+      run: xvfb-run ninja -j1 pack
+      working-directory: build-legacy
+      if: ${{ always() && steps.meson-setup-legacy.conclusion == 'success' }}
+
+    - name: Upload extension package as artifact (legacy)
+      uses: actions/upload-artifact@v4
+      with:
+        name: pack-legacy
+        path: "build-legacy/*.shell-extension.zip"
+        if-no-files-found: error
+      if: ${{ always() && steps.pack-legacy.conclusion == 'success' }}

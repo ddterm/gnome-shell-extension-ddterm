@@ -11,7 +11,6 @@ app_js_files = files(
   'meta.js',
   'notebook.js',
   'pcre2.js',
-  'prefsdialog.js',
   'resources.js',
   'search.js',
   'settings.js',
@@ -36,6 +35,13 @@ foreach app_file : app_js_files + app_ui_files + files('dependencies.json', 'sty
     install_dir: extension_dir / 'ddterm' / 'app',
   )
 endforeach
+
+pack += fs.copyfile(
+  get_option('esm') ? 'prefsdialog.js' : 'prefsdialog.legacy.js',
+  'prefsdialog.js',
+  install: true,
+  install_dir: extension_dir / 'ddterm' / 'app',
+)
 
 subdir('icons')
 

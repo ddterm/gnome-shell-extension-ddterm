@@ -9,18 +9,15 @@ jobs:
   configure:
     runs-on: ubuntu-latest
     outputs:
-      images: ${{ steps.generate.outputs.images }}
+      matrix: ${{ steps.generate.outputs.matrix }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install dependencies
-        run: pip3 install --use-pep517 -r requirements/images.txt
-        working-directory: test
-
       - name: Get GNOME Shell container images list from compose.yaml
         id: generate
-        run: echo "images=$(./images.py services | jq -Rcn '[inputs]')" >>$GITHUB_OUTPUT
+        run: |
+          echo "matrix=$(./images.py matrix)" >>$GITHUB_OUTPUT
         working-directory: test
 
   test:
@@ -34,7 +31,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        image: ${{ fromJson(needs.configure.outputs.images) }}
+        include: ${{ fromJson(needs.configure.outputs.matrix) }}
 
     steps:
     - name: Checkout
@@ -55,13 +52,13 @@ jobs:
     - name: Download extension package
       uses: actions/download-artifact@v4
       with:
-        name: pack
+        name: ${{ matrix.profile == 'esm' && 'pack' || 'pack-legacy' }}
 
     - name: Pre-create pip cache directory
       run: mkdir -p "$HOME/.cache/pip"
 
     - name: Pull GNOME Shell container image
-      run: tox -e images -- pull ${{ matrix.image }}
+      run: tox -e images -- pull ${{ matrix.service }}
       working-directory: test
 
     - name: Install Python test dependencies
@@ -78,7 +75,7 @@ jobs:
         tox --sitepackages --
         --self-contained-html
         --junitxml=junit.xml
-        --compose-service ${{ matrix.image }}
+        --compose-service ${{ matrix.service }}
         --pack ../*.shell-extension.zip
         -n auto
         --dist worksteal
@@ -88,13 +85,13 @@ jobs:
       working-directory: test
 
     - name: Upload report to Testspace
-      run: testspace --verbose "[${{ matrix.image }}]./test/junit.xml" "[${{ matrix.image }}]+./test/report.html"
+      run: testspace --verbose "[${{ matrix.service }}]./test/junit.xml" "[${{ matrix.service }}]+./test/report.html"
       if: ${{ always() && steps.setup_testspace.outcome == 'success' }}
 
     - name: Upload report as artifact
       uses: actions/upload-artifact@v4
       with:
-        name: ${{ matrix.image }}-reports
+        name: ${{ matrix.service }}-reports
         path: |
           test/report.html
           test/junit.xml

@@ -22,7 +22,6 @@ MonitorInfo = collections.namedtuple('MonitorInfo', ('index', 'geometry', 'scale
 Api = collections.namedtuple('TestApi', ('dbus', 'layout', 'settings', 'mouse_sim', 'shell'))
 
 THIS_DIR = pathlib.Path(__file__).parent.resolve()
-TEST_SRC_DIR = THIS_DIR / 'extension'
 SRC_DIR = THIS_DIR.parent
 
 DUMMY_APP_ID = 'com.github.ddterm.testapp'

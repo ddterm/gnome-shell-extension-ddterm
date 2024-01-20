@@ -59,9 +59,14 @@ def run_pull(podman, compose_config, services, prune=False):
         run_prune_resolved(podman, images)
 
 
-def run_list(podman, compose_config):
-    for service in compose_config['services'].keys():
-        print(service)
+def run_matrix(podman, compose_config):
+    result = []
+
+    for name, desc in compose_config['services'].items():
+        for profile in desc['profiles']:
+            result.append(dict(service=name, profile=profile))
+
+    print(json.dumps(result))
 
 
 def run_command(func, file, podman_cmd, **kwargs):
@@ -134,12 +139,12 @@ def main():
 
     prune_parser.set_defaults(func=run_prune)
 
-    services_parser = subparsers.add_parser(
-        'services',
-        help='List available service names'
+    matrix_parser = subparsers.add_parser(
+        'matrix',
+        help='Generate CI test matrix'
     )
 
-    services_parser.set_defaults(func=run_list)
+    matrix_parser.set_defaults(func=run_matrix)
 
     run_command(**vars(parser.parse_args()))
 

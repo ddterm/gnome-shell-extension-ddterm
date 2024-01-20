@@ -21,7 +21,8 @@ import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
 import Gtk from 'gi://Gtk';
 
-import { bind_widgets, ui_file_uri } from './util.js';
+import { ui_file_uri } from './resources.js';
+import { bind_widgets } from './util.js';
 
 export const CompatibilityWidget = GObject.registerClass({
     GTypeName: 'DDTermPrefsCompatibility',

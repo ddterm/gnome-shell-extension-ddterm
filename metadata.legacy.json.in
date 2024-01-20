@@ -1,0 +1,15 @@
+{
+  "name": "ddterm",
+  "description": "Another drop down terminal extension for GNOME Shell. With tabs. Works on Wayland natively",
+  "uuid": @uuid@,
+  "gettext-domain": @gettext_domain@,
+  "settings-schema": @settings_schema@,
+  "shell-version": [
+    "41",
+    "42",
+    "43",
+    "44"
+  ],
+  "version": @version@,
+  "url": "https://github.com/ddterm/gnome-shell-extension-ddterm"
+}

@@ -32,11 +32,21 @@ plugins:
 globals:
   global: readonly
 overrides:
-  - files: tools/import-resolver.js
+  - files:
+      - tools/import-resolver.js
     parserOptions:
       sourceType: commonjs
     env:
       node: true
+  - files:
+      - extension.legacy.js
+      - prefs.legacy.js
+      - misc/extensionUtils.js
+      - ddterm/pref/resources.legacy.js
+      - ddterm/shell/compat.js
+      - test/extension-legacy/*.js
+    parserOptions:
+      sourceType: script
 parserOptions:
   ecmaVersion: 2020
   sourceType: module

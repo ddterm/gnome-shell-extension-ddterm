@@ -17,9 +17,27 @@ shell_files = files(
 )
 
 foreach shell_file : shell_files
-  pack += fs.copyfile(
-    shell_file,
-    install: true,
-    install_dir: extension_dir / 'ddterm' / 'shell',
-  )
+  if get_option('esm')
+    pack += fs.copyfile(
+      shell_file,
+      install: true,
+      install_dir: extension_dir / 'ddterm' / 'shell',
+    )
+  else
+    pack += custom_target(
+      command: gjs_translate_esm,
+      input: shell_file,
+      output: fs.name(shell_file),
+      install: true,
+      install_dir: extension_dir / 'ddterm' / 'shell',
+    )
+  endif
 endforeach
+
+if not get_option('esm')
+  pack += fs.copyfile(
+      'compat.js',
+      install: true,
+      install_dir: extension_dir / 'ddterm' / 'shell',
+    )
+endif

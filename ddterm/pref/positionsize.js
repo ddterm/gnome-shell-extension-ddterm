@@ -21,14 +21,8 @@ import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
 import Gtk from 'gi://Gtk';
 
-import { DisplayConfig } from '../util/displayconfig.js';
-
-import {
-    bind_widget,
-    insert_settings_actions,
-    set_scale_value_format,
-    ui_file_uri
-} from './util.js';
+import { ui_file_uri } from './resources.js';
+import { bind_widget, insert_settings_actions, set_scale_value_format } from './util.js';
 
 export const PositionSizeWidget = GObject.registerClass({
     GTypeName: 'DDTermPrefsPositionSize',
@@ -59,17 +53,25 @@ export const PositionSizeWidget = GObject.registerClass({
 
         insert_settings_actions(this, this.settings, ['window-monitor']);
 
-        const display_config = new DisplayConfig({
-            dbus_connection: Gio.DBus.session,
+        const destroy_cancel = new Gio.Cancellable();
+        this.connect('destroy', () => destroy_cancel.cancel());
+
+        /* On GNOME versions before 45, the current module isn't ESM - but displayconfig.js is */
+        import('../util/displayconfig.js').then(displayconfig => {
+            destroy_cancel.set_error_if_cancelled();
+
+            const display_config = new displayconfig.DisplayConfig({
+                dbus_connection: Gio.DBus.session,
+            });
+
+            destroy_cancel.connect(() => display_config.unwatch());
+
+            display_config.connect('notify::monitors', () => {
+                this.update_monitors(display_config.monitors);
+            });
+
+            display_config.update_async();
         });
-
-        this.connect('destroy', () => display_config.unwatch());
-
-        display_config.connect('notify::monitors', () => {
-            this.update_monitors(display_config.monitors);
-        });
-
-        display_config.update_async();
 
         bind_widget(this.settings, 'window-monitor-connector', this.monitor_combo);
 
