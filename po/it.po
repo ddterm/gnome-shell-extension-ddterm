@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-20 11:58+0000\n"
+"POT-Creation-Date: 2024-01-21 16:02+0000\n"
 "PO-Revision-Date: 2023-11-10 09:35+0000\n"
 "Last-Translator: Frankie McEyes <mceyes@protonmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/gnome-shell-"
@@ -128,19 +128,19 @@ msgstr "Copia HTML"
 msgid "Paste"
 msgstr "Incolla"
 
-#: ddterm/app/menus.ui:54 ddterm/pref/glade/prefs-shortcuts.ui:143
+#: ddterm/app/menus.ui:54 ddterm/pref/ui/prefs-shortcuts.ui:143
 msgid "Select All"
 msgstr "Seleziona tutto"
 
-#: ddterm/app/menus.ui:60 ddterm/pref/glade/prefs-shortcuts.ui:283
+#: ddterm/app/menus.ui:60 ddterm/pref/ui/prefs-shortcuts.ui:283
 msgid "Find"
 msgstr "Trova"
 
-#: ddterm/app/menus.ui:66 ddterm/pref/glade/prefs-shortcuts.ui:150
+#: ddterm/app/menus.ui:66 ddterm/pref/ui/prefs-shortcuts.ui:150
 msgid "Reset"
 msgstr "Azzera"
 
-#: ddterm/app/menus.ui:70 ddterm/pref/glade/prefs-shortcuts.ui:157
+#: ddterm/app/menus.ui:70 ddterm/pref/ui/prefs-shortcuts.ui:157
 msgid "Reset and Clear"
 msgstr "Azzera e pulisci"
 
@@ -148,15 +148,15 @@ msgstr "Azzera e pulisci"
 msgid "Zoom"
 msgstr "Zoom"
 
-#: ddterm/app/menus.ui:78 ddterm/pref/glade/prefs-shortcuts.ui:304
+#: ddterm/app/menus.ui:78 ddterm/pref/ui/prefs-shortcuts.ui:304
 msgid "Zoom In"
 msgstr "Zoom avanti"
 
-#: ddterm/app/menus.ui:82 ddterm/pref/glade/prefs-shortcuts.ui:311
+#: ddterm/app/menus.ui:82 ddterm/pref/ui/prefs-shortcuts.ui:311
 msgid "Zoom Out"
 msgstr "Zoom indietro"
 
-#: ddterm/app/menus.ui:86 ddterm/pref/glade/prefs-shortcuts.ui:318
+#: ddterm/app/menus.ui:86 ddterm/pref/ui/prefs-shortcuts.ui:318
 msgid "Normal Size"
 msgstr "Dimensione normale"
 
@@ -176,21 +176,21 @@ msgstr "Mantieni aperto dopo l'uscita"
 msgid "New Tab"
 msgstr "Nuova scheda"
 
-#: ddterm/app/menus.ui:111 ddterm/pref/glade/prefs-shortcuts.ui:178
+#: ddterm/app/menus.ui:111 ddterm/pref/ui/prefs-shortcuts.ui:178
 msgid "New Tab Before Current Tab"
 msgstr "Nuova scheda prima della scheda corrente"
 
-#: ddterm/app/menus.ui:115 ddterm/pref/glade/prefs-shortcuts.ui:185
+#: ddterm/app/menus.ui:115 ddterm/pref/ui/prefs-shortcuts.ui:185
 msgid "New Tab After Current Tab"
 msgstr "Nuova scheda dopo la scheda corrente"
 
 #: ddterm/app/menus.ui:119 ddterm/app/menus.ui:247
-#: ddterm/pref/glade/prefs-shortcuts.ui:171
+#: ddterm/pref/ui/prefs-shortcuts.ui:171
 msgid "New Tab Before First Tab"
 msgstr "Nuova scheda prima della prima scheda"
 
 #: ddterm/app/menus.ui:123 ddterm/app/menus.ui:251
-#: ddterm/pref/glade/prefs-shortcuts.ui:164
+#: ddterm/pref/ui/prefs-shortcuts.ui:164
 msgid "New Tab After Last Tab"
 msgstr "Nuova scheda dopo l'ultima scheda"
 
@@ -203,12 +203,12 @@ msgid "No Split"
 msgstr "Nessuna divisione"
 
 #: ddterm/app/menus.ui:138 ddterm/app/menus.ui:275 ddterm/app/menus.ui:305
-#: ddterm/pref/glade/prefs-shortcuts.ui:227
+#: ddterm/pref/ui/prefs-shortcuts.ui:227
 msgid "Split Horizontally"
 msgstr "Suddivisione orizzontale"
 
 #: ddterm/app/menus.ui:143 ddterm/app/menus.ui:280 ddterm/app/menus.ui:310
-#: ddterm/pref/glade/prefs-shortcuts.ui:234
+#: ddterm/pref/ui/prefs-shortcuts.ui:234
 msgid "Split Vertically"
 msgstr "Dividere verticalmente"
 
@@ -282,11 +282,11 @@ msgstr "Nuova scheda prima di questa scheda"
 msgid "New Tab After This Tab"
 msgstr "Nuova scheda dopo questa scheda"
 
-#: ddterm/app/menus.ui:257 ddterm/pref/glade/prefs-shortcuts.ui:213
+#: ddterm/app/menus.ui:257 ddterm/pref/ui/prefs-shortcuts.ui:213
 msgid "Move Tab to Previous Position"
 msgstr "Sposta la scheda nella posizione precedente"
 
-#: ddterm/app/menus.ui:261 ddterm/pref/glade/prefs-shortcuts.ui:220
+#: ddterm/app/menus.ui:261 ddterm/pref/ui/prefs-shortcuts.ui:220
 msgid "Move Tab to Next Position"
 msgstr "Sposta la scheda alla posizione successiva"
 
@@ -318,11 +318,11 @@ msgstr "Chiudi barra di ricerca"
 msgid "Wrap Around"
 msgstr "Avvolgi"
 
-#: ddterm/app/search.js:351 ddterm/pref/glade/prefs-shortcuts.ui:290
+#: ddterm/app/search.js:351 ddterm/pref/ui/prefs-shortcuts.ui:290
 msgid "Find Next"
 msgstr "Trova successivo"
 
-#: ddterm/app/search.js:369 ddterm/pref/glade/prefs-shortcuts.ui:297
+#: ddterm/app/search.js:369 ddterm/pref/ui/prefs-shortcuts.ui:297
 msgid "Find Previous"
 msgstr "Trova precedente"
 
@@ -370,7 +370,6 @@ msgstr ""
 
 #: ddterm/com.github.amezin.ddterm.desktop.in.in:20
 #, fuzzy
-#| msgid "Toggle button"
 msgid "Toggle"
 msgstr "Pulsante di attivazione"
 
@@ -410,908 +409,6 @@ msgstr "Comandi"
 msgid "Compatibility"
 msgstr "Compatibilità"
 
-#: ddterm/pref/glade/prefs-animation.ui:36
-msgid "Disable"
-msgstr "Disabilita"
-
-#: ddterm/pref/glade/prefs-animation.ui:40
-msgid "Linear tweening"
-msgstr "Tweening lineare"
-
-#: ddterm/pref/glade/prefs-animation.ui:44
-msgid "Quadratic tweening"
-msgstr "Tweening quadratico"
-
-#: ddterm/pref/glade/prefs-animation.ui:48
-msgid "Quadratic tweening, inverse"
-msgstr "Tweening quadratico, inverso"
-
-#: ddterm/pref/glade/prefs-animation.ui:52
-msgid "Quadratic tweening, combining direct and inverse"
-msgstr "Tweening quadratico, combinazione di diretto e inverso"
-
-#: ddterm/pref/glade/prefs-animation.ui:56
-msgid "Cubic tweening"
-msgstr "Tweening cubico"
-
-#: ddterm/pref/glade/prefs-animation.ui:60
-msgid "Cubic tweening, inverse"
-msgstr "Tweening cubico, inverso"
-
-#: ddterm/pref/glade/prefs-animation.ui:64
-msgid "Cubic tweening, combining direct and inverse"
-msgstr "Tweening cubico, combinazione di diretto e inverso"
-
-#: ddterm/pref/glade/prefs-animation.ui:68
-msgid "Quartic tweening"
-msgstr "Tweening quartico"
-
-#: ddterm/pref/glade/prefs-animation.ui:72
-msgid "Quartic tweening, inverse"
-msgstr "Tweening quartico, inverso"
-
-#: ddterm/pref/glade/prefs-animation.ui:76
-msgid "Quartic tweening, combining direct and inverse"
-msgstr "Tweening quartico, combinazione di diretto e inverso"
-
-#: ddterm/pref/glade/prefs-animation.ui:80
-msgid "Quintic tweening"
-msgstr "Tweening quintico"
-
-#: ddterm/pref/glade/prefs-animation.ui:84
-msgid "Quintic tweening, inverse"
-msgstr "Tweening quintico, inverso"
-
-#: ddterm/pref/glade/prefs-animation.ui:88
-msgid "Quintic tweening, combining direct and inverse"
-msgstr "Tweening quintico, combinazione di diretto e inverso"
-
-#: ddterm/pref/glade/prefs-animation.ui:92
-msgid "Sinusoidal tweening"
-msgstr "Tweening sinusoidale"
-
-#: ddterm/pref/glade/prefs-animation.ui:96
-msgid "Sinusoidal tweening, inverse"
-msgstr "Tweening sinusoidale, inverso"
-
-#: ddterm/pref/glade/prefs-animation.ui:100
-msgid "Sinusoidal tweening, combining direct and inverse"
-msgstr "Tweening sinusoidale, combinazione di diretto e inverso"
-
-#: ddterm/pref/glade/prefs-animation.ui:104
-msgid "Exponential tweening"
-msgstr "Tweening esponenziale"
-
-#: ddterm/pref/glade/prefs-animation.ui:108
-msgid "Exponential tweening, inverse"
-msgstr "Tweening esponenziale, inverso"
-
-#: ddterm/pref/glade/prefs-animation.ui:112
-msgid "Exponential tweening, combining direct and inverse"
-msgstr "Tweening esponenziale, combinando diretto e inverso"
-
-#: ddterm/pref/glade/prefs-animation.ui:116
-msgid "Circular tweening"
-msgstr "Tweening circolare"
-
-#: ddterm/pref/glade/prefs-animation.ui:120
-msgid "Circular tweening, inverse"
-msgstr "Tweening circolare, inverso"
-
-#: ddterm/pref/glade/prefs-animation.ui:124
-msgid "Circular tweening, combining direct and inverse"
-msgstr "Tweening circolare, con combinazione di diretto e inverso"
-
-#: ddterm/pref/glade/prefs-animation.ui:128
-msgid "Elastic tweening, with offshoot on start"
-msgstr "Tweening elastico, con derivazione all'inizio"
-
-#: ddterm/pref/glade/prefs-animation.ui:132
-msgid "Elastic tweening, with offshoot on end"
-msgstr "Tweening elastico, con derivazione alla fine"
-
-#: ddterm/pref/glade/prefs-animation.ui:136
-msgid "Elastic tweening with offshoot on both ends"
-msgstr "Tweening elastico, con derivazione su entrambe le estremità"
-
-#: ddterm/pref/glade/prefs-animation.ui:140
-msgid "Overshooting cubic tweening, with backtracking on start"
-msgstr "Overshooting cubico, con backtracking all'inizio"
-
-#: ddterm/pref/glade/prefs-animation.ui:144
-msgid "Overshooting cubic tweening, with backtracking on end"
-msgstr "Tweening cubico con backtracking alla fine"
-
-#: ddterm/pref/glade/prefs-animation.ui:148
-msgid "Overshooting cubic tweening, with backtracking on both ends"
-msgstr "Tweening cubico con backtracking su entrambi gli estremi"
-
-#: ddterm/pref/glade/prefs-animation.ui:152
-msgid ""
-"Exponentially decaying parabolic (bounce) tweening, with bounce on start"
-msgstr ""
-"Tweening parabolico (di rimbalzo) a decadenza esponenziale, con rimbalzo "
-"all'inizio"
-
-#: ddterm/pref/glade/prefs-animation.ui:156
-msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on end"
-msgstr ""
-"Tweening parabolico (di rimbalzo) a decadimento esponenziale, con rimbalzo "
-"alla fine"
-
-#: ddterm/pref/glade/prefs-animation.ui:160
-msgid ""
-"Exponentially decaying parabolic (bounce) tweening, with bounce on both ends"
-msgstr ""
-"Tweening parabolico (rimbalzo) a decadimento esponenziale, con rimbalzo su "
-"entrambe le estremità"
-
-#: ddterm/pref/glade/prefs-animation.ui:183
-msgid "_Override default window animations"
-msgstr "_Sovrascrivere le animazioni predefinite della finestra"
-
-#: ddterm/pref/glade/prefs-animation.ui:218
-msgid "_Show animation:"
-msgstr "_Mostra animazione:"
-
-#: ddterm/pref/glade/prefs-animation.ui:232
-msgid "_Hide animation:"
-msgstr "_Nascondere l'animazione:"
-
-#: ddterm/pref/glade/prefs-animation.ui:288
-msgid "_Hide animation duration:"
-msgstr "_Nascondere la durata dell'animazione:"
-
-#: ddterm/pref/glade/prefs-animation.ui:301
-msgid "_Show animation duration:"
-msgstr "_Mostra durata animazione:"
-
-#: ddterm/pref/glade/prefs-behavior.ui:39
-msgid "_Resizable"
-msgstr "_Ridimensionabile"
-
-#: ddterm/pref/glade/prefs-behavior.ui:55
-msgid "_Above all windows"
-msgstr "_Sopra tutte le finestre"
-
-#: ddterm/pref/glade/prefs-behavior.ui:71
-msgid "On all _workspaces"
-msgstr "Su tutti gli _spazi di lavoro"
-
-#: ddterm/pref/glade/prefs-behavior.ui:87
-msgid "Hide when the application loses _focus"
-msgstr "Nascondi quando l'applicazione perde il _focus"
-
-#: ddterm/pref/glade/prefs-behavior.ui:103
-msgid "Hide when _Esc key is pressed"
-msgstr "Nascondere quando viene premuto il tasto _Esc"
-
-#: ddterm/pref/glade/prefs-behavior.ui:119
-msgid "Exclude from _overview/task bar"
-msgstr "Escludere dalla barra di _overview/task bar"
-
-#: ddterm/pref/glade/prefs-behavior.ui:135
-msgid "Hide mouse _pointer when typing"
-msgstr "Nascondere il _puntatore del mouse durante la digitazione"
-
-#: ddterm/pref/glade/prefs-behavior.ui:151
-msgid ""
-"Force _X11 GDK backend (XWayland).\n"
-"You'll have to close all tabs for this option to take effect."
-msgstr ""
-"Forza _X11 GDK backend (XWayland).\n"
-"È necessario chiudere tutte le schede perché questa opzione abbia effetto."
-
-#: ddterm/pref/glade/prefs-behavior.ui:171
-msgid "Window type _hint (X11 only):"
-msgstr "Tipo di finestra _hint (solo X11):"
-
-#: ddterm/pref/glade/prefs-behavior.ui:186
-msgid "Normal"
-msgstr "Normale"
-
-#: ddterm/pref/glade/prefs-behavior.ui:187
-msgid "Dialog"
-msgstr "Dialogo"
-
-#: ddterm/pref/glade/prefs-behavior.ui:188
-msgid "Splash screen"
-msgstr "Schermata di avvio"
-
-#: ddterm/pref/glade/prefs-behavior.ui:189
-msgid "Utility"
-msgstr "Utilità"
-
-#: ddterm/pref/glade/prefs-behavior.ui:190
-msgid "Dock"
-msgstr "Barra inferiore"
-
-#: ddterm/pref/glade/prefs-behavior.ui:191
-msgid "Dropdown menu"
-msgstr "Menu a discesa"
-
-#: ddterm/pref/glade/prefs-behavior.ui:192
-msgid "Menu"
-msgstr "Menu"
-
-#: ddterm/pref/glade/prefs-behavior.ui:193
-msgid "Toolbar"
-msgstr "Barra degli strumenti"
-
-#: ddterm/pref/glade/prefs-behavior.ui:194
-msgid "Popup menu"
-msgstr "Menu a comparsa"
-
-#: ddterm/pref/glade/prefs-behavior.ui:195
-msgid "Tooltip"
-msgstr "Suggerimento"
-
-#: ddterm/pref/glade/prefs-behavior.ui:196
-msgid "Notification"
-msgstr "Notifiche"
-
-#: ddterm/pref/glade/prefs-behavior.ui:197
-msgid "Combo"
-msgstr "Combinazione"
-
-#: ddterm/pref/glade/prefs-colors.ui:38
-msgid "Black on light yellow"
-msgstr "Nero su giallo chiaro"
-
-#: ddterm/pref/glade/prefs-colors.ui:43
-msgid "Black on white"
-msgstr "Nero su bianco"
-
-#: ddterm/pref/glade/prefs-colors.ui:48
-msgid "Gray on black"
-msgstr "Grigio su nero"
-
-#: ddterm/pref/glade/prefs-colors.ui:53
-msgid "Green on black"
-msgstr "Verde su nero"
-
-#: ddterm/pref/glade/prefs-colors.ui:58
-msgid "White on black"
-msgstr "Bianco su nero"
-
-#: ddterm/pref/glade/prefs-colors.ui:63
-msgid "GNOME light"
-msgstr "GNOME chiaro"
-
-#: ddterm/pref/glade/prefs-colors.ui:68
-msgid "GNOME dark"
-msgstr "GNOME scuro"
-
-#: ddterm/pref/glade/prefs-colors.ui:73
-msgid "Tango light"
-msgstr "Tango chiaro"
-
-#: ddterm/pref/glade/prefs-colors.ui:78
-msgid "Tango dark"
-msgstr "Tango scuro"
-
-#: ddterm/pref/glade/prefs-colors.ui:83
-msgid "Solarized light"
-msgstr "Solarizzato chiaro"
-
-#: ddterm/pref/glade/prefs-colors.ui:88
-msgid "Solarized dark"
-msgstr "Solarizzato scuro"
-
-#: ddterm/pref/glade/prefs-colors.ui:93 ddterm/pref/glade/prefs-colors.ui:257
-msgid "Custom"
-msgstr "Personalizzato"
-
-#: ddterm/pref/glade/prefs-colors.ui:143
-msgid "GNOME"
-msgstr "GNOME"
-
-#: ddterm/pref/glade/prefs-colors.ui:162
-msgid "Tango"
-msgstr "Tango"
-
-#: ddterm/pref/glade/prefs-colors.ui:181
-msgid "Linux"
-msgstr "Linux"
-
-#: ddterm/pref/glade/prefs-colors.ui:200
-msgid "XTerm"
-msgstr "XTerm"
-
-#: ddterm/pref/glade/prefs-colors.ui:219
-msgid "RXVT"
-msgstr "RXVT"
-
-#: ddterm/pref/glade/prefs-colors.ui:238
-msgid "Solarized"
-msgstr "Solarizzato"
-
-#: ddterm/pref/glade/prefs-colors.ui:292
-msgid "Theme _variant:"
-msgstr "Tema _variante:"
-
-#: ddterm/pref/glade/prefs-colors.ui:307 ddterm/pref/glade/prefs-text.ui:132
-msgid "Default"
-msgstr "Predefinito"
-
-#: ddterm/pref/glade/prefs-colors.ui:308
-msgid "Light"
-msgstr "Chiaro"
-
-#: ddterm/pref/glade/prefs-colors.ui:309
-msgid "Dark"
-msgstr "Scuro"
-
-#: ddterm/pref/glade/prefs-colors.ui:319
-msgid "Use colors from system _theme"
-msgstr "Utilizzare i colori del _tema di sistema"
-
-#: ddterm/pref/glade/prefs-colors.ui:335
-msgid "_Background opacity:"
-msgstr "_Opacità dello sfondo:"
-
-#: ddterm/pref/glade/prefs-colors.ui:380
-msgid "_Palette:"
-msgstr "_Palette:"
-
-#: ddterm/pref/glade/prefs-colors.ui:423
-msgid "Palette Color 0"
-msgstr "Colore palette 0"
-
-#: ddterm/pref/glade/prefs-colors.ui:436
-msgid "Palette Color 1"
-msgstr "Colore palette 1"
-
-#: ddterm/pref/glade/prefs-colors.ui:449
-msgid "Palette Color 2"
-msgstr "Colore palette 2"
-
-#: ddterm/pref/glade/prefs-colors.ui:462
-msgid "Palette Color 3"
-msgstr "Colore palette 3"
-
-#: ddterm/pref/glade/prefs-colors.ui:475
-msgid "Palette Color 4"
-msgstr "Colore palette 4"
-
-#: ddterm/pref/glade/prefs-colors.ui:488
-msgid "Palette Color 5"
-msgstr "Colore palette 5"
-
-#: ddterm/pref/glade/prefs-colors.ui:501
-msgid "Palette Color 6"
-msgstr "Colore palette 6"
-
-#: ddterm/pref/glade/prefs-colors.ui:514
-msgid "Palette Color 7"
-msgstr "Colore palette 7"
-
-#: ddterm/pref/glade/prefs-colors.ui:527
-msgid "Palette Color 8"
-msgstr "Colore palette 8"
-
-#: ddterm/pref/glade/prefs-colors.ui:540
-msgid "Palette Color 9"
-msgstr "Colore palette 9"
-
-#: ddterm/pref/glade/prefs-colors.ui:553
-msgid "Palette Color 10"
-msgstr "Colore palette 10"
-
-#: ddterm/pref/glade/prefs-colors.ui:566
-msgid "Palette Color 11"
-msgstr "Colore palette 11"
-
-#: ddterm/pref/glade/prefs-colors.ui:579
-msgid "Palette Color 12"
-msgstr "Colore palette 12"
-
-#: ddterm/pref/glade/prefs-colors.ui:592
-msgid "Palette Color 13"
-msgstr "Colore palette 13"
-
-#: ddterm/pref/glade/prefs-colors.ui:605
-msgid "Palette Color 14"
-msgstr "Colore palette 14"
-
-#: ddterm/pref/glade/prefs-colors.ui:618
-msgid "Palette Color 15"
-msgstr "Colore palette 15"
-
-#: ddterm/pref/glade/prefs-colors.ui:634
-msgid "Show bold text in _bright colors"
-msgstr "Mostra il testo in grassetto nei colori _luminosi"
-
-#: ddterm/pref/glade/prefs-colors.ui:650
-msgid "Copy profile from GNOME Terminal"
-msgstr "Copiare il profilo dal terminale GNOME"
-
-#: ddterm/pref/glade/prefs-colors.ui:673
-msgid "Foreground"
-msgstr "Primo piano"
-
-#: ddterm/pref/glade/prefs-colors.ui:684
-msgid "Background"
-msgstr "Secondo piano"
-
-#: ddterm/pref/glade/prefs-colors.ui:696
-msgid "Default color:"
-msgstr "Colore predefinito:"
-
-#: ddterm/pref/glade/prefs-colors.ui:705
-msgid "Bold color:"
-msgstr "Colore grassetto:"
-
-#: ddterm/pref/glade/prefs-colors.ui:718
-msgid "Cursor color:"
-msgstr "Colore del cursore:"
-
-#: ddterm/pref/glade/prefs-colors.ui:732
-msgid "Highlight color:"
-msgstr "Colore di evidenziazione:"
-
-#: ddterm/pref/glade/prefs-colors.ui:749
-msgid "Color _scheme:"
-msgstr "Colore _schema:"
-
-#: ddterm/pref/glade/prefs-colors.ui:767
-msgid "Background Color"
-msgstr "Colore di sfondo"
-
-#: ddterm/pref/glade/prefs-colors.ui:791
-msgid "Bold Color"
-msgstr "Colore grassetto"
-
-#: ddterm/pref/glade/prefs-colors.ui:815
-msgid "Cursor Foreground Color"
-msgstr "Colore di primo piano del cursore"
-
-#: ddterm/pref/glade/prefs-colors.ui:839
-msgid "Cursor Background Color"
-msgstr "Colore di secondo piano del cursore"
-
-#: ddterm/pref/glade/prefs-colors.ui:863
-msgid "Highlight Foreground Color"
-msgstr "Colore di primo piano in evidenza"
-
-#: ddterm/pref/glade/prefs-colors.ui:887
-msgid "Highlight Background Color"
-msgstr "Evidenziazione del colore di sfondo"
-
-#: ddterm/pref/glade/prefs-colors.ui:930
-msgid "Foreground Color"
-msgstr "Colore di primo piano"
-
-#: ddterm/pref/glade/prefs-command.ui:39
-msgid "User _shell"
-msgstr "Utente _shell"
-
-#: ddterm/pref/glade/prefs-command.ui:57
-msgid "User shell as _login shell"
-msgstr "Shell utente come shell _login"
-
-#: ddterm/pref/glade/prefs-command.ui:75
-msgid "Custom _command:"
-msgstr "Comando personalizzato:"
-
-#: ddterm/pref/glade/prefs-command.ui:114
-msgid "Preserve working directory"
-msgstr "Conserva la directory di lavoro"
-
-#: ddterm/pref/glade/prefs-compatibility.ui:36
-#: ddterm/pref/glade/prefs-tabs.ui:127
-msgid "Automatic"
-msgstr "Automatico"
-
-#: ddterm/pref/glade/prefs-compatibility.ui:40
-msgid "Control-H"
-msgstr "Control-H"
-
-#: ddterm/pref/glade/prefs-compatibility.ui:44
-msgid "ASCII DEL"
-msgstr "ASCII DEL"
-
-#: ddterm/pref/glade/prefs-compatibility.ui:48
-msgid "Escape sequence"
-msgstr "Sequenza di fuga"
-
-#: ddterm/pref/glade/prefs-compatibility.ui:52
-msgid "TTY Erase"
-msgstr "Cancellazione TTY"
-
-#: ddterm/pref/glade/prefs-compatibility.ui:72
-msgid "_Backspace key generates:"
-msgstr "Il tasto _Backspace genera:"
-
-#: ddterm/pref/glade/prefs-compatibility.ui:86
-msgid "_Delete key generates:"
-msgstr "Il tasto _Canc genera:"
-
-#: ddterm/pref/glade/prefs-compatibility.ui:100
-msgid "Ambiguous-_width characters:"
-msgstr "Caratteri di _larghezza ambigua:"
-
-#: ddterm/pref/glade/prefs-compatibility.ui:153
-msgid "Narrow"
-msgstr "Stretto"
-
-#: ddterm/pref/glade/prefs-compatibility.ui:154
-msgid "Wide"
-msgstr "Ampio"
-
-#: ddterm/pref/glade/prefs-compatibility.ui:164
-msgid "_Reset Compatibility Options to Defaults"
-msgstr "_Ripristina le opzioni di compatibilità ai valori predefiniti"
-
-#: ddterm/pref/glade/prefs-panel-icon.ui:38 ddterm/pref/glade/prefs-tabs.ui:246
-msgid "None"
-msgstr "Nessuna"
-
-#: ddterm/pref/glade/prefs-panel-icon.ui:55
-msgid "With popup menu"
-msgstr "Con menu a comparsa"
-
-#: ddterm/pref/glade/prefs-panel-icon.ui:72
-msgid "Toggle button"
-msgstr "Pulsante di attivazione"
-
-#: ddterm/pref/glade/prefs-panel-icon.ui:89
-msgid "Toggle button and popup menu"
-msgstr "Pulsante di attivazione e menu a comparsa"
-
-#: ddterm/pref/glade/prefs-position-size.ui:47
-msgid "Window _size:"
-msgstr "Dimensione finestra:"
-
-#: ddterm/pref/glade/prefs-position-size.ui:76
-msgid "_Window position:"
-msgstr "_Posizione della finestra:"
-
-#: ddterm/pref/glade/prefs-position-size.ui:91
-#: ddterm/pref/glade/prefs-tabs.ui:173
-msgid "Top"
-msgstr "In alto"
-
-#: ddterm/pref/glade/prefs-position-size.ui:92
-#: ddterm/pref/glade/prefs-tabs.ui:172
-msgid "Bottom"
-msgstr "In basso"
-
-#: ddterm/pref/glade/prefs-position-size.ui:93
-#: ddterm/pref/glade/prefs-tabs.ui:174
-msgid "Left"
-msgstr "A sinistra"
-
-#: ddterm/pref/glade/prefs-position-size.ui:94
-#: ddterm/pref/glade/prefs-tabs.ui:175
-msgid "Right"
-msgstr "A destra"
-
-#: ddterm/pref/glade/prefs-position-size.ui:104
-msgid "On the monitor that contains the mouse pointer"
-msgstr "Sul monitor che contiene il puntatore del mouse"
-
-#: ddterm/pref/glade/prefs-position-size.ui:122
-msgid "On the _primary monitor"
-msgstr "Sul monitor _primario"
-
-#: ddterm/pref/glade/prefs-position-size.ui:140
-msgid "On the monitor with keyboard _focus"
-msgstr "Sul monitor con la tastiera _focus"
-
-#: ddterm/pref/glade/prefs-position-size.ui:158
-msgid "On _monitor:"
-msgstr "Sul _monitor:"
-
-#: ddterm/pref/glade/prefs-scrolling.ui:44
-msgid "Show _scrollbar"
-msgstr "Mostra la barra di scorrimento"
-
-#: ddterm/pref/glade/prefs-scrolling.ui:60
-msgid "Scroll on _output"
-msgstr "Scorrere su _output"
-
-#: ddterm/pref/glade/prefs-scrolling.ui:76
-msgid "Scroll on _keystroke"
-msgstr "Scorrimento su _tastiera"
-
-#: ddterm/pref/glade/prefs-scrolling.ui:92
-msgid "_Limit scrollback to:"
-msgstr "_Limita lo scrollback a:"
-
-#: ddterm/pref/glade/prefs-scrolling.ui:128
-msgid "lines"
-msgstr "linee"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:43
-msgid "Toggle Terminal Window"
-msgstr "Alterna la finestra del terminale"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:50
-msgid "Show/Activate Terminal Window"
-msgstr "Mostra/Attiva la finestra del terminale"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:73
-msgid "Hide the Window"
-msgstr "Nascondere la finestra"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:80
-msgid "Maximize/Unmaximize the Window"
-msgstr "Ingrandire/disingrandire la finestra"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:87
-msgid "Increase Window Size"
-msgstr "Aumenta le dimensioni della finestra"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:94
-msgid "Decrease Window Size"
-msgstr "Ridurre le dimensioni della finestra"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:101
-msgid "Increase Background Opacity"
-msgstr "Aumenta l'opacità dello sfondo"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:108
-msgid "Decrease Background Opacity"
-msgstr "Diminuire l'opacità dello sfondo"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:115
-msgid "Enable/Disable Background Transparency"
-msgstr "Abilita/Disabilita la trasparenza dello sfondo"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:122
-msgid "Copy Selected Text"
-msgstr "Copiare il testo selezionato"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:129
-msgid "Copy Selected Text as HTML"
-msgstr "Copia il testo selezionato come HTML"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:136
-msgid "Paste Text from Clipboard"
-msgstr "Incolla il testo dagli appunti"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:192
-msgid "Close Current Tab"
-msgstr "Chiudere la scheda corrente"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:199
-msgid "Switch to Previous Tab"
-msgstr "Passa alla scheda precedente"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:206
-msgid "Switch to Next Tab"
-msgstr "Passa alla scheda successiva"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:241
-msgid "Move Keyboard Focus to Other Split Pane"
-msgstr "Spostare il focus della tastiera su un altro riquadro diviso"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:248
-msgid "Move Tab to Other Split Pane"
-msgstr "Spostare la scheda nell'altro riquadro diviso"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:255
-msgid "Increase First Split Pane Size"
-msgstr "Aumentare le dimensioni del primo riquadro diviso"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:262
-msgid "Decrease First Split Pane Size"
-msgstr "Diminuire le dimensioni del primo riquadro diviso"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:269
-msgid "Set Custom Tab Title"
-msgstr "Imposta titolo scheda personalizzato"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:276
-msgid "Reset Tab Title"
-msgstr "Reimpostare il titolo della scheda"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:325
-msgid "Switch to Tab 1"
-msgstr "Passa alla scheda 1"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:332
-msgid "Switch to Tab 2"
-msgstr "Passa alla scheda 2"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:339
-msgid "Switch to Tab 3"
-msgstr "Passa alla scheda 3"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:346
-msgid "Switch to Tab 4"
-msgstr "Passa alla scheda 4"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:353
-msgid "Switch to Tab 5"
-msgstr "Passa alla scheda 5"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:360
-msgid "Switch to Tab 6"
-msgstr "Passa alla scheda 6"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:367
-msgid "Switch to Tab 7"
-msgstr "Passa alla scheda 7"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:374
-msgid "Switch to Tab 8"
-msgstr "Passa alla scheda 8"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:381
-msgid "Switch to Tab 9"
-msgstr "Passa alla scheda 9"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:388
-msgid "Switch to Tab 10"
-msgstr "Passa alla scheda 10"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:421
-#: ddterm/pref/glade/prefs-shortcuts.ui:493
-msgid "Action"
-msgstr "Azione"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:433
-msgid "Global Shortcut"
-msgstr "Scorciatoia globale"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:463
-msgid "_Enable application shortcuts"
-msgstr "_Attiva le scorciatoie delle applicazioni"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:505
-msgid "Shortcut"
-msgstr "Scorciatoia"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:535
-msgid "Reset All Shortcuts to Defaults"
-msgstr "Ripristina tutte le scorciatoie ai valori predefiniti"
-
-#: ddterm/pref/glade/prefs-tabs.ui:44
-msgid "Expand tabs"
-msgstr "Espandere le schede"
-
-#: ddterm/pref/glade/prefs-tabs.ui:60
-msgid "Show _close buttons"
-msgstr "Mostra i pulsanti di chiusura"
-
-#: ddterm/pref/glade/prefs-tabs.ui:76
-msgid "\"_New Tab (Last)\" button"
-msgstr "Pulsante \"_Nuova scheda (ultima)\""
-
-#: ddterm/pref/glade/prefs-tabs.ui:92
-msgid "Tab _switcher popup"
-msgstr "Popup della scheda _switcher"
-
-#: ddterm/pref/glade/prefs-tabs.ui:111
-msgid "Show tab _bar:"
-msgstr "Mostra la barra delle schede:"
-
-#: ddterm/pref/glade/prefs-tabs.ui:126 ddterm/pref/glade/prefs-text.ui:102
-msgid "Always"
-msgstr "Sempre"
-
-#: ddterm/pref/glade/prefs-tabs.ui:128 ddterm/pref/glade/prefs-text.ui:99
-msgid "Never"
-msgstr "Mai"
-
-#: ddterm/pref/glade/prefs-tabs.ui:138
-msgid "\"_New Tab (First)\" button"
-msgstr "Pulsante \"_Nuova scheda (prima)\""
-
-#: ddterm/pref/glade/prefs-tabs.ui:157
-msgid "Tab bar position:"
-msgstr "Posizione della barra delle schede:"
-
-#: ddterm/pref/glade/prefs-tabs.ui:185
-msgid "Show border"
-msgstr "Mostra bordo"
-
-#: ddterm/pref/glade/prefs-tabs.ui:204
-msgid "Tab width:"
-msgstr "Larghezza scheda:"
-
-#: ddterm/pref/glade/prefs-tabs.ui:232
-msgid "Ellipsize tab labels:"
-msgstr "Etichette delle schede a forma di ellisse:"
-
-#: ddterm/pref/glade/prefs-tabs.ui:247
-msgid "Start"
-msgstr "Inizio"
-
-#: ddterm/pref/glade/prefs-tabs.ui:248
-msgid "Middle"
-msgstr "Centro"
-
-#: ddterm/pref/glade/prefs-tabs.ui:249
-msgid "End"
-msgstr "Fine"
-
-#: ddterm/pref/glade/prefs-tabs.ui:259
-msgid "Show keyboard shortcuts"
-msgstr "Mostra scorciatoie da tastiera"
-
-#: ddterm/pref/glade/prefs-text.ui:39
-msgid "Custom _font:"
-msgstr "_font personalizzato:"
-
-#: ddterm/pref/glade/prefs-text.ui:56
-msgid "Allow _blinking text:"
-msgstr "Consentire il testo _lampeggiante:"
-
-#: ddterm/pref/glade/prefs-text.ui:70
-msgid "Cursor _shape:"
-msgstr "_forma cursore:"
-
-#: ddterm/pref/glade/prefs-text.ui:84
-msgid "_Cursor blinking:"
-msgstr "_cursore lampeggiante:"
-
-#: ddterm/pref/glade/prefs-text.ui:100
-msgid "When focused"
-msgstr "Quando è focalizzato"
-
-#: ddterm/pref/glade/prefs-text.ui:101
-msgid "When unfocused"
-msgstr "Quando non è focalizzato"
-
-#: ddterm/pref/glade/prefs-text.ui:116
-msgid "Block"
-msgstr "Blocco"
-
-#: ddterm/pref/glade/prefs-text.ui:117
-msgid "I-Beam"
-msgstr "I-Beam"
-
-#: ddterm/pref/glade/prefs-text.ui:118
-msgid "Underline"
-msgstr "Sottolinea"
-
-#: ddterm/pref/glade/prefs-text.ui:133
-msgid "Enabled"
-msgstr "Abilitato"
-
-#: ddterm/pref/glade/prefs-text.ui:134
-msgid "Disabled"
-msgstr "Disabilitato"
-
-#: ddterm/pref/glade/prefs-text.ui:144
-msgid "Allow _hyperlinks"
-msgstr "Consenti _hyperlink"
-
-#: ddterm/pref/glade/prefs-text.ui:160
-msgid "Audible _bell"
-msgstr "_Segnale acustico"
-
-#: ddterm/pref/glade/prefs-text.ui:202
-msgid "Detect _URLs"
-msgstr "Rileva gli _URL"
-
-#: ddterm/pref/glade/prefs-text.ui:225
-msgid "Detect raw URLs (scheme://netloc/path)"
-msgstr "Rileva gli URL grezzi (scheme://netloc/path)"
-
-#: ddterm/pref/glade/prefs-text.ui:240
-msgid "Detect \"file:\" URLs"
-msgstr "Rileva \"file:\" URL"
-
-#: ddterm/pref/glade/prefs-text.ui:255
-msgid "Detect HTTP URLs"
-msgstr "Rileva gli URL HTTP"
-
-#: ddterm/pref/glade/prefs-text.ui:270
-msgid "Detect VoIP URLs"
-msgstr "Rileva gli URL VoIP"
-
-#: ddterm/pref/glade/prefs-text.ui:285
-msgid "Detect E-mail addresses"
-msgstr "Rileva gli indirizzi e-mail"
-
-#: ddterm/pref/glade/prefs-text.ui:300
-msgid "Detect \"news:\", \"man:\" URLs"
-msgstr "Rileva \"news:\", \"man:\". URL"
-
 #: ddterm/pref/panelicon.js:52
 msgid "Panel Icon"
 msgstr "Icona del pannello"
@@ -1332,13 +429,908 @@ msgstr "Schede"
 msgid "Text"
 msgstr "Testo"
 
+#: ddterm/pref/ui/prefs-animation.ui:36
+msgid "Disable"
+msgstr "Disabilita"
+
+#: ddterm/pref/ui/prefs-animation.ui:40
+msgid "Linear tweening"
+msgstr "Tweening lineare"
+
+#: ddterm/pref/ui/prefs-animation.ui:44
+msgid "Quadratic tweening"
+msgstr "Tweening quadratico"
+
+#: ddterm/pref/ui/prefs-animation.ui:48
+msgid "Quadratic tweening, inverse"
+msgstr "Tweening quadratico, inverso"
+
+#: ddterm/pref/ui/prefs-animation.ui:52
+msgid "Quadratic tweening, combining direct and inverse"
+msgstr "Tweening quadratico, combinazione di diretto e inverso"
+
+#: ddterm/pref/ui/prefs-animation.ui:56
+msgid "Cubic tweening"
+msgstr "Tweening cubico"
+
+#: ddterm/pref/ui/prefs-animation.ui:60
+msgid "Cubic tweening, inverse"
+msgstr "Tweening cubico, inverso"
+
+#: ddterm/pref/ui/prefs-animation.ui:64
+msgid "Cubic tweening, combining direct and inverse"
+msgstr "Tweening cubico, combinazione di diretto e inverso"
+
+#: ddterm/pref/ui/prefs-animation.ui:68
+msgid "Quartic tweening"
+msgstr "Tweening quartico"
+
+#: ddterm/pref/ui/prefs-animation.ui:72
+msgid "Quartic tweening, inverse"
+msgstr "Tweening quartico, inverso"
+
+#: ddterm/pref/ui/prefs-animation.ui:76
+msgid "Quartic tweening, combining direct and inverse"
+msgstr "Tweening quartico, combinazione di diretto e inverso"
+
+#: ddterm/pref/ui/prefs-animation.ui:80
+msgid "Quintic tweening"
+msgstr "Tweening quintico"
+
+#: ddterm/pref/ui/prefs-animation.ui:84
+msgid "Quintic tweening, inverse"
+msgstr "Tweening quintico, inverso"
+
+#: ddterm/pref/ui/prefs-animation.ui:88
+msgid "Quintic tweening, combining direct and inverse"
+msgstr "Tweening quintico, combinazione di diretto e inverso"
+
+#: ddterm/pref/ui/prefs-animation.ui:92
+msgid "Sinusoidal tweening"
+msgstr "Tweening sinusoidale"
+
+#: ddterm/pref/ui/prefs-animation.ui:96
+msgid "Sinusoidal tweening, inverse"
+msgstr "Tweening sinusoidale, inverso"
+
+#: ddterm/pref/ui/prefs-animation.ui:100
+msgid "Sinusoidal tweening, combining direct and inverse"
+msgstr "Tweening sinusoidale, combinazione di diretto e inverso"
+
+#: ddterm/pref/ui/prefs-animation.ui:104
+msgid "Exponential tweening"
+msgstr "Tweening esponenziale"
+
+#: ddterm/pref/ui/prefs-animation.ui:108
+msgid "Exponential tweening, inverse"
+msgstr "Tweening esponenziale, inverso"
+
+#: ddterm/pref/ui/prefs-animation.ui:112
+msgid "Exponential tweening, combining direct and inverse"
+msgstr "Tweening esponenziale, combinando diretto e inverso"
+
+#: ddterm/pref/ui/prefs-animation.ui:116
+msgid "Circular tweening"
+msgstr "Tweening circolare"
+
+#: ddterm/pref/ui/prefs-animation.ui:120
+msgid "Circular tweening, inverse"
+msgstr "Tweening circolare, inverso"
+
+#: ddterm/pref/ui/prefs-animation.ui:124
+msgid "Circular tweening, combining direct and inverse"
+msgstr "Tweening circolare, con combinazione di diretto e inverso"
+
+#: ddterm/pref/ui/prefs-animation.ui:128
+msgid "Elastic tweening, with offshoot on start"
+msgstr "Tweening elastico, con derivazione all'inizio"
+
+#: ddterm/pref/ui/prefs-animation.ui:132
+msgid "Elastic tweening, with offshoot on end"
+msgstr "Tweening elastico, con derivazione alla fine"
+
+#: ddterm/pref/ui/prefs-animation.ui:136
+msgid "Elastic tweening with offshoot on both ends"
+msgstr "Tweening elastico, con derivazione su entrambe le estremità"
+
+#: ddterm/pref/ui/prefs-animation.ui:140
+msgid "Overshooting cubic tweening, with backtracking on start"
+msgstr "Overshooting cubico, con backtracking all'inizio"
+
+#: ddterm/pref/ui/prefs-animation.ui:144
+msgid "Overshooting cubic tweening, with backtracking on end"
+msgstr "Tweening cubico con backtracking alla fine"
+
+#: ddterm/pref/ui/prefs-animation.ui:148
+msgid "Overshooting cubic tweening, with backtracking on both ends"
+msgstr "Tweening cubico con backtracking su entrambi gli estremi"
+
+#: ddterm/pref/ui/prefs-animation.ui:152
+msgid ""
+"Exponentially decaying parabolic (bounce) tweening, with bounce on start"
+msgstr ""
+"Tweening parabolico (di rimbalzo) a decadenza esponenziale, con rimbalzo "
+"all'inizio"
+
+#: ddterm/pref/ui/prefs-animation.ui:156
+msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on end"
+msgstr ""
+"Tweening parabolico (di rimbalzo) a decadimento esponenziale, con rimbalzo "
+"alla fine"
+
+#: ddterm/pref/ui/prefs-animation.ui:160
+msgid ""
+"Exponentially decaying parabolic (bounce) tweening, with bounce on both ends"
+msgstr ""
+"Tweening parabolico (rimbalzo) a decadimento esponenziale, con rimbalzo su "
+"entrambe le estremità"
+
+#: ddterm/pref/ui/prefs-animation.ui:183
+msgid "_Override default window animations"
+msgstr "_Sovrascrivere le animazioni predefinite della finestra"
+
+#: ddterm/pref/ui/prefs-animation.ui:218
+msgid "_Show animation:"
+msgstr "_Mostra animazione:"
+
+#: ddterm/pref/ui/prefs-animation.ui:232
+msgid "_Hide animation:"
+msgstr "_Nascondere l'animazione:"
+
+#: ddterm/pref/ui/prefs-animation.ui:288
+msgid "_Hide animation duration:"
+msgstr "_Nascondere la durata dell'animazione:"
+
+#: ddterm/pref/ui/prefs-animation.ui:301
+msgid "_Show animation duration:"
+msgstr "_Mostra durata animazione:"
+
+#: ddterm/pref/ui/prefs-behavior.ui:39
+msgid "_Resizable"
+msgstr "_Ridimensionabile"
+
+#: ddterm/pref/ui/prefs-behavior.ui:55
+msgid "_Above all windows"
+msgstr "_Sopra tutte le finestre"
+
+#: ddterm/pref/ui/prefs-behavior.ui:71
+msgid "On all _workspaces"
+msgstr "Su tutti gli _spazi di lavoro"
+
+#: ddterm/pref/ui/prefs-behavior.ui:87
+msgid "Hide when the application loses _focus"
+msgstr "Nascondi quando l'applicazione perde il _focus"
+
+#: ddterm/pref/ui/prefs-behavior.ui:103
+msgid "Hide when _Esc key is pressed"
+msgstr "Nascondere quando viene premuto il tasto _Esc"
+
+#: ddterm/pref/ui/prefs-behavior.ui:119
+msgid "Exclude from _overview/task bar"
+msgstr "Escludere dalla barra di _overview/task bar"
+
+#: ddterm/pref/ui/prefs-behavior.ui:135
+msgid "Hide mouse _pointer when typing"
+msgstr "Nascondere il _puntatore del mouse durante la digitazione"
+
+#: ddterm/pref/ui/prefs-behavior.ui:151
+msgid ""
+"Force _X11 GDK backend (XWayland).\n"
+"You'll have to close all tabs for this option to take effect."
+msgstr ""
+"Forza _X11 GDK backend (XWayland).\n"
+"È necessario chiudere tutte le schede perché questa opzione abbia effetto."
+
+#: ddterm/pref/ui/prefs-behavior.ui:171
+msgid "Window type _hint (X11 only):"
+msgstr "Tipo di finestra _hint (solo X11):"
+
+#: ddterm/pref/ui/prefs-behavior.ui:186
+msgid "Normal"
+msgstr "Normale"
+
+#: ddterm/pref/ui/prefs-behavior.ui:187
+msgid "Dialog"
+msgstr "Dialogo"
+
+#: ddterm/pref/ui/prefs-behavior.ui:188
+msgid "Splash screen"
+msgstr "Schermata di avvio"
+
+#: ddterm/pref/ui/prefs-behavior.ui:189
+msgid "Utility"
+msgstr "Utilità"
+
+#: ddterm/pref/ui/prefs-behavior.ui:190
+msgid "Dock"
+msgstr "Barra inferiore"
+
+#: ddterm/pref/ui/prefs-behavior.ui:191
+msgid "Dropdown menu"
+msgstr "Menu a discesa"
+
+#: ddterm/pref/ui/prefs-behavior.ui:192
+msgid "Menu"
+msgstr "Menu"
+
+#: ddterm/pref/ui/prefs-behavior.ui:193
+msgid "Toolbar"
+msgstr "Barra degli strumenti"
+
+#: ddterm/pref/ui/prefs-behavior.ui:194
+msgid "Popup menu"
+msgstr "Menu a comparsa"
+
+#: ddterm/pref/ui/prefs-behavior.ui:195
+msgid "Tooltip"
+msgstr "Suggerimento"
+
+#: ddterm/pref/ui/prefs-behavior.ui:196
+msgid "Notification"
+msgstr "Notifiche"
+
+#: ddterm/pref/ui/prefs-behavior.ui:197
+msgid "Combo"
+msgstr "Combinazione"
+
+#: ddterm/pref/ui/prefs-colors.ui:38
+msgid "Black on light yellow"
+msgstr "Nero su giallo chiaro"
+
+#: ddterm/pref/ui/prefs-colors.ui:43
+msgid "Black on white"
+msgstr "Nero su bianco"
+
+#: ddterm/pref/ui/prefs-colors.ui:48
+msgid "Gray on black"
+msgstr "Grigio su nero"
+
+#: ddterm/pref/ui/prefs-colors.ui:53
+msgid "Green on black"
+msgstr "Verde su nero"
+
+#: ddterm/pref/ui/prefs-colors.ui:58
+msgid "White on black"
+msgstr "Bianco su nero"
+
+#: ddterm/pref/ui/prefs-colors.ui:63
+msgid "GNOME light"
+msgstr "GNOME chiaro"
+
+#: ddterm/pref/ui/prefs-colors.ui:68
+msgid "GNOME dark"
+msgstr "GNOME scuro"
+
+#: ddterm/pref/ui/prefs-colors.ui:73
+msgid "Tango light"
+msgstr "Tango chiaro"
+
+#: ddterm/pref/ui/prefs-colors.ui:78
+msgid "Tango dark"
+msgstr "Tango scuro"
+
+#: ddterm/pref/ui/prefs-colors.ui:83
+msgid "Solarized light"
+msgstr "Solarizzato chiaro"
+
+#: ddterm/pref/ui/prefs-colors.ui:88
+msgid "Solarized dark"
+msgstr "Solarizzato scuro"
+
+#: ddterm/pref/ui/prefs-colors.ui:93 ddterm/pref/ui/prefs-colors.ui:257
+msgid "Custom"
+msgstr "Personalizzato"
+
+#: ddterm/pref/ui/prefs-colors.ui:143
+msgid "GNOME"
+msgstr "GNOME"
+
+#: ddterm/pref/ui/prefs-colors.ui:162
+msgid "Tango"
+msgstr "Tango"
+
+#: ddterm/pref/ui/prefs-colors.ui:181
+msgid "Linux"
+msgstr "Linux"
+
+#: ddterm/pref/ui/prefs-colors.ui:200
+msgid "XTerm"
+msgstr "XTerm"
+
+#: ddterm/pref/ui/prefs-colors.ui:219
+msgid "RXVT"
+msgstr "RXVT"
+
+#: ddterm/pref/ui/prefs-colors.ui:238
+msgid "Solarized"
+msgstr "Solarizzato"
+
+#: ddterm/pref/ui/prefs-colors.ui:292
+msgid "Theme _variant:"
+msgstr "Tema _variante:"
+
+#: ddterm/pref/ui/prefs-colors.ui:307 ddterm/pref/ui/prefs-text.ui:132
+msgid "Default"
+msgstr "Predefinito"
+
+#: ddterm/pref/ui/prefs-colors.ui:308
+msgid "Light"
+msgstr "Chiaro"
+
+#: ddterm/pref/ui/prefs-colors.ui:309
+msgid "Dark"
+msgstr "Scuro"
+
+#: ddterm/pref/ui/prefs-colors.ui:319
+msgid "Use colors from system _theme"
+msgstr "Utilizzare i colori del _tema di sistema"
+
+#: ddterm/pref/ui/prefs-colors.ui:335
+msgid "_Background opacity:"
+msgstr "_Opacità dello sfondo:"
+
+#: ddterm/pref/ui/prefs-colors.ui:380
+msgid "_Palette:"
+msgstr "_Palette:"
+
+#: ddterm/pref/ui/prefs-colors.ui:423
+msgid "Palette Color 0"
+msgstr "Colore palette 0"
+
+#: ddterm/pref/ui/prefs-colors.ui:436
+msgid "Palette Color 1"
+msgstr "Colore palette 1"
+
+#: ddterm/pref/ui/prefs-colors.ui:449
+msgid "Palette Color 2"
+msgstr "Colore palette 2"
+
+#: ddterm/pref/ui/prefs-colors.ui:462
+msgid "Palette Color 3"
+msgstr "Colore palette 3"
+
+#: ddterm/pref/ui/prefs-colors.ui:475
+msgid "Palette Color 4"
+msgstr "Colore palette 4"
+
+#: ddterm/pref/ui/prefs-colors.ui:488
+msgid "Palette Color 5"
+msgstr "Colore palette 5"
+
+#: ddterm/pref/ui/prefs-colors.ui:501
+msgid "Palette Color 6"
+msgstr "Colore palette 6"
+
+#: ddterm/pref/ui/prefs-colors.ui:514
+msgid "Palette Color 7"
+msgstr "Colore palette 7"
+
+#: ddterm/pref/ui/prefs-colors.ui:527
+msgid "Palette Color 8"
+msgstr "Colore palette 8"
+
+#: ddterm/pref/ui/prefs-colors.ui:540
+msgid "Palette Color 9"
+msgstr "Colore palette 9"
+
+#: ddterm/pref/ui/prefs-colors.ui:553
+msgid "Palette Color 10"
+msgstr "Colore palette 10"
+
+#: ddterm/pref/ui/prefs-colors.ui:566
+msgid "Palette Color 11"
+msgstr "Colore palette 11"
+
+#: ddterm/pref/ui/prefs-colors.ui:579
+msgid "Palette Color 12"
+msgstr "Colore palette 12"
+
+#: ddterm/pref/ui/prefs-colors.ui:592
+msgid "Palette Color 13"
+msgstr "Colore palette 13"
+
+#: ddterm/pref/ui/prefs-colors.ui:605
+msgid "Palette Color 14"
+msgstr "Colore palette 14"
+
+#: ddterm/pref/ui/prefs-colors.ui:618
+msgid "Palette Color 15"
+msgstr "Colore palette 15"
+
+#: ddterm/pref/ui/prefs-colors.ui:634
+msgid "Show bold text in _bright colors"
+msgstr "Mostra il testo in grassetto nei colori _luminosi"
+
+#: ddterm/pref/ui/prefs-colors.ui:650
+msgid "Copy profile from GNOME Terminal"
+msgstr "Copiare il profilo dal terminale GNOME"
+
+#: ddterm/pref/ui/prefs-colors.ui:673
+msgid "Foreground"
+msgstr "Primo piano"
+
+#: ddterm/pref/ui/prefs-colors.ui:684
+msgid "Background"
+msgstr "Secondo piano"
+
+#: ddterm/pref/ui/prefs-colors.ui:696
+msgid "Default color:"
+msgstr "Colore predefinito:"
+
+#: ddterm/pref/ui/prefs-colors.ui:705
+msgid "Bold color:"
+msgstr "Colore grassetto:"
+
+#: ddterm/pref/ui/prefs-colors.ui:718
+msgid "Cursor color:"
+msgstr "Colore del cursore:"
+
+#: ddterm/pref/ui/prefs-colors.ui:732
+msgid "Highlight color:"
+msgstr "Colore di evidenziazione:"
+
+#: ddterm/pref/ui/prefs-colors.ui:749
+msgid "Color _scheme:"
+msgstr "Colore _schema:"
+
+#: ddterm/pref/ui/prefs-colors.ui:767
+msgid "Background Color"
+msgstr "Colore di sfondo"
+
+#: ddterm/pref/ui/prefs-colors.ui:791
+msgid "Bold Color"
+msgstr "Colore grassetto"
+
+#: ddterm/pref/ui/prefs-colors.ui:815
+msgid "Cursor Foreground Color"
+msgstr "Colore di primo piano del cursore"
+
+#: ddterm/pref/ui/prefs-colors.ui:839
+msgid "Cursor Background Color"
+msgstr "Colore di secondo piano del cursore"
+
+#: ddterm/pref/ui/prefs-colors.ui:863
+msgid "Highlight Foreground Color"
+msgstr "Colore di primo piano in evidenza"
+
+#: ddterm/pref/ui/prefs-colors.ui:887
+msgid "Highlight Background Color"
+msgstr "Evidenziazione del colore di sfondo"
+
+#: ddterm/pref/ui/prefs-colors.ui:930
+msgid "Foreground Color"
+msgstr "Colore di primo piano"
+
+#: ddterm/pref/ui/prefs-command.ui:39
+msgid "User _shell"
+msgstr "Utente _shell"
+
+#: ddterm/pref/ui/prefs-command.ui:57
+msgid "User shell as _login shell"
+msgstr "Shell utente come shell _login"
+
+#: ddterm/pref/ui/prefs-command.ui:75
+msgid "Custom _command:"
+msgstr "Comando personalizzato:"
+
+#: ddterm/pref/ui/prefs-command.ui:114
+msgid "Preserve working directory"
+msgstr "Conserva la directory di lavoro"
+
+#: ddterm/pref/ui/prefs-compatibility.ui:36 ddterm/pref/ui/prefs-tabs.ui:127
+msgid "Automatic"
+msgstr "Automatico"
+
+#: ddterm/pref/ui/prefs-compatibility.ui:40
+msgid "Control-H"
+msgstr "Control-H"
+
+#: ddterm/pref/ui/prefs-compatibility.ui:44
+msgid "ASCII DEL"
+msgstr "ASCII DEL"
+
+#: ddterm/pref/ui/prefs-compatibility.ui:48
+msgid "Escape sequence"
+msgstr "Sequenza di fuga"
+
+#: ddterm/pref/ui/prefs-compatibility.ui:52
+msgid "TTY Erase"
+msgstr "Cancellazione TTY"
+
+#: ddterm/pref/ui/prefs-compatibility.ui:72
+msgid "_Backspace key generates:"
+msgstr "Il tasto _Backspace genera:"
+
+#: ddterm/pref/ui/prefs-compatibility.ui:86
+msgid "_Delete key generates:"
+msgstr "Il tasto _Canc genera:"
+
+#: ddterm/pref/ui/prefs-compatibility.ui:100
+msgid "Ambiguous-_width characters:"
+msgstr "Caratteri di _larghezza ambigua:"
+
+#: ddterm/pref/ui/prefs-compatibility.ui:153
+msgid "Narrow"
+msgstr "Stretto"
+
+#: ddterm/pref/ui/prefs-compatibility.ui:154
+msgid "Wide"
+msgstr "Ampio"
+
+#: ddterm/pref/ui/prefs-compatibility.ui:164
+msgid "_Reset Compatibility Options to Defaults"
+msgstr "_Ripristina le opzioni di compatibilità ai valori predefiniti"
+
+#: ddterm/pref/ui/prefs-panel-icon.ui:38 ddterm/pref/ui/prefs-tabs.ui:246
+msgid "None"
+msgstr "Nessuna"
+
+#: ddterm/pref/ui/prefs-panel-icon.ui:55
+msgid "With popup menu"
+msgstr "Con menu a comparsa"
+
+#: ddterm/pref/ui/prefs-panel-icon.ui:72
+msgid "Toggle button"
+msgstr "Pulsante di attivazione"
+
+#: ddterm/pref/ui/prefs-panel-icon.ui:89
+msgid "Toggle button and popup menu"
+msgstr "Pulsante di attivazione e menu a comparsa"
+
+#: ddterm/pref/ui/prefs-position-size.ui:47
+msgid "Window _size:"
+msgstr "Dimensione finestra:"
+
+#: ddterm/pref/ui/prefs-position-size.ui:76
+msgid "_Window position:"
+msgstr "_Posizione della finestra:"
+
+#: ddterm/pref/ui/prefs-position-size.ui:91 ddterm/pref/ui/prefs-tabs.ui:173
+msgid "Top"
+msgstr "In alto"
+
+#: ddterm/pref/ui/prefs-position-size.ui:92 ddterm/pref/ui/prefs-tabs.ui:172
+msgid "Bottom"
+msgstr "In basso"
+
+#: ddterm/pref/ui/prefs-position-size.ui:93 ddterm/pref/ui/prefs-tabs.ui:174
+msgid "Left"
+msgstr "A sinistra"
+
+#: ddterm/pref/ui/prefs-position-size.ui:94 ddterm/pref/ui/prefs-tabs.ui:175
+msgid "Right"
+msgstr "A destra"
+
+#: ddterm/pref/ui/prefs-position-size.ui:104
+msgid "On the monitor that contains the mouse pointer"
+msgstr "Sul monitor che contiene il puntatore del mouse"
+
+#: ddterm/pref/ui/prefs-position-size.ui:122
+msgid "On the _primary monitor"
+msgstr "Sul monitor _primario"
+
+#: ddterm/pref/ui/prefs-position-size.ui:140
+msgid "On the monitor with keyboard _focus"
+msgstr "Sul monitor con la tastiera _focus"
+
+#: ddterm/pref/ui/prefs-position-size.ui:158
+msgid "On _monitor:"
+msgstr "Sul _monitor:"
+
+#: ddterm/pref/ui/prefs-scrolling.ui:44
+msgid "Show _scrollbar"
+msgstr "Mostra la barra di scorrimento"
+
+#: ddterm/pref/ui/prefs-scrolling.ui:60
+msgid "Scroll on _output"
+msgstr "Scorrere su _output"
+
+#: ddterm/pref/ui/prefs-scrolling.ui:76
+msgid "Scroll on _keystroke"
+msgstr "Scorrimento su _tastiera"
+
+#: ddterm/pref/ui/prefs-scrolling.ui:92
+msgid "_Limit scrollback to:"
+msgstr "_Limita lo scrollback a:"
+
+#: ddterm/pref/ui/prefs-scrolling.ui:128
+msgid "lines"
+msgstr "linee"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:43
+msgid "Toggle Terminal Window"
+msgstr "Alterna la finestra del terminale"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:50
+msgid "Show/Activate Terminal Window"
+msgstr "Mostra/Attiva la finestra del terminale"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:73
+msgid "Hide the Window"
+msgstr "Nascondere la finestra"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:80
+msgid "Maximize/Unmaximize the Window"
+msgstr "Ingrandire/disingrandire la finestra"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:87
+msgid "Increase Window Size"
+msgstr "Aumenta le dimensioni della finestra"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:94
+msgid "Decrease Window Size"
+msgstr "Ridurre le dimensioni della finestra"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:101
+msgid "Increase Background Opacity"
+msgstr "Aumenta l'opacità dello sfondo"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:108
+msgid "Decrease Background Opacity"
+msgstr "Diminuire l'opacità dello sfondo"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:115
+msgid "Enable/Disable Background Transparency"
+msgstr "Abilita/Disabilita la trasparenza dello sfondo"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:122
+msgid "Copy Selected Text"
+msgstr "Copiare il testo selezionato"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:129
+msgid "Copy Selected Text as HTML"
+msgstr "Copia il testo selezionato come HTML"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:136
+msgid "Paste Text from Clipboard"
+msgstr "Incolla il testo dagli appunti"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:192
+msgid "Close Current Tab"
+msgstr "Chiudere la scheda corrente"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:199
+msgid "Switch to Previous Tab"
+msgstr "Passa alla scheda precedente"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:206
+msgid "Switch to Next Tab"
+msgstr "Passa alla scheda successiva"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:241
+msgid "Move Keyboard Focus to Other Split Pane"
+msgstr "Spostare il focus della tastiera su un altro riquadro diviso"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:248
+msgid "Move Tab to Other Split Pane"
+msgstr "Spostare la scheda nell'altro riquadro diviso"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:255
+msgid "Increase First Split Pane Size"
+msgstr "Aumentare le dimensioni del primo riquadro diviso"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:262
+msgid "Decrease First Split Pane Size"
+msgstr "Diminuire le dimensioni del primo riquadro diviso"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:269
+msgid "Set Custom Tab Title"
+msgstr "Imposta titolo scheda personalizzato"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:276
+msgid "Reset Tab Title"
+msgstr "Reimpostare il titolo della scheda"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:325
+msgid "Switch to Tab 1"
+msgstr "Passa alla scheda 1"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:332
+msgid "Switch to Tab 2"
+msgstr "Passa alla scheda 2"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:339
+msgid "Switch to Tab 3"
+msgstr "Passa alla scheda 3"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:346
+msgid "Switch to Tab 4"
+msgstr "Passa alla scheda 4"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:353
+msgid "Switch to Tab 5"
+msgstr "Passa alla scheda 5"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:360
+msgid "Switch to Tab 6"
+msgstr "Passa alla scheda 6"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:367
+msgid "Switch to Tab 7"
+msgstr "Passa alla scheda 7"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:374
+msgid "Switch to Tab 8"
+msgstr "Passa alla scheda 8"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:381
+msgid "Switch to Tab 9"
+msgstr "Passa alla scheda 9"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:388
+msgid "Switch to Tab 10"
+msgstr "Passa alla scheda 10"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:421 ddterm/pref/ui/prefs-shortcuts.ui:493
+msgid "Action"
+msgstr "Azione"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:433
+msgid "Global Shortcut"
+msgstr "Scorciatoia globale"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:463
+msgid "_Enable application shortcuts"
+msgstr "_Attiva le scorciatoie delle applicazioni"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:505
+msgid "Shortcut"
+msgstr "Scorciatoia"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:535
+msgid "Reset All Shortcuts to Defaults"
+msgstr "Ripristina tutte le scorciatoie ai valori predefiniti"
+
+#: ddterm/pref/ui/prefs-tabs.ui:44
+msgid "Expand tabs"
+msgstr "Espandere le schede"
+
+#: ddterm/pref/ui/prefs-tabs.ui:60
+msgid "Show _close buttons"
+msgstr "Mostra i pulsanti di chiusura"
+
+#: ddterm/pref/ui/prefs-tabs.ui:76
+msgid "\"_New Tab (Last)\" button"
+msgstr "Pulsante \"_Nuova scheda (ultima)\""
+
+#: ddterm/pref/ui/prefs-tabs.ui:92
+msgid "Tab _switcher popup"
+msgstr "Popup della scheda _switcher"
+
+#: ddterm/pref/ui/prefs-tabs.ui:111
+msgid "Show tab _bar:"
+msgstr "Mostra la barra delle schede:"
+
+#: ddterm/pref/ui/prefs-tabs.ui:126 ddterm/pref/ui/prefs-text.ui:102
+msgid "Always"
+msgstr "Sempre"
+
+#: ddterm/pref/ui/prefs-tabs.ui:128 ddterm/pref/ui/prefs-text.ui:99
+msgid "Never"
+msgstr "Mai"
+
+#: ddterm/pref/ui/prefs-tabs.ui:138
+msgid "\"_New Tab (First)\" button"
+msgstr "Pulsante \"_Nuova scheda (prima)\""
+
+#: ddterm/pref/ui/prefs-tabs.ui:157
+msgid "Tab bar position:"
+msgstr "Posizione della barra delle schede:"
+
+#: ddterm/pref/ui/prefs-tabs.ui:185
+msgid "Show border"
+msgstr "Mostra bordo"
+
+#: ddterm/pref/ui/prefs-tabs.ui:204
+msgid "Tab width:"
+msgstr "Larghezza scheda:"
+
+#: ddterm/pref/ui/prefs-tabs.ui:232
+msgid "Ellipsize tab labels:"
+msgstr "Etichette delle schede a forma di ellisse:"
+
+#: ddterm/pref/ui/prefs-tabs.ui:247
+msgid "Start"
+msgstr "Inizio"
+
+#: ddterm/pref/ui/prefs-tabs.ui:248
+msgid "Middle"
+msgstr "Centro"
+
+#: ddterm/pref/ui/prefs-tabs.ui:249
+msgid "End"
+msgstr "Fine"
+
+#: ddterm/pref/ui/prefs-tabs.ui:259
+msgid "Show keyboard shortcuts"
+msgstr "Mostra scorciatoie da tastiera"
+
+#: ddterm/pref/ui/prefs-text.ui:39
+msgid "Custom _font:"
+msgstr "_font personalizzato:"
+
+#: ddterm/pref/ui/prefs-text.ui:56
+msgid "Allow _blinking text:"
+msgstr "Consentire il testo _lampeggiante:"
+
+#: ddterm/pref/ui/prefs-text.ui:70
+msgid "Cursor _shape:"
+msgstr "_forma cursore:"
+
+#: ddterm/pref/ui/prefs-text.ui:84
+msgid "_Cursor blinking:"
+msgstr "_cursore lampeggiante:"
+
+#: ddterm/pref/ui/prefs-text.ui:100
+msgid "When focused"
+msgstr "Quando è focalizzato"
+
+#: ddterm/pref/ui/prefs-text.ui:101
+msgid "When unfocused"
+msgstr "Quando non è focalizzato"
+
+#: ddterm/pref/ui/prefs-text.ui:116
+msgid "Block"
+msgstr "Blocco"
+
+#: ddterm/pref/ui/prefs-text.ui:117
+msgid "I-Beam"
+msgstr "I-Beam"
+
+#: ddterm/pref/ui/prefs-text.ui:118
+msgid "Underline"
+msgstr "Sottolinea"
+
+#: ddterm/pref/ui/prefs-text.ui:133
+msgid "Enabled"
+msgstr "Abilitato"
+
+#: ddterm/pref/ui/prefs-text.ui:134
+msgid "Disabled"
+msgstr "Disabilitato"
+
+#: ddterm/pref/ui/prefs-text.ui:144
+msgid "Allow _hyperlinks"
+msgstr "Consenti _hyperlink"
+
+#: ddterm/pref/ui/prefs-text.ui:160
+msgid "Audible _bell"
+msgstr "_Segnale acustico"
+
+#: ddterm/pref/ui/prefs-text.ui:202
+msgid "Detect _URLs"
+msgstr "Rileva gli _URL"
+
+#: ddterm/pref/ui/prefs-text.ui:225
+msgid "Detect raw URLs (scheme://netloc/path)"
+msgstr "Rileva gli URL grezzi (scheme://netloc/path)"
+
+#: ddterm/pref/ui/prefs-text.ui:240
+msgid "Detect \"file:\" URLs"
+msgstr "Rileva \"file:\" URL"
+
+#: ddterm/pref/ui/prefs-text.ui:255
+msgid "Detect HTTP URLs"
+msgstr "Rileva gli URL HTTP"
+
+#: ddterm/pref/ui/prefs-text.ui:270
+msgid "Detect VoIP URLs"
+msgstr "Rileva gli URL VoIP"
+
+#: ddterm/pref/ui/prefs-text.ui:285
+msgid "Detect E-mail addresses"
+msgstr "Rileva gli indirizzi e-mail"
+
+#: ddterm/pref/ui/prefs-text.ui:300
+msgid "Detect \"news:\", \"man:\" URLs"
+msgstr "Rileva \"news:\", \"man:\". URL"
+
 #: ddterm/shell/extension.js:279
 msgid "Failed to launch ddterm application"
 msgstr ""
 
 #: ddterm/shell/notifications.js:163
 #, fuzzy
-#| msgid "Paste Text from Clipboard"
 msgid "Copy to Clipboard"
 msgstr "Incolla il testo dagli appunti"
 

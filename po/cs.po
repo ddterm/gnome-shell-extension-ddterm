@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-20 11:58+0000\n"
+"POT-Creation-Date: 2024-01-21 16:02+0000\n"
 "PO-Revision-Date: 2023-10-24 22:14+0000\n"
 "Last-Translator: Pavel Novák <pavelnov32@gmail.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/gnome-shell-"
@@ -126,19 +126,19 @@ msgstr "Kopírovat HTML"
 msgid "Paste"
 msgstr "Vložit"
 
-#: ddterm/app/menus.ui:54 ddterm/pref/glade/prefs-shortcuts.ui:143
+#: ddterm/app/menus.ui:54 ddterm/pref/ui/prefs-shortcuts.ui:143
 msgid "Select All"
 msgstr "Vybrat vše"
 
-#: ddterm/app/menus.ui:60 ddterm/pref/glade/prefs-shortcuts.ui:283
+#: ddterm/app/menus.ui:60 ddterm/pref/ui/prefs-shortcuts.ui:283
 msgid "Find"
 msgstr "Najít"
 
-#: ddterm/app/menus.ui:66 ddterm/pref/glade/prefs-shortcuts.ui:150
+#: ddterm/app/menus.ui:66 ddterm/pref/ui/prefs-shortcuts.ui:150
 msgid "Reset"
 msgstr "Resetovat"
 
-#: ddterm/app/menus.ui:70 ddterm/pref/glade/prefs-shortcuts.ui:157
+#: ddterm/app/menus.ui:70 ddterm/pref/ui/prefs-shortcuts.ui:157
 msgid "Reset and Clear"
 msgstr "Resetovat a vyčistit"
 
@@ -146,15 +146,15 @@ msgstr "Resetovat a vyčistit"
 msgid "Zoom"
 msgstr "Přiblížení"
 
-#: ddterm/app/menus.ui:78 ddterm/pref/glade/prefs-shortcuts.ui:304
+#: ddterm/app/menus.ui:78 ddterm/pref/ui/prefs-shortcuts.ui:304
 msgid "Zoom In"
 msgstr "Příblížit"
 
-#: ddterm/app/menus.ui:82 ddterm/pref/glade/prefs-shortcuts.ui:311
+#: ddterm/app/menus.ui:82 ddterm/pref/ui/prefs-shortcuts.ui:311
 msgid "Zoom Out"
 msgstr "Oddálit"
 
-#: ddterm/app/menus.ui:86 ddterm/pref/glade/prefs-shortcuts.ui:318
+#: ddterm/app/menus.ui:86 ddterm/pref/ui/prefs-shortcuts.ui:318
 msgid "Normal Size"
 msgstr "Normální velikost"
 
@@ -174,21 +174,21 @@ msgstr "Nechat otevřené po ukončení"
 msgid "New Tab"
 msgstr "Nový panel"
 
-#: ddterm/app/menus.ui:111 ddterm/pref/glade/prefs-shortcuts.ui:178
+#: ddterm/app/menus.ui:111 ddterm/pref/ui/prefs-shortcuts.ui:178
 msgid "New Tab Before Current Tab"
 msgstr "Nový panel před současný panel"
 
-#: ddterm/app/menus.ui:115 ddterm/pref/glade/prefs-shortcuts.ui:185
+#: ddterm/app/menus.ui:115 ddterm/pref/ui/prefs-shortcuts.ui:185
 msgid "New Tab After Current Tab"
 msgstr "Nový panel po současném panelu"
 
 #: ddterm/app/menus.ui:119 ddterm/app/menus.ui:247
-#: ddterm/pref/glade/prefs-shortcuts.ui:171
+#: ddterm/pref/ui/prefs-shortcuts.ui:171
 msgid "New Tab Before First Tab"
 msgstr "Nový panel před první panel"
 
 #: ddterm/app/menus.ui:123 ddterm/app/menus.ui:251
-#: ddterm/pref/glade/prefs-shortcuts.ui:164
+#: ddterm/pref/ui/prefs-shortcuts.ui:164
 msgid "New Tab After Last Tab"
 msgstr "Nový panel za poslední panel"
 
@@ -201,12 +201,12 @@ msgid "No Split"
 msgstr "Nerozdělovat"
 
 #: ddterm/app/menus.ui:138 ddterm/app/menus.ui:275 ddterm/app/menus.ui:305
-#: ddterm/pref/glade/prefs-shortcuts.ui:227
+#: ddterm/pref/ui/prefs-shortcuts.ui:227
 msgid "Split Horizontally"
 msgstr "Rozdělit horizontálně"
 
 #: ddterm/app/menus.ui:143 ddterm/app/menus.ui:280 ddterm/app/menus.ui:310
-#: ddterm/pref/glade/prefs-shortcuts.ui:234
+#: ddterm/pref/ui/prefs-shortcuts.ui:234
 msgid "Split Vertically"
 msgstr "Rozdělit vertikálně"
 
@@ -280,11 +280,11 @@ msgstr "Nový panel před tímto panelem"
 msgid "New Tab After This Tab"
 msgstr "Nový panel za tímto panelem"
 
-#: ddterm/app/menus.ui:257 ddterm/pref/glade/prefs-shortcuts.ui:213
+#: ddterm/app/menus.ui:257 ddterm/pref/ui/prefs-shortcuts.ui:213
 msgid "Move Tab to Previous Position"
 msgstr "Posunout panel do předchozí pozice"
 
-#: ddterm/app/menus.ui:261 ddterm/pref/glade/prefs-shortcuts.ui:220
+#: ddterm/app/menus.ui:261 ddterm/pref/ui/prefs-shortcuts.ui:220
 msgid "Move Tab to Next Position"
 msgstr "Posunout panel do další pozice"
 
@@ -316,11 +316,11 @@ msgstr "Zavřít panel pro vyhledáváníí"
 msgid "Wrap Around"
 msgstr "Obtékat"
 
-#: ddterm/app/search.js:351 ddterm/pref/glade/prefs-shortcuts.ui:290
+#: ddterm/app/search.js:351 ddterm/pref/ui/prefs-shortcuts.ui:290
 msgid "Find Next"
 msgstr "Klávesové zkratky"
 
-#: ddterm/app/search.js:369 ddterm/pref/glade/prefs-shortcuts.ui:297
+#: ddterm/app/search.js:369 ddterm/pref/ui/prefs-shortcuts.ui:297
 msgid "Find Previous"
 msgstr "Najít předchozí"
 
@@ -366,7 +366,6 @@ msgstr ""
 
 #: ddterm/com.github.amezin.ddterm.desktop.in.in:20
 #, fuzzy
-#| msgid "Toggle button"
 msgid "Toggle"
 msgstr "Přepínací tlačítko"
 
@@ -406,914 +405,6 @@ msgstr "Příkaz"
 msgid "Compatibility"
 msgstr "Kompatibilita"
 
-#: ddterm/pref/glade/prefs-animation.ui:36
-msgid "Disable"
-msgstr "Zakázat"
-
-#: ddterm/pref/glade/prefs-animation.ui:40
-msgid "Linear tweening"
-msgstr "Lineární prolínání"
-
-#: ddterm/pref/glade/prefs-animation.ui:44
-msgid "Quadratic tweening"
-msgstr "Kvadratické prolínání"
-
-#: ddterm/pref/glade/prefs-animation.ui:48
-msgid "Quadratic tweening, inverse"
-msgstr "Kvadratické prolínání, inverzní"
-
-#: ddterm/pref/glade/prefs-animation.ui:52
-msgid "Quadratic tweening, combining direct and inverse"
-msgstr "Kvadratické prolínání, kombinující přímé a inverzní"
-
-#: ddterm/pref/glade/prefs-animation.ui:56
-msgid "Cubic tweening"
-msgstr "Krychlové prolínání"
-
-#: ddterm/pref/glade/prefs-animation.ui:60
-msgid "Cubic tweening, inverse"
-msgstr "Krychlové prolínání, inverzní"
-
-#: ddterm/pref/glade/prefs-animation.ui:64
-msgid "Cubic tweening, combining direct and inverse"
-msgstr "Krychlové prolínání, kombinující přímé a inverzní"
-
-#: ddterm/pref/glade/prefs-animation.ui:68
-msgid "Quartic tweening"
-msgstr "Kvartální prolínání"
-
-#: ddterm/pref/glade/prefs-animation.ui:72
-msgid "Quartic tweening, inverse"
-msgstr "Kvartální prolínání, inverzní"
-
-#: ddterm/pref/glade/prefs-animation.ui:76
-msgid "Quartic tweening, combining direct and inverse"
-msgstr "Kvartální prolínání, kombinující přímé a inverzní"
-
-#: ddterm/pref/glade/prefs-animation.ui:80
-msgid "Quintic tweening"
-msgstr "Kvintetní prolínání"
-
-#: ddterm/pref/glade/prefs-animation.ui:84
-msgid "Quintic tweening, inverse"
-msgstr "Kvintetní prolínání, inverzní"
-
-#: ddterm/pref/glade/prefs-animation.ui:88
-msgid "Quintic tweening, combining direct and inverse"
-msgstr "Kvintetní prolínání, kombinující přímé a inverzní"
-
-#: ddterm/pref/glade/prefs-animation.ui:92
-msgid "Sinusoidal tweening"
-msgstr "Sinusové prolínání"
-
-#: ddterm/pref/glade/prefs-animation.ui:96
-msgid "Sinusoidal tweening, inverse"
-msgstr "Sinusové prolínání, inverzní"
-
-#: ddterm/pref/glade/prefs-animation.ui:100
-msgid "Sinusoidal tweening, combining direct and inverse"
-msgstr "Sinusové prolínání, kombinující přímé a inverzní"
-
-#: ddterm/pref/glade/prefs-animation.ui:104
-msgid "Exponential tweening"
-msgstr "Exponenciální prolínání"
-
-#: ddterm/pref/glade/prefs-animation.ui:108
-msgid "Exponential tweening, inverse"
-msgstr "Exponenciální prolínání, inverzní"
-
-#: ddterm/pref/glade/prefs-animation.ui:112
-msgid "Exponential tweening, combining direct and inverse"
-msgstr "Exponenciální prolínání, kombinující přímé a inverzní"
-
-#: ddterm/pref/glade/prefs-animation.ui:116
-msgid "Circular tweening"
-msgstr "Kruhové prolínání"
-
-#: ddterm/pref/glade/prefs-animation.ui:120
-msgid "Circular tweening, inverse"
-msgstr "Kruhové prolínání, inverzní"
-
-#: ddterm/pref/glade/prefs-animation.ui:124
-msgid "Circular tweening, combining direct and inverse"
-msgstr "Kruhové prolínání, kombinující přímé a inverzní"
-
-#: ddterm/pref/glade/prefs-animation.ui:128
-msgid "Elastic tweening, with offshoot on start"
-msgstr "Elastické prolínání s odbočkou na startu"
-
-#: ddterm/pref/glade/prefs-animation.ui:132
-msgid "Elastic tweening, with offshoot on end"
-msgstr "Elastické prolínání, s odbočkou na konci"
-
-#: ddterm/pref/glade/prefs-animation.ui:136
-msgid "Elastic tweening with offshoot on both ends"
-msgstr "Elastické prolínání s odbočkou na obou koncích"
-
-#: ddterm/pref/glade/prefs-animation.ui:140
-msgid "Overshooting cubic tweening, with backtracking on start"
-msgstr "Překračující krychlové prolínání se zpětným sledováním při startu"
-
-#: ddterm/pref/glade/prefs-animation.ui:144
-msgid "Overshooting cubic tweening, with backtracking on end"
-msgstr "Překračující krychlové prolínání se zpětným sledováním na konci"
-
-#: ddterm/pref/glade/prefs-animation.ui:148
-msgid "Overshooting cubic tweening, with backtracking on both ends"
-msgstr "Překračující krychlové prolínání se zpětným sledováním na obou koncích"
-
-#: ddterm/pref/glade/prefs-animation.ui:152
-msgid ""
-"Exponentially decaying parabolic (bounce) tweening, with bounce on start"
-msgstr ""
-"Exponenciálně klesající parabolické (odrazové) prolínání s odrazem na začátku"
-
-#: ddterm/pref/glade/prefs-animation.ui:156
-msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on end"
-msgstr ""
-"Exponenciálně klesající parabolické (odrazové) prolínání s odrazem na konci"
-
-#: ddterm/pref/glade/prefs-animation.ui:160
-msgid ""
-"Exponentially decaying parabolic (bounce) tweening, with bounce on both ends"
-msgstr ""
-"Exponenciálně klesající parabolické (odrazové) prolínání s odrazem na obou "
-"koncích"
-
-#: ddterm/pref/glade/prefs-animation.ui:183
-msgid "_Override default window animations"
-msgstr "_Přepsat výchozí animace okna"
-
-#: ddterm/pref/glade/prefs-animation.ui:218
-msgid "_Show animation:"
-msgstr "_Zobrazit animaci:"
-
-#: ddterm/pref/glade/prefs-animation.ui:232
-msgid "_Hide animation:"
-msgstr "_Skrýt animaci:"
-
-#: ddterm/pref/glade/prefs-animation.ui:288
-msgid "_Hide animation duration:"
-msgstr "_Doba po kterou bude animace skryta:"
-
-#: ddterm/pref/glade/prefs-animation.ui:301
-msgid "_Show animation duration:"
-msgstr "_Doba po kterou bude animace zobrazena:"
-
-#: ddterm/pref/glade/prefs-behavior.ui:39
-msgid "_Resizable"
-msgstr "_Měnitelná velikost"
-
-#: ddterm/pref/glade/prefs-behavior.ui:55
-msgid "_Above all windows"
-msgstr "_Nad všemi okny"
-
-#: ddterm/pref/glade/prefs-behavior.ui:71
-msgid "On all _workspaces"
-msgstr "Na všech _ pracovních plochách"
-
-#: ddterm/pref/glade/prefs-behavior.ui:87
-msgid "Hide when the application loses _focus"
-msgstr "Skrýt když aplikace ztratí _zaměření"
-
-#: ddterm/pref/glade/prefs-behavior.ui:103
-msgid "Hide when _Esc key is pressed"
-msgstr "Skrýt když je stisknuto tlačítko _Esc"
-
-#: ddterm/pref/glade/prefs-behavior.ui:119
-msgid "Exclude from _overview/task bar"
-msgstr "Vynechat z _přehledu/panelu úloh"
-
-#: ddterm/pref/glade/prefs-behavior.ui:135
-msgid "Hide mouse _pointer when typing"
-msgstr "Skrýt _ukazatel myši při psaní"
-
-#: ddterm/pref/glade/prefs-behavior.ui:151
-msgid ""
-"Force _X11 GDK backend (XWayland).\n"
-"You'll have to close all tabs for this option to take effect."
-msgstr ""
-"Vynutit _X11 GDK backend (XWayland).\n"
-"Pro aplikování této změny, musíte zavřít všechny panely."
-
-#: ddterm/pref/glade/prefs-behavior.ui:171
-msgid "Window type _hint (X11 only):"
-msgstr "Typ okna _vysvětlení (Pouze pro X11):"
-
-#: ddterm/pref/glade/prefs-behavior.ui:186
-msgid "Normal"
-msgstr "Normální"
-
-#: ddterm/pref/glade/prefs-behavior.ui:187
-msgid "Dialog"
-msgstr "Dialog"
-
-#: ddterm/pref/glade/prefs-behavior.ui:188
-msgid "Splash screen"
-msgstr "Úvodní obrazovka"
-
-#: ddterm/pref/glade/prefs-behavior.ui:189
-msgid "Utility"
-msgstr "Nástroje"
-
-#: ddterm/pref/glade/prefs-behavior.ui:190
-msgid "Dock"
-msgstr "Dok"
-
-#: ddterm/pref/glade/prefs-behavior.ui:191
-msgid "Dropdown menu"
-msgstr "Rozbalovací menu"
-
-#: ddterm/pref/glade/prefs-behavior.ui:192
-msgid "Menu"
-msgstr "Menu"
-
-#: ddterm/pref/glade/prefs-behavior.ui:193
-msgid "Toolbar"
-msgstr "Panel nástrojů"
-
-#: ddterm/pref/glade/prefs-behavior.ui:194
-msgid "Popup menu"
-msgstr "Vyskakovací menu"
-
-#: ddterm/pref/glade/prefs-behavior.ui:195
-msgid "Tooltip"
-msgstr "Nápověda k nástroji"
-
-#: ddterm/pref/glade/prefs-behavior.ui:196
-msgid "Notification"
-msgstr "Notifikace"
-
-#: ddterm/pref/glade/prefs-behavior.ui:197
-msgid "Combo"
-msgstr "Kombinace"
-
-#: ddterm/pref/glade/prefs-colors.ui:38
-msgid "Black on light yellow"
-msgstr "Černá na světle žluté"
-
-#: ddterm/pref/glade/prefs-colors.ui:43
-msgid "Black on white"
-msgstr "Černá na bílé"
-
-#: ddterm/pref/glade/prefs-colors.ui:48
-msgid "Gray on black"
-msgstr "Šedá na černé"
-
-#: ddterm/pref/glade/prefs-colors.ui:53
-msgid "Green on black"
-msgstr "Zelená na černé"
-
-#: ddterm/pref/glade/prefs-colors.ui:58
-msgid "White on black"
-msgstr "Bílá na černé"
-
-#: ddterm/pref/glade/prefs-colors.ui:63
-msgid "GNOME light"
-msgstr "GNOME světlé"
-
-#: ddterm/pref/glade/prefs-colors.ui:68
-msgid "GNOME dark"
-msgstr "GNOME tmavé"
-
-#: ddterm/pref/glade/prefs-colors.ui:73
-msgid "Tango light"
-msgstr "Tango světlé"
-
-#: ddterm/pref/glade/prefs-colors.ui:78
-msgid "Tango dark"
-msgstr "Tango tmavé"
-
-#: ddterm/pref/glade/prefs-colors.ui:83
-msgid "Solarized light"
-msgstr "Solarized světlé"
-
-#: ddterm/pref/glade/prefs-colors.ui:88
-msgid "Solarized dark"
-msgstr "Solarized tmavé"
-
-#: ddterm/pref/glade/prefs-colors.ui:93 ddterm/pref/glade/prefs-colors.ui:257
-msgid "Custom"
-msgstr "Vlastní"
-
-#: ddterm/pref/glade/prefs-colors.ui:143
-msgid "GNOME"
-msgstr "GNOME"
-
-#: ddterm/pref/glade/prefs-colors.ui:162
-msgid "Tango"
-msgstr "Tango"
-
-#: ddterm/pref/glade/prefs-colors.ui:181
-msgid "Linux"
-msgstr "Linux"
-
-#: ddterm/pref/glade/prefs-colors.ui:200
-msgid "XTerm"
-msgstr "XTerm"
-
-#: ddterm/pref/glade/prefs-colors.ui:219
-msgid "RXVT"
-msgstr "RXVT"
-
-#: ddterm/pref/glade/prefs-colors.ui:238
-msgid "Solarized"
-msgstr "Solarizované"
-
-#: ddterm/pref/glade/prefs-colors.ui:292
-msgid "Theme _variant:"
-msgstr "_Varianta vzhledu:"
-
-#: ddterm/pref/glade/prefs-colors.ui:307 ddterm/pref/glade/prefs-text.ui:132
-msgid "Default"
-msgstr "Výchozí"
-
-#: ddterm/pref/glade/prefs-colors.ui:308
-msgid "Light"
-msgstr "Světlé"
-
-#: ddterm/pref/glade/prefs-colors.ui:309
-msgid "Dark"
-msgstr "Tmavé"
-
-#: ddterm/pref/glade/prefs-colors.ui:319
-msgid "Use colors from system _theme"
-msgstr "Použít barvy ze systémového _vzhledu"
-
-#: ddterm/pref/glade/prefs-colors.ui:335
-msgid "_Background opacity:"
-msgstr "Průhlednost _Pozadí:"
-
-#: ddterm/pref/glade/prefs-colors.ui:380
-msgid "_Palette:"
-msgstr "Barevná _paleta:"
-
-#: ddterm/pref/glade/prefs-colors.ui:423
-msgid "Palette Color 0"
-msgstr "Barva palety 0"
-
-#: ddterm/pref/glade/prefs-colors.ui:436
-msgid "Palette Color 1"
-msgstr "Barva palety 1"
-
-#: ddterm/pref/glade/prefs-colors.ui:449
-msgid "Palette Color 2"
-msgstr "Barva palety 2"
-
-#: ddterm/pref/glade/prefs-colors.ui:462
-msgid "Palette Color 3"
-msgstr "Barva palety 3"
-
-#: ddterm/pref/glade/prefs-colors.ui:475
-msgid "Palette Color 4"
-msgstr "Barva palety 4"
-
-#: ddterm/pref/glade/prefs-colors.ui:488
-msgid "Palette Color 5"
-msgstr "Barva palety 5"
-
-#: ddterm/pref/glade/prefs-colors.ui:501
-msgid "Palette Color 6"
-msgstr "Barva palety 6"
-
-#: ddterm/pref/glade/prefs-colors.ui:514
-msgid "Palette Color 7"
-msgstr "Barva palety 7"
-
-#: ddterm/pref/glade/prefs-colors.ui:527
-msgid "Palette Color 8"
-msgstr "Barva palety 8"
-
-#: ddterm/pref/glade/prefs-colors.ui:540
-msgid "Palette Color 9"
-msgstr "Barva palety 9"
-
-#: ddterm/pref/glade/prefs-colors.ui:553
-msgid "Palette Color 10"
-msgstr "Barva palety 10"
-
-#: ddterm/pref/glade/prefs-colors.ui:566
-msgid "Palette Color 11"
-msgstr "Barva palety 11"
-
-#: ddterm/pref/glade/prefs-colors.ui:579
-msgid "Palette Color 12"
-msgstr "Barva palety 12"
-
-#: ddterm/pref/glade/prefs-colors.ui:592
-msgid "Palette Color 13"
-msgstr "Barva palety 13"
-
-#: ddterm/pref/glade/prefs-colors.ui:605
-msgid "Palette Color 14"
-msgstr "Barva palety 14"
-
-#: ddterm/pref/glade/prefs-colors.ui:618
-msgid "Palette Color 15"
-msgstr "Barva palety 15"
-
-#: ddterm/pref/glade/prefs-colors.ui:634
-msgid "Show bold text in _bright colors"
-msgstr "Zobrazit tučný text ve _světlých barvách"
-
-#: ddterm/pref/glade/prefs-colors.ui:650
-msgid "Copy profile from GNOME Terminal"
-msgstr "Kopírovat profil z GNOME terminálu"
-
-#: ddterm/pref/glade/prefs-colors.ui:673
-msgid "Foreground"
-msgstr "Popředí"
-
-#: ddterm/pref/glade/prefs-colors.ui:684
-msgid "Background"
-msgstr "Pozadí"
-
-#: ddterm/pref/glade/prefs-colors.ui:696
-msgid "Default color:"
-msgstr "Výchozí barva:"
-
-#: ddterm/pref/glade/prefs-colors.ui:705
-msgid "Bold color:"
-msgstr "Barva tučného písma:"
-
-#: ddterm/pref/glade/prefs-colors.ui:718
-msgid "Cursor color:"
-msgstr "Barva kurzoru:"
-
-#: ddterm/pref/glade/prefs-colors.ui:732
-msgid "Highlight color:"
-msgstr "Barva zvýraznění:"
-
-#: ddterm/pref/glade/prefs-colors.ui:749
-msgid "Color _scheme:"
-msgstr "Barevné _schéma:"
-
-#: ddterm/pref/glade/prefs-colors.ui:767
-msgid "Background Color"
-msgstr "Barva pozadí"
-
-#: ddterm/pref/glade/prefs-colors.ui:791
-msgid "Bold Color"
-msgstr "Barva tučného písma"
-
-#: ddterm/pref/glade/prefs-colors.ui:815
-msgid "Cursor Foreground Color"
-msgstr "Barva popředí kurzoru"
-
-#: ddterm/pref/glade/prefs-colors.ui:839
-msgid "Cursor Background Color"
-msgstr "Barva pozadí kurzoru"
-
-#: ddterm/pref/glade/prefs-colors.ui:863
-msgid "Highlight Foreground Color"
-msgstr "Zvýrazněná barva popředí"
-
-#: ddterm/pref/glade/prefs-colors.ui:887
-msgid "Highlight Background Color"
-msgstr "Zvýrazněná barva pozadí"
-
-#: ddterm/pref/glade/prefs-colors.ui:930
-msgid "Foreground Color"
-msgstr "Barva popředí"
-
-#: ddterm/pref/glade/prefs-command.ui:39
-msgid "User _shell"
-msgstr "Uživatelský _shell"
-
-#: ddterm/pref/glade/prefs-command.ui:57
-msgid "User shell as _login shell"
-msgstr "Uživatelský shell jako _login shell"
-
-#: ddterm/pref/glade/prefs-command.ui:75
-msgid "Custom _command:"
-msgstr "Vlastní _příkaz:"
-
-#: ddterm/pref/glade/prefs-command.ui:114
-msgid "Preserve working directory"
-msgstr "Zachovat pracovní složku"
-
-#: ddterm/pref/glade/prefs-compatibility.ui:36
-#: ddterm/pref/glade/prefs-tabs.ui:127
-msgid "Automatic"
-msgstr "Automatický"
-
-#: ddterm/pref/glade/prefs-compatibility.ui:40
-msgid "Control-H"
-msgstr "Control-H"
-
-#: ddterm/pref/glade/prefs-compatibility.ui:44
-msgid "ASCII DEL"
-msgstr "ASCII DEL"
-
-#: ddterm/pref/glade/prefs-compatibility.ui:48
-msgid "Escape sequence"
-msgstr "Escape sekvence"
-
-#: ddterm/pref/glade/prefs-compatibility.ui:52
-msgid "TTY Erase"
-msgstr "Vymazání TTY"
-
-#: ddterm/pref/glade/prefs-compatibility.ui:72
-msgid "_Backspace key generates:"
-msgstr "Tlačítko _Backspace generuje:"
-
-#: ddterm/pref/glade/prefs-compatibility.ui:86
-msgid "_Delete key generates:"
-msgstr "Tlačítko _Delete generuje:"
-
-#: ddterm/pref/glade/prefs-compatibility.ui:100
-msgid "Ambiguous-_width characters:"
-msgstr "Nejednoznačná šířka znaků:"
-
-#: ddterm/pref/glade/prefs-compatibility.ui:153
-msgid "Narrow"
-msgstr "Úzký"
-
-#: ddterm/pref/glade/prefs-compatibility.ui:154
-msgid "Wide"
-msgstr "Široký"
-
-#: ddterm/pref/glade/prefs-compatibility.ui:164
-msgid "_Reset Compatibility Options to Defaults"
-msgstr "_Resetovat nastavení kompatibility na výchozí hodnoty"
-
-#: ddterm/pref/glade/prefs-panel-icon.ui:38 ddterm/pref/glade/prefs-tabs.ui:246
-msgid "None"
-msgstr "Žádná"
-
-#: ddterm/pref/glade/prefs-panel-icon.ui:55
-msgid "With popup menu"
-msgstr "S vyskakovacím menu"
-
-#: ddterm/pref/glade/prefs-panel-icon.ui:72
-msgid "Toggle button"
-msgstr "Přepínací tlačítko"
-
-#: ddterm/pref/glade/prefs-panel-icon.ui:89
-msgid "Toggle button and popup menu"
-msgstr "Přepínací tlačítko a vyskakovací menu"
-
-#: ddterm/pref/glade/prefs-position-size.ui:47
-msgid "Window _size:"
-msgstr "_Velikost okna:"
-
-#: ddterm/pref/glade/prefs-position-size.ui:76
-msgid "_Window position:"
-msgstr "Pozice _Okna:"
-
-#: ddterm/pref/glade/prefs-position-size.ui:91
-#: ddterm/pref/glade/prefs-tabs.ui:173
-msgid "Top"
-msgstr "Nahoře"
-
-#: ddterm/pref/glade/prefs-position-size.ui:92
-#: ddterm/pref/glade/prefs-tabs.ui:172
-msgid "Bottom"
-msgstr "Dole"
-
-#: ddterm/pref/glade/prefs-position-size.ui:93
-#: ddterm/pref/glade/prefs-tabs.ui:174
-msgid "Left"
-msgstr "Vlevo"
-
-#: ddterm/pref/glade/prefs-position-size.ui:94
-#: ddterm/pref/glade/prefs-tabs.ui:175
-msgid "Right"
-msgstr "Vpravo"
-
-#: ddterm/pref/glade/prefs-position-size.ui:104
-msgid "On the monitor that contains the mouse pointer"
-msgstr "Na monitoru který obsahuje kurzor"
-
-#: ddterm/pref/glade/prefs-position-size.ui:122
-msgid "On the _primary monitor"
-msgstr "Na _hlavním monitoru"
-
-#: ddterm/pref/glade/prefs-position-size.ui:140
-msgid "On the monitor with keyboard _focus"
-msgstr "Na monitoru se _zaměřením klávesnice"
-
-#: ddterm/pref/glade/prefs-position-size.ui:158
-msgid "On _monitor:"
-msgstr "Na _monitoru:"
-
-#: ddterm/pref/glade/prefs-scrolling.ui:44
-msgid "Show _scrollbar"
-msgstr "Zobrazit _posuvník"
-
-#: ddterm/pref/glade/prefs-scrolling.ui:60
-msgid "Scroll on _output"
-msgstr "Posouvat při _výstupu"
-
-#: ddterm/pref/glade/prefs-scrolling.ui:76
-msgid "Scroll on _keystroke"
-msgstr "Posouvat při _vstupu"
-
-#: ddterm/pref/glade/prefs-scrolling.ui:92
-msgid "_Limit scrollback to:"
-msgstr "_Limitovat posun zpět na:"
-
-#: ddterm/pref/glade/prefs-scrolling.ui:128
-msgid "lines"
-msgstr "řádků"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:43
-msgid "Toggle Terminal Window"
-msgstr "Přepnout okno terminálu"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:50
-msgid "Show/Activate Terminal Window"
-msgstr "Zobrazit/aktivovat okno terminálu"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:73
-msgid "Hide the Window"
-msgstr "Schovat okno"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:80
-msgid "Maximize/Unmaximize the Window"
-msgstr "Maximalizovat/Zmenšit okno"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:87
-msgid "Increase Window Size"
-msgstr "Zvětšit okno"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:94
-msgid "Decrease Window Size"
-msgstr "Zmenšit okno"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:101
-msgid "Increase Background Opacity"
-msgstr "Snížit průhlednost pozadí"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:108
-msgid "Decrease Background Opacity"
-msgstr "Zvýšit průhlednost pozadí"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:115
-msgid "Enable/Disable Background Transparency"
-msgstr "Zapnout/Vypnout průhlednost pozadí"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:122
-msgid "Copy Selected Text"
-msgstr "Kopírovat vybraný text"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:129
-msgid "Copy Selected Text as HTML"
-msgstr "Kopírovat vybraný text jako HTML"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:136
-msgid "Paste Text from Clipboard"
-msgstr "Vložit zkopírovaný text"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:192
-msgid "Close Current Tab"
-msgstr "Zavřít aktuální panel"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:199
-msgid "Switch to Previous Tab"
-msgstr "Přepnout na předešlý panel"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:206
-msgid "Switch to Next Tab"
-msgstr "Přepnout na následující panel"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:241
-#, fuzzy
-#| msgid "Move Tab to Next Position"
-msgid "Move Keyboard Focus to Other Split Pane"
-msgstr "Posunout panel do další pozice"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:248
-#, fuzzy
-#| msgid "Move Tab to Next Position"
-msgid "Move Tab to Other Split Pane"
-msgstr "Posunout panel do další pozice"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:255
-msgid "Increase First Split Pane Size"
-msgstr ""
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:262
-msgid "Decrease First Split Pane Size"
-msgstr ""
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:269
-msgid "Set Custom Tab Title"
-msgstr "Nastavit vlastní název panelu"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:276
-msgid "Reset Tab Title"
-msgstr "Resetovat název panelu"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:325
-msgid "Switch to Tab 1"
-msgstr "Přepnout na panel 1"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:332
-msgid "Switch to Tab 2"
-msgstr "Přepnout na panel 2"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:339
-msgid "Switch to Tab 3"
-msgstr "Přepnout na panel 3"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:346
-msgid "Switch to Tab 4"
-msgstr "Přepnout na panel 4"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:353
-msgid "Switch to Tab 5"
-msgstr "Přepnout na panel 5"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:360
-msgid "Switch to Tab 6"
-msgstr "Přepnout na panel 6"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:367
-msgid "Switch to Tab 7"
-msgstr "Přepnout na panel 7"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:374
-msgid "Switch to Tab 8"
-msgstr "Přepnout na panel 8"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:381
-msgid "Switch to Tab 9"
-msgstr "Přepnout na panel 9"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:388
-msgid "Switch to Tab 10"
-msgstr "Přepnout na panel 10"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:421
-#: ddterm/pref/glade/prefs-shortcuts.ui:493
-msgid "Action"
-msgstr "Akce"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:433
-msgid "Global Shortcut"
-msgstr "Globální klávesová zkratka"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:463
-msgid "_Enable application shortcuts"
-msgstr "_Povolit klávesové zkratky aplikace"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:505
-msgid "Shortcut"
-msgstr "Klávesová zkratka"
-
-#: ddterm/pref/glade/prefs-shortcuts.ui:535
-#, fuzzy
-#| msgid "_Reset to default"
-msgid "Reset All Shortcuts to Defaults"
-msgstr "_Resetovat na výchozí hodnotu"
-
-#: ddterm/pref/glade/prefs-tabs.ui:44
-msgid "Expand tabs"
-msgstr "Rozbalit panely"
-
-#: ddterm/pref/glade/prefs-tabs.ui:60
-msgid "Show _close buttons"
-msgstr "Zobrazit tlačítka pro _zavření"
-
-#: ddterm/pref/glade/prefs-tabs.ui:76
-msgid "\"_New Tab (Last)\" button"
-msgstr "Tlačítko \"_Nový panel (Poslední)\""
-
-#: ddterm/pref/glade/prefs-tabs.ui:92
-msgid "Tab _switcher popup"
-msgstr "Vyskakovací okno _přepínač panelů"
-
-#: ddterm/pref/glade/prefs-tabs.ui:111
-msgid "Show tab _bar:"
-msgstr "Zobrazit _panel karet:"
-
-#: ddterm/pref/glade/prefs-tabs.ui:126 ddterm/pref/glade/prefs-text.ui:102
-msgid "Always"
-msgstr "Vždy"
-
-#: ddterm/pref/glade/prefs-tabs.ui:128 ddterm/pref/glade/prefs-text.ui:99
-msgid "Never"
-msgstr "Nikdy"
-
-#: ddterm/pref/glade/prefs-tabs.ui:138
-msgid "\"_New Tab (First)\" button"
-msgstr "Tlačítko \"_Nový panel (První)\""
-
-#: ddterm/pref/glade/prefs-tabs.ui:157
-msgid "Tab bar position:"
-msgstr "Pozice panelu karet:"
-
-#: ddterm/pref/glade/prefs-tabs.ui:185
-msgid "Show border"
-msgstr "Zobrazit ohraničení"
-
-#: ddterm/pref/glade/prefs-tabs.ui:204
-msgid "Tab width:"
-msgstr "Šířka panelu:"
-
-#: ddterm/pref/glade/prefs-tabs.ui:232
-msgid "Ellipsize tab labels:"
-msgstr "Zkrátit názvy panelů:"
-
-#: ddterm/pref/glade/prefs-tabs.ui:247
-msgid "Start"
-msgstr "Začátek"
-
-#: ddterm/pref/glade/prefs-tabs.ui:248
-msgid "Middle"
-msgstr "Střed"
-
-#: ddterm/pref/glade/prefs-tabs.ui:249
-msgid "End"
-msgstr "Konec"
-
-#: ddterm/pref/glade/prefs-tabs.ui:259
-#, fuzzy
-#| msgid "Keyboard Shortcuts"
-msgid "Show keyboard shortcuts"
-msgstr "Klávesové zkratky"
-
-#: ddterm/pref/glade/prefs-text.ui:39
-msgid "Custom _font:"
-msgstr "Vlastní _font:"
-
-#: ddterm/pref/glade/prefs-text.ui:56
-msgid "Allow _blinking text:"
-msgstr "Povolit _blikající text:"
-
-#: ddterm/pref/glade/prefs-text.ui:70
-msgid "Cursor _shape:"
-msgstr "_Tvar kurzoru:"
-
-#: ddterm/pref/glade/prefs-text.ui:84
-msgid "_Cursor blinking:"
-msgstr "Blikání _kurzoru:"
-
-#: ddterm/pref/glade/prefs-text.ui:100
-msgid "When focused"
-msgstr "Při zaměření"
-
-#: ddterm/pref/glade/prefs-text.ui:101
-msgid "When unfocused"
-msgstr "Mimo zaměření"
-
-#: ddterm/pref/glade/prefs-text.ui:116
-msgid "Block"
-msgstr "Blokovat"
-
-#: ddterm/pref/glade/prefs-text.ui:117
-msgid "I-Beam"
-msgstr "Kurzor I-Beam"
-
-#: ddterm/pref/glade/prefs-text.ui:118
-msgid "Underline"
-msgstr "Podtržení"
-
-#: ddterm/pref/glade/prefs-text.ui:133
-msgid "Enabled"
-msgstr "Zapnuto"
-
-#: ddterm/pref/glade/prefs-text.ui:134
-msgid "Disabled"
-msgstr "Vypnuto"
-
-#: ddterm/pref/glade/prefs-text.ui:144
-msgid "Allow _hyperlinks"
-msgstr "Povolit _hypertextové odkazy"
-
-#: ddterm/pref/glade/prefs-text.ui:160
-msgid "Audible _bell"
-msgstr "Slyšitelné _zvonění"
-
-#: ddterm/pref/glade/prefs-text.ui:202
-msgid "Detect _URLs"
-msgstr "Detekovat _URL odkazy"
-
-#: ddterm/pref/glade/prefs-text.ui:225
-msgid "Detect raw URLs (scheme://netloc/path)"
-msgstr "Detekovat nezpracované URL adresy(scheme://netloc/path)"
-
-#: ddterm/pref/glade/prefs-text.ui:240
-msgid "Detect \"file:\" URLs"
-msgstr "Detekovat \"file:\" URL adresy"
-
-#: ddterm/pref/glade/prefs-text.ui:255
-msgid "Detect HTTP URLs"
-msgstr "Detekovat HTTP URL adresy"
-
-#: ddterm/pref/glade/prefs-text.ui:270
-msgid "Detect VoIP URLs"
-msgstr "Detekovat VoIP URL adresy"
-
-#: ddterm/pref/glade/prefs-text.ui:285
-msgid "Detect E-mail addresses"
-msgstr "Detekovat E-mailové adresy"
-
-#: ddterm/pref/glade/prefs-text.ui:300
-msgid "Detect \"news:\", \"man:\" URLs"
-msgstr "Detekovat \"news:\", \"man:\" URL adresy"
-
 #: ddterm/pref/panelicon.js:52
 msgid "Panel Icon"
 msgstr "Ikona na panelu"
@@ -1334,13 +425,910 @@ msgstr "Panely"
 msgid "Text"
 msgstr "Text"
 
+#: ddterm/pref/ui/prefs-animation.ui:36
+msgid "Disable"
+msgstr "Zakázat"
+
+#: ddterm/pref/ui/prefs-animation.ui:40
+msgid "Linear tweening"
+msgstr "Lineární prolínání"
+
+#: ddterm/pref/ui/prefs-animation.ui:44
+msgid "Quadratic tweening"
+msgstr "Kvadratické prolínání"
+
+#: ddterm/pref/ui/prefs-animation.ui:48
+msgid "Quadratic tweening, inverse"
+msgstr "Kvadratické prolínání, inverzní"
+
+#: ddterm/pref/ui/prefs-animation.ui:52
+msgid "Quadratic tweening, combining direct and inverse"
+msgstr "Kvadratické prolínání, kombinující přímé a inverzní"
+
+#: ddterm/pref/ui/prefs-animation.ui:56
+msgid "Cubic tweening"
+msgstr "Krychlové prolínání"
+
+#: ddterm/pref/ui/prefs-animation.ui:60
+msgid "Cubic tweening, inverse"
+msgstr "Krychlové prolínání, inverzní"
+
+#: ddterm/pref/ui/prefs-animation.ui:64
+msgid "Cubic tweening, combining direct and inverse"
+msgstr "Krychlové prolínání, kombinující přímé a inverzní"
+
+#: ddterm/pref/ui/prefs-animation.ui:68
+msgid "Quartic tweening"
+msgstr "Kvartální prolínání"
+
+#: ddterm/pref/ui/prefs-animation.ui:72
+msgid "Quartic tweening, inverse"
+msgstr "Kvartální prolínání, inverzní"
+
+#: ddterm/pref/ui/prefs-animation.ui:76
+msgid "Quartic tweening, combining direct and inverse"
+msgstr "Kvartální prolínání, kombinující přímé a inverzní"
+
+#: ddterm/pref/ui/prefs-animation.ui:80
+msgid "Quintic tweening"
+msgstr "Kvintetní prolínání"
+
+#: ddterm/pref/ui/prefs-animation.ui:84
+msgid "Quintic tweening, inverse"
+msgstr "Kvintetní prolínání, inverzní"
+
+#: ddterm/pref/ui/prefs-animation.ui:88
+msgid "Quintic tweening, combining direct and inverse"
+msgstr "Kvintetní prolínání, kombinující přímé a inverzní"
+
+#: ddterm/pref/ui/prefs-animation.ui:92
+msgid "Sinusoidal tweening"
+msgstr "Sinusové prolínání"
+
+#: ddterm/pref/ui/prefs-animation.ui:96
+msgid "Sinusoidal tweening, inverse"
+msgstr "Sinusové prolínání, inverzní"
+
+#: ddterm/pref/ui/prefs-animation.ui:100
+msgid "Sinusoidal tweening, combining direct and inverse"
+msgstr "Sinusové prolínání, kombinující přímé a inverzní"
+
+#: ddterm/pref/ui/prefs-animation.ui:104
+msgid "Exponential tweening"
+msgstr "Exponenciální prolínání"
+
+#: ddterm/pref/ui/prefs-animation.ui:108
+msgid "Exponential tweening, inverse"
+msgstr "Exponenciální prolínání, inverzní"
+
+#: ddterm/pref/ui/prefs-animation.ui:112
+msgid "Exponential tweening, combining direct and inverse"
+msgstr "Exponenciální prolínání, kombinující přímé a inverzní"
+
+#: ddterm/pref/ui/prefs-animation.ui:116
+msgid "Circular tweening"
+msgstr "Kruhové prolínání"
+
+#: ddterm/pref/ui/prefs-animation.ui:120
+msgid "Circular tweening, inverse"
+msgstr "Kruhové prolínání, inverzní"
+
+#: ddterm/pref/ui/prefs-animation.ui:124
+msgid "Circular tweening, combining direct and inverse"
+msgstr "Kruhové prolínání, kombinující přímé a inverzní"
+
+#: ddterm/pref/ui/prefs-animation.ui:128
+msgid "Elastic tweening, with offshoot on start"
+msgstr "Elastické prolínání s odbočkou na startu"
+
+#: ddterm/pref/ui/prefs-animation.ui:132
+msgid "Elastic tweening, with offshoot on end"
+msgstr "Elastické prolínání, s odbočkou na konci"
+
+#: ddterm/pref/ui/prefs-animation.ui:136
+msgid "Elastic tweening with offshoot on both ends"
+msgstr "Elastické prolínání s odbočkou na obou koncích"
+
+#: ddterm/pref/ui/prefs-animation.ui:140
+msgid "Overshooting cubic tweening, with backtracking on start"
+msgstr "Překračující krychlové prolínání se zpětným sledováním při startu"
+
+#: ddterm/pref/ui/prefs-animation.ui:144
+msgid "Overshooting cubic tweening, with backtracking on end"
+msgstr "Překračující krychlové prolínání se zpětným sledováním na konci"
+
+#: ddterm/pref/ui/prefs-animation.ui:148
+msgid "Overshooting cubic tweening, with backtracking on both ends"
+msgstr "Překračující krychlové prolínání se zpětným sledováním na obou koncích"
+
+#: ddterm/pref/ui/prefs-animation.ui:152
+msgid ""
+"Exponentially decaying parabolic (bounce) tweening, with bounce on start"
+msgstr ""
+"Exponenciálně klesající parabolické (odrazové) prolínání s odrazem na začátku"
+
+#: ddterm/pref/ui/prefs-animation.ui:156
+msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on end"
+msgstr ""
+"Exponenciálně klesající parabolické (odrazové) prolínání s odrazem na konci"
+
+#: ddterm/pref/ui/prefs-animation.ui:160
+msgid ""
+"Exponentially decaying parabolic (bounce) tweening, with bounce on both ends"
+msgstr ""
+"Exponenciálně klesající parabolické (odrazové) prolínání s odrazem na obou "
+"koncích"
+
+#: ddterm/pref/ui/prefs-animation.ui:183
+msgid "_Override default window animations"
+msgstr "_Přepsat výchozí animace okna"
+
+#: ddterm/pref/ui/prefs-animation.ui:218
+msgid "_Show animation:"
+msgstr "_Zobrazit animaci:"
+
+#: ddterm/pref/ui/prefs-animation.ui:232
+msgid "_Hide animation:"
+msgstr "_Skrýt animaci:"
+
+#: ddterm/pref/ui/prefs-animation.ui:288
+msgid "_Hide animation duration:"
+msgstr "_Doba po kterou bude animace skryta:"
+
+#: ddterm/pref/ui/prefs-animation.ui:301
+msgid "_Show animation duration:"
+msgstr "_Doba po kterou bude animace zobrazena:"
+
+#: ddterm/pref/ui/prefs-behavior.ui:39
+msgid "_Resizable"
+msgstr "_Měnitelná velikost"
+
+#: ddterm/pref/ui/prefs-behavior.ui:55
+msgid "_Above all windows"
+msgstr "_Nad všemi okny"
+
+#: ddterm/pref/ui/prefs-behavior.ui:71
+msgid "On all _workspaces"
+msgstr "Na všech _ pracovních plochách"
+
+#: ddterm/pref/ui/prefs-behavior.ui:87
+msgid "Hide when the application loses _focus"
+msgstr "Skrýt když aplikace ztratí _zaměření"
+
+#: ddterm/pref/ui/prefs-behavior.ui:103
+msgid "Hide when _Esc key is pressed"
+msgstr "Skrýt když je stisknuto tlačítko _Esc"
+
+#: ddterm/pref/ui/prefs-behavior.ui:119
+msgid "Exclude from _overview/task bar"
+msgstr "Vynechat z _přehledu/panelu úloh"
+
+#: ddterm/pref/ui/prefs-behavior.ui:135
+msgid "Hide mouse _pointer when typing"
+msgstr "Skrýt _ukazatel myši při psaní"
+
+#: ddterm/pref/ui/prefs-behavior.ui:151
+msgid ""
+"Force _X11 GDK backend (XWayland).\n"
+"You'll have to close all tabs for this option to take effect."
+msgstr ""
+"Vynutit _X11 GDK backend (XWayland).\n"
+"Pro aplikování této změny, musíte zavřít všechny panely."
+
+#: ddterm/pref/ui/prefs-behavior.ui:171
+msgid "Window type _hint (X11 only):"
+msgstr "Typ okna _vysvětlení (Pouze pro X11):"
+
+#: ddterm/pref/ui/prefs-behavior.ui:186
+msgid "Normal"
+msgstr "Normální"
+
+#: ddterm/pref/ui/prefs-behavior.ui:187
+msgid "Dialog"
+msgstr "Dialog"
+
+#: ddterm/pref/ui/prefs-behavior.ui:188
+msgid "Splash screen"
+msgstr "Úvodní obrazovka"
+
+#: ddterm/pref/ui/prefs-behavior.ui:189
+msgid "Utility"
+msgstr "Nástroje"
+
+#: ddterm/pref/ui/prefs-behavior.ui:190
+msgid "Dock"
+msgstr "Dok"
+
+#: ddterm/pref/ui/prefs-behavior.ui:191
+msgid "Dropdown menu"
+msgstr "Rozbalovací menu"
+
+#: ddterm/pref/ui/prefs-behavior.ui:192
+msgid "Menu"
+msgstr "Menu"
+
+#: ddterm/pref/ui/prefs-behavior.ui:193
+msgid "Toolbar"
+msgstr "Panel nástrojů"
+
+#: ddterm/pref/ui/prefs-behavior.ui:194
+msgid "Popup menu"
+msgstr "Vyskakovací menu"
+
+#: ddterm/pref/ui/prefs-behavior.ui:195
+msgid "Tooltip"
+msgstr "Nápověda k nástroji"
+
+#: ddterm/pref/ui/prefs-behavior.ui:196
+msgid "Notification"
+msgstr "Notifikace"
+
+#: ddterm/pref/ui/prefs-behavior.ui:197
+msgid "Combo"
+msgstr "Kombinace"
+
+#: ddterm/pref/ui/prefs-colors.ui:38
+msgid "Black on light yellow"
+msgstr "Černá na světle žluté"
+
+#: ddterm/pref/ui/prefs-colors.ui:43
+msgid "Black on white"
+msgstr "Černá na bílé"
+
+#: ddterm/pref/ui/prefs-colors.ui:48
+msgid "Gray on black"
+msgstr "Šedá na černé"
+
+#: ddterm/pref/ui/prefs-colors.ui:53
+msgid "Green on black"
+msgstr "Zelená na černé"
+
+#: ddterm/pref/ui/prefs-colors.ui:58
+msgid "White on black"
+msgstr "Bílá na černé"
+
+#: ddterm/pref/ui/prefs-colors.ui:63
+msgid "GNOME light"
+msgstr "GNOME světlé"
+
+#: ddterm/pref/ui/prefs-colors.ui:68
+msgid "GNOME dark"
+msgstr "GNOME tmavé"
+
+#: ddterm/pref/ui/prefs-colors.ui:73
+msgid "Tango light"
+msgstr "Tango světlé"
+
+#: ddterm/pref/ui/prefs-colors.ui:78
+msgid "Tango dark"
+msgstr "Tango tmavé"
+
+#: ddterm/pref/ui/prefs-colors.ui:83
+msgid "Solarized light"
+msgstr "Solarized světlé"
+
+#: ddterm/pref/ui/prefs-colors.ui:88
+msgid "Solarized dark"
+msgstr "Solarized tmavé"
+
+#: ddterm/pref/ui/prefs-colors.ui:93 ddterm/pref/ui/prefs-colors.ui:257
+msgid "Custom"
+msgstr "Vlastní"
+
+#: ddterm/pref/ui/prefs-colors.ui:143
+msgid "GNOME"
+msgstr "GNOME"
+
+#: ddterm/pref/ui/prefs-colors.ui:162
+msgid "Tango"
+msgstr "Tango"
+
+#: ddterm/pref/ui/prefs-colors.ui:181
+msgid "Linux"
+msgstr "Linux"
+
+#: ddterm/pref/ui/prefs-colors.ui:200
+msgid "XTerm"
+msgstr "XTerm"
+
+#: ddterm/pref/ui/prefs-colors.ui:219
+msgid "RXVT"
+msgstr "RXVT"
+
+#: ddterm/pref/ui/prefs-colors.ui:238
+msgid "Solarized"
+msgstr "Solarizované"
+
+#: ddterm/pref/ui/prefs-colors.ui:292
+msgid "Theme _variant:"
+msgstr "_Varianta vzhledu:"
+
+#: ddterm/pref/ui/prefs-colors.ui:307 ddterm/pref/ui/prefs-text.ui:132
+msgid "Default"
+msgstr "Výchozí"
+
+#: ddterm/pref/ui/prefs-colors.ui:308
+msgid "Light"
+msgstr "Světlé"
+
+#: ddterm/pref/ui/prefs-colors.ui:309
+msgid "Dark"
+msgstr "Tmavé"
+
+#: ddterm/pref/ui/prefs-colors.ui:319
+msgid "Use colors from system _theme"
+msgstr "Použít barvy ze systémového _vzhledu"
+
+#: ddterm/pref/ui/prefs-colors.ui:335
+msgid "_Background opacity:"
+msgstr "Průhlednost _Pozadí:"
+
+#: ddterm/pref/ui/prefs-colors.ui:380
+msgid "_Palette:"
+msgstr "Barevná _paleta:"
+
+#: ddterm/pref/ui/prefs-colors.ui:423
+msgid "Palette Color 0"
+msgstr "Barva palety 0"
+
+#: ddterm/pref/ui/prefs-colors.ui:436
+msgid "Palette Color 1"
+msgstr "Barva palety 1"
+
+#: ddterm/pref/ui/prefs-colors.ui:449
+msgid "Palette Color 2"
+msgstr "Barva palety 2"
+
+#: ddterm/pref/ui/prefs-colors.ui:462
+msgid "Palette Color 3"
+msgstr "Barva palety 3"
+
+#: ddterm/pref/ui/prefs-colors.ui:475
+msgid "Palette Color 4"
+msgstr "Barva palety 4"
+
+#: ddterm/pref/ui/prefs-colors.ui:488
+msgid "Palette Color 5"
+msgstr "Barva palety 5"
+
+#: ddterm/pref/ui/prefs-colors.ui:501
+msgid "Palette Color 6"
+msgstr "Barva palety 6"
+
+#: ddterm/pref/ui/prefs-colors.ui:514
+msgid "Palette Color 7"
+msgstr "Barva palety 7"
+
+#: ddterm/pref/ui/prefs-colors.ui:527
+msgid "Palette Color 8"
+msgstr "Barva palety 8"
+
+#: ddterm/pref/ui/prefs-colors.ui:540
+msgid "Palette Color 9"
+msgstr "Barva palety 9"
+
+#: ddterm/pref/ui/prefs-colors.ui:553
+msgid "Palette Color 10"
+msgstr "Barva palety 10"
+
+#: ddterm/pref/ui/prefs-colors.ui:566
+msgid "Palette Color 11"
+msgstr "Barva palety 11"
+
+#: ddterm/pref/ui/prefs-colors.ui:579
+msgid "Palette Color 12"
+msgstr "Barva palety 12"
+
+#: ddterm/pref/ui/prefs-colors.ui:592
+msgid "Palette Color 13"
+msgstr "Barva palety 13"
+
+#: ddterm/pref/ui/prefs-colors.ui:605
+msgid "Palette Color 14"
+msgstr "Barva palety 14"
+
+#: ddterm/pref/ui/prefs-colors.ui:618
+msgid "Palette Color 15"
+msgstr "Barva palety 15"
+
+#: ddterm/pref/ui/prefs-colors.ui:634
+msgid "Show bold text in _bright colors"
+msgstr "Zobrazit tučný text ve _světlých barvách"
+
+#: ddterm/pref/ui/prefs-colors.ui:650
+msgid "Copy profile from GNOME Terminal"
+msgstr "Kopírovat profil z GNOME terminálu"
+
+#: ddterm/pref/ui/prefs-colors.ui:673
+msgid "Foreground"
+msgstr "Popředí"
+
+#: ddterm/pref/ui/prefs-colors.ui:684
+msgid "Background"
+msgstr "Pozadí"
+
+#: ddterm/pref/ui/prefs-colors.ui:696
+msgid "Default color:"
+msgstr "Výchozí barva:"
+
+#: ddterm/pref/ui/prefs-colors.ui:705
+msgid "Bold color:"
+msgstr "Barva tučného písma:"
+
+#: ddterm/pref/ui/prefs-colors.ui:718
+msgid "Cursor color:"
+msgstr "Barva kurzoru:"
+
+#: ddterm/pref/ui/prefs-colors.ui:732
+msgid "Highlight color:"
+msgstr "Barva zvýraznění:"
+
+#: ddterm/pref/ui/prefs-colors.ui:749
+msgid "Color _scheme:"
+msgstr "Barevné _schéma:"
+
+#: ddterm/pref/ui/prefs-colors.ui:767
+msgid "Background Color"
+msgstr "Barva pozadí"
+
+#: ddterm/pref/ui/prefs-colors.ui:791
+msgid "Bold Color"
+msgstr "Barva tučného písma"
+
+#: ddterm/pref/ui/prefs-colors.ui:815
+msgid "Cursor Foreground Color"
+msgstr "Barva popředí kurzoru"
+
+#: ddterm/pref/ui/prefs-colors.ui:839
+msgid "Cursor Background Color"
+msgstr "Barva pozadí kurzoru"
+
+#: ddterm/pref/ui/prefs-colors.ui:863
+msgid "Highlight Foreground Color"
+msgstr "Zvýrazněná barva popředí"
+
+#: ddterm/pref/ui/prefs-colors.ui:887
+msgid "Highlight Background Color"
+msgstr "Zvýrazněná barva pozadí"
+
+#: ddterm/pref/ui/prefs-colors.ui:930
+msgid "Foreground Color"
+msgstr "Barva popředí"
+
+#: ddterm/pref/ui/prefs-command.ui:39
+msgid "User _shell"
+msgstr "Uživatelský _shell"
+
+#: ddterm/pref/ui/prefs-command.ui:57
+msgid "User shell as _login shell"
+msgstr "Uživatelský shell jako _login shell"
+
+#: ddterm/pref/ui/prefs-command.ui:75
+msgid "Custom _command:"
+msgstr "Vlastní _příkaz:"
+
+#: ddterm/pref/ui/prefs-command.ui:114
+msgid "Preserve working directory"
+msgstr "Zachovat pracovní složku"
+
+#: ddterm/pref/ui/prefs-compatibility.ui:36 ddterm/pref/ui/prefs-tabs.ui:127
+msgid "Automatic"
+msgstr "Automatický"
+
+#: ddterm/pref/ui/prefs-compatibility.ui:40
+msgid "Control-H"
+msgstr "Control-H"
+
+#: ddterm/pref/ui/prefs-compatibility.ui:44
+msgid "ASCII DEL"
+msgstr "ASCII DEL"
+
+#: ddterm/pref/ui/prefs-compatibility.ui:48
+msgid "Escape sequence"
+msgstr "Escape sekvence"
+
+#: ddterm/pref/ui/prefs-compatibility.ui:52
+msgid "TTY Erase"
+msgstr "Vymazání TTY"
+
+#: ddterm/pref/ui/prefs-compatibility.ui:72
+msgid "_Backspace key generates:"
+msgstr "Tlačítko _Backspace generuje:"
+
+#: ddterm/pref/ui/prefs-compatibility.ui:86
+msgid "_Delete key generates:"
+msgstr "Tlačítko _Delete generuje:"
+
+#: ddterm/pref/ui/prefs-compatibility.ui:100
+msgid "Ambiguous-_width characters:"
+msgstr "Nejednoznačná šířka znaků:"
+
+#: ddterm/pref/ui/prefs-compatibility.ui:153
+msgid "Narrow"
+msgstr "Úzký"
+
+#: ddterm/pref/ui/prefs-compatibility.ui:154
+msgid "Wide"
+msgstr "Široký"
+
+#: ddterm/pref/ui/prefs-compatibility.ui:164
+msgid "_Reset Compatibility Options to Defaults"
+msgstr "_Resetovat nastavení kompatibility na výchozí hodnoty"
+
+#: ddterm/pref/ui/prefs-panel-icon.ui:38 ddterm/pref/ui/prefs-tabs.ui:246
+msgid "None"
+msgstr "Žádná"
+
+#: ddterm/pref/ui/prefs-panel-icon.ui:55
+msgid "With popup menu"
+msgstr "S vyskakovacím menu"
+
+#: ddterm/pref/ui/prefs-panel-icon.ui:72
+msgid "Toggle button"
+msgstr "Přepínací tlačítko"
+
+#: ddterm/pref/ui/prefs-panel-icon.ui:89
+msgid "Toggle button and popup menu"
+msgstr "Přepínací tlačítko a vyskakovací menu"
+
+#: ddterm/pref/ui/prefs-position-size.ui:47
+msgid "Window _size:"
+msgstr "_Velikost okna:"
+
+#: ddterm/pref/ui/prefs-position-size.ui:76
+msgid "_Window position:"
+msgstr "Pozice _Okna:"
+
+#: ddterm/pref/ui/prefs-position-size.ui:91 ddterm/pref/ui/prefs-tabs.ui:173
+msgid "Top"
+msgstr "Nahoře"
+
+#: ddterm/pref/ui/prefs-position-size.ui:92 ddterm/pref/ui/prefs-tabs.ui:172
+msgid "Bottom"
+msgstr "Dole"
+
+#: ddterm/pref/ui/prefs-position-size.ui:93 ddterm/pref/ui/prefs-tabs.ui:174
+msgid "Left"
+msgstr "Vlevo"
+
+#: ddterm/pref/ui/prefs-position-size.ui:94 ddterm/pref/ui/prefs-tabs.ui:175
+msgid "Right"
+msgstr "Vpravo"
+
+#: ddterm/pref/ui/prefs-position-size.ui:104
+msgid "On the monitor that contains the mouse pointer"
+msgstr "Na monitoru který obsahuje kurzor"
+
+#: ddterm/pref/ui/prefs-position-size.ui:122
+msgid "On the _primary monitor"
+msgstr "Na _hlavním monitoru"
+
+#: ddterm/pref/ui/prefs-position-size.ui:140
+msgid "On the monitor with keyboard _focus"
+msgstr "Na monitoru se _zaměřením klávesnice"
+
+#: ddterm/pref/ui/prefs-position-size.ui:158
+msgid "On _monitor:"
+msgstr "Na _monitoru:"
+
+#: ddterm/pref/ui/prefs-scrolling.ui:44
+msgid "Show _scrollbar"
+msgstr "Zobrazit _posuvník"
+
+#: ddterm/pref/ui/prefs-scrolling.ui:60
+msgid "Scroll on _output"
+msgstr "Posouvat při _výstupu"
+
+#: ddterm/pref/ui/prefs-scrolling.ui:76
+msgid "Scroll on _keystroke"
+msgstr "Posouvat při _vstupu"
+
+#: ddterm/pref/ui/prefs-scrolling.ui:92
+msgid "_Limit scrollback to:"
+msgstr "_Limitovat posun zpět na:"
+
+#: ddterm/pref/ui/prefs-scrolling.ui:128
+msgid "lines"
+msgstr "řádků"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:43
+msgid "Toggle Terminal Window"
+msgstr "Přepnout okno terminálu"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:50
+msgid "Show/Activate Terminal Window"
+msgstr "Zobrazit/aktivovat okno terminálu"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:73
+msgid "Hide the Window"
+msgstr "Schovat okno"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:80
+msgid "Maximize/Unmaximize the Window"
+msgstr "Maximalizovat/Zmenšit okno"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:87
+msgid "Increase Window Size"
+msgstr "Zvětšit okno"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:94
+msgid "Decrease Window Size"
+msgstr "Zmenšit okno"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:101
+msgid "Increase Background Opacity"
+msgstr "Snížit průhlednost pozadí"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:108
+msgid "Decrease Background Opacity"
+msgstr "Zvýšit průhlednost pozadí"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:115
+msgid "Enable/Disable Background Transparency"
+msgstr "Zapnout/Vypnout průhlednost pozadí"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:122
+msgid "Copy Selected Text"
+msgstr "Kopírovat vybraný text"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:129
+msgid "Copy Selected Text as HTML"
+msgstr "Kopírovat vybraný text jako HTML"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:136
+msgid "Paste Text from Clipboard"
+msgstr "Vložit zkopírovaný text"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:192
+msgid "Close Current Tab"
+msgstr "Zavřít aktuální panel"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:199
+msgid "Switch to Previous Tab"
+msgstr "Přepnout na předešlý panel"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:206
+msgid "Switch to Next Tab"
+msgstr "Přepnout na následující panel"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:241
+#, fuzzy
+msgid "Move Keyboard Focus to Other Split Pane"
+msgstr "Posunout panel do další pozice"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:248
+#, fuzzy
+msgid "Move Tab to Other Split Pane"
+msgstr "Posunout panel do další pozice"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:255
+msgid "Increase First Split Pane Size"
+msgstr ""
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:262
+msgid "Decrease First Split Pane Size"
+msgstr ""
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:269
+msgid "Set Custom Tab Title"
+msgstr "Nastavit vlastní název panelu"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:276
+msgid "Reset Tab Title"
+msgstr "Resetovat název panelu"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:325
+msgid "Switch to Tab 1"
+msgstr "Přepnout na panel 1"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:332
+msgid "Switch to Tab 2"
+msgstr "Přepnout na panel 2"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:339
+msgid "Switch to Tab 3"
+msgstr "Přepnout na panel 3"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:346
+msgid "Switch to Tab 4"
+msgstr "Přepnout na panel 4"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:353
+msgid "Switch to Tab 5"
+msgstr "Přepnout na panel 5"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:360
+msgid "Switch to Tab 6"
+msgstr "Přepnout na panel 6"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:367
+msgid "Switch to Tab 7"
+msgstr "Přepnout na panel 7"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:374
+msgid "Switch to Tab 8"
+msgstr "Přepnout na panel 8"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:381
+msgid "Switch to Tab 9"
+msgstr "Přepnout na panel 9"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:388
+msgid "Switch to Tab 10"
+msgstr "Přepnout na panel 10"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:421 ddterm/pref/ui/prefs-shortcuts.ui:493
+msgid "Action"
+msgstr "Akce"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:433
+msgid "Global Shortcut"
+msgstr "Globální klávesová zkratka"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:463
+msgid "_Enable application shortcuts"
+msgstr "_Povolit klávesové zkratky aplikace"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:505
+msgid "Shortcut"
+msgstr "Klávesová zkratka"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:535
+#, fuzzy
+msgid "Reset All Shortcuts to Defaults"
+msgstr "_Resetovat na výchozí hodnotu"
+
+#: ddterm/pref/ui/prefs-tabs.ui:44
+msgid "Expand tabs"
+msgstr "Rozbalit panely"
+
+#: ddterm/pref/ui/prefs-tabs.ui:60
+msgid "Show _close buttons"
+msgstr "Zobrazit tlačítka pro _zavření"
+
+#: ddterm/pref/ui/prefs-tabs.ui:76
+msgid "\"_New Tab (Last)\" button"
+msgstr "Tlačítko \"_Nový panel (Poslední)\""
+
+#: ddterm/pref/ui/prefs-tabs.ui:92
+msgid "Tab _switcher popup"
+msgstr "Vyskakovací okno _přepínač panelů"
+
+#: ddterm/pref/ui/prefs-tabs.ui:111
+msgid "Show tab _bar:"
+msgstr "Zobrazit _panel karet:"
+
+#: ddterm/pref/ui/prefs-tabs.ui:126 ddterm/pref/ui/prefs-text.ui:102
+msgid "Always"
+msgstr "Vždy"
+
+#: ddterm/pref/ui/prefs-tabs.ui:128 ddterm/pref/ui/prefs-text.ui:99
+msgid "Never"
+msgstr "Nikdy"
+
+#: ddterm/pref/ui/prefs-tabs.ui:138
+msgid "\"_New Tab (First)\" button"
+msgstr "Tlačítko \"_Nový panel (První)\""
+
+#: ddterm/pref/ui/prefs-tabs.ui:157
+msgid "Tab bar position:"
+msgstr "Pozice panelu karet:"
+
+#: ddterm/pref/ui/prefs-tabs.ui:185
+msgid "Show border"
+msgstr "Zobrazit ohraničení"
+
+#: ddterm/pref/ui/prefs-tabs.ui:204
+msgid "Tab width:"
+msgstr "Šířka panelu:"
+
+#: ddterm/pref/ui/prefs-tabs.ui:232
+msgid "Ellipsize tab labels:"
+msgstr "Zkrátit názvy panelů:"
+
+#: ddterm/pref/ui/prefs-tabs.ui:247
+msgid "Start"
+msgstr "Začátek"
+
+#: ddterm/pref/ui/prefs-tabs.ui:248
+msgid "Middle"
+msgstr "Střed"
+
+#: ddterm/pref/ui/prefs-tabs.ui:249
+msgid "End"
+msgstr "Konec"
+
+#: ddterm/pref/ui/prefs-tabs.ui:259
+#, fuzzy
+msgid "Show keyboard shortcuts"
+msgstr "Klávesové zkratky"
+
+#: ddterm/pref/ui/prefs-text.ui:39
+msgid "Custom _font:"
+msgstr "Vlastní _font:"
+
+#: ddterm/pref/ui/prefs-text.ui:56
+msgid "Allow _blinking text:"
+msgstr "Povolit _blikající text:"
+
+#: ddterm/pref/ui/prefs-text.ui:70
+msgid "Cursor _shape:"
+msgstr "_Tvar kurzoru:"
+
+#: ddterm/pref/ui/prefs-text.ui:84
+msgid "_Cursor blinking:"
+msgstr "Blikání _kurzoru:"
+
+#: ddterm/pref/ui/prefs-text.ui:100
+msgid "When focused"
+msgstr "Při zaměření"
+
+#: ddterm/pref/ui/prefs-text.ui:101
+msgid "When unfocused"
+msgstr "Mimo zaměření"
+
+#: ddterm/pref/ui/prefs-text.ui:116
+msgid "Block"
+msgstr "Blokovat"
+
+#: ddterm/pref/ui/prefs-text.ui:117
+msgid "I-Beam"
+msgstr "Kurzor I-Beam"
+
+#: ddterm/pref/ui/prefs-text.ui:118
+msgid "Underline"
+msgstr "Podtržení"
+
+#: ddterm/pref/ui/prefs-text.ui:133
+msgid "Enabled"
+msgstr "Zapnuto"
+
+#: ddterm/pref/ui/prefs-text.ui:134
+msgid "Disabled"
+msgstr "Vypnuto"
+
+#: ddterm/pref/ui/prefs-text.ui:144
+msgid "Allow _hyperlinks"
+msgstr "Povolit _hypertextové odkazy"
+
+#: ddterm/pref/ui/prefs-text.ui:160
+msgid "Audible _bell"
+msgstr "Slyšitelné _zvonění"
+
+#: ddterm/pref/ui/prefs-text.ui:202
+msgid "Detect _URLs"
+msgstr "Detekovat _URL odkazy"
+
+#: ddterm/pref/ui/prefs-text.ui:225
+msgid "Detect raw URLs (scheme://netloc/path)"
+msgstr "Detekovat nezpracované URL adresy(scheme://netloc/path)"
+
+#: ddterm/pref/ui/prefs-text.ui:240
+msgid "Detect \"file:\" URLs"
+msgstr "Detekovat \"file:\" URL adresy"
+
+#: ddterm/pref/ui/prefs-text.ui:255
+msgid "Detect HTTP URLs"
+msgstr "Detekovat HTTP URL adresy"
+
+#: ddterm/pref/ui/prefs-text.ui:270
+msgid "Detect VoIP URLs"
+msgstr "Detekovat VoIP URL adresy"
+
+#: ddterm/pref/ui/prefs-text.ui:285
+msgid "Detect E-mail addresses"
+msgstr "Detekovat E-mailové adresy"
+
+#: ddterm/pref/ui/prefs-text.ui:300
+msgid "Detect \"news:\", \"man:\" URLs"
+msgstr "Detekovat \"news:\", \"man:\" URL adresy"
+
 #: ddterm/shell/extension.js:279
 msgid "Failed to launch ddterm application"
 msgstr ""
 
 #: ddterm/shell/notifications.js:163
 #, fuzzy
-#| msgid "Paste Text from Clipboard"
 msgid "Copy to Clipboard"
 msgstr "Vložit zkopírovaný text"
 
