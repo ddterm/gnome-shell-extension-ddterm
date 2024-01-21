@@ -55,17 +55,24 @@ jobs:
       continue-on-error: true
       if: ${{ inputs.testspace }}
 
-    - name: Setup NodeJS error matcher
-      uses: actions/setup-node@v4
-
     - name: Install JS dependencies
       id: npm
       run: npm ci
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
+    - name: Enable eslint error matcher
+      run: echo "::add-matcher::.github/problem-matchers/eslint-stylish.json"
+      if: ${{ always() && steps.checkout.conclusion == 'success' }}
+
     - name: Lint JS code
       run: make "ESLINT_OPTS=--format .github/eslint-formatter.js" lint
       if: ${{ always() && steps.npm.conclusion == 'success' }}
+      env:
+        FORCE_COLOR: 0
+
+    - name: Disable eslint error matcher
+      run: echo "::remove-matcher owner=eslint-stylish::"
+      if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
     - name: Pre-create pip cache directory
       run: mkdir -p "$HOME/.cache/pip"
