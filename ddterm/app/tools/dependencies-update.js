@@ -63,6 +63,38 @@ function find_owner(filepath, os_ids) {
         .filter(v => v !== '' && v !== filepath);
 }
 
+function list_files_command(os_ids) {
+    for (const os of os_ids) {
+        if (os === 'alpine')
+            return package_name => ['apk', 'info', '-Lq', package_name];
+
+        if (os === 'arch')
+            return package_name => ['pacman', '-Qql', package_name];
+
+        if (os === 'debian')
+            return package_name => ['dpkg-query', '-L', package_name];
+
+        if (os === 'fedora' || os === 'suse')
+            return package_name => ['rpm', '-ql', '--whatprovides', package_name];
+    }
+
+    return null;
+}
+
+function list_files(package_name, os_ids) {
+    const command = list_files_command(os_ids);
+
+    const spawn_flags = GLib.SpawnFlags.SEARCH_PATH | GLib.SpawnFlags.CHILD_INHERITS_STDERR;
+
+    const [, stdout, , wait_status] =
+        GLib.spawn_sync(null, command(package_name), null, spawn_flags, null);
+
+    GLib.spawn_check_wait_status(wait_status);
+
+    const output = new TextDecoder().decode(stdout);
+    return output.split(/\n/).filter(v => v !== '');
+}
+
 function update_manifest(dry_run = false) {
     const os_ids = get_os_ids();
     let updated = false;
@@ -79,6 +111,13 @@ function update_manifest(dry_run = false) {
                 updated = true;
             }
 
+            const resolved = resolve_package(version_manifest, os_ids);
+
+            if (resolved && list_files(resolved, os_ids).includes(filepath)) {
+                printerr(`${filepath} manifest: ${resolved} package contains ${filepath}`);
+                continue;
+            }
+
             const found = find_owner(filepath, os_ids);
 
             if (found.length === 0)
@@ -89,8 +128,6 @@ function update_manifest(dry_run = false) {
                     `Multiple packages found for ${filepath}: ${found.join(' ')}`
                 );
             }
-
-            const resolved = resolve_package(version_manifest, os_ids);
 
             printerr(`${filepath} found package: ${found[0]} manifest: ${resolved}`);
 
