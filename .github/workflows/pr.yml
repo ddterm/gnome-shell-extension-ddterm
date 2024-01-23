@@ -6,10 +6,7 @@ on:
   pull_request:
     paths-ignore:
       - docs/**
-      - po/*.po
-      - po/*.pot
-      - po/POTFILES
-      - po/POTFILES.in
+      - po/**
       - README.md
       - Vagrantfile
       - vagrant-provision/**
