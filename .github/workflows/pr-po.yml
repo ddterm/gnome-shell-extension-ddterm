@@ -5,7 +5,8 @@ concurrency: ${{ github.workflow }}/${{ github.ref }}
 on:
   pull_request:
     paths:
-      - po/**
+      - po/*.po
+      - po/*.pot
 
 jobs:
   po:

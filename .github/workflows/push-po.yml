@@ -10,7 +10,8 @@ on:
     tags-ignore:
       - v*
     paths:
-      - po/**
+      - po/*.po
+      - po/*.pot
 
 jobs:
   po:
