@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-21 16:02+0000\n"
+"POT-Creation-Date: 2024-01-23 02:58+0000\n"
 "PO-Revision-Date: 2023-11-10 09:35+0000\n"
 "Last-Translator: Frankie McEyes <mceyes@protonmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/gnome-shell-"
@@ -217,6 +217,7 @@ msgid "Move Tab to Other Pane"
 msgstr "Sposta la scheda in un altro riquadro"
 
 #: ddterm/app/menus.ui:157 ddterm/app/prefsdialog.js:45
+#: ddterm/app/prefsdialog.legacy.js:44
 msgid "Preferences"
 msgstr "Preferenze"
 
@@ -381,7 +382,7 @@ msgstr "Finestra"
 msgid "Terminal"
 msgstr "Terminale"
 
-#: ddterm/pref/adw.js:118 ddterm/pref/shortcuts.js:132
+#: ddterm/pref/adw.js:118 ddterm/pref/shortcuts.js:133
 msgid "Keyboard Shortcuts"
 msgstr "Scorciatoie da tastiera"
 
@@ -389,43 +390,43 @@ msgstr "Scorciatoie da tastiera"
 msgid "Miscellaneous"
 msgstr "Varie"
 
-#: ddterm/pref/animation.js:77
+#: ddterm/pref/animation.js:78
 msgid "Animation"
 msgstr "Animazione"
 
-#: ddterm/pref/behavior.js:66
+#: ddterm/pref/behavior.js:67
 msgid "Behavior"
 msgstr "Comportamento"
 
-#: ddterm/pref/colors.js:469
+#: ddterm/pref/colors.js:470
 msgid "Colors"
 msgstr "Colori"
 
-#: ddterm/pref/command.js:67
+#: ddterm/pref/command.js:68
 msgid "Command"
 msgstr "Comandi"
 
-#: ddterm/pref/compatibility.js:75
+#: ddterm/pref/compatibility.js:76
 msgid "Compatibility"
 msgstr "Compatibilità"
 
-#: ddterm/pref/panelicon.js:52
+#: ddterm/pref/panelicon.js:53
 msgid "Panel Icon"
 msgstr "Icona del pannello"
 
-#: ddterm/pref/positionsize.js:91
+#: ddterm/pref/positionsize.js:93
 msgid "Position and Size"
 msgstr "Posizione e dimensione"
 
-#: ddterm/pref/scrolling.js:81
+#: ddterm/pref/scrolling.js:77
 msgid "Scrolling"
 msgstr "Scorrimento"
 
-#: ddterm/pref/tabs.js:96
+#: ddterm/pref/tabs.js:92
 msgid "Tabs"
 msgstr "Schede"
 
-#: ddterm/pref/text.js:100
+#: ddterm/pref/text.js:101
 msgid "Text"
 msgstr "Testo"
 
