@@ -167,25 +167,32 @@ npm_install = custom_target(
   env: npm_env,
 )
 
-eslint_extra_args = ['--ignore-pattern', ignore_dir]
-
 run_target(
   'eslint',
-  command: [npm_tool, '-C', '@CURRENT_SOURCE_DIR@', 'run-script', '--', 'lint'] + eslint_extra_args,
+  command: [npm_tool, '-C', '@CURRENT_SOURCE_DIR@', 'run-script', '--', 'lint'],
   depends: npm_install,
 )
 
 run_target(
   'eslint-fix',
-  command: [npm_tool, '-C', '@CURRENT_SOURCE_DIR@', 'run-script', '--', 'lint:fix'] + eslint_extra_args,
+  command: [npm_tool, '-C', '@CURRENT_SOURCE_DIR@', 'run-script', '--', 'lint:fix'],
   depends: npm_install,
 )
 
 test(
   'eslint',
   npm_tool,
-  args: ['run-script', '--', 'lint'] + eslint_extra_args,
+  args: ['run-script', '--', 'lint'],
   depends: npm_install,
   workdir: meson.current_source_dir(),
   suite: ['eslint'],
+)
+
+configure_file(
+  input: 'lint/eslintrc.build.yml.in',
+  output: '.eslintrc.yml',
+  configuration: {
+    # https://github.com/mesonbuild/meson/issues/12792
+    'DONT_EMIT_MESON_WARNING': 'YES',
+  },
 )
