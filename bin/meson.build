@@ -1,6 +1,6 @@
 pack += configure_file(
-  input: 'com.github.amezin.ddterm.in',
-  output: '@BASENAME@',
+  input: 'launcher.js',
+  output: 'com.github.amezin.ddterm',
   configuration: gjs_config,
   install: true,
   install_dir: extension_dir / 'bin',

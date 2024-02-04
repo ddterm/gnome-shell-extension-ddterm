@@ -6,8 +6,6 @@ app_js_files = files(
   'extensiondbus.js',
   'gtktheme.js',
   'heapdump.js',
-  'init.js',
-  'main.js',
   'meta.js',
   'notebook.js',
   'pcre2.js',

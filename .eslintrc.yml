@@ -45,6 +45,7 @@ overrides:
       - ddterm/pref/resources.legacy.js
       - ddterm/shell/compat.js
       - test/extension-legacy/*.js
+      - bin/launcher.js
     parserOptions:
       sourceType: script
 parserOptions:
