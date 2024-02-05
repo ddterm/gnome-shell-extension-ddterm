@@ -16,3 +16,9 @@ run_target(
   command: [gjs, '-m', fs.copyfile('gtk4.js')],
   depends: [pref_test_common_files, pref_ui_gtk4_files]
 )
+
+run_target(
+  'pref-adw-test',
+  command: [gjs, '-m', fs.copyfile('adw.js')],
+  depends: [pref_test_common_files, pref_ui_gtk4_files]
+)
