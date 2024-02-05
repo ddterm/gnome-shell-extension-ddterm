@@ -41,7 +41,7 @@ overrides:
   - files:
       - extension.legacy.js
       - prefs.legacy.js
-      - misc/extensionUtils.js
+      - ddterm/app/fakeext/misc/extensionUtils.js
       - ddterm/pref/resources.legacy.js
       - ddterm/shell/compat.js
       - test/extension-legacy/*.js

@@ -51,3 +51,7 @@ foreach app_ui_file : app_ui_files
     suite: ['gtk-builder-validate'],
   )
 endforeach
+
+if not get_option('esm')
+  subdir('fakeext')
+endif

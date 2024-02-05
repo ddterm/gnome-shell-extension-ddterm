@@ -17,6 +17,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
 import Gtk from 'gi://Gtk';
@@ -24,6 +25,39 @@ import Gtk from 'gi://Gtk';
 import Gettext from 'gettext';
 
 import { metadata, dir } from './meta.js';
+
+const [fakeext_import_path] = GLib.filename_from_uri(
+    GLib.Uri.resolve_relative(import.meta.url, 'fakeext', GLib.UriFlags.NONE)
+);
+
+imports.searchPath.unshift(fakeext_import_path);
+
+const Me = imports.misc.extensionUtils.getCurrentExtension();
+
+function make_dir_importer(file) {
+    /* Like extensionUtils.installImporter() */
+
+    const old_search_path = imports.searchPath.slice();
+
+    imports.searchPath = [file.get_parent().get_path()];
+
+    try {
+        return imports[file.get_basename()];
+    } finally {
+        imports.searchPath = old_search_path;
+    }
+}
+
+/*
+ * fake current extension object to make `Me.imports` and `Me.dir`
+ * work in application context
+ */
+Object.assign(Me, {
+    imports: make_dir_importer(dir),
+    dir,
+    path: dir.get_path(),
+    metadata,
+});
 
 export const PrefsDialog = GObject.registerClass({
     Properties: {
@@ -45,23 +79,7 @@ export const PrefsDialog = GObject.registerClass({
         this.set_default_size(640, 576);
         this.set_icon_name('preferences-system');
 
-        const import_path = dir.get_path();
-
-        if (!imports.searchPath.includes(import_path))
-            imports.searchPath.unshift(import_path);
-
-        /*
-         * fake current extension object to make `Me.imports` and `Me.dir`
-         * work in application context
-         */
-        Object.assign(imports.misc.extensionUtils.getCurrentExtension(), {
-            imports,
-            dir,
-            path: dir.get_path(),
-            metadata,
-        });
-
-        const widget = new imports.ddterm.pref.widget.PrefsWidget({
+        const widget = new Me.imports.ddterm.pref.widget.PrefsWidget({
             settings: this.settings,
             gettext_context,
         });

@@ -98,7 +98,6 @@ subdir('bin')
 subdir('schemas')
 subdir('ddterm')
 subdir('locale')
-subdir('misc')
 
 pack_target = custom_target(
   command: [
