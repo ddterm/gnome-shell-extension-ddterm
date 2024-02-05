@@ -19,7 +19,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-const { GLib, GObject, Gio } = imports.gi;
+const { GLib, GObject } = imports.gi;
 
 const System = imports.system;
 const Gettext = imports.gettext;
@@ -28,40 +28,61 @@ GObject.gtypeNameBasedOnJSPath = true;
 
 GLib.set_prgname('com.github.amezin.ddterm');
 
-function resolve_symlink(file) {
-    if (!(file instanceof GObject.Object))
-        file = Gio.File.new_for_path(file);
+function split_path(pathname) {
+    const after_root = GLib.path_skip_root(pathname);
+    const root = pathname.substr(0, pathname.length - after_root.length);
+    const parts = after_root.split(GLib.DIR_SEPARATOR_S);
 
-    for (;;) {
-        const info = file.query_info(
-            Gio.FILE_ATTRIBUTE_STANDARD_SYMLINK_TARGET,
-            Gio.FileQueryInfoFlags.NONE,
-            null
-        );
-
-        if (!info.has_attribute(Gio.FILE_ATTRIBUTE_STANDARD_SYMLINK_TARGET))
-            return file;
-
-        const link = info.get_symlink_target();
-
-        if (GLib.path_is_absolute(link))
-            file = Gio.File.new_for_path(link);
-        else
-            file = file.get_child(link);
-    }
+    parts.unshift(root);
+    return parts;
 }
 
-const this_file = resolve_symlink(System.programPath);
-const bin_dir = resolve_symlink(this_file.get_parent());
+function realpath(filename) {
+    let parts = split_path(filename);
+    let resolved = parts[0];
+    let n_resolved = 1;
 
+    while (n_resolved < parts.length) {
+        const try_filename = GLib.build_filenamev([resolved, parts[n_resolved]]);
+
+        if (!GLib.file_test(try_filename, GLib.FileTest.IS_SYMLINK)) {
+            resolved = try_filename;
+            n_resolved++;
+            continue;
+        }
+
+        const target = GLib.canonicalize_filename(GLib.file_read_link(try_filename), resolved);
+        const target_parts = split_path(target);
+        let new_n_resolved = 1;
+
+        while (
+            new_n_resolved < n_resolved &&
+            new_n_resolved < target_parts.length &&
+            target_parts[new_n_resolved] === parts[new_n_resolved]
+        )
+            new_n_resolved++;
+
+        parts = target_parts.concat(parts.slice(n_resolved + 1));
+
+        if (n_resolved !== new_n_resolved) {
+            n_resolved = new_n_resolved;
+            resolved = GLib.build_filenamev(target_parts.slice(0, new_n_resolved));
+        }
+    }
+
+    return resolved;
+}
+
+const this_file = realpath(System.programPath);
+const bin_dir = GLib.path_get_dirname(this_file);
 const launcher_in_path = GLib.find_program_in_path('com.github.amezin.ddterm');
-const launcher_in_path_file =
-    launcher_in_path ? resolve_symlink(launcher_in_path) : null;
 
-if (!launcher_in_path_file?.equal(this_file)) {
-    const items = GLib.getenv('PATH')?.split(GLib.SEARCHPATH_SEPARATOR_S) ?? [];
-    items.unshift(bin_dir.get_path());
-    GLib.setenv('PATH', items.join(GLib.SEARCHPATH_SEPARATOR_S), true);
+if (!launcher_in_path || this_file !== realpath(launcher_in_path)) {
+    const current_env_path = GLib.getenv('PATH') ?? '';
+    const new_env_path =
+        GLib.build_pathv(GLib.SEARCHPATH_SEPARATOR_S, [bin_dir, current_env_path]);
+
+    GLib.setenv('PATH', new_env_path, true);
 }
 
 function resolve_sync(promise) {
@@ -85,7 +106,7 @@ function resolve_sync(promise) {
     return result;
 }
 
-const base_uri = bin_dir.get_uri();
+const base_uri = GLib.filename_to_uri(bin_dir, null);
 
 function import_sync(uri) {
     const resolved_uri =
