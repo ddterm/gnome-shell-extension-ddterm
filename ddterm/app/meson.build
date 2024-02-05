@@ -4,7 +4,6 @@ app_js_files = files(
   'appwindow.js',
   'dependencies.js',
   'extensiondbus.js',
-  'gtktheme.js',
   'heapdump.js',
   'meta.js',
   'notebook.js',
@@ -37,6 +36,13 @@ endforeach
 pack += fs.copyfile(
   get_option('esm') ? 'prefsdialog.js' : 'prefsdialog.legacy.js',
   'prefsdialog.js',
+  install: true,
+  install_dir: extension_dir / 'ddterm' / 'app',
+)
+
+pack += fs.copyfile(
+  get_option('esm') ? 'gtktheme.js' : 'gtktheme.legacy.js',
+  'gtktheme.js',
   install: true,
   install_dir: extension_dir / 'ddterm' / 'app',
 )
