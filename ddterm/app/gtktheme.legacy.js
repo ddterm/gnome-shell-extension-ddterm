@@ -29,23 +29,12 @@ export const ThemeManager = GObject.registerClass({
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             'system'
         ),
-        'gtk-settings': GObject.ParamSpec.object(
-            'gtk-settings',
-            '',
-            '',
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-            Gtk.Settings
-        ),
     },
 }, class DDTermThemeManager extends GObject.Object {
-    static create(theme_variant) {
-        const gtk_settings = Gtk.Settings.get_default();
-
-        return new ThemeManager({ gtk_settings, theme_variant });
-    }
-
     _init(params) {
         super._init(params);
+
+        this._gtk_settings = Gtk.Settings.get_default();
 
         this.connect('notify::theme-variant', () => this._update());
         this._update();
@@ -54,15 +43,15 @@ export const ThemeManager = GObject.registerClass({
     _update() {
         switch (this.theme_variant) {
         case 'system':
-            this.gtk_settings.reset_property('gtk-application-prefer-dark-theme');
+            this._gtk_settings.reset_property('gtk-application-prefer-dark-theme');
             break;
 
         case 'dark':
-            this.gtk_settings.gtk_application_prefer_dark_theme = true;
+            this._gtk_settings.gtk_application_prefer_dark_theme = true;
             break;
 
         case 'light':
-            this.gtk_settings.gtk_application_prefer_dark_theme = false;
+            this._gtk_settings.gtk_application_prefer_dark_theme = false;
             break;
 
         default:

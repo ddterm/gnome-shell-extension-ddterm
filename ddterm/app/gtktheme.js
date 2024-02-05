@@ -18,11 +18,7 @@
 */
 
 import GObject from 'gi://GObject';
-import Gtk from 'gi://Gtk';
-
-import { gi_require_optional } from './dependencies.js';
-
-const { Handy } = gi_require_optional({ 'Handy': '1' });
+import Handy from 'gi://Handy';
 
 export const ThemeManager = GObject.registerClass({
     Properties: {
@@ -35,33 +31,11 @@ export const ThemeManager = GObject.registerClass({
         ),
     },
 }, class DDTermThemeManager extends GObject.Object {
-    static create(theme_variant) {
-        Handy?.init();
-
-        const style_manager = Handy?.StyleManager?.get_default();
-
-        if (style_manager)
-            return new HandyThemeManager({ style_manager, theme_variant });
-
-        const gtk_settings = Gtk.Settings.get_default();
-
-        return new GtkThemeManager({ gtk_settings, theme_variant });
-    }
-});
-
-const GtkThemeManager = GObject.registerClass({
-    Properties: {
-        'gtk-settings': GObject.ParamSpec.object(
-            'gtk-settings',
-            '',
-            '',
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-            Gtk.Settings
-        ),
-    },
-}, class DDTermThemeManagerGtk extends ThemeManager {
     _init(params) {
         super._init(params);
+
+        Handy.init();
+        this._style_manager = Handy.StyleManager.get_default();
 
         this.connect('notify::theme-variant', () => this._update());
         this._update();
@@ -70,15 +44,15 @@ const GtkThemeManager = GObject.registerClass({
     _update() {
         switch (this.theme_variant) {
         case 'system':
-            this.gtk_settings.reset_property('gtk-application-prefer-dark-theme');
+            this._style_manager.color_scheme = Handy.ColorScheme.PREFER_LIGHT;
             break;
 
         case 'dark':
-            this.gtk_settings.gtk_application_prefer_dark_theme = true;
+            this._style_manager.color_scheme = Handy.ColorScheme.FORCE_DARK;
             break;
 
         case 'light':
-            this.gtk_settings.gtk_application_prefer_dark_theme = false;
+            this._style_manager.color_scheme = Handy.ColorScheme.FORCE_LIGHT;
             break;
 
         default:
@@ -86,41 +60,3 @@ const GtkThemeManager = GObject.registerClass({
         }
     }
 });
-
-const HandyThemeManager = Handy?.StyleManager ? GObject.registerClass({
-    Properties: {
-        'style-manager': GObject.ParamSpec.object(
-            'style-manager',
-            '',
-            '',
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-            Handy.StyleManager
-        ),
-    },
-}, class DDTermThemeManagerHandy extends ThemeManager {
-    _init(params) {
-        super._init(params);
-
-        this.connect('notify::theme-variant', () => this._update());
-        this._update();
-    }
-
-    _update() {
-        switch (this.theme_variant) {
-        case 'system':
-            this.style_manager.color_scheme = Handy.ColorScheme.PREFER_LIGHT;
-            break;
-
-        case 'dark':
-            this.style_manager.color_scheme = Handy.ColorScheme.FORCE_DARK;
-            break;
-
-        case 'light':
-            this.style_manager.color_scheme = Handy.ColorScheme.FORCE_LIGHT;
-            break;
-
-        default:
-            logError(new Error(`Unknown theme-variant: ${this.theme_variant}`));
-        }
-    }
-}) : null;

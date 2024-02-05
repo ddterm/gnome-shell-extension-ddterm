@@ -252,9 +252,9 @@ class Application extends Gtk.Application {
             this.add_action(this.settings.create_action(key));
         });
 
-        this.theme_manager = ThemeManager.create(
-            this.settings.get_string('theme-variant')
-        );
+        this.theme_manager = new ThemeManager({
+            theme_variant: this.settings.get_string('theme-variant'),
+        });
 
         this.settings.bind(
             'theme-variant',

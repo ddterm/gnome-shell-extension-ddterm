@@ -106,6 +106,7 @@ gi_require({
     'Gdk': '3.0',
     'Pango': '1.0',
     'Vte': '2.91',
+    'Handy': '1',
 });
 
 const app_module = import_sync('ddterm/app/application.js');
