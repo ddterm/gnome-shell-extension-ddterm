@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-23 02:58+0000\n"
+"POT-Creation-Date: 2024-02-05 04:10+0000\n"
 "PO-Revision-Date: 2023-11-23 08:05+0000\n"
 "Last-Translator: yuh <yuhldr@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -213,7 +213,7 @@ msgid "Move Tab to Other Pane"
 msgstr "移动标签页到下一个面板"
 
 #: ddterm/app/menus.ui:157 ddterm/app/prefsdialog.js:45
-#: ddterm/app/prefsdialog.legacy.js:44
+#: ddterm/app/prefsdialog.legacy.js:78
 msgid "Preferences"
 msgstr "首选项"
 

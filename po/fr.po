@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-23 02:58+0000\n"
+"POT-Creation-Date: 2024-02-05 04:10+0000\n"
 "PO-Revision-Date: 2023-11-05 23:33+0000\n"
 "Last-Translator: fail a fail <yassadmi@proton.me>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/gnome-shell-"
@@ -218,7 +218,7 @@ msgid "Move Tab to Other Pane"
 msgstr "Changer l'onglet de panneau"
 
 #: ddterm/app/menus.ui:157 ddterm/app/prefsdialog.js:45
-#: ddterm/app/prefsdialog.legacy.js:44
+#: ddterm/app/prefsdialog.legacy.js:78
 msgid "Preferences"
 msgstr "Préférences"
 
