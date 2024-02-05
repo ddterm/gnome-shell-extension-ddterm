@@ -18,7 +18,6 @@
 */
 
 import GObject from 'gi://GObject';
-import Gio from 'gi://Gio';
 import Gtk from 'gi://Gtk';
 
 import { gi_require_optional } from './dependencies.js';
@@ -36,7 +35,7 @@ export const ThemeManager = GObject.registerClass({
         ),
     },
 }, class DDTermThemeManager extends GObject.Object {
-    static create(theme_variant, desktop_settings) {
+    static create(theme_variant) {
         Handy?.init();
 
         const style_manager = Handy?.StyleManager?.get_default();
@@ -46,25 +45,7 @@ export const ThemeManager = GObject.registerClass({
 
         const gtk_settings = Gtk.Settings.get_default();
 
-        if (!desktop_settings.settings_schema.has_key('color-scheme'))
-            return new GtkThemeManager({ gtk_settings, theme_variant });
-
-        const desktop_color_scheme = desktop_settings.get_string('color-scheme');
-
-        const theme_manager = new DesktopSettingsThemeManager({
-            gtk_settings,
-            desktop_color_scheme,
-            theme_variant,
-        });
-
-        desktop_settings.bind(
-            'color-scheme',
-            theme_manager,
-            'desktop-color-scheme',
-            Gio.SettingsBindFlags.GET
-        );
-
-        return theme_manager;
+        return new GtkThemeManager({ gtk_settings, theme_variant });
     }
 });
 
@@ -86,14 +67,10 @@ const GtkThemeManager = GObject.registerClass({
         this._update();
     }
 
-    _set_system_theme() {
-        this.gtk_settings.reset_property('gtk-application-prefer-dark-theme');
-    }
-
     _update() {
         switch (this.theme_variant) {
         case 'system':
-            this._set_system_theme();
+            this.gtk_settings.reset_property('gtk-application-prefer-dark-theme');
             break;
 
         case 'dark':
@@ -106,43 +83,6 @@ const GtkThemeManager = GObject.registerClass({
 
         default:
             logError(new Error(`Unknown theme-variant: ${this.theme_variant}`));
-        }
-    }
-});
-
-const DesktopSettingsThemeManager = GObject.registerClass({
-    Properties: {
-        'desktop-color-scheme': GObject.ParamSpec.string(
-            'desktop-color-scheme',
-            '',
-            '',
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
-            'default'
-        ),
-    },
-}, class DDTermThemeManagerDesktopSettings extends GtkThemeManager {
-    _init(params) {
-        super._init(params);
-
-        this.connect('notify::desktop-color-scheme', () => this._update());
-    }
-
-    _set_system_theme() {
-        switch (this.desktop_color_scheme) {
-        case 'prefer-dark':
-            this.gtk_settings.gtk_application_prefer_dark_theme = true;
-            break;
-
-        case 'prefer-light':
-            this.gtk_settings.gtk_application_prefer_dark_theme = false;
-            break;
-
-        case 'default':
-            super._set_system_theme();
-            break;
-
-        default:
-            logError(new Error(`Unknown color-scheme: ${this.desktop_color_scheme}`));
         }
     }
 });

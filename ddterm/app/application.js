@@ -252,13 +252,8 @@ class Application extends Gtk.Application {
             this.add_action(this.settings.create_action(key));
         });
 
-        const desktop_settings = new Gio.Settings({
-            schema_id: 'org.gnome.desktop.interface',
-        });
-
         this.theme_manager = ThemeManager.create(
-            this.settings.get_string('theme-variant'),
-            desktop_settings
+            this.settings.get_string('theme-variant')
         );
 
         this.settings.bind(
@@ -278,6 +273,10 @@ class Application extends Gtk.Application {
         );
 
         this.terminal_settings = new TerminalSettings();
+
+        const desktop_settings = new Gio.Settings({
+            schema_id: 'org.gnome.desktop.interface',
+        });
 
         new TerminalSettingsParser({
             gsettings: this.settings,
