@@ -21,7 +21,6 @@ import GLib from 'gi://GLib';
 
 import Gettext from 'gettext';
 import Gi from 'gi';
-import System from 'system';
 
 import { create_extension_dbus_proxy } from './extensiondbus.js';
 import { get_resource_file, get_resource_text } from './resources.js';
@@ -113,12 +112,20 @@ export function gi_require_optional(imports_versions) {
     return loaded;
 }
 
+class MissingDependenciesError extends Error {
+    constructor(message) {
+        super(message);
+
+        this.name = 'MissingDependenciesError';
+    }
+}
+
 export function gi_require(imports_versions) {
     const loaded = gi_require_optional(imports_versions);
 
     if (Object.getOwnPropertyNames(loaded).length !==
         Object.getOwnPropertyNames(imports_versions).length)
-        System.exit(1);
+        throw new MissingDependenciesError();
 
     return loaded;
 }

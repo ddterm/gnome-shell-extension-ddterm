@@ -22,7 +22,6 @@
 const { GLib, GObject } = imports.gi;
 
 const System = imports.system;
-const Gettext = imports.gettext;
 
 GObject.gtypeNameBasedOnJSPath = true;
 
@@ -115,22 +114,16 @@ function import_sync(uri) {
     return resolve_sync(import(resolved_uri));
 }
 
-const { metadata, dir } = import_sync('ddterm/app/meta.js');
+let app_module;
 
-Gettext.bindtextdomain(metadata['gettext-domain'], dir.get_child('locale').get_path());
-Gettext.textdomain(metadata['gettext-domain']);
+try {
+    app_module = import_sync('ddterm/app/application.js');
+} catch (ex) {
+    if (ex.name === 'MissingDependenciesError')
+        System.exit(1);
 
-const { gi_require } = import_sync('ddterm/app/dependencies.js');
-
-gi_require({
-    'Gtk': '3.0',
-    'Gdk': '3.0',
-    'Pango': '1.0',
-    'Vte': '2.91',
-    'Handy': '1',
-});
-
-const app_module = import_sync('ddterm/app/application.js');
+    throw ex;
+}
 
 const app = new app_module.Application({
     application_id: 'com.github.amezin.ddterm',

@@ -5,6 +5,7 @@ app_js_files = files(
   'dependencies.js',
   'extensiondbus.js',
   'heapdump.js',
+  'init.js',
   'meta.js',
   'notebook.js',
   'pcre2.js',
