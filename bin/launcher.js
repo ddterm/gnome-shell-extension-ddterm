@@ -105,11 +105,11 @@ function resolve_sync(promise) {
     return result;
 }
 
-const base_uri = GLib.filename_to_uri(bin_dir, null);
+const this_file_uri = GLib.filename_to_uri(this_file, null);
 
 function import_sync(uri) {
     const resolved_uri =
-        GLib.Uri.resolve_relative(base_uri, uri, GLib.UriFlags.NONE);
+        GLib.Uri.resolve_relative(this_file_uri, uri, GLib.UriFlags.NONE);
 
     return resolve_sync(import(resolved_uri));
 }
@@ -117,7 +117,7 @@ function import_sync(uri) {
 let app_module;
 
 try {
-    app_module = import_sync('ddterm/app/application.js');
+    app_module = import_sync('../ddterm/app/application.js');
 } catch (ex) {
     if (ex.name === 'MissingDependenciesError')
         System.exit(1);
