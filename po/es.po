@@ -19,72 +19,70 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.4-dev\n"
 
-#: ddterm/app/application.js:85 ddterm/app/application.js:83
+#: ddterm/app/application.js:85
 msgid "Start the application, but do not show the window"
 msgstr "Lanzar la aplicación, no mostrar la ventana"
 
-#: ddterm/app/application.js:94 ddterm/app/application.js:92
+#: ddterm/app/application.js:94
 msgid "Comma-separated list of backends that GDK should try to use"
 msgstr "Backend que GDK debería utilizar, lista separada por comas"
 
-#: ddterm/app/application.js:103 ddterm/app/application.js:101
+#: ddterm/app/application.js:103
 msgid "Enable HeapDump D-Bus interface (for testing/debug)"
 msgstr "Activar interfaz HeapDump D-Bus (para tests y/o debug"
 
-#: ddterm/app/application.js:112 ddterm/app/application.js:110
+#: ddterm/app/application.js:112
 msgid "Show version information and exit"
 msgstr "Mostrar información sobre la versión y salir"
 
-#: ddterm/app/application.js:121 ddterm/app/application.js:119
+#: ddterm/app/application.js:121
 msgid "Run the specified command"
 msgstr "Ejecutar el comando especificado"
 
-#: ddterm/app/application.js:135 ddterm/app/application.js:133
+#: ddterm/app/application.js:135
 msgid "Wait for the command to exit, and return its exit code"
 msgstr ""
 "Esperar la finalización del comando y devolver el código de final de "
 "ejecución"
 
-#: ddterm/app/application.js:144 ddterm/app/application.js:142
+#: ddterm/app/application.js:144
 msgid "Set the working directory"
 msgstr "Establecer el directorio de trabajo"
 
-#: ddterm/app/application.js:153 ddterm/app/application.js:151
+#: ddterm/app/application.js:153
 msgid "Set tab title"
 msgstr "Renombrar el título de la pestaña"
 
-#: ddterm/app/application.js:162 ddterm/app/application.js:160
+#: ddterm/app/application.js:162
 msgid "Keep the terminal open after the command has exited"
 msgstr "Mantener la terminal abierta tras la terminación del commando"
 
-#: ddterm/app/application.js:171 ddterm/app/application.js:169
+#: ddterm/app/application.js:171
 msgid "Do not pass the environment"
 msgstr "No pasar el environment"
 
-#: ddterm/app/application.js:180 ddterm/app/application.js:178
+#: ddterm/app/application.js:180
 msgid "Open a new tab"
 msgstr "Abrir nueva pestaña"
 
-#: ddterm/app/application.js:360 ddterm/app/application.js:358
+#: ddterm/app/application.js:360
 msgid "Saving session…"
 msgstr "Guardando la sesión…"
 
-#: ddterm/app/application.js:409 ddterm/app/application.js:407
+#: ddterm/app/application.js:409
 msgid "Can't contact the extension."
 msgstr "No puedo comunicarme con la extensión."
 
 #: ddterm/app/application.js:411 ddterm/app/application.js:533
-#: ddterm/app/application.js:409 ddterm/app/application.js:531
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr ""
 "Por favor, asegúrese de que la extensión ddterm GNOME Shell está activada."
 
-#: ddterm/app/application.js:531 ddterm/app/application.js:529
+#: ddterm/app/application.js:531
 msgid "Can't read the version of the loaded extension."
 msgstr "No se puede leer la versión de la extensión cargada."
 
 #: ddterm/app/application.js:537 ddterm/shell/notifications.js:116
-#: ddterm/app/application.js:535
 msgid ""
 "Warning: ddterm version has changed. Log out, then log in again to load the "
 "updated extension."
@@ -97,17 +95,14 @@ msgid "Drop Down Terminal"
 msgstr "Terminal en Cascada"
 
 #: ddterm/app/dependencies.js:87 ddterm/shell/notifications.js:176
-#: ddterm/app/dependencies.js:88
 msgid "ddterm needs additional packages to run."
 msgstr "ddterm necesita paquetes adicionales para funcionar."
 
 #: ddterm/app/dependencies.js:92 ddterm/shell/notifications.js:181
-#: ddterm/app/dependencies.js:93
 msgid "Please install the following packages:"
 msgstr "Por favor instale los siguientes paquetes:"
 
 #: ddterm/app/dependencies.js:99 ddterm/shell/notifications.js:189
-#: ddterm/app/dependencies.js:100
 msgid "Please install packages that provide the following files:"
 msgstr "Por favor instale los paquetes que provean los siguientes archivos:"
 
