@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-05 05:57+0000\n"
+"POT-Creation-Date: 2024-02-07 18:26+0000\n"
 "PO-Revision-Date: 2023-11-10 09:35+0000\n"
 "Last-Translator: Frankie McEyes <mceyes@protonmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/gnome-shell-"
@@ -19,68 +19,68 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.2-dev\n"
 
-#: ddterm/app/application.js:83
+#: ddterm/app/application.js:85
 msgid "Start the application, but do not show the window"
 msgstr "Avvia l'applicazione, ma non mostrare la finestra"
 
-#: ddterm/app/application.js:92
+#: ddterm/app/application.js:94
 msgid "Comma-separated list of backends that GDK should try to use"
 msgstr ""
 "Elenco separato da virgole di backend che GDK dovrebbe provare a utilizzare"
 
-#: ddterm/app/application.js:101
+#: ddterm/app/application.js:103
 msgid "Enable HeapDump D-Bus interface (for testing/debug)"
 msgstr "Abilitare l'interfaccia D-Bus di HeapDump (per test/debug)"
 
-#: ddterm/app/application.js:110
+#: ddterm/app/application.js:112
 msgid "Show version information and exit"
 msgstr "Mostra informazioni sulla versione per poi uscire"
 
-#: ddterm/app/application.js:119
+#: ddterm/app/application.js:121
 msgid "Run the specified command"
 msgstr "Eseguire il comando specificato"
 
-#: ddterm/app/application.js:133
+#: ddterm/app/application.js:135
 msgid "Wait for the command to exit, and return its exit code"
 msgstr "Attendere l'uscita del comando e restituire il suo codice di uscita"
 
-#: ddterm/app/application.js:142
+#: ddterm/app/application.js:144
 msgid "Set the working directory"
 msgstr "Impostare la directory di lavoro"
 
-#: ddterm/app/application.js:151
+#: ddterm/app/application.js:153
 msgid "Set tab title"
 msgstr "Impostare il titolo della scheda"
 
-#: ddterm/app/application.js:160
+#: ddterm/app/application.js:162
 msgid "Keep the terminal open after the command has exited"
 msgstr "Mantenere aperto il terminale dopo l'uscita del comando"
 
-#: ddterm/app/application.js:169
+#: ddterm/app/application.js:171
 msgid "Do not pass the environment"
 msgstr "Non passare l'ambiente"
 
-#: ddterm/app/application.js:178
+#: ddterm/app/application.js:180
 msgid "Open a new tab"
 msgstr "Aprire una nuova scheda"
 
-#: ddterm/app/application.js:358
+#: ddterm/app/application.js:360
 msgid "Saving session…"
 msgstr "Salvataggio della sessione…"
 
-#: ddterm/app/application.js:407
+#: ddterm/app/application.js:409
 msgid "Can't contact the extension."
 msgstr ""
 
-#: ddterm/app/application.js:409 ddterm/app/application.js:531
+#: ddterm/app/application.js:411 ddterm/app/application.js:533
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr ""
 
-#: ddterm/app/application.js:529
+#: ddterm/app/application.js:531
 msgid "Can't read the version of the loaded extension."
 msgstr ""
 
-#: ddterm/app/application.js:535 ddterm/shell/notifications.js:116
+#: ddterm/app/application.js:537 ddterm/shell/notifications.js:116
 msgid ""
 "Warning: ddterm version has changed. Log out, then log in again to load the "
 "updated extension."
@@ -92,15 +92,15 @@ msgstr ""
 msgid "Drop Down Terminal"
 msgstr "Terminale a discesa"
 
-#: ddterm/app/dependencies.js:88 ddterm/shell/notifications.js:176
+#: ddterm/app/dependencies.js:87 ddterm/shell/notifications.js:176
 msgid "ddterm needs additional packages to run."
 msgstr "ddterm ha bisogno di pacchetti aggiuntivi per funzionare."
 
-#: ddterm/app/dependencies.js:93 ddterm/shell/notifications.js:181
+#: ddterm/app/dependencies.js:92 ddterm/shell/notifications.js:181
 msgid "Please install the following packages:"
 msgstr "Installare i seguenti pacchetti:"
 
-#: ddterm/app/dependencies.js:100 ddterm/shell/notifications.js:189
+#: ddterm/app/dependencies.js:99 ddterm/shell/notifications.js:189
 msgid "Please install packages that provide the following files:"
 msgstr "Installare i pacchetti che forniscono i seguenti file:"
 
