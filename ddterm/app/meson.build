@@ -5,7 +5,6 @@ app_js_files = files(
   'dependencies.js',
   'extensiondbus.js',
   'heapdump.js',
-  'init.js',
   'meta.js',
   'notebook.js',
   'pcre2.js',
@@ -44,6 +43,13 @@ pack += fs.copyfile(
 pack += fs.copyfile(
   get_option('esm') ? 'gtktheme.js' : 'gtktheme.legacy.js',
   'gtktheme.js',
+  install: true,
+  install_dir: extension_dir / 'ddterm' / 'app',
+)
+
+pack += fs.copyfile(
+  get_option('esm') ? 'init.js' : 'init.legacy.js',
+  'init.js',
   install: true,
   install_dir: extension_dir / 'ddterm' / 'app',
 )
