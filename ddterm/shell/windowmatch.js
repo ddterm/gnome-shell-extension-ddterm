@@ -123,13 +123,6 @@ export const WindowMatch = GObject.registerClass({
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             null
         ),
-        'wm-class': GObject.ParamSpec.string(
-            'wm-class',
-            '',
-            '',
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-            null
-        ),
     },
 }, class DDTermWindowMatch extends WindowMatchGeneric {
     _init(params) {
@@ -139,7 +132,6 @@ export const WindowMatch = GObject.registerClass({
             track_signals: [
                 'notify::gtk-application-id',
                 'notify::gtk-window-object-path',
-                'notify::wm-class',
             ],
             ...params,
         });
@@ -169,13 +161,6 @@ export const WindowMatch = GObject.registerClass({
             if (this.subprocess || win.get_client_type() === Meta.WindowClientType.WAYLAND)
                 return GLib.SOURCE_REMOVE;
         }
-
-        const wm_class = win.wm_class;
-        if (!wm_class)
-            return GLib.SOURCE_CONTINUE;
-
-        if (wm_class !== this.wm_class && wm_class !== this.gtk_application_id)
-            return GLib.SOURCE_REMOVE;
 
         const gtk_application_id = win.gtk_application_id;
         if (!gtk_application_id)

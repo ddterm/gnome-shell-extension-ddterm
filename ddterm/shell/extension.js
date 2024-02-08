@@ -39,7 +39,6 @@ import { WindowManager } from './wm.js';
 import { WindowMatch } from './windowmatch.js';
 
 const APP_ID = 'com.github.amezin.ddterm';
-const APP_WMCLASS = 'Com.github.amezin.ddterm';
 const APP_DBUS_PATH = '/com/github/amezin/ddterm';
 const WINDOW_PATH_PREFIX = `${APP_DBUS_PATH}/window/`;
 
@@ -64,7 +63,6 @@ function create_window_matcher(service, rollback) {
         display: global.display,
         gtk_application_id: APP_ID,
         gtk_window_object_path_prefix: WINDOW_PATH_PREFIX,
-        wm_class: APP_WMCLASS,
     });
 
     rollback.push(() => {
