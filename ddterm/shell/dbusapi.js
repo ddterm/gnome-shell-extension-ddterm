@@ -23,6 +23,8 @@ import Gio from 'gi://Gio';
 import Mtk from 'gi://Mtk';
 import Shell from 'gi://Shell';
 
+import { AppControl } from './appcontrol.js';
+
 function report_dbus_error_async(e, invocation) {
     if (e instanceof GLib.Error) {
         invocation.return_gerror(e);
@@ -88,6 +90,13 @@ export const DBusApi = GObject.registerClass({
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             ''
         ),
+        'app-control': GObject.ParamSpec.object(
+            'app-control',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+            AppControl
+        ),
         'target-rect': GObject.ParamSpec.boxed(
             'target-rect',
             '',
@@ -97,22 +106,6 @@ export const DBusApi = GObject.registerClass({
         ),
     },
     Signals: {
-        'toggle': {
-            return_type: GObject.TYPE_JSOBJECT,
-            accumulator: GObject.AccumulatorType.FIRST_WINS,
-        },
-        'activate': {
-            return_type: GObject.TYPE_JSOBJECT,
-            accumulator: GObject.AccumulatorType.FIRST_WINS,
-        },
-        'hide': {
-            return_type: GObject.TYPE_JSOBJECT,
-            accumulator: GObject.AccumulatorType.FIRST_WINS,
-        },
-        'service': {
-            return_type: GObject.TYPE_JSOBJECT,
-            accumulator: GObject.AccumulatorType.FIRST_WINS,
-        },
         'missing-dependencies': {
             param_types: [GObject.type_from_name('GStrv'), GObject.type_from_name('GStrv')],
         },
@@ -131,19 +124,19 @@ export const DBusApi = GObject.registerClass({
     }
 
     ToggleAsync(params, invocation) {
-        handle_dbus_method_call_async(() => this.emit('toggle'), params, invocation);
+        handle_dbus_method_call_async(() => this.app_control.toggle(), params, invocation);
     }
 
     ActivateAsync(params, invocation) {
-        handle_dbus_method_call_async(() => this.emit('activate'), params, invocation);
+        handle_dbus_method_call_async(() => this.app_control.activate(), params, invocation);
     }
 
     HideAsync(params, invocation) {
-        handle_dbus_method_call_async(() => this.emit('hide'), params, invocation);
+        handle_dbus_method_call_async(() => this.app_control.hide(), params, invocation);
     }
 
     ServiceAsync(params, invocation) {
-        handle_dbus_method_call_async(() => this.emit('service'), params, invocation);
+        handle_dbus_method_call_async(() => this.app_control.ensure_running(), params, invocation);
     }
 
     MissingDependencies(packages, files) {

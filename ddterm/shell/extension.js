@@ -93,12 +93,9 @@ function create_dbus_interface(
         xml_file_path: extension.dbus_xml_file_path,
         version: `${extension.metadata.version}`,
         revision: extension.revision,
+        app_control,
     });
 
-    dbus_interface.connect('toggle', () => app_control.toggle());
-    dbus_interface.connect('activate', () => app_control.activate());
-    dbus_interface.connect('hide', () => app_control.hide());
-    dbus_interface.connect('service', () => app_control.ensure_running());
     dbus_interface.connect('refresh-target-rect', () => {
         /*
          * Don't want to track mouse pointer continuously, so try to update the
