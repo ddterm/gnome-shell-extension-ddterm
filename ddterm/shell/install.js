@@ -19,19 +19,11 @@
 
 import GLib from 'gi://GLib';
 import Gio from 'gi://Gio';
-
-function arrays_equal(a, b) {
-    if (a.length !== b.length)
-        return false;
-
-    return a.every((v, i) => v === b[i]);
-}
+import Shell from 'gi://Shell';
 
 class File {
     constructor(source_file, target_file, fallback_files = []) {
-        const [, content_bytes] = GLib.file_get_contents(source_file);
-        this.content = new TextDecoder().decode(content_bytes);
-
+        this.content = Shell.get_file_contents_utf8_sync(source_file);
         this.target_file = target_file;
         this.fallback_files = fallback_files;
     }
@@ -44,9 +36,7 @@ class File {
     get_existing_content() {
         for (const existing_file of [this.target_file, ...this.fallback_files]) {
             try {
-                const [, content_bytes] = GLib.file_get_contents(existing_file);
-
-                return content_bytes;
+                return Shell.get_file_contents_utf8_sync(existing_file);
             } catch (ex) {
                 if (!ex.matches(GLib.file_error_quark(), GLib.FileError.NOENT))
                     logError(ex, `Can't read ${JSON.stringify(existing_file)}`);
@@ -57,10 +47,9 @@ class File {
     }
 
     install() {
-        const new_content = new TextEncoder().encode(this.content);
         const existing_content = this.get_existing_content();
 
-        if (existing_content && arrays_equal(existing_content, new_content))
+        if (this.content === existing_content)
             return false;
 
         GLib.mkdir_with_parents(
@@ -72,7 +61,7 @@ class File {
 
         GLib.file_set_contents_full(
             this.target_file,
-            new_content,
+            this.content,
             GLib.FileSetContentsFlags.NONE,
             0o600
         );
