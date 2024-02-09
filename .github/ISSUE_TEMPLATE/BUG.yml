@@ -63,6 +63,7 @@ body:
       description: >
         Output of `gnome-extensions list -d`
       placeholder: gnome-extensions list -d
+      render: Text
 
   - type: textarea
     id: dconf-dump
