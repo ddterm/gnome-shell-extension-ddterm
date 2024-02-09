@@ -45,7 +45,10 @@ class AstError extends Error {
 
 function translate(file) {
     const [, bytes] = file.load_contents(null);
-    const text = new TextDecoder().decode(bytes);
+    const text = globalThis.TextDecoder
+        ? new TextDecoder().decode(bytes)
+        : imports.byteArray.toString(bytes);
+
     const base_uri = file.get_uri();
     const base_uri_parsed = GLib.Uri.parse(base_uri, GLib.UriFlags.NONE);
 
@@ -287,7 +290,7 @@ app.connect('handle-local-options', (_, options) => {
 
         if (output_path) {
             Gio.File.new_for_commandline_arg(output_path).replace_contents(
-                new TextEncoder().encode(translated),
+                translated,
                 null,
                 false,
                 Gio.FileCreateFlags.NONE,

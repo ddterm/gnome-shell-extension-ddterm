@@ -6,7 +6,7 @@ project(
   default_options : ['prefix=/usr']
 )
 
-gjs = find_program('gjs', version: get_option('esm') ? '>=1.78.0' : '>=1.70.0')
+gjs = find_program('gjs', version: get_option('esm') ? '>=1.78.0' : '>=1.68.0')
 
 fs = import('fs')
 i18n = import('i18n')

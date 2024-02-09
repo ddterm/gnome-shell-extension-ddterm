@@ -35,7 +35,9 @@ export function is_wlclipboard(win) {
     try {
         const [, bytes] = GLib.file_get_contents(`/proc/${pid}/cmdline`);
         const argv0_bytes = bytes.slice(0, bytes.indexOf(0));
-        const argv0 = new TextDecoder().decode(argv0_bytes);
+        const argv0 = globalThis.TextDecoder
+            ? new TextDecoder().decode(argv0_bytes)
+            : imports.byteArray.toString(argv0_bytes);
 
         return ['wl-copy', 'wl-paste'].includes(GLib.path_get_basename(argv0));
     } catch {
