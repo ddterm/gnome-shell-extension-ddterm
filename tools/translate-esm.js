@@ -24,9 +24,6 @@ import Gio from 'gi://Gio';
 
 import System from 'system';
 
-const me_url = GLib.Uri.resolve_relative(import.meta.url, '..', GLib.UriFlags.NONE);
-const me_url_parsed = GLib.Uri.parse(me_url, GLib.UriFlags.NONE);
-
 class AstError extends Error {
     constructor(message, node) {
         if (node?.loc) {
@@ -43,7 +40,7 @@ class AstError extends Error {
     }
 }
 
-function translate(file) {
+function translate(file, root_url) {
     const [, bytes] = file.load_contents(null);
     const text = globalThis.TextDecoder
         ? new TextDecoder().decode(bytes)
@@ -115,7 +112,7 @@ function translate(file) {
         case 'file':
             return translate_path(
                 module_uri_parsed.get_path(),
-                me_url_parsed.get_path(),
+                root_url.get_path(),
                 'Me.imports',
                 node
             );
@@ -269,6 +266,15 @@ app.add_main_option(
     null
 );
 
+app.add_main_option(
+    'base-dir',
+    'd'.charCodeAt(0),
+    GLib.OptionFlags.NONE,
+    GLib.OptionArg.STRING,
+    'Base/root directory',
+    '.'
+);
+
 app.connect('handle-local-options', (_, options) => {
     const files = options.lookup(GLib.OPTION_REMAINING, 'as', true);
 
@@ -285,7 +291,9 @@ app.connect('handle-local-options', (_, options) => {
     const input_file = Gio.File.new_for_commandline_arg(files[0]);
 
     try {
-        const translated = translate(input_file);
+        const base_dir = GLib.canonicalize_filename(options.lookup('base-dir', 's'), null);
+        const base_uri = GLib.filename_to_uri(base_dir, null);
+        const translated = translate(input_file, GLib.Uri.parse(base_uri, GLib.UriFlags.NONE));
         const output_path = options.lookup('output', 's');
 
         if (output_path) {

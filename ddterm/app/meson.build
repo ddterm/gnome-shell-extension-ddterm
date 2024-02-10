@@ -5,9 +5,11 @@ app_js_files = files(
   'dependencies.js',
   'extensiondbus.js',
   'heapdump.js',
+  'init.js',
   'meta.js',
   'notebook.js',
   'pcre2.js',
+  'prefsdialog.js',
   'resources.js',
   'search.js',
   'settings.js',
@@ -26,30 +28,18 @@ app_ui_files = files(
 )
 
 foreach app_file : app_js_files + app_ui_files + files('dependencies.json', 'style.css')
-  pack += fs.copyfile(
-    app_file,
+  pack += custom_target(
+    command: preprocess_command,
+    input: app_file,
+    output: fs.name(app_file),
     install: true,
     install_dir: extension_dir / 'ddterm' / 'app',
   )
 endforeach
 
 pack += fs.copyfile(
-  get_option('esm') ? 'prefsdialog.js' : 'prefsdialog.legacy.js',
-  'prefsdialog.js',
-  install: true,
-  install_dir: extension_dir / 'ddterm' / 'app',
-)
-
-pack += fs.copyfile(
   get_option('esm') ? 'gtktheme.js' : 'gtktheme.legacy.js',
   'gtktheme.js',
-  install: true,
-  install_dir: extension_dir / 'ddterm' / 'app',
-)
-
-pack += fs.copyfile(
-  get_option('esm') ? 'init.js' : 'init.legacy.js',
-  'init.js',
   install: true,
   install_dir: extension_dir / 'ddterm' / 'app',
 )

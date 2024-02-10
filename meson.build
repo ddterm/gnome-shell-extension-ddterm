@@ -92,7 +92,15 @@ gjs_config.set('GJS', gjs.full_path())
 
 gtk3_builder_tool = find_program('gtk-builder-tool')
 
-gjs_translate_esm = [gjs, '-m', files('tools' / 'translate-esm.js'), '-o', '@OUTPUT@', '@INPUT@']
+sed = find_program('sed')
+
+if get_option('esm')
+  preprocess_command = [output_capture, sed, '-f', files('tools/preproc_esm.sin'), '@INPUT@']
+else
+  preprocess_command = [output_capture, sed, '-f', files('tools/preproc_legacy.sin'), '@INPUT@']
+endif
+
+gjs_translate_esm = [gjs, '-m', files('tools' / 'translate-esm.js')]
 
 subdir('bin')
 subdir('schemas')

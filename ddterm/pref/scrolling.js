@@ -21,8 +21,7 @@ import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
 import Gtk from 'gi://Gtk';
 
-import { ui_file_uri } from './resources.js';
-import { bind_sensitive, bind_widget, insert_settings_actions } from './util.js';
+import { bind_sensitive, bind_widget, insert_settings_actions, ui_file_uri } from './util.js';
 
 export const ScrollingWidget = GObject.registerClass({
     GTypeName: 'DDTermPrefsScrolling',

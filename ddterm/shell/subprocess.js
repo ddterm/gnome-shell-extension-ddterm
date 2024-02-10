@@ -130,13 +130,12 @@ class TeeLogCollector {
 
     async collect() {
         await this._promise;
-
-        if (globalThis.TextDecoder) {
-            const decoder = new TextDecoder();
-            return this._collected.map(line => decoder.decode(line)).join('\n');
-        } else {
+        // BEGIN !ESM
+        if (!globalThis.TextDecoder)
             return this._collected.map(line => imports.byteArray.toString(line)).join('\n');
-        }
+        // END !ESM
+        const decoder = new TextDecoder();
+        return this._collected.map(line => decoder.decode(line)).join('\n');
     }
 }
 

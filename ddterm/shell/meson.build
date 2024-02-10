@@ -18,15 +18,23 @@ shell_files = files(
 
 foreach shell_file : shell_files
   if get_option('esm')
-    pack += fs.copyfile(
-      shell_file,
+    pack += custom_target(
+      command: preprocess_command,
+      input: shell_file,
+      output: fs.name(shell_file),
       install: true,
       install_dir: extension_dir / 'ddterm' / 'shell',
     )
   else
-    pack += custom_target(
-      command: gjs_translate_esm,
+    preproc = custom_target(
+      command: preprocess_command,
       input: shell_file,
+      output: fs.name(shell_file) + '.sed',
+    )
+
+    pack += custom_target(
+      command: [gjs_translate_esm, '-o', '@OUTPUT@', '-d', meson.project_build_root(), '@INPUT@'],
+      input: preproc,
       output: fs.name(shell_file),
       install: true,
       install_dir: extension_dir / 'ddterm' / 'shell',

@@ -22,8 +22,7 @@ import Gio from 'gi://Gio';
 import Gdk from 'gi://Gdk';
 import Gtk from 'gi://Gtk';
 
-import { ui_file_uri } from './resources.js';
-import { bind_sensitive, insert_settings_actions } from './util.js';
+import { bind_sensitive, insert_settings_actions, ui_file_uri } from './util.js';
 
 const IS_GTK3 = Gtk.get_major_version() === 3;
 
