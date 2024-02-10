@@ -11,8 +11,15 @@ MEMORY = 2048
 PROJECT_DIR = Pathname.new(__FILE__).realpath.dirname
 SYNCED_FOLDER = "/home/vagrant/#{PROJECT_DIR.basename}"
 UUID = 'ddterm@amezin.github.com'
-PACK_FILE = Pathname.getwd / ENV.fetch('DDTERM_BUILT_PACK', "#{UUID}.shell-extension.zip")
-PACK_FILE_NAME = PACK_FILE.basename
+
+PACK_FILE_FALLBACK = Pathname.getwd / "#{UUID}.shell-extension.zip"
+PACK_FILE_FALLBACK_LEGACY = Pathname.getwd / "#{UUID}.legacy.shell-extension.zip"
+
+if not PACK_FILE_FALLBACK.exist? and PACK_FILE_FALLBACK_LEGACY.exist?
+  PACK_FILE_FALLBACK = PACK_FILE_FALLBACK_LEGACY
+end
+
+PACK_FILE = Pathname.getwd / ENV.fetch('DDTERM_BUILT_PACK', PACK_FILE_FALLBACK.to_s)
 
 stdout, status = Open3.capture2(
   'git',
@@ -58,12 +65,12 @@ Vagrant.configure("2") do |config|
   config.vm.provision 'copy',
     type: 'file',
     source: PACK_FILE,
-    destination: "$HOME/#{PACK_FILE_NAME}",
+    destination: "$HOME/#{PACK_FILE.basename}",
     before: 'install',
     run: 'always'
 
   config.vm.provision 'install', type: 'shell', privileged: false, run: 'always', inline: <<-SCRIPT
-    gnome-extensions install -f $HOME/#{PACK_FILE_NAME}
+    gnome-extensions install -f $HOME/#{PACK_FILE.basename}
     gnome-extensions enable #{UUID}
   SCRIPT
 

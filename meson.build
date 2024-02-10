@@ -112,7 +112,7 @@ pack_target = custom_target(
     'tools' / 'makezip.py', '--output', '@OUTPUT@', '--relative-to', '@OUTDIR@', '--', '@INPUT@'
   ],
   input: pack,
-  output: f'@uuid@.shell-extension.zip',
+  output: get_option('esm') ? f'@uuid@.shell-extension.zip' : f'@uuid@.legacy.shell-extension.zip',
   build_by_default: true,
 )
 
