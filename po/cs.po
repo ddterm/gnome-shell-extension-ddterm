@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-08 14:55+0000\n"
+"POT-Creation-Date: 2024-02-10 15:18+0000\n"
 "PO-Revision-Date: 2023-10-24 22:14+0000\n"
 "Last-Translator: Pavel Novák <pavelnov32@gmail.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/gnome-shell-"
@@ -214,8 +214,7 @@ msgstr "Rozdělit vertikálně"
 msgid "Move Tab to Other Pane"
 msgstr "Posunout panel na další okno"
 
-#: ddterm/app/menus.ui:157 ddterm/app/prefsdialog.js:45
-#: ddterm/app/prefsdialog.legacy.js:78
+#: ddterm/app/menus.ui:157 ddterm/app/prefsdialog.js:83
 msgid "Preferences"
 msgstr "Předvolby"
 
@@ -378,7 +377,7 @@ msgstr "Okno"
 msgid "Terminal"
 msgstr "Terminál"
 
-#: ddterm/pref/adw.js:118 ddterm/pref/shortcuts.js:133
+#: ddterm/pref/adw.js:118 ddterm/pref/shortcuts.js:132
 msgid "Keyboard Shortcuts"
 msgstr "Klávesové zkratky"
 
@@ -386,43 +385,43 @@ msgstr "Klávesové zkratky"
 msgid "Miscellaneous"
 msgstr "Ostatní"
 
-#: ddterm/pref/animation.js:78
+#: ddterm/pref/animation.js:77
 msgid "Animation"
 msgstr "Animace"
 
-#: ddterm/pref/behavior.js:67
+#: ddterm/pref/behavior.js:66
 msgid "Behavior"
 msgstr "Chování"
 
-#: ddterm/pref/colors.js:470
+#: ddterm/pref/colors.js:469
 msgid "Colors"
 msgstr "Barvy"
 
-#: ddterm/pref/command.js:68
+#: ddterm/pref/command.js:67
 msgid "Command"
 msgstr "Příkaz"
 
-#: ddterm/pref/compatibility.js:76
+#: ddterm/pref/compatibility.js:75
 msgid "Compatibility"
 msgstr "Kompatibilita"
 
-#: ddterm/pref/panelicon.js:53
+#: ddterm/pref/panelicon.js:52
 msgid "Panel Icon"
 msgstr "Ikona na panelu"
 
-#: ddterm/pref/positionsize.js:93
+#: ddterm/pref/positionsize.js:114
 msgid "Position and Size"
 msgstr "Pozice a velikost"
 
-#: ddterm/pref/scrolling.js:77
+#: ddterm/pref/scrolling.js:76
 msgid "Scrolling"
 msgstr "Posouvání"
 
-#: ddterm/pref/tabs.js:92
+#: ddterm/pref/tabs.js:96
 msgid "Tabs"
 msgstr "Panely"
 
-#: ddterm/pref/text.js:101
+#: ddterm/pref/text.js:100
 msgid "Text"
 msgstr "Text"
 

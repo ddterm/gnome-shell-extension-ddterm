@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-08 14:55+0000\n"
+"POT-Creation-Date: 2024-02-10 15:18+0000\n"
 "PO-Revision-Date: 2023-09-26 17:35+0300\n"
 "Last-Translator: Anagnostakis Ioannis <rizitis@gmail.com>\n"
 "Language-Team: Greek, Modern (1453-) <>\n"
@@ -216,8 +216,7 @@ msgstr ""
 msgid "Move Tab to Other Pane"
 msgstr "Επανατοποθέτηση καρτέλας μετά"
 
-#: ddterm/app/menus.ui:157 ddterm/app/prefsdialog.js:45
-#: ddterm/app/prefsdialog.legacy.js:78
+#: ddterm/app/menus.ui:157 ddterm/app/prefsdialog.js:83
 msgid "Preferences"
 msgstr "Προτιμήσεις"
 
@@ -385,7 +384,7 @@ msgstr "Παράθυρο"
 msgid "Terminal"
 msgstr "Τερματικό"
 
-#: ddterm/pref/adw.js:118 ddterm/pref/shortcuts.js:133
+#: ddterm/pref/adw.js:118 ddterm/pref/shortcuts.js:132
 msgid "Keyboard Shortcuts"
 msgstr "Συντομεύσεις Πληκτρολογίου"
 
@@ -393,43 +392,43 @@ msgstr "Συντομεύσεις Πληκτρολογίου"
 msgid "Miscellaneous"
 msgstr "Διάφορα"
 
-#: ddterm/pref/animation.js:78
+#: ddterm/pref/animation.js:77
 msgid "Animation"
 msgstr "Animation"
 
-#: ddterm/pref/behavior.js:67
+#: ddterm/pref/behavior.js:66
 msgid "Behavior"
 msgstr "Συμπεριφορά"
 
-#: ddterm/pref/colors.js:470
+#: ddterm/pref/colors.js:469
 msgid "Colors"
 msgstr "Χρώμματα"
 
-#: ddterm/pref/command.js:68
+#: ddterm/pref/command.js:67
 msgid "Command"
 msgstr "Εντολή"
 
-#: ddterm/pref/compatibility.js:76
+#: ddterm/pref/compatibility.js:75
 msgid "Compatibility"
 msgstr "Συμβατότητα"
 
-#: ddterm/pref/panelicon.js:53
+#: ddterm/pref/panelicon.js:52
 msgid "Panel Icon"
 msgstr "Εικονίδιο Πάνελ"
 
-#: ddterm/pref/positionsize.js:93
+#: ddterm/pref/positionsize.js:114
 msgid "Position and Size"
 msgstr "Θέση και μέγεθος"
 
-#: ddterm/pref/scrolling.js:77
+#: ddterm/pref/scrolling.js:76
 msgid "Scrolling"
 msgstr "Κύλιση"
 
-#: ddterm/pref/tabs.js:92
+#: ddterm/pref/tabs.js:96
 msgid "Tabs"
 msgstr "Καρτέλες"
 
-#: ddterm/pref/text.js:101
+#: ddterm/pref/text.js:100
 msgid "Text"
 msgstr "Κείμενο"
 

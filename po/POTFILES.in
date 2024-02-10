@@ -5,7 +5,6 @@ ddterm/app/dependencies.js
 ddterm/app/menus.ui
 ddterm/app/notebook.js
 ddterm/app/prefsdialog.js
-ddterm/app/prefsdialog.legacy.js
 ddterm/app/search.js
 ddterm/app/tablabel.js
 ddterm/app/terminalpage.js

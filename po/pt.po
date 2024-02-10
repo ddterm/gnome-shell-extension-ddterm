@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-08 14:55+0000\n"
+"POT-Creation-Date: 2024-02-10 15:18+0000\n"
 "PO-Revision-Date: 2023-10-02 00:02+0000\n"
 "Last-Translator: Luiz Carlos de Souza Santos <lcdessantos@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/gnome-shell-"
@@ -218,8 +218,7 @@ msgstr ""
 msgid "Move Tab to Other Pane"
 msgstr "Mover Aba para a Próxima Posição"
 
-#: ddterm/app/menus.ui:157 ddterm/app/prefsdialog.js:45
-#: ddterm/app/prefsdialog.legacy.js:78
+#: ddterm/app/menus.ui:157 ddterm/app/prefsdialog.js:83
 msgid "Preferences"
 msgstr "Preferências"
 
@@ -384,7 +383,7 @@ msgstr "Janela"
 msgid "Terminal"
 msgstr "Terminal"
 
-#: ddterm/pref/adw.js:118 ddterm/pref/shortcuts.js:133
+#: ddterm/pref/adw.js:118 ddterm/pref/shortcuts.js:132
 msgid "Keyboard Shortcuts"
 msgstr "Atalhos de Teclado"
 
@@ -392,43 +391,43 @@ msgstr "Atalhos de Teclado"
 msgid "Miscellaneous"
 msgstr "Miscelânea"
 
-#: ddterm/pref/animation.js:78
+#: ddterm/pref/animation.js:77
 msgid "Animation"
 msgstr "Animação"
 
-#: ddterm/pref/behavior.js:67
+#: ddterm/pref/behavior.js:66
 msgid "Behavior"
 msgstr "Comportamento"
 
-#: ddterm/pref/colors.js:470
+#: ddterm/pref/colors.js:469
 msgid "Colors"
 msgstr "Cores"
 
-#: ddterm/pref/command.js:68
+#: ddterm/pref/command.js:67
 msgid "Command"
 msgstr "Comando"
 
-#: ddterm/pref/compatibility.js:76
+#: ddterm/pref/compatibility.js:75
 msgid "Compatibility"
 msgstr "Compatibilidade"
 
-#: ddterm/pref/panelicon.js:53
+#: ddterm/pref/panelicon.js:52
 msgid "Panel Icon"
 msgstr "Ícone 'Painel'"
 
-#: ddterm/pref/positionsize.js:93
+#: ddterm/pref/positionsize.js:114
 msgid "Position and Size"
 msgstr "Posição e Tamanho"
 
-#: ddterm/pref/scrolling.js:77
+#: ddterm/pref/scrolling.js:76
 msgid "Scrolling"
 msgstr "Rolagem"
 
-#: ddterm/pref/tabs.js:92
+#: ddterm/pref/tabs.js:96
 msgid "Tabs"
 msgstr "Abas"
 
-#: ddterm/pref/text.js:101
+#: ddterm/pref/text.js:100
 msgid "Text"
 msgstr "Texto"
 

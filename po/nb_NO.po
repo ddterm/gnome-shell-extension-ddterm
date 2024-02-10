@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-08 14:55+0000\n"
+"POT-Creation-Date: 2024-02-10 15:18+0000\n"
 "PO-Revision-Date: 2023-10-22 20:00+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/gnome-"
@@ -214,8 +214,7 @@ msgstr "Del loddrett"
 msgid "Move Tab to Other Pane"
 msgstr "Flytt fane til neste flate"
 
-#: ddterm/app/menus.ui:157 ddterm/app/prefsdialog.js:45
-#: ddterm/app/prefsdialog.legacy.js:78
+#: ddterm/app/menus.ui:157 ddterm/app/prefsdialog.js:83
 msgid "Preferences"
 msgstr "Innstillinger"
 
@@ -380,7 +379,7 @@ msgstr "Vindu"
 msgid "Terminal"
 msgstr "Terminal"
 
-#: ddterm/pref/adw.js:118 ddterm/pref/shortcuts.js:133
+#: ddterm/pref/adw.js:118 ddterm/pref/shortcuts.js:132
 msgid "Keyboard Shortcuts"
 msgstr "Tastatursnarveier"
 
@@ -388,43 +387,43 @@ msgstr "Tastatursnarveier"
 msgid "Miscellaneous"
 msgstr "Ymse"
 
-#: ddterm/pref/animation.js:78
+#: ddterm/pref/animation.js:77
 msgid "Animation"
 msgstr "Animasjon"
 
-#: ddterm/pref/behavior.js:67
+#: ddterm/pref/behavior.js:66
 msgid "Behavior"
 msgstr "Adferd"
 
-#: ddterm/pref/colors.js:470
+#: ddterm/pref/colors.js:469
 msgid "Colors"
 msgstr "Farger"
 
-#: ddterm/pref/command.js:68
+#: ddterm/pref/command.js:67
 msgid "Command"
 msgstr "Kommando"
 
-#: ddterm/pref/compatibility.js:76
+#: ddterm/pref/compatibility.js:75
 msgid "Compatibility"
 msgstr "Kompabilitet"
 
-#: ddterm/pref/panelicon.js:53
+#: ddterm/pref/panelicon.js:52
 msgid "Panel Icon"
 msgstr "Panelikon"
 
-#: ddterm/pref/positionsize.js:93
+#: ddterm/pref/positionsize.js:114
 msgid "Position and Size"
 msgstr "Posisjon og størrelse"
 
-#: ddterm/pref/scrolling.js:77
+#: ddterm/pref/scrolling.js:76
 msgid "Scrolling"
 msgstr "Rulling"
 
-#: ddterm/pref/tabs.js:92
+#: ddterm/pref/tabs.js:96
 msgid "Tabs"
 msgstr "Faner"
 
-#: ddterm/pref/text.js:101
+#: ddterm/pref/text.js:100
 msgid "Text"
 msgstr "Tekst"
 

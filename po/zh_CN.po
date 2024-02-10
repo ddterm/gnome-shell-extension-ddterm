@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-08 14:55+0000\n"
+"POT-Creation-Date: 2024-02-10 15:18+0000\n"
 "PO-Revision-Date: 2024-02-10 15:02+0000\n"
 "Last-Translator: yuh <yuhldr@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -212,8 +212,7 @@ msgstr "垂直拆分"
 msgid "Move Tab to Other Pane"
 msgstr "移动标签页到下一个面板"
 
-#: ddterm/app/menus.ui:157 ddterm/app/prefsdialog.js:45
-#: ddterm/app/prefsdialog.legacy.js:78
+#: ddterm/app/menus.ui:157 ddterm/app/prefsdialog.js:83
 msgid "Preferences"
 msgstr "首选项"
 
@@ -375,7 +374,7 @@ msgstr "窗口"
 msgid "Terminal"
 msgstr "终端"
 
-#: ddterm/pref/adw.js:118 ddterm/pref/shortcuts.js:133
+#: ddterm/pref/adw.js:118 ddterm/pref/shortcuts.js:132
 msgid "Keyboard Shortcuts"
 msgstr "键盘快捷键"
 
@@ -383,43 +382,43 @@ msgstr "键盘快捷键"
 msgid "Miscellaneous"
 msgstr "杂项"
 
-#: ddterm/pref/animation.js:78
+#: ddterm/pref/animation.js:77
 msgid "Animation"
 msgstr "动画"
 
-#: ddterm/pref/behavior.js:67
+#: ddterm/pref/behavior.js:66
 msgid "Behavior"
 msgstr "行为"
 
-#: ddterm/pref/colors.js:470
+#: ddterm/pref/colors.js:469
 msgid "Colors"
 msgstr "颜色"
 
-#: ddterm/pref/command.js:68
+#: ddterm/pref/command.js:67
 msgid "Command"
 msgstr "命令"
 
-#: ddterm/pref/compatibility.js:76
+#: ddterm/pref/compatibility.js:75
 msgid "Compatibility"
 msgstr "兼容性"
 
-#: ddterm/pref/panelicon.js:53
+#: ddterm/pref/panelicon.js:52
 msgid "Panel Icon"
 msgstr "面板图标"
 
-#: ddterm/pref/positionsize.js:93
+#: ddterm/pref/positionsize.js:114
 msgid "Position and Size"
 msgstr "位置和尺寸"
 
-#: ddterm/pref/scrolling.js:77
+#: ddterm/pref/scrolling.js:76
 msgid "Scrolling"
 msgstr "滚动"
 
-#: ddterm/pref/tabs.js:92
+#: ddterm/pref/tabs.js:96
 msgid "Tabs"
 msgstr "标签页"
 
-#: ddterm/pref/text.js:101
+#: ddterm/pref/text.js:100
 msgid "Text"
 msgstr "文本"
 
