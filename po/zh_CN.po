@@ -1,13 +1,13 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the ddterm package.
-# yuh <yuhldr@qq.com>, 2023.
+# yuh <yuhldr@qq.com>, 2023, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-02-08 14:55+0000\n"
-"PO-Revision-Date: 2023-11-23 08:05+0000\n"
+"PO-Revision-Date: 2024-02-10 15:02+0000\n"
 "Last-Translator: yuh <yuhldr@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "gnome-shell-extension-ddterm/extension/zh_Hans/>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.2.1-rc\n"
+"X-Generator: Weblate 5.4-dev\n"
 
 #: ddterm/app/application.js:85
 msgid "Start the application, but do not show the window"
@@ -68,15 +68,15 @@ msgstr "会话保存中……"
 
 #: ddterm/app/application.js:409
 msgid "Can't contact the extension."
-msgstr ""
+msgstr "无法连接到扩展。"
 
 #: ddterm/app/application.js:411 ddterm/app/application.js:533
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
-msgstr ""
+msgstr "请确保ddterm在GNOME扩展中可用。"
 
 #: ddterm/app/application.js:531
 msgid "Can't read the version of the loaded extension."
-msgstr ""
+msgstr "无法读取已加载扩展插件的版本。"
 
 #: ddterm/app/application.js:537 ddterm/shell/notifications.js:116
 msgid ""
@@ -220,7 +220,6 @@ msgstr "首选项"
 #: ddterm/app/menus.ui:160 ddterm/app/menus.ui:294
 #: ddterm/com.github.amezin.ddterm.desktop.in.in:24
 #: ddterm/shell/panelicon.js:76
-#, fuzzy
 msgid "Preferences…"
 msgstr "首选项…"
 
@@ -353,19 +352,18 @@ msgstr "该终端中仍有一个进程在运行。关闭终端，将会销毁该
 #: ddterm/com.github.amezin.ddterm.desktop.in.in:4
 #: ddterm/shell/notifications.js:104
 msgid "ddterm"
-msgstr ""
+msgstr "ddterm"
 
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: ddterm/com.github.amezin.ddterm.desktop.in.in:6
 msgid "shell;prompt;command;commandline;cmd;run;terminal;"
-msgstr ""
+msgstr "shell;提示;命令;命令行;cmd;运行;终端;"
 
 #: ddterm/com.github.amezin.ddterm.desktop.in.in:7
 msgid "Another drop down terminal extension for GNOME Shell"
-msgstr ""
+msgstr "GNOME Shell的另一个下拉式终端扩展"
 
 #: ddterm/com.github.amezin.ddterm.desktop.in.in:20
-#, fuzzy
 msgid "Toggle"
 msgstr "切换按钮"
 
@@ -1317,16 +1315,15 @@ msgstr "检测 \"news:\"、\"man:\" URLs"
 
 #: ddterm/shell/extension.js:274
 msgid "Failed to launch ddterm application"
-msgstr ""
+msgstr "无法启动ddterm应用程序"
 
 #: ddterm/shell/notifications.js:163
-#, fuzzy
 msgid "Copy to Clipboard"
-msgstr "从剪贴板上粘贴文本"
+msgstr "复制到剪贴板"
 
 #: ddterm/shell/notifications.js:207
 msgid "Install"
-msgstr ""
+msgstr "安装"
 
 #: ddterm/shell/panelicon.js:64
 msgid "Show"
