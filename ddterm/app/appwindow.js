@@ -146,7 +146,7 @@ export const AppWindow = GObject.registerClass({
 class DDTermAppWindow extends Gtk.ApplicationWindow {
     _init(params) {
         super._init({
-            title: Gettext.gettext('Drop Down Terminal'),
+            title: Gettext.gettext('ddterm'),
             icon_name: 'utilities-terminal',
             window_position: Gtk.WindowPosition.CENTER,
             ...params,
