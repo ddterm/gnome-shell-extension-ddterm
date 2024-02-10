@@ -11,7 +11,7 @@ MEMORY = 2048
 PROJECT_DIR = Pathname.new(__FILE__).realpath.dirname
 SYNCED_FOLDER = "/home/vagrant/#{PROJECT_DIR.basename}"
 UUID = 'ddterm@amezin.github.com'
-PACK_FILE = ENV.fetch('DDTERM_BUILT_PACK', Pathname.getwd / "#{UUID}.shell-extension.zip")
+PACK_FILE = Pathname.getwd / ENV.fetch('DDTERM_BUILT_PACK', "#{UUID}.shell-extension.zip")
 PACK_FILE_NAME = PACK_FILE.basename
 
 stdout, status = Open3.capture2(
