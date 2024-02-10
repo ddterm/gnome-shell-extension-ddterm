@@ -144,25 +144,7 @@ foreach target: ['toggle', 'quit']
 endforeach
 
 npm_tool = find_program('npm', required: false, disabler: true)
-
-if meson.version().version_compare('>=1.3.0')
-  ignore_dir = fs.relative_to(
-    meson.current_build_dir(),
-    meson.current_source_dir(),
-  )
-else
-  ignore_dir = run_command(
-    'python3',
-    '-c',
-    'import os.path; import sys; print(os.path.relpath(*sys.argv[1:]))',
-    meson.current_build_dir(),
-    meson.current_source_dir(),
-    capture: true,
-    check: true,
-  ).stdout().strip()
-endif
-
-npm_install_stamp = meson.current_build_dir() / 'npm-install'
+npm_install_stamp = meson.current_build_dir() / 'npm-install.stamp'
 npm_env = {'DDTERM_POST_INSTALL_STAMP': npm_install_stamp}
 meson.add_devenv(npm_env)
 
