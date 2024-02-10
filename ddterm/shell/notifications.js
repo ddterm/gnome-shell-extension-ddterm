@@ -78,6 +78,94 @@ const Notification = GObject.registerClass({
     }
 });
 
+const VersionMismatchNotification = GObject.registerClass({
+}, class DDTermVersionMismatchNotification extends Notification {
+    _init(source, gettext_context) {
+        const banner = gettext_context.gettext(
+            'Warning: ddterm version has changed. ' +
+            'Log out, then log in again to load the updated extension.'
+        );
+
+        super._init(source, source.title, banner);
+    }
+});
+
+const ErrorNotification = GObject.registerClass({
+}, class DDTermErrorNotification extends Notification {
+    _init(source, message, trace, gettext_context) {
+        if (message instanceof Error || message instanceof GLib.Error)
+            message = message.message;
+
+        if (trace instanceof Error || trace instanceof GLib.Error)
+            trace = trace.message;
+
+        message = `${message}`;
+
+        if (!trace?.trim()) {
+            super._init(source, source.title, message);
+            return;
+        }
+
+        const plain = [message, '', trace].join('\n');
+        const markup = [
+            `<b>${GLib.markup_escape_text(message, -1)}</b>`,
+            '',
+            GLib.markup_escape_text(trace, -1),
+        ].join('\n');
+
+        super._init(source, source.title, markup, { bannerMarkup: true });
+
+        this.addAction(
+            gettext_context.gettext('Copy to Clipboard'),
+            () => St.Clipboard.get_default().set_text(St.ClipboardType.CLIPBOARD, plain)
+        );
+    }
+});
+
+const MissingDependenciesNotification = GObject.registerClass({
+}, class DDTermMissingDependenciesNotification extends Notification {
+    _init(source, packages, files, app_id, gettext_context) {
+        const lines = [
+            gettext_context.gettext('ddterm needs additional packages to run.'),
+        ];
+
+        if (packages.length > 0) {
+            lines.push(
+                gettext_context.gettext('Please install the following packages:'),
+                packages.join(' ')
+            );
+        }
+
+        if (files.length > 0) {
+            lines.push(
+                gettext_context.gettext(
+                    'Please install packages that provide the following files:'
+                ),
+                files.join(' ')
+            );
+        }
+
+        super._init(source, source.title, lines.join('\n'));
+
+        if (packages.length === 0)
+            return;
+
+        const cancellable = new Gio.Cancellable();
+
+        this.connect('destroy', () => {
+            cancellable.cancel();
+        });
+
+        find_package_installer(cancellable).then(installer => {
+            this.addAction(gettext_context.gettext('Install'), () => {
+                installer(packages, app_id);
+            });
+
+            this.update(this.title, this.bannerBodyText, {});
+        });
+    }
+});
+
 export const Notifications = GObject.registerClass({
     Properties: {
         'gettext-context': GObject.ParamSpec.jsobject(
@@ -92,8 +180,6 @@ export const Notifications = GObject.registerClass({
         super._init(params);
 
         this._source = null;
-        this._version_mismatch_notifications = new Set();
-        this._missing_dependencies_notifications = new Set();
     }
 
     create_source() {
@@ -112,114 +198,40 @@ export const Notifications = GObject.registerClass({
     }
 
     show_version_mismatch() {
-        const banner = this.gettext_context.gettext(
-            'Warning: ddterm version has changed. ' +
-            'Log out, then log in again to load the updated extension.'
-        );
-
         const source = this.create_source();
-        const notification = new Notification(source, source.title, banner);
+        const notification = new VersionMismatchNotification(source, this.gettext_context);
         source.showNotification(notification);
-
-        this._version_mismatch_notifications.add(notification);
-
-        notification.connect('destroy', () => {
-            this._version_mismatch_notifications.delete(notification);
-        });
     }
 
     show_error(message, trace) {
-        if (this._missing_dependencies_notifications.size > 0)
-            return;
-
         const source = this.create_source();
 
-        if (message instanceof Error || message instanceof GLib.Error)
-            message = message.message;
-
-        if (trace instanceof Error || trace instanceof GLib.Error)
-            trace = trace.message;
-
-        message = `${message}`;
-
-        if (!trace?.trim()) {
-            const notification = new Notification(source, source.title, message);
-            notification.setUrgency(MessageTray.Urgency.CRITICAL);
-            source.showNotification(notification);
+        if (source.notifications.some(n => n instanceof MissingDependenciesNotification))
             return;
-        }
 
-        const plain = [message, '', trace].join('\n');
-        const markup = [
-            `<b>${GLib.markup_escape_text(message, -1)}</b>`,
-            '',
-            GLib.markup_escape_text(trace, -1),
-        ].join('\n');
+        const notification = new ErrorNotification(source, message, trace, this.gettext_context);
 
-        const notification =
-            new Notification(source, source.title, markup, { bannerMarkup: true });
-
-        notification.addAction(
-            this.gettext_context.gettext('Copy to Clipboard'),
-            () => St.Clipboard.get_default().set_text(St.ClipboardType.CLIPBOARD, plain)
-        );
-
-        for (const version_mismatch_notification of this._version_mismatch_notifications)
-            version_mismatch_notification.setUrgency(MessageTray.Urgency.CRITICAL);
+        source.notifications.filter(n => n instanceof VersionMismatchNotification).forEach(n => {
+            n.setUrgency(MessageTray.Urgency.CRITICAL);
+        });
 
         notification.setUrgency(MessageTray.Urgency.CRITICAL);
         source.showNotification(notification);
     }
 
-    async show_missing_dependencies(packages, files, app_id) {
-        const lines = [
-            this.gettext_context.gettext('ddterm needs additional packages to run.'),
-        ];
-
-        if (packages.length > 0) {
-            lines.push(
-                this.gettext_context.gettext('Please install the following packages:'),
-                packages.join(' ')
-            );
-        }
-
-        if (files.length > 0) {
-            lines.push(
-                this.gettext_context.gettext(
-                    'Please install packages that provide the following files:'
-                ),
-                files.join(' ')
-            );
-        }
-
+    show_missing_dependencies(packages, files, app_id) {
         const source = this.create_source();
-        const notification = new Notification(source, source.title, lines.join('\n'));
-
-        if (packages.length > 0) {
-            const cancellable = new Gio.Cancellable();
-            const cancel_handler = source.connect('destroy', () => cancellable.cancel());
-
-            try {
-                const installer = await find_package_installer(cancellable);
-
-                notification.setForFeedback(true);
-                notification.addAction(
-                    this.gettext_context.gettext('Install'),
-                    () => installer(packages, app_id)
-                );
-            } finally {
-                source.disconnect(cancel_handler);
-            }
-        }
+        const notification = new MissingDependenciesNotification(
+            source,
+            packages,
+            files,
+            app_id,
+            this.gettext_context
+        );
 
         notification.setUrgency(MessageTray.Urgency.CRITICAL);
+        notification.setForFeedback(true);
         source.showNotification(notification);
-
-        this._missing_dependencies_notifications.add(notification);
-
-        notification.connect('destroy', () => {
-            this._missing_dependencies_notifications.delete(notification);
-        });
     }
 
     destroy(reason = MessageTray.NotificationDestroyedReason.SOURCE_CLOSED) {
