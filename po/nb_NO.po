@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-10 15:18+0000\n"
+"POT-Creation-Date: 2024-02-10 18:12+0000\n"
 "PO-Revision-Date: 2023-10-22 20:00+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/gnome-"
@@ -78,7 +78,7 @@ msgstr ""
 msgid "Can't read the version of the loaded extension."
 msgstr ""
 
-#: ddterm/app/application.js:537 ddterm/shell/notifications.js:116
+#: ddterm/app/application.js:537 ddterm/shell/notifications.js:85
 msgid ""
 "Warning: ddterm version has changed. Log out, then log in again to load the "
 "updated extension."
@@ -90,15 +90,15 @@ msgstr ""
 msgid "Drop Down Terminal"
 msgstr "Rullegardinsterminal"
 
-#: ddterm/app/dependencies.js:87 ddterm/shell/notifications.js:176
+#: ddterm/app/dependencies.js:87 ddterm/shell/notifications.js:129
 msgid "ddterm needs additional packages to run."
 msgstr "ddterm trenger ytterligere pakker for å kjøre."
 
-#: ddterm/app/dependencies.js:92 ddterm/shell/notifications.js:181
+#: ddterm/app/dependencies.js:92 ddterm/shell/notifications.js:134
 msgid "Please install the following packages:"
 msgstr "Installer følgende pakker først:"
 
-#: ddterm/app/dependencies.js:99 ddterm/shell/notifications.js:189
+#: ddterm/app/dependencies.js:99 ddterm/shell/notifications.js:142
 msgid "Please install packages that provide the following files:"
 msgstr "Installer pakkene som tilbyr følgende filer:"
 
@@ -353,7 +353,7 @@ msgstr ""
 "lukkes."
 
 #: ddterm/com.github.amezin.ddterm.desktop.in.in:4
-#: ddterm/shell/notifications.js:104
+#: ddterm/shell/notifications.js:190
 msgid "ddterm"
 msgstr ""
 
@@ -1328,12 +1328,12 @@ msgstr "Oppdag \"news:\", \"man:\" -nettadresser"
 msgid "Failed to launch ddterm application"
 msgstr ""
 
-#: ddterm/shell/notifications.js:163
+#: ddterm/shell/notifications.js:119
 #, fuzzy
 msgid "Copy to Clipboard"
 msgstr "Lim inn tekst fra utklippstavle"
 
-#: ddterm/shell/notifications.js:207
+#: ddterm/shell/notifications.js:160
 msgid "Install"
 msgstr ""
 
