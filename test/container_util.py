@@ -26,7 +26,7 @@ class Podman:
         cmd = self.cmd(*args)
         cmd_str = shlex.join(cmd)
 
-        LOGGER.info('%r: starting', cmd_str)
+        LOGGER.info('%r: starting, timeout: %d', cmd_str, kwargs['timeout'])
         proc = subprocess.run(cmd, **kwargs)
 
         ex = None if proc.returncode == 0 else subprocess.CalledProcessError(

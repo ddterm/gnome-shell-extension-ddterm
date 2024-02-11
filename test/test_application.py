@@ -81,13 +81,9 @@ class TestApp(ddterm_fixtures.DDTermFixtures):
         screencap.enable(x11_display)
 
     @pytest.fixture(scope='class')
-    def app_executable(self, ddterm_extension_info, enable_test_extension):
-        return pathlib.PurePosixPath(ddterm_extension_info['path']) / 'bin/com.github.amezin.ddterm'
-
-    @pytest.fixture(scope='class')
-    def run_app(self, container, app_executable):
+    def run_app(self, container, launcher_path, enable_test_extension):
         container.exec(
-            str(app_executable),
+            str(launcher_path),
             timeout=self.START_STOP_TIMEOUT_SEC,
             user=container.user,
         )
@@ -106,11 +102,11 @@ class TestApp(ddterm_fixtures.DDTermFixtures):
             timeout=self.START_STOP_TIMEOUT_MS
         )
 
-    def test_cli_leak(self, container, heap_dump_api, tmp_path, app_executable):
+    def test_cli_leak(self, container, heap_dump_api, tmp_path, launcher_path):
         test_file = tmp_path / 'testfile'
 
         container.exec(
-            str(app_executable),
+            str(launcher_path),
             '--wait',
             '--',
             'bash',
@@ -128,7 +124,7 @@ class TestApp(ddterm_fixtures.DDTermFixtures):
         )
 
         container.exec(
-            str(app_executable),
+            str(launcher_path),
             '--wait',
             '--',
             'bash',

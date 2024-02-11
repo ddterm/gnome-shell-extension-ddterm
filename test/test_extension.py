@@ -5,6 +5,7 @@ import functools
 import logging.handlers
 import math
 import pathlib
+import shlex
 
 import pytest
 import Xlib.X
@@ -808,6 +809,39 @@ class TestXSession(CommonTests):
 class TestWaylandSession(CommonTests):
     GNOME_SHELL_SESSION_NAME = 'gnome-session-wayland'
 
+    def test_wl_clipboard(self, container, launcher_path, shell_dbus_api, tmp_path):
+        tmp_path.chmod(0o777)
+
+        container.exec(
+            str(launcher_path),
+            '--wait',
+            '--no-environment',
+            '--keep-open',
+            '--',
+            'bash',
+            '-c',
+            'echo wl-clipboard-test-content | wl-copy',
+            user=container.user,
+            timeout=self.START_STOP_TIMEOUT_SEC
+        )
+
+        test_file = tmp_path / 'wl-clipboard-test-file'
+
+        container.exec(
+            str(launcher_path),
+            '--wait',
+            '--no-environment',
+            '--keep-open',
+            '--',
+            'bash',
+            '-c',
+            f'wl-paste >{shlex.quote(str(test_file))}',
+            user=container.user,
+            timeout=self.START_STOP_TIMEOUT_SEC
+        )
+
+        assert test_file.read_text() == 'wl-clipboard-test-content\n\n'
+
 
 def config_volume(path):
     host_path = THIS_DIR / pathlib.Path(path)
@@ -819,7 +853,9 @@ def config_volume(path):
     )
 
 
-class TestWaylandHighDpi(TestWaylandSession):
+class TestWaylandHighDpi(CommonTests):
+    GNOME_SHELL_SESSION_NAME = 'gnome-session-wayland'
+
     @pytest.fixture(scope='class')
     def container_volumes(self, container_volumes):
         return container_volumes + (
@@ -829,7 +865,8 @@ class TestWaylandHighDpi(TestWaylandSession):
         )
 
 
-class TestWaylandDualMonitor(TestWaylandSession):
+class TestWaylandDualMonitor(CommonTests):
+    GNOME_SHELL_SESSION_NAME = 'gnome-session-wayland'
     N_MONITORS = 2
 
     @pytest.fixture(scope='class')
@@ -859,7 +896,9 @@ class TestWaylandMixedDPI(TestWaylandDualMonitor):
             pytest.skip('Mixed DPI is not supported by ddterm on GNOME Shell <42')
 
 
-class TestWaylandFractionalScaling(TestWaylandSession):
+class TestWaylandFractionalScaling(CommonTests):
+    GNOME_SHELL_SESSION_NAME = 'gnome-session-wayland'
+
     @pytest.fixture(scope='class')
     def container_volumes(self, container_volumes):
         return container_volumes + (

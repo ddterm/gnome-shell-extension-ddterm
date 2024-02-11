@@ -1,5 +1,6 @@
 import itertools
 import logging
+import pathlib
 
 import pytest
 
@@ -40,6 +41,10 @@ class DDTermFixtures(container_fixtures.ContainerFixtures):
     @pytest.fixture(scope='class')
     def ddterm_extension_info(self, enable_ddterm_extension):
         return enable_ddterm_extension
+
+    @pytest.fixture(scope='class')
+    def launcher_path(self, ddterm_extension_info):
+        return pathlib.PurePosixPath(ddterm_extension_info['path']) / 'bin/com.github.amezin.ddterm'
 
     @pytest.fixture(scope='class')
     def ddterm_extension_interface(self, user_bus_connection, enable_ddterm_extension):
