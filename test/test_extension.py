@@ -809,8 +809,31 @@ class TestXSession(CommonTests):
 class TestWaylandSession(CommonTests):
     GNOME_SHELL_SESSION_NAME = 'gnome-session-wayland'
 
-    def test_wl_clipboard(self, container, launcher_path, shell_dbus_api, tmp_path):
+    def test_wl_clipboard(self, container, launcher_path, shell_dbus_api, test_api, tmp_path):
         tmp_path.chmod(0o777)
+        test_file = tmp_path / 'wl-clipboard-test-file'
+
+        glib_util.flush_main_loop()
+
+        if test_api.dbus.get_cached_property('HasWindow'):
+            with glib_util.SignalWait(test_api.dbus, 'g-properties-changed') as prop_wait:
+                test_api.dbus.Toggle()
+
+                while test_api.dbus.get_cached_property('HasWindow'):
+                    prop_wait.wait()
+
+        glib_util.flush_main_loop()
+
+        test_api.settings.set_boolean('window-above', False)
+        test_api.settings.set_boolean('hide-when-focus-lost', True)
+
+        with glib_util.SignalWait(test_api.dbus, 'g-properties-changed') as prop_wait:
+            test_api.dbus.Toggle()
+
+            while not test_api.dbus.get_cached_property('RenderedFirstFrame'):
+                prop_wait.wait()
+
+        assert test_api.dbus.get_cached_property('ActiveApp').unpack() == 'com.github.amezin.ddterm'
 
         container.exec(
             str(launcher_path),
@@ -825,7 +848,11 @@ class TestWaylandSession(CommonTests):
             timeout=self.START_STOP_TIMEOUT_SEC
         )
 
-        test_file = tmp_path / 'wl-clipboard-test-file'
+        glib_util.sleep(1000)
+        assert test_api.dbus.get_cached_property('ActiveApp').unpack() == 'com.github.amezin.ddterm'
+
+        test_api.settings.set_boolean('window-above', True)
+        test_api.settings.set_boolean('hide-when-focus-lost', False)
 
         container.exec(
             str(launcher_path),
@@ -840,6 +867,8 @@ class TestWaylandSession(CommonTests):
             timeout=self.START_STOP_TIMEOUT_SEC
         )
 
+        test_api.dbus.WaitLeisure()
+        assert test_api.dbus.get_cached_property('ActiveApp').unpack() == 'com.github.amezin.ddterm'
         assert test_file.read_text() == 'wl-clipboard-test-content\n\n'
 
 
