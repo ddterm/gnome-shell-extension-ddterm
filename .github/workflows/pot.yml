@@ -49,7 +49,7 @@ jobs:
       working-directory: build
 
     - name: Update .pot file
-      run: ninja -j1 msgmerge
+      run: ninja -j1 pot
       working-directory: build
 
     - name: Update .po files
