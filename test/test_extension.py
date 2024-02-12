@@ -805,6 +805,65 @@ class CommonTests(ddterm_fixtures.DDTermFixtures):
 class TestXSession(CommonTests):
     GNOME_SHELL_SESSION_NAME = 'gnome-session-x11'
 
+    def test_dark_mode(self, test_api, container, shell_dbus_api, x11_display):
+        if shell_dbus_api.version < (42, 0):
+            pytest.skip('Dark mode is not supported before GNOME 42')
+
+        glib_util.flush_main_loop()
+
+        if test_api.dbus.get_cached_property('HasWindow'):
+            with glib_util.SignalWait(test_api.dbus, 'g-properties-changed') as prop_wait:
+                test_api.dbus.Toggle()
+
+                while test_api.dbus.get_cached_property('HasWindow'):
+                    prop_wait.wait()
+
+        glib_util.flush_main_loop()
+
+        test_api.settings.set_double('window-size', 1)
+        test_api.settings.set_string('window-position', WindowPosition.TOP)
+        test_api.settings.set_string('window-monitor', MonitorSetting.PRIMARY)
+        test_api.settings.set_boolean('window-maximize', True)
+
+        with glib_util.SignalWait(test_api.dbus, 'g-properties-changed') as prop_wait:
+            test_api.dbus.Toggle()
+
+            while not test_api.dbus.get_cached_property('RenderedFirstFrame'):
+                prop_wait.wait()
+
+        monitor_rect = test_api.layout.monitors[0].geometry
+        probe_point_x = (monitor_rect.x + monitor_rect.width) // 2
+        probe_point_y = (monitor_rect.y + monitor_rect.height) // 2
+
+        screen = x11_display.screen()
+
+        def get_pixel_color():
+            image = screen.root.get_image(
+                x=probe_point_x,
+                y=probe_point_y,
+                width=1,
+                height=1,
+                format=Xlib.X.ZPixmap,
+                plane_mask=0xffffffff
+            )
+
+            return image.data
+
+        container.gsettings_set('org.gnome.desktop.interface', 'color-scheme', 'prefer-dark')
+        glib_util.sleep(1000)
+        pixel = get_pixel_color()
+        assert pixel[0] < 128 and pixel[1] < 128 and pixel[2] < 128
+
+        container.gsettings_set('org.gnome.desktop.interface', 'color-scheme', 'prefer-light')
+        glib_util.sleep(1000)
+        pixel = get_pixel_color()
+        assert pixel[0] > 128 and pixel[1] > 128 and pixel[2] > 128
+
+        container.gsettings_set('org.gnome.desktop.interface', 'color-scheme', 'default')
+        glib_util.sleep(1000)
+        pixel = get_pixel_color()
+        assert pixel[0] > 128 and pixel[1] > 128 and pixel[2] > 128
+
 
 class TestWaylandSession(CommonTests):
     GNOME_SHELL_SESSION_NAME = 'gnome-session-wayland'
