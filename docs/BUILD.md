@@ -65,6 +65,21 @@ After these steps, you should have the package:
 If the process fails, please double-check that you have all the dependencies
 (2.a) installed.
 
+## 3.1. Build the package for old GNOME versions (before 45)
+
+Packages built for GNOME 45 aren't compatible with older versions, and packages
+built for older versions aren't compatible with GNOME 45.
+
+By default, the build targets GNOME 45.
+
+To build the package for older versions, add `-Desm=false` to `meson setup`:
+
+    $ meson setup build-legacy-dir
+    $ ninja -C build-legacy-dir pack
+
+The genearted package will have a different name (it will include
+the word `legacy`): `ddterm@amezin.github.com.legacy.shell-extension.zip`.
+
 # 4. Install the package
 
 The installation process is described in
