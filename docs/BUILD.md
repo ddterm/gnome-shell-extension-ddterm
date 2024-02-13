@@ -101,11 +101,11 @@ You may run `meson install` under `sudo` to install the package system-wide
 
 Or, the same command with ninja:
 
-    $ ninja -C build-dir install
+    $ sudo ninja -C build-dir install
 
 Installed files can be removed with the following command:
 
-    $ ninja -C build-dir uninstall
+    $ sudo ninja -C build-dir uninstall
 
 However, `sudo` installation is not recommended. Instead, you should build and
 use OS-specific packages (`.deb`, `.rpm`). `meson install ... --destdir ...`
