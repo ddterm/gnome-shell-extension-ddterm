@@ -4,14 +4,14 @@
 # Adrian Alberdi Ainciburu <adrian1992@gmail.com>, 2023.
 # gallegonovato <fran-carro@hotmail.es>, 2023, 2024.
 # Patricio Carrau <66135366+DuckyCB@users.noreply.github.com>, 2024.
+# Patricio Carrau <duckycb@proton.me>, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-02-10 19:16+0000\n"
-"PO-Revision-Date: 2024-02-13 20:02+0000\n"
-"Last-Translator: Patricio Carrau <66135366+DuckyCB@users.noreply.github.com>"
-"\n"
+"PO-Revision-Date: 2024-02-15 20:12+0000\n"
+"Last-Translator: Patricio Carrau <duckycb@proton.me>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/"
 "gnome-shell-extension-ddterm/extension/es/>\n"
 "Language: es\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.4-dev\n"
+"X-Generator: Weblate 5.4\n"
 
 #: ddterm/app/application.js:85
 msgid "Start the application, but do not show the window"
@@ -518,7 +518,7 @@ msgstr "Interpolación circular, inversa"
 
 #: ddterm/pref/ui/prefs-animation.ui:124
 msgid "Circular tweening, combining direct and inverse"
-msgstr ""
+msgstr "Interpolación circular, que combina directa e inversa"
 
 #: ddterm/pref/ui/prefs-animation.ui:128
 msgid "Elastic tweening, with offshoot on start"
@@ -592,7 +592,7 @@ msgstr ""
 
 #: ddterm/pref/ui/prefs-behavior.ui:87
 msgid "Hide when the application loses _focus"
-msgstr ""
+msgstr "Esconder cuando la aplicación pierde el _foco"
 
 #: ddterm/pref/ui/prefs-behavior.ui:103
 msgid "Hide when _Esc key is pressed"
@@ -838,7 +838,7 @@ msgstr "Copiar perfil de GNOME Terminal"
 
 #: ddterm/pref/ui/prefs-colors.ui:673
 msgid "Foreground"
-msgstr ""
+msgstr "Primer plano"
 
 #: ddterm/pref/ui/prefs-colors.ui:684
 msgid "Background"
@@ -858,11 +858,11 @@ msgstr ""
 
 #: ddterm/pref/ui/prefs-colors.ui:732
 msgid "Highlight color:"
-msgstr ""
+msgstr "Color de resaltado:"
 
 #: ddterm/pref/ui/prefs-colors.ui:749
 msgid "Color _scheme:"
-msgstr ""
+msgstr "_Esquema de colores:"
 
 #: ddterm/pref/ui/prefs-colors.ui:767
 msgid "Background Color"
@@ -950,7 +950,7 @@ msgstr "Amplio"
 
 #: ddterm/pref/ui/prefs-compatibility.ui:164
 msgid "_Reset Compatibility Options to Defaults"
-msgstr ""
+msgstr "_Restablecer Opciones de Compatibilidad a las Predeterminadas"
 
 #: ddterm/pref/ui/prefs-panel-icon.ui:38 ddterm/pref/ui/prefs-tabs.ui:246
 msgid "None"
@@ -994,7 +994,7 @@ msgstr "Derecha"
 
 #: ddterm/pref/ui/prefs-position-size.ui:104
 msgid "On the monitor that contains the mouse pointer"
-msgstr ""
+msgstr "En el monitor que contiene el puntero del ratón"
 
 #: ddterm/pref/ui/prefs-position-size.ui:122
 msgid "On the _primary monitor"
@@ -1030,11 +1030,11 @@ msgstr "líneas"
 
 #: ddterm/pref/ui/prefs-shortcuts.ui:43
 msgid "Toggle Terminal Window"
-msgstr ""
+msgstr "Alternar Ventana de Terminal"
 
 #: ddterm/pref/ui/prefs-shortcuts.ui:50
 msgid "Show/Activate Terminal Window"
-msgstr ""
+msgstr "Mostrar/Activar Ventana de Terminal"
 
 #: ddterm/pref/ui/prefs-shortcuts.ui:73
 msgid "Hide the Window"
@@ -1054,39 +1054,39 @@ msgstr ""
 
 #: ddterm/pref/ui/prefs-shortcuts.ui:101
 msgid "Increase Background Opacity"
-msgstr ""
+msgstr "Aumentar Opacidad del Fondo"
 
 #: ddterm/pref/ui/prefs-shortcuts.ui:108
 msgid "Decrease Background Opacity"
-msgstr ""
+msgstr "Disminuir Opacidad del Fondo"
 
 #: ddterm/pref/ui/prefs-shortcuts.ui:115
 msgid "Enable/Disable Background Transparency"
-msgstr ""
+msgstr "Activar/Desactivar la Transparencia del Fondo"
 
 #: ddterm/pref/ui/prefs-shortcuts.ui:122
 msgid "Copy Selected Text"
-msgstr ""
+msgstr "Copiar Texto Seleccionado"
 
 #: ddterm/pref/ui/prefs-shortcuts.ui:129
 msgid "Copy Selected Text as HTML"
-msgstr ""
+msgstr "Copiar Texto Seleccionado como HTML"
 
 #: ddterm/pref/ui/prefs-shortcuts.ui:136
 msgid "Paste Text from Clipboard"
-msgstr ""
+msgstr "Pegar Texto del Portapapeles"
 
 #: ddterm/pref/ui/prefs-shortcuts.ui:192
 msgid "Close Current Tab"
-msgstr ""
+msgstr "Cerrar pestaña actual"
 
 #: ddterm/pref/ui/prefs-shortcuts.ui:199
 msgid "Switch to Previous Tab"
-msgstr ""
+msgstr "Cambiar a pestaña anterior"
 
 #: ddterm/pref/ui/prefs-shortcuts.ui:206
 msgid "Switch to Next Tab"
-msgstr ""
+msgstr "Cambiar a pestaña siguiente"
 
 #: ddterm/pref/ui/prefs-shortcuts.ui:241
 msgid "Move Keyboard Focus to Other Split Pane"
@@ -1110,47 +1110,47 @@ msgstr ""
 
 #: ddterm/pref/ui/prefs-shortcuts.ui:276
 msgid "Reset Tab Title"
-msgstr ""
+msgstr "Restablecer título de pestaña"
 
 #: ddterm/pref/ui/prefs-shortcuts.ui:325
 msgid "Switch to Tab 1"
-msgstr ""
+msgstr "Cambiar a pestaña 1"
 
 #: ddterm/pref/ui/prefs-shortcuts.ui:332
 msgid "Switch to Tab 2"
-msgstr ""
+msgstr "Cambiar a pestaña 2"
 
 #: ddterm/pref/ui/prefs-shortcuts.ui:339
 msgid "Switch to Tab 3"
-msgstr ""
+msgstr "Cambiar a pestaña 3"
 
 #: ddterm/pref/ui/prefs-shortcuts.ui:346
 msgid "Switch to Tab 4"
-msgstr ""
+msgstr "Cambiar a pestaña 4"
 
 #: ddterm/pref/ui/prefs-shortcuts.ui:353
 msgid "Switch to Tab 5"
-msgstr ""
+msgstr "Cambiar a pestaña 5"
 
 #: ddterm/pref/ui/prefs-shortcuts.ui:360
 msgid "Switch to Tab 6"
-msgstr ""
+msgstr "Cambiar a pestaña 6"
 
 #: ddterm/pref/ui/prefs-shortcuts.ui:367
 msgid "Switch to Tab 7"
-msgstr ""
+msgstr "Cambiar a pestaña 7"
 
 #: ddterm/pref/ui/prefs-shortcuts.ui:374
 msgid "Switch to Tab 8"
-msgstr ""
+msgstr "Cambiar a pestaña 8"
 
 #: ddterm/pref/ui/prefs-shortcuts.ui:381
 msgid "Switch to Tab 9"
-msgstr ""
+msgstr "Cambiar a pestaña 9"
 
 #: ddterm/pref/ui/prefs-shortcuts.ui:388
 msgid "Switch to Tab 10"
-msgstr ""
+msgstr "Cambiar a pestaña 10"
 
 #: ddterm/pref/ui/prefs-shortcuts.ui:421 ddterm/pref/ui/prefs-shortcuts.ui:493
 msgid "Action"
@@ -1158,11 +1158,11 @@ msgstr ""
 
 #: ddterm/pref/ui/prefs-shortcuts.ui:433
 msgid "Global Shortcut"
-msgstr ""
+msgstr "Atajo global"
 
 #: ddterm/pref/ui/prefs-shortcuts.ui:463
 msgid "_Enable application shortcuts"
-msgstr ""
+msgstr "_Habilitar atajos de aplicación"
 
 #: ddterm/pref/ui/prefs-shortcuts.ui:505
 msgid "Shortcut"
@@ -1170,7 +1170,7 @@ msgstr "Atajo de teclado"
 
 #: ddterm/pref/ui/prefs-shortcuts.ui:535
 msgid "Reset All Shortcuts to Defaults"
-msgstr ""
+msgstr "Restablecer Todos los Atajos a los Predeterminados"
 
 #: ddterm/pref/ui/prefs-tabs.ui:44
 msgid "Expand tabs"
