@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-02-10 19:16+0000\n"
-"PO-Revision-Date: 2023-12-26 17:07+0000\n"
-"Last-Translator: Ettore Atalan <atalanttore@googlemail.com>\n"
+"PO-Revision-Date: 2024-02-15 20:22+0100\n"
+"Last-Translator: Philipp Kiemle <philipp.kiemle@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/gnome-shell-"
 "extension-ddterm/extension/de/>\n"
 "Language: de\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.4-dev\n"
+"X-Generator: Poedit 3.4.2\n"
 
 #: ddterm/app/application.js:85
 msgid "Start the application, but do not show the window"
@@ -71,15 +71,17 @@ msgstr "Sitzung wird gespeichert …"
 
 #: ddterm/app/application.js:409
 msgid "Can't contact the extension."
-msgstr ""
+msgstr "Kontaktieren der Erweiterung fehlgeschlagen."
 
 #: ddterm/app/application.js:411 ddterm/app/application.js:533
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr ""
+"Bitte stellen Sie sicher, dass die GNOME-Shell-Erweiterung »ddterm« "
+"aktiviert ist."
 
 #: ddterm/app/application.js:531
 msgid "Can't read the version of the loaded extension."
-msgstr ""
+msgstr "Die Version der geladenen Erweiterung konnte nicht ermittelt werden."
 
 #: ddterm/app/application.js:537 ddterm/shell/notifications.js:85
 msgid ""
@@ -92,7 +94,7 @@ msgstr ""
 #: ddterm/app/appwindow.js:149 ddterm/com.github.amezin.ddterm.desktop.in.in:4
 #: ddterm/shell/notifications.js:190
 msgid "ddterm"
-msgstr ""
+msgstr "ddterm"
 
 #: ddterm/app/dependencies.js:87 ddterm/shell/notifications.js:129
 msgid "ddterm needs additional packages to run."
@@ -360,10 +362,12 @@ msgstr ""
 #: ddterm/com.github.amezin.ddterm.desktop.in.in:6
 msgid "shell;prompt;command;commandline;cmd;run;terminal;"
 msgstr ""
+"shell;prompt;command;commandline;cmd;run;terminal;Eingabeaufforderung;Befehl;"
+"Befehlszeile;ausführen;"
 
 #: ddterm/com.github.amezin.ddterm.desktop.in.in:7
 msgid "Another drop down terminal extension for GNOME Shell"
-msgstr ""
+msgstr "Ein Aufklapp-Terminal für die GNOME Shell"
 
 #: ddterm/com.github.amezin.ddterm.desktop.in.in:20
 msgid "Toggle"
@@ -1088,9 +1092,8 @@ msgid "Switch to Next Tab"
 msgstr "Zum nächsten Reiter wechseln"
 
 #: ddterm/pref/ui/prefs-shortcuts.ui:241
-#, fuzzy
 msgid "Move Keyboard Focus to Other Split Pane"
-msgstr "Verschiebe Reiter zum nächsten Teilbereich"
+msgstr "Tastaturfokus auf andere geteilte Ansicht verschieben"
 
 #: ddterm/pref/ui/prefs-shortcuts.ui:248
 msgid "Move Tab to Other Split Pane"
@@ -1318,16 +1321,15 @@ msgstr "\"news:\", \"man:\"-URLs erkennen"
 
 #: ddterm/shell/extension.js:274
 msgid "Failed to launch ddterm application"
-msgstr ""
+msgstr "Starten der ddterm-Anwendung fehlgeschlagen"
 
 #: ddterm/shell/notifications.js:119
-#, fuzzy
 msgid "Copy to Clipboard"
-msgstr "Text aus Zwischenablage einfügen"
+msgstr "In Zwischenablage kopieren"
 
 #: ddterm/shell/notifications.js:160
 msgid "Install"
-msgstr ""
+msgstr "Installieren"
 
 #: ddterm/shell/panelicon.js:64
 msgid "Show"
