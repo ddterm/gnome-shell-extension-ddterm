@@ -186,7 +186,7 @@ msgstr "Nouvel onglet avant l'onglet actuel"
 
 #: ddterm/app/menus.ui:115 ddterm/pref/ui/prefs-shortcuts.ui:185
 msgid "New Tab After Current Tab"
-msgstr "Nouvel onglet après celui-ci"
+msgstr "Nouvel onglet après l'onglet actuel"
 
 #: ddterm/app/menus.ui:119 ddterm/app/menus.ui:247
 #: ddterm/pref/ui/prefs-shortcuts.ui:171
