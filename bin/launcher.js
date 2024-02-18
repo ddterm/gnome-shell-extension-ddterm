@@ -19,6 +19,11 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+/*
+    To have the correct process name, the launcher has to be a GJS script.
+    Not a shell script exec'ing gjs.
+*/
+
 const { GLib, GObject } = imports.gi;
 
 const System = imports.system;
@@ -27,46 +32,43 @@ GObject.gtypeNameBasedOnJSPath = true;
 
 GLib.set_prgname('com.github.amezin.ddterm');
 
-function split_path(pathname) {
-    const after_root = GLib.path_skip_root(pathname);
-    const root = pathname.substr(0, pathname.length - after_root.length);
-    const parts = after_root.split(GLib.DIR_SEPARATOR_S);
-
-    parts.unshift(root);
-    return parts;
-}
-
 function realpath(filename) {
-    let parts = split_path(filename);
-    let resolved = parts[0];
-    let n_resolved = 1;
+    const remaining = [];
 
-    while (n_resolved < parts.length) {
-        const try_filename = GLib.build_filenamev([resolved, parts[n_resolved]]);
+    for (;;) {
+        const parent = GLib.path_get_dirname(filename);
 
-        if (!GLib.file_test(try_filename, GLib.FileTest.IS_SYMLINK)) {
-            resolved = try_filename;
-            n_resolved++;
+        if (parent === filename)
+            break;
+
+        remaining.push(GLib.path_get_basename(filename));
+        filename = parent;
+    }
+
+    let resolved = filename;
+
+    while (remaining.length) {
+        const next_filename = GLib.build_filenamev([resolved, remaining.pop()]);
+
+        if (!GLib.file_test(next_filename, GLib.FileTest.IS_SYMLINK)) {
+            resolved = next_filename;
             continue;
         }
 
-        const target = GLib.canonicalize_filename(GLib.file_read_link(try_filename), resolved);
-        const target_parts = split_path(target);
-        let new_n_resolved = 1;
+        let target =
+            GLib.canonicalize_filename(GLib.file_read_link(next_filename), resolved);
 
-        while (
-            new_n_resolved < n_resolved &&
-            new_n_resolved < target_parts.length &&
-            target_parts[new_n_resolved] === parts[new_n_resolved]
-        )
-            new_n_resolved++;
+        for (;;) {
+            const parent = GLib.path_get_dirname(target);
 
-        parts = target_parts.concat(parts.slice(n_resolved + 1));
+            if (parent === target)
+                break;
 
-        if (n_resolved !== new_n_resolved) {
-            n_resolved = new_n_resolved;
-            resolved = GLib.build_filenamev(target_parts.slice(0, new_n_resolved));
+            remaining.push(GLib.path_get_basename(target));
+            target = parent;
         }
+
+        resolved = target;
     }
 
     return resolved;
