@@ -19,6 +19,8 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+'use strict';
+
 /*
     To have the correct process name, the launcher has to be a GJS script.
     Not a shell script exec'ing gjs.
