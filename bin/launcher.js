@@ -83,8 +83,9 @@ function realpath(filename) {
 }
 
 const this_file = realpath(System.programPath);
+const this_file_name = GLib.path_get_basename(this_file);
 const bin_dir = GLib.path_get_dirname(this_file);
-const launcher_in_path = GLib.find_program_in_path('com.github.amezin.ddterm');
+const launcher_in_path = GLib.find_program_in_path(this_file_name);
 
 if (!launcher_in_path || this_file !== realpath(launcher_in_path)) {
     const current_env_path = GLib.getenv('PATH') ?? '';
