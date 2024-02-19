@@ -46,29 +46,37 @@ function realpath(filename) {
     }
 
     let resolved = filename;
+    let resolved_parents = [filename];
 
     while (remaining.length) {
         const next_filename = GLib.build_filenamev([resolved, remaining.pop()]);
 
         if (!GLib.file_test(next_filename, GLib.FileTest.IS_SYMLINK)) {
             resolved = next_filename;
+            resolved_parents.push(resolved);
             continue;
         }
 
         let target =
             GLib.canonicalize_filename(GLib.file_read_link(next_filename), resolved);
 
-        for (;;) {
-            const parent = GLib.path_get_dirname(target);
+        while (resolved !== target) {
+            if (resolved.length >= target.length && resolved_parents.length > 1) {
+                resolved_parents.pop();
+                resolved = resolved_parents[resolved_parents.length - 1];
+            } else {
+                const parent = GLib.path_get_dirname(target);
 
-            if (parent === target)
-                break;
+                if (parent === target) {
+                    resolved = target;
+                    resolved_parents = [target];
+                    break;
+                }
 
-            remaining.push(GLib.path_get_basename(target));
-            target = parent;
+                remaining.push(GLib.path_get_basename(target));
+                target = parent;
+            }
         }
-
-        resolved = target;
     }
 
     return resolved;
