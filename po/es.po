@@ -11,7 +11,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-02-10 19:16+0000\n"
 "PO-Revision-Date: 2024-02-19 03:49+0000\n"
-"Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
+"Last-Translator: Patricio Carrau <duckycb@proton.me>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/"
 "gnome-shell-extension-ddterm/extension/es/>\n"
 "Language: es\n"
@@ -584,11 +584,11 @@ msgstr "_Redimensionable"
 
 #: ddterm/pref/ui/prefs-behavior.ui:55
 msgid "_Above all windows"
-msgstr ""
+msgstr "_Encima de todas las ventanas"
 
 #: ddterm/pref/ui/prefs-behavior.ui:71
 msgid "On all _workspaces"
-msgstr ""
+msgstr "En todas las _áreas de trabajo"
 
 #: ddterm/pref/ui/prefs-behavior.ui:87
 msgid "Hide when the application loses _focus"
@@ -596,7 +596,7 @@ msgstr "Esconder cuando la aplicación pierde el _foco"
 
 #: ddterm/pref/ui/prefs-behavior.ui:103
 msgid "Hide when _Esc key is pressed"
-msgstr ""
+msgstr "Ocultar al pulsar la tecla _Esc"
 
 #: ddterm/pref/ui/prefs-behavior.ui:119
 msgid "Exclude from _overview/task bar"
@@ -604,13 +604,15 @@ msgstr ""
 
 #: ddterm/pref/ui/prefs-behavior.ui:135
 msgid "Hide mouse _pointer when typing"
-msgstr ""
+msgstr "Ocultar el _puntero del ratón al escribir"
 
 #: ddterm/pref/ui/prefs-behavior.ui:151
 msgid ""
 "Force _X11 GDK backend (XWayland).\n"
 "You'll have to close all tabs for this option to take effect."
 msgstr ""
+"Forzar uso de _X11 GDK (XWayland).\n"
+"Tendrá que cerrar todas las pestañas para que esta opción surta efecto."
 
 #: ddterm/pref/ui/prefs-behavior.ui:171
 msgid "Window type _hint (X11 only):"
@@ -622,11 +624,11 @@ msgstr "Normal"
 
 #: ddterm/pref/ui/prefs-behavior.ui:187
 msgid "Dialog"
-msgstr ""
+msgstr "Diálogo"
 
 #: ddterm/pref/ui/prefs-behavior.ui:188
 msgid "Splash screen"
-msgstr ""
+msgstr "Pantalla de inicio"
 
 #: ddterm/pref/ui/prefs-behavior.ui:189
 msgid "Utility"
@@ -658,7 +660,7 @@ msgstr ""
 
 #: ddterm/pref/ui/prefs-behavior.ui:196
 msgid "Notification"
-msgstr ""
+msgstr "Notificación"
 
 #: ddterm/pref/ui/prefs-behavior.ui:197
 msgid "Combo"
@@ -694,19 +696,19 @@ msgstr "GNOME oscuro"
 
 #: ddterm/pref/ui/prefs-colors.ui:73
 msgid "Tango light"
-msgstr ""
+msgstr "Tango claro"
 
 #: ddterm/pref/ui/prefs-colors.ui:78
 msgid "Tango dark"
-msgstr ""
+msgstr "Tango oscuro"
 
 #: ddterm/pref/ui/prefs-colors.ui:83
 msgid "Solarized light"
-msgstr ""
+msgstr "Solar claro"
 
 #: ddterm/pref/ui/prefs-colors.ui:88
 msgid "Solarized dark"
-msgstr ""
+msgstr "Solar oscuro"
 
 #: ddterm/pref/ui/prefs-colors.ui:93 ddterm/pref/ui/prefs-colors.ui:257
 msgid "Custom"
@@ -718,7 +720,7 @@ msgstr "GNOME"
 
 #: ddterm/pref/ui/prefs-colors.ui:162
 msgid "Tango"
-msgstr ""
+msgstr "Tango"
 
 #: ddterm/pref/ui/prefs-colors.ui:181
 msgid "Linux"
@@ -730,15 +732,15 @@ msgstr "XTerm"
 
 #: ddterm/pref/ui/prefs-colors.ui:219
 msgid "RXVT"
-msgstr ""
+msgstr "RXVT"
 
 #: ddterm/pref/ui/prefs-colors.ui:238
 msgid "Solarized"
-msgstr ""
+msgstr "Solar"
 
 #: ddterm/pref/ui/prefs-colors.ui:292
 msgid "Theme _variant:"
-msgstr ""
+msgstr "_Variante del tema:"
 
 #: ddterm/pref/ui/prefs-colors.ui:307 ddterm/pref/ui/prefs-text.ui:132
 msgid "Default"
@@ -838,7 +840,7 @@ msgstr "Copiar perfil de GNOME Terminal"
 
 #: ddterm/pref/ui/prefs-colors.ui:673
 msgid "Foreground"
-msgstr "Primer plano"
+msgstr "Texto"
 
 #: ddterm/pref/ui/prefs-colors.ui:684
 msgid "Background"
@@ -850,11 +852,11 @@ msgstr "Color por defecto:"
 
 #: ddterm/pref/ui/prefs-colors.ui:705
 msgid "Bold color:"
-msgstr ""
+msgstr "Color de negrita:"
 
 #: ddterm/pref/ui/prefs-colors.ui:718
 msgid "Cursor color:"
-msgstr ""
+msgstr "Color del cursor:"
 
 #: ddterm/pref/ui/prefs-colors.ui:732
 msgid "Highlight color:"
@@ -870,11 +872,11 @@ msgstr "Color del fondo"
 
 #: ddterm/pref/ui/prefs-colors.ui:791
 msgid "Bold Color"
-msgstr ""
+msgstr "Color de negrita"
 
 #: ddterm/pref/ui/prefs-colors.ui:815
 msgid "Cursor Foreground Color"
-msgstr ""
+msgstr "Color del texto del cursor"
 
 #: ddterm/pref/ui/prefs-colors.ui:839
 msgid "Cursor Background Color"
@@ -882,15 +884,15 @@ msgstr "Color del fondo del cursor"
 
 #: ddterm/pref/ui/prefs-colors.ui:863
 msgid "Highlight Foreground Color"
-msgstr ""
+msgstr "Color de primer plano de Resaltado"
 
 #: ddterm/pref/ui/prefs-colors.ui:887
 msgid "Highlight Background Color"
-msgstr ""
+msgstr "Color de Fondo de Resaltado"
 
 #: ddterm/pref/ui/prefs-colors.ui:930
 msgid "Foreground Color"
-msgstr ""
+msgstr "Color de primer plano"
 
 #: ddterm/pref/ui/prefs-command.ui:39
 msgid "User _shell"
@@ -914,43 +916,44 @@ msgstr "Automático"
 
 #: ddterm/pref/ui/prefs-compatibility.ui:40
 msgid "Control-H"
-msgstr ""
+msgstr "Control-H"
 
 #: ddterm/pref/ui/prefs-compatibility.ui:44
 msgid "ASCII DEL"
-msgstr ""
+msgstr "ASCII para Supr."
 
 #: ddterm/pref/ui/prefs-compatibility.ui:48
 msgid "Escape sequence"
-msgstr ""
+msgstr "Secuencia de escape"
 
 #: ddterm/pref/ui/prefs-compatibility.ui:52
 msgid "TTY Erase"
-msgstr ""
+msgstr "Borrado TTY"
 
 #: ddterm/pref/ui/prefs-compatibility.ui:72
 msgid "_Backspace key generates:"
-msgstr ""
+msgstr "La tecla _Retroceso genera:"
 
 #: ddterm/pref/ui/prefs-compatibility.ui:86
 msgid "_Delete key generates:"
-msgstr ""
+msgstr "La tecla _Suprimir genera:"
 
 #: ddterm/pref/ui/prefs-compatibility.ui:100
 msgid "Ambiguous-_width characters:"
-msgstr ""
+msgstr "Caracteres de _anchura ambigua:"
 
 #: ddterm/pref/ui/prefs-compatibility.ui:153
 msgid "Narrow"
-msgstr "Angosto"
+msgstr "Estrechos"
 
 #: ddterm/pref/ui/prefs-compatibility.ui:154
 msgid "Wide"
-msgstr "Amplio"
+msgstr "Anchos"
 
 #: ddterm/pref/ui/prefs-compatibility.ui:164
 msgid "_Reset Compatibility Options to Defaults"
-msgstr "_Restablecer Opciones de Compatibilidad a las Predeterminadas"
+msgstr ""
+"_Reiniciar las opciones de compatibilidad con los valores predeterminados"
 
 #: ddterm/pref/ui/prefs-panel-icon.ui:38 ddterm/pref/ui/prefs-tabs.ui:246
 msgid "None"
@@ -1242,7 +1245,7 @@ msgstr "_Fuente personalizada:"
 
 #: ddterm/pref/ui/prefs-text.ui:56
 msgid "Allow _blinking text:"
-msgstr ""
+msgstr "Permitir texto _parpadeante:"
 
 #: ddterm/pref/ui/prefs-text.ui:70
 msgid "Cursor _shape:"
@@ -1266,11 +1269,11 @@ msgstr "Bloque"
 
 #: ddterm/pref/ui/prefs-text.ui:117
 msgid "I-Beam"
-msgstr ""
+msgstr "Doble T"
 
 #: ddterm/pref/ui/prefs-text.ui:118
 msgid "Underline"
-msgstr ""
+msgstr "Subrayado"
 
 #: ddterm/pref/ui/prefs-text.ui:133
 msgid "Enabled"
@@ -1298,7 +1301,7 @@ msgstr ""
 
 #: ddterm/pref/ui/prefs-text.ui:240
 msgid "Detect \"file:\" URLs"
-msgstr ""
+msgstr "Detectar URLs \"file:\""
 
 #: ddterm/pref/ui/prefs-text.ui:255
 msgid "Detect HTTP URLs"
