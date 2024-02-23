@@ -42,6 +42,9 @@ const Banner = GObject.registerClass({
 
         expand_label.clutter_text.ellipsize = Pango.EllipsizeMode.NONE;
 
+        const viewport = new St.BoxLayout({ vertical: true });
+        viewport.add_child(expand_label);
+
         const scroll_area = new St.ScrollView({
             style_class: 'vfade',
             overlay_scrollbars: true,
@@ -50,9 +53,6 @@ const Banner = GObject.registerClass({
             visible: this.expanded,
         });
 
-        const viewport = new St.BoxLayout({ vertical: true });
-
-        viewport.add_actor(expand_label);
         scroll_area.add_actor(viewport);
         this.setExpandedBody(scroll_area);
         this.setExpandedLines(12);  /* like in Telepathy notifications */

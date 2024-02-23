@@ -46,7 +46,7 @@ const PanelIconBase = GObject.registerClass({
     _init(dontCreateMenu) {
         super._init(null, 'ddterm', dontCreateMenu);
 
-        this.add_actor(new St.Icon({
+        this.add_child(new St.Icon({
             icon_name: 'utilities-terminal',
             style_class: 'system-status-icon',
         }));
