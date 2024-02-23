@@ -69,7 +69,17 @@ const DetailsDialog = GObject.registerClass({
         label.clutter_text.use_markup = true;
 
         viewport.add_child(label);
+        // BEGIN !ESM
         scroll_area.add_actor(viewport);
+        // END !ESM
+        // BEGIN ESM
+
+        if (scroll_area.add_actor)
+            scroll_area.add_actor(viewport);
+        else
+            scroll_area.add_child(viewport);
+
+        // END ESM
         this.contentLayout.add_child(scroll_area);
 
         this.addButton({
@@ -93,20 +103,69 @@ const DetailsDialog = GObject.registerClass({
     }
 });
 
+const Notification = GObject.registerClass({
+}, class DDTermNotification extends MessageTray.Notification {
+    // BEGIN ESM
+    constructor(params) {
+        if (MessageTray.Notification.length === 1) {
+            super(params);
+        } else {
+            const { source, title, body, use_body_markup = false, ...rest } = params;
+
+            super(source, title, body, { bannerMarkup: use_body_markup, ...rest });
+        }
+    }
+
+    setUrgency(urgency) {
+        if (super.setUrgency)
+            super.setUrgency(urgency);
+        else
+            super.urgency = urgency;
+    }
+
+    setForFeedback(value) {
+        if (super.setForFeedback)
+            super.setForFeedback(value);
+        else
+            super.for_feedback = value;
+    }
+
+    // END ESM
+    // BEGIN !ESM
+    _init(params) {
+        const { source, title, body, use_body_markup = false, ...rest } = params;
+
+        super._init(source, title, body, { bannerMarkup: use_body_markup, ...rest });
+    }
+
+    // END !ESM
+    show() {
+        // BEGIN ESM
+        if (this.source.addNotification)
+            this.source.addNotification(this);
+        else
+            this.source.showNotification(this);
+        // END ESM
+        // BEGIN !ESM
+        this.source.showNotification(this);
+        // END !ESM
+    }
+});
+
 const VersionMismatchNotification = GObject.registerClass({
-}, class DDTermVersionMismatchNotification extends MessageTray.Notification {
-    _init(source, gettext_context) {
+}, class DDTermVersionMismatchNotification extends Notification {
+    static create(source, gettext_context) {
         const title = gettext_context.gettext('Warning: ddterm version has changed');
         const help =
             gettext_context.gettext('Log out, then log in again to load the updated extension.');
 
-        super._init(source, title, help);
+        return new VersionMismatchNotification({ source, title, body: help });
     }
 });
 
 const ErrorNotification = GObject.registerClass({
-}, class DDTermErrorNotification extends MessageTray.Notification {
-    _init(source, message, details, gettext_context) {
+}, class DDTermErrorNotification extends Notification {
+    static create(source, message, details, gettext_context) {
         if (message instanceof Error || message instanceof GLib.Error)
             message = message.message;
 
@@ -116,7 +175,8 @@ const ErrorNotification = GObject.registerClass({
         message = `${message}`;
         details = `${details ?? ''}`;
 
-        super._init(source, message, details);
+        const notification =
+            new ErrorNotification({ source, title: message, body: details });
 
         const has_details = details.trim() !== '';
         const plaintext = has_details ? [message, '', details].join('\n') : message;
@@ -138,17 +198,19 @@ const ErrorNotification = GObject.registerClass({
                 dialog.open(global.get_current_time(), true);
             };
 
-            this.addAction(gettext_context.gettext('Details…'), show_details);
-            this.connect('activated', show_details);
+            notification.addAction(gettext_context.gettext('Details…'), show_details);
+            notification.connect('activated', show_details);
         }
 
-        this.addAction(gettext_context.gettext('Copy to Clipboard'), copy_to_clipboard);
+        notification.addAction(gettext_context.gettext('Copy to Clipboard'), copy_to_clipboard);
+
+        return notification;
     }
 });
 
 const MissingDependenciesNotification = GObject.registerClass({
-}, class DDTermMissingDependenciesNotification extends MessageTray.Notification {
-    _init(source, packages, files, gettext_context) {
+}, class DDTermMissingDependenciesNotification extends Notification {
+    static create(source, packages, files, gettext_context) {
         const title = gettext_context.gettext('ddterm needs additional packages to run');
         const lines = [];
 
@@ -168,14 +230,15 @@ const MissingDependenciesNotification = GObject.registerClass({
             );
         }
 
-        super._init(source, title, lines.join('\n'));
+        const notification =
+            new MissingDependenciesNotification({ source, title, body: lines.join('\n') });
 
         if (packages.length === 0)
-            return;
+            return notification;
 
         const cancellable = new Gio.Cancellable();
 
-        this.connect('destroy', () => {
+        notification.connect('destroy', () => {
             cancellable.cancel();
         });
 
@@ -183,12 +246,14 @@ const MissingDependenciesNotification = GObject.registerClass({
             if (!installer)
                 return;
 
-            this.addAction(gettext_context.gettext('Install'), () => {
+            notification.addAction(gettext_context.gettext('Install'), () => {
                 installer(packages);
             });
 
-            this.update(this.title, this.bannerBodyText, {});
+            notification.update?.(notification.title, notification.bannerBodyText, {});
         });
+
+        return notification;
     }
 });
 
@@ -205,6 +270,9 @@ export const Notifications = GObject.registerClass({
     _init(params) {
         super._init(params);
 
+        if (!this.gettext_context)
+            throw new Error(`gettext-context is ${this.gettext_context}`);
+
         this._source = null;
     }
 
@@ -212,8 +280,18 @@ export const Notifications = GObject.registerClass({
         if (this._source)
             return this._source;
 
-        this._source =
-            new MessageTray.Source(this.gettext_context.gettext('ddterm'), 'utilities-terminal');
+        const title = this.gettext_context.gettext('ddterm');
+        const icon_name = 'utilities-terminal';
+
+        // BEGIN !ESM
+        this._source = new MessageTray.Source(title, icon_name);
+        // END !ESM
+        // BEGIN ESM
+        if (MessageTray.Source.length === 1)
+            this._source = new MessageTray.Source({ title, icon_name });
+        else
+            this._source = new MessageTray.Source(title, icon_name);
+        // END ESM
 
         this._source.connect('destroy', () => {
             this._source = null;
@@ -225,8 +303,9 @@ export const Notifications = GObject.registerClass({
 
     show_version_mismatch() {
         const source = this.create_source();
-        const notification = new VersionMismatchNotification(source, this.gettext_context);
-        source.showNotification(notification);
+        const notification = VersionMismatchNotification.create(source, this.gettext_context);
+
+        notification.show();
     }
 
     show_error(message, trace) {
@@ -235,19 +314,24 @@ export const Notifications = GObject.registerClass({
         if (source.notifications.some(n => n instanceof MissingDependenciesNotification))
             return;
 
-        const notification = new ErrorNotification(source, message, trace, this.gettext_context);
+        const notification = ErrorNotification.create(
+            source,
+            message,
+            trace,
+            this.gettext_context
+        );
 
         source.notifications.filter(n => n instanceof VersionMismatchNotification).forEach(n => {
             n.setUrgency(MessageTray.Urgency.CRITICAL);
         });
 
         notification.setUrgency(MessageTray.Urgency.CRITICAL);
-        source.showNotification(notification);
+        notification.show();
     }
 
     show_missing_dependencies(packages, files) {
         const source = this.create_source();
-        const notification = new MissingDependenciesNotification(
+        const notification = MissingDependenciesNotification.create(
             source,
             packages,
             files,
@@ -256,7 +340,7 @@ export const Notifications = GObject.registerClass({
 
         notification.setUrgency(MessageTray.Urgency.CRITICAL);
         notification.setForFeedback(true);
-        source.showNotification(notification);
+        notification.show();
     }
 
     destroy(reason = MessageTray.NotificationDestroyedReason.SOURCE_CLOSED) {

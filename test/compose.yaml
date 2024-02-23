@@ -4,6 +4,11 @@
 # Or 'tox -e images pull'.
 
 services:
+  fedora-40:
+    image: ghcr.io/ddterm/gnome-shell-pod/fedora-40:2024.03.09.0
+    profiles:
+      - esm
+
   fedora-39:
     image: ghcr.io/ddterm/gnome-shell-pod/fedora-39:2024.03.09.0
     profiles:

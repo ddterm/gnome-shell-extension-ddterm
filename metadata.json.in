@@ -5,7 +5,8 @@
   "gettext-domain": @gettext_domain@,
   "settings-schema": @settings_schema@,
   "shell-version": [
-    "45"
+    "45",
+    "46"
   ],
   "version": @version@,
   "url": "https://github.com/ddterm/gnome-shell-extension-ddterm"
