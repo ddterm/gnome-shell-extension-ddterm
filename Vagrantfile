@@ -98,6 +98,10 @@ Vagrant.configure("2") do |config|
     version.vm.box = "mezinalexander/opensuseleap155"
   end
 
+  config.vm.define "centos9s", autostart: false do |version|
+    version.vm.box = "mezinalexander/centos9s"
+  end
+
   config.vm.define "alpine319", autostart: false do |version|
     version.vm.box = "mezinalexander/alpine319"
     version.ssh.sudo_command = "doas -n -u root %c"
