@@ -157,6 +157,9 @@ const MissingDependenciesNotification = GObject.registerClass({
         });
 
         find_package_installer(cancellable).then(installer => {
+            if (!installer)
+                return;
+
             this.addAction(gettext_context.gettext('Install'), () => {
                 installer(packages, app_id);
             });
