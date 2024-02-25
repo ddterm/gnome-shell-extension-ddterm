@@ -18,6 +18,7 @@
 */
 
 import GLib from 'gi://GLib';
+import Gio from 'gi://Gio';
 
 import { create_packagekit_proxy } from './packagekit.js';
 
@@ -44,11 +45,47 @@ function find_terminal_command() {
     return null;
 }
 
-function find_package_manager_install_command() {
+function communicate_utf8_async(subprocess, stdin, cancellable) {
+    return new Promise((resolve, reject) => {
+        subprocess.communicate_utf8_async(stdin, cancellable, (source, result) => {
+            try {
+                resolve(source.communicate_utf8_finish(result));
+            } catch (ex) {
+                reject(ex);
+            }
+        });
+    });
+}
+
+async function test_pkcon(pkcon, cancellable) {
+    const launcher = Gio.SubprocessLauncher.new(Gio.SubprocessFlags.STDOUT_PIPE);
+
+    launcher.setenv('LC_ALL', 'C.UTF-8', true);
+
+    const subprocess = launcher.spawnv([pkcon, 'backend-details']);
+    const [, stdout] = await communicate_utf8_async(subprocess, null, cancellable);
+
+    GLib.spawn_check_wait_status(subprocess.get_status());
+
+    // Even if `pkcon` exits with code 0, it doesn't mean it works...
+    if (!stdout.startsWith('Name:')) {
+        throw new Error(
+            `Unexpected output from ${pkcon} backend-details: ${JSON.stringify(stdout)}`
+        );
+    }
+}
+
+async function find_package_manager_install_command(cancellable) {
     const pkcon = GLib.find_program_in_path('pkcon');
 
-    if (pkcon)
-        return packages => [pkcon, 'install', '-c', '1000', ...packages];
+    if (pkcon) {
+        try {
+            await test_pkcon(pkcon, cancellable);
+            return packages => [pkcon, 'install', '-c', '1000', ...packages];
+        } catch (ex) {
+            logError(ex, `${pkcon} doesn't seem to work`);
+        }
+    }
 
     const pkexec = GLib.find_program_in_path('pkexec');
 
@@ -106,7 +143,8 @@ export async function find_package_installer(cancellable) {
     if (!terminal_command)
         return null;
 
-    const package_manager_install_command = find_package_manager_install_command();
+    const package_manager_install_command =
+        await find_package_manager_install_command(cancellable);
 
     if (!package_manager_install_command)
         return null;
