@@ -20,8 +20,6 @@
 import GLib from 'gi://GLib';
 import Gio from 'gi://Gio';
 
-import { create_packagekit_proxy } from './packagekit.js';
-
 function shell_join(argv) {
     return argv.map(arg => GLib.shell_quote(arg)).join(' ');
 }
@@ -131,13 +129,6 @@ async function find_package_manager_install_command(cancellable) {
 }
 
 export async function find_package_installer(cancellable) {
-    try {
-        const packagekit = await create_packagekit_proxy(cancellable);
-        return (packages, app_id) => packagekit.install_package_names(packages, app_id);
-    } catch (ex) {
-        logError(ex, "Can't access packagekit session interface");
-    }
-
     const terminal_command = find_terminal_command();
 
     if (!terminal_command)

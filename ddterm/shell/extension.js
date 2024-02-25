@@ -104,7 +104,7 @@ function create_dbus_interface(
             window_geometry.update_monitor();
     });
     dbus_interface.connect('missing-dependencies', (_, packages, files) => {
-        notifications.show_missing_dependencies(packages, files, APP_ID);
+        notifications.show_missing_dependencies(packages, files);
     });
 
     window_geometry.bind_property(

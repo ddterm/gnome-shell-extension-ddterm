@@ -5,7 +5,6 @@ shell_files = files(
   'geometry.js',
   'install.js',
   'notifications.js',
-  'packagekit.js',
   'packagemanager.js',
   'panelicon.js',
   'sd_journal.js',

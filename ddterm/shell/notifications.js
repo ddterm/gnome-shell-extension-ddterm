@@ -124,7 +124,7 @@ const ErrorNotification = GObject.registerClass({
 
 const MissingDependenciesNotification = GObject.registerClass({
 }, class DDTermMissingDependenciesNotification extends Notification {
-    _init(source, packages, files, app_id, gettext_context) {
+    _init(source, packages, files, gettext_context) {
         const lines = [
             gettext_context.gettext('ddterm needs additional packages to run.'),
         ];
@@ -161,7 +161,7 @@ const MissingDependenciesNotification = GObject.registerClass({
                 return;
 
             this.addAction(gettext_context.gettext('Install'), () => {
-                installer(packages, app_id);
+                installer(packages);
             });
 
             this.update(this.title, this.bannerBodyText, {});
@@ -222,13 +222,12 @@ export const Notifications = GObject.registerClass({
         source.showNotification(notification);
     }
 
-    show_missing_dependencies(packages, files, app_id) {
+    show_missing_dependencies(packages, files) {
         const source = this.create_source();
         const notification = new MissingDependenciesNotification(
             source,
             packages,
             files,
-            app_id,
             this.gettext_context
         );
 
