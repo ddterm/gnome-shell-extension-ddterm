@@ -1,8 +1,9 @@
 project(
   'ddterm',
   version : '50',
-  meson_version : '>= 1.0.0',
+  meson_version : '>= 1.1.0',
   license : 'GPL-3.0-or-later',
+  license_files : ['LICENSES/GPL-3.0-or-later.txt'],
   default_options : ['prefix=/usr']
 )
 
@@ -39,8 +40,6 @@ pack += fs.copyfile(
   install: true,
   install_dir: extension_dir
 )
-
-pack += fs.copyfile('LICENSE')
 
 metadata = configuration_data()
 metadata.set('version', meson.project_version())

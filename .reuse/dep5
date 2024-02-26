@@ -1,0 +1,10 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: gnome-shell-extension-ddterm
+Upstream-Contact: Aleksandr Mezin <mezin.alexander@gmail.com>
+Source: https://github.com/ddterm/gnome-shell-extension-ddterm
+
+# Sample paragraph, commented out:
+#
+# Files: src/*
+# Copyright: $YEAR $NAME <$CONTACT>
+# License: ...
