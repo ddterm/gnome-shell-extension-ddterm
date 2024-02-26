@@ -93,7 +93,7 @@ msgstr ""
 "versión actualizada de la extensión."
 
 #: ddterm/app/appwindow.js:149 ddterm/com.github.amezin.ddterm.desktop.in.in:4
-#: ddterm/shell/notifications.js:193
+#: ddterm/shell/notifications.js:193 ddterm/shell/notifications.js:190
 msgid "ddterm"
 msgstr "ddterm"
 
@@ -526,7 +526,7 @@ msgstr "Interpolación elástica, con derivación al inicio"
 
 #: ddterm/pref/ui/prefs-animation.ui:132
 msgid "Elastic tweening, with offshoot on end"
-msgstr ""
+msgstr "Interpolación elástica, con desviación al final"
 
 #: ddterm/pref/ui/prefs-animation.ui:136
 msgid "Elastic tweening with offshoot on both ends"
@@ -1327,7 +1327,7 @@ msgstr "No se pudo iniciar la aplicación ddterm"
 msgid "Copy to Clipboard"
 msgstr "Copiar al portapapeles"
 
-#: ddterm/shell/notifications.js:163
+#: ddterm/shell/notifications.js:163 ddterm/shell/notifications.js:160
 msgid "Install"
 msgstr "Instalar"
 
