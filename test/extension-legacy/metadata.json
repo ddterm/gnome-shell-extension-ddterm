@@ -3,9 +3,6 @@
   "description": "ddterm test interface",
   "uuid": "test@ddterm.github.com",
   "shell-version": [
-    "40",
-    "41",
-    "42",
     "43",
     "44"
   ],
