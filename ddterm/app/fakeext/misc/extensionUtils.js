@@ -19,12 +19,29 @@
 
 'use strict';
 
-/* exported getCurrentExtension */
+/* exported getCurrentExtension setCurrentExtension installImporter */
 
-const Me = {};
+/*
+    fake current extension object to make `Me.imports` and `Me.dir` work
+    in application context
+ */
 
-/* fake current extension object to make 'Me.imports' and 'Me.dir' work in application context */
+let _extension = null;
+
+function setCurrentExtension(extension) {
+    _extension = extension;
+}
 
 function getCurrentExtension() {
-    return Me;
+    return _extension;
+}
+
+// copied from real extensionUtils
+function installImporter(extension) {
+    let oldSearchPath = imports.searchPath.slice();  // make a copy
+    imports.searchPath = [extension.dir.get_parent().get_path()];
+    // importing a "subdir" creates a new importer object that doesn't affect
+    // the global one
+    extension.imports = imports[extension.dir.get_basename()];
+    imports.searchPath = oldSearchPath;
 }

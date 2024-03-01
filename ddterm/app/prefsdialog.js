@@ -36,32 +36,11 @@ const [fakeext_import_path] = GLib.filename_from_uri(
 
 imports.searchPath.unshift(fakeext_import_path);
 
-const Me = imports.misc.extensionUtils.getCurrentExtension();
+const { setCurrentExtension, installImporter } = imports.misc.extensionUtils;
+const Me = { dir, metadata };
 
-function make_dir_importer(file) {
-    /* Like extensionUtils.installImporter() */
-
-    const old_search_path = imports.searchPath.slice();
-
-    imports.searchPath = [file.get_parent().get_path()];
-
-    try {
-        return imports[file.get_basename()];
-    } finally {
-        imports.searchPath = old_search_path;
-    }
-}
-
-/*
- * fake current extension object to make `Me.imports` and `Me.dir`
- * work in application context
- */
-Object.assign(Me, {
-    imports: make_dir_importer(dir),
-    dir,
-    path: dir.get_path(),
-    metadata,
-});
+installImporter(Me);
+setCurrentExtension(Me);
 // END !ESM
 
 export const PrefsDialog = GObject.registerClass({
