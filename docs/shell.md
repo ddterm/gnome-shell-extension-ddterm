@@ -55,12 +55,13 @@ utilities windows and implements workarounds for them.
 * [`install.js`](/ddterm/shell/install.js): installation of `.desktop` and
 D-Bus `.service` files for the application
 
+* [`packagemanager.js`](/ddterm/shell/packagemanager.js): installation of
+missing OS packages using PackageKit CLI (`pkcon`) or OS package manager
+in an external terminal
+
 There are also utility modules:
 
 * [`sd_journal.js`](/ddterm/shell/sd_journal.js): connection to systemd-journald
-
-* [`packagekit.js`](/ddterm/shell/packagekit.js): missing dependency installation
-using packagekit session interface (usually gnome-software)
 
 Extension code doesn't (and shouldn't) use any third party (npm) libraries.
 
