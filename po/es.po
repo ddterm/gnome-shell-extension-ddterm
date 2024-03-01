@@ -222,6 +222,7 @@ msgid "Move Tab to Other Pane"
 msgstr "Mover pestaña a otro monitor"
 
 #: ddterm/app/menus.ui:157 ddterm/app/prefsdialog.js:62
+#: ddterm/app/prefsdialog.js:83
 msgid "Preferences"
 msgstr "Ajustes"
 
@@ -530,7 +531,7 @@ msgstr "Interpolación elástica, con desviación al final"
 
 #: ddterm/pref/ui/prefs-animation.ui:136
 msgid "Elastic tweening with offshoot on both ends"
-msgstr ""
+msgstr "Interpolación elástica con ramificación en ambos extremos"
 
 #: ddterm/pref/ui/prefs-animation.ui:140
 msgid "Overshooting cubic tweening, with backtracking on start"
