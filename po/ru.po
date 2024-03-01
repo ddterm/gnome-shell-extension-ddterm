@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-26 04:03+0000\n"
+"POT-Creation-Date: 2024-03-01 07:27+0000\n"
 "PO-Revision-Date: 2024-02-15 20:12+0000\n"
 "Last-Translator: Aleksandr Mezin <mezin.alexander@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/gnome-shell-"
@@ -219,7 +219,7 @@ msgstr "Разделить вертикально"
 msgid "Move Tab to Other Pane"
 msgstr "Переместить вкладку на другую панель"
 
-#: ddterm/app/menus.ui:157 ddterm/app/prefsdialog.js:83
+#: ddterm/app/menus.ui:157 ddterm/app/prefsdialog.js:62
 msgid "Preferences"
 msgstr "Параметры"
 

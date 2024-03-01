@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-26 04:03+0000\n"
+"POT-Creation-Date: 2024-03-01 07:27+0000\n"
 "PO-Revision-Date: 2024-02-19 03:49+0000\n"
 "Last-Translator: Patricio Carrau <duckycb@proton.me>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/gnome-shell-"
@@ -221,7 +221,7 @@ msgstr "Dividir verticalmente"
 msgid "Move Tab to Other Pane"
 msgstr "Mover pestaña a otro monitor"
 
-#: ddterm/app/menus.ui:157 ddterm/app/prefsdialog.js:83
+#: ddterm/app/menus.ui:157 ddterm/app/prefsdialog.js:62
 msgid "Preferences"
 msgstr "Ajustes"
 

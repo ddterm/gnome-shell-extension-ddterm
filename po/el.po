@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-26 04:03+0000\n"
+"POT-Creation-Date: 2024-03-01 07:27+0000\n"
 "PO-Revision-Date: 2023-09-26 17:35+0300\n"
 "Last-Translator: Anagnostakis Ioannis <rizitis@gmail.com>\n"
 "Language-Team: Greek, Modern (1453-) <>\n"
@@ -217,7 +217,7 @@ msgstr ""
 msgid "Move Tab to Other Pane"
 msgstr "Επανατοποθέτηση καρτέλας μετά"
 
-#: ddterm/app/menus.ui:157 ddterm/app/prefsdialog.js:83
+#: ddterm/app/menus.ui:157 ddterm/app/prefsdialog.js:62
 msgid "Preferences"
 msgstr "Προτιμήσεις"
 

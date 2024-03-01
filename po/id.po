@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-26 04:03+0000\n"
+"POT-Creation-Date: 2024-03-01 07:27+0000\n"
 "PO-Revision-Date: 2023-09-26 13:16+0000\n"
 "Last-Translator: ilham adi setiawan <ilhamsetiawan2000@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/gnome-shell-"
@@ -213,7 +213,7 @@ msgstr ""
 msgid "Move Tab to Other Pane"
 msgstr ""
 
-#: ddterm/app/menus.ui:157 ddterm/app/prefsdialog.js:83
+#: ddterm/app/menus.ui:157 ddterm/app/prefsdialog.js:62
 msgid "Preferences"
 msgstr ""
 
