@@ -222,7 +222,6 @@ msgid "Move Tab to Other Pane"
 msgstr "Mover pestaña a otro monitor"
 
 #: ddterm/app/menus.ui:157 ddterm/app/prefsdialog.js:62
-#: ddterm/app/prefsdialog.js:83
 msgid "Preferences"
 msgstr "Ajustes"
 
