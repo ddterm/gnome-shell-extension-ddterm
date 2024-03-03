@@ -178,11 +178,11 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
         });
 
         const notebook1 = this.create_notebook();
-        this.paned.pack1(notebook1, true, false);
+        this.paned.set_start_child(notebook1);
         this.paned.set_focus_child(notebook1);
 
         const notebook2 = this.create_notebook();
-        this.paned.pack2(notebook2, true, false);
+        this.paned.set_end_child(notebook2);
 
         this.paned.connect('notify::orientation', () => this.notify('split-layout'));
         this.connect('notify::is-split', () => this.notify('split-layout'));
@@ -613,9 +613,8 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
         const [width] = this.get_size();
         const tab_label_width = Math.floor(this.tab_label_width * width);
 
-        this.paned.foreach(child => {
-            child.tab_label_width = tab_label_width;
-        });
+        this.paned.start_child.tab_label_width = tab_label_width;
+        this.paned.end_child.tab_label_width = tab_label_width;
     }
 
     get active_notebook() {
@@ -623,11 +622,11 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
     }
 
     get is_empty() {
-        return this.paned.get_children().every(nb => !nb.visible);
+        return !this.paned.start_child.visible && !this.paned.end_child.visible;
     }
 
     get is_split() {
-        return this.paned.get_children().every(nb => nb.visible);
+        return this.paned.start_child.visible && this.paned.end_child.visible;
     }
 
     get split_layout() {
@@ -644,8 +643,8 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
         if (!this.is_split)
             return;
 
-        const dst = this.paned.get_child1();
-        const src = this.paned.get_child2();
+        const dst = this.paned.start_child;
+        const src = this.paned.end_child;
         const current_page = this.active_notebook?.current_child;
 
         this.freeze_notify();
@@ -672,9 +671,8 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
     }
 
     update_show_shortcuts() {
-        this.paned.foreach(child => {
+        for (const child of [this.paned.start_child, this.paned.end_child])
             child.tab_show_shortcuts = this.tab_show_shortcuts && child === this.active_notebook;
-        });
     }
 
     vfunc_grab_focus() {
@@ -683,7 +681,7 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
             return;
         }
 
-        for (const notebook of this.paned.get_children()) {
+        for (const notebook of [this.paned.start_child, this.paned.end_child]) {
             if (notebook.visible) {
                 notebook.grab_focus();
                 return;
@@ -712,8 +710,8 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
             );
         }
 
-        properties.insert_value('notebook1', this.paned.get_child1().serialize_state());
-        properties.insert_value('notebook2', this.paned.get_child2().serialize_state());
+        properties.insert_value('notebook1', this.paned.start_child.serialize_state());
+        properties.insert_value('notebook2', this.paned.end_child.serialize_state());
 
         return properties.end();
     }
@@ -730,10 +728,10 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
             this.paned.orientation = orientation;
 
         if (notebook1_data)
-            this.paned.get_child1().deserialize_state(notebook1_data);
+            this.paned.start_child.deserialize_state(notebook1_data);
 
         if (notebook2_data)
-            this.paned.get_child2().deserialize_state(notebook2_data);
+            this.paned.end_child.deserialize_state(notebook2_data);
 
         if (position !== null)
             this.paned.position = (this.paned.max_position - this.paned.min_position) * position;
