@@ -27,8 +27,8 @@ app_ui_files = files(
   'menus.ui',
 )
 
-foreach app_file : app_js_files + app_ui_files + files('dependencies.json', 'style.css')
-  pack += custom_target(
+foreach app_file : app_js_files
+  built_js += custom_target(
     command: preprocess_command,
     input: app_file,
     output: fs.name(app_file),
@@ -37,7 +37,16 @@ foreach app_file : app_js_files + app_ui_files + files('dependencies.json', 'sty
   )
 endforeach
 
-pack += fs.copyfile(
+foreach app_file : app_ui_files + files('dependencies.json', 'style.css')
+  pack += fs.copyfile(
+    app_file,
+    fs.name(app_file),
+    install: true,
+    install_dir: extension_dir / 'ddterm' / 'app',
+  )
+endforeach
+
+built_js += fs.copyfile(
   get_option('esm') ? 'gtktheme.js' : 'gtktheme.legacy.js',
   'gtktheme.js',
   install: true,

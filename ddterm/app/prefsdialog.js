@@ -41,8 +41,8 @@ const Me = { dir, metadata };
 
 installImporter(Me);
 setCurrentExtension(Me);
-// END !ESM
 
+// END !ESM
 export const PrefsDialog = GObject.registerClass({
     Properties: {
         'settings': GObject.ParamSpec.object(

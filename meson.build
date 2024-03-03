@@ -24,23 +24,22 @@ schema_dir = datadir / 'glib-2.0' / 'schemas'
 applications_dir = datadir / 'applications'
 dbus_service_dir = datadir / 'dbus-1' / 'services'
 
-pack = []
+built_js = [
+  fs.copyfile(
+    get_option('esm') ? 'extension.js' : 'extension.legacy.js',
+    'extension.js',
+    install: true,
+    install_dir: extension_dir
+  ),
+  fs.copyfile(
+    get_option('esm') ? 'prefs.js' : 'prefs.legacy.js',
+    'prefs.js',
+    install: true,
+    install_dir: extension_dir
+  )
+]
 
-pack += fs.copyfile(
-  get_option('esm') ? 'extension.js' : 'extension.legacy.js',
-  'extension.js',
-  install: true,
-  install_dir: extension_dir
-)
-
-pack += fs.copyfile(
-  get_option('esm') ? 'prefs.js' : 'prefs.legacy.js',
-  'prefs.js',
-  install: true,
-  install_dir: extension_dir
-)
-
-pack += fs.copyfile('LICENSE')
+pack = [fs.copyfile('LICENSE')]
 
 metadata = configuration_data()
 metadata.set('version', meson.project_version())
@@ -111,7 +110,7 @@ pack_target = custom_target(
   command: [
     'tools' / 'makezip.py', '--output', '@OUTPUT@', '--relative-to', '@OUTDIR@', '--', '@INPUT@'
   ],
-  input: pack,
+  input: [pack, built_js],
   output: get_option('esm') ? f'@uuid@.shell-extension.zip' : f'@uuid@.legacy.shell-extension.zip',
   build_by_default: true,
 )
@@ -156,32 +155,61 @@ npm_install = custom_target(
   env: npm_env,
 )
 
+if meson.version().version_compare('>=1.3.0')
+  build_dir_relative = fs.relative_to(
+    meson.current_build_dir(),
+    meson.current_source_dir(),
+  )
+else
+  build_dir_relative = run_command(
+    'python3',
+    '-c',
+    'import os.path; import sys; print(os.path.relpath(*sys.argv[1:]))',
+    meson.current_build_dir(),
+    meson.current_source_dir(),
+    capture: true,
+    check: true,
+  ).stdout().strip()
+endif
+
+eslint_extra_args = ['--ignore-pattern', build_dir_relative]
+
 run_target(
   'eslint',
-  command: [npm_tool, '-C', '@CURRENT_SOURCE_DIR@', 'run-script', '--', 'lint'],
+  command: [npm_tool, '-C', '@CURRENT_SOURCE_DIR@', 'run-script', '--', 'lint'] + eslint_extra_args,
   depends: npm_install,
 )
 
 run_target(
   'eslint-fix',
-  command: [npm_tool, '-C', '@CURRENT_SOURCE_DIR@', 'run-script', '--', 'lint:fix'],
+  command: [npm_tool, '-C', '@CURRENT_SOURCE_DIR@', 'run-script', '--', 'lint:fix'] + eslint_extra_args,
   depends: npm_install,
 )
 
 test(
-  'eslint',
+  'lint-source',
   npm_tool,
-  args: ['run-script', '--', 'lint'],
+  args: ['run-script', '--', 'lint'] + eslint_extra_args,
   depends: npm_install,
   workdir: meson.current_source_dir(),
   suite: ['eslint'],
 )
 
 configure_file(
-  input: 'lint/eslintrc.build.yml.in',
+  input: 'lint' / (
+    get_option('esm') ? 'eslintrc-ddterm-build-esm.yml.in' : 'eslintrc-ddterm-build-legacy.yml.in'
+  ),
   output: '.eslintrc.yml',
   configuration: {
-    # https://github.com/mesonbuild/meson/issues/12792
-    'DONT_EMIT_MESON_WARNING': 'YES',
+    'common_eslintrc': meson.current_source_dir() / 'lint' / 'eslintrc-ddterm-common.yml'
   },
+)
+
+test(
+  'lint-build',
+  npm_tool,
+  args: ['exec', '--', 'eslint', build_dir_relative, '--resolve-plugins-relative-to', '.'],
+  depends: [npm_install, built_js],
+  workdir: meson.current_source_dir(),
+  suite: ['eslint'],
 )

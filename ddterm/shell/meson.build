@@ -17,7 +17,7 @@ shell_files = files(
 
 foreach shell_file : shell_files
   if get_option('esm')
-    pack += custom_target(
+    built_js += custom_target(
       command: preprocess_command,
       input: shell_file,
       output: fs.name(shell_file),
@@ -31,7 +31,7 @@ foreach shell_file : shell_files
       output: fs.name(shell_file) + '.sed',
     )
 
-    pack += custom_target(
+    built_js += custom_target(
       command: [gjs_translate_esm, '-o', '@OUTPUT@', '-d', meson.project_build_root(), '@INPUT@'],
       input: preproc,
       output: fs.name(shell_file),
@@ -42,9 +42,9 @@ foreach shell_file : shell_files
 endforeach
 
 if not get_option('esm')
-  pack += fs.copyfile(
-      'compat.js',
-      install: true,
-      install_dir: extension_dir / 'ddterm' / 'shell',
-    )
+  built_js += fs.copyfile(
+    'compat.js',
+    install: true,
+    install_dir: extension_dir / 'ddterm' / 'shell',
+  )
 endif

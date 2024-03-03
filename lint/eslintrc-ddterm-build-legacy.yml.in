@@ -1,0 +1,18 @@
+root: true
+
+extends:
+  - @common_eslintrc@
+
+rules:
+  no-unused-vars: off
+  max-len: off
+
+overrides:
+  - files:
+      - extension.js
+      - prefs.js
+      - ddterm/app/fakeext/misc/extensionUtils.js
+      - ddterm/pref/*.js
+      - ddterm/shell/*.js
+    parserOptions:
+      sourceType: script

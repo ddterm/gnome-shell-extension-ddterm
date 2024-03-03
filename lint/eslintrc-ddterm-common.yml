@@ -1,0 +1,36 @@
+extends:
+ - ./eslintrc-gjs.yml
+ - plugin:import/recommended
+
+rules:
+  max-len:
+    - error
+    - 100
+    - ignoreUrls: true
+  consistent-return: error
+  key-spacing:
+    - error
+    - mode: minimum
+      beforeColon: false
+      afterColon: true
+  object-curly-spacing:
+    - error
+    - always
+  prefer-arrow-callback: error
+  no-multiple-empty-lines:
+    - error
+    - max: 1
+  jsdoc/require-jsdoc: off
+settings:
+  import/resolver: tools/import-resolver.js
+  import/core-modules:
+    - gettext
+    - gi
+    - system
+plugins:
+  - import
+globals:
+  global: readonly
+parserOptions:
+  ecmaVersion: 2020
+  sourceType: module

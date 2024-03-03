@@ -3,7 +3,7 @@ util_files = files(
 )
 
 foreach util_file : util_files
-  pack += fs.copyfile(
+  built_js += fs.copyfile(
     util_file,
     install: true,
     install_dir: extension_dir / 'ddterm' / 'util',

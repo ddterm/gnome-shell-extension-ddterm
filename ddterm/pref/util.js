@@ -20,8 +20,8 @@
 import GLib from 'gi://GLib';
 import Gio from 'gi://Gio';
 import Gtk from 'gi://Gtk';
-
 // BEGIN !ESM
+
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 // END !ESM
 

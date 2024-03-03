@@ -134,15 +134,30 @@ jobs:
       run: .github/renovate-python-constraint.py
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
-    - name: Upload reports to Testspace
-      run: testspace --verbose eslint.xml "*.log{lint}" "build/meson-logs/*.txt{lint}"
-      if: ${{ always() && steps.setup_testspace.outcome == 'success' }}
-
     - name: Build extension package
       id: pack
       run: xvfb-run ninja -j1 pack
       working-directory: build
       if: ${{ always() && steps.meson-setup.conclusion == 'success' }}
+
+    - name: Disable generic error matcher
+      run: |
+        echo "::remove-matcher owner=generic::"
+        echo "::remove-matcher owner=generic-nolocation::"
+      if: ${{ always() && steps.checkout.conclusion == 'success' }}
+
+    - name: Enable eslint error matcher
+      run: echo "::add-matcher::.github/problem-matchers/eslint-stylish.json"
+      if: ${{ always() && steps.checkout.conclusion == 'success' }}
+
+    - name: Run eslint on generated code
+      run: ../.github/faketty.sh meson test -v -j1 --suite eslint --logbase eslint-build-esm lint-build
+      working-directory: build
+      if: ${{ always() && steps.meson-setup.conclusion == 'success' }}
+
+    - name: Disable eslint error matcher
+      run: echo "::remove-matcher owner=eslint-stylish::"
+      if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
     - name: Upload extension package as artifact
       uses: actions/upload-artifact@v4
@@ -151,6 +166,10 @@ jobs:
         path: "build/*.shell-extension.zip"
         if-no-files-found: error
       if: ${{ always() && steps.pack.conclusion == 'success' }}
+
+    - name: Enable generic error matcher
+      run: echo "::add-matcher::.github/problem-matchers/generic.json"
+      if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
     - id: meson-setup-legacy
       name: Prepare build directory (legacy)
@@ -163,6 +182,25 @@ jobs:
       working-directory: build-legacy
       if: ${{ always() && steps.meson-setup-legacy.conclusion == 'success' }}
 
+    - name: Disable generic error matcher
+      run: |
+        echo "::remove-matcher owner=generic::"
+        echo "::remove-matcher owner=generic-nolocation::"
+      if: ${{ always() && steps.checkout.conclusion == 'success' }}
+
+    - name: Enable eslint error matcher
+      run: echo "::add-matcher::.github/problem-matchers/eslint-stylish.json"
+      if: ${{ always() && steps.checkout.conclusion == 'success' }}
+
+    - name: Run eslint on generated code (legacy)
+      run: ../.github/faketty.sh meson test -v -j1 --suite eslint --logbase eslint-build-legacy lint-build
+      working-directory: build-legacy
+      if: ${{ always() && steps.meson-setup-legacy.conclusion == 'success' }}
+
+    - name: Disable eslint error matcher
+      run: echo "::remove-matcher owner=eslint-stylish::"
+      if: ${{ always() && steps.checkout.conclusion == 'success' }}
+
     - name: Upload extension package as artifact (legacy)
       uses: actions/upload-artifact@v4
       with:
@@ -170,3 +208,7 @@ jobs:
         path: "build-legacy/*.shell-extension.zip"
         if-no-files-found: error
       if: ${{ always() && steps.pack-legacy.conclusion == 'success' }}
+
+    - name: Upload reports to Testspace
+      run: testspace --verbose eslint.xml "*.log{lint}" "build/meson-logs/*.txt{lint}" "build-legacy/meson-logs/*.txt{lint}"
+      if: ${{ always() && steps.setup_testspace.outcome == 'success' }}

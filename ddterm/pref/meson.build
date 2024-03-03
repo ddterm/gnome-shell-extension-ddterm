@@ -15,11 +15,11 @@ pref_files = files(
   'widget.js',
 )
 
-pref_copy_files = []
+pref_built_js = []
 
 foreach pref_file : pref_files
   if get_option('esm')
-    pref_copy_files += custom_target(
+    pref_built_js += custom_target(
       command: preprocess_command,
       input: pref_file,
       output: fs.name(pref_file),
@@ -33,7 +33,7 @@ foreach pref_file : pref_files
       output: fs.name(pref_file) + '.sed',
     )
 
-    pref_copy_files += custom_target(
+    pref_built_js += custom_target(
       command: [gjs_translate_esm, '-o', '@OUTPUT@', '-d', meson.project_build_root(), '@INPUT@'],
       input: preproc,
       output: fs.name(pref_file),
@@ -43,7 +43,7 @@ foreach pref_file : pref_files
   endif
 endforeach
 
-pack += pref_copy_files
+built_js += pref_built_js
 
 subdir('ui')
 subdir('test')
