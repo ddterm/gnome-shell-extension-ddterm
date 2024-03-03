@@ -1,3 +1,5 @@
+root: true
+
 extends:
  - ./lint/eslintrc-gjs.yml
  - plugin:import/recommended

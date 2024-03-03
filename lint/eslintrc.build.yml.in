@@ -1,1 +1,3 @@
+root: true
+
 ignorePatterns: '*'
