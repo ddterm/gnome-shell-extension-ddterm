@@ -40,7 +40,7 @@ class AstError extends Error {
     }
 }
 
-function translate(file, root_url) {
+function translate(file, root_url, replace_imports) {
     const [, bytes] = file.load_contents(null);
     const text = globalThis.TextDecoder
         ? new TextDecoder().decode(bytes)
@@ -85,8 +85,8 @@ function translate(file, root_url) {
     }
 
     function translate_module_url(module_url, node) {
-        if (module_url === 'resource:///org/gnome/shell/extensions/extension.js')
-            return 'Me.imports.ddterm.shell.compat';
+        if (replace_imports[module_url])
+            return replace_imports[module_url];
 
         if (['gettext', 'system'].includes(module_url))
             return `imports.${module_url}`;
@@ -129,6 +129,9 @@ function translate(file, root_url) {
 
     function translate_import(node) {
         let rhs = translate_module_url(node.moduleRequest.source.value);
+
+        if (!rhs)
+            return;
 
         const lines = [];
 
@@ -277,7 +280,7 @@ app.add_main_option(
     GLib.OptionFlags.NONE,
     GLib.OptionArg.STRING_ARRAY,
     'Input files',
-    null
+    'INPUT_FILE'
 );
 
 app.add_main_option(
@@ -286,7 +289,7 @@ app.add_main_option(
     GLib.OptionFlags.NONE,
     GLib.OptionArg.STRING,
     'Output file',
-    null
+    'PATH'
 );
 
 app.add_main_option(
@@ -294,8 +297,17 @@ app.add_main_option(
     'd'.charCodeAt(0),
     GLib.OptionFlags.NONE,
     GLib.OptionArg.STRING,
-    'Base/root directory',
-    null
+    'Base/root directory path',
+    'PATH'
+);
+
+app.add_main_option(
+    'replace-import',
+    'r'.charCodeAt(0),
+    GLib.OptionFlags.NONE,
+    GLib.OptionArg.STRING_ARRAY,
+    'Replace the specified URL with specified legacy import, separated with colon',
+    'URL:IMPORT'
 );
 
 app.connect('handle-local-options', (_, options) => {
@@ -315,8 +327,16 @@ app.connect('handle-local-options', (_, options) => {
 
     try {
         const base_dir = GLib.canonicalize_filename(options.lookup('base-dir', 's') ?? '.', null);
-        const base_uri = GLib.filename_to_uri(base_dir, null);
-        const translated = translate(input_file, GLib.Uri.parse(base_uri, GLib.UriFlags.NONE));
+        const base_uri = GLib.Uri.parse(GLib.filename_to_uri(base_dir, null), GLib.UriFlags.NONE);
+
+        const replace_imports_args = options.lookup('replace-import', 'as', true) ?? [];
+        const replace_imports = Object.fromEntries(replace_imports_args.map(arg => {
+            const split_pos = arg.lastIndexOf(':');
+
+            return [arg.substring(0, split_pos), arg.substring(split_pos + 1)];
+        }));
+
+        const translated = translate(input_file, base_uri, replace_imports);
         const output_path = options.lookup('output', 's');
 
         if (output_path) {

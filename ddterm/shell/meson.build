@@ -32,7 +32,13 @@ foreach shell_file : shell_files
     )
 
     built_js += custom_target(
-      command: [gjs_translate_esm, '-o', '@OUTPUT@', '-d', meson.project_build_root(), '@INPUT@'],
+      command: [
+        gjs_translate_esm,
+        '-o', '@OUTPUT@',
+        '-d', meson.project_build_root(),
+        '-r', 'resource:///org/gnome/shell/extensions/extension.js:Me.imports.ddterm.shell.compat',
+        '@INPUT@'
+      ],
       input: preproc,
       output: fs.name(shell_file),
       install: true,
