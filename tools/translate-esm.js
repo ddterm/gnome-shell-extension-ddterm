@@ -228,11 +228,15 @@ function translate(file, root_url) {
         }
     }
 
+    let strict = false;
+
     for (const node of ast.body) {
         translated.push(text.substring(last_index, position_to_index(node.loc.start)));
 
-        if (!translated.includes("'use strict';\n\n"))
+        if (!strict) {
             translated.push("'use strict';\n\n");
+            strict = true;
+        }
 
         switch (node.type) {
         case 'ImportDeclaration':
