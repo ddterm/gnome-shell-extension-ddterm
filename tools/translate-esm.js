@@ -156,12 +156,23 @@ function translate(file, root_url) {
                 if (specifier.id.type !== 'Identifier')
                     throw new AstError('Expected identifier as import id', err_node);
 
-                if (specifier.id.name === 'default')
+                if (specifier.id.name === 'default') {
                     lines.push(`const ${name} = ${rhs};`);
-                else if (specifier.id.name === name)
-                    members.push(name);
-                else
+                } else if (specifier.id.name === name) {
+                    const space_pre = text.substring(
+                        position_to_index(node.loc.start),
+                        position_to_index(specifier.loc.start)
+                    ).match(/\s*$/);
+
+                    const space_post = text.substring(
+                        position_to_index(specifier.loc.end),
+                        position_to_index(node.loc.end)
+                    ).match(/^\s*/);
+
+                    members.push([space_pre, name, space_post].join(''));
+                } else {
                     lines.push(`const ${name} = ${rhs}.${specifier.id.name};`);
+                }
 
                 break;
 
@@ -171,7 +182,7 @@ function translate(file, root_url) {
         }
 
         if (members.length > 0)
-            lines.push(`const { ${members.join(', ')} } = ${rhs};`);
+            lines.push(`const {${members.join(',')}} = ${rhs};`);
 
         translated.push(lines.join('\n'));
     }

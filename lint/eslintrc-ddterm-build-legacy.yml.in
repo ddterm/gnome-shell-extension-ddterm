@@ -5,7 +5,7 @@ extends:
 
 rules:
   no-unused-vars: off
-  max-len: off
+  comma-dangle: off
 
 overrides:
   - files:
