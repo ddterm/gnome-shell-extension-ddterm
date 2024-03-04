@@ -1,18 +1,25 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:base",
+    "mergeConfidence:all-badges",
+    "config:recommended",
     ":maintainLockFilesWeekly",
     "npm:unpublishSafe"
   ],
   "ignorePaths": [],
   "automerge": true,
   "pip-compile": {
-    "fileMatch": ["(^|/)requirements/?([\\w-]*)\\.in$"]
+    "fileMatch": [
+      "(^|/)requirements/?([\\w-]*)\\.txt$"
+    ]
   },
-  "regexManagers": [
+  "customManagers": [
     {
-      "fileMatch": [".+\\.sh$", "^\\.github/workflows/.+\\.ya?ml"],
+      "customType": "regex",
+      "fileMatch": [
+        ".+\\.sh$",
+        "^\\.github/workflows/.+\\.ya?ml"
+      ],
       "matchStrings": [
         "#\\s*renovate:\\s+datasource=(?<datasource>[^\\s]+)\\s+depName=(?<depName>[^\\s]+)(\\s+(lookupName|packageName)=(?<packageName>[^\\s]+))?(\\s+versioning=(?<versioning>[^\\s]+))?\\n\\s*\\w+=[\"']?(?<currentValue>[^\\s\"']+)[\"']?(\\s|$)"
       ]
@@ -20,12 +27,16 @@
   ],
   "packageRules": [
     {
-      "matchPackagePrefixes": ["ghcr.io/ddterm/gnome-shell-pod/"],
+      "matchPackagePrefixes": [
+        "ghcr.io/ddterm/gnome-shell-pod/"
+      ],
       "groupName": "GNOME Shell Container Images",
       "pinDigests": false
     },
     {
-      "matchPackageNames": ["ghcr.io/ddterm/ci-docker-image"],
+      "matchPackageNames": [
+        "ghcr.io/ddterm/ci-docker-image"
+      ],
       "groupName": "Build/Dev Environment",
       "pinDigests": false
     }
