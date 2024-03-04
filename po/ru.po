@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-04 07:35+0000\n"
+"POT-Creation-Date: 2024-03-04 10:22+0000\n"
 "PO-Revision-Date: 2024-02-15 20:12+0000\n"
 "Last-Translator: Aleksandr Mezin <mezin.alexander@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/gnome-shell-"
@@ -415,7 +415,7 @@ msgstr "Значок на панели"
 msgid "Position and Size"
 msgstr "Положение и размер"
 
-#: ddterm/pref/scrolling.js:76
+#: ddterm/pref/scrolling.js:81
 msgid "Scrolling"
 msgstr "Прокрутка"
 

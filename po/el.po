@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-04 07:35+0000\n"
+"POT-Creation-Date: 2024-03-04 10:22+0000\n"
 "PO-Revision-Date: 2023-09-26 17:35+0300\n"
 "Last-Translator: Anagnostakis Ioannis <rizitis@gmail.com>\n"
 "Language-Team: Greek, Modern (1453-) <>\n"
@@ -416,7 +416,7 @@ msgstr "Εικονίδιο Πάνελ"
 msgid "Position and Size"
 msgstr "Θέση και μέγεθος"
 
-#: ddterm/pref/scrolling.js:76
+#: ddterm/pref/scrolling.js:81
 msgid "Scrolling"
 msgstr "Κύλιση"
 

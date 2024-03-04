@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-04 07:35+0000\n"
+"POT-Creation-Date: 2024-03-04 10:22+0000\n"
 "PO-Revision-Date: 2024-02-10 15:02+0000\n"
 "Last-Translator: yuh <yuhldr@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -406,7 +406,7 @@ msgstr "面板图标"
 msgid "Position and Size"
 msgstr "位置和尺寸"
 
-#: ddterm/pref/scrolling.js:76
+#: ddterm/pref/scrolling.js:81
 msgid "Scrolling"
 msgstr "滚动"
 

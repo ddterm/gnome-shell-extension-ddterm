@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-04 07:35+0000\n"
+"POT-Creation-Date: 2024-03-04 10:22+0000\n"
 "PO-Revision-Date: 2023-11-10 09:35+0000\n"
 "Last-Translator: Frankie McEyes <mceyes@protonmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/gnome-shell-"
@@ -413,7 +413,7 @@ msgstr "Icona del pannello"
 msgid "Position and Size"
 msgstr "Posizione e dimensione"
 
-#: ddterm/pref/scrolling.js:76
+#: ddterm/pref/scrolling.js:81
 msgid "Scrolling"
 msgstr "Scorrimento"
 
