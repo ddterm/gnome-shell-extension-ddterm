@@ -20,6 +20,7 @@
 import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
+import GnomeDesktop from 'gi://GnomeDesktop';
 import Meta from 'gi://Meta';
 
 import { sd_journal_stream_fd } from './sd_journal.js';
@@ -195,6 +196,15 @@ export const Subprocess = GObject.registerClass({
         this.log_collector = logging_to_journald
             ? new JournalctlLogCollector(journalctl, start_date, this._subprocess.get_identifier())
             : new TeeLogCollector(this._subprocess.get_stdout_pipe());
+
+        GnomeDesktop.start_systemd_scope(
+            this.journal_identifier,
+            parseInt(this._subprocess.get_identifier(), 10),
+            null,
+            null,
+            null,
+            null
+        );
     }
 
     get g_subprocess() {
