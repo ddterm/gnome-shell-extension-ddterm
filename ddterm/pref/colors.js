@@ -62,7 +62,6 @@ function get_settings_schema_key(schema, name) {
     return schema.get_key(name);
 }
 
-// eslint-disable-next-line no-shadow
 function copy_gnome_terminal_profile(settings) {
     // Lookup gnome terminal's setting schemas
     let profile_list_schema, profile_schema;

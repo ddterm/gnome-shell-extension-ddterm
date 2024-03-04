@@ -69,7 +69,6 @@ export const Service = GObject.registerClass({
     },
 }, class DDTermService extends GObject.Object {
     _init(params) {
-        // eslint-disable-next-line no-shadow
         const { subprocess, ...rest } = params;
         super._init(rest);
 
