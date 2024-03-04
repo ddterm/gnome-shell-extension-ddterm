@@ -1,4 +1,4 @@
-#!@GJS@
+#!@GJS_SHEBANG@
 
 /*
     Copyright © 2024 Aleksandr Mezin

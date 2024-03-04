@@ -1,6 +1,13 @@
 option(
   'esm',
   type : 'boolean',
-  value: true,
+  value : true,
   description : 'Target GNOME >= 45'
+)
+
+option(
+  'shebang_override',
+  type : 'string',
+  value : '',
+  description : 'If not empty, use the specified command instead of GJS executable'
 )

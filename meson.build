@@ -86,9 +86,6 @@ else
   )
 endif
 
-gjs_config = configuration_data()
-gjs_config.set('GJS', gjs.full_path())
-
 gtk3_builder_tool = find_program('gtk-builder-tool')
 
 sed = find_program('sed')

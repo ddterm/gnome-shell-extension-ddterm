@@ -100,7 +100,7 @@ jobs:
 
     - id: meson-setup
       name: Prepare build directory
-      run: .github/faketty.sh meson setup build
+      run: .github/faketty.sh meson setup '-Dshebang_override=/usr/bin/env gjs' build
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
     - name: Run glib-compile-schemas checks
@@ -173,7 +173,7 @@ jobs:
 
     - id: meson-setup-legacy
       name: Prepare build directory (legacy)
-      run: .github/faketty.sh meson setup -Desm=false build-legacy
+      run: .github/faketty.sh meson setup -Desm=false '-Dshebang_override=/usr/bin/env gjs' build-legacy
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
     - name: Build extension package (legacy)
