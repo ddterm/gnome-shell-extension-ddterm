@@ -3,5 +3,10 @@ root: true
 extends:
   - @common_eslintrc@
 
-rules:
-  no-unused-vars: off
+overrides:
+  - files:
+    - ddterm/app/prefsdialog.js
+    rules:
+      no-unused-vars:
+        - error
+        - varsIgnorePattern: ^dir$|_$
