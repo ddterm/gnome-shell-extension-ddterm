@@ -182,6 +182,10 @@ export const Subprocess = GObject.registerClass({
             ? make_subprocess_launcher_journald(this.journal_identifier)
             : make_subprocess_launcher_fallback();
 
+        const launch_context = global.create_app_launch_context(0, -1);
+
+        subprocess_launcher.set_environ(launch_context.get_environment());
+
         try {
             this._subprocess = this._spawn(subprocess_launcher);
         } finally {
