@@ -272,7 +272,7 @@ app.add_main_option(
     GLib.OptionFlags.NONE,
     GLib.OptionArg.STRING,
     'Base/root directory',
-    '.'
+    null
 );
 
 app.connect('handle-local-options', (_, options) => {
@@ -291,7 +291,7 @@ app.connect('handle-local-options', (_, options) => {
     const input_file = Gio.File.new_for_commandline_arg(files[0]);
 
     try {
-        const base_dir = GLib.canonicalize_filename(options.lookup('base-dir', 's'), null);
+        const base_dir = GLib.canonicalize_filename(options.lookup('base-dir', 's') ?? '.', null);
         const base_uri = GLib.filename_to_uri(base_dir, null);
         const translated = translate(input_file, GLib.Uri.parse(base_uri, GLib.UriFlags.NONE));
         const output_path = options.lookup('output', 's');
