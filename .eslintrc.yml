@@ -18,5 +18,6 @@ overrides:
       - ddterm/shell/compat.js
       - test/extension-legacy/*.js
       - bin/launcher.js
+      - tools/translate-esm.js
     parserOptions:
       sourceType: script

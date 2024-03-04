@@ -99,7 +99,7 @@ else
   preprocess_command = [output_capture, sed, '-f', files('tools/preproc_legacy.sin'), '@INPUT@']
 endif
 
-gjs_translate_esm = [gjs, '-m', files('tools' / 'translate-esm.js')]
+gjs_translate_esm = [gjs, files('tools' / 'translate-esm.js')]
 
 subdir('bin')
 subdir('schemas')

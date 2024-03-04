@@ -1,4 +1,4 @@
-#!/usr/bin/env -S gjs -m
+#!/usr/bin/env gjs
 
 /*
     Copyright © 2024 Aleksandr Mezin
@@ -19,10 +19,9 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import GLib from 'gi://GLib';
-import Gio from 'gi://Gio';
+const { GLib, Gio } = imports.gi;
 
-import System from 'system';
+const System = imports.system;
 
 class AstError extends Error {
     constructor(message, node) {
