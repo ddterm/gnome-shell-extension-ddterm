@@ -56,35 +56,32 @@ pack += configure_file(
 )
 
 output_capture = ['sh', '-c', 'exec >"$0" "$@"', '@OUTPUT@']
-need_git_version = fs.read('revision.txt.in').strip() == '$Format:%H$'
 
-git = find_program('git', disabler: true, required: need_git_version)
+git = find_program('git', required: false)
 
-if need_git_version
-  pack += custom_target(
-    command: [
-      output_capture,
-      git,
-      '-C',
-      '@CURRENT_SOURCE_DIR@',
-      '--git-dir',
-      '.git',
-      'rev-parse',
-      'HEAD'
-    ],
-    output: 'revision.txt',
-    build_always_stale: true,
-    install: true,
-    install_dir: extension_dir,
-  )
+revision_script_config = configuration_data()
+if git.found()
+  revision_script_config.set('GIT', git.full_path())
 else
-  pack += fs.copyfile(
-    'revision.txt.in',
-    'revision.txt',
-    install: true,
-    install_dir: extension_dir,
-  )
+  revision_script_config.set('GIT', 'git')
 endif
+
+store_revision_script = configure_file(
+  input: 'tools/store-revision.sh.in',
+  output: '@BASENAME@',
+  configuration: revision_script_config,
+)
+
+meson.add_dist_script(['sh', store_revision_script])
+
+pack += custom_target(
+  command: ['sh', store_revision_script, '@OUTPUT@'],
+  env: {'MESON_PROJECT_SOURCE_ROOT': meson.project_source_root()},
+  output: 'revision.txt',
+  build_always_stale: true,
+  install: true,
+  install_dir: extension_dir,
+)
 
 gtk3_builder_tool = find_program('gtk-builder-tool')
 

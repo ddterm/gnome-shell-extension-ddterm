@@ -1,0 +1,10 @@
+#!/bin/sh
+
+SRCDIR="${MESON_PROJECT_SOURCE_ROOT:-${MESON_SOURCE_ROOT:-.}}"
+OUTPUT="${1:-${MESON_PROJECT_DIST_ROOT:-${MESON_DIST_ROOT}}/revision.txt.in}"
+
+if [ "$(cat "${SRCDIR}/revision.txt.in")" = '$Format:%H$' ]; then
+  exec "@GIT@" -C "${SRCDIR}" --git-dir .git rev-parse HEAD >"${OUTPUT}"
+else
+  exec cp "${SRCDIR}/revision.txt.in" "${OUTPUT}"
+fi
