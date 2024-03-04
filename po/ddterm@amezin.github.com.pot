@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-01 07:27+0000\n"
+"POT-Creation-Date: 2024-03-04 07:35+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -212,7 +212,7 @@ msgstr ""
 msgid "Move Tab to Other Pane"
 msgstr ""
 
-#: ddterm/app/menus.ui:157 ddterm/app/prefsdialog.js:62
+#: ddterm/app/menus.ui:157 ddterm/app/prefsdialog.js:64
 msgid "Preferences"
 msgstr ""
 
@@ -385,7 +385,7 @@ msgstr ""
 msgid "Behavior"
 msgstr ""
 
-#: ddterm/pref/colors.js:469
+#: ddterm/pref/colors.js:468
 msgid "Colors"
 msgstr ""
 

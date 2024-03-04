@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-01 07:27+0000\n"
+"POT-Creation-Date: 2024-03-04 07:35+0000\n"
 "PO-Revision-Date: 2023-10-22 20:00+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/gnome-"
@@ -215,7 +215,7 @@ msgstr "Del loddrett"
 msgid "Move Tab to Other Pane"
 msgstr "Flytt fane til neste flate"
 
-#: ddterm/app/menus.ui:157 ddterm/app/prefsdialog.js:62
+#: ddterm/app/menus.ui:157 ddterm/app/prefsdialog.js:64
 msgid "Preferences"
 msgstr "Innstillinger"
 
@@ -391,7 +391,7 @@ msgstr "Animasjon"
 msgid "Behavior"
 msgstr "Adferd"
 
-#: ddterm/pref/colors.js:469
+#: ddterm/pref/colors.js:468
 msgid "Colors"
 msgstr "Farger"
 

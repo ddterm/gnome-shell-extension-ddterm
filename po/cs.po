@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-01 07:27+0000\n"
+"POT-Creation-Date: 2024-03-04 07:35+0000\n"
 "PO-Revision-Date: 2023-10-24 22:14+0000\n"
 "Last-Translator: Pavel Novák <pavelnov32@gmail.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/gnome-shell-"
@@ -215,7 +215,7 @@ msgstr "Rozdělit vertikálně"
 msgid "Move Tab to Other Pane"
 msgstr "Posunout panel na další okno"
 
-#: ddterm/app/menus.ui:157 ddterm/app/prefsdialog.js:62
+#: ddterm/app/menus.ui:157 ddterm/app/prefsdialog.js:64
 msgid "Preferences"
 msgstr "Předvolby"
 
@@ -389,7 +389,7 @@ msgstr "Animace"
 msgid "Behavior"
 msgstr "Chování"
 
-#: ddterm/pref/colors.js:469
+#: ddterm/pref/colors.js:468
 msgid "Colors"
 msgstr "Barvy"
 

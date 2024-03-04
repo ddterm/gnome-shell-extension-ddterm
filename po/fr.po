@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-01 07:27+0000\n"
+"POT-Creation-Date: 2024-03-04 07:35+0000\n"
 "PO-Revision-Date: 2024-02-16 08:41+0000\n"
 "Last-Translator: Arnaud Feldmann <arnaud.feldmann@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/gnome-shell-"
@@ -220,7 +220,7 @@ msgstr "Diviser verticalement"
 msgid "Move Tab to Other Pane"
 msgstr "Changer l'onglet de panneau"
 
-#: ddterm/app/menus.ui:157 ddterm/app/prefsdialog.js:62
+#: ddterm/app/menus.ui:157 ddterm/app/prefsdialog.js:64
 msgid "Preferences"
 msgstr "Préférences"
 
@@ -396,7 +396,7 @@ msgstr "Animation"
 msgid "Behavior"
 msgstr "Comportement"
 
-#: ddterm/pref/colors.js:469
+#: ddterm/pref/colors.js:468
 msgid "Colors"
 msgstr "Couleurs"
 
