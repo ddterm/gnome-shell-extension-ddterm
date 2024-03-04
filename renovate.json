@@ -13,6 +13,9 @@
       "(^|/)requirements/?([\\w-]*)\\.txt$"
     ]
   },
+  "pip_requirements": {
+    "enabled": false
+  },
   "customManagers": [
     {
       "customType": "regex",
