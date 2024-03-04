@@ -4,7 +4,6 @@ extends:
   - @common_eslintrc@
 
 rules:
-  no-unused-vars: off
   comma-dangle: off
 
 overrides:

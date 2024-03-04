@@ -200,6 +200,8 @@ function translate(file, root_url) {
                 position_to_index(node.loc.end)
             ));
 
+            translated.push(`\n\n/* exported ${node.declaration.id.name} */`);
+
             break;
 
         case 'VariableDeclaration':
@@ -212,6 +214,10 @@ function translate(file, root_url) {
                 translated.push(`var ${declaration.id.name} = ${body};`);
             }
 
+            translated.push(
+                `\n\n/* exported ${node.declaration.declarations.map(d => d.id.name).join(' ')} */`
+            );
+
             break;
 
         case 'ClassStatement': {
@@ -221,6 +227,8 @@ function translate(file, root_url) {
             );
 
             translated.push(`var ${node.declaration.id.name} = ${body};`);
+            translated.push(`\n\n/* exported ${node.declaration.id.name} */`);
+
             break;
         }
         default:
