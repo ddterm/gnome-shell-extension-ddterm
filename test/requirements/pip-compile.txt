@@ -4,7 +4,7 @@
 #
 #    pip-compile --allow-unsafe --strip-extras pip-compile.in
 #
-build==1.0.3
+build==1.1.1
     # via pip-tools
 click==8.1.7
     # via pip-tools
@@ -22,5 +22,5 @@ wheel==0.42.0
 # The following packages are considered to be unsafe in a requirements file:
 pip==24.0
     # via pip-tools
-setuptools==69.1.0
+setuptools==69.1.1
     # via pip-tools
