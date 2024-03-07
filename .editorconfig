@@ -1,0 +1,26 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+
+indent_style = space
+trim_trailing_whitespace = true
+
+[*.js]
+indent_size = 4
+
+[*.py]
+indent_size = 4
+
+[*.ui]
+indent_size = 2
+
+[*.yml]
+indent_size = 2
+
+[*.gschema.xml]
+indent_size = 2
+
+[meson.build]
+indent_size = 2
