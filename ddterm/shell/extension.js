@@ -106,6 +106,12 @@ function create_dbus_interface(
     dbus_interface.connect('missing-dependencies', (_, packages, files) => {
         notifications.show_missing_dependencies(packages, files);
     });
+    dbus_interface.connect('error', (_, message, details) => {
+        notifications.show_error(message, details);
+    });
+    dbus_interface.connect('version-mismatch', () => {
+        notifications.show_version_mismatch();
+    });
 
     window_geometry.bind_property(
         'target-rect',

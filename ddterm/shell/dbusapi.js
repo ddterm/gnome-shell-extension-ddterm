@@ -109,6 +109,10 @@ export const DBusApi = GObject.registerClass({
         'missing-dependencies': {
             param_types: [GObject.type_from_name('GStrv'), GObject.type_from_name('GStrv')],
         },
+        'error': {
+            param_types: [String, String],
+        },
+        'version-mismatch': {},
         'refresh-target-rect': {},
     },
 }, class DDTermDBusApi extends GObject.Object {
@@ -141,6 +145,14 @@ export const DBusApi = GObject.registerClass({
 
     MissingDependencies(packages, files) {
         this.emit('missing-dependencies', packages, files);
+    }
+
+    Error(message, details) {
+        this.emit('error', message, details);
+    }
+
+    VersionMismatch() {
+        this.emit('version-mismatch');
     }
 
     GetTargetRect() {

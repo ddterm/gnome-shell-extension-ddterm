@@ -13,10 +13,16 @@
             <arg type="i" name="width" direction="out"/>
             <arg type="i" name="height" direction="out"/>
         </method>
+
         <method name="MissingDependencies">
             <arg type="as" name="packages" direction="in"/>
             <arg type="as" name="files" direction="in"/>
         </method>
+        <method name="Error">
+            <arg type="s" name="message" direction="in"/>
+            <arg type="s" name="details" direction="in"/>
+        </method>
+        <method name="VersionMismatch"/>
 
         <property type="(iiii)" name="TargetRect" access="read"/>
         <property type="s" name="Version" access="read"/>
