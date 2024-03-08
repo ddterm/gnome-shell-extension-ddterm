@@ -77,7 +77,7 @@ jobs:
       with:
         name: pack-legacy
 
-    - uses: softprops/action-gh-release@v1
+    - uses: softprops/action-gh-release@v2
       with:
         token: ${{ steps.app-token.outputs.token }}
         files: "*.shell-extension.zip"
