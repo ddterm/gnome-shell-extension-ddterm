@@ -81,12 +81,11 @@ const Notification = GObject.registerClass({
 const VersionMismatchNotification = GObject.registerClass({
 }, class DDTermVersionMismatchNotification extends Notification {
     _init(source, gettext_context) {
-        const banner = gettext_context.gettext(
-            'Warning: ddterm version has changed. ' +
-            'Log out, then log in again to load the updated extension.'
-        );
+        const title = gettext_context.gettext('Warning: ddterm version has changed.');
+        const help =
+            gettext_context.gettext('Log out, then log in again to load the updated extension.');
 
-        super._init(source, source.title, banner);
+        super._init(source, title, help);
     }
 });
 

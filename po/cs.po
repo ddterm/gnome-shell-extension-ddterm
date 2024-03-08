@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-04 10:22+0000\n"
+"POT-Creation-Date: 2024-03-08 21:25+0200\n"
 "PO-Revision-Date: 2023-10-24 22:14+0000\n"
 "Last-Translator: Pavel Novák <pavelnov32@gmail.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/gnome-shell-"
@@ -78,28 +78,28 @@ msgstr ""
 msgid "Can't read the version of the loaded extension."
 msgstr ""
 
-#: ddterm/app/application.js:537 ddterm/shell/notifications.js:85
-msgid ""
-"Warning: ddterm version has changed. Log out, then log in again to load the "
-"updated extension."
-msgstr ""
-"Varování: Verze ddterm byla změněna. Znovu se přihlašte pro načtení "
-"aktualizovaného rozšíření."
+#: ddterm/app/application.js:536 ddterm/shell/notifications.js:84
+msgid "Warning: ddterm version has changed."
+msgstr "Varování: Verze ddterm byla změněna."
+
+#: ddterm/app/application.js:537 ddterm/shell/notifications.js:86
+msgid "Log out, then log in again to load the updated extension."
+msgstr "Znovu se přihlašte pro načtení aktualizovaného rozšíření."
 
 #: ddterm/app/appwindow.js:149 ddterm/com.github.amezin.ddterm.desktop.in.in:4
-#: ddterm/shell/notifications.js:193
+#: ddterm/shell/notifications.js:192
 msgid "ddterm"
 msgstr ""
 
-#: ddterm/app/dependencies.js:87 ddterm/shell/notifications.js:129
+#: ddterm/app/dependencies.js:87 ddterm/shell/notifications.js:128
 msgid "ddterm needs additional packages to run."
 msgstr "ddterm potřebuje pro funkčnost další balíčky."
 
-#: ddterm/app/dependencies.js:92 ddterm/shell/notifications.js:134
+#: ddterm/app/dependencies.js:92 ddterm/shell/notifications.js:133
 msgid "Please install the following packages:"
 msgstr "Nainstalujte prosím tyto balíčky:"
 
-#: ddterm/app/dependencies.js:99 ddterm/shell/notifications.js:142
+#: ddterm/app/dependencies.js:99 ddterm/shell/notifications.js:141
 msgid "Please install packages that provide the following files:"
 msgstr "Nainstalujte balíčky které poskytují tyto soubory:"
 
@@ -1323,12 +1323,12 @@ msgstr "Detekovat \"news:\", \"man:\" URL adresy"
 msgid "Failed to launch ddterm application"
 msgstr ""
 
-#: ddterm/shell/notifications.js:119
+#: ddterm/shell/notifications.js:118
 #, fuzzy
 msgid "Copy to Clipboard"
 msgstr "Vložit zkopírovaný text"
 
-#: ddterm/shell/notifications.js:163
+#: ddterm/shell/notifications.js:162
 msgid "Install"
 msgstr ""
 
