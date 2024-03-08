@@ -21,53 +21,75 @@ import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
 import Pango from 'gi://Pango';
+import Clutter from 'gi://Clutter';
 import St from 'gi://St';
 
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
-import * as MessageList from 'resource:///org/gnome/shell/ui/messageList.js';
 import * as MessageTray from 'resource:///org/gnome/shell/ui/messageTray.js';
+import * as ModalDialog from 'resource:///org/gnome/shell/ui/modalDialog.js';
 
 import { find_package_installer } from './packagemanager.js';
 
-const ScrolledBanner = GObject.registerClass({
-}, class DDTermNotificationScrolledBanner extends MessageTray.NotificationBanner {
-    _init(notification) {
-        super._init(notification);
+const DetailsDialog = GObject.registerClass({
+    Properties: {
+        'markup': GObject.ParamSpec.string(
+            'markup',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+            ''
+        ),
+        'gettext-context': GObject.ParamSpec.jsobject(
+            'gettext-context',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY
+        ),
+    },
+    Signals: {
+        'copy-to-clipboard': {},
+    },
+}, class DDTermNotificationDetailsDialog extends ModalDialog.ModalDialog {
+    _init(markup, gettext_context) {
+        super._init();
 
-        const expand_label = new MessageList.URLHighlighter(
-            notification.bannerBodyText,
-            true,
-            notification.bannerBodyMarkup
-        );
-
-        expand_label.clutter_text.ellipsize = Pango.EllipsizeMode.NONE;
-
+        const label = new St.Label();
         const viewport = new St.BoxLayout({ vertical: true });
-        viewport.add_child(expand_label);
-
         const scroll_area = new St.ScrollView({
             style_class: 'vfade',
             overlay_scrollbars: true,
             hscrollbar_policy: St.PolicyType.NEVER,
             vscrollbar_policy: St.PolicyType.AUTOMATIC,
-            visible: this.expanded,
         });
 
+        label.clutter_text.ellipsize = Pango.EllipsizeMode.NONE;
+        label.clutter_text.line_wrap = true;
+        label.clutter_text.line_wrap_mode = Pango.WrapMode.WORD_CHAR;
+        label.clutter_text.text = markup;
+        label.clutter_text.use_markup = true;
+
+        viewport.add_child(label);
         scroll_area.add_actor(viewport);
-        this.setExpandedBody(scroll_area);
-        this.setExpandedLines(12);  /* like in Telepathy notifications */
+        this.contentLayout.add_child(scroll_area);
 
-        const disconnect = () => {
-            this.disconnect(destroy_banner_handler);
-            notification.disconnect(destroy_notification_handler);
-            notification.disconnect(update_handler);
-        };
-
-        const destroy_banner_handler = this.connect('destroy', disconnect);
-        const destroy_notification_handler = notification.connect('destroy', disconnect);
-        const update_handler = notification.connect('updated', () => {
-            expand_label.setMarkup(notification.bannerBodyText, notification.bannerBodyMarkup);
+        this.addButton({
+            label: gettext_context.gettext('Copy to Clipboard'),
+            action: () => this.emit('copy-to-clipboard'),
         });
+
+        this.addButton({
+            label: gettext_context.gettext('Close'),
+            action: () => this.close(),
+        });
+    }
+
+    vfunc_key_release_event(event) {
+        if (event.get_key_symbol() === Clutter.KEY_Escape) {
+            this.close();
+            return Clutter.EVENT_STOP;
+        }
+
+        return Clutter.EVENT_PROPAGATE;
     }
 });
 
@@ -84,37 +106,43 @@ const VersionMismatchNotification = GObject.registerClass({
 
 const ErrorNotification = GObject.registerClass({
 }, class DDTermErrorNotification extends MessageTray.Notification {
-    _init(source, message, trace, gettext_context) {
+    _init(source, message, details, gettext_context) {
         if (message instanceof Error || message instanceof GLib.Error)
             message = message.message;
 
-        if (trace instanceof Error || trace instanceof GLib.Error)
-            trace = trace.message;
+        if (details instanceof Error || details instanceof GLib.Error)
+            details = details.message;
 
         message = `${message}`;
+        details = `${details ?? ''}`;
 
-        if (!trace?.trim()) {
-            super._init(source, source.title, message);
-            return;
+        super._init(source, message, details);
+
+        const has_details = details.trim() !== '';
+        const plaintext = has_details ? [message, '', details].join('\n') : message;
+        const copy_to_clipboard = () => {
+            St.Clipboard.get_default().set_text(St.ClipboardType.CLIPBOARD, plaintext);
+        };
+
+        if (has_details) {
+            const show_details = () => {
+                const markup = [
+                    `<b>${GLib.markup_escape_text(message, -1)}</b>`,
+                    '',
+                    GLib.markup_escape_text(details, -1),
+                ].join('\n');
+
+                const dialog = new DetailsDialog(markup, gettext_context);
+
+                dialog.connect('copy-to-clipboard', copy_to_clipboard);
+                dialog.open(global.get_current_time(), true);
+            };
+
+            this.addAction(gettext_context.gettext('Details…'), show_details);
+            this.connect('activated', show_details);
         }
 
-        const plain = [message, '', trace].join('\n');
-        const markup = [
-            `<b>${GLib.markup_escape_text(message, -1)}</b>`,
-            '',
-            GLib.markup_escape_text(trace, -1),
-        ].join('\n');
-
-        super._init(source, source.title, markup, { bannerMarkup: true });
-
-        this.addAction(
-            gettext_context.gettext('Copy to Clipboard'),
-            () => St.Clipboard.get_default().set_text(St.ClipboardType.CLIPBOARD, plain)
-        );
-    }
-
-    createBanner() {
-        return new ScrolledBanner(this);
+        this.addAction(gettext_context.gettext('Copy to Clipboard'), copy_to_clipboard);
     }
 });
 
