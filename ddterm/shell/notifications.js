@@ -124,9 +124,8 @@ const ErrorNotification = GObject.registerClass({
 const MissingDependenciesNotification = GObject.registerClass({
 }, class DDTermMissingDependenciesNotification extends Notification {
     _init(source, packages, files, gettext_context) {
-        const lines = [
-            gettext_context.gettext('ddterm needs additional packages to run.'),
-        ];
+        const title = gettext_context.gettext('ddterm needs additional packages to run.');
+        const lines = [];
 
         if (packages.length > 0) {
             lines.push(
@@ -144,7 +143,7 @@ const MissingDependenciesNotification = GObject.registerClass({
             );
         }
 
-        super._init(source, source.title, lines.join('\n'));
+        super._init(source, title, lines.join('\n'));
 
         if (packages.length === 0)
             return;
