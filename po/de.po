@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-08 21:25+0200\n"
+"POT-Creation-Date: 2024-03-09 09:49+0000\n"
 "PO-Revision-Date: 2024-02-15 20:22+0100\n"
 "Last-Translator: Philipp Kiemle <philipp.kiemle@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/gnome-shell-"
@@ -83,29 +83,29 @@ msgstr ""
 msgid "Can't read the version of the loaded extension."
 msgstr "Die Version der geladenen Erweiterung konnte nicht ermittelt werden."
 
-#: ddterm/app/application.js:536 ddterm/shell/notifications.js:84
+#: ddterm/app/application.js:536 ddterm/shell/notifications.js:77
 msgid "Warning: ddterm version has changed."
 msgstr "Warnung: Die Version von ddterm hat sich geändert."
 
-#: ddterm/app/application.js:537 ddterm/shell/notifications.js:86
+#: ddterm/app/application.js:537 ddterm/shell/notifications.js:79
 msgid "Log out, then log in again to load the updated extension."
 msgstr ""
 "Melden Sie sich ab und wieder an, um die aktualisierte Erweiterung zu laden."
 
 #: ddterm/app/appwindow.js:149 ddterm/com.github.amezin.ddterm.desktop.in.in:4
-#: ddterm/shell/notifications.js:192
+#: ddterm/shell/notifications.js:188
 msgid "ddterm"
 msgstr "ddterm"
 
-#: ddterm/app/dependencies.js:87 ddterm/shell/notifications.js:128
+#: ddterm/app/dependencies.js:87 ddterm/shell/notifications.js:124
 msgid "ddterm needs additional packages to run."
 msgstr "ddterm benötigt zusätzliche Pakete zur Ausführung."
 
-#: ddterm/app/dependencies.js:92 ddterm/shell/notifications.js:133
+#: ddterm/app/dependencies.js:92 ddterm/shell/notifications.js:129
 msgid "Please install the following packages:"
 msgstr "Bitte installieren Sie die folgenden Pakete:"
 
-#: ddterm/app/dependencies.js:99 ddterm/shell/notifications.js:141
+#: ddterm/app/dependencies.js:99 ddterm/shell/notifications.js:137
 msgid "Please install packages that provide the following files:"
 msgstr "Bitte installieren Sie Pakete, die folgende Dateien bereitstellen:"
 
@@ -1320,15 +1320,15 @@ msgstr "E-Mail-Adressen erkennen"
 msgid "Detect \"news:\", \"man:\" URLs"
 msgstr "\"news:\", \"man:\"-URLs erkennen"
 
-#: ddterm/shell/extension.js:274
+#: ddterm/shell/extension.js:280
 msgid "Failed to launch ddterm application"
 msgstr "Starten der ddterm-Anwendung fehlgeschlagen"
 
-#: ddterm/shell/notifications.js:118
+#: ddterm/shell/notifications.js:111
 msgid "Copy to Clipboard"
 msgstr "In Zwischenablage kopieren"
 
-#: ddterm/shell/notifications.js:162
+#: ddterm/shell/notifications.js:158
 msgid "Install"
 msgstr "Installieren"
 

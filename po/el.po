@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-08 21:25+0200\n"
+"POT-Creation-Date: 2024-03-09 09:49+0000\n"
 "PO-Revision-Date: 2023-09-26 17:35+0300\n"
 "Last-Translator: Anagnostakis Ioannis <rizitis@gmail.com>\n"
 "Language-Team: Greek, Modern (1453-) <>\n"
@@ -79,30 +79,30 @@ msgstr ""
 msgid "Can't read the version of the loaded extension."
 msgstr ""
 
-#: ddterm/app/application.js:536 ddterm/shell/notifications.js:84
+#: ddterm/app/application.js:536 ddterm/shell/notifications.js:77
 msgid "Warning: ddterm version has changed."
 msgstr "Προειδοποίηση: η έκδοση ddterm έχει αλλάξει."
 
-#: ddterm/app/application.js:537 ddterm/shell/notifications.js:86
+#: ddterm/app/application.js:537 ddterm/shell/notifications.js:79
 msgid "Log out, then log in again to load the updated extension."
 msgstr ""
 "Αποσυνδεθείτε και, στη συνέχεια, συνδεθείτε ξανά για να φορτώσετε την "
 "ενημερωμένη επέκταση."
 
 #: ddterm/app/appwindow.js:149 ddterm/com.github.amezin.ddterm.desktop.in.in:4
-#: ddterm/shell/notifications.js:192
+#: ddterm/shell/notifications.js:188
 msgid "ddterm"
 msgstr ""
 
-#: ddterm/app/dependencies.js:87 ddterm/shell/notifications.js:128
+#: ddterm/app/dependencies.js:87 ddterm/shell/notifications.js:124
 msgid "ddterm needs additional packages to run."
 msgstr "Το ddterm χρειάζεται επιπλέον πακέτα για να τρέξει."
 
-#: ddterm/app/dependencies.js:92 ddterm/shell/notifications.js:133
+#: ddterm/app/dependencies.js:92 ddterm/shell/notifications.js:129
 msgid "Please install the following packages:"
 msgstr "Χρειάζετε να εγκατασταθούν τα ακόλουθα πακέτα:"
 
-#: ddterm/app/dependencies.js:99 ddterm/shell/notifications.js:141
+#: ddterm/app/dependencies.js:99 ddterm/shell/notifications.js:137
 msgid "Please install packages that provide the following files:"
 msgstr "Παρακαλώ εγκαταστείστε τα πακέτα που περιγράφουν τα παρακάτω αρχεία :"
 
@@ -1325,16 +1325,16 @@ msgstr "Εύρεση adresses email"
 msgid "Detect \"news:\", \"man:\" URLs"
 msgstr "Εντόπιση \"news:\", \"man:\" URLs"
 
-#: ddterm/shell/extension.js:274
+#: ddterm/shell/extension.js:280
 msgid "Failed to launch ddterm application"
 msgstr ""
 
-#: ddterm/shell/notifications.js:118
+#: ddterm/shell/notifications.js:111
 #, fuzzy
 msgid "Copy to Clipboard"
 msgstr "Επικόλλιση απο Πρόχειρο"
 
-#: ddterm/shell/notifications.js:162
+#: ddterm/shell/notifications.js:158
 msgid "Install"
 msgstr ""
 
