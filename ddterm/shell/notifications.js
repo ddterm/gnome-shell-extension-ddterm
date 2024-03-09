@@ -29,8 +29,8 @@ import * as MessageTray from 'resource:///org/gnome/shell/ui/messageTray.js';
 
 import { find_package_installer } from './packagemanager.js';
 
-const Banner = GObject.registerClass({
-}, class DDTermNotificationBanner extends MessageTray.NotificationBanner {
+const ScrolledBanner = GObject.registerClass({
+}, class DDTermNotificationScrolledBanner extends MessageTray.NotificationBanner {
     _init(notification) {
         super._init(notification);
 
@@ -71,15 +71,8 @@ const Banner = GObject.registerClass({
     }
 });
 
-const Notification = GObject.registerClass({
-}, class DDTermNotification extends MessageTray.Notification {
-    createBanner() {
-        return new Banner(this);
-    }
-});
-
 const VersionMismatchNotification = GObject.registerClass({
-}, class DDTermVersionMismatchNotification extends Notification {
+}, class DDTermVersionMismatchNotification extends MessageTray.Notification {
     _init(source, gettext_context) {
         const title = gettext_context.gettext('Warning: ddterm version has changed.');
         const help =
@@ -90,7 +83,7 @@ const VersionMismatchNotification = GObject.registerClass({
 });
 
 const ErrorNotification = GObject.registerClass({
-}, class DDTermErrorNotification extends Notification {
+}, class DDTermErrorNotification extends MessageTray.Notification {
     _init(source, message, trace, gettext_context) {
         if (message instanceof Error || message instanceof GLib.Error)
             message = message.message;
@@ -119,10 +112,14 @@ const ErrorNotification = GObject.registerClass({
             () => St.Clipboard.get_default().set_text(St.ClipboardType.CLIPBOARD, plain)
         );
     }
+
+    createBanner() {
+        return new ScrolledBanner(this);
+    }
 });
 
 const MissingDependenciesNotification = GObject.registerClass({
-}, class DDTermMissingDependenciesNotification extends Notification {
+}, class DDTermMissingDependenciesNotification extends MessageTray.Notification {
     _init(source, packages, files, gettext_context) {
         const title = gettext_context.gettext('ddterm needs additional packages to run.');
         const lines = [];
