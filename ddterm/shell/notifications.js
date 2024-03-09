@@ -74,7 +74,7 @@ const ScrolledBanner = GObject.registerClass({
 const VersionMismatchNotification = GObject.registerClass({
 }, class DDTermVersionMismatchNotification extends MessageTray.Notification {
     _init(source, gettext_context) {
-        const title = gettext_context.gettext('Warning: ddterm version has changed.');
+        const title = gettext_context.gettext('Warning: ddterm version has changed');
         const help =
             gettext_context.gettext('Log out, then log in again to load the updated extension.');
 
@@ -121,7 +121,7 @@ const ErrorNotification = GObject.registerClass({
 const MissingDependenciesNotification = GObject.registerClass({
 }, class DDTermMissingDependenciesNotification extends MessageTray.Notification {
     _init(source, packages, files, gettext_context) {
-        const title = gettext_context.gettext('ddterm needs additional packages to run.');
+        const title = gettext_context.gettext('ddterm needs additional packages to run');
         const lines = [];
 
         if (packages.length > 0) {

@@ -84,7 +84,7 @@ export function gi_require_optional(imports_versions) {
         return loaded;
 
     const message_lines = [
-        Gettext.gettext('ddterm needs additional packages to run.'),
+        Gettext.gettext('ddterm needs additional packages to run'),
     ];
 
     if (missing.length > 0) {

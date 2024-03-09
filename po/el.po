@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-09 09:49+0000\n"
+"POT-Creation-Date: 2024-03-09 12:14+0200\n"
 "PO-Revision-Date: 2023-09-26 17:35+0300\n"
 "Last-Translator: Anagnostakis Ioannis <rizitis@gmail.com>\n"
 "Language-Team: Greek, Modern (1453-) <>\n"
@@ -80,8 +80,8 @@ msgid "Can't read the version of the loaded extension."
 msgstr ""
 
 #: ddterm/app/application.js:536 ddterm/shell/notifications.js:77
-msgid "Warning: ddterm version has changed."
-msgstr "Προειδοποίηση: η έκδοση ddterm έχει αλλάξει."
+msgid "Warning: ddterm version has changed"
+msgstr "Προειδοποίηση: η έκδοση ddterm έχει αλλάξει"
 
 #: ddterm/app/application.js:537 ddterm/shell/notifications.js:79
 msgid "Log out, then log in again to load the updated extension."
@@ -95,8 +95,8 @@ msgid "ddterm"
 msgstr ""
 
 #: ddterm/app/dependencies.js:87 ddterm/shell/notifications.js:124
-msgid "ddterm needs additional packages to run."
-msgstr "Το ddterm χρειάζεται επιπλέον πακέτα για να τρέξει."
+msgid "ddterm needs additional packages to run"
+msgstr "Το ddterm χρειάζεται επιπλέον πακέτα για να τρέξει"
 
 #: ddterm/app/dependencies.js:92 ddterm/shell/notifications.js:129
 msgid "Please install the following packages:"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-09 09:49+0000\n"
+"POT-Creation-Date: 2024-03-09 12:14+0200\n"
 "PO-Revision-Date: 2023-10-23 00:33+0000\n"
 "Last-Translator: Eryk Michalak <gnu.ewm@protonmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/gnome-shell-"
@@ -83,8 +83,8 @@ msgid "Can't read the version of the loaded extension."
 msgstr ""
 
 #: ddterm/app/application.js:536 ddterm/shell/notifications.js:77
-msgid "Warning: ddterm version has changed."
-msgstr "Ostrzeżenie: wersja ddterm zmieniła się."
+msgid "Warning: ddterm version has changed"
+msgstr "Ostrzeżenie: wersja ddterm zmieniła się"
 
 #: ddterm/app/application.js:537 ddterm/shell/notifications.js:79
 msgid "Log out, then log in again to load the updated extension."
@@ -96,8 +96,8 @@ msgid "ddterm"
 msgstr ""
 
 #: ddterm/app/dependencies.js:87 ddterm/shell/notifications.js:124
-msgid "ddterm needs additional packages to run."
-msgstr "ddterm potrzebuje dodatkowych pakietów, aby mógł działać."
+msgid "ddterm needs additional packages to run"
+msgstr "ddterm potrzebuje dodatkowych pakietów, aby mógł działać"
 
 #: ddterm/app/dependencies.js:92 ddterm/shell/notifications.js:129
 msgid "Please install the following packages:"

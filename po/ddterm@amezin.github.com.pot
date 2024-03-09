@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-09 09:49+0000\n"
+"POT-Creation-Date: 2024-03-09 12:14+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -78,7 +78,7 @@ msgid "Can't read the version of the loaded extension."
 msgstr ""
 
 #: ddterm/app/application.js:536 ddterm/shell/notifications.js:77
-msgid "Warning: ddterm version has changed."
+msgid "Warning: ddterm version has changed"
 msgstr ""
 
 #: ddterm/app/application.js:537 ddterm/shell/notifications.js:79
@@ -91,7 +91,7 @@ msgid "ddterm"
 msgstr ""
 
 #: ddterm/app/dependencies.js:87 ddterm/shell/notifications.js:124
-msgid "ddterm needs additional packages to run."
+msgid "ddterm needs additional packages to run"
 msgstr ""
 
 #: ddterm/app/dependencies.js:92 ddterm/shell/notifications.js:129

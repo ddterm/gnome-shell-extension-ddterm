@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-09 09:49+0000\n"
+"POT-Creation-Date: 2024-03-09 12:14+0200\n"
 "PO-Revision-Date: 2024-02-10 15:02+0000\n"
 "Last-Translator: yuh <yuhldr@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -79,8 +79,8 @@ msgid "Can't read the version of the loaded extension."
 msgstr "无法读取已加载扩展插件的版本。"
 
 #: ddterm/app/application.js:536 ddterm/shell/notifications.js:77
-msgid "Warning: ddterm version has changed."
-msgstr "警告：ddterm版本已改变。"
+msgid "Warning: ddterm version has changed"
+msgstr "警告：ddterm版本已改变"
 
 #: ddterm/app/application.js:537 ddterm/shell/notifications.js:79
 msgid "Log out, then log in again to load the updated extension."
@@ -92,8 +92,8 @@ msgid "ddterm"
 msgstr "ddterm"
 
 #: ddterm/app/dependencies.js:87 ddterm/shell/notifications.js:124
-msgid "ddterm needs additional packages to run."
-msgstr "ddterm需要额外的软件包才能运行。"
+msgid "ddterm needs additional packages to run"
+msgstr "ddterm需要额外的软件包才能运行"
 
 #: ddterm/app/dependencies.js:92 ddterm/shell/notifications.js:129
 msgid "Please install the following packages:"

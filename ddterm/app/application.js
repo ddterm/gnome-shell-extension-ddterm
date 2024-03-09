@@ -533,7 +533,7 @@ class Application extends Gtk.Application {
                     'Please, make sure ddterm GNOME Shell extension is enabled.'
                 ));
             } else if (revision !== ext_revision) {
-                print(Gettext.gettext('Warning: ddterm version has changed.'));
+                print(Gettext.gettext('Warning: ddterm version has changed'));
                 print(Gettext.gettext('Log out, then log in again to load the updated extension.'));
             }
         } catch (ex) {
