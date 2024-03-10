@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-10 07:12+0000\n"
+"POT-Creation-Date: 2024-03-10 08:12+0000\n"
 "PO-Revision-Date: 2024-03-09 09:13+0000\n"
 "Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/gnome-shell-"
@@ -84,28 +84,28 @@ msgstr ""
 msgid "Can't read the version of the loaded extension."
 msgstr "No se puede leer la versión de la extensión cargada."
 
-#: ddterm/app/application.js:536 ddterm/shell/notifications.js:99
+#: ddterm/app/application.js:536 ddterm/shell/notifications.js:158
 msgid "Warning: ddterm version has changed"
 msgstr "Atención: La versión de ddterm ha cambiado"
 
-#: ddterm/app/application.js:537 ddterm/shell/notifications.js:101
+#: ddterm/app/application.js:537 ddterm/shell/notifications.js:160
 msgid "Log out, then log in again to load the updated extension."
 msgstr "Salir y entrar para cargar la versión actualizada de la extensión."
 
 #: ddterm/app/appwindow.js:149 ddterm/com.github.amezin.ddterm.desktop.in.in:4
-#: ddterm/shell/notifications.js:216
+#: ddterm/shell/notifications.js:283
 msgid "ddterm"
 msgstr "ddterm"
 
-#: ddterm/app/dependencies.js:87 ddterm/shell/notifications.js:152
+#: ddterm/app/dependencies.js:87 ddterm/shell/notifications.js:214
 msgid "ddterm needs additional packages to run"
 msgstr "ddterm necesita paquetes adicionales para funcionar"
 
-#: ddterm/app/dependencies.js:92 ddterm/shell/notifications.js:157
+#: ddterm/app/dependencies.js:92 ddterm/shell/notifications.js:219
 msgid "Please install the following packages:"
 msgstr "Por favor instale los siguientes paquetes:"
 
-#: ddterm/app/dependencies.js:99 ddterm/shell/notifications.js:165
+#: ddterm/app/dependencies.js:99 ddterm/shell/notifications.js:227
 msgid "Please install packages that provide the following files:"
 msgstr "Por favor instale los paquetes que provean los siguientes archivos:"
 
@@ -170,7 +170,7 @@ msgid "Show in File Manager"
 msgstr "Mostrar en el administrador de archivos"
 
 #: ddterm/app/menus.ui:99 ddterm/app/menus.ui:230 ddterm/app/tablabel.js:113
-#: ddterm/shell/notifications.js:81
+#: ddterm/shell/notifications.js:91
 msgid "Close"
 msgstr "Cerrar"
 
@@ -1324,15 +1324,15 @@ msgstr ""
 msgid "Failed to launch ddterm application"
 msgstr "No se pudo iniciar la aplicación ddterm"
 
-#: ddterm/shell/notifications.js:76 ddterm/shell/notifications.js:145
+#: ddterm/shell/notifications.js:86 ddterm/shell/notifications.js:205
 msgid "Copy to Clipboard"
 msgstr "Copiar al portapapeles"
 
-#: ddterm/shell/notifications.js:141
+#: ddterm/shell/notifications.js:201
 msgid "Details…"
 msgstr ""
 
-#: ddterm/shell/notifications.js:186
+#: ddterm/shell/notifications.js:249
 msgid "Install"
 msgstr "Instalar"
 
