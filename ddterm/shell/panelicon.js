@@ -43,8 +43,8 @@ const PanelIconBase = GObject.registerClass({
         'open-preferences': {},
     },
 }, class DDTermPanelIconBase extends PanelMenu.Button {
-    _init(dontCreateMenu) {
-        super._init(null, 'ddterm', dontCreateMenu);
+    _init(dontCreateMenu, gettext_context) {
+        super._init(null, gettext_context.gettext('ddterm'), dontCreateMenu);
 
         this.add_child(new St.Icon({
             icon_name: 'utilities-terminal',
@@ -58,7 +58,7 @@ const PanelIconBase = GObject.registerClass({
 const PanelIconPopupMenu = GObject.registerClass({
 }, class DDTermPanelIconPopupMenu extends PanelIconBase {
     _init(gettext_context) {
-        super._init(false);
+        super._init(false, gettext_context);
 
         this.toggle_item = new PopupMenu.PopupSwitchMenuItem(
             gettext_context.gettext('Show'),
@@ -96,8 +96,8 @@ const PanelIconPopupMenu = GObject.registerClass({
 
 const PanelIconToggleButton = GObject.registerClass({
 }, class DDTermPanelIconToggleButton extends PanelIconBase {
-    _init() {
-        super._init(true);
+    _init(gettext_context) {
+        super._init(true, gettext_context);
 
         this.accessible_role = Atk.Role.TOGGLE_BUTTON;
     }
