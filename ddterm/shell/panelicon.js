@@ -52,8 +52,6 @@ const PanelIconBase = GObject.registerClass({
             icon_name: 'utilities-terminal',
             style_class: 'system-status-icon',
         }));
-
-        this.add_style_class_name('panel-status-button');
     }
 });
 
