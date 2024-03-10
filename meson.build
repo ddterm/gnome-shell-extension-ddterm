@@ -24,6 +24,15 @@ schema_dir = datadir / 'glib-2.0' / 'schemas'
 applications_dir = datadir / 'applications'
 dbus_service_dir = datadir / 'dbus-1' / 'services'
 
+pack = [
+  fs.copyfile('LICENSE'),
+  fs.copyfile(
+    'stylesheet.css',
+    install: true,
+    install_dir: extension_dir
+  )
+]
+
 built_js = [
   fs.copyfile(
     get_option('esm') ? 'extension.js' : 'extension.legacy.js',
@@ -38,8 +47,6 @@ built_js = [
     install_dir: extension_dir
   )
 ]
-
-pack = [fs.copyfile('LICENSE')]
 
 metadata = configuration_data()
 metadata.set('version', meson.project_version())
