@@ -62,9 +62,15 @@ pack += configure_file(
   install_dir: extension_dir,
 )
 
-output_capture = ['sh', '-c', 'exec >"$0" "$@"', '@OUTPUT@']
-need_git_version = fs.read('revision.txt.in').strip() == '$Format:%H$'
+output_capture = [
+  # https://github.com/mesonbuild/meson/issues/11255
+  find_program('tools' / 'capture-stdout.py'),
+  '--output',
+  '@OUTPUT@',
+  '--'
+]
 
+need_git_version = fs.read('revision.txt.in').strip() == '$Format:%H$'
 git = find_program('git', disabler: true, required: need_git_version)
 
 if need_git_version
