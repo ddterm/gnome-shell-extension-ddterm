@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-10 08:12+0000\n"
+"POT-Creation-Date: 2024-03-10 10:34+0000\n"
 "PO-Revision-Date: 2023-09-26 17:35+0300\n"
 "Last-Translator: Anagnostakis Ioannis <rizitis@gmail.com>\n"
 "Language-Team: Greek, Modern (1453-) <>\n"
@@ -90,7 +90,7 @@ msgstr ""
 "ενημερωμένη επέκταση."
 
 #: ddterm/app/appwindow.js:149 ddterm/com.github.amezin.ddterm.desktop.in.in:4
-#: ddterm/shell/notifications.js:283
+#: ddterm/shell/notifications.js:283 ddterm/shell/panelicon.js:47
 msgid "ddterm"
 msgstr ""
 

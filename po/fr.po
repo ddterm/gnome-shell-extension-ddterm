@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-10 08:12+0000\n"
+"POT-Creation-Date: 2024-03-10 10:34+0000\n"
 "PO-Revision-Date: 2024-02-16 08:41+0000\n"
 "Last-Translator: Arnaud Feldmann <arnaud.feldmann@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/gnome-shell-"
@@ -94,7 +94,7 @@ msgstr ""
 "jour."
 
 #: ddterm/app/appwindow.js:149 ddterm/com.github.amezin.ddterm.desktop.in.in:4
-#: ddterm/shell/notifications.js:283
+#: ddterm/shell/notifications.js:283 ddterm/shell/panelicon.js:47
 msgid "ddterm"
 msgstr "ddterm"
 
