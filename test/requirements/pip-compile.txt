@@ -8,9 +8,9 @@ build==1.1.1
     # via pip-tools
 click==8.1.7
     # via pip-tools
-packaging==23.2
+packaging==24.0
     # via build
-pip-tools==7.4.0
+pip-tools==7.4.1
     # via -r pip-compile.in
 pyproject-hooks==1.0.0
     # via
