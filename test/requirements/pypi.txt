@@ -37,7 +37,7 @@ pytest-html==3.2.0
     # via -r pypi.in
 pytest-metadata==3.1.1
     # via pytest-html
-pytest-rerunfailures==13.0
+pytest-rerunfailures==14.0
     # via -r pypi.in
 pytest-xdist==3.5.0
     # via -r pypi.in
