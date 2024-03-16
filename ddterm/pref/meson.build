@@ -34,7 +34,7 @@ foreach pref_file : pref_files
     )
 
     pref_built_js += custom_target(
-      command: [gjs_translate_esm, '-o', '@OUTPUT@', '-d', meson.project_build_root(), '@INPUT@'],
+      command: gjs_translate_esm_command,
       input: preproc,
       output: fs.name(pref_file),
       install: true,

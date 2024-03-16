@@ -62,13 +62,7 @@ pack += configure_file(
   install_dir: extension_dir,
 )
 
-output_capture = [
-  # https://github.com/mesonbuild/meson/issues/11255
-  find_program('tools' / 'capture-stdout.py'),
-  '--output',
-  '@OUTPUT@',
-  '--'
-]
+subdir('tools')
 
 need_git_version = fs.read('revision.txt.in').strip() == '$Format:%H$'
 git = find_program('git', disabler: true, required: need_git_version)
@@ -101,26 +95,16 @@ endif
 
 gtk3_builder_tool = find_program('gtk-builder-tool')
 
-sed = find_program('sed')
-
-if get_option('esm')
-  preprocess_command = [output_capture, sed, '-f', files('tools/preproc_esm.sin'), '@INPUT@']
-else
-  preprocess_command = [output_capture, sed, '-f', files('tools/preproc_legacy.sin'), '@INPUT@']
-endif
-
-gjs_translate_esm = [gjs, files('tools' / 'translate-esm.js')]
-
 subdir('bin')
 subdir('schemas')
 subdir('ddterm')
 subdir('locale')
 
+pack += built_js
+
 pack_target = custom_target(
-  command: [
-    'tools' / 'makezip.py', '--output', '@OUTPUT@', '--relative-to', '@OUTDIR@', '--', '@INPUT@'
-  ],
-  input: [pack, built_js],
+  command: make_zip_command,
+  input: pack,
   output: get_option('esm') ? f'@uuid@.shell-extension.zip' : f'@uuid@.legacy.shell-extension.zip',
   build_by_default: true,
 )
