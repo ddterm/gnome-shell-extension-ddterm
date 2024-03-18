@@ -11,7 +11,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-03-10 10:34+0000\n"
 "PO-Revision-Date: 2024-03-18 14:52+0000\n"
-"Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
+"Last-Translator: Patricio Carrau <duckycb@proton.me>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/"
 "gnome-shell-extension-ddterm/extension/es/>\n"
 "Language: es\n"
@@ -23,7 +23,7 @@ msgstr ""
 
 #: ddterm/app/application.js:85
 msgid "Start the application, but do not show the window"
-msgstr "Lanzar la aplicación, no mostrar la ventana"
+msgstr "Iniciar la aplicación, sin mostrar la ventana"
 
 #: ddterm/app/application.js:94
 msgid "Comma-separated list of backends that GDK should try to use"
