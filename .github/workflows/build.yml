@@ -165,18 +165,8 @@ jobs:
         path: "build/*.shell-extension.zip"
         if-no-files-found: error
 
-    - name: Run glib-compile-schemas checks
-      run: ../.github/faketty.sh meson test -v -j1 --no-rebuild --suite glib-compile-schemas --logbase glib-compile-schemas
-      working-directory: build
-      if: ${{ always() && steps.pack.conclusion == 'success' }}
-
-    - name: Run desktop-file-validate checks
-      run: ../.github/faketty.sh meson test -v -j1 --suite desktop-file-validate --logbase desktop-file-validate
-      working-directory: build
-      if: ${{ always() && steps.pack.conclusion == 'success' }}
-
-    - name: Run gtk-builder-validate checks
-      run: xvfb-run ../.github/faketty.sh meson test -v -j1 --suite gtk-builder-validate --logbase gtk-builder-validate
+    - name: Run checks
+      run: xvfb-run ../.github/faketty.sh meson test -v -j1 --no-suite eslint
       working-directory: build
       if: ${{ always() && steps.pack.conclusion == 'success' }}
 
