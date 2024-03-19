@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-03-10 10:34+0000\n"
-"PO-Revision-Date: 2024-03-18 14:52+0000\n"
-"Last-Translator: Patricio Carrau <duckycb@proton.me>\n"
+"PO-Revision-Date: 2024-03-19 15:01+0000\n"
+"Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/"
 "gnome-shell-extension-ddterm/extension/es/>\n"
 "Language: es\n"
@@ -286,7 +286,7 @@ msgstr "Nueva pestaña antes que esta"
 
 #: ddterm/app/menus.ui:243
 msgid "New Tab After This Tab"
-msgstr "Nueva pestaña siguiente a esta pestaña"
+msgstr "Nueva pestaña después de esta"
 
 #: ddterm/app/menus.ui:257 ddterm/pref/ui/prefs-shortcuts.ui:213
 msgid "Move Tab to Previous Position"
@@ -954,7 +954,7 @@ msgstr "Estrechos"
 
 #: ddterm/pref/ui/prefs-compatibility.ui:154
 msgid "Wide"
-msgstr "Anchos"
+msgstr "Ancho"
 
 #: ddterm/pref/ui/prefs-compatibility.ui:164
 msgid "_Reset Compatibility Options to Defaults"
