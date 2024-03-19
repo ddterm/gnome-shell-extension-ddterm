@@ -34,7 +34,7 @@ defaults:
     shell: bash
 
 jobs:
-  build:
+  lint:
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/ddterm/ci-docker-image:2024.01.21.0
@@ -56,30 +56,28 @@ jobs:
       continue-on-error: true
       if: ${{ inputs.testspace }}
 
+    - name: Pre-create pip cache directory
+      run: mkdir -p "$HOME/.cache/pip"
+
     - name: Install JS dependencies
       id: npm
       run: npm install
-      if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
     - name: Enable eslint error matcher
+      id: enable_eslint_errors
       run: echo "::add-matcher::.github/problem-matchers/eslint-stylish.json"
-      if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
     - name: Lint JS code
       run: npm run-script lint -- --format .github/eslint-formatter.js
-      if: ${{ always() && steps.npm.conclusion == 'success' }}
       env:
         FORCE_COLOR: 0
 
     - name: Disable eslint error matcher
       run: echo "::remove-matcher owner=eslint-stylish::"
-      if: ${{ always() && steps.checkout.conclusion == 'success' }}
-
-    - name: Pre-create pip cache directory
-      run: mkdir -p "$HOME/.cache/pip"
-      if: ${{ always() && steps.checkout.conclusion == 'success' }}
+      if: ${{ always() && steps.enable_eslint_errors.outcome == 'success' }}
 
     - name: Enable flake8 error matcher
+      id: enable_flake8_errors
       run: echo "::add-matcher::.github/problem-matchers/flake8.json"
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
@@ -92,31 +90,7 @@ jobs:
 
     - name: Disable flake8 error matcher
       run: echo "::remove-matcher owner=flake8::"
-      if: ${{ always() && steps.checkout.conclusion == 'success' }}
-
-    - name: Enable generic error matcher
-      run: echo "::add-matcher::.github/problem-matchers/generic.json"
-      if: ${{ always() && steps.checkout.conclusion == 'success' }}
-
-    - id: meson-setup
-      name: Prepare build directory
-      run: .github/faketty.sh meson setup '-Dshebang_override=/usr/bin/env gjs' build
-      if: ${{ always() && steps.checkout.conclusion == 'success' }}
-
-    - name: Run glib-compile-schemas checks
-      run: ../.github/faketty.sh meson test -v -j1 --no-rebuild --suite glib-compile-schemas --logbase glib-compile-schemas
-      working-directory: build
-      if: ${{ always() && steps.meson-setup.conclusion == 'success' }}
-
-    - name: Run desktop-file-validate checks
-      run: ../.github/faketty.sh meson test -v -j1 --suite desktop-file-validate --logbase desktop-file-validate
-      working-directory: build
-      if: ${{ always() && steps.meson-setup.conclusion == 'success' }}
-
-    - name: Run gtk-builder-validate checks
-      run: xvfb-run ../.github/faketty.sh meson test -v -j1 --suite gtk-builder-validate --logbase gtk-builder-validate
-      working-directory: build
-      if: ${{ always() && steps.meson-setup.conclusion == 'success' }}
+      if: ${{ always() && steps.enable_flake8_errors.outcome == 'success' }}
 
     - name: Ensure Python requirements .txt files are in sync with .in files
       run: |
@@ -134,81 +108,98 @@ jobs:
       run: .github/renovate-python-constraint.py
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
+    - name: Upload reports to Testspace
+      run: testspace --verbose eslint.xml "*.log{lint}"
+      if: ${{ always() && steps.setup_testspace.outcome == 'success' }}
+
+  build:
+    needs:
+      - lint
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: pack
+            flags: '-Desm=true'
+          - name: pack-legacy
+            flags: '-Desm=false'
+
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/ddterm/ci-docker-image:2024.01.21.0
+
+    steps:
+    - name: Checkout
+      id: checkout
+      uses: actions/checkout@v4
+      with:
+        ref: ${{ inputs.ref }}
+
+    - run: git config --global --replace-all safe.directory "$GITHUB_WORKSPACE"
+
+    - name: Setup Testspace
+      id: setup_testspace
+      uses: testspace-com/setup-testspace@v1
+      with:
+        domain: ${{ github.repository_owner }}
+      continue-on-error: true
+      if: ${{ inputs.testspace }}
+
+    - name: Enable generic error matcher
+      id: enable_generic_errors
+      run: echo "::add-matcher::.github/problem-matchers/generic.json"
+
+    - name: Prepare build directory
+      run: .github/faketty.sh meson setup ${{ matrix.flags }} '-Dshebang_override=/usr/bin/env gjs' build
+
     - name: Build extension package
       id: pack
       run: xvfb-run ninja -j1 pack
       working-directory: build
-      if: ${{ always() && steps.meson-setup.conclusion == 'success' }}
-
-    - name: Disable generic error matcher
-      run: |
-        echo "::remove-matcher owner=generic::"
-        echo "::remove-matcher owner=generic-nolocation::"
-      if: ${{ always() && steps.checkout.conclusion == 'success' }}
-
-    - name: Enable eslint error matcher
-      run: echo "::add-matcher::.github/problem-matchers/eslint-stylish.json"
-      if: ${{ always() && steps.checkout.conclusion == 'success' }}
-
-    - name: Run eslint on generated code
-      run: ../.github/faketty.sh meson test -v -j1 --suite eslint --logbase eslint-build-esm lint-build
-      working-directory: build
-      if: ${{ always() && steps.meson-setup.conclusion == 'success' }}
-
-    - name: Disable eslint error matcher
-      run: echo "::remove-matcher owner=eslint-stylish::"
-      if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
     - name: Upload extension package as artifact
       uses: actions/upload-artifact@v4
       with:
-        name: pack
+        name: ${{ matrix.name }}
         path: "build/*.shell-extension.zip"
         if-no-files-found: error
+
+    - name: Run glib-compile-schemas checks
+      run: ../.github/faketty.sh meson test -v -j1 --no-rebuild --suite glib-compile-schemas --logbase glib-compile-schemas
+      working-directory: build
       if: ${{ always() && steps.pack.conclusion == 'success' }}
 
-    - name: Enable generic error matcher
-      run: echo "::add-matcher::.github/problem-matchers/generic.json"
-      if: ${{ always() && steps.checkout.conclusion == 'success' }}
+    - name: Run desktop-file-validate checks
+      run: ../.github/faketty.sh meson test -v -j1 --suite desktop-file-validate --logbase desktop-file-validate
+      working-directory: build
+      if: ${{ always() && steps.pack.conclusion == 'success' }}
 
-    - id: meson-setup-legacy
-      name: Prepare build directory (legacy)
-      run: .github/faketty.sh meson setup -Desm=false '-Dshebang_override=/usr/bin/env gjs' build-legacy
-      if: ${{ always() && steps.checkout.conclusion == 'success' }}
-
-    - name: Build extension package (legacy)
-      id: pack-legacy
-      run: xvfb-run ninja -j1 pack
-      working-directory: build-legacy
-      if: ${{ always() && steps.meson-setup-legacy.conclusion == 'success' }}
+    - name: Run gtk-builder-validate checks
+      run: xvfb-run ../.github/faketty.sh meson test -v -j1 --suite gtk-builder-validate --logbase gtk-builder-validate
+      working-directory: build
+      if: ${{ always() && steps.pack.conclusion == 'success' }}
 
     - name: Disable generic error matcher
       run: |
         echo "::remove-matcher owner=generic::"
         echo "::remove-matcher owner=generic-nolocation::"
-      if: ${{ always() && steps.checkout.conclusion == 'success' }}
+      if: ${{ always() && steps.enable_generic_errors.outcome == 'success' }}
 
     - name: Enable eslint error matcher
+      id: enable_eslint_errors
       run: echo "::add-matcher::.github/problem-matchers/eslint-stylish.json"
-      if: ${{ always() && steps.checkout.conclusion == 'success' }}
+      if: ${{ always() && steps.pack.conclusion == 'success' }}
 
-    - name: Run eslint on generated code (legacy)
-      run: ../.github/faketty.sh meson test -v -j1 --suite eslint --logbase eslint-build-legacy lint-build
-      working-directory: build-legacy
-      if: ${{ always() && steps.meson-setup-legacy.conclusion == 'success' }}
+    - name: Run eslint on generated code
+      run: ../.github/faketty.sh meson test -v -j1 --suite eslint --logbase eslint-build-esm lint-build
+      working-directory: build
+      if: ${{ always() && steps.pack.conclusion == 'success' }}
 
     - name: Disable eslint error matcher
       run: echo "::remove-matcher owner=eslint-stylish::"
-      if: ${{ always() && steps.checkout.conclusion == 'success' }}
-
-    - name: Upload extension package as artifact (legacy)
-      uses: actions/upload-artifact@v4
-      with:
-        name: pack-legacy
-        path: "build-legacy/*.shell-extension.zip"
-        if-no-files-found: error
-      if: ${{ always() && steps.pack-legacy.conclusion == 'success' }}
+      if: ${{ always() && steps.enable_eslint_errors.outcome == 'success' }}
 
     - name: Upload reports to Testspace
-      run: testspace --verbose eslint.xml "*.log{lint}" "build/meson-logs/*.txt{lint}" "build-legacy/meson-logs/*.txt{lint}"
+      run: testspace --verbose "build/meson-logs/*.txt{lint}"
       if: ${{ always() && steps.setup_testspace.outcome == 'success' }}
