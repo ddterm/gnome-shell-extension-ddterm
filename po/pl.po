@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-03-10 10:34+0000\n"
-"PO-Revision-Date: 2024-03-15 16:01+0000\n"
+"PO-Revision-Date: 2024-03-21 12:01+0000\n"
 "Last-Translator: luk <luktvpl@wp.pl>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/"
 "gnome-shell-extension-ddterm/extension/pl/>\n"
@@ -362,11 +362,11 @@ msgstr ""
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: ddterm/com.github.amezin.ddterm.desktop.in.in:6
 msgid "shell;prompt;command;commandline;cmd;run;terminal;"
-msgstr ""
+msgstr "shell;prompt;command;commandline;cmd;run;terminal;"
 
 #: ddterm/com.github.amezin.ddterm.desktop.in.in:7
 msgid "Another drop down terminal extension for GNOME Shell"
-msgstr ""
+msgstr "Kolejny opuszczany terminal dla powłoki GNOME"
 
 #: ddterm/com.github.amezin.ddterm.desktop.in.in:20
 #, fuzzy
@@ -447,7 +447,7 @@ msgstr "Animacja kwadratu, odwrócone"
 
 #: ddterm/pref/ui/prefs-animation.ui:52
 msgid "Quadratic tweening, combining direct and inverse"
-msgstr ""
+msgstr "Animacja kwadratowa, łącząca bezpośrednie i odwrotne"
 
 #: ddterm/pref/ui/prefs-animation.ui:56
 msgid "Cubic tweening"
@@ -459,31 +459,31 @@ msgstr "Animacja sześcianu, odwrócona"
 
 #: ddterm/pref/ui/prefs-animation.ui:64
 msgid "Cubic tweening, combining direct and inverse"
-msgstr ""
+msgstr "Sześcienne animacje, łączące bezpośrednie i odwrotne"
 
 #: ddterm/pref/ui/prefs-animation.ui:68
 msgid "Quartic tweening"
-msgstr ""
+msgstr "Animacja kwadratowa"
 
 #: ddterm/pref/ui/prefs-animation.ui:72
 msgid "Quartic tweening, inverse"
-msgstr ""
+msgstr "Animacja kwadratowa, odwrócona"
 
 #: ddterm/pref/ui/prefs-animation.ui:76
 msgid "Quartic tweening, combining direct and inverse"
-msgstr ""
+msgstr "Animacja kwadratowa, łączący tryb bezpośredni i odwrócony"
 
 #: ddterm/pref/ui/prefs-animation.ui:80
 msgid "Quintic tweening"
-msgstr ""
+msgstr "Animacja kwintowa"
 
 #: ddterm/pref/ui/prefs-animation.ui:84
 msgid "Quintic tweening, inverse"
-msgstr ""
+msgstr "Animacja kwintowa, odwrócona"
 
 #: ddterm/pref/ui/prefs-animation.ui:88
 msgid "Quintic tweening, combining direct and inverse"
-msgstr ""
+msgstr "Animacja kwintowa, łącząca bezpośrednią i odwrotną"
 
 #: ddterm/pref/ui/prefs-animation.ui:92
 msgid "Sinusoidal tweening"
@@ -495,7 +495,7 @@ msgstr "Animacja sinusoidy, odwrócona"
 
 #: ddterm/pref/ui/prefs-animation.ui:100
 msgid "Sinusoidal tweening, combining direct and inverse"
-msgstr ""
+msgstr "Animacja sinusoidy, łącząca bezpośrednią i odwróconą"
 
 #: ddterm/pref/ui/prefs-animation.ui:104
 msgid "Exponential tweening"
@@ -507,57 +507,62 @@ msgstr "Przejście wykładnicze, odwrócone"
 
 #: ddterm/pref/ui/prefs-animation.ui:112
 msgid "Exponential tweening, combining direct and inverse"
-msgstr ""
+msgstr "Animacja wykładnicza, łącząca bezpośrednią i odwróconą"
 
 #: ddterm/pref/ui/prefs-animation.ui:116
 msgid "Circular tweening"
-msgstr ""
+msgstr "Animacja okrężna"
 
 #: ddterm/pref/ui/prefs-animation.ui:120
 msgid "Circular tweening, inverse"
-msgstr ""
+msgstr "Animacja okrężna, odwrócona"
 
 #: ddterm/pref/ui/prefs-animation.ui:124
 msgid "Circular tweening, combining direct and inverse"
-msgstr ""
+msgstr "Animacja okrężna, łącząca bezpośrednią i odwróconą"
 
 #: ddterm/pref/ui/prefs-animation.ui:128
 msgid "Elastic tweening, with offshoot on start"
-msgstr ""
+msgstr "Elastyczna animacja, odgałęziona na początku"
 
 #: ddterm/pref/ui/prefs-animation.ui:132
 msgid "Elastic tweening, with offshoot on end"
-msgstr ""
+msgstr "Animacja elastyczna, odgałęziona na końcu"
 
 #: ddterm/pref/ui/prefs-animation.ui:136
 msgid "Elastic tweening with offshoot on both ends"
-msgstr ""
+msgstr "Animacja elastyczna z odgałęzieniem na obu końcach"
 
 #: ddterm/pref/ui/prefs-animation.ui:140
 msgid "Overshooting cubic tweening, with backtracking on start"
-msgstr ""
+msgstr "Przestrzelona animacja sześcienna, z cofaniem na początku"
 
 #: ddterm/pref/ui/prefs-animation.ui:144
 msgid "Overshooting cubic tweening, with backtracking on end"
-msgstr ""
+msgstr "Przestrzelona animacja sześcienna, z cofaniem na końcu"
 
 #: ddterm/pref/ui/prefs-animation.ui:148
 msgid "Overshooting cubic tweening, with backtracking on both ends"
-msgstr ""
+msgstr "Przestrzelona animacja sześcienna, z cofaniem na obu końcach"
 
 #: ddterm/pref/ui/prefs-animation.ui:152
 msgid ""
 "Exponentially decaying parabolic (bounce) tweening, with bounce on start"
 msgstr ""
+"Wykładniczo zanikająca animacja paraboliczna (odbicia), z odbiciem na "
+"początku"
 
 #: ddterm/pref/ui/prefs-animation.ui:156
 msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on end"
 msgstr ""
+"Wykładniczo zanikająca animacja paraboliczna (odbicia), z odbiciem na końcu"
 
 #: ddterm/pref/ui/prefs-animation.ui:160
 msgid ""
 "Exponentially decaying parabolic (bounce) tweening, with bounce on both ends"
 msgstr ""
+"Wykładniczo zanikająca animacja paraboliczna (odbicia), z odbiciem na obu "
+"końcach"
 
 #: ddterm/pref/ui/prefs-animation.ui:183
 msgid "_Override default window animations"
@@ -601,7 +606,7 @@ msgstr "Ukryj kiedy klawisz _Esc jest wciśnięty"
 
 #: ddterm/pref/ui/prefs-behavior.ui:119
 msgid "Exclude from _overview/task bar"
-msgstr ""
+msgstr "Wyklucz z _podglądu/paska zadań"
 
 #: ddterm/pref/ui/prefs-behavior.ui:135
 msgid "Hide mouse _pointer when typing"
@@ -877,19 +882,19 @@ msgstr "Kolor pogrubienia"
 
 #: ddterm/pref/ui/prefs-colors.ui:815
 msgid "Cursor Foreground Color"
-msgstr ""
+msgstr "Kolor pierwszoplanowy wskaźnika"
 
 #: ddterm/pref/ui/prefs-colors.ui:839
 msgid "Cursor Background Color"
-msgstr ""
+msgstr "Kolor tła wskaźnika"
 
 #: ddterm/pref/ui/prefs-colors.ui:863
 msgid "Highlight Foreground Color"
-msgstr ""
+msgstr "Podkreślenie pierwszoplanowe wskaźnika"
 
 #: ddterm/pref/ui/prefs-colors.ui:887
 msgid "Highlight Background Color"
-msgstr ""
+msgstr "Podkreślenie tła wskaźnika"
 
 #: ddterm/pref/ui/prefs-colors.ui:930
 msgid "Foreground Color"
@@ -961,7 +966,7 @@ msgstr "Brak"
 
 #: ddterm/pref/ui/prefs-panel-icon.ui:55
 msgid "With popup menu"
-msgstr ""
+msgstr "Z wyskakującym menu"
 
 #: ddterm/pref/ui/prefs-panel-icon.ui:72
 msgid "Toggle button"
@@ -969,7 +974,7 @@ msgstr "Ikona przełączania"
 
 #: ddterm/pref/ui/prefs-panel-icon.ui:89
 msgid "Toggle button and popup menu"
-msgstr ""
+msgstr "Przełącz przycisk i wyskakujące menu"
 
 #: ddterm/pref/ui/prefs-position-size.ui:47
 msgid "Window _size:"
@@ -1005,7 +1010,7 @@ msgstr "Na podstawowym monitorze"
 
 #: ddterm/pref/ui/prefs-position-size.ui:140
 msgid "On the monitor with keyboard _focus"
-msgstr ""
+msgstr "Na monitorze z klawiaturą _aktywną"
 
 #: ddterm/pref/ui/prefs-position-size.ui:158
 msgid "On _monitor:"
@@ -1017,15 +1022,15 @@ msgstr "Pokaż pasek _przewijania"
 
 #: ddterm/pref/ui/prefs-scrolling.ui:60
 msgid "Scroll on _output"
-msgstr ""
+msgstr "Przewijaj przy _wyjściu"
 
 #: ddterm/pref/ui/prefs-scrolling.ui:76
 msgid "Scroll on _keystroke"
-msgstr ""
+msgstr "Przewijaj przy _klawiszu"
 
 #: ddterm/pref/ui/prefs-scrolling.ui:92
 msgid "_Limit scrollback to:"
-msgstr ""
+msgstr "_Limit przewijania w tył:"
 
 #: ddterm/pref/ui/prefs-scrolling.ui:128
 msgid "lines"
@@ -1098,15 +1103,15 @@ msgstr "Przesuń kartę na drugi widok"
 
 #: ddterm/pref/ui/prefs-shortcuts.ui:248
 msgid "Move Tab to Other Split Pane"
-msgstr ""
+msgstr "Przenieś zakładkę na inny kafelek"
 
 #: ddterm/pref/ui/prefs-shortcuts.ui:255
 msgid "Increase First Split Pane Size"
-msgstr ""
+msgstr "Zwiększ rozmiar pierwszego kafelka"
 
 #: ddterm/pref/ui/prefs-shortcuts.ui:262
 msgid "Decrease First Split Pane Size"
-msgstr ""
+msgstr "Zmniejsz rozmiar pierwszego kafelka"
 
 #: ddterm/pref/ui/prefs-shortcuts.ui:269
 msgid "Set Custom Tab Title"
@@ -1190,7 +1195,7 @@ msgstr "Przycisk \"_Nowa karta (na końcu)\""
 
 #: ddterm/pref/ui/prefs-tabs.ui:92
 msgid "Tab _switcher popup"
-msgstr ""
+msgstr "Panel _przełączania zakładek"
 
 #: ddterm/pref/ui/prefs-tabs.ui:111
 msgid "Show tab _bar:"
@@ -1222,7 +1227,7 @@ msgstr "Szerokość karty:"
 
 #: ddterm/pref/ui/prefs-tabs.ui:232
 msgid "Ellipsize tab labels:"
-msgstr ""
+msgstr "Etykiety zakładek elips:"
 
 #: ddterm/pref/ui/prefs-tabs.ui:247
 msgid "Start"
@@ -1270,7 +1275,7 @@ msgstr "Blok"
 
 #: ddterm/pref/ui/prefs-text.ui:117
 msgid "I-Beam"
-msgstr ""
+msgstr "Mój-Promień"
 
 #: ddterm/pref/ui/prefs-text.ui:118
 msgid "Underline"
@@ -1322,7 +1327,7 @@ msgstr "Wykrywaj adresy URL \"news:\", \"man:\""
 
 #: ddterm/shell/extension.js:280
 msgid "Failed to launch ddterm application"
-msgstr ""
+msgstr "Otwarcie aplikacji ddterm nie powiodło się"
 
 #: ddterm/shell/notifications.js:86 ddterm/shell/notifications.js:205
 #, fuzzy
@@ -1331,11 +1336,11 @@ msgstr "Wklej tekst ze schowka"
 
 #: ddterm/shell/notifications.js:201
 msgid "Details…"
-msgstr ""
+msgstr "Szczegóły…"
 
 #: ddterm/shell/notifications.js:249
 msgid "Install"
-msgstr ""
+msgstr "Zainstaluj"
 
 #: ddterm/shell/panelicon.js:64
 msgid "Show"
