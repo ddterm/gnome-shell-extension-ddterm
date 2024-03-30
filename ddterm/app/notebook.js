@@ -270,9 +270,6 @@ export const Notebook = GObject.registerClass({
         this.connect('notify::tab-pos', this.update_tab_pos.bind(this));
         this.update_tab_pos();
 
-        this.connect('notify::tab-expand', this.update_tab_expand.bind(this));
-        this.update_tab_expand();
-
         this._current_child = null;
 
         this.connect('switch-page', (notebook, page) => {
@@ -308,7 +305,6 @@ export const Notebook = GObject.registerClass({
     on_page_added(child, page_num) {
         this.set_tab_reorderable(child, true);
         this.set_tab_detachable(child, true);
-        this.child_set_property(child, 'tab-expand', this.tab_expand);
 
         const handlers = [
             child.connect('new-tab-before-request', () => {
@@ -338,6 +334,9 @@ export const Notebook = GObject.registerClass({
         ];
 
         const label = this.get_tab_label(child);
+        const page = this.get_page(child);
+
+        label.action_name = 'notebook.switch-to-tab';
 
         const bindings = [
             this.bind_property(
@@ -370,6 +369,18 @@ export const Notebook = GObject.registerClass({
                 'split-layout',
                 GObject.BindingFlags.SYNC_CREATE
             ),
+            this.bind_property(
+                'tab-expand',
+                page,
+                'tab-expand',
+                GObject.BindingFlags.SYNC_CREATE
+            ),
+            page.bind_property(
+                'position',
+                label,
+                'action-target',
+                GObject.BindingFlags.SYNC_CREATE
+            ),
         ];
 
         this.page_disconnect.set(child, () => {
@@ -380,7 +391,6 @@ export const Notebook = GObject.registerClass({
                 bindings.pop().unbind();
         });
 
-        this.update_tab_switch_actions();
         this.set_current_page(page_num);
         this.grab_focus();
     }
@@ -391,12 +401,6 @@ export const Notebook = GObject.registerClass({
 
         if (disconnect)
             disconnect();
-
-        this.update_tab_switch_actions();
-    }
-
-    on_page_reordered(_child, _page_num) {
-        this.update_tab_switch_actions();
     }
 
     get_cwd() {
@@ -422,23 +426,6 @@ export const Notebook = GObject.registerClass({
             working_directory = this.get_cwd();
 
         return this.terminal_settings.get_command(working_directory, envv);
-    }
-
-    update_tab_switch_actions() {
-        let i = 0;
-
-        this.foreach(child => {
-            const label = this.get_tab_label(child);
-
-            label.action_target = GLib.Variant.new_int32(i++);
-            label.action_name = 'notebook.switch-to-tab';
-        });
-    }
-
-    update_tab_expand() {
-        this.foreach(page => {
-            this.child_set_property(page, 'tab-expand', this.tab_expand);
-        });
     }
 
     update_tabs_visible() {
