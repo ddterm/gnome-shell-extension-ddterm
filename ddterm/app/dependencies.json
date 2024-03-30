@@ -2,19 +2,22 @@
  "Gtk": {
   "4.0": {
    "filename": "Gtk-4.0.typelib",
-   "arch": "gtk4"
+   "arch": "gtk4",
+   "fedora": "gtk4"
   }
  },
  "Gdk": {
   "4.0": {
    "filename": "Gdk-4.0.typelib",
-   "arch": "gtk4"
+   "arch": "gtk4",
+   "fedora": "gtk4"
   }
  },
  "Vte": {
   "3.91": {
    "filename": "Vte-3.91.typelib",
-   "arch": "vte4"
+   "arch": "vte4",
+   "fedora": "vte291-gtk4"
   }
  },
  "Pango": {
