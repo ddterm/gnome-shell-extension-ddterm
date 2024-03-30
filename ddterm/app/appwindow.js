@@ -185,6 +185,9 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
         const notebook2 = this.create_notebook();
         this.paned.pack2(notebook2, true, false);
 
+        this.paned.connect('notify::orientation', () => this.notify('split-layout'));
+        this.connect('notify::is-split', () => this.notify('split-layout'));
+
         const move_page = (child, src, dst) => {
             const label = src.get_tab_label(child);
             this.freeze_notify();
@@ -436,9 +439,6 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
                 new_page.spawn();
             }
         });
-
-        this.paned.connect('notify::orientation', () => this.notify('split-layout'));
-        this.connect('notify::is-split', () => this.notify('split-layout'));
 
         this.bind_property(
             'split-layout',
