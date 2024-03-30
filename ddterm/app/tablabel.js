@@ -78,7 +78,7 @@ export const TabLabel = GObject.registerClass({
             visible: true,
         });
 
-        layout.pack_start(this.shortcut_label, false, false, 0);
+        layout.append(this.shortcut_label);
 
         this.bind_property(
             'show-shortcut',
@@ -93,7 +93,7 @@ export const TabLabel = GObject.registerClass({
             visible: true,
         });
 
-        layout.pack_start(label, true, true, 0);
+        layout.append(label);
 
         this.bind_property(
             'label',
@@ -117,7 +117,7 @@ export const TabLabel = GObject.registerClass({
             relief: Gtk.ReliefStyle.NONE,
         });
 
-        layout.pack_end(close_button, false, false, 0);
+        layout.append(close_button);
 
         this.bind_property(
             'close-button',

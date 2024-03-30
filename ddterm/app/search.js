@@ -225,7 +225,7 @@ class DDTermSearchBar extends Gtk.Revealer {
             focus_on_click: false,
         });
 
-        layout.pack_start(case_sensitive_button, false, false, 0);
+        layout.append(case_sensitive_button);
 
         this.pattern.bind_property(
             'case-sensitive',
@@ -241,7 +241,7 @@ class DDTermSearchBar extends Gtk.Revealer {
             focus_on_click: false,
         });
 
-        layout.pack_start(whole_word_button, false, false, 0);
+        layout.append(whole_word_button);
 
         this.pattern.bind_property(
             'whole-word',
@@ -257,7 +257,7 @@ class DDTermSearchBar extends Gtk.Revealer {
             focus_on_click: false,
         });
 
-        layout.pack_start(regex_button, false, false, 0);
+        layout.append(regex_button);
 
         this.pattern.bind_property(
             'use-regex',
@@ -270,7 +270,7 @@ class DDTermSearchBar extends Gtk.Revealer {
             visible: true,
         });
 
-        layout.pack_start(entry, true, true, 0);
+        layout.append(entry);
 
         this.pattern.bind_property(
             'text',
@@ -324,7 +324,7 @@ class DDTermSearchBar extends Gtk.Revealer {
             focus_on_click: false,
         });
 
-        layout.pack_end(close_button, false, false, 0);
+        layout.append(close_button);
 
         close_button.connect('clicked', this.close.bind(this));
 
@@ -335,7 +335,7 @@ class DDTermSearchBar extends Gtk.Revealer {
             focus_on_click: false,
         });
 
-        layout.pack_end(wrap_button, false, false, 0);
+        layout.append(wrap_button);
 
         this.bind_property(
             'wrap',
@@ -351,7 +351,7 @@ class DDTermSearchBar extends Gtk.Revealer {
             focus_on_click: false,
         });
 
-        layout.pack_end(find_next_button, false, false, 0);
+        layout.append(find_next_button);
 
         this._pattern.bind_property(
             'regex-set',
@@ -369,7 +369,7 @@ class DDTermSearchBar extends Gtk.Revealer {
             focus_on_click: false,
         });
 
-        layout.pack_end(find_prev_button, false, false, 0);
+        layout.append(find_prev_button);
 
         this._pattern.bind_property(
             'regex-set',

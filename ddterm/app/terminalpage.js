@@ -111,7 +111,7 @@ export const TerminalPage = GObject.registerClass({
         });
 
         this.terminal = new Terminal({ visible: true });
-        terminal_with_scrollbar.pack_start(this.terminal, true, true, 0);
+        terminal_with_scrollbar.append(this.terminal);
 
         this.terminal_settings.bind_terminal(this.terminal);
 
@@ -121,7 +121,7 @@ export const TerminalPage = GObject.registerClass({
             visible: true,
         });
 
-        terminal_with_scrollbar.pack_end(this.scrollbar, false, false, 0);
+        terminal_with_scrollbar.append(this.scrollbar);
 
         this.orientation = Gtk.Orientation.VERTICAL;
 
@@ -129,8 +129,8 @@ export const TerminalPage = GObject.registerClass({
             visible: true,
         });
 
-        this.pack_end(this.search_bar, false, false, 0);
-        this.pack_end(terminal_with_scrollbar, true, true, 0);
+        this.append(this.search_bar);
+        this.append(terminal_with_scrollbar);
 
         this.search_bar.connect('find-next', this.find_next.bind(this));
         this.search_bar.connect('find-prev', this.find_prev.bind(this));
@@ -438,7 +438,7 @@ export const TerminalPage = GObject.registerClass({
             revealed: true,
         });
 
-        banner.get_content_area().pack_start(label, false, false, 0);
+        banner.get_content_area().append(label);
         banner.add_button(Gettext.gettext('Restart'), 0);
         banner.add_button(Gettext.gettext('Close Terminal'), 1);
 
@@ -454,7 +454,7 @@ export const TerminalPage = GObject.registerClass({
             }
         });
 
-        this.pack_start(banner, false, false, 0);
+        this.append(banner);
     }
 
     add_exit_status_banner(status) {
