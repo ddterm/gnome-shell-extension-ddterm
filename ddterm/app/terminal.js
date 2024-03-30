@@ -21,6 +21,7 @@ import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
 import Gdk from 'gi://Gdk';
+import Gtk from 'gi://Gtk';
 import Vte from 'gi://Vte';
 
 import { tcgetpgrp, InterpreterNotFoundError } from './tcgetpgrp.js';
@@ -353,10 +354,9 @@ export const Terminal = GObject.registerClass({
             GObject.BindingFlags.DEFAULT
         );
 
-        this.connect(
-            'button-press-event',
-            this._update_clicked_hyperlink.bind(this)
-        );
+        const click = Gtk.GestureClick.new();
+        click.connect('pressed', this._update_clicked_hyperlink.bind(this));
+        this.add_controller(click);
 
         this.connect('notify::background-opacity', () => {
             if (this._background_from_style)
@@ -596,11 +596,11 @@ export const Terminal = GObject.registerClass({
         return this._clicked_filename;
     }
 
-    _update_clicked_hyperlink(terminal_, event) {
-        let clicked_hyperlink = this.hyperlink_check_event(event);
+    _update_clicked_hyperlink(gesture, n_press, x, y) {
+        let clicked_hyperlink = this.check_hyperlink_at(x, y);
 
         if (!clicked_hyperlink && this._url_detect)
-            clicked_hyperlink = this._url_detect.check_event(event);
+            clicked_hyperlink = this._url_detect.check_event(x, y);
 
         let clicked_filename = null;
 

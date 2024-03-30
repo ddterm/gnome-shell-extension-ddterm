@@ -137,8 +137,8 @@ export const UrlDetect = GObject.registerClass({
         });
     }
 
-    check_event(event) {
-        const [url, tag] = this.terminal.match_check_event(event);
+    check_event(x, y) {
+        const [url, tag] = this.terminal.check_match_at(x, y);
 
         if (url && tag !== null && this._url_prefix.has(tag)) {
             const prefix = this._url_prefix.get(tag);
