@@ -370,8 +370,6 @@ export const Terminal = GObject.registerClass({
             this.notify('can-increase-font-scale');
             this.notify('can-decrease-font-scale');
         });
-
-        this._gdk_atom_primary = Gdk.Atom.intern('PRIMARY', true);
     }
 
     get child_pid() {
@@ -626,24 +624,5 @@ export const Terminal = GObject.registerClass({
         } finally {
             this.thaw_notify();
         }
-    }
-
-    get_text_selected_async() {
-        const result = this.get_text_selected?.(Vte.Format.TEXT);
-
-        if (result !== undefined)
-            return Promise.resolve(result);
-
-        if (!this.get_has_selection())
-            return Promise.resolve('');
-
-        const primary_selection = this.get_clipboard(this._gdk_atom_primary);
-        this.copy_primary();
-
-        return new Promise(resolve => {
-            primary_selection.request_text((_, text) => {
-                resolve(text);
-            });
-        });
     }
 });

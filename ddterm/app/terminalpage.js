@@ -580,12 +580,12 @@ export const TerminalPage = GObject.registerClass({
     }
 
     find() {
-        this.terminal.get_text_selected_async().then(text => {
-            if (text)
-                this.search_bar.pattern.text = text;
+        const text = this.terminal.get_text_selected(Vte.Format.TEXT);
 
-            this.search_bar.reveal_child = true;
-        });
+        if (text)
+            this.search_bar.pattern.text = text;
+
+        this.search_bar.reveal_child = true;
     }
 
     show_in_file_manager() {
