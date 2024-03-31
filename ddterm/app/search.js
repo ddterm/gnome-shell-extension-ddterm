@@ -215,8 +215,9 @@ class DDTermSearchBar extends Gtk.Revealer {
         const layout = new Gtk.Box({
             visible: true,
             spacing: 5,
-            parent: this,
         });
+
+        this.set_child(layout);
 
         const case_sensitive_button = new Gtk.ToggleButton({
             icon_name: 'uppercase',
@@ -279,19 +280,15 @@ class DDTermSearchBar extends Gtk.Revealer {
             GObject.BindingFlags.BIDIRECTIONAL | GObject.BindingFlags.SYNC_CREATE
         );
 
-        const error_popover = new Gtk.Popover({
-            relative_to: entry,
-            modal: false,
-        });
-
-        this.connect('destroy', () => error_popover.destroy());
-
         const error_label = new Gtk.Label({
-            parent: error_popover,
             visible: true,
         });
 
         error_label.get_style_context().add_class('error');
+
+        const error_popover = new Gtk.Popover({ child: error_label });
+        error_popover.set_parent(entry);
+        // this.connect('destroy', () => error_popover.destroy());
 
         this.pattern.connect('notify::error', () => {
             if (this.pattern.error) {
@@ -310,8 +307,9 @@ class DDTermSearchBar extends Gtk.Revealer {
         entry.connect('stop-search', () => this.close());
         entry.connect('search-changed', () => this.pattern.update());
 
-        this.connect('key-press-event', (_, event) => entry.handle_event(event));
-        this.connect('key-release-event', (_, event) => entry.handle_event(event));
+        // TODO gtk4
+        /* this.connect('key-press-event', (_, event) => entry.handle_event(event));
+        this.connect('key-release-event', (_, event) => entry.handle_event(event)); */
         this.connect('notify::reveal-child', () => {
             if (this.reveal_child)
                 entry.grab_focus();

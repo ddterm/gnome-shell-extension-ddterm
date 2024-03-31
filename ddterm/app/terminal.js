@@ -386,11 +386,15 @@ export const Terminal = GObject.registerClass({
 
         if (this._foreground_from_style || this._background_from_style) {
             const style = this.get_style_context();
-            const state = style.get_state();
 
-            foreground = style.get_property('color', state);
-            background = style.get_property('background-color', state).copy();
-            background.alpha = this.background_opacity;
+            if (this._foreground_from_style)
+                foreground = style.get_color();
+
+            if (this._background_from_style) {
+                [, background] = style.lookup_color('theme_base_color');
+                background = background.copy();
+                background.alpha = this.background_opacity;
+            }
         }
 
         super.set_colors(foreground, background, palette);
@@ -405,9 +409,8 @@ export const Terminal = GObject.registerClass({
 
         if (this._foreground_from_style) {
             const style = this.get_style_context();
-            const state = style.get_state();
 
-            value = style.get_property('color', state);
+            value = style.get_color();
         }
 
         super.set_color_foreground(value);
@@ -422,9 +425,9 @@ export const Terminal = GObject.registerClass({
 
         if (this._background_from_style) {
             const style = this.get_style_context();
-            const state = style.get_state();
 
-            value = style.get_property('background-color', state).copy();
+            [, value] = style.lookup_color('theme_base_color');
+            value = value.copy();
             value.alpha = this.background_opacity;
         }
 
@@ -439,13 +442,13 @@ export const Terminal = GObject.registerClass({
             return;
 
         const style = this.get_style_context();
-        const state = style.get_state();
 
         if (this._foreground_from_style)
-            super.set_color_foreground(style.get_property('color', state));
+            super.set_color_foreground(style.get_color());
 
         if (this._background_from_style) {
-            const value = style.get_property('background-color', state);
+            let [, value] = style.lookup_color('theme_base_color');
+            value = value.copy();
             value.alpha = this.background_opacity;
             super.set_color_background(value);
         }

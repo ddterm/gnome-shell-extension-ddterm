@@ -146,7 +146,7 @@ export const TerminalPage = GObject.registerClass({
                 this.terminal.grab_focus();
         });
 
-        this.tab_label = new TabLabel({ visible_window: false });
+        this.tab_label = new TabLabel();
         this.connect('destroy', () => this.tab_label.destroy());
         this.tab_label.connect('close', () => this.close());
         this.tab_label.connect('reset-label', () => {

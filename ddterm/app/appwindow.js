@@ -184,15 +184,6 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
         this.paned.connect('notify::orientation', () => this.notify('split-layout'));
         this.connect('notify::is-split', () => this.notify('split-layout'));
 
-        for (const notebook of [notebook1, notebook2]) {
-            this.bind_property(
-                'split-layout',
-                notebook,
-                'split-layout',
-                GObject.BindingFlags.SYNC_CREATE
-            );
-        }
-
         const move_page = (child, src, dst) => {
             const label = src.get_tab_label(child);
             this.freeze_notify();
@@ -209,6 +200,7 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
         notebook2.connect('move-to-other-pane', (_, page) => move_page(page, notebook2, notebook1));
 
         this.connect('notify::tab-label-width', this.update_tab_label_width.bind(this));
+        // TODO gtk4
         // this.connect('configure-event', this.update_tab_label_width.bind(this));
         this.update_tab_label_width();
 
@@ -373,6 +365,7 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
             terminal_settings: this.terminal_settings,
             scrollable: true,
             group_name: 'ddtermnotebook',
+            visible: false,
         });
 
         const update_notebook_visibility = () => {
@@ -412,6 +405,13 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
                 new_page.spawn();
             }
         });
+
+        this.bind_property(
+            'split-layout',
+            notebook,
+            'split-layout',
+            GObject.BindingFlags.SYNC_CREATE
+        );
 
         this.settings.bind(
             'new-tab-button',
@@ -538,11 +538,11 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
     }
 
     get is_empty() {
-        return !this.paned.start_child.visible && !this.paned.end_child.visible;
+        return !this.paned.start_child?.visible && !this.paned.end_child?.visible;
     }
 
     get is_split() {
-        return this.paned.start_child.visible && this.paned.end_child.visible;
+        return this.paned.start_child?.visible && this.paned.end_child?.visible;
     }
 
     get split_layout() {

@@ -64,21 +64,15 @@ export const TabLabel = GObject.registerClass({
         'close': {},
         'reset-label': {},
     },
-}, class DDTermTabLabel extends Gtk.Widget {
+}, class DDTermTabLabel extends Gtk.Box {
     _init(params) {
-        super._init(params);
-
-        const layout = new Gtk.Box({
-            visible: true,
-            spacing: 10,
-            parent: this,
-        });
+        super._init({ spacing: 10, ...params });
 
         this.shortcut_label = new AccelLabel({
             visible: true,
         });
 
-        layout.append(this.shortcut_label);
+        this.append(this.shortcut_label);
 
         this.bind_property(
             'show-shortcut',
@@ -93,7 +87,7 @@ export const TabLabel = GObject.registerClass({
             visible: true,
         });
 
-        layout.append(label);
+        this.append(label);
 
         this.bind_property(
             'label',
@@ -114,10 +108,10 @@ export const TabLabel = GObject.registerClass({
             icon_name: 'window-close',
             visible: true,
             focus_on_click: false,
-            relief: Gtk.ReliefStyle.NONE,
+            has_frame: false,
         });
 
-        layout.append(close_button);
+        this.append(close_button);
 
         this.bind_property(
             'close-button',
@@ -128,19 +122,15 @@ export const TabLabel = GObject.registerClass({
 
         close_button.connect('clicked', () => this.emit('close'));
 
-        this.edit_popover = new Gtk.Popover({
-            relative_to: this,
-        });
-
-        this.connect('destroy', () => this.edit_popover.destroy());
-
         const edit_entry = new Gtk.Entry({
             visible: true,
-            parent: this.edit_popover,
             secondary_icon_name: 'edit-clear',
             secondary_icon_activatable: true,
             secondary_icon_sensitive: true,
         });
+
+        this.edit_popover = new Gtk.Popover({ child: edit_entry });
+        this.edit_popover.set_parent(this);
 
         edit_entry.connect('activate', () => this.edit_popover.popdown());
 
@@ -156,9 +146,10 @@ export const TabLabel = GObject.registerClass({
             GObject.BindingFlags.SYNC_CREATE | GObject.BindingFlags.BIDIRECTIONAL
         );
 
-        this.connect('size-allocate', (_, allocation) => {
+        // TODO gtk4
+        /* this.connect('size-allocate', (_, allocation) => {
             edit_entry.width_request = allocation.width;
-        });
+        }); */
     }
 
     edit() {

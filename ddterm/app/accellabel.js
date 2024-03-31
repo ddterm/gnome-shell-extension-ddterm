@@ -97,7 +97,7 @@ class DDTermAccelLabel extends Gtk.Label {
             this._toplevel = null;
         }
 
-        this._toplevel = this.get_toplevel();
+        this._toplevel = this.root;
 
         if (this._toplevel instanceof Gtk.Window) {
             this._keys_handler = this._toplevel.connect(
@@ -114,7 +114,7 @@ class DDTermAccelLabel extends Gtk.Label {
             return '';
 
         const action = Gio.Action.print_detailed_name(this._name, this._target_value);
-        const toplevel = this.get_toplevel();
+        const toplevel = this.root;
 
         if (!(toplevel instanceof Gtk.Window))
             return '';
@@ -122,7 +122,7 @@ class DDTermAccelLabel extends Gtk.Label {
         for (const shortcut of toplevel.application?.get_accels_for_action(action) || []) {
             try {
                 return Gtk.accelerator_get_label(
-                    ...Gtk.accelerator_parse(shortcut)
+                    ...Gtk.accelerator_parse(shortcut).slice(1)
                 );
             } catch (ex) {
                 logError(ex);
