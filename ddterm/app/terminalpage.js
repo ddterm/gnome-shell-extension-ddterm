@@ -167,14 +167,31 @@ export const TerminalPage = GObject.registerClass({
             GObject.BindingFlags.SYNC_CREATE
         );
 
+        this.terminal_popup_menu = Gtk.PopoverMenu.new_from_model(this.terminal_menu);
+        this.terminal_popup_menu.set_parent(this);
+
+        const context_menu_controller = new Gtk.EventControllerLegacy({
+            propagation_phase: Gtk.PropagationPhase.TARGET,
+        });
+
+        context_menu_controller.connect('event', (_, event) => {
+            if (!event.triggers_context_menu())
+                return false;
+
+            this.terminal_popup_menu.popup();
+            return true;
+        });
+
+        this.terminal.add_controller(context_menu_controller);
+
         // Should be connected before setup_popup_menu() on this.terminal!
-        this.terminal.connect(
+        /* this.terminal.connect(
             'button-press-event',
             this.terminal_button_press_early.bind(this)
         );
 
         this.terminal_popup_menu = this.setup_popup_menu(this.terminal, this.terminal_menu);
-        this.setup_popup_menu(this.tab_label, this.tab_menu);
+        this.setup_popup_menu(this.tab_label, this.tab_menu); */
 
         const page_actions = new Gio.SimpleActionGroup();
 
