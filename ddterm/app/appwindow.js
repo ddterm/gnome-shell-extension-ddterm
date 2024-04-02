@@ -27,7 +27,6 @@ import Gettext from 'gettext';
 
 import { TerminalSettings } from './terminalsettings.js';
 import { Notebook } from './notebook.js';
-import { DisplayConfig, LayoutMode } from '../util/displayconfig.js';
 
 function make_resizer(orientation) {
     const separator = new Gtk.Separator({
@@ -320,44 +319,6 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
             if (this.is_empty)
                 this.close();
         });
-
-        const display = this.get_display();
-
-        if (display.constructor.$gtype.name === 'GdkWaylandDisplay') {
-            this.display_config = new DisplayConfig({
-                dbus_connection: this.application.get_dbus_connection(),
-            });
-            this.connect('destroy', () => this.display_config.unwatch());
-            this.display_config.update_sync();
-
-            const rect_type = new GLib.VariantType('(iiii)');
-
-            const dbus_handler = this.extension_dbus.connect(
-                'g-properties-changed',
-                (_, changed, invalidated) => {
-                    if (this.visible)
-                        return;
-
-                    if (invalidated.includes('TargetRect')) {
-                        this.sync_size_with_extension();
-                        return;
-                    }
-
-                    const value = changed.lookup_value('TargetRect', rect_type);
-
-                    if (value)
-                        this.sync_size_with_extension(value.deepUnpack());
-                }
-            );
-
-            this.connect('destroy', () => this.extension_dbus.disconnect(dbus_handler));
-
-            this.connect('unmap', () => {
-                this.sync_size_with_extension();
-            });
-
-            this.sync_size_with_extension();
-        }
     }
 
     create_notebook() {
@@ -503,29 +464,6 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
             y,
             gesture.get_current_event_time()
         );
-    }
-
-    sync_size_with_extension(rect = null) {
-        if (this.is_maximized)
-            return;
-
-        if (!rect)
-            rect = this.extension_dbus.GetTargetRectSync();
-
-        let [target_x, target_y, target_w, target_h] = rect;
-
-        if (this.display_config.layout_mode !== LayoutMode.LOGICAL) {
-            const display = this.get_display();
-            const target_monitor = display.get_monitor_at_point(target_x, target_y);
-
-            target_w = Math.floor(target_w / target_monitor.scale_factor);
-            target_h = Math.floor(target_h / target_monitor.scale_factor);
-        }
-
-        this.resize(target_w, target_h);
-
-        if (this.window)
-            this.window.resize(target_w, target_h);
     }
 
     update_tab_label_width() {

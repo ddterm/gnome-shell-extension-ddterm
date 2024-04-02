@@ -547,7 +547,6 @@ class Application extends Gtk.Application {
             decorated: false,
             settings: this.settings,
             terminal_settings: this.terminal_settings,
-            extension_dbus: this.extension_dbus,
         });
 
         this.window.connect('destroy', source => {
