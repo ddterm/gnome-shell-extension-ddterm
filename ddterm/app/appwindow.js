@@ -189,7 +189,7 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
             this.freeze_notify();
 
             try {
-                src.remove(child);
+                src.remove_child(child);
                 dst.insert_page(child, label, -1);
             } finally {
                 this.thaw_notify();

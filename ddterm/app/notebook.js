@@ -387,6 +387,18 @@ export const Notebook = GObject.registerClass({
                 (_, source) => [true, GLib.Variant.new_int32(source)],
                 null
             ),
+            child.bind_property(
+                'title',
+                page,
+                'tab-label',
+                GObject.BindingFlags.SYNC_CREATE
+            ),
+            child.bind_property(
+                'title',
+                page,
+                'menu-label',
+                GObject.BindingFlags.SYNC_CREATE
+            ),
         ];
 
         this.page_disconnect.set(child, () => {
@@ -479,6 +491,25 @@ export const Notebook = GObject.registerClass({
 
     get current_title() {
         return this.current_child?.title ?? null;
+    }
+
+    get_children() {
+        const children = [];
+
+        for (let i = 0; i < this.get_n_pages(); i++)
+            children.push(this.get_nth_page(i));
+
+        return children;
+    }
+
+    remove_child(child) {
+        const index = this.page_num(child);
+
+        if (index < 0)
+            throw new Error(`${child} is not a child of ${this}`);
+
+        this.remove_page(index);
+        return child;
     }
 
     serialize_state() {
