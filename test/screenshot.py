@@ -64,16 +64,15 @@ class Screenshoter:
         self.display = display
         self.only_on_failure = only_on_failure
 
-    @pytest.hookimpl(hookwrapper=True)
+    @pytest.hookimpl(wrapper=True)
     def pytest_runtest_makereport(self, item, call):
-        outcome = yield
-        report = outcome.get_result()
+        report = yield
 
         if report.when != "call":
-            return
+            return report
 
         if self.only_on_failure and not report.failed:
-            return
+            return report
 
         png_blob = screenshot(self.display)
 
@@ -84,6 +83,8 @@ class Screenshoter:
         )
 
         report.extra = extra
+
+        return report
 
 
 def pytest_addoption(parser):

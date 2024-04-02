@@ -73,15 +73,15 @@ class LogSyncPlugin(pluggy.PluginManager):
             except Exception:
                 LOGGER.exception("Can't sync logs")
 
-    @pytest.hookimpl(hookwrapper=True, trylast=True)
+    @pytest.hookimpl(wrapper=True, trylast=True)
     def pytest_runtest_setup(self, item):
         yield from self.context(item, 'setup')
 
-    @pytest.hookimpl(hookwrapper=True, trylast=True)
+    @pytest.hookimpl(wrapper=True, trylast=True)
     def pytest_runtest_call(self, item):
         yield from self.context(item, 'call')
 
-    @pytest.hookimpl(hookwrapper=True, trylast=True)
+    @pytest.hookimpl(wrapper=True, trylast=True)
     def pytest_runtest_teardown(self, item):
         yield from self.context(item, 'teardown')
 
