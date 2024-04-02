@@ -366,6 +366,8 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
             scrollable: true,
             group_name: 'ddtermnotebook',
             visible: false,
+            hexpand: true,
+            vexpand: true,
         });
 
         const update_notebook_visibility = () => {

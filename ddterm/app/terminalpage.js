@@ -100,6 +100,7 @@ export const TerminalPage = GObject.registerClass({
             param_types: [String],
         },
         'move-to-other-pane-request': {},
+        'close-request': {},
     },
 }, class DDTermTerminalPage extends Gtk.Box {
     _init(params) {
@@ -108,9 +109,16 @@ export const TerminalPage = GObject.registerClass({
         const terminal_with_scrollbar = new Gtk.Box({
             visible: true,
             orientation: Gtk.Orientation.HORIZONTAL,
+            hexpand: true,
+            vexpand: true,
         });
 
-        this.terminal = new Terminal({ visible: true });
+        this.terminal = new Terminal({
+            visible: true,
+            hexpand: true,
+            vexpand: true,
+        });
+
         terminal_with_scrollbar.append(this.terminal);
 
         this.terminal_settings.bind_terminal(this.terminal);
@@ -147,7 +155,7 @@ export const TerminalPage = GObject.registerClass({
         });
 
         this.tab_label = new TabLabel();
-        this.connect('destroy', () => this.tab_label.destroy());
+        // this.connect('destroy', () => this.tab_label.destroy());
         this.tab_label.connect('close', () => this.close());
         this.tab_label.connect('reset-label', () => {
             this.use_custom_title = false;
@@ -435,7 +443,7 @@ export const TerminalPage = GObject.registerClass({
             if (this.keep_open_after_exit)
                 this.add_exit_status_banner(status);
             else
-                this.destroy();
+                this.emit('close-request');
         });
     }
 
@@ -463,10 +471,10 @@ export const TerminalPage = GObject.registerClass({
             switch (response) {
             case 0:
                 this.spawn();
-                banner.destroy();
+                this.remove(banner);
                 break;
             case 1:
-                this.destroy();
+                this.emit('close-request');
                 break;
             }
         });
@@ -628,7 +636,7 @@ export const TerminalPage = GObject.registerClass({
 
     close() {
         if (!this.terminal.has_foreground_process()) {
-            this.destroy();
+            this.emit('close-request');
             return;
         }
 
@@ -653,7 +661,7 @@ export const TerminalPage = GObject.registerClass({
 
         message.connect('response', (_, response_id) => {
             if (response_id === Gtk.ResponseType.ACCEPT)
-                this.destroy();
+                this.emit('close-request');
 
             message.destroy();
         });

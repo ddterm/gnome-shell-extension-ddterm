@@ -85,6 +85,7 @@ export const TabLabel = GObject.registerClass({
 
         const label = new Gtk.Label({
             visible: true,
+            hexpand: true,
         });
 
         this.append(label);

@@ -211,7 +211,7 @@ export const Notebook = GObject.registerClass({
                 this.new_page(this.get_current_page() + 1).spawn();
             },
             'close-current-tab': () => {
-                this.current_child?.destroy();
+                this.current_child?.emit('close-request');
             },
             'next-tab': () => {
                 const current = this.get_current_page();
@@ -306,6 +306,8 @@ export const Notebook = GObject.registerClass({
         this.set_tab_reorderable(child, true);
         this.set_tab_detachable(child, true);
 
+        const page = this.get_page(child);
+
         const handlers = [
             child.connect('new-tab-before-request', () => {
                 this.new_page(this.page_num(child)).spawn();
@@ -331,10 +333,12 @@ export const Notebook = GObject.registerClass({
             child.connect('move-to-other-pane-request', () => {
                 this.emit('move-to-other-pane', child);
             }),
+            child.connect('close-request', () => {
+                this.remove_page(page.position);
+            }),
         ];
 
         const label = this.get_tab_label(child);
-        const page = this.get_page(child);
 
         label.action_name = 'notebook.switch-to-tab';
 
@@ -375,11 +379,13 @@ export const Notebook = GObject.registerClass({
                 'tab-expand',
                 GObject.BindingFlags.SYNC_CREATE
             ),
-            page.bind_property(
+            page.bind_property_full(
                 'position',
                 label,
                 'action-target',
-                GObject.BindingFlags.SYNC_CREATE
+                GObject.BindingFlags.SYNC_CREATE,
+                (_, source) => [true, GLib.Variant.new_int32(source)],
+                null
             ),
         ];
 
