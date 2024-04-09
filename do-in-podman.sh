@@ -2,7 +2,7 @@
 
 IMAGE=ghcr.io/ddterm/ci-docker-image
 # renovate: datasource=docker depName=ghcr.io/ddterm/ci-docker-image
-IMAGE_VERSION=2024.04.08.0
+IMAGE_VERSION=2024.04.09.0
 
 SCRIPT_REALPATH="$(realpath "$0")"
 SCRIPT_DIR="${SCRIPT_REALPATH%/*}"
