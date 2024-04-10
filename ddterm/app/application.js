@@ -384,6 +384,10 @@ class Application extends Gtk.Application {
         return super.vfunc_dbus_unregister(connection, object_path);
     }
 
+    get dev_mode() {
+        return this.application_id !== 'com.github.amezin.ddterm';
+    }
+
     handle_local_options(options) {
         if (options.lookup('version')) {
             this.print_version_info();
@@ -398,6 +402,12 @@ class Application extends Gtk.Application {
         this.allow_heap_dump = options.lookup('allow-heap-dump');
 
         if (this.flags & Gio.ApplicationFlags.IS_SERVICE)
+            return -1;
+
+        if (!options.lookup('no-environment'))
+            this.flags |= Gio.ApplicationFlags.SEND_ENVIRONMENT;
+
+        if (this.dev_mode)
             return -1;
 
         this.flags |= Gio.ApplicationFlags.IS_LAUNCHER;
@@ -416,9 +426,6 @@ class Application extends Gtk.Application {
             logError(ex, "Can't start the service");
             return 1;
         }
-
-        if (!options.lookup('no-environment'))
-            this.flags |= Gio.ApplicationFlags.SEND_ENVIRONMENT;
 
         return options.lookup('activate-only') ? 0 : -1;
     }
@@ -555,7 +562,7 @@ class Application extends Gtk.Application {
 
         this.window = new AppWindow({
             application: this,
-            decorated: false,
+            decorated: this.dev_mode,
             settings: this.settings,
             terminal_settings: this.terminal_settings,
             extension_dbus: this.extension_dbus,

@@ -26,7 +26,7 @@
     Not a shell script exec'ing gjs.
 */
 
-const { GLib, GObject } = imports.gi;
+const { GLib, GObject, Gio } = imports.gi;
 
 const System = imports.system;
 
@@ -136,6 +136,7 @@ try {
 const app = new app_module.Application({
     application_id: 'com.github.amezin.ddterm',
     register_session: true,
+    flags: Gio.ApplicationFlags.CAN_OVERRIDE_APP_ID,
 });
 
 System.exit(app.run([System.programInvocationName, ...System.programArgs]));

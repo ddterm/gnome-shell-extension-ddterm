@@ -11,6 +11,7 @@ schemas_compiled = custom_target(
   ],
   input: schema,
   output: 'gschemas.compiled',
+  build_by_default: true,
 )
 
 if not get_option('esm')

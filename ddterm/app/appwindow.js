@@ -358,7 +358,7 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
 
         const display = this.get_display();
 
-        if (display.constructor.$gtype.name === 'GdkWaylandDisplay') {
+        if (display.constructor.$gtype.name === 'GdkWaylandDisplay' && !this.decorated) {
             this.display_config = new DisplayConfig({
                 dbus_connection: this.application.get_dbus_connection(),
             });
