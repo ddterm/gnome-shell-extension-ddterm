@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-10 10:34+0000\n"
+"POT-Creation-Date: 2024-04-10 23:33+0000\n"
 "PO-Revision-Date: 2024-02-10 15:02+0000\n"
 "Last-Translator: yuh <yuhldr@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -66,23 +66,23 @@ msgstr "打开新标签"
 msgid "Saving session…"
 msgstr "会话保存中……"
 
-#: ddterm/app/application.js:409
+#: ddterm/app/application.js:419
 msgid "Can't contact the extension."
 msgstr "无法连接到扩展。"
 
-#: ddterm/app/application.js:411 ddterm/app/application.js:533
+#: ddterm/app/application.js:421 ddterm/app/application.js:540
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr "请确保ddterm在GNOME扩展中可用。"
 
-#: ddterm/app/application.js:531
+#: ddterm/app/application.js:538
 msgid "Can't read the version of the loaded extension."
 msgstr "无法读取已加载扩展插件的版本。"
 
-#: ddterm/app/application.js:536 ddterm/shell/notifications.js:158
+#: ddterm/app/application.js:543 ddterm/shell/notifications.js:158
 msgid "Warning: ddterm version has changed"
 msgstr "警告：ddterm版本已改变"
 
-#: ddterm/app/application.js:537 ddterm/shell/notifications.js:160
+#: ddterm/app/application.js:544 ddterm/shell/notifications.js:160
 msgid "Log out, then log in again to load the updated extension."
 msgstr "注销后重新登录，方可生效。"
 
