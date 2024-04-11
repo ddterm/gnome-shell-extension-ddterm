@@ -26,13 +26,13 @@
     Not a shell script exec'ing gjs.
 */
 
-const { GLib, GObject, Gio } = imports.gi;
+const { GLib, GObject } = imports.gi;
 
 const System = imports.system;
 
 GObject.gtypeNameBasedOnJSPath = true;
 
-GLib.set_prgname('com.github.amezin.ddterm');
+GLib.set_prgname('@APP_ID@');
 
 function realpath(filename) {
     const remaining = [];
@@ -134,9 +134,8 @@ try {
 }
 
 const app = new app_module.Application({
-    application_id: 'com.github.amezin.ddterm',
+    application_id: '@APP_ID@',
     register_session: true,
-    flags: Gio.ApplicationFlags.CAN_OVERRIDE_APP_ID,
 });
 
 System.exit(app.run([System.programInvocationName, ...System.programArgs]));
