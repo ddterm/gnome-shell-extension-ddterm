@@ -131,42 +131,67 @@ export const TabLabel = GObject.registerClass({
         );
 
         close_button.connect('clicked', () => this.emit('close'));
+    }
 
-        this.edit_popover = new Gtk.Popover({
-            relative_to: this,
-        });
-
-        this.connect('destroy', () => this.edit_popover.destroy());
+    edit() {
+        if (this._edit_popover) {
+            this._edit_popover.popup();
+            return;
+        }
 
         const edit_entry = new Gtk.Entry({
             visible: true,
-            parent: this.edit_popover,
             secondary_icon_name: 'edit-clear',
             secondary_icon_activatable: true,
             secondary_icon_sensitive: true,
         });
 
-        edit_entry.connect('activate', () => this.edit_popover.popdown());
-
-        edit_entry.connect('icon-press', () => {
-            this.edit_popover.popdown();
-            this.emit('reset-label');
+        this._edit_popover = new Gtk.Popover({
+            relative_to: this,
+            child: edit_entry,
         });
 
-        this.bind_property(
+        this._edit_popover.__heapgraph_name =
+            `${this.__heapgraph_name}._edit_popover`;
+
+        edit_entry.__heapgraph_name =
+            `${this._edit_popover.__heapgraph_name}.child`;
+
+        const activate_handler = edit_entry.connect('activate', () => {
+            this._edit_popover.popdown();
+        });
+
+        const icon_press_handler = edit_entry.connect(
+            'icon-press',
+            () => {
+                this._edit_popover.popdown();
+                this.emit('reset-label');
+            }
+        );
+
+        const text_binding = this.bind_property(
             'label',
             edit_entry,
             'text',
             GObject.BindingFlags.SYNC_CREATE | GObject.BindingFlags.BIDIRECTIONAL
         );
 
-        this.connect('size-allocate', (_, allocation) => {
+        const size_alloc_handler = this.connect('size-allocate', (_, allocation) => {
             edit_entry.width_request = allocation.width;
         });
-    }
 
-    edit() {
-        this.edit_popover.popup();
+        edit_entry.width_request = this.get_allocated_width();
+
+        this._edit_popover.connect('closed', () => {
+            edit_entry.disconnect(activate_handler);
+            edit_entry.disconnect(icon_press_handler);
+            this.disconnect(size_alloc_handler);
+            text_binding.unbind();
+
+            this._edit_popover = null;
+        });
+
+        this._edit_popover.popup();
     }
 
     get action_name() {
