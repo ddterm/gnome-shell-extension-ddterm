@@ -269,54 +269,34 @@ class DDTermSearchBar extends Gtk.Revealer {
             GObject.BindingFlags.BIDIRECTIONAL | GObject.BindingFlags.SYNC_CREATE
         );
 
-        const entry = new Gtk.SearchEntry({
+        this._entry = new Gtk.SearchEntry({
             visible: true,
         });
 
-        layout.pack_start(entry, true, true, 0);
+        layout.pack_start(this._entry, true, true, 0);
 
         this.pattern.bind_property(
             'text',
-            entry,
+            this._entry,
             'text',
             GObject.BindingFlags.BIDIRECTIONAL | GObject.BindingFlags.SYNC_CREATE
         );
 
-        const error_popover = new Gtk.Popover({
-            relative_to: entry,
-            modal: false,
-            border_width: 5,
+        this._pattern.connect('notify::error', () => {
+            this._show_error(this._pattern.error);
         });
 
-        const error_label = new Gtk.Label({
-            parent: error_popover,
-            visible: true,
-        });
+        this._entry.connect('activate', () => this.find_next());
+        this._entry.connect('next-match', () => this.find_next());
+        this._entry.connect('previous-match', () => this.find_prev());
+        this._entry.connect('stop-search', () => this.close());
+        this._entry.connect('search-changed', () => this.pattern.update());
 
-        error_label.get_style_context().add_class('error');
-
-        this.pattern.connect('notify::error', () => {
-            if (this.pattern.error) {
-                entry.get_style_context().add_class('error');
-                error_label.label = this.pattern.error.message;
-                error_popover.popup();
-            } else {
-                entry.get_style_context().remove_class('error');
-                error_popover.popdown();
-            }
-        });
-
-        entry.connect('activate', () => this.find_next());
-        entry.connect('next-match', () => this.find_next());
-        entry.connect('previous-match', () => this.find_prev());
-        entry.connect('stop-search', () => this.close());
-        entry.connect('search-changed', () => this.pattern.update());
-
-        this.connect('key-press-event', (_, event) => entry.handle_event(event));
-        this.connect('key-release-event', (_, event) => entry.handle_event(event));
+        this.connect('key-press-event', (_, event) => this._entry.handle_event(event));
+        this.connect('key-release-event', (_, event) => this._entry.handle_event(event));
         this.connect('notify::reveal-child', () => {
             if (this.reveal_child)
-                entry.grab_focus();
+                this._entry.grab_focus();
         });
 
         const close_button = new Gtk.Button({
@@ -399,5 +379,40 @@ class DDTermSearchBar extends Gtk.Revealer {
     find_prev() {
         this.pattern.update();
         this.emit('find-prev');
+    }
+
+    _show_error(error) {
+        if (!error) {
+            this._entry.get_style_context().remove_class('error');
+            this._error_popover?.popdown();
+            return;
+        }
+
+        this._entry.get_style_context().add_class('error');
+
+        if (!this._error_popover) {
+            const error_label = new Gtk.Label({
+                visible: true,
+            });
+
+            error_label.get_style_context().add_class('error');
+
+            this._error_popover = new Gtk.Popover({
+                relative_to: this._entry,
+                modal: false,
+                border_width: 5,
+                child: error_label,
+            });
+
+            this._error_popover.__heapgraph_name =
+                `${this.__heapgraph_name}._error_popover`;
+
+            this._error_popover.connect('closed', () => {
+                this._error_popover = null;
+            });
+        }
+
+        this._error_popover.get_child().label = error.message;
+        this._error_popover.popup();
     }
 });
