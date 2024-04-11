@@ -36,16 +36,10 @@ class DDTermAccelLabel extends Gtk.Label {
         this._keys_handler = null;
 
         super._init(params);
-        this.__heapgraph_name = this.constructor.$gtype.name;
+        this.__heapgraph_name = this.constructor.name;
 
-        this.connect('destroy', () => {
-            if (this._keys_handler) {
-                this.get_toplevel().disconnect(this._keys_handler);
-                this._keys_handler = null;
-            }
-        });
-
-        this.on_hierarchy_changed();
+        this.connect('hierarchy-changed', this._hierarchy_changed.bind(this));
+        this._hierarchy_changed();
     }
 
     get action_name() {
@@ -91,20 +85,33 @@ class DDTermAccelLabel extends Gtk.Label {
         this.update_label();
     }
 
-    on_hierarchy_changed() {
+    _disable() {
         if (this._keys_handler) {
             this._toplevel.disconnect(this._keys_handler);
             this._keys_handler = null;
             this._toplevel = null;
         }
 
+        if (this._destroy_handler) {
+            this.disconnect(this._destroy_handler);
+            this._destroy_handler = null;
+        }
+    }
+
+    _hierarchy_changed() {
+        this._disable();
+
         this._toplevel = this.get_toplevel();
 
         if (this._toplevel instanceof Gtk.Window) {
+            this._destroy_handler = this.connect('destroy', this._disable.bind(this));
+
             this._keys_handler = this._toplevel.connect(
                 'keys-changed',
                 () => this.update_label()
             );
+        } else {
+            this._toplevel = null;
         }
 
         this.update_label();
@@ -115,12 +122,11 @@ class DDTermAccelLabel extends Gtk.Label {
             return '';
 
         const action = Gio.Action.print_detailed_name(this._name, this._target_value);
-        const toplevel = this.get_toplevel();
 
-        if (!(toplevel instanceof Gtk.Window))
+        if (!this._toplevel)
             return '';
 
-        for (const shortcut of toplevel.application?.get_accels_for_action(action) || []) {
+        for (const shortcut of this._toplevel.application?.get_accels_for_action(action) || []) {
             try {
                 return Gtk.accelerator_get_label(
                     ...Gtk.accelerator_parse(shortcut)
