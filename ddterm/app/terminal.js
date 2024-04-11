@@ -21,6 +21,7 @@ import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
 import Gdk from 'gi://Gdk';
+import Gtk from 'gi://Gtk';
 import Vte from 'gi://Vte';
 
 import { tcgetpgrp, InterpreterNotFoundError } from './tcgetpgrp.js';
@@ -340,6 +341,13 @@ export const Terminal = GObject.registerClass({
             GObject.ParamFlags.READABLE,
             true
         ),
+        'context-menu-model': GObject.ParamSpec.object(
+            'context-menu-model',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+            Gio.MenuModel
+        ),
     },
 }, class DDTermTerminal extends Vte.Terminal {
     _init(params) {
@@ -383,6 +391,21 @@ export const Terminal = GObject.registerClass({
         });
 
         this._gdk_atom_primary = Gdk.Atom.intern('PRIMARY', true);
+
+        this.connect(
+            'button-press-event',
+            this._context_menu_early.bind(this)
+        );
+
+        this.connect_after(
+            'button-press-event',
+            this._context_menu_late.bind(this)
+        );
+
+        this.connect(
+            'popup-menu',
+            this._popup_menu.bind(this)
+        );
     }
 
     get child_pid() {
@@ -656,5 +679,48 @@ export const Terminal = GObject.registerClass({
                 resolve(text);
             });
         });
+    }
+
+    _create_context_menu() {
+        const menu = Gtk.Menu.new_from_model(this.context_menu_model);
+        menu.attach_widget = this;
+
+        // https://github.com/ddterm/gnome-shell-extension-ddterm/issues/116
+        menu.get_style_context().add_class(Gtk.STYLE_CLASS_CONTEXT_MENU);
+
+        return menu;
+    }
+
+    _context_menu_early(_terminal, event) {
+        if (!event.triggers_context_menu())
+            return false;
+
+        const [, state] = event.get_state();
+
+        if (state & Gdk.ModifierType.SHIFT_MASK) {
+            if (!(state & (Gdk.ModifierType.CONTROL_MASK | Gdk.ModifierType.MOD1_MASK))) {
+                this._create_context_menu().popup_at_pointer(event);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    _context_menu_late(_terminal, event) {
+        if (!event.triggers_context_menu())
+            return false;
+
+        this._create_context_menu().popup_at_pointer(event);
+
+        return true;
+    }
+
+    _popup_menu() {
+        const menu = this._create_context_menu();
+
+        menu.popup_at_widget(this, Gdk.Gravity.SOUTH, Gdk.Gravity.SOUTH, null);
+
+        return true;
     }
 });

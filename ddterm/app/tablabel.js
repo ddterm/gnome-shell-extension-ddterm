@@ -18,6 +18,8 @@
 */
 
 import GObject from 'gi://GObject';
+import Gio from 'gi://Gio';
+import Gdk from 'gi://Gdk';
 import Gtk from 'gi://Gtk';
 import Pango from 'gi://Pango';
 
@@ -59,6 +61,13 @@ export const TabLabel = GObject.registerClass({
         ),
         'action-name': GObject.ParamSpec.override('action-name', Gtk.Actionable),
         'action-target': GObject.ParamSpec.override('action-target', Gtk.Actionable),
+        'context-menu-model': GObject.ParamSpec.object(
+            'context-menu-model',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+            Gio.MenuModel
+        ),
     },
     Signals: {
         'close': {},
@@ -131,6 +140,16 @@ export const TabLabel = GObject.registerClass({
         );
 
         close_button.connect('clicked', () => this.emit('close'));
+
+        this.connect_after(
+            'button-press-event',
+            this._context_menu.bind(this)
+        );
+
+        this.connect(
+            'popup-menu',
+            this._popup_menu.bind(this)
+        );
     }
 
     edit() {
@@ -224,5 +243,30 @@ export const TabLabel = GObject.registerClass({
 
     vfunc_set_action_target_value(value) {
         this.shortcut_label.set_action_target_value(value);
+    }
+
+    _create_context_menu() {
+        const menu = Gtk.Menu.new_from_model(this.context_menu_model);
+
+        menu.attach_widget = this;
+
+        return menu;
+    }
+
+    _context_menu(_widget, event) {
+        if (!event.triggers_context_menu())
+            return false;
+
+        this._create_context_menu().popup_at_pointer(event);
+
+        return true;
+    }
+
+    _popup_menu() {
+        const menu = this._create_context_menu();
+
+        menu.popup_at_widget(this, Gdk.Gravity.SOUTH, Gdk.Gravity.SOUTH, null);
+
+        return true;
     }
 });

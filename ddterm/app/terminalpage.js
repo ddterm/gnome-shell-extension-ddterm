@@ -111,7 +111,11 @@ export const TerminalPage = GObject.registerClass({
             orientation: Gtk.Orientation.HORIZONTAL,
         });
 
-        this.terminal = new Terminal({ visible: true });
+        this.terminal = new Terminal({
+            visible: true,
+            context_menu_model: this.terminal_menu,
+        });
+
         terminal_with_scrollbar.pack_start(this.terminal, true, true, 0);
 
         this.terminal_settings.bind_terminal(this.terminal);
@@ -147,7 +151,11 @@ export const TerminalPage = GObject.registerClass({
                 this.terminal.grab_focus();
         });
 
-        this.tab_label = new TabLabel({ visible_window: false });
+        this.tab_label = new TabLabel({
+            visible_window: false,
+            context_menu_model: this.tab_menu,
+        });
+
         this.connect('destroy', () => this.tab_label.destroy());
         this.tab_label.connect('close', () => this.close());
         this.tab_label.connect('reset-label', () => {
@@ -168,14 +176,10 @@ export const TerminalPage = GObject.registerClass({
             GObject.BindingFlags.SYNC_CREATE
         );
 
-        // Should be connected before setup_popup_menu() on this.terminal!
         this.terminal.connect(
             'button-press-event',
             this.terminal_button_press_early.bind(this)
         );
-
-        this.terminal_popup_menu = this.setup_popup_menu(this.terminal, this.terminal_menu);
-        this.setup_popup_menu(this.tab_label, this.tab_menu);
 
         const page_actions = new Gio.SimpleActionGroup();
 
@@ -519,7 +523,7 @@ export const TerminalPage = GObject.registerClass({
     }
 
     terminal_button_press_early(_terminal, event) {
-        const state = event.get_state()[1];
+        const [, state] = event.get_state();
 
         if (state & Gdk.ModifierType.CONTROL_MASK) {
             const button = event.get_button()[1];
@@ -530,44 +534,7 @@ export const TerminalPage = GObject.registerClass({
             }
         }
 
-        if (event.triggers_context_menu()) {
-            if (state & Gdk.ModifierType.SHIFT_MASK) {
-                if (!(state & (Gdk.ModifierType.CONTROL_MASK | Gdk.ModifierType.MOD1_MASK))) {
-                    this.terminal_popup_menu.popup_at_pointer(event);
-                    return true;
-                }
-            }
-        }
-
         return false;
-    }
-
-    setup_popup_menu(
-        widget,
-        menu_model,
-        widget_anchor = Gdk.Gravity.SOUTH,
-        menu_anchor = Gdk.Gravity.SOUTH
-    ) {
-        const menu = Gtk.Menu.new_from_model(menu_model);
-        menu.attach_widget = widget;
-
-        // https://github.com/ddterm/gnome-shell-extension-ddterm/issues/116
-        menu.get_style_context().add_class(Gtk.STYLE_CLASS_CONTEXT_MENU);
-
-        widget.connect_after('button-press-event', (_, event) => {
-            if (!event.triggers_context_menu())
-                return false;
-
-            menu.popup_at_pointer(event);
-            return true;
-        });
-
-        widget.connect('popup-menu', () => {
-            menu.popup_at_widget(widget, widget_anchor, menu_anchor, null);
-            return true;
-        });
-
-        return menu;
     }
 
     find_next() {
