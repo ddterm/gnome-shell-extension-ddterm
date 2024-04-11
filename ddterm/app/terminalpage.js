@@ -104,6 +104,7 @@ export const TerminalPage = GObject.registerClass({
 }, class DDTermTerminalPage extends Gtk.Box {
     _init(params) {
         super._init(params);
+        this.__heapgraph_name = this.constructor.$gtype.name;
 
         const terminal_with_scrollbar = new Gtk.Box({
             visible: true,

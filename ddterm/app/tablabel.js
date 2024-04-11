@@ -67,6 +67,7 @@ export const TabLabel = GObject.registerClass({
 }, class DDTermTabLabel extends Gtk.EventBox {
     _init(params) {
         super._init(params);
+        this.__heapgraph_name = this.constructor.$gtype.name;
 
         const layout = new Gtk.Box({
             visible: true,

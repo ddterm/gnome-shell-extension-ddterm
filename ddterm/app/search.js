@@ -131,6 +131,7 @@ export const SearchPattern = GObject.registerClass({
 }, class DDTermSearchPattern extends GObject.Object {
     _init(params) {
         super._init(params);
+        this.__heapgraph_name = this.constructor.$gtype.name;
 
         this._regex = REGEX_OUTDATED;
 
@@ -209,6 +210,7 @@ export const SearchBar = GObject.registerClass({
 class DDTermSearchBar extends Gtk.Revealer {
     _init(params) {
         super._init(params);
+        this.__heapgraph_name = this.constructor.$gtype.name;
 
         this._pattern = new SearchPattern();
 

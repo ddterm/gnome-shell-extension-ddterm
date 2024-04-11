@@ -113,6 +113,11 @@ export const TerminalColors = GObject.registerClass({
         ])
     ),
 }, class DDTermTerminalColors extends GObject.Object {
+    _init(params) {
+        super._init(params);
+        this.__heapgraph_name = this.constructor.$gtype.name;
+    }
+
     get palette() {
         return PALETTE_PROPERTIES.map(prop => this[prop]);
     }
@@ -167,6 +172,11 @@ export const TerminalCommand = GObject.registerClass({
         ),
     },
 }, class DDTermTerminalCommand extends GObject.Object {
+    _init(params) {
+        super._init(params);
+        this.__heapgraph_name = this.constructor.$gtype.name;
+    }
+
     get spawn_flags() {
         let result = GLib.SpawnFlags.DEFAULT;
 
@@ -340,6 +350,7 @@ export const Terminal = GObject.registerClass({
         this._clicked_hyperlink = null;
 
         super._init(params);
+        this.__heapgraph_name = this.constructor.$gtype.name;
 
         this._url_detect = new UrlDetect({
             terminal: this,

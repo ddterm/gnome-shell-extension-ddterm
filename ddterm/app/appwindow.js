@@ -152,6 +152,8 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
             ...params,
         });
 
+        this.__heapgraph_name = this.constructor.$gtype.name;
+
         const grid = new Gtk.Grid({
             parent: this,
             visible: true,

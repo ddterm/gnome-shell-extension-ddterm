@@ -76,6 +76,7 @@ export const Application = GObject.registerClass({
 class Application extends Gtk.Application {
     _init(params) {
         super._init(params);
+        this.__heapgraph_name = this.constructor.$gtype.name;
 
         this.add_main_option(
             'activate-only',

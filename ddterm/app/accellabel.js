@@ -36,6 +36,7 @@ class DDTermAccelLabel extends Gtk.Label {
         this._keys_handler = null;
 
         super._init(params);
+        this.__heapgraph_name = this.constructor.$gtype.name;
 
         this.connect('destroy', () => {
             if (this._keys_handler) {
