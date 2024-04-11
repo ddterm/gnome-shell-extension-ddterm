@@ -288,8 +288,6 @@ class DDTermSearchBar extends Gtk.Revealer {
             border_width: 5,
         });
 
-        this.connect('destroy', () => error_popover.destroy());
-
         const error_label = new Gtk.Label({
             parent: error_popover,
             visible: true,
