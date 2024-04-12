@@ -24,7 +24,7 @@ along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licens
   <!-- interface-license-type gplv3 -->
   <!-- interface-name ddterm GNOME Shell extension -->
   <!-- interface-copyright 2022 Aleksandr Mezin -->
-  <!-- n-columns=2 n-rows=9 -->
+  <!-- n-columns=2 n-rows=8 -->
   <template class="DDTermPrefsBehavior" parent="GtkGrid">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
@@ -161,45 +161,6 @@ You'll have to close all tabs for this option to take effect.</property>
         <property name="left-attach">0</property>
         <property name="top-attach">7</property>
         <property name="width">2</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkLabel">
-        <property name="visible">True</property>
-        <property name="can-focus">False</property>
-        <property name="halign">start</property>
-        <property name="label" translatable="yes">Window type _hint (X11 only):</property>
-        <property name="use-underline">True</property>
-        <property name="mnemonic-widget">window_type_hint_combo</property>
-      </object>
-      <packing>
-        <property name="left-attach">0</property>
-        <property name="top-attach">8</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkComboBoxText" id="window_type_hint_combo">
-        <property name="visible">True</property>
-        <property name="can-focus">True</property>
-        <property name="hexpand">True</property>
-        <items>
-          <item id="normal" translatable="yes">Normal</item>
-          <item id="dialog" translatable="yes">Dialog</item>
-          <item id="splashscreen" translatable="yes">Splash screen</item>
-          <item id="utility" translatable="yes">Utility</item>
-          <item id="dock" translatable="yes">Dock</item>
-          <item id="dropdown-menu" translatable="yes">Dropdown menu</item>
-          <item id="menu" translatable="yes">Menu</item>
-          <item id="toolbar" translatable="yes">Toolbar</item>
-          <item id="popup-menu" translatable="yes">Popup menu</item>
-          <item id="tooltip" translatable="yes">Tooltip</item>
-          <item id="notification" translatable="yes">Notification</item>
-          <item id="combo" translatable="yes">Combo</item>
-        </items>
-      </object>
-      <packing>
-        <property name="left-attach">1</property>
-        <property name="top-attach">8</property>
       </packing>
     </child>
   </template>

@@ -21,14 +21,11 @@ import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
 import Gtk from 'gi://Gtk';
 
-import { bind_widget, insert_settings_actions, ui_file_uri } from './util.js';
+import { insert_settings_actions, ui_file_uri } from './util.js';
 
 export const BehaviorWidget = GObject.registerClass({
     GTypeName: 'DDTermPrefsBehavior',
     Template: ui_file_uri('prefs-behavior.ui'),
-    Children: [
-        'window_type_hint_combo',
-    ],
     Properties: {
         'settings': GObject.ParamSpec.object(
             'settings',
@@ -58,8 +55,6 @@ export const BehaviorWidget = GObject.registerClass({
             'pointer-autohide',
             'force-x11-gdk-backend',
         ]);
-
-        bind_widget(this.settings, 'window-type-hint', this.window_type_hint_combo);
     }
 
     get title() {

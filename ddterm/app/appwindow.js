@@ -312,13 +312,6 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
         });
 
         this.settings.bind(
-            'window-type-hint',
-            this,
-            'type-hint',
-            Gio.SettingsBindFlags.GET
-        );
-
-        this.settings.bind(
             'window-skip-taskbar',
             this,
             'skip-taskbar-hint',
