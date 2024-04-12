@@ -67,3 +67,6 @@ endforeach
 if not get_option('esm')
   subdir('fakeext')
 endif
+
+fs.copyfile('dev-application.js')
+fs.copyfile('dev-appwindow.js')

@@ -384,10 +384,6 @@ class Application extends Gtk.Application {
         return super.vfunc_dbus_unregister(connection, object_path);
     }
 
-    get dev_mode() {
-        return this.application_id !== 'com.github.amezin.ddterm';
-    }
-
     handle_local_options(options) {
         if (options.lookup('version')) {
             this.print_version_info();
@@ -407,9 +403,10 @@ class Application extends Gtk.Application {
         if (!options.lookup('no-environment'))
             this.flags |= Gio.ApplicationFlags.SEND_ENVIRONMENT;
 
-        if (this.dev_mode)
-            return -1;
+        return this._launch_service(options);
+    }
 
+    _launch_service(options) {
         this.flags |= Gio.ApplicationFlags.IS_LAUNCHER;
 
         try {
@@ -556,17 +553,21 @@ class Application extends Gtk.Application {
         return this._extension_dbus;
     }
 
-    ensure_window() {
-        if (this.window)
-            return this.window;
-
-        this.window = new AppWindow({
+    _create_window() {
+        return new AppWindow({
             application: this,
-            decorated: this.dev_mode,
+            decorated: false,
             settings: this.settings,
             terminal_settings: this.terminal_settings,
             extension_dbus: this.extension_dbus,
         });
+    }
+
+    ensure_window() {
+        if (this.window)
+            return this.window;
+
+        this.window = this._create_window();
 
         this.window.connect('destroy', source => {
             if (source === this.window)

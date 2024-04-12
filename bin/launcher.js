@@ -120,7 +120,7 @@ function resolve_sync(promise) {
 
 const this_file_uri = GLib.filename_to_uri(this_file, null);
 const app_module_uri =
-    GLib.Uri.resolve_relative(this_file_uri, '../ddterm/app/application.js', GLib.UriFlags.NONE);
+    GLib.Uri.resolve_relative(this_file_uri, '@APP_MODULE@', GLib.UriFlags.NONE);
 
 let app_module;
 

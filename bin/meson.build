@@ -10,6 +10,7 @@ pack += configure_file(
   configuration: {
     'GJS_SHEBANG': gjs_shebang,
     'APP_ID': 'com.github.amezin.ddterm',
+    'APP_MODULE': '../ddterm/app/application.js',
   },
   install: true,
   install_dir: extension_dir / 'bin',
@@ -30,5 +31,6 @@ configure_file(
   configuration: {
     'GJS_SHEBANG': gjs_shebang,
     'APP_ID': 'com.github.amezin.ddterm.dev',
+    'APP_MODULE': '../ddterm/app/dev-application.js',
   },
 )

@@ -349,43 +349,48 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
                 this.close();
         });
 
+        this._setup_size_sync();
+    }
+
+    _setup_size_sync() {
         const display = this.get_display();
 
-        if (display.constructor.$gtype.name === 'GdkWaylandDisplay' && !this.decorated) {
-            this.display_config = new DisplayConfig({
-                dbus_connection: this.application.get_dbus_connection(),
-            });
-            this.connect('destroy', () => this.display_config.unwatch());
-            this.display_config.update_sync();
+        if (display.constructor.$gtype.name !== 'GdkWaylandDisplay')
+            return;
 
-            const rect_type = new GLib.VariantType('(iiii)');
+        this.display_config = new DisplayConfig({
+            dbus_connection: this.application.get_dbus_connection(),
+        });
+        this.connect('destroy', () => this.display_config.unwatch());
+        this.display_config.update_sync();
 
-            const dbus_handler = this.extension_dbus.connect(
-                'g-properties-changed',
-                (_, changed, invalidated) => {
-                    if (this.visible)
-                        return;
+        const rect_type = new GLib.VariantType('(iiii)');
 
-                    if (invalidated.includes('TargetRect')) {
-                        this.sync_size_with_extension();
-                        return;
-                    }
+        const dbus_handler = this.extension_dbus.connect(
+            'g-properties-changed',
+            (_, changed, invalidated) => {
+                if (this.visible)
+                    return;
 
-                    const value = changed.lookup_value('TargetRect', rect_type);
-
-                    if (value)
-                        this.sync_size_with_extension(value.deepUnpack());
+                if (invalidated.includes('TargetRect')) {
+                    this.sync_size_with_extension();
+                    return;
                 }
-            );
 
-            this.connect('destroy', () => this.extension_dbus.disconnect(dbus_handler));
+                const value = changed.lookup_value('TargetRect', rect_type);
 
-            this.connect('unmap-event', () => {
-                this.sync_size_with_extension();
-            });
+                if (value)
+                    this.sync_size_with_extension(value.deepUnpack());
+            }
+        );
 
+        this.connect('destroy', () => this.extension_dbus.disconnect(dbus_handler));
+
+        this.connect('unmap-event', () => {
             this.sync_size_with_extension();
-        }
+        });
+
+        this.sync_size_with_extension();
     }
 
     create_notebook() {
