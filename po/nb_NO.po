@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-10 23:33+0000\n"
+"POT-Creation-Date: 2024-04-12 23:32+0000\n"
 "PO-Revision-Date: 2023-10-22 20:00+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/gnome-"
@@ -66,23 +66,23 @@ msgstr "Åpne en ny fane"
 msgid "Saving session…"
 msgstr "Lagrer økt …"
 
-#: ddterm/app/application.js:419
+#: ddterm/app/application.js:416
 msgid "Can't contact the extension."
 msgstr ""
 
-#: ddterm/app/application.js:421 ddterm/app/application.js:540
+#: ddterm/app/application.js:418 ddterm/app/application.js:537
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr ""
 
-#: ddterm/app/application.js:538
+#: ddterm/app/application.js:535
 msgid "Can't read the version of the loaded extension."
 msgstr ""
 
-#: ddterm/app/application.js:543 ddterm/shell/notifications.js:158
+#: ddterm/app/application.js:540 ddterm/shell/notifications.js:158
 msgid "Warning: ddterm version has changed"
 msgstr "Advarsel: ddterm-versjonen har endret seg"
 
-#: ddterm/app/application.js:544 ddterm/shell/notifications.js:160
+#: ddterm/app/application.js:541 ddterm/shell/notifications.js:160
 msgid "Log out, then log in again to load the updated extension."
 msgstr "Logg ut og inn igjen for å laste inn oppdatert utvidelse."
 
@@ -388,7 +388,7 @@ msgstr "Ymse"
 msgid "Animation"
 msgstr "Animasjon"
 
-#: ddterm/pref/behavior.js:66
+#: ddterm/pref/behavior.js:61
 msgid "Behavior"
 msgstr "Adferd"
 
@@ -615,58 +615,6 @@ msgid ""
 msgstr ""
 "Påtving _X11 GDK-bakende (XWayland).\n"
 "Du må lukke alle faner før dette tas i bruk."
-
-#: ddterm/pref/ui/prefs-behavior.ui:171
-msgid "Window type _hint (X11 only):"
-msgstr "Vindustype_hint (kun X11):"
-
-#: ddterm/pref/ui/prefs-behavior.ui:186
-msgid "Normal"
-msgstr "Normal"
-
-#: ddterm/pref/ui/prefs-behavior.ui:187
-msgid "Dialog"
-msgstr "Dialog"
-
-#: ddterm/pref/ui/prefs-behavior.ui:188
-msgid "Splash screen"
-msgstr "Velkomstbilde"
-
-#: ddterm/pref/ui/prefs-behavior.ui:189
-msgid "Utility"
-msgstr "Verktøy"
-
-#: ddterm/pref/ui/prefs-behavior.ui:190
-msgid "Dock"
-msgstr "Dokk"
-
-#: ddterm/pref/ui/prefs-behavior.ui:191
-msgid "Dropdown menu"
-msgstr "Rullegardinsmeny"
-
-#: ddterm/pref/ui/prefs-behavior.ui:192
-msgid "Menu"
-msgstr "Meny"
-
-#: ddterm/pref/ui/prefs-behavior.ui:193
-msgid "Toolbar"
-msgstr "Verktøylinje"
-
-#: ddterm/pref/ui/prefs-behavior.ui:194
-msgid "Popup menu"
-msgstr "Oppsprettsmeny"
-
-#: ddterm/pref/ui/prefs-behavior.ui:195
-msgid "Tooltip"
-msgstr "Verktøytips"
-
-#: ddterm/pref/ui/prefs-behavior.ui:196
-msgid "Notification"
-msgstr "Merknad"
-
-#: ddterm/pref/ui/prefs-behavior.ui:197
-msgid "Combo"
-msgstr "Kombo"
 
 #: ddterm/pref/ui/prefs-colors.ui:38
 msgid "Black on light yellow"
@@ -1341,6 +1289,45 @@ msgstr ""
 #: ddterm/shell/panelicon.js:64
 msgid "Show"
 msgstr "Vis"
+
+#~ msgid "Window type _hint (X11 only):"
+#~ msgstr "Vindustype_hint (kun X11):"
+
+#~ msgid "Normal"
+#~ msgstr "Normal"
+
+#~ msgid "Dialog"
+#~ msgstr "Dialog"
+
+#~ msgid "Splash screen"
+#~ msgstr "Velkomstbilde"
+
+#~ msgid "Utility"
+#~ msgstr "Verktøy"
+
+#~ msgid "Dock"
+#~ msgstr "Dokk"
+
+#~ msgid "Dropdown menu"
+#~ msgstr "Rullegardinsmeny"
+
+#~ msgid "Menu"
+#~ msgstr "Meny"
+
+#~ msgid "Toolbar"
+#~ msgstr "Verktøylinje"
+
+#~ msgid "Popup menu"
+#~ msgstr "Oppsprettsmeny"
+
+#~ msgid "Tooltip"
+#~ msgstr "Verktøytips"
+
+#~ msgid "Notification"
+#~ msgstr "Merknad"
+
+#~ msgid "Combo"
+#~ msgstr "Kombo"
 
 #~ msgid "Drop Down Terminal"
 #~ msgstr "Rullegardinsterminal"

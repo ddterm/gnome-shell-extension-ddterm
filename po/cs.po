@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-10 23:33+0000\n"
+"POT-Creation-Date: 2024-04-12 23:32+0000\n"
 "PO-Revision-Date: 2023-10-24 22:14+0000\n"
 "Last-Translator: Pavel Novák <pavelnov32@gmail.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/gnome-shell-"
@@ -66,23 +66,23 @@ msgstr "Otevřít nový panel"
 msgid "Saving session…"
 msgstr "Ukládám sezení…"
 
-#: ddterm/app/application.js:419
+#: ddterm/app/application.js:416
 msgid "Can't contact the extension."
 msgstr ""
 
-#: ddterm/app/application.js:421 ddterm/app/application.js:540
+#: ddterm/app/application.js:418 ddterm/app/application.js:537
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr ""
 
-#: ddterm/app/application.js:538
+#: ddterm/app/application.js:535
 msgid "Can't read the version of the loaded extension."
 msgstr ""
 
-#: ddterm/app/application.js:543 ddterm/shell/notifications.js:158
+#: ddterm/app/application.js:540 ddterm/shell/notifications.js:158
 msgid "Warning: ddterm version has changed"
 msgstr "Varování: Verze ddterm byla změněna"
 
-#: ddterm/app/application.js:544 ddterm/shell/notifications.js:160
+#: ddterm/app/application.js:541 ddterm/shell/notifications.js:160
 msgid "Log out, then log in again to load the updated extension."
 msgstr "Znovu se přihlašte pro načtení aktualizovaného rozšíření."
 
@@ -386,7 +386,7 @@ msgstr "Ostatní"
 msgid "Animation"
 msgstr "Animace"
 
-#: ddterm/pref/behavior.js:66
+#: ddterm/pref/behavior.js:61
 msgid "Behavior"
 msgstr "Chování"
 
@@ -611,58 +611,6 @@ msgid ""
 msgstr ""
 "Vynutit _X11 GDK backend (XWayland).\n"
 "Pro aplikování této změny, musíte zavřít všechny panely."
-
-#: ddterm/pref/ui/prefs-behavior.ui:171
-msgid "Window type _hint (X11 only):"
-msgstr "Typ okna _vysvětlení (Pouze pro X11):"
-
-#: ddterm/pref/ui/prefs-behavior.ui:186
-msgid "Normal"
-msgstr "Normální"
-
-#: ddterm/pref/ui/prefs-behavior.ui:187
-msgid "Dialog"
-msgstr "Dialog"
-
-#: ddterm/pref/ui/prefs-behavior.ui:188
-msgid "Splash screen"
-msgstr "Úvodní obrazovka"
-
-#: ddterm/pref/ui/prefs-behavior.ui:189
-msgid "Utility"
-msgstr "Nástroje"
-
-#: ddterm/pref/ui/prefs-behavior.ui:190
-msgid "Dock"
-msgstr "Dok"
-
-#: ddterm/pref/ui/prefs-behavior.ui:191
-msgid "Dropdown menu"
-msgstr "Rozbalovací menu"
-
-#: ddterm/pref/ui/prefs-behavior.ui:192
-msgid "Menu"
-msgstr "Menu"
-
-#: ddterm/pref/ui/prefs-behavior.ui:193
-msgid "Toolbar"
-msgstr "Panel nástrojů"
-
-#: ddterm/pref/ui/prefs-behavior.ui:194
-msgid "Popup menu"
-msgstr "Vyskakovací menu"
-
-#: ddterm/pref/ui/prefs-behavior.ui:195
-msgid "Tooltip"
-msgstr "Nápověda k nástroji"
-
-#: ddterm/pref/ui/prefs-behavior.ui:196
-msgid "Notification"
-msgstr "Notifikace"
-
-#: ddterm/pref/ui/prefs-behavior.ui:197
-msgid "Combo"
-msgstr "Kombinace"
 
 #: ddterm/pref/ui/prefs-colors.ui:38
 msgid "Black on light yellow"
@@ -1340,6 +1288,45 @@ msgstr ""
 #: ddterm/shell/panelicon.js:64
 msgid "Show"
 msgstr "Zobrazit"
+
+#~ msgid "Window type _hint (X11 only):"
+#~ msgstr "Typ okna _vysvětlení (Pouze pro X11):"
+
+#~ msgid "Normal"
+#~ msgstr "Normální"
+
+#~ msgid "Dialog"
+#~ msgstr "Dialog"
+
+#~ msgid "Splash screen"
+#~ msgstr "Úvodní obrazovka"
+
+#~ msgid "Utility"
+#~ msgstr "Nástroje"
+
+#~ msgid "Dock"
+#~ msgstr "Dok"
+
+#~ msgid "Dropdown menu"
+#~ msgstr "Rozbalovací menu"
+
+#~ msgid "Menu"
+#~ msgstr "Menu"
+
+#~ msgid "Toolbar"
+#~ msgstr "Panel nástrojů"
+
+#~ msgid "Popup menu"
+#~ msgstr "Vyskakovací menu"
+
+#~ msgid "Tooltip"
+#~ msgstr "Nápověda k nástroji"
+
+#~ msgid "Notification"
+#~ msgstr "Notifikace"
+
+#~ msgid "Combo"
+#~ msgstr "Kombinace"
 
 #~ msgid "Drop Down Terminal"
 #~ msgstr "Rozbalovací Terminál"

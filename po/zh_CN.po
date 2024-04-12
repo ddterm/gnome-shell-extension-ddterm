@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-10 23:33+0000\n"
+"POT-Creation-Date: 2024-04-12 23:32+0000\n"
 "PO-Revision-Date: 2024-02-10 15:02+0000\n"
 "Last-Translator: yuh <yuhldr@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -66,23 +66,23 @@ msgstr "打开新标签"
 msgid "Saving session…"
 msgstr "会话保存中……"
 
-#: ddterm/app/application.js:419
+#: ddterm/app/application.js:416
 msgid "Can't contact the extension."
 msgstr "无法连接到扩展。"
 
-#: ddterm/app/application.js:421 ddterm/app/application.js:540
+#: ddterm/app/application.js:418 ddterm/app/application.js:537
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr "请确保ddterm在GNOME扩展中可用。"
 
-#: ddterm/app/application.js:538
+#: ddterm/app/application.js:535
 msgid "Can't read the version of the loaded extension."
 msgstr "无法读取已加载扩展插件的版本。"
 
-#: ddterm/app/application.js:543 ddterm/shell/notifications.js:158
+#: ddterm/app/application.js:540 ddterm/shell/notifications.js:158
 msgid "Warning: ddterm version has changed"
 msgstr "警告：ddterm版本已改变"
 
-#: ddterm/app/application.js:544 ddterm/shell/notifications.js:160
+#: ddterm/app/application.js:541 ddterm/shell/notifications.js:160
 msgid "Log out, then log in again to load the updated extension."
 msgstr "注销后重新登录，方可生效。"
 
@@ -385,7 +385,7 @@ msgstr "杂项"
 msgid "Animation"
 msgstr "动画"
 
-#: ddterm/pref/behavior.js:66
+#: ddterm/pref/behavior.js:61
 msgid "Behavior"
 msgstr "行为"
 
@@ -606,58 +606,6 @@ msgid ""
 msgstr ""
 "强制 _X11 GDK后端（XWayland）。\n"
 "您必须关闭所有标签页才能使此选项生效。"
-
-#: ddterm/pref/ui/prefs-behavior.ui:171
-msgid "Window type _hint (X11 only):"
-msgstr "窗口类型 _提示（仅限X11）:"
-
-#: ddterm/pref/ui/prefs-behavior.ui:186
-msgid "Normal"
-msgstr "标准的"
-
-#: ddterm/pref/ui/prefs-behavior.ui:187
-msgid "Dialog"
-msgstr "对话框"
-
-#: ddterm/pref/ui/prefs-behavior.ui:188
-msgid "Splash screen"
-msgstr "启动页"
-
-#: ddterm/pref/ui/prefs-behavior.ui:189
-msgid "Utility"
-msgstr "实用程序"
-
-#: ddterm/pref/ui/prefs-behavior.ui:190
-msgid "Dock"
-msgstr "Dock栏"
-
-#: ddterm/pref/ui/prefs-behavior.ui:191
-msgid "Dropdown menu"
-msgstr "下拉菜单"
-
-#: ddterm/pref/ui/prefs-behavior.ui:192
-msgid "Menu"
-msgstr "菜单"
-
-#: ddterm/pref/ui/prefs-behavior.ui:193
-msgid "Toolbar"
-msgstr "工具栏"
-
-#: ddterm/pref/ui/prefs-behavior.ui:194
-msgid "Popup menu"
-msgstr "弹出菜单"
-
-#: ddterm/pref/ui/prefs-behavior.ui:195
-msgid "Tooltip"
-msgstr "工具提示"
-
-#: ddterm/pref/ui/prefs-behavior.ui:196
-msgid "Notification"
-msgstr "通知"
-
-#: ddterm/pref/ui/prefs-behavior.ui:197
-msgid "Combo"
-msgstr "组合"
 
 #: ddterm/pref/ui/prefs-colors.ui:38
 msgid "Black on light yellow"
@@ -1330,6 +1278,45 @@ msgstr "安装"
 #: ddterm/shell/panelicon.js:64
 msgid "Show"
 msgstr "显示"
+
+#~ msgid "Window type _hint (X11 only):"
+#~ msgstr "窗口类型 _提示（仅限X11）:"
+
+#~ msgid "Normal"
+#~ msgstr "标准的"
+
+#~ msgid "Dialog"
+#~ msgstr "对话框"
+
+#~ msgid "Splash screen"
+#~ msgstr "启动页"
+
+#~ msgid "Utility"
+#~ msgstr "实用程序"
+
+#~ msgid "Dock"
+#~ msgstr "Dock栏"
+
+#~ msgid "Dropdown menu"
+#~ msgstr "下拉菜单"
+
+#~ msgid "Menu"
+#~ msgstr "菜单"
+
+#~ msgid "Toolbar"
+#~ msgstr "工具栏"
+
+#~ msgid "Popup menu"
+#~ msgstr "弹出菜单"
+
+#~ msgid "Tooltip"
+#~ msgstr "工具提示"
+
+#~ msgid "Notification"
+#~ msgstr "通知"
+
+#~ msgid "Combo"
+#~ msgstr "组合"
 
 #~ msgid "Drop Down Terminal"
 #~ msgstr "下拉终端"

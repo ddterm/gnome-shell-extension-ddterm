@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-10 23:33+0000\n"
+"POT-Creation-Date: 2024-04-12 23:32+0000\n"
 "PO-Revision-Date: 2024-03-21 12:01+0000\n"
 "Last-Translator: luk <luktvpl@wp.pl>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/gnome-shell-"
@@ -71,23 +71,23 @@ msgstr "Otwórz nową kartę"
 msgid "Saving session…"
 msgstr "Zapisywanie sesji…"
 
-#: ddterm/app/application.js:419
+#: ddterm/app/application.js:416
 msgid "Can't contact the extension."
 msgstr "Nie można skontaktować się z rozszerzeniem."
 
-#: ddterm/app/application.js:421 ddterm/app/application.js:540
+#: ddterm/app/application.js:418 ddterm/app/application.js:537
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr "Proszę upewnić się że rozszerzenie ddterm GNOME Shell jest włączone."
 
-#: ddterm/app/application.js:538
+#: ddterm/app/application.js:535
 msgid "Can't read the version of the loaded extension."
 msgstr "Nie można odczytać wersji wczytanego rozszerzenia."
 
-#: ddterm/app/application.js:543 ddterm/shell/notifications.js:158
+#: ddterm/app/application.js:540 ddterm/shell/notifications.js:158
 msgid "Warning: ddterm version has changed"
 msgstr "Ostrzeżenie: wersja ddterm zmieniła się"
 
-#: ddterm/app/application.js:544 ddterm/shell/notifications.js:160
+#: ddterm/app/application.js:541 ddterm/shell/notifications.js:160
 msgid "Log out, then log in again to load the updated extension."
 msgstr "Zaloguj się ponownie, aby załadować aktualne rozszerzenie."
 
@@ -393,7 +393,7 @@ msgstr "Różne"
 msgid "Animation"
 msgstr "Animacja"
 
-#: ddterm/pref/behavior.js:66
+#: ddterm/pref/behavior.js:61
 msgid "Behavior"
 msgstr "Zachowanie"
 
@@ -619,58 +619,6 @@ msgid ""
 msgstr ""
 "Wymuś backend _X11 GDK (XWayland).\n"
 "Aby zastosować zmiany konieczne będzie zamknięcie wszystkich kart."
-
-#: ddterm/pref/ui/prefs-behavior.ui:171
-msgid "Window type _hint (X11 only):"
-msgstr "Rodzaj wyświetlanego okna (tylko X11):"
-
-#: ddterm/pref/ui/prefs-behavior.ui:186
-msgid "Normal"
-msgstr "Normalne"
-
-#: ddterm/pref/ui/prefs-behavior.ui:187
-msgid "Dialog"
-msgstr "Okno dialogowe"
-
-#: ddterm/pref/ui/prefs-behavior.ui:188
-msgid "Splash screen"
-msgstr "Ekran startowy"
-
-#: ddterm/pref/ui/prefs-behavior.ui:189
-msgid "Utility"
-msgstr "Narzędzie"
-
-#: ddterm/pref/ui/prefs-behavior.ui:190
-msgid "Dock"
-msgstr "Dok"
-
-#: ddterm/pref/ui/prefs-behavior.ui:191
-msgid "Dropdown menu"
-msgstr "Rozwijane menu"
-
-#: ddterm/pref/ui/prefs-behavior.ui:192
-msgid "Menu"
-msgstr "Menu"
-
-#: ddterm/pref/ui/prefs-behavior.ui:193
-msgid "Toolbar"
-msgstr "Pasek narzędzi"
-
-#: ddterm/pref/ui/prefs-behavior.ui:194
-msgid "Popup menu"
-msgstr "Wyskakujące okno"
-
-#: ddterm/pref/ui/prefs-behavior.ui:195
-msgid "Tooltip"
-msgstr "Podpowiedź"
-
-#: ddterm/pref/ui/prefs-behavior.ui:196
-msgid "Notification"
-msgstr "Powiadomienie"
-
-#: ddterm/pref/ui/prefs-behavior.ui:197
-msgid "Combo"
-msgstr "Kombo"
 
 #: ddterm/pref/ui/prefs-colors.ui:38
 msgid "Black on light yellow"
@@ -1345,6 +1293,45 @@ msgstr "Zainstaluj"
 #: ddterm/shell/panelicon.js:64
 msgid "Show"
 msgstr "Pokaż"
+
+#~ msgid "Window type _hint (X11 only):"
+#~ msgstr "Rodzaj wyświetlanego okna (tylko X11):"
+
+#~ msgid "Normal"
+#~ msgstr "Normalne"
+
+#~ msgid "Dialog"
+#~ msgstr "Okno dialogowe"
+
+#~ msgid "Splash screen"
+#~ msgstr "Ekran startowy"
+
+#~ msgid "Utility"
+#~ msgstr "Narzędzie"
+
+#~ msgid "Dock"
+#~ msgstr "Dok"
+
+#~ msgid "Dropdown menu"
+#~ msgstr "Rozwijane menu"
+
+#~ msgid "Menu"
+#~ msgstr "Menu"
+
+#~ msgid "Toolbar"
+#~ msgstr "Pasek narzędzi"
+
+#~ msgid "Popup menu"
+#~ msgstr "Wyskakujące okno"
+
+#~ msgid "Tooltip"
+#~ msgstr "Podpowiedź"
+
+#~ msgid "Notification"
+#~ msgstr "Powiadomienie"
+
+#~ msgid "Combo"
+#~ msgstr "Kombo"
 
 #~ msgid "Drop Down Terminal"
 #~ msgstr "Rozwijany Terminal"

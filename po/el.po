@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-10 23:33+0000\n"
+"POT-Creation-Date: 2024-04-12 23:32+0000\n"
 "PO-Revision-Date: 2023-09-26 17:35+0300\n"
 "Last-Translator: Anagnostakis Ioannis <rizitis@gmail.com>\n"
 "Language-Team: Greek, Modern (1453-) <>\n"
@@ -67,23 +67,23 @@ msgstr ""
 msgid "Saving session…"
 msgstr ""
 
-#: ddterm/app/application.js:419
+#: ddterm/app/application.js:416
 msgid "Can't contact the extension."
 msgstr ""
 
-#: ddterm/app/application.js:421 ddterm/app/application.js:540
+#: ddterm/app/application.js:418 ddterm/app/application.js:537
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr ""
 
-#: ddterm/app/application.js:538
+#: ddterm/app/application.js:535
 msgid "Can't read the version of the loaded extension."
 msgstr ""
 
-#: ddterm/app/application.js:543 ddterm/shell/notifications.js:158
+#: ddterm/app/application.js:540 ddterm/shell/notifications.js:158
 msgid "Warning: ddterm version has changed"
 msgstr "Προειδοποίηση: η έκδοση ddterm έχει αλλάξει"
 
-#: ddterm/app/application.js:544 ddterm/shell/notifications.js:160
+#: ddterm/app/application.js:541 ddterm/shell/notifications.js:160
 msgid "Log out, then log in again to load the updated extension."
 msgstr ""
 "Αποσυνδεθείτε και, στη συνέχεια, συνδεθείτε ξανά για να φορτώσετε την "
@@ -395,7 +395,7 @@ msgstr "Διάφορα"
 msgid "Animation"
 msgstr "Animation"
 
-#: ddterm/pref/behavior.js:66
+#: ddterm/pref/behavior.js:61
 msgid "Behavior"
 msgstr "Συμπεριφορά"
 
@@ -616,58 +616,6 @@ msgid ""
 msgstr ""
 "Force _X11 GDK backend (XWayland).\n"
 "Θα πρέπει να κλείσετε όλες τις καρτέλες για να εφαρμοστεί αυτή η επιλογή."
-
-#: ddterm/pref/ui/prefs-behavior.ui:171
-msgid "Window type _hint (X11 only):"
-msgstr "Τύπος παραθύρου (μόνο X11):"
-
-#: ddterm/pref/ui/prefs-behavior.ui:186
-msgid "Normal"
-msgstr "Κανονικό"
-
-#: ddterm/pref/ui/prefs-behavior.ui:187
-msgid "Dialog"
-msgstr "Κουτί διαλόγου"
-
-#: ddterm/pref/ui/prefs-behavior.ui:188
-msgid "Splash screen"
-msgstr "Splash screen"
-
-#: ddterm/pref/ui/prefs-behavior.ui:189
-msgid "Utility"
-msgstr "Utility"
-
-#: ddterm/pref/ui/prefs-behavior.ui:190
-msgid "Dock"
-msgstr "Dock"
-
-#: ddterm/pref/ui/prefs-behavior.ui:191
-msgid "Dropdown menu"
-msgstr "Menu déroulant"
-
-#: ddterm/pref/ui/prefs-behavior.ui:192
-msgid "Menu"
-msgstr "Μενού"
-
-#: ddterm/pref/ui/prefs-behavior.ui:193
-msgid "Toolbar"
-msgstr "Γραμμή εργαλείων"
-
-#: ddterm/pref/ui/prefs-behavior.ui:194
-msgid "Popup menu"
-msgstr "Αναδυόμενο μενού"
-
-#: ddterm/pref/ui/prefs-behavior.ui:195
-msgid "Tooltip"
-msgstr "Επεξήγηση εργαλείου"
-
-#: ddterm/pref/ui/prefs-behavior.ui:196
-msgid "Notification"
-msgstr "Γνωστοποίηση"
-
-#: ddterm/pref/ui/prefs-behavior.ui:197
-msgid "Combo"
-msgstr "Συνδυασμός"
 
 #: ddterm/pref/ui/prefs-colors.ui:38
 msgid "Black on light yellow"
@@ -1346,6 +1294,45 @@ msgstr ""
 #: ddterm/shell/panelicon.js:64
 msgid "Show"
 msgstr "Εμφάνιση"
+
+#~ msgid "Window type _hint (X11 only):"
+#~ msgstr "Τύπος παραθύρου (μόνο X11):"
+
+#~ msgid "Normal"
+#~ msgstr "Κανονικό"
+
+#~ msgid "Dialog"
+#~ msgstr "Κουτί διαλόγου"
+
+#~ msgid "Splash screen"
+#~ msgstr "Splash screen"
+
+#~ msgid "Utility"
+#~ msgstr "Utility"
+
+#~ msgid "Dock"
+#~ msgstr "Dock"
+
+#~ msgid "Dropdown menu"
+#~ msgstr "Menu déroulant"
+
+#~ msgid "Menu"
+#~ msgstr "Μενού"
+
+#~ msgid "Toolbar"
+#~ msgstr "Γραμμή εργαλείων"
+
+#~ msgid "Popup menu"
+#~ msgstr "Αναδυόμενο μενού"
+
+#~ msgid "Tooltip"
+#~ msgstr "Επεξήγηση εργαλείου"
+
+#~ msgid "Notification"
+#~ msgstr "Γνωστοποίηση"
+
+#~ msgid "Combo"
+#~ msgstr "Συνδυασμός"
 
 #~ msgid "Drop Down Terminal"
 #~ msgstr "Ανάπτυξη Τερματικού"
