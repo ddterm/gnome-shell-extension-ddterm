@@ -5,51 +5,51 @@
 
 services:
   fedora-40:
-    image: ghcr.io/ddterm/gnome-shell-pod/fedora-40:2024.04.12.0
+    image: ghcr.io/ddterm/gnome-shell-pod/fedora-40:2024.04.13.0
     profiles:
       - esm
 
   fedora-39:
-    image: ghcr.io/ddterm/gnome-shell-pod/fedora-39:2024.04.12.0
+    image: ghcr.io/ddterm/gnome-shell-pod/fedora-39:2024.04.13.0
     profiles:
       - esm
 
   ubuntu-23.10:
-    image: ghcr.io/ddterm/gnome-shell-pod/ubuntu-23.10:2024.04.12.0
+    image: ghcr.io/ddterm/gnome-shell-pod/ubuntu-23.10:2024.04.13.0
     profiles:
       - esm
 
   archlinux:
-    image: ghcr.io/ddterm/gnome-shell-pod/archlinux:2024.04.12.0
+    image: ghcr.io/ddterm/gnome-shell-pod/archlinux:2024.04.13.0
     profiles:
       - esm
 
   opensuse-tumbleweed:
-    image: ghcr.io/ddterm/gnome-shell-pod/opensuse-tumbleweed:2024.04.12.0
+    image: ghcr.io/ddterm/gnome-shell-pod/opensuse-tumbleweed:2024.04.13.0
     profiles:
       - esm
 
   debian-12:
-    image: ghcr.io/ddterm/gnome-shell-pod/debian-12:2024.04.12.0
+    image: ghcr.io/ddterm/gnome-shell-pod/debian-12:2024.04.13.0
     profiles:
       - legacy
 
   fedora-38:
-    image: ghcr.io/ddterm/gnome-shell-pod/fedora-38:2024.04.12.0
+    image: ghcr.io/ddterm/gnome-shell-pod/fedora-38:2024.04.13.0
     profiles:
       - legacy
 
   ubuntu-22.04:
-    image: ghcr.io/ddterm/gnome-shell-pod/ubuntu-22.04:2024.04.12.0
+    image: ghcr.io/ddterm/gnome-shell-pod/ubuntu-22.04:2024.04.13.0
     profiles:
       - legacy
 
   opensuse-leap-15.5:
-    image: ghcr.io/ddterm/gnome-shell-pod/opensuse-leap-15.5:2024.04.12.0
+    image: ghcr.io/ddterm/gnome-shell-pod/opensuse-leap-15.5:2024.04.13.0
     profiles:
       - legacy
 
   centos-9:
-    image: ghcr.io/ddterm/gnome-shell-pod/centos-9:2024.04.12.0
+    image: ghcr.io/ddterm/gnome-shell-pod/centos-9:2024.04.13.0
     profiles:
       - legacy
