@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-12 23:32+0000\n"
+"POT-Creation-Date: 2024-04-13 18:02+0000\n"
 "PO-Revision-Date: 2023-11-10 09:35+0000\n"
 "Last-Translator: Frankie McEyes <mceyes@protonmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/gnome-shell-"
@@ -19,72 +19,72 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.2-dev\n"
 
-#: ddterm/app/application.js:85
+#: ddterm/app/application.js:86
 msgid "Start the application, but do not show the window"
 msgstr "Avvia l'applicazione, ma non mostrare la finestra"
 
-#: ddterm/app/application.js:94
+#: ddterm/app/application.js:95
 msgid "Comma-separated list of backends that GDK should try to use"
 msgstr ""
 "Elenco separato da virgole di backend che GDK dovrebbe provare a utilizzare"
 
-#: ddterm/app/application.js:103
+#: ddterm/app/application.js:104
 msgid "Enable HeapDump D-Bus interface (for testing/debug)"
 msgstr "Abilitare l'interfaccia D-Bus di HeapDump (per test/debug)"
 
-#: ddterm/app/application.js:112
+#: ddterm/app/application.js:113
 msgid "Show version information and exit"
 msgstr "Mostra informazioni sulla versione per poi uscire"
 
-#: ddterm/app/application.js:121
+#: ddterm/app/application.js:122
 msgid "Run the specified command"
 msgstr "Eseguire il comando specificato"
 
-#: ddterm/app/application.js:135
+#: ddterm/app/application.js:136
 msgid "Wait for the command to exit, and return its exit code"
 msgstr "Attendere l'uscita del comando e restituire il suo codice di uscita"
 
-#: ddterm/app/application.js:144
+#: ddterm/app/application.js:145
 msgid "Set the working directory"
 msgstr "Impostare la directory di lavoro"
 
-#: ddterm/app/application.js:153
+#: ddterm/app/application.js:154
 msgid "Set tab title"
 msgstr "Impostare il titolo della scheda"
 
-#: ddterm/app/application.js:162
+#: ddterm/app/application.js:163
 msgid "Keep the terminal open after the command has exited"
 msgstr "Mantenere aperto il terminale dopo l'uscita del comando"
 
-#: ddterm/app/application.js:171
+#: ddterm/app/application.js:172
 msgid "Do not pass the environment"
 msgstr "Non passare l'ambiente"
 
-#: ddterm/app/application.js:180
+#: ddterm/app/application.js:181
 msgid "Open a new tab"
 msgstr "Aprire una nuova scheda"
 
-#: ddterm/app/application.js:360
+#: ddterm/app/application.js:361
 msgid "Saving session…"
 msgstr "Salvataggio della sessione…"
 
-#: ddterm/app/application.js:416
+#: ddterm/app/application.js:417
 msgid "Can't contact the extension."
 msgstr ""
 
-#: ddterm/app/application.js:418 ddterm/app/application.js:537
+#: ddterm/app/application.js:419 ddterm/app/application.js:538
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr ""
 
-#: ddterm/app/application.js:535
+#: ddterm/app/application.js:536
 msgid "Can't read the version of the loaded extension."
 msgstr ""
 
-#: ddterm/app/application.js:540 ddterm/shell/notifications.js:158
+#: ddterm/app/application.js:541 ddterm/shell/notifications.js:158
 msgid "Warning: ddterm version has changed"
 msgstr "Attenzione: la versione di ddterm è cambiata"
 
-#: ddterm/app/application.js:541 ddterm/shell/notifications.js:160
+#: ddterm/app/application.js:542 ddterm/shell/notifications.js:160
 msgid "Log out, then log in again to load the updated extension."
 msgstr "Uscire e rientrare per caricare l'estensione aggiornata."
 
@@ -165,7 +165,7 @@ msgstr "Dimensione normale"
 msgid "Show in File Manager"
 msgstr "Mostra nel File Manager"
 
-#: ddterm/app/menus.ui:99 ddterm/app/menus.ui:230 ddterm/app/tablabel.js:113
+#: ddterm/app/menus.ui:99 ddterm/app/menus.ui:230 ddterm/app/tablabel.js:114
 #: ddterm/shell/notifications.js:91
 msgid "Close"
 msgstr "Chiudere"
@@ -218,7 +218,7 @@ msgstr "Dividere verticalmente"
 msgid "Move Tab to Other Pane"
 msgstr "Sposta la scheda in un altro riquadro"
 
-#: ddterm/app/menus.ui:157 ddterm/app/prefsdialog.js:64
+#: ddterm/app/menus.ui:157 ddterm/app/prefsdialog.js:65
 msgid "Preferences"
 msgstr "Preferenze"
 
@@ -292,23 +292,23 @@ msgstr "Sposta la scheda nella posizione precedente"
 msgid "Move Tab to Next Position"
 msgstr "Sposta la scheda alla posizione successiva"
 
-#: ddterm/app/notebook.js:150
+#: ddterm/app/notebook.js:151
 msgid "New Tab (Last)"
 msgstr "Nuova scheda (ultima)"
 
-#: ddterm/app/notebook.js:190
+#: ddterm/app/notebook.js:191
 msgid "New Tab (First)"
 msgstr "Nuova scheda (prima)"
 
-#: ddterm/app/search.js:224
+#: ddterm/app/search.js:226
 msgid "Case Sensitive"
 msgstr "Sensibile alle maiuscole e alle minuscole"
 
-#: ddterm/app/search.js:240
+#: ddterm/app/search.js:242
 msgid "Match Whole Word"
 msgstr "Intera parola"
 
-#: ddterm/app/search.js:256
+#: ddterm/app/search.js:258
 msgid "Regular Expression"
 msgstr "Espressione regolare"
 
@@ -328,27 +328,27 @@ msgstr "Trova successivo"
 msgid "Find Previous"
 msgstr "Trova precedente"
 
-#: ddterm/app/terminalpage.js:442
+#: ddterm/app/terminalpage.js:443
 msgid "Restart"
 msgstr "Riavviare"
 
-#: ddterm/app/terminalpage.js:443 ddterm/app/terminalpage.js:631
+#: ddterm/app/terminalpage.js:444 ddterm/app/terminalpage.js:632
 msgid "Close Terminal"
 msgstr "Chiudi terminale"
 
-#: ddterm/app/terminalpage.js:466
+#: ddterm/app/terminalpage.js:467
 msgid "The child process exited with status:"
 msgstr "Il processo figlio è uscito con lo stato:"
 
-#: ddterm/app/terminalpage.js:476
+#: ddterm/app/terminalpage.js:477
 msgid "The child process was aborted by signal:"
 msgstr "Il processo figlio è stato interrotto da un segnale:"
 
-#: ddterm/app/terminalpage.js:623
+#: ddterm/app/terminalpage.js:624
 msgid "Close this terminal?"
 msgstr "Chiudere questo terminale?"
 
-#: ddterm/app/terminalpage.js:625
+#: ddterm/app/terminalpage.js:626
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-12 23:32+0000\n"
+"POT-Creation-Date: 2024-04-13 18:02+0000\n"
 "PO-Revision-Date: 2024-02-16 08:41+0000\n"
 "Last-Translator: Arnaud Feldmann <arnaud.feldmann@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/gnome-shell-"
@@ -20,74 +20,74 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-Basepath: .\n"
 
-#: ddterm/app/application.js:85
+#: ddterm/app/application.js:86
 msgid "Start the application, but do not show the window"
 msgstr "Démarrer l'application, mais ne pas afficher la fenêtre"
 
-#: ddterm/app/application.js:94
+#: ddterm/app/application.js:95
 msgid "Comma-separated list of backends that GDK should try to use"
 msgstr ""
 "Liste, séparée par des virgules, des backend que GDK doit essayer d'utiliser"
 
-#: ddterm/app/application.js:103
+#: ddterm/app/application.js:104
 msgid "Enable HeapDump D-Bus interface (for testing/debug)"
 msgstr "Activer l'interface HeapDump D-Bus (pour le test/debug)"
 
-#: ddterm/app/application.js:112
+#: ddterm/app/application.js:113
 msgid "Show version information and exit"
 msgstr "Afficher les informations de version et quitter"
 
-#: ddterm/app/application.js:121
+#: ddterm/app/application.js:122
 msgid "Run the specified command"
 msgstr "Exécutez la commande spécifiée"
 
-#: ddterm/app/application.js:135
+#: ddterm/app/application.js:136
 msgid "Wait for the command to exit, and return its exit code"
 msgstr "Attendre que la commande soit exécutée et retourner son code de sortie"
 
-#: ddterm/app/application.js:144
+#: ddterm/app/application.js:145
 msgid "Set the working directory"
 msgstr "Définir le répertoire de travail"
 
-#: ddterm/app/application.js:153
+#: ddterm/app/application.js:154
 msgid "Set tab title"
 msgstr "Définir un titre d'onglet"
 
-#: ddterm/app/application.js:162
+#: ddterm/app/application.js:163
 msgid "Keep the terminal open after the command has exited"
 msgstr "Gardez le terminal ouvert après la fin de la commande"
 
-#: ddterm/app/application.js:171
+#: ddterm/app/application.js:172
 msgid "Do not pass the environment"
 msgstr "Ne pas transmettre l'environnement"
 
-#: ddterm/app/application.js:180
+#: ddterm/app/application.js:181
 msgid "Open a new tab"
 msgstr "Ouvrir un nouvel onglet"
 
-#: ddterm/app/application.js:360
+#: ddterm/app/application.js:361
 msgid "Saving session…"
 msgstr "Enregistrement de la session…"
 
-#: ddterm/app/application.js:416
+#: ddterm/app/application.js:417
 msgid "Can't contact the extension."
 msgstr "L'extension ne peut être contactée."
 
-#: ddterm/app/application.js:418 ddterm/app/application.js:537
+#: ddterm/app/application.js:419 ddterm/app/application.js:538
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr ""
 "Veuillez s'il vous plait vous assurer que l'extension GNOME Shell est "
 "activée."
 
-#: ddterm/app/application.js:535
+#: ddterm/app/application.js:536
 msgid "Can't read the version of the loaded extension."
 msgstr "La version de l'extension chargée ne peut pas être lue."
 
-#: ddterm/app/application.js:540 ddterm/shell/notifications.js:158
+#: ddterm/app/application.js:541 ddterm/shell/notifications.js:158
 msgid "Warning: ddterm version has changed"
 msgstr "Avertissement : La version de ddterm a changé"
 
-#: ddterm/app/application.js:541 ddterm/shell/notifications.js:160
+#: ddterm/app/application.js:542 ddterm/shell/notifications.js:160
 msgid "Log out, then log in again to load the updated extension."
 msgstr ""
 "Fermez la session, puis reconnectez-vous pour charger l'extension mise à "
@@ -170,7 +170,7 @@ msgstr "Taille normale"
 msgid "Show in File Manager"
 msgstr "Afficher dans le gestionnaire de fichier"
 
-#: ddterm/app/menus.ui:99 ddterm/app/menus.ui:230 ddterm/app/tablabel.js:113
+#: ddterm/app/menus.ui:99 ddterm/app/menus.ui:230 ddterm/app/tablabel.js:114
 #: ddterm/shell/notifications.js:91
 msgid "Close"
 msgstr "Fermer"
@@ -223,7 +223,7 @@ msgstr "Diviser verticalement"
 msgid "Move Tab to Other Pane"
 msgstr "Changer l'onglet de panneau"
 
-#: ddterm/app/menus.ui:157 ddterm/app/prefsdialog.js:64
+#: ddterm/app/menus.ui:157 ddterm/app/prefsdialog.js:65
 msgid "Preferences"
 msgstr "Préférences"
 
@@ -297,23 +297,23 @@ msgstr "Déplacer l'onglet vers la position précédente"
 msgid "Move Tab to Next Position"
 msgstr "Déplacer l'onglet vers la position suivante"
 
-#: ddterm/app/notebook.js:150
+#: ddterm/app/notebook.js:151
 msgid "New Tab (Last)"
 msgstr "Nouvel onglet (en dernière position)"
 
-#: ddterm/app/notebook.js:190
+#: ddterm/app/notebook.js:191
 msgid "New Tab (First)"
 msgstr "Nouvel onglet (en première position)"
 
-#: ddterm/app/search.js:224
+#: ddterm/app/search.js:226
 msgid "Case Sensitive"
 msgstr "Sensible à la casse"
 
-#: ddterm/app/search.js:240
+#: ddterm/app/search.js:242
 msgid "Match Whole Word"
 msgstr "Mots entiers"
 
-#: ddterm/app/search.js:256
+#: ddterm/app/search.js:258
 msgid "Regular Expression"
 msgstr "Expression régulière"
 
@@ -333,27 +333,27 @@ msgstr "Rechercher le suivant"
 msgid "Find Previous"
 msgstr "Rechercher le précédent"
 
-#: ddterm/app/terminalpage.js:442
+#: ddterm/app/terminalpage.js:443
 msgid "Restart"
 msgstr "Redémarrer"
 
-#: ddterm/app/terminalpage.js:443 ddterm/app/terminalpage.js:631
+#: ddterm/app/terminalpage.js:444 ddterm/app/terminalpage.js:632
 msgid "Close Terminal"
 msgstr "Fermer ce terminal"
 
-#: ddterm/app/terminalpage.js:466
+#: ddterm/app/terminalpage.js:467
 msgid "The child process exited with status:"
 msgstr "Le processus fils s'est terminé avec le statut :"
 
-#: ddterm/app/terminalpage.js:476
+#: ddterm/app/terminalpage.js:477
 msgid "The child process was aborted by signal:"
 msgstr "Le processus de l'enfant a été interrompu par le signal :"
 
-#: ddterm/app/terminalpage.js:623
+#: ddterm/app/terminalpage.js:624
 msgid "Close this terminal?"
 msgstr "Fermer ce terminal ?"
 
-#: ddterm/app/terminalpage.js:625
+#: ddterm/app/terminalpage.js:626
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."
