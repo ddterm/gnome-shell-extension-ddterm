@@ -17,6 +17,9 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+import GObject from 'gi://GObject';
+import Gio from 'gi://Gio';
+
 import Gettext from 'gettext';
 
 import { metadata, dir } from './meta.js';
@@ -34,3 +37,38 @@ gi_require({
     'Handy': '1',
     // END ESM
 });
+
+function get_heapgraph_name(obj) {
+    const gtypename = obj.constructor.$gtype.name;
+
+    /* Template literals don't work in __heapgraph_name! */
+
+    if (obj instanceof Gio.Action)
+        return [gtypename, '(', obj.name, ')'].join('');
+
+    return gtypename;
+}
+
+function set_heapgraph_name(obj) {
+    if (!obj.__heapgraph_name)
+        obj.__heapgraph_name = get_heapgraph_name(obj);
+}
+
+const old_connect = GObject.Object.prototype.connect;
+const old_connect_after = GObject.Object.prototype.connect_after;
+
+GObject.Object.prototype.connect = function (signal, handler) {
+    set_heapgraph_name(this);
+
+    handler.__heapgraph_name = [this.__heapgraph_name, signal].join('.');
+
+    return old_connect.call(this, signal, handler);
+};
+
+GObject.Object.prototype.connect_after = function (signal, handler) {
+    set_heapgraph_name(this);
+
+    handler.__heapgraph_name = [this.__heapgraph_name, signal].join('.');
+
+    return old_connect_after.call(this, signal, handler);
+};
