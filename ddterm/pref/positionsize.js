@@ -37,7 +37,8 @@ export const PositionSizeWidget = GObject.registerClass({
     Children: [
         'monitor_combo',
         'window_pos_combo',
-        'window_size_scale',
+        'window_hsize_scale',
+        'window_vsize_scale',
     ],
     Properties: {
         'settings': GObject.ParamSpec.object(
@@ -104,10 +105,12 @@ export const PositionSizeWidget = GObject.registerClass({
         this.enable_monitor_combo();
 
         bind_widget(this.settings, 'window-position', this.window_pos_combo);
-        bind_widget(this.settings, 'window-size', this.window_size_scale);
+        bind_widget(this.settings, 'window-hsize', this.window_hsize_scale);
+        bind_widget(this.settings, 'window-vsize', this.window_vsize_scale);
 
         const percent_format = new Intl.NumberFormat(undefined, { style: 'percent' });
-        set_scale_value_format(this.window_size_scale, percent_format);
+        set_scale_value_format(this.window_hsize_scale, percent_format);
+        set_scale_value_format(this.window_vsize_scale, percent_format);
     }
 
     get title() {

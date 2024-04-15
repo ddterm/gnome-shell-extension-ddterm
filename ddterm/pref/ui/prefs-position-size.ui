@@ -24,7 +24,12 @@ along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licens
   <!-- interface-license-type gplv3 -->
   <!-- interface-name ddterm GNOME Shell extension -->
   <!-- interface-copyright 2022 Aleksandr Mezin -->
-  <object class="GtkAdjustment" id="window_size_adjustment">
+  <object class="GtkAdjustment" id="window_hsize_adjustment">
+    <property name="upper">1</property>
+    <property name="step-increment">0.01</property>
+    <property name="page-increment">0.10</property>
+  </object>
+  <object class="GtkAdjustment" id="window_vsize_adjustment">
     <property name="upper">1</property>
     <property name="step-increment">0.01</property>
     <property name="page-increment">0.10</property>
@@ -44,9 +49,9 @@ along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licens
         <property name="visible">True</property>
         <property name="can-focus">False</property>
         <property name="halign">start</property>
-        <property name="label" translatable="yes">Window _size:</property>
+        <property name="label" translatable="yes">Window _horizontal size:</property>
         <property name="use-underline">True</property>
-        <property name="mnemonic-widget">window_size_scale</property>
+        <property name="mnemonic-widget">window_hsize_scale</property>
       </object>
       <packing>
         <property name="left-attach">0</property>
@@ -54,11 +59,11 @@ along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licens
       </packing>
     </child>
     <child>
-      <object class="GtkScale" id="window_size_scale">
+      <object class="GtkScale" id="window_hsize_scale">
         <property name="visible">True</property>
         <property name="can-focus">True</property>
         <property name="hexpand">True</property>
-        <property name="adjustment">window_size_adjustment</property>
+        <property name="adjustment">window_hsize_adjustment</property>
         <property name="show-fill-level">True</property>
         <property name="round-digits">2</property>
         <property name="digits">2</property>
@@ -66,6 +71,35 @@ along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licens
       <packing>
         <property name="left-attach">1</property>
         <property name="top-attach">5</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel">
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <property name="halign">start</property>
+        <property name="label" translatable="yes">Window _vertical size:</property>
+        <property name="use-underline">True</property>
+        <property name="mnemonic-widget">window_vsize_scale</property>
+      </object>
+      <packing>
+        <property name="left-attach">0</property>
+        <property name="top-attach">6</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkScale" id="window_vsize_scale">
+        <property name="visible">True</property>
+        <property name="can-focus">True</property>
+        <property name="hexpand">True</property>
+        <property name="adjustment">window_vsize_adjustment</property>
+        <property name="show-fill-level">True</property>
+        <property name="round-digits">2</property>
+        <property name="digits">2</property>
+      </object>
+      <packing>
+        <property name="left-attach">1</property>
+        <property name="top-attach">6</property>
       </packing>
     </child>
     <child>

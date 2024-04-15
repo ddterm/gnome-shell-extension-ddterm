@@ -83,15 +83,29 @@ along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licens
         <col id="4">False</col>
       </row>
       <row>
-        <col id="0">shortcut-window-size-inc</col>
-        <col id="1" translatable="yes">Increase Window Size</col>
+        <col id="0">shortcut-window-hsize-inc</col>
+        <col id="1" translatable="yes">Increase Horizontal Window Size</col>
         <col id="2">0</col>
         <col id="3">0</col>
         <col id="4">False</col>
       </row>
       <row>
-        <col id="0">shortcut-window-size-dec</col>
-        <col id="1" translatable="yes">Decrease Window Size</col>
+        <col id="0">shortcut-window-hsize-dec</col>
+        <col id="1" translatable="yes">Decrease Horizontal Window Size</col>
+        <col id="2">0</col>
+        <col id="3">0</col>
+        <col id="4">False</col>
+      </row>
+      <row>
+        <col id="0">shortcut-window-vsize-inc</col>
+        <col id="1" translatable="yes">Increase Vertical Window Size</col>
+        <col id="2">0</col>
+        <col id="3">0</col>
+        <col id="4">False</col>
+      </row>
+      <row>
+        <col id="0">shortcut-window-vsize-dec</col>
+        <col id="1" translatable="yes">Decrease Vertical Window Size</col>
         <col id="2">0</col>
         <col id="3">0</col>
         <col id="4">False</col>

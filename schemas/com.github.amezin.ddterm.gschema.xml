@@ -132,7 +132,11 @@
   </enum>
 
   <schema path="/com/github/amezin/ddterm/" id="com.github.amezin.ddterm">
-    <key name="window-size" type="d">
+    <key name="window-hsize" type="d">
+      <default>1</default>
+      <range min="0.0" max="1.0"/>
+    </key>
+    <key name="window-vsize" type="d">
       <default>0.6</default>
       <range min="0.0" max="1.0"/>
     </key>
@@ -384,10 +388,16 @@
     <key name="shortcut-window-hide" type="as">
       <default><![CDATA[[]]]></default>
     </key>
-    <key name="shortcut-window-size-inc" type="as">
+    <key name="shortcut-window-hsize-inc" type="as">
       <default><![CDATA[['<Ctrl>Down']]]></default>
     </key>
-    <key name="shortcut-window-size-dec" type="as">
+    <key name="shortcut-window-hsize-dec" type="as">
+      <default><![CDATA[['<Ctrl>Up']]]></default>
+    </key>
+    <key name="shortcut-window-vsize-inc" type="as">
+      <default><![CDATA[['<Ctrl>Down']]]></default>
+    </key>
+    <key name="shortcut-window-vsize-dec" type="as">
       <default><![CDATA[['<Ctrl>Up']]]></default>
     </key>
     <key name="shortcut-background-opacity-inc" type="as">
