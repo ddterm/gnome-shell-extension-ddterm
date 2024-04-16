@@ -49,7 +49,7 @@ along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licens
         <property name="visible">True</property>
         <property name="can-focus">False</property>
         <property name="halign">start</property>
-        <property name="label" translatable="yes">Window _horizontal size:</property>
+        <property name="label" translatable="yes">Window _width:</property>
         <property name="use-underline">True</property>
         <property name="mnemonic-widget">window_hsize_scale</property>
       </object>
@@ -78,7 +78,7 @@ along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licens
         <property name="visible">True</property>
         <property name="can-focus">False</property>
         <property name="halign">start</property>
-        <property name="label" translatable="yes">Window _vertical size:</property>
+        <property name="label" translatable="yes">Window _height:</property>
         <property name="use-underline">True</property>
         <property name="mnemonic-widget">window_vsize_scale</property>
       </object>
