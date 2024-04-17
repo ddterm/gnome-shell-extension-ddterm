@@ -334,7 +334,9 @@ export const WindowGeometry = GObject.registerClass({
                     this._swap_window_sizes();
 
                 this._set_orientation(Clutter.Orientation.HORIZONTAL);
-                this._set_maximize_flag(Meta.MaximizeFlags.HORIZONTAL);
+
+                if (this.window_vsize >= 1.0)
+                    this._set_maximize_flag(Meta.MaximizeFlags.HORIZONTAL);
                 break;
 
             case Meta.Side.TOP:
@@ -343,7 +345,9 @@ export const WindowGeometry = GObject.registerClass({
                     this._swap_window_sizes();
 
                 this._set_orientation(Clutter.Orientation.VERTICAL);
-                this._set_maximize_flag(Meta.MaximizeFlags.VERTICAL);
+
+                if (this.window_hsize >= 1.0)
+                    this._set_maximize_flag(Meta.MaximizeFlags.VERTICAL);
             }
 
             if (this._orientation === Clutter.Orientation.HORIZONTAL)
