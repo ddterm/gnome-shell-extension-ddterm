@@ -238,6 +238,16 @@ export const WindowGeometry = GObject.registerClass({
         this.notify('pivot-point');
     }
 
+    _swap_window_sizes() {
+        var hsize = this.window_hsize;
+        this.window_hsize = this.window_vsize;
+        this.window_vsize = hsize;
+        // TODO: Is this right?
+        this.notify('window-hsize');
+        this.notify('window-vsize');
+        this.notify('target-rect');
+    }
+
     _set_orientation(new_orientation) {
         if (this._orientation === new_orientation)
             return;
@@ -320,12 +330,18 @@ export const WindowGeometry = GObject.registerClass({
             switch (this.window_position) {
             case Meta.Side.LEFT:
             case Meta.Side.RIGHT:
+                if (this._orientation !== Clutter.Orientation.HORIZONTAL)
+                    this._swap_window_sizes();
+
                 this._set_orientation(Clutter.Orientation.HORIZONTAL);
                 this._set_maximize_flag(Meta.MaximizeFlags.HORIZONTAL);
                 break;
 
             case Meta.Side.TOP:
             case Meta.Side.BOTTOM:
+                if (this._orientation !== Clutter.Orientation.VERTICAL)
+                    this._swap_window_sizes();
+
                 this._set_orientation(Clutter.Orientation.VERTICAL);
                 this._set_maximize_flag(Meta.MaximizeFlags.VERTICAL);
             }
