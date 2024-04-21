@@ -18,7 +18,7 @@ packaging==24.0
     # via
     #   pytest
     #   pytest-rerunfailures
-pluggy==1.4.0
+pluggy==1.5.0
     # via
     #   -r pypi.in
     #   pytest
