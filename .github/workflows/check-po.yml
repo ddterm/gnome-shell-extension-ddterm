@@ -33,7 +33,7 @@ jobs:
 
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/ddterm/ci-docker-image:2024.04.22.0
+      image: ghcr.io/ddterm/ci-docker-image:2024.04.23.0
 
     strategy:
       fail-fast: false
