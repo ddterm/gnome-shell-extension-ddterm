@@ -30,7 +30,7 @@ jobs:
   pot:
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/ddterm/ci-docker-image:2024.04.24.0
+      image: ghcr.io/ddterm/ci-docker-image:2024.04.25.0
 
     steps:
     - name: Checkout
