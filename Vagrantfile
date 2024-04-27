@@ -78,28 +78,36 @@ Vagrant.configure("2") do |config|
     loginctl terminate-user vagrant
   SCRIPT
 
-  config.vm.define "fedora39", primary: true do |version|
+  config.vm.define "fedora40", autostart: false do |version|
+    version.vm.box = "mezinalexander/fedora40"
+  end
+
+  config.vm.define "fedora39", autostart: false do |version|
     version.vm.box = "mezinalexander/fedora39"
   end
 
-  config.vm.define "ubuntu2310", autostart: false do |version|
-    version.vm.box = "mezinalexander/ubuntu2310"
+  config.vm.define "silverblue40", autostart: false do |version|
+    version.vm.box = "mezinalexander/silverblue40"
   end
 
   config.vm.define "silverblue39", autostart: false do |version|
     version.vm.box = "mezinalexander/silverblue39"
   end
 
+  config.vm.define "ubuntu2404", primary: true do |version|
+    version.vm.box = "mezinalexander/ubuntu2404"
+  end
+
+  config.vm.define "ubuntu2310", autostart: false do |version|
+    version.vm.box = "mezinalexander/ubuntu2310"
+  end
+
   config.vm.define "opensusetumbleweed", autostart: false do |version|
     version.vm.box = "mezinalexander/opensusetumbleweed"
   end
 
-  config.vm.define "opensuseleap155", autostart: false do |version|
-    version.vm.box = "mezinalexander/opensuseleap155"
-  end
-
-  config.vm.define "centos9s", autostart: false do |version|
-    version.vm.box = "mezinalexander/centos9s"
+  config.vm.define "opensuseleap156", autostart: false do |version|
+    version.vm.box = "mezinalexander/opensuseleap156"
   end
 
   config.vm.define "debian12", autostart: false do |version|
