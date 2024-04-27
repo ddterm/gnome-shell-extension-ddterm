@@ -34,6 +34,11 @@ services:
     profiles:
       - legacy
 
+  debian-13:
+    image: ghcr.io/ddterm/gnome-shell-pod/debian-13:2024.04.27.4
+    profiles:
+      - legacy
+
   fedora-38:
     image: ghcr.io/ddterm/gnome-shell-pod/fedora-38:2024.04.27.4
     profiles:
