@@ -4,6 +4,7 @@ app_js_files = files(
   'appwindow.js',
   'dependencies.js',
   'extensiondbus.js',
+  'gtktheme.js',
   'heapdump.js',
   'init.js',
   'meta.js',
@@ -45,13 +46,6 @@ foreach app_file : app_ui_files + files('dependencies.json', 'style.css')
     install_dir: extension_dir / 'ddterm' / 'app',
   )
 endforeach
-
-built_js += fs.copyfile(
-  get_option('esm') ? 'gtktheme.js' : 'gtktheme.legacy.js',
-  'gtktheme.js',
-  install: true,
-  install_dir: extension_dir / 'ddterm' / 'app',
-)
 
 subdir('icons')
 
