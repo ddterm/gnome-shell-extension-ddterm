@@ -44,6 +44,11 @@ services:
     profiles:
       - legacy
 
+  ubuntu-24.04:
+    image: ghcr.io/ddterm/gnome-shell-pod/ubuntu-24.04:2024.04.27.2
+    profiles:
+      - esm
+
   opensuse-leap-15.5:
     image: ghcr.io/ddterm/gnome-shell-pod/opensuse-leap-15.5:2024.04.27.2
     profiles:
