@@ -26,13 +26,6 @@ function init() {
     imports.misc.extensionUtils.initTranslations();
 }
 
-function buildPrefsWidget() {
-    return new Me.imports.ddterm.pref.widget.PrefsWidget({
-        settings: imports.misc.extensionUtils.getSettings(),
-        gettext_context: Gettext.domain(Me.metadata['gettext-domain']),
-    });
-}
-
 function  fillPreferencesWindow(win) {
     const settings = imports.misc.extensionUtils.getSettings();
     const gettext_context = Gettext.domain(Me.metadata['gettext-domain']);
@@ -43,4 +36,4 @@ function  fillPreferencesWindow(win) {
     win.add(new Me.imports.ddterm.pref.adw.MiscPage({ settings, gettext_context }));
 }
 
-/* exported init buildPrefsWidget fillPreferencesWindow */
+/* exported init fillPreferencesWindow */

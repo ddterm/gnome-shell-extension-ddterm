@@ -41,9 +41,7 @@ class AstError extends Error {
 
 function translate(file, root_url, replace_imports) {
     const [, bytes] = file.load_contents(null);
-    const text = globalThis.TextDecoder
-        ? new TextDecoder().decode(bytes)
-        : imports.byteArray.toString(bytes);
+    const text = new TextDecoder().decode(bytes);
 
     const base_uri = file.get_uri();
     const base_uri_parsed = GLib.Uri.parse(base_uri, GLib.UriFlags.NONE);

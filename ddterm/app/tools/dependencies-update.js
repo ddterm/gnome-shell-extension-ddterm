@@ -56,11 +56,7 @@ function find_owner(filepath, os_ids) {
 
     GLib.spawn_check_wait_status(wait_status);
 
-    const output = globalThis.TextDecoder
-        ? new TextDecoder().decode(stdout)
-        : imports.byteArray.toString(stdout);
-
-    return output
+    return new TextDecoder().decode(stdout)
         .split(/[,:]?\s+/)
         .map(v => v.replace(/:(amd64|arm64|armel|armhf|i386|mips64el|ppc64el|s390x)/, ''))
         .filter(v => v !== '' && v !== filepath);
@@ -94,11 +90,7 @@ function list_files(package_name, os_ids) {
 
     GLib.spawn_check_wait_status(wait_status);
 
-    const output = globalThis.TextDecoder
-        ? new TextDecoder().decode(stdout)
-        : imports.byteArray.toString(stdout);
-
-    return output.split(/\n/).filter(v => v !== '');
+    return new TextDecoder().decode(stdout).split(/\n/).filter(v => v !== '');
 }
 
 function update_manifest(dry_run = false) {

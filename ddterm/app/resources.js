@@ -38,9 +38,6 @@ export function get_resource_binary(file_or_relative_url) {
 
 export function get_resource_text(file_or_relative_url) {
     const bytes = get_resource_binary(file_or_relative_url);
-    // BEGIN !ESM
-    if (!globalThis.TextDecoder)
-        return imports.byteArray.toString(bytes);
-    // END !ESM
+
     return new TextDecoder().decode(bytes);
 }
