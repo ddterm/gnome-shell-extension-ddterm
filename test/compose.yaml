@@ -49,6 +49,11 @@ services:
     profiles:
       - legacy
 
+  opensuse-leap-15.6:
+    image: ghcr.io/ddterm/gnome-shell-pod/opensuse-leap-15.6:2024.04.27.2
+    profiles:
+      - esm
+
   centos-9:
     image: ghcr.io/ddterm/gnome-shell-pod/centos-9:2024.04.27.2
     profiles:
