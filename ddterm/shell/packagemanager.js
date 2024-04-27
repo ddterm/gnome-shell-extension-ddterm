@@ -25,15 +25,15 @@ function shell_join(argv) {
 }
 
 function find_terminal_command() {
-    const gnome_terminal = GLib.find_program_in_path('gnome-terminal');
-
-    if (gnome_terminal)
-        return argv => [gnome_terminal, '--', ...argv];
-
     const kgx = GLib.find_program_in_path('kgx');
 
     if (kgx)
         return argv => [kgx, `--command=${shell_join(argv)}`];
+
+    const gnome_terminal = GLib.find_program_in_path('gnome-terminal');
+
+    if (gnome_terminal)
+        return argv => [gnome_terminal, '--', ...argv];
 
     const xdg_terminal_exec = GLib.find_program_in_path('xdg-terminal-exec');
 
