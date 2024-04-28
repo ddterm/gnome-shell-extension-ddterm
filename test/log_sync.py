@@ -56,6 +56,7 @@ class LogSyncPlugin(pluggy.PluginManager):
             except queue.Empty:
                 raise TimeoutError()
 
+    @contextlib.contextmanager
     def context(self, item, when):
         try:
             self.hook.log_sync_message(msg=f'Beginning of {item.nodeid} {when}')
@@ -75,15 +76,18 @@ class LogSyncPlugin(pluggy.PluginManager):
 
     @pytest.hookimpl(wrapper=True, trylast=True)
     def pytest_runtest_setup(self, item):
-        yield from self.context(item, 'setup')
+        with self.context(item, 'setup'):
+            yield
 
     @pytest.hookimpl(wrapper=True, trylast=True)
     def pytest_runtest_call(self, item):
-        yield from self.context(item, 'call')
+        with self.context(item, 'call'):
+            yield
 
     @pytest.hookimpl(wrapper=True, trylast=True)
     def pytest_runtest_teardown(self, item):
-        yield from self.context(item, 'teardown')
+        with self.context(item, 'teardown'):
+            yield
 
     @pytest.fixture(scope='session')
     def log_sync(self):
