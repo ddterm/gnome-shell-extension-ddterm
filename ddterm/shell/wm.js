@@ -40,6 +40,39 @@ const MOUSE_RESIZE_GRABS = [
     Meta.GrabOp.RESIZING_W,
 ];
 
+function fixup_opacity_animation(animation_mode) {
+    /*
+        Bounce/backtracking in opacity animations looks bad.
+        TODO: Add dedicated settings for opacity animation.
+    */
+
+    switch (animation_mode) {
+    case Clutter.AnimationMode.EASE_IN_BACK:
+        return Clutter.AnimationMode.EASE_IN_CUBIC;
+
+    case Clutter.AnimationMode.EASE_OUT_BACK:
+        return Clutter.AnimationMode.EASE_OUT_CUBIC;
+
+    case Clutter.AnimationMode.EASE_IN_OUT_BACK:
+        return Clutter.AnimationMode.EASE_IN_OUT_CUBIC;
+
+    case Clutter.AnimationMode.EASE_IN_ELASTIC:
+    case Clutter.AnimationMode.EASE_IN_BOUNCE:
+        return Clutter.AnimationMode.EASE_IN_EXPO;
+
+    case Clutter.AnimationMode.EASE_OUT_ELASTIC:
+    case Clutter.AnimationMode.EASE_OUT_BOUNCE:
+        return Clutter.AnimationMode.EASE_OUT_EXPO;
+
+    case Clutter.AnimationMode.EASE_IN_OUT_ELASTIC:
+    case Clutter.AnimationMode.EASE_IN_OUT_BOUNCE:
+        return Clutter.AnimationMode.EASE_IN_OUT_EXPO;
+
+    default:
+        return animation_mode;
+    }
+}
+
 export const WindowManager = GObject.registerClass({
     Properties: {
         'settings': GObject.ParamSpec.object(
@@ -274,7 +307,7 @@ export const WindowManager = GObject.registerClass({
             const opacity_anim = actor.get_transition('opacity');
 
             if (opacity_anim) {
-                opacity_anim.progress_mode = this.show_animation;
+                opacity_anim.progress_mode = fixup_opacity_animation(this.show_animation);
                 opacity_anim.duration = this.show_animation_duration;
             }
         };
@@ -321,7 +354,7 @@ export const WindowManager = GObject.registerClass({
         const opacity_anim = actor.get_transition('opacity');
 
         if (opacity_anim) {
-            opacity_anim.progress_mode = this.hide_animation;
+            opacity_anim.progress_mode = fixup_opacity_animation(this.hide_animation);
             opacity_anim.duration = this.hide_animation_duration;
         }
 
