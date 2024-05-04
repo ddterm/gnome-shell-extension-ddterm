@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
 
     container:
-      image: ghcr.io/ddterm/ci-docker-image:2024.05.03.0
+      image: ghcr.io/ddterm/ci-docker-image:2024.05.04.0
 
     steps:
     - name: Get app token
