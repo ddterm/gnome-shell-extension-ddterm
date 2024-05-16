@@ -1,0 +1,1285 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the ddterm@amezin.github.com package.
+# Mustafa Kemal Gilor <mustafa.gilor@canonical.com>, 2024.
+msgid ""
+msgstr ""
+"Project-Id-Version: ddterm@amezin.github.com\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-04-13 18:02+0000\n"
+"PO-Revision-Date: 2024-05-16 20:10+0000\n"
+"Last-Translator: Mustafa Kemal Gilor <mustafa.gilor@canonical.com>\n"
+"Language-Team: Turkish <https://hosted.weblate.org/projects/"
+"gnome-shell-extension-ddterm/extension/tr/>\n"
+"Language: tr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.6-dev\n"
+
+#: ddterm/app/application.js:86
+msgid "Start the application, but do not show the window"
+msgstr "Uygulamayı başlat, fakat pencereyi gösterme"
+
+#: ddterm/app/application.js:95
+msgid "Comma-separated list of backends that GDK should try to use"
+msgstr "GDK'nın kullanımı için virgülle ayrılmış arka uç (backend) listesi"
+
+#: ddterm/app/application.js:104
+msgid "Enable HeapDump D-Bus interface (for testing/debug)"
+msgstr "HeapDump D-Bus arayüzünü etkinleştir (test ve hata ayıklama için)"
+
+#: ddterm/app/application.js:113
+msgid "Show version information and exit"
+msgstr "Versiyon bilgisini görüntüle ve çık"
+
+#: ddterm/app/application.js:122
+msgid "Run the specified command"
+msgstr "Belirtilen komutu koş"
+
+#: ddterm/app/application.js:136
+msgid "Wait for the command to exit, and return its exit code"
+msgstr "Komutun bitmesini bekle, ve çıkış kodunu döndür"
+
+#: ddterm/app/application.js:145
+msgid "Set the working directory"
+msgstr "Çalışma dizinini ayarla"
+
+#: ddterm/app/application.js:154
+msgid "Set tab title"
+msgstr "Sekme başlığını ayarla"
+
+#: ddterm/app/application.js:163
+msgid "Keep the terminal open after the command has exited"
+msgstr "Komutun çalışması bittikten sonra terminali açık tut"
+
+#: ddterm/app/application.js:172
+msgid "Do not pass the environment"
+msgstr "Ortam değişkenlerini kullanma"
+
+#: ddterm/app/application.js:181
+msgid "Open a new tab"
+msgstr "Yeni bir sekme aç"
+
+#: ddterm/app/application.js:361
+msgid "Saving session…"
+msgstr "Oturum kaydediliyor…"
+
+#: ddterm/app/application.js:417
+msgid "Can't contact the extension."
+msgstr "Uzantı ile irtibat kurulamıyor."
+
+#: ddterm/app/application.js:419 ddterm/app/application.js:538
+msgid "Please, make sure ddterm GNOME Shell extension is enabled."
+msgstr "Lütfen ddterm GNOME Shell eklentisinin etkinleştirildiğinden emin olun."
+
+#: ddterm/app/application.js:536
+msgid "Can't read the version of the loaded extension."
+msgstr "Yüklü olan uzantının versiyon bilgisi okunamadı."
+
+#: ddterm/app/application.js:541 ddterm/shell/notifications.js:158
+msgid "Warning: ddterm version has changed"
+msgstr "Uyarı: ddterm sürümü değişti"
+
+#: ddterm/app/application.js:542 ddterm/shell/notifications.js:160
+msgid "Log out, then log in again to load the updated extension."
+msgstr "Güncellenmiş uzantıyı yüklemek için oturumu kapatın ve tekrar açın."
+
+#: ddterm/app/appwindow.js:149 ddterm/com.github.amezin.ddterm.desktop.in.in:4
+#: ddterm/shell/notifications.js:283 ddterm/shell/panelicon.js:47
+msgid "ddterm"
+msgstr "ddterm"
+
+#: ddterm/app/dependencies.js:87 ddterm/shell/notifications.js:214
+msgid "ddterm needs additional packages to run"
+msgstr "ddterm çalışmak için ek paketlere ihtiyaç duyar"
+
+#: ddterm/app/dependencies.js:92 ddterm/shell/notifications.js:219
+msgid "Please install the following packages:"
+msgstr "Lütfen aşağıda listelenen paketleri yükleyin:"
+
+#: ddterm/app/dependencies.js:99 ddterm/shell/notifications.js:227
+msgid "Please install packages that provide the following files:"
+msgstr "Lütfen aşağıdaki dosyaları sağlayan paketleri yükleyin:"
+
+#: ddterm/app/menus.ui:25
+msgid "Open Hyperlink"
+msgstr "Linki aç"
+
+#: ddterm/app/menus.ui:30
+msgid "Copy Hyperlink Address"
+msgstr "Link adresini kopyala"
+
+#: ddterm/app/menus.ui:35
+msgid "Copy File Path"
+msgstr "Dosya Konumunu Kopyala"
+
+#: ddterm/app/menus.ui:42
+msgid "Copy"
+msgstr "Kopyala"
+
+#: ddterm/app/menus.ui:46
+msgid "Copy HTML"
+msgstr "HTML olarak kopyala"
+
+#: ddterm/app/menus.ui:50
+msgid "Paste"
+msgstr "Yapıştır"
+
+#: ddterm/app/menus.ui:54 ddterm/pref/ui/prefs-shortcuts.ui:143
+msgid "Select All"
+msgstr "Tümünü Seç"
+
+#: ddterm/app/menus.ui:60 ddterm/pref/ui/prefs-shortcuts.ui:283
+msgid "Find"
+msgstr "Bul"
+
+#: ddterm/app/menus.ui:66 ddterm/pref/ui/prefs-shortcuts.ui:150
+msgid "Reset"
+msgstr "Sıfırla"
+
+#: ddterm/app/menus.ui:70 ddterm/pref/ui/prefs-shortcuts.ui:157
+msgid "Reset and Clear"
+msgstr "Sıfırla ve Temizle"
+
+#: ddterm/app/menus.ui:76
+msgid "Zoom"
+msgstr "Yakınlaştır"
+
+#: ddterm/app/menus.ui:78 ddterm/pref/ui/prefs-shortcuts.ui:304
+msgid "Zoom In"
+msgstr "Yakınlaştırmayı artır"
+
+#: ddterm/app/menus.ui:82 ddterm/pref/ui/prefs-shortcuts.ui:311
+msgid "Zoom Out"
+msgstr "Yakınlaştırmayı Azalt"
+
+#: ddterm/app/menus.ui:86 ddterm/pref/ui/prefs-shortcuts.ui:318
+msgid "Normal Size"
+msgstr "Normal Boyut"
+
+#: ddterm/app/menus.ui:93
+msgid "Show in File Manager"
+msgstr "Dosya Yöneticisinde Görüntüle"
+
+#: ddterm/app/menus.ui:99 ddterm/app/menus.ui:230 ddterm/app/tablabel.js:114
+#: ddterm/shell/notifications.js:91
+msgid "Close"
+msgstr "Kapat"
+
+#: ddterm/app/menus.ui:103 ddterm/app/menus.ui:234
+msgid "Keep Open After Exit"
+msgstr "Çıktıktan Sonra Açık Tut"
+
+#: ddterm/app/menus.ui:109
+msgid "New Tab"
+msgstr "Yeni Sekme"
+
+#: ddterm/app/menus.ui:111 ddterm/pref/ui/prefs-shortcuts.ui:178
+msgid "New Tab Before Current Tab"
+msgstr "Yeni Sekme Şuanki Sekmeden Önce"
+
+#: ddterm/app/menus.ui:115 ddterm/pref/ui/prefs-shortcuts.ui:185
+msgid "New Tab After Current Tab"
+msgstr "Yeni Sekme Şuanki Sekmeden Sonra"
+
+#: ddterm/app/menus.ui:119 ddterm/app/menus.ui:247
+#: ddterm/pref/ui/prefs-shortcuts.ui:171
+msgid "New Tab Before First Tab"
+msgstr "Yeni Sekme İlk Sekmeden Önce"
+
+#: ddterm/app/menus.ui:123 ddterm/app/menus.ui:251
+#: ddterm/pref/ui/prefs-shortcuts.ui:164
+msgid "New Tab After Last Tab"
+msgstr "Yeni Sekme Son Sekmeden Sonra"
+
+#: ddterm/app/menus.ui:130 ddterm/app/menus.ui:267
+msgid "Layout"
+msgstr "Dizilim"
+
+#: ddterm/app/menus.ui:133 ddterm/app/menus.ui:270 ddterm/app/menus.ui:300
+msgid "No Split"
+msgstr "Bölme Yok"
+
+#: ddterm/app/menus.ui:138 ddterm/app/menus.ui:275 ddterm/app/menus.ui:305
+#: ddterm/pref/ui/prefs-shortcuts.ui:227
+msgid "Split Horizontally"
+msgstr "Yatayda Böl"
+
+#: ddterm/app/menus.ui:143 ddterm/app/menus.ui:280 ddterm/app/menus.ui:310
+#: ddterm/pref/ui/prefs-shortcuts.ui:234
+msgid "Split Vertically"
+msgstr "Dikeyde Böl"
+
+#: ddterm/app/menus.ui:150 ddterm/app/menus.ui:287
+msgid "Move Tab to Other Pane"
+msgstr "Sekmeyi Diğer Panoya Taşı"
+
+#: ddterm/app/menus.ui:157 ddterm/app/prefsdialog.js:65
+msgid "Preferences"
+msgstr "Tercihler"
+
+#: ddterm/app/menus.ui:160 ddterm/app/menus.ui:294
+#: ddterm/com.github.amezin.ddterm.desktop.in.in:24
+#: ddterm/shell/panelicon.js:76
+msgid "Preferences…"
+msgstr "Tercihler…"
+
+#: ddterm/app/menus.ui:166
+msgid "Above All Windows"
+msgstr "Tüm Pencerelerin Üzerinde"
+
+#: ddterm/app/menus.ui:170
+msgid "On All Workspaces"
+msgstr "Tüm Çalışma Alanlarında"
+
+#: ddterm/app/menus.ui:174
+msgid "Maximize Window"
+msgstr "Pencereyi Büyüt"
+
+#: ddterm/app/menus.ui:178
+msgid "Transparent Background"
+msgstr "Saydam Arkaplan"
+
+#: ddterm/app/menus.ui:184
+msgid "Hide When Application Loses Focus"
+msgstr "Uygulama Odağı Kaybettiğinde Gizle"
+
+#: ddterm/app/menus.ui:188
+msgid "Hide When Esc Key Is Pressed"
+msgstr "Esc Tuşuna Basıldığında Gizle"
+
+#: ddterm/app/menus.ui:194
+msgid "Scroll On Output"
+msgstr "Çıktı ile Beraber Kaydır"
+
+#: ddterm/app/menus.ui:198
+msgid "Scroll On Keystroke"
+msgstr "Tuş Basımında Kaydır"
+
+#: ddterm/app/menus.ui:204
+msgid "Preserve Working Directory In New Tabs"
+msgstr "Yeni Sekmelerde Çalışma Dizinini Koru"
+
+#: ddterm/app/menus.ui:210
+msgid "Enable Keyboard Shortcuts"
+msgstr "Klavye Kısayollarını Etkinleştir"
+
+#: ddterm/app/menus.ui:219
+msgid "Use Custom Tab Title"
+msgstr "Özelleştirilmiş Sekme Adı Kullan"
+
+#: ddterm/app/menus.ui:224
+msgid "Use Default Tab Title"
+msgstr "Varsayılan Sekme Adını Kullan"
+
+#: ddterm/app/menus.ui:239
+msgid "New Tab Before This Tab"
+msgstr "Yeni Sekme Bu Sekmeden Önce"
+
+#: ddterm/app/menus.ui:243
+msgid "New Tab After This Tab"
+msgstr "Yeni Sekme Bu Sekmeden Sonra"
+
+#: ddterm/app/menus.ui:257 ddterm/pref/ui/prefs-shortcuts.ui:213
+msgid "Move Tab to Previous Position"
+msgstr "Sekmeyi Önceki Konuma Taşı"
+
+#: ddterm/app/menus.ui:261 ddterm/pref/ui/prefs-shortcuts.ui:220
+msgid "Move Tab to Next Position"
+msgstr "Sekmeyi Sonraki Konuma Taşı"
+
+#: ddterm/app/notebook.js:151
+msgid "New Tab (Last)"
+msgstr "Yeni Sekme (Son)"
+
+#: ddterm/app/notebook.js:191
+msgid "New Tab (First)"
+msgstr "Yeni Sekme (İlk)"
+
+#: ddterm/app/search.js:226
+msgid "Case Sensitive"
+msgstr "Küçük/Büyük Harf Duyarlı"
+
+#: ddterm/app/search.js:242
+msgid "Match Whole Word"
+msgstr "Tüm Kelime ile Eşleştir"
+
+#: ddterm/app/search.js:258
+msgid "Regular Expression"
+msgstr "Düzenli İfade (RegEx)"
+
+#: ddterm/app/search.js:324
+msgid "Close Search Bar"
+msgstr "Arama Kutusunu Kapat"
+
+#: ddterm/app/search.js:335
+msgid "Wrap Around"
+msgstr "Metin Kaydırma"
+
+#: ddterm/app/search.js:351 ddterm/pref/ui/prefs-shortcuts.ui:290
+msgid "Find Next"
+msgstr "Sonrakini Bul"
+
+#: ddterm/app/search.js:369 ddterm/pref/ui/prefs-shortcuts.ui:297
+msgid "Find Previous"
+msgstr "Öncekini Bul"
+
+#: ddterm/app/terminalpage.js:443
+msgid "Restart"
+msgstr "Yeniden Başlat"
+
+#: ddterm/app/terminalpage.js:444 ddterm/app/terminalpage.js:632
+msgid "Close Terminal"
+msgstr "Terminali Kapat"
+
+#: ddterm/app/terminalpage.js:467
+msgid "The child process exited with status:"
+msgstr "Alt işlem şu çıkış kodu ile sonlandı:"
+
+#: ddterm/app/terminalpage.js:477
+msgid "The child process was aborted by signal:"
+msgstr "Alt işlem şu sinyal ile durduruldu:"
+
+#: ddterm/app/terminalpage.js:624
+msgid "Close this terminal?"
+msgstr "Bu terminali kapat?"
+
+#: ddterm/app/terminalpage.js:626
+msgid ""
+"There is still a process running in this terminal. Closing the terminal will "
+"kill it."
+msgstr ""
+"Bu terminalde halen bir işlem çalışıyor. Terminali kapatmak bu işlemi de "
+"sonlandırır."
+
+#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: ddterm/com.github.amezin.ddterm.desktop.in.in:6
+msgid "shell;prompt;command;commandline;cmd;run;terminal;"
+msgstr ""
+
+#: ddterm/com.github.amezin.ddterm.desktop.in.in:7
+msgid "Another drop down terminal extension for GNOME Shell"
+msgstr "GNOME kabuğu için bir başka açılır/kapanır terminal eklentisi"
+
+#: ddterm/com.github.amezin.ddterm.desktop.in.in:20
+msgid "Toggle"
+msgstr "Aç/Kapat"
+
+#: ddterm/pref/adw.js:77
+msgid "Window"
+msgstr "Pencere"
+
+#: ddterm/pref/adw.js:97
+msgid "Terminal"
+msgstr "Terminal"
+
+#: ddterm/pref/adw.js:118 ddterm/pref/shortcuts.js:132
+msgid "Keyboard Shortcuts"
+msgstr "Klavye Kısayolları"
+
+#: ddterm/pref/adw.js:133
+msgid "Miscellaneous"
+msgstr "Muhtelif"
+
+#: ddterm/pref/animation.js:77
+msgid "Animation"
+msgstr "Animasyon"
+
+#: ddterm/pref/behavior.js:61
+msgid "Behavior"
+msgstr "Davranış"
+
+#: ddterm/pref/colors.js:468
+msgid "Colors"
+msgstr "Renkler"
+
+#: ddterm/pref/command.js:67
+msgid "Command"
+msgstr "Komut"
+
+#: ddterm/pref/compatibility.js:75
+msgid "Compatibility"
+msgstr "Uyumluluk"
+
+#: ddterm/pref/panelicon.js:52
+msgid "Panel Icon"
+msgstr "Panel İkonu"
+
+#: ddterm/pref/positionsize.js:114
+msgid "Position and Size"
+msgstr "Konum ve Boyut"
+
+#: ddterm/pref/scrolling.js:81
+msgid "Scrolling"
+msgstr "Kaydırma"
+
+#: ddterm/pref/tabs.js:96
+msgid "Tabs"
+msgstr "Sekmeler"
+
+#: ddterm/pref/text.js:100
+msgid "Text"
+msgstr "Metin"
+
+#: ddterm/pref/ui/prefs-animation.ui:36
+msgid "Disable"
+msgstr "Kapat"
+
+#: ddterm/pref/ui/prefs-animation.ui:40
+msgid "Linear tweening"
+msgstr "Doğrusal ara doldurma"
+
+#: ddterm/pref/ui/prefs-animation.ui:44
+msgid "Quadratic tweening"
+msgstr "İkinci dereceden ara doldurma"
+
+#: ddterm/pref/ui/prefs-animation.ui:48
+msgid "Quadratic tweening, inverse"
+msgstr "Ters ikinci dereceden ara doldurma"
+
+#: ddterm/pref/ui/prefs-animation.ui:52
+msgid "Quadratic tweening, combining direct and inverse"
+msgstr "İkinci dereceden ara doldurma, direkt ve ters birleşimi"
+
+#: ddterm/pref/ui/prefs-animation.ui:56
+msgid "Cubic tweening"
+msgstr "Kübik ara doldurma"
+
+#: ddterm/pref/ui/prefs-animation.ui:60
+msgid "Cubic tweening, inverse"
+msgstr "Kübik ara doldurma, ters"
+
+#: ddterm/pref/ui/prefs-animation.ui:64
+msgid "Cubic tweening, combining direct and inverse"
+msgstr "Kübik ara doldurma, direkt ve ters birleşimi"
+
+#: ddterm/pref/ui/prefs-animation.ui:68
+msgid "Quartic tweening"
+msgstr "Dördüncü dereceden ara doldurma"
+
+#: ddterm/pref/ui/prefs-animation.ui:72
+msgid "Quartic tweening, inverse"
+msgstr "Dördüncü dereceden ara doldurma, ters"
+
+#: ddterm/pref/ui/prefs-animation.ui:76
+msgid "Quartic tweening, combining direct and inverse"
+msgstr "Dördüncü dereceden ara doldurma, direkt ve ters birleşimi"
+
+#: ddterm/pref/ui/prefs-animation.ui:80
+msgid "Quintic tweening"
+msgstr "Beşinci dereceden ara doldurma"
+
+#: ddterm/pref/ui/prefs-animation.ui:84
+msgid "Quintic tweening, inverse"
+msgstr "Beşinci dereceden ara doldurma, ters"
+
+#: ddterm/pref/ui/prefs-animation.ui:88
+msgid "Quintic tweening, combining direct and inverse"
+msgstr "Beşinci dereceden ara doldurma, direkt ve ters birleşimi"
+
+#: ddterm/pref/ui/prefs-animation.ui:92
+msgid "Sinusoidal tweening"
+msgstr "Sinüzoidal ara doldurma"
+
+#: ddterm/pref/ui/prefs-animation.ui:96
+msgid "Sinusoidal tweening, inverse"
+msgstr "Sinüzoidal ara doldurma, ters"
+
+#: ddterm/pref/ui/prefs-animation.ui:100
+msgid "Sinusoidal tweening, combining direct and inverse"
+msgstr "Sinüzoidal ara doldurma, direkt ve ters birleşimi"
+
+#: ddterm/pref/ui/prefs-animation.ui:104
+msgid "Exponential tweening"
+msgstr "Üstel ara doldurma"
+
+#: ddterm/pref/ui/prefs-animation.ui:108
+msgid "Exponential tweening, inverse"
+msgstr "Üstel ara doldurma, ters"
+
+#: ddterm/pref/ui/prefs-animation.ui:112
+msgid "Exponential tweening, combining direct and inverse"
+msgstr "Üstel ara doldurma, direkt ve ters birleşimi"
+
+#: ddterm/pref/ui/prefs-animation.ui:116
+msgid "Circular tweening"
+msgstr "Dairesel ara doldurma"
+
+#: ddterm/pref/ui/prefs-animation.ui:120
+msgid "Circular tweening, inverse"
+msgstr "Dairesel ara doldurma, ters"
+
+#: ddterm/pref/ui/prefs-animation.ui:124
+msgid "Circular tweening, combining direct and inverse"
+msgstr "Dairesel ara doldurma, direkt ve ters birleşimi"
+
+#: ddterm/pref/ui/prefs-animation.ui:128
+msgid "Elastic tweening, with offshoot on start"
+msgstr "Elastik ara doldurma, başlangıçta dallanma ile"
+
+#: ddterm/pref/ui/prefs-animation.ui:132
+msgid "Elastic tweening, with offshoot on end"
+msgstr "Elastik ara doldurma, sonda dallanma ile"
+
+#: ddterm/pref/ui/prefs-animation.ui:136
+msgid "Elastic tweening with offshoot on both ends"
+msgstr "Elastik ara doldurma, her iki tarafta da dallanma ile"
+
+#: ddterm/pref/ui/prefs-animation.ui:140
+msgid "Overshooting cubic tweening, with backtracking on start"
+msgstr "Aşımlı kübik ara doldurma, başlangıçta geri izleme ile"
+
+#: ddterm/pref/ui/prefs-animation.ui:144
+msgid "Overshooting cubic tweening, with backtracking on end"
+msgstr "Aşımlı kübik ara doldurma, sonda geri izleme ile"
+
+#: ddterm/pref/ui/prefs-animation.ui:148
+msgid "Overshooting cubic tweening, with backtracking on both ends"
+msgstr "Aşımlı kübik ara doldurma, her iki tarafta geri izleme ile"
+
+#: ddterm/pref/ui/prefs-animation.ui:152
+msgid ""
+"Exponentially decaying parabolic (bounce) tweening, with bounce on start"
+msgstr ""
+"Başlangıçta sıçrama ile üstel olarak azalan parabolik (sıçrama) ara doldurma"
+
+#: ddterm/pref/ui/prefs-animation.ui:156
+msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on end"
+msgstr "Sonda sıçrama ile üstel olarak azalan parabolik (sıçrama) ara doldurma"
+
+#: ddterm/pref/ui/prefs-animation.ui:160
+msgid ""
+"Exponentially decaying parabolic (bounce) tweening, with bounce on both ends"
+msgstr ""
+"Her iki tarafta sıçrama ile üstel olarak azalan parabolik (sıçrama) ara "
+"doldurma"
+
+#: ddterm/pref/ui/prefs-animation.ui:183
+msgid "_Override default window animations"
+msgstr "_Varsayılan pencere animasyonlarını geçersiz kıl"
+
+#: ddterm/pref/ui/prefs-animation.ui:218
+msgid "_Show animation:"
+msgstr "_Animasyonu göster:"
+
+#: ddterm/pref/ui/prefs-animation.ui:232
+msgid "_Hide animation:"
+msgstr "_Animasyonu gizle:"
+
+#: ddterm/pref/ui/prefs-animation.ui:288
+msgid "_Hide animation duration:"
+msgstr "_Gizleme animasyonu süresi:"
+
+#: ddterm/pref/ui/prefs-animation.ui:301
+msgid "_Show animation duration:"
+msgstr "_Gösterme animasyonu süresi:"
+
+#: ddterm/pref/ui/prefs-behavior.ui:39
+msgid "_Resizable"
+msgstr "_Yeniden boyutlandırılabilir"
+
+#: ddterm/pref/ui/prefs-behavior.ui:55
+msgid "_Above all windows"
+msgstr "_Tüm pencerelerin üzerinde"
+
+#: ddterm/pref/ui/prefs-behavior.ui:71
+msgid "On all _workspaces"
+msgstr "Tüm _Çalışma Alnlarında"
+
+#: ddterm/pref/ui/prefs-behavior.ui:87
+msgid "Hide when the application loses _focus"
+msgstr "Uygulama _odağı kaybettiğinde gizle"
+
+#: ddterm/pref/ui/prefs-behavior.ui:103
+msgid "Hide when _Esc key is pressed"
+msgstr "_Esc tuşuna basıldığında gizle"
+
+#: ddterm/pref/ui/prefs-behavior.ui:119
+msgid "Exclude from _overview/task bar"
+msgstr "_Genel bakış/görev çubuğu'ndan hariç tut"
+
+#: ddterm/pref/ui/prefs-behavior.ui:135
+msgid "Hide mouse _pointer when typing"
+msgstr "Yazarken fare _imlecini gizle"
+
+#: ddterm/pref/ui/prefs-behavior.ui:151
+msgid ""
+"Force _X11 GDK backend (XWayland).\n"
+"You'll have to close all tabs for this option to take effect."
+msgstr ""
+"_X11 GDK arka ucunu zorunlu kıl (XWayland).\n"
+"Bu ayarın etkin kılınması için tüm sekmeleri kapatmanız gerekecek."
+
+#: ddterm/pref/ui/prefs-colors.ui:38
+msgid "Black on light yellow"
+msgstr "Açık sarı üzerine siyah"
+
+#: ddterm/pref/ui/prefs-colors.ui:43
+msgid "Black on white"
+msgstr "Beyaz üzerine siyah"
+
+#: ddterm/pref/ui/prefs-colors.ui:48
+msgid "Gray on black"
+msgstr "Siyah üzerine gri"
+
+#: ddterm/pref/ui/prefs-colors.ui:53
+msgid "Green on black"
+msgstr "Siyah üzerine yeşil"
+
+#: ddterm/pref/ui/prefs-colors.ui:58
+msgid "White on black"
+msgstr "Siyah üzerine beyaz"
+
+#: ddterm/pref/ui/prefs-colors.ui:63
+msgid "GNOME light"
+msgstr "GNOME açık"
+
+#: ddterm/pref/ui/prefs-colors.ui:68
+msgid "GNOME dark"
+msgstr "GNOME koyu"
+
+#: ddterm/pref/ui/prefs-colors.ui:73
+msgid "Tango light"
+msgstr "Tango (açık)"
+
+#: ddterm/pref/ui/prefs-colors.ui:78
+msgid "Tango dark"
+msgstr "Tango (koyu)"
+
+#: ddterm/pref/ui/prefs-colors.ui:83
+msgid "Solarized light"
+msgstr "Solarized (açık)"
+
+#: ddterm/pref/ui/prefs-colors.ui:88
+msgid "Solarized dark"
+msgstr "Solarized (koyu)"
+
+#: ddterm/pref/ui/prefs-colors.ui:93 ddterm/pref/ui/prefs-colors.ui:257
+msgid "Custom"
+msgstr "Özel"
+
+#: ddterm/pref/ui/prefs-colors.ui:143
+msgid "GNOME"
+msgstr "GNOME"
+
+#: ddterm/pref/ui/prefs-colors.ui:162
+msgid "Tango"
+msgstr "Tango"
+
+#: ddterm/pref/ui/prefs-colors.ui:181
+msgid "Linux"
+msgstr "Linux"
+
+#: ddterm/pref/ui/prefs-colors.ui:200
+msgid "XTerm"
+msgstr "XTerm"
+
+#: ddterm/pref/ui/prefs-colors.ui:219
+msgid "RXVT"
+msgstr "RXVT"
+
+#: ddterm/pref/ui/prefs-colors.ui:238
+msgid "Solarized"
+msgstr "Solarized"
+
+#: ddterm/pref/ui/prefs-colors.ui:292
+msgid "Theme _variant:"
+msgstr "Tema _çeşidi:"
+
+#: ddterm/pref/ui/prefs-colors.ui:307 ddterm/pref/ui/prefs-text.ui:132
+msgid "Default"
+msgstr "Varsayılan"
+
+#: ddterm/pref/ui/prefs-colors.ui:308
+msgid "Light"
+msgstr "Açık"
+
+#: ddterm/pref/ui/prefs-colors.ui:309
+msgid "Dark"
+msgstr "Koyu"
+
+#: ddterm/pref/ui/prefs-colors.ui:319
+msgid "Use colors from system _theme"
+msgstr "Sistem _temasının renklerini kullan"
+
+#: ddterm/pref/ui/prefs-colors.ui:335
+msgid "_Background opacity:"
+msgstr "_Arkaplan opaklığı:"
+
+#: ddterm/pref/ui/prefs-colors.ui:380
+msgid "_Palette:"
+msgstr "_Renk paleti:"
+
+#: ddterm/pref/ui/prefs-colors.ui:423
+msgid "Palette Color 0"
+msgstr "Palet Rengi 0"
+
+#: ddterm/pref/ui/prefs-colors.ui:436
+msgid "Palette Color 1"
+msgstr "Palet Rengi 1"
+
+#: ddterm/pref/ui/prefs-colors.ui:449
+msgid "Palette Color 2"
+msgstr "Palet Rengi 2"
+
+#: ddterm/pref/ui/prefs-colors.ui:462
+msgid "Palette Color 3"
+msgstr "Palet Rengi 3"
+
+#: ddterm/pref/ui/prefs-colors.ui:475
+msgid "Palette Color 4"
+msgstr "Palet Rengi 4"
+
+#: ddterm/pref/ui/prefs-colors.ui:488
+msgid "Palette Color 5"
+msgstr "Palet Rengi 5"
+
+#: ddterm/pref/ui/prefs-colors.ui:501
+msgid "Palette Color 6"
+msgstr "Palet Rengi 6"
+
+#: ddterm/pref/ui/prefs-colors.ui:514
+msgid "Palette Color 7"
+msgstr "Palet Rengi 7"
+
+#: ddterm/pref/ui/prefs-colors.ui:527
+msgid "Palette Color 8"
+msgstr "Palet Rengi 8"
+
+#: ddterm/pref/ui/prefs-colors.ui:540
+msgid "Palette Color 9"
+msgstr "Palet Rengi 9"
+
+#: ddterm/pref/ui/prefs-colors.ui:553
+msgid "Palette Color 10"
+msgstr "Palet Rengi 10"
+
+#: ddterm/pref/ui/prefs-colors.ui:566
+msgid "Palette Color 11"
+msgstr "Palet Rengi 11"
+
+#: ddterm/pref/ui/prefs-colors.ui:579
+msgid "Palette Color 12"
+msgstr "Palet Rengi 12"
+
+#: ddterm/pref/ui/prefs-colors.ui:592
+msgid "Palette Color 13"
+msgstr "Palet Rengi 13"
+
+#: ddterm/pref/ui/prefs-colors.ui:605
+msgid "Palette Color 14"
+msgstr "Palet Rengi 14"
+
+#: ddterm/pref/ui/prefs-colors.ui:618
+msgid "Palette Color 15"
+msgstr "Palet Rengi 15"
+
+#: ddterm/pref/ui/prefs-colors.ui:634
+msgid "Show bold text in _bright colors"
+msgstr "Kalın yazıları _parlak renkler ile göster"
+
+#: ddterm/pref/ui/prefs-colors.ui:650
+msgid "Copy profile from GNOME Terminal"
+msgstr "Profili GNOME Terminal'den kopyala"
+
+#: ddterm/pref/ui/prefs-colors.ui:673
+msgid "Foreground"
+msgstr "Ön plan"
+
+#: ddterm/pref/ui/prefs-colors.ui:684
+msgid "Background"
+msgstr "Arka plan"
+
+#: ddterm/pref/ui/prefs-colors.ui:696
+msgid "Default color:"
+msgstr "Varsayılan renk:"
+
+#: ddterm/pref/ui/prefs-colors.ui:705
+msgid "Bold color:"
+msgstr "Kalın rengi:"
+
+#: ddterm/pref/ui/prefs-colors.ui:718
+msgid "Cursor color:"
+msgstr "İmleç rengi:"
+
+#: ddterm/pref/ui/prefs-colors.ui:732
+msgid "Highlight color:"
+msgstr "Vurgulama rengi:"
+
+#: ddterm/pref/ui/prefs-colors.ui:749
+msgid "Color _scheme:"
+msgstr "Renk _şeması:"
+
+#: ddterm/pref/ui/prefs-colors.ui:767
+msgid "Background Color"
+msgstr "Arkaplan Rengi"
+
+#: ddterm/pref/ui/prefs-colors.ui:791
+msgid "Bold Color"
+msgstr "Kalın Rengi"
+
+#: ddterm/pref/ui/prefs-colors.ui:815
+msgid "Cursor Foreground Color"
+msgstr "İmleç Ön Plan Rengi"
+
+#: ddterm/pref/ui/prefs-colors.ui:839
+msgid "Cursor Background Color"
+msgstr "İmleç Arka Plan Rengi"
+
+#: ddterm/pref/ui/prefs-colors.ui:863
+msgid "Highlight Foreground Color"
+msgstr "Vurgulama Ön Plan Rengi"
+
+#: ddterm/pref/ui/prefs-colors.ui:887
+msgid "Highlight Background Color"
+msgstr "Vurgulama Arka Plan Rengi"
+
+#: ddterm/pref/ui/prefs-colors.ui:930
+msgid "Foreground Color"
+msgstr "Ön Plan Rengi"
+
+#: ddterm/pref/ui/prefs-command.ui:39
+msgid "User _shell"
+msgstr "Kullanıcı _kabuğu"
+
+#: ddterm/pref/ui/prefs-command.ui:57
+msgid "User shell as _login shell"
+msgstr "Kullanıcı kabuğunu _giriş kabuğu olarak kullan"
+
+#: ddterm/pref/ui/prefs-command.ui:75
+msgid "Custom _command:"
+msgstr "Özel _komut:"
+
+#: ddterm/pref/ui/prefs-command.ui:114
+msgid "Preserve working directory"
+msgstr "Çalışma dizinini koru"
+
+#: ddterm/pref/ui/prefs-compatibility.ui:36 ddterm/pref/ui/prefs-tabs.ui:127
+msgid "Automatic"
+msgstr "Otomatik"
+
+#: ddterm/pref/ui/prefs-compatibility.ui:40
+msgid "Control-H"
+msgstr "Control-H"
+
+#: ddterm/pref/ui/prefs-compatibility.ui:44
+msgid "ASCII DEL"
+msgstr "ASCII DEL"
+
+#: ddterm/pref/ui/prefs-compatibility.ui:48
+msgid "Escape sequence"
+msgstr "Kaçış dizilimi"
+
+#: ddterm/pref/ui/prefs-compatibility.ui:52
+msgid "TTY Erase"
+msgstr ""
+
+#: ddterm/pref/ui/prefs-compatibility.ui:72
+msgid "_Backspace key generates:"
+msgstr "_Backspace tuşu üretir:"
+
+#: ddterm/pref/ui/prefs-compatibility.ui:86
+msgid "_Delete key generates:"
+msgstr "_Delete tuşu üretir:"
+
+#: ddterm/pref/ui/prefs-compatibility.ui:100
+msgid "Ambiguous-_width characters:"
+msgstr "Belirsiz-_genişlikte karakterler:"
+
+#: ddterm/pref/ui/prefs-compatibility.ui:153
+msgid "Narrow"
+msgstr "Dar"
+
+#: ddterm/pref/ui/prefs-compatibility.ui:154
+msgid "Wide"
+msgstr "Geniş"
+
+#: ddterm/pref/ui/prefs-compatibility.ui:164
+msgid "_Reset Compatibility Options to Defaults"
+msgstr "Uyumluluk Ayarlarını Varsayılana _Sıfırla"
+
+#: ddterm/pref/ui/prefs-panel-icon.ui:38 ddterm/pref/ui/prefs-tabs.ui:246
+msgid "None"
+msgstr "Yok"
+
+#: ddterm/pref/ui/prefs-panel-icon.ui:55
+msgid "With popup menu"
+msgstr "Açılır menü ile"
+
+#: ddterm/pref/ui/prefs-panel-icon.ui:72
+msgid "Toggle button"
+msgstr "Aç/kapa butonu"
+
+#: ddterm/pref/ui/prefs-panel-icon.ui:89
+msgid "Toggle button and popup menu"
+msgstr "Aç kapa butonu ve açılır menü"
+
+#: ddterm/pref/ui/prefs-position-size.ui:47
+msgid "Window _size:"
+msgstr "Pencere _boyutu:"
+
+#: ddterm/pref/ui/prefs-position-size.ui:76
+msgid "_Window position:"
+msgstr "_Pencere konumu:"
+
+#: ddterm/pref/ui/prefs-position-size.ui:91 ddterm/pref/ui/prefs-tabs.ui:173
+msgid "Top"
+msgstr "Üst"
+
+#: ddterm/pref/ui/prefs-position-size.ui:92 ddterm/pref/ui/prefs-tabs.ui:172
+msgid "Bottom"
+msgstr "Alt"
+
+#: ddterm/pref/ui/prefs-position-size.ui:93 ddterm/pref/ui/prefs-tabs.ui:174
+msgid "Left"
+msgstr "Sol"
+
+#: ddterm/pref/ui/prefs-position-size.ui:94 ddterm/pref/ui/prefs-tabs.ui:175
+msgid "Right"
+msgstr "Sağ"
+
+#: ddterm/pref/ui/prefs-position-size.ui:104
+msgid "On the monitor that contains the mouse pointer"
+msgstr "Fare imlecinin bulunduğu monitör"
+
+#: ddterm/pref/ui/prefs-position-size.ui:122
+msgid "On the _primary monitor"
+msgstr "_Birincil monitörde"
+
+#: ddterm/pref/ui/prefs-position-size.ui:140
+msgid "On the monitor with keyboard _focus"
+msgstr "Klavye _odağının bulunduğu monitörde"
+
+#: ddterm/pref/ui/prefs-position-size.ui:158
+msgid "On _monitor:"
+msgstr "_Monitörde:"
+
+#: ddterm/pref/ui/prefs-scrolling.ui:44
+msgid "Show _scrollbar"
+msgstr "_Kaydırma çubuğunu göster"
+
+#: ddterm/pref/ui/prefs-scrolling.ui:60
+msgid "Scroll on _output"
+msgstr "_Çıktı ile kaydır"
+
+#: ddterm/pref/ui/prefs-scrolling.ui:76
+msgid "Scroll on _keystroke"
+msgstr "_Tuş basımında kaydır"
+
+#: ddterm/pref/ui/prefs-scrolling.ui:92
+msgid "_Limit scrollback to:"
+msgstr "Geri kaydırmayı _limiti:"
+
+#: ddterm/pref/ui/prefs-scrolling.ui:128
+msgid "lines"
+msgstr "satırlar"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:43
+msgid "Toggle Terminal Window"
+msgstr "Terminal Penceresini Aç/Kapa"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:50
+msgid "Show/Activate Terminal Window"
+msgstr "Terminal Penceresini Görüntüle/Aktive et"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:73
+msgid "Hide the Window"
+msgstr "Pencereyi Gizle"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:80
+msgid "Maximize/Unmaximize the Window"
+msgstr "Pencereyi Büyüt/Küçült"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:87
+msgid "Increase Window Size"
+msgstr "Pencere Boyutunu Büyüt"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:94
+msgid "Decrease Window Size"
+msgstr "Pencere Boyutunu Küçült"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:101
+msgid "Increase Background Opacity"
+msgstr "Arkaplan Opaklığını Artır"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:108
+msgid "Decrease Background Opacity"
+msgstr "Arkaplan Opaklığını Azalt"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:115
+msgid "Enable/Disable Background Transparency"
+msgstr "Arkaplan Transparanlığını Aç/Kapat"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:122
+msgid "Copy Selected Text"
+msgstr "Seçili Metini Kopyala"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:129
+msgid "Copy Selected Text as HTML"
+msgstr "Seçili Metini HTML olarak Kopyala"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:136
+msgid "Paste Text from Clipboard"
+msgstr "Panodan Metin Yapıştır"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:192
+msgid "Close Current Tab"
+msgstr "Mevcut Sekmeyi Kapat"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:199
+msgid "Switch to Previous Tab"
+msgstr "Bir Önceki Sekmeye Geç"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:206
+msgid "Switch to Next Tab"
+msgstr "Bir Sonraki Sekmeye Geç"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:241
+msgid "Move Keyboard Focus to Other Split Pane"
+msgstr "Klavye Odağını Öteki Ayrık Bölmeye Taşı"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:248
+msgid "Move Tab to Other Split Pane"
+msgstr "Sekmeyi Öteki Ayrık Bölmeye Taşı"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:255
+msgid "Increase First Split Pane Size"
+msgstr "İlk Ayrık Bölmenin Boyutunu Büyüt"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:262
+msgid "Decrease First Split Pane Size"
+msgstr "İlk Ayrık Bölmenin Boyutunu Küçült"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:269
+msgid "Set Custom Tab Title"
+msgstr "Özel Sekme Başlığı Koy"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:276
+msgid "Reset Tab Title"
+msgstr "Sekme Başlığını Sıfırla"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:325
+msgid "Switch to Tab 1"
+msgstr "Birinci Sekmeye Geç"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:332
+msgid "Switch to Tab 2"
+msgstr "İkinci Sekmeye Geç"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:339
+msgid "Switch to Tab 3"
+msgstr "Üçüncü Sekmeye Geç"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:346
+msgid "Switch to Tab 4"
+msgstr "Dördüncü Sekmeye Geç"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:353
+msgid "Switch to Tab 5"
+msgstr "Beşinci Sekmeye Geç"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:360
+msgid "Switch to Tab 6"
+msgstr "Altıncı Sekmeye Geç"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:367
+msgid "Switch to Tab 7"
+msgstr "Yedinci Sekmeye Geç"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:374
+msgid "Switch to Tab 8"
+msgstr "Sekizinci Sekmeye Geç"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:381
+msgid "Switch to Tab 9"
+msgstr "Dokuzuncu Sekmeye Geç"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:388
+msgid "Switch to Tab 10"
+msgstr "Onuncu Sekmeye Geç"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:421 ddterm/pref/ui/prefs-shortcuts.ui:493
+msgid "Action"
+msgstr "Aksiyon"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:433
+msgid "Global Shortcut"
+msgstr "Genel Kısayol"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:463
+msgid "_Enable application shortcuts"
+msgstr "Uygulama kısayollarını _etkinleştir"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:505
+msgid "Shortcut"
+msgstr "Kısayol"
+
+#: ddterm/pref/ui/prefs-shortcuts.ui:535
+msgid "Reset All Shortcuts to Defaults"
+msgstr "Tüm Kısayolları Varsayılan Değerlerine Sıfırla"
+
+#: ddterm/pref/ui/prefs-tabs.ui:44
+msgid "Expand tabs"
+msgstr "Sekmeleri genişler"
+
+#: ddterm/pref/ui/prefs-tabs.ui:60
+msgid "Show _close buttons"
+msgstr "_Kapat butonlarını göster"
+
+#: ddterm/pref/ui/prefs-tabs.ui:76
+msgid "\"_New Tab (Last)\" button"
+msgstr "\"_Yeni Sekme (Son)\" butonu"
+
+#: ddterm/pref/ui/prefs-tabs.ui:92
+msgid "Tab _switcher popup"
+msgstr "Sekme _değiştirici açılır menüsü"
+
+#: ddterm/pref/ui/prefs-tabs.ui:111
+msgid "Show tab _bar:"
+msgstr "Sekme _çubuğunu göster:"
+
+#: ddterm/pref/ui/prefs-tabs.ui:126 ddterm/pref/ui/prefs-text.ui:102
+msgid "Always"
+msgstr "Her zaman"
+
+#: ddterm/pref/ui/prefs-tabs.ui:128 ddterm/pref/ui/prefs-text.ui:99
+msgid "Never"
+msgstr "Hiçbir zaman"
+
+#: ddterm/pref/ui/prefs-tabs.ui:138
+msgid "\"_New Tab (First)\" button"
+msgstr "\"Yeni Sekme (İlk)\" butonu"
+
+#: ddterm/pref/ui/prefs-tabs.ui:157
+msgid "Tab bar position:"
+msgstr "Sekme çubuğu konumu:"
+
+#: ddterm/pref/ui/prefs-tabs.ui:185
+msgid "Show border"
+msgstr "Kenarlığı göster"
+
+#: ddterm/pref/ui/prefs-tabs.ui:204
+msgid "Tab width:"
+msgstr "Sekme genişliği:"
+
+#: ddterm/pref/ui/prefs-tabs.ui:232
+msgid "Ellipsize tab labels:"
+msgstr "Uzun sekme adlarını kısalt:"
+
+#: ddterm/pref/ui/prefs-tabs.ui:247
+msgid "Start"
+msgstr "Başlangıç"
+
+#: ddterm/pref/ui/prefs-tabs.ui:248
+msgid "Middle"
+msgstr "Orta"
+
+#: ddterm/pref/ui/prefs-tabs.ui:249
+msgid "End"
+msgstr "Son"
+
+#: ddterm/pref/ui/prefs-tabs.ui:259
+msgid "Show keyboard shortcuts"
+msgstr "Klavye kısayollarını göster"
+
+#: ddterm/pref/ui/prefs-text.ui:39
+msgid "Custom _font:"
+msgstr "Özel _font:"
+
+#: ddterm/pref/ui/prefs-text.ui:56
+msgid "Allow _blinking text:"
+msgstr "_Yanıp sönen yazıya izin ver:"
+
+#: ddterm/pref/ui/prefs-text.ui:70
+msgid "Cursor _shape:"
+msgstr "İmleç _şekli:"
+
+#: ddterm/pref/ui/prefs-text.ui:84
+msgid "_Cursor blinking:"
+msgstr "Yanıp Sönen _İmleç:"
+
+#: ddterm/pref/ui/prefs-text.ui:100
+msgid "When focused"
+msgstr "Odaklanıldığında"
+
+#: ddterm/pref/ui/prefs-text.ui:101
+msgid "When unfocused"
+msgstr "Odaklanılmadığında"
+
+#: ddterm/pref/ui/prefs-text.ui:116
+msgid "Block"
+msgstr "Blok"
+
+#: ddterm/pref/ui/prefs-text.ui:117
+msgid "I-Beam"
+msgstr ""
+
+#: ddterm/pref/ui/prefs-text.ui:118
+msgid "Underline"
+msgstr "Altı çizili"
+
+#: ddterm/pref/ui/prefs-text.ui:133
+msgid "Enabled"
+msgstr "Etkin"
+
+#: ddterm/pref/ui/prefs-text.ui:134
+msgid "Disabled"
+msgstr "Etkin değil"
+
+#: ddterm/pref/ui/prefs-text.ui:144
+msgid "Allow _hyperlinks"
+msgstr "_Hyperlinklere izin ver"
+
+#: ddterm/pref/ui/prefs-text.ui:160
+msgid "Audible _bell"
+msgstr "Duyulabilir _zil"
+
+#: ddterm/pref/ui/prefs-text.ui:202
+msgid "Detect _URLs"
+msgstr "_URL'leri tespit et"
+
+#: ddterm/pref/ui/prefs-text.ui:225
+msgid "Detect raw URLs (scheme://netloc/path)"
+msgstr "Raw URL'leri tespit et (scheme://netloc/path)"
+
+#: ddterm/pref/ui/prefs-text.ui:240
+msgid "Detect \"file:\" URLs"
+msgstr "\"file:\" türündeki URL'leri tespit et"
+
+#: ddterm/pref/ui/prefs-text.ui:255
+msgid "Detect HTTP URLs"
+msgstr "HTTP URL'lerini tespit et"
+
+#: ddterm/pref/ui/prefs-text.ui:270
+msgid "Detect VoIP URLs"
+msgstr "VoIP URL'lerini tespit et"
+
+#: ddterm/pref/ui/prefs-text.ui:285
+msgid "Detect E-mail addresses"
+msgstr "E-posta adreslerini tespit et"
+
+#: ddterm/pref/ui/prefs-text.ui:300
+msgid "Detect \"news:\", \"man:\" URLs"
+msgstr "\"news:\", \"man:\" URL'lerini tespit et"
+
+#: ddterm/shell/extension.js:280
+msgid "Failed to launch ddterm application"
+msgstr "ddterm uygulaması başlatılamadı"
+
+#: ddterm/shell/notifications.js:86 ddterm/shell/notifications.js:205
+msgid "Copy to Clipboard"
+msgstr "Panoya Kopyala"
+
+#: ddterm/shell/notifications.js:201
+msgid "Details…"
+msgstr "Detaylar…"
+
+#: ddterm/shell/notifications.js:249
+msgid "Install"
+msgstr "Kur"
+
+#: ddterm/shell/panelicon.js:64
+msgid "Show"
+msgstr "Göster"
