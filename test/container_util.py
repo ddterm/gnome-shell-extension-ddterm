@@ -68,6 +68,7 @@ class Container:
         volumes=[],
         publish=[],
         cap_add=[],
+        security_opt=[],
         tty=False,
         user=None,
         **kwargs
@@ -91,6 +92,9 @@ class Container:
 
         if user:
             args.extend(('--user', str(user)))
+
+        for opt in security_opt:
+            args.extend(('--security-opt', opt))
 
         args.append(image)
         args.extend(cmd)

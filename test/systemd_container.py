@@ -38,6 +38,7 @@ class SystemdContainer(coreutils_container.CoreutilsContainer):
         kwargs.setdefault('tty', True)
         kwargs.setdefault('cap_add', self.REQUIRED_CAPS)
         kwargs.setdefault('user', '0')
+        kwargs.setdefault('security_opt', ('label=disable',))
 
         extra_args = []
 
