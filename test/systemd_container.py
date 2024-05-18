@@ -30,7 +30,6 @@ class SystemdContainer(coreutils_container.CoreutilsContainer):
         'SETPCAP',
         'NET_RAW',
         'NET_BIND_SERVICE',
-        'DAC_READ_SEARCH',
         'IPC_LOCK',
     ]
 
