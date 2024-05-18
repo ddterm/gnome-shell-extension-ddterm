@@ -11,7 +11,7 @@ defaults:
 
 jobs:
   configure:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     outputs:
       linguas: ${{ steps.generate.outputs.linguas }}
@@ -31,7 +31,7 @@ jobs:
   check:
     needs: configure
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     container:
       image: ghcr.io/ddterm/ci-docker-image:2024.05.04.0
 

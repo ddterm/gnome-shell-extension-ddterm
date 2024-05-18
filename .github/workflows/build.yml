@@ -35,7 +35,7 @@ defaults:
 
 jobs:
   lint:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     container:
       image: ghcr.io/ddterm/ci-docker-image:2024.05.04.0
 
@@ -121,7 +121,7 @@ jobs:
           - name: pack-legacy
             flags: '-Desm=false'
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     container:
       image: ghcr.io/ddterm/ci-docker-image:2024.05.04.0
 

@@ -14,7 +14,7 @@ jobs:
     needs:
       - build
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     container:
       image: ghcr.io/ddterm/ci-docker-image:2024.05.04.0
@@ -59,7 +59,7 @@ jobs:
       - build
       - bump-version
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
     - name: Get app token
