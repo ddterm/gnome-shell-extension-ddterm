@@ -104,10 +104,6 @@ jobs:
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
       working-directory: test
 
-    - name: Ensure Python version in renovate.json matches CI Docker image
-      run: .github/renovate-python-constraint.py
-      if: ${{ always() && steps.checkout.conclusion == 'success' }}
-
     - name: Upload reports to Testspace
       run: testspace --verbose eslint.xml "*.log{lint}"
       if: ${{ always() && steps.setup_testspace.outcome == 'success' }}

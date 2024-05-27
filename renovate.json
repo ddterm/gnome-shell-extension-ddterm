@@ -43,8 +43,5 @@
       "groupName": "Build/Dev Environment",
       "pinDigests": false
     }
-  ],
-  "constraints": {
-    "python": "==3.12"
-  }
+  ]
 }
