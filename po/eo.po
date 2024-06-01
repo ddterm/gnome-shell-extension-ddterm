@@ -7,13 +7,16 @@ msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-04-13 18:02+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2024-06-01 19:09+0000\n"
+"Last-Translator: phlostically <phlostically@mailinator.com>\n"
+"Language-Team: Esperanto <https://hosted.weblate.org/projects/"
+"gnome-shell-extension-ddterm/extension/eo/>\n"
 "Language: eo\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.6-dev\n"
 
 #: ddterm/app/application.js:86
 msgid "Start the application, but do not show the window"
@@ -225,11 +228,11 @@ msgstr "Agordoj…"
 
 #: ddterm/app/menus.ui:166
 msgid "Above All Windows"
-msgstr ""
+msgstr "Super ĉiuj fenestroj"
 
 #: ddterm/app/menus.ui:170
 msgid "On All Workspaces"
-msgstr ""
+msgstr "En ĉiuj laborspacoj"
 
 #: ddterm/app/menus.ui:174
 msgid "Maximize Window"
@@ -289,11 +292,11 @@ msgstr ""
 
 #: ddterm/app/notebook.js:151
 msgid "New Tab (Last)"
-msgstr ""
+msgstr "Nova langeto (laste)"
 
 #: ddterm/app/notebook.js:191
 msgid "New Tab (First)"
-msgstr ""
+msgstr "Nova langeto (unue)"
 
 #: ddterm/app/search.js:226
 msgid "Case Sensitive"
