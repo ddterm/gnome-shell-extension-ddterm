@@ -3,21 +3,22 @@
 # This file is distributed under the same license as the ddterm package.
 # Matteo Cerri <mttcerri@hotmail.com>, 2023.
 # Frankie McEyes <mceyes@protonmail.com>, 2023.
+# Nathan Hadley <nathanhadley.pigeon@gmail.com>, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-04-13 18:02+0000\n"
-"PO-Revision-Date: 2023-11-10 09:35+0000\n"
-"Last-Translator: Frankie McEyes <mceyes@protonmail.com>\n"
-"Language-Team: Italian <https://hosted.weblate.org/projects/gnome-shell-"
-"extension-ddterm/extension/it/>\n"
+"PO-Revision-Date: 2024-06-10 12:09+0000\n"
+"Last-Translator: Nathan Hadley <nathanhadley.pigeon@gmail.com>\n"
+"Language-Team: Italian <https://hosted.weblate.org/projects/"
+"gnome-shell-extension-ddterm/extension/it/>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.2-dev\n"
+"X-Generator: Weblate 5.6-dev\n"
 
 #: ddterm/app/application.js:86
 msgid "Start the application, but do not show the window"
@@ -91,7 +92,7 @@ msgstr "Uscire e rientrare per caricare l'estensione aggiornata."
 #: ddterm/app/appwindow.js:149 ddterm/com.github.amezin.ddterm.desktop.in.in:4
 #: ddterm/shell/notifications.js:283 ddterm/shell/panelicon.js:47
 msgid "ddterm"
-msgstr ""
+msgstr "ddterm"
 
 #: ddterm/app/dependencies.js:87 ddterm/shell/notifications.js:214
 msgid "ddterm needs additional packages to run"
