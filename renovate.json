@@ -42,6 +42,14 @@
       ],
       "groupName": "Build/Dev Environment",
       "pinDigests": false
+    },
+    {
+      "matchPackageNames": [
+        "eslint-plugin-jsdoc"
+      ],
+      "extends": [
+        "schedule:automergeWeekly"
+      ]
     }
   ]
 }
