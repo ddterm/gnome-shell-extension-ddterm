@@ -1,0 +1,19 @@
+<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN"
+    "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+
+<node>
+    <interface name="com.github.amezin.ddterm.Settings">
+        <property type="b" name="force-x11-gdk-backend" access="readwrite"/>
+        <property type="b" name="window-maximize" access="readwrite"/>
+        <property type="s" name="window-position" access="readwrite"/>
+        <property type="s" name="window-monitor" access="readwrite"/>
+        <property type="s" name="window-monitor-connector" access="readwrite"/>
+        <property type="d" name="window-size" access="readwrite"/>
+        <property type="b" name="override-window-animation" access="readwrite"/>
+        <property type="s" name="show-animation" access="readwrite"/>
+        <property type="s" name="hide-animation" access="readwrite"/>
+        <property type="b" name="window-above" access="readwrite"/>
+        <property type="b" name="hide-when-focus-lost" access="readwrite"/>
+        <method name="Destroy"/>
+    </interface>
+</node>

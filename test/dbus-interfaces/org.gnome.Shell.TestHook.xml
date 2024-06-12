@@ -1,0 +1,57 @@
+<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN"
+    "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+
+<node>
+    <interface name="org.gnome.Shell.TestHook">
+        <method name="Eval">
+            <arg type="s" name="script" direction="in"/>
+            <arg type="s" name="result" direction="out"/>
+        </method>
+
+        <method name="GetPointer">
+            <arg type="i" name="x" direction="out"/>
+            <arg type="i" name="y" direction="out"/>
+            <arg type="u" name="mods" direction="out"/>
+        </method>
+
+        <method name="SetPointer">
+            <arg type="i" name="x" direction="in"/>
+            <arg type="i" name="y" direction="in"/>
+        </method>
+
+        <method name="MouseDown"/>
+        <method name="MouseUp"/>
+
+        <method name="GetCurrentMonitor">
+            <arg type="i" direction="out"/>
+        </method>
+
+        <method name="Screenshot">
+            <arg type="s" name="path" direction="in"/>
+        </method>
+
+        <method name="PickColor">
+            <arg type="i" name="x" direction="in"/>
+            <arg type="i" name="y" direction="in"/>
+            <arg type="y" name="red" direction="out"/>
+            <arg type="y" name="green" direction="out"/>
+            <arg type="y" name="blue" direction="out"/>
+            <arg type="y" name="alpha" direction="out"/>
+        </method>
+
+        <method name="Later">
+            <arg type="i" name="when" direction="in"/>
+        </method>
+
+        <method name="WaitLeisure"/>
+        <method name="Destroy"/>
+
+        <property name="StartingUp" type="b" access="read"/>
+        <property name="Pointer" type="(ii)" access="read"/>
+        <property name="FocusApp" type="s" access="read"/>
+        <property name="Workareas" type="a(iiii)" access="read"/>
+        <property name="UnsafeMode" type="b" access="readwrite"/>
+        <property name="EnableAnimations" type="b" access="readwrite"/>
+        <property name="ColorScheme" type="s" access="readwrite"/>
+    </interface>
+</node>

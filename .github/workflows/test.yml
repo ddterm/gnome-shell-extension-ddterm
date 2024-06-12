@@ -1,10 +1,6 @@
 on:
   workflow_call:
 
-env:
-  FORCE_COLOR: 1
-  PIP_DISABLE_PIP_VERSION_CHECK: 1
-
 jobs:
   configure:
     runs-on: ubuntu-24.04
@@ -23,15 +19,19 @@ jobs:
   test:
     needs: configure
 
-    runs-on: ubuntu-24.04
-    container:
-      image: ghcr.io/ddterm/ci-docker-image:2024.09.17.0
-      options: --privileged --cgroupns=host --tmpfs /tmp --tmpfs /run
-
     strategy:
       fail-fast: false
       matrix:
         include: ${{ fromJson(needs.configure.outputs.matrix) }}
+
+    runs-on: ubuntu-24.04
+    container:
+      image: ghcr.io/ddterm/ci-docker-image:2024.09.26.0
+      options: --privileged --tmpfs /run -v /tmp:/tmp --cgroupns=host
+
+    env:
+      FORCE_COLOR: 1
+      PIP_DISABLE_PIP_VERSION_CHECK: 1
 
     steps:
     - name: Checkout
@@ -54,15 +54,26 @@ jobs:
       with:
         name: ${{ matrix.profile == 'esm' && 'pack' || 'pack-legacy' }}
 
-    - name: Pre-create pip cache directory
-      run: mkdir -p "$HOME/.cache/pip"
+    - name: Make directory writable
+      run: chmod a+rw .
+      working-directory: test
+
+    - name: Configure container for Podman
+      run: |
+        mount --make-rshared /
+        CGROUP="$(grep '^0::' /proc/self/cgroup)"
+        chown -R github-actions:github-actions "/sys/fs/cgroup${CGROUP#0::}"
 
     - name: Pull GNOME Shell container image
-      run: tox -e images -- pull ${{ matrix.service }}
+      run: >-
+        sudo --preserve-env --set-home --user=github-actions --
+        tox -e images -- pull ${{ matrix.service }}
       working-directory: test
 
     - name: Install Python test dependencies
-      run: tox -vv --notest --sitepackages
+      run: >-
+        sudo --preserve-env --set-home --user=github-actions --
+        tox -vv --notest --sitepackages
       working-directory: test
 
     - name: Disable generic error matcher
@@ -72,16 +83,14 @@ jobs:
 
     - name: Run tests
       run: >-
+        exec sudo --preserve-env --set-home --user=github-actions --
         tox --sitepackages --
         --self-contained-html
         --junitxml=junit.xml
-        --compose-service ${{ matrix.service }}
-        --pack ../*.shell-extension.zip
+        --container ${{ matrix.service }}
+        --package ../*.shell-extension.zip
         -n auto
-        --dist worksteal
-        --screenshot-failing-only
         -vv
-        --markdown-report $GITHUB_STEP_SUMMARY
       working-directory: test
 
     - name: Upload report to Testspace

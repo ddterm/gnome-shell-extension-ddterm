@@ -1,58 +1,39 @@
-import json
+import collections
+import contextlib
+import fcntl
+import logging
 import os
 import pathlib
-import re
 import subprocess
 
-import filelock
 import pytest
 import yaml
-import zipfile
 
-from . import container_util, gnome_container, log_filter, log_sync
-from .syslog_server import SyslogServer
+from . import procutil
 
 
-THIS_DIR = pathlib.Path(__file__).parent.resolve()
+pytest_plugins = ('screenshot', 'syslog')
+
+LOGGER = logging.getLogger(__name__)
+
+THIS_FILE = pathlib.Path(__file__).resolve()
+THIS_DIR = THIS_FILE.parent
 SRC_DIR = THIS_DIR.parent
+COMPOSE_FILE = THIS_DIR / 'compose.yaml'
 
-DDTERM_METADATA_KEY = pytest.StashKey[dict]()
 IMAGES_STASH_KEY = pytest.StashKey[list]()
-LEGACY_MODE_KEY = pytest.StashKey[bool]()
-
-pytest_plugins = ['markdown_report', 'screenshot']
-
-
-@pytest.fixture(scope='session')
-def podman(pytestconfig):
-    return container_util.Podman(
-        *pytestconfig.option.podman,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE
-    )
-
-
-@pytest.fixture(scope='session')
-def container_image(request):
-    return request.param
-
-
-@pytest.fixture(scope='session')
-def extension_pack(request):
-    return request.config.getoption('--pack').resolve()
 
 
 def pytest_addoption(parser):
     parser.addoption(
-        '--compose-service',
-        action='append',
-        default=[],
-        help='run tests using the specified container image from compose.yaml. '
-             'Can be repeated multiple times to run tests with multiple images.'
+        '--force-xvfb',
+        action='store_true',
+        default=False,
+        help='Always use Xvfb - run Wayland tests using nested backend'
     )
 
     parser.addoption(
-        '--image',
+        '--container',
         action='append',
         default=[],
         help='run tests using the specified container image. '
@@ -60,138 +41,230 @@ def pytest_addoption(parser):
     )
 
     parser.addoption(
-        '--podman',
-        default=['podman'],
-        nargs='+',
-        help='podman command/executable path'
+        '--hw-accel',
+        action='store_true',
+        default=False,
+        help='Allow hardware acceleration.'
     )
 
-    pack_from_env = os.getenv('DDTERM_BUILT_PACK')
+    package_from_env = os.getenv('DDTERM_BUILT_PACK')
 
     parser.addoption(
-        '--pack',
-        default=pathlib.Path(pack_from_env) if pack_from_env else None,
-        required=not pack_from_env,
+        '--package',
+        default=pathlib.Path(package_from_env) if package_from_env else None,
+        required=False,
         type=pathlib.Path,
-        help='built ddterm extension package (ddterm@amezin.github.com.shell-extension.zip)',
+        help='ddterm extension package to test (ddterm@amezin.github.com.shell-extension.zip). '
+             'Will test the currently installed extension if not specified. '
+             'Must be specified for containers.',
     )
 
 
 def pytest_configure(config):
-    images = config.getoption('--image')
-    compose_services = config.getoption('--compose-service')
-    extension_pack = config.getoption('--pack')
+    if images := config.option.container:
+        if not config.option.package:
+            raise pytest.UsageError('If --container is specified, --package must be specified too')
 
-    with zipfile.ZipFile(extension_pack) as z:
-        with z.open('metadata.json') as f:
-            ddterm_metadata = json.load(f)
+        with open(COMPOSE_FILE) as f:
+            compose = yaml.safe_load(f)
 
-    config.stash[DDTERM_METADATA_KEY] = ddterm_metadata
+        aliases = dict()
+        by_profile = collections.defaultdict(set)
 
-    legacy_mode = '45' not in ddterm_metadata['shell-version']
-    config.stash[LEGACY_MODE_KEY] = legacy_mode
+        for service_name, service_config in compose['services'].items():
+            image = service_config['image']
+            aliases[service_name] = image
 
-    image_profile = 'legacy' if legacy_mode else 'esm'
+            for profile in service_config.get('profiles', []):
+                by_profile[profile].add(image)
 
-    if compose_services or not images:
-        with open('compose.yaml') as f:
-            compose_config = yaml.safe_load(f)
+        resolved = set()
 
-        if not compose_services:
-            compose_services = [
-                name
-                for name, desc in compose_config['services'].items()
-                if image_profile in desc.get('profiles', [])
-            ]
+        for image in images:
+            profile = by_profile.get(image, None)
+            alias = aliases.get(image, None)
 
-        images = images + [
-            compose_config['services'][name]['image']
-            for name in compose_services
-        ]
+            if not profile and not alias:
+                resolved.add(image)
+                continue
 
-    config.stash[IMAGES_STASH_KEY] = [
-        pytest.param(image, marks=pytest.mark.uses_image.with_args(image))
-        for image in images
+            if profile:
+                resolved.update(profile)
+
+            if alias:
+                resolved.add(alias)
+
+        config.stash[IMAGES_STASH_KEY] = resolved
+
+
+class FdLock:
+    def __init__(self, fd):
+        self.fd = fd
+        self.count = 0
+
+    def __enter__(self):
+        if self.count == 0:
+            fcntl.flock(self.fd, fcntl.LOCK_EX)
+
+        self.count += 1
+
+        return self
+
+    def __exit__(self, *_):
+        self.count -= 1
+
+        if self.count == 0:
+            fcntl.flock(self.fd, fcntl.LOCK_UN)
+
+
+@pytest.fixture(scope='session')
+def container_lock(request):
+    lock_path = request.config.cache.mkdir('containers') / 'lock'
+    fd = os.open(lock_path, os.O_RDWR | os.O_TRUNC | os.O_CREAT, 0o644)
+
+    try:
+        yield FdLock(fd)
+
+    finally:
+        os.close(fd)
+
+
+@pytest.fixture(scope='session')
+def container(tmp_path_factory, container_lock, request):
+    if hasattr(request, 'param'):
+        image = request.param
+
+    elif images := request.config.stash.get(IMAGES_STASH_KEY, None):
+        (image,) = images
+
+    else:
+        yield None
+        return
+
+    syslog_server = request.getfixturevalue('syslog_server')
+
+    create_cmd = [
+        'podman',
+        '--runtime=crun',
+        'container',
+        'create',
+        '--log-driver=none',
+        '--tty',
+        '--cap-add=SYS_ADMIN,SYS_NICE,SYS_PTRACE,SETPCAP,NET_RAW,NET_BIND_SERVICE,IPC_LOCK',
+        '--security-opt=label=disable',
+        '--userns=keep-id',
+        '--user=0',
+        '--cgroupns=private',
+        f'--volume={SRC_DIR}:{SRC_DIR}:ro',
+        f'--volume={os.getcwd()}:{os.getcwd()}:ro',
+        f'--volume={tmp_path_factory.getbasetemp()}:{tmp_path_factory.getbasetemp()}',
+        f'--volume={syslog_server.server_address}:/run/systemd/journal/syslog',
     ]
 
-    config.pluginmanager.register(log_sync.LogSyncPlugin())
+    if package := request.config.option.package:
+        package = pathlib.Path(package).resolve()
+        create_cmd.append(f'--volume={package}:{package}:ro')
+
+    if request.config.option.hw_accel:
+        create_cmd.append('--device=/dev/dri/:/dev/dri/:rwm')
+        create_cmd.append('--group-add=keep-groups')
+
+    create_cmd.extend([
+        image,
+        '/sbin/init',
+        'systemd.journald.forward_to_syslog=1',
+        'systemd.journald.forward_to_console=0',
+    ])
+
+    launcher = procutil.Launcher()
+
+    with contextlib.ExitStack() as stack:
+        with container_lock:
+            cid = launcher.run(
+                *create_cmd,
+                timeout=None,
+                stdout=subprocess.PIPE,
+            ).stdout.decode().rstrip()
+
+            LOGGER.info('Created container %r', cid)
+
+            console_stack = stack.enter_context(contextlib.ExitStack())
+
+            def shutdown():
+                with container_lock:
+                    launcher.run(
+                        'podman',
+                        'container',
+                        'rm',
+                        '--force',
+                        '--volumes',
+                        f'--time={procutil.DEFAULT_TIMEOUT // 2}',
+                        cid,
+                        timeout=procutil.DEFAULT_TIMEOUT,
+                    )
+
+            stack.callback(shutdown)
+
+            console_stack.enter_context(launcher.spawn(
+                'podman',
+                '--runtime=crun',
+                'container',
+                'start',
+                '--attach',
+                '--sig-proxy=false',
+                cid,
+            ))
+
+            exit_code = '0'
+            attempts = 0
+
+            while attempts < 2 and exit_code == '0':
+                exit_code = launcher.run(
+                    'podman',
+                    '--runtime=crun',
+                    'container',
+                    'wait',
+                    '--condition=running',
+                    # interrupt wait if container fails
+                    '--condition=exited',
+                    '--condition=stopped',
+                    cid,
+                    stdout=subprocess.PIPE
+                ).stdout.decode().strip()
+
+                attempts += 1
+
+            assert exit_code == '-1'
+
+            container_launcher = procutil.ContainerExecLauncher(container_id=cid, user=0)
+
+            container_launcher.run(
+                'busctl',
+                '--watch-bind=1',
+                f'--timeout={procutil.DEFAULT_TIMEOUT // 2}',
+                'status',
+                timeout=procutil.DEFAULT_TIMEOUT,
+            )
+
+            container_launcher.run('systemctl', 'is-system-running', '--wait')
+
+        yield cid
+
+
+@pytest.fixture(scope='session')
+def process_launcher(container):
+    if container is None:
+        return procutil.Launcher()
+
+    return procutil.ContainerExecLauncher(
+        container_id=container,
+        user=os.getuid(),
+    )
 
 
 def pytest_generate_tests(metafunc):
-    if 'container_image' in metafunc.fixturenames:
-        metafunc.parametrize(
-            'container_image',
-            metafunc.config.stash[IMAGES_STASH_KEY],
-            indirect=True,
-            scope='session'
-        )
+    if 'container' in metafunc.fixturenames:
+        images = metafunc.config.stash.get(IMAGES_STASH_KEY, None)
 
-
-class SyslogMessageMatcher:
-    def __init__(self, syslogger):
-        self.syslogger = syslogger
-
-    @log_sync.hookimpl
-    def log_sync_filter(self, msg):
-        return log_filter.RegexLogFilter(
-            name=self.syslogger.name,
-            pattern=f': {re.escape(msg)}$'
-        )
-
-
-@pytest.fixture(scope='session')
-def syslog_server(tmp_path_factory, log_sync):
-    path = tmp_path_factory.mktemp('syslog') / 'socket'
-
-    with SyslogServer(str(path)) as server:
-        with server.serve_forever_background(poll_interval=0.1):
-            with log_sync.with_registered(SyslogMessageMatcher(server.logger)):
-                yield server
-
-
-@pytest.fixture(scope='session')
-def ddterm_metadata(request):
-    return request.config.stash[DDTERM_METADATA_KEY]
-
-
-@pytest.fixture(scope='session')
-def legacy_mode(request):
-    return request.config.stash[LEGACY_MODE_KEY]
-
-
-@pytest.fixture(scope='session')
-def test_extension_src_dir(legacy_mode):
-    return THIS_DIR / ('extension-legacy' if legacy_mode else 'extension')
-
-
-@pytest.fixture(scope='session')
-def test_metadata(test_extension_src_dir):
-    with open(test_extension_src_dir / 'metadata.json', 'r') as f:
-        return json.load(f)
-
-
-@pytest.fixture(scope='session')
-def container_create_lock(request):
-    return filelock.FileLock(request.config.cache.mkdir('container-creating') / 'lock')
-
-
-@pytest.fixture(scope='session')
-def container_volumes(
-    ddterm_metadata,
-    test_metadata,
-    extension_pack,
-    tmp_path_factory,
-    test_extension_src_dir
-):
-    sys_install_dir = gnome_container.GnomeContainer.extensions_system_install_path()
-    install_mount = (extension_pack, extension_pack, 'ro')
-
-    basetemp = tmp_path_factory.getbasetemp()
-    basetemp.chmod(0o777)
-
-    return (
-        (SRC_DIR, SRC_DIR, 'ro'),
-        install_mount,
-        (test_extension_src_dir, sys_install_dir / test_metadata['uuid'], 'ro'),
-        (basetemp, basetemp)
-    )
+        if images and len(images) > 1:
+            metafunc.parametrize('container', images, indirect=True, scope='session')

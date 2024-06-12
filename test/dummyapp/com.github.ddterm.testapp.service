@@ -1,3 +1,0 @@
-[D-BUS Service]
-Name=com.github.ddterm.testapp
-Exec=/usr/bin/gjs /usr/local/bin/com.github.ddterm.testapp --gapplication-service

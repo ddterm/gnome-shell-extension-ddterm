@@ -361,7 +361,7 @@ class Application extends Gtk.Application {
 
     vfunc_dbus_register(connection, object_path) {
         if (this.enable_debug) {
-            this.debug_dbus_interface = new DebugInterface();
+            this.debug_dbus_interface = new DebugInterface(this);
             this.debug_dbus_interface.dbus.export(connection, object_path);
         }
 

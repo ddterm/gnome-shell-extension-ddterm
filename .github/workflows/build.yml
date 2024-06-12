@@ -37,7 +37,7 @@ jobs:
   lint:
     runs-on: ubuntu-24.04
     container:
-      image: ghcr.io/ddterm/ci-docker-image:2024.09.17.0
+      image: ghcr.io/ddterm/ci-docker-image:2024.09.26.0
 
     steps:
     - name: Checkout
@@ -134,7 +134,7 @@ jobs:
 
     runs-on: ubuntu-24.04
     container:
-      image: ghcr.io/ddterm/ci-docker-image:2024.09.17.0
+      image: ghcr.io/ddterm/ci-docker-image:2024.09.26.0
 
     steps:
     - name: Checkout

@@ -1,0 +1,25 @@
+<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN"
+    "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+
+<node>
+    <interface name="com.github.amezin.ddterm.TestHook">
+        <property type="b" name="HasWindow" access="read"/>
+        <property type="b" name="MaximizedHorizontally" access="read"/>
+        <property type="b" name="MaximizedVertically" access="read"/>
+        <property type="(iiii)" name="WindowRect" access="read"/>
+        <property type="b" name="DebugLog" access="readwrite"/>
+        <property type="b" name="AppDebug" access="readwrite"/>
+        <property type="b" name="AppRunning" access="readwrite"/>
+        <property type="as" name="Transitions" access="read"/>
+        <property type="b" name="RenderedFirstFrame" access="read"/>
+
+        <method name="Destroy"/>
+
+        <signal name="MoveResizeRequested">
+            <arg name="x" type="i"/>
+            <arg name="y" type="i"/>
+            <arg name="width" type="i"/>
+            <arg name="height" type="i"/>
+        </signal>
+    </interface>
+</node>

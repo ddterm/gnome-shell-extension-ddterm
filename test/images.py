@@ -7,8 +7,6 @@ import subprocess
 
 import yaml
 
-import container_util
-
 
 def resolve_images(compose_config, services):
     services_config = compose_config['services']
@@ -21,14 +19,16 @@ def resolve_images(compose_config, services):
     return set(s['image'] for s in services)
 
 
-def run_prune_resolved(podman, images, dry_run=False):
+def run_prune_resolved(images, dry_run=False):
     image_names = set(i.split(':')[0] for i in images)
 
-    local_images_json = json.loads(podman(
-        'image', 'ls', '--format', 'json',
-        *(f'-f=reference={i}' for i in image_names),
-        stdout=subprocess.PIPE,
-    ).stdout)
+    local_images_json = json.loads(
+        subprocess.run(
+            ('podman', 'image', 'ls', '--format=json', *(f'-f=reference={i}' for i in image_names)),
+            stdout=subprocess.PIPE,
+            check=True,
+        ).stdout
+    )
 
     for i in itertools.chain.from_iterable(i['Names'] for i in local_images_json):
         if i in images:
@@ -38,7 +38,7 @@ def run_prune_resolved(podman, images, dry_run=False):
             print(i)
         else:
             try:
-                podman('image', 'rm', i)
+                subprocess.run(('podman', 'image', 'rm', i), check=True)
             except subprocess.CalledProcessError as ex:
                 print(ex)
 
@@ -50,16 +50,16 @@ def run_prune(compose_config, services, **kwargs):
     )
 
 
-def run_pull(podman, compose_config, services, prune=False):
+def run_pull(compose_config, services, prune=False):
     images = resolve_images(compose_config, services)
 
-    podman('image', 'pull', *images, timeout=None)
+    subprocess.run(('podman', 'image', 'pull', *images), check=True)
 
     if prune:
-        run_prune_resolved(podman, images)
+        run_prune_resolved(images)
 
 
-def run_matrix(podman, compose_config):
+def run_matrix(compose_config):
     result = []
 
     for name, desc in compose_config['services'].items():
@@ -69,28 +69,16 @@ def run_matrix(podman, compose_config):
     print(json.dumps(result))
 
 
-def run_command(func, file, podman_cmd, **kwargs):
+def run_command(func, file, **kwargs):
     with open(file) as f:
         compose_config = yaml.safe_load(f)
 
-    func(
-        podman=container_util.Podman(*podman_cmd),
-        compose_config=compose_config,
-        **kwargs
-    )
+    func(compose_config=compose_config, **kwargs)
 
 
 def main():
     parser = argparse.ArgumentParser(
         description='Manage container images'
-    )
-
-    parser.add_argument(
-        '--podman',
-        dest='podman_cmd',
-        default=['podman'],
-        nargs='+',
-        help='podman command/executable path'
     )
 
     parser.add_argument(

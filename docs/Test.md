@@ -6,11 +6,9 @@
 
 * tox: <https://tox.wiki/>
 
-* podman: <https://podman.io/>
-
 * PyGObject: <https://pygobject.readthedocs.io/> or its build dependencies.
 
-* ImageMagick library: <https://imagemagick.org/>.
+* If running tests in containers - podman: <https://podman.io/>
 
 ## Running
 
@@ -28,33 +26,31 @@ Or to do both at the same time:
 
 ### Run tests
 
-    $ tox [--sitepackages] -- [--pack=path] <other-options...>
+    $ tox [--sitepackages] -- [--package=path] <other-options...>
 
 Before running tests, you need to [build the extension package](/docs/BUILD.md).
 
 You either have to specify:
 
-    `--pack=path/to/built/ddterm@amezin.github.com.shell-extension.zip`
+    `--package=path/to/built/ddterm@amezin.github.com.shell-extension.zip`
 
-or run tox from `meson devenv -C build-dir` shell.
+or run tox from `meson devenv -C build-dir` shell. If not using `meson devenv`
+or `--package=...`, run tests against currently installed extension
+(not possible with containers).
 
 Without `--sitepackages` you'll have to install PyGObject's build dependencies,
 and PyGObject will be automatically built from source by `tox`.
 
 #### Other options:
 
-`--image=IMAGE` - run tests using the specified container image `IMAGE`. Can
-be repeated multiple times to run tests with multiple images.
+`--container=IMAGE` - run tests using the specified container image `IMAGE`.
+Can be repeated multiple times to run tests with multiple images.
+`IMAGE` can be full image name, or a service name from [`compose.yaml`].
+Also, `esm` or `legacy` can be passed as `IMAGE` - in this case, all images
+with the matching profile will be selected.
 
-`--compose-service=COMPOSE_SERVICE` - run tests using the specified container
-image from [`compose.yaml`]. Can be repeated multiple times to run tests
-with multiple images.
-
-`--screenshot-failing-only` - capture screenshots only for failing tests.
-
-`-n numprocesses` - run `numprocesses` parallel test processes.
-
-If no options are specified, reasonable defaults are used.
+`--screenshot-always` - take screenshots after every test. By default,
+screenshots are taken only after failures.
 
 To see all available options:
 
@@ -78,29 +74,6 @@ combinations, [pairwise testing] (using [PICT]) is applied.
 
 Application's UI is (mostly) not covered.
 
-## How
-
-1. Tests spawn [GNOME Shell containers] with various sessions:
-
-    * Xorg
-    * Wayland
-    * Wayland with high DPI (2x)
-    * Wayland with two monitors.
-
-All of them currently use Xvfb, Wayland compositor runs in nested mode. Tests
-connect to the session D-Bus bus over TCP, and use it as the primary
-communication channel.
-
-2. ddterm extension is installed and enabled.
-
-3. Then [another extension](/test/extension/extension.js) that provides an
-[additional D-Bus interface](/test/extension/com.github.amezin.ddterm.ExtensionTest.xml)
-is installed and enabled too.
-
-4. Tests communicate with the installed extensions and application over D-Bus.
-Sometimes also reading journal.
-
 [pairwise testing]: https://www.pairwise.org/
 [PICT]: https://github.com/microsoft/pict
-[GNOME Shell containers]: https://github.com/ddterm/gnome-shell-pod
 [`compose.yaml`]: /test/compose.yaml

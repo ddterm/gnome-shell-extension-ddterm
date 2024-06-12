@@ -1,173 +1,226 @@
-session	monitor_setting	monitor_current	window_size	window_pos	window_maximize
-TestWaylandSession	primary	0	0.5	bottom	maximize_late
-TestWaylandSession	current	0	0.92	top	not_maximized
-TestWaylandHighDpiScaleFramebuffer	current	0	0.92	bottom	maximize_early
-TestWaylandHighDpiScaleFramebuffer	primary	0	0.9	right	not_maximized
-TestWaylandHighDpiScaleFramebuffer	current	0	0.9	bottom	maximize_late
-TestWaylandSession	primary	0	0.9	bottom	maximize_early
-TestWaylandMixedDPI	current	1	0.92	left	maximize_late
-TestXSession	current	0	0.8	right	maximize_early
-TestWaylandHighDpiScaleFramebuffer	current	0	0.5	left	maximize_early
-TestWaylandHighDpi	primary	0	0.5	top	maximize_early
-TestWaylandHighDpi	current	0	1.0	bottom	not_maximized
-TestWaylandMixedDPI	primary	1	1.0	right	maximize_early
-TestWaylandDualMonitor	primary	1	0.5	left	not_maximized
-TestXSession	primary	0	0.9	right	maximize_late
-TestWaylandMixedDPI	primary	0	1.0	top	maximize_late
-TestWaylandMixedDPI	current	1	0.92	top	maximize_early
-TestXSession	primary	0	0.78	top	not_maximized
-TestWaylandMixedDPI	current	1	0.5	bottom	not_maximized
-TestWaylandDualMonitor	current	1	0.78	top	maximize_late
-TestWaylandHighDpi	primary	0	0.92	bottom	maximize_late
-TestWaylandFractionalScaling	primary	0	0.92	left	not_maximized
-TestXSession	current	0	0.78	right	maximize_late
-TestXSession	primary	0	0.5	bottom	maximize_early
-TestWaylandMixedDPI	primary	0	0.92	bottom	not_maximized
-TestWaylandSession	current	0	0.5	left	maximize_late
-TestWaylandMixedDPI	primary	1	0.9	top	not_maximized
-TestWaylandDualMonitor	primary	0	0.78	right	maximize_early
-TestWaylandHighDpi	current	0	0.9	top	maximize_late
-TestWaylandSession	primary	0	0.92	right	maximize_early
-TestWaylandFractionalScaling	current	0	0.78	top	maximize_early
-TestWaylandHighDpi	current	0	0.5	left	maximize_late
-TestWaylandHighDpi	primary	0	0.8	right	not_maximized
-TestWaylandHighDpi	current	0	0.92	left	maximize_early
-TestXSession	current	0	0.92	top	maximize_late
-TestWaylandHighDpiScaleFramebuffer	current	0	0.78	right	not_maximized
-TestWaylandFractionalScaling	current	0	0.5	top	maximize_late
-TestWaylandDualMonitor	current	1	0.5	right	maximize_late
-TestWaylandSession	current	0	0.8	bottom	not_maximized
-TestWaylandHighDpiScaleFramebuffer	primary	0	0.5	bottom	not_maximized
-TestWaylandDualMonitor	primary	1	0.5	top	maximize_early
-TestWaylandSession	current	0	1.0	top	maximize_early
-TestWaylandFractionalScaling	primary	0	0.5	left	maximize_early
-TestWaylandHighDpiScaleFramebuffer	primary	0	0.92	top	maximize_late
-TestWaylandFractionalScaling	current	0	0.5	bottom	not_maximized
-TestWaylandHighDpiScaleFramebuffer	primary	0	1.0	left	maximize_late
-TestWaylandSession	primary	0	1.0	bottom	maximize_late
-TestWaylandHighDpiScaleFramebuffer	current	0	0.92	left	not_maximized
-TestWaylandHighDpi	primary	0	0.78	left	not_maximized
-TestWaylandHighDpiScaleFramebuffer	primary	0	0.8	left	maximize_late
-TestWaylandDualMonitor	primary	1	0.78	bottom	not_maximized
-TestWaylandSession	current	0	0.78	right	not_maximized
-TestWaylandMixedDPI	current	1	0.9	bottom	maximize_early
-TestXSession	current	0	1.0	top	not_maximized
-TestWaylandDualMonitor	current	0	0.92	left	maximize_late
-TestWaylandDualMonitor	current	1	1.0	top	not_maximized
-TestWaylandFractionalScaling	current	0	1.0	left	maximize_late
-TestWaylandMixedDPI	current	1	0.92	right	not_maximized
-TestWaylandHighDpi	current	0	0.9	right	maximize_early
-TestWaylandHighDpi	primary	0	0.5	right	not_maximized
-TestWaylandSession	primary	0	0.78	left	maximize_early
-TestWaylandDualMonitor	primary	1	0.8	bottom	maximize_late
-TestWaylandMixedDPI	current	0	0.78	bottom	maximize_late
-TestWaylandHighDpiScaleFramebuffer	primary	0	0.8	bottom	maximize_early
-TestWaylandHighDpiScaleFramebuffer	current	0	0.8	right	maximize_late
-TestWaylandFractionalScaling	primary	0	0.9	right	maximize_late
-TestWaylandSession	primary	0	0.8	right	maximize_late
-TestWaylandHighDpi	current	0	0.78	top	maximize_early
-TestWaylandSession	primary	0	1.0	right	not_maximized
-TestWaylandSession	primary	0	0.5	top	not_maximized
-TestWaylandDualMonitor	primary	1	0.92	right	not_maximized
-TestWaylandFractionalScaling	primary	0	1.0	top	not_maximized
-TestWaylandHighDpi	primary	0	1.0	left	maximize_early
-TestWaylandDualMonitor	current	1	0.92	bottom	maximize_early
-TestWaylandDualMonitor	current	1	0.8	left	maximize_early
-TestXSession	primary	0	1.0	right	maximize_late
-TestWaylandHighDpi	current	0	0.8	bottom	maximize_early
-TestWaylandFractionalScaling	primary	0	0.8	left	not_maximized
-TestWaylandFractionalScaling	primary	0	0.78	right	not_maximized
-TestWaylandHighDpiScaleFramebuffer	primary	0	0.78	left	maximize_late
-TestWaylandDualMonitor	primary	0	0.8	top	not_maximized
-TestWaylandHighDpi	current	0	1.0	right	maximize_late
-TestWaylandHighDpiScaleFramebuffer	current	0	0.5	top	maximize_late
-TestXSession	current	0	0.5	right	not_maximized
-TestWaylandSession	current	0	0.78	bottom	maximize_early
-TestWaylandFractionalScaling	current	0	0.9	bottom	not_maximized
-TestWaylandFractionalScaling	current	0	0.9	top	maximize_early
-TestWaylandHighDpi	current	0	0.8	top	maximize_late
-TestWaylandMixedDPI	current	1	1.0	left	not_maximized
-TestWaylandMixedDPI	primary	1	0.78	top	maximize_early
-TestWaylandHighDpi	primary	0	0.9	left	not_maximized
-TestWaylandDualMonitor	primary	0	0.5	bottom	maximize_early
-TestWaylandDualMonitor	current	1	0.9	right	maximize_late
-TestWaylandHighDpi	current	0	0.78	bottom	maximize_late
-TestWaylandFractionalScaling	current	0	0.8	top	maximize_early
-TestWaylandMixedDPI	current	1	0.8	left	maximize_early
-TestWaylandSession	current	0	0.92	left	not_maximized
-TestWaylandSession	current	0	0.78	top	maximize_late
-TestWaylandHighDpi	current	0	0.9	bottom	not_maximized
-TestWaylandMixedDPI	primary	1	0.8	bottom	not_maximized
-TestWaylandDualMonitor	current	1	0.78	left	maximize_early
-TestWaylandMixedDPI	current	1	0.5	right	maximize_early
-TestXSession	primary	0	0.8	left	maximize_late
-TestWaylandHighDpiScaleFramebuffer	primary	0	0.78	bottom	maximize_early
-TestXSession	current	0	0.5	top	maximize_early
-TestWaylandFractionalScaling	primary	0	0.8	bottom	maximize_late
-TestXSession	current	0	0.92	left	maximize_early
-TestWaylandHighDpiScaleFramebuffer	current	0	0.9	left	maximize_early
-TestWaylandMixedDPI	current	1	0.8	top	maximize_late
-TestWaylandHighDpiScaleFramebuffer	current	0	1.0	top	not_maximized
-TestWaylandMixedDPI	current	1	0.9	left	maximize_late
-TestWaylandFractionalScaling	current	0	0.78	left	maximize_late
-TestWaylandSession	primary	0	0.8	left	maximize_early
-TestXSession	primary	0	0.92	right	maximize_late
-TestWaylandMixedDPI	current	1	0.78	right	maximize_late
-TestWaylandHighDpi	primary	0	0.78	right	not_maximized
-TestWaylandDualMonitor	primary	0	0.92	top	maximize_late
-TestWaylandDualMonitor	primary	0	1.0	bottom	maximize_early
-TestWaylandMixedDPI	current	1	0.5	left	maximize_late
-TestWaylandHighDpiScaleFramebuffer	current	0	0.78	top	maximize_early
-TestWaylandHighDpiScaleFramebuffer	current	0	0.9	top	maximize_late
-TestWaylandFractionalScaling	current	0	0.92	bottom	maximize_early
-TestWaylandSession	current	0	0.9	right	maximize_late
-TestXSession	current	0	1.0	left	maximize_early
-TestWaylandDualMonitor	primary	0	0.9	left	not_maximized
-TestWaylandHighDpi	primary	0	0.92	right	not_maximized
-TestWaylandDualMonitor	current	1	1.0	left	maximize_late
-TestWaylandDualMonitor	current	1	1.0	right	maximize_early
-TestWaylandSession	current	0	1.0	left	maximize_late
-TestWaylandFractionalScaling	current	0	0.8	right	maximize_early
-TestXSession	current	0	0.78	left	not_maximized
-TestWaylandFractionalScaling	current	0	0.78	bottom	not_maximized
-TestWaylandHighDpiScaleFramebuffer	current	0	1.0	right	maximize_early
-TestXSession	current	0	0.9	top	maximize_early
-TestWaylandSession	current	0	0.9	top	not_maximized
-TestWaylandMixedDPI	current	1	0.9	right	maximize_early
-TestWaylandSession	current	0	0.92	bottom	maximize_late
-TestWaylandHighDpi	current	0	1.0	top	not_maximized
-TestWaylandSession	primary	0	0.9	left	not_maximized
-TestWaylandFractionalScaling	current	0	1.0	right	maximize_early
-TestXSession	primary	0	0.5	left	maximize_late
-TestXSession	current	0	1.0	bottom	not_maximized
-TestWaylandMixedDPI	current	1	0.8	right	maximize_early
-TestWaylandFractionalScaling	current	0	0.5	right	not_maximized
-TestWaylandMixedDPI	primary	1	1.0	bottom	maximize_early
-TestWaylandFractionalScaling	current	0	0.9	left	maximize_late
-TestWaylandSession	primary	0	0.5	right	maximize_early
-TestWaylandHighDpiScaleFramebuffer	primary	0	0.8	top	not_maximized
-TestXSession	current	0	0.8	bottom	maximize_late
-TestXSession	current	0	0.8	top	not_maximized
-TestWaylandHighDpi	primary	0	0.5	bottom	not_maximized
-TestXSession	current	0	0.9	left	not_maximized
-TestWaylandHighDpiScaleFramebuffer	primary	0	0.92	right	not_maximized
-TestWaylandHighDpiScaleFramebuffer	primary	0	1.0	bottom	not_maximized
-TestWaylandHighDpi	primary	0	0.92	top	maximize_late
-TestWaylandFractionalScaling	current	0	1.0	bottom	maximize_late
-TestWaylandHighDpiScaleFramebuffer	current	0	0.5	right	maximize_late
-TestXSession	primary	0	0.78	bottom	maximize_early
-TestWaylandMixedDPI	primary	0	0.5	top	maximize_early
-TestWaylandHighDpi	primary	0	0.8	left	maximize_early
-TestXSession	current	0	0.9	bottom	maximize_late
-TestWaylandFractionalScaling	current	0	0.92	top	maximize_late
-TestWaylandFractionalScaling	current	0	0.92	right	maximize_late
-TestWaylandDualMonitor	primary	0	0.9	bottom	maximize_early
-TestWaylandDualMonitor	current	1	0.9	top	maximize_late
-TestWaylandSession	current	0	0.8	top	maximize_early
-TestXSession	primary	0	0.92	bottom	not_maximized
-TestWaylandMixedDPI	current	1	0.78	left	not_maximized
-TestWaylandMixedDPI	primary	0	0.8	top	maximize_late
-TestWaylandMixedDPI	primary	0	1.0	right	not_maximized
-TestWaylandMixedDPI	primary	0	1.0	left	maximize_early
-TestWaylandDualMonitor	primary	1	0.8	right	not_maximized
-TestWaylandMixedDPI	primary	0	0.9	top	maximize_early
+class	gdk_backend	monitor0_scale	monitor1_scale	layout_mode	window_position	window_size	window_maximize	window_monitor	current_monitor	primary_monitor	window_monitor_connector	animation_mode
+TestWaylandTwoMonitors	GdkBackend.X11	1.748633861541748	2.0	displayconfig.LayoutMode.LOGICAL	WindowPosition.BOTTOM	1.0	False	WindowMonitor.CURRENT	0	0	-1	AnimationMode.GNOME_DEFAULT
+TestWayland	GdkBackend.WAYLAND	2.0	0	displayconfig.LayoutMode.PHYSICAL	WindowPosition.TOP	0.913	True	WindowMonitor.CONNECTOR	0	0	0	AnimationMode.DDTERM_DISABLE
+TestWayland	GdkBackend.WAYLAND	1.25	0	displayconfig.LayoutMode.LOGICAL	WindowPosition.LEFT	0.8	False	WindowMonitor.PRIMARY	0	0	-1	AnimationMode.GLOBAL_DISABLE
+TestWayland	GdkBackend.X11	2.0	0	displayconfig.LayoutMode.LOGICAL	WindowPosition.RIGHT	0.714	True	WindowMonitor.CURRENT	0	0	-1	AnimationMode.DDTERM_DEFAULT
+TestWayland	GdkBackend.WAYLAND	1.502347469329834	0	displayconfig.LayoutMode.LOGICAL	WindowPosition.BOTTOM	0.714	False	WindowMonitor.CONNECTOR	0	0	0	AnimationMode.GNOME_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.X11	2.0	1.0	displayconfig.LayoutMode.PHYSICAL	WindowPosition.RIGHT	1.0	False	WindowMonitor.CONNECTOR	1	1	1	AnimationMode.GLOBAL_DISABLE
+TestWaylandTwoMonitors	GdkBackend.X11	1.0	1.0	displayconfig.LayoutMode.PHYSICAL	WindowPosition.LEFT	1.0	True	WindowMonitor.PRIMARY	0	1	-1	AnimationMode.DDTERM_DISABLE
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.0	1.748633861541748	displayconfig.LayoutMode.LOGICAL	WindowPosition.BOTTOM	0.6	True	WindowMonitor.CONNECTOR	1	1	0	AnimationMode.DDTERM_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.X11	1.748633861541748	1.748633861541748	displayconfig.LayoutMode.LOGICAL	WindowPosition.LEFT	0.913	True	WindowMonitor.CONNECTOR	0	1	1	AnimationMode.GNOME_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.X11	2.0	2.0	displayconfig.LayoutMode.PHYSICAL	WindowPosition.BOTTOM	0.8	True	WindowMonitor.CONNECTOR	1	0	1	AnimationMode.DDTERM_DISABLE
+TestWaylandTwoMonitors	GdkBackend.X11	1.502347469329834	1.748633861541748	displayconfig.LayoutMode.LOGICAL	WindowPosition.TOP	0.8	False	WindowMonitor.CURRENT	1	1	-1	AnimationMode.DDTERM_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.X11	1.0	1.25	displayconfig.LayoutMode.LOGICAL	WindowPosition.LEFT	0.913	False	WindowMonitor.CONNECTOR	1	0	0	AnimationMode.GLOBAL_DISABLE
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.748633861541748	1.0	displayconfig.LayoutMode.LOGICAL	WindowPosition.RIGHT	0.913	False	WindowMonitor.CONNECTOR	1	0	0	AnimationMode.DDTERM_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.502347469329834	2.0	displayconfig.LayoutMode.LOGICAL	WindowPosition.TOP	0.6	True	WindowMonitor.PRIMARY	0	1	-1	AnimationMode.GLOBAL_DISABLE
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.0	2.0	displayconfig.LayoutMode.PHYSICAL	WindowPosition.RIGHT	0.913	False	WindowMonitor.PRIMARY	1	1	-1	AnimationMode.GNOME_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.X11	1.25	2.0	displayconfig.LayoutMode.LOGICAL	WindowPosition.TOP	1.0	False	WindowMonitor.CONNECTOR	0	1	0	AnimationMode.DDTERM_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.25	2.0	displayconfig.LayoutMode.LOGICAL	WindowPosition.LEFT	0.714	True	WindowMonitor.CURRENT	1	1	-1	AnimationMode.DDTERM_DISABLE
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.502347469329834	2.0	displayconfig.LayoutMode.LOGICAL	WindowPosition.RIGHT	1.0	False	WindowMonitor.CONNECTOR	0	0	1	AnimationMode.DDTERM_DISABLE
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.502347469329834	1.25	displayconfig.LayoutMode.LOGICAL	WindowPosition.RIGHT	0.8	True	WindowMonitor.CONNECTOR	0	1	1	AnimationMode.GNOME_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.X11	1.748633861541748	1.0	displayconfig.LayoutMode.LOGICAL	WindowPosition.BOTTOM	0.8	True	WindowMonitor.CONNECTOR	0	1	0	AnimationMode.GLOBAL_DISABLE
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	2.0	1.748633861541748	displayconfig.LayoutMode.LOGICAL	WindowPosition.TOP	0.8	False	WindowMonitor.CONNECTOR	1	0	0	AnimationMode.GNOME_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.X11	1.502347469329834	1.502347469329834	displayconfig.LayoutMode.LOGICAL	WindowPosition.LEFT	0.714	True	WindowMonitor.CONNECTOR	1	1	1	AnimationMode.DDTERM_DEFAULT
+TestWayland	GdkBackend.X11	1.502347469329834	0	displayconfig.LayoutMode.LOGICAL	WindowPosition.LEFT	0.6	False	WindowMonitor.CURRENT	0	0	-1	AnimationMode.DDTERM_DISABLE
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.0	1.502347469329834	displayconfig.LayoutMode.LOGICAL	WindowPosition.TOP	0.6	False	WindowMonitor.CONNECTOR	0	0	1	AnimationMode.GLOBAL_DISABLE
+TestWaylandTwoMonitors	GdkBackend.X11	1.748633861541748	1.0	displayconfig.LayoutMode.LOGICAL	WindowPosition.TOP	0.6	True	WindowMonitor.PRIMARY	1	0	-1	AnimationMode.GNOME_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.25	1.0	displayconfig.LayoutMode.LOGICAL	WindowPosition.LEFT	0.8	True	WindowMonitor.CONNECTOR	0	0	1	AnimationMode.DDTERM_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.X11	2.0	1.25	displayconfig.LayoutMode.LOGICAL	WindowPosition.BOTTOM	0.6	False	WindowMonitor.CONNECTOR	0	0	1	AnimationMode.DDTERM_DEFAULT
+TestWayland	GdkBackend.X11	1.25	0	displayconfig.LayoutMode.LOGICAL	WindowPosition.RIGHT	0.714	True	WindowMonitor.CONNECTOR	0	0	0	AnimationMode.GLOBAL_DISABLE
+TestWaylandTwoMonitors	GdkBackend.X11	1.502347469329834	1.25	displayconfig.LayoutMode.LOGICAL	WindowPosition.RIGHT	0.6	False	WindowMonitor.CONNECTOR	1	1	0	AnimationMode.DDTERM_DISABLE
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.25	1.748633861541748	displayconfig.LayoutMode.LOGICAL	WindowPosition.RIGHT	0.6	True	WindowMonitor.CURRENT	0	0	-1	AnimationMode.GNOME_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.502347469329834	2.0	displayconfig.LayoutMode.LOGICAL	WindowPosition.BOTTOM	0.913	True	WindowMonitor.CONNECTOR	1	0	0	AnimationMode.DDTERM_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.748633861541748	1.748633861541748	displayconfig.LayoutMode.LOGICAL	WindowPosition.BOTTOM	0.714	False	WindowMonitor.PRIMARY	1	0	-1	AnimationMode.GLOBAL_DISABLE
+TestWaylandTwoMonitors	GdkBackend.X11	1.25	1.0	displayconfig.LayoutMode.LOGICAL	WindowPosition.TOP	0.714	False	WindowMonitor.CONNECTOR	1	1	1	AnimationMode.GNOME_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	2.0	1.502347469329834	displayconfig.LayoutMode.LOGICAL	WindowPosition.LEFT	0.8	False	WindowMonitor.CONNECTOR	0	1	0	AnimationMode.DDTERM_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	2.0	1.25	displayconfig.LayoutMode.LOGICAL	WindowPosition.BOTTOM	1.0	True	WindowMonitor.CURRENT	1	1	-1	AnimationMode.GNOME_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.25	1.0	displayconfig.LayoutMode.LOGICAL	WindowPosition.BOTTOM	0.913	False	WindowMonitor.CONNECTOR	1	0	1	AnimationMode.DDTERM_DISABLE
+TestWaylandTwoMonitors	GdkBackend.X11	1.25	1.25	displayconfig.LayoutMode.LOGICAL	WindowPosition.TOP	0.913	True	WindowMonitor.PRIMARY	0	1	-1	AnimationMode.DDTERM_DEFAULT
+TestWayland	GdkBackend.WAYLAND	2.0	0	displayconfig.LayoutMode.PHYSICAL	WindowPosition.LEFT	0.6	True	WindowMonitor.CONNECTOR	0	0	0	AnimationMode.GLOBAL_DISABLE
+TestWaylandTwoMonitors	GdkBackend.X11	1.25	1.502347469329834	displayconfig.LayoutMode.LOGICAL	WindowPosition.RIGHT	0.8	True	WindowMonitor.CONNECTOR	1	0	0	AnimationMode.DDTERM_DISABLE
+TestWaylandTwoMonitors	GdkBackend.X11	1.502347469329834	1.748633861541748	displayconfig.LayoutMode.LOGICAL	WindowPosition.TOP	0.913	False	WindowMonitor.CONNECTOR	0	0	1	AnimationMode.GLOBAL_DISABLE
+TestWaylandTwoMonitors	GdkBackend.X11	1.0	2.0	displayconfig.LayoutMode.PHYSICAL	WindowPosition.TOP	1.0	True	WindowMonitor.CONNECTOR	1	0	0	AnimationMode.GLOBAL_DISABLE
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.748633861541748	1.25	displayconfig.LayoutMode.LOGICAL	WindowPosition.TOP	1.0	True	WindowMonitor.CONNECTOR	1	0	1	AnimationMode.DDTERM_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	2.0	1.748633861541748	displayconfig.LayoutMode.LOGICAL	WindowPosition.RIGHT	0.714	False	WindowMonitor.CONNECTOR	0	1	1	AnimationMode.DDTERM_DISABLE
+TestWaylandTwoMonitors	GdkBackend.X11	1.25	1.748633861541748	displayconfig.LayoutMode.LOGICAL	WindowPosition.BOTTOM	0.8	True	WindowMonitor.PRIMARY	0	1	-1	AnimationMode.DDTERM_DISABLE
+TestWaylandTwoMonitors	GdkBackend.X11	1.25	1.25	displayconfig.LayoutMode.LOGICAL	WindowPosition.LEFT	0.8	False	WindowMonitor.CONNECTOR	1	0	0	AnimationMode.GNOME_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.748633861541748	1.25	displayconfig.LayoutMode.LOGICAL	WindowPosition.TOP	0.714	True	WindowMonitor.CONNECTOR	0	1	0	AnimationMode.DDTERM_DISABLE
+TestWaylandTwoMonitors	GdkBackend.X11	2.0	1.25	displayconfig.LayoutMode.LOGICAL	WindowPosition.LEFT	0.714	False	WindowMonitor.PRIMARY	1	0	-1	AnimationMode.GLOBAL_DISABLE
+TestWaylandTwoMonitors	GdkBackend.X11	1.502347469329834	1.502347469329834	displayconfig.LayoutMode.LOGICAL	WindowPosition.BOTTOM	0.913	True	WindowMonitor.CURRENT	0	0	-1	AnimationMode.GNOME_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.X11	2.0	1.25	displayconfig.LayoutMode.LOGICAL	WindowPosition.RIGHT	0.913	False	WindowMonitor.CONNECTOR	0	0	1	AnimationMode.GNOME_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.25	1.748633861541748	displayconfig.LayoutMode.LOGICAL	WindowPosition.LEFT	1.0	True	WindowMonitor.CONNECTOR	1	1	1	AnimationMode.GLOBAL_DISABLE
+TestWaylandTwoMonitors	GdkBackend.X11	1.748633861541748	1.748633861541748	displayconfig.LayoutMode.LOGICAL	WindowPosition.RIGHT	0.8	False	WindowMonitor.CONNECTOR	0	0	1	AnimationMode.DDTERM_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.25	2.0	displayconfig.LayoutMode.LOGICAL	WindowPosition.RIGHT	0.8	True	WindowMonitor.CONNECTOR	0	1	0	AnimationMode.GNOME_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.748633861541748	2.0	displayconfig.LayoutMode.LOGICAL	WindowPosition.LEFT	0.913	False	WindowMonitor.CONNECTOR	1	1	1	AnimationMode.GLOBAL_DISABLE
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.748633861541748	1.25	displayconfig.LayoutMode.LOGICAL	WindowPosition.TOP	0.913	False	WindowMonitor.CURRENT	1	0	-1	AnimationMode.DDTERM_DISABLE
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.748633861541748	1.502347469329834	displayconfig.LayoutMode.LOGICAL	WindowPosition.RIGHT	0.6	False	WindowMonitor.CURRENT	1	1	-1	AnimationMode.DDTERM_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.X11	1.0	1.25	displayconfig.LayoutMode.LOGICAL	WindowPosition.TOP	0.6	True	WindowMonitor.CURRENT	0	0	-1	AnimationMode.GNOME_DEFAULT
+TestWayland	GdkBackend.WAYLAND	2.0	0	displayconfig.LayoutMode.PHYSICAL	WindowPosition.BOTTOM	1.0	False	WindowMonitor.CONNECTOR	0	0	0	AnimationMode.DDTERM_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.25	1.502347469329834	displayconfig.LayoutMode.LOGICAL	WindowPosition.BOTTOM	1.0	False	WindowMonitor.CONNECTOR	0	1	1	AnimationMode.GNOME_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	2.0	1.25	displayconfig.LayoutMode.LOGICAL	WindowPosition.TOP	0.8	True	WindowMonitor.CURRENT	0	1	-1	AnimationMode.GLOBAL_DISABLE
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.25	1.25	displayconfig.LayoutMode.LOGICAL	WindowPosition.LEFT	0.6	False	WindowMonitor.CONNECTOR	1	1	1	AnimationMode.GLOBAL_DISABLE
+TestWaylandTwoMonitors	GdkBackend.X11	1.0	1.25	displayconfig.LayoutMode.LOGICAL	WindowPosition.RIGHT	1.0	False	WindowMonitor.CONNECTOR	0	1	1	AnimationMode.DDTERM_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.X11	1.748633861541748	2.0	displayconfig.LayoutMode.LOGICAL	WindowPosition.LEFT	0.714	False	WindowMonitor.CONNECTOR	0	0	0	AnimationMode.DDTERM_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.X11	1.502347469329834	1.502347469329834	displayconfig.LayoutMode.LOGICAL	WindowPosition.TOP	0.6	False	WindowMonitor.CONNECTOR	1	1	0	AnimationMode.GNOME_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.748633861541748	1.502347469329834	displayconfig.LayoutMode.LOGICAL	WindowPosition.RIGHT	0.8	True	WindowMonitor.PRIMARY	0	0	-1	AnimationMode.GNOME_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.X11	1.748633861541748	2.0	displayconfig.LayoutMode.LOGICAL	WindowPosition.TOP	0.8	False	WindowMonitor.PRIMARY	1	0	-1	AnimationMode.DDTERM_DISABLE
+TestWaylandTwoMonitors	GdkBackend.X11	2.0	2.0	displayconfig.LayoutMode.PHYSICAL	WindowPosition.LEFT	1.0	False	WindowMonitor.CONNECTOR	0	1	0	AnimationMode.GNOME_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.X11	1.0	1.502347469329834	displayconfig.LayoutMode.LOGICAL	WindowPosition.BOTTOM	1.0	True	WindowMonitor.CONNECTOR	1	0	0	AnimationMode.DDTERM_DISABLE
+TestWaylandTwoMonitors	GdkBackend.X11	1.748633861541748	1.748633861541748	displayconfig.LayoutMode.LOGICAL	WindowPosition.LEFT	0.6	True	WindowMonitor.CONNECTOR	0	0	1	AnimationMode.DDTERM_DISABLE
+TestWaylandTwoMonitors	GdkBackend.X11	2.0	1.502347469329834	displayconfig.LayoutMode.LOGICAL	WindowPosition.BOTTOM	0.913	True	WindowMonitor.PRIMARY	1	1	-1	AnimationMode.GLOBAL_DISABLE
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.0	1.0	displayconfig.LayoutMode.PHYSICAL	WindowPosition.BOTTOM	0.714	False	WindowMonitor.CURRENT	0	0	-1	AnimationMode.DDTERM_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.502347469329834	1.0	displayconfig.LayoutMode.LOGICAL	WindowPosition.RIGHT	0.714	True	WindowMonitor.CURRENT	1	0	-1	AnimationMode.GLOBAL_DISABLE
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.0	1.0	displayconfig.LayoutMode.PHYSICAL	WindowPosition.TOP	0.913	True	WindowMonitor.CONNECTOR	0	1	0	AnimationMode.GNOME_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.X11	1.502347469329834	2.0	displayconfig.LayoutMode.LOGICAL	WindowPosition.LEFT	0.8	False	WindowMonitor.CONNECTOR	1	0	0	AnimationMode.GLOBAL_DISABLE
+TestWayland	GdkBackend.X11	1.25	0	displayconfig.LayoutMode.LOGICAL	WindowPosition.TOP	0.913	False	WindowMonitor.CURRENT	0	0	-1	AnimationMode.GNOME_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.0	1.0	displayconfig.LayoutMode.PHYSICAL	WindowPosition.RIGHT	0.6	False	WindowMonitor.CONNECTOR	1	1	1	AnimationMode.DDTERM_DISABLE
+TestWaylandTwoMonitors	GdkBackend.X11	1.25	1.748633861541748	displayconfig.LayoutMode.LOGICAL	WindowPosition.TOP	0.714	True	WindowMonitor.CONNECTOR	1	0	0	AnimationMode.DDTERM_DEFAULT
+TestWayland	GdkBackend.X11	1.748633861541748	0	displayconfig.LayoutMode.LOGICAL	WindowPosition.LEFT	0.714	True	WindowMonitor.PRIMARY	0	0	-1	AnimationMode.GNOME_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.X11	1.25	1.0	displayconfig.LayoutMode.LOGICAL	WindowPosition.RIGHT	0.6	False	WindowMonitor.CONNECTOR	0	1	0	AnimationMode.DDTERM_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	2.0	1.502347469329834	displayconfig.LayoutMode.LOGICAL	WindowPosition.TOP	0.6	False	WindowMonitor.PRIMARY	0	1	-1	AnimationMode.DDTERM_DISABLE
+TestWaylandTwoMonitors	GdkBackend.X11	1.502347469329834	1.25	displayconfig.LayoutMode.LOGICAL	WindowPosition.RIGHT	0.714	False	WindowMonitor.PRIMARY	0	0	-1	AnimationMode.DDTERM_DEFAULT
+TestX11	GdkBackend.X11	1.0	0	displayconfig.LayoutMode.PHYSICAL	WindowPosition.BOTTOM	0.6	True	WindowMonitor.PRIMARY	0	0	-1	AnimationMode.DDTERM_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.X11	1.502347469329834	1.0	displayconfig.LayoutMode.LOGICAL	WindowPosition.LEFT	0.913	False	WindowMonitor.CONNECTOR	0	1	0	AnimationMode.DDTERM_DISABLE
+TestWayland	GdkBackend.WAYLAND	1.0	0	displayconfig.LayoutMode.PHYSICAL	WindowPosition.RIGHT	0.8	False	WindowMonitor.CONNECTOR	0	0	0	AnimationMode.GNOME_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.X11	1.502347469329834	1.748633861541748	displayconfig.LayoutMode.LOGICAL	WindowPosition.RIGHT	1.0	True	WindowMonitor.CONNECTOR	0	0	0	AnimationMode.GNOME_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.25	1.748633861541748	displayconfig.LayoutMode.LOGICAL	WindowPosition.RIGHT	0.913	False	WindowMonitor.CONNECTOR	1	0	0	AnimationMode.GLOBAL_DISABLE
+TestWaylandTwoMonitors	GdkBackend.X11	1.748633861541748	2.0	displayconfig.LayoutMode.LOGICAL	WindowPosition.RIGHT	0.6	False	WindowMonitor.CONNECTOR	1	0	0	AnimationMode.GLOBAL_DISABLE
+TestWaylandTwoMonitors	GdkBackend.X11	1.0	1.0	displayconfig.LayoutMode.PHYSICAL	WindowPosition.LEFT	0.8	False	WindowMonitor.CURRENT	1	1	-1	AnimationMode.GLOBAL_DISABLE
+TestWaylandTwoMonitors	GdkBackend.X11	1.748633861541748	1.0	displayconfig.LayoutMode.LOGICAL	WindowPosition.BOTTOM	0.714	False	WindowMonitor.CONNECTOR	0	0	1	AnimationMode.DDTERM_DISABLE
+TestWaylandTwoMonitors	GdkBackend.X11	1.502347469329834	1.0	displayconfig.LayoutMode.LOGICAL	WindowPosition.BOTTOM	0.6	False	WindowMonitor.CONNECTOR	0	0	1	AnimationMode.DDTERM_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.X11	1.502347469329834	2.0	displayconfig.LayoutMode.LOGICAL	WindowPosition.TOP	0.714	False	WindowMonitor.CONNECTOR	0	0	1	AnimationMode.GNOME_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.X11	1.25	1.25	displayconfig.LayoutMode.LOGICAL	WindowPosition.BOTTOM	0.714	False	WindowMonitor.CONNECTOR	0	0	1	AnimationMode.DDTERM_DISABLE
+TestWaylandTwoMonitors	GdkBackend.X11	1.748633861541748	1.748633861541748	displayconfig.LayoutMode.LOGICAL	WindowPosition.TOP	1.0	False	WindowMonitor.CONNECTOR	1	1	0	AnimationMode.DDTERM_DISABLE
+TestWayland	GdkBackend.X11	1.25	0	displayconfig.LayoutMode.LOGICAL	WindowPosition.BOTTOM	0.6	False	WindowMonitor.CONNECTOR	0	0	0	AnimationMode.DDTERM_DISABLE
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.25	1.502347469329834	displayconfig.LayoutMode.LOGICAL	WindowPosition.TOP	0.714	False	WindowMonitor.CONNECTOR	0	0	0	AnimationMode.GLOBAL_DISABLE
+TestWaylandTwoMonitors	GdkBackend.X11	2.0	1.748633861541748	displayconfig.LayoutMode.LOGICAL	WindowPosition.LEFT	0.913	True	WindowMonitor.PRIMARY	1	0	-1	AnimationMode.DDTERM_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	2.0	1.0	displayconfig.LayoutMode.PHYSICAL	WindowPosition.TOP	0.8	True	WindowMonitor.CONNECTOR	0	0	0	AnimationMode.DDTERM_DISABLE
+TestWaylandTwoMonitors	GdkBackend.X11	2.0	2.0	displayconfig.LayoutMode.PHYSICAL	WindowPosition.BOTTOM	0.714	False	WindowMonitor.CONNECTOR	0	1	0	AnimationMode.GLOBAL_DISABLE
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.0	2.0	displayconfig.LayoutMode.PHYSICAL	WindowPosition.LEFT	0.6	True	WindowMonitor.CONNECTOR	0	0	1	AnimationMode.DDTERM_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.X11	1.0	1.25	displayconfig.LayoutMode.LOGICAL	WindowPosition.LEFT	0.714	True	WindowMonitor.CONNECTOR	1	1	0	AnimationMode.DDTERM_DISABLE
+TestWaylandTwoMonitors	GdkBackend.X11	2.0	1.748633861541748	displayconfig.LayoutMode.LOGICAL	WindowPosition.LEFT	1.0	False	WindowMonitor.CURRENT	0	0	-1	AnimationMode.GLOBAL_DISABLE
+TestX11	GdkBackend.X11	1.0	0	displayconfig.LayoutMode.PHYSICAL	WindowPosition.BOTTOM	0.913	False	WindowMonitor.CONNECTOR	0	0	0	AnimationMode.GLOBAL_DISABLE
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	2.0	1.0	displayconfig.LayoutMode.PHYSICAL	WindowPosition.LEFT	0.6	True	WindowMonitor.CURRENT	1	0	-1	AnimationMode.GNOME_DEFAULT
+TestWayland	GdkBackend.WAYLAND	1.748633861541748	0	displayconfig.LayoutMode.LOGICAL	WindowPosition.RIGHT	0.6	False	WindowMonitor.CONNECTOR	0	0	0	AnimationMode.DDTERM_DISABLE
+TestWaylandTwoMonitors	GdkBackend.X11	2.0	1.502347469329834	displayconfig.LayoutMode.LOGICAL	WindowPosition.TOP	1.0	True	WindowMonitor.CONNECTOR	0	0	1	AnimationMode.DDTERM_DISABLE
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.25	1.25	displayconfig.LayoutMode.LOGICAL	WindowPosition.RIGHT	1.0	False	WindowMonitor.PRIMARY	0	0	-1	AnimationMode.DDTERM_DISABLE
+TestWaylandTwoMonitors	GdkBackend.X11	1.502347469329834	1.25	displayconfig.LayoutMode.LOGICAL	WindowPosition.BOTTOM	1.0	True	WindowMonitor.PRIMARY	1	1	-1	AnimationMode.GLOBAL_DISABLE
+TestWaylandTwoMonitors	GdkBackend.X11	1.748633861541748	1.502347469329834	displayconfig.LayoutMode.LOGICAL	WindowPosition.LEFT	0.714	True	WindowMonitor.CURRENT	0	0	-1	AnimationMode.DDTERM_DISABLE
+TestWaylandTwoMonitors	GdkBackend.X11	2.0	1.0	displayconfig.LayoutMode.PHYSICAL	WindowPosition.RIGHT	0.714	True	WindowMonitor.CONNECTOR	0	0	0	AnimationMode.GNOME_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.X11	1.0	1.748633861541748	displayconfig.LayoutMode.LOGICAL	WindowPosition.TOP	0.8	True	WindowMonitor.CONNECTOR	0	0	1	AnimationMode.DDTERM_DISABLE
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.502347469329834	1.502347469329834	displayconfig.LayoutMode.LOGICAL	WindowPosition.BOTTOM	0.8	True	WindowMonitor.CONNECTOR	0	0	1	AnimationMode.DDTERM_DISABLE
+TestWayland	GdkBackend.X11	1.25	0	displayconfig.LayoutMode.LOGICAL	WindowPosition.TOP	1.0	True	WindowMonitor.CURRENT	0	0	-1	AnimationMode.DDTERM_DEFAULT
+TestWayland	GdkBackend.WAYLAND	1.0	0	displayconfig.LayoutMode.PHYSICAL	WindowPosition.RIGHT	1.0	True	WindowMonitor.CURRENT	0	0	-1	AnimationMode.GNOME_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.X11	1.748633861541748	1.25	displayconfig.LayoutMode.LOGICAL	WindowPosition.BOTTOM	0.6	True	WindowMonitor.CONNECTOR	0	0	0	AnimationMode.GNOME_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.X11	1.748633861541748	1.25	displayconfig.LayoutMode.LOGICAL	WindowPosition.LEFT	0.8	True	WindowMonitor.CONNECTOR	0	0	0	AnimationMode.DDTERM_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.X11	1.502347469329834	1.25	displayconfig.LayoutMode.LOGICAL	WindowPosition.RIGHT	0.913	True	WindowMonitor.PRIMARY	0	0	-1	AnimationMode.DDTERM_DISABLE
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.502347469329834	1.502347469329834	displayconfig.LayoutMode.LOGICAL	WindowPosition.LEFT	1.0	False	WindowMonitor.PRIMARY	0	0	-1	AnimationMode.DDTERM_DEFAULT
+TestX11	GdkBackend.X11	2.0	0	displayconfig.LayoutMode.PHYSICAL	WindowPosition.BOTTOM	0.8	True	WindowMonitor.CURRENT	0	0	-1	AnimationMode.DDTERM_DISABLE
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.0	1.25	displayconfig.LayoutMode.LOGICAL	WindowPosition.BOTTOM	0.8	True	WindowMonitor.CONNECTOR	0	0	0	AnimationMode.DDTERM_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.X11	1.0	2.0	displayconfig.LayoutMode.PHYSICAL	WindowPosition.BOTTOM	0.8	False	WindowMonitor.PRIMARY	0	0	-1	AnimationMode.DDTERM_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.X11	1.25	1.502347469329834	displayconfig.LayoutMode.LOGICAL	WindowPosition.TOP	0.6	True	WindowMonitor.PRIMARY	0	0	-1	AnimationMode.DDTERM_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.502347469329834	1.0	displayconfig.LayoutMode.LOGICAL	WindowPosition.TOP	1.0	True	WindowMonitor.CONNECTOR	0	0	0	AnimationMode.GNOME_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.X11	1.25	2.0	displayconfig.LayoutMode.LOGICAL	WindowPosition.BOTTOM	0.6	True	WindowMonitor.CONNECTOR	0	0	1	AnimationMode.GNOME_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.502347469329834	1.0	displayconfig.LayoutMode.LOGICAL	WindowPosition.BOTTOM	0.8	False	WindowMonitor.PRIMARY	0	0	-1	AnimationMode.GNOME_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.X11	1.0	1.748633861541748	displayconfig.LayoutMode.LOGICAL	WindowPosition.BOTTOM	1.0	True	WindowMonitor.CONNECTOR	0	0	1	AnimationMode.GNOME_DEFAULT
+TestX11	GdkBackend.X11	2.0	0	displayconfig.LayoutMode.PHYSICAL	WindowPosition.TOP	1.0	False	WindowMonitor.CURRENT	0	0	-1	AnimationMode.GLOBAL_DISABLE
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.25	1.502347469329834	displayconfig.LayoutMode.LOGICAL	WindowPosition.LEFT	0.913	False	WindowMonitor.CONNECTOR	1	1	1	AnimationMode.DDTERM_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.502347469329834	1.748633861541748	displayconfig.LayoutMode.LOGICAL	WindowPosition.LEFT	0.714	True	WindowMonitor.CONNECTOR	0	0	0	AnimationMode.DDTERM_DISABLE
+TestWaylandTwoMonitors	GdkBackend.X11	1.25	1.502347469329834	displayconfig.LayoutMode.LOGICAL	WindowPosition.RIGHT	0.8	True	WindowMonitor.CURRENT	0	0	-1	AnimationMode.GLOBAL_DISABLE
+TestX11	GdkBackend.X11	1.0	0	displayconfig.LayoutMode.PHYSICAL	WindowPosition.LEFT	1.0	True	WindowMonitor.CONNECTOR	0	0	0	AnimationMode.DDTERM_DISABLE
+TestX11	GdkBackend.X11	2.0	0	displayconfig.LayoutMode.PHYSICAL	WindowPosition.RIGHT	0.913	False	WindowMonitor.PRIMARY	0	0	-1	AnimationMode.DDTERM_DISABLE
+TestWayland	GdkBackend.X11	1.748633861541748	0	displayconfig.LayoutMode.LOGICAL	WindowPosition.TOP	0.8	True	WindowMonitor.CONNECTOR	0	0	0	AnimationMode.DDTERM_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.748633861541748	1.502347469329834	displayconfig.LayoutMode.LOGICAL	WindowPosition.RIGHT	1.0	True	WindowMonitor.CONNECTOR	0	0	1	AnimationMode.GLOBAL_DISABLE
+TestX11	GdkBackend.X11	1.0	0	displayconfig.LayoutMode.PHYSICAL	WindowPosition.RIGHT	0.714	False	WindowMonitor.CONNECTOR	0	0	0	AnimationMode.DDTERM_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.25	1.0	displayconfig.LayoutMode.LOGICAL	WindowPosition.TOP	0.714	True	WindowMonitor.PRIMARY	1	1	-1	AnimationMode.GLOBAL_DISABLE
+TestWaylandTwoMonitors	GdkBackend.X11	1.0	1.25	displayconfig.LayoutMode.LOGICAL	WindowPosition.TOP	0.714	True	WindowMonitor.PRIMARY	0	0	-1	AnimationMode.GNOME_DEFAULT
+TestX11	GdkBackend.X11	1.0	0	displayconfig.LayoutMode.PHYSICAL	WindowPosition.TOP	0.714	True	WindowMonitor.PRIMARY	0	0	-1	AnimationMode.DDTERM_DISABLE
+TestWaylandTwoMonitors	GdkBackend.X11	1.0	1.502347469329834	displayconfig.LayoutMode.LOGICAL	WindowPosition.LEFT	0.8	False	WindowMonitor.CURRENT	0	1	-1	AnimationMode.GNOME_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.748633861541748	1.502347469329834	displayconfig.LayoutMode.LOGICAL	WindowPosition.BOTTOM	0.913	True	WindowMonitor.CONNECTOR	0	1	0	AnimationMode.DDTERM_DISABLE
+TestX11	GdkBackend.X11	2.0	0	displayconfig.LayoutMode.PHYSICAL	WindowPosition.RIGHT	0.6	True	WindowMonitor.CONNECTOR	0	0	0	AnimationMode.GLOBAL_DISABLE
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	2.0	2.0	displayconfig.LayoutMode.PHYSICAL	WindowPosition.TOP	0.6	False	WindowMonitor.CURRENT	1	1	-1	AnimationMode.DDTERM_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.X11	1.0	1.748633861541748	displayconfig.LayoutMode.LOGICAL	WindowPosition.TOP	0.6	False	WindowMonitor.CONNECTOR	1	1	1	AnimationMode.GLOBAL_DISABLE
+TestX11	GdkBackend.X11	2.0	0	displayconfig.LayoutMode.PHYSICAL	WindowPosition.LEFT	0.714	True	WindowMonitor.CONNECTOR	0	0	0	AnimationMode.GLOBAL_DISABLE
+TestWaylandTwoMonitors	GdkBackend.X11	1.748633861541748	1.0	displayconfig.LayoutMode.LOGICAL	WindowPosition.BOTTOM	1.0	True	WindowMonitor.PRIMARY	1	1	-1	AnimationMode.DDTERM_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.X11	1.502347469329834	2.0	displayconfig.LayoutMode.LOGICAL	WindowPosition.RIGHT	0.913	True	WindowMonitor.CURRENT	0	1	-1	AnimationMode.GLOBAL_DISABLE
+TestWayland	GdkBackend.WAYLAND	1.748633861541748	0	displayconfig.LayoutMode.LOGICAL	WindowPosition.BOTTOM	1.0	True	WindowMonitor.CONNECTOR	0	0	0	AnimationMode.GLOBAL_DISABLE
+TestWaylandTwoMonitors	GdkBackend.X11	2.0	1.502347469329834	displayconfig.LayoutMode.LOGICAL	WindowPosition.TOP	0.8	False	WindowMonitor.CONNECTOR	0	0	0	AnimationMode.GNOME_DEFAULT
+TestX11	GdkBackend.X11	2.0	0	displayconfig.LayoutMode.PHYSICAL	WindowPosition.RIGHT	0.8	False	WindowMonitor.CONNECTOR	0	0	0	AnimationMode.GNOME_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.502347469329834	1.25	displayconfig.LayoutMode.LOGICAL	WindowPosition.LEFT	0.913	True	WindowMonitor.CURRENT	1	0	-1	AnimationMode.DDTERM_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.X11	1.0	1.748633861541748	displayconfig.LayoutMode.LOGICAL	WindowPosition.TOP	1.0	True	WindowMonitor.PRIMARY	1	1	-1	AnimationMode.GNOME_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.X11	1.0	1.748633861541748	displayconfig.LayoutMode.LOGICAL	WindowPosition.LEFT	0.8	True	WindowMonitor.CONNECTOR	1	1	1	AnimationMode.GLOBAL_DISABLE
+TestWaylandTwoMonitors	GdkBackend.X11	1.0	1.502347469329834	displayconfig.LayoutMode.LOGICAL	WindowPosition.TOP	0.913	False	WindowMonitor.CONNECTOR	1	0	1	AnimationMode.DDTERM_DEFAULT
+TestWayland	GdkBackend.X11	1.0	0	displayconfig.LayoutMode.PHYSICAL	WindowPosition.BOTTOM	0.913	True	WindowMonitor.CURRENT	0	0	-1	AnimationMode.GLOBAL_DISABLE
+TestX11	GdkBackend.X11	1.0	0	displayconfig.LayoutMode.PHYSICAL	WindowPosition.LEFT	0.8	False	WindowMonitor.CURRENT	0	0	-1	AnimationMode.DDTERM_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	2.0	1.25	displayconfig.LayoutMode.LOGICAL	WindowPosition.LEFT	0.8	True	WindowMonitor.PRIMARY	0	1	-1	AnimationMode.DDTERM_DISABLE
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.502347469329834	1.748633861541748	displayconfig.LayoutMode.LOGICAL	WindowPosition.LEFT	0.6	True	WindowMonitor.PRIMARY	1	1	-1	AnimationMode.GNOME_DEFAULT
+TestWayland	GdkBackend.WAYLAND	1.0	0	displayconfig.LayoutMode.PHYSICAL	WindowPosition.LEFT	0.913	True	WindowMonitor.CONNECTOR	0	0	0	AnimationMode.DDTERM_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.0	1.502347469329834	displayconfig.LayoutMode.LOGICAL	WindowPosition.RIGHT	0.714	True	WindowMonitor.PRIMARY	1	1	-1	AnimationMode.GLOBAL_DISABLE
+TestX11	GdkBackend.X11	2.0	0	displayconfig.LayoutMode.PHYSICAL	WindowPosition.LEFT	0.6	True	WindowMonitor.PRIMARY	0	0	-1	AnimationMode.GNOME_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	2.0	2.0	displayconfig.LayoutMode.LOGICAL	WindowPosition.TOP	0.913	True	WindowMonitor.CONNECTOR	1	0	0	AnimationMode.DDTERM_DISABLE
+TestWayland	GdkBackend.WAYLAND	1.502347469329834	0	displayconfig.LayoutMode.LOGICAL	WindowPosition.TOP	0.8	True	WindowMonitor.CONNECTOR	0	0	0	AnimationMode.GLOBAL_DISABLE
+TestWayland	GdkBackend.WAYLAND	1.748633861541748	0	displayconfig.LayoutMode.LOGICAL	WindowPosition.TOP	0.6	True	WindowMonitor.CURRENT	0	0	-1	AnimationMode.GLOBAL_DISABLE
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.0	1.0	displayconfig.LayoutMode.LOGICAL	WindowPosition.RIGHT	1.0	False	WindowMonitor.CURRENT	0	1	-1	AnimationMode.DDTERM_DISABLE
+TestX11	GdkBackend.X11	2.0	0	displayconfig.LayoutMode.PHYSICAL	WindowPosition.TOP	1.0	True	WindowMonitor.CONNECTOR	0	0	0	AnimationMode.DDTERM_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.748633861541748	1.502347469329834	displayconfig.LayoutMode.LOGICAL	WindowPosition.TOP	0.714	False	WindowMonitor.CONNECTOR	1	1	1	AnimationMode.GNOME_DEFAULT
+TestWayland	GdkBackend.WAYLAND	1.502347469329834	0	displayconfig.LayoutMode.LOGICAL	WindowPosition.RIGHT	1.0	True	WindowMonitor.PRIMARY	0	0	-1	AnimationMode.DDTERM_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.0	1.748633861541748	displayconfig.LayoutMode.LOGICAL	WindowPosition.BOTTOM	0.913	True	WindowMonitor.CURRENT	1	1	-1	AnimationMode.DDTERM_DISABLE
+TestX11	GdkBackend.X11	1.0	0	displayconfig.LayoutMode.PHYSICAL	WindowPosition.RIGHT	1.0	True	WindowMonitor.CONNECTOR	0	0	0	AnimationMode.GNOME_DEFAULT
+TestWayland	GdkBackend.WAYLAND	1.0	0	displayconfig.LayoutMode.LOGICAL	WindowPosition.LEFT	1.0	True	WindowMonitor.CONNECTOR	0	0	0	AnimationMode.DDTERM_DISABLE
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.502347469329834	1.25	displayconfig.LayoutMode.LOGICAL	WindowPosition.TOP	0.714	True	WindowMonitor.CONNECTOR	1	0	1	AnimationMode.DDTERM_DISABLE
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.25	1.25	displayconfig.LayoutMode.LOGICAL	WindowPosition.BOTTOM	0.714	True	WindowMonitor.CURRENT	1	0	-1	AnimationMode.GNOME_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	2.0	2.0	displayconfig.LayoutMode.PHYSICAL	WindowPosition.LEFT	1.0	True	WindowMonitor.PRIMARY	1	0	-1	AnimationMode.GNOME_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	2.0	2.0	displayconfig.LayoutMode.PHYSICAL	WindowPosition.RIGHT	0.714	True	WindowMonitor.CONNECTOR	1	1	1	AnimationMode.DDTERM_DEFAULT
+TestX11	GdkBackend.X11	2.0	0	displayconfig.LayoutMode.PHYSICAL	WindowPosition.BOTTOM	1.0	True	WindowMonitor.CONNECTOR	0	0	0	AnimationMode.GNOME_DEFAULT
+TestX11	GdkBackend.X11	2.0	0	displayconfig.LayoutMode.PHYSICAL	WindowPosition.TOP	0.913	True	WindowMonitor.CONNECTOR	0	0	0	AnimationMode.GNOME_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.0	2.0	displayconfig.LayoutMode.PHYSICAL	WindowPosition.TOP	0.714	False	WindowMonitor.CONNECTOR	0	0	1	AnimationMode.DDTERM_DISABLE
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	2.0	1.0	displayconfig.LayoutMode.LOGICAL	WindowPosition.TOP	0.913	False	WindowMonitor.PRIMARY	0	1	-1	AnimationMode.DDTERM_DEFAULT
+TestX11	GdkBackend.X11	2.0	0	displayconfig.LayoutMode.PHYSICAL	WindowPosition.TOP	0.6	False	WindowMonitor.CONNECTOR	0	0	0	AnimationMode.DDTERM_DISABLE
+TestX11	GdkBackend.X11	1.0	0	displayconfig.LayoutMode.PHYSICAL	WindowPosition.TOP	0.8	True	WindowMonitor.PRIMARY	0	0	-1	AnimationMode.GLOBAL_DISABLE
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	2.0	1.0	displayconfig.LayoutMode.PHYSICAL	WindowPosition.LEFT	0.714	False	WindowMonitor.CONNECTOR	1	1	1	AnimationMode.GNOME_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.748633861541748	1.25	displayconfig.LayoutMode.LOGICAL	WindowPosition.RIGHT	0.714	False	WindowMonitor.CONNECTOR	1	1	1	AnimationMode.GLOBAL_DISABLE
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.25	2.0	displayconfig.LayoutMode.LOGICAL	WindowPosition.BOTTOM	0.913	False	WindowMonitor.CONNECTOR	0	1	1	AnimationMode.GLOBAL_DISABLE
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.25	1.502347469329834	displayconfig.LayoutMode.LOGICAL	WindowPosition.BOTTOM	0.714	False	WindowMonitor.CONNECTOR	1	0	1	AnimationMode.DDTERM_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.25	1.0	displayconfig.LayoutMode.LOGICAL	WindowPosition.TOP	0.913	False	WindowMonitor.CURRENT	1	1	-1	AnimationMode.GLOBAL_DISABLE
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	2.0	1.0	displayconfig.LayoutMode.PHYSICAL	WindowPosition.BOTTOM	0.714	False	WindowMonitor.CONNECTOR	1	1	1	AnimationMode.GNOME_DEFAULT
+TestX11	GdkBackend.X11	1.0	0	displayconfig.LayoutMode.PHYSICAL	WindowPosition.RIGHT	0.6	True	WindowMonitor.CURRENT	0	0	-1	AnimationMode.GNOME_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.25	1.0	displayconfig.LayoutMode.LOGICAL	WindowPosition.TOP	1.0	False	WindowMonitor.CONNECTOR	1	0	1	AnimationMode.DDTERM_DISABLE
+TestWayland	GdkBackend.WAYLAND	1.0	0	displayconfig.LayoutMode.LOGICAL	WindowPosition.RIGHT	0.6	True	WindowMonitor.CONNECTOR	0	0	0	AnimationMode.GNOME_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.0	2.0	displayconfig.LayoutMode.LOGICAL	WindowPosition.TOP	0.8	False	WindowMonitor.CURRENT	1	1	-1	AnimationMode.DDTERM_DISABLE
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.502347469329834	1.502347469329834	displayconfig.LayoutMode.LOGICAL	WindowPosition.RIGHT	0.913	False	WindowMonitor.CONNECTOR	1	1	1	AnimationMode.GNOME_DEFAULT
+TestX11	GdkBackend.X11	2.0	0	displayconfig.LayoutMode.PHYSICAL	WindowPosition.LEFT	0.913	True	WindowMonitor.CURRENT	0	0	-1	AnimationMode.DDTERM_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	2.0	1.502347469329834	displayconfig.LayoutMode.LOGICAL	WindowPosition.TOP	0.714	False	WindowMonitor.CURRENT	0	1	-1	AnimationMode.GNOME_DEFAULT
+TestX11	GdkBackend.X11	2.0	0	displayconfig.LayoutMode.PHYSICAL	WindowPosition.RIGHT	1.0	True	WindowMonitor.PRIMARY	0	0	-1	AnimationMode.GLOBAL_DISABLE
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.748633861541748	1.0	displayconfig.LayoutMode.LOGICAL	WindowPosition.LEFT	1.0	False	WindowMonitor.CONNECTOR	1	1	1	AnimationMode.DDTERM_DISABLE
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.502347469329834	1.502347469329834	displayconfig.LayoutMode.LOGICAL	WindowPosition.LEFT	0.6	False	WindowMonitor.CONNECTOR	1	1	0	AnimationMode.GLOBAL_DISABLE
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.502347469329834	1.748633861541748	displayconfig.LayoutMode.LOGICAL	WindowPosition.BOTTOM	0.714	False	WindowMonitor.CONNECTOR	1	0	1	AnimationMode.DDTERM_DISABLE
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.748633861541748	1.502347469329834	displayconfig.LayoutMode.LOGICAL	WindowPosition.BOTTOM	0.6	False	WindowMonitor.CONNECTOR	0	1	0	AnimationMode.GLOBAL_DISABLE
+TestWayland	GdkBackend.WAYLAND	2.0	0	displayconfig.LayoutMode.PHYSICAL	WindowPosition.RIGHT	0.913	True	WindowMonitor.CONNECTOR	0	0	0	AnimationMode.GNOME_DEFAULT
+TestWayland	GdkBackend.WAYLAND	2.0	0	displayconfig.LayoutMode.PHYSICAL	WindowPosition.BOTTOM	0.913	True	WindowMonitor.PRIMARY	0	0	-1	AnimationMode.DDTERM_DISABLE
+TestWayland	GdkBackend.WAYLAND	2.0	0	displayconfig.LayoutMode.PHYSICAL	WindowPosition.RIGHT	0.6	True	WindowMonitor.CONNECTOR	0	0	0	AnimationMode.DDTERM_DEFAULT
+TestWayland	GdkBackend.WAYLAND	1.502347469329834	0	displayconfig.LayoutMode.LOGICAL	WindowPosition.RIGHT	0.913	False	WindowMonitor.CONNECTOR	0	0	0	AnimationMode.GLOBAL_DISABLE
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.25	2.0	displayconfig.LayoutMode.LOGICAL	WindowPosition.TOP	0.714	False	WindowMonitor.PRIMARY	1	0	-1	AnimationMode.GNOME_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	2.0	2.0	displayconfig.LayoutMode.PHYSICAL	WindowPosition.RIGHT	0.6	True	WindowMonitor.CONNECTOR	1	0	1	AnimationMode.DDTERM_DISABLE
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.25	1.748633861541748	displayconfig.LayoutMode.LOGICAL	WindowPosition.RIGHT	1.0	False	WindowMonitor.CONNECTOR	1	0	1	AnimationMode.DDTERM_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	2.0	1.0	displayconfig.LayoutMode.PHYSICAL	WindowPosition.RIGHT	0.8	False	WindowMonitor.PRIMARY	1	0	-1	AnimationMode.DDTERM_DISABLE
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.748633861541748	1.748633861541748	displayconfig.LayoutMode.LOGICAL	WindowPosition.BOTTOM	0.8	True	WindowMonitor.CURRENT	1	1	-1	AnimationMode.DDTERM_DISABLE
+TestWayland	GdkBackend.WAYLAND	2.0	0	displayconfig.LayoutMode.PHYSICAL	WindowPosition.BOTTOM	0.8	False	WindowMonitor.CONNECTOR	0	0	0	AnimationMode.DDTERM_DISABLE
+TestWayland	GdkBackend.WAYLAND	1.0	0	displayconfig.LayoutMode.PHYSICAL	WindowPosition.RIGHT	0.6	True	WindowMonitor.PRIMARY	0	0	-1	AnimationMode.GLOBAL_DISABLE
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.0	1.748633861541748	displayconfig.LayoutMode.LOGICAL	WindowPosition.RIGHT	0.714	False	WindowMonitor.CURRENT	1	1	-1	AnimationMode.GNOME_DEFAULT
+TestWayland	GdkBackend.WAYLAND	1.748633861541748	0	displayconfig.LayoutMode.LOGICAL	WindowPosition.BOTTOM	0.913	False	WindowMonitor.CONNECTOR	0	0	0	AnimationMode.GNOME_DEFAULT
+TestX11	GdkBackend.X11	2.0	0	displayconfig.LayoutMode.PHYSICAL	WindowPosition.BOTTOM	0.714	True	WindowMonitor.CURRENT	0	0	-1	AnimationMode.GNOME_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	2.0	1.25	displayconfig.LayoutMode.LOGICAL	WindowPosition.LEFT	1.0	False	WindowMonitor.CONNECTOR	0	1	0	AnimationMode.DDTERM_DISABLE
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	2.0	1.502347469329834	displayconfig.LayoutMode.LOGICAL	WindowPosition.RIGHT	0.714	False	WindowMonitor.CONNECTOR	1	0	1	AnimationMode.DDTERM_DISABLE
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.0	1.25	displayconfig.LayoutMode.LOGICAL	WindowPosition.RIGHT	0.714	False	WindowMonitor.CURRENT	0	0	-1	AnimationMode.DDTERM_DISABLE
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.502347469329834	1.502347469329834	displayconfig.LayoutMode.LOGICAL	WindowPosition.LEFT	1.0	False	WindowMonitor.CURRENT	1	0	-1	AnimationMode.GLOBAL_DISABLE
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.748633861541748	1.0	displayconfig.LayoutMode.LOGICAL	WindowPosition.TOP	0.714	False	WindowMonitor.CURRENT	1	1	-1	AnimationMode.DDTERM_DISABLE
+TestWayland	GdkBackend.WAYLAND	1.0	0	displayconfig.LayoutMode.PHYSICAL	WindowPosition.TOP	0.714	True	WindowMonitor.PRIMARY	0	0	-1	AnimationMode.DDTERM_DISABLE
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	2.0	2.0	displayconfig.LayoutMode.PHYSICAL	WindowPosition.BOTTOM	0.913	True	WindowMonitor.CONNECTOR	1	0	1	AnimationMode.GLOBAL_DISABLE
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.748633861541748	1.25	displayconfig.LayoutMode.LOGICAL	WindowPosition.BOTTOM	0.913	False	WindowMonitor.PRIMARY	0	0	-1	AnimationMode.GNOME_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	2.0	1.748633861541748	displayconfig.LayoutMode.LOGICAL	WindowPosition.BOTTOM	0.6	False	WindowMonitor.CURRENT	1	1	-1	AnimationMode.GNOME_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.748633861541748	2.0	displayconfig.LayoutMode.LOGICAL	WindowPosition.LEFT	0.8	True	WindowMonitor.CURRENT	1	0	-1	AnimationMode.DDTERM_DISABLE
+TestWayland	GdkBackend.WAYLAND	2.0	0	displayconfig.LayoutMode.PHYSICAL	WindowPosition.TOP	0.8	False	WindowMonitor.CURRENT	0	0	-1	AnimationMode.GNOME_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.25	1.502347469329834	displayconfig.LayoutMode.LOGICAL	WindowPosition.TOP	0.8	False	WindowMonitor.CONNECTOR	1	1	1	AnimationMode.GNOME_DEFAULT
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	1.502347469329834	1.748633861541748	displayconfig.LayoutMode.LOGICAL	WindowPosition.RIGHT	1.0	False	WindowMonitor.PRIMARY	1	0	-1	AnimationMode.DDTERM_DISABLE
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	2.0	1.0	displayconfig.LayoutMode.PHYSICAL	WindowPosition.BOTTOM	0.6	False	WindowMonitor.CONNECTOR	1	1	1	AnimationMode.GLOBAL_DISABLE
+TestWaylandTwoMonitors	GdkBackend.WAYLAND	2.0	1.25	displayconfig.LayoutMode.LOGICAL	WindowPosition.BOTTOM	0.6	False	WindowMonitor.PRIMARY	1	1	-1	AnimationMode.DDTERM_DEFAULT
