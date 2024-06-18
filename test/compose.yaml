@@ -5,46 +5,46 @@
 
 services:
   fedora-40:
-    image: ghcr.io/ddterm/gnome-shell-pod/fedora-40:2024.06.15.0
+    image: ghcr.io/ddterm/gnome-shell-pod/fedora-40:2024.06.18.1
     profiles:
       - esm
 
   fedora-39:
-    image: ghcr.io/ddterm/gnome-shell-pod/fedora-39:2024.06.15.0
+    image: ghcr.io/ddterm/gnome-shell-pod/fedora-39:2024.06.18.1
     profiles:
       - esm
 
   ubuntu-23.10:
-    image: ghcr.io/ddterm/gnome-shell-pod/ubuntu-23.10:2024.06.15.0
+    image: ghcr.io/ddterm/gnome-shell-pod/ubuntu-23.10:2024.06.18.1
     profiles:
       - esm
 
   archlinux:
-    image: ghcr.io/ddterm/gnome-shell-pod/archlinux:2024.06.15.0
+    image: ghcr.io/ddterm/gnome-shell-pod/archlinux:2024.06.18.1
     profiles:
       - esm
 
   opensuse-tumbleweed:
-    image: ghcr.io/ddterm/gnome-shell-pod/opensuse-tumbleweed:2024.06.15.0
+    image: ghcr.io/ddterm/gnome-shell-pod/opensuse-tumbleweed:2024.06.18.1
     profiles:
       - esm
 
   debian-12:
-    image: ghcr.io/ddterm/gnome-shell-pod/debian-12:2024.06.15.0
+    image: ghcr.io/ddterm/gnome-shell-pod/debian-12:2024.06.18.1
     profiles:
       - legacy
 
   debian-13:
-    image: ghcr.io/ddterm/gnome-shell-pod/debian-13:2024.06.15.0
+    image: ghcr.io/ddterm/gnome-shell-pod/debian-13:2024.06.18.1
     profiles:
       - legacy
 
   ubuntu-24.04:
-    image: ghcr.io/ddterm/gnome-shell-pod/ubuntu-24.04:2024.06.15.0
+    image: ghcr.io/ddterm/gnome-shell-pod/ubuntu-24.04:2024.06.18.1
     profiles:
       - esm
 
   opensuse-leap-15.6:
-    image: ghcr.io/ddterm/gnome-shell-pod/opensuse-leap-15.6:2024.06.15.0
+    image: ghcr.io/ddterm/gnome-shell-pod/opensuse-leap-15.6:2024.06.18.1
     profiles:
       - esm
