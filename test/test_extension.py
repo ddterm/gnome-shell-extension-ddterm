@@ -1,5 +1,6 @@
 import collections
 import contextlib
+import dataclasses
 import enum
 import functools
 import logging.handlers
@@ -90,21 +91,21 @@ def resize_point(frame_rect, window_pos):
 
 def compute_target_rect(size, pos, monitor):
     x, y, width, height = monitor.workarea
+    window_size = WindowSize.get_maximized_size_from_position(size, pos)
 
     round_to = int(monitor.scale)
 
-    if pos in [WindowPosition.TOP, WindowPosition.BOTTOM]:
-        height *= size
-        height -= height % round_to
+    height *= window_size.height
+    height -= height % round_to
 
-        if pos == WindowPosition.BOTTOM:
-            y += monitor.workarea.height - height
-    else:
-        width *= size
-        width -= width % round_to
+    if pos == WindowPosition.BOTTOM:
+        y += monitor.workarea.height - height
 
-        if pos == WindowPosition.RIGHT:
-            x += monitor.workarea.width - width
+    width *= window_size.width
+    width -= width % round_to
+
+    if pos == WindowPosition.RIGHT:
+        x += monitor.workarea.width - width
 
     return Rect(x, y, width, height)
 
@@ -138,6 +139,45 @@ def verify_window_geometry(test_interface, size, maximize, pos, monitor):
         assert actual_frame_rect == monitor.workarea
     else:
         assert actual_frame_rect == target_rect_unmaximized
+
+
+@dataclasses.dataclass
+class WindowSize:
+    width: float
+    height: float
+    position: WindowPosition
+
+    _HORIZONTAL_SIZE_POSITIONS = [WindowPosition.TOP, WindowPosition.BOTTOM]
+
+    def get_primary_size(self) -> float:
+        return self.width if self.position in self._HORIZONTAL_SIZE_POSITIONS else self.height
+
+    @classmethod
+    def get_primary_size_setting(cls, position: WindowPosition) -> str:
+        return "window-hsize" if position in cls._HORIZONTAL_SIZE_POSITIONS else "window-vsize"
+
+    @classmethod
+    def get_maximized_size_from_position(
+                                        cls,
+                                        primary_size: float,
+                                        position: WindowPosition) -> "WindowSize":
+        """
+        Get window horizontal/vertical size based on the given position.
+
+        On top/bottom positions, primary size is horizontal.
+        On left/right positions, primary size is vertical.
+
+        This is a simplified helper to get a secondary size set to 100% for now, until tests
+        are updated/added to support secondary size as well.
+        """
+        if position in cls._HORIZONTAL_SIZE_POSITIONS:
+            height = primary_size
+            width = 1.0
+        else:
+            height = 1.0
+            width = primary_size
+
+        return WindowSize(width=width, height=height, position=position)
 
 
 @contextlib.contextmanager
@@ -510,7 +550,10 @@ class CommonTests(ddterm_fixtures.DDTermFixtures):
         window_monitor = test_api.layout.resolve_monitor(monitor_config)
         prev_maximize = test_api.settings.get('window-maximize')
 
-        test_api.settings.set_double('window-size', window_size)
+        window_size_object = WindowSize.get_maximized_size_from_position(window_size, window_pos)
+        test_api.settings.set_double('window-hsize', window_size_object.width)
+        test_api.settings.set_double('window-vsize', window_size_object.height)
+
         test_api.settings.set_string('window-position', window_pos)
         test_api.settings.set_string('window-monitor', monitor_config.setting)
         test_api.settings.set_boolean(
@@ -622,8 +665,9 @@ class CommonTests(ddterm_fixtures.DDTermFixtures):
             test_api.mouse_sim.button(False)
 
         with glib_util.SignalWait(test_api.dbus, 'g-signal') as wait3:
+            window_size_setting = WindowSize.get_primary_size_setting(window_pos)
             while compute_target_rect(
-                size=test_api.settings.get('window-size'),
+                size=test_api.settings.get(window_size_setting),
                 pos=window_pos,
                 monitor=monitor
             ) != target_frame_rect:
@@ -708,7 +752,8 @@ class CommonTests(ddterm_fixtures.DDTermFixtures):
             window_pos,
             monitor,
         ) as wait1:
-            test_api.settings.set_double('window-size', window_size2)
+            window_size_setting = WindowSize.get_primary_size_setting(window_pos)
+            test_api.settings.set_double(window_size_setting, window_size2)
             wait1()
 
         with wait_move_resize(
@@ -756,7 +801,8 @@ class CommonTests(ddterm_fixtures.DDTermFixtures):
             window_pos,
             monitor,
         ) as wait:
-            test_api.settings.set_double('window-size', window_size2)
+            window_size_setting = WindowSize.get_primary_size_setting(window_pos)
+            test_api.settings.set_double(window_size_setting, window_size2)
             wait()
 
     PARAM_TYPES = {
@@ -820,7 +866,8 @@ class TestXSession(CommonTests):
 
         glib_util.flush_main_loop()
 
-        test_api.settings.set_double('window-size', 1)
+        test_api.settings.set_double('window-hsize', 1)
+        test_api.settings.set_double('window-vsize', 1)
         test_api.settings.set_string('window-position', WindowPosition.TOP)
         test_api.settings.set_string('window-monitor', MonitorSetting.PRIMARY)
         test_api.settings.set_boolean('window-maximize', True)
