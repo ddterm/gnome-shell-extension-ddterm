@@ -14,11 +14,6 @@ services:
     profiles:
       - esm
 
-  ubuntu-23.10:
-    image: ghcr.io/ddterm/gnome-shell-pod/ubuntu-23.10:2024.07.09.0
-    profiles:
-      - esm
-
   archlinux:
     image: ghcr.io/ddterm/gnome-shell-pod/archlinux:2024.07.09.0
     profiles:
