@@ -4,11 +4,11 @@
 #
 #    pip-compile --allow-unsafe --strip-extras lint.in
 #
-flake8==7.1.0
+flake8==7.1.1
     # via -r lint.in
 mccabe==0.7.0
     # via flake8
-pycodestyle==2.12.0
+pycodestyle==2.12.1
     # via flake8
 pyflakes==3.2.0
     # via flake8
