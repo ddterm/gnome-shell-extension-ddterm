@@ -292,8 +292,10 @@ class Application extends Gtk.Application {
 
         const shortcut_actions = {
             'shortcut-window-hide': 'win.hide',
-            'shortcut-window-size-inc': 'win.window-size-inc',
-            'shortcut-window-size-dec': 'win.window-size-dec',
+            'shortcut-window-hsize-inc': 'win.window-hsize-inc',
+            'shortcut-window-hsize-dec': 'win.window-hsize-dec',
+            'shortcut-window-vsize-inc': 'win.window-vsize-inc',
+            'shortcut-window-vsize-dec': 'win.window-vsize-dec',
             'shortcut-background-opacity-inc': 'win.background-opacity-inc',
             'shortcut-background-opacity-dec': 'win.background-opacity-dec',
             'shortcut-toggle-maximize': 'app.window-maximize',

@@ -269,15 +269,25 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
             'toggle': this.toggle.bind(this),
             'show': () => this.present_with_time(Gdk.CURRENT_TIME),
             'hide': () => this.hide(),
-            'window-size-dec': () => {
+            'window-hsize-dec': () => {
                 if (this.settings.get_boolean('window-maximize'))
-                    this.settings.set_double('window-size', 1.0 - HEIGHT_MOD);
+                    this.settings.set_double('window-hsize', 1.0 - HEIGHT_MOD);
                 else
-                    this.adjust_double_setting('window-size', -HEIGHT_MOD);
+                    this.adjust_double_setting('window-hsize', -HEIGHT_MOD);
             },
-            'window-size-inc': () => {
+            'window-hsize-inc': () => {
                 if (!this.settings.get_boolean('window-maximize'))
-                    this.adjust_double_setting('window-size', HEIGHT_MOD);
+                    this.adjust_double_setting('window-hsize', HEIGHT_MOD);
+            },
+            'window-vsize-dec': () => {
+                if (this.settings.get_boolean('window-maximize'))
+                    this.settings.set_double('window-vsize', 1.0 - HEIGHT_MOD);
+                else
+                    this.adjust_double_setting('window-vsize', -HEIGHT_MOD);
+            },
+            'window-vsize-inc': () => {
+                if (!this.settings.get_boolean('window-maximize'))
+                    this.adjust_double_setting('window-vsize', HEIGHT_MOD);
             },
             'background-opacity-dec': () => {
                 this.adjust_double_setting('background-opacity', -OPACITY_MOD);
