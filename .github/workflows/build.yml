@@ -104,6 +104,17 @@ jobs:
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
       working-directory: test
 
+    - name: Ensure PICT test cases are up to date
+      run: |
+        make
+        if ! git diff --exit-code --color=always -- .
+        then
+          echo "::error:: PICT test cases are out of sync with models"
+          echo "::error:: Please run test/pict/gen.sh"
+          exit 1
+        fi
+      working-directory: test/pict
+
     - name: Upload reports to Testspace
       run: testspace --verbose eslint.xml "*.log{lint}"
       if: ${{ always() && steps.setup_testspace.outcome == 'success' }}
