@@ -3,32 +3,19 @@ import pathlib
 import shlex
 import subprocess
 import sys
+import textwrap
 
 import pytest
 
 from gi.repository import Gio
 
-from . import dbus_util, ddterm_fixtures, glib_util
+from . import dbus_util, ddterm_fixtures
 
 
 LOGGER = logging.getLogger(__name__)
 
 THIS_DIR = pathlib.Path(__file__).parent.resolve()
 SRC_DIR = THIS_DIR.parent
-
-
-def wait_action_in_group(group, action):
-    with glib_util.SignalWait(group, f'action-added::{action}') as w:
-        while not group.has_action(action):
-            w.wait()
-
-
-def wait_action_in_group_enabled(group, action, enabled=True):
-    wait_action_in_group(group, action)
-
-    with glib_util.SignalWait(group, f'action-enabled-changed::{action}') as w:
-        while group.get_action_enabled(action) != enabled:
-            w.wait()
 
 
 def compare_heap_dumps(dump_pre, dump_post, hide_node=[], hide_edge=[]):
@@ -93,16 +80,16 @@ class TestApp(ddterm_fixtures.DDTermFixtures):
         tmp_path.chmod(0o777)
 
     @pytest.fixture(scope='class')
-    def heap_dump_api(self, user_bus_connection, run_app):
+    def debug_api(self, user_bus_connection, run_app):
         return dbus_util.wait_interface(
             user_bus_connection,
             'com.github.amezin.ddterm',
             '/com/github/amezin/ddterm',
-            'com.github.amezin.ddterm.HeapDump',
+            'com.github.amezin.ddterm.Debug',
             timeout=self.START_STOP_TIMEOUT_MS
         )
 
-    def test_cli_leak(self, container, heap_dump_api, tmp_path, launcher_path):
+    def test_cli_leak(self, container, debug_api, tmp_path, launcher_path):
         test_file = tmp_path / 'testfile'
 
         container.exec(
@@ -117,11 +104,9 @@ class TestApp(ddterm_fixtures.DDTermFixtures):
 
         assert test_file.read_text() == '1\n'
 
-        heap_dump_api.GC(timeout=self.START_STOP_TIMEOUT_MS)
-        dump_pre = heap_dump_api.Dump(
-            '(s)', str(tmp_path),
-            timeout=self.START_STOP_TIMEOUT_MS
-        )
+        dump_pre = tmp_path / 'heap-pre.dump'
+        debug_api.GC()
+        debug_api.DumpHeap('(s)', str(dump_pre), timeout=self.START_STOP_TIMEOUT_MS)
 
         container.exec(
             str(launcher_path),
@@ -135,39 +120,39 @@ class TestApp(ddterm_fixtures.DDTermFixtures):
 
         assert test_file.read_text() == '2\n'
 
-        heap_dump_api.GC(timeout=self.START_STOP_TIMEOUT_MS)
-        dump_post = heap_dump_api.Dump(
-            '(s)', str(tmp_path),
-            timeout=self.START_STOP_TIMEOUT_MS
-        )
+        dump_post = tmp_path / 'heap-post.dump'
+        debug_api.GC()
+        debug_api.DumpHeap('(s)', str(dump_post), timeout=self.START_STOP_TIMEOUT_MS)
 
         compare_heap_dumps(dump_pre, dump_post, hide_edge=['window_title_binding'])
 
-    def test_prefs_leak(self, heap_dump_api, tmp_path, app_actions):
-        wait_action_in_group(app_actions, 'preferences')
-        wait_action_in_group_enabled(app_actions, 'close-preferences', False)
-
+    def test_prefs_leak(self, debug_api, tmp_path, app_actions):
         def open_close_prefs():
-            app_actions.activate_action('preferences', None)
-            wait_action_in_group_enabled(app_actions, 'close-preferences', True)
-            app_actions.activate_action('close-preferences', None)
-            wait_action_in_group_enabled(app_actions, 'close-preferences', False)
+            commands = [
+                'Gio.Application.get_default().preferences()',
+                textwrap.dedent('''
+                    new Promise(resolve => {
+                        const { prefs_dialog } = Gio.Application.get_default();
+                        prefs_dialog.connect('destroy', resolve);
+                        prefs_dialog.close();
+                    })
+                '''),
+            ]
+
+            for cmd in commands:
+                debug_api.Eval('(s)', cmd, timeout=self.START_STOP_TIMEOUT_MS)
 
         open_close_prefs()
 
-        heap_dump_api.GC(timeout=self.START_STOP_TIMEOUT_MS)
-        dump_pre = heap_dump_api.Dump(
-            '(s)', str(tmp_path),
-            timeout=self.START_STOP_TIMEOUT_MS
-        )
+        dump_pre = tmp_path / 'heap-pre.dump'
+        debug_api.GC()
+        debug_api.DumpHeap('(s)', str(dump_pre), timeout=self.START_STOP_TIMEOUT_MS)
 
         open_close_prefs()
 
-        heap_dump_api.GC(timeout=self.START_STOP_TIMEOUT_MS)
-        dump_post = heap_dump_api.Dump(
-            '(s)', str(tmp_path),
-            timeout=self.START_STOP_TIMEOUT_MS
-        )
+        dump_post = tmp_path / 'heap-post.dump'
+        debug_api.GC()
+        debug_api.DumpHeap('(s)', str(dump_post), timeout=self.START_STOP_TIMEOUT_MS)
 
         compare_heap_dumps(
             dump_pre,

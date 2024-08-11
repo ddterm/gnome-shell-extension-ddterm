@@ -42,11 +42,11 @@ const APP_ID = 'com.github.amezin.ddterm';
 const APP_DBUS_PATH = '/com/github/amezin/ddterm';
 const WINDOW_PATH_PREFIX = `${APP_DBUS_PATH}/window/`;
 
-function create_subprocess(launcher, settings, app_enable_heap_dump) {
+function create_subprocess(launcher, settings, app_enable_debug) {
     const argv = [launcher, '--gapplication-service'];
 
-    if (app_enable_heap_dump)
-        argv.push('--allow-heap-dump');
+    if (app_enable_debug)
+        argv.push('--debug');
 
     if (settings.get_boolean('force-x11-gdk-backend'))
         argv.push('--allowed-gdk-backends=x11');
@@ -427,7 +427,7 @@ export default class DDTermExtension extends Extension {
 
         this.app_process = null;
         this.enabled_state = null;
-        this.app_enable_heap_dump = false;
+        this.app_enable_debug = false;
         this._debug = null;
     }
 
@@ -454,7 +454,7 @@ export default class DDTermExtension extends Extension {
         const app_process = create_subprocess(
             this.launcher_path,
             settings,
-            this.app_enable_heap_dump
+            this.app_enable_debug
         );
 
         this.app_process = app_process;

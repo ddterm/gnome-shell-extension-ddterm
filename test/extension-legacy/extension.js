@@ -348,7 +348,7 @@ class TestExtension {
         const extension = ddterm.stateObj;
 
         extension.debug = log;
-        extension.app_enable_heap_dump = true;
+        extension.app_enable_debug = true;
 
         this.dbus_interface = new ExtensionTestDBusInterface(
             GLib.build_filenamev([this.path, 'com.github.amezin.ddterm.ExtensionTest.xml']),

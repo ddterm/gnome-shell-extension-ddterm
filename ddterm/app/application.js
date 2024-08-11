@@ -31,7 +31,7 @@ import System from 'system';
 import { AppWindow } from './appwindow.js';
 import { create_extension_dbus_proxy } from './extensiondbus.js';
 import { ThemeManager } from './gtktheme.js';
-import { HeapDumper } from './heapdump.js';
+import { DebugInterface } from './debug.js';
 import { metadata } from './meta.js';
 import { get_resource_file, get_resource_text } from './resources.js';
 import { get_settings } from './settings.js';
@@ -97,11 +97,11 @@ class Application extends Gtk.Application {
         );
 
         this.add_main_option(
-            'allow-heap-dump',
+            'debug',
             0,
             GLib.OptionFlags.HIDDEN,
             GLib.OptionArg.NONE,
-            Gettext.gettext('Enable HeapDump D-Bus interface (for testing/debug)'),
+            'Enable D-Bus Debug interface (for testing/debug)',
             null
         );
 
@@ -229,16 +229,6 @@ class Application extends Gtk.Application {
         });
 
         this.simple_action('preferences', () => this.preferences().catch(logError));
-
-        const close_preferences_action = this.simple_action(
-            'close-preferences',
-            () => this.close_preferences(),
-            { enabled: false }
-        );
-
-        this.connect('notify::prefs-dialog', () => {
-            close_preferences_action.enabled = this.prefs_dialog !== null;
-        });
 
         [
             'window-above',
@@ -370,17 +360,16 @@ class Application extends Gtk.Application {
     }
 
     vfunc_dbus_register(connection, object_path) {
-        if (this.allow_heap_dump) {
-            this.heap_dump_dbus_interface = new HeapDumper();
-            this.heap_dump_dbus_interface.dbus.export(connection, object_path);
+        if (this.enable_debug) {
+            this.debug_dbus_interface = new DebugInterface();
+            this.debug_dbus_interface.dbus.export(connection, object_path);
         }
 
         return super.vfunc_dbus_register(connection, object_path);
     }
 
     vfunc_dbus_unregister(connection, object_path) {
-        if (this.allow_heap_dump)
-            this.heap_dump_dbus_interface.dbus.unexport_from_connection(connection);
+        this.debug_dbus_interface?.dbus.unexport_from_connection(connection);
 
         return super.vfunc_dbus_unregister(connection, object_path);
     }
@@ -396,7 +385,7 @@ class Application extends Gtk.Application {
         if (allowed_gdk_backends)
             Gdk.set_allowed_backends(allowed_gdk_backends);
 
-        this.allow_heap_dump = options.lookup('allow-heap-dump');
+        this.enable_debug = options.lookup('debug');
 
         if (this.flags & Gio.ApplicationFlags.IS_SERVICE)
             return -1;
@@ -613,11 +602,6 @@ class Application extends Gtk.Application {
         }
 
         this.prefs_dialog.present_with_time(Gdk.CURRENT_TIME);
-    }
-
-    close_preferences() {
-        if (this.prefs_dialog !== null)
-            this.prefs_dialog.close();
     }
 
     simple_action(name, activate, params = {}) {

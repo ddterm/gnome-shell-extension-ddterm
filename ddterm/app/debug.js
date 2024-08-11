@@ -24,38 +24,46 @@ import System from 'system';
 
 import { get_resource_text } from './resources.js';
 
-export class HeapDumper {
+export class DebugInterface {
     constructor() {
         this.dbus = Gio.DBusExportedObject.wrapJSObject(
-            get_resource_text('../com.github.amezin.ddterm.HeapDump.xml'),
+            get_resource_text('../com.github.amezin.ddterm.Debug.xml'),
             this
         );
+    }
+
+    EvalAsync(params, invocation) {
+        const [code] = params;
+
+        function return_error(e) {
+            if (e instanceof GLib.Error) {
+                invocation.return_gerror(e);
+                return;
+            }
+
+            let name = e.name;
+            if (!name.includes('.'))
+                name = `org.gnome.gjs.JSError.${name}`;
+
+            invocation.return_dbus_error(name, e.toString());
+        }
+
+        try {
+            Promise.resolve(eval(code)).then(result => {
+                const json = result === undefined ? '' : JSON.stringify(result);
+
+                invocation.return_value(GLib.Variant.new_tuple([GLib.Variant.new_string(json)]));
+            }).catch(return_error);
+        } catch (ex) {
+            return_error(ex);
+        }
     }
 
     GC() {
         System.gc();
     }
 
-    Dump(path) {
-        if (!path) {
-            path = GLib.build_filenamev([
-                GLib.get_user_state_dir(),
-                this.application_id,
-            ]);
-            GLib.mkdir_with_parents(path, 0o700);
-        }
-
-        if (GLib.file_test(path, GLib.FileTest.IS_DIR)) {
-            path = GLib.build_filenamev([
-                path,
-                `${this.application_id}-${new Date().toISOString().replace(/:/g, '-')}.heap`,
-            ]);
-        }
-
-        printerr(`Dumping heap to ${path}`);
+    DumpHeap(path) {
         System.dumpHeap(path);
-        printerr(`Dumped heap to ${path}`);
-
-        return path;
     }
 }

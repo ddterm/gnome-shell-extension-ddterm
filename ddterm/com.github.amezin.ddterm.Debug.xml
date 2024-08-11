@@ -1,0 +1,15 @@
+<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN"
+    "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+
+<node>
+    <interface name="com.github.amezin.ddterm.Debug">
+        <method name="Eval">
+            <arg type="s" name="code" direction="in"/>
+            <arg type="s" name="json" direction="out"/>
+        </method>
+        <method name="GC"/>
+        <method name="DumpHeap">
+            <arg type="s" name="path" direction="in"/>
+        </method>
+    </interface>
+</node>
