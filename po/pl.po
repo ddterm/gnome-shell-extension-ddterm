@@ -10,11 +10,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-13 18:02+0000\n"
+"POT-Creation-Date: 2024-08-11 13:35+0000\n"
 "PO-Revision-Date: 2024-06-15 17:09+0000\n"
 "Last-Translator: Wojciech Teichert <wojtekt99@gmail.com>\n"
-"Language-Team: Polish <https://hosted.weblate.org/projects/"
-"gnome-shell-extension-ddterm/extension/pl/>\n"
+"Language-Team: Polish <https://hosted.weblate.org/projects/gnome-shell-"
+"extension-ddterm/extension/pl/>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -31,10 +31,6 @@ msgstr "Uruchom aplikację, ale nie pokazuj okna"
 msgid "Comma-separated list of backends that GDK should try to use"
 msgstr ""
 "Rozdzielana przecinkami lista backendów, których GDK powinien spróbować użyć"
-
-#: ddterm/app/application.js:104
-msgid "Enable HeapDump D-Bus interface (for testing/debug)"
-msgstr "Włącz interfejs D-Bus HeapDump (w celu tesowania/debugowania)"
 
 #: ddterm/app/application.js:113
 msgid "Show version information and exit"
@@ -68,27 +64,27 @@ msgstr "Nie przekazuj zmiennych środowiskowych"
 msgid "Open a new tab"
 msgstr "Otwórz nową kartę"
 
-#: ddterm/app/application.js:361
+#: ddterm/app/application.js:351
 msgid "Saving session…"
 msgstr "Zapisywanie sesji…"
 
-#: ddterm/app/application.js:417
+#: ddterm/app/application.js:406
 msgid "Can't contact the extension."
 msgstr "Nie można skontaktować się z rozszerzeniem."
 
-#: ddterm/app/application.js:419 ddterm/app/application.js:538
+#: ddterm/app/application.js:408 ddterm/app/application.js:527
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr "Proszę upewnić się że rozszerzenie ddterm GNOME Shell jest włączone."
 
-#: ddterm/app/application.js:536
+#: ddterm/app/application.js:525
 msgid "Can't read the version of the loaded extension."
 msgstr "Nie można odczytać wersji wczytanego rozszerzenia."
 
-#: ddterm/app/application.js:541 ddterm/shell/notifications.js:158
+#: ddterm/app/application.js:530 ddterm/shell/notifications.js:158
 msgid "Warning: ddterm version has changed"
 msgstr "Ostrzeżenie: wersja ddterm zmieniła się"
 
-#: ddterm/app/application.js:542 ddterm/shell/notifications.js:160
+#: ddterm/app/application.js:531 ddterm/shell/notifications.js:160
 msgid "Log out, then log in again to load the updated extension."
 msgstr "Zaloguj się ponownie, aby załadować aktualne rozszerzenie."
 
@@ -1292,6 +1288,9 @@ msgstr "Zainstaluj"
 #: ddterm/shell/panelicon.js:64
 msgid "Show"
 msgstr "Pokaż"
+
+#~ msgid "Enable HeapDump D-Bus interface (for testing/debug)"
+#~ msgstr "Włącz interfejs D-Bus HeapDump (w celu tesowania/debugowania)"
 
 #~ msgid "Window type _hint (X11 only):"
 #~ msgstr "Rodzaj wyświetlanego okna (tylko X11):"

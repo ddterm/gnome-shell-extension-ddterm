@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-13 18:02+0000\n"
+"POT-Creation-Date: 2024-08-11 13:35+0000\n"
 "PO-Revision-Date: 2023-10-24 22:14+0000\n"
 "Last-Translator: Pavel Novák <pavelnov32@gmail.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/gnome-shell-"
@@ -25,10 +25,6 @@ msgstr "Spustit aplikaci, ale neukázat okno"
 #: ddterm/app/application.js:95
 msgid "Comma-separated list of backends that GDK should try to use"
 msgstr "Seznam čárkou oddělených backendů který by měl použít GDK"
-
-#: ddterm/app/application.js:104
-msgid "Enable HeapDump D-Bus interface (for testing/debug)"
-msgstr "Povolit HeapDump D-Bus rozhraní (pro testování/debugování)"
 
 #: ddterm/app/application.js:113
 msgid "Show version information and exit"
@@ -62,27 +58,27 @@ msgstr "Nepředávat prostředí"
 msgid "Open a new tab"
 msgstr "Otevřít nový panel"
 
-#: ddterm/app/application.js:361
+#: ddterm/app/application.js:351
 msgid "Saving session…"
 msgstr "Ukládám sezení…"
 
-#: ddterm/app/application.js:417
+#: ddterm/app/application.js:406
 msgid "Can't contact the extension."
 msgstr ""
 
-#: ddterm/app/application.js:419 ddterm/app/application.js:538
+#: ddterm/app/application.js:408 ddterm/app/application.js:527
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr ""
 
-#: ddterm/app/application.js:536
+#: ddterm/app/application.js:525
 msgid "Can't read the version of the loaded extension."
 msgstr ""
 
-#: ddterm/app/application.js:541 ddterm/shell/notifications.js:158
+#: ddterm/app/application.js:530 ddterm/shell/notifications.js:158
 msgid "Warning: ddterm version has changed"
 msgstr "Varování: Verze ddterm byla změněna"
 
-#: ddterm/app/application.js:542 ddterm/shell/notifications.js:160
+#: ddterm/app/application.js:531 ddterm/shell/notifications.js:160
 msgid "Log out, then log in again to load the updated extension."
 msgstr "Znovu se přihlašte pro načtení aktualizovaného rozšíření."
 
@@ -1288,6 +1284,9 @@ msgstr ""
 #: ddterm/shell/panelicon.js:64
 msgid "Show"
 msgstr "Zobrazit"
+
+#~ msgid "Enable HeapDump D-Bus interface (for testing/debug)"
+#~ msgstr "Povolit HeapDump D-Bus rozhraní (pro testování/debugování)"
 
 #~ msgid "Window type _hint (X11 only):"
 #~ msgstr "Typ okna _vysvětlení (Pouze pro X11):"

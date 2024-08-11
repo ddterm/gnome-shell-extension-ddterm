@@ -6,11 +6,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-13 18:02+0000\n"
+"POT-Creation-Date: 2024-08-11 13:35+0000\n"
 "PO-Revision-Date: 2024-05-16 20:10+0000\n"
 "Last-Translator: Mustafa Kemal Gilor <mustafa.gilor@canonical.com>\n"
-"Language-Team: Turkish <https://hosted.weblate.org/projects/"
-"gnome-shell-extension-ddterm/extension/tr/>\n"
+"Language-Team: Turkish <https://hosted.weblate.org/projects/gnome-shell-"
+"extension-ddterm/extension/tr/>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,10 +25,6 @@ msgstr "Uygulamayı başlat, fakat pencereyi gösterme"
 #: ddterm/app/application.js:95
 msgid "Comma-separated list of backends that GDK should try to use"
 msgstr "GDK'nın kullanımı için virgülle ayrılmış arka uç (backend) listesi"
-
-#: ddterm/app/application.js:104
-msgid "Enable HeapDump D-Bus interface (for testing/debug)"
-msgstr "HeapDump D-Bus arayüzünü etkinleştir (test ve hata ayıklama için)"
 
 #: ddterm/app/application.js:113
 msgid "Show version information and exit"
@@ -62,27 +58,28 @@ msgstr "Ortam değişkenlerini kullanma"
 msgid "Open a new tab"
 msgstr "Yeni bir sekme aç"
 
-#: ddterm/app/application.js:361
+#: ddterm/app/application.js:351
 msgid "Saving session…"
 msgstr "Oturum kaydediliyor…"
 
-#: ddterm/app/application.js:417
+#: ddterm/app/application.js:406
 msgid "Can't contact the extension."
 msgstr "Uzantı ile irtibat kurulamıyor."
 
-#: ddterm/app/application.js:419 ddterm/app/application.js:538
+#: ddterm/app/application.js:408 ddterm/app/application.js:527
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
-msgstr "Lütfen ddterm GNOME Shell eklentisinin etkinleştirildiğinden emin olun."
+msgstr ""
+"Lütfen ddterm GNOME Shell eklentisinin etkinleştirildiğinden emin olun."
 
-#: ddterm/app/application.js:536
+#: ddterm/app/application.js:525
 msgid "Can't read the version of the loaded extension."
 msgstr "Yüklü olan uzantının versiyon bilgisi okunamadı."
 
-#: ddterm/app/application.js:541 ddterm/shell/notifications.js:158
+#: ddterm/app/application.js:530 ddterm/shell/notifications.js:158
 msgid "Warning: ddterm version has changed"
 msgstr "Uyarı: ddterm sürümü değişti"
 
-#: ddterm/app/application.js:542 ddterm/shell/notifications.js:160
+#: ddterm/app/application.js:531 ddterm/shell/notifications.js:160
 msgid "Log out, then log in again to load the updated extension."
 msgstr "Güncellenmiş uzantıyı yüklemek için oturumu kapatın ve tekrar açın."
 
@@ -1283,3 +1280,6 @@ msgstr "Kur"
 #: ddterm/shell/panelicon.js:64
 msgid "Show"
 msgstr "Göster"
+
+#~ msgid "Enable HeapDump D-Bus interface (for testing/debug)"
+#~ msgstr "HeapDump D-Bus arayüzünü etkinleştir (test ve hata ayıklama için)"

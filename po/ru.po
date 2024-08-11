@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-13 18:02+0000\n"
+"POT-Creation-Date: 2024-08-11 13:35+0000\n"
 "PO-Revision-Date: 2024-04-10 20:01+0000\n"
 "Last-Translator: Stepan <stepan.miroshnikov@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/gnome-shell-"
@@ -30,10 +30,6 @@ msgid "Comma-separated list of backends that GDK should try to use"
 msgstr ""
 "Разделенный запятыми список backend'ов, которые GDK будет пытаться "
 "использовать"
-
-#: ddterm/app/application.js:104
-msgid "Enable HeapDump D-Bus interface (for testing/debug)"
-msgstr "Включить HeapDump D-Bus интерфейс (для проверки/отладки)"
 
 #: ddterm/app/application.js:113
 msgid "Show version information and exit"
@@ -67,27 +63,27 @@ msgstr "Не передавать переменные окружения"
 msgid "Open a new tab"
 msgstr "Открыть новую вкладку"
 
-#: ddterm/app/application.js:361
+#: ddterm/app/application.js:351
 msgid "Saving session…"
 msgstr "Сохранение сессии…"
 
-#: ddterm/app/application.js:417
+#: ddterm/app/application.js:406
 msgid "Can't contact the extension."
 msgstr "Невозможно связаться с расширением."
 
-#: ddterm/app/application.js:419 ddterm/app/application.js:538
+#: ddterm/app/application.js:408 ddterm/app/application.js:527
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr "Убедитесь, что расширение ddterm GNOME Shell включено."
 
-#: ddterm/app/application.js:536
+#: ddterm/app/application.js:525
 msgid "Can't read the version of the loaded extension."
 msgstr "Невозможно получить версию загруженного расширения."
 
-#: ddterm/app/application.js:541 ddterm/shell/notifications.js:158
+#: ddterm/app/application.js:530 ddterm/shell/notifications.js:158
 msgid "Warning: ddterm version has changed"
 msgstr "Внимание: версия ddterm изменилась"
 
-#: ddterm/app/application.js:542 ddterm/shell/notifications.js:160
+#: ddterm/app/application.js:531 ddterm/shell/notifications.js:160
 msgid "Log out, then log in again to load the updated extension."
 msgstr "Завершите сессию и снова войдите для применения обновлений расширения."
 
@@ -1285,6 +1281,9 @@ msgstr "Установка"
 #: ddterm/shell/panelicon.js:64
 msgid "Show"
 msgstr "Показать"
+
+#~ msgid "Enable HeapDump D-Bus interface (for testing/debug)"
+#~ msgstr "Включить HeapDump D-Bus интерфейс (для проверки/отладки)"
 
 #~ msgid "Window type _hint (X11 only):"
 #~ msgstr "Тип окна (только для X11):"
