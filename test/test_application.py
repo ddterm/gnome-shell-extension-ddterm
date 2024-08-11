@@ -105,7 +105,7 @@ class TestApp(ddterm_fixtures.DDTermFixtures):
         assert test_file.read_text() == '1\n'
 
         dump_pre = tmp_path / 'heap-pre.dump'
-        debug_api.GC()
+        debug_api.GC(timeout=self.START_STOP_TIMEOUT_MS, result_handler=lambda *_: None)
         debug_api.DumpHeap('(s)', str(dump_pre), timeout=self.START_STOP_TIMEOUT_MS)
 
         container.exec(
@@ -121,7 +121,7 @@ class TestApp(ddterm_fixtures.DDTermFixtures):
         assert test_file.read_text() == '2\n'
 
         dump_post = tmp_path / 'heap-post.dump'
-        debug_api.GC()
+        debug_api.GC(timeout=self.START_STOP_TIMEOUT_MS, result_handler=lambda *_: None)
         debug_api.DumpHeap('(s)', str(dump_post), timeout=self.START_STOP_TIMEOUT_MS)
 
         compare_heap_dumps(dump_pre, dump_post, hide_edge=['window_title_binding'])
@@ -145,13 +145,13 @@ class TestApp(ddterm_fixtures.DDTermFixtures):
         open_close_prefs()
 
         dump_pre = tmp_path / 'heap-pre.dump'
-        debug_api.GC()
+        debug_api.GC(timeout=self.START_STOP_TIMEOUT_MS, result_handler=lambda *_: None)
         debug_api.DumpHeap('(s)', str(dump_pre), timeout=self.START_STOP_TIMEOUT_MS)
 
         open_close_prefs()
 
         dump_post = tmp_path / 'heap-post.dump'
-        debug_api.GC()
+        debug_api.GC(timeout=self.START_STOP_TIMEOUT_MS, result_handler=lambda *_: None)
         debug_api.DumpHeap('(s)', str(dump_post), timeout=self.START_STOP_TIMEOUT_MS)
 
         compare_heap_dumps(
