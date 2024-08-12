@@ -4,5 +4,5 @@
 #
 #    pip-compile --allow-unsafe --strip-extras images.in
 #
-pyyaml==6.0.1
+pyyaml==6.0.2
     # via -r images.in
