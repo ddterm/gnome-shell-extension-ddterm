@@ -170,15 +170,13 @@ export const WindowManager = GObject.registerClass({
         );
 
         this._setup_maximized_handlers();
+        this._update_window_geometry(true);
 
         const mapped = this._window_mapped();
         const client_type = this.window.get_client_type();
+
         if (!mapped) {
             if (client_type === Meta.WindowClientType.WAYLAND) {
-                this.debug?.('Scheduling geometry fixup on map');
-                this._schedule_geometry_fixup();
-                this.window.move_to_monitor(this.geometry.monitor_index);
-
                 this._map_handler = global.window_manager.connect('map', (wm, actor) => {
                     if (actor.meta_window !== this.window)
                         return;
@@ -186,18 +184,15 @@ export const WindowManager = GObject.registerClass({
                     global.window_manager.disconnect(this._map_handler);
                     this._map_handler = null;
 
-                    this._update_window_geometry(true);
+                    this._update_window_geometry();
                     this._set_window_above();
                 });
             } else {
-                this._update_window_geometry(true);
                 this._set_window_above();
             }
 
             if (this.settings.get_boolean('override-window-animation') && !this.show_animation)
                 Main.wm.skipNextEffect(this.window.get_compositor_private());
-        } else {
-            this._update_window_geometry(true);
         }
 
         this._display_handlers = [
@@ -455,12 +450,17 @@ export const WindowManager = GObject.registerClass({
     }
 
     _schedule_geometry_fixup() {
-        if (this.window.get_client_type() !== Meta.WindowClientType.WAYLAND)
+        if (this.window.get_client_type() !== Meta.WindowClientType.WAYLAND) {
+            this.debug?.('Not scheduling geometry fixup because not Wayland');
             return;
+        }
+
+        if (this._geometry_fixup_handlers?.length) {
+            this.debug?.('Not scheduling geometry fixup because scheduled already');
+            return;
+        }
 
         this.debug?.('Scheduling geometry fixup');
-
-        this._cancel_geometry_fixup();
 
         this._geometry_fixup_handlers = [
             this.window.connect('position-changed', () => this._update_window_geometry()),
@@ -573,14 +573,32 @@ export const WindowManager = GObject.registerClass({
 
         this.debug?.('Updating window geometry');
 
-        if (force_monitor || this.window.get_monitor() !== this.geometry.monitor_index) {
+        const maximize = this.settings.get_boolean('window-maximize');
+
+        this._move_resize_window(
+            this.window,
+            maximize ? this.geometry.workarea : this.geometry.target_rect
+        );
+
+        force_monitor = force_monitor || this.window.get_monitor() !== this.geometry.monitor_index;
+
+        if (force_monitor) {
             this.debug?.('Scheduling geometry fixup for move to another monitor');
             this._schedule_geometry_fixup();
             this.window.move_to_monitor(this.geometry.monitor_index);
         }
 
-        if (this.settings.get_boolean('window-maximize'))
+        if (maximize) {
+            if (force_monitor)
+                this._move_resize_window(this.window, this.geometry.workarea);
+
+            if (!this.window.get_frame_rect().equal(this.geometry.workarea)) {
+                this.debug?.('Scheduling geometry fixup because of workarea mismatch');
+                this._schedule_geometry_fixup();
+            }
+
             return;
+        }
 
         if (this.window.maximized_horizontally &&
             this.geometry.target_rect.width < this.geometry.workarea.width) {
@@ -596,7 +614,13 @@ export const WindowManager = GObject.registerClass({
             return;
         }
 
-        this._move_resize_window(this.window, this.geometry.target_rect);
+        if (force_monitor)
+            this._move_resize_window(this.window, this.geometry.target_rect);
+
+        if (!this.window.get_frame_rect().equal(this.geometry.target_rect)) {
+            this.debug?.('Scheduling geometry fixup because of geometry mismatch');
+            this._schedule_geometry_fixup();
+        }
 
         if (this._is_maximized())
             this.settings.set_boolean('window-maximize', true);

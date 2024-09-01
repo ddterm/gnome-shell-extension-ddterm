@@ -657,6 +657,7 @@ class CommonTests(ddterm_fixtures.DDTermFixtures):
             window_size == 1.0 and initially_maximized,
             window_pos2,
             monitor,
+            3,
         ) as wait:
             test_api.settings.set_string('window-position', window_pos2)
             wait()
