@@ -18,29 +18,12 @@ pref_files = files(
 pref_built_js = []
 
 foreach pref_file : pref_files
-  if get_option('esm')
-    pref_built_js += custom_target(
-      command: preprocess_command,
-      input: pref_file,
-      output: fs.name(pref_file),
-      install: true,
-      install_dir: extension_dir / 'ddterm' / 'pref',
-    )
-  else
-    preproc = custom_target(
-      command: preprocess_command,
-      input: pref_file,
-      output: fs.name(pref_file) + '.sed',
-    )
-
-    pref_built_js += custom_target(
-      command: gjs_translate_esm_command,
-      input: preproc,
-      output: fs.name(pref_file),
-      install: true,
-      install_dir: extension_dir / 'ddterm' / 'pref',
-    )
-  endif
+  pref_built_js += fs.copyfile(
+    pref_file,
+    fs.name(pref_file),
+    install: true,
+    install_dir: extension_dir / 'ddterm' / 'pref',
+  )
 endforeach
 
 built_js += pref_built_js

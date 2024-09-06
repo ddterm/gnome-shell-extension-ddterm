@@ -17,34 +17,15 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-// BEGIN !ESM
-import GLib from 'gi://GLib';
-// END !ESM
 import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
 import Gtk from 'gi://Gtk';
 
 import Gettext from 'gettext';
 
-import { metadata, dir } from './meta.js';
-// BEGIN ESM
+import { metadata } from './meta.js';
 import { PrefsWidget } from '../pref/widget.js';
-// END ESM
 
-// BEGIN !ESM
-const [fakeext_import_path] = GLib.filename_from_uri(
-    GLib.Uri.resolve_relative(import.meta.url, 'fakeext', GLib.UriFlags.NONE)
-);
-
-imports.searchPath.unshift(fakeext_import_path);
-
-const { setCurrentExtension, installImporter } = imports.misc.extensionUtils;
-const Me = { dir, metadata };
-
-installImporter(Me);
-setCurrentExtension(Me);
-
-// END !ESM
 export const PrefsDialog = GObject.registerClass({
     Properties: {
         'settings': GObject.ParamSpec.object(
@@ -66,19 +47,10 @@ export const PrefsDialog = GObject.registerClass({
         this.set_default_size(640, 576);
         this.set_icon_name('preferences-system');
 
-        let widget;
-        // BEGIN ESM
-        widget = new PrefsWidget({
+        const widget = new PrefsWidget({
             settings: this.settings,
             gettext_context,
         });
-        // END ESM
-        // BEGIN !ESM
-        widget = new Me.imports.ddterm.pref.widget.PrefsWidget({
-            settings: this.settings,
-            gettext_context,
-        });
-        // END !ESM
 
         const content_area = this.get_content_area();
 

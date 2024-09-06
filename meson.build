@@ -6,7 +6,7 @@ project(
   default_options : ['prefix=/usr']
 )
 
-gjs = find_program('gjs', version: get_option('esm') ? '>=1.78.0' : '>=1.68.0')
+gjs = find_program('gjs', '>=1.78.0')
 
 fs = import('fs')
 i18n = import('i18n')
@@ -35,13 +35,11 @@ pack = [
 
 built_js = [
   fs.copyfile(
-    get_option('esm') ? 'extension.js' : 'extension.legacy.js',
     'extension.js',
     install: true,
     install_dir: extension_dir
   ),
   fs.copyfile(
-    get_option('esm') ? 'prefs.js' : 'prefs.legacy.js',
     'prefs.js',
     install: true,
     install_dir: extension_dir
@@ -55,7 +53,7 @@ metadata.set_quoted('gettext_domain', gettext_domain)
 metadata.set_quoted('settings_schema', settings_schema)
 
 pack += configure_file(
-  input: get_option('esm') ? 'metadata.json.in' : 'metadata.legacy.json.in',
+  input: 'metadata.json.in',
   output: 'metadata.json',
   configuration: metadata,
   install: true,
@@ -105,7 +103,7 @@ pack += built_js
 pack_target = custom_target(
   command: make_zip_command,
   input: pack,
-  output: get_option('esm') ? f'@uuid@.shell-extension.zip' : f'@uuid@.legacy.shell-extension.zip',
+  output: f'@uuid@.shell-extension.zip',
   build_by_default: true,
 )
 
@@ -190,9 +188,7 @@ test(
 )
 
 configure_file(
-  input: 'lint' / (
-    get_option('esm') ? 'eslintrc-ddterm-build-esm.yml.in' : 'eslintrc-ddterm-build-legacy.yml.in'
-  ),
+  input: 'lint' / 'eslintrc-ddterm-build.yml.in',
   output: '.eslintrc.yml',
   configuration: {
     'common_eslintrc': meson.current_source_dir() / 'lint' / 'eslintrc-ddterm-common.yml'

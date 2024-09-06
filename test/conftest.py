@@ -18,7 +18,6 @@ SRC_DIR = THIS_DIR.parent
 
 DDTERM_METADATA_KEY = pytest.StashKey[dict]()
 IMAGES_STASH_KEY = pytest.StashKey[list]()
-LEGACY_MODE_KEY = pytest.StashKey[bool]()
 
 pytest_plugins = ['markdown_report', 'screenshot']
 
@@ -88,20 +87,13 @@ def pytest_configure(config):
 
     config.stash[DDTERM_METADATA_KEY] = ddterm_metadata
 
-    legacy_mode = '45' not in ddterm_metadata['shell-version']
-    config.stash[LEGACY_MODE_KEY] = legacy_mode
-
-    image_profile = 'legacy' if legacy_mode else 'esm'
-
     if compose_services or not images:
         with open('compose.yaml') as f:
             compose_config = yaml.safe_load(f)
 
         if not compose_services:
             compose_services = [
-                name
-                for name, desc in compose_config['services'].items()
-                if image_profile in desc.get('profiles', [])
+                name for name, desc in compose_config['services'].items()
             ]
 
         images = images + [
@@ -155,13 +147,8 @@ def ddterm_metadata(request):
 
 
 @pytest.fixture(scope='session')
-def legacy_mode(request):
-    return request.config.stash[LEGACY_MODE_KEY]
-
-
-@pytest.fixture(scope='session')
-def test_extension_src_dir(legacy_mode):
-    return THIS_DIR / ('extension-legacy' if legacy_mode else 'extension')
+def test_extension_src_dir():
+    return THIS_DIR / 'extension'
 
 
 @pytest.fixture(scope='session')

@@ -69,17 +69,12 @@ const DetailsDialog = GObject.registerClass({
         label.clutter_text.use_markup = true;
 
         viewport.add_child(label);
-        // BEGIN !ESM
-        scroll_area.add_actor(viewport);
-        // END !ESM
-        // BEGIN ESM
 
         if (scroll_area.add_actor)
             scroll_area.add_actor(viewport);
         else
             scroll_area.add_child(viewport);
 
-        // END ESM
         this.contentLayout.add_child(scroll_area);
 
         this.addButton({
@@ -105,7 +100,6 @@ const DetailsDialog = GObject.registerClass({
 
 const Notification = GObject.registerClass({
 }, class DDTermNotification extends MessageTray.Notification {
-    // BEGIN ESM
     constructor(params) {
         if (MessageTray.Notification.length === 1) {
             super(params);
@@ -130,25 +124,11 @@ const Notification = GObject.registerClass({
             super.for_feedback = value;
     }
 
-    // END ESM
-    // BEGIN !ESM
-    _init(params) {
-        const { source, title, body, use_body_markup = false, ...rest } = params;
-
-        super._init(source, title, body, { bannerMarkup: use_body_markup, ...rest });
-    }
-
-    // END !ESM
     show() {
-        // BEGIN ESM
         if (this.source.addNotification)
             this.source.addNotification(this);
         else
             this.source.showNotification(this);
-        // END ESM
-        // BEGIN !ESM
-        this.source.showNotification(this);
-        // END !ESM
     }
 });
 
@@ -283,15 +263,10 @@ export const Notifications = GObject.registerClass({
         const title = this.gettext_context.gettext('ddterm');
         const icon_name = 'utilities-terminal';
 
-        // BEGIN !ESM
-        this._source = new MessageTray.Source(title, icon_name);
-        // END !ESM
-        // BEGIN ESM
         if (MessageTray.Source.length === 1)
             this._source = new MessageTray.Source({ title, icon_name });
         else
             this._source = new MessageTray.Source(title, icon_name);
-        // END ESM
 
         this._source.connect('destroy', () => {
             this._source = null;

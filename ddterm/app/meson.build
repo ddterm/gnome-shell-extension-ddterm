@@ -29,10 +29,9 @@ app_ui_files = files(
 )
 
 foreach app_file : app_js_files
-  built_js += custom_target(
-    command: preprocess_command,
-    input: app_file,
-    output: fs.name(app_file),
+  built_js += fs.copyfile(
+    app_file,
+    fs.name(app_file),
     install: true,
     install_dir: extension_dir / 'ddterm' / 'app',
   )
@@ -57,10 +56,6 @@ foreach app_ui_file : app_ui_files
     suite: ['gtk-builder-validate'],
   )
 endforeach
-
-if not get_option('esm')
-  subdir('fakeext')
-endif
 
 fs.copyfile('dev-application.js')
 fs.copyfile('dev-appwindow.js')

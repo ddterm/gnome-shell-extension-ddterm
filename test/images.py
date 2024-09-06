@@ -63,8 +63,7 @@ def run_matrix(podman, compose_config):
     result = []
 
     for name, desc in compose_config['services'].items():
-        for profile in desc['profiles']:
-            result.append(dict(service=name, profile=profile))
+        result.append(dict(service=name))
 
     print(json.dumps(result))
 

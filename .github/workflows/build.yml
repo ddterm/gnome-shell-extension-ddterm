@@ -123,15 +123,6 @@ jobs:
     needs:
       - lint
 
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - name: pack
-            flags: '-Desm=true'
-          - name: pack-legacy
-            flags: '-Desm=false'
-
     runs-on: ubuntu-24.04
     container:
       image: ghcr.io/ddterm/ci-docker-image:2024.08.27.0
@@ -158,7 +149,7 @@ jobs:
       run: echo "::add-matcher::.github/problem-matchers/generic.json"
 
     - name: Prepare build directory
-      run: .github/faketty.sh meson setup ${{ matrix.flags }} '-Dshebang_override=/usr/bin/env gjs' build
+      run: .github/faketty.sh meson setup '-Dshebang_override=/usr/bin/env gjs' build
 
     - name: Build extension package
       id: pack
@@ -168,7 +159,7 @@ jobs:
     - name: Upload extension package as artifact
       uses: actions/upload-artifact@v4
       with:
-        name: ${{ matrix.name }}
+        name: pack
         path: "build/*.shell-extension.zip"
         if-no-files-found: error
 
@@ -189,7 +180,7 @@ jobs:
       if: ${{ always() && steps.pack.conclusion == 'success' }}
 
     - name: Run eslint on generated code
-      run: ../.github/faketty.sh meson test -v -j1 --suite eslint --logbase eslint-build-esm lint-build
+      run: ../.github/faketty.sh meson test -v -j1 --suite eslint --logbase eslint-build lint-build
       working-directory: build
       if: ${{ always() && steps.pack.conclusion == 'success' }}
 
