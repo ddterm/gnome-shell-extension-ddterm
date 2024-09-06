@@ -363,7 +363,16 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
         this.display_config = new DisplayConfig({
             dbus_connection: this.application.get_dbus_connection(),
         });
+
         this.connect('destroy', () => this.display_config.unwatch());
+
+        const display_config_handler = this.display_config.connect('notify::layout-mode', () => {
+            if (!this.visible)
+                this.sync_size_with_extension();
+        });
+
+        this.connect('destroy', () => this.display_config.disconnect(display_config_handler));
+
         this.display_config.update_sync();
 
         const rect_type = new GLib.VariantType('(iiii)');
