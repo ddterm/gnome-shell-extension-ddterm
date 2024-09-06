@@ -74,7 +74,7 @@ By default, the build targets GNOME 45.
 
 To build the package for older versions, add `-Desm=false` to `meson setup`:
 
-    $ meson setup build-legacy-dir
+    $ meson setup -Desm=false build-legacy-dir
     $ ninja -C build-legacy-dir pack
 
 The genearted package will have a different name (it will include
