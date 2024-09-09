@@ -3,79 +3,79 @@
 # This file is distributed under the same license as the ddterm package.
 # Cezar Cruz <cezarcruz@outlook.com>, 2023.
 # Luiz Carlos de Souza Santos <lcdessantos@gmail.com>, 2023.
+# Bruno Rodrigues <b.rodrigues@live.com>, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-08-11 13:35+0000\n"
-"PO-Revision-Date: 2023-10-02 00:02+0000\n"
-"Last-Translator: Luiz Carlos de Souza Santos <lcdessantos@gmail.com>\n"
-"Language-Team: Portuguese <https://hosted.weblate.org/projects/gnome-shell-"
-"extension-ddterm/extension/pt/>\n"
+"PO-Revision-Date: 2024-09-09 02:09+0000\n"
+"Last-Translator: Bruno Rodrigues <b.rodrigues@live.com>\n"
+"Language-Team: Portuguese <https://hosted.weblate.org/projects/"
+"gnome-shell-extension-ddterm/extension/pt/>\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.1-dev\n"
+"X-Generator: Weblate 5.8-dev\n"
 
 #: ddterm/app/application.js:86
 msgid "Start the application, but do not show the window"
-msgstr ""
+msgstr "Iniciar sem exibir a janela"
 
 #: ddterm/app/application.js:95
 msgid "Comma-separated list of backends that GDK should try to use"
-msgstr ""
+msgstr "Lista de backends GDK para utilizar, separados por virgula"
 
 #: ddterm/app/application.js:113
 msgid "Show version information and exit"
-msgstr ""
+msgstr "Mostrar a versão e sair"
 
 #: ddterm/app/application.js:122
 msgid "Run the specified command"
-msgstr ""
+msgstr "Executar o comando"
 
 #: ddterm/app/application.js:136
 msgid "Wait for the command to exit, and return its exit code"
-msgstr ""
+msgstr "Esperar finalizar o comando e retornar o código de saída"
 
 #: ddterm/app/application.js:145
-#, fuzzy
 msgid "Set the working directory"
-msgstr "Preserve o diretório atual"
+msgstr "Definir o diretório atual"
 
 #: ddterm/app/application.js:154
-#, fuzzy
 msgid "Set tab title"
 msgstr "Definir Título da Aba"
 
 #: ddterm/app/application.js:163
 msgid "Keep the terminal open after the command has exited"
-msgstr ""
+msgstr "Manter o terminal aberto após o termino do comando"
 
 #: ddterm/app/application.js:172
 msgid "Do not pass the environment"
-msgstr ""
+msgstr "Não passar ao environment"
 
 #: ddterm/app/application.js:181
 msgid "Open a new tab"
-msgstr ""
+msgstr "Abrir nova aba"
 
 #: ddterm/app/application.js:351
 msgid "Saving session…"
-msgstr ""
+msgstr "Salvando a sessão…"
 
 #: ddterm/app/application.js:406
 msgid "Can't contact the extension."
-msgstr ""
+msgstr "Sem comunicação com a extensão."
 
 #: ddterm/app/application.js:408 ddterm/app/application.js:527
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr ""
+"Por favor, tenha certeza que o ddterm GNOME Shell extension esta habilitado."
 
 #: ddterm/app/application.js:525
 msgid "Can't read the version of the loaded extension."
-msgstr ""
+msgstr "Não foi possível verificar a versão da extensão."
 
 #: ddterm/app/application.js:530 ddterm/shell/notifications.js:158
 msgid "Warning: ddterm version has changed"
@@ -88,7 +88,7 @@ msgstr "Saia, e em seguida faça login novamente para carregar a nova versão."
 #: ddterm/app/appwindow.js:149 ddterm/com.github.amezin.ddterm.desktop.in.in:4
 #: ddterm/shell/notifications.js:283 ddterm/shell/panelicon.js:47
 msgid "ddterm"
-msgstr ""
+msgstr "ddterm"
 
 #: ddterm/app/dependencies.js:87 ddterm/shell/notifications.js:214
 msgid "ddterm needs additional packages to run"
@@ -160,7 +160,7 @@ msgstr "Restaurar Tamanho"
 
 #: ddterm/app/menus.ui:93
 msgid "Show in File Manager"
-msgstr ""
+msgstr "Exibir no Gerenciador de Arquivos"
 
 #: ddterm/app/menus.ui:99 ddterm/app/menus.ui:230 ddterm/app/tablabel.js:114
 #: ddterm/shell/notifications.js:91
@@ -195,26 +195,25 @@ msgstr "Nova Aba Após a Última Aba"
 
 #: ddterm/app/menus.ui:130 ddterm/app/menus.ui:267
 msgid "Layout"
-msgstr ""
+msgstr "Layout"
 
 #: ddterm/app/menus.ui:133 ddterm/app/menus.ui:270 ddterm/app/menus.ui:300
 msgid "No Split"
-msgstr ""
+msgstr "Sem divisão"
 
 #: ddterm/app/menus.ui:138 ddterm/app/menus.ui:275 ddterm/app/menus.ui:305
 #: ddterm/pref/ui/prefs-shortcuts.ui:227
 msgid "Split Horizontally"
-msgstr ""
+msgstr "Dividir Horizontalmente"
 
 #: ddterm/app/menus.ui:143 ddterm/app/menus.ui:280 ddterm/app/menus.ui:310
 #: ddterm/pref/ui/prefs-shortcuts.ui:234
 msgid "Split Vertically"
-msgstr ""
+msgstr "Dividir Verticalmente"
 
 #: ddterm/app/menus.ui:150 ddterm/app/menus.ui:287
-#, fuzzy
 msgid "Move Tab to Other Pane"
-msgstr "Mover Aba para a Próxima Posição"
+msgstr "Mover Aba para a Próximo"
 
 #: ddterm/app/menus.ui:157 ddterm/app/prefsdialog.js:65
 msgid "Preferences"
@@ -327,9 +326,8 @@ msgid "Find Previous"
 msgstr "Localizar anterior"
 
 #: ddterm/app/terminalpage.js:443
-#, fuzzy
 msgid "Restart"
-msgstr "Inicio"
+msgstr "Reiniciar"
 
 #: ddterm/app/terminalpage.js:444 ddterm/app/terminalpage.js:632
 msgid "Close Terminal"
@@ -337,11 +335,11 @@ msgstr "Fechar Terminal"
 
 #: ddterm/app/terminalpage.js:467
 msgid "The child process exited with status:"
-msgstr ""
+msgstr "O processo filho finalizou com o estado:"
 
 #: ddterm/app/terminalpage.js:477
 msgid "The child process was aborted by signal:"
-msgstr ""
+msgstr "O processo filho foi abortado pelo sinal:"
 
 #: ddterm/app/terminalpage.js:624
 msgid "Close this terminal?"
@@ -357,16 +355,15 @@ msgstr ""
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: ddterm/com.github.amezin.ddterm.desktop.in.in:6
 msgid "shell;prompt;command;commandline;cmd;run;terminal;"
-msgstr ""
+msgstr "shell;prompt;command;commandline;cmd;run;terminal;"
 
 #: ddterm/com.github.amezin.ddterm.desktop.in.in:7
 msgid "Another drop down terminal extension for GNOME Shell"
-msgstr ""
+msgstr "Outra extensão de terminal drop down para o GNOME Shell"
 
 #: ddterm/com.github.amezin.ddterm.desktop.in.in:20
-#, fuzzy
 msgid "Toggle"
-msgstr "Botão interruptor"
+msgstr "Alterar"
 
 #: ddterm/pref/adw.js:77
 msgid "Window"
@@ -872,7 +869,7 @@ msgstr "ASCII DEL"
 
 #: ddterm/pref/ui/prefs-compatibility.ui:48
 msgid "Escape sequence"
-msgstr ""
+msgstr "Sequencia de escape"
 
 #: ddterm/pref/ui/prefs-compatibility.ui:52
 msgid "TTY Erase"
@@ -995,14 +992,12 @@ msgid "Maximize/Unmaximize the Window"
 msgstr "Maximizar/Restaurar a Janela"
 
 #: ddterm/pref/ui/prefs-shortcuts.ui:87
-#, fuzzy
 msgid "Increase Window Size"
-msgstr "Aumentar a Altura da Janela"
+msgstr "Aumentar o tamanho da janela"
 
 #: ddterm/pref/ui/prefs-shortcuts.ui:94
-#, fuzzy
 msgid "Decrease Window Size"
-msgstr "Diminuir a Altura da Janela"
+msgstr "Diminuir o tamanho da Janela"
 
 #: ddterm/pref/ui/prefs-shortcuts.ui:101
 msgid "Increase Background Opacity"
@@ -1041,22 +1036,20 @@ msgid "Switch to Next Tab"
 msgstr "Mudar para a Próxima Aba"
 
 #: ddterm/pref/ui/prefs-shortcuts.ui:241
-#, fuzzy
 msgid "Move Keyboard Focus to Other Split Pane"
-msgstr "Mover Aba para a Próxima Posição"
+msgstr "Mover o foco do teclado para o próximo painel dividido"
 
 #: ddterm/pref/ui/prefs-shortcuts.ui:248
-#, fuzzy
 msgid "Move Tab to Other Split Pane"
-msgstr "Mover Aba para a Próxima Posição"
+msgstr "Mover Aba para o Próxima Painel dividido"
 
 #: ddterm/pref/ui/prefs-shortcuts.ui:255
 msgid "Increase First Split Pane Size"
-msgstr ""
+msgstr "Aumentar o tamanho do primeiro painel dividido"
 
 #: ddterm/pref/ui/prefs-shortcuts.ui:262
 msgid "Decrease First Split Pane Size"
-msgstr ""
+msgstr "Diminuir o tamanho do primeiro painel dividido"
 
 #: ddterm/pref/ui/prefs-shortcuts.ui:269
 msgid "Set Custom Tab Title"
@@ -1123,9 +1116,8 @@ msgid "Shortcut"
 msgstr "Atalho"
 
 #: ddterm/pref/ui/prefs-shortcuts.ui:535
-#, fuzzy
 msgid "Reset All Shortcuts to Defaults"
-msgstr "Redefinir Opções de Compatibilidade para os Padrões de Fábrica"
+msgstr "Redefinir Atalhos para os Padrões"
 
 #: ddterm/pref/ui/prefs-tabs.ui:44
 msgid "Expand tabs"
@@ -1252,9 +1244,8 @@ msgid "Detect raw URLs (scheme://netloc/path)"
 msgstr "Detectar endereços sem codificação (formato: scheme://netloc/path)"
 
 #: ddterm/pref/ui/prefs-text.ui:240
-#, fuzzy
 msgid "Detect \"file:\" URLs"
-msgstr "Detectar endereços de arquivos (path/to/file.ext)"
+msgstr "Detectar URLs endereços de arquivos (path/to/file.ext, file://)"
 
 #: ddterm/pref/ui/prefs-text.ui:255
 msgid "Detect HTTP URLs"
@@ -1274,20 +1265,19 @@ msgstr "Detectar endereços dos schemes news:/ e man:/"
 
 #: ddterm/shell/extension.js:280
 msgid "Failed to launch ddterm application"
-msgstr ""
+msgstr "Falha ao abrir a aplicação ddterm"
 
 #: ddterm/shell/notifications.js:86 ddterm/shell/notifications.js:205
-#, fuzzy
 msgid "Copy to Clipboard"
-msgstr "Colar texto da Área de Transferência"
+msgstr "Copiar para Área de Transferência"
 
 #: ddterm/shell/notifications.js:201
 msgid "Details…"
-msgstr ""
+msgstr "Detalhes…"
 
 #: ddterm/shell/notifications.js:249
 msgid "Install"
-msgstr ""
+msgstr "Instalar"
 
 #: ddterm/shell/panelicon.js:64
 msgid "Show"
