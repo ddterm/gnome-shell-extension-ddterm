@@ -22,6 +22,7 @@ import Gio from 'gi://Gio';
 import Clutter from 'gi://Clutter';
 import Meta from 'gi://Meta';
 import Mtk from 'gi://Mtk';
+import St from 'gi://St';
 
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import * as WM from 'resource:///org/gnome/shell/ui/windowManager.js';
@@ -138,6 +139,13 @@ export const WindowManager = GObject.registerClass({
             ([signal, callback]) => this.settings.connect(signal, callback)
         );
 
+        this._st_settings = St.Settings.get();
+        this._st_settings_handlers = Object.entries({
+            'notify::enable-animations': this._setup_animation_overrides.bind(this),
+        }).map(
+            ([signal, callback]) => this._st_settings.connect(signal, callback)
+        );
+
         this._geometry_handlers = Object.entries({
             'notify::monitor-index': () => {
                 this.window.move_to_monitor(this.geometry.monitor_index);
@@ -226,6 +234,9 @@ export const WindowManager = GObject.registerClass({
         this._disable_animation_overrides();
 
         if (!this.settings.get_boolean('override-window-animation'))
+            return;
+
+        if (!this._st_settings.enable_animations)
             return;
 
         this._animation_handlers = [
