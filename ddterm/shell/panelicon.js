@@ -37,9 +37,6 @@ const PanelIconBase = GObject.registerClass({
         ),
     },
     Signals: {
-        'toggle': {
-            param_types: [GObject.TYPE_BOOLEAN],
-        },
         'open-preferences': {},
     },
 }, class DDTermPanelIconBase extends PanelMenu.Button {
@@ -65,11 +62,14 @@ const PanelIconPopupMenu = GObject.registerClass({
             false
         );
         this.menu.addMenuItem(this.toggle_item);
-        this.toggle_item.connect('toggled', (_, value) => {
-            this.emit('toggle', value);
+        this.toggle_item.connect('toggled', () => {
+            this.active = this.toggle_item.state;
         });
-        this.toggle_item.connect('notify::state', () => {
-            this.notify('active');
+        this.connect('notify::active', () => {
+            const value = this.active;
+
+            if (this.toggle_item.state !== value)
+                this.toggle_item.setToggleState(value);
         });
 
         this.preferences_item = new PopupMenu.PopupMenuItem(
@@ -79,14 +79,6 @@ const PanelIconPopupMenu = GObject.registerClass({
         this.preferences_item.connect('activate', () => {
             this.emit('open-preferences');
         });
-    }
-
-    get active() {
-        return this.toggle_item.state;
-    }
-
-    set active(value) {
-        this.toggle_item.setToggleState(value);
     }
 
     static type_name() {
@@ -100,25 +92,22 @@ const PanelIconToggleButton = GObject.registerClass({
         super._init(true, gettext_context);
 
         this.accessible_role = Atk.Role.TOGGLE_BUTTON;
+
+        this.connect('notify::active', () => {
+            this._update();
+        });
+
+        this._update();
     }
 
-    get active() {
-        return this.has_style_pseudo_class('active');
-    }
-
-    set active(value) {
-        if (value === this.active)
-            return;
-
-        if (value) {
+    _update() {
+        if (this.active) {
             this.add_style_pseudo_class('active');
             this.add_accessible_state(Atk.StateType.CHECKED);
         } else {
             this.remove_style_pseudo_class('active');
             this.remove_accessible_state(Atk.StateType.CHECKED);
         }
-
-        this.notify('active');
     }
 
     static type_name() {
@@ -128,7 +117,7 @@ const PanelIconToggleButton = GObject.registerClass({
     vfunc_event(event) {
         if (event.type() === Clutter.EventType.BUTTON_PRESS ||
             event.type() === Clutter.EventType.TOUCH_BEGIN) {
-            this.emit('toggle', !this.active);
+            this.active = !this.active;
             return Clutter.EVENT_PROPAGATE;
         }
 
@@ -138,20 +127,24 @@ const PanelIconToggleButton = GObject.registerClass({
 
 const PanelIconToggleAndMenu = GObject.registerClass({
 }, class DDTermPanelIconToggleAndMenu extends PanelIconPopupMenu {
-    get active() {
-        return super.active;
+    _init(gettext_context) {
+        super._init(gettext_context);
+
+        this.connect('notify::active', () => {
+            this._update();
+        });
+
+        this._update();
     }
 
-    set active(value) {
-        if (value) {
+    _update() {
+        if (this.active) {
             this.add_style_pseudo_class('checked');
             this.add_accessible_state(Atk.StateType.CHECKED);
         } else {
             this.remove_style_pseudo_class('checked');
             this.remove_accessible_state(Atk.StateType.CHECKED);
         }
-
-        super.active = value;
     }
 
     static type_name() {
@@ -163,7 +156,7 @@ const PanelIconToggleAndMenu = GObject.registerClass({
             event.type() === Clutter.EventType.BUTTON_PRESS) {
             if (event.get_button() === Clutter.BUTTON_PRIMARY ||
                 event.get_button() === Clutter.BUTTON_MIDDLE) {
-                this.emit('toggle', !this.active);
+                this.active = !this.active;
                 return Clutter.EVENT_PROPAGATE;
             }
         }
@@ -205,9 +198,6 @@ export const PanelIconProxy = GObject.registerClass({
         ),
     },
     Signals: {
-        'toggle': {
-            param_types: [GObject.TYPE_BOOLEAN],
-        },
         'open-preferences': {},
     },
 }, class DDTermPanelIconProxy extends GObject.Object {
@@ -254,10 +244,6 @@ export const PanelIconProxy = GObject.registerClass({
                 'active',
                 GObject.BindingFlags.SYNC_CREATE | GObject.BindingFlags.BIDIRECTIONAL
             );
-
-            this.icon.connect('toggle', (_, v) => {
-                this.emit('toggle', v);
-            });
 
             this.icon.connect('open-preferences', () => {
                 this.emit('open-preferences');

@@ -143,19 +143,25 @@ function create_panel_icon(settings, window_matcher, app_control, gettext_contex
         Gio.SettingsBindFlags.GET | Gio.SettingsBindFlags.NO_SENSITIVITY
     );
 
-    panel_icon.connect('toggle', (_, value) => {
-        const window_visible = window_matcher.current_window !== null;
-
-        if (value !== window_visible)
-            app_control.toggle(false);
-    });
-
     panel_icon.connect('open-preferences', () => {
         app_control.preferences();
     });
 
     window_matcher.connect('notify::current-window', () => {
         panel_icon.active = window_matcher.current_window !== null;
+    });
+
+    panel_icon.connect('notify::active', () => {
+        const window_visible = window_matcher.current_window !== null;
+        const value = panel_icon.active;
+
+        if (value === window_visible)
+            return;
+
+        if (value)
+            app_control.activate(false);
+        else
+            app_control.hide(false);
     });
 
     panel_icon.active = window_matcher.current_window !== null;
