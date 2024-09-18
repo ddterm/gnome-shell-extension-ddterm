@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-11 13:35+0000\n"
+"POT-Creation-Date: 2024-09-18 14:06+0000\n"
 "PO-Revision-Date: 2024-05-16 20:10+0000\n"
 "Last-Translator: Mustafa Kemal Gilor <mustafa.gilor@canonical.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/gnome-shell-"
@@ -84,7 +84,7 @@ msgid "Log out, then log in again to load the updated extension."
 msgstr "Güncellenmiş uzantıyı yüklemek için oturumu kapatın ve tekrar açın."
 
 #: ddterm/app/appwindow.js:149 ddterm/com.github.amezin.ddterm.desktop.in.in:4
-#: ddterm/shell/notifications.js:283 ddterm/shell/panelicon.js:47
+#: ddterm/shell/notifications.js:283 ddterm/shell/panelicon.js:44
 msgid "ddterm"
 msgstr "ddterm"
 
@@ -1261,7 +1261,7 @@ msgstr "E-posta adreslerini tespit et"
 msgid "Detect \"news:\", \"man:\" URLs"
 msgstr "\"news:\", \"man:\" URL'lerini tespit et"
 
-#: ddterm/shell/extension.js:280
+#: ddterm/shell/extension.js:286
 msgid "Failed to launch ddterm application"
 msgstr "ddterm uygulaması başlatılamadı"
 
@@ -1277,7 +1277,7 @@ msgstr "Detaylar…"
 msgid "Install"
 msgstr "Kur"
 
-#: ddterm/shell/panelicon.js:64
+#: ddterm/shell/panelicon.js:61
 msgid "Show"
 msgstr "Göster"
 

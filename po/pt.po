@@ -8,11 +8,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-11 13:35+0000\n"
+"POT-Creation-Date: 2024-09-18 14:06+0000\n"
 "PO-Revision-Date: 2024-09-09 02:09+0000\n"
 "Last-Translator: Bruno Rodrigues <b.rodrigues@live.com>\n"
-"Language-Team: Portuguese <https://hosted.weblate.org/projects/"
-"gnome-shell-extension-ddterm/extension/pt/>\n"
+"Language-Team: Portuguese <https://hosted.weblate.org/projects/gnome-shell-"
+"extension-ddterm/extension/pt/>\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -86,7 +86,7 @@ msgid "Log out, then log in again to load the updated extension."
 msgstr "Saia, e em seguida faça login novamente para carregar a nova versão."
 
 #: ddterm/app/appwindow.js:149 ddterm/com.github.amezin.ddterm.desktop.in.in:4
-#: ddterm/shell/notifications.js:283 ddterm/shell/panelicon.js:47
+#: ddterm/shell/notifications.js:283 ddterm/shell/panelicon.js:44
 msgid "ddterm"
 msgstr "ddterm"
 
@@ -1263,7 +1263,7 @@ msgstr "Detectar endereços de e-mail"
 msgid "Detect \"news:\", \"man:\" URLs"
 msgstr "Detectar endereços dos schemes news:/ e man:/"
 
-#: ddterm/shell/extension.js:280
+#: ddterm/shell/extension.js:286
 msgid "Failed to launch ddterm application"
 msgstr "Falha ao abrir a aplicação ddterm"
 
@@ -1279,7 +1279,7 @@ msgstr "Detalhes…"
 msgid "Install"
 msgstr "Instalar"
 
-#: ddterm/shell/panelicon.js:64
+#: ddterm/shell/panelicon.js:61
 msgid "Show"
 msgstr "Mostrar"
 

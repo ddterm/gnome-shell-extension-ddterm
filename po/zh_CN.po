@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-11 13:35+0000\n"
+"POT-Creation-Date: 2024-09-18 14:06+0000\n"
 "PO-Revision-Date: 2024-08-26 08:09+0000\n"
 "Last-Translator: yuh <yuhldr@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -83,7 +83,7 @@ msgid "Log out, then log in again to load the updated extension."
 msgstr "注销后重新登录，方可生效。"
 
 #: ddterm/app/appwindow.js:149 ddterm/com.github.amezin.ddterm.desktop.in.in:4
-#: ddterm/shell/notifications.js:283 ddterm/shell/panelicon.js:47
+#: ddterm/shell/notifications.js:283 ddterm/shell/panelicon.js:44
 msgid "ddterm"
 msgstr "ddterm"
 
@@ -1255,7 +1255,7 @@ msgstr "检测邮件地址"
 msgid "Detect \"news:\", \"man:\" URLs"
 msgstr "检测 \"news:\"、\"man:\" URLs"
 
-#: ddterm/shell/extension.js:280
+#: ddterm/shell/extension.js:286
 msgid "Failed to launch ddterm application"
 msgstr "无法启动ddterm应用程序"
 
@@ -1271,7 +1271,7 @@ msgstr "细节……"
 msgid "Install"
 msgstr "安装"
 
-#: ddterm/shell/panelicon.js:64
+#: ddterm/shell/panelicon.js:61
 msgid "Show"
 msgstr "显示"
 

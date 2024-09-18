@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-11 13:35+0000\n"
+"POT-Creation-Date: 2024-09-18 14:06+0000\n"
 "PO-Revision-Date: 2024-04-10 20:01+0000\n"
 "Last-Translator: Stepan <stepan.miroshnikov@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/gnome-shell-"
@@ -88,7 +88,7 @@ msgid "Log out, then log in again to load the updated extension."
 msgstr "Завершите сессию и снова войдите для применения обновлений расширения."
 
 #: ddterm/app/appwindow.js:149 ddterm/com.github.amezin.ddterm.desktop.in.in:4
-#: ddterm/shell/notifications.js:283 ddterm/shell/panelicon.js:47
+#: ddterm/shell/notifications.js:283 ddterm/shell/panelicon.js:44
 msgid "ddterm"
 msgstr "ddterm"
 
@@ -1262,7 +1262,7 @@ msgstr "Адреса E-mail"
 msgid "Detect \"news:\", \"man:\" URLs"
 msgstr "Ссылки вида \"news:\", \"man:\""
 
-#: ddterm/shell/extension.js:280
+#: ddterm/shell/extension.js:286
 msgid "Failed to launch ddterm application"
 msgstr "Не удалось запустить приложение ddterm"
 
@@ -1278,7 +1278,7 @@ msgstr "Подробнее…"
 msgid "Install"
 msgstr "Установка"
 
-#: ddterm/shell/panelicon.js:64
+#: ddterm/shell/panelicon.js:61
 msgid "Show"
 msgstr "Показать"
 
