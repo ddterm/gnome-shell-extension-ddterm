@@ -54,9 +54,12 @@ function translate(file, root_url, replace_imports) {
         line_end = text.indexOf('\n', line_end + 1);
     } while (line_end !== -1);
 
-    const position_to_index = ({ line, column }) => line_start[line - 1] + column;
-
     const ast = Reflect.parse(text, { target: 'module', source: file.get_path() });
+    // Column numbering differs among GJS/SpiderMonkey versions
+    const { line: start_line, column: start_column } = ast.loc.start;
+    const position_to_index =
+        ({ line, column }) => line_start[line - start_line] + column - start_column;
+
     const translated = [];
     let last_index = 0;
 
