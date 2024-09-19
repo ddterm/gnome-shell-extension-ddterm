@@ -508,7 +508,7 @@ export const Terminal = GObject.registerClass({
 
     get_cwd() {
         const uri = this.ref_termprop_uri_by_id
-            ? this.ref_termprop_uri_by_id(Vte.TERMPROP_CURRENT_DIRECTORY_URI)?.to_string()
+            ? this.ref_termprop_uri_by_id(Vte.PropertyId.CURRENT_DIRECTORY_URI)?.to_string()
             : this.current_directory_uri;
 
         if (uri)
