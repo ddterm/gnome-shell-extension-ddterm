@@ -1,6 +1,6 @@
 project(
   'ddterm',
-  version : '55',
+version : '56',
   meson_version : '>= 1.0.0',
   license : 'GPL-3.0-or-later',
   default_options : ['prefix=/usr']
