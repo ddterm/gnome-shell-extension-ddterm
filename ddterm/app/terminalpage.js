@@ -590,8 +590,9 @@ export const TerminalPage = GObject.registerClass({
     }
 
     show_in_file_manager() {
-        const method = this.terminal.current_file_uri ? 'ShowItems' : 'ShowFolders';
-        const uri = this.terminal.current_file_uri || this.get_cwd().get_uri();
+        const { current_file_uri } = this.terminal;
+        const method = current_file_uri ? 'ShowItems' : 'ShowFolders';
+        const uri = current_file_uri || this.get_cwd().get_uri();
 
         Gio.DBus.session.call(
             'org.freedesktop.FileManager1',
