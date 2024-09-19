@@ -266,7 +266,7 @@ export const TerminalCommand = GObject.registerClass({
     }
 });
 
-export const Terminal = GObject.registerClass({
+const TerminalBase = GObject.registerClass({
     Properties: {
         'colors': GObject.ParamSpec.object(
             'colors',
@@ -507,9 +507,7 @@ export const Terminal = GObject.registerClass({
     }
 
     get_cwd() {
-        const uri = this.ref_termprop_uri_by_id
-            ? this.ref_termprop_uri_by_id(Vte.PropertyId.CURRENT_DIRECTORY_URI)?.to_string()
-            : this.current_directory_uri;
+        const uri = this.current_directory_uri;
 
         if (uri)
             return Gio.File.new_for_uri(uri);
@@ -660,3 +658,61 @@ export const Terminal = GObject.registerClass({
         });
     }
 });
+
+const TerminalTermprop = GObject.registerClass({
+    Properties: {
+        'window-title': GObject.ParamSpec.string(
+            'window-title',
+            '',
+            '',
+            GObject.ParamFlags.READABLE,
+            ''
+        ),
+        'current-directory-uri': GObject.ParamSpec.string(
+            'current-directory-uri',
+            '',
+            '',
+            GObject.ParamFlags.READABLE,
+            ''
+        ),
+        'current-file-uri': GObject.ParamSpec.string(
+            'current-file-uri',
+            '',
+            '',
+            GObject.ParamFlags.READABLE,
+            ''
+        ),
+    },
+}, class DDTermTerminalTermprop extends TerminalBase {
+    _init(params) {
+        super._init(params);
+
+        this.connect(`termprop-changed::${Vte.TERMPROP_XTERM_TITLE}`, () => {
+            this.notify('window-title');
+        });
+
+        this.connect(`termprop-changed::${Vte.TERMPROP_CURRENT_DIRECTORY_URI}`, () => {
+            this.notify('current-directory-uri');
+        });
+
+        this.connect(`termprop-changed::${Vte.TERMPROP_CURRENT_FILE_URI}`, () => {
+            this.notify('current-file-uri');
+        });
+    }
+
+    get window_title() {
+        const [value] = this.get_termprop_string_by_id(Vte.PropertyId.XTERM_TITLE);
+
+        return value  ?? '';
+    }
+
+    get current_directory_uri() {
+        return this.ref_termprop_uri_by_id(Vte.PropertyId.CURRENT_DIRECTORY_URI)?.to_string() ?? '';
+    }
+
+    get current_file_uri() {
+        return this.ref_termprop_uri_by_id(Vte.PropertyId.CURRENT_FILE_URI)?.to_string() ?? '';
+    }
+});
+
+export const Terminal = 'PropertyId' in Vte ? TerminalTermprop : TerminalBase;
