@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-18 14:06+0000\n"
+"POT-Creation-Date: 2024-09-19 08:31+0000\n"
 "PO-Revision-Date: 2024-08-26 08:09+0000\n"
 "Last-Translator: yuh <yuhldr@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -326,7 +326,7 @@ msgstr "找到前一个"
 msgid "Restart"
 msgstr "重新开始"
 
-#: ddterm/app/terminalpage.js:444 ddterm/app/terminalpage.js:632
+#: ddterm/app/terminalpage.js:444 ddterm/app/terminalpage.js:633
 msgid "Close Terminal"
 msgstr "关闭终端"
 
@@ -338,11 +338,11 @@ msgstr "子进程退出，状态为："
 msgid "The child process was aborted by signal:"
 msgstr "子进程被信号中止："
 
-#: ddterm/app/terminalpage.js:624
+#: ddterm/app/terminalpage.js:625
 msgid "Close this terminal?"
 msgstr "关闭这个终端？"
 
-#: ddterm/app/terminalpage.js:626
+#: ddterm/app/terminalpage.js:627
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."
