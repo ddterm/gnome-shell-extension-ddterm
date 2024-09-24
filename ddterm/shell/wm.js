@@ -600,10 +600,15 @@ export const WindowManager = GObject.registerClass({
         }
 
         if (maximize) {
-            if (force_monitor)
+            if (force_monitor) {
                 this._move_resize_window(this.window, this.geometry.workarea);
 
-            if (!this.window.get_frame_rect().equal(this.geometry.workarea)) {
+                if (!this._window_mapped()) {
+                    if (this.settings.get_boolean('override-window-animation') &&
+                        !this.show_animation)
+                        Main.wm.skipNextEffect(this.window.get_compositor_private());
+                }
+            } else if (!this.window.get_frame_rect().equal(this.geometry.workarea)) {
                 this.debug?.('Scheduling geometry fixup because of workarea mismatch');
                 this._schedule_geometry_fixup();
             }
@@ -625,10 +630,14 @@ export const WindowManager = GObject.registerClass({
             return;
         }
 
-        if (force_monitor)
+        if (force_monitor) {
             this._move_resize_window(this.window, this.geometry.target_rect);
 
-        if (!this.window.get_frame_rect().equal(this.geometry.target_rect)) {
+            if (!this._window_mapped()) {
+                if (this.settings.get_boolean('override-window-animation') && !this.show_animation)
+                    Main.wm.skipNextEffect(this.window.get_compositor_private());
+            }
+        } else if (!this.window.get_frame_rect().equal(this.geometry.target_rect)) {
             this.debug?.('Scheduling geometry fixup because of geometry mismatch');
             this._schedule_geometry_fixup();
         }
