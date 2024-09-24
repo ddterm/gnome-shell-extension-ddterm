@@ -240,7 +240,7 @@ class GnomeSessionFixtures:
     ):
         LOGGER.info('GNOME Shell environment: %r', gnome_shell_environment)
 
-        def shutdown_dbus_daemon(timeout=procutil.DEFAULT_TIMEOUT):
+        def shutdown_dbus_daemon(timeout=procutil.DEFAULT_SHUTDOWN_TIMEOUT):
             if dbus_daemon.poll() is not None:
                 return
 
@@ -297,7 +297,7 @@ class GnomeSessionFixtures:
 
                 stdout_parser = logparser.LogParser(stdout_pipe_r, stdout_tee_w)
                 stdout_parser.start()
-                stack.callback(stdout_parser.join, timeout=procutil.DEFAULT_TIMEOUT)
+                stack.callback(stdout_parser.join, timeout=procutil.DEFAULT_SHUTDOWN_TIMEOUT)
 
                 stderr_pipe_r, stderr_pipe_w = os.pipe2(os.O_CLOEXEC | os.O_DIRECT)
                 launch_stack.callback(os.close, stderr_pipe_w)
@@ -312,7 +312,7 @@ class GnomeSessionFixtures:
 
                 stderr_parser = logparser.LogParser(stderr_pipe_r, stderr_tee_w)
                 stderr_parser.start()
-                stack.callback(stderr_parser.join, timeout=procutil.DEFAULT_TIMEOUT)
+                stack.callback(stderr_parser.join, timeout=procutil.DEFAULT_SHUTDOWN_TIMEOUT)
 
                 # Other processes will inherit GNOME Shell's stdout.
                 # This will keep log parsers blocked in read().
@@ -358,7 +358,7 @@ class GnomeSessionFixtures:
         proxy = shellhook.Proxy.create(shell_dbus_interface)
 
         try:
-            deadline = glibutil.Deadline(dbusutil.DEFAULT_TIMEOUT_MS)
+            deadline = glibutil.Deadline(dbusutil.DEFAULT_LONG_TIMEOUT_MS)
 
             # GNOME Shell before 46 doesn't await eval() result.
             # Shell hook emits PropertiesChanged immediately after export.
@@ -377,7 +377,7 @@ class GnomeSessionFixtures:
 
     @pytest.fixture(scope='class')
     def shell_init(self, shell_test_hook, display_config, initial_monitor_layout):
-        shell_test_hook.wait_property('StartingUp', False)
+        shell_test_hook.wait_property('StartingUp', False, timeout=dbusutil.DEFAULT_LONG_TIMEOUT_MS)
 
         display_config.configure(initial_monitor_layout)
 
@@ -431,7 +431,12 @@ class GnomeSessionFixtures:
 
             if extension_test_hook.AppRunning:
                 app_dbus_actions.activate_action('quit')
-                extension_test_hook.wait_property('AppRunning', False)
+
+                extension_test_hook.wait_property(
+                    'AppRunning',
+                    False,
+                    timeout=dbusutil.DEFAULT_LONG_TIMEOUT_MS
+                )
 
         return appdebug.Proxy.create(g_connection=dbus_connection)
 

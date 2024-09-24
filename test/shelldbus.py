@@ -39,7 +39,7 @@ class Proxy(_Base):
 
         return json.loads(result)
 
-    def terminate(self, timeout=None):
+    def terminate(self, timeout=dbusutil.DEFAULT_LONG_TIMEOUT_MS):
         if timeout is None:
             timeout = self.get_default_timeout()
 

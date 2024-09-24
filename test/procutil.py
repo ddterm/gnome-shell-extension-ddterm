@@ -8,7 +8,8 @@ import subprocess
 
 LOGGER = logging.getLogger(__name__)
 
-DEFAULT_TIMEOUT = 10
+DEFAULT_TIMEOUT = 25
+DEFAULT_SHUTDOWN_TIMEOUT = 10
 
 
 class Launcher:
@@ -32,7 +33,7 @@ class Launcher:
         return subprocess.run(args, **kwargs)
 
     @contextlib.contextmanager
-    def spawn(self, *args, timeout=DEFAULT_TIMEOUT, **kwargs):
+    def spawn(self, *args, shutdown_timeout=DEFAULT_SHUTDOWN_TIMEOUT, **kwargs):
         kwargs.setdefault('stdin', subprocess.DEVNULL)
 
         args, kwargs = self.tweak(args, kwargs)
@@ -47,20 +48,20 @@ class Launcher:
 
                 finally:
                     try:
-                        popen.wait(timeout=timeout)
+                        popen.wait(timeout=shutdown_timeout)
 
                     except subprocess.TimeoutExpired:
                         LOGGER.exception(
                             'Process %r %r did not terminate after %s seconds',
                             popen.pid,
                             cmdline,
-                            timeout,
+                            shutdown_timeout,
                         )
 
                         popen.terminate()
 
                         try:
-                            popen.wait(timeout=timeout)
+                            popen.wait(timeout=shutdown_timeout)
 
                         except subprocess.TimeoutExpired:
                             LOGGER.info(

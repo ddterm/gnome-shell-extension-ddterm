@@ -140,7 +140,7 @@ def wait_idle(
     extension_test_hook,
     app_debug_dbus_interface,
     num_idle_frames=2,
-    timeout=5000
+    timeout=dbusutil.DEFAULT_TIMEOUT_MS,
 ):
     LOGGER.info(
         'Waiting for %r consecutive frames with no window geometry changes',
@@ -231,7 +231,12 @@ class CommonTests:
             # restart the app
             if extension_test_hook.AppRunning:
                 app_dbus_actions.activate_action('quit', None)
-                extension_test_hook.wait_property('AppRunning', False)
+
+                extension_test_hook.wait_property(
+                    'AppRunning',
+                    False,
+                    timeout=dbusutil.DEFAULT_LONG_TIMEOUT_MS
+                )
 
         display_config.configure(
             monitor_layout,
@@ -271,7 +276,12 @@ class CommonTests:
 
         if extension_test_hook.AppRunning:
             app_dbus_actions.activate_action('quit', None)
-            extension_test_hook.wait_property('AppRunning', False)
+
+            extension_test_hook.wait_property(
+                'AppRunning',
+                False,
+                timeout=dbusutil.DEFAULT_LONG_TIMEOUT_MS
+            )
 
         return request.param
 
@@ -419,7 +429,7 @@ class CommonTests:
         shell_test_hook,
         wait_idle,
     ):
-        extension_dbus_interface.Toggle()
+        extension_dbus_interface.Activate(timeout=dbusutil.DEFAULT_LONG_TIMEOUT_MS)
         glibutil.process_pending_events()
 
         assert extension_test_hook.HasWindow
@@ -436,7 +446,7 @@ class CommonTests:
         assert extension_test_hook.seen_transitions == expected_show_transitions
         assert extension_test_hook.Transitions == set()
 
-        extension_dbus_interface.Hide()
+        extension_dbus_interface.Toggle()
         glibutil.process_pending_events()
 
         assert not extension_test_hook.HasWindow
@@ -448,7 +458,7 @@ class CommonTests:
         assert extension_test_hook.Transitions == set()
 
         app_debug_dbus_interface.reset_size_allocations()
-        extension_dbus_interface.Activate()
+        extension_dbus_interface.Toggle()
         wait_idle()
 
         assert extension_test_hook.WindowRect == expected_rect
@@ -477,7 +487,7 @@ class CommonTests:
         settings_test_hook,
         wait_idle,
     ):
-        extension_dbus_interface.Toggle()
+        extension_dbus_interface.Activate(timeout=dbusutil.DEFAULT_LONG_TIMEOUT_MS)
         glibutil.process_pending_events()
 
         assert extension_test_hook.HasWindow

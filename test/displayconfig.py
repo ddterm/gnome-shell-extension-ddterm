@@ -385,8 +385,8 @@ class SimpleMonitorConfig:
 
 class DisplayConfig(Gio.DBusProxy):
     @classmethod
-    def create(cls, connection, timeout=dbusutil.DEFAULT_TIMEOUT_MS):
-        obj = cls(g_connection=connection, g_default_timeout=timeout)
+    def create(cls, connection, timeout=dbusutil.DEFAULT_LONG_TIMEOUT_MS):
+        obj = cls(g_connection=connection)
         glibutil.wait_init(obj, timeout)
 
         return obj

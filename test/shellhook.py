@@ -109,8 +109,8 @@ class Proxy(_Base):
         super().Later(LaterType(when), **kwargs)
         glibutil.process_pending_events()
 
-    def WaitLeisure(self, **kwargs):
-        super().WaitLeisure(**kwargs)
+    def WaitLeisure(self, *, timeout=dbusutil.DEFAULT_LONG_TIMEOUT_MS, **kwargs):
+        super().WaitLeisure(timeout=timeout, **kwargs)
         glibutil.process_pending_events()
 
     def Destroy(self, **kwargs):

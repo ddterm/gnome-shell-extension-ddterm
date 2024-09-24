@@ -7,10 +7,11 @@ from . import dbusproxy, dbustrace, glibutil
 
 LOGGER = logging.getLogger(__name__)
 
-DEFAULT_TIMEOUT_MS = 10_000
+DEFAULT_TIMEOUT_MS = 5_000
+DEFAULT_LONG_TIMEOUT_MS = 25_000
 
 
-def connect(address, timeout=DEFAULT_TIMEOUT_MS):
+def connect(address, timeout=DEFAULT_LONG_TIMEOUT_MS):
     LOGGER.info('Connecting to D-Bus address %r', address)
 
     task = Gio.Task()
@@ -50,7 +51,7 @@ def connect(address, timeout=DEFAULT_TIMEOUT_MS):
     return bus
 
 
-def close(connection, timeout=DEFAULT_TIMEOUT_MS):
+def close(connection, timeout=DEFAULT_LONG_TIMEOUT_MS):
     LOGGER.info('Disconnecting from D-Bus')
 
     context = GLib.MainContext.new()
@@ -78,7 +79,7 @@ def close(connection, timeout=DEFAULT_TIMEOUT_MS):
         context.pop_thread_default()
 
 
-def wait_name(connection, name, timeout=DEFAULT_TIMEOUT_MS, autostart=False):
+def wait_name(connection, name, timeout=DEFAULT_LONG_TIMEOUT_MS, autostart=False):
     context = GLib.MainContext.new()
     loop = GLib.MainLoop.new(context, False)
     flags = Gio.BusNameWatcherFlags.NONE
@@ -132,9 +133,8 @@ def _proxy_property_trace(proxy, pspec):
 
 class Proxy(dbusproxy.Proxy):
     @classmethod
-    def create(cls, *, timeout=DEFAULT_TIMEOUT_MS, g_flags=None, **kwargs):
+    def create(cls, *, timeout=DEFAULT_LONG_TIMEOUT_MS, g_flags=None, **kwargs):
         kwargs.setdefault('g_flags', cls.G_FLAGS_DEFAULT | Gio.DBusProxyFlags.DO_NOT_AUTO_START)
-        kwargs.setdefault('g_default_timeout', timeout)
 
         obj = cls(**kwargs)
         glibutil.wait_init(obj, timeout)

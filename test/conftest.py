@@ -198,9 +198,9 @@ def container(tmp_path_factory, container_lock, request):
                         'rm',
                         '--force',
                         '--volumes',
-                        f'--time={procutil.DEFAULT_TIMEOUT // 2}',
+                        f'--time={procutil.DEFAULT_SHUTDOWN_TIMEOUT}',
                         cid,
-                        timeout=procutil.DEFAULT_TIMEOUT,
+                        timeout=procutil.DEFAULT_SHUTDOWN_TIMEOUT * 2,
                     )
 
             stack.callback(shutdown)
