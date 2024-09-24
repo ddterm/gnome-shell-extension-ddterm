@@ -541,7 +541,6 @@ along with ddterm GNOME Shell extension.  If not, see <http://www.gnu.org/licens
       <packing>
         <property name="expand">False</property>
         <property name="fill">True</property>
-        <property name="pack-type">end</property>
         <property name="position">3</property>
       </packing>
     </child>
