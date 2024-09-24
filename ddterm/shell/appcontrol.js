@@ -156,7 +156,7 @@ export const AppControl = GObject.registerClass({
         try {
             await Promise.race([
                 this.service.start(cancellable),
-                wait_timeout('ddterm app failed to start in 10 seconds', 10000, cancellable),
+                wait_timeout('ddterm app failed to start in 20 seconds', 20000, cancellable),
             ]);
         } finally {
             this._cancellable.disconnect(cancel_chain);
@@ -196,9 +196,9 @@ export const AppControl = GObject.registerClass({
                 wait_app_start_stop,
                 wait_timeout(
                     visible
-                        ? 'ddterm failed to show in 10 seconds'
-                        : 'ddterm failed to hide in 10 seconds',
-                    10000,
+                        ? 'ddterm failed to show in 20 seconds'
+                        : 'ddterm failed to hide in 20 seconds',
+                    20000,
                     cancellable
                 ),
             ]);

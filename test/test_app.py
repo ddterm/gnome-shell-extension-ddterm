@@ -6,7 +6,7 @@ import sys
 
 import pytest
 
-from . import fixtures, shellhook
+from . import dbusutil, fixtures, shellhook
 
 
 THIS_FILE = pathlib.Path(__file__).resolve()
@@ -93,7 +93,7 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
     ):
         workarea = shell_test_hook.Workareas[0]
 
-        extension_dbus_interface.Activate()
+        extension_dbus_interface.Activate(timeout=dbusutil.DEFAULT_LONG_TIMEOUT_MS)
         extension_test_hook.wait_property('RenderedFirstFrame', True)
         app_debug_dbus_interface.WaitFrame()
         shell_test_hook.Later(shellhook.LaterType.BEFORE_REDRAW)
@@ -127,7 +127,7 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
         launcher_path,
         tmp_path
     ):
-        extension_dbus_interface.Activate()
+        extension_dbus_interface.Activate(timeout=dbusutil.DEFAULT_LONG_TIMEOUT_MS)
         extension_test_hook.wait_property('RenderedFirstFrame', True)
 
         assert shell_test_hook.FocusApp == 'com.github.amezin.ddterm'
@@ -177,7 +177,7 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
         launcher_path,
         tmp_path
     ):
-        extension_dbus_interface.Activate()
+        extension_dbus_interface.Activate(timeout=dbusutil.DEFAULT_LONG_TIMEOUT_MS)
         extension_test_hook.wait_property('RenderedFirstFrame', True)
 
         test_file = tmp_path / 'testfile'
@@ -223,7 +223,7 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
         extension_test_hook,
         tmp_path,
     ):
-        extension_dbus_interface.Activate()
+        extension_dbus_interface.Activate(timeout=dbusutil.DEFAULT_LONG_TIMEOUT_MS)
         extension_test_hook.wait_property('RenderedFirstFrame', True)
 
         app_debug_dbus_interface.ShowPreferences()

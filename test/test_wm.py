@@ -10,7 +10,7 @@ import pytest
 
 from gi.repository import GLib, Gio
 
-from . import displayconfig, fixtures, geometry, glibutil, pictparam, shellhook
+from . import dbusutil, displayconfig, fixtures, geometry, glibutil, pictparam, shellhook
 
 
 THIS_FILE = pathlib.Path(__file__).resolve()
@@ -530,7 +530,7 @@ class CommonTests:
         shell_test_hook,
         wait_idle,
     ):
-        extension_dbus_interface.Activate()
+        extension_dbus_interface.Activate(timeout=dbusutil.DEFAULT_LONG_TIMEOUT_MS)
         glibutil.process_pending_events()
 
         assert extension_test_hook.HasWindow
@@ -587,7 +587,7 @@ class CommonTests:
     ):
         settings_test_hook.window_maximize = False
 
-        extension_dbus_interface.Activate()
+        extension_dbus_interface.Activate(timeout=dbusutil.DEFAULT_LONG_TIMEOUT_MS)
         glibutil.process_pending_events()
 
         assert extension_test_hook.HasWindow
