@@ -30,7 +30,7 @@ services:
       - legacy
 
   debian-13:
-    image: ghcr.io/ddterm/gnome-shell-image/debian-13:2024.09.25.0
+    image: ghcr.io/ddterm/gnome-shell-image/debian-13:2024.09.26.0
     profiles:
       - esm
 
