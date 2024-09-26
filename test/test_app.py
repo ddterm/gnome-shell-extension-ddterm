@@ -6,7 +6,7 @@ import sys
 
 import pytest
 
-from . import fixtures, glibutil, shellhook
+from . import fixtures, shellhook
 
 
 THIS_FILE = pathlib.Path(__file__).resolve()
@@ -144,7 +144,7 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
             env=dbus_environment,
         )
 
-        glibutil.process_pending_events()
+        shell_test_hook.Later(shellhook.LaterType.SYNC_STACK)
 
         assert shell_test_hook.FocusApp == 'com.github.amezin.ddterm'
 
@@ -162,7 +162,7 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
             env=dbus_environment,
         )
 
-        glibutil.process_pending_events()
+        shell_test_hook.Later(shellhook.LaterType.SYNC_STACK)
 
         assert shell_test_hook.FocusApp == 'com.github.amezin.ddterm'
         assert test_file.read_text() == 'wl-clipboard-test-content\n\n'
