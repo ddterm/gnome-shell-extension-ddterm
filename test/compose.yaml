@@ -15,7 +15,7 @@ services:
       - esm
 
   archlinux:
-    image: ghcr.io/ddterm/gnome-shell-image/archlinux:2024.09.25.0
+    image: ghcr.io/ddterm/gnome-shell-image/archlinux:2024.09.26.0
     profiles:
       - esm
 
