@@ -5,6 +5,7 @@
   "gettext-domain": @gettext_domain@,
   "settings-schema": @settings_schema@,
   "shell-version": [
+    "42",
     "43",
     "44"
   ],

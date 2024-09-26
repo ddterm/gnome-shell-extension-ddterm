@@ -34,6 +34,11 @@ services:
     profiles:
       - esm
 
+  ubuntu-22.04:
+    image: ghcr.io/ddterm/gnome-shell-image/ubuntu-22.04:2024.09.26.0
+    profiles:
+      - legacy
+
   ubuntu-24.04:
     image: ghcr.io/ddterm/gnome-shell-image/ubuntu-24.04:2024.09.26.0
     profiles:
