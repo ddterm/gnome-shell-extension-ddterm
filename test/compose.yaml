@@ -5,12 +5,12 @@
 
 services:
   fedora-40:
-    image: ghcr.io/ddterm/gnome-shell-image/fedora-40:2024.09.25.0
+    image: ghcr.io/ddterm/gnome-shell-image/fedora-40:2024.09.26.0
     profiles:
       - esm
 
   fedora-39:
-    image: ghcr.io/ddterm/gnome-shell-image/fedora-39:2024.09.25.0
+    image: ghcr.io/ddterm/gnome-shell-image/fedora-39:2024.09.26.0
     profiles:
       - esm
 
@@ -20,26 +20,26 @@ services:
       - esm
 
   opensuse-tumbleweed:
-    image: ghcr.io/ddterm/gnome-shell-image/opensuse-tumbleweed:2024.09.25.0
+    image: ghcr.io/ddterm/gnome-shell-image/opensuse-tumbleweed:2024.09.26.0
     profiles:
       - esm
 
   debian-12:
-    image: ghcr.io/ddterm/gnome-shell-image/debian-12:2024.09.25.0
+    image: ghcr.io/ddterm/gnome-shell-image/debian-12:2024.09.26.0
     profiles:
       - legacy
 
   debian-13:
-    image: ghcr.io/ddterm/gnome-shell-image/debian-13:2024.09.25.0
+    image: ghcr.io/ddterm/gnome-shell-image/debian-13:2024.09.26.0
     profiles:
       - esm
 
   ubuntu-24.04:
-    image: ghcr.io/ddterm/gnome-shell-image/ubuntu-24.04:2024.09.25.0
+    image: ghcr.io/ddterm/gnome-shell-image/ubuntu-24.04:2024.09.26.0
     profiles:
       - esm
 
   opensuse-leap-15.6:
-    image: ghcr.io/ddterm/gnome-shell-image/opensuse-leap-15.6:2024.09.25.0
+    image: ghcr.io/ddterm/gnome-shell-image/opensuse-leap-15.6:2024.09.26.0
     profiles:
       - esm
