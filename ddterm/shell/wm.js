@@ -127,7 +127,8 @@ export const WindowManager = GObject.registerClass({
         this._settings_handlers = Object.entries({
             'changed::window-above': this._set_window_above.bind(this),
             'changed::window-stick': this._set_window_stick.bind(this),
-            'changed::window-size': this._disable_window_maximize_setting.bind(this),
+            'changed::window-hsize': this._disable_window_maximize_setting.bind(this),
+            'changed::window-vsize': this._disable_window_maximize_setting.bind(this),
             'changed::window-maximize': this._set_window_maximized.bind(this),
             'changed::override-window-animation': this._setup_animation_overrides.bind(this),
             'changed::show-animation': this._update_show_animation.bind(this),
@@ -655,11 +656,11 @@ export const WindowManager = GObject.registerClass({
         this.debug?.('Updating size setting on grab end');
 
         const frame_rect = win.get_frame_rect();
-        const size = this.geometry.orientation === Clutter.Orientation.HORIZONTAL
-            ? frame_rect.width / this.geometry.workarea.width
-            : frame_rect.height / this.geometry.workarea.height;
+        const hsize = frame_rect.width / this.geometry.workarea.width;
+        const vsize = frame_rect.height / this.geometry.workarea.height;
 
-        this.settings.set_double('window-size', Math.min(1.0, size));
+        this.settings.set_double('window-hsize', Math.min(1.0, hsize));
+        this.settings.set_double('window-vsize', Math.min(1.0, vsize));
     }
 
     unmaximize_for_resize(flags) {
@@ -672,7 +673,8 @@ export const WindowManager = GObject.registerClass({
 
         // There is a _update_window_geometry() call after successful unmaximize.
         // It must set window size to 100%.
-        this.settings.set_double('window-size', 1.0);
+        this.settings.set_double('window-hsize', 1.0);
+        this.settings.set_double('window-vsize', 1.0);
 
         Main.wm.skipNextEffect(this.window.get_compositor_private());
         this.window.unmaximize(flags);
