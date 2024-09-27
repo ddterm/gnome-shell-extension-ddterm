@@ -27,6 +27,7 @@ import { Extension } from 'resource:///org/gnome/shell/extensions/extension.js';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import * as MessageTray from 'resource:///org/gnome/shell/ui/messageTray.js';
 
+import { Animation, ReverseAnimation } from './animation.js';
 import { AppControl } from './appcontrol.js';
 import { DBusApi } from './dbusapi.js';
 import { WindowGeometry } from './geometry.js';
@@ -298,6 +299,26 @@ class EnabledExtension {
             this.window_geometry.disable();
         });
 
+        this.show_animation = new Animation({
+            geometry: this.window_geometry,
+        });
+
+        this.show_animation.bind_settings(
+            this.settings,
+            'show-animation',
+            'show-animation-duration'
+        );
+
+        this.hide_animation = new ReverseAnimation({
+            geometry: this.window_geometry,
+        });
+
+        this.hide_animation.bind_settings(
+            this.settings,
+            'hide-animation',
+            'hide-animation-duration'
+        );
+
         this.window_matcher = create_window_matcher(this.service, rollback);
 
         this.app_control = new AppControl({
@@ -400,6 +421,8 @@ class EnabledExtension {
             window: win,
             settings: this.settings,
             geometry: this.window_geometry,
+            show_animation: this.show_animation,
+            hide_animation: this.hide_animation,
         });
 
         this.window_manager.debug = this.debug;

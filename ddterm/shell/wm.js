@@ -22,11 +22,10 @@ import Gio from 'gi://Gio';
 import Clutter from 'gi://Clutter';
 import Meta from 'gi://Meta';
 import Mtk from 'gi://Mtk';
-import St from 'gi://St';
 
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
-import * as WM from 'resource:///org/gnome/shell/ui/windowManager.js';
 
+import { Animation } from './animation.js';
 import { WindowGeometry } from './geometry.js';
 import { is_wlclipboard, WlClipboardActivator } from './wlclipboard.js';
 
@@ -40,39 +39,6 @@ const MOUSE_RESIZE_GRABS = [
     Meta.GrabOp.RESIZING_SE,
     Meta.GrabOp.RESIZING_W,
 ];
-
-function fixup_opacity_animation(animation_mode) {
-    /*
-        Bounce/backtracking in opacity animations looks bad.
-        TODO: Add dedicated settings for opacity animation.
-    */
-
-    switch (animation_mode) {
-    case Clutter.AnimationMode.EASE_IN_BACK:
-        return Clutter.AnimationMode.EASE_IN_CUBIC;
-
-    case Clutter.AnimationMode.EASE_OUT_BACK:
-        return Clutter.AnimationMode.EASE_OUT_CUBIC;
-
-    case Clutter.AnimationMode.EASE_IN_OUT_BACK:
-        return Clutter.AnimationMode.EASE_IN_OUT_CUBIC;
-
-    case Clutter.AnimationMode.EASE_IN_ELASTIC:
-    case Clutter.AnimationMode.EASE_IN_BOUNCE:
-        return Clutter.AnimationMode.EASE_IN_EXPO;
-
-    case Clutter.AnimationMode.EASE_OUT_ELASTIC:
-    case Clutter.AnimationMode.EASE_OUT_BOUNCE:
-        return Clutter.AnimationMode.EASE_OUT_EXPO;
-
-    case Clutter.AnimationMode.EASE_IN_OUT_ELASTIC:
-    case Clutter.AnimationMode.EASE_IN_OUT_BOUNCE:
-        return Clutter.AnimationMode.EASE_IN_OUT_EXPO;
-
-    default:
-        return animation_mode;
-    }
-}
 
 export const WindowManager = GObject.registerClass({
     Properties: {
@@ -97,6 +63,20 @@ export const WindowManager = GObject.registerClass({
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             WindowGeometry
         ),
+        'show-animation': GObject.ParamSpec.object(
+            'show-animation',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+            Animation
+        ),
+        'hide-animation': GObject.ParamSpec.object(
+            'hide-animation',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+            Animation
+        ),
     },
     Signals: {
         'hide-request': {},
@@ -109,11 +89,6 @@ export const WindowManager = GObject.registerClass({
         super._init(params);
 
         this.debug = null;
-
-        this.show_animation = Clutter.AnimationMode.LINEAR;
-        this.show_animation_duration = WM.SHOW_WINDOW_ANIMATION_TIME;
-        this.hide_animation = Clutter.AnimationMode.LINEAR;
-        this.hide_animation_duration = WM.DESTROY_WINDOW_ANIMATION_TIME;
 
         try {
             this._enable();
@@ -129,21 +104,9 @@ export const WindowManager = GObject.registerClass({
             'changed::window-stick': this._set_window_stick.bind(this),
             'changed::window-size': this._disable_window_maximize_setting.bind(this),
             'changed::window-maximize': this._set_window_maximized.bind(this),
-            'changed::override-window-animation': this._setup_animation_overrides.bind(this),
-            'changed::show-animation': this._update_show_animation.bind(this),
-            'changed::hide-animation': this._update_hide_animation.bind(this),
-            'changed::show-animation-duration': this._update_show_animation_duration.bind(this),
-            'changed::hide-animation-duration': this._update_hide_animation_duration.bind(this),
             'changed::hide-when-focus-lost': this._setup_hide_when_focus_lost.bind(this),
         }).map(
             ([signal, callback]) => this.settings.connect(signal, callback)
-        );
-
-        this._st_settings = St.Settings.get();
-        this._st_settings_handlers = Object.entries({
-            'notify::enable-animations': this._setup_animation_overrides.bind(this),
-        }).map(
-            ([signal, callback]) => this._st_settings.connect(signal, callback)
         );
 
         this._geometry_handlers = Object.entries({
@@ -153,26 +116,26 @@ export const WindowManager = GObject.registerClass({
             'notify::maximize-flag': () => {
                 this._setup_maximized_handlers();
             },
-            'notify::target-rect': () => this._update_window_geometry(),
+            'notify::target-rect': () => {
+                this._update_window_geometry();
+            },
         }).map(
             ([signal, callback]) => this.geometry.connect(signal, callback)
         );
 
-        this._update_show_animation();
-        this._update_hide_animation();
-        this._update_show_animation_duration();
-        this._update_hide_animation_duration();
-
         this._window_handlers = Object.entries({
-            'unmanaged': this.disable.bind(this),
-            'unmanaging': () => {
-                if (!this.settings.get_boolean('override-window-animation') || this.hide_animation)
-                    return;
-
-                Main.wm.skipNextEffect(this.window.get_compositor_private());
+            'unmanaged': () => {
                 this.disable();
             },
-            'notify::above': this._setup_wl_clipboard_activator.bind(this),
+            'unmanaging': () => {
+                if (this.hide_animation.should_skip) {
+                    Main.wm.skipNextEffect(this.window.get_compositor_private());
+                    this.disable();
+                }
+            },
+            'notify::above': () => {
+                this._setup_wl_clipboard_activator();
+            },
         }).map(
             ([signal, callback]) => this.window.connect(signal, callback)
         );
@@ -199,7 +162,7 @@ export const WindowManager = GObject.registerClass({
                 this._set_window_above();
             }
 
-            if (this.settings.get_boolean('override-window-animation') && !this.show_animation)
+            if (this.show_animation.should_skip)
                 Main.wm.skipNextEffect(this.window.get_compositor_private());
         }
 
@@ -209,7 +172,19 @@ export const WindowManager = GObject.registerClass({
         ];
 
         this._setup_hide_when_focus_lost();
-        this._setup_animation_overrides();
+
+        this._show_animation_setup_handler =
+            this.show_animation.connect('notify::should-override', () => {
+                this._setup_map_animation_override(this.show_animation.should_override);
+            });
+
+        this._hide_animation_setup_handler =
+            this.hide_animation.connect('notify::should-override', () => {
+                this._setup_destroy_animation_override(this.hide_animation.should_override);
+            });
+
+        this._setup_map_animation_override(this.show_animation.should_override);
+        this._setup_destroy_animation_override(this.hide_animation.should_override);
 
         if (client_type === Meta.WindowClientType.X11)
             Main.activateWindow(this.window);
@@ -225,145 +200,58 @@ export const WindowManager = GObject.registerClass({
         this._setup_wl_clipboard_activator();
     }
 
-    _disable_animation_overrides() {
-        while (this._animation_handlers?.length)
-            global.window_manager.disconnect(this._animation_handlers.pop());
-    }
-
-    _setup_animation_overrides() {
-        this._disable_animation_overrides();
-
-        if (!this.settings.get_boolean('override-window-animation'))
+    _setup_map_animation_override(enable) {
+        if (enable === Boolean(this._map_animation_override_handler))
             return;
 
-        if (!this._st_settings.enable_animations)
-            return;
-
-        this._animation_handlers = [
-            global.window_manager.connect('destroy', this._override_unmap_animation.bind(this)),
-            global.window_manager.connect('map', this._override_map_animation.bind(this)),
-        ];
-    }
-
-    _animation_mode_from_settings(key) {
-        const nick = this.settings.get_string(key);
-        if (nick === 'disable')
-            return null;
-
-        return Clutter.AnimationMode[nick.replace(/-/g, '_').toUpperCase()];
-    }
-
-    _update_show_animation() {
-        this.show_animation = this._animation_mode_from_settings('show-animation');
-    }
-
-    _update_hide_animation() {
-        this.hide_animation = this._animation_mode_from_settings('hide-animation');
-    }
-
-    _update_show_animation_duration() {
-        this.show_animation_duration =
-            Math.floor(1000 * this.settings.get_double('show-animation-duration'));
-    }
-
-    _update_hide_animation_duration() {
-        this.hide_animation_duration =
-            Math.floor(1000 * this.settings.get_double('hide-animation-duration'));
+        if (enable) {
+            this._map_animation_override_handler = global.window_manager.connect(
+                'map',
+                this._override_map_animation.bind(this)
+            );
+        } else {
+            global.window_manager.disconnect(this._map_animation_override_handler);
+            this._map_animation_override_handler = null;
+        }
     }
 
     _override_map_animation(wm, actor) {
         if (actor !== this.window.get_compositor_private())
             return;
 
-        if (!this.show_animation)
+        // BEGIN !ESM
+        if (!Main.wm._waitForOverviewToHide) {
+            this.show_animation.apply_override(actor);
             return;
+        }
 
-        const win = actor.meta_window;
-
-        const func = () => {
-            if (actor !== win.get_compositor_private())
-                return;
-
-            actor.pivot_point = this.geometry.pivot_point;
-
-            const scale_x_anim = actor.get_transition('scale-x');
-
-            if (scale_x_anim) {
-                scale_x_anim.set_from(
-                    this.geometry.orientation === Clutter.Orientation.HORIZONTAL ? 0.0 : 1.0
-                );
-
-                scale_x_anim.set_to(1.0);
-                scale_x_anim.progress_mode = this.show_animation;
-                scale_x_anim.duration = this.show_animation_duration;
-            }
-
-            const scale_y_anim = actor.get_transition('scale-y');
-
-            if (scale_y_anim) {
-                scale_y_anim.set_from(
-                    this.geometry.orientation === Clutter.Orientation.VERTICAL ? 0.0 : 1.0
-                );
-
-                scale_y_anim.set_to(1.0);
-                scale_y_anim.progress_mode = this.show_animation;
-                scale_y_anim.duration = this.show_animation_duration;
-            }
-
-            const opacity_anim = actor.get_transition('opacity');
-
-            if (opacity_anim) {
-                opacity_anim.progress_mode = fixup_opacity_animation(this.show_animation);
-                opacity_anim.duration = this.show_animation_duration;
-            }
-        };
-
-        if (Main.wm._waitForOverviewToHide)
-            Main.wm._waitForOverviewToHide().then(func);
-        else
-            func();
+        // END !ESM
+        Main.wm._waitForOverviewToHide().then(() => {
+            if (actor === this.window.get_compositor_private())
+                this.show_animation.apply_override(actor);
+        });
     }
 
-    _override_unmap_animation(wm, actor) {
+    _setup_destroy_animation_override(enable) {
+        if (enable === Boolean(this._destroy_animation_override_handler))
+            return;
+
+        if (enable) {
+            this._destroy_animation_override_handler = global.window_manager.connect(
+                'destroy',
+                this._override_destroy_animation.bind(this)
+            );
+        } else {
+            global.window_manager.disconnect(this._destroy_animation_override_handler);
+            this._destroy_animation_override_handler = null;
+        }
+    }
+
+    _override_destroy_animation(wm, actor) {
         if (actor !== this.window.get_compositor_private())
             return;
 
-        if (!this.hide_animation) {
-            this.disable();
-            return;
-        }
-
-        actor.pivot_point = this.geometry.pivot_point;
-
-        const scale_x_anim = actor.get_transition('scale-x');
-
-        if (scale_x_anim) {
-            scale_x_anim.set_to(
-                this.geometry.orientation === Clutter.Orientation.HORIZONTAL ? 0.0 : 1.0
-            );
-
-            scale_x_anim.progress_mode = this.hide_animation;
-            scale_x_anim.duration = this.hide_animation_duration;
-        }
-
-        const scale_y_anim = actor.get_transition('scale-y');
-
-        if (scale_y_anim) {
-            scale_y_anim.set_to(
-                this.geometry.orientation === Clutter.Orientation.VERTICAL ? 0.0 : 1.0
-            );
-
-            scale_y_anim.progress_mode = this.hide_animation;
-            scale_y_anim.duration = this.hide_animation_duration;
-        }
-
-        const opacity_anim = actor.get_transition('opacity');
-
-        if (opacity_anim) {
-            opacity_anim.progress_mode = fixup_opacity_animation(this.hide_animation);
-            opacity_anim.duration = this.hide_animation_duration;
-        }
-
+        this.hide_animation.apply_override(actor);
         this.disable();
     }
 
@@ -492,10 +380,8 @@ export const WindowManager = GObject.registerClass({
             this._set_window_above();
         }
 
-        if (!this._window_mapped()) {
-            if (this.settings.get_boolean('override-window-animation') && !this.show_animation)
-                Main.wm.skipNextEffect(this.window.get_compositor_private());
-        }
+        if (!this._window_mapped() && this.show_animation.should_skip)
+            Main.wm.skipNextEffect(this.window.get_compositor_private());
     }
 
     _handle_maximized_vertically(win) {
@@ -603,11 +489,8 @@ export const WindowManager = GObject.registerClass({
             if (force_monitor) {
                 this._move_resize_window(this.window, this.geometry.workarea);
 
-                if (!this._window_mapped()) {
-                    if (this.settings.get_boolean('override-window-animation') &&
-                        !this.show_animation)
-                        Main.wm.skipNextEffect(this.window.get_compositor_private());
-                }
+                if (!this._window_mapped() && this.show_animation.should_skip)
+                    Main.wm.skipNextEffect(this.window.get_compositor_private());
             } else if (!this.window.get_frame_rect().equal(this.geometry.workarea)) {
                 this.debug?.('Scheduling geometry fixup because of workarea mismatch');
                 this._schedule_geometry_fixup();
@@ -633,10 +516,8 @@ export const WindowManager = GObject.registerClass({
         if (force_monitor) {
             this._move_resize_window(this.window, this.geometry.target_rect);
 
-            if (!this._window_mapped()) {
-                if (this.settings.get_boolean('override-window-animation') && !this.show_animation)
-                    Main.wm.skipNextEffect(this.window.get_compositor_private());
-            }
+            if (!this._window_mapped() && this.show_animation.should_skip)
+                Main.wm.skipNextEffect(this.window.get_compositor_private());
         } else if (!this.window.get_frame_rect().equal(this.geometry.target_rect)) {
             this.debug?.('Scheduling geometry fixup because of geometry mismatch');
             this._schedule_geometry_fixup();
@@ -717,7 +598,18 @@ export const WindowManager = GObject.registerClass({
             this._focus_window_handler = null;
         }
 
-        this._disable_animation_overrides();
+        if (this._show_animation_setup_handler) {
+            this.show_animation.disconnect(this._show_animation_setup_handler);
+            this._show_animation_setup_handler = null;
+        }
+
+        if (this._hide_animation_setup_handler) {
+            this.hide_animation.disconnect(this._hide_animation_setup_handler);
+            this._hide_animation_setup_handler = null;
+        }
+
+        this._setup_map_animation_override(false);
+        this._setup_destroy_animation_override(false);
 
         this._wl_clipboard_activator?.disable();
     }

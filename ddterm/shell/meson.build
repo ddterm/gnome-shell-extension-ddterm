@@ -1,4 +1,5 @@
 shell_files = files(
+  'animation.js',
   'appcontrol.js',
   'dbusapi.js',
   'extension.js',
