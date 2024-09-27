@@ -327,6 +327,24 @@ class CommonTests:
         }[request.param]
 
     @pytest.fixture
+    def window_above(self, settings_test_hook, request):
+        settings_test_hook.window_above = request.param
+
+        return request.param
+
+    @pytest.fixture
+    def window_stick(self, settings_test_hook, request):
+        settings_test_hook.window_stick = request.param
+
+        return request.param
+
+    @pytest.fixture
+    def window_skip_taskbar(self, settings_test_hook, request):
+        settings_test_hook.window_skip_taskbar = request.param
+
+        return request.param
+
+    @pytest.fixture
     def workareas(
         self,
         shell_test_hook,
@@ -420,6 +438,9 @@ class CommonTests:
         workarea,
         window_size,
         window_maximize,
+        window_above,
+        window_stick,
+        window_skip_taskbar,
         expected_show_transitions,
         expected_hide_transitions,
         max_size_allocations,
@@ -440,12 +461,24 @@ class CommonTests:
 
         assert extension_test_hook.WindowRect == expected_rect
         assert extension_test_hook.seen_transitions == expected_show_transitions
+        assert extension_test_hook.WindowSkipTaskbar == window_skip_taskbar
+        assert extension_test_hook.WindowOnAllWorkspaces == window_stick
+        assert shell_test_hook.FocusApp == 'com.github.amezin.ddterm'
+
+        if not window_maximize:
+            assert extension_test_hook.WindowAbove == window_above
 
         shell_test_hook.WaitLeisure()
 
         assert extension_test_hook.WindowRect == expected_rect
         assert extension_test_hook.seen_transitions == expected_show_transitions
         assert extension_test_hook.Transitions == set()
+        assert extension_test_hook.WindowSkipTaskbar == window_skip_taskbar
+        assert extension_test_hook.WindowOnAllWorkspaces == window_stick
+        assert shell_test_hook.FocusApp == 'com.github.amezin.ddterm'
+
+        if not window_maximize:
+            assert extension_test_hook.WindowAbove == window_above
 
         extension_dbus_interface.Toggle()
         glibutil.process_pending_events()
@@ -467,6 +500,12 @@ class CommonTests:
         assert len(set(app_debug_dbus_interface.size_allocations)) <= max_size_allocations
         assert len(app_debug_dbus_interface.size_allocations) <= max_size_allocations + 1
         assert extension_test_hook.seen_transitions == expected_show_transitions
+        assert extension_test_hook.WindowSkipTaskbar == window_skip_taskbar
+        assert extension_test_hook.WindowOnAllWorkspaces == window_stick
+        assert shell_test_hook.FocusApp == 'com.github.amezin.ddterm'
+
+        if not window_maximize:
+            assert extension_test_hook.WindowAbove == window_above
 
         shell_test_hook.WaitLeisure()
 
@@ -475,6 +514,12 @@ class CommonTests:
         assert len(app_debug_dbus_interface.size_allocations) <= max_size_allocations + 1
         assert extension_test_hook.seen_transitions == expected_show_transitions
         assert extension_test_hook.Transitions == set()
+        assert extension_test_hook.WindowSkipTaskbar == window_skip_taskbar
+        assert extension_test_hook.WindowOnAllWorkspaces == window_stick
+        assert shell_test_hook.FocusApp == 'com.github.amezin.ddterm'
+
+        if not window_maximize:
+            assert extension_test_hook.WindowAbove == window_above
 
     @pytest.mark.usefixtures('disable_animations')
     def test_maximize_unmaximize(
@@ -484,9 +529,13 @@ class CommonTests:
         workarea,
         window_size,
         window_maximize,
+        window_above,
+        window_skip_taskbar,
+        window_stick,
         extension_dbus_interface,
         extension_test_hook,
         settings_test_hook,
+        shell_test_hook,
         wait_idle,
     ):
         extension_dbus_interface.Activate(timeout=dbusutil.DEFAULT_LONG_TIMEOUT_MS)
@@ -500,8 +549,12 @@ class CommonTests:
 
         assert extension_test_hook.WindowRect == expected_rect
         assert not extension_test_hook.seen_transitions
+        assert extension_test_hook.WindowSkipTaskbar == window_skip_taskbar
+        assert extension_test_hook.WindowOnAllWorkspaces == window_stick
+        assert shell_test_hook.FocusApp == 'com.github.amezin.ddterm'
 
         if not window_maximize:
+            assert extension_test_hook.WindowAbove == window_above
             settings_test_hook.window_maximize = True
 
             wait_idle()
@@ -515,6 +568,10 @@ class CommonTests:
 
         assert extension_test_hook.WindowRect == unmaximized_rect
         assert not settings_test_hook.window_maximize
+        assert extension_test_hook.WindowAbove == window_above
+        assert extension_test_hook.WindowSkipTaskbar == window_skip_taskbar
+        assert extension_test_hook.WindowOnAllWorkspaces == window_stick
+        assert shell_test_hook.FocusApp == 'com.github.amezin.ddterm'
 
     @pytest.mark.usefixtures('disable_animations')
     def test_mouse_resize(
@@ -544,6 +601,7 @@ class CommonTests:
 
         assert extension_test_hook.WindowRect == expected_rect
         assert not extension_test_hook.seen_transitions
+        assert shell_test_hook.FocusApp == 'com.github.amezin.ddterm'
 
         start = resize_point(expected_rect, window_position)
 
@@ -587,6 +645,7 @@ class CommonTests:
         extension_dbus_interface,
         extension_test_hook,
         settings_test_hook,
+        shell_test_hook,
         wait_idle,
     ):
         settings_test_hook.window_maximize = False
@@ -601,6 +660,7 @@ class CommonTests:
 
         assert extension_test_hook.WindowRect == unmaximized_rect
         assert not extension_test_hook.seen_transitions
+        assert shell_test_hook.FocusApp == 'com.github.amezin.ddterm'
 
         expected_rect2 = compute_target_rect(
             window_size=window_size2,
@@ -649,6 +709,9 @@ class CommonTests:
             'window_size',
             'window_maximize',
             'window_monitor',
+            'window_above',
+            'window_stick',
+            'window_skip_taskbar',
         }
 
         self.get_parametrization(metafunc.definition.originalname).apply(

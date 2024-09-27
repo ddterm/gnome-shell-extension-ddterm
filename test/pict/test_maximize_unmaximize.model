@@ -15,6 +15,10 @@ current_monitor: 0, 1
 primary_monitor: 0, 1
 window_monitor_connector: 0, 1
 
+window_above: True, False
+window_skip_taskbar: True, False
+window_stick: True, False
+
 IF [class] = "TestX11"
     THEN [layout_mode] = "displayconfig.LayoutMode.PHYSICAL" AND [gdk_backend] = "GdkBackend.X11";
 

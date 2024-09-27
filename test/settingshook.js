@@ -31,6 +31,8 @@ const Interface = GObject.registerClass({
             'override-window-animation',
             'window-above',
             'hide-when-focus-lost',
+            'window-stick',
+            'window-skip-taskbar',
         ].map(
             name => [
                 name,

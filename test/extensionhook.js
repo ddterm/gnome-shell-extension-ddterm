@@ -71,6 +71,27 @@ const Interface = GObject.registerClass({
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             false
         ),
+        'WindowAbove': GObject.ParamSpec.boolean(
+            'WindowAbove',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+            false
+        ),
+        'WindowSkipTaskbar': GObject.ParamSpec.boolean(
+            'WindowSkipTaskbar',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+            false
+        ),
+        'WindowOnAllWorkspaces': GObject.ParamSpec.boolean(
+            'WindowOnAllWorkspaces',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+            false
+        ),
     },
     Signals: {
         'MoveResizeRequested': {
@@ -229,6 +250,24 @@ const Interface = GObject.registerClass({
                     'maximized-vertically',
                     this,
                     'MaximizedVertically',
+                    GObject.BindingFlags.SYNC_CREATE
+                ),
+                win.bind_property(
+                    'above',
+                    this,
+                    'WindowAbove',
+                    GObject.BindingFlags.SYNC_CREATE
+                ),
+                win.bind_property(
+                    'skip-taskbar',
+                    this,
+                    'WindowSkipTaskbar',
+                    GObject.BindingFlags.SYNC_CREATE
+                ),
+                win.bind_property(
+                    'on-all-workspaces',
+                    this,
+                    'WindowOnAllWorkspaces',
                     GObject.BindingFlags.SYNC_CREATE
                 ),
             ].forEach(binding => {

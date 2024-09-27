@@ -17,6 +17,10 @@ window_monitor_connector: 0, 1, -1
 
 animation_mode: AnimationMode.GLOBAL_DISABLE, AnimationMode.DDTERM_DISABLE, AnimationMode.DDTERM_DEFAULT, AnimationMode.GNOME_DEFAULT
 
+window_above: True, False
+window_skip_taskbar: True, False
+window_stick: True, False
+
 IF [class] = "TestX11"
     THEN [layout_mode] = "displayconfig.LayoutMode.PHYSICAL" AND [gdk_backend] = "GdkBackend.X11";
 

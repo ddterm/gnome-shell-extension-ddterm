@@ -12,6 +12,9 @@
         <property type="b" name="AppRunning" access="readwrite"/>
         <property type="as" name="Transitions" access="read"/>
         <property type="b" name="RenderedFirstFrame" access="read"/>
+        <property type="b" name="WindowAbove" access="read"/>
+        <property type="b" name="WindowSkipTaskbar" access="read"/>
+        <property type="b" name="WindowOnAllWorkspaces" access="read"/>
 
         <method name="Destroy"/>
 
