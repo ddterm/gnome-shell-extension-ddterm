@@ -435,6 +435,7 @@ class CommonTests:
         assert extension_test_hook.HasWindow
         assert unmaximized_rect == extension_dbus_interface.TargetRect
 
+        extension_test_hook.wait_property('RenderedFirstFrame', True)
         wait_idle()
 
         assert extension_test_hook.WindowRect == expected_rect
@@ -459,6 +460,7 @@ class CommonTests:
 
         app_debug_dbus_interface.reset_size_allocations()
         extension_dbus_interface.Toggle()
+        extension_test_hook.wait_property('RenderedFirstFrame', True)
         wait_idle()
 
         assert extension_test_hook.WindowRect == expected_rect
@@ -493,6 +495,7 @@ class CommonTests:
         assert extension_test_hook.HasWindow
         assert unmaximized_rect == extension_dbus_interface.TargetRect
 
+        extension_test_hook.wait_property('RenderedFirstFrame', True)
         wait_idle()
 
         assert extension_test_hook.WindowRect == expected_rect
@@ -536,6 +539,7 @@ class CommonTests:
         assert extension_test_hook.HasWindow
         assert unmaximized_rect == extension_dbus_interface.TargetRect
 
+        extension_test_hook.wait_property('RenderedFirstFrame', True)
         wait_idle()
 
         assert extension_test_hook.WindowRect == expected_rect
