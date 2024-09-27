@@ -9,53 +9,18 @@ import St from 'gi://St';
 import {
     connect,
     get_main,
-    get_resource_content,
+    get_resource_dbus_interface_info,
     report_dbus_error_async,
-    handle_dbus_call_promise
+    handle_dbus_call_promise,
+    dbus_auto_pspecs
 } from './util.js';
+
+const DBUS_INTERFACE_INFO =
+    get_resource_dbus_interface_info('./dbus-interfaces/org.gnome.Shell.TestHook.xml');
 
 const Interface = GObject.registerClass({
     Properties: {
-        'StartingUp': GObject.ParamSpec.boolean(
-            'StartingUp',
-            '',
-            '',
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
-            true
-        ),
-        'Pointer': GObject.ParamSpec.jsobject(
-            'Pointer',
-            '',
-            '',
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY
-        ),
-        'FocusApp': GObject.ParamSpec.string(
-            'FocusApp',
-            '',
-            '',
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
-            ''
-        ),
-        'Workareas': GObject.ParamSpec.jsobject(
-            'Workareas',
-            '',
-            '',
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY
-        ),
-        'UnsafeMode': GObject.ParamSpec.boolean(
-            'UnsafeMode',
-            '',
-            '',
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
-            true
-        ),
-        'EnableAnimations': GObject.ParamSpec.boolean(
-            'EnableAnimations',
-            '',
-            '',
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
-            false
-        ),
+        ...dbus_auto_pspecs(DBUS_INTERFACE_INFO),
         'inhibit-animations': GObject.ParamSpec.boolean(
             'inhibit-animations',
             '',
@@ -69,13 +34,6 @@ const Interface = GObject.registerClass({
             '',
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             false
-        ),
-        'ColorScheme': GObject.ParamSpec.string(
-            'ColorScheme',
-            '',
-            '',
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
-            ''
         ),
     },
 }, class DDTermShellHookInterface extends GObject.Object {
@@ -155,10 +113,7 @@ const Interface = GObject.registerClass({
 
         this._destroy_callbacks.push(() => Gio.Settings.unbind(this, 'ColorScheme'));
 
-        this.wrapper = Gio.DBusExportedObject.wrapJSObject(
-            get_resource_content('./dbus-interfaces/org.gnome.Shell.TestHook.xml'),
-            this
-        );
+        this.wrapper = Gio.DBusExportedObject.wrapJSObject(DBUS_INTERFACE_INFO, this);
 
         for (const property_info of this.wrapper.get_info().properties) {
             const { name, signature } = property_info;

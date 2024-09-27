@@ -3,95 +3,22 @@ import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
 import Shell from 'gi://Shell';
 
-import { connect, connect_after, get_main, get_resource_content } from './util.js';
+import {
+    connect,
+    connect_after,
+    get_main,
+    get_resource_dbus_interface_info,
+    dbus_auto_pspecs
+} from './util.js';
+
+const DBUS_INTERFACE_INFO =
+    get_resource_dbus_interface_info('./dbus-interfaces/com.github.amezin.ddterm.TestHook.xml');
 
 let Main;
 
 const Interface = GObject.registerClass({
     Properties: {
-        'HasWindow': GObject.ParamSpec.boolean(
-            'HasWindow',
-            '',
-            '',
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
-            false
-        ),
-        'MaximizedHorizontally': GObject.ParamSpec.boolean(
-            'MaximizedHorizontally',
-            '',
-            '',
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
-            false
-        ),
-        'MaximizedVertically': GObject.ParamSpec.boolean(
-            'MaximizedVertically',
-            '',
-            '',
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
-            false
-        ),
-        'WindowRect': GObject.ParamSpec.jsobject(
-            'WindowRect',
-            '',
-            '',
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY
-        ),
-        'DebugLog': GObject.ParamSpec.boolean(
-            'DebugLog',
-            '',
-            '',
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
-            false
-        ),
-        'AppDebug': GObject.ParamSpec.boolean(
-            'AppDebug',
-            '',
-            '',
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
-            false
-        ),
-        'AppRunning': GObject.ParamSpec.boolean(
-            'AppRunning',
-            '',
-            '',
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
-            false
-        ),
-        'Transitions': GObject.ParamSpec.boxed(
-            'Transitions',
-            '',
-            '',
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
-            GObject.type_from_name('GStrv')
-        ),
-        'RenderedFirstFrame': GObject.ParamSpec.boolean(
-            'RenderedFirstFrame',
-            '',
-            '',
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
-            false
-        ),
-        'WindowAbove': GObject.ParamSpec.boolean(
-            'WindowAbove',
-            '',
-            '',
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
-            false
-        ),
-        'WindowSkipTaskbar': GObject.ParamSpec.boolean(
-            'WindowSkipTaskbar',
-            '',
-            '',
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
-            false
-        ),
-        'WindowOnAllWorkspaces': GObject.ParamSpec.boolean(
-            'WindowOnAllWorkspaces',
-            '',
-            '',
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
-            false
-        ),
+        ...dbus_auto_pspecs(DBUS_INTERFACE_INFO),
     },
     Signals: {
         'MoveResizeRequested': {
@@ -169,10 +96,7 @@ const Interface = GObject.registerClass({
             })
         );
 
-        this.wrapper = Gio.DBusExportedObject.wrapJSObject(
-            get_resource_content('./dbus-interfaces/com.github.amezin.ddterm.TestHook.xml'),
-            this
-        );
+        this.wrapper = Gio.DBusExportedObject.wrapJSObject(DBUS_INTERFACE_INFO, this);
 
         this.connect('MoveResizeRequested', (_, rect) => {
             this.wrapper.emit_signal('MoveResizeRequested', rect);

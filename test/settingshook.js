@@ -3,71 +3,28 @@ import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
 import Shell from 'gi://Shell';
 
-import { connect, connect_after, get_main, get_resource_content } from './util.js';
+import {
+    connect,
+    connect_after,
+    get_main,
+    get_resource_dbus_interface_info,
+    dbus_auto_pspecs
+} from './util.js';
+
+const DBUS_INTERFACE_INFO =
+    get_resource_dbus_interface_info('./dbus-interfaces/com.github.amezin.ddterm.Settings.xml');
 
 const Interface = GObject.registerClass({
-    Properties: Object.fromEntries([
-        ...[
-            'window-position',
-            'window-monitor',
-            'window-monitor-connector',
-            'show-animation',
-            'hide-animation',
-        ].map(
-            name => [
-                name,
-                GObject.ParamSpec.string(
-                    name,
-                    '',
-                    '',
-                    GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
-                    ''
-                ),
-            ]
-        ),
-        ...[
-            'force-x11-gdk-backend',
-            'window-maximize',
-            'override-window-animation',
-            'window-above',
-            'hide-when-focus-lost',
-            'window-stick',
-            'window-skip-taskbar',
-        ].map(
-            name => [
-                name,
-                GObject.ParamSpec.boolean(
-                    name,
-                    '',
-                    '',
-                    GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
-                    false
-                ),
-            ]
-        ),
-        [
-            'window-size',
-            GObject.ParamSpec.double(
-                'window-size',
-                '',
-                '',
-                GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
-                0,
-                1,
-                0.6
-            ),
-        ],
-        [
+    Properties: {
+        ...dbus_auto_pspecs(DBUS_INTERFACE_INFO),
+        'settings': GObject.ParamSpec.object(
             'settings',
-            GObject.ParamSpec.object(
-                'settings',
-                '',
-                '',
-                GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-                Gio.Settings
-            ),
-        ],
-    ]),
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+            Gio.Settings
+        ),
+    },
 }, class DDTermSettingsHookInterface extends GObject.Object {
     _init(params) {
         super._init(params);
@@ -80,10 +37,7 @@ const Interface = GObject.registerClass({
             );
         }
 
-        this.wrapper = Gio.DBusExportedObject.wrapJSObject(
-            get_resource_content('./dbus-interfaces/com.github.amezin.ddterm.Settings.xml'),
-            this
-        );
+        this.wrapper = Gio.DBusExportedObject.wrapJSObject(DBUS_INTERFACE_INFO, this);
 
         for (const property_info of this.wrapper.get_info().properties) {
             const { name, signature } = property_info;
