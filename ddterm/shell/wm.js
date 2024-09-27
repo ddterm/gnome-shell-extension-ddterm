@@ -99,6 +99,9 @@ export const WindowManager = GObject.registerClass({
     }
 
     _enable() {
+        this._actor = this.window.get_compositor_private();
+        this._client_type = this.window.get_client_type();
+
         this._settings_handlers = Object.entries({
             'changed::window-above': this._set_window_above.bind(this),
             'changed::window-stick': this._set_window_stick.bind(this),
@@ -129,7 +132,7 @@ export const WindowManager = GObject.registerClass({
             },
             'unmanaging': () => {
                 if (this.hide_animation.should_skip) {
-                    Main.wm.skipNextEffect(this.window.get_compositor_private());
+                    Main.wm.skipNextEffect(this._actor);
                     this.disable();
                 }
             },
@@ -143,13 +146,10 @@ export const WindowManager = GObject.registerClass({
         this._setup_maximized_handlers();
         this._update_window_geometry(true);
 
-        const mapped = this._window_mapped();
-        const client_type = this.window.get_client_type();
-
-        if (!mapped) {
-            if (client_type === Meta.WindowClientType.WAYLAND) {
+        if (!this._actor.visible) {
+            if (this._client_type === Meta.WindowClientType.WAYLAND) {
                 this._map_handler = global.window_manager.connect('map', (wm, actor) => {
-                    if (actor.meta_window !== this.window)
+                    if (actor !== this._actor)
                         return;
 
                     global.window_manager.disconnect(this._map_handler);
@@ -163,7 +163,7 @@ export const WindowManager = GObject.registerClass({
             }
 
             if (this.show_animation.should_skip) {
-                Main.wm.skipNextEffect(this.window.get_compositor_private());
+                Main.wm.skipNextEffect(this._actor);
             } else if (this.show_animation.should_override) {
                 this._map_animation_override_handler = global.window_manager.connect(
                     'map',
@@ -186,10 +186,10 @@ export const WindowManager = GObject.registerClass({
 
         this._setup_destroy_animation_override(this.hide_animation.should_override);
 
-        if (client_type === Meta.WindowClientType.X11)
+        if (this._client_type === Meta.WindowClientType.X11)
             Main.activateWindow(this.window);
 
-        if (mapped)
+        if (this._actor.visible)
             this._set_window_above();
 
         this._set_window_stick();
@@ -201,7 +201,7 @@ export const WindowManager = GObject.registerClass({
     }
 
     _override_map_animation(wm, actor) {
-        if (actor !== this.window.get_compositor_private())
+        if (actor !== this._actor)
             return;
 
         global.window_manager.disconnect(this._map_animation_override_handler);
@@ -215,7 +215,7 @@ export const WindowManager = GObject.registerClass({
 
         // END !ESM
         Main.wm._waitForOverviewToHide().then(() => {
-            if (actor === this.window.get_compositor_private())
+            if (actor === this._actor)
                 this.show_animation.apply_override(actor);
         });
     }
@@ -236,7 +236,7 @@ export const WindowManager = GObject.registerClass({
     }
 
     _override_destroy_animation(wm, actor) {
-        if (actor !== this.window.get_compositor_private())
+        if (actor !== this._actor)
             return;
 
         this.hide_animation.apply_override(actor);
@@ -327,17 +327,13 @@ export const WindowManager = GObject.registerClass({
         }
     }
 
-    _window_mapped() {
-        return this.window.get_compositor_private()?.visible ?? false;
-    }
-
     _cancel_geometry_fixup() {
         while (this._geometry_fixup_handlers?.length)
             this.window.disconnect(this._geometry_fixup_handlers.pop());
     }
 
     _schedule_geometry_fixup() {
-        if (this.window.get_client_type() !== Meta.WindowClientType.WAYLAND) {
+        if (this._client_type !== Meta.WindowClientType.WAYLAND) {
             this.debug?.('Not scheduling geometry fixup because not Wayland');
             return;
         }
@@ -368,8 +364,8 @@ export const WindowManager = GObject.registerClass({
             this._set_window_above();
         }
 
-        if (!this._window_mapped() && this.show_animation.should_skip)
-            Main.wm.skipNextEffect(this.window.get_compositor_private());
+        if (!this._actor.visible && this.show_animation.should_skip)
+            Main.wm.skipNextEffect(this._actor);
     }
 
     _handle_maximized_vertically(win) {
@@ -383,7 +379,7 @@ export const WindowManager = GObject.registerClass({
 
         if (this.geometry.target_rect.height < this.geometry.workarea.height) {
             this.debug?.('Unmaximizing window because size expected to be less than full height');
-            Main.wm.skipNextEffect(this.window.get_compositor_private());
+            Main.wm.skipNextEffect(this._actor);
             win.unmaximize(Meta.MaximizeFlags.VERTICAL);
         } else {
             this.debug?.('Setting window-maximize=true because window is maximized');
@@ -402,7 +398,7 @@ export const WindowManager = GObject.registerClass({
 
         if (this.geometry.target_rect.width < this.geometry.workarea.width) {
             this.debug?.('Unmaximizing window because size expected to be less than full width');
-            Main.wm.skipNextEffect(this.window.get_compositor_private());
+            Main.wm.skipNextEffect(this._actor);
             win.unmaximize(Meta.MaximizeFlags.HORIZONTAL);
         } else {
             this.debug?.('Setting window-maximize=true because window is maximized');
@@ -477,8 +473,8 @@ export const WindowManager = GObject.registerClass({
             if (force_monitor) {
                 this._move_resize_window(this.window, this.geometry.workarea);
 
-                if (!this._window_mapped() && this.show_animation.should_skip)
-                    Main.wm.skipNextEffect(this.window.get_compositor_private());
+                if (!this._actor.visible && this.show_animation.should_skip)
+                    Main.wm.skipNextEffect(this._actor);
             } else if (!this.window.get_frame_rect().equal(this.geometry.workarea)) {
                 this.debug?.('Scheduling geometry fixup because of workarea mismatch');
                 this._schedule_geometry_fixup();
@@ -489,14 +485,14 @@ export const WindowManager = GObject.registerClass({
 
         if (this.window.maximized_horizontally &&
             this.geometry.target_rect.width < this.geometry.workarea.width) {
-            Main.wm.skipNextEffect(this.window.get_compositor_private());
+            Main.wm.skipNextEffect(this._actor);
             this.window.unmaximize(Meta.MaximizeFlags.HORIZONTAL);
             return;
         }
 
         if (this.window.maximized_vertically &&
             this.geometry.target_rect.height < this.geometry.workarea.height) {
-            Main.wm.skipNextEffect(this.window.get_compositor_private());
+            Main.wm.skipNextEffect(this._actor);
             this.window.unmaximize(Meta.MaximizeFlags.VERTICAL);
             return;
         }
@@ -504,8 +500,8 @@ export const WindowManager = GObject.registerClass({
         if (force_monitor) {
             this._move_resize_window(this.window, this.geometry.target_rect);
 
-            if (!this._window_mapped() && this.show_animation.should_skip)
-                Main.wm.skipNextEffect(this.window.get_compositor_private());
+            if (!this._actor.visible && this.show_animation.should_skip)
+                Main.wm.skipNextEffect(this._actor);
         } else if (!this.window.get_frame_rect().equal(this.geometry.target_rect)) {
             this.debug?.('Scheduling geometry fixup because of geometry mismatch');
             this._schedule_geometry_fixup();
@@ -552,7 +548,7 @@ export const WindowManager = GObject.registerClass({
         // It must set window size to 100%.
         this.settings.set_double('window-size', 1.0);
 
-        Main.wm.skipNextEffect(this.window.get_compositor_private());
+        Main.wm.skipNextEffect(this._actor);
         this.window.unmaximize(flags);
     }
 
