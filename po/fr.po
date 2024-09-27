@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-19 08:31+0000\n"
+"POT-Creation-Date: 2024-09-27 16:43+0000\n"
 "PO-Revision-Date: 2024-07-24 00:09+0000\n"
 "Last-Translator: Patricio Carrau <duckycb@proton.me>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/gnome-shell-"
@@ -1266,7 +1266,7 @@ msgstr "Détecter les adresses email"
 msgid "Detect \"news:\", \"man:\" URLs"
 msgstr "Détecter les URLs \"news:\", \"man:\""
 
-#: ddterm/shell/extension.js:286
+#: ddterm/shell/extension.js:287
 msgid "Failed to launch ddterm application"
 msgstr "L'extension ddterm n'a pas pu être démarrée"
 

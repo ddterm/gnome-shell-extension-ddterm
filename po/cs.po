@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-19 08:31+0000\n"
+"POT-Creation-Date: 2024-09-27 16:43+0000\n"
 "PO-Revision-Date: 2023-10-24 22:14+0000\n"
 "Last-Translator: Pavel Novák <pavelnov32@gmail.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/gnome-shell-"
@@ -1264,7 +1264,7 @@ msgstr "Detekovat E-mailové adresy"
 msgid "Detect \"news:\", \"man:\" URLs"
 msgstr "Detekovat \"news:\", \"man:\" URL adresy"
 
-#: ddterm/shell/extension.js:286
+#: ddterm/shell/extension.js:287
 msgid "Failed to launch ddterm application"
 msgstr ""
 

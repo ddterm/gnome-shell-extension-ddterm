@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-19 08:31+0000\n"
+"POT-Creation-Date: 2024-09-27 16:43+0000\n"
 "PO-Revision-Date: 2024-09-02 20:09+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/gnome-"
@@ -1265,7 +1265,7 @@ msgstr "Oppdag e-postadresser"
 msgid "Detect \"news:\", \"man:\" URLs"
 msgstr "Oppdag \"news:\", \"man:\" -nettadresser"
 
-#: ddterm/shell/extension.js:286
+#: ddterm/shell/extension.js:287
 msgid "Failed to launch ddterm application"
 msgstr ""
 
