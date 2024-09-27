@@ -162,8 +162,14 @@ export const WindowManager = GObject.registerClass({
                 this._set_window_above();
             }
 
-            if (this.show_animation.should_skip)
+            if (this.show_animation.should_skip) {
                 Main.wm.skipNextEffect(this.window.get_compositor_private());
+            } else if (this.show_animation.should_override) {
+                this._map_animation_override_handler = global.window_manager.connect(
+                    'map',
+                    this._override_map_animation.bind(this)
+                );
+            }
         }
 
         this._display_handlers = [
@@ -173,17 +179,11 @@ export const WindowManager = GObject.registerClass({
 
         this._setup_hide_when_focus_lost();
 
-        this._show_animation_setup_handler =
-            this.show_animation.connect('notify::should-override', () => {
-                this._setup_map_animation_override(this.show_animation.should_override);
-            });
-
         this._hide_animation_setup_handler =
             this.hide_animation.connect('notify::should-override', () => {
                 this._setup_destroy_animation_override(this.hide_animation.should_override);
             });
 
-        this._setup_map_animation_override(this.show_animation.should_override);
         this._setup_destroy_animation_override(this.hide_animation.should_override);
 
         if (client_type === Meta.WindowClientType.X11)
@@ -200,24 +200,12 @@ export const WindowManager = GObject.registerClass({
         this._setup_wl_clipboard_activator();
     }
 
-    _setup_map_animation_override(enable) {
-        if (enable === Boolean(this._map_animation_override_handler))
-            return;
-
-        if (enable) {
-            this._map_animation_override_handler = global.window_manager.connect(
-                'map',
-                this._override_map_animation.bind(this)
-            );
-        } else {
-            global.window_manager.disconnect(this._map_animation_override_handler);
-            this._map_animation_override_handler = null;
-        }
-    }
-
     _override_map_animation(wm, actor) {
         if (actor !== this.window.get_compositor_private())
             return;
+
+        global.window_manager.disconnect(this._map_animation_override_handler);
+        this._map_animation_override_handler = null;
 
         // BEGIN !ESM
         if (!Main.wm._waitForOverviewToHide) {
@@ -598,9 +586,9 @@ export const WindowManager = GObject.registerClass({
             this._focus_window_handler = null;
         }
 
-        if (this._show_animation_setup_handler) {
-            this.show_animation.disconnect(this._show_animation_setup_handler);
-            this._show_animation_setup_handler = null;
+        if (this._map_animation_override_handler) {
+            global.window_manager.disconnect(this._map_animation_override_handler);
+            this._map_animation_override_handler = null;
         }
 
         if (this._hide_animation_setup_handler) {
@@ -608,7 +596,6 @@ export const WindowManager = GObject.registerClass({
             this._hide_animation_setup_handler = null;
         }
 
-        this._setup_map_animation_override(false);
         this._setup_destroy_animation_override(false);
 
         this._wl_clipboard_activator?.disable();
