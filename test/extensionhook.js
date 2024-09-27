@@ -265,7 +265,30 @@ const Interface = GObject.registerClass({
                     this._disconnect_actor();
                 }),
                 connect(this._actor, 'first-frame', () => {
-                    this.RenderedFirstFrame = true;
+                    if (this._actor.visible) {
+                        this.RenderedFirstFrame = true;
+                        return;
+                    }
+
+                    const after_paint_visible_disconnect =
+                        connect(global.stage, 'after-paint', (_, view) => {
+                            if (!this._actor.visible)
+                                return;
+
+                            if (!this._actor.peek_stage_views().includes(view))
+                                return;
+
+                            after_paint_visible_disconnect();
+
+                            this._actor_disconnect.splice(
+                                this._actor_disconnect.indexOf(after_paint_visible_disconnect),
+                                1
+                            );
+
+                            this.RenderedFirstFrame = true;
+                        });
+
+                    this._actor_disconnect.push(after_paint_visible_disconnect);
                 })
             );
 

@@ -86,7 +86,6 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
     def test_dark_mode(
         self,
         color_scheme,
-        app_debug_dbus_interface,
         extension_dbus_interface,
         extension_test_hook,
         shell_test_hook,
@@ -95,8 +94,7 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
 
         extension_dbus_interface.Activate(timeout=dbusutil.DEFAULT_LONG_TIMEOUT_MS)
         extension_test_hook.wait_property('RenderedFirstFrame', True)
-        app_debug_dbus_interface.WaitFrame()
-        shell_test_hook.Later(shellhook.LaterType.BEFORE_REDRAW)
+        shell_test_hook.WaitLeisure()
 
         assert extension_test_hook.WindowRect == workarea
 
