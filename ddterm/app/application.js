@@ -204,7 +204,10 @@ class Application extends Gtk.Application {
                 logError(ex);
 
                 // https://gitlab.gnome.org/GNOME/glib/-/issues/596
-                schedule_gc();
+                if (command_line.done)
+                    command_line.done();
+                else
+                    schedule_gc();
 
                 return 1;
             }
@@ -431,7 +434,10 @@ class Application extends Gtk.Application {
             this.activate();
 
             // https://gitlab.gnome.org/GNOME/glib/-/issues/596
-            schedule_gc();
+            if (command_line.done)
+                command_line.done();
+            else
+                schedule_gc();
 
             return;
         }
@@ -468,8 +474,12 @@ class Application extends Gtk.Application {
             command_line.set_exit_status(value);
 
             // https://gitlab.gnome.org/GNOME/glib/-/issues/596
-            command_line = null;
-            schedule_gc();
+            if (command_line.done) {
+                command_line.done();
+            } else {
+                command_line = null;
+                schedule_gc();
+            }
         };
 
         const wait = options.lookup('wait');
