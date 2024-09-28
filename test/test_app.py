@@ -16,7 +16,7 @@ SRC_DIR = THIS_DIR.parent
 LOGGER = logging.getLogger(__name__)
 
 
-def compare_heap_dumps(dump_pre, dump_post, hide_node=[], hide_edge=[]):
+def diff_heap(dump_old, dump_new, hide_node=[], hide_edge=[]):
     ignore_args = [
         '--no-gray-roots',
         '--no-weak-maps',
@@ -33,9 +33,9 @@ def compare_heap_dumps(dump_pre, dump_post, hide_node=[], hide_edge=[]):
         str(SRC_DIR / 'tools' / 'heapgraph.py'),
         *ignore_args,
         '--diff-heap',
-        str(dump_pre),
-        str(dump_post),
-        'GObject'
+        str(dump_old),
+        str(dump_new),
+        'GObject',
     ]
 
     LOGGER.info('Running heapgraph: %r', shlex.join(heapgraph_argv))
@@ -49,7 +49,7 @@ def compare_heap_dumps(dump_pre, dump_post, hide_node=[], hide_edge=[]):
     )
 
     LOGGER.info('heapgraph stderr:\n%s\nstdout:\n%s\n', heapgraph.stderr, heapgraph.stdout)
-    assert heapgraph.stdout == ''
+    return heapgraph.stdout
 
 
 @pytest.mark.usefixtures('screenshot', 'hide_overview', 'disable_animations')
@@ -212,7 +212,11 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
         app_debug_dbus_interface.GC()
         app_debug_dbus_interface.DumpHeap(dump_post)
 
-        compare_heap_dumps(dump_pre, dump_post, hide_edge=['window_title_binding'])
+        assert diff_heap(
+            dump_pre,
+            dump_post,
+            hide_edge=['window_title_binding']
+        ) == ''
 
     def test_prefs_leak(
         self,
@@ -240,12 +244,12 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
         app_debug_dbus_interface.GC()
         app_debug_dbus_interface.DumpHeap(dump_post)
 
-        compare_heap_dumps(
+        assert diff_heap(
             dump_pre,
             dump_post,
             hide_node=['_init/Gtk'],
             hide_edge=['cacheir-object']
-        )
+        ) == ''
 
     def test_dependencies(self, process_launcher):
         process_launcher.run(
