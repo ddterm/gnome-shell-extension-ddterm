@@ -7,7 +7,7 @@ require 'open3'
 require 'pathname'
 
 CPUS = 4
-MEMORY = 2048
+MEMORY = 4096
 PROJECT_DIR = Pathname.new(__FILE__).realpath.dirname
 SYNCED_FOLDER = "/home/vagrant/#{PROJECT_DIR.basename}"
 UUID = 'ddterm@amezin.github.com'
@@ -78,44 +78,44 @@ Vagrant.configure("2") do |config|
     loginctl terminate-user vagrant
   SCRIPT
 
-  config.vm.define "fedora40", autostart: false do |version|
-    version.vm.box = "mezinalexander/fedora40"
-  end
-
   config.vm.define "fedora39", autostart: false do |version|
-    version.vm.box = "mezinalexander/fedora39"
-  end
-
-  config.vm.define "silverblue40", autostart: false do |version|
-    version.vm.box = "mezinalexander/silverblue40"
+    version.vm.box = "gnome-shell-box/fedora39"
   end
 
   config.vm.define "silverblue39", autostart: false do |version|
-    version.vm.box = "mezinalexander/silverblue39"
+    version.vm.box = "gnome-shell-box/silverblue39"
+  end
+
+  config.vm.define "fedora40", autostart: false do |version|
+    version.vm.box = "gnome-shell-box/fedora40"
+  end
+
+  config.vm.define "silverblue40", autostart: false do |version|
+    version.vm.box = "gnome-shell-box/silverblue40"
+  end
+
+  config.vm.define "ubuntu2204", autostart: false do |version|
+    version.vm.box = "gnome-shell-box/ubuntu2204"
   end
 
   config.vm.define "ubuntu2404", primary: true do |version|
-    version.vm.box = "mezinalexander/ubuntu2404"
-  end
-
-  config.vm.define "ubuntu2310", autostart: false do |version|
-    version.vm.box = "mezinalexander/ubuntu2310"
+    version.vm.box = "gnome-shell-box/ubuntu2404"
   end
 
   config.vm.define "opensusetumbleweed", autostart: false do |version|
-    version.vm.box = "mezinalexander/opensusetumbleweed"
+    version.vm.box = "gnome-shell-box/opensusetumbleweed"
   end
 
   config.vm.define "opensuseleap156", autostart: false do |version|
-    version.vm.box = "mezinalexander/opensuseleap156"
+    version.vm.box = "gnome-shell-box/opensuseleap156"
   end
 
   config.vm.define "debian12", autostart: false do |version|
-    version.vm.box = "mezinalexander/debian12"
+    version.vm.box = "gnome-shell-box/debian12"
   end
 
-  config.vm.define "alpine319", autostart: false do |version|
-    version.vm.box = "mezinalexander/alpine319"
+  config.vm.define "alpine318", autostart: false do |version|
+    version.vm.box = "gnome-shell-box/alpine318"
     version.ssh.sudo_command = "doas -n -u root %c"
 
     version.vm.synced_folder '.', SYNCED_FOLDER,
@@ -125,8 +125,19 @@ Vagrant.configure("2") do |config|
       rsync__args: rsync_args
   end
 
-  config.vm.define "alpine318", autostart: false do |version|
-    version.vm.box = "mezinalexander/alpine318"
+  config.vm.define "alpine319", autostart: false do |version|
+    version.vm.box = "gnome-shell-box/alpine319"
+    version.ssh.sudo_command = "doas -n -u root %c"
+
+    version.vm.synced_folder '.', SYNCED_FOLDER,
+      type: 'rsync',
+      rsync__exclude: rsync_excludes,
+      rsync__rsync_path: 'doas -u root rsync',
+      rsync__args: rsync_args
+  end
+
+  config.vm.define "alpine320", autostart: false do |version|
+    version.vm.box = "gnome-shell-box/alpine320"
     version.ssh.sudo_command = "doas -n -u root %c"
 
     version.vm.synced_folder '.', SYNCED_FOLDER,
