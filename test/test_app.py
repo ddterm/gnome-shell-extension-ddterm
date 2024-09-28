@@ -193,6 +193,7 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
         assert test_file.read_text() == '1\n'
 
         dump_pre = tmp_path / 'heap-pre.dump'
+        app_debug_dbus_interface.WaitIdle()
         app_debug_dbus_interface.GC()
         app_debug_dbus_interface.DumpHeap(dump_pre)
 
@@ -209,6 +210,7 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
         assert test_file.read_text() == '2\n'
 
         dump_post = tmp_path / 'heap-post.dump'
+        app_debug_dbus_interface.WaitIdle()
         app_debug_dbus_interface.GC()
         app_debug_dbus_interface.DumpHeap(dump_post)
 
