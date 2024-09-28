@@ -71,11 +71,18 @@ Vagrant.configure("2") do |config|
 
   config.vm.provision 'install', type: 'shell', privileged: false, run: 'always', inline: <<-SCRIPT
     gnome-extensions install -f $HOME/#{PACK_FILE.basename}
-    gnome-extensions enable #{UUID}
+
+    if [ -z "$DBUS_SESSION_BUS_ADDRESS" ] && [ -z "$XDG_RUNTIME_DIR" ]; then
+        dbus-run-session -- gnome-extensions enable #{UUID}
+    else
+        gnome-extensions enable #{UUID}
+    fi
   SCRIPT
 
   config.vm.provision 'reload', type: 'shell', run: 'always', after: 'install', inline: <<-SCRIPT
-    loginctl terminate-user vagrant
+    if [ "$(loginctl show-user --property=State --value vagrant)" = "active" ]; then
+        loginctl terminate-user vagrant
+    fi
   SCRIPT
 
   config.vm.define "fedora39", autostart: false do |version|
