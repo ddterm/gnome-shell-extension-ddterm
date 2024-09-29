@@ -35,7 +35,7 @@ class Proxy(_Base):
 
     def WaitFrame(self, **kwargs):
         super().WaitFrame(**kwargs)
-        glibutil.process_pending_events()
+        glibutil.dispatch_pending_sources()
 
     def DumpHeap(self, path, **kwargs):
         return super().DumpHeap(str(path), **kwargs)

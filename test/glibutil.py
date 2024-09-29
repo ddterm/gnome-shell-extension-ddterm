@@ -54,7 +54,7 @@ def wait_event(timeout_ms, context=None):
         context.release()
 
 
-def process_pending_events(context=None):
+def dispatch_pending_sources(context=None):
     if context is None:
         context = GLib.MainContext.get_thread_default()
 

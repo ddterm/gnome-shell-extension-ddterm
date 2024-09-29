@@ -224,7 +224,7 @@ class CommonTests:
         app_dbus_actions,
     ):
         # Make sure cached property values (especially 'app-running') are up to date
-        glibutil.process_pending_events()
+        glibutil.dispatch_pending_sources()
 
         if layout_mode != display_config.cached_state.layout_mode:
             # Hack: Gtk 3 doesn't seem to handle layout mode switch well,
@@ -267,7 +267,7 @@ class CommonTests:
         force_x11 = request.param == GdkBackend.X11
 
         # Make sure cached value is up to date
-        glibutil.process_pending_events()
+        glibutil.dispatch_pending_sources()
 
         if settings_test_hook.force_x11_gdk_backend == force_x11:
             return request.param
@@ -354,7 +354,7 @@ class CommonTests:
 
     @pytest.fixture
     def current_monitor(self, request, shell_test_hook, workareas):
-        glibutil.process_pending_events()
+        glibutil.dispatch_pending_sources()
 
         workarea = workareas[request.param]
         pointer = shell_test_hook.Pointer
@@ -451,7 +451,7 @@ class CommonTests:
         wait_idle,
     ):
         extension_dbus_interface.Activate(timeout=dbusutil.DEFAULT_LONG_TIMEOUT_MS)
-        glibutil.process_pending_events()
+        glibutil.dispatch_pending_sources()
 
         assert extension_test_hook.HasWindow
         assert unmaximized_rect == extension_dbus_interface.TargetRect
@@ -481,7 +481,7 @@ class CommonTests:
             assert extension_test_hook.WindowAbove == window_above
 
         extension_dbus_interface.Toggle()
-        glibutil.process_pending_events()
+        glibutil.dispatch_pending_sources()
 
         assert not extension_test_hook.HasWindow
         assert extension_test_hook.Transitions == expected_hide_transitions
@@ -539,7 +539,7 @@ class CommonTests:
         wait_idle,
     ):
         extension_dbus_interface.Activate(timeout=dbusutil.DEFAULT_LONG_TIMEOUT_MS)
-        glibutil.process_pending_events()
+        glibutil.dispatch_pending_sources()
 
         assert extension_test_hook.HasWindow
         assert unmaximized_rect == extension_dbus_interface.TargetRect
@@ -591,7 +591,7 @@ class CommonTests:
         wait_idle,
     ):
         extension_dbus_interface.Activate(timeout=dbusutil.DEFAULT_LONG_TIMEOUT_MS)
-        glibutil.process_pending_events()
+        glibutil.dispatch_pending_sources()
 
         assert extension_test_hook.HasWindow
         assert unmaximized_rect == extension_dbus_interface.TargetRect
@@ -651,7 +651,7 @@ class CommonTests:
         settings_test_hook.window_maximize = False
 
         extension_dbus_interface.Activate(timeout=dbusutil.DEFAULT_LONG_TIMEOUT_MS)
-        glibutil.process_pending_events()
+        glibutil.dispatch_pending_sources()
 
         assert extension_test_hook.HasWindow
         assert unmaximized_rect == extension_dbus_interface.TargetRect

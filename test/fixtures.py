@@ -419,12 +419,12 @@ class GnomeSessionFixtures:
         # TODO: lots of errors if window is visible during shutdown
         if proxy.is_connected():
             proxy.Hide()
-            glibutil.process_pending_events()
+            glibutil.dispatch_pending_sources()
 
     @pytest.fixture(scope='class')
     def app_debug_dbus_interface(self, dbus_connection, extension_test_hook, app_dbus_actions):
         # Make sure cached properties are up to date
-        glibutil.process_pending_events()
+        glibutil.dispatch_pending_sources()
 
         if not extension_test_hook.AppDebug:
             extension_test_hook.AppDebug = True
@@ -459,7 +459,7 @@ class GnomeSessionFixtures:
     @pytest.fixture
     def hide(self, extension_dbus_interface, extension_test_hook, shell_test_hook):
         # Make sure has-window cached value is up to date
-        glibutil.process_pending_events()
+        glibutil.dispatch_pending_sources()
 
         if extension_test_hook.HasWindow:
             extension_dbus_interface.Hide()
@@ -471,7 +471,7 @@ class GnomeSessionFixtures:
         yield
 
         # Make sure has-window cached value is up to date
-        glibutil.process_pending_events()
+        glibutil.dispatch_pending_sources()
 
         if extension_test_hook.HasWindow and extension_dbus_interface.is_connected():
             extension_dbus_interface.Hide()

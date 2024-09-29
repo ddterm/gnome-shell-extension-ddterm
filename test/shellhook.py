@@ -86,7 +86,7 @@ class Proxy(_Base):
 
         super().SetPointer(target.x, target.y, timeout=timeout)
 
-        glibutil.process_pending_events()
+        glibutil.dispatch_pending_sources()
 
         while self.Pointer != target:
             LOGGER.debug(
@@ -107,11 +107,11 @@ class Proxy(_Base):
 
     def Later(self, when, **kwargs):
         super().Later(LaterType(when), **kwargs)
-        glibutil.process_pending_events()
+        glibutil.dispatch_pending_sources()
 
     def WaitLeisure(self, *, timeout=dbusutil.DEFAULT_LONG_TIMEOUT_MS, **kwargs):
         super().WaitLeisure(timeout=timeout, **kwargs)
-        glibutil.process_pending_events()
+        glibutil.dispatch_pending_sources()
 
     def Destroy(self, **kwargs):
         if self.is_connected():

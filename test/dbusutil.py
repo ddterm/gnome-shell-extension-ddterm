@@ -168,7 +168,7 @@ class Proxy(dbusproxy.Proxy):
 
     def wait_property(self, name, value, timeout=None):
         # Make sure the cached value is up to date, avoid false match
-        glibutil.process_pending_events()
+        glibutil.dispatch_pending_sources()
 
         if self.get_cached_property(name) == value or self.get_property(name) == value:
             return

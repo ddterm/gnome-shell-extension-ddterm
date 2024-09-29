@@ -75,7 +75,7 @@ class Proxy(_Base):
 
         super().EnableExtension(uuid, timeout=timeout)
 
-        glibutil.process_pending_events()
+        glibutil.dispatch_pending_sources()
 
         while self.extension_state.get(uuid, dict()).get('state', None) in [
             None,

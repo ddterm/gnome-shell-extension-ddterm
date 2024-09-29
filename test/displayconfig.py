@@ -447,7 +447,7 @@ class DisplayConfig(Gio.DBusProxy):
         )
 
         # Allow 'MonitorsChanged' handler to run
-        glibutil.process_pending_events()
+        glibutil.dispatch_pending_sources()
 
     def configure(
         self,
