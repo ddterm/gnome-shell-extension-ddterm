@@ -83,7 +83,7 @@ class Proxy(_Base):
             ExtensionState.INITIALIZED,
             ExtensionState.ACTIVATING,
         ]:
-            glibutil.wait_event(timeout_ms=deadline.check_remaining_ms())
+            glibutil.wait_any_source(timeout_ms=deadline.check_remaining_ms())
 
         extension_state = self.extension_state[uuid]
         state = ExtensionState(extension_state['state'])

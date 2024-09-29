@@ -31,7 +31,7 @@ def timeout_source(timeout_ms, callback, *data, context=None):
         source.destroy()
 
 
-def wait_event(timeout_ms, context=None):
+def wait_any_source(timeout_ms, context=None):
     if context is None:
         context = GLib.MainContext.get_thread_default()
 

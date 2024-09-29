@@ -183,7 +183,7 @@ class Proxy(dbusproxy.Proxy):
         while self.get_cached_property(name) != value and self.get_property(name) != value:
             self.ensure_connected()
 
-            glibutil.wait_event(timeout_ms=deadline.check_remaining_ms())
+            glibutil.wait_any_source(timeout_ms=deadline.check_remaining_ms())
 
     def set_dbus_property(
         self,

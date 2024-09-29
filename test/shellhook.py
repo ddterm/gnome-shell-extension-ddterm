@@ -95,7 +95,7 @@ class Proxy(_Base):
                 target,
             )
 
-            glibutil.wait_event(timeout_ms=deadline.check_remaining_ms())
+            glibutil.wait_any_source(timeout_ms=deadline.check_remaining_ms())
 
     def Screenshot(self, path, **kwargs):
         return super().Screenshot(str(path), **kwargs)

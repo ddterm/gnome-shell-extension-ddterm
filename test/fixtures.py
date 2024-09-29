@@ -366,7 +366,7 @@ class GnomeSessionFixtures:
             while not proxy.get_cached_property_names():
                 proxy.ensure_connected()
 
-                glibutil.wait_event(timeout_ms=deadline.check_remaining_ms())
+                glibutil.wait_any_source(timeout_ms=deadline.check_remaining_ms())
 
             proxy.unsafe_mode = False
             yield proxy
