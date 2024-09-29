@@ -400,6 +400,26 @@ class CommonTests:
         )
 
     @pytest.fixture
+    def unmaximized_logical_rect(
+        self,
+        unmaximized_rect,
+        layout_mode,
+        window_monitor,
+        monitor_config,
+    ):
+        if layout_mode == displayconfig.LayoutMode.LOGICAL:
+            return unmaximized_rect
+
+        scale = int(monitor_config[window_monitor].scale)
+
+        return geometry.Rect(
+            x=unmaximized_rect.x,
+            y=unmaximized_rect.y,
+            width=unmaximized_rect.width // scale,
+            height=unmaximized_rect.height // scale,
+        )
+
+    @pytest.fixture
     def expected_rect(self, window_maximize, workarea, unmaximized_rect):
         return workarea if window_maximize else unmaximized_rect
 
@@ -433,7 +453,7 @@ class CommonTests:
 
     def test_show(
         self,
-        unmaximized_rect,
+        unmaximized_logical_rect,
         expected_rect,
         window_maximize,
         window_above,
@@ -452,7 +472,7 @@ class CommonTests:
         glibutil.dispatch_pending_sources()
 
         assert extension_test_hook.HasWindow
-        assert unmaximized_rect == extension_dbus_interface.TargetRect
+        assert unmaximized_logical_rect == extension_dbus_interface.TargetRect
 
         extension_test_hook.wait_property('RenderedFirstFrame', True)
         wait_idle()
@@ -522,6 +542,7 @@ class CommonTests:
     def test_maximize_unmaximize(
         self,
         unmaximized_rect,
+        unmaximized_logical_rect,
         expected_rect,
         workarea,
         window_maximize,
@@ -538,7 +559,7 @@ class CommonTests:
         glibutil.dispatch_pending_sources()
 
         assert extension_test_hook.HasWindow
-        assert unmaximized_rect == extension_dbus_interface.TargetRect
+        assert unmaximized_logical_rect == extension_dbus_interface.TargetRect
 
         extension_test_hook.wait_property('RenderedFirstFrame', True)
         wait_idle()
@@ -572,7 +593,7 @@ class CommonTests:
     @pytest.mark.usefixtures('disable_animations')
     def test_mouse_resize(
         self,
-        unmaximized_rect,
+        unmaximized_logical_rect,
         expected_rect,
         workarea,
         window_size,
@@ -589,7 +610,7 @@ class CommonTests:
         glibutil.dispatch_pending_sources()
 
         assert extension_test_hook.HasWindow
-        assert unmaximized_rect == extension_dbus_interface.TargetRect
+        assert unmaximized_logical_rect == extension_dbus_interface.TargetRect
 
         extension_test_hook.wait_property('RenderedFirstFrame', True)
         wait_idle()
@@ -631,6 +652,7 @@ class CommonTests:
     def test_resize_maximize_unmaximize(
         self,
         unmaximized_rect,
+        unmaximized_logical_rect,
         workarea,
         window_size,
         window_size2,
@@ -649,7 +671,7 @@ class CommonTests:
         glibutil.dispatch_pending_sources()
 
         assert extension_test_hook.HasWindow
-        assert unmaximized_rect == extension_dbus_interface.TargetRect
+        assert unmaximized_logical_rect == extension_dbus_interface.TargetRect
 
         wait_idle()
 

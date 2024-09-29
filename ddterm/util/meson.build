@@ -1,11 +1,15 @@
-util_files = files(
-  'displayconfig.js',
-)
-
-foreach util_file : util_files
+if get_option('esm')
   built_js += fs.copyfile(
-    util_file,
+    'displayconfig.js',
     install: true,
     install_dir: extension_dir / 'ddterm' / 'util',
   )
-endforeach
+else
+  built_js += custom_target(
+    command: gjs_translate_esm_command,
+    input: 'displayconfig.js',
+    output: 'displayconfig.js',
+    install: true,
+    install_dir: extension_dir / 'ddterm' / 'util',
+  )
+endif

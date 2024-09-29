@@ -119,7 +119,7 @@ export const DBusApi = GObject.registerClass({
     _init(params) {
         super._init(params);
 
-        this._target_rect = new Mtk.Rectangle({ x: 0, y: 0, width: 0, height: 0 });
+        this._target_rect = null;
 
         this.dbus = Gio.DBusExportedObject.wrapJSObject(
             Shell.get_file_contents_utf8_sync(this.xml_file_path),
@@ -155,13 +155,23 @@ export const DBusApi = GObject.registerClass({
         this.emit('version-mismatch');
     }
 
-    GetTargetRect() {
+    GetTargetRectAsync(params, invocation) {
         this.emit('refresh-target-rect');
-        return meta_rect_to_list(this._target_rect);
+
+        if (this._target_rect) {
+            invocation.return_value(meta_rect_to_variant(this._target_rect));
+            return;
+        }
+
+        const handler = this.connect('notify::target_rect', () => {
+            this.disconnect(handler);
+            invocation.return_value(meta_rect_to_variant(this._target_rect));
+        });
     }
 
     get TargetRect() {
-        return this.GetTargetRect();
+        this.emit('refresh-target-rect');
+        return this._target_rect ? meta_rect_to_list(this._target_rect) : null;
     }
 
     get Version() {
@@ -177,7 +187,7 @@ export const DBusApi = GObject.registerClass({
     }
 
     set target_rect(value) {
-        if (this._target_rect.equal(value))
+        if (this._target_rect === value || this._target_rect?.equal(value))
             return;
 
         this._target_rect = value;

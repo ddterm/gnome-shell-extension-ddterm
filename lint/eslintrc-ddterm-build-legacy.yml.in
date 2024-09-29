@@ -13,5 +13,6 @@ overrides:
       - ddterm/app/fakeext/misc/extensionUtils.js
       - ddterm/pref/*.js
       - ddterm/shell/*.js
+      - ddterm/util/*.js
     parserOptions:
       sourceType: script

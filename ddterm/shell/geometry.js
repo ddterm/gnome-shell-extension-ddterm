@@ -27,6 +27,8 @@ import Mtk from 'gi://Mtk';
 
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 
+import { get_current_state, LayoutMode } from '../util/displayconfig.js';
+
 function get_monitor_manager() {
     if (Meta.MonitorManager.get)
         return Meta.MonitorManager.get();
@@ -38,6 +40,13 @@ export const WindowGeometry = GObject.registerClass({
     Properties: {
         'target-rect': GObject.ParamSpec.boxed(
             'target-rect',
+            '',
+            '',
+            GObject.ParamFlags.READABLE,
+            Mtk.Rectangle
+        ),
+        'logical-target-rect': GObject.ParamSpec.boxed(
+            'logical-target-rect',
             '',
             '',
             GObject.ParamFlags.READABLE,
@@ -118,6 +127,11 @@ export const WindowGeometry = GObject.registerClass({
     _init(params) {
         super._init(params);
 
+        this._monitor_manager = get_monitor_manager();
+
+        this._monitors_changed_handler =
+            this._monitor_manager.connect('monitors-changed', this._update_layout_mode.bind(this));
+
         this._workareas_changed_handler =
             global.display.connect('workareas-changed', this._update_workarea.bind(this));
 
@@ -127,6 +141,7 @@ export const WindowGeometry = GObject.registerClass({
         this.connect('notify::window-monitor-connector', this.update_monitor.bind(this));
 
         this._update_window_position();
+        this._update_layout_mode();
         this.update_monitor();
     }
 
@@ -135,6 +150,13 @@ export const WindowGeometry = GObject.registerClass({
             global.display.disconnect(this._workareas_changed_handler);
             this._workareas_changed_handler = null;
         }
+
+        if (this._monitors_changed_handler) {
+            this._monitor_manager.disconnect(this._monitors_changed_handler);
+            this._monitors_changed_handler = null;
+        }
+
+        this._cancellable?.cancel();
     }
 
     static get_target_rect(workarea, monitor_scale, size, window_pos) {
@@ -172,6 +194,10 @@ export const WindowGeometry = GObject.registerClass({
         return this._target_rect;
     }
 
+    get logical_target_rect() {
+        return this._logical_target_rect ?? null;
+    }
+
     get workarea() {
         return this._workarea;
     }
@@ -206,6 +232,14 @@ export const WindowGeometry = GObject.registerClass({
 
         this._target_rect = new_target_rect;
         this.notify('target-rect');
+    }
+
+    _set_logical_target_rect(new_target_rect) {
+        if (this._logical_target_rect?.equal(new_target_rect))
+            return;
+
+        this._logical_target_rect = new_target_rect;
+        this.notify('logical-target-rect');
     }
 
     _set_monitor_index(new_monitor_index) {
@@ -273,16 +307,12 @@ export const WindowGeometry = GObject.registerClass({
         }
 
         if (this.window_monitor === 'connector') {
-            const monitor_manager = get_monitor_manager();
+            const index = this._monitor_manager.get_monitor_for_connector(
+                this.window_monitor_connector
+            );
 
-            if (monitor_manager) {
-                const index = monitor_manager.get_monitor_for_connector(
-                    this.window_monitor_connector
-                );
-
-                if (index >= 0)
-                    return index;
-            }
+            if (index >= 0)
+                return index;
         }
 
         return global.display.get_current_monitor();
@@ -338,6 +368,50 @@ export const WindowGeometry = GObject.registerClass({
             this.window_position
         );
 
-        this._set_target_rect(target_rect);
+        this.freeze_notify();
+
+        try {
+            this._set_target_rect(target_rect);
+            this._update_logical_target_rect();
+        } finally {
+            this.thaw_notify();
+        }
+    }
+
+    _update_logical_target_rect() {
+        if (this._layout_mode !== LayoutMode.PHYSICAL) {
+            if (this._layout_mode === LayoutMode.LOGICAL)
+                this._set_logical_target_rect(this._target_rect);
+
+            return;
+        }
+
+        const scale = global.display.get_monitor_scale(this._monitor_index);
+        const rect = this._target_rect.copy();
+
+        rect.width /= scale;
+        rect.height /= scale;
+
+        this._set_logical_target_rect(rect);
+    }
+
+    _update_layout_mode() {
+        this._cancellable?.cancel();
+        this._cancellable = new Gio.Cancellable();
+        this._layout_mode = null;
+
+        get_current_state(Gio.DBus.session, this._cancellable).then(current_state => {
+            const properties = current_state.get_child_value(3);
+            const layout_mode = properties.lookup_value('layout-mode', null)?.unpack();
+
+            if (layout_mode !== this._layout_mode) {
+                this._layout_mode = layout_mode;
+                this._update_logical_target_rect();
+            }
+        }).catch(error => {
+            if (!(error instanceof GLib.Error &&
+                  error.matches(Gio.io_error_quark(), Gio.IOErrorEnum.CANCELLED)))
+                logError(error);
+        });
     }
 });

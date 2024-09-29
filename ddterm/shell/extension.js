@@ -115,7 +115,7 @@ function create_dbus_interface(
     });
 
     window_geometry.bind_property(
-        'target-rect',
+        'logical-target-rect',
         dbus_interface,
         'target-rect',
         GObject.BindingFlags.SYNC_CREATE

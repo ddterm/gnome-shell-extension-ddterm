@@ -37,6 +37,29 @@ const CURRENT_STATE_TYPE = GLib.VariantType.new_tuple([
     new GLib.VariantType('a{sv}'), // properties
 ]);
 
+export function get_current_state(dbus_connection, cancellable = null, timeout = -1) {
+    return new Promise((resolve, reject) => {
+        dbus_connection.call(
+            BUS_NAME,
+            OBJECT_PATH,
+            INTERFACE_NAME,
+            'GetCurrentState',
+            null,
+            CURRENT_STATE_TYPE,
+            Gio.DBusCallFlags.NO_AUTO_START,
+            timeout,
+            cancellable,
+            (source, result) => {
+                try {
+                    resolve(source.call_finish(result));
+                } catch (error) {
+                    reject(error);
+                }
+            }
+        );
+    });
+}
+
 export const DisplayConfig = GObject.registerClass({
     Properties: {
         'dbus-connection': GObject.ParamSpec.object(
@@ -100,49 +123,17 @@ export const DisplayConfig = GObject.registerClass({
         return this._monitors;
     }
 
-    update_sync() {
-        this._cancellable?.cancel();
-        this._cancellable = new Gio.Cancellable();
-
-        this._parse_current_state(
-            this.dbus_connection.call_sync(
-                BUS_NAME,
-                OBJECT_PATH,
-                INTERFACE_NAME,
-                'GetCurrentState',
-                null,
-                CURRENT_STATE_TYPE,
-                Gio.DBusCallFlags.NO_AUTO_START,
-                -1,
-                this._cancellable
-            )
-        );
-    }
-
     update_async() {
         this._cancellable?.cancel();
         this._cancellable = new Gio.Cancellable();
 
-        this.dbus_connection.call(
-            BUS_NAME,
-            OBJECT_PATH,
-            INTERFACE_NAME,
-            'GetCurrentState',
-            null,
-            CURRENT_STATE_TYPE,
-            Gio.DBusCallFlags.NO_AUTO_START,
-            -1,
-            this._cancellable,
-            (source, result) => {
-                try {
-                    this._parse_current_state(source.call_finish(result));
-                } catch (error) {
-                    if (!(error instanceof GLib.Error &&
-                          error.matches(Gio.io_error_quark(), Gio.IOErrorEnum.CANCELLED)))
-                        logError(error);
-                }
-            }
-        );
+        get_current_state(this.dbus_connection, this._cancellable).then(
+            result => this._parse_current_state(result)
+        ).catch(error => {
+            if (!(error instanceof GLib.Error &&
+                  error.matches(Gio.io_error_quark(), Gio.IOErrorEnum.CANCELLED)))
+                logError(error);
+        });
     }
 
     static _parse_monitor(monitor) {

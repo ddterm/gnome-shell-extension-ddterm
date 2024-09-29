@@ -27,7 +27,6 @@ import Gettext from 'gettext';
 
 import { TerminalSettings } from './terminalsettings.js';
 import { Notebook } from './notebook.js';
-import { DisplayConfig, LayoutMode } from '../util/displayconfig.js';
 
 function make_resizer(orientation) {
     const box = new Gtk.EventBox({ visible: true });
@@ -360,21 +359,6 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
         if (display.constructor.$gtype.name !== 'GdkWaylandDisplay')
             return;
 
-        this.display_config = new DisplayConfig({
-            dbus_connection: this.application.get_dbus_connection(),
-        });
-
-        this.connect('destroy', () => this.display_config.unwatch());
-
-        const display_config_handler = this.display_config.connect('notify::layout-mode', () => {
-            if (!this.visible)
-                this.sync_size_with_extension();
-        });
-
-        this.connect('destroy', () => this.display_config.disconnect(display_config_handler));
-
-        this.display_config.update_sync();
-
         const rect_type = new GLib.VariantType('(iiii)');
 
         const dbus_handler = this.extension_dbus.connect(
@@ -603,15 +587,7 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
         if (!rect)
             rect = this.extension_dbus.GetTargetRectSync();
 
-        let [target_x, target_y, target_w, target_h] = rect;
-
-        if (this.display_config.layout_mode !== LayoutMode.LOGICAL) {
-            const display = this.get_display();
-            const target_monitor = display.get_monitor_at_point(target_x, target_y);
-
-            target_w = Math.floor(target_w / target_monitor.scale_factor);
-            target_h = Math.floor(target_h / target_monitor.scale_factor);
-        }
+        let [, , target_w, target_h] = rect;
 
         this.resize(target_w, target_h);
 
