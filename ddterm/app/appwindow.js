@@ -607,10 +607,25 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
 
         if (this.display_config.layout_mode !== LayoutMode.LOGICAL) {
             const display = this.get_display();
-            const target_monitor = display.get_monitor_at_point(target_x, target_y);
 
-            target_w = Math.floor(target_w / target_monitor.scale_factor);
-            target_h = Math.floor(target_h / target_monitor.scale_factor);
+            for (let i = 0; i < display.get_n_monitors(); i++) {
+                const { geometry, scale_factor } = display.get_monitor(i);
+                let { x, y, width, height } = geometry;
+
+                x *= scale_factor;
+                y *= scale_factor;
+                width *= scale_factor;
+                height *= scale_factor;
+
+                if (
+                    target_x >= x && target_x < x + width &&
+                    target_y >= y && target_y < y + height
+                ) {
+                    target_w = Math.floor(target_w / scale_factor);
+                    target_h = Math.floor(target_h / scale_factor);
+                    break;
+                }
+            }
         }
 
         this.resize(target_w, target_h);
