@@ -805,7 +805,15 @@ class TestWaylandTwoMonitors(TestWayland):
         return m0, m1
 
     @pytest.fixture
-    def max_size_allocations(self, gdk_backend, layout_mode, monitor_layout):
+    def max_size_allocations(
+        self,
+        gdk_backend,
+        layout_mode,
+        monitor_layout,
+        window_monitor,
+        current_monitor,
+        shell_dbus_interface,
+    ):
         if gdk_backend == GdkBackend.X11:
             return 1
 
@@ -813,6 +821,9 @@ class TestWaylandTwoMonitors(TestWayland):
             return 1
 
         if monitor_layout[0].scale == monitor_layout[1].scale:
+            return 1
+
+        if window_monitor == current_monitor and shell_dbus_interface.ShellVersion >= (45,):
             return 1
 
         return 2
