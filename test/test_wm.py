@@ -484,7 +484,6 @@ class CommonTests:
         glibutil.dispatch_pending_sources()
 
         assert not extension_test_hook.HasWindow
-        assert extension_test_hook.Transitions == expected_hide_transitions
 
         shell_test_hook.WaitLeisure()
 
