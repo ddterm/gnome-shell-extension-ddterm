@@ -19,13 +19,11 @@ window_above: True, False
 window_skip_taskbar: True, False
 window_stick: True, False
 
-gdk_backend: GdkBackend.X11, GdkBackend.WAYLAND (100)
-
 monitor0_transform: displayconfig.Transform.NORMAL, displayconfig.Transform.ROTATE_90
 monitor1_transform: <monitor0_transform>, MONITOR_DISABLED
 
 IF [class] = "TestX11"
-    THEN [layout_mode] = "displayconfig.LayoutMode.PHYSICAL" AND [gdk_backend] = "GdkBackend.X11" AND [monitor0_transform] = "displayconfig.Transform.NORMAL";
+    THEN [layout_mode] = "displayconfig.LayoutMode.PHYSICAL" AND [monitor0_transform] = "displayconfig.Transform.NORMAL";
 
 IF [layout_mode] = "displayconfig.LayoutMode.PHYSICAL"
     THEN [monitor0_scale] IN {1.0, 2.0} AND [monitor1_scale] IN {1.0, 2.0, 0};

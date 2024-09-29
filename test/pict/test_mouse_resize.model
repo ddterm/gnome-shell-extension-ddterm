@@ -1,7 +1,5 @@
 class: TestX11, TestWayland, TestWaylandTwoMonitors
 
-gdk_backend: GdkBackend.X11, GdkBackend.WAYLAND (100)
-
 monitor0_scale: 1.0, 1.25, 1.502347469329834, 1.748633861541748, 2.0
 monitor1_scale: <monitor0_scale>, 0
 layout_mode: displayconfig.LayoutMode.PHYSICAL (100), displayconfig.LayoutMode.LOGICAL
@@ -20,7 +18,7 @@ monitor0_transform: displayconfig.Transform.NORMAL
 monitor1_transform: <monitor0_transform>, MONITOR_DISABLED
 
 IF [class] = "TestX11"
-    THEN [layout_mode] = "displayconfig.LayoutMode.PHYSICAL" AND [gdk_backend] = "GdkBackend.X11";
+    THEN [layout_mode] = "displayconfig.LayoutMode.PHYSICAL";
 
 IF [layout_mode] = "displayconfig.LayoutMode.PHYSICAL"
     THEN [monitor0_scale] IN {1.0, 2.0} AND [monitor1_scale] IN {1.0, 2.0, 0};
