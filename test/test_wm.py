@@ -691,12 +691,26 @@ class CommonTests:
     @classmethod
     def get_parametrization(cls, name):
         p = load_params(PARAMS_DIR / f'{name}.gen').filter('class', cls)
+
         # Reduce monitor config changes - more like in real use, and faster
         # Note: last order_by() has highest priority
         p = p.order_by('monitor1_scale').order_by('monitor0_scale')
         p = p.order_by('primary_monitor')
-        p = p.order_by('layout_mode')  # Change requires restarting the app
-        p = p.order_by('gdk_backend')  # Change requires restarting the app
+
+        # Hack: reduce app restarts by altering sort order
+        # So if the first test method ends with layout_mode=PHYSICAL,
+        # the second one will start with layout_mode=PHYSICAL
+        if '_testmethods' not in cls.__dict__:
+            cls._testmethods = []
+
+        if name not in cls._testmethods:
+            cls._testmethods.append(name)
+
+        reverse = cls._testmethods.index(name) % 2 == 1
+
+        p = p.order_by('layout_mode', reverse)  # Change requires restarting the app
+        p = p.order_by('gdk_backend', reverse)  # Change requires restarting the app
+
         return p
 
     def pytest_generate_tests(self, metafunc):
