@@ -256,36 +256,6 @@ class CommonTests:
         return monitor_layout
 
     @pytest.fixture
-    def gdk_backend(
-        self,
-        request,
-        dbus_connection,
-        extension_test_hook,
-        settings_test_hook,
-        app_dbus_actions
-    ):
-        force_x11 = request.param == GdkBackend.X11
-
-        # Make sure cached value is up to date
-        glibutil.dispatch_pending_sources()
-
-        if settings_test_hook.force_x11_gdk_backend == force_x11:
-            return request.param
-
-        settings_test_hook.force_x11_gdk_backend = force_x11
-
-        if extension_test_hook.AppRunning:
-            app_dbus_actions.activate_action('quit', None)
-
-            extension_test_hook.wait_property(
-                'AppRunning',
-                False,
-                timeout=dbusutil.DEFAULT_LONG_TIMEOUT_MS
-            )
-
-        return request.param
-
-    @pytest.fixture
     def window_size(self, settings_test_hook, request):
         settings_test_hook.window_size = request.param
 
@@ -447,12 +417,14 @@ class CommonTests:
         extension_test_hook,
         shell_test_hook,
         wait_idle,
+        gdk_backend,
     ):
         extension_dbus_interface.Activate(timeout=dbusutil.DEFAULT_LONG_TIMEOUT_MS)
         glibutil.dispatch_pending_sources()
 
         assert extension_test_hook.HasWindow
         assert unmaximized_rect == extension_dbus_interface.TargetRect
+        assert extension_test_hook.ClientType == gdk_backend
 
         extension_test_hook.wait_property('RenderedFirstFrame', True)
         wait_idle()
@@ -533,12 +505,14 @@ class CommonTests:
         settings_test_hook,
         shell_test_hook,
         wait_idle,
+        gdk_backend,
     ):
         extension_dbus_interface.Activate(timeout=dbusutil.DEFAULT_LONG_TIMEOUT_MS)
         glibutil.dispatch_pending_sources()
 
         assert extension_test_hook.HasWindow
         assert unmaximized_rect == extension_dbus_interface.TargetRect
+        assert extension_test_hook.ClientType == gdk_backend
 
         extension_test_hook.wait_property('RenderedFirstFrame', True)
         wait_idle()
@@ -584,12 +558,14 @@ class CommonTests:
         extension_test_hook,
         shell_test_hook,
         wait_idle,
+        gdk_backend,
     ):
         extension_dbus_interface.Activate(timeout=dbusutil.DEFAULT_LONG_TIMEOUT_MS)
         glibutil.dispatch_pending_sources()
 
         assert extension_test_hook.HasWindow
         assert unmaximized_rect == extension_dbus_interface.TargetRect
+        assert extension_test_hook.ClientType == gdk_backend
 
         extension_test_hook.wait_property('RenderedFirstFrame', True)
         wait_idle()
@@ -642,6 +618,7 @@ class CommonTests:
         settings_test_hook,
         shell_test_hook,
         wait_idle,
+        gdk_backend,
     ):
         settings_test_hook.window_maximize = False
 
@@ -650,6 +627,7 @@ class CommonTests:
 
         assert extension_test_hook.HasWindow
         assert unmaximized_rect == extension_dbus_interface.TargetRect
+        assert extension_test_hook.ClientType == gdk_backend
 
         wait_idle()
 
@@ -737,6 +715,12 @@ class TestX11(CommonTests, fixtures.GnomeSessionX11Fixtures):
 
         return (displayconfig.SimpleMonitorConfig(scale=monitor0_scale),)
 
+    @pytest.fixture
+    def gdk_backend(self, request):
+        assert request.param == GdkBackend.X11
+
+        return request.param
+
 
 class TestWayland(CommonTests, fixtures.GnomeSessionWaylandFixtures):
     @pytest.fixture
@@ -758,6 +742,36 @@ class TestWayland(CommonTests, fixtures.GnomeSessionWaylandFixtures):
             return set()
 
         return animation_mode.expected_transitions(window_position)
+
+    @pytest.fixture
+    def gdk_backend(
+        self,
+        request,
+        dbus_connection,
+        extension_test_hook,
+        settings_test_hook,
+        app_dbus_actions
+    ):
+        force_x11 = request.param == GdkBackend.X11
+
+        # Make sure cached value is up to date
+        glibutil.dispatch_pending_sources()
+
+        if settings_test_hook.force_x11_gdk_backend == force_x11:
+            return request.param
+
+        if extension_test_hook.AppRunning:
+            app_dbus_actions.activate_action('quit', None)
+
+            extension_test_hook.wait_property(
+                'AppRunning',
+                False,
+                timeout=dbusutil.DEFAULT_LONG_TIMEOUT_MS
+            )
+
+        settings_test_hook.force_x11_gdk_backend = force_x11
+
+        return request.param
 
 
 class TestWaylandTwoMonitors(TestWayland):

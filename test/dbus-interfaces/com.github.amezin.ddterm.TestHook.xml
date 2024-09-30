@@ -15,6 +15,7 @@
         <property type="b" name="WindowAbove" access="read"/>
         <property type="b" name="WindowSkipTaskbar" access="read"/>
         <property type="b" name="WindowOnAllWorkspaces" access="read"/>
+        <property type="s" name="ClientType" access="read"/>
 
         <method name="Destroy"/>
 

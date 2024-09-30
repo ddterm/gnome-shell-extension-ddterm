@@ -1,6 +1,7 @@
 import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
+import Meta from 'gi://Meta';
 import Shell from 'gi://Shell';
 
 import {
@@ -154,6 +155,7 @@ const Interface = GObject.registerClass({
                 this.HasWindow = false;
                 this.MaximizedHorizontally = false;
                 this.MaximizedVertically = false;
+                this.ClientType = '';
                 this._update_window_rect();
 
                 return;
@@ -267,6 +269,11 @@ const Interface = GObject.registerClass({
                     GLib.Variant.new_int32(rect.height),
                 ]));
             }));
+
+            this.ClientType = {
+                [Meta.WindowClientType.WAYLAND]: 'wayland',
+                [Meta.WindowClientType.X11]: 'x11',
+            }[win.get_client_type()];
 
             this.HasWindow = true;
         } finally {
