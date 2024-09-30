@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-28 07:28+0000\n"
+"POT-Creation-Date: 2024-09-30 23:11+0000\n"
 "PO-Revision-Date: 2024-05-16 20:10+0000\n"
 "Last-Translator: Mustafa Kemal Gilor <mustafa.gilor@canonical.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/gnome-shell-"
@@ -1261,7 +1261,7 @@ msgstr "E-posta adreslerini tespit et"
 msgid "Detect \"news:\", \"man:\" URLs"
 msgstr "\"news:\", \"man:\" URL'lerini tespit et"
 
-#: ddterm/shell/extension.js:287
+#: ddterm/shell/extension.js:301
 msgid "Failed to launch ddterm application"
 msgstr "ddterm uygulaması başlatılamadı"
 
