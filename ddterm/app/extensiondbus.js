@@ -32,6 +32,6 @@ export function create_extension_dbus_proxy() {
         '/org/gnome/Shell/Extensions/ddterm',
         undefined,
         undefined,
-        Gio.DBusProxyFlags.DO_NOT_AUTO_START
+        Gio.DBusProxyFlags.DO_NOT_AUTO_START | Gio.DBusProxyFlags.GET_INVALIDATED_PROPERTIES
     );
 }

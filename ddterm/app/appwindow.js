@@ -375,23 +375,11 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
 
         this.display_config.update_sync();
 
-        const rect_type = new GLib.VariantType('(iiii)');
-
         const dbus_handler = this.extension_dbus.connect(
             'g-properties-changed',
-            (_, changed, invalidated) => {
-                if (this.visible)
-                    return;
-
-                if (invalidated.includes('TargetRect')) {
+            () => {
+                if (!this.visible)
                     this.sync_size_with_extension();
-                    return;
-                }
-
-                const value = changed.lookup_value('TargetRect', rect_type);
-
-                if (value)
-                    this.sync_size_with_extension(value.deepUnpack());
             }
         );
 
@@ -596,12 +584,14 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
         return false;
     }
 
-    sync_size_with_extension(rect = null) {
+    sync_size_with_extension() {
         if (this.is_maximized)
             return;
 
+        const rect = this.extension_dbus.TargetRect;
+
         if (!rect)
-            rect = this.extension_dbus.GetTargetRectSync();
+            return;
 
         let [target_x, target_y, target_w, target_h] = rect;
 
