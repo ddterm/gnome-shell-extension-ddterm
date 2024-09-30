@@ -593,20 +593,20 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
         if (!rect)
             return;
 
-        let [target_x, target_y, target_w, target_h] = rect;
+        let [, , target_w, target_h] = rect;
 
         if (this.display_config.layout_mode !== LayoutMode.LOGICAL) {
-            const display = this.get_display();
-            const target_monitor = display.get_monitor_at_point(target_x, target_y);
+            const scale = this.extension_dbus.TargetMonitorScale;
 
-            target_w = Math.floor(target_w / target_monitor.scale_factor);
-            target_h = Math.floor(target_h / target_monitor.scale_factor);
+            if (!scale)
+                return;
+
+            target_w = Math.floor(target_w / scale);
+            target_h = Math.floor(target_h / scale);
         }
 
         this.resize(target_w, target_h);
-
-        if (this.window)
-            this.window.resize(target_w, target_h);
+        this.window?.resize(target_w, target_h);
     }
 
     update_tab_label_width() {
