@@ -95,7 +95,7 @@ function create_dbus_interface(
         app_control,
     });
 
-    dbus_interface.connect('refresh-target-rect', () => {
+    dbus_interface.connect('update-target-monitor', () => {
         /*
          * Don't want to track mouse pointer continuously, so try to update the
          * index manually in multiple places. Also, Meta.CursorTracker doesn't
@@ -115,11 +115,25 @@ function create_dbus_interface(
     });
 
     window_geometry.bind_property(
+        'monitor-scale',
+        dbus_interface,
+        'target-monitor-scale',
+        GObject.BindingFlags.SYNC_CREATE
+    );
+    window_geometry.bind_property(
         'target-rect',
         dbus_interface,
         'target-rect',
         GObject.BindingFlags.SYNC_CREATE
     );
+
+    const flush_handler = window_geometry.connect('updated', () => {
+        dbus_interface.dbus.flush();
+    });
+
+    rollback.push(() => {
+        window_geometry.disconnect(flush_handler);
+    });
 
     dbus_interface.dbus.export(Gio.DBus.session, '/org/gnome/Shell/Extensions/ddterm');
 

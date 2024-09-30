@@ -104,6 +104,15 @@ export const DBusApi = GObject.registerClass({
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             Mtk.Rectangle
         ),
+        'target-monitor-scale': GObject.ParamSpec.double(
+            'target-monitor-scale',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+            0,
+            100,
+            1
+        ),
     },
     Signals: {
         'missing-dependencies': {
@@ -113,13 +122,14 @@ export const DBusApi = GObject.registerClass({
             param_types: [String, String],
         },
         'version-mismatch': {},
-        'refresh-target-rect': {},
+        'update-target-monitor': {},
     },
 }, class DDTermDBusApi extends GObject.Object {
     _init(params) {
         super._init(params);
 
         this._target_rect = new Mtk.Rectangle({ x: 0, y: 0, width: 0, height: 0 });
+        this._target_monitor_scale = 1;
 
         this.dbus = Gio.DBusExportedObject.wrapJSObject(
             Shell.get_file_contents_utf8_sync(this.xml_file_path),
@@ -156,12 +166,21 @@ export const DBusApi = GObject.registerClass({
     }
 
     GetTargetRect() {
-        this.emit('refresh-target-rect');
+        this.emit('update-target-monitor');
         return meta_rect_to_list(this._target_rect);
+    }
+
+    GetTargetMonitorScale() {
+        this.emit('update-target-monitor');
+        return this._target_monitor_scale;
     }
 
     get TargetRect() {
         return this.GetTargetRect();
+    }
+
+    get TargetMonitorScale() {
+        return this.GetTargetMonitorScale();
     }
 
     get Version() {
@@ -184,6 +203,19 @@ export const DBusApi = GObject.registerClass({
         this.notify('target-rect');
 
         this.dbus.emit_property_changed('TargetRect', meta_rect_to_variant(value));
-        this.dbus.flush();
+    }
+
+    get target_monitor_scale() {
+        return this._target_monitor_scale;
+    }
+
+    set target_monitor_scale(value) {
+        if (this._target_monitor_scale === value)
+            return;
+
+        this._target_monitor_scale = value;
+        this.notify('target-monitor-scale');
+
+        this.dbus.emit_property_changed('TargetMonitorScale', GLib.Variant.new_double(value));
     }
 });

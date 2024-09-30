@@ -7,11 +7,15 @@
         <method name="Activate"/>
         <method name="Hide"/>
         <method name="Service"/>
+
         <method name="GetTargetRect">
             <arg type="i" name="x" direction="out"/>
             <arg type="i" name="y" direction="out"/>
             <arg type="i" name="width" direction="out"/>
             <arg type="i" name="height" direction="out"/>
+        </method>
+        <method name="GetTargetMonitorScale">
+            <arg type="d" direction="out"/>
         </method>
 
         <method name="MissingDependencies">
@@ -25,6 +29,8 @@
         <method name="VersionMismatch"/>
 
         <property type="(iiii)" name="TargetRect" access="read"/>
+        <property type="d" name="TargetMonitorScale" access="read"/>
+
         <property type="s" name="Version" access="read"/>
         <property type="s" name="Revision" access="read"/>
     </interface>

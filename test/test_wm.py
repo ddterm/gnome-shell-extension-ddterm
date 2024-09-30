@@ -354,19 +354,22 @@ class CommonTests:
         return workareas[window_monitor]
 
     @pytest.fixture
+    def monitor_scale(self, monitor_config, window_monitor):
+        return monitor_config[window_monitor].scale
+
+    @pytest.fixture
     def unmaximized_rect(
         self,
         workarea,
         window_size,
         window_position,
-        window_monitor,
-        monitor_config,
+        monitor_scale,
     ):
         return compute_target_rect(
             window_size=window_size,
             window_position=window_position,
             workarea=workarea,
-            round_to=int(monitor_config[window_monitor].scale)
+            round_to=int(monitor_scale)
         )
 
     @pytest.fixture
@@ -405,6 +408,7 @@ class CommonTests:
         self,
         unmaximized_rect,
         expected_rect,
+        monitor_scale,
         window_maximize,
         window_above,
         window_stick,
@@ -425,6 +429,7 @@ class CommonTests:
         assert extension_test_hook.HasWindow
         assert unmaximized_rect == extension_dbus_interface.TargetRect
         assert extension_test_hook.ClientType == gdk_backend
+        assert monitor_scale == extension_dbus_interface.TargetMonitorScale
 
         extension_test_hook.wait_property('RenderedFirstFrame', True)
         wait_idle()
@@ -496,6 +501,7 @@ class CommonTests:
         unmaximized_rect,
         expected_rect,
         workarea,
+        monitor_scale,
         window_maximize,
         window_above,
         window_skip_taskbar,
@@ -513,6 +519,7 @@ class CommonTests:
         assert extension_test_hook.HasWindow
         assert unmaximized_rect == extension_dbus_interface.TargetRect
         assert extension_test_hook.ClientType == gdk_backend
+        assert monitor_scale == extension_dbus_interface.TargetMonitorScale
 
         extension_test_hook.wait_property('RenderedFirstFrame', True)
         wait_idle()
@@ -552,8 +559,7 @@ class CommonTests:
         window_size,
         window_size2,
         window_position,
-        window_monitor,
-        monitor_config,
+        monitor_scale,
         extension_dbus_interface,
         extension_test_hook,
         shell_test_hook,
@@ -566,6 +572,7 @@ class CommonTests:
         assert extension_test_hook.HasWindow
         assert unmaximized_rect == extension_dbus_interface.TargetRect
         assert extension_test_hook.ClientType == gdk_backend
+        assert monitor_scale == extension_dbus_interface.TargetMonitorScale
 
         extension_test_hook.wait_property('RenderedFirstFrame', True)
         wait_idle()
@@ -580,7 +587,7 @@ class CommonTests:
             window_size=window_size2,
             window_position=window_position,
             workarea=workarea,
-            round_to=int(monitor_config[window_monitor].scale)
+            round_to=int(monitor_scale)
         )
 
         end = resize_point(expected_rect2, window_position)
@@ -611,8 +618,7 @@ class CommonTests:
         window_size,
         window_size2,
         window_position,
-        window_monitor,
-        monitor_config,
+        monitor_scale,
         extension_dbus_interface,
         extension_test_hook,
         settings_test_hook,
@@ -628,6 +634,7 @@ class CommonTests:
         assert extension_test_hook.HasWindow
         assert unmaximized_rect == extension_dbus_interface.TargetRect
         assert extension_test_hook.ClientType == gdk_backend
+        assert monitor_scale == extension_dbus_interface.TargetMonitorScale
 
         wait_idle()
 
@@ -639,7 +646,7 @@ class CommonTests:
             window_size=window_size2,
             window_position=window_position,
             workarea=workarea,
-            round_to=int(monitor_config[window_monitor].scale)
+            round_to=int(monitor_scale)
         )
 
         settings_test_hook.window_size = window_size2

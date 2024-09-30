@@ -59,6 +59,15 @@ export const WindowGeometry = GObject.registerClass({
             GLib.MAXINT32,
             0
         ),
+        'monitor-scale': GObject.ParamSpec.double(
+            'monitor-scale',
+            '',
+            '',
+            GObject.ParamFlags.READABLE,
+            0,
+            100,
+            1
+        ),
         'pivot-point': GObject.ParamSpec.boxed(
             'pivot-point',
             '',
@@ -114,12 +123,17 @@ export const WindowGeometry = GObject.registerClass({
             ''
         ),
     },
+    Signals: {
+        'updated': {},
+    },
 }, class DDTermWindowGeometry extends GObject.Object {
     _init(params) {
         super._init(params);
 
-        this._workareas_changed_handler =
-            global.display.connect('workareas-changed', this._update_workarea.bind(this));
+        this._workareas_changed_handler = global.display.connect(
+            'workareas-changed',
+            this._update_workarea.bind(this)
+        );
 
         this.connect('notify::window-size', this._update_target_rect.bind(this));
         this.connect('notify::window-position', this._update_window_position.bind(this));
@@ -180,6 +194,10 @@ export const WindowGeometry = GObject.registerClass({
         return this._monitor_index;
     }
 
+    get monitor_scale() {
+        return this._monitor_scale;
+    }
+
     get pivot_point() {
         return this._pivot_point;
     }
@@ -214,6 +232,14 @@ export const WindowGeometry = GObject.registerClass({
 
         this._monitor_index = new_monitor_index;
         this.notify('monitor-index');
+    }
+
+    _set_monitor_scale(new_monitor_scale) {
+        if (this._monitor_scale === new_monitor_scale)
+            return;
+
+        this._monitor_scale = new_monitor_scale;
+        this.notify('monitor-scale');
     }
 
     _set_pivot_point(x, y) {
@@ -254,10 +280,11 @@ export const WindowGeometry = GObject.registerClass({
                 return;
             }
 
+            this._set_monitor_scale(global.display.get_monitor_scale(this._monitor_index));
             this._set_workarea(Main.layoutManager.getWorkAreaForMonitor(this._monitor_index));
             this._update_target_rect();
         } finally {
-            this.thaw_notify();
+            this._thaw_notify_emit_updated();
         }
     }
 
@@ -295,7 +322,7 @@ export const WindowGeometry = GObject.registerClass({
             this._set_monitor_index(this._get_monitor_index());
             this._update_workarea();
         } finally {
-            this.thaw_notify();
+            this._thaw_notify_emit_updated();
         }
     }
 
@@ -323,21 +350,42 @@ export const WindowGeometry = GObject.registerClass({
 
             this._update_target_rect();
         } finally {
-            this.thaw_notify();
+            this._thaw_notify_emit_updated();
         }
     }
 
     _update_target_rect() {
-        if (!this._workarea)
-            return;
+        this.freeze_notify();
 
-        const target_rect = WindowGeometry.get_target_rect(
-            this._workarea,
-            Math.floor(global.display.get_monitor_scale(this._monitor_index)),
-            this.window_size,
-            this.window_position
-        );
+        try {
+            if (!this._workarea)
+                return;
 
-        this._set_target_rect(target_rect);
+            const target_rect = WindowGeometry.get_target_rect(
+                this._workarea,
+                Math.floor(this._monitor_scale),
+                this.window_size,
+                this.window_position
+            );
+
+            this._set_target_rect(target_rect);
+        } finally {
+            this._thaw_notify_emit_updated();
+        }
+    }
+
+    _thaw_notify_emit_updated() {
+        // 'updated' should ideally be emitted by vfunc_dispatch_properties_changed()
+        // But implementing dispatch_properties_changed() in GJS doesn't seem possible.
+
+        this._notify_emitted = false;
+        this.thaw_notify();
+
+        if (this._notify_emitted)
+            this.emit('updated');
+    }
+
+    on_notify() {
+        this._notify_emitted = true;
     }
 });
