@@ -126,11 +126,7 @@ foreach target: ['prefs', 'enable', 'disable', 'reset']
   run_target(target, command: [extensions_tool, target, uuid])
 endforeach
 
-gapplication_tool = find_program(
-  'gapplication',
-  required: false,
-  disabler: true,
-)
+gapplication_tool = find_program('gapplication', required: false, disabler: true)
 
 foreach target: ['toggle', 'quit']
   run_target(target, command: [gapplication_tool, 'action', 'com.github.amezin.ddterm', target])
@@ -206,4 +202,14 @@ test(
   depends: [npm_install, built_js],
   workdir: meson.current_source_dir(),
   suite: ['eslint'],
+)
+
+run_target(
+  'nested-wayland-shell',
+  command: [run_gnome_shell_wayland_nested_command, pack_target],
+)
+
+run_target(
+  'xephyr-x11-shell',
+  command: [run_gnome_shell_xephyr_x11_command, pack_target],
 )
