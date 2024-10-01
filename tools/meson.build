@@ -24,11 +24,11 @@ run_gnome_shell_script = find_program('run_nested_shell.py')
 
 run_gnome_shell_script_common_args = [
   '--gnome-shell',
-  find_program('gnome-shell', required: false, disabler: true),
+  find_program('gnome-shell', required: devtools_required, disabler: true),
   '--dbus-daemon',
-  find_program('dbus-daemon', required: false, disabler: true),
+  find_program('dbus-daemon', required: devtools_required, disabler: true),
   '--gnome-extensions',
-  find_program('gnome-extensions', required: false, disabler: true),
+  find_program('gnome-extensions', required: devtools_required, disabler: true),
   '--pack',
 ]
 
@@ -40,6 +40,6 @@ run_gnome_shell_xephyr_x11_command = [
   run_gnome_shell_script,
   'xephyr',
   '--xephyr',
-  find_program('Xephyr', required: false, disabler: true),
+  find_program('Xephyr', required: devtools_required, disabler: true),
   run_gnome_shell_script_common_args,
 ]

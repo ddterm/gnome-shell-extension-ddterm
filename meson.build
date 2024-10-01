@@ -24,6 +24,12 @@ schema_dir = datadir / 'glib-2.0' / 'schemas'
 applications_dir = datadir / 'applications'
 dbus_service_dir = datadir / 'dbus-1' / 'services'
 
+if get_option('buildtype') == 'debug'
+  devtools_required = false
+else
+  devtools_required = disabler()
+endif
+
 pack = [
   fs.copyfile('LICENSE'),
   fs.copyfile(
@@ -113,7 +119,7 @@ alias_target('pack', pack_target)
 
 meson.add_devenv({'DDTERM_BUILT_PACK': pack_target.full_path()})
 
-extensions_tool = find_program('gnome-extensions', required: false, disabler: true)
+extensions_tool = find_program('gnome-extensions', required: devtools_required, disabler: true)
 
 run_target(
   'user-install',
@@ -126,13 +132,13 @@ foreach target: ['prefs', 'enable', 'disable', 'reset']
   run_target(target, command: [extensions_tool, target, uuid])
 endforeach
 
-gapplication_tool = find_program('gapplication', required: false, disabler: true)
+gapplication_tool = find_program('gapplication', required: devtools_required, disabler: true)
 
 foreach target: ['toggle', 'quit']
   run_target(target, command: [gapplication_tool, 'action', 'com.github.amezin.ddterm', target])
 endforeach
 
-npm_tool = find_program('npm', required: false, disabler: true)
+npm_tool = find_program('npm', required: devtools_required, disabler: true)
 npm_install_stamp = meson.current_build_dir() / 'npm-install.stamp'
 npm_env = {'DDTERM_POST_INSTALL_STAMP': npm_install_stamp}
 meson.add_devenv(npm_env)
