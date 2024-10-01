@@ -430,6 +430,7 @@ class CommonTests:
         assert unmaximized_rect == extension_dbus_interface.TargetRect
         assert extension_test_hook.ClientType == gdk_backend
         assert monitor_scale == extension_dbus_interface.TargetMonitorScale
+        assert extension_test_hook.ClientType == gdk_backend
 
         extension_test_hook.wait_property('RenderedFirstFrame', True)
         wait_idle()
@@ -690,14 +691,12 @@ class CommonTests:
         reverse = cls._testmethods.index(name) % 2 == 1
 
         p = p.order_by('layout_mode', reverse)  # Change requires restarting the app
-        p = p.order_by('gdk_backend', reverse)  # Change requires restarting the app
 
         return p
 
     def pytest_generate_tests(self, metafunc):
         indirect = {
             'animation_mode',
-            'gdk_backend',
             'current_monitor',
             'window_position',
             'window_size',
@@ -714,6 +713,7 @@ class CommonTests:
         )
 
 
+@pytest.mark.parametrize('gdk_backend', (GdkBackend.X11,), indirect=True, scope='class')
 class TestX11(CommonTests, fixtures.GnomeSessionX11Fixtures):
     @pytest.fixture
     def monitor_layout(self, layout_mode, monitor0_scale, monitor1_scale):
@@ -722,13 +722,19 @@ class TestX11(CommonTests, fixtures.GnomeSessionX11Fixtures):
 
         return (displayconfig.SimpleMonitorConfig(scale=monitor0_scale),)
 
-    @pytest.fixture
+    @pytest.fixture(scope='class')
     def gdk_backend(self, request):
         assert request.param == GdkBackend.X11
 
         return request.param
 
 
+@pytest.mark.parametrize(
+    'gdk_backend',
+    (GdkBackend.WAYLAND, GdkBackend.X11),
+    indirect=True,
+    scope='class'
+)
 class TestWayland(CommonTests, fixtures.GnomeSessionWaylandFixtures):
     @pytest.fixture
     def monitor_layout(self, layout_mode, monitor0_scale, monitor1_scale):
@@ -750,7 +756,7 @@ class TestWayland(CommonTests, fixtures.GnomeSessionWaylandFixtures):
 
         return animation_mode.expected_transitions(window_position)
 
-    @pytest.fixture
+    @pytest.fixture(scope='class')
     def gdk_backend(
         self,
         request,
