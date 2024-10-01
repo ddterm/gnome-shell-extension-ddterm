@@ -40,8 +40,6 @@ import { WindowManager } from './wm.js';
 import { WindowMatch } from './windowmatch.js';
 
 const APP_ID = 'com.github.amezin.ddterm';
-const APP_DBUS_PATH = '/com/github/amezin/ddterm';
-const WINDOW_PATH_PREFIX = `${APP_DBUS_PATH}/window/`;
 
 function create_subprocess(launcher, settings, app_enable_debug) {
     const argv = [launcher, '--gapplication-service'];
@@ -58,12 +56,10 @@ function create_subprocess(launcher, settings, app_enable_debug) {
     return new Subprocess({ journal_identifier: APP_ID, argv });
 }
 
-function create_window_matcher(service, rollback) {
+function create_window_matcher(service, extension, rollback) {
     const window_matcher = new WindowMatch({
         subprocess: service.subprocess,
         display: global.display,
-        gtk_application_id: APP_ID,
-        gtk_window_object_path_prefix: WINDOW_PATH_PREFIX,
     });
 
     rollback.push(() => {
@@ -76,6 +72,13 @@ function create_window_matcher(service, rollback) {
         'subprocess',
         GObject.BindingFlags.DEFAULT
     );
+
+    window_matcher.connect('notify::current-window', () => {
+        extension.store_app_window(window_matcher.current_window);
+    });
+
+    if (extension.app_window)
+        window_matcher.check_window(extension.app_window);
 
     return window_matcher;
 }
@@ -112,6 +115,9 @@ function create_dbus_interface(
     });
     dbus_interface.connect('version-mismatch', () => {
         notifications.show_version_mismatch();
+    });
+    dbus_interface.connect('catch-window', () => {
+        window_matcher.enable();
     });
 
     window_geometry.bind_property(
@@ -333,7 +339,7 @@ class EnabledExtension {
             'hide-animation-duration'
         );
 
-        this.window_matcher = create_window_matcher(this.service, rollback);
+        this.window_matcher = create_window_matcher(this.service, this.extension, rollback);
 
         this.app_control = new AppControl({
             service: this.service,
@@ -469,6 +475,7 @@ export default class DDTermExtension extends Extension {
         this.revision = this.read_revision();
 
         this.app_process = null;
+        this.app_window = null;
         this.enabled_state = null;
         this.app_enable_debug = false;
         this._debug = null;
@@ -524,6 +531,17 @@ export default class DDTermExtension extends Extension {
         });
 
         return app_process;
+    }
+
+    store_app_window(new_window) {
+        if (new_window === this.app_window)
+            return;
+
+        this.app_window?.disconnect(this._app_window_unmanaged_handler);
+        this.app_window = new_window;
+        this._app_window_unmanaged_handler = new_window?.connect('unmanaged', () => {
+            this.store_app_window(null);
+        });
     }
 
     enable() {

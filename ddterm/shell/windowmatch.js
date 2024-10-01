@@ -44,22 +44,16 @@ export const WindowMatchGeneric = GObject.registerClass({
         'disabled': {},
     },
 }, class DDTermWindowMatchGeneric extends GObject.Object {
-    _init(params) {
-        super._init(params);
+    enable() {
+        this.disable();
 
-        let created_handler = this.display.connect('window-created', (_, win) => {
+        const created_handler = this.display.connect('window-created', (_, win) => {
             this._watch_window(win);
         });
 
-        this.connect('disabled', () => {
-            if (created_handler) {
-                this.display.disconnect(created_handler);
-                created_handler = null;
-            }
-        });
-
-        Meta.get_window_actors(this.display).forEach(actor => {
-            this._watch_window(actor.meta_window);
+        const disable_handler = this.connect('disabled', () => {
+            this.disconnect(disable_handler);
+            this.display.disconnect(created_handler);
         });
     }
 
@@ -71,23 +65,31 @@ export const WindowMatchGeneric = GObject.registerClass({
         if (this.check_window(win) === GLib.SOURCE_REMOVE)
             return;
 
-        const disconnect = () => {
-            window_handlers.forEach(handler => win.disconnect(handler));
-            this.disconnect(disable_handler);
+        let disable_handler = null;
+        let window_handlers = null;
+
+        const disconnect_window = () => {
+            if (disable_handler) {
+                this.disconnect(disable_handler);
+                disable_handler = null;
+            }
+
+            while (window_handlers?.length)
+                win.disconnect(window_handlers.pop());
         };
+
+        disable_handler = this.connect('disabled', disconnect_window);
 
         const check = () => {
             if (this.check_window(win) === GLib.SOURCE_REMOVE)
-                disconnect();
+                disconnect_window();
         };
 
-        const window_handlers = [
+        window_handlers = [
             ...this.track_signals.map(signal_name => win.connect(signal_name, check)),
-            win.connect('unmanaging', disconnect),
-            win.connect('unmanaged', disconnect),
+            win.connect('unmanaging', disconnect_window),
+            win.connect('unmanaged', disconnect_window),
         ];
-
-        const disable_handler = this.connect('disabled', disconnect);
 
         check();
     }
@@ -109,92 +111,91 @@ export const WindowMatch = GObject.registerClass({
             GObject.ParamFlags.READABLE,
             Meta.Window
         ),
-        'gtk-application-id': GObject.ParamSpec.string(
-            'gtk-application-id',
-            '',
-            '',
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-            null
-        ),
-        'gtk-window-object-path-prefix': GObject.ParamSpec.string(
-            'gtk-window-object-path-prefix',
-            '',
-            '',
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-            null
-        ),
     },
 }, class DDTermWindowMatch extends WindowMatchGeneric {
-    _init(params) {
-        this._window = null;
-
-        super._init({
-            track_signals: [
-                'notify::gtk-application-id',
-                'notify::gtk-window-object-path',
-            ],
-            ...params,
-        });
-
-        this.connect('disabled', () => {
-            this._untrack_window();
-        });
+    get current_window() {
+        return this._window ?? null;
     }
 
-    get current_window() {
-        return this._window;
+    get subprocess() {
+        return this._subprocess;
+    }
+
+    set subprocess(value) {
+        if (value === this._subprocess)
+            return;
+
+        this.disable();
+        this.untrack_window();
+
+        this._subprocess = value;
+        this.notify('subprocess');
     }
 
     check_window(win) {
         if (win === this._window)
             return GLib.SOURCE_REMOVE;
 
-        if (!this.subprocess?.owns_window(win)) {
-            /*
-                With X11 window:
-                - Shell can be restarted without logging out
-                - Application doesn't have to be started using WaylandClient
+        if (!this.subprocess?.owns_window(win))
+            return GLib.SOURCE_REMOVE;
 
-                So if we did not launch the app, allow this check to be skipped
-                on X11.
-            */
-            if (this.subprocess || win.get_client_type() === Meta.WindowClientType.WAYLAND)
-                return GLib.SOURCE_REMOVE;
+        this._track_actor(win, win.get_compositor_private());
+
+        return GLib.SOURCE_REMOVE;
+    }
+
+    _track_actor(win, actor) {
+        if (actor.reactive) {
+            this._set_current_window(win);
+            return;
         }
 
-        const gtk_application_id = win.gtk_application_id;
-        if (!gtk_application_id)
-            return GLib.SOURCE_CONTINUE;
+        const disconnect_actor = () => {
+            actor.disconnect(reactive_handler);
+            actor.disconnect(child_added_handler);
+            actor.disconnect(destroy_handler);
+            win.disconnect(window_handler);
+            this.disconnect(disable_handler);
+        };
 
-        if (gtk_application_id !== this.gtk_application_id)
-            return GLib.SOURCE_REMOVE;
+        const reactive_handler = actor.connect('notify::reactive', () => {
+            if (actor.reactive)
+                this._set_current_window(win);
+        });
 
-        const gtk_window_object_path = win.gtk_window_object_path;
-        if (!gtk_window_object_path)
-            return GLib.SOURCE_CONTINUE;
+        const child_added_handler = actor.connect('child-added', (_, child) => {
+            this._track_actor(win, child);
+        });
 
-        if (!gtk_window_object_path.startsWith(this.gtk_window_object_path_prefix))
-            return GLib.SOURCE_REMOVE;
+        const destroy_handler = actor.connect('destroy', disconnect_actor);
+        const window_handler = win.connect('unmanaged', disconnect_actor);
+        const disable_handler = this.connect('disabled', disconnect_actor);
+
+        actor.get_children().forEach(child => this._track_actor(win, child));
+    }
+
+    _set_current_window(win) {
+        if (win === this._window)
+            return;
 
         this.freeze_notify();
 
         try {
-            this._untrack_window();
+            this.disable();
+            this.untrack_window();
 
             this._window = win;
             this._window_untrack_handler = this._window.connect('unmanaged', () => {
-                this._untrack_window();
+                this.untrack_window();
             });
 
             this.notify('current-window');
         } finally {
             this.thaw_notify();
         }
-
-        return GLib.SOURCE_REMOVE;
     }
 
-    _untrack_window() {
+    untrack_window() {
         if (!this._window)
             return;
 

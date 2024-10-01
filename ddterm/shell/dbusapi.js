@@ -123,6 +123,7 @@ export const DBusApi = GObject.registerClass({
         },
         'version-mismatch': {},
         'update-target-monitor': {},
+        'catch-window': {},
     },
 }, class DDTermDBusApi extends GObject.Object {
     _init(params) {
@@ -163,6 +164,10 @@ export const DBusApi = GObject.registerClass({
 
     VersionMismatch() {
         this.emit('version-mismatch');
+    }
+
+    CatchWindow() {
+        this.emit('catch-window');
     }
 
     GetTargetRect() {

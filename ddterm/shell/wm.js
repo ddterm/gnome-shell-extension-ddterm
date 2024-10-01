@@ -281,6 +281,8 @@ export const WindowManager = GObject.registerClass({
                 this._wl_clipboard_activator = new WlClipboardActivator({
                     display: global.display,
                 });
+
+                this._wl_clipboard_activator.enable();
             }
         } else {
             this._wl_clipboard_activator?.disable();
@@ -472,13 +474,13 @@ export const WindowManager = GObject.registerClass({
         if (maximize) {
             if (force_monitor) {
                 this._move_resize_window(this.window, this.geometry.workarea);
-
-                if (!this._actor.visible && this.show_animation.should_skip)
-                    Main.wm.skipNextEffect(this._actor);
             } else if (!this.window.get_frame_rect().equal(this.geometry.workarea)) {
                 this.debug?.('Scheduling geometry fixup because of workarea mismatch');
                 this._schedule_geometry_fixup();
             }
+
+            if (!this._actor.visible && this.show_animation.should_skip)
+                Main.wm.skipNextEffect(this._actor);
 
             return;
         }
@@ -499,13 +501,13 @@ export const WindowManager = GObject.registerClass({
 
         if (force_monitor) {
             this._move_resize_window(this.window, this.geometry.target_rect);
-
-            if (!this._actor.visible && this.show_animation.should_skip)
-                Main.wm.skipNextEffect(this._actor);
         } else if (!this.window.get_frame_rect().equal(this.geometry.target_rect)) {
             this.debug?.('Scheduling geometry fixup because of geometry mismatch');
             this._schedule_geometry_fixup();
         }
+
+        if (!this._actor.visible && this.show_animation.should_skip)
+            Main.wm.skipNextEffect(this._actor);
 
         if (this._is_maximized())
             this.settings.set_boolean('window-maximize', true);

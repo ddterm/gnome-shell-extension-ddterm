@@ -352,6 +352,10 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
         });
 
         this._setup_size_sync();
+
+        this.connect('map', () => {
+            this.extension_dbus.CatchWindowSync();
+        });
     }
 
     _setup_size_sync() {
