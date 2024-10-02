@@ -528,6 +528,7 @@ export default class DDTermExtension extends Extension {
 
     enable() {
         this.enabled_state = new EnabledExtension(this);
+        this.enabled_state.debug = this.debug;
     }
 
     disable() {
