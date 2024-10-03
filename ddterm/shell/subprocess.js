@@ -22,6 +22,10 @@ import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
 import GnomeDesktop from 'gi://GnomeDesktop';
 import Meta from 'gi://Meta';
+// BEGIN ESM
+
+import Gi from 'gi';
+// END ESM
 
 import { sd_journal_stream_fd } from './sd_journal.js';
 
@@ -93,10 +97,21 @@ class JournalctlLogCollector {
     }
 }
 
+function fd_output_stream(fd) {
+    // BEGIN ESM
+    if (GLib.check_version(2, 79, 2) === null) {
+        const GioUnix = Gi.require('GioUnix', '2.0');
+        return GioUnix.OutputStream.new(fd, false);
+    }
+
+    // END ESM
+    return Gio.UnixOutputStream.new(fd, false);
+}
+
 class TeeLogCollector {
     constructor(stream) {
         this._stream = Gio.DataInputStream.new(stream);
-        this._stderr = Gio.UnixOutputStream.new(STDERR_FD, false);
+        this._stderr = fd_output_stream(STDERR_FD, false);
         this._collected = [];
         this._promise = new Promise(resolve => {
             this._resolve = resolve;
