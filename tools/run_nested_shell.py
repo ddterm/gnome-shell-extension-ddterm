@@ -58,6 +58,8 @@ def make_env(base_dir):
     env.pop('MESON_SOURCE_ROOT', None)
     env.pop('MESON_BUILD_ROOT', None)
 
+    env['NO_AT_BRIDGE'] = '1'
+
     return env
 
 
