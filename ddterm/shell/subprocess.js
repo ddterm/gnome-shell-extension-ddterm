@@ -153,11 +153,12 @@ class TeeLogCollector {
 }
 
 function make_wayland_client(subprocess_launcher) {
-    try {
-        return Meta.WaylandClient.new(global.context, subprocess_launcher);
-    } catch {
+    // BEGIN !ESM
+    if (Meta.WaylandClient.new.length === 1)
         return Meta.WaylandClient.new(subprocess_launcher);
-    }
+
+    // END !ESM
+    return Meta.WaylandClient.new(global.context, subprocess_launcher);
 }
 
 export const Subprocess = GObject.registerClass({
