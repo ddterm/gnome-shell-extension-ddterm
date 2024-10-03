@@ -51,6 +51,13 @@ def make_env(base_dir):
     for k, v in dirs.items():
         env[k] = str(v)
 
+    # https://gitlab.gnome.org/GNOME/gjs/-/blob/50723b9876820e9a889e1254635687a6b832551b/modules/script/package.js#L52-55
+    # Auxiliary GNOME Shell services - like org.gnome.Shell.Extensions,
+    # org.gnome.Shell.Notifications, org.gnome.Shell.Screencast try to load
+    # sources from Meson dirs if these variables are set
+    env.pop('MESON_SOURCE_ROOT', None)
+    env.pop('MESON_BUILD_ROOT', None)
+
     return env
 
 
