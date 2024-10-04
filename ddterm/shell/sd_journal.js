@@ -19,10 +19,11 @@
 
 import GLib from 'gi://GLib';
 import Gio from 'gi://Gio';
-// BEGIN ESM
 
-import Gi from 'gi';
-// END ESM
+import { require } from './compat.js';
+
+const GLibUnix = GLib.check_version(2, 79, 2) === null ? require('GLibUnix') : null;
+const set_fd_nonblocking = GLibUnix?.set_fd_nonblocking ?? GLib.unix_set_fd_nonblocking;
 
 /* We only care about Linux here, because otherwise it won't be systemd */
 const SOL_SOCKET = 1;
@@ -79,15 +80,7 @@ export function sd_journal_stream_fd(identifier, priority = LOG_INFO, level_pref
     }
 
     try {
-        // BEGIN ESM
-        if (GLib.check_version(2, 79, 2) === null) {
-            const GLibUnix = Gi.require('GLibUnix', '2.0');
-            GLibUnix.set_fd_nonblocking(fd, false);
-            return fd;
-        }
-
-        // END ESM
-        GLib.unix_set_fd_nonblocking(fd, false);
+        set_fd_nonblocking(fd, true);
         return fd;
     } catch (ex) {
         GLib.close(fd);

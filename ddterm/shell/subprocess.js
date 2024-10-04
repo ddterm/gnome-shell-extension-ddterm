@@ -22,12 +22,12 @@ import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
 import GnomeDesktop from 'gi://GnomeDesktop';
 import Meta from 'gi://Meta';
-// BEGIN ESM
 
-import Gi from 'gi';
-// END ESM
-
+import { require } from './compat.js';
 import { sd_journal_stream_fd } from './sd_journal.js';
+
+const GioUnix = GLib.check_version(2, 79, 2) === null ? require('GioUnix') : null;
+const UnixOutputStream = GioUnix?.OutputStream ?? Gio.UnixOutputStream;
 
 const SIGTERM = 15;
 
@@ -97,21 +97,10 @@ class JournalctlLogCollector {
     }
 }
 
-function fd_output_stream(fd) {
-    // BEGIN ESM
-    if (GLib.check_version(2, 79, 2) === null) {
-        const GioUnix = Gi.require('GioUnix', '2.0');
-        return GioUnix.OutputStream.new(fd, false);
-    }
-
-    // END ESM
-    return Gio.UnixOutputStream.new(fd, false);
-}
-
 class TeeLogCollector {
     constructor(stream) {
         this._input = stream;
-        this._output = fd_output_stream(STDERR_FD, false);
+        this._output = new UnixOutputStream({ fd: STDERR_FD, close_fd: false });
         this._collected = [];
         this._collected_lines = 0;
         this._promise = new Promise((resolve, reject) => {
@@ -181,15 +170,6 @@ class TeeLogCollector {
         const decoder = new TextDecoder();
         return this._collected.map(line => decoder.decode(line)).join('\n');
     }
-}
-
-function make_wayland_client(subprocess_launcher) {
-    // BEGIN !ESM
-    if (Meta.WaylandClient.new.length === 1)
-        return Meta.WaylandClient.new(subprocess_launcher);
-
-    // END !ESM
-    return Meta.WaylandClient.new(global.context, subprocess_launcher);
 }
 
 export const Subprocess = GObject.registerClass({
@@ -310,7 +290,12 @@ export const WaylandSubprocess = GObject.registerClass({
 
     _spawn(subprocess_launcher) {
         log(`Starting wayland client subprocess: ${JSON.stringify(this.argv)}`);
-        this._wayland_client = make_wayland_client(subprocess_launcher);
+
+        if (Meta.WaylandClient.new.length === 1)
+            this._wayland_client = Meta.WaylandClient.new(subprocess_launcher);
+        else
+            this._wayland_client = Meta.WaylandClient.new(global.context, subprocess_launcher);
+
         return this._wayland_client.spawnv(global.display, this.argv);
     }
 

@@ -3,14 +3,6 @@ output_capture = [
   find_program('capture-stdout.py'), '--output', '@OUTPUT@', '--'
 ]
 
-sed = find_program('sed')
-
-if get_option('esm')
-  preprocess_command = [output_capture, sed, '-f', files('preproc_esm.sin'), '@INPUT@']
-else
-  preprocess_command = [output_capture, sed, '-f', files('preproc_legacy.sin'), '@INPUT@']
-endif
-
 gjs_translate_esm_command = [
   gjs, files('translate-esm.js'), '-o', '@OUTPUT@', '@INPUT@'
 ]

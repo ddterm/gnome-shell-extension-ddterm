@@ -23,12 +23,12 @@ import Gio from 'gi://Gio';
 import Meta from 'gi://Meta';
 import Shell from 'gi://Shell';
 
-import { Extension } from 'resource:///org/gnome/shell/extensions/extension.js';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import * as MessageTray from 'resource:///org/gnome/shell/ui/messageTray.js';
 
 import { Animation, ReverseAnimation } from './animation.js';
 import { AppControl } from './appcontrol.js';
+import { Extension } from './compat.js';
 import { DBusApi } from './dbusapi.js';
 import { WindowGeometry } from './geometry.js';
 import { Installer } from './install.js';

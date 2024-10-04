@@ -207,13 +207,11 @@ export const WindowManager = GObject.registerClass({
         global.window_manager.disconnect(this._map_animation_override_handler);
         this._map_animation_override_handler = null;
 
-        // BEGIN !ESM
         if (!Main.wm._waitForOverviewToHide) {
             this.show_animation.apply_override(actor);
             return;
         }
 
-        // END !ESM
         Main.wm._waitForOverviewToHide().then(() => {
             if (actor === this._actor)
                 this.show_animation.apply_override(actor);

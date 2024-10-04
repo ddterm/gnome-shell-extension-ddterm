@@ -17,23 +17,42 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-'use strict';
+import GObject from 'gi://GObject';
+import Gi from 'gi';
 
-const Gettext = imports.gettext;
+import * as MessageTray from 'resource:///org/gnome/shell/ui/messageTray.js';
+import { Extension } from 'resource:///org/gnome/shell/extensions/extension.js';
 
-var Extension = class Extension {
-    constructor(meta) {
-        this.uuid = meta.uuid;
-        this.dir = meta.dir;
-        this.path = meta.path;
-        this.metadata = meta.metadata;
+export const require = Gi.require;
+export { Extension };
 
-        Object.assign(this, Gettext.domain(this.metadata['gettext-domain'] ?? this.uuid));
+/*
+ * Unfortunately, rebuilding old notifications interface on top of the new interface
+ * is easier than building the new one on top of the old one. So will have to use
+ * old API for now.
+ */
+export const Notification = MessageTray.Notification.length === 1 ? GObject.registerClass({
+}, class DDTermNotification extends MessageTray.Notification {
+    constructor(source, title, banner, params) {
+        super({ source, title, body: banner, ...params });
     }
 
-    getSettings() {
-        return imports.misc.extensionUtils.getSettings();
+    setUrgency(urgency) {
+        super.urgency = urgency;
     }
-};
 
-/* exported Extension */
+    setForFeedback(value) {
+        super.for_feedback = value;
+    }
+}) : MessageTray.Notification;
+
+export const NotificationSource = MessageTray.Source.length === 1 ? GObject.registerClass({
+}, class DDTermNotificationSource extends MessageTray.Source {
+    constructor(title, icon_name) {
+        super({ title, icon_name });
+    }
+
+    showNotification(notification) {
+        this.addNotification(notification);
+    }
+}) : MessageTray.Source;

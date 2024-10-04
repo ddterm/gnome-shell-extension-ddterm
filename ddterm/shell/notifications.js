@@ -28,6 +28,7 @@ import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import * as MessageTray from 'resource:///org/gnome/shell/ui/messageTray.js';
 import * as ModalDialog from 'resource:///org/gnome/shell/ui/modalDialog.js';
 
+import { Notification, NotificationSource } from './compat.js';
 import { find_package_installer } from './packagemanager.js';
 
 const DetailsDialog = GObject.registerClass({
@@ -54,17 +55,12 @@ const DetailsDialog = GObject.registerClass({
         label.clutter_text.use_markup = true;
 
         viewport.add_child(label);
-        // BEGIN !ESM
-        scroll_area.add_actor(viewport);
-        // END !ESM
-        // BEGIN ESM
 
         if (scroll_area.add_actor)
             scroll_area.add_actor(viewport);
         else
             scroll_area.add_child(viewport);
 
-        // END ESM
         this.contentLayout.add_child(scroll_area);
 
         this.addButton({
@@ -88,55 +84,6 @@ const DetailsDialog = GObject.registerClass({
     }
 });
 
-const Notification = GObject.registerClass({
-}, class DDTermNotification extends MessageTray.Notification {
-    // BEGIN ESM
-    constructor(params) {
-        if (MessageTray.Notification.length === 1) {
-            super(params);
-        } else {
-            const { source, title, body, use_body_markup = false, ...rest } = params;
-
-            super(source, title, body, { bannerMarkup: use_body_markup, ...rest });
-        }
-    }
-
-    setUrgency(urgency) {
-        if (super.setUrgency)
-            super.setUrgency(urgency);
-        else
-            super.urgency = urgency;
-    }
-
-    setForFeedback(value) {
-        if (super.setForFeedback)
-            super.setForFeedback(value);
-        else
-            super.for_feedback = value;
-    }
-
-    // END ESM
-    // BEGIN !ESM
-    _init(params) {
-        const { source, title, body, use_body_markup = false, ...rest } = params;
-
-        super._init(source, title, body, { bannerMarkup: use_body_markup, ...rest });
-    }
-
-    // END !ESM
-    show() {
-        // BEGIN ESM
-        if (this.source.addNotification)
-            this.source.addNotification(this);
-        else
-            this.source.showNotification(this);
-        // END ESM
-        // BEGIN !ESM
-        this.source.showNotification(this);
-        // END !ESM
-    }
-});
-
 const VersionMismatchNotification = GObject.registerClass({
 }, class DDTermVersionMismatchNotification extends Notification {
     static create(source, gettext_context) {
@@ -144,7 +91,7 @@ const VersionMismatchNotification = GObject.registerClass({
         const help =
             gettext_context.gettext('Log out, then log in again to load the updated extension.');
 
-        return new VersionMismatchNotification({ source, title, body: help });
+        return new VersionMismatchNotification(source, title, help);
     }
 });
 
@@ -160,9 +107,7 @@ const ErrorNotification = GObject.registerClass({
         message = `${message}`;
         details = `${details ?? ''}`;
 
-        const notification =
-            new ErrorNotification({ source, title: message, body: details });
-
+        const notification = new ErrorNotification(source, message, details);
         const has_details = details.trim() !== '';
         const plaintext = has_details ? [message, '', details].join('\n') : message;
         const copy_to_clipboard = () => {
@@ -216,7 +161,7 @@ const MissingDependenciesNotification = GObject.registerClass({
         }
 
         const notification =
-            new MissingDependenciesNotification({ source, title, body: lines.join('\n') });
+            new MissingDependenciesNotification(source, title, lines.join('\n'));
 
         if (packages.length === 0)
             return notification;
@@ -265,18 +210,8 @@ export const Notifications = GObject.registerClass({
         if (this._source)
             return this._source;
 
-        const title = this.gettext_context.gettext('ddterm');
-        const icon_name = 'utilities-terminal';
-
-        // BEGIN !ESM
-        this._source = new MessageTray.Source(title, icon_name);
-        // END !ESM
-        // BEGIN ESM
-        if (MessageTray.Source.length === 1)
-            this._source = new MessageTray.Source({ title, icon_name });
-        else
-            this._source = new MessageTray.Source(title, icon_name);
-        // END ESM
+        this._source =
+            new NotificationSource(this.gettext_context.gettext('ddterm'), 'utilities-terminal');
 
         this._source.connect('destroy', () => {
             this._source = null;
@@ -290,7 +225,7 @@ export const Notifications = GObject.registerClass({
         const source = this.create_source();
         const notification = VersionMismatchNotification.create(source, this.gettext_context);
 
-        notification.show();
+        source.showNotification(notification);
     }
 
     show_error(message, trace) {
@@ -311,7 +246,7 @@ export const Notifications = GObject.registerClass({
         });
 
         notification.setUrgency(MessageTray.Urgency.CRITICAL);
-        notification.show();
+        source.showNotification(notification);
     }
 
     show_missing_dependencies(packages, files) {
@@ -325,7 +260,7 @@ export const Notifications = GObject.registerClass({
 
         notification.setUrgency(MessageTray.Urgency.CRITICAL);
         notification.setForFeedback(true);
-        notification.show();
+        source.showNotification(notification);
     }
 
     destroy(reason = MessageTray.NotificationDestroyedReason.SOURCE_CLOSED) {
