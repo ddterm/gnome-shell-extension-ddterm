@@ -9,8 +9,8 @@ services:
     profiles:
       - esm
 
-  fedora-39:
-    image: ghcr.io/ddterm/gnome-shell-image/fedora-39:2024.10.04.0
+  fedora-41:
+    image: ghcr.io/ddterm/gnome-shell-image/fedora-41:2024.10.04.0
     profiles:
       - esm
 
