@@ -110,9 +110,10 @@ function fd_output_stream(fd) {
 
 class TeeLogCollector {
     constructor(stream) {
-        this._stream = Gio.DataInputStream.new(stream);
-        this._stderr = fd_output_stream(STDERR_FD, false);
+        this._input = stream;
+        this._output = fd_output_stream(STDERR_FD, false);
         this._collected = [];
+        this._collected_lines = 0;
         this._promise = new Promise((resolve, reject) => {
             this._resolve = resolve;
             this._reject = reject;
@@ -122,27 +123,52 @@ class TeeLogCollector {
     }
 
     _read_more() {
-        this._stream.read_line_async(GLib.PRIORITY_DEFAULT, null, this._read_done.bind(this));
+        this._input.read_bytes_async(4096, GLib.PRIORITY_DEFAULT, null, this._read_done.bind(this));
     }
 
     _read_done(source, result) {
         try {
-            const [line] = source.read_line_finish(result);
+            const chunk = source.read_bytes_finish(result).toArray();
 
-            if (line === null) {
-                this._stream.close(null);
-                this._stderr.close(null);
+            if (chunk.length === 0) {
+                this._input.close(null);
+                this._output.close(null);
                 this._resolve();
                 return;
             }
 
-            this._collected.push(line);
+            const delimiter = '\n'.charCodeAt(0);
+            let start = 0;
 
-            while (this._collected.length > KEEP_LOG_LINES)
-                this._collected.shift();
+            for (;;) {
+                let end = chunk.indexOf(delimiter, start);
 
-            this._stderr.write(line, null);
-            this._stderr.write('\n', null);
+                if (end === -1) {
+                    if (start < chunk.length)
+                        this._collected.push(chunk.subarray(start));
+
+                    break;
+                }
+
+                this._collected.push(chunk.subarray(start, end + 1));
+                this._collected_lines += 1;
+
+                start = end + 1;
+            }
+
+            let remove = 0;
+
+            while (this._collected_lines > KEEP_LOG_LINES) {
+                const remove_chunk = this._collected[remove];
+
+                remove += 1;
+
+                if (remove_chunk[remove_chunk.length - 1] === delimiter)
+                    this._collected_lines -= 1;
+            }
+
+            this._collected.splice(0, remove);
+            this._output.write(chunk, null);
             this._read_more();
         } catch (ex) {
             this._reject(ex);
