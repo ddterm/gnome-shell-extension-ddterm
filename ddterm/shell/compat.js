@@ -24,6 +24,16 @@ import * as MessageTray from 'resource:///org/gnome/shell/ui/messageTray.js';
 import { Extension } from 'resource:///org/gnome/shell/extensions/extension.js';
 
 export const require = Gi.require;
+
+export function try_require(namespace, version = undefined) {
+    try {
+        return require(namespace, version);
+    } catch (ex) {
+        logError(ex);
+        return null;
+    }
+}
+
 export { Extension };
 
 /*

@@ -40,6 +40,15 @@ function require(namespace, version = undefined) {
     return imports.gi[namespace];
 }
 
+function try_require(namespace, version = undefined) {
+    try {
+        return require(namespace, version);
+    } catch (ex) {
+        logError(ex);
+        return null;
+    }
+}
+
 var Extension = class Extension {
     constructor(meta) {
         this.uuid = meta.uuid;
@@ -58,4 +67,4 @@ var Extension = class Extension {
 var Notification = MessageTray.Notification;
 var NotificationSource = MessageTray.Source;
 
-/* exported require Extension Notification NotificationSource */
+/* exported require try_require Extension Notification NotificationSource */
