@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-30 23:11+0000\n"
+"POT-Creation-Date: 2024-10-04 01:34+0000\n"
 "PO-Revision-Date: 2024-07-24 00:09+0000\n"
 "Last-Translator: Patricio Carrau <duckycb@proton.me>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/gnome-shell-"
@@ -62,29 +62,29 @@ msgstr "Ne pas transmettre l'environnement"
 msgid "Open a new tab"
 msgstr "Ouvrir un nouvel onglet"
 
-#: ddterm/app/application.js:354
+#: ddterm/app/application.js:361
 msgid "Saving session…"
 msgstr "Enregistrement de la session…"
 
-#: ddterm/app/application.js:409
+#: ddterm/app/application.js:416
 msgid "Can't contact the extension."
 msgstr "L'extension ne peut être contactée."
 
-#: ddterm/app/application.js:411 ddterm/app/application.js:537
+#: ddterm/app/application.js:418 ddterm/app/application.js:544
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr ""
 "Veuillez s'il vous plait vous assurer que l'extension GNOME Shell est "
 "activée."
 
-#: ddterm/app/application.js:535
+#: ddterm/app/application.js:542
 msgid "Can't read the version of the loaded extension."
 msgstr "La version de l'extension chargée ne peut pas être lue."
 
-#: ddterm/app/application.js:540 ddterm/shell/notifications.js:158
+#: ddterm/app/application.js:547 ddterm/shell/notifications.js:158
 msgid "Warning: ddterm version has changed"
 msgstr "Avertissement : La version de ddterm a changé"
 
-#: ddterm/app/application.js:541 ddterm/shell/notifications.js:160
+#: ddterm/app/application.js:548 ddterm/shell/notifications.js:160
 msgid "Log out, then log in again to load the updated extension."
 msgstr ""
 "Fermez la session, puis reconnectez-vous pour charger l'extension mise à "

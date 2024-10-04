@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-30 23:11+0000\n"
+"POT-Creation-Date: 2024-10-04 01:34+0000\n"
 "PO-Revision-Date: 2023-09-26 17:35+0300\n"
 "Last-Translator: Anagnostakis Ioannis <rizitis@gmail.com>\n"
 "Language-Team: Greek, Modern (1453-) <>\n"
@@ -59,27 +59,27 @@ msgstr ""
 msgid "Open a new tab"
 msgstr ""
 
-#: ddterm/app/application.js:354
+#: ddterm/app/application.js:361
 msgid "Saving session…"
 msgstr ""
 
-#: ddterm/app/application.js:409
+#: ddterm/app/application.js:416
 msgid "Can't contact the extension."
 msgstr ""
 
-#: ddterm/app/application.js:411 ddterm/app/application.js:537
+#: ddterm/app/application.js:418 ddterm/app/application.js:544
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr ""
 
-#: ddterm/app/application.js:535
+#: ddterm/app/application.js:542
 msgid "Can't read the version of the loaded extension."
 msgstr ""
 
-#: ddterm/app/application.js:540 ddterm/shell/notifications.js:158
+#: ddterm/app/application.js:547 ddterm/shell/notifications.js:158
 msgid "Warning: ddterm version has changed"
 msgstr "Προειδοποίηση: η έκδοση ddterm έχει αλλάξει"
 
-#: ddterm/app/application.js:541 ddterm/shell/notifications.js:160
+#: ddterm/app/application.js:548 ddterm/shell/notifications.js:160
 msgid "Log out, then log in again to load the updated extension."
 msgstr ""
 "Αποσυνδεθείτε και, στη συνέχεια, συνδεθείτε ξανά για να φορτώσετε την "
