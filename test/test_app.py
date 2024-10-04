@@ -52,7 +52,7 @@ def diff_heap(dump_old, dump_new, hide_node=[], hide_edge=[]):
     return heapgraph.stdout
 
 
-@pytest.mark.usefixtures('screenshot', 'hide_overview', 'disable_animations')
+@pytest.mark.usefixtures('check_log', 'screenshot', 'hide_overview', 'disable_animations')
 class TestApp(fixtures.GnomeSessionWaylandFixtures):
     @pytest.fixture(autouse=True)
     def window_settings(self, settings_test_hook):

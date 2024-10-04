@@ -198,7 +198,7 @@ def wait_idle(
             LOGGER.info('%r consecutive frames with no window geometry changes', counter)
 
 
-@pytest.mark.usefixtures('screenshot', 'hide_overview', 'hide', 'gdk_backend')
+@pytest.mark.usefixtures('check_log', 'screenshot', 'hide_overview', 'hide', 'gdk_backend')
 class CommonTests:
     @pytest.fixture
     def animation_mode(self, shell_test_hook, settings_test_hook, request):

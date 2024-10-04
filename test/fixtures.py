@@ -28,6 +28,22 @@ from . import (
 
 LOGGER = logging.getLogger(__name__)
 
+IGNORED_LOG_ISSUES = [
+    # https://gitlab.gnome.org/GNOME/gjs/-/issues/610
+    'Gio.UnixInputStream has been moved to a separate platform-specific library.',
+]
+
+IGNORED_LOG_ISSUES_BY_OS = {
+    'opensuse-tumbleweed': [
+        *IGNORED_LOG_ISSUES,
+        # openSUSE Tumbleweed has separate package for GLibUnix typelib,
+        # and it's not a dependency of gnome-shell
+        "Requiring GLibUnix, version 2.0: "
+        "Typelib file for namespace 'GLibUnix', version '2.0' not found",
+        "GLib.unix_set_fd_nonblocking has been moved to a separate platform-specific library.",
+    ]
+}
+
 
 def mkdir(path):
     path.mkdir(mode=0o700)
@@ -486,6 +502,47 @@ class GnomeSessionFixtures:
 
             if extension_test_hook.is_connected():
                 extension_test_hook.wait_property('HasWindow', False)
+
+    @pytest.fixture(scope='class')
+    def ignored_log_issues(self, container, os_id):
+        if not container:
+            return IGNORED_LOG_ISSUES
+
+        return IGNORED_LOG_ISSUES_BY_OS.get(os_id, IGNORED_LOG_ISSUES)
+
+    @pytest.fixture
+    def check_log(self, caplog, ignored_log_issues):
+        def collect_issues(when):
+            for record in caplog.get_records(when):
+                if record.levelno < logging.WARNING:
+                    continue
+
+                message = getattr(record, 'message', None)
+
+                if message is None:
+                    message = record.getMessage()
+
+                if 'ddterm@amezin.github.com' not in message:
+                    continue
+
+                if any(pattern in message for pattern in ignored_log_issues):
+                    warnings.warn(f'Ignored known issue: {message}')
+                    continue
+
+                yield message
+
+        issues = list(collect_issues('setup'))
+
+        if issues:
+            raise Exception('\n'.join(issues))
+
+        yield
+
+        for when in ('setup', 'call', 'teardown'):
+            issues.extend(collect_issues(when))
+
+        if issues:
+            raise Exception('\n'.join(issues))
 
 
 class GnomeSessionX11Fixtures(GnomeSessionFixtures):

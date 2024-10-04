@@ -269,6 +269,16 @@ def process_launcher(container):
     )
 
 
+@pytest.fixture(scope='session')
+def os_id(process_launcher):
+    return process_launcher.run(
+        'sh',
+        '-c',
+        '. /etc/os-release && echo $ID',
+        stdout=subprocess.PIPE
+    ).stdout.rstrip().decode()
+
+
 def pytest_generate_tests(metafunc):
     if 'container' in metafunc.fixturenames:
         images = metafunc.config.stash.get(IMAGES_STASH_KEY, None)
