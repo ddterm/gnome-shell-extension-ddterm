@@ -29,7 +29,6 @@ import Gettext from 'gettext';
 import System from 'system';
 
 import { AppWindow } from './appwindow.js';
-import { create_extension_dbus_proxy } from './extensiondbus.js';
 import { ThemeManager } from './gtktheme.js';
 import { DebugInterface } from './debug.js';
 import { metadata } from './meta.js';
@@ -39,6 +38,10 @@ import { TerminalCommand } from './terminal.js';
 import { TerminalSettings, TerminalSettingsParser } from './terminalsettings.js';
 import { WIFEXITED, WEXITSTATUS, WTERMSIG } from './waitstatus.js';
 import { DisplayConfig } from '../util/displayconfig.js';
+import {
+    create_extension_dbus_proxy,
+    create_extension_dbus_proxy_oneshot
+} from './extensiondbus.js';
 
 function schedule_gc() {
     GLib.idle_add(GLib.PRIORITY_DEFAULT, () => {
@@ -287,6 +290,7 @@ class Application extends Gtk.Application {
             desktop_settings,
         }).bind_settings(this.terminal_settings);
 
+        this.extension_dbus = create_extension_dbus_proxy();
         this.display_config = new DisplayConfig({
             dbus_connection: this.get_dbus_connection(),
         });
@@ -418,7 +422,7 @@ class Application extends Gtk.Application {
         this.flags |= Gio.ApplicationFlags.IS_LAUNCHER;
 
         try {
-            this.extension_dbus.ServiceSync();
+            create_extension_dbus_proxy_oneshot().ServiceSync();
         } catch (ex) {
             if (is_dbus_interface_error(ex)) {
                 printerr(Gettext.gettext("Can't contact the extension."));
@@ -542,8 +546,9 @@ class Application extends Gtk.Application {
         print(metadata.name, metadata.version, 'revision', revision);
 
         try {
-            const ext_version = this.extension_dbus.get_cached_property('Version')?.unpack();
-            const ext_revision = this.extension_dbus.get_cached_property('Revision')?.unpack();
+            const extension_dbus = create_extension_dbus_proxy();
+            const ext_version = extension_dbus.get_cached_property('Version')?.unpack();
+            const ext_revision = extension_dbus.get_cached_property('Revision')?.unpack();
             print('Extension', ext_version, 'revision', ext_revision);
 
             if (ext_version === undefined && ext_revision === undefined) {
@@ -558,14 +563,6 @@ class Application extends Gtk.Application {
         } catch (ex) {
             logError(ex, "Can't get version information from the extension");
         }
-    }
-
-    get extension_dbus() {
-        if (this._extension_dbus)
-            return this._extension_dbus;
-
-        this._extension_dbus = create_extension_dbus_proxy();
-        return this._extension_dbus;
     }
 
     ensure_window() {

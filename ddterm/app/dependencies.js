@@ -22,7 +22,7 @@ import GLib from 'gi://GLib';
 import Gettext from 'gettext';
 import Gi from 'gi';
 
-import { create_extension_dbus_proxy } from './extensiondbus.js';
+import { create_extension_dbus_proxy_oneshot } from './extensiondbus.js';
 import { get_resource_file, get_resource_text } from './resources.js';
 
 export const manifest_file = get_resource_file('dependencies.json');
@@ -104,7 +104,7 @@ export function gi_require_optional(imports_versions) {
     printerr(message_lines.join('\n'));
 
     try {
-        create_extension_dbus_proxy().MissingDependenciesSync(missing, unresolved);
+        create_extension_dbus_proxy_oneshot().MissingDependenciesSync(missing, unresolved);
     } catch (ex) {
         logError(ex);
     }
