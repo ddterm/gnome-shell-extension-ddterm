@@ -44,6 +44,11 @@ services:
     profiles:
       - esm
 
+  ubuntu-24.10:
+    image: ghcr.io/ddterm/gnome-shell-image/ubuntu-24.10:2024.10.04.0
+    profiles:
+      - esm
+
   opensuse-leap-15.6:
     image: ghcr.io/ddterm/gnome-shell-image/opensuse-leap-15.6:2024.10.04.0
     profiles:
