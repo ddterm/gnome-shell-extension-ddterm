@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-04 16:38+0000\n"
+"POT-Creation-Date: 2024-10-04 23:00+0000\n"
 "PO-Revision-Date: 2024-06-10 12:09+0000\n"
 "Last-Translator: Nathan Hadley <nathanhadley.pigeon@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/gnome-shell-"
@@ -20,85 +20,85 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.6-dev\n"
 
-#: ddterm/app/application.js:86
+#: ddterm/app/application.js:90
 msgid "Start the application, but do not show the window"
 msgstr "Avvia l'applicazione, ma non mostrare la finestra"
 
-#: ddterm/app/application.js:95
+#: ddterm/app/application.js:99
 msgid "Comma-separated list of backends that GDK should try to use"
 msgstr ""
 "Elenco separato da virgole di backend che GDK dovrebbe provare a utilizzare"
 
-#: ddterm/app/application.js:113
+#: ddterm/app/application.js:117
 msgid "Show version information and exit"
 msgstr "Mostra informazioni sulla versione per poi uscire"
 
-#: ddterm/app/application.js:122
+#: ddterm/app/application.js:126
 msgid "Run the specified command"
 msgstr "Eseguire il comando specificato"
 
-#: ddterm/app/application.js:136
+#: ddterm/app/application.js:140
 msgid "Wait for the command to exit, and return its exit code"
 msgstr "Attendere l'uscita del comando e restituire il suo codice di uscita"
 
-#: ddterm/app/application.js:145
+#: ddterm/app/application.js:149
 msgid "Set the working directory"
 msgstr "Impostare la directory di lavoro"
 
-#: ddterm/app/application.js:154
+#: ddterm/app/application.js:158
 msgid "Set tab title"
 msgstr "Impostare il titolo della scheda"
 
-#: ddterm/app/application.js:163
+#: ddterm/app/application.js:167
 msgid "Keep the terminal open after the command has exited"
 msgstr "Mantenere aperto il terminale dopo l'uscita del comando"
 
-#: ddterm/app/application.js:172
+#: ddterm/app/application.js:176
 msgid "Do not pass the environment"
 msgstr "Non passare l'ambiente"
 
-#: ddterm/app/application.js:181
+#: ddterm/app/application.js:185
 msgid "Open a new tab"
 msgstr "Aprire una nuova scheda"
 
-#: ddterm/app/application.js:361
+#: ddterm/app/application.js:373
 msgid "Saving session…"
 msgstr "Salvataggio della sessione…"
 
-#: ddterm/app/application.js:416
+#: ddterm/app/application.js:428
 msgid "Can't contact the extension."
 msgstr ""
 
-#: ddterm/app/application.js:418 ddterm/app/application.js:544
+#: ddterm/app/application.js:430 ddterm/app/application.js:557
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr ""
 
-#: ddterm/app/application.js:542
+#: ddterm/app/application.js:555
 msgid "Can't read the version of the loaded extension."
 msgstr ""
 
-#: ddterm/app/application.js:547 ddterm/shell/notifications.js:143
+#: ddterm/app/application.js:560 ddterm/shell/notifications.js:90
 msgid "Warning: ddterm version has changed"
 msgstr "Attenzione: la versione di ddterm è cambiata"
 
-#: ddterm/app/application.js:548 ddterm/shell/notifications.js:145
+#: ddterm/app/application.js:561 ddterm/shell/notifications.js:92
 msgid "Log out, then log in again to load the updated extension."
 msgstr "Uscire e rientrare per caricare l'estensione aggiornata."
 
-#: ddterm/app/appwindow.js:149 ddterm/com.github.amezin.ddterm.desktop.in.in:4
-#: ddterm/shell/notifications.js:268 ddterm/shell/panelicon.js:44
+#: ddterm/app/appwindow.js:156 ddterm/com.github.amezin.ddterm.desktop.in.in:4
+#: ddterm/shell/notifications.js:214 ddterm/shell/panelicon.js:44
 msgid "ddterm"
 msgstr "ddterm"
 
-#: ddterm/app/dependencies.js:87 ddterm/shell/notifications.js:199
+#: ddterm/app/dependencies.js:87 ddterm/shell/notifications.js:144
 msgid "ddterm needs additional packages to run"
 msgstr "ddterm ha bisogno di pacchetti aggiuntivi per funzionare"
 
-#: ddterm/app/dependencies.js:92 ddterm/shell/notifications.js:204
+#: ddterm/app/dependencies.js:92 ddterm/shell/notifications.js:149
 msgid "Please install the following packages:"
 msgstr "Installare i seguenti pacchetti:"
 
-#: ddterm/app/dependencies.js:99 ddterm/shell/notifications.js:212
+#: ddterm/app/dependencies.js:99 ddterm/shell/notifications.js:157
 msgid "Please install packages that provide the following files:"
 msgstr "Installare i pacchetti che forniscono i seguenti file:"
 
@@ -163,7 +163,7 @@ msgid "Show in File Manager"
 msgstr "Mostra nel File Manager"
 
 #: ddterm/app/menus.ui:99 ddterm/app/menus.ui:230 ddterm/app/tablabel.js:114
-#: ddterm/shell/notifications.js:76
+#: ddterm/shell/notifications.js:72
 msgid "Close"
 msgstr "Chiudere"
 
@@ -215,7 +215,8 @@ msgstr "Dividere verticalmente"
 msgid "Move Tab to Other Pane"
 msgstr "Sposta la scheda in un altro riquadro"
 
-#: ddterm/app/menus.ui:157 ddterm/app/prefsdialog.js:65
+#: ddterm/app/menus.ui:157 ddterm/app/prefsdialog.js:54
+#: ddterm/app/prefsdialog.legacy.js:66
 msgid "Preferences"
 msgstr "Preferenze"
 
@@ -367,19 +368,19 @@ msgstr ""
 msgid "Toggle"
 msgstr "Pulsante di attivazione"
 
-#: ddterm/pref/adw.js:77
+#: ddterm/pref/adw.js:88
 msgid "Window"
 msgstr "Finestra"
 
-#: ddterm/pref/adw.js:97
+#: ddterm/pref/adw.js:114
 msgid "Terminal"
 msgstr "Terminale"
 
-#: ddterm/pref/adw.js:118 ddterm/pref/shortcuts.js:132
+#: ddterm/pref/adw.js:135 ddterm/pref/shortcuts.js:132
 msgid "Keyboard Shortcuts"
 msgstr "Scorciatoie da tastiera"
 
-#: ddterm/pref/adw.js:133
+#: ddterm/pref/adw.js:150
 msgid "Miscellaneous"
 msgstr "Varie"
 
@@ -407,7 +408,7 @@ msgstr "Compatibilità"
 msgid "Panel Icon"
 msgstr "Icona del pannello"
 
-#: ddterm/pref/positionsize.js:114
+#: ddterm/pref/positionsize.js:84
 msgid "Position and Size"
 msgstr "Posizione e dimensione"
 
@@ -1271,16 +1272,16 @@ msgstr "Rileva \"news:\", \"man:\". URL"
 msgid "Failed to launch ddterm application"
 msgstr ""
 
-#: ddterm/shell/notifications.js:71 ddterm/shell/notifications.js:190
+#: ddterm/shell/notifications.js:67 ddterm/shell/notifications.js:135
 #, fuzzy
 msgid "Copy to Clipboard"
 msgstr "Incolla il testo dagli appunti"
 
-#: ddterm/shell/notifications.js:186
+#: ddterm/shell/notifications.js:131
 msgid "Details…"
 msgstr ""
 
-#: ddterm/shell/notifications.js:234
+#: ddterm/shell/notifications.js:179
 msgid "Install"
 msgstr ""
 

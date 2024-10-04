@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-04 16:38+0000\n"
+"POT-Creation-Date: 2024-10-04 23:00+0000\n"
 "PO-Revision-Date: 2024-03-19 15:01+0000\n"
 "Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/gnome-shell-"
@@ -21,87 +21,87 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.5-dev\n"
 
-#: ddterm/app/application.js:86
+#: ddterm/app/application.js:90
 msgid "Start the application, but do not show the window"
 msgstr "Iniciar la aplicación, sin mostrar la ventana"
 
-#: ddterm/app/application.js:95
+#: ddterm/app/application.js:99
 msgid "Comma-separated list of backends that GDK should try to use"
 msgstr "Backend que GDK debería utilizar, lista separada por comas"
 
-#: ddterm/app/application.js:113
+#: ddterm/app/application.js:117
 msgid "Show version information and exit"
 msgstr "Mostrar información sobre la versión y salir"
 
-#: ddterm/app/application.js:122
+#: ddterm/app/application.js:126
 msgid "Run the specified command"
 msgstr "Ejecutar el comando especificado"
 
-#: ddterm/app/application.js:136
+#: ddterm/app/application.js:140
 msgid "Wait for the command to exit, and return its exit code"
 msgstr ""
 "Esperar la finalización del comando y devolver el código de final de "
 "ejecución"
 
-#: ddterm/app/application.js:145
+#: ddterm/app/application.js:149
 msgid "Set the working directory"
 msgstr "Establecer el directorio de trabajo"
 
-#: ddterm/app/application.js:154
+#: ddterm/app/application.js:158
 msgid "Set tab title"
 msgstr "Renombrar el título de la pestaña"
 
-#: ddterm/app/application.js:163
+#: ddterm/app/application.js:167
 msgid "Keep the terminal open after the command has exited"
 msgstr "Mantener la terminal abierta tras la terminación del commando"
 
-#: ddterm/app/application.js:172
+#: ddterm/app/application.js:176
 msgid "Do not pass the environment"
 msgstr "No pasar el environment"
 
-#: ddterm/app/application.js:181
+#: ddterm/app/application.js:185
 msgid "Open a new tab"
 msgstr "Abrir nueva pestaña"
 
-#: ddterm/app/application.js:361
+#: ddterm/app/application.js:373
 msgid "Saving session…"
 msgstr "Guardando la sesión…"
 
-#: ddterm/app/application.js:416
+#: ddterm/app/application.js:428
 msgid "Can't contact the extension."
 msgstr "No puedo comunicarme con la extensión."
 
-#: ddterm/app/application.js:418 ddterm/app/application.js:544
+#: ddterm/app/application.js:430 ddterm/app/application.js:557
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr ""
 "Por favor, asegúrese de que la extensión ddterm GNOME Shell está activada."
 
-#: ddterm/app/application.js:542
+#: ddterm/app/application.js:555
 msgid "Can't read the version of the loaded extension."
 msgstr "No se puede leer la versión de la extensión cargada."
 
-#: ddterm/app/application.js:547 ddterm/shell/notifications.js:143
+#: ddterm/app/application.js:560 ddterm/shell/notifications.js:90
 msgid "Warning: ddterm version has changed"
 msgstr "Atención: La versión de ddterm ha cambiado"
 
-#: ddterm/app/application.js:548 ddterm/shell/notifications.js:145
+#: ddterm/app/application.js:561 ddterm/shell/notifications.js:92
 msgid "Log out, then log in again to load the updated extension."
 msgstr "Salir y entrar para cargar la versión actualizada de la extensión."
 
-#: ddterm/app/appwindow.js:149 ddterm/com.github.amezin.ddterm.desktop.in.in:4
-#: ddterm/shell/notifications.js:268 ddterm/shell/panelicon.js:44
+#: ddterm/app/appwindow.js:156 ddterm/com.github.amezin.ddterm.desktop.in.in:4
+#: ddterm/shell/notifications.js:214 ddterm/shell/panelicon.js:44
 msgid "ddterm"
 msgstr "ddterm"
 
-#: ddterm/app/dependencies.js:87 ddterm/shell/notifications.js:199
+#: ddterm/app/dependencies.js:87 ddterm/shell/notifications.js:144
 msgid "ddterm needs additional packages to run"
 msgstr "ddterm necesita paquetes adicionales para funcionar"
 
-#: ddterm/app/dependencies.js:92 ddterm/shell/notifications.js:204
+#: ddterm/app/dependencies.js:92 ddterm/shell/notifications.js:149
 msgid "Please install the following packages:"
 msgstr "Por favor instale los siguientes paquetes:"
 
-#: ddterm/app/dependencies.js:99 ddterm/shell/notifications.js:212
+#: ddterm/app/dependencies.js:99 ddterm/shell/notifications.js:157
 msgid "Please install packages that provide the following files:"
 msgstr "Por favor instale los paquetes que provean los siguientes archivos:"
 
@@ -166,7 +166,7 @@ msgid "Show in File Manager"
 msgstr "Mostrar en el administrador de archivos"
 
 #: ddterm/app/menus.ui:99 ddterm/app/menus.ui:230 ddterm/app/tablabel.js:114
-#: ddterm/shell/notifications.js:76
+#: ddterm/shell/notifications.js:72
 msgid "Close"
 msgstr "Cerrar"
 
@@ -218,7 +218,8 @@ msgstr "Dividir verticalmente"
 msgid "Move Tab to Other Pane"
 msgstr "Mover pestaña a otro monitor"
 
-#: ddterm/app/menus.ui:157 ddterm/app/prefsdialog.js:65
+#: ddterm/app/menus.ui:157 ddterm/app/prefsdialog.js:54
+#: ddterm/app/prefsdialog.legacy.js:66
 msgid "Preferences"
 msgstr "Ajustes"
 
@@ -369,19 +370,19 @@ msgstr "Otra extensión de terminal desplegable para GNOME Shell"
 msgid "Toggle"
 msgstr "Alternar"
 
-#: ddterm/pref/adw.js:77
+#: ddterm/pref/adw.js:88
 msgid "Window"
 msgstr "Ventana"
 
-#: ddterm/pref/adw.js:97
+#: ddterm/pref/adw.js:114
 msgid "Terminal"
 msgstr "Terminal"
 
-#: ddterm/pref/adw.js:118 ddterm/pref/shortcuts.js:132
+#: ddterm/pref/adw.js:135 ddterm/pref/shortcuts.js:132
 msgid "Keyboard Shortcuts"
 msgstr "Acortes de teclado"
 
-#: ddterm/pref/adw.js:133
+#: ddterm/pref/adw.js:150
 msgid "Miscellaneous"
 msgstr "Otros"
 
@@ -409,7 +410,7 @@ msgstr "Compatibilidad"
 msgid "Panel Icon"
 msgstr "Icono del panel"
 
-#: ddterm/pref/positionsize.js:114
+#: ddterm/pref/positionsize.js:84
 msgid "Position and Size"
 msgstr "Posición y tamaño"
 
@@ -1273,15 +1274,15 @@ msgstr "Detectar las urls \"news:\", \"man:\""
 msgid "Failed to launch ddterm application"
 msgstr "No se pudo iniciar la aplicación ddterm"
 
-#: ddterm/shell/notifications.js:71 ddterm/shell/notifications.js:190
+#: ddterm/shell/notifications.js:67 ddterm/shell/notifications.js:135
 msgid "Copy to Clipboard"
 msgstr "Copiar al portapapeles"
 
-#: ddterm/shell/notifications.js:186
+#: ddterm/shell/notifications.js:131
 msgid "Details…"
 msgstr "Detalles…"
 
-#: ddterm/shell/notifications.js:234
+#: ddterm/shell/notifications.js:179
 msgid "Install"
 msgstr "Instalar"
 

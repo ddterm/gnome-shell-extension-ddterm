@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-04 16:38+0000\n"
+"POT-Creation-Date: 2024-10-04 23:00+0000\n"
 "PO-Revision-Date: 2023-09-26 17:35+0300\n"
 "Last-Translator: Anagnostakis Ioannis <rizitis@gmail.com>\n"
 "Language-Team: Greek, Modern (1453-) <>\n"
@@ -17,88 +17,88 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-Basepath: .\n"
 
-#: ddterm/app/application.js:86
+#: ddterm/app/application.js:90
 msgid "Start the application, but do not show the window"
 msgstr ""
 
-#: ddterm/app/application.js:95
+#: ddterm/app/application.js:99
 msgid "Comma-separated list of backends that GDK should try to use"
 msgstr ""
 
-#: ddterm/app/application.js:113
+#: ddterm/app/application.js:117
 msgid "Show version information and exit"
 msgstr ""
 
-#: ddterm/app/application.js:122
+#: ddterm/app/application.js:126
 msgid "Run the specified command"
 msgstr ""
 
-#: ddterm/app/application.js:136
+#: ddterm/app/application.js:140
 msgid "Wait for the command to exit, and return its exit code"
 msgstr ""
 
-#: ddterm/app/application.js:145
+#: ddterm/app/application.js:149
 #, fuzzy
 msgid "Set the working directory"
 msgstr "Διατήρηση του καταλόγου εργασίας"
 
-#: ddterm/app/application.js:154
+#: ddterm/app/application.js:158
 #, fuzzy
 msgid "Set tab title"
 msgstr "Παραμετροποίση τίτλου καρτέλας"
 
-#: ddterm/app/application.js:163
+#: ddterm/app/application.js:167
 msgid "Keep the terminal open after the command has exited"
 msgstr ""
 
-#: ddterm/app/application.js:172
+#: ddterm/app/application.js:176
 msgid "Do not pass the environment"
 msgstr ""
 
-#: ddterm/app/application.js:181
+#: ddterm/app/application.js:185
 msgid "Open a new tab"
 msgstr ""
 
-#: ddterm/app/application.js:361
+#: ddterm/app/application.js:373
 msgid "Saving session…"
 msgstr ""
 
-#: ddterm/app/application.js:416
+#: ddterm/app/application.js:428
 msgid "Can't contact the extension."
 msgstr ""
 
-#: ddterm/app/application.js:418 ddterm/app/application.js:544
+#: ddterm/app/application.js:430 ddterm/app/application.js:557
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr ""
 
-#: ddterm/app/application.js:542
+#: ddterm/app/application.js:555
 msgid "Can't read the version of the loaded extension."
 msgstr ""
 
-#: ddterm/app/application.js:547 ddterm/shell/notifications.js:143
+#: ddterm/app/application.js:560 ddterm/shell/notifications.js:90
 msgid "Warning: ddterm version has changed"
 msgstr "Προειδοποίηση: η έκδοση ddterm έχει αλλάξει"
 
-#: ddterm/app/application.js:548 ddterm/shell/notifications.js:145
+#: ddterm/app/application.js:561 ddterm/shell/notifications.js:92
 msgid "Log out, then log in again to load the updated extension."
 msgstr ""
 "Αποσυνδεθείτε και, στη συνέχεια, συνδεθείτε ξανά για να φορτώσετε την "
 "ενημερωμένη επέκταση."
 
-#: ddterm/app/appwindow.js:149 ddterm/com.github.amezin.ddterm.desktop.in.in:4
-#: ddterm/shell/notifications.js:268 ddterm/shell/panelicon.js:44
+#: ddterm/app/appwindow.js:156 ddterm/com.github.amezin.ddterm.desktop.in.in:4
+#: ddterm/shell/notifications.js:214 ddterm/shell/panelicon.js:44
 msgid "ddterm"
 msgstr ""
 
-#: ddterm/app/dependencies.js:87 ddterm/shell/notifications.js:199
+#: ddterm/app/dependencies.js:87 ddterm/shell/notifications.js:144
 msgid "ddterm needs additional packages to run"
 msgstr "Το ddterm χρειάζεται επιπλέον πακέτα για να τρέξει"
 
-#: ddterm/app/dependencies.js:92 ddterm/shell/notifications.js:204
+#: ddterm/app/dependencies.js:92 ddterm/shell/notifications.js:149
 msgid "Please install the following packages:"
 msgstr "Χρειάζετε να εγκατασταθούν τα ακόλουθα πακέτα:"
 
-#: ddterm/app/dependencies.js:99 ddterm/shell/notifications.js:212
+#: ddterm/app/dependencies.js:99 ddterm/shell/notifications.js:157
 msgid "Please install packages that provide the following files:"
 msgstr "Παρακαλώ εγκαταστείστε τα πακέτα που περιγράφουν τα παρακάτω αρχεία :"
 
@@ -163,7 +163,7 @@ msgid "Show in File Manager"
 msgstr ""
 
 #: ddterm/app/menus.ui:99 ddterm/app/menus.ui:230 ddterm/app/tablabel.js:114
-#: ddterm/shell/notifications.js:76
+#: ddterm/shell/notifications.js:72
 msgid "Close"
 msgstr "Κλείσιμο"
 
@@ -216,7 +216,8 @@ msgstr ""
 msgid "Move Tab to Other Pane"
 msgstr "Επανατοποθέτηση καρτέλας μετά"
 
-#: ddterm/app/menus.ui:157 ddterm/app/prefsdialog.js:65
+#: ddterm/app/menus.ui:157 ddterm/app/prefsdialog.js:54
+#: ddterm/app/prefsdialog.legacy.js:66
 msgid "Preferences"
 msgstr "Προτιμήσεις"
 
@@ -371,19 +372,19 @@ msgstr ""
 msgid "Toggle"
 msgstr "Κουμπί εναλλαγής"
 
-#: ddterm/pref/adw.js:77
+#: ddterm/pref/adw.js:88
 msgid "Window"
 msgstr "Παράθυρο"
 
-#: ddterm/pref/adw.js:97
+#: ddterm/pref/adw.js:114
 msgid "Terminal"
 msgstr "Τερματικό"
 
-#: ddterm/pref/adw.js:118 ddterm/pref/shortcuts.js:132
+#: ddterm/pref/adw.js:135 ddterm/pref/shortcuts.js:132
 msgid "Keyboard Shortcuts"
 msgstr "Συντομεύσεις Πληκτρολογίου"
 
-#: ddterm/pref/adw.js:133
+#: ddterm/pref/adw.js:150
 msgid "Miscellaneous"
 msgstr "Διάφορα"
 
@@ -411,7 +412,7 @@ msgstr "Συμβατότητα"
 msgid "Panel Icon"
 msgstr "Εικονίδιο Πάνελ"
 
-#: ddterm/pref/positionsize.js:114
+#: ddterm/pref/positionsize.js:84
 msgid "Position and Size"
 msgstr "Θέση και μέγεθος"
 
@@ -1274,16 +1275,16 @@ msgstr "Εντόπιση \"news:\", \"man:\" URLs"
 msgid "Failed to launch ddterm application"
 msgstr ""
 
-#: ddterm/shell/notifications.js:71 ddterm/shell/notifications.js:190
+#: ddterm/shell/notifications.js:67 ddterm/shell/notifications.js:135
 #, fuzzy
 msgid "Copy to Clipboard"
 msgstr "Επικόλλιση απο Πρόχειρο"
 
-#: ddterm/shell/notifications.js:186
+#: ddterm/shell/notifications.js:131
 msgid "Details…"
 msgstr ""
 
-#: ddterm/shell/notifications.js:234
+#: ddterm/shell/notifications.js:179
 msgid "Install"
 msgstr ""
 
