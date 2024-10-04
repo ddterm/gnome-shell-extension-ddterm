@@ -31,21 +31,6 @@ import * as ModalDialog from 'resource:///org/gnome/shell/ui/modalDialog.js';
 import { find_package_installer } from './packagemanager.js';
 
 const DetailsDialog = GObject.registerClass({
-    Properties: {
-        'markup': GObject.ParamSpec.string(
-            'markup',
-            '',
-            '',
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
-            ''
-        ),
-        'gettext-context': GObject.ParamSpec.jsobject(
-            'gettext-context',
-            '',
-            '',
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY
-        ),
-    },
     Signals: {
         'copy-to-clipboard': {},
     },
