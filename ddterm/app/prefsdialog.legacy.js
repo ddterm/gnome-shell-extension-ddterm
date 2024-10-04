@@ -17,15 +17,27 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
 import Gtk from 'gi://Gtk';
 
 import Gettext from 'gettext';
 
-import { metadata } from './meta.js';
+import { metadata, dir } from './meta.js';
 import { DisplayConfig } from '../util/displayconfig.js';
-import { PrefsWidget } from '../pref/widget.js';
+
+const [fakeext_import_path] = GLib.filename_from_uri(
+    GLib.Uri.resolve_relative(import.meta.url, 'fakeext', GLib.UriFlags.NONE)
+);
+
+imports.searchPath.unshift(fakeext_import_path);
+
+const { setCurrentExtension, installImporter } = imports.misc.extensionUtils;
+const Me = { dir, metadata };
+
+installImporter(Me);
+setCurrentExtension(Me);
 
 export const PrefsDialog = GObject.registerClass({
     Properties: {
@@ -55,7 +67,7 @@ export const PrefsDialog = GObject.registerClass({
         this.set_default_size(640, 576);
         this.set_icon_name('preferences-system');
 
-        const widget = new PrefsWidget({
+        const widget = new Me.imports.ddterm.pref.widget.PrefsWidget({
             settings: this.settings,
             monitors: this.display_config.create_monitor_list(),
             gettext_context,

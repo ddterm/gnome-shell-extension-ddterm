@@ -2,11 +2,3 @@ root: true
 
 extends:
   - @common_eslintrc@
-
-overrides:
-  - files:
-    - ddterm/app/prefsdialog.js
-    rules:
-      no-unused-vars:
-        - error
-        - varsIgnorePattern: ^dir$|_$

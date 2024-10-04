@@ -10,7 +10,6 @@ app_js_files = files(
   'meta.js',
   'notebook.js',
   'pcre2.js',
-  'prefsdialog.js',
   'resources.js',
   'search.js',
   'settings.js',
@@ -28,17 +27,7 @@ app_ui_files = files(
   'menus.ui',
 )
 
-foreach app_file : app_js_files
-  built_js += custom_target(
-    command: preprocess_command,
-    input: app_file,
-    output: fs.name(app_file),
-    install: true,
-    install_dir: extension_dir / 'ddterm' / 'app',
-  )
-endforeach
-
-foreach app_file : app_ui_files + files('dependencies.json', 'style.css')
+foreach app_file : app_js_files + app_ui_files + files('dependencies.json', 'style.css')
   pack += fs.copyfile(
     app_file,
     fs.name(app_file),
@@ -46,6 +35,16 @@ foreach app_file : app_ui_files + files('dependencies.json', 'style.css')
     install_dir: extension_dir / 'ddterm' / 'app',
   )
 endforeach
+
+app_prefsdialog_file = files(get_option('esm') ? 'prefsdialog.js' : 'prefsdialog.legacy.js')
+app_js_files += app_prefsdialog_file
+
+pack += fs.copyfile(
+  app_prefsdialog_file,
+  'prefsdialog.js',
+  install: true,
+  install_dir: extension_dir / 'ddterm' / 'app',
+)
 
 subdir('icons')
 
