@@ -15,7 +15,7 @@ dialog without installation:
 
 * [`gtk4.js`] - launch Gtk 4 version of the dialog.
 
-However, you'll have to run `make` before invoking these scripts - to generate
+However, you'll have to run `ninja` before invoking these scripts - to generate
 the required `*.ui` files.
 
 [`ddterm/pref`]: /ddterm/pref
