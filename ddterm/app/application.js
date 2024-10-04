@@ -220,7 +220,14 @@ class Application extends Gtk.Application {
             this.activate();
         });
 
-        this.connect('startup', this.startup.bind(this));
+        this.connect('startup', () => {
+            try {
+                this.startup();
+            } catch (ex) {
+                logError(ex);
+                System.exit(1);
+            }
+        });
     }
 
     startup() {
