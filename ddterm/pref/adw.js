@@ -62,10 +62,21 @@ const Page = GObject.registerClass({
 
         group.add(widget);
         this.add(group);
+
+        return widget;
     }
 });
 
 export const WindowPage = GObject.registerClass({
+    Properties: {
+        'monitors': GObject.ParamSpec.object(
+            'monitors',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+            Gio.ListModel
+        ),
+    },
 }, class DDTermWindowPrefsPage extends Page {
     _init(params) {
         super._init({
@@ -76,8 +87,14 @@ export const WindowPage = GObject.registerClass({
 
         this.title = this.gettext_context.gettext('Window');
 
+        this.bind_property(
+            'monitors',
+            this.add_widget(PositionSizeWidget),
+            'monitors',
+            GObject.BindingFlags.SYNC_CREATE
+        );
+
         [
-            PositionSizeWidget,
             BehaviorWidget,
             AnimationWidget,
             TabsWidget,

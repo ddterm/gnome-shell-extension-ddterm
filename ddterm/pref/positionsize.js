@@ -27,9 +27,6 @@ import {
     set_scale_value_format,
     ui_file_uri
 } from './util.js';
-// BEGIN ESM
-import { DisplayConfig } from '../util/displayconfig.js';
-// END ESM
 
 export const PositionSizeWidget = GObject.registerClass({
     GTypeName: 'DDTermPrefsPositionSize',
@@ -47,6 +44,13 @@ export const PositionSizeWidget = GObject.registerClass({
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             Gio.Settings
         ),
+        'monitors': GObject.ParamSpec.object(
+            'monitors',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+            Gio.ListModel
+        ),
         'gettext-context': GObject.ParamSpec.jsobject(
             'gettext-context',
             '',
@@ -59,40 +63,6 @@ export const PositionSizeWidget = GObject.registerClass({
         super._init(params);
 
         insert_settings_actions(this, this.settings, ['window-monitor']);
-
-        // BEGIN !ESM
-        const destroy_cancel = new Gio.Cancellable();
-        this.connect('destroy', () => destroy_cancel.cancel());
-
-        import('../util/displayconfig.js').then(displayconfig => {
-            destroy_cancel.set_error_if_cancelled();
-
-            const display_config = new displayconfig.DisplayConfig({
-                dbus_connection: Gio.DBus.session,
-            });
-
-            destroy_cancel.connect(() => display_config.unwatch());
-
-            display_config.connect('notify::monitors', () => {
-                this.update_monitors(display_config.monitors);
-            });
-
-            display_config.update_async();
-        });
-        // END !ESM
-        // BEGIN ESM
-        const display_config = new DisplayConfig({
-            dbus_connection: Gio.DBus.session,
-        });
-
-        this.connect('destroy', () => display_config.unwatch());
-
-        display_config.connect('notify::monitors', () => {
-            this.update_monitors(display_config.monitors);
-        });
-
-        display_config.update_async();
-        // END ESM
 
         bind_widget(this.settings, 'window-monitor-connector', this.monitor_combo);
 
@@ -114,20 +84,37 @@ export const PositionSizeWidget = GObject.registerClass({
         return this.gettext_context.gettext('Position and Size');
     }
 
+    get monitors() {
+        return this._monitors;
+    }
+
+    set monitors(value) {
+        const prev_count = this._monitors?.get_n_items() ?? 0;
+
+        this._monitors?.disconnect(this._monitors_handler);
+
+        this._monitors = value;
+        this._monitors_handler = value?.connect('items-changed', this.update_monitors.bind(this));
+
+        this.update_monitors(value, 0, prev_count, value?.get_n_items() ?? 0);
+    }
+
     enable_monitor_combo() {
         this.monitor_combo.sensitive =
             this.settings.get_string('window-monitor') === 'connector';
     }
 
-    update_monitors(monitors) {
+    update_monitors(model, position, removed, added) {
         this.monitor_combo.freeze_notify();
 
         try {
-            this.monitor_combo.remove_all();
+            while (removed--)
+                this.monitor_combo.remove(position);
 
-            for (const { connector, model, display_name } of monitors) {
-                const description = `${display_name} - ${model} (${connector})`;
-                this.monitor_combo.append(connector, description);
+            for (let i = position; i < position + added; i++) {
+                const { connector, display_name, product } = model.get_item(i);
+                const description = `${display_name} - ${product} (${connector})`;
+                this.monitor_combo.insert(i, connector, description);
             }
 
             this.monitor_combo.active_id = this.settings.get_string('window-monitor-connector');

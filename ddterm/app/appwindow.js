@@ -82,6 +82,13 @@ export const AppWindow = GObject.registerClass({
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             Gio.DBusProxy
         ),
+        'display-config': GObject.ParamSpec.object(
+            'display-config',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+            DisplayConfig
+        ),
         'resize-handle': GObject.ParamSpec.boolean(
             'resize-handle',
             '',
@@ -360,20 +367,12 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
         if (display.constructor.$gtype.name !== 'GdkWaylandDisplay')
             return;
 
-        this.display_config = new DisplayConfig({
-            dbus_connection: this.application.get_dbus_connection(),
-        });
-
-        this.connect('destroy', () => this.display_config.unwatch());
-
         const display_config_handler = this.display_config.connect('notify::layout-mode', () => {
             if (!this.visible)
                 this.sync_size_with_extension();
         });
 
         this.connect('destroy', () => this.display_config.disconnect(display_config_handler));
-
-        this.display_config.update_sync();
 
         const dbus_handler = this.extension_dbus.connect(
             'g-properties-changed',

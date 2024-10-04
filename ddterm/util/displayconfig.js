@@ -61,12 +61,6 @@ export const DisplayConfig = GObject.registerClass({
             GObject.ParamFlags.READABLE,
             0
         ),
-        'monitors': GObject.ParamSpec.jsobject(
-            'monitors',
-            '',
-            '',
-            GObject.ParamFlags.READABLE
-        ),
     },
 }, class DDTermDisplayConfig extends GObject.Object {
     _init(params) {
@@ -74,7 +68,6 @@ export const DisplayConfig = GObject.registerClass({
 
         this._cancellable = null;
         this._layout_mode = 0;
-        this._monitors = [];
         this._serial = -1;
 
         this._change_handler = this.dbus_connection.signal_subscribe(
@@ -88,6 +81,14 @@ export const DisplayConfig = GObject.registerClass({
         );
     }
 
+    static new() {
+        const obj = new DisplayConfig({ dbus_connection: Gio.DBus.session });
+
+        obj.update_async();
+
+        return obj;
+    }
+
     get current_state() {
         return this._current_state;
     }
@@ -96,8 +97,17 @@ export const DisplayConfig = GObject.registerClass({
         return this._layout_mode;
     }
 
-    get monitors() {
-        return this._monitors;
+    create_monitor_list() {
+        const monitors = new MonitorList();
+
+        this.bind_property(
+            'current-state',
+            monitors,
+            'current-state',
+            this._current_state ? GObject.BindingFlags.SYNC_CREATE : GObject.BindingFlags.DEFAULT
+        );
+
+        return monitors;
     }
 
     update_sync() {
@@ -145,17 +155,6 @@ export const DisplayConfig = GObject.registerClass({
         );
     }
 
-    static _parse_monitor(monitor) {
-        const [ids, modes_, props] = monitor.unpack();
-        const [connector, vendor_, model, monitor_serial_] = ids.deep_unpack();
-        let display_name = props.deep_unpack()['display-name'];
-
-        if (display_name instanceof GLib.Variant)
-            display_name = display_name.unpack();
-
-        return { connector, model, display_name };
-    }
-
     _parse_current_state(state) {
         const serial = state.get_child_value(0).get_uint32();
         if (serial <= this._serial)
@@ -175,10 +174,6 @@ export const DisplayConfig = GObject.registerClass({
                 this._layout_mode = layout_mode;
                 this.notify('layout-mode');
             }
-
-            const monitors = this.current_state.get_child_value(1);
-            this._monitors = monitors.unpack().map(DisplayConfig._parse_monitor);
-            this.notify('monitors');
         } finally {
             this.thaw_notify();
         }
@@ -191,5 +186,142 @@ export const DisplayConfig = GObject.registerClass({
         }
 
         this._cancellable?.cancel();
+    }
+});
+
+export const Monitor = GObject.registerClass({
+    Properties: {
+        'connector': GObject.ParamSpec.string(
+            'connector',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+            ''
+        ),
+        'vendor': GObject.ParamSpec.string(
+            'vendor',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+            ''
+        ),
+        'product': GObject.ParamSpec.string(
+            'product',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+            ''
+        ),
+        'serial': GObject.ParamSpec.string(
+            'serial',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+            ''
+        ),
+        'display-name': GObject.ParamSpec.string(
+            'display-name',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+            ''
+        ),
+    },
+}, class DDTermMonitor extends GObject.Object {
+    static properties_from_variant(variant) {
+        const ids = variant.get_child_value(0);
+        const [connector, vendor, product, serial] = ids.deep_unpack();
+        const props = variant.get_child_value(2);
+        const display_name =
+            props.lookup_value('display-name', new GLib.VariantType('s'))?.unpack() ?? null;
+
+        return { connector, vendor, product, serial, display_name };
+    }
+
+    matches(properties) {
+        return Object.entries(properties).every(([k, v]) => this[k] === v);
+    }
+});
+
+export const MonitorList = GObject.registerClass({
+    Implements: [Gio.ListModel],
+    Properties: {
+        'current-state': GObject.param_spec_variant(
+            'current-state',
+            '',
+            '',
+            CURRENT_STATE_TYPE,
+            null,
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY
+        ),
+    },
+}, class DDTermMonitorList extends GObject.Object {
+    _init(params) {
+        this._objects = [];
+
+        super._init(params);
+    }
+
+    vfunc_get_item(position) {
+        if (position >= this._objects.length)
+            return 0;
+
+        return this._objects[position];
+    }
+
+    vfunc_get_item_type() {
+        return Monitor.$gtype;
+    }
+
+    vfunc_get_n_items() {
+        return this._objects.length;
+    }
+
+    get current_state() {
+        return this._current_state;
+    }
+
+    set current_state(value) {
+        if (this._current_state?.equal(value))
+            return;
+
+        const monitors = value.get_child_value(1);
+        const properties = Array.from(
+            { length: monitors.n_children() },
+            (_, i) => Monitor.properties_from_variant(monitors.get_child_value(i))
+        );
+
+        const max_same = Math.min(properties.length, this._objects.length);
+        let same_head = 0;
+
+        while (same_head < max_same && this._objects[same_head].matches(properties[same_head]))
+            same_head++;
+
+        const max_same_tail = max_same - same_head;
+        let same_tail = 0;
+
+        while (
+            same_tail < max_same_tail &&
+            this._objects[this._objects.length - same_tail - 1].matches(
+                properties[properties.length - same_tail - 1]
+            )
+        )
+            same_tail++;
+
+        const n_same = same_head + same_tail;
+
+        if (properties.length !== n_same || this._objects.length !== n_same) {
+            const remove = this._objects.length - n_same;
+            const add = [];
+
+            for (let i = same_head; i < properties.length - same_tail; i++)
+                add.push(new Monitor(properties[i]));
+
+            this._objects.splice(same_head, remove, ...add);
+            this.items_changed(same_head, remove, add.length);
+        }
+
+        this._current_state = value;
+        this.notify('current-state');
     }
 });

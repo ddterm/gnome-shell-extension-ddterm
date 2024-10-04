@@ -25,6 +25,7 @@ import Gettext from 'gettext';
 import { PrefsDialog } from '../../app/prefsdialog.js';
 import { get_settings } from '../../app/settings.js';
 import { dir, metadata } from '../../app/meta.js';
+import { DisplayConfig } from '../../util/displayconfig.js';
 
 export const Application = GObject.registerClass({
 }, class Application extends Gtk.Application {
@@ -43,6 +44,9 @@ export const Application = GObject.registerClass({
 
         this.settings = get_settings();
         this.gettext_context = Gettext.domain(metadata['gettext-domain']);
+        this.display_config = DisplayConfig.new();
+
+        this.connect('shutdown', () => this.display_config.unwatch());
     }
 
     activate() {
@@ -52,6 +56,7 @@ export const Application = GObject.registerClass({
     preferences() {
         const prefs_dialog = new PrefsDialog({
             settings: this.settings,
+            display_config: this.display_config,
             application: this,
         });
 

@@ -42,6 +42,13 @@ export const PrefsWidget = GObject.registerClass({
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             Gio.Settings
         ),
+        'monitors': GObject.ParamSpec.object(
+            'monitors',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+            Gio.ListModel
+        ),
         'gettext-context': GObject.ParamSpec.jsobject(
             'gettext-context',
             '',
@@ -99,7 +106,13 @@ export const PrefsWidget = GObject.registerClass({
         else
             this.pack_end(scrolled_window, true, true, 0);
 
-        this.add_page('position-size', PositionSizeWidget);
+        this.bind_property(
+            'monitors',
+            this.add_page('position-size', PositionSizeWidget),
+            'monitors',
+            GObject.BindingFlags.SYNC_CREATE
+        );
+
         this.add_page('behavior', BehaviorWidget);
         this.add_page('animation', AnimationWidget);
         this.add_page('tabs', TabsWidget);
@@ -119,5 +132,7 @@ export const PrefsWidget = GObject.registerClass({
         });
 
         this.stack.add_titled(widget, name, widget.title);
+
+        return widget;
     }
 });

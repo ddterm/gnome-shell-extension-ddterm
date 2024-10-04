@@ -38,6 +38,7 @@ import { get_settings } from './settings.js';
 import { TerminalCommand } from './terminal.js';
 import { TerminalSettings, TerminalSettingsParser } from './terminalsettings.js';
 import { WIFEXITED, WEXITSTATUS, WTERMSIG } from './waitstatus.js';
+import { DisplayConfig } from '../util/displayconfig.js';
 
 function schedule_gc() {
     GLib.idle_add(GLib.PRIORITY_DEFAULT, () => {
@@ -285,6 +286,13 @@ class Application extends Gtk.Application {
             gsettings: this.settings,
             desktop_settings,
         }).bind_settings(this.terminal_settings);
+
+        this.display_config = new DisplayConfig({
+            dbus_connection: this.get_dbus_connection(),
+        });
+
+        this.connect('shutdown', () => this.display_config.unwatch());
+        this.display_config.update_sync();
 
         this.simple_action('toggle', () => this.ensure_window_with_terminal().toggle());
         this.simple_action('show', () => this.ensure_window_with_terminal().show());
@@ -553,28 +561,25 @@ class Application extends Gtk.Application {
     }
 
     get extension_dbus() {
-        if ('_extension_dbus' in this)
+        if (this._extension_dbus)
             return this._extension_dbus;
 
         this._extension_dbus = create_extension_dbus_proxy();
         return this._extension_dbus;
     }
 
-    _create_window() {
-        return new AppWindow({
+    ensure_window() {
+        if (this.window)
+            return this.window;
+
+        this.window = new AppWindow({
             application: this,
             decorated: false,
             settings: this.settings,
             terminal_settings: this.terminal_settings,
             extension_dbus: this.extension_dbus,
+            display_config: this.display_config,
         });
-    }
-
-    ensure_window() {
-        if (this.window)
-            return this.window;
-
-        this.window = this._create_window();
 
         this.window.connect('destroy', source => {
             if (source === this.window)
@@ -607,6 +612,7 @@ class Application extends Gtk.Application {
             this.prefs_dialog = new mod.PrefsDialog({
                 transient_for: this.window,
                 settings: this.settings,
+                display_config: this.display_config,
                 application: this,
             });
 

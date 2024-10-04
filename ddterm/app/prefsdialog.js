@@ -27,6 +27,7 @@ import Gtk from 'gi://Gtk';
 import Gettext from 'gettext';
 
 import { metadata, dir } from './meta.js';
+import { DisplayConfig } from '../util/displayconfig.js';
 // BEGIN ESM
 import { PrefsWidget } from '../pref/widget.js';
 // END ESM
@@ -54,6 +55,13 @@ export const PrefsDialog = GObject.registerClass({
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             Gio.Settings
         ),
+        'display-config': GObject.ParamSpec.object(
+            'display-config',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+            DisplayConfig
+        ),
     },
 }, class PrefsDialog extends Gtk.Dialog {
     _init(params) {
@@ -61,6 +69,7 @@ export const PrefsDialog = GObject.registerClass({
         this.__heapgraph_name = this.constructor.$gtype.name;
 
         const gettext_context = Gettext.domain(metadata['gettext-domain']);
+        const monitors = this.display_config.create_monitor_list();
 
         this.set_title(gettext_context.gettext('Preferences'));
         this.set_default_size(640, 576);
@@ -68,14 +77,12 @@ export const PrefsDialog = GObject.registerClass({
 
         let widget;
         // BEGIN ESM
-        widget = new PrefsWidget({
-            settings: this.settings,
-            gettext_context,
-        });
+        widget = new PrefsWidget({ settings: this.settings, monitors, gettext_context });
         // END ESM
         // BEGIN !ESM
         widget = new Me.imports.ddterm.pref.widget.PrefsWidget({
             settings: this.settings,
+            monitors,
             gettext_context,
         });
         // END !ESM
