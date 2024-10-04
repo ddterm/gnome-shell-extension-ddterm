@@ -22,7 +22,7 @@ rules:
     - max: 1
   jsdoc/require-jsdoc: off
 settings:
-  import/resolver: tools/import-resolver.js
+  import/resolver: lint/import-resolver.js
   import/core-modules:
     - gettext
     - gi

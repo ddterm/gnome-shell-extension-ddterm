@@ -5,7 +5,7 @@ extends:
 
 overrides:
   - files:
-      - tools/import-resolver.js
+      - lint/import-resolver.js
     parserOptions:
       sourceType: commonjs
     env:
