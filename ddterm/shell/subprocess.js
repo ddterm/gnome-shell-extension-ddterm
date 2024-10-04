@@ -113,8 +113,9 @@ class TeeLogCollector {
         this._stream = Gio.DataInputStream.new(stream);
         this._stderr = fd_output_stream(STDERR_FD, false);
         this._collected = [];
-        this._promise = new Promise(resolve => {
+        this._promise = new Promise((resolve, reject) => {
             this._resolve = resolve;
+            this._reject = reject;
         });
 
         this._read_more();
@@ -125,23 +126,27 @@ class TeeLogCollector {
     }
 
     _read_done(source, result) {
-        const [line] = source.read_line_finish(result);
+        try {
+            const [line] = source.read_line_finish(result);
 
-        if (line === null) {
-            this._stream.close(null);
-            this._stderr.close(null);
-            this._resolve();
-            return;
+            if (line === null) {
+                this._stream.close(null);
+                this._stderr.close(null);
+                this._resolve();
+                return;
+            }
+
+            this._collected.push(line);
+
+            while (this._collected.length > KEEP_LOG_LINES)
+                this._collected.shift();
+
+            this._stderr.write(line, null);
+            this._stderr.write('\n', null);
+            this._read_more();
+        } catch (ex) {
+            this._reject(ex);
         }
-
-        this._collected.push(line);
-
-        while (this._collected.length > KEEP_LOG_LINES)
-            this._collected.shift();
-
-        this._stderr.write(line, null);
-        this._stderr.write('\n', null);
-        this._read_more();
     }
 
     async collect() {
