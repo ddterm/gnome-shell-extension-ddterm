@@ -17,15 +17,17 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-// BEGIN ESM
 import GLib from 'gi://GLib';
-// END ESM
 import Gio from 'gi://Gio';
 import Gtk from 'gi://Gtk';
-// BEGIN !ESM
 
-const Me = imports.misc.extensionUtils.getCurrentExtension();
-// END !ESM
+const BASE_URI = `@PREF_BASE_URI@`;
+const UI_BASE_URI =
+    GLib.Uri.resolve_relative(BASE_URI, `ui/gtk${Gtk.get_major_version()}/`, GLib.UriFlags.NONE);
+
+export function ui_file_uri(name) {
+    return GLib.Uri.resolve_relative(UI_BASE_URI, name, GLib.UriFlags.NONE);
+}
 
 export function set_scale_value_format(scale, format) {
     const formatter = (_, value) => format.format(value);
@@ -89,18 +91,4 @@ export function insert_settings_actions(widget, settings, keys) {
 
     widget.insert_action_group('settings', group);
     return group;
-}
-
-export function ui_file_uri(name) {
-    // BEGIN ESM
-    return GLib.Uri.resolve_relative(
-        import.meta.url,
-        `ui/gtk${Gtk.get_major_version()}/${name}`,
-        GLib.UriFlags.NONE
-    );
-    // END ESM
-    // BEGIN !ESM
-    // eslint-disable-next-line no-unreachable -- eslint doesn't understand our "preprocessor"
-    return `${Me.dir.get_uri()}/ddterm/pref/ui/gtk${Gtk.get_major_version()}/${name}`;
-    // END !ESM
 }

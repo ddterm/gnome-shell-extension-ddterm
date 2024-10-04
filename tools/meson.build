@@ -12,7 +12,7 @@ else
 endif
 
 gjs_translate_esm_command = [
-  gjs, files('translate-esm.js'), '-o', '@OUTPUT@', '-d', meson.project_build_root(), '@INPUT@'
+  gjs, files('translate-esm.js'), '-o', '@OUTPUT@', '@INPUT@'
 ]
 
 make_zip_command = [

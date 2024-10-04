@@ -21,3 +21,10 @@ overrides:
       - tools/translate-esm.js
     parserOptions:
       sourceType: script
+  - files:
+      - ddterm/pref/util.js
+    rules:
+      quotes:
+        - error
+        - single
+        - allowTemplateLiterals: true
