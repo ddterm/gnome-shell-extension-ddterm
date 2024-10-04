@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-04 01:34+0000\n"
+"POT-Creation-Date: 2024-10-04 16:38+0000\n"
 "PO-Revision-Date: 2024-04-10 20:01+0000\n"
 "Last-Translator: Stepan <stepan.miroshnikov@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/gnome-shell-"
@@ -79,28 +79,28 @@ msgstr "Убедитесь, что расширение ddterm GNOME Shell вк�
 msgid "Can't read the version of the loaded extension."
 msgstr "Невозможно получить версию загруженного расширения."
 
-#: ddterm/app/application.js:547 ddterm/shell/notifications.js:158
+#: ddterm/app/application.js:547 ddterm/shell/notifications.js:143
 msgid "Warning: ddterm version has changed"
 msgstr "Внимание: версия ddterm изменилась"
 
-#: ddterm/app/application.js:548 ddterm/shell/notifications.js:160
+#: ddterm/app/application.js:548 ddterm/shell/notifications.js:145
 msgid "Log out, then log in again to load the updated extension."
 msgstr "Завершите сессию и снова войдите для применения обновлений расширения."
 
 #: ddterm/app/appwindow.js:149 ddterm/com.github.amezin.ddterm.desktop.in.in:4
-#: ddterm/shell/notifications.js:283 ddterm/shell/panelicon.js:44
+#: ddterm/shell/notifications.js:268 ddterm/shell/panelicon.js:44
 msgid "ddterm"
 msgstr "ddterm"
 
-#: ddterm/app/dependencies.js:87 ddterm/shell/notifications.js:214
+#: ddterm/app/dependencies.js:87 ddterm/shell/notifications.js:199
 msgid "ddterm needs additional packages to run"
 msgstr "ddterm требуются дополнительные пакеты для запуска"
 
-#: ddterm/app/dependencies.js:92 ddterm/shell/notifications.js:219
+#: ddterm/app/dependencies.js:92 ddterm/shell/notifications.js:204
 msgid "Please install the following packages:"
 msgstr "Необходимо установить указанные пакеты:"
 
-#: ddterm/app/dependencies.js:99 ddterm/shell/notifications.js:227
+#: ddterm/app/dependencies.js:99 ddterm/shell/notifications.js:212
 msgid "Please install packages that provide the following files:"
 msgstr "Необходимо установить пакеты, содержащие следующие файлы:"
 
@@ -165,7 +165,7 @@ msgid "Show in File Manager"
 msgstr "Показать в файловом менеджере"
 
 #: ddterm/app/menus.ui:99 ddterm/app/menus.ui:230 ddterm/app/tablabel.js:114
-#: ddterm/shell/notifications.js:91
+#: ddterm/shell/notifications.js:76
 msgid "Close"
 msgstr "Закрыть"
 
@@ -1266,15 +1266,15 @@ msgstr "Ссылки вида \"news:\", \"man:\""
 msgid "Failed to launch ddterm application"
 msgstr "Не удалось запустить приложение ddterm"
 
-#: ddterm/shell/notifications.js:86 ddterm/shell/notifications.js:205
+#: ddterm/shell/notifications.js:71 ddterm/shell/notifications.js:190
 msgid "Copy to Clipboard"
 msgstr "Копировать в буфер обмена"
 
-#: ddterm/shell/notifications.js:201
+#: ddterm/shell/notifications.js:186
 msgid "Details…"
 msgstr "Подробнее…"
 
-#: ddterm/shell/notifications.js:249
+#: ddterm/shell/notifications.js:234
 msgid "Install"
 msgstr "Установка"
 

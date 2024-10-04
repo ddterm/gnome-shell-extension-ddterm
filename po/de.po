@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-04 01:34+0000\n"
+"POT-Creation-Date: 2024-10-04 16:38+0000\n"
 "PO-Revision-Date: 2024-02-15 20:22+0100\n"
 "Last-Translator: Philipp Kiemle <philipp.kiemle@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/gnome-shell-"
@@ -79,29 +79,29 @@ msgstr ""
 msgid "Can't read the version of the loaded extension."
 msgstr "Die Version der geladenen Erweiterung konnte nicht ermittelt werden."
 
-#: ddterm/app/application.js:547 ddterm/shell/notifications.js:158
+#: ddterm/app/application.js:547 ddterm/shell/notifications.js:143
 msgid "Warning: ddterm version has changed"
 msgstr "Warnung: Die Version von ddterm hat sich geändert"
 
-#: ddterm/app/application.js:548 ddterm/shell/notifications.js:160
+#: ddterm/app/application.js:548 ddterm/shell/notifications.js:145
 msgid "Log out, then log in again to load the updated extension."
 msgstr ""
 "Melden Sie sich ab und wieder an, um die aktualisierte Erweiterung zu laden."
 
 #: ddterm/app/appwindow.js:149 ddterm/com.github.amezin.ddterm.desktop.in.in:4
-#: ddterm/shell/notifications.js:283 ddterm/shell/panelicon.js:44
+#: ddterm/shell/notifications.js:268 ddterm/shell/panelicon.js:44
 msgid "ddterm"
 msgstr "ddterm"
 
-#: ddterm/app/dependencies.js:87 ddterm/shell/notifications.js:214
+#: ddterm/app/dependencies.js:87 ddterm/shell/notifications.js:199
 msgid "ddterm needs additional packages to run"
 msgstr "ddterm benötigt zusätzliche Pakete zur Ausführung"
 
-#: ddterm/app/dependencies.js:92 ddterm/shell/notifications.js:219
+#: ddterm/app/dependencies.js:92 ddterm/shell/notifications.js:204
 msgid "Please install the following packages:"
 msgstr "Bitte installieren Sie die folgenden Pakete:"
 
-#: ddterm/app/dependencies.js:99 ddterm/shell/notifications.js:227
+#: ddterm/app/dependencies.js:99 ddterm/shell/notifications.js:212
 msgid "Please install packages that provide the following files:"
 msgstr "Bitte installieren Sie Pakete, die folgende Dateien bereitstellen:"
 
@@ -166,7 +166,7 @@ msgid "Show in File Manager"
 msgstr "In Dateiverwaltung anzeigen"
 
 #: ddterm/app/menus.ui:99 ddterm/app/menus.ui:230 ddterm/app/tablabel.js:114
-#: ddterm/shell/notifications.js:91
+#: ddterm/shell/notifications.js:76
 msgid "Close"
 msgstr "Schließen"
 
@@ -1269,15 +1269,15 @@ msgstr "\"news:\", \"man:\"-URLs erkennen"
 msgid "Failed to launch ddterm application"
 msgstr "Starten der ddterm-Anwendung fehlgeschlagen"
 
-#: ddterm/shell/notifications.js:86 ddterm/shell/notifications.js:205
+#: ddterm/shell/notifications.js:71 ddterm/shell/notifications.js:190
 msgid "Copy to Clipboard"
 msgstr "In Zwischenablage kopieren"
 
-#: ddterm/shell/notifications.js:201
+#: ddterm/shell/notifications.js:186
 msgid "Details…"
 msgstr ""
 
-#: ddterm/shell/notifications.js:249
+#: ddterm/shell/notifications.js:234
 msgid "Install"
 msgstr "Installieren"
 

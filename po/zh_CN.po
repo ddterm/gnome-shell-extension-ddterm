@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-04 01:34+0000\n"
+"POT-Creation-Date: 2024-10-04 16:38+0000\n"
 "PO-Revision-Date: 2024-08-26 08:09+0000\n"
 "Last-Translator: yuh <yuhldr@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -74,28 +74,28 @@ msgstr "请确保ddterm在GNOME扩展中可用。"
 msgid "Can't read the version of the loaded extension."
 msgstr "无法读取已加载扩展插件的版本。"
 
-#: ddterm/app/application.js:547 ddterm/shell/notifications.js:158
+#: ddterm/app/application.js:547 ddterm/shell/notifications.js:143
 msgid "Warning: ddterm version has changed"
 msgstr "警告：ddterm版本已改变"
 
-#: ddterm/app/application.js:548 ddterm/shell/notifications.js:160
+#: ddterm/app/application.js:548 ddterm/shell/notifications.js:145
 msgid "Log out, then log in again to load the updated extension."
 msgstr "注销后重新登录，方可生效。"
 
 #: ddterm/app/appwindow.js:149 ddterm/com.github.amezin.ddterm.desktop.in.in:4
-#: ddterm/shell/notifications.js:283 ddterm/shell/panelicon.js:44
+#: ddterm/shell/notifications.js:268 ddterm/shell/panelicon.js:44
 msgid "ddterm"
 msgstr "ddterm"
 
-#: ddterm/app/dependencies.js:87 ddterm/shell/notifications.js:214
+#: ddterm/app/dependencies.js:87 ddterm/shell/notifications.js:199
 msgid "ddterm needs additional packages to run"
 msgstr "ddterm需要额外的软件包才能运行"
 
-#: ddterm/app/dependencies.js:92 ddterm/shell/notifications.js:219
+#: ddterm/app/dependencies.js:92 ddterm/shell/notifications.js:204
 msgid "Please install the following packages:"
 msgstr "请安装以下软件包："
 
-#: ddterm/app/dependencies.js:99 ddterm/shell/notifications.js:227
+#: ddterm/app/dependencies.js:99 ddterm/shell/notifications.js:212
 msgid "Please install packages that provide the following files:"
 msgstr "请安装提供以下文件的软件包："
 
@@ -160,7 +160,7 @@ msgid "Show in File Manager"
 msgstr "在文件管理器中显示"
 
 #: ddterm/app/menus.ui:99 ddterm/app/menus.ui:230 ddterm/app/tablabel.js:114
-#: ddterm/shell/notifications.js:91
+#: ddterm/shell/notifications.js:76
 msgid "Close"
 msgstr "关闭"
 
@@ -1259,15 +1259,15 @@ msgstr "检测 \"news:\"、\"man:\" URLs"
 msgid "Failed to launch ddterm application"
 msgstr "无法启动ddterm应用程序"
 
-#: ddterm/shell/notifications.js:86 ddterm/shell/notifications.js:205
+#: ddterm/shell/notifications.js:71 ddterm/shell/notifications.js:190
 msgid "Copy to Clipboard"
 msgstr "复制到剪贴板"
 
-#: ddterm/shell/notifications.js:201
+#: ddterm/shell/notifications.js:186
 msgid "Details…"
 msgstr "细节……"
 
-#: ddterm/shell/notifications.js:249
+#: ddterm/shell/notifications.js:234
 msgid "Install"
 msgstr "安装"
 
