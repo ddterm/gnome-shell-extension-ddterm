@@ -148,6 +148,10 @@ class LogParser(threading.Thread):
                 if poll.poll(0):
                     continue
 
+                # Incomplete line - incomplete message
+                if not chunk.endswith(b'\n'):
+                    continue
+
                 try:
                     process(b''.join(buffer))
                 except Exception:
