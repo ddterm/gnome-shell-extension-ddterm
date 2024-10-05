@@ -32,6 +32,7 @@ jobs:
     env:
       FORCE_COLOR: 1
       PIP_DISABLE_PIP_VERSION_CHECK: 1
+      LOG_STDIO: '["debian-12", "fedora-41"]'
 
     steps:
     - name: Checkout
@@ -89,6 +90,7 @@ jobs:
         --junitxml=junit.xml
         --container ${{ matrix.service }}
         --package ../*.shell-extension.zip
+        ${{ !contains(fromJson(env.LOG_STDIO), matrix.service) && '--journald' || '' }}
         -n auto
         -vv
       working-directory: test

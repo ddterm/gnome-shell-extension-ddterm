@@ -41,6 +41,13 @@ def pytest_addoption(parser):
     )
 
     parser.addoption(
+        '--journald',
+        action='store_true',
+        default=False,
+        help='Redirect GNOME Shell output to journald (only in containers).'
+    )
+
+    parser.addoption(
         '--hw-accel',
         action='store_true',
         default=False,

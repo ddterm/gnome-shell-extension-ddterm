@@ -231,12 +231,14 @@ class GnomeSessionFixtures:
     @pytest.fixture(scope='class')
     def shell_process(
         self,
+        container,
         process_launcher,
         gnome_shell_environment,
         gnome_shell_args,
         dbus_daemon,
         dbus_connection,
         dbus_environment,
+        request,
     ):
         LOGGER.info('GNOME Shell environment: %r', gnome_shell_environment)
 
@@ -282,6 +284,11 @@ class GnomeSessionFixtures:
             env=dbus_environment,
         )
 
+        if container and request.config.option.journald:
+            wrapper = ('systemd-cat',)
+        else:
+            wrapper = tuple()
+
         with contextlib.ExitStack() as stack:
             with contextlib.ExitStack() as launch_stack:
                 stdout_pipe_r, stdout_pipe_w = os.pipe2(os.O_CLOEXEC | os.O_DIRECT)
@@ -321,6 +328,7 @@ class GnomeSessionFixtures:
 
                 proc = stack.enter_context(
                     process_launcher.spawn(
+                        *wrapper,
                         'gnome-shell',
                         '--sm-disable',
                         '--unsafe-mode',
