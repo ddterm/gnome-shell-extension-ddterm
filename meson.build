@@ -24,7 +24,7 @@ schema_dir = datadir / 'glib-2.0' / 'schemas'
 applications_dir = datadir / 'applications'
 dbus_service_dir = datadir / 'dbus-1' / 'services'
 
-if get_option('buildtype') == 'debug'
+if get_option('debug')
   devtools_required = false
 else
   devtools_required = disabler()
