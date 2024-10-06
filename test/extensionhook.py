@@ -35,6 +35,12 @@ class Proxy(_Base):
 
         self.connect('notify::HasWindow', _discard_pspec(Proxy.reset_seen_transitions))
         self.connect('notify::Transitions', _discard_pspec(Proxy._snapshot_transitions))
+        self.connect('notify::WindowRect', _discard_pspec(Proxy._snapshot_window_rect))
+        self.connect('notify::HasWindow', _discard_pspec(Proxy.reset_window_rect_snapshots))
+        self.connect(
+            'notify::RenderedFirstFrame',
+            _discard_pspec(Proxy.reset_window_rect_snapshots)
+        )
 
     @classmethod
     def create(cls, shell_hook, timeout=None):
@@ -81,6 +87,30 @@ class Proxy(_Base):
     def reset_seen_transitions(self):
         self.seen_transitions = set()
         self._snapshot_transitions()
+
+    def _snapshot_window_rect(self):
+        if not self.HasWindow or not self.RenderedFirstFrame:
+            return
+
+        current = self.WindowRect
+
+        if not current:
+            return
+
+        if current.width == 0 and current.height == 0:
+            return
+
+        prev = None
+
+        if self.window_rect_snapshots:
+            prev = self.window_rect_snapshots[-1]
+
+        if prev != current:
+            self.window_rect_snapshots.append(current)
+
+    def reset_window_rect_snapshots(self):
+        self.window_rect_snapshots = []
+        self._snapshot_window_rect()
 
     def Destroy(self, **kwargs):
         if self.is_connected():

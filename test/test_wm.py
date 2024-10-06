@@ -404,6 +404,10 @@ class CommonTests:
     def max_size_allocations(self):
         return 1
 
+    @pytest.fixture
+    def max_window_rect_changes(self):
+        return 1
+
     def test_show(
         self,
         unmaximized_rect,
@@ -416,6 +420,7 @@ class CommonTests:
         expected_show_transitions,
         expected_hide_transitions,
         max_size_allocations,
+        max_window_rect_changes,
         app_debug_dbus_interface,
         extension_dbus_interface,
         extension_test_hook,
@@ -473,6 +478,8 @@ class CommonTests:
         assert extension_test_hook.WindowRect == expected_rect
         assert len(set(app_debug_dbus_interface.size_allocations)) <= max_size_allocations
         assert len(app_debug_dbus_interface.size_allocations) <= max_size_allocations + 1
+        assert len(set(extension_test_hook.window_rect_snapshots)) <= max_window_rect_changes
+        assert len(extension_test_hook.window_rect_snapshots) <= max_window_rect_changes + 1
         assert extension_test_hook.seen_transitions == expected_show_transitions
         assert extension_test_hook.WindowSkipTaskbar == window_skip_taskbar
         assert extension_test_hook.WindowOnAllWorkspaces == window_stick
@@ -486,6 +493,8 @@ class CommonTests:
         assert extension_test_hook.WindowRect == expected_rect
         assert len(set(app_debug_dbus_interface.size_allocations)) <= max_size_allocations
         assert len(app_debug_dbus_interface.size_allocations) <= max_size_allocations + 1
+        assert len(set(extension_test_hook.window_rect_snapshots)) <= max_window_rect_changes
+        assert len(extension_test_hook.window_rect_snapshots) <= max_window_rect_changes + 1
         assert extension_test_hook.seen_transitions == expected_show_transitions
         assert extension_test_hook.Transitions == set()
         assert extension_test_hook.WindowSkipTaskbar == window_skip_taskbar
@@ -827,3 +836,10 @@ class TestWaylandTwoMonitors(TestWayland):
             return 1
 
         return 2
+
+    @pytest.fixture
+    def max_window_rect_changes(self, max_size_allocations):
+        if max_size_allocations == 1:
+            return 1
+
+        return 3
