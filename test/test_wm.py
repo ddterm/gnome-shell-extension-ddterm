@@ -19,6 +19,8 @@ PARAMS_DIR = THIS_DIR / 'pict'
 
 LOGGER = logging.getLogger(__name__)
 
+MONITOR_DISABLED = -1
+
 
 @enum.unique
 class WindowPosition(enum.StrEnum):
@@ -679,6 +681,7 @@ class CommonTests:
         # Reduce monitor config changes - more like in real use, and faster
         # Note: last order_by() has highest priority
         p = p.order_by('monitor1_scale').order_by('monitor0_scale')
+        p = p.order_by('monitor1_transform').order_by('monitor0_transform')
         p = p.order_by('primary_monitor')
 
         # Hack: reduce app restarts by altering sort order
@@ -719,8 +722,17 @@ class CommonTests:
 
 class TestX11(CommonTests, fixtures.GnomeSessionX11Fixtures):
     @pytest.fixture
-    def monitor_layout(self, layout_mode, monitor0_scale, monitor1_scale):
+    def monitor_layout(
+        self,
+        layout_mode,
+        monitor0_scale,
+        monitor0_transform,
+        monitor1_scale,
+        monitor1_transform
+    ):
         assert monitor1_scale == 0
+        assert monitor0_transform == displayconfig.Transform.NORMAL
+        assert monitor1_transform == MONITOR_DISABLED
         assert layout_mode == displayconfig.LayoutMode.PHYSICAL
 
         return (displayconfig.SimpleMonitorConfig(scale=monitor0_scale),)
@@ -734,10 +746,20 @@ class TestX11(CommonTests, fixtures.GnomeSessionX11Fixtures):
 
 class TestWayland(CommonTests, fixtures.GnomeSessionWaylandFixtures):
     @pytest.fixture
-    def monitor_layout(self, layout_mode, monitor0_scale, monitor1_scale):
+    def monitor_layout(
+        self,
+        layout_mode,
+        monitor0_scale,
+        monitor0_transform,
+        monitor1_scale,
+        monitor1_transform
+    ):
         assert monitor1_scale == 0
+        assert monitor1_transform == MONITOR_DISABLED
 
-        return (displayconfig.SimpleMonitorConfig(scale=monitor0_scale),)
+        return (
+            displayconfig.SimpleMonitorConfig(scale=monitor0_scale, transform=monitor0_transform),
+        )
 
     @pytest.fixture
     def expected_show_transitions(
@@ -786,16 +808,38 @@ class TestWayland(CommonTests, fixtures.GnomeSessionWaylandFixtures):
 
 class TestWaylandTwoMonitors(TestWayland):
     @pytest.fixture
-    def monitor_layout(self, layout_mode, monitor0_scale, monitor1_scale):
-        m0 = displayconfig.SimpleMonitorConfig(scale=monitor0_scale)
+    def monitor_layout(
+        self,
+        layout_mode,
+        monitor0_scale,
+        monitor0_transform,
+        monitor1_scale,
+        monitor1_transform
+    ):
+        m0 = displayconfig.SimpleMonitorConfig(scale=monitor0_scale, transform=monitor0_transform)
+
+        if monitor0_transform in (
+            displayconfig.Transform.NORMAL,
+            displayconfig.Transform.FLIPPED,
+            displayconfig.Transform.ROTATE_180,
+            displayconfig.Transform.ROTATE_180_FLIPPED,
+        ):
+            m0_size = m0.width
+        else:
+            m0_size = m0.height
 
         if layout_mode == displayconfig.LayoutMode.PHYSICAL:
-            m1 = displayconfig.SimpleMonitorConfig(x=m0.width, scale=monitor1_scale)
+            m1 = displayconfig.SimpleMonitorConfig(
+                x=m0_size,
+                scale=monitor1_scale,
+                transform=monitor1_transform,
+            )
 
         else:
             m1 = displayconfig.SimpleMonitorConfig(
-                x=round(m0.width / monitor0_scale),
-                scale=monitor1_scale
+                x=round(m0_size / monitor0_scale),
+                scale=monitor1_scale,
+                transform=monitor1_transform,
             )
 
         return m0, m1

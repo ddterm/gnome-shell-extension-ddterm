@@ -1,11 +1,5 @@
 class: TestX11, TestWayland, TestWaylandTwoMonitors
 
-gdk_backend: GdkBackend.X11, GdkBackend.WAYLAND (100)
-
-monitor0_scale: 1.0, 1.25, 1.502347469329834, 1.748633861541748, 2.0
-monitor1_scale: <monitor0_scale>, 0
-layout_mode: displayconfig.LayoutMode.PHYSICAL (100), displayconfig.LayoutMode.LOGICAL
-
 window_position: WindowPosition.TOP, WindowPosition.BOTTOM, WindowPosition.LEFT, WindowPosition.RIGHT
 window_size: 0.6, 0.714, 0.8, 0.913, 1.0
 window_size2: 0.6, 0.714, 0.8, 0.913, 1.0
@@ -15,6 +9,15 @@ current_monitor: 0, 1
 primary_monitor: 0, 1
 window_monitor_connector: 0, 1
 
+monitor0_scale: 1.0, 1.25, 1.502347469329834, 1.748633861541748, 2.0
+monitor1_scale: <monitor0_scale>, 0
+layout_mode: displayconfig.LayoutMode.PHYSICAL (100), displayconfig.LayoutMode.LOGICAL
+
+gdk_backend: GdkBackend.X11, GdkBackend.WAYLAND (100)
+
+monitor0_transform: displayconfig.Transform.NORMAL
+monitor1_transform: <monitor0_transform>, MONITOR_DISABLED
+
 IF [class] = "TestX11"
     THEN [layout_mode] = "displayconfig.LayoutMode.PHYSICAL" AND [gdk_backend] = "GdkBackend.X11";
 
@@ -22,7 +25,7 @@ IF [layout_mode] = "displayconfig.LayoutMode.PHYSICAL"
     THEN [monitor0_scale] IN {1.0, 2.0} AND [monitor1_scale] IN {1.0, 2.0, 0};
 
 IF [class] = "TestWaylandTwoMonitors"
-    THEN [monitor1_scale] <> 0
-    ELSE [monitor1_scale] = 0 AND [current_monitor] = 0 AND [primary_monitor] = 0 AND [window_monitor_connector] <> 1;
+    THEN [monitor1_scale] <> 0 AND [monitor1_transform] <> "MONITOR_DISABLED"
+    ELSE [monitor1_scale] = 0 AND [monitor1_transform] = "MONITOR_DISABLED" AND [current_monitor] = 0 AND [primary_monitor] = 0 AND [window_monitor_connector] <> 1;
 
 [window_size] <> [window_size2];

@@ -24,7 +24,7 @@ LOGGER = logging.getLogger(__name__)
 
 
 @enum.unique
-class MonitorTransform(enum.IntEnum):
+class Transform(enum.IntEnum):
     NORMAL = 0
     ROTATE_90 = 1
     ROTATE_180 = 2
@@ -187,7 +187,7 @@ class CurrentState:
         x: int
         y: int
         scale: float
-        transform: MonitorTransform
+        transform: Transform
         primary: bool
         monitors: collections.abc.Sequence[MonitorSpec]
         properties: collections.abc.Mapping[str, GLib.Variant]
@@ -212,7 +212,7 @@ class CurrentState:
                 x=x.get_int32(),
                 y=y.get_int32(),
                 scale=scale.get_double(),
-                transform=MonitorTransform(transform.get_uint32()),
+                transform=Transform(transform.get_uint32()),
                 primary=primary.get_boolean(),
                 monitors=[
                     MonitorSpec.parse_variant(v)
@@ -285,7 +285,7 @@ class MonitorsConfig:
         x: int
         y: int
         scale: float
-        transform: MonitorTransform
+        transform: Transform
         primary: bool
         monitors: collections.abc.Iterable[Monitor]
 
@@ -381,6 +381,7 @@ class SimpleMonitorConfig:
     width: int = 800 * 2
     height: int = 480 * 2
     scale: float = 1.0
+    transform: Transform = Transform.NORMAL
 
 
 class DisplayConfig(Gio.DBusProxy):
@@ -471,7 +472,7 @@ class DisplayConfig(Gio.DBusProxy):
                 x=monitor.x,
                 y=monitor.y,
                 scale=monitor.scale,
-                transform=MonitorTransform.NORMAL,
+                transform=monitor.transform,
                 primary=(i == primary_index),
                 monitors=[MonitorsConfig.LogicalMonitor.Monitor(
                     connector=current_state.monitors[i].connector,
