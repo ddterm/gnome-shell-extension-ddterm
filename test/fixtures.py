@@ -378,7 +378,7 @@ class GnomeSessionFixtures:
         return displayconfig.DisplayConfig.create(dbus_connection)
 
     @pytest.fixture(scope='class')
-    def shell_test_hook(self, shell_dbus_interface):
+    def shell_test_hook(self, shell_dbus_interface, log_sync):
         proxy = shellhook.Proxy.create(shell_dbus_interface)
 
         try:
@@ -392,9 +392,19 @@ class GnomeSessionFixtures:
 
                 glibutil.wait_any_source(timeout_ms=deadline.check_remaining_ms())
 
-            proxy.unsafe_mode = False
-            yield proxy
-            proxy.unsafe_mode = True
+            log_sync_plugin = shellhook.LogSyncPlugin(proxy)
+            log_sync.register(log_sync_plugin)
+
+            try:
+                proxy.unsafe_mode = False
+
+                try:
+                    yield proxy
+                finally:
+                    proxy.unsafe_mode = True
+
+            finally:
+                log_sync.unregister(log_sync_plugin)
 
         finally:
             proxy.Destroy()

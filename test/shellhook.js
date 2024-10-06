@@ -169,6 +169,10 @@ const Interface = GObject.registerClass({
         });
     }
 
+    LogMessage(message) {
+        log(message);
+    }
+
     GetPointer() {
         const [x, y, mods] = global.get_pointer();
 

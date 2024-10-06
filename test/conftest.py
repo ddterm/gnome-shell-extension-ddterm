@@ -12,7 +12,7 @@ import yaml
 from . import procutil
 
 
-pytest_plugins = ('screenshot', 'syslog')
+pytest_plugins = ('screenshot', 'syslog', 'logsync')
 
 LOGGER = logging.getLogger(__name__)
 

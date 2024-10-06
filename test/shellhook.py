@@ -5,7 +5,7 @@ import pathlib
 
 from gi.repository import GObject
 
-from . import dbusutil, geometry, glibutil
+from . import dbusutil, geometry, glibutil, logsync
 
 
 LOGGER = logging.getLogger(__name__)
@@ -116,3 +116,19 @@ class Proxy(_Base):
     def Destroy(self, **kwargs):
         if self.is_connected():
             super().Destroy(**kwargs)
+
+
+class LogSyncPlugin:
+    def __init__(self, proxy):
+        self.proxy = proxy
+
+    @logsync.hookimpl
+    def log_sync_message(self, msg):
+        glibutil.dispatch_pending_sources()
+
+        if not self.proxy.is_connected():
+            return False
+
+        self.proxy.LogMessage(msg)
+
+        return True
