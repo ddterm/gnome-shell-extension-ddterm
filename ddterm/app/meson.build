@@ -2,7 +2,6 @@ app_js_files = files(
   'accellabel.js',
   'application.js',
   'appwindow.js',
-  'debug.js',
   'dependencies.js',
   'extensiondbus.js',
   'gtktheme.js',

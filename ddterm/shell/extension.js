@@ -43,21 +43,6 @@ const APP_ID = 'com.github.amezin.ddterm';
 const APP_DBUS_PATH = '/com/github/amezin/ddterm';
 const WINDOW_PATH_PREFIX = `${APP_DBUS_PATH}/window/`;
 
-function create_subprocess(launcher, settings, app_enable_debug) {
-    const argv = [launcher, '--gapplication-service'];
-
-    if (app_enable_debug)
-        argv.push('--debug');
-
-    if (settings.get_boolean('force-x11-gdk-backend'))
-        argv.push('--allowed-gdk-backends=x11');
-
-    else if (Meta.is_wayland_compositor())
-        return new WaylandSubprocess({ journal_identifier: APP_ID, argv });
-
-    return new Subprocess({ journal_identifier: APP_ID, argv });
-}
-
 function create_window_matcher(service, rollback) {
     const window_matcher = new WindowMatch({
         subprocess: service.subprocess,
@@ -470,7 +455,7 @@ export default class DDTermExtension extends Extension {
 
         this.app_process = null;
         this.enabled_state = null;
-        this.app_enable_debug = false;
+        this.app_extra_args = [];
         this._debug = null;
     }
 
@@ -494,11 +479,19 @@ export default class DDTermExtension extends Extension {
     }
 
     start_app_process(settings) {
-        const app_process = create_subprocess(
+        const wayland =
+            Meta.is_wayland_compositor() && !settings.get_boolean('force-x11-gdk-backend');
+
+        const argv = [
             this.launcher_path,
-            settings,
-            this.app_enable_debug
-        );
+            '--gapplication-service',
+            wayland ? '--allowed-gdk-backends=wayland' : '--allowed-gdk-backends=x11',
+            ...this.app_extra_args,
+        ];
+
+        const app_process = wayland
+            ? new WaylandSubprocess({ journal_identifier: APP_ID, argv })
+            : new Subprocess({ journal_identifier: APP_ID, argv });
 
         this.app_process = app_process;
 

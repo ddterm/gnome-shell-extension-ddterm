@@ -30,7 +30,6 @@ import System from 'system';
 
 import { AppWindow } from './appwindow.js';
 import { ThemeManager } from './gtktheme.js';
-import { DebugInterface } from './debug.js';
 import { metadata } from './meta.js';
 import { get_resource_file, get_resource_text } from './resources.js';
 import { get_settings } from './settings.js';
@@ -101,11 +100,11 @@ class Application extends Gtk.Application {
         );
 
         this.add_main_option(
-            'debug',
+            'debug-module',
             0,
             GLib.OptionFlags.HIDDEN,
-            GLib.OptionArg.NONE,
-            'Enable D-Bus Debug interface (for testing/debug)',
+            GLib.OptionArg.STRING,
+            'Load the specified module on startup (for testing/debug, must be passed from Shell)',
             null
         );
 
@@ -381,33 +380,21 @@ class Application extends Gtk.Application {
         });
     }
 
-    vfunc_dbus_register(connection, object_path) {
-        if (this.enable_debug) {
-            this.debug_dbus_interface = new DebugInterface(this);
-            this.debug_dbus_interface.dbus.export(connection, object_path);
-        }
-
-        return super.vfunc_dbus_register(connection, object_path);
-    }
-
-    vfunc_dbus_unregister(connection, object_path) {
-        this.debug_dbus_interface?.dbus.unexport_from_connection(connection);
-
-        return super.vfunc_dbus_unregister(connection, object_path);
-    }
-
     handle_local_options(options) {
         if (options.lookup('version')) {
             this.print_version_info();
             return 0;
         }
 
+        const debug_module = options.lookup('debug-module');
+
+        if (debug_module)
+            import(debug_module).catch(logError);
+
         const allowed_gdk_backends = options.lookup('allowed-gdk-backends');
 
         if (allowed_gdk_backends)
             Gdk.set_allowed_backends(allowed_gdk_backends);
-
-        this.enable_debug = options.lookup('debug');
 
         if (this.flags & Gio.ApplicationFlags.IS_SERVICE)
             return -1;

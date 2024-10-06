@@ -339,16 +339,18 @@ const Interface = GObject.registerClass({
         this.notify('DebugLog');
     }
 
-    get AppDebug() {
-        return Boolean(this.state_obj.app_enable_debug);
+    get AppExtraArgs() {
+        return this.state_obj.app_extra_args;
     }
 
-    set AppDebug(value) {
-        if (Boolean(value) === this.AppDebug)
+    set AppExtraArgs(value) {
+        const current = this.state_obj.app_extra_args;
+
+        if (current?.length === value?.length && current?.every((v, i) => v === value[i]))
             return;
 
-        this.state_obj.app_enable_debug = Boolean(value);
-        this.notify('AppDebug');
+        this.state_obj.app_extra_args = value;
+        this.notify('AppExtraArgs');
     }
 });
 

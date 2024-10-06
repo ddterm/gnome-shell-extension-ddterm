@@ -1,6 +1,5 @@
 ddterm_files = files(
   'com.github.amezin.ddterm.Extension.xml',
-  'com.github.amezin.ddterm.Debug.xml',
   'com.github.amezin.ddterm.service.in',
 )
 

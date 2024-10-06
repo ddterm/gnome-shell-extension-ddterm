@@ -8,7 +8,7 @@
         <property type="b" name="MaximizedVertically" access="read"/>
         <property type="(iiii)" name="WindowRect" access="read"/>
         <property type="b" name="DebugLog" access="readwrite"/>
-        <property type="b" name="AppDebug" access="readwrite"/>
+        <property type="as" name="AppExtraArgs" access="readwrite"/>
         <property type="b" name="AppRunning" access="readwrite"/>
         <property type="as" name="Transitions" access="read"/>
         <property type="b" name="RenderedFirstFrame" access="read"/>

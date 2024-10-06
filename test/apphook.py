@@ -14,6 +14,9 @@ INTERFACE_NAME = 'com.github.amezin.ddterm.Debug'
 THIS_FILE = pathlib.Path(__file__).resolve()
 THIS_DIR = THIS_FILE.parent
 INTROSPECT_FILE = THIS_DIR / 'dbus-interfaces' / f'{INTERFACE_NAME}.xml'
+JS_FILE = THIS_DIR / 'apphook.js'
+
+APP_EXTRA_ARGS = (f'--debug-module={JS_FILE.as_uri()}',)
 
 
 class _Base(dbusutil.Proxy):

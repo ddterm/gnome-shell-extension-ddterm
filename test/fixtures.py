@@ -11,7 +11,7 @@ import pytest
 from gi.repository import GLib, Gio
 
 from . import (
-    appdebug,
+    apphook,
     dbusutil,
     displayconfig,
     extensiondbus,
@@ -460,8 +460,8 @@ class GnomeSessionFixtures:
         # Make sure cached properties are up to date
         glibutil.dispatch_pending_sources()
 
-        if not extension_test_hook.AppDebug:
-            extension_test_hook.AppDebug = True
+        if extension_test_hook.AppExtraArgs != apphook.APP_EXTRA_ARGS:
+            extension_test_hook.AppExtraArgs = apphook.APP_EXTRA_ARGS
 
             if extension_test_hook.AppRunning:
                 app_dbus_actions.activate_action('quit')
@@ -472,7 +472,7 @@ class GnomeSessionFixtures:
                     timeout=dbusutil.DEFAULT_LONG_TIMEOUT_MS
                 )
 
-        return appdebug.Proxy.create(g_connection=dbus_connection)
+        return apphook.Proxy.create(g_connection=dbus_connection)
 
     @pytest.fixture(scope='class')
     def app_dbus_actions(self, dbus_connection):

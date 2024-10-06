@@ -1,22 +1,3 @@
-/*
-    Copyright © 2023 Aleksandr Mezin
-
-    This file is part of ddterm GNOME Shell extension.
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>.
-*/
-
 import GLib from 'gi://GLib';
 import Gio from 'gi://Gio';
 import GObject from 'gi://GObject';
@@ -24,7 +5,17 @@ import Gdk from 'gi://Gdk';
 
 import System from 'system';
 
-import { get_resource_text } from './resources.js';
+const [DBUS_INTROSPECTION_FILE] = GLib.filename_from_uri(
+    GLib.Uri.resolve_relative(
+        import.meta.url,
+        './dbus-interfaces/com.github.amezin.ddterm.Debug.xml',
+        GLib.UriFlags.NONE
+    )
+);
+
+const DBUS_INTERFACE_INFO = Gio.DBusInterfaceInfo.new_for_xml(
+    new TextDecoder().decode(GLib.file_get_contents(DBUS_INTROSPECTION_FILE)[1])
+);
 
 function return_error(invocation, ex) {
     if (ex instanceof GLib.Error) {
@@ -39,12 +30,9 @@ function return_error(invocation, ex) {
     invocation.return_dbus_error(name, ex.toString());
 }
 
-export class DebugInterface {
+class DebugInterface {
     constructor(app) {
-        this.dbus = Gio.DBusExportedObject.wrapJSObject(
-            get_resource_text('../com.github.amezin.ddterm.Debug.xml'),
-            this
-        );
+        this.dbus = Gio.DBusExportedObject.wrapJSObject(DBUS_INTERFACE_INFO, this);
 
         this.app = app;
         this.app.connect('notify::window', () => {
@@ -201,3 +189,8 @@ export class DebugInterface {
         }
     }
 }
+
+new DebugInterface(Gio.Application.get_default()).dbus.export(
+    Gio.DBus.session,
+    '/com/github/amezin/ddterm'
+);
