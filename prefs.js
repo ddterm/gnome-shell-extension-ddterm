@@ -18,14 +18,14 @@
 */
 
 import {
-    ExtensionPreferences
+    ExtensionPreferences,
 } from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 
 import {
     WindowPage,
     TerminalPage,
     ShortcutsPage,
-    MiscPage
+    MiscPage,
 } from './ddterm/pref/adw.js';
 
 import { DisplayConfig } from './ddterm/util/displayconfig.js';

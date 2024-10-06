@@ -12,7 +12,7 @@ import {
     get_resource_dbus_interface_info,
     report_dbus_error_async,
     handle_dbus_call_promise,
-    dbus_auto_pspecs
+    dbus_auto_pspecs,
 } from './util.js';
 
 const DBUS_INTERFACE_INFO =

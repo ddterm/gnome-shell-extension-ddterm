@@ -26,7 +26,7 @@ import {
     bind_widget,
     bind_widgets,
     insert_settings_actions,
-    ui_file_uri
+    ui_file_uri,
 } from './util.js';
 
 export const TextWidget = GObject.registerClass({

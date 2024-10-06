@@ -25,7 +25,7 @@ import {
     bind_widgets,
     insert_settings_actions,
     set_scale_value_format,
-    ui_file_uri
+    ui_file_uri,
 } from './util.js';
 
 export const TabsWidget = GObject.registerClass({

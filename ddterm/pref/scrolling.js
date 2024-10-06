@@ -25,7 +25,7 @@ import {
     bind_sensitive,
     bind_widget,
     insert_settings_actions,
-    ui_file_uri
+    ui_file_uri,
 } from './util.js';
 
 export const ScrollingWidget = GObject.registerClass({

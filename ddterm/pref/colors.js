@@ -28,7 +28,7 @@ import {
     bind_widget,
     insert_settings_actions,
     set_scale_value_format,
-    ui_file_uri
+    ui_file_uri,
 } from './util.js';
 
 function show_dialog(parent_window, message, message_type = Gtk.MessageType.ERROR) {

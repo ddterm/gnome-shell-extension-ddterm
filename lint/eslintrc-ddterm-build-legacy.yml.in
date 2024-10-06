@@ -3,9 +3,6 @@ root: true
 extends:
   - @common_eslintrc@
 
-rules:
-  comma-dangle: off
-
 overrides:
   - files:
       - extension.js

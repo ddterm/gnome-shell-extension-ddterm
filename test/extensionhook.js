@@ -9,7 +9,7 @@ import {
     connect_after,
     get_main,
     get_resource_dbus_interface_info,
-    dbus_auto_pspecs
+    dbus_auto_pspecs,
 } from './util.js';
 
 const DBUS_INTERFACE_INFO =

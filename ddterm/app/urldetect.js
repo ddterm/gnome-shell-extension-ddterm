@@ -26,7 +26,7 @@ import {
     PCRE2_UCP,
     PCRE2_MULTILINE,
     PCRE2_JIT_COMPLETE,
-    PCRE2_JIT_PARTIAL_SOFT
+    PCRE2_JIT_PARTIAL_SOFT,
 } from './pcre2.js';
 
 import {
@@ -35,7 +35,7 @@ import {
     REGEX_URL_HTTP,
     REGEX_URL_VOIP,
     REGEX_EMAIL,
-    REGEX_NEWS_MAN
+    REGEX_NEWS_MAN,
 } from './urldetect_patterns.js';
 
 function jit_regex(regex) {

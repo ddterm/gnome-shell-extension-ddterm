@@ -39,7 +39,7 @@ import { WIFEXITED, WEXITSTATUS, WTERMSIG } from './waitstatus.js';
 import { DisplayConfig } from '../util/displayconfig.js';
 import {
     create_extension_dbus_proxy,
-    create_extension_dbus_proxy_oneshot
+    create_extension_dbus_proxy_oneshot,
 } from './extensiondbus.js';
 
 function schedule_gc() {
