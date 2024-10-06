@@ -184,8 +184,14 @@ function translate(file, root_url, replace_imports) {
             }
         }
 
-        if (members.length > 0)
-            lines.push(`const {${members.join(',')}} = ${rhs};`);
+        if (members.length > 0) {
+            const [, trailing_comma] = text.substring(
+                position_to_index(node.specifiers[node.specifiers.length - 1].loc.end),
+                position_to_index(node.loc.end)
+            ).match(/\s*(,\s*)?/);
+
+            lines.push(`const {${members.join(',')}${trailing_comma ?? ''}} = ${rhs};`);
+        }
 
         translated.push(lines.join('\n'));
     }
