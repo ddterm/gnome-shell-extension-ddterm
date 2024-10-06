@@ -29,5 +29,6 @@
             <arg type="i" name="width"/>
             <arg type="i" name="height"/>
         </signal>
+        <property type="b" name="Connected" access="read"/>
     </interface>
 </node>

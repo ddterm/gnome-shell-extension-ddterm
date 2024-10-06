@@ -40,6 +40,9 @@ class DebugInterface {
         });
 
         this.connect_window(app.window);
+
+        this.dbus.export(Gio.DBus.session, '/com/github/amezin/ddterm');
+        this.dbus.emit_property_changed('Connected', GLib.Variant.new_boolean(this.Connected));
     }
 
     connect_window(win) {
@@ -188,9 +191,10 @@ class DebugInterface {
             return_error(invocation, ex);
         }
     }
+
+    get Connected() {
+        return true;
+    }
 }
 
-new DebugInterface(Gio.Application.get_default()).dbus.export(
-    Gio.DBus.session,
-    '/com/github/amezin/ddterm'
-);
+new DebugInterface(Gio.Application.get_default());

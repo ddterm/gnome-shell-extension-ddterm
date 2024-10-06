@@ -144,6 +144,9 @@ def wait_idle(
     num_idle_frames=2,
     timeout=dbusutil.DEFAULT_TIMEOUT_MS,
 ):
+    deadline = glibutil.Deadline(timeout)
+    app_debug_dbus_interface.wait_connected(timeout=timeout)
+
     LOGGER.info(
         'Waiting for %r consecutive frames with no window geometry changes',
         num_idle_frames
@@ -155,8 +158,6 @@ def wait_idle(
         LOGGER.info('Received signal %s%r on %r, restarting wait', signal, args, source)
         nonlocal counter
         counter = 0
-
-    deadline = glibutil.Deadline(timeout)
 
     with contextlib.ExitStack() as stack:
         for signal in (

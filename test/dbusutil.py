@@ -151,6 +151,14 @@ class Proxy(dbusproxy.Proxy):
     def is_connected(self):
         return self.get_name_owner() and not self.get_connection().is_closed()
 
+    def ensure_connection_open(self):
+        if self.get_connection().is_closed():
+            raise GLib.Error.new_literal(
+                Gio.DBusError.quark(),
+                'Disconnected',
+                Gio.DBusError.DISCONNECTED,
+            )
+
     def ensure_connected(self):
         if not self.get_name_owner():
             raise GLib.Error.new_literal(
@@ -159,12 +167,26 @@ class Proxy(dbusproxy.Proxy):
                 Gio.DBusError.NAME_HAS_NO_OWNER,
             )
 
-        if self.get_connection().is_closed():
-            raise GLib.Error.new_literal(
-                Gio.DBusError.quark(),
-                'Disconnected',
-                Gio.DBusError.DISCONNECTED,
-            )
+        self.ensure_connection_open()
+
+    def wait_name_owner(self, timeout=None):
+        # Make sure the cached value is up to date, avoid false match
+        glibutil.dispatch_pending_sources()
+
+        if self.get_name_owner():
+            return
+
+        LOGGER.info('%r: waiting for name owner', self)
+
+        if timeout is None:
+            timeout = self.get_default_timeout()
+
+        deadline = glibutil.Deadline(timeout)
+
+        while not self.get_name_owner():
+            self.ensure_connection_open()
+
+            glibutil.wait_any_source(timeout_ms=deadline.check_remaining_ms())
 
     def wait_property(self, name, value, timeout=None):
         # Make sure the cached value is up to date, avoid false match

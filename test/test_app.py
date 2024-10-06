@@ -177,6 +177,7 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
     ):
         extension_dbus_interface.Activate(timeout=dbusutil.DEFAULT_LONG_TIMEOUT_MS)
         extension_test_hook.wait_property('RenderedFirstFrame', True)
+        app_debug_dbus_interface.wait_connected()
 
         test_file = tmp_path / 'testfile'
 
@@ -229,6 +230,7 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
     ):
         extension_dbus_interface.Activate(timeout=dbusutil.DEFAULT_LONG_TIMEOUT_MS)
         extension_test_hook.wait_property('RenderedFirstFrame', True)
+        app_debug_dbus_interface.wait_connected()
 
         app_debug_dbus_interface.ShowPreferences()
         app_debug_dbus_interface.HidePreferences()

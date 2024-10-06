@@ -51,3 +51,12 @@ class Proxy(_Base):
 
     def reset_size_allocations(self):
         self.size_allocations = []
+
+    def wait_connected(self, timeout=None):
+        if timeout is None:
+            timeout = self.get_default_timeout()
+
+        deadline = glibutil.Deadline(timeout)
+
+        self.wait_name_owner(timeout)
+        self.wait_property('Connected', True, timeout=deadline.remaining_ms)
