@@ -602,17 +602,11 @@ class GnomeSessionWaylandFixtures(GnomeSessionFixtures):
         }
 
     @pytest.fixture(scope='class')
-    def gnome_shell_environment(self, request, dbus_environment):
-        if request.config.option.force_xvfb:
-            return request.getfixturevalue('gnome_shell_environment_nested')
-        else:
-            return dbus_environment
+    def gnome_shell_environment(self, dbus_environment):
+        return dbus_environment
 
     @pytest.fixture(scope='class')
-    def gnome_shell_args(self, wayland_display, initial_monitor_layout, request):
-        if request.config.option.force_xvfb:
-            return ('--nested', f'--wayland-display={wayland_display}')
-
+    def gnome_shell_args(self, wayland_display, initial_monitor_layout):
         return (
             '--headless',
             f'--wayland-display={wayland_display}',

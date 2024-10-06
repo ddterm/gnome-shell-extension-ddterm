@@ -339,12 +339,6 @@ class CommonTests:
             workarea.y + round(workarea.height / 2),
         )
 
-        if request.config.option.force_xvfb:
-            if shell_test_hook.GetCurrentMonitor() != request.param:
-                shell_test_hook.Eval(
-                    'global.backend.get_monitor_manager().emit("monitors-changed-internal")'
-                )
-
         assert shell_test_hook.GetCurrentMonitor() == request.param
 
         return request.param

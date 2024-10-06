@@ -26,13 +26,6 @@ IMAGES_STASH_KEY = pytest.StashKey[list]()
 
 def pytest_addoption(parser):
     parser.addoption(
-        '--force-xvfb',
-        action='store_true',
-        default=False,
-        help='Always use Xvfb - run Wayland tests using nested backend'
-    )
-
-    parser.addoption(
         '--container',
         action='append',
         default=[],
