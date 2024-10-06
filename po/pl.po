@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-04 23:00+0000\n"
+"POT-Creation-Date: 2024-10-06 19:17+0000\n"
 "PO-Revision-Date: 2024-06-15 17:09+0000\n"
 "Last-Translator: Wojciech Teichert <wojtekt99@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/gnome-shell-"
@@ -23,68 +23,68 @@ msgstr ""
 "|| n%100>=20) ? 1 : 2);\n"
 "X-Generator: Weblate 5.6-dev\n"
 
-#: ddterm/app/application.js:90
+#: ddterm/app/application.js:89
 msgid "Start the application, but do not show the window"
 msgstr "Uruchom aplikację, ale nie pokazuj okna"
 
-#: ddterm/app/application.js:99
+#: ddterm/app/application.js:98
 msgid "Comma-separated list of backends that GDK should try to use"
 msgstr ""
 "Rozdzielana przecinkami lista backendów, których GDK powinien spróbować użyć"
 
-#: ddterm/app/application.js:117
+#: ddterm/app/application.js:116
 msgid "Show version information and exit"
 msgstr "Pokaż numer wersji i wyjdź"
 
-#: ddterm/app/application.js:126
+#: ddterm/app/application.js:125
 msgid "Run the specified command"
 msgstr "Uruchom polecenie"
 
-#: ddterm/app/application.js:140
+#: ddterm/app/application.js:139
 msgid "Wait for the command to exit, and return its exit code"
 msgstr "Poczekaj no wykonanie polecenia i zwróć wynik jego działania"
 
-#: ddterm/app/application.js:149
+#: ddterm/app/application.js:148
 msgid "Set the working directory"
 msgstr "Zmień aktualny folder"
 
-#: ddterm/app/application.js:158
+#: ddterm/app/application.js:157
 msgid "Set tab title"
 msgstr "Ustaw inny tytuł karty"
 
-#: ddterm/app/application.js:167
+#: ddterm/app/application.js:166
 msgid "Keep the terminal open after the command has exited"
 msgstr "Nie zamykaj konsoli po wykonaniu polecenia"
 
-#: ddterm/app/application.js:176
+#: ddterm/app/application.js:175
 msgid "Do not pass the environment"
 msgstr "Nie przekazuj zmiennych środowiskowych"
 
-#: ddterm/app/application.js:185
+#: ddterm/app/application.js:184
 msgid "Open a new tab"
 msgstr "Otwórz nową kartę"
 
-#: ddterm/app/application.js:373
+#: ddterm/app/application.js:372
 msgid "Saving session…"
 msgstr "Zapisywanie sesji…"
 
-#: ddterm/app/application.js:428
+#: ddterm/app/application.js:415
 msgid "Can't contact the extension."
 msgstr "Nie można skontaktować się z rozszerzeniem."
 
-#: ddterm/app/application.js:430 ddterm/app/application.js:557
+#: ddterm/app/application.js:417 ddterm/app/application.js:544
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr "Proszę upewnić się że rozszerzenie ddterm GNOME Shell jest włączone."
 
-#: ddterm/app/application.js:555
+#: ddterm/app/application.js:542
 msgid "Can't read the version of the loaded extension."
 msgstr "Nie można odczytać wersji wczytanego rozszerzenia."
 
-#: ddterm/app/application.js:560 ddterm/shell/notifications.js:90
+#: ddterm/app/application.js:547 ddterm/shell/notifications.js:90
 msgid "Warning: ddterm version has changed"
 msgstr "Ostrzeżenie: wersja ddterm zmieniła się"
 
-#: ddterm/app/application.js:561 ddterm/shell/notifications.js:92
+#: ddterm/app/application.js:548 ddterm/shell/notifications.js:92
 msgid "Log out, then log in again to load the updated extension."
 msgstr "Zaloguj się ponownie, aby załadować aktualne rozszerzenie."
 
@@ -1270,7 +1270,7 @@ msgstr "Wykrywaj adresy e-mail"
 msgid "Detect \"news:\", \"man:\" URLs"
 msgstr "Wykrywaj adresy URL \"news:\", \"man:\""
 
-#: ddterm/shell/extension.js:301
+#: ddterm/shell/extension.js:286
 msgid "Failed to launch ddterm application"
 msgstr "Otwarcie aplikacji ddterm nie powiodło się"
 
