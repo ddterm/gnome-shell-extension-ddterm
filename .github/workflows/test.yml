@@ -1,5 +1,18 @@
 on:
+  workflow_dispatch:
+    inputs:
+      testspace:
+        description: 'Publish report to Testspace'
+        type: boolean
+        default: false
+        required: false
   workflow_call:
+    inputs:
+      testspace:
+        description: 'Publish report to Testspace'
+        type: boolean
+        default: false
+        required: false
 
 jobs:
   configure:
@@ -49,6 +62,7 @@ jobs:
       with:
         domain: ${{ github.repository_owner }}
       continue-on-error: true
+      if: ${{ inputs.testspace }}
 
     - name: Download extension package
       uses: actions/download-artifact@v4

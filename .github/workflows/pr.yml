@@ -15,7 +15,7 @@ jobs:
   build:
     uses: ./.github/workflows/build.yml
     with:
-      testspace: true
+      testspace: ${{ !github.event.repository.fork }}
 
     if: >-
       startsWith(github.event.pull_request.head.ref, 'renovate/')
@@ -24,6 +24,8 @@ jobs:
   test:
     needs: build
     uses: ./.github/workflows/test.yml
+    with:
+      testspace: ${{ !github.event.repository.fork }}
 
   translations:
     uses: ./.github/workflows/pot.yml

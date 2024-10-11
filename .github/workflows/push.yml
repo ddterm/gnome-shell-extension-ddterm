@@ -21,14 +21,16 @@ jobs:
   build:
     uses: ./.github/workflows/build.yml
     with:
-      testspace: true
+      testspace: ${{ !github.event.repository.fork }}
 
   test:
     needs: build
     uses: ./.github/workflows/test.yml
+    with:
+      testspace: ${{ !github.event.repository.fork }}
 
   translations:
     uses: ./.github/workflows/pot.yml
     with:
-      commit: ${{ github.ref_type == 'branch' && github.ref_name == github.event.repository.default_branch }}
+      commit: ${{ github.ref_type == 'branch' && github.ref_name == github.event.repository.default_branch && !github.event.repository.fork }}
     secrets: inherit
