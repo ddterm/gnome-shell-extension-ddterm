@@ -109,6 +109,10 @@ Vagrant.configure("2") do |config|
     version.vm.box = "gnome-shell-box/ubuntu2404"
   end
 
+  config.vm.define "ubuntu2410", autostart: false do |version|
+    version.vm.box = "gnome-shell-box/ubuntu2410"
+  end
+
   config.vm.define "opensusetumbleweed", autostart: false do |version|
     version.vm.box = "gnome-shell-box/opensusetumbleweed"
   end
