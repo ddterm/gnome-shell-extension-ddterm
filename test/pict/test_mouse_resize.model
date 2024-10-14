@@ -11,10 +11,10 @@ window_size: 0.6, 0.714, 0.8, 0.913, 1.0
 window_size2: 0.6, 0.714, 0.8, 0.913, 1.0
 window_maximize: False (100), True
 
-window_monitor: WindowMonitor.CONNECTOR
+window_monitor: WindowMonitor.CURRENT
 current_monitor: 0, 1
 primary_monitor: 0, 1
-window_monitor_connector: 0, 1
+window_monitor_connector: -1
 
 monitor0_transform: displayconfig.Transform.NORMAL
 monitor1_transform: <monitor0_transform>, MONITOR_DISABLED
