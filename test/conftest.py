@@ -1,6 +1,7 @@
 import collections
 import contextlib
 import fcntl
+import inspect
 import logging
 import os
 import pathlib
@@ -278,3 +279,16 @@ def pytest_generate_tests(metafunc):
 
         if images and len(images) > 1:
             metafunc.parametrize('container', images, indirect=True, scope='session')
+
+
+def pytest_pycollect_makeitem(collector, name, obj):
+    if not inspect.isclass(obj):
+        return None
+
+    if not collector.istestclass(obj, name):
+        return None
+
+    if not hasattr(obj, 'pytest_pycollect_makeitem'):
+        return None
+
+    return obj().pytest_pycollect_makeitem(collector=collector, name=name, obj=obj)

@@ -201,8 +201,32 @@ def wait_idle(
             LOGGER.info('%r consecutive frames with no window geometry changes', counter)
 
 
+class CustomSortCollector(pytest.Class):
+    def collect(self):
+        collected = super().collect()
+
+        # Sort tests to reduce monitor config changes and app restarts.
+        # Note: last parameter has highest priority.
+
+        for param_name in (
+            'gdk_backend',
+            'primary_monitor',
+            'monitor1_scale',
+            'monitor1_transform',
+            'monitor0_scale',
+            'monitor0_transform',
+            'layout_mode',
+        ):
+            collected.sort(key=lambda item: item.callspec.params[param_name])
+
+        return collected
+
+
 @pytest.mark.usefixtures('check_log', 'screenshot', 'hide_overview', 'hide', 'gdk_backend')
 class CommonTests:
+    def pytest_pycollect_makeitem(self, collector, name, obj):
+        return CustomSortCollector.from_parent(collector, name=name, obj=obj)
+
     @pytest.fixture
     def animation_mode(self, shell_test_hook, settings_test_hook, request):
         shell_test_hook.EnableAnimations = request.param.enable_global
@@ -673,29 +697,7 @@ class CommonTests:
 
     @classmethod
     def get_parametrization(cls, name):
-        p = load_params(PARAMS_DIR / f'{name}.gen').filter('class', cls)
-
-        # Hack: reduce app restarts and monitor config changes by altering sort
-        # order. So if the first test method ends with layout_mode=PHYSICAL,
-        # the second one will start with layout_mode=PHYSICAL
-        if '_testmethods' not in cls.__dict__:
-            cls._testmethods = []
-
-        if name not in cls._testmethods:
-            cls._testmethods.append(name)
-
-        reverse = cls._testmethods.index(name) % 2 == 1
-
-        p = p.order_by('gdk_backend', reverse)  # Change requires restarting the app
-
-        # Reduce monitor config changes - because it causes a memory leak in GNOME Shell
-        # Note: last order_by() has highest priority
-        p = p.order_by('primary_monitor', reverse)
-        p = p.order_by('monitor1_scale', reverse).order_by('monitor1_transform', reverse)
-        p = p.order_by('monitor0_scale', reverse).order_by('monitor0_transform', reverse)
-        p = p.order_by('layout_mode', reverse)  # Change requires restarting the app
-
-        return p
+        return load_params(PARAMS_DIR / f'{name}.gen').filter('class', cls)
 
     def pytest_generate_tests(self, metafunc):
         p = self.get_parametrization(metafunc.definition.originalname)

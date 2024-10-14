@@ -44,18 +44,6 @@ class Parametrization:
             ]
         )
 
-    def order_by(self, argname, reverse=False):
-        index = self.argnames.index(argname)
-
-        return Parametrization(
-            argnames=self.argnames,
-            argvalues=sorted(
-                self.argvalues,
-                key=lambda row: row[index].value,
-                reverse=reverse
-            )
-        )
-
     def apply(self, metafunc, **kwargs):
         metafunc.parametrize(
             self.argnames,
