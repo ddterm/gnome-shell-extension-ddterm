@@ -98,10 +98,7 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
 
         assert extension_test_hook.WindowRect == workarea
 
-        red, green, blue, alpha = shell_test_hook.PickColor(
-            workarea.x + workarea.width // 2,
-            workarea.y + workarea.height // 2,
-        )
+        red, green, blue, alpha = shell_test_hook.PickColor(*workarea.center())
 
         if color_scheme == 'prefer-dark':
             assert red < 127 and green < 127 and blue < 127

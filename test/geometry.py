@@ -1,4 +1,5 @@
 import collections
+import functools
 
 
 class Point(
@@ -30,4 +31,23 @@ class Rect(
                 variant.get_child_value(i).get_int32()
                 for i in range(variant.n_children())
             )
+        )
+
+    @functools.singledispatchmethod
+    def contains(self, x, y):
+        return (
+            x >= self.x and
+            x <= self.x + self.width and
+            y >= self.y and
+            y <= self.y + self.height
+        )
+
+    @contains.register
+    def _(self, point: Point):
+        return self.contains(*point)
+
+    def center(self):
+        return Point(
+            self.x + self.width // 2,
+            self.y + self.height // 2,
         )

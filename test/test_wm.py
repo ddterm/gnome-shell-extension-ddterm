@@ -332,15 +332,11 @@ class CommonTests:
         workarea = workareas[request.param]
         pointer = shell_test_hook.Pointer
 
-        if pointer.x >= workarea.x and pointer.x <= workarea.x + workarea.width:
-            if pointer.y >= workarea.y and pointer.y <= workarea.y + workarea.height:
-                if shell_test_hook.GetCurrentMonitor() == request.param:
-                    return request.param
+        if workarea.contains(pointer):
+            if shell_test_hook.GetCurrentMonitor() == request.param:
+                return request.param
 
-        shell_test_hook.SetPointer(
-            workarea.x + round(workarea.width / 2),
-            workarea.y + round(workarea.height / 2),
-        )
+        shell_test_hook.SetPointer(*workarea.center())
 
         assert shell_test_hook.GetCurrentMonitor() == request.param
 
