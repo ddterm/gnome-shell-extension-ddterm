@@ -702,23 +702,9 @@ class CommonTests:
         return p
 
     def pytest_generate_tests(self, metafunc):
-        indirect = {
-            'animation_mode',
-            'gdk_backend',
-            'current_monitor',
-            'window_position',
-            'window_size',
-            'window_maximize',
-            'window_monitor',
-            'window_above',
-            'window_stick',
-            'window_skip_taskbar',
-        }
+        p = self.get_parametrization(metafunc.definition.originalname)
 
-        self.get_parametrization(metafunc.definition.originalname).apply(
-            metafunc,
-            indirect=list(indirect & set(metafunc.fixturenames))
-        )
+        p.apply(metafunc, indirect=list(set(p.argnames) & set(dir(self))))
 
 
 class TestX11(CommonTests, fixtures.GnomeSessionX11Fixtures):
