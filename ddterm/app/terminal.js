@@ -659,7 +659,7 @@ const TerminalBase = GObject.registerClass({
     }
 });
 
-const TerminalTermprop = GObject.registerClass({
+const TerminalTermprop = 'PropertyId' in Vte ? GObject.registerClass({
     Properties: {
         'window-title': GObject.ParamSpec.string(
             'window-title',
@@ -713,6 +713,6 @@ const TerminalTermprop = GObject.registerClass({
     get current_file_uri() {
         return this.ref_termprop_uri_by_id(Vte.PropertyId.CURRENT_FILE_URI)?.to_string() ?? '';
     }
-});
+}) : null;
 
-export const Terminal = 'PropertyId' in Vte ? TerminalTermprop : TerminalBase;
+export const Terminal = TerminalTermprop ?? TerminalBase;
