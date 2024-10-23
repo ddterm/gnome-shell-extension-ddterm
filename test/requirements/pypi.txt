@@ -30,7 +30,7 @@ pytest-html==3.2.0
     # via -r pypi.in
 pytest-metadata==3.1.1
     # via pytest-html
-pytest-xdist==3.6.1
+pytest-xdist @ git+https://github.com/amezin/pytest-xdist.git@993520105e67ce7066a14accd1edb5dc047d5edf
     # via -r pypi.in
 pyyaml==6.0.2
     # via -r pypi.in

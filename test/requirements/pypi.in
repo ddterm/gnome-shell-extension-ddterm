@@ -4,4 +4,4 @@ pytest~=8.3.1
 pytest-html~=3.2.0
 ansi2html~=1.9.1
 pyyaml~=6.0
-pytest-xdist[psutil,setproctitle]~=3.6.1
+pytest-xdist[psutil,setproctitle] @ git+https://github.com/amezin/pytest-xdist.git@993520105e67ce7066a14accd1edb5dc047d5edf
