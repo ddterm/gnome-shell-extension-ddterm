@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-06 19:17+0000\n"
+"POT-Creation-Date: 2024-10-29 17:27+0000\n"
 "PO-Revision-Date: 2024-06-01 19:09+0000\n"
 "Last-Translator: phlostically <phlostically@mailinator.com>\n"
 "Language-Team: Esperanto <https://hosted.weblate.org/projects/gnome-shell-"
@@ -1254,7 +1254,7 @@ msgstr ""
 msgid "Detect \"news:\", \"man:\" URLs"
 msgstr ""
 
-#: ddterm/shell/extension.js:286
+#: ddterm/shell/extension.js:297
 msgid "Failed to launch ddterm application"
 msgstr ""
 
