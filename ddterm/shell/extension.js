@@ -25,6 +25,7 @@ import Shell from 'gi://Shell';
 
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import * as MessageTray from 'resource:///org/gnome/shell/ui/messageTray.js';
+import { ExtensionState } from 'resource:///org/gnome/shell/misc/extensionUtils.js';
 
 import { Animation, ReverseAnimation } from './animation.js';
 import { AppControl } from './appcontrol.js';
@@ -169,8 +170,9 @@ function create_panel_icon(settings, window_matcher, app_control, gettext_contex
     return panel_icon;
 }
 
-function install(src_dir, launcher, rollback) {
-    const installer = new Installer(src_dir, launcher);
+function install(extension, rollback) {
+    const { install_src_dir, launcher_path } = extension;
+    const installer = new Installer(install_src_dir, launcher_path);
     installer.install();
 
     if (GObject.signal_lookup('shutdown', Shell.Global)) {
@@ -186,8 +188,17 @@ function install(src_dir, launcher, rollback) {
     rollback.push(() => {
         // Don't uninstall desktop/service files because of screen locking
         // GNOME Shell picks up newly installed desktop files with a noticeable delay
-        if (!Main.sessionMode.isLocked)
-            installer.uninstall();
+        if (Main.sessionMode.isLocked)
+            return;
+
+        // Also don't uninstall if ddterm is being disabled only temporarily
+        // (because some other extension is being disabled).
+        if (ExtensionState.DEACTIVATING ?? ExtensionState.DISABLING) {
+            if (extension.is_state_active())
+                return;
+        }
+
+        installer.uninstall();
     });
 }
 
@@ -337,6 +348,13 @@ class EnabledExtension {
             if (Main.sessionMode.isLocked)
                 return;
 
+            // Also don't terminate the app if ddterm is being disabled only temporarily
+            // (because some other extension is being disabled).
+            if (ExtensionState.DEACTIVATING ?? ExtensionState.DISABLING) {
+                if (this.extension.is_state_active())
+                    return;
+            }
+
             if (!this.app_control.quit())
                 this.service.terminate();
         });
@@ -386,11 +404,7 @@ class EnabledExtension {
             rollback
         );
 
-        install(
-            this.extension.install_src_dir,
-            this.extension.launcher_path,
-            rollback
-        );
+        install(this.extension, rollback);
     }
 
     _set_skip_taskbar() {
@@ -527,5 +541,14 @@ export default class DDTermExtension extends Extension {
     disable() {
         this.enabled_state?.disable();
         this.enabled_state = null;
+    }
+
+    is_state_active() {
+        const info = Main.extensionManager.lookup(this.uuid);
+
+        return [
+            ExtensionState.ACTIVE ?? ExtensionState.ENABLED,
+            ExtensionState.ACTIVATING ?? ExtensionState.ENABLING,
+        ].includes(info?.state ?? ExtensionState.ERROR);
     }
 }
