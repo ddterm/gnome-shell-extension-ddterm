@@ -158,7 +158,10 @@ export const WindowMatch = GObject.registerClass({
                 So if we did not launch the app, allow this check to be skipped
                 on X11.
             */
-            if (this.subprocess || win.get_client_type() === Meta.WindowClientType.WAYLAND)
+            if (this.subprocess?.is_running())
+                return GLib.SOURCE_REMOVE;
+
+            if (win.get_client_type() === Meta.WindowClientType.WAYLAND)
                 return GLib.SOURCE_REMOVE;
         }
 

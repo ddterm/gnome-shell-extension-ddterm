@@ -235,8 +235,14 @@ export const Subprocess = GObject.registerClass({
         return this._subprocess;
     }
 
+    is_running() {
+        return Boolean(this._subprocess.get_identifier());
+    }
+
     owns_window(win) {
-        return win.get_pid().toString() === this.g_subprocess.get_identifier();
+        const identifier = this._subprocess.get_identifier();
+
+        return identifier && win.get_pid().toString() === identifier;
     }
 
     wait(cancellable = null) {
