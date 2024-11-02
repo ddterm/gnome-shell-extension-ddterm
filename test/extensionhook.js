@@ -91,10 +91,11 @@ const Interface = GObject.registerClass({
         this._update_window_rect();
         this._update_transitions();
 
-        this._destroy_callbacks.push(
-            connect(this.service, 'notify::subprocess', () => {
-                this.AppRunning = this.service.subprocess !== null;
-            })
+        this.service.bind_property(
+            'is-running',
+            this,
+            'AppRunning',
+            GObject.BindingFlags.DEFAULT
         );
 
         this.wrapper = Gio.DBusExportedObject.wrapJSObject(DBUS_INTERFACE_INFO, this);

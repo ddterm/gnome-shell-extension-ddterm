@@ -36,7 +36,6 @@ import { Installer } from './install.js';
 import { Notifications } from './notifications.js';
 import { PanelIconProxy } from './panelicon.js';
 import { Service } from './service.js';
-import { Subprocess, WaylandSubprocess } from './subprocess.js';
 import { WindowManager } from './wm.js';
 import { WindowMatch } from './windowmatch.js';
 
@@ -159,10 +158,11 @@ function create_panel_icon(settings, window_matcher, app_control, gettext_contex
         if (value === window_visible)
             return;
 
-        if (value)
-            app_control.activate(false);
-        else
-            app_control.hide(false);
+        const promise = value ? app_control.activate(false) : app_control.hide(false);
+
+        promise.catch(
+            e => logError(e, 'Failed to toggle ddterm through panel icon')
+        );
     });
 
     panel_icon.active = window_matcher.current_window !== null;
@@ -273,6 +273,7 @@ class EnabledExtension {
         this.service = new Service({
             bus: Gio.DBus.session,
             bus_name: APP_ID,
+            executable: this.extension.launcher_path,
             subprocess: this.extension.app_process,
         });
 
@@ -280,26 +281,47 @@ class EnabledExtension {
             this.service.unwatch();
         });
 
-        this.service.connect('activate', () => {
-            this.notifications.destroy(
-                MessageTray.NotificationDestroyedReason.EXPIRED
+        if (Meta.is_wayland_compositor()) {
+            this.settings.bind(
+                'force-x11-gdk-backend',
+                this.service,
+                'wayland',
+                Gio.SettingsBindFlags.GET | Gio.SettingsBindFlags.INVERT_BOOLEAN
             );
+        }
 
-            if (!this.extension.check_revision_match())
-                this.notifications.show_version_mismatch();
+        this.service.connect('notify::subprocess', service => {
+            const { subprocess } = service;
 
-            try {
-                return this.extension.start_app_process(this.settings);
-            } catch (ex) {
-                logError(ex, 'Failed to launch application/service process');
+            if (subprocess)
+                this.extension.watch_app_process(subprocess);
+        });
 
-                this.notifications.show_error(
-                    this.extension.gettext('Failed to launch ddterm application'),
-                    ex
+        this.service.connect('notify::starting', service => {
+            if (service.starting) {
+                this.notifications.destroy(
+                    MessageTray.NotificationDestroyedReason.EXPIRED
                 );
 
-                return null;
+                if (!this.extension.check_revision_match())
+                    this.notifications.show_version_mismatch();
             }
+        });
+
+        this.service.connect('error', (service, ex) => {
+            const log_collector = service.subprocess?.log_collector;
+
+            if (!log_collector) {
+                this.notifications.show_error(ex);
+                return;
+            }
+
+            log_collector.collect().then(output => {
+                this.notifications.show_error(ex, output);
+            }).catch(ex2 => {
+                logError(ex2, 'Failed to collect logs');
+                this.notifications.show_error(ex);
+            });
         });
 
         this.window_geometry = new WindowGeometry();
@@ -469,7 +491,7 @@ export default class DDTermExtension extends Extension {
 
         this.app_process = null;
         this.enabled_state = null;
-        this.app_extra_args = [];
+        this._app_extra_args = [];
         this._debug = null;
     }
 
@@ -484,6 +506,17 @@ export default class DDTermExtension extends Extension {
             this.enabled_state.debug = func;
     }
 
+    get app_extra_args() {
+        return this._app_extra_args;
+    }
+
+    set app_extra_args(value) {
+        this._app_extra_args = value;
+
+        if (this.enabled_state)
+            this.enabled_state.service.extra_argv = value;
+    }
+
     read_revision() {
         return Shell.get_file_contents_utf8_sync(this.revision_file_path).trim();
     }
@@ -492,50 +525,28 @@ export default class DDTermExtension extends Extension {
         return this.revision === this.read_revision();
     }
 
-    start_app_process(settings) {
-        const wayland =
-            Meta.is_wayland_compositor() && !settings.get_boolean('force-x11-gdk-backend');
-
-        const argv = [
-            this.launcher_path,
-            '--gapplication-service',
-            wayland ? '--allowed-gdk-backends=wayland' : '--allowed-gdk-backends=x11',
-            ...this.app_extra_args,
-        ];
-
-        const app_process = wayland
-            ? new WaylandSubprocess({ journal_identifier: APP_ID, argv })
-            : new Subprocess({ journal_identifier: APP_ID, argv });
-
+    watch_app_process(app_process) {
         this.app_process = app_process;
 
         app_process.wait_check().then(() => {
             log(`${this.launcher_path} exited cleanly`);
         }).catch(ex => {
-            logError(ex, this.launcher_path);
+            const service = this.enabled_state?.service;
 
-            if (!app_process.log_collector) {
-                this.enabled_state?.notifications.show_error(ex);
+            if (service?.starting && service?.subprocess === app_process)
                 return;
-            }
 
-            app_process.log_collector?.collect().then(output => {
-                this.enabled_state?.notifications.show_error(ex, output);
-            }).catch(ex2 => {
-                logError(ex2, 'Failed to collect logs');
-                this.enabled_state?.notifications.show_error(ex);
-            });
+            logError(ex, this.launcher_path);
         }).finally(() => {
             if (this.app_process === app_process)
                 this.app_process = null;
         });
-
-        return app_process;
     }
 
     enable() {
         this.enabled_state = new EnabledExtension(this);
         this.enabled_state.debug = this.debug;
+        this.enabled_state.service.extra_argv = this.app_extra_args;
     }
 
     disable() {

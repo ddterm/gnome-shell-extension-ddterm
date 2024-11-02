@@ -147,7 +147,7 @@ export const AppControl = GObject.registerClass({
     }
 
     async ensure_running() {
-        if (this.service.bus_name_owner)
+        if (this.actions)
             return;
 
         const cancellable = Gio.Cancellable.new();
