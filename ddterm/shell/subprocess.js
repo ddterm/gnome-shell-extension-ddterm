@@ -61,6 +61,10 @@ function make_subprocess_launcher_fallback() {
     );
 }
 
+function shell_join(argv) {
+    return argv.map(arg => GLib.shell_quote(arg)).join(' ');
+}
+
 class JournalctlLogCollector {
     constructor(journalctl, since, pid) {
         this._argv = [
@@ -274,7 +278,7 @@ export const Subprocess = GObject.registerClass({
     }
 
     _spawn(subprocess_launcher) {
-        log(`Starting subprocess: ${JSON.stringify(this.argv)}`);
+        log(`Starting subprocess: ${shell_join(this.argv)}`);
         return subprocess_launcher.spawnv(this.argv);
     }
 });
@@ -295,7 +299,7 @@ export const WaylandSubprocess = GObject.registerClass({
     }
 
     _spawn(subprocess_launcher) {
-        log(`Starting wayland client subprocess: ${JSON.stringify(this.argv)}`);
+        log(`Starting wayland client subprocess: ${shell_join(this.argv)}`);
 
         if (Meta.WaylandClient.new.length === 1)
             this._wayland_client = Meta.WaylandClient.new(subprocess_launcher);
