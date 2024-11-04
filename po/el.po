@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-29 17:27+0000\n"
+"POT-Creation-Date: 2024-11-04 03:47+0000\n"
 "PO-Revision-Date: 2023-09-26 17:35+0300\n"
 "Last-Translator: Anagnostakis Ioannis <rizitis@gmail.com>\n"
 "Language-Team: Greek, Modern (1453-) <>\n"
@@ -1270,10 +1270,6 @@ msgstr "Εύρεση adresses email"
 #: ddterm/pref/ui/prefs-text.ui:300
 msgid "Detect \"news:\", \"man:\" URLs"
 msgstr "Εντόπιση \"news:\", \"man:\" URLs"
-
-#: ddterm/shell/extension.js:297
-msgid "Failed to launch ddterm application"
-msgstr ""
 
 #: ddterm/shell/notifications.js:67 ddterm/shell/notifications.js:135
 #, fuzzy

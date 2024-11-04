@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-29 17:27+0000\n"
+"POT-Creation-Date: 2024-11-04 03:47+0000\n"
 "PO-Revision-Date: 2024-09-09 02:09+0000\n"
 "Last-Translator: Bruno Rodrigues <b.rodrigues@live.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/gnome-shell-"
@@ -1264,10 +1264,6 @@ msgstr "Detectar endereços de e-mail"
 msgid "Detect \"news:\", \"man:\" URLs"
 msgstr "Detectar endereços dos schemes news:/ e man:/"
 
-#: ddterm/shell/extension.js:297
-msgid "Failed to launch ddterm application"
-msgstr "Falha ao abrir a aplicação ddterm"
-
 #: ddterm/shell/notifications.js:67 ddterm/shell/notifications.js:135
 msgid "Copy to Clipboard"
 msgstr "Copiar para Área de Transferência"
@@ -1283,6 +1279,9 @@ msgstr "Instalar"
 #: ddterm/shell/panelicon.js:61
 msgid "Show"
 msgstr "Mostrar"
+
+#~ msgid "Failed to launch ddterm application"
+#~ msgstr "Falha ao abrir a aplicação ddterm"
 
 #~ msgid "Window type _hint (X11 only):"
 #~ msgstr "Indicação de tipo de janela (apenas X11):"

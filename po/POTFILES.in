@@ -33,6 +33,5 @@ ddterm/pref/ui/prefs-scrolling.ui
 ddterm/pref/ui/prefs-shortcuts.ui
 ddterm/pref/ui/prefs-tabs.ui
 ddterm/pref/ui/prefs-text.ui
-ddterm/shell/extension.js
 ddterm/shell/notifications.js
 ddterm/shell/panelicon.js

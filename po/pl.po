@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-29 17:27+0000\n"
+"POT-Creation-Date: 2024-11-04 03:47+0000\n"
 "PO-Revision-Date: 2024-06-15 17:09+0000\n"
 "Last-Translator: Wojciech Teichert <wojtekt99@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/gnome-shell-"
@@ -1270,10 +1270,6 @@ msgstr "Wykrywaj adresy e-mail"
 msgid "Detect \"news:\", \"man:\" URLs"
 msgstr "Wykrywaj adresy URL \"news:\", \"man:\""
 
-#: ddterm/shell/extension.js:297
-msgid "Failed to launch ddterm application"
-msgstr "Otwarcie aplikacji ddterm nie powiodło się"
-
 #: ddterm/shell/notifications.js:67 ddterm/shell/notifications.js:135
 msgid "Copy to Clipboard"
 msgstr "Skopiuj do schowka"
@@ -1289,6 +1285,9 @@ msgstr "Zainstaluj"
 #: ddterm/shell/panelicon.js:61
 msgid "Show"
 msgstr "Pokaż"
+
+#~ msgid "Failed to launch ddterm application"
+#~ msgstr "Otwarcie aplikacji ddterm nie powiodło się"
 
 #~ msgid "Enable HeapDump D-Bus interface (for testing/debug)"
 #~ msgstr "Włącz interfejs D-Bus HeapDump (w celu tesowania/debugowania)"

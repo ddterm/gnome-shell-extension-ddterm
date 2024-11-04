@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-29 17:27+0000\n"
+"POT-Creation-Date: 2024-11-04 03:47+0000\n"
 "PO-Revision-Date: 2024-10-03 16:15+0000\n"
 "Last-Translator: Muha Aliss <muhaaliss@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/gnome-shell-"
@@ -1263,10 +1263,6 @@ msgstr "E-posta adreslerini tespit et"
 msgid "Detect \"news:\", \"man:\" URLs"
 msgstr "\"news:\", \"man:\" URL'lerini tespit et"
 
-#: ddterm/shell/extension.js:297
-msgid "Failed to launch ddterm application"
-msgstr "ddterm uygulaması başlatılamadı"
-
 #: ddterm/shell/notifications.js:67 ddterm/shell/notifications.js:135
 msgid "Copy to Clipboard"
 msgstr "Panoya Kopyala"
@@ -1282,6 +1278,9 @@ msgstr "Kur"
 #: ddterm/shell/panelicon.js:61
 msgid "Show"
 msgstr "Göster"
+
+#~ msgid "Failed to launch ddterm application"
+#~ msgstr "ddterm uygulaması başlatılamadı"
 
 #~ msgid "Enable HeapDump D-Bus interface (for testing/debug)"
 #~ msgstr "HeapDump D-Bus arayüzünü etkinleştir (test ve hata ayıklama için)"
