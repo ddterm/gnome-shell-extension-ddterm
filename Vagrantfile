@@ -85,12 +85,12 @@ Vagrant.configure("2") do |config|
     fi
   SCRIPT
 
-  config.vm.define "fedora39", autostart: false do |version|
-    version.vm.box = "gnome-shell-box/fedora39"
+  config.vm.define "fedora41", autostart: false do |version|
+    version.vm.box = "gnome-shell-box/fedora41"
   end
 
-  config.vm.define "silverblue39", autostart: false do |version|
-    version.vm.box = "gnome-shell-box/silverblue39"
+  config.vm.define "silverblue41", autostart: false do |version|
+    version.vm.box = "gnome-shell-box/silverblue41"
   end
 
   config.vm.define "fedora40", autostart: false do |version|
