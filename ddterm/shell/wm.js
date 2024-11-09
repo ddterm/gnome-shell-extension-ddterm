@@ -144,7 +144,7 @@ export const WindowManager = GObject.registerClass({
         );
 
         this._setup_maximized_handlers();
-        this._update_window_geometry(true);
+        this._update_window_geometry();
 
         if (!this._actor.visible) {
             if (this._client_type === Meta.WindowClientType.WAYLAND) {
@@ -404,8 +404,11 @@ export const WindowManager = GObject.registerClass({
         }
     }
 
-    _move_resize_window(win, target_rect) {
-        win.move_resize_frame(
+    _move_resize_window(target_rect) {
+        if (this._client_type === Meta.WindowClientType.WAYLAND)
+            this.window.move_frame(true, target_rect.x, target_rect.y);
+
+        this.window.move_resize_frame(
             false,
             target_rect.x,
             target_rect.y,
@@ -447,7 +450,7 @@ export const WindowManager = GObject.registerClass({
         }
     }
 
-    _update_window_geometry(force_monitor = false) {
+    _update_window_geometry() {
         this._cancel_geometry_fixup();
 
         this.debug?.('Updating window geometry');
@@ -455,25 +458,14 @@ export const WindowManager = GObject.registerClass({
         const maximize = this.settings.get_boolean('window-maximize');
 
         this._move_resize_window(
-            this.window,
             maximize ? this.geometry.workarea : this.geometry.target_rect
         );
 
-        force_monitor = force_monitor || this.window.get_monitor() !== this.geometry.monitor_index;
-
-        if (force_monitor) {
-            this.debug?.('Scheduling geometry fixup for move to another monitor');
-            this._schedule_geometry_fixup();
-            this.window.move_to_monitor(this.geometry.monitor_index);
-        }
-
         if (maximize) {
-            if (force_monitor) {
-                this._move_resize_window(this.window, this.geometry.workarea);
+            if (!this._actor.visible && this.show_animation.should_skip)
+                Main.wm.skipNextEffect(this._actor);
 
-                if (!this._actor.visible && this.show_animation.should_skip)
-                    Main.wm.skipNextEffect(this._actor);
-            } else if (!this.window.get_frame_rect().equal(this.geometry.workarea)) {
+            if (!this.window.get_frame_rect().equal(this.geometry.workarea)) {
                 this.debug?.('Scheduling geometry fixup because of workarea mismatch');
                 this._schedule_geometry_fixup();
             }
@@ -495,12 +487,10 @@ export const WindowManager = GObject.registerClass({
             return;
         }
 
-        if (force_monitor) {
-            this._move_resize_window(this.window, this.geometry.target_rect);
+        if (!this._actor.visible && this.show_animation.should_skip)
+            Main.wm.skipNextEffect(this._actor);
 
-            if (!this._actor.visible && this.show_animation.should_skip)
-                Main.wm.skipNextEffect(this._actor);
-        } else if (!this.window.get_frame_rect().equal(this.geometry.target_rect)) {
+        if (!this.window.get_frame_rect().equal(this.geometry.target_rect)) {
             this.debug?.('Scheduling geometry fixup because of geometry mismatch');
             this._schedule_geometry_fixup();
         }
