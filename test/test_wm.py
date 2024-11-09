@@ -862,7 +862,4 @@ class TestWaylandTwoMonitors(TestWayland):
 
     @pytest.fixture
     def max_window_rect_changes(self, max_size_allocations):
-        if max_size_allocations == 1:
-            return 1
-
-        return 3
+        return max_size_allocations
