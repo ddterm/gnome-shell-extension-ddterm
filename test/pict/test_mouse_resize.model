@@ -27,6 +27,6 @@ IF [layout_mode] = "displayconfig.LayoutMode.PHYSICAL"
 
 IF [class] = "TestWaylandTwoMonitors"
     THEN [monitor1_scale] <> 0 AND [monitor1_transform] <> "MONITOR_DISABLED"
-    ELSE [monitor1_scale] = 0 AND [monitor1_transform] = "MONITOR_DISABLED" AND [current_monitor] = 0 AND [primary_monitor] = 0 AND [window_monitor_connector] <> 1;
+    ELSE [monitor1_scale] = 0 AND [monitor1_transform] = "MONITOR_DISABLED" AND [current_monitor] = 0 AND [primary_monitor] = 0;
 
 [window_size] <> [window_size2];
