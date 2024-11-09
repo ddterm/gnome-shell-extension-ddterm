@@ -415,9 +415,8 @@ class GnomeSessionFixtures:
 
         display_config.configure(initial_monitor_layout)
 
-        if not display_config.cached_state_valid:
-            shell_test_hook.Later(shellhook.LaterType.BEFORE_REDRAW)
-            shell_test_hook.Later(shellhook.LaterType.IDLE)
+        shell_test_hook.Later(shellhook.LaterType.BEFORE_REDRAW)
+        shell_test_hook.Later(shellhook.LaterType.IDLE)
 
     @pytest.fixture(scope='class')
     def extension_init(self, shell_init, shell_extensions_dbus_interface):
