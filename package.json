@@ -9,8 +9,8 @@
         "eslint-plugin-jsdoc": "50.4.3"
     },
     "scripts": {
-        "lint": "eslint .",
-        "lint:fix": "eslint --fix .",
+        "lint": "ESLINT_USE_FLAT_CONFIG=false eslint .",
+        "lint:fix": "ESLINT_USE_FLAT_CONFIG=false eslint --fix .",
         "postinstall": "if [ -n \"$DDTERM_POST_INSTALL_STAMP\" ]; then touch \"$DDTERM_POST_INSTALL_STAMP\"; fi"
     }
 }
