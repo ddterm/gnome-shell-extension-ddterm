@@ -70,7 +70,7 @@ export function gi_require_optional(imports_versions) {
 
         try {
             loaded[lib] = Gi.require(lib, version);
-        } catch (ex) {
+        } catch {
             const pkg = resolve_package(version_manifest, os_ids);
 
             if (pkg)
