@@ -27,6 +27,8 @@ function init() {
     imports.misc.extensionUtils.initTranslations();
 }
 
+/* exported init */
+
 function  fillPreferencesWindow(win) {
     const settings = imports.misc.extensionUtils.getSettings();
     const gettext_context = Gettext.domain(Me.metadata['gettext-domain']);
@@ -53,4 +55,4 @@ function  fillPreferencesWindow(win) {
     });
 }
 
-/* exported init fillPreferencesWindow */
+/* exported fillPreferencesWindow */

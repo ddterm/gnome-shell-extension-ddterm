@@ -40,6 +40,8 @@ function require(namespace, version = undefined) {
     return imports.gi[namespace];
 }
 
+/* exported require */
+
 function try_require(namespace, version = undefined) {
     try {
         return require(namespace, version);
@@ -48,6 +50,8 @@ function try_require(namespace, version = undefined) {
         return null;
     }
 }
+
+/* exported try_require */
 
 var Extension = class Extension {
     constructor(meta) {
@@ -64,7 +68,12 @@ var Extension = class Extension {
     }
 };
 
+/* exported Extension */
+
 var Notification = MessageTray.Notification;
+
+/* exported Notification */
+
 var NotificationSource = MessageTray.Source;
 
-/* exported require try_require Extension Notification NotificationSource */
+/* exported NotificationSource */

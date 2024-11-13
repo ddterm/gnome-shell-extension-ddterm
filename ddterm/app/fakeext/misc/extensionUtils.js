@@ -19,8 +19,6 @@
 
 'use strict';
 
-/* exported getCurrentExtension setCurrentExtension installImporter */
-
 /*
     fake current extension object to make `Me.imports` and `Me.dir` work
     in application context
@@ -32,9 +30,13 @@ function setCurrentExtension(extension) {
     _extension = extension;
 }
 
+/* exported setCurrentExtension */
+
 function getCurrentExtension() {
     return _extension;
 }
+
+/* exported getCurrentExtension */
 
 // copied from real extensionUtils
 function installImporter(extension) {
@@ -45,3 +47,5 @@ function installImporter(extension) {
     extension.imports = imports[extension.dir.get_basename()];
     imports.searchPath = oldSearchPath;
 }
+
+/* exported installImporter */
