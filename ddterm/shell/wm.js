@@ -405,9 +405,6 @@ export const WindowManager = GObject.registerClass({
     }
 
     _move_resize_window(target_rect) {
-        if (this._client_type === Meta.WindowClientType.WAYLAND)
-            this.window.move_frame(true, target_rect.x, target_rect.y);
-
         this.window.move_resize_frame(
             false,
             target_rect.x,
@@ -456,12 +453,14 @@ export const WindowManager = GObject.registerClass({
         this.debug?.('Updating window geometry');
 
         const maximize = this.settings.get_boolean('window-maximize');
+        const target_rect = maximize ? this.geometry.workarea : this.geometry.target_rect;
 
-        this._move_resize_window(
-            maximize ? this.geometry.workarea : this.geometry.target_rect
-        );
+        if (this._client_type === Meta.WindowClientType.WAYLAND)
+            this.window.move_frame(true, target_rect.x, target_rect.y);
 
         if (maximize) {
+            this._move_resize_window(target_rect);
+
             if (!this._actor.visible && this.show_animation.should_skip)
                 Main.wm.skipNextEffect(this._actor);
 
@@ -486,6 +485,8 @@ export const WindowManager = GObject.registerClass({
             this.window.unmaximize(Meta.MaximizeFlags.VERTICAL);
             return;
         }
+
+        this._move_resize_window(target_rect);
 
         if (!this._actor.visible && this.show_animation.should_skip)
             Main.wm.skipNextEffect(this._actor);
