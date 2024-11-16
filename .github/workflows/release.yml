@@ -10,7 +10,7 @@ jobs:
   build:
     uses: ./.github/workflows/build.yml
 
-  bump-version:
+  check-version:
     if: ${{ !github.event.repository.fork }}
 
     needs:
@@ -22,46 +22,21 @@ jobs:
       image: ghcr.io/ddterm/ci-docker-image:2024.11.05.0
 
     steps:
-    - name: Get app token
-      id: app-token
-      uses: actions/create-github-app-token@v1
-      with:
-        app-id: ${{ secrets.APP_ID }}
-        private-key: ${{ secrets.APP_KEY }}
-
     - name: Checkout
       uses: actions/checkout@v4
-      with:
-        token: ${{ steps.app-token.outputs.token }}
-        ref: refs/heads/master
 
     - run: git config --global --replace-all safe.directory "$GITHUB_WORKSPACE"
-
-    - name: Check branch SHA matches tag SHA
-      run: |
-        git fetch origin "${{ github.ref }}"
-        test "$(git rev-parse HEAD)" = "$(git rev-parse FETCH_HEAD)"
 
     - name: Check version matches the tag
       run: |
         test "v$(meson rewrite kwargs info project / 2>&1 | jq -r '.kwargs."project#/".version')" = "${{ github.ref_name }}"
-
-    - name: Bump version
-      run: |
-        ./bump-version.sh
-
-    - name: Commit
-      uses: ddterm/github-api-commit-action@ccf9b520c5698380ad3b9619c5add427369b7ef1
-      with:
-        token: ${{ steps.app-token.outputs.token }}
-        commit-message: 'Post-release version bump [ci skip]'
 
   draft:
     if: ${{ !github.event.repository.fork }}
 
     needs:
       - build
-      - bump-version
+      - check-version
 
     runs-on: ubuntu-24.04
 
