@@ -51,7 +51,11 @@ subdir('pref')
 subdir('shell')
 subdir('util')
 
-desktop_file_validate_tool = find_program('desktop-file-validate', required: false, disabler: true)
+desktop_file_validate_tool = find_program(
+  'desktop-file-validate',
+  required: false,
+  disabler: true,
+)
 
 test(
   desktop_entry_final.full_path(),

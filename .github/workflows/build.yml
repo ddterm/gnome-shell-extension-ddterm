@@ -92,6 +92,17 @@ jobs:
       run: echo "::remove-matcher owner=flake8::"
       if: ${{ always() && steps.enable_flake8_errors.outcome == 'success' }}
 
+    - name: Check meson.build formatting
+      run: |
+        meson format -e -r -i
+        if ! git diff --exit-code --color=always
+        then
+          echo "::error:: meson.build formatting is incorrect"
+          echo "::error:: Please run meson format -e -r -i"
+          exit 1
+        fi
+      if: ${{ always() && steps.checkout.conclusion == 'success' }}
+
     - name: Ensure Python requirements .txt files are in sync with .in files
       run: |
         tox --sitepackages -e pip-compile

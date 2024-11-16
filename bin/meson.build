@@ -14,7 +14,7 @@ pack += configure_file(
   },
   install: true,
   install_dir: extension_dir / 'bin',
-  install_mode: 'rwxr-xr-x'
+  install_mode: 'rwxr-xr-x',
 )
 
 launcher_installed = extension_dir / 'bin' / 'com.github.amezin.ddterm'

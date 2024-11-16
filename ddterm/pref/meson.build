@@ -44,9 +44,7 @@ endif
 pref_util_configured = configure_file(
   input: 'util.js',
   output: 'util.conf.js',
-  configuration: {
-    'PREF_BASE_URI': pref_base_uri,
-  }
+  configuration: {'PREF_BASE_URI': pref_base_uri},
 )
 
 if get_option('esm')

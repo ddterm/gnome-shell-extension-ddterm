@@ -1,6 +1,6 @@
 pref_ui_gtk3_files = []
 
-foreach pref_ui_file: pref_ui_files
+foreach pref_ui_file : pref_ui_files
   out_file = custom_target(
     command: [output_capture, gtk3_builder_tool, 'simplify', '@INPUT@'],
     input: pref_ui_file,

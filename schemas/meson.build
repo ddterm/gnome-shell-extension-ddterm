@@ -7,7 +7,7 @@ schemas_compiled = custom_target(
     glib_compile_schemas_tool,
     '--strict',
     '--targetdir=@OUTDIR@',
-    '@CURRENT_SOURCE_DIR@'
+    '@CURRENT_SOURCE_DIR@',
   ],
   input: schema,
   output: 'gschemas.compiled',
@@ -25,12 +25,12 @@ test(
   suite: ['glib-compile-schemas'],
 )
 
-schema_copy = fs.copyfile(
-  schema,
-  install: true,
-  install_dir: schema_dir
-)
+schema_copy = fs.copyfile(schema, install: true, install_dir: schema_dir)
 
 pack += schema_copy
 
-meson.add_install_script(glib_compile_schemas_tool, schema_dir, skip_if_destdir: true)
+meson.add_install_script(
+  glib_compile_schemas_tool,
+  schema_dir,
+  skip_if_destdir: true,
+)

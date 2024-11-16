@@ -3,7 +3,7 @@ xsltproc = find_program('xsltproc')
 
 pref_ui_gtk4_files = []
 
-foreach pref_ui_file: pref_ui_files
+foreach pref_ui_file : pref_ui_files
   fixup = custom_target(
     command: [xsltproc, '-o', '@OUTPUT@', files('3to4-fixup.xsl'), '@INPUT@'],
     input: pref_ui_file,
@@ -11,7 +11,13 @@ foreach pref_ui_file: pref_ui_files
   )
 
   out_file = custom_target(
-    command: [output_capture, gtk4_builder_tool, 'simplify', '--3to4', '@INPUT@'],
+    command: [
+      output_capture,
+      gtk4_builder_tool,
+      'simplify',
+      '--3to4',
+      '@INPUT@',
+    ],
     input: fixup,
     output: fs.name(pref_ui_file),
     install: true,

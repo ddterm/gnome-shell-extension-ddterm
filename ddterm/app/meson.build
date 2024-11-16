@@ -19,14 +19,15 @@ app_js_files = files(
   'terminalsettings.js',
   'urldetect.js',
   'urldetect_patterns.js',
-  'waitstatus.js'
+  'waitstatus.js',
 )
 
-app_ui_files = files(
-  'menus.ui',
-)
+app_ui_files = files('menus.ui')
 
-foreach app_file : app_js_files + app_ui_files + files('dependencies.json', 'style.css')
+foreach app_file : app_js_files + app_ui_files + files(
+  'dependencies.json',
+  'style.css',
+)
   pack += fs.copyfile(
     app_file,
     fs.name(app_file),
@@ -35,7 +36,9 @@ foreach app_file : app_js_files + app_ui_files + files('dependencies.json', 'sty
   )
 endforeach
 
-app_prefsdialog_file = files(get_option('esm') ? 'prefsdialog.js' : 'prefsdialog.legacy.js')
+app_prefsdialog_file = files(
+  get_option('esm') ? 'prefsdialog.js' : 'prefsdialog.legacy.js',
+)
 app_js_files += app_prefsdialog_file
 
 pack += fs.copyfile(

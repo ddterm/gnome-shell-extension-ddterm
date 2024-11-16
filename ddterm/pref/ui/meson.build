@@ -12,7 +12,7 @@ pref_ui_files = files(
   'prefs-text.ui',
 )
 
-foreach pref_ui_file: pref_ui_files
+foreach pref_ui_file : pref_ui_files
   test(
     fs.parent(pref_ui_file) / fs.name(pref_ui_file),
     gtk3_builder_tool,

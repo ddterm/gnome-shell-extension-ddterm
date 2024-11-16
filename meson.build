@@ -1,9 +1,9 @@
 project(
   'ddterm',
-version : '56',
-  meson_version : '>= 1.0.0',
-  license : 'GPL-3.0-or-later',
-  default_options : ['prefix=/usr']
+  version: '56',
+  meson_version: '>= 1.0.0',
+  license: 'GPL-3.0-or-later',
+  default_options: ['prefix=/usr'],
 )
 
 gjs = find_program('gjs', version: get_option('esm') ? '>=1.78.0' : '>=1.68.0')
@@ -32,11 +32,7 @@ endif
 
 pack = [
   fs.copyfile('LICENSE'),
-  fs.copyfile(
-    'stylesheet.css',
-    install: true,
-    install_dir: extension_dir
-  )
+  fs.copyfile('stylesheet.css', install: true, install_dir: extension_dir),
 ]
 
 built_js = [
@@ -44,14 +40,14 @@ built_js = [
     get_option('esm') ? 'extension.js' : 'extension.legacy.js',
     'extension.js',
     install: true,
-    install_dir: extension_dir
+    install_dir: extension_dir,
   ),
   fs.copyfile(
     get_option('esm') ? 'prefs.js' : 'prefs.legacy.js',
     'prefs.js',
     install: true,
-    install_dir: extension_dir
-  )
+    install_dir: extension_dir,
+  ),
 ]
 
 metadata = configuration_data()
@@ -83,7 +79,7 @@ if need_git_version
       '--git-dir',
       '.git',
       'rev-parse',
-      'HEAD'
+      'HEAD',
     ],
     output: 'revision.txt',
     build_always_stale: true,
@@ -119,7 +115,11 @@ alias_target('pack', pack_target)
 
 meson.add_devenv({'DDTERM_BUILT_PACK': pack_target.full_path()})
 
-extensions_tool = find_program('gnome-extensions', required: devtools_required, disabler: true)
+extensions_tool = find_program(
+  'gnome-extensions',
+  required: devtools_required,
+  disabler: true,
+)
 
 run_target(
   'user-install',
@@ -128,14 +128,21 @@ run_target(
 
 run_target('user-uninstall', command: [extensions_tool, 'uninstall', uuid])
 
-foreach target: ['prefs', 'enable', 'disable', 'reset']
+foreach target : ['prefs', 'enable', 'disable', 'reset']
   run_target(target, command: [extensions_tool, target, uuid])
 endforeach
 
-gapplication_tool = find_program('gapplication', required: devtools_required, disabler: true)
+gapplication_tool = find_program(
+  'gapplication',
+  required: devtools_required,
+  disabler: true,
+)
 
-foreach target: ['toggle', 'quit']
-  run_target(target, command: [gapplication_tool, 'action', 'com.github.amezin.ddterm', target])
+foreach target : ['toggle', 'quit']
+  run_target(
+    target,
+    command: [gapplication_tool, 'action', 'com.github.amezin.ddterm', target],
+  )
 endforeach
 
 npm_tool = find_program('npm', required: devtools_required, disabler: true)
@@ -146,7 +153,7 @@ meson.add_devenv(npm_env)
 npm_install = custom_target(
   command: [npm_tool, '-C', '@CURRENT_SOURCE_DIR@', 'install'],
   output: fs.name(npm_install_stamp),
-  depend_files: files('package.json', 'package-lock.json'),
+  depend_files: files('package-lock.json', 'package.json'),
   console: true,
   env: npm_env,
 )
@@ -178,7 +185,14 @@ run_target(
 
 run_target(
   'eslint-fix',
-  command: [npm_tool, '-C', '@CURRENT_SOURCE_DIR@', 'run-script', '--', 'lint:fix'] + eslint_extra_args,
+  command: [
+    npm_tool,
+    '-C',
+    '@CURRENT_SOURCE_DIR@',
+    'run-script',
+    '--',
+    'lint:fix',
+  ] + eslint_extra_args,
   depends: npm_install,
 )
 
@@ -193,19 +207,24 @@ test(
 )
 
 configure_file(
-  input: 'lint' / (
-    get_option('esm') ? 'eslintrc-ddterm-build-esm.yml.in' : 'eslintrc-ddterm-build-legacy.yml.in'
-  ),
+  input: 'lint' / (get_option('esm') ? 'eslintrc-ddterm-build-esm.yml.in' : 'eslintrc-ddterm-build-legacy.yml.in'),
   output: '.eslintrc.yml',
   configuration: {
-    'common_eslintrc': meson.current_source_dir() / 'lint' / 'eslintrc-ddterm-common.yml'
+    'common_eslintrc': meson.current_source_dir() / 'lint' / 'eslintrc-ddterm-common.yml',
   },
 )
 
 test(
   'lint-build',
   npm_tool,
-  args: ['exec', '--', 'eslint', build_dir_relative, '--resolve-plugins-relative-to', '.'],
+  args: [
+    'exec',
+    '--',
+    'eslint',
+    build_dir_relative,
+    '--resolve-plugins-relative-to',
+    '.',
+  ],
   env: ['ESLINT_USE_FLAT_CONFIG=false'],
   depends: [npm_install, built_js],
   workdir: meson.current_source_dir(),

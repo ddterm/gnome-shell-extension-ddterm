@@ -11,7 +11,7 @@ gettext_targets = i18n.gettext(
   gettext_domain,
   args: gettext_args,
   install: true,
-  install_dir: extension_dir / 'locale'
+  install_dir: extension_dir / 'locale',
 )
 
 alias_target('locales', gettext_targets[0])
@@ -35,6 +35,6 @@ run_target(
     '-o',
     '@CURRENT_SOURCE_DIR@' / 'POTFILES.in',
     '--',
-    gettext_args
-  ]
+    gettext_args,
+  ],
 )

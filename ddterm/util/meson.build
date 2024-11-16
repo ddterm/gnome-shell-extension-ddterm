@@ -1,6 +1,4 @@
-util_files = files(
-  'displayconfig.js',
-)
+util_files = files('displayconfig.js')
 
 foreach util_file : util_files
   built_js += fs.copyfile(
