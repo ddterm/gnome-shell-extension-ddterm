@@ -1,5 +1,6 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR ddterm contributors <https://github.com/ddterm/gnome-shell-extension-ddterm/>
+# SPDX-License-Identifier: GPL-3.0-or-later
 # This file is distributed under the same license as the ddterm@amezin.github.com package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #

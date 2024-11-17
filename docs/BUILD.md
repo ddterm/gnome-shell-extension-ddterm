@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2022 Aleksandr Mezin <mezin.alexander@gmail.com>
+
+SPDX-License-Identifier: GPL-3.0-or-later
+-->
+
 # 1. Obtain the source code
 
 ## 1.a) Using `git`

@@ -1,5 +1,6 @@
 # French translation for ddterm
 # Copyright (C) 2022 ddterm contributors <https://github.com/ddterm/gnome-shell-extension-ddterm/>
+# SPDX-License-Identifier: GPL-3.0-or-later
 # This file is distributed under the same license as the ddterm package.
 # Arnaud Feldmann <arnaud.feldmann@gmail.com>, 2023, 2024.
 # fail a fail <yassadmi@proton.me>, 2023.

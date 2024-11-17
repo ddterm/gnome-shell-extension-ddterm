@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2023 Pedro Sader Azevedo
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 [D-BUS Service]
 Name=com.github.amezin.ddterm
 Exec="@LAUNCHER@" --activate-only

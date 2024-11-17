@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2022 Aleksandr Mezin <mezin.alexander@gmail.com>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 on:
   workflow_dispatch:
     inputs:
@@ -56,21 +60,29 @@ jobs:
       continue-on-error: true
       if: ${{ inputs.testspace }}
 
+    - name: Check REUSE compatibility
+      run: reuse lint
+      if: ${{ always() && steps.checkout.conclusion == 'success' }}
+
     - name: Pre-create pip cache directory
       run: mkdir -p "$HOME/.cache/pip"
+      if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
     - name: Install JS dependencies
       id: npm
       run: npm install
+      if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
     - name: Enable eslint error matcher
       id: enable_eslint_errors
       run: echo "::add-matcher::.github/problem-matchers/eslint-stylish.json"
+      if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
     - name: Lint JS code
       run: npm run-script lint -- --format .github/eslint-formatter.js
       env:
         FORCE_COLOR: 0
+      if: ${{ always() && steps.npm.conclusion == 'success' }}
 
     - name: Disable eslint error matcher
       run: echo "::remove-matcher owner=eslint-stylish::"
@@ -188,7 +200,7 @@ jobs:
         if-no-files-found: error
 
     - name: Run checks
-      run: xvfb-run ../.github/faketty.sh meson test -v -j1 --no-suite eslint
+      run: xvfb-run ../.github/faketty.sh meson test -v -j1 --no-suite eslint --no-suite reuse
       working-directory: build
       if: ${{ always() && steps.pack.conclusion == 'success' }}
 

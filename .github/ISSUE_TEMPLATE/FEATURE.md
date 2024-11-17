@@ -1,4 +1,8 @@
 ---
+# SPDX-FileCopyrightText: 2022 Aleksandr Mezin <mezin.alexander@gmail.com>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 name: Feature Request
 about: Request a feature
 labels: enhancement

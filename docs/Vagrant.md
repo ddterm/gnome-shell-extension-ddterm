@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2022 Aleksandr Mezin <mezin.alexander@gmail.com>
+
+SPDX-License-Identifier: GPL-3.0-or-later
+-->
+
 # Vagrant VMs
 
 There is a [`Vagrantfile`] in the root of the repository. You could use it

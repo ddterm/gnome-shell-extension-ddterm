@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2024 Aleksandr Mezin <mezin.alexander@gmail.com>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 output_capture = [
 # https://github.com/mesonbuild/meson/issues/11255
   find_program(files('capture-stdout.py')),

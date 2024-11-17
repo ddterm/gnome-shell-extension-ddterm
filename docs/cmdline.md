@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2023 Aleksandr Mezin <mezin.alexander@gmail.com>
+
+SPDX-License-Identifier: GPL-3.0-or-later
+-->
+
 # Command line
 
 You can open a new tab from the command line:

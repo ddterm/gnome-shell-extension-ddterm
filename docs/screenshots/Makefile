@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2023 Aleksandr Mezin <mezin.alexander@gmail.com>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 GIFS := prefs.gif search.gif notebook.gif
 ALL_PNG := $(wildcard *.png)
 

@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2022 Aleksandr Mezin <mezin.alexander@gmail.com>
+
+SPDX-License-Identifier: GPL-3.0-or-later
+-->
+
 If you want to report a bug, proceed to the
 [bug reporting form](https://github.com/ddterm/gnome-shell-extension-ddterm/issues/new?labels=bug&template=BUG.yml)
 

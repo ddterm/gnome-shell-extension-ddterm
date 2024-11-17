@@ -1,44 +1,33 @@
-/*
-    Copyright © 2024 Aleksandr Mezin
-
-    require() function from GJS internals:
-    Copyright © 2020 Evan Welsh
-
-    This file is part of ddterm GNOME Shell extension.
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>.
-*/
+// SPDX-FileCopyrightText: 2024 Aleksandr Mezin <mezin.alexander@gmail.com>
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
 
 'use strict';
 
 const Gettext = imports.gettext;
 const MessageTray = imports.ui.messageTray;
 
+const gi = imports.gi;
+
+// SPDX-SnippetBegin
+// SDPX-SnippetName: require() function from GJS 1.68 modules/esm/gi.js
+// SPDX-License-Identifier: MIT OR LGPL-2.0-or-later
+// SPDX-SnippetCopyrightText: 2020 Evan Welsh <contact@evanwelsh.com>
+
 function require(namespace, version = undefined) {
     if (version !== undefined) {
-        const prev_version = imports.gi.versions[namespace];
-
-        if (prev_version !== undefined && version !== prev_version) {
-            throw new Error(`Version ${prev_version} of GI module ${
+        const alreadyLoadedVersion = gi.versions[namespace];
+        if (alreadyLoadedVersion !== undefined && version !== alreadyLoadedVersion) {
+            throw new Error(`Version ${alreadyLoadedVersion} of GI module ${
                 namespace} already loaded, cannot load version ${version}`);
         }
-
-        imports.gi.versions[namespace] = version;
+        gi.versions[namespace] = version;
     }
 
-    return imports.gi[namespace];
+    return gi[namespace];
 }
+
+// SPDX-SnippetEnd
 
 /* exported require */
 

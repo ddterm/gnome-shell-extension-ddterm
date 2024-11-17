@@ -1,21 +1,6 @@
-/*
-    Copyright © 2024 Aleksandr Mezin
-
-    This file is part of ddterm GNOME Shell extension.
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>.
-*/
+// SPDX-FileCopyrightText: 2024 Aleksandr Mezin <mezin.alexander@gmail.com>
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
 
 'use strict';
 
@@ -39,6 +24,13 @@ function getCurrentExtension() {
 /* exported getCurrentExtension */
 
 // copied from real extensionUtils
+
+// SPDX-SnippetBegin
+// SDPX-SnippetName: installImporter() function from GNOME Shell 40 js/misc/extensionUtils.js
+// SPDX-License-Identifier: GPL-2.0-or-later
+// SPDX-SnippetCopyrightText: 2016 Philip Chimento
+// SPDX-SnippetCopyrightText: 2016 Florian Müllner
+
 function installImporter(extension) {
     let oldSearchPath = imports.searchPath.slice();  // make a copy
     imports.searchPath = [extension.dir.get_parent().get_path()];
@@ -47,5 +39,7 @@ function installImporter(extension) {
     extension.imports = imports[extension.dir.get_basename()];
     imports.searchPath = oldSearchPath;
 }
+
+// SPDX-SnippetEnd
 
 /* exported installImporter */

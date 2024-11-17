@@ -1,3 +1,16 @@
+# SPDX-FileCopyrightText: 2024 Aleksandr Mezin <mezin.alexander@gmail.com>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+# REUSE-IgnoreStart
+gettext_copyright = '\n'.join(
+  [
+    'ddterm contributors <https://github.com/ddterm/gnome-shell-extension-ddterm/>',
+    'SPDX-License-Identifier: GPL-3.0-or-later',
+  ],
+)
+# REUSE-IgnoreEnd
+
 gettext_args = [
   '--from-code=UTF-8',
   '--add-comments',
@@ -5,7 +18,7 @@ gettext_args = [
   '--check=space-ellipsis',
   '--check=bullet-unicode',
   # TODO: '--check=quote-unicode',
-  '--copyright-holder=ddterm contributors <https://github.com/ddterm/gnome-shell-extension-ddterm/>',
+  f'--copyright-holder=@gettext_copyright@',
 ]
 
 gettext_targets = i18n.gettext(

@@ -1,5 +1,9 @@
 #!/usr/bin/env -S gjs -m
 
+// SPDX-FileCopyrightText: 2024 Aleksandr Mezin <mezin.alexander@gmail.com>
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 import GLib from 'gi://GLib';
 import Gio from 'gi://Gio';
 

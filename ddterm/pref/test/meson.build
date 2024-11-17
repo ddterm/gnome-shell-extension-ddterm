@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2024 Aleksandr Mezin <mezin.alexander@gmail.com>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 pref_test_common_files = [
   fs.copyfile('common.js'),
   pref_built_js,
