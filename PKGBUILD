@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2022 Aleksandr Mezin <mezin.alexander@gmail.com>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 pkgname=gnome-shell-extension-ddterm-git
 pkgver=56
 pkgrel=1

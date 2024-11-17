@@ -1,3 +1,13 @@
+<!DOCTYPE node PUBLIC
+'-//freedesktop//DTD D-BUS Object Introspection 1.0//EN'
+'http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd'>
+
+<!--
+    SPDX-FileCopyrightText: NOASSERTION
+
+    SPDX-License-Identifier: GPL-2.0-or-later
+-->
+
 <node>
   <interface name="org.gnome.Shell">
     <method name="Eval">

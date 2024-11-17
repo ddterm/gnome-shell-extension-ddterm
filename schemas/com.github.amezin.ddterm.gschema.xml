@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+SPDX-FileCopyrightText: 2020 Aleksandr Mezin <mezin.alexander@gmail.com>
+
+SPDX-License-Identifier: GPL-3.0-or-later
+-->
+
 <schemalist>
   <enum id="com.github.amezin.ddterm.Command">
     <value nick="user-shell" value="0" />

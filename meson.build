@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2024 Aleksandr Mezin <mezin.alexander@gmail.com>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 project(
   'ddterm',
   version: '56',
@@ -239,4 +243,19 @@ run_target(
 run_target(
   'xephyr-x11-shell',
   command: [run_gnome_shell_xephyr_x11_command, pack_target],
+)
+
+reuse_tool = find_program('reuse', required: devtools_required, disabler: true)
+
+run_target(
+  'reuse',
+  command: [reuse_tool, '--root', meson.current_source_dir(), 'lint'],
+)
+
+test(
+  'lint',
+  reuse_tool,
+  args: ['--root', meson.current_source_dir(), 'lint'],
+  workdir: meson.current_source_dir(),
+  suite: ['reuse'],
 )

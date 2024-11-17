@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2024 Aleksandr Mezin <mezin.alexander@gmail.com>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 gtk4_builder_tool = find_program('gtk4-builder-tool')
 xsltproc = find_program('xsltproc')
 

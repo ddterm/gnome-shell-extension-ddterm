@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2024 Aleksandr Mezin <mezin.alexander@gmail.com>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 PICT_SOURCE_COMMIT := 7d2ed98c28b837d8337976b7cbf421bd3c4b89dd
 PICT_SOURCE_URL := https://github.com/microsoft/pict/archive/$(PICT_SOURCE_COMMIT).tar.gz
 PICT_SOURCE_TARBALL := build/$(PICT_SOURCE_COMMIT).tar.gz

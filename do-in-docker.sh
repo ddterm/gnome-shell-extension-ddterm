@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+# SPDX-FileCopyrightText: 2021 Aleksandr Mezin <mezin.alexander@gmail.com>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 IMAGE=ghcr.io/ddterm/ci-docker-image
 # renovate: datasource=docker depName=ghcr.io/ddterm/ci-docker-image
 IMAGE_VERSION=2024.11.17.0

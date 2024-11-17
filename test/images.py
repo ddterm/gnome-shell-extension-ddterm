@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 
+# SPDX-FileCopyrightText: 2023 Aleksandr Mezin <mezin.alexander@gmail.com>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 import argparse
 import itertools
 import json

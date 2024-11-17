@@ -1,0 +1,45 @@
+# SPDX-FileCopyrightText: 2024 Aleksandr Mezin <mezin.alexander@gmail.com>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+version = 1
+SPDX-PackageName = "gnome-shell-extension-ddterm"
+SPDX-PackageSupplier = "Aleksandr Mezin <mezin.alexander@gmail.com>"
+SPDX-PackageDownloadLocation = "https://github.com/ddterm/gnome-shell-extension-ddterm/"
+
+[[annotations]]
+path = [
+    "po/*.po",
+    "po/*.pot",
+]
+SPDX-License-Identifier = "GPL-3.0-or-later"
+
+[[annotations]]
+path = "metadata.json.in"
+SPDX-FileCopyrightText = "2020 Aleksandr Mezin <mezin.alexander@gmail.com>"
+SPDX-License-Identifier = "GPL-3.0-or-later"
+
+[[annotations]]
+path = "metadata.legacy.json.in"
+SPDX-FileCopyrightText = "2024 Aleksandr Mezin <mezin.alexander@gmail.com>"
+SPDX-License-Identifier = "GPL-3.0-or-later"
+
+[[annotations]]
+path = "package.json"
+SPDX-FileCopyrightText = "2021 Aleksandr Mezin <mezin.alexander@gmail.com>"
+SPDX-License-Identifier = "GPL-3.0-or-later"
+
+[[annotations]]
+path = "renovate.json"
+SPDX-FileCopyrightText = "2022 Aleksandr Mezin <mezin.alexander@gmail.com>"
+SPDX-License-Identifier = "GPL-3.0-or-later"
+
+[[annotations]]
+path = [
+    "package-lock.json",
+    "revision.txt.in",
+    "po/LINGUAS",
+    "po/POTFILES.in",
+]
+SPDX-FileCopyrightText = "NONE"
+SPDX-License-Identifier = "CC0-1.0"

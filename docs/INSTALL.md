@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2021 Aleksandr Mezin <mezin.alexander@gmail.com>
+
+SPDX-License-Identifier: GPL-3.0-or-later
+-->
+
 # [extensions.gnome.org]
 
 The easiest way to install the extension is to go to [extensions.gnome.org].

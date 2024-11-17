@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2020 Aleksandr Mezin <mezin.alexander@gmail.com>
+
+SPDX-License-Identifier: GPL-3.0-or-later
+-->
+
 # Another Drop Down Terminal Extension for GNOME Shell
 
 [<img src="https://raw.githubusercontent.com/andyholmes/gnome-shell-extensions-badge/master/get-it-on-ego.svg?sanitize=true" alt="Get it on GNOME Extensions" height="100" align="middle">][extensions.gnome.org]
