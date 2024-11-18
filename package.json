@@ -6,7 +6,7 @@
         "eslint-formatter-checkstyle": "^8.40.0",
         "eslint-formatter-stylish": "^8.40.0",
         "eslint-plugin-import": "^2.29.1",
-        "eslint-plugin-jsdoc": "50.4.3"
+        "eslint-plugin-jsdoc": "50.5.0"
     },
     "scripts": {
         "lint": "ESLINT_USE_FLAT_CONFIG=false eslint .",
