@@ -1,6 +1,6 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the ddterm@amezin.github.com package.
+# Turkish translation for ddterm
+# Copyright (C) 2024 ddterm contributors <https://github.com/ddterm/gnome-shell-extension-ddterm/>
+# This file is distributed under the same license as the ddterm package.
 # Mustafa Kemal Gilor <mustafa.gilor@canonical.com>, 2024.
 # Muha Aliss <muhaaliss@users.noreply.hosted.weblate.org>, 2024.
 msgid ""

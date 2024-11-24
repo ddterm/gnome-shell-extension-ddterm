@@ -1,5 +1,7 @@
+# French translation for ddterm
+# Copyright (C) 2022 ddterm contributors <https://github.com/ddterm/gnome-shell-extension-ddterm/>
+# This file is distributed under the same license as the ddterm package.
 # Arnaud Feldmann <arnaud.feldmann@gmail.com>, 2023, 2024.
-# Aleksandr Mezin <mezin.alexander@gmail.com>, 2023.
 # fail a fail <yassadmi@proton.me>, 2023.
 # Stephane LE CAER <stephane@slc66.net>, 2023.
 # Patricio Carrau <duckycb@proton.me>, 2024.
