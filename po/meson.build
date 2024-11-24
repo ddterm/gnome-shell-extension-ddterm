@@ -5,6 +5,7 @@ gettext_args = [
   '--check=space-ellipsis',
   '--check=bullet-unicode',
   # TODO: '--check=quote-unicode',
+  '--copyright-holder=ddterm contributors <https://github.com/ddterm/gnome-shell-extension-ddterm/>',
 ]
 
 gettext_targets = i18n.gettext(
