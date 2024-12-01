@@ -46,6 +46,12 @@ function find_owner_command(os_ids) {
     return null;
 }
 
+const TextDecoder = globalThis.TextDecoder ?? class TextDecoder {
+    decode(bytes) {
+        return imports.byteArray.toString(bytes);
+    }
+};
+
 function find_owner(filepath, os_ids) {
     const command = find_owner_command(os_ids);
 

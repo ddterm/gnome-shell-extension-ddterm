@@ -23,7 +23,7 @@ import Gio from 'gi://Gio';
 import GnomeDesktop from 'gi://GnomeDesktop';
 import Meta from 'gi://Meta';
 
-import { try_require } from './compat.js';
+import { try_require, TextDecoder } from './compat.js';
 import { sd_journal_stream_fd } from './sd_journal.js';
 
 const GioUnix = GLib.check_version(2, 79, 2) === null ? try_require('GioUnix') : null;

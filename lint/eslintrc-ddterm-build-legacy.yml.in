@@ -14,3 +14,7 @@ overrides:
       - ddterm/pref/util.conf.js
     parserOptions:
       sourceType: script
+
+globals:
+  TextEncoder: off
+  TextDecoder: off
