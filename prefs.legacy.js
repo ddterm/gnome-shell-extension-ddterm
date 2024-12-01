@@ -29,6 +29,15 @@ function init() {
 
 /* exported init */
 
+function buildPrefsWidget() {
+    return new Me.imports.ddterm.pref.widget.PrefsWidget({
+        settings: imports.misc.extensionUtils.getSettings(),
+        gettext_context: Gettext.domain(Me.metadata['gettext-domain']),
+    });
+}
+
+/* exported buildPrefsWidget */
+
 function  fillPreferencesWindow(win) {
     const settings = imports.misc.extensionUtils.getSettings();
     const gettext_context = Gettext.domain(Me.metadata['gettext-domain']);
