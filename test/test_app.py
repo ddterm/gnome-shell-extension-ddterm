@@ -60,8 +60,14 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
         settings_test_hook.window_maximize = True
 
     @pytest.fixture
-    def color_scheme(self, shell_test_hook, request):
+    def system_color_scheme(self, shell_test_hook, request):
         shell_test_hook.ColorScheme = request.param
+
+        return request.param
+
+    @pytest.fixture
+    def app_color_scheme(self, settings_test_hook, request):
+        settings_test_hook.theme_variant = request.param
 
         return request.param
 
@@ -79,13 +85,19 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
 
     @pytest.mark.usefixtures('hide')
     @pytest.mark.parametrize(
-        'color_scheme',
+        'system_color_scheme',
         ('prefer-dark', 'prefer-light', 'default'),
+        indirect=True
+    )
+    @pytest.mark.parametrize(
+        'app_color_scheme',
+        ('system', 'light', 'dark'),
         indirect=True
     )
     def test_dark_mode(
         self,
-        color_scheme,
+        system_color_scheme,
+        app_color_scheme,
         extension_dbus_interface,
         extension_test_hook,
         shell_test_hook,
@@ -96,11 +108,16 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
         extension_test_hook.wait_property('RenderedFirstFrame', True)
         shell_test_hook.WaitLeisure()
 
+        if app_color_scheme == 'system':
+            dark = system_color_scheme == 'prefer-dark'
+        else:
+            dark = app_color_scheme == 'dark'
+
         assert extension_test_hook.WindowRect == workarea
 
         red, green, blue, alpha = shell_test_hook.PickColor(*workarea.center())
 
-        if color_scheme == 'prefer-dark':
+        if dark:
             assert red < 127 and green < 127 and blue < 127
         else:
             assert red > 128 and green > 128 and blue > 128
