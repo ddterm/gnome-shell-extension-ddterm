@@ -45,5 +45,10 @@ class Proxy(_Base):
 
         if self.is_connected():
             deadline = glibutil.Deadline(timeout)
-            self.Eval('global.context.terminate()', timeout=timeout)
+
+            if self.ShellVersion >= (41,):
+                self.Eval('global.context.terminate()', timeout=timeout)
+            else:
+                self.Eval('imports.gi.Meta.quit(0)', timeout=timeout)
+
             self.wait_property('g-name-owner', None, timeout=deadline.remaining_ms)

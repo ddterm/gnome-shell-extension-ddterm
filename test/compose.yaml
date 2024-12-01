@@ -53,3 +53,8 @@ services:
     image: ghcr.io/ddterm/gnome-shell-image/opensuse-leap-15.6:2024.11.27.0
     profiles:
       - esm
+
+  centos-stream9:
+    image: ghcr.io/ddterm/gnome-shell-image/centos-stream9:2024.11.27.0
+    profiles:
+      - legacy
