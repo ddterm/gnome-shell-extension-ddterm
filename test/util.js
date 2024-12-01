@@ -50,10 +50,10 @@ export function get_main() {
 
     log(`Shell API version: ${JSON.stringify(api_version)}`);
 
-    if (Number.parseInt(api_version) < 13)
-        return Promise.resolve(imports.ui.main);
+    if (Number.parseInt(api_version) >= 13)
+        return import('resource:///org/gnome/shell/ui/main.js');
 
-    return import('resource:///org/gnome/shell/ui/main.js');
+    return Promise.resolve(imports.ui.main);
 }
 
 export function get_resource_path(file_or_relative_url) {
