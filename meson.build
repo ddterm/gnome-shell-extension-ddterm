@@ -37,8 +37,8 @@ if get_option('esm')
 
   pack_name = f'@uuid@.shell-extension.zip'
 else
-  gjs_req = '>=1.72.0'
-  gnome_shell_req = ['>=42.0', '<45.0']
+  gjs_req = '>=1.68.0'
+  gnome_shell_req = ['>=40.0', '<45.0']
 
   extension_main_src_file = files('extension.legacy.js')
   prefs_main_src_file = files('prefs.legacy.js')
