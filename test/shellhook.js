@@ -133,14 +133,20 @@ const Interface = GObject.registerClass({
             schema_id: 'org.gnome.desktop.interface',
         });
 
-        desktop_settings.bind(
-            'color-scheme',
-            this,
-            'ColorScheme',
-            Gio.SettingsBindFlags.NO_SENSITIVITY
-        );
+        const color_scheme_support = desktop_settings.settings_schema.has_key('color-scheme');
 
-        this._destroy_callbacks.push(() => Gio.Settings.unbind(this, 'ColorScheme'));
+        if (color_scheme_support) {
+            desktop_settings.bind(
+                'color-scheme',
+                this,
+                'ColorScheme',
+                Gio.SettingsBindFlags.NO_SENSITIVITY
+            );
+
+            this._destroy_callbacks.push(() => Gio.Settings.unbind(this, 'ColorScheme'));
+        }
+
+        this.ColorSchemeSupport = color_scheme_support;
 
         this.wrapper = Gio.DBusExportedObject.wrapJSObject(DBUS_INTERFACE_INFO, this);
 

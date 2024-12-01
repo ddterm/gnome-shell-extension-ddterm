@@ -9,7 +9,6 @@ app_js_src_files = files(
   'appwindow.js',
   'dependencies.js',
   'extensiondbus.js',
-  'gtktheme.js',
   'init.js',
   'meta.js',
   'notebook.js',
@@ -36,14 +35,25 @@ foreach app_js_src_file : app_js_src_files
 endforeach
 
 if get_option('esm')
+  app_gtktheme_src_file = files('gtktheme.js')
   app_prefsdialog_src_file = files('prefsdialog.js')
 else
+  app_gtktheme_src_file = files('gtktheme.legacy.js')
   app_prefsdialog_src_file = files('prefsdialog.legacy.js')
 
   subdir('fakeext')
 endif
 
+app_js_src_files += app_gtktheme_src_file
 app_js_src_files += app_prefsdialog_src_file
+
+app_js_out_files += fs.copyfile(
+  app_gtktheme_src_file,
+  'gtktheme.js',
+  install: true,
+  install_dir: extension_dir / 'ddterm' / 'app',
+)
+
 app_js_out_files += fs.copyfile(
   app_prefsdialog_src_file,
   'prefsdialog.js',

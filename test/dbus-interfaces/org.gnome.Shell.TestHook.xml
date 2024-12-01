@@ -65,6 +65,7 @@
         <property name="UnsafeMode" type="b" access="readwrite"/>
         <property name="EnableAnimations" type="b" access="readwrite"/>
         <property name="ColorScheme" type="s" access="readwrite"/>
+        <property name="ColorSchemeSupport" type="b" access="read"/>
 
         <signal name="WindowCreated"/>
         <signal name="WindowUnmanaged"/>
