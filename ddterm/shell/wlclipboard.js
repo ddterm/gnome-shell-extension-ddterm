@@ -6,6 +6,7 @@ import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
 import Meta from 'gi://Meta';
 
+import { TextDecoder } from './compat.js';
 import { WindowMatchGeneric } from './windowmatch.js';
 
 export function is_wlclipboard(win) {

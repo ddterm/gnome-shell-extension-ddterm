@@ -18,6 +18,10 @@ export default [
         ignores: ['ddterm/pref/util.conf.js'],
         languageOptions: {
             sourceType: 'script',
+            globals: {
+                TextEncoder: 'off',
+                TextDecoder: 'off',
+            },
         },
     },
 ];

@@ -96,3 +96,12 @@ function is_extension_deactivating(extension) {
 }
 
 /* exported is_extension_deactivating */
+
+/* eslint-disable-next-line no-redeclare */
+var TextDecoder = globalThis.TextDecoder ?? class TextDecoder {
+    decode(bytes) {
+        return imports.byteArray.toString(bytes);
+    }
+};
+
+/* exported TextDecoder */

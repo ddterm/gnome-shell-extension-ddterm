@@ -17,6 +17,12 @@ const [DBUS_INTROSPECTION_FILE] = GLib.filename_from_uri(
     )
 );
 
+const TextDecoder = globalThis.TextDecoder ?? class TextDecoder {
+    decode(bytes) {
+        return imports.byteArray.toString(bytes);
+    }
+};
+
 const DBUS_INTERFACE_INFO = Gio.DBusInterfaceInfo.new_for_xml(
     new TextDecoder().decode(GLib.file_get_contents(DBUS_INTROSPECTION_FILE)[1])
 );
