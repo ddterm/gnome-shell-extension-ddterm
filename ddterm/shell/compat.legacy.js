@@ -66,3 +66,12 @@ var Notification = MessageTray.Notification;
 var NotificationSource = MessageTray.Source;
 
 /* exported NotificationSource */
+
+/* eslint-disable-next-line no-redeclare */
+var TextDecoder = globalThis.TextDecoder ?? class TextDecoder {
+    decode(bytes) {
+        return imports.byteArray.toString(bytes);
+    }
+};
+
+/* exported TextDecoder */

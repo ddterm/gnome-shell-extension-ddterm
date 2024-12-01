@@ -8,6 +8,7 @@ import Gi from 'gi';
 import * as MessageTray from 'resource:///org/gnome/shell/ui/messageTray.js';
 import { Extension } from 'resource:///org/gnome/shell/extensions/extension.js';
 
+export const TextDecoder = globalThis.TextDecoder;
 export const require = Gi.require;
 
 export function try_require(namespace, version = undefined) {
