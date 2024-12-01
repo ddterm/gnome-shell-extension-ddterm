@@ -65,6 +65,10 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
 
     @pytest.fixture
     def system_color_scheme(self, shell_test_hook, request):
+        if not shell_test_hook.ColorSchemeSupport:
+            if request.param != 'default':
+                pytest.skip('Color schemes/dark mode are not supported')
+
         shell_test_hook.ColorScheme = request.param
 
         return request.param
