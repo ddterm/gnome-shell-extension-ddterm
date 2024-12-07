@@ -1,5 +1,5 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# Portuguese translation for ddterm
+# Copyright (C) 2023 ddterm contributors <https://github.com/ddterm/gnome-shell-extension-ddterm/>
 # This file is distributed under the same license as the ddterm package.
 # Cezar Cruz <cezarcruz@outlook.com>, 2023.
 # Luiz Carlos de Souza Santos <lcdessantos@gmail.com>, 2023.
