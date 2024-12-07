@@ -1,7 +1,7 @@
 project(
   'ddterm',
   version: '56',
-  meson_version: '>= 1.0.0',
+  meson_version: '>= 1.3.0',
   license: 'GPL-3.0-or-later',
   default_options: ['prefix=/usr'],
 )
@@ -158,22 +158,10 @@ npm_install = custom_target(
   env: npm_env,
 )
 
-if meson.version().version_compare('>=1.3.0')
-  build_dir_relative = fs.relative_to(
-    meson.current_build_dir(),
-    meson.current_source_dir(),
-  )
-else
-  build_dir_relative = run_command(
-    'python3',
-    '-c',
-    'import os.path; import sys; print(os.path.relpath(*sys.argv[1:]))',
-    meson.current_build_dir(),
-    meson.current_source_dir(),
-    capture: true,
-    check: true,
-  ).stdout().strip()
-endif
+build_dir_relative = fs.relative_to(
+  meson.current_build_dir(),
+  meson.current_source_dir(),
+)
 
 eslint_extra_args = ['--ignore-pattern', build_dir_relative]
 
