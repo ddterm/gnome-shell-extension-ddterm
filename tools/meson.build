@@ -1,6 +1,6 @@
 output_capture = [
 # https://github.com/mesonbuild/meson/issues/11255
-  find_program('capture-stdout.py'),
+  find_program(files('capture-stdout.py')),
   '--output',
   '@OUTPUT@',
   '--',
@@ -16,7 +16,7 @@ gjs_translate_esm_command = [
 
 make_zip_command = [
 # https://github.com/mesonbuild/meson/issues/11255
-  find_program('makezip.py'),
+  find_program(files('makezip.py')),
   '--output',
   '@OUTPUT@',
   '--relative-to',
@@ -25,7 +25,7 @@ make_zip_command = [
   '@INPUT@',
 ]
 
-run_gnome_shell_script = find_program('run_nested_shell.py')
+run_gnome_shell_script = find_program(files('run_nested_shell.py'))
 
 run_gnome_shell_script_common_args = [
   '--gnome-shell',
