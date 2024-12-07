@@ -168,6 +168,10 @@ jobs:
       id: enable_generic_errors
       run: echo "::add-matcher::.github/problem-matchers/generic.json"
 
+    - name: Install JS dependencies
+      id: npm
+      run: npm install
+
     - name: Prepare build directory
       run: .github/faketty.sh meson setup ${{ matrix.flags }} '-Dshebang_override=/usr/bin/env gjs' build
 

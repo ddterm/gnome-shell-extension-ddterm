@@ -10,7 +10,6 @@
     },
     "scripts": {
         "lint": "ESLINT_USE_FLAT_CONFIG=false eslint .",
-        "lint:fix": "ESLINT_USE_FLAT_CONFIG=false eslint --fix .",
-        "postinstall": "if [ -n \"$DDTERM_POST_INSTALL_STAMP\" ]; then touch \"$DDTERM_POST_INSTALL_STAMP\"; fi"
+        "lint:fix": "ESLINT_USE_FLAT_CONFIG=false eslint --fix ."
     }
 }

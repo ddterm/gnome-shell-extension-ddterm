@@ -24,12 +24,6 @@ schema_dir = datadir / 'glib-2.0' / 'schemas'
 applications_dir = datadir / 'applications'
 dbus_service_dir = datadir / 'dbus-1' / 'services'
 
-if get_option('debug')
-  devtools_required = false
-else
-  devtools_required = disabler()
-endif
-
 pack = [
   fs.copyfile('LICENSE'),
   fs.copyfile('stylesheet.css', install: true, install_dir: extension_dir),
@@ -117,7 +111,7 @@ meson.add_devenv({'DDTERM_BUILT_PACK': pack_target.full_path()})
 
 extensions_tool = find_program(
   'gnome-extensions',
-  required: devtools_required,
+  required: false,
   disabler: true,
 )
 
@@ -132,11 +126,7 @@ foreach target : ['prefs', 'enable', 'disable', 'reset']
   run_target(target, command: [extensions_tool, target, uuid])
 endforeach
 
-gapplication_tool = find_program(
-  'gapplication',
-  required: devtools_required,
-  disabler: true,
-)
+gapplication_tool = find_program('gapplication', required: false, disabler: true)
 
 foreach target : ['toggle', 'quit']
   run_target(
@@ -145,18 +135,14 @@ foreach target : ['toggle', 'quit']
   )
 endforeach
 
-npm_tool = find_program('npm', required: devtools_required, disabler: true)
-npm_install_stamp = meson.current_build_dir() / 'npm-install.stamp'
-npm_env = {'DDTERM_POST_INSTALL_STAMP': npm_install_stamp}
-meson.add_devenv(npm_env)
-
-npm_install = custom_target(
-  command: [npm_tool, '-C', '@CURRENT_SOURCE_DIR@', 'install'],
-  output: fs.name(npm_install_stamp),
-  depend_files: files('package-lock.json', 'package.json'),
-  console: true,
-  env: npm_env,
+eslint_tool = find_program(
+  meson.current_source_dir() / 'node_modules' / '.bin' / 'eslint',
+  required: false,
+  disabler: true,
 )
+
+eslint_env = ['ESLINT_USE_FLAT_CONFIG=false']
+meson.add_devenv(eslint_env)
 
 build_dir_relative = fs.relative_to(
   meson.current_build_dir(),
@@ -167,29 +153,21 @@ eslint_extra_args = ['--ignore-pattern', build_dir_relative]
 
 run_target(
   'eslint',
-  command: [npm_tool, '-C', '@CURRENT_SOURCE_DIR@', 'run-script', '--', 'lint'] + eslint_extra_args,
-  depends: npm_install,
+  command: ['env', '-C', '@CURRENT_SOURCE_DIR@', eslint_tool, '.'] + eslint_extra_args,
+  env: eslint_env,
 )
 
 run_target(
   'eslint-fix',
-  command: [
-    npm_tool,
-    '-C',
-    '@CURRENT_SOURCE_DIR@',
-    'run-script',
-    '--',
-    'lint:fix',
-  ] + eslint_extra_args,
-  depends: npm_install,
+  command: ['env', '-C', '@CURRENT_SOURCE_DIR@', eslint_tool, '--fix', '.'] + eslint_extra_args,
+  env: eslint_env,
 )
 
 test(
   'lint-source',
-  npm_tool,
-  args: ['run-script', '--', 'lint'] + eslint_extra_args,
-  env: ['ESLINT_USE_FLAT_CONFIG=false'],
-  depends: npm_install,
+  eslint_tool,
+  args: ['.', eslint_extra_args],
+  env: eslint_env,
   workdir: meson.current_source_dir(),
   suite: ['eslint'],
 )
@@ -204,17 +182,10 @@ configure_file(
 
 test(
   'lint-build',
-  npm_tool,
-  args: [
-    'exec',
-    '--',
-    'eslint',
-    build_dir_relative,
-    '--resolve-plugins-relative-to',
-    '.',
-  ],
-  env: ['ESLINT_USE_FLAT_CONFIG=false'],
-  depends: [npm_install, built_js],
+  eslint_tool,
+  args: [build_dir_relative, '--resolve-plugins-relative-to', '.'],
+  env: eslint_env,
+  depends: built_js,
   workdir: meson.current_source_dir(),
   suite: ['eslint'],
 )
