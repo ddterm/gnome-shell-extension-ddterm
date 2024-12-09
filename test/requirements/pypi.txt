@@ -20,7 +20,7 @@ psutil==6.1.0
     # via pytest-xdist
 py==1.11.0
     # via pytest-html
-pytest==8.3.3
+pytest==8.3.4
     # via
     #   -r pypi.in
     #   pytest-html
