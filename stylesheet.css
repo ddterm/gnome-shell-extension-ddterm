@@ -1,3 +1,8 @@
 #ddterm-panel-icon > StIcon {
     -st-icon-style: symbolic;
 }
+
+.indicator-icon {
+  padding: 0px;
+  margin: 0px;
+}

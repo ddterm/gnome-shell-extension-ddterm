@@ -47,7 +47,7 @@ const PanelIconBase = GObject.registerClass({
 
         this.add_child(new St.Icon({
             icon_name: 'utilities-terminal',
-            style_class: 'system-status-icon',
+            style_class: 'system-status-icon indicator-icon',
         }));
     }
 });
