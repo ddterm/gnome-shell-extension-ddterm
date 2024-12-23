@@ -16,7 +16,7 @@ packaging==24.2
     # via pytest
 pluggy==1.5.0
     # via pytest
-psutil==6.1.0
+psutil==6.1.1
     # via pytest-xdist
 py==1.11.0
     # via pytest-html
