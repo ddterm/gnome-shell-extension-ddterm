@@ -34,6 +34,9 @@ make_zip_command = [
 # https://github.com/mesonbuild/meson/issues/11255
 xml_license_tool = find_program(files('xml_license.py'))
 
+# https://github.com/mesonbuild/meson/issues/11255
+check_pack_tool = find_program(files('check_pack.py'))
+
 run_gnome_shell_script = find_program(files('run_nested_shell.py'))
 
 run_gnome_shell_script_common_args = [

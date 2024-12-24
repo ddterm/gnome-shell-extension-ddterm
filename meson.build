@@ -242,9 +242,16 @@ run_target(
 )
 
 test(
-  'lint',
+  'lint-source',
   reuse_tool,
   args: ['--root', meson.current_source_dir(), 'lint'],
   workdir: meson.current_source_dir(),
+  suite: ['reuse'],
+)
+
+test(
+  'lint-build',
+  check_pack_tool,
+  args: ['--', pack_target, reuse_tool.full_path(), '--root', '.', 'lint'],
   suite: ['reuse'],
 )
