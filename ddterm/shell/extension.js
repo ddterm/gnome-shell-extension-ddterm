@@ -156,8 +156,8 @@ function create_panel_icon(settings, window_matcher, app_control, gettext_contex
 }
 
 function install(extension, rollback) {
-    const { install_src_dir, launcher_path } = extension;
-    const installer = new Installer(install_src_dir, launcher_path);
+    const { data_dir, launcher_path } = extension;
+    const installer = new Installer(data_dir, launcher_path);
     installer.install();
 
     if (GObject.signal_lookup('shutdown', Shell.Global)) {
@@ -465,10 +465,10 @@ export default class DDTermExtension extends Extension {
     constructor(meta) {
         super(meta);
 
-        this.install_src_dir = GLib.build_filenamev([this.path, 'ddterm']);
+        this.data_dir = GLib.build_filenamev([this.path, 'data']);
         this.launcher_path = GLib.build_filenamev([this.path, 'bin', APP_ID]);
         this.dbus_xml_file_path = GLib.build_filenamev(
-            [this.path, 'ddterm', 'com.github.amezin.ddterm.Extension.xml']
+            [this.data_dir, 'com.github.amezin.ddterm.Extension.xml']
         );
 
         this.revision_file_path = GLib.build_filenamev([this.path, 'revision.txt']);

@@ -7,7 +7,7 @@ import Gio from 'gi://Gio';
 import { get_resource_text } from './resources.js';
 
 const proxy_factory = Gio.DBusProxy.makeProxyWrapper(
-    get_resource_text('../com.github.amezin.ddterm.Extension.xml')
+    get_resource_text('../../data/com.github.amezin.ddterm.Extension.xml')
 );
 
 const DEFAULT_FLAGS =

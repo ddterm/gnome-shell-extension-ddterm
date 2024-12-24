@@ -21,8 +21,8 @@ application window).
 
 * Launching the [ddterm application](/ddterm/app).
 
-* Installing/uninstalling [`.desktop`](/ddterm/com.github.amezin.ddterm.desktop.in)
-and [`.service`](/ddterm/com.github.amezin.ddterm.service.in) files.
+* Installing/uninstalling [`.desktop`](/data/com.github.amezin.ddterm.desktop.in.in)
+and [`.service`](/data/com.github.amezin.ddterm.service.in) files.
 
 The extension exports a simple D-Bus interface
 (see [`com.github.amezin.ddterm.Extension.xml`]) on GNOME Shell well-known name
@@ -72,6 +72,6 @@ There are also utility modules:
 Extension code doesn't (and shouldn't) use any third party (npm) libraries.
 
 [`ddterm/shell`]: /ddterm/shell
-[`com.github.amezin.ddterm.Extension.xml`]: /ddterm/com.github.amezin.ddterm.Extension.xml
+[`com.github.amezin.ddterm.Extension.xml`]: /data/com.github.amezin.ddterm.Extension.xml
 
 [wl-clipboard]: https://github.com/bugaevc/wl-clipboard

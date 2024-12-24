@@ -114,6 +114,7 @@ endif
 gtk3_builder_tool = find_program('gtk-builder-tool')
 
 subdir('bin')
+subdir('data')
 subdir('schemas')
 subdir('ddterm')
 subdir('locale')

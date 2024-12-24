@@ -27,4 +27,4 @@ GJS. A regular Gtk application, except:
 
 [`pref`]: /ddterm/pref
 
-[`com.github.amezin.ddterm.Extension.xml`]: /ddterm/com.github.amezin.ddterm.Extension.xml
+[`com.github.amezin.ddterm.Extension.xml`]: /data/com.github.amezin.ddterm.Extension.xml
