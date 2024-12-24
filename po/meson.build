@@ -34,6 +34,16 @@ alias_target('msgmerge', gettext_targets[2])
 
 pack += gettext_targets[0]
 
+run_target(
+  'pot-set-year',
+  command: [
+    'sh',
+    '-c',
+    'sed -i "s/^# Copyright (C) YEAR /# Copyright (C) $(date -u +%Y) /" "$0"',
+    files(f'@gettext_domain@.pot'),
+  ],
+)
+
 xgettext = find_program('xgettext', disabler: true, required: false)
 
 run_target(

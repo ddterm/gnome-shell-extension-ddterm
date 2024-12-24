@@ -53,7 +53,7 @@ jobs:
       working-directory: build
 
     - name: Update .pot file
-      run: ninja -j1 pot
+      run: ninja -j1 pot && ninja -j1 pot-set-year
       working-directory: build
 
     - name: Update .po files
