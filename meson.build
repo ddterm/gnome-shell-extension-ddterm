@@ -7,6 +7,7 @@ project(
   version: '56',
   meson_version: '>= 1.3.0',
   license: 'GPL-3.0-or-later',
+  license_files: 'LICENSES' / 'GPL-3.0-or-later.txt',
   default_options: ['prefix=/usr'],
 )
 
@@ -29,9 +30,19 @@ applications_dir = datadir / 'applications'
 dbus_service_dir = datadir / 'dbus-1' / 'services'
 
 pack = [
-  fs.copyfile('LICENSE'),
   fs.copyfile('stylesheet.css', install: true, install_dir: extension_dir),
+  meson.project_license_files(),
+  files('LICENSES' / 'CC0-1.0.txt'),
+  files('REUSE.toml'),
 ]
+
+if not get_option('esm')
+  pack += files(
+    'LICENSES' / 'GPL-2.0-or-later.txt',
+    'LICENSES' / 'LGPL-2.0-or-later.txt',
+    'LICENSES' / 'MIT.txt',
+  )
+endif
 
 built_js = [
   fs.copyfile(
@@ -58,6 +69,13 @@ pack += configure_file(
   input: get_option('esm') ? 'metadata.json.in' : 'metadata.legacy.json.in',
   output: 'metadata.json',
   configuration: metadata,
+  install: true,
+  install_dir: extension_dir,
+)
+
+pack += fs.copyfile(
+  get_option('esm') ? 'metadata.json.in.license' : 'metadata.legacy.json.in.license',
+  'metadata.json.license',
   install: true,
   install_dir: extension_dir,
 )
@@ -92,6 +110,13 @@ else
     install_dir: extension_dir,
   )
 endif
+
+pack += fs.copyfile(
+  'revision.txt.in.license',
+  'revision.txt.license',
+  install: true,
+  install_dir: extension_dir,
+)
 
 gtk3_builder_tool = find_program('gtk-builder-tool')
 
