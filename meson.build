@@ -111,13 +111,6 @@ else
   )
 endif
 
-pack += fs.copyfile(
-  'revision.txt.in.license',
-  'revision.txt.license',
-  install: true,
-  install_dir: extension_dir,
-)
-
 gtk3_builder_tool = find_program('gtk-builder-tool')
 
 subdir('bin')
