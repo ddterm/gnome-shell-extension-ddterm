@@ -5,30 +5,30 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import argparse
+import contextlib
+import os.path
 import pathlib
 import zipfile
 
 
-def find_relative_path(path, relative_to):
-    path = path.absolute()
-
-    if not relative_to:
-        relative_to = [pathlib.Path.cwd()]
-
-    for basepath in relative_to:
-        basepath = basepath.absolute()
-
-        try:
+def find_relative_path(path, base_dirs):
+    for basepath in base_dirs:
+        with contextlib.suppress(ValueError):
             return path.relative_to(basepath).as_posix()
-        except ValueError as ex:
-            pass
 
-    raise ValueError(f'{str(path)!r} is not a subpath of any of {[str(p) for p in relative_to]}')
+    raise ValueError(f'{str(path)!r} is not a subpath of any of {[str(p) for p in base_dirs]}')
+
+
+def normalize_path(path):
+    return pathlib.Path(os.path.abspath(path))
 
 
 def makezip(output, inputs, relative_to=None):
     if not relative_to:
         relative_to = [pathlib.Path.cwd()]
+
+    inputs = [normalize_path(p) for p in inputs]
+    relative_to = [normalize_path(p) for p in relative_to]
 
     with zipfile.ZipFile(
         output,
