@@ -31,7 +31,6 @@ configure_file(
   input: 'eslintrc-build.yml.in',
   output: '.eslintrc.yml',
   configuration: {
-# https://github.com/mesonbuild/meson/issues/12792
-    'DONT_EMIT_MESON_WARNING': 'YES',
+    'DONT_EMIT_MESON_WARNING': 'YES',  # https://github.com/mesonbuild/meson/issues/12792
   },
 )

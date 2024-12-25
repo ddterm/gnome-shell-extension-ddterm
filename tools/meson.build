@@ -3,8 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 output_capture = [
-# https://github.com/mesonbuild/meson/issues/11255
-  find_program(files('capture-stdout.py')),
+  find_program(files('capture-stdout.py')),  # https://github.com/mesonbuild/meson/issues/11255
   '--output',
   '@OUTPUT@',
   '--',
@@ -19,8 +18,7 @@ gjs_translate_esm_command = [
 ]
 
 make_zip_command = [
-# https://github.com/mesonbuild/meson/issues/11255
-  find_program(files('makezip.py')),
+  find_program(files('makezip.py')),  # https://github.com/mesonbuild/meson/issues/11255
   '--output',
   '@OUTPUT@',
   '--relative-to',
