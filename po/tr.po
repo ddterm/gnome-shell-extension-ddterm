@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-12-24 22:50+0000\n"
+"POT-Creation-Date: 2024-12-25 00:21+0000\n"
 "PO-Revision-Date: 2024-10-03 16:15+0000\n"
 "Last-Translator: Muha Aliss <muhaaliss@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/gnome-shell-"
@@ -19,6 +19,29 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.8-dev\n"
+
+#: data/com.github.amezin.ddterm.desktop.in.in:9 ddterm/app/appwindow.js:141
+#: ddterm/shell/notifications.js:199 ddterm/shell/panelicon.js:29
+msgid "ddterm"
+msgstr "ddterm"
+
+#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: data/com.github.amezin.ddterm.desktop.in.in:11
+msgid "shell;prompt;command;commandline;cmd;run;terminal;"
+msgstr "kabuk;istem;komut;komutsatırı;cmd;çalıştır;uçbirim;"
+
+#: data/com.github.amezin.ddterm.desktop.in.in:12
+msgid "Another drop down terminal extension for GNOME Shell"
+msgstr "GNOME kabuğu için bir başka açılır/kapanır terminal eklentisi"
+
+#: data/com.github.amezin.ddterm.desktop.in.in:25
+msgid "Toggle"
+msgstr "Aç/Kapat"
+
+#: data/com.github.amezin.ddterm.desktop.in.in:29 ddterm/app/menus.ui:149
+#: ddterm/app/menus.ui:283 ddterm/shell/panelicon.js:61
+msgid "Preferences…"
+msgstr "Tercihler…"
 
 #: ddterm/app/application.js:74
 msgid "Start the application, but do not show the window"
@@ -84,11 +107,6 @@ msgstr "Uyarı: ddterm sürümü değişti"
 #: ddterm/app/application.js:533 ddterm/shell/notifications.js:77
 msgid "Log out, then log in again to load the updated extension."
 msgstr "Güncellenmiş uzantıyı yüklemek için oturumu kapatın ve tekrar açın."
-
-#: ddterm/app/appwindow.js:141 ddterm/com.github.amezin.ddterm.desktop.in.in:9
-#: ddterm/shell/notifications.js:199 ddterm/shell/panelicon.js:29
-msgid "ddterm"
-msgstr "ddterm"
 
 #: ddterm/app/dependencies.js:72 ddterm/shell/notifications.js:129
 msgid "ddterm needs additional packages to run"
@@ -220,12 +238,6 @@ msgstr "Sekmeyi Diğer Panoya Taşı"
 msgid "Preferences"
 msgstr "Tercihler"
 
-#: ddterm/app/menus.ui:149 ddterm/app/menus.ui:283
-#: ddterm/com.github.amezin.ddterm.desktop.in.in:29
-#: ddterm/shell/panelicon.js:61
-msgid "Preferences…"
-msgstr "Tercihler…"
-
 #: ddterm/app/menus.ui:155
 msgid "Above All Windows"
 msgstr "Tüm Pencerelerin Üzerinde"
@@ -353,19 +365,6 @@ msgid ""
 msgstr ""
 "Bu terminalde halen bir işlem çalışıyor. Terminali kapatmak bu işlemi de "
 "sonlandırır."
-
-#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
-#: ddterm/com.github.amezin.ddterm.desktop.in.in:11
-msgid "shell;prompt;command;commandline;cmd;run;terminal;"
-msgstr "kabuk;istem;komut;komutsatırı;cmd;çalıştır;uçbirim;"
-
-#: ddterm/com.github.amezin.ddterm.desktop.in.in:12
-msgid "Another drop down terminal extension for GNOME Shell"
-msgstr "GNOME kabuğu için bir başka açılır/kapanır terminal eklentisi"
-
-#: ddterm/com.github.amezin.ddterm.desktop.in.in:25
-msgid "Toggle"
-msgstr "Aç/Kapat"
 
 #: ddterm/pref/adw.js:73
 msgid "Window"

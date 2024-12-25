@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-12-24 22:50+0000\n"
+"POT-Creation-Date: 2024-12-25 00:21+0000\n"
 "PO-Revision-Date: 2024-09-02 20:09+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/gnome-"
@@ -18,6 +18,30 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.8-dev\n"
+
+#: data/com.github.amezin.ddterm.desktop.in.in:9 ddterm/app/appwindow.js:141
+#: ddterm/shell/notifications.js:199 ddterm/shell/panelicon.js:29
+msgid "ddterm"
+msgstr ""
+
+#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: data/com.github.amezin.ddterm.desktop.in.in:11
+msgid "shell;prompt;command;commandline;cmd;run;terminal;"
+msgstr ""
+
+#: data/com.github.amezin.ddterm.desktop.in.in:12
+msgid "Another drop down terminal extension for GNOME Shell"
+msgstr ""
+
+#: data/com.github.amezin.ddterm.desktop.in.in:25
+#, fuzzy
+msgid "Toggle"
+msgstr "Vekslingsknapp"
+
+#: data/com.github.amezin.ddterm.desktop.in.in:29 ddterm/app/menus.ui:149
+#: ddterm/app/menus.ui:283 ddterm/shell/panelicon.js:61
+msgid "Preferences…"
+msgstr "Innstillinger …"
 
 #: ddterm/app/application.js:74
 msgid "Start the application, but do not show the window"
@@ -82,11 +106,6 @@ msgstr "Advarsel: ddterm-versjonen har endret seg"
 #: ddterm/app/application.js:533 ddterm/shell/notifications.js:77
 msgid "Log out, then log in again to load the updated extension."
 msgstr "Logg ut og inn igjen for å laste inn oppdatert utvidelse."
-
-#: ddterm/app/appwindow.js:141 ddterm/com.github.amezin.ddterm.desktop.in.in:9
-#: ddterm/shell/notifications.js:199 ddterm/shell/panelicon.js:29
-msgid "ddterm"
-msgstr ""
 
 #: ddterm/app/dependencies.js:72 ddterm/shell/notifications.js:129
 msgid "ddterm needs additional packages to run"
@@ -218,12 +237,6 @@ msgstr "Flytt fane til neste flate"
 msgid "Preferences"
 msgstr "Innstillinger"
 
-#: ddterm/app/menus.ui:149 ddterm/app/menus.ui:283
-#: ddterm/com.github.amezin.ddterm.desktop.in.in:29
-#: ddterm/shell/panelicon.js:61
-msgid "Preferences…"
-msgstr "Innstillinger …"
-
 #: ddterm/app/menus.ui:155
 msgid "Above All Windows"
 msgstr "Over alle vinduer"
@@ -351,20 +364,6 @@ msgid ""
 msgstr ""
 "Det er fremdeles en kjørende prosess i denne terminalen som drepes hvis den "
 "lukkes."
-
-#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
-#: ddterm/com.github.amezin.ddterm.desktop.in.in:11
-msgid "shell;prompt;command;commandline;cmd;run;terminal;"
-msgstr ""
-
-#: ddterm/com.github.amezin.ddterm.desktop.in.in:12
-msgid "Another drop down terminal extension for GNOME Shell"
-msgstr ""
-
-#: ddterm/com.github.amezin.ddterm.desktop.in.in:25
-#, fuzzy
-msgid "Toggle"
-msgstr "Vekslingsknapp"
 
 #: ddterm/pref/adw.js:73
 msgid "Window"

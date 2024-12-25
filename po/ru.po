@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-12-24 22:50+0000\n"
+"POT-Creation-Date: 2024-12-25 00:21+0000\n"
 "PO-Revision-Date: 2024-04-10 20:01+0000\n"
 "Last-Translator: Stepan <stepan.miroshnikov@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/gnome-shell-"
@@ -24,6 +24,29 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Weblate 5.5-dev\n"
+
+#: data/com.github.amezin.ddterm.desktop.in.in:9 ddterm/app/appwindow.js:141
+#: ddterm/shell/notifications.js:199 ddterm/shell/panelicon.js:29
+msgid "ddterm"
+msgstr "ddterm"
+
+#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: data/com.github.amezin.ddterm.desktop.in.in:11
+msgid "shell;prompt;command;commandline;cmd;run;terminal;"
+msgstr "оболочка;подсказка;команда;командная строка;cmd;запустить;терминал;"
+
+#: data/com.github.amezin.ddterm.desktop.in.in:12
+msgid "Another drop down terminal extension for GNOME Shell"
+msgstr "Еще одно расширение выпадающего терминала для GNOME Shell"
+
+#: data/com.github.amezin.ddterm.desktop.in.in:25
+msgid "Toggle"
+msgstr "Переключатель"
+
+#: data/com.github.amezin.ddterm.desktop.in.in:29 ddterm/app/menus.ui:149
+#: ddterm/app/menus.ui:283 ddterm/shell/panelicon.js:61
+msgid "Preferences…"
+msgstr "Параметры…"
 
 #: ddterm/app/application.js:74
 msgid "Start the application, but do not show the window"
@@ -90,11 +113,6 @@ msgstr "Внимание: версия ddterm изменилась"
 #: ddterm/app/application.js:533 ddterm/shell/notifications.js:77
 msgid "Log out, then log in again to load the updated extension."
 msgstr "Завершите сессию и снова войдите для применения обновлений расширения."
-
-#: ddterm/app/appwindow.js:141 ddterm/com.github.amezin.ddterm.desktop.in.in:9
-#: ddterm/shell/notifications.js:199 ddterm/shell/panelicon.js:29
-msgid "ddterm"
-msgstr "ddterm"
 
 #: ddterm/app/dependencies.js:72 ddterm/shell/notifications.js:129
 msgid "ddterm needs additional packages to run"
@@ -226,12 +244,6 @@ msgstr "Переместить вкладку на другую панель"
 msgid "Preferences"
 msgstr "Параметры"
 
-#: ddterm/app/menus.ui:149 ddterm/app/menus.ui:283
-#: ddterm/com.github.amezin.ddterm.desktop.in.in:29
-#: ddterm/shell/panelicon.js:61
-msgid "Preferences…"
-msgstr "Параметры…"
-
 #: ddterm/app/menus.ui:155
 msgid "Above All Windows"
 msgstr "Поверх всех окон"
@@ -359,19 +371,6 @@ msgid ""
 msgstr ""
 "В терминале запущены процессы. При закрытии терминала эти процессы будут "
 "завершены."
-
-#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
-#: ddterm/com.github.amezin.ddterm.desktop.in.in:11
-msgid "shell;prompt;command;commandline;cmd;run;terminal;"
-msgstr "оболочка;подсказка;команда;командная строка;cmd;запустить;терминал;"
-
-#: ddterm/com.github.amezin.ddterm.desktop.in.in:12
-msgid "Another drop down terminal extension for GNOME Shell"
-msgstr "Еще одно расширение выпадающего терминала для GNOME Shell"
-
-#: ddterm/com.github.amezin.ddterm.desktop.in.in:25
-msgid "Toggle"
-msgstr "Переключатель"
 
 #: ddterm/pref/adw.js:73
 msgid "Window"
