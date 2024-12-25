@@ -27,7 +27,7 @@ def xml_license_extract(input_file, output):
 
 def xml_license_embed(input_file, output, license):
     dom = xml.dom.minidom.parse(input_file)
-    comment = dom.createComment(license.read().strip() + '\n')
+    comment = dom.createComment(f'\n\n{license.read().strip()}\n\n')
 
     dom.insertBefore(comment, dom.documentElement)
     dom.writexml(output, encoding=output.encoding)
