@@ -7,7 +7,7 @@ project(
   version: '56',
   meson_version: '>= 1.3.0',
   license: 'GPL-3.0-or-later',
-  license_files: 'LICENSES' / 'GPL-3.0-or-later.txt',
+  license_files: 'LICENSE',
   default_options: ['prefix=/usr'],
 )
 
@@ -31,7 +31,7 @@ dbus_service_dir = datadir / 'dbus-1' / 'services'
 
 pack = [
   fs.copyfile('stylesheet.css', install: true, install_dir: extension_dir),
-  meson.project_license_files(),
+  files('LICENSES' / 'GPL-3.0-or-later.txt'),
   files('LICENSES' / 'CC0-1.0.txt'),
   files('REUSE.toml'),
 ]
