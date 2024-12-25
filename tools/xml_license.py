@@ -43,13 +43,13 @@ def cli(*args, **kwargs):
 
     extract_parser = subparsers.add_parser('extract')
     extract_parser.add_argument('--output', type=argparse.FileType('w'), default=sys.stdout)
-    extract_parser.add_argument('input_file', type=argparse.FileType('r'))
+    extract_parser.add_argument('input_file', type=argparse.FileType('rb'))
     extract_parser.set_defaults(func=xml_license_extract)
 
     embed_parser = subparsers.add_parser('embed')
     embed_parser.add_argument('--output', type=argparse.FileType('w'), default=sys.stdout)
     embed_parser.add_argument('--license', type=argparse.FileType('r'), required=True)
-    embed_parser.add_argument('input_file', type=argparse.FileType('r'))
+    embed_parser.add_argument('input_file', type=argparse.FileType('rb'))
     embed_parser.set_defaults(func=xml_license_embed)
 
     xml_license(**vars(parser.parse_args(*args, **kwargs)))
