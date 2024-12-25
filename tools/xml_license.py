@@ -9,10 +9,20 @@ import sys
 import xml.dom.minidom
 
 
+def extract_comments(node):
+    if node.nodeType == xml.dom.Node.COMMENT_NODE:
+        if 'SPDX-FileCopyrightText:' in node.data or 'SPDX-License-Identifier:' in node.data:
+            yield node
+
+    for child in node.childNodes:
+        yield from extract_comments(child)
+
+
 def xml_license_extract(input_file, output):
     dom = xml.dom.minidom.parse(input_file)
 
-    output.write(dom.firstChild.data.strip() + '\n')
+    for node in extract_comments(dom):
+        print(node.data.strip(), file=output)
 
 
 def xml_license_embed(input_file, output, license):
