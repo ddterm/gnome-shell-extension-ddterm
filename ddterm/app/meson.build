@@ -30,7 +30,6 @@ app_ui_files = files('menus.ui')
 
 foreach app_file : app_js_files + app_ui_files + files(
   'dependencies.json',
-  'dependencies.json.license',
   'style.css',
 )
   pack += fs.copyfile(
