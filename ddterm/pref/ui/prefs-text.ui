@@ -8,9 +8,6 @@ SPDX-License-Identifier: GPL-3.0-or-later
 -->
 <interface domain="ddterm@amezin.github.com">
   <requires lib="gtk+" version="3.24"/>
-  <!-- interface-license-type gplv3 -->
-  <!-- interface-name ddterm GNOME Shell extension -->
-  <!-- interface-copyright 2022 Aleksandr Mezin -->
   <!-- n-columns=2 n-rows=8 -->
   <template class="DDTermPrefsText" parent="GtkGrid">
     <property name="visible">True</property>
