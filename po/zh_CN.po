@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-12-25 00:21+0000\n"
+"POT-Creation-Date: 2024-12-25 23:20+0000\n"
 "PO-Revision-Date: 2024-08-26 08:09+0000\n"
 "Last-Translator: yuh <yuhldr@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -142,19 +142,19 @@ msgstr "复制为HTML"
 msgid "Paste"
 msgstr "粘贴"
 
-#: ddterm/app/menus.ui:43 ddterm/pref/ui/prefs-shortcuts.ui:130
+#: ddterm/app/menus.ui:43 ddterm/pref/ui/prefs-shortcuts.ui:127
 msgid "Select All"
 msgstr "选择所有"
 
-#: ddterm/app/menus.ui:49 ddterm/pref/ui/prefs-shortcuts.ui:270
+#: ddterm/app/menus.ui:49 ddterm/pref/ui/prefs-shortcuts.ui:267
 msgid "Find"
 msgstr "查找"
 
-#: ddterm/app/menus.ui:55 ddterm/pref/ui/prefs-shortcuts.ui:137
+#: ddterm/app/menus.ui:55 ddterm/pref/ui/prefs-shortcuts.ui:134
 msgid "Reset"
 msgstr "重置"
 
-#: ddterm/app/menus.ui:59 ddterm/pref/ui/prefs-shortcuts.ui:144
+#: ddterm/app/menus.ui:59 ddterm/pref/ui/prefs-shortcuts.ui:141
 msgid "Reset and Clear"
 msgstr "重置并清除"
 
@@ -162,15 +162,15 @@ msgstr "重置并清除"
 msgid "Zoom"
 msgstr "缩放"
 
-#: ddterm/app/menus.ui:67 ddterm/pref/ui/prefs-shortcuts.ui:291
+#: ddterm/app/menus.ui:67 ddterm/pref/ui/prefs-shortcuts.ui:288
 msgid "Zoom In"
 msgstr "放大"
 
-#: ddterm/app/menus.ui:71 ddterm/pref/ui/prefs-shortcuts.ui:298
+#: ddterm/app/menus.ui:71 ddterm/pref/ui/prefs-shortcuts.ui:295
 msgid "Zoom Out"
 msgstr "缩小"
 
-#: ddterm/app/menus.ui:75 ddterm/pref/ui/prefs-shortcuts.ui:305
+#: ddterm/app/menus.ui:75 ddterm/pref/ui/prefs-shortcuts.ui:302
 msgid "Normal Size"
 msgstr "标准大小"
 
@@ -191,21 +191,21 @@ msgstr "退出后保持打开"
 msgid "New Tab"
 msgstr "新建标签页"
 
-#: ddterm/app/menus.ui:100 ddterm/pref/ui/prefs-shortcuts.ui:165
+#: ddterm/app/menus.ui:100 ddterm/pref/ui/prefs-shortcuts.ui:162
 msgid "New Tab Before Current Tab"
 msgstr "新建标签页（在当前标签页之前）"
 
-#: ddterm/app/menus.ui:104 ddterm/pref/ui/prefs-shortcuts.ui:172
+#: ddterm/app/menus.ui:104 ddterm/pref/ui/prefs-shortcuts.ui:169
 msgid "New Tab After Current Tab"
 msgstr "新建标签页（在当前标签页之后）"
 
 #: ddterm/app/menus.ui:108 ddterm/app/menus.ui:236
-#: ddterm/pref/ui/prefs-shortcuts.ui:158
+#: ddterm/pref/ui/prefs-shortcuts.ui:155
 msgid "New Tab Before First Tab"
 msgstr "新建标签页（在第一个标签页之前）"
 
 #: ddterm/app/menus.ui:112 ddterm/app/menus.ui:240
-#: ddterm/pref/ui/prefs-shortcuts.ui:151
+#: ddterm/pref/ui/prefs-shortcuts.ui:148
 msgid "New Tab After Last Tab"
 msgstr "新建标签页（在最后一个标签页之后）"
 
@@ -218,12 +218,12 @@ msgid "No Split"
 msgstr "无拆分"
 
 #: ddterm/app/menus.ui:127 ddterm/app/menus.ui:264 ddterm/app/menus.ui:294
-#: ddterm/pref/ui/prefs-shortcuts.ui:214
+#: ddterm/pref/ui/prefs-shortcuts.ui:211
 msgid "Split Horizontally"
 msgstr "水平拆分"
 
 #: ddterm/app/menus.ui:132 ddterm/app/menus.ui:269 ddterm/app/menus.ui:299
-#: ddterm/pref/ui/prefs-shortcuts.ui:221
+#: ddterm/pref/ui/prefs-shortcuts.ui:218
 msgid "Split Vertically"
 msgstr "垂直拆分"
 
@@ -292,11 +292,11 @@ msgstr "在此标签页之前新建标签页"
 msgid "New Tab After This Tab"
 msgstr "此标签页后的新标签页"
 
-#: ddterm/app/menus.ui:246 ddterm/pref/ui/prefs-shortcuts.ui:200
+#: ddterm/app/menus.ui:246 ddterm/pref/ui/prefs-shortcuts.ui:197
 msgid "Move Tab to Previous Position"
 msgstr "移动标签页到上一个位置"
 
-#: ddterm/app/menus.ui:250 ddterm/pref/ui/prefs-shortcuts.ui:207
+#: ddterm/app/menus.ui:250 ddterm/pref/ui/prefs-shortcuts.ui:204
 msgid "Move Tab to Next Position"
 msgstr "移动标签页到下一个位置"
 
@@ -328,11 +328,11 @@ msgstr "关闭搜索栏"
 msgid "Wrap Around"
 msgstr "回到文档头部继续搜索"
 
-#: ddterm/app/search.js:336 ddterm/pref/ui/prefs-shortcuts.ui:277
+#: ddterm/app/search.js:336 ddterm/pref/ui/prefs-shortcuts.ui:274
 msgid "Find Next"
 msgstr "查找下一个"
 
-#: ddterm/app/search.js:354 ddterm/pref/ui/prefs-shortcuts.ui:284
+#: ddterm/app/search.js:354 ddterm/pref/ui/prefs-shortcuts.ui:281
 msgid "Find Previous"
 msgstr "找到前一个"
 
@@ -418,185 +418,185 @@ msgstr "标签页"
 msgid "Text"
 msgstr "文本"
 
-#: ddterm/pref/ui/prefs-animation.ui:23
+#: ddterm/pref/ui/prefs-animation.ui:20
 msgid "Disable"
 msgstr "禁用"
 
-#: ddterm/pref/ui/prefs-animation.ui:27
+#: ddterm/pref/ui/prefs-animation.ui:24
 msgid "Linear tweening"
 msgstr "线性渐变"
 
-#: ddterm/pref/ui/prefs-animation.ui:31
+#: ddterm/pref/ui/prefs-animation.ui:28
 msgid "Quadratic tweening"
 msgstr "二次渐变"
 
-#: ddterm/pref/ui/prefs-animation.ui:35
+#: ddterm/pref/ui/prefs-animation.ui:32
 msgid "Quadratic tweening, inverse"
 msgstr "二次逆渐变"
 
-#: ddterm/pref/ui/prefs-animation.ui:39
+#: ddterm/pref/ui/prefs-animation.ui:36
 msgid "Quadratic tweening, combining direct and inverse"
 msgstr "二次渐变，正逆结合"
 
-#: ddterm/pref/ui/prefs-animation.ui:43
+#: ddterm/pref/ui/prefs-animation.ui:40
 msgid "Cubic tweening"
 msgstr "立方渐变"
 
-#: ddterm/pref/ui/prefs-animation.ui:47
+#: ddterm/pref/ui/prefs-animation.ui:44
 msgid "Cubic tweening, inverse"
 msgstr "三次逆渐变"
 
-#: ddterm/pref/ui/prefs-animation.ui:51
+#: ddterm/pref/ui/prefs-animation.ui:48
 msgid "Cubic tweening, combining direct and inverse"
 msgstr "三次渐变，正逆结合"
 
-#: ddterm/pref/ui/prefs-animation.ui:55
+#: ddterm/pref/ui/prefs-animation.ui:52
 msgid "Quartic tweening"
 msgstr "四次渐变"
 
-#: ddterm/pref/ui/prefs-animation.ui:59
+#: ddterm/pref/ui/prefs-animation.ui:56
 msgid "Quartic tweening, inverse"
 msgstr "四次逆渐变"
 
-#: ddterm/pref/ui/prefs-animation.ui:63
+#: ddterm/pref/ui/prefs-animation.ui:60
 msgid "Quartic tweening, combining direct and inverse"
 msgstr "四次渐变，正逆结合"
 
-#: ddterm/pref/ui/prefs-animation.ui:67
+#: ddterm/pref/ui/prefs-animation.ui:64
 msgid "Quintic tweening"
 msgstr "五次渐变"
 
-#: ddterm/pref/ui/prefs-animation.ui:71
+#: ddterm/pref/ui/prefs-animation.ui:68
 msgid "Quintic tweening, inverse"
 msgstr "五次逆渐变"
 
-#: ddterm/pref/ui/prefs-animation.ui:75
+#: ddterm/pref/ui/prefs-animation.ui:72
 msgid "Quintic tweening, combining direct and inverse"
 msgstr "五次渐变，正逆结合"
 
-#: ddterm/pref/ui/prefs-animation.ui:79
+#: ddterm/pref/ui/prefs-animation.ui:76
 msgid "Sinusoidal tweening"
 msgstr "正弦渐变"
 
-#: ddterm/pref/ui/prefs-animation.ui:83
+#: ddterm/pref/ui/prefs-animation.ui:80
 msgid "Sinusoidal tweening, inverse"
 msgstr "正弦逆渐变"
 
-#: ddterm/pref/ui/prefs-animation.ui:87
+#: ddterm/pref/ui/prefs-animation.ui:84
 msgid "Sinusoidal tweening, combining direct and inverse"
 msgstr "正弦渐变，正逆结合"
 
-#: ddterm/pref/ui/prefs-animation.ui:91
+#: ddterm/pref/ui/prefs-animation.ui:88
 msgid "Exponential tweening"
 msgstr "指数渐变"
 
-#: ddterm/pref/ui/prefs-animation.ui:95
+#: ddterm/pref/ui/prefs-animation.ui:92
 msgid "Exponential tweening, inverse"
 msgstr "指数逆渐变"
 
-#: ddterm/pref/ui/prefs-animation.ui:99
+#: ddterm/pref/ui/prefs-animation.ui:96
 msgid "Exponential tweening, combining direct and inverse"
 msgstr "指数渐变，正逆结合"
 
-#: ddterm/pref/ui/prefs-animation.ui:103
+#: ddterm/pref/ui/prefs-animation.ui:100
 msgid "Circular tweening"
 msgstr "圆形渐变"
 
-#: ddterm/pref/ui/prefs-animation.ui:107
+#: ddterm/pref/ui/prefs-animation.ui:104
 msgid "Circular tweening, inverse"
 msgstr "圆形逆渐变"
 
-#: ddterm/pref/ui/prefs-animation.ui:111
+#: ddterm/pref/ui/prefs-animation.ui:108
 msgid "Circular tweening, combining direct and inverse"
 msgstr "圆形渐变，正逆结合"
 
-#: ddterm/pref/ui/prefs-animation.ui:115
+#: ddterm/pref/ui/prefs-animation.ui:112
 msgid "Elastic tweening, with offshoot on start"
 msgstr "弹性渐变，开始时带有分支"
 
-#: ddterm/pref/ui/prefs-animation.ui:119
+#: ddterm/pref/ui/prefs-animation.ui:116
 msgid "Elastic tweening, with offshoot on end"
 msgstr "弹性补间，结束时带有分支"
 
-#: ddterm/pref/ui/prefs-animation.ui:123
+#: ddterm/pref/ui/prefs-animation.ui:120
 msgid "Elastic tweening with offshoot on both ends"
 msgstr "弹性渐变，两端带有分支"
 
-#: ddterm/pref/ui/prefs-animation.ui:127
+#: ddterm/pref/ui/prefs-animation.ui:124
 msgid "Overshooting cubic tweening, with backtracking on start"
 msgstr "超调立方渐变，开始时带回溯"
 
-#: ddterm/pref/ui/prefs-animation.ui:131
+#: ddterm/pref/ui/prefs-animation.ui:128
 msgid "Overshooting cubic tweening, with backtracking on end"
 msgstr "超调立方渐变，结束时带回溯"
 
-#: ddterm/pref/ui/prefs-animation.ui:135
+#: ddterm/pref/ui/prefs-animation.ui:132
 msgid "Overshooting cubic tweening, with backtracking on both ends"
 msgstr "超调立方渐变，两端都有回溯"
 
-#: ddterm/pref/ui/prefs-animation.ui:139
+#: ddterm/pref/ui/prefs-animation.ui:136
 msgid ""
 "Exponentially decaying parabolic (bounce) tweening, with bounce on start"
 msgstr "指数衰减抛物线(弹跳)渐变，开始时弹跳"
 
-#: ddterm/pref/ui/prefs-animation.ui:143
+#: ddterm/pref/ui/prefs-animation.ui:140
 msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on end"
 msgstr "指数衰减抛物线(弹跳)渐变，结束时弹跳"
 
-#: ddterm/pref/ui/prefs-animation.ui:147
+#: ddterm/pref/ui/prefs-animation.ui:144
 msgid ""
 "Exponentially decaying parabolic (bounce) tweening, with bounce on both ends"
 msgstr "指数衰减抛物线(弹跳)渐变，两端都有弹跳"
 
-#: ddterm/pref/ui/prefs-animation.ui:170
+#: ddterm/pref/ui/prefs-animation.ui:167
 msgid "_Override default window animations"
 msgstr "_覆盖默认的窗口动画"
 
-#: ddterm/pref/ui/prefs-animation.ui:205
+#: ddterm/pref/ui/prefs-animation.ui:202
 msgid "_Show animation:"
 msgstr "_展示动画："
 
-#: ddterm/pref/ui/prefs-animation.ui:219
+#: ddterm/pref/ui/prefs-animation.ui:216
 msgid "_Hide animation:"
 msgstr "_隐藏动画："
 
-#: ddterm/pref/ui/prefs-animation.ui:275
+#: ddterm/pref/ui/prefs-animation.ui:272
 msgid "_Hide animation duration:"
 msgstr "_隐藏动画持续时间："
 
-#: ddterm/pref/ui/prefs-animation.ui:288
+#: ddterm/pref/ui/prefs-animation.ui:285
 msgid "_Show animation duration:"
 msgstr "_显示动画持续时间："
 
-#: ddterm/pref/ui/prefs-behavior.ui:26
+#: ddterm/pref/ui/prefs-behavior.ui:23
 msgid "_Resizable"
 msgstr "_可调整大小"
 
-#: ddterm/pref/ui/prefs-behavior.ui:42
+#: ddterm/pref/ui/prefs-behavior.ui:39
 msgid "_Above all windows"
 msgstr "_所有窗口上方"
 
-#: ddterm/pref/ui/prefs-behavior.ui:58
+#: ddterm/pref/ui/prefs-behavior.ui:55
 msgid "On all _workspaces"
 msgstr "在所有_工作区上"
 
-#: ddterm/pref/ui/prefs-behavior.ui:74
+#: ddterm/pref/ui/prefs-behavior.ui:71
 msgid "Hide when the application loses _focus"
 msgstr "应用程序失去_焦点时隐藏"
 
-#: ddterm/pref/ui/prefs-behavior.ui:90
+#: ddterm/pref/ui/prefs-behavior.ui:87
 msgid "Hide when _Esc key is pressed"
 msgstr "按 _Esc 键时隐藏"
 
-#: ddterm/pref/ui/prefs-behavior.ui:106
+#: ddterm/pref/ui/prefs-behavior.ui:103
 msgid "Exclude from _overview/task bar"
 msgstr "从_概览/任务栏中排除"
 
-#: ddterm/pref/ui/prefs-behavior.ui:122
+#: ddterm/pref/ui/prefs-behavior.ui:119
 msgid "Hide mouse _pointer when typing"
 msgstr "在输入时隐藏鼠标_指针"
 
-#: ddterm/pref/ui/prefs-behavior.ui:138
+#: ddterm/pref/ui/prefs-behavior.ui:135
 msgid ""
 "Force _X11 GDK backend (XWayland).\n"
 "You'll have to close all tabs for this option to take effect."
@@ -604,655 +604,655 @@ msgstr ""
 "强制 _X11 GDK后端（XWayland）。\n"
 "您必须关闭所有标签页才能使此选项生效。"
 
-#: ddterm/pref/ui/prefs-colors.ui:25
+#: ddterm/pref/ui/prefs-colors.ui:22
 msgid "Black on light yellow"
 msgstr "浅黄的黑"
 
-#: ddterm/pref/ui/prefs-colors.ui:30
+#: ddterm/pref/ui/prefs-colors.ui:27
 msgid "Black on white"
 msgstr "白底黑字"
 
-#: ddterm/pref/ui/prefs-colors.ui:35
+#: ddterm/pref/ui/prefs-colors.ui:32
 msgid "Gray on black"
 msgstr "灰底黑字"
 
-#: ddterm/pref/ui/prefs-colors.ui:40
+#: ddterm/pref/ui/prefs-colors.ui:37
 msgid "Green on black"
 msgstr "黑底绿字"
 
-#: ddterm/pref/ui/prefs-colors.ui:45
+#: ddterm/pref/ui/prefs-colors.ui:42
 msgid "White on black"
 msgstr "黑底白字"
 
-#: ddterm/pref/ui/prefs-colors.ui:50
+#: ddterm/pref/ui/prefs-colors.ui:47
 msgid "GNOME light"
 msgstr "GNOME亮色"
 
-#: ddterm/pref/ui/prefs-colors.ui:55
+#: ddterm/pref/ui/prefs-colors.ui:52
 msgid "GNOME dark"
 msgstr "GNOME暗色"
 
-#: ddterm/pref/ui/prefs-colors.ui:60
+#: ddterm/pref/ui/prefs-colors.ui:57
 msgid "Tango light"
 msgstr "Tango亮色"
 
-#: ddterm/pref/ui/prefs-colors.ui:65
+#: ddterm/pref/ui/prefs-colors.ui:62
 msgid "Tango dark"
 msgstr "Tango暗色"
 
-#: ddterm/pref/ui/prefs-colors.ui:70
+#: ddterm/pref/ui/prefs-colors.ui:67
 msgid "Solarized light"
 msgstr "Solarized亮色"
 
-#: ddterm/pref/ui/prefs-colors.ui:75
+#: ddterm/pref/ui/prefs-colors.ui:72
 msgid "Solarized dark"
 msgstr "Solarized暗色"
 
-#: ddterm/pref/ui/prefs-colors.ui:80 ddterm/pref/ui/prefs-colors.ui:244
+#: ddterm/pref/ui/prefs-colors.ui:77 ddterm/pref/ui/prefs-colors.ui:241
 msgid "Custom"
 msgstr "自定义"
 
-#: ddterm/pref/ui/prefs-colors.ui:130
+#: ddterm/pref/ui/prefs-colors.ui:127
 msgid "GNOME"
 msgstr "GNOME"
 
-#: ddterm/pref/ui/prefs-colors.ui:149
+#: ddterm/pref/ui/prefs-colors.ui:146
 msgid "Tango"
 msgstr "Tango"
 
-#: ddterm/pref/ui/prefs-colors.ui:168
+#: ddterm/pref/ui/prefs-colors.ui:165
 msgid "Linux"
 msgstr "Linux"
 
-#: ddterm/pref/ui/prefs-colors.ui:187
+#: ddterm/pref/ui/prefs-colors.ui:184
 msgid "XTerm"
 msgstr "XTerm"
 
-#: ddterm/pref/ui/prefs-colors.ui:206
+#: ddterm/pref/ui/prefs-colors.ui:203
 msgid "RXVT"
 msgstr "RXVT"
 
-#: ddterm/pref/ui/prefs-colors.ui:225
+#: ddterm/pref/ui/prefs-colors.ui:222
 msgid "Solarized"
 msgstr "Solarized"
 
-#: ddterm/pref/ui/prefs-colors.ui:279
+#: ddterm/pref/ui/prefs-colors.ui:276
 msgid "Theme _variant:"
 msgstr "主题 _变体："
 
-#: ddterm/pref/ui/prefs-colors.ui:294 ddterm/pref/ui/prefs-text.ui:119
+#: ddterm/pref/ui/prefs-colors.ui:291 ddterm/pref/ui/prefs-text.ui:116
 msgid "Default"
 msgstr "默认样式"
 
-#: ddterm/pref/ui/prefs-colors.ui:295
+#: ddterm/pref/ui/prefs-colors.ui:292
 msgid "Light"
 msgstr "亮色"
 
-#: ddterm/pref/ui/prefs-colors.ui:296
+#: ddterm/pref/ui/prefs-colors.ui:293
 msgid "Dark"
 msgstr "暗色"
 
-#: ddterm/pref/ui/prefs-colors.ui:306
+#: ddterm/pref/ui/prefs-colors.ui:303
 msgid "Use colors from system _theme"
 msgstr "使用系统 _主题颜色"
 
-#: ddterm/pref/ui/prefs-colors.ui:322
+#: ddterm/pref/ui/prefs-colors.ui:319
 msgid "_Background opacity:"
 msgstr "_背景不透明度："
 
-#: ddterm/pref/ui/prefs-colors.ui:367
+#: ddterm/pref/ui/prefs-colors.ui:364
 msgid "_Palette:"
 msgstr "_调色板："
 
-#: ddterm/pref/ui/prefs-colors.ui:410
+#: ddterm/pref/ui/prefs-colors.ui:407
 msgid "Palette Color 0"
 msgstr "调色板颜色 0"
 
-#: ddterm/pref/ui/prefs-colors.ui:423
+#: ddterm/pref/ui/prefs-colors.ui:420
 msgid "Palette Color 1"
 msgstr "调色板颜色1"
 
-#: ddterm/pref/ui/prefs-colors.ui:436
+#: ddterm/pref/ui/prefs-colors.ui:433
 msgid "Palette Color 2"
 msgstr "调色板颜色2"
 
-#: ddterm/pref/ui/prefs-colors.ui:449
+#: ddterm/pref/ui/prefs-colors.ui:446
 msgid "Palette Color 3"
 msgstr "调色板颜色3"
 
-#: ddterm/pref/ui/prefs-colors.ui:462
+#: ddterm/pref/ui/prefs-colors.ui:459
 msgid "Palette Color 4"
 msgstr "调色板颜色4"
 
-#: ddterm/pref/ui/prefs-colors.ui:475
+#: ddterm/pref/ui/prefs-colors.ui:472
 msgid "Palette Color 5"
 msgstr "调色板颜色5"
 
-#: ddterm/pref/ui/prefs-colors.ui:488
+#: ddterm/pref/ui/prefs-colors.ui:485
 msgid "Palette Color 6"
 msgstr "调色板颜色6"
 
-#: ddterm/pref/ui/prefs-colors.ui:501
+#: ddterm/pref/ui/prefs-colors.ui:498
 msgid "Palette Color 7"
 msgstr "调色板颜色7"
 
-#: ddterm/pref/ui/prefs-colors.ui:514
+#: ddterm/pref/ui/prefs-colors.ui:511
 msgid "Palette Color 8"
 msgstr "调色板颜色8"
 
-#: ddterm/pref/ui/prefs-colors.ui:527
+#: ddterm/pref/ui/prefs-colors.ui:524
 msgid "Palette Color 9"
 msgstr "调色板颜色9"
 
-#: ddterm/pref/ui/prefs-colors.ui:540
+#: ddterm/pref/ui/prefs-colors.ui:537
 msgid "Palette Color 10"
 msgstr "调色板颜色10"
 
-#: ddterm/pref/ui/prefs-colors.ui:553
+#: ddterm/pref/ui/prefs-colors.ui:550
 msgid "Palette Color 11"
 msgstr "调色板颜色11"
 
-#: ddterm/pref/ui/prefs-colors.ui:566
+#: ddterm/pref/ui/prefs-colors.ui:563
 msgid "Palette Color 12"
 msgstr "调色板颜色12"
 
-#: ddterm/pref/ui/prefs-colors.ui:579
+#: ddterm/pref/ui/prefs-colors.ui:576
 msgid "Palette Color 13"
 msgstr "调色板颜色13"
 
-#: ddterm/pref/ui/prefs-colors.ui:592
+#: ddterm/pref/ui/prefs-colors.ui:589
 msgid "Palette Color 14"
 msgstr "调色板颜色14"
 
-#: ddterm/pref/ui/prefs-colors.ui:605
+#: ddterm/pref/ui/prefs-colors.ui:602
 msgid "Palette Color 15"
 msgstr "调色板颜色15"
 
-#: ddterm/pref/ui/prefs-colors.ui:621
+#: ddterm/pref/ui/prefs-colors.ui:618
 msgid "Show bold text in _bright colors"
 msgstr "在_亮色中使用粗体"
 
-#: ddterm/pref/ui/prefs-colors.ui:637
+#: ddterm/pref/ui/prefs-colors.ui:634
 msgid "Copy profile from GNOME Terminal"
 msgstr "从GNOME终端复制配置文件"
 
-#: ddterm/pref/ui/prefs-colors.ui:660
+#: ddterm/pref/ui/prefs-colors.ui:657
 msgid "Foreground"
 msgstr "前景"
 
-#: ddterm/pref/ui/prefs-colors.ui:671
+#: ddterm/pref/ui/prefs-colors.ui:668
 msgid "Background"
 msgstr "背景"
 
-#: ddterm/pref/ui/prefs-colors.ui:683
+#: ddterm/pref/ui/prefs-colors.ui:680
 msgid "Default color:"
 msgstr "默认颜色："
 
-#: ddterm/pref/ui/prefs-colors.ui:692
+#: ddterm/pref/ui/prefs-colors.ui:689
 msgid "Bold color:"
 msgstr "粗体颜色："
 
-#: ddterm/pref/ui/prefs-colors.ui:705
+#: ddterm/pref/ui/prefs-colors.ui:702
 msgid "Cursor color:"
 msgstr "光标颜色："
 
-#: ddterm/pref/ui/prefs-colors.ui:719
+#: ddterm/pref/ui/prefs-colors.ui:716
 msgid "Highlight color:"
 msgstr "高亮颜色："
 
-#: ddterm/pref/ui/prefs-colors.ui:736
+#: ddterm/pref/ui/prefs-colors.ui:733
 msgid "Color _scheme:"
 msgstr "配色_方案："
 
-#: ddterm/pref/ui/prefs-colors.ui:754
+#: ddterm/pref/ui/prefs-colors.ui:751
 msgid "Background Color"
 msgstr "背景色"
 
-#: ddterm/pref/ui/prefs-colors.ui:778
+#: ddterm/pref/ui/prefs-colors.ui:775
 msgid "Bold Color"
 msgstr "粗体颜色"
 
-#: ddterm/pref/ui/prefs-colors.ui:802
+#: ddterm/pref/ui/prefs-colors.ui:799
 msgid "Cursor Foreground Color"
 msgstr "光标前景色"
 
-#: ddterm/pref/ui/prefs-colors.ui:826
+#: ddterm/pref/ui/prefs-colors.ui:823
 msgid "Cursor Background Color"
 msgstr "光标背景色"
 
-#: ddterm/pref/ui/prefs-colors.ui:850
+#: ddterm/pref/ui/prefs-colors.ui:847
 msgid "Highlight Foreground Color"
 msgstr "高亮前景色"
 
-#: ddterm/pref/ui/prefs-colors.ui:874
+#: ddterm/pref/ui/prefs-colors.ui:871
 msgid "Highlight Background Color"
 msgstr "强调背景色"
 
-#: ddterm/pref/ui/prefs-colors.ui:917
+#: ddterm/pref/ui/prefs-colors.ui:914
 msgid "Foreground Color"
 msgstr "前景颜色"
 
-#: ddterm/pref/ui/prefs-command.ui:26
+#: ddterm/pref/ui/prefs-command.ui:23
 msgid "User _shell"
 msgstr "用户 _shell"
 
-#: ddterm/pref/ui/prefs-command.ui:44
+#: ddterm/pref/ui/prefs-command.ui:41
 msgid "User shell as _login shell"
 msgstr "用户 Shell 作为 _登录 Shell"
 
-#: ddterm/pref/ui/prefs-command.ui:62
+#: ddterm/pref/ui/prefs-command.ui:59
 msgid "Custom _command:"
 msgstr "自定义 _命令："
 
-#: ddterm/pref/ui/prefs-command.ui:101
+#: ddterm/pref/ui/prefs-command.ui:98
 msgid "Preserve working directory"
 msgstr "保存工作目录"
 
-#: ddterm/pref/ui/prefs-compatibility.ui:23 ddterm/pref/ui/prefs-tabs.ui:114
+#: ddterm/pref/ui/prefs-compatibility.ui:20 ddterm/pref/ui/prefs-tabs.ui:111
 msgid "Automatic"
 msgstr "自动"
 
-#: ddterm/pref/ui/prefs-compatibility.ui:27
+#: ddterm/pref/ui/prefs-compatibility.ui:24
 msgid "Control-H"
 msgstr "Control-H"
 
-#: ddterm/pref/ui/prefs-compatibility.ui:31
+#: ddterm/pref/ui/prefs-compatibility.ui:28
 msgid "ASCII DEL"
 msgstr "ASCII DEL"
 
-#: ddterm/pref/ui/prefs-compatibility.ui:35
+#: ddterm/pref/ui/prefs-compatibility.ui:32
 msgid "Escape sequence"
 msgstr "Esc 序列"
 
-#: ddterm/pref/ui/prefs-compatibility.ui:39
+#: ddterm/pref/ui/prefs-compatibility.ui:36
 msgid "TTY Erase"
 msgstr "TTY 擦除"
 
-#: ddterm/pref/ui/prefs-compatibility.ui:59
+#: ddterm/pref/ui/prefs-compatibility.ui:56
 msgid "_Backspace key generates:"
 msgstr "_Backspace 键生成："
 
-#: ddterm/pref/ui/prefs-compatibility.ui:73
+#: ddterm/pref/ui/prefs-compatibility.ui:70
 msgid "_Delete key generates:"
 msgstr "_Delete 键生成："
 
-#: ddterm/pref/ui/prefs-compatibility.ui:87
+#: ddterm/pref/ui/prefs-compatibility.ui:84
 msgid "Ambiguous-_width characters:"
 msgstr "有歧义 _宽度的字符："
 
-#: ddterm/pref/ui/prefs-compatibility.ui:140
+#: ddterm/pref/ui/prefs-compatibility.ui:137
 msgid "Narrow"
 msgstr "窄"
 
-#: ddterm/pref/ui/prefs-compatibility.ui:141
+#: ddterm/pref/ui/prefs-compatibility.ui:138
 msgid "Wide"
 msgstr "宽"
 
-#: ddterm/pref/ui/prefs-compatibility.ui:151
+#: ddterm/pref/ui/prefs-compatibility.ui:148
 msgid "_Reset Compatibility Options to Defaults"
 msgstr "将兼容性选项_重设为默认值"
 
-#: ddterm/pref/ui/prefs-panel-icon.ui:25 ddterm/pref/ui/prefs-tabs.ui:233
+#: ddterm/pref/ui/prefs-panel-icon.ui:22 ddterm/pref/ui/prefs-tabs.ui:230
 msgid "None"
 msgstr "无"
 
-#: ddterm/pref/ui/prefs-panel-icon.ui:42
+#: ddterm/pref/ui/prefs-panel-icon.ui:39
 msgid "With popup menu"
 msgstr "随着弹出菜单"
 
-#: ddterm/pref/ui/prefs-panel-icon.ui:59
+#: ddterm/pref/ui/prefs-panel-icon.ui:56
 msgid "Toggle button"
 msgstr "切换按钮"
 
-#: ddterm/pref/ui/prefs-panel-icon.ui:76
+#: ddterm/pref/ui/prefs-panel-icon.ui:73
 msgid "Toggle button and popup menu"
 msgstr "切换按钮和弹出菜单"
 
-#: ddterm/pref/ui/prefs-position-size.ui:34
+#: ddterm/pref/ui/prefs-position-size.ui:31
 msgid "Window _size:"
 msgstr "窗口 _大小："
 
-#: ddterm/pref/ui/prefs-position-size.ui:63
+#: ddterm/pref/ui/prefs-position-size.ui:60
 msgid "_Window position:"
 msgstr "_窗口位置："
 
-#: ddterm/pref/ui/prefs-position-size.ui:78 ddterm/pref/ui/prefs-tabs.ui:160
+#: ddterm/pref/ui/prefs-position-size.ui:75 ddterm/pref/ui/prefs-tabs.ui:157
 msgid "Top"
 msgstr "顶部"
 
-#: ddterm/pref/ui/prefs-position-size.ui:79 ddterm/pref/ui/prefs-tabs.ui:159
+#: ddterm/pref/ui/prefs-position-size.ui:76 ddterm/pref/ui/prefs-tabs.ui:156
 msgid "Bottom"
 msgstr "底部"
 
-#: ddterm/pref/ui/prefs-position-size.ui:80 ddterm/pref/ui/prefs-tabs.ui:161
+#: ddterm/pref/ui/prefs-position-size.ui:77 ddterm/pref/ui/prefs-tabs.ui:158
 msgid "Left"
 msgstr "左边"
 
-#: ddterm/pref/ui/prefs-position-size.ui:81 ddterm/pref/ui/prefs-tabs.ui:162
+#: ddterm/pref/ui/prefs-position-size.ui:78 ddterm/pref/ui/prefs-tabs.ui:159
 msgid "Right"
 msgstr "右边"
 
-#: ddterm/pref/ui/prefs-position-size.ui:91
+#: ddterm/pref/ui/prefs-position-size.ui:88
 msgid "On the monitor that contains the mouse pointer"
 msgstr "在包含鼠标指针的显示器上"
 
-#: ddterm/pref/ui/prefs-position-size.ui:109
+#: ddterm/pref/ui/prefs-position-size.ui:106
 msgid "On the _primary monitor"
 msgstr "在 _主显示器上"
 
-#: ddterm/pref/ui/prefs-position-size.ui:127
+#: ddterm/pref/ui/prefs-position-size.ui:124
 msgid "On the monitor with keyboard _focus"
 msgstr "在键盘 _聚焦的显示器上"
 
-#: ddterm/pref/ui/prefs-position-size.ui:145
+#: ddterm/pref/ui/prefs-position-size.ui:142
 msgid "On _monitor:"
 msgstr "在 _显示器上："
 
-#: ddterm/pref/ui/prefs-scrolling.ui:31
+#: ddterm/pref/ui/prefs-scrolling.ui:28
 msgid "Show _scrollbar"
 msgstr "显示 _滚动条"
 
-#: ddterm/pref/ui/prefs-scrolling.ui:47
+#: ddterm/pref/ui/prefs-scrolling.ui:44
 msgid "Scroll on _output"
 msgstr "在 _输出上滚动"
 
-#: ddterm/pref/ui/prefs-scrolling.ui:63
+#: ddterm/pref/ui/prefs-scrolling.ui:60
 msgid "Scroll on _keystroke"
 msgstr "在 _按键上滚动"
 
-#: ddterm/pref/ui/prefs-scrolling.ui:79
+#: ddterm/pref/ui/prefs-scrolling.ui:76
 msgid "_Limit scrollback to:"
 msgstr "_限制回滚到："
 
-#: ddterm/pref/ui/prefs-scrolling.ui:115
+#: ddterm/pref/ui/prefs-scrolling.ui:112
 msgid "lines"
 msgstr "行数"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:30
+#: ddterm/pref/ui/prefs-shortcuts.ui:27
 msgid "Toggle Terminal Window"
 msgstr "切换终端窗口"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:37
+#: ddterm/pref/ui/prefs-shortcuts.ui:34
 msgid "Show/Activate Terminal Window"
 msgstr "显示/激活终端窗口"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:60
+#: ddterm/pref/ui/prefs-shortcuts.ui:57
 msgid "Hide the Window"
 msgstr "隐藏窗口"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:67
+#: ddterm/pref/ui/prefs-shortcuts.ui:64
 msgid "Maximize/Unmaximize the Window"
 msgstr "最大化/取消最大化窗口"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:74
+#: ddterm/pref/ui/prefs-shortcuts.ui:71
 msgid "Increase Window Size"
 msgstr "增加窗口大小"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:81
+#: ddterm/pref/ui/prefs-shortcuts.ui:78
 msgid "Decrease Window Size"
 msgstr "降低窗口大小"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:88
+#: ddterm/pref/ui/prefs-shortcuts.ui:85
 msgid "Increase Background Opacity"
 msgstr "增加背景不透明度"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:95
+#: ddterm/pref/ui/prefs-shortcuts.ui:92
 msgid "Decrease Background Opacity"
 msgstr "降低背景不透明度"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:102
+#: ddterm/pref/ui/prefs-shortcuts.ui:99
 msgid "Enable/Disable Background Transparency"
 msgstr "启用/禁用背景透明度"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:109
+#: ddterm/pref/ui/prefs-shortcuts.ui:106
 msgid "Copy Selected Text"
 msgstr "复制选定的文本"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:116
+#: ddterm/pref/ui/prefs-shortcuts.ui:113
 msgid "Copy Selected Text as HTML"
 msgstr "将所选文本复制为 HTML"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:123
+#: ddterm/pref/ui/prefs-shortcuts.ui:120
 msgid "Paste Text from Clipboard"
 msgstr "从剪贴板上粘贴文本"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:179
+#: ddterm/pref/ui/prefs-shortcuts.ui:176
 msgid "Close Current Tab"
 msgstr "关闭当前标签页"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:186
+#: ddterm/pref/ui/prefs-shortcuts.ui:183
 msgid "Switch to Previous Tab"
 msgstr "切换到上一个标签页"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:193
+#: ddterm/pref/ui/prefs-shortcuts.ui:190
 msgid "Switch to Next Tab"
 msgstr "切换到下一个标签页"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:228
+#: ddterm/pref/ui/prefs-shortcuts.ui:225
 msgid "Move Keyboard Focus to Other Split Pane"
 msgstr "移动标签页到其他的拆分面板"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:235
+#: ddterm/pref/ui/prefs-shortcuts.ui:232
 msgid "Move Tab to Other Split Pane"
 msgstr "移动标签页到其他的拆分面板"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:242
+#: ddterm/pref/ui/prefs-shortcuts.ui:239
 msgid "Increase First Split Pane Size"
 msgstr "增加第一个拆分面板的大小"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:249
+#: ddterm/pref/ui/prefs-shortcuts.ui:246
 msgid "Decrease First Split Pane Size"
 msgstr "减少第一个拆分面板的大小"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:256
+#: ddterm/pref/ui/prefs-shortcuts.ui:253
 msgid "Set Custom Tab Title"
 msgstr "设置自定义标签页标题"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:263
+#: ddterm/pref/ui/prefs-shortcuts.ui:260
 msgid "Reset Tab Title"
 msgstr "重置标签页标题"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:312
+#: ddterm/pref/ui/prefs-shortcuts.ui:309
 msgid "Switch to Tab 1"
 msgstr "切换到标签1"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:319
+#: ddterm/pref/ui/prefs-shortcuts.ui:316
 msgid "Switch to Tab 2"
 msgstr "切换到Tab 2"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:326
+#: ddterm/pref/ui/prefs-shortcuts.ui:323
 msgid "Switch to Tab 3"
 msgstr "切换到标签1"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:333
+#: ddterm/pref/ui/prefs-shortcuts.ui:330
 msgid "Switch to Tab 4"
 msgstr "切换到标签4"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:340
+#: ddterm/pref/ui/prefs-shortcuts.ui:337
 msgid "Switch to Tab 5"
 msgstr "切换到标签5"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:347
+#: ddterm/pref/ui/prefs-shortcuts.ui:344
 msgid "Switch to Tab 6"
 msgstr "切换到标签6"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:354
+#: ddterm/pref/ui/prefs-shortcuts.ui:351
 msgid "Switch to Tab 7"
 msgstr "切换到标签7"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:361
+#: ddterm/pref/ui/prefs-shortcuts.ui:358
 msgid "Switch to Tab 8"
 msgstr "切换到标签8"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:368
+#: ddterm/pref/ui/prefs-shortcuts.ui:365
 msgid "Switch to Tab 9"
 msgstr "切换到标签9"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:375
+#: ddterm/pref/ui/prefs-shortcuts.ui:372
 msgid "Switch to Tab 10"
 msgstr "切换到标签10"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:408 ddterm/pref/ui/prefs-shortcuts.ui:480
+#: ddterm/pref/ui/prefs-shortcuts.ui:405 ddterm/pref/ui/prefs-shortcuts.ui:477
 msgid "Action"
 msgstr "活动"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:420
+#: ddterm/pref/ui/prefs-shortcuts.ui:417
 msgid "Global Shortcut"
 msgstr "全局快捷键"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:450
+#: ddterm/pref/ui/prefs-shortcuts.ui:447
 msgid "_Enable application shortcuts"
 msgstr "_启用应用程序的快捷方式"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:492
+#: ddterm/pref/ui/prefs-shortcuts.ui:489
 msgid "Shortcut"
 msgstr "快捷键"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:522
+#: ddterm/pref/ui/prefs-shortcuts.ui:519
 msgid "Reset All Shortcuts to Defaults"
 msgstr "重置快捷键"
 
-#: ddterm/pref/ui/prefs-tabs.ui:31
+#: ddterm/pref/ui/prefs-tabs.ui:28
 msgid "Expand tabs"
 msgstr "扩展标签页"
 
-#: ddterm/pref/ui/prefs-tabs.ui:47
+#: ddterm/pref/ui/prefs-tabs.ui:44
 msgid "Show _close buttons"
 msgstr "显示 _关闭按钮"
 
-#: ddterm/pref/ui/prefs-tabs.ui:63
+#: ddterm/pref/ui/prefs-tabs.ui:60
 msgid "\"_New Tab (Last)\" button"
 msgstr "\"_新建标签页（最后）\"按钮"
 
-#: ddterm/pref/ui/prefs-tabs.ui:79
+#: ddterm/pref/ui/prefs-tabs.ui:76
 msgid "Tab _switcher popup"
 msgstr "标签页 _切换器"
 
-#: ddterm/pref/ui/prefs-tabs.ui:98
+#: ddterm/pref/ui/prefs-tabs.ui:95
 msgid "Show tab _bar:"
 msgstr "显示标签 _栏："
 
-#: ddterm/pref/ui/prefs-tabs.ui:113 ddterm/pref/ui/prefs-text.ui:89
+#: ddterm/pref/ui/prefs-tabs.ui:110 ddterm/pref/ui/prefs-text.ui:86
 msgid "Always"
 msgstr "总是"
 
-#: ddterm/pref/ui/prefs-tabs.ui:115 ddterm/pref/ui/prefs-text.ui:86
+#: ddterm/pref/ui/prefs-tabs.ui:112 ddterm/pref/ui/prefs-text.ui:83
 msgid "Never"
 msgstr "从不"
 
-#: ddterm/pref/ui/prefs-tabs.ui:125
+#: ddterm/pref/ui/prefs-tabs.ui:122
 msgid "\"_New Tab (First)\" button"
 msgstr "“_新建标签页（第一个）”按钮"
 
-#: ddterm/pref/ui/prefs-tabs.ui:144
+#: ddterm/pref/ui/prefs-tabs.ui:141
 msgid "Tab bar position:"
 msgstr "标签栏的位置："
 
-#: ddterm/pref/ui/prefs-tabs.ui:172
+#: ddterm/pref/ui/prefs-tabs.ui:169
 msgid "Show border"
 msgstr "显示边框"
 
-#: ddterm/pref/ui/prefs-tabs.ui:191
+#: ddterm/pref/ui/prefs-tabs.ui:188
 msgid "Tab width:"
 msgstr "标签页宽度："
 
-#: ddterm/pref/ui/prefs-tabs.ui:219
+#: ddterm/pref/ui/prefs-tabs.ui:216
 msgid "Ellipsize tab labels:"
 msgstr "缩写标签页文本:"
 
-#: ddterm/pref/ui/prefs-tabs.ui:234
+#: ddterm/pref/ui/prefs-tabs.ui:231
 msgid "Start"
 msgstr "开头"
 
-#: ddterm/pref/ui/prefs-tabs.ui:235
+#: ddterm/pref/ui/prefs-tabs.ui:232
 msgid "Middle"
 msgstr "中间"
 
-#: ddterm/pref/ui/prefs-tabs.ui:236
+#: ddterm/pref/ui/prefs-tabs.ui:233
 msgid "End"
 msgstr "结尾"
 
-#: ddterm/pref/ui/prefs-tabs.ui:246
+#: ddterm/pref/ui/prefs-tabs.ui:243
 msgid "Show keyboard shortcuts"
 msgstr "显示键盘快捷键"
 
-#: ddterm/pref/ui/prefs-text.ui:26
+#: ddterm/pref/ui/prefs-text.ui:23
 msgid "Custom _font:"
 msgstr "自定义 _字体："
 
-#: ddterm/pref/ui/prefs-text.ui:43
+#: ddterm/pref/ui/prefs-text.ui:40
 msgid "Allow _blinking text:"
 msgstr "允许 _闪烁文本："
 
-#: ddterm/pref/ui/prefs-text.ui:57
+#: ddterm/pref/ui/prefs-text.ui:54
 msgid "Cursor _shape:"
 msgstr "光标 _形状："
 
-#: ddterm/pref/ui/prefs-text.ui:71
+#: ddterm/pref/ui/prefs-text.ui:68
 msgid "_Cursor blinking:"
 msgstr "_光标闪烁："
 
-#: ddterm/pref/ui/prefs-text.ui:87
+#: ddterm/pref/ui/prefs-text.ui:84
 msgid "When focused"
 msgstr "聚焦时"
 
-#: ddterm/pref/ui/prefs-text.ui:88
+#: ddterm/pref/ui/prefs-text.ui:85
 msgid "When unfocused"
 msgstr "未聚焦时"
 
-#: ddterm/pref/ui/prefs-text.ui:103
+#: ddterm/pref/ui/prefs-text.ui:100
 msgid "Block"
 msgstr "方块"
 
-#: ddterm/pref/ui/prefs-text.ui:104
+#: ddterm/pref/ui/prefs-text.ui:101
 msgid "I-Beam"
 msgstr "I 字型"
 
-#: ddterm/pref/ui/prefs-text.ui:105
+#: ddterm/pref/ui/prefs-text.ui:102
 msgid "Underline"
 msgstr "下划线"
 
-#: ddterm/pref/ui/prefs-text.ui:120
+#: ddterm/pref/ui/prefs-text.ui:117
 msgid "Enabled"
 msgstr "已启用"
 
-#: ddterm/pref/ui/prefs-text.ui:121
+#: ddterm/pref/ui/prefs-text.ui:118
 msgid "Disabled"
 msgstr "已禁用"
 
-#: ddterm/pref/ui/prefs-text.ui:131
+#: ddterm/pref/ui/prefs-text.ui:128
 msgid "Allow _hyperlinks"
 msgstr "允许 _超链接"
 
-#: ddterm/pref/ui/prefs-text.ui:147
+#: ddterm/pref/ui/prefs-text.ui:144
 msgid "Audible _bell"
 msgstr "_响铃"
 
-#: ddterm/pref/ui/prefs-text.ui:189
+#: ddterm/pref/ui/prefs-text.ui:186
 msgid "Detect _URLs"
 msgstr "检测 _URLs"
 
-#: ddterm/pref/ui/prefs-text.ui:212
+#: ddterm/pref/ui/prefs-text.ui:209
 msgid "Detect raw URLs (scheme://netloc/path)"
 msgstr "检测原始URL（scheme://netloc/path）"
 
-#: ddterm/pref/ui/prefs-text.ui:227
+#: ddterm/pref/ui/prefs-text.ui:224
 msgid "Detect \"file:\" URLs"
 msgstr "检测 \"file:\" 地址"
 
-#: ddterm/pref/ui/prefs-text.ui:242
+#: ddterm/pref/ui/prefs-text.ui:239
 msgid "Detect HTTP URLs"
 msgstr "检测网址"
 
-#: ddterm/pref/ui/prefs-text.ui:257
+#: ddterm/pref/ui/prefs-text.ui:254
 msgid "Detect VoIP URLs"
 msgstr "检测 VoIP URLs"
 
-#: ddterm/pref/ui/prefs-text.ui:272
+#: ddterm/pref/ui/prefs-text.ui:269
 msgid "Detect E-mail addresses"
 msgstr "检测邮件地址"
 
-#: ddterm/pref/ui/prefs-text.ui:287
+#: ddterm/pref/ui/prefs-text.ui:284
 msgid "Detect \"news:\", \"man:\" URLs"
 msgstr "检测 \"news:\"、\"man:\" URLs"
 
