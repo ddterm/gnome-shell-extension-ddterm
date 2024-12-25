@@ -237,13 +237,16 @@ run_target(
   command: [reuse_tool, '--root', meson.current_source_dir(), 'lint'],
 )
 
-test(
-  'lint-source',
-  reuse_tool,
-  args: ['--root', meson.current_source_dir(), 'lint'],
-  workdir: meson.current_source_dir(),
-  suite: ['reuse'],
-)
+# Works correctly only in a git repo
+if fs.exists(meson.current_source_dir() / '.git')
+  test(
+    'lint-source',
+    reuse_tool,
+    args: ['--root', meson.current_source_dir(), 'lint'],
+    workdir: meson.current_source_dir(),
+    suite: ['reuse'],
+  )
+endif
 
 test(
   'lint-build',
