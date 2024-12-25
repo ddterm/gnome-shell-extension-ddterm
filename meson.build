@@ -65,8 +65,10 @@ metadata.set_quoted('uuid', uuid)
 metadata.set_quoted('gettext_domain', gettext_domain)
 metadata.set_quoted('settings_schema', settings_schema)
 
+metadata_template = get_option('esm') ? 'metadata.json.in' : 'metadata.legacy.json.in'
+
 pack += configure_file(
-  input: get_option('esm') ? 'metadata.json.in' : 'metadata.legacy.json.in',
+  input: metadata_template,
   output: 'metadata.json',
   configuration: metadata,
   install: true,
@@ -74,7 +76,7 @@ pack += configure_file(
 )
 
 pack += fs.copyfile(
-  get_option('esm') ? 'metadata.json.in.license' : 'metadata.legacy.json.in.license',
+  f'@metadata_template@.license',
   'metadata.json.license',
   install: true,
   install_dir: extension_dir,
