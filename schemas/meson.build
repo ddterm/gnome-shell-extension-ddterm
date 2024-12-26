@@ -22,16 +22,8 @@ if not get_option('esm')
   pack += schemas_compiled
 
   pack += custom_target(
-    command: [
-      xml_license_tool,
-      'extract',
-      '--output',
-      '@OUTPUT@',
-      '--',
-      '@INPUT@',
-    ],
-    input: schema,
-    output: fs.name(schemas_compiled.full_path()) + '.license',
+    command: [xsltproc, '-o', '@OUTPUT@', files('extract-license.xsl'), schema],
+    output: 'gschemas.compiled.license',
   )
 endif
 

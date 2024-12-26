@@ -9,22 +9,20 @@ subdir('3to4')
 
 pref_ui_gtk4_files = []
 
-foreach pref_ui_file_and_license : pref_ui_gtk4_3to4_files
-  pref_ui_file = pref_ui_file_and_license[0]
-  pref_ui_file_license = pref_ui_file_and_license[1]
-
+foreach i : range(pref_ui_files.length())
   out_file = custom_target(
     command: [
-      xml_license_tool,
-      'embed',
-      '--output',
+      xsltproc,
+      '-o',
       '@OUTPUT@',
-      '--license',
-      pref_ui_file_license,
-      '--',
-      pref_ui_file,
+      '--stringparam',
+      'sourceFile',
+      pref_ui_gtk4_fixup_files[i].full_path(),
+      files('copy-license.xsl'),
+      '@INPUT@',
     ],
-    output: fs.name(pref_ui_file.full_path()),
+    input: pref_ui_gtk4_3to4_files[i],
+    output: '@PLAINNAME@',
     install: true,
     install_dir: extension_dir / 'ddterm' / 'pref' / 'ui' / 'gtk4',
   )

@@ -114,6 +114,7 @@ else
 endif
 
 gtk3_builder_tool = find_program('gtk-builder-tool')
+xsltproc = find_program('xsltproc')
 
 subdir('bin')
 subdir('data')
