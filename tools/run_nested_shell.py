@@ -2,7 +2,7 @@
 
 # SPDX-FileCopyrightText: 2024 Aleksandr Mezin <mezin.alexander@gmail.com>
 #
-# SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-License-Identifier: GPL-2.0-or-later
 
 """
 Launch a nested GNOME Shell instance in an isolated environment, and install
