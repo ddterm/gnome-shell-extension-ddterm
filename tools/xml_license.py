@@ -5,32 +5,55 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 
 import argparse
+import codecs
 import sys
-import xml.dom.minidom
-
-
-def extract_comments(node):
-    if node.nodeType == xml.dom.Node.COMMENT_NODE:
-        if 'SPDX-FileCopyrightText:' in node.data or 'SPDX-License-Identifier:' in node.data:
-            yield node
-
-    for child in node.childNodes:
-        yield from extract_comments(child)
+import xml.parsers.expat
 
 
 def xml_license_extract(input_file, output):
-    dom = xml.dom.minidom.parse(input_file)
+    comments = []
 
-    for node in extract_comments(dom):
-        print(node.data.strip(), file=output)
+    def comment_handler(data):
+        if 'SPDX-FileCopyrightText:' in data or 'SPDX-License-Identifier:' in data:
+            comments.append(data)
+
+    parser = xml.parsers.expat.ParserCreate()
+    parser.CommentHandler = comment_handler
+    parser.ParseFile(input_file)
+
+    output.write('\n'.join(comments))
 
 
 def xml_license_embed(input_file, output, license):
-    dom = xml.dom.minidom.parse(input_file)
-    comment = dom.createComment(f'\n\n{license.read().strip()}\n\n')
+    encoder = codecs.getincrementalencoder('UTF-8')(errors='xmlcharrefreplace')
 
-    dom.insertBefore(comment, dom.documentElement)
-    dom.writexml(output, encoding=output.encoding)
+    def xml_decl_handler(version, encoding, standalone):
+        nonlocal encoder
+
+        if encoding:
+            output.write(encoder.encode('', final=True))
+            encoder = codecs.getincrementalencoder(encoding)(errors='xmlcharrefreplace')
+
+        declarations = []
+
+        if version:
+            declarations.append(f'version="{version}"')
+
+        if encoding:
+            declarations.append(f'encoding="{encoding}"')
+
+        if standalone != -1:
+            declarations.append(f'standalone="{"yes" if standalone else "no"}"')
+
+        output.write(encoder.encode(f'<?xml {" ".join(declarations)}?>'))
+        output.write(encoder.encode(f'\n<!--{license.read()}-->'))
+
+    parser = xml.parsers.expat.ParserCreate()
+    parser.XmlDeclHandler = xml_decl_handler
+    parser.DefaultHandler = lambda data: output.write(encoder.encode(data))
+    parser.ParseFile(input_file)
+
+    output.write(encoder.encode('', final=True))
 
 
 def xml_license(func, **kwargs):
@@ -47,7 +70,7 @@ def cli(*args, **kwargs):
     extract_parser.set_defaults(func=xml_license_extract)
 
     embed_parser = subparsers.add_parser('embed')
-    embed_parser.add_argument('--output', type=argparse.FileType('w'), default=sys.stdout)
+    embed_parser.add_argument('--output', type=argparse.FileType('wb'), default=sys.stdout.buffer)
     embed_parser.add_argument('--license', type=argparse.FileType('r'), required=True)
     embed_parser.add_argument('input_file', type=argparse.FileType('rb'))
     embed_parser.set_defaults(func=xml_license_embed)
