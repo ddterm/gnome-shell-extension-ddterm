@@ -161,14 +161,45 @@ foreach target : ['toggle', 'quit']
   )
 endforeach
 
+node_modules_bin_dir = meson.current_source_dir() / 'node_modules' / '.bin'
+
 eslint_tool = find_program(
-  meson.current_source_dir() / 'node_modules' / '.bin' / 'eslint',
+  'eslint',
+  dirs: node_modules_bin_dir,
   required: false,
   disabler: true,
 )
 
 eslint_env = ['ESLINT_USE_FLAT_CONFIG=false']
 meson.add_devenv(eslint_env)
+
+if eslint_tool.found()
+  eslint_required = fs.is_samepath(
+    eslint_tool.full_path(),
+    node_modules_bin_dir / 'npm',
+  )
+
+  eslint_config_check = run_command(
+    [
+      'env',
+      '-C',
+      meson.current_source_dir(),
+      eslint_tool,
+      '--print-config',
+      'extension.js',
+    ],
+    check: eslint_required,
+    env: eslint_env,
+  )
+
+  if eslint_config_check.returncode() != 0
+    warning(
+      'eslint found, but it fails to load the config. Please run "npm install" and "meson setup --reconfigure"',
+    )
+
+    eslint_tool = disabler()
+  endif
+endif
 
 build_dir_relative = fs.relative_to(
   meson.current_build_dir(),
