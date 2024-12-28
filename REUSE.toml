@@ -15,9 +15,6 @@ SPDX-FileCopyrightText = "ddterm contributors <https://github.com/ddterm/gnome-s
 SPDX-License-Identifier = "GPL-3.0-or-later"
 
 [[annotations]]
-path = [
-    "revision.txt*",
-    "ddterm/app/dependencies.json",
-]
+path = "revision.txt*"
 SPDX-FileCopyrightText = "NONE"
 SPDX-License-Identifier = "CC0-1.0"
