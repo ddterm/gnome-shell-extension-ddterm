@@ -275,6 +275,8 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
 
     def test_dependencies(self, process_launcher):
         process_launcher.run(
+            'gjs',
+            '-m',
             str(SRC_DIR / 'ddterm' / 'app' / 'tools' / 'dependencies-update.js'),
             '--dry-run',
             timeout=60,

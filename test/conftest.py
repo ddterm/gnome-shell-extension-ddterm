@@ -251,7 +251,17 @@ def container(tmp_path_factory, container_lock, request):
                 timeout=procutil.DEFAULT_TIMEOUT,
             )
 
-            container_launcher.run('systemctl', 'is-system-running', '--wait')
+            container_launcher.run(
+                'gdbus',
+                'wait',
+                '--system',
+                f'--timeout={procutil.DEFAULT_TIMEOUT // 2}',
+                'org.freedesktop.login1',
+                timeout=procutil.DEFAULT_TIMEOUT,
+            )
+
+            # required for Alpine only
+            container_launcher.run('mkdir', '-p', '-m', '01777', '/tmp/.X11-unix')
 
         yield cid
 

@@ -8,6 +8,21 @@
 # Or 'tox -e images pull'.
 
 services:
+  alpine-3.19:
+    image: ghcr.io/ddterm/gnome-shell-image/alpine-3.19:2024.12.29.0
+    profiles:
+      - esm
+
+  alpine-3.20:
+    image: ghcr.io/ddterm/gnome-shell-image/alpine-3.20:2024.12.29.0
+    profiles:
+      - esm
+
+  alpine-3.21:
+    image: ghcr.io/ddterm/gnome-shell-image/alpine-3.21:2024.12.29.0
+    profiles:
+      - esm
+
   fedora-40:
     image: ghcr.io/ddterm/gnome-shell-image/fedora-40:2024.12.29.0
     profiles:
