@@ -6,4 +6,4 @@
 
 --only-binary :none:
 PyGObject
-setproctitle; python_version < "3.13"
+setproctitle
