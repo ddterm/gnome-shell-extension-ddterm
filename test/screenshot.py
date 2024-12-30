@@ -6,7 +6,6 @@ import base64
 import logging
 
 import pytest
-import pytest_html
 
 from gi.repository import GLib
 
@@ -26,6 +25,9 @@ class Capture:
     def pytest_runtest_makereport(self, item, call):
         report = yield
 
+        if not item.config.pluginmanager.hasplugin('html'):
+            return report
+
         if not self.should_capture(report):
             return report
 
@@ -40,6 +42,8 @@ class Capture:
 
         png_blob = file_path.read_bytes()
         extra = getattr(report, 'extra', [])
+
+        import pytest_html
 
         extra.append(
             pytest_html.extras.png(base64.b64encode(png_blob).decode('ascii'))
