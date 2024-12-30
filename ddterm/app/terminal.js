@@ -625,10 +625,8 @@ const TerminalBase = GObject.registerClass({
     }
 
     get_text_selected_async() {
-        const result = this.get_text_selected?.(Vte.Format.TEXT);
-
-        if (result !== undefined)
-            return Promise.resolve(result);
+        if (this.get_text_selected)
+            return Promise.resolve(this.get_text_selected(Vte.Format.TEXT));
 
         if (!this.get_has_selection())
             return Promise.resolve('');
@@ -641,6 +639,25 @@ const TerminalBase = GObject.registerClass({
                 resolve(text);
             });
         });
+    }
+
+    get_text() {
+        if (this.get_text_format)
+            return this.get_text_format(Vte.Format.TEXT);
+
+        if (this.get_text_range_format) {
+            const [text] = this.get_text_range_format(
+                Vte.Format.TEXT,
+                0,
+                0,
+                this.get_row_count(),
+                0
+            );
+
+            return text;
+        }
+
+        return null;
     }
 });
 
