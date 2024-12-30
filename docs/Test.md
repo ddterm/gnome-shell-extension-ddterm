@@ -20,25 +20,25 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 ### Download container images
 
-    $ tox -e images -- pull
+    tox -e images -- pull
 
 ### Optional: remove outdated container images
 
-    $ tox -e images -- prune
+    tox -e images -- prune
 
 Or to do both at the same time:
 
-    $ tox -e images -- pull --prune
+    tox -e images -- pull --prune
 
 ### Run tests
 
-    $ tox [--sitepackages] -- [--package=path] <other-options...>
+    tox [--sitepackages] -- [--package=path] <other-options...>
 
 Before running tests, you need to [build the extension package](/docs/BUILD.md).
 
 You either have to specify:
 
-    `--package=path/to/built/ddterm@amezin.github.com.shell-extension.zip`
+    --package=path/to/built/ddterm@amezin.github.com.shell-extension.zip
 
 or run tox from `meson devenv -C build-dir` shell. If not using `meson devenv`
 or `--package=...`, run tests against currently installed extension
@@ -47,7 +47,7 @@ or `--package=...`, run tests against currently installed extension
 Without `--sitepackages` you'll have to install PyGObject's build dependencies,
 and PyGObject will be automatically built from source by `tox`.
 
-#### Other options:
+#### Other options
 
 `--container=IMAGE` - run tests using the specified container image `IMAGE`.
 Can be repeated multiple times to run tests with multiple images.
@@ -60,7 +60,7 @@ screenshots are taken only after failures.
 
 To see all available options:
 
-    $ tox [--sitepackages] -- --help
+    tox [--sitepackages] -- --help
 
 ## Report
 

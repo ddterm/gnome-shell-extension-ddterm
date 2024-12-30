@@ -5,7 +5,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 -->
 
 ddterm GNOME Shell extension
-----------------------------
+============================
 
 Shell extension source code is located in [`ddterm/shell`] subdirectory. It's
 loaded by [`extension.js`](/extension.js) file in the top-level directory.

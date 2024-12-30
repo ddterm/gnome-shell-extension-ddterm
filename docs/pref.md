@@ -5,7 +5,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 -->
 
 ddterm Preferences Dialog
--------------------------
+=========================
 
 "Preferences" dialog implementation is located in [`ddterm/pref`] directory.
 

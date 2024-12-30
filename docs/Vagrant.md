@@ -22,12 +22,12 @@ QEMU/libvirt VMs use SPICE for display. So you'll have to install
 ddterm will be installed into the VM from the extension package. So if you
 haven't built the package yet, you'll need to do so:
 
-    $ meson setup build-dir
-    $ ninja -C build-dir pack
+    meson setup build-dir
+    ninja -C build-dir pack
 
 Then:
 
-    $ meson devenv -C build-dir -w . vagrant up fedora39
+    meson devenv -C build-dir -w . vagrant up fedora39
 
 will start Fedora 39 VM, and will install ddterm into the VM.
 
@@ -48,11 +48,11 @@ session by default.
 If you've made some changes to ddterm sources, and want to test them, rebuild
 the package:
 
-    $ ninja -C build-dir pack
+    ninja -C build-dir pack
 
 and reinstall it:
 
-    $ meson devenv -C build-dir -w . vagrant provision fedora39
+    meson devenv -C build-dir -w . vagrant provision fedora39
 
 GNOME Shell session in the VM will automatically be terminated, you'll have to
 login again - because GNOME Shell can't reload extensions without a complete

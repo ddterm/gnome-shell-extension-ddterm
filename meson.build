@@ -279,3 +279,33 @@ test(
   args: ['--', pack_target, reuse_tool.full_path(), '--root', '.', 'lint'],
   suite: ['reuse'],
 )
+
+markdownlint_cli2_tool = find_program(
+  'markdownlint-cli2',
+  dirs: node_modules_bin_dir,
+  required: false,
+  disabler: true,
+)
+
+run_target(
+  'markdownlint',
+  command: ['env', '-C', '@CURRENT_SOURCE_DIR@', markdownlint_cli2_tool],
+)
+
+run_target(
+  'markdownlint-fix',
+  command: [
+    'env',
+    '-C',
+    '@CURRENT_SOURCE_DIR@',
+    markdownlint_cli2_tool,
+    '--fix',
+  ],
+)
+
+test(
+  'lint',
+  markdownlint_cli2_tool,
+  workdir: meson.current_source_dir(),
+  suite: ['markdownlint'],
+)

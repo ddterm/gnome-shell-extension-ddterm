@@ -6,15 +6,16 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 # Another Drop Down Terminal Extension for GNOME Shell
 
+<!-- markdownlint-disable-next-line no-inline-html -->
 [<img src="https://raw.githubusercontent.com/andyholmes/gnome-shell-extensions-badge/master/get-it-on-ego.svg?sanitize=true" alt="Get it on GNOME Extensions" height="100" align="middle">][extensions.gnome.org]
 
-<img src="docs/screenshots/dropdown.gif" />
+![Drop down animation](docs/screenshots/dropdown.gif)
 
 Inspired by
 
-- https://github.com/bigbn/drop-down-terminal-x
+- <https://github.com/bigbn/drop-down-terminal-x>
 
-- https://github.com/Guake/guake
+- <https://github.com/Guake/guake>
 
 ## Distinguishing features
 
@@ -26,7 +27,7 @@ Inspired by
 
 - `Preferences` window with a lot of different settings
 
-<img src="docs/screenshots/prefs.gif" />
+![Preferences screenshots](docs/screenshots/prefs.gif)
 
 ## Review by [TechHut](https://www.youtube.com/channel/UCjSEJkpGbcZhvo0lr-44X_w)
 

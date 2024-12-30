@@ -43,7 +43,7 @@ See [BUILD.md](BUILD.md) for build instructions.
 After downloading or building the package, run the following command to install
 it:
 
-    $ gnome-extensions install -f /path/to/ddterm@amezin.github.com.shell-extension.zip
+    gnome-extensions install -f /path/to/ddterm@amezin.github.com.shell-extension.zip
 
 ## 3. Restart GNOME Shell
 
@@ -60,6 +60,6 @@ On X11 you can restart the shell without logging out by pressing
 After GNOME Shell had been restarted, you can enable the extension using
 the `gnome-tweaks` app, or by running:
 
-    $ gnome-extensions enable ddterm@amezin.github.com
+    gnome-extensions enable ddterm@amezin.github.com
 
 You'll have to perform this step only once.

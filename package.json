@@ -6,10 +6,13 @@
         "eslint-formatter-checkstyle": "^8.40.0",
         "eslint-formatter-stylish": "^8.40.0",
         "eslint-plugin-import": "^2.29.1",
-        "eslint-plugin-jsdoc": "50.6.1"
+        "eslint-plugin-jsdoc": "50.6.1",
+        "markdownlint-cli2": "^0.17.0"
     },
     "scripts": {
         "lint": "eslint .",
-        "lint:fix": "eslint --fix ."
+        "lint:fix": "eslint --fix .",
+        "markdownlint": "markdownlint-cli2",
+        "markdownlint:fix": "markdownlint-cli2 --fix"
     }
 }

@@ -70,6 +70,7 @@ export default [
         files: [
             'lint/*.{js,mjs,cjs}',
             '.github/eslint-formatter.js',
+            '.markdownlint{,-cli2}.{mjs,cjs}',
         ],
         languageOptions: {
             globals: globals.node,

@@ -8,7 +8,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 ## 1.a) Using `git`
 
-    $ git clone https://github.com/ddterm/gnome-shell-extension-ddterm.git
+    git clone https://github.com/ddterm/gnome-shell-extension-ddterm.git
 
 ## 1.b) Download as archive and unpack
 
@@ -43,18 +43,18 @@ Alternatively, you can use `docker` or `podman` to perform build steps in a
 container - the same image/environment that's used by the CI system. To do it,
 run build command with `./do-in-docker.sh` or `./do-in-podman.sh` wrapper:
 
-    $ ./do-in-docker.sh meson setup build-dir
+    ./do-in-docker.sh meson setup build-dir
 
 # 3. Build the package
 
 To build the package, `cd` into the directory with the source code:
 
-    $ cd gnome-shell-extension-ddterm
+    cd gnome-shell-extension-ddterm
 
 and run the following commands:
 
-    $ meson setup build-dir
-    $ ninja -C build-dir pack
+    meson setup build-dir
+    ninja -C build-dir pack
 
 Meson puts all built/generated files into a separate directory, in this document
 it will be `build-dir`.
@@ -62,8 +62,8 @@ it will be `build-dir`.
 If you want to build in a docker/podman container, prepend `./do-in-docker.sh`/
 `./do-in-podman.sh`:
 
-    $ ./do-in-docker.sh meson setup build-dir
-    $ ./do-in-docker.sh ninja -C build-dir pack
+    ./do-in-docker.sh meson setup build-dir
+    ./do-in-docker.sh ninja -C build-dir pack
 
 After these steps, you should have the package:
 `build-dir/ddterm@amezin.github.com.shell-extension.zip`.
@@ -80,8 +80,8 @@ By default, the build targets GNOME 45.
 
 To build the package for older versions, add `-Desm=false` to `meson setup`:
 
-    $ meson setup -Desm=false build-legacy-dir
-    $ ninja -C build-legacy-dir pack
+    meson setup -Desm=false build-legacy-dir
+    ninja -C build-legacy-dir pack
 
 The genearted package will have a different name (it will include
 the word `legacy`): `ddterm@amezin.github.com.legacy.shell-extension.zip`.
@@ -103,15 +103,15 @@ installation on the host system through `meson install` will fail.
 You may run `meson install` under `sudo` to install the package system-wide
 (to `/usr/share/gnome-shell/extensions`):
 
-    $ sudo meson install -C build-dir
+    sudo meson install -C build-dir
 
 Or, the same command with ninja:
 
-    $ sudo ninja -C build-dir install
+    sudo ninja -C build-dir install
 
 Installed files can be removed with the following command:
 
-    $ sudo ninja -C build-dir uninstall
+    sudo ninja -C build-dir uninstall
 
 However, `sudo` installation is not recommended. Instead, you should build and
 use OS-specific packages (`.deb`, `.rpm`). `meson install ... --destdir ...`
@@ -123,11 +123,11 @@ should work fine in DEB and RPM build scripts. See Arch Linux
 The following command builds the package, if necessary, and installs it
 inside user's `$HOME` directory (i.e. typical install location for extensions):
 
-    $ ninja -C build-dir user-install
+    ninja -C build-dir user-install
 
 The extension can be uninstalled using the following command:
 
-    $ ninja -C build-dir user-install
+    ninja -C build-dir user-install
 
 ## 4.2. Restart GNOME Shell
 
@@ -138,7 +138,7 @@ Described in [INSTALL.md - step 3](INSTALL.md#3-restart-gnome-shell).
 You can enable the extension as described in
 [INSTALL.md - step 4](INSTALL.md#4-enable-the-extension), or by running:
 
-    $ ninja -C build-dir enable
+    ninja -C build-dir enable
 
 You'll have to perform this step only once.
 
@@ -161,6 +161,6 @@ shortcut on the host.
 after building the package. So to test your code modifications, you can simply
 run:
 
-    $ ninja -C build-dir nested-wayland-shell
+    ninja -C build-dir nested-wayland-shell
 
 [`run_nested_shell.py`]: /tools/run_nested_shell.py

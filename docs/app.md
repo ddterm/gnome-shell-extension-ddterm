@@ -5,7 +5,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 -->
 
 ddterm Gtk Application
-----------------------
+======================
 
 ddterm application code is located in [`ddterm/app`] subdirectory. Usually it's
 launched through [`com.github.amezin.ddterm`] script from the top-level
@@ -24,7 +24,5 @@ GJS. A regular Gtk application, except:
 [`ddterm/app`]: /ddterm/app
 [`com.github.amezin.ddterm`]: /com.github.amezin.ddterm
 [shell extension]: /ddterm/shell
-
-[`pref`]: /ddterm/pref
 
 [`com.github.amezin.ddterm.Extension.xml`]: /data/com.github.amezin.ddterm.Extension.xml

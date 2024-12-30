@@ -1,0 +1,21 @@
+# SPDX-FileCopyrightText: 2024 Aleksandr Mezin <mezin.alexander@gmail.com>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+name: pr-doc
+
+concurrency: ${{ github.workflow }}/${{ github.ref }}
+
+on:
+  pull_request:
+    paths:
+      - docs/**
+      - README.md
+      - .github/workflows/doc.yml
+      - .github/workflows/pr-doc.yml
+      - .markdownlint*
+
+jobs:
+  doc:
+    uses: ./.github/workflows/doc.yml
+    if: github.event.pull_request.base.repo.node_id != github.event.pull_request.head.repo.node_id
