@@ -172,13 +172,11 @@ node_modules_bin_dir = meson.current_source_dir() / 'node_modules' / '.bin'
 
 eslint_tool = find_program(
   'eslint',
+  version: '>= 8.0.0',
   dirs: node_modules_bin_dir,
   required: false,
   disabler: true,
 )
-
-eslint_env = ['ESLINT_USE_FLAT_CONFIG=false']
-meson.add_devenv(eslint_env)
 
 if eslint_tool.found()
   eslint_required = fs.is_samepath(
@@ -196,7 +194,6 @@ if eslint_tool.found()
       'extension.js',
     ],
     check: eslint_required,
-    env: eslint_env,
   )
 
   if eslint_config_check.returncode() != 0
@@ -208,49 +205,38 @@ if eslint_tool.found()
   endif
 endif
 
-build_dir_relative = fs.relative_to(
-  meson.current_build_dir(),
-  meson.current_source_dir(),
-)
-
-eslint_extra_args = ['--ignore-pattern', build_dir_relative]
-
 run_target(
   'eslint',
-  command: ['env', '-C', '@CURRENT_SOURCE_DIR@', eslint_tool, '.'] + eslint_extra_args,
-  env: eslint_env,
+  command: ['env', '-C', '@CURRENT_SOURCE_DIR@', eslint_tool, '.'],
 )
 
 run_target(
   'eslint-fix',
-  command: ['env', '-C', '@CURRENT_SOURCE_DIR@', eslint_tool, '--fix', '.'] + eslint_extra_args,
-  env: eslint_env,
+  command: ['env', '-C', '@CURRENT_SOURCE_DIR@', eslint_tool, '--fix', '.'],
 )
 
 test(
   'lint-source',
   eslint_tool,
-  args: ['.', eslint_extra_args],
-  env: eslint_env,
+  args: ['.'],
   workdir: meson.current_source_dir(),
   suite: ['eslint'],
 )
 
 configure_file(
-  input: 'lint' / (get_option('esm') ? 'eslintrc-ddterm-build-esm.yml.in' : 'eslintrc-ddterm-build-legacy.yml.in'),
-  output: '.eslintrc.yml',
+  input: 'lint' / (get_option('esm') ? 'eslint.config.esm.mjs.in' : 'eslint.config.legacy.mjs.in'),
+  output: 'eslint.config.mjs',
   configuration: {
-    'common_eslintrc': meson.current_source_dir() / 'lint' / 'eslintrc-ddterm-common.yml',
+    'common_config': meson.current_source_dir() / 'lint' / 'ddterm-common.mjs',
   },
 )
 
 test(
   'lint-build',
   eslint_tool,
-  args: [build_dir_relative, '--resolve-plugins-relative-to', '.'],
-  env: eslint_env,
+  args: ['.'],
   depends: built_js,
-  workdir: meson.current_source_dir(),
+  workdir: meson.current_build_dir(),
   suite: ['eslint'],
 )
 

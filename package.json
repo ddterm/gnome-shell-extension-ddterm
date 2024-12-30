@@ -9,7 +9,7 @@
         "eslint-plugin-jsdoc": "50.6.1"
     },
     "scripts": {
-        "lint": "ESLINT_USE_FLAT_CONFIG=false eslint .",
-        "lint:fix": "ESLINT_USE_FLAT_CONFIG=false eslint --fix ."
+        "lint": "eslint .",
+        "lint:fix": "eslint --fix ."
     }
 }

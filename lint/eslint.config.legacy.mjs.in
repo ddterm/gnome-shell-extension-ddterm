@@ -1,0 +1,23 @@
+// SPDX-FileCopyrightText: 2024 Aleksandr Mezin <mezin.alexander@gmail.com>
+//
+// SPDX-License-Identifier: GPL-2.0-or-later
+
+/* eslint-disable-next-line max-len */
+import common from '@common_config@';
+
+export default [
+    ...common,
+    {
+        files: [
+            'extension.js',
+            'prefs.js',
+            'ddterm/app/fakeext/misc/extensionUtils.js',
+            'ddterm/pref/*.js',
+            'ddterm/shell/*.js',
+        ],
+        ignores: ['ddterm/pref/util.conf.js'],
+        languageOptions: {
+            sourceType: 'script',
+        },
+    },
+];
