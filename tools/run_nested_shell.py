@@ -178,7 +178,7 @@ def run_shell_wayland_nested(*, env, **kwargs):
     run_shell(
         client_extra_env=dict(WAYLAND_DISPLAY='wayland-test'),
         shell_extra_env=shell_extra_env,
-        shell_args=('--nested', f'--wayland-display=wayland-test'),
+        shell_args=('--nested', '--wayland-display=wayland-test'),
         env=env,
         **kwargs,
     )
