@@ -213,7 +213,7 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
 
         dump_pre = tmp_path / 'heap-pre.dump'
         app_debug_dbus_interface.WaitIdle()
-        app_debug_dbus_interface.GC()
+        app_debug_dbus_interface.WaitIdle()
         app_debug_dbus_interface.DumpHeap(dump_pre)
 
         process_launcher.run(
@@ -230,7 +230,7 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
 
         dump_post = tmp_path / 'heap-post.dump'
         app_debug_dbus_interface.WaitIdle()
-        app_debug_dbus_interface.GC()
+        app_debug_dbus_interface.WaitIdle()
         app_debug_dbus_interface.DumpHeap(dump_post)
 
         assert diff_heap(
@@ -253,17 +253,17 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
         app_debug_dbus_interface.ShowPreferences()
         app_debug_dbus_interface.HidePreferences()
         app_debug_dbus_interface.WaitIdle()
+        app_debug_dbus_interface.WaitIdle()
 
         dump_pre = tmp_path / 'heap-pre.dump'
-        app_debug_dbus_interface.GC()
         app_debug_dbus_interface.DumpHeap(dump_pre)
 
         app_debug_dbus_interface.ShowPreferences()
         app_debug_dbus_interface.HidePreferences()
         app_debug_dbus_interface.WaitIdle()
+        app_debug_dbus_interface.WaitIdle()
 
         dump_post = tmp_path / 'heap-post.dump'
-        app_debug_dbus_interface.GC()
         app_debug_dbus_interface.DumpHeap(dump_post)
 
         assert diff_heap(
