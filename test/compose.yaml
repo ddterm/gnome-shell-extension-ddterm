@@ -9,51 +9,51 @@
 
 services:
   fedora-40:
-    image: ghcr.io/ddterm/gnome-shell-image/fedora-40:2024.12.26.0
+    image: ghcr.io/ddterm/gnome-shell-image/fedora-40:2024.12.29.0
     profiles:
       - esm
 
   fedora-41:
-    image: ghcr.io/ddterm/gnome-shell-image/fedora-41:2024.12.26.0
+    image: ghcr.io/ddterm/gnome-shell-image/fedora-41:2024.12.29.0
     profiles:
       - esm
 
   archlinux:
-    image: ghcr.io/ddterm/gnome-shell-image/archlinux:2024.12.26.0
+    image: ghcr.io/ddterm/gnome-shell-image/archlinux:2024.12.29.0
     profiles:
       - esm
 
   opensuse-tumbleweed:
-    image: ghcr.io/ddterm/gnome-shell-image/opensuse-tumbleweed:2024.12.26.0
+    image: ghcr.io/ddterm/gnome-shell-image/opensuse-tumbleweed:2024.12.29.0
     profiles:
       - esm
 
   debian-12:
-    image: ghcr.io/ddterm/gnome-shell-image/debian-12:2024.12.26.0
+    image: ghcr.io/ddterm/gnome-shell-image/debian-12:2024.12.29.0
     profiles:
       - legacy
 
   debian-13:
-    image: ghcr.io/ddterm/gnome-shell-image/debian-13:2024.12.26.0
+    image: ghcr.io/ddterm/gnome-shell-image/debian-13:2024.12.29.0
     profiles:
       - esm
 
   ubuntu-22.04:
-    image: ghcr.io/ddterm/gnome-shell-image/ubuntu-22.04:2024.12.26.0
+    image: ghcr.io/ddterm/gnome-shell-image/ubuntu-22.04:2024.12.29.0
     profiles:
       - legacy
 
   ubuntu-24.04:
-    image: ghcr.io/ddterm/gnome-shell-image/ubuntu-24.04:2024.12.26.0
+    image: ghcr.io/ddterm/gnome-shell-image/ubuntu-24.04:2024.12.29.0
     profiles:
       - esm
 
   ubuntu-24.10:
-    image: ghcr.io/ddterm/gnome-shell-image/ubuntu-24.10:2024.12.26.0
+    image: ghcr.io/ddterm/gnome-shell-image/ubuntu-24.10:2024.12.29.0
     profiles:
       - esm
 
   opensuse-leap-15.6:
-    image: ghcr.io/ddterm/gnome-shell-image/opensuse-leap-15.6:2024.12.26.0
+    image: ghcr.io/ddterm/gnome-shell-image/opensuse-leap-15.6:2024.12.29.0
     profiles:
       - esm
