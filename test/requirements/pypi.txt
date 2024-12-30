@@ -34,5 +34,5 @@ pytest-xdist==3.6.1
     # via -r pypi.in
 pyyaml==6.0.2
     # via -r pypi.in
-setproctitle==1.3.3
+setproctitle==1.3.4
     # via pytest-xdist
