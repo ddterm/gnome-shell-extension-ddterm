@@ -73,8 +73,7 @@ jobs:
         name: ${{ matrix.profile == 'esm' && 'pack' || 'pack-legacy' }}
 
     - name: Make directory writable
-      run: chmod a+rw .
-      working-directory: test
+      run: chmod a+rw . test
 
     - name: Configure container for Podman
       run: |
@@ -86,13 +85,11 @@ jobs:
       run: >-
         sudo --preserve-env --set-home --user=github-actions --
         tox -e images -- pull ${{ matrix.service }}
-      working-directory: test
 
     - name: Install Python test dependencies
       run: >-
         sudo --preserve-env --set-home --user=github-actions --
         tox -vv --notest --sitepackages
-      working-directory: test
 
     - name: Disable generic error matcher
       run: |
@@ -104,13 +101,12 @@ jobs:
         exec sudo --preserve-env --set-home --user=github-actions --
         tox --sitepackages --
         --self-contained-html
-        --junitxml=junit.xml
+        --junitxml=test/junit.xml
         --container ${{ matrix.service }}
-        --package ../*.shell-extension.zip
+        --package *.shell-extension.zip
         ${{ !contains(matrix.service, 'alpine') && '--journald' || '' }}
         -n auto
         -vv
-      working-directory: test
 
     - name: Upload report to Testspace
       run: testspace --verbose "[${{ matrix.service }}]./test/junit.xml" "[${{ matrix.service }}]+./test/report.html"

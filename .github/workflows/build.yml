@@ -94,11 +94,10 @@ jobs:
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
     - name: Lint Python test code
-      run: tox --sitepackages -e lint 2>&1 | sed -e 's:^\./:test/:' | tee ../flake8.log
+      run: tox --sitepackages -e lint -- --tee --output-file flake8.log 2>&1
       env:
         FORCE_COLOR: 0
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
-      working-directory: test
 
     - name: Disable flake8 error matcher
       run: echo "::remove-matcher owner=flake8::"
@@ -125,7 +124,6 @@ jobs:
           exit 1
         fi
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
-      working-directory: test
 
     - name: Ensure PICT test cases are up to date
       run: |

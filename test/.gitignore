@@ -3,8 +3,6 @@
 # SPDX-License-Identifier: CC0-1.0
 
 /.pytest_cache/
-/.tox/
-__pycache__/
 /report.html
 /junit.xml
 /assets/

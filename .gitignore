@@ -6,6 +6,9 @@
 
 /node_modules/
 
+.tox/
+__pycache__/
+
 # do-in-docker.sh/do-in-podman.sh
 /.container-home/
 

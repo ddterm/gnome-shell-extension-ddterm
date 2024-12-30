@@ -10,7 +10,7 @@
   "automerge": true,
   "pip-compile": {
     "fileMatch": [
-      "^test/requirements/([\\w-]*)\\.txt$"
+      "(^|/)requirements/([\\w-]*)\\.txt$"
     ]
   },
   "pip_requirements": {

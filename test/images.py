@@ -7,9 +7,15 @@
 import argparse
 import itertools
 import json
+import pathlib
 import subprocess
 
 import yaml
+
+
+THIS_FILE = pathlib.Path(__file__).resolve()
+THIS_DIR = THIS_FILE.parent
+COMPOSE_FILE = THIS_DIR / 'compose.yaml'
 
 
 def resolve_images(compose_config, services):
@@ -87,7 +93,8 @@ def main():
 
     parser.add_argument(
         '-f', '--file',
-        default='compose.yaml',
+        type=pathlib.Path,
+        default=COMPOSE_FILE,
         help='configuration file path'
     )
 

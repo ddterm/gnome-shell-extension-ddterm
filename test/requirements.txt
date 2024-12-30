@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: CC0-1.0
 
--r requirements/pypi.txt
+-r ../requirements/test.txt
 
 --only-binary :none:
 PyGObject

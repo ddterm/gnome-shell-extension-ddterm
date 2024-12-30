@@ -9,10 +9,11 @@ import pluggy
 import pytest
 
 
-LOGGER = logging.getLogger(__name__)
+PLUGIN_NAME = __name__
+LOGGER = logging.getLogger(PLUGIN_NAME)
 
-hookspec = pluggy.HookspecMarker('logsync')
-hookimpl = pluggy.HookimplMarker('logsync')
+hookspec = pluggy.HookspecMarker(PLUGIN_NAME)
+hookimpl = pluggy.HookimplMarker(PLUGIN_NAME)
 
 
 class LogSyncHooks:
@@ -42,7 +43,7 @@ class SuffixFilter(logging.Filter):
 
 class LogSyncPlugin(pluggy.PluginManager):
     def __init__(self):
-        super().__init__(__name__)
+        super().__init__(PLUGIN_NAME)
         self.add_hookspecs(LogSyncHooks)
 
     def sync(self, msg):
