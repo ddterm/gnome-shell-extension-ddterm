@@ -12,7 +12,6 @@ import pathlib
 import subprocess
 
 import pytest
-import yaml
 
 from . import procutil
 
@@ -71,6 +70,8 @@ def pytest_configure(config):
             raise pytest.UsageError('If --container is specified, --package must be specified too')
 
         with open(COMPOSE_FILE) as f:
+            import yaml
+
             compose = yaml.safe_load(f)
 
         aliases = dict()
