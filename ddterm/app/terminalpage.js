@@ -671,6 +671,15 @@ export const TerminalPage = GObject.registerClass({
             GLib.Variant.new_boolean(this.keep_open_after_exit)
         );
 
+        try {
+            const text = this.terminal.get_text()?.trim();
+
+            if (text)
+                properties.insert_value('text', GLib.Variant.new_string(text));
+        } catch (ex) {
+            logError(ex, "Can't save terminal content");
+        }
+
         return properties.end();
     }
 
@@ -685,6 +694,15 @@ export const TerminalPage = GObject.registerClass({
             keep_open_after_exit: dict.lookup('keep-open-after-exit', 'b'),
             ...properties,
         });
+
+        try {
+            const text = dict.lookup('text', 's');
+
+            if (text)
+                page.terminal.feed(`${text.replace(/\n/g, '\r\n')}\r\n`);
+        } catch (ex) {
+            logError(ex, "Can't restore terminal content");
+        }
 
         return page;
     }
