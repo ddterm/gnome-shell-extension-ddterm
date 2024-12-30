@@ -8,6 +8,11 @@
 # Or 'tox -e images pull'.
 
 services:
+  alpine-3.18:
+    image: ghcr.io/ddterm/gnome-shell-image/alpine-3.18:2024.12.29.0
+    profiles:
+      - legacy
+
   alpine-3.19:
     image: ghcr.io/ddterm/gnome-shell-image/alpine-3.19:2024.12.29.0
     profiles:
