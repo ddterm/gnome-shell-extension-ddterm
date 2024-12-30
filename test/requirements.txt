@@ -6,4 +6,3 @@
 
 --only-binary :none:
 PyGObject
-setproctitle
