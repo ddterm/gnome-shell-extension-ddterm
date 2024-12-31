@@ -6,6 +6,19 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 # ddterm tests
 
+If you're [building ddterm from source](/docs/BUILD.md), running
+
+    ninja test
+
+or
+
+    meson test
+
+in the build directory will run some basic tests (if necessary dependencies
+are installed and detected by `meson` correctly).
+
+`tox` allows more flexibility and more thorough testing.
+
 ## System requirements
 
 * Python 3

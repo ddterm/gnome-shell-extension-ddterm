@@ -1,0 +1,36 @@
+# SPDX-FileCopyrightText: 2024 Aleksandr Mezin <mezin.alexander@gmail.com>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+pytest_tool = find_program(
+  'pytest',
+  dirs: toxworkdir / 'py3' / 'bin',
+  required: false,
+  disabler: true,
+)
+
+pytest_tests = [
+  'test_app.py',
+  'test_wm.py::TestX11',
+  'test_wm.py::TestWayland',
+  #'test_wm.py::TestWaylandTwoMonitors',  # Slow and flaky
+]
+
+foreach item : pytest_tests
+  test(
+    item.replace('::', '/'),
+    pytest_tool,
+    args: [
+      '-c',
+      files('pytest.ini'),
+      '-p',
+      'no:cacheprovider',
+      '--package=' + pack_target.full_path(),
+      'test' / item,
+    ],
+    workdir: toxinidir,
+    suite: ['pytest'],
+    priority: -1,
+    timeout: 5 * 60,
+  )
+endforeach

@@ -310,21 +310,18 @@ test(
   suite: ['markdownlint'],
 )
 
+toxinidir = meson.current_source_dir()
+toxworkdir = toxinidir / '.tox'
+
 flake8_tool = find_program(
   'flake8',
-  dirs: meson.current_source_dir() / '.tox' / 'lint' / 'bin',
+  dirs: toxworkdir / 'lint' / 'bin',
   required: false,
   disabler: true,
 )
 
-run_target(
-  'flake8',
-  command: ['env', '-C', '@CURRENT_SOURCE_DIR@', flake8_tool],
-)
+run_target('flake8', command: ['env', '-C', '@CURRENT_SOURCE_DIR@', flake8_tool])
 
-test(
-  'lint',
-  flake8_tool,
-  workdir: meson.current_source_dir(),
-  suite: ['flake8'],
-)
+test('lint', flake8_tool, workdir: meson.current_source_dir(), suite: ['flake8'])
+
+subdir('test')

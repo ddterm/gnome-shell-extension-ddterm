@@ -198,7 +198,7 @@ jobs:
         if-no-files-found: error
 
     - name: Run checks
-      run: xvfb-run ../.github/faketty.sh meson test -v -j1 --no-suite eslint --no-suite reuse --no-suite markdownlint --no-suite flake8
+      run: xvfb-run ../.github/faketty.sh meson test -v -j1 --no-suite eslint --no-suite reuse --no-suite markdownlint --no-suite flake8 --no-suite pytest
       working-directory: build
       if: ${{ always() && steps.pack.conclusion == 'success' }}
 
