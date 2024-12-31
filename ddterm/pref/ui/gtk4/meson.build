@@ -2,8 +2,6 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-gtk4_builder_tool = find_program('gtk4-builder-tool')
-
 subdir('fixup')
 subdir('3to4')
 

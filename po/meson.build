@@ -44,8 +44,6 @@ run_target(
   ],
 )
 
-xgettext = find_program('xgettext', disabler: true, required: false)
-
 run_target(
   'potfiles',
   command: [

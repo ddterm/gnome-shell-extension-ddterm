@@ -49,12 +49,6 @@ desktop_entry_final = i18n.merge_file(
   install_dir: applications_dir,
 )
 
-desktop_file_validate_tool = find_program(
-  'desktop-file-validate',
-  required: false,
-  disabler: true,
-)
-
 test(
   desktop_entry_final.full_path(),
   desktop_file_validate_tool,

@@ -29,6 +29,36 @@ schema_dir = datadir / 'glib-2.0' / 'schemas'
 applications_dir = datadir / 'applications'
 dbus_service_dir = datadir / 'dbus-1' / 'services'
 
+gtk3_builder_tool = find_program('gtk-builder-tool')
+gtk4_builder_tool = find_program('gtk4-builder-tool')
+glib_compile_schemas_tool = find_program('glib-compile-schemas')
+xsltproc = find_program('xsltproc')
+
+xgettext = find_program('xgettext', required: false, disabler: true)
+desktop_file_validate_tool = find_program(
+  'desktop-file-validate',
+  required: false,
+  disabler: true,
+)
+
+gapplication_tool = find_program('gapplication', required: false, disabler: true)
+gsettings = find_program('gsettings', required: false, disabler: true)
+extensions_tool = find_program(
+  'gnome-extensions',
+  required: false,
+  disabler: true,
+)
+
+dbus_daemon = find_program('dbus-daemon', required: false, disabler: true)
+xvfb = find_program('Xvfb', required: false, disabler: true)
+xephyr = find_program('Xephyr', required: false, disabler: true)
+gnome_shell = find_program(
+  'gnome-shell',
+  version: get_option('esm') ? '>=45.0' : ['>=42.0', '<45.0'],
+  required: false,
+  disabler: true,
+)
+
 pack = [
   fs.copyfile('stylesheet.css', install: true, install_dir: extension_dir),
   files('LICENSES' / 'GPL-3.0-or-later.txt'),
@@ -120,9 +150,6 @@ pack += fs.copyfile(
   install_dir: extension_dir,
 )
 
-gtk3_builder_tool = find_program('gtk-builder-tool')
-xsltproc = find_program('xsltproc')
-
 subdir('bin')
 subdir('data')
 subdir('schemas')
@@ -142,12 +169,6 @@ alias_target('pack', pack_target)
 
 meson.add_devenv({'DDTERM_BUILT_PACK': pack_target.full_path()})
 
-extensions_tool = find_program(
-  'gnome-extensions',
-  required: false,
-  disabler: true,
-)
-
 run_target(
   'user-install',
   command: [extensions_tool, 'install', '-f', pack_target],
@@ -158,8 +179,6 @@ run_target('user-uninstall', command: [extensions_tool, 'uninstall', uuid])
 foreach target : ['prefs', 'enable', 'disable', 'reset']
   run_target(target, command: [extensions_tool, target, uuid])
 endforeach
-
-gapplication_tool = find_program('gapplication', required: false, disabler: true)
 
 foreach target : ['toggle', 'quit']
   run_target(
