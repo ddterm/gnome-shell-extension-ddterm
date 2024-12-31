@@ -60,12 +60,12 @@ jobs:
       continue-on-error: true
       if: ${{ inputs.testspace }}
 
-    - name: Check REUSE compatibility
-      run: reuse lint
-      if: ${{ always() && steps.checkout.conclusion == 'success' }}
-
     - name: Pre-create pip cache directory
       run: mkdir -p "$HOME/.cache/pip"
+      if: ${{ always() && steps.checkout.conclusion == 'success' }}
+
+    - name: Check REUSE compliance
+      run: tox --sitepackages -e reuse
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
     - name: Install JS dependencies
@@ -181,6 +181,14 @@ jobs:
     - name: Install JS dependencies
       id: npm
       run: npm install
+
+    - name: Pre-create pip cache directory
+      run: mkdir -p "$HOME/.cache/pip"
+      if: ${{ always() && steps.checkout.conclusion == 'success' }}
+
+    - name: Install Python dependencies
+      run: tox --notest --sitepackages -e reuse
+      if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
     - name: Prepare build directory
       run: .github/faketty.sh meson setup ${{ matrix.flags }} '-Dshebang_override=/usr/bin/env gjs' build

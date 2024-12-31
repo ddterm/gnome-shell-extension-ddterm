@@ -269,8 +269,12 @@ run_target(
   command: [run_gnome_shell_xephyr_x11_command, pack_target],
 )
 
+toxinidir = meson.current_source_dir()
+toxworkdir = toxinidir / '.tox'
+
 reuse_tool = find_program(
   'reuse',
+  dirs: toxworkdir / 'reuse' / 'bin',
   required: false,
   disabler: true,
   version: '>=4.0.0',
@@ -328,9 +332,6 @@ test(
   workdir: meson.current_source_dir(),
   suite: ['markdownlint'],
 )
-
-toxinidir = meson.current_source_dir()
-toxworkdir = toxinidir / '.tox'
 
 flake8_tool = find_program(
   'flake8',
