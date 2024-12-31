@@ -17,7 +17,8 @@ or
 in the build directory will run some basic tests (if necessary dependencies
 are installed and detected by `meson` correctly).
 
-`tox` allows more flexibility and more thorough testing.
+`tox` allows more flexibility and more thorough testing. To see all available
+`tox` commands/environments, run `tox list`.
 
 ## System requirements
 
