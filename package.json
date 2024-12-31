@@ -13,6 +13,10 @@
         "lint": "eslint .",
         "lint:fix": "eslint --fix .",
         "markdownlint": "markdownlint-cli2",
-        "markdownlint:fix": "markdownlint-cli2 --fix"
+        "markdownlint:fix": "markdownlint-cli2 --fix",
+        "build": "tox -e meson",
+        "build:legacy": "tox -e meson-legacy",
+        "test": "tox -e meson-test",
+        "test:legacy": "tox -e meson-test-legacy"
     }
 }
