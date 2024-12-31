@@ -136,7 +136,7 @@ def container_lock(request):
 
 
 @pytest.fixture(scope='session')
-def container(tmp_path_factory, container_lock, request):
+def container(tmp_path_factory, request):
     if hasattr(request, 'param'):
         image = request.param
 
@@ -185,6 +185,8 @@ def container(tmp_path_factory, container_lock, request):
     launcher = procutil.Launcher()
 
     with contextlib.ExitStack() as stack:
+        container_lock = request.getfixturevalue('container_lock')
+
         with container_lock:
             cid = launcher.run(
                 *create_cmd,
