@@ -273,9 +273,9 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
             hide_edge=['cacheir-object']
         ) == ''
 
-    def test_dependencies(self, process_launcher):
+    def test_dependencies(self, process_launcher, request):
         process_launcher.run(
-            'gjs',
+            str(request.config.option.gjs),
             '-m',
             str(SRC_DIR / 'ddterm' / 'app' / 'tools' / 'dependencies-update.js'),
             '--dry-run',

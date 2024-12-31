@@ -95,6 +95,42 @@ def pytest_addoption(parser):
              'Must be specified for containers.',
     )
 
+    parser.addoption(
+        '--gnome-extensions-tool',
+        default='gnome-extensions',
+        help='gnome-extensions executable',
+    )
+
+    parser.addoption(
+        '--dbus-daemon',
+        default='dbus-daemon',
+        help='dbus-daemon executable',
+    )
+
+    parser.addoption(
+        '--xvfb',
+        default='Xvfb',
+        help='Xvfb executable',
+    )
+
+    parser.addoption(
+        '--gsettings-tool',
+        default='gsettings',
+        help='gsettings executable',
+    )
+
+    parser.addoption(
+        '--gnome-shell',
+        default='gnome-shell',
+        help='gnome-shell executable',
+    )
+
+    parser.addoption(
+        '--gjs',
+        default='gjs',
+        help='gjs executable',
+    )
+
 
 def pytest_configure(config):
     if images := config.option.container:

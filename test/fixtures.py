@@ -126,7 +126,7 @@ class GnomeSessionFixtures:
         }
 
         process_launcher.run(
-            'gnome-extensions',
+            str(request.config.option.gnome_extensions_tool),
             'install',
             str(request.config.option.package),
             env=env,
@@ -149,7 +149,8 @@ class GnomeSessionFixtures:
         container,
         process_launcher,
         dbus_daemon_environment,
-        xdg_runtime_dir
+        xdg_runtime_dir,
+        request,
     ):
         LOGGER.info('D-Bus daemon environment: %r', dbus_daemon_environment)
 
@@ -159,7 +160,7 @@ class GnomeSessionFixtures:
             with open(address_r, 'rb', buffering=0, closefd=True) as address_reader:
                 try:
                     proc = stack.enter_context(process_launcher.spawn(
-                        'dbus-daemon',
+                        str(request.config.option.dbus_daemon),
                         '--session',
                         '--nopidfile',
                         '--syslog' if container else '--nosyslog',
@@ -212,14 +213,14 @@ class GnomeSessionFixtures:
         return f'{width}x{height}x24'
 
     @pytest.fixture(scope='class')
-    def xvfb(self, process_launcher, environment, xvfb_screen_config):
+    def xvfb(self, process_launcher, environment, xvfb_screen_config, request):
         display_r, display_w = os.pipe()
 
         with contextlib.ExitStack() as stack:
             with open(display_r, 'rb', buffering=0, closefd=True) as display_reader:
                 try:
                     proc = stack.enter_context(process_launcher.spawn(
-                        'Xvfb',
+                        str(request.config.option.xvfb),
                         '-screen',
                         '0',
                         str(xvfb_screen_config),
@@ -287,7 +288,7 @@ class GnomeSessionFixtures:
                 raise
 
         process_launcher.run(
-            'gsettings',
+            str(request.config.option.gsettings_tool),
             'set',
             'org.gnome.shell',
             'welcome-dialog-last-shown-version',
@@ -296,7 +297,7 @@ class GnomeSessionFixtures:
         )
 
         process_launcher.run(
-            'gsettings',
+            str(request.config.option.gsettings_tool),
             'set',
             'org.gnome.mutter',
             'experimental-features',
@@ -349,7 +350,7 @@ class GnomeSessionFixtures:
                 proc = stack.enter_context(
                     process_launcher.spawn(
                         *wrapper,
-                        'gnome-shell',
+                        str(request.config.option.gnome_shell),
                         '--sm-disable',
                         '--unsafe-mode',
                         *gnome_shell_args,
