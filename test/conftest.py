@@ -27,6 +27,38 @@ COMPOSE_FILE = THIS_DIR / 'compose.yaml'
 
 IMAGES_STASH_KEY = pytest.StashKey[list]()
 
+ENV_CLEANUP = [
+    'DBUS_SESSION_BUS_ADDRESS',
+
+    'XDG_RUNTIME_DIR',
+    'XDG_CONFIG_HOME',
+    'XDG_CACHE_HOME',
+    'XDG_STATE_HOME',
+
+    'XAUTHORITY',
+    'DISPLAY',
+    'WAYLAND_DISPLAY',
+
+    'MANAGERPID',
+    'SYSTEMD_EXEC_PID',
+    'JOURNAL_STREAM',
+
+    'XDG_CURRENT_DESKTOP',
+    'XDG_SESSION_TYPE',
+    'XDG_SESSION_CLASS',
+    'XDG_SESSION_DESKTOP',
+
+    'SESSION_MANAGER',
+    'DESKTOP_SESSION',
+
+    'GNOME_SETUP_DISPLAY',
+    'GDMSESSION',
+    'GDM_LANG',
+
+    'GJS_DEBUG_OUTPUT',
+    'GJS_DEBUG_TOPICS',
+]
+
 
 def pytest_addoption(parser):
     parser.addoption(
@@ -182,7 +214,7 @@ def container(tmp_path_factory, request):
         'systemd.journald.forward_to_console=0',
     ])
 
-    launcher = procutil.Launcher()
+    launcher = procutil.Launcher(os.environ)
 
     with contextlib.ExitStack() as stack:
         container_lock = request.getfixturevalue('container_lock')
@@ -271,13 +303,18 @@ def container(tmp_path_factory, request):
 
 @pytest.fixture(scope='session')
 def process_launcher(container):
-    if container is None:
-        return procutil.Launcher()
+    if container is not None:
+        return procutil.ContainerExecLauncher(
+            container_id=container,
+            user=os.getuid(),
+        )
 
-    return procutil.ContainerExecLauncher(
-        container_id=container,
-        user=os.getuid(),
-    )
+    base_env = dict(os.environ)
+
+    for var in ENV_CLEANUP:
+        base_env.pop(var, None)
+
+    return procutil.Launcher(base_env)
 
 
 @pytest.fixture(scope='session')
