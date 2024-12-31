@@ -79,7 +79,7 @@ jobs:
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
     - name: Lint JS code
-      run: npm run-script lint -- --format .github/eslint-formatter.js
+      run: npm run-script lint:eslint -- --format .github/eslint-formatter.js
       env:
         FORCE_COLOR: 0
       if: ${{ always() && steps.npm.conclusion == 'success' }}

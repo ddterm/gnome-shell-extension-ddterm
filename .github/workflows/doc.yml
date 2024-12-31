@@ -24,4 +24,4 @@ jobs:
       run: npm install
 
     - name: Lint Markdown files
-      run: npm run-script markdownlint
+      run: npm run-script lint:markdownlint
