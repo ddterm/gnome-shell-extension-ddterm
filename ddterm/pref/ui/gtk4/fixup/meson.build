@@ -4,10 +4,10 @@
 
 pref_ui_gtk4_fixup_files = []
 
-foreach pref_ui_file : pref_ui_files
+foreach pref_ui_src_file : pref_ui_src_files
   pref_ui_gtk4_fixup_files += custom_target(
     command: [xsltproc, '-o', '@OUTPUT@', files('3to4-fixup.xsl'), '@INPUT@'],
-    input: pref_ui_file,
+    input: pref_ui_src_file,
     output: '@PLAINNAME@',
   )
 endforeach

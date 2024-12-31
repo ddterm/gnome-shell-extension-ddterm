@@ -5,10 +5,10 @@
 subdir('fixup')
 subdir('3to4')
 
-pref_ui_gtk4_files = []
+pref_ui_gtk4_out_files = []
 
-foreach i : range(pref_ui_files.length())
-  out_file = custom_target(
+foreach i : range(pref_ui_src_files.length())
+  pref_ui_gtk4_out_file = custom_target(
     command: [
       xsltproc,
       '-o',
@@ -25,14 +25,17 @@ foreach i : range(pref_ui_files.length())
     install_dir: extension_dir / 'ddterm' / 'pref' / 'ui' / 'gtk4',
   )
 
-  pref_ui_gtk4_files += out_file
+  pref_ui_gtk4_out_files += pref_ui_gtk4_out_file
 
   test(
-    out_file.full_path(),
+    fs.relative_to(
+      pref_ui_gtk4_out_file.full_path(),
+      meson.project_source_root(),
+    ),
     gtk4_builder_tool,
-    args: ['validate', out_file],
+    args: ['validate', pref_ui_gtk4_out_file],
     suite: ['gtk-builder-validate'],
   )
 endforeach
 
-pack += pref_ui_gtk4_files
+pack += pref_ui_gtk4_out_files

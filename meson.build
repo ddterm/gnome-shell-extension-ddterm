@@ -11,8 +11,6 @@ project(
   default_options: ['prefix=/usr'],
 )
 
-gjs = find_program('gjs', version: get_option('esm') ? '>=1.78.0' : '>=1.70.0')
-
 fs = import('fs')
 i18n = import('i18n')
 
@@ -28,6 +26,42 @@ extension_dir = datadir / 'gnome-shell' / 'extensions' / uuid
 schema_dir = datadir / 'glib-2.0' / 'schemas'
 applications_dir = datadir / 'applications'
 dbus_service_dir = datadir / 'dbus-1' / 'services'
+
+if get_option('esm')
+  gjs_req = '>=1.78.0'
+  gnome_shell_req = '>=45.0'
+
+  extension_main_src_file = files('extension.js')
+  prefs_main_src_file = files('prefs.js')
+  metadata_template = files('metadata.json.in')
+
+  pack_name = f'@uuid@.shell-extension.zip'
+else
+  gjs_req = '>=1.72.0'
+  gnome_shell_req = ['>=42.0', '<45.0']
+
+  extension_main_src_file = files('extension.legacy.js')
+  prefs_main_src_file = files('prefs.legacy.js')
+  metadata_template = files('metadata.legacy.json.in')
+
+  pack_name = f'@uuid@.legacy.shell-extension.zip'
+endif
+
+summary('Target GNOME Shell version', gnome_shell_req, list_sep: ', ')
+
+summary(
+  {
+    'prefix': prefix,
+    'bindir': bindir,
+    'extension_dir': extension_dir,
+    'schema_dir': schema_dir,
+    'applications_dir': applications_dir,
+    'dbus_service_dir': dbus_service_dir,
+  },
+  section: 'System-wide installation',
+)
+
+gjs = find_program('gjs', version: gjs_req)
 
 gtk3_builder_tool = find_program('gtk-builder-tool')
 gtk4_builder_tool = find_program('gtk4-builder-tool')
@@ -54,40 +88,10 @@ xvfb = find_program('Xvfb', required: false, disabler: true)
 xephyr = find_program('Xephyr', required: false, disabler: true)
 gnome_shell = find_program(
   'gnome-shell',
-  version: get_option('esm') ? '>=45.0' : ['>=42.0', '<45.0'],
+  version: gnome_shell_req,
   required: false,
   disabler: true,
 )
-
-pack = [
-  fs.copyfile('stylesheet.css', install: true, install_dir: extension_dir),
-  files('LICENSES' / 'GPL-3.0-or-later.txt'),
-  files('LICENSES' / 'CC0-1.0.txt'),
-  files('REUSE.toml'),
-]
-
-if not get_option('esm')
-  pack += files(
-    'LICENSES' / 'GPL-2.0-or-later.txt',
-    'LICENSES' / 'LGPL-2.0-or-later.txt',
-    'LICENSES' / 'MIT.txt',
-  )
-endif
-
-built_js = [
-  fs.copyfile(
-    get_option('esm') ? 'extension.js' : 'extension.legacy.js',
-    'extension.js',
-    install: true,
-    install_dir: extension_dir,
-  ),
-  fs.copyfile(
-    get_option('esm') ? 'prefs.js' : 'prefs.legacy.js',
-    'prefs.js',
-    install: true,
-    install_dir: extension_dir,
-  ),
-]
 
 metadata = configuration_data()
 metadata.set('version', meson.project_version())
@@ -95,24 +99,44 @@ metadata.set_quoted('uuid', uuid)
 metadata.set_quoted('gettext_domain', gettext_domain)
 metadata.set_quoted('settings_schema', settings_schema)
 
-metadata_template = get_option('esm') ? 'metadata.json.in' : 'metadata.legacy.json.in'
+pack = [
+  configure_file(
+    input: metadata_template,
+    output: 'metadata.json',
+    configuration: metadata,
+    install: true,
+    install_dir: extension_dir,
+  ),
+  fs.copyfile(
+    fs.name(metadata_template) + '.license',
+    'metadata.json.license',
+    install: true,
+    install_dir: extension_dir,
+  ),
+]
 
-pack += configure_file(
-  input: metadata_template,
-  output: 'metadata.json',
-  configuration: metadata,
+extension_main_out_file = fs.copyfile(
+  extension_main_src_file,
+  'extension.js',
   install: true,
   install_dir: extension_dir,
 )
 
-pack += fs.copyfile(
-  f'@metadata_template@.license',
-  'metadata.json.license',
+prefs_main_out_file = fs.copyfile(
+  prefs_main_src_file,
+  'prefs.js',
   install: true,
   install_dir: extension_dir,
 )
+
+eslint_out = [extension_main_out_file, prefs_main_out_file]
+pack += [extension_main_out_file, prefs_main_out_file]
 
 subdir('tools')
+subdir('bin')
+subdir('data')
+subdir('schemas')
+subdir('ddterm')
 
 need_git_version = fs.read('revision.txt.in').strip() == '$Format:%H$'
 git = find_program('git', disabler: true, required: need_git_version)
@@ -150,22 +174,33 @@ pack += fs.copyfile(
   install_dir: extension_dir,
 )
 
-subdir('bin')
-subdir('data')
-subdir('schemas')
-subdir('ddterm')
 subdir('locale')
 
-pack += built_js
+pack += fs.copyfile('stylesheet.css', install: true, install_dir: extension_dir)
+
+pack += files(
+  'LICENSES' / 'GPL-3.0-or-later.txt',
+  'LICENSES' / 'CC0-1.0.txt',
+  'REUSE.toml',
+)
+
+if not get_option('esm')
+  pack += files(
+    'LICENSES' / 'GPL-2.0-or-later.txt',
+    'LICENSES' / 'LGPL-2.0-or-later.txt',
+    'LICENSES' / 'MIT.txt',
+  )
+endif
 
 pack_target = custom_target(
   command: make_zip_command,
   input: pack,
-  output: get_option('esm') ? f'@uuid@.shell-extension.zip' : f'@uuid@.legacy.shell-extension.zip',
+  output: pack_name,
   build_by_default: true,
 )
 
 alias_target('pack', pack_target)
+summary('Built package location', pack_target.full_path())
 
 meson.add_devenv({'DDTERM_BUILT_PACK': pack_target.full_path()})
 
@@ -176,14 +211,14 @@ run_target(
 
 run_target('user-uninstall', command: [extensions_tool, 'uninstall', uuid])
 
-foreach target : ['prefs', 'enable', 'disable', 'reset']
-  run_target(target, command: [extensions_tool, target, uuid])
+foreach action : ['prefs', 'enable', 'disable', 'reset']
+  run_target(action, command: [extensions_tool, action, uuid])
 endforeach
 
-foreach target : ['toggle', 'quit']
+foreach action : ['toggle', 'quit']
   run_target(
-    target,
-    command: [gapplication_tool, 'action', 'com.github.amezin.ddterm', target],
+    action,
+    command: [gapplication_tool, 'action', 'com.github.amezin.ddterm', action],
   )
 endforeach
 
@@ -198,31 +233,20 @@ eslint_tool = find_program(
 )
 
 if eslint_tool.found()
-  eslint_required = fs.is_samepath(
-    eslint_tool.full_path(),
-    node_modules_bin_dir / 'npm',
-  )
-
   eslint_config_check = run_command(
-    [
-      'env',
-      '-C',
-      meson.current_source_dir(),
-      eslint_tool,
-      '--print-config',
-      'extension.js',
-    ],
-    check: eslint_required,
+    [eslint_tool, '--print-config', files('extension.js')],
+    check: false,
   )
 
   if eslint_config_check.returncode() != 0
-    warning(
-      'eslint found, but it fails to load the config. Please run "npm install" and "meson setup --reconfigure"',
-    )
+    warning('eslint found, but it fails to load the config, so it will be disabled. '
+      + 'Please run "npm install" and "meson setup --reconfigure" to fix.')
 
     eslint_tool = disabler()
   endif
 endif
+
+summary('ESLint', eslint_tool.found(), bool_yn: true, section: 'Tests')
 
 run_target(
   'eslint',
@@ -235,11 +259,11 @@ run_target(
 )
 
 test(
-  'lint-source',
+  'eslint-source',
   eslint_tool,
   args: ['.'],
   workdir: meson.current_source_dir(),
-  suite: ['eslint'],
+  suite: ['eslint', 'lint-source'],
 )
 
 configure_file(
@@ -251,12 +275,10 @@ configure_file(
 )
 
 test(
-  'lint-build',
+  'eslint-output',
   eslint_tool,
-  args: ['.'],
-  depends: built_js,
-  workdir: meson.current_build_dir(),
-  suite: ['eslint'],
+  args: eslint_out,
+  suite: ['eslint', 'lint-output'],
 )
 
 run_target(
@@ -274,10 +296,10 @@ toxworkdir = toxinidir / '.tox'
 
 reuse_tool = find_program(
   'reuse',
+  version: '>=4.0.0',
   dirs: toxworkdir / 'reuse' / 'bin',
   required: false,
   disabler: true,
-  version: '>=4.0.0',
 )
 
 run_target(
@@ -288,19 +310,19 @@ run_target(
 # Works correctly only in a git repo
 if fs.exists(meson.current_source_dir() / '.git')
   test(
-    'lint-source',
+    'reuse-lint-source',
     reuse_tool,
     args: ['--root', meson.current_source_dir(), 'lint'],
     workdir: meson.current_source_dir(),
-    suite: ['reuse'],
+    suite: ['reuse', 'lint-source'],
   )
 endif
 
 test(
-  'lint-build',
+  'reuse-lint-output',
   check_pack_tool,
   args: ['--', pack_target, reuse_tool.full_path(), '--root', '.', 'lint'],
-  suite: ['reuse'],
+  suite: ['reuse', 'lint-output'],
 )
 
 markdownlint_cli2_tool = find_program(
@@ -327,10 +349,10 @@ run_target(
 )
 
 test(
-  'lint',
+  'markdownlint-source',
   markdownlint_cli2_tool,
   workdir: meson.current_source_dir(),
-  suite: ['markdownlint'],
+  suite: ['markdownlint', 'lint-source'],
 )
 
 flake8_tool = find_program(
@@ -341,7 +363,11 @@ flake8_tool = find_program(
 )
 
 run_target('flake8', command: ['env', '-C', '@CURRENT_SOURCE_DIR@', flake8_tool])
-
-test('lint', flake8_tool, workdir: meson.current_source_dir(), suite: ['flake8'])
+test(
+  'flake8-lint-source',
+  flake8_tool,
+  workdir: meson.current_source_dir(),
+  suite: ['flake8', 'lint-source'],
+)
 
 subdir('test')

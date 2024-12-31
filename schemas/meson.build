@@ -26,7 +26,7 @@ if not get_option('esm')
 endif
 
 test(
-  fs.parent(schema) / fs.name(schema),
+  fs.name(schema),
   glib_compile_schemas_tool,
   args: ['--strict', '--dry-run', meson.current_source_dir()],
   suite: ['glib-compile-schemas'],

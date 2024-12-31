@@ -2,7 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-pref_files = files(
+pref_js_out_files = []
+pref_js_src_files = files(
   'adw.js',
   'animation.js',
   'behavior.js',
@@ -18,21 +19,18 @@ pref_files = files(
   'widget.js',
 )
 
-pref_built_js = []
-
-foreach pref_file : pref_files
+foreach pref_js_src_file : pref_js_src_files
   if get_option('esm')
-    pref_built_js += fs.copyfile(
-      pref_file,
-      fs.name(pref_file),
+    pref_js_out_files += fs.copyfile(
+      pref_js_src_file,
       install: true,
       install_dir: extension_dir / 'ddterm' / 'pref',
     )
   else
-    pref_built_js += custom_target(
+    pref_js_out_files += custom_target(
       command: [gjs_translate_esm_command, '-d', meson.project_source_root()],
-      input: pref_file,
-      output: fs.name(pref_file),
+      input: pref_js_src_file,
+      output: '@PLAINNAME@',
       install: true,
       install_dir: extension_dir / 'ddterm' / 'pref',
     )
@@ -45,31 +43,31 @@ else
   pref_base_uri = '${imports.misc.extensionUtils.getCurrentExtension().dir.get_uri()}/ddterm/pref/'
 endif
 
-pref_util_configured = configure_file(
+pref_util_conf_file = configure_file(
   input: 'util.js',
   output: 'util.conf.js',
   configuration: {'PREF_BASE_URI': pref_base_uri},
 )
 
 if get_option('esm')
-  pref_built_js += fs.copyfile(
-    pref_util_configured,
+  pref_js_out_files += fs.copyfile(
+    pref_util_conf_file,
     'util.js',
     install: true,
     install_dir: extension_dir / 'ddterm' / 'pref',
   )
 else
-  pref_built_js += custom_target(
+  pref_js_out_files += custom_target(
     command: [gjs_translate_esm_command, '-d', meson.project_build_root()],
-    input: pref_util_configured,
+    input: pref_util_conf_file,
     output: 'util.js',
     install: true,
     install_dir: extension_dir / 'ddterm' / 'pref',
   )
 endif
 
-pref_files += files('util.js')
-built_js += pref_built_js
+pack += pref_js_out_files
+eslint_out += pref_js_out_files
 
 subdir('ui')
 subdir('test')

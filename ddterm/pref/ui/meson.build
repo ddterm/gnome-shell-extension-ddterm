@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-pref_ui_files = files(
+pref_ui_src_files = files(
   'prefs-animation.ui',
   'prefs-behavior.ui',
   'prefs-colors.ui',
@@ -16,11 +16,11 @@ pref_ui_files = files(
   'prefs-text.ui',
 )
 
-foreach pref_ui_file : pref_ui_files
+foreach pref_ui_src_file : pref_ui_src_files
   test(
-    fs.parent(pref_ui_file) / fs.name(pref_ui_file),
+    fs.relative_to(pref_ui_src_file, meson.project_source_root()),
     gtk3_builder_tool,
-    args: ['validate', pref_ui_file],
+    args: ['validate', pref_ui_src_file],
     suite: ['gtk-builder-validate'],
   )
 endforeach

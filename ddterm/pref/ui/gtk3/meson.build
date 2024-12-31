@@ -2,25 +2,28 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-pref_ui_gtk3_files = []
+pref_ui_gtk3_out_files = []
 
-foreach pref_ui_file : pref_ui_files
-  out_file = custom_target(
+foreach pref_ui_src_file : pref_ui_src_files
+  pref_ui_gtk3_out_file = custom_target(
     command: [output_capture, gtk3_builder_tool, 'simplify', '@INPUT@'],
-    input: pref_ui_file,
+    input: pref_ui_src_file,
     output: '@PLAINNAME@',
     install: true,
     install_dir: extension_dir / 'ddterm' / 'pref' / 'ui' / 'gtk3',
   )
 
   test(
-    out_file.full_path(),
+    fs.relative_to(
+      pref_ui_gtk3_out_file.full_path(),
+      meson.project_source_root(),
+    ),
     gtk3_builder_tool,
-    args: ['validate', out_file],
+    args: ['validate', pref_ui_gtk3_out_file],
     suite: ['gtk-builder-validate'],
   )
 
-  pref_ui_gtk3_files += out_file
+  pref_ui_gtk3_out_files += pref_ui_gtk3_out_file
 endforeach
 
-pack += pref_ui_gtk3_files
+pack += pref_ui_gtk3_out_files

@@ -50,7 +50,7 @@ desktop_entry_final = i18n.merge_file(
 )
 
 test(
-  desktop_entry_final.full_path(),
+  fs.name(desktop_entry_final.full_path()),
   desktop_file_validate_tool,
   args: [desktop_entry_final],
   suite: ['desktop-file-validate'],

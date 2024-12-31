@@ -2,7 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-app_js_files = files(
+app_js_out_files = []
+app_js_src_files = files(
   'accellabel.js',
   'application.js',
   'appwindow.js',
@@ -26,47 +27,65 @@ app_js_files = files(
   'waitstatus.js',
 )
 
-app_ui_files = files('menus.ui')
-
-foreach app_file : app_js_files + app_ui_files + files(
-  'dependencies.json',
-  'dependencies.json.license',
-  'style.css',
-)
-  pack += fs.copyfile(
-    app_file,
-    fs.name(app_file),
+foreach app_js_src_file : app_js_src_files
+  app_js_out_files += fs.copyfile(
+    app_js_src_file,
     install: true,
     install_dir: extension_dir / 'ddterm' / 'app',
   )
 endforeach
 
-app_prefsdialog_file = files(
-  get_option('esm') ? 'prefsdialog.js' : 'prefsdialog.legacy.js',
-)
-app_js_files += app_prefsdialog_file
+if get_option('esm')
+  app_prefsdialog_src_file = files('prefsdialog.js')
+else
+  app_prefsdialog_src_file = files('prefsdialog.legacy.js')
 
-pack += fs.copyfile(
-  app_prefsdialog_file,
+  subdir('fakeext')
+endif
+
+app_js_src_files += app_prefsdialog_src_file
+app_js_out_files += fs.copyfile(
+  app_prefsdialog_src_file,
   'prefsdialog.js',
   install: true,
   install_dir: extension_dir / 'ddterm' / 'app',
 )
 
-subdir('icons')
+pack += app_js_out_files
+eslint_out += app_js_out_files
 
-foreach app_ui_file : app_ui_files
+app_ui_src_files = files('menus.ui')
+
+foreach app_ui_src_file : app_ui_src_files
+  pack += fs.copyfile(
+    app_ui_src_file,
+    install: true,
+    install_dir: extension_dir / 'ddterm' / 'app',
+  )
+
   test(
-    fs.parent(app_ui_file) / fs.name(app_ui_file),
+    fs.relative_to(app_ui_src_file, meson.project_source_root()),
     gtk3_builder_tool,
-    args: ['validate', app_ui_file],
+    args: ['validate', app_ui_src_file],
     suite: ['gtk-builder-validate'],
   )
 endforeach
 
-if not get_option('esm')
-  subdir('fakeext')
-endif
+app_data_src_files = files(
+  'dependencies.json',
+  'dependencies.json.license',
+  'style.css',
+)
 
-fs.copyfile('dev-application.js')
-fs.copyfile('dev-appwindow.js')
+foreach app_data_src_file : app_data_src_files
+  pack += fs.copyfile(
+    app_data_src_file,
+    install: true,
+    install_dir: extension_dir / 'ddterm' / 'app',
+  )
+endforeach
+
+eslint_out += fs.copyfile('dev-application.js')
+eslint_out += fs.copyfile('dev-appwindow.js')
+
+subdir('icons')

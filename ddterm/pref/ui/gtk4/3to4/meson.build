@@ -4,7 +4,7 @@
 
 pref_ui_gtk4_3to4_files = []
 
-foreach pref_ui_fixup_file : pref_ui_gtk4_fixup_files
+foreach pref_ui_gtk4_fixup_file : pref_ui_gtk4_fixup_files
   pref_ui_gtk4_3to4_files += custom_target(
     command: [
       output_capture,
@@ -13,7 +13,7 @@ foreach pref_ui_fixup_file : pref_ui_gtk4_fixup_files
       '--3to4',
       '@INPUT@',
     ],
-    input: pref_ui_fixup_file,
+    input: pref_ui_gtk4_fixup_file,
     output: '@PLAINNAME@',
   )
 endforeach

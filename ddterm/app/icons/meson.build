@@ -8,9 +8,9 @@ icon_files = files(
   'uppercase-symbolic.svg',
 )
 
-foreach icon_file : icon_files
+foreach f : icon_files
   pack += fs.copyfile(
-    icon_file,
+    f,
     install: true,
     install_dir: extension_dir / 'ddterm' / 'app' / 'icons',
   )

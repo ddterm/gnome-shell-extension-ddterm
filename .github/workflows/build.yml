@@ -206,7 +206,7 @@ jobs:
         if-no-files-found: error
 
     - name: Run checks
-      run: xvfb-run ../.github/faketty.sh meson test -v -j1 --no-suite eslint --no-suite reuse --no-suite markdownlint --no-suite flake8 --no-suite pytest
+      run: xvfb-run ../.github/faketty.sh meson test -v -j1 --logbase ${{ matrix.name }} --no-suite lint-source --no-suite eslint --no-suite reuse --no-suite pytest
       working-directory: build
       if: ${{ always() && steps.pack.conclusion == 'success' }}
 
@@ -222,7 +222,7 @@ jobs:
       if: ${{ always() && steps.pack.conclusion == 'success' }}
 
     - name: Run eslint on generated code
-      run: ../.github/faketty.sh meson test -v -j1 --suite eslint --logbase eslint-build-esm lint-build
+      run: ../.github/faketty.sh meson test -v -j1 --logbase eslint-${{ matrix.name }} eslint-output
       working-directory: build
       if: ${{ always() && steps.pack.conclusion == 'success' }}
 
@@ -231,10 +231,10 @@ jobs:
       if: ${{ always() && steps.enable_eslint_errors.outcome == 'success' }}
 
     - name: Check REUSE compliance of generated package
-      run: ../.github/faketty.sh meson test -v -j1 --suite reuse --no-rebuild lint-build
+      run: ../.github/faketty.sh meson test -v -j1 --no-rebuild reuse-lint-output
       working-directory: build
       if: ${{ always() && steps.pack.conclusion == 'success' }}
 
     - name: Upload reports to Testspace
-      run: testspace --verbose "build/meson-logs/*.txt{lint}"
+      run: testspace --verbose "build/meson-logs/*${{ matrix.name }}.txt{lint}"
       if: ${{ always() && steps.setup_testspace.outcome == 'success' }}
