@@ -72,3 +72,8 @@ services:
     image: ghcr.io/ddterm/gnome-shell-image/opensuse-leap-15.6:2024.12.29.0
     profiles:
       - esm
+
+  fedora-38:
+    image: ghcr.io/ddterm/gnome-shell-image/fedora-38:latest
+    profiles:
+      - legacy
