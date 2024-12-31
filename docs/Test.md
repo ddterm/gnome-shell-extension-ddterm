@@ -45,7 +45,7 @@ Or to do both at the same time:
 
 ### Run tests
 
-    tox [--sitepackages] -- [--package=path] <other-options...>
+    tox [--sitepackages] -e pytest -- [--package=path] <other-options...>
 
 Before running tests, you need to [build the extension package](/docs/BUILD.md).
 
@@ -80,7 +80,7 @@ screenshots are taken only after failures.
 
 To see all available options:
 
-    tox [--sitepackages] -- --help
+    tox [--sitepackages] -e pytest -- --help
 
 ## Report
 

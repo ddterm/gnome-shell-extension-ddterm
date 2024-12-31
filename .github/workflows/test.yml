@@ -89,7 +89,7 @@ jobs:
     - name: Install Python test dependencies
       run: >-
         sudo --preserve-env --set-home --user=github-actions --
-        tox -vv --notest --sitepackages
+        tox -vv --notest --sitepackages -e pytest
 
     - name: Disable generic error matcher
       run: |
@@ -99,7 +99,7 @@ jobs:
     - name: Run tests
       run: >-
         exec sudo --preserve-env --set-home --user=github-actions --
-        tox --sitepackages --
+        tox --sitepackages -e pytest --
         --self-contained-html
         --junitxml=test/junit.xml
         --container ${{ matrix.service }}
