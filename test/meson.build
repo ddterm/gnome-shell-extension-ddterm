@@ -31,10 +31,11 @@ foreach item : pytest_tests
       '--gnome-shell=' + gnome_shell.full_path(),
       '--xvfb=' + xvfb.full_path(),
       '--gsettings-tool=' + gsettings.full_path(),
-      'test' / item,
+      meson.current_source_dir() / item,
     ],
-    workdir: toxinidir,
+    workdir: meson.current_build_dir(),
     suite: ['pytest'],
+    protocol: 'gtest',
     priority: -1,
     timeout: 5 * 60,
   )

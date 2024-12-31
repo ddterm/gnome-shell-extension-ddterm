@@ -16,7 +16,7 @@ import pytest
 from . import procutil
 
 
-pytest_plugins = ('test.screenshot', 'test.syslog', 'test.logsync')
+pytest_plugins = ('test.screenshot', 'test.syslog', 'test.logsync', 'test.gtest_output_compat')
 
 LOGGER = logging.getLogger(__name__)
 
