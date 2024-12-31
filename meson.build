@@ -335,7 +335,7 @@ test(
 
 flake8_tool = find_program(
   'flake8',
-  dirs: toxworkdir / 'lint' / 'bin',
+  dirs: toxworkdir / 'flake8' / 'bin',
   required: false,
   disabler: true,
 )

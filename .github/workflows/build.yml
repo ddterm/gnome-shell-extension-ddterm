@@ -94,7 +94,7 @@ jobs:
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
     - name: Lint Python test code
-      run: tox --sitepackages -e lint -- --tee --output-file flake8.log 2>&1
+      run: tox --sitepackages -e flake8 -- --tee --output-file flake8.log 2>&1
       env:
         FORCE_COLOR: 0
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
