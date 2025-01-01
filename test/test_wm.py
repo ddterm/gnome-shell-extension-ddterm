@@ -758,7 +758,7 @@ class TestWayland(CommonTests, fixtures.GnomeSessionWaylandFixtures):
         shell_dbus_interface,
         gdk_backend
     ):
-        if gdk_backend == GdkBackend.X11 and shell_dbus_interface.ShellVersion < (45,):
+        if gdk_backend == GdkBackend.X11 and shell_dbus_interface.ShellVersion < (44,):
             # Known bug - no show/map animation on XWayland
             return set()
 
