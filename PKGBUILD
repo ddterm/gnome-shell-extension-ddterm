@@ -13,6 +13,7 @@ conflicts=('gnome-shell-extension-ddterm')
 provides=('gnome-shell-extension-ddterm')
 depends=('gjs' 'gtk3' 'vte3' 'libhandy')
 makedepends=('meson' 'git' 'gtk4' 'libxslt' 'xorg-server-xvfb')
+checkdepends=('python-pytest' 'python-gobject' 'gnome-shell' 'wl-clipboard')
 source=("$pkgname::git+file://$(git rev-parse --show-toplevel)")
 md5sums=('SKIP')
 
@@ -26,6 +27,10 @@ build() {
 
     # gtk-builder-tool needs X or Wayland
     LIBGL_ALWAYS_SOFTWARE=1 xvfb-run -- meson compile -C build
+}
+
+check() {
+    LIBGL_ALWAYS_SOFTWARE=1 xvfb-run -- meson test -C build --print-errorlogs
 }
 
 package() {
