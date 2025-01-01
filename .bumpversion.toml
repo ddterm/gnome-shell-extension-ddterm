@@ -1,0 +1,22 @@
+# SPDX-FileCopyrightText: 2025 Aleksandr Mezin <mezin.alexander@gmail.com>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+[tool.bumpversion]
+current_version = "56"
+parse = "(?P<major>\\d+)"
+serialize = ["{major}"]
+commit = true
+message = "version: release {new_version}"
+tag = true
+tag_message = ""
+
+[[tool.bumpversion.files]]
+filename = "meson.build"
+search = "'{current_version}'"
+replace = "'{new_version}'"
+
+[[tool.bumpversion.files]]
+filename = "PKGBUILD"
+search = "pkgver={current_version}"
+replace = "pkgver={new_version}"
