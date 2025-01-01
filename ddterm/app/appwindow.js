@@ -589,8 +589,8 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
             target_h = Math.floor(target_h / scale);
         }
 
-        this.resize(target_w, target_h);
         this.window?.resize(target_w, target_h);
+        this.resize(target_w, target_h);
     }
 
     update_tab_label_width() {
