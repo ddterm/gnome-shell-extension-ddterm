@@ -9,6 +9,27 @@ pytest_tool = find_program(
   disabler: true,
 )
 
+if pytest_tool.found()
+  pytest_check = run_command(
+    [
+      pytest_tool,
+      '-c',
+      files('pytest.ini'),
+      '--collect-only',
+      meson.current_source_dir(),
+    ],
+    check: false,
+  )
+
+  if pytest_check.returncode() != 0
+    warning(
+      'pytest found, but it fails to collect the tests, so tests will be disabled',
+    )
+
+    pytest_tool = disabler()
+  endif
+endif
+
 wl_copy = find_program('wl-copy', required: false, disabler: true)
 wl_paste = find_program('wl-paste', required: false, disabler: true)
 
