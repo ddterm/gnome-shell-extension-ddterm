@@ -397,11 +397,15 @@ flake8_tool = find_program(
 
 summary('flake8', flake8_tool.found(), bool_yn: true, section: 'Linters')
 
-run_target('flake8', command: ['env', '-C', '@CURRENT_SOURCE_DIR@', flake8_tool])
+run_target(
+  'flake8',
+  command: [flake8_tool, '--config', files('.flake8'), '@CURRENT_SOURCE_DIR@'],
+)
 
 test(
   'flake8-lint-source',
   flake8_tool,
+  args: ['--config', files('.flake8'), '.'],
   workdir: meson.current_source_dir(),
   suite: ['flake8', 'lint-source'],
 )
