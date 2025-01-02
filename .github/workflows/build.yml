@@ -191,7 +191,7 @@ jobs:
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
     - name: Prepare build directory
-      run: .github/faketty.sh meson setup ${{ matrix.flags }} '-Dshebang_override=/usr/bin/env gjs' build
+      run: .github/faketty.sh meson setup ${{ matrix.flags }} '-Dshebang_override=/usr/bin/env gjs' '-Dtests=disabled' build
 
     - name: Build extension package
       id: pack
@@ -206,7 +206,7 @@ jobs:
         if-no-files-found: error
 
     - name: Run checks
-      run: xvfb-run ../.github/faketty.sh meson test -v -j1 --logbase ${{ matrix.name }} --no-suite lint-source --no-suite eslint --no-suite reuse --no-suite pytest
+      run: xvfb-run ../.github/faketty.sh meson test -v -j1 --logbase ${{ matrix.name }} --no-suite lint-source --no-suite eslint --no-suite reuse
       working-directory: build
       if: ${{ always() && steps.pack.conclusion == 'success' }}
 
