@@ -9,6 +9,9 @@ pytest_tool = find_program(
   disabler: true,
 )
 
+wl_copy = find_program('wl-copy', required: false, disabler: true)
+wl_paste = find_program('wl-paste', required: false, disabler: true)
+
 pytest_common_args = [
   '-c',
   files('pytest.ini'),
@@ -19,6 +22,9 @@ pytest_common_args = [
   '--gnome-extensions-tool=' + extensions_tool.full_path(),
   '--gnome-shell=' + gnome_shell.full_path(),
   '--gsettings-tool=' + gsettings.full_path(),
+  '--xvfb=' + (xvfb.found() ? xvfb.full_path() : 'not-found'),
+  '--wl-copy=' + (wl_copy.found() ? wl_copy.full_path() : 'not-found'),
+  '--wl-paste=' + (wl_paste.found() ? wl_paste.full_path() : 'not-found'),
 ]
 
 pytest_enabled = pytest_tool.found()
@@ -28,10 +34,6 @@ foreach a : pytest_common_args
 endforeach
 
 pytest_xvfb_enabled = pytest_enabled and xvfb.found()
-
-wl_copy = find_program('wl-copy', required: false, disabler: true)
-wl_paste = find_program('wl-paste', required: false, disabler: true)
-
 pytest_wl_clipboard_enabled = pytest_enabled and wl_copy.found() and wl_paste.found()
 
 summary('Functional tests', pytest_enabled, bool_yn: true, section: 'Tests')
@@ -56,13 +58,7 @@ if pytest_enabled
     pytest_tool,
     args: [
       pytest_common_args,
-      pytest_wl_clipboard_enabled ? [
-        '--wl-copy=' + wl_copy.full_path(),
-        '--wl-paste=' + wl_paste.full_path(),
-      ] : [
-        '-k',
-        'not test_wl_clipboard',
-      ],
+      pytest_wl_clipboard_enabled ? [] : ['-k', 'not test_wl_clipboard'],
       meson.current_source_dir() / 'test_app.py::TestApp',
     ],
     suite: ['pytest'],
@@ -88,7 +84,6 @@ if pytest_enabled
       pytest_tool,
       args: [
         pytest_common_args,
-        '--xvfb=' + xvfb.full_path(),
         meson.current_source_dir() / 'test_wm.py::TestX11',
       ],
       suite: ['pytest'],
