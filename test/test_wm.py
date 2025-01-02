@@ -475,10 +475,10 @@ class CommonTests:
         wait_idle()
 
         assert extension_test_hook.WindowRect == expected_rect
-        assert extension_test_hook.seen_transitions == expected_show_transitions
         assert extension_test_hook.WindowSkipTaskbar == window_skip_taskbar
         assert extension_test_hook.WindowOnAllWorkspaces == expected_above_all_windows
         assert shell_test_hook.FocusApp == 'com.github.amezin.ddterm'
+        assert extension_test_hook.seen_transitions == expected_show_transitions
 
         if not window_maximize:
             assert extension_test_hook.WindowAbove == window_above
@@ -486,11 +486,11 @@ class CommonTests:
         shell_test_hook.WaitLeisure()
 
         assert extension_test_hook.WindowRect == expected_rect
-        assert extension_test_hook.seen_transitions == expected_show_transitions
-        assert extension_test_hook.Transitions == set()
         assert extension_test_hook.WindowSkipTaskbar == window_skip_taskbar
         assert extension_test_hook.WindowOnAllWorkspaces == expected_above_all_windows
         assert shell_test_hook.FocusApp == 'com.github.amezin.ddterm'
+        assert extension_test_hook.seen_transitions == expected_show_transitions
+        assert extension_test_hook.Transitions == set()
 
         if not window_maximize:
             assert extension_test_hook.WindowAbove == window_above
@@ -508,6 +508,19 @@ class CommonTests:
         app_debug_dbus_interface.reset_size_allocations()
         extension_dbus_interface.Toggle()
         extension_test_hook.wait_property('RenderedFirstFrame', True)
+
+        assert extension_test_hook.WindowRect == expected_rect
+        assert len(set(app_debug_dbus_interface.size_allocations)) <= max_size_allocations
+        assert len(app_debug_dbus_interface.size_allocations) <= max_size_allocations + 1
+        assert len(set(extension_test_hook.window_rect_snapshots)) <= max_window_rect_changes
+        assert len(extension_test_hook.window_rect_snapshots) <= max_window_rect_changes + 1
+        assert extension_test_hook.WindowSkipTaskbar == window_skip_taskbar
+        assert extension_test_hook.WindowOnAllWorkspaces == expected_above_all_windows
+        assert shell_test_hook.FocusApp == 'com.github.amezin.ddterm'
+
+        if not window_maximize:
+            assert extension_test_hook.WindowAbove == window_above
+
         wait_idle()
 
         assert extension_test_hook.WindowRect == expected_rect
@@ -515,10 +528,10 @@ class CommonTests:
         assert len(app_debug_dbus_interface.size_allocations) <= max_size_allocations + 1
         assert len(set(extension_test_hook.window_rect_snapshots)) <= max_window_rect_changes
         assert len(extension_test_hook.window_rect_snapshots) <= max_window_rect_changes + 1
-        assert extension_test_hook.seen_transitions == expected_show_transitions
         assert extension_test_hook.WindowSkipTaskbar == window_skip_taskbar
         assert extension_test_hook.WindowOnAllWorkspaces == expected_above_all_windows
         assert shell_test_hook.FocusApp == 'com.github.amezin.ddterm'
+        assert extension_test_hook.seen_transitions == expected_show_transitions
 
         if not window_maximize:
             assert extension_test_hook.WindowAbove == window_above
@@ -530,11 +543,11 @@ class CommonTests:
         assert len(app_debug_dbus_interface.size_allocations) <= max_size_allocations + 1
         assert len(set(extension_test_hook.window_rect_snapshots)) <= max_window_rect_changes
         assert len(extension_test_hook.window_rect_snapshots) <= max_window_rect_changes + 1
-        assert extension_test_hook.seen_transitions == expected_show_transitions
-        assert extension_test_hook.Transitions == set()
         assert extension_test_hook.WindowSkipTaskbar == window_skip_taskbar
         assert extension_test_hook.WindowOnAllWorkspaces == expected_above_all_windows
         assert shell_test_hook.FocusApp == 'com.github.amezin.ddterm'
+        assert extension_test_hook.seen_transitions == expected_show_transitions
+        assert extension_test_hook.Transitions == set()
 
         if not window_maximize:
             assert extension_test_hook.WindowAbove == window_above
