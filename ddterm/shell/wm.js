@@ -142,9 +142,11 @@ export const WindowManager = GObject.registerClass({
 
                     this._update_window_geometry();
                     this._set_window_above();
+                    this._set_window_stick();
                 });
             } else {
                 this._set_window_above();
+                this._set_window_stick();
             }
 
             if (this.show_animation.should_skip) {
@@ -174,10 +176,10 @@ export const WindowManager = GObject.registerClass({
         if (this._client_type === Meta.WindowClientType.X11)
             Main.activateWindow(this.window);
 
-        if (this._actor.visible)
+        if (this._actor.visible) {
             this._set_window_above();
-
-        this._set_window_stick();
+            this._set_window_stick();
+        }
 
         if (this.settings.get_boolean('window-maximize'))
             this.window.maximize(Meta.MaximizeFlags.BOTH);
