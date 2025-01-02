@@ -562,7 +562,10 @@ class GnomeSessionFixtures:
 class GnomeSessionX11Fixtures(GnomeSessionFixtures):
     @pytest.fixture(scope='class')
     def dbus_daemon_environment(self, x11_environment):
-        return x11_environment
+        return {
+            **x11_environment,
+            'XDG_SESSION_TYPE': 'x11',
+        }
 
     @pytest.fixture(scope='class')
     def gnome_shell_environment(self, dbus_environment):
@@ -583,6 +586,7 @@ class GnomeSessionWaylandFixtures(GnomeSessionFixtures):
         return {
             **environment,
             'WAYLAND_DISPLAY': wayland_display,
+            'XDG_SESSION_TYPE': 'wayland',
         }
 
     @pytest.fixture(scope='class')
