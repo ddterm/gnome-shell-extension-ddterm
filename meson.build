@@ -69,6 +69,7 @@ glib_compile_schemas_tool = find_program('glib-compile-schemas')
 xsltproc = find_program('xsltproc')
 
 xgettext = find_program('xgettext', required: false, disabler: true)
+
 desktop_file_validate_tool = find_program(
   'desktop-file-validate',
   required: false,
@@ -76,20 +77,35 @@ desktop_file_validate_tool = find_program(
 )
 
 gapplication_tool = find_program('gapplication', required: false, disabler: true)
-gsettings = find_program('gsettings', required: false, disabler: true)
+
 extensions_tool = find_program(
   'gnome-extensions',
-  required: false,
+  required: get_option('tests').enabled(),
   disabler: true,
 )
 
-dbus_daemon = find_program('dbus-daemon', required: false, disabler: true)
-xvfb = find_program('Xvfb', required: false, disabler: true)
-xephyr = find_program('Xephyr', required: false, disabler: true)
+dbus_daemon = find_program(
+  'dbus-daemon',
+  required: get_option('tests').enabled(),
+  disabler: true,
+)
+
+xvfb = find_program(
+  'Xvfb',
+  required: get_option('tests').enabled(),
+  disabler: true,
+)
+
+xephyr = find_program(
+  'Xephyr',
+  required: get_option('tests').enabled(),
+  disabler: true,
+)
+
 gnome_shell = find_program(
   'gnome-shell',
   version: gnome_shell_req,
-  required: false,
+  required: get_option('tests').enabled(),
   disabler: true,
 )
 
@@ -228,14 +244,14 @@ eslint_tool = find_program(
   'eslint',
   version: '>= 8.0.0',
   dirs: node_modules_bin_dir,
-  required: false,
+  required: get_option('linters'),
   disabler: true,
 )
 
 if eslint_tool.found()
   eslint_config_check = run_command(
     [eslint_tool, '--print-config', files('extension.js')],
-    check: false,
+    check: get_option('linters').enabled(),
   )
 
   if eslint_config_check.returncode() != 0
@@ -298,7 +314,7 @@ reuse_tool = find_program(
   'reuse',
   version: '>=4.0.0',
   dirs: toxworkdir / 'reuse' / 'bin',
-  required: false,
+  required: get_option('linters'),
   disabler: true,
 )
 
@@ -330,7 +346,7 @@ test(
 markdownlint_cli2_tool = find_program(
   'markdownlint-cli2',
   dirs: node_modules_bin_dir,
-  required: false,
+  required: get_option('linters'),
   disabler: true,
 )
 
@@ -367,16 +383,11 @@ test(
 flake8_tool = find_program(
   'flake8',
   dirs: toxworkdir / 'flake8' / 'bin',
-  required: false,
+  required: get_option('linters'),
   disabler: true,
 )
 
-summary(
-  'flake8',
-  flake8_tool.found(),
-  bool_yn: true,
-  section: 'Linters',
-)
+summary('flake8', flake8_tool.found(), bool_yn: true, section: 'Linters')
 
 run_target('flake8', command: ['env', '-C', '@CURRENT_SOURCE_DIR@', flake8_tool])
 

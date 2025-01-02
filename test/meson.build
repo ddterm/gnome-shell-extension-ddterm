@@ -5,7 +5,7 @@
 pytest_tool = find_program(
   'pytest',
   dirs: toxworkdir / 'py3' / 'bin',
-  required: false,
+  required: get_option('tests'),
   disabler: true,
 )
 
@@ -18,7 +18,7 @@ if pytest_tool.found()
       '--collect-only',
       meson.current_source_dir(),
     ],
-    check: false,
+    check: get_option('tests').enabled(),
   )
 
   if pytest_check.returncode() != 0
@@ -30,8 +30,19 @@ if pytest_tool.found()
   endif
 endif
 
-wl_copy = find_program('wl-copy', required: false, disabler: true)
-wl_paste = find_program('wl-paste', required: false, disabler: true)
+gsettings = find_program(
+  'gsettings',
+  required: get_option('tests'),
+  disabler: true,
+)
+
+wl_copy = find_program('wl-copy', required: get_option('tests'), disabler: true)
+
+wl_paste = find_program(
+  'wl-paste',
+  required: get_option('tests'),
+  disabler: true,
+)
 
 pytest_common_args = [
   '-c',
@@ -59,12 +70,7 @@ pytest_wl_clipboard_enabled = pytest_enabled and wl_copy.found() and wl_paste.fo
 
 summary('Functional', pytest_enabled, bool_yn: true, section: 'Tests')
 
-summary(
-  'X11',
-  pytest_xvfb_enabled,
-  bool_yn: true,
-  section: 'Tests',
-)
+summary('X11', pytest_xvfb_enabled, bool_yn: true, section: 'Tests')
 
 summary(
   'wl-clipboard',

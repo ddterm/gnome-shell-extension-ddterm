@@ -15,3 +15,17 @@ option(
   value : '',
   description : 'If not empty, use the specified command instead of GJS executable'
 )
+
+option(
+  'linters',
+  type : 'feature',
+  value: 'auto',
+  description : 'Run linters during "meson test"/"ninja test"'
+)
+
+option(
+  'tests',
+  type : 'feature',
+  value: 'auto',
+  description : 'Run tests during "meson test"/"ninja test"'
+)
