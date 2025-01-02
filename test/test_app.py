@@ -141,7 +141,8 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
         extension_test_hook,
         shell_test_hook,
         launcher_path,
-        tmp_path
+        tmp_path,
+        request,
     ):
         extension_dbus_interface.Activate(timeout=dbusutil.DEFAULT_LONG_TIMEOUT_MS)
         extension_test_hook.wait_property('RenderedFirstFrame', True)
@@ -156,7 +157,7 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
             '--',
             'bash',
             '-c',
-            'echo wl-clipboard-test-content | wl-copy',
+            f'echo wl-clipboard-test-content | {shlex.quote(str(request.config.option.wl_copy))}',
             env=dbus_environment,
         )
 
@@ -174,7 +175,7 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
             '--',
             'bash',
             '-c',
-            f'wl-paste >{shlex.quote(str(test_file))}',
+            f'{shlex.quote(str(request.config.option.wl_paste))} >{shlex.quote(str(test_file))}',
             env=dbus_environment,
         )
 

@@ -29,10 +29,23 @@ endforeach
 
 pytest_xvfb_enabled = pytest_enabled and xvfb.found()
 
+wl_copy = find_program('wl-copy', required: false, disabler: true)
+wl_paste = find_program('wl-paste', required: false, disabler: true)
+
+pytest_wl_clipboard_enabled = pytest_enabled and wl_copy.found() and wl_paste.found()
+
 summary('Functional tests', pytest_enabled, bool_yn: true, section: 'Tests')
+
 summary(
   'Functional tests (X11)',
   pytest_xvfb_enabled,
+  bool_yn: true,
+  section: 'Tests',
+)
+
+summary(
+  'Functional tests (wl-clipboard)',
+  pytest_wl_clipboard_enabled,
   bool_yn: true,
   section: 'Tests',
 )
@@ -43,6 +56,13 @@ if pytest_enabled
     pytest_tool,
     args: [
       pytest_common_args,
+      pytest_wl_clipboard_enabled ? [
+        '--wl-copy=' + wl_copy.full_path(),
+        '--wl-paste=' + wl_paste.full_path(),
+      ] : [
+        '-k',
+        'not test_wl_clipboard',
+      ],
       meson.current_source_dir() / 'test_app.py::TestApp',
     ],
     suite: ['pytest'],

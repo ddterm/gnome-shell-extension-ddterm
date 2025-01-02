@@ -130,6 +130,18 @@ def pytest_addoption(parser):
         help='gjs executable',
     )
 
+    parser.addoption(
+        '--wl-copy',
+        default='wl-copy',
+        help='wl-copy executable (wl-clipboard)',
+    )
+
+    parser.addoption(
+        '--wl-paste',
+        default='wl-paste',
+        help='wl-paste executable (wl-clipboard)',
+    )
+
 
 def pytest_configure(config):
     if images := config.option.container:
