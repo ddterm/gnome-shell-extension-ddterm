@@ -57,17 +57,17 @@ endforeach
 pytest_xvfb_enabled = pytest_enabled and xvfb.found()
 pytest_wl_clipboard_enabled = pytest_enabled and wl_copy.found() and wl_paste.found()
 
-summary('Functional tests', pytest_enabled, bool_yn: true, section: 'Tests')
+summary('Functional', pytest_enabled, bool_yn: true, section: 'Tests')
 
 summary(
-  'Functional tests (X11)',
+  'X11',
   pytest_xvfb_enabled,
   bool_yn: true,
   section: 'Tests',
 )
 
 summary(
-  'Functional tests (wl-clipboard)',
+  'wl-clipboard',
   pytest_wl_clipboard_enabled,
   bool_yn: true,
   section: 'Tests',

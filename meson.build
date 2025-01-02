@@ -246,7 +246,7 @@ if eslint_tool.found()
   endif
 endif
 
-summary('ESLint', eslint_tool.found(), bool_yn: true, section: 'Tests')
+summary('ESLint', eslint_tool.found(), bool_yn: true, section: 'Linters')
 
 run_target(
   'eslint',
@@ -302,6 +302,8 @@ reuse_tool = find_program(
   disabler: true,
 )
 
+summary('REUSE', reuse_tool.found(), bool_yn: true, section: 'Linters')
+
 run_target(
   'reuse',
   command: [reuse_tool, '--root', meson.current_source_dir(), 'lint'],
@@ -330,6 +332,13 @@ markdownlint_cli2_tool = find_program(
   dirs: node_modules_bin_dir,
   required: false,
   disabler: true,
+)
+
+summary(
+  'markdownlint-cli2',
+  markdownlint_cli2_tool.found(),
+  bool_yn: true,
+  section: 'Linters',
 )
 
 run_target(
@@ -362,7 +371,15 @@ flake8_tool = find_program(
   disabler: true,
 )
 
+summary(
+  'flake8',
+  flake8_tool.found(),
+  bool_yn: true,
+  section: 'Linters',
+)
+
 run_target('flake8', command: ['env', '-C', '@CURRENT_SOURCE_DIR@', flake8_tool])
+
 test(
   'flake8-lint-source',
   flake8_tool,
