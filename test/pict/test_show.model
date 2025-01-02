@@ -43,6 +43,15 @@ IF [class] = "TestWaylandTwoMonitors"
     ELSE [monitor1_scale] = 0 AND [monitor1_transform] = "MONITOR_DISABLED" AND [current_monitor] = 0 AND [primary_monitor] = 0 AND [window_monitor_connector] <> 1;
 
 IF [monitor0_transform] = "displayconfig.Transform.ROTATE_90"
+    THEN [monitor0_scale] <= 1.75;
+
+IF [monitor1_transform] = "displayconfig.Transform.ROTATE_90"
+    THEN [monitor1_scale] <= 1.75;
+
+IF [window_position] IN {"WindowPosition.LEFT", "WindowPosition.RIGHT"}
+    THEN [window_size] >= 0.7;
+
+IF [monitor0_transform] = "displayconfig.Transform.ROTATE_90"
     THEN [window_position] IN {"WindowPosition.TOP", "WindowPosition.BOTTOM"} OR [window_size] = 1.0 OR [monitor0_scale] = 1.0;
 
 IF [monitor1_transform] = "displayconfig.Transform.ROTATE_90"
