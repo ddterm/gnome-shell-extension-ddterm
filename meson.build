@@ -250,7 +250,14 @@ eslint_tool = find_program(
 
 if eslint_tool.found()
   eslint_config_check = run_command(
-    [eslint_tool, '--print-config', files('extension.js')],
+    [
+      'env',
+      '-C',
+      meson.current_source_dir(),
+      eslint_tool,
+      '--print-config',
+      'extension.js',
+    ],
     check: get_option('linters').enabled(),
   )
 
@@ -294,6 +301,7 @@ test(
   'eslint-output',
   eslint_tool,
   args: eslint_out,
+  workdir: meson.current_build_dir(),
   suite: ['eslint', 'lint-output'],
 )
 
