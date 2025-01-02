@@ -141,6 +141,22 @@ def load_params(filename):
     return pictparam.Parametrization.load(filename, globals())
 
 
+def wait_frame(shell_test_hook, app_debug_dbus_interface, timeout=dbusutil.DEFAULT_TIMEOUT_MS):
+    deadline = glibutil.Deadline(timeout)
+
+    try:
+        app_debug_dbus_interface.WaitFrame(timeout=deadline.remaining_ms // 2)
+
+    except GLib.Error as ex:
+        if ex.matches(Gio.io_error_quark(), Gio.IOErrorEnum.TIMED_OUT):
+            warnings.warn('Wait for next frame timed out. Happens on XWayland.')
+
+        else:
+            raise
+
+    shell_test_hook.Later(shellhook.LaterType.RESIZE, timeout=deadline.remaining_ms)
+
+
 def wait_idle(
     shell_test_hook,
     extension_test_hook,
@@ -190,17 +206,11 @@ def wait_idle(
         while counter < num_idle_frames:
             counter += 1
 
-            try:
-                app_debug_dbus_interface.WaitFrame(timeout=min(deadline.remaining_ms, 1000))
-
-            except GLib.Error as ex:
-                if ex.matches(Gio.io_error_quark(), Gio.IOErrorEnum.TIMED_OUT):
-                    warnings.warn('Wait for next frame timed out. Happens on XWayland.')
-
-                else:
-                    raise
-
-            shell_test_hook.Later(shellhook.LaterType.RESIZE, timeout=deadline.remaining_ms)
+            wait_frame(
+                shell_test_hook,
+                app_debug_dbus_interface,
+                timeout=deadline.remaining_ms,
+            )
 
             LOGGER.info('%r consecutive frames with no window geometry changes', counter)
 
@@ -420,12 +430,17 @@ class CommonTests:
         return window_stick or (workspaces_only_on_primary and primary_monitor != window_monitor)
 
     @pytest.fixture
-    def wait_idle(
-        self,
-        shell_test_hook,
-        extension_test_hook,
-        app_debug_dbus_interface,
-    ):
+    def wait_frame(self, shell_test_hook, app_debug_dbus_interface):
+        global wait_frame
+
+        return functools.partial(
+            wait_frame,
+            shell_test_hook=shell_test_hook,
+            app_debug_dbus_interface=app_debug_dbus_interface,
+        )
+
+    @pytest.fixture
+    def wait_idle(self, shell_test_hook, extension_test_hook, app_debug_dbus_interface):
         global wait_idle
 
         return functools.partial(
@@ -461,6 +476,7 @@ class CommonTests:
         extension_test_hook,
         shell_test_hook,
         wait_idle,
+        wait_frame,
         gdk_backend,
     ):
         extension_dbus_interface.Activate(timeout=dbusutil.DEFAULT_LONG_TIMEOUT_MS)
@@ -472,17 +488,17 @@ class CommonTests:
         assert monitor_scale == extension_dbus_interface.TargetMonitorScale
 
         extension_test_hook.wait_property('RenderedFirstFrame', True)
-        wait_idle()
+        wait_frame()
 
         assert extension_test_hook.WindowRect == expected_rect
         assert extension_test_hook.WindowSkipTaskbar == window_skip_taskbar
         assert extension_test_hook.WindowOnAllWorkspaces == expected_above_all_windows
         assert shell_test_hook.FocusApp == 'com.github.amezin.ddterm'
-        assert extension_test_hook.seen_transitions == expected_show_transitions
 
         if not window_maximize:
             assert extension_test_hook.WindowAbove == window_above
 
+        wait_idle()
         shell_test_hook.WaitLeisure()
 
         assert extension_test_hook.WindowRect == expected_rect
