@@ -53,11 +53,6 @@ services:
     profiles:
       - legacy
 
-  debian-13:
-    image: ghcr.io/ddterm/gnome-shell-image/debian-13:2025.01.02.1
-    profiles:
-      - esm
-
   ubuntu-22.04:
     image: ghcr.io/ddterm/gnome-shell-image/ubuntu-22.04:2025.01.02.1
     profiles:
