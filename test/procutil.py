@@ -17,15 +17,7 @@ DEFAULT_SHUTDOWN_TIMEOUT = 10
 
 
 class Launcher:
-    def __init__(self, base_env):
-        self.base_env = dict(base_env)
-
     def tweak(self, args, kwargs):
-        if env := kwargs.pop('env', None):
-            new_env = dict(self.base_env)
-            new_env.update(env)
-            kwargs['env'] = new_env
-
         return args, kwargs
 
     def run(self, *args, **kwargs):

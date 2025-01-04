@@ -33,7 +33,7 @@ COMPOSE_FILE = THIS_DIR / 'compose.yaml'
 
 IMAGES_STASH_KEY = pytest.StashKey[list]()
 
-ENV_CLEANUP = [
+ENV_FILTER_OUT = [
     'DBUS_SESSION_BUS_ADDRESS',
     'DBUS_SESSION_BUS_PID',
     'DBUS_SESSION_BUS_WINDOWID',
@@ -271,7 +271,7 @@ def container(tmp_path_factory, request):
         'systemd.journald.forward_to_console=0',
     ])
 
-    launcher = procutil.Launcher(os.environ)
+    launcher = procutil.Launcher()
 
     with contextlib.ExitStack() as stack:
         container_lock = request.getfixturevalue('container_lock')
@@ -360,18 +360,25 @@ def container(tmp_path_factory, request):
 
 @pytest.fixture(scope='session')
 def process_launcher(container):
+    if container is None:
+        return procutil.Launcher()
+
+    return procutil.ContainerExecLauncher(
+        container_id=container,
+        user=os.getuid(),
+    )
+
+
+@pytest.fixture(scope='session')
+def base_environment(container):
     if container is not None:
-        return procutil.ContainerExecLauncher(
-            container_id=container,
-            user=os.getuid(),
-        )
+        return {}
 
-    base_env = dict(os.environ)
-
-    for var in ENV_CLEANUP:
-        base_env.pop(var, None)
-
-    return procutil.Launcher(base_env)
+    return {
+        k: v
+        for k, v in os.environ.items()
+        if k not in ENV_FILTER_OUT
+    }
 
 
 @pytest.fixture(scope='session')
