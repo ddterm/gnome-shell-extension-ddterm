@@ -49,6 +49,8 @@ run_gnome_shell_wayland_nested_command = [
   run_gnome_shell_script_common_args,
 ]
 
+xephyr = find_program('Xephyr', required: false, disabler: true)
+
 run_gnome_shell_xephyr_x11_command = [
   run_gnome_shell_script,
   'xephyr',

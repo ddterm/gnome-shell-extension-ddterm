@@ -90,18 +90,6 @@ dbus_daemon = find_program(
   disabler: true,
 )
 
-xvfb = find_program(
-  'Xvfb',
-  required: get_option('tests').enabled(),
-  disabler: true,
-)
-
-xephyr = find_program(
-  'Xephyr',
-  required: get_option('tests').enabled(),
-  disabler: true,
-)
-
 gnome_shell = find_program(
   'gnome-shell',
   version: gnome_shell_req,

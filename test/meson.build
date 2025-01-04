@@ -30,6 +30,8 @@ if pytest_tool.found()
   endif
 endif
 
+xvfb = find_program('Xvfb', required: get_option('tests'), disabler: true)
+
 gsettings = find_program(
   'gsettings',
   required: get_option('tests'),
