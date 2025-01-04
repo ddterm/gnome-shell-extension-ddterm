@@ -1,0 +1,56 @@
+# SPDX-FileCopyrightText: 2025 Aleksandr Mezin <mezin.alexander@gmail.com>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: 'Override git ref'
+        type: string
+        default: ''
+        required: false
+  workflow_call:
+    inputs:
+      ref:
+        description: 'Override git ref'
+        type: string
+        default: ''
+        required: false
+
+env:
+  FORCE_COLOR: 1
+  PIP_DISABLE_PIP_VERSION_CHECK: 1
+  TERM: xterm-color
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  archlinux:
+    runs-on: ubuntu-24.04
+    container:
+      image: archlinux:base-devel
+      options: --privileged --tmpfs /run
+
+    steps:
+    - run: pacman -Syu --noconfirm --noprogressbar devtools
+
+    - run: systemd-machine-id-setup
+
+    # https://gitlab.archlinux.org/archlinux/devtools/-/merge_requests/197
+    - run: sed -i 's/nspawn_args=(/nspawn_args=(--keep-unit /' /usr/bin/arch-nspawn
+
+    - run: useradd -m user
+
+    - name: Checkout
+      id: checkout
+      uses: actions/checkout@v4
+      with:
+        ref: ${{ inputs.ref }}
+        fetch-depth: 0  # for pkgver()
+
+    - run: chown -R user .
+
+    - run: extra-x86_64-build -- -U user

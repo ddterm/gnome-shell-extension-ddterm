@@ -38,3 +38,7 @@ jobs:
     with:
       commit: ${{ github.ref_type == 'branch' && github.ref_name == github.event.repository.default_branch && !github.event.repository.fork }}
     secrets: inherit
+
+  packaging:
+    needs: build
+    uses: ./.github/workflows/packaging.yml
