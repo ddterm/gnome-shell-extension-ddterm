@@ -9,6 +9,7 @@ import inspect
 import logging
 import os
 import pathlib
+import signal
 import subprocess
 
 import pytest
@@ -90,6 +91,13 @@ def pytest_addoption(parser):
         action='store_true',
         default=False,
         help='Allow hardware acceleration.'
+    )
+
+    parser.addoption(
+        '--system-bus',
+        action='store_true',
+        default=False,
+        help='Use a fake system D-Bus bus (when running without containers).'
     )
 
     package_from_env = os.getenv('DDTERM_BUILT_PACK')
@@ -373,7 +381,7 @@ def process_launcher(container):
 
 
 @pytest.fixture(scope='session')
-def base_environment(container, request):
+def global_environment(container, request):
     env = {} if container is not None else {
         k: v
         for k, v in os.environ.items()
@@ -398,6 +406,73 @@ def os_id(process_launcher):
         '. /etc/os-release && echo $ID',
         stdout=subprocess.PIPE
     ).stdout.rstrip().decode()
+
+
+@pytest.fixture(scope='session')
+def system_bus(process_launcher, global_environment, tmp_path_factory, request):
+    system_bus_dir = tmp_path_factory.mktemp('system_bus')
+    services_dir = system_bus_dir / 'system-services'
+    config_path = system_bus_dir / 'system.conf'
+    pid_file = system_bus_dir / 'dbus-daemon.pid'
+
+    config_path.write_text(f'''
+        <!DOCTYPE busconfig PUBLIC "-//freedesktop//DTD D-Bus Bus Configuration 1.0//EN"
+             "http://www.freedesktop.org/standards/dbus/1.0/busconfig.dtd">
+        <busconfig>
+            <type>system</type>
+            <keep_umask/>
+            <listen>unix:dir={system_bus_dir}</listen>
+            <servicedir>{services_dir}</servicedir>
+            <pidfile>{pid_file}</pidfile>
+            <policy context="default">
+                <allow send_destination="*" eavesdrop="true"/>
+                <allow eavesdrop="true"/>
+                <allow own="*"/>
+            </policy>
+        </busconfig>
+    ''')
+
+    services_dir.mkdir()
+    address_r, address_w = os.pipe()
+
+    with contextlib.ExitStack() as stack:
+        with open(address_r, 'rb', buffering=0, closefd=True) as address_reader:
+            try:
+                proc = stack.enter_context(process_launcher.spawn(
+                    str(request.config.option.dbus_daemon),
+                    f'--config-file={config_path}',
+                    '--nosyslog',
+                    '--nofork',
+                    f'--print-address={address_w}',
+                    pass_fds=(address_w,),
+                    env=global_environment,
+                ))
+
+            finally:
+                os.close(address_w)
+
+            # read to end doesn't work when passing fd through podman
+            # podman keeps the fd open even when the target process closes it
+            proc.address = address_reader.readline().rstrip().decode()
+
+            pid = int(pid_file.read_text().strip())
+
+            stack.callback(lambda: os.kill(pid, signal.SIGTERM))
+
+        yield proc
+
+
+@pytest.fixture(scope='session')
+def system_bus_environment(global_environment, request):
+    if not request.config.option.system_bus:
+        return global_environment
+
+    dbus_daemon = request.getfixturevalue('system_bus')
+
+    return dict(
+        global_environment,
+        DBUS_SYSTEM_BUS_ADDRESS=dbus_daemon.address,
+    )
 
 
 def pytest_generate_tests(metafunc):

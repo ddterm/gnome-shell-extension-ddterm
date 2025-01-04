@@ -90,14 +90,14 @@ class GnomeSessionFixtures:
     @pytest.fixture(scope='class')
     def base_environment(
         self,
-        base_environment,
+        system_bus_environment,
         xdg_runtime_dir,
         xdg_config_home,
         xdg_cache_home,
         xdg_state_home,
     ):
         env = dict(
-            base_environment,
+            system_bus_environment,
             XDG_RUNTIME_DIR=str(xdg_runtime_dir),
             XDG_CONFIG_HOME=str(xdg_config_home),
             XDG_CACHE_HOME=str(xdg_cache_home),

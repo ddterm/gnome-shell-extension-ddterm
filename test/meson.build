@@ -59,6 +59,7 @@ pytest_common_args = [
   '--xvfb=' + (xvfb.found() ? xvfb.full_path() : 'not-found'),
   '--wl-copy=' + (wl_copy.found() ? wl_copy.full_path() : 'not-found'),
   '--wl-paste=' + (wl_paste.found() ? wl_paste.full_path() : 'not-found'),
+  '--system-bus',
 ]
 
 pytest_enabled = pytest_tool.found()
