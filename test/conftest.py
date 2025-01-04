@@ -370,15 +370,21 @@ def process_launcher(container):
 
 
 @pytest.fixture(scope='session')
-def base_environment(container):
-    if container is not None:
-        return {}
-
-    return {
+def base_environment(container, request):
+    env = {} if container is not None else {
         k: v
         for k, v in os.environ.items()
         if k not in ENV_FILTER_OUT
     }
+
+    if not request.config.option.hw_accel:
+        env['LIBGL_ALWAYS_SOFTWARE'] = 'true'
+        env['GBM_ALWAYS_SOFTWARE'] = 'true'
+
+    env['NO_AT_BRIDGE'] = '1'
+    env['GTK_A11Y'] = 'none'
+
+    return env
 
 
 @pytest.fixture(scope='session')

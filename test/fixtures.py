@@ -95,7 +95,6 @@ class GnomeSessionFixtures:
         xdg_config_home,
         xdg_cache_home,
         xdg_state_home,
-        request,
     ):
         env = dict(
             base_environment,
@@ -103,13 +102,7 @@ class GnomeSessionFixtures:
             XDG_CONFIG_HOME=str(xdg_config_home),
             XDG_CACHE_HOME=str(xdg_cache_home),
             XDG_STATE_HOME=str(xdg_state_home),
-            NO_AT_BRIDGE='1',
-            GTK_A11Y='none',
         )
-
-        if not request.config.option.hw_accel:
-            env['LIBGL_ALWAYS_SOFTWARE'] = 'true'
-            env['GBM_ALWAYS_SOFTWARE'] = 'true'
 
         return env
 
