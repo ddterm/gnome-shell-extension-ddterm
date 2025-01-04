@@ -191,6 +191,9 @@ def pytest_configure(config):
 
         config.stash[IMAGES_STASH_KEY] = resolved
 
+    elif config.option.journald:
+        raise pytest.UsageError('--journald can be used with containers only')
+
 
 class FdLock:
     def __init__(self, fd):

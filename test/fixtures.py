@@ -300,7 +300,7 @@ class GnomeSessionFixtures:
             env=dbus_environment,
         )
 
-        if container and request.config.option.journald:
+        if request.config.option.journald:
             wrapper = ('systemd-cat',)
         else:
             wrapper = tuple()
