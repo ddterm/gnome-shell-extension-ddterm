@@ -22,7 +22,7 @@ pkgver() {
 }
 
 build() {
-    arch-meson $pkgname build
+    arch-meson $pkgname build -Dlinters=disabled
 
     # gtk-builder-tool needs X or Wayland
     LIBGL_ALWAYS_SOFTWARE=1 xvfb-run -- meson compile -C build
