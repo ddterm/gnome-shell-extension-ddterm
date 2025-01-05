@@ -69,10 +69,13 @@ def run_pull(compose_config, services, prune=False):
         run_prune_resolved(images)
 
 
-def run_matrix(compose_config):
+def run_matrix(compose_config, exclude=[]):
     result = []
 
     for name, desc in compose_config['services'].items():
+        if name in exclude:
+            continue
+
         for profile in desc['profiles']:
             result.append(dict(service=name, profile=profile))
 
@@ -141,6 +144,13 @@ def main():
     matrix_parser = subparsers.add_parser(
         'matrix',
         help='Generate CI test matrix'
+    )
+
+    matrix_parser.add_argument(
+        '--exclude',
+        action='append',
+        default=[],
+        help='Names of the services (as specified in compose.yaml) to exclude'
     )
 
     matrix_parser.set_defaults(func=run_matrix)
