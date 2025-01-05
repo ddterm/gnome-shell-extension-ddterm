@@ -14,7 +14,7 @@ if pytest_tool.found()
     [
       pytest_tool,
       '-c',
-      files('pytest.ini'),
+      files('..' / 'pytest.ini'),
       '--collect-only',
       meson.current_source_dir(),
     ],
@@ -48,7 +48,7 @@ wl_paste = find_program(
 
 pytest_common_args = [
   '-c',
-  files('pytest.ini'),
+  files('..' / 'pytest.ini'),
   '-p',
   'no:cacheprovider',
   '--package=' + pack_target.full_path(),
