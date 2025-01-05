@@ -5,6 +5,8 @@
 'use strict';
 
 const Gettext = imports.gettext;
+const ExtensionUtils = imports.misc.extensionUtils;
+const Main = imports.ui.main;
 const MessageTray = imports.ui.messageTray;
 
 const gi = imports.gi;
@@ -66,3 +68,32 @@ var Notification = MessageTray.Notification;
 var NotificationSource = MessageTray.Source;
 
 /* exported NotificationSource */
+
+var ExtensionState = {
+    ...ExtensionUtils.ExtensionState,
+    ACTIVE: ExtensionUtils.ExtensionState.ENABLED,
+    INACTIVE: ExtensionUtils.ExtensionState.DISABLED,
+    ACTIVATING: ExtensionUtils.ExtensionState.ENABLING,  // is undefined on GNOME Shell <44
+    DEACTIVATING: ExtensionUtils.ExtensionState.DISABLING,  // is undefined on GNOME Shell <44
+};
+
+/* exported ExtensionState */
+
+function is_extension_deactivating(extension) {
+    if (!ExtensionUtils.ExtensionState.DISABLING) {
+        // On GNOME Shell before 44, DISABLING state is not defined,
+        // and the extension is ACTIVE until the end of disable().
+        // So always assume it's deactivating.
+        return true;
+    }
+
+    const info = Main.extensionManager.lookup(extension.uuid);
+
+    if (!info)
+        return true;
+
+    return info.state !== ExtensionUtils.ExtensionState.ENABLED &&
+        info.state !== ExtensionUtils.ExtensionState.ENABLING;
+}
+
+/* exported is_extension_deactivating */

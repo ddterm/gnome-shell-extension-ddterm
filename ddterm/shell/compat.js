@@ -5,8 +5,10 @@
 import GObject from 'gi://GObject';
 import Gi from 'gi';
 
+import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import * as MessageTray from 'resource:///org/gnome/shell/ui/messageTray.js';
 import { Extension } from 'resource:///org/gnome/shell/extensions/extension.js';
+import { ExtensionState } from 'resource:///org/gnome/shell/misc/extensionUtils.js';
 
 export const require = Gi.require;
 
@@ -51,3 +53,23 @@ export const NotificationSource = MessageTray.Source.length === 1 ? GObject.regi
         this.addNotification(notification);
     }
 }) : MessageTray.Source;
+
+const ExtensionStateCompat = {
+    ...ExtensionState,
+    ACTIVE: ExtensionState.ACTIVE ?? ExtensionState.ENABLED,
+    INACTIVE: ExtensionState.INACTIVE ?? ExtensionState.DISABLED,
+    ACTIVATING: ExtensionState.ACTIVATING ?? ExtensionState.ENABLING,
+    DEACTIVATING: ExtensionState.DEACTIVATING ?? ExtensionState.DISABLING,
+};
+
+export { ExtensionStateCompat as ExtensionState };
+
+export function is_extension_deactivating(extension) {
+    const info = Main.extensionManager.lookup(extension.uuid);
+
+    if (!info)
+        return true;
+
+    return info.state !== ExtensionStateCompat.ACTIVE &&
+        info.state !== ExtensionStateCompat.ACTIVATING;
+}

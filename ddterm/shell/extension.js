@@ -10,11 +10,10 @@ import Shell from 'gi://Shell';
 
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import * as MessageTray from 'resource:///org/gnome/shell/ui/messageTray.js';
-import { ExtensionState } from 'resource:///org/gnome/shell/misc/extensionUtils.js';
 
 import { Animation, ReverseAnimation } from './animation.js';
 import { AppControl } from './appcontrol.js';
-import { Extension } from './compat.js';
+import { Extension, is_extension_deactivating } from './compat.js';
 import { DBusApi } from './dbusapi.js';
 import { WindowGeometry } from './geometry.js';
 import { Installer } from './install.js';
@@ -180,10 +179,8 @@ function install(extension, rollback) {
 
         // Also don't uninstall if ddterm is being disabled only temporarily
         // (because some other extension is being disabled).
-        if (ExtensionState.DEACTIVATING ?? ExtensionState.DISABLING) {
-            if (extension.is_state_active())
-                return;
-        }
+        if (!is_extension_deactivating(extension))
+            return;
 
         installer.uninstall();
     });
@@ -359,10 +356,8 @@ class EnabledExtension {
 
             // Also don't terminate the app if ddterm is being disabled only temporarily
             // (because some other extension is being disabled).
-            if (ExtensionState.DEACTIVATING ?? ExtensionState.DISABLING) {
-                if (this.extension.is_state_active())
-                    return;
-            }
+            if (!is_extension_deactivating(this.extension))
+                return;
 
             if (!this.app_control.quit())
                 this.service.terminate();
@@ -539,14 +534,5 @@ export default class DDTermExtension extends Extension {
     disable() {
         this.enabled_state?.disable();
         this.enabled_state = null;
-    }
-
-    is_state_active() {
-        const info = Main.extensionManager.lookup(this.uuid);
-
-        return [
-            ExtensionState.ACTIVE ?? ExtensionState.ENABLED,
-            ExtensionState.ACTIVATING ?? ExtensionState.ENABLING,
-        ].includes(info?.state ?? ExtensionState.ERROR);
     }
 }
