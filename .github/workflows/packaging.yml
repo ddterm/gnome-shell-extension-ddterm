@@ -53,4 +53,6 @@ jobs:
 
     - run: chown -R user .
 
+    - run: extra-x86_64-build -- -U user -- --nocheck
+
     - run: extra-x86_64-build -- -U user
