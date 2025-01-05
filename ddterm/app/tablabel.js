@@ -204,6 +204,7 @@ export const TabLabel = GObject.registerClass({
 
         const menu = Gtk.Menu.new_from_model(this.context_menu_model);
 
+        menu.__heapgraph_name = 'DDTermTabLabelContextMenu';
         menu.attach_to_widget(this, (widget, m) => m.destroy());
         menu.connect('selection-done', m => m.detach());
         menu.popup_at_pointer(event);
@@ -214,6 +215,7 @@ export const TabLabel = GObject.registerClass({
     _popup_menu() {
         const menu = Gtk.Menu.new_from_model(this.context_menu_model);
 
+        menu.__heapgraph_name = 'DDTermTabLabelContextMenu';
         menu.attach_to_widget(this, (widget, m) => m.destroy());
         menu.connect('selection-done', m => m.detach());
         menu.popup_at_widget(this, Gdk.Gravity.SOUTH, Gdk.Gravity.SOUTH, null);

@@ -686,6 +686,7 @@ const TerminalContextMenu = HAS_CONTEXT_MENU ? null : GObject.registerClass({
     _create_context_menu() {
         let menu = Gtk.Menu.new_from_model(this.context_menu_model);
 
+        menu.__heapgraph_name = 'DDTermTerminalContextMenuContextMenu';
         // https://github.com/ddterm/gnome-shell-extension-ddterm/issues/116
         menu.get_style_context().add_class(Gtk.STYLE_CLASS_CONTEXT_MENU);
         menu.attach_to_widget(this, (widget, m) => m.destroy());

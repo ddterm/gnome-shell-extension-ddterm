@@ -240,6 +240,22 @@ const Interface = GObject.registerClass({
         );
     }
 
+    Mouse2Down() {
+        this.pointer.notify_button(
+            Clutter.CURRENT_TIME,
+            Clutter.BUTTON_SECONDARY,
+            Clutter.ButtonState.PRESSED
+        );
+    }
+
+    Mouse2Up() {
+        this.pointer.notify_button(
+            Clutter.CURRENT_TIME,
+            Clutter.BUTTON_SECONDARY,
+            Clutter.ButtonState.RELEASED
+        );
+    }
+
     GetCurrentMonitor() {
         return global.display.get_current_monitor();
     }

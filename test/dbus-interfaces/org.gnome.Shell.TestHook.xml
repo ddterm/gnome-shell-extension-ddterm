@@ -31,6 +31,8 @@
 
         <method name="MouseDown"/>
         <method name="MouseUp"/>
+        <method name="Mouse2Down"/>
+        <method name="Mouse2Up"/>
 
         <method name="GetCurrentMonitor">
             <arg type="i" direction="out"/>

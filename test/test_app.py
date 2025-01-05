@@ -10,7 +10,7 @@ import sys
 
 import pytest
 
-from . import dbusutil, fixtures, shellhook
+from . import dbusutil, fixtures, geometry, shellhook
 
 
 THIS_FILE = pathlib.Path(__file__).resolve()
@@ -291,6 +291,59 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
             dump_post,
             hide_node=['_init/Gtk'],
             hide_edge=['cacheir-object']
+        ) == ''
+
+    @pytest.mark.usefixtures('hide')
+    @pytest.mark.parametrize('widget', ('terminal', 'tab'))
+    def test_context_menu_leak(
+        self,
+        app_debug_dbus_interface,
+        extension_dbus_interface,
+        extension_test_hook,
+        shell_test_hook,
+        tmp_path,
+        widget,
+    ):
+        extension_dbus_interface.Activate(timeout=dbusutil.DEFAULT_LONG_TIMEOUT_MS)
+        extension_test_hook.wait_property('RenderedFirstFrame', True)
+        app_debug_dbus_interface.wait_connected()
+
+        workarea = shell_test_hook.Workareas[0]
+
+        widget_location = {
+            'terminal': workarea.center(),
+            'tab': geometry.Point(workarea.center().x, workarea.y + workarea.height - 16)
+        }[widget]
+
+        shell_test_hook.SetPointer(*widget_location)
+
+        dump_pre = tmp_path / 'heap-pre.dump'
+        app_debug_dbus_interface.DumpHeap(dump_pre)
+
+        with shell_test_hook.watch_signal('WindowCreated') as window_created:
+            shell_test_hook.Mouse2Down()
+            shell_test_hook.Mouse2Up()
+
+            window_created.get()
+
+        app_debug_dbus_interface.WaitIdle()
+
+        shell_test_hook.SetPointer(widget_location.x - 1, widget_location.y)
+
+        with shell_test_hook.watch_signal('WindowUnmanaged') as window_unmanaged:
+            shell_test_hook.MouseDown()
+            shell_test_hook.MouseUp()
+
+            window_unmanaged.get()
+
+        app_debug_dbus_interface.WaitIdle()
+
+        dump_post = tmp_path / 'heap-post.dump'
+        app_debug_dbus_interface.DumpHeap(dump_post)
+
+        assert diff_heap(
+            dump_pre,
+            dump_post,
         ) == ''
 
     def test_dependencies(self, process_launcher, request):
