@@ -40,6 +40,9 @@ const Interface = GObject.registerClass({
             false
         ),
     },
+    Signals: {
+        'WindowCreated': {},
+    },
 }, class DDTermShellHookInterface extends GObject.Object {
     _init() {
         super._init();
@@ -50,6 +53,10 @@ const Interface = GObject.registerClass({
             this._connect_external(global, 'shutdown', () => this.Destroy());
 
         const { context, display } = global;
+
+        this._connect_external(display, 'window-created', () => {
+            this.emit('WindowCreated');
+        });
 
         this._connect_external(context, 'notify::unsafe-mode', () => {
             this.notify('UnsafeMode');
@@ -118,6 +125,10 @@ const Interface = GObject.registerClass({
         this._destroy_callbacks.push(() => Gio.Settings.unbind(this, 'ColorScheme'));
 
         this.wrapper = Gio.DBusExportedObject.wrapJSObject(DBUS_INTERFACE_INFO, this);
+
+        this.connect('WindowCreated', () => {
+            this.wrapper.emit_signal('WindowCreated', null);
+        });
 
         for (const property_info of this.wrapper.get_info().properties) {
             const { name, signature } = property_info;

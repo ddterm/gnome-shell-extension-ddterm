@@ -63,5 +63,7 @@
         <property name="UnsafeMode" type="b" access="readwrite"/>
         <property name="EnableAnimations" type="b" access="readwrite"/>
         <property name="ColorScheme" type="s" access="readwrite"/>
+
+        <signal name="WindowCreated"/>
     </interface>
 </node>
