@@ -147,7 +147,9 @@ function create_panel_icon(settings, window_matcher, app_control, gettext_contex
 
         promise.catch(
             e => logError(e, 'Failed to toggle ddterm through panel icon')
-        );
+        ).finally(() => {
+            panel_icon.active = window_matcher.current_window !== null;
+        });
     });
 
     panel_icon.active = window_matcher.current_window !== null;
