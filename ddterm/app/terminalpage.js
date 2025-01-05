@@ -96,7 +96,11 @@ export const TerminalPage = GObject.registerClass({
             orientation: Gtk.Orientation.HORIZONTAL,
         });
 
-        this.terminal = new Terminal({ visible: true });
+        this.terminal = new Terminal({
+            visible: true,
+            context_menu_model: this.terminal_menu,
+        });
+
         terminal_with_scrollbar.pack_start(this.terminal, true, true, 0);
 
         this.terminal_settings.bind_terminal(this.terminal);
@@ -153,13 +157,11 @@ export const TerminalPage = GObject.registerClass({
             GObject.BindingFlags.SYNC_CREATE
         );
 
-        // Should be connected before setup_popup_menu() on this.terminal!
         this.terminal.connect(
             'button-press-event',
             this.terminal_button_press_early.bind(this)
         );
 
-        this.terminal_popup_menu = this.setup_popup_menu(this.terminal, this.terminal_menu);
         this.setup_popup_menu(this.tab_label, this.tab_menu);
 
         const page_actions = new Gio.SimpleActionGroup();
@@ -515,15 +517,6 @@ export const TerminalPage = GObject.registerClass({
             }
         }
 
-        if (event.triggers_context_menu()) {
-            if (state & Gdk.ModifierType.SHIFT_MASK) {
-                if (!(state & (Gdk.ModifierType.CONTROL_MASK | Gdk.ModifierType.MOD1_MASK))) {
-                    this.terminal_popup_menu.popup_at_pointer(event);
-                    return true;
-                }
-            }
-        }
-
         return false;
     }
 
@@ -535,9 +528,6 @@ export const TerminalPage = GObject.registerClass({
     ) {
         const menu = Gtk.Menu.new_from_model(menu_model);
         menu.attach_widget = widget;
-
-        // https://github.com/ddterm/gnome-shell-extension-ddterm/issues/116
-        menu.get_style_context().add_class(Gtk.STYLE_CLASS_CONTEXT_MENU);
 
         widget.connect_after('button-press-event', (_, event) => {
             if (!event.triggers_context_menu())

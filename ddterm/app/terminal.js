@@ -6,6 +6,7 @@ import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
 import Gdk from 'gi://Gdk';
+import Gtk from 'gi://Gtk';
 import Vte from 'gi://Vte';
 
 import { tcgetpgrp, InterpreterNotFoundError } from './tcgetpgrp.js';
@@ -661,6 +662,73 @@ const TerminalBase = GObject.registerClass({
     }
 });
 
+const HAS_CONTEXT_MENU = GObject.Object.find_property.call(Vte.Terminal, 'context-menu-model');
+
+const TerminalContextMenu = HAS_CONTEXT_MENU ? null : GObject.registerClass({
+    Properties: {
+        'context-menu-model': GObject.ParamSpec.object(
+            'context-menu-model',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+            Gio.MenuModel
+        ),
+    },
+}, class DDTermTerminalContextMenu extends TerminalBase {
+    _init(params) {
+        super._init(params);
+
+        this.connect('button-press-event', this._button_press_early.bind(this));
+        this.connect_after('button-press-event', this._button_press_late.bind(this));
+        this.connect('popup-menu', this._popup_menu.bind(this));
+    }
+
+    _create_context_menu() {
+        let menu = Gtk.Menu.new_from_model(this.context_menu_model);
+
+        // https://github.com/ddterm/gnome-shell-extension-ddterm/issues/116
+        menu.get_style_context().add_class(Gtk.STYLE_CLASS_CONTEXT_MENU);
+        menu.attach_to_widget(this, (widget, m) => m.destroy());
+        menu.connect('selection-done', m => m.detach());
+
+        return menu;
+    }
+
+    _button_press_early(terminal, event) {
+        if (!event.triggers_context_menu())
+            return false;
+
+        const state = event.get_state()[1];
+
+        if (!(state & Gdk.ModifierType.SHIFT_MASK))
+            return false;
+
+        if (state & (Gdk.ModifierType.CONTROL_MASK | Gdk.ModifierType.MOD1_MASK))
+            return false;
+
+        this._create_context_menu().popup_at_pointer(event);
+
+        return true;
+    }
+
+    _button_press_late(terminal, event) {
+        if (!event.triggers_context_menu())
+            return false;
+
+        this._create_context_menu().popup_at_pointer(event);
+
+        return true;
+    }
+
+    _popup_menu() {
+        const menu = this._create_context_menu();
+
+        menu.popup_at_widget(this, Gdk.Gravity.SOUTH, Gdk.Gravity.SOUTH, null);
+
+        return true;
+    }
+});
+
 const TerminalTermprop = 'PropertyId' in Vte ? GObject.registerClass({
     Properties: {
         'window-title': GObject.ParamSpec.string(
@@ -717,4 +785,4 @@ const TerminalTermprop = 'PropertyId' in Vte ? GObject.registerClass({
     }
 }) : null;
 
-export const Terminal = TerminalTermprop ?? TerminalBase;
+export const Terminal = TerminalTermprop ?? TerminalContextMenu ?? TerminalBase;
