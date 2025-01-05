@@ -42,3 +42,5 @@ jobs:
   packaging:
     needs: build
     uses: ./.github/workflows/packaging.yml
+    with:
+      testspace: ${{ !github.event.repository.fork }}

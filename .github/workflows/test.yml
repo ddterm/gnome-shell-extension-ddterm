@@ -30,7 +30,7 @@ jobs:
       - name: Get GNOME Shell container images list from compose.yaml
         id: generate
         run: |
-          echo "matrix=$(./images.py matrix)" >>$GITHUB_OUTPUT
+          echo "matrix=$(./images.py matrix --exclude archlinux)" >>$GITHUB_OUTPUT
         working-directory: test
 
   test:

@@ -10,12 +10,22 @@ on:
         type: string
         default: ''
         required: false
+      testspace:
+        description: 'Publish report to Testspace'
+        type: boolean
+        default: false
+        required: false
   workflow_call:
     inputs:
       ref:
         description: 'Override git ref'
         type: string
         default: ''
+        required: false
+      testspace:
+        description: 'Publish report to Testspace'
+        type: boolean
+        default: false
         required: false
 
 env:
@@ -55,4 +65,98 @@ jobs:
 
     - run: extra-x86_64-build -- -U user -- --nocheck
 
+    - name: Upload package as artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: archlinux-package
+        path: |
+          *.pkg.tar.*
+          !*-namcap.log
+        if-no-files-found: error
+
     - run: extra-x86_64-build -- -U user
+
+  archlinux-test-installed:
+    needs: archlinux
+
+    runs-on: ubuntu-24.04
+    container:
+      image: ghcr.io/ddterm/ci-docker-image:2024.11.17.0
+      options: --privileged --tmpfs /run -v /tmp:/tmp --cgroupns=host
+
+    env:
+      FORCE_COLOR: 1
+      PIP_DISABLE_PIP_VERSION_CHECK: 1
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        ref: ${{ inputs.ref }}
+
+    - name: Enable generic error matcher
+      run: echo "::add-matcher::.github/problem-matchers/generic.json"
+
+    - run: git config --global --replace-all safe.directory "$GITHUB_WORKSPACE"
+
+    - name: Setup Testspace
+      id: setup_testspace
+      uses: testspace-com/setup-testspace@v1
+      with:
+        domain: ${{ github.repository_owner }}
+      continue-on-error: true
+      if: ${{ inputs.testspace }}
+
+    - name: Download extension package
+      uses: actions/download-artifact@v4
+      with:
+        name: archlinux-package
+
+    - name: Make directory writable
+      run: chmod a+rw . test
+
+    - name: Configure container for Podman
+      run: |
+        mount --make-rshared /
+        CGROUP="$(grep '^0::' /proc/self/cgroup)"
+        chown -R github-actions:github-actions "/sys/fs/cgroup${CGROUP#0::}"
+
+    - name: Pull GNOME Shell container image
+      run: >-
+        sudo --preserve-env --set-home --user=github-actions --
+        tox -e images -- pull archlinux
+
+    - name: Install Python test dependencies
+      run: >-
+        sudo --preserve-env --set-home --user=github-actions --
+        tox -vv --notest --sitepackages -e pytest
+
+    - name: Disable generic error matcher
+      run: |
+        echo "::remove-matcher owner=generic::"
+        echo "::remove-matcher owner=generic-nolocation::"
+
+    - name: Run tests
+      run: >-
+        exec sudo --preserve-env --set-home --user=github-actions --
+        tox --sitepackages -e pytest --
+        --self-contained-html
+        --junitxml=test/junit.xml
+        --container archlinux
+        --sys-package *.pkg.tar.*
+        --journald
+        -n auto
+        -vv
+
+    - name: Upload report to Testspace
+      run: testspace --verbose "[archlinux]./test/junit.xml" "[archlinux]+./test/report.html"
+      if: ${{ always() && steps.setup_testspace.outcome == 'success' }}
+
+    - name: Upload report as artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: archlinux-reports
+        path: |
+          test/report.html
+          test/junit.xml
+      if: always()
