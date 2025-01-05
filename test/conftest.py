@@ -113,6 +113,14 @@ def pytest_addoption(parser):
     )
 
     parser.addoption(
+        '--sys-package',
+        default=None,
+        required=False,
+        type=pathlib.Path,
+        help='OS-specific package to install instead of --package',
+    )
+
+    parser.addoption(
         '--gnome-extensions-tool',
         default='gnome-extensions',
         help='gnome-extensions executable',
@@ -163,8 +171,11 @@ def pytest_addoption(parser):
 
 def pytest_configure(config):
     if images := config.option.container:
-        if not config.option.package:
-            raise pytest.UsageError('If --container is specified, --package must be specified too')
+        if not config.option.package and not config.option.sys_package:
+            raise pytest.UsageError('--package or --sys-package is required for container')
+
+        if config.option.package and config.option.sys_package:
+            raise pytest.UsageError('Only one of --package or --sys-package should be specified')
 
         with open(COMPOSE_FILE) as f:
             import yaml
@@ -201,6 +212,9 @@ def pytest_configure(config):
 
     elif config.option.journald:
         raise pytest.UsageError('--journald can be used with containers only')
+
+    elif config.option.sys_package:
+        raise pytest.UsageError('--sys-package  can be used with containers only')
 
 
 class FdLock:
@@ -270,6 +284,10 @@ def container(tmp_path_factory, request):
     if package := request.config.option.package:
         package = pathlib.Path(package).resolve()
         create_cmd.append(f'--volume={package}:{package}:ro')
+
+    if sys_package := request.config.option.sys_package:
+        sys_package = pathlib.Path(sys_package).resolve()
+        create_cmd.append(f'--volume={sys_package}:{sys_package}:ro')
 
     if request.config.option.hw_accel:
         create_cmd.append('--device=/dev/dri/:/dev/dri/:rwm')
@@ -406,6 +424,24 @@ def os_id(process_launcher):
         '. /etc/os-release && echo $ID',
         stdout=subprocess.PIPE
     ).stdout.rstrip().decode()
+
+
+@pytest.fixture(scope='session')
+def sys_package(container, os_id, request):
+    sys_package = request.config.option.sys_package
+
+    if not sys_package:
+        return sys_package
+
+    process_launcher = procutil.ContainerExecLauncher(container_id=container, user=0)
+
+    if os_id == 'arch':
+        process_launcher.run('pacman', '-U', '--noconfirm', str(sys_package))
+
+    else:
+        raise Exception(f"Don't know how to install packages on {os_id}")
+
+    return sys_package
 
 
 @pytest.fixture(scope='session')

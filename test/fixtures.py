@@ -254,6 +254,7 @@ class GnomeSessionFixtures:
         dbus_daemon,
         dbus_connection,
         dbus_environment,
+        sys_package,
         request,
     ):
         LOGGER.info('GNOME Shell environment: %r', gnome_shell_environment)
