@@ -23,7 +23,7 @@ pkgver() {
 }
 
 build() {
-    arch-meson $pkgname build -Dlinters=disabled
+    arch-meson $pkgname build -Dlinters=disabled "-Dtests=$( ((CHECKFUNC)) && echo enabled || echo disabled )"
 
     # gtk-builder-tool needs X or Wayland
     LIBGL_ALWAYS_SOFTWARE=1 xvfb-run -- meson compile -C build
