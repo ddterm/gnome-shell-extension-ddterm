@@ -20,11 +20,17 @@ SRC_DIR = THIS_DIR.parent
 LOGGER = logging.getLogger(__name__)
 
 
-def diff_heap(dump_old, dump_new, hide_node=[], hide_edge=[]):
+def diff_heap(dump_old, dump_new, hide_node=[], hide_edge=[], gray_roots=True, weak_maps=True):
     ignore_args = [
-        '--no-gray-roots',
-        '--no-weak-maps',
+        '--hide-edge',
+        'dump_heap_dbus_invocation',
     ]
+
+    if not gray_roots:
+        ignore_args.append('--no-gray-roots')
+
+    if not weak_maps:
+        ignore_args.append('--no-weak-maps')
 
     for node in hide_node:
         ignore_args.extend(('--hide-node', node))
@@ -184,6 +190,7 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
         assert shell_test_hook.FocusApp == 'com.github.amezin.ddterm'
         assert test_file.read_text() == 'wl-clipboard-test-content\n\n'
 
+    @pytest.mark.parametrize('wait', [True, False])
     def test_cli_leak(
         self,
         process_launcher,
@@ -192,46 +199,60 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
         extension_dbus_interface,
         extension_test_hook,
         launcher_path,
-        tmp_path
+        tmp_path,
+        wait
     ):
         extension_dbus_interface.Activate(timeout=dbusutil.DEFAULT_LONG_TIMEOUT_MS)
         extension_test_hook.wait_property('RenderedFirstFrame', True)
         app_debug_dbus_interface.wait_connected()
 
         test_file = tmp_path / 'testfile'
+        n_tabs = app_debug_dbus_interface.NumTabs
 
-        process_launcher.run(
-            str(launcher_path),
-            '--wait',
-            '--',
-            'bash',
-            '-c',
-            f'echo 1 >{shlex.quote(str(test_file))}',
-            env=dbus_environment,
-        )
+        with app_debug_dbus_interface.watch_property('NumTabs') as num_tabs_watch:
+            process_launcher.run(
+                str(launcher_path),
+                *(['--wait'] if wait else []),
+                '--',
+                'bash',
+                '-c',
+                f'echo 1 >{shlex.quote(str(test_file))}',
+                env=dbus_environment,
+            )
 
-        assert test_file.read_text() == '1\n'
+            if not wait:
+                assert num_tabs_watch.get() == n_tabs + 1
+
+            assert test_file.read_text() == '1\n'
+
+            if wait:
+                assert num_tabs_watch.get() == n_tabs + 1
 
         dump_pre = tmp_path / 'heap-pre.dump'
-        app_debug_dbus_interface.WaitIdle()
-        app_debug_dbus_interface.WaitIdle()
+        app_debug_dbus_interface.wait_property('NumTabs', n_tabs)
         app_debug_dbus_interface.DumpHeap(dump_pre)
 
-        process_launcher.run(
-            str(launcher_path),
-            '--wait',
-            '--',
-            'bash',
-            '-c',
-            f'echo 2 >{shlex.quote(str(test_file))}',
-            env=dbus_environment,
-        )
+        with app_debug_dbus_interface.watch_property('NumTabs') as num_tabs_watch:
+            process_launcher.run(
+                str(launcher_path),
+                *(['--wait'] if wait else []),
+                '--',
+                'bash',
+                '-c',
+                f'echo 2 >{shlex.quote(str(test_file))}',
+                env=dbus_environment,
+            )
 
-        assert test_file.read_text() == '2\n'
+            if not wait:
+                assert num_tabs_watch.get() == n_tabs + 1
+
+            assert test_file.read_text() == '2\n'
+
+            if wait:
+                assert num_tabs_watch.get() == n_tabs + 1
 
         dump_post = tmp_path / 'heap-post.dump'
-        app_debug_dbus_interface.WaitIdle()
-        app_debug_dbus_interface.WaitIdle()
+        app_debug_dbus_interface.wait_property('NumTabs', n_tabs)
         app_debug_dbus_interface.DumpHeap(dump_post)
 
         assert diff_heap(
@@ -254,14 +275,12 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
         app_debug_dbus_interface.ShowPreferences()
         app_debug_dbus_interface.HidePreferences()
         app_debug_dbus_interface.WaitIdle()
-        app_debug_dbus_interface.WaitIdle()
 
         dump_pre = tmp_path / 'heap-pre.dump'
         app_debug_dbus_interface.DumpHeap(dump_pre)
 
         app_debug_dbus_interface.ShowPreferences()
         app_debug_dbus_interface.HidePreferences()
-        app_debug_dbus_interface.WaitIdle()
         app_debug_dbus_interface.WaitIdle()
 
         dump_post = tmp_path / 'heap-post.dump'

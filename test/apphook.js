@@ -184,8 +184,22 @@ class DebugInterface {
         System.gc();
     }
 
-    DumpHeap(path) {
-        System.dumpHeap(path);
+    DumpHeapAsync(params, dump_heap_dbus_invocation) {
+        dump_heap_dbus_invocation.__heapgraph_name = 'DumpHeapDBusInvocation';
+        const [path] = params;
+        params = null;
+
+        GLib.idle_add(GLib.PRIORITY_DEFAULT, () => {
+            try {
+                System.gc();
+                System.dumpHeap(path);
+                dump_heap_dbus_invocation.return_value(null);
+            } catch (ex) {
+                return_error(dump_heap_dbus_invocation, ex);
+            }
+
+            return GLib.SOURCE_REMOVE;
+        });
     }
 
     ShowPreferencesAsync(params, invocation) {
