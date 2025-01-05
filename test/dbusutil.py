@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+import collections
+import contextlib
 import logging
 
 from gi.repository import GLib, Gio
@@ -135,6 +137,46 @@ def _proxy_property_trace(proxy, pspec):
     LOGGER.info('%r: %s = %r', proxy, prop_name, proxy.get_property(prop_name))
 
 
+class SignalQueue:
+    def __init__(self, proxy):
+        self.proxy = proxy
+        self.emissions = collections.deque()
+
+    @contextlib.contextmanager
+    def connect(self, signal):
+        with glibutil.signal_handler(self.proxy, signal, lambda *args: self.emissions.append(args)):
+            yield self
+
+    @contextlib.contextmanager
+    def connect_property(self, name):
+        with glibutil.signal_handler(
+            self.proxy,
+            f'notify::{name}',
+            lambda *_: self.emissions.append(self.proxy.get_property(name))
+        ):
+            yield self
+
+    @contextlib.contextmanager
+    def connect_cached_property(self, name):
+        with glibutil.signal_handler(
+            self.proxy,
+            f'notify::{name}',
+            lambda *_: self.emissions.append(self.proxy.get_cached_property(name))
+        ):
+            yield self
+
+    def get(self, timeout_ms=DEFAULT_TIMEOUT_MS, context=None):
+        context = glibutil.context_default_thread(context)
+        deadline = glibutil.Deadline(timeout_ms)
+
+        while not self.emissions:
+            self.proxy.ensure_connected()
+
+            glibutil.wait_any_source(deadline.check_remaining_ms(), context=context)
+
+        return self.emissions.popleft()
+
+
 class Proxy(dbusproxy.Proxy):
     @classmethod
     def create(cls, *, timeout=DEFAULT_LONG_TIMEOUT_MS, g_flags=None, **kwargs):
@@ -191,6 +233,21 @@ class Proxy(dbusproxy.Proxy):
             self.ensure_connection_open()
 
             glibutil.wait_any_source(timeout_ms=deadline.check_remaining_ms())
+
+    @contextlib.contextmanager
+    def watch_signal(self, name):
+        with SignalQueue(self).connect(name) as queue:
+            yield queue
+
+    @contextlib.contextmanager
+    def watch_property(self, name):
+        with SignalQueue(self).connect_property(name) as queue:
+            yield queue
+
+    @contextlib.contextmanager
+    def watch_cached_property(self, name):
+        with SignalQueue(self).connect_cached_property(name) as queue:
+            yield queue
 
     def wait_property(self, name, value, timeout=None):
         # Make sure the cached value is up to date, avoid false match

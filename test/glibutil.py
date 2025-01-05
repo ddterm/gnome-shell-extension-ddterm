@@ -35,47 +35,47 @@ def timeout_source(timeout_ms, callback, *data, context=None):
         source.destroy()
 
 
-def wait_any_source(timeout_ms, context=None):
-    if context is None:
-        context = GLib.MainContext.get_thread_default()
-
-    if context is None:
-        context = GLib.MainContext.default()
-
+@contextlib.contextmanager
+def acquire_context(context):
     acquired = context.acquire()
 
     if not acquired:
         raise Exception('Cannot acquire context')
 
     try:
+        yield context
+
+    finally:
+        context.release()
+
+
+def context_default_thread(context=None):
+    if context is None:
+        context = GLib.MainContext.get_thread_default()
+
+    if context is None:
+        context = GLib.MainContext.default()
+
+    return context
+
+
+def wait_any_source(timeout_ms, context=None):
+    context = context_default_thread(context)
+
+    with acquire_context(context):
         with timeout_source(timeout_ms, lambda *_: GLib.SOURCE_REMOVE, context=context):
             context.iteration(True)
 
         while context.iteration(False):
             pass
 
-    finally:
-        context.release()
-
 
 def dispatch_pending_sources(context=None):
-    if context is None:
-        context = GLib.MainContext.get_thread_default()
+    context = context_default_thread(context)
 
-    if context is None:
-        context = GLib.MainContext.default()
-
-    acquired = context.acquire()
-
-    if not acquired:
-        raise Exception('Cannot acquire context')
-
-    try:
+    with acquire_context(context):
         while context.iteration(False):
             pass
-
-    finally:
-        context.release()
 
 
 @contextlib.contextmanager
