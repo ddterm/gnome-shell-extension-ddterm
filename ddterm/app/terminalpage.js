@@ -136,7 +136,11 @@ export const TerminalPage = GObject.registerClass({
                 this.terminal.grab_focus();
         });
 
-        this.tab_label = new TabLabel({ visible_window: false });
+        this.tab_label = new TabLabel({
+            visible_window: false,
+            context_menu_model: this.tab_menu,
+        });
+
         this.connect('destroy', () => this.tab_label.destroy());
         this.tab_label.connect('close', () => this.close());
         this.tab_label.connect('reset-label', () => {
@@ -161,8 +165,6 @@ export const TerminalPage = GObject.registerClass({
             'button-press-event',
             this.terminal_button_press_early.bind(this)
         );
-
-        this.setup_popup_menu(this.tab_label, this.tab_menu);
 
         const page_actions = new Gio.SimpleActionGroup();
 
@@ -518,31 +520,6 @@ export const TerminalPage = GObject.registerClass({
         }
 
         return false;
-    }
-
-    setup_popup_menu(
-        widget,
-        menu_model,
-        widget_anchor = Gdk.Gravity.SOUTH,
-        menu_anchor = Gdk.Gravity.SOUTH
-    ) {
-        const menu = Gtk.Menu.new_from_model(menu_model);
-        menu.attach_widget = widget;
-
-        widget.connect_after('button-press-event', (_, event) => {
-            if (!event.triggers_context_menu())
-                return false;
-
-            menu.popup_at_pointer(event);
-            return true;
-        });
-
-        widget.connect('popup-menu', () => {
-            menu.popup_at_widget(widget, widget_anchor, menu_anchor, null);
-            return true;
-        });
-
-        return menu;
     }
 
     find_next() {

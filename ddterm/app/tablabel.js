@@ -3,6 +3,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import GObject from 'gi://GObject';
+import Gio from 'gi://Gio';
+import Gdk from 'gi://Gdk';
 import Gtk from 'gi://Gtk';
 import Pango from 'gi://Pango';
 
@@ -44,6 +46,13 @@ export const TabLabel = GObject.registerClass({
         ),
         'action-name': GObject.ParamSpec.override('action-name', Gtk.Actionable),
         'action-target': GObject.ParamSpec.override('action-target', Gtk.Actionable),
+        'context-menu-model': GObject.ParamSpec.object(
+            'context-menu-model',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+            Gio.MenuModel
+        ),
     },
     Signals: {
         'close': {},
@@ -53,6 +62,9 @@ export const TabLabel = GObject.registerClass({
     _init(params) {
         super._init(params);
         this.__heapgraph_name = this.constructor.$gtype.name;
+
+        this.connect_after('button-press-event', this._button_press_event.bind(this));
+        this.connect('popup-menu', this._popup_menu.bind(this));
 
         const layout = new Gtk.Box({
             visible: true,
@@ -184,5 +196,28 @@ export const TabLabel = GObject.registerClass({
 
     vfunc_set_action_target_value(value) {
         this.shortcut_label.set_action_target_value(value);
+    }
+
+    _button_press_event(terminal, event) {
+        if (!event.triggers_context_menu())
+            return false;
+
+        const menu = Gtk.Menu.new_from_model(this.context_menu_model);
+
+        menu.attach_to_widget(this, (widget, m) => m.destroy());
+        menu.connect('selection-done', m => m.detach());
+        menu.popup_at_pointer(event);
+
+        return true;
+    }
+
+    _popup_menu() {
+        const menu = Gtk.Menu.new_from_model(this.context_menu_model);
+
+        menu.attach_to_widget(this, (widget, m) => m.destroy());
+        menu.connect('selection-done', m => m.detach());
+        menu.popup_at_widget(this, Gdk.Gravity.SOUTH, Gdk.Gravity.SOUTH, null);
+
+        return true;
     }
 });
