@@ -14,7 +14,7 @@ provides=('gnome-shell-extension-ddterm')
 depends=('gjs' 'gtk3' 'vte3' 'libhandy')
 makedepends=('meson' 'git' 'gtk4' 'libxslt' 'xorg-server-xvfb')
 checkdepends=('python-pytest' 'python-gobject' 'gnome-shell' 'wl-clipboard')
-source=("$pkgname::git+file://$(git rev-parse --show-toplevel)")
+source=("$pkgname::git+file://$(pwd)")
 md5sums=('SKIP')
 
 pkgver() {
