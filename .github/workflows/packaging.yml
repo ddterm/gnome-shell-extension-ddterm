@@ -38,7 +38,7 @@ defaults:
     shell: bash
 
 jobs:
-  archlinux:
+  archlinux-nocheck:
     runs-on: ubuntu-24.04
     container:
       image: archlinux:base-devel
@@ -74,10 +74,8 @@ jobs:
           !*-namcap.log
         if-no-files-found: error
 
-    - run: extra-x86_64-build -- -U user
-
   archlinux-test-installed:
-    needs: archlinux
+    needs: archlinux-nocheck
 
     runs-on: ubuntu-24.04
     container:
@@ -160,3 +158,30 @@ jobs:
           test/report.html
           test/junit.xml
       if: always()
+
+  archlinux:
+    runs-on: ubuntu-24.04
+    container:
+      image: archlinux:base-devel
+      options: --privileged --tmpfs /run
+
+    steps:
+    - run: pacman -Syu --noconfirm --noprogressbar devtools
+
+    - run: systemd-machine-id-setup
+
+    # https://gitlab.archlinux.org/archlinux/devtools/-/merge_requests/197
+    - run: sed -i 's/nspawn_args=(/nspawn_args=(--keep-unit /' /usr/bin/arch-nspawn
+
+    - run: useradd -m user
+
+    - name: Checkout
+      id: checkout
+      uses: actions/checkout@v4
+      with:
+        ref: ${{ inputs.ref }}
+        fetch-depth: 0  # for pkgver()
+
+    - run: chown -R user .
+
+    - run: extra-x86_64-build -- -U user
