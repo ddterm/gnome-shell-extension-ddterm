@@ -200,9 +200,6 @@ export const Notebook = GObject.registerClass({
             'new-tab-after-current': () => {
                 this.new_page(this.get_current_page() + 1).spawn();
             },
-            'close-current-tab': () => {
-                this.current_child?.destroy();
-            },
             'next-tab': () => {
                 const current = this.get_current_page();
                 const n_pages = this.get_n_pages();
