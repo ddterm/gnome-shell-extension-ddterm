@@ -5,8 +5,6 @@
 import contextlib
 import logging
 import os
-import signal
-import subprocess
 import sys
 import warnings
 
@@ -266,22 +264,7 @@ class GnomeSessionFixtures:
             real_pid = \
                 dbus_connection.get_stream().get_socket().get_credentials().get_unix_pid()
 
-            LOGGER.info('Sending SIGTERM to D-Bus daemon %r', real_pid)
-
-            os.kill(real_pid, signal.SIGTERM)
-
-            try:
-                dbus_daemon.wait(timeout=timeout)
-
-            except subprocess.TimeoutExpired:
-                LOGGER.info(
-                    'D-Bus daemon %r did not terminate after %s seconds, sending SIGKILL',
-                    real_pid,
-                    timeout,
-                )
-
-                os.kill(real_pid, signal.SIGKILL)
-                raise
+            procutil.shutdown_retry(dbus_daemon, real_pid=real_pid, timeout=timeout)
 
         process_launcher.run(
             str(request.config.option.gsettings_tool),

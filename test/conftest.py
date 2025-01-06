@@ -9,7 +9,6 @@ import inspect
 import logging
 import os
 import pathlib
-import signal
 import subprocess
 
 import pytest
@@ -493,7 +492,7 @@ def system_bus(process_launcher, global_environment, tmp_path_factory, request):
 
             pid = int(pid_file.read_text().strip())
 
-            stack.callback(lambda: os.kill(pid, signal.SIGTERM))
+            stack.callback(lambda: procutil.shutdown_retry(proc, pid))
 
         yield proc
 

@@ -8,12 +8,59 @@ import os
 import shlex
 import signal
 import subprocess
+import time
 
 
 LOGGER = logging.getLogger(__name__)
 
 DEFAULT_TIMEOUT = 25
 DEFAULT_SHUTDOWN_TIMEOUT = 10
+
+
+def shutdown_retry(
+    popen,
+    real_pid=None,
+    timeout=DEFAULT_SHUTDOWN_TIMEOUT,
+    interval=DEFAULT_SHUTDOWN_TIMEOUT / 10,
+    shutdown_signal=signal.SIGTERM,
+):
+    if popen.poll() is not None:
+        return
+
+    if real_pid is None:
+        real_pid = popen.pid
+
+    deadline = time.monotonic() + timeout
+    remaining = timeout
+    command = shlex.join(popen.args)
+
+    try:
+        while True:
+            LOGGER.info('Sending %r to pid %r (%r)', shutdown_signal, real_pid, command)
+
+            os.kill(real_pid, shutdown_signal)
+
+            try:
+                popen.wait(timeout=min(interval, remaining))
+                break
+
+            except subprocess.TimeoutExpired:
+                remaining = deadline - time.monotonic()
+
+                if remaining < 0:
+                    raise
+
+    except subprocess.TimeoutExpired:
+        LOGGER.info(
+            'Pid %r (%r) did not terminate after %s seconds, sending %r',
+            real_pid,
+            command,
+            timeout,
+            signal.SIGKILL,
+        )
+
+        os.kill(real_pid, signal.SIGKILL)
+        raise
 
 
 class Launcher:
