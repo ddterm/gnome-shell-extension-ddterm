@@ -21,6 +21,8 @@
         </method>
         <method name="ShowPreferences"/>
         <method name="HidePreferences"/>
+        <method name="NewTab"/>
+        <method name="CloseTab"/>
         <signal name="WindowEvent">
             <arg type="s"/>
         </signal>
