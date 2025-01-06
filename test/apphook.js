@@ -53,38 +53,54 @@ class DebugInterface {
         if (this.window === win)
             return;
 
-        while (this.window_handlers?.length)
-            this.window.disconnect(this.window_handlers.pop());
+        while (this.disconnect_callbacks?.length)
+            this.disconnect_callbacks.pop()();
 
         this.window = win;
 
         if (!win)
             return;
 
-        this.window_handlers = [
-            win.connect('destroy', () => {
+        const connect = (obj, signal, handler) => {
+            const handler_id = obj.connect(signal, handler);
+
+            return () => obj.disconnect(handler_id);
+        };
+
+        this.disconnect_callbacks = [
+            connect(win, 'destroy', () => {
                 if (win === this.window)
                     this.connect_window(null);
             }),
-            win.connect('event', (_, event) => {
+            connect(win, 'event', (_, event) => {
                 this.emit_event(event);
 
                 return false;
             }),
-            win.connect('configure-event', () => {
+            connect(win, 'configure-event', () => {
                 this.emit_configure_event(win.get_size());
 
                 return false;
             }),
-            win.connect('window-state-event', () => {
+            connect(win, 'window-state-event', () => {
                 this.emit_window_state_event(win.window.get_state());
 
                 return false;
             }),
-            win.connect('size-allocate', (_, rect) => {
+            connect(win, 'size-allocate', (_, rect) => {
                 this.emit_size_allocate(rect);
             }),
         ];
+
+        const notify_num_tabs = this.notify_num_tabs.bind(this);
+
+        for (const notebook of [win.paned.get_child1(), win.paned.get_child2()]) {
+            this.disconnect_callbacks.push(connect(notebook, 'page-added', notify_num_tabs));
+            this.disconnect_callbacks.push(connect(notebook, 'page-removed', notify_num_tabs));
+        }
+
+        this.disconnect_callbacks.push(notify_num_tabs);
+        this.notify_num_tabs();
     }
 
     emit_event(event) {
@@ -198,6 +214,19 @@ class DebugInterface {
 
     get Connected() {
         return true;
+    }
+
+    get NumTabs() {
+        if (!this.window)
+            return 0;
+
+        const { paned } = this.window;
+
+        return paned.get_child1().get_n_pages() + paned.get_child2().get_n_pages();
+    }
+
+    notify_num_tabs() {
+        this.dbus.emit_property_changed('NumTabs', GLib.Variant.new_uint32(this.NumTabs));
     }
 }
 
