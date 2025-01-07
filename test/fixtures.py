@@ -46,6 +46,8 @@ IGNORED_LOG_ISSUES_BY_OS = {
     ]
 }
 
+MAX_GNOME_VERSION = 99
+
 
 def mkdir(path):
     path.mkdir(mode=0o700)
@@ -245,6 +247,26 @@ class GnomeSessionFixtures:
         }
 
     @pytest.fixture(scope='class')
+    def disable_major_update(self, gnome_data_dir):
+        for v in range(40, MAX_GNOME_VERSION + 1):
+            (gnome_data_dir / f'update-check-{v}').touch()
+
+    @pytest.fixture(scope='class')
+    def disable_extension_download(self, gnome_data_dir):
+        (gnome_data_dir / 'extension-updates').mkdir(mode=0o555)
+
+    @pytest.fixture(scope='class')
+    def disable_welcome_dialog(self, process_launcher, dbus_environment, request):
+        process_launcher.run(
+            str(request.config.option.gsettings_tool),
+            'set',
+            'org.gnome.shell',
+            'welcome-dialog-last-shown-version',
+            str(GLib.Variant('s', f'{MAX_GNOME_VERSION}.0')),
+            env=dbus_environment,
+        )
+
+    @pytest.fixture(scope='class')
     def shell_process(
         self,
         container,
@@ -254,6 +276,9 @@ class GnomeSessionFixtures:
         dbus_daemon,
         dbus_connection,
         dbus_environment,
+        disable_major_update,
+        disable_extension_download,
+        disable_welcome_dialog,
         sys_package,
         request,
     ):
@@ -267,15 +292,6 @@ class GnomeSessionFixtures:
                 dbus_connection.get_stream().get_socket().get_credentials().get_unix_pid()
 
             procutil.shutdown_retry(dbus_daemon, real_pid=real_pid, timeout=timeout)
-
-        process_launcher.run(
-            str(request.config.option.gsettings_tool),
-            'set',
-            'org.gnome.shell',
-            'welcome-dialog-last-shown-version',
-            str(GLib.Variant('s', '99.0')),
-            env=dbus_environment,
-        )
 
         process_launcher.run(
             str(request.config.option.gsettings_tool),
@@ -396,7 +412,19 @@ class GnomeSessionFixtures:
             proxy.Destroy()
 
     @pytest.fixture(scope='class')
-    def shell_init(self, shell_test_hook, display_config, initial_monitor_layout):
+    def disable_extension_updates(self, shell_dbus_interface):
+        shell_dbus_interface.Eval(
+            'Object.defineProperty(Main.extensionManager, "updatesSupported", { value: false })'
+        )
+
+    @pytest.fixture(scope='class')
+    def shell_init(
+        self,
+        disable_extension_updates,
+        shell_test_hook,
+        display_config,
+        initial_monitor_layout
+    ):
         shell_test_hook.wait_property('StartingUp', False, timeout=dbusutil.DEFAULT_LONG_TIMEOUT_MS)
 
         display_config.configure(initial_monitor_layout)
