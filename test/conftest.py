@@ -476,30 +476,20 @@ def system_bus(process_launcher, global_environment, tmp_path_factory, request):
                 open(address_r, 'rb', buffering=0, closefd=True)
             )
 
-            pid_r, pid_w = os.pipe()
-            start_stack.callback(os.close, pid_w)
-
-            pid_reader = start_stack.enter_context(
-                open(pid_r, 'rb', buffering=0, closefd=True)
-            )
-
             proc = run_stack.enter_context(process_launcher.spawn(
                 str(request.config.option.dbus_daemon),
                 f'--config-file={config_path}',
                 '--nosyslog',
                 '--nofork',
-                f'--print-pid={pid_w}',
                 f'--print-address={address_w}',
-                pass_fds=(pid_w, address_w,),
+                pass_fds=(address_w,),
                 env=global_environment,
             ))
 
+            run_stack.callback(lambda: procutil.shutdown_retry(proc))
+
             # read to end doesn't work when passing fd through podman
             # podman keeps the fd open even when the target process closes it
-            pid = int(pid_reader.readline().rstrip().decode())
-
-            run_stack.callback(lambda: procutil.shutdown_retry(proc, pid))
-
             proc.address = address_reader.readline().rstrip().decode()
 
         yield proc
