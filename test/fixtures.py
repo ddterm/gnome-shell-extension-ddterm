@@ -157,13 +157,6 @@ class GnomeSessionFixtures:
                     open(address_r, 'rb', buffering=0, closefd=True)
                 )
 
-                pid_r, pid_w = os.pipe()
-                start_stack.callback(os.close, pid_w)
-
-                pid_reader = start_stack.enter_context(
-                    open(pid_r, 'rb', buffering=0, closefd=True)
-                )
-
                 proc = run_stack.enter_context(process_launcher.spawn(
                     str(request.config.option.dbus_daemon),
                     '--session',
@@ -171,18 +164,13 @@ class GnomeSessionFixtures:
                     '--syslog' if container else '--nosyslog',
                     '--nofork',
                     '--address=unix:runtime=yes',
-                    f'--print-pid={pid_w}',
                     f'--print-address={address_w}',
-                    pass_fds=(pid_w, address_w,),
+                    pass_fds=(address_w,),
                     env=dbus_daemon_environment,
                 ))
 
                 # read to end doesn't work when passing fd through podman
                 # podman keeps the fd open even when the target process closes it
-                proc.real_pid = int(pid_reader.readline().rstrip().decode())
-
-                run_stack.callback(lambda: procutil.shutdown_retry(proc, proc.real_pid))
-
                 proc.address = address_reader.readline().rstrip().decode()
 
             yield proc
@@ -275,7 +263,10 @@ class GnomeSessionFixtures:
             if dbus_daemon.poll() is not None:
                 return
 
-            procutil.shutdown_retry(dbus_daemon, dbus_daemon.real_pid, timeout=timeout)
+            real_pid = \
+                dbus_connection.get_stream().get_socket().get_credentials().get_unix_pid()
+
+            procutil.shutdown_retry(dbus_daemon, real_pid=real_pid, timeout=timeout)
 
         process_launcher.run(
             str(request.config.option.gsettings_tool),
