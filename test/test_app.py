@@ -146,6 +146,7 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
         extension_dbus_interface,
         extension_test_hook,
         shell_test_hook,
+        app_debug_dbus_interface,
         launcher_path,
         tmp_path,
         request,
@@ -154,6 +155,9 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
         extension_test_hook.wait_property('RenderedFirstFrame', True)
 
         assert shell_test_hook.FocusApp == 'com.github.amezin.ddterm'
+
+        app_debug_dbus_interface.wait_connected()
+        n_tabs = app_debug_dbus_interface.NumTabs
 
         process_launcher.run(
             str(launcher_path),
@@ -189,6 +193,9 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
 
         assert shell_test_hook.FocusApp == 'com.github.amezin.ddterm'
         assert test_file.read_text() == 'wl-clipboard-test-content\n\n'
+
+        app_debug_dbus_interface.wait_property('NumTabs', n_tabs + 2)
+        app_debug_dbus_interface.WaitIdle()
 
     @pytest.mark.parametrize('wait', [True, False])
     def test_cli_leak(
