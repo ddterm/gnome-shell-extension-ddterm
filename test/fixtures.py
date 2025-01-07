@@ -142,10 +142,11 @@ class GnomeSessionFixtures:
         container,
         process_launcher,
         dbus_daemon_environment,
-        xdg_runtime_dir,
         request,
     ):
         LOGGER.info('D-Bus daemon environment: %r', dbus_daemon_environment)
+
+        assert 'XDG_RUNTIME_DIR' in dbus_daemon_environment
 
         with contextlib.ExitStack() as run_stack:
             with contextlib.ExitStack() as start_stack:
@@ -169,8 +170,8 @@ class GnomeSessionFixtures:
                     '--nopidfile',
                     '--syslog' if container else '--nosyslog',
                     '--nofork',
+                    '--address=unix:runtime=yes',
                     f'--print-pid={pid_w}',
-                    f'--address=unix:dir={xdg_runtime_dir}',
                     f'--print-address={address_w}',
                     pass_fds=(pid_w, address_w,),
                     env=dbus_daemon_environment,
