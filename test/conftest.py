@@ -448,7 +448,6 @@ def system_bus(process_launcher, global_environment, tmp_path_factory, request):
     system_bus_dir = tmp_path_factory.mktemp('system_bus')
     services_dir = system_bus_dir / 'system-services'
     config_path = system_bus_dir / 'system.conf'
-    pid_file = system_bus_dir / 'dbus-daemon.pid'
 
     config_path.write_text(f'''
         <!DOCTYPE busconfig PUBLIC "-//freedesktop//DTD D-Bus Bus Configuration 1.0//EN"
@@ -458,7 +457,6 @@ def system_bus(process_launcher, global_environment, tmp_path_factory, request):
             <keep_umask/>
             <listen>unix:dir={system_bus_dir}</listen>
             <servicedir>{services_dir}</servicedir>
-            <pidfile>{pid_file}</pidfile>
             <policy context="default">
                 <allow send_destination="*" eavesdrop="true"/>
                 <allow eavesdrop="true"/>
@@ -468,31 +466,41 @@ def system_bus(process_launcher, global_environment, tmp_path_factory, request):
     ''')
 
     services_dir.mkdir()
-    address_r, address_w = os.pipe()
 
-    with contextlib.ExitStack() as stack:
-        with open(address_r, 'rb', buffering=0, closefd=True) as address_reader:
-            try:
-                proc = stack.enter_context(process_launcher.spawn(
-                    str(request.config.option.dbus_daemon),
-                    f'--config-file={config_path}',
-                    '--nosyslog',
-                    '--nofork',
-                    f'--print-address={address_w}',
-                    pass_fds=(address_w,),
-                    env=global_environment,
-                ))
+    with contextlib.ExitStack() as run_stack:
+        with contextlib.ExitStack() as start_stack:
+            address_r, address_w = os.pipe()
+            start_stack.callback(os.close, address_w)
 
-            finally:
-                os.close(address_w)
+            address_reader = start_stack.enter_context(
+                open(address_r, 'rb', buffering=0, closefd=True)
+            )
+
+            pid_r, pid_w = os.pipe()
+            start_stack.callback(os.close, pid_w)
+
+            pid_reader = start_stack.enter_context(
+                open(pid_r, 'rb', buffering=0, closefd=True)
+            )
+
+            proc = run_stack.enter_context(process_launcher.spawn(
+                str(request.config.option.dbus_daemon),
+                f'--config-file={config_path}',
+                '--nosyslog',
+                '--nofork',
+                f'--print-pid={pid_w}',
+                f'--print-address={address_w}',
+                pass_fds=(pid_w, address_w,),
+                env=global_environment,
+            ))
 
             # read to end doesn't work when passing fd through podman
             # podman keeps the fd open even when the target process closes it
+            pid = int(pid_reader.readline().rstrip().decode())
+
+            run_stack.callback(lambda: procutil.shutdown_retry(proc, pid))
+
             proc.address = address_reader.readline().rstrip().decode()
-
-            pid = int(pid_file.read_text().strip())
-
-            stack.callback(lambda: procutil.shutdown_retry(proc, pid))
 
         yield proc
 
