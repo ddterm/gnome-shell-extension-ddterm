@@ -129,6 +129,11 @@ class GnomeSessionFixtures:
 
         (gnome_data_dir / 'lock-warning-shown').touch()
 
+        for v in range(40, MAX_GNOME_VERSION + 1):
+            (gnome_data_dir / f'update-check-{v}').touch()
+
+        (gnome_data_dir / 'extension-updates').mkdir(mode=0o555)
+
         return env
 
     @pytest.fixture(scope='class')
@@ -247,15 +252,6 @@ class GnomeSessionFixtures:
         }
 
     @pytest.fixture(scope='class')
-    def disable_major_update(self, gnome_data_dir):
-        for v in range(40, MAX_GNOME_VERSION + 1):
-            (gnome_data_dir / f'update-check-{v}').touch()
-
-    @pytest.fixture(scope='class')
-    def disable_extension_download(self, gnome_data_dir):
-        (gnome_data_dir / 'extension-updates').mkdir(mode=0o555)
-
-    @pytest.fixture(scope='class')
     def disable_welcome_dialog(self, process_launcher, dbus_environment, request):
         process_launcher.run(
             str(request.config.option.gsettings_tool),
@@ -276,8 +272,6 @@ class GnomeSessionFixtures:
         dbus_daemon,
         dbus_connection,
         dbus_environment,
-        disable_major_update,
-        disable_extension_download,
         disable_welcome_dialog,
         sys_package,
         request,
