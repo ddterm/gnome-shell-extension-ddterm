@@ -13,7 +13,6 @@ const gi = imports.gi;
 
 // SPDX-SnippetBegin
 // SDPX-SnippetName: require() function from GJS 1.68 modules/esm/gi.js
-// SPDX-License-Identifier: MIT OR LGPL-2.0-or-later
 // SPDX-SnippetCopyrightText: 2020 Evan Welsh <contact@evanwelsh.com>
 
 function require(namespace, version = undefined) {

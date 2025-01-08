@@ -27,7 +27,6 @@ function getCurrentExtension() {
 
 // SPDX-SnippetBegin
 // SDPX-SnippetName: installImporter() function from GNOME Shell 40 js/misc/extensionUtils.js
-// SPDX-License-Identifier: GPL-2.0-or-later
 // SPDX-SnippetCopyrightText: 2016 Philip Chimento
 // SPDX-SnippetCopyrightText: 2016 Florian Müllner
 

@@ -188,14 +188,6 @@ pack += files(
   'REUSE.toml',
 )
 
-if not get_option('esm')
-  pack += files(
-    'LICENSES' / 'GPL-2.0-or-later.txt',
-    'LICENSES' / 'LGPL-2.0-or-later.txt',
-    'LICENSES' / 'MIT.txt',
-  )
-endif
-
 pack_target = custom_target(
   command: make_zip_command,
   input: pack,
