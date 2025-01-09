@@ -21,13 +21,16 @@ gi_require({
     'Handy': '1',
 });
 
+function intern_string(str) {
+    // Otherwise dynamically generated strings don't work in __heapgraph_name
+    return Symbol.for(str).description;
+}
+
 function get_heapgraph_name(obj) {
     const gtypename = obj.constructor.$gtype.name;
 
-    /* Template literals don't work in __heapgraph_name! */
-
     if (obj instanceof Gio.Action)
-        return [gtypename, '(', obj.name, ')'].join('');
+        return intern_string(`${gtypename}(${obj.name})`);
 
     return gtypename;
 }
@@ -43,7 +46,7 @@ const old_connect_after = GObject.Object.prototype.connect_after;
 GObject.Object.prototype.connect = function (signal, handler) {
     set_heapgraph_name(this);
 
-    handler.__heapgraph_name = [this.__heapgraph_name, signal].join('.');
+    handler.__heapgraph_name = intern_string(`${this.__heapgraph_name}.${signal}`);
 
     return old_connect.call(this, signal, handler);
 };
@@ -51,7 +54,7 @@ GObject.Object.prototype.connect = function (signal, handler) {
 GObject.Object.prototype.connect_after = function (signal, handler) {
     set_heapgraph_name(this);
 
-    handler.__heapgraph_name = [this.__heapgraph_name, signal].join('.');
+    handler.__heapgraph_name = intern_string(`${this.__heapgraph_name}.${signal}`);
 
     return old_connect_after.call(this, signal, handler);
 };
