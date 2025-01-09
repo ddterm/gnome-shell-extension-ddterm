@@ -12,20 +12,28 @@ const MessageTray = imports.ui.messageTray;
 const gi = imports.gi;
 
 // SPDX-SnippetBegin
-// SDPX-SnippetName: require() function from GJS 1.68 modules/esm/gi.js
+// SDPX-SnippetName: require() function from GJS 1.76 modules/esm/gi.js
 // SPDX-SnippetCopyrightText: 2020 Evan Welsh <contact@evanwelsh.com>
 
 function require(namespace, version = undefined) {
-    if (version !== undefined) {
-        const alreadyLoadedVersion = gi.versions[namespace];
-        if (alreadyLoadedVersion !== undefined && version !== alreadyLoadedVersion) {
-            throw new Error(`Version ${alreadyLoadedVersion} of GI module ${
+    let oldVersion = gi.versions[namespace];
+    if (version !== undefined)
+        gi.versions[namespace] = version;
+
+    try {
+        const module = gi[namespace];
+
+        if (version !== undefined && version !== module.__version__) {
+            throw new Error(`Version ${module.__version__} of GI module ${
                 namespace} already loaded, cannot load version ${version}`);
         }
-        gi.versions[namespace] = version;
-    }
 
-    return gi[namespace];
+        return module;
+    } catch (error) {
+        // Roll back change to versions object if import failed
+        gi.versions[namespace] = oldVersion;
+        throw error;
+    }
 }
 
 // SPDX-SnippetEnd
