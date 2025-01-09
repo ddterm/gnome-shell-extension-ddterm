@@ -231,6 +231,8 @@ class GnomeSessionFixtures:
                     '-screen',
                     '0',
                     str(xvfb_screen_config),
+                    '-fakescreenfps',
+                    '60',
                     '-nolisten',
                     'tcp',
                     '-noreset',
