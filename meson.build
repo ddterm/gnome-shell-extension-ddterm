@@ -29,20 +29,20 @@ dbus_service_dir = datadir / 'dbus-1' / 'services'
 
 if get_option('esm')
   gjs_req = '>=1.78.0'
-  gnome_shell_req = '>=45.0'
+  gnome_shell_req = ['>=45.0', '<48.0']
+  shell_versions = '["45.0", "46.0", "47.0"]'  # as JSON array
 
   extension_main_src_file = files('extension.js')
   prefs_main_src_file = files('prefs.js')
-  metadata_template = files('metadata.json.in')
 
   pack_name = f'@uuid@.shell-extension.zip'
 else
   gjs_req = '>=1.72.0'
   gnome_shell_req = ['>=42.0', '<45.0']
+  shell_versions = '["42.0", "43.0", "44.0"]'  # as JSON array
 
   extension_main_src_file = files('extension.legacy.js')
   prefs_main_src_file = files('prefs.legacy.js')
-  metadata_template = files('metadata.legacy.json.in')
 
   pack_name = f'@uuid@.legacy.shell-extension.zip'
 endif
@@ -98,21 +98,23 @@ gnome_shell = find_program(
 )
 
 metadata = configuration_data()
+metadata.set_quoted('name', meson.project_name())
 metadata.set('version', meson.project_version())
 metadata.set_quoted('uuid', uuid)
 metadata.set_quoted('gettext_domain', gettext_domain)
 metadata.set_quoted('settings_schema', settings_schema)
+metadata.set('shell_versions', shell_versions)
 
 pack = [
   configure_file(
-    input: metadata_template,
+    input: 'metadata.json.in',
     output: 'metadata.json',
     configuration: metadata,
     install: true,
     install_dir: extension_dir,
   ),
   fs.copyfile(
-    fs.name(metadata_template) + '.license',
+    'metadata.json.in.license',
     'metadata.json.license',
     install: true,
     install_dir: extension_dir,
