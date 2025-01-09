@@ -233,12 +233,14 @@ class GnomeSessionFixtures:
                     str(xvfb_screen_config),
                     '-nolisten',
                     'tcp',
-                    '-terminate',
+                    '-noreset',
                     '-displayfd',
                     str(display_w),
                     pass_fds=(display_w,),
                     env=environment,
                 ))
+
+                run_stack.callback(procutil.shutdown_retry, proc)
 
                 # read to end doesn't work when passing fd through podman
                 # podman keeps the fd open even when the target process closes it
