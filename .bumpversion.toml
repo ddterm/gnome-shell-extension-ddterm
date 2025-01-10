@@ -6,10 +6,6 @@
 current_version = "56"
 parse = "(?P<major>\\d+)"
 serialize = ["{major}"]
-commit = true
-message = "version: release {new_version}"
-tag = true
-tag_message = ""
 
 [[tool.bumpversion.files]]
 filename = "meson.build"
