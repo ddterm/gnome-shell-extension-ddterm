@@ -392,4 +392,4 @@ test(
   suite: ['flake8', 'lint-source'],
 )
 
-subdir('test')
+subdir('tests')

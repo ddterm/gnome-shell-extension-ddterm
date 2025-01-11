@@ -14,7 +14,7 @@ PATTERNS = [
     ':/**/*.desktop.in',
     ':/**/*.desktop.in.in',
     # exclude, just in case
-    ':!/test/',
+    ':!/tests/',
     ':!/tools/',
 ]
 

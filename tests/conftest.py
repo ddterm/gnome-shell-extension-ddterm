@@ -17,11 +17,11 @@ from . import procutil
 
 
 pytest_plugins = (
-    'test.screenshot',
-    'test.syslog',
-    'test.logsync',
-    'test.gtest_output_compat',
-    'test.github_annotations',
+    'tests.screenshot',
+    'tests.syslog',
+    'tests.logsync',
+    'tests.gtest_output_compat',
+    'tests.github_annotations',
 )
 
 LOGGER = logging.getLogger(__name__)

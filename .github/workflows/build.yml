@@ -124,7 +124,7 @@ jobs:
         if ! git diff --exit-code --color=always -- requirements
         then
           echo "::error:: Python dependencies lock files are out of date"
-          echo "::error:: Please run test/requirements/pip-compile.sh"
+          echo "::error:: Please run requirements/pip-compile.sh"
           exit 1
         fi
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
@@ -135,10 +135,10 @@ jobs:
         if ! git diff --exit-code --color=always -- .
         then
           echo "::error:: PICT test cases are out of sync with models"
-          echo "::error:: Please run test/pict/gen.sh"
+          echo "::error:: Please run tests/pict/gen.sh"
           exit 1
         fi
-      working-directory: test/pict
+      working-directory: tests/pict
 
     - name: Upload reports to Testspace
       run: testspace --verbose eslint.xml "*.log{lint}"

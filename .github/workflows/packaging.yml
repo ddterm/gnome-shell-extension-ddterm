@@ -111,7 +111,7 @@ jobs:
         name: archlinux-package
 
     - name: Make directory writable
-      run: chmod a+rw . test
+      run: chmod a+rw . tests
 
     - name: Configure container for Podman
       run: |
@@ -139,7 +139,7 @@ jobs:
         exec sudo --preserve-env --set-home --user=github-actions --
         tox --sitepackages -e pytest --
         --self-contained-html
-        --junitxml=test/junit.xml
+        --junitxml=tests/junit.xml
         --container archlinux
         --sys-package *.pkg.tar.*
         --journald
@@ -147,7 +147,7 @@ jobs:
         -vv
 
     - name: Upload report to Testspace
-      run: testspace --verbose "[archlinux]./test/junit.xml" "[archlinux]+./test/report.html"
+      run: testspace --verbose "[archlinux]./tests/junit.xml" "[archlinux]+./tests/report.html"
       if: ${{ always() && steps.setup_testspace.outcome == 'success' }}
 
     - name: Upload report as artifact
@@ -155,8 +155,8 @@ jobs:
       with:
         name: archlinux-reports
         path: |
-          test/report.html
-          test/junit.xml
+          tests/report.html
+          tests/junit.xml
       if: always()
 
   archlinux:

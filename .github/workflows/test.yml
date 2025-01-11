@@ -31,7 +31,7 @@ jobs:
         id: generate
         run: |
           echo "matrix=$(./images.py matrix --exclude archlinux)" >>$GITHUB_OUTPUT
-        working-directory: test
+        working-directory: tests
 
   test:
     needs: configure
@@ -73,7 +73,7 @@ jobs:
         name: ${{ matrix.profile == 'esm' && 'pack' || 'pack-legacy' }}
 
     - name: Make directory writable
-      run: chmod a+rw . test
+      run: chmod a+rw . tests
 
     - name: Configure container for Podman
       run: |
@@ -101,7 +101,7 @@ jobs:
         exec sudo --preserve-env --set-home --user=github-actions --
         tox --sitepackages -e pytest --
         --self-contained-html
-        --junitxml=test/junit.xml
+        --junitxml=tests/junit.xml
         --container ${{ matrix.service }}
         --package *.shell-extension.zip
         ${{ !contains(matrix.service, 'alpine') && '--journald' || '' }}
@@ -109,7 +109,7 @@ jobs:
         -vv
 
     - name: Upload report to Testspace
-      run: testspace --verbose "[${{ matrix.service }}]./test/junit.xml" "[${{ matrix.service }}]+./test/report.html"
+      run: testspace --verbose "[${{ matrix.service }}]./tests/junit.xml" "[${{ matrix.service }}]+./tests/report.html"
       if: ${{ always() && steps.setup_testspace.outcome == 'success' }}
 
     - name: Upload report as artifact
@@ -117,6 +117,6 @@ jobs:
       with:
         name: ${{ matrix.service }}-reports
         path: |
-          test/report.html
-          test/junit.xml
+          tests/report.html
+          tests/junit.xml
       if: always()

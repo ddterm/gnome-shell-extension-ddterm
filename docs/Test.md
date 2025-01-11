@@ -103,4 +103,4 @@ Application's UI is (mostly) not covered.
 
 [pairwise testing]: https://www.pairwise.org/
 [PICT]: https://github.com/microsoft/pict
-[`compose.yaml`]: /test/compose.yaml
+[`compose.yaml`]: /tests/compose.yaml

@@ -43,7 +43,7 @@ end
 rsync_args = [
   '-avcS',
   '--exclude-from=.gitignore',
-  '--exclude-from=test/.gitignore',
+  '--exclude-from=tests/.gitignore',
   '--exclude-from=tools/.gitignore',
 ]
 

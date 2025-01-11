@@ -41,7 +41,7 @@ export default [
     {
         files: [
             'ddterm/shell/**',
-            'test/{shell,extension,settings}hook.js',
+            'tests/{shell,extension,settings}hook.js',
         ],
         languageOptions: {
             globals: {
