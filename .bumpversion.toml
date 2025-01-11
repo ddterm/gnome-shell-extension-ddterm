@@ -13,8 +13,8 @@ tag_message = ""
 
 [[tool.bumpversion.files]]
 filename = "meson.build"
-search = "'{current_version}'"
-replace = "'{new_version}'"
+search = "version: '{current_version}'"
+replace = "version: '{new_version}'"
 
 [[tool.bumpversion.files]]
 filename = "PKGBUILD"
