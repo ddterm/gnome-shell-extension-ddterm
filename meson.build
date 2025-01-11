@@ -30,7 +30,7 @@ dbus_service_dir = datadir / 'dbus-1' / 'services'
 if get_option('esm')
   gjs_req = '>=1.78.0'
   gnome_shell_req = ['>=45.0', '<48.0']
-  shell_versions = '["45", "46", "47"]'  # as JSON array
+  shell_versions = ['45', '46', '47']
 
   extension_main_src_file = files('extension.js')
   prefs_main_src_file = files('prefs.js')
@@ -39,7 +39,7 @@ if get_option('esm')
 else
   gjs_req = '>=1.72.0'
   gnome_shell_req = ['>=42.0', '<45.0']
-  shell_versions = '["42", "43", "44"]'  # as JSON array
+  shell_versions = ['42', '43', '44']
 
   extension_main_src_file = files('extension.legacy.js')
   prefs_main_src_file = files('prefs.legacy.js')
@@ -103,7 +103,7 @@ metadata.set('version', meson.project_version())
 metadata.set_quoted('uuid', uuid)
 metadata.set_quoted('gettext_domain', gettext_domain)
 metadata.set_quoted('settings_schema', settings_schema)
-metadata.set('shell_versions', shell_versions)
+metadata.set('shell_versions', f'@shell_versions@'.replace('\'', '"'))
 
 pack = [
   configure_file(
