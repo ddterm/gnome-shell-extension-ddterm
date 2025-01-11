@@ -68,6 +68,10 @@ jobs:
       run: tox --sitepackages -e reuse
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
+    - name: Check version number
+      run: tox --sitepackages -e version
+      if: ${{ always() && steps.checkout.conclusion == 'success' }}
+
     - name: Install JS dependencies
       id: npm
       run: npm install
