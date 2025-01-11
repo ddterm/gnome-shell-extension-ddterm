@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 [tool.bumpversion]
-current_version = "57"
+current_version = "58"
 parse = "(?P<major>\\d+)"
 serialize = ["{major}"]
 

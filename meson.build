@@ -4,7 +4,7 @@
 
 project(
   'ddterm',
-  version: '57',
+  version: '58',
   meson_version: '>= 1.3.0',
   license: 'GPL-3.0-or-later',
   license_files: 'LICENSE',
