@@ -23,9 +23,6 @@ make_zip_command = [
   '@OUTPUT@',
   '--relative-to',
   '@OUTDIR@',
-  '--relative-to',
-  '@CURRENT_SOURCE_DIR@',
-  '--',
   '@INPUT@',
 ]
 

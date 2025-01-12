@@ -184,14 +184,20 @@ subdir('locale')
 
 pack += fs.copyfile('stylesheet.css', install: true, install_dir: extension_dir)
 
-pack += files(
+pack_from_srcdir = [
   'LICENSES' / 'GPL-3.0-or-later.txt',
   'LICENSES' / 'CC0-1.0.txt',
   'REUSE.toml',
-)
+]
+
+pack_command = [make_zip_command]
+
+foreach extra_path : pack_from_srcdir
+  pack_command += ['--include', files(extra_path), extra_path]
+endforeach
 
 pack_target = custom_target(
-  command: make_zip_command,
+  command: pack_command,
   input: pack,
   output: pack_name,
   build_by_default: true,

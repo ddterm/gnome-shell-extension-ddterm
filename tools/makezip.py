@@ -11,24 +11,9 @@ import pathlib
 import zipfile
 
 
-def find_relative_path(path, base_dirs):
-    for basepath in base_dirs:
-        with contextlib.suppress(ValueError):
-            return path.relative_to(basepath).as_posix()
-
-    raise ValueError(f'{str(path)!r} is not a subpath of any of {[str(p) for p in base_dirs]}')
-
-
-def normalize_path(path):
-    return pathlib.Path(os.path.abspath(path))
-
-
-def makezip(output, inputs, relative_to=None):
-    if not relative_to:
-        relative_to = [pathlib.Path.cwd()]
-
-    inputs = [normalize_path(p) for p in inputs]
-    relative_to = [normalize_path(p) for p in relative_to]
+def makezip(output, inputs, include, relative_to):
+    inputs = [pathlib.Path(os.path.abspath(p)) for p in inputs]
+    relative_to = pathlib.Path(os.path.abspath(relative_to))
 
     with zipfile.ZipFile(
         output,
@@ -37,13 +22,17 @@ def makezip(output, inputs, relative_to=None):
         compresslevel=9,
     ) as out:
         for infile in inputs:
-            out.write(infile, arcname=find_relative_path(infile, relative_to))
+            out.write(infile, arcname=infile.relative_to(relative_to).as_posix())
+
+        for infile, arcname in include:
+            out.write(infile, arcname=arcname.as_posix())
 
 
 def cli(*args, **kwargs):
     parser = argparse.ArgumentParser()
-    parser.add_argument('--relative-to', type=pathlib.Path, default=[], action='append')
+    parser.add_argument('--relative-to', type=pathlib.Path, default=pathlib.Path.cwd())
     parser.add_argument('--output', type=pathlib.Path, required=True)
+    parser.add_argument('--include', type=pathlib.Path, nargs=2, default=[], action='append')
     parser.add_argument('inputs', type=pathlib.Path, nargs='+')
 
     makezip(**vars(parser.parse_args(*args, **kwargs)))
