@@ -2,7 +2,7 @@
 
 # SPDX-FileCopyrightText: 2022 Aleksandr Mezin <mezin.alexander@gmail.com>
 #
-# SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-License-Identifier: CC0-1.0
 
 SCRIPT_DIR=$(CDPATH="" cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)
 
