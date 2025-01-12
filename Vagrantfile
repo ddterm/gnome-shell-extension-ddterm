@@ -43,8 +43,6 @@ end
 rsync_args = [
   '-avcS',
   '--exclude-from=.gitignore',
-  '--exclude-from=tests/.gitignore',
-  '--exclude-from=tools/.gitignore',
 ]
 
 Vagrant.configure("2") do |config|
