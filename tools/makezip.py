@@ -5,7 +5,6 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 
 import argparse
-import contextlib
 import os.path
 import pathlib
 import zipfile
