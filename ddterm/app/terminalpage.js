@@ -11,7 +11,6 @@ import Vte from 'gi://Vte';
 
 import Gettext from 'gettext';
 
-import { SearchBar } from './search.js';
 import { TabLabel } from './tablabel.js';
 import { Terminal, TerminalCommand } from './terminal.js';
 import { TerminalSettings } from './terminalsettings.js';
@@ -91,6 +90,13 @@ export const TerminalPage = GObject.registerClass({
         super._init(params);
         this.__heapgraph_name = this.constructor.$gtype.name;
 
+        this.banner_box = new Gtk.Box({
+            visible: true,
+            orientation: Gtk.Orientation.VERTICAL,
+        });
+
+        this.pack_start(this.banner_box, false, true, 0);
+
         const terminal_with_scrollbar = new Gtk.Box({
             visible: true,
             orientation: Gtk.Orientation.HORIZONTAL,
@@ -115,26 +121,7 @@ export const TerminalPage = GObject.registerClass({
 
         this.orientation = Gtk.Orientation.VERTICAL;
 
-        this.search_bar = new SearchBar({
-            visible: true,
-        });
-
-        this.pack_end(this.search_bar, false, false, 0);
-        this.pack_end(terminal_with_scrollbar, true, true, 0);
-
-        this.search_bar.connect('find-next', this.find_next.bind(this));
-        this.search_bar.connect('find-prev', this.find_prev.bind(this));
-
-        this.search_bar.connect('notify::wrap', () => {
-            this.terminal.search_set_wrap_around(this.search_bar.wrap);
-        });
-
-        this.terminal.search_set_wrap_around(this.search_bar.wrap);
-
-        this.search_bar.connect('notify::reveal-child', () => {
-            if (!this.search_bar.reveal_child)
-                this.terminal.grab_focus();
-        });
+        this.pack_start(terminal_with_scrollbar, true, true, 0);
 
         this.tab_label = new TabLabel({
             visible_window: false,
@@ -334,23 +321,13 @@ export const TerminalPage = GObject.registerClass({
         find_action.connect('activate', this.find.bind(this));
         terminal_actions.add_action(find_action);
 
-        const find_next_action = new Gio.SimpleAction({ name: 'find-next' });
-        find_next_action.connect('activate', this.find_next.bind(this));
-        terminal_actions.add_action(find_next_action);
+        this.find_next_action = new Gio.SimpleAction({ name: 'find-next', enabled: false });
+        this.find_next_action.connect('activate', this.find_next.bind(this));
+        terminal_actions.add_action(this.find_next_action);
 
-        const find_prev_action = new Gio.SimpleAction({ name: 'find-prev' });
-        find_prev_action.connect('activate', this.find_prev.bind(this));
-        terminal_actions.add_action(find_prev_action);
-
-        [
-            find_next_action,
-            find_prev_action,
-        ].forEach(action => this.search_bar.bind_property(
-            'reveal-child',
-            action,
-            'enabled',
-            GObject.BindingFlags.SYNC_CREATE
-        ));
+        this.find_prev_action = new Gio.SimpleAction({ name: 'find-prev', enabled: false });
+        this.find_prev_action.connect('activate', this.find_prev.bind(this));
+        terminal_actions.add_action(this.find_prev_action);
 
         const font_scale_increase_action = new Gio.SimpleAction({
             name: 'font-scale-increase',
@@ -444,7 +421,7 @@ export const TerminalPage = GObject.registerClass({
             }
         });
 
-        this.pack_start(banner, false, false, 0);
+        this.banner_box.pack_start(banner, false, false, 0);
     }
 
     add_exit_status_banner(status) {
@@ -522,23 +499,28 @@ export const TerminalPage = GObject.registerClass({
         return false;
     }
 
-    find_next() {
-        this.terminal.search_set_regex(this.search_bar.pattern.regex, 0);
+    async find_next() {
+        const search_bar = await this.get_search_bar();
+
+        this.terminal.search_set_regex(search_bar.pattern.regex, 0);
         this.terminal.search_find_next();
     }
 
-    find_prev() {
-        this.terminal.search_set_regex(this.search_bar.pattern.regex, 0);
+    async find_prev() {
+        const search_bar = await this.get_search_bar();
+
+        this.terminal.search_set_regex(search_bar.pattern.regex, 0);
         this.terminal.search_find_previous();
     }
 
-    find() {
-        this.terminal.get_text_selected_async().then(text => {
-            if (text)
-                this.search_bar.pattern.text = text;
+    async find() {
+        const search_bar = await this.get_search_bar();
+        const text = await this.terminal.get_text_selected_async();
 
-            this.search_bar.reveal_child = true;
-        });
+        if (text)
+            search_bar.pattern.text = text;
+
+        search_bar.reveal_child = true;
     }
 
     show_in_file_manager() {
@@ -620,6 +602,66 @@ export const TerminalPage = GObject.registerClass({
 
     vfunc_grab_focus() {
         this.terminal.grab_focus();
+    }
+
+    async get_search_bar() {
+        if (this.search_bar)
+            return this.search_bar;
+
+        let SearchBar;
+        const cancellable = Gio.Cancellable.new();
+        const destroy_handler = this.connect('destroy', () => cancellable.cancel());
+
+        try {
+            const cancel_promise = new Promise((resolve, reject) => {
+                cancellable.connect(() => {
+                    try {
+                        cancellable.set_error_if_cancelled();
+                    } catch (ex) {
+                        reject(ex);
+                    }
+                });
+            });
+
+            ({ SearchBar } = await Promise.race([import('./search.js'), cancel_promise]));
+        } finally {
+            if (!cancellable.is_cancelled())
+                this.disconnect(destroy_handler);
+        }
+
+        cancellable.set_error_if_cancelled();
+
+        this.search_bar = new SearchBar({
+            visible: true,
+        });
+
+        this.pack_end(this.search_bar, false, false, 0);
+
+        this.search_bar.connect('find-next', this.find_next.bind(this));
+        this.search_bar.connect('find-prev', this.find_prev.bind(this));
+
+        this.search_bar.connect('notify::wrap', () => {
+            this.terminal.search_set_wrap_around(this.search_bar.wrap);
+        });
+
+        this.terminal.search_set_wrap_around(this.search_bar.wrap);
+
+        this.search_bar.connect('notify::reveal-child', () => {
+            if (!this.search_bar.reveal_child)
+                this.terminal.grab_focus();
+        });
+
+        [
+            this.find_next_action,
+            this.find_prev_action,
+        ].forEach(action => this.search_bar.bind_property(
+            'reveal-child',
+            action,
+            'enabled',
+            GObject.BindingFlags.SYNC_CREATE
+        ));
+
+        return this.search_bar;
     }
 
     serialize_state() {

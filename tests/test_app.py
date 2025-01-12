@@ -380,6 +380,37 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
             hide_edge=['window_title_binding', '_title_binding']
         ) == ''
 
+    @pytest.mark.usefixtures('hide', 'common_init')
+    def test_tab_search_leak(
+        self,
+        app_debug_dbus_interface,
+        tmp_path,
+    ):
+        n_tabs = app_debug_dbus_interface.NumTabs
+        dump_pre = tmp_path / 'heap-pre.dump'
+        dump_post = tmp_path / 'heap-post.dump'
+
+        for dump_path in [dump_pre, dump_post]:
+            with app_debug_dbus_interface.watch_property('NumTabs') as num_tabs_watch:
+                app_debug_dbus_interface.ActivateAction('notebook.new-tab')
+
+                assert num_tabs_watch.get() == n_tabs + 1
+
+            app_debug_dbus_interface.ShowSearchBar()
+
+            with app_debug_dbus_interface.watch_property('NumTabs') as num_tabs_watch:
+                app_debug_dbus_interface.ActivateAction('page.close')
+
+                assert num_tabs_watch.get() == n_tabs
+
+            app_debug_dbus_interface.DumpHeap(dump_path)
+
+        assert diff_heap(
+            dump_pre,
+            dump_post,
+            hide_edge=['window_title_binding']
+        ) == ''
+
     def test_dependencies(self, process_launcher, request):
         process_launcher.run(
             str(request.config.option.gjs),

@@ -22,6 +22,7 @@
         <method name="ActivateAction">
             <arg type="s" name="detailed_action" direction="in"/>
         </method>
+        <method name="ShowSearchBar"/>
         <signal name="WindowEvent">
             <arg type="s"/>
         </signal>

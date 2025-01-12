@@ -238,6 +238,18 @@ class DebugInterface {
     notify_num_tabs() {
         this.dbus.emit_property_changed('NumTabs', GLib.Variant.new_uint32(this.NumTabs));
     }
+
+    ShowSearchBarAsync(params, invocation) {
+        try {
+            this.window.active_notebook.current_child.find().then(() => {
+                invocation.return_value(null);
+            }).catch(ex => {
+                return_error(invocation, ex);
+            });
+        } catch (ex) {
+            return_error(invocation, ex);
+        }
+    }
 }
 
 new DebugInterface(Gio.Application.get_default());
