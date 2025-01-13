@@ -66,6 +66,8 @@ ENV_FILTER_OUT = [
 
     'GJS_DEBUG_OUTPUT',
     'GJS_DEBUG_TOPICS',
+
+    'GDK_BACKEND',
 ]
 
 
