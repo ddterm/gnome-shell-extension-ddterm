@@ -9,66 +9,66 @@
 
 services:
   alpine-3.18:
-    image: ghcr.io/ddterm/gnome-shell-image/alpine-3.18:2025.01.14.0
+    image: ghcr.io/ddterm/gnome-shell-image/alpine-3.18:2025.01.15.0
     profiles:
       - legacy
 
   alpine-3.19:
-    image: ghcr.io/ddterm/gnome-shell-image/alpine-3.19:2025.01.14.0
+    image: ghcr.io/ddterm/gnome-shell-image/alpine-3.19:2025.01.15.0
     profiles:
       - esm
 
   alpine-3.20:
-    image: ghcr.io/ddterm/gnome-shell-image/alpine-3.20:2025.01.14.0
+    image: ghcr.io/ddterm/gnome-shell-image/alpine-3.20:2025.01.15.0
     profiles:
       - esm
 
   alpine-3.21:
-    image: ghcr.io/ddterm/gnome-shell-image/alpine-3.21:2025.01.14.0
+    image: ghcr.io/ddterm/gnome-shell-image/alpine-3.21:2025.01.15.0
     profiles:
       - esm
 
   fedora-40:
-    image: ghcr.io/ddterm/gnome-shell-image/fedora-40:2025.01.14.0
+    image: ghcr.io/ddterm/gnome-shell-image/fedora-40:2025.01.15.0
     profiles:
       - esm
 
   fedora-41:
-    image: ghcr.io/ddterm/gnome-shell-image/fedora-41:2025.01.14.0
+    image: ghcr.io/ddterm/gnome-shell-image/fedora-41:2025.01.15.0
     profiles:
       - esm
 
   archlinux:
-    image: ghcr.io/ddterm/gnome-shell-image/archlinux:2025.01.14.0
+    image: ghcr.io/ddterm/gnome-shell-image/archlinux:2025.01.15.0
     profiles:
       - esm
 
   opensuse-tumbleweed:
-    image: ghcr.io/ddterm/gnome-shell-image/opensuse-tumbleweed:2025.01.14.0
+    image: ghcr.io/ddterm/gnome-shell-image/opensuse-tumbleweed:2025.01.15.0
     profiles:
       - esm
 
   debian-12:
-    image: ghcr.io/ddterm/gnome-shell-image/debian-12:2025.01.14.0
+    image: ghcr.io/ddterm/gnome-shell-image/debian-12:2025.01.15.0
     profiles:
       - legacy
 
   ubuntu-22.04:
-    image: ghcr.io/ddterm/gnome-shell-image/ubuntu-22.04:2025.01.14.0
+    image: ghcr.io/ddterm/gnome-shell-image/ubuntu-22.04:2025.01.15.0
     profiles:
       - legacy
 
   ubuntu-24.04:
-    image: ghcr.io/ddterm/gnome-shell-image/ubuntu-24.04:2025.01.14.0
+    image: ghcr.io/ddterm/gnome-shell-image/ubuntu-24.04:2025.01.15.0
     profiles:
       - esm
 
   ubuntu-24.10:
-    image: ghcr.io/ddterm/gnome-shell-image/ubuntu-24.10:2025.01.14.0
+    image: ghcr.io/ddterm/gnome-shell-image/ubuntu-24.10:2025.01.15.0
     profiles:
       - esm
 
   opensuse-leap-15.6:
-    image: ghcr.io/ddterm/gnome-shell-image/opensuse-leap-15.6:2025.01.14.0
+    image: ghcr.io/ddterm/gnome-shell-image/opensuse-leap-15.6:2025.01.15.0
     profiles:
       - esm
