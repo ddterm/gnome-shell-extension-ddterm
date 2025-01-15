@@ -155,26 +155,25 @@ class GnomeSessionFixtures:
 
         assert 'XDG_RUNTIME_DIR' in dbus_daemon_environment
 
-        with contextlib.ExitStack() as run_stack:
-            with contextlib.ExitStack() as start_stack:
-                address_r, address_w = os.pipe()
-                start_stack.callback(os.close, address_w)
+        with contextlib.ExitStack() as stack:
+            address_r, address_w = os.pipe()
 
-                address_reader = start_stack.enter_context(
-                    open(address_r, 'rb', buffering=0, closefd=True)
-                )
+            with open(address_r, 'rb', buffering=0, closefd=True) as address_reader:
+                try:
+                    proc = stack.enter_context(process_launcher.spawn(
+                        str(request.config.option.dbus_daemon),
+                        '--session',
+                        '--nopidfile',
+                        '--syslog' if container else '--nosyslog',
+                        '--nofork',
+                        '--address=unix:runtime=yes',
+                        f'--print-address={address_w}',
+                        pass_fds=(address_w,),
+                        env=dbus_daemon_environment,
+                    ))
 
-                proc = run_stack.enter_context(process_launcher.spawn(
-                    str(request.config.option.dbus_daemon),
-                    '--session',
-                    '--nopidfile',
-                    '--syslog' if container else '--nosyslog',
-                    '--nofork',
-                    '--address=unix:runtime=yes',
-                    f'--print-address={address_w}',
-                    pass_fds=(address_w,),
-                    env=dbus_daemon_environment,
-                ))
+                finally:
+                    os.close(address_w)
 
                 # read to end doesn't work when passing fd through podman
                 # podman keeps the fd open even when the target process closes it
