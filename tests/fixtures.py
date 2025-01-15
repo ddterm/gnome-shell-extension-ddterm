@@ -216,29 +216,27 @@ class GnomeSessionFixtures:
 
     @pytest.fixture(scope='class')
     def xvfb(self, process_launcher, environment, xvfb_screen_config, request):
-        with contextlib.ExitStack() as run_stack:
-            with contextlib.ExitStack() as start_stack:
-                display_r, display_w = os.pipe()
+        display_r, display_w = os.pipe()
 
-                start_stack.callback(os.close, display_w)
+        with contextlib.ExitStack() as stack:
+            with open(display_r, 'rb', buffering=0, closefd=True) as display_reader:
+                try:
+                    proc = stack.enter_context(process_launcher.spawn(
+                        str(request.config.option.xvfb),
+                        '-screen',
+                        '0',
+                        str(xvfb_screen_config),
+                        '-nolisten',
+                        'tcp',
+                        '-terminate',
+                        '-displayfd',
+                        str(display_w),
+                        pass_fds=(display_w,),
+                        env=environment,
+                    ))
 
-                display_reader = start_stack.enter_context(
-                    open(display_r, 'rb', buffering=0, closefd=True)
-                )
-
-                proc = run_stack.enter_context(process_launcher.spawn(
-                    str(request.config.option.xvfb),
-                    '-screen',
-                    '0',
-                    str(xvfb_screen_config),
-                    '-nolisten',
-                    'tcp',
-                    '-terminate',
-                    '-displayfd',
-                    str(display_w),
-                    pass_fds=(display_w,),
-                    env=environment,
-                ))
+                finally:
+                    os.close(display_w)
 
                 # read to end doesn't work when passing fd through podman
                 # podman keeps the fd open even when the target process closes it
