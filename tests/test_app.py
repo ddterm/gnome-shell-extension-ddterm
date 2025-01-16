@@ -213,54 +213,34 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
         extension_test_hook.wait_property('RenderedFirstFrame', True)
         app_debug_dbus_interface.wait_connected()
 
-        test_file = tmp_path / 'testfile'
         n_tabs = app_debug_dbus_interface.NumTabs
-
-        with app_debug_dbus_interface.watch_property('NumTabs') as num_tabs_watch:
-            process_launcher.run(
-                str(launcher_path),
-                *(['--wait'] if wait else []),
-                '--',
-                'sh',
-                '-c',
-                f'echo 1 >{shlex.quote(str(test_file))}',
-                env=dbus_environment,
-            )
-
-            if not wait:
-                assert num_tabs_watch.get() == n_tabs + 1
-
-            assert test_file.read_text() == '1\n'
-
-            if wait:
-                assert num_tabs_watch.get() == n_tabs + 1
-
+        test_file = tmp_path / 'testfile'
         dump_pre = tmp_path / 'heap-pre.dump'
-        app_debug_dbus_interface.wait_property('NumTabs', n_tabs)
-        app_debug_dbus_interface.DumpHeap(dump_pre)
-
-        with app_debug_dbus_interface.watch_property('NumTabs') as num_tabs_watch:
-            process_launcher.run(
-                str(launcher_path),
-                *(['--wait'] if wait else []),
-                '--',
-                'sh',
-                '-c',
-                f'echo 2 >{shlex.quote(str(test_file))}',
-                env=dbus_environment,
-            )
-
-            if not wait:
-                assert num_tabs_watch.get() == n_tabs + 1
-
-            assert test_file.read_text() == '2\n'
-
-            if wait:
-                assert num_tabs_watch.get() == n_tabs + 1
-
         dump_post = tmp_path / 'heap-post.dump'
-        app_debug_dbus_interface.wait_property('NumTabs', n_tabs)
-        app_debug_dbus_interface.DumpHeap(dump_post)
+
+        for dump_path in [dump_pre, dump_post]:
+            with app_debug_dbus_interface.watch_property('NumTabs') as num_tabs_watch:
+                process_launcher.run(
+                    str(launcher_path),
+                    *(['--wait'] if wait else []),
+                    '--',
+                    'sh',
+                    '-c',
+                    f'echo 1 >{shlex.quote(str(test_file))}',
+                    env=dbus_environment,
+                )
+
+                if not wait:
+                    assert num_tabs_watch.get() == n_tabs + 1
+
+                assert test_file.read_text() == '1\n'
+
+                if wait:
+                    assert num_tabs_watch.get() == n_tabs + 1
+
+            dump_pre = tmp_path / 'heap-pre.dump'
+            app_debug_dbus_interface.wait_property('NumTabs', n_tabs)
+            app_debug_dbus_interface.DumpHeap(dump_path)
 
         assert diff_heap(
             dump_pre,
@@ -279,19 +259,15 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
         extension_test_hook.wait_property('RenderedFirstFrame', True)
         app_debug_dbus_interface.wait_connected()
 
-        app_debug_dbus_interface.ShowPreferences()
-        app_debug_dbus_interface.HidePreferences()
-        app_debug_dbus_interface.WaitIdle()
-
         dump_pre = tmp_path / 'heap-pre.dump'
-        app_debug_dbus_interface.DumpHeap(dump_pre)
-
-        app_debug_dbus_interface.ShowPreferences()
-        app_debug_dbus_interface.HidePreferences()
-        app_debug_dbus_interface.WaitIdle()
-
         dump_post = tmp_path / 'heap-post.dump'
-        app_debug_dbus_interface.DumpHeap(dump_post)
+
+        for dump_path in [dump_pre, dump_post]:
+            app_debug_dbus_interface.ShowPreferences()
+            app_debug_dbus_interface.HidePreferences()
+            app_debug_dbus_interface.WaitFrame()
+            app_debug_dbus_interface.WaitIdle()
+            app_debug_dbus_interface.DumpHeap(dump_path)
 
         assert diff_heap(
             dump_pre,
@@ -322,31 +298,32 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
             'tab': geometry.Point(workarea.center().x, workarea.y + workarea.height - 16)
         }[widget]
 
-        shell_test_hook.SetPointer(*widget_location)
-
         dump_pre = tmp_path / 'heap-pre.dump'
-        app_debug_dbus_interface.DumpHeap(dump_pre)
-
-        with shell_test_hook.watch_signal('WindowCreated') as window_created:
-            shell_test_hook.Mouse2Down()
-            shell_test_hook.Mouse2Up()
-
-            window_created.get()
-
-        app_debug_dbus_interface.WaitIdle()
-
-        shell_test_hook.SetPointer(widget_location.x - 1, widget_location.y)
-
-        with shell_test_hook.watch_signal('WindowUnmanaged') as window_unmanaged:
-            shell_test_hook.MouseDown()
-            shell_test_hook.MouseUp()
-
-            window_unmanaged.get()
-
-        app_debug_dbus_interface.WaitIdle()
-
         dump_post = tmp_path / 'heap-post.dump'
-        app_debug_dbus_interface.DumpHeap(dump_post)
+
+        for dump_path in [dump_pre, dump_post]:
+            shell_test_hook.SetPointer(*widget_location)
+
+            with shell_test_hook.watch_signal('WindowCreated') as window_created:
+                shell_test_hook.Mouse2Down()
+                shell_test_hook.Mouse2Up()
+
+                window_created.get()
+
+            app_debug_dbus_interface.WaitFrame()
+            app_debug_dbus_interface.WaitIdle()
+
+            shell_test_hook.SetPointer(widget_location.x - 1, widget_location.y)
+
+            with shell_test_hook.watch_signal('WindowUnmanaged') as window_unmanaged:
+                shell_test_hook.MouseDown()
+                shell_test_hook.MouseUp()
+
+                window_unmanaged.get()
+
+            app_debug_dbus_interface.WaitFrame()
+            app_debug_dbus_interface.WaitIdle()
+            app_debug_dbus_interface.DumpHeap(dump_path)
 
         assert diff_heap(
             dump_pre,
