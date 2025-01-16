@@ -10,9 +10,9 @@ import Gio from 'gi://Gio';
 const TARGET_FD = 101;
 const PERL_CODE = `use POSIX; print tcgetpgrp(${TARGET_FD});`;
 const PY_CODE = `
-    from __future__ import print_function
-    import os
-    print(os.tcgetpgrp(${TARGET_FD}))
+from __future__ import print_function
+import os
+print(os.tcgetpgrp(${TARGET_FD}))
 `;
 
 export class InterpreterNotFoundError extends Error {
