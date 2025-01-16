@@ -128,25 +128,28 @@ export const TabLabel = GObject.registerClass({
         );
 
         close_button.connect('clicked', () => this.emit('close'));
+    }
 
-        this.edit_popover = new Gtk.Popover({
+    edit() {
+        const edit_popover = new Gtk.Popover({
             relative_to: this,
         });
 
-        this.connect('destroy', () => this.edit_popover.destroy());
+        edit_popover.__heapgraph_name = 'DDTermTabLabelEditPopover';
+        edit_popover.connect('closed', popover => popover.destroy());
 
         const edit_entry = new Gtk.Entry({
             visible: true,
-            parent: this.edit_popover,
+            parent: edit_popover,
             secondary_icon_name: 'edit-clear',
             secondary_icon_activatable: true,
             secondary_icon_sensitive: true,
         });
 
-        edit_entry.connect('activate', () => this.edit_popover.popdown());
+        edit_entry.connect('activate', () => edit_popover.popdown());
 
         edit_entry.connect('icon-press', () => {
-            this.edit_popover.popdown();
+            edit_popover.popdown();
             this.emit('reset-label');
         });
 
@@ -157,13 +160,14 @@ export const TabLabel = GObject.registerClass({
             GObject.BindingFlags.SYNC_CREATE | GObject.BindingFlags.BIDIRECTIONAL
         );
 
-        this.connect('size-allocate', (_, allocation) => {
+        const size_handler = this.connect('size-allocate', (_, allocation) => {
             edit_entry.width_request = allocation.width;
         });
-    }
 
-    edit() {
-        this.edit_popover.popup();
+        edit_popover.connect('destroy', () => this.disconnect(size_handler));
+
+        edit_entry.width_request = this.get_allocated_width();
+        edit_popover.popup();
     }
 
     get action_name() {

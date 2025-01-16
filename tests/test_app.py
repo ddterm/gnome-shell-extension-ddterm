@@ -339,6 +339,47 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
             dump_post,
         ) == ''
 
+    @pytest.mark.usefixtures('hide', 'common_init')
+    def test_tab_title_edit_leak(
+        self,
+        app_debug_dbus_interface,
+        shell_test_hook,
+        tmp_path,
+    ):
+        workarea = shell_test_hook.Workareas[0]
+        shell_test_hook.SetPointer(*workarea.center())
+
+        dump_pre = tmp_path / 'heap-pre.dump'
+        dump_post = tmp_path / 'heap-post.dump'
+
+        for dump_path in [dump_pre, dump_post]:
+            app_debug_dbus_interface.ActivateAction('page.use-custom-title(true)')
+            app_debug_dbus_interface.WaitFrame()
+            app_debug_dbus_interface.WaitIdle()
+
+            with app_debug_dbus_interface.watch_signal('WindowEvent') as window_event:
+                shell_test_hook.mouse_down()
+
+                while window_event.get()[1] != 'GDK_BUTTON_PRESS':
+                    pass
+
+                shell_test_hook.mouse_up()
+
+                while window_event.get()[1] != 'GDK_BUTTON_RELEASE':
+                    pass
+
+            app_debug_dbus_interface.ActivateAction('page.use-custom-title(false)')
+            app_debug_dbus_interface.WaitFrame()
+            app_debug_dbus_interface.WaitIdle()
+
+            app_debug_dbus_interface.DumpHeap(dump_path)
+
+        assert diff_heap(
+            dump_pre,
+            dump_post,
+            hide_edge=['window_title_binding', '_title_binding']
+        ) == ''
+
     def test_dependencies(self, process_launcher, request):
         process_launcher.run(
             str(request.config.option.gjs),
