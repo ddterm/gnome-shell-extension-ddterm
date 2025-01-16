@@ -10,7 +10,7 @@ import sys
 
 import pytest
 
-from . import dbusutil, fixtures, geometry, shellhook
+from . import glibutil, dbusutil, fixtures, geometry, shellhook
 
 
 THIS_FILE = pathlib.Path(__file__).resolve()
@@ -93,7 +93,32 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
 
         return request.param
 
-    @pytest.mark.usefixtures('hide')
+    @pytest.fixture
+    def common_init(
+        self,
+        extension_dbus_interface,
+        extension_test_hook,
+        shell_test_hook,
+        app_debug_dbus_interface,
+    ):
+        deadline = glibutil.Deadline(dbusutil.DEFAULT_LONG_TIMEOUT_MS)
+
+        extension_dbus_interface.Activate(timeout=deadline.check_remaining_ms())
+        extension_test_hook.wait_property(
+            'RenderedFirstFrame',
+            True,
+            timeout=deadline.check_remaining_ms()
+        )
+
+        app_debug_dbus_interface.wait_connected(timeout=deadline.check_remaining_ms())
+
+        app_debug_dbus_interface.WaitFrame(timeout=deadline.check_remaining_ms())
+        shell_test_hook.Later(shellhook.LaterType.RESIZE, timeout=deadline.check_remaining_ms())
+
+        app_debug_dbus_interface.WaitIdle(timeout=deadline.check_remaining_ms())
+        shell_test_hook.WaitLeisure(timeout=deadline.check_remaining_ms())
+
+    @pytest.mark.usefixtures('system_color_scheme', 'app_color_scheme', 'hide', 'common_init')
     @pytest.mark.parametrize(
         'system_color_scheme',
         ('prefer-dark', 'prefer-light', 'default'),
@@ -108,15 +133,10 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
         self,
         system_color_scheme,
         app_color_scheme,
-        extension_dbus_interface,
         extension_test_hook,
         shell_test_hook,
     ):
         workarea = shell_test_hook.Workareas[0]
-
-        extension_dbus_interface.Activate(timeout=dbusutil.DEFAULT_LONG_TIMEOUT_MS)
-        extension_test_hook.wait_property('RenderedFirstFrame', True)
-        shell_test_hook.WaitLeisure()
 
         if app_color_scheme == 'system':
             dark = system_color_scheme == 'prefer-dark'
@@ -136,27 +156,21 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
     def launcher_path(self, extension_init):
         return pathlib.Path(extension_init['path']) / 'bin' / 'com.github.amezin.ddterm'
 
-    @pytest.mark.usefixtures('window_above', 'hide_when_focus_lost', 'hide')
+    @pytest.mark.usefixtures('window_above', 'hide_when_focus_lost', 'hide', 'common_init')
     @pytest.mark.parametrize('window_above', (True, False), indirect=True)
     @pytest.mark.parametrize('hide_when_focus_lost', (True, False), indirect=True)
     def test_wl_clipboard(
         self,
         process_launcher,
         dbus_environment,
-        extension_dbus_interface,
-        extension_test_hook,
         shell_test_hook,
         app_debug_dbus_interface,
         launcher_path,
         tmp_path,
         request,
     ):
-        extension_dbus_interface.Activate(timeout=dbusutil.DEFAULT_LONG_TIMEOUT_MS)
-        extension_test_hook.wait_property('RenderedFirstFrame', True)
-
         assert shell_test_hook.FocusApp == 'com.github.amezin.ddterm'
 
-        app_debug_dbus_interface.wait_connected()
         n_tabs = app_debug_dbus_interface.NumTabs
 
         process_launcher.run(
@@ -197,22 +211,17 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
         app_debug_dbus_interface.wait_property('NumTabs', n_tabs + 2)
         app_debug_dbus_interface.WaitIdle()
 
+    @pytest.mark.usefixtures('common_init')
     @pytest.mark.parametrize('wait', [True, False])
     def test_cli_leak(
         self,
         process_launcher,
         dbus_environment,
         app_debug_dbus_interface,
-        extension_dbus_interface,
-        extension_test_hook,
         launcher_path,
         tmp_path,
         wait
     ):
-        extension_dbus_interface.Activate(timeout=dbusutil.DEFAULT_LONG_TIMEOUT_MS)
-        extension_test_hook.wait_property('RenderedFirstFrame', True)
-        app_debug_dbus_interface.wait_connected()
-
         n_tabs = app_debug_dbus_interface.NumTabs
         test_file = tmp_path / 'testfile'
         dump_pre = tmp_path / 'heap-pre.dump'
@@ -248,17 +257,12 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
             hide_edge=['window_title_binding']
         ) == ''
 
+    @pytest.mark.usefixtures('common_init')
     def test_prefs_leak(
         self,
         app_debug_dbus_interface,
-        extension_dbus_interface,
-        extension_test_hook,
         tmp_path,
     ):
-        extension_dbus_interface.Activate(timeout=dbusutil.DEFAULT_LONG_TIMEOUT_MS)
-        extension_test_hook.wait_property('RenderedFirstFrame', True)
-        app_debug_dbus_interface.wait_connected()
-
         dump_pre = tmp_path / 'heap-pre.dump'
         dump_post = tmp_path / 'heap-post.dump'
 
@@ -276,21 +280,15 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
             hide_edge=['cacheir-object']
         ) == ''
 
-    @pytest.mark.usefixtures('hide')
+    @pytest.mark.usefixtures('hide', 'common_init')
     @pytest.mark.parametrize('widget', ('terminal', 'tab'))
     def test_context_menu_leak(
         self,
         app_debug_dbus_interface,
-        extension_dbus_interface,
-        extension_test_hook,
         shell_test_hook,
         tmp_path,
         widget,
     ):
-        extension_dbus_interface.Activate(timeout=dbusutil.DEFAULT_LONG_TIMEOUT_MS)
-        extension_test_hook.wait_property('RenderedFirstFrame', True)
-        app_debug_dbus_interface.wait_connected()
-
         workarea = shell_test_hook.Workareas[0]
 
         widget_location = {
