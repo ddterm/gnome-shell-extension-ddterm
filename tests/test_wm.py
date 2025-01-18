@@ -633,6 +633,7 @@ class CommonTests:
 
         extension_test_hook.wait_property('RenderedFirstFrame', True)
         wait_idle()
+        shell_test_hook.WaitLeisure()
 
         assert extension_test_hook.WindowRect == expected_rect
         assert not extension_test_hook.seen_transitions
@@ -655,6 +656,7 @@ class CommonTests:
             shell_test_hook.MouseDown()
 
             wait_idle()
+            shell_test_hook.WaitLeisure()
 
             assert extension_test_hook.WindowRect == expected_rect
 
