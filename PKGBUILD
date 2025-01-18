@@ -26,11 +26,11 @@ build() {
     arch-meson $pkgname build -Dlinters=disabled "-Dtests=$( ((CHECKFUNC)) && echo enabled || echo disabled )"
 
     # gtk-builder-tool needs X or Wayland
-    LIBGL_ALWAYS_SOFTWARE=1 GDK_BACKEND=x11 xvfb-run --auto-display --server-args=-noreset --wait=0 -- meson compile -C build
+    LIBGL_ALWAYS_SOFTWARE=1 xvfb-run --auto-display --server-args=-noreset --wait=0 -- meson compile -C build
 }
 
 check() {
-    LIBGL_ALWAYS_SOFTWARE=1 GDK_BACKEND=x11 xvfb-run --auto-display --server-args=-noreset --wait=0 -- meson test -C build --print-errorlogs
+    LIBGL_ALWAYS_SOFTWARE=1 xvfb-run --auto-display --server-args=-noreset --wait=0 -- meson test -C build --print-errorlogs
 }
 
 package() {
