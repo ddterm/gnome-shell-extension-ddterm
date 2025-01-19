@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: CC0-1.0
 
 name: Bug Report
-description: File a bug report
+description: Something is not working as described, unexpected error messages, etc.
 labels: ["bug"]
 
 body:

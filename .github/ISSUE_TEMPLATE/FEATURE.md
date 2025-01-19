@@ -4,7 +4,9 @@
 # SPDX-License-Identifier: CC0-1.0
 
 name: Feature Request
-about: Request a feature
+about: >-
+    Something is not implemented - for example, missing hotkey, configuration
+    option, or you want the behavior to be changed
 labels: enhancement
 ---
 
