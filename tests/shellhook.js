@@ -224,35 +224,11 @@ const Interface = GObject.registerClass({
         this.GetPointer();
     }
 
-    MouseDown() {
+    SetMousePressed(button, pressed) {
         this.pointer.notify_button(
             Clutter.CURRENT_TIME,
-            Clutter.BUTTON_PRIMARY,
-            Clutter.ButtonState.PRESSED
-        );
-    }
-
-    MouseUp() {
-        this.pointer.notify_button(
-            Clutter.CURRENT_TIME,
-            Clutter.BUTTON_PRIMARY,
-            Clutter.ButtonState.RELEASED
-        );
-    }
-
-    Mouse2Down() {
-        this.pointer.notify_button(
-            Clutter.CURRENT_TIME,
-            Clutter.BUTTON_SECONDARY,
-            Clutter.ButtonState.PRESSED
-        );
-    }
-
-    Mouse2Up() {
-        this.pointer.notify_button(
-            Clutter.CURRENT_TIME,
-            Clutter.BUTTON_SECONDARY,
-            Clutter.ButtonState.RELEASED
+            button,
+            pressed ? Clutter.ButtonState.PRESSED : Clutter.ButtonState.RELEASED
         );
     }
 

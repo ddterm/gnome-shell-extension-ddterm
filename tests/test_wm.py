@@ -653,7 +653,7 @@ class CommonTests:
         shell_test_hook.SetPointer(*start)
 
         try:
-            shell_test_hook.MouseDown()
+            shell_test_hook.mouse_down()
 
             wait_idle()
             shell_test_hook.WaitLeisure()
@@ -668,7 +668,7 @@ class CommonTests:
                 assert extension_test_hook.WindowRect == expected_rect2
 
         finally:
-            shell_test_hook.MouseUp()
+            shell_test_hook.mouse_up()
 
         wait_idle()
 

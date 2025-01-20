@@ -29,10 +29,10 @@
             <arg type="i" name="y" direction="in"/>
         </method>
 
-        <method name="MouseDown"/>
-        <method name="MouseUp"/>
-        <method name="Mouse2Down"/>
-        <method name="Mouse2Up"/>
+        <method name="SetMousePressed">
+            <arg type="u" name="button" direction="in"/>
+            <arg type="b" name="pressed" direction="in"/>
+        </method>
 
         <method name="GetCurrentMonitor">
             <arg type="i" direction="out"/>

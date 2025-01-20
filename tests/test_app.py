@@ -307,8 +307,8 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
             shell_test_hook.SetPointer(*widget_location)
 
             with shell_test_hook.watch_signal('WindowCreated') as window_created:
-                shell_test_hook.Mouse2Down()
-                shell_test_hook.Mouse2Up()
+                shell_test_hook.mouse_down(shellhook.MouseButton.SECONDARY)
+                shell_test_hook.mouse_up(shellhook.MouseButton.SECONDARY)
 
                 window_created.get()
 
@@ -318,8 +318,8 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
             shell_test_hook.SetPointer(widget_location.x - 1, widget_location.y)
 
             with shell_test_hook.watch_signal('WindowUnmanaged') as window_unmanaged:
-                shell_test_hook.MouseDown()
-                shell_test_hook.MouseUp()
+                shell_test_hook.mouse_down()
+                shell_test_hook.mouse_up()
 
                 window_unmanaged.get()
 

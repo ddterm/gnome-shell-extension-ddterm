@@ -34,6 +34,13 @@ class LaterType(enum.IntEnum):
     IDLE = 5
 
 
+@enum.unique
+class MouseButton(enum.IntEnum):
+    PRIMARY = 1
+    MIDDLE = 2
+    SECONDARY = 3
+
+
 class _Base(dbusutil.Proxy):
     __dbus_interface_info__ = INTROSPECT_FILE.read_text()
 
@@ -100,6 +107,12 @@ class Proxy(_Base):
             )
 
             glibutil.wait_any_source(timeout_ms=deadline.check_remaining_ms())
+
+    def mouse_down(self, button=MouseButton.PRIMARY):
+        return super().SetMousePressed(button, True)
+
+    def mouse_up(self, button=MouseButton.PRIMARY):
+        return super().SetMousePressed(button, False)
 
     def Screenshot(self, path, **kwargs):
         return super().Screenshot(str(path), **kwargs)
