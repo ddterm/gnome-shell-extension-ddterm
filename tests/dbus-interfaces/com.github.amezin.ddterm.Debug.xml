@@ -19,7 +19,6 @@
         <method name="DumpHeap">
             <arg type="s" name="path" direction="in"/>
         </method>
-        <method name="ShowPreferences"/>
         <method name="HidePreferences"/>
         <method name="ActivateAction">
             <arg type="s" name="detailed_action" direction="in"/>

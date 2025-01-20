@@ -261,13 +261,17 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
     def test_prefs_leak(
         self,
         app_debug_dbus_interface,
+        shell_test_hook,
         tmp_path,
     ):
         dump_pre = tmp_path / 'heap-pre.dump'
         dump_post = tmp_path / 'heap-post.dump'
 
         for dump_path in [dump_pre, dump_post]:
-            app_debug_dbus_interface.ShowPreferences()
+            with shell_test_hook.watch_signal('WindowCreated') as window_created:
+                app_debug_dbus_interface.ActivateAction('app.preferences')
+                window_created.get()
+
             app_debug_dbus_interface.HidePreferences()
             app_debug_dbus_interface.WaitFrame()
             app_debug_dbus_interface.WaitIdle()

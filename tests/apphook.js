@@ -202,18 +202,6 @@ class DebugInterface {
         });
     }
 
-    ShowPreferencesAsync(params, invocation) {
-        try {
-            this.app.preferences().then(() => {
-                invocation.return_value(null);
-            }).catch(ex => {
-                return_error(invocation, ex);
-            });
-        } catch (ex) {
-            return_error(invocation, ex);
-        }
-    }
-
     HidePreferencesAsync(params, invocation) {
         try {
             const { prefs_dialog } = this.app;
