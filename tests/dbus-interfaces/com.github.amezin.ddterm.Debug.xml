@@ -21,6 +21,9 @@
         </method>
         <method name="ShowPreferences"/>
         <method name="HidePreferences"/>
+        <method name="ActivateAction">
+            <arg type="s" name="detailed_action" direction="in"/>
+        </method>
         <signal name="WindowEvent">
             <arg type="s"/>
         </signal>

@@ -226,6 +226,26 @@ class DebugInterface {
         }
     }
 
+    ActivateAction(detailed_action) {
+        const [, action_name, target_value] = Gio.Action.parse_detailed_name(detailed_action);
+
+        let deepest_scope = this.app;
+
+        if (deepest_scope?.window) {
+            deepest_scope = deepest_scope.window;
+
+            const focus_widget = deepest_scope.get_focus();
+
+            if (focus_widget)
+                deepest_scope = focus_widget;
+        }
+
+        const [prefix, name] = action_name.split('.');
+        const actions = deepest_scope.get_action_group(prefix);
+
+        actions.activate_action(name, target_value);
+    }
+
     get Connected() {
         return true;
     }
