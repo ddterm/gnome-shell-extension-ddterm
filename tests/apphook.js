@@ -226,17 +226,6 @@ class DebugInterface {
         }
     }
 
-    NewTab() {
-        const actions = this.app.window.active_notebook.get_action_group('notebook');
-
-        actions.activate_action('new-tab', null);
-    }
-
-    CloseTab() {
-        const { active_notebook } = this.app.window;
-        active_notebook.get_nth_page(active_notebook.page).destroy();
-    }
-
     get Connected() {
         return true;
     }
