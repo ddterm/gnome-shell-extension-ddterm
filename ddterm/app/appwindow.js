@@ -330,6 +330,16 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
         this.connect('notify::active-notebook', () => this.update_show_shortcuts());
         this.update_show_shortcuts();
 
+        this.connect('notify::is-empty', () => {
+            if (this.is_empty)
+                this.close();
+        });
+
+        this._hide_on_close();
+        this._setup_size_sync();
+    }
+
+    _hide_on_close() {
         this.connect('delete-event', () => {
             if (this.is_empty)
                 return false;
@@ -337,13 +347,6 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
             this.hide();
             return true;
         });
-
-        this.connect('notify::is-empty', () => {
-            if (this.is_empty)
-                this.close();
-        });
-
-        this._setup_size_sync();
     }
 
     _setup_size_sync() {
