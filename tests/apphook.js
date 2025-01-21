@@ -202,18 +202,6 @@ class DebugInterface {
         });
     }
 
-    HidePreferencesAsync(params, invocation) {
-        try {
-            const { prefs_dialog } = this.app;
-            prefs_dialog.connect('destroy', () => {
-                invocation.return_value(null);
-            });
-            prefs_dialog.close();
-        } catch (ex) {
-            return_error(invocation, ex);
-        }
-    }
-
     ActivateAction(detailed_action) {
         const [, action_name, target_value] = Gio.Action.parse_detailed_name(detailed_action);
 

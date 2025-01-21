@@ -268,11 +268,18 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
         dump_post = tmp_path / 'heap-post.dump'
 
         for dump_path in [dump_pre, dump_post]:
-            with shell_test_hook.watch_signal('WindowCreated') as window_created:
+            with shell_test_hook.watch_signal('WindowShown') as window_shown:
                 app_debug_dbus_interface.ActivateAction('app.preferences')
-                window_created.get()
+                window_shown.get()
 
-            app_debug_dbus_interface.HidePreferences()
+            with shell_test_hook.watch_signal('WindowUnmanaged') as window_unmanaged:
+                shell_test_hook.key_down(shellhook.Key.ESCAPE)
+
+                try:
+                    window_unmanaged.get()
+                finally:
+                    shell_test_hook.key_up(shellhook.Key.ESCAPE)
+
             app_debug_dbus_interface.WaitFrame()
             app_debug_dbus_interface.WaitIdle()
             app_debug_dbus_interface.DumpHeap(dump_path)
