@@ -25,11 +25,12 @@ class DDTermAccelLabel extends Gtk.Label {
 
         this.connect('destroy', () => {
             if (this._keys_handler) {
-                this.get_toplevel().disconnect(this._keys_handler);
+                this._toplevel.disconnect(this._keys_handler);
                 this._keys_handler = null;
             }
         });
 
+        this.connect('notify::root', this.on_hierarchy_changed.bind(this));
         this.on_hierarchy_changed();
     }
 
@@ -83,7 +84,7 @@ class DDTermAccelLabel extends Gtk.Label {
             this._toplevel = null;
         }
 
-        this._toplevel = this.get_toplevel();
+        this._toplevel = this.root;
 
         if (this._toplevel instanceof Gtk.Window) {
             this._keys_handler = this._toplevel.connect(
@@ -100,16 +101,17 @@ class DDTermAccelLabel extends Gtk.Label {
             return '';
 
         const action = Gio.Action.print_detailed_name(this._name, this._target_value);
-        const toplevel = this.get_toplevel();
+        const toplevel = this.root;
 
         if (!(toplevel instanceof Gtk.Window))
             return '';
 
         for (const shortcut of toplevel.application?.get_accels_for_action(action) || []) {
             try {
-                return Gtk.accelerator_get_label(
-                    ...Gtk.accelerator_parse(shortcut)
-                );
+                const [ok, key, mods] = Gtk.accelerator_parse(shortcut);
+
+                if (ok)
+                    return Gtk.accelerator_get_label(key, mods);
             } catch (ex) {
                 logError(ex);
             }

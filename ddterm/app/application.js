@@ -9,12 +9,12 @@ import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
 import Gdk from 'gi://Gdk';
 import Gtk from 'gi://Gtk';
+import Adw from 'gi://Adw';
 
 import Gettext from 'gettext';
 import System from 'system';
 
 import { AppWindow } from './appwindow.js';
-import { ThemeManager } from './gtktheme.js';
 import { metadata } from './meta.js';
 import { get_resource_file, get_resource_text } from './resources.js';
 import { get_settings } from './settings.js';
@@ -61,7 +61,7 @@ export const Application = GObject.registerClass({
         ),
     },
 },
-class Application extends Gtk.Application {
+class Application extends Adw.Application {
     _init(params) {
         super._init(params);
         this.__heapgraph_name = this.constructor.$gtype.name;
@@ -243,22 +243,18 @@ class Application extends Gtk.Application {
             this.add_action(this.settings.create_action(key));
         });
 
-        this.theme_manager = new ThemeManager({
-            theme_variant: this.settings.get_string('theme-variant'),
-        });
-
-        this.settings.bind(
-            'theme-variant',
-            this.theme_manager,
-            'theme-variant',
-            Gio.SettingsBindFlags.GET
+        this.settings.connect(
+            'changed::theme-variant',
+            this.update_color_scheme.bind(this)
         );
+
+        this.update_color_scheme();
 
         const css_provider = Gtk.CssProvider.new();
         css_provider.load_from_file(get_resource_file('style.css'));
 
-        Gtk.StyleContext.add_provider_for_screen(
-            Gdk.Screen.get_default(),
+        Gtk.StyleContext.add_provider_for_display(
+            Gdk.Display.get_default(),
             css_provider,
             Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
         );
@@ -334,7 +330,8 @@ class Application extends Gtk.Application {
             this.bind_shortcut(action, key);
         });
 
-        Gtk.IconTheme.get_default().append_search_path(get_resource_file('icons').get_path());
+        const icon_theme = Gtk.IconTheme.get_for_display(Gdk.Display.get_default());
+        icon_theme.add_search_path(get_resource_file('icons').get_path());
 
         this.session_file_path = GLib.build_filenamev([
             GLib.get_user_cache_dir(),
@@ -548,6 +545,7 @@ class Application extends Gtk.Application {
             terminal_settings: this.terminal_settings,
             extension_dbus: this.extension_dbus,
             display_config: this.display_config,
+            hide_on_close: true,
         });
 
         this.window.connect('destroy', source => {
@@ -626,6 +624,22 @@ class Application extends Gtk.Application {
             keys.push('Escape');
 
         this.set_accels_for_action(action, keys);
+    }
+
+    update_color_scheme() {
+        const mapping = {
+            'system': Adw.ColorScheme.DEFAULT,
+            'dark': Adw.ColorScheme.FORCE_DARK,
+            'light': Adw.ColorScheme.FORCE_LIGHT,
+        };
+
+        const variant = this.settings.get_string('theme-variant');
+        const resolved = mapping[variant];
+
+        if (resolved === undefined)
+            logError(new Error(`Unknown theme-variant: ${variant}`));
+        else
+            this.style_manager.color_scheme = resolved;
     }
 
     restore_session() {

@@ -94,7 +94,7 @@ class DebugInterface {
 
         const notify_num_tabs = this.notify_num_tabs.bind(this);
 
-        for (const notebook of [win.paned.get_child1(), win.paned.get_child2()]) {
+        for (const notebook of [win.paned.start_child, win.paned.end_child]) {
             this.disconnect_callbacks.push(connect(notebook, 'page-added', notify_num_tabs));
             this.disconnect_callbacks.push(connect(notebook, 'page-removed', notify_num_tabs));
         }
@@ -232,7 +232,7 @@ class DebugInterface {
 
         const { paned } = this.window;
 
-        return paned.get_child1().get_n_pages() + paned.get_child2().get_n_pages();
+        return paned.start_child.get_n_pages() + paned.end_child.get_n_pages();
     }
 
     notify_num_tabs() {

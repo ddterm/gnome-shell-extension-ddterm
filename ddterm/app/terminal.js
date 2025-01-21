@@ -350,10 +350,13 @@ const TerminalBase = GObject.registerClass({
             GObject.BindingFlags.DEFAULT
         );
 
-        this.connect(
-            'button-press-event',
-            this._update_clicked_hyperlink.bind(this)
-        );
+        const click_controller = Gtk.GestureClick.new();
+        click_controller.propagation_phase = Gtk.PropagationPhase.CAPTURE;
+        click_controller.button = 0;
+        this.add_controller(click_controller);
+
+        click_controller.connect('pressed', this._update_clicked_hyperlink.bind(this));
+        click_controller.connect('released', this._update_clicked_hyperlink.bind(this));
 
         this.connect('notify::background-opacity', () => {
             if (this._background_from_style)
@@ -367,8 +370,6 @@ const TerminalBase = GObject.registerClass({
             this.notify('can-increase-font-scale');
             this.notify('can-decrease-font-scale');
         });
-
-        this._gdk_atom_primary = Gdk.Atom.intern('PRIMARY', true);
     }
 
     get child_pid() {
@@ -593,11 +594,11 @@ const TerminalBase = GObject.registerClass({
         return this._clicked_filename;
     }
 
-    _update_clicked_hyperlink(terminal_, event) {
-        let clicked_hyperlink = this.hyperlink_check_event(event);
+    _update_clicked_hyperlink(gesture, n_press, x, y) {
+        let clicked_hyperlink = this.check_hyperlink_at(x, y);
 
         if (!clicked_hyperlink && this._url_detect)
-            clicked_hyperlink = this._url_detect.check_event(event);
+            clicked_hyperlink = this._url_detect.check_match_at(x, y);
 
         let clicked_filename = null;
 
@@ -623,23 +624,6 @@ const TerminalBase = GObject.registerClass({
         } finally {
             this.thaw_notify();
         }
-    }
-
-    get_text_selected_async() {
-        if (this.get_text_selected)
-            return Promise.resolve(this.get_text_selected(Vte.Format.TEXT));
-
-        if (!this.get_has_selection())
-            return Promise.resolve('');
-
-        const primary_selection = this.get_clipboard(this._gdk_atom_primary);
-        this.copy_primary();
-
-        return new Promise(resolve => {
-            primary_selection.request_text((_, text) => {
-                resolve(text);
-            });
-        });
     }
 
     get_text() {
