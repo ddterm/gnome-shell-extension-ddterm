@@ -199,19 +199,19 @@ class DDTermSearchBar extends Gtk.Revealer {
 
         const layout = new Gtk.Box({
             visible: true,
-            border_width: 5,
             spacing: 5,
-            parent: this,
         });
 
+        this.child = layout;
+
         const case_sensitive_button = new Gtk.ToggleButton({
-            image: new Gtk.Image({ icon_name: 'uppercase' }),
+            icon_name: 'uppercase',
             tooltip_text: Gettext.gettext('Case Sensitive'),
             visible: true,
             focus_on_click: false,
         });
 
-        layout.pack_start(case_sensitive_button, false, false, 0);
+        layout.append(case_sensitive_button);
 
         this.pattern.bind_property(
             'case-sensitive',
@@ -221,13 +221,13 @@ class DDTermSearchBar extends Gtk.Revealer {
         );
 
         const whole_word_button = new Gtk.ToggleButton({
-            image: new Gtk.Image({ icon_name: 'quotation' }),
+            icon_name: 'quotation',
             tooltip_text: Gettext.gettext('Match Whole Word'),
             visible: true,
             focus_on_click: false,
         });
 
-        layout.pack_start(whole_word_button, false, false, 0);
+        layout.append(whole_word_button);
 
         this.pattern.bind_property(
             'whole-word',
@@ -237,13 +237,13 @@ class DDTermSearchBar extends Gtk.Revealer {
         );
 
         const regex_button = new Gtk.ToggleButton({
-            image: new Gtk.Image({ icon_name: 'regex' }),
+            icon_name: 'regex',
             tooltip_text: Gettext.gettext('Regular Expression'),
             visible: true,
             focus_on_click: false,
         });
 
-        layout.pack_start(regex_button, false, false, 0);
+        layout.append(regex_button);
 
         this.pattern.bind_property(
             'use-regex',
@@ -256,7 +256,7 @@ class DDTermSearchBar extends Gtk.Revealer {
             visible: true,
         });
 
-        layout.pack_start(entry, true, true, 0);
+        layout.append(entry);
 
         this.pattern.bind_property(
             'text',
@@ -265,18 +265,19 @@ class DDTermSearchBar extends Gtk.Revealer {
             GObject.BindingFlags.BIDIRECTIONAL | GObject.BindingFlags.SYNC_CREATE
         );
 
-        const error_popover = new Gtk.Popover({
-            relative_to: entry,
-            modal: false,
-            border_width: 5,
-        });
-
         const error_label = new Gtk.Label({
-            parent: error_popover,
             visible: true,
         });
 
         error_label.get_style_context().add_class('error');
+
+        const error_popover = new Gtk.Popover({
+            autohide: false,
+            visible: false,
+            child: error_label,
+        });
+
+        error_popover.set_parent(entry);
 
         this.pattern.connect('notify::error', () => {
             if (this.pattern.error) {
@@ -295,48 +296,25 @@ class DDTermSearchBar extends Gtk.Revealer {
         entry.connect('stop-search', () => this.close());
         entry.connect('search-changed', () => this.pattern.update());
 
-        this.connect('key-press-event', (_, event) => entry.handle_event(event));
-        this.connect('key-release-event', (_, event) => entry.handle_event(event));
+        const capture_controller = Gtk.EventControllerKey.new();
+        capture_controller.set_propagation_phase(Gtk.PropagationPhase.BUBBLE);
+        capture_controller.connect('key-pressed', () => capture_controller.forward(entry));
+        capture_controller.connect('key-released', () => capture_controller.forward(entry));
+        this.add_controller(capture_controller);
+
         this.connect('notify::reveal-child', () => {
             if (this.reveal_child)
                 entry.grab_focus();
         });
 
-        const close_button = new Gtk.Button({
-            image: new Gtk.Image({ icon_name: 'window-close' }),
-            tooltip_text: Gettext.gettext('Close Search Bar'),
-            visible: true,
-            focus_on_click: false,
-        });
-
-        layout.pack_end(close_button, false, false, 0);
-
-        close_button.connect('clicked', this.close.bind(this));
-
-        const wrap_button = new Gtk.ToggleButton({
-            image: new Gtk.Image({ icon_name: 'view-wrapped' }),
-            tooltip_text: Gettext.gettext('Wrap Around'),
-            visible: true,
-            focus_on_click: false,
-        });
-
-        layout.pack_end(wrap_button, false, false, 0);
-
-        this.bind_property(
-            'wrap',
-            wrap_button,
-            'active',
-            GObject.BindingFlags.BIDIRECTIONAL | GObject.BindingFlags.SYNC_CREATE
-        );
-
         const find_next_button = new Gtk.Button({
-            image: new Gtk.Image({ icon_name: 'go-down' }),
+            icon_name: 'go-down',
             tooltip_text: Gettext.gettext('Find Next'),
             visible: true,
             focus_on_click: false,
         });
 
-        layout.pack_end(find_next_button, false, false, 0);
+        layout.append(find_next_button);
 
         this._pattern.bind_property(
             'regex-set',
@@ -348,13 +326,13 @@ class DDTermSearchBar extends Gtk.Revealer {
         find_next_button.connect('clicked', this.find_next.bind(this));
 
         const find_prev_button = new Gtk.Button({
-            image: new Gtk.Image({ icon_name: 'go-up' }),
+            icon_name: 'go-up',
             tooltip_text: Gettext.gettext('Find Previous'),
             visible: true,
             focus_on_click: false,
         });
 
-        layout.pack_end(find_prev_button, false, false, 0);
+        layout.append(find_prev_button);
 
         this._pattern.bind_property(
             'regex-set',
@@ -364,6 +342,33 @@ class DDTermSearchBar extends Gtk.Revealer {
         );
 
         find_prev_button.connect('clicked', this.find_prev.bind(this));
+
+        const wrap_button = new Gtk.ToggleButton({
+            icon_name: 'view-wrapped',
+            tooltip_text: Gettext.gettext('Wrap Around'),
+            visible: true,
+            focus_on_click: false,
+        });
+
+        layout.append(wrap_button);
+
+        this.bind_property(
+            'wrap',
+            wrap_button,
+            'active',
+            GObject.BindingFlags.BIDIRECTIONAL | GObject.BindingFlags.SYNC_CREATE
+        );
+
+        const close_button = new Gtk.Button({
+            icon_name: 'window-close',
+            tooltip_text: Gettext.gettext('Close Search Bar'),
+            visible: true,
+            focus_on_click: false,
+        });
+
+        layout.append(close_button);
+
+        close_button.connect('clicked', this.close.bind(this));
     }
 
     get pattern() {

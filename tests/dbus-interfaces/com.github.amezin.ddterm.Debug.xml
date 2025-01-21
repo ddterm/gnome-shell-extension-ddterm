@@ -25,11 +25,11 @@
         <signal name="WindowEvent">
             <arg type="s"/>
         </signal>
-        <signal name="ConfigureEvent">
+        <signal name="WindowLayout">
             <arg type="i" name="width"/>
             <arg type="i" name="height"/>
         </signal>
-        <signal name="WindowStateEvent">
+        <signal name="ToplevelState">
             <arg type="as"/>
         </signal>
         <signal name="SizeAllocate">

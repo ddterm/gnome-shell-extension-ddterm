@@ -58,24 +58,28 @@ export const TabLabel = GObject.registerClass({
         'close': {},
         'reset-label': {},
     },
-}, class DDTermTabLabel extends Gtk.EventBox {
+}, class DDTermTabLabel extends Gtk.Box {
     _init(params) {
-        super._init(params);
+        super._init({ spacing: 10, ...params });
 
-        this.connect_after('button-press-event', this._button_press_event.bind(this));
-        this.connect('popup-menu', this._popup_menu.bind(this));
+        const menu_click = Gtk.GestureClick.new();
+        this.add_controller(menu_click);
+        menu_click.button = 0;
+        menu_click.exclusive = true;
+        menu_click.connect('pressed', (gesture, n_press, x, y) => {
+            const event = gesture.get_current_event();
 
-        const layout = new Gtk.Box({
-            visible: true,
-            spacing: 10,
-            parent: this,
+            if (event.triggers_context_menu()) {
+                gesture.set_state(Gtk.EventSequenceState.CLAIMED);
+                this.show_popup_menu(x, y, event.get_pointer_emulated());
+            }
         });
 
         this.shortcut_label = new AccelLabel({
             visible: true,
         });
 
-        layout.pack_start(this.shortcut_label, false, false, 0);
+        this.append(this.shortcut_label);
 
         this.bind_property(
             'show-shortcut',
@@ -90,7 +94,7 @@ export const TabLabel = GObject.registerClass({
             visible: true,
         });
 
-        layout.pack_start(label, true, true, 0);
+        this.append(label);
 
         this.bind_property(
             'label',
@@ -108,16 +112,13 @@ export const TabLabel = GObject.registerClass({
 
         const close_button = new Gtk.Button({
             tooltip_text: Gettext.gettext('Close'),
-            image: new Gtk.Image({
-                icon_name: 'window-close',
-                visible: true,
-            }),
+            icon_name: 'window-close',
             visible: true,
             focus_on_click: false,
-            relief: Gtk.ReliefStyle.NONE,
+            has_frame: false,
         });
 
-        layout.pack_end(close_button, false, false, 0);
+        this.append(close_button);
 
         this.bind_property(
             'close-button',
@@ -128,18 +129,12 @@ export const TabLabel = GObject.registerClass({
 
         close_button.connect('clicked', () => this.emit('close'));
 
-        this.edit_popover = new Gtk.Popover({
-            relative_to: this,
-        });
-
-        this.connect('destroy', () => this.edit_popover.destroy());
-
         const edit_entry = new Gtk.Entry({
             visible: true,
-            parent: this.edit_popover,
             secondary_icon_name: 'edit-clear',
             secondary_icon_activatable: true,
             secondary_icon_sensitive: true,
+            width_chars: 50,
         });
 
         edit_entry.connect('activate', () => this.edit_popover.popdown());
@@ -156,9 +151,13 @@ export const TabLabel = GObject.registerClass({
             GObject.BindingFlags.SYNC_CREATE | GObject.BindingFlags.BIDIRECTIONAL
         );
 
-        this.connect('size-allocate', (_, allocation) => {
-            edit_entry.width_request = allocation.width;
+        this.edit_popover = new Gtk.Popover({
+            visible: false,
+            child: edit_entry,
+            autohide: true,
         });
+
+        this.edit_popover.set_parent(this);
     }
 
     edit() {
@@ -197,28 +196,34 @@ export const TabLabel = GObject.registerClass({
         this.shortcut_label.set_action_target_value(value);
     }
 
-    _button_press_event(terminal, event) {
-        if (!event.triggers_context_menu())
-            return false;
-
-        const menu = Gtk.Menu.new_from_model(this.context_menu_model);
+    show_popup_menu(x, y, is_touch = false) {
+        let menu = Gtk.PopoverMenu.new_from_model(this.context_menu_model);
 
         menu.__heapgraph_name = 'DDTermTabLabelContextMenu';
-        menu.attach_to_widget(this, (widget, m) => m.destroy());
-        menu.connect('selection-done', m => m.detach());
-        menu.popup_at_pointer(event);
 
-        return true;
-    }
+        if (is_touch)
+            menu.halign = Gtk.Align.FILL;
+        else if (this.get_direction() === Gtk.TextDirection.RTL)
+            menu.halign = Gtk.Align.END;
+        else
+            menu.halign = Gtk.Align.START;
 
-    _popup_menu() {
-        const menu = Gtk.Menu.new_from_model(this.context_menu_model);
+        menu.autohide = true;
+        menu.cascade_popdown = true;
+        menu.has_arrow = is_touch;
+        menu.position = is_touch ? Gtk.PositionType.TOP : Gtk.PositionType.BOTTOM;
+        menu.pointing_to = new Gdk.Rectangle({ x, y, width: 0, height: 0 });
 
-        menu.__heapgraph_name = 'DDTermTabLabelContextMenu';
-        menu.attach_to_widget(this, (widget, m) => m.destroy());
-        menu.connect('selection-done', m => m.detach());
-        menu.popup_at_widget(this, Gdk.Gravity.SOUTH, Gdk.Gravity.SOUTH, null);
+        menu.set_parent(this);
 
-        return true;
+        const closed_handler = menu.connect('closed', () => {
+            menu.unparent();
+            menu.disconnect(closed_handler);
+            // Leaks without .run_dispose() - confirmed with heapgraph
+            menu.run_dispose();
+            menu = null;
+        });
+
+        menu.popup();
     }
 });
