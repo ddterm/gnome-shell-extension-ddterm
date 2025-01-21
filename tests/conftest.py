@@ -408,9 +408,11 @@ def global_environment(container, request):
         env['LIBGL_ALWAYS_SOFTWARE'] = 'true'
         env['GBM_ALWAYS_SOFTWARE'] = 'true'
         env['VK_LOADER_DRIVERS_SELECT'] = 'lvp_*'
+        env['GSK_RENDERER'] = 'cairo'
 
     env['NO_AT_BRIDGE'] = '1'
     env['GTK_A11Y'] = 'none'
+    env['ADW_DISABLE_PORTAL'] = '1'
 
     return env
 

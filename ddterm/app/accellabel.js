@@ -29,7 +29,7 @@ class DDTermAccelLabel extends Gtk.Label {
 
     #realize() {
         this.#hierarchy_handler =
-            this.connect('hierarchy-changed', this.#update_hierarchy.bind(this));
+            this.connect('notify::root', this.#update_hierarchy.bind(this));
 
         this.#update_hierarchy();
     }
@@ -97,7 +97,7 @@ class DDTermAccelLabel extends Gtk.Label {
             this.#keys_handler = null;
         }
 
-        this.#toplevel = this.get_toplevel();
+        this.#toplevel = this.root;
 
         if (this.#toplevel instanceof Gtk.Window) {
             this.#keys_handler =
@@ -119,7 +119,10 @@ class DDTermAccelLabel extends Gtk.Label {
 
         for (const shortcut of toplevel.application?.get_accels_for_action(action) || []) {
             try {
-                return Gtk.accelerator_get_label(...Gtk.accelerator_parse(shortcut));
+                const [ok, key, mods] = Gtk.accelerator_parse(shortcut);
+
+                if (ok)
+                    return Gtk.accelerator_get_label(key, mods);
             } catch (ex) {
                 logError(ex);
             }
