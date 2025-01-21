@@ -232,6 +232,14 @@ const Interface = GObject.registerClass({
         );
     }
 
+    SetKeyPressed(key, pressed) {
+        this.keyboard.notify_keyval(
+            Clutter.CURRENT_TIME,
+            key,
+            pressed ? Clutter.KeyState.PRESSED : Clutter.KeyState.RELEASED
+        );
+    }
+
     GetCurrentMonitor() {
         return global.display.get_current_monitor();
     }

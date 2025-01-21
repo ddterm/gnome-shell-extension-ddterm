@@ -41,6 +41,11 @@ class MouseButton(enum.IntEnum):
     SECONDARY = 3
 
 
+@enum.unique
+class Key(enum.IntEnum):
+    ESCAPE = 0xff1b
+
+
 class _Base(dbusutil.Proxy):
     __dbus_interface_info__ = INTROSPECT_FILE.read_text()
 
@@ -113,6 +118,12 @@ class Proxy(_Base):
 
     def mouse_up(self, button=MouseButton.PRIMARY):
         return super().SetMousePressed(button, False)
+
+    def key_down(self, key):
+        return super().SetKeyPressed(key, True)
+
+    def key_up(self, key):
+        return super().SetKeyPressed(key, False)
 
     def Screenshot(self, path, **kwargs):
         return super().Screenshot(str(path), **kwargs)

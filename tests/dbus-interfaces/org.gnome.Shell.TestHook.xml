@@ -34,6 +34,11 @@
             <arg type="b" name="pressed" direction="in"/>
         </method>
 
+        <method name="SetKeyPressed">
+            <arg type="u" name="key" direction="in"/>
+            <arg type="b" name="pressed" direction="in"/>
+        </method>
+
         <method name="GetCurrentMonitor">
             <arg type="i" direction="out"/>
         </method>
