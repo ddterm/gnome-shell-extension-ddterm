@@ -42,6 +42,7 @@ const Interface = GObject.registerClass({
     },
     Signals: {
         'WindowCreated': {},
+        'WindowShown': {},
         'WindowUnmanaged': {},
     },
 }, class DDTermShellHookInterface extends GObject.Object {
@@ -69,6 +70,10 @@ const Interface = GObject.registerClass({
             };
 
             this._destroy_callbacks.push(disconnect);
+
+            handlers.push(win.connect('shown', () => {
+                this.emit('WindowShown');
+            }));
 
             handlers.push(win.connect('unmanaged', () => {
                 this.emit('WindowUnmanaged');
@@ -146,6 +151,10 @@ const Interface = GObject.registerClass({
 
         this.connect('WindowCreated', () => {
             this.wrapper.emit_signal('WindowCreated', null);
+        });
+
+        this.connect('WindowShown', () => {
+            this.wrapper.emit_signal('WindowShown', null);
         });
 
         this.connect('WindowUnmanaged', () => {

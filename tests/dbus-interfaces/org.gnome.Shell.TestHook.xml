@@ -72,6 +72,7 @@
         <property name="ColorScheme" type="s" access="readwrite"/>
 
         <signal name="WindowCreated"/>
+        <signal name="WindowShown"/>
         <signal name="WindowUnmanaged"/>
     </interface>
 </node>
