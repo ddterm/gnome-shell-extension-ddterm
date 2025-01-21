@@ -339,29 +339,81 @@ const TerminalBase = GObject.registerClass({
             GObject.BindingFlags.DEFAULT
         );
 
-        this.connect(
-            'button-press-event',
-            this._update_clicked_hyperlink.bind(this)
-        );
+        const click_controller = Gtk.GestureClick.new();
+        click_controller.propagation_phase = Gtk.PropagationPhase.CAPTURE;
+        click_controller.button = 0;
+        this.add_controller(click_controller);
+
+        click_controller.connect('pressed', this._update_clicked_hyperlink.bind(this));
+        click_controller.connect('released', this._update_clicked_hyperlink.bind(this));
 
         this.connect('notify::background-opacity', () => {
             if (this._background_from_style)
                 this.set_color_background(null);
         });
 
-        if (this._background_from_style)
-            this.set_color_background(null);
-
         this.connect('notify::font-scale', () => {
             this.notify('can-increase-font-scale');
             this.notify('can-decrease-font-scale');
         });
 
-        this._gdk_atom_primary = Gdk.Atom.intern('PRIMARY', true);
+        this.connect('notify::parent', () => {
+            this.update_style();
+        });
+
+        this.update_style();
+    }
+
+    vfunc_css_changed(change) {
+        super.vfunc_css_changed(change);
+
+        this.update_style();
+
+        // VTE bug? https://github.com/ddterm/gnome-shell-extension-ddterm/issues/674
+        this.set_font(this.get_font());
+    }
+
+    vfunc_root() {
+        super.vfunc_root();
+
+        this.update_style();
     }
 
     get child_pid() {
         return this._child_pid;
+    }
+
+    get_style_foreground() {
+        return this.get_style_context()?.get_color() ?? null;
+    }
+
+    get_style_background() {
+        let node = null;
+        let parent = this;
+
+        while (parent) {
+            const style = parent.get_style_context();
+
+            if (style) {
+                const snapshot = Gtk.Snapshot.new();
+                snapshot.render_background(style, 0, 0, 16, 16);
+                node = snapshot.to_node();
+
+                if (node && node.get_color)
+                    break;
+            }
+
+            parent = parent.parent;
+        }
+
+        let background = node?.get_color?.()?.copy();
+
+        if (!background)
+            return null;
+
+        background.alpha = this.background_opacity;
+
+        return background;
     }
 
     set colors(value) {
@@ -372,14 +424,11 @@ const TerminalBase = GObject.registerClass({
         this._foreground_from_style = foreground === null;
         this._background_from_style = background === null;
 
-        if (this._foreground_from_style || this._background_from_style) {
-            const style = this.get_style_context();
-            const state = style.get_state();
+        if (this._foreground_from_style)
+            foreground = this.get_style_foreground();
 
-            foreground = style.get_property('color', state);
-            background = style.get_property('background-color', state).copy();
-            background.alpha = this.background_opacity;
-        }
+        if (this._background_from_style)
+            background = this.get_style_background();
 
         super.set_colors(foreground, background, palette);
     }
@@ -391,14 +440,11 @@ const TerminalBase = GObject.registerClass({
     set_color_foreground(value) {
         this._foreground_from_style = value === null;
 
-        if (this._foreground_from_style) {
-            const style = this.get_style_context();
-            const state = style.get_state();
+        if (this._foreground_from_style)
+            value = this.get_style_foreground();
 
-            value = style.get_property('color', state);
-        }
-
-        super.set_color_foreground(value);
+        if (value)
+            super.set_color_foreground(value);
     }
 
     set color_background(value) {
@@ -408,34 +454,26 @@ const TerminalBase = GObject.registerClass({
     set_color_background(value) {
         this._background_from_style = value === null;
 
-        if (this._background_from_style) {
-            const style = this.get_style_context();
-            const state = style.get_state();
+        if (this._background_from_style)
+            value = this.get_style_background();
 
-            value = style.get_property('background-color', state).copy();
-            value.alpha = this.background_opacity;
-        }
-
-        super.set_color_background(value);
+        if (value)
+            super.set_color_background(value);
     }
 
-    on_style_updated() {
-        // VTE bug? https://github.com/ddterm/gnome-shell-extension-ddterm/issues/674
-        this.set_font(this.get_font());
+    update_style() {
+        if (this._foreground_from_style) {
+            const value = this.get_style_foreground();
 
-        if (!this._foreground_from_style && !this._background_from_style)
-            return;
-
-        const style = this.get_style_context();
-        const state = style.get_state();
-
-        if (this._foreground_from_style)
-            super.set_color_foreground(style.get_property('color', state));
+            if (value)
+                super.set_color_foreground(value);
+        }
 
         if (this._background_from_style) {
-            const value = style.get_property('background-color', state);
-            value.alpha = this.background_opacity;
-            super.set_color_background(value);
+            const value = this.get_style_background();
+
+            if (value)
+                super.set_color_background(value);
         }
     }
 
@@ -582,11 +620,11 @@ const TerminalBase = GObject.registerClass({
         return this._clicked_filename;
     }
 
-    _update_clicked_hyperlink(terminal_, event) {
-        let clicked_hyperlink = this.hyperlink_check_event(event);
+    _update_clicked_hyperlink(gesture, n_press, x, y) {
+        let clicked_hyperlink = this.check_hyperlink_at(x, y);
 
         if (!clicked_hyperlink && this._url_detect)
-            clicked_hyperlink = this._url_detect.check_event(event);
+            clicked_hyperlink = this._url_detect.check_match_at(x, y);
 
         let clicked_filename = null;
 
@@ -612,23 +650,6 @@ const TerminalBase = GObject.registerClass({
         } finally {
             this.thaw_notify();
         }
-    }
-
-    get_text_selected_async() {
-        if (this.get_text_selected)
-            return Promise.resolve(this.get_text_selected(Vte.Format.TEXT));
-
-        if (!this.get_has_selection())
-            return Promise.resolve('');
-
-        const primary_selection = this.get_clipboard(this._gdk_atom_primary);
-        this.copy_primary();
-
-        return new Promise(resolve => {
-            primary_selection.request_text((_, text) => {
-                resolve(text);
-            });
-        });
     }
 
     get_text() {
@@ -667,55 +688,75 @@ const TerminalContextMenu = HAS_CONTEXT_MENU ? null : GObject.registerClass({
     _init(params) {
         super._init(params);
 
-        this.connect('button-press-event', this._button_press_early.bind(this));
-        this.connect_after('button-press-event', this._button_press_late.bind(this));
-        this.connect('popup-menu', this._popup_menu.bind(this));
+        const menu_click_early = Gtk.GestureClick.new();
+        this.add_controller(menu_click_early);
+        menu_click_early.button = 0;
+        menu_click_early.exclusive = true;
+        menu_click_early.propagation_phase = Gtk.PropagationPhase.CAPTURE;
+        menu_click_early.connect('pressed', (gesture, n_press, x, y) => {
+            const event = gesture.get_current_event();
+
+            if (!event.triggers_context_menu())
+                return;
+
+            const state = event.get_modifier_state();
+
+            if (!(state & Gdk.ModifierType.SHIFT_MASK))
+                return;
+
+            if (state & (Gdk.ModifierType.CONTROL_MASK | Gdk.ModifierType.MOD1_MASK))
+                return;
+
+            gesture.set_state(Gtk.EventSequenceState.CLAIMED);
+            this.show_popup_menu(x, y, event.get_pointer_emulated());
+        });
+
+        const menu_click_late = Gtk.GestureClick.new();
+        this.add_controller(menu_click_late);
+        menu_click_late.button = 0;
+        menu_click_late.exclusive = true;
+        menu_click_late.propagation_phase = Gtk.PropagationPhase.TARGET;
+        menu_click_late.connect('pressed', (gesture, n_press, x, y) => {
+            const event = gesture.get_current_event();
+
+            if (!event.triggers_context_menu())
+                return;
+
+            gesture.set_state(Gtk.EventSequenceState.CLAIMED);
+            this.show_popup_menu(x, y, event.get_pointer_emulated());
+        });
     }
 
-    _create_context_menu() {
-        let menu = Gtk.Menu.new_from_model(this.context_menu_model);
+    show_popup_menu(x, y, is_touch = false) {
+        let menu = Gtk.PopoverMenu.new_from_model(this.context_menu_model);
 
         menu.__heapgraph_name = 'DDTermTerminalContextMenuContextMenu';
-        // https://github.com/ddterm/gnome-shell-extension-ddterm/issues/116
-        menu.get_style_context().add_class(Gtk.STYLE_CLASS_CONTEXT_MENU);
-        menu.attach_to_widget(this, (widget, m) => m.destroy());
-        menu.connect('selection-done', m => m.detach());
 
-        return menu;
-    }
+        if (is_touch)
+            menu.halign = Gtk.Align.FILL;
+        else if (this.get_direction() === Gtk.TextDirection.RTL)
+            menu.halign = Gtk.Align.END;
+        else
+            menu.halign = Gtk.Align.START;
 
-    _button_press_early(terminal, event) {
-        if (!event.triggers_context_menu())
-            return false;
+        menu.autohide = true;
+        menu.cascade_popdown = true;
+        menu.has_arrow = is_touch;
+        menu.position = is_touch ? Gtk.PositionType.TOP : Gtk.PositionType.BOTTOM;
+        menu.pointing_to = new Gdk.Rectangle({ x, y, width: 0, height: 0 });
 
-        const state = event.get_state()[1];
+        menu.get_style_context().add_class('context-menu');
+        menu.set_parent(this);
 
-        if (!(state & Gdk.ModifierType.SHIFT_MASK))
-            return false;
+        const closed_handler = menu.connect('closed', () => {
+            menu.unparent();
+            menu.disconnect(closed_handler);
+            // Leaks without .run_dispose() - confirmed with heapgraph
+            menu.run_dispose();
+            menu = null;
+        });
 
-        if (state & (Gdk.ModifierType.CONTROL_MASK | Gdk.ModifierType.MOD1_MASK))
-            return false;
-
-        this._create_context_menu().popup_at_pointer(event);
-
-        return true;
-    }
-
-    _button_press_late(terminal, event) {
-        if (!event.triggers_context_menu())
-            return false;
-
-        this._create_context_menu().popup_at_pointer(event);
-
-        return true;
-    }
-
-    _popup_menu() {
-        const menu = this._create_context_menu();
-
-        menu.popup_at_widget(this, Gdk.Gravity.SOUTH, Gdk.Gravity.SOUTH, null);
-
-        return true;
+        menu.popup();
     }
 });
 
