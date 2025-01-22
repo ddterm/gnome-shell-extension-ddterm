@@ -283,7 +283,9 @@ class Application extends Gtk.Application {
         this.display_config.update_sync();
 
         this.simple_action('toggle', () => this.ensure_window_with_terminal().toggle());
-        this.simple_action('show', () => this.ensure_window_with_terminal().show());
+        this.simple_action('show', () => {
+            this.ensure_window_with_terminal().present_with_time(Gdk.CURRENT_TIME);
+        });
         this.simple_action('hide', () => this.window?.hide());
 
         const shortcut_actions = {
