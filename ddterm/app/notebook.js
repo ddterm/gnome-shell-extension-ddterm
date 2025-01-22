@@ -523,20 +523,6 @@ export const Notebook = GObject.registerClass({
     }
 });
 
-function array_common_prefix(a, b) {
-    let len = Math.min(a.length, b.length);
-    let i = 0;
-
-    while (i < len && a[i] === b[i])
-        i++;
-
-    return i;
-}
-
-function array_common_suffix(a, b) {
-    return array_common_prefix(a.slice().reverse(), b.slice().reverse());
-}
-
 const NotebookMenu = GObject.registerClass({
     Properties: {
         'notebook': GObject.ParamSpec.object(
@@ -574,22 +560,12 @@ const NotebookMenu = GObject.registerClass({
     }
 
     _update() {
-        const prev = this._label;
-        const update = this.notebook.get_children().map(page => page.title);
+        const prev_length = this.get_n_items();
 
-        const common_prefix = array_common_prefix(prev, update);
+        this._label = this.notebook.get_children().map(page => page.title);
+        this._target.length = this._label.length;
 
-        if (common_prefix === update.length && common_prefix === prev.length)
-            return;
-
-        const common = prev.length === update.length
-            ? common_prefix + array_common_suffix(prev, update)
-            : common_prefix;
-
-        this._label = update;
-        this._target.length = update.length;
-
-        this.items_changed(common_prefix, prev.length - common, update.length - common);
+        this.items_changed(0, prev_length, this._label.length);
     }
 
     _schedule_update() {
