@@ -20,7 +20,7 @@ click==8.1.8
     # via reuse
 jinja2==3.1.5
     # via reuse
-license-expression==30.4.0
+license-expression==30.4.1
     # via reuse
 markupsafe==3.0.2
     # via jinja2
