@@ -142,6 +142,7 @@ const Color = GObject.registerClass({
         this._rgba = null;
 
         super._init(params);
+        this.__heapgraph_name = this.constructor.$gtype.name;
     }
 
     get rgba() {
@@ -195,6 +196,7 @@ const ColorScheme = GObject.registerClass({
 }, class DDTermPrefsColorsColorScheme extends GObject.Object {
     _init(params) {
         super._init(params);
+        this.__heapgraph_name = this.constructor.$gtype.name;
 
         this.colors = Array.from(
             { length: this.presets.get_n_columns() - 1 },
@@ -205,10 +207,6 @@ const ColorScheme = GObject.registerClass({
             color.connect('notify::str', () => this.notify('strv'));
             color.connect('notify::rgba', () => this.notify('active-preset'));
         }
-
-        this._model_handlers = ['row-changed', 'row-deleted', 'row-inserted'].map(
-            signal => this.presets.connect(signal, () => this.notify('active-preset'))
-        );
     }
 
     get active_preset() {
@@ -252,13 +250,6 @@ const ColorScheme = GObject.registerClass({
         } finally {
             this.thaw_notify();
         }
-    }
-
-    destroy() {
-        for (const handler_id of this._model_handlers)
-            this.presets.disconnect(handler_id);
-
-        this._model_handlers = [];
     }
 
     preset_matches(iter, rgbav) {
@@ -310,6 +301,7 @@ export const ColorsWidget = GObject.registerClass({
 }, class PrefsColors extends Gtk.Grid {
     _init(params) {
         super._init(params);
+        this.__heapgraph_name = this.constructor.$gtype.name;
 
         insert_settings_actions(this, this.settings, [
             'cursor-colors-set',
@@ -331,7 +323,6 @@ export const ColorsWidget = GObject.registerClass({
         this.color_scheme = new ColorScheme({
             presets: this.color_scheme_combo.model,
         });
-        this.connect('destroy', () => this.color_scheme.destroy());
 
         this.bind_color('foreground-color', this.foreground_color, this.color_scheme.colors[0]);
         this.bind_color('background-color', this.background_color, this.color_scheme.colors[1]);
@@ -343,19 +334,22 @@ export const ColorsWidget = GObject.registerClass({
             GObject.BindingFlags.SYNC_CREATE | GObject.BindingFlags.BIDIRECTIONAL
         );
 
-        const color_scheme_enable_handlers = [
-            this.settings.connect(
-                'writable-changed::foreground-color',
-                this.enable_color_scheme_combo.bind(this)
-            ),
-            this.settings.connect(
-                'writable-changed::background-color',
-                this.enable_color_scheme_combo.bind(this)
-            ),
-        ];
-        this.connect('destroy', () => {
-            color_scheme_enable_handlers.forEach(handler => this.settings.disconnect(handler));
-        });
+        const settings_signals = GObject.SignalGroup.new(Gio.Settings);
+        this.connect('destroy', () => settings_signals.set_target(null));
+
+        settings_signals.connect_closure(
+            'writable-changed::foreground-color',
+            this.enable_color_scheme_combo.bind(this),
+            false
+        );
+
+        settings_signals.connect_closure(
+            'writable-changed::background-color',
+            this.enable_color_scheme_combo.bind(this),
+            false
+        );
+
+        settings_signals.set_target(this.settings);
         this.enable_color_scheme_combo();
 
         bind_widget(this.settings, 'background-opacity', this.opacity_scale);
@@ -403,7 +397,6 @@ export const ColorsWidget = GObject.registerClass({
         this.palette = new ColorScheme({
             presets: this.palette_combo.model,
         });
-        this.connect('destroy', () => this.palette.destroy());
 
         this.settings.bind(
             'palette',
@@ -436,13 +429,10 @@ export const ColorsWidget = GObject.registerClass({
             name: 'copy-gnome-terminal-profile',
         });
 
-        copy_from_gnome_terminal_action.connect('activate', () => {
-            try {
-                copy_gnome_terminal_profile(this.settings);
-            } catch (e) {
-                show_dialog(this.get_toplevel(), e.message);
-            }
-        });
+        copy_from_gnome_terminal_action.connect(
+            'activate',
+            this.copy_from_gnome_terminal.bind(this)
+        );
 
         const aux_actions = new Gio.SimpleActionGroup();
         aux_actions.add_action(copy_from_gnome_terminal_action);
@@ -477,5 +467,13 @@ export const ColorsWidget = GObject.registerClass({
         this.color_scheme_combo.sensitive =
             this.settings.is_writable('foreground-color') &&
             this.settings.is_writable('background-color');
+    }
+
+    copy_from_gnome_terminal() {
+        try {
+            copy_gnome_terminal_profile(this.settings);
+        } catch (e) {
+            show_dialog(this.get_toplevel(), e.message);
+        }
     }
 });

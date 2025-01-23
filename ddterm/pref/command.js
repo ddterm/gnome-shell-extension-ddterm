@@ -32,6 +32,7 @@ export const CommandWidget = GObject.registerClass({
 }, class PrefsCommand extends Gtk.Grid {
     _init(params) {
         super._init(params);
+        this.__heapgraph_name = this.constructor.$gtype.name;
 
         insert_settings_actions(this, this.settings, [
             'command',
@@ -40,11 +41,16 @@ export const CommandWidget = GObject.registerClass({
 
         bind_widget(this.settings, 'custom-command', this.custom_command_entry);
 
-        const handler = this.settings.connect(
+        const settings_signals = GObject.SignalGroup.new(Gio.Settings);
+        this.connect('destroy', () => settings_signals.set_target(null));
+
+        settings_signals.connect_closure(
             'changed::command',
-            this.enable_custom_command_entry.bind(this)
+            this.enable_custom_command_entry.bind(this),
+            false
         );
-        this.connect('destroy', () => this.settings.disconnect(handler));
+
+        settings_signals.set_target(this.settings);
         this.enable_custom_command_entry();
     }
 

@@ -46,16 +46,22 @@ export const PositionSizeWidget = GObject.registerClass({
 }, class PrefsPositionSize extends Gtk.Grid {
     _init(params) {
         super._init(params);
+        this.__heapgraph_name = this.constructor.$gtype.name;
 
         insert_settings_actions(this, this.settings, ['window-monitor']);
 
         bind_widget(this.settings, 'window-monitor-connector', this.monitor_combo);
 
-        const window_monitor_handler = this.settings.connect(
+        const settings_signals = GObject.SignalGroup.new(Gio.Settings);
+        this.connect('destroy', () => settings_signals.set_target(null));
+
+        settings_signals.connect_closure(
             'changed::window-monitor',
-            this.enable_monitor_combo.bind(this)
+            this.enable_monitor_combo.bind(this),
+            false
         );
-        this.connect('destroy', () => this.settings.disconnect(window_monitor_handler));
+
+        settings_signals.set_target(this.settings);
         this.enable_monitor_combo();
 
         bind_widget(this.settings, 'window-position', this.window_pos_combo);

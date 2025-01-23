@@ -52,42 +52,46 @@ export const ShortcutsWidget = GObject.registerClass({
 }, class PrefsShortcuts extends Gtk.Box {
     _init(params) {
         super._init(params);
+        this.__heapgraph_name = this.constructor.$gtype.name;
 
         insert_settings_actions(this, this.settings, ['shortcuts-enabled']);
+
+        const settings_signals = GObject.SignalGroup.new(Gio.Settings);
+        this.connect('destroy', () => settings_signals.set_target(null));
 
         [this.shortcuts_list, this.global_shortcuts_list].forEach(shortcuts_list => {
             shortcuts_list.foreach((model, path, iter) => {
                 const i = iter.copy();
                 const key = model.get_value(i, COLUMN_SETTINGS_KEY);
 
-                const handler = this.settings.connect(
+                settings_signals.connect_closure(
                     `changed::${key}`,
-                    this.update_model.bind(this, model, i)
+                    this.update_model.bind(this, model, i),
+                    false
                 );
-                this.connect('destroy', () => this.settings.disconnect(handler));
+
                 this.update_model(model, i, this.settings, key);
 
-                const editable_handler = this.settings.connect(
+                settings_signals.connect_closure(
                     `writable-changed::${key}`,
-                    this.update_editable.bind(this, model, i)
+                    this.update_editable.bind(this, model, i),
+                    false
                 );
-                this.connect('destroy', () => this.settings.disconnect(editable_handler));
+
                 this.update_editable(model, i, this.settings, key);
 
                 return false;
             });
         });
 
-        for (const signal of ['accel-edited', 'accel-cleared']) {
-            this.accel_renderer.connect(
-                signal,
-                this.save_shortcut.bind(this, this.shortcuts_list)
-            );
+        settings_signals.set_target(this.settings);
 
-            this.global_accel_renderer.connect(
-                signal,
-                this.save_shortcut.bind(this, this.global_shortcuts_list)
-            );
+        const save_shortcut = this.save_shortcut.bind(this, this.shortcuts_list);
+        const save_global_shortcut = this.save_shortcut.bind(this, this.global_shortcuts_list);
+
+        for (const signal of ['accel-edited', 'accel-cleared']) {
+            this.accel_renderer.connect(signal, save_shortcut);
+            this.global_accel_renderer.connect(signal, save_global_shortcut);
         }
 
         this.global_accel_renderer.connect(
@@ -97,13 +101,8 @@ export const ShortcutsWidget = GObject.registerClass({
 
         bind_sensitive(this.settings, 'shortcuts-enabled', this.shortcuts_treeview);
 
-        this.accel_toggle.connect('toggled', (_, path) => {
-            this.save_shortcut(this.shortcuts_list, _, path);
-        });
-
-        this.global_accel_toggle.connect('toggled', (_, path) => {
-            this.save_shortcut(this.global_shortcuts_list, _, path);
-        });
+        this.accel_toggle.connect('toggled', save_shortcut);
+        this.global_accel_toggle.connect('toggled', save_global_shortcut);
 
         const reset_action = new Gio.SimpleAction({ name: 'reset' });
         reset_action.connect('activate', this.reset.bind(this));

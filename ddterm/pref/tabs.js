@@ -40,6 +40,7 @@ export const TabsWidget = GObject.registerClass({
 }, class PrefsTabs extends Gtk.Grid {
     _init(params) {
         super._init(params);
+        this.__heapgraph_name = this.constructor.$gtype.name;
 
         bind_widgets(this.settings, {
             'tab-policy': this.tab_policy_combo,
@@ -66,15 +67,22 @@ export const TabsWidget = GObject.registerClass({
         if (this.saved_ellipsize_mode === 'none')
             this.saved_ellipsize_mode = 'middle';
 
-        const tab_position_handler = this.settings.connect('changed::tab-position', () => {
-            this.auto_enable_ellipsize();
-        });
-        this.connect('destroy', () => this.settings.disconnect(tab_position_handler));
+        const settings_signals = GObject.SignalGroup.new(Gio.Settings);
+        this.connect('destroy', () => settings_signals.set_target(null));
 
-        const tab_expand_handler = this.settings.connect('changed::tab-expand', () => {
-            this.auto_enable_ellipsize();
-        });
-        this.connect('destroy', () => this.settings.disconnect(tab_expand_handler));
+        settings_signals.connect_closure(
+            'changed::tab-position',
+            this.auto_enable_ellipsize.bind(this),
+            false
+        );
+
+        settings_signals.connect_closure(
+            'changed::tab-expand',
+            this.auto_enable_ellipsize.bind(this),
+            false
+        );
+
+        settings_signals.set_target(this.settings);
     }
 
     get title() {
