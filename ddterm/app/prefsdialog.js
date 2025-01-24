@@ -32,7 +32,6 @@ export const PrefsDialog = GObject.registerClass({
 }, class PrefsDialog extends Gtk.Dialog {
     _init(params) {
         super._init(params);
-        this.__heapgraph_name = this.constructor.$gtype.name;
 
         const gettext_context = Gettext.domain(metadata['gettext-domain']);
 

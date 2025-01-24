@@ -157,11 +157,6 @@ export const TerminalSettings = GObject.registerClass({
         ),
     },
 }, class DDTermTerminalSettings extends GObject.Object {
-    _init(params) {
-        super._init(params);
-        this.__heapgraph_name = this.constructor.$gtype.name;
-    }
-
     bind_terminal(to_terminal) {
         return new TerminalSettingsBinding({
             terminal: to_terminal,
@@ -190,7 +185,6 @@ const MultiBinding = GObject.registerClass({
 }, class DDTermTerminalSettingsMultiBinding extends GObject.Object {
     _init(params) {
         super._init(params);
-        this.__heapgraph_name = this.constructor.$gtype.name;
 
         this._unbind = [];
     }
@@ -234,7 +228,6 @@ export const TerminalSettingsBinding = GObject.registerClass({
 }, class DDTermTerminalSettingsBinding extends MultiBinding {
     _init(params) {
         super._init(params);
-        this.__heapgraph_name = this.constructor.$gtype.name;
 
         GObject.Object.list_properties.call(TerminalSettings).forEach(pspec => {
             if (GObject.Object.find_property.call(Terminal, pspec.name))
@@ -326,7 +319,6 @@ export const TerminalSettingsParser = GObject.registerClass({
 }, class DDTermTerminalSettingsParser extends GObject.Object {
     _init(params) {
         super._init(params);
-        this.__heapgraph_name = this.constructor.$gtype.name;
 
         this.add_dependency('cjk-utf8-ambiguous-width', 'cjk-ambiguous-width');
 
@@ -519,7 +511,6 @@ export const TerminalSettingsParserBinding = GObject.registerClass({
 }, class DDTermTerminalSettingsParserBinding extends MultiBinding {
     _init(params) {
         super._init(params);
-        this.__heapgraph_name = this.constructor.$gtype.name;
 
         GObject.Object.list_properties.call(TerminalSettings).forEach(pspec => {
             if (GObject.Object.find_property.call(TerminalSettingsParser, pspec.name))

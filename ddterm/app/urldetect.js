@@ -92,7 +92,6 @@ export const UrlDetect = GObject.registerClass({
 }, class DDTermUrlDetect extends GObject.Object {
     _init(params) {
         super._init(params);
-        this.__heapgraph_name = this.constructor.$gtype.name;
 
         this._url_prefix = new Map();
 

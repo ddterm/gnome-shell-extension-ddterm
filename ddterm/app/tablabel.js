@@ -61,7 +61,6 @@ export const TabLabel = GObject.registerClass({
 }, class DDTermTabLabel extends Gtk.EventBox {
     _init(params) {
         super._init(params);
-        this.__heapgraph_name = this.constructor.$gtype.name;
 
         this.connect_after('button-press-event', this._button_press_event.bind(this));
         this.connect('popup-menu', this._popup_menu.bind(this));

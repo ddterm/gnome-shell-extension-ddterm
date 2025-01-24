@@ -127,7 +127,6 @@ export const Notebook = GObject.registerClass({
 }, class DDTermNotebook extends Gtk.Notebook {
     _init(params) {
         super._init(params);
-        this.__heapgraph_name = this.constructor.$gtype.name;
 
         const button_box = new Gtk.Box({ visible: true });
 
