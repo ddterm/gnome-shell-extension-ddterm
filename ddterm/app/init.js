@@ -46,7 +46,7 @@ const old_connect_after = GObject.Object.prototype.connect_after;
 GObject.Object.prototype.connect = function (signal, handler) {
     set_heapgraph_name(this);
 
-    handler.__heapgraph_name = intern_string(`${this.__heapgraph_name}.${signal}`);
+    handler.__heapgraph_name = intern_string(`${this.__heapgraph_name}::${signal}`);
 
     return old_connect.call(this, signal, handler);
 };
@@ -54,7 +54,7 @@ GObject.Object.prototype.connect = function (signal, handler) {
 GObject.Object.prototype.connect_after = function (signal, handler) {
     set_heapgraph_name(this);
 
-    handler.__heapgraph_name = intern_string(`${this.__heapgraph_name}.${signal}`);
+    handler.__heapgraph_name = intern_string(`${this.__heapgraph_name}::${signal}`);
 
     return old_connect_after.call(this, signal, handler);
 };
