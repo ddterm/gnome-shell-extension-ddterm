@@ -9,6 +9,44 @@ import Gdk from 'gi://Gdk';
 
 import System from 'system';
 
+function intern_string(str) {
+    // Otherwise dynamically generated strings don't work in __heapgraph_name
+    return Symbol.for(str).description;
+}
+
+function get_heapgraph_name(obj) {
+    const gtypename = obj.constructor.$gtype.name;
+
+    if (obj instanceof Gio.Action)
+        return intern_string(`${gtypename}(${obj.name})`);
+
+    return gtypename;
+}
+
+function set_heapgraph_name(obj) {
+    if (!obj.__heapgraph_name)
+        obj.__heapgraph_name = get_heapgraph_name(obj);
+}
+
+const old_connect = GObject.Object.prototype.connect;
+const old_connect_after = GObject.Object.prototype.connect_after;
+
+GObject.Object.prototype.connect = function (signal, handler) {
+    set_heapgraph_name(this);
+
+    handler.__heapgraph_name = intern_string(`${this.__heapgraph_name}::${signal}`);
+
+    return old_connect.call(this, signal, handler);
+};
+
+GObject.Object.prototype.connect_after = function (signal, handler) {
+    set_heapgraph_name(this);
+
+    handler.__heapgraph_name = intern_string(`${this.__heapgraph_name}::${signal}`);
+
+    return old_connect_after.call(this, signal, handler);
+};
+
 const [DBUS_INTROSPECTION_FILE] = GLib.filename_from_uri(
     GLib.Uri.resolve_relative(
         import.meta.url,
