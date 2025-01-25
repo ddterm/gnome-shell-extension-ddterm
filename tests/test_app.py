@@ -19,6 +19,8 @@ SRC_DIR = THIS_DIR.parent
 
 LOGGER = logging.getLogger(__name__)
 
+GC_CYCLES = 2
+
 
 def diff_heap(dump_old, dump_new, hide_node=[], hide_edge=[], gray_roots=True, weak_maps=True):
     ignore_args = [
@@ -249,6 +251,12 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
 
             dump_pre = tmp_path / 'heap-pre.dump'
             app_debug_dbus_interface.wait_property('NumTabs', n_tabs)
+            app_debug_dbus_interface.WaitFrame()
+
+            for i in range(GC_CYCLES):
+                app_debug_dbus_interface.GC()
+                app_debug_dbus_interface.WaitIdle()
+
             app_debug_dbus_interface.DumpHeap(dump_path)
 
         assert diff_heap(
@@ -281,7 +289,11 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
                     shell_test_hook.key_up(shellhook.Key.ESCAPE)
 
             app_debug_dbus_interface.WaitFrame()
-            app_debug_dbus_interface.WaitIdle()
+
+            for i in range(GC_CYCLES):
+                app_debug_dbus_interface.GC()
+                app_debug_dbus_interface.WaitIdle()
+
             app_debug_dbus_interface.DumpHeap(dump_path)
 
         assert diff_heap(
@@ -331,7 +343,11 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
                 window_unmanaged.get()
 
             app_debug_dbus_interface.WaitFrame()
-            app_debug_dbus_interface.WaitIdle()
+
+            for i in range(GC_CYCLES):
+                app_debug_dbus_interface.GC()
+                app_debug_dbus_interface.WaitIdle()
+
             app_debug_dbus_interface.DumpHeap(dump_path)
 
         assert diff_heap(
