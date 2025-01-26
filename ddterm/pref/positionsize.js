@@ -47,22 +47,23 @@ export const PositionSizeWidget = GObject.registerClass({
     _init(params) {
         super._init(params);
 
-        insert_settings_actions(this, this.settings, ['window-monitor']);
+        const percent_format = new Intl.NumberFormat(undefined, { style: 'percent' });
+        set_scale_value_format(this.window_size_scale, percent_format);
 
         bind_widget(this.settings, 'window-monitor-connector', this.monitor_combo);
-
-        const window_monitor_handler = this.settings.connect(
-            'changed::window-monitor',
-            this.enable_monitor_combo.bind(this)
-        );
-        this.connect('destroy', () => this.settings.disconnect(window_monitor_handler));
-        this.enable_monitor_combo();
-
         bind_widget(this.settings, 'window-position', this.window_pos_combo);
         bind_widget(this.settings, 'window-size', this.window_size_scale);
 
-        const percent_format = new Intl.NumberFormat(undefined, { style: 'percent' });
-        set_scale_value_format(this.window_size_scale, percent_format);
+        const actions = insert_settings_actions(this, this.settings, ['window-monitor']);
+
+        actions.lookup('window-monitor').bind_property_full(
+            'state',
+            this.monitor_combo.parent,
+            'sensitive',
+            GObject.BindingFlags.SYNC_CREATE,
+            (binding, state) => [true, state?.unpack() === 'connector'],
+            null
+        );
     }
 
     get title() {
@@ -82,11 +83,6 @@ export const PositionSizeWidget = GObject.registerClass({
         this._monitors_handler = value?.connect('items-changed', this.update_monitors.bind(this));
 
         this.update_monitors(value, 0, prev_count, value?.get_n_items() ?? 0);
-    }
-
-    enable_monitor_combo() {
-        this.monitor_combo.sensitive =
-            this.settings.get_string('window-monitor') === 'connector';
     }
 
     update_monitors(model, position, removed, added) {
