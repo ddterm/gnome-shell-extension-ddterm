@@ -6,7 +6,12 @@ import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
 import Gtk from 'gi://Gtk';
 
-import { bind_widgets, ui_file_uri } from './util.js';
+import {
+    bind_widgets,
+    callback_stack,
+    insert_action_group,
+    ui_file_uri,
+} from './util.js';
 
 export const CompatibilityWidget = GObject.registerClass({
     GTypeName: 'DDTermPrefsCompatibility',
@@ -35,11 +40,13 @@ export const CompatibilityWidget = GObject.registerClass({
     _init(params) {
         super._init(params);
 
-        bind_widgets(this.settings, {
-            'backspace-binding': this.backspace_binding_combo,
-            'delete-binding': this.delete_binding_combo,
-            'cjk-utf8-ambiguous-width': this.ambiguous_width_combo,
-        });
+        this.unbind_settings = callback_stack();
+        this.connect_after('unrealize', this.unbind_settings);
+        this.connect('realize', this.bind_settings.bind(this));
+    }
+
+    bind_settings() {
+        this.unbind_settings();
 
         const reset_action = new Gio.SimpleAction({
             name: 'reset-compatibility-options',
@@ -53,7 +60,15 @@ export const CompatibilityWidget = GObject.registerClass({
 
         const aux_actions = new Gio.SimpleActionGroup();
         aux_actions.add_action(reset_action);
-        this.insert_action_group('aux', aux_actions);
+
+        this.unbind_settings.push(
+            bind_widgets(this.settings, {
+                'backspace-binding': this.backspace_binding_combo,
+                'delete-binding': this.delete_binding_combo,
+                'cjk-utf8-ambiguous-width': this.ambiguous_width_combo,
+            }),
+            insert_action_group('aux', aux_actions)
+        );
     }
 
     get title() {

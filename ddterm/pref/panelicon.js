@@ -6,7 +6,12 @@ import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
 import Gtk from 'gi://Gtk';
 
-import { insert_settings_actions, ui_file_uri } from './util.js';
+import {
+    callback_stack,
+    insert_action_group,
+    make_settings_actions,
+    ui_file_uri,
+} from './util.js';
 
 export const PanelIconWidget = GObject.registerClass({
     GTypeName: 'DDTermPrefsPanelIcon',
@@ -30,7 +35,17 @@ export const PanelIconWidget = GObject.registerClass({
     _init(params) {
         super._init(params);
 
-        insert_settings_actions(this, this.settings, ['panel-icon-type']);
+        this.unbind_settings = callback_stack();
+        this.connect_after('unrealize', this.unbind_settings);
+        this.connect('realize', this.bind_settings.bind(this));
+    }
+
+    bind_settings() {
+        this.unbind_settings();
+
+        const actions = make_settings_actions(this.settings, ['panel-icon-type']);
+
+        this.unbind_settings.push(insert_action_group(this, 'settings', actions));
     }
 
     get title() {

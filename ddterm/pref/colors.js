@@ -9,9 +9,15 @@ import Gdk from 'gi://Gdk';
 import Gtk from 'gi://Gtk';
 
 import {
+    bind_property,
     bind_sensitive,
+    bind_settings,
+    bind_settings_writable,
     bind_widget,
-    insert_settings_actions,
+    callback_stack,
+    connect,
+    insert_action_group,
+    make_settings_actions,
     set_scale_value_format,
     ui_file_uri,
 } from './util.js';
@@ -311,126 +317,24 @@ export const ColorsWidget = GObject.registerClass({
     _init(params) {
         super._init(params);
 
-        insert_settings_actions(this, this.settings, [
+        const percent_format = new Intl.NumberFormat(undefined, { style: 'percent' });
+        set_scale_value_format(this.opacity_scale, percent_format);
+
+        this.unbind_settings = callback_stack();
+        this.connect_after('unrealize', this.unbind_settings);
+        this.connect('realize', this.bind_settings.bind(this));
+    }
+
+    bind_settings() {
+        this.unbind_settings();
+
+        const actions = make_settings_actions(this.settings, [
             'cursor-colors-set',
             'highlight-colors-set',
             'bold-is-bright',
             'use-theme-colors',
             'transparent-background',
         ]);
-
-        bind_widget(this.settings, 'theme-variant', this.theme_variant_combo);
-
-        bind_sensitive(
-            this.settings,
-            'use-theme-colors',
-            this.color_scheme_editor,
-            true
-        );
-
-        this.color_scheme = new ColorScheme({
-            presets: this.color_scheme_combo.model,
-        });
-        this.connect('destroy', () => this.color_scheme.destroy());
-
-        this.bind_color('foreground-color', this.foreground_color, this.color_scheme.colors[0]);
-        this.bind_color('background-color', this.background_color, this.color_scheme.colors[1]);
-
-        this.color_scheme.bind_property(
-            'active-preset',
-            this.color_scheme_combo,
-            'active',
-            GObject.BindingFlags.SYNC_CREATE | GObject.BindingFlags.BIDIRECTIONAL
-        );
-
-        const color_scheme_enable_handlers = [
-            this.settings.connect(
-                'writable-changed::foreground-color',
-                this.enable_color_scheme_combo.bind(this)
-            ),
-            this.settings.connect(
-                'writable-changed::background-color',
-                this.enable_color_scheme_combo.bind(this)
-            ),
-        ];
-        this.connect('destroy', () => {
-            color_scheme_enable_handlers.forEach(handler => this.settings.disconnect(handler));
-        });
-        this.enable_color_scheme_combo();
-
-        bind_widget(this.settings, 'background-opacity', this.opacity_scale);
-        bind_sensitive(this.settings, 'transparent-background', this.opacity_scale.parent);
-
-        const percent_format = new Intl.NumberFormat(undefined, { style: 'percent' });
-        set_scale_value_format(this.opacity_scale, percent_format);
-
-        bind_widget(
-            this.settings,
-            'bold-color-same-as-fg',
-            this.bold_color_check,
-            Gio.SettingsBindFlags.INVERT_BOOLEAN
-        );
-
-        this.bind_color('bold-color', this.bold_color);
-
-        bind_sensitive(
-            this.settings,
-            'bold-color-same-as-fg',
-            this.bold_color.parent,
-            true
-        );
-
-        this.bind_color('cursor-foreground-color', this.cursor_foreground_color);
-        this.bind_color('cursor-background-color', this.cursor_background_color);
-
-        [
-            this.cursor_foreground_color,
-            this.cursor_background_color,
-        ].forEach(widget => {
-            bind_sensitive(this.settings, 'cursor-colors-set', widget);
-        });
-
-        this.bind_color('highlight-foreground-color', this.highlight_foreground_color);
-        this.bind_color('highlight-background-color', this.highlight_background_color);
-
-        [
-            this.highlight_foreground_color,
-            this.highlight_background_color,
-        ].forEach(widget => {
-            bind_sensitive(this.settings, 'highlight-colors-set', widget);
-        });
-
-        this.palette = new ColorScheme({
-            presets: this.palette_combo.model,
-        });
-        this.connect('destroy', () => this.palette.destroy());
-
-        this.settings.bind(
-            'palette',
-            this.palette,
-            'strv',
-            Gio.SettingsBindFlags.NO_SENSITIVITY
-        );
-
-        this.settings.bind_writable('palette', this.palette_combo, 'sensitive', false);
-
-        PALETTE_WIDGET_IDS.map(key => this[key]).forEach((widget, index) => {
-            this.settings.bind_writable('palette', widget, 'sensitive', false);
-
-            this.palette.colors[index].bind_property(
-                'rgba',
-                widget,
-                'rgba',
-                GObject.BindingFlags.SYNC_CREATE | GObject.BindingFlags.BIDIRECTIONAL
-            );
-        });
-
-        this.palette.bind_property(
-            'active-preset',
-            this.palette_combo,
-            'active',
-            GObject.BindingFlags.SYNC_CREATE | GObject.BindingFlags.BIDIRECTIONAL
-        );
 
         const copy_from_gnome_terminal_action = new Gio.SimpleAction({
             name: 'copy-gnome-terminal-profile',
@@ -446,7 +350,128 @@ export const ColorsWidget = GObject.registerClass({
 
         const aux_actions = new Gio.SimpleActionGroup();
         aux_actions.add_action(copy_from_gnome_terminal_action);
-        this.insert_action_group('aux', aux_actions);
+
+        this.color_scheme = new ColorScheme({
+            presets: this.color_scheme_combo.model,
+        });
+
+        this.palette = new ColorScheme({
+            presets: this.palette_combo.model,
+        });
+
+        this.unbind_settings.push(
+            () => this.color_scheme.destroy(),
+            () => this.palette.destroy(),
+
+            insert_action_group(this, 'settings', actions),
+
+            bind_widget(this.settings, 'theme-variant', this.theme_variant_combo),
+
+            bind_sensitive(
+                this.settings,
+                'use-theme-colors',
+                this.color_scheme_editor,
+                true
+            ),
+
+            this.bind_color('foreground-color', this.foreground_color, this.color_scheme.colors[0]),
+            this.bind_color('background-color', this.background_color, this.color_scheme.colors[1]),
+
+            bind_property(
+                this.color_scheme,
+                'active-preset',
+                this.color_scheme_combo,
+                'active',
+                GObject.BindingFlags.SYNC_CREATE | GObject.BindingFlags.BIDIRECTIONAL
+            ),
+
+            connect(
+                this.settings,
+                'writable-changed::foreground-color',
+                this.enable_color_scheme_combo.bind(this)
+            ),
+            connect(
+                this.settings,
+                'writable-changed::background-color',
+                this.enable_color_scheme_combo.bind(this)
+            ),
+
+            bind_widget(this.settings, 'background-opacity', this.opacity_scale),
+            bind_sensitive(this.settings, 'transparent-background', this.opacity_scale.parent),
+
+            bind_widget(
+                this.settings,
+                'bold-color-same-as-fg',
+                this.bold_color_check,
+                Gio.SettingsBindFlags.INVERT_BOOLEAN
+            ),
+
+            this.bind_color('bold-color', this.bold_color),
+
+            bind_sensitive(
+                this.settings,
+                'bold-color-same-as-fg',
+                this.bold_color.parent,
+                true
+            ),
+
+            this.bind_color('cursor-foreground-color', this.cursor_foreground_color),
+            bind_sensitive(this.settings, 'cursor-colors-set', this.cursor_foreground_color),
+
+            this.bind_color('cursor-background-color', this.cursor_background_color),
+            bind_sensitive(this.settings, 'cursor-colors-set', this.cursor_background_color),
+
+            this.bind_color('highlight-foreground-color', this.highlight_foreground_color),
+            bind_sensitive(this.settings, 'highlight-colors-set', this.highlight_foreground_color),
+
+            this.bind_color('highlight-background-color', this.highlight_background_color),
+            bind_sensitive(this.settings, 'highlight-colors-set', this.highlight_background_color),
+
+            bind_settings(
+                this.settings,
+                'palette',
+                this.palette,
+                'strv',
+                Gio.SettingsBindFlags.NO_SENSITIVITY
+            ),
+
+            bind_settings_writable(
+                this.settings,
+                'palette',
+                this.palette_combo,
+                'sensitive',
+                false
+            ),
+
+            bind_property(
+                this.palette,
+                'active-preset',
+                this.palette_combo,
+                'active',
+                GObject.BindingFlags.SYNC_CREATE | GObject.BindingFlags.BIDIRECTIONAL
+            ),
+
+            ...PALETTE_WIDGET_IDS.map(key => this[key]).map((widget, index) => {
+                const unbind = callback_stack();
+
+                unbind.push(
+                    bind_settings_writable(this.settings, 'palette', widget, 'sensitive', false),
+                    bind_property(
+                        this.palette.colors[index],
+                        'rgba',
+                        widget,
+                        'rgba',
+                        GObject.BindingFlags.SYNC_CREATE | GObject.BindingFlags.BIDIRECTIONAL
+                    )
+                );
+
+                return unbind;
+            }),
+
+            insert_action_group(this, 'aux', aux_actions)
+        );
+
+        this.enable_color_scheme_combo();
     }
 
     get title() {
@@ -454,6 +479,8 @@ export const ColorsWidget = GObject.registerClass({
     }
 
     bind_color(key, widget, color = null) {
+        const unbind = callback_stack();
+
         if (!color) {
             color = new Color();
 
@@ -461,16 +488,19 @@ export const ColorsWidget = GObject.registerClass({
             widget._bound_color = color;
         }
 
-        this.settings.bind(key, color, 'str', Gio.SettingsBindFlags.NO_SENSITIVITY);
-
-        color.bind_property(
-            'rgba',
-            widget,
-            'rgba',
-            GObject.BindingFlags.BIDIRECTIONAL | GObject.BindingFlags.SYNC_CREATE
+        unbind.push(
+            bind_settings(this.settings, key, color, 'str', Gio.SettingsBindFlags.NO_SENSITIVITY),
+            bind_property(
+                color,
+                'rgba',
+                widget,
+                'rgba',
+                GObject.BindingFlags.BIDIRECTIONAL | GObject.BindingFlags.SYNC_CREATE
+            ),
+            bind_settings_writable(this.settings, key, widget, 'sensitive', false)
         );
 
-        this.settings.bind_writable(key, widget, 'sensitive', false);
+        return unbind;
     }
 
     enable_color_scheme_combo() {

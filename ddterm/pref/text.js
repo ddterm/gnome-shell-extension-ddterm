@@ -10,7 +10,9 @@ import {
     bind_sensitive,
     bind_widget,
     bind_widgets,
-    insert_settings_actions,
+    callback_stack,
+    insert_action_group,
+    make_settings_actions,
     ui_file_uri,
 } from './util.js';
 
@@ -44,29 +46,15 @@ export const TextWidget = GObject.registerClass({
     _init(params) {
         super._init(params);
 
-        bind_widget(
-            this.settings,
-            'use-system-font',
-            this.custom_font_check,
-            Gio.SettingsBindFlags.INVERT_BOOLEAN
-        );
+        this.unbind_settings = callback_stack();
+        this.connect_after('unrealize', this.unbind_settings);
+        this.connect('realize', this.bind_settings.bind(this));
+    }
 
-        bind_widget(this.settings, 'custom-font', this.font_chooser);
+    bind_settings() {
+        this.unbind_settings();
 
-        bind_sensitive(
-            this.settings,
-            'use-system-font',
-            this.font_chooser.parent,
-            true
-        );
-
-        bind_widgets(this.settings, {
-            'text-blink-mode': this.text_blink_mode_combo,
-            'cursor-shape': this.cursor_shape_combo,
-            'cursor-blink-mode': this.cursor_blink_mode_combo,
-        });
-
-        insert_settings_actions(this, this.settings, [
+        const actions = make_settings_actions(this.settings, [
             'allow-hyperlink',
             'audible-bell',
             'detect-urls',
@@ -78,7 +66,28 @@ export const TextWidget = GObject.registerClass({
             'detect-urls-news-man',
         ]);
 
-        bind_sensitive(this.settings, 'detect-urls', this.detect_urls_container);
+        this.unbind_settings.push(
+            insert_action_group(this, 'settings', actions),
+            bind_widget(
+                this.settings,
+                'use-system-font',
+                this.custom_font_check,
+                Gio.SettingsBindFlags.INVERT_BOOLEAN
+            ),
+            bind_widget(this.settings, 'custom-font', this.font_chooser),
+            bind_sensitive(
+                this.settings,
+                'use-system-font',
+                this.font_chooser.parent,
+                true
+            ),
+            bind_widgets(this.settings, {
+                'text-blink-mode': this.text_blink_mode_combo,
+                'cursor-shape': this.cursor_shape_combo,
+                'cursor-blink-mode': this.cursor_blink_mode_combo,
+            }),
+            bind_sensitive(this.settings, 'detect-urls', this.detect_urls_container)
+        );
     }
 
     get title() {

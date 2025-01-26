@@ -6,7 +6,12 @@ import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
 import Gtk from 'gi://Gtk';
 
-import { insert_settings_actions, ui_file_uri } from './util.js';
+import {
+    callback_stack,
+    insert_action_group,
+    make_settings_actions,
+    ui_file_uri,
+} from './util.js';
 
 export const BehaviorWidget = GObject.registerClass({
     GTypeName: 'DDTermPrefsBehavior',
@@ -30,7 +35,19 @@ export const BehaviorWidget = GObject.registerClass({
     _init(params) {
         super._init(params);
 
-        insert_settings_actions(this, this.settings, [
+        this.unbind_settings = callback_stack();
+        this.connect_after('unrealize', this.unbind_settings);
+        this.connect('realize', this.bind_settings.bind(this));
+    }
+
+    get title() {
+        return this.gettext_context.gettext('Behavior');
+    }
+
+    bind_settings() {
+        this.unbind_settings();
+
+        const actions = make_settings_actions(this.settings, [
             'window-resizable',
             'window-above',
             'window-stick',
@@ -40,9 +57,7 @@ export const BehaviorWidget = GObject.registerClass({
             'pointer-autohide',
             'force-x11-gdk-backend',
         ]);
-    }
 
-    get title() {
-        return this.gettext_context.gettext('Behavior');
+        this.unbind_settings.push(insert_action_group(this, 'settings', actions));
     }
 });

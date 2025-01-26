@@ -8,7 +8,10 @@ import Gtk from 'gi://Gtk';
 
 import {
     bind_widget,
-    insert_settings_actions,
+    callback_stack,
+    connect,
+    insert_action_group,
+    make_settings_actions,
     set_scale_value_format,
     ui_file_uri,
 } from './util.js';
@@ -47,41 +50,58 @@ export const PositionSizeWidget = GObject.registerClass({
     _init(params) {
         super._init(params);
 
-        insert_settings_actions(this, this.settings, ['window-monitor']);
-
-        bind_widget(this.settings, 'window-monitor-connector', this.monitor_combo);
-
-        const window_monitor_handler = this.settings.connect(
-            'changed::window-monitor',
-            this.enable_monitor_combo.bind(this)
-        );
-        this.connect('destroy', () => this.settings.disconnect(window_monitor_handler));
-        this.enable_monitor_combo();
-
-        bind_widget(this.settings, 'window-position', this.window_pos_combo);
-        bind_widget(this.settings, 'window-size', this.window_size_scale);
-
         const percent_format = new Intl.NumberFormat(undefined, { style: 'percent' });
         set_scale_value_format(this.window_size_scale, percent_format);
+
+        this.unbind_monitors = callback_stack();
+        this.connect_after('unrealize', this.unbind_monitors);
+        this.connect('realize', this.bind_monitors.bind(this));
+        this.connect('notify::monitors', () => {
+            if (this.get_realized())
+                this.bind_monitors();
+        });
+
+        this.unbind_settings = callback_stack();
+        this.connect_after('unrealize', this.unbind_settings);
+        this.connect('realize', this.bind_settings.bind(this));
+    }
+
+    bind_settings() {
+        this.unbind_settings();
+
+        const actions = make_settings_actions(this.settings, ['window-monitor']);
+
+        this.unbind_settings.push(
+            insert_action_group(this, 'settings', actions),
+            bind_widget(this.settings, 'window-monitor-connector', this.monitor_combo),
+            bind_widget(this.settings, 'window-position', this.window_pos_combo),
+            bind_widget(this.settings, 'window-size', this.window_size_scale),
+            connect(
+                this.settings,
+                'changed::window-monitor',
+                this.enable_monitor_combo.bind(this)
+            )
+        );
+
+        this.enable_monitor_combo();
+    }
+
+    bind_monitors() {
+        this.unbind_monitors();
+
+        if (!this.monitors)
+            return;
+
+        this.unbind_monitors.push(
+            connect(this.monitors, 'items-changed', this.update_monitors.bind(this))
+        );
+
+        const n_prev = this.monitor_combo.model.iter_n_children(null);
+        this.update_monitors(this.monitors, 0, n_prev, this.monitors.get_n_items());
     }
 
     get title() {
         return this.gettext_context.gettext('Position and Size');
-    }
-
-    get monitors() {
-        return this._monitors;
-    }
-
-    set monitors(value) {
-        const prev_count = this._monitors?.get_n_items() ?? 0;
-
-        this._monitors?.disconnect(this._monitors_handler);
-
-        this._monitors = value;
-        this._monitors_handler = value?.connect('items-changed', this.update_monitors.bind(this));
-
-        this.update_monitors(value, 0, prev_count, value?.get_n_items() ?? 0);
     }
 
     enable_monitor_combo() {

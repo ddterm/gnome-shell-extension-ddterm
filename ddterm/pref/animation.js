@@ -9,7 +9,9 @@ import Gtk from 'gi://Gtk';
 import {
     bind_sensitive,
     bind_widgets,
-    insert_settings_actions,
+    callback_stack,
+    insert_action_group,
+    make_settings_actions,
     set_scale_value_format,
     ui_file_uri,
 } from './util.js';
@@ -43,22 +45,33 @@ export const AnimationWidget = GObject.registerClass({
     _init(params) {
         super._init(params);
 
-        insert_settings_actions(this, this.settings, ['override-window-animation']);
-        bind_sensitive(this.settings, 'override-window-animation', this.animation_prefs);
-
-        bind_widgets(this.settings, {
-            'show-animation': this.show_animation_combo,
-            'show-animation-duration': this.show_animation_duration_scale,
-            'hide-animation': this.hide_animation_combo,
-            'hide-animation-duration': this.hide_animation_duration_scale,
-        });
-
         const seconds_format = new Intl.NumberFormat(undefined, { style: 'unit', unit: 'second' });
         set_scale_value_format(this.show_animation_duration_scale, seconds_format);
         set_scale_value_format(this.hide_animation_duration_scale, seconds_format);
+
+        this.unbind_settings = callback_stack();
+        this.connect_after('unrealize', this.unbind_settings);
+        this.connect('realize', this.bind_settings.bind(this));
     }
 
     get title() {
         return this.gettext_context.gettext('Animation');
+    }
+
+    bind_settings() {
+        this.unbind_settings();
+
+        const actions = make_settings_actions(this.settings, ['override-window-animation']);
+
+        this.unbind_settings.push(
+            insert_action_group(this, 'settings', actions),
+            bind_sensitive(this.settings, 'override-window-animation', this.animation_prefs),
+            bind_widgets(this.settings, {
+                'show-animation': this.show_animation_combo,
+                'show-animation-duration': this.show_animation_duration_scale,
+                'hide-animation': this.hide_animation_combo,
+                'hide-animation-duration': this.hide_animation_duration_scale,
+            })
+        );
     }
 });

@@ -7,7 +7,14 @@ import Gio from 'gi://Gio';
 import Gdk from 'gi://Gdk';
 import Gtk from 'gi://Gtk';
 
-import { bind_sensitive, insert_settings_actions, ui_file_uri } from './util.js';
+import {
+    bind_sensitive,
+    callback_stack,
+    connect,
+    insert_action_group,
+    make_settings_actions,
+    ui_file_uri,
+} from './util.js';
 
 const IS_GTK3 = Gtk.get_major_version() === 3;
 
@@ -53,25 +60,35 @@ export const ShortcutsWidget = GObject.registerClass({
     _init(params) {
         super._init(params);
 
-        insert_settings_actions(this, this.settings, ['shortcuts-enabled']);
+        this.unbind_settings = callback_stack();
+        this.connect_after('unrealize', this.unbind_settings);
+        this.connect('realize', this.bind_settings.bind(this));
+    }
+
+    bind_settings() {
+        this.unbind_settings();
+
+        const actions = make_settings_actions(this.settings, ['shortcuts-enabled']);
+
+        this.unbind_settings.push(insert_action_group(this, 'settings', actions));
 
         [this.shortcuts_list, this.global_shortcuts_list].forEach(shortcuts_list => {
             shortcuts_list.foreach((model, path, iter) => {
                 const i = iter.copy();
                 const key = model.get_value(i, COLUMN_SETTINGS_KEY);
 
-                const handler = this.settings.connect(
+                this.unbind_settings.push(connect(
+                    this.settings,
                     `changed::${key}`,
                     this.update_model.bind(this, model, i)
-                );
-                this.connect('destroy', () => this.settings.disconnect(handler));
+                ));
                 this.update_model(model, i, this.settings, key);
 
-                const editable_handler = this.settings.connect(
+                this.unbind_settings.push(connect(
+                    this.settings,
                     `writable-changed::${key}`,
                     this.update_editable.bind(this, model, i)
-                );
-                this.connect('destroy', () => this.settings.disconnect(editable_handler));
+                ));
                 this.update_editable(model, i, this.settings, key);
 
                 return false;
@@ -79,38 +96,48 @@ export const ShortcutsWidget = GObject.registerClass({
         });
 
         for (const signal of ['accel-edited', 'accel-cleared']) {
-            this.accel_renderer.connect(
+            this.unbind_settings.push(connect(
+                this.accel_renderer,
                 signal,
                 this.save_shortcut.bind(this, this.shortcuts_list)
-            );
+            ));
 
-            this.global_accel_renderer.connect(
+            this.unbind_settings.push(connect(
+                this.global_accel_renderer,
                 signal,
                 this.save_shortcut.bind(this, this.global_shortcuts_list)
-            );
+            ));
         }
 
-        this.global_accel_renderer.connect(
-            'editing-started',
-            (IS_GTK3 ? this.grab_global_keys : this.inhibit_system_shortcuts).bind(this)
+        this.unbind_settings.push(
+            connect(
+                this.global_accel_renderer,
+                'editing-started',
+                (IS_GTK3 ? this.grab_global_keys : this.inhibit_system_shortcuts).bind(this)
+            ),
+            bind_sensitive(this.settings, 'shortcuts-enabled', this.shortcuts_treeview),
+            connect(
+                this.accel_toggle,
+                'toggled',
+                (_, path) => {
+                    this.save_shortcut(this.shortcuts_list, _, path);
+                }
+            ),
+            connect(
+                this.global_accel_toggle,
+                'toggled',
+                (_, path) => {
+                    this.save_shortcut(this.global_shortcuts_list, _, path);
+                }
+            )
         );
-
-        bind_sensitive(this.settings, 'shortcuts-enabled', this.shortcuts_treeview);
-
-        this.accel_toggle.connect('toggled', (_, path) => {
-            this.save_shortcut(this.shortcuts_list, _, path);
-        });
-
-        this.global_accel_toggle.connect('toggled', (_, path) => {
-            this.save_shortcut(this.global_shortcuts_list, _, path);
-        });
 
         const reset_action = new Gio.SimpleAction({ name: 'reset' });
         reset_action.connect('activate', this.reset.bind(this));
 
         const aux_actions = new Gio.SimpleActionGroup();
         aux_actions.add_action(reset_action);
-        this.insert_action_group('aux', aux_actions);
+        this.unbind_settings.push(insert_action_group(this, 'aux', aux_actions));
     }
 
     get title() {

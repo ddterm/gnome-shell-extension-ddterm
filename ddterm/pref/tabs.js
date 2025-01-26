@@ -8,7 +8,10 @@ import Gtk from 'gi://Gtk';
 
 import {
     bind_widgets,
-    insert_settings_actions,
+    callback_stack,
+    connect,
+    make_settings_actions,
+    insert_action_group,
     set_scale_value_format,
     ui_file_uri,
 } from './util.js';
@@ -41,17 +44,18 @@ export const TabsWidget = GObject.registerClass({
     _init(params) {
         super._init(params);
 
-        bind_widgets(this.settings, {
-            'tab-policy': this.tab_policy_combo,
-            'tab-position': this.tab_position_combo,
-            'tab-label-ellipsize-mode': this.tab_label_ellipsize_combo,
-            'tab-label-width': this.tab_label_width_scale,
-        });
-
         const percent_format = new Intl.NumberFormat(undefined, { style: 'percent' });
         set_scale_value_format(this.tab_label_width_scale, percent_format);
 
-        insert_settings_actions(this, this.settings, [
+        this.unbind_settings = callback_stack();
+        this.connect_after('unrealize', this.unbind_settings);
+        this.connect('realize', this.bind_settings.bind(this));
+    }
+
+    bind_settings() {
+        this.unbind_settings();
+
+        const actions = make_settings_actions(this, this.settings, [
             'tab-expand',
             'tab-close-buttons',
             'new-tab-button',
@@ -66,15 +70,19 @@ export const TabsWidget = GObject.registerClass({
         if (this.saved_ellipsize_mode === 'none')
             this.saved_ellipsize_mode = 'middle';
 
-        const tab_position_handler = this.settings.connect('changed::tab-position', () => {
-            this.auto_enable_ellipsize();
-        });
-        this.connect('destroy', () => this.settings.disconnect(tab_position_handler));
+        this.unbind_settings.push(
+            insert_action_group(this, 'settings', actions),
+            bind_widgets(this.settings, {
+                'tab-policy': this.tab_policy_combo,
+                'tab-position': this.tab_position_combo,
+                'tab-label-ellipsize-mode': this.tab_label_ellipsize_combo,
+                'tab-label-width': this.tab_label_width_scale,
+            }),
+            connect(this.settings, 'changed::tab-position', this.auto_enable_ellipsize.bind(this)),
+            connect(this.settings, 'changed::tab-expand', this.auto_enable_ellipsize.bind(this))
+        );
 
-        const tab_expand_handler = this.settings.connect('changed::tab-expand', () => {
-            this.auto_enable_ellipsize();
-        });
-        this.connect('destroy', () => this.settings.disconnect(tab_expand_handler));
+        this.auto_enable_ellipsize();
     }
 
     get title() {

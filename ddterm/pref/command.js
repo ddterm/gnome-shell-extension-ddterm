@@ -6,7 +6,14 @@ import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
 import Gtk from 'gi://Gtk';
 
-import { bind_widget, insert_settings_actions, ui_file_uri } from './util.js';
+import {
+    bind_widget,
+    callback_stack,
+    connect,
+    insert_action_group,
+    make_settings_actions,
+    ui_file_uri,
+} from './util.js';
 
 export const CommandWidget = GObject.registerClass({
     GTypeName: 'DDTermPrefsCommand',
@@ -33,18 +40,25 @@ export const CommandWidget = GObject.registerClass({
     _init(params) {
         super._init(params);
 
-        insert_settings_actions(this, this.settings, [
+        this.unbind_settings = callback_stack();
+        this.connect_after('unrealize', this.unbind_settings);
+        this.connect('realize', this.bind_settings.bind(this));
+    }
+
+    bind_settings() {
+        this.unbind_settings();
+
+        const actions = make_settings_actions(this.settings, [
             'command',
             'preserve-working-directory',
         ]);
 
-        bind_widget(this.settings, 'custom-command', this.custom_command_entry);
-
-        const handler = this.settings.connect(
-            'changed::command',
-            this.enable_custom_command_entry.bind(this)
+        this.unbind_settings.push(
+            insert_action_group(this, 'settings', actions),
+            bind_widget(this.settings, 'custom-command', this.custom_command_entry),
+            connect(this.settings, 'changed::command', this.enable_custom_command_entry.bind(this))
         );
-        this.connect('destroy', () => this.settings.disconnect(handler));
+
         this.enable_custom_command_entry();
     }
 
