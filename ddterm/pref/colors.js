@@ -205,10 +205,6 @@ const ColorScheme = GObject.registerClass({
             color.connect('notify::str', () => this.notify('strv'));
             color.connect('notify::rgba', () => this.notify('active-preset'));
         }
-
-        this._model_handlers = ['row-changed', 'row-deleted', 'row-inserted'].map(
-            signal => this.presets.connect(signal, () => this.notify('active-preset'))
-        );
     }
 
     get active_preset() {
@@ -252,13 +248,6 @@ const ColorScheme = GObject.registerClass({
         } finally {
             this.thaw_notify();
         }
-    }
-
-    destroy() {
-        for (const handler_id of this._model_handlers)
-            this.presets.disconnect(handler_id);
-
-        this._model_handlers = [];
     }
 
     preset_matches(iter, rgbav) {
@@ -331,7 +320,6 @@ export const ColorsWidget = GObject.registerClass({
         this.color_scheme = new ColorScheme({
             presets: this.color_scheme_combo.model,
         });
-        this.connect('destroy', () => this.color_scheme.destroy());
 
         this.bind_color('foreground-color', this.foreground_color, this.color_scheme.colors[0]);
         this.bind_color('background-color', this.background_color, this.color_scheme.colors[1]);
@@ -403,7 +391,6 @@ export const ColorsWidget = GObject.registerClass({
         this.palette = new ColorScheme({
             presets: this.palette_combo.model,
         });
-        this.connect('destroy', () => this.palette.destroy());
 
         this.settings.bind(
             'palette',
