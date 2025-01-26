@@ -310,12 +310,7 @@ export const ColorsWidget = GObject.registerClass({
 
         bind_widget(this.settings, 'theme-variant', this.theme_variant_combo);
 
-        bind_sensitive(
-            this.settings,
-            'use-theme-colors',
-            this.color_scheme_editor,
-            true
-        );
+        bind_sensitive(this.settings, 'use-theme-colors', this.color_scheme_editor, true);
 
         this.color_scheme = new ColorScheme({
             presets: this.color_scheme_combo.model,
@@ -331,20 +326,7 @@ export const ColorsWidget = GObject.registerClass({
             GObject.BindingFlags.SYNC_CREATE | GObject.BindingFlags.BIDIRECTIONAL
         );
 
-        const color_scheme_enable_handlers = [
-            this.settings.connect(
-                'writable-changed::foreground-color',
-                this.enable_color_scheme_combo.bind(this)
-            ),
-            this.settings.connect(
-                'writable-changed::background-color',
-                this.enable_color_scheme_combo.bind(this)
-            ),
-        ];
-        this.connect('destroy', () => {
-            color_scheme_enable_handlers.forEach(handler => this.settings.disconnect(handler));
-        });
-        this.enable_color_scheme_combo();
+        this._setup_color_scheme_combo_sensitivity();
 
         bind_widget(this.settings, 'background-opacity', this.opacity_scale);
         bind_sensitive(this.settings, 'transparent-background', this.opacity_scale.parent);
@@ -419,25 +401,19 @@ export const ColorsWidget = GObject.registerClass({
             GObject.BindingFlags.SYNC_CREATE | GObject.BindingFlags.BIDIRECTIONAL
         );
 
-        const copy_from_gnome_terminal_action = new Gio.SimpleAction({
-            name: 'copy-gnome-terminal-profile',
-        });
-
-        copy_from_gnome_terminal_action.connect('activate', () => {
-            try {
-                copy_gnome_terminal_profile(this.settings);
-            } catch (e) {
-                show_dialog(this.get_root ? this.get_root() : this.get_toplevel(), e.message);
-            }
-        });
-
-        const aux_actions = new Gio.SimpleActionGroup();
-        aux_actions.add_action(copy_from_gnome_terminal_action);
-        this.insert_action_group('aux', aux_actions);
+        this.connect('realize', this._setup_aux_actions.bind(this));
     }
 
     get title() {
         return this.gettext_context.gettext('Colors');
+    }
+
+    copy_gnome_terminal_profile() {
+        try {
+            copy_gnome_terminal_profile(this.settings);
+        } catch (e) {
+            show_dialog(this.get_root ? this.get_root() : this.get_toplevel(), e.message);
+        }
     }
 
     bind_color(key, widget, color = null) {
@@ -460,9 +436,33 @@ export const ColorsWidget = GObject.registerClass({
         this.settings.bind_writable(key, widget, 'sensitive', false);
     }
 
-    enable_color_scheme_combo() {
-        this.color_scheme_combo.sensitive =
-            this.settings.is_writable('foreground-color') &&
-            this.settings.is_writable('background-color');
+    _setup_color_scheme_combo_sensitivity() {
+        const { foreground_color, background_color, color_scheme_combo } = this;
+
+        for (const color_button of [foreground_color, background_color]) {
+            color_button.connect('notify::sensitive', () => {
+                color_scheme_combo.sensitive =
+                    foreground_color.sensitive && background_color.sensitive;
+            });
+        }
+
+        color_scheme_combo.sensitive =
+            foreground_color.sensitive && background_color.sensitive;
+    }
+
+    _setup_aux_actions() {
+        const copy_from_gnome_terminal_action = new Gio.SimpleAction({
+            name: 'copy-gnome-terminal-profile',
+        });
+
+        copy_from_gnome_terminal_action.connect(
+            'activate',
+            this.copy_gnome_terminal_profile.bind(this)
+        );
+
+        const aux_actions = new Gio.SimpleActionGroup();
+        aux_actions.add_action(copy_from_gnome_terminal_action);
+        this.insert_action_group('aux', aux_actions);
+        this.connect('unrealize', () => this.insert_action_group('aux', null));
     }
 });
