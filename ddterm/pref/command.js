@@ -33,27 +33,24 @@ export const CommandWidget = GObject.registerClass({
     _init(params) {
         super._init(params);
 
-        insert_settings_actions(this, this.settings, [
+        const actions = insert_settings_actions(this, this.settings, [
             'command',
             'preserve-working-directory',
         ]);
 
         bind_widget(this.settings, 'custom-command', this.custom_command_entry);
 
-        const handler = this.settings.connect(
-            'changed::command',
-            this.enable_custom_command_entry.bind(this)
+        actions.lookup_action('command').bind_property_full(
+            'state',
+            this.custom_command_entry.parent,
+            'sensitive',
+            GObject.BindingFlags.SYNC_CREATE,
+            (binding, state) => [true, state?.unpack() === 'custom-command'],
+            null
         );
-        this.connect('destroy', () => this.settings.disconnect(handler));
-        this.enable_custom_command_entry();
     }
 
     get title() {
         return this.gettext_context.gettext('Command');
-    }
-
-    enable_custom_command_entry() {
-        this.custom_command_entry.parent.sensitive =
-            this.settings.get_string('command') === 'custom-command';
     }
 });
