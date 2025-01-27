@@ -20,7 +20,7 @@ mdurl==0.1.2
     # via markdown-it-py
 prompt-toolkit==3.0.50
     # via questionary
-pydantic==2.10.5
+pydantic==2.10.6
     # via
     #   bump-my-version
     #   pydantic-settings
