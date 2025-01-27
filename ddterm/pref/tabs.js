@@ -17,6 +17,7 @@ export const TabsWidget = GObject.registerClass({
     GTypeName: 'DDTermPrefsTabs',
     Template: ui_file_uri('prefs-tabs.ui'),
     Children: [
+        'expand_tabs_check',
         'tab_policy_combo',
         'tab_position_combo',
         'tab_label_width_scale',
@@ -66,15 +67,21 @@ export const TabsWidget = GObject.registerClass({
         if (this.saved_ellipsize_mode === 'none')
             this.saved_ellipsize_mode = 'middle';
 
-        const tab_position_handler = this.settings.connect('changed::tab-position', () => {
-            this.auto_enable_ellipsize();
-        });
-        this.connect('destroy', () => this.settings.disconnect(tab_position_handler));
+        const auto_enable_ellipsize = this.auto_enable_ellipsize.bind(this);
 
-        const tab_expand_handler = this.settings.connect('changed::tab-expand', () => {
-            this.auto_enable_ellipsize();
+        this.connect('realize', () => {
+            const tab_pos_handler =
+                this.tab_position_combo.connect('changed', auto_enable_ellipsize);
+
+            const tab_expand_handler =
+                this.expand_tabs_check.connect('toggled', auto_enable_ellipsize);
+
+            const unrealize_handler = this.connect('unrealize', () => {
+                this.disconnect(unrealize_handler);
+                this.tab_position_combo.disconnect(tab_pos_handler);
+                this.expand_tabs_check.disconnect(tab_expand_handler);
+            });
         });
-        this.connect('destroy', () => this.settings.disconnect(tab_expand_handler));
     }
 
     get title() {
@@ -82,20 +89,20 @@ export const TabsWidget = GObject.registerClass({
     }
 
     auto_enable_ellipsize() {
-        const current_mode = this.settings.get_string('tab-label-ellipsize-mode');
+        const current_mode = this.tab_label_ellipsize_combo.active_id;
         const current_enabled = current_mode !== 'none';
         const should_enable =
-            ['left', 'right'].includes(this.settings.get_string('tab-position')) ||
-                this.settings.get_boolean('tab-expand');
+            ['left', 'right'].includes(this.tab_position_combo.active_id) ||
+                this.expand_tabs_check.active;
 
         if (current_enabled === should_enable)
             return;
 
         if (should_enable) {
-            this.settings.set_string('tab-label-ellipsize-mode', this.saved_ellipsize_mode);
+            this.tab_label_ellipsize_combo.active_id = this.saved_ellipsize_mode;
         } else {
             this.saved_ellipsize_mode = current_mode;
-            this.settings.set_string('tab-label-ellipsize-mode', 'none');
+            this.tab_label_ellipsize_combo.active_id = 'none';
         }
     }
 });
