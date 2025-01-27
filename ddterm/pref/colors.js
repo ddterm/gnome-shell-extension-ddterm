@@ -427,7 +427,7 @@ export const ColorsWidget = GObject.registerClass({
             try {
                 copy_gnome_terminal_profile(this.settings);
             } catch (e) {
-                show_dialog(this.get_toplevel(), e.message);
+                show_dialog(this.get_root ? this.get_root() : this.get_toplevel(), e.message);
             }
         });
 
