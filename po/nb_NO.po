@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-27 00:04+0000\n"
+"POT-Creation-Date: 2025-01-27 01:50+0000\n"
 "PO-Revision-Date: 2024-09-02 20:09+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/gnome-"
@@ -393,7 +393,7 @@ msgstr "Adferd"
 msgid "Colors"
 msgstr "Farger"
 
-#: ddterm/pref/command.js:52
+#: ddterm/pref/command.js:54
 msgid "Command"
 msgstr "Kommando"
 
@@ -405,7 +405,7 @@ msgstr "Kompatibilitet"
 msgid "Panel Icon"
 msgstr "Panelikon"
 
-#: ddterm/pref/positionsize.js:69
+#: ddterm/pref/positionsize.js:70
 msgid "Position and Size"
 msgstr "Posisjon og størrelse"
 

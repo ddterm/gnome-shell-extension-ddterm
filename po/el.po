@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-27 00:04+0000\n"
+"POT-Creation-Date: 2025-01-27 01:50+0000\n"
 "PO-Revision-Date: 2023-09-26 17:35+0300\n"
 "Last-Translator: Anagnostakis Ioannis <rizitis@gmail.com>\n"
 "Language-Team: Greek, Modern (1453-) <>\n"
@@ -403,7 +403,7 @@ msgstr "Συμπεριφορά"
 msgid "Colors"
 msgstr "Χρώμματα"
 
-#: ddterm/pref/command.js:52
+#: ddterm/pref/command.js:54
 msgid "Command"
 msgstr "Εντολή"
 
@@ -415,7 +415,7 @@ msgstr "Συμβατότητα"
 msgid "Panel Icon"
 msgstr "Εικονίδιο Πάνελ"
 
-#: ddterm/pref/positionsize.js:69
+#: ddterm/pref/positionsize.js:70
 msgid "Position and Size"
 msgstr "Θέση και μέγεθος"
 

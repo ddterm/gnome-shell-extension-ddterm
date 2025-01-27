@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-27 00:04+0000\n"
+"POT-Creation-Date: 2025-01-27 01:50+0000\n"
 "PO-Revision-Date: 2024-07-24 00:09+0000\n"
 "Last-Translator: Patricio Carrau <duckycb@proton.me>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/gnome-shell-"
@@ -403,7 +403,7 @@ msgstr "Comportement"
 msgid "Colors"
 msgstr "Couleurs"
 
-#: ddterm/pref/command.js:52
+#: ddterm/pref/command.js:54
 msgid "Command"
 msgstr "Commande"
 
@@ -415,7 +415,7 @@ msgstr "Compatibilité"
 msgid "Panel Icon"
 msgstr "Icône de panneau"
 
-#: ddterm/pref/positionsize.js:69
+#: ddterm/pref/positionsize.js:70
 msgid "Position and Size"
 msgstr "Position et taille"
 

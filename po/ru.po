@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-27 00:04+0000\n"
+"POT-Creation-Date: 2025-01-27 01:50+0000\n"
 "PO-Revision-Date: 2024-04-10 20:01+0000\n"
 "Last-Translator: Stepan <stepan.miroshnikov@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/gnome-shell-"
@@ -400,7 +400,7 @@ msgstr "Поведение"
 msgid "Colors"
 msgstr "Цвета"
 
-#: ddterm/pref/command.js:52
+#: ddterm/pref/command.js:54
 msgid "Command"
 msgstr "Команда"
 
@@ -412,7 +412,7 @@ msgstr "Совместимость"
 msgid "Panel Icon"
 msgstr "Значок на панели"
 
-#: ddterm/pref/positionsize.js:69
+#: ddterm/pref/positionsize.js:70
 msgid "Position and Size"
 msgstr "Положение и размер"
 
