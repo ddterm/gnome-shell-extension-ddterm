@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-22 20:22+0000\n"
+"POT-Creation-Date: 2025-01-27 00:04+0000\n"
 "PO-Revision-Date: 2024-04-10 20:01+0000\n"
 "Last-Translator: Stepan <stepan.miroshnikov@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/gnome-shell-"
@@ -48,69 +48,69 @@ msgstr "Переключатель"
 msgid "Preferences…"
 msgstr "Параметры…"
 
-#: ddterm/app/application.js:74
+#: ddterm/app/application.js:73
 msgid "Start the application, but do not show the window"
 msgstr "Запустить приложение, но не показывать окно"
 
-#: ddterm/app/application.js:83
+#: ddterm/app/application.js:82
 msgid "Comma-separated list of backends that GDK should try to use"
 msgstr ""
 "Разделенный запятыми список backend'ов, которые GDK будет пытаться "
 "использовать"
 
-#: ddterm/app/application.js:101
+#: ddterm/app/application.js:100
 msgid "Show version information and exit"
 msgstr "Показать информацию о версии и выйти"
 
-#: ddterm/app/application.js:110
+#: ddterm/app/application.js:109
 msgid "Run the specified command"
 msgstr "Запустить указанную команду"
 
-#: ddterm/app/application.js:124
+#: ddterm/app/application.js:123
 msgid "Wait for the command to exit, and return its exit code"
 msgstr "Ожидать завершения команды и вернуть код выхода"
 
-#: ddterm/app/application.js:133
+#: ddterm/app/application.js:132
 msgid "Set the working directory"
 msgstr "Установить рабочий каталог"
 
-#: ddterm/app/application.js:142
+#: ddterm/app/application.js:141
 msgid "Set tab title"
 msgstr "Установить название вкладки"
 
-#: ddterm/app/application.js:151
+#: ddterm/app/application.js:150
 msgid "Keep the terminal open after the command has exited"
 msgstr "Не закрывать терминал после завершения команды"
 
-#: ddterm/app/application.js:160
+#: ddterm/app/application.js:159
 msgid "Do not pass the environment"
 msgstr "Не передавать переменные окружения"
 
-#: ddterm/app/application.js:169
+#: ddterm/app/application.js:168
 msgid "Open a new tab"
 msgstr "Открыть новую вкладку"
 
-#: ddterm/app/application.js:359
+#: ddterm/app/application.js:358
 msgid "Saving session…"
 msgstr "Сохранение сессии…"
 
-#: ddterm/app/application.js:402
+#: ddterm/app/application.js:401
 msgid "Can't contact the extension."
 msgstr "Невозможно связаться с расширением."
 
-#: ddterm/app/application.js:404 ddterm/app/application.js:531
+#: ddterm/app/application.js:403 ddterm/app/application.js:530
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr "Убедитесь, что расширение ddterm GNOME Shell включено."
 
-#: ddterm/app/application.js:529
+#: ddterm/app/application.js:528
 msgid "Can't read the version of the loaded extension."
 msgstr "Невозможно получить версию загруженного расширения."
 
-#: ddterm/app/application.js:534 ddterm/shell/notifications.js:75
+#: ddterm/app/application.js:533 ddterm/shell/notifications.js:75
 msgid "Warning: ddterm version has changed"
 msgstr "Внимание: версия ddterm изменилась"
 
-#: ddterm/app/application.js:535 ddterm/shell/notifications.js:77
+#: ddterm/app/application.js:534 ddterm/shell/notifications.js:77
 msgid "Log out, then log in again to load the updated extension."
 msgstr "Завершите сессию и снова войдите для применения обновлений расширения."
 
@@ -186,7 +186,7 @@ msgstr "Нормальный размер"
 msgid "Show in File Manager"
 msgstr "Показать в файловом менеджере"
 
-#: ddterm/app/menus.ui:88 ddterm/app/menus.ui:219 ddterm/app/tablabel.js:111
+#: ddterm/app/menus.ui:88 ddterm/app/menus.ui:219 ddterm/app/tablabel.js:110
 #: ddterm/shell/notifications.js:57
 msgid "Close"
 msgstr "Закрыть"
@@ -239,8 +239,8 @@ msgstr "Разделить вертикально"
 msgid "Move Tab to Other Pane"
 msgstr "Переместить вкладку на другую панель"
 
-#: ddterm/app/menus.ui:146 ddterm/app/prefsdialog.js:39
-#: ddterm/app/prefsdialog.legacy.js:51
+#: ddterm/app/menus.ui:146 ddterm/app/prefsdialog.js:38
+#: ddterm/app/prefsdialog.legacy.js:50
 msgid "Preferences"
 msgstr "Параметры"
 
@@ -308,63 +308,63 @@ msgstr "Переместить вкладку на предыдущую пози
 msgid "Move Tab to Next Position"
 msgstr "Переместить вкладку на следующую позицию"
 
-#: ddterm/app/notebook.js:136
+#: ddterm/app/notebook.js:135
 msgid "New Tab (Last)"
 msgstr "Новая вкладка (в конце)"
 
-#: ddterm/app/notebook.js:176
+#: ddterm/app/notebook.js:175
 msgid "New Tab (First)"
 msgstr "Новая вкладка (в начале)"
 
-#: ddterm/app/search.js:211
+#: ddterm/app/search.js:209
 msgid "Case Sensitive"
 msgstr "Чувствительность к регистру"
 
-#: ddterm/app/search.js:227
+#: ddterm/app/search.js:225
 msgid "Match Whole Word"
 msgstr "Совпадение слов целиком"
 
-#: ddterm/app/search.js:243
+#: ddterm/app/search.js:241
 msgid "Regular Expression"
 msgstr "Регулярное выражение"
 
-#: ddterm/app/search.js:309
+#: ddterm/app/search.js:307
 msgid "Close Search Bar"
 msgstr "Закрыть панель поиска"
 
-#: ddterm/app/search.js:320
+#: ddterm/app/search.js:318
 msgid "Wrap Around"
 msgstr "Прокрутка к результату"
 
-#: ddterm/app/search.js:336 ddterm/pref/ui/prefs-shortcuts.ui:274
+#: ddterm/app/search.js:334 ddterm/pref/ui/prefs-shortcuts.ui:274
 msgid "Find Next"
 msgstr "Найти следующее"
 
-#: ddterm/app/search.js:354 ddterm/pref/ui/prefs-shortcuts.ui:281
+#: ddterm/app/search.js:352 ddterm/pref/ui/prefs-shortcuts.ui:281
 msgid "Find Previous"
 msgstr "Найти предыдущее"
 
-#: ddterm/app/terminalpage.js:432
+#: ddterm/app/terminalpage.js:431
 msgid "Restart"
 msgstr "Перезапустить"
 
-#: ddterm/app/terminalpage.js:433 ddterm/app/terminalpage.js:585
+#: ddterm/app/terminalpage.js:432 ddterm/app/terminalpage.js:584
 msgid "Close Terminal"
 msgstr "Закрыть терминал"
 
-#: ddterm/app/terminalpage.js:456
+#: ddterm/app/terminalpage.js:455
 msgid "The child process exited with status:"
 msgstr "Процесс завершен со статусом:"
 
-#: ddterm/app/terminalpage.js:466
+#: ddterm/app/terminalpage.js:465
 msgid "The child process was aborted by signal:"
 msgstr "Процесс был прерван сигналом:"
 
-#: ddterm/app/terminalpage.js:577
+#: ddterm/app/terminalpage.js:576
 msgid "Close this terminal?"
 msgstr "Закрыть терминал?"
 
-#: ddterm/app/terminalpage.js:579
+#: ddterm/app/terminalpage.js:578
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."
