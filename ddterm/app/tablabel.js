@@ -62,18 +62,7 @@ export const TabLabel = GObject.registerClass({
     _init(params) {
         super._init({ spacing: 10, ...params });
 
-        const menu_click = Gtk.GestureClick.new();
-        this.add_controller(menu_click);
-        menu_click.button = 0;
-        menu_click.exclusive = true;
-        menu_click.connect('pressed', (gesture, n_press, x, y) => {
-            const event = gesture.get_current_event();
-
-            if (event.triggers_context_menu()) {
-                gesture.set_state(Gtk.EventSequenceState.CLAIMED);
-                this.show_popup_menu(x, y, event.get_pointer_emulated());
-            }
-        });
+        this._setup_popup_menu();
 
         this.shortcut_label = new AccelLabel({
             visible: true,
@@ -127,7 +116,13 @@ export const TabLabel = GObject.registerClass({
             GObject.BindingFlags.SYNC_CREATE
         );
 
-        close_button.connect('clicked', () => this.emit('close'));
+        this.connect('realize', () => {
+            const handler = close_button.connect('clicked', () => this.emit('close'));
+            const unrealize_handler = this.connect('unrealize', () => {
+                this.disconnect(unrealize_handler);
+                close_button.disconnect(handler);
+            });
+        });
 
         const edit_entry = new Gtk.Entry({
             visible: true,
@@ -135,13 +130,6 @@ export const TabLabel = GObject.registerClass({
             secondary_icon_activatable: true,
             secondary_icon_sensitive: true,
             width_chars: 50,
-        });
-
-        edit_entry.connect('activate', () => this.edit_popover.popdown());
-
-        edit_entry.connect('icon-press', () => {
-            this.edit_popover.popdown();
-            this.emit('reset-label');
         });
 
         this.bind_property(
@@ -157,7 +145,48 @@ export const TabLabel = GObject.registerClass({
             autohide: true,
         });
 
-        this.edit_popover.set_parent(this);
+        this.connect('realize', () => {
+            const activate_handler =
+                edit_entry.connect('activate', () => this.edit_popover.popdown());
+
+            const icon_handler = edit_entry.connect('icon-press', () => {
+                this.edit_popover.popdown();
+                this.emit('reset-label');
+            });
+
+            this.edit_popover.set_parent(this);
+
+            const unrealize_handler = this.connect('unrealize', () => {
+                this.disconnect(unrealize_handler);
+                edit_entry.disconnect(activate_handler);
+                edit_entry.disconnect(icon_handler);
+                this.edit_popover.unparent();
+            });
+        });
+    }
+
+    _setup_popup_menu() {
+        const gesture = Gtk.GestureClick.new();
+        this.add_controller(gesture);
+        gesture.button = 0;
+        gesture.exclusive = true;
+
+        this.connect('realize', () => {
+            // eslint-disable-next-line no-shadow
+            const handler = gesture.connect('pressed', (gesture, n_press, x, y) => {
+                const event = gesture.get_current_event();
+
+                if (event.triggers_context_menu()) {
+                    gesture.set_state(Gtk.EventSequenceState.CLAIMED);
+                    this.show_popup_menu(x, y, event.get_pointer_emulated());
+                }
+            });
+
+            const unrealize_handler = this.connect('unrealize', () => {
+                this.disconnect(unrealize_handler);
+                gesture.disconnect(handler);
+            });
+        });
     }
 
     edit() {
