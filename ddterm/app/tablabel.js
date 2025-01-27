@@ -182,10 +182,23 @@ export const TabLabel = GObject.registerClass({
                 }
             });
 
+            const create_handler = this.connect(
+                'notify::context-menu-model',
+                this._create_context_menu.bind(this)
+            );
+
             const unrealize_handler = this.connect('unrealize', () => {
                 this.disconnect(unrealize_handler);
+                this.disconnect(create_handler);
                 gesture.disconnect(handler);
             });
+
+            this._create_context_menu();
+        });
+
+        this.connect('unrealize', () => {
+            this._context_menu?.unparent();
+            this._context_menu = null;
         });
     }
 
@@ -225,34 +238,33 @@ export const TabLabel = GObject.registerClass({
         this.shortcut_label.set_action_target_value(value);
     }
 
+    _create_context_menu() {
+        this._context_menu?.unparent();
+
+        if (!this.context_menu_model) {
+            this._context_menu = null;
+            return;
+        }
+
+        this._context_menu = Gtk.PopoverMenu.new_from_model(this.context_menu_model);
+        this._context_menu.__heapgraph_name = 'DDTermTabLabelContextMenu';
+        this._context_menu.set_parent(this);
+    }
+
     show_popup_menu(x, y, is_touch = false) {
-        let menu = Gtk.PopoverMenu.new_from_model(this.context_menu_model);
-
-        menu.__heapgraph_name = 'DDTermTabLabelContextMenu';
-
         if (is_touch)
-            menu.halign = Gtk.Align.FILL;
+            this._context_menu.halign = Gtk.Align.FILL;
         else if (this.get_direction() === Gtk.TextDirection.RTL)
-            menu.halign = Gtk.Align.END;
+            this._context_menu.halign = Gtk.Align.END;
         else
-            menu.halign = Gtk.Align.START;
+            this._context_menu.halign = Gtk.Align.START;
 
-        menu.autohide = true;
-        menu.cascade_popdown = true;
-        menu.has_arrow = is_touch;
-        menu.position = is_touch ? Gtk.PositionType.TOP : Gtk.PositionType.BOTTOM;
-        menu.pointing_to = new Gdk.Rectangle({ x, y, width: 0, height: 0 });
+        this._context_menu.autohide = true;
+        this._context_menu.cascade_popdown = true;
+        this._context_menu.has_arrow = is_touch;
+        this._context_menu.position = is_touch ? Gtk.PositionType.TOP : Gtk.PositionType.BOTTOM;
+        this._context_menu.pointing_to = new Gdk.Rectangle({ x, y, width: 0, height: 0 });
 
-        menu.set_parent(this);
-
-        const closed_handler = menu.connect('closed', () => {
-            menu.unparent();
-            menu.disconnect(closed_handler);
-            // Leaks without .run_dispose() - confirmed with heapgraph
-            menu.run_dispose();
-            menu = null;
-        });
-
-        menu.popup();
+        this._context_menu.popup();
     }
 });
