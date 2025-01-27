@@ -344,8 +344,31 @@ const TerminalBase = GObject.registerClass({
         click_controller.button = 0;
         this.add_controller(click_controller);
 
-        click_controller.connect('pressed', this._update_clicked_hyperlink.bind(this));
-        click_controller.connect('released', this._update_clicked_hyperlink.bind(this));
+        this.connect('realize', () => {
+            const pressed_handler =
+                click_controller.connect('pressed', this._update_clicked_hyperlink.bind(this));
+
+            const released_handler =
+                click_controller.connect('released', this._update_clicked_hyperlink.bind(this));
+
+            const parent_handler = this.connect('notify::parent', () => {
+                this.update_style();
+            });
+
+            const root_handler = this.connect('notify::root', () => {
+                this.update_style();
+            });
+
+            const unrealize_handler = this.connect('unrealize', () => {
+                this.disconnect(unrealize_handler);
+                this.disconnect(parent_handler);
+                this.disconnect(root_handler);
+                click_controller.disconnect(pressed_handler);
+                click_controller.disconnect(released_handler);
+            });
+
+            this.update_style();
+        });
 
         this.connect('notify::background-opacity', () => {
             if (this._background_from_style)
@@ -356,12 +379,6 @@ const TerminalBase = GObject.registerClass({
             this.notify('can-increase-font-scale');
             this.notify('can-decrease-font-scale');
         });
-
-        this.connect('notify::parent', () => {
-            this.update_style();
-        });
-
-        this.update_style();
     }
 
     vfunc_css_changed(change) {
