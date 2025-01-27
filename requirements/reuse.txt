@@ -4,7 +4,7 @@
 #
 #    pip-compile --strip-extras reuse.in
 #
-attrs==24.3.0
+attrs==25.1.0
     # via reuse
 binaryornot==0.4.4
     # via reuse
