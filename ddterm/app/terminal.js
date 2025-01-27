@@ -710,70 +710,94 @@ const TerminalContextMenu = HAS_CONTEXT_MENU ? null : GObject.registerClass({
         menu_click_early.button = 0;
         menu_click_early.exclusive = true;
         menu_click_early.propagation_phase = Gtk.PropagationPhase.CAPTURE;
-        menu_click_early.connect('pressed', (gesture, n_press, x, y) => {
-            const event = gesture.get_current_event();
-
-            if (!event.triggers_context_menu())
-                return;
-
-            const state = event.get_modifier_state();
-
-            if (!(state & Gdk.ModifierType.SHIFT_MASK))
-                return;
-
-            if (state & (Gdk.ModifierType.CONTROL_MASK | Gdk.ModifierType.MOD1_MASK))
-                return;
-
-            gesture.set_state(Gtk.EventSequenceState.CLAIMED);
-            this.show_popup_menu(x, y, event.get_pointer_emulated());
-        });
 
         const menu_click_late = Gtk.GestureClick.new();
         this.add_controller(menu_click_late);
         menu_click_late.button = 0;
         menu_click_late.exclusive = true;
         menu_click_late.propagation_phase = Gtk.PropagationPhase.TARGET;
-        menu_click_late.connect('pressed', (gesture, n_press, x, y) => {
-            const event = gesture.get_current_event();
 
-            if (!event.triggers_context_menu())
-                return;
+        this.connect('realize', () => {
+            const early_handler =
+                menu_click_early.connect('pressed', (gesture, n_press, x, y) => {
+                    const event = gesture.get_current_event();
 
-            gesture.set_state(Gtk.EventSequenceState.CLAIMED);
-            this.show_popup_menu(x, y, event.get_pointer_emulated());
+                    if (!event.triggers_context_menu())
+                        return;
+
+                    const state = event.get_modifier_state();
+
+                    if (!(state & Gdk.ModifierType.SHIFT_MASK))
+                        return;
+
+                    if (state & (Gdk.ModifierType.CONTROL_MASK | Gdk.ModifierType.MOD1_MASK))
+                        return;
+
+                    gesture.set_state(Gtk.EventSequenceState.CLAIMED);
+                    this.show_popup_menu(x, y, event.get_pointer_emulated());
+                });
+
+            const late_handler =
+                menu_click_late.connect('pressed', (gesture, n_press, x, y) => {
+                    const event = gesture.get_current_event();
+
+                    if (!event.triggers_context_menu())
+                        return;
+
+                    gesture.set_state(Gtk.EventSequenceState.CLAIMED);
+                    this.show_popup_menu(x, y, event.get_pointer_emulated());
+                });
+
+            const create_handler = this.connect(
+                'notify::context-menu-model',
+                this._create_context_menu.bind(this)
+            );
+
+            const unrealize_handler = this.connect('unrealize', () => {
+                this.disconnect(unrealize_handler);
+                this.disconnect(create_handler);
+                menu_click_early.disconnect(early_handler);
+                menu_click_late.disconnect(late_handler);
+            });
+
+            this._create_context_menu();
+        });
+
+        this.connect('unrealize', () => {
+            this._context_menu?.unparent();
+            this._context_menu = null;
         });
     }
 
+    _create_context_menu() {
+        this._context_menu?.unparent();
+
+        if (!this.context_menu_model) {
+            this._context_menu = null;
+            return;
+        }
+
+        this._context_menu = Gtk.PopoverMenu.new_from_model(this.context_menu_model);
+        this._context_menu.__heapgraph_name = 'DDTermTerminalContextMenuContextMenu';
+        this._context_menu.get_style_context().add_class('context-menu');
+        this._context_menu.set_parent(this);
+    }
+
     show_popup_menu(x, y, is_touch = false) {
-        let menu = Gtk.PopoverMenu.new_from_model(this.context_menu_model);
-
-        menu.__heapgraph_name = 'DDTermTerminalContextMenuContextMenu';
-
         if (is_touch)
-            menu.halign = Gtk.Align.FILL;
+            this._context_menu.halign = Gtk.Align.FILL;
         else if (this.get_direction() === Gtk.TextDirection.RTL)
-            menu.halign = Gtk.Align.END;
+            this._context_menu.halign = Gtk.Align.END;
         else
-            menu.halign = Gtk.Align.START;
+            this._context_menu.halign = Gtk.Align.START;
 
-        menu.autohide = true;
-        menu.cascade_popdown = true;
-        menu.has_arrow = is_touch;
-        menu.position = is_touch ? Gtk.PositionType.TOP : Gtk.PositionType.BOTTOM;
-        menu.pointing_to = new Gdk.Rectangle({ x, y, width: 0, height: 0 });
+        this._context_menu.autohide = true;
+        this._context_menu.cascade_popdown = true;
+        this._context_menu.has_arrow = is_touch;
+        this._context_menu.position = is_touch ? Gtk.PositionType.TOP : Gtk.PositionType.BOTTOM;
+        this._context_menu.pointing_to = new Gdk.Rectangle({ x, y, width: 0, height: 0 });
 
-        menu.get_style_context().add_class('context-menu');
-        menu.set_parent(this);
-
-        const closed_handler = menu.connect('closed', () => {
-            menu.unparent();
-            menu.disconnect(closed_handler);
-            // Leaks without .run_dispose() - confirmed with heapgraph
-            menu.run_dispose();
-            menu = null;
-        });
-
-        menu.popup();
+        this._context_menu.popup();
     }
 });
 
