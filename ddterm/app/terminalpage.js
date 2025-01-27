@@ -109,41 +109,9 @@ export const TerminalPage = GObject.registerClass({
 
         this.append(this.scrolled_window);
 
-        this.search_bar = new SearchBar({
-            visible: true,
-        });
-
+        this.tab_label = this._setup_tab_label();
+        this.search_bar = this._setup_search_bar();
         this.append(this.search_bar);
-
-        this.search_bar.connect('find-next', this.find_next.bind(this));
-        this.search_bar.connect('find-prev', this.find_prev.bind(this));
-
-        this.search_bar.connect('notify::wrap', () => {
-            this.terminal.search_set_wrap_around(this.search_bar.wrap);
-        });
-
-        this.terminal.search_set_wrap_around(this.search_bar.wrap);
-
-        this.search_bar.connect('notify::reveal-child', () => {
-            if (!this.search_bar.reveal_child)
-                this.terminal.grab_focus();
-        });
-
-        this.tab_label = new TabLabel({
-            context_menu_model: this.tab_menu,
-        });
-
-        this.tab_label.connect('close', () => this.close());
-        this.tab_label.connect('reset-label', () => {
-            this.use_custom_title = false;
-        });
-
-        this.bind_property(
-            'title',
-            this.tab_label,
-            'label',
-            GObject.BindingFlags.SYNC_CREATE | GObject.BindingFlags.BIDIRECTIONAL
-        );
 
         this.terminal_settings.bind_property_full(
             'show-scrollbar',
@@ -154,14 +122,99 @@ export const TerminalPage = GObject.registerClass({
             null
         );
 
+        this._setup_click_controller();
+
+        this.connect('realize', this._setup_page_actions.bind(this));
+        this.connect('realize', this._setup_terminal_actions.bind(this));
+        this.connect('realize', this._setup_child_handler.bind(this));
+    }
+
+    _setup_search_bar() {
+        const search_bar = new SearchBar({
+            visible: true,
+        });
+
+        this.connect('realize', () => {
+            const { terminal } = this;
+
+            const handlers = [
+                search_bar.connect('find-next', this.find_next.bind(this)),
+                search_bar.connect('find-prev', this.find_prev.bind(this)),
+                // eslint-disable-next-line no-shadow
+                search_bar.connect('notify::wrap', search_bar => {
+                    terminal.search_set_wrap_around(search_bar.wrap);
+                }),
+                // eslint-disable-next-line no-shadow
+                search_bar.connect('notify::reveal-child', search_bar => {
+                    if (!search_bar.reveal_child)
+                        terminal.grab_focus();
+                }),
+            ];
+
+            this.terminal.search_set_wrap_around(search_bar.wrap);
+
+            const unrealize_handler = this.connect('unrealize', () => {
+                this.disconnect(unrealize_handler);
+
+                for (const handler of handlers)
+                    search_bar.disconnect(handler);
+            });
+        });
+
+        return search_bar;
+    }
+
+    _setup_tab_label() {
+        const tab_label = new TabLabel({
+            context_menu_model: this.tab_menu,
+        });
+
+        this.bind_property(
+            'title',
+            tab_label,
+            'label',
+            GObject.BindingFlags.SYNC_CREATE | GObject.BindingFlags.BIDIRECTIONAL
+        );
+
+        this.connect('realize', () => {
+            const close_handler = tab_label.connect('close', () => this.close());
+            const reset_label_handler = tab_label.connect('reset-label', () => {
+                this.use_custom_title = false;
+            });
+
+            const unrealize_handler = this.connect('unrealize', () => {
+                this.disconnect(unrealize_handler);
+                tab_label.disconnect(close_handler);
+                tab_label.disconnect(reset_label_handler);
+            });
+        });
+
+        return tab_label;
+    }
+
+    _setup_click_controller() {
         const early_click = Gtk.GestureClick.new();
+
         early_click.propagation_phase = Gtk.PropagationPhase.CAPTURE;
         early_click.button = 0;
         early_click.exclusive = true;
-        early_click.connect('pressed', this.terminal_button_press_early.bind(this));
+
         this.terminal.add_controller(early_click);
 
+        this.connect('realize', () => {
+            const click_handler =
+                early_click.connect('pressed', this.terminal_button_press_early.bind(this));
+
+            const unrealize_handler = this.connect('unrealize', () => {
+                this.disconnect(unrealize_handler);
+                early_click.disconnect(click_handler);
+            });
+        });
+    }
+
+    _setup_page_actions() {
         const page_actions = new Gio.SimpleActionGroup();
+        const handlers = [];
 
         const close_action = new Gio.SimpleAction({ name: 'close' });
         close_action.connect('activate', () => this.close());
@@ -195,9 +248,9 @@ export const TerminalPage = GObject.registerClass({
             parameter_type: new GLib.VariantType('s'),
             state: GLib.Variant.new_string(this.split_layout),
         });
-        this.connect('notify::split-layout', () => {
+        handlers.push(this.connect('notify::split-layout', () => {
             split_layout_action.state = GLib.Variant.new_string(this.split_layout);
-        });
+        }));
         split_layout_action.connect('change-state', (_, value) => {
             this.emit('split-layout-request', value.unpack());
         });
@@ -215,9 +268,9 @@ export const TerminalPage = GObject.registerClass({
         page_actions.add_action(move_to_other_pane_action);
 
         this._title_binding = null;
-        this.connect('notify::use-custom-title', () => {
+        handlers.push(this.connect('notify::use-custom-title', () => {
             this.update_title_binding();
-        });
+        }));
         this.update_title_binding();
 
         const use_custom_title_action = new Gio.SimpleAction({
@@ -228,11 +281,11 @@ export const TerminalPage = GObject.registerClass({
         use_custom_title_action.connect('change-state', (_, value) => {
             this.use_custom_title = value.get_boolean();
         });
-        this.connect('notify::use-custom-title', () => {
+        handlers.push(this.connect('notify::use-custom-title', () => {
             use_custom_title_action.set_state(
                 GLib.Variant.new_boolean(this.use_custom_title)
             );
-        });
+        }));
         use_custom_title_action.connect('activate', (_, param) => {
             use_custom_title_action.change_state(param);
 
@@ -244,7 +297,18 @@ export const TerminalPage = GObject.registerClass({
         this.insert_action_group('page', page_actions);
         this.tab_label.insert_action_group('page', page_actions);
 
+        handlers.push(this.connect('unrealize', () => {
+            for (const handler of handlers)
+                this.disconnect(handler);
+
+            this.insert_action_group('page', null);
+            this.tab_label.insert_action_group('page', null);
+        }));
+    }
+
+    _setup_terminal_actions() {
         const terminal_actions = new Gio.SimpleActionGroup();
+        const terminal_handlers = [];
 
         const copy_action = new Gio.SimpleAction({
             name: 'copy',
@@ -264,10 +328,10 @@ export const TerminalPage = GObject.registerClass({
         });
         terminal_actions.add_action(copy_html_action);
 
-        this.terminal.connect('selection-changed', () => {
-            copy_action.enabled = this.terminal.get_has_selection();
-            copy_html_action.enabled = this.terminal.get_has_selection();
-        });
+        terminal_handlers.push(this.terminal.connect('selection-changed', terminal => {
+            copy_action.enabled = terminal.get_has_selection();
+            copy_html_action.enabled = terminal.get_has_selection();
+        }));
 
         const open_hyperlink_action = new Gio.SimpleAction({
             name: 'open-hyperlink',
@@ -283,11 +347,11 @@ export const TerminalPage = GObject.registerClass({
         copy_hyperlink_action.connect('activate', this.copy_hyperlink.bind(this));
         terminal_actions.add_action(copy_hyperlink_action);
 
-        this.terminal.connect('notify::last-clicked-hyperlink', () => {
-            const enable = this.terminal.last_clicked_hyperlink !== null;
+        terminal_handlers.push(this.terminal.connect('notify::last-clicked-hyperlink', terminal => {
+            const enable = terminal.last_clicked_hyperlink !== null;
             open_hyperlink_action.enabled = enable;
             copy_hyperlink_action.enabled = enable;
-        });
+        }));
 
         const copy_filename_action = new Gio.SimpleAction({
             name: 'copy-filename',
@@ -296,10 +360,10 @@ export const TerminalPage = GObject.registerClass({
         copy_filename_action.connect('activate', this.copy_filename.bind(this));
         terminal_actions.add_action(copy_filename_action);
 
-        this.terminal.connect('notify::last-clicked-filename', () => {
-            const enable = this.terminal.last_clicked_filename !== null;
+        terminal_handlers.push(this.terminal.connect('notify::last-clicked-filename', terminal => {
+            const enable = terminal.last_clicked_filename !== null;
             copy_filename_action.enabled = enable;
-        });
+        }));
 
         const paste_action = new Gio.SimpleAction({ name: 'paste' });
         paste_action.connect('activate', () => {
@@ -384,9 +448,9 @@ export const TerminalPage = GObject.registerClass({
         font_scale_reset_action.connect('activate', () => {
             this.terminal.font_scale = 1;
         });
-        this.terminal.connect('notify::font-scale', () => {
-            font_scale_reset_action.enabled = this.terminal.font_scale !== 1;
-        });
+        terminal_handlers.push(this.terminal.connect('notify::font-scale', terminal => {
+            font_scale_reset_action.enabled = terminal.font_scale !== 1;
+        }));
         terminal_actions.add_action(font_scale_reset_action);
 
         const show_in_file_manager_action = new Gio.SimpleAction({
@@ -399,11 +463,28 @@ export const TerminalPage = GObject.registerClass({
 
         this.insert_action_group('terminal', terminal_actions);
 
-        this.terminal.connect_after('child-exited', (terminal_, status) => {
-            if (this.keep_open_after_exit)
-                this.add_exit_status_banner(status);
-            else
-                this.emit('close');
+        const unrealize_handler = this.connect('unrealize', () => {
+            this.disconnect(unrealize_handler);
+
+            for (const handler of terminal_handlers)
+                this.terminal.disconnect(handler);
+
+            this.insert_action_group('terminal', null);
+        });
+    }
+
+    _setup_child_handler() {
+        const child_handler =
+            this.terminal.connect_after('child-exited', (terminal_, status) => {
+                if (this.keep_open_after_exit)
+                    this.add_exit_status_banner(status);
+                else
+                    this.emit('close');
+            });
+
+        const unrealize_handler = this.connect('unrealize', () => {
+            this.disconnect(unrealize_handler);
+            this.terminal.disconnect(child_handler);
         });
     }
 
