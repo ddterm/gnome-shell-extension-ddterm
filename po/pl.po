@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-27 01:50+0000\n"
+"POT-Creation-Date: 2025-01-27 05:29+0000\n"
 "PO-Revision-Date: 2024-06-15 17:09+0000\n"
 "Last-Translator: Wojciech Teichert <wojtekt99@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/gnome-shell-"
@@ -378,7 +378,7 @@ msgstr "Okno"
 msgid "Terminal"
 msgstr "Terminal"
 
-#: ddterm/pref/adw.js:120 ddterm/pref/shortcuts.js:117
+#: ddterm/pref/adw.js:120 ddterm/pref/shortcuts.js:203
 msgid "Keyboard Shortcuts"
 msgstr "Skróty klawiszowe"
 
@@ -394,7 +394,7 @@ msgstr "Animacja"
 msgid "Behavior"
 msgstr "Zachowanie"
 
-#: ddterm/pref/colors.js:453
+#: ddterm/pref/colors.js:408
 msgid "Colors"
 msgstr "Kolory"
 
@@ -402,7 +402,7 @@ msgstr "Kolory"
 msgid "Command"
 msgstr "Komenda"
 
-#: ddterm/pref/compatibility.js:60
+#: ddterm/pref/compatibility.js:62
 msgid "Compatibility"
 msgstr "Zgodność"
 
@@ -418,7 +418,7 @@ msgstr "Pozycja i rozmiar"
 msgid "Scrolling"
 msgstr "Przewijanie"
 
-#: ddterm/pref/tabs.js:81
+#: ddterm/pref/tabs.js:88
 msgid "Tabs"
 msgstr "Karty"
 

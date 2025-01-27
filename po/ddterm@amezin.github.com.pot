@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-27 01:50+0000\n"
+"POT-Creation-Date: 2025-01-27 05:29+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -369,7 +369,7 @@ msgstr ""
 msgid "Terminal"
 msgstr ""
 
-#: ddterm/pref/adw.js:120 ddterm/pref/shortcuts.js:117
+#: ddterm/pref/adw.js:120 ddterm/pref/shortcuts.js:203
 msgid "Keyboard Shortcuts"
 msgstr ""
 
@@ -385,7 +385,7 @@ msgstr ""
 msgid "Behavior"
 msgstr ""
 
-#: ddterm/pref/colors.js:453
+#: ddterm/pref/colors.js:408
 msgid "Colors"
 msgstr ""
 
@@ -393,7 +393,7 @@ msgstr ""
 msgid "Command"
 msgstr ""
 
-#: ddterm/pref/compatibility.js:60
+#: ddterm/pref/compatibility.js:62
 msgid "Compatibility"
 msgstr ""
 
@@ -409,7 +409,7 @@ msgstr ""
 msgid "Scrolling"
 msgstr ""
 
-#: ddterm/pref/tabs.js:81
+#: ddterm/pref/tabs.js:88
 msgid "Tabs"
 msgstr ""
 

@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-27 01:50+0000\n"
+"POT-Creation-Date: 2025-01-27 05:29+0000\n"
 "PO-Revision-Date: 2024-04-10 20:01+0000\n"
 "Last-Translator: Stepan <stepan.miroshnikov@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/gnome-shell-"
@@ -380,7 +380,7 @@ msgstr "Окно"
 msgid "Terminal"
 msgstr "Терминал"
 
-#: ddterm/pref/adw.js:120 ddterm/pref/shortcuts.js:117
+#: ddterm/pref/adw.js:120 ddterm/pref/shortcuts.js:203
 msgid "Keyboard Shortcuts"
 msgstr "Комбинации клавиш"
 
@@ -396,7 +396,7 @@ msgstr "Анимация"
 msgid "Behavior"
 msgstr "Поведение"
 
-#: ddterm/pref/colors.js:453
+#: ddterm/pref/colors.js:408
 msgid "Colors"
 msgstr "Цвета"
 
@@ -404,7 +404,7 @@ msgstr "Цвета"
 msgid "Command"
 msgstr "Команда"
 
-#: ddterm/pref/compatibility.js:60
+#: ddterm/pref/compatibility.js:62
 msgid "Compatibility"
 msgstr "Совместимость"
 
@@ -420,7 +420,7 @@ msgstr "Положение и размер"
 msgid "Scrolling"
 msgstr "Прокрутка"
 
-#: ddterm/pref/tabs.js:81
+#: ddterm/pref/tabs.js:88
 msgid "Tabs"
 msgstr "Вкладки"
 

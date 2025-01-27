@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-27 01:50+0000\n"
+"POT-Creation-Date: 2025-01-27 05:29+0000\n"
 "PO-Revision-Date: 2023-09-26 17:35+0300\n"
 "Last-Translator: Anagnostakis Ioannis <rizitis@gmail.com>\n"
 "Language-Team: Greek, Modern (1453-) <>\n"
@@ -383,7 +383,7 @@ msgstr "Παράθυρο"
 msgid "Terminal"
 msgstr "Τερματικό"
 
-#: ddterm/pref/adw.js:120 ddterm/pref/shortcuts.js:117
+#: ddterm/pref/adw.js:120 ddterm/pref/shortcuts.js:203
 msgid "Keyboard Shortcuts"
 msgstr "Συντομεύσεις Πληκτρολογίου"
 
@@ -399,7 +399,7 @@ msgstr "Animation"
 msgid "Behavior"
 msgstr "Συμπεριφορά"
 
-#: ddterm/pref/colors.js:453
+#: ddterm/pref/colors.js:408
 msgid "Colors"
 msgstr "Χρώμματα"
 
@@ -407,7 +407,7 @@ msgstr "Χρώμματα"
 msgid "Command"
 msgstr "Εντολή"
 
-#: ddterm/pref/compatibility.js:60
+#: ddterm/pref/compatibility.js:62
 msgid "Compatibility"
 msgstr "Συμβατότητα"
 
@@ -423,7 +423,7 @@ msgstr "Θέση και μέγεθος"
 msgid "Scrolling"
 msgstr "Κύλιση"
 
-#: ddterm/pref/tabs.js:81
+#: ddterm/pref/tabs.js:88
 msgid "Tabs"
 msgstr "Καρτέλες"
 

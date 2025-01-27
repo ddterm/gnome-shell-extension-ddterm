@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-27 01:50+0000\n"
+"POT-Creation-Date: 2025-01-27 05:29+0000\n"
 "PO-Revision-Date: 2023-10-24 22:14+0000\n"
 "Last-Translator: Pavel Novák <pavelnov32@gmail.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/gnome-shell-"
@@ -371,7 +371,7 @@ msgstr "Okno"
 msgid "Terminal"
 msgstr "Terminál"
 
-#: ddterm/pref/adw.js:120 ddterm/pref/shortcuts.js:117
+#: ddterm/pref/adw.js:120 ddterm/pref/shortcuts.js:203
 msgid "Keyboard Shortcuts"
 msgstr "Klávesové zkratky"
 
@@ -387,7 +387,7 @@ msgstr "Animace"
 msgid "Behavior"
 msgstr "Chování"
 
-#: ddterm/pref/colors.js:453
+#: ddterm/pref/colors.js:408
 msgid "Colors"
 msgstr "Barvy"
 
@@ -395,7 +395,7 @@ msgstr "Barvy"
 msgid "Command"
 msgstr "Příkaz"
 
-#: ddterm/pref/compatibility.js:60
+#: ddterm/pref/compatibility.js:62
 msgid "Compatibility"
 msgstr "Kompatibilita"
 
@@ -411,7 +411,7 @@ msgstr "Pozice a velikost"
 msgid "Scrolling"
 msgstr "Posouvání"
 
-#: ddterm/pref/tabs.js:81
+#: ddterm/pref/tabs.js:88
 msgid "Tabs"
 msgstr "Panely"
 
