@@ -8,6 +8,12 @@ import Gtk from 'gi://Gtk';
 
 import { bind_widgets, ui_file_uri } from './util.js';
 
+function reset(settings) {
+    settings.reset('backspace-binding');
+    settings.reset('delete-binding');
+    settings.reset('cjk-utf8-ambiguous-width');
+}
+
 export const CompatibilityWidget = GObject.registerClass({
     GTypeName: 'DDTermPrefsCompatibility',
     Template: ui_file_uri('prefs-compatibility.ui'),
@@ -45,11 +51,7 @@ export const CompatibilityWidget = GObject.registerClass({
             name: 'reset-compatibility-options',
         });
 
-        reset_action.connect('activate', () => {
-            this.settings.reset('backspace-binding');
-            this.settings.reset('delete-binding');
-            this.settings.reset('cjk-utf8-ambiguous-width');
-        });
+        reset_action.connect('activate', reset.bind(globalThis, this.settings));
 
         const aux_actions = new Gio.SimpleActionGroup();
         aux_actions.add_action(reset_action);
