@@ -2,4 +2,4 @@
 #
 # SPDX-License-Identifier: CC0-1.0
 
-meson[progress]~=1.6.1
+meson[progress]~=1.7.0
