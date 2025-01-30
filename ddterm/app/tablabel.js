@@ -99,6 +99,11 @@ export const TabLabel = GObject.registerClass({
             GObject.BindingFlags.SYNC_CREATE
         );
 
+        this.append(this._create_close_button());
+        this.edit_popover = this._create_edit_popover();
+    }
+
+    _create_close_button() {
         const close_button = new Gtk.Button({
             tooltip_text: Gettext.gettext('Close'),
             icon_name: 'window-close',
@@ -106,8 +111,6 @@ export const TabLabel = GObject.registerClass({
             focus_on_click: false,
             has_frame: false,
         });
-
-        this.append(close_button);
 
         this.bind_property(
             'close-button',
@@ -117,13 +120,17 @@ export const TabLabel = GObject.registerClass({
         );
 
         this.connect('realize', () => {
-            const handler = close_button.connect('clicked', () => this.emit('close'));
+            const click_handler = close_button.connect('clicked', () => this.emit('close'));
             const unrealize_handler = this.connect('unrealize', () => {
                 this.disconnect(unrealize_handler);
-                close_button.disconnect(handler);
+                close_button.disconnect(click_handler);
             });
         });
 
+        return close_button;
+    }
+
+    _create_edit_popover() {
         const edit_entry = new Gtk.Entry({
             visible: true,
             secondary_icon_name: 'edit-clear',
@@ -139,30 +146,33 @@ export const TabLabel = GObject.registerClass({
             GObject.BindingFlags.SYNC_CREATE | GObject.BindingFlags.BIDIRECTIONAL
         );
 
-        this.edit_popover = new Gtk.Popover({
+        const edit_popover = new Gtk.Popover({
             visible: false,
             child: edit_entry,
             autohide: true,
         });
 
         this.connect('realize', () => {
-            const activate_handler =
-                edit_entry.connect('activate', () => this.edit_popover.popdown());
+            const activate_handler = edit_entry.connect('activate', () => {
+                edit_popover.popdown();
+            });
 
             const icon_handler = edit_entry.connect('icon-press', () => {
-                this.edit_popover.popdown();
+                edit_popover.popdown();
                 this.emit('reset-label');
             });
 
-            this.edit_popover.set_parent(this);
+            edit_popover.set_parent(this);
 
             const unrealize_handler = this.connect('unrealize', () => {
                 this.disconnect(unrealize_handler);
                 edit_entry.disconnect(activate_handler);
                 edit_entry.disconnect(icon_handler);
-                this.edit_popover.unparent();
+                edit_popover.unparent();
             });
         });
+
+        return edit_popover;
     }
 
     _setup_popup_menu() {
