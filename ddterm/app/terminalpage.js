@@ -151,14 +151,18 @@ export const TerminalPage = GObject.registerClass({
                 }),
             ];
 
-            this.terminal.search_set_wrap_around(search_bar.wrap);
+            terminal.search_set_wrap_around(search_bar.wrap);
 
-            const unrealize_handler = this.connect('unrealize', () => {
+            const unrealize = () => {
                 this.disconnect(unrealize_handler);
 
                 for (const handler of handlers)
                     search_bar.disconnect(handler);
-            });
+            };
+
+            const unrealize_handler = this.connect('unrealize', unrealize);
+
+            handlers.push(search_bar.connect('unrealize', unrealize));
         });
 
         return search_bar;
@@ -182,11 +186,15 @@ export const TerminalPage = GObject.registerClass({
                 this.use_custom_title = false;
             });
 
-            const unrealize_handler = this.connect('unrealize', () => {
+            const unrealize = () => {
                 this.disconnect(unrealize_handler);
+                tab_label.disconnect(tab_label_unrealize_handler);
                 tab_label.disconnect(close_handler);
                 tab_label.disconnect(reset_label_handler);
-            });
+            };
+
+            const unrealize_handler = this.connect('unrealize', unrealize);
+            const tab_label_unrealize_handler = tab_label.connect('unrealize', unrealize);
         });
 
         return tab_label;
@@ -205,10 +213,14 @@ export const TerminalPage = GObject.registerClass({
             const click_handler =
                 early_click.connect('pressed', this.terminal_button_press_early.bind(this));
 
-            const unrealize_handler = this.connect('unrealize', () => {
+            const unrealize = () => {
                 this.disconnect(unrealize_handler);
                 early_click.disconnect(click_handler);
-            });
+                this.terminal.disconnect(terminal_unrealize_handler);
+            };
+
+            const unrealize_handler = this.connect('unrealize', unrealize);
+            const terminal_unrealize_handler = this.terminal.connect('unrealize', unrealize);
         });
     }
 
@@ -295,15 +307,27 @@ export const TerminalPage = GObject.registerClass({
         page_actions.add_action(use_custom_title_action);
 
         this.insert_action_group('page', page_actions);
-        this.tab_label.insert_action_group('page', page_actions);
 
         handlers.push(this.connect('unrealize', () => {
             for (const handler of handlers)
                 this.disconnect(handler);
 
             this.insert_action_group('page', null);
-            this.tab_label.insert_action_group('page', null);
         }));
+
+        this.tab_label.insert_action_group('page', page_actions);
+
+        const tab_label_unrealize = () => {
+            this.disconnect(unrealize_handler);
+            this.tab_label.disconnect(tab_label_unrealize_handler);
+            this.tab_label.insert_action_group('page', null);
+        };
+
+        const tab_label_unrealize_handler =
+            this.tab_label.connect('unrealize', tab_label_unrealize);
+
+        const unrealize_handler =
+            this.connect('unrealize', tab_label_unrealize);
     }
 
     _setup_terminal_actions() {
@@ -463,14 +487,18 @@ export const TerminalPage = GObject.registerClass({
 
         this.insert_action_group('terminal', terminal_actions);
 
-        const unrealize_handler = this.connect('unrealize', () => {
+        const unrealize = () => {
             this.disconnect(unrealize_handler);
 
             for (const handler of terminal_handlers)
                 this.terminal.disconnect(handler);
 
             this.insert_action_group('terminal', null);
-        });
+        };
+
+        const unrealize_handler = this.connect('unrealize', unrealize);
+
+        terminal_handlers.push(this.terminal.connect('unrealize', unrealize));
     }
 
     _setup_child_handler() {
@@ -482,10 +510,14 @@ export const TerminalPage = GObject.registerClass({
                     this.emit('close');
             });
 
-        const unrealize_handler = this.connect('unrealize', () => {
+        const unrealize = () => {
             this.disconnect(unrealize_handler);
+            this.terminal.disconnect(terminal_unrealize_handler);
             this.terminal.disconnect(child_handler);
-        });
+        };
+
+        const unrealize_handler = this.connect('unrealize', unrealize);
+        const terminal_unrealize_handler = this.terminal.connect('unrealize', unrealize);
     }
 
     get_cwd() {
