@@ -8,7 +8,7 @@ annotated-types==0.7.0
     # via pydantic
 bracex==2.5.post1
     # via wcmatch
-bump-my-version==0.30.0
+bump-my-version==0.31.0
     # via -r version.in
 click==8.1.8
     # via
