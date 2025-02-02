@@ -93,24 +93,24 @@ export const PrefsWidget = GObject.registerClass({
 
         this.bind_property(
             'monitors',
-            this.add_page('position-size', PositionSizeWidget),
+            this.#add_page('position-size', PositionSizeWidget),
             'monitors',
             GObject.BindingFlags.SYNC_CREATE
         );
 
-        this.add_page('behavior', BehaviorWidget);
-        this.add_page('animation', AnimationWidget);
-        this.add_page('tabs', TabsWidget);
-        this.add_page('text', TextWidget);
-        this.add_page('colors', ColorsWidget);
-        this.add_page('command', CommandWidget);
-        this.add_page('scrolling', ScrollingWidget);
-        this.add_page('compatibility', CompatibilityWidget);
-        this.add_page('shortcuts', ShortcutsWidget);
-        this.add_page('panel-icon', PanelIconWidget);
+        this.#add_page('behavior', BehaviorWidget);
+        this.#add_page('animation', AnimationWidget);
+        this.#add_page('tabs', TabsWidget);
+        this.#add_page('text', TextWidget);
+        this.#add_page('colors', ColorsWidget);
+        this.#add_page('command', CommandWidget);
+        this.#add_page('scrolling', ScrollingWidget);
+        this.#add_page('compatibility', CompatibilityWidget);
+        this.#add_page('shortcuts', ShortcutsWidget);
+        this.#add_page('panel-icon', PanelIconWidget);
     }
 
-    add_page(name, widget_type) {
+    #add_page(name, widget_type) {
         const widget = new widget_type({
             settings: this.settings,
             gettext_context: this.gettext_context,
