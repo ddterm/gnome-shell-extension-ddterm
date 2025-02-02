@@ -167,7 +167,7 @@ export const ShortcutsWidget = GObject.registerClass({
 
         const inhibit_shortcuts_handler = this.global_accel_renderer.connect(
             'editing-started',
-            (IS_GTK3 ? this.grab_global_keys : this.inhibit_system_shortcuts).bind(this)
+            (IS_GTK3 ? this.#grab_global_keys : this.#inhibit_system_shortcuts).bind(this)
         );
 
         for (const shortcuts_list of [this.shortcuts_list, this.global_shortcuts_list]) {
@@ -206,7 +206,7 @@ export const ShortcutsWidget = GObject.registerClass({
         return this.gettext_context.gettext('Keyboard Shortcuts');
     }
 
-    grab_global_keys(cell_renderer, editable) {
+    #grab_global_keys(cell_renderer, editable) {
         const display = this.window.get_display();
         const seat = display.get_default_seat();
         const status = seat.grab(
@@ -227,7 +227,7 @@ export const ShortcutsWidget = GObject.registerClass({
         });
     }
 
-    inhibit_system_shortcuts(cell_renderer, editable) {
+    #inhibit_system_shortcuts(cell_renderer, editable) {
         const toplevel = this.root.get_surface();
         toplevel.inhibit_system_shortcuts(null);
 
