@@ -140,7 +140,12 @@ export const TerminalPage = GObject.registerClass({
             context_menu_model: this.tab_menu,
         });
 
-        this.connect('destroy', () => this.tab_label.destroy());
+        const tab_label_destroy_handler =
+            this.connect('destroy', () => this.tab_label.destroy());
+
+        this.tab_label.connect('destroy', () => {
+            this.disconnect(tab_label_destroy_handler);
+        });
         this.tab_label.connect('close', () => this.close());
         this.tab_label.connect('reset-label', () => {
             this.use_custom_title = false;
