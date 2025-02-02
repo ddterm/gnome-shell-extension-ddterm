@@ -12,6 +12,7 @@ import Gettext from 'gettext';
 
 import { TerminalSettings } from './terminalsettings.js';
 import { Notebook } from './notebook.js';
+import { get_resource_file } from './resources.js';
 import { DisplayConfig, LayoutMode } from '../util/displayconfig.js';
 
 function make_resizer(orientation) {
@@ -143,6 +144,9 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
             window_position: Gtk.WindowPosition.CENTER,
             ...params,
         });
+
+        this.menus =
+            Gtk.Builder.new_from_file(get_resource_file('./ui/menus.ui').get_path());
 
         const grid = new Gtk.Grid({
             parent: this,
@@ -382,6 +386,7 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
             terminal_settings: this.terminal_settings,
             scrollable: true,
             group_name: 'ddtermnotebook',
+            menus: this.menus,
         });
 
         const update_notebook_visibility = () => {

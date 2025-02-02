@@ -12,10 +12,16 @@ import Gettext from 'gettext';
 
 import { TerminalPage } from './terminalpage.js';
 import { TerminalSettings } from './terminalsettings.js';
-import { get_resource_file } from './resources.js';
 
 export const Notebook = GObject.registerClass({
     Properties: {
+        'menus': GObject.ParamSpec.object(
+            'menus',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+            Gtk.Builder
+        ),
         'terminal-settings': GObject.ParamSpec.object(
             'terminal-settings',
             '',
@@ -140,8 +146,6 @@ export const Notebook = GObject.registerClass({
             'visible',
             GObject.BindingFlags.BIDIRECTIONAL | GObject.BindingFlags.SYNC_CREATE
         );
-
-        this.menus = Gtk.Builder.new_from_file(get_resource_file('./ui/menus.ui').get_path());
 
         const menu = new Gio.Menu();
         menu.append_section(null, new NotebookMenu({ notebook: this }));
