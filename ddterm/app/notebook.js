@@ -541,21 +541,30 @@ const NotebookMenu = GObject.registerClass({
         this._target = [];
         this._update_source = null;
 
-        this.notebook.connect('page-added', () => this._schedule_update());
-        this.notebook.connect('page-removed', () => this._schedule_update());
-        this.notebook.connect('page-reordered', () => this._schedule_update());
-
         const page_handlers = new Map();
 
-        this.notebook.connect('page-added', (_, page) => {
-            const handler = page.connect('notify::title', () => this._schedule_update());
-            page_handlers.set(page, handler);
-        });
+        const handlers = [
+            this.notebook.connect('page-added', () => this._schedule_update()),
+            this.notebook.connect('page-removed', () => this._schedule_update()),
+            this.notebook.connect('page-reordered', () => this._schedule_update()),
+            this.notebook.connect('page-added', (_, page) => {
+                const handler = page.connect('notify::title', () => this._schedule_update());
+                page_handlers.set(page, handler);
+            }),
+            this.notebook.connect('page-removed', (_, page) => {
+                page.disconnect(page_handlers.get(page));
+                page_handlers.delete(page);
+            }),
+            this.notebook.connect('destroy', () => {
+                while (handlers.length)
+                    this.notebook.disconnect(handlers.pop());
 
-        this.notebook.connect('page-removed', (_, page) => {
-            page.disconnect(page_handlers.get(page));
-            page_handlers.delete(page);
-        });
+                for (const [page, handler] of page_handlers.entries())
+                    page.disconnect(handler);
+
+                page_handlers.clear();
+            }),
+        ];
     }
 
     _update() {
