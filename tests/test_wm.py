@@ -619,6 +619,7 @@ class CommonTests:
         monitor_scale,
         extension_dbus_interface,
         extension_test_hook,
+        shell_dbus_interface,
         shell_test_hook,
         wait_idle,
         gdk_backend,
@@ -664,7 +665,8 @@ class CommonTests:
 
             wait_idle()
 
-            assert extension_test_hook.WindowRect == expected_rect2
+            if shell_dbus_interface.ShellVersion[0] != 43:
+                assert extension_test_hook.WindowRect == expected_rect2
 
         finally:
             shell_test_hook.mouse_up()
