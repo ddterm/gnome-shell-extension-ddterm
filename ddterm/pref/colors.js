@@ -138,15 +138,17 @@ const Color = GObject.registerClass({
         ),
     },
 }, class DDTermPrefsColorsColor extends GObject.Object {
+    #rgba = null;
+
     get rgba() {
-        return this._rgba;
+        return this.#rgba;
     }
 
     set rgba(value) {
-        if (this._rgba && this._rgba.equal(value))
+        if (this.#rgba?.equal(value))
             return;
 
-        this._rgba = value;
+        this.#rgba = value;
         this.notify('rgba');
         this.notify('str');
     }
@@ -310,8 +312,8 @@ export const ColorsWidget = GObject.registerClass({
             presets: this.color_scheme_combo.model,
         });
 
-        this.bind_color('foreground-color', this.foreground_color, this.color_scheme.colors[0]);
-        this.bind_color('background-color', this.background_color, this.color_scheme.colors[1]);
+        this.#bind_color('foreground-color', this.foreground_color, this.color_scheme.colors[0]);
+        this.#bind_color('background-color', this.background_color, this.color_scheme.colors[1]);
 
         this.color_scheme.bind_property(
             'active-preset',
@@ -320,7 +322,7 @@ export const ColorsWidget = GObject.registerClass({
             GObject.BindingFlags.SYNC_CREATE | GObject.BindingFlags.BIDIRECTIONAL
         );
 
-        this._setup_color_scheme_combo_sensitivity();
+        this.#setup_color_scheme_combo_sensitivity();
 
         bind_widget(this.settings, 'background-opacity', this.opacity_scale);
         bind_sensitive(this.settings, 'transparent-background', this.opacity_scale.parent);
@@ -335,7 +337,7 @@ export const ColorsWidget = GObject.registerClass({
             Gio.SettingsBindFlags.INVERT_BOOLEAN
         );
 
-        this.bind_color('bold-color', this.bold_color);
+        this.#bind_color('bold-color', this.bold_color);
 
         bind_sensitive(
             this.settings,
@@ -344,8 +346,8 @@ export const ColorsWidget = GObject.registerClass({
             true
         );
 
-        this.bind_color('cursor-foreground-color', this.cursor_foreground_color);
-        this.bind_color('cursor-background-color', this.cursor_background_color);
+        this.#bind_color('cursor-foreground-color', this.cursor_foreground_color);
+        this.#bind_color('cursor-background-color', this.cursor_background_color);
 
         [
             this.cursor_foreground_color,
@@ -354,8 +356,8 @@ export const ColorsWidget = GObject.registerClass({
             bind_sensitive(this.settings, 'cursor-colors-set', widget);
         });
 
-        this.bind_color('highlight-foreground-color', this.highlight_foreground_color);
-        this.bind_color('highlight-background-color', this.highlight_background_color);
+        this.#bind_color('highlight-foreground-color', this.highlight_foreground_color);
+        this.#bind_color('highlight-background-color', this.highlight_background_color);
 
         [
             this.highlight_foreground_color,
@@ -395,7 +397,7 @@ export const ColorsWidget = GObject.registerClass({
             GObject.BindingFlags.SYNC_CREATE | GObject.BindingFlags.BIDIRECTIONAL
         );
 
-        this.connect('realize', this._setup_aux_actions.bind(this));
+        this.connect('realize', this.#setup_aux_actions.bind(this));
     }
 
     get title() {
@@ -410,7 +412,7 @@ export const ColorsWidget = GObject.registerClass({
         }
     }
 
-    bind_color(key, widget, color = null) {
+    #bind_color(key, widget, color = null) {
         if (!color) {
             color = new Color();
 
@@ -430,7 +432,7 @@ export const ColorsWidget = GObject.registerClass({
         this.settings.bind_writable(key, widget, 'sensitive', false);
     }
 
-    _setup_color_scheme_combo_sensitivity() {
+    #setup_color_scheme_combo_sensitivity() {
         const { foreground_color, background_color, color_scheme_combo } = this;
 
         for (const color_button of [foreground_color, background_color]) {
@@ -444,7 +446,7 @@ export const ColorsWidget = GObject.registerClass({
             foreground_color.sensitive && background_color.sensitive;
     }
 
-    _setup_aux_actions() {
+    #setup_aux_actions() {
         const copy_from_gnome_terminal_action = new Gio.SimpleAction({
             name: 'copy-gnome-terminal-profile',
         });
