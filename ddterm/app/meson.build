@@ -9,7 +9,6 @@ app_js_src_files = files(
   'appwindow.js',
   'dependencies.js',
   'extensiondbus.js',
-  'gtktheme.js',
   'init.js',
   'meta.js',
   'notebook.js',

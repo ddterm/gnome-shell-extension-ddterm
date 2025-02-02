@@ -9,12 +9,12 @@ import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
 import Gdk from 'gi://Gdk';
 import Gtk from 'gi://Gtk';
+import Handy from 'gi://Handy';
 
 import Gettext from 'gettext';
 import System from 'system';
 
 import { AppWindow } from './appwindow.js';
-import { ThemeManager } from './gtktheme.js';
 import { metadata } from './meta.js';
 import { get_resource_file, get_resource_text } from './resources.js';
 import { get_settings } from './settings.js';
@@ -242,16 +242,15 @@ class Application extends Gtk.Application {
             this.add_action(this.settings.create_action(key));
         });
 
-        this.theme_manager = new ThemeManager({
-            theme_variant: this.settings.get_string('theme-variant'),
-        });
+        Handy.init();
+        this.style_manager = Handy.StyleManager.get_default();
 
-        this.settings.bind(
-            'theme-variant',
-            this.theme_manager,
-            'theme-variant',
-            Gio.SettingsBindFlags.GET
+        this.settings.connect(
+            'changed::theme-variant',
+            this.update_color_scheme.bind(this)
         );
+
+        this.update_color_scheme();
 
         const css_provider = Gtk.CssProvider.new();
         css_provider.load_from_file(get_resource_file('style.css'));
@@ -627,6 +626,22 @@ class Application extends Gtk.Application {
             keys.push('Escape');
 
         this.set_accels_for_action(action, keys);
+    }
+
+    update_color_scheme() {
+        const mapping = {
+            'system': Handy.ColorScheme.PREFER_LIGHT,
+            'dark': Handy.ColorScheme.FORCE_DARK,
+            'light': Handy.ColorScheme.FORCE_LIGHT,
+        };
+
+        const variant = this.settings.get_string('theme-variant');
+        const resolved = mapping[variant];
+
+        if (resolved === undefined)
+            logError(new Error(`Unknown theme-variant: ${variant}`));
+        else
+            this.style_manager.color_scheme = resolved;
     }
 
     restore_session() {
