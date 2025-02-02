@@ -71,7 +71,7 @@ export const TabsWidget = GObject.registerClass({
         if (this.saved_ellipsize_mode === 'none')
             this.saved_ellipsize_mode = 'middle';
 
-        const auto_enable_ellipsize = this.auto_enable_ellipsize.bind(this);
+        const auto_enable_ellipsize = this.#auto_enable_ellipsize.bind(this);
 
         const tab_pos_handler =
             this.tab_position_combo.connect('changed', auto_enable_ellipsize);
@@ -90,7 +90,7 @@ export const TabsWidget = GObject.registerClass({
         return this.gettext_context.gettext('Tabs');
     }
 
-    auto_enable_ellipsize() {
+    #auto_enable_ellipsize() {
         const current_mode = this.tab_label_ellipsize_combo.active_id;
         const current_enabled = current_mode !== 'none';
         const should_enable =
