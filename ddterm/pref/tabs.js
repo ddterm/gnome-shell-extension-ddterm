@@ -62,6 +62,10 @@ export const TabsWidget = GObject.registerClass({
             'tab-show-shortcuts',
         ]);
 
+        this.connect('realize', this.#realize.bind(this));
+    }
+
+    #realize() {
         this.saved_ellipsize_mode = this.settings.get_string('tab-label-ellipsize-mode');
 
         if (this.saved_ellipsize_mode === 'none')
@@ -69,18 +73,16 @@ export const TabsWidget = GObject.registerClass({
 
         const auto_enable_ellipsize = this.auto_enable_ellipsize.bind(this);
 
-        this.connect('realize', () => {
-            const tab_pos_handler =
-                this.tab_position_combo.connect('changed', auto_enable_ellipsize);
+        const tab_pos_handler =
+            this.tab_position_combo.connect('changed', auto_enable_ellipsize);
 
-            const tab_expand_handler =
-                this.expand_tabs_check.connect('toggled', auto_enable_ellipsize);
+        const tab_expand_handler =
+            this.expand_tabs_check.connect('toggled', auto_enable_ellipsize);
 
-            const unrealize_handler = this.connect('unrealize', () => {
-                this.disconnect(unrealize_handler);
-                this.tab_position_combo.disconnect(tab_pos_handler);
-                this.expand_tabs_check.disconnect(tab_expand_handler);
-            });
+        const unrealize_handler = this.connect('unrealize', () => {
+            this.disconnect(unrealize_handler);
+            this.tab_position_combo.disconnect(tab_pos_handler);
+            this.expand_tabs_check.disconnect(tab_expand_handler);
         });
     }
 
