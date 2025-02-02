@@ -664,8 +664,7 @@ class CommonTests:
 
             wait_idle()
 
-            if gdk_backend != GdkBackend.X11:
-                assert extension_test_hook.WindowRect == expected_rect2
+            assert extension_test_hook.WindowRect == expected_rect2
 
         finally:
             shell_test_hook.mouse_up()
