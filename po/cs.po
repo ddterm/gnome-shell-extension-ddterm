@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-27 05:29+0000\n"
+"POT-Creation-Date: 2025-02-02 13:03+0000\n"
 "PO-Revision-Date: 2023-10-24 22:14+0000\n"
 "Last-Translator: Pavel Novák <pavelnov32@gmail.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/gnome-shell-"
@@ -337,27 +337,27 @@ msgstr "Klávesové zkratky"
 msgid "Find Previous"
 msgstr "Najít předchozí"
 
-#: ddterm/app/terminalpage.js:431
+#: ddterm/app/terminalpage.js:436
 msgid "Restart"
 msgstr "Restart"
 
-#: ddterm/app/terminalpage.js:432 ddterm/app/terminalpage.js:584
+#: ddterm/app/terminalpage.js:437 ddterm/app/terminalpage.js:589
 msgid "Close Terminal"
 msgstr "Zavřít tento terminál"
 
-#: ddterm/app/terminalpage.js:455
+#: ddterm/app/terminalpage.js:460
 msgid "The child process exited with status:"
 msgstr "Podproces byl ukončen se stavem:"
 
-#: ddterm/app/terminalpage.js:465
+#: ddterm/app/terminalpage.js:470
 msgid "The child process was aborted by signal:"
 msgstr "Podproces byl zrušen signálem:"
 
-#: ddterm/app/terminalpage.js:576
+#: ddterm/app/terminalpage.js:581
 msgid "Close this terminal?"
 msgstr "Zavřít tento terminál?"
 
-#: ddterm/app/terminalpage.js:578
+#: ddterm/app/terminalpage.js:583
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."
@@ -371,7 +371,7 @@ msgstr "Okno"
 msgid "Terminal"
 msgstr "Terminál"
 
-#: ddterm/pref/adw.js:120 ddterm/pref/shortcuts.js:203
+#: ddterm/pref/adw.js:120 ddterm/pref/shortcuts.js:206
 msgid "Keyboard Shortcuts"
 msgstr "Klávesové zkratky"
 
@@ -387,7 +387,7 @@ msgstr "Animace"
 msgid "Behavior"
 msgstr "Chování"
 
-#: ddterm/pref/colors.js:408
+#: ddterm/pref/colors.js:404
 msgid "Colors"
 msgstr "Barvy"
 
@@ -403,7 +403,7 @@ msgstr "Kompatibilita"
 msgid "Panel Icon"
 msgstr "Ikona na panelu"
 
-#: ddterm/pref/positionsize.js:70
+#: ddterm/pref/positionsize.js:73
 msgid "Position and Size"
 msgstr "Pozice a velikost"
 
@@ -411,7 +411,7 @@ msgstr "Pozice a velikost"
 msgid "Scrolling"
 msgstr "Posouvání"
 
-#: ddterm/pref/tabs.js:88
+#: ddterm/pref/tabs.js:90
 msgid "Tabs"
 msgstr "Panely"
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-27 05:29+0000\n"
+"POT-Creation-Date: 2025-02-02 13:03+0000\n"
 "PO-Revision-Date: 2024-06-01 19:09+0000\n"
 "Last-Translator: phlostically <phlostically@mailinator.com>\n"
 "Language-Team: Esperanto <https://hosted.weblate.org/projects/gnome-shell-"
@@ -336,27 +336,27 @@ msgstr ""
 msgid "Find Previous"
 msgstr ""
 
-#: ddterm/app/terminalpage.js:431
+#: ddterm/app/terminalpage.js:436
 msgid "Restart"
 msgstr "Relanĉi"
 
-#: ddterm/app/terminalpage.js:432 ddterm/app/terminalpage.js:584
+#: ddterm/app/terminalpage.js:437 ddterm/app/terminalpage.js:589
 msgid "Close Terminal"
 msgstr "Fermi terminalon"
 
-#: ddterm/app/terminalpage.js:455
+#: ddterm/app/terminalpage.js:460
 msgid "The child process exited with status:"
 msgstr ""
 
-#: ddterm/app/terminalpage.js:465
+#: ddterm/app/terminalpage.js:470
 msgid "The child process was aborted by signal:"
 msgstr ""
 
-#: ddterm/app/terminalpage.js:576
+#: ddterm/app/terminalpage.js:581
 msgid "Close this terminal?"
 msgstr ""
 
-#: ddterm/app/terminalpage.js:578
+#: ddterm/app/terminalpage.js:583
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."
@@ -370,7 +370,7 @@ msgstr "Fenestro"
 msgid "Terminal"
 msgstr "Terminalo"
 
-#: ddterm/pref/adw.js:120 ddterm/pref/shortcuts.js:203
+#: ddterm/pref/adw.js:120 ddterm/pref/shortcuts.js:206
 msgid "Keyboard Shortcuts"
 msgstr "Fulmoklavoj"
 
@@ -386,7 +386,7 @@ msgstr ""
 msgid "Behavior"
 msgstr "Konduto"
 
-#: ddterm/pref/colors.js:408
+#: ddterm/pref/colors.js:404
 msgid "Colors"
 msgstr "Koloroj"
 
@@ -402,7 +402,7 @@ msgstr "Kongrueco"
 msgid "Panel Icon"
 msgstr "Panela piktogramo"
 
-#: ddterm/pref/positionsize.js:70
+#: ddterm/pref/positionsize.js:73
 msgid "Position and Size"
 msgstr "Pozicio kaj grando"
 
@@ -410,7 +410,7 @@ msgstr "Pozicio kaj grando"
 msgid "Scrolling"
 msgstr "Rulumado"
 
-#: ddterm/pref/tabs.js:88
+#: ddterm/pref/tabs.js:90
 msgid "Tabs"
 msgstr "Langetoj"
 

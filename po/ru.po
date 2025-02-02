@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-27 05:29+0000\n"
+"POT-Creation-Date: 2025-02-02 13:03+0000\n"
 "PO-Revision-Date: 2024-04-10 20:01+0000\n"
 "Last-Translator: Stepan <stepan.miroshnikov@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/gnome-shell-"
@@ -344,27 +344,27 @@ msgstr "Найти следующее"
 msgid "Find Previous"
 msgstr "Найти предыдущее"
 
-#: ddterm/app/terminalpage.js:431
+#: ddterm/app/terminalpage.js:436
 msgid "Restart"
 msgstr "Перезапустить"
 
-#: ddterm/app/terminalpage.js:432 ddterm/app/terminalpage.js:584
+#: ddterm/app/terminalpage.js:437 ddterm/app/terminalpage.js:589
 msgid "Close Terminal"
 msgstr "Закрыть терминал"
 
-#: ddterm/app/terminalpage.js:455
+#: ddterm/app/terminalpage.js:460
 msgid "The child process exited with status:"
 msgstr "Процесс завершен со статусом:"
 
-#: ddterm/app/terminalpage.js:465
+#: ddterm/app/terminalpage.js:470
 msgid "The child process was aborted by signal:"
 msgstr "Процесс был прерван сигналом:"
 
-#: ddterm/app/terminalpage.js:576
+#: ddterm/app/terminalpage.js:581
 msgid "Close this terminal?"
 msgstr "Закрыть терминал?"
 
-#: ddterm/app/terminalpage.js:578
+#: ddterm/app/terminalpage.js:583
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."
@@ -380,7 +380,7 @@ msgstr "Окно"
 msgid "Terminal"
 msgstr "Терминал"
 
-#: ddterm/pref/adw.js:120 ddterm/pref/shortcuts.js:203
+#: ddterm/pref/adw.js:120 ddterm/pref/shortcuts.js:206
 msgid "Keyboard Shortcuts"
 msgstr "Комбинации клавиш"
 
@@ -396,7 +396,7 @@ msgstr "Анимация"
 msgid "Behavior"
 msgstr "Поведение"
 
-#: ddterm/pref/colors.js:408
+#: ddterm/pref/colors.js:404
 msgid "Colors"
 msgstr "Цвета"
 
@@ -412,7 +412,7 @@ msgstr "Совместимость"
 msgid "Panel Icon"
 msgstr "Значок на панели"
 
-#: ddterm/pref/positionsize.js:70
+#: ddterm/pref/positionsize.js:73
 msgid "Position and Size"
 msgstr "Положение и размер"
 
@@ -420,7 +420,7 @@ msgstr "Положение и размер"
 msgid "Scrolling"
 msgstr "Прокрутка"
 
-#: ddterm/pref/tabs.js:88
+#: ddterm/pref/tabs.js:90
 msgid "Tabs"
 msgstr "Вкладки"
 

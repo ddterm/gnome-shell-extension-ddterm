@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-27 05:29+0000\n"
+"POT-Creation-Date: 2025-02-02 13:03+0000\n"
 "PO-Revision-Date: 2023-09-26 17:35+0300\n"
 "Last-Translator: Anagnostakis Ioannis <rizitis@gmail.com>\n"
 "Language-Team: Greek, Modern (1453-) <>\n"
@@ -345,29 +345,29 @@ msgstr "Μετακίνηση στο επόμενο"
 msgid "Find Previous"
 msgstr "Μετακίνηση στο επόμενο"
 
-#: ddterm/app/terminalpage.js:431
+#: ddterm/app/terminalpage.js:436
 #, fuzzy
 msgid "Restart"
 msgstr "Αρχή"
 
-#: ddterm/app/terminalpage.js:432 ddterm/app/terminalpage.js:584
+#: ddterm/app/terminalpage.js:437 ddterm/app/terminalpage.js:589
 #, fuzzy
 msgid "Close Terminal"
 msgstr "Να κλείσει το Τερματικό ;"
 
-#: ddterm/app/terminalpage.js:455
+#: ddterm/app/terminalpage.js:460
 msgid "The child process exited with status:"
 msgstr ""
 
-#: ddterm/app/terminalpage.js:465
+#: ddterm/app/terminalpage.js:470
 msgid "The child process was aborted by signal:"
 msgstr ""
 
-#: ddterm/app/terminalpage.js:576
+#: ddterm/app/terminalpage.js:581
 msgid "Close this terminal?"
 msgstr "Να κλείσει το Τερματικό ;"
 
-#: ddterm/app/terminalpage.js:578
+#: ddterm/app/terminalpage.js:583
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."
@@ -383,7 +383,7 @@ msgstr "Παράθυρο"
 msgid "Terminal"
 msgstr "Τερματικό"
 
-#: ddterm/pref/adw.js:120 ddterm/pref/shortcuts.js:203
+#: ddterm/pref/adw.js:120 ddterm/pref/shortcuts.js:206
 msgid "Keyboard Shortcuts"
 msgstr "Συντομεύσεις Πληκτρολογίου"
 
@@ -399,7 +399,7 @@ msgstr "Animation"
 msgid "Behavior"
 msgstr "Συμπεριφορά"
 
-#: ddterm/pref/colors.js:408
+#: ddterm/pref/colors.js:404
 msgid "Colors"
 msgstr "Χρώμματα"
 
@@ -415,7 +415,7 @@ msgstr "Συμβατότητα"
 msgid "Panel Icon"
 msgstr "Εικονίδιο Πάνελ"
 
-#: ddterm/pref/positionsize.js:70
+#: ddterm/pref/positionsize.js:73
 msgid "Position and Size"
 msgstr "Θέση και μέγεθος"
 
@@ -423,7 +423,7 @@ msgstr "Θέση και μέγεθος"
 msgid "Scrolling"
 msgstr "Κύλιση"
 
-#: ddterm/pref/tabs.js:88
+#: ddterm/pref/tabs.js:90
 msgid "Tabs"
 msgstr "Καρτέλες"
 

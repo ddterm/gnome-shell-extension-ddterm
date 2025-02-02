@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-27 05:29+0000\n"
+"POT-Creation-Date: 2025-02-02 13:03+0000\n"
 "PO-Revision-Date: 2024-07-24 00:09+0000\n"
 "Last-Translator: Patricio Carrau <duckycb@proton.me>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/gnome-shell-"
@@ -347,27 +347,27 @@ msgstr "Rechercher le suivant"
 msgid "Find Previous"
 msgstr "Rechercher le précédent"
 
-#: ddterm/app/terminalpage.js:431
+#: ddterm/app/terminalpage.js:436
 msgid "Restart"
 msgstr "Redémarrer"
 
-#: ddterm/app/terminalpage.js:432 ddterm/app/terminalpage.js:584
+#: ddterm/app/terminalpage.js:437 ddterm/app/terminalpage.js:589
 msgid "Close Terminal"
 msgstr "Fermer ce terminal"
 
-#: ddterm/app/terminalpage.js:455
+#: ddterm/app/terminalpage.js:460
 msgid "The child process exited with status:"
 msgstr "Le processus fils s'est terminé avec le statut :"
 
-#: ddterm/app/terminalpage.js:465
+#: ddterm/app/terminalpage.js:470
 msgid "The child process was aborted by signal:"
 msgstr "Le processus de l'enfant a été interrompu par le signal :"
 
-#: ddterm/app/terminalpage.js:576
+#: ddterm/app/terminalpage.js:581
 msgid "Close this terminal?"
 msgstr "Fermer ce terminal ?"
 
-#: ddterm/app/terminalpage.js:578
+#: ddterm/app/terminalpage.js:583
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."
@@ -383,7 +383,7 @@ msgstr "Fenêtre"
 msgid "Terminal"
 msgstr "Terminal"
 
-#: ddterm/pref/adw.js:120 ddterm/pref/shortcuts.js:203
+#: ddterm/pref/adw.js:120 ddterm/pref/shortcuts.js:206
 msgid "Keyboard Shortcuts"
 msgstr "Raccourcis claviers"
 
@@ -399,7 +399,7 @@ msgstr "Animation"
 msgid "Behavior"
 msgstr "Comportement"
 
-#: ddterm/pref/colors.js:408
+#: ddterm/pref/colors.js:404
 msgid "Colors"
 msgstr "Couleurs"
 
@@ -415,7 +415,7 @@ msgstr "Compatibilité"
 msgid "Panel Icon"
 msgstr "Icône de panneau"
 
-#: ddterm/pref/positionsize.js:70
+#: ddterm/pref/positionsize.js:73
 msgid "Position and Size"
 msgstr "Position et taille"
 
@@ -423,7 +423,7 @@ msgstr "Position et taille"
 msgid "Scrolling"
 msgstr "Défilement"
 
-#: ddterm/pref/tabs.js:88
+#: ddterm/pref/tabs.js:90
 msgid "Tabs"
 msgstr "Onglets"
 
