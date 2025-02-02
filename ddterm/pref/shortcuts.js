@@ -159,43 +159,46 @@ export const ShortcutsWidget = GObject.registerClass({
         aux_actions.add_action(reset_action);
         this.insert_action_group('aux', aux_actions);
 
-        this.connect('realize', () => {
-            const settings_handlers = [];
-            const inhibit_shortcuts_handler = this.global_accel_renderer.connect(
-                'editing-started',
-                (IS_GTK3 ? this.grab_global_keys : this.inhibit_system_shortcuts).bind(this)
-            );
+        this.connect('realize', this.#realize.bind(this));
+    }
 
-            for (const shortcuts_list of [this.shortcuts_list, this.global_shortcuts_list]) {
-                shortcuts_list.foreach((model, path, iter) => {
-                    const i = iter.copy();
-                    const key = model.get_value(i, COLUMN_SETTINGS_KEY);
+    #realize() {
+        const settings_handlers = [];
 
-                    settings_handlers.push(
-                        this.settings.connect(
-                            `changed::${key}`,
-                            update_model.bind(globalThis, model, i)
-                        ),
-                        this.settings.connect(
-                            `writable-changed::${key}`,
-                            update_editable.bind(globalThis, model, i)
-                        )
-                    );
+        const inhibit_shortcuts_handler = this.global_accel_renderer.connect(
+            'editing-started',
+            (IS_GTK3 ? this.grab_global_keys : this.inhibit_system_shortcuts).bind(this)
+        );
 
-                    update_model(model, i, this.settings, key);
-                    update_editable(model, i, this.settings, key);
+        for (const shortcuts_list of [this.shortcuts_list, this.global_shortcuts_list]) {
+            shortcuts_list.foreach((model, path, iter) => {
+                const i = iter.copy();
+                const key = model.get_value(i, COLUMN_SETTINGS_KEY);
 
-                    return false;
-                });
-            }
+                settings_handlers.push(
+                    this.settings.connect(
+                        `changed::${key}`,
+                        update_model.bind(globalThis, model, i)
+                    ),
+                    this.settings.connect(
+                        `writable-changed::${key}`,
+                        update_editable.bind(globalThis, model, i)
+                    )
+                );
 
-            const unrealize_handler = this.connect('unrealize', () => {
-                this.disconnect(unrealize_handler);
-                this.global_accel_renderer.disconnect(inhibit_shortcuts_handler);
+                update_model(model, i, this.settings, key);
+                update_editable(model, i, this.settings, key);
 
-                for (const handler of settings_handlers)
-                    this.settings.disconnect(handler);
+                return false;
             });
+        }
+
+        const unrealize_handler = this.connect('unrealize', () => {
+            this.disconnect(unrealize_handler);
+            this.global_accel_renderer.disconnect(inhibit_shortcuts_handler);
+
+            for (const handler of settings_handlers)
+                this.settings.disconnect(handler);
         });
     }
 
