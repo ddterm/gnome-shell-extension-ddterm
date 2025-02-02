@@ -27,8 +27,8 @@ export const PanelIconWidget = GObject.registerClass({
         ),
     },
 }, class PrefsPanelIcon extends Gtk.Box {
-    _init(params) {
-        super._init(params);
+    constructor(params) {
+        super(params);
 
         insert_settings_actions(this, this.settings, ['panel-icon-type']);
     }

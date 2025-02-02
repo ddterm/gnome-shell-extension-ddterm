@@ -27,8 +27,8 @@ export const BehaviorWidget = GObject.registerClass({
         ),
     },
 }, class PrefsBehavior extends Gtk.Grid {
-    _init(params) {
-        super._init(params);
+    constructor(params) {
+        super(params);
 
         insert_settings_actions(this, this.settings, [
             'window-resizable',

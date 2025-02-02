@@ -41,8 +41,8 @@ export const TextWidget = GObject.registerClass({
         ),
     },
 }, class PrefsText extends Gtk.Grid {
-    _init(params) {
-        super._init(params);
+    constructor(params) {
+        super(params);
 
         bind_widget(
             this.settings,

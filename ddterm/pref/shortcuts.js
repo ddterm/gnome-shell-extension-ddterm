@@ -105,8 +105,8 @@ export const ShortcutsWidget = GObject.registerClass({
         ),
     },
 }, class PrefsShortcuts extends Gtk.Box {
-    _init(params) {
-        super._init(params);
+    constructor(params) {
+        super(params);
 
         insert_settings_actions(this, this.settings, ['shortcuts-enabled']);
 

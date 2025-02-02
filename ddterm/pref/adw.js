@@ -63,8 +63,8 @@ export const WindowPage = GObject.registerClass({
         ),
     },
 }, class DDTermWindowPrefsPage extends Page {
-    _init(params) {
-        super._init({
+    constructor(params) {
+        super({
             name: 'window',
             icon_name: 'preferences-desktop-display',
             ...params,
@@ -89,8 +89,8 @@ export const WindowPage = GObject.registerClass({
 
 export const TerminalPage = GObject.registerClass({
 }, class DDTermTerminalPrefsPage extends Page {
-    _init(params) {
-        super._init({
+    constructor(params) {
+        super({
             name: 'terminal',
             icon_name: 'utilities-terminal',
             ...params,
@@ -110,8 +110,8 @@ export const TerminalPage = GObject.registerClass({
 
 export const ShortcutsPage = GObject.registerClass({
 }, class DDTermShortcutsPrefsPage extends Page {
-    _init(params) {
-        super._init({
+    constructor(params) {
+        super({
             name: 'shortcuts',
             icon_name: 'preferences-desktop-keyboard-shortcuts',
             ...params,
@@ -125,8 +125,8 @@ export const ShortcutsPage = GObject.registerClass({
 
 export const MiscPage = GObject.registerClass({
 }, class DDTermMiscPrefsPage extends Page {
-    _init(params) {
-        super._init({
+    constructor(params) {
+        super({
             name: 'misc',
             icon_name: 'preferences-other',
             ...params,

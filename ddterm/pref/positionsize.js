@@ -44,8 +44,8 @@ export const PositionSizeWidget = GObject.registerClass({
         ),
     },
 }, class PrefsPositionSize extends Gtk.Grid {
-    _init(params) {
-        super._init(params);
+    constructor(params) {
+        super(params);
 
         const percent_format = new Intl.NumberFormat(undefined, { style: 'percent' });
         set_scale_value_format(this.window_size_scale, percent_format);

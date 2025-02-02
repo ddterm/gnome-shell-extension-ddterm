@@ -36,8 +36,8 @@ export const ScrollingWidget = GObject.registerClass({
         ),
     },
 }, class PrefsScrolling extends Gtk.Grid {
-    _init(params) {
-        super._init(params);
+    constructor(params) {
+        super(params);
 
         insert_settings_actions(this, this.settings, [
             'show-scrollbar',

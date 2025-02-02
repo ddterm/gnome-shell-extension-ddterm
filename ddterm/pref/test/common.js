@@ -14,8 +14,8 @@ import { DisplayConfig } from '../../util/displayconfig.js';
 
 export const Application = GObject.registerClass({
 }, class Application extends Gtk.Application {
-    _init(params) {
-        super._init(params);
+    constructor(params) {
+        super(params);
 
         this.connect('startup', () => this.startup());
         this.connect('activate', () => this.activate());

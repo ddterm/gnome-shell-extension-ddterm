@@ -38,8 +38,8 @@ export const CompatibilityWidget = GObject.registerClass({
         ),
     },
 }, class PrefsCompatibility extends Gtk.Grid {
-    _init(params) {
-        super._init(params);
+    constructor(params) {
+        super(params);
 
         bind_widgets(this.settings, {
             'backspace-binding': this.backspace_binding_combo,

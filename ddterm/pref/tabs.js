@@ -39,8 +39,8 @@ export const TabsWidget = GObject.registerClass({
         ),
     },
 }, class PrefsTabs extends Gtk.Grid {
-    _init(params) {
-        super._init(params);
+    constructor(params) {
+        super(params);
 
         bind_widgets(this.settings, {
             'tab-policy': this.tab_policy_combo,

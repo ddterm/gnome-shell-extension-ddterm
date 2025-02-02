@@ -36,8 +36,8 @@ export const AdwPrefsDialog = GObject.registerClass({
         ),
     },
 }, class AdwPrefsDialog extends Adw.PreferencesWindow {
-    _init(params) {
-        super._init({
+    constructor(params) {
+        super({
             ...params,
             title: 'ddterm',
             search_enabled: false,

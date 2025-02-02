@@ -30,8 +30,8 @@ export const CommandWidget = GObject.registerClass({
         ),
     },
 }, class PrefsCommand extends Gtk.Grid {
-    _init(params) {
-        super._init(params);
+    constructor(params) {
+        super(params);
 
         const actions = insert_settings_actions(this, this.settings, [
             'command',

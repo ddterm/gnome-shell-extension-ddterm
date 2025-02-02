@@ -138,12 +138,6 @@ const Color = GObject.registerClass({
         ),
     },
 }, class DDTermPrefsColorsColor extends GObject.Object {
-    _init(params) {
-        this._rgba = null;
-
-        super._init(params);
-    }
-
     get rgba() {
         return this._rgba;
     }
@@ -193,8 +187,8 @@ const ColorScheme = GObject.registerClass({
         ),
     },
 }, class DDTermPrefsColorsColorScheme extends GObject.Object {
-    _init(params) {
-        super._init(params);
+    constructor(params) {
+        super(params);
 
         this.colors = Array.from(
             { length: this.presets.get_n_columns() - 1 },
@@ -297,8 +291,8 @@ export const ColorsWidget = GObject.registerClass({
         ),
     },
 }, class PrefsColors extends Gtk.Grid {
-    _init(params) {
-        super._init(params);
+    constructor(params) {
+        super(params);
 
         insert_settings_actions(this, this.settings, [
             'cursor-colors-set',

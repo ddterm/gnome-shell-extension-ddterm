@@ -42,8 +42,8 @@ export const PrefsWidget = GObject.registerClass({
         ),
     },
 }, class PrefsWidget extends Gtk.Box {
-    _init(params) {
-        super._init(params);
+    constructor(params) {
+        super(params);
 
         this.hexpand = true;
         this.vexpand = true;
