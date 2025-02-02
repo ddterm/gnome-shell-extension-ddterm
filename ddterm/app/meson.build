@@ -53,23 +53,6 @@ app_js_out_files += fs.copyfile(
 pack += app_js_out_files
 eslint_out += app_js_out_files
 
-app_ui_src_files = files('menus.ui')
-
-foreach app_ui_src_file : app_ui_src_files
-  pack += fs.copyfile(
-    app_ui_src_file,
-    install: true,
-    install_dir: extension_dir / 'ddterm' / 'app',
-  )
-
-  test(
-    fs.relative_to(app_ui_src_file, meson.project_source_root()),
-    gtk3_builder_tool,
-    args: ['validate', app_ui_src_file],
-    suite: ['gtk-builder-validate'],
-  )
-endforeach
-
 app_data_src_files = files(
   'dependencies.json',
   'dependencies.json.license',
@@ -88,3 +71,4 @@ eslint_out += fs.copyfile('dev-application.js')
 eslint_out += fs.copyfile('dev-appwindow.js')
 
 subdir('icons')
+subdir('ui')

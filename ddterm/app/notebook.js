@@ -12,12 +12,7 @@ import Gettext from 'gettext';
 
 import { TerminalPage } from './terminalpage.js';
 import { TerminalSettings } from './terminalsettings.js';
-
-function get_file(relative_path) {
-    return Gio.File.new_for_uri(
-        GLib.Uri.resolve_relative(import.meta.url, relative_path, GLib.UriFlags.NONE)
-    );
-}
+import { get_resource_file } from './resources.js';
 
 export const Notebook = GObject.registerClass({
     Properties: {
@@ -146,7 +141,7 @@ export const Notebook = GObject.registerClass({
             GObject.BindingFlags.BIDIRECTIONAL | GObject.BindingFlags.SYNC_CREATE
         );
 
-        this.menus = Gtk.Builder.new_from_file(get_file('menus.ui').get_path());
+        this.menus = Gtk.Builder.new_from_file(get_resource_file('./ui/menus.ui').get_path());
 
         const menu = new Gio.Menu();
         menu.append_section(null, new NotebookMenu({ notebook: this }));
