@@ -14,38 +14,41 @@ export const AccelLabel = GObject.registerClass({
     },
 },
 class DDTermAccelLabel extends Gtk.Label {
-    _init(params) {
-        this._name = null;
-        this._target_value = null;
-        this._toplevel = null;
-        this._keys_handler = null;
+    #name = null;
+    #target_value = null;
+    #toplevel = null;
+    #keys_handler = null;
 
-        super._init(params);
+    constructor(params) {
+        super(params);
 
-        this.connect('destroy', () => {
-            if (this._keys_handler) {
-                this.get_toplevel().disconnect(this._keys_handler);
-                this._keys_handler = null;
-            }
-        });
+        this.connect('destroy', this.#disconnect.bind(this));
+        this.connect('hierarchy-changed', this.#update_hierarchy.bind(this));
+        this.#update_hierarchy();
+    }
 
-        this.on_hierarchy_changed();
+    #disconnect() {
+        if (this.#keys_handler) {
+            this.#toplevel.disconnect(this.#keys_handler);
+            this.#keys_handler = null;
+            this.#toplevel = null;
+        }
     }
 
     get action_name() {
-        return this._name;
+        return this.#name;
     }
 
     vfunc_get_action_name() {
-        return this._name;
+        return this.#name;
     }
 
     get action_target() {
-        return this._target_value;
+        return this.#target_value;
     }
 
     vfunc_get_action_target_value() {
-        return this._target_value;
+        return this.#target_value;
     }
 
     set action_name(value) {
@@ -53,11 +56,11 @@ class DDTermAccelLabel extends Gtk.Label {
     }
 
     vfunc_set_action_name(value) {
-        if (this._name === value)
+        if (this.#name === value)
             return;
 
-        this._name = value;
-        this.update_label();
+        this.#name = value;
+        this.#update_label();
     }
 
     set action_target(value) {
@@ -65,50 +68,41 @@ class DDTermAccelLabel extends Gtk.Label {
     }
 
     vfunc_set_action_target_value(value) {
-        if (this._target_value === value)
+        if (this.#target_value === value)
             return;
 
-        if (value && this._target_value && value.equal(this._target_value))
+        if (value && this.#target_value && value.equal(this.#target_value))
             return;
 
-        this._target_value = value;
-        this.update_label();
+        this.#target_value = value;
+        this.#update_label();
     }
 
-    on_hierarchy_changed() {
-        if (this._keys_handler) {
-            this._toplevel.disconnect(this._keys_handler);
-            this._keys_handler = null;
-            this._toplevel = null;
+    #update_hierarchy() {
+        this.#disconnect();
+        this.#toplevel = this.get_toplevel();
+
+        if (this.#toplevel instanceof Gtk.Window) {
+            this.#keys_handler =
+                this.#toplevel.connect('keys-changed', this.#update_label.bind(this));
         }
 
-        this._toplevel = this.get_toplevel();
-
-        if (this._toplevel instanceof Gtk.Window) {
-            this._keys_handler = this._toplevel.connect(
-                'keys-changed',
-                () => this.update_label()
-            );
-        }
-
-        this.update_label();
+        this.#update_label();
     }
 
-    _get_label() {
-        if (!this._name)
+    #get_label() {
+        if (!this.#name)
             return '';
 
-        const action = Gio.Action.print_detailed_name(this._name, this._target_value);
-        const toplevel = this.get_toplevel();
+        const action = Gio.Action.print_detailed_name(this.#name, this.#target_value);
+        const toplevel = this.#toplevel;
 
         if (!(toplevel instanceof Gtk.Window))
             return '';
 
         for (const shortcut of toplevel.application?.get_accels_for_action(action) || []) {
             try {
-                return Gtk.accelerator_get_label(
-                    ...Gtk.accelerator_parse(shortcut)
-                );
+                return Gtk.accelerator_get_label(...Gtk.accelerator_parse(shortcut));
             } catch (ex) {
                 logError(ex);
             }
@@ -117,7 +111,7 @@ class DDTermAccelLabel extends Gtk.Label {
         return '';
     }
 
-    update_label() {
-        this.label = this._get_label();
+    #update_label() {
+        this.label = this.#get_label();
     }
 });
