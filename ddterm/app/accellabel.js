@@ -18,20 +18,33 @@ class DDTermAccelLabel extends Gtk.Label {
     #target_value = null;
     #toplevel = null;
     #keys_handler = null;
+    #hierarchy_handler = null;
 
     constructor(params) {
         super(params);
 
-        this.connect('destroy', this.#disconnect.bind(this));
-        this.connect('hierarchy-changed', this.#update_hierarchy.bind(this));
+        this.connect('realize', this.#realize.bind(this));
+        this.connect('unrealize', this.#unrealize.bind(this));
+    }
+
+    #realize() {
+        this.#hierarchy_handler =
+            this.connect('hierarchy-changed', this.#update_hierarchy.bind(this));
+
         this.#update_hierarchy();
     }
 
-    #disconnect() {
+    #unrealize() {
         if (this.#keys_handler) {
             this.#toplevel.disconnect(this.#keys_handler);
             this.#keys_handler = null;
-            this.#toplevel = null;
+        }
+
+        this.#toplevel = null;
+
+        if (this.#hierarchy_handler) {
+            this.disconnect(this.#hierarchy_handler);
+            this.#hierarchy_handler = null;
         }
     }
 
@@ -79,7 +92,11 @@ class DDTermAccelLabel extends Gtk.Label {
     }
 
     #update_hierarchy() {
-        this.#disconnect();
+        if (this.#keys_handler) {
+            this.#toplevel.disconnect(this.#keys_handler);
+            this.#keys_handler = null;
+        }
+
         this.#toplevel = this.get_toplevel();
 
         if (this.#toplevel instanceof Gtk.Window) {
