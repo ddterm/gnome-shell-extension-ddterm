@@ -2,6 +2,8 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+import GObject from 'gi://GObject';
+
 import Gettext from 'gettext';
 
 import { metadata, dir } from './meta.js';
@@ -17,3 +19,10 @@ gi_require({
     'Vte': '2.91',
     'Handy': '1',
 });
+
+GObject.Object.prototype.disconnect = function (id) {
+    if (GObject.signal_handler_is_connected(this, id))
+        GObject.signal_handler_disconnect(this, id);
+    else
+        logError(new Error(`Signal handler ${id} is not connected to ${this}`));
+};
