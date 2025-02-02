@@ -44,6 +44,9 @@ export const PositionSizeWidget = GObject.registerClass({
         ),
     },
 }, class PrefsPositionSize extends Gtk.Grid {
+    #monitors = null;
+    #monitors_handler;
+
     constructor(params) {
         super(params);
 
@@ -71,21 +74,21 @@ export const PositionSizeWidget = GObject.registerClass({
     }
 
     get monitors() {
-        return this._monitors;
+        return this.#monitors;
     }
 
     set monitors(value) {
-        const prev_count = this._monitors?.get_n_items() ?? 0;
+        const prev_count = this.#monitors?.get_n_items() ?? 0;
 
-        this._monitors?.disconnect(this._monitors_handler);
+        this.#monitors?.disconnect(this.#monitors_handler);
 
-        this._monitors = value;
-        this._monitors_handler = value?.connect('items-changed', this.update_monitors.bind(this));
+        this.#monitors = value;
+        this.#monitors_handler = value?.connect('items-changed', this.#update_monitors.bind(this));
 
-        this.update_monitors(value, 0, prev_count, value?.get_n_items() ?? 0);
+        this.#update_monitors(value, 0, prev_count, value?.get_n_items() ?? 0);
     }
 
-    update_monitors(model, position, removed, added) {
+    #update_monitors(model, position, removed, added) {
         this.monitor_combo.freeze_notify();
 
         try {
