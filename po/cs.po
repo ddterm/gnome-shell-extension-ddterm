@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-02 13:03+0000\n"
+"POT-Creation-Date: 2025-02-04 02:38+0000\n"
 "PO-Revision-Date: 2023-10-24 22:14+0000\n"
 "Last-Translator: Pavel Novák <pavelnov32@gmail.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/gnome-shell-"
@@ -19,7 +19,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Weblate 5.1.1-dev\n"
 
-#: data/com.github.amezin.ddterm.desktop.in.in:9 ddterm/app/appwindow.js:141
+#: data/com.github.amezin.ddterm.desktop.in.in:9 ddterm/app/appwindow.js:142
 #: ddterm/shell/notifications.js:199 ddterm/shell/panelicon.js:29
 msgid "ddterm"
 msgstr ""
@@ -38,8 +38,8 @@ msgstr ""
 msgid "Toggle"
 msgstr "Přepínací tlačítko"
 
-#: data/com.github.amezin.ddterm.desktop.in.in:29 ddterm/app/menus.ui:149
-#: ddterm/app/menus.ui:283 ddterm/shell/panelicon.js:61
+#: data/com.github.amezin.ddterm.desktop.in.in:29 ddterm/app/ui/menus.ui:149
+#: ddterm/app/ui/menus.ui:283 ddterm/shell/panelicon.js:61
 msgid "Preferences…"
 msgstr "Předvolby…"
 
@@ -83,27 +83,27 @@ msgstr "Nepředávat prostředí"
 msgid "Open a new tab"
 msgstr "Otevřít nový panel"
 
-#: ddterm/app/application.js:358
+#: ddterm/app/application.js:357
 msgid "Saving session…"
 msgstr "Ukládám sezení…"
 
-#: ddterm/app/application.js:401
+#: ddterm/app/application.js:400
 msgid "Can't contact the extension."
 msgstr ""
 
-#: ddterm/app/application.js:403 ddterm/app/application.js:530
+#: ddterm/app/application.js:402 ddterm/app/application.js:529
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr ""
 
-#: ddterm/app/application.js:528
+#: ddterm/app/application.js:527
 msgid "Can't read the version of the loaded extension."
 msgstr ""
 
-#: ddterm/app/application.js:533 ddterm/shell/notifications.js:75
+#: ddterm/app/application.js:532 ddterm/shell/notifications.js:75
 msgid "Warning: ddterm version has changed"
 msgstr "Varování: Verze ddterm byla změněna"
 
-#: ddterm/app/application.js:534 ddterm/shell/notifications.js:77
+#: ddterm/app/application.js:533 ddterm/shell/notifications.js:77
 msgid "Log out, then log in again to load the updated extension."
 msgstr "Znovu se přihlašte pro načtení aktualizovaného rozšíření."
 
@@ -119,195 +119,18 @@ msgstr "Nainstalujte prosím tyto balíčky:"
 msgid "Please install packages that provide the following files:"
 msgstr "Nainstalujte balíčky které poskytují tyto soubory:"
 
-#: ddterm/app/menus.ui:14
-msgid "Open Hyperlink"
-msgstr "Otevřít hypertextový odkaz"
-
-#: ddterm/app/menus.ui:19
-msgid "Copy Hyperlink Address"
-msgstr "Kopírovat hypertextovou adresu"
-
-#: ddterm/app/menus.ui:24
-msgid "Copy File Path"
-msgstr "Zkopírovat cestu souboru"
-
-#: ddterm/app/menus.ui:31
-msgid "Copy"
-msgstr "Kopírovat"
-
-#: ddterm/app/menus.ui:35
-msgid "Copy HTML"
-msgstr "Kopírovat HTML"
-
-#: ddterm/app/menus.ui:39
-msgid "Paste"
-msgstr "Vložit"
-
-#: ddterm/app/menus.ui:43 ddterm/pref/ui/prefs-shortcuts.ui:127
-msgid "Select All"
-msgstr "Vybrat vše"
-
-#: ddterm/app/menus.ui:49 ddterm/pref/ui/prefs-shortcuts.ui:267
-msgid "Find"
-msgstr "Najít"
-
-#: ddterm/app/menus.ui:55 ddterm/pref/ui/prefs-shortcuts.ui:134
-msgid "Reset"
-msgstr "Resetovat"
-
-#: ddterm/app/menus.ui:59 ddterm/pref/ui/prefs-shortcuts.ui:141
-msgid "Reset and Clear"
-msgstr "Resetovat a vyčistit"
-
-#: ddterm/app/menus.ui:65
-msgid "Zoom"
-msgstr "Přiblížení"
-
-#: ddterm/app/menus.ui:67 ddterm/pref/ui/prefs-shortcuts.ui:288
-msgid "Zoom In"
-msgstr "Příblížit"
-
-#: ddterm/app/menus.ui:71 ddterm/pref/ui/prefs-shortcuts.ui:295
-msgid "Zoom Out"
-msgstr "Oddálit"
-
-#: ddterm/app/menus.ui:75 ddterm/pref/ui/prefs-shortcuts.ui:302
-msgid "Normal Size"
-msgstr "Normální velikost"
-
-#: ddterm/app/menus.ui:82
-msgid "Show in File Manager"
-msgstr ""
-
-#: ddterm/app/menus.ui:88 ddterm/app/menus.ui:219 ddterm/app/tablabel.js:110
-#: ddterm/shell/notifications.js:57
-msgid "Close"
-msgstr "Zavřít"
-
-#: ddterm/app/menus.ui:92 ddterm/app/menus.ui:223
-msgid "Keep Open After Exit"
-msgstr "Nechat otevřené po ukončení"
-
-#: ddterm/app/menus.ui:98
-msgid "New Tab"
-msgstr "Nový panel"
-
-#: ddterm/app/menus.ui:100 ddterm/pref/ui/prefs-shortcuts.ui:162
-msgid "New Tab Before Current Tab"
-msgstr "Nový panel před současný panel"
-
-#: ddterm/app/menus.ui:104 ddterm/pref/ui/prefs-shortcuts.ui:169
-msgid "New Tab After Current Tab"
-msgstr "Nový panel po současném panelu"
-
-#: ddterm/app/menus.ui:108 ddterm/app/menus.ui:236
-#: ddterm/pref/ui/prefs-shortcuts.ui:155
-msgid "New Tab Before First Tab"
-msgstr "Nový panel před první panel"
-
-#: ddterm/app/menus.ui:112 ddterm/app/menus.ui:240
-#: ddterm/pref/ui/prefs-shortcuts.ui:148
-msgid "New Tab After Last Tab"
-msgstr "Nový panel za poslední panel"
-
-#: ddterm/app/menus.ui:119 ddterm/app/menus.ui:256
-msgid "Layout"
-msgstr "Rozložení"
-
-#: ddterm/app/menus.ui:122 ddterm/app/menus.ui:259 ddterm/app/menus.ui:289
-msgid "No Split"
-msgstr "Nerozdělovat"
-
-#: ddterm/app/menus.ui:127 ddterm/app/menus.ui:264 ddterm/app/menus.ui:294
-#: ddterm/pref/ui/prefs-shortcuts.ui:211
-msgid "Split Horizontally"
-msgstr "Rozdělit horizontálně"
-
-#: ddterm/app/menus.ui:132 ddterm/app/menus.ui:269 ddterm/app/menus.ui:299
-#: ddterm/pref/ui/prefs-shortcuts.ui:218
-msgid "Split Vertically"
-msgstr "Rozdělit vertikálně"
-
-#: ddterm/app/menus.ui:139 ddterm/app/menus.ui:276
-msgid "Move Tab to Other Pane"
-msgstr "Posunout panel na další okno"
-
-#: ddterm/app/menus.ui:146 ddterm/app/prefsdialog.js:38
-#: ddterm/app/prefsdialog.legacy.js:50
-msgid "Preferences"
-msgstr "Předvolby"
-
-#: ddterm/app/menus.ui:155
-msgid "Above All Windows"
-msgstr "Nad všemi okny"
-
-#: ddterm/app/menus.ui:159
-msgid "On All Workspaces"
-msgstr "Na všech pracovních plochách"
-
-#: ddterm/app/menus.ui:163
-msgid "Maximize Window"
-msgstr "Maximalizovat okno"
-
-#: ddterm/app/menus.ui:167
-msgid "Transparent Background"
-msgstr "Průhledné pozadí"
-
-#: ddterm/app/menus.ui:173
-msgid "Hide When Application Loses Focus"
-msgstr "Skrýt při ztracení zaměření"
-
-#: ddterm/app/menus.ui:177
-msgid "Hide When Esc Key Is Pressed"
-msgstr "Schovat při zmáčknutí Esc"
-
-#: ddterm/app/menus.ui:183
-msgid "Scroll On Output"
-msgstr "Posouvat při výpisu"
-
-#: ddterm/app/menus.ui:187
-msgid "Scroll On Keystroke"
-msgstr "Posunout při vstupu"
-
-#: ddterm/app/menus.ui:193
-msgid "Preserve Working Directory In New Tabs"
-msgstr "Zachovat pracovní složku v nových panelech"
-
-#: ddterm/app/menus.ui:199
-msgid "Enable Keyboard Shortcuts"
-msgstr "Povolit klávesové zkratky"
-
-#: ddterm/app/menus.ui:208
-msgid "Use Custom Tab Title"
-msgstr "Použít vlastní název panelu"
-
-#: ddterm/app/menus.ui:213
-msgid "Use Default Tab Title"
-msgstr "Použít výchozí název panelu"
-
-#: ddterm/app/menus.ui:228
-msgid "New Tab Before This Tab"
-msgstr "Nový panel před tímto panelem"
-
-#: ddterm/app/menus.ui:232
-msgid "New Tab After This Tab"
-msgstr "Nový panel za tímto panelem"
-
-#: ddterm/app/menus.ui:246 ddterm/pref/ui/prefs-shortcuts.ui:197
-msgid "Move Tab to Previous Position"
-msgstr "Posunout panel do předchozí pozice"
-
-#: ddterm/app/menus.ui:250 ddterm/pref/ui/prefs-shortcuts.ui:204
-msgid "Move Tab to Next Position"
-msgstr "Posunout panel do další pozice"
-
-#: ddterm/app/notebook.js:135
+#: ddterm/app/notebook.js:136
 msgid "New Tab (Last)"
 msgstr "Nový panel (Poslední)"
 
-#: ddterm/app/notebook.js:175
+#: ddterm/app/notebook.js:174
 msgid "New Tab (First)"
 msgstr "Nový panel (První)"
+
+#: ddterm/app/prefsdialog.js:38 ddterm/app/prefsdialog.legacy.js:50
+#: ddterm/app/ui/menus.ui:146
+msgid "Preferences"
+msgstr "Předvolby"
 
 #: ddterm/app/search.js:209
 msgid "Case Sensitive"
@@ -337,6 +160,11 @@ msgstr "Klávesové zkratky"
 msgid "Find Previous"
 msgstr "Najít předchozí"
 
+#: ddterm/app/tablabel.js:110 ddterm/app/ui/menus.ui:88
+#: ddterm/app/ui/menus.ui:219 ddterm/shell/notifications.js:57
+msgid "Close"
+msgstr "Zavřít"
+
 #: ddterm/app/terminalpage.js:436
 msgid "Restart"
 msgstr "Restart"
@@ -362,6 +190,179 @@ msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."
 msgstr "V tomto terminálu stále běží proces. Zavření terminálu jej ukončí."
+
+#: ddterm/app/ui/menus.ui:14
+msgid "Open Hyperlink"
+msgstr "Otevřít hypertextový odkaz"
+
+#: ddterm/app/ui/menus.ui:19
+msgid "Copy Hyperlink Address"
+msgstr "Kopírovat hypertextovou adresu"
+
+#: ddterm/app/ui/menus.ui:24
+msgid "Copy File Path"
+msgstr "Zkopírovat cestu souboru"
+
+#: ddterm/app/ui/menus.ui:31
+msgid "Copy"
+msgstr "Kopírovat"
+
+#: ddterm/app/ui/menus.ui:35
+msgid "Copy HTML"
+msgstr "Kopírovat HTML"
+
+#: ddterm/app/ui/menus.ui:39
+msgid "Paste"
+msgstr "Vložit"
+
+#: ddterm/app/ui/menus.ui:43 ddterm/pref/ui/prefs-shortcuts.ui:127
+msgid "Select All"
+msgstr "Vybrat vše"
+
+#: ddterm/app/ui/menus.ui:49 ddterm/pref/ui/prefs-shortcuts.ui:267
+msgid "Find"
+msgstr "Najít"
+
+#: ddterm/app/ui/menus.ui:55 ddterm/pref/ui/prefs-shortcuts.ui:134
+msgid "Reset"
+msgstr "Resetovat"
+
+#: ddterm/app/ui/menus.ui:59 ddterm/pref/ui/prefs-shortcuts.ui:141
+msgid "Reset and Clear"
+msgstr "Resetovat a vyčistit"
+
+#: ddterm/app/ui/menus.ui:65
+msgid "Zoom"
+msgstr "Přiblížení"
+
+#: ddterm/app/ui/menus.ui:67 ddterm/pref/ui/prefs-shortcuts.ui:288
+msgid "Zoom In"
+msgstr "Příblížit"
+
+#: ddterm/app/ui/menus.ui:71 ddterm/pref/ui/prefs-shortcuts.ui:295
+msgid "Zoom Out"
+msgstr "Oddálit"
+
+#: ddterm/app/ui/menus.ui:75 ddterm/pref/ui/prefs-shortcuts.ui:302
+msgid "Normal Size"
+msgstr "Normální velikost"
+
+#: ddterm/app/ui/menus.ui:82
+msgid "Show in File Manager"
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:92 ddterm/app/ui/menus.ui:223
+msgid "Keep Open After Exit"
+msgstr "Nechat otevřené po ukončení"
+
+#: ddterm/app/ui/menus.ui:98
+msgid "New Tab"
+msgstr "Nový panel"
+
+#: ddterm/app/ui/menus.ui:100 ddterm/pref/ui/prefs-shortcuts.ui:162
+msgid "New Tab Before Current Tab"
+msgstr "Nový panel před současný panel"
+
+#: ddterm/app/ui/menus.ui:104 ddterm/pref/ui/prefs-shortcuts.ui:169
+msgid "New Tab After Current Tab"
+msgstr "Nový panel po současném panelu"
+
+#: ddterm/app/ui/menus.ui:108 ddterm/app/ui/menus.ui:236
+#: ddterm/pref/ui/prefs-shortcuts.ui:155
+msgid "New Tab Before First Tab"
+msgstr "Nový panel před první panel"
+
+#: ddterm/app/ui/menus.ui:112 ddterm/app/ui/menus.ui:240
+#: ddterm/pref/ui/prefs-shortcuts.ui:148
+msgid "New Tab After Last Tab"
+msgstr "Nový panel za poslední panel"
+
+#: ddterm/app/ui/menus.ui:119 ddterm/app/ui/menus.ui:256
+msgid "Layout"
+msgstr "Rozložení"
+
+#: ddterm/app/ui/menus.ui:122 ddterm/app/ui/menus.ui:259
+#: ddterm/app/ui/menus.ui:289
+msgid "No Split"
+msgstr "Nerozdělovat"
+
+#: ddterm/app/ui/menus.ui:127 ddterm/app/ui/menus.ui:264
+#: ddterm/app/ui/menus.ui:294 ddterm/pref/ui/prefs-shortcuts.ui:211
+msgid "Split Horizontally"
+msgstr "Rozdělit horizontálně"
+
+#: ddterm/app/ui/menus.ui:132 ddterm/app/ui/menus.ui:269
+#: ddterm/app/ui/menus.ui:299 ddterm/pref/ui/prefs-shortcuts.ui:218
+msgid "Split Vertically"
+msgstr "Rozdělit vertikálně"
+
+#: ddterm/app/ui/menus.ui:139 ddterm/app/ui/menus.ui:276
+msgid "Move Tab to Other Pane"
+msgstr "Posunout panel na další okno"
+
+#: ddterm/app/ui/menus.ui:155
+msgid "Above All Windows"
+msgstr "Nad všemi okny"
+
+#: ddterm/app/ui/menus.ui:159
+msgid "On All Workspaces"
+msgstr "Na všech pracovních plochách"
+
+#: ddterm/app/ui/menus.ui:163
+msgid "Maximize Window"
+msgstr "Maximalizovat okno"
+
+#: ddterm/app/ui/menus.ui:167
+msgid "Transparent Background"
+msgstr "Průhledné pozadí"
+
+#: ddterm/app/ui/menus.ui:173
+msgid "Hide When Application Loses Focus"
+msgstr "Skrýt při ztracení zaměření"
+
+#: ddterm/app/ui/menus.ui:177
+msgid "Hide When Esc Key Is Pressed"
+msgstr "Schovat při zmáčknutí Esc"
+
+#: ddterm/app/ui/menus.ui:183
+msgid "Scroll On Output"
+msgstr "Posouvat při výpisu"
+
+#: ddterm/app/ui/menus.ui:187
+msgid "Scroll On Keystroke"
+msgstr "Posunout při vstupu"
+
+#: ddterm/app/ui/menus.ui:193
+msgid "Preserve Working Directory In New Tabs"
+msgstr "Zachovat pracovní složku v nových panelech"
+
+#: ddterm/app/ui/menus.ui:199
+msgid "Enable Keyboard Shortcuts"
+msgstr "Povolit klávesové zkratky"
+
+#: ddterm/app/ui/menus.ui:208
+msgid "Use Custom Tab Title"
+msgstr "Použít vlastní název panelu"
+
+#: ddterm/app/ui/menus.ui:213
+msgid "Use Default Tab Title"
+msgstr "Použít výchozí název panelu"
+
+#: ddterm/app/ui/menus.ui:228
+msgid "New Tab Before This Tab"
+msgstr "Nový panel před tímto panelem"
+
+#: ddterm/app/ui/menus.ui:232
+msgid "New Tab After This Tab"
+msgstr "Nový panel za tímto panelem"
+
+#: ddterm/app/ui/menus.ui:246 ddterm/pref/ui/prefs-shortcuts.ui:197
+msgid "Move Tab to Previous Position"
+msgstr "Posunout panel do předchozí pozice"
+
+#: ddterm/app/ui/menus.ui:250 ddterm/pref/ui/prefs-shortcuts.ui:204
+msgid "Move Tab to Next Position"
+msgstr "Posunout panel do další pozice"
 
 #: ddterm/pref/adw.js:73
 msgid "Window"

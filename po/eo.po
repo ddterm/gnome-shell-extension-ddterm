@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-02 13:03+0000\n"
+"POT-Creation-Date: 2025-02-04 02:38+0000\n"
 "PO-Revision-Date: 2024-06-01 19:09+0000\n"
 "Last-Translator: phlostically <phlostically@mailinator.com>\n"
 "Language-Team: Esperanto <https://hosted.weblate.org/projects/gnome-shell-"
@@ -19,7 +19,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.6-dev\n"
 
-#: data/com.github.amezin.ddterm.desktop.in.in:9 ddterm/app/appwindow.js:141
+#: data/com.github.amezin.ddterm.desktop.in.in:9 ddterm/app/appwindow.js:142
 #: ddterm/shell/notifications.js:199 ddterm/shell/panelicon.js:29
 msgid "ddterm"
 msgstr "ddterm"
@@ -37,8 +37,8 @@ msgstr ""
 msgid "Toggle"
 msgstr "Baskuligi"
 
-#: data/com.github.amezin.ddterm.desktop.in.in:29 ddterm/app/menus.ui:149
-#: ddterm/app/menus.ui:283 ddterm/shell/panelicon.js:61
+#: data/com.github.amezin.ddterm.desktop.in.in:29 ddterm/app/ui/menus.ui:149
+#: ddterm/app/ui/menus.ui:283 ddterm/shell/panelicon.js:61
 msgid "Preferences…"
 msgstr "Agordoj…"
 
@@ -82,27 +82,27 @@ msgstr ""
 msgid "Open a new tab"
 msgstr "Malfermi novan langeton"
 
-#: ddterm/app/application.js:358
+#: ddterm/app/application.js:357
 msgid "Saving session…"
 msgstr "Konservante seancon…"
 
-#: ddterm/app/application.js:401
+#: ddterm/app/application.js:400
 msgid "Can't contact the extension."
 msgstr ""
 
-#: ddterm/app/application.js:403 ddterm/app/application.js:530
+#: ddterm/app/application.js:402 ddterm/app/application.js:529
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr ""
 
-#: ddterm/app/application.js:528
+#: ddterm/app/application.js:527
 msgid "Can't read the version of the loaded extension."
 msgstr ""
 
-#: ddterm/app/application.js:533 ddterm/shell/notifications.js:75
+#: ddterm/app/application.js:532 ddterm/shell/notifications.js:75
 msgid "Warning: ddterm version has changed"
 msgstr ""
 
-#: ddterm/app/application.js:534 ddterm/shell/notifications.js:77
+#: ddterm/app/application.js:533 ddterm/shell/notifications.js:77
 msgid "Log out, then log in again to load the updated extension."
 msgstr ""
 
@@ -118,195 +118,18 @@ msgstr ""
 msgid "Please install packages that provide the following files:"
 msgstr ""
 
-#: ddterm/app/menus.ui:14
-msgid "Open Hyperlink"
-msgstr "Malfermi hiperligon"
-
-#: ddterm/app/menus.ui:19
-msgid "Copy Hyperlink Address"
-msgstr "Kopii hiperligan adreson"
-
-#: ddterm/app/menus.ui:24
-msgid "Copy File Path"
-msgstr ""
-
-#: ddterm/app/menus.ui:31
-msgid "Copy"
-msgstr "Kopii"
-
-#: ddterm/app/menus.ui:35
-msgid "Copy HTML"
-msgstr "Kopii HTML"
-
-#: ddterm/app/menus.ui:39
-msgid "Paste"
-msgstr "Alglui"
-
-#: ddterm/app/menus.ui:43 ddterm/pref/ui/prefs-shortcuts.ui:127
-msgid "Select All"
-msgstr "Elekti ĉion"
-
-#: ddterm/app/menus.ui:49 ddterm/pref/ui/prefs-shortcuts.ui:267
-msgid "Find"
-msgstr "Serĉi"
-
-#: ddterm/app/menus.ui:55 ddterm/pref/ui/prefs-shortcuts.ui:134
-msgid "Reset"
-msgstr "Restarigi"
-
-#: ddterm/app/menus.ui:59 ddterm/pref/ui/prefs-shortcuts.ui:141
-msgid "Reset and Clear"
-msgstr ""
-
-#: ddterm/app/menus.ui:65
-msgid "Zoom"
-msgstr "Zomigi"
-
-#: ddterm/app/menus.ui:67 ddterm/pref/ui/prefs-shortcuts.ui:288
-msgid "Zoom In"
-msgstr "Enzomigi"
-
-#: ddterm/app/menus.ui:71 ddterm/pref/ui/prefs-shortcuts.ui:295
-msgid "Zoom Out"
-msgstr "Elzomigi"
-
-#: ddterm/app/menus.ui:75 ddterm/pref/ui/prefs-shortcuts.ui:302
-msgid "Normal Size"
-msgstr "Ordinara grando"
-
-#: ddterm/app/menus.ui:82
-msgid "Show in File Manager"
-msgstr ""
-
-#: ddterm/app/menus.ui:88 ddterm/app/menus.ui:219 ddterm/app/tablabel.js:110
-#: ddterm/shell/notifications.js:57
-msgid "Close"
-msgstr "Fermi"
-
-#: ddterm/app/menus.ui:92 ddterm/app/menus.ui:223
-msgid "Keep Open After Exit"
-msgstr ""
-
-#: ddterm/app/menus.ui:98
-msgid "New Tab"
-msgstr "Nova langeto"
-
-#: ddterm/app/menus.ui:100 ddterm/pref/ui/prefs-shortcuts.ui:162
-msgid "New Tab Before Current Tab"
-msgstr ""
-
-#: ddterm/app/menus.ui:104 ddterm/pref/ui/prefs-shortcuts.ui:169
-msgid "New Tab After Current Tab"
-msgstr ""
-
-#: ddterm/app/menus.ui:108 ddterm/app/menus.ui:236
-#: ddterm/pref/ui/prefs-shortcuts.ui:155
-msgid "New Tab Before First Tab"
-msgstr ""
-
-#: ddterm/app/menus.ui:112 ddterm/app/menus.ui:240
-#: ddterm/pref/ui/prefs-shortcuts.ui:148
-msgid "New Tab After Last Tab"
-msgstr ""
-
-#: ddterm/app/menus.ui:119 ddterm/app/menus.ui:256
-msgid "Layout"
-msgstr "Aranĝo"
-
-#: ddterm/app/menus.ui:122 ddterm/app/menus.ui:259 ddterm/app/menus.ui:289
-msgid "No Split"
-msgstr ""
-
-#: ddterm/app/menus.ui:127 ddterm/app/menus.ui:264 ddterm/app/menus.ui:294
-#: ddterm/pref/ui/prefs-shortcuts.ui:211
-msgid "Split Horizontally"
-msgstr ""
-
-#: ddterm/app/menus.ui:132 ddterm/app/menus.ui:269 ddterm/app/menus.ui:299
-#: ddterm/pref/ui/prefs-shortcuts.ui:218
-msgid "Split Vertically"
-msgstr ""
-
-#: ddterm/app/menus.ui:139 ddterm/app/menus.ui:276
-msgid "Move Tab to Other Pane"
-msgstr ""
-
-#: ddterm/app/menus.ui:146 ddterm/app/prefsdialog.js:38
-#: ddterm/app/prefsdialog.legacy.js:50
-msgid "Preferences"
-msgstr "Agordoj"
-
-#: ddterm/app/menus.ui:155
-msgid "Above All Windows"
-msgstr "Super ĉiuj fenestroj"
-
-#: ddterm/app/menus.ui:159
-msgid "On All Workspaces"
-msgstr "En ĉiuj laborspacoj"
-
-#: ddterm/app/menus.ui:163
-msgid "Maximize Window"
-msgstr "Maksimumigi fenestron"
-
-#: ddterm/app/menus.ui:167
-msgid "Transparent Background"
-msgstr "Travidebla fono"
-
-#: ddterm/app/menus.ui:173
-msgid "Hide When Application Loses Focus"
-msgstr ""
-
-#: ddterm/app/menus.ui:177
-msgid "Hide When Esc Key Is Pressed"
-msgstr ""
-
-#: ddterm/app/menus.ui:183
-msgid "Scroll On Output"
-msgstr ""
-
-#: ddterm/app/menus.ui:187
-msgid "Scroll On Keystroke"
-msgstr ""
-
-#: ddterm/app/menus.ui:193
-msgid "Preserve Working Directory In New Tabs"
-msgstr ""
-
-#: ddterm/app/menus.ui:199
-msgid "Enable Keyboard Shortcuts"
-msgstr ""
-
-#: ddterm/app/menus.ui:208
-msgid "Use Custom Tab Title"
-msgstr ""
-
-#: ddterm/app/menus.ui:213
-msgid "Use Default Tab Title"
-msgstr ""
-
-#: ddterm/app/menus.ui:228
-msgid "New Tab Before This Tab"
-msgstr ""
-
-#: ddterm/app/menus.ui:232
-msgid "New Tab After This Tab"
-msgstr ""
-
-#: ddterm/app/menus.ui:246 ddterm/pref/ui/prefs-shortcuts.ui:197
-msgid "Move Tab to Previous Position"
-msgstr ""
-
-#: ddterm/app/menus.ui:250 ddterm/pref/ui/prefs-shortcuts.ui:204
-msgid "Move Tab to Next Position"
-msgstr ""
-
-#: ddterm/app/notebook.js:135
+#: ddterm/app/notebook.js:136
 msgid "New Tab (Last)"
 msgstr "Nova langeto (laste)"
 
-#: ddterm/app/notebook.js:175
+#: ddterm/app/notebook.js:174
 msgid "New Tab (First)"
 msgstr "Nova langeto (unue)"
+
+#: ddterm/app/prefsdialog.js:38 ddterm/app/prefsdialog.legacy.js:50
+#: ddterm/app/ui/menus.ui:146
+msgid "Preferences"
+msgstr "Agordoj"
 
 #: ddterm/app/search.js:209
 msgid "Case Sensitive"
@@ -336,6 +159,11 @@ msgstr ""
 msgid "Find Previous"
 msgstr ""
 
+#: ddterm/app/tablabel.js:110 ddterm/app/ui/menus.ui:88
+#: ddterm/app/ui/menus.ui:219 ddterm/shell/notifications.js:57
+msgid "Close"
+msgstr "Fermi"
+
 #: ddterm/app/terminalpage.js:436
 msgid "Restart"
 msgstr "Relanĉi"
@@ -360,6 +188,179 @@ msgstr ""
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:14
+msgid "Open Hyperlink"
+msgstr "Malfermi hiperligon"
+
+#: ddterm/app/ui/menus.ui:19
+msgid "Copy Hyperlink Address"
+msgstr "Kopii hiperligan adreson"
+
+#: ddterm/app/ui/menus.ui:24
+msgid "Copy File Path"
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:31
+msgid "Copy"
+msgstr "Kopii"
+
+#: ddterm/app/ui/menus.ui:35
+msgid "Copy HTML"
+msgstr "Kopii HTML"
+
+#: ddterm/app/ui/menus.ui:39
+msgid "Paste"
+msgstr "Alglui"
+
+#: ddterm/app/ui/menus.ui:43 ddterm/pref/ui/prefs-shortcuts.ui:127
+msgid "Select All"
+msgstr "Elekti ĉion"
+
+#: ddterm/app/ui/menus.ui:49 ddterm/pref/ui/prefs-shortcuts.ui:267
+msgid "Find"
+msgstr "Serĉi"
+
+#: ddterm/app/ui/menus.ui:55 ddterm/pref/ui/prefs-shortcuts.ui:134
+msgid "Reset"
+msgstr "Restarigi"
+
+#: ddterm/app/ui/menus.ui:59 ddterm/pref/ui/prefs-shortcuts.ui:141
+msgid "Reset and Clear"
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:65
+msgid "Zoom"
+msgstr "Zomigi"
+
+#: ddterm/app/ui/menus.ui:67 ddterm/pref/ui/prefs-shortcuts.ui:288
+msgid "Zoom In"
+msgstr "Enzomigi"
+
+#: ddterm/app/ui/menus.ui:71 ddterm/pref/ui/prefs-shortcuts.ui:295
+msgid "Zoom Out"
+msgstr "Elzomigi"
+
+#: ddterm/app/ui/menus.ui:75 ddterm/pref/ui/prefs-shortcuts.ui:302
+msgid "Normal Size"
+msgstr "Ordinara grando"
+
+#: ddterm/app/ui/menus.ui:82
+msgid "Show in File Manager"
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:92 ddterm/app/ui/menus.ui:223
+msgid "Keep Open After Exit"
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:98
+msgid "New Tab"
+msgstr "Nova langeto"
+
+#: ddterm/app/ui/menus.ui:100 ddterm/pref/ui/prefs-shortcuts.ui:162
+msgid "New Tab Before Current Tab"
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:104 ddterm/pref/ui/prefs-shortcuts.ui:169
+msgid "New Tab After Current Tab"
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:108 ddterm/app/ui/menus.ui:236
+#: ddterm/pref/ui/prefs-shortcuts.ui:155
+msgid "New Tab Before First Tab"
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:112 ddterm/app/ui/menus.ui:240
+#: ddterm/pref/ui/prefs-shortcuts.ui:148
+msgid "New Tab After Last Tab"
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:119 ddterm/app/ui/menus.ui:256
+msgid "Layout"
+msgstr "Aranĝo"
+
+#: ddterm/app/ui/menus.ui:122 ddterm/app/ui/menus.ui:259
+#: ddterm/app/ui/menus.ui:289
+msgid "No Split"
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:127 ddterm/app/ui/menus.ui:264
+#: ddterm/app/ui/menus.ui:294 ddterm/pref/ui/prefs-shortcuts.ui:211
+msgid "Split Horizontally"
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:132 ddterm/app/ui/menus.ui:269
+#: ddterm/app/ui/menus.ui:299 ddterm/pref/ui/prefs-shortcuts.ui:218
+msgid "Split Vertically"
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:139 ddterm/app/ui/menus.ui:276
+msgid "Move Tab to Other Pane"
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:155
+msgid "Above All Windows"
+msgstr "Super ĉiuj fenestroj"
+
+#: ddterm/app/ui/menus.ui:159
+msgid "On All Workspaces"
+msgstr "En ĉiuj laborspacoj"
+
+#: ddterm/app/ui/menus.ui:163
+msgid "Maximize Window"
+msgstr "Maksimumigi fenestron"
+
+#: ddterm/app/ui/menus.ui:167
+msgid "Transparent Background"
+msgstr "Travidebla fono"
+
+#: ddterm/app/ui/menus.ui:173
+msgid "Hide When Application Loses Focus"
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:177
+msgid "Hide When Esc Key Is Pressed"
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:183
+msgid "Scroll On Output"
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:187
+msgid "Scroll On Keystroke"
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:193
+msgid "Preserve Working Directory In New Tabs"
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:199
+msgid "Enable Keyboard Shortcuts"
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:208
+msgid "Use Custom Tab Title"
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:213
+msgid "Use Default Tab Title"
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:228
+msgid "New Tab Before This Tab"
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:232
+msgid "New Tab After This Tab"
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:246 ddterm/pref/ui/prefs-shortcuts.ui:197
+msgid "Move Tab to Previous Position"
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:250 ddterm/pref/ui/prefs-shortcuts.ui:204
+msgid "Move Tab to Next Position"
 msgstr ""
 
 #: ddterm/pref/adw.js:73

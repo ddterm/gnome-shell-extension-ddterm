@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-02 13:03+0000\n"
+"POT-Creation-Date: 2025-02-04 02:38+0000\n"
 "PO-Revision-Date: 2024-07-24 00:09+0000\n"
 "Last-Translator: Patricio Carrau <duckycb@proton.me>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/gnome-shell-"
@@ -24,7 +24,7 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-Basepath: .\n"
 
-#: data/com.github.amezin.ddterm.desktop.in.in:9 ddterm/app/appwindow.js:141
+#: data/com.github.amezin.ddterm.desktop.in.in:9 ddterm/app/appwindow.js:142
 #: ddterm/shell/notifications.js:199 ddterm/shell/panelicon.js:29
 msgid "ddterm"
 msgstr "ddterm"
@@ -43,8 +43,8 @@ msgstr "Une extension de terminal déroulant pour GNOME shell"
 msgid "Toggle"
 msgstr "Basculer"
 
-#: data/com.github.amezin.ddterm.desktop.in.in:29 ddterm/app/menus.ui:149
-#: ddterm/app/menus.ui:283 ddterm/shell/panelicon.js:61
+#: data/com.github.amezin.ddterm.desktop.in.in:29 ddterm/app/ui/menus.ui:149
+#: ddterm/app/ui/menus.ui:283 ddterm/shell/panelicon.js:61
 msgid "Preferences…"
 msgstr "Préférences…"
 
@@ -89,29 +89,29 @@ msgstr "Ne pas transmettre l'environnement"
 msgid "Open a new tab"
 msgstr "Ouvrir un nouvel onglet"
 
-#: ddterm/app/application.js:358
+#: ddterm/app/application.js:357
 msgid "Saving session…"
 msgstr "Enregistrement de la session…"
 
-#: ddterm/app/application.js:401
+#: ddterm/app/application.js:400
 msgid "Can't contact the extension."
 msgstr "L'extension ne peut être contactée."
 
-#: ddterm/app/application.js:403 ddterm/app/application.js:530
+#: ddterm/app/application.js:402 ddterm/app/application.js:529
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr ""
 "Veuillez s'il vous plait vous assurer que l'extension GNOME Shell est "
 "activée."
 
-#: ddterm/app/application.js:528
+#: ddterm/app/application.js:527
 msgid "Can't read the version of the loaded extension."
 msgstr "La version de l'extension chargée ne peut pas être lue."
 
-#: ddterm/app/application.js:533 ddterm/shell/notifications.js:75
+#: ddterm/app/application.js:532 ddterm/shell/notifications.js:75
 msgid "Warning: ddterm version has changed"
 msgstr "Avertissement : La version de ddterm a changé"
 
-#: ddterm/app/application.js:534 ddterm/shell/notifications.js:77
+#: ddterm/app/application.js:533 ddterm/shell/notifications.js:77
 msgid "Log out, then log in again to load the updated extension."
 msgstr ""
 "Fermez la session, puis reconnectez-vous pour charger l'extension mise à "
@@ -129,195 +129,18 @@ msgstr "Merci d'installer les paquets suivants :"
 msgid "Please install packages that provide the following files:"
 msgstr "Merci d'installer les paquets contenant les fichiers suivants :"
 
-#: ddterm/app/menus.ui:14
-msgid "Open Hyperlink"
-msgstr "Ouvrir le lien"
-
-#: ddterm/app/menus.ui:19
-msgid "Copy Hyperlink Address"
-msgstr "Copier le lien"
-
-#: ddterm/app/menus.ui:24
-msgid "Copy File Path"
-msgstr "Copier le chemin"
-
-#: ddterm/app/menus.ui:31
-msgid "Copy"
-msgstr "Copier"
-
-#: ddterm/app/menus.ui:35
-msgid "Copy HTML"
-msgstr "Copier HTML"
-
-#: ddterm/app/menus.ui:39
-msgid "Paste"
-msgstr "Coller"
-
-#: ddterm/app/menus.ui:43 ddterm/pref/ui/prefs-shortcuts.ui:127
-msgid "Select All"
-msgstr "Tout sélectionner"
-
-#: ddterm/app/menus.ui:49 ddterm/pref/ui/prefs-shortcuts.ui:267
-msgid "Find"
-msgstr "Rechercher"
-
-#: ddterm/app/menus.ui:55 ddterm/pref/ui/prefs-shortcuts.ui:134
-msgid "Reset"
-msgstr "Réinitialiser"
-
-#: ddterm/app/menus.ui:59 ddterm/pref/ui/prefs-shortcuts.ui:141
-msgid "Reset and Clear"
-msgstr "Réinitialiser et effacer"
-
-#: ddterm/app/menus.ui:65
-msgid "Zoom"
-msgstr "Zoom"
-
-#: ddterm/app/menus.ui:67 ddterm/pref/ui/prefs-shortcuts.ui:288
-msgid "Zoom In"
-msgstr "Zoomer"
-
-#: ddterm/app/menus.ui:71 ddterm/pref/ui/prefs-shortcuts.ui:295
-msgid "Zoom Out"
-msgstr "Dézoomer"
-
-#: ddterm/app/menus.ui:75 ddterm/pref/ui/prefs-shortcuts.ui:302
-msgid "Normal Size"
-msgstr "Taille normale"
-
-#: ddterm/app/menus.ui:82
-msgid "Show in File Manager"
-msgstr "Afficher dans le gestionnaire de fichier"
-
-#: ddterm/app/menus.ui:88 ddterm/app/menus.ui:219 ddterm/app/tablabel.js:110
-#: ddterm/shell/notifications.js:57
-msgid "Close"
-msgstr "Fermer"
-
-#: ddterm/app/menus.ui:92 ddterm/app/menus.ui:223
-msgid "Keep Open After Exit"
-msgstr "Laisser ouvert en quittant"
-
-#: ddterm/app/menus.ui:98
-msgid "New Tab"
-msgstr "Nouvel onglet"
-
-#: ddterm/app/menus.ui:100 ddterm/pref/ui/prefs-shortcuts.ui:162
-msgid "New Tab Before Current Tab"
-msgstr "Nouvel onglet avant l'onglet actuel"
-
-#: ddterm/app/menus.ui:104 ddterm/pref/ui/prefs-shortcuts.ui:169
-msgid "New Tab After Current Tab"
-msgstr "Nouvel onglet après l'onglet actuel"
-
-#: ddterm/app/menus.ui:108 ddterm/app/menus.ui:236
-#: ddterm/pref/ui/prefs-shortcuts.ui:155
-msgid "New Tab Before First Tab"
-msgstr "Nouvel onglet avant le premier"
-
-#: ddterm/app/menus.ui:112 ddterm/app/menus.ui:240
-#: ddterm/pref/ui/prefs-shortcuts.ui:148
-msgid "New Tab After Last Tab"
-msgstr "Nouvel onglet après le dernier"
-
-#: ddterm/app/menus.ui:119 ddterm/app/menus.ui:256
-msgid "Layout"
-msgstr "Disposition"
-
-#: ddterm/app/menus.ui:122 ddterm/app/menus.ui:259 ddterm/app/menus.ui:289
-msgid "No Split"
-msgstr "Pas de division"
-
-#: ddterm/app/menus.ui:127 ddterm/app/menus.ui:264 ddterm/app/menus.ui:294
-#: ddterm/pref/ui/prefs-shortcuts.ui:211
-msgid "Split Horizontally"
-msgstr "Diviser horizontalement"
-
-#: ddterm/app/menus.ui:132 ddterm/app/menus.ui:269 ddterm/app/menus.ui:299
-#: ddterm/pref/ui/prefs-shortcuts.ui:218
-msgid "Split Vertically"
-msgstr "Diviser verticalement"
-
-#: ddterm/app/menus.ui:139 ddterm/app/menus.ui:276
-msgid "Move Tab to Other Pane"
-msgstr "Changer l'onglet de panneau"
-
-#: ddterm/app/menus.ui:146 ddterm/app/prefsdialog.js:38
-#: ddterm/app/prefsdialog.legacy.js:50
-msgid "Preferences"
-msgstr "Préférences"
-
-#: ddterm/app/menus.ui:155
-msgid "Above All Windows"
-msgstr "Toujours au premier plan"
-
-#: ddterm/app/menus.ui:159
-msgid "On All Workspaces"
-msgstr "Sur tous les espaces de travail"
-
-#: ddterm/app/menus.ui:163
-msgid "Maximize Window"
-msgstr "Agrandir la fenêtre"
-
-#: ddterm/app/menus.ui:167
-msgid "Transparent Background"
-msgstr "Arrière-plan transparent"
-
-#: ddterm/app/menus.ui:173
-msgid "Hide When Application Loses Focus"
-msgstr "Cacher quand l'application perd le focus"
-
-#: ddterm/app/menus.ui:177
-msgid "Hide When Esc Key Is Pressed"
-msgstr "Cacher à l'appui de la touche Échap"
-
-#: ddterm/app/menus.ui:183
-msgid "Scroll On Output"
-msgstr "Défilement sur la sortie"
-
-#: ddterm/app/menus.ui:187
-msgid "Scroll On Keystroke"
-msgstr "Défilement sur pression de touche"
-
-#: ddterm/app/menus.ui:193
-msgid "Preserve Working Directory In New Tabs"
-msgstr "Conserver le répertoire de travail dans les nouveaux onglets"
-
-#: ddterm/app/menus.ui:199
-msgid "Enable Keyboard Shortcuts"
-msgstr "Activer les raccourcis clavier"
-
-#: ddterm/app/menus.ui:208
-msgid "Use Custom Tab Title"
-msgstr "Utiliser un titre d'onglet personnalisé"
-
-#: ddterm/app/menus.ui:213
-msgid "Use Default Tab Title"
-msgstr "Utiliser le titre d'onglet par défaut"
-
-#: ddterm/app/menus.ui:228
-msgid "New Tab Before This Tab"
-msgstr "Nouvel onglet avant celui-ci"
-
-#: ddterm/app/menus.ui:232
-msgid "New Tab After This Tab"
-msgstr "Nouvel onglet après celui-ci"
-
-#: ddterm/app/menus.ui:246 ddterm/pref/ui/prefs-shortcuts.ui:197
-msgid "Move Tab to Previous Position"
-msgstr "Déplacer l'onglet vers la position précédente"
-
-#: ddterm/app/menus.ui:250 ddterm/pref/ui/prefs-shortcuts.ui:204
-msgid "Move Tab to Next Position"
-msgstr "Déplacer l'onglet vers la position suivante"
-
-#: ddterm/app/notebook.js:135
+#: ddterm/app/notebook.js:136
 msgid "New Tab (Last)"
 msgstr "Nouvel onglet (en dernière position)"
 
-#: ddterm/app/notebook.js:175
+#: ddterm/app/notebook.js:174
 msgid "New Tab (First)"
 msgstr "Nouvel onglet (en première position)"
+
+#: ddterm/app/prefsdialog.js:38 ddterm/app/prefsdialog.legacy.js:50
+#: ddterm/app/ui/menus.ui:146
+msgid "Preferences"
+msgstr "Préférences"
 
 #: ddterm/app/search.js:209
 msgid "Case Sensitive"
@@ -347,6 +170,11 @@ msgstr "Rechercher le suivant"
 msgid "Find Previous"
 msgstr "Rechercher le précédent"
 
+#: ddterm/app/tablabel.js:110 ddterm/app/ui/menus.ui:88
+#: ddterm/app/ui/menus.ui:219 ddterm/shell/notifications.js:57
+msgid "Close"
+msgstr "Fermer"
+
 #: ddterm/app/terminalpage.js:436
 msgid "Restart"
 msgstr "Redémarrer"
@@ -374,6 +202,179 @@ msgid ""
 msgstr ""
 "Il reste un processus en cours d'exécution dans ce terminal. Fermer ce "
 "terminal va le tuer."
+
+#: ddterm/app/ui/menus.ui:14
+msgid "Open Hyperlink"
+msgstr "Ouvrir le lien"
+
+#: ddterm/app/ui/menus.ui:19
+msgid "Copy Hyperlink Address"
+msgstr "Copier le lien"
+
+#: ddterm/app/ui/menus.ui:24
+msgid "Copy File Path"
+msgstr "Copier le chemin"
+
+#: ddterm/app/ui/menus.ui:31
+msgid "Copy"
+msgstr "Copier"
+
+#: ddterm/app/ui/menus.ui:35
+msgid "Copy HTML"
+msgstr "Copier HTML"
+
+#: ddterm/app/ui/menus.ui:39
+msgid "Paste"
+msgstr "Coller"
+
+#: ddterm/app/ui/menus.ui:43 ddterm/pref/ui/prefs-shortcuts.ui:127
+msgid "Select All"
+msgstr "Tout sélectionner"
+
+#: ddterm/app/ui/menus.ui:49 ddterm/pref/ui/prefs-shortcuts.ui:267
+msgid "Find"
+msgstr "Rechercher"
+
+#: ddterm/app/ui/menus.ui:55 ddterm/pref/ui/prefs-shortcuts.ui:134
+msgid "Reset"
+msgstr "Réinitialiser"
+
+#: ddterm/app/ui/menus.ui:59 ddterm/pref/ui/prefs-shortcuts.ui:141
+msgid "Reset and Clear"
+msgstr "Réinitialiser et effacer"
+
+#: ddterm/app/ui/menus.ui:65
+msgid "Zoom"
+msgstr "Zoom"
+
+#: ddterm/app/ui/menus.ui:67 ddterm/pref/ui/prefs-shortcuts.ui:288
+msgid "Zoom In"
+msgstr "Zoomer"
+
+#: ddterm/app/ui/menus.ui:71 ddterm/pref/ui/prefs-shortcuts.ui:295
+msgid "Zoom Out"
+msgstr "Dézoomer"
+
+#: ddterm/app/ui/menus.ui:75 ddterm/pref/ui/prefs-shortcuts.ui:302
+msgid "Normal Size"
+msgstr "Taille normale"
+
+#: ddterm/app/ui/menus.ui:82
+msgid "Show in File Manager"
+msgstr "Afficher dans le gestionnaire de fichier"
+
+#: ddterm/app/ui/menus.ui:92 ddterm/app/ui/menus.ui:223
+msgid "Keep Open After Exit"
+msgstr "Laisser ouvert en quittant"
+
+#: ddterm/app/ui/menus.ui:98
+msgid "New Tab"
+msgstr "Nouvel onglet"
+
+#: ddterm/app/ui/menus.ui:100 ddterm/pref/ui/prefs-shortcuts.ui:162
+msgid "New Tab Before Current Tab"
+msgstr "Nouvel onglet avant l'onglet actuel"
+
+#: ddterm/app/ui/menus.ui:104 ddterm/pref/ui/prefs-shortcuts.ui:169
+msgid "New Tab After Current Tab"
+msgstr "Nouvel onglet après l'onglet actuel"
+
+#: ddterm/app/ui/menus.ui:108 ddterm/app/ui/menus.ui:236
+#: ddterm/pref/ui/prefs-shortcuts.ui:155
+msgid "New Tab Before First Tab"
+msgstr "Nouvel onglet avant le premier"
+
+#: ddterm/app/ui/menus.ui:112 ddterm/app/ui/menus.ui:240
+#: ddterm/pref/ui/prefs-shortcuts.ui:148
+msgid "New Tab After Last Tab"
+msgstr "Nouvel onglet après le dernier"
+
+#: ddterm/app/ui/menus.ui:119 ddterm/app/ui/menus.ui:256
+msgid "Layout"
+msgstr "Disposition"
+
+#: ddterm/app/ui/menus.ui:122 ddterm/app/ui/menus.ui:259
+#: ddterm/app/ui/menus.ui:289
+msgid "No Split"
+msgstr "Pas de division"
+
+#: ddterm/app/ui/menus.ui:127 ddterm/app/ui/menus.ui:264
+#: ddterm/app/ui/menus.ui:294 ddterm/pref/ui/prefs-shortcuts.ui:211
+msgid "Split Horizontally"
+msgstr "Diviser horizontalement"
+
+#: ddterm/app/ui/menus.ui:132 ddterm/app/ui/menus.ui:269
+#: ddterm/app/ui/menus.ui:299 ddterm/pref/ui/prefs-shortcuts.ui:218
+msgid "Split Vertically"
+msgstr "Diviser verticalement"
+
+#: ddterm/app/ui/menus.ui:139 ddterm/app/ui/menus.ui:276
+msgid "Move Tab to Other Pane"
+msgstr "Changer l'onglet de panneau"
+
+#: ddterm/app/ui/menus.ui:155
+msgid "Above All Windows"
+msgstr "Toujours au premier plan"
+
+#: ddterm/app/ui/menus.ui:159
+msgid "On All Workspaces"
+msgstr "Sur tous les espaces de travail"
+
+#: ddterm/app/ui/menus.ui:163
+msgid "Maximize Window"
+msgstr "Agrandir la fenêtre"
+
+#: ddterm/app/ui/menus.ui:167
+msgid "Transparent Background"
+msgstr "Arrière-plan transparent"
+
+#: ddterm/app/ui/menus.ui:173
+msgid "Hide When Application Loses Focus"
+msgstr "Cacher quand l'application perd le focus"
+
+#: ddterm/app/ui/menus.ui:177
+msgid "Hide When Esc Key Is Pressed"
+msgstr "Cacher à l'appui de la touche Échap"
+
+#: ddterm/app/ui/menus.ui:183
+msgid "Scroll On Output"
+msgstr "Défilement sur la sortie"
+
+#: ddterm/app/ui/menus.ui:187
+msgid "Scroll On Keystroke"
+msgstr "Défilement sur pression de touche"
+
+#: ddterm/app/ui/menus.ui:193
+msgid "Preserve Working Directory In New Tabs"
+msgstr "Conserver le répertoire de travail dans les nouveaux onglets"
+
+#: ddterm/app/ui/menus.ui:199
+msgid "Enable Keyboard Shortcuts"
+msgstr "Activer les raccourcis clavier"
+
+#: ddterm/app/ui/menus.ui:208
+msgid "Use Custom Tab Title"
+msgstr "Utiliser un titre d'onglet personnalisé"
+
+#: ddterm/app/ui/menus.ui:213
+msgid "Use Default Tab Title"
+msgstr "Utiliser le titre d'onglet par défaut"
+
+#: ddterm/app/ui/menus.ui:228
+msgid "New Tab Before This Tab"
+msgstr "Nouvel onglet avant celui-ci"
+
+#: ddterm/app/ui/menus.ui:232
+msgid "New Tab After This Tab"
+msgstr "Nouvel onglet après celui-ci"
+
+#: ddterm/app/ui/menus.ui:246 ddterm/pref/ui/prefs-shortcuts.ui:197
+msgid "Move Tab to Previous Position"
+msgstr "Déplacer l'onglet vers la position précédente"
+
+#: ddterm/app/ui/menus.ui:250 ddterm/pref/ui/prefs-shortcuts.ui:204
+msgid "Move Tab to Next Position"
+msgstr "Déplacer l'onglet vers la position suivante"
 
 #: ddterm/pref/adw.js:73
 msgid "Window"
