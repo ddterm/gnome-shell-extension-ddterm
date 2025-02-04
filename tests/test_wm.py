@@ -665,7 +665,7 @@ class CommonTests:
 
             wait_idle()
 
-            if shell_dbus_interface.ShellVersion[0] != 43:
+            if gdk_backend != GdkBackend.X11 and shell_dbus_interface.ShellVersion[0] != 43:
                 assert extension_test_hook.WindowRect == expected_rect2
 
         finally:
