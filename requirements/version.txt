@@ -6,14 +6,30 @@
 #
 annotated-types==0.7.0
     # via pydantic
+anyio==4.8.0
+    # via httpx
 bracex==2.5.post1
     # via wcmatch
-bump-my-version==0.31.0
+bump-my-version==0.32.0
     # via -r version.in
+certifi==2025.1.31
+    # via
+    #   httpcore
+    #   httpx
 click==8.1.8
     # via
     #   bump-my-version
     #   rich-click
+h11==0.14.0
+    # via httpcore
+httpcore==1.0.7
+    # via httpx
+httpx==0.28.1
+    # via bump-my-version
+idna==3.10
+    # via
+    #   anyio
+    #   httpx
 markdown-it-py==3.0.0
     # via rich
 mdurl==0.1.2
@@ -40,6 +56,8 @@ rich==13.9.4
     #   rich-click
 rich-click==1.8.5
     # via bump-my-version
+sniffio==1.3.1
+    # via anyio
 tomlkit==0.13.2
     # via bump-my-version
 typing-extensions==4.12.2
