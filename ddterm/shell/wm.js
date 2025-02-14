@@ -62,6 +62,12 @@ export const WindowManager = GObject.registerClass({
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             Animation
         ),
+        'debug': GObject.ParamSpec.jsobject(
+            'debug',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY
+        ),
     },
     Signals: {
         'hide-request': {},
@@ -72,8 +78,6 @@ export const WindowManager = GObject.registerClass({
 }, class DDTermWindowManager extends GObject.Object {
     _init(params) {
         super._init(params);
-
-        this.debug = null;
 
         try {
             this._enable();
