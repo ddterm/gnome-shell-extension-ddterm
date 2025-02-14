@@ -218,6 +218,8 @@ class Application extends Gtk.Application {
     }
 
     startup() {
+        log('ddterm starting up');
+
         this.settings = get_settings();
 
         this.simple_action('quit', () => {
