@@ -124,6 +124,10 @@ Vagrant.configure("2") do |config|
     version.vm.box = "gnome-shell-box/debian12"
   end
 
+  config.vm.define "nixos", autostart: false do |version|
+    version.vm.box = "gnome-shell-box/nixos"
+  end
+
   config.vm.define "alpine318", autostart: false do |version|
     version.vm.box = "gnome-shell-box/alpine318"
     version.ssh.sudo_command = "doas -n -u root %c"
