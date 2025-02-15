@@ -341,6 +341,7 @@ class EnabledExtension {
             service: this.service,
             window_matcher: this.window_matcher,
             window_geometry: this.window_geometry,
+            debug: this.debug ?? null,
         });
 
         rollback.push(() => {
@@ -455,6 +456,9 @@ class EnabledExtension {
 
         if (this.window_manager)
             this.window_manager.debug = func;
+
+        if (this.app_control)
+            this.app_control.debug = func;
     }
 }
 

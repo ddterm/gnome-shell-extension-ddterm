@@ -90,6 +90,12 @@ export const AppControl = GObject.registerClass({
             GObject.ParamFlags.READABLE,
             Gio.DBusActionGroup
         ),
+        'debug': GObject.ParamSpec.jsobject(
+            'debug',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY
+        ),
     },
 }, class DDTermAppControl extends GObject.Object {
     _init(params) {
@@ -210,6 +216,7 @@ export const AppControl = GObject.registerClass({
 
         this.window_geometry.update_monitor();
 
+        this.debug?.('Activating show action');
         this.actions.activate_action('show', null);
 
         if (wait)
@@ -220,6 +227,7 @@ export const AppControl = GObject.registerClass({
         if (!this.window_matcher.current_window)
             return;
 
+        this.debug?.('Activating hide action');
         this.actions.activate_action('hide', null);
 
         if (wait)
@@ -229,6 +237,7 @@ export const AppControl = GObject.registerClass({
     async preferences() {
         await this.ensure_running();
 
+        this.debug?.('Activating preferences action');
         this.actions.activate_action('preferences', null);
     }
 
@@ -240,6 +249,7 @@ export const AppControl = GObject.registerClass({
         if (!this.actions)
             return false;
 
+        this.debug?.('Activating quit action');
         this.actions.activate_action('quit', null);
         return true;
     }
