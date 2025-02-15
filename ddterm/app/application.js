@@ -662,7 +662,8 @@ class Application extends Gtk.Application {
             this.ensure_window().deserialize_state(data_variant);
         }
 
-        GLib.unlink(this.session_file_path);
+        if (!this.settings.get_boolean('keep-session-backup'))
+            GLib.unlink(this.session_file_path);
     }
 
     save_session() {

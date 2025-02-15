@@ -179,6 +179,9 @@ SPDX-License-Identifier: GPL-3.0-or-later
     <key name="force-x11-gdk-backend" type="b">
       <default>false</default>
     </key>
+    <key name="keep-session-backup" type="b">
+      <default>false</default>
+    </key>
     <key name="window-resizable" type="b">
       <default>true</default>
     </key>

@@ -39,6 +39,7 @@ export const BehaviorWidget = GObject.registerClass({
             'hide-window-on-esc',
             'pointer-autohide',
             'force-x11-gdk-backend',
+            'keep-session-backup',
         ]);
     }
 

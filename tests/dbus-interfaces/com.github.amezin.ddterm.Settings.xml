@@ -22,6 +22,7 @@
         <property type="b" name="hide-when-focus-lost" access="readwrite"/>
         <property type="b" name="window-stick" access="readwrite"/>
         <property type="b" name="window-skip-taskbar" access="readwrite"/>
+        <property type="b" name="keep-session-backup" access="readwrite"/>
         <property type="s" name="theme-variant" access="readwrite"/>
         <method name="Destroy"/>
     </interface>
