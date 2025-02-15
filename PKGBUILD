@@ -14,16 +14,16 @@ provides=('gnome-shell-extension-ddterm')
 depends=('gjs' 'gtk3' 'vte3' 'libhandy')
 makedepends=('meson' 'git' 'gtk4' 'libxslt' 'xorg-server-xvfb')
 checkdepends=('python-pytest' 'python-gobject' 'gnome-shell' 'wl-clipboard')
-source=("$pkgname::git+file://$(pwd)")
-md5sums=('SKIP')
+
+# Skipping source=() completely, using startdir instead
+# https://gitlab.archlinux.org/archlinux/mkinitcpio/mkinitcpio/-/blob/master/PKGBUILD
 
 pkgver() {
-    cd "$pkgname"
-    git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+    git -C "$startdir" describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 build() {
-    arch-meson $pkgname build -Dlinters=disabled "-Dtests=$( ((CHECKFUNC)) && echo enabled || echo disabled )"
+    arch-meson "$startdir" build -Dlinters=disabled "-Dtests=$( ((CHECKFUNC)) && echo enabled || echo disabled )"
 
     # gtk-builder-tool needs X or Wayland
     LIBGL_ALWAYS_SOFTWARE=1 xvfb-run --auto-display --server-args=-noreset --wait=0 -- meson compile -C build
