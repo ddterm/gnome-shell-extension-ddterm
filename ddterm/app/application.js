@@ -350,6 +350,8 @@ class Application extends Gtk.Application {
             if (!(ex instanceof GLib.Error &&
                 ex.matches(GLib.file_error_quark(), GLib.FileError.NOENT)))
                 logError(ex, "Can't restore session");
+
+            GLib.unlink(this.session_file_path);
         }
 
         this.connect('query-end', () => {
@@ -553,8 +555,11 @@ class Application extends Gtk.Application {
         });
 
         this.window.connect('destroy', source => {
-            if (source === this.window)
+            if (source === this.window) {
+                // All tabs are closed, remove the session file
+                GLib.unlink(this.session_file_path);
                 this.window = null;
+            }
         });
 
         return this.window;
@@ -650,7 +655,9 @@ class Application extends Gtk.Application {
     }
 
     restore_session() {
-        const [, data] = GLib.file_get_contents(this.session_file_path);
+        const [ok, data] = GLib.file_get_contents(this.session_file_path);
+        if (!ok)
+            GLib.unlink(this.session_file_path);
 
         if (data?.length) {
             const data_variant = GLib.Variant.new_from_bytes(
@@ -661,8 +668,6 @@ class Application extends Gtk.Application {
 
             this.ensure_window().deserialize_state(data_variant);
         }
-
-        GLib.unlink(this.session_file_path);
     }
 
     save_session() {
