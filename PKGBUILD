@@ -19,7 +19,13 @@ checkdepends=('python-pytest' 'python-gobject' 'gnome-shell' 'wl-clipboard')
 # https://gitlab.archlinux.org/archlinux/mkinitcpio/mkinitcpio/-/blob/master/PKGBUILD
 
 pkgver() {
-    git -C "$startdir" describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+    local git_describe='$Format:%(describe:tags=true)$'
+
+    if [[ "$git_describe" == "$"* ]]; then
+        git_describe="$(git -C "$startdir" describe --long --tags)"
+    fi
+
+    echo "$git_describe" | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 build() {
