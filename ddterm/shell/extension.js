@@ -190,7 +190,7 @@ function bind_keys(settings, app_control, rollback) {
     Main.wm.addKeybinding(
         'ddterm-toggle-hotkey',
         settings,
-        Meta.KeyBindingFlags.NONE,
+        Meta.KeyBindingFlags.IGNORE_AUTOREPEAT,
         Shell.ActionMode.NORMAL,
         () => {
             app_control.toggle().catch(
@@ -206,7 +206,7 @@ function bind_keys(settings, app_control, rollback) {
     Main.wm.addKeybinding(
         'ddterm-activate-hotkey',
         settings,
-        Meta.KeyBindingFlags.NONE,
+        Meta.KeyBindingFlags.IGNORE_AUTOREPEAT,
         Shell.ActionMode.NORMAL,
         () => {
             app_control.activate().catch(
