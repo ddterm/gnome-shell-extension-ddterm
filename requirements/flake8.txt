@@ -4,7 +4,7 @@
 #
 #    pip-compile --strip-extras flake8.in
 #
-flake8==7.1.1
+flake8==7.1.2
     # via -r flake8.in
 mccabe==0.7.0
     # via flake8
