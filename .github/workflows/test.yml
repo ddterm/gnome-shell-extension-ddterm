@@ -5,6 +5,19 @@
 on:
   workflow_dispatch:
     inputs:
+      package-artifact:
+        description: 'Extension package artifact name'
+        type: string
+        required: true
+      containers:
+        description: 'Test container images, as JSON list'
+        type: string
+        required: true
+      args:
+        description: 'Arguments to pass to pytest'
+        type: string
+        default: '--package *.shell-extension.zip'
+        required: false
       testspace:
         description: 'Publish report to Testspace'
         type: boolean
@@ -12,6 +25,19 @@ on:
         required: false
   workflow_call:
     inputs:
+      package-artifact:
+        description: 'Extension package artifact name'
+        type: string
+        required: true
+      containers:
+        description: 'Test container images, as JSON list'
+        type: string
+        required: true
+      args:
+        description: 'Arguments to pass to pytest'
+        type: string
+        default: '--package *.shell-extension.zip'
+        required: false
       testspace:
         description: 'Publish report to Testspace'
         type: boolean
@@ -19,27 +45,11 @@ on:
         required: false
 
 jobs:
-  configure:
-    runs-on: ubuntu-24.04
-    outputs:
-      matrix: ${{ steps.generate.outputs.matrix }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Get GNOME Shell container images list from compose.yaml
-        id: generate
-        run: |
-          echo "matrix=$(./images.py matrix --exclude archlinux)" >>$GITHUB_OUTPUT
-        working-directory: tests
-
   test:
-    needs: configure
-
     strategy:
       fail-fast: false
       matrix:
-        include: ${{ fromJson(needs.configure.outputs.matrix) }}
+        container: ${{ fromJson(inputs.containers) }}
 
     runs-on: ubuntu-24.04
     container:
@@ -70,7 +80,7 @@ jobs:
     - name: Download extension package
       uses: actions/download-artifact@v4
       with:
-        name: ${{ matrix.profile == 'esm' && 'pack' || 'pack-legacy' }}
+        name: ${{ inputs.package-artifact }}
 
     - name: Make directory writable
       run: chmod a+rw . tests
@@ -84,7 +94,7 @@ jobs:
     - name: Pull GNOME Shell container image
       run: >-
         sudo --preserve-env --set-home --user=github-actions --
-        tox -e images -- pull ${{ matrix.service }}
+        tox -e images -- pull ${{ matrix.container }}
 
     - name: Install Python test dependencies
       run: >-
@@ -102,20 +112,20 @@ jobs:
         tox --sitepackages -e pytest --
         --self-contained-html
         --junitxml=tests/junit.xml
-        --container ${{ matrix.service }}
-        --package *.shell-extension.zip
-        ${{ !contains(matrix.service, 'alpine') && '--journald' || '' }}
+        --container ${{ matrix.container }}
+        ${{ !contains(matrix.container, 'alpine') && '--journald' || '' }}
+        ${{ inputs.args }}
         -n auto
         -vv
 
     - name: Upload report to Testspace
-      run: testspace --verbose "[${{ matrix.service }}]./tests/junit.xml" "[${{ matrix.service }}]+./tests/report.html"
+      run: testspace --verbose "[${{ matrix.container }}]./tests/junit.xml" "[${{ matrix.container }}]+./tests/report.html"
       if: ${{ always() && steps.setup_testspace.outcome == 'success' }}
 
     - name: Upload report as artifact
       uses: actions/upload-artifact@v4
       with:
-        name: ${{ matrix.service }}-reports
+        name: ${{ matrix.container }}-reports
         path: |
           tests/report.html
           tests/junit.xml
