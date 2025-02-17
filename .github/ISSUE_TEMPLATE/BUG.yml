@@ -52,14 +52,6 @@ body:
         - "X11"
         - "Wayland (`echo $WAYLAND_DISPLAY` output is non-empty)"
 
-  - type: checkboxes
-    id: flags
-    attributes:
-      label: Special configuration
-      options:
-        - label: High DPI
-        - label: More than one monitor
-
   - type: textarea
     id: extensions
     attributes:
