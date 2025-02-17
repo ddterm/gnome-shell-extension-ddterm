@@ -5,11 +5,6 @@
 on:
   workflow_dispatch:
     inputs:
-      ref:
-        description: 'Override git ref'
-        type: string
-        default: ''
-        required: false
       testspace:
         description: 'Publish report to Testspace'
         type: boolean
@@ -17,11 +12,6 @@ on:
         required: false
   workflow_call:
     inputs:
-      ref:
-        description: 'Override git ref'
-        type: string
-        default: ''
-        required: false
       testspace:
         description: 'Publish report to Testspace'
         type: boolean
@@ -58,7 +48,6 @@ jobs:
       id: checkout
       uses: actions/checkout@v4
       with:
-        ref: ${{ inputs.ref }}
         fetch-depth: 0  # for pkgver()
 
     - run: chown -R user .
@@ -89,8 +78,6 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v4
-      with:
-        ref: ${{ inputs.ref }}
 
     - name: Enable generic error matcher
       run: echo "::add-matcher::.github/problem-matchers/generic.json"
@@ -179,7 +166,6 @@ jobs:
       id: checkout
       uses: actions/checkout@v4
       with:
-        ref: ${{ inputs.ref }}
         fetch-depth: 0  # for pkgver()
 
     - run: chown -R user .

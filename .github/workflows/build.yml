@@ -5,11 +5,6 @@
 on:
   workflow_dispatch:
     inputs:
-      ref:
-        description: 'Override git ref'
-        type: string
-        default: ''
-        required: false
       testspace:
         description: 'Publish report to Testspace'
         type: boolean
@@ -17,11 +12,6 @@ on:
         required: false
   workflow_call:
     inputs:
-      ref:
-        description: 'Override git ref'
-        type: string
-        default: ''
-        required: false
       testspace:
         description: 'Publish report to Testspace'
         type: boolean
@@ -47,8 +37,6 @@ jobs:
     - name: Checkout
       id: checkout
       uses: actions/checkout@v4
-      with:
-        ref: ${{ inputs.ref }}
 
     - run: git config --global --replace-all safe.directory "$GITHUB_WORKSPACE"
 
@@ -165,8 +153,6 @@ jobs:
     - name: Checkout
       id: checkout
       uses: actions/checkout@v4
-      with:
-        ref: ${{ inputs.ref }}
 
     - run: git config --global --replace-all safe.directory "$GITHUB_WORKSPACE"
 
