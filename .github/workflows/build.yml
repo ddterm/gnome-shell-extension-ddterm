@@ -189,7 +189,9 @@ jobs:
 
     - name: Build extension package
       id: pack
-      run: xvfb-run ninja -j1 pack
+      run: >-
+        xvfb-run --auto-display --server-args=-noreset --wait=0 --
+        ninja -j1 pack
       working-directory: build
 
     - name: Upload extension package as artifact
@@ -200,7 +202,9 @@ jobs:
         if-no-files-found: error
 
     - name: Run checks
-      run: xvfb-run ../.github/faketty.sh meson test -v -j1 --logbase ${{ matrix.artifact }} --no-suite lint-source --no-suite eslint --no-suite reuse
+      run: >-
+        xvfb-run --auto-display --server-args=-noreset --wait=0 --
+        ../.github/faketty.sh meson test -v -j1 --logbase ${{ matrix.artifact }} --no-suite lint-source --no-suite eslint --no-suite reuse
       working-directory: build
       if: ${{ always() && steps.pack.conclusion == 'success' }}
 
