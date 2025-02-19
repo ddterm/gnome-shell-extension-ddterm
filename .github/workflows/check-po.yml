@@ -46,6 +46,7 @@ jobs:
 
     steps:
     - name: Checkout
+      id: checkout
       uses: actions/checkout@v4
 
     - run: git config --global --replace-all safe.directory "$GITHUB_WORKSPACE"
@@ -68,4 +69,4 @@ jobs:
     - name: Ensure .po file is in sync with .pot
       run: msgcmp --use-untranslated --use-fuzzy locale/${{ matrix.lang }}.po locale/*.pot
       shell: bash
-      if: ${{ always() && steps.meson-setup.conclusion == 'success' }}
+      if: ${{ always() && steps.checkout.conclusion == 'success' }}
