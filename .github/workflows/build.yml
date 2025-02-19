@@ -67,7 +67,7 @@ jobs:
 
     - name: Enable eslint error matcher
       id: enable_eslint_errors
-      run: echo "::add-matcher::.github/problem-matchers/eslint-stylish.json"
+      uses: ./.github/actions/eslint-stylish-problem-matcher
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
     - name: Lint JS code
@@ -77,12 +77,14 @@ jobs:
       if: ${{ always() && steps.npm.conclusion == 'success' }}
 
     - name: Disable eslint error matcher
-      run: echo "::remove-matcher owner=eslint-stylish::"
+      uses: ./.github/actions/eslint-stylish-problem-matcher
+      with:
+        enable: false
       if: ${{ always() && steps.enable_eslint_errors.outcome == 'success' }}
 
     - name: Enable flake8 error matcher
       id: enable_flake8_errors
-      run: echo "::add-matcher::.github/problem-matchers/flake8.json"
+      uses: ./.github/actions/flake8-problem-matcher
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
     - name: Lint Python test code
@@ -92,7 +94,9 @@ jobs:
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
     - name: Disable flake8 error matcher
-      run: echo "::remove-matcher owner=flake8::"
+      uses: ./.github/actions/flake8-problem-matcher
+      with:
+        enable: false
       if: ${{ always() && steps.enable_flake8_errors.outcome == 'success' }}
 
     - name: Check meson.build formatting
@@ -166,7 +170,7 @@ jobs:
 
     - name: Enable generic error matcher
       id: enable_generic_errors
-      run: echo "::add-matcher::.github/problem-matchers/generic.json"
+      uses: ./.github/actions/generic-problem-matcher
 
     - name: Install JS dependencies
       id: npm
@@ -201,14 +205,14 @@ jobs:
       if: ${{ always() && steps.pack.conclusion == 'success' }}
 
     - name: Disable generic error matcher
-      run: |
-        echo "::remove-matcher owner=generic::"
-        echo "::remove-matcher owner=generic-nolocation::"
+      uses: ./.github/actions/generic-problem-matcher
+      with:
+        enable: false
       if: ${{ always() && steps.enable_generic_errors.outcome == 'success' }}
 
     - name: Enable eslint error matcher
       id: enable_eslint_errors
-      run: echo "::add-matcher::.github/problem-matchers/eslint-stylish.json"
+      uses: ./.github/actions/eslint-stylish-problem-matcher
       if: ${{ always() && steps.pack.conclusion == 'success' }}
 
     - name: Run eslint on generated code
@@ -217,7 +221,9 @@ jobs:
       if: ${{ always() && steps.pack.conclusion == 'success' }}
 
     - name: Disable eslint error matcher
-      run: echo "::remove-matcher owner=eslint-stylish::"
+      uses: ./.github/actions/eslint-stylish-problem-matcher
+      with:
+        enable: false
       if: ${{ always() && steps.enable_eslint_errors.outcome == 'success' }}
 
     - name: Check REUSE compliance of generated package

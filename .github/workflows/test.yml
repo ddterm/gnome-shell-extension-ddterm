@@ -65,7 +65,7 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Enable generic error matcher
-      run: echo "::add-matcher::.github/problem-matchers/generic.json"
+      uses: ./.github/actions/generic-problem-matcher
 
     - run: git config --global --replace-all safe.directory "$GITHUB_WORKSPACE"
 
@@ -102,9 +102,9 @@ jobs:
         tox -vv --notest --sitepackages -e pytest
 
     - name: Disable generic error matcher
-      run: |
-        echo "::remove-matcher owner=generic::"
-        echo "::remove-matcher owner=generic-nolocation::"
+      uses: ./.github/actions/generic-problem-matcher
+      with:
+        enable: false
 
     - name: Run tests
       run: >-

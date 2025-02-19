@@ -52,10 +52,11 @@ jobs:
     - run: git config --global --replace-all safe.directory "$GITHUB_WORKSPACE"
 
     - name: Enable generic problem matcher
-      run: echo "::add-matcher::.github/problem-matchers/generic.json"
+      uses: ./.github/actions/generic-problem-matcher
 
     - name: Enable gettext stats problem matcher
-      run: echo "::add-matcher::.github/problem-matchers/gettext-stats.json"
+      id: enable_gettext_stats
+      uses: ./.github/actions/gettext-stats-matcher
 
     - name: Compile translation
       run: |
@@ -64,7 +65,10 @@ jobs:
       shell: bash
 
     - name: Disable gettext stats problem matcher
-      run: echo "::remove-matcher owner=gettext-stats::"
+      uses: ./.github/actions/gettext-stats-matcher
+      with:
+        enable: false
+      if: ${{ always() && steps.enable_gettext_stats.conclusion == 'success' }}
 
     - name: Ensure .po file is in sync with .pot
       run: msgcmp --use-untranslated --use-fuzzy locale/${{ matrix.lang }}.po locale/*.pot

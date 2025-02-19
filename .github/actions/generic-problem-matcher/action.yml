@@ -1,0 +1,24 @@
+# SPDX-FileCopyrightText: 2025 Aleksandr Mezin <mezin.alexander@gmail.com>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+name: Generic problem matcher
+description: Enable/disable generic problem matcher
+inputs:
+  enable:
+    description: Enable if `true`, disable if `false`
+    required: false
+    default: 'true'
+
+runs:
+  using: composite
+  steps:
+    - run: echo "::add-matcher::$GITHUB_ACTION_PATH/generic.json"
+      shell: sh
+      if: fromJSON(inputs.enable)
+
+    - run: |
+        echo "::remove-matcher owner=generic::"
+        echo "::remove-matcher owner=generic-nolocation::"
+      shell: sh
+      if: '!fromJSON(inputs.enable)'

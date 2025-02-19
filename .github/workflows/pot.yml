@@ -43,7 +43,7 @@ jobs:
     - run: git config --global --replace-all safe.directory "$GITHUB_WORKSPACE"
 
     - name: Enable generic error matcher
-      run: echo "::add-matcher::.github/problem-matchers/generic.json"
+      uses: ./.github/actions/generic-problem-matcher
 
     - name: Prepare build directory
       run: .github/faketty.sh meson setup build
