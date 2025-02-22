@@ -135,6 +135,9 @@ export const AppWindow = GObject.registerClass({
             'no-split'
         ),
     },
+    Signals: {
+        'close': {},
+    },
 },
 class DDTermAppWindow extends Gtk.ApplicationWindow {
     _init(params) {
@@ -333,8 +336,10 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
         this.update_show_shortcuts();
 
         this.connect('notify::is-empty', () => {
-            if (this.is_empty)
+            if (this.is_empty) {
+                this.emit('close');
                 this.close();
+            }
         });
 
         this._hide_on_close();
