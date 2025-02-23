@@ -552,10 +552,6 @@ class Application extends Gtk.Application {
             display_config: this.display_config,
         });
 
-        this.window.connect('close', () => {
-            this.save_session();
-        });
-
         this.window.connect('destroy', source => {
             if (source === this.window)
                 this.window = null;
@@ -663,7 +659,16 @@ class Application extends Gtk.Application {
                 false
             );
 
+            if (!data_variant.is_normal_form()) {
+                logError(new Error('Invalid session file data variant, delete session file.'));
+                GLib.unlink(this.session_file_path);
+                return;
+            }
+
             this.ensure_window().deserialize_state(data_variant);
+        } else {
+            logError(new Error('Invalid session file data, delete session file.'));
+            GLib.unlink(this.session_file_path);
         }
     }
 

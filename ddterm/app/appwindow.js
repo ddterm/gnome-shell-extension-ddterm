@@ -135,9 +135,6 @@ export const AppWindow = GObject.registerClass({
             'no-split'
         ),
     },
-    Signals: {
-        'close': {},
-    },
 },
 class DDTermAppWindow extends Gtk.ApplicationWindow {
     _init(params) {
@@ -337,7 +334,7 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
 
         this.connect('notify::is-empty', () => {
             if (this.is_empty) {
-                this.emit('close');
+                this.application.save_session();
                 this.close();
             }
         });
