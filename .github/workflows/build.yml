@@ -190,7 +190,7 @@ jobs:
     - name: Build extension package
       id: pack
       run: >-
-        xvfb-run --auto-display --server-args=-noreset --wait=0 --
+        xvfb-run -d --server-args=-noreset --wait=0 --
         ninja -j1 pack
       working-directory: build
 
@@ -203,7 +203,7 @@ jobs:
 
     - name: Run checks
       run: >-
-        xvfb-run --auto-display --server-args=-noreset --wait=0 --
+        xvfb-run -d --server-args=-noreset --wait=0 --
         ../.github/faketty.sh meson test -v -j1 --logbase ${{ matrix.artifact }} --no-suite lint-source --no-suite eslint --no-suite reuse
       working-directory: build
       if: ${{ always() && steps.pack.conclusion == 'success' }}
