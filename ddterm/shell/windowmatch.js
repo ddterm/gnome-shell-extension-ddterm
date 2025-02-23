@@ -5,11 +5,8 @@
 import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
 import Meta from 'gi://Meta';
-import * as Config from 'resource:///org/gnome/shell/misc/config.js';
 
 import { Subprocess } from './subprocess.js';
-
-const [shellVersion] = Config.PACKAGE_VERSION.split('.');
 
 export const WindowMatchGeneric = GObject.registerClass({
     Properties: {
@@ -45,12 +42,9 @@ export const WindowMatchGeneric = GObject.registerClass({
                 created_handler = null;
             }
         });
-
-        let actors;
-        if (shellVersion < 48)
-            actors = Meta.get_window_actors(this.display);
-        else
-            actors = global.compositor.get_window_actors(this.display);
+                
+        const actors = global.compositor?.get_window_actors ?  global.compositor.get_window_actors(this.display) :
+            Meta.get_window_actors(this.display);
         actors.forEach(actor => {
             this._watch_window(actor.meta_window);
         });
