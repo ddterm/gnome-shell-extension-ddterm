@@ -52,7 +52,6 @@ export const WindowMatchGeneric = GObject.registerClass({
         actors.forEach(actor => {
             this._watch_window(actor.meta_window);
         });
-
     }
 
     disable() {
