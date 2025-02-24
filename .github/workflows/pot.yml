@@ -42,11 +42,13 @@ jobs:
 
     - run: git config --global --replace-all safe.directory "$GITHUB_WORKSPACE"
 
+    - run: echo "$GITHUB_WORKSPACE/.github/bin" >> "$GITHUB_PATH"
+
     - name: Enable generic error matcher
       uses: ./.github/actions/generic-problem-matcher
 
     - name: Prepare build directory
-      run: .github/faketty.sh meson setup build
+      run: faketty.sh meson setup build
 
     - name: Update POTFILES.in
       run: ninja -j1 potfiles

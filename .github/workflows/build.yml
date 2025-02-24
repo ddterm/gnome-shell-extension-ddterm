@@ -168,6 +168,8 @@ jobs:
       continue-on-error: true
       if: ${{ inputs.testspace }}
 
+    - run: echo "$GITHUB_WORKSPACE/.github/bin" >> "$GITHUB_PATH"
+
     - name: Enable generic error matcher
       id: enable_generic_errors
       uses: ./.github/actions/generic-problem-matcher
@@ -185,7 +187,7 @@ jobs:
       if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
     - name: Prepare build directory
-      run: .github/faketty.sh meson setup ${{ matrix.flags }} '-Dshebang_override=/usr/bin/env gjs' '-Dtests=disabled' build
+      run: faketty.sh meson setup ${{ matrix.flags }} '-Dshebang_override=/usr/bin/env gjs' '-Dtests=disabled' build
 
     - name: Build extension package
       id: pack
@@ -204,7 +206,7 @@ jobs:
     - name: Run checks
       run: >-
         xvfb-run -d --server-args=-noreset --wait=0 --
-        ../.github/faketty.sh meson test -v -j1 --logbase ${{ matrix.artifact }} --no-suite lint-source --no-suite eslint --no-suite reuse
+        faketty.sh meson test -v -j1 --logbase ${{ matrix.artifact }} --no-suite lint-source --no-suite eslint --no-suite reuse
       working-directory: build
       if: ${{ always() && steps.pack.conclusion == 'success' }}
 
@@ -220,7 +222,7 @@ jobs:
       if: ${{ always() && steps.pack.conclusion == 'success' }}
 
     - name: Run eslint on generated code
-      run: ../.github/faketty.sh meson test -v -j1 --logbase eslint-${{ matrix.artifact }} eslint-output
+      run: faketty.sh meson test -v -j1 --logbase eslint-${{ matrix.artifact }} eslint-output
       working-directory: build
       if: ${{ always() && steps.pack.conclusion == 'success' }}
 
@@ -231,7 +233,7 @@ jobs:
       if: ${{ always() && steps.enable_eslint_errors.outcome == 'success' }}
 
     - name: Check REUSE compliance of generated package
-      run: ../.github/faketty.sh meson test -v -j1 --no-rebuild reuse-lint-output
+      run: faketty.sh meson test -v -j1 --no-rebuild reuse-lint-output
       working-directory: build
       if: ${{ always() && steps.pack.conclusion == 'success' }}
 
