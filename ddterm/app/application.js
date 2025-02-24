@@ -655,14 +655,14 @@ class Application extends Gtk.Application {
                 );
 
                 if (!data_variant.is_normal_form())
-                    throw new Error('Invalid session file data variant, delete session file.');
+                    throw new Error('Session data is malformed, probably the file was damaged');
 
                 this.ensure_window().deserialize_state(data_variant);
             }
         } catch (ex) {
             if (!(ex instanceof GLib.Error &&
                 ex.matches(GLib.file_error_quark(), GLib.FileError.NOENT))) {
-                logError(ex, "Can't restore session, delete session file.");
+                logError(ex, "Can't restore session. Deleting session file.");
                 GLib.unlink(this.session_file_path);
             }
         }
