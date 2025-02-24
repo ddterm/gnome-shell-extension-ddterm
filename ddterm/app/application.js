@@ -647,18 +647,19 @@ class Application extends Gtk.Application {
         try {
             const [, data] = GLib.file_get_contents(this.session_file_path);
 
-            if (data?.length) {
-                const data_variant = GLib.Variant.new_from_bytes(
-                    new GLib.VariantType('a{sv}'),
-                    data,
-                    false
-                );
+            if (!data?.length)
+                return;
 
-                if (!data_variant.is_normal_form())
-                    throw new Error('Session data is malformed, probably the file was damaged');
+            const data_variant = GLib.Variant.new_from_bytes(
+                new GLib.VariantType('a{sv}'),
+                data,
+                false
+            );
 
-                this.ensure_window().deserialize_state(data_variant);
-            }
+            if (!data_variant.is_normal_form())
+                throw new Error('Session data is malformed, probably the file was damaged');
+
+            this.ensure_window().deserialize_state(data_variant);
         } catch (ex) {
             if (!(ex instanceof GLib.Error &&
                 ex.matches(GLib.file_error_quark(), GLib.FileError.NOENT))) {
