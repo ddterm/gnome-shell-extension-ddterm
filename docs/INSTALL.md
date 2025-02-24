@@ -14,7 +14,13 @@ A new release may be available here on GitHub, but not on
 
 [extensions.gnome.org]: https://extensions.gnome.org/extension/3780/ddterm/
 
-# Install from a package
+# Install OS package
+
+## Arch Linux
+
+Package is available in AUR: https://aur.archlinux.org/packages/gnome-shell-extension-ddterm
+
+# Install from GNOME Shell extension package
 
 You can also install the extension from a `.zip` package.
 
