@@ -18,7 +18,21 @@ A new release may be available here on GitHub, but not on
 
 ## Arch Linux
 
+### AUR
+
 Package is available in AUR: https://aur.archlinux.org/packages/gnome-shell-extension-ddterm
+
+### Binary repository
+
+Binary packages are also available: https://github.com/ddterm/aur
+
+To use the repository, append the following section to `/etc/pacman.conf`:
+
+```ini
+[ddterm]
+SigLevel = Never
+Server = https://ddterm.github.io/aur
+```
 
 # Install from GNOME Shell extension package
 
