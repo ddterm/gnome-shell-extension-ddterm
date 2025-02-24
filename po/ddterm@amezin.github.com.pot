@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-15 00:13+0000\n"
+"POT-Creation-Date: 2025-02-24 21:26+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -81,27 +81,27 @@ msgstr ""
 msgid "Open a new tab"
 msgstr ""
 
-#: ddterm/app/application.js:359
+#: ddterm/app/application.js:353
 msgid "Saving session…"
 msgstr ""
 
-#: ddterm/app/application.js:402
+#: ddterm/app/application.js:396
 msgid "Can't contact the extension."
 msgstr ""
 
-#: ddterm/app/application.js:404 ddterm/app/application.js:531
+#: ddterm/app/application.js:398 ddterm/app/application.js:525
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr ""
 
-#: ddterm/app/application.js:529
+#: ddterm/app/application.js:523
 msgid "Can't read the version of the loaded extension."
 msgstr ""
 
-#: ddterm/app/application.js:534 ddterm/shell/notifications.js:75
+#: ddterm/app/application.js:528 ddterm/shell/notifications.js:75
 msgid "Warning: ddterm version has changed"
 msgstr ""
 
-#: ddterm/app/application.js:535 ddterm/shell/notifications.js:77
+#: ddterm/app/application.js:529 ddterm/shell/notifications.js:77
 msgid "Log out, then log in again to load the updated extension."
 msgstr ""
 
