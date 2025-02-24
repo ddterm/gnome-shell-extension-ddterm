@@ -61,11 +61,19 @@ jobs:
         shopt -s extglob
         echo "pkgfilename=$(echo -n *.pkg.tar@(|.+([^.])))" | tee "$GITHUB_OUTPUT"
 
+    - run: repo-add ddterm-git.db.tar.zst "$PKGNAME"
+      env:
+        PKGNAME: ${{ steps.pkgfilename.outputs.pkgfilename }}
+
     - uses: actions/upload-artifact@v4
       with:
         name: archlinux-package-nocheck
         path: |
           *.pkg.tar.*
+          *.db
+          *.files
+          *.db.tar.zst
+          *.files.tar.zst
           *.log
         if-no-files-found: error
 
