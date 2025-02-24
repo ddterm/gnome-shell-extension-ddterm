@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# SPDX-FileCopyrightText: 2025 Aleksandr Mezin <mezin.alexander@gmail.com>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+# https://gitlab.archlinux.org/archlinux/devtools/-/merge_requests/197
+
+args=("$@")
+has_keep_unit=0
+
+for arg in "${args[@]}"; do
+    if [[ "$arg" == "--keep-unit" ]]; then
+        has_keep_unit=1
+    fi
+done
+
+if ! (( has_keep_unit )); then
+    args=("--keep-unit" "${args[@]}")
+fi
+
+exec /usr/bin/systemd-nspawn "${args[@]}"

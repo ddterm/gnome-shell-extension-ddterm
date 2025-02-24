@@ -39,8 +39,7 @@ jobs:
 
     - run: systemd-machine-id-setup
 
-    # https://gitlab.archlinux.org/archlinux/devtools/-/merge_requests/197
-    - run: sed -i 's/nspawn_args=(/nspawn_args=(--keep-unit /' /usr/bin/arch-nspawn
+    - run: echo "$GITHUB_WORKSPACE/.github/bin" >> "$GITHUB_PATH"
 
     - run: useradd -m user
 
@@ -83,8 +82,7 @@ jobs:
 
     - run: systemd-machine-id-setup
 
-    # https://gitlab.archlinux.org/archlinux/devtools/-/merge_requests/197
-    - run: sed -i 's/nspawn_args=(/nspawn_args=(--keep-unit /' /usr/bin/arch-nspawn
+    - run: echo "$GITHUB_WORKSPACE/.github/bin" >> "$GITHUB_PATH"
 
     - run: useradd -m user
 
