@@ -18,21 +18,21 @@ A new release may be available here on GitHub, but not on
 
 ## Arch Linux
 
-### AUR
+### [AUR]
 
-Package is available in AUR: https://aur.archlinux.org/packages/gnome-shell-extension-ddterm
+Package is available in [AUR].
+
+[AUR]: https://aur.archlinux.org/packages/gnome-shell-extension-ddterm
 
 ### Binary repository
 
-Binary packages are also available: https://github.com/ddterm/aur
+Binary packages are also available: <https://github.com/ddterm/aur>
 
 To use the repository, append the following section to `/etc/pacman.conf`:
 
-```ini
-[ddterm]
-SigLevel = Never
-Server = https://ddterm.github.io/aur
-```
+    [ddterm]
+    SigLevel = Never
+    Server = https://ddterm.github.io/aur
 
 # Install from GNOME Shell extension package
 
@@ -50,7 +50,7 @@ You can download a released version from
 page. You need the file `ddterm@amezin.github.com.shell-extension.zip`.
 
 Also, the CI system builds a package for every commit:
-https://ddterm.github.io/gnome-shell-extension-ddterm/ddterm@amezin.github.com.shell-extension.zip
+<https://ddterm.github.io/gnome-shell-extension-ddterm/ddterm@amezin.github.com.shell-extension.zip>
 
 ### 1.b) Build from source code
 
