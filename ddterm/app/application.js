@@ -344,13 +344,7 @@ class Application extends Gtk.Application {
             'session',
         ]);
 
-        try {
-            this.restore_session();
-        } catch (ex) {
-            if (!(ex instanceof GLib.Error &&
-                ex.matches(GLib.file_error_quark(), GLib.FileError.NOENT)))
-                logError(ex, "Can't restore session");
-        }
+        this.restore_session();
 
         this.connect('query-end', () => {
             const cookie = this.inhibit(
@@ -650,23 +644,38 @@ class Application extends Gtk.Application {
     }
 
     restore_session() {
-        const [, data] = GLib.file_get_contents(this.session_file_path);
+        try {
+            const [, data] = GLib.file_get_contents(this.session_file_path);
 
-        if (data?.length) {
+            if (!data?.length)
+                return;
+
             const data_variant = GLib.Variant.new_from_bytes(
                 new GLib.VariantType('a{sv}'),
                 data,
                 false
             );
 
-            this.ensure_window().deserialize_state(data_variant);
-        }
+            if (!data_variant.is_normal_form())
+                throw new Error('Session data is malformed, probably the file was damaged');
 
-        GLib.unlink(this.session_file_path);
+            this.ensure_window().deserialize_state(data_variant);
+        } catch (ex) {
+            if (!(ex instanceof GLib.Error &&
+                ex.matches(GLib.file_error_quark(), GLib.FileError.NOENT))) {
+                logError(ex, "Can't restore session. Deleting session file.");
+                GLib.unlink(this.session_file_path);
+            }
+        }
     }
 
     save_session() {
         const data = this.window?.serialize_state();
+        if (!data) {
+            GLib.unlink(this.session_file_path);
+            return;
+        }
+
         const bytes = data?.get_data_as_bytes().toArray() ?? [];
 
         GLib.mkdir_with_parents(GLib.path_get_dirname(this.session_file_path), 0o700);

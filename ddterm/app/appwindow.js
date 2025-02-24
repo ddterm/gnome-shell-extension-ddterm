@@ -333,8 +333,10 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
         this.update_show_shortcuts();
 
         this.connect('notify::is-empty', () => {
-            if (this.is_empty)
+            if (this.is_empty) {
+                this.application.save_session();
                 this.close();
+            }
         });
 
         this._hide_on_close();
