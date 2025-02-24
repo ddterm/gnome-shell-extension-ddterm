@@ -344,13 +344,7 @@ class Application extends Gtk.Application {
             'session',
         ]);
 
-        try {
-            this.restore_session();
-        } catch (ex) {
-            if (!(ex instanceof GLib.Error &&
-                ex.matches(GLib.file_error_quark(), GLib.FileError.NOENT)))
-                logError(ex, "Can't restore session");
-        }
+        this.restore_session();
 
         this.connect('query-end', () => {
             const cookie = this.inhibit(
@@ -650,25 +644,27 @@ class Application extends Gtk.Application {
     }
 
     restore_session() {
-        const [, data] = GLib.file_get_contents(this.session_file_path);
+        try {
+            const [, data] = GLib.file_get_contents(this.session_file_path);
 
-        if (data?.length) {
-            const data_variant = GLib.Variant.new_from_bytes(
-                new GLib.VariantType('a{sv}'),
-                data,
-                false
-            );
+            if (data?.length) {
+                const data_variant = GLib.Variant.new_from_bytes(
+                    new GLib.VariantType('a{sv}'),
+                    data,
+                    false
+                );
 
-            if (!data_variant.is_normal_form()) {
-                logError(new Error('Invalid session file data variant, delete session file.'));
-                GLib.unlink(this.session_file_path);
-                return;
+                if (!data_variant.is_normal_form())
+                    throw new Error('Invalid session file data variant, delete session file.');
+
+                this.ensure_window().deserialize_state(data_variant);
             }
-
-            this.ensure_window().deserialize_state(data_variant);
-        } else {
-            logError(new Error('Invalid session file data, delete session file.'));
-            GLib.unlink(this.session_file_path);
+        } catch (ex) {
+            if (!(ex instanceof GLib.Error &&
+                ex.matches(GLib.file_error_quark(), GLib.FileError.NOENT))) {
+                logError(ex, "Can't restore session, delete session file.");
+                GLib.unlink(this.session_file_path);
+            }
         }
     }
 
