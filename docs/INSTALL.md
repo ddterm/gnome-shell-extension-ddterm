@@ -29,10 +29,8 @@ You can download a released version from
 [Releases](https://github.com/ddterm/gnome-shell-extension-ddterm/releases)
 page. You need the file `ddterm@amezin.github.com.shell-extension.zip`.
 
-Also, the CI system builds a package for every commit. The package is attached
-as an artifact called `pack`. Due to GitHub Actions limitations, it's a zip
-archive within a zip archive - `unzip pack.zip` to get
-`ddterm@amezin.github.com.shell-extension.zip`.
+Also, the CI system builds a package for every commit:
+https://ddterm.github.io/gnome-shell-extension-ddterm/ddterm@amezin.github.com.shell-extension.zip
 
 ### 1.b) Build from source code
 
