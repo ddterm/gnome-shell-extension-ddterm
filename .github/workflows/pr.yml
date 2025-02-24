@@ -45,11 +45,3 @@ jobs:
     uses: ./.github/workflows/packaging.yml
     with:
       testspace: ${{ !github.event.repository.fork }}
-
-  pages:
-    needs:
-      - build
-      - packaging
-    uses: ./.github/workflows/pages.yml
-    with:
-      publish: false
