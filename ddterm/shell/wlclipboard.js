@@ -9,6 +9,9 @@ import Meta from 'gi://Meta';
 import { WindowMatchGeneric } from './windowmatch.js';
 
 export function is_wlclipboard(win) {
+    if (!win)
+        return false;
+
     if (win.get_client_type() !== Meta.WindowClientType.WAYLAND)
         return false;
 

@@ -240,11 +240,13 @@ export const WindowManager = GObject.registerClass({
         if (this.window === win)
             return;
 
-        if (win && this.window.is_ancestor_of_transient(win))
-            return;
+        if (win) {
+            if (this.window.is_ancestor_of_transient(win))
+                return;
 
-        if (is_wlclipboard(win))
-            return;
+            if (is_wlclipboard(win))
+                return;
+        }
 
         this.emit('hide-request');
     }
