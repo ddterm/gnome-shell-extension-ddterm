@@ -597,10 +597,7 @@ class Application extends Gtk.Application {
             name,
             ...params,
         });
-        action.connect('activate', () => {
-            log(`Activating action ${name}`);
-            activate();
-        });
+        action.connect('activate', activate);
         this.add_action(action);
         return action;
     }
