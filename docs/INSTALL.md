@@ -49,8 +49,13 @@ You can download a released version from
 [Releases](https://github.com/ddterm/gnome-shell-extension-ddterm/releases)
 page. You need the file `ddterm@amezin.github.com.shell-extension.zip`.
 
-Also, the CI system builds a package for every commit:
+Also, the CI system builds a package for every commit. Latest package for the
+`master` branch is published here:
+
 <https://ddterm.github.io/gnome-shell-extension-ddterm/ddterm@amezin.github.com.shell-extension.zip>
+
+[!WARNING] If you install the package from the `master` branch, GNOME Shell
+will not update it automatically when a new version is released.
 
 ### 1.b) Build from source code
 
