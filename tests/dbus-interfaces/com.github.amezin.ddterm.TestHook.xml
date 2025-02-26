@@ -15,6 +15,7 @@
         <property type="(iiii)" name="WindowRect" access="read"/>
         <property type="b" name="DebugLog" access="readwrite"/>
         <property type="as" name="AppExtraArgs" access="readwrite"/>
+        <property type="as" name="AppExtraEnv" access="readwrite"/>
         <property type="b" name="AppRunning" access="readwrite"/>
         <property type="as" name="Transitions" access="read"/>
         <property type="b" name="RenderedFirstFrame" access="read"/>

@@ -357,6 +357,20 @@ const Interface = GObject.registerClass({
         this.state_obj.app_extra_args = value;
         this.notify('AppExtraArgs');
     }
+
+    get AppExtraEnv() {
+        return this.state_obj.app_extra_env;
+    }
+
+    set AppExtraEnv(value) {
+        const current = this.state_obj.app_extra_env;
+
+        if (current?.length === value?.length && current?.every((v, i) => v === value[i]))
+            return;
+
+        this.state_obj.app_extra_env = value;
+        this.notify('AppExtraEnv');
+    }
 });
 
 export async function init() {
