@@ -169,6 +169,11 @@ class Application extends Gtk.Application {
             null
         );
 
+        for (const signal of ['activate', 'startup', 'shutdown'])
+            this._trace_signal(signal);
+
+        this._trace_signal('handle-local-options', -1);
+
         this.connect('activate', () => {
             this.ensure_window_with_terminal().present_with_time(Gdk.CURRENT_TIME);
         });
@@ -356,6 +361,20 @@ class Application extends Gtk.Application {
             } finally {
                 this.uninhibit(cookie);
             }
+        });
+    }
+
+    _trace_signal(signal, return_value = undefined) {
+        this.connect(signal, () => {
+            console.debug('Application %O', signal);
+
+            return return_value;
+        });
+
+        this.connect_after(signal, () => {
+            console.debug('End of application %O', signal);
+
+            return return_value;
         });
     }
 
