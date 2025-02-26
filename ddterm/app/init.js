@@ -5,9 +5,12 @@
 import GObject from 'gi://GObject';
 
 import Gettext from 'gettext';
+import { setConsoleLogDomain } from 'console';
 
 import { metadata, dir } from './meta.js';
 import { gi_require } from './dependencies.js';
+
+setConsoleLogDomain(metadata['name']);
 
 Gettext.bindtextdomain(metadata['gettext-domain'], dir.get_child('locale').get_path());
 Gettext.textdomain(metadata['gettext-domain']);
