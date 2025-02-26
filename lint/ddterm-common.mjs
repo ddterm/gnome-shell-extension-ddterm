@@ -13,7 +13,7 @@ export default [
     {
         settings: {
             'import/resolver': fileURLToPath(new URL('./import-resolver.js', import.meta.url)),
-            'import/core-modules': ['gettext', 'gi', 'system'],
+            'import/core-modules': ['gettext', 'gi', 'system', 'console'],
         },
         rules: {
             'max-len': [
