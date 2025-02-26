@@ -177,6 +177,13 @@ export const Subprocess = GObject.registerClass({
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             GObject.type_from_name('GStrv')
         ),
+        'environ': GObject.ParamSpec.boxed(
+            'environ',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+            GObject.type_from_name('GStrv')
+        ),
         'g-subprocess': GObject.ParamSpec.object(
             'g-subprocess',
             '',
@@ -199,6 +206,14 @@ export const Subprocess = GObject.registerClass({
         const launch_context = global.create_app_launch_context(0, -1);
 
         subprocess_launcher.set_environ(launch_context.get_environment());
+
+        for (const extra_env of this.environ) {
+            const split_pos = extra_env.indexOf('=');
+            const name = extra_env.slice(0, split_pos);
+            const value = extra_env.slice(split_pos + 1);
+
+            subprocess_launcher.setenv(name, value, true);
+        }
 
         try {
             this._subprocess = this._spawn(subprocess_launcher);

@@ -478,6 +478,7 @@ export default class DDTermExtension extends Extension {
         this.app_process = null;
         this.enabled_state = null;
         this._app_extra_args = [];
+        this._app_extra_env = [];
         this._debug = null;
     }
 
@@ -501,6 +502,17 @@ export default class DDTermExtension extends Extension {
 
         if (this.enabled_state)
             this.enabled_state.service.extra_argv = value;
+    }
+
+    get app_extra_env() {
+        return this._app_extra_env;
+    }
+
+    set app_extra_env(value) {
+        this._app_extra_env = value;
+
+        if (this.enabled_state)
+            this.enabled_state.service.extra_env = value;
     }
 
     read_revision() {
@@ -533,6 +545,7 @@ export default class DDTermExtension extends Extension {
         this.enabled_state = new EnabledExtension(this);
         this.enabled_state.debug = this.debug;
         this.enabled_state.service.extra_argv = this.app_extra_args;
+        this.enabled_state.service.extra_env = this.app_extra_env;
     }
 
     disable() {

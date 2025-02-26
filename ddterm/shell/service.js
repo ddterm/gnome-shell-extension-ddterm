@@ -44,6 +44,13 @@ export const Service = GObject.registerClass({
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             GObject.type_from_name('GStrv')
         ),
+        'extra-env': GObject.ParamSpec.boxed(
+            'extra-env',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+            GObject.type_from_name('GStrv')
+        ),
         'subprocess': GObject.ParamSpec.object(
             'subprocess',
             '',
@@ -148,10 +155,16 @@ export const Service = GObject.registerClass({
             ...this.extra_argv,
         ];
 
+        const params = {
+            journal_identifier: this.bus_name,
+            argv,
+            environ: this.extra_env,
+        };
+
         if (this.wayland)
-            return new WaylandSubprocess({ journal_identifier: this.bus_name, argv });
+            return new WaylandSubprocess(params);
         else
-            return new Subprocess({ journal_identifier: this.bus_name, argv });
+            return new Subprocess(params);
     }
 
     _wait_subprocess() {
