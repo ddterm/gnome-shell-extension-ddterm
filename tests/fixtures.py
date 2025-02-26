@@ -436,6 +436,9 @@ class GnomeSessionFixtures:
         try:
             proxy.DebugLog = True
             proxy.AppExtraArgs = apphook.APP_EXTRA_ARGS
+            proxy.AppExtraEnv = [
+                'G_MESSAGES_DEBUG=ddterm',
+            ]
 
             yield proxy
 
