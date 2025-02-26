@@ -435,6 +435,8 @@ class GnomeSessionFixtures:
 
         try:
             proxy.DebugLog = True
+            proxy.AppExtraArgs = apphook.APP_EXTRA_ARGS
+
             yield proxy
 
         finally:
@@ -463,21 +465,6 @@ class GnomeSessionFixtures:
 
     @pytest.fixture(scope='class')
     def app_debug_dbus_interface(self, dbus_connection, extension_test_hook, app_dbus_actions):
-        # Make sure cached properties are up to date
-        glibutil.dispatch_pending_sources()
-
-        if extension_test_hook.AppExtraArgs != apphook.APP_EXTRA_ARGS:
-            extension_test_hook.AppExtraArgs = apphook.APP_EXTRA_ARGS
-
-            if extension_test_hook.AppRunning:
-                app_dbus_actions.activate_action('quit')
-
-                extension_test_hook.wait_property(
-                    'AppRunning',
-                    False,
-                    timeout=dbusutil.DEFAULT_LONG_TIMEOUT_MS
-                )
-
         return apphook.Proxy.create(g_connection=dbus_connection)
 
     @pytest.fixture(scope='class')
