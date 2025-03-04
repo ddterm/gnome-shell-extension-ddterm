@@ -1,32 +1,32 @@
 {
  "Gtk": {
-  "3.0": {
-   "arch": "gtk3",
-   "debian": "gir1.2-gtk-3.0",
-   "fedora": "gtk3",
-   "filename": "Gtk-3.0.typelib",
-   "suse": "typelib-1_0-Gtk-3_0",
-   "alpine": "gtk+3.0"
+  "4.0": {
+   "filename": "Gtk-4.0.typelib",
+   "arch": "gtk4",
+   "alpine": "gtk4.0",
+   "debian": "gir1.2-gtk-4.0",
+   "fedora": "gtk4",
+   "suse": "typelib-1_0-Gtk-4_0"
   }
  },
  "Gdk": {
-  "3.0": {
-   "arch": "gtk3",
-   "debian": "gir1.2-gtk-3.0",
-   "fedora": "gtk3",
-   "filename": "Gdk-3.0.typelib",
-   "suse": "typelib-1_0-Gtk-3_0",
-   "alpine": "gtk+3.0"
+  "4.0": {
+   "filename": "Gdk-4.0.typelib",
+   "arch": "gtk4",
+   "alpine": "gtk4.0",
+   "debian": "gir1.2-gtk-4.0",
+   "fedora": "gtk4",
+   "suse": "typelib-1_0-Gtk-4_0"
   }
  },
  "Vte": {
-  "2.91": {
-   "arch": "vte3",
-   "debian": "gir1.2-vte-2.91",
-   "fedora": "vte291",
-   "filename": "Vte-2.91.typelib",
-   "suse": "typelib-1_0-Vte-2.91",
-   "alpine": "vte3"
+  "3.91": {
+   "filename": "Vte-3.91.typelib",
+   "arch": "vte4",
+   "alpine": "vte3-gtk4",
+   "debian": "gir1.2-vte-3.91",
+   "fedora": "vte291-gtk4",
+   "suse": "typelib-1_0-Vte-3_91"
   }
  },
  "Pango": {
@@ -39,14 +39,14 @@
    "alpine": "pango"
   }
  },
- "Handy": {
+ "Adw": {
   "1": {
-   "filename": "Handy-1.typelib",
-   "arch": "libhandy",
-   "alpine": "libhandy1",
-   "suse": "typelib-1_0-Handy-1_0",
-   "fedora": "libhandy",
-   "debian": "gir1.2-handy-1"
+   "filename": "Adw-1.typelib",
+   "arch": "libadwaita",
+   "alpine": "libadwaita",
+   "debian": "gir1.2-adw-1",
+   "fedora": "libadwaita",
+   "suse": "typelib-1_0-Adw-1"
   }
  }
 }
