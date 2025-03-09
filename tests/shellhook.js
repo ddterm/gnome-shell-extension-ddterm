@@ -114,7 +114,11 @@ const Interface = GObject.registerClass({
         this.seat = Clutter.get_default_backend().get_default_seat();
         this.pointer = this.seat.create_virtual_device(Clutter.InputDeviceType.POINTER_DEVICE);
         this.keyboard = this.seat.create_virtual_device(Clutter.InputDeviceType.KEYBOARD_DEVICE);
-        this.cursor_tracker = Meta.CursorTracker.get_for_display(global.display);
+
+        if (global.backend?.get_cursor_tracker)
+            this.cursor_tracker = global.backend.get_cursor_tracker();
+        else
+            this.cursor_tracker = Meta.CursorTracker.get_for_display(global.display);
 
         this._connect_external(this.cursor_tracker, 'position-invalidated', () => {
             this.GetPointer();
