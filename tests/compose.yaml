@@ -72,3 +72,8 @@ services:
     image: ghcr.io/ddterm/gnome-shell-image/ubuntu-24.10:2025.03.15.0
     profiles:
       - esm
+
+  ubuntu-25.04:
+    image: ghcr.io/ddterm/gnome-shell-image/ubuntu-25.04:2025.03.15.0
+    profiles:
+      - esm
