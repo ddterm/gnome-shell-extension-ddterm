@@ -48,6 +48,11 @@ services:
     profiles:
       - esm
 
+  opensuse-leap-15.6:
+    image: ghcr.io/ddterm/gnome-shell-image/opensuse-leap-15.6:2025.03.09.2
+    profiles:
+      - esm
+
   debian-12:
     image: ghcr.io/ddterm/gnome-shell-image/debian-12:2025.03.09.2
     profiles:
@@ -65,10 +70,5 @@ services:
 
   ubuntu-24.10:
     image: ghcr.io/ddterm/gnome-shell-image/ubuntu-24.10:2025.03.09.2
-    profiles:
-      - esm
-
-  opensuse-leap-15.6:
-    image: ghcr.io/ddterm/gnome-shell-image/opensuse-leap-15.6:2025.03.09.2
     profiles:
       - esm
