@@ -6,6 +6,7 @@ import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
 import Meta from 'gi://Meta';
 
+import { get_windows } from './compat.js';
 import { Subprocess } from './subprocess.js';
 
 export const WindowMatchGeneric = GObject.registerClass({
@@ -43,13 +44,8 @@ export const WindowMatchGeneric = GObject.registerClass({
             }
         });
 
-        const actors = Meta.get_window_actors
-            ? Meta.get_window_actors(this.display)
-            : this.display.get_compositor().get_window_actors();
-
-        actors.forEach(actor => {
-            this._watch_window(actor.meta_window);
-        });
+        for (const win of get_windows(this.display))
+            this._watch_window(win);
     }
 
     disable() {
