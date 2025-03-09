@@ -68,6 +68,11 @@ services:
     profiles:
       - esm
 
+  ubuntu-25.04:
+    image: ghcr.io/ddterm/gnome-shell-image/ubuntu-25.04:2025.03.09.2
+    profiles:
+      - esm
+
   opensuse-leap-15.6:
     image: ghcr.io/ddterm/gnome-shell-image/opensuse-leap-15.6:2025.03.09.2
     profiles:
