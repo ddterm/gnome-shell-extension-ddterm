@@ -4,6 +4,8 @@
 
 'use strict';
 
+const { Meta } = imports.gi;
+
 const Gettext = imports.gettext;
 const ExtensionUtils = imports.misc.extensionUtils;
 const Main = imports.ui.main;
@@ -104,3 +106,9 @@ function is_extension_deactivating(extension) {
 }
 
 /* exported is_extension_deactivating */
+
+function get_windows(display) {
+    return Meta.get_window_actors(display).map(actor => actor.meta_window);
+}
+
+/* exported get_windows */
