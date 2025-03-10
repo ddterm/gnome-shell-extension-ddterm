@@ -520,10 +520,13 @@ class GnomeSessionFixtures:
     def check_log(self, caplog, ignored_log_issues):
         def collect_issues(when):
             for record in caplog.get_records(when):
-                if record.levelno < logging.WARNING:
+                if record.levelno < logging.INFO:
                     continue
 
                 message = getattr(record, 'message', None)
+
+                if 'JS WARNING' not in message and record.levelno < logging.WARNING:
+                    continue
 
                 if message is None:
                     message = record.getMessage()
