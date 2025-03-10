@@ -13,18 +13,18 @@ boolean-py==4.0
     #   license-expression
     #   reuse
 chardet==5.2.0
-    # via
-    #   binaryornot
-    #   python-debian
+    # via binaryornot
+charset-normalizer==3.4.1
+    # via python-debian
 click==8.1.8
     # via reuse
-jinja2==3.1.5
+jinja2==3.1.6
     # via reuse
 license-expression==30.4.1
     # via reuse
 markupsafe==3.0.2
     # via jinja2
-python-debian==0.1.49
+python-debian==1.0.0
     # via reuse
 reuse==5.0.2
     # via -r reuse.in
