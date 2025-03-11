@@ -199,19 +199,19 @@ class DDTermSearchBar extends Gtk.Revealer {
 
         const layout = new Gtk.Box({
             visible: true,
-            border_width: 5,
             spacing: 5,
-            parent: this,
         });
 
+        this.child = layout;
+
         const case_sensitive_button = new Gtk.ToggleButton({
-            image: new Gtk.Image({ icon_name: 'uppercase' }),
+            icon_name: 'uppercase',
             tooltip_text: Gettext.gettext('Case Sensitive'),
             visible: true,
             focus_on_click: false,
         });
 
-        layout.pack_start(case_sensitive_button, false, false, 0);
+        layout.append(case_sensitive_button);
 
         this.pattern.bind_property(
             'case-sensitive',
@@ -221,13 +221,13 @@ class DDTermSearchBar extends Gtk.Revealer {
         );
 
         const whole_word_button = new Gtk.ToggleButton({
-            image: new Gtk.Image({ icon_name: 'quotation' }),
+            icon_name: 'quotation',
             tooltip_text: Gettext.gettext('Match Whole Word'),
             visible: true,
             focus_on_click: false,
         });
 
-        layout.pack_start(whole_word_button, false, false, 0);
+        layout.append(whole_word_button);
 
         this.pattern.bind_property(
             'whole-word',
@@ -237,13 +237,13 @@ class DDTermSearchBar extends Gtk.Revealer {
         );
 
         const regex_button = new Gtk.ToggleButton({
-            image: new Gtk.Image({ icon_name: 'regex' }),
+            icon_name: 'regex',
             tooltip_text: Gettext.gettext('Regular Expression'),
             visible: true,
             focus_on_click: false,
         });
 
-        layout.pack_start(regex_button, false, false, 0);
+        layout.append(regex_button);
 
         this.pattern.bind_property(
             'use-regex',
@@ -252,118 +252,143 @@ class DDTermSearchBar extends Gtk.Revealer {
             GObject.BindingFlags.BIDIRECTIONAL | GObject.BindingFlags.SYNC_CREATE
         );
 
-        const entry = new Gtk.SearchEntry({
+        this.entry = new Gtk.SearchEntry({
             visible: true,
         });
 
-        layout.pack_start(entry, true, true, 0);
+        layout.append(this.entry);
 
         this.pattern.bind_property(
             'text',
-            entry,
+            this.entry,
             'text',
             GObject.BindingFlags.BIDIRECTIONAL | GObject.BindingFlags.SYNC_CREATE
         );
 
-        const error_popover = new Gtk.Popover({
-            relative_to: entry,
-            modal: false,
-            border_width: 5,
-        });
-
-        const error_label = new Gtk.Label({
-            parent: error_popover,
+        this.error_label = new Gtk.Label({
             visible: true,
         });
 
-        error_label.get_style_context().add_class('error');
+        this.error_label.get_style_context().add_class('error');
 
-        this.pattern.connect('notify::error', () => {
-            if (this.pattern.error) {
-                entry.get_style_context().add_class('error');
-                error_label.label = this.pattern.error.message;
-                error_popover.popup();
-            } else {
-                entry.get_style_context().remove_class('error');
-                error_popover.popdown();
-            }
+        this.error_popover = new Gtk.Popover({
+            autohide: false,
+            visible: false,
+            child: this.error_label,
         });
 
-        entry.connect('activate', () => this.find_next());
-        entry.connect('next-match', () => this.find_next());
-        entry.connect('previous-match', () => this.find_prev());
-        entry.connect('stop-search', () => this.close());
-        entry.connect('search-changed', () => this.pattern.update());
+        this.connect('realize', () => this.error_popover.set_parent(this.entry));
+        this.connect('unrealize', () => this.error_popover.unparent());
 
-        this.connect('key-press-event', (_, event) => entry.handle_event(event));
-        this.connect('key-release-event', (_, event) => entry.handle_event(event));
-        this.connect('notify::reveal-child', () => {
-            if (this.reveal_child)
-                entry.grab_focus();
-        });
-
-        const close_button = new Gtk.Button({
-            image: new Gtk.Image({ icon_name: 'window-close' }),
-            tooltip_text: Gettext.gettext('Close Search Bar'),
-            visible: true,
-            focus_on_click: false,
-        });
-
-        layout.pack_end(close_button, false, false, 0);
-
-        close_button.connect('clicked', this.close.bind(this));
-
-        const wrap_button = new Gtk.ToggleButton({
-            image: new Gtk.Image({ icon_name: 'view-wrapped' }),
-            tooltip_text: Gettext.gettext('Wrap Around'),
-            visible: true,
-            focus_on_click: false,
-        });
-
-        layout.pack_end(wrap_button, false, false, 0);
-
-        this.bind_property(
-            'wrap',
-            wrap_button,
-            'active',
-            GObject.BindingFlags.BIDIRECTIONAL | GObject.BindingFlags.SYNC_CREATE
-        );
-
-        const find_next_button = new Gtk.Button({
-            image: new Gtk.Image({ icon_name: 'go-down' }),
+        this.find_next_button = new Gtk.Button({
+            icon_name: 'go-down',
             tooltip_text: Gettext.gettext('Find Next'),
             visible: true,
             focus_on_click: false,
         });
 
-        layout.pack_end(find_next_button, false, false, 0);
+        layout.append(this.find_next_button);
 
         this._pattern.bind_property(
             'regex-set',
-            find_next_button,
+            this.find_next_button,
             'sensitive',
             GObject.BindingFlags.SYNC_CREATE
         );
 
-        find_next_button.connect('clicked', this.find_next.bind(this));
-
-        const find_prev_button = new Gtk.Button({
-            image: new Gtk.Image({ icon_name: 'go-up' }),
+        this.find_prev_button = new Gtk.Button({
+            icon_name: 'go-up',
             tooltip_text: Gettext.gettext('Find Previous'),
             visible: true,
             focus_on_click: false,
         });
 
-        layout.pack_end(find_prev_button, false, false, 0);
+        layout.append(this.find_prev_button);
 
         this._pattern.bind_property(
             'regex-set',
-            find_prev_button,
+            this.find_prev_button,
             'sensitive',
             GObject.BindingFlags.SYNC_CREATE
         );
 
-        find_prev_button.connect('clicked', this.find_prev.bind(this));
+        this.wrap_button = new Gtk.ToggleButton({
+            icon_name: 'view-wrapped',
+            tooltip_text: Gettext.gettext('Wrap Around'),
+            visible: true,
+            focus_on_click: false,
+        });
+
+        layout.append(this.wrap_button);
+
+        this.bind_property(
+            'wrap',
+            this.wrap_button,
+            'active',
+            GObject.BindingFlags.BIDIRECTIONAL | GObject.BindingFlags.SYNC_CREATE
+        );
+
+        this.close_button = new Gtk.Button({
+            icon_name: 'window-close',
+            tooltip_text: Gettext.gettext('Close Search Bar'),
+            visible: true,
+            focus_on_click: false,
+        });
+
+        layout.append(this.close_button);
+
+        this.connect('notify::reveal-child', () => {
+            if (this.reveal_child)
+                this.entry.grab_focus();
+        });
+
+        this._setup_capture();
+        this.connect('realize', this._connect_handlers.bind(this));
+    }
+
+    _setup_capture() {
+        const { entry } = this;
+        const capture_controller = Gtk.EventControllerKey.new();
+
+        capture_controller.set_propagation_phase(Gtk.PropagationPhase.BUBBLE);
+        capture_controller.connect('key-pressed', () => capture_controller.forward(entry));
+        capture_controller.connect('key-released', () => capture_controller.forward(entry));
+
+        this.add_controller(capture_controller);
+    }
+
+    _connect_handlers() {
+        const error_handler =
+            this.pattern.connect('notify::error', this.show_error.bind(this));
+
+        const entry_handlers = [
+            this.entry.connect('activate', this.find_next.bind(this)),
+            this.entry.connect('next-match', this.find_next.bind(this)),
+            this.entry.connect('previous-match', this.find_prev.bind(this)),
+            this.entry.connect('stop-search', this.close.bind(this)),
+            this.entry.connect('search-changed', () => this.pattern.update()),
+        ];
+
+        const find_next_handler =
+            this.find_next_button.connect('clicked', this.find_next.bind(this));
+
+        const find_prev_handler =
+            this.find_prev_button.connect('clicked', this.find_prev.bind(this));
+
+        const close_handler =
+            this.close_button.connect('clicked', this.close.bind(this));
+
+        const unrealize_handler = this.connect('unrealize', () => {
+            this.disconnect(unrealize_handler);
+            this.pattern.disconnect(error_handler);
+
+            for (const handler of entry_handlers)
+                this.entry.disconnect(handler);
+
+            this.find_next_button.disconnect(find_next_handler);
+            this.find_prev_button.disconnect(find_prev_handler);
+            this.close_button.disconnect(close_handler);
+        });
     }
 
     get pattern() {
@@ -382,5 +407,16 @@ class DDTermSearchBar extends Gtk.Revealer {
     find_prev() {
         this.pattern.update();
         this.emit('find-prev');
+    }
+
+    show_error() {
+        if (this.pattern.error) {
+            this.entry.get_style_context().add_class('error');
+            this.error_label.label = this.pattern.error.message;
+            this.error_popover.popup();
+        } else {
+            this.entry.get_style_context().remove_class('error');
+            this.error_popover.popdown();
+        }
     }
 });
