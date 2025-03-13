@@ -360,7 +360,7 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
             return;
 
         const display_config_handler = this.display_config.connect('notify::layout-mode', () => {
-            if (!this.visible)
+            if (!this.is_visible())
                 this.sync_size_with_extension();
         });
 
@@ -369,7 +369,7 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
         const dbus_handler = this.extension_dbus.connect(
             'g-properties-changed',
             () => {
-                if (!this.visible)
+                if (!this.is_visible())
                     this.sync_size_with_extension();
             }
         );
@@ -394,7 +394,7 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
         const update_notebook_visibility = () => {
             notebook.visible = notebook.get_n_pages() > 0;
 
-            if (!notebook.visible)
+            if (!notebook.get_visible())
                 this.grab_focus();
         };
 
@@ -521,7 +521,7 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
     }
 
     toggle() {
-        if (this.visible)
+        if (this.is_visible())
             this.hide();
         else
             this.present_with_time(Gdk.CURRENT_TIME);
@@ -615,11 +615,11 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
     }
 
     get is_empty() {
-        return this.paned.get_children().every(nb => !nb.visible);
+        return this.paned.get_children().every(nb => !nb.get_visible());
     }
 
     get is_split() {
-        return this.paned.get_children().every(nb => nb.visible);
+        return this.paned.get_children().every(nb => nb.get_visible());
     }
 
     get split_layout() {
@@ -670,13 +670,13 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
     }
 
     vfunc_grab_focus() {
-        if (this.active_notebook?.visible) {
+        if (this.active_notebook?.is_visible()) {
             this.active_notebook.grab_focus();
             return;
         }
 
         for (const notebook of this.paned.get_children()) {
-            if (notebook.visible) {
+            if (notebook.is_visible()) {
                 notebook.grab_focus();
                 return;
             }
