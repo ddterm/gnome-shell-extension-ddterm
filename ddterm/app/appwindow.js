@@ -670,13 +670,13 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
     }
 
     vfunc_grab_focus() {
-        if (this.active_notebook?.is_visible()) {
+        if (this.active_notebook?.get_visible()) {
             this.active_notebook.grab_focus();
             return;
         }
 
         for (const notebook of this.paned.get_children()) {
-            if (notebook.is_visible()) {
+            if (notebook.get_visible()) {
                 notebook.grab_focus();
                 return;
             }
