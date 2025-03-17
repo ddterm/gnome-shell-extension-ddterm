@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-26 04:43+0000\n"
+"POT-Creation-Date: 2025-03-17 17:46+0000\n"
 "PO-Revision-Date: 2023-10-24 22:14+0000\n"
 "Last-Translator: Pavel Novák <pavelnov32@gmail.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/gnome-shell-"
@@ -43,67 +43,67 @@ msgstr "Přepínací tlačítko"
 msgid "Preferences…"
 msgstr "Předvolby…"
 
-#: ddterm/app/application.js:73
+#: ddterm/app/application.js:71
 msgid "Start the application, but do not show the window"
 msgstr "Spustit aplikaci, ale neukázat okno"
 
-#: ddterm/app/application.js:82
+#: ddterm/app/application.js:80
 msgid "Comma-separated list of backends that GDK should try to use"
 msgstr "Seznam čárkou oddělených backendů který by měl použít GDK"
 
-#: ddterm/app/application.js:100
+#: ddterm/app/application.js:98
 msgid "Show version information and exit"
 msgstr "Ukázat informace o verzi a odejít"
 
-#: ddterm/app/application.js:109
+#: ddterm/app/application.js:107
 msgid "Run the specified command"
 msgstr "Spustit specifikovaný příkaz"
 
-#: ddterm/app/application.js:123
+#: ddterm/app/application.js:121
 msgid "Wait for the command to exit, and return its exit code"
 msgstr "Počkat na ukončení příkazu a vrátit jeho výstupní kód"
 
-#: ddterm/app/application.js:132
+#: ddterm/app/application.js:130
 msgid "Set the working directory"
 msgstr "Nastavit pracovní složku"
 
-#: ddterm/app/application.js:141
+#: ddterm/app/application.js:139
 msgid "Set tab title"
 msgstr "Nastavit název panelu"
 
-#: ddterm/app/application.js:150
+#: ddterm/app/application.js:148
 msgid "Keep the terminal open after the command has exited"
 msgstr "Nechat terminál otevřený po dokončení příkazu"
 
-#: ddterm/app/application.js:159
+#: ddterm/app/application.js:157
 msgid "Do not pass the environment"
 msgstr "Nepředávat prostředí"
 
-#: ddterm/app/application.js:168
+#: ddterm/app/application.js:166
 msgid "Open a new tab"
 msgstr "Otevřít nový panel"
 
-#: ddterm/app/application.js:356
+#: ddterm/app/application.js:354
 msgid "Saving session…"
 msgstr "Ukládám sezení…"
 
-#: ddterm/app/application.js:413
+#: ddterm/app/application.js:411
 msgid "Can't contact the extension."
 msgstr ""
 
-#: ddterm/app/application.js:415 ddterm/app/application.js:542
+#: ddterm/app/application.js:413 ddterm/app/application.js:540
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr ""
 
-#: ddterm/app/application.js:540
+#: ddterm/app/application.js:538
 msgid "Can't read the version of the loaded extension."
 msgstr ""
 
-#: ddterm/app/application.js:545 ddterm/shell/notifications.js:75
+#: ddterm/app/application.js:543 ddterm/shell/notifications.js:75
 msgid "Warning: ddterm version has changed"
 msgstr "Varování: Verze ddterm byla změněna"
 
-#: ddterm/app/application.js:546 ddterm/shell/notifications.js:77
+#: ddterm/app/application.js:544 ddterm/shell/notifications.js:77
 msgid "Log out, then log in again to load the updated extension."
 msgstr "Znovu se přihlašte pro načtení aktualizovaného rozšíření."
 

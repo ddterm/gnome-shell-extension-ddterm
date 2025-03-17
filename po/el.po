@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-26 04:43+0000\n"
+"POT-Creation-Date: 2025-03-17 17:46+0000\n"
 "PO-Revision-Date: 2023-09-26 17:35+0300\n"
 "Last-Translator: Anagnostakis Ioannis <rizitis@gmail.com>\n"
 "Language-Team: Greek, Modern (1453-) <>\n"
@@ -46,69 +46,69 @@ msgstr "Κουμπί εναλλαγής"
 msgid "Preferences…"
 msgstr "Προτιμήσεις"
 
-#: ddterm/app/application.js:73
+#: ddterm/app/application.js:71
 msgid "Start the application, but do not show the window"
 msgstr ""
 
-#: ddterm/app/application.js:82
+#: ddterm/app/application.js:80
 msgid "Comma-separated list of backends that GDK should try to use"
 msgstr ""
 
-#: ddterm/app/application.js:100
+#: ddterm/app/application.js:98
 msgid "Show version information and exit"
 msgstr ""
 
-#: ddterm/app/application.js:109
+#: ddterm/app/application.js:107
 msgid "Run the specified command"
 msgstr ""
 
-#: ddterm/app/application.js:123
+#: ddterm/app/application.js:121
 msgid "Wait for the command to exit, and return its exit code"
 msgstr ""
 
-#: ddterm/app/application.js:132
+#: ddterm/app/application.js:130
 #, fuzzy
 msgid "Set the working directory"
 msgstr "Διατήρηση του καταλόγου εργασίας"
 
-#: ddterm/app/application.js:141
+#: ddterm/app/application.js:139
 #, fuzzy
 msgid "Set tab title"
 msgstr "Παραμετροποίση τίτλου καρτέλας"
 
-#: ddterm/app/application.js:150
+#: ddterm/app/application.js:148
 msgid "Keep the terminal open after the command has exited"
 msgstr ""
 
-#: ddterm/app/application.js:159
+#: ddterm/app/application.js:157
 msgid "Do not pass the environment"
 msgstr ""
 
-#: ddterm/app/application.js:168
+#: ddterm/app/application.js:166
 msgid "Open a new tab"
 msgstr ""
 
-#: ddterm/app/application.js:356
+#: ddterm/app/application.js:354
 msgid "Saving session…"
 msgstr ""
 
-#: ddterm/app/application.js:413
+#: ddterm/app/application.js:411
 msgid "Can't contact the extension."
 msgstr ""
 
-#: ddterm/app/application.js:415 ddterm/app/application.js:542
+#: ddterm/app/application.js:413 ddterm/app/application.js:540
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr ""
 
-#: ddterm/app/application.js:540
+#: ddterm/app/application.js:538
 msgid "Can't read the version of the loaded extension."
 msgstr ""
 
-#: ddterm/app/application.js:545 ddterm/shell/notifications.js:75
+#: ddterm/app/application.js:543 ddterm/shell/notifications.js:75
 msgid "Warning: ddterm version has changed"
 msgstr "Προειδοποίηση: η έκδοση ddterm έχει αλλάξει"
 
-#: ddterm/app/application.js:546 ddterm/shell/notifications.js:77
+#: ddterm/app/application.js:544 ddterm/shell/notifications.js:77
 msgid "Log out, then log in again to load the updated extension."
 msgstr ""
 "Αποσυνδεθείτε και, στη συνέχεια, συνδεθείτε ξανά για να φορτώσετε την "
