@@ -261,7 +261,7 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
 
         const actions = {
             'toggle': this.toggle.bind(this),
-            'show': () => this.present_with_time(Gdk.CURRENT_TIME),
+            'show': () => this.present(),
             'hide': () => this.hide(),
             'window-size-dec': () => {
                 if (this.settings.get_boolean('window-maximize'))
@@ -524,7 +524,7 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
         if (this.is_visible())
             this.hide();
         else
-            this.present_with_time(Gdk.CURRENT_TIME);
+            this.present();
     }
 
     start_resizing(edge, source, event) {

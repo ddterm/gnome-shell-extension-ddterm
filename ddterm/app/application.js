@@ -175,7 +175,7 @@ class Application extends Gtk.Application {
         this._trace_signal('handle-local-options', -1);
 
         this.connect('activate', () => {
-            this.ensure_window_with_terminal().present_with_time(Gdk.CURRENT_TIME);
+            this.ensure_window_with_terminal().present();
         });
 
         this.connect('handle-local-options', (_, options) => {
@@ -287,7 +287,7 @@ class Application extends Gtk.Application {
 
         this.simple_action('toggle', () => this.ensure_window_with_terminal().toggle());
         this.simple_action('show', () => {
-            this.ensure_window_with_terminal().present_with_time(Gdk.CURRENT_TIME);
+            this.ensure_window_with_terminal().present();
         });
         this.simple_action('hide', () => this.window?.hide());
 
@@ -579,7 +579,7 @@ class Application extends Gtk.Application {
 
     async preferences() {
         if (this.prefs_dialog !== null) {
-            this.prefs_dialog.present_with_time(Gdk.CURRENT_TIME);
+            this.prefs_dialog.present();
             return;
         }
 
@@ -606,7 +606,7 @@ class Application extends Gtk.Application {
             this.release();
         }
 
-        this.prefs_dialog.present_with_time(Gdk.CURRENT_TIME);
+        this.prefs_dialog.present();
     }
 
     simple_action(name, activate, params = {}) {
