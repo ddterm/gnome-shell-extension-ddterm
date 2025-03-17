@@ -382,9 +382,6 @@ def container(tmp_path_factory, request):
                 timeout=procutil.DEFAULT_TIMEOUT,
             )
 
-            # required for Alpine only
-            container_launcher.run('mkdir', '-p', '-m', '01777', '/tmp/.X11-unix')
-
         yield cid
 
 

@@ -286,6 +286,8 @@ class GnomeSessionFixtures:
 
             procutil.shutdown_retry(dbus_daemon, real_pid=real_pid, timeout=timeout)
 
+        process_launcher.run('mkdir', '-p', '-m', '01777', '/tmp/.X11-unix')
+
         process_launcher.run(
             str(request.config.option.gsettings_tool),
             'set',
