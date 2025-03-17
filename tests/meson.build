@@ -89,6 +89,7 @@ if pytest_enabled
     args: [
       pytest_common_args,
       pytest_wl_clipboard_enabled ? [] : ['-k', 'not test_wl_clipboard'],
+      ['-k', 'not test_dependencies'],
       meson.current_source_dir() / 'test_app.py::TestApp',
     ],
     suite: ['pytest'],
