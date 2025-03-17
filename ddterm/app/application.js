@@ -15,7 +15,9 @@ import Gettext from 'gettext';
 import System from 'system';
 
 import { AppWindow } from './appwindow.js';
-import { get_resource_file, get_resource_text, get_settings, metadata } from './meta.js';
+import { metadata } from './meta.js';
+import { get_resource_file, get_resource_text } from './resources.js';
+import { get_settings } from './settings.js';
 import { TerminalCommand } from './terminal.js';
 import { TerminalSettings, TerminalSettingsParser } from './terminalsettings.js';
 import { WIFEXITED, WEXITSTATUS, WTERMSIG } from './waitstatus.js';
