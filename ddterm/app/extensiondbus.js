@@ -5,7 +5,7 @@
 import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
 
-import { get_resource_text } from './resources.js';
+import { get_resource_text } from './meta.js';
 
 const proxy_factory = Gio.DBusProxy.makeProxyWrapper(
     get_resource_text('../../data/com.github.amezin.ddterm.Extension.xml')

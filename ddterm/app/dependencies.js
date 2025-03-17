@@ -8,7 +8,7 @@ import Gettext from 'gettext';
 import Gi from 'gi';
 
 import { create_extension_dbus_proxy_oneshot } from './extensiondbus.js';
-import { get_resource_file, get_resource_text } from './resources.js';
+import { get_resource_file, get_resource_text } from './meta.js';
 
 export const manifest_file = get_resource_file('dependencies.json');
 export const manifest = JSON.parse(get_resource_text(manifest_file));

@@ -12,7 +12,7 @@ import Gettext from 'gettext';
 
 import { TerminalSettings } from './terminalsettings.js';
 import { Notebook } from './notebook.js';
-import { get_resource_file } from './resources.js';
+import { get_resource_file } from './meta.js';
 import { DisplayConfig, LayoutMode } from '../util/displayconfig.js';
 
 function make_resizer(orientation) {

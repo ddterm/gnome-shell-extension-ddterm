@@ -8,8 +8,7 @@ import Gtk from 'gi://Gtk';
 import Gettext from 'gettext';
 
 import { PrefsDialog } from '../../app/prefsdialog.js';
-import { get_settings } from '../../app/settings.js';
-import { dir, metadata } from '../../app/meta.js';
+import { dir, get_settings, metadata } from '../../app/meta.js';
 import { DisplayConfig } from '../../util/displayconfig.js';
 
 export const Application = GObject.registerClass({
