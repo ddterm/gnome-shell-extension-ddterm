@@ -79,6 +79,8 @@ export const WindowManager = GObject.registerClass({
     _init(params) {
         super._init(params);
 
+        this._mutter_settings = Gio.Settings.new('org.gnome.mutter');
+
         try {
             this._enable();
         } catch (ex) {
@@ -135,6 +137,21 @@ export const WindowManager = GObject.registerClass({
         this._setup_maximized_handlers();
         this._update_window_geometry();
 
+        const should_maximize = this.settings.get_boolean('window-maximize');
+
+        if (this.window.is_hidden()) {
+            const current_auto_maximize = this._mutter_settings.get_boolean('auto-maximize');
+
+            if (current_auto_maximize !== should_maximize) {
+                this._saved_auto_maximize = current_auto_maximize;
+                this._mutter_settings.set_boolean('auto-maximize', should_maximize);
+            }
+
+            this._window_handlers.push(
+                this.window.connect('shown', this._restore_auto_maximize.bind(this))
+            );
+        }
+
         if (!this._actor.visible) {
             if (this._client_type === Meta.WindowClientType.WAYLAND) {
                 this._map_handler = global.window_manager.connect('map', (wm, actor) => {
@@ -185,7 +202,7 @@ export const WindowManager = GObject.registerClass({
             this._set_window_stick();
         }
 
-        if (this.settings.get_boolean('window-maximize'))
+        if (should_maximize)
             this.window.maximize(Meta.MaximizeFlags.BOTH);
 
         this._setup_wl_clipboard_activator();
@@ -534,6 +551,14 @@ export const WindowManager = GObject.registerClass({
         this.window.unmaximize(flags);
     }
 
+    _restore_auto_maximize() {
+        if (this._saved_auto_maximize === undefined)
+            return;
+
+        this._mutter_settings.set_boolean('auto-maximize', this._saved_auto_maximize);
+        this._saved_auto_maximize = undefined;
+    }
+
     disable() {
         while (this._settings_handlers?.length)
             this.settings.disconnect(this._settings_handlers.pop());
@@ -577,5 +602,7 @@ export const WindowManager = GObject.registerClass({
         this._setup_destroy_animation_override(false);
 
         this._wl_clipboard_activator?.disable();
+
+        this._restore_auto_maximize();
     }
 });
