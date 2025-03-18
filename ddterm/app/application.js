@@ -174,6 +174,12 @@ class Application extends Gtk.Application {
 
         this._trace_signal('handle-local-options', -1);
 
+        this.connect('notify', (_, pspec) => {
+            const name = pspec.get_name();
+
+            console.debug('Application property %O changed: %s', name, this[name]);
+        });
+
         this.connect('activate', () => {
             this.ensure_window_with_terminal().present();
         });
