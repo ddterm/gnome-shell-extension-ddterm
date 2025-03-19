@@ -29,7 +29,7 @@ dbus_service_dir = datadir / 'dbus-1' / 'services'
 
 if get_option('esm')
   gjs_req = '>=1.78.0'
-  gnome_shell_req = ['>=45.0', '<49.0']
+  gnome_shell_req = ['>=45.0', '<49']
   shell_versions = ['45', '46', '47', '48']
 
   extension_main_src_file = files('extension.js')
@@ -38,7 +38,7 @@ if get_option('esm')
   pack_name = f'@uuid@.shell-extension.zip'
 else
   gjs_req = '>=1.72.0'
-  gnome_shell_req = ['>=42.0', '<45.0']
+  gnome_shell_req = ['>=42.0', '<45']
   shell_versions = ['42', '43', '44']
 
   extension_main_src_file = files('extension.legacy.js')
