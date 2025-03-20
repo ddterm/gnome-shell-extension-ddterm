@@ -323,6 +323,12 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
         this.connect('realize', this.update_skip_taskbar.bind(this));
         this.update_skip_taskbar();
 
+        this.settings.connect('changed::window-maximize', () => {
+            if (!this.is_visible())
+                this.maximized = this.settings.get_boolean('window-maximize');
+        });
+        this.maximized = this.settings.get_boolean('window-maximize');
+
         this._setup_size_sync();
     }
 
