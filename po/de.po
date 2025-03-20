@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-03-18 08:36+0000\n"
+"POT-Creation-Date: 2025-03-20 06:59+0000\n"
 "PO-Revision-Date: 2024-02-15 20:22+0100\n"
 "Last-Translator: Philipp Kiemle <philipp.kiemle@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/gnome-shell-"
@@ -397,7 +397,7 @@ msgstr "Animation"
 msgid "Behavior"
 msgstr "Verhalten"
 
-#: ddterm/pref/colors.js:404
+#: ddterm/pref/colors.js:406
 msgid "Colors"
 msgstr "Farben"
 

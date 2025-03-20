@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-03-18 08:36+0000\n"
+"POT-Creation-Date: 2025-03-20 06:59+0000\n"
 "PO-Revision-Date: 2024-10-03 16:15+0000\n"
 "Last-Translator: Muha Aliss <muhaaliss@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/gnome-shell-"
@@ -391,7 +391,7 @@ msgstr "Animasyon"
 msgid "Behavior"
 msgstr "Davranış"
 
-#: ddterm/pref/colors.js:404
+#: ddterm/pref/colors.js:406
 msgid "Colors"
 msgstr "Renkler"
 
