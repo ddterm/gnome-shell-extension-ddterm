@@ -359,6 +359,12 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
         this.emit('size-allocate', width, height);
     }
 
+    vfunc_map() {
+        this.maximized = this.settings.get_boolean('window-maximize');
+
+        super.vfunc_map();
+    }
+
     create_notebook() {
         const notebook = new Notebook({
             terminal_settings: this.terminal_settings,
