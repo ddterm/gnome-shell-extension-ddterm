@@ -266,6 +266,7 @@ export const ColorsWidget = GObject.registerClass({
         'theme_variant_combo',
         'color_scheme_editor',
         'color_scheme_combo',
+        'color_scheme_list',
         'foreground_color',
         'background_color',
         'opacity_scale',
@@ -275,6 +276,7 @@ export const ColorsWidget = GObject.registerClass({
         'highlight_foreground_color',
         'highlight_background_color',
         'palette_combo',
+        'palette_list',
         'bold_color_check',
     ].concat(PALETTE_WIDGET_IDS),
     Properties: {
@@ -309,7 +311,7 @@ export const ColorsWidget = GObject.registerClass({
         bind_sensitive(this.settings, 'use-theme-colors', this.color_scheme_editor, true);
 
         this.color_scheme = new ColorScheme({
-            presets: this.color_scheme_combo.model,
+            presets: this.color_scheme_list,
         });
 
         this.#bind_color('foreground-color', this.foreground_color, this.color_scheme.colors[0]);
@@ -367,7 +369,7 @@ export const ColorsWidget = GObject.registerClass({
         });
 
         this.palette = new ColorScheme({
-            presets: this.palette_combo.model,
+            presets: this.palette_list,
         });
 
         this.settings.bind(
