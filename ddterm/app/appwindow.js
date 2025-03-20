@@ -329,7 +329,7 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
         });
         this.maximized = this.settings.get_boolean('window-maximize');
 
-        this._setup_size_sync();
+        // this._setup_size_sync();
     }
 
     _setup_size_sync() {
