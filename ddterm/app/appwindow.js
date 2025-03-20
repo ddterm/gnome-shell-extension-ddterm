@@ -341,6 +341,14 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
 
         this._hide_on_close();
         this._setup_size_sync();
+
+        const maximize_handler = this.settings.connect('changed::window-maximize', () => {
+            if (!this.is_visible())
+                this._sync_maximized_state();
+        });
+
+        this.connect('destroy', () => this.settings.disconnect(maximize_handler));
+        this._sync_maximized_state();
     }
 
     _hide_on_close() {
@@ -599,6 +607,13 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
 
         this.resize(target_w, target_h);
         this.window?.resize(target_w, target_h);
+    }
+
+    _sync_maximized_state() {
+        if (this.settings.get_boolean('window-maximize'))
+            this.maximize();
+        else
+            this.unmaximize();
     }
 
     update_tab_label_width() {
