@@ -321,7 +321,7 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
         this.connect('realize', this.update_skip_taskbar.bind(this));
         this.update_skip_taskbar();
 
-        this._setup_size_sync();
+        // this._setup_size_sync();
     }
 
     _setup_size_sync() {
