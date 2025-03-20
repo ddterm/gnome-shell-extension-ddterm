@@ -8,9 +8,6 @@ import { AppWindow as BaseAppWindow } from './appwindow.js';
 
 export const AppWindow = GObject.registerClass({
 }, class DDTermDevAppWindow extends BaseAppWindow {
-    _hide_on_close() {
-    }
-
     _setup_size_sync() {
     }
 });

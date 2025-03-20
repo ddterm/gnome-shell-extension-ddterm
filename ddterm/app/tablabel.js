@@ -58,24 +58,17 @@ export const TabLabel = GObject.registerClass({
         'close': {},
         'reset-label': {},
     },
-}, class DDTermTabLabel extends Gtk.EventBox {
+}, class DDTermTabLabel extends Gtk.Box {
     _init(params) {
-        super._init(params);
+        super._init({ spacing: 10, ...params });
 
-        this.connect_after('button-press-event', this._button_press_event.bind(this));
-        this.connect('popup-menu', this._popup_menu.bind(this));
-
-        const layout = new Gtk.Box({
-            visible: true,
-            spacing: 10,
-            parent: this,
-        });
+        this._setup_popup_menu();
 
         this.shortcut_label = new AccelLabel({
             visible: true,
         });
 
-        layout.pack_start(this.shortcut_label, false, false, 0);
+        this.append(this.shortcut_label);
 
         this.bind_property(
             'show-shortcut',
@@ -90,7 +83,7 @@ export const TabLabel = GObject.registerClass({
             visible: true,
         });
 
-        layout.pack_start(label, true, true, 0);
+        this.append(label);
 
         this.bind_property(
             'label',
@@ -106,18 +99,18 @@ export const TabLabel = GObject.registerClass({
             GObject.BindingFlags.SYNC_CREATE
         );
 
+        this.append(this._create_close_button());
+        this.edit_popover = this._create_edit_popover();
+    }
+
+    _create_close_button() {
         const close_button = new Gtk.Button({
             tooltip_text: Gettext.gettext('Close'),
-            image: new Gtk.Image({
-                icon_name: 'window-close',
-                visible: true,
-            }),
+            icon_name: 'window-close',
             visible: true,
             focus_on_click: false,
-            relief: Gtk.ReliefStyle.NONE,
+            has_frame: false,
         });
-
-        layout.pack_end(close_button, false, false, 0);
 
         this.bind_property(
             'close-button',
@@ -126,27 +119,24 @@ export const TabLabel = GObject.registerClass({
             GObject.BindingFlags.SYNC_CREATE
         );
 
-        close_button.connect('clicked', () => this.emit('close'));
-
-        this.edit_popover = new Gtk.Popover({
-            relative_to: this,
+        this.connect('realize', () => {
+            const click_handler = close_button.connect('clicked', () => this.emit('close'));
+            const unrealize_handler = this.connect('unrealize', () => {
+                this.disconnect(unrealize_handler);
+                close_button.disconnect(click_handler);
+            });
         });
 
-        this.connect('destroy', () => this.edit_popover.destroy());
+        return close_button;
+    }
 
+    _create_edit_popover() {
         const edit_entry = new Gtk.Entry({
             visible: true,
-            parent: this.edit_popover,
             secondary_icon_name: 'edit-clear',
             secondary_icon_activatable: true,
             secondary_icon_sensitive: true,
-        });
-
-        edit_entry.connect('activate', () => this.edit_popover.popdown());
-
-        edit_entry.connect('icon-press', () => {
-            this.edit_popover.popdown();
-            this.emit('reset-label');
+            width_chars: 50,
         });
 
         this.bind_property(
@@ -156,8 +146,69 @@ export const TabLabel = GObject.registerClass({
             GObject.BindingFlags.SYNC_CREATE | GObject.BindingFlags.BIDIRECTIONAL
         );
 
-        this.connect('size-allocate', (_, allocation) => {
-            edit_entry.width_request = allocation.width;
+        const edit_popover = new Gtk.Popover({
+            visible: false,
+            child: edit_entry,
+            autohide: true,
+        });
+
+        this.connect('realize', () => {
+            const activate_handler = edit_entry.connect('activate', () => {
+                edit_popover.popdown();
+            });
+
+            const icon_handler = edit_entry.connect('icon-press', () => {
+                edit_popover.popdown();
+                this.emit('reset-label');
+            });
+
+            edit_popover.set_parent(this);
+
+            const unrealize_handler = this.connect('unrealize', () => {
+                this.disconnect(unrealize_handler);
+                edit_entry.disconnect(activate_handler);
+                edit_entry.disconnect(icon_handler);
+                edit_popover.unparent();
+            });
+        });
+
+        return edit_popover;
+    }
+
+    _setup_popup_menu() {
+        const gesture = Gtk.GestureClick.new();
+        this.add_controller(gesture);
+        gesture.button = 0;
+        gesture.exclusive = true;
+
+        this.connect('realize', () => {
+            // eslint-disable-next-line no-shadow
+            const handler = gesture.connect('pressed', (gesture, n_press, x, y) => {
+                const event = gesture.get_current_event();
+
+                if (event.triggers_context_menu()) {
+                    gesture.set_state(Gtk.EventSequenceState.CLAIMED);
+                    this.show_popup_menu(x, y, event.get_pointer_emulated());
+                }
+            });
+
+            const create_handler = this.connect(
+                'notify::context-menu-model',
+                this._create_context_menu.bind(this)
+            );
+
+            const unrealize_handler = this.connect('unrealize', () => {
+                this.disconnect(unrealize_handler);
+                this.disconnect(create_handler);
+                gesture.disconnect(handler);
+            });
+
+            this._create_context_menu();
+        });
+
+        this.connect('unrealize', () => {
+            this._context_menu?.unparent();
+            this._context_menu = null;
         });
     }
 
@@ -197,28 +248,33 @@ export const TabLabel = GObject.registerClass({
         this.shortcut_label.set_action_target_value(value);
     }
 
-    _button_press_event(terminal, event) {
-        if (!event.triggers_context_menu())
-            return false;
+    _create_context_menu() {
+        this._context_menu?.unparent();
 
-        const menu = Gtk.Menu.new_from_model(this.context_menu_model);
+        if (!this.context_menu_model) {
+            this._context_menu = null;
+            return;
+        }
 
-        menu.__heapgraph_name = 'DDTermTabLabelContextMenu';
-        menu.attach_to_widget(this, (widget, m) => m.destroy());
-        menu.connect('selection-done', m => m.detach());
-        menu.popup_at_pointer(event);
-
-        return true;
+        this._context_menu = Gtk.PopoverMenu.new_from_model(this.context_menu_model);
+        this._context_menu.__heapgraph_name = 'DDTermTabLabelContextMenu';
+        this._context_menu.set_parent(this);
     }
 
-    _popup_menu() {
-        const menu = Gtk.Menu.new_from_model(this.context_menu_model);
+    show_popup_menu(x, y, is_touch = false) {
+        if (is_touch)
+            this._context_menu.halign = Gtk.Align.FILL;
+        else if (this.get_direction() === Gtk.TextDirection.RTL)
+            this._context_menu.halign = Gtk.Align.END;
+        else
+            this._context_menu.halign = Gtk.Align.START;
 
-        menu.__heapgraph_name = 'DDTermTabLabelContextMenu';
-        menu.attach_to_widget(this, (widget, m) => m.destroy());
-        menu.connect('selection-done', m => m.detach());
-        menu.popup_at_widget(this, Gdk.Gravity.SOUTH, Gdk.Gravity.SOUTH, null);
+        this._context_menu.autohide = true;
+        this._context_menu.cascade_popdown = true;
+        this._context_menu.has_arrow = is_touch;
+        this._context_menu.position = is_touch ? Gtk.PositionType.TOP : Gtk.PositionType.BOTTOM;
+        this._context_menu.pointing_to = new Gdk.Rectangle({ x, y, width: 0, height: 0 });
 
-        return true;
+        this._context_menu.popup();
     }
 });

@@ -58,11 +58,6 @@ services:
     profiles:
       - legacy
 
-  ubuntu-22.04:
-    image: ghcr.io/ddterm/gnome-shell-image/ubuntu-22.04:2025.03.17.0
-    profiles:
-      - legacy
-
   ubuntu-24.04:
     image: ghcr.io/ddterm/gnome-shell-image/ubuntu-24.04:2025.03.17.0
     profiles:
