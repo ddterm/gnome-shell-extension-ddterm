@@ -151,6 +151,19 @@ const Interface = GObject.registerClass({
 
         this._destroy_callbacks.push(() => Gio.Settings.unbind(this, 'ColorScheme'));
 
+        const mutter_settings = new Gio.Settings({
+            schema_id: 'org.gnome.mutter',
+        });
+
+        mutter_settings.bind(
+            'auto-maximize',
+            this,
+            'AutoMaximizeWindows',
+            Gio.SettingsBindFlags.NO_SENSITIVITY
+        );
+
+        this._destroy_callbacks.push(() => Gio.Settings.unbind(this, 'AutoMaximizeWindows'));
+
         this.wrapper = Gio.DBusExportedObject.wrapJSObject(DBUS_INTERFACE_INFO, this);
 
         this.connect('WindowCreated', () => {
