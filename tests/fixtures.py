@@ -5,6 +5,7 @@
 import contextlib
 import logging
 import os
+import pathlib
 import sys
 import warnings
 
@@ -29,6 +30,9 @@ from . import (
 
 
 LOGGER = logging.getLogger(__name__)
+
+THIS_FILE = pathlib.Path(__file__).resolve()
+THIS_DIR = THIS_FILE.parent
 
 IGNORED_LOG_ISSUES = [
     # https://gitlab.gnome.org/GNOME/gjs/-/issues/610
@@ -142,6 +146,10 @@ class GnomeSessionFixtures:
             return request.getfixturevalue('data_environment')
         else:
             return base_environment
+
+    @pytest.fixture(scope='class')
+    def dbus_services_dir(self, xdg_runtime_dir):
+        return mkdir(mkdir(xdg_runtime_dir / 'dbus-1') / 'services')
 
     @pytest.fixture(scope='class')
     def dbus_daemon(
@@ -554,6 +562,32 @@ class GnomeSessionFixtures:
 
         if issues:
             raise Exception('\n'.join(issues))
+
+    @pytest.fixture(scope='class')
+    def dummy_app(
+        self,
+        dbus_environment,
+        process_launcher,
+        dbus_connection,
+        shell_test_hook,
+        hide_overview,
+        pytestconfig,
+    ):
+        with process_launcher.spawn(
+            str(pytestconfig.option.gjs),
+            str(THIS_DIR / 'dummy-app.js'),
+            env=dbus_environment,
+        ) as proc:
+            try:
+                shell_test_hook.wait_property('FocusApp', 'com.github.ddterm.DummyApp')
+                yield proc
+
+            finally:
+                Gio.DBusActionGroup.get(
+                    dbus_connection,
+                    'com.github.ddterm.DummyApp',
+                    '/com/github/ddterm/DummyApp',
+                ).activate_action('quit', None)
 
 
 class GnomeSessionX11Fixtures(GnomeSessionFixtures):

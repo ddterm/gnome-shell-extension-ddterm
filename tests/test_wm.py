@@ -226,7 +226,7 @@ class CustomSortCollector(pytest.Class):
         return collected
 
 
-@pytest.mark.usefixtures('check_log', 'screenshot', 'hide_overview', 'hide', 'gdk_backend')
+@pytest.mark.usefixtures('dummy_app', 'check_log', 'screenshot', 'hide', 'gdk_backend')
 class CommonTests:
     def pytest_pycollect_makeitem(self, collector, name, obj):
         return CustomSortCollector.from_parent(collector, name=name, obj=obj)
