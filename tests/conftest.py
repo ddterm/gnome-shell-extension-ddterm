@@ -407,6 +407,7 @@ def global_environment(container, request):
     if not request.config.option.hw_accel:
         env['LIBGL_ALWAYS_SOFTWARE'] = 'true'
         env['GBM_ALWAYS_SOFTWARE'] = 'true'
+        env['VK_LOADER_DRIVERS_SELECT'] = 'lvp_*'
 
     env['NO_AT_BRIDGE'] = '1'
     env['GTK_A11Y'] = 'none'
