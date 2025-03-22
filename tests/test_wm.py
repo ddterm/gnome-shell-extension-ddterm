@@ -509,6 +509,10 @@ class CommonTests:
         extension_dbus_interface.Toggle()
         extension_test_hook.wait_property('RenderedFirstFrame', True)
 
+        if max_window_rect_changes > 1:
+            app_debug_dbus_interface.WaitFrame()
+            shell_test_hook.Later(shellhook.LaterType.RESIZE)
+
         assert extension_test_hook.WindowRect == expected_rect
         assert len(set(app_debug_dbus_interface.size_allocations)) <= max_size_allocations
         assert len(app_debug_dbus_interface.size_allocations) <= max_size_allocations + 1
