@@ -10,7 +10,7 @@ ansi2html==1.9.2
     # via -r test.in
 execnet==2.1.1
     # via pytest-xdist
-iniconfig==2.0.0
+iniconfig==2.1.0
     # via pytest
 packaging==24.2
     # via pytest
