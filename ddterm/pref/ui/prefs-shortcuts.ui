@@ -515,12 +515,11 @@ SPDX-License-Identifier: GPL-3.0-or-later
       </packing>
     </child>
     <child>
-      <object class="GtkButton">
+      <object class="GtkButton" id="reset_button">
         <property name="label" translatable="yes">Reset All Shortcuts to Defaults</property>
         <property name="visible">True</property>
         <property name="can-focus">True</property>
         <property name="receives-default">True</property>
-        <property name="action-name">aux.reset</property>
       </object>
       <packing>
         <property name="expand">False</property>

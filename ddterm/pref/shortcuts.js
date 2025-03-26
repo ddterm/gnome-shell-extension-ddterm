@@ -88,6 +88,7 @@ export const ShortcutsWidget = GObject.registerClass({
         'shortcuts_list',
         'global_shortcuts_list',
         'shortcuts_treeview',
+        'reset_button',
     ],
     Properties: {
         'settings': GObject.ParamSpec.object(
@@ -143,21 +144,15 @@ export const ShortcutsWidget = GObject.registerClass({
             save_shortcut.bind(globalThis, this.settings, this.global_shortcuts_list)
         );
 
-        const reset_action = new Gio.SimpleAction({ name: 'reset' });
-
-        reset_action.connect(
-            'activate',
+        this.reset_button.connect(
+            'clicked',
             reset.bind(globalThis, this.settings, this.shortcuts_list)
         );
 
-        reset_action.connect(
-            'activate',
+        this.reset_button.connect(
+            'clicked',
             reset.bind(globalThis, this.settings, this.global_shortcuts_list)
         );
-
-        const aux_actions = new Gio.SimpleActionGroup();
-        aux_actions.add_action(reset_action);
-        this.insert_action_group('aux', aux_actions);
 
         this.connect('realize', this.#realize.bind(this));
     }
