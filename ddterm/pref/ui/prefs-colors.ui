@@ -630,12 +630,11 @@ SPDX-License-Identifier: GPL-3.0-or-later
       </packing>
     </child>
     <child>
-      <object class="GtkButton">
+      <object class="GtkButton" id="copy_gnome_terminal_profile_button">
         <property name="label" translatable="yes">Copy profile from GNOME Terminal</property>
         <property name="visible">True</property>
         <property name="can-focus">True</property>
         <property name="receives-default">True</property>
-        <property name="action-name">aux.copy-gnome-terminal-profile</property>
       </object>
       <packing>
         <property name="left-attach">0</property>
