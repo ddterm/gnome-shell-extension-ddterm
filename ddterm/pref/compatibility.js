@@ -8,19 +8,14 @@ import Gtk from 'gi://Gtk';
 
 import { bind_widgets, ui_file_uri } from './util.js';
 
-function reset(settings) {
-    settings.reset('backspace-binding');
-    settings.reset('delete-binding');
-    settings.reset('cjk-utf8-ambiguous-width');
-}
-
 export const CompatibilityWidget = GObject.registerClass({
     GTypeName: 'DDTermPrefsCompatibility',
     Template: ui_file_uri('prefs-compatibility.ui'),
     Children: [
+        'ambiguous_width_combo',
         'backspace_binding_combo',
         'delete_binding_combo',
-        'ambiguous_width_combo',
+        'reset_button',
     ],
     Properties: {
         'settings': GObject.ParamSpec.object(
@@ -47,15 +42,18 @@ export const CompatibilityWidget = GObject.registerClass({
             'cjk-utf8-ambiguous-width': this.ambiguous_width_combo,
         });
 
-        const reset_action = new Gio.SimpleAction({
-            name: 'reset-compatibility-options',
+        this.connect('realize', () => {
+            const reset_handler = this.reset_button.connect('clicked', () => {
+                this.settings.reset('backspace-binding');
+                this.settings.reset('delete-binding');
+                this.settings.reset('cjk-utf8-ambiguous-width');
+            });
+
+            const unrealize_handler = this.connect('unrealize', () => {
+                this.disconnect(unrealize_handler);
+                this.reset_button.disconnect(reset_handler);
+            });
         });
-
-        reset_action.connect('activate', reset.bind(globalThis, this.settings));
-
-        const aux_actions = new Gio.SimpleActionGroup();
-        aux_actions.add_action(reset_action);
-        this.insert_action_group('aux', aux_actions);
     }
 
     get title() {
