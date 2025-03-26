@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-03-20 06:59+0000\n"
+"POT-Creation-Date: 2025-03-26 02:10+0000\n"
 "PO-Revision-Date: 2024-03-19 15:01+0000\n"
 "Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/gnome-shell-"
@@ -379,7 +379,7 @@ msgstr "Ventana"
 msgid "Terminal"
 msgstr "Terminal"
 
-#: ddterm/pref/adw.js:120 ddterm/pref/shortcuts.js:206
+#: ddterm/pref/adw.js:120 ddterm/pref/shortcuts.js:201
 msgid "Keyboard Shortcuts"
 msgstr "Acortes de teclado"
 
@@ -395,7 +395,7 @@ msgstr "Animación"
 msgid "Behavior"
 msgstr "Comportamiento"
 
-#: ddterm/pref/colors.js:406
+#: ddterm/pref/colors.js:417
 msgid "Colors"
 msgstr "Colores"
 
@@ -403,7 +403,7 @@ msgstr "Colores"
 msgid "Command"
 msgstr "Commando"
 
-#: ddterm/pref/compatibility.js:62
+#: ddterm/pref/compatibility.js:60
 msgid "Compatibility"
 msgstr "Compatibilidad"
 
@@ -790,59 +790,59 @@ msgstr "Mostrar texto en negrita en colores _brillantes"
 msgid "Copy profile from GNOME Terminal"
 msgstr "Copiar perfil de GNOME Terminal"
 
-#: ddterm/pref/ui/prefs-colors.ui:657
+#: ddterm/pref/ui/prefs-colors.ui:656
 msgid "Foreground"
 msgstr "Texto"
 
-#: ddterm/pref/ui/prefs-colors.ui:668
+#: ddterm/pref/ui/prefs-colors.ui:667
 msgid "Background"
 msgstr "Fondo"
 
-#: ddterm/pref/ui/prefs-colors.ui:680
+#: ddterm/pref/ui/prefs-colors.ui:679
 msgid "Default color:"
 msgstr "Color por defecto:"
 
-#: ddterm/pref/ui/prefs-colors.ui:689
+#: ddterm/pref/ui/prefs-colors.ui:688
 msgid "Bold color:"
 msgstr "Color de negrita:"
 
-#: ddterm/pref/ui/prefs-colors.ui:702
+#: ddterm/pref/ui/prefs-colors.ui:701
 msgid "Cursor color:"
 msgstr "Color del cursor:"
 
-#: ddterm/pref/ui/prefs-colors.ui:716
+#: ddterm/pref/ui/prefs-colors.ui:715
 msgid "Highlight color:"
 msgstr "Color de resaltado:"
 
-#: ddterm/pref/ui/prefs-colors.ui:733
+#: ddterm/pref/ui/prefs-colors.ui:732
 msgid "Color _scheme:"
 msgstr "_Esquema de colores:"
 
-#: ddterm/pref/ui/prefs-colors.ui:751
+#: ddterm/pref/ui/prefs-colors.ui:750
 msgid "Background Color"
 msgstr "Color del fondo"
 
-#: ddterm/pref/ui/prefs-colors.ui:775
+#: ddterm/pref/ui/prefs-colors.ui:774
 msgid "Bold Color"
 msgstr "Color de negrita"
 
-#: ddterm/pref/ui/prefs-colors.ui:799
+#: ddterm/pref/ui/prefs-colors.ui:798
 msgid "Cursor Foreground Color"
 msgstr "Color del texto del cursor"
 
-#: ddterm/pref/ui/prefs-colors.ui:823
+#: ddterm/pref/ui/prefs-colors.ui:822
 msgid "Cursor Background Color"
 msgstr "Color del fondo del cursor"
 
-#: ddterm/pref/ui/prefs-colors.ui:847
+#: ddterm/pref/ui/prefs-colors.ui:846
 msgid "Highlight Foreground Color"
 msgstr "Color de primer plano de Resaltado"
 
-#: ddterm/pref/ui/prefs-colors.ui:871
+#: ddterm/pref/ui/prefs-colors.ui:870
 msgid "Highlight Background Color"
 msgstr "Color de Fondo de Resaltado"
 
-#: ddterm/pref/ui/prefs-colors.ui:914
+#: ddterm/pref/ui/prefs-colors.ui:913
 msgid "Foreground Color"
 msgstr "Color de primer plano"
 

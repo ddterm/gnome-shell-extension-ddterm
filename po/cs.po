@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-03-20 06:59+0000\n"
+"POT-Creation-Date: 2025-03-26 02:10+0000\n"
 "PO-Revision-Date: 2023-10-24 22:14+0000\n"
 "Last-Translator: Pavel Novák <pavelnov32@gmail.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/gnome-shell-"
@@ -372,7 +372,7 @@ msgstr "Okno"
 msgid "Terminal"
 msgstr "Terminál"
 
-#: ddterm/pref/adw.js:120 ddterm/pref/shortcuts.js:206
+#: ddterm/pref/adw.js:120 ddterm/pref/shortcuts.js:201
 msgid "Keyboard Shortcuts"
 msgstr "Klávesové zkratky"
 
@@ -388,7 +388,7 @@ msgstr "Animace"
 msgid "Behavior"
 msgstr "Chování"
 
-#: ddterm/pref/colors.js:406
+#: ddterm/pref/colors.js:417
 msgid "Colors"
 msgstr "Barvy"
 
@@ -396,7 +396,7 @@ msgstr "Barvy"
 msgid "Command"
 msgstr "Příkaz"
 
-#: ddterm/pref/compatibility.js:62
+#: ddterm/pref/compatibility.js:60
 msgid "Compatibility"
 msgstr "Kompatibilita"
 
@@ -782,59 +782,59 @@ msgstr "Zobrazit tučný text ve _světlých barvách"
 msgid "Copy profile from GNOME Terminal"
 msgstr "Kopírovat profil z GNOME terminálu"
 
-#: ddterm/pref/ui/prefs-colors.ui:657
+#: ddterm/pref/ui/prefs-colors.ui:656
 msgid "Foreground"
 msgstr "Popředí"
 
-#: ddterm/pref/ui/prefs-colors.ui:668
+#: ddterm/pref/ui/prefs-colors.ui:667
 msgid "Background"
 msgstr "Pozadí"
 
-#: ddterm/pref/ui/prefs-colors.ui:680
+#: ddterm/pref/ui/prefs-colors.ui:679
 msgid "Default color:"
 msgstr "Výchozí barva:"
 
-#: ddterm/pref/ui/prefs-colors.ui:689
+#: ddterm/pref/ui/prefs-colors.ui:688
 msgid "Bold color:"
 msgstr "Barva tučného písma:"
 
-#: ddterm/pref/ui/prefs-colors.ui:702
+#: ddterm/pref/ui/prefs-colors.ui:701
 msgid "Cursor color:"
 msgstr "Barva kurzoru:"
 
-#: ddterm/pref/ui/prefs-colors.ui:716
+#: ddterm/pref/ui/prefs-colors.ui:715
 msgid "Highlight color:"
 msgstr "Barva zvýraznění:"
 
-#: ddterm/pref/ui/prefs-colors.ui:733
+#: ddterm/pref/ui/prefs-colors.ui:732
 msgid "Color _scheme:"
 msgstr "Barevné _schéma:"
 
-#: ddterm/pref/ui/prefs-colors.ui:751
+#: ddterm/pref/ui/prefs-colors.ui:750
 msgid "Background Color"
 msgstr "Barva pozadí"
 
-#: ddterm/pref/ui/prefs-colors.ui:775
+#: ddterm/pref/ui/prefs-colors.ui:774
 msgid "Bold Color"
 msgstr "Barva tučného písma"
 
-#: ddterm/pref/ui/prefs-colors.ui:799
+#: ddterm/pref/ui/prefs-colors.ui:798
 msgid "Cursor Foreground Color"
 msgstr "Barva popředí kurzoru"
 
-#: ddterm/pref/ui/prefs-colors.ui:823
+#: ddterm/pref/ui/prefs-colors.ui:822
 msgid "Cursor Background Color"
 msgstr "Barva pozadí kurzoru"
 
-#: ddterm/pref/ui/prefs-colors.ui:847
+#: ddterm/pref/ui/prefs-colors.ui:846
 msgid "Highlight Foreground Color"
 msgstr "Zvýrazněná barva popředí"
 
-#: ddterm/pref/ui/prefs-colors.ui:871
+#: ddterm/pref/ui/prefs-colors.ui:870
 msgid "Highlight Background Color"
 msgstr "Zvýrazněná barva pozadí"
 
-#: ddterm/pref/ui/prefs-colors.ui:914
+#: ddterm/pref/ui/prefs-colors.ui:913
 msgid "Foreground Color"
 msgstr "Barva popředí"
 
