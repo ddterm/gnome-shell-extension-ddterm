@@ -38,6 +38,11 @@ services:
     profiles:
       - esm
 
+  fedora-42:
+    image: ghcr.io/ddterm/gnome-shell-image/fedora-41:2025.03.28.1
+    profiles:
+      - esm
+
   archlinux:
     image: ghcr.io/ddterm/gnome-shell-image/archlinux:2025.03.28.1
     profiles:
