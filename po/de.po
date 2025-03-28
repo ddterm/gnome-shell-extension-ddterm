@@ -30,7 +30,9 @@ msgstr "ddterm"
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/com.github.amezin.ddterm.desktop.in.in:10
 msgid "shell;prompt;command;commandline;cmd;run;terminal;"
-msgstr "shell;prompt;command;commandline;cmd;run;terminal;Eingabeaufforderung;Befehl;Befehlszeile;ausführen;"
+msgstr ""
+"shell;prompt;command;commandline;cmd;run;terminal;Eingabeaufforderung;Befehl;"
+"Befehlszeile;ausführen;"
 
 #: data/com.github.amezin.ddterm.desktop.in.in:11
 msgid "Another drop down terminal extension for GNOME Shell"
