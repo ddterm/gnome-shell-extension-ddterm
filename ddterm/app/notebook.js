@@ -320,7 +320,7 @@ export const Notebook = GObject.registerClass({
             }),
         ];
 
-        const label = this.get_tab_label(child);
+        const label = child.tab_label;
         const page = this.get_page(child);
 
         const bindings = [
@@ -403,7 +403,9 @@ export const Notebook = GObject.registerClass({
             command: properties['command'] ?? this.get_command_from_settings(),
         });
 
-        this.insert_page(page, page.tab_label, position);
+        this.insert_page(page, null, position);
+        this.set_tab_label(page, page.tab_label);
+
         return page;
     }
 
@@ -418,7 +420,7 @@ export const Notebook = GObject.registerClass({
         const n_pages = this.get_n_pages();
 
         for (let i = 0; i < n_pages; i++) {
-            const label = this.get_tab_label(this.get_nth_page(i));
+            const label = this.get_nth_page(i).tab_label;
 
             label.action_target = GLib.Variant.new_int32(i);
             label.action_name = 'notebook.switch-to-tab';
