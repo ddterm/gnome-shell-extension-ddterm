@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-03-26 02:10+0000\n"
+"POT-Creation-Date: 2025-03-28 04:06+0000\n"
 "PO-Revision-Date: 2024-03-19 15:01+0000\n"
 "Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/gnome-shell-"
@@ -22,25 +22,25 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.5-dev\n"
 
-#: data/com.github.amezin.ddterm.desktop.in.in:9 ddterm/app/appwindow.js:142
+#: data/com.github.amezin.ddterm.desktop.in.in:8 ddterm/app/appwindow.js:142
 #: ddterm/shell/notifications.js:199 ddterm/shell/panelicon.js:29
 msgid "ddterm"
 msgstr "ddterm"
 
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
-#: data/com.github.amezin.ddterm.desktop.in.in:11
+#: data/com.github.amezin.ddterm.desktop.in.in:10
 msgid "shell;prompt;command;commandline;cmd;run;terminal;"
 msgstr "shell;prompt;command;commandline;cmd;run;terminal;"
 
-#: data/com.github.amezin.ddterm.desktop.in.in:12
+#: data/com.github.amezin.ddterm.desktop.in.in:11
 msgid "Another drop down terminal extension for GNOME Shell"
 msgstr "Otra extensión de terminal desplegable para GNOME Shell"
 
-#: data/com.github.amezin.ddterm.desktop.in.in:25
+#: data/com.github.amezin.ddterm.desktop.in.in:24
 msgid "Toggle"
 msgstr "Alternar"
 
-#: data/com.github.amezin.ddterm.desktop.in.in:29 ddterm/app/ui/menus.ui:149
+#: data/com.github.amezin.ddterm.desktop.in.in:28 ddterm/app/ui/menus.ui:149
 #: ddterm/app/ui/menus.ui:283 ddterm/shell/panelicon.js:61
 msgid "Preferences…"
 msgstr "Ajustes…"

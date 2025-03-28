@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-03-26 02:10+0000\n"
+"POT-Creation-Date: 2025-03-28 04:06+0000\n"
 "PO-Revision-Date: 2024-07-24 00:09+0000\n"
 "Last-Translator: Patricio Carrau <duckycb@proton.me>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/gnome-shell-"
@@ -24,26 +24,25 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-Basepath: .\n"
 
-#: data/com.github.amezin.ddterm.desktop.in.in:9 ddterm/app/appwindow.js:142
+#: data/com.github.amezin.ddterm.desktop.in.in:8 ddterm/app/appwindow.js:142
 #: ddterm/shell/notifications.js:199 ddterm/shell/panelicon.js:29
 msgid "ddterm"
 msgstr "ddterm"
 
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
-#: data/com.github.amezin.ddterm.desktop.in.in:11
+#: data/com.github.amezin.ddterm.desktop.in.in:10
 msgid "shell;prompt;command;commandline;cmd;run;terminal;"
-msgstr ""
-"shell;prompt;invite;command;commande;commandline;cmd;run;exécuter;terminal;"
+msgstr "shell;prompt;invite;command;commande;commandline;cmd;run;exécuter;terminal;"
 
-#: data/com.github.amezin.ddterm.desktop.in.in:12
+#: data/com.github.amezin.ddterm.desktop.in.in:11
 msgid "Another drop down terminal extension for GNOME Shell"
 msgstr "Une extension de terminal déroulant pour GNOME shell"
 
-#: data/com.github.amezin.ddterm.desktop.in.in:25
+#: data/com.github.amezin.ddterm.desktop.in.in:24
 msgid "Toggle"
 msgstr "Basculer"
 
-#: data/com.github.amezin.ddterm.desktop.in.in:29 ddterm/app/ui/menus.ui:149
+#: data/com.github.amezin.ddterm.desktop.in.in:28 ddterm/app/ui/menus.ui:149
 #: ddterm/app/ui/menus.ui:283 ddterm/shell/panelicon.js:61
 msgid "Preferences…"
 msgstr "Préférences…"
@@ -1368,10 +1367,10 @@ msgstr "Afficher"
 #~ "- <tt>ellipsize</tt> or <tt>truncate-chars</tt>\n"
 #~ "      example: <tt>{{ellipsize window-title 20}}</tt>"
 #~ msgstr ""
-#~ "Le titre d'onglet est généré par le modèle <a href=\"https://handlebarsjs."
-#~ "com/guide/\">handlebars.js</a>. <a href=\"https://developer.gnome.org/"
-#~ "pango/stable/pango-Markup.html\">Pango markup</a> peut être utilisé pour "
-#~ "formater ce titre.\n"
+#~ "Le titre d'onglet est généré par le modèle <a href=\"https://"
+#~ "handlebarsjs.com/guide/\">handlebars.js</a>. <a href=\"https://"
+#~ "developer.gnome.org/pango/stable/pango-Markup.html\">Pango markup</a> "
+#~ "peut être utilisé pour formater ce titre.\n"
 #~ "\n"
 #~ "Les variables suivantes sont disponibles :\n"
 #~ "- <tt>window-title</tt>\n"
