@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # This file is distributed under the same license as the ddterm package.
 # Cezar Cruz <cezarcruz@outlook.com>, 2023.
-# Luiz Carlos de Souza Santos <lcdessantos@gmail.com>, 2023.
+# Luiz Carlos de Souza Santos <lcdessantos@gmail.com>, 2023, 2025.
 # Bruno Rodrigues <b.rodrigues@live.com>, 2024, 2025.
 msgid ""
 msgstr ""
@@ -11,7 +11,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-03-30 02:22+0000\n"
 "PO-Revision-Date: 2025-03-30 02:31+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"Last-Translator: Luiz Carlos de Souza Santos <lcdessantos@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/pt/>\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
@@ -189,8 +189,7 @@ msgstr "Fechar este terminal?"
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."
-msgstr ""
-"Ainda há um processo rodando neste terminal. Fechar o terminal irá matá-lo."
+msgstr "Ainda há um processo rodando neste terminal. Fechar o terminal irá matá-lo."
 
 #: ddterm/app/ui/menus.ui:14
 msgid "Open Hyperlink"
@@ -540,20 +539,16 @@ msgstr "Ramificando tweening cúbico, com retrocesso em ambos os lados"
 #: ddterm/pref/ui/prefs-animation.ui:136
 msgid ""
 "Exponentially decaying parabolic (bounce) tweening, with bounce on start"
-msgstr ""
-"Tweening de parabólica exponencialmente decadente, com quicada no início"
+msgstr "Tweening de parabólica exponencialmente decadente, com quicada no início"
 
 #: ddterm/pref/ui/prefs-animation.ui:140
 msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on end"
-msgstr ""
-"Tweening de parabólica exponencialmente decadente, com quicada no final"
+msgstr "Tweening de parabólica exponencialmente decadente, com quicada no final"
 
 #: ddterm/pref/ui/prefs-animation.ui:144
 msgid ""
 "Exponentially decaying parabolic (bounce) tweening, with bounce on both ends"
-msgstr ""
-"Tweening de parabólica exponencialmente decadente, com quicada em ambos os "
-"lados"
+msgstr "Tweening de parabólica exponencialmente decadente, com quicada em ambos os lados"
 
 #: ddterm/pref/ui/prefs-animation.ui:167
 msgid "_Override default window animations"
