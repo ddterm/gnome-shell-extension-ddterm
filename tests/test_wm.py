@@ -426,8 +426,6 @@ class CommonTests:
         extension_test_hook,
         app_debug_dbus_interface,
     ):
-        global wait_idle
-
         return functools.partial(
             wait_idle,
             shell_test_hook=shell_test_hook,
