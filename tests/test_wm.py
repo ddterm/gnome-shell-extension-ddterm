@@ -40,6 +40,13 @@ class WindowPosition(enum.StrEnum):
         else:
             return 'scale-y'
 
+    @property
+    def maximize_property(self):
+        if self == WindowPosition.LEFT or self == WindowPosition.RIGHT:
+            return 'MaximizedHorizontally'
+        else:
+            return 'MaximizedVertically'
+
 
 @enum.unique
 class AnimationMode(enum.StrEnum):
@@ -657,6 +664,7 @@ class CommonTests:
 
         try:
             shell_test_hook.mouse_down()
+            extension_test_hook.wait_property(window_position.maximize_property, False)
 
             wait_idle()
             shell_test_hook.WaitLeisure()
@@ -664,11 +672,11 @@ class CommonTests:
             assert extension_test_hook.WindowRect == expected_rect
 
             shell_test_hook.SetPointer(*end)
+            extension_test_hook.wait_property('WindowRect', expected_rect2)
 
             wait_idle()
 
-            if gdk_backend != GdkBackend.X11 and shell_dbus_interface.ShellVersion[0] != 43:
-                assert extension_test_hook.WindowRect == expected_rect2
+            assert extension_test_hook.WindowRect == expected_rect2
 
         finally:
             shell_test_hook.mouse_up()
