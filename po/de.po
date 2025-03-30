@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # This file is distributed under the same license as the ddterm package.
 #
-# Jörn Weigend <das.jott@gmail.com>, 2023.
+# Jörn Weigend <das.jott@gmail.com>, 2023, 2025.
 # Ettore Atalan <atalanttore@googlemail.com>, 2023.
 # Philipp Kiemle <philipp.kiemle@gmail.com>, 2023.
 msgid ""
@@ -12,7 +12,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-03-30 02:22+0000\n"
 "PO-Revision-Date: 2025-03-30 02:31+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"Last-Translator: Jörn Weigend <das.jott@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -190,9 +190,7 @@ msgstr "Dieses Terminal schließen?"
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."
-msgstr ""
-"In diesem Terminal läuft noch ein Prozess. Es zu schließen wird den Prozess "
-"abbrechen."
+msgstr "In diesem Terminal läuft noch ein Prozess. Es zu schließen wird den Prozess abbrechen."
 
 #: ddterm/app/ui/menus.ui:14
 msgid "Open Hyperlink"
