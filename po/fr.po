@@ -5,7 +5,7 @@
 # Arnaud Feldmann <arnaud.feldmann@gmail.com>, 2023, 2024, 2025.
 # fail a fail <yassadmi@proton.me>, 2023.
 # Stephane LE CAER <stephane@slc66.net>, 2023.
-# Patricio Carrau <duckycb@proton.me>, 2024.
+# Patricio Carrau <duckycb@proton.me>, 2024, 2025.
 # Aleksandr Mezin <mezin.alexander@gmail.com>, 2025.
 msgid ""
 msgstr ""
@@ -13,7 +13,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-03-30 02:22+0000\n"
 "PO-Revision-Date: 2025-03-30 02:31+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"Last-Translator: Patricio Carrau <duckycb@proton.me>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
