@@ -6,7 +6,7 @@
 # Eryk Michalak <gnu.ewm@protonmail.com>, 2023, 2025.
 # Defender94 <defender94.business@gmail.com>, 2023, 2025.
 # luk <luktvpl@wp.pl>, 2024.
-# Wojciech Teichert <wojtekt99@gmail.com>, 2024.
+# Wojciech Teichert <wojtekt99@gmail.com>, 2024, 2025.
 # luk <lukasz.osadik@wp.pl>, 2025.
 msgid ""
 msgstr ""
@@ -14,7 +14,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-03-30 02:22+0000\n"
 "PO-Revision-Date: 2025-03-30 02:31+0000\n"
-"Last-Translator: Eryk Michalak <gnu.ewm@protonmail.com>\n"
+"Last-Translator: Wojciech Teichert <wojtekt99@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/pl/>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
