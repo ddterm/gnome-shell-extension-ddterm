@@ -3,23 +3,22 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # This file is distributed under the same license as the ddterm package.
 # Matteo Cerri <mttcerri@hotmail.com>, 2023.
-# Frankie McEyes <mceyes@protonmail.com>, 2023.
+# Frankie McEyes <mceyes@protonmail.com>, 2023, 2025.
 # Nathan Hadley <nathanhadley.pigeon@gmail.com>, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-03-30 02:22+0000\n"
-"PO-Revision-Date: 2024-06-10 12:09+0000\n"
-"Last-Translator: Nathan Hadley <nathanhadley.pigeon@gmail.com>\n"
-"Language-Team: Italian <https://hosted.weblate.org/projects/gnome-shell-"
-"extension-ddterm/extension/it/>\n"
+"PO-Revision-Date: 2025-03-30 02:31+0000\n"
+"Last-Translator: Frankie McEyes <mceyes@protonmail.com>\n"
+"Language-Team: Italian <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/it/>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.6-dev\n"
+"X-Generator: Weblate 5.11-dev\n"
 
 #: data/com.github.amezin.ddterm.desktop.in.in:8 ddterm/app/appwindow.js:142
 #: ddterm/shell/notifications.js:199 ddterm/shell/panelicon.js:29
@@ -51,8 +50,7 @@ msgstr "Avvia l'applicazione, ma non mostrare la finestra"
 
 #: ddterm/app/application.js:82
 msgid "Comma-separated list of backends that GDK should try to use"
-msgstr ""
-"Elenco separato da virgole di backend che GDK dovrebbe provare a utilizzare"
+msgstr "Elenco separato da virgole di backend che GDK dovrebbe provare a utilizzare"
 
 #: ddterm/app/application.js:100
 msgid "Show version information and exit"
@@ -192,9 +190,7 @@ msgstr "Chiudere questo terminale?"
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."
-msgstr ""
-"C'è ancora un processo in esecuzione in questo terminale. La chiusura del "
-"terminale lo terminerà forzatamente."
+msgstr "C'è ancora un processo in esecuzione in questo terminale. La chiusura del terminale lo terminerà forzatamente."
 
 #: ddterm/app/ui/menus.ui:14
 msgid "Open Hyperlink"
@@ -544,22 +540,16 @@ msgstr "Tweening cubico con backtracking su entrambi gli estremi"
 #: ddterm/pref/ui/prefs-animation.ui:136
 msgid ""
 "Exponentially decaying parabolic (bounce) tweening, with bounce on start"
-msgstr ""
-"Tweening parabolico (di rimbalzo) a decadenza esponenziale, con rimbalzo "
-"all'inizio"
+msgstr "Tweening parabolico (di rimbalzo) a decadenza esponenziale, con rimbalzo all'inizio"
 
 #: ddterm/pref/ui/prefs-animation.ui:140
 msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on end"
-msgstr ""
-"Tweening parabolico (di rimbalzo) a decadimento esponenziale, con rimbalzo "
-"alla fine"
+msgstr "Tweening parabolico (di rimbalzo) a decadimento esponenziale, con rimbalzo alla fine"
 
 #: ddterm/pref/ui/prefs-animation.ui:144
 msgid ""
 "Exponentially decaying parabolic (bounce) tweening, with bounce on both ends"
-msgstr ""
-"Tweening parabolico (rimbalzo) a decadimento esponenziale, con rimbalzo su "
-"entrambe le estremità"
+msgstr "Tweening parabolico (rimbalzo) a decadimento esponenziale, con rimbalzo su entrambe le estremità"
 
 #: ddterm/pref/ui/prefs-animation.ui:167
 msgid "_Override default window animations"
