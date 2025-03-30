@@ -4,7 +4,7 @@
 # This file is distributed under the same license as the ddterm package.
 # vantu5z <vantu5z@mail.ru>, 2022-2023.
 # Aleksandr Mezin <mezin.alexander@gmail.com>, 2023, 2024, 2025.
-# Ivan Vantu5z <vantu5z@mail.ru>, 2023.
+# Ivan Vantu5z <vantu5z@mail.ru>, 2023, 2025.
 # gfbdrgng <hnaofegnp@hldrive.com>, 2023.
 # Dmitriy Q <krotesk@mail.ru>, 2024, 2025.
 # Stepan <stepan.miroshnikov@gmail.com>, 2024.
@@ -14,7 +14,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-03-30 02:22+0000\n"
 "PO-Revision-Date: 2025-03-30 02:31+0000\n"
-"Last-Translator: Dmitriy Q <krotesk@mail.ru>\n"
+"Last-Translator: Ivan Vantu5z <vantu5z@mail.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
@@ -52,9 +52,7 @@ msgstr "Запустить приложение, но не показывать 
 
 #: ddterm/app/application.js:82
 msgid "Comma-separated list of backends that GDK should try to use"
-msgstr ""
-"Разделенный запятыми список backend'ов, которые GDK будет пытаться "
-"использовать"
+msgstr "Разделенный запятыми список backend'ов, которые GDK будет пытаться использовать"
 
 #: ddterm/app/application.js:100
 msgid "Show version information and exit"
