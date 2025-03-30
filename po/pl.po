@@ -7,13 +7,14 @@
 # Defender94 <defender94.business@gmail.com>, 2023, 2025.
 # luk <luktvpl@wp.pl>, 2024.
 # Wojciech Teichert <wojtekt99@gmail.com>, 2024.
+# luk <lukasz.osadik@wp.pl>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-03-30 02:22+0000\n"
 "PO-Revision-Date: 2025-03-30 02:31+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"Last-Translator: luk <lukasz.osadik@wp.pl>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/pl/>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
@@ -542,21 +543,16 @@ msgstr "Przestrzelona animacja sześcienna, z cofaniem na obu końcach"
 #: ddterm/pref/ui/prefs-animation.ui:136
 msgid ""
 "Exponentially decaying parabolic (bounce) tweening, with bounce on start"
-msgstr ""
-"Wykładniczo zanikająca animacja paraboliczna (odbicia), z odbiciem na "
-"początku"
+msgstr "Wykładniczo zanikająca animacja paraboliczna (odbicia), z odbiciem na początku"
 
 #: ddterm/pref/ui/prefs-animation.ui:140
 msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on end"
-msgstr ""
-"Wykładniczo zanikająca animacja paraboliczna (odbicia), z odbiciem na końcu"
+msgstr "Wykładniczo zanikająca animacja paraboliczna (odbicia), z odbiciem na końcu"
 
 #: ddterm/pref/ui/prefs-animation.ui:144
 msgid ""
 "Exponentially decaying parabolic (bounce) tweening, with bounce on both ends"
-msgstr ""
-"Wykładniczo zanikająca animacja paraboliczna (odbicia), z odbiciem na obu "
-"końcach"
+msgstr "Wykładniczo zanikająca animacja paraboliczna (odbicia), z odbiciem na obu końcach"
 
 #: ddterm/pref/ui/prefs-animation.ui:167
 msgid "_Override default window animations"
