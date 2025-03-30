@@ -5,7 +5,7 @@
 # Adrian Alberdi Ainciburu <adrian1992@gmail.com>, 2023, 2025.
 # gallegonovato <fran-carro@hotmail.es>, 2023, 2024.
 # Patricio Carrau <66135366+DuckyCB@users.noreply.github.com>, 2024.
-# Patricio Carrau <duckycb@proton.me>, 2024.
+# Patricio Carrau <duckycb@proton.me>, 2024, 2025.
 # Deleted User <noreply+48943@weblate.org>, 2025.
 msgid ""
 msgstr ""
@@ -13,7 +13,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-03-30 02:22+0000\n"
 "PO-Revision-Date: 2025-03-30 02:31+0000\n"
-"Last-Translator: Deleted User <noreply+48943@weblate.org>\n"
+"Last-Translator: Patricio Carrau <duckycb@proton.me>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
@@ -894,8 +894,7 @@ msgstr "Ancho"
 
 #: ddterm/pref/ui/prefs-compatibility.ui:148
 msgid "_Reset Compatibility Options to Defaults"
-msgstr ""
-"_Reiniciar las opciones de compatibilidad con los valores predeterminados"
+msgstr "_Reiniciar las opciones de compatibilidad con los valores predeterminados"
 
 #: ddterm/pref/ui/prefs-panel-icon.ui:22 ddterm/pref/ui/prefs-tabs.ui:230
 msgid "None"
