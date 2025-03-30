@@ -9,15 +9,15 @@ msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-03-30 02:22+0000\n"
-"PO-Revision-Date: 2023-09-26 17:35+0300\n"
-"Last-Translator: Anagnostakis Ioannis <rizitis@gmail.com>\n"
-"Language-Team: Greek, Modern (1453-) <>\n"
+"PO-Revision-Date: 2025-03-30 02:31+0000\n"
+"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"Language-Team: Greek <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/el/>\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"X-Generator: Gtranslator 42.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.11-dev\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-Basepath: .\n"
 
@@ -110,9 +110,7 @@ msgstr "Προειδοποίηση: η έκδοση ddterm έχει αλλάξε
 
 #: ddterm/app/application.js:559 ddterm/shell/notifications.js:77
 msgid "Log out, then log in again to load the updated extension."
-msgstr ""
-"Αποσυνδεθείτε και, στη συνέχεια, συνδεθείτε ξανά για να φορτώσετε την "
-"ενημερωμένη επέκταση."
+msgstr "Αποσυνδεθείτε και, στη συνέχεια, συνδεθείτε ξανά για να φορτώσετε την ενημερωμένη επέκταση."
 
 #: ddterm/app/dependencies.js:72 ddterm/shell/notifications.js:129
 msgid "ddterm needs additional packages to run"
@@ -198,9 +196,7 @@ msgstr "Να κλείσει το Τερματικό ;"
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."
-msgstr ""
-"Μία αργασία εκτελείτε ακόμα σε αυτό το τερματικό. Το κλείσιμο θα την "
-"διακόψει."
+msgstr "Μία αργασία εκτελείτε ακόμα σε αυτό το τερματικό. Το κλείσιμο θα την διακόψει."
 
 #: ddterm/app/ui/menus.ui:14
 msgid "Open Hyperlink"
