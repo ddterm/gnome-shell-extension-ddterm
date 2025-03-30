@@ -13,7 +13,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-03-30 02:22+0000\n"
 "PO-Revision-Date: 2025-03-30 02:31+0000\n"
-"Last-Translator: Aleksandr Mezin <mezin.alexander@gmail.com>\n"
+"Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -109,9 +109,7 @@ msgstr "Avertissement : La version de ddterm a changé"
 
 #: ddterm/app/application.js:559 ddterm/shell/notifications.js:77
 msgid "Log out, then log in again to load the updated extension."
-msgstr ""
-"Fermez la session, puis reconnectez-vous pour charger l'extension mise à "
-"jour."
+msgstr "Fermez la session, puis reconnectez-vous pour charger l'extension mise à jour."
 
 #: ddterm/app/dependencies.js:72 ddterm/shell/notifications.js:129
 msgid "ddterm needs additional packages to run"
