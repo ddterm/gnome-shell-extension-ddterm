@@ -6,13 +6,14 @@
 # fail a fail <yassadmi@proton.me>, 2023.
 # Stephane LE CAER <stephane@slc66.net>, 2023.
 # Patricio Carrau <duckycb@proton.me>, 2024.
+# Aleksandr Mezin <mezin.alexander@gmail.com>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-03-30 02:22+0000\n"
 "PO-Revision-Date: 2025-03-30 02:31+0000\n"
-"Last-Translator: Arnaud Feldmann <arnaud.feldmann@gmail.com>\n"
+"Last-Translator: Aleksandr Mezin <mezin.alexander@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -194,9 +195,7 @@ msgstr "Fermer ce terminal ?"
 msgid ""
 "There is still a process running in this terminal. Closing the terminal will "
 "kill it."
-msgstr ""
-"Il reste un processus en cours d'exécution dans ce terminal. Fermer ce "
-"terminal va le tuer."
+msgstr "Il reste un processus en cours d'exécution dans ce terminal. Fermer ce terminal va le tuer."
 
 #: ddterm/app/ui/menus.ui:14
 msgid "Open Hyperlink"
