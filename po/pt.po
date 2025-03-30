@@ -95,8 +95,7 @@ msgstr "Sem comunicação com a extensão."
 #: ddterm/app/application.js:428 ddterm/app/application.js:555
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr ""
-"Por favor, tenha certeza que o ddterm GNOME Shell extension esta "
-"habilitado."
+"Por favor, tenha certeza que o ddterm GNOME Shell extension esta habilitado."
 
 #: ddterm/app/application.js:553
 msgid "Can't read the version of the loaded extension."
@@ -190,8 +189,8 @@ msgstr "Fechar este terminal?"
 
 #: ddterm/app/terminalpage.js:583
 msgid ""
-"There is still a process running in this terminal. Closing the terminal "
-"will kill it."
+"There is still a process running in this terminal. Closing the terminal will "
+"kill it."
 msgstr ""
 "Ainda há um processo rodando neste terminal. Fechar o terminal irá matá-lo."
 
@@ -547,15 +546,13 @@ msgstr ""
 "Tweening de parabólica exponencialmente decadente, com quicada no início"
 
 #: ddterm/pref/ui/prefs-animation.ui:140
-msgid ""
-"Exponentially decaying parabolic (bounce) tweening, with bounce on end"
+msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on end"
 msgstr ""
 "Tweening de parabólica exponencialmente decadente, com quicada no final"
 
 #: ddterm/pref/ui/prefs-animation.ui:144
 msgid ""
-"Exponentially decaying parabolic (bounce) tweening, with bounce on both "
-"ends"
+"Exponentially decaying parabolic (bounce) tweening, with bounce on both ends"
 msgstr ""
 "Tweening de parabólica exponencialmente decadente, com quicada em ambos os "
 "lados"
@@ -1104,8 +1101,7 @@ msgstr "Mudar para a Aba 9"
 msgid "Switch to Tab 10"
 msgstr "Mudar para a Aba 10"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:405
-#: ddterm/pref/ui/prefs-shortcuts.ui:477
+#: ddterm/pref/ui/prefs-shortcuts.ui:405 ddterm/pref/ui/prefs-shortcuts.ui:477
 msgid "Action"
 msgstr "Ação"
 

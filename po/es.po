@@ -192,8 +192,8 @@ msgstr "¿Cerrar esta terminal?"
 
 #: ddterm/app/terminalpage.js:583
 msgid ""
-"There is still a process running in this terminal. Closing the terminal "
-"will kill it."
+"There is still a process running in this terminal. Closing the terminal will "
+"kill it."
 msgstr ""
 "Un proceso aún está corriendo en esta terminal. Cerrar la terminal lo "
 "terminaría."
@@ -547,23 +547,20 @@ msgstr "Interpolación cúbica con retroceso en ambos extremos"
 msgid ""
 "Exponentially decaying parabolic (bounce) tweening, with bounce on start"
 msgstr ""
-"Intercalación parabólica (rebote) con caída exponencial, con rebote al "
-"inicio"
+"Intercalación parabólica (rebote) con caída exponencial, con rebote al inicio"
 
 #: ddterm/pref/ui/prefs-animation.ui:140
-msgid ""
-"Exponentially decaying parabolic (bounce) tweening, with bounce on end"
+msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on end"
 msgstr ""
 "Intercalación parabólica decreciente exponencialmente (rebote), con rebote "
 "al final"
 
 #: ddterm/pref/ui/prefs-animation.ui:144
 msgid ""
-"Exponentially decaying parabolic (bounce) tweening, with bounce on both "
-"ends"
+"Exponentially decaying parabolic (bounce) tweening, with bounce on both ends"
 msgstr ""
-"Intercalación parabólica (rebote) con decaimiento exponencial, con rebote "
-"en ambos extremos"
+"Intercalación parabólica (rebote) con decaimiento exponencial, con rebote en "
+"ambos extremos"
 
 #: ddterm/pref/ui/prefs-animation.ui:167
 msgid "_Override default window animations"
@@ -1110,8 +1107,7 @@ msgstr "Cambiar a pestaña 9"
 msgid "Switch to Tab 10"
 msgstr "Cambiar a pestaña 10"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:405
-#: ddterm/pref/ui/prefs-shortcuts.ui:477
+#: ddterm/pref/ui/prefs-shortcuts.ui:405 ddterm/pref/ui/prefs-shortcuts.ui:477
 msgid "Action"
 msgstr "Acción"
 

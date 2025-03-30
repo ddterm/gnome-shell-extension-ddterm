@@ -30,7 +30,9 @@ msgstr "ddterm"
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/com.github.amezin.ddterm.desktop.in.in:10
 msgid "shell;prompt;command;commandline;cmd;run;terminal;"
-msgstr "shell;prompt;command;commandline;cmd;run;terminal;Eingabeaufforderung;Befehl;Befehlszeile;ausführen;"
+msgstr ""
+"shell;prompt;command;commandline;cmd;run;terminal;Eingabeaufforderung;Befehl;"
+"Befehlszeile;ausführen;"
 
 #: data/com.github.amezin.ddterm.desktop.in.in:11
 msgid "Another drop down terminal extension for GNOME Shell"
@@ -51,8 +53,7 @@ msgstr "Die Anwendung starten, ohne das Fenster anzuzeigen"
 
 #: ddterm/app/application.js:82
 msgid "Comma-separated list of backends that GDK should try to use"
-msgstr ""
-"Kommaseparierte Liste von Backends, die GDK versuchen sollte zu nutzen"
+msgstr "Kommaseparierte Liste von Backends, die GDK versuchen sollte zu nutzen"
 
 #: ddterm/app/application.js:100
 msgid "Show version information and exit"
@@ -111,8 +112,7 @@ msgstr "Warnung: Die Version von ddterm hat sich geändert"
 #: ddterm/app/application.js:559 ddterm/shell/notifications.js:77
 msgid "Log out, then log in again to load the updated extension."
 msgstr ""
-"Melden Sie sich ab und wieder an, um die aktualisierte Erweiterung zu "
-"laden."
+"Melden Sie sich ab und wieder an, um die aktualisierte Erweiterung zu laden."
 
 #: ddterm/app/dependencies.js:72 ddterm/shell/notifications.js:129
 msgid "ddterm needs additional packages to run"
@@ -194,11 +194,11 @@ msgstr "Dieses Terminal schließen?"
 
 #: ddterm/app/terminalpage.js:583
 msgid ""
-"There is still a process running in this terminal. Closing the terminal "
-"will kill it."
+"There is still a process running in this terminal. Closing the terminal will "
+"kill it."
 msgstr ""
-"In diesem Terminal läuft noch ein Prozess. Es zu schließen wird den "
-"Prozess abbrechen."
+"In diesem Terminal läuft noch ein Prozess. Es zu schließen wird den Prozess "
+"abbrechen."
 
 #: ddterm/app/ui/menus.ui:14
 msgid "Open Hyperlink"
@@ -551,14 +551,12 @@ msgid ""
 msgstr "Exponentiell abklingend, geschwungen, mit Sprung am Anfang"
 
 #: ddterm/pref/ui/prefs-animation.ui:140
-msgid ""
-"Exponentially decaying parabolic (bounce) tweening, with bounce on end"
+msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on end"
 msgstr "Exponentiell abklingend, geschwungen, mit Sprung am Ende"
 
 #: ddterm/pref/ui/prefs-animation.ui:144
 msgid ""
-"Exponentially decaying parabolic (bounce) tweening, with bounce on both "
-"ends"
+"Exponentially decaying parabolic (bounce) tweening, with bounce on both ends"
 msgstr "Exponentiell abklingend, geschwungen, mit Sprung an Anfang und Ende"
 
 #: ddterm/pref/ui/prefs-animation.ui:167
@@ -1105,8 +1103,7 @@ msgstr "Umschalten zu Reiter 9"
 msgid "Switch to Tab 10"
 msgstr "Umschalten zu Reiter 10"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:405
-#: ddterm/pref/ui/prefs-shortcuts.ui:477
+#: ddterm/pref/ui/prefs-shortcuts.ui:405 ddterm/pref/ui/prefs-shortcuts.ui:477
 msgid "Action"
 msgstr "Aktion"
 
@@ -1365,10 +1362,10 @@ msgstr "Anzeigen"
 #~ "- <tt>ellipsize</tt> or <tt>truncate-chars</tt>\n"
 #~ "      example: <tt>{{ellipsize window-title 20}}</tt>"
 #~ msgstr ""
-#~ "Der Tab-Name wird generiert von <a href=\"https://handlebarsjs.com/"
-#~ "guide/\">handlebars.js</a> template. <a href=\"https://"
-#~ "developer.gnome.org/pango/stable/pango-Markup.html\">Pango markup</a> "
-#~ "kann zur Formatierung genutzt werden.\n"
+#~ "Der Tab-Name wird generiert von <a href=\"https://handlebarsjs.com/guide/"
+#~ "\">handlebars.js</a> template. <a href=\"https://developer.gnome.org/"
+#~ "pango/stable/pango-Markup.html\">Pango markup</a> kann zur Formatierung "
+#~ "genutzt werden.\n"
 #~ "\n"
 #~ "Die folgenden Variablen sind verfügbar:\n"
 #~ "- <tt>window-title</tt>\n"

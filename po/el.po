@@ -124,8 +124,7 @@ msgstr "Χρειάζετε να εγκατασταθούν τα ακόλουθα
 
 #: ddterm/app/dependencies.js:84 ddterm/shell/notifications.js:142
 msgid "Please install packages that provide the following files:"
-msgstr ""
-"Παρακαλώ εγκαταστείστε τα πακέτα που περιγράφουν τα παρακάτω αρχεία :"
+msgstr "Παρακαλώ εγκαταστείστε τα πακέτα που περιγράφουν τα παρακάτω αρχεία :"
 
 #: ddterm/app/notebook.js:136
 msgid "New Tab (Last)"
@@ -197,8 +196,8 @@ msgstr "Να κλείσει το Τερματικό ;"
 
 #: ddterm/app/terminalpage.js:583
 msgid ""
-"There is still a process running in this terminal. Closing the terminal "
-"will kill it."
+"There is still a process running in this terminal. Closing the terminal will "
+"kill it."
 msgstr ""
 "Μία αργασία εκτελείτε ακόμα σε αυτό το τερματικό. Το κλείσιμο θα την "
 "διακόψει."
@@ -555,14 +554,12 @@ msgid ""
 msgstr ""
 
 #: ddterm/pref/ui/prefs-animation.ui:140
-msgid ""
-"Exponentially decaying parabolic (bounce) tweening, with bounce on end"
+msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on end"
 msgstr ""
 
 #: ddterm/pref/ui/prefs-animation.ui:144
 msgid ""
-"Exponentially decaying parabolic (bounce) tweening, with bounce on both "
-"ends"
+"Exponentially decaying parabolic (bounce) tweening, with bounce on both ends"
 msgstr ""
 
 #: ddterm/pref/ui/prefs-animation.ui:167
@@ -1113,8 +1110,7 @@ msgstr "Μετάβαση καρτέλα 9"
 msgid "Switch to Tab 10"
 msgstr "Μετάβαση καρτέλα 10"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:405
-#: ddterm/pref/ui/prefs-shortcuts.ui:477
+#: ddterm/pref/ui/prefs-shortcuts.ui:405 ddterm/pref/ui/prefs-shortcuts.ui:477
 msgid "Action"
 msgstr "Δράση"
 
@@ -1372,10 +1368,10 @@ msgstr "Εμφάνιση"
 #~ "- <tt>ellipsize</tt> or <tt>truncate-chars</tt>\n"
 #~ "      example: <tt>{{ellipsize window-title 20}}</tt>"
 #~ msgstr ""
-#~ "Le titre d'onglet est généré par le modèle <a href=\"https://"
-#~ "handlebarsjs.com/guide/\">handlebars.js</a>. <a href=\"https://"
-#~ "developer.gnome.org/pango/stable/pango-Markup.html\">Pango markup</a> "
-#~ "peut être utilisé pour formater ce titre.\n"
+#~ "Le titre d'onglet est généré par le modèle <a href=\"https://handlebarsjs."
+#~ "com/guide/\">handlebars.js</a>. <a href=\"https://developer.gnome.org/"
+#~ "pango/stable/pango-Markup.html\">Pango markup</a> peut être utilisé pour "
+#~ "formater ce titre.\n"
 #~ "\n"
 #~ "Les variables suivantes sont disponibles :\n"
 #~ "- <tt>window-title</tt>\n"

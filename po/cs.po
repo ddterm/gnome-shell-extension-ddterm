@@ -187,8 +187,8 @@ msgstr "Zavřít tento terminál?"
 
 #: ddterm/app/terminalpage.js:583
 msgid ""
-"There is still a process running in this terminal. Closing the terminal "
-"will kill it."
+"There is still a process running in this terminal. Closing the terminal will "
+"kill it."
 msgstr "V tomto terminálu stále běží proces. Zavření terminálu jej ukončí."
 
 #: ddterm/app/ui/menus.ui:14
@@ -534,26 +534,22 @@ msgstr "Překračující krychlové prolínání se zpětným sledováním na ko
 
 #: ddterm/pref/ui/prefs-animation.ui:132
 msgid "Overshooting cubic tweening, with backtracking on both ends"
-msgstr ""
-"Překračující krychlové prolínání se zpětným sledováním na obou koncích"
+msgstr "Překračující krychlové prolínání se zpětným sledováním na obou koncích"
 
 #: ddterm/pref/ui/prefs-animation.ui:136
 msgid ""
 "Exponentially decaying parabolic (bounce) tweening, with bounce on start"
 msgstr ""
-"Exponenciálně klesající parabolické (odrazové) prolínání s odrazem na "
-"začátku"
+"Exponenciálně klesající parabolické (odrazové) prolínání s odrazem na začátku"
 
 #: ddterm/pref/ui/prefs-animation.ui:140
-msgid ""
-"Exponentially decaying parabolic (bounce) tweening, with bounce on end"
+msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on end"
 msgstr ""
 "Exponenciálně klesající parabolické (odrazové) prolínání s odrazem na konci"
 
 #: ddterm/pref/ui/prefs-animation.ui:144
 msgid ""
-"Exponentially decaying parabolic (bounce) tweening, with bounce on both "
-"ends"
+"Exponentially decaying parabolic (bounce) tweening, with bounce on both ends"
 msgstr ""
 "Exponenciálně klesající parabolické (odrazové) prolínání s odrazem na obou "
 "koncích"
@@ -1104,8 +1100,7 @@ msgstr "Přepnout na panel 9"
 msgid "Switch to Tab 10"
 msgstr "Přepnout na panel 10"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:405
-#: ddterm/pref/ui/prefs-shortcuts.ui:477
+#: ddterm/pref/ui/prefs-shortcuts.ui:405 ddterm/pref/ui/prefs-shortcuts.ui:477
 msgid "Action"
 msgstr "Akce"
 
@@ -1368,9 +1363,9 @@ msgstr "Zobrazit"
 #~ "      example: <tt>{{ellipsize window-title 20}}</tt>"
 #~ msgstr ""
 #~ "Název panelu je generovaný pomocí <a href=\"https://handlebarsjs.com/"
-#~ "guide/\">handlebars.js</a> template. <a href=\"https://"
-#~ "developer.gnome.org/pango/stable/pango-Markup.html\">Pango markup</a> "
-#~ "lze požít pro formátování názvu.\n"
+#~ "guide/\">handlebars.js</a> template. <a href=\"https://developer.gnome."
+#~ "org/pango/stable/pango-Markup.html\">Pango markup</a> lze požít pro "
+#~ "formátování názvu.\n"
 #~ "\n"
 #~ "Dostupné jsou následující proměnné:\n"
 #~ "- <tt>window-title</tt>\n"

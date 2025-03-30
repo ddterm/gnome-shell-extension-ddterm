@@ -186,8 +186,8 @@ msgstr "关闭这个终端？"
 
 #: ddterm/app/terminalpage.js:583
 msgid ""
-"There is still a process running in this terminal. Closing the terminal "
-"will kill it."
+"There is still a process running in this terminal. Closing the terminal will "
+"kill it."
 msgstr "该终端中仍有一个进程在运行。关闭终端，将会销毁该进程。"
 
 #: ddterm/app/ui/menus.ui:14
@@ -541,14 +541,12 @@ msgid ""
 msgstr "指数衰减抛物线(弹跳)渐变，开始时弹跳"
 
 #: ddterm/pref/ui/prefs-animation.ui:140
-msgid ""
-"Exponentially decaying parabolic (bounce) tweening, with bounce on end"
+msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on end"
 msgstr "指数衰减抛物线(弹跳)渐变，结束时弹跳"
 
 #: ddterm/pref/ui/prefs-animation.ui:144
 msgid ""
-"Exponentially decaying parabolic (bounce) tweening, with bounce on both "
-"ends"
+"Exponentially decaying parabolic (bounce) tweening, with bounce on both ends"
 msgstr "指数衰减抛物线(弹跳)渐变，两端都有弹跳"
 
 #: ddterm/pref/ui/prefs-animation.ui:167
@@ -1095,8 +1093,7 @@ msgstr "切换到标签9"
 msgid "Switch to Tab 10"
 msgstr "切换到标签10"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:405
-#: ddterm/pref/ui/prefs-shortcuts.ui:477
+#: ddterm/pref/ui/prefs-shortcuts.ui:405 ddterm/pref/ui/prefs-shortcuts.ui:477
 msgid "Action"
 msgstr "活动"
 
@@ -1358,9 +1355,9 @@ msgstr "显示"
 #~ "- <tt>ellipsize</tt> or <tt>truncate-chars</tt>\n"
 #~ "      example: <tt>{{ellipsize window-title 20}}</tt>"
 #~ msgstr ""
-#~ "标签的标题是由 <a href=\"https://handlebarsjs.com/guide/"
-#~ "\">handlebars.js</a> 模板生成的. <a href=\"https://developer.gnome.org/"
-#~ "pango/stable/pango-Markup.html\">Pango markup</a> 可用于格式化标题。\n"
+#~ "标签的标题是由 <a href=\"https://handlebarsjs.com/guide/\">handlebars.js</"
+#~ "a> 模板生成的. <a href=\"https://developer.gnome.org/pango/stable/pango-"
+#~ "Markup.html\">Pango markup</a> 可用于格式化标题。\n"
 #~ "\n"
 #~ "以下是可用的变量：\n"
 #~ "- <tt>window-title</tt>\n"

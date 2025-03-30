@@ -187,11 +187,11 @@ msgstr "Lukk denne terminalen?"
 
 #: ddterm/app/terminalpage.js:583
 msgid ""
-"There is still a process running in this terminal. Closing the terminal "
-"will kill it."
+"There is still a process running in this terminal. Closing the terminal will "
+"kill it."
 msgstr ""
-"Det er fremdeles en kjørende prosess i denne terminalen som drepes hvis "
-"den lukkes."
+"Det er fremdeles en kjørende prosess i denne terminalen som drepes hvis den "
+"lukkes."
 
 #: ddterm/app/ui/menus.ui:14
 msgid "Open Hyperlink"
@@ -546,16 +546,14 @@ msgstr ""
 "starten"
 
 #: ddterm/pref/ui/prefs-animation.ui:140
-msgid ""
-"Exponentially decaying parabolic (bounce) tweening, with bounce on end"
+msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on end"
 msgstr ""
 "Eksponentielt avtagende parabolisk (sprett-) mellomtegning, med sprett på "
 "slutten"
 
 #: ddterm/pref/ui/prefs-animation.ui:144
 msgid ""
-"Exponentially decaying parabolic (bounce) tweening, with bounce on both "
-"ends"
+"Exponentially decaying parabolic (bounce) tweening, with bounce on both ends"
 msgstr ""
 "Eksponentielt avtagende parabolisk (sprett-) mellomtegning, med sprett i "
 "begge ender"
@@ -1105,8 +1103,7 @@ msgstr "Bytt til fane 9"
 msgid "Switch to Tab 10"
 msgstr "Bytt til fane 10"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:405
-#: ddterm/pref/ui/prefs-shortcuts.ui:477
+#: ddterm/pref/ui/prefs-shortcuts.ui:405 ddterm/pref/ui/prefs-shortcuts.ui:477
 msgid "Action"
 msgstr "Handling"
 

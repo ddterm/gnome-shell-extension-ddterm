@@ -32,7 +32,8 @@ msgstr "ddterm"
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/com.github.amezin.ddterm.desktop.in.in:10
 msgid "shell;prompt;command;commandline;cmd;run;terminal;"
-msgstr "shell;prompt;invite;command;commande;commandline;cmd;run;exécuter;terminal;"
+msgstr ""
+"shell;prompt;invite;command;commande;commandline;cmd;run;exécuter;terminal;"
 
 #: data/com.github.amezin.ddterm.desktop.in.in:11
 msgid "Another drop down terminal extension for GNOME Shell"
@@ -54,8 +55,7 @@ msgstr "Démarrer l'application, mais ne pas afficher la fenêtre"
 #: ddterm/app/application.js:82
 msgid "Comma-separated list of backends that GDK should try to use"
 msgstr ""
-"Liste, séparée par des virgules, des backend que GDK doit essayer "
-"d'utiliser"
+"Liste, séparée par des virgules, des backend que GDK doit essayer d'utiliser"
 
 #: ddterm/app/application.js:100
 msgid "Show version information and exit"
@@ -67,8 +67,7 @@ msgstr "Exécutez la commande spécifiée"
 
 #: ddterm/app/application.js:123
 msgid "Wait for the command to exit, and return its exit code"
-msgstr ""
-"Attendre que la commande soit exécutée et retourner son code de sortie"
+msgstr "Attendre que la commande soit exécutée et retourner son code de sortie"
 
 #: ddterm/app/application.js:132
 msgid "Set the working directory"
@@ -198,8 +197,8 @@ msgstr "Fermer ce terminal ?"
 
 #: ddterm/app/terminalpage.js:583
 msgid ""
-"There is still a process running in this terminal. Closing the terminal "
-"will kill it."
+"There is still a process running in this terminal. Closing the terminal will "
+"kill it."
 msgstr ""
 "Il reste un processus en cours d'exécution dans ce terminal. Fermer ce "
 "terminal va le tuer."
@@ -547,8 +546,7 @@ msgstr "Tweening cubique à surréaction, avec retour arrière à la fin"
 
 #: ddterm/pref/ui/prefs-animation.ui:132
 msgid "Overshooting cubic tweening, with backtracking on both ends"
-msgstr ""
-"Tweening cubique à surréaction avec retour arrière aux deux extrémités"
+msgstr "Tweening cubique à surréaction avec retour arrière aux deux extrémités"
 
 #: ddterm/pref/ui/prefs-animation.ui:136
 msgid ""
@@ -556,14 +554,12 @@ msgid ""
 msgstr "Tweeing rebondissant avec rebond au début"
 
 #: ddterm/pref/ui/prefs-animation.ui:140
-msgid ""
-"Exponentially decaying parabolic (bounce) tweening, with bounce on end"
+msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on end"
 msgstr "Tweening rebondissant avec rebond à la fin"
 
 #: ddterm/pref/ui/prefs-animation.ui:144
 msgid ""
-"Exponentially decaying parabolic (bounce) tweening, with bounce on both "
-"ends"
+"Exponentially decaying parabolic (bounce) tweening, with bounce on both ends"
 msgstr "Tweening rebonbissant avec rebond aux deux extrémités"
 
 #: ddterm/pref/ui/prefs-animation.ui:167
@@ -1110,8 +1106,7 @@ msgstr "Basculer vers l'onglet 9"
 msgid "Switch to Tab 10"
 msgstr "Basculer vers l'onglet 10"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:405
-#: ddterm/pref/ui/prefs-shortcuts.ui:477
+#: ddterm/pref/ui/prefs-shortcuts.ui:405 ddterm/pref/ui/prefs-shortcuts.ui:477
 msgid "Action"
 msgstr "Action"
 
@@ -1373,10 +1368,10 @@ msgstr "Afficher"
 #~ "- <tt>ellipsize</tt> or <tt>truncate-chars</tt>\n"
 #~ "      example: <tt>{{ellipsize window-title 20}}</tt>"
 #~ msgstr ""
-#~ "Le titre d'onglet est généré par le modèle <a href=\"https://"
-#~ "handlebarsjs.com/guide/\">handlebars.js</a>. <a href=\"https://"
-#~ "developer.gnome.org/pango/stable/pango-Markup.html\">Pango markup</a> "
-#~ "peut être utilisé pour formater ce titre.\n"
+#~ "Le titre d'onglet est généré par le modèle <a href=\"https://handlebarsjs."
+#~ "com/guide/\">handlebars.js</a>. <a href=\"https://developer.gnome.org/"
+#~ "pango/stable/pango-Markup.html\">Pango markup</a> peut être utilisé pour "
+#~ "formater ce titre.\n"
 #~ "\n"
 #~ "Les variables suivantes sont disponibles :\n"
 #~ "- <tt>window-title</tt>\n"

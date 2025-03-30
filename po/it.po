@@ -190,8 +190,8 @@ msgstr "Chiudere questo terminale?"
 
 #: ddterm/app/terminalpage.js:583
 msgid ""
-"There is still a process running in this terminal. Closing the terminal "
-"will kill it."
+"There is still a process running in this terminal. Closing the terminal will "
+"kill it."
 msgstr ""
 "C'è ancora un processo in esecuzione in questo terminale. La chiusura del "
 "terminale lo terminerà forzatamente."
@@ -549,16 +549,14 @@ msgstr ""
 "all'inizio"
 
 #: ddterm/pref/ui/prefs-animation.ui:140
-msgid ""
-"Exponentially decaying parabolic (bounce) tweening, with bounce on end"
+msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on end"
 msgstr ""
 "Tweening parabolico (di rimbalzo) a decadimento esponenziale, con rimbalzo "
 "alla fine"
 
 #: ddterm/pref/ui/prefs-animation.ui:144
 msgid ""
-"Exponentially decaying parabolic (bounce) tweening, with bounce on both "
-"ends"
+"Exponentially decaying parabolic (bounce) tweening, with bounce on both ends"
 msgstr ""
 "Tweening parabolico (rimbalzo) a decadimento esponenziale, con rimbalzo su "
 "entrambe le estremità"
@@ -1107,8 +1105,7 @@ msgstr "Passa alla scheda 9"
 msgid "Switch to Tab 10"
 msgstr "Passa alla scheda 10"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:405
-#: ddterm/pref/ui/prefs-shortcuts.ui:477
+#: ddterm/pref/ui/prefs-shortcuts.ui:405 ddterm/pref/ui/prefs-shortcuts.ui:477
 msgid "Action"
 msgstr "Azione"
 

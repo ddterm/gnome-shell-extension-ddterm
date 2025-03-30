@@ -112,8 +112,7 @@ msgstr "Внимание: версия ddterm изменилась"
 
 #: ddterm/app/application.js:559 ddterm/shell/notifications.js:77
 msgid "Log out, then log in again to load the updated extension."
-msgstr ""
-"Завершите сессию и снова войдите для применения обновлений расширения."
+msgstr "Завершите сессию и снова войдите для применения обновлений расширения."
 
 #: ddterm/app/dependencies.js:72 ddterm/shell/notifications.js:129
 msgid "ddterm needs additional packages to run"
@@ -195,8 +194,8 @@ msgstr "Закрыть терминал?"
 
 #: ddterm/app/terminalpage.js:583
 msgid ""
-"There is still a process running in this terminal. Closing the terminal "
-"will kill it."
+"There is still a process running in this terminal. Closing the terminal will "
+"kill it."
 msgstr ""
 "В терминале запущены процессы. При закрытии терминала эти процессы будут "
 "завершены."
@@ -552,16 +551,13 @@ msgid ""
 msgstr "Экспоненциально затухающая параболическая с отскоком в начале"
 
 #: ddterm/pref/ui/prefs-animation.ui:140
-msgid ""
-"Exponentially decaying parabolic (bounce) tweening, with bounce on end"
+msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on end"
 msgstr "Экспоненциально затухающая параболическая с отскоком в конце"
 
 #: ddterm/pref/ui/prefs-animation.ui:144
 msgid ""
-"Exponentially decaying parabolic (bounce) tweening, with bounce on both "
-"ends"
-msgstr ""
-"Экспоненциально затухающая параболическая с отскоком в начале и конце"
+"Exponentially decaying parabolic (bounce) tweening, with bounce on both ends"
+msgstr "Экспоненциально затухающая параболическая с отскоком в начале и конце"
 
 #: ddterm/pref/ui/prefs-animation.ui:167
 msgid "_Override default window animations"
@@ -1107,8 +1103,7 @@ msgstr "Переключиться на вкладку 9"
 msgid "Switch to Tab 10"
 msgstr "Переключиться на вкладку 10"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:405
-#: ddterm/pref/ui/prefs-shortcuts.ui:477
+#: ddterm/pref/ui/prefs-shortcuts.ui:405 ddterm/pref/ui/prefs-shortcuts.ui:477
 msgid "Action"
 msgstr "Действие"
 
@@ -1374,8 +1369,8 @@ msgstr "Показать"
 #~ "guide/\n"
 #~ "\\\">handlebars.js</a> шаблону. <a href=\\\"https://developer.gnome.org/"
 #~ "pango/\n"
-#~ "stable/pango-Markup.html\\\">Pango markup</a> может быть использован  "
-#~ "для форматирования.\n"
+#~ "stable/pango-Markup.html\\\">Pango markup</a> может быть использован  для "
+#~ "форматирования.\n"
 #~ "\n"
 #~ "Доступны следующие значения:\n"
 #~ "- <tt>window-title</tt>\n"

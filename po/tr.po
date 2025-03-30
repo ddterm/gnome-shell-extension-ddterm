@@ -188,8 +188,8 @@ msgstr "Bu terminali kapat?"
 
 #: ddterm/app/terminalpage.js:583
 msgid ""
-"There is still a process running in this terminal. Closing the terminal "
-"will kill it."
+"There is still a process running in this terminal. Closing the terminal will "
+"kill it."
 msgstr ""
 "Bu terminalde halen bir işlem çalışıyor. Terminali kapatmak bu işlemi de "
 "sonlandırır."
@@ -543,19 +543,15 @@ msgstr "Aşımlı kübik ara doldurma, her iki tarafta geri izleme ile"
 msgid ""
 "Exponentially decaying parabolic (bounce) tweening, with bounce on start"
 msgstr ""
-"Başlangıçta sıçrama ile üstel olarak azalan parabolik (sıçrama) ara "
-"doldurma"
+"Başlangıçta sıçrama ile üstel olarak azalan parabolik (sıçrama) ara doldurma"
 
 #: ddterm/pref/ui/prefs-animation.ui:140
-msgid ""
-"Exponentially decaying parabolic (bounce) tweening, with bounce on end"
-msgstr ""
-"Sonda sıçrama ile üstel olarak azalan parabolik (sıçrama) ara doldurma"
+msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on end"
+msgstr "Sonda sıçrama ile üstel olarak azalan parabolik (sıçrama) ara doldurma"
 
 #: ddterm/pref/ui/prefs-animation.ui:144
 msgid ""
-"Exponentially decaying parabolic (bounce) tweening, with bounce on both "
-"ends"
+"Exponentially decaying parabolic (bounce) tweening, with bounce on both ends"
 msgstr ""
 "Her iki tarafta sıçrama ile üstel olarak azalan parabolik (sıçrama) ara "
 "doldurma"
@@ -1104,8 +1100,7 @@ msgstr "Dokuzuncu Sekmeye Geç"
 msgid "Switch to Tab 10"
 msgstr "Onuncu Sekmeye Geç"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:405
-#: ddterm/pref/ui/prefs-shortcuts.ui:477
+#: ddterm/pref/ui/prefs-shortcuts.ui:405 ddterm/pref/ui/prefs-shortcuts.ui:477
 msgid "Action"
 msgstr "Aksiyon"
 
