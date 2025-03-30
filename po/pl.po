@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # This file is distributed under the same license as the ddterm package.
 # Michał Olejniczak <blind.x6@gmail.com>, 2023.
-# Eryk Michalak <gnu.ewm@protonmail.com>, 2023.
+# Eryk Michalak <gnu.ewm@protonmail.com>, 2023, 2025.
 # Defender94 <defender94.business@gmail.com>, 2023, 2025.
 # luk <luktvpl@wp.pl>, 2024.
 # Wojciech Teichert <wojtekt99@gmail.com>, 2024.
@@ -14,7 +14,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-03-30 02:22+0000\n"
 "PO-Revision-Date: 2025-03-30 02:31+0000\n"
-"Last-Translator: luk <lukasz.osadik@wp.pl>\n"
+"Last-Translator: Eryk Michalak <gnu.ewm@protonmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/pl/>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
@@ -52,8 +52,7 @@ msgstr "Uruchom aplikację, ale nie pokazuj okna"
 
 #: ddterm/app/application.js:82
 msgid "Comma-separated list of backends that GDK should try to use"
-msgstr ""
-"Rozdzielana przecinkami lista backendów, których GDK powinien spróbować użyć"
+msgstr "Rozdzielana przecinkami lista backendów, których GDK powinien spróbować użyć"
 
 #: ddterm/app/application.js:100
 msgid "Show version information and exit"
