@@ -42,7 +42,7 @@ Example for Hungarian (`hu`) translation:
 ```sh
 git clone git@github.com:yourname/gnome-shell-extension-ddterm.git
 cd gnome-shell-extension-ddterm/po
-msginit -i ddterm@amezin.github.com.pot -l hu --no-translator
+msginit -i ddterm@amezin.github.com.pot -l hu --no-translator --no-wrap
 echo hu >>LINGUAS
 git add hu.po LINGUAS
 git commit -m "translations: add Hungarian"
