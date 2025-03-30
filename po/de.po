@@ -5,14 +5,14 @@
 #
 # Jörn Weigend <das.jott@gmail.com>, 2023, 2025.
 # Ettore Atalan <atalanttore@googlemail.com>, 2023.
-# Philipp Kiemle <philipp.kiemle@gmail.com>, 2023.
+# Philipp Kiemle <philipp.kiemle@gmail.com>, 2023, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-03-30 02:22+0000\n"
 "PO-Revision-Date: 2025-03-30 02:31+0000\n"
-"Last-Translator: Jörn Weigend <das.jott@gmail.com>\n"
+"Last-Translator: Philipp Kiemle <philipp.kiemle@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
