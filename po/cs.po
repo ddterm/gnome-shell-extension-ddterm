@@ -2,14 +2,14 @@
 # Copyright (C) 2023 ddterm contributors <https://github.com/ddterm/gnome-shell-extension-ddterm/>
 # SPDX-License-Identifier: GPL-3.0-or-later
 # This file is distributed under the same license as the ddterm package.
-# Pavel Novák <pavelnov32@gmail.com>, 2023.
+# Pavel Novák <pavelnov32@gmail.com>, 2023, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-03-30 02:22+0000\n"
 "PO-Revision-Date: 2025-03-30 02:31+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"Last-Translator: Pavel Novák <pavelnov32@gmail.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/cs/>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
@@ -538,20 +538,16 @@ msgstr "Překračující krychlové prolínání se zpětným sledováním na ob
 #: ddterm/pref/ui/prefs-animation.ui:136
 msgid ""
 "Exponentially decaying parabolic (bounce) tweening, with bounce on start"
-msgstr ""
-"Exponenciálně klesající parabolické (odrazové) prolínání s odrazem na začátku"
+msgstr "Exponenciálně klesající parabolické (odrazové) prolínání s odrazem na začátku"
 
 #: ddterm/pref/ui/prefs-animation.ui:140
 msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on end"
-msgstr ""
-"Exponenciálně klesající parabolické (odrazové) prolínání s odrazem na konci"
+msgstr "Exponenciálně klesající parabolické (odrazové) prolínání s odrazem na konci"
 
 #: ddterm/pref/ui/prefs-animation.ui:144
 msgid ""
 "Exponentially decaying parabolic (bounce) tweening, with bounce on both ends"
-msgstr ""
-"Exponenciálně klesající parabolické (odrazové) prolínání s odrazem na obou "
-"koncích"
+msgstr "Exponenciálně klesající parabolické (odrazové) prolínání s odrazem na obou koncích"
 
 #: ddterm/pref/ui/prefs-animation.ui:167
 msgid "_Override default window animations"
