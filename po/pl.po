@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-03-28 04:06+0000\n"
+"POT-Creation-Date: 2025-03-30 02:22+0000\n"
 "PO-Revision-Date: 2024-06-15 17:09+0000\n"
 "Last-Translator: Wojciech Teichert <wojtekt99@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/gnome-shell-"
@@ -20,8 +20,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
-"|| n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && "
+"(n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Weblate 5.6-dev\n"
 
 #: data/com.github.amezin.ddterm.desktop.in.in:8 ddterm/app/appwindow.js:142
@@ -54,7 +54,8 @@ msgstr "Uruchom aplikację, ale nie pokazuj okna"
 #: ddterm/app/application.js:82
 msgid "Comma-separated list of backends that GDK should try to use"
 msgstr ""
-"Rozdzielana przecinkami lista backendów, których GDK powinien spróbować użyć"
+"Rozdzielana przecinkami lista backendów, których GDK powinien spróbować "
+"użyć"
 
 #: ddterm/app/application.js:100
 msgid "Show version information and exit"
@@ -92,23 +93,23 @@ msgstr "Otwórz nową kartę"
 msgid "Saving session…"
 msgstr "Zapisywanie sesji…"
 
-#: ddterm/app/application.js:419
+#: ddterm/app/application.js:426
 msgid "Can't contact the extension."
 msgstr "Nie można skontaktować się z rozszerzeniem."
 
-#: ddterm/app/application.js:421 ddterm/app/application.js:548
+#: ddterm/app/application.js:428 ddterm/app/application.js:555
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr "Proszę upewnić się że rozszerzenie ddterm GNOME Shell jest włączone."
 
-#: ddterm/app/application.js:546
+#: ddterm/app/application.js:553
 msgid "Can't read the version of the loaded extension."
 msgstr "Nie można odczytać wersji wczytanego rozszerzenia."
 
-#: ddterm/app/application.js:551 ddterm/shell/notifications.js:75
+#: ddterm/app/application.js:558 ddterm/shell/notifications.js:75
 msgid "Warning: ddterm version has changed"
 msgstr "Ostrzeżenie: wersja ddterm zmieniła się"
 
-#: ddterm/app/application.js:552 ddterm/shell/notifications.js:77
+#: ddterm/app/application.js:559 ddterm/shell/notifications.js:77
 msgid "Log out, then log in again to load the updated extension."
 msgstr "Zaloguj się ponownie, aby załadować aktualne rozszerzenie."
 
@@ -192,8 +193,8 @@ msgstr "Zamknąć ten terminal?"
 
 #: ddterm/app/terminalpage.js:583
 msgid ""
-"There is still a process running in this terminal. Closing the terminal will "
-"kill it."
+"There is still a process running in this terminal. Closing the terminal "
+"will kill it."
 msgstr ""
 "W tej konsoli wciąż wykonuje się polecenie. Zamknięcie konsoli spowoduje "
 "zakończenie procesu."
@@ -551,13 +552,15 @@ msgstr ""
 "początku"
 
 #: ddterm/pref/ui/prefs-animation.ui:140
-msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on end"
+msgid ""
+"Exponentially decaying parabolic (bounce) tweening, with bounce on end"
 msgstr ""
 "Wykładniczo zanikająca animacja paraboliczna (odbicia), z odbiciem na końcu"
 
 #: ddterm/pref/ui/prefs-animation.ui:144
 msgid ""
-"Exponentially decaying parabolic (bounce) tweening, with bounce on both ends"
+"Exponentially decaying parabolic (bounce) tweening, with bounce on both "
+"ends"
 msgstr ""
 "Wykładniczo zanikająca animacja paraboliczna (odbicia), z odbiciem na obu "
 "końcach"
@@ -1107,7 +1110,8 @@ msgstr "Przejdź do karty 9"
 msgid "Switch to Tab 10"
 msgstr "Przejdź do karty 10"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:405 ddterm/pref/ui/prefs-shortcuts.ui:477
+#: ddterm/pref/ui/prefs-shortcuts.ui:405
+#: ddterm/pref/ui/prefs-shortcuts.ui:477
 msgid "Action"
 msgstr "Akcja"
 

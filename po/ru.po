@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-03-28 04:06+0000\n"
+"POT-Creation-Date: 2025-03-30 02:22+0000\n"
 "PO-Revision-Date: 2024-04-10 20:01+0000\n"
 "Last-Translator: Stepan <stepan.miroshnikov@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/gnome-shell-"
@@ -94,25 +94,26 @@ msgstr "Открыть новую вкладку"
 msgid "Saving session…"
 msgstr "Сохранение сессии…"
 
-#: ddterm/app/application.js:419
+#: ddterm/app/application.js:426
 msgid "Can't contact the extension."
 msgstr "Невозможно связаться с расширением."
 
-#: ddterm/app/application.js:421 ddterm/app/application.js:548
+#: ddterm/app/application.js:428 ddterm/app/application.js:555
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr "Убедитесь, что расширение ddterm GNOME Shell включено."
 
-#: ddterm/app/application.js:546
+#: ddterm/app/application.js:553
 msgid "Can't read the version of the loaded extension."
 msgstr "Невозможно получить версию загруженного расширения."
 
-#: ddterm/app/application.js:551 ddterm/shell/notifications.js:75
+#: ddterm/app/application.js:558 ddterm/shell/notifications.js:75
 msgid "Warning: ddterm version has changed"
 msgstr "Внимание: версия ddterm изменилась"
 
-#: ddterm/app/application.js:552 ddterm/shell/notifications.js:77
+#: ddterm/app/application.js:559 ddterm/shell/notifications.js:77
 msgid "Log out, then log in again to load the updated extension."
-msgstr "Завершите сессию и снова войдите для применения обновлений расширения."
+msgstr ""
+"Завершите сессию и снова войдите для применения обновлений расширения."
 
 #: ddterm/app/dependencies.js:72 ddterm/shell/notifications.js:129
 msgid "ddterm needs additional packages to run"
@@ -194,8 +195,8 @@ msgstr "Закрыть терминал?"
 
 #: ddterm/app/terminalpage.js:583
 msgid ""
-"There is still a process running in this terminal. Closing the terminal will "
-"kill it."
+"There is still a process running in this terminal. Closing the terminal "
+"will kill it."
 msgstr ""
 "В терминале запущены процессы. При закрытии терминала эти процессы будут "
 "завершены."
@@ -551,13 +552,16 @@ msgid ""
 msgstr "Экспоненциально затухающая параболическая с отскоком в начале"
 
 #: ddterm/pref/ui/prefs-animation.ui:140
-msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on end"
+msgid ""
+"Exponentially decaying parabolic (bounce) tweening, with bounce on end"
 msgstr "Экспоненциально затухающая параболическая с отскоком в конце"
 
 #: ddterm/pref/ui/prefs-animation.ui:144
 msgid ""
-"Exponentially decaying parabolic (bounce) tweening, with bounce on both ends"
-msgstr "Экспоненциально затухающая параболическая с отскоком в начале и конце"
+"Exponentially decaying parabolic (bounce) tweening, with bounce on both "
+"ends"
+msgstr ""
+"Экспоненциально затухающая параболическая с отскоком в начале и конце"
 
 #: ddterm/pref/ui/prefs-animation.ui:167
 msgid "_Override default window animations"
@@ -1103,7 +1107,8 @@ msgstr "Переключиться на вкладку 9"
 msgid "Switch to Tab 10"
 msgstr "Переключиться на вкладку 10"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:405 ddterm/pref/ui/prefs-shortcuts.ui:477
+#: ddterm/pref/ui/prefs-shortcuts.ui:405
+#: ddterm/pref/ui/prefs-shortcuts.ui:477
 msgid "Action"
 msgstr "Действие"
 
@@ -1369,8 +1374,8 @@ msgstr "Показать"
 #~ "guide/\n"
 #~ "\\\">handlebars.js</a> шаблону. <a href=\\\"https://developer.gnome.org/"
 #~ "pango/\n"
-#~ "stable/pango-Markup.html\\\">Pango markup</a> может быть использован  для "
-#~ "форматирования.\n"
+#~ "stable/pango-Markup.html\\\">Pango markup</a> может быть использован  "
+#~ "для форматирования.\n"
 #~ "\n"
 #~ "Доступны следующие значения:\n"
 #~ "- <tt>window-title</tt>\n"

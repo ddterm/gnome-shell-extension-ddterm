@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-03-28 04:06+0000\n"
+"POT-Creation-Date: 2025-03-30 02:22+0000\n"
 "PO-Revision-Date: 2024-08-26 08:09+0000\n"
 "Last-Translator: yuh <yuhldr@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -86,23 +86,23 @@ msgstr "打开新标签"
 msgid "Saving session…"
 msgstr "会话保存中……"
 
-#: ddterm/app/application.js:419
+#: ddterm/app/application.js:426
 msgid "Can't contact the extension."
 msgstr "无法连接到扩展。"
 
-#: ddterm/app/application.js:421 ddterm/app/application.js:548
+#: ddterm/app/application.js:428 ddterm/app/application.js:555
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr "请确保ddterm在GNOME扩展中可用。"
 
-#: ddterm/app/application.js:546
+#: ddterm/app/application.js:553
 msgid "Can't read the version of the loaded extension."
 msgstr "无法读取已加载扩展插件的版本。"
 
-#: ddterm/app/application.js:551 ddterm/shell/notifications.js:75
+#: ddterm/app/application.js:558 ddterm/shell/notifications.js:75
 msgid "Warning: ddterm version has changed"
 msgstr "警告：ddterm版本已改变"
 
-#: ddterm/app/application.js:552 ddterm/shell/notifications.js:77
+#: ddterm/app/application.js:559 ddterm/shell/notifications.js:77
 msgid "Log out, then log in again to load the updated extension."
 msgstr "注销后重新登录，方可生效。"
 
@@ -186,8 +186,8 @@ msgstr "关闭这个终端？"
 
 #: ddterm/app/terminalpage.js:583
 msgid ""
-"There is still a process running in this terminal. Closing the terminal will "
-"kill it."
+"There is still a process running in this terminal. Closing the terminal "
+"will kill it."
 msgstr "该终端中仍有一个进程在运行。关闭终端，将会销毁该进程。"
 
 #: ddterm/app/ui/menus.ui:14
@@ -541,12 +541,14 @@ msgid ""
 msgstr "指数衰减抛物线(弹跳)渐变，开始时弹跳"
 
 #: ddterm/pref/ui/prefs-animation.ui:140
-msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on end"
+msgid ""
+"Exponentially decaying parabolic (bounce) tweening, with bounce on end"
 msgstr "指数衰减抛物线(弹跳)渐变，结束时弹跳"
 
 #: ddterm/pref/ui/prefs-animation.ui:144
 msgid ""
-"Exponentially decaying parabolic (bounce) tweening, with bounce on both ends"
+"Exponentially decaying parabolic (bounce) tweening, with bounce on both "
+"ends"
 msgstr "指数衰减抛物线(弹跳)渐变，两端都有弹跳"
 
 #: ddterm/pref/ui/prefs-animation.ui:167
@@ -1093,7 +1095,8 @@ msgstr "切换到标签9"
 msgid "Switch to Tab 10"
 msgstr "切换到标签10"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:405 ddterm/pref/ui/prefs-shortcuts.ui:477
+#: ddterm/pref/ui/prefs-shortcuts.ui:405
+#: ddterm/pref/ui/prefs-shortcuts.ui:477
 msgid "Action"
 msgstr "活动"
 
@@ -1355,9 +1358,9 @@ msgstr "显示"
 #~ "- <tt>ellipsize</tt> or <tt>truncate-chars</tt>\n"
 #~ "      example: <tt>{{ellipsize window-title 20}}</tt>"
 #~ msgstr ""
-#~ "标签的标题是由 <a href=\"https://handlebarsjs.com/guide/\">handlebars.js</"
-#~ "a> 模板生成的. <a href=\"https://developer.gnome.org/pango/stable/pango-"
-#~ "Markup.html\">Pango markup</a> 可用于格式化标题。\n"
+#~ "标签的标题是由 <a href=\"https://handlebarsjs.com/guide/"
+#~ "\">handlebars.js</a> 模板生成的. <a href=\"https://developer.gnome.org/"
+#~ "pango/stable/pango-Markup.html\">Pango markup</a> 可用于格式化标题。\n"
 #~ "\n"
 #~ "以下是可用的变量：\n"
 #~ "- <tt>window-title</tt>\n"

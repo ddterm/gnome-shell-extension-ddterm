@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-03-28 04:06+0000\n"
+"POT-Creation-Date: 2025-03-30 02:22+0000\n"
 "PO-Revision-Date: 2024-06-10 12:09+0000\n"
 "Last-Translator: Nathan Hadley <nathanhadley.pigeon@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/gnome-shell-"
@@ -90,23 +90,23 @@ msgstr "Aprire una nuova scheda"
 msgid "Saving session…"
 msgstr "Salvataggio della sessione…"
 
-#: ddterm/app/application.js:419
+#: ddterm/app/application.js:426
 msgid "Can't contact the extension."
 msgstr ""
 
-#: ddterm/app/application.js:421 ddterm/app/application.js:548
+#: ddterm/app/application.js:428 ddterm/app/application.js:555
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr ""
 
-#: ddterm/app/application.js:546
+#: ddterm/app/application.js:553
 msgid "Can't read the version of the loaded extension."
 msgstr ""
 
-#: ddterm/app/application.js:551 ddterm/shell/notifications.js:75
+#: ddterm/app/application.js:558 ddterm/shell/notifications.js:75
 msgid "Warning: ddterm version has changed"
 msgstr "Attenzione: la versione di ddterm è cambiata"
 
-#: ddterm/app/application.js:552 ddterm/shell/notifications.js:77
+#: ddterm/app/application.js:559 ddterm/shell/notifications.js:77
 msgid "Log out, then log in again to load the updated extension."
 msgstr "Uscire e rientrare per caricare l'estensione aggiornata."
 
@@ -190,8 +190,8 @@ msgstr "Chiudere questo terminale?"
 
 #: ddterm/app/terminalpage.js:583
 msgid ""
-"There is still a process running in this terminal. Closing the terminal will "
-"kill it."
+"There is still a process running in this terminal. Closing the terminal "
+"will kill it."
 msgstr ""
 "C'è ancora un processo in esecuzione in questo terminale. La chiusura del "
 "terminale lo terminerà forzatamente."
@@ -549,14 +549,16 @@ msgstr ""
 "all'inizio"
 
 #: ddterm/pref/ui/prefs-animation.ui:140
-msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on end"
+msgid ""
+"Exponentially decaying parabolic (bounce) tweening, with bounce on end"
 msgstr ""
 "Tweening parabolico (di rimbalzo) a decadimento esponenziale, con rimbalzo "
 "alla fine"
 
 #: ddterm/pref/ui/prefs-animation.ui:144
 msgid ""
-"Exponentially decaying parabolic (bounce) tweening, with bounce on both ends"
+"Exponentially decaying parabolic (bounce) tweening, with bounce on both "
+"ends"
 msgstr ""
 "Tweening parabolico (rimbalzo) a decadimento esponenziale, con rimbalzo su "
 "entrambe le estremità"
@@ -1105,7 +1107,8 @@ msgstr "Passa alla scheda 9"
 msgid "Switch to Tab 10"
 msgstr "Passa alla scheda 10"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:405 ddterm/pref/ui/prefs-shortcuts.ui:477
+#: ddterm/pref/ui/prefs-shortcuts.ui:405
+#: ddterm/pref/ui/prefs-shortcuts.ui:477
 msgid "Action"
 msgstr "Azione"
 

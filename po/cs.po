@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-03-28 04:06+0000\n"
+"POT-Creation-Date: 2025-03-30 02:22+0000\n"
 "PO-Revision-Date: 2023-10-24 22:14+0000\n"
 "Last-Translator: Pavel Novák <pavelnov32@gmail.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/gnome-shell-"
@@ -87,23 +87,23 @@ msgstr "Otevřít nový panel"
 msgid "Saving session…"
 msgstr "Ukládám sezení…"
 
-#: ddterm/app/application.js:419
+#: ddterm/app/application.js:426
 msgid "Can't contact the extension."
 msgstr ""
 
-#: ddterm/app/application.js:421 ddterm/app/application.js:548
+#: ddterm/app/application.js:428 ddterm/app/application.js:555
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr ""
 
-#: ddterm/app/application.js:546
+#: ddterm/app/application.js:553
 msgid "Can't read the version of the loaded extension."
 msgstr ""
 
-#: ddterm/app/application.js:551 ddterm/shell/notifications.js:75
+#: ddterm/app/application.js:558 ddterm/shell/notifications.js:75
 msgid "Warning: ddterm version has changed"
 msgstr "Varování: Verze ddterm byla změněna"
 
-#: ddterm/app/application.js:552 ddterm/shell/notifications.js:77
+#: ddterm/app/application.js:559 ddterm/shell/notifications.js:77
 msgid "Log out, then log in again to load the updated extension."
 msgstr "Znovu se přihlašte pro načtení aktualizovaného rozšíření."
 
@@ -187,8 +187,8 @@ msgstr "Zavřít tento terminál?"
 
 #: ddterm/app/terminalpage.js:583
 msgid ""
-"There is still a process running in this terminal. Closing the terminal will "
-"kill it."
+"There is still a process running in this terminal. Closing the terminal "
+"will kill it."
 msgstr "V tomto terminálu stále běží proces. Zavření terminálu jej ukončí."
 
 #: ddterm/app/ui/menus.ui:14
@@ -534,22 +534,26 @@ msgstr "Překračující krychlové prolínání se zpětným sledováním na ko
 
 #: ddterm/pref/ui/prefs-animation.ui:132
 msgid "Overshooting cubic tweening, with backtracking on both ends"
-msgstr "Překračující krychlové prolínání se zpětným sledováním na obou koncích"
+msgstr ""
+"Překračující krychlové prolínání se zpětným sledováním na obou koncích"
 
 #: ddterm/pref/ui/prefs-animation.ui:136
 msgid ""
 "Exponentially decaying parabolic (bounce) tweening, with bounce on start"
 msgstr ""
-"Exponenciálně klesající parabolické (odrazové) prolínání s odrazem na začátku"
+"Exponenciálně klesající parabolické (odrazové) prolínání s odrazem na "
+"začátku"
 
 #: ddterm/pref/ui/prefs-animation.ui:140
-msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on end"
+msgid ""
+"Exponentially decaying parabolic (bounce) tweening, with bounce on end"
 msgstr ""
 "Exponenciálně klesající parabolické (odrazové) prolínání s odrazem na konci"
 
 #: ddterm/pref/ui/prefs-animation.ui:144
 msgid ""
-"Exponentially decaying parabolic (bounce) tweening, with bounce on both ends"
+"Exponentially decaying parabolic (bounce) tweening, with bounce on both "
+"ends"
 msgstr ""
 "Exponenciálně klesající parabolické (odrazové) prolínání s odrazem na obou "
 "koncích"
@@ -1100,7 +1104,8 @@ msgstr "Přepnout na panel 9"
 msgid "Switch to Tab 10"
 msgstr "Přepnout na panel 10"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:405 ddterm/pref/ui/prefs-shortcuts.ui:477
+#: ddterm/pref/ui/prefs-shortcuts.ui:405
+#: ddterm/pref/ui/prefs-shortcuts.ui:477
 msgid "Action"
 msgstr "Akce"
 
@@ -1363,9 +1368,9 @@ msgstr "Zobrazit"
 #~ "      example: <tt>{{ellipsize window-title 20}}</tt>"
 #~ msgstr ""
 #~ "Název panelu je generovaný pomocí <a href=\"https://handlebarsjs.com/"
-#~ "guide/\">handlebars.js</a> template. <a href=\"https://developer.gnome."
-#~ "org/pango/stable/pango-Markup.html\">Pango markup</a> lze požít pro "
-#~ "formátování názvu.\n"
+#~ "guide/\">handlebars.js</a> template. <a href=\"https://"
+#~ "developer.gnome.org/pango/stable/pango-Markup.html\">Pango markup</a> "
+#~ "lze požít pro formátování názvu.\n"
 #~ "\n"
 #~ "Dostupné jsou následující proměnné:\n"
 #~ "- <tt>window-title</tt>\n"

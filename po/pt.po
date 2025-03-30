@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-03-28 04:06+0000\n"
+"POT-Creation-Date: 2025-03-30 02:22+0000\n"
 "PO-Revision-Date: 2024-09-09 02:09+0000\n"
 "Last-Translator: Bruno Rodrigues <b.rodrigues@live.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/gnome-shell-"
@@ -88,24 +88,25 @@ msgstr "Abrir nova aba"
 msgid "Saving session…"
 msgstr "Salvando a sessão…"
 
-#: ddterm/app/application.js:419
+#: ddterm/app/application.js:426
 msgid "Can't contact the extension."
 msgstr "Sem comunicação com a extensão."
 
-#: ddterm/app/application.js:421 ddterm/app/application.js:548
+#: ddterm/app/application.js:428 ddterm/app/application.js:555
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr ""
-"Por favor, tenha certeza que o ddterm GNOME Shell extension esta habilitado."
+"Por favor, tenha certeza que o ddterm GNOME Shell extension esta "
+"habilitado."
 
-#: ddterm/app/application.js:546
+#: ddterm/app/application.js:553
 msgid "Can't read the version of the loaded extension."
 msgstr "Não foi possível verificar a versão da extensão."
 
-#: ddterm/app/application.js:551 ddterm/shell/notifications.js:75
+#: ddterm/app/application.js:558 ddterm/shell/notifications.js:75
 msgid "Warning: ddterm version has changed"
 msgstr "Aviso: A extensão ddterm foi atualizada"
 
-#: ddterm/app/application.js:552 ddterm/shell/notifications.js:77
+#: ddterm/app/application.js:559 ddterm/shell/notifications.js:77
 msgid "Log out, then log in again to load the updated extension."
 msgstr "Saia, e em seguida faça login novamente para carregar a nova versão."
 
@@ -189,8 +190,8 @@ msgstr "Fechar este terminal?"
 
 #: ddterm/app/terminalpage.js:583
 msgid ""
-"There is still a process running in this terminal. Closing the terminal will "
-"kill it."
+"There is still a process running in this terminal. Closing the terminal "
+"will kill it."
 msgstr ""
 "Ainda há um processo rodando neste terminal. Fechar o terminal irá matá-lo."
 
@@ -546,13 +547,15 @@ msgstr ""
 "Tweening de parabólica exponencialmente decadente, com quicada no início"
 
 #: ddterm/pref/ui/prefs-animation.ui:140
-msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on end"
+msgid ""
+"Exponentially decaying parabolic (bounce) tweening, with bounce on end"
 msgstr ""
 "Tweening de parabólica exponencialmente decadente, com quicada no final"
 
 #: ddterm/pref/ui/prefs-animation.ui:144
 msgid ""
-"Exponentially decaying parabolic (bounce) tweening, with bounce on both ends"
+"Exponentially decaying parabolic (bounce) tweening, with bounce on both "
+"ends"
 msgstr ""
 "Tweening de parabólica exponencialmente decadente, com quicada em ambos os "
 "lados"
@@ -1101,7 +1104,8 @@ msgstr "Mudar para a Aba 9"
 msgid "Switch to Tab 10"
 msgstr "Mudar para a Aba 10"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:405 ddterm/pref/ui/prefs-shortcuts.ui:477
+#: ddterm/pref/ui/prefs-shortcuts.ui:405
+#: ddterm/pref/ui/prefs-shortcuts.ui:477
 msgid "Action"
 msgstr "Ação"
 

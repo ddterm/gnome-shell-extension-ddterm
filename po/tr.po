@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-03-28 04:06+0000\n"
+"POT-Creation-Date: 2025-03-30 02:22+0000\n"
 "PO-Revision-Date: 2024-10-03 16:15+0000\n"
 "Last-Translator: Muha Aliss <muhaaliss@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/gnome-shell-"
@@ -87,24 +87,24 @@ msgstr "Yeni bir sekme aç"
 msgid "Saving session…"
 msgstr "Oturum kaydediliyor…"
 
-#: ddterm/app/application.js:419
+#: ddterm/app/application.js:426
 msgid "Can't contact the extension."
 msgstr "Uzantı ile irtibat kurulamıyor."
 
-#: ddterm/app/application.js:421 ddterm/app/application.js:548
+#: ddterm/app/application.js:428 ddterm/app/application.js:555
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr ""
 "Lütfen ddterm GNOME Shell eklentisinin etkinleştirildiğinden emin olun."
 
-#: ddterm/app/application.js:546
+#: ddterm/app/application.js:553
 msgid "Can't read the version of the loaded extension."
 msgstr "Yüklü olan uzantının versiyon bilgisi okunamadı."
 
-#: ddterm/app/application.js:551 ddterm/shell/notifications.js:75
+#: ddterm/app/application.js:558 ddterm/shell/notifications.js:75
 msgid "Warning: ddterm version has changed"
 msgstr "Uyarı: ddterm sürümü değişti"
 
-#: ddterm/app/application.js:552 ddterm/shell/notifications.js:77
+#: ddterm/app/application.js:559 ddterm/shell/notifications.js:77
 msgid "Log out, then log in again to load the updated extension."
 msgstr "Güncellenmiş uzantıyı yüklemek için oturumu kapatın ve tekrar açın."
 
@@ -188,8 +188,8 @@ msgstr "Bu terminali kapat?"
 
 #: ddterm/app/terminalpage.js:583
 msgid ""
-"There is still a process running in this terminal. Closing the terminal will "
-"kill it."
+"There is still a process running in this terminal. Closing the terminal "
+"will kill it."
 msgstr ""
 "Bu terminalde halen bir işlem çalışıyor. Terminali kapatmak bu işlemi de "
 "sonlandırır."
@@ -543,15 +543,19 @@ msgstr "Aşımlı kübik ara doldurma, her iki tarafta geri izleme ile"
 msgid ""
 "Exponentially decaying parabolic (bounce) tweening, with bounce on start"
 msgstr ""
-"Başlangıçta sıçrama ile üstel olarak azalan parabolik (sıçrama) ara doldurma"
+"Başlangıçta sıçrama ile üstel olarak azalan parabolik (sıçrama) ara "
+"doldurma"
 
 #: ddterm/pref/ui/prefs-animation.ui:140
-msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on end"
-msgstr "Sonda sıçrama ile üstel olarak azalan parabolik (sıçrama) ara doldurma"
+msgid ""
+"Exponentially decaying parabolic (bounce) tweening, with bounce on end"
+msgstr ""
+"Sonda sıçrama ile üstel olarak azalan parabolik (sıçrama) ara doldurma"
 
 #: ddterm/pref/ui/prefs-animation.ui:144
 msgid ""
-"Exponentially decaying parabolic (bounce) tweening, with bounce on both ends"
+"Exponentially decaying parabolic (bounce) tweening, with bounce on both "
+"ends"
 msgstr ""
 "Her iki tarafta sıçrama ile üstel olarak azalan parabolik (sıçrama) ara "
 "doldurma"
@@ -1100,7 +1104,8 @@ msgstr "Dokuzuncu Sekmeye Geç"
 msgid "Switch to Tab 10"
 msgstr "Onuncu Sekmeye Geç"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:405 ddterm/pref/ui/prefs-shortcuts.ui:477
+#: ddterm/pref/ui/prefs-shortcuts.ui:405
+#: ddterm/pref/ui/prefs-shortcuts.ui:477
 msgid "Action"
 msgstr "Aksiyon"
 
