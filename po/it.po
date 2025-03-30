@@ -9,11 +9,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-03-30 02:22+0000\n"
+"POT-Creation-Date: 2025-03-30 04:46+0300\n"
 "PO-Revision-Date: 2024-06-10 12:09+0000\n"
 "Last-Translator: Nathan Hadley <nathanhadley.pigeon@gmail.com>\n"
-"Language-Team: Italian <https://hosted.weblate.org/projects/gnome-shell-"
-"extension-ddterm/extension/it/>\n"
+"Language-Team: Italian <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/it/>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -51,8 +50,7 @@ msgstr "Avvia l'applicazione, ma non mostrare la finestra"
 
 #: ddterm/app/application.js:82
 msgid "Comma-separated list of backends that GDK should try to use"
-msgstr ""
-"Elenco separato da virgole di backend che GDK dovrebbe provare a utilizzare"
+msgstr "Elenco separato da virgole di backend che GDK dovrebbe provare a utilizzare"
 
 #: ddterm/app/application.js:100
 msgid "Show version information and exit"
@@ -189,12 +187,8 @@ msgid "Close this terminal?"
 msgstr "Chiudere questo terminale?"
 
 #: ddterm/app/terminalpage.js:583
-msgid ""
-"There is still a process running in this terminal. Closing the terminal "
-"will kill it."
-msgstr ""
-"C'è ancora un processo in esecuzione in questo terminale. La chiusura del "
-"terminale lo terminerà forzatamente."
+msgid "There is still a process running in this terminal. Closing the terminal will kill it."
+msgstr "C'è ancora un processo in esecuzione in questo terminale. La chiusura del terminale lo terminerà forzatamente."
 
 #: ddterm/app/ui/menus.ui:14
 msgid "Open Hyperlink"
@@ -542,26 +536,16 @@ msgid "Overshooting cubic tweening, with backtracking on both ends"
 msgstr "Tweening cubico con backtracking su entrambi gli estremi"
 
 #: ddterm/pref/ui/prefs-animation.ui:136
-msgid ""
-"Exponentially decaying parabolic (bounce) tweening, with bounce on start"
-msgstr ""
-"Tweening parabolico (di rimbalzo) a decadenza esponenziale, con rimbalzo "
-"all'inizio"
+msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on start"
+msgstr "Tweening parabolico (di rimbalzo) a decadenza esponenziale, con rimbalzo all'inizio"
 
 #: ddterm/pref/ui/prefs-animation.ui:140
-msgid ""
-"Exponentially decaying parabolic (bounce) tweening, with bounce on end"
-msgstr ""
-"Tweening parabolico (di rimbalzo) a decadimento esponenziale, con rimbalzo "
-"alla fine"
+msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on end"
+msgstr "Tweening parabolico (di rimbalzo) a decadimento esponenziale, con rimbalzo alla fine"
 
 #: ddterm/pref/ui/prefs-animation.ui:144
-msgid ""
-"Exponentially decaying parabolic (bounce) tweening, with bounce on both "
-"ends"
-msgstr ""
-"Tweening parabolico (rimbalzo) a decadimento esponenziale, con rimbalzo su "
-"entrambe le estremità"
+msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on both ends"
+msgstr "Tweening parabolico (rimbalzo) a decadimento esponenziale, con rimbalzo su entrambe le estremità"
 
 #: ddterm/pref/ui/prefs-animation.ui:167
 msgid "_Override default window animations"
@@ -1107,8 +1091,7 @@ msgstr "Passa alla scheda 9"
 msgid "Switch to Tab 10"
 msgstr "Passa alla scheda 10"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:405
-#: ddterm/pref/ui/prefs-shortcuts.ui:477
+#: ddterm/pref/ui/prefs-shortcuts.ui:405 ddterm/pref/ui/prefs-shortcuts.ui:477
 msgid "Action"
 msgstr "Azione"
 

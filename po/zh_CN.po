@@ -7,11 +7,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-03-30 02:22+0000\n"
+"POT-Creation-Date: 2025-03-30 04:46+0300\n"
 "PO-Revision-Date: 2024-08-26 08:09+0000\n"
 "Last-Translator: yuh <yuhldr@qq.com>\n"
-"Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
-"gnome-shell-extension-ddterm/extension/zh_Hans/>\n"
+"Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/zh_Hans/>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -185,9 +184,7 @@ msgid "Close this terminal?"
 msgstr "关闭这个终端？"
 
 #: ddterm/app/terminalpage.js:583
-msgid ""
-"There is still a process running in this terminal. Closing the terminal "
-"will kill it."
+msgid "There is still a process running in this terminal. Closing the terminal will kill it."
 msgstr "该终端中仍有一个进程在运行。关闭终端，将会销毁该进程。"
 
 #: ddterm/app/ui/menus.ui:14
@@ -536,19 +533,15 @@ msgid "Overshooting cubic tweening, with backtracking on both ends"
 msgstr "超调立方渐变，两端都有回溯"
 
 #: ddterm/pref/ui/prefs-animation.ui:136
-msgid ""
-"Exponentially decaying parabolic (bounce) tweening, with bounce on start"
+msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on start"
 msgstr "指数衰减抛物线(弹跳)渐变，开始时弹跳"
 
 #: ddterm/pref/ui/prefs-animation.ui:140
-msgid ""
-"Exponentially decaying parabolic (bounce) tweening, with bounce on end"
+msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on end"
 msgstr "指数衰减抛物线(弹跳)渐变，结束时弹跳"
 
 #: ddterm/pref/ui/prefs-animation.ui:144
-msgid ""
-"Exponentially decaying parabolic (bounce) tweening, with bounce on both "
-"ends"
+msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on both ends"
 msgstr "指数衰减抛物线(弹跳)渐变，两端都有弹跳"
 
 #: ddterm/pref/ui/prefs-animation.ui:167
@@ -1095,8 +1088,7 @@ msgstr "切换到标签9"
 msgid "Switch to Tab 10"
 msgstr "切换到标签10"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:405
-#: ddterm/pref/ui/prefs-shortcuts.ui:477
+#: ddterm/pref/ui/prefs-shortcuts.ui:405 ddterm/pref/ui/prefs-shortcuts.ui:477
 msgid "Action"
 msgstr "活动"
 
@@ -1340,10 +1332,7 @@ msgstr "显示"
 #~ msgstr "标签页标题："
 
 #~ msgid ""
-#~ "Tab title is generated from <a href=\"https://handlebarsjs.com/guide/"
-#~ "\">handlebars.js</a> template. <a href=\"https://developer.gnome.org/"
-#~ "pango/stable/pango-Markup.html\">Pango markup</a> can be used to format "
-#~ "the title.\n"
+#~ "Tab title is generated from <a href=\"https://handlebarsjs.com/guide/\">handlebars.js</a> template. <a href=\"https://developer.gnome.org/pango/stable/pango-Markup.html\">Pango markup</a> can be used to format the title.\n"
 #~ "\n"
 #~ "Following variables are available:\n"
 #~ "- <tt>window-title</tt>\n"
@@ -1358,9 +1347,7 @@ msgstr "显示"
 #~ "- <tt>ellipsize</tt> or <tt>truncate-chars</tt>\n"
 #~ "      example: <tt>{{ellipsize window-title 20}}</tt>"
 #~ msgstr ""
-#~ "标签的标题是由 <a href=\"https://handlebarsjs.com/guide/"
-#~ "\">handlebars.js</a> 模板生成的. <a href=\"https://developer.gnome.org/"
-#~ "pango/stable/pango-Markup.html\">Pango markup</a> 可用于格式化标题。\n"
+#~ "标签的标题是由 <a href=\"https://handlebarsjs.com/guide/\">handlebars.js</a> 模板生成的. <a href=\"https://developer.gnome.org/pango/stable/pango-Markup.html\">Pango markup</a> 可用于格式化标题。\n"
 #~ "\n"
 #~ "以下是可用的变量：\n"
 #~ "- <tt>window-title</tt>\n"

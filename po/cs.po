@@ -7,11 +7,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-03-30 02:22+0000\n"
+"POT-Creation-Date: 2025-03-30 04:46+0300\n"
 "PO-Revision-Date: 2023-10-24 22:14+0000\n"
 "Last-Translator: Pavel Novák <pavelnov32@gmail.com>\n"
-"Language-Team: Czech <https://hosted.weblate.org/projects/gnome-shell-"
-"extension-ddterm/extension/cs/>\n"
+"Language-Team: Czech <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/cs/>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -186,9 +185,7 @@ msgid "Close this terminal?"
 msgstr "Zavřít tento terminál?"
 
 #: ddterm/app/terminalpage.js:583
-msgid ""
-"There is still a process running in this terminal. Closing the terminal "
-"will kill it."
+msgid "There is still a process running in this terminal. Closing the terminal will kill it."
 msgstr "V tomto terminálu stále běží proces. Zavření terminálu jej ukončí."
 
 #: ddterm/app/ui/menus.ui:14
@@ -534,29 +531,19 @@ msgstr "Překračující krychlové prolínání se zpětným sledováním na ko
 
 #: ddterm/pref/ui/prefs-animation.ui:132
 msgid "Overshooting cubic tweening, with backtracking on both ends"
-msgstr ""
-"Překračující krychlové prolínání se zpětným sledováním na obou koncích"
+msgstr "Překračující krychlové prolínání se zpětným sledováním na obou koncích"
 
 #: ddterm/pref/ui/prefs-animation.ui:136
-msgid ""
-"Exponentially decaying parabolic (bounce) tweening, with bounce on start"
-msgstr ""
-"Exponenciálně klesající parabolické (odrazové) prolínání s odrazem na "
-"začátku"
+msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on start"
+msgstr "Exponenciálně klesající parabolické (odrazové) prolínání s odrazem na začátku"
 
 #: ddterm/pref/ui/prefs-animation.ui:140
-msgid ""
-"Exponentially decaying parabolic (bounce) tweening, with bounce on end"
-msgstr ""
-"Exponenciálně klesající parabolické (odrazové) prolínání s odrazem na konci"
+msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on end"
+msgstr "Exponenciálně klesající parabolické (odrazové) prolínání s odrazem na konci"
 
 #: ddterm/pref/ui/prefs-animation.ui:144
-msgid ""
-"Exponentially decaying parabolic (bounce) tweening, with bounce on both "
-"ends"
-msgstr ""
-"Exponenciálně klesající parabolické (odrazové) prolínání s odrazem na obou "
-"koncích"
+msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on both ends"
+msgstr "Exponenciálně klesající parabolické (odrazové) prolínání s odrazem na obou koncích"
 
 #: ddterm/pref/ui/prefs-animation.ui:167
 msgid "_Override default window animations"
@@ -1104,8 +1091,7 @@ msgstr "Přepnout na panel 9"
 msgid "Switch to Tab 10"
 msgstr "Přepnout na panel 10"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:405
-#: ddterm/pref/ui/prefs-shortcuts.ui:477
+#: ddterm/pref/ui/prefs-shortcuts.ui:405 ddterm/pref/ui/prefs-shortcuts.ui:477
 msgid "Action"
 msgstr "Akce"
 
@@ -1349,10 +1335,7 @@ msgstr "Zobrazit"
 #~ msgstr "_Název panelu:"
 
 #~ msgid ""
-#~ "Tab title is generated from <a href=\"https://handlebarsjs.com/guide/"
-#~ "\">handlebars.js</a> template. <a href=\"https://developer.gnome.org/"
-#~ "pango/stable/pango-Markup.html\">Pango markup</a> can be used to format "
-#~ "the title.\n"
+#~ "Tab title is generated from <a href=\"https://handlebarsjs.com/guide/\">handlebars.js</a> template. <a href=\"https://developer.gnome.org/pango/stable/pango-Markup.html\">Pango markup</a> can be used to format the title.\n"
 #~ "\n"
 #~ "Following variables are available:\n"
 #~ "- <tt>window-title</tt>\n"
@@ -1367,10 +1350,7 @@ msgstr "Zobrazit"
 #~ "- <tt>ellipsize</tt> or <tt>truncate-chars</tt>\n"
 #~ "      example: <tt>{{ellipsize window-title 20}}</tt>"
 #~ msgstr ""
-#~ "Název panelu je generovaný pomocí <a href=\"https://handlebarsjs.com/"
-#~ "guide/\">handlebars.js</a> template. <a href=\"https://"
-#~ "developer.gnome.org/pango/stable/pango-Markup.html\">Pango markup</a> "
-#~ "lze požít pro formátování názvu.\n"
+#~ "Název panelu je generovaný pomocí <a href=\"https://handlebarsjs.com/guide/\">handlebars.js</a> template. <a href=\"https://developer.gnome.org/pango/stable/pango-Markup.html\">Pango markup</a> lze požít pro formátování názvu.\n"
 #~ "\n"
 #~ "Dostupné jsou následující proměnné:\n"
 #~ "- <tt>window-title</tt>\n"

@@ -19,6 +19,7 @@ gettext_args = [
   '--check=bullet-unicode',
   # TODO: '--check=quote-unicode',
   f'--copyright-holder=@gettext_copyright@',
+  '--no-wrap',
 ]
 
 gettext_targets = i18n.gettext(

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-03-30 02:22+0000\n"
+"POT-Creation-Date: 2025-03-30 04:46+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -184,9 +184,7 @@ msgid "Close this terminal?"
 msgstr ""
 
 #: ddterm/app/terminalpage.js:583
-msgid ""
-"There is still a process running in this terminal. Closing the terminal will "
-"kill it."
+msgid "There is still a process running in this terminal. Closing the terminal will kill it."
 msgstr ""
 
 #: ddterm/app/ui/menus.ui:14
@@ -535,8 +533,7 @@ msgid "Overshooting cubic tweening, with backtracking on both ends"
 msgstr ""
 
 #: ddterm/pref/ui/prefs-animation.ui:136
-msgid ""
-"Exponentially decaying parabolic (bounce) tweening, with bounce on start"
+msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on start"
 msgstr ""
 
 #: ddterm/pref/ui/prefs-animation.ui:140
@@ -544,8 +541,7 @@ msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on end"
 msgstr ""
 
 #: ddterm/pref/ui/prefs-animation.ui:144
-msgid ""
-"Exponentially decaying parabolic (bounce) tweening, with bounce on both ends"
+msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on both ends"
 msgstr ""
 
 #: ddterm/pref/ui/prefs-animation.ui:167

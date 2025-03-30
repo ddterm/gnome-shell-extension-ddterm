@@ -12,17 +12,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-03-30 02:22+0000\n"
+"POT-Creation-Date: 2025-03-30 04:46+0300\n"
 "PO-Revision-Date: 2024-04-10 20:01+0000\n"
 "Last-Translator: Stepan <stepan.miroshnikov@gmail.com>\n"
-"Language-Team: Russian <https://hosted.weblate.org/projects/gnome-shell-"
-"extension-ddterm/extension/ru/>\n"
+"Language-Team: Russian <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Weblate 5.5-dev\n"
 
 #: data/com.github.amezin.ddterm.desktop.in.in:8 ddterm/app/appwindow.js:142
@@ -54,9 +52,7 @@ msgstr "Запустить приложение, но не показывать 
 
 #: ddterm/app/application.js:82
 msgid "Comma-separated list of backends that GDK should try to use"
-msgstr ""
-"Разделенный запятыми список backend'ов, которые GDK будет пытаться "
-"использовать"
+msgstr "Разделенный запятыми список backend'ов, которые GDK будет пытаться использовать"
 
 #: ddterm/app/application.js:100
 msgid "Show version information and exit"
@@ -112,8 +108,7 @@ msgstr "Внимание: версия ddterm изменилась"
 
 #: ddterm/app/application.js:559 ddterm/shell/notifications.js:77
 msgid "Log out, then log in again to load the updated extension."
-msgstr ""
-"Завершите сессию и снова войдите для применения обновлений расширения."
+msgstr "Завершите сессию и снова войдите для применения обновлений расширения."
 
 #: ddterm/app/dependencies.js:72 ddterm/shell/notifications.js:129
 msgid "ddterm needs additional packages to run"
@@ -194,12 +189,8 @@ msgid "Close this terminal?"
 msgstr "Закрыть терминал?"
 
 #: ddterm/app/terminalpage.js:583
-msgid ""
-"There is still a process running in this terminal. Closing the terminal "
-"will kill it."
-msgstr ""
-"В терминале запущены процессы. При закрытии терминала эти процессы будут "
-"завершены."
+msgid "There is still a process running in this terminal. Closing the terminal will kill it."
+msgstr "В терминале запущены процессы. При закрытии терминала эти процессы будут завершены."
 
 #: ddterm/app/ui/menus.ui:14
 msgid "Open Hyperlink"
@@ -547,21 +538,16 @@ msgid "Overshooting cubic tweening, with backtracking on both ends"
 msgstr "Превышающая кубическую с возвратом в начале и конце"
 
 #: ddterm/pref/ui/prefs-animation.ui:136
-msgid ""
-"Exponentially decaying parabolic (bounce) tweening, with bounce on start"
+msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on start"
 msgstr "Экспоненциально затухающая параболическая с отскоком в начале"
 
 #: ddterm/pref/ui/prefs-animation.ui:140
-msgid ""
-"Exponentially decaying parabolic (bounce) tweening, with bounce on end"
+msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on end"
 msgstr "Экспоненциально затухающая параболическая с отскоком в конце"
 
 #: ddterm/pref/ui/prefs-animation.ui:144
-msgid ""
-"Exponentially decaying parabolic (bounce) tweening, with bounce on both "
-"ends"
-msgstr ""
-"Экспоненциально затухающая параболическая с отскоком в начале и конце"
+msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on both ends"
+msgstr "Экспоненциально затухающая параболическая с отскоком в начале и конце"
 
 #: ddterm/pref/ui/prefs-animation.ui:167
 msgid "_Override default window animations"
@@ -1107,8 +1093,7 @@ msgstr "Переключиться на вкладку 9"
 msgid "Switch to Tab 10"
 msgstr "Переключиться на вкладку 10"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:405
-#: ddterm/pref/ui/prefs-shortcuts.ui:477
+#: ddterm/pref/ui/prefs-shortcuts.ui:405 ddterm/pref/ui/prefs-shortcuts.ui:477
 msgid "Action"
 msgstr "Действие"
 
@@ -1352,10 +1337,7 @@ msgstr "Показать"
 #~ msgstr "Название вкладки:"
 
 #~ msgid ""
-#~ "Tab title is generated from <a href=\"https://handlebarsjs.com/guide/"
-#~ "\">handlebars.js</a> template. <a href=\"https://developer.gnome.org/"
-#~ "pango/stable/pango-Markup.html\">Pango markup</a> can be used to format "
-#~ "the title.\n"
+#~ "Tab title is generated from <a href=\"https://handlebarsjs.com/guide/\">handlebars.js</a> template. <a href=\"https://developer.gnome.org/pango/stable/pango-Markup.html\">Pango markup</a> can be used to format the title.\n"
 #~ "\n"
 #~ "Following variables are available:\n"
 #~ "- <tt>window-title</tt>\n"
@@ -1370,12 +1352,9 @@ msgstr "Показать"
 #~ "- <tt>ellipsize</tt> or <tt>truncate-chars</tt>\n"
 #~ "      example: <tt>{{ellipsize window-title 20}}</tt>"
 #~ msgstr ""
-#~ "Название вкладки генерируется по <a href=\\\"https://handlebarsjs.com/"
-#~ "guide/\n"
-#~ "\\\">handlebars.js</a> шаблону. <a href=\\\"https://developer.gnome.org/"
-#~ "pango/\n"
-#~ "stable/pango-Markup.html\\\">Pango markup</a> может быть использован  "
-#~ "для форматирования.\n"
+#~ "Название вкладки генерируется по <a href=\\\"https://handlebarsjs.com/guide/\n"
+#~ "\\\">handlebars.js</a> шаблону. <a href=\\\"https://developer.gnome.org/pango/\n"
+#~ "stable/pango-Markup.html\\\">Pango markup</a> может быть использован  для форматирования.\n"
 #~ "\n"
 #~ "Доступны следующие значения:\n"
 #~ "- <tt>window-title</tt>\n"
