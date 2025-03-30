@@ -392,8 +392,15 @@ class Application extends Gtk.Application {
 
         const debug_module = options.lookup('debug-module');
 
-        if (debug_module)
-            import(debug_module).catch(logError);
+        if (debug_module) {
+            const loop = GLib.MainLoop.new(null, false);
+
+            import(debug_module).catch(logError).finally(() => {
+                loop.quit();
+            });
+
+            loop.run();
+        }
 
         const allowed_gdk_backends = options.lookup('allowed-gdk-backends');
 
