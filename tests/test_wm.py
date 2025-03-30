@@ -149,7 +149,7 @@ def wait_idle(
     timeout=dbusutil.DEFAULT_TIMEOUT_MS,
 ):
     deadline = glibutil.Deadline(timeout)
-    app_debug_dbus_interface.wait_connected(timeout=timeout)
+    app_debug_dbus_interface.wait_name_owner(timeout)
 
     LOGGER.info(
         'Waiting for %r consecutive frames with no window geometry changes',

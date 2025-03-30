@@ -112,7 +112,7 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
             timeout=deadline.check_remaining_ms()
         )
 
-        app_debug_dbus_interface.wait_connected(timeout=deadline.check_remaining_ms())
+        app_debug_dbus_interface.wait_name_owner(deadline.check_remaining_ms())
 
         app_debug_dbus_interface.WaitFrame(timeout=deadline.check_remaining_ms())
         shell_test_hook.Later(shellhook.LaterType.RESIZE, timeout=deadline.check_remaining_ms())
