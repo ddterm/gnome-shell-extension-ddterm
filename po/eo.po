@@ -2,14 +2,14 @@
 # Copyright (C) 2024 ddterm contributors <https://github.com/ddterm/gnome-shell-extension-ddterm/>
 # SPDX-License-Identifier: GPL-3.0-or-later
 # This file is distributed under the same license as the ddterm package.
-# phlostically <phlostically@mailinator.com>, 2024.
+# phlostically <phlostically@mailinator.com>, 2024, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-03-30 02:22+0000\n"
 "PO-Revision-Date: 2025-03-30 02:31+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"Last-Translator: phlostically <phlostically@mailinator.com>\n"
 "Language-Team: Esperanto <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/eo/>\n"
 "Language: eo\n"
 "MIME-Version: 1.0\n"
