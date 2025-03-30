@@ -5,13 +5,14 @@
 # Matteo Cerri <mttcerri@hotmail.com>, 2023.
 # Frankie McEyes <mceyes@protonmail.com>, 2023, 2025.
 # Nathan Hadley <nathanhadley.pigeon@gmail.com>, 2024.
+# Nathan Hadley <cirilla@tuta.io>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-03-30 02:22+0000\n"
 "PO-Revision-Date: 2025-03-30 02:31+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"Last-Translator: Nathan Hadley <cirilla@tuta.io>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/it/>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
