@@ -59,7 +59,7 @@ jobs:
       working-directory: build
 
     - name: Update .po files
-      run: for pofile in *.po; do msgmerge --width=77 --update --previous "$pofile" *.pot; done
+      run: for pofile in *.po; do msgmerge --no-wrap --update --previous "$pofile" *.pot; done
       working-directory: po
 
     - name: Stage changes
