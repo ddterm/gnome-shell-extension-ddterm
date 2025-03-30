@@ -3,14 +3,14 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # This file is distributed under the same license as the ddterm package.
 # Mustafa Kemal Gilor <mustafa.gilor@canonical.com>, 2024, 2025.
-# Muha Aliss <muhaaliss@users.noreply.hosted.weblate.org>, 2024.
+# Muha Aliss <muhaaliss@users.noreply.hosted.weblate.org>, 2024, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-03-30 02:22+0000\n"
 "PO-Revision-Date: 2025-03-30 02:31+0000\n"
-"Last-Translator: Mustafa Kemal Gilor <mustafa.gilor@canonical.com>\n"
+"Last-Translator: Muha Aliss <muhaaliss@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/tr/>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
