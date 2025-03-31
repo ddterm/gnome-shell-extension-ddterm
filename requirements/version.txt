@@ -36,21 +36,21 @@ mdurl==0.1.2
     # via markdown-it-py
 prompt-toolkit==3.0.50
     # via questionary
-pydantic==2.10.6
+pydantic==2.11.1
     # via
     #   bump-my-version
     #   pydantic-settings
-pydantic-core==2.27.2
+pydantic-core==2.33.0
     # via pydantic
 pydantic-settings==2.8.1
     # via bump-my-version
 pygments==2.19.1
     # via rich
-python-dotenv==1.0.1
+python-dotenv==1.1.0
     # via pydantic-settings
 questionary==2.1.0
     # via bump-my-version
-rich==13.9.4
+rich==14.0.0
     # via
     #   bump-my-version
     #   rich-click
@@ -60,11 +60,14 @@ sniffio==1.3.1
     # via anyio
 tomlkit==0.13.2
     # via bump-my-version
-typing-extensions==4.12.2
+typing-extensions==4.13.0
     # via
     #   pydantic
     #   pydantic-core
     #   rich-click
+    #   typing-inspection
+typing-inspection==0.4.0
+    # via pydantic
 wcmatch==10.0
     # via bump-my-version
 wcwidth==0.2.13
