@@ -171,34 +171,45 @@ class DebugInterface {
             return () => obj.disconnect(handler_id);
         };
 
+        const unrealize_callbacks = [];
+
+        const call_unrealize_callbacks = () => {
+            while (unrealize_callbacks.length)
+                unrealize_callbacks.pop()();
+        };
+
         this.disconnect_callbacks = [
+            call_unrealize_callbacks,
+            connect(win, 'unrealize', call_unrealize_callbacks),
             connect(win, 'destroy', () => {
                 if (win === this.window)
                     this.connect_window(null);
             }),
-            connect(win, 'event', (_, event) => {
-                this.emit_event(event);
+            connect(win, 'realize', w => {
+                const surface = w.get_surface();
 
-                return false;
-            }),
-            connect(win, 'configure-event', () => {
-                this.emit_configure_event(win.get_size());
+                unrealize_callbacks.push(
+                    connect(surface, 'layout', (_, width, height) => {
+                        this.emit_window_layout(width, height);
+                    }),
+                    connect(surface, 'notify::state', s => {
+                        this.emit_toplevel_state(s.state);
+                    }),
+                    connect(surface, 'event', (_, event) => {
+                        this.emit_event(event);
 
-                return false;
+                        return false;
+                    })
+                );
             }),
-            connect(win, 'window-state-event', () => {
-                this.emit_window_state_event(win.window.get_state());
-
-                return false;
-            }),
-            connect(win, 'size-allocate', (_, rect) => {
-                this.emit_size_allocate(rect);
+            connect(win, 'size-allocate', (_, width, height) => {
+                this.emit_size_allocate(width, height);
             }),
         ];
 
         const notify_num_tabs = this.notify_num_tabs.bind(this);
 
-        for (const notebook of [win.paned.get_child1(), win.paned.get_child2()]) {
+        for (const notebook of [win.paned.start_child, win.paned.end_child]) {
             this.disconnect_callbacks.push(connect(notebook, 'page-added', notify_num_tabs));
             this.disconnect_callbacks.push(connect(notebook, 'page-removed', notify_num_tabs));
         }
@@ -216,25 +227,23 @@ class DebugInterface {
         );
     }
 
-    emit_configure_event([width, height]) {
+    emit_window_layout(width, height) {
         this.dbus.emit_signal(
-            'ConfigureEvent',
+            'WindowLayout',
             GLib.Variant.new_tuple([GLib.Variant.new_int32(width), GLib.Variant.new_int32(height)])
         );
     }
 
-    emit_window_state_event(state) {
-        state = GObject.flags_to_string(Gdk.WindowState, state).split(' | ');
+    emit_toplevel_state(state) {
+        state = GObject.flags_to_string(Gdk.ToplevelState, state).split(' | ');
 
         this.dbus.emit_signal(
-            'WindowStateEvent',
+            'ToplevelState',
             GLib.Variant.new_tuple([GLib.Variant.new_strv(state)])
         );
     }
 
-    emit_size_allocate(rect) {
-        const { width, height } = rect;
-
+    emit_size_allocate(width, height) {
         this.dbus.emit_signal(
             'SizeAllocate',
             GLib.Variant.new_tuple([GLib.Variant.new_int32(width), GLib.Variant.new_int32(height)])
@@ -259,7 +268,7 @@ class DebugInterface {
 
     WaitFrameAsync(params, invocation) {
         try {
-            const frame_clock = this.window.window.get_frame_clock();
+            const frame_clock = this.window.get_frame_clock();
 
             const handler = frame_clock.connect_after('after-paint', () => {
                 frame_clock.disconnect(handler);
@@ -320,10 +329,7 @@ class DebugInterface {
                 deepest_scope = focus_widget;
         }
 
-        const [prefix, name] = action_name.split('.');
-        const actions = deepest_scope.get_action_group(prefix);
-
-        actions.activate_action(name, target_value);
+        deepest_scope.activate_action(action_name, target_value);
     }
 
     get Connected() {
@@ -336,7 +342,7 @@ class DebugInterface {
 
         const { paned } = this.window;
 
-        return paned.get_child1().get_n_pages() + paned.get_child2().get_n_pages();
+        return paned.start_child.get_n_pages() + paned.end_child.get_n_pages();
     }
 
     notify_num_tabs() {
