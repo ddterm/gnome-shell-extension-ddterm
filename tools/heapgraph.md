@@ -137,11 +137,12 @@ label, e.g. GObject_Object "My object".
 > `./heapgraph.py --help` before running.
 
 ```
-usage: heapgraph.py [-h] [--edge | --function | --string] [--count]
-                    [--dot-graph] [--no-addr] [--diff-heap FILE]
-                    [--no-gray-roots] [--no-weak-maps] [--show-global]
-                    [--show-imports] [--hide-addr ADDR] [--hide-node LABEL]
-                    [--hide-edge LABEL] FILE TARGET
+usage: heapgraph.py [-h] [--edge EDGE_TARGETS] [--function FUNC_TARGETS]
+                    [--string STRING_TARGETS] [--annotation ANNOTATION_TARGETS]
+                    [--count] [--dot-graph] [--no-addr] [--diff-heap FILE]
+                    [--no-gray-roots] [--show-unreachable] [--no-weak-maps]
+                    [--show-global] [--show-imports] [--hide-addr ADDR]
+                    [--hide-node LABEL] [--hide-edge LABEL] FILE [TARGET ...]
 
 Find what is rooting or preventing an object from being collected in a GJS
 heap using a shortest-path breadth-first algorithm.
@@ -151,11 +152,18 @@ positional arguments:
   TARGET                Heap address (eg. 0x7fa814054d00) or type prefix (eg.
                         Array, Object, GObject, Function...)
 
-optional arguments:
+options:
   -h, --help            show this help message and exit
-  --edge, -e            Treat TARGET as a function name
-  --function, -f        Treat TARGET as a function name
-  --string, -s          Treat TARGET as a string literal or String()
+
+Target options:
+  --edge, -e EDGE_TARGETS
+                        Add an edge label to the list of targets
+  --function, -f FUNC_TARGETS
+                        Add a function name to the list of targets
+  --string, -s STRING_TARGETS
+                        Add a string literal or String() to the list of targets
+  --annotation, -a ANNOTATION_TARGETS
+                        Add a __heapgraph_name annotation to the list of targets
 
 Output Options:
   --count, -c           Only count the matches for TARGET
@@ -163,18 +171,20 @@ Output Options:
   --no-addr, -na        Don't show addresses
 
 Node/Root Filtering:
-  --diff-heap FILE, -dh FILE
+  --diff-heap, -dh FILE
                         Don't show roots common to the heap FILE
   --no-gray-roots, -ng  Don't show gray roots (marked to be collected)
+  --show-unreachable, -u
+                        Show objects that have no path to a root but are not collected yet
   --no-weak-maps, -nwm  Don't show WeakMaps
   --show-global, -g     Show the global object (eg. globalThis/GjsGlobal)
   --show-imports, -i    Show import and module nodes (eg. imports.foo)
-  --hide-addr ADDR, -ha ADDR
+  --hide-addr, -ha ADDR
                         Don't show roots with the heap address ADDR
-  --hide-node LABEL, -hn LABEL
+  --hide-node, -hn LABEL
                         Don't show nodes with labels containing LABEL
-  --hide-edge LABEL, -he LABEL
-                        Don't show edges labelled LABEL
+  --hide-edge, -he LABEL
+                        Don't show edges labeled LABEL
 ```
 
 ## See Also
