@@ -225,8 +225,10 @@ def parse_graph(fobj):
                     break
             else:
                 addNode(node_addr, node_label)
-        # Skip comments, arenas, realms and zones
-        elif line[0] == '#':
+        # Skip comments, arenas, realms, zones, and weak map entries
+        elif (line[0] == '#' or
+              wme_regex.match(line) is not None or
+              line[:10] == '=========='):
             continue
         else:
             sys.stderr.write('Error: Unknown line: {}\n'.format(line[:-1]))
