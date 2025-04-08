@@ -60,6 +60,7 @@ export const TabsWidget = GObject.registerClass({
             'tab-switcher-popup',
             'notebook-border',
             'tab-show-shortcuts',
+            'save-restore-session',
         ]);
 
         this.connect('realize', this.#realize.bind(this));
