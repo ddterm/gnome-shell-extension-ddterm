@@ -671,6 +671,9 @@ class Application extends Gtk.Application {
     }
 
     restore_session() {
+        if (!this.settings.get_boolean('save-restore-session'))
+            return;
+
         try {
             const [, data] = GLib.file_get_contents(this.session_file_path);
 
@@ -697,7 +700,13 @@ class Application extends Gtk.Application {
     }
 
     save_session() {
+        if (!this.settings.get_boolean('save-restore-session')) {
+            GLib.unlink(this.session_file_path);
+            return;
+        }
+
         const data = this.window?.serialize_state();
+
         if (!data) {
             GLib.unlink(this.session_file_path);
             return;
