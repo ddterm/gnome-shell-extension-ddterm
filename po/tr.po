@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-03-30 04:46+0300\n"
+"POT-Creation-Date: 2025-04-08 18:52+0000\n"
 "PO-Revision-Date: 2024-10-03 16:15+0000\n"
 "Last-Translator: Muha Aliss <muhaaliss@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/tr/>\n"
@@ -409,7 +409,7 @@ msgstr "Konum ve Boyut"
 msgid "Scrolling"
 msgstr "Kaydırma"
 
-#: ddterm/pref/tabs.js:90
+#: ddterm/pref/tabs.js:91
 msgid "Tabs"
 msgstr "Sekmeler"
 
@@ -1172,6 +1172,10 @@ msgstr "Son"
 #: ddterm/pref/ui/prefs-tabs.ui:243
 msgid "Show keyboard shortcuts"
 msgstr "Klavye kısayollarını göster"
+
+#: ddterm/pref/ui/prefs-tabs.ui:259
+msgid "_Restore previous tabs on startup"
+msgstr ""
 
 #: ddterm/pref/ui/prefs-text.ui:23
 msgid "Custom _font:"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-03-30 04:46+0300\n"
+"POT-Creation-Date: 2025-04-08 18:52+0000\n"
 "PO-Revision-Date: 2024-08-26 08:09+0000\n"
 "Last-Translator: yuh <yuhldr@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/zh_Hans/>\n"
@@ -408,7 +408,7 @@ msgstr "位置和尺寸"
 msgid "Scrolling"
 msgstr "滚动"
 
-#: ddterm/pref/tabs.js:90
+#: ddterm/pref/tabs.js:91
 msgid "Tabs"
 msgstr "标签页"
 
@@ -1171,6 +1171,10 @@ msgstr "结尾"
 #: ddterm/pref/ui/prefs-tabs.ui:243
 msgid "Show keyboard shortcuts"
 msgstr "显示键盘快捷键"
+
+#: ddterm/pref/ui/prefs-tabs.ui:259
+msgid "_Restore previous tabs on startup"
+msgstr ""
 
 #: ddterm/pref/ui/prefs-text.ui:23
 msgid "Custom _font:"

@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-03-30 04:46+0300\n"
+"POT-Creation-Date: 2025-04-08 18:52+0000\n"
 "PO-Revision-Date: 2024-03-19 15:01+0000\n"
 "Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/es/>\n"
@@ -411,7 +411,7 @@ msgstr "Posición y tamaño"
 msgid "Scrolling"
 msgstr "Desplazamiento"
 
-#: ddterm/pref/tabs.js:90
+#: ddterm/pref/tabs.js:91
 msgid "Tabs"
 msgstr "Pestañas"
 
@@ -1174,6 +1174,10 @@ msgstr "Fin"
 #: ddterm/pref/ui/prefs-tabs.ui:243
 msgid "Show keyboard shortcuts"
 msgstr "Mostrar atajos del teclado"
+
+#: ddterm/pref/ui/prefs-tabs.ui:259
+msgid "_Restore previous tabs on startup"
+msgstr ""
 
 #: ddterm/pref/ui/prefs-text.ui:23
 msgid "Custom _font:"
