@@ -499,6 +499,12 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
             Gio.SettingsBindFlags.GET
         );
 
+        const save_session = this.application.save_session.bind(this.application);
+
+        notebook.connect('page-added', save_session);
+        notebook.connect('page-removed', save_session);
+        notebook.connect('page-reordered', save_session);
+
         return notebook;
     }
 
