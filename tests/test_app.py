@@ -387,6 +387,60 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
             hide_edge=['window_title_binding']
         ) == ''
 
+    @pytest.mark.usefixtures('hide', 'common_init')
+    def test_tab_and_context_menu_leak(
+        self,
+        app_debug_dbus_interface,
+        shell_test_hook,
+        tmp_path,
+    ):
+        n_tabs = app_debug_dbus_interface.NumTabs
+        workarea = shell_test_hook.Workareas[0]
+        widget_location = workarea.center()
+
+        dump_pre = tmp_path / 'heap-pre.dump'
+        dump_post = tmp_path / 'heap-post.dump'
+
+        for dump_path in [dump_pre, dump_post]:
+            app_debug_dbus_interface.ActivateAction('notebook.new-tab')
+            app_debug_dbus_interface.wait_property('NumTabs', n_tabs + 1)
+
+            shell_test_hook.SetPointer(*widget_location)
+
+            with shell_test_hook.watch_signal('WindowCreated') as window_created:
+                shell_test_hook.mouse_down(shellhook.MouseButton.SECONDARY)
+                shell_test_hook.mouse_up(shellhook.MouseButton.SECONDARY)
+
+                window_created.get()
+
+            app_debug_dbus_interface.WaitFrame()
+            app_debug_dbus_interface.WaitIdle()
+
+            shell_test_hook.SetPointer(widget_location.x - 1, widget_location.y)
+
+            with shell_test_hook.watch_signal('WindowUnmanaged') as window_unmanaged:
+                shell_test_hook.mouse_down()
+                shell_test_hook.mouse_up()
+
+                window_unmanaged.get()
+
+            app_debug_dbus_interface.ActivateAction('page.close')
+            app_debug_dbus_interface.wait_property('NumTabs', n_tabs)
+
+            app_debug_dbus_interface.WaitFrame()
+
+            for i in range(GC_CYCLES):
+                app_debug_dbus_interface.GC()
+                app_debug_dbus_interface.WaitIdle()
+
+            app_debug_dbus_interface.DumpHeap(dump_path)
+
+        assert diff_heap(
+            dump_pre,
+            dump_post,
+            hide_edge=['window_title_binding', 'cacheir-object'],
+        ) == ''
+
     def test_dependencies(self, process_launcher, request):
         process_launcher.run(
             str(request.config.option.gjs),
