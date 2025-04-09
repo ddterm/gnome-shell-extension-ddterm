@@ -355,6 +355,38 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
             dump_post,
         ) == ''
 
+    @pytest.mark.usefixtures('common_init')
+    def test_tab_leak(
+        self,
+        app_debug_dbus_interface,
+        shell_test_hook,
+        tmp_path,
+    ):
+        n_tabs = app_debug_dbus_interface.NumTabs
+        dump_pre = tmp_path / 'heap-pre.dump'
+        dump_post = tmp_path / 'heap-post.dump'
+
+        for dump_path in [dump_pre, dump_post]:
+            app_debug_dbus_interface.ActivateAction('notebook.new-tab')
+            app_debug_dbus_interface.wait_property('NumTabs', n_tabs + 1)
+
+            app_debug_dbus_interface.ActivateAction('page.close')
+            app_debug_dbus_interface.wait_property('NumTabs', n_tabs)
+
+            app_debug_dbus_interface.WaitFrame()
+
+            for i in range(GC_CYCLES):
+                app_debug_dbus_interface.GC()
+                app_debug_dbus_interface.WaitIdle()
+
+            app_debug_dbus_interface.DumpHeap(dump_path)
+
+        assert diff_heap(
+            dump_pre,
+            dump_post,
+            hide_edge=['window_title_binding']
+        ) == ''
+
     def test_dependencies(self, process_launcher, request):
         process_launcher.run(
             str(request.config.option.gjs),
