@@ -10,10 +10,11 @@ import Shell from 'gi://Shell';
 
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import * as MessageTray from 'resource:///org/gnome/shell/ui/messageTray.js';
+import { Extension } from 'resource:///org/gnome/shell/extensions/extension.js';
+import { ExtensionState } from 'resource:///org/gnome/shell/misc/extensionUtils.js';
 
 import { Animation, ReverseAnimation } from './animation.js';
 import { AppControl } from './appcontrol.js';
-import { Extension, is_extension_deactivating } from './compat.js';
 import { DBusApi } from './dbusapi.js';
 import { WindowGeometry } from './geometry.js';
 import { Installer } from './install.js';
@@ -179,7 +180,7 @@ function install(extension, rollback) {
 
         // Also don't uninstall if ddterm is being disabled only temporarily
         // (because some other extension is being disabled).
-        if (!is_extension_deactivating(extension))
+        if (!extension.is_deactivating())
             return;
 
         installer.uninstall();
@@ -357,7 +358,7 @@ class EnabledExtension {
 
             // Also don't terminate the app if ddterm is being disabled only temporarily
             // (because some other extension is being disabled).
-            if (!is_extension_deactivating(this.extension))
+            if (!this.extension.is_deactivating())
                 return;
 
             if (!this.app_control.quit())
@@ -551,5 +552,20 @@ export default class DDTermExtension extends Extension {
     disable() {
         this.enabled_state?.disable();
         this.enabled_state = null;
+    }
+
+    is_deactivating() {
+        const info = Main.extensionManager.lookup(this.uuid);
+
+        if (!info)
+            return true;
+
+        if (info.state === (ExtensionState.ACTIVE ?? ExtensionState.ENABLED))
+            return false;
+
+        if (info.state === (ExtensionState.ACTIVATING ?? ExtensionState.ENABLING))
+            return false;
+
+        return true;
     }
 }
