@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-04-17 06:04+0000\n"
+"POT-Creation-Date: 2025-04-17 23:49+0000\n"
 "PO-Revision-Date: 2024-06-15 17:09+0000\n"
 "Last-Translator: Wojciech Teichert <wojtekt99@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/pl/>\n"
@@ -23,7 +23,7 @@ msgstr ""
 "X-Generator: Weblate 5.6-dev\n"
 
 #: data/com.github.amezin.ddterm.desktop.in.in:8 ddterm/app/appwindow.js:142
-#: ddterm/shell/notifications.js:199 ddterm/shell/panelicon.js:29
+#: ddterm/shell/notifications.js:229 ddterm/shell/panelicon.js:29
 msgid "ddterm"
 msgstr "ddterm"
 
@@ -97,23 +97,23 @@ msgstr "Proszę upewnić się że rozszerzenie ddterm GNOME Shell jest włączon
 msgid "Can't read the version of the loaded extension."
 msgstr "Nie można odczytać wersji wczytanego rozszerzenia."
 
-#: ddterm/app/application.js:560 ddterm/shell/notifications.js:75
+#: ddterm/app/application.js:560 ddterm/shell/notifications.js:105
 msgid "Warning: ddterm version has changed"
 msgstr "Ostrzeżenie: wersja ddterm zmieniła się"
 
-#: ddterm/app/application.js:561 ddterm/shell/notifications.js:77
+#: ddterm/app/application.js:561 ddterm/shell/notifications.js:107
 msgid "Log out, then log in again to load the updated extension."
 msgstr "Zaloguj się ponownie, aby załadować aktualne rozszerzenie."
 
-#: ddterm/app/dependencies.js:72 ddterm/shell/notifications.js:129
+#: ddterm/app/dependencies.js:72 ddterm/shell/notifications.js:159
 msgid "ddterm needs additional packages to run"
 msgstr "ddterm potrzebuje dodatkowych pakietów, aby mógł działać"
 
-#: ddterm/app/dependencies.js:77 ddterm/shell/notifications.js:134
+#: ddterm/app/dependencies.js:77 ddterm/shell/notifications.js:164
 msgid "Please install the following packages:"
 msgstr "Zainstaluj poniższe pakiety:"
 
-#: ddterm/app/dependencies.js:84 ddterm/shell/notifications.js:142
+#: ddterm/app/dependencies.js:84 ddterm/shell/notifications.js:172
 msgid "Please install packages that provide the following files:"
 msgstr "Prosimy zainstalować pakiety, które dostarczają następujące pliki:"
 
@@ -158,7 +158,7 @@ msgid "Find Previous"
 msgstr "Wyszukaj poprzednie"
 
 #: ddterm/app/tablabel.js:110 ddterm/app/ui/menus.ui:88
-#: ddterm/app/ui/menus.ui:219 ddterm/shell/notifications.js:57
+#: ddterm/app/ui/menus.ui:219 ddterm/shell/notifications.js:56
 msgid "Close"
 msgstr "Zamknij"
 
@@ -1256,15 +1256,15 @@ msgstr "Wykrywaj adresy e-mail"
 msgid "Detect \"news:\", \"man:\" URLs"
 msgstr "Wykrywaj adresy URL \"news:\", \"man:\""
 
-#: ddterm/shell/notifications.js:52 ddterm/shell/notifications.js:120
+#: ddterm/shell/notifications.js:51 ddterm/shell/notifications.js:150
 msgid "Copy to Clipboard"
 msgstr "Skopiuj do schowka"
 
-#: ddterm/shell/notifications.js:116
+#: ddterm/shell/notifications.js:146
 msgid "Details…"
 msgstr "Szczegóły…"
 
-#: ddterm/shell/notifications.js:164
+#: ddterm/shell/notifications.js:194
 msgid "Install"
 msgstr "Zainstaluj"
 
