@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-04-17 03:51+0000\n"
+"POT-Creation-Date: 2025-04-17 06:04+0000\n"
 "PO-Revision-Date: 2023-09-26 17:35+0300\n"
 "Last-Translator: Anagnostakis Ioannis <rizitis@gmail.com>\n"
 "Language-Team: Greek, Modern (1453-) <>\n"
@@ -128,8 +128,7 @@ msgstr "Νέα καρτέλα (Τέλος)"
 msgid "New Tab (First)"
 msgstr "Νέα καρτέλα (Αρχή)"
 
-#: ddterm/app/prefsdialog.js:38 ddterm/app/prefsdialog.legacy.js:50
-#: ddterm/app/ui/menus.ui:146
+#: ddterm/app/prefsdialog.js:38 ddterm/app/ui/menus.ui:146
 msgid "Preferences"
 msgstr "Προτιμήσεις"
 

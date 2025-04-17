@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-04-17 03:51+0000\n"
+"POT-Creation-Date: 2025-04-17 06:04+0000\n"
 "PO-Revision-Date: 2024-07-24 00:09+0000\n"
 "Last-Translator: Patricio Carrau <duckycb@proton.me>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/fr/>\n"
@@ -126,8 +126,7 @@ msgstr "Nouvel onglet (en dernière position)"
 msgid "New Tab (First)"
 msgstr "Nouvel onglet (en première position)"
 
-#: ddterm/app/prefsdialog.js:38 ddterm/app/prefsdialog.legacy.js:50
-#: ddterm/app/ui/menus.ui:146
+#: ddterm/app/prefsdialog.js:38 ddterm/app/ui/menus.ui:146
 msgid "Preferences"
 msgstr "Préférences"
 
