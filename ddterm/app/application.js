@@ -231,11 +231,7 @@ class Application extends Gtk.Application {
     startup() {
         this.settings = get_settings();
 
-        this.simple_action('quit', () => {
-            this.save_session();
-            this.quit();
-        });
-
+        this.simple_action('quit', () => this.quit());
         this.simple_action('preferences', () => this.preferences().catch(logError));
 
         [
@@ -354,20 +350,8 @@ class Application extends Gtk.Application {
         ]);
 
         this.restore_session();
+        this.connect('shutdown', () => this.save_session());
 
-        this.connect('query-end', () => {
-            const cookie = this.inhibit(
-                null,
-                Gtk.ApplicationInhibitFlags.LOGOUT,
-                Gettext.gettext('Saving session…')
-            );
-
-            try {
-                this.save_session();
-            } finally {
-                this.uninhibit(cookie);
-            }
-        });
     }
 
     _trace_signal(signal, return_value = undefined) {
