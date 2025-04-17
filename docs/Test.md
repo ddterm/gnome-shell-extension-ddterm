@@ -73,8 +73,6 @@ and PyGObject will be automatically built from source.
 `--container=IMAGE` - run tests using the specified container image `IMAGE`.
 Can be repeated multiple times to run tests with multiple images.
 `IMAGE` can be full image name, or a service name from [`compose.yaml`].
-Also, `esm` or `legacy` can be passed as `IMAGE` - in this case, all images
-with the matching profile will be selected.
 
 `--screenshot-always` - take screenshots after every test. By default,
 screenshots are taken only after failures.
