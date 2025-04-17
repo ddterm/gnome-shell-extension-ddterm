@@ -796,20 +796,6 @@ class TestWayland(CommonTests, fixtures.GnomeSessionWaylandFixtures):
         )
 
     @pytest.fixture
-    def expected_show_transitions(
-        self,
-        window_position,
-        animation_mode,
-        shell_dbus_interface,
-        gdk_backend
-    ):
-        if gdk_backend == GdkBackend.X11 and shell_dbus_interface.ShellVersion < (44,):
-            # Known bug - no show/map animation on XWayland
-            return set()
-
-        return animation_mode.expected_transitions(window_position)
-
-    @pytest.fixture
     def gdk_backend(
         self,
         request,
@@ -904,7 +890,7 @@ class TestWaylandTwoMonitors(TestWayland):
         if monitor_layout[0].scale == monitor_layout[1].scale:
             return 1
 
-        if window_monitor == current_monitor and shell_dbus_interface.ShellVersion >= (45,):
+        if window_monitor == current_monitor:
             return 1
 
         return 2
