@@ -14,12 +14,6 @@ SYNCED_FOLDER = "/home/vagrant/#{PROJECT_DIR.basename}"
 UUID = 'ddterm@amezin.github.com'
 
 PACK_FILE_FALLBACK = Pathname.getwd / "#{UUID}.shell-extension.zip"
-PACK_FILE_FALLBACK_LEGACY = Pathname.getwd / "#{UUID}.legacy.shell-extension.zip"
-
-if not PACK_FILE_FALLBACK.exist? and PACK_FILE_FALLBACK_LEGACY.exist?
-  PACK_FILE_FALLBACK = PACK_FILE_FALLBACK_LEGACY
-end
-
 PACK_FILE = Pathname.getwd / ENV.fetch('DDTERM_BUILT_PACK', PACK_FILE_FALLBACK.to_s)
 
 stdout, status = Open3.capture2(
@@ -100,10 +94,6 @@ Vagrant.configure("2") do |config|
     version.vm.box = "gnome-shell-box/silverblue40"
   end
 
-  config.vm.define "ubuntu2204", autostart: false do |version|
-    version.vm.box = "gnome-shell-box/ubuntu2204"
-  end
-
   config.vm.define "ubuntu2404", primary: true do |version|
     version.vm.box = "gnome-shell-box/ubuntu2404"
   end
@@ -120,27 +110,12 @@ Vagrant.configure("2") do |config|
     version.vm.box = "gnome-shell-box/opensuseleap156"
   end
 
-  config.vm.define "debian12", autostart: false do |version|
-    version.vm.box = "gnome-shell-box/debian12"
-  end
-
   config.vm.define "nixos", autostart: false do |version|
     version.vm.box = "gnome-shell-box/nixos"
   end
 
   config.vm.define "archlinux", autostart: false do |version|
     version.vm.box = "gnome-shell-box/archlinux"
-  end
-
-  config.vm.define "alpine318", autostart: false do |version|
-    version.vm.box = "gnome-shell-box/alpine318"
-    version.ssh.sudo_command = "doas -n -u root %c"
-
-    version.vm.synced_folder '.', SYNCED_FOLDER,
-      type: 'rsync',
-      rsync__exclude: rsync_excludes,
-      rsync__rsync_path: 'doas -u root rsync',
-      rsync__args: rsync_args
   end
 
   config.vm.define "alpine319", autostart: false do |version|
