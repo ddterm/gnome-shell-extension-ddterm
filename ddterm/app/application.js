@@ -12,6 +12,7 @@ import Gtk from 'gi://Gtk';
 import Handy from 'gi://Handy';
 
 import Gettext from 'gettext';
+import Gi from 'gi';
 import System from 'system';
 
 import { AppWindow } from './appwindow.js';
@@ -26,6 +27,21 @@ import {
     create_extension_dbus_proxy,
     create_extension_dbus_proxy_oneshot,
 } from './extensiondbus.js';
+
+function try_require(namespace, version = undefined) {
+    try {
+        return Gi.require(namespace, version);
+    } catch (ex) {
+        logError(ex);
+        return null;
+    }
+}
+
+const GLibUnix = GLib.check_version(2, 79, 2) === null ? try_require('GLibUnix') : null;
+const signal_add = GLibUnix?.signal_add_full ?? GLib.unix_signal_add;
+
+const SIGINT = 2;
+const SIGTERM = 15;
 
 function schedule_gc() {
     GLib.idle_add(GLib.PRIORITY_DEFAULT, () => {
@@ -352,6 +368,8 @@ class Application extends Gtk.Application {
         this.restore_session();
         this.connect('shutdown', () => this.save_session());
 
+        signal_add(GLib.PRIORITY_HIGH, SIGINT, () => this.quit());
+        signal_add(GLib.PRIORITY_HIGH, SIGTERM, () => this.quit());
     }
 
     _trace_signal(signal, return_value = undefined) {

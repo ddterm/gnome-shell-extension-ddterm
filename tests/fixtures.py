@@ -47,6 +47,7 @@ IGNORED_LOG_ISSUES_BY_OS = {
         "Requiring GLibUnix, version 2.0: "
         "Typelib file for namespace 'GLibUnix', version '2.0' not found",
         "GLib.unix_set_fd_nonblocking has been moved to a separate platform-specific library.",
+        "GLib.unix_signal_add has been moved to a separate platform-specific library.",
     ]
 }
 
