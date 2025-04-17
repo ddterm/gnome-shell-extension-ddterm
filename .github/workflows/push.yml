@@ -27,11 +27,28 @@ jobs:
     with:
       testspace: ${{ !github.event.repository.fork }}
 
+  configure-test:
+    runs-on: ubuntu-24.04
+
+    outputs:
+      containers: ${{ steps.config.outputs.containers }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - id: config
+        working-directory: tests
+        run: |
+          docker compose --profile esm config --services | grep -v archlinux | jq -cnR '[inputs]' | sed -e "s/^/containers=/" >> "$GITHUB_OUTPUT"
+
   test:
-    needs: build
-    uses: ./.github/workflows/test-multi.yml
+    needs:
+      - build
+      - configure-test
+    uses: ./.github/workflows/test.yml
     with:
       testspace: ${{ !github.event.repository.fork }}
+      containers: ${{ needs.configure-test.outputs.containers }}
 
   translations:
     uses: ./.github/workflows/pot.yml

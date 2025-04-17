@@ -140,15 +140,6 @@ jobs:
     needs:
       - lint
 
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - artifact: pack
-            flags: '-Desm=true'
-          - artifact: pack-legacy
-            flags: '-Desm=false'
-
     runs-on: ubuntu-24.04
     container:
       image: ghcr.io/ddterm/ci-docker-image:2025.04.16.0
@@ -199,14 +190,14 @@ jobs:
     - name: Upload extension package as artifact
       uses: actions/upload-artifact@v4
       with:
-        name: ${{ matrix.artifact }}
+        name: pack
         path: "build/*.shell-extension.zip"
         if-no-files-found: error
 
     - name: Run checks
       run: >-
         xvfb-run -d --server-args=-noreset --wait=0 --
-        faketty.sh meson test -v -j1 --logbase ${{ matrix.artifact }} --no-suite lint-source --no-suite eslint --no-suite reuse
+        faketty.sh meson test -v -j1 --logbase check --no-suite lint-source --no-suite eslint --no-suite reuse
       working-directory: build
       if: ${{ always() && steps.pack.conclusion == 'success' }}
 
@@ -222,7 +213,7 @@ jobs:
       if: ${{ always() && steps.pack.conclusion == 'success' }}
 
     - name: Run eslint on generated code
-      run: faketty.sh meson test -v -j1 --logbase eslint-${{ matrix.artifact }} eslint-output
+      run: faketty.sh meson test -v -j1 --logbase eslint eslint-output
       working-directory: build
       if: ${{ always() && steps.pack.conclusion == 'success' }}
 
@@ -238,5 +229,5 @@ jobs:
       if: ${{ always() && steps.pack.conclusion == 'success' }}
 
     - name: Upload reports to Testspace
-      run: testspace --verbose "build/meson-logs/*${{ matrix.artifact }}.txt{lint}"
+      run: testspace --verbose "build/meson-logs/eslint.txt{lint}" "build/meson-logs/check.txt{lint}"
       if: ${{ always() && steps.setup_testspace.outcome == 'success' }}
