@@ -8,11 +8,6 @@
 # Or 'tox -e images pull'.
 
 services:
-  alpine-3.18:
-    image: ghcr.io/ddterm/gnome-shell-image/alpine-3.18:2025.04.16.0
-    profiles:
-      - legacy
-
   alpine-3.19:
     image: ghcr.io/ddterm/gnome-shell-image/alpine-3.19:2025.04.16.0
     profiles:
@@ -52,16 +47,6 @@ services:
     image: ghcr.io/ddterm/gnome-shell-image/opensuse-leap-15.6:2025.04.16.0
     profiles:
       - esm
-
-  debian-12:
-    image: ghcr.io/ddterm/gnome-shell-image/debian-12:2025.04.16.0
-    profiles:
-      - legacy
-
-  ubuntu-22.04:
-    image: ghcr.io/ddterm/gnome-shell-image/ubuntu-22.04:2025.04.16.0
-    profiles:
-      - legacy
 
   ubuntu-24.04:
     image: ghcr.io/ddterm/gnome-shell-image/ubuntu-24.04:2025.04.16.0
