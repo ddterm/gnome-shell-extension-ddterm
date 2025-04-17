@@ -7,10 +7,11 @@ import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
 import Shell from 'gi://Shell';
 
+import * as Main from 'resource:///org/gnome/shell/ui/main.js';
+
 import {
     connect,
     connect_after,
-    get_main,
     get_resource_dbus_interface_info,
     dbus_auto_pspecs,
 } from './util.js';
@@ -81,11 +82,10 @@ const Interface = GObject.registerClass({
     }
 });
 
-export async function init() {
+export function init() {
     try {
-        const main = await get_main();
         const { settings } =
-            main.extensionManager.lookup('ddterm@amezin.github.com').stateObj.enabled_state;
+            Main.extensionManager.lookup('ddterm@amezin.github.com').stateObj.enabled_state;
 
         new Interface({ settings });
     } catch (ex) {

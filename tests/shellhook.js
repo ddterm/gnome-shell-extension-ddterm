@@ -10,9 +10,10 @@ import Meta from 'gi://Meta';
 import Shell from 'gi://Shell';
 import St from 'gi://St';
 
+import * as Main from 'resource:///org/gnome/shell/ui/main.js';
+
 import {
     connect,
-    get_main,
     get_resource_dbus_interface_info,
     report_dbus_error_async,
     handle_dbus_call_promise,
@@ -199,20 +200,14 @@ const Interface = GObject.registerClass({
         this.connect('notify', () => this.wrapper.flush());
         this.wrapper.flush();
 
-        this._init_async().catch(logError);
-    }
-
-    async _init_async() {
-        const main = await get_main();
-
         if (!this._destroy_callbacks.length)
             return;
 
-        this._connect_external(main.layoutManager, 'startup-complete', () => {
+        this._connect_external(Main.layoutManager, 'startup-complete', () => {
             this.StartingUp = false;
         });
 
-        this.StartingUp = main.layoutManager._startingUp;
+        this.StartingUp = Main.layoutManager._startingUp;
     }
 
     _connect_external(source, signal, handler) {

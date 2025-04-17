@@ -49,17 +49,6 @@ export function connect_after(source, signal, target) {
     return () => source.disconnect(handler_id);
 }
 
-export function get_main() {
-    const api_version = Shell.__version__;
-
-    log(`Shell API version: ${JSON.stringify(api_version)}`);
-
-    if (Number.parseInt(api_version) >= 13)
-        return import('resource:///org/gnome/shell/ui/main.js');
-
-    return Promise.resolve(imports.ui.main);
-}
-
 export function get_resource_path(file_or_relative_url) {
     const [path] = GLib.filename_from_uri(
         GLib.Uri.resolve_relative(import.meta.url, file_or_relative_url, GLib.UriFlags.NONE)

@@ -8,18 +8,17 @@ import Gio from 'gi://Gio';
 import Meta from 'gi://Meta';
 import Shell from 'gi://Shell';
 
+import * as Main from 'resource:///org/gnome/shell/ui/main.js';
+
 import {
     connect,
     connect_after,
-    get_main,
     get_resource_dbus_interface_info,
     dbus_auto_pspecs,
 } from './util.js';
 
 const DBUS_INTERFACE_INFO =
     get_resource_dbus_interface_info('./dbus-interfaces/com.github.amezin.ddterm.TestHook.xml');
-
-let Main;
 
 const Interface = GObject.registerClass({
     Properties: {
@@ -373,10 +372,8 @@ const Interface = GObject.registerClass({
     }
 });
 
-export async function init() {
+export function init() {
     try {
-        Main = await get_main();
-
         new Interface(Main.extensionManager.lookup('ddterm@amezin.github.com').stateObj);
     } catch (ex) {
         logError(ex);
