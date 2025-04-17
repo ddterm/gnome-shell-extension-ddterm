@@ -23,11 +23,7 @@
         "lint:flake8": "tox -e flake8",
         "lint:reuse": "tox -e reuse",
         "lint": "run-s lint:*",
-        "build:esm": "tox -e meson",
-        "build:legacy": "tox -e meson-legacy",
-        "build": "run-s build:*",
-        "test:esm": "tox -e meson-test",
-        "test:legacy": "tox -e meson-test-legacy",
-        "test": "run-s test:*"
+        "build": "tox -e meson",
+        "test": "tox -e meson-test"
     }
 }
