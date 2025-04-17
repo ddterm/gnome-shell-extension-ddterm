@@ -13,7 +13,6 @@ import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import * as MessageTray from 'resource:///org/gnome/shell/ui/messageTray.js';
 import * as ModalDialog from 'resource:///org/gnome/shell/ui/modalDialog.js';
 
-import { Notification, NotificationSource } from './compat.js';
 import { find_package_installer } from './packagemanager.js';
 
 const DetailsDialog = GObject.registerClass({
@@ -68,6 +67,37 @@ const DetailsDialog = GObject.registerClass({
         return Clutter.EVENT_PROPAGATE;
     }
 });
+
+/*
+ * Unfortunately, rebuilding old notifications interface on top of the new interface
+ * is easier than building the new one on top of the old one. So will have to use
+ * old API for now.
+ */
+const Notification = MessageTray.Notification.length === 1 ? GObject.registerClass({
+}, class DDTermNotification extends MessageTray.Notification {
+    constructor(source, title, banner, params) {
+        super({ source, title, body: banner, ...params });
+    }
+
+    setUrgency(urgency) {
+        super.urgency = urgency;
+    }
+
+    setForFeedback(value) {
+        super.for_feedback = value;
+    }
+}) : MessageTray.Notification;
+
+const NotificationSource = MessageTray.Source.length === 1 ? GObject.registerClass({
+}, class DDTermNotificationSource extends MessageTray.Source {
+    constructor(title, icon_name) {
+        super({ title, icon_name });
+    }
+
+    showNotification(notification) {
+        this.addNotification(notification);
+    }
+}) : MessageTray.Source;
 
 const VersionMismatchNotification = GObject.registerClass({
 }, class DDTermVersionMismatchNotification extends Notification {
