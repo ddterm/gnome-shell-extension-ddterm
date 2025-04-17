@@ -37,7 +37,7 @@ jobs:
       - id: config
         working-directory: tests
         run: |
-          docker compose --profile esm config --services | grep -v archlinux | jq -cnR '[inputs]' | sed -e "s/^/containers=/" >> "$GITHUB_OUTPUT"
+          docker compose config --services | grep -v archlinux | jq -cnR '[inputs]' | sed -e "s/^/containers=/" >> "$GITHUB_OUTPUT"
 
     if: >-
       startsWith(github.event.pull_request.head.ref, 'renovate/')
