@@ -6,7 +6,6 @@ shell_js_out_files = []
 shell_js_src_files = files(
   'animation.js',
   'appcontrol.js',
-  'compat.js',
   'dbusapi.js',
   'extension.js',
   'geometry.js',

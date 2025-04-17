@@ -5,7 +5,16 @@
 import GLib from 'gi://GLib';
 import Gio from 'gi://Gio';
 
-import { try_require } from './compat.js';
+import Gi from 'gi';
+
+function try_require(namespace, version = undefined) {
+    try {
+        return Gi.require(namespace, version);
+    } catch (ex) {
+        logError(ex);
+        return null;
+    }
+}
 
 const GLibUnix = GLib.check_version(2, 79, 2) === null ? try_require('GLibUnix') : null;
 const set_fd_nonblocking = GLibUnix?.set_fd_nonblocking ?? GLib.unix_set_fd_nonblocking;

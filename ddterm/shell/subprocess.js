@@ -8,8 +8,18 @@ import Gio from 'gi://Gio';
 import GnomeDesktop from 'gi://GnomeDesktop';
 import Meta from 'gi://Meta';
 
-import { try_require } from './compat.js';
+import Gi from 'gi';
+
 import { sd_journal_stream_fd } from './sd_journal.js';
+
+function try_require(namespace, version = undefined) {
+    try {
+        return Gi.require(namespace, version);
+    } catch (ex) {
+        logError(ex);
+        return null;
+    }
+}
 
 const GioUnix = GLib.check_version(2, 79, 2) === null ? try_require('GioUnix') : null;
 const UnixOutputStream = GioUnix?.OutputStream ?? Gio.UnixOutputStream;
