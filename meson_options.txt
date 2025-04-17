@@ -3,13 +3,6 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 option(
-  'esm',
-  type : 'boolean',
-  value : true,
-  description : 'Target GNOME >= 45'
-)
-
-option(
   'shebang_override',
   type : 'string',
   value : '',

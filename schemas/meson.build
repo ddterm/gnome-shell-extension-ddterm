@@ -16,15 +16,6 @@ schemas_compiled = custom_target(
   build_by_default: true,
 )
 
-if not get_option('esm')
-  pack += schemas_compiled
-
-  pack += custom_target(
-    command: [xsltproc, '-o', '@OUTPUT@', files('extract-license.xsl'), schema],
-    output: 'gschemas.compiled.license',
-  )
-endif
-
 test(
   fs.name(schema),
   glib_compile_schemas_tool,

@@ -6,9 +6,11 @@ import GLib from 'gi://GLib';
 import Gio from 'gi://Gio';
 import Gtk from 'gi://Gtk';
 
-const BASE_URI = `@PREF_BASE_URI@`;
-const UI_BASE_URI =
-    GLib.Uri.resolve_relative(BASE_URI, `ui/gtk${Gtk.get_major_version()}/`, GLib.UriFlags.NONE);
+const UI_BASE_URI = GLib.Uri.resolve_relative(
+    import.meta.url,
+    `ui/gtk${Gtk.get_major_version()}/`,
+    GLib.UriFlags.NONE
+);
 
 export function ui_file_uri(name) {
     return GLib.Uri.resolve_relative(UI_BASE_URI, name, GLib.UriFlags.NONE);

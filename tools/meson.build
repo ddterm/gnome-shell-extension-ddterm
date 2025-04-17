@@ -9,14 +9,6 @@ output_capture = [
   '--',
 ]
 
-gjs_translate_esm_command = [
-  gjs,
-  files('translate-esm.js'),
-  '-o',
-  '@OUTPUT@',
-  '@INPUT@',
-]
-
 make_zip_command = [
   find_program(files('makezip.py')),  # https://github.com/mesonbuild/meson/issues/11255
   '--output',

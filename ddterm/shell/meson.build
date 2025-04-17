@@ -6,6 +6,7 @@ shell_js_out_files = []
 shell_js_src_files = files(
   'animation.js',
   'appcontrol.js',
+  'compat.js',
   'dbusapi.js',
   'extension.js',
   'geometry.js',
@@ -22,29 +23,12 @@ shell_js_src_files = files(
 )
 
 foreach shell_js_src_file : shell_js_src_files
-  if get_option('esm')
-    shell_js_out_files += fs.copyfile(
-      shell_js_src_file,
-      install: true,
-      install_dir: extension_dir / 'ddterm' / 'shell',
-    )
-  else
-    shell_js_out_files += custom_target(
-      command: [gjs_translate_esm_command, '-d', meson.project_source_root()],
-      input: shell_js_src_file,
-      output: '@PLAINNAME@',
-      install: true,
-      install_dir: extension_dir / 'ddterm' / 'shell',
-    )
-  endif
+  shell_js_out_files += fs.copyfile(
+    shell_js_src_file,
+    install: true,
+    install_dir: extension_dir / 'ddterm' / 'shell',
+  )
 endforeach
-
-shell_js_out_files += fs.copyfile(
-  get_option('esm') ? 'compat.js' : 'compat.legacy.js',
-  'compat.js',
-  install: true,
-  install_dir: extension_dir / 'ddterm' / 'shell',
-)
 
 pack += shell_js_out_files
 eslint_out += shell_js_out_files

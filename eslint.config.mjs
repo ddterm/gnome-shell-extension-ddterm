@@ -82,11 +82,6 @@ export default [
     },
     {
         files: [
-            'extension.legacy.js',
-            'prefs.legacy.js',
-            'ddterm/app/fakeext/misc/extensionUtils.js',
-            'ddterm/pref/resources.legacy.js',
-            'ddterm/shell/compat.legacy.js',
             'bin/launcher.js',
             'tools/translate-esm.js',
         ],

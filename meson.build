@@ -27,25 +27,9 @@ schema_dir = datadir / 'glib-2.0' / 'schemas'
 applications_dir = datadir / 'applications'
 dbus_service_dir = datadir / 'dbus-1' / 'services'
 
-if get_option('esm')
-  gjs_req = '>=1.78.0'
-  gnome_shell_req = ['>=45.0', '<49']
-  shell_versions = ['45', '46', '47', '48']
-
-  extension_main_src_file = files('extension.js')
-  prefs_main_src_file = files('prefs.js')
-
-  pack_name = f'@uuid@.shell-extension.zip'
-else
-  gjs_req = '>=1.72.0'
-  gnome_shell_req = ['>=42.0', '<45']
-  shell_versions = ['42', '43', '44']
-
-  extension_main_src_file = files('extension.legacy.js')
-  prefs_main_src_file = files('prefs.legacy.js')
-
-  pack_name = f'@uuid@.legacy.shell-extension.zip'
-endif
+gjs_req = '>=1.78.0'
+gnome_shell_req = ['>=45.0', '<49']
+shell_versions = ['45', '46', '47', '48']
 
 summary('Target GNOME Shell version', gnome_shell_req, list_sep: ', ')
 
@@ -122,14 +106,12 @@ pack = [
 ]
 
 extension_main_out_file = fs.copyfile(
-  extension_main_src_file,
   'extension.js',
   install: true,
   install_dir: extension_dir,
 )
 
 prefs_main_out_file = fs.copyfile(
-  prefs_main_src_file,
   'prefs.js',
   install: true,
   install_dir: extension_dir,
@@ -199,7 +181,7 @@ endforeach
 pack_target = custom_target(
   command: pack_command,
   input: pack,
-  output: pack_name,
+  output: f'@uuid@.shell-extension.zip',
   build_by_default: true,
 )
 
@@ -278,7 +260,7 @@ test(
 )
 
 configure_file(
-  input: 'lint' / (get_option('esm') ? 'eslint.config.esm.mjs.in' : 'eslint.config.legacy.mjs.in'),
+  input: 'lint' / 'eslint.config.esm.mjs.in',
   output: 'eslint.config.mjs',
   configuration: {
     'common_config': meson.current_source_dir() / 'lint' / 'ddterm-common.mjs',

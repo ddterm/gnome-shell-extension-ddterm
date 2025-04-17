@@ -13,6 +13,7 @@ app_js_src_files = files(
   'meta.js',
   'notebook.js',
   'pcre2.js',
+  'prefsdialog.js',
   'resources.js',
   'search.js',
   'settings.js',
@@ -33,22 +34,6 @@ foreach app_js_src_file : app_js_src_files
     install_dir: extension_dir / 'ddterm' / 'app',
   )
 endforeach
-
-if get_option('esm')
-  app_prefsdialog_src_file = files('prefsdialog.js')
-else
-  app_prefsdialog_src_file = files('prefsdialog.legacy.js')
-
-  subdir('fakeext')
-endif
-
-app_js_src_files += app_prefsdialog_src_file
-app_js_out_files += fs.copyfile(
-  app_prefsdialog_src_file,
-  'prefsdialog.js',
-  install: true,
-  install_dir: extension_dir / 'ddterm' / 'app',
-)
 
 pack += app_js_out_files
 eslint_out += app_js_out_files
