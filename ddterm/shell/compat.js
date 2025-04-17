@@ -3,7 +3,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import GObject from 'gi://GObject';
-import Meta from 'gi://Meta';
 
 import Gi from 'gi';
 
@@ -74,12 +73,4 @@ export function is_extension_deactivating(extension) {
 
     return info.state !== ExtensionStateCompat.ACTIVE &&
         info.state !== ExtensionStateCompat.ACTIVATING;
-}
-
-export function get_windows(display) {
-    const actors = Meta.get_window_actors
-        ? Meta.get_window_actors(display)
-        : display.get_compositor().get_window_actors();
-
-    return actors.map(actor => actor.meta_window);
 }
