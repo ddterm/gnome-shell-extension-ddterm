@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-04-08 18:52+0000\n"
+"POT-Creation-Date: 2025-04-17 03:51+0000\n"
 "PO-Revision-Date: 2024-10-03 16:15+0000\n"
 "Last-Translator: Muha Aliss <muhaaliss@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/tr/>\n"
@@ -42,67 +42,63 @@ msgstr "Aç/Kapat"
 msgid "Preferences…"
 msgstr "Tercihler…"
 
-#: ddterm/app/application.js:73
+#: ddterm/app/application.js:89
 msgid "Start the application, but do not show the window"
 msgstr "Uygulamayı başlat, fakat pencereyi gösterme"
 
-#: ddterm/app/application.js:82
+#: ddterm/app/application.js:98
 msgid "Comma-separated list of backends that GDK should try to use"
 msgstr "GDK'nın kullanımı için virgülle ayrılmış arka uç (backend) listesi"
 
-#: ddterm/app/application.js:100
+#: ddterm/app/application.js:116
 msgid "Show version information and exit"
 msgstr "Versiyon bilgisini görüntüle ve çık"
 
-#: ddterm/app/application.js:109
+#: ddterm/app/application.js:125
 msgid "Run the specified command"
 msgstr "Belirtilen komutu koş"
 
-#: ddterm/app/application.js:123
+#: ddterm/app/application.js:139
 msgid "Wait for the command to exit, and return its exit code"
 msgstr "Komutun bitmesini bekle, ve çıkış kodunu döndür"
 
-#: ddterm/app/application.js:132
+#: ddterm/app/application.js:148
 msgid "Set the working directory"
 msgstr "Çalışma dizinini ayarla"
 
-#: ddterm/app/application.js:141
+#: ddterm/app/application.js:157
 msgid "Set tab title"
 msgstr "Sekme başlığını ayarla"
 
-#: ddterm/app/application.js:150
+#: ddterm/app/application.js:166
 msgid "Keep the terminal open after the command has exited"
 msgstr "Komutun çalışması bittikten sonra terminali açık tut"
 
-#: ddterm/app/application.js:159
+#: ddterm/app/application.js:175
 msgid "Do not pass the environment"
 msgstr "Ortam değişkenlerini kullanma"
 
-#: ddterm/app/application.js:168
+#: ddterm/app/application.js:184
 msgid "Open a new tab"
 msgstr "Yeni bir sekme aç"
 
-#: ddterm/app/application.js:362
-msgid "Saving session…"
-msgstr "Oturum kaydediliyor…"
-
-#: ddterm/app/application.js:426
+#: ddterm/app/application.js:428
 msgid "Can't contact the extension."
 msgstr "Uzantı ile irtibat kurulamıyor."
 
-#: ddterm/app/application.js:428 ddterm/app/application.js:555
+#: ddterm/app/application.js:430 ddterm/app/application.js:557
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr "Lütfen ddterm GNOME Shell eklentisinin etkinleştirildiğinden emin olun."
 
-#: ddterm/app/application.js:553
+#: ddterm/app/application.js:555
 msgid "Can't read the version of the loaded extension."
 msgstr "Yüklü olan uzantının versiyon bilgisi okunamadı."
 
-#: ddterm/app/application.js:558 ddterm/shell/notifications.js:75
+#: ddterm/app/application.js:560 ddterm/shell/notifications.js:75
 msgid "Warning: ddterm version has changed"
 msgstr "Uyarı: ddterm sürümü değişti"
 
-#: ddterm/app/application.js:559 ddterm/shell/notifications.js:77
+#: ddterm/app/application.js:561 ddterm/shell/notifications.js:77
 msgid "Log out, then log in again to load the updated extension."
 msgstr "Güncellenmiş uzantıyı yüklemek için oturumu kapatın ve tekrar açın."
 
@@ -1272,6 +1268,9 @@ msgstr "Kur"
 #: ddterm/shell/panelicon.js:46
 msgid "Show"
 msgstr "Göster"
+
+#~ msgid "Saving session…"
+#~ msgstr "Oturum kaydediliyor…"
 
 #~ msgid "Failed to launch ddterm application"
 #~ msgstr "ddterm uygulaması başlatılamadı"
