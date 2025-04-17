@@ -117,7 +117,6 @@ prefs_main_out_file = fs.copyfile(
   install_dir: extension_dir,
 )
 
-eslint_out = [extension_main_out_file, prefs_main_out_file]
 pack += [extension_main_out_file, prefs_main_out_file]
 
 subdir('tools')
@@ -257,22 +256,6 @@ test(
   args: ['.'],
   workdir: meson.current_source_dir(),
   suite: ['eslint', 'lint-source'],
-)
-
-configure_file(
-  input: 'lint' / 'eslint.config.esm.mjs.in',
-  output: 'eslint.config.mjs',
-  configuration: {
-    'common_config': meson.current_source_dir() / 'lint' / 'ddterm-common.mjs',
-  },
-)
-
-test(
-  'eslint-output',
-  eslint_tool,
-  args: eslint_out,
-  workdir: meson.current_build_dir(),
-  suite: ['eslint', 'lint-output'],
 )
 
 run_target(

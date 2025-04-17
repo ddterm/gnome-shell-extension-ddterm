@@ -31,4 +31,3 @@ foreach shell_js_src_file : shell_js_src_files
 endforeach
 
 pack += shell_js_out_files
-eslint_out += shell_js_out_files

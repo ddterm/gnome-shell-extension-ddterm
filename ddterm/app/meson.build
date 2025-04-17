@@ -36,7 +36,6 @@ foreach app_js_src_file : app_js_src_files
 endforeach
 
 pack += app_js_out_files
-eslint_out += app_js_out_files
 
 app_data_src_files = files(
   'dependencies.json',
@@ -51,9 +50,6 @@ foreach app_data_src_file : app_data_src_files
     install_dir: extension_dir / 'ddterm' / 'app',
   )
 endforeach
-
-eslint_out += fs.copyfile('dev-application.js')
-eslint_out += fs.copyfile('dev-appwindow.js')
 
 subdir('icons')
 subdir('ui')

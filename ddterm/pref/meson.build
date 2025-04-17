@@ -29,7 +29,6 @@ foreach pref_js_src_file : pref_js_src_files
 endforeach
 
 pack += pref_js_out_files
-eslint_out += pref_js_out_files
 
 subdir('ui')
 subdir('test')
