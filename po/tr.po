@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-04-17 23:49+0000\n"
+"POT-Creation-Date: 2025-04-18 01:10+0000\n"
 "PO-Revision-Date: 2024-10-03 16:15+0000\n"
 "Last-Translator: Muha Aliss <muhaaliss@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/tr/>\n"
@@ -356,19 +356,19 @@ msgstr "Sekmeyi Önceki Konuma Taşı"
 msgid "Move Tab to Next Position"
 msgstr "Sekmeyi Sonraki Konuma Taşı"
 
-#: ddterm/pref/adw.js:73
+#: ddterm/pref/adw.js:74
 msgid "Window"
 msgstr "Pencere"
 
-#: ddterm/pref/adw.js:99
+#: ddterm/pref/adw.js:95
 msgid "Terminal"
 msgstr "Terminal"
 
-#: ddterm/pref/adw.js:120 ddterm/pref/shortcuts.js:201
+#: ddterm/pref/adw.js:116 ddterm/pref/shortcuts.js:201
 msgid "Keyboard Shortcuts"
 msgstr "Klavye Kısayolları"
 
-#: ddterm/pref/adw.js:135
+#: ddterm/pref/adw.js:131
 msgid "Miscellaneous"
 msgstr "Muhtelif"
 

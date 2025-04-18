@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-04-17 23:49+0000\n"
+"POT-Creation-Date: 2025-04-18 01:10+0000\n"
 "PO-Revision-Date: 2024-09-02 20:09+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/nb_NO/>\n"
@@ -356,19 +356,19 @@ msgstr "Flytt fane til forrige posisjon"
 msgid "Move Tab to Next Position"
 msgstr "Flytt fane til neste posisjon"
 
-#: ddterm/pref/adw.js:73
+#: ddterm/pref/adw.js:74
 msgid "Window"
 msgstr "Vindu"
 
-#: ddterm/pref/adw.js:99
+#: ddterm/pref/adw.js:95
 msgid "Terminal"
 msgstr "Terminal"
 
-#: ddterm/pref/adw.js:120 ddterm/pref/shortcuts.js:201
+#: ddterm/pref/adw.js:116 ddterm/pref/shortcuts.js:201
 msgid "Keyboard Shortcuts"
 msgstr "Tastatursnarveier"
 
-#: ddterm/pref/adw.js:135
+#: ddterm/pref/adw.js:131
 msgid "Miscellaneous"
 msgstr "Ymse"
 

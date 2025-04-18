@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-04-17 23:49+0000\n"
+"POT-Creation-Date: 2025-04-18 01:10+0000\n"
 "PO-Revision-Date: 2024-08-26 08:09+0000\n"
 "Last-Translator: yuh <yuhldr@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/zh_Hans/>\n"
@@ -355,19 +355,19 @@ msgstr "移动标签页到上一个位置"
 msgid "Move Tab to Next Position"
 msgstr "移动标签页到下一个位置"
 
-#: ddterm/pref/adw.js:73
+#: ddterm/pref/adw.js:74
 msgid "Window"
 msgstr "窗口"
 
-#: ddterm/pref/adw.js:99
+#: ddterm/pref/adw.js:95
 msgid "Terminal"
 msgstr "终端"
 
-#: ddterm/pref/adw.js:120 ddterm/pref/shortcuts.js:201
+#: ddterm/pref/adw.js:116 ddterm/pref/shortcuts.js:201
 msgid "Keyboard Shortcuts"
 msgstr "键盘快捷键"
 
-#: ddterm/pref/adw.js:135
+#: ddterm/pref/adw.js:131
 msgid "Miscellaneous"
 msgstr "杂项"
 

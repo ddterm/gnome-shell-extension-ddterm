@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-04-17 23:49+0000\n"
+"POT-Creation-Date: 2025-04-18 01:10+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -355,19 +355,19 @@ msgstr ""
 msgid "Move Tab to Next Position"
 msgstr ""
 
-#: ddterm/pref/adw.js:73
+#: ddterm/pref/adw.js:74
 msgid "Window"
 msgstr ""
 
-#: ddterm/pref/adw.js:99
+#: ddterm/pref/adw.js:95
 msgid "Terminal"
 msgstr ""
 
-#: ddterm/pref/adw.js:120 ddterm/pref/shortcuts.js:201
+#: ddterm/pref/adw.js:116 ddterm/pref/shortcuts.js:201
 msgid "Keyboard Shortcuts"
 msgstr ""
 
-#: ddterm/pref/adw.js:135
+#: ddterm/pref/adw.js:131
 msgid "Miscellaneous"
 msgstr ""
 

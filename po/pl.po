@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-04-17 23:49+0000\n"
+"POT-Creation-Date: 2025-04-18 01:10+0000\n"
 "PO-Revision-Date: 2024-06-15 17:09+0000\n"
 "Last-Translator: Wojciech Teichert <wojtekt99@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/pl/>\n"
@@ -359,19 +359,19 @@ msgstr "Przenieś kartę do poprzedniej pozycji"
 msgid "Move Tab to Next Position"
 msgstr "Przenieś kartę do następnej pozycji"
 
-#: ddterm/pref/adw.js:73
+#: ddterm/pref/adw.js:74
 msgid "Window"
 msgstr "Okno"
 
-#: ddterm/pref/adw.js:99
+#: ddterm/pref/adw.js:95
 msgid "Terminal"
 msgstr "Terminal"
 
-#: ddterm/pref/adw.js:120 ddterm/pref/shortcuts.js:201
+#: ddterm/pref/adw.js:116 ddterm/pref/shortcuts.js:201
 msgid "Keyboard Shortcuts"
 msgstr "Skróty klawiszowe"
 
-#: ddterm/pref/adw.js:135
+#: ddterm/pref/adw.js:131
 msgid "Miscellaneous"
 msgstr "Różne"
 
