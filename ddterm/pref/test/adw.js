@@ -25,7 +25,7 @@ export const AdwPrefsDialog = GObject.registerClass({
             'monitors',
             '',
             '',
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             Gio.ListModel
         ),
         'gettext-context': GObject.ParamSpec.jsobject(
@@ -54,19 +54,11 @@ export const AdwPrefsDialog = GObject.registerClass({
 
         const gettext_context = this.gettext_context;
         const settings = this.settings;
-        const window_page = new adw.WindowPage({ settings, gettext_context });
 
-        this.add(window_page);
+        this.add(new adw.WindowPage({ settings, gettext_context, monitors: this.monitors }));
         this.add(new adw.TerminalPage({ settings, gettext_context }));
         this.add(new adw.ShortcutsPage({ settings, gettext_context }));
         this.add(new adw.MiscPage({ settings, gettext_context }));
-
-        this.bind_property(
-            'monitors',
-            window_page,
-            'monitors',
-            GObject.BindingFlags.SYNC_CREATE
-        );
     }
 });
 

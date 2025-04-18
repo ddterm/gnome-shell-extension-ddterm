@@ -33,7 +33,7 @@ export const PositionSizeWidget = GObject.registerClass({
             'monitors',
             '',
             '',
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             Gio.ListModel
         ),
         'gettext-context': GObject.ParamSpec.jsobject(
@@ -44,9 +44,6 @@ export const PositionSizeWidget = GObject.registerClass({
         ),
     },
 }, class PrefsPositionSize extends Gtk.Grid {
-    #monitors = null;
-    #monitors_handler;
-
     constructor(params) {
         super(params);
 
@@ -56,6 +53,9 @@ export const PositionSizeWidget = GObject.registerClass({
         bind_widget(this.settings, 'window-monitor-connector', this.monitor_combo);
         bind_widget(this.settings, 'window-position', this.window_pos_combo);
         bind_widget(this.settings, 'window-size', this.window_size_scale);
+
+        this.monitors.connect('items-changed', this.#update_monitors.bind(this));
+        this.#update_monitors(this.monitors, 0, 0, this.monitors.get_n_items());
 
         const actions = insert_settings_actions(this, this.settings, ['window-monitor']);
 
@@ -71,21 +71,6 @@ export const PositionSizeWidget = GObject.registerClass({
 
     get title() {
         return this.gettext_context.gettext('Position and Size');
-    }
-
-    get monitors() {
-        return this.#monitors;
-    }
-
-    set monitors(value) {
-        const prev_count = this.#monitors?.get_n_items() ?? 0;
-
-        this.#monitors?.disconnect(this.#monitors_handler);
-
-        this.#monitors = value;
-        this.#monitors_handler = value?.connect('items-changed', this.#update_monitors.bind(this));
-
-        this.#update_monitors(value, 0, prev_count, value?.get_n_items() ?? 0);
     }
 
     #update_monitors(model, position, removed, added) {

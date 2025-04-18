@@ -35,10 +35,11 @@ const Page = GObject.registerClass({
         ),
     },
 }, class DDTermPrefsPage extends Adw.PreferencesPage {
-    add_widget(widget_type) {
+    add_widget(widget_type, extra_properties = {}) {
         const widget = new widget_type({
             settings: this.settings,
             gettext_context: this.gettext_context,
+            ...extra_properties,
         });
 
         const group = new Adw.PreferencesGroup({
@@ -58,7 +59,7 @@ export const WindowPage = GObject.registerClass({
             'monitors',
             '',
             '',
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             Gio.ListModel
         ),
     },
@@ -72,12 +73,7 @@ export const WindowPage = GObject.registerClass({
 
         this.title = this.gettext_context.gettext('Window');
 
-        this.bind_property(
-            'monitors',
-            this.add_widget(PositionSizeWidget),
-            'monitors',
-            GObject.BindingFlags.SYNC_CREATE
-        );
+        this.add_widget(PositionSizeWidget, { monitors: this.monitors });
 
         [
             BehaviorWidget,

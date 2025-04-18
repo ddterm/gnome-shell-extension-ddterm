@@ -91,13 +91,7 @@ export const PrefsWidget = GObject.registerClass({
         else
             this.pack_end(scrolled_window, true, true, 0);
 
-        this.bind_property(
-            'monitors',
-            this.#add_page('position-size', PositionSizeWidget),
-            'monitors',
-            GObject.BindingFlags.SYNC_CREATE
-        );
-
+        this.#add_page('position-size', PositionSizeWidget, { monitors: this.monitors });
         this.#add_page('behavior', BehaviorWidget);
         this.#add_page('animation', AnimationWidget);
         this.#add_page('tabs', TabsWidget);
@@ -110,10 +104,11 @@ export const PrefsWidget = GObject.registerClass({
         this.#add_page('panel-icon', PanelIconWidget);
     }
 
-    #add_page(name, widget_type) {
+    #add_page(name, widget_type, extra_properties = {}) {
         const widget = new widget_type({
             settings: this.settings,
             gettext_context: this.gettext_context,
+            ...extra_properties,
         });
 
         this.stack.add_titled(widget, name, widget.title);
