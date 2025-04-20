@@ -10,13 +10,6 @@ option(
 )
 
 option(
-  'linters',
-  type : 'feature',
-  value: 'auto',
-  description : 'Run linters during "meson test"/"ninja test"'
-)
-
-option(
   'tests',
   type : 'feature',
   value: 'auto',

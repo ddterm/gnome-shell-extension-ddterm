@@ -29,7 +29,7 @@ pkgver() {
 }
 
 build() {
-    arch-meson "$startdir" build -Dlinters=disabled "-Dtests=$( ((CHECKFUNC)) && echo enabled || echo disabled )"
+    arch-meson "$startdir" build "-Dtests=$( ((CHECKFUNC)) && echo enabled || echo disabled )"
 
     # gtk-builder-tool needs X or Wayland
     LIBGL_ALWAYS_SOFTWARE=1 xvfb-run --auto-display --server-args=-noreset --wait=0 -- meson compile -C build

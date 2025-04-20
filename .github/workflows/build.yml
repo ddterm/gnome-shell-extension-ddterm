@@ -197,7 +197,7 @@ jobs:
     - name: Run checks
       run: >-
         xvfb-run -d --server-args=-noreset --wait=0 --
-        faketty.sh meson test -v -j1 --logbase check --no-suite lint-source --no-suite reuse
+        faketty.sh meson test -v -j1
       working-directory: build
       if: ${{ always() && steps.pack.conclusion == 'success' }}
 
@@ -208,10 +208,9 @@ jobs:
       if: ${{ always() && steps.enable_generic_errors.outcome == 'success' }}
 
     - name: Check REUSE compliance of generated package
-      run: faketty.sh meson test -v -j1 --no-rebuild reuse-lint-output
-      working-directory: build
+      run: tox -e reuse-pack -- build/*.shell-extension.zip
       if: ${{ always() && steps.pack.conclusion == 'success' }}
 
     - name: Upload reports to Testspace
-      run: testspace --verbose "build/meson-logs/check.txt{lint}"
+      run: testspace --verbose "build/meson-logs/testlog.txt{lint}"
       if: ${{ always() && steps.setup_testspace.outcome == 'success' }}
