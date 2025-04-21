@@ -28,7 +28,7 @@ defaults:
     shell: bash
 
 jobs:
-  lint:
+  build:
     runs-on: ubuntu-24.04
     container:
       image: ghcr.io/ddterm/ci-docker-image:2025.04.16.0
@@ -39,6 +39,7 @@ jobs:
       uses: actions/checkout@v4
 
     - run: git config --global --replace-all safe.directory "$GITHUB_WORKSPACE"
+    - run: echo "$GITHUB_WORKSPACE/.github/bin" >> "$GITHUB_PATH"
 
     - name: Setup Testspace
       id: setup_testspace
@@ -132,50 +133,9 @@ jobs:
         fi
       working-directory: tests/pict
 
-    - name: Upload reports to Testspace
-      run: testspace --verbose eslint.xml "*.log{lint}"
-      if: ${{ always() && steps.setup_testspace.outcome == 'success' }}
-
-  build:
-    needs:
-      - lint
-
-    runs-on: ubuntu-24.04
-    container:
-      image: ghcr.io/ddterm/ci-docker-image:2025.04.16.0
-
-    steps:
-    - name: Checkout
-      id: checkout
-      uses: actions/checkout@v4
-
-    - run: git config --global --replace-all safe.directory "$GITHUB_WORKSPACE"
-
-    - name: Setup Testspace
-      id: setup_testspace
-      uses: testspace-com/setup-testspace@v1
-      with:
-        domain: ${{ github.repository_owner }}
-      continue-on-error: true
-      if: ${{ inputs.testspace }}
-
-    - run: echo "$GITHUB_WORKSPACE/.github/bin" >> "$GITHUB_PATH"
-
     - name: Enable generic error matcher
       id: enable_generic_errors
       uses: ./.github/actions/generic-problem-matcher
-
-    - name: Install JS dependencies
-      id: npm
-      run: npm install
-
-    - name: Pre-create pip cache directory
-      run: mkdir -p "$HOME/.cache/pip"
-      if: ${{ always() && steps.checkout.conclusion == 'success' }}
-
-    - name: Install Python dependencies
-      run: tox --notest --sitepackages -e reuse
-      if: ${{ always() && steps.checkout.conclusion == 'success' }}
 
     - name: Prepare build directory
       run: faketty.sh meson setup ${{ matrix.flags }} '-Dshebang_override=/usr/bin/env gjs' '-Dtests=disabled' build
@@ -212,5 +172,5 @@ jobs:
       if: ${{ always() && steps.pack.conclusion == 'success' }}
 
     - name: Upload reports to Testspace
-      run: testspace --verbose "build/meson-logs/testlog.txt{lint}"
+      run: testspace --verbose "build/meson-logs/testlog.txt{lint}" eslint.xml "*.log{lint}"
       if: ${{ always() && steps.setup_testspace.outcome == 'success' }}
