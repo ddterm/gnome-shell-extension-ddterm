@@ -25,32 +25,11 @@ jobs:
       startsWith(github.event.pull_request.head.ref, 'renovate/')
       || github.event.pull_request.base.repo.node_id != github.event.pull_request.head.repo.node_id
 
-  configure-test:
-    runs-on: ubuntu-24.04
-
-    outputs:
-      containers: ${{ steps.config.outputs.containers }}
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - id: config
-        working-directory: tests
-        run: |
-          docker compose config --services | grep -v archlinux | jq -cnR '[inputs]' | sed -e "s/^/containers=/" >> "$GITHUB_OUTPUT"
-
-    if: >-
-      startsWith(github.event.pull_request.head.ref, 'renovate/')
-      || github.event.pull_request.base.repo.node_id != github.event.pull_request.head.repo.node_id
-
   test:
-    needs:
-      - build
-      - configure-test
+    needs: build
     uses: ./.github/workflows/test.yml
     with:
       testspace: ${{ !github.event.repository.fork }}
-      containers: ${{ needs.configure-test.outputs.containers }}
 
   translations:
     uses: ./.github/workflows/pot.yml
