@@ -101,7 +101,7 @@ jobs:
 
     - name: Check meson.build formatting
       run: |
-        meson format -r -i
+        tox -e meson-format -- -r -i
         if ! git diff --exit-code --color=always
         then
           echo "::error:: meson.build formatting is incorrect"

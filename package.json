@@ -22,6 +22,7 @@
         "lint:markdownlint": "markdownlint-cli2",
         "lint:flake8": "tox -e flake8",
         "lint:reuse": "tox -e reuse",
+        "lint:meson-format": "tox -e meson-format",
         "lint": "run-s lint:*",
         "build": "tox -e meson",
         "test": "tox -e meson-test"
