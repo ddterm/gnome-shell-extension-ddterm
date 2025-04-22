@@ -14,6 +14,6 @@ ddterm consists of three components:
 
 * [Preferences dialog], loaded by both application and extension.
 
-[GNOME Shell extension]: /ddterm/shell
-[GJS/Gtk application]: /ddterm/app
-[Preferences dialog]: /ddterm/pref
+[GNOME Shell extension]: ../ddterm/shell
+[GJS/Gtk application]: ../ddterm/app
+[Preferences dialog]: ../ddterm/pref

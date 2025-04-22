@@ -101,7 +101,7 @@ Installed files can be removed with the following command:
 However, `sudo` installation is not recommended. Instead, you should build and
 use OS-specific packages (`.deb`, `.rpm`). `meson install ... --destdir ...`
 should work fine in DEB and RPM build scripts. See Arch Linux
-[PKGBUILD](/PKGBUILD) for example.
+[PKGBUILD](../PKGBUILD) for example.
 
 ## 4.1.b) `user-install`
 
@@ -148,4 +148,4 @@ run:
 
     ninja -C build-dir nested-wayland-shell
 
-[`run_nested_shell.py`]: /tools/run_nested_shell.py
+[`run_nested_shell.py`]: ../tools/run_nested_shell.py

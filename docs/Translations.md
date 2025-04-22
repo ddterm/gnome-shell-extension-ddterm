@@ -33,7 +33,7 @@ request.
 
 3. Create new translation `.po` file using `msginit`.
 
-4. Add the language name to [`LINGUAS`](/po/LINGUAS) file.
+4. Add the language name to [`LINGUAS`](../po/LINGUAS) file.
 
 5. Create a pull request.
 

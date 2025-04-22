@@ -8,8 +8,8 @@ ddterm Gtk Application
 ======================
 
 ddterm application code is located in [`ddterm/app`] subdirectory. Usually it's
-launched through [`com.github.amezin.ddterm`](/bin/launcher.js) script from
-the [`bin`](/bin) directory by the [shell extension].
+launched through [`com.github.amezin.ddterm`](../../bin/launcher.js) script from
+the [`bin`](../../bin) directory by the [shell extension].
 
 It's a Gtk 3 application - a simple Vte-based terminal emulator written in
 GJS. A regular Gtk application, except:
@@ -21,7 +21,7 @@ GJS. A regular Gtk application, except:
 
 * On Wayland, the extension launches the app as a special, privileged client.
 
-[`ddterm/app`]: /ddterm/app
-[shell extension]: /ddterm/shell
+[`ddterm/app`]: ../../ddterm/app
+[shell extension]: ../../ddterm/shell
 
-[`com.github.amezin.ddterm.Extension.xml`]: /data/com.github.amezin.ddterm.Extension.xml
+[`com.github.amezin.ddterm.Extension.xml`]: ../../data/com.github.amezin.ddterm.Extension.xml
