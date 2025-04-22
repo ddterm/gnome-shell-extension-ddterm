@@ -2,6 +2,8 @@
 //
 // SPDX-License-Identifier: GPL-2.0-or-later
 
+import relativeLinksRule from 'markdownlint-rule-relative-links';
+
 const config = {
     globs: ['**/*.md'],
     gitignore: true,
@@ -10,7 +12,9 @@ const config = {
         MD033: {
             allowed_elements: ['kbd'],
         },
+        'relative-links': true,
     },
+    customRules: [relativeLinksRule],
 };
 
 export default config;
