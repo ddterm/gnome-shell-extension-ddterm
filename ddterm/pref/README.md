@@ -1,1 +1,1 @@
-../../docs/pref.md
+../../docs/components/pref.md
