@@ -40,6 +40,7 @@ function try_require(namespace, version = undefined) {
 const GLibUnix = GLib.check_version(2, 79, 2) === null ? try_require('GLibUnix') : null;
 const signal_add = GLibUnix?.signal_add_full ?? GLib.unix_signal_add;
 
+const SIGHUP = 1;
 const SIGINT = 2;
 const SIGTERM = 15;
 
@@ -368,6 +369,8 @@ class Application extends Gtk.Application {
         this.restore_session();
         this.connect('shutdown', () => this.save_session());
 
+        // gdm sends SIGHUP to gnome-session's process group to terminate it
+        signal_add(GLib.PRIORITY_HIGH, SIGHUP, () => this.quit());
         signal_add(GLib.PRIORITY_HIGH, SIGINT, () => this.quit());
         signal_add(GLib.PRIORITY_HIGH, SIGTERM, () => this.quit());
     }
