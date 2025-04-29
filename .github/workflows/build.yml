@@ -137,6 +137,11 @@ jobs:
       id: enable_generic_errors
       uses: ./.github/actions/generic-problem-matcher
 
+    - name: Install meson
+      run: |
+        tox -vv --notest --sitepackages -e meson
+        echo "$GITHUB_WORKSPACE/.tox/meson/bin" >> "$GITHUB_PATH"
+
     - name: Prepare build directory
       run: faketty.sh meson setup ${{ matrix.flags }} '-Dshebang_override=/usr/bin/env gjs' '-Dtests=disabled' build
 
