@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-04-23 18:24+0000\n"
+"POT-Creation-Date: 2025-05-02 19:19+0000\n"
 "PO-Revision-Date: 2024-08-26 08:09+0000\n"
 "Last-Translator: yuh <yuhldr@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/zh_Hans/>\n"
@@ -49,55 +49,55 @@ msgstr "开始应用，但没有显示窗口"
 msgid "Comma-separated list of backends that GDK should try to use"
 msgstr "GDK 应尝试使用的以逗号分隔的后端列表"
 
-#: ddterm/app/application.js:117
+#: ddterm/app/application.js:126
 msgid "Show version information and exit"
 msgstr "显示版本信息并退出"
 
-#: ddterm/app/application.js:126
+#: ddterm/app/application.js:135
 msgid "Run the specified command"
 msgstr "运行指定的命令"
 
-#: ddterm/app/application.js:140
+#: ddterm/app/application.js:149
 msgid "Wait for the command to exit, and return its exit code"
 msgstr "等待退出命令，并返回其退出代码"
 
-#: ddterm/app/application.js:149
+#: ddterm/app/application.js:158
 msgid "Set the working directory"
 msgstr "设置工作目录"
 
-#: ddterm/app/application.js:158
+#: ddterm/app/application.js:167
 msgid "Set tab title"
 msgstr "设置标签页标题"
 
-#: ddterm/app/application.js:167
+#: ddterm/app/application.js:176
 msgid "Keep the terminal open after the command has exited"
 msgstr "命令退出后保持终端打开"
 
-#: ddterm/app/application.js:176
+#: ddterm/app/application.js:185
 msgid "Do not pass the environment"
 msgstr "不要通过环境"
 
-#: ddterm/app/application.js:185
+#: ddterm/app/application.js:194
 msgid "Open a new tab"
 msgstr "打开新标签"
 
-#: ddterm/app/application.js:431
+#: ddterm/app/application.js:444
 msgid "Can't contact the extension."
 msgstr "无法连接到扩展。"
 
-#: ddterm/app/application.js:433 ddterm/app/application.js:560
+#: ddterm/app/application.js:446 ddterm/app/application.js:573
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr "请确保ddterm在GNOME扩展中可用。"
 
-#: ddterm/app/application.js:558
+#: ddterm/app/application.js:571
 msgid "Can't read the version of the loaded extension."
 msgstr "无法读取已加载扩展插件的版本。"
 
-#: ddterm/app/application.js:563 ddterm/shell/notifications.js:105
+#: ddterm/app/application.js:576 ddterm/shell/notifications.js:105
 msgid "Warning: ddterm version has changed"
 msgstr "警告：ddterm版本已改变"
 
-#: ddterm/app/application.js:564 ddterm/shell/notifications.js:107
+#: ddterm/app/application.js:577 ddterm/shell/notifications.js:107
 msgid "Log out, then log in again to load the updated extension."
 msgstr "注销后重新登录，方可生效。"
 

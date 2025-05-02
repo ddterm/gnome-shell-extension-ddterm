@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-04-23 18:24+0000\n"
+"POT-Creation-Date: 2025-05-02 19:19+0000\n"
 "PO-Revision-Date: 2024-09-09 02:09+0000\n"
 "Last-Translator: Bruno Rodrigues <b.rodrigues@live.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/pt/>\n"
@@ -51,55 +51,55 @@ msgstr "Iniciar sem exibir a janela"
 msgid "Comma-separated list of backends that GDK should try to use"
 msgstr "Lista de backends GDK para utilizar, separados por virgula"
 
-#: ddterm/app/application.js:117
+#: ddterm/app/application.js:126
 msgid "Show version information and exit"
 msgstr "Mostrar a versão e sair"
 
-#: ddterm/app/application.js:126
+#: ddterm/app/application.js:135
 msgid "Run the specified command"
 msgstr "Executar o comando"
 
-#: ddterm/app/application.js:140
+#: ddterm/app/application.js:149
 msgid "Wait for the command to exit, and return its exit code"
 msgstr "Esperar finalizar o comando e retornar o código de saída"
 
-#: ddterm/app/application.js:149
+#: ddterm/app/application.js:158
 msgid "Set the working directory"
 msgstr "Definir o diretório atual"
 
-#: ddterm/app/application.js:158
+#: ddterm/app/application.js:167
 msgid "Set tab title"
 msgstr "Definir Título da Aba"
 
-#: ddterm/app/application.js:167
+#: ddterm/app/application.js:176
 msgid "Keep the terminal open after the command has exited"
 msgstr "Manter o terminal aberto após o termino do comando"
 
-#: ddterm/app/application.js:176
+#: ddterm/app/application.js:185
 msgid "Do not pass the environment"
 msgstr "Não passar ao environment"
 
-#: ddterm/app/application.js:185
+#: ddterm/app/application.js:194
 msgid "Open a new tab"
 msgstr "Abrir nova aba"
 
-#: ddterm/app/application.js:431
+#: ddterm/app/application.js:444
 msgid "Can't contact the extension."
 msgstr "Sem comunicação com a extensão."
 
-#: ddterm/app/application.js:433 ddterm/app/application.js:560
+#: ddterm/app/application.js:446 ddterm/app/application.js:573
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr "Por favor, tenha certeza que o ddterm GNOME Shell extension esta habilitado."
 
-#: ddterm/app/application.js:558
+#: ddterm/app/application.js:571
 msgid "Can't read the version of the loaded extension."
 msgstr "Não foi possível verificar a versão da extensão."
 
-#: ddterm/app/application.js:563 ddterm/shell/notifications.js:105
+#: ddterm/app/application.js:576 ddterm/shell/notifications.js:105
 msgid "Warning: ddterm version has changed"
 msgstr "Aviso: A extensão ddterm foi atualizada"
 
-#: ddterm/app/application.js:564 ddterm/shell/notifications.js:107
+#: ddterm/app/application.js:577 ddterm/shell/notifications.js:107
 msgid "Log out, then log in again to load the updated extension."
 msgstr "Saia, e em seguida faça login novamente para carregar a nova versão."
 
