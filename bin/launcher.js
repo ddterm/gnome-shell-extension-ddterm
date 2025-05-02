@@ -120,7 +120,6 @@ try {
 
 const app = new app_module.Application({
     application_id: '@APP_ID@',
-    register_session: true,
 });
 
 System.exit(app.run([System.programInvocationName, ...System.programArgs]));

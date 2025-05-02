@@ -110,6 +110,15 @@ class Application extends Gtk.Application {
         );
 
         this.add_main_option(
+            'sm-disable',
+            0,
+            GLib.OptionFlags.HIDDEN,
+            GLib.OptionArg.NONE,
+            'Disable registration with the session manager',
+            null
+        );
+
+        this.add_main_option(
             'version',
             0,
             GLib.OptionFlags.NONE,
@@ -411,6 +420,10 @@ class Application extends Gtk.Application {
 
         if (allowed_gdk_backends)
             Gdk.set_allowed_backends(allowed_gdk_backends);
+
+        const sm_disable = options.lookup('sm-disable');
+
+        this.register_session = !sm_disable;
 
         if (this.flags & Gio.ApplicationFlags.IS_SERVICE)
             return -1;
