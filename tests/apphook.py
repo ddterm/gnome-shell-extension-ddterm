@@ -20,7 +20,7 @@ THIS_DIR = THIS_FILE.parent
 INTROSPECT_FILE = THIS_DIR / 'dbus-interfaces' / f'{INTERFACE_NAME}.xml'
 JS_FILE = THIS_DIR / 'apphook.js'
 
-APP_EXTRA_ARGS = (f'--debug-module={JS_FILE.as_uri()}',)
+APP_EXTRA_ARGS = (f'--debug-module={JS_FILE.as_uri()}', '--sm-disable',)
 
 
 class _Base(dbusutil.Proxy):
