@@ -132,13 +132,13 @@ export const Notebook = GObject.registerClass({
         const button_box = new Gtk.Box({ visible: true });
 
         this.new_tab_button = new Gtk.Button({
-            image: Gtk.Image.new_from_icon_name('list-add', Gtk.IconSize.MENU),
+            icon_name: 'list-add',
             tooltip_text: Gettext.gettext('New Tab (Last)'),
             action_name: 'notebook.new-tab',
-            relief: Gtk.ReliefStyle.NONE,
+            has_frame: false,
             visible: true,
         });
-        button_box.add(this.new_tab_button);
+        button_box.append(this.new_tab_button);
 
         this.bind_property(
             'show-new-tab-button',
@@ -154,11 +154,10 @@ export const Notebook = GObject.registerClass({
         this.tab_switch_button = new Gtk.MenuButton({
             menu_model: menu,
             focus_on_click: false,
-            relief: Gtk.ReliefStyle.NONE,
+            has_frame: false,
             visible: true,
-            use_popover: false,
         });
-        button_box.add(this.tab_switch_button);
+        button_box.append(this.tab_switch_button);
 
         this.bind_property(
             'show-tab-switch-popup',
@@ -170,10 +169,10 @@ export const Notebook = GObject.registerClass({
         this.set_action_widget(button_box, Gtk.PackType.END);
 
         this.new_tab_front_button = new Gtk.Button({
-            image: Gtk.Image.new_from_icon_name('list-add', Gtk.IconSize.MENU),
+            icon_name: 'list-add',
             tooltip_text: Gettext.gettext('New Tab (First)'),
             action_name: 'notebook.new-tab-front',
-            relief: Gtk.ReliefStyle.NONE,
+            has_frame: false,
             visible: true,
         });
         this.set_action_widget(this.new_tab_front_button, Gtk.PackType.START);
@@ -255,9 +254,6 @@ export const Notebook = GObject.registerClass({
         this.connect('notify::tab-pos', this.update_tab_pos.bind(this));
         this.update_tab_pos();
 
-        this.connect('notify::tab-expand', this.update_tab_expand.bind(this));
-        this.update_tab_expand();
-
         this._current_child = null;
 
         this.connect('switch-page', (notebook, page) => {
@@ -293,7 +289,6 @@ export const Notebook = GObject.registerClass({
     on_page_added(child, page_num) {
         this.set_tab_reorderable(child, true);
         this.set_tab_detachable(child, true);
-        this.child_set_property(child, 'tab-expand', this.tab_expand);
 
         const handlers = [
             child.connect('new-tab-before-request', () => {
@@ -320,9 +315,13 @@ export const Notebook = GObject.registerClass({
             child.connect('move-to-other-pane-request', () => {
                 this.emit('move-to-other-pane', child);
             }),
+            child.connect('close', () => {
+                this.remove_page(this.page_num(child));
+            }),
         ];
 
-        const label = this.get_tab_label(child);
+        const label = child.tab_label;
+        const page = this.get_page(child);
 
         const bindings = [
             this.bind_property(
@@ -353,6 +352,12 @@ export const Notebook = GObject.registerClass({
                 'split-layout',
                 child,
                 'split-layout',
+                GObject.BindingFlags.SYNC_CREATE
+            ),
+            this.bind_property(
+                'tab-expand',
+                page,
+                'tab-expand',
                 GObject.BindingFlags.SYNC_CREATE
             ),
         ];
@@ -398,7 +403,9 @@ export const Notebook = GObject.registerClass({
             command: properties['command'] ?? this.get_command_from_settings(),
         });
 
-        this.insert_page(page, page.tab_label, position);
+        this.insert_page(page, null, position);
+        this.set_tab_label(page, page.tab_label);
+
         return page;
     }
 
@@ -410,20 +417,14 @@ export const Notebook = GObject.registerClass({
     }
 
     update_tab_switch_actions() {
-        let i = 0;
+        const n_pages = this.get_n_pages();
 
-        this.foreach(child => {
-            const label = this.get_tab_label(child);
+        for (let i = 0; i < n_pages; i++) {
+            const label = this.get_nth_page(i).tab_label;
 
-            label.action_target = GLib.Variant.new_int32(i++);
+            label.action_target = GLib.Variant.new_int32(i);
             label.action_name = 'notebook.switch-to-tab';
-        });
-    }
-
-    update_tab_expand() {
-        this.foreach(page => {
-            this.child_set_property(page, 'tab-expand', this.tab_expand);
-        });
+        }
     }
 
     update_tabs_visible() {
@@ -477,9 +478,12 @@ export const Notebook = GObject.registerClass({
         const properties = GLib.VariantDict.new(null);
         const variant_dict_type = new GLib.VariantType('a{sv}');
         const pages = [];
+        const n_pages = this.get_n_pages();
 
-        for (const page of this.get_children()) {
+        for (let i = 0; i < n_pages; i++) {
             try {
+                const page = this.get_nth_page(i);
+
                 pages.push(page.serialize_state());
             } catch (ex) {
                 logError(ex, "Can't serialize terminal state");
@@ -568,11 +572,16 @@ const NotebookMenu = GObject.registerClass({
 
     _update() {
         const prev_length = this.get_n_items();
+        const update = [];
+        const n_pages = this.notebook.get_n_pages();
 
-        this._label = this.notebook.get_children().map(page => page.title);
-        this._target.length = this._label.length;
+        for (let i = 0; i < n_pages; i++)
+            update.push(this.notebook.get_nth_page(i).title);
 
-        this.items_changed(0, prev_length, this._label.length);
+        this._label = update;
+        this._target.length = update.length;
+
+        this.items_changed(0, prev_length, update.length);
     }
 
     _schedule_update() {

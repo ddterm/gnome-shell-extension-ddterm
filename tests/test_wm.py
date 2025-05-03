@@ -185,7 +185,7 @@ def wait_idle(
                 )
             )
 
-        for signal in ('ConfigureEvent', 'WindowStateEvent', 'SizeAllocate'):
+        for signal in ('WindowLayout', 'ToplevelState', 'SizeAllocate'):
             stack.enter_context(
                 glibutil.signal_handler(
                     app_debug_dbus_interface,

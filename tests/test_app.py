@@ -19,7 +19,7 @@ SRC_DIR = THIS_DIR.parent
 
 LOGGER = logging.getLogger(__name__)
 
-GC_CYCLES = 2
+GC_CYCLES = 20
 
 
 def diff_heap(dump_old, dump_new, hide_node=[], hide_edge=[], gray_roots=True, weak_maps=True):
