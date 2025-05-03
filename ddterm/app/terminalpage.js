@@ -75,6 +75,28 @@ export const TerminalPage = GObject.registerClass({
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             'no-split'
         ),
+        'banner-label': GObject.ParamSpec.string(
+            'banner-label',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+            ''
+        ),
+        'banner-type': GObject.ParamSpec.enum(
+            'banner-type',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+            Gtk.MessageType,
+            Gtk.MessageType.INFO
+        ),
+        'banner-visible': GObject.ParamSpec.boolean(
+            'banner-visible',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+            false
+        ),
     },
     Signals: {
         'new-tab-before-request': {},
@@ -89,6 +111,62 @@ export const TerminalPage = GObject.registerClass({
 }, class DDTermTerminalPage extends Gtk.Box {
     _init(params) {
         super._init(params);
+
+        this.orientation = Gtk.Orientation.VERTICAL;
+
+        const banner_label = new Gtk.Label({
+            visible: true,
+        });
+
+        this.bind_property(
+            'banner-label',
+            banner_label,
+            'label',
+            GObject.BindingFlags.SYNC_CREATE | GObject.BindingFlags.BIDIRECTIONAL
+        );
+
+        const banner = new Gtk.InfoBar({
+            visible: false,
+        });
+
+        this.bind_property(
+            'banner-type',
+            banner,
+            'message-type',
+            GObject.BindingFlags.SYNC_CREATE | GObject.BindingFlags.BIDIRECTIONAL
+        );
+
+        this.bind_property(
+            'banner-visible',
+            banner,
+            'visible',
+            GObject.BindingFlags.SYNC_CREATE
+        );
+
+        this.bind_property(
+            'banner-visible',
+            banner,
+            'revealed',
+            GObject.BindingFlags.SYNC_CREATE | GObject.BindingFlags.BIDIRECTIONAL
+        );
+
+        banner.get_content_area().pack_start(banner_label, false, false, 0);
+        banner.add_button(Gettext.gettext('Restart'), 0);
+        banner.add_button(Gettext.gettext('Close Terminal'), 1);
+
+        banner.connect('response', (_, response) => {
+            switch (response) {
+            case 0:
+                this.banner_visible = false;
+                this.spawn();
+                break;
+            case 1:
+                this.destroy();
+                break;
+            }
+        });
+
+        this.pack_start(banner, false, false, 0);
 
         const terminal_with_scrollbar = new Gtk.Box({
             visible: true,
@@ -111,15 +189,13 @@ export const TerminalPage = GObject.registerClass({
         });
 
         terminal_with_scrollbar.pack_end(this.scrollbar, false, false, 0);
-
-        this.orientation = Gtk.Orientation.VERTICAL;
+        this.pack_start(terminal_with_scrollbar, true, true, 0);
 
         this.search_bar = new SearchBar({
             visible: true,
         });
 
         this.pack_end(this.search_bar, false, false, 0);
-        this.pack_end(terminal_with_scrollbar, true, true, 0);
 
         this.search_bar.connect('find-next', this.find_next.bind(this));
         this.search_bar.connect('find-prev', this.find_prev.bind(this));
@@ -410,7 +486,7 @@ export const TerminalPage = GObject.registerClass({
 
         this.terminal.connect_after('child-exited', (terminal_, status) => {
             if (this.keep_open_after_exit)
-                this.add_exit_status_banner(status);
+                this.set_exit_status_banner(status);
             else
                 this.destroy();
         });
@@ -420,59 +496,28 @@ export const TerminalPage = GObject.registerClass({
         return this.terminal.get_cwd();
     }
 
-    add_banner(message, message_type = Gtk.MessageType.ERROR) {
-        const label = new Gtk.Label({
-            label: message,
-            visible: true,
-        });
-
-        const banner = new Gtk.InfoBar({
-            message_type,
-            visible: true,
-            revealed: true,
-        });
-
-        banner.get_content_area().pack_start(label, false, false, 0);
-        banner.add_button(Gettext.gettext('Restart'), 0);
-        banner.add_button(Gettext.gettext('Close Terminal'), 1);
-
-        banner.connect('response', (_, response) => {
-            switch (response) {
-            case 0:
-                this.spawn();
-                banner.destroy();
-                break;
-            case 1:
-                this.destroy();
-                break;
-            }
-        });
-
-        this.pack_start(banner, false, false, 0);
-    }
-
-    add_exit_status_banner(status) {
+    set_exit_status_banner(status) {
         if (WIFEXITED(status)) {
             const code = WEXITSTATUS(status);
 
-            this.add_banner(
-                [
-                    Gettext.gettext('The child process exited with status:'),
-                    code,
-                ].join(' '),
-                code === 0 ? Gtk.MessageType.INFO : Gtk.MessageType.WARNING
-            );
+            this.banner_label = [
+                Gettext.gettext('The child process exited with status:'),
+                code,
+            ].join(' ');
+
+            this.banner_type = code === 0 ? Gtk.MessageType.INFO : Gtk.MessageType.WARNING;
+            this.banner_visible = true;
         } else {
             const signum = WTERMSIG(status);
 
-            this.add_banner(
-                [
-                    Gettext.gettext('The child process was aborted by signal:'),
-                    signum,
-                    GLib.strsignal(signum),
-                ].join(' '),
-                Gtk.MessageType.WARNING
-            );
+            this.banner_label = [
+                Gettext.gettext('The child process was aborted by signal:'),
+                signum,
+                GLib.strsignal(signum),
+            ].join(' ');
+
+            this.banner_type = Gtk.MessageType.WARNING;
+            this.banner_visible = true;
         }
     }
 
@@ -483,8 +528,11 @@ export const TerminalPage = GObject.registerClass({
         const callback_wrapper = (...args) => {
             const [terminal_, pid_, error] = args;
 
-            if (error)
-                this.add_banner(error.message);
+            if (error) {
+                this.banner_label = error.message;
+                this.banner_type = Gtk.MessageType.ERROR;
+                this.banner_visible = true;
+            }
 
             callback?.(...args);
         };
