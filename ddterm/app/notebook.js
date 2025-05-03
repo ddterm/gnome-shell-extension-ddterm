@@ -508,7 +508,9 @@ export const Notebook = GObject.registerClass({
                 });
 
                 this.append_page(page, page.tab_label);
-                page.spawn();
+
+                if (!page.banner_visible)
+                    page.spawn();
             } catch (ex) {
                 logError(ex, "Can't restore terminal");
             }
