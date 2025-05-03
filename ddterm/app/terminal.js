@@ -327,6 +327,11 @@ const TerminalBase = GObject.registerClass({
 
         super._init(params);
 
+        this.connect('child-exited', () => {
+            this._child_pid = 0;
+            this.notify('child-pid');
+        });
+
         this._url_detect = new UrlDetect({
             terminal: this,
             enabled_patterns: this.url_detect_patterns,
