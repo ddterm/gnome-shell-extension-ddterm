@@ -694,11 +694,6 @@ export const TerminalPage = GObject.registerClass({
             GLib.Variant.new_boolean(this.keep_open_after_exit)
         );
 
-        properties.insert_value(
-            'banner-visible',
-            GLib.Variant.boolean(this.banner_visible)
-        );
-
         if (this.banner_visible) {
             properties.insert_value(
                 'banner-type',
