@@ -632,11 +632,15 @@ export const TerminalPage = GObject.registerClass({
         const command = cwd ? this.command.override_working_directory(cwd) : this.command;
 
         properties.insert_value('command', command.to_gvariant());
-        properties.insert_value('title', GLib.Variant.new_string(this.title));
+
+        if (this.title)
+            properties.insert_value('title', GLib.Variant.new_string(this.title));
+
         properties.insert_value(
             'use-custom-title',
             GLib.Variant.new_boolean(this.use_custom_title)
         );
+
         properties.insert_value(
             'keep-open-after-exit',
             GLib.Variant.new_boolean(this.keep_open_after_exit)
@@ -660,9 +664,9 @@ export const TerminalPage = GObject.registerClass({
         const command_data = dict.lookup_value('command', variant_dict_type);
         const page = new TerminalPage({
             command: command_data ? TerminalCommand.from_gvariant(command_data) : null,
-            title: dict.lookup('title', 's'),
-            use_custom_title: dict.lookup('use-custom-title', 'b'),
-            keep_open_after_exit: dict.lookup('keep-open-after-exit', 'b'),
+            title: dict.lookup('title', 's') ?? '',
+            use_custom_title: dict.lookup('use-custom-title', 'b') ?? false,
+            keep_open_after_exit: dict.lookup('keep-open-after-exit', 'b') ?? false,
             ...properties,
         });
 
