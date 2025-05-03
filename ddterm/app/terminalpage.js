@@ -694,6 +694,25 @@ export const TerminalPage = GObject.registerClass({
             GLib.Variant.new_boolean(this.keep_open_after_exit)
         );
 
+        properties.insert_value(
+            'banner-visible',
+            GLib.Variant.boolean(this.banner_visible)
+        );
+
+        if (this.banner_visible) {
+            properties.insert_value(
+                'banner-type',
+                GLib.Variant.new_int32(this.banner_type)
+            );
+
+            if (this.banner_label) {
+                properties.insert_value(
+                    'banner',
+                    GLib.Variant.new_string(this.banner_label)
+                );
+            }
+        }
+
         try {
             const text = this.terminal.get_text()?.trim();
 
@@ -715,6 +734,9 @@ export const TerminalPage = GObject.registerClass({
             title: dict.lookup('title', 's') ?? '',
             use_custom_title: dict.lookup('use-custom-title', 'b') ?? false,
             keep_open_after_exit: dict.lookup('keep-open-after-exit', 'b') ?? false,
+            banner_label: dict.lookup('banner', 's') ?? '',
+            banner_type: dict.lookup('banner-type', 'i') ?? Gtk.MessageType.INFO,
+            banner_visible: dict.contains('banner-type'),
             ...properties,
         });
 
