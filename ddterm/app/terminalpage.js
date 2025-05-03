@@ -303,7 +303,8 @@ export const TerminalPage = GObject.registerClass({
         this.connect('notify::use-custom-title', () => {
             this.update_title_binding();
         });
-        this.update_title_binding();
+        // Don't update the title from the terminal until the process is started
+        this.update_title_binding(false);
 
         const use_custom_title_action = new Gio.SimpleAction({
             'name': 'use-custom-title',
@@ -651,7 +652,7 @@ export const TerminalPage = GObject.registerClass({
         message.show();
     }
 
-    update_title_binding() {
+    update_title_binding(sync = true) {
         const enable = !this.use_custom_title;
 
         if (enable === Boolean(this._title_binding))
@@ -662,7 +663,7 @@ export const TerminalPage = GObject.registerClass({
                 'window-title',
                 this,
                 'title',
-                GObject.BindingFlags.SYNC_CREATE
+                sync ? GObject.BindingFlags.SYNC_CREATE : GObject.BindingFlags.DEFAULT
             );
         } else {
             this._title_binding?.unbind();
