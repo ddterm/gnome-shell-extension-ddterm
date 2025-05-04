@@ -15,6 +15,9 @@
         </method>
         <method name="WaitFrame"/>
         <method name="WaitIdle"/>
+        <method name="WaitTime">
+            <arg type="i" name="interval_ms" direction="in"/>
+        </method>
         <method name="GC"/>
         <method name="DumpHeap">
             <arg type="s" name="path" direction="in"/>

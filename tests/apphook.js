@@ -284,6 +284,20 @@ class DebugInterface {
         }
     }
 
+    WaitTimeAsync(params, invocation) {
+        const [interval_ms] = params;
+
+        try {
+            GLib.timeout_add(GLib.PRIORITY_LOW, interval_ms, () => {
+                invocation.return_value(null);
+
+                return GLib.SOURCE_REMOVE;
+            });
+        } catch (ex) {
+            return_error(invocation, ex);
+        }
+    }
+
     GC() {
         System.gc();
     }
