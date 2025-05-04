@@ -64,6 +64,58 @@ def diff_heap(dump_old, dump_new, hide_node=[], hide_edge=[], gray_roots=True, w
     return heapgraph.stdout
 
 
+class AppControl:
+    def __init__(
+        self,
+        *,
+        extension_dbus_interface,
+        extension_test_hook,
+        shell_test_hook,
+        app_debug_dbus_interface,
+    ):
+        self.extension_dbus_interface = extension_dbus_interface
+        self.extension_test_hook = extension_test_hook
+        self.shell_test_hook = shell_test_hook
+        self.app_debug_dbus_interface = app_debug_dbus_interface
+
+    def activate(self):
+        deadline = glibutil.Deadline(dbusutil.DEFAULT_LONG_TIMEOUT_MS)
+
+        self.extension_dbus_interface.Activate(timeout=deadline.check_remaining_ms())
+
+        self.extension_test_hook.wait_property(
+            'RenderedFirstFrame',
+            True,
+            timeout=deadline.check_remaining_ms()
+        )
+
+        self.app_debug_dbus_interface.wait_name_owner(deadline.check_remaining_ms())
+        self.app_debug_dbus_interface.WaitFrame(timeout=deadline.check_remaining_ms())
+
+        self.shell_test_hook.Later(
+            shellhook.LaterType.RESIZE,
+            timeout=deadline.check_remaining_ms()
+        )
+
+        self.app_debug_dbus_interface.WaitIdle(timeout=deadline.check_remaining_ms())
+        self.shell_test_hook.WaitLeisure(timeout=deadline.check_remaining_ms())
+
+        # Some things in Gtk (for example, parsing in Vte) are scheduled by timer only
+        self.app_debug_dbus_interface.WaitTime(100)
+
+    def quit(self):
+        self.app_debug_dbus_interface.ActivateAction('app.quit')
+
+        self.extension_test_hook.wait_property(
+            'AppRunning',
+            False,
+            timeout=dbusutil.DEFAULT_LONG_TIMEOUT_MS
+        )
+
+    def is_running(self):
+        return self.extension_test_hook.AppRunning
+
+
 @pytest.mark.usefixtures('check_log', 'screenshot', 'hide_overview', 'disable_animations')
 class TestApp(fixtures.GnomeSessionWaylandFixtures):
     @pytest.fixture(autouse=True)
@@ -96,31 +148,25 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
         return request.param
 
     @pytest.fixture
-    def common_init(
+    def app_control(
         self,
         extension_dbus_interface,
         extension_test_hook,
         shell_test_hook,
         app_debug_dbus_interface,
     ):
-        deadline = glibutil.Deadline(dbusutil.DEFAULT_LONG_TIMEOUT_MS)
-
-        extension_dbus_interface.Activate(timeout=deadline.check_remaining_ms())
-        extension_test_hook.wait_property(
-            'RenderedFirstFrame',
-            True,
-            timeout=deadline.check_remaining_ms()
+        return AppControl(
+            extension_dbus_interface=extension_dbus_interface,
+            extension_test_hook=extension_test_hook,
+            shell_test_hook=shell_test_hook,
+            app_debug_dbus_interface=app_debug_dbus_interface,
         )
 
-        app_debug_dbus_interface.wait_name_owner(deadline.check_remaining_ms())
+    @pytest.fixture
+    def app_active(self, app_control):
+        app_control.activate()
 
-        app_debug_dbus_interface.WaitFrame(timeout=deadline.check_remaining_ms())
-        shell_test_hook.Later(shellhook.LaterType.RESIZE, timeout=deadline.check_remaining_ms())
-
-        app_debug_dbus_interface.WaitIdle(timeout=deadline.check_remaining_ms())
-        shell_test_hook.WaitLeisure(timeout=deadline.check_remaining_ms())
-
-    @pytest.mark.usefixtures('system_color_scheme', 'app_color_scheme', 'hide', 'common_init')
+    @pytest.mark.usefixtures('system_color_scheme', 'app_color_scheme', 'hide', 'app_active')
     @pytest.mark.parametrize(
         'system_color_scheme',
         ('prefer-dark', 'prefer-light', 'default'),
@@ -158,7 +204,7 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
     def launcher_path(self, extension_init):
         return pathlib.Path(extension_init['path']) / 'bin' / 'com.github.amezin.ddterm'
 
-    @pytest.mark.usefixtures('window_above', 'hide_when_focus_lost', 'hide', 'common_init')
+    @pytest.mark.usefixtures('window_above', 'hide_when_focus_lost', 'hide', 'app_active')
     @pytest.mark.parametrize('window_above', (True, False), indirect=True)
     @pytest.mark.parametrize('hide_when_focus_lost', (True, False), indirect=True)
     def test_wl_clipboard(
@@ -213,7 +259,7 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
         app_debug_dbus_interface.wait_property('NumTabs', n_tabs + 2)
         app_debug_dbus_interface.WaitIdle()
 
-    @pytest.mark.usefixtures('common_init')
+    @pytest.mark.usefixtures('app_active')
     @pytest.mark.parametrize('wait', [True, False])
     def test_cli_leak(
         self,
@@ -265,7 +311,7 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
             hide_edge=['window_title_binding']
         ) == ''
 
-    @pytest.mark.usefixtures('common_init')
+    @pytest.mark.usefixtures('app_active')
     def test_prefs_leak(
         self,
         app_debug_dbus_interface,
@@ -303,7 +349,7 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
             hide_edge=['cacheir-object']
         ) == ''
 
-    @pytest.mark.usefixtures('hide', 'common_init')
+    @pytest.mark.usefixtures('hide', 'app_active')
     @pytest.mark.parametrize('widget', ('terminal', 'tab'))
     def test_context_menu_leak(
         self,
@@ -355,7 +401,7 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
             dump_post,
         ) == ''
 
-    @pytest.mark.usefixtures('common_init')
+    @pytest.mark.usefixtures('app_active')
     def test_tab_leak(
         self,
         app_debug_dbus_interface,
@@ -387,7 +433,7 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
             hide_edge=['window_title_binding']
         ) == ''
 
-    @pytest.mark.usefixtures('hide', 'common_init')
+    @pytest.mark.usefixtures('hide', 'app_active')
     def test_tab_and_context_menu_leak(
         self,
         app_debug_dbus_interface,
@@ -440,6 +486,111 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
             dump_post,
             hide_edge=['window_title_binding', 'cacheir-object'],
         ) == ''
+
+    @pytest.fixture(scope='class')
+    def session_path(self, xdg_cache_home):
+        return pathlib.Path(xdg_cache_home) / 'com.github.amezin.ddterm' / 'session'
+
+    def test_session_save_restore(
+        self,
+        app_control,
+        app_debug_dbus_interface,
+        dbus_environment,
+        process_launcher,
+        session_path,
+        launcher_path,
+    ):
+        if app_control.is_running():
+            app_control.quit()
+
+        session_path.unlink(missing_ok=True)
+        app_control.activate()
+
+        process_launcher.run(
+            str(launcher_path),
+            '--wait',
+            '--keep-open',
+            '--title',
+            'Custom title',
+            '--',
+            'sh',
+            '-c',
+            'echo Test',
+            env=dbus_environment,
+        )
+
+        process_launcher.run(
+            str(launcher_path),
+            '--wait',
+            '--keep-open',
+            '--',
+            'sh',
+            '-c',
+            "echo '\033]2;Title from shell\007Test output'",
+            env=dbus_environment,
+        )
+
+        app_debug_dbus_interface.wait_property('NumTabs', 3)
+
+        assert app_debug_dbus_interface.Eval(
+            'this.window.active_notebook.get_nth_page(0).terminal.child_pid'
+        ) != 0
+
+        assert app_debug_dbus_interface.Eval(
+            'this.window.active_notebook.get_nth_page(1).terminal.child_pid'
+        ) == 0
+
+        assert app_debug_dbus_interface.Eval(
+            'this.window.active_notebook.get_nth_page(2).terminal.child_pid'
+        ) == 0
+
+        # Wait for VTE parser
+        app_debug_dbus_interface.WaitTime(100)
+
+        state1 = app_debug_dbus_interface.Eval('this.window.serialize_state().recursiveUnpack()')
+        pages1 = state1['notebook1']['pages']
+
+        assert len(pages1) == 3
+
+        assert 'banner' not in pages1[0]
+        assert pages1[0]['use-custom-title'] is False
+
+        assert 'banner' in pages1[1]
+        assert pages1[1]['use-custom-title'] is True
+        assert pages1[1]['title'] == 'Custom title'
+        assert pages1[1]['text'] == 'Test'
+
+        assert 'banner' in pages1[2]
+        assert pages1[2]['use-custom-title'] is False
+        assert pages1[2]['title'] == 'Title from shell'
+        assert pages1[2]['text'] == 'Test output'
+
+        app_control.quit()
+        app_control.activate()
+
+        assert app_debug_dbus_interface.NumTabs == 3
+
+        assert app_debug_dbus_interface.Eval(
+            'this.window.active_notebook.get_nth_page(0).terminal.child_pid'
+        ) != 0
+
+        assert app_debug_dbus_interface.Eval(
+            'this.window.active_notebook.get_nth_page(1).terminal.child_pid'
+        ) == 0
+
+        assert app_debug_dbus_interface.Eval(
+            'this.window.active_notebook.get_nth_page(2).terminal.child_pid'
+        ) == 0
+
+        state2 = app_debug_dbus_interface.Eval('this.window.serialize_state().recursiveUnpack()')
+        pages2 = state2['notebook1']['pages']
+
+        del pages1[0]['title']
+        del pages1[0]['text']
+        del pages2[0]['title']
+        del pages2[0]['text']
+
+        assert state1 == state2
 
     def test_dependencies(self, process_launcher, request):
         process_launcher.run(
