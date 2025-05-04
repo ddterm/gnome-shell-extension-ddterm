@@ -13,7 +13,7 @@
         "eslint-formatter-checkstyle": "^8.40.0",
         "eslint-formatter-stylish": "^8.40.0",
         "eslint-plugin-import": "^2.29.1",
-        "eslint-plugin-jsdoc": "50.6.9",
+        "eslint-plugin-jsdoc": "50.6.11",
         "markdownlint-cli2": "^0.17.0",
         "markdownlint-rule-relative-links": "^4.0.1",
         "npm-run-all2": "^7.0.2"
