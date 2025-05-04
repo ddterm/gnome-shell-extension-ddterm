@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-02 19:19+0000\n"
+"POT-Creation-Date: 2025-05-04 20:16+0000\n"
 "PO-Revision-Date: 2024-08-26 08:09+0000\n"
 "Last-Translator: yuh <yuhldr@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/zh_Hans/>\n"
@@ -158,27 +158,27 @@ msgstr "找到前一个"
 msgid "Close"
 msgstr "关闭"
 
-#: ddterm/app/terminalpage.js:436
+#: ddterm/app/terminalpage.js:154
 msgid "Restart"
 msgstr "重新开始"
 
-#: ddterm/app/terminalpage.js:437 ddterm/app/terminalpage.js:589
+#: ddterm/app/terminalpage.js:155 ddterm/app/terminalpage.js:638
 msgid "Close Terminal"
 msgstr "关闭终端"
 
-#: ddterm/app/terminalpage.js:460
+#: ddterm/app/terminalpage.js:505
 msgid "The child process exited with status:"
 msgstr "子进程退出，状态为："
 
-#: ddterm/app/terminalpage.js:470
+#: ddterm/app/terminalpage.js:515
 msgid "The child process was aborted by signal:"
 msgstr "子进程被信号中止："
 
-#: ddterm/app/terminalpage.js:581
+#: ddterm/app/terminalpage.js:630
 msgid "Close this terminal?"
 msgstr "关闭这个终端？"
 
-#: ddterm/app/terminalpage.js:583
+#: ddterm/app/terminalpage.js:632
 msgid "There is still a process running in this terminal. Closing the terminal will kill it."
 msgstr "该终端中仍有一个进程在运行。关闭终端，将会销毁该进程。"
 

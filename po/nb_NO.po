@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-02 19:19+0000\n"
+"POT-Creation-Date: 2025-05-04 20:16+0000\n"
 "PO-Revision-Date: 2024-09-02 20:09+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/nb_NO/>\n"
@@ -159,27 +159,27 @@ msgstr "Finn forrige"
 msgid "Close"
 msgstr "Lukk"
 
-#: ddterm/app/terminalpage.js:436
+#: ddterm/app/terminalpage.js:154
 msgid "Restart"
 msgstr "Omstart"
 
-#: ddterm/app/terminalpage.js:437 ddterm/app/terminalpage.js:589
+#: ddterm/app/terminalpage.js:155 ddterm/app/terminalpage.js:638
 msgid "Close Terminal"
 msgstr "Lukk terminal?"
 
-#: ddterm/app/terminalpage.js:460
+#: ddterm/app/terminalpage.js:505
 msgid "The child process exited with status:"
 msgstr "Underprosessen avsluttet med status:"
 
-#: ddterm/app/terminalpage.js:470
+#: ddterm/app/terminalpage.js:515
 msgid "The child process was aborted by signal:"
 msgstr "Et signal avbrøt underprosessen:"
 
-#: ddterm/app/terminalpage.js:581
+#: ddterm/app/terminalpage.js:630
 msgid "Close this terminal?"
 msgstr "Lukk denne terminalen?"
 
-#: ddterm/app/terminalpage.js:583
+#: ddterm/app/terminalpage.js:632
 msgid "There is still a process running in this terminal. Closing the terminal will kill it."
 msgstr "Det er fremdeles en kjørende prosess i denne terminalen som drepes hvis den lukkes."
 
