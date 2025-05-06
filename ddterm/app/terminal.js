@@ -535,11 +535,19 @@ const TerminalBase = GObject.registerClass({
         cancellable,
         callback
     ) {
+        let destroyed = false;
+        const destroy_handler = this.connect('destroy', () => {
+            destroyed = true;
+        });
+
         const callback_wrapper = (...args) => {
             const [terminal_, pid, error_] = args;
 
-            this._child_pid = pid;
-            this.notify('child-pid');
+            if (!destroyed) {
+                this.disconnect(destroy_handler);
+                this._child_pid = pid;
+                this.notify('child-pid');
+            }
 
             callback?.(...args);
         };
