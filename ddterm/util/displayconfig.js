@@ -44,6 +44,8 @@ export const DisplayConfig = GObject.registerClass({
             '',
             '',
             GObject.ParamFlags.READABLE,
+            0,
+            2,
             0
         ),
     },
