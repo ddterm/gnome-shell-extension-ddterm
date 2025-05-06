@@ -599,7 +599,8 @@ class Application extends Gtk.Application {
                 this.window = null;
         });
 
-        this.window.connect('session-update', this.schedule_save_session.bind(this));
+        this._save_session_handler =
+            this.window.connect('session-update', this.schedule_save_session.bind(this));
 
         return this.window;
     }
@@ -709,7 +710,15 @@ class Application extends Gtk.Application {
             if (!data_variant.is_normal_form())
                 throw new Error('Session data is malformed, probably the file was damaged');
 
-            this.ensure_window().deserialize_state(data_variant);
+            const win = this.ensure_window();
+
+            GObject.signal_handler_block(win, this._save_session_handler);
+
+            try {
+                win.deserialize_state(data_variant);
+            } finally {
+                GObject.signal_handler_unblock(win, this._save_session_handler);
+            }
         } catch (ex) {
             if (!(ex instanceof GLib.Error &&
                 ex.matches(GLib.file_error_quark(), GLib.FileError.NOENT))) {
