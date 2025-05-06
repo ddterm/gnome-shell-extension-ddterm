@@ -340,6 +340,10 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
                 this.close();
         });
 
+        this.connect('notify::split-orientation', () => {
+            this.emit('session-update');
+        });
+
         this._hide_on_close();
         this._setup_size_sync();
     }
