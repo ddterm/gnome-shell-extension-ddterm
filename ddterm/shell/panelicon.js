@@ -25,8 +25,8 @@ const PanelIconBase = GObject.registerClass({
         'open-preferences': {},
     },
 }, class DDTermPanelIconBase extends PanelMenu.Button {
-    _init(dontCreateMenu, gettext_context) {
-        super._init(null, gettext_context.gettext('ddterm'), dontCreateMenu);
+    constructor(dontCreateMenu, gettext_context) {
+        super(null, gettext_context.gettext('ddterm'), dontCreateMenu);
 
         this.name = 'ddterm-panel-icon';
 
@@ -39,29 +39,32 @@ const PanelIconBase = GObject.registerClass({
 
 const PanelIconPopupMenu = GObject.registerClass({
 }, class DDTermPanelIconPopupMenu extends PanelIconBase {
-    _init(gettext_context) {
-        super._init(false, gettext_context);
+    #toggle_item;
+    #preferences_item;
 
-        this.toggle_item = new PopupMenu.PopupSwitchMenuItem(
+    constructor(gettext_context) {
+        super(false, gettext_context);
+
+        this.#toggle_item = new PopupMenu.PopupSwitchMenuItem(
             gettext_context.gettext('Show'),
             false
         );
-        this.menu.addMenuItem(this.toggle_item);
-        this.toggle_item.connect('toggled', () => {
-            this.active = this.toggle_item.state;
+        this.menu.addMenuItem(this.#toggle_item);
+        this.#toggle_item.connect('toggled', () => {
+            this.active = this.#toggle_item.state;
         });
         this.connect('notify::active', () => {
             const value = this.active;
 
-            if (this.toggle_item.state !== value)
-                this.toggle_item.setToggleState(value);
+            if (this.#toggle_item.state !== value)
+                this.#toggle_item.setToggleState(value);
         });
 
-        this.preferences_item = new PopupMenu.PopupMenuItem(
+        this.#preferences_item = new PopupMenu.PopupMenuItem(
             gettext_context.gettext('Preferences…')
         );
-        this.menu.addMenuItem(this.preferences_item);
-        this.preferences_item.connect('activate', () => {
+        this.menu.addMenuItem(this.#preferences_item);
+        this.#preferences_item.connect('activate', () => {
             this.emit('open-preferences');
         });
     }
@@ -73,19 +76,19 @@ const PanelIconPopupMenu = GObject.registerClass({
 
 const PanelIconToggleButton = GObject.registerClass({
 }, class DDTermPanelIconToggleButton extends PanelIconBase {
-    _init(gettext_context) {
-        super._init(true, gettext_context);
+    constructor(gettext_context) {
+        super(true, gettext_context);
 
         this.accessible_role = Atk.Role.TOGGLE_BUTTON;
 
         this.connect('notify::active', () => {
-            this._update();
+            this.#update();
         });
 
-        this._update();
+        this.#update();
     }
 
-    _update() {
+    #update() {
         if (this.active) {
             this.add_style_pseudo_class('active');
             this.add_accessible_state(Atk.StateType.CHECKED);
@@ -112,17 +115,17 @@ const PanelIconToggleButton = GObject.registerClass({
 
 const PanelIconToggleAndMenu = GObject.registerClass({
 }, class DDTermPanelIconToggleAndMenu extends PanelIconPopupMenu {
-    _init(gettext_context) {
-        super._init(gettext_context);
+    constructor(gettext_context) {
+        super(gettext_context);
 
         this.connect('notify::active', () => {
-            this._update();
+            this.#update();
         });
 
-        this._update();
+        this.#update();
     }
 
-    _update() {
+    #update() {
         if (this.active) {
             this.add_style_pseudo_class('checked');
             this.add_accessible_state(Atk.StateType.CHECKED);
@@ -186,17 +189,13 @@ export const PanelIconProxy = GObject.registerClass({
         'open-preferences': {},
     },
 }, class DDTermPanelIconProxy extends GObject.Object {
-    _init(params) {
-        super._init(params);
-
-        this.icon = null;
-    }
+    #icon = null;
 
     get type_name() {
-        if (!this.icon)
+        if (!this.#icon)
             return 'none';
 
-        return this.icon.type_name();
+        return this.#icon.type_name();
     }
 
     set type_name(value) {
@@ -206,9 +205,9 @@ export const PanelIconProxy = GObject.registerClass({
         const type_resolved = TYPE_BY_NAME[value];
 
         if (type_resolved) {
-            if (this.icon instanceof type_resolved)
+            if (this.#icon instanceof type_resolved)
                 return;
-        } else if (this.icon === null) {
+        } else if (this.#icon === null) {
             return;
         }
 
@@ -220,17 +219,17 @@ export const PanelIconProxy = GObject.registerClass({
             if (!type_resolved)
                 return;
 
-            this.icon = new type_resolved(this.gettext_context);
-            Main.panel.addToStatusArea('ddterm', this.icon);
+            this.#icon = new type_resolved(this.gettext_context);
+            Main.panel.addToStatusArea('ddterm', this.#icon);
 
             this.bind_property(
                 'active',
-                this.icon,
+                this.#icon,
                 'active',
                 GObject.BindingFlags.SYNC_CREATE | GObject.BindingFlags.BIDIRECTIONAL
             );
 
-            this.icon.connect('open-preferences', () => {
+            this.#icon.connect('open-preferences', () => {
                 this.emit('open-preferences');
             });
         } finally {
@@ -239,8 +238,8 @@ export const PanelIconProxy = GObject.registerClass({
     }
 
     remove() {
-        this.icon?.destroy();
-        this.icon = null;
+        this.#icon?.destroy();
+        this.#icon = null;
         this.notify('type-name');
     }
 });
