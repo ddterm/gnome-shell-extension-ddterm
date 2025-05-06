@@ -586,7 +586,7 @@ class Application extends Gtk.Application {
                 this.window = null;
         });
 
-        this.window.connect('session-update', this.save_session.bind(this));
+        this.window.connect('session-update', this.schedule_save_session.bind(this));
 
         return this.window;
     }
@@ -729,5 +729,17 @@ class Application extends Gtk.Application {
             GLib.FileSetContentsFlags.CONSISTENT | GLib.FileSetContentsFlags.DURABLE,
             0o600
         );
+    }
+
+    schedule_save_session() {
+        if (this._save_session_source)
+            return;
+
+        this._save_session_source = GLib.idle_add(GLib.PRIORITY_LOW, () => {
+            this._save_session_source = null;
+            this.save_session();
+
+            return GLib.SOURCE_REMOVE;
+        });
     }
 });
