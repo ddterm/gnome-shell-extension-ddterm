@@ -135,6 +135,9 @@ export const AppWindow = GObject.registerClass({
             'no-split'
         ),
     },
+    Signals: {
+        'session-update': {},
+    },
 },
 class DDTermAppWindow extends Gtk.ApplicationWindow {
     _init(params) {
@@ -497,11 +500,9 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
             Gio.SettingsBindFlags.GET
         );
 
-        const save_session = this.application.save_session.bind(this.application);
-
-        notebook.connect('page-added', save_session);
-        notebook.connect('page-removed', save_session);
-        notebook.connect('page-reordered', save_session);
+        notebook.connect('session-update', () => {
+            this.emit('session-update');
+        });
 
         return notebook;
     }

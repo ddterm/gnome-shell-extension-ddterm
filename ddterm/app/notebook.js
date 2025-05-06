@@ -124,6 +124,7 @@ export const Notebook = GObject.registerClass({
         'move-to-other-pane': {
             param_types: [TerminalPage],
         },
+        'session-update': {},
     },
 }, class DDTermNotebook extends Gtk.Notebook {
     _init(params) {
@@ -286,6 +287,12 @@ export const Notebook = GObject.registerClass({
 
             this.notify('current-title');
         });
+
+        const emit_session_update = () => this.emit('session-update');
+
+        this.connect('page-added', emit_session_update);
+        this.connect('page-removed', emit_session_update);
+        this.connect('page-reordered', emit_session_update);
 
         this.page_disconnect = new Map();
     }

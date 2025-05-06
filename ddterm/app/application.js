@@ -599,6 +599,8 @@ class Application extends Gtk.Application {
                 this.window = null;
         });
 
+        this.window.connect('session-update', this.save_session.bind(this));
+
         return this.window;
     }
 
