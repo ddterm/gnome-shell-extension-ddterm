@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-04 20:16+0000\n"
+"POT-Creation-Date: 2025-05-06 18:45+0000\n"
 "PO-Revision-Date: 2024-07-24 00:09+0000\n"
 "Last-Translator: Patricio Carrau <duckycb@proton.me>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/fr/>\n"
@@ -23,7 +23,7 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-Basepath: .\n"
 
-#: data/com.github.amezin.ddterm.desktop.in.in:8 ddterm/app/appwindow.js:142
+#: data/com.github.amezin.ddterm.desktop.in.in:8 ddterm/app/appwindow.js:145
 #: ddterm/shell/notifications.js:229 ddterm/shell/panelicon.js:29
 msgid "ddterm"
 msgstr "ddterm"
@@ -86,23 +86,23 @@ msgstr "Ne pas transmettre l'environnement"
 msgid "Open a new tab"
 msgstr "Ouvrir un nouvel onglet"
 
-#: ddterm/app/application.js:444
+#: ddterm/app/application.js:456
 msgid "Can't contact the extension."
 msgstr "L'extension ne peut être contactée."
 
-#: ddterm/app/application.js:446 ddterm/app/application.js:573
+#: ddterm/app/application.js:458 ddterm/app/application.js:585
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr "Veuillez s'il vous plait vous assurer que l'extension GNOME Shell est activée."
 
-#: ddterm/app/application.js:571
+#: ddterm/app/application.js:583
 msgid "Can't read the version of the loaded extension."
 msgstr "La version de l'extension chargée ne peut pas être lue."
 
-#: ddterm/app/application.js:576 ddterm/shell/notifications.js:105
+#: ddterm/app/application.js:588 ddterm/shell/notifications.js:105
 msgid "Warning: ddterm version has changed"
 msgstr "Avertissement : La version de ddterm a changé"
 
-#: ddterm/app/application.js:577 ddterm/shell/notifications.js:107
+#: ddterm/app/application.js:589 ddterm/shell/notifications.js:107
 msgid "Log out, then log in again to load the updated extension."
 msgstr "Fermez la session, puis reconnectez-vous pour charger l'extension mise à jour."
 
@@ -118,11 +118,11 @@ msgstr "Merci d'installer les paquets suivants :"
 msgid "Please install packages that provide the following files:"
 msgstr "Merci d'installer les paquets contenant les fichiers suivants :"
 
-#: ddterm/app/notebook.js:136
+#: ddterm/app/notebook.js:137
 msgid "New Tab (Last)"
 msgstr "Nouvel onglet (en dernière position)"
 
-#: ddterm/app/notebook.js:174
+#: ddterm/app/notebook.js:175
 msgid "New Tab (First)"
 msgstr "Nouvel onglet (en première position)"
 
@@ -163,27 +163,27 @@ msgstr "Rechercher le précédent"
 msgid "Close"
 msgstr "Fermer"
 
-#: ddterm/app/terminalpage.js:154
+#: ddterm/app/terminalpage.js:155
 msgid "Restart"
 msgstr "Redémarrer"
 
-#: ddterm/app/terminalpage.js:155 ddterm/app/terminalpage.js:638
+#: ddterm/app/terminalpage.js:156 ddterm/app/terminalpage.js:645
 msgid "Close Terminal"
 msgstr "Fermer ce terminal"
 
-#: ddterm/app/terminalpage.js:505
+#: ddterm/app/terminalpage.js:512
 msgid "The child process exited with status:"
 msgstr "Le processus fils s'est terminé avec le statut :"
 
-#: ddterm/app/terminalpage.js:515
+#: ddterm/app/terminalpage.js:522
 msgid "The child process was aborted by signal:"
 msgstr "Le processus de l'enfant a été interrompu par le signal :"
 
-#: ddterm/app/terminalpage.js:630
+#: ddterm/app/terminalpage.js:637
 msgid "Close this terminal?"
 msgstr "Fermer ce terminal ?"
 
-#: ddterm/app/terminalpage.js:632
+#: ddterm/app/terminalpage.js:639
 msgid "There is still a process running in this terminal. Closing the terminal will kill it."
 msgstr "Il reste un processus en cours d'exécution dans ce terminal. Fermer ce terminal va le tuer."
 
