@@ -101,8 +101,14 @@ export const Animation = GObject.registerClass({
         ),
     },
 }, class DDTermAnimation extends GObject.Object {
-    _init(params) {
-        super._init(params);
+    #should_skip;
+    #should_override;
+    #duration;
+    #mode;
+    #opacity_mode;
+
+    constructor(params) {
+        super(params);
 
         this.connect('notify::enable-override', () => this.update());
         this.connect('notify::mode', () => this.update());
@@ -120,34 +126,34 @@ export const Animation = GObject.registerClass({
             const should_skip = override_enabled && this.mode === 'disable';
             const should_override = override_enabled && !should_skip;
 
-            if (should_skip !== this._should_skip) {
-                this._should_skip = should_skip;
+            if (should_skip !== this.#should_skip) {
+                this.#should_skip = should_skip;
                 this.notify('should-skip');
             }
 
-            if (should_override !== this._should_override) {
-                this._should_override = should_override;
+            if (should_override !== this.#should_override) {
+                this.#should_override = should_override;
                 this.notify('should-override');
             }
 
-            this._duration = Math.floor(1000 * this.duration);
-            this._mode = should_override ? animation_mode_by_nick(this.mode) : null;
-            this._opacity_mode = opacity_animation_mode(this._mode);
+            this.#duration = Math.floor(1000 * this.duration);
+            this.#mode = should_override ? animation_mode_by_nick(this.mode) : null;
+            this.#opacity_mode = opacity_animation_mode(this.#mode);
         } finally {
             this.thaw_notify();
         }
     }
 
     get should_override() {
-        return this._should_override;
+        return this.#should_override;
     }
 
     get should_skip() {
-        return this._should_skip;
+        return this.#should_skip;
     }
 
     apply_override(actor) {
-        if (!this._mode)
+        if (!this.#mode)
             return;
 
         actor.pivot_point = this.geometry.pivot_point;
@@ -160,8 +166,8 @@ export const Animation = GObject.registerClass({
                 this.geometry.orientation === Clutter.Orientation.HORIZONTAL ? 0.0 : 1.0
             );
 
-            scale_x_anim.progress_mode = this._mode;
-            scale_x_anim.duration = this._duration;
+            scale_x_anim.progress_mode = this.#mode;
+            scale_x_anim.duration = this.#duration;
         }
 
         const scale_y_anim = actor.get_transition('scale-y');
@@ -172,15 +178,15 @@ export const Animation = GObject.registerClass({
                 this.geometry.orientation === Clutter.Orientation.VERTICAL ? 0.0 : 1.0
             );
 
-            scale_y_anim.progress_mode = this._mode;
-            scale_y_anim.duration = this._duration;
+            scale_y_anim.progress_mode = this.#mode;
+            scale_y_anim.duration = this.#duration;
         }
 
         const opacity_anim = actor.get_transition('opacity');
 
         if (opacity_anim) {
-            opacity_anim.progress_mode = this._opacity_mode;
-            opacity_anim.duration = this._duration;
+            opacity_anim.progress_mode = this.#opacity_mode;
+            opacity_anim.duration = this.#duration;
         }
     }
 
