@@ -376,7 +376,19 @@ class Application extends Gtk.Application {
         ]);
 
         this.restore_session();
-        this.connect('shutdown', () => this.save_session());
+        this.connect('shutdown', () => {
+            if (this._save_session_handler) {
+                this.window.disconnect(this._save_session_handler);
+                this._save_session_handler = null;
+            }
+
+            if (this._save_session_source) {
+                GLib.Source.remove(this._save_session_source);
+                this._save_session_source = null;
+            }
+
+            this.save_session();
+        });
 
         // gdm sends SIGHUP to gnome-session's process group to terminate it
         signal_add(GLib.PRIORITY_HIGH, SIGHUP, () => this.quit());
@@ -595,8 +607,15 @@ class Application extends Gtk.Application {
         });
 
         this.window.connect('destroy', source => {
-            if (source === this.window)
-                this.window = null;
+            if (source !== this.window)
+                return;
+
+            this.window = null;
+
+            if (this._save_session_handler) {
+                source.disconnect(this._save_session_handler);
+                this._save_session_handler = null;
+            }
         });
 
         this._save_session_handler =
