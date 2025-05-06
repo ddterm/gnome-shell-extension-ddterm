@@ -93,53 +93,60 @@ export const Service = GObject.registerClass({
         },
     },
 }, class DDTermService extends GObject.Object {
-    _init(params) {
-        const { subprocess, ...rest } = params;
-        super._init(rest);
+    #starting = false;
+    #subprocess = null;
+    #subprocess_running = false;
+    #subprocess_wait = null;
+    #subprocess_wait_cancel = null;
+    #bus_name_owner = null;
+    #bus_watch = null;
 
-        this._starting = false;
-        this._subprocess = subprocess;
-        this._subprocess_running = subprocess?.is_running ?? false;
+    constructor(params) {
+        const { subprocess, ...rest } = params;
+
+        super(rest);
+
+        this.#subprocess = subprocess;
+        this.#subprocess_running = subprocess?.is_running ?? false;
 
         if (subprocess)
-            this._subprocess_wait = this._wait_subprocess();
+            this.#subprocess_wait = this.#wait_subprocess();
 
-        this._bus_name_owner = null;
-        this._bus_watch = Gio.bus_watch_name_on_connection(
+        this.#bus_watch = Gio.bus_watch_name_on_connection(
             this.bus,
             this.bus_name,
             Gio.BusNameWatcherFlags.NONE,
-            (connection, name, owner) => this._update_bus_name_owner(owner),
-            () => this._update_bus_name_owner(null)
+            (connection, name, owner) => this.#update_bus_name_owner(owner),
+            () => this.#update_bus_name_owner(null)
         );
     }
 
     get subprocess() {
-        return this._subprocess;
+        return this.#subprocess;
     }
 
     get bus_name_owner() {
-        return this._bus_name_owner;
+        return this.#bus_name_owner;
     }
 
     get is_registered() {
-        return Boolean(this._bus_name_owner);
+        return Boolean(this.#bus_name_owner);
     }
 
     get is_running() {
-        return this._subprocess_running;
+        return this.#subprocess_running;
     }
 
     get starting() {
-        return this._starting;
+        return this.#starting;
     }
 
     unwatch() {
-        this._subprocess_wait_cancel?.cancel();
+        this.#subprocess_wait_cancel?.cancel();
 
-        if (this._bus_watch) {
-            Gio.bus_unwatch_name(this._bus_watch);
-            this._bus_watch = null;
+        if (this.#bus_watch) {
+            Gio.bus_unwatch_name(this.#bus_watch);
+            this.#bus_watch = null;
         }
     }
 
@@ -147,7 +154,7 @@ export const Service = GObject.registerClass({
         this.subprocess?.terminate();
     }
 
-    _create_subprocess() {
+    #create_subprocess() {
         const argv = [
             this.executable,
             '--gapplication-service',
@@ -167,10 +174,10 @@ export const Service = GObject.registerClass({
             return new Subprocess(params);
     }
 
-    _wait_subprocess() {
-        this._subprocess_wait_cancel = new Gio.Cancellable();
+    #wait_subprocess() {
+        this.#subprocess_wait_cancel = new Gio.Cancellable();
 
-        return this.subprocess.wait_check(this._subprocess_wait_cancel).catch(ex => {
+        return this.subprocess.wait_check(this.#subprocess_wait_cancel).catch(ex => {
             if (this.starting)
                 return;
 
@@ -179,20 +186,20 @@ export const Service = GObject.registerClass({
 
             this.emit('error', ex);
         }).finally(() => {
-            this._subprocess_running = false;
+            this.#subprocess_running = false;
             this.notify('is-running');
         });
     }
 
-    _update_bus_name_owner(owner) {
-        if (this._bus_name_owner === owner)
+    #update_bus_name_owner(owner) {
+        if (this.#bus_name_owner === owner)
             return;
 
         const prev_registered = this.is_registered;
 
         log(`${this.bus_name}: name owner changed to ${JSON.stringify(owner)}`);
 
-        this._bus_name_owner = owner;
+        this.#bus_name_owner = owner;
         this.notify('bus-name-owner');
 
         if (prev_registered !== this.is_registered)
@@ -203,7 +210,7 @@ export const Service = GObject.registerClass({
         if (this.is_registered)
             return;
 
-        this._starting = true;
+        this.#starting = true;
         this.notify('starting');
 
         try {
@@ -212,11 +219,11 @@ export const Service = GObject.registerClass({
 
             try {
                 if (!this.is_running) {
-                    this._subprocess = this._create_subprocess();
-                    this._subprocess_running = true;
+                    this.#subprocess = this.#create_subprocess();
+                    this.#subprocess_running = true;
                     this.notify('subprocess');
                     this.notify('is-running');
-                    this._subprocess_wait = this._wait_subprocess();
+                    this.#subprocess_wait = this.#wait_subprocess();
                 }
 
                 const registered = new Promise(resolve => {
@@ -230,7 +237,7 @@ export const Service = GObject.registerClass({
                     });
                 });
 
-                await Promise.race([registered, this._subprocess_wait]);
+                await Promise.race([registered, this.#subprocess_wait]);
             } finally {
                 cancellable?.disconnect(cancellable_chain);
                 inner_cancellable.cancel();
@@ -245,7 +252,7 @@ export const Service = GObject.registerClass({
             this.emit('error', ex);
             throw ex;
         } finally {
-            this._starting = false;
+            this.#starting = false;
             this.notify('starting');
         }
     }
