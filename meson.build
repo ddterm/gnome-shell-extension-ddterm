@@ -26,6 +26,7 @@ extension_dir = datadir / 'gnome-shell' / 'extensions' / uuid
 schema_dir = datadir / 'glib-2.0' / 'schemas'
 applications_dir = datadir / 'applications'
 dbus_service_dir = datadir / 'dbus-1' / 'services'
+icon_dir = datadir / 'icons'
 
 gjs_req = '>=1.78.0'
 gnome_shell_req = ['>=45.0', '<49']

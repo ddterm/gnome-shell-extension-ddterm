@@ -14,6 +14,20 @@ pack += fs.copyfile(
   install_dir: extension_dir / 'data',
 )
 
+pack += fs.copyfile(
+  'com.github.amezin.ddterm.svg',
+  install: true,
+  install_dir: extension_dir / 'data',
+)
+
+pack += fs.copyfile('com.github.amezin.ddterm.svg.license')
+
+install_symlink(
+  'com.github.amezin.ddterm.svg',
+  pointing_to: extension_dir / 'data' / 'com.github.amezin.ddterm.svg',
+  install_dir: icon_dir / 'hicolor' / 'scalable' / 'apps',
+)
+
 launcher_config = configuration_data()
 launcher_config.set('LAUNCHER', launcher_installed)
 

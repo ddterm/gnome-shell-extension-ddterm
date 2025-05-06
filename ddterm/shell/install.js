@@ -71,6 +71,12 @@ function dbus_service_path(basedir) {
     );
 }
 
+function app_icon_path(basedir) {
+    return GLib.build_filenamev(
+        [basedir, 'icons', 'hicolor', 'scalable', 'apps', 'com.github.amezin.ddterm.svg']
+    );
+}
+
 export class Installer {
     constructor(src_dir, launcher_path) {
         const configure_vars = {
@@ -94,9 +100,16 @@ export class Installer {
         );
 
         this.dbus_service.configure(configure_vars);
+
+        this.app_icon = new File(
+            GLib.build_filenamev([src_dir, 'com.github.amezin.ddterm.svg']),
+            app_icon_path(GLib.get_user_data_dir()),
+            system_data_dirs.map(app_icon_path)
+        );
     }
 
     install() {
+        this.app_icon.install();
         this.desktop_entry.install();
 
         if (this.dbus_service.install()) {
@@ -118,5 +131,6 @@ export class Installer {
     uninstall() {
         this.desktop_entry.uninstall();
         this.dbus_service.uninstall();
+        this.app_icon.uninstall();
     }
 }
