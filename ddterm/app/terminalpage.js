@@ -107,6 +107,7 @@ export const TerminalPage = GObject.registerClass({
             param_types: [String],
         },
         'move-to-other-pane-request': {},
+        'session-update': {},
     },
 }, class DDTermTerminalPage extends Gtk.Box {
     _init(params) {
@@ -491,6 +492,12 @@ export const TerminalPage = GObject.registerClass({
             else
                 this.destroy();
         });
+
+        const emit_session_update = () => this.emit('session-update');
+
+        this.connect('notify::banner-visible', emit_session_update);
+        this.connect('notify::use-custom-title', emit_session_update);
+        this.connect('notify::keep-open-after-exit', emit_session_update);
     }
 
     get_cwd() {

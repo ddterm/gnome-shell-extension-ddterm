@@ -327,6 +327,9 @@ export const Notebook = GObject.registerClass({
             child.connect('move-to-other-pane-request', () => {
                 this.emit('move-to-other-pane', child);
             }),
+            child.connect('session-update', () => {
+                this.emit('session-update');
+            }),
         ];
 
         const label = this.get_tab_label(child);
