@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: CC0-1.0
 
 [tool.bumpversion]
-current_version = "61"
+current_version = "62"
 parse = "(?P<major>\\d+)"
 serialize = ["{major}"]
 
