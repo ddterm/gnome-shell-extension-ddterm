@@ -75,6 +75,7 @@ export class Installer {
     constructor(src_dir, launcher_path) {
         const configure_vars = {
             LAUNCHER: launcher_path,
+            ICON: GLib.build_filenamev([src_dir, 'com.github.amezin.ddterm.svg']),
         };
 
         const system_data_dirs = GLib.get_system_data_dirs();
