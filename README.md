@@ -25,6 +25,8 @@ Inspired by
 
 - Terminal window can be resized by dragging the border with mouse
 
+- All tabs are restored automatically after restart
+
 - `Preferences` window with a lot of different settings
 
 ![Preferences screenshots](docs/screenshots/prefs.gif)
