@@ -237,6 +237,13 @@ const MissingDependenciesNotification = GObject.registerClass({
 
 export const Notifications = GObject.registerClass({
     Properties: {
+        'icon': GObject.ParamSpec.object(
+            'icon',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+            Gio.Icon
+        ),
         'gettext-context': GObject.ParamSpec.jsobject(
             'gettext-context',
             '',
@@ -260,7 +267,7 @@ export const Notifications = GObject.registerClass({
 
         this._source = new NotificationSource({
             title: this.gettext_context.gettext('ddterm'),
-            icon_name: 'utilities-terminal',
+            icon: this.icon,
         });
 
         this._source.connect('destroy', () => {

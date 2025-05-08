@@ -114,8 +114,8 @@ function create_dbus_interface(
     return dbus_interface;
 }
 
-function create_panel_icon(settings, window_matcher, app_control, gettext_context, rollback) {
-    const panel_icon = new PanelIconProxy({ gettext_context });
+function create_panel_icon(settings, window_matcher, app_control, icon, gettext_context, rollback) {
+    const panel_icon = new PanelIconProxy({ gicon: icon, gettext_context });
 
     rollback.push(() => {
         panel_icon.remove();
@@ -249,7 +249,12 @@ class EnabledExtension {
 
         this.settings = this.extension.getSettings();
 
-        this.notifications = new Notifications({ gettext_context: this.extension });
+        this.symbolic_icon = new Gio.ThemedIcon({ name: 'utilities-terminal' });
+
+        this.notifications = new Notifications({
+            icon: this.symbolic_icon,
+            gettext_context: this.extension,
+        });
 
         rollback.push(() => {
             this.notifications.destroy();
@@ -406,6 +411,7 @@ class EnabledExtension {
             this.settings,
             this.window_matcher,
             this.app_control,
+            this.symbolic_icon,
             this.extension,
             rollback
         );
