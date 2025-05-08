@@ -69,7 +69,7 @@ const DetailsDialog = GObject.registerClass({
 });
 
 /*
- * Unfortunately, rebuilding old notifications interface on top of the new interface
+ * Unfortunately, rebuilding old Notification interface on top of the new interface
  * is easier than building the new one on top of the old one. So will have to use
  * old API for now.
  */
@@ -88,14 +88,47 @@ const Notification = MessageTray.Notification.length === 1 ? GObject.registerCla
     }
 }) : MessageTray.Notification;
 
-const NotificationSource = MessageTray.Source.length === 1 ? GObject.registerClass({
+const NotificationSource = MessageTray.Source.length !== 1 ? GObject.registerClass({
+    'icon': GObject.ParamSpec.object(
+        'icon',
+        '',
+        '',
+        GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+        Gio.Icon
+    ),
+    'icon-name': GObject.ParamSpec.string(
+        'icon-name',
+        '',
+        '',
+        GObject.ParamFlags.READWRITE,
+        ''
+    ),
 }, class DDTermNotificationSource extends MessageTray.Source {
-    constructor(title, icon_name) {
-        super({ title, icon_name });
+    _init({ title, ...params }) {
+        super._init(title, null);
+
+        Object.assign(this, params);
+
+        this.connect('notify::icon', this.iconUpdated.bind(this));
     }
 
-    showNotification(notification) {
-        this.addNotification(notification);
+    getIcon() {
+        return this.icon;
+    }
+
+    addNotification(notification) {
+        this.showNotification(notification);
+    }
+
+    get iconName() {
+        if (this.icon instanceof Gio.ThemedIcon)
+            return this.icon.icon_name;
+        else
+            return null;
+    }
+
+    set iconName(value) {
+        this.icon = value ? new Gio.ThemedIcon({ name: value }) : null;
     }
 }) : MessageTray.Source;
 
@@ -225,8 +258,10 @@ export const Notifications = GObject.registerClass({
         if (this._source)
             return this._source;
 
-        this._source =
-            new NotificationSource(this.gettext_context.gettext('ddterm'), 'utilities-terminal');
+        this._source = new NotificationSource({
+            title: this.gettext_context.gettext('ddterm'),
+            icon_name: 'utilities-terminal',
+        });
 
         this._source.connect('destroy', () => {
             this._source = null;
@@ -240,7 +275,7 @@ export const Notifications = GObject.registerClass({
         const source = this.create_source();
         const notification = VersionMismatchNotification.create(source, this.gettext_context);
 
-        source.showNotification(notification);
+        source.addNotification(notification);
     }
 
     show_error(message, trace) {
@@ -261,7 +296,7 @@ export const Notifications = GObject.registerClass({
         });
 
         notification.setUrgency(MessageTray.Urgency.CRITICAL);
-        source.showNotification(notification);
+        source.addNotification(notification);
     }
 
     show_missing_dependencies(packages, files) {
@@ -275,7 +310,7 @@ export const Notifications = GObject.registerClass({
 
         notification.setUrgency(MessageTray.Urgency.CRITICAL);
         notification.setForFeedback(true);
-        source.showNotification(notification);
+        source.addNotification(notification);
     }
 
     destroy(reason = MessageTray.NotificationDestroyedReason.SOURCE_CLOSED) {
