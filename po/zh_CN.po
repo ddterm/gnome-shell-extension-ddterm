@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-06 18:45+0000\n"
+"POT-Creation-Date: 2025-05-09 00:00+0000\n"
 "PO-Revision-Date: 2024-08-26 08:09+0000\n"
 "Last-Translator: yuh <yuhldr@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/zh_Hans/>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "X-Generator: Weblate 5.7.1-dev\n"
 
 #: data/com.github.amezin.ddterm.desktop.in.in:8 ddterm/app/appwindow.js:145
-#: ddterm/shell/notifications.js:229 ddterm/shell/panelicon.js:29
+#: ddterm/shell/notifications.js:262 ddterm/shell/panelicon.js:29
 msgid "ddterm"
 msgstr "ddterm"
 
@@ -93,23 +93,23 @@ msgstr "请确保ddterm在GNOME扩展中可用。"
 msgid "Can't read the version of the loaded extension."
 msgstr "无法读取已加载扩展插件的版本。"
 
-#: ddterm/app/application.js:588 ddterm/shell/notifications.js:105
+#: ddterm/app/application.js:588 ddterm/shell/notifications.js:138
 msgid "Warning: ddterm version has changed"
 msgstr "警告：ddterm版本已改变"
 
-#: ddterm/app/application.js:589 ddterm/shell/notifications.js:107
+#: ddterm/app/application.js:589 ddterm/shell/notifications.js:140
 msgid "Log out, then log in again to load the updated extension."
 msgstr "注销后重新登录，方可生效。"
 
-#: ddterm/app/dependencies.js:72 ddterm/shell/notifications.js:159
+#: ddterm/app/dependencies.js:72 ddterm/shell/notifications.js:192
 msgid "ddterm needs additional packages to run"
 msgstr "ddterm需要额外的软件包才能运行"
 
-#: ddterm/app/dependencies.js:77 ddterm/shell/notifications.js:164
+#: ddterm/app/dependencies.js:77 ddterm/shell/notifications.js:197
 msgid "Please install the following packages:"
 msgstr "请安装以下软件包："
 
-#: ddterm/app/dependencies.js:84 ddterm/shell/notifications.js:172
+#: ddterm/app/dependencies.js:84 ddterm/shell/notifications.js:205
 msgid "Please install packages that provide the following files:"
 msgstr "请安装提供以下文件的软件包："
 
@@ -1251,15 +1251,15 @@ msgstr "检测邮件地址"
 msgid "Detect \"news:\", \"man:\" URLs"
 msgstr "检测 \"news:\"、\"man:\" URLs"
 
-#: ddterm/shell/notifications.js:51 ddterm/shell/notifications.js:150
+#: ddterm/shell/notifications.js:51 ddterm/shell/notifications.js:183
 msgid "Copy to Clipboard"
 msgstr "复制到剪贴板"
 
-#: ddterm/shell/notifications.js:146
+#: ddterm/shell/notifications.js:179
 msgid "Details…"
 msgstr "细节……"
 
-#: ddterm/shell/notifications.js:194
+#: ddterm/shell/notifications.js:227
 msgid "Install"
 msgstr "安装"
 

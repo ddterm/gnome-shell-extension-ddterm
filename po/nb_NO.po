@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-06 18:45+0000\n"
+"POT-Creation-Date: 2025-05-09 00:00+0000\n"
 "PO-Revision-Date: 2024-09-02 20:09+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/nb_NO/>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "X-Generator: Weblate 5.8-dev\n"
 
 #: data/com.github.amezin.ddterm.desktop.in.in:8 ddterm/app/appwindow.js:145
-#: ddterm/shell/notifications.js:229 ddterm/shell/panelicon.js:29
+#: ddterm/shell/notifications.js:262 ddterm/shell/panelicon.js:29
 msgid "ddterm"
 msgstr ""
 
@@ -94,23 +94,23 @@ msgstr ""
 msgid "Can't read the version of the loaded extension."
 msgstr ""
 
-#: ddterm/app/application.js:588 ddterm/shell/notifications.js:105
+#: ddterm/app/application.js:588 ddterm/shell/notifications.js:138
 msgid "Warning: ddterm version has changed"
 msgstr "Advarsel: ddterm-versjonen har endret seg"
 
-#: ddterm/app/application.js:589 ddterm/shell/notifications.js:107
+#: ddterm/app/application.js:589 ddterm/shell/notifications.js:140
 msgid "Log out, then log in again to load the updated extension."
 msgstr "Logg ut og inn igjen for å laste inn oppdatert utvidelse."
 
-#: ddterm/app/dependencies.js:72 ddterm/shell/notifications.js:159
+#: ddterm/app/dependencies.js:72 ddterm/shell/notifications.js:192
 msgid "ddterm needs additional packages to run"
 msgstr "ddterm trenger ytterligere pakker for å kjøre"
 
-#: ddterm/app/dependencies.js:77 ddterm/shell/notifications.js:164
+#: ddterm/app/dependencies.js:77 ddterm/shell/notifications.js:197
 msgid "Please install the following packages:"
 msgstr "Installer følgende pakker først:"
 
-#: ddterm/app/dependencies.js:84 ddterm/shell/notifications.js:172
+#: ddterm/app/dependencies.js:84 ddterm/shell/notifications.js:205
 msgid "Please install packages that provide the following files:"
 msgstr "Installer pakkene som tilbyr følgende filer:"
 
@@ -1253,16 +1253,16 @@ msgstr "Oppdag e-postadresser"
 msgid "Detect \"news:\", \"man:\" URLs"
 msgstr "Oppdag \"news:\", \"man:\" -nettadresser"
 
-#: ddterm/shell/notifications.js:51 ddterm/shell/notifications.js:150
+#: ddterm/shell/notifications.js:51 ddterm/shell/notifications.js:183
 #, fuzzy
 msgid "Copy to Clipboard"
 msgstr "Lim inn tekst fra utklippstavle"
 
-#: ddterm/shell/notifications.js:146
+#: ddterm/shell/notifications.js:179
 msgid "Details…"
 msgstr ""
 
-#: ddterm/shell/notifications.js:194
+#: ddterm/shell/notifications.js:227
 msgid "Install"
 msgstr ""
 
