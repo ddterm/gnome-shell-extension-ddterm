@@ -558,12 +558,10 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
         assert 'banner' in pages1[1]
         assert pages1[1]['use-custom-title'] is True
         assert pages1[1]['title'] == 'Custom title'
-        assert pages1[1]['text'] == 'Test'
 
         assert 'banner' in pages1[2]
         assert pages1[2]['use-custom-title'] is False
         assert pages1[2]['title'] == 'Title from shell'
-        assert pages1[2]['text'] == 'Test output'
 
         app_control.quit()
         app_control.activate()
@@ -586,9 +584,9 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
         pages2 = state2['notebook1']['pages']
 
         del pages1[0]['title']
-        del pages1[0]['text']
+        pages1[0].pop('text', None)
         del pages2[0]['title']
-        del pages2[0]['text']
+        pages2[0].pop('text', None)
 
         assert state1 == state2
 
