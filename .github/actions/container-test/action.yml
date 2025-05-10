@@ -48,7 +48,6 @@ runs:
         --self-contained-html
         --junitxml=tests/junit.xml
         "--container=$CONTAINER"
-        -n auto
         -vv
         ${{ inputs.args }}
       env:
