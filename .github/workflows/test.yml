@@ -137,7 +137,6 @@ jobs:
         --container ${{ matrix.container }}
         ${{ !contains(matrix.container, 'alpine') && '--journald' || '' }}
         ${{ inputs.args }}
-        -n auto
         -vv
 
     - name: Upload report to Testspace
