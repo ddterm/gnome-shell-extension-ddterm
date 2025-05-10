@@ -162,6 +162,11 @@ export const WindowManager = GObject.registerClass({
                     this._map_handler = null;
 
                     this._update_window_geometry();
+
+                    // There are complaints that terminal window does not have focus sometimes
+                    // However, tests don't catch it (unlike on Ubuntu + X11), and I can't reproduce
+                    Main.activateWindow(this.window);
+
                     this._set_window_above();
                     this._set_window_stick();
                 });
