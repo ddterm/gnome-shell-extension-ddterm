@@ -26,7 +26,7 @@ const PanelIconBase = GObject.registerClass({
     },
 }, class DDTermPanelIconBase extends PanelMenu.Button {
     _init(dontCreateMenu, gettext_context) {
-        super._init(null, gettext_context.gettext('ddterm'), dontCreateMenu);
+        super._init(0.5, gettext_context.gettext('ddterm'), dontCreateMenu);
 
         this.name = 'ddterm-panel-icon';
 
