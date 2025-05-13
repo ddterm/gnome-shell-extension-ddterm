@@ -33,8 +33,8 @@ export const TextWidget = GObject.registerClass({
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             Gio.Settings
         ),
-        'gettext-context': GObject.ParamSpec.jsobject(
-            'gettext-context',
+        'gettext-domain': GObject.ParamSpec.jsobject(
+            'gettext-domain',
             '',
             '',
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY
@@ -82,6 +82,6 @@ export const TextWidget = GObject.registerClass({
     }
 
     get title() {
-        return this.gettext_context.gettext('Text');
+        return this.gettext_domain.gettext('Text');
     }
 });

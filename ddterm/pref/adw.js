@@ -27,8 +27,8 @@ const Page = GObject.registerClass({
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             Gio.Settings
         ),
-        'gettext-context': GObject.ParamSpec.jsobject(
-            'gettext-context',
+        'gettext-domain': GObject.ParamSpec.jsobject(
+            'gettext-domain',
             '',
             '',
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY
@@ -38,7 +38,7 @@ const Page = GObject.registerClass({
     add_widget(widget_type, extra_properties = {}) {
         const widget = new widget_type({
             settings: this.settings,
-            gettext_context: this.gettext_context,
+            gettext_domain: this.gettext_domain,
             ...extra_properties,
         });
 
@@ -71,7 +71,7 @@ export const WindowPage = GObject.registerClass({
             ...params,
         });
 
-        this.title = this.gettext_context.gettext('Window');
+        this.title = this.gettext_domain.gettext('Window');
 
         this.add_widget(PositionSizeWidget, { monitors: this.monitors });
 
@@ -92,7 +92,7 @@ export const TerminalPage = GObject.registerClass({
             ...params,
         });
 
-        this.title = this.gettext_context.gettext('Terminal');
+        this.title = this.gettext_domain.gettext('Terminal');
 
         [
             TextWidget,
@@ -113,7 +113,7 @@ export const ShortcutsPage = GObject.registerClass({
             ...params,
         });
 
-        this.title = this.gettext_context.gettext('Keyboard Shortcuts');
+        this.title = this.gettext_domain.gettext('Keyboard Shortcuts');
 
         this.add_widget(ShortcutsWidget);
     }
@@ -128,7 +128,7 @@ export const MiscPage = GObject.registerClass({
             ...params,
         });
 
-        this.title = this.gettext_context.gettext('Miscellaneous');
+        this.title = this.gettext_domain.gettext('Miscellaneous');
 
         this.add_widget(PanelIconWidget);
     }

@@ -33,16 +33,16 @@ export const PrefsDialog = GObject.registerClass({
     _init(params) {
         super._init(params);
 
-        const gettext_context = Gettext.domain(metadata['gettext-domain']);
+        const gettext_domain = Gettext.domain(metadata['gettext-domain']);
 
-        this.set_title(gettext_context.gettext('Preferences'));
+        this.set_title(gettext_domain.gettext('Preferences'));
         this.set_default_size(640, 576);
         this.set_icon_name('preferences-system');
 
         const widget = new PrefsWidget({
             settings: this.settings,
             monitors: this.display_config.create_monitor_list(),
-            gettext_context,
+            gettext_domain,
         });
 
         const content_area = this.get_content_area();

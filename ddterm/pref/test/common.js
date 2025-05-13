@@ -28,7 +28,7 @@ export const Application = GObject.registerClass({
         );
 
         this.settings = get_settings();
-        this.gettext_context = Gettext.domain(metadata['gettext-domain']);
+        this.gettext_domain = Gettext.domain(metadata['gettext-domain']);
         this.display_config = DisplayConfig.new();
 
         this.connect('shutdown', () => this.display_config.unwatch());

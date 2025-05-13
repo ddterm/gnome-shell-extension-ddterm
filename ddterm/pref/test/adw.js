@@ -28,8 +28,8 @@ export const AdwPrefsDialog = GObject.registerClass({
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             Gio.ListModel
         ),
-        'gettext-context': GObject.ParamSpec.jsobject(
-            'gettext-context',
+        'gettext-domain': GObject.ParamSpec.jsobject(
+            'gettext-domain',
             '',
             '',
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY
@@ -52,13 +52,13 @@ export const AdwPrefsDialog = GObject.registerClass({
     async _load() {
         const adw = await import('../adw.js');
 
-        const gettext_context = this.gettext_context;
+        const gettext_domain = this.gettext_domain;
         const settings = this.settings;
 
-        this.add(new adw.WindowPage({ settings, gettext_context, monitors: this.monitors }));
-        this.add(new adw.TerminalPage({ settings, gettext_context }));
-        this.add(new adw.ShortcutsPage({ settings, gettext_context }));
-        this.add(new adw.MiscPage({ settings, gettext_context }));
+        this.add(new adw.WindowPage({ settings, gettext_domain, monitors: this.monitors }));
+        this.add(new adw.TerminalPage({ settings, gettext_domain }));
+        this.add(new adw.ShortcutsPage({ settings, gettext_domain }));
+        this.add(new adw.MiscPage({ settings, gettext_domain }));
     }
 });
 
@@ -73,7 +73,7 @@ const AdwApplication = GObject.registerClass({
     preferences() {
         const prefs_dialog = new AdwPrefsDialog({
             settings: this.settings,
-            gettext_context: this.gettext_context,
+            gettext_domain: this.gettext_domain,
             monitors: this.display_config.create_monitor_list(),
             application: this,
         });

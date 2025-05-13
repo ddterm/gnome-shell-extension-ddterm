@@ -36,8 +36,8 @@ export const PositionSizeWidget = GObject.registerClass({
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             Gio.ListModel
         ),
-        'gettext-context': GObject.ParamSpec.jsobject(
-            'gettext-context',
+        'gettext-domain': GObject.ParamSpec.jsobject(
+            'gettext-domain',
             '',
             '',
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY
@@ -70,7 +70,7 @@ export const PositionSizeWidget = GObject.registerClass({
     }
 
     get title() {
-        return this.gettext_context.gettext('Position and Size');
+        return this.gettext_domain.gettext('Position and Size');
     }
 
     #update_monitors(model, position, removed, added) {

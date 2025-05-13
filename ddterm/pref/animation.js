@@ -32,8 +32,8 @@ export const AnimationWidget = GObject.registerClass({
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             Gio.Settings
         ),
-        'gettext-context': GObject.ParamSpec.jsobject(
-            'gettext-context',
+        'gettext-domain': GObject.ParamSpec.jsobject(
+            'gettext-domain',
             '',
             '',
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY
@@ -59,6 +59,6 @@ export const AnimationWidget = GObject.registerClass({
     }
 
     get title() {
-        return this.gettext_context.gettext('Animation');
+        return this.gettext_domain.gettext('Animation');
     }
 });

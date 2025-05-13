@@ -34,8 +34,8 @@ export const PrefsWidget = GObject.registerClass({
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             Gio.ListModel
         ),
-        'gettext-context': GObject.ParamSpec.jsobject(
-            'gettext-context',
+        'gettext-domain': GObject.ParamSpec.jsobject(
+            'gettext-domain',
             '',
             '',
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY
@@ -107,7 +107,7 @@ export const PrefsWidget = GObject.registerClass({
     #add_page(name, widget_type, extra_properties = {}) {
         const widget = new widget_type({
             settings: this.settings,
-            gettext_context: this.gettext_context,
+            gettext_domain: this.gettext_domain,
             ...extra_properties,
         });
 

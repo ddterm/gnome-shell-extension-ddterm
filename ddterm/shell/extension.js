@@ -114,8 +114,8 @@ function create_dbus_interface(
     return dbus_interface;
 }
 
-function create_panel_icon(settings, window_matcher, app_control, icon, gettext_context, rollback) {
-    const panel_icon = new PanelIconProxy({ gicon: icon, gettext_context });
+function create_panel_icon(settings, window_matcher, app_control, icon, gettext_domain, rollback) {
+    const panel_icon = new PanelIconProxy({ gicon: icon, gettext_domain });
 
     rollback.push(() => {
         panel_icon.remove();
@@ -255,7 +255,7 @@ class EnabledExtension {
 
         this.notifications = new Notifications({
             icon: this.symbolic_icon,
-            gettext_context: this.extension,
+            gettext_domain: this.extension,
         });
 
         rollback.push(() => {
