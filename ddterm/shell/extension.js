@@ -249,7 +249,9 @@ class EnabledExtension {
 
         this.settings = this.extension.getSettings();
 
-        this.symbolic_icon = new Gio.ThemedIcon({ name: 'utilities-terminal' });
+        this.symbolic_icon = Gio.FileIcon.new(Gio.File.new_for_path(
+            GLib.build_filenamev([this.extension.data_dir, 'com.github.amezin.ddterm-symbolic.svg'])
+        ));
 
         this.notifications = new Notifications({
             icon: this.symbolic_icon,
