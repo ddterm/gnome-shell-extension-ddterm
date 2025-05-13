@@ -16,7 +16,7 @@ certifi==2025.4.26
     # via
     #   httpcore
     #   httpx
-click==8.1.8
+click==8.2.0
     # via
     #   bump-my-version
     #   rich-click
