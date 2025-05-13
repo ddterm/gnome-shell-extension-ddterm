@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-09 00:00+0000\n"
+"POT-Creation-Date: 2025-05-13 19:23+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: data/com.github.amezin.ddterm.desktop.in.in:8 ddterm/app/appwindow.js:145
-#: ddterm/shell/notifications.js:262 ddterm/shell/panelicon.js:29
+#: ddterm/shell/notifications.js:269 ddterm/shell/panelicon.js:30
 msgid "ddterm"
 msgstr ""
 
@@ -37,7 +37,7 @@ msgid "Toggle"
 msgstr ""
 
 #: data/com.github.amezin.ddterm.desktop.in.in:28 ddterm/app/ui/menus.ui:149
-#: ddterm/app/ui/menus.ui:283 ddterm/shell/panelicon.js:61
+#: ddterm/app/ui/menus.ui:283 ddterm/shell/panelicon.js:62
 msgid "Preferences…"
 msgstr ""
 
@@ -1261,6 +1261,6 @@ msgstr ""
 msgid "Install"
 msgstr ""
 
-#: ddterm/shell/panelicon.js:46
+#: ddterm/shell/panelicon.js:47
 msgid "Show"
 msgstr ""

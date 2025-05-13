@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-09 00:00+0000\n"
+"POT-Creation-Date: 2025-05-13 19:23+0000\n"
 "PO-Revision-Date: 2024-08-26 08:09+0000\n"
 "Last-Translator: yuh <yuhldr@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/zh_Hans/>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "X-Generator: Weblate 5.7.1-dev\n"
 
 #: data/com.github.amezin.ddterm.desktop.in.in:8 ddterm/app/appwindow.js:145
-#: ddterm/shell/notifications.js:262 ddterm/shell/panelicon.js:29
+#: ddterm/shell/notifications.js:269 ddterm/shell/panelicon.js:30
 msgid "ddterm"
 msgstr "ddterm"
 
@@ -37,7 +37,7 @@ msgid "Toggle"
 msgstr "切换按钮"
 
 #: data/com.github.amezin.ddterm.desktop.in.in:28 ddterm/app/ui/menus.ui:149
-#: ddterm/app/ui/menus.ui:283 ddterm/shell/panelicon.js:61
+#: ddterm/app/ui/menus.ui:283 ddterm/shell/panelicon.js:62
 msgid "Preferences…"
 msgstr "首选项…"
 
@@ -1263,7 +1263,7 @@ msgstr "细节……"
 msgid "Install"
 msgstr "安装"
 
-#: ddterm/shell/panelicon.js:46
+#: ddterm/shell/panelicon.js:47
 msgid "Show"
 msgstr "显示"
 
