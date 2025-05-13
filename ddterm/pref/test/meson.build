@@ -5,6 +5,7 @@
 pref_test_common_files = [
   fs.copyfile('common.js'),
   pref_js_out_files,
+  app_js_out_files,
   schema_copy,
   schemas_compiled,
 ]
