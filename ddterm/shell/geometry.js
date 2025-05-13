@@ -12,13 +12,6 @@ import Mtk from 'gi://Mtk';
 
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 
-function get_monitor_manager() {
-    if (Meta.MonitorManager.get)
-        return Meta.MonitorManager.get();
-
-    return global.backend.get_monitor_manager();
-}
-
 export const WindowGeometry = GObject.registerClass({
     Properties: {
         'target-rect': GObject.ParamSpec.boxed(
@@ -295,7 +288,7 @@ export const WindowGeometry = GObject.registerClass({
         }
 
         if (this.window_monitor === 'connector') {
-            const monitor_manager = get_monitor_manager();
+            const monitor_manager = global.backend.get_monitor_manager();
 
             if (monitor_manager) {
                 const index = monitor_manager.get_monitor_for_connector(
