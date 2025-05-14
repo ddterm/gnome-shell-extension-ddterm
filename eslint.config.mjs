@@ -94,16 +94,6 @@ export default [
         },
     },
     {
-        files: ['ddterm/pref/util.js'],
-        rules: {
-            quotes: [
-                'error',
-                'single',
-                { allowTemplateLiterals: true },
-            ],
-        },
-    },
-    {
         ignores: Array.from(gitIgnoredFiles(new URL('./', import.meta.url))),
     },
 ];
