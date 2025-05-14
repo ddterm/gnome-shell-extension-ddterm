@@ -23,6 +23,10 @@ export default [
                 { ignoreUrls: true },
             ],
             'consistent-return': 'error',
+            'eqeqeq': [
+                'error',
+                'smart',
+            ],
             'key-spacing': [
                 'error',
                 { mode: 'minimum', beforeColon: false, afterColon: true },
