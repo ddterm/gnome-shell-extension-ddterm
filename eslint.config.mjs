@@ -31,6 +31,14 @@ export default [
                 'error',
                 { mode: 'minimum', beforeColon: false, afterColon: true },
             ],
+            'no-unused-vars': [
+                'error',
+                {
+                    varsIgnorePattern: '(^unused|_$)',
+                    argsIgnorePattern: '^(unused|_)',
+                    caughtErrors: 'all',
+                },
+            ],
             'object-curly-spacing': [
                 'error',
                 'always',
