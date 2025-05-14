@@ -98,42 +98,44 @@ export const AppControl = GObject.registerClass({
         ),
     },
 }, class DDTermAppControl extends GObject.Object {
-    _init(params) {
-        super._init(params);
+    #actions = null;
+    #actions_owner = null;
+    #cancellable = null;
 
-        this._actions = null;
-        this._actions_owner = null;
-        this._cancellable = new Gio.Cancellable();
+    constructor(params) {
+        super(params);
+
+        this.#cancellable = new Gio.Cancellable();
 
         const bus_name_handler =
-            this.service.connect('notify::bus-name-owner', () => this._update_actions());
+            this.service.connect('notify::bus-name-owner', () => this.#update_actions());
 
-        this._cancellable.connect(() => this.service.disconnect(bus_name_handler));
+        this.#cancellable.connect(() => this.service.disconnect(bus_name_handler));
 
-        this._update_actions();
+        this.#update_actions();
     }
 
     get actions() {
-        return this._actions;
+        return this.#actions;
     }
 
-    _update_actions() {
+    #update_actions() {
         const new_owner = this.service.bus_name_owner;
 
-        if (this._actions_owner === new_owner)
+        if (this.#actions_owner === new_owner)
             return;
 
         if (new_owner) {
-            this._actions = Gio.DBusActionGroup.get(
+            this.#actions = Gio.DBusActionGroup.get(
                 this.service.bus,
                 new_owner,
                 `/${this.service.bus_name.replace(/\./g, '/')}`
             );
         } else {
-            this._actions = null;
+            this.#actions = null;
         }
 
-        this._actions_owner = new_owner;
+        this.#actions_owner = new_owner;
         this.notify('actions');
     }
 
@@ -142,7 +144,7 @@ export const AppControl = GObject.registerClass({
             return;
 
         const cancellable = Gio.Cancellable.new();
-        const cancel_chain = this._cancellable.connect(() => cancellable.cancel());
+        const cancel_chain = this.#cancellable.connect(() => cancellable.cancel());
 
         try {
             await Promise.race([
@@ -150,12 +152,12 @@ export const AppControl = GObject.registerClass({
                 wait_timeout('ddterm app failed to start in 20 seconds', 20000, cancellable),
             ]);
         } finally {
-            this._cancellable.disconnect(cancel_chain);
+            this.#cancellable.disconnect(cancel_chain);
             cancellable.cancel();
         }
     }
 
-    async _wait_window_visible(visible) {
+    async #wait_window_visible(visible) {
         visible = Boolean(visible);
         const expected_actions = this.actions;
 
@@ -163,7 +165,7 @@ export const AppControl = GObject.registerClass({
             return;
 
         const cancellable = Gio.Cancellable.new();
-        const cancel_chain = this._cancellable.connect(() => cancellable.cancel());
+        const cancel_chain = this.#cancellable.connect(() => cancellable.cancel());
 
         try {
             const wait_window = wait_property(
@@ -194,7 +196,7 @@ export const AppControl = GObject.registerClass({
                 ),
             ]);
         } finally {
-            this._cancellable.disconnect(cancel_chain);
+            this.#cancellable.disconnect(cancel_chain);
             cancellable.cancel();
         }
     }
@@ -220,7 +222,7 @@ export const AppControl = GObject.registerClass({
         this.actions.activate_action('show', null);
 
         if (wait)
-            await this._wait_window_visible(true);
+            await this.#wait_window_visible(true);
     }
 
     async hide(wait = true) {
@@ -231,7 +233,7 @@ export const AppControl = GObject.registerClass({
         this.actions.activate_action('hide', null);
 
         if (wait)
-            await this._wait_window_visible(false);
+            await this.#wait_window_visible(false);
     }
 
     async preferences() {
@@ -242,7 +244,7 @@ export const AppControl = GObject.registerClass({
     }
 
     disable() {
-        this._cancellable.cancel();
+        this.#cancellable.cancel();
     }
 
     quit() {
