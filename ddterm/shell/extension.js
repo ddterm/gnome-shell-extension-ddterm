@@ -222,12 +222,14 @@ function bind_keys(settings, app_control, rollback) {
 }
 
 class EnabledExtension {
+    #disable_callbacks = [];
+    #debug;
+
     constructor(extension) {
         this.extension = extension;
-        this._disable_callbacks = [];
 
         try {
-            this._enable();
+            this.#enable();
         } catch (ex) {
             this.disable();
             throw ex;
@@ -235,17 +237,17 @@ class EnabledExtension {
     }
 
     disable() {
-        while (this._disable_callbacks.length > 0) {
+        while (this.#disable_callbacks.length > 0) {
             try {
-                this._disable_callbacks.pop()();
+                this.#disable_callbacks.pop()();
             } catch (ex) {
                 logError(ex);
             }
         }
     }
 
-    _enable() {
-        const rollback = this._disable_callbacks;
+    #enable() {
+        const rollback = this.#disable_callbacks;
 
         this.settings = this.extension.getSettings();
 
@@ -373,21 +375,21 @@ class EnabledExtension {
         });
 
         this.window_matcher.connect('notify::current-window', () => {
-            this._create_window_manager();
+            this.#create_window_manager();
         });
 
         rollback.push(() => {
             this.window_manager?.disable();
         });
 
-        this._create_window_manager();
+        this.#create_window_manager();
 
         this.window_matcher.connect('notify::current-window', () => {
-            this._set_skip_taskbar();
+            this.#set_skip_taskbar();
         });
 
         const skip_taskbar_handler = this.settings.connect('changed::window-skip-taskbar', () => {
-            this._set_skip_taskbar();
+            this.#set_skip_taskbar();
         });
 
         rollback.push(() => {
@@ -421,7 +423,7 @@ class EnabledExtension {
         install(this.extension, rollback);
     }
 
-    _set_skip_taskbar() {
+    #set_skip_taskbar() {
         const win = this.window_matcher.current_window;
 
         if (win?.get_client_type() !== Meta.WindowClientType.WAYLAND)
@@ -435,7 +437,7 @@ class EnabledExtension {
             wayland_client.show_in_window_list(win);
     }
 
-    _create_window_manager() {
+    #create_window_manager() {
         this.window_manager?.disable();
         this.window_manager = null;
 
@@ -457,11 +459,11 @@ class EnabledExtension {
     }
 
     get debug() {
-        return this._debug;
+        return this.#debug;
     }
 
     set debug(func) {
-        this._debug = func;
+        this.#debug = func;
 
         if (this.window_manager)
             this.window_manager.debug = func;
@@ -472,6 +474,10 @@ class EnabledExtension {
 }
 
 export default class DDTermExtension extends Extension {
+    #app_extra_args = [];
+    #app_extra_env = [];
+    #debug = null;
+
     constructor(meta) {
         super(meta);
 
@@ -486,39 +492,36 @@ export default class DDTermExtension extends Extension {
 
         this.app_process = null;
         this.enabled_state = null;
-        this._app_extra_args = [];
-        this._app_extra_env = [];
-        this._debug = null;
     }
 
     get debug() {
-        return this._debug;
+        return this.#debug;
     }
 
     set debug(func) {
-        this._debug = func;
+        this.#debug = func;
 
         if (this.enabled_state)
             this.enabled_state.debug = func;
     }
 
     get app_extra_args() {
-        return this._app_extra_args;
+        return this.#app_extra_args;
     }
 
     set app_extra_args(value) {
-        this._app_extra_args = value;
+        this.#app_extra_args = value;
 
         if (this.enabled_state)
             this.enabled_state.service.extra_argv = value;
     }
 
     get app_extra_env() {
-        return this._app_extra_env;
+        return this.#app_extra_env;
     }
 
     set app_extra_env(value) {
-        this._app_extra_env = value;
+        this.#app_extra_env = value;
 
         if (this.enabled_state)
             this.enabled_state.service.extra_env = value;
