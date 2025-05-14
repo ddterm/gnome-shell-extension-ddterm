@@ -3,57 +3,10 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 import { fileURLToPath } from 'node:url';
-import path from 'node:path';
-import fs from 'node:fs';
 import globals from 'globals';
-import ignore from 'ignore';
 import importPlugin from 'eslint-plugin-import';
 import gjs from './lint/eslintrc-gjs.mjs';
-
-const baseDir = fileURLToPath(new URL('./', import.meta.url));
-
-function* gitIgnores(dir = '', stack = undefined) {
-    if (!stack)
-        stack = [];
-
-    const fullDir = path.join(baseDir, dir);
-    const ignoreFile = path.join(fullDir, '.gitignore');
-    const rules = ignore();
-
-    try {
-        rules.add(fs.readFileSync(ignoreFile, 'utf8'));
-    } catch (ex) {
-        if (ex.code !== 'ENOENT')
-            throw ex;
-    }
-
-    stack.push({ rules, dirname: path.basename(dir) });
-
-    const children = fs.readdirSync(fullDir, { withFileTypes: true });
-
-    for (const child of children) {
-        const isDir = child.isDirectory();
-        const name = child.name + (isDir ? '/' : '');
-
-        let relPath = name;
-        let i = stack.length - 1;
-
-        while (i >= 0) {
-            if (stack[i].rules.ignores(relPath)) {
-                yield path.join(dir, name);
-                break;
-            }
-
-            relPath = path.join(stack[i].dirname, relPath);
-            i -= 1;
-        }
-
-        if (i === -1 && isDir)
-            yield* gitIgnores(relPath, stack);
-    }
-
-    stack.pop();
-}
+import gitIgnoredFiles from './lint/gitignore.mjs';
 
 export default [
     importPlugin.flatConfigs.recommended,
@@ -151,6 +104,6 @@ export default [
         },
     },
     {
-        ignores: Array.from(gitIgnores()),
+        ignores: Array.from(gitIgnoredFiles(new URL('./', import.meta.url))),
     },
 ];
