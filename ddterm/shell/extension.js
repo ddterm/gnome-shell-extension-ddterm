@@ -223,7 +223,7 @@ function bind_keys(settings, app_control, rollback) {
 
 class EnabledExtension {
     #disable_callbacks = [];
-    #debug;
+    #logger;
 
     constructor(extension) {
         this.extension = extension;
@@ -351,7 +351,7 @@ class EnabledExtension {
             service: this.service,
             window_matcher: this.window_matcher,
             window_geometry: this.window_geometry,
-            debug: this.debug ?? null,
+            logger: this.logger ?? null,
         });
 
         rollback.push(() => {
@@ -454,29 +454,29 @@ class EnabledExtension {
             hide_animation: this.hide_animation,
         });
 
-        this.window_manager.debug = this.debug;
+        this.window_manager.logger = this.logger;
         this.window_manager.connect('hide-request', () => this.app_control.hide(false));
     }
 
-    get debug() {
-        return this.#debug;
+    get logger() {
+        return this.#logger;
     }
 
-    set debug(func) {
-        this.#debug = func;
+    set logger(logger) {
+        this.#logger = logger;
 
         if (this.window_manager)
-            this.window_manager.debug = func;
+            this.window_manager.logger = logger;
 
         if (this.app_control)
-            this.app_control.debug = func;
+            this.app_control.logger = logger;
     }
 }
 
 export default class DDTermExtension extends Extension {
     #app_extra_args = [];
     #app_extra_env = [];
-    #debug = null;
+    #logger = null;
 
     constructor(meta) {
         super(meta);
@@ -494,15 +494,15 @@ export default class DDTermExtension extends Extension {
         this.enabled_state = null;
     }
 
-    get debug() {
-        return this.#debug;
+    get logger() {
+        return this.#logger;
     }
 
-    set debug(func) {
-        this.#debug = func;
+    set logger(logger) {
+        this.#logger = logger;
 
         if (this.enabled_state)
-            this.enabled_state.debug = func;
+            this.enabled_state.logger = logger;
     }
 
     get app_extra_args() {
@@ -555,7 +555,7 @@ export default class DDTermExtension extends Extension {
 
     enable() {
         this.enabled_state = new EnabledExtension(this);
-        this.enabled_state.debug = this.debug;
+        this.enabled_state.logger = this.logger;
         this.enabled_state.service.extra_argv = this.app_extra_args;
         this.enabled_state.service.extra_env = this.app_extra_env;
     }

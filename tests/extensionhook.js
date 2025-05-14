@@ -10,6 +10,8 @@ import Shell from 'gi://Shell';
 
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 
+import Console from './logger.js';
+
 import {
     connect,
     connect_after,
@@ -331,15 +333,22 @@ const Interface = GObject.registerClass({
             this._destroy_callbacks.pop()();
     }
 
+    _get_logger() {
+        if (this.state_obj.getLogger)
+            return this.state_obj.getLogger();
+
+        return new Console(this.state_obj);
+    }
+
     get DebugLog() {
-        return Boolean(this.state_obj.debug);
+        return Boolean(this.state_obj.logger);
     }
 
     set DebugLog(value) {
         if (Boolean(value) === this.DebugLog)
             return;
 
-        this.state_obj.debug = value ? log : null;
+        this.state_obj.logger = value ? this._get_logger() : null;
         this.notify('DebugLog');
     }
 
