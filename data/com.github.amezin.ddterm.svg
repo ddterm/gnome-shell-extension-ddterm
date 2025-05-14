@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+    SPDX-FileCopyrightText: 2025 thenameisluk
+    SPDX-License-Identifier: CC0-1.0
+-->
 <svg height="128px" viewBox="0 0 128 128" width="128px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <linearGradient id="a" gradientTransform="matrix(0.244804 0 0 0.103187 -13.549061 89.955579)" gradientUnits="userSpaceOnUse" x1="103.871758" x2="529.153809" y1="-446.606262" y2="-446.606262">
         <stop offset="0" stop-color="#241f31"/>
