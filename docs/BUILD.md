@@ -1,5 +1,6 @@
 <!--
 SPDX-FileCopyrightText: 2022 Aleksandr Mezin <mezin.alexander@gmail.com>
+SPDX-FileContributor: 2023 Ivan Peshekhonov
 
 SPDX-License-Identifier: GPL-3.0-or-later
 -->

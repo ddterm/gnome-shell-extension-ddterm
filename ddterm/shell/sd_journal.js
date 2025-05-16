@@ -1,4 +1,5 @@
 // SPDX-FileCopyrightText: 2023 Aleksandr Mezin <mezin.alexander@gmail.com>
+// SPDX-FileContributor: 2024 Vicente Maroto Garzón
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
