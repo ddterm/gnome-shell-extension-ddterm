@@ -6,9 +6,10 @@ import { fileURLToPath } from 'node:url';
 import globals from 'globals';
 import importPlugin from 'eslint-plugin-import';
 import gjs from './lint/eslintrc-gjs.mjs';
-import gitIgnoredFiles from './lint/gitignore.mjs';
+import gitIgnores from './lint/gitignore.mjs';
 
 export default [
+    gitIgnores(new URL('./', import.meta.url)),
     importPlugin.flatConfigs.recommended,
     ...gjs,
     {
@@ -63,16 +64,6 @@ export default [
         },
     },
     {
-        files: ['**/eslint.config.{js,mjs,cjs}'],
-        languageOptions: {
-            globals: globals.node,
-        },
-        settings: {
-            'import/resolver': 'node',
-            'import/core-modules': [],
-        },
-    },
-    {
         files: [
             'lint/import-resolver.js',
             '.github/eslint-formatter.js',
@@ -85,8 +76,9 @@ export default [
     {
         files: [
             'lint/*.{js,mjs,cjs}',
-            '.github/eslint-formatter.js',
+            '.github/*.{js,mjs,cjs}',
             '.markdownlint{,-cli2}.{mjs,cjs}',
+            '**/eslint.config.{js,mjs,cjs}',
         ],
         languageOptions: {
             globals: globals.node,
@@ -104,8 +96,5 @@ export default [
         languageOptions: {
             sourceType: 'script',
         },
-    },
-    {
-        ignores: Array.from(gitIgnoredFiles(new URL('./', import.meta.url))),
     },
 ];
