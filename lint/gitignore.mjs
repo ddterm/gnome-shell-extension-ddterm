@@ -17,15 +17,18 @@ function getSubdirIgnores(ignoreFile, subdir) {
         return [];
 
     const { ignores } = includeIgnoreFile(ignoreFile);
-    const prefix = minimatchEscape(subdir);
+    const escapedSubdir = minimatchEscape(subdir);
 
-    return ignores.map(
-        pattern => pattern.replace(/^(!?)/, match => `${match}${prefix}`)
-    );
+    return ignores.map(pattern => new minimatch.Minimatch(
+        pattern.replace(/^!?/, negate => `${negate}${escapedSubdir}`),
+        { flipNegate: true }
+    ));
 }
 
 function collectSubdir(rootDir, subdir = '', parentIgnores = []) {
-    if (parentIgnores.some(pattern => minimatch(subdir, pattern)))
+    const ignored = parentIgnores.findLast(matcher => matcher.match(subdir));
+
+    if (ignored && !ignored.negate)
         return [];
 
     const absPath = join(rootDir, subdir);
@@ -52,6 +55,8 @@ export default function gitIgnores(rootDir = '.') {
 
     return {
         name: `.gitignore patterns from ${rootDir}`,
-        ignores: collectSubdir(rootDir),
+        ignores: collectSubdir(rootDir).map(
+            matcher => matcher.negate ? `!${matcher.pattern}` : matcher.pattern
+        ),
     };
 }
