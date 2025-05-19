@@ -1,0 +1,36 @@
+# SPDX-FileCopyrightText: 2025 Aleksandr Mezin <mezin.alexander@gmail.com>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+name: Create Arch Linux builder chroot
+description: Setup Arch Linux builder chroot using devtools
+
+inputs:
+  working-dir:
+    description: Chroot working directory
+    default: /var/tmp/root
+    required: true
+  package-list:
+    description: Packages to install in chroot
+    default: base-devel
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - run: pacman -Syu --noconfirm --noprogressbar devtools
+      shell: bash
+
+    - run: systemd-machine-id-setup
+      shell: bash
+
+    - run: sed -i '/^NoExtract/d' /etc/pacman.conf
+      shell: bash
+
+    - run: echo "$GITHUB_ACTION_PATH" >>"$GITHUB_PATH"
+      shell: bash
+
+    - run: mkarchroot -C /etc/pacman.conf -M /etc/makepkg.conf "$WORKING_DIR" ${{ inputs.package-list }}
+      shell: bash
+      env:
+        WORKING_DIR: ${{ inputs.working-dir }}

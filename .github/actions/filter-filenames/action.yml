@@ -1,0 +1,40 @@
+# SPDX-FileCopyrightText: 2025 Aleksandr Mezin <mezin.alexander@gmail.com>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+name: Match a list of file names against a list of patterns
+description: Get the list of all file names that match at least one of the patterns
+inputs:
+  filenames:
+    description: File names, as JSON list
+    required: true
+  patterns:
+    description: Glob patterns, one pattern per line
+    required: true
+
+outputs:
+  filenames:
+    description: File names that match the specified patterns, as JSON list
+    value: ${{ steps.match.outputs.result }}
+
+runs:
+  using: composite
+  steps:
+    - id: match
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const { resolve } = await import('node:path');
+
+          const { patterns } = await glob.create(core.getInput('patterns', { required: true }));
+          const allNegated = !patterns.some(pattern => !pattern.negate);
+
+          return JSON.parse(core.getInput('filenames', { required: true })).filter(filename => {
+            filename = resolve(filename);
+            const match = patterns.findLast(pattern => pattern.match(filename));
+            return (allNegated || match) && !match?.negate;
+          });
+
+      env:
+        INPUT_FILENAMES: ${{ inputs.filenames }}
+        INPUT_PATTERNS: ${{ inputs.patterns }}

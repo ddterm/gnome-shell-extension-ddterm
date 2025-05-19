@@ -1,0 +1,89 @@
+# SPDX-FileCopyrightText: 2025 Aleksandr Mezin <mezin.alexander@gmail.com>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+name: Run tests in Podman container
+description: Run tests in Podman container and upload reports
+
+inputs:
+  container:
+    description: Container image or service name from tests/compose.yaml
+    required: true
+  user:
+    description: User to run tests under
+    default: github-actions:github-actions
+    required: true
+  testspace:
+    description: Upload results to testspace
+    default: 'false'
+    required: true
+  args:
+    description: Arguments to pass to the tests
+
+runs:
+  using: composite
+  steps:
+    - run: mount --make-rshared /
+      shell: bash
+
+    - id: root-cgroup
+      run: grep '^0::' /proc/self/cgroup | sed 's/^0::/cgroup=/' >>"$GITHUB_OUTPUT"
+      shell: bash
+
+    - run: chown -R "$TARGET_USER" "/sys/fs/cgroup${CGROUP}"
+      shell: bash
+      env:
+        TARGET_USER: ${{ inputs.user }}
+        CGROUP: ${{ steps.root-cgroup.outputs.cgroup }}
+
+    - run: chown -R "$TARGET_USER" .
+      shell: bash
+      env:
+        TARGET_USER: ${{ inputs.user }}
+
+    - shell: bash
+      run: >-
+        sudo --preserve-env --set-home "--user=${TARGET_USER%%:*}" --
+        tox -e images -- pull "$CONTAINER"
+      env:
+        TARGET_USER: ${{ inputs.user }}
+        CONTAINER: ${{ inputs.container }}
+
+    - id: setup-testspace
+      uses: testspace-com/setup-testspace@v1
+      with:
+        domain: ${{ github.repository_owner }}
+      continue-on-error: true
+      if: fromJSON(inputs.testspace)
+
+    - id: test
+      shell: bash
+      run: >-
+        sudo --preserve-env --set-home "--user=${TARGET_USER%%:*}" --
+        tox -e pytest --
+        --self-contained-html
+        --junitxml=tests/junit.xml
+        "--container=$CONTAINER"
+        -n auto
+        -vv
+        ${{ inputs.args }}
+      env:
+        TARGET_USER: ${{ inputs.user }}
+        CONTAINER: ${{ inputs.container }}
+
+    - if: always() && steps.setup-testspace.outcome == 'success'
+      shell: bash
+      run: >-
+        testspace --verbose
+        "[$CONTAINER]./tests/junit.xml"
+        "[$CONTAINER]+./tests/report.html"
+      env:
+        CONTAINER: ${{ inputs.container }}
+
+    - if: always() && steps.test.outcome != 'skipped' && steps.test.outcome != 'cancelled'
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ inputs.container }}-reports
+        path: |
+          tests/report.html
+          tests/junit.xml
