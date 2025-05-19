@@ -1,0 +1,35 @@
+# SPDX-FileCopyrightText: 2025 Aleksandr Mezin <mezin.alexander@gmail.com>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+name: Check meson.build formatting
+description: Check meson.build formatting using "meson format"
+
+runs:
+  using: composite
+  steps:
+    - id: generic-problem-matcher
+      uses: ./.github/actions/generic-problem-matcher
+
+    - run: git reset --hard
+      shell: bash
+
+    - run: tox -e meson-format -- -r -i
+      shell: bash
+
+    - uses: ./.github/actions/generic-problem-matcher
+      with:
+        enable: false
+      if: ${{ always() && steps.generic-problem-matcher.outcome == 'success' }}
+
+    - shell: bash
+      run: |
+        if ! git diff --exit-code --color=always
+        then
+          echo "::error:: meson.build formatting is incorrect. Please run: meson format -e -r -i"
+          exit 1
+        fi
+
+    - run: git reset --hard
+      shell: bash
+      if: always()

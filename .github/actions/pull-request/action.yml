@@ -1,0 +1,68 @@
+# SPDX-FileCopyrightText: 2025 Aleksandr Mezin <mezin.alexander@gmail.com>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+name: Create pull request
+description: Create a pull request adding/updating the specified files
+
+inputs:
+  app-id:
+    description: App ID
+    default: '235906'
+    required: true
+
+  private-key:
+    description: App private key
+    required: true
+
+  title:
+    description: Pull request and commit title
+    required: true
+
+  description:
+    description: Pull request and commit description
+    required: false
+
+  files:
+    description: List of files/glob patterns to include in the commit and pull request, one per line
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - id: token
+      uses: actions/create-github-app-token@v2
+      with:
+        app-id: ${{ inputs.app-id }}
+        private-key: ${{ inputs.private-key }}
+        permission-contents: write
+        permission-pull-requests: write
+
+    - id: commit
+      uses: amezin/create-commit-action@v1
+      with:
+        github-token: ${{ steps.app-token.outputs.token }}
+        files: ${{ inputs.files }}
+        message: |
+          ${{ inputs.title }}
+
+          ${{ inputs.description }}
+
+    - uses: amezin/create-or-update-git-ref-action@v1
+      if: steps.commit.outputs.sha
+      with:
+        github-token: ${{ steps.token.outputs.token }}
+        sha: ${{ steps.commit.outputs.sha }}
+        ref: refs/heads/${{ inputs.branch }}
+        force: true
+
+    - uses: amezin/create-or-update-pull-request-action@v1
+      if: steps.commit.outputs.sha
+      with:
+        github-token: ${{ steps.app-token.outputs.token }}
+        head: ${{ inputs.branch }}
+        title: ${{ inputs.title }}
+        body: |
+          ${{ inputs.description }}
+
+          Automatically generated pull request, do not edit. Any changes will be overwritten.

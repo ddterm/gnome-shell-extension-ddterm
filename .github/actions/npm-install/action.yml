@@ -1,0 +1,20 @@
+# SPDX-FileCopyrightText: 2025 Aleksandr Mezin <mezin.alexander@gmail.com>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+name: Install development dependencies from npm
+description: Install development dependencies from npm
+
+runs:
+  using: composite
+  steps:
+    - id: npm-problem-matcher
+      uses: ./.github/actions/generic-problem-matcher
+
+    - run: npm install
+      shell: bash
+
+    - uses: ./.github/actions/generic-problem-matcher
+      with:
+        enable: false
+      if: ${{ always() && steps.npm-problem-matcher.outcome == 'success' }}

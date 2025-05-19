@@ -1,0 +1,35 @@
+# SPDX-FileCopyrightText: 2025 Aleksandr Mezin <mezin.alexander@gmail.com>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+name: Check Python requirements .txt files
+description: Verify that Python requirements .txt files are in sync with .in files
+
+runs:
+  using: composite
+  steps:
+    - id: generic-problem-matcher
+      uses: ./.github/actions/generic-problem-matcher
+
+    - run: git reset --hard
+      shell: bash
+
+    - run: tox -e pip-compile
+      shell: bash
+
+    - uses: ./.github/actions/generic-problem-matcher
+      with:
+        enable: false
+      if: ${{ always() && steps.generic-problem-matcher.outcome == 'success' }}
+
+    - shell: bash
+      run: |
+        if ! git diff --exit-code --color=always
+        then
+          echo "::error:: Python dependencies lock files are out of date. Please run: requirements/pip-compile.sh"
+          exit 1
+        fi
+
+    - run: git reset --hard
+      shell: bash
+      if: always()

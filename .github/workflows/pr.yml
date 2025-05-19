@@ -1,47 +1,17 @@
-# SPDX-FileCopyrightText: 2022 Aleksandr Mezin <mezin.alexander@gmail.com>
+# SPDX-FileCopyrightText: 2025 Aleksandr Mezin <mezin.alexander@gmail.com>
 #
-# SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-License-Identifier: CC0-1.0
 
 name: pr
 
-concurrency: ${{ github.workflow }}/${{ github.ref }}
+concurrency: ${{ github.ref }}
 
 on:
   pull_request:
-    paths-ignore:
-      - docs/**
-      - po/**
-      - README.md
-      - Vagrantfile
-      - vagrant-provision/**
+
+permissions:
+  contents: read
 
 jobs:
-  build:
-    uses: ./.github/workflows/build.yml
-    with:
-      testspace: ${{ !github.event.repository.fork }}
-
-    if: >-
-      startsWith(github.event.pull_request.head.ref, 'renovate/')
-      || github.event.pull_request.base.repo.node_id != github.event.pull_request.head.repo.node_id
-
-  test:
-    needs: build
-    uses: ./.github/workflows/test.yml
-    with:
-      testspace: ${{ !github.event.repository.fork }}
-
-  translations:
-    uses: ./.github/workflows/pot.yml
-    with:
-      commit: false
-    secrets: inherit
-    if: >-
-      startsWith(github.event.pull_request.head.ref, 'renovate/')
-      || github.event.pull_request.base.repo.node_id != github.event.pull_request.head.repo.node_id
-
-  packaging:
-    needs: build
-    uses: ./.github/workflows/packaging.yml
-    with:
-      testspace: ${{ !github.event.repository.fork }}
+  ci:
+    uses: ./.github/workflows/ci.yml

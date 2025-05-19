@@ -1,0 +1,37 @@
+# SPDX-FileCopyrightText: 2025 Aleksandr Mezin <mezin.alexander@gmail.com>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+name: Build Arch Linux package
+description: Build Arch Linux package in chroot created by mkarchroot
+
+inputs:
+  user:
+    description: Build user name
+    default: builduser
+    required: true
+  chrootdir:
+    description: Chroot directory
+    default: /var/tmp
+    required: true
+  makepkg-args:
+    description: Arguments to pass to makepkg
+
+runs:
+  using: composite
+  steps:
+    - run: useradd -m "$BUILDUSER"
+      shell: bash
+      env:
+        BUILDUSER: ${{ inputs.user }}
+
+    - run: chown -R "$BUILDUSER" .
+      shell: bash
+      env:
+        BUILDUSER: ${{ inputs.user }}
+
+    - run: makechrootpkg -U "$BUILDUSER" -r "$CHROOTDIR" -c -n -- ${{ inputs.makepkg-args }}
+      shell: bash
+      env:
+        BUILDUSER: ${{ inputs.user }}
+        CHROOTDIR: ${{ inputs.chrootdir }}

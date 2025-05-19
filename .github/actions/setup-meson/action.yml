@@ -1,0 +1,18 @@
+# SPDX-FileCopyrightText: 2025 Aleksandr Mezin <mezin.alexander@gmail.com>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+name: Install Meson
+description: Install Meson using tox and add to PATH
+
+runs:
+  using: composite
+  steps:
+    - uses: ./.github/actions/tox-preinstall
+      with:
+        environments: meson
+
+    - run: echo "$GITHUB_WORKSPACE/.tox/meson/bin" >>"$GITHUB_PATH"
+      shell: bash
+
+    - uses: ./.github/actions/generic-problem-matcher

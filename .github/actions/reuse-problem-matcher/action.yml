@@ -2,8 +2,8 @@
 #
 # SPDX-License-Identifier: CC0-1.0
 
-name: msgfmt statistics problem matcher
-description: Enable/disable msgfmt statistics problem matcher
+name: REUSE tool problem matcher
+description: Enable/disable REUSE tool problem matcher
 inputs:
   enable:
     description: Enable if `true`, disable if `false`
@@ -13,10 +13,10 @@ inputs:
 runs:
   using: composite
   steps:
-    - run: echo "::add-matcher::$GITHUB_ACTION_PATH/gettext-stats.json"
+    - run: echo "::add-matcher::$GITHUB_ACTION_PATH/reuse.json"
       shell: sh
       if: fromJSON(inputs.enable)
 
-    - run: echo "::remove-matcher owner=gettext-stats::"
+    - run: echo "::remove-matcher owner=reuse::"
       shell: sh
       if: '!fromJSON(inputs.enable)'

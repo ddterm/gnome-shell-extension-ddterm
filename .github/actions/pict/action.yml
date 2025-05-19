@@ -1,0 +1,35 @@
+# SPDX-FileCopyrightText: 2025 Aleksandr Mezin <mezin.alexander@gmail.com>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+name: Check PICT test cases
+description: Verify that PICT test cases are in sync with models
+
+runs:
+  using: composite
+  steps:
+    - id: generic-problem-matcher
+      uses: ./.github/actions/generic-problem-matcher
+
+    - run: git reset --hard
+      shell: bash
+
+    - run: make -C tests/pict
+      shell: bash
+
+    - uses: ./.github/actions/generic-problem-matcher
+      with:
+        enable: false
+      if: ${{ always() && steps.generic-problem-matcher.outcome == 'success' }}
+
+    - shell: bash
+      run: |
+        if ! git diff --exit-code --color=always
+        then
+          echo "::error:: PICT test cases are out of sync with models. Please run: tests/pict/gen.sh"
+          exit 1
+        fi
+
+    - run: git reset --hard
+      shell: bash
+      if: always()
