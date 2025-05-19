@@ -14,7 +14,7 @@ iniconfig==2.1.0
     # via pytest
 packaging==25.0
     # via pytest
-pluggy==1.5.0
+pluggy==1.6.0
     # via pytest
 psutil==7.0.0
     # via pytest-xdist
