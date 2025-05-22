@@ -1,0 +1,22 @@
+# SPDX-FileCopyrightText: 2025 Aleksandr Mezin <mezin.alexander@gmail.com>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+name: Run ESLint
+description: Run ESLint with error annotations
+
+runs:
+  using: composite
+  steps:
+    - id: eslint-problem-matcher
+      uses: ./.github/actions/eslint-stylish-problem-matcher
+
+    - run: npm run-script lint:eslint
+      shell: bash
+      env:
+        FORCE_COLOR: 0
+
+    - uses: ./.github/actions/eslint-stylish-problem-matcher
+      with:
+        enable: false
+      if: ${{ always() && steps.eslint-problem-matcher.outcome == 'success' }}

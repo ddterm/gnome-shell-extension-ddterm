@@ -1,0 +1,30 @@
+# SPDX-FileCopyrightText: 2025 Aleksandr Mezin <mezin.alexander@gmail.com>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+name: Pre-create tox environment
+description: Pre-create tox environment
+
+inputs:
+  environments:
+    description: Tox environment name(s), comma-separated
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - id: tox-problem-matcher
+      uses: ./.github/actions/generic-problem-matcher
+
+    - run: mkdir -p "$HOME/.cache/pip"
+      shell: bash
+
+    - run: tox -v --notest -e "$TOX_ENVLIST"
+      shell: bash
+      env:
+        TOX_ENVLIST: ${{ inputs.environments }}
+
+    - uses: ./.github/actions/generic-problem-matcher
+      with:
+        enable: false
+      if: ${{ always() && steps.tox-problem-matcher.outcome == 'success' }}
