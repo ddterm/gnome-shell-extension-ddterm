@@ -30,7 +30,7 @@ pytest-html==3.2.0
     # via -r test.in
 pytest-metadata==3.1.1
     # via pytest-html
-pytest-xdist==3.6.1
+pytest-xdist==3.7.0
     # via -r test.in
 pyyaml==6.0.2
     # via -r test.in
