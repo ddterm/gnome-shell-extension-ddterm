@@ -32,7 +32,7 @@ jobs:
   build:
     runs-on: ubuntu-24.04
     container:
-      image: ghcr.io/ddterm/ci-docker-image:2025.04.16.0
+      image: ghcr.io/ddterm/ci-docker-image:2025.06.03.0
 
     steps:
     - name: Checkout
