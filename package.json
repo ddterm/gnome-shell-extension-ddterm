@@ -10,7 +10,7 @@
     },
     "devDependencies": {
         "@eslint/compat": "^1.2.9",
-        "eslint": "9.27.0",
+        "eslint": "9.28.0",
         "eslint-formatter-checkstyle": "^8.40.0",
         "eslint-formatter-stylish": "^8.40.0",
         "eslint-plugin-import": "^2.29.1",
