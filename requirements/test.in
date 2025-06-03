@@ -4,7 +4,7 @@
 
 --only-binary :all:
 
-pytest~=8.3.1
+pytest~=8.4.0
 pytest-html~=3.2.0
 ansi2html~=1.9.1
 pyyaml~=6.0
