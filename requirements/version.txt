@@ -10,7 +10,7 @@ anyio==4.9.0
     # via httpx
 bracex==2.5.post1
     # via wcmatch
-bump-my-version==1.1.4
+bump-my-version==1.2.0
     # via -r version.in
 certifi==2025.4.26
     # via
