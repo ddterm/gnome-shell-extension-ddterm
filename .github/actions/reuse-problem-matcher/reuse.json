@@ -1,0 +1,14 @@
+{
+    "problemMatcher": [
+        {
+            "owner": "reuse",
+            "pattern": [
+                {
+                    "regexp": "^([^:]+)\\s*:\\s+(.*(license|copyright|error).*)$",
+                    "file": 1,
+                    "message": 2
+                }
+            ]
+        }
+    ]
+}

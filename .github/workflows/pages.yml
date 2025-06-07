@@ -1,36 +1,43 @@
 # SPDX-FileCopyrightText: 2025 Aleksandr Mezin <mezin.alexander@gmail.com>
 #
-# SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-License-Identifier: CC0-1.0
+
+name: github-pages
+
+concurrency:
+  group: ${{ github.workflow }}
 
 on:
   workflow_dispatch:
     inputs:
-      publish:
-        description: Deploy pages
-        type: boolean
-        default: false
-        required: false
+      run_id:
+        description: Source workflow run id
+        required: true
 
-  workflow_call:
-    inputs:
-      publish:
-        description: Deploy pages
-        type: boolean
-        default: false
-        required: false
+  workflow_run:
+    workflows:
+      - ci
+    types:
+      - completed
+    branches:
+      - master
 
 jobs:
   build:
     runs-on: ubuntu-24.04
-
+    timeout-minutes: 5
     steps:
       - uses: actions/download-artifact@v4
         with:
+          run-id: ${{ github.event.workflow_run.id || inputs.run_id }}
           name: pack
+          github-token: ${{ github.token }}
 
       - uses: actions/download-artifact@v4
         with:
-          name: archlinux-package-nocheck
+          run-id: ${{ github.event.workflow_run.id || inputs.run_id }}
+          name: archlinux-package
+          github-token: ${{ github.token }}
 
       - uses: actions/upload-pages-artifact@v3
         with:
@@ -38,8 +45,9 @@ jobs:
 
   publish:
     needs: build
+    if: github.event.workflow_run
     runs-on: ubuntu-24.04
-    if: ${{ inputs.publish }}
+    timeout-minutes: 5
 
     permissions:
       pages: write

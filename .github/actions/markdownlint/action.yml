@@ -1,0 +1,20 @@
+# SPDX-FileCopyrightText: 2025 Aleksandr Mezin <mezin.alexander@gmail.com>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+name: Run markdownlint-cli2
+description: Run markdownlint-cli2 with error annotations
+
+runs:
+  using: composite
+  steps:
+    - id: markdownlint-problem-matcher
+      uses: ./.github/actions/generic-problem-matcher
+
+    - run: npm run-script lint:markdownlint
+      shell: bash
+
+    - uses: ./.github/actions/generic-problem-matcher
+      with:
+        enable: false
+      if: ${{ always() && steps.markdownlint-problem-matcher.outcome == 'success' }}
