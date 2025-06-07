@@ -55,19 +55,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - id: changed-files
+      - id: diff
         if: github.event_name != 'workflow_dispatch' && github.event_name != 'workflow_call'
-        name: List changed files
-        uses: ./.github/actions/compare-list-changed-files
+        name: Check if tests are necessary
+        uses: amezin/compare-commit-files-action@v1
         continue-on-error: true
-
-      - id: need-run-tests
-        if: steps.changed-files.outcome == 'success'
-        name: Determine if test run is necessary
-        uses: ./.github/actions/filter-filenames
         with:
-          filenames: ${{ steps.changed-files.outputs.filenames }}
-          patterns: |
+          files: |
             .github/bin/**
             .github/workflows/**
             bin/**
@@ -92,7 +86,7 @@ jobs:
             inputs.run-tests
           ) || (
             (github.event_name != 'workflow_dispatch' && github.event_name != 'workflow_call') &&
-            (steps.need-run-tests.outcome == 'skipped' || steps.need-run-tests.outputs.filenames != '[]')
+            steps.diff.outputs.changed != 'true'
           )
 
         working-directory: tests
