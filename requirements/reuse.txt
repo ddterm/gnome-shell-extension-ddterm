@@ -28,5 +28,5 @@ python-debian==1.0.1
     # via reuse
 reuse==5.0.2
     # via -r reuse.in
-tomlkit==0.13.2
+tomlkit==0.13.3
     # via reuse
