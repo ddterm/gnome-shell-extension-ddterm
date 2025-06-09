@@ -3,20 +3,24 @@
 # SPDX-License-Identifier: CC0-1.0
 
 name: Run flake8
-description: Run flake8 with error annotations
+description: Run flake8 with SARIF report
 
 runs:
   using: composite
   steps:
-    - id: flake8-problem-matcher
-      uses: ./.github/actions/flake8-problem-matcher
-
-    - run: tox -e flake8
+    - run: tox -e flake8 -- "--append-config=$GITHUB_ACTION_PATH/config.ini" --format=sarif-tee "--output-file=$RUNNER_TEMP/flake8.sarif"
       shell: bash
-      env:
-        FORCE_COLOR: 0
 
-    - uses: ./.github/actions/flake8-problem-matcher
+    - id: env
+      run: |
+        echo "github_workspace=$GITHUB_WORKSPACE" >>"$GITHUB_OUTPUT"
+        echo "runner_temp=$RUNNER_TEMP" >>"$GITHUB_OUTPUT"
+      shell: bash
+      if: always()
+
+    - uses: github/codeql-action/upload-sarif@v3
+      if: always()
       with:
-        enable: false
-      if: ${{ always() && steps.flake8-problem-matcher.outcome == 'success' }}
+        sarif_file: ${{ steps.env.outputs.runner_temp }}/flake8.sarif
+        checkout_path: ${{ steps.env.outputs.github_workspace }}
+        category: flake8

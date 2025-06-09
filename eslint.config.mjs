@@ -76,7 +76,7 @@ export default [
     {
         files: [
             'lint/*.{js,mjs,cjs}',
-            '.github/*.{js,mjs,cjs}',
+            '.github/**/*.{js,mjs,cjs}',
             '.markdownlint{,-cli2}.{mjs,cjs}',
             '**/eslint.config.{js,mjs,cjs}',
         ],

@@ -3,3 +3,4 @@
 # SPDX-License-Identifier: CC0-1.0
 
 flake8~=7.2.0
+flake8-sarif-formatter~=1.0.1

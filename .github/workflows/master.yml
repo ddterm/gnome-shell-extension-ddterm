@@ -11,11 +11,12 @@ on:
     branches:
       - master
 
-permissions:
-  contents: read
-
 jobs:
   ci:
+    permissions:
+      contents: read
+      security-events: write
+
     uses: ./.github/workflows/ci.yml
     secrets: inherit
     with:

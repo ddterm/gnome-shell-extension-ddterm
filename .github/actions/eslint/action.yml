@@ -3,20 +3,24 @@
 # SPDX-License-Identifier: CC0-1.0
 
 name: Run ESLint
-description: Run ESLint with error annotations
+description: Run ESLint with SARIF report
 
 runs:
   using: composite
   steps:
-    - id: eslint-problem-matcher
-      uses: ./.github/actions/eslint-stylish-problem-matcher
-
-    - run: npm run-script lint:eslint
+    - run: npm run-script lint:eslint -- --format "$GITHUB_ACTION_PATH/formatter.mjs" -o "$RUNNER_TEMP/eslint.sarif"
       shell: bash
-      env:
-        FORCE_COLOR: 0
 
-    - uses: ./.github/actions/eslint-stylish-problem-matcher
+    - id: env
+      run: |
+        echo "github_workspace=$GITHUB_WORKSPACE" >>"$GITHUB_OUTPUT"
+        echo "runner_temp=$RUNNER_TEMP" >>"$GITHUB_OUTPUT"
+      shell: bash
+      if: always()
+
+    - uses: github/codeql-action/upload-sarif@v3
+      if: always()
       with:
-        enable: false
-      if: ${{ always() && steps.eslint-problem-matcher.outcome == 'success' }}
+        sarif_file: ${{ steps.env.outputs.runner_temp }}/eslint.sarif
+        checkout_path: ${{ steps.env.outputs.github_workspace }}
+        category: eslint
