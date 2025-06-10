@@ -424,6 +424,11 @@ jobs:
           merge-multiple: false
         continue-on-error: true
 
+      - run: >-
+          find . -type d -exec bash -c
+          'tree "$0" -h --du -H "/${GITHUB_REPOSITORY#*/}/${0:2}" -o "$0/index.html"'
+          '{}' ';'
+
       - uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3.0.1
         with:
           path: .
