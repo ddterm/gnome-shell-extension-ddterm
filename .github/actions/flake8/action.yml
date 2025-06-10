@@ -18,7 +18,7 @@ runs:
       shell: bash
       if: always()
 
-    - uses: github/codeql-action/upload-sarif@v3
+    - uses: github/codeql-action/upload-sarif@fca7ace96b7d713c7035871441bd52efbe39e27e # v3.28.19
       if: always()
       with:
         sarif_file: ${{ steps.env.outputs.runner_temp }}/flake8.sarif

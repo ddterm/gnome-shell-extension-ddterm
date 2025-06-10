@@ -43,11 +43,11 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
       - id: diff
         name: Check if tests are necessary
-        uses: amezin/compare-commit-files-action@v1
+        uses: amezin/compare-commit-files-action@3838049371230a8af6e21d79a266c2521185d1a6 # v1.0.0
         continue-on-error: true
         with:
           files: |
@@ -90,7 +90,7 @@ jobs:
     steps:
       - name: Checkout
         id: checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
       - run: git config --global --replace-all safe.directory "$GITHUB_WORKSPACE"
 
@@ -146,7 +146,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
       - run: git config --global --replace-all safe.directory "$GITHUB_WORKSPACE"
 
@@ -163,7 +163,7 @@ jobs:
         working-directory: build
 
       - name: Upload extension package as artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: ${{ github.job }}
           path: "build/*.shell-extension.zip"
@@ -192,7 +192,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
       - run: git config --global --replace-all safe.directory "$GITHUB_WORKSPACE"
 
@@ -256,12 +256,12 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
       - run: git config --global --replace-all safe.directory "$GITHUB_WORKSPACE"
 
       - name: Download extension package
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
         with:
           name: extension-package
 
@@ -288,12 +288,12 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     container:
-      image: archlinux:base-devel
+      image: archlinux:base-devel@sha256:5b87f50b25ce0ea047a13cdcd0043b22f61f6b341e3264b49d8ec98eb4308d25
       options: --privileged --tmpfs /run
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           fetch-depth: 0  # for pkgver()
 
@@ -305,7 +305,7 @@ jobs:
         with:
           makepkg-args: --nocheck
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: ${{ github.job }}
           path: |
@@ -334,12 +334,12 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
       - run: git config --global --replace-all safe.directory "$GITHUB_WORKSPACE"
 
       - name: Download extension package
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
         with:
           name: archlinux-package
 
@@ -366,12 +366,12 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     container:
-      image: archlinux:base-devel
+      image: archlinux:base-devel@sha256:5b87f50b25ce0ea047a13cdcd0043b22f61f6b341e3264b49d8ec98eb4308d25
       options: --privileged --tmpfs /run
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           fetch-depth: 0  # for pkgver()
 
@@ -383,7 +383,7 @@ jobs:
         with:
           makepkg-args: --check
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: ${{ github.job }}
           path: |
@@ -407,26 +407,26 @@ jobs:
       contents: read
 
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
         with:
           name: extension-package
 
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
         with:
           name: archlinux-package
         continue-on-error: true
 
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
         with:
           name: archlinux-package-check
         continue-on-error: true
 
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
         with:
           pattern: '*-reports'
           merge-multiple: false
         continue-on-error: true
 
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3.0.1
         with:
           path: .

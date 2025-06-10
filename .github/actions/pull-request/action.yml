@@ -31,7 +31,7 @@ runs:
   using: composite
   steps:
     - id: token
-      uses: actions/create-github-app-token@v2
+      uses: actions/create-github-app-token@df432ceedc7162793a195dd1713ff69aefc7379e # v2.0.6
       with:
         app-id: ${{ inputs.app-id }}
         private-key: ${{ inputs.private-key }}
@@ -39,7 +39,7 @@ runs:
         permission-pull-requests: write
 
     - id: commit
-      uses: amezin/create-commit-action@v1
+      uses: amezin/create-commit-action@36e15a93b30ae4f274e010f98db8eb856d3bd818 # v1.0.1
       with:
         github-token: ${{ steps.app-token.outputs.token }}
         files: ${{ inputs.files }}
@@ -48,7 +48,7 @@ runs:
 
           ${{ inputs.description }}
 
-    - uses: amezin/create-or-update-git-ref-action@v1
+    - uses: amezin/create-or-update-git-ref-action@d6e61b360347b82241fe5c7bcc2139beaaf35377 # v1.0.0
       if: steps.commit.outputs.sha
       with:
         github-token: ${{ steps.token.outputs.token }}
@@ -56,7 +56,7 @@ runs:
         ref: refs/heads/${{ inputs.branch }}
         force: true
 
-    - uses: amezin/create-or-update-pull-request-action@v1
+    - uses: amezin/create-or-update-pull-request-action@cef951ec6ae545fc08107d4bebcc5dbf78ebacff # v1.0.0
       if: steps.commit.outputs.sha
       with:
         github-token: ${{ steps.app-token.outputs.token }}

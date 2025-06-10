@@ -50,7 +50,7 @@ runs:
         CONTAINER: ${{ inputs.container }}
 
     - id: setup-testspace
-      uses: testspace-com/setup-testspace@v1
+      uses: testspace-com/setup-testspace@8472399a8030486c043937b8451b5e743f961ae0 # v1.0.7
       with:
         domain: ${{ github.repository_owner }}
       continue-on-error: true
@@ -81,7 +81,7 @@ runs:
         CONTAINER: ${{ inputs.container }}
 
     - if: always() && steps.test.outcome != 'skipped' && steps.test.outcome != 'cancelled'
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
       with:
         name: ${{ inputs.container }}-reports
         path: |
