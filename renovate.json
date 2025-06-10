@@ -10,7 +10,7 @@
   "automerge": true,
   "pip-compile": {
     "managerFilePatterns": [
-      "/(^|/)requirements/([\\w-]*)\\.txt$/"
+      "requirements/*.txt"
     ]
   },
   "pip_requirements": {
@@ -20,8 +20,8 @@
     {
       "customType": "regex",
       "managerFilePatterns": [
-        "/.+\\.sh$/",
-        "/^\\.github/workflows/.+\\.ya?ml/"
+        "*.sh",
+        ".github/workflows/*.{yml,yaml}"
       ],
       "matchStrings": [
         "#\\s*renovate:\\s+datasource=(?<datasource>[^\\s]+)\\s+depName=(?<depName>[^\\s]+)(\\s+(lookupName|packageName)=(?<packageName>[^\\s]+))?(\\s+versioning=(?<versioning>[^\\s]+))?\\n\\s*\\w+=[\"']?(?<currentValue>[^\\s\"']+)[\"']?(\\s|$)"
