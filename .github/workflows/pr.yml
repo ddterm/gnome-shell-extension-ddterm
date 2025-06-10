@@ -9,9 +9,9 @@ concurrency: ${{ github.ref }}
 on:
   pull_request:
 
+permissions:
+  contents: read
+
 jobs:
   ci:
     uses: ./.github/workflows/ci.yml
-    permissions:
-      contents: read
-      security-events: write

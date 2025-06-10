@@ -83,10 +83,6 @@ jobs:
     container:
       image: ghcr.io/ddterm/ci-docker-image:2025.06.10.1
 
-    permissions:
-      contents: read
-      security-events: write
-
     steps:
       - name: Checkout
         id: checkout

@@ -1,8 +1,0 @@
-# SPDX-FileCopyrightText: 2025 Aleksandr Mezin <mezin.alexander@gmail.com>
-#
-# SPDX-License-Identifier: CC0-1.0
-
-# yaml-language-server: $schema=https://raw.githubusercontent.com/DavidAnson/markdownlint-cli2/main/schema/markdownlint-cli2-config-schema.json
-
-outputFormatters:
-  - [markdownlint-cli2-formatter-pretty]

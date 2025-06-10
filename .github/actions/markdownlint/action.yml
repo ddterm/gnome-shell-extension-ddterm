@@ -3,24 +3,18 @@
 # SPDX-License-Identifier: CC0-1.0
 
 name: Run markdownlint-cli2
-description: Run markdownlint-cli2 with SARIF report
+description: Run markdownlint-cli2 with error annotations
 
 runs:
   using: composite
   steps:
-    - run: npm run-script lint:markdownlint -- --config "$GITHUB_ACTION_PATH/github.markdownlint-cli2.mjs"
+    - id: markdownlint-problem-matcher
+      uses: ./.github/actions/generic-problem-matcher
+
+    - run: npm run-script lint:markdownlint
       shell: bash
 
-    - id: env
-      run: |
-        echo "github_workspace=$GITHUB_WORKSPACE" >>"$GITHUB_OUTPUT"
-        echo "runner_temp=$RUNNER_TEMP" >>"$GITHUB_OUTPUT"
-      shell: bash
-      if: always()
-
-    - uses: github/codeql-action/upload-sarif@fca7ace96b7d713c7035871441bd52efbe39e27e # v3.28.19
-      if: always()
+    - uses: ./.github/actions/generic-problem-matcher
       with:
-        sarif_file: ${{ steps.env.outputs.runner_temp }}/markdownlint.sarif
-        checkout_path: ${{ steps.env.outputs.github_workspace }}
-        category: markdownlint
+        enable: false
+      if: ${{ always() && steps.markdownlint-problem-matcher.outcome == 'success' }}
