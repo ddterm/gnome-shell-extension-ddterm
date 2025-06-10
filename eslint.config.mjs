@@ -20,7 +20,7 @@ export default [
         rules: {
             'max-len': [
                 'error',
-                100,
+                95,
                 { ignoreUrls: true },
             ],
             'consistent-return': 'error',
