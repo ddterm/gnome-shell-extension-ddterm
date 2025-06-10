@@ -11,7 +11,11 @@ inputs:
     required: true
   user:
     description: User to run tests under
-    default: github-actions:github-actions
+    default: github-actions
+    required: true
+  group:
+    description: Group to run tests under
+    default: github-actions
     required: true
   testspace:
     description: Upload results to testspace
@@ -30,23 +34,15 @@ runs:
       run: grep '^0::' /proc/self/cgroup | sed 's/^0::/cgroup=/' >>"$GITHUB_OUTPUT"
       shell: bash
 
-    - run: chown -R "$TARGET_USER" "/sys/fs/cgroup${CGROUP}"
+    - run: chown -R "$TARGET_USER" "/sys/fs/cgroup${CGROUP}" "$GITHUB_WORKSPACE"
       shell: bash
       env:
-        TARGET_USER: ${{ inputs.user }}
+        TARGET_USER: ${{ inputs.user }}:${{ inputs.group }}
         CGROUP: ${{ steps.root-cgroup.outputs.cgroup }}
 
-    - run: chown -R "$TARGET_USER" .
-      shell: bash
+    - shell: sudo --preserve-env --set-home --user=${{ inputs.user }} --group=${{ inputs.group }} -- bash -e {0}
+      run: tox -e images -- pull "$CONTAINER"
       env:
-        TARGET_USER: ${{ inputs.user }}
-
-    - shell: bash
-      run: >-
-        sudo --preserve-env --set-home "--user=${TARGET_USER%%:*}" --
-        tox -e images -- pull "$CONTAINER"
-      env:
-        TARGET_USER: ${{ inputs.user }}
         CONTAINER: ${{ inputs.container }}
 
     - id: setup-testspace
@@ -57,9 +53,8 @@ runs:
       if: fromJSON(inputs.testspace)
 
     - id: test
-      shell: bash
+      shell: sudo --preserve-env --set-home --user=${{ inputs.user }} --group=${{ inputs.group }} -- bash -e {0}
       run: >-
-        sudo --preserve-env --set-home "--user=${TARGET_USER%%:*}" --
         tox -e pytest --
         --self-contained-html
         --junitxml=tests/junit.xml
@@ -68,7 +63,6 @@ runs:
         -vv
         ${{ inputs.args }}
       env:
-        TARGET_USER: ${{ inputs.user }}
         CONTAINER: ${{ inputs.container }}
 
     - if: always() && steps.setup-testspace.outcome == 'success'
