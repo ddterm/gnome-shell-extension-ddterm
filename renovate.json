@@ -1,13 +1,13 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "mergeConfidence:all-badges",
-    "config:recommended",
-    ":maintainLockFilesWeekly",
+    "config:best-practices",
+    "config:js-app",
     "npm:unpublishSafe"
   ],
-  "ignorePaths": [],
-  "automerge": true,
+  "ignorePresets": [
+    ":ignoreModulesAndTests"
+  ],
   "pip-compile": {
     "managerFilePatterns": [
       "requirements/*.txt"
@@ -30,26 +30,27 @@
   ],
   "packageRules": [
     {
+      "extends": ["helpers:pinGitHubActionDigests"],
+      "versioning": "npm"
+    },
+    {
       "matchPackageNames": [
         "ghcr.io/ddterm/gnome-shell-image/**"
       ],
-      "groupName": "GNOME Shell Container Images",
-      "pinDigests": false
+      "groupName": "GNOME Shell Container Images"
     },
     {
       "matchPackageNames": [
         "ghcr.io/ddterm/ci-docker-image"
       ],
-      "groupName": "Build/Dev Environment",
-      "pinDigests": false
+      "groupName": "Build/Dev Environment"
     },
     {
       "matchPackageNames": [
-        "eslint-plugin-jsdoc"
+        "ghcr.io/ddterm/**"
       ],
-      "extends": [
-        "schedule:automergeWeekly"
-      ]
+      "pinDigests": false,
+      "automerge": true
     }
   ]
 }
