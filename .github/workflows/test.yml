@@ -75,7 +75,7 @@ jobs:
     runs-on: ubuntu-24.04
 
     container:
-      image: ghcr.io/ddterm/ci-docker-image:2025.06.03.0
+      image: ghcr.io/ddterm/ci-docker-image:2025.06.10.1
       options: --privileged --tmpfs /run -v /tmp:/tmp --cgroupns=host
 
     env:
