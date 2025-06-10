@@ -177,7 +177,7 @@ jobs:
         if: ${{ always() && steps.pack.outcome == 'success' }}
 
       - name: Check REUSE compliance of generated package
-        run: tox --sitepackages -e reuse-pack -- build/*.shell-extension.zip
+        run: tox -e reuse-pack -- build/*.shell-extension.zip
         if: ${{ always() && steps.pack.outcome == 'success' }}
 
   update-translations:
