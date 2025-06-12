@@ -11,10 +11,8 @@ runs:
     - id: flake8-problem-matcher
       uses: ./.github/actions/generic-problem-matcher
 
-    - run: tox -e flake8
+    - run: tox -e flake8 -- --color=never
       shell: bash
-      env:
-        FORCE_COLOR: 0
 
     - uses: ./.github/actions/generic-problem-matcher
       with:
