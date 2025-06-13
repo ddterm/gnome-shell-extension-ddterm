@@ -37,7 +37,8 @@
       "matchPackageNames": [
         "ghcr.io/archlinux/archlinux"
       ],
-      "automerge": true
+      "automerge": true,
+      "versionCompatibility": "^(?<compatibility>\\D+)?(?<version>[\\d\\.]+)$"
     },
     {
       "matchPackageNames": [
