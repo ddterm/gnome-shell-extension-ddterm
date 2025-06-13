@@ -371,16 +371,17 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
         for dump_path in [dump_pre, dump_post]:
             shell_test_hook.SetPointer(*widget_location)
 
+            app_debug_dbus_interface.WaitFrame()
+
             with shell_test_hook.watch_signal('WindowCreated') as window_created:
                 shell_test_hook.mouse_down(shellhook.MouseButton.SECONDARY)
                 shell_test_hook.mouse_up(shellhook.MouseButton.SECONDARY)
 
                 window_created.get()
 
-            app_debug_dbus_interface.WaitFrame()
-            app_debug_dbus_interface.WaitIdle()
-
             shell_test_hook.SetPointer(widget_location.x - 1, widget_location.y)
+
+            app_debug_dbus_interface.WaitFrame()
 
             with shell_test_hook.watch_signal('WindowUnmanaged') as window_unmanaged:
                 shell_test_hook.mouse_down()
@@ -415,6 +416,8 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
         for dump_path in [dump_pre, dump_post]:
             app_debug_dbus_interface.ActivateAction('notebook.new-tab')
             app_debug_dbus_interface.wait_property('NumTabs', n_tabs + 1)
+
+            app_debug_dbus_interface.WaitFrame()
 
             app_debug_dbus_interface.ActivateAction('page.close')
             app_debug_dbus_interface.wait_property('NumTabs', n_tabs)
@@ -453,22 +456,25 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
 
             shell_test_hook.SetPointer(*widget_location)
 
+            app_debug_dbus_interface.WaitFrame()
+
             with shell_test_hook.watch_signal('WindowCreated') as window_created:
                 shell_test_hook.mouse_down(shellhook.MouseButton.SECONDARY)
                 shell_test_hook.mouse_up(shellhook.MouseButton.SECONDARY)
 
                 window_created.get()
 
-            app_debug_dbus_interface.WaitFrame()
-            app_debug_dbus_interface.WaitIdle()
-
             shell_test_hook.SetPointer(widget_location.x - 1, widget_location.y)
+
+            app_debug_dbus_interface.WaitFrame()
 
             with shell_test_hook.watch_signal('WindowUnmanaged') as window_unmanaged:
                 shell_test_hook.mouse_down()
                 shell_test_hook.mouse_up()
 
                 window_unmanaged.get()
+
+            app_debug_dbus_interface.WaitFrame()
 
             app_debug_dbus_interface.ActivateAction('page.close')
             app_debug_dbus_interface.wait_property('NumTabs', n_tabs)
