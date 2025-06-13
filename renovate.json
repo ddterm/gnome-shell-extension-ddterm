@@ -41,12 +41,6 @@
     },
     {
       "matchPackageNames": [
-        "ghcr.io/ddterm/ci-docker-image"
-      ],
-      "groupName": "Build/Dev Environment"
-    },
-    {
-      "matchPackageNames": [
         "ghcr.io/ddterm/**"
       ],
       "pinDigests": false,
