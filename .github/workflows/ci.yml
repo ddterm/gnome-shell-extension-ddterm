@@ -51,17 +51,18 @@ jobs:
         continue-on-error: true
         with:
           files: |
+            **
+            !**/.*
+            .github/workflows/ci.yml
+            .github/actions/{container-test,setup-meson,tox-preinstall,makechrootpkg,mkarchroot}/**
             !**/*.md
             !**/*.license
             !**/REUSE.toml
-            !**/.*
             !**/eslint.config.*
             !LICENSES/**
             !po/**
             !docs/**
             !lint/**
-            !.github/ISSUE_TEMPLATE/**
-            !.github/release.yml
             !do-in-*.sh
             !Vagrantfile
             !package.json
