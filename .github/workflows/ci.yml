@@ -285,7 +285,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     container:
-      image: ghcr.io/archlinux/archlinux:base-devel-20250613.0.365270@sha256:9cb80cc67a08612ab10a34e2d43b1e768cbecc362bd550316a231d6f86ec6fc5
+      image: ghcr.io/archlinux/archlinux:base-devel-20250614.0.365658@sha256:a090e06283bed854db603c230cae8a034b9cf99cd301409d63f5d73d1e3c9039
       options: --privileged --tmpfs /run
 
     steps:
@@ -363,7 +363,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     container:
-      image: ghcr.io/archlinux/archlinux:base-devel-20250613.0.365270@sha256:9cb80cc67a08612ab10a34e2d43b1e768cbecc362bd550316a231d6f86ec6fc5
+      image: ghcr.io/archlinux/archlinux:base-devel-20250614.0.365658@sha256:a090e06283bed854db603c230cae8a034b9cf99cd301409d63f5d73d1e3c9039
       options: --privileged --tmpfs /run
 
     steps:
