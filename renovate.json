@@ -35,20 +35,14 @@
     },
     {
       "matchPackageNames": [
-        "ghcr.io/archlinux/archlinux"
-      ],
-      "automerge": true,
-      "versionCompatibility": "^(?<compatibility>\\D+)?(?<version>[\\d\\.]+)$"
-    },
-    {
-      "matchPackageNames": [
         "ghcr.io/ddterm/gnome-shell-image/**"
       ],
       "groupName": "GNOME Shell Container Images"
     },
     {
       "matchPackageNames": [
-        "ghcr.io/ddterm/**"
+        "ghcr.io/ddterm/**",
+        "ghcr.io/archlinux/archlinux"
       ],
       "pinDigests": false,
       "automerge": true
