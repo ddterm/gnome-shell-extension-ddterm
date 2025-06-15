@@ -24,10 +24,10 @@ dialog without installation:
 However, you'll have to run `ninja` before invoking these scripts - to generate
 the required `*.ui` files.
 
-[`ddterm/pref`]: ../../ddterm/pref
-[application]: ../../ddterm/app
-[shell extension]: ../../ddterm/shell
-[`test`]: ../../ddterm/pref/test
-[`gtk3.js`]: ../../ddterm/pref/test/gtk3.js
-[`gtk4.js`]: ../../ddterm/pref/test/gtk4.js
-[`prefs.js`]: ../../prefs.js
+[`ddterm/pref`]: /ddterm/pref
+[application]: /ddterm/app
+[shell extension]: /ddterm/shell
+[`test`]: /ddterm/pref/test
+[`gtk3.js`]: /ddterm/pref/test/gtk3.js
+[`gtk4.js`]: /ddterm/pref/test/gtk4.js
+[`prefs.js`]: /prefs.js

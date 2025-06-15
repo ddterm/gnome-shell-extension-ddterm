@@ -58,5 +58,5 @@ GNOME Shell session in the VM will automatically be terminated, you'll have to
 login again - because GNOME Shell can't reload extensions without a complete
 restart.
 
-[`Vagrantfile`]: ../Vagrantfile
+[`Vagrantfile`]: /Vagrantfile
 [`vagrant-libvirt`]: https://vagrant-libvirt.github.io/vagrant-libvirt/installation.html

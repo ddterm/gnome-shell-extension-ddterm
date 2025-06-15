@@ -6,7 +6,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 # ddterm tests
 
-If you're [building ddterm from source](../docs/BUILD.md), running
+If you're [building ddterm from source](/docs/BUILD.md), running
 
     ninja test
 
@@ -48,7 +48,7 @@ Or to do both at the same time:
 
     tox [--sitepackages] -e pytest -- [--package=path] <other-options...>
 
-Before running tests, you need to [build the extension package](../docs/BUILD.md).
+Before running tests, you need to [build the extension package](/docs/BUILD.md).
 
 You either have to specify the path to the built package:
 
@@ -101,4 +101,4 @@ Application's UI is (mostly) not covered.
 
 [pairwise testing]: https://www.pairwise.org/
 [PICT]: https://github.com/microsoft/pict
-[`compose.yaml`]: ../tests/compose.yaml
+[`compose.yaml`]: /tests/compose.yaml
