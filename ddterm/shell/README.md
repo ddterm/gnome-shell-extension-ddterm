@@ -1,1 +1,1 @@
-../../docs/components/shell.md
+../../docs/shell.md

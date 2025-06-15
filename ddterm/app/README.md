@@ -1,1 +1,1 @@
-../../docs/components/app.md
+../../docs/app.md
