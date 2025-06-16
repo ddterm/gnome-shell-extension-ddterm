@@ -390,6 +390,7 @@ jobs:
 
   pages:
     needs:
+      - plan
       - extension-package
       - test
       - archlinux-package
@@ -414,12 +415,14 @@ jobs:
         with:
           name: archlinux-package-check
         continue-on-error: true
+        if: fromJSON(needs.plan.outputs.need-tests)
 
       - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
         with:
           pattern: '*-reports'
           merge-multiple: false
         continue-on-error: true
+        if: fromJSON(needs.plan.outputs.need-tests)
 
       - run: >-
           find . -type d -exec bash -c
