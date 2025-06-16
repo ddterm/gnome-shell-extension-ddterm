@@ -82,7 +82,7 @@ jobs:
         if: steps.diff.outputs.changed != 'false'
         working-directory: tests
         run: >-
-          echo "containers=$(docker compose config --services | grep -v archlinux | jq -cnR '[inputs]')" >>"$GITHUB_OUTPUT"
+          echo "containers=$(docker compose config --services | grep -v archlinux | sort | jq -cnR '[inputs]')" >>"$GITHUB_OUTPUT"
 
   lint:
     runs-on: ubuntu-24.04
