@@ -12,7 +12,7 @@ bracex==2.5.post1
     # via wcmatch
 bump-my-version==1.2.0
     # via -r version.in
-certifi==2025.4.26
+certifi==2025.6.15
     # via
     #   httpcore
     #   httpx
@@ -36,7 +36,7 @@ mdurl==0.1.2
     # via markdown-it-py
 prompt-toolkit==3.0.51
     # via questionary
-pydantic==2.11.5
+pydantic==2.11.7
     # via
     #   bump-my-version
     #   pydantic-settings
