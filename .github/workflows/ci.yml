@@ -410,14 +410,13 @@ jobs:
 
   pages:
     needs:
-      - plan
       - extension-package
       - test
       - archlinux-package
       - archlinux-package-check
       - archlinux-installed-test
 
-    if: ${{ !cancelled() && needs.extension-package.result == 'success' }}
+    if: ${{ !cancelled() }}
     runs-on: ubuntu-24.04
     timeout-minutes: 5
 
@@ -428,26 +427,12 @@ jobs:
 
       - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
         with:
-          name: archlinux-package
-        continue-on-error: true
-
-      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
-        with:
-          name: archlinux-package-check
-        continue-on-error: true
-        if: fromJSON(needs.plan.outputs.need-tests)
-
-      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
-        with:
-          pattern: '*-reports'
-          merge-multiple: false
-        continue-on-error: true
-        if: fromJSON(needs.plan.outputs.need-tests)
+          pattern: '!{extension-package,github-pages}'
 
       - run: >-
-          find . -type d -exec bash -c
-          'tree "$0" -h --du -H "/${GITHUB_REPOSITORY#*/}/${0:2}" -o "$0/index.html"'
-          '{}' ';'
+          find . -type d -exec
+          bash -c 'tree "$0" -h --du -D -H "/${GITHUB_REPOSITORY#*/}/${0:2}" -o "$0/index.html"' '{}'
+          ';'
 
       - uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3.0.1
         with:
