@@ -47,7 +47,7 @@ jobs:
 
       - id: diff
         name: Check if tests are necessary
-        uses: amezin/compare-commit-files-action@3838049371230a8af6e21d79a266c2521185d1a6 # v1.0.0
+        uses: amezin/compare-commit-files-action@ffa4731f9853fe8dd1f14e0adb7ace7185560ded # v1.0.1
         continue-on-error: true
         with:
           files: |
