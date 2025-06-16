@@ -35,6 +35,9 @@ jobs:
   plan:
     runs-on: ubuntu-24.04
     timeout-minutes: 5
+    needs:
+      - extension-package
+      - lint
 
     outputs:
       need-tests: ${{ steps.test-config.outcome == 'success' }}
@@ -51,32 +54,35 @@ jobs:
         continue-on-error: true
         with:
           files: |
-            **
-            !**/.*
+            ${{ needs.extension-package.outputs.build-inputs }}
+
+            # Files that influence build and test, even though they aren't included in the package
             .github/workflows/ci.yml
             .github/actions/{container-test,setup-meson,tox-preinstall,makechrootpkg,mkarchroot}/**
+            requirements/{test,test-images,meson}.txt
+            tests/**
+            tools/heapgraph.py
+            pytest.ini
+            tox.ini
+            PKGBUILD
+
+            # Exclude any documentation and translations
             !**/*.md
             !**/*.license
             !**/REUSE.toml
-            !**/eslint.config.*
             !LICENSES/**
             !po/**
-            !docs/**
-            !lint/**
-            !do-in-*.sh
-            !Vagrantfile
-            !package.json
-            !package-lock.json
-            !meson.format
-            !LICENSE
-            !renovate.json
+
+            # Include meson.build files, even from po/ directory
+            **/meson.build
+            meson_options.txt
 
       - id: test-config
         name: Determine test configurations
-        if: ${{ steps.diff.outputs.changed != 'false' }}
+        if: steps.diff.outputs.changed != 'false'
         working-directory: tests
         run: >-
-          docker compose config --services | grep -v archlinux | jq -cnR '[inputs]' | sed -e "s/^/containers=/" >>"$GITHUB_OUTPUT"
+          echo "containers=$(docker compose config --services | grep -v archlinux | jq -cnR '[inputs]')" >>"$GITHUB_OUTPUT"
 
   lint:
     runs-on: ubuntu-24.04
@@ -141,6 +147,9 @@ jobs:
     container:
       image: ghcr.io/ddterm/ci-docker-image:2025.06.10.1
 
+    outputs:
+      build-inputs: ${{ steps.ninja-inputs.outputs.inputs }}
+
     steps:
       - name: Checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
@@ -176,6 +185,18 @@ jobs:
       - name: Check REUSE compliance of generated package
         run: tox -e reuse-pack -- build/*.shell-extension.zip
         if: ${{ always() && steps.pack.outcome == 'success' }}
+
+      - name: Generate a list of input files
+        id: ninja-inputs
+        run: >-
+          {
+            echo "inputs<<$EOF";
+            ninja -t inputs | xargs realpath "--relative-base=$GITHUB_WORKSPACE";
+            echo "$EOF";
+          } >>"$GITHUB_OUTPUT"
+        working-directory: build
+        env:
+          EOF: ../EOF
 
   update-translations:
     needs:
