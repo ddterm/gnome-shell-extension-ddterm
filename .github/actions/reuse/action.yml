@@ -17,4 +17,4 @@ runs:
     - uses: ./.github/actions/reuse-problem-matcher
       with:
         enable: false
-      if: ${{ always() && steps.reuse-problem-matcher.outcome == 'success' }}
+      if: ${{ !cancelled() && steps.reuse-problem-matcher.outcome == 'success' }}

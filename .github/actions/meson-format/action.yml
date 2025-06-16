@@ -20,7 +20,7 @@ runs:
     - uses: ./.github/actions/generic-problem-matcher
       with:
         enable: false
-      if: ${{ always() && steps.generic-problem-matcher.outcome == 'success' }}
+      if: ${{ !cancelled() && steps.generic-problem-matcher.outcome == 'success' }}
 
     - shell: bash
       run: |
@@ -32,4 +32,4 @@ runs:
 
     - run: git reset --hard
       shell: bash
-      if: always()
+      if: ${{ !cancelled() }}

@@ -65,7 +65,7 @@ runs:
       env:
         CONTAINER: ${{ inputs.container }}
 
-    - if: always() && steps.setup-testspace.outcome == 'success'
+    - if: ${{ !cancelled() && steps.setup-testspace.outcome == 'success' }}
       shell: bash
       run: >-
         testspace --verbose
@@ -74,7 +74,7 @@ runs:
       env:
         CONTAINER: ${{ inputs.container }}
 
-    - if: always() && steps.test.outcome != 'skipped' && steps.test.outcome != 'cancelled'
+    - if: ${{ !cancelled() }}
       uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
       with:
         name: ${{ inputs.container }}-reports

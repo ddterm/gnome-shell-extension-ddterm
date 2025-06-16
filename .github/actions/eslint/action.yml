@@ -19,4 +19,4 @@ runs:
     - uses: ./.github/actions/eslint-stylish-problem-matcher
       with:
         enable: false
-      if: ${{ always() && steps.eslint-problem-matcher.outcome == 'success' }}
+      if: ${{ !cancelled() && steps.eslint-problem-matcher.outcome == 'success' }}

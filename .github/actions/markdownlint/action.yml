@@ -17,4 +17,4 @@ runs:
     - uses: ./.github/actions/generic-problem-matcher
       with:
         enable: false
-      if: ${{ always() && steps.markdownlint-problem-matcher.outcome == 'success' }}
+      if: ${{ !cancelled() && steps.markdownlint-problem-matcher.outcome == 'success' }}

@@ -99,46 +99,46 @@ jobs:
       - name: Install development dependencies from npm
         id: npm
         uses: ./.github/actions/npm-install
-        if: ${{ always() && steps.checkout.outcome == 'success' }}
+        if: ${{ !cancelled() && steps.checkout.outcome == 'success' }}
 
       - name: Install Python dependencies
         id: pip
         uses: ./.github/actions/tox-preinstall
         with:
           environments: reuse,version,flake8,meson-format,pip-compile
-        if: ${{ always() && steps.checkout.outcome == 'success' }}
+        if: ${{ !cancelled() && steps.checkout.outcome == 'success' }}
 
       - name: Lint JS code with ESLint
         uses: ./.github/actions/eslint
-        if: ${{ always() && steps.npm.outcome == 'success' }}
+        if: ${{ !cancelled() && steps.npm.outcome == 'success' }}
 
       - name: Lint Python code with flake8
         uses: ./.github/actions/flake8
-        if: ${{ always() && steps.pip.outcome == 'success' }}
+        if: ${{ !cancelled() && steps.pip.outcome == 'success' }}
 
       - name: Lint Markdown files
         uses: ./.github/actions/markdownlint
-        if: ${{ always() && steps.npm.outcome == 'success' }}
+        if: ${{ !cancelled() && steps.npm.outcome == 'success' }}
 
       - name: Check repository REUSE compliance
         uses: ./.github/actions/reuse
-        if: ${{ always() && steps.pip.outcome == 'success' }}
+        if: ${{ !cancelled() && steps.pip.outcome == 'success' }}
 
       - name: Check meson.build formatting
         uses: ./.github/actions/meson-format
-        if: ${{ always() && steps.pip.outcome == 'success' }}
+        if: ${{ !cancelled() && steps.pip.outcome == 'success' }}
 
       - name: Check Python requirements .txt files
         uses: ./.github/actions/pip-compile
-        if: ${{ always() && steps.pip.outcome == 'success' }}
+        if: ${{ !cancelled() && steps.pip.outcome == 'success' }}
 
       - name: Check version number
         run: tox -e version
-        if: ${{ always() && steps.pip.outcome == 'success' }}
+        if: ${{ !cancelled() && steps.pip.outcome == 'success' }}
 
       - name: Check PICT test cases
         uses: ./.github/actions/pict
-        if: ${{ always() && steps.checkout.outcome == 'success' }}
+        if: ${{ !cancelled() && steps.checkout.outcome == 'success' }}
 
   extension-package:
     runs-on: ubuntu-24.04
@@ -173,17 +173,17 @@ jobs:
           name: ${{ github.job }}
           path: "build/*.shell-extension.zip"
           if-no-files-found: error
-        if: ${{ always() && steps.pack.outcome == 'success' }}
+        if: ${{ !cancelled() && steps.pack.outcome == 'success' }}
 
       - name: Run checks
         run: xvfb-run -d --server-args=-noreset --wait=0 -- meson test -v -j1
         working-directory: build
         shell: pipetty bash -e {0}
-        if: ${{ always() && steps.pack.outcome == 'success' }}
+        if: ${{ !cancelled() && steps.pack.outcome == 'success' }}
 
       - name: Check REUSE compliance of generated package
         run: tox -e reuse-pack -- build/*.shell-extension.zip
-        if: ${{ always() && steps.pack.outcome == 'success' }}
+        if: ${{ !cancelled() && steps.pack.outcome == 'success' }}
 
       - name: Generate a list of input files
         id: ninja-inputs
@@ -417,7 +417,7 @@ jobs:
       - archlinux-package-check
       - archlinux-installed-test
 
-    if: always() && needs.extension-package.result == 'success'
+    if: ${{ !cancelled() && needs.extension-package.result == 'success' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 5
 

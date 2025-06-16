@@ -27,4 +27,4 @@ runs:
     - uses: ./.github/actions/generic-problem-matcher
       with:
         enable: false
-      if: ${{ always() && steps.tox-problem-matcher.outcome == 'success' }}
+      if: ${{ !cancelled() && steps.tox-problem-matcher.outcome == 'success' }}

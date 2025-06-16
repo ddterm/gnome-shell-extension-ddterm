@@ -23,7 +23,7 @@ jobs:
 
   publish:
     needs: ci
-    if: always() && needs.ci.outputs.pages != 'false'
+    if: ${{ !cancelled() && needs.ci.outputs.pages != 'false' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 5
 
