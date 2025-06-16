@@ -40,9 +40,9 @@ jobs:
       - lint
 
     outputs:
-      need-tests: ${{ steps.test-config.outcome == 'success' }}
-      testspace: ${{ steps.test-config.outcome == 'success' && !github.event.repository.fork }}
-      test-containers: ${{ steps.test-config.outputs.containers || '[]' }}
+      need-tests: ${{ steps.diff.outputs.changed != 'false' }}
+      testspace: ${{ steps.diff.outputs.changed != 'false' && !github.event.repository.fork }}
+      test-containers: ${{ steps.test-config.outputs.containers }}
 
     steps:
       - name: Checkout
@@ -79,7 +79,6 @@ jobs:
 
       - id: test-config
         name: Determine test configurations
-        if: steps.diff.outputs.changed != 'false'
         working-directory: tests
         run: >-
           echo "containers=$(docker compose config --services | grep -v archlinux | sort | jq -cnR '[inputs]')" >>"$GITHUB_OUTPUT"
