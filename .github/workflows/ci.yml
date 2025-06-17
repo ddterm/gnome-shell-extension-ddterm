@@ -37,7 +37,6 @@ jobs:
 
     outputs:
       need-tests: ${{ steps.diff.outputs.changed != 'false' }}
-      testspace: ${{ steps.diff.outputs.changed != 'false' && !github.event.repository.fork }}
       test-containers: ${{ steps.test-config.outputs.containers }}
 
     steps:
@@ -287,7 +286,7 @@ jobs:
         uses: ./.github/actions/container-test
         with:
           container: ${{ matrix.container }}
-          testspace: ${{ needs.plan.outputs.testspace }}
+          testspace: ${{ !github.event.repository.fork }}
           args: >-
             ${{ !contains(matrix.container, 'alpine') && '--journald' || '' }}
             --package=ddterm@amezin.github.com.shell-extension.zip
@@ -365,7 +364,7 @@ jobs:
         uses: ./.github/actions/container-test
         with:
           container: archlinux
-          testspace: ${{ needs.plan.outputs.testspace }}
+          testspace: ${{ !github.event.repository.fork }}
           args: --journald "--sys-package=$PKGFILENAME"
         env:
           PKGFILENAME: ${{ needs.archlinux-package.outputs.pkgfilename }}
