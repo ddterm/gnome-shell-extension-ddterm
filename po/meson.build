@@ -61,3 +61,17 @@ run_target(
     gettext_args,
   ],
 )
+
+run_target(
+  'po-reuse',
+  command: [
+    'gen-reuse.py',
+    '--domain',
+    gettext_domain,
+    '--output',
+    '@CURRENT_SOURCE_DIR@' / 'REUSE.toml',
+    '@CURRENT_SOURCE_DIR@',
+  ],
+)
+
+pack += fs.copyfile('REUSE.toml')

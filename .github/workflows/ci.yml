@@ -228,11 +228,15 @@ jobs:
         run: for pofile in ./*.po; do msgmerge --no-wrap --update --previous "$pofile" ./*.pot; done
         working-directory: po
 
+      - name: Update REUSE metadata
+        run: ninja -j1 po-reuse
+        working-directory: build
+
       - name: Diff
         id: diff
         # Note: git diff --name-only ignores --ignore-matching-lines arg
         run: |
-          git diff --color '--ignore-matching-lines=^"POT-Creation-Date: ' 'po/*.po' 'po/*.pot' 'po/POTFILES.in' | tee "$RUNNER_TEMP/po.diff"
+          git diff --color '--ignore-matching-lines=^"POT-Creation-Date: ' 'po/*.po' 'po/*.pot' 'po/POTFILES.in' 'po/REUSE.toml' | tee "$RUNNER_TEMP/po.diff"
           echo "size=$(stat --printf=%s "$RUNNER_TEMP/po.diff")" >>"$GITHUB_OUTPUT"
 
       - name: Create pull request
@@ -247,6 +251,7 @@ jobs:
             po/*.po
             po/*.pot
             po/POTFILES.in
+            po/REUSE.toml
 
   test:
     needs:
