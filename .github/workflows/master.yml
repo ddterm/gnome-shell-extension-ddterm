@@ -21,9 +21,9 @@ jobs:
     with:
       push: true
 
-  publish:
+  pages:
     needs: ci
-    if: ${{ !cancelled() && needs.ci.outputs.pages != 'false' }}
+    if: ${{ !cancelled() }}
     runs-on: ubuntu-24.04
     timeout-minutes: 5
 
@@ -36,5 +36,22 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: extension-package
+
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          pattern: '!{extension-package,github-pages}'
+
+      - run: >-
+          find . -type d -exec
+          bash -c 'tree "$0" -h --du -D -H "/${GITHUB_REPOSITORY#*/}/${0:2}" -o "$0/index.html"' '{}'
+          ';'
+
+      - uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3.0.1
+        with:
+          path: .
+
       - id: deployment
         uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4.0.5
