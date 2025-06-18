@@ -82,7 +82,7 @@ def run(po_dir, domain, output):
     print('version = 1', file=output)
 
     with output:
-        for po_file_name in po_dir.glob('*.po'):
+        for po_file_name in sorted(po_dir.glob('*.po')):
             with open(po_file_name, 'r') as po_file:
                 process_file(po_file, domain, output)
 
