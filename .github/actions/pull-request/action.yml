@@ -41,7 +41,7 @@ runs:
     - id: commit
       uses: amezin/create-commit-action@7a455aa043954f899eca6d2b1bc0d8c55efac1cd # v1.0.2
       with:
-        github-token: ${{ steps.app-token.outputs.token }}
+        github-token: ${{ steps.token.outputs.token }}
         files: ${{ inputs.files }}
         message: |
           ${{ inputs.title }}
@@ -49,7 +49,6 @@ runs:
           ${{ inputs.description }}
 
     - uses: amezin/create-or-update-git-ref-action@40ccb8122546cdc2fe6563ed0ffb0ab40485ca68 # v1.0.1
-      if: steps.commit.outputs.sha
       with:
         github-token: ${{ steps.token.outputs.token }}
         sha: ${{ steps.commit.outputs.sha }}
@@ -57,9 +56,8 @@ runs:
         force: true
 
     - uses: amezin/create-or-update-pull-request-action@55147022c19d0e0269ef4d9a089cfc813f7cb3e8 # v1.1.0
-      if: steps.commit.outputs.sha
       with:
-        github-token: ${{ steps.app-token.outputs.token }}
+        github-token: ${{ steps.token.outputs.token }}
         head: ${{ inputs.branch }}
         title: ${{ inputs.title }}
         body: |
