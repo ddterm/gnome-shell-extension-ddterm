@@ -4,11 +4,11 @@
 #
 #    pip-compile --strip-extras flake8.in
 #
-flake8==7.2.0
+flake8==7.3.0
     # via -r flake8.in
 mccabe==0.7.0
     # via flake8
-pycodestyle==2.13.0
+pycodestyle==2.14.0
     # via flake8
-pyflakes==3.3.2
+pyflakes==3.4.0
     # via flake8
