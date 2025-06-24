@@ -43,6 +43,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
+      - id: actions
+        name: Get the list of actions used in build and test jobs
+        run: echo "names=$(yq -oj -I0 "$YQ_FILTER" .github/workflows/ci.yml)" >>"$GITHUB_OUTPUT"
+        env:
+          YQ_FILTER: >-
+            [
+              .jobs["extension-package", "test", "archlinux-package", "archlinux-package-check", "archlinux-installed-test"] |
+              .steps.[].uses |
+              select(.) |
+              capture("^\\./\\.github/actions/(?<name>.*)$") |
+              .name
+            ] | unique
+
       - id: diff
         name: Check if tests are necessary
         uses: amezin/compare-commit-files-action@ffa4731f9853fe8dd1f14e0adb7ace7185560ded # v1.0.1
@@ -52,8 +65,8 @@ jobs:
             ${{ needs.extension-package.outputs.build-inputs }}
 
             # Files that influence build and test, even though they aren't included in the package
+            .github/actions/{${{ join(fromJSON(steps.actions.outputs.names)) }}}/**
             .github/workflows/ci.yml
-            .github/actions/{container-test,setup-meson,tox-preinstall,makechrootpkg,mkarchroot}/**
             requirements/{test,test-images,meson}.txt
             tests/**
             tools/heapgraph.py
