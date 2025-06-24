@@ -198,7 +198,7 @@ jobs:
         run: >-
           {
             echo "inputs<<$EOF";
-            ninja -t inputs | xargs realpath "--relative-base=$GITHUB_WORKSPACE";
+            ninja -t inputs | xargs realpath "--relative-base=$GITHUB_WORKSPACE" | grep -v '^build/';
             echo "$EOF";
           } >>"$GITHUB_OUTPUT"
         working-directory: build
