@@ -19,7 +19,7 @@ clean:
 $(ALL): %.gen: %.model $(PICT_EXECUTABLE) Makefile
 	$(PICT_EXECUTABLE) $< >$@ $(PICT_FLAGS)
 
-test_show.gen: PICT_FLAGS := /o:3
+test_show.gen: PICT_FLAGS := /o:4
 
 $(sort $(dir $(PICT_SOURCE_TARBALL) $(PICT_BUILD_DIR))):
 	mkdir $@
