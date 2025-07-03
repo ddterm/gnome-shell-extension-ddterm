@@ -171,27 +171,21 @@ export const WindowManager = GObject.registerClass({
         }
 
         if (!this.#actor.visible) {
-            if (this.#client_type === Meta.WindowClientType.WAYLAND) {
-                this.#map_handler = global.window_manager.connect('map', (wm, actor) => {
-                    if (actor !== this.#actor)
-                        return;
+            this.#map_handler = global.window_manager.connect('map', (wm, actor) => {
+                if (actor !== this.#actor)
+                    return;
 
-                    global.window_manager.disconnect(this.#map_handler);
-                    this.#map_handler = null;
+                global.window_manager.disconnect(this.#map_handler);
+                this.#map_handler = null;
 
+                if (this.#client_type === Meta.WindowClientType.WAYLAND)
                     this.#update_window_geometry();
 
-                    // There are complaints that terminal window does not have focus sometimes
-                    // However, tests don't catch it (unlike on Ubuntu + X11), and I can't reproduce
-                    Main.activateWindow(this.window);
+                Main.activateWindow(this.window);
 
-                    this.#set_window_above();
-                    this.#set_window_stick();
-                });
-            } else {
                 this.#set_window_above();
                 this.#set_window_stick();
-            }
+            });
 
             if (this.show_animation.should_skip) {
                 Main.wm.skipNextEffect(this.#actor);
@@ -217,10 +211,9 @@ export const WindowManager = GObject.registerClass({
 
         this.#setup_destroy_animation_override(this.hide_animation.should_override);
 
-        if (this.#client_type === Meta.WindowClientType.X11)
+        if (this.#actor.visible) {
             Main.activateWindow(this.window);
 
-        if (this.#actor.visible) {
             this.#set_window_above();
             this.#set_window_stick();
         }
