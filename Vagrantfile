@@ -162,4 +162,15 @@ Vagrant.configure("2") do |config|
       rsync__rsync_path: 'doas -u root rsync',
       rsync__args: rsync_args
   end
+
+  config.vm.define "alpine322", autostart: false do |version|
+    version.vm.box = "gnome-shell-box/alpine322"
+    version.ssh.sudo_command = "doas -n -u root %c"
+
+    version.vm.synced_folder '.', SYNCED_FOLDER,
+      type: 'rsync',
+      rsync__exclude: rsync_excludes,
+      rsync__rsync_path: 'doas -u root rsync',
+      rsync__args: rsync_args
+  end
 end
