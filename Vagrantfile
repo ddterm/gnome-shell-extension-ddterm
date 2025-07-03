@@ -106,6 +106,10 @@ Vagrant.configure("2") do |config|
     version.vm.box = "gnome-shell-box/ubuntu2504"
   end
 
+  config.vm.define "debian13", autostart: false do |version|
+    version.vm.box = "gnome-shell-box/debian13"
+  end
+
   config.vm.define "opensusetumbleweed", autostart: false do |version|
     version.vm.box = "gnome-shell-box/opensusetumbleweed"
   end
