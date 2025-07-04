@@ -8,7 +8,7 @@ annotated-types==0.7.0
     # via pydantic
 anyio==4.9.0
     # via httpx
-bracex==2.5.post1
+bracex==2.6
     # via wcmatch
 bump-my-version==1.2.0
     # via -r version.in
@@ -42,11 +42,11 @@ pydantic==2.11.7
     #   pydantic-settings
 pydantic-core==2.33.2
     # via pydantic
-pydantic-settings==2.9.1
+pydantic-settings==2.10.1
     # via bump-my-version
-pygments==2.19.1
+pygments==2.19.2
     # via rich
-python-dotenv==1.1.0
+python-dotenv==1.1.1
     # via pydantic-settings
 questionary==2.1.0
     # via bump-my-version
@@ -70,7 +70,7 @@ typing-inspection==0.4.1
     # via
     #   pydantic
     #   pydantic-settings
-wcmatch==10.0
+wcmatch==10.1
     # via bump-my-version
 wcwidth==0.2.13
     # via prompt-toolkit
