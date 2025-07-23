@@ -41,8 +41,5 @@ services:
   ubuntu-24.04:
     image: ghcr.io/ddterm/gnome-shell-image/ubuntu-24.04:2025.07.19.0
 
-  ubuntu-24.10:
-    image: ghcr.io/ddterm/gnome-shell-image/ubuntu-24.10:2025.07.19.0
-
   ubuntu-25.04:
     image: ghcr.io/ddterm/gnome-shell-image/ubuntu-25.04:2025.07.19.0
