@@ -14,7 +14,7 @@ boolean-py==5.0
     #   reuse
 chardet==5.2.0
     # via binaryornot
-charset-normalizer==3.4.2
+charset-normalizer==3.4.3
     # via python-debian
 click==8.2.1
     # via reuse
