@@ -219,7 +219,7 @@ export const WindowManager = GObject.registerClass({
         }
 
         if (should_maximize)
-            this.window.maximize(Meta.MaximizeFlags.BOTH);
+            this.#set_maximize_flags(Meta.MaximizeFlags.BOTH);
 
         this.#setup_wl_clipboard_activator();
     }
@@ -392,8 +392,8 @@ export const WindowManager = GObject.registerClass({
             Main.wm.skipNextEffect(this.#actor);
     }
 
-    #handle_maximized_vertically(win) {
-        if (!win.maximized_vertically) {
+    #handle_maximized_vertically() {
+        if (!this.window.maximized_vertically) {
             this.#unmaximize_done();
             return;
         }
@@ -407,15 +407,15 @@ export const WindowManager = GObject.registerClass({
             );
 
             Main.wm.skipNextEffect(this.#actor);
-            win.unmaximize(Meta.MaximizeFlags.VERTICAL);
+            this.#set_unmaximize_flags(Meta.MaximizeFlags.VERTICAL);
         } else {
             this.logger?.log('Setting window-maximize=true because window is maximized');
             this.settings.set_boolean('window-maximize', true);
         }
     }
 
-    #handle_maximized_horizontally(win) {
-        if (!win.maximized_horizontally) {
+    #handle_maximized_horizontally() {
+        if (!this.window.maximized_horizontally) {
             this.#unmaximize_done();
             return;
         }
@@ -429,7 +429,7 @@ export const WindowManager = GObject.registerClass({
             );
 
             Main.wm.skipNextEffect(this.#actor);
-            win.unmaximize(Meta.MaximizeFlags.HORIZONTAL);
+            this.#set_unmaximize_flags(Meta.MaximizeFlags.HORIZONTAL);
         } else {
             this.logger?.log('Setting window-maximize=true because window is maximized');
             this.settings.set_boolean('window-maximize', true);
@@ -448,8 +448,29 @@ export const WindowManager = GObject.registerClass({
         this.emit('move-resize-requested', target_rect);
     }
 
+    #get_maximize_flags() {
+        if (this.window.get_maximize_flags)
+            return this.window.get_maximize_flags();
+
+        return this.window.get_maximized();
+    }
+
+    #set_maximize_flags(flags) {
+        if (this.window.set_maximize_flags)
+            return this.window.set_maximize_flags(flags);
+
+        return this.window.maximize(flags);
+    }
+
+    #set_unmaximize_flags(flags) {
+        if (this.window.set_maximize_flags)
+            return this.window.set_unmaximize_flags(flags);
+
+        return this.window.unmaximize(flags);
+    }
+
     #is_maximized() {
-        return Boolean(this.window.get_maximized() & this.geometry.maximize_flag);
+        return Boolean(this.#get_maximize_flags() & this.geometry.maximize_flag);
     }
 
     #set_window_maximized() {
@@ -461,10 +482,10 @@ export const WindowManager = GObject.registerClass({
 
         if (should_maximize) {
             this.logger?.log('Maximizing window according to settings');
-            this.window.maximize(Meta.MaximizeFlags.BOTH);
+            this.#set_maximize_flags(Meta.MaximizeFlags.BOTH);
         } else {
             this.logger?.log('Unmaximizing window according to settings');
-            this.window.unmaximize(this.geometry.maximize_flag);
+            this.#set_unmaximize_flags(this.geometry.maximize_flag);
 
             this.logger?.log('Sheduling geometry fixup from window-maximize setting change');
             this.#schedule_geometry_fixup();
@@ -510,14 +531,14 @@ export const WindowManager = GObject.registerClass({
         if (this.window.maximized_horizontally &&
             this.geometry.target_rect.width < this.geometry.workarea.width) {
             Main.wm.skipNextEffect(this.#actor);
-            this.window.unmaximize(Meta.MaximizeFlags.HORIZONTAL);
+            this.#set_unmaximize_flags(Meta.MaximizeFlags.HORIZONTAL);
             return;
         }
 
         if (this.window.maximized_vertically &&
             this.geometry.target_rect.height < this.geometry.workarea.height) {
             Main.wm.skipNextEffect(this.#actor);
-            this.window.unmaximize(Meta.MaximizeFlags.VERTICAL);
+            this.#set_unmaximize_flags(Meta.MaximizeFlags.VERTICAL);
             return;
         }
 
@@ -563,7 +584,7 @@ export const WindowManager = GObject.registerClass({
     unmaximize_for_resize(flags) {
         this.#cancel_geometry_fixup();
 
-        if (!(this.window.get_maximized() & flags))
+        if (!(this.#get_maximize_flags() & flags))
             return;
 
         this.logger?.log('Unmaximizing for resize');
@@ -573,7 +594,7 @@ export const WindowManager = GObject.registerClass({
         this.settings.set_double('window-size', 1.0);
 
         Main.wm.skipNextEffect(this.#actor);
-        this.window.unmaximize(flags);
+        this.#set_unmaximize_flags(flags);
     }
 
     #restore_auto_maximize() {
