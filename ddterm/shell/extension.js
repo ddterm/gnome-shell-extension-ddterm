@@ -416,12 +416,10 @@ class EnabledExtension {
         if (win?.get_client_type() !== Meta.WindowClientType.WAYLAND)
             return;
 
-        const wayland_client = this.service.subprocess.wayland_client;
-
         if (this.settings.get_boolean('window-skip-taskbar'))
-            wayland_client.hide_from_window_list(win);
+            this.service.hide_from_window_list(win);
         else
-            wayland_client.show_in_window_list(win);
+            this.service.show_in_window_list(win);
     }
 
     #create_window_manager() {

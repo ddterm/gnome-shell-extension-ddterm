@@ -130,6 +130,14 @@ export const Service = GObject.registerClass({
         return this.#subprocess_running && this.#subprocess.owns_window(win);
     }
 
+    hide_from_window_list(win) {
+        this.#subprocess.hide_from_window_list(win);
+    }
+
+    show_in_window_list(win) {
+        this.#subprocess.show_in_window_list(win);
+    }
+
     get bus_name_owner() {
         return this.#bus_name_owner;
     }
