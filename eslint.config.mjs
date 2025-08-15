@@ -3,15 +3,16 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 import { fileURLToPath } from 'node:url';
+import { defineConfig } from '@eslint/config-helpers';
 import globals from 'globals';
+import gnome from 'eslint-config-gnome';
 import importPlugin from 'eslint-plugin-import';
-import gjs from './lint/eslintrc-gjs.mjs';
 import gitIgnores from './lint/gitignore.mjs';
 
-export default [
+export default defineConfig([
     gitIgnores(new URL('./', import.meta.url)),
     importPlugin.flatConfigs.recommended,
-    ...gjs,
+    gnome.configs.recommended,
     {
         settings: {
             'import/resolver': fileURLToPath(new URL('./lint/import-resolver.js', import.meta.url)),
@@ -97,4 +98,4 @@ export default [
             sourceType: 'script',
         },
     },
-];
+]);
