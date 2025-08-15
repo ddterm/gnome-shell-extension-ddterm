@@ -95,7 +95,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     container:
-      image: ghcr.io/ddterm/ci-docker-image:2025.08.06.0
+      image: ghcr.io/ddterm/ci-docker-image:cleanup
 
     steps:
       - name: Checkout
@@ -152,7 +152,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     container:
-      image: ghcr.io/ddterm/ci-docker-image:2025.08.06.0
+      image: ghcr.io/ddterm/ci-docker-image:cleanup
 
     outputs:
       build-inputs: ${{ steps.ninja-inputs.outputs.inputs }}
@@ -213,7 +213,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     container:
-      image: ghcr.io/ddterm/ci-docker-image:2025.08.06.0
+      image: ghcr.io/ddterm/ci-docker-image:cleanup
 
     steps:
       - name: Checkout
@@ -281,7 +281,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     container:
-      image: ghcr.io/ddterm/ci-docker-image:2025.08.06.0
+      image: ghcr.io/ddterm/ci-docker-image:cleanup
       options: --init --privileged --tmpfs /run -v /tmp:/tmp --cgroupns=host
 
     steps:
@@ -359,7 +359,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     container:
-      image: ghcr.io/ddterm/ci-docker-image:2025.08.06.0
+      image: ghcr.io/ddterm/ci-docker-image:cleanup
       options: --init --privileged --tmpfs /run -v /tmp:/tmp --cgroupns=host
 
     steps:
