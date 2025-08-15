@@ -21,10 +21,10 @@
       "customType": "regex",
       "managerFilePatterns": [
         "*.sh",
-        ".github/workflows/*.{yml,yaml}"
+        ".github/{actions/*,workflows}/*.{yml,yaml}"
       ],
       "matchStrings": [
-        "#\\s*renovate:\\s+datasource=(?<datasource>[^\\s]+)\\s+depName=(?<depName>[^\\s]+)(\\s+(lookupName|packageName)=(?<packageName>[^\\s]+))?(\\s+versioning=(?<versioning>[^\\s]+))?\\n\\s*\\w+=[\"']?(?<currentValue>[^\\s\"']+)[\"']?(\\s|$)"
+        "#\\s*renovate:\\s*datasource=(?<datasource>[^\\s]+)\\s+depName=(?<depName>[^\\s]+)(\\s+(lookupName|packageName)=(?<packageName>[^\\s]+))?(\\s+versioning=(?<versioning>[^\\s]+))?\\n\\s*\\w+\\s*[:=]\\s*[\"']?(?<currentValue>[^\\s\"']+)[\"']?(\\s|$)"
       ]
     }
   ],
