@@ -15,7 +15,9 @@ export default defineConfig([
     gnome.configs.recommended,
     {
         settings: {
-            'import/resolver': fileURLToPath(new URL('./lint/import-resolver.js', import.meta.url)),
+            'import/resolver': fileURLToPath(
+                new URL('./lint/import-resolver.cjs', import.meta.url)
+            ),
             'import/core-modules': ['gettext', 'gi', 'system', 'console'],
         },
         rules: {
@@ -66,12 +68,11 @@ export default defineConfig([
     },
     {
         files: [
-            'lint/import-resolver.js',
-            '.github/eslint-formatter.js',
+            'bin/launcher.js',
+            'tools/translate-esm.js',
         ],
         languageOptions: {
-            sourceType: 'commonjs',
-            globals: globals.node,
+            sourceType: 'script',
         },
     },
     {
@@ -87,15 +88,6 @@ export default defineConfig([
         settings: {
             'import/resolver': 'node',
             'import/core-modules': [],
-        },
-    },
-    {
-        files: [
-            'bin/launcher.js',
-            'tools/translate-esm.js',
-        ],
-        languageOptions: {
-            sourceType: 'script',
         },
     },
 ]);
