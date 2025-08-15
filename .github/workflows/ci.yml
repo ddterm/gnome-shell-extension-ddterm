@@ -148,6 +148,10 @@ jobs:
         uses: ./.github/actions/pict
         if: ${{ !cancelled() && steps.checkout.outcome == 'success' }}
 
+      - name: Check GitHub Actions workflows
+        uses: ./.github/actions/actionlint
+        if: ${{ !cancelled() && steps.checkout.outcome == 'success' }}
+
   extension-package:
     runs-on: ubuntu-24.04
     timeout-minutes: 5
