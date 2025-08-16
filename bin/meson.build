@@ -2,14 +2,6 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-gjs_shebang = get_option('shebang_override')
-
-if gjs_shebang == ''
-  gjs_shebang = gjs.full_path()
-endif
-
-summary('Shebang', gjs_shebang)
-
 pack += configure_file(
   input: 'launcher.js',
   output: 'com.github.amezin.ddterm',
