@@ -2,6 +2,7 @@
 #
 # SPDX-License-Identifier: CC0-1.0
 
+MD028: false
 MD033:
   allowed_elements:
     - kbd

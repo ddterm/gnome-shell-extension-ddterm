@@ -6,10 +6,12 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 # Translations
 
-You could help translating the user interface using Weblate, or by opening
-a pull request on GitHub.
+You can edit translations on [Weblate], or submit your changes as a pull request
+on GitHub.
 
-## [Weblate](https://hosted.weblate.org/engage/gnome-shell-extension-ddterm/)
+[Weblate]: https://hosted.weblate.org/engage/gnome-shell-extension-ddterm/
+
+## [Weblate]
 
 [![Translation status](https://hosted.weblate.org/widgets/gnome-shell-extension-ddterm/-/287x66-white.png)](https://hosted.weblate.org/engage/gnome-shell-extension-ddterm/)
 
@@ -17,13 +19,19 @@ a pull request on GitHub.
 
 ## Other tools
 
-CI system automatically adds new strings to `.pot` and `.po` files, using
-`msgmerge` build target. There should be no need to run it manually.
+CI system automatically adds new strings to `.pot` and `.po` files.
 
 You can add/edit a `.po` file with the tool of your choice and create a pull
 request.
 
 ## Adding a new language
+
+Previously, people often added new languages through Weblate, but then left
+the translations empty.
+
+So the option to add languages on Weblate had been disabled.
+
+New languages can only be added through GitHub.
 
 ### Create a Pull Request
 
@@ -37,7 +45,7 @@ request.
 
 5. Create a pull request.
 
-Example for Hungarian (`hu`) translation:
+Example - steps 2 to 4 for Hungarian (`hu`) translation:
 
 ```sh
 git clone git@github.com:yourname/gnome-shell-extension-ddterm.git
@@ -51,6 +59,7 @@ git push
 
 ### Create an Issue
 
-If you're not familiar with Git/GitHub, you can
-[open an issue](https://github.com/ddterm/gnome-shell-extension-ddterm/issues/new?template=FEATURE.md)
-instead.
+If you're not familiar with Git/GitHub, you can [open an issue] instead of
+a pull request.
+
+[open an issue]: https://github.com/ddterm/gnome-shell-extension-ddterm/issues/new?template=FEATURE.md

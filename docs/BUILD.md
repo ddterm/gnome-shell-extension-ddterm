@@ -38,8 +38,6 @@ on Fedora, `gtk4` package on Arch)
 
 - `msgcmp`, `msgmerge`, `xgettext` (`gettext` package)
 
-- `zip`
-
 ### 2.b) Build in a container
 
 Alternatively, you can use `docker` or `podman` to perform build steps in a
@@ -129,26 +127,3 @@ You can enable the extension as described in
     ninja -C build-dir enable
 
 You'll have to perform this step only once.
-
-## 5. Testing the package without installation
-
-It's possible to run an instance of GNOME Shell with ddterm, without actually
-installing ddterm.
-
-A helper script [`run_nested_shell.py`] can launch a nested instance
-of GNOME Shell with isolated (temporary) environment. And then it automatically
-installs the extension package into that environment.
-This allows testing changes quickly and easily, without breaking the host
-system and without restarting the host shell.
-
-Nested shell has some limitations - for example, it doesn't capture global
-shortcuts, so it may be necessary to configure non-default ddterm toggle
-shortcut on the host.
-
-`nested-wayland-shell` build target automatically runs [`run_nested_shell.py`]
-after building the package. So to test your code modifications, you can simply
-run:
-
-    ninja -C build-dir nested-wayland-shell
-
-[`run_nested_shell.py`]: /tools/run_nested_shell.py
