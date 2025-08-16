@@ -15,7 +15,6 @@ app_js_src_files = files(
   'pcre2.js',
   'prefsdialog.js',
   'search.js',
-  'settings.js',
   'tablabel.js',
   'tcgetpgrp.js',
   'terminal.js',

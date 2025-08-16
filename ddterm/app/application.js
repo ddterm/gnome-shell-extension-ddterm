@@ -20,8 +20,7 @@ import Gi from 'gi';
 import System from 'system';
 
 import { AppWindow } from './appwindow.js';
-import { metadata, path } from './meta.js';
-import { get_settings } from './settings.js';
+import { get_settings, metadata, path } from './meta.js';
 import { TerminalCommand } from './terminal.js';
 import { TerminalSettings, TerminalSettingsParser } from './terminalsettings.js';
 import { WIFEXITED, WEXITSTATUS, WTERMSIG } from './waitstatus.js';
