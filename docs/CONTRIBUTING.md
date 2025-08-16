@@ -31,6 +31,8 @@ useful:
 
 * [Brief architecture description](/docs/Architecture.md)
 
+* [Manual testing/debugging](/docs/Debug.md)
+
 * [Automated tests](/docs/Test.md)
 
 * [Debugging/testing on multiple distros using Vagrant](/docs/Vagrant.md)
