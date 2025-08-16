@@ -345,7 +345,6 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
         assert diff_heap(
             dump_pre,
             dump_post,
-            hide_node=['_init/Gtk'],
             hide_edge=['cacheir-object']
         ) == ''
 
