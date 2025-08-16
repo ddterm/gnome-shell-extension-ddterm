@@ -44,9 +44,9 @@ on Fedora, `gtk4` package on Arch)
 
 Alternatively, you can use `docker` or `podman` to perform build steps in a
 container - the same image/environment that's used by the CI system. To do it,
-run build command with `./do-in-docker.sh` or `./do-in-podman.sh` wrapper:
+run build commands with `./do-in-docker.sh` or `./do-in-podman.sh` wrapper:
 
-    ./do-in-docker.sh meson setup build-dir
+    ./do-in-docker.sh meson setup '-Dshebang_override=/usr/bin/env gjs' build-dir
 
 ## 3. Build the package
 
@@ -65,8 +65,22 @@ it will be `build-dir`.
 If you want to build in a docker/podman container, prepend `./do-in-docker.sh`/
 `./do-in-podman.sh`:
 
-    ./do-in-docker.sh meson setup build-dir
+    ./do-in-docker.sh meson setup '-Dshebang_override=/usr/bin/env gjs' build-dir
     ./do-in-docker.sh ninja -C build-dir pack
+
+> [!IMPORTANT]
+> When running `meson setup` or `meson configure` in the container, you have
+> to pass `'-Dshebang_override=/usr/bin/env gjs'` as an argument, because
+> there is no `gjs` in the container image. And even if it was there, `gjs`
+> on the host system, where you will run ddterm, can be located at a different
+> path.
+
+> [!TIP]
+> `'-Dshebang_override=...'` option configures ddterm to use the specified
+> `gjs` executable. `/usr/bin/env gjs` will search for the exectuable in
+> `PATH`. But the option can also be set to a full path to the executable.
+> If the option is not set, the build system will try to find the executable
+> at build time.
 
 After these steps, you should have the package:
 `build-dir/ddterm@amezin.github.com.shell-extension.zip`.
