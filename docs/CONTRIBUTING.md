@@ -12,16 +12,16 @@ If you want to report a bug, proceed to the
 If you want to implement a feature/fix a bug, you might find these documents
 useful:
 
-* [How to build and install the project from source](BUILD.md)
+* [How to build and install the project from source](/docs/BUILD.md)
 
-* [Brief architecture description](Architecture.md)
+* [Brief architecture description](/docs/Architecture.md)
 
-* [Automated tests](Test.md)
+* [Automated tests](/docs/Test.md)
 
-* [Debugging/testing on multiple distros using Vagrant](Vagrant.md)
+* [Debugging/testing on multiple distros using Vagrant](/docs/Vagrant.md)
 
 TODO: add more
 
-You could also help [translating the user interface](Translations.md).
+You could also help [translating the user interface](/docs/Translations.md).
 
 Pull requests are preferred to feature requests :)
