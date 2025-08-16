@@ -27,15 +27,29 @@ To build the package, `cd` into the directory with the source code:
 and run the same commands, as in a [normal build from source (step 3)],
 but prefixed with `./do-in-docker.sh` (to use a Docker container):
 
-    ./do-in-docker.sh meson setup build-dir
+    ./do-in-docker.sh meson setup '-Dshebang_override=/usr/bin/env gjs' build-dir
     ./do-in-docker.sh ninja -C build-dir pack
 
 or with `./do-in-podman.sh` (to use a Podman container):
 
-    ./do-in-podman.sh meson setup build-dir
+    ./do-in-podman.sh meson setup '-Dshebang_override=/usr/bin/env gjs' build-dir
     ./do-in-podman.sh ninja -C build-dir pack
 
 [normal build from source (step 3)]: /docs/Build.md#3-build-the-package
+
+> [!IMPORTANT]
+> When running `meson setup` or `meson configure` in the container, you have
+> to pass `'-Dshebang_override=/usr/bin/env gjs'` as an argument, because
+> there is no `gjs` in the container image. And even if it was there, `gjs`
+> on the host system, where you will run ddterm, can be located at a different
+> path.
+
+> [!TIP]
+> `'-Dshebang_override=...'` option configures ddterm to use the specified
+> `gjs` executable. `/usr/bin/env gjs` will search for the exectuable in
+> `PATH`. But the option can also be set to the full path to the executable.
+> If the option is not set, the build system will try to find the executable
+> at build time.
 
 After these steps, you should get the package file:
 `build-dir/ddterm@amezin.github.com.shell-extension.zip`.

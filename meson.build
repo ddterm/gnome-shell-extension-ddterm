@@ -33,6 +33,21 @@ shell_versions = ['45', '46', '47', '48']
 
 summary('Target GNOME Shell version', gnome_shell_req, list_sep: ', ')
 
+gjs_shebang = get_option('shebang_override')
+
+gjs = find_program(
+  'gjs',
+  version: gjs_req,
+  required: gjs_shebang == '',
+  disabler: true,
+)
+
+if gjs_shebang == ''
+  gjs_shebang = gjs.full_path()
+endif
+
+summary('Shebang line', gjs_shebang)
+
 summary(
   {
     'prefix': prefix,
@@ -44,8 +59,6 @@ summary(
   },
   section: 'System-wide installation',
 )
-
-gjs = find_program('gjs', version: gjs_req)
 
 gtk3_builder_tool = find_program('gtk-builder-tool')
 gtk4_builder_tool = find_program('gtk4-builder-tool')
