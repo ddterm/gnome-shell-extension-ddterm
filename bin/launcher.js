@@ -70,56 +70,28 @@ function realpath(filename) {
 }
 
 const this_file = realpath(System.programPath);
+const this_file_uri = GLib.filename_to_uri(this_file, null);
 const this_file_name = GLib.path_get_basename(this_file);
-const bin_dir = GLib.path_get_dirname(this_file);
 const launcher_in_path = GLib.find_program_in_path(this_file_name);
 
 if (!launcher_in_path || this_file !== realpath(launcher_in_path)) {
     const current_env_path = GLib.getenv('PATH') ?? '';
+    const bin_dir = GLib.path_get_dirname(this_file);
     const new_env_path =
         GLib.build_pathv(GLib.SEARCHPATH_SEPARATOR_S, [bin_dir, current_env_path]);
 
     GLib.setenv('PATH', new_env_path, true);
 }
 
-function resolve_sync(promise) {
-    const loop = GLib.MainLoop.new(null, false);
-    let result;
-    let error;
-
-    promise.then(res => {
-        result = res;
-    }).catch(ex => {
-        error = ex;
-    }).finally(() => {
-        loop.quit();
-    });
-
-    loop.run();
-
-    if (error)
-        throw error;
-
-    return result;
-}
-
-const this_file_uri = GLib.filename_to_uri(this_file, null);
-const app_module_uri =
-    GLib.Uri.resolve_relative(this_file_uri, '@APP_MODULE@', GLib.UriFlags.NONE);
-
-let app_module;
-
-try {
-    app_module = resolve_sync(import(app_module_uri));
-} catch (ex) {
-    if (ex.name === 'MissingDependenciesError')
-        System.exit(1);
-
-    throw ex;
-}
-
-const app = new app_module.Application({
-    application_id: '@APP_ID@',
+import(
+    GLib.Uri.resolve_relative(this_file_uri, '@APP_MODULE@', GLib.UriFlags.NONE)
+).then(
+    app_module => new app_module.Application({ application_id: '@APP_ID@' })
+).then(
+    app => app.runAsync([System.programInvocationName, ...System.programArgs])
+).then(
+    exit_code => System.exit(exit_code)
+).catch(ex => {
+    console.error(ex);
+    System.exit(1);
 });
-
-System.exit(app.run([System.programInvocationName, ...System.programArgs]));
