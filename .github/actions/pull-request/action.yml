@@ -27,6 +27,11 @@ inputs:
     description: List of files/glob patterns to include in the commit and pull request, one per line
     required: true
 
+  branch:
+    description: Branch name (without refs/heads/)
+    default: ${{ github.job }}
+    required: true
+
 runs:
   using: composite
   steps:
