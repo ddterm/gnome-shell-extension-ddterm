@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-16 02:14+0000\n"
+"POT-Creation-Date: 2025-08-16 10:33+0000\n"
 "PO-Revision-Date: 2024-08-26 08:09+0000\n"
 "Last-Translator: yuh <yuhldr@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/zh_Hans/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 5.7.1-dev\n"
 
-#: data/com.github.amezin.ddterm.desktop.in.in:8 ddterm/app/appwindow.js:147
+#: data/com.github.amezin.ddterm.desktop.in.in:8 ddterm/app/appwindow.js:149
 #: ddterm/shell/notifications.js:269 ddterm/shell/panelicon.js:31
 msgid "ddterm"
 msgstr "ddterm"
@@ -41,75 +41,75 @@ msgstr "切换按钮"
 msgid "Preferences…"
 msgstr "首选项…"
 
-#: ddterm/app/application.js:94
+#: ddterm/app/application.js:95
 msgid "Start the application, but do not show the window"
 msgstr "开始应用，但没有显示窗口"
 
-#: ddterm/app/application.js:103
+#: ddterm/app/application.js:104
 msgid "Comma-separated list of backends that GDK should try to use"
 msgstr "GDK 应尝试使用的以逗号分隔的后端列表"
 
-#: ddterm/app/application.js:130
+#: ddterm/app/application.js:131
 msgid "Show version information and exit"
 msgstr "显示版本信息并退出"
 
-#: ddterm/app/application.js:139
+#: ddterm/app/application.js:140
 msgid "Run the specified command"
 msgstr "运行指定的命令"
 
-#: ddterm/app/application.js:153
+#: ddterm/app/application.js:154
 msgid "Wait for the command to exit, and return its exit code"
 msgstr "等待退出命令，并返回其退出代码"
 
-#: ddterm/app/application.js:162
+#: ddterm/app/application.js:163
 msgid "Set the working directory"
 msgstr "设置工作目录"
 
-#: ddterm/app/application.js:171
+#: ddterm/app/application.js:172
 msgid "Set tab title"
 msgstr "设置标签页标题"
 
-#: ddterm/app/application.js:180
+#: ddterm/app/application.js:181
 msgid "Keep the terminal open after the command has exited"
 msgstr "命令退出后保持终端打开"
 
-#: ddterm/app/application.js:189
+#: ddterm/app/application.js:190
 msgid "Do not pass the environment"
 msgstr "不要通过环境"
 
-#: ddterm/app/application.js:198
+#: ddterm/app/application.js:199
 msgid "Open a new tab"
 msgstr "打开新标签"
 
-#: ddterm/app/application.js:460
+#: ddterm/app/application.js:461
 msgid "Can't contact the extension."
 msgstr "无法连接到扩展。"
 
-#: ddterm/app/application.js:462 ddterm/app/application.js:589
+#: ddterm/app/application.js:463 ddterm/app/application.js:593
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr "请确保ddterm在GNOME扩展中可用。"
 
-#: ddterm/app/application.js:587
+#: ddterm/app/application.js:591
 msgid "Can't read the version of the loaded extension."
 msgstr "无法读取已加载扩展插件的版本。"
 
-#: ddterm/app/application.js:592 ddterm/shell/notifications.js:138
+#: ddterm/app/application.js:596 ddterm/shell/notifications.js:138
 msgid "Warning: ddterm version has changed"
 msgstr "警告：ddterm版本已改变"
 
-#: ddterm/app/application.js:593 ddterm/shell/notifications.js:140
+#: ddterm/app/application.js:597 ddterm/shell/notifications.js:140
 msgid "Log out, then log in again to load the updated extension."
 msgstr "注销后重新登录，方可生效。"
 
-#: ddterm/app/dependencies.js:72 ddterm/shell/notifications.js:192
+#: ddterm/app/dependencies.js:81 ddterm/shell/notifications.js:192
 msgid "ddterm needs additional packages to run"
 msgstr "ddterm需要额外的软件包才能运行"
 
-#: ddterm/app/dependencies.js:77 ddterm/shell/notifications.js:197
+#: ddterm/app/dependencies.js:86 ddterm/shell/notifications.js:197
 msgid "Please install the following packages:"
 msgstr "请安装以下软件包："
 
-#: ddterm/app/dependencies.js:84 ddterm/shell/notifications.js:205
+#: ddterm/app/dependencies.js:93 ddterm/shell/notifications.js:205
 msgid "Please install packages that provide the following files:"
 msgstr "请安装提供以下文件的软件包："
 
@@ -158,27 +158,27 @@ msgstr "找到前一个"
 msgid "Close"
 msgstr "关闭"
 
-#: ddterm/app/terminalpage.js:155
+#: ddterm/app/terminalpage.js:154
 msgid "Restart"
 msgstr "重新开始"
 
-#: ddterm/app/terminalpage.js:156 ddterm/app/terminalpage.js:645
+#: ddterm/app/terminalpage.js:155 ddterm/app/terminalpage.js:644
 msgid "Close Terminal"
 msgstr "关闭终端"
 
-#: ddterm/app/terminalpage.js:512
+#: ddterm/app/terminalpage.js:511
 msgid "The child process exited with status:"
 msgstr "子进程退出，状态为："
 
-#: ddterm/app/terminalpage.js:522
+#: ddterm/app/terminalpage.js:521
 msgid "The child process was aborted by signal:"
 msgstr "子进程被信号中止："
 
-#: ddterm/app/terminalpage.js:637
+#: ddterm/app/terminalpage.js:636
 msgid "Close this terminal?"
 msgstr "关闭这个终端？"
 
-#: ddterm/app/terminalpage.js:639
+#: ddterm/app/terminalpage.js:638
 msgid "There is still a process running in this terminal. Closing the terminal will kill it."
 msgstr "该终端中仍有一个进程在运行。关闭终端，将会销毁该进程。"
 

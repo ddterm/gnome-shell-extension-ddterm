@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-16 02:14+0000\n"
+"POT-Creation-Date: 2025-08-16 10:33+0000\n"
 "PO-Revision-Date: 2025-05-04 18:07+0000\n"
 "Last-Translator: Nuri KÜÇÜKLER <enatsek@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/tr/>\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.12-dev\n"
 
-#: data/com.github.amezin.ddterm.desktop.in.in:8 ddterm/app/appwindow.js:147
+#: data/com.github.amezin.ddterm.desktop.in.in:8 ddterm/app/appwindow.js:149
 #: ddterm/shell/notifications.js:269 ddterm/shell/panelicon.js:31
 msgid "ddterm"
 msgstr "ddterm"
@@ -43,75 +43,75 @@ msgstr "Aç/Kapat"
 msgid "Preferences…"
 msgstr "Tercihler…"
 
-#: ddterm/app/application.js:94
+#: ddterm/app/application.js:95
 msgid "Start the application, but do not show the window"
 msgstr "Uygulamayı başlat, fakat pencereyi gösterme"
 
-#: ddterm/app/application.js:103
+#: ddterm/app/application.js:104
 msgid "Comma-separated list of backends that GDK should try to use"
 msgstr "GDK'nın kullanımı için virgülle ayrılmış arka uç (backend) listesi"
 
-#: ddterm/app/application.js:130
+#: ddterm/app/application.js:131
 msgid "Show version information and exit"
 msgstr "Versiyon bilgisini görüntüle ve çık"
 
-#: ddterm/app/application.js:139
+#: ddterm/app/application.js:140
 msgid "Run the specified command"
 msgstr "Belirtilen komutu koş"
 
-#: ddterm/app/application.js:153
+#: ddterm/app/application.js:154
 msgid "Wait for the command to exit, and return its exit code"
 msgstr "Komutun bitmesini bekle, ve çıkış kodunu döndür"
 
-#: ddterm/app/application.js:162
+#: ddterm/app/application.js:163
 msgid "Set the working directory"
 msgstr "Çalışma dizinini ayarla"
 
-#: ddterm/app/application.js:171
+#: ddterm/app/application.js:172
 msgid "Set tab title"
 msgstr "Sekme başlığını ayarla"
 
-#: ddterm/app/application.js:180
+#: ddterm/app/application.js:181
 msgid "Keep the terminal open after the command has exited"
 msgstr "Komutun çalışması bittikten sonra terminali açık tut"
 
-#: ddterm/app/application.js:189
+#: ddterm/app/application.js:190
 msgid "Do not pass the environment"
 msgstr "Ortam değişkenlerini kullanma"
 
-#: ddterm/app/application.js:198
+#: ddterm/app/application.js:199
 msgid "Open a new tab"
 msgstr "Yeni bir sekme aç"
 
-#: ddterm/app/application.js:460
+#: ddterm/app/application.js:461
 msgid "Can't contact the extension."
 msgstr "Uzantı ile irtibat kurulamıyor."
 
-#: ddterm/app/application.js:462 ddterm/app/application.js:589
+#: ddterm/app/application.js:463 ddterm/app/application.js:593
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr "Lütfen ddterm GNOME Shell eklentisinin etkinleştirildiğinden emin olun."
 
-#: ddterm/app/application.js:587
+#: ddterm/app/application.js:591
 msgid "Can't read the version of the loaded extension."
 msgstr "Yüklü olan uzantının versiyon bilgisi okunamadı."
 
-#: ddterm/app/application.js:592 ddterm/shell/notifications.js:138
+#: ddterm/app/application.js:596 ddterm/shell/notifications.js:138
 msgid "Warning: ddterm version has changed"
 msgstr "Uyarı: ddterm sürümü değişti"
 
-#: ddterm/app/application.js:593 ddterm/shell/notifications.js:140
+#: ddterm/app/application.js:597 ddterm/shell/notifications.js:140
 msgid "Log out, then log in again to load the updated extension."
 msgstr "Güncellenmiş uzantıyı yüklemek için oturumu kapatın ve tekrar açın."
 
-#: ddterm/app/dependencies.js:72 ddterm/shell/notifications.js:192
+#: ddterm/app/dependencies.js:81 ddterm/shell/notifications.js:192
 msgid "ddterm needs additional packages to run"
 msgstr "ddterm çalışmak için ek paketlere ihtiyaç duyar"
 
-#: ddterm/app/dependencies.js:77 ddterm/shell/notifications.js:197
+#: ddterm/app/dependencies.js:86 ddterm/shell/notifications.js:197
 msgid "Please install the following packages:"
 msgstr "Lütfen aşağıda listelenen paketleri yükleyin:"
 
-#: ddterm/app/dependencies.js:84 ddterm/shell/notifications.js:205
+#: ddterm/app/dependencies.js:93 ddterm/shell/notifications.js:205
 msgid "Please install packages that provide the following files:"
 msgstr "Lütfen aşağıdaki dosyaları sağlayan paketleri yükleyin:"
 
@@ -160,27 +160,27 @@ msgstr "Öncekini Bul"
 msgid "Close"
 msgstr "Kapat"
 
-#: ddterm/app/terminalpage.js:155
+#: ddterm/app/terminalpage.js:154
 msgid "Restart"
 msgstr "Yeniden Başlat"
 
-#: ddterm/app/terminalpage.js:156 ddterm/app/terminalpage.js:645
+#: ddterm/app/terminalpage.js:155 ddterm/app/terminalpage.js:644
 msgid "Close Terminal"
 msgstr "Terminali Kapat"
 
-#: ddterm/app/terminalpage.js:512
+#: ddterm/app/terminalpage.js:511
 msgid "The child process exited with status:"
 msgstr "Alt işlem şu çıkış kodu ile sonlandı:"
 
-#: ddterm/app/terminalpage.js:522
+#: ddterm/app/terminalpage.js:521
 msgid "The child process was aborted by signal:"
 msgstr "Alt işlem şu sinyal ile durduruldu:"
 
-#: ddterm/app/terminalpage.js:637
+#: ddterm/app/terminalpage.js:636
 msgid "Close this terminal?"
 msgstr "Bu terminali kapat?"
 
-#: ddterm/app/terminalpage.js:639
+#: ddterm/app/terminalpage.js:638
 msgid "There is still a process running in this terminal. Closing the terminal will kill it."
 msgstr "Bu terminalde halen bir işlem çalışıyor. Terminali kapatmak bu işlemi de sonlandırır."
 

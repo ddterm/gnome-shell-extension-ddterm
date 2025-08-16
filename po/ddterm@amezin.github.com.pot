@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-16 02:14+0000\n"
+"POT-Creation-Date: 2025-08-16 10:33+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: data/com.github.amezin.ddterm.desktop.in.in:8 ddterm/app/appwindow.js:147
+#: data/com.github.amezin.ddterm.desktop.in.in:8 ddterm/app/appwindow.js:149
 #: ddterm/shell/notifications.js:269 ddterm/shell/panelicon.js:31
 msgid "ddterm"
 msgstr ""
@@ -41,75 +41,75 @@ msgstr ""
 msgid "Preferences…"
 msgstr ""
 
-#: ddterm/app/application.js:94
+#: ddterm/app/application.js:95
 msgid "Start the application, but do not show the window"
 msgstr ""
 
-#: ddterm/app/application.js:103
+#: ddterm/app/application.js:104
 msgid "Comma-separated list of backends that GDK should try to use"
 msgstr ""
 
-#: ddterm/app/application.js:130
+#: ddterm/app/application.js:131
 msgid "Show version information and exit"
 msgstr ""
 
-#: ddterm/app/application.js:139
+#: ddterm/app/application.js:140
 msgid "Run the specified command"
 msgstr ""
 
-#: ddterm/app/application.js:153
+#: ddterm/app/application.js:154
 msgid "Wait for the command to exit, and return its exit code"
 msgstr ""
 
-#: ddterm/app/application.js:162
+#: ddterm/app/application.js:163
 msgid "Set the working directory"
 msgstr ""
 
-#: ddterm/app/application.js:171
+#: ddterm/app/application.js:172
 msgid "Set tab title"
 msgstr ""
 
-#: ddterm/app/application.js:180
+#: ddterm/app/application.js:181
 msgid "Keep the terminal open after the command has exited"
 msgstr ""
 
-#: ddterm/app/application.js:189
+#: ddterm/app/application.js:190
 msgid "Do not pass the environment"
 msgstr ""
 
-#: ddterm/app/application.js:198
+#: ddterm/app/application.js:199
 msgid "Open a new tab"
 msgstr ""
 
-#: ddterm/app/application.js:460
+#: ddterm/app/application.js:461
 msgid "Can't contact the extension."
 msgstr ""
 
-#: ddterm/app/application.js:462 ddterm/app/application.js:589
+#: ddterm/app/application.js:463 ddterm/app/application.js:593
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr ""
 
-#: ddterm/app/application.js:587
+#: ddterm/app/application.js:591
 msgid "Can't read the version of the loaded extension."
 msgstr ""
 
-#: ddterm/app/application.js:592 ddterm/shell/notifications.js:138
+#: ddterm/app/application.js:596 ddterm/shell/notifications.js:138
 msgid "Warning: ddterm version has changed"
 msgstr ""
 
-#: ddterm/app/application.js:593 ddterm/shell/notifications.js:140
+#: ddterm/app/application.js:597 ddterm/shell/notifications.js:140
 msgid "Log out, then log in again to load the updated extension."
 msgstr ""
 
-#: ddterm/app/dependencies.js:72 ddterm/shell/notifications.js:192
+#: ddterm/app/dependencies.js:81 ddterm/shell/notifications.js:192
 msgid "ddterm needs additional packages to run"
 msgstr ""
 
-#: ddterm/app/dependencies.js:77 ddterm/shell/notifications.js:197
+#: ddterm/app/dependencies.js:86 ddterm/shell/notifications.js:197
 msgid "Please install the following packages:"
 msgstr ""
 
-#: ddterm/app/dependencies.js:84 ddterm/shell/notifications.js:205
+#: ddterm/app/dependencies.js:93 ddterm/shell/notifications.js:205
 msgid "Please install packages that provide the following files:"
 msgstr ""
 
@@ -158,27 +158,27 @@ msgstr ""
 msgid "Close"
 msgstr ""
 
-#: ddterm/app/terminalpage.js:155
+#: ddterm/app/terminalpage.js:154
 msgid "Restart"
 msgstr ""
 
-#: ddterm/app/terminalpage.js:156 ddterm/app/terminalpage.js:645
+#: ddterm/app/terminalpage.js:155 ddterm/app/terminalpage.js:644
 msgid "Close Terminal"
 msgstr ""
 
-#: ddterm/app/terminalpage.js:512
+#: ddterm/app/terminalpage.js:511
 msgid "The child process exited with status:"
 msgstr ""
 
-#: ddterm/app/terminalpage.js:522
+#: ddterm/app/terminalpage.js:521
 msgid "The child process was aborted by signal:"
 msgstr ""
 
-#: ddterm/app/terminalpage.js:637
+#: ddterm/app/terminalpage.js:636
 msgid "Close this terminal?"
 msgstr ""
 
-#: ddterm/app/terminalpage.js:639
+#: ddterm/app/terminalpage.js:638
 msgid "There is still a process running in this terminal. Closing the terminal will kill it."
 msgstr ""
 

@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-16 02:14+0000\n"
+"POT-Creation-Date: 2025-08-16 10:33+0000\n"
 "PO-Revision-Date: 2025-05-08 06:03+0000\n"
 "Last-Translator: luk <lukasz.osadik@wp.pl>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/pl/>\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Weblate 5.12-dev\n"
 
-#: data/com.github.amezin.ddterm.desktop.in.in:8 ddterm/app/appwindow.js:147
+#: data/com.github.amezin.ddterm.desktop.in.in:8 ddterm/app/appwindow.js:149
 #: ddterm/shell/notifications.js:269 ddterm/shell/panelicon.js:31
 msgid "ddterm"
 msgstr "ddterm"
@@ -46,75 +46,75 @@ msgstr "Przełącznik"
 msgid "Preferences…"
 msgstr "Preferencje…"
 
-#: ddterm/app/application.js:94
+#: ddterm/app/application.js:95
 msgid "Start the application, but do not show the window"
 msgstr "Uruchom aplikację, ale nie pokazuj okna"
 
-#: ddterm/app/application.js:103
+#: ddterm/app/application.js:104
 msgid "Comma-separated list of backends that GDK should try to use"
 msgstr "Rozdzielana przecinkami lista backendów, których GDK powinien spróbować użyć"
 
-#: ddterm/app/application.js:130
+#: ddterm/app/application.js:131
 msgid "Show version information and exit"
 msgstr "Pokaż numer wersji i wyjdź"
 
-#: ddterm/app/application.js:139
+#: ddterm/app/application.js:140
 msgid "Run the specified command"
 msgstr "Uruchom polecenie"
 
-#: ddterm/app/application.js:153
+#: ddterm/app/application.js:154
 msgid "Wait for the command to exit, and return its exit code"
 msgstr "Poczekaj no wykonanie polecenia i zwróć wynik jego działania"
 
-#: ddterm/app/application.js:162
+#: ddterm/app/application.js:163
 msgid "Set the working directory"
 msgstr "Zmień aktualny folder"
 
-#: ddterm/app/application.js:171
+#: ddterm/app/application.js:172
 msgid "Set tab title"
 msgstr "Ustaw inny tytuł karty"
 
-#: ddterm/app/application.js:180
+#: ddterm/app/application.js:181
 msgid "Keep the terminal open after the command has exited"
 msgstr "Nie zamykaj konsoli po wykonaniu polecenia"
 
-#: ddterm/app/application.js:189
+#: ddterm/app/application.js:190
 msgid "Do not pass the environment"
 msgstr "Nie przekazuj zmiennych środowiskowych"
 
-#: ddterm/app/application.js:198
+#: ddterm/app/application.js:199
 msgid "Open a new tab"
 msgstr "Otwórz nową kartę"
 
-#: ddterm/app/application.js:460
+#: ddterm/app/application.js:461
 msgid "Can't contact the extension."
 msgstr "Nie można skontaktować się z rozszerzeniem."
 
-#: ddterm/app/application.js:462 ddterm/app/application.js:589
+#: ddterm/app/application.js:463 ddterm/app/application.js:593
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr "Proszę upewnić się że rozszerzenie ddterm GNOME Shell jest włączone."
 
-#: ddterm/app/application.js:587
+#: ddterm/app/application.js:591
 msgid "Can't read the version of the loaded extension."
 msgstr "Nie można odczytać wersji wczytanego rozszerzenia."
 
-#: ddterm/app/application.js:592 ddterm/shell/notifications.js:138
+#: ddterm/app/application.js:596 ddterm/shell/notifications.js:138
 msgid "Warning: ddterm version has changed"
 msgstr "Ostrzeżenie: wersja ddterm zmieniła się"
 
-#: ddterm/app/application.js:593 ddterm/shell/notifications.js:140
+#: ddterm/app/application.js:597 ddterm/shell/notifications.js:140
 msgid "Log out, then log in again to load the updated extension."
 msgstr "Zaloguj się ponownie, aby załadować aktualne rozszerzenie."
 
-#: ddterm/app/dependencies.js:72 ddterm/shell/notifications.js:192
+#: ddterm/app/dependencies.js:81 ddterm/shell/notifications.js:192
 msgid "ddterm needs additional packages to run"
 msgstr "ddterm potrzebuje dodatkowych pakietów, aby mógł działać"
 
-#: ddterm/app/dependencies.js:77 ddterm/shell/notifications.js:197
+#: ddterm/app/dependencies.js:86 ddterm/shell/notifications.js:197
 msgid "Please install the following packages:"
 msgstr "Zainstaluj poniższe pakiety:"
 
-#: ddterm/app/dependencies.js:84 ddterm/shell/notifications.js:205
+#: ddterm/app/dependencies.js:93 ddterm/shell/notifications.js:205
 msgid "Please install packages that provide the following files:"
 msgstr "Prosimy zainstalować pakiety, które dostarczają następujące pliki:"
 
@@ -163,27 +163,27 @@ msgstr "Wyszukaj poprzednie"
 msgid "Close"
 msgstr "Zamknij"
 
-#: ddterm/app/terminalpage.js:155
+#: ddterm/app/terminalpage.js:154
 msgid "Restart"
 msgstr "Uruchom ponownie"
 
-#: ddterm/app/terminalpage.js:156 ddterm/app/terminalpage.js:645
+#: ddterm/app/terminalpage.js:155 ddterm/app/terminalpage.js:644
 msgid "Close Terminal"
 msgstr "Zamknij terminal"
 
-#: ddterm/app/terminalpage.js:512
+#: ddterm/app/terminalpage.js:511
 msgid "The child process exited with status:"
 msgstr "Otwarty proces zakończył się ze statusem:"
 
-#: ddterm/app/terminalpage.js:522
+#: ddterm/app/terminalpage.js:521
 msgid "The child process was aborted by signal:"
 msgstr "Otwarty proces został zakończony sygnałem:"
 
-#: ddterm/app/terminalpage.js:637
+#: ddterm/app/terminalpage.js:636
 msgid "Close this terminal?"
 msgstr "Zamknąć ten terminal?"
 
-#: ddterm/app/terminalpage.js:639
+#: ddterm/app/terminalpage.js:638
 msgid "There is still a process running in this terminal. Closing the terminal will kill it."
 msgstr "W tej konsoli wciąż wykonuje się polecenie. Zamknięcie konsoli spowoduje zakończenie procesu."
 
