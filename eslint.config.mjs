@@ -68,8 +68,8 @@ export default defineConfig([
     },
     {
         files: [
-            'bin/launcher.js',
-            'tools/translate-esm.js',
+            'bin/*.js',
+            'tools/*.js',
         ],
         languageOptions: {
             sourceType: 'script',
