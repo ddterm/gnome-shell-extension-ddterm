@@ -13,6 +13,18 @@ import Vte from 'gi://Vte';
 import { tcgetpgrp, InterpreterNotFoundError } from './tcgetpgrp.js';
 import { UrlDetect } from './urldetect.js';
 
+export function WEXITSTATUS(status) {
+    return (status & 0xff00) >> 8;
+}
+
+export function WTERMSIG(status) {
+    return status & 0x7f;
+}
+
+export function WIFEXITED(status) {
+    return WTERMSIG(status) === 0;
+}
+
 const PANGO_SCALE_XX_SMALL = 0.5787037037037;
 const PANGO_SCALE_X_SMALL = 0.6944444444444;
 const PANGO_SCALE_SMALL = 0.8333333333333;

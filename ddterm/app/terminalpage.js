@@ -13,9 +13,8 @@ import Gettext from 'gettext';
 
 import { SearchBar } from './search.js';
 import { TabLabel } from './tablabel.js';
-import { Terminal, TerminalCommand } from './terminal.js';
+import { Terminal, TerminalCommand, WIFEXITED, WEXITSTATUS, WTERMSIG } from './terminal.js';
 import { TerminalSettings } from './terminalsettings.js';
-import { WIFEXITED, WEXITSTATUS, WTERMSIG } from './waitstatus.js';
 
 export const TerminalPage = GObject.registerClass({
     Properties: {

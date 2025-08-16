@@ -21,9 +21,8 @@ import System from 'system';
 
 import { AppWindow } from './appwindow.js';
 import { get_settings, metadata, path } from './meta.js';
-import { TerminalCommand } from './terminal.js';
+import { TerminalCommand, WIFEXITED, WEXITSTATUS, WTERMSIG } from './terminal.js';
 import { TerminalSettings, TerminalSettingsParser } from './terminalsettings.js';
-import { WIFEXITED, WEXITSTATUS, WTERMSIG } from './waitstatus.js';
 import { DisplayConfig } from '../util/displayconfig.js';
 import {
     create_extension_dbus_proxy,

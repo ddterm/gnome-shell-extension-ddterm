@@ -22,7 +22,6 @@ app_js_src_files = files(
   'terminalsettings.js',
   'urldetect.js',
   'urldetect_patterns.js',
-  'waitstatus.js',
 )
 
 foreach app_js_src_file : app_js_src_files
