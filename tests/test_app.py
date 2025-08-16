@@ -345,7 +345,6 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
         assert diff_heap(
             dump_pre,
             dump_post,
-            hide_edge=['cacheir-object']
         ) == ''
 
     @pytest.mark.usefixtures('hide', 'app_active')
@@ -489,7 +488,7 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
         assert diff_heap(
             dump_pre,
             dump_post,
-            hide_edge=['window_title_binding', 'cacheir-object'],
+            hide_edge=['window_title_binding'],
         ) == ''
 
     @pytest.fixture(scope='class')
