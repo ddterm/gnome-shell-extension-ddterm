@@ -122,12 +122,11 @@ function update_manifest(dry_run = false) {
     }
 
     if (!dry_run && updated) {
-        manifest_file.replace_contents(
+        GLib.file_set_contents_full(
+            manifest_file,
             JSON.stringify(manifest, undefined, 1),
-            null,
-            false,
-            Gio.FileCreateFlags.NONE,
-            null
+            GLib.FileSetContentsFlags.NONE,
+            0o666
         );
     }
 

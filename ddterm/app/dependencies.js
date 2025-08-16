@@ -9,10 +9,18 @@ import Gi from 'gi';
 import System from 'system';
 
 import { create_extension_dbus_proxy_oneshot } from './extensiondbus.js';
-import { get_resource_file, get_resource_text } from './resources.js';
 
-export const manifest_file = get_resource_file('dependencies.json');
-export const manifest = JSON.parse(get_resource_text(manifest_file));
+export const [manifest_file] = GLib.filename_from_uri(
+    GLib.Uri.resolve_relative(import.meta.url, 'dependencies.json', GLib.UriFlags.NONE)
+);
+
+function load_manifest() {
+    const [, bytes] = GLib.file_get_contents(manifest_file);
+
+    return JSON.parse(new TextDecoder().decode(bytes));
+}
+
+export const manifest = load_manifest();
 
 export function get_os_ids() {
     const res = [GLib.get_os_info('ID')];

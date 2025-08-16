@@ -20,8 +20,7 @@ import Gi from 'gi';
 import System from 'system';
 
 import { AppWindow } from './appwindow.js';
-import { metadata } from './meta.js';
-import { get_resource_file, get_resource_text } from './resources.js';
+import { metadata, path } from './meta.js';
 import { get_settings } from './settings.js';
 import { TerminalCommand } from './terminal.js';
 import { TerminalSettings, TerminalSettingsParser } from './terminalsettings.js';
@@ -47,6 +46,10 @@ const signal_add = GLibUnix?.signal_add_full ?? GLib.unix_signal_add;
 const SIGHUP = 1;
 const SIGINT = 2;
 const SIGTERM = 15;
+
+const STYLE_URI = GLib.Uri.resolve_relative(import.meta.url, 'style.css', GLib.UriFlags.NONE);
+const ICONS_URI = GLib.Uri.resolve_relative(import.meta.url, 'icons', GLib.UriFlags.NONE);
+const [ICONS_PATH] = GLib.filename_from_uri(ICONS_URI);
 
 function schedule_gc() {
     GLib.idle_add(GLib.PRIORITY_DEFAULT, () => {
@@ -290,7 +293,7 @@ class Application extends Gtk.Application {
         this.update_color_scheme();
 
         const css_provider = Gtk.CssProvider.new();
-        css_provider.load_from_file(get_resource_file('style.css'));
+        css_provider.load_from_file(Gio.File.new_for_uri(STYLE_URI));
 
         Gtk.StyleContext.add_provider_for_screen(
             Gdk.Screen.get_default(),
@@ -371,7 +374,7 @@ class Application extends Gtk.Application {
             this.bind_shortcut(action, key);
         });
 
-        Gtk.IconTheme.get_default().append_search_path(get_resource_file('icons').get_path());
+        Gtk.IconTheme.get_default().append_search_path(ICONS_PATH);
 
         this.session_file_path = GLib.build_filenamev([
             GLib.get_user_cache_dir(),
@@ -574,7 +577,10 @@ class Application extends Gtk.Application {
     }
 
     print_version_info() {
-        const revision = get_resource_text('../../revision.txt').trim();
+        const revision_file = GLib.build_filenamev([path, 'revision.txt']);
+        const [, revision_bytes] = GLib.file_get_contents(revision_file);
+        const revision = new TextDecoder().decode(revision_bytes).trim();
+
         print(metadata.name, metadata.version, 'revision', revision);
 
         try {

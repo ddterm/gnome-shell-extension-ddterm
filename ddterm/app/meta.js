@@ -2,10 +2,22 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import { get_resource_file, get_resource_text } from './resources.js';
+import GLib from 'gi://GLib';
+import Gio from 'gi://Gio';
 
-export const dir = get_resource_file('../..');
-export const metadata = JSON.parse(get_resource_text(dir.get_child('metadata.json')));
+const uri = GLib.Uri.resolve_relative(import.meta.url, '../..', GLib.UriFlags.NONE);
+
+export const dir = Gio.File.new_for_uri(uri);
+export const path = dir.get_path();
+
+function load() {
+    const [, bytes] = GLib.file_get_contents(GLib.build_filenamev([path, 'metadata.json']));
+
+    return JSON.parse(new TextDecoder().decode(bytes));
+}
+
+export const metadata = load();
+
 export default metadata;
 
 export const { name, uuid, version } = metadata;

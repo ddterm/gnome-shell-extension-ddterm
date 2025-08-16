@@ -14,8 +14,17 @@ import Gettext from 'gettext';
 
 import { TerminalSettings } from './terminalsettings.js';
 import { Notebook } from './notebook.js';
-import { get_resource_file } from './resources.js';
 import { DisplayConfig, LayoutMode } from '../util/displayconfig.js';
+
+const MENU_URI = GLib.Uri.resolve_relative(import.meta.url, './ui/menus.ui', GLib.UriFlags.NONE);
+const [MENU_PATH] = GLib.filename_from_uri(MENU_URI);
+
+const WINDOW_POS_TO_RESIZE_EDGE = {
+    top: Gdk.WindowEdge.SOUTH,
+    bottom: Gdk.WindowEdge.NORTH,
+    left: Gdk.WindowEdge.EAST,
+    right: Gdk.WindowEdge.WEST,
+};
 
 function make_resizer(orientation) {
     const box = new Gtk.EventBox({ visible: true });
@@ -39,13 +48,6 @@ function make_resizer(orientation) {
 
     return box;
 }
-
-const WINDOW_POS_TO_RESIZE_EDGE = {
-    top: Gdk.WindowEdge.SOUTH,
-    bottom: Gdk.WindowEdge.NORTH,
-    left: Gdk.WindowEdge.EAST,
-    right: Gdk.WindowEdge.WEST,
-};
 
 export const AppWindow = GObject.registerClass({
     Properties: {
@@ -150,8 +152,7 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
             ...params,
         });
 
-        this.menus =
-            Gtk.Builder.new_from_file(get_resource_file('./ui/menus.ui').get_path());
+        this.menus = Gtk.Builder.new_from_file(MENU_PATH);
 
         const grid = new Gtk.Grid({
             parent: this,

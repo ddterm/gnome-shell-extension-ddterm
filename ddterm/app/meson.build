@@ -14,7 +14,6 @@ app_js_src_files = files(
   'notebook.js',
   'pcre2.js',
   'prefsdialog.js',
-  'resources.js',
   'search.js',
   'settings.js',
   'tablabel.js',
