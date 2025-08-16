@@ -38,8 +38,6 @@ on Fedora, `gtk4` package on Arch)
 
 - `msgcmp`, `msgmerge`, `xgettext` (`gettext` package)
 
-- `zip`
-
 ### 2.b) Build in a container
 
 Alternatively, you can use `docker` or `podman` to perform build steps in a
