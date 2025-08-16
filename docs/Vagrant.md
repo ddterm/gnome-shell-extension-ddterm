@@ -27,9 +27,9 @@ haven't built the package yet, you'll need to do so:
 
 Then:
 
-    meson devenv -C build-dir -w . vagrant up fedora39
+    meson devenv -C build-dir -w . vagrant up fedora42
 
-will start Fedora 39 VM, and will install ddterm into the VM.
+will start Fedora 42 VM, and will install ddterm into the VM.
 
 Instead of prefixing `vagrant` command with `meson devenv ...` every time,
 it's possible to just run `meson devenv -C build-dir` once. It will start a new
@@ -52,7 +52,7 @@ the package:
 
 and reinstall it:
 
-    meson devenv -C build-dir -w . vagrant provision fedora39
+    meson devenv -C build-dir -w . vagrant provision fedora42
 
 GNOME Shell session in the VM will automatically be terminated, you'll have to
 login again - because GNOME Shell can't reload extensions without a complete
