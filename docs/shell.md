@@ -8,7 +8,10 @@ ddterm GNOME Shell extension
 ============================
 
 Shell extension source code is located in [`ddterm/shell`] subdirectory. It's
-loaded by [`extension.js`](/extension.js) file in the top-level directory.
+loaded by [`extension.js` file in the top-level directory].
+
+[`ddterm/shell`]: /ddterm/shell
+[`extension.js` file in the top-level directory]: /extension.js
 
 Shell extension is responsible for:
 
@@ -19,59 +22,91 @@ Shell extension is responsible for:
 * Handling "global" keyboard shortcuts (i. e. shortcuts that work without the
 application window).
 
-* Launching the [ddterm application](/ddterm/app).
+* Launching the [ddterm application].
 
-* Installing/uninstalling [`.desktop`](/data/com.github.amezin.ddterm.desktop.in.in)
-and [`.service`](/data/com.github.amezin.ddterm.service.in) files.
+* Installing/uninstalling [`.desktop`] and [`.service`] files.
+
+[ddterm application]: /ddterm/app
+[`.desktop`]: /data/com.github.amezin.ddterm.desktop.in.in
+[`.service`]: /data/com.github.amezin.ddterm.service.in
 
 The extension exports a simple D-Bus interface
 (see [`com.github.amezin.ddterm.Extension.xml`]) on GNOME Shell well-known name
 `org.gnome.Shell`, path `/org/gnome/Shell/Extensions/ddterm`.
 
+[`com.github.amezin.ddterm.Extension.xml`]: /data/com.github.amezin.ddterm.Extension.xml
+
 Currently, extension code consists of multiple modules:
 
-* [`extension.js`](/ddterm/shell/extension.js): the main entry point
+* [`extension.js`][]: the main entry point.
 
-* [`dbusapi.js`](/ddterm/shell/dbusapi.js): D-Bus API skeleton
+[`extension.js`]: /ddterm/shell/extension.js
 
-* [`appcontrol.js`](/ddterm/shell/appcontrol.js): high-level actions:
-show/activate the application, hide, show preferences. Interacts with the
-application through applications' exported `GAction`s.
+* [`dbusapi.js`][]: D-Bus API skeleton.
 
-* [`service.js`](/ddterm/shell/service.js): starts ddterm application as a
-D-Bus service, if necessary
+[`dbusapi.js`]: /ddterm/shell/dbusapi.js
 
-* [`subprocess.js`](/ddterm/shell/subprocess.js): a running ddterm application
-subprocess, with the corresponding `Meta.WaylandClient`
+* [`appcontrol.js`][]: high-level actions: show/activate the application,
+hide, show preferences. Interacts with the application through applications'
+exported `GAction`s.
 
-* [`windowmatch.js`](/ddterm/shell/windowmatch.js): monitors opened windows and
-finds ddterm's main window
+[`appcontrol.js`]: /ddterm/shell/appcontrol.js
 
-* [`wlclipboard.js`](/ddterm/shell/wlclipboard.js): detects [wl-clipboard]
-utilities windows and implements workarounds for them.
+* [`service.js`][]: starts ddterm application as a D-Bus service, if necessary.
 
-* [`geometry.js`](/ddterm/shell/geometry.js): computes window position and size
+[`service.js`]: /ddterm/shell/service.js
 
-* [`wm.js`](/ddterm/shell/wm.js): window management code
+* [`subprocess.js`][]: a running ddterm application subprocess,
+with the corresponding `Meta.WaylandClient`.
 
-* [`panelicon.js`](/ddterm/shell/panelicon.js): ddterm's panel icon implementation
+[`subprocess.js`]: /ddterm/shell/subprocess.js
 
-* [`notifications.js`](/ddterm/shell/notifications.js): notifications UI
+* [`windowmatch.js`][]: monitors opened windows and finds ddterm's main window.
 
-* [`install.js`](/ddterm/shell/install.js): installation of `.desktop` and
-D-Bus `.service` files for the application
+[`windowmatch.js`]: /ddterm/shell/windowmatch.js
 
-* [`packagemanager.js`](/ddterm/shell/packagemanager.js): installation of
-missing OS packages using PackageKit CLI (`pkcon`) or OS package manager
-in an external terminal
+* [`wlclipboard.js`][]: detects [wl-clipboard] utilities windows and implements
+workarounds for them.
+
+[wl-clipboard]: https://github.com/bugaevc/wl-clipboard
+[`wlclipboard.js`]: /ddterm/shell/wlclipboard.js
+
+* [`geometry.js`][]: computes expected window position and size.
+
+[`geometry.js`]: /ddterm/shell/geometry.js
+
+* [`animation.js`][]: computes expected animation parameters
+and overrides window animations.
+
+[`animation.js`]: /ddterm/shell/animation.js
+
+* [`wm.js`][]: window manager code. Applies the correct window geometry
+(computed by [`geometry.js`]) and animations (through [`animation.js`]).
+
+[`wm.js`]: /ddterm/shell/wm.js
+
+* [`panelicon.js`][]: ddterm's panel icon implementation.
+
+[`panelicon.js`]: /ddterm/shell/panelicon.js
+
+* [`notifications.js`][]: various notifications shown by ddterm.
+
+[`notifications.js`]: /ddterm/shell/notifications.js
+
+* [`install.js`][]: installation of [`.desktop`] and D-Bus [`.service`] files
+for the application
+
+[`install.js`]: /ddterm/shell/install.js
+
+* [`packagemanager.js`][]: installation of missing OS packages using
+PackageKit CLI (`pkcon`) or OS package manager in an external terminal.
+
+[`packagemanager.js`]: /ddterm/shell/packagemanager.js
 
 There are also utility modules:
 
-* [`sd_journal.js`](/ddterm/shell/sd_journal.js): connection to systemd-journald
+* [`sd_journal.js`][]: connection to systemd-journald
+
+[`sd_journal.js`]: /ddterm/shell/sd_journal.js
 
 Extension code doesn't (and shouldn't) use any third party (npm) libraries.
-
-[`ddterm/shell`]: /ddterm/shell
-[`com.github.amezin.ddterm.Extension.xml`]: /data/com.github.amezin.ddterm.Extension.xml
-
-[wl-clipboard]: https://github.com/bugaevc/wl-clipboard

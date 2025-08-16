@@ -6,7 +6,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 # ddterm tests
 
-If you're [building ddterm from source](/docs/BUILD.md), running
+If you're [building ddterm from source], running
 
     ninja test
 
@@ -16,6 +16,8 @@ or
 
 in the build directory will run some basic tests (if necessary dependencies
 are installed and detected by `meson` correctly).
+
+[building ddterm from source]: /docs/BUILD.md
 
 `tox` allows more flexibility and more thorough testing. To see all available
 `tox` commands/environments, run `tox list`.
@@ -48,7 +50,9 @@ Or to do both at the same time:
 
     tox [--sitepackages] -e pytest -- [--package=path] <other-options...>
 
-Before running tests, you need to [build the extension package](/docs/BUILD.md).
+Before running tests, you need to [build the extension package].
+
+[build the extension package]: /docs/BUILD.md
 
 You either have to specify the path to the built package:
 
@@ -74,6 +78,8 @@ and PyGObject will be automatically built from source.
 Can be repeated multiple times to run tests with multiple images.
 `IMAGE` can be full image name, or a service name from [`compose.yaml`].
 
+[`compose.yaml`]: /tests/compose.yaml
+
 `--screenshot-always` - take screenshots after every test. By default,
 screenshots are taken only after failures.
 
@@ -81,12 +87,12 @@ To see all available options:
 
     tox [--sitepackages] -e pytest -- --help
 
-## Report
+## Reports
 
-Test report is created as `report.html` in the `test` directory.
+Test report is created as `report.html` in the `tests` directory.
 
-You could also request a report in JUnit format by adding
-`--junitxml=filename` option.
+You can also request a report in JUnit format by adding `--junitxml=filename`
+option.
 
 ## What is being tested
 
@@ -97,8 +103,8 @@ combinations, [pairwise testing] (using [PICT]) is applied.
 
 * Basic memory leak tests.
 
-Application's UI is (mostly) not covered.
+Application's UI is (mostly) not covered, you'll have to [test it manually].
 
 [pairwise testing]: https://www.pairwise.org/
 [PICT]: https://github.com/microsoft/pict
-[`compose.yaml`]: /tests/compose.yaml
+[test it manually]: /docs/Debug.md

@@ -42,27 +42,30 @@ You can also install the extension from a `.zip` package.
 
 ### 1. Obtain the package
 
-You could either download an already-built package or build it from the source
+You can either download an already-built package, or build it from the source
 code yourself.
 
 #### 1.a) Prebuilt package
 
-You can download a released version from
-[Releases](https://github.com/ddterm/gnome-shell-extension-ddterm/releases)
-page. You need the file `ddterm@amezin.github.com.shell-extension.zip`.
+You can download a released version from the [Releases] page.
+You need the file `ddterm@amezin.github.com.shell-extension.zip`.
+
+[Releases]: https://github.com/ddterm/gnome-shell-extension-ddterm/releases
 
 Also, the CI system builds a package for every commit. Latest package for the
 `master` branch is published here:
 
 <https://ddterm.github.io/gnome-shell-extension-ddterm/ddterm@amezin.github.com.shell-extension.zip>
 
-> [!WARNING]
+> [!CAUTION]
 > If you install the package from the `master` branch, GNOME Shell
 > will not update it automatically when a new version is released.
 
 #### 1.b) Build from source code
 
-See [BUILD.md](BUILD.md) for build instructions.
+See [BUILD.md] for build instructions.
+
+[BUILD.md]: /docs/BUILD.md
 
 ### 2. Install the package
 
@@ -70,6 +73,13 @@ After downloading or building the package, run the following command to install
 it:
 
     gnome-extensions install -f /path/to/ddterm@amezin.github.com.shell-extension.zip
+
+> [!TIP]
+> Instead of installing the package on your system, you can test it in a
+> [nested (windowed) GNOME Shell], or in a [virtual machine].
+
+[nested (windowed) GNOME Shell]: /docs/Debug.md
+[virtual machine]: /docs/Vagrant.md
 
 ### 3. Restart GNOME Shell
 
@@ -88,4 +98,6 @@ the `gnome-tweaks` app, or by running:
 
     gnome-extensions enable ddterm@amezin.github.com
 
-You'll have to perform this step only once.
+> [!TIP]
+> It's not necessary to repeat this step after every reinstallation.
+> If an extension was already enabled for this user, this step can be skipped.

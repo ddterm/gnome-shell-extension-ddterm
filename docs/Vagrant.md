@@ -6,13 +6,17 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 # Vagrant VMs
 
-There is a [`Vagrantfile`] in the root of the repository. You could use it
+There is a [`Vagrantfile`] in the root of the repository. You can use it
 to spin up testing VMs with different Linux distros. For the actual list of
 distributions (and also VM names), look at `config.vm.define` blocks in the
 [`Vagrantfile`].
 
+[`Vagrantfile`]: /Vagrantfile
+
 Currently, all VMs are custom-built boxes, with [`vagrant-libvirt`] provider
-only.
+only. See: <https://github.com/ddterm/gnome-shell-box>
+
+[`vagrant-libvirt`]: https://vagrant-libvirt.github.io/vagrant-libvirt/installation.html
 
 QEMU/libvirt VMs use SPICE for display. So you'll have to install
 `virt-manager`, `virt-viewer`, GNOME Boxes, or a similar GUI.
@@ -27,9 +31,9 @@ haven't built the package yet, you'll need to do so:
 
 Then:
 
-    meson devenv -C build-dir -w . vagrant up fedora39
+    meson devenv -C build-dir -w . vagrant up fedora42
 
-will start Fedora 39 VM, and will install ddterm into the VM.
+will start Fedora 42 VM, and will install ddterm into the VM.
 
 Instead of prefixing `vagrant` command with `meson devenv ...` every time,
 it's possible to just run `meson devenv -C build-dir` once. It will start a new
@@ -52,11 +56,8 @@ the package:
 
 and reinstall it:
 
-    meson devenv -C build-dir -w . vagrant provision fedora39
+    meson devenv -C build-dir -w . vagrant provision fedora42
 
 GNOME Shell session in the VM will automatically be terminated, you'll have to
 login again - because GNOME Shell can't reload extensions without a complete
 restart.
-
-[`Vagrantfile`]: /Vagrantfile
-[`vagrant-libvirt`]: https://vagrant-libvirt.github.io/vagrant-libvirt/installation.html

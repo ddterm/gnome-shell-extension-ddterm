@@ -2,8 +2,18 @@
 #
 # SPDX-License-Identifier: CC0-1.0
 
-MD033:
+no-blanks-blockquote: false
+
+ol-prefix:
+  style: ordered
+
+no-inline-html:
   allowed_elements:
     - kbd
+
+link-image-style:
+  inline: false
+  url_inline: false
+
 relative-links:
   root_path: .
