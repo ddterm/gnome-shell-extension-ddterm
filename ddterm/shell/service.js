@@ -107,10 +107,11 @@ export const Service = GObject.registerClass({
         super(rest);
 
         this.#subprocess = subprocess;
-        this.#subprocess_running = subprocess?.is_running ?? false;
 
-        if (subprocess)
+        if (subprocess) {
+            this.#subprocess_running = true;
             this.#subprocess_wait = this.#wait_subprocess();
+        }
 
         this.#bus_watch = Gio.bus_watch_name_on_connection(
             this.bus,
@@ -123,6 +124,10 @@ export const Service = GObject.registerClass({
 
     get subprocess() {
         return this.#subprocess;
+    }
+
+    owns_window(win) {
+        return this.#subprocess_running && this.#subprocess.owns_window(win);
     }
 
     get bus_name_owner() {

@@ -7,7 +7,7 @@ import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
 import Meta from 'gi://Meta';
 
-import { Subprocess } from './subprocess.js';
+import { Service } from './service.js';
 
 export const WindowMatchGeneric = GObject.registerClass({
     Properties: {
@@ -84,12 +84,12 @@ export const WindowMatchGeneric = GObject.registerClass({
 
 export const WindowMatch = GObject.registerClass({
     Properties: {
-        'subprocess': GObject.ParamSpec.object(
-            'subprocess',
+        'service': GObject.ParamSpec.object(
+            'service',
             '',
             '',
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
-            Subprocess
+            Service
         ),
         'current-window': GObject.ParamSpec.object(
             'current-window',
@@ -138,7 +138,7 @@ export const WindowMatch = GObject.registerClass({
         if (win === this._window)
             return GLib.SOURCE_REMOVE;
 
-        if (!this.subprocess?.owns_window(win)) {
+        if (!this.service.owns_window(win)) {
             /*
                 With X11 window:
                 - Shell can be restarted without logging out
@@ -147,7 +147,7 @@ export const WindowMatch = GObject.registerClass({
                 So if we did not launch the app, allow this check to be skipped
                 on X11.
             */
-            if (this.subprocess?.is_running())
+            if (this.service.is_running)
                 return GLib.SOURCE_REMOVE;
 
             if (win.get_client_type() === Meta.WindowClientType.WAYLAND)

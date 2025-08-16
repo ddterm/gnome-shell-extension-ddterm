@@ -28,28 +28,6 @@ const APP_ID = 'com.github.amezin.ddterm';
 const APP_DBUS_PATH = '/com/github/amezin/ddterm';
 const WINDOW_PATH_PREFIX = `${APP_DBUS_PATH}/window/`;
 
-function create_window_matcher(service, rollback) {
-    const window_matcher = new WindowMatch({
-        subprocess: service.subprocess,
-        display: global.display,
-        gtk_application_id: APP_ID,
-        gtk_window_object_path_prefix: WINDOW_PATH_PREFIX,
-    });
-
-    rollback.push(() => {
-        window_matcher.disable();
-    });
-
-    service.bind_property(
-        'subprocess',
-        window_matcher,
-        'subprocess',
-        GObject.BindingFlags.DEFAULT
-    );
-
-    return window_matcher;
-}
-
 function create_dbus_interface(
     window_geometry,
     window_matcher,
@@ -345,7 +323,16 @@ class EnabledExtension {
             'hide-animation-duration'
         );
 
-        this.window_matcher = create_window_matcher(this.service, rollback);
+        this.window_matcher = new WindowMatch({
+            service: this.service,
+            display: global.display,
+            gtk_application_id: APP_ID,
+            gtk_window_object_path_prefix: WINDOW_PATH_PREFIX,
+        });
+
+        rollback.push(() => {
+            this.window_matcher.disable();
+        });
 
         this.app_control = new AppControl({
             service: this.service,
