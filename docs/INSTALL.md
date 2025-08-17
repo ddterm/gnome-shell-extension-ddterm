@@ -63,9 +63,9 @@ Also, the CI system builds a package for every commit. Latest package for the
 
 #### 1.b) Build from source code
 
-See [BUILD.md] for build instructions.
+See [Build.md] for build instructions.
 
-[BUILD.md]: /docs/BUILD.md
+[Build.md]: /docs/Build.md
 
 ### 2. Install the package
 

@@ -57,7 +57,7 @@ argument:
 >
 > The correct `--pack` argument will be automatically set by the build system.
 
-[build ddterm from source]: /docs/BUILD.md
+[build ddterm from source]: /docs/Build.md
 
 > [!TIP]
 > By default, the window is rather small. Its size can be controlled by setting

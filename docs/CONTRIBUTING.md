@@ -27,7 +27,7 @@ If you want to report a bug, please proceed to the [bug reporting form].
 If you want to implement a feature, or fix a bug, you may find these documents
 useful:
 
-* [How to build and install the project from source][BUILD.md]
+* [How to build and install the project from source][Build.md]
 
 * [Brief architecture description][Architecture.md]
 
@@ -39,7 +39,7 @@ useful:
 
 TODO: add more
 
-[BUILD.md]: /docs/BUILD.md
+[Build.md]: /docs/Build.md
 [Architecture.md]: /docs/Architecture.md
 [Debug.md]: /docs/Debug.md
 [Test.md]: /docs/Test.md

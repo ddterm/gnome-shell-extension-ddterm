@@ -17,7 +17,7 @@ or
 in the build directory will run some basic tests (if necessary dependencies
 are installed and detected by `meson` correctly).
 
-[building ddterm from source]: /docs/BUILD.md
+[building ddterm from source]: /docs/Build.md
 
 `tox` allows more flexibility and more thorough testing. To see all available
 `tox` commands/environments, run `tox list`.
@@ -52,7 +52,7 @@ Or to do both at the same time:
 
 Before running tests, you need to [build the extension package].
 
-[build the extension package]: /docs/BUILD.md
+[build the extension package]: /docs/Build.md
 
 You either have to specify the path to the built package:
 
