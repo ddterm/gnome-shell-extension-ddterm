@@ -87,9 +87,9 @@ After these steps, you should have the package:
 [nested (windowed) GNOME Shell]: /docs/Debug.md
 [virtual machine]: /docs/Vagrant.md
 
-The installation process is described in [INSTALL.md - continue from step 2].
+The installation process is described in [Install.md - continue from step 2].
 
-[INSTALL.md - continue from step 2]: /docs/INSTALL.md#2-install-the-package
+[Install.md - continue from step 2]: /docs/Install.md#2-install-the-package
 
 Alternatively, you could use `meson`/`ninja` to install the package too -
 but only if you didn't use containers to perform the build.
@@ -141,18 +141,18 @@ Installed files can be removed with the following command:
 
 ### 4.2. Restart GNOME Shell
 
-Described in [INSTALL.md - step 3].
+Described in [Install.md - step 3].
 
-[INSTALL.md - step 3]: /docs/INSTALL.md#3-restart-gnome-shell
+[Install.md - step 3]: /docs/Install.md#3-restart-gnome-shell
 
 ### 4.3. Enable the extension
 
-You can enable the extension as described in [INSTALL.md - step 4],
+You can enable the extension as described in [Install.md - step 4],
 or by running:
 
     ninja -C build-dir enable
 
-[INSTALL.md - step 4]: /docs/INSTALL.md#4-enable-the-extension
+[Install.md - step 4]: /docs/Install.md#4-enable-the-extension
 
 > [!TIP]
 > It's not necessary to repeat this step after every reinstallation.

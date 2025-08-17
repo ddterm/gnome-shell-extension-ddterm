@@ -57,9 +57,9 @@ A new release may be available here on GitHub, but not on
 
 [extensions.gnome.org]: https://extensions.gnome.org/extension/3780/ddterm/
 
-If you want to install from GitHub: see [`docs/INSTALL.md`].
+If you want to install from GitHub: see [`docs/Install.md`].
 
-[`docs/INSTALL.md`]: /docs/INSTALL.md
+[`docs/Install.md`]: /docs/Install.md
 
 ## Contribute
 
