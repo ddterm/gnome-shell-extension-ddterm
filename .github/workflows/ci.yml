@@ -83,7 +83,7 @@ jobs:
 
             # Include meson.build files, even from po/ directory
             **/meson.build
-            meson_options.txt
+            meson.options
 
       - id: test-config
         name: Determine test configurations
