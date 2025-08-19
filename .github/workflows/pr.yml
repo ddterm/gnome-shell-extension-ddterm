@@ -7,11 +7,14 @@ name: pr
 concurrency: ${{ github.ref }}
 
 on:
-  pull_request:
-
-permissions:
-  contents: read
+  - pull_request
+  - workflow_dispatch
 
 jobs:
   ci:
     uses: ./.github/workflows/ci.yml
+    with:
+      base: ${{ github.event.merge_group.base_sha || github.event.pull_request.base.sha || github.event.repository.default_branch }}
+
+    permissions:
+      contents: read

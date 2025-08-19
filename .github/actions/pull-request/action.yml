@@ -6,15 +6,6 @@ name: Create pull request
 description: Create a pull request adding/updating the specified files
 
 inputs:
-  app-id:
-    description: App ID
-    default: '235906'
-    required: true
-
-  private-key:
-    description: App private key
-    required: true
-
   title:
     description: Pull request and commit title
     required: true
@@ -32,21 +23,18 @@ inputs:
     default: ${{ github.job }}
     required: true
 
+  github-token:
+    description: GitHub API token
+    default: ${{ github.token }}
+    required: true
+
 runs:
   using: composite
   steps:
-    - id: token
-      uses: actions/create-github-app-token@0f859bf9e69e887678d5bbfbee594437cb440ffe # v2.1.0
-      with:
-        app-id: ${{ inputs.app-id }}
-        private-key: ${{ inputs.private-key }}
-        permission-contents: write
-        permission-pull-requests: write
-
     - id: commit
       uses: amezin/create-commit-action@7a455aa043954f899eca6d2b1bc0d8c55efac1cd # v1.0.2
       with:
-        github-token: ${{ steps.token.outputs.token }}
+        github-token: ${{ inputs.github-token }}
         files: ${{ inputs.files }}
         message: |
           ${{ inputs.title }}
@@ -55,17 +43,31 @@ runs:
 
     - uses: amezin/create-or-update-git-ref-action@40ccb8122546cdc2fe6563ed0ffb0ab40485ca68 # v1.0.1
       with:
-        github-token: ${{ steps.token.outputs.token }}
+        github-token: ${{ inputs.github-token }}
         sha: ${{ steps.commit.outputs.sha }}
         ref: refs/heads/${{ inputs.branch }}
         force: true
 
     - uses: amezin/create-or-update-pull-request-action@55147022c19d0e0269ef4d9a089cfc813f7cb3e8 # v1.1.0
       with:
-        github-token: ${{ steps.token.outputs.token }}
+        github-token: ${{ inputs.github-token }}
         head: ${{ inputs.branch }}
         title: ${{ inputs.title }}
         body: |
           ${{ inputs.description }}
 
           Automatically generated pull request, do not edit. Any changes will be overwritten.
+
+    - uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+      env:
+        REF: refs/heads/${{ inputs.branch }}
+
+      with:
+        github-token: ${{ inputs.github-token }}
+        script: |
+          await github.rest.actions.createWorkflowDispatch({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            ref: process.env.REF,
+            workflow_id: 'pr.yml',
+          });
