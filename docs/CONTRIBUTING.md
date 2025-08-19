@@ -29,6 +29,8 @@ useful:
 
 * [How to build and install the project from source][Build.md]
 
+* [Building from source, using CI container image][BuildInContainer.md]
+
 * [Brief architecture description][Architecture.md]
 
 * [Manual testing/debugging][Debug.md]
@@ -40,6 +42,7 @@ useful:
 TODO: add more
 
 [Build.md]: /docs/Build.md
+[BuildInContainer.md]: /docs/BuildInContainer.md
 [Architecture.md]: /docs/Architecture.md
 [Debug.md]: /docs/Debug.md
 [Test.md]: /docs/Test.md

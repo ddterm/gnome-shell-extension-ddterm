@@ -18,9 +18,13 @@ SPDX-License-Identifier: GPL-3.0-or-later
 GitHub UI provides multiple options for downloading the source code as a `.zip`
 (or, sometimes, `.tar.gz`) archive - for releases, and arbitrary commits.
 
-## 2. Set up the build environment
+## 2. Install the necessary dependencies
 
-### 2.a) Install the necessary dependencies
+> [!TIP]
+> Instead of installing all of these dependencies, you could
+> [perform the build in a Docker or Podman container].
+
+[perform the build in a Docker or Podman container]: /docs/BuildInContainer.md
 
 To build the extension package, you should have the following tools installed:
 
@@ -41,14 +45,6 @@ on Fedora, `gtk4` package on Arch)
 
 - `msgcmp`, `msgmerge`, `xgettext` (`gettext` package)
 
-### 2.b) Build in a container
-
-Alternatively, you can use `docker` or `podman` to perform build steps in a
-container - the same image/environment that's used by the CI system. To do it,
-run build commands with `./do-in-docker.sh` or `./do-in-podman.sh` wrapper:
-
-    ./do-in-docker.sh meson setup build-dir
-
 ## 3. Build the package
 
 To build the package, `cd` into the directory with the source code:
@@ -60,7 +56,7 @@ and run the following commands:
     meson setup build-dir
     ninja -C build-dir pack
 
-After these steps, you should have the package:
+After these steps, you should get the package file:
 `build-dir/ddterm@amezin.github.com.shell-extension.zip`.
 
 > [!TIP]
@@ -71,28 +67,24 @@ After these steps, you should have the package:
 > If the process fails, please double-check that you have all the dependencies
 > (2.a) installed.
 
-> [!NOTE]
-> If you want to perform the build in a docker/podman container, prepend
-> `./do-in-docker.sh`/`./do-in-podman.sh` to the commands:
->
->     ./do-in-docker.sh meson setup build-dir
->     ./do-in-docker.sh ninja -C build-dir pack
+> [!TIP]
+> Instead of installing all of these dependencies, you could
+> [perform the build in a Docker or Podman container].
 
 ## 4. Install the package
 
 > [!TIP]
-> Instead of installing the package on your system, you can test it in a
-> [nested (windowed) GNOME Shell], or in a [virtual machine].
+> Instead of installing the package on your system, you can test it
+> in a [virtual machine], or in a [nested (windowed) GNOME Shell].
 
-[nested (windowed) GNOME Shell]: /docs/Debug.md
 [virtual machine]: /docs/Vagrant.md
+[nested (windowed) GNOME Shell]: /docs/Debug.md
 
 The installation process is described in [Install.md - continue from step 2].
 
 [Install.md - continue from step 2]: /docs/Install.md#2-install-the-package
 
-Alternatively, you could use `meson`/`ninja` to install the package too -
-but only if you didn't use containers to perform the build.
+Alternatively, you could use `meson`/`ninja` to install the package too.
 
 ### 4.1.a) `user-install`
 
@@ -105,11 +97,6 @@ The extension can be uninstalled using the following command:
 
     ninja -C build-dir user-install
 
-> [!IMPORTANT]
-> You should never run `ninja user-install` with `./run-in-docker.sh` or
-> `./run-in-podman.sh`. If the build system was configured for the container,
-> installation to the host system through `ninja user-install` will not work.
-
 ### 4.1.b) `meson install` or `ninja install`
 
 > [!CAUTION]
@@ -120,11 +107,6 @@ The extension can be uninstalled using the following command:
 > See Arch Linux [`PKGBUILD`] for example.
 
 [`PKGBUILD`]: /PKGBUILD
-
-> [!IMPORTANT]
-> You should never run `meson install` with `./run-in-docker.sh` or
-> `./run-in-podman.sh`. If the build system was configured for the container,
-> installation to the host system through `meson install` will not work.
 
 You may run `meson install` under `sudo` to install the package system-wide
 (to `/usr/share/gnome-shell/extensions`):
