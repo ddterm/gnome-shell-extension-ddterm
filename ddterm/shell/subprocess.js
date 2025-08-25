@@ -294,7 +294,7 @@ export const Subprocess = GObject.registerClass({
     }
 });
 
-export const WaylandSubprocess = GObject.registerClass({
+const WaylandSubprocessLegacy = GObject.registerClass({
     Properties: {
         'wayland-client': GObject.ParamSpec.object(
             'wayland-client',
@@ -304,9 +304,17 @@ export const WaylandSubprocess = GObject.registerClass({
             Meta.WaylandClient
         ),
     },
-}, class DDTermWaylandSubprocess extends Subprocess {
+}, class DDTermWaylandSubprocessLegacy extends Subprocess {
     owns_window(win) {
         return this.wayland_client.owns_window(win);
+    }
+
+    hide_from_window_list(win) {
+        this._wayland_client.hide_from_window_list(win);
+    }
+
+    show_in_window_list(win) {
+        this._wayland_client.show_in_window_list(win);
     }
 
     _spawn(subprocess_launcher) {
@@ -324,3 +332,29 @@ export const WaylandSubprocess = GObject.registerClass({
         return this._wayland_client;
     }
 });
+
+const WaylandSubprocessNew = GObject.registerClass({
+}, class DDTermWaylandSubprocess extends WaylandSubprocessLegacy {
+    hide_from_window_list(win) {
+        win.hide_from_window_list();
+    }
+
+    show_in_window_list(win) {
+        win.show_in_window_list();
+    }
+
+    _spawn(subprocess_launcher) {
+        log(`Starting wayland client subprocess: ${shell_join(this.argv)}`);
+
+        this._wayland_client = Meta.WaylandClient.new_subprocess(
+            global.context,
+            subprocess_launcher,
+            this.argv
+        );
+
+        return this._wayland_client.get_subprocess();
+    }
+});
+
+export const WaylandSubprocess =
+    Meta.WaylandClient.new_subprocess ? WaylandSubprocessNew : WaylandSubprocessLegacy;
