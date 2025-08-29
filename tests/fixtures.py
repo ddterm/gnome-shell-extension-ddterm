@@ -352,7 +352,6 @@ class GnomeSessionFixtures:
                     process_launcher.spawn(
                         *wrapper,
                         str(request.config.option.gnome_shell),
-                        '--sm-disable',
                         '--unsafe-mode',
                         *gnome_shell_args,
                         stdout=stdout_pipe_w,
