@@ -101,7 +101,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     container:
-      image: ghcr.io/ddterm/ci-docker-image:2025.08.19.0
+      image: ghcr.io/ddterm/ci-docker-image:2025.08.31.0
 
     permissions:
       contents: read
@@ -165,7 +165,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     container:
-      image: ghcr.io/ddterm/ci-docker-image:2025.08.19.0
+      image: ghcr.io/ddterm/ci-docker-image:2025.08.31.0
 
     outputs:
       build-inputs: ${{ steps.ninja-inputs.outputs.inputs }}
@@ -229,7 +229,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     container:
-      image: ghcr.io/ddterm/ci-docker-image:2025.08.19.0
+      image: ghcr.io/ddterm/ci-docker-image:2025.08.31.0
 
     steps:
       - name: Checkout
@@ -295,7 +295,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     container:
-      image: ghcr.io/ddterm/ci-docker-image:2025.08.19.0
+      image: ghcr.io/ddterm/ci-docker-image:2025.08.31.0
       options: --init --privileged --tmpfs /run -v /tmp:/tmp --cgroupns=host
 
     permissions:
@@ -379,7 +379,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     container:
-      image: ghcr.io/ddterm/ci-docker-image:2025.08.19.0
+      image: ghcr.io/ddterm/ci-docker-image:2025.08.31.0
       options: --init --privileged --tmpfs /run -v /tmp:/tmp --cgroupns=host
 
     permissions:
