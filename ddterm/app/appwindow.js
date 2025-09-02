@@ -1,6 +1,6 @@
 // SPDX-FileCopyrightText: 2020 Aleksandr Mezin <mezin.alexander@gmail.com>
-// SPDX-FileContributor: 2021 Juan M. Cruz-Martinez
-// SPDX-FileContributor: 2021 Jackson Goode
+// SPDX-FileContributor: Juan M. Cruz-Martinez
+// SPDX-FileContributor: Jackson Goode
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 

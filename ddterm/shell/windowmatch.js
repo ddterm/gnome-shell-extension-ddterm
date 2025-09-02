@@ -1,5 +1,5 @@
 // SPDX-FileCopyrightText: 2023 Aleksandr Mezin <mezin.alexander@gmail.com>
-// SPDX-FileContributor: 2025 k-c13
+// SPDX-FileContributor: k-c13
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 

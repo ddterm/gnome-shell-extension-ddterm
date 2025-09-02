@@ -1,5 +1,5 @@
 // SPDX-FileCopyrightText: 2023 Aleksandr Mezin <mezin.alexander@gmail.com>
-// SPDX-FileContributor: 2024 Timothy J. Aveni
+// SPDX-FileContributor: Timothy J. Aveni
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 

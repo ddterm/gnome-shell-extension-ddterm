@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # SPDX-FileCopyrightText: 2021 Aleksandr Mezin <mezin.alexander@gmail.com>
-# SPDX-FileContributor: 2023 Zerocool56
+# SPDX-FileContributor: Zerocool56
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
