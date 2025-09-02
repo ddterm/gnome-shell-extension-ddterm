@@ -24,6 +24,17 @@ If you want to report a bug, please proceed to the [bug reporting form].
 > [!IMPORTANT]
 > Pull requests are preferred to feature requests :)
 
+> [!IMPORTANT]
+> When you add or modify any file, except translations, please add either:
+>
+> a) `SPDX-FileContributor` tag with your name:
+> `SPDX-FileContributor: Your Name <e-mail@address>` (e-mail part is optional)
+>
+> b) [`SPDX-FileCopyrightText`] tag with your name:
+> `SPDX-FileCopyrightText: YEAR Your Name <e-mail@address>` (e-mail part is optional)
+
+[`SPDX-FileCopyrightText`]: https://reuse.software/faq/
+
 If you want to implement a feature, or fix a bug, you may find these documents
 useful:
 
