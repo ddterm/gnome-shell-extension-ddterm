@@ -28,8 +28,8 @@ applications_dir = datadir / 'applications'
 dbus_service_dir = datadir / 'dbus-1' / 'services'
 
 gjs_req = '>=1.78.0'
-gnome_shell_req = ['>=45.0', '<49']
-shell_versions = ['45', '46', '47', '48']
+gnome_shell_req = ['>=45.0', '<50']
+shell_versions = ['45', '46', '47', '48', '49']
 
 summary('Target GNOME Shell version', gnome_shell_req, list_sep: ', ')
 
