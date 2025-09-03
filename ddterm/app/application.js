@@ -372,7 +372,15 @@ class Application extends Gtk.Application {
             this.bind_shortcut(action, key);
         });
 
-        Gtk.IconTheme.get_default().append_search_path(ICONS_PATH);
+        const icon_theme = Gtk.IconTheme.get_default();
+        const icon_search_path = icon_theme.get_search_path();
+
+        icon_search_path.unshift(
+            GLib.build_filenamev([path, 'data']),
+            ICONS_PATH
+        );
+
+        icon_theme.set_search_path(icon_search_path);
 
         this.session_file_path = GLib.build_filenamev([
             GLib.get_user_cache_dir(),
