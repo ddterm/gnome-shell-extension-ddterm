@@ -74,6 +74,13 @@ export const Application = GObject.registerClass({
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             Gtk.ApplicationWindow
         ),
+        'about-dialog': GObject.ParamSpec.object(
+            'about-dialog',
+            '',
+            '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+            Gtk.AboutDialog
+        ),
         'prefs-dialog': GObject.ParamSpec.object(
             'prefs-dialog',
             '',
@@ -264,6 +271,7 @@ class Application extends Gtk.Application {
 
         this.simple_action('quit', () => this.quit());
         this.simple_action('preferences', () => this.preferences().catch(logError));
+        this.simple_action('about', () => this.about().catch(logError));
 
         [
             'window-above',
@@ -676,6 +684,36 @@ class Application extends Gtk.Application {
         }
 
         this.prefs_dialog.present();
+    }
+
+    async about() {
+        if (this.about_dialog !== null) {
+            this.about_dialog.present();
+            return;
+        }
+
+        if (!this._about_dialog_module)
+            this._about_dialog_module = import('./about.js');
+
+        try {
+            this.hold();
+
+            const mod = await this._about_dialog_module;
+
+            this.about_dialog = new mod.AboutDialog({
+                transient_for: this.window,
+                application: this,
+            });
+
+            this.about_dialog.connect('destroy', source => {
+                if (source === this.about_dialog)
+                    this.about_dialog = null;
+            });
+        } finally {
+            this.release();
+        }
+
+        this.about_dialog.present();
     }
 
     simple_action(name, activate, params = {}) {

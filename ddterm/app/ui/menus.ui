@@ -202,6 +202,12 @@ SPDX-License-Identifier: GPL-3.0-or-later
         </item>
       </section>
     </submenu>
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">About ddterm</attribute>
+        <attribute name="action">app.about</attribute>
+      </item>
+    </section>
   </menu>
   <menu id="tab-popup">
     <section>

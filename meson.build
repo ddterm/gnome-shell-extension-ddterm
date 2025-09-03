@@ -118,19 +118,9 @@ pack = [
   ),
 ]
 
-extension_main_out_file = fs.copyfile(
-  'extension.js',
-  install: true,
-  install_dir: extension_dir,
-)
-
-prefs_main_out_file = fs.copyfile(
-  'prefs.js',
-  install: true,
-  install_dir: extension_dir,
-)
-
-pack += [extension_main_out_file, prefs_main_out_file]
+foreach f : ['extension.js', 'prefs.js', 'package.json']
+  pack += fs.copyfile(f, install: true, install_dir: extension_dir)
+endforeach
 
 subdir('tools')
 subdir('bin')
