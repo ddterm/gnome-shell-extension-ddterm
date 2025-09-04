@@ -11,17 +11,15 @@ on:
     branches:
       - master
 
+permissions:
+  contents: read
+
 jobs:
   ci:
     uses: ./.github/workflows/ci.yml
+    secrets: inherit
     with:
-      base: ${{ github.event.before }}
       push: true
-
-    permissions:
-      contents: write
-      pull-requests: write
-      actions: write
 
   pages:
     needs: ci
@@ -30,7 +28,6 @@ jobs:
     timeout-minutes: 5
 
     permissions:
-      contents: read
       pages: write
       id-token: write
 
