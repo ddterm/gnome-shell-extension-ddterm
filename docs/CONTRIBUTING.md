@@ -35,6 +35,13 @@ If you want to report a bug, please proceed to the [bug reporting form].
 
 [`SPDX-FileCopyrightText`]: https://reuse.software/faq/
 
+> [!TIP]
+> If you want to be mentioned in application's "About" dialog,
+> you could add yourself to [`"contributors"` array] in [`package.json`] file.
+
+[`"contributors"` array]: https://docs.npmjs.com/cli/v11/configuring-npm/package-json#people-fields-author-contributors
+[`package.json`]: /package.json
+
 If you want to implement a feature, or fix a bug, you may find these documents
 useful:
 

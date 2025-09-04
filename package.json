@@ -4,6 +4,73 @@
     "homepage": "https://github.com/ddterm/gnome-shell-extension-ddterm",
     "bugs": "https://github.com/ddterm/gnome-shell-extension-ddterm/issues",
     "license": "GPL-3.0-or-later",
+    "author": {
+        "name": "Aleksandr Mezin",
+        "email": "mezin.alexander@gmail.com",
+        "url": "https://github.com/amezin"
+    },
+    "contributors": [
+        {
+            "name": "Pedro Sader Azevedo",
+            "url": "https://github.com/pesader"
+        },
+        {
+            "name": "Mohammad Javad Naderi",
+            "url": "https://github.com/mjnaderi"
+        },
+        {
+            "name": "Maximilien Richer",
+            "url": "https://github.com/halfa"
+        },
+        {
+            "name": "Timothy J. Aveni",
+            "url": "https://github.com/SyntaxBlitz"
+        },
+        {
+            "name": "Ivan Peshekhonov",
+            "url": "https://github.com/vancomm"
+        },
+        {
+            "name": "Egor Sukov",
+            "url": "https://github.com/Zerocool56"
+        },
+        {
+            "name": "Anton Leontiev",
+            "url": "https://github.com/bunder"
+        },
+        {
+            "name": "Jing Yen Loh",
+            "url": "https://github.com/JingYenLoh"
+        },
+        {
+            "name": "Jackson Goode",
+            "url": "https://github.com/jacksongoode"
+        },
+        {
+            "name": "Lingfeng Zhang",
+            "url": "https://github.com/ccat3z"
+        },
+        {
+            "name": "Juan M. Cruz-Martinez",
+            "url": "https://github.com/scarlehoff"
+        },
+        {
+            "name": "Samuel Bachmann",
+            "url": "https://github.com/samuelba"
+        },
+        {
+            "name": "k-c13",
+            "url": "https://github.com/mokilcde"
+        },
+        {
+            "name": "Vicente Maroto Garzón",
+            "url": "https://github.com/C-512L"
+        },
+        {
+            "name": "luk",
+            "url": "https://github.com/thenameisluk"
+        }
+    ],
     "repository": {
         "type": "git",
         "url": "git+https://github.com/ddterm/gnome-shell-extension-ddterm.git"
