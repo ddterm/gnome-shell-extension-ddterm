@@ -22,7 +22,7 @@ py==1.11.0
     # via pytest-html
 pygments==2.19.2
     # via pytest
-pytest==8.4.1
+pytest==8.4.2
     # via
     #   -r test.in
     #   pytest-html
