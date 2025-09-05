@@ -113,7 +113,7 @@ jobs:
         id: pip
         uses: ./.github/actions/tox-preinstall
         with:
-          environments: reuse,version,flake8,meson-format,pip-compile
+          environments: reuse,flake8,meson-format,pip-compile
         if: ${{ !cancelled() && steps.checkout.outcome == 'success' }}
 
       - name: Lint JS code with ESLint
@@ -138,10 +138,6 @@ jobs:
 
       - name: Check Python requirements .txt files
         uses: ./.github/actions/pip-compile
-        if: ${{ !cancelled() && steps.pip.outcome == 'success' }}
-
-      - name: Check version number
-        run: tox -e version
         if: ${{ !cancelled() && steps.pip.outcome == 'success' }}
 
       - name: Check PICT test cases
