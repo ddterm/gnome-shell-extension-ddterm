@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-16 10:33+0000\n"
+"POT-Creation-Date: 2025-09-05 00:36+0000\n"
 "PO-Revision-Date: 2024-09-02 20:09+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/nb_NO/>\n"
@@ -38,67 +38,75 @@ msgid "Toggle"
 msgstr "Vekslingsknapp"
 
 #: data/com.github.amezin.ddterm.desktop.in.in:28 ddterm/app/ui/menus.ui:150
-#: ddterm/app/ui/menus.ui:284 ddterm/shell/panelicon.js:63
+#: ddterm/app/ui/menus.ui:290 ddterm/shell/panelicon.js:63
 msgid "Preferences…"
 msgstr "Innstillinger …"
 
-#: ddterm/app/application.js:95
+#: ddterm/app/about.js:51
+msgid "translator-credits"
+msgstr ""
+
+#: ddterm/app/about.js:52
+msgid "Contributors"
+msgstr ""
+
+#: ddterm/app/application.js:102
 msgid "Start the application, but do not show the window"
 msgstr "Start programmet, men ikke vis vinduet"
 
-#: ddterm/app/application.js:104
+#: ddterm/app/application.js:111
 msgid "Comma-separated list of backends that GDK should try to use"
 msgstr "Kommainndelt liste over bakender GDK forsøksvist skal benytte"
 
-#: ddterm/app/application.js:131
+#: ddterm/app/application.js:138
 msgid "Show version information and exit"
 msgstr "Vis versjonsinfo og avslutt"
 
-#: ddterm/app/application.js:140
+#: ddterm/app/application.js:147
 msgid "Run the specified command"
 msgstr "Kjør angitt kommando"
 
-#: ddterm/app/application.js:154
+#: ddterm/app/application.js:161
 msgid "Wait for the command to exit, and return its exit code"
 msgstr "Vent på kommandoslutt, og returner dens avslutningskode"
 
-#: ddterm/app/application.js:163
+#: ddterm/app/application.js:170
 msgid "Set the working directory"
 msgstr "Sett arbeidskatalog"
 
-#: ddterm/app/application.js:172
+#: ddterm/app/application.js:179
 msgid "Set tab title"
 msgstr "Sett fanenavn"
 
-#: ddterm/app/application.js:181
+#: ddterm/app/application.js:188
 msgid "Keep the terminal open after the command has exited"
 msgstr "Behold terminalen åpen etter kommandoens slutt"
 
-#: ddterm/app/application.js:190
+#: ddterm/app/application.js:197
 msgid "Do not pass the environment"
 msgstr "Ikke send miljøet"
 
-#: ddterm/app/application.js:199
+#: ddterm/app/application.js:206
 msgid "Open a new tab"
 msgstr "Åpne en ny fane"
 
-#: ddterm/app/application.js:461
+#: ddterm/app/application.js:477
 msgid "Can't contact the extension."
 msgstr ""
 
-#: ddterm/app/application.js:463 ddterm/app/application.js:593
+#: ddterm/app/application.js:479 ddterm/app/application.js:609
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr ""
 
-#: ddterm/app/application.js:591
+#: ddterm/app/application.js:607
 msgid "Can't read the version of the loaded extension."
 msgstr ""
 
-#: ddterm/app/application.js:596 ddterm/shell/notifications.js:138
+#: ddterm/app/application.js:612 ddterm/shell/notifications.js:138
 msgid "Warning: ddterm version has changed"
 msgstr "Advarsel: ddterm-versjonen har endret seg"
 
-#: ddterm/app/application.js:597 ddterm/shell/notifications.js:140
+#: ddterm/app/application.js:613 ddterm/shell/notifications.js:140
 msgid "Log out, then log in again to load the updated extension."
 msgstr "Logg ut og inn igjen for å laste inn oppdatert utvidelse."
 
@@ -155,7 +163,7 @@ msgid "Find Previous"
 msgstr "Finn forrige"
 
 #: ddterm/app/tablabel.js:110 ddterm/app/ui/menus.ui:89
-#: ddterm/app/ui/menus.ui:220 ddterm/shell/notifications.js:56
+#: ddterm/app/ui/menus.ui:226 ddterm/shell/notifications.js:56
 msgid "Close"
 msgstr "Lukk"
 
@@ -243,7 +251,7 @@ msgstr "Normal størrelse"
 msgid "Show in File Manager"
 msgstr ""
 
-#: ddterm/app/ui/menus.ui:93 ddterm/app/ui/menus.ui:224
+#: ddterm/app/ui/menus.ui:93 ddterm/app/ui/menus.ui:230
 msgid "Keep Open After Exit"
 msgstr "Behold åpen etter avslutning"
 
@@ -259,36 +267,36 @@ msgstr "Ny fane før nåværende"
 msgid "New Tab After Current Tab"
 msgstr "Ny fane etter nåværende"
 
-#: ddterm/app/ui/menus.ui:109 ddterm/app/ui/menus.ui:237
+#: ddterm/app/ui/menus.ui:109 ddterm/app/ui/menus.ui:243
 #: ddterm/pref/ui/prefs-shortcuts.ui:158
 msgid "New Tab Before First Tab"
 msgstr "Ny fane før første"
 
-#: ddterm/app/ui/menus.ui:113 ddterm/app/ui/menus.ui:241
+#: ddterm/app/ui/menus.ui:113 ddterm/app/ui/menus.ui:247
 #: ddterm/pref/ui/prefs-shortcuts.ui:151
 msgid "New Tab After Last Tab"
 msgstr "Ny fane etter siste"
 
-#: ddterm/app/ui/menus.ui:120 ddterm/app/ui/menus.ui:257
+#: ddterm/app/ui/menus.ui:120 ddterm/app/ui/menus.ui:263
 msgid "Layout"
 msgstr "Plassering"
 
-#: ddterm/app/ui/menus.ui:123 ddterm/app/ui/menus.ui:260
-#: ddterm/app/ui/menus.ui:290
+#: ddterm/app/ui/menus.ui:123 ddterm/app/ui/menus.ui:266
+#: ddterm/app/ui/menus.ui:296
 msgid "No Split"
 msgstr "Ingen inndeling"
 
-#: ddterm/app/ui/menus.ui:128 ddterm/app/ui/menus.ui:265
-#: ddterm/app/ui/menus.ui:295 ddterm/pref/ui/prefs-shortcuts.ui:214
+#: ddterm/app/ui/menus.ui:128 ddterm/app/ui/menus.ui:271
+#: ddterm/app/ui/menus.ui:301 ddterm/pref/ui/prefs-shortcuts.ui:214
 msgid "Split Horizontally"
 msgstr "Del vannrett"
 
-#: ddterm/app/ui/menus.ui:133 ddterm/app/ui/menus.ui:270
-#: ddterm/app/ui/menus.ui:300 ddterm/pref/ui/prefs-shortcuts.ui:221
+#: ddterm/app/ui/menus.ui:133 ddterm/app/ui/menus.ui:276
+#: ddterm/app/ui/menus.ui:306 ddterm/pref/ui/prefs-shortcuts.ui:221
 msgid "Split Vertically"
 msgstr "Del loddrett"
 
-#: ddterm/app/ui/menus.ui:140 ddterm/app/ui/menus.ui:277
+#: ddterm/app/ui/menus.ui:140 ddterm/app/ui/menus.ui:283
 msgid "Move Tab to Other Pane"
 msgstr "Flytt fane til neste flate"
 
@@ -332,27 +340,31 @@ msgstr "Bevar arbeidskatalog for nye faner"
 msgid "Enable Keyboard Shortcuts"
 msgstr "Skru på tastatursnarveier"
 
-#: ddterm/app/ui/menus.ui:209
+#: ddterm/app/ui/menus.ui:207
+msgid "About ddterm"
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:215
 msgid "Use Custom Tab Title"
 msgstr "Bruk egendefinerte fanenavn"
 
-#: ddterm/app/ui/menus.ui:214
+#: ddterm/app/ui/menus.ui:220
 msgid "Use Default Tab Title"
 msgstr "Bruk forvalgt fanenavn"
 
-#: ddterm/app/ui/menus.ui:229
+#: ddterm/app/ui/menus.ui:235
 msgid "New Tab Before This Tab"
 msgstr "Ny fane før denne"
 
-#: ddterm/app/ui/menus.ui:233
+#: ddterm/app/ui/menus.ui:239
 msgid "New Tab After This Tab"
 msgstr "Ny fane etter denne"
 
-#: ddterm/app/ui/menus.ui:247 ddterm/pref/ui/prefs-shortcuts.ui:200
+#: ddterm/app/ui/menus.ui:253 ddterm/pref/ui/prefs-shortcuts.ui:200
 msgid "Move Tab to Previous Position"
 msgstr "Flytt fane til forrige posisjon"
 
-#: ddterm/app/ui/menus.ui:251 ddterm/pref/ui/prefs-shortcuts.ui:207
+#: ddterm/app/ui/menus.ui:257 ddterm/pref/ui/prefs-shortcuts.ui:207
 msgid "Move Tab to Next Position"
 msgstr "Flytt fane til neste posisjon"
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-16 10:33+0000\n"
+"POT-Creation-Date: 2025-09-05 00:36+0000\n"
 "PO-Revision-Date: 2025-05-13 19:23+0000\n"
 "Last-Translator: Klearchos-Angelos Gkountras <jemadux@cryptolab.net>\n"
 "Language-Team: Greek <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/el/>\n"
@@ -41,70 +41,78 @@ msgid "Toggle"
 msgstr "Κουμπί εναλλαγής"
 
 #: data/com.github.amezin.ddterm.desktop.in.in:28 ddterm/app/ui/menus.ui:150
-#: ddterm/app/ui/menus.ui:284 ddterm/shell/panelicon.js:63
+#: ddterm/app/ui/menus.ui:290 ddterm/shell/panelicon.js:63
 #, fuzzy
 msgid "Preferences…"
 msgstr "Προτιμήσεις"
 
-#: ddterm/app/application.js:95
+#: ddterm/app/about.js:51
+msgid "translator-credits"
+msgstr ""
+
+#: ddterm/app/about.js:52
+msgid "Contributors"
+msgstr ""
+
+#: ddterm/app/application.js:102
 msgid "Start the application, but do not show the window"
 msgstr ""
 
-#: ddterm/app/application.js:104
+#: ddterm/app/application.js:111
 msgid "Comma-separated list of backends that GDK should try to use"
 msgstr ""
 
-#: ddterm/app/application.js:131
+#: ddterm/app/application.js:138
 msgid "Show version information and exit"
 msgstr ""
 
-#: ddterm/app/application.js:140
+#: ddterm/app/application.js:147
 msgid "Run the specified command"
 msgstr "Τρέξε συγκεκριμένη εντολή"
 
-#: ddterm/app/application.js:154
+#: ddterm/app/application.js:161
 msgid "Wait for the command to exit, and return its exit code"
 msgstr ""
 
-#: ddterm/app/application.js:163
+#: ddterm/app/application.js:170
 #, fuzzy
 msgid "Set the working directory"
 msgstr "Διατήρηση του καταλόγου εργασίας"
 
-#: ddterm/app/application.js:172
+#: ddterm/app/application.js:179
 #, fuzzy
 msgid "Set tab title"
 msgstr "Παραμετροποίση τίτλου καρτέλας"
 
-#: ddterm/app/application.js:181
+#: ddterm/app/application.js:188
 msgid "Keep the terminal open after the command has exited"
 msgstr ""
 
-#: ddterm/app/application.js:190
+#: ddterm/app/application.js:197
 msgid "Do not pass the environment"
 msgstr ""
 
-#: ddterm/app/application.js:199
+#: ddterm/app/application.js:206
 msgid "Open a new tab"
 msgstr "Άνοιγμα νέας καρτέλας"
 
-#: ddterm/app/application.js:461
+#: ddterm/app/application.js:477
 msgid "Can't contact the extension."
 msgstr ""
 
-#: ddterm/app/application.js:463 ddterm/app/application.js:593
+#: ddterm/app/application.js:479 ddterm/app/application.js:609
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr ""
 
-#: ddterm/app/application.js:591
+#: ddterm/app/application.js:607
 msgid "Can't read the version of the loaded extension."
 msgstr ""
 
-#: ddterm/app/application.js:596 ddterm/shell/notifications.js:138
+#: ddterm/app/application.js:612 ddterm/shell/notifications.js:138
 msgid "Warning: ddterm version has changed"
 msgstr "Προειδοποίηση: η έκδοση ddterm έχει αλλάξει"
 
-#: ddterm/app/application.js:597 ddterm/shell/notifications.js:140
+#: ddterm/app/application.js:613 ddterm/shell/notifications.js:140
 msgid "Log out, then log in again to load the updated extension."
 msgstr "Αποσυνδεθείτε και, στη συνέχεια, συνδεθείτε ξανά για να φορτώσετε την ενημερωμένη επέκταση."
 
@@ -161,7 +169,7 @@ msgid "Find Previous"
 msgstr "Μετακίνηση στο επόμενο"
 
 #: ddterm/app/tablabel.js:110 ddterm/app/ui/menus.ui:89
-#: ddterm/app/ui/menus.ui:220 ddterm/shell/notifications.js:56
+#: ddterm/app/ui/menus.ui:226 ddterm/shell/notifications.js:56
 msgid "Close"
 msgstr "Κλείσιμο"
 
@@ -251,7 +259,7 @@ msgstr "Κανονικό μέγεθος"
 msgid "Show in File Manager"
 msgstr ""
 
-#: ddterm/app/ui/menus.ui:93 ddterm/app/ui/menus.ui:224
+#: ddterm/app/ui/menus.ui:93 ddterm/app/ui/menus.ui:230
 msgid "Keep Open After Exit"
 msgstr "Μείνε ανοικτό μετά την έξοδο"
 
@@ -267,36 +275,36 @@ msgstr "Νέα καρτέλα πριν την τρέχουσα"
 msgid "New Tab After Current Tab"
 msgstr "Νέα καρτέλα μετά την τρέχουσα"
 
-#: ddterm/app/ui/menus.ui:109 ddterm/app/ui/menus.ui:237
+#: ddterm/app/ui/menus.ui:109 ddterm/app/ui/menus.ui:243
 #: ddterm/pref/ui/prefs-shortcuts.ui:158
 msgid "New Tab Before First Tab"
 msgstr "Νέα καρτέλα στην αρχή"
 
-#: ddterm/app/ui/menus.ui:113 ddterm/app/ui/menus.ui:241
+#: ddterm/app/ui/menus.ui:113 ddterm/app/ui/menus.ui:247
 #: ddterm/pref/ui/prefs-shortcuts.ui:151
 msgid "New Tab After Last Tab"
 msgstr "Νέα καρτέλα στο τέλος"
 
-#: ddterm/app/ui/menus.ui:120 ddterm/app/ui/menus.ui:257
+#: ddterm/app/ui/menus.ui:120 ddterm/app/ui/menus.ui:263
 msgid "Layout"
 msgstr ""
 
-#: ddterm/app/ui/menus.ui:123 ddterm/app/ui/menus.ui:260
-#: ddterm/app/ui/menus.ui:290
+#: ddterm/app/ui/menus.ui:123 ddterm/app/ui/menus.ui:266
+#: ddterm/app/ui/menus.ui:296
 msgid "No Split"
 msgstr ""
 
-#: ddterm/app/ui/menus.ui:128 ddterm/app/ui/menus.ui:265
-#: ddterm/app/ui/menus.ui:295 ddterm/pref/ui/prefs-shortcuts.ui:214
+#: ddterm/app/ui/menus.ui:128 ddterm/app/ui/menus.ui:271
+#: ddterm/app/ui/menus.ui:301 ddterm/pref/ui/prefs-shortcuts.ui:214
 msgid "Split Horizontally"
 msgstr ""
 
-#: ddterm/app/ui/menus.ui:133 ddterm/app/ui/menus.ui:270
-#: ddterm/app/ui/menus.ui:300 ddterm/pref/ui/prefs-shortcuts.ui:221
+#: ddterm/app/ui/menus.ui:133 ddterm/app/ui/menus.ui:276
+#: ddterm/app/ui/menus.ui:306 ddterm/pref/ui/prefs-shortcuts.ui:221
 msgid "Split Vertically"
 msgstr ""
 
-#: ddterm/app/ui/menus.ui:140 ddterm/app/ui/menus.ui:277
+#: ddterm/app/ui/menus.ui:140 ddterm/app/ui/menus.ui:283
 #, fuzzy
 msgid "Move Tab to Other Pane"
 msgstr "Επανατοποθέτηση καρτέλας μετά"
@@ -341,27 +349,31 @@ msgstr "Διατήρηση καταλόγου εργασίας σε νέες κ�
 msgid "Enable Keyboard Shortcuts"
 msgstr "Ενεργοποίση συντομέυσεων πληκτρολογίου"
 
-#: ddterm/app/ui/menus.ui:209
+#: ddterm/app/ui/menus.ui:207
+msgid "About ddterm"
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:215
 msgid "Use Custom Tab Title"
 msgstr "Χρησιμοποιήστε τον τίτλο προσαρμοσμένης καρτέλας"
 
-#: ddterm/app/ui/menus.ui:214
+#: ddterm/app/ui/menus.ui:220
 msgid "Use Default Tab Title"
 msgstr "Χρησιμοποιήστε τον προεπιλεγμένο τίτλο καρτέλας"
 
-#: ddterm/app/ui/menus.ui:229
+#: ddterm/app/ui/menus.ui:235
 msgid "New Tab Before This Tab"
 msgstr "Νέα καρτελα πριν από αυτην"
 
-#: ddterm/app/ui/menus.ui:233
+#: ddterm/app/ui/menus.ui:239
 msgid "New Tab After This Tab"
 msgstr "Νέα καρτέλα μετά από αυτην"
 
-#: ddterm/app/ui/menus.ui:247 ddterm/pref/ui/prefs-shortcuts.ui:200
+#: ddterm/app/ui/menus.ui:253 ddterm/pref/ui/prefs-shortcuts.ui:200
 msgid "Move Tab to Previous Position"
 msgstr "Επανατοποθέτηση καρτέλας πριν"
 
-#: ddterm/app/ui/menus.ui:251 ddterm/pref/ui/prefs-shortcuts.ui:207
+#: ddterm/app/ui/menus.ui:257 ddterm/pref/ui/prefs-shortcuts.ui:207
 msgid "Move Tab to Next Position"
 msgstr "Επανατοποθέτηση καρτέλας μετά"
 

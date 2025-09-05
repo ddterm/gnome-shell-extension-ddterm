@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-16 10:33+0000\n"
+"POT-Creation-Date: 2025-09-05 00:36+0000\n"
 "PO-Revision-Date: 2024-02-15 20:22+0100\n"
 "Last-Translator: Philipp Kiemle <philipp.kiemle@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/de/>\n"
@@ -40,67 +40,75 @@ msgid "Toggle"
 msgstr "Umschalter"
 
 #: data/com.github.amezin.ddterm.desktop.in.in:28 ddterm/app/ui/menus.ui:150
-#: ddterm/app/ui/menus.ui:284 ddterm/shell/panelicon.js:63
+#: ddterm/app/ui/menus.ui:290 ddterm/shell/panelicon.js:63
 msgid "Preferences…"
 msgstr "Einstellungen …"
 
-#: ddterm/app/application.js:95
+#: ddterm/app/about.js:51
+msgid "translator-credits"
+msgstr ""
+
+#: ddterm/app/about.js:52
+msgid "Contributors"
+msgstr ""
+
+#: ddterm/app/application.js:102
 msgid "Start the application, but do not show the window"
 msgstr "Die Anwendung starten, ohne das Fenster anzuzeigen"
 
-#: ddterm/app/application.js:104
+#: ddterm/app/application.js:111
 msgid "Comma-separated list of backends that GDK should try to use"
 msgstr "Kommaseparierte Liste von Backends, die GDK versuchen sollte zu nutzen"
 
-#: ddterm/app/application.js:131
+#: ddterm/app/application.js:138
 msgid "Show version information and exit"
 msgstr "Versionsinformationen anzeigen und beenden"
 
-#: ddterm/app/application.js:140
+#: ddterm/app/application.js:147
 msgid "Run the specified command"
 msgstr "Den angegebenen Befehl ausführen"
 
-#: ddterm/app/application.js:154
+#: ddterm/app/application.js:161
 msgid "Wait for the command to exit, and return its exit code"
 msgstr "Auf das Beenden des Befehls warten und dessen Status zurückgeben"
 
-#: ddterm/app/application.js:163
+#: ddterm/app/application.js:170
 msgid "Set the working directory"
 msgstr "Arbeitsverzeichnis festlegen"
 
-#: ddterm/app/application.js:172
+#: ddterm/app/application.js:179
 msgid "Set tab title"
 msgstr "Reiter-Titel festlegen"
 
-#: ddterm/app/application.js:181
+#: ddterm/app/application.js:188
 msgid "Keep the terminal open after the command has exited"
 msgstr "Das Terminal nach dem Beenden des Befehls geöffnet lassen"
 
-#: ddterm/app/application.js:190
+#: ddterm/app/application.js:197
 msgid "Do not pass the environment"
 msgstr "Die Umgebung nicht weitergeben"
 
-#: ddterm/app/application.js:199
+#: ddterm/app/application.js:206
 msgid "Open a new tab"
 msgstr "Einen neuen Reiter öffnen"
 
-#: ddterm/app/application.js:461
+#: ddterm/app/application.js:477
 msgid "Can't contact the extension."
 msgstr "Kontaktieren der Erweiterung fehlgeschlagen."
 
-#: ddterm/app/application.js:463 ddterm/app/application.js:593
+#: ddterm/app/application.js:479 ddterm/app/application.js:609
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr "Bitte stellen Sie sicher, dass die GNOME-Shell-Erweiterung »ddterm« aktiviert ist."
 
-#: ddterm/app/application.js:591
+#: ddterm/app/application.js:607
 msgid "Can't read the version of the loaded extension."
 msgstr "Die Version der geladenen Erweiterung konnte nicht ermittelt werden."
 
-#: ddterm/app/application.js:596 ddterm/shell/notifications.js:138
+#: ddterm/app/application.js:612 ddterm/shell/notifications.js:138
 msgid "Warning: ddterm version has changed"
 msgstr "Warnung: Die Version von ddterm hat sich geändert"
 
-#: ddterm/app/application.js:597 ddterm/shell/notifications.js:140
+#: ddterm/app/application.js:613 ddterm/shell/notifications.js:140
 msgid "Log out, then log in again to load the updated extension."
 msgstr "Melden Sie sich ab und wieder an, um die aktualisierte Erweiterung zu laden."
 
@@ -157,7 +165,7 @@ msgid "Find Previous"
 msgstr "Finde vorheriges"
 
 #: ddterm/app/tablabel.js:110 ddterm/app/ui/menus.ui:89
-#: ddterm/app/ui/menus.ui:220 ddterm/shell/notifications.js:56
+#: ddterm/app/ui/menus.ui:226 ddterm/shell/notifications.js:56
 msgid "Close"
 msgstr "Schließen"
 
@@ -245,7 +253,7 @@ msgstr "Normale Größe"
 msgid "Show in File Manager"
 msgstr "In Dateiverwaltung anzeigen"
 
-#: ddterm/app/ui/menus.ui:93 ddterm/app/ui/menus.ui:224
+#: ddterm/app/ui/menus.ui:93 ddterm/app/ui/menus.ui:230
 msgid "Keep Open After Exit"
 msgstr "Nach dem Beenden geöffnet lassen"
 
@@ -261,36 +269,36 @@ msgstr "Neuer Reiter vor aktivem Reiter"
 msgid "New Tab After Current Tab"
 msgstr "Neuer Reiter nach aktivem Reiter"
 
-#: ddterm/app/ui/menus.ui:109 ddterm/app/ui/menus.ui:237
+#: ddterm/app/ui/menus.ui:109 ddterm/app/ui/menus.ui:243
 #: ddterm/pref/ui/prefs-shortcuts.ui:158
 msgid "New Tab Before First Tab"
 msgstr "Neuer Reiter vor den ersten Reiter"
 
-#: ddterm/app/ui/menus.ui:113 ddterm/app/ui/menus.ui:241
+#: ddterm/app/ui/menus.ui:113 ddterm/app/ui/menus.ui:247
 #: ddterm/pref/ui/prefs-shortcuts.ui:151
 msgid "New Tab After Last Tab"
 msgstr "Neuer Reiter nach dem letzten Reiter"
 
-#: ddterm/app/ui/menus.ui:120 ddterm/app/ui/menus.ui:257
+#: ddterm/app/ui/menus.ui:120 ddterm/app/ui/menus.ui:263
 msgid "Layout"
 msgstr "Darstellung"
 
-#: ddterm/app/ui/menus.ui:123 ddterm/app/ui/menus.ui:260
-#: ddterm/app/ui/menus.ui:290
+#: ddterm/app/ui/menus.ui:123 ddterm/app/ui/menus.ui:266
+#: ddterm/app/ui/menus.ui:296
 msgid "No Split"
 msgstr "Keine Teilung"
 
-#: ddterm/app/ui/menus.ui:128 ddterm/app/ui/menus.ui:265
-#: ddterm/app/ui/menus.ui:295 ddterm/pref/ui/prefs-shortcuts.ui:214
+#: ddterm/app/ui/menus.ui:128 ddterm/app/ui/menus.ui:271
+#: ddterm/app/ui/menus.ui:301 ddterm/pref/ui/prefs-shortcuts.ui:214
 msgid "Split Horizontally"
 msgstr "Horizontal teilen"
 
-#: ddterm/app/ui/menus.ui:133 ddterm/app/ui/menus.ui:270
-#: ddterm/app/ui/menus.ui:300 ddterm/pref/ui/prefs-shortcuts.ui:221
+#: ddterm/app/ui/menus.ui:133 ddterm/app/ui/menus.ui:276
+#: ddterm/app/ui/menus.ui:306 ddterm/pref/ui/prefs-shortcuts.ui:221
 msgid "Split Vertically"
 msgstr "Vertikal teilen"
 
-#: ddterm/app/ui/menus.ui:140 ddterm/app/ui/menus.ui:277
+#: ddterm/app/ui/menus.ui:140 ddterm/app/ui/menus.ui:283
 msgid "Move Tab to Other Pane"
 msgstr "Verschiebe Reiter in anderen Bereich"
 
@@ -334,27 +342,33 @@ msgstr "Arbeitsverzeichnis in neue Reiter übernehmen"
 msgid "Enable Keyboard Shortcuts"
 msgstr "Tastenkürzel aktivieren"
 
-#: ddterm/app/ui/menus.ui:209
+#: ddterm/app/ui/menus.ui:207
+#, fuzzy
+#| msgid "ddterm"
+msgid "About ddterm"
+msgstr "ddterm"
+
+#: ddterm/app/ui/menus.ui:215
 msgid "Use Custom Tab Title"
 msgstr "Benutzerdefinierte Reitertitel verwenden"
 
-#: ddterm/app/ui/menus.ui:214
+#: ddterm/app/ui/menus.ui:220
 msgid "Use Default Tab Title"
 msgstr "Standard-Reitertitel verwenden"
 
-#: ddterm/app/ui/menus.ui:229
+#: ddterm/app/ui/menus.ui:235
 msgid "New Tab Before This Tab"
 msgstr "Neuer Reiter vor diesem Reiter"
 
-#: ddterm/app/ui/menus.ui:233
+#: ddterm/app/ui/menus.ui:239
 msgid "New Tab After This Tab"
 msgstr "Neuer Reiter nach diesem Reiter"
 
-#: ddterm/app/ui/menus.ui:247 ddterm/pref/ui/prefs-shortcuts.ui:200
+#: ddterm/app/ui/menus.ui:253 ddterm/pref/ui/prefs-shortcuts.ui:200
 msgid "Move Tab to Previous Position"
 msgstr "Verschiebe Reiter zur vorherigen Position"
 
-#: ddterm/app/ui/menus.ui:251 ddterm/pref/ui/prefs-shortcuts.ui:207
+#: ddterm/app/ui/menus.ui:257 ddterm/pref/ui/prefs-shortcuts.ui:207
 msgid "Move Tab to Next Position"
 msgstr "Verschiebe Reiter zur nächsten Position"
 
