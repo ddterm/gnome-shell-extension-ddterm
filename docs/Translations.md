@@ -11,6 +11,14 @@ on GitHub.
 
 [Weblate]: https://hosted.weblate.org/engage/gnome-shell-extension-ddterm/
 
+> [!IMPORTANT]
+> When working on a translation, please add your name
+> to the translation of [`translator-credits`] string as a new line.
+> You could also add an e-mail address (in `Name <email>` format),
+> or a URL (in `Name https://url` format).
+
+[`translator-credits`]: https://wiki.gnome.org/TranslationProject(2f)DevGuidelines(2f)Add(20)translator(20)credits.html
+
 ## [Weblate]
 
 [![Translation status]][Weblate]
