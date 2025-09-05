@@ -1,5 +1,6 @@
 {
     "name": "gnome-shell-extension-ddterm",
+    "description": "Another drop down terminal extension for GNOME Shell. With tabs. Works on Wayland natively",
     "private": true,
     "homepage": "https://github.com/ddterm/gnome-shell-extension-ddterm",
     "bugs": "https://github.com/ddterm/gnome-shell-extension-ddterm/issues",

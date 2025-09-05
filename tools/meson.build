@@ -11,6 +11,12 @@ make_zip_command = [
   '@INPUT@',
 ]
 
+make_metadata_command = [
+  find_program(files('makemetadata.py')),  # https://github.com/mesonbuild/meson/issues/11255
+  '--output',
+  '@OUTPUT@',
+]
+
 # https://github.com/mesonbuild/meson/issues/11255
 run_gnome_shell_script = find_program(files('run_nested_shell.py'))
 

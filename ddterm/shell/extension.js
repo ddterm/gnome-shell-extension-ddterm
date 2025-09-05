@@ -38,8 +38,8 @@ function create_dbus_interface(
 ) {
     const dbus_interface = new DBusApi({
         xml_file_path: extension.dbus_xml_file_path,
-        version: `${extension.metadata.version}`,
-        revision: extension.revision,
+        version: `${extension.metadata.version ?? ''}`,
+        revision: extension.metadata['version-name'] ?? '',
         app_control,
     });
 
@@ -275,7 +275,7 @@ class EnabledExtension {
                     MessageTray.NotificationDestroyedReason.EXPIRED
                 );
 
-                if (!this.extension.check_revision_match())
+                if (!this.extension.check_version_match())
                     this.notifications.show_version_mismatch();
             }
         });
@@ -472,8 +472,7 @@ export default class DDTermExtension extends Extension {
             [this.data_dir, 'com.github.amezin.ddterm.Extension.xml']
         );
 
-        this.revision_file_path = GLib.build_filenamev([this.path, 'revision.txt']);
-        this.revision = this.read_revision();
+        this.metadata_path = GLib.build_filenamev([this.path, 'metadata.json']);
 
         this.app_process = null;
         this.enabled_state = null;
@@ -512,12 +511,12 @@ export default class DDTermExtension extends Extension {
             this.enabled_state.service.extra_env = value;
     }
 
-    read_revision() {
-        return Shell.get_file_contents_utf8_sync(this.revision_file_path).trim();
-    }
+    check_version_match() {
+        const metadata_updated =
+            JSON.parse(Shell.get_file_contents_utf8_sync(this.metadata_path));
 
-    check_revision_match() {
-        return this.revision === this.read_revision();
+        return this.metadata.version === metadata_updated.version &&
+            this.metadata['version-name'] === metadata_updated['version-name'];
     }
 
     watch_app_process(app_process) {

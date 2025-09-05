@@ -13,5 +13,5 @@ option(
   'tests',
   type : 'feature',
   value: 'auto',
-  description : 'Run tests during "meson test"/"ninja test"'
+  description : 'Run pytest during "meson test"/"ninja test"'
 )

@@ -41,7 +41,7 @@ class DDTermAboutDialog extends Gtk.AboutDialog {
         const { author, contributors } = load_npm_package_json();
 
         this.program_name = metadata.name;
-        this.version = metadata.version.toString();
+        this.version = this.application.get_version();
         this.logo_icon_name = this.application.application_id;
         this.website = metadata.url;
         this.comments = metadata.description;

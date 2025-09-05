@@ -590,25 +590,43 @@ class Application extends Gtk.Application {
         this.activate();
     }
 
-    print_version_info() {
-        const revision_file = GLib.build_filenamev([path, 'revision.txt']);
-        const [, revision_bytes] = GLib.file_get_contents(revision_file);
-        const revision = new TextDecoder().decode(revision_bytes).trim();
+    get_version() {
+        const version = metadata.version?.toString();
+        const name = metadata['version-name'];
 
-        print(metadata.name, metadata.version, 'revision', revision);
+        if (version && name)
+            return `${name} (${version})`;
+
+        return name || version;
+    }
+
+    get_extension_version() {
+        const proxy = create_extension_dbus_proxy();
+        const version = proxy.get_cached_property('Version')?.unpack();
+        const name = proxy.get_cached_property('Revision')?.unpack();
+
+        if (version && name)
+            return `${name} (${version})`;
+
+        return name || version;
+    }
+
+    print_version_info() {
+        const app_version = this.get_version();
+
+        print(metadata.name, app_version);
 
         try {
-            const extension_dbus = create_extension_dbus_proxy();
-            const ext_version = extension_dbus.get_cached_property('Version')?.unpack();
-            const ext_revision = extension_dbus.get_cached_property('Revision')?.unpack();
-            print('Extension', ext_version, 'revision', ext_revision);
+            const ext_version = this.get_extension_version();
 
-            if (ext_version === undefined && ext_revision === undefined) {
+            print('Extension', ext_version);
+
+            if (!ext_version) {
                 print(Gettext.gettext("Can't read the version of the loaded extension."));
                 print(Gettext.gettext(
                     'Please, make sure ddterm GNOME Shell extension is enabled.'
                 ));
-            } else if (revision !== ext_revision) {
+            } else if (app_version !== ext_version) {
                 print(Gettext.gettext('Warning: ddterm version has changed'));
                 print(Gettext.gettext('Log out, then log in again to load the updated extension.'));
             }
