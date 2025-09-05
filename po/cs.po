@@ -44,7 +44,7 @@ msgstr "Předvolby…"
 
 #: ddterm/app/about.js:51
 msgid "translator-credits"
-msgstr ""
+msgstr "Pavel Novák"
 
 #: ddterm/app/about.js:52
 msgid "Contributors"

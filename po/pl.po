@@ -49,6 +49,11 @@ msgstr "Preferencje…"
 #: ddterm/app/about.js:51
 msgid "translator-credits"
 msgstr ""
+"Michał Olejniczak\n"
+"Eryk Michalak\n"
+"Defender94\n"
+"luk\n"
+"Wojciech Teichert"
 
 #: ddterm/app/about.js:52
 msgid "Contributors"

@@ -49,6 +49,8 @@ msgstr "Προτιμήσεις"
 #: ddterm/app/about.js:51
 msgid "translator-credits"
 msgstr ""
+"Anagnostakis Ioannis\n"
+"Klearchos-Angelos Gkountras"
 
 #: ddterm/app/about.js:52
 msgid "Contributors"

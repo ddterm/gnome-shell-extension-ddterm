@@ -47,6 +47,9 @@ msgstr "Ajustes…"
 #: ddterm/app/about.js:51
 msgid "translator-credits"
 msgstr ""
+"Adrian Alberdi Ainciburu\n"
+"gallegonovato\n"
+"Patricio Carrau"
 
 #: ddterm/app/about.js:52
 msgid "Contributors"

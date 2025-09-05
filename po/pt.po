@@ -46,6 +46,9 @@ msgstr "Preferências…"
 #: ddterm/app/about.js:51
 msgid "translator-credits"
 msgstr ""
+"Cezar Cruz\n"
+"Luiz Carlos de Souza Santos\n"
+"Bruno Rodrigues"
 
 #: ddterm/app/about.js:52
 msgid "Contributors"

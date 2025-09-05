@@ -43,7 +43,7 @@ msgstr "首选项…"
 
 #: ddterm/app/about.js:51
 msgid "translator-credits"
-msgstr ""
+msgstr "yuh"
 
 #: ddterm/app/about.js:52
 msgid "Contributors"

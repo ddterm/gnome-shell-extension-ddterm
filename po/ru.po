@@ -49,6 +49,10 @@ msgstr "Параметры…"
 #: ddterm/app/about.js:51
 msgid "translator-credits"
 msgstr ""
+"Ivan Vantu5z\n"
+"gfbdrgng\n"
+"Dmitriy Q\n"
+"Stepan"
 
 #: ddterm/app/about.js:52
 msgid "Contributors"

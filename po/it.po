@@ -47,6 +47,9 @@ msgstr "Preferenze…"
 #: ddterm/app/about.js:51
 msgid "translator-credits"
 msgstr ""
+"Matteo Cerri\n"
+"Frankie McEyes\n"
+"Nathan Hadley"
 
 #: ddterm/app/about.js:52
 msgid "Contributors"

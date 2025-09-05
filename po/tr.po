@@ -46,6 +46,9 @@ msgstr "Tercihler…"
 #: ddterm/app/about.js:51
 msgid "translator-credits"
 msgstr ""
+"Mustafa Kemal Gilor\n"
+"Muha Aliss\n"
+"Nuri KÜÇÜKLER"
 
 #: ddterm/app/about.js:52
 msgid "Contributors"

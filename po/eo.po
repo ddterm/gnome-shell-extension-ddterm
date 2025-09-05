@@ -43,7 +43,7 @@ msgstr "Agordoj…"
 
 #: ddterm/app/about.js:51
 msgid "translator-credits"
-msgstr ""
+msgstr "phlostically"
 
 #: ddterm/app/about.js:52
 msgid "Contributors"

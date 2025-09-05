@@ -49,6 +49,10 @@ msgstr "Préférences…"
 #: ddterm/app/about.js:51
 msgid "translator-credits"
 msgstr ""
+"Arnaud Feldmann\n"
+"fail a fail\n"
+"Stephane LE CAER\n"
+"Patricio Carrau"
 
 #: ddterm/app/about.js:52
 msgid "Contributors"

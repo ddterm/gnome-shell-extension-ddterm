@@ -47,6 +47,9 @@ msgstr "Einstellungen …"
 #: ddterm/app/about.js:51
 msgid "translator-credits"
 msgstr ""
+"Jörn Weigend\n"
+"Ettore Atalan\n"
+"Philipp Kiemle"
 
 #: ddterm/app/about.js:52
 msgid "Contributors"

@@ -44,7 +44,7 @@ msgstr "Innstillinger …"
 
 #: ddterm/app/about.js:51
 msgid "translator-credits"
-msgstr ""
+msgstr "Allan Nordhøy"
 
 #: ddterm/app/about.js:52
 msgid "Contributors"
