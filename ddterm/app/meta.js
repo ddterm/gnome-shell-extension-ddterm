@@ -20,7 +20,7 @@ export const metadata = load();
 
 export default metadata;
 
-export const { name, uuid, version } = metadata;
+export const { name, uuid } = metadata;
 
 function get_settings_schema_source() {
     const default_source = Gio.SettingsSchemaSource.get_default();
