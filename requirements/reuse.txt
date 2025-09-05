@@ -26,7 +26,7 @@ markupsafe==3.0.2
     # via jinja2
 python-debian==1.0.1
     # via reuse
-reuse==5.1.0
+reuse==5.1.1
     # via -r reuse.in
 tomlkit==0.13.3
     # via reuse
