@@ -6,7 +6,7 @@ pref_ui_gtk3_out_files = []
 
 foreach pref_ui_src_file : pref_ui_src_files
   pref_ui_gtk3_out_file = custom_target(
-    command: [output_capture, gtk3_builder_tool, 'simplify', '@INPUT@'],
+    command: [capture_stdout, gtk3_builder_tool, 'simplify', '@INPUT@'],
     input: pref_ui_src_file,
     output: '@PLAINNAME@',
     install: true,
