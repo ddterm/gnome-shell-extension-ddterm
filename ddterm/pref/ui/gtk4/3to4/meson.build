@@ -7,7 +7,7 @@ pref_ui_gtk4_3to4_files = []
 foreach pref_ui_gtk4_fixup_file : pref_ui_gtk4_fixup_files
   pref_ui_gtk4_3to4_files += custom_target(
     command: [
-      output_capture,
+      capture_stdout,
       gtk4_builder_tool,
       'simplify',
       '--3to4',
