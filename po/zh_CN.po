@@ -2,21 +2,21 @@
 # Copyright (C) 2023 ddterm contributors <https://github.com/ddterm/gnome-shell-extension-ddterm/>
 # SPDX-License-Identifier: GPL-3.0-or-later
 # This file is distributed under the same license as the ddterm package.
-# yuh <yuhldr@qq.com>, 2023, 2024.
+# yuh <yuhldr@qq.com>, 2023, 2024, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-09-05 00:36+0000\n"
-"PO-Revision-Date: 2024-08-26 08:09+0000\n"
+"PO-Revision-Date: 2025-09-06 08:02+0000\n"
 "Last-Translator: yuh <yuhldr@qq.com>\n"
-"Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/zh_Hans/>\n"
+"Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/zh_Hans/>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.7.1-dev\n"
+"X-Generator: Weblate 5.13.1-rc\n"
 
 #: data/com.github.amezin.ddterm.desktop.in.in:8 ddterm/app/appwindow.js:149
 #: ddterm/shell/notifications.js:269 ddterm/shell/panelicon.js:31
@@ -47,7 +47,7 @@ msgstr "yuh"
 
 #: ddterm/app/about.js:52
 msgid "Contributors"
-msgstr ""
+msgstr "贡献者"
 
 #: ddterm/app/application.js:102
 msgid "Start the application, but do not show the window"
@@ -340,10 +340,8 @@ msgid "Enable Keyboard Shortcuts"
 msgstr "启用键盘快捷键"
 
 #: ddterm/app/ui/menus.ui:207
-#, fuzzy
-#| msgid "ddterm"
 msgid "About ddterm"
-msgstr "ddterm"
+msgstr "关于ddterm"
 
 #: ddterm/app/ui/menus.ui:215
 msgid "Use Custom Tab Title"
@@ -1183,7 +1181,7 @@ msgstr "显示键盘快捷键"
 
 #: ddterm/pref/ui/prefs-tabs.ui:259
 msgid "_Restore previous tabs on startup"
-msgstr ""
+msgstr "_启动时还原以前的选项卡"
 
 #: ddterm/pref/ui/prefs-text.ui:23
 msgid "Custom _font:"
