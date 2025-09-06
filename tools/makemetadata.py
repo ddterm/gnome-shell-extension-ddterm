@@ -12,7 +12,6 @@ Optionally, get default values for name, description, URL and version from packa
 
 import argparse
 import json
-import pathlib
 import sys
 
 
@@ -65,8 +64,21 @@ def cli(*args, **kwargs):
     parser.add_argument('--url')
     parser.add_argument('--gettext-domain', dest='gettext-domain')
     parser.add_argument('--settings-schema', dest='settings-schema')
-    parser.add_argument('--shell-version', required=True, nargs='+', action='extend')
-    parser.add_argument('--session-modes', nargs='+', action='extend')
+
+    parser.add_argument(
+        '--shell-version',
+        dest='shell-version',
+        required=True,
+        nargs='+',
+        action='extend'
+    )
+
+    parser.add_argument(
+        '--session-modes',
+        nargs='+',
+        action='extend',
+        dest='session-modes'
+    )
 
     makemetadata(**vars(parser.parse_args(*args, **kwargs)))
 
