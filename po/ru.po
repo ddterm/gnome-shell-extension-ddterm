@@ -4,7 +4,7 @@
 # This file is distributed under the same license as the ddterm package.
 # vantu5z <vantu5z@mail.ru>, 2022-2023.
 # Aleksandr Mezin <mezin.alexander@gmail.com>, 2023, 2024.
-# Ivan Vantu5z <vantu5z@mail.ru>, 2023.
+# Ivan Vantu5z <vantu5z@mail.ru>, 2023, 2025.
 # gfbdrgng <hnaofegnp@hldrive.com>, 2023.
 # Dmitriy Q <krotesk@mail.ru>, 2024.
 # Stepan <stepan.miroshnikov@gmail.com>, 2024.
@@ -13,15 +13,15 @@ msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-09-05 00:36+0000\n"
-"PO-Revision-Date: 2024-04-10 20:01+0000\n"
-"Last-Translator: Stepan <stepan.miroshnikov@gmail.com>\n"
+"PO-Revision-Date: 2025-09-06 08:01+0000\n"
+"Last-Translator: Ivan Vantu5z <vantu5z@mail.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 5.5-dev\n"
+"X-Generator: Weblate 5.13.1-rc\n"
 
 #: data/com.github.amezin.ddterm.desktop.in.in:8 ddterm/app/appwindow.js:149
 #: ddterm/shell/notifications.js:269 ddterm/shell/panelicon.js:31
@@ -49,14 +49,14 @@ msgstr "Параметры…"
 #: ddterm/app/about.js:51
 msgid "translator-credits"
 msgstr ""
-"Ivan Vantu5z\n"
+"Ivan (vantu5z)\n"
 "gfbdrgng\n"
 "Dmitriy Q\n"
 "Stepan"
 
 #: ddterm/app/about.js:52
 msgid "Contributors"
-msgstr ""
+msgstr "Участники"
 
 #: ddterm/app/application.js:102
 msgid "Start the application, but do not show the window"
@@ -1192,7 +1192,7 @@ msgstr "Показать комбинации клавиш"
 
 #: ddterm/pref/ui/prefs-tabs.ui:259
 msgid "_Restore previous tabs on startup"
-msgstr ""
+msgstr "_Восстановить предыдущие вкладки при запуске"
 
 #: ddterm/pref/ui/prefs-text.ui:23
 msgid "Custom _font:"
