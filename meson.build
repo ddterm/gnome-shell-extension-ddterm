@@ -60,6 +60,9 @@ summary(
   section: 'System-wide installation',
 )
 
+# Meson's "capture: true" hides stderr output (warnings from gtk-builder-tool)
+capture_stdout = ['sh', '-c', 'exec "$@" >"$0"', '@OUTPUT@']
+
 gtk3_builder_tool = find_program('gtk-builder-tool')
 gtk4_builder_tool = find_program('gtk4-builder-tool')
 glib_compile_schemas_tool = find_program('glib-compile-schemas')
@@ -134,7 +137,7 @@ git = find_program('git', disabler: true, required: need_git_version)
 if need_git_version
   pack += custom_target(
     command: [
-      output_capture,
+      capture_stdout,
       git,
       '-C',
       '@CURRENT_SOURCE_DIR@',

@@ -2,13 +2,6 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-output_capture = [
-  find_program(files('capture-stdout.py')),  # https://github.com/mesonbuild/meson/issues/11255
-  '--output',
-  '@OUTPUT@',
-  '--',
-]
-
 make_zip_command = [
   find_program(files('makezip.py')),  # https://github.com/mesonbuild/meson/issues/11255
   '--output',
