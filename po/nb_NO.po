@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-05 00:36+0000\n"
+"POT-Creation-Date: 2025-09-10 09:38+0000\n"
 "PO-Revision-Date: 2024-09-02 20:09+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/nb_NO/>\n"
@@ -94,19 +94,19 @@ msgstr "Åpne en ny fane"
 msgid "Can't contact the extension."
 msgstr ""
 
-#: ddterm/app/application.js:479 ddterm/app/application.js:609
+#: ddterm/app/application.js:479 ddterm/app/application.js:627
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr ""
 
-#: ddterm/app/application.js:607
+#: ddterm/app/application.js:625
 msgid "Can't read the version of the loaded extension."
 msgstr ""
 
-#: ddterm/app/application.js:612 ddterm/shell/notifications.js:138
+#: ddterm/app/application.js:630 ddterm/shell/notifications.js:138
 msgid "Warning: ddterm version has changed"
 msgstr "Advarsel: ddterm-versjonen har endret seg"
 
-#: ddterm/app/application.js:613 ddterm/shell/notifications.js:140
+#: ddterm/app/application.js:631 ddterm/shell/notifications.js:140
 msgid "Log out, then log in again to load the updated extension."
 msgstr "Logg ut og inn igjen for å laste inn oppdatert utvidelse."
 
