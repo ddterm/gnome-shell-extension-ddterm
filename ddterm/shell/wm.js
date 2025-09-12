@@ -382,10 +382,10 @@ export const WindowManager = GObject.registerClass({
         this.#update_window_geometry();
 
         // https://github.com/ddterm/gnome-shell-extension-ddterm/issues/48
-        if (this.settings.get_boolean('window-above')) {
+        if (this.settings.get_boolean('window-above') && !this.window.is_above()) {
             // Without unmake_above(), make_above() won't actually take effect (?!)
             this.window.unmake_above();
-            this.#set_window_above();
+            this.window.make_above();
         }
 
         if (!this.#actor.visible && this.show_animation.should_skip)
