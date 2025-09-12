@@ -229,10 +229,10 @@ export const TerminalCommand = GObject.registerClass({
             dict.insert_value('envv', new GLib.Variant('as', this.envv));
 
         if (this.working_directory) {
-            dict.insert_value(
-                'working-directory',
-                GLib.Variant.new_string(this.working_directory.get_path())
-            );
+            const path = this.working_directory.get_path();
+
+            if (path)
+                dict.insert_value('working-directory', GLib.Variant.new_string(path));
         }
 
         dict.insert_value('search-path', GLib.Variant.new_boolean(this.search_path));
