@@ -6,6 +6,7 @@ import contextlib
 import logging
 import os
 import pathlib
+import subprocess
 import sys
 import warnings
 
@@ -269,6 +270,16 @@ class GnomeSessionFixtures:
             str(GLib.Variant('s', f'{MAX_GNOME_VERSION}.0')),
             env=dbus_environment,
         )
+
+    @pytest.fixture(scope='class')
+    def has_x11(self, process_launcher, request):
+        result = process_launcher.run(
+            str(request.config.option.gnome_shell),
+            '--help',
+            stdout=subprocess.PIPE
+        )
+
+        return b'--x11' in result.stdout
 
     @pytest.fixture(scope='class')
     def shell_process(
@@ -605,6 +616,13 @@ class GnomeSessionX11Fixtures(GnomeSessionFixtures):
     @pytest.fixture(scope='class')
     def gnome_shell_args(self):
         return ('--x11',)
+
+    @pytest.fixture(scope='class', autouse=True)
+    def check_x11(self, has_x11):
+        if not has_x11:
+            pytest.skip('X11 backend is not available')
+
+        return has_x11
 
 
 class GnomeSessionWaylandFixtures(GnomeSessionFixtures):
