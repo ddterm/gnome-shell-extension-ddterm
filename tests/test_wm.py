@@ -632,6 +632,7 @@ class CommonTests:
         shell_dbus_interface,
         shell_test_hook,
         wait_idle,
+        settings_test_hook,
         gdk_backend,
     ):
         extension_dbus_interface.Activate(timeout=dbusutil.DEFAULT_LONG_TIMEOUT_MS)
@@ -692,7 +693,17 @@ class CommonTests:
 
         wait_idle()
 
-        assert extension_test_hook.WindowRect == expected_rect_resized
+        assert settings_test_hook.window_size == pytest.approx(
+            window_size2,
+            abs=monitor_scale / min(workarea.width, workarea.height)
+        )
+
+        assert extension_test_hook.WindowRect == compute_target_rect(
+            window_size=settings_test_hook.window_size,
+            window_position=window_position,
+            workarea=workarea,
+            round_to=int(monitor_scale)
+        )
 
     @pytest.mark.usefixtures('disable_animations')
     def test_resize_maximize_unmaximize(
