@@ -622,6 +622,7 @@ class CommonTests:
         unmaximized_rect,
         expected_rect,
         workarea,
+        window_maximize,
         window_size,
         window_size2,
         window_position,
@@ -651,39 +652,47 @@ class CommonTests:
 
         start = resize_point(expected_rect, window_position)
 
-        expected_rect2 = compute_target_rect(
+        expected_rect_unmaximized = compute_target_rect(
+            window_size=1.0 if window_maximize else window_size,
+            window_position=window_position,
+            workarea=workarea,
+            round_to=int(monitor_scale)
+        )
+
+        expected_rect_resized = compute_target_rect(
             window_size=window_size2,
             window_position=window_position,
             workarea=workarea,
             round_to=int(monitor_scale)
         )
 
-        end = resize_point(expected_rect2, window_position)
+        end = resize_point(expected_rect_resized, window_position)
 
         shell_test_hook.SetPointer(*start)
 
         try:
             shell_test_hook.mouse_down()
             extension_test_hook.wait_property(window_position.maximize_property, False)
+            extension_test_hook.wait_property('WindowRect', expected_rect_unmaximized)
 
             wait_idle()
             shell_test_hook.WaitLeisure()
 
-            assert extension_test_hook.WindowRect == expected_rect
+            assert extension_test_hook.WindowRect == expected_rect_unmaximized
 
             shell_test_hook.SetPointer(*end)
-            extension_test_hook.wait_property('WindowRect', expected_rect2)
+            extension_test_hook.wait_property('WindowRect', expected_rect_resized)
 
             wait_idle()
 
-            assert extension_test_hook.WindowRect == expected_rect2
+            assert extension_test_hook.WindowRect == expected_rect_resized
 
         finally:
             shell_test_hook.mouse_up()
 
         wait_idle()
 
-        assert extension_test_hook.WindowRect == expected_rect2
+        assert extension_test_hook.WindowRect == expected_rect_resized
 
     @pytest.mark.usefixtures('disable_animations')
     def test_resize_maximize_unmaximize(
