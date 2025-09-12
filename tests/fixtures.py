@@ -6,6 +6,7 @@ import contextlib
 import logging
 import os
 import pathlib
+import subprocess
 import sys
 import warnings
 
@@ -271,6 +272,16 @@ class GnomeSessionFixtures:
         )
 
     @pytest.fixture(scope='class')
+    def has_x11(self, process_launcher, request):
+        result = process_launcher.run(
+            str(request.config.option.gnome_shell),
+            '--help',
+            stdout=subprocess.PIPE
+        )
+
+        return b'--x11' in result.stdout
+
+    @pytest.fixture(scope='class')
     def shell_process(
         self,
         container,
@@ -352,7 +363,6 @@ class GnomeSessionFixtures:
                     process_launcher.spawn(
                         *wrapper,
                         str(request.config.option.gnome_shell),
-                        '--sm-disable',
                         '--unsafe-mode',
                         *gnome_shell_args,
                         stdout=stdout_pipe_w,
@@ -607,6 +617,13 @@ class GnomeSessionX11Fixtures(GnomeSessionFixtures):
     def gnome_shell_args(self):
         return ('--x11',)
 
+    @pytest.fixture(scope='class', autouse=True)
+    def check_x11(self, has_x11):
+        if not has_x11:
+            pytest.skip('X11 backend is not available')
+
+        return has_x11
+
 
 class GnomeSessionWaylandFixtures(GnomeSessionFixtures):
     @pytest.fixture(scope='class')
@@ -619,26 +636,6 @@ class GnomeSessionWaylandFixtures(GnomeSessionFixtures):
             **environment,
             'WAYLAND_DISPLAY': wayland_display,
             'XDG_SESSION_TYPE': 'wayland',
-        }
-
-    @pytest.fixture(scope='class')
-    def gnome_shell_environment_nested(
-        self,
-        dbus_environment,
-        x11_environment,
-        initial_monitor_layout
-    ):
-        return {
-            **dbus_environment,
-            **x11_environment,
-            'MUTTER_DEBUG_NUM_DUMMY_MONITORS': str(len(initial_monitor_layout)),
-            'MUTTER_DEBUG_DUMMY_MONITOR_SCALES': ','.join(
-                str(monitor.scale) for monitor in initial_monitor_layout
-            ),
-            'MUTTER_DEBUG_DUMMY_MODE_SPECS': ':'.join(set(
-                f'{monitor.width}x{monitor.height}'
-                for monitor in initial_monitor_layout
-            )),
         }
 
     @pytest.fixture(scope='class')
