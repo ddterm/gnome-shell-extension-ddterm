@@ -12,14 +12,16 @@ execnet==2.1.1
     # via pytest-xdist
 iniconfig==2.1.0
     # via pytest
+jinja2==3.1.6
+    # via pytest-html
+markupsafe==3.0.2
+    # via jinja2
 packaging==25.0
     # via pytest
 pluggy==1.6.0
     # via pytest
 psutil==7.0.0
     # via pytest-xdist
-py==1.11.0
-    # via pytest-html
 pygments==2.19.2
     # via pytest
 pytest==8.4.2
@@ -28,7 +30,7 @@ pytest==8.4.2
     #   pytest-html
     #   pytest-metadata
     #   pytest-xdist
-pytest-html==3.2.0
+pytest-html==4.1.1
     # via -r test.in
 pytest-metadata==3.1.1
     # via pytest-html
