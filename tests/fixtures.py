@@ -622,26 +622,6 @@ class GnomeSessionWaylandFixtures(GnomeSessionFixtures):
         }
 
     @pytest.fixture(scope='class')
-    def gnome_shell_environment_nested(
-        self,
-        dbus_environment,
-        x11_environment,
-        initial_monitor_layout
-    ):
-        return {
-            **dbus_environment,
-            **x11_environment,
-            'MUTTER_DEBUG_NUM_DUMMY_MONITORS': str(len(initial_monitor_layout)),
-            'MUTTER_DEBUG_DUMMY_MONITOR_SCALES': ','.join(
-                str(monitor.scale) for monitor in initial_monitor_layout
-            ),
-            'MUTTER_DEBUG_DUMMY_MODE_SPECS': ':'.join(set(
-                f'{monitor.width}x{monitor.height}'
-                for monitor in initial_monitor_layout
-            )),
-        }
-
-    @pytest.fixture(scope='class')
     def gnome_shell_environment(self, dbus_environment):
         return dbus_environment
 
