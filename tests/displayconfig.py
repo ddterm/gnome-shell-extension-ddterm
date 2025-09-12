@@ -381,9 +381,11 @@ class MonitorsConfig:
 class SimpleMonitorConfig:
     x: int = 0
     y: int = 0
-    # 800x480 is the minimal size accepted by Mutter (with scale=1)
-    width: int = 800 * 2
-    height: int = 480 * 2
+    # 800x480 is the minimal size accepted by Mutter (with scale=1).
+    # 1600x960 with scale=2. 1680x1050 is the closest widely used resolution.
+    # Also, supported monitor scales match on GNOME 48 and 49 for 1680x1050.
+    width: int = 1680
+    height: int = 1050
     scale: float = 1.0
     transform: Transform = Transform.NORMAL
 

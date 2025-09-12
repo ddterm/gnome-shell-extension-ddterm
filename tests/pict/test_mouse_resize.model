@@ -6,7 +6,7 @@ class: TestX11, TestWayland, TestWaylandTwoMonitors
 
 gdk_backend: GdkBackend.X11, GdkBackend.WAYLAND (100)
 
-monitor0_scale: 1.0, 1.25, 1.502347469329834, 1.748633861541748, 2.0
+monitor0_scale: 1.0, 1.25, 1.5, 1.75, 2.0
 monitor1_scale: <monitor0_scale>, 0
 layout_mode: displayconfig.LayoutMode.PHYSICAL (100), displayconfig.LayoutMode.LOGICAL
 
