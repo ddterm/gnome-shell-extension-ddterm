@@ -13,8 +13,12 @@ PROJECT_DIR = Pathname.new(__FILE__).realpath.dirname
 SYNCED_FOLDER = "/home/vagrant/#{PROJECT_DIR.basename}"
 UUID = 'ddterm@amezin.github.com'
 
-PACK_FILE_FALLBACK = Pathname.getwd / "#{UUID}.shell-extension.zip"
-PACK_FILE = Pathname.getwd / ENV.fetch('DDTERM_BUILT_PACK', PACK_FILE_FALLBACK.to_s)
+PACK_FILE = Pathname.getwd / ENV.fetch('DDTERM_BUILT_PACK') do |; packs|
+  packs = Pathname.getwd.glob('**/*.shell-extension.zip')
+  raise 'Found no extension package in the current directory or subdirectories, use meson devenv' if packs.empty?
+  raise "Found multiple extension packages: #{packs}, use meson devenv" if packs.length > 1
+  packs[0]
+end
 
 stdout, status = Open3.capture2(
   'git',

@@ -31,9 +31,18 @@ haven't built the package yet, you'll need to do so:
 
 Then:
 
-    meson devenv -C build-dir -w . vagrant up fedora42
+    vagrant up fedora42
 
 will start Fedora 42 VM, and will install ddterm into the VM.
+
+`Vagrantfile` automatically searches for `*.shell-extension.zip` file in the
+current directory, or in its subdirectories.
+
+If there are multiple files/directories, or if the build directory isn't
+a subdirectory of the current directory, Vagrant should be started from
+`meson devenv`:
+
+    meson devenv -C build-dir -w . vagrant up fedora42
 
 Instead of prefixing `vagrant` command with `meson devenv ...` every time,
 it's possible to just run `meson devenv -C build-dir` once. It will start a new
