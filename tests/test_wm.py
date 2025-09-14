@@ -918,3 +918,17 @@ class TestWaylandTwoMonitors(TestWayland):
     @pytest.fixture
     def max_window_rect_changes(self, max_size_allocations):
         return max_size_allocations
+
+
+@pytest.mark.usefixtures('check_log')
+class TestWaylandNoMonitors(fixtures.GnomeSessionWaylandFixtures):
+    @pytest.fixture(scope='class')
+    def initial_monitor_layout(self):
+        return []
+
+    @pytest.fixture(scope='class')
+    def shell_init(self, disable_extension_updates):
+        pass
+
+    def test_smoke(self, extension_init):
+        pass
