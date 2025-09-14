@@ -91,15 +91,15 @@ const Notification = MessageTray.Notification.length === 1 ? GObject.registerCla
 const NotificationSource = MessageTray.Source.length !== 1 ? GObject.registerClass({
     'icon': GObject.ParamSpec.object(
         'icon',
-        '',
-        '',
+        null,
+        null,
         GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
         Gio.Icon
     ),
     'icon-name': GObject.ParamSpec.string(
         'icon-name',
-        '',
-        '',
+        null,
+        null,
         GObject.ParamFlags.READWRITE,
         ''
     ),

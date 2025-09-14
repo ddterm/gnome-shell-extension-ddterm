@@ -90,8 +90,8 @@ const PALETTE_PROPERTIES = Array.from(
 function color_pspec(name, flags) {
     return GObject.ParamSpec.boxed(
         name,
-        '',
-        '',
+        null,
+        null,
         flags,
         Gdk.RGBA
     );

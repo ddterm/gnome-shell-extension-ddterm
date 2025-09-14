@@ -74,8 +74,8 @@ function dbus_auto_pspec_str(name) {
 function dbus_auto_pspec_strv(name) {
     return GObject.ParamSpec.boxed(
         name,
-        '',
-        '',
+        null,
+        null,
         DBUS_AUTO_PSPEC_FLAGS,
         GObject.type_from_name('GStrv')
     );
@@ -90,15 +90,15 @@ const DBUS_AUTO_PSPEC_FACTORIES = {
     'ag': dbus_auto_pspec_strv,
     'b': name => GObject.ParamSpec.boolean(
         name,
-        '',
-        '',
+        null,
+        null,
         DBUS_AUTO_PSPEC_FLAGS,
         false
     ),
     'y': name => GObject.ParamSpec.uchar(
         name,
-        '',
-        '',
+        null,
+        null,
         DBUS_AUTO_PSPEC_FLAGS,
         0,
         GLib.MAXUINT8,
@@ -106,8 +106,8 @@ const DBUS_AUTO_PSPEC_FACTORIES = {
     ),
     'n': name => GObject.ParamSpec.int(
         name,
-        '',
-        '',
+        null,
+        null,
         DBUS_AUTO_PSPEC_FLAGS,
         GLib.MININT16,
         GLib.MAXINT16,
@@ -115,8 +115,8 @@ const DBUS_AUTO_PSPEC_FACTORIES = {
     ),
     'q': name => GObject.ParamSpec.uint(
         name,
-        '',
-        '',
+        null,
+        null,
         DBUS_AUTO_PSPEC_FLAGS,
         0,
         GLib.MAXUINT16,
@@ -124,8 +124,8 @@ const DBUS_AUTO_PSPEC_FACTORIES = {
     ),
     'i': name => GObject.ParamSpec.int(
         name,
-        '',
-        '',
+        null,
+        null,
         DBUS_AUTO_PSPEC_FLAGS,
         GLib.MININT32,
         GLib.MAXINT32,
@@ -133,8 +133,8 @@ const DBUS_AUTO_PSPEC_FACTORIES = {
     ),
     'u': name => GObject.ParamSpec.uint(
         name,
-        '',
-        '',
+        null,
+        null,
         DBUS_AUTO_PSPEC_FLAGS,
         0,
         GLib.MAXUINT32,
@@ -142,8 +142,8 @@ const DBUS_AUTO_PSPEC_FACTORIES = {
     ),
     'x': name => GObject.ParamSpec.int64(
         name,
-        '',
-        '',
+        null,
+        null,
         DBUS_AUTO_PSPEC_FLAGS,
         GLib.MININT64,
         GLib.MAXINT64,
@@ -151,8 +151,8 @@ const DBUS_AUTO_PSPEC_FACTORIES = {
     ),
     't': name => GObject.ParamSpec.uint64(
         name,
-        '',
-        '',
+        null,
+        null,
         DBUS_AUTO_PSPEC_FLAGS,
         0,
         GLib.MAXUINT64,
@@ -160,8 +160,8 @@ const DBUS_AUTO_PSPEC_FACTORIES = {
     ),
     'd': name => GObject.ParamSpec.double(
         name,
-        '',
-        '',
+        null,
+        null,
         DBUS_AUTO_PSPEC_FLAGS,
         Number.NEGATIVE_INFINITY,
         Number.POSITIVE_INFINITY,
