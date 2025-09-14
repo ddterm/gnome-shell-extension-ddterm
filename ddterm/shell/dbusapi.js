@@ -94,7 +94,7 @@ export const DBusApi = GObject.registerClass({
     },
 }, class DDTermDBusApi extends GObject.Object {
     #target_rect = null;
-    #target_monitor_scale = 1;
+    #target_monitor_scale = GLib.Variant.new_double(1);
 
     constructor(params) {
         super(params);
@@ -148,7 +148,7 @@ export const DBusApi = GObject.registerClass({
 
     GetTargetMonitorScale() {
         this.emit('update-target-monitor');
-        return this.#target_monitor_scale;
+        return GLib.Variant.new_tuple([this.#target_monitor_scale]);
     }
 
     get TargetRect() {
@@ -157,7 +157,8 @@ export const DBusApi = GObject.registerClass({
     }
 
     get TargetMonitorScale() {
-        return this.GetTargetMonitorScale();
+        this.emit('update-target-monitor');
+        return this.#target_monitor_scale;
     }
 
     get Version() {
@@ -204,16 +205,17 @@ export const DBusApi = GObject.registerClass({
     }
 
     get target_monitor_scale() {
-        return this.#target_monitor_scale;
+        return this.#target_monitor_scale.get_double();
     }
 
     set target_monitor_scale(value) {
-        if (this.#target_monitor_scale === value)
+        value = GLib.Variant.new_double(value);
+
+        if (this.#target_monitor_scale?.equal(value))
             return;
 
         this.#target_monitor_scale = value;
         this.notify('target-monitor-scale');
-
-        this.dbus.emit_property_changed('TargetMonitorScale', GLib.Variant.new_double(value));
+        this.dbus.emit_property_changed('TargetMonitorScale', value);
     }
 });
