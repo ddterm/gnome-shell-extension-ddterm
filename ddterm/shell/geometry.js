@@ -106,14 +106,14 @@ export const WindowGeometry = GObject.registerClass({
     },
 }, class DDTermWindowGeometry extends GObject.Object {
     #workareas_changed_handler;
-    #target_rect;
-    #workarea;
-    #monitor_index;
-    #monitor_scale;
-    #pivot_point;
-    #orientation;
-    #maximize_flag;
-    #notify_emitted;
+    #target_rect = null;
+    #workarea = null;
+    #monitor_index = 0;
+    #monitor_scale = 1;
+    #pivot_point = null;
+    #orientation = Clutter.Orientation.VERTICAL;
+    #maximize_flag = Meta.MaximizeFlags.VERTICAL;
+    #notify_emitted = false;
 
     constructor(params) {
         super(params);
