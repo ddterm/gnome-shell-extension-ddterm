@@ -16,15 +16,15 @@ export const PrefsDialog = GObject.registerClass({
     Properties: {
         'settings': GObject.ParamSpec.object(
             'settings',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             Gio.Settings
         ),
         'display-config': GObject.ParamSpec.object(
             'display-config',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             DisplayConfig
         ),

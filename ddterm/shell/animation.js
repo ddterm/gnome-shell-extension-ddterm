@@ -50,29 +50,29 @@ export const Animation = GObject.registerClass({
     Properties: {
         'geometry': GObject.ParamSpec.object(
             'geometry',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             WindowGeometry
         ),
         'enable-override': GObject.ParamSpec.boolean(
             'enable-override',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             false
         ),
         'mode': GObject.ParamSpec.string(
             'mode',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             ''
         ),
         'duration': GObject.ParamSpec.double(
             'duration',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             0.001,
             1.0,
@@ -80,22 +80,22 @@ export const Animation = GObject.registerClass({
         ),
         'global-disable': GObject.ParamSpec.boolean(
             'global-disable',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             false
         ),
         'should-skip': GObject.ParamSpec.boolean(
             'should-skip',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READABLE,
             false
         ),
         'should-override': GObject.ParamSpec.boolean(
             'should-override',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READABLE,
             false
         ),

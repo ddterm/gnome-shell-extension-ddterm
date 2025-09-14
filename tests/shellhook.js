@@ -28,15 +28,15 @@ const Interface = GObject.registerClass({
         ...dbus_auto_pspecs(DBUS_INTERFACE_INFO),
         'inhibit-animations': GObject.ParamSpec.boolean(
             'inhibit-animations',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             false
         ),
         'uninhibit-animations': GObject.ParamSpec.boolean(
             'uninhibit-animations',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             false
         ),

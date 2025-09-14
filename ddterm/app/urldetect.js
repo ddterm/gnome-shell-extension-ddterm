@@ -76,15 +76,15 @@ export const UrlDetect = GObject.registerClass({
     Properties: {
         'terminal': GObject.ParamSpec.object(
             'terminal',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             Vte.Terminal
         ),
         'enabled-patterns': GObject.ParamSpec.boxed(
             'enabled-patterns',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             GObject.type_from_name('GStrv')
         ),

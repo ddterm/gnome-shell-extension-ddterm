@@ -16,22 +16,22 @@ export const WindowGeometry = GObject.registerClass({
     Properties: {
         'target-rect': GObject.ParamSpec.boxed(
             'target-rect',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READABLE,
             Mtk.Rectangle
         ),
         'workarea': GObject.ParamSpec.boxed(
             'workarea',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READABLE,
             Mtk.Rectangle
         ),
         'monitor-index': GObject.ParamSpec.int(
             'monitor-index',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READABLE,
             0,
             GLib.MAXINT32,
@@ -39,8 +39,8 @@ export const WindowGeometry = GObject.registerClass({
         ),
         'monitor-scale': GObject.ParamSpec.double(
             'monitor-scale',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READABLE,
             0,
             100,
@@ -48,31 +48,31 @@ export const WindowGeometry = GObject.registerClass({
         ),
         'pivot-point': GObject.ParamSpec.boxed(
             'pivot-point',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READABLE,
             Graphene.Point
         ),
         'orientation': GObject.ParamSpec.enum(
             'orientation',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READABLE,
             Clutter.Orientation,
             Clutter.Orientation.VERTICAL
         ),
         'maximize-flag': GObject.ParamSpec.flags(
             'maximize-flag',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READABLE,
             Meta.MaximizeFlags,
             Meta.MaximizeFlags.VERTICAL
         ),
         'window-size': GObject.ParamSpec.double(
             'window-size',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             0,
             1,
@@ -80,23 +80,23 @@ export const WindowGeometry = GObject.registerClass({
         ),
         'window-position': GObject.ParamSpec.enum(
             'window-position',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             Meta.Side,
             Meta.Side.TOP
         ),
         'window-monitor': GObject.ParamSpec.string(
             'window-monitor',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             'current'
         ),
         'window-monitor-connector': GObject.ParamSpec.string(
             'window-monitor-connector',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             ''
         ),

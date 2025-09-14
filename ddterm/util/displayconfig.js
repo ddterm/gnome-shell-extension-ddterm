@@ -26,23 +26,23 @@ export const DisplayConfig = GObject.registerClass({
     Properties: {
         'dbus-connection': GObject.ParamSpec.object(
             'dbus-connection',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             Gio.DBusConnection
         ),
         'current-state': GObject.param_spec_variant(
             'current-state',
-            '',
-            '',
+            null,
+            null,
             CURRENT_STATE_TYPE,
             null,
             GObject.ParamFlags.READABLE
         ),
         'layout-mode': GObject.ParamSpec.int(
             'layout-mode',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READABLE,
             0,
             2,
@@ -182,36 +182,36 @@ export const Monitor = GObject.registerClass({
     Properties: {
         'connector': GObject.ParamSpec.string(
             'connector',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             ''
         ),
         'vendor': GObject.ParamSpec.string(
             'vendor',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             ''
         ),
         'product': GObject.ParamSpec.string(
             'product',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             ''
         ),
         'serial': GObject.ParamSpec.string(
             'serial',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             ''
         ),
         'display-name': GObject.ParamSpec.string(
             'display-name',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             ''
         ),
@@ -237,8 +237,8 @@ export const MonitorList = GObject.registerClass({
     Properties: {
         'current-state': GObject.param_spec_variant(
             'current-state',
-            '',
-            '',
+            null,
+            null,
             CURRENT_STATE_TYPE,
             null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY

@@ -125,15 +125,15 @@ const Color = GObject.registerClass({
     Properties: {
         'rgba': GObject.ParamSpec.boxed(
             'rgba',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             Gdk.RGBA
         ),
         'str': GObject.ParamSpec.string(
             'str',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             null
         ),
@@ -167,8 +167,8 @@ const ColorScheme = GObject.registerClass({
     Properties: {
         'active-preset': GObject.ParamSpec.int(
             'active-preset',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             -1,
             GLib.MAXINT32,
@@ -176,15 +176,15 @@ const ColorScheme = GObject.registerClass({
         ),
         'presets': GObject.ParamSpec.object(
             'presets',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             Gtk.TreeModel
         ),
         'strv': GObject.ParamSpec.boxed(
             'strv',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             GObject.type_from_name('GStrv')
         ),
@@ -284,15 +284,15 @@ export const ColorsWidget = GObject.registerClass({
     Properties: {
         'settings': GObject.ParamSpec.object(
             'settings',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             Gio.Settings
         ),
         'gettext-domain': GObject.ParamSpec.jsobject(
             'gettext-domain',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY
         ),
     },

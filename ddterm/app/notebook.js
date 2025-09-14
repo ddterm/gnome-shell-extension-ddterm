@@ -18,43 +18,43 @@ export const Notebook = GObject.registerClass({
     Properties: {
         'menus': GObject.ParamSpec.object(
             'menus',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             Gtk.Builder
         ),
         'terminal-settings': GObject.ParamSpec.object(
             'terminal-settings',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             TerminalSettings
         ),
         'current-child': GObject.ParamSpec.object(
             'current-child',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READABLE,
             Gtk.Widget
         ),
         'current-title': GObject.ParamSpec.string(
             'current-title',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READABLE,
             null
         ),
         'tab-expand': GObject.ParamSpec.boolean(
             'tab-expand',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             true
         ),
         'tab-label-width': GObject.ParamSpec.int(
             'tab-label-width',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             -1,
             GLib.MAXINT32,
@@ -62,58 +62,58 @@ export const Notebook = GObject.registerClass({
         ),
         'tab-policy': GObject.ParamSpec.string(
             'tab-policy',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             'always'
         ),
         'tab-close-buttons': GObject.ParamSpec.boolean(
             'tab-close-buttons',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             true
         ),
         'tab-show-shortcuts': GObject.ParamSpec.boolean(
             'tab-show-shortcuts',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             true
         ),
         'tab-label-ellipsize-mode': GObject.ParamSpec.enum(
             'tab-label-ellipsize-mode',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             Pango.EllipsizeMode,
             Pango.EllipsizeMode.NONE
         ),
         'show-new-tab-button': GObject.ParamSpec.boolean(
             'show-new-tab-button',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             true
         ),
         'show-new-tab-front-button': GObject.ParamSpec.boolean(
             'show-new-tab-front-button',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             true
         ),
         'show-tab-switch-popup': GObject.ParamSpec.boolean(
             'show-tab-switch-popup',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             true
         ),
         'split-layout': GObject.ParamSpec.string(
             'split-layout',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             'no-split'
         ),
@@ -538,8 +538,8 @@ const NotebookMenu = GObject.registerClass({
     Properties: {
         'notebook': GObject.ParamSpec.object(
             'notebook',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             Notebook
         ),

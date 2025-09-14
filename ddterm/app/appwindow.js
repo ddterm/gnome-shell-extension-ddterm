@@ -53,51 +53,51 @@ export const AppWindow = GObject.registerClass({
     Properties: {
         'settings': GObject.ParamSpec.object(
             'settings',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             Gio.Settings
         ),
         'terminal-settings': GObject.ParamSpec.object(
             'terminal-settings',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             TerminalSettings
         ),
         'extension-dbus': GObject.ParamSpec.object(
             'extension-dbus',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             Gio.DBusProxy
         ),
         'display-config': GObject.ParamSpec.object(
             'display-config',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             DisplayConfig
         ),
         'resize-handle': GObject.ParamSpec.boolean(
             'resize-handle',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             true
         ),
         'resize-edge': GObject.ParamSpec.enum(
             'resize-edge',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             Gdk.WindowEdge,
             Gdk.WindowEdge.SOUTH
         ),
         'tab-label-width': GObject.ParamSpec.double(
             'tab-label-width',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             0.0,
             0.5,
@@ -105,36 +105,36 @@ export const AppWindow = GObject.registerClass({
         ),
         'tab-show-shortcuts': GObject.ParamSpec.boolean(
             'tab-show-shortcuts',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             true
         ),
         'active-notebook': GObject.ParamSpec.object(
             'active-notebook',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READABLE,
             Notebook
         ),
         'is-empty': GObject.ParamSpec.boolean(
             'is-empty',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READABLE,
             false
         ),
         'is-split': GObject.ParamSpec.boolean(
             'is-split',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READABLE,
             false
         ),
         'split-layout': GObject.ParamSpec.string(
             'split-layout',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READABLE,
             'no-split'
         ),

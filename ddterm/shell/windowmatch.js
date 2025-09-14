@@ -13,15 +13,15 @@ export const WindowMatchGeneric = GObject.registerClass({
     Properties: {
         'display': GObject.ParamSpec.object(
             'display',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             Meta.Display
         ),
         'track-signals': GObject.ParamSpec.boxed(
             'track-signals',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             GObject.type_from_name('GStrv')
         ),
@@ -86,29 +86,29 @@ export const WindowMatch = GObject.registerClass({
     Properties: {
         'service': GObject.ParamSpec.object(
             'service',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             Service
         ),
         'current-window': GObject.ParamSpec.object(
             'current-window',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READABLE,
             Meta.Window
         ),
         'gtk-application-id': GObject.ParamSpec.string(
             'gtk-application-id',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             null
         ),
         'gtk-window-object-path-prefix': GObject.ParamSpec.string(
             'gtk-window-object-path-prefix',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             null
         ),

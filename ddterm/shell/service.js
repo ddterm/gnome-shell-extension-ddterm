@@ -11,78 +11,78 @@ export const Service = GObject.registerClass({
     Properties: {
         'bus': GObject.ParamSpec.object(
             'bus',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             Gio.DBusConnection
         ),
         'bus-name': GObject.ParamSpec.string(
             'bus-name',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             null
         ),
         'executable': GObject.ParamSpec.string(
             'executable',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             null
         ),
         'wayland': GObject.ParamSpec.boolean(
             'wayland',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             false
         ),
         'extra-argv': GObject.ParamSpec.boxed(
             'extra-argv',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             GObject.type_from_name('GStrv')
         ),
         'extra-env': GObject.ParamSpec.boxed(
             'extra-env',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             GObject.type_from_name('GStrv')
         ),
         'subprocess': GObject.ParamSpec.object(
             'subprocess',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READABLE,
             Subprocess
         ),
         'bus-name-owner': GObject.ParamSpec.string(
             'bus-name-owner',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READABLE,
             null
         ),
         'is-registered': GObject.ParamSpec.boolean(
             'is-registered',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READABLE,
             false
         ),
         'is-running': GObject.ParamSpec.boolean(
             'is-running',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READABLE,
             false
         ),
         'starting': GObject.ParamSpec.boolean(
             'starting',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READABLE,
             false
         ),

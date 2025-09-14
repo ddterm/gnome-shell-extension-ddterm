@@ -20,79 +20,79 @@ export const TerminalPage = GObject.registerClass({
     Properties: {
         'terminal-settings': GObject.ParamSpec.object(
             'terminal-settings',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             TerminalSettings
         ),
         'terminal-menu': GObject.ParamSpec.object(
             'terminal-menu',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             Gio.MenuModel
         ),
         'tab-menu': GObject.ParamSpec.object(
             'tab-menu',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             Gio.MenuModel
         ),
         'command': GObject.ParamSpec.object(
             'command',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             TerminalCommand
         ),
         'title': GObject.ParamSpec.string(
             'title',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             ''
         ),
         'use-custom-title': GObject.ParamSpec.boolean(
             'use-custom-title',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             false
         ),
         'keep-open-after-exit': GObject.ParamSpec.boolean(
             'keep-open-after-exit',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             false
         ),
         'split-layout': GObject.ParamSpec.string(
             'split-layout',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             'no-split'
         ),
         'banner-label': GObject.ParamSpec.string(
             'banner-label',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             ''
         ),
         'banner-type': GObject.ParamSpec.enum(
             'banner-type',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             Gtk.MessageType,
             Gtk.MessageType.INFO
         ),
         'banner-visible': GObject.ParamSpec.boolean(
             'banner-visible',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             false
         ),

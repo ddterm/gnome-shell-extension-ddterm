@@ -175,29 +175,29 @@ export const Subprocess = GObject.registerClass({
     Properties: {
         'journal-identifier': GObject.ParamSpec.string(
             'journal-identifier',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             null
         ),
         'argv': GObject.ParamSpec.boxed(
             'argv',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             GObject.type_from_name('GStrv')
         ),
         'environ': GObject.ParamSpec.boxed(
             'environ',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             GObject.type_from_name('GStrv')
         ),
         'g-subprocess': GObject.ParamSpec.object(
             'g-subprocess',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READABLE,
             Gio.Subprocess
         ),
@@ -298,8 +298,8 @@ const WaylandSubprocessLegacy = GObject.registerClass({
     Properties: {
         'wayland-client': GObject.ParamSpec.object(
             'wayland-client',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READABLE,
             Meta.WaylandClient
         ),

@@ -239,15 +239,15 @@ export const Notifications = GObject.registerClass({
     Properties: {
         'icon': GObject.ParamSpec.object(
             'icon',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             Gio.Icon
         ),
         'gettext-domain': GObject.ParamSpec.jsobject(
             'gettext-domain',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY
         ),
     },

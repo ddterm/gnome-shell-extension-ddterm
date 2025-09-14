@@ -24,8 +24,8 @@ const Interface = GObject.registerClass({
         ...dbus_auto_pspecs(DBUS_INTERFACE_INFO),
         'settings': GObject.ParamSpec.object(
             'settings',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             Gio.Settings
         ),

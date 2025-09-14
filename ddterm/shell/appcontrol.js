@@ -64,36 +64,36 @@ export const AppControl = GObject.registerClass({
     Properties: {
         'service': GObject.ParamSpec.object(
             'service',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             Service
         ),
         'window-matcher': GObject.ParamSpec.object(
             'window-matcher',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             WindowMatch
         ),
         'window-geometry': GObject.ParamSpec.object(
             'window-geometry',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             WindowGeometry
         ),
         'actions': GObject.ParamSpec.object(
             'actions',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READABLE,
             Gio.DBusActionGroup
         ),
         'logger': GObject.ParamSpec.jsobject(
             'logger',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY
         ),
     },

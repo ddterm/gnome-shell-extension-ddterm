@@ -57,43 +57,43 @@ export const DBusApi = GObject.registerClass({
     Properties: {
         'xml-file-path': GObject.ParamSpec.string(
             'xml-file-path',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             null
         ),
         'version': GObject.ParamSpec.string(
             'version',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             ''
         ),
         'revision': GObject.ParamSpec.string(
             'revision',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             ''
         ),
         'app-control': GObject.ParamSpec.object(
             'app-control',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             AppControl
         ),
         'target-rect': GObject.ParamSpec.boxed(
             'target-rect',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             Mtk.Rectangle
         ),
         'target-monitor-scale': GObject.ParamSpec.double(
             'target-monitor-scale',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             0,
             100,

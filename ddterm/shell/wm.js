@@ -30,43 +30,43 @@ export const WindowManager = GObject.registerClass({
     Properties: {
         'settings': GObject.ParamSpec.object(
             'settings',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             Gio.Settings
         ),
         'window': GObject.ParamSpec.object(
             'window',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             Meta.Window
         ),
         'geometry': GObject.ParamSpec.object(
             'geometry',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             WindowGeometry
         ),
         'show-animation': GObject.ParamSpec.object(
             'show-animation',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             Animation
         ),
         'hide-animation': GObject.ParamSpec.object(
             'hide-animation',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             Animation
         ),
         'logger': GObject.ParamSpec.jsobject(
             'logger',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY
         ),
     },

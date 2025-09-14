@@ -69,22 +69,22 @@ export const Application = GObject.registerClass({
     Properties: {
         'window': GObject.ParamSpec.object(
             'window',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             Gtk.ApplicationWindow
         ),
         'about-dialog': GObject.ParamSpec.object(
             'about-dialog',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             Gtk.AboutDialog
         ),
         'prefs-dialog': GObject.ParamSpec.object(
             'prefs-dialog',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             Gtk.Dialog
         ),

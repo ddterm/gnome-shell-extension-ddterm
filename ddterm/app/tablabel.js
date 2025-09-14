@@ -17,30 +17,30 @@ export const TabLabel = GObject.registerClass({
     Properties: {
         'label': GObject.ParamSpec.string(
             'label',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             ''
         ),
         'close-button': GObject.ParamSpec.boolean(
             'close-button',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             true
         ),
         'ellipsize': GObject.ParamSpec.enum(
             'ellipsize',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             Pango.EllipsizeMode,
             Pango.EllipsizeMode.NONE
         ),
         'show-shortcut': GObject.ParamSpec.boolean(
             'show-shortcut',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             true
         ),
@@ -48,8 +48,8 @@ export const TabLabel = GObject.registerClass({
         'action-target': GObject.ParamSpec.override('action-target', Gtk.Actionable),
         'context-menu-model': GObject.ParamSpec.object(
             'context-menu-model',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             Gio.MenuModel
         ),

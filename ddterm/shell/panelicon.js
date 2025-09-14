@@ -17,8 +17,8 @@ const PanelIconBase = GObject.registerClass({
     Properties: {
         'active': GObject.ParamSpec.boolean(
             'active',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             false
         ),
@@ -165,29 +165,29 @@ export const PanelIconProxy = GObject.registerClass({
     Properties: {
         'active': GObject.ParamSpec.boolean(
             'active',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             false
         ),
         'type-name': GObject.ParamSpec.string(
             'type-name',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             'none'
         ),
         'gicon': GObject.ParamSpec.object(
             'gicon',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             Gio.Icon
         ),
         'gettext-domain': GObject.ParamSpec.jsobject(
             'gettext-domain',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY
         ),
     },

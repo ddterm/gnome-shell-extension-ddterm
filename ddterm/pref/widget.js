@@ -22,22 +22,22 @@ export const PrefsWidget = GObject.registerClass({
     Properties: {
         'settings': GObject.ParamSpec.object(
             'settings',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             Gio.Settings
         ),
         'monitors': GObject.ParamSpec.object(
             'monitors',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             Gio.ListModel
         ),
         'gettext-domain': GObject.ParamSpec.jsobject(
             'gettext-domain',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY
         ),
     },

@@ -65,50 +65,50 @@ export const SearchPattern = GObject.registerClass({
     Properties: {
         'regex': GObject.ParamSpec.boxed(
             'regex',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READABLE,
             Vte.Regex
         ),
         'text': GObject.ParamSpec.string(
             'text',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             ''
         ),
         'use-regex': GObject.ParamSpec.boolean(
             'use-regex',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             false
         ),
         'whole-word': GObject.ParamSpec.boolean(
             'whole-word',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             false
         ),
         'case-sensitive': GObject.ParamSpec.boolean(
             'case-sensitive',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             false
         ),
         'error': GObject.ParamSpec.boxed(
             'error',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READABLE,
             GLib.Error
         ),
         'regex-set': GObject.ParamSpec.boolean(
             'regex-set',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READABLE,
             false
         ),
@@ -173,15 +173,15 @@ export const SearchBar = GObject.registerClass({
     Properties: {
         'pattern': GObject.ParamSpec.object(
             'pattern',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READABLE,
             SearchPattern
         ),
         'wrap': GObject.ParamSpec.boolean(
             'wrap',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             false
         ),

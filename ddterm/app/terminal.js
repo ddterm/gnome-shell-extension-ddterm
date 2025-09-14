@@ -131,36 +131,36 @@ export const TerminalCommand = GObject.registerClass({
     Properties: {
         'argv': GObject.ParamSpec.boxed(
             'argv',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             GObject.type_from_name('GStrv')
         ),
         'envv': GObject.ParamSpec.boxed(
             'envv',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             GObject.type_from_name('GStrv')
         ),
         'working-directory': GObject.ParamSpec.object(
             'working-directory',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             Gio.File
         ),
         'search-path': GObject.ParamSpec.boolean(
             'search-path',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             true
         ),
         'file-and-argv-zero': GObject.ParamSpec.boolean(
             'file-and-argv-zero',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             false
         ),
@@ -259,8 +259,8 @@ const TerminalBase = GObject.registerClass({
     Properties: {
         'colors': GObject.ParamSpec.object(
             'colors',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.WRITABLE,
             TerminalColors
         ),
@@ -278,8 +278,8 @@ const TerminalBase = GObject.registerClass({
         // has effect only when background color from style is used
         'background-opacity': GObject.ParamSpec.double(
             'background-opacity',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             0,
             1,
@@ -287,15 +287,15 @@ const TerminalBase = GObject.registerClass({
         ),
         'url-detect-patterns': GObject.ParamSpec.boxed(
             'url-detect-patterns',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             GObject.type_from_name('GStrv')
         ),
         'child-pid': GObject.ParamSpec.int(
             'child-pid',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READABLE,
             -1,
             GLib.MAXINT32,
@@ -303,29 +303,29 @@ const TerminalBase = GObject.registerClass({
         ),
         'last-clicked-hyperlink': GObject.ParamSpec.string(
             'last-clicked-hyperlink',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READABLE,
             null
         ),
         'last-clicked-filename': GObject.ParamSpec.string(
             'last-clicked-filename',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READABLE,
             null
         ),
         'can-increase-font-scale': GObject.ParamSpec.boolean(
             'can-increase-font-scale',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READABLE,
             true
         ),
         'can-decrease-font-scale': GObject.ParamSpec.boolean(
             'can-decrease-font-scale',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READABLE,
             true
         ),
@@ -683,8 +683,8 @@ const TerminalContextMenu = HAS_CONTEXT_MENU ? null : GObject.registerClass({
     Properties: {
         'context-menu-model': GObject.ParamSpec.object(
             'context-menu-model',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             Gio.MenuModel
         ),
@@ -749,22 +749,22 @@ const TerminalTermprop = 'PropertyId' in Vte ? GObject.registerClass({
     Properties: {
         'window-title': GObject.ParamSpec.string(
             'window-title',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READABLE,
             ''
         ),
         'current-directory-uri': GObject.ParamSpec.string(
             'current-directory-uri',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READABLE,
             ''
         ),
         'current-file-uri': GObject.ParamSpec.string(
             'current-file-uri',
-            '',
-            '',
+            null,
+            null,
             GObject.ParamFlags.READABLE,
             ''
         ),
