@@ -35,18 +35,6 @@ function handle_dbus_method_call_async(func, params, invocation) {
     }
 }
 
-function meta_rect_to_variant(meta_rect) {
-    if (!meta_rect)
-        return null;
-
-    return GLib.Variant.new_tuple([
-        GLib.Variant.new_int32(meta_rect.x),
-        GLib.Variant.new_int32(meta_rect.y),
-        GLib.Variant.new_int32(meta_rect.width),
-        GLib.Variant.new_int32(meta_rect.height),
-    ]);
-}
-
 export const DBusApi = GObject.registerClass({
     Properties: {
         'xml-file-path': GObject.ParamSpec.string(
@@ -155,7 +143,7 @@ export const DBusApi = GObject.registerClass({
             });
         }
 
-        return meta_rect_to_variant(this.#target_rect);
+        return this.#target_rect;
     }
 
     GetTargetMonitorScale() {
@@ -165,7 +153,7 @@ export const DBusApi = GObject.registerClass({
 
     get TargetRect() {
         this.emit('update-target-monitor');
-        return meta_rect_to_variant(this.#target_rect) ?? undefined;
+        return this.#target_rect ?? undefined;
     }
 
     get TargetMonitorScale() {
@@ -181,20 +169,38 @@ export const DBusApi = GObject.registerClass({
     }
 
     get target_rect() {
-        return this.#target_rect;
+        const value = this.#target_rect;
+
+        if (!value)
+            return null;
+
+        return new Mtk.Rectangle({
+            x: value.get_child_value(0).get_int32(),
+            y: value.get_child_value(1).get_int32(),
+            width: value.get_child_value(2).get_int32(),
+            height: value.get_child_value(3).get_int32(),
+        });
     }
 
     set target_rect(value) {
-        if (this.#target_rect === value)
+        if (!value && !this.#target_rect)
             return;
 
-        if (value && this.#target_rect?.equal(value))
-            return;
+        if (value) {
+            value = GLib.Variant.new_tuple([
+                GLib.Variant.new_int32(value.x),
+                GLib.Variant.new_int32(value.y),
+                GLib.Variant.new_int32(value.width),
+                GLib.Variant.new_int32(value.height),
+            ]);
+
+            if (this.#target_rect?.equal(value))
+                return;
+        }
 
         this.#target_rect = value;
         this.notify('target-rect');
-
-        this.dbus.emit_property_changed('TargetRect', meta_rect_to_variant(value));
+        this.dbus.emit_property_changed('TargetRect', value);
     }
 
     get target_monitor_scale() {
