@@ -38,8 +38,8 @@ function create_dbus_interface(
 ) {
     const dbus_interface = new DBusApi({
         xml_file_path: extension.dbus_xml_file_path,
-        version: `${extension.metadata.version ?? ''}`,
-        revision: extension.metadata['version-name'] ?? '',
+        version: extension.metadata.version ?? null,
+        revision: extension.metadata['version-name'] ?? null,
         app_control,
     });
 

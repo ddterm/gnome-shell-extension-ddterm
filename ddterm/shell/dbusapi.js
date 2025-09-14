@@ -49,14 +49,14 @@ export const DBusApi = GObject.registerClass({
             null,
             null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-            ''
+            null
         ),
         'revision': GObject.ParamSpec.string(
             'revision',
             null,
             null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-            ''
+            null
         ),
         'app-control': GObject.ParamSpec.object(
             'app-control',
@@ -95,9 +95,17 @@ export const DBusApi = GObject.registerClass({
 }, class DDTermDBusApi extends GObject.Object {
     #target_rect = null;
     #target_monitor_scale = GLib.Variant.new_double(1);
+    #version;
+    #revision;
 
     constructor(params) {
         super(params);
+
+        if (this.version)
+            this.#version = GLib.Variant.new_string(this.version);
+
+        if (this.revision)
+            this.#revision = GLib.Variant.new_string(this.revision);
 
         this.dbus = Gio.DBusExportedObject.wrapJSObject(
             Shell.get_file_contents_utf8_sync(this.xml_file_path),
@@ -162,11 +170,11 @@ export const DBusApi = GObject.registerClass({
     }
 
     get Version() {
-        return this.version;
+        return this.#version;
     }
 
     get Revision() {
-        return this.revision;
+        return this.#revision;
     }
 
     get target_rect() {
