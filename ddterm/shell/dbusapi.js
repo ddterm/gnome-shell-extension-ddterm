@@ -35,16 +35,10 @@ function handle_dbus_method_call_async(func, params, invocation) {
     }
 }
 
-function meta_rect_to_list(meta_rect) {
-    return [
-        meta_rect.x,
-        meta_rect.y,
-        meta_rect.width,
-        meta_rect.height,
-    ];
-}
-
 function meta_rect_to_variant(meta_rect) {
+    if (!meta_rect)
+        return null;
+
     return GLib.Variant.new_tuple([
         GLib.Variant.new_int32(meta_rect.x),
         GLib.Variant.new_int32(meta_rect.y),
@@ -111,14 +105,11 @@ export const DBusApi = GObject.registerClass({
         'update-target-monitor': {},
     },
 }, class DDTermDBusApi extends GObject.Object {
-    #target_rect;
-    #target_monitor_scale;
+    #target_rect = null;
+    #target_monitor_scale = 1;
 
     constructor(params) {
         super(params);
-
-        this.#target_rect = new Mtk.Rectangle({ x: 0, y: 0, width: 0, height: 0 });
-        this.#target_monitor_scale = 1;
 
         this.dbus = Gio.DBusExportedObject.wrapJSObject(
             Shell.get_file_contents_utf8_sync(this.xml_file_path),
@@ -156,7 +147,15 @@ export const DBusApi = GObject.registerClass({
 
     GetTargetRect() {
         this.emit('update-target-monitor');
-        return meta_rect_to_list(this.#target_rect);
+
+        if (!this.#target_rect) {
+            throw new Gio.DBusError({
+                code: Gio.DBusError.FAILED,
+                message: 'Target rect cannot be calculated right now',
+            });
+        }
+
+        return meta_rect_to_variant(this.#target_rect);
     }
 
     GetTargetMonitorScale() {
@@ -165,7 +164,8 @@ export const DBusApi = GObject.registerClass({
     }
 
     get TargetRect() {
-        return this.GetTargetRect();
+        this.emit('update-target-monitor');
+        return meta_rect_to_variant(this.#target_rect) ?? undefined;
     }
 
     get TargetMonitorScale() {
@@ -185,7 +185,10 @@ export const DBusApi = GObject.registerClass({
     }
 
     set target_rect(value) {
-        if (this.#target_rect.equal(value))
+        if (this.#target_rect === value)
+            return;
+
+        if (value && this.#target_rect?.equal(value))
             return;
 
         this.#target_rect = value;
