@@ -106,14 +106,23 @@ class AppControl:
     def quit(self):
         self.app_debug_dbus_interface.ActivateAction('app.quit')
 
-        self.extension_test_hook.wait_property(
-            'AppRunning',
-            False,
-            timeout=dbusutil.DEFAULT_LONG_TIMEOUT_MS
-        )
+        deadline = glibutil.Deadline(dbusutil.DEFAULT_LONG_TIMEOUT_MS)
+
+        while self.is_running():
+            self.extension_test_hook.wait_property(
+                'AppRunning',
+                False,
+                timeout=deadline.check_remaining_ms()
+            )
+
+            self.extension_test_hook.wait_property(
+                'HasWindow',
+                False,
+                timeout=deadline.check_remaining_ms()
+            )
 
     def is_running(self):
-        return self.extension_test_hook.AppRunning
+        return self.extension_test_hook.AppRunning or self.extension_test_hook.HasWindow
 
 
 @pytest.mark.usefixtures('check_log', 'screenshot', 'hide_overview', 'disable_animations')
