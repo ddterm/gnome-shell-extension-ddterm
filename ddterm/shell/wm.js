@@ -218,8 +218,12 @@ export const WindowManager = GObject.registerClass({
             this.#set_window_stick();
         }
 
-        if (should_maximize)
+        if (should_maximize && this.#get_maximize_flags() !== Meta.MaximizeFlags.BOTH) {
             this.#set_maximize_flags(Meta.MaximizeFlags.BOTH);
+
+            if (this.show_animation.should_skip)
+                Main.wm.skipNextEffect(this.#actor);
+        }
 
         this.#setup_wl_clipboard_activator();
     }
