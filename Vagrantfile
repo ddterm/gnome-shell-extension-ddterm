@@ -8,7 +8,7 @@ require 'open3'
 require 'pathname'
 
 CPUS = 4
-MEMORY = 4096
+MEMORY = 8192
 PROJECT_DIR = Pathname.new(__FILE__).realpath.dirname
 SYNCED_FOLDER = "/home/vagrant/#{PROJECT_DIR.basename}"
 UUID = 'ddterm@amezin.github.com'
