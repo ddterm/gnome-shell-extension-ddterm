@@ -10,27 +10,30 @@ import Gettext from 'gettext';
 
 import { metadata, path } from './meta.js';
 
-const COPYRIGHT = 'Copyright © 2020-2025 Aleksandr Mezin';
-const ARTISTS = ['luk'];
+const COPYRIGHT = 'Copyright © 2020-2025 ddterm contributors';
+const ARTIST_RE = /^\s*#\s*Artwork\s+by\s*:\s*\n[^\n]+$/igm;
 
-function load_npm_package_json() {
-    const [, bytes] = GLib.file_get_contents(GLib.build_filenamev([path, 'package.json']));
+function load_authors() {
+    const [, bytes] = GLib.file_get_contents(GLib.build_filenamev([path, 'AUTHORS']));
 
-    return JSON.parse(new TextDecoder().decode(bytes));
+    return new TextDecoder().decode(bytes);
 }
 
-function format_person(data) {
-    if (data.url)
-        return `${data.name} ${data.url}`;
+function parse_authors(text) {
+    // https://github.com/npm/cli/blob/latest/node_modules/%40npmcli/package-json/lib/normalize.js
+    return text
+        .split(/\r?\n/g)
+        .map(line => line.replace(/^\s*#.*$/, '').trim())
+        .filter(line => line)
+        .map(fix_markup);
+}
 
-    if (data.email)
-        return `${data.name} <${data.email}>`;
-
-    if (data.name)
-        return data.name;
-
-    return data;
-};
+function fix_markup(line) {
+    return line.replace(
+        /(<.+@.+>)?\s*(?:\((https?:\/\/.+)\))?$/,
+        (substr, email, url) => url || email || ''
+    );
+}
 
 export const AboutDialog = GObject.registerClass({
 },
@@ -38,7 +41,9 @@ class DDTermAboutDialog extends Gtk.AboutDialog {
     constructor(...params) {
         super(...params);
 
-        const { author, contributors } = load_npm_package_json();
+        const text = load_authors();
+        const authors = parse_authors(text.replace(ARTIST_RE, ''));
+        const artists = parse_authors(text.match(ARTIST_RE)?.join('\n') ?? '');
 
         this.program_name = metadata.name;
         this.version = this.application.get_version();
@@ -47,10 +52,9 @@ class DDTermAboutDialog extends Gtk.AboutDialog {
         this.comments = metadata.description;
         this.license_type = Gtk.License.GPL_3_0;
         this.copyright = COPYRIGHT;
-        this.authors = [format_person(author)];
+        this.authors = [authors.shift()];
         this.translator_credits = Gettext.gettext('translator-credits');
-        this.add_credit_section(Gettext.gettext('Contributors'), contributors.map(format_person));
-        this.artists =
-            contributors.filter(person => ARTISTS.includes(person.name)).map(format_person);
+        this.add_credit_section(Gettext.gettext('Contributors'), authors);
+        this.artists = artists;
     }
 });

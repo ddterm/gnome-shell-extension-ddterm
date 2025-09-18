@@ -167,7 +167,7 @@ pack = [
   fs.copyfile('revision.txt.in.license', 'revision.txt.license'),
 ]
 
-foreach f : ['extension.js', 'prefs.js', 'package.json']
+foreach f : ['extension.js', 'prefs.js', 'AUTHORS']
   pack += fs.copyfile(f, install: true, install_dir: extension_dir)
 endforeach
 

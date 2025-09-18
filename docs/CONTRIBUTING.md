@@ -37,10 +37,9 @@ If you want to report a bug, please proceed to the [bug reporting form].
 
 > [!TIP]
 > If you want to be mentioned in application's "About" dialog,
-> you could add yourself to [`"contributors"` array] in [`package.json`] file.
+> you could also add yourself to the [`AUTHORS`] file.
 
-[`"contributors"` array]: https://docs.npmjs.com/cli/v11/configuring-npm/package-json#people-fields-author-contributors
-[`package.json`]: /package.json
+[`AUTHORS`]: /AUTHORS
 
 If you want to implement a feature, or fix a bug, you may find these documents
 useful:
