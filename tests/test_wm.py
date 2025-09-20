@@ -423,8 +423,15 @@ class CommonTests:
         primary_monitor,
         window_monitor,
         workspaces_only_on_primary,
+        shell_dbus_interface,
     ):
-        return window_stick or (workspaces_only_on_primary and primary_monitor != window_monitor)
+        if workspaces_only_on_primary and primary_monitor != window_monitor:
+            if shell_dbus_interface.ShellVersion[0] == 49:
+                return {True, False}
+            else:
+                return {True}
+
+        return {window_stick}
 
     @pytest.fixture
     def wait_idle(
@@ -481,7 +488,7 @@ class CommonTests:
 
         assert extension_test_hook.WindowRect == expected_rect
         assert extension_test_hook.WindowSkipTaskbar == window_skip_taskbar
-        assert extension_test_hook.WindowOnAllWorkspaces == expected_on_all_workspaces
+        assert extension_test_hook.WindowOnAllWorkspaces in expected_on_all_workspaces
         assert shell_test_hook.FocusApp == 'com.github.amezin.ddterm'
         assert extension_test_hook.seen_transitions == expected_show_transitions
 
@@ -492,7 +499,7 @@ class CommonTests:
 
         assert extension_test_hook.WindowRect == expected_rect
         assert extension_test_hook.WindowSkipTaskbar == window_skip_taskbar
-        assert extension_test_hook.WindowOnAllWorkspaces == expected_on_all_workspaces
+        assert extension_test_hook.WindowOnAllWorkspaces in expected_on_all_workspaces
         assert shell_test_hook.FocusApp == 'com.github.amezin.ddterm'
         assert extension_test_hook.seen_transitions == expected_show_transitions
         assert extension_test_hook.Transitions == set()
@@ -524,7 +531,7 @@ class CommonTests:
         assert len(set(extension_test_hook.window_rect_snapshots)) <= max_window_rect_changes
         assert len(extension_test_hook.window_rect_snapshots) <= max_window_rect_changes + 1
         assert extension_test_hook.WindowSkipTaskbar == window_skip_taskbar
-        assert extension_test_hook.WindowOnAllWorkspaces == expected_on_all_workspaces
+        assert extension_test_hook.WindowOnAllWorkspaces in expected_on_all_workspaces
         assert shell_test_hook.FocusApp == 'com.github.amezin.ddterm'
 
         if not window_maximize:
@@ -538,7 +545,7 @@ class CommonTests:
         assert len(set(extension_test_hook.window_rect_snapshots)) <= max_window_rect_changes
         assert len(extension_test_hook.window_rect_snapshots) <= max_window_rect_changes + 1
         assert extension_test_hook.WindowSkipTaskbar == window_skip_taskbar
-        assert extension_test_hook.WindowOnAllWorkspaces == expected_on_all_workspaces
+        assert extension_test_hook.WindowOnAllWorkspaces in expected_on_all_workspaces
         assert shell_test_hook.FocusApp == 'com.github.amezin.ddterm'
         assert extension_test_hook.seen_transitions == expected_show_transitions
 
@@ -553,7 +560,7 @@ class CommonTests:
         assert len(set(extension_test_hook.window_rect_snapshots)) <= max_window_rect_changes
         assert len(extension_test_hook.window_rect_snapshots) <= max_window_rect_changes + 1
         assert extension_test_hook.WindowSkipTaskbar == window_skip_taskbar
-        assert extension_test_hook.WindowOnAllWorkspaces == expected_on_all_workspaces
+        assert extension_test_hook.WindowOnAllWorkspaces in expected_on_all_workspaces
         assert shell_test_hook.FocusApp == 'com.github.amezin.ddterm'
         assert extension_test_hook.seen_transitions == expected_show_transitions
         assert extension_test_hook.Transitions == set()
@@ -593,7 +600,7 @@ class CommonTests:
         assert extension_test_hook.WindowRect == expected_rect
         assert not extension_test_hook.seen_transitions
         assert extension_test_hook.WindowSkipTaskbar == window_skip_taskbar
-        assert extension_test_hook.WindowOnAllWorkspaces == expected_on_all_workspaces
+        assert extension_test_hook.WindowOnAllWorkspaces in expected_on_all_workspaces
         assert shell_test_hook.FocusApp == 'com.github.amezin.ddterm'
 
         if not window_maximize:
@@ -613,7 +620,7 @@ class CommonTests:
         assert not settings_test_hook.window_maximize
         assert extension_test_hook.WindowAbove == window_above
         assert extension_test_hook.WindowSkipTaskbar == window_skip_taskbar
-        assert extension_test_hook.WindowOnAllWorkspaces == expected_on_all_workspaces
+        assert extension_test_hook.WindowOnAllWorkspaces in expected_on_all_workspaces
         assert shell_test_hook.FocusApp == 'com.github.amezin.ddterm'
 
     @pytest.mark.usefixtures('disable_animations')

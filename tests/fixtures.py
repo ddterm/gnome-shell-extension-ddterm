@@ -446,6 +446,17 @@ class GnomeSessionFixtures:
         shell_test_hook.Later(shellhook.LaterType.BEFORE_REDRAW)
         shell_test_hook.Later(shellhook.LaterType.IDLE)
 
+        center_x = initial_monitor_layout[0].x + initial_monitor_layout[0].width // 2
+        center_y = initial_monitor_layout[0].y + initial_monitor_layout[0].height // 2
+        pointer_x, pointer_y, mods = shell_test_hook.GetPointer()
+
+        if pointer_x != center_x or pointer_y != center_x:
+            # On GNOME 49.0, the pointer is at (0, 0) initially.
+            # And moving it immediately to the center of the screen triggers barriers:
+            # it causes the overview to show up, and the pointer moves along one axis only
+            shell_test_hook.SetPointer(pointer_x, center_y)
+            shell_test_hook.SetPointer(center_x, center_y)
+
     @pytest.fixture(scope='class')
     def extension_init(self, shell_init, shell_extensions_dbus_interface):
         return shell_extensions_dbus_interface.EnableExtension('ddterm@amezin.github.com')
