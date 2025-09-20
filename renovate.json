@@ -45,8 +45,7 @@
     },
     {
       "matchPackageNames": [
-        "ghcr.io/ddterm/**",
-        "ghcr.io/archlinux/archlinux"
+        "ghcr.io/ddterm/**"
       ],
       "pinDigests": false,
       "automerge": true
