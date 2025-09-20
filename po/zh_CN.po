@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-10 09:38+0000\n"
+"POT-Creation-Date: 2025-09-20 05:40+0000\n"
 "PO-Revision-Date: 2025-09-06 08:02+0000\n"
 "Last-Translator: yuh <yuhldr@qq.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/zh_Hans/>\n"
@@ -41,11 +41,11 @@ msgstr "切换按钮"
 msgid "Preferences…"
 msgstr "首选项…"
 
-#: ddterm/app/about.js:51
+#: ddterm/app/about.js:56
 msgid "translator-credits"
 msgstr "yuh"
 
-#: ddterm/app/about.js:52
+#: ddterm/app/about.js:57
 msgid "Contributors"
 msgstr "贡献者"
 

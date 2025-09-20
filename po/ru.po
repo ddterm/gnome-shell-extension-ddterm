@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-10 09:38+0000\n"
+"POT-Creation-Date: 2025-09-20 05:40+0000\n"
 "PO-Revision-Date: 2025-09-18 04:23+0000\n"
 "Last-Translator: Ivan Vantu5z <vantu5z@mail.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/ru/>\n"
@@ -47,7 +47,7 @@ msgstr "Переключатель"
 msgid "Preferences…"
 msgstr "Параметры…"
 
-#: ddterm/app/about.js:51
+#: ddterm/app/about.js:56
 msgid "translator-credits"
 msgstr ""
 "Ivan (vantu5z)\n"
@@ -55,7 +55,7 @@ msgstr ""
 "Dmitriy Q\n"
 "Stepan"
 
-#: ddterm/app/about.js:52
+#: ddterm/app/about.js:57
 msgid "Contributors"
 msgstr "Участники"
 
