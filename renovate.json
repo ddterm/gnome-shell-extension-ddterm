@@ -34,6 +34,10 @@
       "versioning": "npm"
     },
     {
+      "matchPackageNames": ["ghcr.io/archlinux/archlinux"],
+      "versionCompatibility": "^(?<compatibility>.*)-(?<version>[^-]*)$"
+    },
+    {
       "matchPackageNames": [
         "ghcr.io/ddterm/gnome-shell-image/**"
       ],

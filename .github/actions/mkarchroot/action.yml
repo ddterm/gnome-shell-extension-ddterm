@@ -18,7 +18,7 @@ inputs:
 runs:
   using: composite
   steps:
-    - run: pacman -Syu --noconfirm --noprogressbar devtools
+    - run: pacman -Sy --noconfirm --noprogressbar devtools
       shell: bash
 
     - run: systemd-machine-id-setup
