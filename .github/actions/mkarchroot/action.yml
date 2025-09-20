@@ -24,13 +24,12 @@ runs:
     - run: systemd-machine-id-setup
       shell: bash
 
-    - run: sed -i '/^NoExtract/d' /etc/pacman.conf
-      shell: bash
-
     - run: echo "$GITHUB_ACTION_PATH" >>"$GITHUB_PATH"
       shell: bash
 
-    - run: mkarchroot -C /etc/pacman.conf -M /etc/makepkg.conf "$WORKING_DIR" ${{ inputs.package-list }}
+    - run: mkarchroot -C "$PACMAN_CONF" -M "$MAKEPKG_CONF" "$WORKING_DIR" ${{ inputs.package-list }}
       shell: bash
       env:
         WORKING_DIR: ${{ inputs.working-dir }}
+        PACMAN_CONF: /usr/share/devtools/pacman.conf.d/extra-testing.conf
+        MAKEPKG_CONF: /usr/share/devtools/makepkg.conf.d/x86_64.conf
