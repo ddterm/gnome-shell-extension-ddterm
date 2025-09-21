@@ -35,7 +35,8 @@
     },
     {
       "matchPackageNames": ["ghcr.io/archlinux/archlinux"],
-      "versionCompatibility": "^(?<compatibility>.*)-(?<version>[^-]*)$"
+      "versionCompatibility": "^(?<compatibility>.*)-(?<version>[^-]*)$",
+      "branchTopic": "{{{depNameSanitized}}}"
     },
     {
       "matchPackageNames": [
