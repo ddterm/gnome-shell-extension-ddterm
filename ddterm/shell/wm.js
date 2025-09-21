@@ -178,8 +178,10 @@ export const WindowManager = GObject.registerClass({
                 global.window_manager.disconnect(this.#map_handler);
                 this.#map_handler = null;
 
-                if (this.#client_type === Meta.WindowClientType.WAYLAND)
+                if (this.#client_type === Meta.WindowClientType.WAYLAND) {
                     this.#update_window_geometry();
+                    this.#schedule_geometry_fixup();
+                }
 
                 Main.activateWindow(this.window);
 
