@@ -44,12 +44,8 @@ export const WindowMatchGeneric = GObject.registerClass({
             }
         });
 
-        const actors = Meta.get_window_actors
-            ? Meta.get_window_actors(this.display)
-            : this.display.get_compositor().get_window_actors();
-
-        for (const actor of actors)
-            this._watch_window(actor.meta_window);
+        for (const win of this.display.list_all_windows())
+            this._watch_window(win);
     }
 
     disable() {
