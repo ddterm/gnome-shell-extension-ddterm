@@ -497,12 +497,10 @@ export const WindowManager = GObject.registerClass({
     }
 
     #disable_window_maximize_setting() {
-        if (this.geometry.target_rect.height < this.geometry.workarea.height ||
-            this.geometry.target_rect.width < this.geometry.workarea.width) {
-            this.logger?.log(
-                'Unmaximizing window because size expected to be less than workarea'
-            );
+        const { target_rect, workarea } = this.geometry;
 
+        if (target_rect.height < workarea.height || target_rect.width < workarea.width) {
+            this.logger?.log('Unmaximizing window because size expected to be less than workarea');
             this.settings.set_boolean('window-maximize', false);
         }
     }
