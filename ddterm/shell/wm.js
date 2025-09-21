@@ -199,7 +199,7 @@ export const WindowManager = GObject.registerClass({
 
         this.#display_handlers = [
             global.display.connect('grab-op-begin', this.#grab_op_begin.bind(this)),
-            global.display.connect('grab-op-end', this.update_size_setting_on_grab_end.bind(this)),
+            global.display.connect('grab-op-end', this.#update_size_setting_on_grab_end.bind(this)),
         ];
 
         this.#setup_hide_when_focus_lost();
@@ -565,10 +565,10 @@ export const WindowManager = GObject.registerClass({
             return;
 
         if (MOUSE_RESIZE_GRABS.includes(flags))
-            this.unmaximize_for_resize(this.geometry.maximize_flag);
+            this.#unmaximize_for_resize(this.geometry.maximize_flag);
     }
 
-    update_size_setting_on_grab_end(display, win) {
+    #update_size_setting_on_grab_end(display, win) {
         if (win !== this.window)
             return;
 
@@ -585,7 +585,7 @@ export const WindowManager = GObject.registerClass({
         this.settings.set_double('window-size', Math.min(1.0, size));
     }
 
-    unmaximize_for_resize(flags) {
+    #unmaximize_for_resize(flags) {
         this.#cancel_geometry_fixup();
 
         if (!(this.#get_maximize_flags() & flags))
