@@ -512,19 +512,18 @@ export const WindowManager = GObject.registerClass({
 
         this.logger?.log('Updating window geometry');
 
-        const maximize = this.settings.get_boolean('window-maximize');
-        const target_rect = maximize ? this.geometry.workarea : this.geometry.target_rect;
+        const { target_rect, workarea } = this.geometry;
 
-        if (this.#client_type === Meta.WindowClientType.WAYLAND)
-            this.window.move_frame(true, target_rect.x, target_rect.y);
+        if (this.settings.get_boolean('window-maximize')) {
+            if (this.#client_type === Meta.WindowClientType.WAYLAND)
+                this.window.move_frame(true, workarea.x, workarea.y);
 
-        if (maximize) {
-            this.#move_resize_window(target_rect);
+            this.#move_resize_window(workarea);
 
             if (!this.#actor.visible && this.show_animation.should_skip)
                 Main.wm.skipNextEffect(this.#actor);
 
-            if (!this.window.get_frame_rect().equal(this.geometry.workarea)) {
+            if (!this.window.get_frame_rect().equal(workarea)) {
                 this.logger?.log('Scheduling geometry fixup because of workarea mismatch');
                 this.#schedule_geometry_fixup();
             }
@@ -532,15 +531,16 @@ export const WindowManager = GObject.registerClass({
             return;
         }
 
-        if (this.window.maximized_horizontally &&
-            this.geometry.target_rect.width < this.geometry.workarea.width) {
+        if (this.#client_type === Meta.WindowClientType.WAYLAND)
+            this.window.move_frame(true, target_rect.x, target_rect.y);
+
+        if (this.window.maximized_horizontally && target_rect.width < workarea.width) {
             Main.wm.skipNextEffect(this.#actor);
             this.#set_unmaximize_flags(Meta.MaximizeFlags.HORIZONTAL);
             return;
         }
 
-        if (this.window.maximized_vertically &&
-            this.geometry.target_rect.height < this.geometry.workarea.height) {
+        if (this.window.maximized_vertically && target_rect.height < workarea.height) {
             Main.wm.skipNextEffect(this.#actor);
             this.#set_unmaximize_flags(Meta.MaximizeFlags.VERTICAL);
             return;
@@ -551,7 +551,7 @@ export const WindowManager = GObject.registerClass({
         if (!this.#actor.visible && this.show_animation.should_skip)
             Main.wm.skipNextEffect(this.#actor);
 
-        if (!this.window.get_frame_rect().equal(this.geometry.target_rect)) {
+        if (!this.window.get_frame_rect().equal(target_rect)) {
             this.logger?.log('Scheduling geometry fixup because of geometry mismatch');
             this.#schedule_geometry_fixup();
         }
