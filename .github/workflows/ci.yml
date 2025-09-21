@@ -392,9 +392,15 @@ jobs:
     timeout-minutes: 10
     container:
       image: ghcr.io/archlinux/archlinux:base-devel-20250917.0.422098@sha256:b3e6b3d978475ecfaaf73c80809f57524aa6f29683acb276f0530580f22db1f6
-      options: --privileged --tmpfs /run
+      options: --privileged --tmpfs /run --security-opt apparmor=unconfined
 
     steps:
+      - name: Allow unprivileged userns in AppArmor
+        run: |
+          # https://ubuntu.com/blog/ubuntu-23-10-restricted-unprivileged-user-namespaces
+          sysctl -w kernel.apparmor_restrict_unprivileged_unconfined=0
+          sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
+
       - name: Checkout
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
         with:
