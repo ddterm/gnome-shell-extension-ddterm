@@ -107,8 +107,16 @@ export const DBusApi = GObject.registerClass({
         if (this.revision)
             this.#revision = GLib.Variant.new_string(this.revision);
 
+        const [xml_file_path] = GLib.filename_from_uri(
+            GLib.Uri.resolve_relative(
+                import.meta.url,
+                '../../data/com.github.amezin.ddterm.Extension.xml',
+                GLib.UriFlags.NONE
+            )
+        );
+
         this.dbus = Gio.DBusExportedObject.wrapJSObject(
-            Shell.get_file_contents_utf8_sync(this.xml_file_path),
+            Shell.get_file_contents_utf8_sync(xml_file_path),
             this
         );
     }

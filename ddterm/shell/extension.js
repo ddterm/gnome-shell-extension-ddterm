@@ -37,7 +37,6 @@ function create_dbus_interface(
     rollback
 ) {
     const dbus_interface = new DBusApi({
-        xml_file_path: extension.dbus_xml_file_path,
         version: extension.metadata.version ?? null,
         revision: extension.metadata['version-name'] ?? null,
         app_control,
@@ -468,10 +467,6 @@ export default class DDTermExtension extends Extension {
 
         this.data_dir = GLib.build_filenamev([this.path, 'data']);
         this.launcher_path = GLib.build_filenamev([this.path, 'bin', APP_ID]);
-        this.dbus_xml_file_path = GLib.build_filenamev(
-            [this.data_dir, 'com.github.amezin.ddterm.Extension.xml']
-        );
-
         this.metadata_path = GLib.build_filenamev([this.path, 'metadata.json']);
 
         this.app_process = null;
