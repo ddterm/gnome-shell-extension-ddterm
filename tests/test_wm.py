@@ -929,6 +929,11 @@ class TestWaylandTwoMonitors(TestWayland):
 
 @pytest.mark.usefixtures('check_log')
 class TestWaylandNoMonitors(fixtures.GnomeSessionWaylandFixtures):
+    @pytest.fixture(scope='class', autouse=True)
+    def check_skip(self, os_version_id):
+        if os_version_id == '41':
+            pytest.skip('GNOME Shell with no monitors often crashes on Fedora 41')
+
     @pytest.fixture(scope='class')
     def initial_monitor_layout(self):
         return []

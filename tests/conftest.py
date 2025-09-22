@@ -426,6 +426,16 @@ def os_id(process_launcher):
 
 
 @pytest.fixture(scope='session')
+def os_version_id(process_launcher):
+    return process_launcher.run(
+        'sh',
+        '-c',
+        '. /etc/os-release && echo $VERSION_ID',
+        stdout=subprocess.PIPE
+    ).stdout.rstrip().decode()
+
+
+@pytest.fixture(scope='session')
 def sys_package(container, os_id, request):
     sys_package = request.config.option.sys_package
 
