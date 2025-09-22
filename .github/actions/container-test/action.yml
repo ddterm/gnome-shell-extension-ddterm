@@ -46,7 +46,7 @@ runs:
         CONTAINER: ${{ inputs.container }}
 
     - id: setup-testspace
-      uses: testspace-com/setup-testspace@8472399a8030486c043937b8451b5e743f961ae0 # v1.0.7
+      uses: testspace-com/setup-testspace@5fc620521eddeba83c1c0dd58f5a524adf474c93 # v1.0.8
       with:
         domain: ${{ github.repository_owner }}
       continue-on-error: true
