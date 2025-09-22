@@ -135,8 +135,7 @@ function create_panel_icon(settings, window_matcher, app_control, icon, gettext_
 }
 
 function install(extension, rollback) {
-    const { path, launcher_path } = extension;
-    const installer = new Installer(GLib.build_filenamev([path, 'data']), launcher_path);
+    const installer = new Installer(extension.launcher_path);
     installer.install();
 
     if (GObject.signal_lookup('shutdown', Shell.Global)) {
