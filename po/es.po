@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-20 05:40+0000\n"
+"POT-Creation-Date: 2025-09-22 08:03+0000\n"
 "PO-Revision-Date: 2025-04-12 21:01+0000\n"
 "Last-Translator: Patricio Carrau <duckycb@proton.me>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/es/>\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.11-dev\n"
 
-#: data/com.github.amezin.ddterm.desktop.in.in:8 ddterm/app/appwindow.js:149
+#: data/com.github.amezin.ddterm.desktop.in.in:8 ddterm/app/appwindow.js:146
 #: ddterm/shell/notifications.js:269 ddterm/shell/panelicon.js:31
 msgid "ddterm"
 msgstr "ddterm"
@@ -44,74 +44,74 @@ msgstr "Alternar"
 msgid "Preferences…"
 msgstr "Ajustes…"
 
-#: ddterm/app/about.js:56
+#: ddterm/app/about.js:58
 msgid "translator-credits"
 msgstr ""
 "Adrian Alberdi Ainciburu\n"
 "gallegonovato\n"
 "Patricio Carrau"
 
-#: ddterm/app/about.js:57
+#: ddterm/app/about.js:59
 msgid "Contributors"
 msgstr ""
 
-#: ddterm/app/application.js:102
+#: ddterm/app/application.js:99
 msgid "Start the application, but do not show the window"
 msgstr "Iniciar la aplicación, sin mostrar la ventana"
 
-#: ddterm/app/application.js:111
+#: ddterm/app/application.js:108
 msgid "Comma-separated list of backends that GDK should try to use"
 msgstr "Backend que GDK debería utilizar, lista separada por comas"
 
-#: ddterm/app/application.js:138
+#: ddterm/app/application.js:135
 msgid "Show version information and exit"
 msgstr "Mostrar información sobre la versión y salir"
 
-#: ddterm/app/application.js:147
+#: ddterm/app/application.js:144
 msgid "Run the specified command"
 msgstr "Ejecutar el comando especificado"
 
-#: ddterm/app/application.js:161
+#: ddterm/app/application.js:158
 msgid "Wait for the command to exit, and return its exit code"
 msgstr "Esperar la finalización del comando y devolver el código de final de ejecución"
 
-#: ddterm/app/application.js:170
+#: ddterm/app/application.js:167
 msgid "Set the working directory"
 msgstr "Establecer el directorio de trabajo"
 
-#: ddterm/app/application.js:179
+#: ddterm/app/application.js:176
 msgid "Set tab title"
 msgstr "Renombrar el título de la pestaña"
 
-#: ddterm/app/application.js:188
+#: ddterm/app/application.js:185
 msgid "Keep the terminal open after the command has exited"
 msgstr "Mantener la terminal abierta tras la terminación del commando"
 
-#: ddterm/app/application.js:197
+#: ddterm/app/application.js:194
 msgid "Do not pass the environment"
 msgstr "No pasar el environment"
 
-#: ddterm/app/application.js:206
+#: ddterm/app/application.js:203
 msgid "Open a new tab"
 msgstr "Abrir nueva pestaña"
 
-#: ddterm/app/application.js:477
+#: ddterm/app/application.js:479
 msgid "Can't contact the extension."
 msgstr "No puedo comunicarme con la extensión."
 
-#: ddterm/app/application.js:479 ddterm/app/application.js:627
+#: ddterm/app/application.js:481 ddterm/app/application.js:629
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr "Por favor, asegúrese de que la extensión ddterm GNOME Shell está activada."
 
-#: ddterm/app/application.js:625
+#: ddterm/app/application.js:627
 msgid "Can't read the version of the loaded extension."
 msgstr "No se puede leer la versión de la extensión cargada."
 
-#: ddterm/app/application.js:630 ddterm/shell/notifications.js:138
+#: ddterm/app/application.js:632 ddterm/shell/notifications.js:138
 msgid "Warning: ddterm version has changed"
 msgstr "Atención: La versión de ddterm ha cambiado"
 
-#: ddterm/app/application.js:631 ddterm/shell/notifications.js:140
+#: ddterm/app/application.js:633 ddterm/shell/notifications.js:140
 msgid "Log out, then log in again to load the updated extension."
 msgstr "Salir y entrar para cargar la versión actualizada de la extensión."
 

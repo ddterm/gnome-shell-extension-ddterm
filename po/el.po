@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-20 05:40+0000\n"
+"POT-Creation-Date: 2025-09-22 08:03+0000\n"
 "PO-Revision-Date: 2025-05-13 19:23+0000\n"
 "Last-Translator: Klearchos-Angelos Gkountras <jemadux@cryptolab.net>\n"
 "Language-Team: Greek <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/el/>\n"
@@ -21,7 +21,7 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-Basepath: .\n"
 
-#: data/com.github.amezin.ddterm.desktop.in.in:8 ddterm/app/appwindow.js:149
+#: data/com.github.amezin.ddterm.desktop.in.in:8 ddterm/app/appwindow.js:146
 #: ddterm/shell/notifications.js:269 ddterm/shell/panelicon.js:31
 msgid "ddterm"
 msgstr ""
@@ -46,75 +46,75 @@ msgstr "Κουμπί εναλλαγής"
 msgid "Preferences…"
 msgstr "Προτιμήσεις"
 
-#: ddterm/app/about.js:56
+#: ddterm/app/about.js:58
 msgid "translator-credits"
 msgstr ""
 "Anagnostakis Ioannis\n"
 "Klearchos-Angelos Gkountras"
 
-#: ddterm/app/about.js:57
+#: ddterm/app/about.js:59
 msgid "Contributors"
 msgstr ""
 
-#: ddterm/app/application.js:102
+#: ddterm/app/application.js:99
 msgid "Start the application, but do not show the window"
 msgstr ""
 
-#: ddterm/app/application.js:111
+#: ddterm/app/application.js:108
 msgid "Comma-separated list of backends that GDK should try to use"
 msgstr ""
 
-#: ddterm/app/application.js:138
+#: ddterm/app/application.js:135
 msgid "Show version information and exit"
 msgstr ""
 
-#: ddterm/app/application.js:147
+#: ddterm/app/application.js:144
 msgid "Run the specified command"
 msgstr "Τρέξε συγκεκριμένη εντολή"
 
-#: ddterm/app/application.js:161
+#: ddterm/app/application.js:158
 msgid "Wait for the command to exit, and return its exit code"
 msgstr ""
 
-#: ddterm/app/application.js:170
+#: ddterm/app/application.js:167
 #, fuzzy
 msgid "Set the working directory"
 msgstr "Διατήρηση του καταλόγου εργασίας"
 
-#: ddterm/app/application.js:179
+#: ddterm/app/application.js:176
 #, fuzzy
 msgid "Set tab title"
 msgstr "Παραμετροποίση τίτλου καρτέλας"
 
-#: ddterm/app/application.js:188
+#: ddterm/app/application.js:185
 msgid "Keep the terminal open after the command has exited"
 msgstr ""
 
-#: ddterm/app/application.js:197
+#: ddterm/app/application.js:194
 msgid "Do not pass the environment"
 msgstr ""
 
-#: ddterm/app/application.js:206
+#: ddterm/app/application.js:203
 msgid "Open a new tab"
 msgstr "Άνοιγμα νέας καρτέλας"
 
-#: ddterm/app/application.js:477
+#: ddterm/app/application.js:479
 msgid "Can't contact the extension."
 msgstr ""
 
-#: ddterm/app/application.js:479 ddterm/app/application.js:627
+#: ddterm/app/application.js:481 ddterm/app/application.js:629
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr ""
 
-#: ddterm/app/application.js:625
+#: ddterm/app/application.js:627
 msgid "Can't read the version of the loaded extension."
 msgstr ""
 
-#: ddterm/app/application.js:630 ddterm/shell/notifications.js:138
+#: ddterm/app/application.js:632 ddterm/shell/notifications.js:138
 msgid "Warning: ddterm version has changed"
 msgstr "Προειδοποίηση: η έκδοση ddterm έχει αλλάξει"
 
-#: ddterm/app/application.js:631 ddterm/shell/notifications.js:140
+#: ddterm/app/application.js:633 ddterm/shell/notifications.js:140
 msgid "Log out, then log in again to load the updated extension."
 msgstr "Αποσυνδεθείτε και, στη συνέχεια, συνδεθείτε ξανά για να φορτώσετε την ενημερωμένη επέκταση."
 
