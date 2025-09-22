@@ -19,6 +19,7 @@ import Gettext from 'gettext';
 import Gi from 'gi';
 import System from 'system';
 
+import { AboutDialog } from './about.js';
 import { AppWindow } from './appwindow.js';
 import { get_settings, metadata, path } from './meta.js';
 import { TerminalCommand, WIFEXITED, WEXITSTATUS, WTERMSIG } from './terminal.js';
@@ -271,7 +272,7 @@ class Application extends Gtk.Application {
 
         this.simple_action('quit', () => this.quit());
         this.simple_action('preferences', () => this.preferences().catch(logError));
-        this.simple_action('about', () => this.about().catch(logError));
+        this.simple_action('about', () => this.about());
 
         [
             'window-above',
@@ -704,21 +705,9 @@ class Application extends Gtk.Application {
         this.prefs_dialog.present();
     }
 
-    async about() {
-        if (this.about_dialog !== null) {
-            this.about_dialog.present();
-            return;
-        }
-
-        if (!this._about_dialog_module)
-            this._about_dialog_module = import('./about.js');
-
-        try {
-            this.hold();
-
-            const mod = await this._about_dialog_module;
-
-            this.about_dialog = new mod.AboutDialog({
+    about() {
+        if (this.about_dialog === null) {
+            this.about_dialog = new AboutDialog({
                 transient_for: this.window,
                 application: this,
             });
@@ -727,8 +716,6 @@ class Application extends Gtk.Application {
                 if (source === this.about_dialog)
                     this.about_dialog = null;
             });
-        } finally {
-            this.release();
         }
 
         this.about_dialog.present();
