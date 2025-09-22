@@ -135,8 +135,8 @@ function create_panel_icon(settings, window_matcher, app_control, icon, gettext_
 }
 
 function install(extension, rollback) {
-    const { data_dir, launcher_path } = extension;
-    const installer = new Installer(data_dir, launcher_path);
+    const { path, launcher_path } = extension;
+    const installer = new Installer(GLib.build_filenamev([path, 'data']), launcher_path);
     installer.install();
 
     if (GObject.signal_lookup('shutdown', Shell.Global)) {
@@ -228,8 +228,12 @@ class EnabledExtension {
 
         this.settings = this.extension.getSettings();
 
-        this.symbolic_icon = Gio.FileIcon.new(Gio.File.new_for_path(
-            GLib.build_filenamev([this.extension.data_dir, 'com.github.amezin.ddterm-symbolic.svg'])
+        this.symbolic_icon = Gio.FileIcon.new(Gio.File.new_for_uri(
+            GLib.Uri.resolve_relative(
+                import.meta.url,
+                '../../data/com.github.amezin.ddterm-symbolic.svg',
+                GLib.UriFlags.NONE
+            )
         ));
 
         this.notifications = new Notifications({
@@ -465,7 +469,6 @@ export default class DDTermExtension extends Extension {
     constructor(meta) {
         super(meta);
 
-        this.data_dir = GLib.build_filenamev([this.path, 'data']);
         this.launcher_path = GLib.build_filenamev([this.path, 'bin', APP_ID]);
         this.metadata_path = GLib.build_filenamev([this.path, 'metadata.json']);
 
