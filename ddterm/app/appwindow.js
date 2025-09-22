@@ -16,9 +16,6 @@ import { TerminalSettings } from './terminalsettings.js';
 import { Notebook } from './notebook.js';
 import { DisplayConfig, LayoutMode } from '../util/displayconfig.js';
 
-const MENU_URI = GLib.Uri.resolve_relative(import.meta.url, './ui/menus.ui', GLib.UriFlags.NONE);
-const [MENU_PATH] = GLib.filename_from_uri(MENU_URI);
-
 const WINDOW_POS_TO_RESIZE_EDGE = {
     top: Gdk.WindowEdge.SOUTH,
     bottom: Gdk.WindowEdge.NORTH,
@@ -152,7 +149,12 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
             ...params,
         });
 
-        this.menus = Gtk.Builder.new_from_file(MENU_PATH);
+        const menu_url =
+            GLib.Uri.resolve_relative(import.meta.url, './ui/menus.ui', GLib.UriFlags.NONE);
+
+        const [menu_path] = GLib.filename_from_uri(menu_url);
+
+        this.menus = Gtk.Builder.new_from_file(menu_path);
 
         const grid = new Gtk.Grid({
             parent: this,

@@ -21,7 +21,7 @@ import System from 'system';
 
 import { AboutDialog } from './about.js';
 import { AppWindow } from './appwindow.js';
-import { get_settings, metadata, path } from './meta.js';
+import { get_settings, metadata } from './meta.js';
 import { TerminalCommand, WIFEXITED, WEXITSTATUS, WTERMSIG } from './terminal.js';
 import { TerminalSettings, TerminalSettingsParser } from './terminalsettings.js';
 import { DisplayConfig } from '../util/displayconfig.js';
@@ -45,10 +45,6 @@ const signal_add = GLibUnix?.signal_add_full ?? GLib.unix_signal_add;
 const SIGHUP = 1;
 const SIGINT = 2;
 const SIGTERM = 15;
-
-const STYLE_URI = GLib.Uri.resolve_relative(import.meta.url, 'style.css', GLib.UriFlags.NONE);
-const ICONS_URI = GLib.Uri.resolve_relative(import.meta.url, 'icons', GLib.UriFlags.NONE);
-const [ICONS_PATH] = GLib.filename_from_uri(ICONS_URI);
 
 function schedule_gc() {
     GLib.idle_add(GLib.PRIORITY_DEFAULT, () => {
@@ -300,7 +296,10 @@ class Application extends Gtk.Application {
         this.update_color_scheme();
 
         const css_provider = Gtk.CssProvider.new();
-        css_provider.load_from_file(Gio.File.new_for_uri(STYLE_URI));
+
+        css_provider.load_from_file(Gio.File.new_for_uri(
+            GLib.Uri.resolve_relative(import.meta.url, 'style.css', GLib.UriFlags.NONE)
+        ));
 
         Gtk.StyleContext.add_provider_for_screen(
             Gdk.Screen.get_default(),
@@ -384,10 +383,12 @@ class Application extends Gtk.Application {
         const icon_theme = Gtk.IconTheme.get_default();
         const icon_search_path = icon_theme.get_search_path();
 
-        icon_search_path.unshift(
-            GLib.build_filenamev([path, 'data']),
-            ICONS_PATH
-        );
+        for (const url of ['icons', '../../data']) {
+            const abs_url = GLib.Uri.resolve_relative(import.meta.url, url, GLib.UriFlags.NONE);
+            const [path] = GLib.filename_from_uri(abs_url);
+
+            icon_search_path.unshift(path);
+        }
 
         icon_theme.set_search_path(icon_search_path);
 
