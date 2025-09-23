@@ -142,6 +142,9 @@ export const WindowGeometry = GObject.registerClass({
     static get_target_rect(workarea, monitor_scale, size, window_pos) {
         const target_rect = workarea.copy();
 
+        if (size === 1)
+            return target_rect;
+
         if (window_pos === Meta.Side.LEFT || window_pos === Meta.Side.RIGHT) {
             target_rect.width *= size;
             target_rect.width -= target_rect.width % monitor_scale;
