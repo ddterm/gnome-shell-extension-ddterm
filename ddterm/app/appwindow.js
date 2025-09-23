@@ -369,22 +369,23 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
         if (display.constructor.$gtype.name !== 'GdkWaylandDisplay')
             return;
 
-        const display_config_handler = this.display_config.connect('notify::layout-mode', () => {
+        const sync_if_hidden = () => {
             if (!this.is_visible())
                 this.sync_size_with_extension();
-        });
+        };
+
+        const display_config_handler =
+            this.display_config.connect('notify::layout-mode', sync_if_hidden);
 
         this.connect('destroy', () => this.display_config.disconnect(display_config_handler));
 
-        const dbus_handler = this.extension_dbus.connect(
-            'g-properties-changed',
-            () => {
-                if (!this.is_visible())
-                    this.sync_size_with_extension();
-            }
-        );
-
+        const dbus_handler = this.extension_dbus.connect('g-properties-changed', sync_if_hidden);
         this.connect('destroy', () => this.extension_dbus.disconnect(dbus_handler));
+
+        const settings_handler = this.settings.connect('changed::window-maximize', sync_if_hidden);
+        this.connect('destroy', () => this.settings.disconnect(settings_handler));
+
+        this.connect('notify::is-maximized', sync_if_hidden);
 
         this.connect('unmap-event', () => {
             this.sync_size_with_extension();
@@ -591,8 +592,12 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
     }
 
     sync_size_with_extension() {
-        if (this.is_maximized)
-            return;
+        if (this.is_maximized) {
+            if (this.settings.get_boolean('window-maximize'))
+                return;
+
+            this.unmaximize();
+        }
 
         const rect = this.extension_dbus.TargetRect;
 
