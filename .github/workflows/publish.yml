@@ -1,0 +1,37 @@
+# SPDX-FileCopyrightText: 2025 Aleksandr Mezin <mezin.alexander@gmail.com>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+name: publish
+
+on:
+  workflow_dispatch:
+  release:
+    types:
+      - published
+
+jobs:
+  publish:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    container:
+      image: ghcr.io/archlinux/archlinux:base-devel-20250917.0.422098@sha256:b3e6b3d978475ecfaaf73c80809f57524aa6f29683acb276f0530580f22db1f6
+
+    permissions:
+      contents: read
+
+    environment:
+      name: extensions.gnome.org
+      url: https://extensions.gnome.org/extension/3780/ddterm/
+
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+
+    steps:
+      - run: pacman -Sy --noconfirm --noprogressbar gnome-shell github-cli
+      - run: gh release download "$GITHUB_REF_NAME"
+      - run: gnome-extensions upload "--user=$EGO_USERNAME" "--password=$EGO_PASSWORD" --accept-tos ./*.shell-extension.zip
+        env:
+          EGO_USERNAME: ${{ vars.EGO_USERNAME }}
+          EGO_PASSWORD: ${{ secrets.EGO_PASSWORD }}
