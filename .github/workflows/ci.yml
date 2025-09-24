@@ -184,7 +184,7 @@ jobs:
         working-directory: build
         run: |
           version="$(jq -r '.version' meson-info/intro-projectinfo.json)"
-          echo "version=$version" | tee -a "GITHUB_OUTPUT"
+          echo "version=$version" | tee -a "$GITHUB_OUTPUT"
 
       - name: Build extension package
         id: pack
