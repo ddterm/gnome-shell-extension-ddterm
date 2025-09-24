@@ -40,6 +40,12 @@ To use the repository, append the following section to `/etc/pacman.conf`:
 
 You can also install the extension from a `.zip` package.
 
+> [!CAUTION]
+> If you download and install the package from GitHub, or build it from source,
+> the extension won't be updated automatically when a new version is released.
+> In particular, `metadata.json` won't contain the `version` key, so it will be
+> ignored by GNOME Shell's automatic extension updater.
+
 ### 1. Obtain the package
 
 You can either download an already-built package, or build it from the source
@@ -56,10 +62,6 @@ Also, the CI system builds a package for every commit. Latest package for the
 `master` branch is published here:
 
 <https://ddterm.github.io/gnome-shell-extension-ddterm/ddterm@amezin.github.com.shell-extension.zip>
-
-> [!CAUTION]
-> If you install the package from the `master` branch, GNOME Shell
-> will not update it automatically when a new version is released.
 
 #### 1.b) Build from source code
 
