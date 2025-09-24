@@ -6,4 +6,3 @@ changelog:
   exclude:
     authors:
       - renovate
-      - weblate
