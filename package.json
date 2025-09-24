@@ -37,5 +37,6 @@
         "version:meson": "tox -e meson-rewrite -- kwargs set project / version \"${npm_package_version//-/}\" && tox -e meson-format -- -i meson.build",
         "version:pkgbuild": "tox -e setconf -- pkgver \"${npm_package_version//-/}\"",
         "version": "run-s version:*"
-    }
+    },
+    "version": "62.0.0"
 }
