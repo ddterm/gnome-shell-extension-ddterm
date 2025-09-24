@@ -37,7 +37,7 @@ function create_dbus_interface(
     rollback
 ) {
     const dbus_interface = new DBusApi({
-        version: extension.metadata.version ?? null,
+        version: extension.metadata.version?.toString() ?? null,
         revision: extension.metadata['version-name'] ?? null,
         app_control,
     });
