@@ -50,7 +50,9 @@ jobs:
 
       - id: actions
         name: Get the list of actions used in build and test jobs
-        run: echo "names=$(yq -oj -I0 "$YQ_FILTER" .github/workflows/ci.yml)" >>"$GITHUB_OUTPUT"
+        run: |
+          names="$(yq -oj -I0 "$YQ_FILTER" .github/workflows/ci.yml)"
+          echo "names=$names" | tee -a "$GITHUB_OUTPUT"
         env:
           YQ_FILTER: >-
             [
@@ -93,8 +95,9 @@ jobs:
       - id: test-config
         name: Determine test configurations
         working-directory: tests
-        run: >-
-          echo "containers=$(docker compose config --services | grep -v archlinux | sort | jq -cnR '[inputs]')" >>"$GITHUB_OUTPUT"
+        run: |
+          containers="$(docker compose config --services | grep -v archlinux | sort | jq -cnR '[inputs]')"
+          echo "containers=$containers" | tee -a "$GITHUB_OUTPUT"
 
   lint:
     runs-on: ubuntu-24.04
@@ -254,7 +257,8 @@ jobs:
         # Note: git diff --name-only ignores --ignore-matching-lines arg
         run: |
           git diff --color '--ignore-matching-lines=^"POT-Creation-Date: ' 'po/*.po' 'po/*.pot' 'po/POTFILES.in' | tee "$RUNNER_TEMP/po.diff"
-          echo "size=$(stat --printf=%s "$RUNNER_TEMP/po.diff")" >>"$GITHUB_OUTPUT"
+          size="$(stat --printf=%s "$RUNNER_TEMP/po.diff")"
+          echo "size=$size" | tee -a "$GITHUB_OUTPUT"
 
       - name: Create pull request
         if: vars.APP_ID && fromJSON(steps.diff.outputs.size) && inputs.push
@@ -347,8 +351,10 @@ jobs:
           if-no-files-found: error
 
       - id: pkgfilename
-        run: echo "pkgfilename=$(echo -n *.pkg.tar@(|.+([^.])))" >>"$GITHUB_OUTPUT"
         shell: bash -e -O extglob {0}
+        run: |
+          pkgfilename="$(echo -n *.pkg.tar@(|.+([^.])))"
+          echo "pkgfilename=$pkgfilename" | tee -a "$GITHUB_OUTPUT"
 
     outputs:
       pkgfilename: ${{ steps.pkgfilename.outputs.pkgfilename }}

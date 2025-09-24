@@ -31,7 +31,7 @@ runs:
       shell: bash
 
     - id: root-cgroup
-      run: grep '^0::' /proc/self/cgroup | sed 's/^0::/cgroup=/' >>"$GITHUB_OUTPUT"
+      run: grep '^0::' /proc/self/cgroup | sed 's/^0::/cgroup=/' | tee -a "$GITHUB_OUTPUT"
       shell: bash
 
     - run: chown -R "$TARGET_USER" "/sys/fs/cgroup${CGROUP}" "$GITHUB_WORKSPACE"
