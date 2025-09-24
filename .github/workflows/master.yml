@@ -55,3 +55,30 @@ jobs:
 
       - id: deployment
         uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4.0.5
+
+  release:
+    needs: ci
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+
+    permissions:
+      contents: write
+
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      TAG: v${{ needs.ci.outputs.version }}
+
+    steps:
+      - uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
+        with:
+          name: extension-package
+
+      - id: existing
+        run: |
+          existing="$(gh release list --json tagName | jq -c '[.[].tagName]')"
+          echo "existing=$existing" | tee -a "$GITHUB_OUTPUT"
+
+      - run: gh release create "$TAG" --draft --generate-notes --target "$GITHUB_SHA" ./*.shell-extension.zip
+        if: ${{ !contains(fromJSON(steps.existing.outputs.existing), env.TAG) }}
