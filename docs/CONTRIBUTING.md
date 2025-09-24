@@ -32,6 +32,11 @@ If you want to report a bug, please proceed to the [bug reporting form].
 >
 > b) [`SPDX-FileCopyrightText`] tag with your name:
 > `SPDX-FileCopyrightText: YEAR Your Name <e-mail@address>` (e-mail part is optional)
+>
+> [`SPDX-FileCopyrightText`] should be used for large, significant changes. See:
+> <https://www.gnu.org/prep/maintain/html_node/Legally-Significant.html>. Quote:
+> "A change of just a few lines (less than 15 or so) is not legally significant
+> for copyright".
 
 [`SPDX-FileCopyrightText`]: https://reuse.software/faq/
 
