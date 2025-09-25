@@ -82,6 +82,14 @@ const Interface = GObject.registerClass({
             }));
         });
 
+        this._connect_external(display, 'grab-op-begin', () => {
+            this.GrabActive = true;
+        });
+
+        this._connect_external(display, 'grab-op-end', () => {
+            this.GrabActive = false;
+        });
+
         this._connect_external(context, 'notify::unsafe-mode', () => {
             this.notify('UnsafeMode');
         });

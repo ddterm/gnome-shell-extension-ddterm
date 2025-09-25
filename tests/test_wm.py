@@ -676,6 +676,7 @@ class CommonTests:
 
         try:
             shell_test_hook.mouse_down()
+            shell_test_hook.wait_property('GrabActive', True)
             extension_test_hook.wait_property(window_position.maximize_property, False)
 
             wait_idle()
@@ -692,6 +693,7 @@ class CommonTests:
 
         finally:
             shell_test_hook.mouse_up()
+            shell_test_hook.wait_property('GrabActive', False)
 
         wait_idle()
 
