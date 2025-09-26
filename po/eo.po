@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-22 08:03+0000\n"
+"POT-Creation-Date: 2025-09-26 11:09+0000\n"
 "PO-Revision-Date: 2024-06-01 19:09+0000\n"
 "Last-Translator: phlostically <phlostically@mailinator.com>\n"
 "Language-Team: Esperanto <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/eo/>\n"
@@ -93,19 +93,19 @@ msgstr "Malfermi novan langeton"
 msgid "Can't contact the extension."
 msgstr ""
 
-#: ddterm/app/application.js:481 ddterm/app/application.js:629
+#: ddterm/app/application.js:481
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr ""
 
-#: ddterm/app/application.js:627
+#: ddterm/app/application.js:639
 msgid "Can't read the version of the loaded extension."
 msgstr ""
 
-#: ddterm/app/application.js:632 ddterm/shell/notifications.js:138
+#: ddterm/app/application.js:641 ddterm/shell/notifications.js:138
 msgid "Warning: ddterm version has changed"
 msgstr ""
 
-#: ddterm/app/application.js:633 ddterm/shell/notifications.js:140
+#: ddterm/app/application.js:642 ddterm/shell/notifications.js:140
 msgid "Log out, then log in again to load the updated extension."
 msgstr ""
 

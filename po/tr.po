@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-22 08:03+0000\n"
+"POT-Creation-Date: 2025-09-26 11:09+0000\n"
 "PO-Revision-Date: 2025-05-04 18:07+0000\n"
 "Last-Translator: Nuri KÜÇÜKLER <enatsek@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/tr/>\n"
@@ -98,19 +98,19 @@ msgstr "Yeni bir sekme aç"
 msgid "Can't contact the extension."
 msgstr "Uzantı ile irtibat kurulamıyor."
 
-#: ddterm/app/application.js:481 ddterm/app/application.js:629
+#: ddterm/app/application.js:481
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr "Lütfen ddterm GNOME Shell eklentisinin etkinleştirildiğinden emin olun."
 
-#: ddterm/app/application.js:627
+#: ddterm/app/application.js:639
 msgid "Can't read the version of the loaded extension."
 msgstr "Yüklü olan uzantının versiyon bilgisi okunamadı."
 
-#: ddterm/app/application.js:632 ddterm/shell/notifications.js:138
+#: ddterm/app/application.js:641 ddterm/shell/notifications.js:138
 msgid "Warning: ddterm version has changed"
 msgstr "Uyarı: ddterm sürümü değişti"
 
-#: ddterm/app/application.js:633 ddterm/shell/notifications.js:140
+#: ddterm/app/application.js:642 ddterm/shell/notifications.js:140
 msgid "Log out, then log in again to load the updated extension."
 msgstr "Güncellenmiş uzantıyı yüklemek için oturumu kapatın ve tekrar açın."
 
