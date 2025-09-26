@@ -67,6 +67,7 @@ runs:
 
     - if: ${{ !cancelled() && steps.setup-testspace.outcome == 'success' }}
       shell: bash
+      continue-on-error: true
       run: >-
         testspace --verbose
         "[$CONTAINER]./tests/junit.xml"
