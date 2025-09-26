@@ -163,8 +163,6 @@ subdir('schemas')
 subdir('ddterm')
 subdir('locale')
 
-pack += fs.copyfile('stylesheet.css', install: true, install_dir: extension_dir)
-
 pack_from_srcdir = [
   'LICENSES' / 'GPL-3.0-or-later.txt',
   'LICENSES' / 'CC0-1.0.txt',
