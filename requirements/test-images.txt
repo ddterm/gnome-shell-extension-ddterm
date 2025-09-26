@@ -4,5 +4,5 @@
 #
 #    pip-compile --strip-extras test-images.in
 #
-pyyaml==6.0.2
+pyyaml==6.0.3
     # via -r test-images.in
