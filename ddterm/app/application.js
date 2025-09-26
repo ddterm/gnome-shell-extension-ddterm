@@ -603,9 +603,21 @@ class Application extends Gtk.Application {
     }
 
     get_extension_version() {
-        const proxy = create_extension_dbus_proxy();
-        const version = proxy.get_cached_property('Version')?.unpack();
-        const name = proxy.get_cached_property('Revision')?.unpack();
+        const result = Gio.DBus.session.call_sync(
+            'org.gnome.Shell',
+            '/org/gnome/Shell',
+            'org.gnome.Shell.Extensions',
+            'GetExtensionInfo',
+            GLib.Variant.new_tuple([GLib.Variant.new_string(metadata.uuid)]),
+            new GLib.VariantType('(a{sv})'),
+            Gio.DBusCallFlags.NO_AUTO_START,
+            2000,
+            null
+        );
+
+        const info = result.get_child_value(0);
+        const version = info.lookup_value('version', null)?.unpack();
+        const name = info.lookup_value('version-name', null)?.unpack();
 
         if (version && name)
             return `${name} (${version})`;
@@ -625,15 +637,12 @@ class Application extends Gtk.Application {
 
             if (!ext_version) {
                 print(Gettext.gettext("Can't read the version of the loaded extension."));
-                print(Gettext.gettext(
-                    'Please, make sure ddterm GNOME Shell extension is enabled.'
-                ));
             } else if (app_version !== ext_version) {
                 print(Gettext.gettext('Warning: ddterm version has changed'));
                 print(Gettext.gettext('Log out, then log in again to load the updated extension.'));
             }
         } catch (ex) {
-            logError(ex, "Can't get version information from the extension");
+            logError(ex, "Can't get extension information from GNOME Shell");
         }
     }
 
