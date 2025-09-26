@@ -8,7 +8,6 @@ app_js_src_files = files(
   'accellabel.js',
   'application.js',
   'appwindow.js',
-  'extensiondbus.js',
   'init.js',
   'meta.js',
   'notebook.js',

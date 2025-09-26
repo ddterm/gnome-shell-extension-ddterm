@@ -26,10 +26,6 @@ import { TerminalCommand, WIFEXITED, WEXITSTATUS, WTERMSIG } from './terminal.js
 import { TerminalSettings, TerminalSettingsParser } from './terminalsettings.js';
 import { PrefsDialog } from '../pref/dialog.js';
 import { DisplayConfig } from '../util/displayconfig.js';
-import {
-    create_extension_dbus_proxy,
-    create_extension_dbus_proxy_oneshot,
-} from './extensiondbus.js';
 
 function try_require(namespace, version = undefined) {
     try {
@@ -61,6 +57,32 @@ function is_dbus_interface_error(ex) {
     return ex.matches(Gio.DBusError.quark(), Gio.DBusError.UNKNOWN_METHOD) ||
         ex.matches(Gio.DBusError.quark(), Gio.DBusError.UNKNOWN_OBJECT) ||
         ex.matches(Gio.DBusError.quark(), Gio.DBusError.UNKNOWN_INTERFACE);
+}
+
+function create_extension_dbus_proxy(connection) {
+    const url = GLib.Uri.resolve_relative(
+        import.meta.url,
+        '../../data/com.github.amezin.ddterm.Extension.xml',
+        GLib.UriFlags.NONE
+    );
+
+    const [path] = GLib.filename_from_uri(url);
+    const [, bytes] = GLib.file_get_contents(path);
+    const info = Gio.DBusInterfaceInfo.new_for_xml(new TextDecoder().decode(bytes));
+    const flags =
+        Gio.DBusProxyFlags.DO_NOT_AUTO_START |
+        Gio.DBusProxyFlags.GET_INVALIDATED_PROPERTIES |
+        Gio.DBusProxyFlags.DO_NOT_CONNECT_SIGNALS;
+
+    return Gio.DBusProxy.new_sync(
+        connection,
+        flags,
+        info,
+        'org.gnome.Shell',
+        '/org/gnome/Shell/Extensions/ddterm',
+        info.name,
+        null
+    );
 }
 
 export const Application = GObject.registerClass({
@@ -319,7 +341,8 @@ class Application extends Gtk.Application {
             desktop_settings,
         }).bind_settings(this.terminal_settings);
 
-        this.extension_dbus = create_extension_dbus_proxy();
+        this.extension_dbus = create_extension_dbus_proxy(this.get_dbus_connection());
+
         this.display_config = new DisplayConfig({
             dbus_connection: this.get_dbus_connection(),
         });
@@ -474,7 +497,17 @@ class Application extends Gtk.Application {
         this.flags |= Gio.ApplicationFlags.IS_LAUNCHER;
 
         try {
-            create_extension_dbus_proxy_oneshot().ServiceSync();
+            Gio.DBus.session.call_sync(
+                'org.gnome.Shell',
+                '/org/gnome/Shell/Extensions/ddterm',
+                'com.github.amezin.ddterm.Extension',
+                'Service',
+                null,
+                null,
+                Gio.DBusCallFlags.NO_AUTO_START,
+                -1,
+                null
+            );
         } catch (ex) {
             if (is_dbus_interface_error(ex)) {
                 printerr(Gettext.gettext("Can't contact the extension."));
