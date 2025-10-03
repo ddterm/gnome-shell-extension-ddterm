@@ -14,13 +14,13 @@ iniconfig==2.1.0
     # via pytest
 jinja2==3.1.6
     # via pytest-html
-markupsafe==3.0.2
+markupsafe==3.0.3
     # via jinja2
 packaging==25.0
     # via pytest
 pluggy==1.6.0
     # via pytest
-psutil==7.0.0
+psutil==7.1.0
     # via pytest-xdist
 pygments==2.19.2
     # via pytest
