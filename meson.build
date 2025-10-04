@@ -28,8 +28,30 @@ applications_dir = datadir / 'applications'
 dbus_service_dir = datadir / 'dbus-1' / 'services'
 
 gjs_req = '>=1.78.0'
-gnome_shell_req = ['>=45.0', '<50']
+gnome_shell_req = ['>=45', '<50']
 shell_versions = ['45', '46', '47', '48', '49']
+
+# Verify that all shell_versions match gnome_shell_req
+
+shell_versions_expanded = []
+
+foreach shell_version : shell_versions
+  if shell_version.contains('.')
+    shell_versions_expanded += [shell_version]
+  else
+    foreach suffix : ['0', '1', '9', 'alpha', 'beta', 'rc']
+      shell_versions_expanded += f'@shell_version@.@suffix@'
+    endforeach
+  endif
+endforeach
+
+foreach shell_version : shell_versions_expanded
+  foreach shell_version_req : gnome_shell_req
+    if not shell_version.version_compare(shell_version_req)
+      error(f'Shell version @shell_version@ does not match @shell_version_req@')
+    endif
+  endforeach
+endforeach
 
 summary('Target GNOME Shell version', gnome_shell_req, list_sep: ', ')
 
