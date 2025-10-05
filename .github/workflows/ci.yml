@@ -325,7 +325,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     container:
-      image: ghcr.io/archlinux/archlinux:base-devel-20250926.0.426280@sha256:e6567b316b4c03f4e9fb457813abef0ed6c448cfcc574894a5b6b3c24f97a625
+      image: ghcr.io/archlinux/archlinux:base-devel-20251005.0.430597@sha256:19dccc01760b11917fb1329c848e91feb858c3bcce008de733ef5ebad1c39ac8
       options: --privileged --tmpfs /run
 
     steps:
@@ -405,7 +405,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     container:
-      image: ghcr.io/archlinux/archlinux:base-devel-20250926.0.426280@sha256:e6567b316b4c03f4e9fb457813abef0ed6c448cfcc574894a5b6b3c24f97a625
+      image: ghcr.io/archlinux/archlinux:base-devel-20251005.0.430597@sha256:19dccc01760b11917fb1329c848e91feb858c3bcce008de733ef5ebad1c39ac8
       options: --privileged --tmpfs /run --security-opt apparmor=unconfined
 
     steps:
