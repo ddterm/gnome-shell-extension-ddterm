@@ -37,13 +37,6 @@ function handle_dbus_method_call_async(func, params, invocation) {
 
 export const DBusApi = GObject.registerClass({
     Properties: {
-        'xml-file-path': GObject.ParamSpec.string(
-            'xml-file-path',
-            null,
-            null,
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-            null
-        ),
         'version': GObject.ParamSpec.string(
             'version',
             null,
