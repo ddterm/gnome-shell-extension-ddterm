@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-09-26 11:09+0000\n"
-"PO-Revision-Date: 2025-05-04 18:07+0000\n"
+"PO-Revision-Date: 2025-10-07 20:02+0000\n"
 "Last-Translator: Nuri KÜÇÜKLER <enatsek@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/tr/>\n"
 "Language: tr\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12-dev\n"
+"X-Generator: Weblate 5.14-dev\n"
 
 #: data/com.github.amezin.ddterm.desktop.in.in:8 ddterm/app/appwindow.js:146
 #: ddterm/shell/notifications.js:269 ddterm/shell/panelicon.js:31
@@ -52,7 +52,7 @@ msgstr ""
 
 #: ddterm/app/about.js:59
 msgid "Contributors"
-msgstr ""
+msgstr "Katkıda Bulunanlar"
 
 #: ddterm/app/application.js:99
 msgid "Start the application, but do not show the window"
@@ -345,10 +345,8 @@ msgid "Enable Keyboard Shortcuts"
 msgstr "Klavye Kısayollarını Etkinleştir"
 
 #: ddterm/app/ui/menus.ui:207
-#, fuzzy
-#| msgid "ddterm"
 msgid "About ddterm"
-msgstr "ddterm"
+msgstr "ddterm Hakkında"
 
 #: ddterm/app/ui/menus.ui:215
 msgid "Use Custom Tab Title"
