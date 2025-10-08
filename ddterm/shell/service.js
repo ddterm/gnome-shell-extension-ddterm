@@ -187,21 +187,18 @@ export const Service = GObject.registerClass({
             return new Subprocess(params);
     }
 
-    #wait_subprocess() {
+    async #wait_subprocess(cancellable) {
         this.#subprocess_wait_cancel = new Gio.Cancellable();
 
-        return this.subprocess.wait_check(this.#subprocess_wait_cancel).catch(ex => {
-            if (this.starting)
-                return;
-
-            if (ex.matches(Gio.io_error_quark(), Gio.IOErrorEnum.CANCELLED))
-                return;
-
-            this.emit('error', ex);
-        }).finally(() => {
+        try {
+            await this.subprocess.wait_check(cancellable);
+        } catch (ex) {
+            if (!this.starting && !ex.matches(Gio.io_error_quark(), Gio.IOErrorEnum.CANCELLED))
+                this.emit('error', ex);
+        } finally {
             this.#subprocess_running = false;
             this.notify('is-running');
-        });
+        }
     }
 
     #update_bus_name_owner(owner) {
