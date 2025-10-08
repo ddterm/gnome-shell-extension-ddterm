@@ -6,6 +6,7 @@ import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
 
 import { Subprocess, WaylandSubprocess } from './subprocess.js';
+import { wait_property } from '../util/promise.js';
 
 export const Service = GObject.registerClass({
     Properties: {
@@ -217,15 +218,22 @@ export const Service = GObject.registerClass({
     }
 
     async start(cancellable = null) {
-        if (this.is_registered)
-            return;
-
-        this.#starting = true;
-        this.notify('starting');
+        const inner_cancellable = Gio.Cancellable.new();
+        const cancellable_chain = cancellable?.connect(() => inner_cancellable.cancel());
 
         try {
-            const inner_cancellable = Gio.Cancellable.new();
-            const cancellable_chain = cancellable?.connect(() => inner_cancellable.cancel());
+            inner_cancellable.set_error_if_cancelled();
+
+            while (this.starting) {
+                // eslint-disable-next-line no-await-in-loop
+                await wait_property(this, 'starting', starting => !starting, inner_cancellable);
+            }
+
+            if (this.is_registered)
+                return;
+
+            this.#starting = true;
+            this.notify('starting');
 
             try {
                 if (!this.is_running) {
@@ -236,34 +244,31 @@ export const Service = GObject.registerClass({
                     this.#subprocess_wait = this.#wait_subprocess();
                 }
 
-                const registered = new Promise(resolve => {
-                    const handler = this.connect('notify::is-registered', () => {
-                        if (this.is_registered)
-                            resolve();
-                    });
+                await Promise.race([
+                    wait_property(this, 'is-registered', Boolean, inner_cancellable),
+                    this.#subprocess_wait,
+                ]);
 
-                    inner_cancellable.connect(() => {
-                        this.disconnect(handler);
-                    });
-                });
+                inner_cancellable.set_error_if_cancelled();
 
-                await Promise.race([registered, this.#subprocess_wait]);
+                if (!this.is_running) {
+                    throw new Error(
+                        `${this.bus_name}: subprocess terminated without registering on D-Bus`
+                    );
+                }
+
+                if (!this.is_registered)
+                    throw new Error(`${this.bus_name}: subprocess failed to register on D-Bus`);
+            } catch (ex) {
+                this.emit('error', ex);
+                throw ex;
             } finally {
-                cancellable?.disconnect(cancellable_chain);
-                inner_cancellable.cancel();
+                this.#starting = false;
+                this.notify('starting');
             }
-
-            if (!this.is_registered) {
-                throw new Error(
-                    `${this.bus_name}: subprocess terminated without registering on D-Bus`
-                );
-            }
-        } catch (ex) {
-            this.emit('error', ex);
-            throw ex;
         } finally {
-            this.#starting = false;
-            this.notify('starting');
+            cancellable?.disconnect(cancellable_chain);
+            inner_cancellable.cancel();
         }
     }
 });
