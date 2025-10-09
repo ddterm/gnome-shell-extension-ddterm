@@ -2,7 +2,6 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
 
@@ -11,61 +10,7 @@ import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import { Service } from './service.js';
 import { WindowGeometry } from './geometry.js';
 import { WindowMatch } from './windowmatch.js';
-
-async function wait_timeout(message, timeout_ms, cancellable = null) {
-    let source, cancel_handler;
-
-    try {
-        await new Promise(resolve => {
-            source = GLib.timeout_add(GLib.PRIORITY_DEFAULT, timeout_ms, () => {
-                resolve();
-                return GLib.SOURCE_CONTINUE;
-            });
-
-            cancel_handler = cancellable?.connect(() => {
-                resolve();
-            });
-        });
-    } finally {
-        GLib.Source.remove(source);
-    }
-
-    cancellable?.disconnect(cancel_handler);
-    cancellable?.set_error_if_cancelled();
-
-    throw GLib.Error.new_literal(Gio.io_error_quark(), Gio.IOErrorEnum.TIMED_OUT, message);
-}
-
-async function wait_property(object, property, predicate, cancellable = null) {
-    let value = object[property];
-
-    if (predicate(value))
-        return value;
-
-    let result, handler, cancel_handler;
-
-    try {
-        result = await new Promise(resolve => {
-            handler = object.connect(`notify::${property}`, () => {
-                value = object[property];
-
-                if (predicate(value))
-                    resolve(value);
-            });
-
-            cancel_handler = cancellable?.connect(() => {
-                resolve();
-            });
-        });
-    } finally {
-        object.disconnect(handler);
-    }
-
-    cancellable?.disconnect(cancel_handler);
-    cancellable?.set_error_if_cancelled();
-
-    return result;
-}
+import { wait_timeout, wait_property } from '../util/promise.js';
 
 export const AppControl = GObject.registerClass({
     Properties: {
