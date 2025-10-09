@@ -13,50 +13,57 @@ import { WindowGeometry } from './geometry.js';
 import { WindowMatch } from './windowmatch.js';
 
 async function wait_timeout(message, timeout_ms, cancellable = null) {
-    await new Promise(resolve => {
-        const source = GLib.timeout_add(GLib.PRIORITY_DEFAULT, timeout_ms, () => {
-            cancellable?.disconnect(cancel_handler);
-            resolve();
-            return GLib.SOURCE_REMOVE;
-        });
+    let source, cancel_handler;
 
-        const cancel_handler = cancellable?.connect(() => {
-            GLib.Source.remove(source);
-            resolve();
-        });
-    });
+    try {
+        await new Promise(resolve => {
+            source = GLib.timeout_add(GLib.PRIORITY_DEFAULT, timeout_ms, () => {
+                resolve();
+                return GLib.SOURCE_CONTINUE;
+            });
 
+            cancel_handler = cancellable?.connect(() => {
+                resolve();
+            });
+        });
+    } finally {
+        GLib.Source.remove(source);
+    }
+
+    cancellable?.disconnect(cancel_handler);
     cancellable?.set_error_if_cancelled();
+
     throw GLib.Error.new_literal(Gio.io_error_quark(), Gio.IOErrorEnum.TIMED_OUT, message);
 }
 
 async function wait_property(object, property, predicate, cancellable = null) {
-    const result = await new Promise(resolve => {
-        let value = object[property];
+    let value = object[property];
 
-        if (predicate(value)) {
-            resolve(value);
-            return;
-        }
+    if (predicate(value))
+        return value;
 
-        const handler = object.connect(`notify::${property}`, () => {
-            value = object[property];
+    let result, handler, cancel_handler;
 
-            if (!predicate(value))
-                return;
+    try {
+        result = await new Promise(resolve => {
+            handler = object.connect(`notify::${property}`, () => {
+                value = object[property];
 
-            cancellable?.disconnect(cancel_handler);
-            object.disconnect(handler);
-            resolve(value);
+                if (predicate(value))
+                    resolve(value);
+            });
+
+            cancel_handler = cancellable?.connect(() => {
+                resolve();
+            });
         });
+    } finally {
+        object.disconnect(handler);
+    }
 
-        const cancel_handler = cancellable?.connect(() => {
-            object.disconnect(handler);
-            resolve();
-        });
-    });
-
+    cancellable?.disconnect(cancel_handler);
     cancellable?.set_error_if_cancelled();
+
     return result;
 }
 
