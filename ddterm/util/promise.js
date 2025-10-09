@@ -38,12 +38,16 @@ export async function wait_property(object, property, predicate, cancellable = n
     let handler, cancel_handler;
 
     try {
-        await new Promise(resolve => {
+        await new Promise((resolve, reject) => {
             handler = object.connect(`notify::${property}`, () => {
-                value = object[property];
+                try {
+                    value = object[property];
 
-                if (predicate(value))
-                    resolve();
+                    if (predicate(value))
+                        resolve();
+                } catch (error) {
+                    reject(error);
+                }
             });
 
             cancel_handler = cancellable?.connect(() => {
@@ -52,9 +56,9 @@ export async function wait_property(object, property, predicate, cancellable = n
         });
     } finally {
         object.disconnect(handler);
+        cancellable?.disconnect(cancel_handler);
     }
 
-    cancellable?.disconnect(cancel_handler);
     cancellable?.set_error_if_cancelled();
 
     return value;
