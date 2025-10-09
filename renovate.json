@@ -3,7 +3,7 @@
   "extends": [
     "config:best-practices",
     "config:js-app",
-    "npm:unpublishSafe"
+    "security:minimumReleaseAgeNpm"
   ],
   "ignorePresets": [
     ":ignoreModulesAndTests"
@@ -30,15 +30,21 @@
   ],
   "packageRules": [
     {
-      "extends": ["helpers:pinGitHubActionDigests"],
+      "extends": [
+        "helpers:pinGitHubActionDigests"
+      ],
       "versioning": "npm"
     },
     {
-      "matchPackageNames": ["ghcr.io/archlinux/archlinux"],
+      "matchPackageNames": [
+        "ghcr.io/archlinux/archlinux"
+      ],
       "versionCompatibility": "^(?<compatibility>.*)-(?<version>[^-]*)$",
       "branchTopic": "{{{depNameSanitized}}}",
       "automerge": true,
-      "extends": ["schedule:automergeWeekly"]
+      "extends": [
+        "schedule:automergeWeekly"
+      ]
     },
     {
       "matchPackageNames": [
