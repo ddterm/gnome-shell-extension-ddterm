@@ -12,7 +12,8 @@ export async function wait_timeout(message, timeout_ms, cancellable = null) {
         await new Promise(resolve => {
             source = GLib.timeout_add(GLib.PRIORITY_DEFAULT, timeout_ms, () => {
                 resolve();
-                return GLib.SOURCE_CONTINUE;
+                source = null;
+                return GLib.SOURCE_REMOVE;
             });
 
             cancel_handler = cancellable?.connect(() => {
@@ -20,10 +21,13 @@ export async function wait_timeout(message, timeout_ms, cancellable = null) {
             });
         });
     } finally {
-        GLib.Source.remove(source);
+        if (source)
+            GLib.Source.remove(source);
+
+        if (cancel_handler)
+            cancellable.disconnect(cancel_handler);
     }
 
-    cancellable?.disconnect(cancel_handler);
     cancellable?.set_error_if_cancelled();
 
     throw GLib.Error.new_literal(Gio.io_error_quark(), Gio.IOErrorEnum.TIMED_OUT, message);
@@ -55,8 +59,11 @@ export async function wait_property(object, property, predicate, cancellable = n
             });
         });
     } finally {
-        object.disconnect(handler);
-        cancellable?.disconnect(cancel_handler);
+        if (handler)
+            object.disconnect(handler);
+
+        if (cancel_handler)
+            cancellable.disconnect(cancel_handler);
     }
 
     cancellable?.set_error_if_cancelled();
