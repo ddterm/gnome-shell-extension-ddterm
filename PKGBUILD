@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: CC0-1.0
 
 pkgname=gnome-shell-extension-ddterm-git
-pkgver=62.0.1
+pkgver=62.0.2
 pkgrel=1
 pkgdesc="Another Drop Down Terminal Extension for GNOME Shell"
 arch=('any')

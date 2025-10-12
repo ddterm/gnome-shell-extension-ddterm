@@ -37,5 +37,5 @@
         "version:pkgbuild": "tox -e setconf -- pkgver \"${npm_package_version//-/}\"",
         "version": "run-s version:*"
     },
-    "version": "62.0.1"
+    "version": "62.0.2"
 }
