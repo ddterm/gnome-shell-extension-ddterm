@@ -283,19 +283,14 @@ class EnabledExtension {
         });
 
         this.service.connect('error', (service, ex) => {
-            const log_collector = service.subprocess?.log_collector;
-
-            if (!log_collector) {
-                this.notifications.show_error(ex);
-                return;
-            }
-
-            log_collector.collect().then(output => {
-                this.notifications.show_error(ex, output);
-            }).catch(ex2 => {
-                logError(ex2, 'Failed to collect logs');
-                this.notifications.show_error(ex);
-            });
+            (service.subprocess?.get_logs() ?? Promise.resolve()).then(
+                output => {
+                    this.notifications.show_error(ex, output);
+                }, ex2 => {
+                    logError(ex2, 'Failed to collect logs');
+                    this.notifications.show_error(ex);
+                }
+            );
         });
 
         this.window_geometry = new WindowGeometry();
