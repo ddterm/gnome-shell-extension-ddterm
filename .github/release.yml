@@ -5,4 +5,7 @@
 changelog:
   exclude:
     authors:
-      - renovate
+      - 'renovate'
+      - 'renovate[bot]'
+      - 'ddterm-automation'
+      - 'ddterm-automation[bot]'
