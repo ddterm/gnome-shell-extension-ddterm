@@ -5,6 +5,21 @@
 import GLib from 'gi://GLib';
 import Gio from 'gi://Gio';
 
+export function promisify(start, finish) {
+    return function (...args) {
+        return new Promise((resolve, reject) => {
+            // eslint-disable-next-line no-invalid-this
+            start.call(this, ...args, (source, result) => {
+                try {
+                    resolve(finish.call(source, result));
+                } catch (error) {
+                    reject(error);
+                }
+            });
+        });
+    };
+}
+
 export async function wait_timeout(message, timeout_ms, cancellable = null) {
     let source, cancel_handler;
 
