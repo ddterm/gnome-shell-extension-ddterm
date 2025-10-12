@@ -261,14 +261,21 @@ class Application extends Gtk.Application {
                 System.exit(1);
             }
         });
+
+        this.add_action_entries(Object.entries({
+            quit: () => this.quit(),
+            preferences: () => this.preferences().catch(logError),
+            about: () => this.about(),
+            toggle: () => this.ensure_window_with_terminal().toggle(),
+            show: () => this.ensure_window_with_terminal().present(),
+            hide: () => this.window?.hide(),
+        }).map(([name, activate]) => {
+            return { name, activate };
+        }));
     }
 
     startup() {
         this.settings = get_settings();
-
-        this.simple_action('quit', () => this.quit());
-        this.simple_action('preferences', () => this.preferences().catch(logError));
-        this.simple_action('about', () => this.about());
 
         [
             'window-above',
@@ -325,12 +332,6 @@ class Application extends Gtk.Application {
 
         this.connect('shutdown', () => this.display_config.unwatch());
         this.display_config.update_sync();
-
-        this.simple_action('toggle', () => this.ensure_window_with_terminal().toggle());
-        this.simple_action('show', () => {
-            this.ensure_window_with_terminal().present();
-        });
-        this.simple_action('hide', () => this.window?.hide());
 
         const shortcut_actions = {
             'shortcut-window-hide': 'win.hide',
@@ -729,16 +730,6 @@ class Application extends Gtk.Application {
         }
 
         this.about_dialog.present();
-    }
-
-    simple_action(name, activate, params = {}) {
-        const action = new Gio.SimpleAction({
-            name,
-            ...params,
-        });
-        action.connect('activate', activate);
-        this.add_action(action);
-        return action;
     }
 
     bind_shortcut(action, settings_key) {
