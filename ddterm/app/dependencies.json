@@ -25,7 +25,7 @@
    "debian": "gir1.2-vte-2.91",
    "fedora": "vte291",
    "filename": "Vte-2.91.typelib",
-   "suse": "typelib-1_0-Vte-2.91",
+   "suse": "typelib-1_0-Vte-2_91",
    "alpine": "vte3"
   }
  },
