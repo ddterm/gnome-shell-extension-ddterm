@@ -5,7 +5,6 @@
 import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
-import GnomeDesktop from 'gi://GnomeDesktop';
 import Meta from 'gi://Meta';
 
 import Gi from 'gi';
@@ -201,15 +200,9 @@ export const Subprocess = GObject.registerClass({
             ? make_subprocess_launcher_journald(this.journal_identifier)
             : make_subprocess_launcher_fallback();
 
-        for (const extra_env of this.environ) {
-            const split_pos = extra_env.indexOf('=');
-            const name = extra_env.slice(0, split_pos);
-            const value = extra_env.slice(split_pos + 1);
-
-            subprocess_launcher.setenv(name, value, true);
-        }
-
         try {
+            subprocess_launcher.set_environ(this.environ);
+
             this._subprocess = this._spawn(subprocess_launcher);
         } finally {
             subprocess_launcher.close();
@@ -220,18 +213,6 @@ export const Subprocess = GObject.registerClass({
         this._get_logs = logging_to_journald
             ? collect_journald_logs.bind(globalThis, journalctl, start_date, pid)
             : collect_stdio_logs(this._subprocess.get_stdout_pipe()).catch(logError);
-
-        if (!pid)
-            return;
-
-        GnomeDesktop.start_systemd_scope(
-            this.journal_identifier,
-            parseInt(pid, 10),
-            null,
-            null,
-            null,
-            null
-        );
     }
 
     get g_subprocess() {
@@ -263,6 +244,12 @@ export const Subprocess = GObject.registerClass({
 
     terminate() {
         this.g_subprocess.send_signal(SIGTERM);
+    }
+
+    get_pid() {
+        const pid = this.g_subprocess.get_identifier();
+
+        return pid ? parseInt(pid, 10) : null;
     }
 
     get_logs() {

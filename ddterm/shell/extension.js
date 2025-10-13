@@ -237,6 +237,8 @@ class EnabledExtension {
             )
         ));
 
+        const app_info = install(this.extension, rollback);
+
         this.notifications = new Notifications({
             icon: this.symbolic_icon,
             gettext_domain: this.extension,
@@ -249,7 +251,7 @@ class EnabledExtension {
         this.service = new Service({
             bus: Gio.DBus.session,
             bus_name: APP_ID,
-            executable: this.extension.launcher_path,
+            app_info,
             subprocess: this.extension.app_process,
         });
 
@@ -405,8 +407,6 @@ class EnabledExtension {
             this.extension,
             rollback
         );
-
-        install(this.extension, rollback);
     }
 
     #set_skip_taskbar() {
