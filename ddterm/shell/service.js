@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
 
@@ -24,12 +25,12 @@ export const Service = GObject.registerClass({
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             null
         ),
-        'executable': GObject.ParamSpec.string(
-            'executable',
+        'app-info': GObject.ParamSpec.object(
+            'app-info',
             null,
             null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-            null
+            Gio.AppInfo
         ),
         'wayland': GObject.ParamSpec.boolean(
             'wayland',
@@ -118,8 +119,8 @@ export const Service = GObject.registerClass({
             this.bus,
             this.bus_name,
             Gio.BusNameWatcherFlags.NONE,
-            (connection, name, owner) => this.#update_bus_name_owner(owner),
-            () => this.#update_bus_name_owner(null)
+            (connection, name, owner) => this.#update_bus_name_owner(name, owner),
+            (connection, name) => this.#update_bus_name_owner(name, null)
         );
     }
 
@@ -169,23 +170,39 @@ export const Service = GObject.registerClass({
     }
 
     #create_subprocess() {
-        const argv = [
-            this.executable,
+        const [, argv] = GLib.shell_parse_argv(this.app_info.get_commandline());
+
+        argv.push(
             '--gapplication-service',
             this.wayland ? '--allowed-gdk-backends=wayland' : '--allowed-gdk-backends=x11',
-            ...this.extra_argv,
-        ];
+            ...this.extra_argv
+        );
+
+        const launch_context = global.create_app_launch_context(0, -1);
+
+        for (const extra_env of this.extra_env) {
+            const split_pos = extra_env.indexOf('=');
+            const name = extra_env.slice(0, split_pos);
+            const value = extra_env.slice(split_pos + 1);
+
+            launch_context.setenv(name, value);
+        }
 
         const params = {
             journal_identifier: this.bus_name,
             argv,
-            environ: this.extra_env,
+            environ: launch_context.get_environment(),
         };
 
-        if (this.wayland)
-            return new WaylandSubprocess(params);
-        else
-            return new Subprocess(params);
+        launch_context.emit('launch-started', this.app_info, null);
+
+        const proc = this.wayland ? new WaylandSubprocess(params) : new Subprocess(params);
+
+        const platform_data = GLib.VariantDict.new(null);
+        platform_data.insert_value('pid', GLib.Variant.new_int32(proc.get_pid()));
+        launch_context.emit('launched', this.app_info, platform_data.end());
+
+        return proc;
     }
 
     async #wait_subprocess(cancellable) {
@@ -202,13 +219,13 @@ export const Service = GObject.registerClass({
         }
     }
 
-    #update_bus_name_owner(owner) {
+    #update_bus_name_owner(name, owner) {
         if (this.#bus_name_owner === owner)
             return;
 
         const prev_registered = this.is_registered;
 
-        log(`${this.bus_name}: name owner changed to ${JSON.stringify(owner)}`);
+        log(`${name}: name owner changed to ${JSON.stringify(owner)}`);
 
         this.#bus_name_owner = owner;
         this.notify('bus-name-owner');
