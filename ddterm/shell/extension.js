@@ -136,7 +136,7 @@ function create_panel_icon(settings, window_matcher, app_control, icon, gettext_
 
 function install(extension, rollback) {
     const installer = new Installer(extension.launcher_path);
-    installer.install();
+    const app_info = installer.install();
 
     if (GObject.signal_lookup('shutdown', Shell.Global)) {
         const shutdown_handler = global.connect('shutdown', () => {
@@ -161,6 +161,8 @@ function install(extension, rollback) {
 
         installer.uninstall();
     });
+
+    return app_info;
 }
 
 function bind_keys(settings, app_control, rollback) {
