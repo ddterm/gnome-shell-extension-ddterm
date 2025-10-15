@@ -25,10 +25,6 @@ import { get_settings, metadata } from './meta.js';
 import { TerminalCommand, WIFEXITED, WEXITSTATUS, WTERMSIG } from './terminal.js';
 import { TerminalSettings, TerminalSettingsParser } from './terminalsettings.js';
 import { DisplayConfig } from '../util/displayconfig.js';
-import {
-    create_extension_dbus_proxy,
-    create_extension_dbus_proxy_oneshot,
-} from './extensiondbus.js';
 
 function try_require(namespace, version = undefined) {
     try {
@@ -318,7 +314,18 @@ class Application extends Gtk.Application {
             desktop_settings,
         }).bind_settings(this.terminal_settings);
 
-        this.extension_dbus = create_extension_dbus_proxy();
+        this.extension_dbus = Gio.DBusProxy.new_sync(
+            this.get_dbus_connection(),
+            Gio.DBusProxyFlags.DO_NOT_AUTO_START |
+            Gio.DBusProxyFlags.GET_INVALIDATED_PROPERTIES |
+            Gio.DBusProxyFlags.DO_NOT_CONNECT_SIGNALS,
+            null,
+            'org.gnome.Shell',
+            '/org/gnome/Shell/Extensions/ddterm',
+            'com.github.amezin.ddterm.Extension',
+            null
+        );
+
         this.display_config = new DisplayConfig({
             dbus_connection: this.get_dbus_connection(),
         });
@@ -473,7 +480,17 @@ class Application extends Gtk.Application {
         this.flags |= Gio.ApplicationFlags.IS_LAUNCHER;
 
         try {
-            create_extension_dbus_proxy_oneshot().ServiceSync();
+            Gio.DBus.session.call_sync(
+                'org.gnome.Shell',
+                '/org/gnome/Shell/Extensions/ddterm',
+                'com.github.amezin.ddterm.Extension',
+                'Service',
+                null,
+                null,
+                Gio.DBusCallFlags.NO_AUTO_START,
+                -1,
+                null
+            );
         } catch (ex) {
             if (is_dbus_interface_error(ex)) {
                 printerr(Gettext.gettext("Can't contact the extension."));

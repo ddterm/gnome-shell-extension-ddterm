@@ -3,12 +3,11 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import GLib from 'gi://GLib';
+import Gio from 'gi://Gio';
 
 import Gettext from 'gettext';
 import Gi from 'gi';
 import System from 'system';
-
-import { create_extension_dbus_proxy_oneshot } from './extensiondbus.js';
 
 export const [manifest_file] = GLib.filename_from_uri(
     GLib.Uri.resolve_relative(import.meta.url, 'dependencies.json', GLib.UriFlags.NONE)
@@ -98,7 +97,20 @@ export function gi_require_optional(imports_versions) {
     printerr(message_lines.join('\n'));
 
     try {
-        create_extension_dbus_proxy_oneshot().MissingDependenciesSync(missing, unresolved);
+        Gio.DBus.session.call_sync(
+            'org.gnome.Shell',
+            '/org/gnome/Shell/Extensions/ddterm',
+            'com.github.amezin.ddterm.Extension',
+            'MissingDependencies',
+            GLib.Variant.new_tuple([
+                GLib.Variant.new_strv(missing),
+                GLib.Variant.new_strv(unresolved),
+            ]),
+            null,
+            Gio.DBusCallFlags.NO_AUTO_START,
+            2000,
+            null
+        );
     } catch (ex) {
         logError(ex);
     }
