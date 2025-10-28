@@ -353,22 +353,14 @@ export const ColorsWidget = GObject.registerClass({
         this.#bind_color('cursor-foreground-color', this.cursor_foreground_color);
         this.#bind_color('cursor-background-color', this.cursor_background_color);
 
-        [
-            this.cursor_foreground_color,
-            this.cursor_background_color,
-        ].forEach(widget => {
-            bind_sensitive(this.settings, 'cursor-colors-set', widget);
-        });
+        bind_sensitive(this.settings, 'cursor-colors-set', this.cursor_foreground_color);
+        bind_sensitive(this.settings, 'cursor-colors-set', this.cursor_background_color);
 
         this.#bind_color('highlight-foreground-color', this.highlight_foreground_color);
         this.#bind_color('highlight-background-color', this.highlight_background_color);
 
-        [
-            this.highlight_foreground_color,
-            this.highlight_background_color,
-        ].forEach(widget => {
-            bind_sensitive(this.settings, 'highlight-colors-set', widget);
-        });
+        bind_sensitive(this.settings, 'highlight-colors-set', this.highlight_foreground_color);
+        bind_sensitive(this.settings, 'highlight-colors-set', this.highlight_background_color);
 
         this.palette = new ColorScheme({
             presets: this.palette_list,
@@ -401,17 +393,7 @@ export const ColorsWidget = GObject.registerClass({
             GObject.BindingFlags.SYNC_CREATE | GObject.BindingFlags.BIDIRECTIONAL
         );
 
-        this.connect('realize', () => {
-            const handler = this.copy_gnome_terminal_profile_button.connect(
-                'clicked',
-                this.copy_gnome_terminal_profile.bind(this)
-            );
-
-            const unrealize_handler = this.connect('unrealize', () => {
-                this.disconnect(unrealize_handler);
-                this.copy_gnome_terminal_profile_button.disconnect(handler);
-            });
-        });
+        this.connect('realize', this.#realize.bind(this));
     }
 
     get title() {
@@ -424,6 +406,18 @@ export const ColorsWidget = GObject.registerClass({
         } catch (e) {
             show_dialog(this.get_root ? this.get_root() : this.get_toplevel(), e.message);
         }
+    }
+
+    #realize() {
+        const handler = this.copy_gnome_terminal_profile_button.connect(
+            'clicked',
+            this.copy_gnome_terminal_profile.bind(this)
+        );
+
+        const unrealize_handler = this.connect('unrealize', () => {
+            this.disconnect(unrealize_handler);
+            this.copy_gnome_terminal_profile_button.disconnect(handler);
+        });
     }
 
     #bind_color(key, widget, color = null) {

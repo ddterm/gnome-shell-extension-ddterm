@@ -12,4 +12,4 @@ import System from 'system';
 import { Application } from './common.js';
 
 const app = new Application();
-app.run([System.programInvocationName].concat(ARGV));
+app.runAsync([System.programInvocationName].concat(ARGV));

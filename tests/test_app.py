@@ -210,8 +210,12 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
             assert red > 128 and green > 128 and blue > 128
 
     @pytest.fixture(scope='class')
-    def launcher_path(self, extension_init):
-        return pathlib.Path(extension_init['path']) / 'bin' / 'com.github.amezin.ddterm'
+    def extension_path(self, extension_init):
+        return pathlib.Path(extension_init['path'])
+
+    @pytest.fixture(scope='class')
+    def launcher_path(self, extension_path):
+        return extension_path / 'bin' / 'com.github.amezin.ddterm'
 
     @pytest.mark.usefixtures('window_above', 'hide_when_focus_lost', 'hide', 'app_active')
     @pytest.mark.parametrize('window_above', (True, False), indirect=True)
@@ -354,6 +358,38 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
         assert diff_heap(
             dump_pre,
             dump_post,
+        ) == ''
+
+    @pytest.mark.parametrize('script_name', ('gtk3.js', 'gtk4.js', 'adw.js'))
+    def test_prefs_leak2(
+        self,
+        dbus_environment,
+        process_launcher,
+        extension_path,
+        tmp_path,
+        script_name,
+        pytestconfig
+    ):
+        dump_pre = tmp_path / 'heap-pre.dump'
+        dump_post = tmp_path / 'heap-post.dump'
+
+        process_launcher.run(
+            str(pytestconfig.option.gjs),
+            '-m',
+            str(SRC_DIR / 'ddterm' / 'pref' / 'test' / script_name),
+            '--base-url',
+            extension_path.as_uri(),
+            '--heap-dump-1',
+            str(dump_pre),
+            '--heap-dump-2',
+            str(dump_post),
+            env=dbus_environment,
+        )
+
+        assert diff_heap(
+            dump_pre,
+            dump_post,
+            hide_edge=['cacheir-object'],
         ) == ''
 
     @pytest.mark.usefixtures('hide', 'app_active')

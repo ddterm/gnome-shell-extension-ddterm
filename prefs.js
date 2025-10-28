@@ -21,7 +21,10 @@ export default class extends ExtensionPreferences {
         const gettext_domain = this;
         const display_config = DisplayConfig.new();
 
-        win.connect('destroy', () => display_config.unwatch());
+        win.connect('close-request', () => {
+            display_config.unwatch();
+            return false;
+        });
 
         win.add(new WindowPage({
             settings,

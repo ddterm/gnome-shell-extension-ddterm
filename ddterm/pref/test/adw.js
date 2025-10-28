@@ -21,13 +21,6 @@ export const AdwPrefsDialog = GObject.registerClass({
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             Gio.Settings
         ),
-        'monitors': GObject.ParamSpec.object(
-            'monitors',
-            null,
-            null,
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-            Gio.ListModel
-        ),
         'gettext-domain': GObject.ParamSpec.jsobject(
             'gettext-domain',
             null,
@@ -44,18 +37,29 @@ export const AdwPrefsDialog = GObject.registerClass({
         });
 
         // Simulating extension preferences dialog
-        this._load().catch(e => {
-            logError(e, 'Failed to open preferences');
-        });
+        this.load_promise = this._load();
     }
 
     async _load() {
-        const adw = await import('../adw.js');
+        const { gettext_domain, settings } = this;
+        const adw = await import(this.application.resolve_relative('ddterm/pref/adw.js'));
 
-        const gettext_domain = this.gettext_domain;
-        const settings = this.settings;
+        const { DisplayConfig } =
+            await import(this.application.resolve_relative('ddterm/util/displayconfig.js'));
 
-        this.add(new adw.WindowPage({ settings, gettext_domain, monitors: this.monitors }));
+        const display_config = DisplayConfig.new();
+
+        this.connect('close-request', () => {
+            display_config.unwatch();
+            return false;
+        });
+
+        this.add(new adw.WindowPage({
+            settings,
+            gettext_domain,
+            monitors: display_config.create_monitor_list(),
+        }));
+
         this.add(new adw.TerminalPage({ settings, gettext_domain }));
         this.add(new adw.ShortcutsPage({ settings, gettext_domain }));
         this.add(new adw.MiscPage({ settings, gettext_domain }));
@@ -67,18 +71,21 @@ const AdwApplication = GObject.registerClass({
     startup() {
         Adw.init();
 
-        super.startup();
+        return super.startup();
     }
 
-    preferences() {
+    async preferences() {
         const prefs_dialog = new AdwPrefsDialog({
             settings: this.settings,
             gettext_domain: this.gettext_domain,
-            monitors: this.display_config.create_monitor_list(),
             application: this,
         });
 
         prefs_dialog.show();
+
+        await prefs_dialog.load_promise;
+
+        return prefs_dialog;
     }
 });
 

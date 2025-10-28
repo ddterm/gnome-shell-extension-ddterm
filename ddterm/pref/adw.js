@@ -74,12 +74,9 @@ export const WindowPage = GObject.registerClass({
         this.title = this.gettext_domain.gettext('Window');
 
         this.add_widget(PositionSizeWidget, { monitors: this.monitors });
-
-        [
-            BehaviorWidget,
-            AnimationWidget,
-            TabsWidget,
-        ].forEach(widget_type => this.add_widget(widget_type));
+        this.add_widget(BehaviorWidget);
+        this.add_widget(AnimationWidget);
+        this.add_widget(TabsWidget);
     }
 });
 
@@ -94,13 +91,11 @@ export const TerminalPage = GObject.registerClass({
 
         this.title = this.gettext_domain.gettext('Terminal');
 
-        [
-            TextWidget,
-            ColorsWidget,
-            CommandWidget,
-            ScrollingWidget,
-            CompatibilityWidget,
-        ].forEach(widget_type => this.add_widget(widget_type));
+        this.add_widget(TextWidget);
+        this.add_widget(ColorsWidget);
+        this.add_widget(CommandWidget);
+        this.add_widget(ScrollingWidget);
+        this.add_widget(CompatibilityWidget);
     }
 });
 
