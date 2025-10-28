@@ -4,11 +4,11 @@
 #
 #    pip-compile --strip-extras reuse.in
 #
-attrs==25.3.0
+attrs==25.4.0
     # via reuse
 boolean-py==5.0
     # via license-expression
-charset-normalizer==3.4.3
+charset-normalizer==3.4.4
     # via python-debian
 click==8.3.0
     # via reuse
