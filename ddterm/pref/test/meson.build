@@ -8,6 +8,7 @@ pref_test_common_files = [
   app_js_out_files,
   schema_copy,
   schemas_compiled,
+  heapgraph_module_copy,
 ]
 
 run_target(

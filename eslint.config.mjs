@@ -77,6 +77,14 @@ export default defineConfig([
     },
     {
         files: [
+            'tools/heapgraph.js',
+        ],
+        languageOptions: {
+            sourceType: 'module',
+        },
+    },
+    {
+        files: [
             'lint/*.{js,mjs,cjs}',
             '.github/*.{js,mjs,cjs}',
             '.markdownlint{,-cli2}.{mjs,cjs}',

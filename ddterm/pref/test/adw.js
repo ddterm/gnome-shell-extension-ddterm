@@ -67,7 +67,7 @@ const AdwApplication = GObject.registerClass({
     startup() {
         Adw.init();
 
-        super.startup();
+        return super.startup();
     }
 
     preferences() {
@@ -79,6 +79,8 @@ const AdwApplication = GObject.registerClass({
         });
 
         prefs_dialog.show();
+
+        return prefs_dialog;
     }
 });
 
