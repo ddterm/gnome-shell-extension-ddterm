@@ -45,3 +45,5 @@ run_gnome_shell_xephyr_x11_command = [
   xephyr,
   run_gnome_shell_script_common_args,
 ]
+
+heapgraph_module_copy = fs.copyfile('heapgraph.js')
