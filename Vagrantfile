@@ -126,27 +126,12 @@ Vagrant.configure("2") do |config|
     version.vm.box = "gnome-shell-box/opensusetumbleweed"
   end
 
-  config.vm.define "opensuseleap156", autostart: false do |version|
-    version.vm.box = "gnome-shell-box/opensuseleap156"
-  end
-
   config.vm.define "nixos", autostart: false do |version|
     version.vm.box = "gnome-shell-box/nixos"
   end
 
   config.vm.define "archlinux", autostart: false do |version|
     version.vm.box = "gnome-shell-box/archlinux"
-  end
-
-  config.vm.define "alpine319", autostart: false do |version|
-    version.vm.box = "gnome-shell-box/alpine319"
-    version.ssh.sudo_command = "doas -n -u root %c"
-
-    version.vm.synced_folder '.', SYNCED_FOLDER,
-      type: 'rsync',
-      rsync__exclude: rsync_excludes,
-      rsync__rsync_path: 'doas -u root rsync',
-      rsync__args: rsync_args
   end
 
   config.vm.define "alpine320", autostart: false do |version|

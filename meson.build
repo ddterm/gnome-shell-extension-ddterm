@@ -27,9 +27,9 @@ schema_dir = datadir / 'glib-2.0' / 'schemas'
 applications_dir = datadir / 'applications'
 dbus_service_dir = datadir / 'dbus-1' / 'services'
 
-gjs_req = '>=1.78.0'
-gnome_shell_req = ['>=45.0', '<50']
-shell_versions = ['45', '46', '47', '48', '49']
+gjs_req = '>=1.80.0'
+gnome_shell_req = ['>=46.0', '<50']
+shell_versions = ['46', '47', '48', '49']
 
 summary('Target GNOME Shell version', gnome_shell_req, list_sep: ', ')
 

@@ -8,9 +8,6 @@
 # Or 'tox -e images pull'.
 
 services:
-  alpine-3.19:
-    image: ghcr.io/ddterm/gnome-shell-image/alpine-3.19:2025.10.28.0
-
   alpine-3.20:
     image: ghcr.io/ddterm/gnome-shell-image/alpine-3.20:2025.11.04.1
 
@@ -31,9 +28,6 @@ services:
 
   opensuse-tumbleweed:
     image: ghcr.io/ddterm/gnome-shell-image/opensuse-tumbleweed:2025.11.04.1
-
-  opensuse-leap-15.6:
-    image: ghcr.io/ddterm/gnome-shell-image/opensuse-leap-15.6:2025.11.04.1
 
   debian-13:
     image: ghcr.io/ddterm/gnome-shell-image/debian-13:2025.11.04.1
