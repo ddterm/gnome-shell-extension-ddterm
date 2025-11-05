@@ -295,8 +295,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
 
-      - run: git config --global --replace-all safe.directory "$GITHUB_WORKSPACE"
-
       - name: Download extension package
         uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
         with:
@@ -311,7 +309,6 @@ jobs:
         uses: ./.github/actions/container-test
         with:
           container: ${{ matrix.container }}
-          testspace: ${{ !github.event.repository.fork }}
           args: >-
             ${{ !contains(matrix.container, 'alpine') && '--journald' || '' }}
             --package=ddterm@amezin.github.com.shell-extension.zip
@@ -375,8 +372,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
 
-      - run: git config --global --replace-all safe.directory "$GITHUB_WORKSPACE"
-
       - name: Download extension package
         uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
         with:
@@ -391,7 +386,6 @@ jobs:
         uses: ./.github/actions/container-test
         with:
           container: archlinux
-          testspace: ${{ !github.event.repository.fork }}
           args: --journald "--sys-package=$PKGFILENAME"
         env:
           PKGFILENAME: ${{ needs.archlinux-package.outputs.pkgfilename }}
@@ -435,3 +429,37 @@ jobs:
             *.pkg.tar.*
             *.log
           if-no-files-found: error
+
+  testspace-publish:
+    needs:
+      - plan
+      - test
+      - archlinux-installed-test
+
+    if: always() && fromJSON(needs.plan.outputs.need-tests) && !github.event.repository.fork
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+
+      - uses: testspace-com/setup-testspace@5fc620521eddeba83c1c0dd58f5a524adf474c93 # v1.0.8
+        with:
+          domain: ${{ github.repository_owner }}
+
+      - uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
+        with:
+          pattern: '*-reports'
+
+      - run: |
+          res=0
+          how="?start"
+
+          for dir in *-reports; do
+            name="${dir%-reports}"
+            testspace --verbose push "[$name]./$dir/junit.xml" "[$name]+./$dir/report.html" "$how" || res="$?"
+            how="?add"
+          done
+
+          testspace --verbose push "?finish"
+          exit "$res"

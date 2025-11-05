@@ -17,10 +17,6 @@ inputs:
     description: Group to run tests under
     default: github-actions
     required: true
-  testspace:
-    description: Upload results to testspace
-    default: 'false'
-    required: true
   args:
     description: Arguments to pass to the tests
 
@@ -45,13 +41,6 @@ runs:
       env:
         CONTAINER: ${{ inputs.container }}
 
-    - id: setup-testspace
-      uses: testspace-com/setup-testspace@5fc620521eddeba83c1c0dd58f5a524adf474c93 # v1.0.8
-      with:
-        domain: ${{ github.repository_owner }}
-      continue-on-error: true
-      if: fromJSON(inputs.testspace)
-
     - id: test
       shell: sudo --preserve-env --set-home --user=${{ inputs.user }} --group=${{ inputs.group }} -- bash -e {0}
       run: >-
@@ -65,16 +54,7 @@ runs:
       env:
         CONTAINER: ${{ inputs.container }}
 
-    - if: ${{ !cancelled() && steps.setup-testspace.outcome == 'success' }}
-      shell: bash
-      run: >-
-        testspace --verbose
-        "[$CONTAINER]./tests/junit.xml"
-        "[$CONTAINER]+./tests/report.html"
-      env:
-        CONTAINER: ${{ inputs.container }}
-
-    - if: ${{ !cancelled() }}
+    - if: ${{ always() }}
       uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
       with:
         name: ${{ inputs.container }}-reports
