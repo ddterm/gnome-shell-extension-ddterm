@@ -23,6 +23,9 @@ services:
   fedora-42:
     image: ghcr.io/ddterm/gnome-shell-image/fedora-42:2025.11.04.1
 
+  fedora-43:
+    image: ghcr.io/ddterm/gnome-shell-image/fedora-43:2025.11.04.1
+
   archlinux:
     image: ghcr.io/ddterm/gnome-shell-image/archlinux:2025.11.04.1
 
