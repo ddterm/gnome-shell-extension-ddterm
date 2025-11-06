@@ -280,6 +280,7 @@ def container(tmp_path_factory, request):
         f'--volume={os.getcwd()}:{os.getcwd()}:ro',
         f'--volume={tmp_path_factory.getbasetemp()}:{tmp_path_factory.getbasetemp()}',
         f'--volume={syslog_server.server_address}:/run/systemd/journal/syslog',
+        f'--workdir={tmp_path_factory.mktemp('home')}',
     ]
 
     if package := request.config.option.package:
