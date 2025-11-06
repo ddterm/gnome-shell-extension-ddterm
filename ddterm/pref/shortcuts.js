@@ -77,6 +77,14 @@ function remove_shortcut(settings, model, renderer, path, accel_key = null, acce
     });
 }
 
+function delay_changes(settings) {
+    settings.delay();
+}
+
+function apply_changes(settings) {
+    settings.apply();
+}
+
 export const ShortcutsWidget = GObject.registerClass({
     GTypeName: 'DDTermPrefsShortcuts',
     Template: ui_file_uri('prefs-shortcuts.ui'),
@@ -106,10 +114,29 @@ export const ShortcutsWidget = GObject.registerClass({
         ),
     },
 }, class PrefsShortcuts extends Gtk.Box {
+    #key_controller;
+
     constructor(params) {
         super(params);
 
         insert_settings_actions(this, this.settings, ['shortcuts-enabled']);
+
+        if (IS_GTK3) {
+            this.#key_controller = Gtk.EventControllerKey.new(this);
+        } else {
+            this.#key_controller = Gtk.EventControllerKey.new();
+            this.add_controller(this.#key_controller);
+        }
+
+        this.#key_controller.connect(
+            'key-released',
+            apply_changes.bind(globalThis, this.settings)
+        );
+
+        this.global_accel_renderer.connect(
+            'accel-edited',
+            delay_changes.bind(globalThis, this.settings)
+        );
 
         for (const renderer of [this.accel_renderer, this.global_accel_renderer]) {
             for (const model of [this.shortcuts_list, this.global_shortcuts_list]) {
