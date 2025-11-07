@@ -469,7 +469,7 @@ class GnomeSessionFixtures:
             proxy.DebugLog = True
             proxy.AppExtraArgs = apphook.APP_EXTRA_ARGS
             proxy.AppExtraEnv = [
-                'G_MESSAGES_DEBUG=ddterm',
+                'G_MESSAGES_DEBUG=ddterm Gtk Gdk GLib-GIO',
             ]
 
             yield proxy
