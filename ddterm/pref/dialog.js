@@ -48,6 +48,8 @@ export const PrefsDialog = GObject.registerClass({
             ...params,
         });
 
+        this.set_title(this.gettext_domain.gettext('Preferences'));
+
         this.#load_promise = this.#load();
     }
 
