@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-26 11:09+0000\n"
+"POT-Creation-Date: 2025-11-09 03:05+0000\n"
 "PO-Revision-Date: 2025-10-07 20:02+0000\n"
 "Last-Translator: Nuri KÜÇÜKLER <enatsek@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/tr/>\n"
@@ -54,63 +54,63 @@ msgstr ""
 msgid "Contributors"
 msgstr "Katkıda Bulunanlar"
 
-#: ddterm/app/application.js:99
+#: ddterm/app/application.js:100
 msgid "Start the application, but do not show the window"
 msgstr "Uygulamayı başlat, fakat pencereyi gösterme"
 
-#: ddterm/app/application.js:108
+#: ddterm/app/application.js:109
 msgid "Comma-separated list of backends that GDK should try to use"
 msgstr "GDK'nın kullanımı için virgülle ayrılmış arka uç (backend) listesi"
 
-#: ddterm/app/application.js:135
+#: ddterm/app/application.js:136
 msgid "Show version information and exit"
 msgstr "Versiyon bilgisini görüntüle ve çık"
 
-#: ddterm/app/application.js:144
+#: ddterm/app/application.js:145
 msgid "Run the specified command"
 msgstr "Belirtilen komutu koş"
 
-#: ddterm/app/application.js:158
+#: ddterm/app/application.js:159
 msgid "Wait for the command to exit, and return its exit code"
 msgstr "Komutun bitmesini bekle, ve çıkış kodunu döndür"
 
-#: ddterm/app/application.js:167
+#: ddterm/app/application.js:168
 msgid "Set the working directory"
 msgstr "Çalışma dizinini ayarla"
 
-#: ddterm/app/application.js:176
+#: ddterm/app/application.js:177
 msgid "Set tab title"
 msgstr "Sekme başlığını ayarla"
 
-#: ddterm/app/application.js:185
+#: ddterm/app/application.js:186
 msgid "Keep the terminal open after the command has exited"
 msgstr "Komutun çalışması bittikten sonra terminali açık tut"
 
-#: ddterm/app/application.js:194
+#: ddterm/app/application.js:195
 msgid "Do not pass the environment"
 msgstr "Ortam değişkenlerini kullanma"
 
-#: ddterm/app/application.js:203
+#: ddterm/app/application.js:204
 msgid "Open a new tab"
 msgstr "Yeni bir sekme aç"
 
-#: ddterm/app/application.js:479
+#: ddterm/app/application.js:480
 msgid "Can't contact the extension."
 msgstr "Uzantı ile irtibat kurulamıyor."
 
-#: ddterm/app/application.js:481
+#: ddterm/app/application.js:482
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr "Lütfen ddterm GNOME Shell eklentisinin etkinleştirildiğinden emin olun."
 
-#: ddterm/app/application.js:639
+#: ddterm/app/application.js:640
 msgid "Can't read the version of the loaded extension."
 msgstr "Yüklü olan uzantının versiyon bilgisi okunamadı."
 
-#: ddterm/app/application.js:641 ddterm/shell/notifications.js:138
+#: ddterm/app/application.js:642 ddterm/shell/notifications.js:138
 msgid "Warning: ddterm version has changed"
 msgstr "Uyarı: ddterm sürümü değişti"
 
-#: ddterm/app/application.js:642 ddterm/shell/notifications.js:140
+#: ddterm/app/application.js:643 ddterm/shell/notifications.js:140
 msgid "Log out, then log in again to load the updated extension."
 msgstr "Güncellenmiş uzantıyı yüklemek için oturumu kapatın ve tekrar açın."
 
@@ -133,10 +133,6 @@ msgstr "Yeni Sekme (Son)"
 #: ddterm/app/notebook.js:176
 msgid "New Tab (First)"
 msgstr "Yeni Sekme (İlk)"
-
-#: ddterm/app/prefsdialog.js:38 ddterm/app/ui/menus.ui:147
-msgid "Preferences"
-msgstr "Tercihler"
 
 #: ddterm/app/search.js:209
 msgid "Case Sensitive"
@@ -304,6 +300,10 @@ msgstr "Dikeyde Böl"
 msgid "Move Tab to Other Pane"
 msgstr "Sekmeyi Diğer Panoya Taşı"
 
+#: ddterm/app/ui/menus.ui:147
+msgid "Preferences"
+msgstr "Tercihler"
+
 #: ddterm/app/ui/menus.ui:156
 msgid "Above All Windows"
 msgstr "Tüm Pencerelerin Üzerinde"
@@ -372,19 +372,19 @@ msgstr "Sekmeyi Önceki Konuma Taşı"
 msgid "Move Tab to Next Position"
 msgstr "Sekmeyi Sonraki Konuma Taşı"
 
-#: ddterm/pref/adw.js:74
+#: ddterm/pref/adw.js:89
 msgid "Window"
 msgstr "Pencere"
 
-#: ddterm/pref/adw.js:95
+#: ddterm/pref/adw.js:107
 msgid "Terminal"
 msgstr "Terminal"
 
-#: ddterm/pref/adw.js:116 ddterm/pref/shortcuts.js:201
+#: ddterm/pref/adw.js:126 ddterm/pref/shortcuts.js:201
 msgid "Keyboard Shortcuts"
 msgstr "Klavye Kısayolları"
 
-#: ddterm/pref/adw.js:131
+#: ddterm/pref/adw.js:141
 msgid "Miscellaneous"
 msgstr "Muhtelif"
 
@@ -396,7 +396,7 @@ msgstr "Animasyon"
 msgid "Behavior"
 msgstr "Davranış"
 
-#: ddterm/pref/colors.js:418
+#: ddterm/pref/colors.js:400
 msgid "Colors"
 msgstr "Renkler"
 
@@ -1100,23 +1100,23 @@ msgstr "Dokuzuncu Sekmeye Geç"
 msgid "Switch to Tab 10"
 msgstr "Onuncu Sekmeye Geç"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:408 ddterm/pref/ui/prefs-shortcuts.ui:480
+#: ddterm/pref/ui/prefs-shortcuts.ui:409 ddterm/pref/ui/prefs-shortcuts.ui:481
 msgid "Action"
 msgstr "Aksiyon"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:420
+#: ddterm/pref/ui/prefs-shortcuts.ui:421
 msgid "Global Shortcut"
 msgstr "Genel Kısayol"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:450
+#: ddterm/pref/ui/prefs-shortcuts.ui:451
 msgid "_Enable application shortcuts"
 msgstr "Uygulama kısayollarını _etkinleştir"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:492
+#: ddterm/pref/ui/prefs-shortcuts.ui:493
 msgid "Shortcut"
 msgstr "Kısayol"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:522
+#: ddterm/pref/ui/prefs-shortcuts.ui:523
 msgid "Reset All Shortcuts to Defaults"
 msgstr "Tüm Kısayolları Varsayılan Değerlerine Sıfırla"
 

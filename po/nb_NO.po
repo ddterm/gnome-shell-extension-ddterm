@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-26 11:09+0000\n"
+"POT-Creation-Date: 2025-11-09 03:05+0000\n"
 "PO-Revision-Date: 2024-09-02 20:09+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/nb_NO/>\n"
@@ -50,63 +50,63 @@ msgstr "Allan Nordhøy"
 msgid "Contributors"
 msgstr ""
 
-#: ddterm/app/application.js:99
+#: ddterm/app/application.js:100
 msgid "Start the application, but do not show the window"
 msgstr "Start programmet, men ikke vis vinduet"
 
-#: ddterm/app/application.js:108
+#: ddterm/app/application.js:109
 msgid "Comma-separated list of backends that GDK should try to use"
 msgstr "Kommainndelt liste over bakender GDK forsøksvist skal benytte"
 
-#: ddterm/app/application.js:135
+#: ddterm/app/application.js:136
 msgid "Show version information and exit"
 msgstr "Vis versjonsinfo og avslutt"
 
-#: ddterm/app/application.js:144
+#: ddterm/app/application.js:145
 msgid "Run the specified command"
 msgstr "Kjør angitt kommando"
 
-#: ddterm/app/application.js:158
+#: ddterm/app/application.js:159
 msgid "Wait for the command to exit, and return its exit code"
 msgstr "Vent på kommandoslutt, og returner dens avslutningskode"
 
-#: ddterm/app/application.js:167
+#: ddterm/app/application.js:168
 msgid "Set the working directory"
 msgstr "Sett arbeidskatalog"
 
-#: ddterm/app/application.js:176
+#: ddterm/app/application.js:177
 msgid "Set tab title"
 msgstr "Sett fanenavn"
 
-#: ddterm/app/application.js:185
+#: ddterm/app/application.js:186
 msgid "Keep the terminal open after the command has exited"
 msgstr "Behold terminalen åpen etter kommandoens slutt"
 
-#: ddterm/app/application.js:194
+#: ddterm/app/application.js:195
 msgid "Do not pass the environment"
 msgstr "Ikke send miljøet"
 
-#: ddterm/app/application.js:203
+#: ddterm/app/application.js:204
 msgid "Open a new tab"
 msgstr "Åpne en ny fane"
 
-#: ddterm/app/application.js:479
+#: ddterm/app/application.js:480
 msgid "Can't contact the extension."
 msgstr ""
 
-#: ddterm/app/application.js:481
+#: ddterm/app/application.js:482
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr ""
 
-#: ddterm/app/application.js:639
+#: ddterm/app/application.js:640
 msgid "Can't read the version of the loaded extension."
 msgstr ""
 
-#: ddterm/app/application.js:641 ddterm/shell/notifications.js:138
+#: ddterm/app/application.js:642 ddterm/shell/notifications.js:138
 msgid "Warning: ddterm version has changed"
 msgstr "Advarsel: ddterm-versjonen har endret seg"
 
-#: ddterm/app/application.js:642 ddterm/shell/notifications.js:140
+#: ddterm/app/application.js:643 ddterm/shell/notifications.js:140
 msgid "Log out, then log in again to load the updated extension."
 msgstr "Logg ut og inn igjen for å laste inn oppdatert utvidelse."
 
@@ -129,10 +129,6 @@ msgstr "Ny fane (sist)"
 #: ddterm/app/notebook.js:176
 msgid "New Tab (First)"
 msgstr "Ny fane (først)"
-
-#: ddterm/app/prefsdialog.js:38 ddterm/app/ui/menus.ui:147
-msgid "Preferences"
-msgstr "Innstillinger"
 
 #: ddterm/app/search.js:209
 msgid "Case Sensitive"
@@ -300,6 +296,10 @@ msgstr "Del loddrett"
 msgid "Move Tab to Other Pane"
 msgstr "Flytt fane til neste flate"
 
+#: ddterm/app/ui/menus.ui:147
+msgid "Preferences"
+msgstr "Innstillinger"
+
 #: ddterm/app/ui/menus.ui:156
 msgid "Above All Windows"
 msgstr "Over alle vinduer"
@@ -368,19 +368,19 @@ msgstr "Flytt fane til forrige posisjon"
 msgid "Move Tab to Next Position"
 msgstr "Flytt fane til neste posisjon"
 
-#: ddterm/pref/adw.js:74
+#: ddterm/pref/adw.js:89
 msgid "Window"
 msgstr "Vindu"
 
-#: ddterm/pref/adw.js:95
+#: ddterm/pref/adw.js:107
 msgid "Terminal"
 msgstr "Terminal"
 
-#: ddterm/pref/adw.js:116 ddterm/pref/shortcuts.js:201
+#: ddterm/pref/adw.js:126 ddterm/pref/shortcuts.js:201
 msgid "Keyboard Shortcuts"
 msgstr "Tastatursnarveier"
 
-#: ddterm/pref/adw.js:131
+#: ddterm/pref/adw.js:141
 msgid "Miscellaneous"
 msgstr "Ymse"
 
@@ -392,7 +392,7 @@ msgstr "Animasjon"
 msgid "Behavior"
 msgstr "Adferd"
 
-#: ddterm/pref/colors.js:418
+#: ddterm/pref/colors.js:400
 msgid "Colors"
 msgstr "Farger"
 
@@ -1097,23 +1097,23 @@ msgstr "Bytt til fane 9"
 msgid "Switch to Tab 10"
 msgstr "Bytt til fane 10"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:408 ddterm/pref/ui/prefs-shortcuts.ui:480
+#: ddterm/pref/ui/prefs-shortcuts.ui:409 ddterm/pref/ui/prefs-shortcuts.ui:481
 msgid "Action"
 msgstr "Handling"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:420
+#: ddterm/pref/ui/prefs-shortcuts.ui:421
 msgid "Global Shortcut"
 msgstr "Global snarvei"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:450
+#: ddterm/pref/ui/prefs-shortcuts.ui:451
 msgid "_Enable application shortcuts"
 msgstr "_Skru på programsnarveier"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:492
+#: ddterm/pref/ui/prefs-shortcuts.ui:493
 msgid "Shortcut"
 msgstr "Snarvei"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:522
+#: ddterm/pref/ui/prefs-shortcuts.ui:523
 msgid "Reset All Shortcuts to Defaults"
 msgstr "Tilbakestill alle snarveier til forvalg"
 

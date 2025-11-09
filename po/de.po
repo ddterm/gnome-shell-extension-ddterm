@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-26 11:09+0000\n"
+"POT-Creation-Date: 2025-11-09 03:05+0000\n"
 "PO-Revision-Date: 2025-09-07 13:03+0000\n"
 "Last-Translator: Ettore Atalan <atalanttore@googlemail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/de/>\n"
@@ -55,63 +55,63 @@ msgstr ""
 msgid "Contributors"
 msgstr "Mitwirkende"
 
-#: ddterm/app/application.js:99
+#: ddterm/app/application.js:100
 msgid "Start the application, but do not show the window"
 msgstr "Die Anwendung starten, ohne das Fenster anzuzeigen"
 
-#: ddterm/app/application.js:108
+#: ddterm/app/application.js:109
 msgid "Comma-separated list of backends that GDK should try to use"
 msgstr "Kommaseparierte Liste von Backends, die GDK versuchen sollte zu nutzen"
 
-#: ddterm/app/application.js:135
+#: ddterm/app/application.js:136
 msgid "Show version information and exit"
 msgstr "Versionsinformationen anzeigen und beenden"
 
-#: ddterm/app/application.js:144
+#: ddterm/app/application.js:145
 msgid "Run the specified command"
 msgstr "Den angegebenen Befehl ausführen"
 
-#: ddterm/app/application.js:158
+#: ddterm/app/application.js:159
 msgid "Wait for the command to exit, and return its exit code"
 msgstr "Auf das Beenden des Befehls warten und dessen Status zurückgeben"
 
-#: ddterm/app/application.js:167
+#: ddterm/app/application.js:168
 msgid "Set the working directory"
 msgstr "Arbeitsverzeichnis festlegen"
 
-#: ddterm/app/application.js:176
+#: ddterm/app/application.js:177
 msgid "Set tab title"
 msgstr "Reiter-Titel festlegen"
 
-#: ddterm/app/application.js:185
+#: ddterm/app/application.js:186
 msgid "Keep the terminal open after the command has exited"
 msgstr "Das Terminal nach dem Beenden des Befehls geöffnet lassen"
 
-#: ddterm/app/application.js:194
+#: ddterm/app/application.js:195
 msgid "Do not pass the environment"
 msgstr "Die Umgebung nicht weitergeben"
 
-#: ddterm/app/application.js:203
+#: ddterm/app/application.js:204
 msgid "Open a new tab"
 msgstr "Einen neuen Reiter öffnen"
 
-#: ddterm/app/application.js:479
+#: ddterm/app/application.js:480
 msgid "Can't contact the extension."
 msgstr "Kontaktieren der Erweiterung fehlgeschlagen."
 
-#: ddterm/app/application.js:481
+#: ddterm/app/application.js:482
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr "Bitte stellen Sie sicher, dass die GNOME-Shell-Erweiterung »ddterm« aktiviert ist."
 
-#: ddterm/app/application.js:639
+#: ddterm/app/application.js:640
 msgid "Can't read the version of the loaded extension."
 msgstr "Die Version der geladenen Erweiterung konnte nicht ermittelt werden."
 
-#: ddterm/app/application.js:641 ddterm/shell/notifications.js:138
+#: ddterm/app/application.js:642 ddterm/shell/notifications.js:138
 msgid "Warning: ddterm version has changed"
 msgstr "Warnung: Die Version von ddterm hat sich geändert"
 
-#: ddterm/app/application.js:642 ddterm/shell/notifications.js:140
+#: ddterm/app/application.js:643 ddterm/shell/notifications.js:140
 msgid "Log out, then log in again to load the updated extension."
 msgstr "Melden Sie sich ab und wieder an, um die aktualisierte Erweiterung zu laden."
 
@@ -134,10 +134,6 @@ msgstr "Neuer Reiter (Letzter)"
 #: ddterm/app/notebook.js:176
 msgid "New Tab (First)"
 msgstr "Neuer Reiter (Erster)"
-
-#: ddterm/app/prefsdialog.js:38 ddterm/app/ui/menus.ui:147
-msgid "Preferences"
-msgstr "Einstellungen"
 
 #: ddterm/app/search.js:209
 msgid "Case Sensitive"
@@ -305,6 +301,10 @@ msgstr "Vertikal teilen"
 msgid "Move Tab to Other Pane"
 msgstr "Verschiebe Reiter in anderen Bereich"
 
+#: ddterm/app/ui/menus.ui:147
+msgid "Preferences"
+msgstr "Einstellungen"
+
 #: ddterm/app/ui/menus.ui:156
 msgid "Above All Windows"
 msgstr "Über allen Fenstern"
@@ -373,19 +373,19 @@ msgstr "Verschiebe Reiter zur vorherigen Position"
 msgid "Move Tab to Next Position"
 msgstr "Verschiebe Reiter zur nächsten Position"
 
-#: ddterm/pref/adw.js:74
+#: ddterm/pref/adw.js:89
 msgid "Window"
 msgstr "Fenster"
 
-#: ddterm/pref/adw.js:95
+#: ddterm/pref/adw.js:107
 msgid "Terminal"
 msgstr "Terminal"
 
-#: ddterm/pref/adw.js:116 ddterm/pref/shortcuts.js:201
+#: ddterm/pref/adw.js:126 ddterm/pref/shortcuts.js:201
 msgid "Keyboard Shortcuts"
 msgstr "Tastenkombinationen"
 
-#: ddterm/pref/adw.js:131
+#: ddterm/pref/adw.js:141
 msgid "Miscellaneous"
 msgstr "Verschiedenes"
 
@@ -397,7 +397,7 @@ msgstr "Animation"
 msgid "Behavior"
 msgstr "Verhalten"
 
-#: ddterm/pref/colors.js:418
+#: ddterm/pref/colors.js:400
 msgid "Colors"
 msgstr "Farben"
 
@@ -1101,23 +1101,23 @@ msgstr "Umschalten zu Reiter 9"
 msgid "Switch to Tab 10"
 msgstr "Umschalten zu Reiter 10"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:408 ddterm/pref/ui/prefs-shortcuts.ui:480
+#: ddterm/pref/ui/prefs-shortcuts.ui:409 ddterm/pref/ui/prefs-shortcuts.ui:481
 msgid "Action"
 msgstr "Aktion"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:420
+#: ddterm/pref/ui/prefs-shortcuts.ui:421
 msgid "Global Shortcut"
 msgstr "Globales Tastenkürzel"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:450
+#: ddterm/pref/ui/prefs-shortcuts.ui:451
 msgid "_Enable application shortcuts"
 msgstr "Anwendungs-Tastenkürz_el aktivieren"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:492
+#: ddterm/pref/ui/prefs-shortcuts.ui:493
 msgid "Shortcut"
 msgstr "Tastenkombination"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:522
+#: ddterm/pref/ui/prefs-shortcuts.ui:523
 msgid "Reset All Shortcuts to Defaults"
 msgstr "Tastenkombinationen auf Standard zurücksetzen"
 

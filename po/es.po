@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-26 11:09+0000\n"
+"POT-Creation-Date: 2025-11-09 03:05+0000\n"
 "PO-Revision-Date: 2025-04-12 21:01+0000\n"
 "Last-Translator: Patricio Carrau <duckycb@proton.me>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/es/>\n"
@@ -55,63 +55,63 @@ msgstr ""
 msgid "Contributors"
 msgstr ""
 
-#: ddterm/app/application.js:99
+#: ddterm/app/application.js:100
 msgid "Start the application, but do not show the window"
 msgstr "Iniciar la aplicación, sin mostrar la ventana"
 
-#: ddterm/app/application.js:108
+#: ddterm/app/application.js:109
 msgid "Comma-separated list of backends that GDK should try to use"
 msgstr "Backend que GDK debería utilizar, lista separada por comas"
 
-#: ddterm/app/application.js:135
+#: ddterm/app/application.js:136
 msgid "Show version information and exit"
 msgstr "Mostrar información sobre la versión y salir"
 
-#: ddterm/app/application.js:144
+#: ddterm/app/application.js:145
 msgid "Run the specified command"
 msgstr "Ejecutar el comando especificado"
 
-#: ddterm/app/application.js:158
+#: ddterm/app/application.js:159
 msgid "Wait for the command to exit, and return its exit code"
 msgstr "Esperar la finalización del comando y devolver el código de final de ejecución"
 
-#: ddterm/app/application.js:167
+#: ddterm/app/application.js:168
 msgid "Set the working directory"
 msgstr "Establecer el directorio de trabajo"
 
-#: ddterm/app/application.js:176
+#: ddterm/app/application.js:177
 msgid "Set tab title"
 msgstr "Renombrar el título de la pestaña"
 
-#: ddterm/app/application.js:185
+#: ddterm/app/application.js:186
 msgid "Keep the terminal open after the command has exited"
 msgstr "Mantener la terminal abierta tras la terminación del commando"
 
-#: ddterm/app/application.js:194
+#: ddterm/app/application.js:195
 msgid "Do not pass the environment"
 msgstr "No pasar el environment"
 
-#: ddterm/app/application.js:203
+#: ddterm/app/application.js:204
 msgid "Open a new tab"
 msgstr "Abrir nueva pestaña"
 
-#: ddterm/app/application.js:479
+#: ddterm/app/application.js:480
 msgid "Can't contact the extension."
 msgstr "No puedo comunicarme con la extensión."
 
-#: ddterm/app/application.js:481
+#: ddterm/app/application.js:482
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr "Por favor, asegúrese de que la extensión ddterm GNOME Shell está activada."
 
-#: ddterm/app/application.js:639
+#: ddterm/app/application.js:640
 msgid "Can't read the version of the loaded extension."
 msgstr "No se puede leer la versión de la extensión cargada."
 
-#: ddterm/app/application.js:641 ddterm/shell/notifications.js:138
+#: ddterm/app/application.js:642 ddterm/shell/notifications.js:138
 msgid "Warning: ddterm version has changed"
 msgstr "Atención: La versión de ddterm ha cambiado"
 
-#: ddterm/app/application.js:642 ddterm/shell/notifications.js:140
+#: ddterm/app/application.js:643 ddterm/shell/notifications.js:140
 msgid "Log out, then log in again to load the updated extension."
 msgstr "Salir y entrar para cargar la versión actualizada de la extensión."
 
@@ -134,10 +134,6 @@ msgstr "Nueva pestaña (Última)"
 #: ddterm/app/notebook.js:176
 msgid "New Tab (First)"
 msgstr "Nueva pestaña (Primera)"
-
-#: ddterm/app/prefsdialog.js:38 ddterm/app/ui/menus.ui:147
-msgid "Preferences"
-msgstr "Ajustes"
 
 #: ddterm/app/search.js:209
 msgid "Case Sensitive"
@@ -305,6 +301,10 @@ msgstr "Dividir verticalmente"
 msgid "Move Tab to Other Pane"
 msgstr "Mover pestaña a otro monitor"
 
+#: ddterm/app/ui/menus.ui:147
+msgid "Preferences"
+msgstr "Ajustes"
+
 #: ddterm/app/ui/menus.ui:156
 msgid "Above All Windows"
 msgstr "Sobre todas las ventanas"
@@ -375,19 +375,19 @@ msgstr "Mover la pestaña a la posición anterior"
 msgid "Move Tab to Next Position"
 msgstr "Mover la pestaña a la siguiente posición"
 
-#: ddterm/pref/adw.js:74
+#: ddterm/pref/adw.js:89
 msgid "Window"
 msgstr "Ventana"
 
-#: ddterm/pref/adw.js:95
+#: ddterm/pref/adw.js:107
 msgid "Terminal"
 msgstr "Terminal"
 
-#: ddterm/pref/adw.js:116 ddterm/pref/shortcuts.js:201
+#: ddterm/pref/adw.js:126 ddterm/pref/shortcuts.js:201
 msgid "Keyboard Shortcuts"
 msgstr "Acortes de teclado"
 
-#: ddterm/pref/adw.js:131
+#: ddterm/pref/adw.js:141
 msgid "Miscellaneous"
 msgstr "Otros"
 
@@ -399,7 +399,7 @@ msgstr "Animación"
 msgid "Behavior"
 msgstr "Comportamiento"
 
-#: ddterm/pref/colors.js:418
+#: ddterm/pref/colors.js:400
 msgid "Colors"
 msgstr "Colores"
 
@@ -1103,23 +1103,23 @@ msgstr "Cambiar a pestaña 9"
 msgid "Switch to Tab 10"
 msgstr "Cambiar a pestaña 10"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:408 ddterm/pref/ui/prefs-shortcuts.ui:480
+#: ddterm/pref/ui/prefs-shortcuts.ui:409 ddterm/pref/ui/prefs-shortcuts.ui:481
 msgid "Action"
 msgstr "Acción"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:420
+#: ddterm/pref/ui/prefs-shortcuts.ui:421
 msgid "Global Shortcut"
 msgstr "Atajo global"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:450
+#: ddterm/pref/ui/prefs-shortcuts.ui:451
 msgid "_Enable application shortcuts"
 msgstr "_Habilitar atajos de aplicación"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:492
+#: ddterm/pref/ui/prefs-shortcuts.ui:493
 msgid "Shortcut"
 msgstr "Atajo de teclado"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:522
+#: ddterm/pref/ui/prefs-shortcuts.ui:523
 msgid "Reset All Shortcuts to Defaults"
 msgstr "Restablecer Todos los Atajos a los Predeterminados"
 

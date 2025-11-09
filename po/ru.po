@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-26 11:09+0000\n"
+"POT-Creation-Date: 2025-11-09 03:05+0000\n"
 "PO-Revision-Date: 2025-09-18 04:23+0000\n"
 "Last-Translator: Ivan Vantu5z <vantu5z@mail.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/ru/>\n"
@@ -59,63 +59,63 @@ msgstr ""
 msgid "Contributors"
 msgstr "Участники"
 
-#: ddterm/app/application.js:99
+#: ddterm/app/application.js:100
 msgid "Start the application, but do not show the window"
 msgstr "Запустить приложение, но не показывать окно"
 
-#: ddterm/app/application.js:108
+#: ddterm/app/application.js:109
 msgid "Comma-separated list of backends that GDK should try to use"
 msgstr "Разделенный запятыми список backend'ов, которые GDK будет пытаться использовать"
 
-#: ddterm/app/application.js:135
+#: ddterm/app/application.js:136
 msgid "Show version information and exit"
 msgstr "Показать информацию о версии и выйти"
 
-#: ddterm/app/application.js:144
+#: ddterm/app/application.js:145
 msgid "Run the specified command"
 msgstr "Запустить указанную команду"
 
-#: ddterm/app/application.js:158
+#: ddterm/app/application.js:159
 msgid "Wait for the command to exit, and return its exit code"
 msgstr "Ожидать завершения команды и вернуть код выхода"
 
-#: ddterm/app/application.js:167
+#: ddterm/app/application.js:168
 msgid "Set the working directory"
 msgstr "Установить рабочий каталог"
 
-#: ddterm/app/application.js:176
+#: ddterm/app/application.js:177
 msgid "Set tab title"
 msgstr "Установить название вкладки"
 
-#: ddterm/app/application.js:185
+#: ddterm/app/application.js:186
 msgid "Keep the terminal open after the command has exited"
 msgstr "Не закрывать терминал после завершения команды"
 
-#: ddterm/app/application.js:194
+#: ddterm/app/application.js:195
 msgid "Do not pass the environment"
 msgstr "Не передавать переменные окружения"
 
-#: ddterm/app/application.js:203
+#: ddterm/app/application.js:204
 msgid "Open a new tab"
 msgstr "Открыть новую вкладку"
 
-#: ddterm/app/application.js:479
+#: ddterm/app/application.js:480
 msgid "Can't contact the extension."
 msgstr "Невозможно связаться с расширением."
 
-#: ddterm/app/application.js:481
+#: ddterm/app/application.js:482
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr "Убедитесь, что расширение ddterm GNOME Shell включено."
 
-#: ddterm/app/application.js:639
+#: ddterm/app/application.js:640
 msgid "Can't read the version of the loaded extension."
 msgstr "Невозможно получить версию загруженного расширения."
 
-#: ddterm/app/application.js:641 ddterm/shell/notifications.js:138
+#: ddterm/app/application.js:642 ddterm/shell/notifications.js:138
 msgid "Warning: ddterm version has changed"
 msgstr "Внимание: версия ddterm изменилась"
 
-#: ddterm/app/application.js:642 ddterm/shell/notifications.js:140
+#: ddterm/app/application.js:643 ddterm/shell/notifications.js:140
 msgid "Log out, then log in again to load the updated extension."
 msgstr "Завершите сессию и снова войдите для применения обновлений расширения."
 
@@ -138,10 +138,6 @@ msgstr "Новая вкладка (в конце)"
 #: ddterm/app/notebook.js:176
 msgid "New Tab (First)"
 msgstr "Новая вкладка (в начале)"
-
-#: ddterm/app/prefsdialog.js:38 ddterm/app/ui/menus.ui:147
-msgid "Preferences"
-msgstr "Параметры"
 
 #: ddterm/app/search.js:209
 msgid "Case Sensitive"
@@ -309,6 +305,10 @@ msgstr "Разделить вертикально"
 msgid "Move Tab to Other Pane"
 msgstr "Переместить вкладку на другую панель"
 
+#: ddterm/app/ui/menus.ui:147
+msgid "Preferences"
+msgstr "Параметры"
+
 #: ddterm/app/ui/menus.ui:156
 msgid "Above All Windows"
 msgstr "Поверх всех окон"
@@ -377,19 +377,19 @@ msgstr "Переместить вкладку на предыдущую пози
 msgid "Move Tab to Next Position"
 msgstr "Переместить вкладку на следующую позицию"
 
-#: ddterm/pref/adw.js:74
+#: ddterm/pref/adw.js:89
 msgid "Window"
 msgstr "Окно"
 
-#: ddterm/pref/adw.js:95
+#: ddterm/pref/adw.js:107
 msgid "Terminal"
 msgstr "Терминал"
 
-#: ddterm/pref/adw.js:116 ddterm/pref/shortcuts.js:201
+#: ddterm/pref/adw.js:126 ddterm/pref/shortcuts.js:201
 msgid "Keyboard Shortcuts"
 msgstr "Комбинации клавиш"
 
-#: ddterm/pref/adw.js:131
+#: ddterm/pref/adw.js:141
 msgid "Miscellaneous"
 msgstr "Разное"
 
@@ -401,7 +401,7 @@ msgstr "Анимация"
 msgid "Behavior"
 msgstr "Поведение"
 
-#: ddterm/pref/colors.js:418
+#: ddterm/pref/colors.js:400
 msgid "Colors"
 msgstr "Цвета"
 
@@ -1105,23 +1105,23 @@ msgstr "Переключиться на вкладку 9"
 msgid "Switch to Tab 10"
 msgstr "Переключиться на вкладку 10"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:408 ddterm/pref/ui/prefs-shortcuts.ui:480
+#: ddterm/pref/ui/prefs-shortcuts.ui:409 ddterm/pref/ui/prefs-shortcuts.ui:481
 msgid "Action"
 msgstr "Действие"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:420
+#: ddterm/pref/ui/prefs-shortcuts.ui:421
 msgid "Global Shortcut"
 msgstr "Глобальная комбинация клавиш"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:450
+#: ddterm/pref/ui/prefs-shortcuts.ui:451
 msgid "_Enable application shortcuts"
 msgstr "Включить комбинации клавиш для приложения"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:492
+#: ddterm/pref/ui/prefs-shortcuts.ui:493
 msgid "Shortcut"
 msgstr "Комбинация клавиш"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:522
+#: ddterm/pref/ui/prefs-shortcuts.ui:523
 msgid "Reset All Shortcuts to Defaults"
 msgstr "Восстановить значения по умолчанию"
 

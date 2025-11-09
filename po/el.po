@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-26 11:09+0000\n"
+"POT-Creation-Date: 2025-11-09 03:05+0000\n"
 "PO-Revision-Date: 2025-05-13 19:23+0000\n"
 "Last-Translator: Klearchos-Angelos Gkountras <jemadux@cryptolab.net>\n"
 "Language-Team: Greek <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/el/>\n"
@@ -56,65 +56,65 @@ msgstr ""
 msgid "Contributors"
 msgstr ""
 
-#: ddterm/app/application.js:99
+#: ddterm/app/application.js:100
 msgid "Start the application, but do not show the window"
 msgstr ""
 
-#: ddterm/app/application.js:108
+#: ddterm/app/application.js:109
 msgid "Comma-separated list of backends that GDK should try to use"
 msgstr ""
 
-#: ddterm/app/application.js:135
+#: ddterm/app/application.js:136
 msgid "Show version information and exit"
 msgstr ""
 
-#: ddterm/app/application.js:144
+#: ddterm/app/application.js:145
 msgid "Run the specified command"
 msgstr "Τρέξε συγκεκριμένη εντολή"
 
-#: ddterm/app/application.js:158
+#: ddterm/app/application.js:159
 msgid "Wait for the command to exit, and return its exit code"
 msgstr ""
 
-#: ddterm/app/application.js:167
+#: ddterm/app/application.js:168
 #, fuzzy
 msgid "Set the working directory"
 msgstr "Διατήρηση του καταλόγου εργασίας"
 
-#: ddterm/app/application.js:176
+#: ddterm/app/application.js:177
 #, fuzzy
 msgid "Set tab title"
 msgstr "Παραμετροποίση τίτλου καρτέλας"
 
-#: ddterm/app/application.js:185
+#: ddterm/app/application.js:186
 msgid "Keep the terminal open after the command has exited"
 msgstr ""
 
-#: ddterm/app/application.js:194
+#: ddterm/app/application.js:195
 msgid "Do not pass the environment"
 msgstr ""
 
-#: ddterm/app/application.js:203
+#: ddterm/app/application.js:204
 msgid "Open a new tab"
 msgstr "Άνοιγμα νέας καρτέλας"
 
-#: ddterm/app/application.js:479
+#: ddterm/app/application.js:480
 msgid "Can't contact the extension."
 msgstr ""
 
-#: ddterm/app/application.js:481
+#: ddterm/app/application.js:482
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr ""
 
-#: ddterm/app/application.js:639
+#: ddterm/app/application.js:640
 msgid "Can't read the version of the loaded extension."
 msgstr ""
 
-#: ddterm/app/application.js:641 ddterm/shell/notifications.js:138
+#: ddterm/app/application.js:642 ddterm/shell/notifications.js:138
 msgid "Warning: ddterm version has changed"
 msgstr "Προειδοποίηση: η έκδοση ddterm έχει αλλάξει"
 
-#: ddterm/app/application.js:642 ddterm/shell/notifications.js:140
+#: ddterm/app/application.js:643 ddterm/shell/notifications.js:140
 msgid "Log out, then log in again to load the updated extension."
 msgstr "Αποσυνδεθείτε και, στη συνέχεια, συνδεθείτε ξανά για να φορτώσετε την ενημερωμένη επέκταση."
 
@@ -137,10 +137,6 @@ msgstr "Νέα καρτέλα (Τέλος)"
 #: ddterm/app/notebook.js:176
 msgid "New Tab (First)"
 msgstr "Νέα καρτέλα (Αρχή)"
-
-#: ddterm/app/prefsdialog.js:38 ddterm/app/ui/menus.ui:147
-msgid "Preferences"
-msgstr "Προτιμήσεις"
 
 #: ddterm/app/search.js:209
 msgid "Case Sensitive"
@@ -311,6 +307,10 @@ msgstr ""
 msgid "Move Tab to Other Pane"
 msgstr "Επανατοποθέτηση καρτέλας μετά"
 
+#: ddterm/app/ui/menus.ui:147
+msgid "Preferences"
+msgstr "Προτιμήσεις"
+
 #: ddterm/app/ui/menus.ui:156
 msgid "Above All Windows"
 msgstr "Πάνω απ τα Παράθυρα"
@@ -379,19 +379,19 @@ msgstr "Επανατοποθέτηση καρτέλας πριν"
 msgid "Move Tab to Next Position"
 msgstr "Επανατοποθέτηση καρτέλας μετά"
 
-#: ddterm/pref/adw.js:74
+#: ddterm/pref/adw.js:89
 msgid "Window"
 msgstr "Παράθυρο"
 
-#: ddterm/pref/adw.js:95
+#: ddterm/pref/adw.js:107
 msgid "Terminal"
 msgstr "Τερματικό"
 
-#: ddterm/pref/adw.js:116 ddterm/pref/shortcuts.js:201
+#: ddterm/pref/adw.js:126 ddterm/pref/shortcuts.js:201
 msgid "Keyboard Shortcuts"
 msgstr "Συντομεύσεις Πληκτρολογίου"
 
-#: ddterm/pref/adw.js:131
+#: ddterm/pref/adw.js:141
 msgid "Miscellaneous"
 msgstr "Διάφορα"
 
@@ -403,7 +403,7 @@ msgstr "Animation"
 msgid "Behavior"
 msgstr "Συμπεριφορά"
 
-#: ddterm/pref/colors.js:418
+#: ddterm/pref/colors.js:400
 msgid "Colors"
 msgstr "Χρώμματα"
 
@@ -1111,23 +1111,23 @@ msgstr "Μετάβαση καρτέλα 9"
 msgid "Switch to Tab 10"
 msgstr "Μετάβαση καρτέλα 10"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:408 ddterm/pref/ui/prefs-shortcuts.ui:480
+#: ddterm/pref/ui/prefs-shortcuts.ui:409 ddterm/pref/ui/prefs-shortcuts.ui:481
 msgid "Action"
 msgstr "Δράση"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:420
+#: ddterm/pref/ui/prefs-shortcuts.ui:421
 msgid "Global Shortcut"
 msgstr "Γενικές Συντομεύσεις"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:450
+#: ddterm/pref/ui/prefs-shortcuts.ui:451
 msgid "_Enable application shortcuts"
 msgstr "_Ενεργοποίηση συντομεύσεων εφαρμογών"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:492
+#: ddterm/pref/ui/prefs-shortcuts.ui:493
 msgid "Shortcut"
 msgstr "Συντομεύεσεις"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:522
+#: ddterm/pref/ui/prefs-shortcuts.ui:523
 #, fuzzy
 msgid "Reset All Shortcuts to Defaults"
 msgstr "Réinitialiser aux valeurs par défaut"
