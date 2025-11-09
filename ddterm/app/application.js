@@ -24,6 +24,7 @@ import { AppWindow } from './appwindow.js';
 import { get_settings, metadata } from './meta.js';
 import { TerminalCommand, WIFEXITED, WEXITSTATUS, WTERMSIG } from './terminal.js';
 import { TerminalSettings, TerminalSettingsParser } from './terminalsettings.js';
+import { PrefsDialog } from '../pref/dialog.js';
 import { DisplayConfig } from '../util/displayconfig.js';
 import {
     create_extension_dbus_proxy,
@@ -267,7 +268,7 @@ class Application extends Gtk.Application {
         this.settings = get_settings();
 
         this.simple_action('quit', () => this.quit());
-        this.simple_action('preferences', () => this.preferences().catch(logError));
+        this.simple_action('preferences', () => this.preferences());
         this.simple_action('about', () => this.about());
 
         [
@@ -683,34 +684,24 @@ class Application extends Gtk.Application {
         return this.window;
     }
 
-    async preferences() {
+    preferences() {
         if (this.prefs_dialog !== null) {
             this.prefs_dialog.present();
             return;
         }
 
-        if (!this._prefs_dialog_module)
-            this._prefs_dialog_module = import('./prefsdialog.js');
+        this.prefs_dialog = new PrefsDialog({
+            application: this,
+            transient_for: this.window,
+            settings: this.settings,
+            display_config: this.display_config,
+            gettext_domain: Gettext.domain(metadata['gettext-domain']),
+        });
 
-        try {
-            this.hold();
-
-            const mod = await this._prefs_dialog_module;
-
-            this.prefs_dialog = new mod.PrefsDialog({
-                transient_for: this.window,
-                settings: this.settings,
-                display_config: this.display_config,
-                application: this,
-            });
-
-            this.prefs_dialog.connect('destroy', source => {
-                if (source === this.prefs_dialog)
-                    this.prefs_dialog = null;
-            });
-        } finally {
-            this.release();
-        }
+        this.prefs_dialog.connect('destroy', source => {
+            if (source === this.prefs_dialog)
+                this.prefs_dialog = null;
+        });
 
         this.prefs_dialog.present();
     }

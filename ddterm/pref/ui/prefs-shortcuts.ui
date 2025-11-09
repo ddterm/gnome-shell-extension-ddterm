@@ -382,6 +382,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
   <template class="DDTermPrefsShortcuts" parent="GtkBox">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
+    <property name="vexpand">True</property>
     <property name="margin-start">10</property>
     <property name="margin-end">10</property>
     <property name="margin-top">10</property>

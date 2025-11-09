@@ -4,7 +4,9 @@
 
 import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
-import Adw from 'gi://Adw';
+import Gtk from 'gi://Gtk';
+
+import Gi from 'gi';
 
 import { AnimationWidget } from './animation.js';
 import { BehaviorWidget } from './behavior.js';
@@ -17,6 +19,10 @@ import { ScrollingWidget } from './scrolling.js';
 import { ShortcutsWidget } from './shortcuts.js';
 import { TabsWidget } from './tabs.js';
 import { TextWidget } from './text.js';
+import { DisplayConfig } from '../util/displayconfig.js';
+
+const AdwOrHdy = Gi.require(Gtk.get_major_version() === 3 ? 'Handy' : 'Adw');
+const { PreferencesGroup, PreferencesPage } = AdwOrHdy;
 
 const Page = GObject.registerClass({
     Properties: {
@@ -34,16 +40,25 @@ const Page = GObject.registerClass({
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY
         ),
     },
-}, class DDTermPrefsPage extends Adw.PreferencesPage {
+}, class DDTermPrefsPage extends PreferencesPage {
+    constructor(params) {
+        super({
+            visible: true,
+            ...params,
+        });
+    }
+
     add_widget(widget_type, extra_properties = {}) {
         const widget = new widget_type({
             settings: this.settings,
             gettext_domain: this.gettext_domain,
+            visible: true,
             ...extra_properties,
         });
 
-        const group = new Adw.PreferencesGroup({
+        const group = new PreferencesGroup({
             title: widget.title,
+            visible: true,
         });
 
         group.add(widget);
@@ -53,7 +68,7 @@ const Page = GObject.registerClass({
     }
 });
 
-export const WindowPage = GObject.registerClass({
+const WindowPage = GObject.registerClass({
     Properties: {
         'monitors': GObject.ParamSpec.object(
             'monitors',
@@ -80,7 +95,7 @@ export const WindowPage = GObject.registerClass({
     }
 });
 
-export const TerminalPage = GObject.registerClass({
+const TerminalPage = GObject.registerClass({
 }, class DDTermTerminalPrefsPage extends Page {
     constructor(params) {
         super({
@@ -99,7 +114,7 @@ export const TerminalPage = GObject.registerClass({
     }
 });
 
-export const ShortcutsPage = GObject.registerClass({
+const ShortcutsPage = GObject.registerClass({
 }, class DDTermShortcutsPrefsPage extends Page {
     constructor(params) {
         super({
@@ -114,7 +129,7 @@ export const ShortcutsPage = GObject.registerClass({
     }
 });
 
-export const MiscPage = GObject.registerClass({
+const MiscPage = GObject.registerClass({
 }, class DDTermMiscPrefsPage extends Page {
     constructor(params) {
         super({
@@ -128,3 +143,30 @@ export const MiscPage = GObject.registerClass({
         this.add_widget(PanelIconWidget);
     }
 });
+
+export function fill_preferences_window(win, settings, gettext_domain, display_config = null) {
+    if (!display_config) {
+        display_config = DisplayConfig.new();
+
+        if (Gtk.get_major_version() === 3) {
+            win.connect('destroy', () => {
+                display_config.unwatch();
+            });
+        } else {
+            win.connect('close-request', () => {
+                display_config.unwatch();
+                return false;
+            });
+        }
+    }
+
+    win.add(new WindowPage({
+        settings,
+        gettext_domain,
+        monitors: display_config.create_monitor_list(),
+    }));
+
+    win.add(new TerminalPage({ settings, gettext_domain }));
+    win.add(new ShortcutsPage({ settings, gettext_domain }));
+    win.add(new MiscPage({ settings, gettext_domain }));
+}

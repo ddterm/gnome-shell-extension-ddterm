@@ -117,9 +117,6 @@ export const Application = GObject.registerClass({
             const { dir, get_settings, metadata } =
                 await import(this.resolve_relative('ddterm/app/meta.js'));
 
-            const { DisplayConfig } =
-                await import(this.resolve_relative('ddterm/util/displayconfig.js'));
-
             Gettext.bindtextdomain(
                 metadata['gettext-domain'],
                 dir.get_child('locale').get_path()
@@ -127,9 +124,6 @@ export const Application = GObject.registerClass({
 
             this.settings = get_settings();
             this.gettext_domain = Gettext.domain(metadata['gettext-domain']);
-            this.display_config = DisplayConfig.new();
-
-            this.connect('shutdown', () => this.display_config.unwatch());
         } finally {
             this.release();
         }
@@ -170,16 +164,17 @@ export const Application = GObject.registerClass({
     }
 
     async preferences() {
-        const { PrefsDialog } =
-            await import(this.resolve_relative('ddterm/app/prefsdialog.js'));
+        const { PrefsDialog } = await import(this.resolve_relative('ddterm/pref/dialog.js'));
 
         const prefs_dialog = new PrefsDialog({
-            settings: this.settings,
-            display_config: this.display_config,
             application: this,
+            settings: this.settings,
+            gettext_domain: this.gettext_domain,
         });
 
         prefs_dialog.show();
+
+        await prefs_dialog.wait_loaded();
 
         return prefs_dialog;
     }

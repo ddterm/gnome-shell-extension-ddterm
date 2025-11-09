@@ -360,7 +360,7 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
             dump_post,
         ) == ''
 
-    @pytest.mark.parametrize('script_name', ('gtk3.js', 'gtk4.js', 'adw.js'))
+    @pytest.mark.parametrize('script_name', ('gtk3.js', 'gtk4.js'))
     def test_prefs_leak2(
         self,
         dbus_environment,

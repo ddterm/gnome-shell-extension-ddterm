@@ -10,6 +10,7 @@ pref_js_src_files = files(
   'colors.js',
   'command.js',
   'compatibility.js',
+  'dialog.js',
   'panelicon.js',
   'positionsize.js',
   'scrolling.js',
@@ -17,7 +18,6 @@ pref_js_src_files = files(
   'tabs.js',
   'text.js',
   'util.js',
-  'widget.js',
 )
 
 foreach pref_js_src_file : pref_js_src_files
