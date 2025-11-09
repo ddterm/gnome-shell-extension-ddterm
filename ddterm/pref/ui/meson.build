@@ -3,16 +3,12 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 pref_ui_src_files = files(
-  'prefs-animation.ui',
-  'prefs-behavior.ui',
   'prefs-colors.ui',
   'prefs-command.ui',
   'prefs-compatibility.ui',
   'prefs-panel-icon.ui',
-  'prefs-position-size.ui',
   'prefs-scrolling.ui',
   'prefs-shortcuts.ui',
-  'prefs-tabs.ui',
   'prefs-text.ui',
 )
 

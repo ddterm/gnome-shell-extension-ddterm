@@ -24,16 +24,12 @@ ddterm/pref/scrolling.js
 ddterm/pref/shortcuts.js
 ddterm/pref/tabs.js
 ddterm/pref/text.js
-ddterm/pref/ui/prefs-animation.ui
-ddterm/pref/ui/prefs-behavior.ui
 ddterm/pref/ui/prefs-colors.ui
 ddterm/pref/ui/prefs-command.ui
 ddterm/pref/ui/prefs-compatibility.ui
 ddterm/pref/ui/prefs-panel-icon.ui
-ddterm/pref/ui/prefs-position-size.ui
 ddterm/pref/ui/prefs-scrolling.ui
 ddterm/pref/ui/prefs-shortcuts.ui
-ddterm/pref/ui/prefs-tabs.ui
 ddterm/pref/ui/prefs-text.ui
 ddterm/shell/notifications.js
 ddterm/shell/panelicon.js

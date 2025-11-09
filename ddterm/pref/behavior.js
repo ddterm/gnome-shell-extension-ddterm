@@ -3,46 +3,62 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import GObject from 'gi://GObject';
-import Gio from 'gi://Gio';
-import Gtk from 'gi://Gtk';
 
-import { insert_settings_actions, ui_file_uri } from './util.js';
+import { PreferencesGroup } from './util.js';
 
-export const BehaviorWidget = GObject.registerClass({
-    GTypeName: 'DDTermPrefsBehavior',
-    Template: ui_file_uri('prefs-behavior.ui'),
-    Properties: {
-        'settings': GObject.ParamSpec.object(
-            'settings',
-            null,
-            null,
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-            Gio.Settings
-        ),
-        'gettext-domain': GObject.ParamSpec.jsobject(
-            'gettext-domain',
-            null,
-            null,
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY
-        ),
-    },
-}, class PrefsBehavior extends Gtk.Grid {
+export class BehaviorGroup extends PreferencesGroup {
+    static [GObject.GTypeName] = 'DDTermBehaviorPreferencesGroup';
+
+    static {
+        GObject.registerClass(this);
+    }
+
     constructor(params) {
         super(params);
 
-        insert_settings_actions(this, this.settings, [
-            'window-resizable',
-            'window-above',
-            'window-stick',
-            'window-skip-taskbar',
-            'hide-when-focus-lost',
-            'hide-window-on-esc',
-            'pointer-autohide',
-            'force-x11-gdk-backend',
-        ]);
-    }
+        this.title = this.gettext('Behavior');
 
-    get title() {
-        return this.gettext_domain.gettext('Behavior');
+        this.add_switch_row({
+            key: 'window-resizable',
+            title: this.gettext('_Resizable'),
+        });
+
+        this.add_switch_row({
+            key: 'window-above',
+            title: this.gettext('_Above all windows'),
+        });
+
+        this.add_switch_row({
+            key: 'window-stick',
+            title: this.gettext('On all _workspaces'),
+        });
+
+        this.add_switch_row({
+            key: 'hide-when-focus-lost',
+            title: this.gettext('Hide when the application loses _focus'),
+        });
+
+        this.add_switch_row({
+            key: 'hide-window-on-esc',
+            title: this.gettext('Hide when _Esc key is pressed'),
+        });
+
+        this.add_switch_row({
+            key: 'window-skip-taskbar',
+            title: this.gettext('Exclude from _overview/task bar'),
+        });
+
+        this.add_switch_row({
+            key: 'pointer-autohide',
+            title: this.gettext('Hide mouse _pointer when typing'),
+        });
+
+        this.add_switch_row({
+            key: 'force-x11-gdk-backend',
+            title: this.gettext(
+                'Force _X11 GDK backend (XWayland).\n' +
+                "You'll have to close all tabs for this option to take effect."
+            ),
+        });
     }
-});
+}

@@ -6,62 +6,125 @@ import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
 import Gtk from 'gi://Gtk';
 
-import {
-    bind_widgets,
-    insert_settings_actions,
-    set_scale_value_format,
-    ui_file_uri,
-} from './util.js';
+import { PreferencesGroup, ScaleRow } from './util.js';
 
-export const TabsWidget = GObject.registerClass({
-    GTypeName: 'DDTermPrefsTabs',
-    Template: ui_file_uri('prefs-tabs.ui'),
-    Children: [
-        'expand_tabs_check',
-        'tab_policy_combo',
-        'tab_position_combo',
-        'tab_label_width_scale',
-        'tab_label_ellipsize_combo',
-    ],
-    Properties: {
-        'settings': GObject.ParamSpec.object(
-            'settings',
-            null,
-            null,
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-            Gio.Settings
-        ),
-        'gettext-domain': GObject.ParamSpec.jsobject(
-            'gettext-domain',
-            null,
-            null,
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY
-        ),
-    },
-}, class PrefsTabs extends Gtk.Grid {
+export class TabsGroup extends PreferencesGroup {
+    static [GObject.GTypeName] = 'DDTermTabsPreferencesGroup';
+
+    static {
+        GObject.registerClass(this);
+    }
+
     constructor(params) {
         super(params);
 
-        bind_widgets(this.settings, {
-            'tab-policy': this.tab_policy_combo,
-            'tab-position': this.tab_position_combo,
-            'tab-label-ellipsize-mode': this.tab_label_ellipsize_combo,
-            'tab-label-width': this.tab_label_width_scale,
+        this.title = this.gettext('Tabs');
+
+        this.add_switch_row({
+            key: 'save-restore-session',
+            title: this.gettext('_Restore previous tabs on startup'),
+        });
+
+        this.add_combo_text_row({
+            key: 'tab-policy',
+            title: this.gettext('Show tab _bar:'),
+            model: {
+                always: this.gettext('Always'),
+                automatic: this.gettext('Automatic'),
+                never: this.gettext('Never'),
+            },
+        });
+
+        this.add_combo_text_row({
+            key: 'tab-position',
+            title: this.gettext('Tab bar position:'),
+            model: {
+                bottom: this.gettext('Bottom'),
+                top: this.gettext('Top'),
+                left: this.gettext('Left'),
+                right: this.gettext('Right'),
+            },
+        });
+
+        this.add_combo_text_row({
+            key: 'tab-label-ellipsize-mode',
+            title: this.gettext('Ellipsize tab labels:'),
+            model: {
+                none: this.gettext('None'),
+                start: this.gettext('Start'),
+                middle: this.gettext('Middle'),
+                end: this.gettext('End'),
+            },
+        });
+
+        const tab_size_adjustment = new Gtk.Adjustment({
+            upper: 0.5,
+            step_increment: 0.01,
+            page_increment: 0.10,
+        });
+
+        this.settings.bind(
+            'tab-label-width',
+            tab_size_adjustment,
+            'value',
+            Gio.SettingsBindFlags.DEFAULT
+        );
+
+        const tab_size_row = new ScaleRow({
+            adjustment: tab_size_adjustment,
+            digits: 2,
+            round_digits: 2,
+            visible: true,
+            use_underline: true,
+            title: this.gettext('Tab width:'),
         });
 
         const percent_format = new Intl.NumberFormat(undefined, { style: 'percent' });
-        set_scale_value_format(this.tab_label_width_scale, percent_format);
+        tab_size_row.set_format_value_func((_, v) => percent_format.format(v));
 
-        insert_settings_actions(this, this.settings, [
-            'tab-expand',
-            'tab-close-buttons',
-            'new-tab-button',
-            'new-tab-front-button',
-            'tab-switcher-popup',
-            'notebook-border',
-            'tab-show-shortcuts',
-            'save-restore-session',
-        ]);
+        this.settings.bind_writable(
+            'tab-label-width',
+            tab_size_row,
+            'sensitive',
+            false
+        );
+
+        this.add(tab_size_row);
+
+        this.add_switch_row({
+            key: 'tab-expand',
+            title: this.gettext('Expand tabs'),
+        });
+
+        this.add_switch_row({
+            key: 'tab-close-buttons',
+            title: this.gettext('Show _close buttons'),
+        });
+
+        this.add_switch_row({
+            key: 'new-tab-button',
+            title: this.gettext('"_New Tab (Last)" button'),
+        });
+
+        this.add_switch_row({
+            key: 'new-tab-front-button',
+            title: this.gettext('"_New Tab (First)" button'),
+        });
+
+        this.add_switch_row({
+            key: 'tab-switcher-popup',
+            title: this.gettext('Tab _switcher popup'),
+        });
+
+        this.add_switch_row({
+            key: 'notebook-border',
+            title: this.gettext('Show border'),
+        });
+
+        this.add_switch_row({
+            key: 'tab-show-shortcuts',
+            title: this.gettext('Show keyboard shortcuts'),
+        });
 
         this.connect('realize', this.#realize.bind(this));
     }
@@ -73,39 +136,34 @@ export const TabsWidget = GObject.registerClass({
             this.saved_ellipsize_mode = 'middle';
 
         const auto_enable_ellipsize = this.#auto_enable_ellipsize.bind(this);
-
-        const tab_pos_handler =
-            this.tab_position_combo.connect('changed', auto_enable_ellipsize);
-
-        const tab_expand_handler =
-            this.expand_tabs_check.connect('toggled', auto_enable_ellipsize);
+        const handlers = [
+            this.settings.connect('changed::tab-position', auto_enable_ellipsize),
+            this.settings.connect('changed::tab-expand', auto_enable_ellipsize),
+        ];
 
         const unrealize_handler = this.connect('unrealize', () => {
             this.disconnect(unrealize_handler);
-            this.tab_position_combo.disconnect(tab_pos_handler);
-            this.expand_tabs_check.disconnect(tab_expand_handler);
+
+            for (const handler of handlers)
+                this.settings.disconnect(handler);
         });
     }
 
-    get title() {
-        return this.gettext_domain.gettext('Tabs');
-    }
-
     #auto_enable_ellipsize() {
-        const current_mode = this.tab_label_ellipsize_combo.active_id;
+        const current_mode = this.settings.get_string('tab-label-ellipsize-mode');
         const current_enabled = current_mode !== 'none';
         const should_enable =
-            ['left', 'right'].includes(this.tab_position_combo.active_id) ||
-                this.expand_tabs_check.active;
+            ['left', 'right'].includes(this.settings.get_string('tab-position')) ||
+                this.settings.get_boolean('tab-expand');
 
         if (current_enabled === should_enable)
             return;
 
         if (should_enable) {
-            this.tab_label_ellipsize_combo.active_id = this.saved_ellipsize_mode;
+            this.settings.set_string('tab-label-ellipsize-mode', this.saved_ellipsize_mode);
         } else {
             this.saved_ellipsize_mode = current_mode;
-            this.tab_label_ellipsize_combo.active_id = 'none';
+            this.settings.set_string('tab-label-ellipsize-mode', 'none');
         }
     }
-});
+}
