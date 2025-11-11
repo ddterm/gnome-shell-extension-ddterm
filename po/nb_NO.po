@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-09 03:05+0000\n"
+"POT-Creation-Date: 2025-11-11 04:05+0000\n"
 "PO-Revision-Date: 2024-09-02 20:09+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/nb_NO/>\n"
@@ -296,7 +296,7 @@ msgstr "Del loddrett"
 msgid "Move Tab to Other Pane"
 msgstr "Flytt fane til neste flate"
 
-#: ddterm/app/ui/menus.ui:147
+#: ddterm/app/ui/menus.ui:147 ddterm/pref/dialog.js:51
 msgid "Preferences"
 msgstr "Innstillinger"
 

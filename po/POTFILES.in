@@ -17,6 +17,7 @@ ddterm/pref/behavior.js
 ddterm/pref/colors.js
 ddterm/pref/command.js
 ddterm/pref/compatibility.js
+ddterm/pref/dialog.js
 ddterm/pref/panelicon.js
 ddterm/pref/positionsize.js
 ddterm/pref/scrolling.js

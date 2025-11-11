@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-09 03:05+0000\n"
+"POT-Creation-Date: 2025-11-11 04:05+0000\n"
 "PO-Revision-Date: 2025-09-06 08:02+0000\n"
 "Last-Translator: yuh <yuhldr@qq.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/zh_Hans/>\n"
@@ -295,7 +295,7 @@ msgstr "垂直拆分"
 msgid "Move Tab to Other Pane"
 msgstr "移动标签页到下一个面板"
 
-#: ddterm/app/ui/menus.ui:147
+#: ddterm/app/ui/menus.ui:147 ddterm/pref/dialog.js:51
 msgid "Preferences"
 msgstr "首选项"
 
