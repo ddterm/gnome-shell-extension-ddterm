@@ -4,6 +4,7 @@
 
 import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
+import Gdk from 'gi://Gdk';
 import Gtk from 'gi://Gtk';
 
 import { AnimationGroup } from './animation.js';
@@ -14,7 +15,7 @@ import { CompatibilityWidget } from './compatibility.js';
 import { PanelIconWidget } from './panelicon.js';
 import { PositionSizeGroup } from './positionsize.js';
 import { ScrollingWidget } from './scrolling.js';
-import { ShortcutsWidget } from './shortcuts.js';
+import { GlobalShortcutGroup, ApplicationShortcutGroup, ResetShortcutsGroup } from './shortcuts.js';
 import { TabsGroup } from './tabs.js';
 import { TextWidget } from './text.js';
 import { PreferencesPage } from './util.js';
@@ -82,6 +83,13 @@ class TerminalPage extends PreferencesPage {
 class ShortcutsPage extends PreferencesPage {
     static [GObject.GTypeName] = 'DDTermShortcutsPreferencesPage';
 
+    static [GObject.signals] = {
+        'accelerator-set': {
+            param_types: [GObject.TYPE_UINT, Gdk.ModifierType],
+        },
+        'reset': {},
+    };
+
     static {
         GObject.registerClass(this);
     }
@@ -95,7 +103,53 @@ class ShortcutsPage extends PreferencesPage {
 
         this.title = this.gettext_domain.gettext('Keyboard Shortcuts');
 
-        this.add_widget(ShortcutsWidget);
+        const { settings, gettext_domain } = this;
+
+        this.#add_group(new GlobalShortcutGroup({ settings, gettext_domain }));
+        this.#add_group(new ApplicationShortcutGroup({ settings, gettext_domain }));
+
+        const reset_group = new ResetShortcutsGroup({ settings, gettext_domain });
+
+        this.connect('realize', () => {
+            const reset_handler = reset_group.connect('reset', () => {
+                this.emit('reset');
+            });
+
+            const unrealize_handler = this.connect('unrealize', () => {
+                this.disconnect(unrealize_handler);
+                reset_group.disconnect(reset_handler);
+            });
+        });
+
+        this.add(reset_group);
+    }
+
+    #add_group(group) {
+        const conflict_handler = this.connect('accelerator-set', (self, keyval, modifiers) => {
+            group.emit('accelerator-set', keyval, modifiers);
+        });
+
+        this.connect('realize', () => {
+            const accelerator_set_handler = group.connect(
+                'accelerator-set',
+                (_, keyval, modifiers) => {
+                    GObject.signal_handler_block(this, conflict_handler);
+                    this.emit('accelerator-set', keyval, modifiers);
+                    GObject.signal_handler_unblock(this, conflict_handler);
+                }
+            );
+
+            const unrealize_handler = this.connect('unrealize', () => {
+                this.disconnect(unrealize_handler);
+                group.disconnect(accelerator_set_handler);
+            });
+        });
+
+        this.connect('reset', () => {
+            group.emit('reset');
+        });
+
+        this.add(group);
     }
 }
 

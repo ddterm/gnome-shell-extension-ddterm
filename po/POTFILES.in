@@ -29,7 +29,6 @@ ddterm/pref/ui/prefs-command.ui
 ddterm/pref/ui/prefs-compatibility.ui
 ddterm/pref/ui/prefs-panel-icon.ui
 ddterm/pref/ui/prefs-scrolling.ui
-ddterm/pref/ui/prefs-shortcuts.ui
 ddterm/pref/ui/prefs-text.ui
 ddterm/shell/notifications.js
 ddterm/shell/panelicon.js

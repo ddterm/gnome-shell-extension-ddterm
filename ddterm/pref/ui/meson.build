@@ -8,7 +8,6 @@ pref_ui_src_files = files(
   'prefs-compatibility.ui',
   'prefs-panel-icon.ui',
   'prefs-scrolling.ui',
-  'prefs-shortcuts.ui',
   'prefs-text.ui',
 )
 
