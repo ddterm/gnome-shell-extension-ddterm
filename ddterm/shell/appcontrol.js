@@ -218,7 +218,7 @@ export const AppControl = GObject.registerClass({
 
         this.window_geometry.update_monitor();
 
-        this.logger?.log('Activating show action');
+        this.logger?.log('Activating show action on %o', this.#actions_owner);
         this.actions.activate_action('show', null);
 
         if (wait)
@@ -229,7 +229,7 @@ export const AppControl = GObject.registerClass({
         if (!this.window_matcher.current_window)
             return;
 
-        this.logger?.log('Activating hide action');
+        this.logger?.log('Activating hide action on %o', this.#actions_owner);
         this.actions.activate_action('hide', null);
 
         if (wait)
@@ -239,7 +239,7 @@ export const AppControl = GObject.registerClass({
     async preferences() {
         await this.ensure_running();
 
-        this.logger?.log('Activating preferences action');
+        this.logger?.log('Activating preferences action on %o', this.#actions_owner);
         this.actions.activate_action('preferences', null);
     }
 
@@ -251,7 +251,7 @@ export const AppControl = GObject.registerClass({
         if (!this.actions)
             return false;
 
-        this.logger?.log('Activating quit action');
+        this.logger?.log('Activating quit action on %o', this.#actions_owner);
         this.actions.activate_action('quit', null);
         return true;
     }
