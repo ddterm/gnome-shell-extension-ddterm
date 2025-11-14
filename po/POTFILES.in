@@ -26,7 +26,6 @@ ddterm/pref/tabs.js
 ddterm/pref/text.js
 ddterm/pref/ui/prefs-colors.ui
 ddterm/pref/ui/prefs-command.ui
-ddterm/pref/ui/prefs-compatibility.ui
 ddterm/pref/ui/prefs-scrolling.ui
 ddterm/pref/ui/prefs-text.ui
 ddterm/shell/notifications.js

@@ -3,47 +3,61 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import GObject from 'gi://GObject';
-import Gio from 'gi://Gio';
 import Gtk from 'gi://Gtk';
 
-import { bind_widgets, ui_file_uri } from './util.js';
+import { PreferencesGroup, ComboTextItem } from './util.js';
 
-export const CompatibilityWidget = GObject.registerClass({
-    GTypeName: 'DDTermPrefsCompatibility',
-    Template: ui_file_uri('prefs-compatibility.ui'),
-    Children: [
-        'ambiguous_width_combo',
-        'backspace_binding_combo',
-        'delete_binding_combo',
-        'reset_button',
-    ],
-    Properties: {
-        'settings': GObject.ParamSpec.object(
-            'settings',
-            null,
-            null,
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-            Gio.Settings
-        ),
-        'gettext-domain': GObject.ParamSpec.jsobject(
-            'gettext-domain',
-            null,
-            null,
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY
-        ),
-    },
-}, class PrefsCompatibility extends Gtk.Grid {
+export class CompatibilityGroup extends PreferencesGroup {
+    static [GObject.GTypeName] = 'DDTermCompatibilityPreferencesGroup';
+
+    static {
+        GObject.registerClass(this);
+    }
+
     constructor(params) {
         super(params);
 
-        bind_widgets(this.settings, {
-            'backspace-binding': this.backspace_binding_combo,
-            'delete-binding': this.delete_binding_combo,
-            'cjk-utf8-ambiguous-width': this.ambiguous_width_combo,
+        this.title = this.gettext('Compatibility');
+
+        const model = ComboTextItem.create_list({
+            'auto': this.gettext('Automatic'),
+            'ascii-backspace': this.gettext('Control-H'),
+            'ascii-delete': this.gettext('ASCII DEL'),
+            'delete-sequence': this.gettext('Escape sequence'),
+            'tty': this.gettext('TTY Erase'),
         });
 
+        this.add_combo_text_row({
+            key: 'backspace-binding',
+            title: this.gettext('_Backspace key generates:'),
+            model,
+        });
+
+        this.add_combo_text_row({
+            key: 'delete-binding',
+            title: this.gettext('_Delete key generates:'),
+            model,
+        });
+
+        this.add_combo_text_row({
+            key: 'cjk-utf8-ambiguous-width',
+            title: this.gettext('Ambiguous-_width characters:'),
+            model: {
+                narrow: this.gettext('Narrow'),
+                wide: this.gettext('Wide'),
+            },
+        });
+
+        const reset_button = new Gtk.Button({
+            visible: true,
+            label: this.gettext('_Reset Compatibility Options to Defaults'),
+            use_underline: true,
+        });
+
+        reset_button.get_style_context().add_class('destructive-action');
+
         this.connect('realize', () => {
-            const reset_handler = this.reset_button.connect('clicked', () => {
+            const reset_handler = reset_button.connect('clicked', () => {
                 this.settings.reset('backspace-binding');
                 this.settings.reset('delete-binding');
                 this.settings.reset('cjk-utf8-ambiguous-width');
@@ -51,12 +65,10 @@ export const CompatibilityWidget = GObject.registerClass({
 
             const unrealize_handler = this.connect('unrealize', () => {
                 this.disconnect(unrealize_handler);
-                this.reset_button.disconnect(reset_handler);
+                reset_button.disconnect(reset_handler);
             });
         });
-    }
 
-    get title() {
-        return this.gettext_domain.gettext('Compatibility');
+        this.add(reset_button);
     }
-});
+}
