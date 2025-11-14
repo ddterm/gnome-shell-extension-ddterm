@@ -12,7 +12,7 @@ import { BehaviorGroup } from './behavior.js';
 import { ColorsWidget } from './colors.js';
 import { CommandWidget } from './command.js';
 import { CompatibilityWidget } from './compatibility.js';
-import { PanelIconWidget } from './panelicon.js';
+import { PanelIconGroup } from './panelicon.js';
 import { PositionSizeGroup } from './positionsize.js';
 import { ScrollingWidget } from './scrolling.js';
 import { GlobalShortcutGroup, ApplicationShortcutGroup, ResetShortcutsGroup } from './shortcuts.js';
@@ -169,7 +169,9 @@ class MiscPage extends PreferencesPage {
 
         this.title = this.gettext_domain.gettext('Miscellaneous');
 
-        this.add_widget(PanelIconWidget);
+        const { settings, gettext_domain } = this;
+
+        this.add(new PanelIconGroup({ settings, gettext_domain }));
     }
 }
 

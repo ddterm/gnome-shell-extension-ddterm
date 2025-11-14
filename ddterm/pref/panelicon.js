@@ -3,37 +3,31 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import GObject from 'gi://GObject';
-import Gio from 'gi://Gio';
-import Gtk from 'gi://Gtk';
 
-import { insert_settings_actions, ui_file_uri } from './util.js';
+import { PreferencesGroup } from './util.js';
 
-export const PanelIconWidget = GObject.registerClass({
-    GTypeName: 'DDTermPrefsPanelIcon',
-    Template: ui_file_uri('prefs-panel-icon.ui'),
-    Properties: {
-        'settings': GObject.ParamSpec.object(
-            'settings',
-            null,
-            null,
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-            Gio.Settings
-        ),
-        'gettext-domain': GObject.ParamSpec.jsobject(
-            'gettext-domain',
-            null,
-            null,
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY
-        ),
-    },
-}, class PrefsPanelIcon extends Gtk.Box {
+export class PanelIconGroup extends PreferencesGroup {
+    static [GObject.GTypeName] = 'DDTermPanelIconPreferencesGroup';
+
+    static {
+        GObject.registerClass(this);
+    }
+
     constructor(params) {
         super(params);
 
-        insert_settings_actions(this, this.settings, ['panel-icon-type']);
-    }
+        this.title = this.gettext('Panel Icon');
 
-    get title() {
-        return this.gettext_domain.gettext('Panel Icon');
+        this.add_combo_text_row({
+            key: 'panel-icon-type',
+            title: this.gettext('Panel Icon'),
+            use_subtitle: true,
+            model: {
+                'none': this.gettext('None'),
+                'menu-button': this.gettext('With popup menu'),
+                'toggle-button': this.gettext('Toggle button'),
+                'toggle-and-menu-button': this.gettext('Toggle button and popup menu'),
+            },
+        });
     }
-});
+}
