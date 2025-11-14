@@ -703,7 +703,9 @@ class Application extends Gtk.Application {
                 this.prefs_dialog = null;
         });
 
-        this.prefs_dialog.present();
+        this.prefs_dialog.connect('loaded', source => {
+            source.present();
+        });
     }
 
     about() {

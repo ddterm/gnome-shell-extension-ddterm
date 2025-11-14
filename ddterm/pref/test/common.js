@@ -157,6 +157,7 @@ export const Application = GObject.registerClass({
     async do_test() {
         let dialog = await this.preferences();
 
+        await dialog.wait_loaded();
         await wait_frame(dialog);
         await wait_idle();
 
@@ -172,9 +173,9 @@ export const Application = GObject.registerClass({
             gettext_domain: this.gettext_domain,
         });
 
-        prefs_dialog.show();
-
-        await prefs_dialog.wait_loaded();
+        prefs_dialog.connect('loaded', () => {
+            prefs_dialog.show();
+        });
 
         return prefs_dialog;
     }
