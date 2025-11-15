@@ -25,22 +25,22 @@ export class BehaviorGroup extends PreferencesGroup {
 
         this.add_switch_row({
             key: 'window-above',
-            title: this.gettext('_Above all windows'),
+            title: this.gettext('Above All Windows'),
         });
 
         this.add_switch_row({
             key: 'window-stick',
-            title: this.gettext('On all _workspaces'),
+            title: this.gettext('On All Workspaces'),
         });
 
         this.add_switch_row({
             key: 'hide-when-focus-lost',
-            title: this.gettext('Hide when the application loses _focus'),
+            title: this.gettext('Hide When Application Loses Focus'),
         });
 
         this.add_switch_row({
             key: 'hide-window-on-esc',
-            title: this.gettext('Hide when _Esc key is pressed'),
+            title: this.gettext('Hide When Esc Key Is Pressed'),
         });
 
         this.add_switch_row({
