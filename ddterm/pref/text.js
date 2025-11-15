@@ -6,82 +6,189 @@ import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
 import Gtk from 'gi://Gtk';
 
-import {
-    bind_sensitive,
-    bind_widget,
-    bind_widgets,
-    insert_settings_actions,
-    ui_file_uri,
-} from './util.js';
+import { PreferencesGroup, ActionRow } from './util.js';
 
-export const TextWidget = GObject.registerClass({
-    GTypeName: 'DDTermPrefsText',
-    Template: ui_file_uri('prefs-text.ui'),
-    Children: [
-        'custom_font_check',
-        'font_chooser',
-        'text_blink_mode_combo',
-        'cursor_blink_mode_combo',
-        'cursor_shape_combo',
-        'detect_urls_container',
-    ],
-    Properties: {
-        'settings': GObject.ParamSpec.object(
-            'settings',
+class FontRow extends ActionRow {
+    static [GObject.GTypeName] = 'DDTermFontRow';
+
+    static [GObject.properties] = {
+        'font': GObject.ParamSpec.string(
+            'font',
             null,
             null,
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-            Gio.Settings
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+            null
         ),
-        'gettext-domain': GObject.ParamSpec.jsobject(
-            'gettext-domain',
-            null,
-            null,
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY
-        ),
-    },
-}, class PrefsText extends Gtk.Grid {
+    };
+
+    static {
+        GObject.registerClass(this);
+    }
+
+    #button;
+
     constructor(params) {
         super(params);
 
-        bind_widget(
-            this.settings,
-            'use-system-font',
-            this.custom_font_check,
-            Gio.SettingsBindFlags.INVERT_BOOLEAN
-        );
-
-        bind_widget(this.settings, 'custom-font', this.font_chooser);
-
-        bind_sensitive(
-            this.settings,
-            'use-system-font',
-            this.font_chooser.parent,
-            true
-        );
-
-        bind_widgets(this.settings, {
-            'text-blink-mode': this.text_blink_mode_combo,
-            'cursor-shape': this.cursor_shape_combo,
-            'cursor-blink-mode': this.cursor_blink_mode_combo,
+        this.#button = new Gtk.FontButton({
+            valign: Gtk.Align.CENTER,
+            can_focus: false,
+            visible: true,
         });
 
-        insert_settings_actions(this, this.settings, [
-            'allow-hyperlink',
-            'audible-bell',
-            'detect-urls',
-            'detect-urls-as-is',
-            'detect-urls-file',
-            'detect-urls-http',
-            'detect-urls-voip',
-            'detect-urls-email',
-            'detect-urls-news-man',
-        ]);
+        if (!this.font)
+            this.font = this.#button.font;
 
-        bind_sensitive(this.settings, 'detect-urls', this.detect_urls_container);
+        this.bind_property(
+            'font',
+            this.#button,
+            'font',
+            GObject.BindingFlags.SYNC_CREATE | GObject.BindingFlags.BIDIRECTIONAL
+        );
+
+        this.set_activatable(true);
+        this.set_activatable_widget(this.#button);
+
+        if (this.add_suffix)
+            this.add_suffix(this.#button);
+        else
+            this.add(this.#button);
+    }
+}
+
+export class TextGroup extends PreferencesGroup {
+    static [GObject.GTypeName] = 'DDTermTextPreferencesGroup';
+
+    static {
+        GObject.registerClass(this);
     }
 
-    get title() {
-        return this.gettext_domain.gettext('Text');
+    #font_row;
+
+    constructor(params) {
+        super(params);
+
+        this.title = this.gettext('Text');
+
+        this.add_switch_row({
+            key: 'use-system-font',
+            title: this.gettext('Use system font'),
+        });
+
+        this.#font_row = new FontRow({
+            title: this.gettext('Custom _font:'),
+            visible: true,
+            use_underline: true,
+        });
+
+        this.settings.bind(
+            'custom-font',
+            this.#font_row,
+            'font',
+            Gio.SettingsBindFlags.NO_SENSITIVITY
+        );
+
+        this.add(this.#font_row);
+
+        this.add_combo_text_row({
+            key: 'text-blink-mode',
+            title: this.gettext('Allow _blinking text:'),
+            model: {
+                never: this.gettext('Never'),
+                focused: this.gettext('When focused'),
+                unfocused: this.gettext('When unfocused'),
+                always: this.gettext('Always'),
+            },
+        });
+
+        this.add_combo_text_row({
+            key: 'cursor-shape',
+            title: this.gettext('Cursor _shape:'),
+            model: {
+                block: this.gettext('Block'),
+                ibeam: this.gettext('I-Beam'),
+                underline: this.gettext('Underline'),
+            },
+        });
+
+        this.add_combo_text_row({
+            key: 'cursor-blink-mode',
+            title: this.gettext('_Cursor blinking:'),
+            model: {
+                system: this.gettext('Default'),
+                on: this.gettext('Enabled'),
+                off: this.gettext('Disabled'),
+            },
+        });
+
+        this.add_switch_row({
+            key: 'allow-hyperlink',
+            title: this.gettext('Allow _hyperlinks'),
+        });
+
+        this.add_switch_row({
+            key: 'audible-bell',
+            title: this.gettext('Audible _bell'),
+        });
+
+        const url_detect_expander = this.add_expander_row({
+            key: 'detect-urls',
+            title: this.gettext('Detect _URLs'),
+        });
+
+        url_detect_expander.add_switch_row({
+            key: 'detect-urls-as-is',
+            title: this.gettext('Detect raw URLs (scheme://netloc/path)'),
+        });
+
+        url_detect_expander.add_switch_row({
+            key: 'detect-urls-file',
+            title: this.gettext('Detect "file:" URLs'),
+        });
+
+        url_detect_expander.add_switch_row({
+            key: 'detect-urls-http',
+            title: this.gettext('Detect HTTP URLs'),
+        });
+
+        url_detect_expander.add_switch_row({
+            key: 'detect-urls-voip',
+            title: this.gettext('Detect VoIP URLs'),
+        });
+
+        url_detect_expander.add_switch_row({
+            key: 'detect-urls-email',
+            title: this.gettext('Detect E-mail addresses'),
+        });
+
+        url_detect_expander.add_switch_row({
+            key: 'detect-urls-news-man',
+            title: this.gettext('Detect "news:", "man:" URLs'),
+        });
+
+        this.connect('realize', this.#realize.bind(this));
     }
-});
+
+    #realize() {
+        const update_font_sensitivity = this.#update_font_sensitivity.bind(this);
+
+        const settings_handlers = [
+            this.settings.connect('writable-changed::custom-font', update_font_sensitivity),
+            this.settings.connect('changed::use-system-font', update_font_sensitivity),
+        ];
+
+        const unrealize_handler = this.connect('unrealize', () => {
+            this.disconnect(unrealize_handler);
+
+            for (const handler of settings_handlers)
+                this.settings.disconnect(handler);
+        });
+
+        this.#update_font_sensitivity();
+    }
+
+    #update_font_sensitivity() {
+        this.#font_row.sensitive = this.settings.is_writable('custom-font') &&
+            !this.settings.get_boolean('use-system-font');
+    }
+}

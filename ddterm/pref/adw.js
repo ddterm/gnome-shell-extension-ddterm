@@ -17,7 +17,7 @@ import { PositionSizeGroup } from './positionsize.js';
 import { ScrollingGroup } from './scrolling.js';
 import { GlobalShortcutGroup, ApplicationShortcutGroup, ResetShortcutsGroup } from './shortcuts.js';
 import { TabsGroup } from './tabs.js';
-import { TextWidget } from './text.js';
+import { TextGroup } from './text.js';
 import { PreferencesPage } from './util.js';
 import { DisplayConfig } from '../util/displayconfig.js';
 
@@ -74,7 +74,7 @@ class TerminalPage extends PreferencesPage {
 
         const { settings, gettext_domain } = this;
 
-        this.add_widget(TextWidget);
+        this.add(new TextGroup({ settings, gettext_domain }));
         this.add_widget(ColorsWidget);
         this.add(new CommandGroup({ settings, gettext_domain }));
         this.add(new ScrollingGroup({ settings, gettext_domain }));

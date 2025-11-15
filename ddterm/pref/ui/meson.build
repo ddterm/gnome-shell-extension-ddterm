@@ -2,10 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-pref_ui_src_files = files(
-  'prefs-colors.ui',
-  'prefs-text.ui',
-)
+pref_ui_src_files = files('prefs-colors.ui')
 
 foreach pref_ui_src_file : pref_ui_src_files
   test(

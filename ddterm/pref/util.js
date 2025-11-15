@@ -156,6 +156,23 @@ export const SwitchRow = AdwOrHdy.SwitchRow ?? class extends ActionRow {
     }
 };
 
+function create_switch_row({
+    settings,
+    key,
+    flags = Gio.SettingsBindFlags.DEFAULT,
+    ...params
+}) {
+    const row = new SwitchRow({
+        visible: true,
+        use_underline: true,
+        ...params,
+    });
+
+    settings.bind(key, row, 'active', flags);
+
+    return row;
+}
+
 export const EntryRow = AdwOrHdy.EntryRow ?? class extends ActionRow {
     static [GObject.GTypeName] = 'DDTermEntryRow';
 
@@ -441,6 +458,29 @@ export class ComboTextRow extends ComboRow {
 
         this.selected = INVALID_LIST_POSITION;
     }
+
+    static create({
+        settings,
+        key,
+        model,
+        flags = Gio.SettingsBindFlags.DEFAULT,
+        ...params
+    }) {
+        if (model && !(model instanceof GObject.Object))
+            model = ComboTextItem.create_list(model);
+
+        const row = new this({
+            visible: true,
+            use_underline: true,
+            ...params,
+        });
+
+        row.bind_name_model(model);
+
+        settings.bind(key, row, 'value', flags);
+
+        return row;
+    }
 }
 
 export class ScaleRow extends ActionRow {
@@ -510,6 +550,67 @@ export class ScaleRow extends ActionRow {
     }
 }
 
+export class ExpanderRow extends AdwOrHdy.ExpanderRow {
+    static [GObject.GTypeName] = 'DDTermExpanderRow';
+
+    static [GObject.properties] = {
+        'settings': GObject.ParamSpec.object(
+            'settings',
+            null,
+            null,
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+            Gio.Settings
+        ),
+    };
+
+    static {
+        GObject.registerClass(this);
+    }
+
+    add_switch_row(params) {
+        const row = create_switch_row({ settings: this.settings, ...params });
+
+        this.add_row(row);
+
+        return row;
+    }
+
+    add_combo_text_row(params) {
+        const row = ComboTextRow.create({ settings: this.settings, ...params });
+
+        this.add_row(row);
+
+        return row;
+    }
+
+    add_row(row) {
+        if (super.add_row)
+            super.add_row(row);
+        else
+            super.add(row);
+    }
+
+    static create({
+        settings,
+        key,
+        flags = Gio.SettingsBindFlags.DEFAULT,
+        ...params
+    }) {
+        const row = new ExpanderRow({
+            settings,
+            visible: true,
+            use_underline: true,
+            show_enable_switch: Boolean(key),
+            ...params,
+        });
+
+        if (key)
+            settings.bind(key, row, 'enable-expansion', flags);
+
+        return row;
+    }
+}
+
 export class PreferencesGroup extends AdwOrHdy.PreferencesGroup {
     static [GObject.GTypeName] = 'DDTermPreferencesGroup';
 
@@ -544,32 +645,25 @@ export class PreferencesGroup extends AdwOrHdy.PreferencesGroup {
         return this.gettext_domain.gettext(...args);
     }
 
-    add_switch_row({ key, flags = Gio.SettingsBindFlags.DEFAULT, ...params }) {
-        const row = new SwitchRow({
-            visible: true,
-            use_underline: true,
-            ...params,
-        });
+    add_switch_row(params) {
+        const row = create_switch_row({ settings: this.settings, ...params });
 
-        this.settings.bind(key, row, 'active', flags);
         this.add(row);
 
         return row;
     }
 
-    add_combo_text_row({ key, model, flags = Gio.SettingsBindFlags.DEFAULT, ...params }) {
-        if (model && !(model instanceof GObject.Object))
-            model = ComboTextItem.create_list(model);
+    add_combo_text_row(params) {
+        const row = ComboTextRow.create({ settings: this.settings, ...params });
 
-        const row = new ComboTextRow({
-            visible: true,
-            use_underline: true,
-            ...params,
-        });
+        this.add(row);
 
-        row.bind_name_model(model);
+        return row;
+    }
 
-        this.settings.bind(key, row, 'value', flags);
+    add_expander_row(params) {
+        const row = ExpanderRow.create({ settings: this.settings, ...params });
+
         this.add(row);
 
         return row;
