@@ -48,7 +48,7 @@ export class CommandGroup extends PreferencesGroup {
 
         this.add_switch_row({
             key: 'preserve-working-directory',
-            title: this.gettext('Preserve working directory'),
+            title: this.gettext('Preserve Working Directory In New Tabs'),
         });
 
         this.connect('realize', this.#realize.bind(this));
