@@ -10,7 +10,7 @@ import Gtk from 'gi://Gtk';
 import { AnimationGroup } from './animation.js';
 import { BehaviorGroup } from './behavior.js';
 import { ColorsWidget } from './colors.js';
-import { CommandWidget } from './command.js';
+import { CommandGroup } from './command.js';
 import { CompatibilityGroup } from './compatibility.js';
 import { PanelIconGroup } from './panelicon.js';
 import { PositionSizeGroup } from './positionsize.js';
@@ -76,7 +76,7 @@ class TerminalPage extends PreferencesPage {
 
         this.add_widget(TextWidget);
         this.add_widget(ColorsWidget);
-        this.add_widget(CommandWidget);
+        this.add(new CommandGroup({ settings, gettext_domain }));
         this.add(new ScrollingGroup({ settings, gettext_domain }));
         this.add(new CompatibilityGroup({ settings, gettext_domain }));
     }
