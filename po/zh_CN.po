@@ -736,16 +736,16 @@ msgid "Command"
 msgstr "命令"
 
 #: ddterm/pref/command.js:28
-msgid "User _shell"
-msgstr "用户 _shell"
+msgid "User shell"
+msgstr "用户 shell"
 
 #: ddterm/pref/command.js:29
-msgid "User shell as _login shell"
-msgstr "用户 Shell 作为 _登录 Shell"
+msgid "User shell as login shell"
+msgstr "用户 Shell 作为 登录 Shell"
 
 #: ddterm/pref/command.js:30 ddterm/pref/command.js:35
-msgid "Custom _command:"
-msgstr "自定义 _命令："
+msgid "Custom command"
+msgstr "自定义 命令"
 
 #: ddterm/pref/command.js:51
 msgid "Preserve working directory"

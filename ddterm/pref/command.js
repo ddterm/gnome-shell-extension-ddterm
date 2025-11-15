@@ -25,14 +25,14 @@ export class CommandGroup extends PreferencesGroup {
             key: 'command',
             title: this.gettext('Command'),
             model: {
-                'user-shell': this.gettext('User _shell'),
-                'user-shell-login': this.gettext('User shell as _login shell'),
-                'custom-command': this.gettext('Custom _command:'),
+                'user-shell': this.gettext('User shell'),
+                'user-shell-login': this.gettext('User shell as login shell'),
+                'custom-command': this.gettext('Custom command'),
             },
         });
 
         this.#custom_command_entry = new EntryRow({
-            title: this.gettext('Custom _command:'),
+            title: this.gettext('Custom command'),
             visible: true,
             use_underline: true,
         });

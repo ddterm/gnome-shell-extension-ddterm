@@ -743,16 +743,16 @@ msgid "Command"
 msgstr "Comando"
 
 #: ddterm/pref/command.js:28
-msgid "User _shell"
-msgstr "Usuário _shell"
+msgid "User shell"
+msgstr "Usuário shell"
 
 #: ddterm/pref/command.js:29
-msgid "User shell as _login shell"
+msgid "User shell as login shell"
 msgstr "Usuário do shell como login shell"
 
 #: ddterm/pref/command.js:30 ddterm/pref/command.js:35
-msgid "Custom _command:"
-msgstr "Comando personalizado:"
+msgid "Custom command"
+msgstr "Comando personalizado"
 
 #: ddterm/pref/command.js:51
 msgid "Preserve working directory"

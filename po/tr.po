@@ -741,16 +741,16 @@ msgid "Command"
 msgstr "Komut"
 
 #: ddterm/pref/command.js:28
-msgid "User _shell"
-msgstr "Kullanıcı _kabuğu"
+msgid "User shell"
+msgstr "Kullanıcı kabuğu"
 
 #: ddterm/pref/command.js:29
-msgid "User shell as _login shell"
-msgstr "Kullanıcı kabuğunu _giriş kabuğu olarak kullan"
+msgid "User shell as login shell"
+msgstr "Kullanıcı kabuğunu giriş kabuğu olarak kullan"
 
 #: ddterm/pref/command.js:30 ddterm/pref/command.js:35
-msgid "Custom _command:"
-msgstr "Özel _komut:"
+msgid "Custom command"
+msgstr "Özel komut"
 
 #: ddterm/pref/command.js:51
 msgid "Preserve working directory"

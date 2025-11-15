@@ -737,16 +737,16 @@ msgid "Command"
 msgstr "Příkaz"
 
 #: ddterm/pref/command.js:28
-msgid "User _shell"
-msgstr "Uživatelský _shell"
+msgid "User shell"
+msgstr "Uživatelský shell"
 
 #: ddterm/pref/command.js:29
-msgid "User shell as _login shell"
-msgstr "Uživatelský shell jako _login shell"
+msgid "User shell as login shell"
+msgstr "Uživatelský shell jako login shell"
 
 #: ddterm/pref/command.js:30 ddterm/pref/command.js:35
-msgid "Custom _command:"
-msgstr "Vlastní _příkaz:"
+msgid "Custom command"
+msgstr "Vlastní příkaz"
 
 #: ddterm/pref/command.js:51
 msgid "Preserve working directory"
