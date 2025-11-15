@@ -5,7 +5,6 @@
 pref_ui_src_files = files(
   'prefs-colors.ui',
   'prefs-command.ui',
-  'prefs-scrolling.ui',
   'prefs-text.ui',
 )
 

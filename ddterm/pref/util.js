@@ -156,6 +156,86 @@ export const SwitchRow = AdwOrHdy.SwitchRow ?? class extends ActionRow {
     }
 };
 
+export const SpinRow = AdwOrHdy.SpinRow ?? class extends ActionRow {
+    static [GObject.GTypeName] = 'DDTermSpinRow';
+
+    static [GObject.properties] = {
+        'adjustment': GObject.ParamSpec.object(
+            'adjustment',
+            null,
+            null,
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+            Gtk.Adjustment
+        ),
+        'digits': GObject.ParamSpec.int(
+            'digits',
+            null,
+            null,
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+            0,
+            20,
+            0
+        ),
+        'numeric': GObject.ParamSpec.boolean(
+            'numeric',
+            null,
+            null,
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+            false
+        ),
+        'snap-to-ticks': GObject.ParamSpec.boolean(
+            'snap-to-ticks',
+            null,
+            null,
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+            false
+        ),
+        'value': GObject.ParamSpec.double(
+            'value',
+            null,
+            null,
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+            -Number.MAX_VALUE,
+            Number.MAX_VALUE,
+            0
+        ),
+    };
+
+    static {
+        GObject.registerClass(this);
+    }
+
+    #spin;
+
+    constructor(params) {
+        super(params);
+
+        this.#spin = new Gtk.SpinButton({
+            visible: true,
+            hexpand: true,
+            valign: Gtk.Align.CENTER,
+        });
+
+        for (const prop of ['snap-to-ticks', 'numeric', 'digits', 'adjustment'])
+            this.bind_property(prop, this.#spin, prop, GObject.BindingFlags.SYNC_CREATE);
+
+        this.bind_property(
+            'value',
+            this.#spin,
+            'value',
+            GObject.BindingFlags.SYNC_CREATE | GObject.BindingFlags.BIDIRECTIONAL
+        );
+
+        this.set_activatable(true);
+        this.set_activatable_widget(this.#spin);
+
+        if (this.add_suffix)
+            this.add_suffix(this.#spin);
+        else
+            this.add(this.#spin);
+    }
+};
+
 export const INVALID_LIST_POSITION = Gtk.INVALID_LIST_POSITION ?? GLib.MAXUINT32;
 
 export const ComboRow = AdwOrHdy.ComboRow.prototype.bind_name_model

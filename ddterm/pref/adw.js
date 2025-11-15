@@ -14,7 +14,7 @@ import { CommandWidget } from './command.js';
 import { CompatibilityGroup } from './compatibility.js';
 import { PanelIconGroup } from './panelicon.js';
 import { PositionSizeGroup } from './positionsize.js';
-import { ScrollingWidget } from './scrolling.js';
+import { ScrollingGroup } from './scrolling.js';
 import { GlobalShortcutGroup, ApplicationShortcutGroup, ResetShortcutsGroup } from './shortcuts.js';
 import { TabsGroup } from './tabs.js';
 import { TextWidget } from './text.js';
@@ -77,7 +77,7 @@ class TerminalPage extends PreferencesPage {
         this.add_widget(TextWidget);
         this.add_widget(ColorsWidget);
         this.add_widget(CommandWidget);
-        this.add_widget(ScrollingWidget);
+        this.add(new ScrollingGroup({ settings, gettext_domain }));
         this.add(new CompatibilityGroup({ settings, gettext_domain }));
     }
 }

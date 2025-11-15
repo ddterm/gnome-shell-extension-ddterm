@@ -6,63 +6,89 @@ import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
 import Gtk from 'gi://Gtk';
 
-import {
-    bind_sensitive,
-    bind_widget,
-    insert_settings_actions,
-    ui_file_uri,
-} from './util.js';
+import { PreferencesGroup, SpinRow } from './util.js';
 
-export const ScrollingWidget = GObject.registerClass({
-    GTypeName: 'DDTermPrefsScrolling',
-    Template: ui_file_uri('prefs-scrolling.ui'),
-    Children: [
-        'scrollback_spin',
-        'limit_scrollback_check',
-    ],
-    Properties: {
-        'settings': GObject.ParamSpec.object(
-            'settings',
-            null,
-            null,
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-            Gio.Settings
-        ),
-        'gettext-domain': GObject.ParamSpec.jsobject(
-            'gettext-domain',
-            null,
-            null,
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY
-        ),
-    },
-}, class PrefsScrolling extends Gtk.Grid {
+export class ScrollingGroup extends PreferencesGroup {
+    static [GObject.GTypeName] = 'DDTermScrollingPreferencesGroup';
+
+    static {
+        GObject.registerClass(this);
+    }
+
+    #lines_adjustment;
+    #lines_row;
+
     constructor(params) {
         super(params);
 
-        insert_settings_actions(this, this.settings, [
-            'show-scrollbar',
-            'scroll-on-output',
-            'scroll-on-keystroke',
-        ]);
+        this.title = this.gettext('Scrolling');
 
-        bind_widget(
-            this.settings,
-            'scrollback-unlimited',
-            this.limit_scrollback_check,
-            Gio.SettingsBindFlags.INVERT_BOOLEAN
+        this.add_switch_row({
+            key: 'show-scrollbar',
+            title: this.gettext('Show _scrollbar'),
+        });
+
+        this.add_switch_row({
+            key: 'scroll-on-output',
+            title: this.gettext('Scroll on _output'),
+        });
+
+        this.add_switch_row({
+            key: 'scroll-on-keystroke',
+            title: this.gettext('Scroll on _keystroke'),
+        });
+
+        this.add_switch_row({
+            key: 'scrollback-unlimited',
+            title: this.gettext('Unlimited scrollback'),
+        });
+
+        this.#lines_adjustment = new Gtk.Adjustment({
+            upper: 1000000000,
+            step_increment: 1,
+            page_increment: 10,
+        });
+
+        this.#lines_row = new SpinRow({
+            title: this.gettext('Scrollback lines'),
+            adjustment: this.#lines_adjustment,
+            visible: true,
+            snap_to_ticks: true,
+            numeric: true,
+        });
+
+        this.settings.bind(
+            'scrollback-lines',
+            this.#lines_adjustment,
+            'value',
+            Gio.SettingsBindFlags.NO_SENSITIVITY
         );
 
-        bind_widget(this.settings, 'scrollback-lines', this.scrollback_spin);
+        this.add(this.#lines_row);
 
-        bind_sensitive(
-            this.settings,
-            'scrollback-unlimited',
-            this.scrollback_spin.parent,
-            true
-        );
+        this.connect('realize', this.#realize.bind(this));
     }
 
-    get title() {
-        return this.gettext_domain.gettext('Scrolling');
+    #realize() {
+        const update_sensitivity = this.#update_sensitivity.bind(this);
+
+        const settings_handlers = [
+            this.settings.connect('writable-changed::scrollback-lines', update_sensitivity),
+            this.settings.connect('changed::scrollback-unlimited', update_sensitivity),
+        ];
+
+        const unrealize_handler = this.connect('unrealize', () => {
+            this.disconnect(unrealize_handler);
+
+            for (const handler of settings_handlers)
+                this.settings.disconnect(handler);
+        });
+
+        this.#update_sensitivity();
     }
-});
+
+    #update_sensitivity() {
+        this.#lines_row.sensitive = !this.settings.get_boolean('scrollback-unlimited') &&
+            this.settings.is_writable('scrollback-lines');
+    }
+}
