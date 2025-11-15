@@ -124,6 +124,8 @@ export const Application = GObject.registerClass({
 
             this.settings = get_settings();
             this.gettext_domain = Gettext.domain(metadata['gettext-domain']);
+        } catch (ex) {
+            logError(ex);
         } finally {
             this.release();
         }
@@ -149,6 +151,8 @@ export const Application = GObject.registerClass({
             } else {
                 await this.preferences();
             }
+        } catch (ex) {
+            logError(ex);
         } finally {
             this.release();
         }
@@ -157,7 +161,6 @@ export const Application = GObject.registerClass({
     async do_test() {
         let dialog = await this.preferences();
 
-        await dialog.wait_loaded();
         await wait_frame(dialog);
         await wait_idle();
 
@@ -176,6 +179,8 @@ export const Application = GObject.registerClass({
         prefs_dialog.connect('loaded', () => {
             prefs_dialog.show();
         });
+
+        await prefs_dialog.wait_loaded();
 
         return prefs_dialog;
     }
