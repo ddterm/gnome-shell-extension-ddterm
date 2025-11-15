@@ -30,12 +30,12 @@ export class ScrollingGroup extends PreferencesGroup {
 
         this.add_switch_row({
             key: 'scroll-on-output',
-            title: this.gettext('Scroll on _output'),
+            title: this.gettext('Scroll On Output'),
         });
 
         this.add_switch_row({
             key: 'scroll-on-keystroke',
-            title: this.gettext('Scroll on _keystroke'),
+            title: this.gettext('Scroll On Keystroke'),
         });
 
         this.add_switch_row({
