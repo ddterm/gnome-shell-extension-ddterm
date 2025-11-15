@@ -589,7 +589,7 @@ export class ColorsGroup extends PreferencesGroup {
 
         const opacity_expander = this.add_expander_row({
             key: 'transparent-background',
-            title: this.gettext('Transparent background'),
+            title: this.gettext('Transparent Background'),
         });
 
         opacity_expander.add_row(opacity_row);
