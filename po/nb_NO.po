@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-15 10:13+0000\n"
+"POT-Creation-Date: 2025-11-15 10:43+0000\n"
 "PO-Revision-Date: 2024-09-02 20:09+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/nb_NO/>\n"
@@ -312,7 +312,7 @@ msgstr "På alle arbeidsområder"
 msgid "Maximize Window"
 msgstr "Maksimer vindu"
 
-#: ddterm/app/ui/menus.ui:168
+#: ddterm/app/ui/menus.ui:168 ddterm/pref/colors.js:592
 msgid "Transparent Background"
 msgstr "Gjennomsiktig bakgrunn"
 
@@ -695,12 +695,6 @@ msgstr "Framhevingsbakgrunnsfarge"
 #: ddterm/pref/colors.js:577
 msgid "_Background opacity:"
 msgstr "_Bakgrunnsdekkevne:"
-
-#: ddterm/pref/colors.js:592
-#, fuzzy
-#| msgid "Transparent Background"
-msgid "Transparent background"
-msgstr "Gjennomsiktig bakgrunn"
 
 #: ddterm/pref/colors.js:598
 msgid "GNOME"
@@ -1237,6 +1231,11 @@ msgstr ""
 #: ddterm/shell/panelicon.js:48
 msgid "Show"
 msgstr "Vis"
+
+#, fuzzy
+#~| msgid "Transparent Background"
+#~ msgid "Transparent background"
+#~ msgstr "Gjennomsiktig bakgrunn"
 
 #~ msgid "Palette Color 0"
 #~ msgstr "Fargepalettfarge 0"

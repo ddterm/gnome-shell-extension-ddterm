@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-15 10:13+0000\n"
+"POT-Creation-Date: 2025-11-15 10:43+0000\n"
 "PO-Revision-Date: 2023-10-24 22:14+0000\n"
 "Last-Translator: Pavel Novák <pavelnov32@gmail.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/cs/>\n"
@@ -312,7 +312,7 @@ msgstr "Na všech pracovních plochách"
 msgid "Maximize Window"
 msgstr "Maximalizovat okno"
 
-#: ddterm/app/ui/menus.ui:168
+#: ddterm/app/ui/menus.ui:168 ddterm/pref/colors.js:592
 msgid "Transparent Background"
 msgstr "Průhledné pozadí"
 
@@ -695,12 +695,6 @@ msgstr "Zvýrazněná barva pozadí"
 #: ddterm/pref/colors.js:577
 msgid "_Background opacity:"
 msgstr "Průhlednost _Pozadí:"
-
-#: ddterm/pref/colors.js:592
-#, fuzzy
-#| msgid "Transparent Background"
-msgid "Transparent background"
-msgstr "Průhledné pozadí"
 
 #: ddterm/pref/colors.js:598
 msgid "GNOME"
@@ -1240,6 +1234,11 @@ msgstr ""
 #: ddterm/shell/panelicon.js:48
 msgid "Show"
 msgstr "Zobrazit"
+
+#, fuzzy
+#~| msgid "Transparent Background"
+#~ msgid "Transparent background"
+#~ msgstr "Průhledné pozadí"
 
 #~ msgid "Palette Color 0"
 #~ msgstr "Barva palety 0"

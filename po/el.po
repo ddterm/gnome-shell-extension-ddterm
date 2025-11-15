@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-15 10:13+0000\n"
+"POT-Creation-Date: 2025-11-15 10:43+0000\n"
 "PO-Revision-Date: 2025-05-13 19:23+0000\n"
 "Last-Translator: Klearchos-Angelos Gkountras <jemadux@cryptolab.net>\n"
 "Language-Team: Greek <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/el/>\n"
@@ -323,7 +323,7 @@ msgstr "Πάνω από Επιφάνιες Εργασίας"
 msgid "Maximize Window"
 msgstr "Μεγένθυση Παράθύρου"
 
-#: ddterm/app/ui/menus.ui:168
+#: ddterm/app/ui/menus.ui:168 ddterm/pref/colors.js:592
 msgid "Transparent Background"
 msgstr "Διάφανο φόντο"
 
@@ -706,12 +706,6 @@ msgstr "Επισημάνετε το χρώμα φόντου"
 #: ddterm/pref/colors.js:577
 msgid "_Background opacity:"
 msgstr "_Αδιαφάνεια φόντου:"
-
-#: ddterm/pref/colors.js:592
-#, fuzzy
-#| msgid "Transparent Background"
-msgid "Transparent background"
-msgstr "Διάφανο φόντο"
 
 #: ddterm/pref/colors.js:598
 msgid "GNOME"
@@ -1252,6 +1246,11 @@ msgstr ""
 #: ddterm/shell/panelicon.js:48
 msgid "Show"
 msgstr "Εμφάνιση"
+
+#, fuzzy
+#~| msgid "Transparent Background"
+#~ msgid "Transparent background"
+#~ msgstr "Διάφανο φόντο"
 
 #~ msgid "Palette Color 0"
 #~ msgstr "Χρώμα παλέτας 0"

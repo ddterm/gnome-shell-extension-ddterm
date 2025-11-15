@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-15 10:13+0000\n"
+"POT-Creation-Date: 2025-11-15 10:43+0000\n"
 "PO-Revision-Date: 2025-09-06 08:02+0000\n"
 "Last-Translator: yuh <yuhldr@qq.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/zh_Hans/>\n"
@@ -311,7 +311,7 @@ msgstr "在所有工作区"
 msgid "Maximize Window"
 msgstr "最大化窗口"
 
-#: ddterm/app/ui/menus.ui:168
+#: ddterm/app/ui/menus.ui:168 ddterm/pref/colors.js:592
 msgid "Transparent Background"
 msgstr "背景透明"
 
@@ -694,12 +694,6 @@ msgstr "强调背景色"
 #: ddterm/pref/colors.js:577
 msgid "_Background opacity:"
 msgstr "_背景不透明度："
-
-#: ddterm/pref/colors.js:592
-#, fuzzy
-#| msgid "Transparent Background"
-msgid "Transparent background"
-msgstr "背景透明"
 
 #: ddterm/pref/colors.js:598
 msgid "GNOME"
@@ -1234,6 +1228,11 @@ msgstr "安装"
 #: ddterm/shell/panelicon.js:48
 msgid "Show"
 msgstr "显示"
+
+#, fuzzy
+#~| msgid "Transparent Background"
+#~ msgid "Transparent background"
+#~ msgstr "背景透明"
 
 #~ msgid "Palette Color 0"
 #~ msgstr "调色板颜色 0"

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-15 10:13+0000\n"
+"POT-Creation-Date: 2025-11-15 10:43+0000\n"
 "PO-Revision-Date: 2025-10-07 20:02+0000\n"
 "Last-Translator: Nuri KÜÇÜKLER <enatsek@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/tr/>\n"
@@ -316,7 +316,7 @@ msgstr "Tüm Çalışma Alanlarında"
 msgid "Maximize Window"
 msgstr "Pencereyi Büyüt"
 
-#: ddterm/app/ui/menus.ui:168
+#: ddterm/app/ui/menus.ui:168 ddterm/pref/colors.js:592
 msgid "Transparent Background"
 msgstr "Saydam Arkaplan"
 
@@ -699,12 +699,6 @@ msgstr "Vurgulama Arka Plan Rengi"
 #: ddterm/pref/colors.js:577
 msgid "_Background opacity:"
 msgstr "_Arkaplan opaklığı:"
-
-#: ddterm/pref/colors.js:592
-#, fuzzy
-#| msgid "Transparent Background"
-msgid "Transparent background"
-msgstr "Saydam Arkaplan"
 
 #: ddterm/pref/colors.js:598
 msgid "GNOME"
@@ -1239,6 +1233,11 @@ msgstr "Kur"
 #: ddterm/shell/panelicon.js:48
 msgid "Show"
 msgstr "Göster"
+
+#, fuzzy
+#~| msgid "Transparent Background"
+#~ msgid "Transparent background"
+#~ msgstr "Saydam Arkaplan"
 
 #~ msgid "Palette Color 0"
 #~ msgstr "Palet Rengi 0"

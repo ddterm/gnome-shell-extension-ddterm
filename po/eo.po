@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-15 10:13+0000\n"
+"POT-Creation-Date: 2025-11-15 10:43+0000\n"
 "PO-Revision-Date: 2024-06-01 19:09+0000\n"
 "Last-Translator: phlostically <phlostically@mailinator.com>\n"
 "Language-Team: Esperanto <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/eo/>\n"
@@ -311,7 +311,7 @@ msgstr "En ĉiuj laborspacoj"
 msgid "Maximize Window"
 msgstr "Maksimumigi fenestron"
 
-#: ddterm/app/ui/menus.ui:168
+#: ddterm/app/ui/menus.ui:168 ddterm/pref/colors.js:592
 msgid "Transparent Background"
 msgstr "Travidebla fono"
 
@@ -694,12 +694,6 @@ msgstr "Reliefiga fona koloro"
 #: ddterm/pref/colors.js:577
 msgid "_Background opacity:"
 msgstr "_Fona opako:"
-
-#: ddterm/pref/colors.js:592
-#, fuzzy
-#| msgid "Transparent Background"
-msgid "Transparent background"
-msgstr "Travidebla fono"
 
 #: ddterm/pref/colors.js:598
 msgid "GNOME"
@@ -1228,6 +1222,11 @@ msgstr "Instali"
 #: ddterm/shell/panelicon.js:48
 msgid "Show"
 msgstr "Montri"
+
+#, fuzzy
+#~| msgid "Transparent Background"
+#~ msgid "Transparent background"
+#~ msgstr "Travidebla fono"
 
 #~ msgid "Palette Color 0"
 #~ msgstr "Paletra koloro 0"

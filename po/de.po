@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-15 10:13+0000\n"
+"POT-Creation-Date: 2025-11-15 10:43+0000\n"
 "PO-Revision-Date: 2025-09-07 13:03+0000\n"
 "Last-Translator: Ettore Atalan <atalanttore@googlemail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/de/>\n"
@@ -317,7 +317,7 @@ msgstr "Auf allen Arbeitsflächen"
 msgid "Maximize Window"
 msgstr "Fenster maximieren"
 
-#: ddterm/app/ui/menus.ui:168
+#: ddterm/app/ui/menus.ui:168 ddterm/pref/colors.js:592
 msgid "Transparent Background"
 msgstr "Transparenter Hintergrund"
 
@@ -700,12 +700,6 @@ msgstr "Hervorhebung Hintergrundfarbe"
 #: ddterm/pref/colors.js:577
 msgid "_Background opacity:"
 msgstr "Hintergrund-Deckkraft:"
-
-#: ddterm/pref/colors.js:592
-#, fuzzy
-#| msgid "Transparent Background"
-msgid "Transparent background"
-msgstr "Transparenter Hintergrund"
 
 #: ddterm/pref/colors.js:598
 msgid "GNOME"
@@ -1241,6 +1235,11 @@ msgstr "Installieren"
 #: ddterm/shell/panelicon.js:48
 msgid "Show"
 msgstr "Anzeigen"
+
+#, fuzzy
+#~| msgid "Transparent Background"
+#~ msgid "Transparent background"
+#~ msgstr "Transparenter Hintergrund"
 
 #~ msgid "Palette Color 0"
 #~ msgstr "Palette Farbe 0"
