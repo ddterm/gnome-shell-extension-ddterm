@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-15 10:43+0000\n"
+"POT-Creation-Date: 2025-11-15 17:26+0000\n"
 "PO-Revision-Date: 2025-09-18 04:23+0000\n"
 "Last-Translator: Ivan Vantu5z <vantu5z@mail.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/ru/>\n"
@@ -309,11 +309,11 @@ msgstr "Переместить вкладку на другую панель"
 msgid "Preferences"
 msgstr "Параметры"
 
-#: ddterm/app/ui/menus.ui:156
+#: ddterm/app/ui/menus.ui:156 ddterm/pref/behavior.js:28
 msgid "Above All Windows"
 msgstr "Поверх всех окон"
 
-#: ddterm/app/ui/menus.ui:160
+#: ddterm/app/ui/menus.ui:160 ddterm/pref/behavior.js:33
 msgid "On All Workspaces"
 msgstr "На всех рабочих столах"
 
@@ -325,23 +325,23 @@ msgstr "На весь экран"
 msgid "Transparent Background"
 msgstr "Прозрачный фон"
 
-#: ddterm/app/ui/menus.ui:174
+#: ddterm/app/ui/menus.ui:174 ddterm/pref/behavior.js:38
 msgid "Hide When Application Loses Focus"
 msgstr "Скрывать при потере фокуса"
 
-#: ddterm/app/ui/menus.ui:178
+#: ddterm/app/ui/menus.ui:178 ddterm/pref/behavior.js:43
 msgid "Hide When Esc Key Is Pressed"
 msgstr "Скрывать по клавише ESC"
 
-#: ddterm/app/ui/menus.ui:184
+#: ddterm/app/ui/menus.ui:184 ddterm/pref/scrolling.js:33
 msgid "Scroll On Output"
 msgstr "Прокрутка при выводе"
 
-#: ddterm/app/ui/menus.ui:188
+#: ddterm/app/ui/menus.ui:188 ddterm/pref/scrolling.js:38
 msgid "Scroll On Keystroke"
 msgstr "Прокрутка по нажатию клавиши"
 
-#: ddterm/app/ui/menus.ui:194
+#: ddterm/app/ui/menus.ui:194 ddterm/pref/command.js:51
 msgid "Preserve Working Directory In New Tabs"
 msgstr "Сохранять рабочий каталог в новых вкладках"
 
@@ -553,22 +553,6 @@ msgstr "Поведение"
 msgid "_Resizable"
 msgstr "Изменяемый размер"
 
-#: ddterm/pref/behavior.js:28
-msgid "_Above all windows"
-msgstr "Поверх всех окон"
-
-#: ddterm/pref/behavior.js:33
-msgid "On all _workspaces"
-msgstr "На всех рабочих столах"
-
-#: ddterm/pref/behavior.js:38
-msgid "Hide when the application loses _focus"
-msgstr "Скрывать при потере фокуса"
-
-#: ddterm/pref/behavior.js:43
-msgid "Hide when _Esc key is pressed"
-msgstr "Скрывать при нажатии клавиши ESC"
-
 #: ddterm/pref/behavior.js:48
 msgid "Exclude from _overview/task bar"
 msgstr "Не показывать в обзоре/панеле задач"
@@ -757,10 +741,6 @@ msgstr "Пользовательский shell как оболочка вход�
 msgid "Custom command"
 msgstr "Другая команда"
 
-#: ddterm/pref/command.js:51
-msgid "Preserve working directory"
-msgstr "Сохранять рабочий каталог"
-
 #: ddterm/pref/compatibility.js:20
 msgid "Compatibility"
 msgstr "Совместимость"
@@ -880,14 +860,6 @@ msgstr "Прокрутка"
 #: ddterm/pref/scrolling.js:28
 msgid "Show _scrollbar"
 msgstr "Показывать полосу прокрутки"
-
-#: ddterm/pref/scrolling.js:33
-msgid "Scroll on _output"
-msgstr "Прокручивать при выводе"
-
-#: ddterm/pref/scrolling.js:38
-msgid "Scroll on _keystroke"
-msgstr "Прокручивать при нажатии клавиши"
 
 #: ddterm/pref/scrolling.js:43
 #, fuzzy
@@ -1238,6 +1210,27 @@ msgstr "Установка"
 #: ddterm/shell/panelicon.js:48
 msgid "Show"
 msgstr "Показать"
+
+#~ msgid "_Above all windows"
+#~ msgstr "Поверх всех окон"
+
+#~ msgid "On all _workspaces"
+#~ msgstr "На всех рабочих столах"
+
+#~ msgid "Hide when the application loses _focus"
+#~ msgstr "Скрывать при потере фокуса"
+
+#~ msgid "Hide when _Esc key is pressed"
+#~ msgstr "Скрывать при нажатии клавиши ESC"
+
+#~ msgid "Preserve working directory"
+#~ msgstr "Сохранять рабочий каталог"
+
+#~ msgid "Scroll on _output"
+#~ msgstr "Прокручивать при выводе"
+
+#~ msgid "Scroll on _keystroke"
+#~ msgstr "Прокручивать при нажатии клавиши"
 
 #, fuzzy
 #~| msgid "Transparent Background"

@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-15 10:43+0000\n"
+"POT-Creation-Date: 2025-11-15 17:26+0000\n"
 "PO-Revision-Date: 2025-05-08 06:03+0000\n"
 "Last-Translator: luk <lukasz.osadik@wp.pl>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/pl/>\n"
@@ -309,11 +309,11 @@ msgstr "Przesuń kartę na drugi widok"
 msgid "Preferences"
 msgstr "Preferencje"
 
-#: ddterm/app/ui/menus.ui:156
+#: ddterm/app/ui/menus.ui:156 ddterm/pref/behavior.js:28
 msgid "Above All Windows"
 msgstr "Powyżej wszystkimi oknami"
 
-#: ddterm/app/ui/menus.ui:160
+#: ddterm/app/ui/menus.ui:160 ddterm/pref/behavior.js:33
 msgid "On All Workspaces"
 msgstr "Na wszystkich obszarach roboczych"
 
@@ -325,23 +325,23 @@ msgstr "Maksymalizuj okno"
 msgid "Transparent Background"
 msgstr "Przezroczyste tło"
 
-#: ddterm/app/ui/menus.ui:174
+#: ddterm/app/ui/menus.ui:174 ddterm/pref/behavior.js:38
 msgid "Hide When Application Loses Focus"
 msgstr "Ukryj kiedy okno nie jest aktywne"
 
-#: ddterm/app/ui/menus.ui:178
+#: ddterm/app/ui/menus.ui:178 ddterm/pref/behavior.js:43
 msgid "Hide When Esc Key Is Pressed"
 msgstr "Ukryj po naciśnięciu klawisza Esc"
 
-#: ddterm/app/ui/menus.ui:184
+#: ddterm/app/ui/menus.ui:184 ddterm/pref/scrolling.js:33
 msgid "Scroll On Output"
 msgstr "Przesuwaj na wyjściu"
 
-#: ddterm/app/ui/menus.ui:188
+#: ddterm/app/ui/menus.ui:188 ddterm/pref/scrolling.js:38
 msgid "Scroll On Keystroke"
 msgstr "Przesuwaj po wciśnięciu klawisza"
 
-#: ddterm/app/ui/menus.ui:194
+#: ddterm/app/ui/menus.ui:194 ddterm/pref/command.js:51
 msgid "Preserve Working Directory In New Tabs"
 msgstr "Zachowaj katalog roboczy w nowych kartach"
 
@@ -555,22 +555,6 @@ msgstr "Zachowanie"
 msgid "_Resizable"
 msgstr "_Możliwa zmiana rozmiaru"
 
-#: ddterm/pref/behavior.js:28
-msgid "_Above all windows"
-msgstr "_Ponad wszystkimi oknami"
-
-#: ddterm/pref/behavior.js:33
-msgid "On all _workspaces"
-msgstr "Na wszystkich _obszarach roboczych"
-
-#: ddterm/pref/behavior.js:38
-msgid "Hide when the application loses _focus"
-msgstr "Ukryj kiedy aplikacja nie będzie aktywna"
-
-#: ddterm/pref/behavior.js:43
-msgid "Hide when _Esc key is pressed"
-msgstr "Ukryj kiedy klawisz _Esc jest wciśnięty"
-
 #: ddterm/pref/behavior.js:48
 msgid "Exclude from _overview/task bar"
 msgstr "Wyklucz z _podglądu/paska zadań"
@@ -759,10 +743,6 @@ msgstr "Powłoka użytkownika jako powłoka logowania"
 msgid "Custom command"
 msgstr "Niestandardowe komendy"
 
-#: ddterm/pref/command.js:51
-msgid "Preserve working directory"
-msgstr "Zabezpiecz katalog roboczy"
-
 #: ddterm/pref/compatibility.js:20
 msgid "Compatibility"
 msgstr "Zgodność"
@@ -882,14 +862,6 @@ msgstr "Przewijanie"
 #: ddterm/pref/scrolling.js:28
 msgid "Show _scrollbar"
 msgstr "Pokaż pasek _przewijania"
-
-#: ddterm/pref/scrolling.js:33
-msgid "Scroll on _output"
-msgstr "Przewijaj przy _wyjściu"
-
-#: ddterm/pref/scrolling.js:38
-msgid "Scroll on _keystroke"
-msgstr "Przewijaj przy _klawiszu"
 
 #: ddterm/pref/scrolling.js:43
 #, fuzzy
@@ -1240,6 +1212,27 @@ msgstr "Zainstaluj"
 #: ddterm/shell/panelicon.js:48
 msgid "Show"
 msgstr "Pokaż"
+
+#~ msgid "_Above all windows"
+#~ msgstr "_Ponad wszystkimi oknami"
+
+#~ msgid "On all _workspaces"
+#~ msgstr "Na wszystkich _obszarach roboczych"
+
+#~ msgid "Hide when the application loses _focus"
+#~ msgstr "Ukryj kiedy aplikacja nie będzie aktywna"
+
+#~ msgid "Hide when _Esc key is pressed"
+#~ msgstr "Ukryj kiedy klawisz _Esc jest wciśnięty"
+
+#~ msgid "Preserve working directory"
+#~ msgstr "Zabezpiecz katalog roboczy"
+
+#~ msgid "Scroll on _output"
+#~ msgstr "Przewijaj przy _wyjściu"
+
+#~ msgid "Scroll on _keystroke"
+#~ msgstr "Przewijaj przy _klawiszu"
 
 #, fuzzy
 #~| msgid "Transparent Background"

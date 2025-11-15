@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-15 10:43+0000\n"
+"POT-Creation-Date: 2025-11-15 17:26+0000\n"
 "PO-Revision-Date: 2025-09-06 08:02+0000\n"
 "Last-Translator: yuh <yuhldr@qq.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/zh_Hans/>\n"
@@ -299,11 +299,11 @@ msgstr "移动标签页到下一个面板"
 msgid "Preferences"
 msgstr "首选项"
 
-#: ddterm/app/ui/menus.ui:156
+#: ddterm/app/ui/menus.ui:156 ddterm/pref/behavior.js:28
 msgid "Above All Windows"
 msgstr "上面所有窗口"
 
-#: ddterm/app/ui/menus.ui:160
+#: ddterm/app/ui/menus.ui:160 ddterm/pref/behavior.js:33
 msgid "On All Workspaces"
 msgstr "在所有工作区"
 
@@ -315,23 +315,23 @@ msgstr "最大化窗口"
 msgid "Transparent Background"
 msgstr "背景透明"
 
-#: ddterm/app/ui/menus.ui:174
+#: ddterm/app/ui/menus.ui:174 ddterm/pref/behavior.js:38
 msgid "Hide When Application Loses Focus"
 msgstr "当应用程序失去焦点时隐藏"
 
-#: ddterm/app/ui/menus.ui:178
+#: ddterm/app/ui/menus.ui:178 ddterm/pref/behavior.js:43
 msgid "Hide When Esc Key Is Pressed"
 msgstr "当按Esc键时隐藏"
 
-#: ddterm/app/ui/menus.ui:184
+#: ddterm/app/ui/menus.ui:184 ddterm/pref/scrolling.js:33
 msgid "Scroll On Output"
 msgstr "输出时滚动"
 
-#: ddterm/app/ui/menus.ui:188
+#: ddterm/app/ui/menus.ui:188 ddterm/pref/scrolling.js:38
 msgid "Scroll On Keystroke"
 msgstr "击键时滚动"
 
-#: ddterm/app/ui/menus.ui:194
+#: ddterm/app/ui/menus.ui:194 ddterm/pref/command.js:51
 msgid "Preserve Working Directory In New Tabs"
 msgstr "在新标签页中保留当前路径"
 
@@ -543,22 +543,6 @@ msgstr "行为"
 msgid "_Resizable"
 msgstr "_可调整大小"
 
-#: ddterm/pref/behavior.js:28
-msgid "_Above all windows"
-msgstr "_所有窗口上方"
-
-#: ddterm/pref/behavior.js:33
-msgid "On all _workspaces"
-msgstr "在所有_工作区上"
-
-#: ddterm/pref/behavior.js:38
-msgid "Hide when the application loses _focus"
-msgstr "应用程序失去_焦点时隐藏"
-
-#: ddterm/pref/behavior.js:43
-msgid "Hide when _Esc key is pressed"
-msgstr "按 _Esc 键时隐藏"
-
 #: ddterm/pref/behavior.js:48
 msgid "Exclude from _overview/task bar"
 msgstr "从_概览/任务栏中排除"
@@ -747,10 +731,6 @@ msgstr "用户 Shell 作为 登录 Shell"
 msgid "Custom command"
 msgstr "自定义 命令"
 
-#: ddterm/pref/command.js:51
-msgid "Preserve working directory"
-msgstr "保存工作目录"
-
 #: ddterm/pref/compatibility.js:20
 msgid "Compatibility"
 msgstr "兼容性"
@@ -870,14 +850,6 @@ msgstr "滚动"
 #: ddterm/pref/scrolling.js:28
 msgid "Show _scrollbar"
 msgstr "显示 _滚动条"
-
-#: ddterm/pref/scrolling.js:33
-msgid "Scroll on _output"
-msgstr "在 _输出上滚动"
-
-#: ddterm/pref/scrolling.js:38
-msgid "Scroll on _keystroke"
-msgstr "在 _按键上滚动"
 
 #: ddterm/pref/scrolling.js:43
 #, fuzzy
@@ -1228,6 +1200,27 @@ msgstr "安装"
 #: ddterm/shell/panelicon.js:48
 msgid "Show"
 msgstr "显示"
+
+#~ msgid "_Above all windows"
+#~ msgstr "_所有窗口上方"
+
+#~ msgid "On all _workspaces"
+#~ msgstr "在所有_工作区上"
+
+#~ msgid "Hide when the application loses _focus"
+#~ msgstr "应用程序失去_焦点时隐藏"
+
+#~ msgid "Hide when _Esc key is pressed"
+#~ msgstr "按 _Esc 键时隐藏"
+
+#~ msgid "Preserve working directory"
+#~ msgstr "保存工作目录"
+
+#~ msgid "Scroll on _output"
+#~ msgstr "在 _输出上滚动"
+
+#~ msgid "Scroll on _keystroke"
+#~ msgstr "在 _按键上滚动"
 
 #, fuzzy
 #~| msgid "Transparent Background"

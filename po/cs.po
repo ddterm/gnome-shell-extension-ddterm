@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-15 10:43+0000\n"
+"POT-Creation-Date: 2025-11-15 17:26+0000\n"
 "PO-Revision-Date: 2023-10-24 22:14+0000\n"
 "Last-Translator: Pavel Novák <pavelnov32@gmail.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/cs/>\n"
@@ -300,11 +300,11 @@ msgstr "Posunout panel na další okno"
 msgid "Preferences"
 msgstr "Předvolby"
 
-#: ddterm/app/ui/menus.ui:156
+#: ddterm/app/ui/menus.ui:156 ddterm/pref/behavior.js:28
 msgid "Above All Windows"
 msgstr "Nad všemi okny"
 
-#: ddterm/app/ui/menus.ui:160
+#: ddterm/app/ui/menus.ui:160 ddterm/pref/behavior.js:33
 msgid "On All Workspaces"
 msgstr "Na všech pracovních plochách"
 
@@ -316,23 +316,23 @@ msgstr "Maximalizovat okno"
 msgid "Transparent Background"
 msgstr "Průhledné pozadí"
 
-#: ddterm/app/ui/menus.ui:174
+#: ddterm/app/ui/menus.ui:174 ddterm/pref/behavior.js:38
 msgid "Hide When Application Loses Focus"
 msgstr "Skrýt při ztracení zaměření"
 
-#: ddterm/app/ui/menus.ui:178
+#: ddterm/app/ui/menus.ui:178 ddterm/pref/behavior.js:43
 msgid "Hide When Esc Key Is Pressed"
 msgstr "Schovat při zmáčknutí Esc"
 
-#: ddterm/app/ui/menus.ui:184
+#: ddterm/app/ui/menus.ui:184 ddterm/pref/scrolling.js:33
 msgid "Scroll On Output"
 msgstr "Posouvat při výpisu"
 
-#: ddterm/app/ui/menus.ui:188
+#: ddterm/app/ui/menus.ui:188 ddterm/pref/scrolling.js:38
 msgid "Scroll On Keystroke"
 msgstr "Posunout při vstupu"
 
-#: ddterm/app/ui/menus.ui:194
+#: ddterm/app/ui/menus.ui:194 ddterm/pref/command.js:51
 msgid "Preserve Working Directory In New Tabs"
 msgstr "Zachovat pracovní složku v nových panelech"
 
@@ -544,22 +544,6 @@ msgstr "Chování"
 msgid "_Resizable"
 msgstr "_Měnitelná velikost"
 
-#: ddterm/pref/behavior.js:28
-msgid "_Above all windows"
-msgstr "_Nad všemi okny"
-
-#: ddterm/pref/behavior.js:33
-msgid "On all _workspaces"
-msgstr "Na všech _ pracovních plochách"
-
-#: ddterm/pref/behavior.js:38
-msgid "Hide when the application loses _focus"
-msgstr "Skrýt když aplikace ztratí _zaměření"
-
-#: ddterm/pref/behavior.js:43
-msgid "Hide when _Esc key is pressed"
-msgstr "Skrýt když je stisknuto tlačítko _Esc"
-
 #: ddterm/pref/behavior.js:48
 msgid "Exclude from _overview/task bar"
 msgstr "Vynechat z _přehledu/panelu úloh"
@@ -748,10 +732,6 @@ msgstr "Uživatelský shell jako login shell"
 msgid "Custom command"
 msgstr "Vlastní příkaz"
 
-#: ddterm/pref/command.js:51
-msgid "Preserve working directory"
-msgstr "Zachovat pracovní složku"
-
 #: ddterm/pref/compatibility.js:20
 msgid "Compatibility"
 msgstr "Kompatibilita"
@@ -871,14 +851,6 @@ msgstr "Posouvání"
 #: ddterm/pref/scrolling.js:28
 msgid "Show _scrollbar"
 msgstr "Zobrazit _posuvník"
-
-#: ddterm/pref/scrolling.js:33
-msgid "Scroll on _output"
-msgstr "Posouvat při _výstupu"
-
-#: ddterm/pref/scrolling.js:38
-msgid "Scroll on _keystroke"
-msgstr "Posouvat při _vstupu"
 
 #: ddterm/pref/scrolling.js:43
 #, fuzzy
@@ -1234,6 +1206,27 @@ msgstr ""
 #: ddterm/shell/panelicon.js:48
 msgid "Show"
 msgstr "Zobrazit"
+
+#~ msgid "_Above all windows"
+#~ msgstr "_Nad všemi okny"
+
+#~ msgid "On all _workspaces"
+#~ msgstr "Na všech _ pracovních plochách"
+
+#~ msgid "Hide when the application loses _focus"
+#~ msgstr "Skrýt když aplikace ztratí _zaměření"
+
+#~ msgid "Hide when _Esc key is pressed"
+#~ msgstr "Skrýt když je stisknuto tlačítko _Esc"
+
+#~ msgid "Preserve working directory"
+#~ msgstr "Zachovat pracovní složku"
+
+#~ msgid "Scroll on _output"
+#~ msgstr "Posouvat při _výstupu"
+
+#~ msgid "Scroll on _keystroke"
+#~ msgstr "Posouvat při _vstupu"
 
 #, fuzzy
 #~| msgid "Transparent Background"

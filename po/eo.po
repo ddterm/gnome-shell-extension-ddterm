@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-15 10:43+0000\n"
+"POT-Creation-Date: 2025-11-15 17:26+0000\n"
 "PO-Revision-Date: 2024-06-01 19:09+0000\n"
 "Last-Translator: phlostically <phlostically@mailinator.com>\n"
 "Language-Team: Esperanto <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/eo/>\n"
@@ -299,11 +299,11 @@ msgstr ""
 msgid "Preferences"
 msgstr "Agordoj"
 
-#: ddterm/app/ui/menus.ui:156
+#: ddterm/app/ui/menus.ui:156 ddterm/pref/behavior.js:28
 msgid "Above All Windows"
 msgstr "Super ĉiuj fenestroj"
 
-#: ddterm/app/ui/menus.ui:160
+#: ddterm/app/ui/menus.ui:160 ddterm/pref/behavior.js:33
 msgid "On All Workspaces"
 msgstr "En ĉiuj laborspacoj"
 
@@ -315,23 +315,23 @@ msgstr "Maksimumigi fenestron"
 msgid "Transparent Background"
 msgstr "Travidebla fono"
 
-#: ddterm/app/ui/menus.ui:174
+#: ddterm/app/ui/menus.ui:174 ddterm/pref/behavior.js:38
 msgid "Hide When Application Loses Focus"
 msgstr ""
 
-#: ddterm/app/ui/menus.ui:178
+#: ddterm/app/ui/menus.ui:178 ddterm/pref/behavior.js:43
 msgid "Hide When Esc Key Is Pressed"
 msgstr ""
 
-#: ddterm/app/ui/menus.ui:184
+#: ddterm/app/ui/menus.ui:184 ddterm/pref/scrolling.js:33
 msgid "Scroll On Output"
 msgstr ""
 
-#: ddterm/app/ui/menus.ui:188
+#: ddterm/app/ui/menus.ui:188 ddterm/pref/scrolling.js:38
 msgid "Scroll On Keystroke"
 msgstr ""
 
-#: ddterm/app/ui/menus.ui:194
+#: ddterm/app/ui/menus.ui:194 ddterm/pref/command.js:51
 msgid "Preserve Working Directory In New Tabs"
 msgstr ""
 
@@ -545,22 +545,6 @@ msgstr "Konduto"
 msgid "_Resizable"
 msgstr ""
 
-#: ddterm/pref/behavior.js:28
-msgid "_Above all windows"
-msgstr ""
-
-#: ddterm/pref/behavior.js:33
-msgid "On all _workspaces"
-msgstr ""
-
-#: ddterm/pref/behavior.js:38
-msgid "Hide when the application loses _focus"
-msgstr ""
-
-#: ddterm/pref/behavior.js:43
-msgid "Hide when _Esc key is pressed"
-msgstr ""
-
 #: ddterm/pref/behavior.js:48
 msgid "Exclude from _overview/task bar"
 msgstr ""
@@ -747,10 +731,6 @@ msgstr ""
 msgid "Custom command"
 msgstr ""
 
-#: ddterm/pref/command.js:51
-msgid "Preserve working directory"
-msgstr ""
-
 #: ddterm/pref/compatibility.js:20
 msgid "Compatibility"
 msgstr "Kongrueco"
@@ -870,14 +850,6 @@ msgstr "Rulumado"
 #: ddterm/pref/scrolling.js:28
 msgid "Show _scrollbar"
 msgstr "Montri _rulumilon"
-
-#: ddterm/pref/scrolling.js:33
-msgid "Scroll on _output"
-msgstr ""
-
-#: ddterm/pref/scrolling.js:38
-msgid "Scroll on _keystroke"
-msgstr ""
 
 #: ddterm/pref/scrolling.js:43
 msgid "Unlimited Scrollback"

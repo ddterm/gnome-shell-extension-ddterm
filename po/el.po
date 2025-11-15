@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-15 10:43+0000\n"
+"POT-Creation-Date: 2025-11-15 17:26+0000\n"
 "PO-Revision-Date: 2025-05-13 19:23+0000\n"
 "Last-Translator: Klearchos-Angelos Gkountras <jemadux@cryptolab.net>\n"
 "Language-Team: Greek <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/el/>\n"
@@ -311,11 +311,11 @@ msgstr "Επανατοποθέτηση καρτέλας μετά"
 msgid "Preferences"
 msgstr "Προτιμήσεις"
 
-#: ddterm/app/ui/menus.ui:156
+#: ddterm/app/ui/menus.ui:156 ddterm/pref/behavior.js:28
 msgid "Above All Windows"
 msgstr "Πάνω απ τα Παράθυρα"
 
-#: ddterm/app/ui/menus.ui:160
+#: ddterm/app/ui/menus.ui:160 ddterm/pref/behavior.js:33
 msgid "On All Workspaces"
 msgstr "Πάνω από Επιφάνιες Εργασίας"
 
@@ -327,23 +327,23 @@ msgstr "Μεγένθυση Παράθύρου"
 msgid "Transparent Background"
 msgstr "Διάφανο φόντο"
 
-#: ddterm/app/ui/menus.ui:174
+#: ddterm/app/ui/menus.ui:174 ddterm/pref/behavior.js:38
 msgid "Hide When Application Loses Focus"
 msgstr "Απόκρυψη όταν η εφαρμογή χάνει την εστίαση"
 
-#: ddterm/app/ui/menus.ui:178
+#: ddterm/app/ui/menus.ui:178 ddterm/pref/behavior.js:43
 msgid "Hide When Esc Key Is Pressed"
 msgstr "Απόκρυψη όταν πατηθεί Esc "
 
-#: ddterm/app/ui/menus.ui:184
+#: ddterm/app/ui/menus.ui:184 ddterm/pref/scrolling.js:33
 msgid "Scroll On Output"
 msgstr "Κύλιση κατα την έξοδο"
 
-#: ddterm/app/ui/menus.ui:188
+#: ddterm/app/ui/menus.ui:188 ddterm/pref/scrolling.js:38
 msgid "Scroll On Keystroke"
 msgstr "Κύλιση στο πάτημα πλήκτρων"
 
-#: ddterm/app/ui/menus.ui:194
+#: ddterm/app/ui/menus.ui:194 ddterm/pref/command.js:51
 msgid "Preserve Working Directory In New Tabs"
 msgstr "Διατήρηση καταλόγου εργασίας σε νέες καρτέλες"
 
@@ -555,22 +555,6 @@ msgstr "Συμπεριφορά"
 msgid "_Resizable"
 msgstr "_Με δυνατότητα αλλαγής μεγέθους"
 
-#: ddterm/pref/behavior.js:28
-msgid "_Above all windows"
-msgstr "_Πάνω από όλα τα παράθυρα"
-
-#: ddterm/pref/behavior.js:33
-msgid "On all _workspaces"
-msgstr "Σε όλους τους χώρους εργασίας"
-
-#: ddterm/pref/behavior.js:38
-msgid "Hide when the application loses _focus"
-msgstr "Απόκρυψη όταν η εφαρμογή χάνει _εστίαση"
-
-#: ddterm/pref/behavior.js:43
-msgid "Hide when _Esc key is pressed"
-msgstr "Απόκρυψη όταν πατηθεί το πλήκτρο _Esc"
-
 #: ddterm/pref/behavior.js:48
 msgid "Exclude from _overview/task bar"
 msgstr "Εξαίρεση από _επισκόπηση/γραμμή εργασιών"
@@ -759,10 +743,6 @@ msgstr ""
 msgid "Custom command"
 msgstr ""
 
-#: ddterm/pref/command.js:51
-msgid "Preserve working directory"
-msgstr "Διατήρηση του καταλόγου εργασίας"
-
 #: ddterm/pref/compatibility.js:20
 msgid "Compatibility"
 msgstr "Συμβατότητα"
@@ -882,14 +862,6 @@ msgstr "Κύλιση"
 #: ddterm/pref/scrolling.js:28
 msgid "Show _scrollbar"
 msgstr "Εμφάνιση _κύλισης"
-
-#: ddterm/pref/scrolling.js:33
-msgid "Scroll on _output"
-msgstr "Κύλιση στην _έξοδο"
-
-#: ddterm/pref/scrolling.js:38
-msgid "Scroll on _keystroke"
-msgstr "Κύλιση on _keystroke"
 
 #: ddterm/pref/scrolling.js:43
 #, fuzzy
@@ -1246,6 +1218,27 @@ msgstr ""
 #: ddterm/shell/panelicon.js:48
 msgid "Show"
 msgstr "Εμφάνιση"
+
+#~ msgid "_Above all windows"
+#~ msgstr "_Πάνω από όλα τα παράθυρα"
+
+#~ msgid "On all _workspaces"
+#~ msgstr "Σε όλους τους χώρους εργασίας"
+
+#~ msgid "Hide when the application loses _focus"
+#~ msgstr "Απόκρυψη όταν η εφαρμογή χάνει _εστίαση"
+
+#~ msgid "Hide when _Esc key is pressed"
+#~ msgstr "Απόκρυψη όταν πατηθεί το πλήκτρο _Esc"
+
+#~ msgid "Preserve working directory"
+#~ msgstr "Διατήρηση του καταλόγου εργασίας"
+
+#~ msgid "Scroll on _output"
+#~ msgstr "Κύλιση στην _έξοδο"
+
+#~ msgid "Scroll on _keystroke"
+#~ msgstr "Κύλιση on _keystroke"
 
 #, fuzzy
 #~| msgid "Transparent Background"

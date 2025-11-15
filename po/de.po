@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-15 10:43+0000\n"
+"POT-Creation-Date: 2025-11-15 17:26+0000\n"
 "PO-Revision-Date: 2025-09-07 13:03+0000\n"
 "Last-Translator: Ettore Atalan <atalanttore@googlemail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/de/>\n"
@@ -305,11 +305,11 @@ msgstr "Verschiebe Reiter in anderen Bereich"
 msgid "Preferences"
 msgstr "Einstellungen"
 
-#: ddterm/app/ui/menus.ui:156
+#: ddterm/app/ui/menus.ui:156 ddterm/pref/behavior.js:28
 msgid "Above All Windows"
 msgstr "Über allen Fenstern"
 
-#: ddterm/app/ui/menus.ui:160
+#: ddterm/app/ui/menus.ui:160 ddterm/pref/behavior.js:33
 msgid "On All Workspaces"
 msgstr "Auf allen Arbeitsflächen"
 
@@ -321,23 +321,23 @@ msgstr "Fenster maximieren"
 msgid "Transparent Background"
 msgstr "Transparenter Hintergrund"
 
-#: ddterm/app/ui/menus.ui:174
+#: ddterm/app/ui/menus.ui:174 ddterm/pref/behavior.js:38
 msgid "Hide When Application Loses Focus"
 msgstr "Verstecken, wenn Anwendung den Fokus verliert"
 
-#: ddterm/app/ui/menus.ui:178
+#: ddterm/app/ui/menus.ui:178 ddterm/pref/behavior.js:43
 msgid "Hide When Esc Key Is Pressed"
 msgstr "Verstecken, wenn die Esc-Taste gedrückt wird"
 
-#: ddterm/app/ui/menus.ui:184
+#: ddterm/app/ui/menus.ui:184 ddterm/pref/scrolling.js:33
 msgid "Scroll On Output"
 msgstr "Weiterscrollen bei Ausgabe"
 
-#: ddterm/app/ui/menus.ui:188
+#: ddterm/app/ui/menus.ui:188 ddterm/pref/scrolling.js:38
 msgid "Scroll On Keystroke"
 msgstr "Weiterscrollen nach Tastendruck"
 
-#: ddterm/app/ui/menus.ui:194
+#: ddterm/app/ui/menus.ui:194 ddterm/pref/command.js:51
 msgid "Preserve Working Directory In New Tabs"
 msgstr "Arbeitsverzeichnis in neue Reiter übernehmen"
 
@@ -549,22 +549,6 @@ msgstr "Verhalten"
 msgid "_Resizable"
 msgstr "G_röße veränderbar"
 
-#: ddterm/pref/behavior.js:28
-msgid "_Above all windows"
-msgstr "Über _allen Fenstern"
-
-#: ddterm/pref/behavior.js:33
-msgid "On all _workspaces"
-msgstr "Auf allen _Arbeitsflächen"
-
-#: ddterm/pref/behavior.js:38
-msgid "Hide when the application loses _focus"
-msgstr "Ausblenden, wenn die Anwendung den _Fokus verliert"
-
-#: ddterm/pref/behavior.js:43
-msgid "Hide when _Esc key is pressed"
-msgstr "Ausblenden, wenn _Esc-Taste gedrückt wird"
-
 #: ddterm/pref/behavior.js:48
 msgid "Exclude from _overview/task bar"
 msgstr "Aus der Übersicht/Taskbar ausschließen"
@@ -753,10 +737,6 @@ msgstr "Benutzer-Shell als Login-Shell"
 msgid "Custom command"
 msgstr "Benutzerdefinierter Befehl"
 
-#: ddterm/pref/command.js:51
-msgid "Preserve working directory"
-msgstr "Arbeitsverzeichnis beibehalten"
-
 #: ddterm/pref/compatibility.js:20
 msgid "Compatibility"
 msgstr "Kompatibilität"
@@ -876,14 +856,6 @@ msgstr "Scrollen"
 #: ddterm/pref/scrolling.js:28
 msgid "Show _scrollbar"
 msgstr "Bildlauflei_ste anzeigen"
-
-#: ddterm/pref/scrolling.js:33
-msgid "Scroll on _output"
-msgstr "Scrollen bei Ausgabe"
-
-#: ddterm/pref/scrolling.js:38
-msgid "Scroll on _keystroke"
-msgstr "Scrollen durch Tastendruc_k"
 
 #: ddterm/pref/scrolling.js:43
 #, fuzzy
@@ -1235,6 +1207,27 @@ msgstr "Installieren"
 #: ddterm/shell/panelicon.js:48
 msgid "Show"
 msgstr "Anzeigen"
+
+#~ msgid "_Above all windows"
+#~ msgstr "Über _allen Fenstern"
+
+#~ msgid "On all _workspaces"
+#~ msgstr "Auf allen _Arbeitsflächen"
+
+#~ msgid "Hide when the application loses _focus"
+#~ msgstr "Ausblenden, wenn die Anwendung den _Fokus verliert"
+
+#~ msgid "Hide when _Esc key is pressed"
+#~ msgstr "Ausblenden, wenn _Esc-Taste gedrückt wird"
+
+#~ msgid "Preserve working directory"
+#~ msgstr "Arbeitsverzeichnis beibehalten"
+
+#~ msgid "Scroll on _output"
+#~ msgstr "Scrollen bei Ausgabe"
+
+#~ msgid "Scroll on _keystroke"
+#~ msgstr "Scrollen durch Tastendruc_k"
 
 #, fuzzy
 #~| msgid "Transparent Background"

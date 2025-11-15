@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-15 10:43+0000\n"
+"POT-Creation-Date: 2025-11-15 17:26+0000\n"
 "PO-Revision-Date: 2025-10-07 20:02+0000\n"
 "Last-Translator: Nuri KÜÇÜKLER <enatsek@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/tr/>\n"
@@ -304,11 +304,11 @@ msgstr "Sekmeyi Diğer Panoya Taşı"
 msgid "Preferences"
 msgstr "Tercihler"
 
-#: ddterm/app/ui/menus.ui:156
+#: ddterm/app/ui/menus.ui:156 ddterm/pref/behavior.js:28
 msgid "Above All Windows"
 msgstr "Tüm Pencerelerin Üzerinde"
 
-#: ddterm/app/ui/menus.ui:160
+#: ddterm/app/ui/menus.ui:160 ddterm/pref/behavior.js:33
 msgid "On All Workspaces"
 msgstr "Tüm Çalışma Alanlarında"
 
@@ -320,23 +320,23 @@ msgstr "Pencereyi Büyüt"
 msgid "Transparent Background"
 msgstr "Saydam Arkaplan"
 
-#: ddterm/app/ui/menus.ui:174
+#: ddterm/app/ui/menus.ui:174 ddterm/pref/behavior.js:38
 msgid "Hide When Application Loses Focus"
 msgstr "Uygulama Odağı Kaybettiğinde Gizle"
 
-#: ddterm/app/ui/menus.ui:178
+#: ddterm/app/ui/menus.ui:178 ddterm/pref/behavior.js:43
 msgid "Hide When Esc Key Is Pressed"
 msgstr "Esc Tuşuna Basıldığında Gizle"
 
-#: ddterm/app/ui/menus.ui:184
+#: ddterm/app/ui/menus.ui:184 ddterm/pref/scrolling.js:33
 msgid "Scroll On Output"
 msgstr "Çıktı ile Beraber Kaydır"
 
-#: ddterm/app/ui/menus.ui:188
+#: ddterm/app/ui/menus.ui:188 ddterm/pref/scrolling.js:38
 msgid "Scroll On Keystroke"
 msgstr "Tuş Basımında Kaydır"
 
-#: ddterm/app/ui/menus.ui:194
+#: ddterm/app/ui/menus.ui:194 ddterm/pref/command.js:51
 msgid "Preserve Working Directory In New Tabs"
 msgstr "Yeni Sekmelerde Çalışma Dizinini Koru"
 
@@ -548,22 +548,6 @@ msgstr "Davranış"
 msgid "_Resizable"
 msgstr "_Yeniden boyutlandırılabilir"
 
-#: ddterm/pref/behavior.js:28
-msgid "_Above all windows"
-msgstr "_Tüm pencerelerin üzerinde"
-
-#: ddterm/pref/behavior.js:33
-msgid "On all _workspaces"
-msgstr "Tüm _Çalışma Alnlarında"
-
-#: ddterm/pref/behavior.js:38
-msgid "Hide when the application loses _focus"
-msgstr "Uygulama _odağı kaybettiğinde gizle"
-
-#: ddterm/pref/behavior.js:43
-msgid "Hide when _Esc key is pressed"
-msgstr "_Esc tuşuna basıldığında gizle"
-
 #: ddterm/pref/behavior.js:48
 msgid "Exclude from _overview/task bar"
 msgstr "_Genel bakış/görev çubuğu'ndan hariç tut"
@@ -752,10 +736,6 @@ msgstr "Kullanıcı kabuğunu giriş kabuğu olarak kullan"
 msgid "Custom command"
 msgstr "Özel komut"
 
-#: ddterm/pref/command.js:51
-msgid "Preserve working directory"
-msgstr "Çalışma dizinini koru"
-
 #: ddterm/pref/compatibility.js:20
 msgid "Compatibility"
 msgstr "Uyumluluk"
@@ -875,14 +855,6 @@ msgstr "Kaydırma"
 #: ddterm/pref/scrolling.js:28
 msgid "Show _scrollbar"
 msgstr "_Kaydırma çubuğunu göster"
-
-#: ddterm/pref/scrolling.js:33
-msgid "Scroll on _output"
-msgstr "_Çıktı ile kaydır"
-
-#: ddterm/pref/scrolling.js:38
-msgid "Scroll on _keystroke"
-msgstr "_Tuş basımında kaydır"
 
 #: ddterm/pref/scrolling.js:43
 #, fuzzy
@@ -1233,6 +1205,27 @@ msgstr "Kur"
 #: ddterm/shell/panelicon.js:48
 msgid "Show"
 msgstr "Göster"
+
+#~ msgid "_Above all windows"
+#~ msgstr "_Tüm pencerelerin üzerinde"
+
+#~ msgid "On all _workspaces"
+#~ msgstr "Tüm _Çalışma Alnlarında"
+
+#~ msgid "Hide when the application loses _focus"
+#~ msgstr "Uygulama _odağı kaybettiğinde gizle"
+
+#~ msgid "Hide when _Esc key is pressed"
+#~ msgstr "_Esc tuşuna basıldığında gizle"
+
+#~ msgid "Preserve working directory"
+#~ msgstr "Çalışma dizinini koru"
+
+#~ msgid "Scroll on _output"
+#~ msgstr "_Çıktı ile kaydır"
+
+#~ msgid "Scroll on _keystroke"
+#~ msgstr "_Tuş basımında kaydır"
 
 #, fuzzy
 #~| msgid "Transparent Background"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-15 10:43+0000\n"
+"POT-Creation-Date: 2025-11-15 17:26+0000\n"
 "PO-Revision-Date: 2024-09-02 20:09+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/nb_NO/>\n"
@@ -300,11 +300,11 @@ msgstr "Flytt fane til neste flate"
 msgid "Preferences"
 msgstr "Innstillinger"
 
-#: ddterm/app/ui/menus.ui:156
+#: ddterm/app/ui/menus.ui:156 ddterm/pref/behavior.js:28
 msgid "Above All Windows"
 msgstr "Over alle vinduer"
 
-#: ddterm/app/ui/menus.ui:160
+#: ddterm/app/ui/menus.ui:160 ddterm/pref/behavior.js:33
 msgid "On All Workspaces"
 msgstr "På alle arbeidsområder"
 
@@ -316,23 +316,23 @@ msgstr "Maksimer vindu"
 msgid "Transparent Background"
 msgstr "Gjennomsiktig bakgrunn"
 
-#: ddterm/app/ui/menus.ui:174
+#: ddterm/app/ui/menus.ui:174 ddterm/pref/behavior.js:38
 msgid "Hide When Application Loses Focus"
 msgstr "Skjul når programmet mister fokus"
 
-#: ddterm/app/ui/menus.ui:178
+#: ddterm/app/ui/menus.ui:178 ddterm/pref/behavior.js:43
 msgid "Hide When Esc Key Is Pressed"
 msgstr "Skjul når «Esc»-tasten trykkes"
 
-#: ddterm/app/ui/menus.ui:184
+#: ddterm/app/ui/menus.ui:184 ddterm/pref/scrolling.js:33
 msgid "Scroll On Output"
 msgstr "Rull ved utdata"
 
-#: ddterm/app/ui/menus.ui:188
+#: ddterm/app/ui/menus.ui:188 ddterm/pref/scrolling.js:38
 msgid "Scroll On Keystroke"
 msgstr "Rull ved tastetrykk"
 
-#: ddterm/app/ui/menus.ui:194
+#: ddterm/app/ui/menus.ui:194 ddterm/pref/command.js:51
 msgid "Preserve Working Directory In New Tabs"
 msgstr "Bevar arbeidskatalog for nye faner"
 
@@ -544,22 +544,6 @@ msgstr "Adferd"
 msgid "_Resizable"
 msgstr "_Justerbar størrelse"
 
-#: ddterm/pref/behavior.js:28
-msgid "_Above all windows"
-msgstr "_Over alle vinduer"
-
-#: ddterm/pref/behavior.js:33
-msgid "On all _workspaces"
-msgstr "På alle _arbeidsområder"
-
-#: ddterm/pref/behavior.js:38
-msgid "Hide when the application loses _focus"
-msgstr "Skjul når programmet mister _fokus"
-
-#: ddterm/pref/behavior.js:43
-msgid "Hide when _Esc key is pressed"
-msgstr "Skjul når «_Esc»-tasten trykkes"
-
 #: ddterm/pref/behavior.js:48
 msgid "Exclude from _overview/task bar"
 msgstr "Utelat fra _oversikt/oppgavefelt"
@@ -748,10 +732,6 @@ msgstr "Bruk skall som innloggingskall"
 msgid "Custom command"
 msgstr "Egendefinert kommando"
 
-#: ddterm/pref/command.js:51
-msgid "Preserve working directory"
-msgstr "Bevar arbeidskatalog"
-
 #: ddterm/pref/compatibility.js:20
 msgid "Compatibility"
 msgstr "Kompatibilitet"
@@ -871,14 +851,6 @@ msgstr "Rulling"
 #: ddterm/pref/scrolling.js:28
 msgid "Show _scrollbar"
 msgstr "Vis _rullefelt"
-
-#: ddterm/pref/scrolling.js:33
-msgid "Scroll on _output"
-msgstr "Rull ved _utdata"
-
-#: ddterm/pref/scrolling.js:38
-msgid "Scroll on _keystroke"
-msgstr "Rull ved _tastetrykk"
 
 #: ddterm/pref/scrolling.js:43
 #, fuzzy
@@ -1231,6 +1203,27 @@ msgstr ""
 #: ddterm/shell/panelicon.js:48
 msgid "Show"
 msgstr "Vis"
+
+#~ msgid "_Above all windows"
+#~ msgstr "_Over alle vinduer"
+
+#~ msgid "On all _workspaces"
+#~ msgstr "På alle _arbeidsområder"
+
+#~ msgid "Hide when the application loses _focus"
+#~ msgstr "Skjul når programmet mister _fokus"
+
+#~ msgid "Hide when _Esc key is pressed"
+#~ msgstr "Skjul når «_Esc»-tasten trykkes"
+
+#~ msgid "Preserve working directory"
+#~ msgstr "Bevar arbeidskatalog"
+
+#~ msgid "Scroll on _output"
+#~ msgstr "Rull ved _utdata"
+
+#~ msgid "Scroll on _keystroke"
+#~ msgstr "Rull ved _tastetrykk"
 
 #, fuzzy
 #~| msgid "Transparent Background"
