@@ -828,12 +828,12 @@ msgid "On the monitor that contains the mouse pointer"
 msgstr "在包含鼠标指针的显示器上"
 
 #: ddterm/pref/positionsize.js:203
-msgid "On the _primary monitor"
-msgstr "在 _主显示器上"
+msgid "On the primary monitor"
+msgstr "在 主显示器上"
 
 #: ddterm/pref/positionsize.js:208
-msgid "On the monitor with keyboard _focus"
-msgstr "在键盘 _聚焦的显示器上"
+msgid "On the monitor with keyboard focus"
+msgstr "在键盘 聚焦的显示器上"
 
 #: ddterm/pref/positionsize.js:214
 msgid "On _monitor:"

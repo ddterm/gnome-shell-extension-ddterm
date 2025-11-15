@@ -833,12 +833,12 @@ msgid "On the monitor that contains the mouse pointer"
 msgstr "Fare imlecinin bulunduğu monitör"
 
 #: ddterm/pref/positionsize.js:203
-msgid "On the _primary monitor"
-msgstr "_Birincil monitörde"
+msgid "On the primary monitor"
+msgstr "Birincil monitörde"
 
 #: ddterm/pref/positionsize.js:208
-msgid "On the monitor with keyboard _focus"
-msgstr "Klavye _odağının bulunduğu monitörde"
+msgid "On the monitor with keyboard focus"
+msgstr "Klavye odağının bulunduğu monitörde"
 
 #: ddterm/pref/positionsize.js:214
 msgid "On _monitor:"

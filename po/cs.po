@@ -829,12 +829,12 @@ msgid "On the monitor that contains the mouse pointer"
 msgstr "Na monitoru který obsahuje kurzor"
 
 #: ddterm/pref/positionsize.js:203
-msgid "On the _primary monitor"
-msgstr "Na _hlavním monitoru"
+msgid "On the primary monitor"
+msgstr "Na hlavním monitoru"
 
 #: ddterm/pref/positionsize.js:208
-msgid "On the monitor with keyboard _focus"
-msgstr "Na monitoru se _zaměřením klávesnice"
+msgid "On the monitor with keyboard focus"
+msgstr "Na monitoru se zaměřením klávesnice"
 
 #: ddterm/pref/positionsize.js:214
 msgid "On _monitor:"

@@ -840,11 +840,11 @@ msgid "On the monitor that contains the mouse pointer"
 msgstr "Στην οθόνη που περιέχει το δείκτη του ποντικιού"
 
 #: ddterm/pref/positionsize.js:203
-msgid "On the _primary monitor"
-msgstr "Στην _κύρια οθόνη"
+msgid "On the primary monitor"
+msgstr "Στην κύρια οθόνη"
 
 #: ddterm/pref/positionsize.js:208
-msgid "On the monitor with keyboard _focus"
+msgid "On the monitor with keyboard focus"
 msgstr "Στην οθόνη του πληκτρολόγιου"
 
 #: ddterm/pref/positionsize.js:214

@@ -834,12 +834,12 @@ msgid "On the monitor that contains the mouse pointer"
 msgstr "Auf dem Monitor mit dem Mauszeiger"
 
 #: ddterm/pref/positionsize.js:203
-msgid "On the _primary monitor"
-msgstr "Auf dem _primären Monitor"
+msgid "On the primary monitor"
+msgstr "Auf dem primären Monitor"
 
 #: ddterm/pref/positionsize.js:208
-msgid "On the monitor with keyboard _focus"
-msgstr "Auf dem Monitor mit Eingabe_fokus"
+msgid "On the monitor with keyboard focus"
+msgstr "Auf dem Monitor mit Eingabefokus"
 
 #: ddterm/pref/positionsize.js:214
 msgid "On _monitor:"

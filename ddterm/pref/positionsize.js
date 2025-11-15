@@ -200,12 +200,12 @@ export class PositionSizeGroup extends PreferencesGroup {
 
         extended_monitors.append(new SpecialMonitor({
             key: 'primary',
-            display_name: this.gettext('On the _primary monitor'),
+            display_name: this.gettext('On the primary monitor'),
         }));
 
         extended_monitors.append(new SpecialMonitor({
             key: 'focus',
-            display_name: this.gettext('On the monitor with keyboard _focus'),
+            display_name: this.gettext('On the monitor with keyboard focus'),
         }));
 
         bind_model_to_list_store(this.monitors, extended_monitors);
