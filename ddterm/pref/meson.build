@@ -30,5 +30,4 @@ endforeach
 
 pack += pref_js_out_files
 
-subdir('ui')
 subdir('test')

@@ -43,7 +43,6 @@ export const PrefsDialog = GObject.registerClass({
 
     constructor(params) {
         super({
-            search_enabled: false,
             modal: false,
             ...params,
         });

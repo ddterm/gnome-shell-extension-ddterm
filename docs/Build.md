@@ -38,11 +38,6 @@ distributions. It automatically pulls in a tool called [`ninja`]
 - `gtk-builder-tool` (`libgtk-3-bin` package on Ubuntu, `gtk3-devel` on Fedora,
 `gtk3` package on Arch)
 
-- `gtk4-builder-tool` (`libgtk-4-bin` package on Ubuntu, `gtk4-devel` package
-on Fedora, `gtk4` package on Arch)
-
-- `xsltproc` (`xsltproc` package on Ubuntu, `libxslt` on Fedora and Arch)
-
 - `msgcmp`, `msgmerge`, `xgettext` (`gettext` package)
 
 ## 3. Build the package

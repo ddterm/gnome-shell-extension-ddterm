@@ -12,8 +12,8 @@ license=('GPL-3.0-or-later')
 conflicts=('gnome-shell-extension-ddterm')
 provides=('gnome-shell-extension-ddterm')
 depends=('gjs' 'gtk3' 'vte3' 'libhandy')
-makedepends=('meson' 'git' 'gtk4' 'libxslt' 'xorg-server-xvfb')
-checkdepends=('python-pytest' 'python-gobject' 'gnome-shell' 'wl-clipboard')
+makedepends=('meson' 'git')
+checkdepends=('python-pytest' 'python-gobject' 'gnome-shell' 'wl-clipboard' 'xorg-server-xvfb')
 
 # Skipping source=() completely, using startdir instead
 # https://gitlab.archlinux.org/archlinux/mkinitcpio/mkinitcpio/-/blob/master/PKGBUILD
@@ -30,9 +30,7 @@ pkgver() {
 
 build() {
     arch-meson "$startdir" build "-Dtests=$( ((CHECKFUNC)) && echo enabled || echo disabled )"
-
-    # gtk-builder-tool needs X or Wayland
-    LIBGL_ALWAYS_SOFTWARE=1 xvfb-run --auto-display --server-args=-noreset --wait=0 -- meson compile -C build
+    meson compile -C build
 }
 
 check() {

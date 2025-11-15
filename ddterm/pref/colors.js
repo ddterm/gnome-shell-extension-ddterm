@@ -10,11 +10,12 @@ import Gdk from 'gi://Gdk';
 import Gtk from 'gi://Gtk';
 
 import {
-    bind_sensitive,
-    bind_widget,
-    insert_settings_actions,
-    set_scale_value_format,
-    ui_file_uri,
+    ActionRow,
+    ComboRow,
+    PreferencesGroup,
+    PreferencesRow,
+    ScaleRow,
+    StringList,
 } from './util.js';
 
 function show_dialog(parent_window, message, message_type = Gtk.MessageType.ERROR) {
@@ -121,8 +122,10 @@ function parse_rgba(str) {
     throw Error(`Cannot parse ${JSON.stringify(str)} as color`);
 }
 
-const Color = GObject.registerClass({
-    Properties: {
+class Color extends GObject.Object {
+    static [GObject.GTypeName] = 'DDTermPrefsColorsColor';
+
+    static [GObject.properties] = {
         'rgba': GObject.ParamSpec.boxed(
             'rgba',
             null,
@@ -137,8 +140,12 @@ const Color = GObject.registerClass({
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             null
         ),
-    },
-}, class DDTermPrefsColorsColor extends GObject.Object {
+    };
+
+    static {
+        GObject.registerClass(this);
+    }
+
     #rgba = null;
 
     get rgba() {
@@ -155,31 +162,32 @@ const Color = GObject.registerClass({
     }
 
     get str() {
-        return this.rgba && this.rgba.to_string();
+        return this.rgba?.to_string() ?? null;
     }
 
     set str(value) {
         this.rgba = parse_rgba(value);
     }
-});
+}
 
-const ColorScheme = GObject.registerClass({
-    Properties: {
-        'active-preset': GObject.ParamSpec.int(
+class ColorScheme extends GObject.Object {
+    static [GObject.GTypeName] = 'DDTermPrefsColorsColorScheme';
+
+    static [GObject.properties] = {
+        'active-preset': GObject.ParamSpec.uint(
             'active-preset',
             null,
             null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
-            -1,
-            GLib.MAXINT32,
-            -1
+            0,
+            GLib.MAXUINT32,
+            0
         ),
-        'presets': GObject.ParamSpec.object(
+        'presets': GObject.ParamSpec.jsobject(
             'presets',
             null,
             null,
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-            Gtk.TreeModel
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY
         ),
         'strv': GObject.ParamSpec.boxed(
             'strv',
@@ -188,47 +196,55 @@ const ColorScheme = GObject.registerClass({
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             GObject.type_from_name('GStrv')
         ),
-    },
-}, class DDTermPrefsColorsColorScheme extends GObject.Object {
+    };
+
+    static {
+        GObject.registerClass(this);
+    }
+
     constructor(params) {
         super(params);
 
         this.colors = Array.from(
-            { length: this.presets.get_n_columns() - 1 },
+            { length: this.presets[0].length },
             () => new Color()
         );
 
+        const weak = new WeakRef(this);
+
         for (const color of this.colors) {
-            color.connect('notify::str', () => this.notify('strv'));
-            color.connect('notify::rgba', () => this.notify('active-preset'));
+            color.connect(
+                'notify::str',
+                ColorScheme.#weak_notify.bind(globalThis, weak, 'strv')
+            );
+
+            color.connect(
+                'notify::rgba',
+                ColorScheme.#weak_notify.bind(globalThis, weak, 'active-preset')
+            );
         }
     }
 
-    get active_preset() {
-        const rgbav = this.colors.map(color => color.rgba);
-        let preset = -1;
-
-        this.presets.foreach((model, path, iter) => {
-            if (!this.preset_matches(iter, rgbav))
-                return false;
-
-            [preset] = path.get_indices();
-            return true;
-        });
-
-        return preset;
+    static #weak_notify(weakref, property) {
+        weakref.deref()?.notify(property);
     }
 
-    set active_preset(value) {
-        const [ok, iter] = this.presets.iter_nth_child(null, value);
+    get active_preset() {
+        return this.presets.findIndex(preset => preset.every(
+            (rgba, index) => this.colors[index].rgba?.equal(rgba)
+        ));
+    }
 
-        if (!ok)
-            return;
+    set active_preset(index) {
+        this.freeze_notify();
 
-        this.strv = Array.from(
-            { length: this.presets.get_n_columns() - 1 },
-            (_, index) => this.presets.get_value(iter, index + 1)
-        );
+        try {
+            this.presets[index].forEach((rgba, color_index) => {
+                this.colors[color_index].rgba = rgba;
+            });
+        } finally {
+            this.thaw_notify();
+        }
     }
 
     get strv() {
@@ -237,167 +253,602 @@ const ColorScheme = GObject.registerClass({
 
     set strv(value) {
         this.freeze_notify();
+
         try {
             value.forEach((str, index) => {
-                if (str)
-                    this.colors[index].str = str;
+                this.colors[index].str = str;
             });
         } finally {
             this.thaw_notify();
         }
     }
+}
 
-    preset_matches(iter, rgbav) {
-        return rgbav.every((rgba, index) => {
-            if (!rgba)
-                return true;
+class ColorRow extends ActionRow {
+    static [GObject.GTypeName] = 'DDTermColorRow';
 
-            const model_str = this.presets.get_value(iter, index + 1);
-            return !model_str || rgba.equal(parse_rgba(model_str));
-        });
+    static [GObject.properties] = {
+        'rgba': GObject.ParamSpec.boxed(
+            'rgba',
+            null,
+            null,
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+            Gdk.RGBA
+        ),
+    };
+
+    static {
+        GObject.registerClass(this);
     }
-});
 
-const PALETTE_WIDGET_IDS = Array.from({ length: 16 }, (_, i) => `palette${i}`);
+    #button;
 
-export const ColorsWidget = GObject.registerClass({
-    GTypeName: 'DDTermPrefsColors',
-    Template: ui_file_uri('prefs-colors.ui'),
-    Children: [
-        'theme_variant_combo',
-        'color_scheme_editor',
-        'color_scheme_combo',
-        'color_scheme_list',
-        'copy_gnome_terminal_profile_button',
-        'foreground_color',
-        'background_color',
-        'opacity_scale',
-        'bold_color',
-        'cursor_foreground_color',
-        'cursor_background_color',
-        'highlight_foreground_color',
-        'highlight_background_color',
-        'palette_combo',
-        'palette_list',
-        'bold_color_check',
-    ].concat(PALETTE_WIDGET_IDS),
-    Properties: {
-        'settings': GObject.ParamSpec.object(
-            'settings',
-            null,
-            null,
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-            Gio.Settings
-        ),
-        'gettext-domain': GObject.ParamSpec.jsobject(
-            'gettext-domain',
-            null,
-            null,
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY
-        ),
-    },
-}, class PrefsColors extends Gtk.Grid {
     constructor(params) {
         super(params);
 
-        insert_settings_actions(this, this.settings, [
-            'cursor-colors-set',
-            'highlight-colors-set',
-            'bold-is-bright',
-            'use-theme-colors',
-            'transparent-background',
-        ]);
-
-        bind_widget(this.settings, 'theme-variant', this.theme_variant_combo);
-
-        bind_sensitive(this.settings, 'use-theme-colors', this.color_scheme_editor, true);
-
-        this.color_scheme = new ColorScheme({
-            presets: this.color_scheme_list,
+        this.#button = new Gtk.ColorButton({
+            valign: Gtk.Align.CENTER,
+            can_focus: false,
+            visible: true,
         });
 
-        this.#bind_color('foreground-color', this.foreground_color, this.color_scheme.colors[0]);
-        this.#bind_color('background-color', this.background_color, this.color_scheme.colors[1]);
+        if (!this.rgba)
+            this.rgba = this.#button.rgba;
 
-        this.color_scheme.bind_property(
-            'active-preset',
-            this.color_scheme_combo,
-            'active',
+        this.bind_property(
+            'rgba',
+            this.#button,
+            'rgba',
             GObject.BindingFlags.SYNC_CREATE | GObject.BindingFlags.BIDIRECTIONAL
         );
 
-        this.#setup_color_scheme_combo_sensitivity();
+        this.set_activatable(true);
+        this.set_activatable_widget(this.#button);
 
-        bind_widget(this.settings, 'background-opacity', this.opacity_scale);
-        bind_sensitive(this.settings, 'transparent-background', this.opacity_scale.parent);
+        if (this.add_suffix)
+            this.add_suffix(this.#button);
+        else
+            this.add(this.#button);
+    }
 
-        const percent_format = new Intl.NumberFormat(undefined, { style: 'percent' });
-        set_scale_value_format(this.opacity_scale, percent_format);
+    static create({ color, ...params }) {
+        const row = new this({
+            visible: true,
+            use_underline: true,
+            ...params,
+        });
 
-        bind_widget(
-            this.settings,
-            'bold-color-same-as-fg',
-            this.bold_color_check,
-            Gio.SettingsBindFlags.INVERT_BOOLEAN
+        color.bind_property(
+            'rgba',
+            row,
+            'rgba',
+            GObject.BindingFlags.SYNC_CREATE | GObject.BindingFlags.BIDIRECTIONAL
         );
 
-        this.#bind_color('bold-color', this.bold_color);
+        return row;
+    }
+}
 
-        bind_sensitive(
-            this.settings,
-            'bold-color-same-as-fg',
-            this.bold_color.parent,
-            true
-        );
+export class ColorsGroup extends PreferencesGroup {
+    static [GObject.GTypeName] = 'DDTermColorsPreferencesGroup';
 
-        this.#bind_color('cursor-foreground-color', this.cursor_foreground_color);
-        this.#bind_color('cursor-background-color', this.cursor_background_color);
+    static {
+        GObject.registerClass(this);
+    }
 
-        bind_sensitive(this.settings, 'cursor-colors-set', this.cursor_foreground_color);
-        bind_sensitive(this.settings, 'cursor-colors-set', this.cursor_background_color);
+    #color_scheme;
+    #color_scheme_combo;
+    #foreground_color_row;
+    #background_color_row;
+    #bold_color;
+    #bold_color_expander;
+    #cursor_foreground_color;
+    #cursor_background_color;
+    #cursor_color_expander;
+    #highlight_foreground_color;
+    #highlight_background_color;
+    #highlight_color_expander;
+    #palette;
+    #copy_gnome_terminal_profile_button;
 
-        this.#bind_color('highlight-foreground-color', this.highlight_foreground_color);
-        this.#bind_color('highlight-background-color', this.highlight_background_color);
+    constructor(params) {
+        super(params);
 
-        bind_sensitive(this.settings, 'highlight-colors-set', this.highlight_foreground_color);
-        bind_sensitive(this.settings, 'highlight-colors-set', this.highlight_background_color);
+        this.title = this.gettext('Colors');
 
-        this.palette = new ColorScheme({
-            presets: this.palette_list,
+        this.add_combo_text_row({
+            key: 'theme-variant',
+            title: this.gettext('Theme _variant:'),
+            model: {
+                system: this.gettext('Default'),
+                light: this.gettext('Light'),
+                dark: this.gettext('Dark'),
+            },
+        });
+
+        this.add_switch_row({
+            key: 'use-theme-colors',
+            title: this.gettext('Use colors from system _theme'),
+        });
+
+        const color_scheme_presets = {
+            [this.gettext('Black on light yellow')]: [parse_rgba('#000000'), parse_rgba('#ffffdd')],
+            [this.gettext('Black on white')]: [parse_rgba('#000000'), parse_rgba('#ffffff')],
+            [this.gettext('Gray on black')]: [parse_rgba('#aaaaaa'), parse_rgba('#000000')],
+            [this.gettext('Green on black')]: [parse_rgba('#00ff00'), parse_rgba('#000000')],
+            [this.gettext('White on black')]: [parse_rgba('#ffffff'), parse_rgba('#000000')],
+            [this.gettext('GNOME light')]: [parse_rgba('#171421'), parse_rgba('#ffffff')],
+            [this.gettext('GNOME dark')]: [parse_rgba('#d0cfcc'), parse_rgba('#171421')],
+            [this.gettext('Tango light')]: [parse_rgba('#2e3436'), parse_rgba('#eeeeec')],
+            [this.gettext('Tango dark')]: [parse_rgba('#d3d7cf'), parse_rgba('#2e3436')],
+            [this.gettext('Solarized light')]: [parse_rgba('#657b83'), parse_rgba('#fdf6e3')],
+            [this.gettext('Solarized dark')]: [parse_rgba('#839496'), parse_rgba('#002b36')],
+            [this.gettext('Custom')]: [],
+        };
+
+        this.#color_scheme = new ColorScheme({
+            presets: Object.values(color_scheme_presets),
         });
 
         this.settings.bind(
-            'palette',
-            this.palette,
-            'strv',
-            Gio.SettingsBindFlags.NO_SENSITIVITY
+            'foreground-color',
+            this.#color_scheme.colors[0],
+            'str',
+            Gio.SettingsBindFlags.DEFAULT
         );
 
-        this.settings.bind_writable('palette', this.palette_combo, 'sensitive', false);
+        this.settings.bind(
+            'background-color',
+            this.#color_scheme.colors[1],
+            'str',
+            Gio.SettingsBindFlags.DEFAULT
+        );
 
-        PALETTE_WIDGET_IDS.map(key => this[key]).forEach((widget, index) => {
-            this.settings.bind_writable('palette', widget, 'sensitive', false);
-
-            this.palette.colors[index].bind_property(
-                'rgba',
-                widget,
-                'rgba',
-                GObject.BindingFlags.SYNC_CREATE | GObject.BindingFlags.BIDIRECTIONAL
-            );
+        this.#color_scheme_combo = new ComboRow({
+            visible: true,
+            title: this.gettext('Color _scheme:'),
+            use_underline: true,
         });
 
-        this.palette.bind_property(
+        this.#color_scheme_combo.bind_name_model(
+            StringList.new(Object.keys(color_scheme_presets)),
+            v => v.string
+        );
+
+        this.#color_scheme.bind_property(
             'active-preset',
-            this.palette_combo,
-            'active',
+            this.#color_scheme_combo,
+            'selected',
             GObject.BindingFlags.SYNC_CREATE | GObject.BindingFlags.BIDIRECTIONAL
         );
+
+        this.add(this.#color_scheme_combo);
+
+        this.#foreground_color_row = ColorRow.create({
+            title: this.gettext('Foreground Color'),
+            color: this.#color_scheme.colors[0],
+        });
+
+        this.add(this.#foreground_color_row);
+
+        this.#background_color_row = ColorRow.create({
+            title: this.gettext('Background Color'),
+            color: this.#color_scheme.colors[1],
+        });
+
+        this.add(this.#background_color_row);
+
+        this.#bold_color_expander = this.add_expander_row({
+            key: 'bold-color-same-as-fg',
+            title: this.gettext('Bold color:'),
+            flags: Gio.SettingsBindFlags.NO_SENSITIVITY | Gio.SettingsBindFlags.INVERT_BOOLEAN,
+        });
+
+        this.#bold_color = new Color();
+        this.settings.bind('bold-color', this.#bold_color, 'str', Gio.SettingsBindFlags.DEFAULT);
+
+        const bold_color_row = ColorRow.create({
+            title: this.gettext('Bold Color'),
+            color: this.#bold_color,
+        });
+
+        this.settings.bind_writable('bold-color', bold_color_row, 'sensitive', false);
+        this.#bold_color_expander.add_row(bold_color_row);
+
+        this.#cursor_color_expander = this.add_expander_row({
+            key: 'cursor-colors-set',
+            title: this.gettext('Cursor color:'),
+            flags: Gio.SettingsBindFlags.NO_SENSITIVITY,
+        });
+
+        this.#cursor_foreground_color = new Color();
+        this.#cursor_background_color = new Color();
+
+        this.settings.bind(
+            'cursor-foreground-color',
+            this.#cursor_foreground_color,
+            'str',
+            Gio.SettingsBindFlags.DEFAULT
+        );
+
+        this.settings.bind(
+            'cursor-background-color',
+            this.#cursor_background_color,
+            'str',
+            Gio.SettingsBindFlags.DEFAULT
+        );
+
+        const cursor_foreground_color_row = ColorRow.create({
+            title: this.gettext('Cursor Foreground Color'),
+            color: this.#cursor_foreground_color,
+        });
+
+        const cursor_background_color_row = ColorRow.create({
+            title: this.gettext('Cursor Background Color'),
+            color: this.#cursor_background_color,
+        });
+
+        this.settings.bind_writable(
+            'cursor-foreground-color',
+            cursor_foreground_color_row,
+            'sensitive',
+            false
+        );
+
+        this.settings.bind_writable(
+            'cursor-background-color',
+            cursor_background_color_row,
+            'sensitive',
+            false
+        );
+
+        this.#cursor_color_expander.add_row(cursor_foreground_color_row);
+        this.#cursor_color_expander.add_row(cursor_background_color_row);
+
+        this.#highlight_color_expander = this.add_expander_row({
+            key: 'highlight-colors-set',
+            title: this.gettext('Highlight color:'),
+            flags: Gio.SettingsBindFlags.NO_SENSITIVITY,
+        });
+
+        this.#highlight_foreground_color = new Color();
+        this.#highlight_background_color = new Color();
+
+        this.settings.bind(
+            'highlight-foreground-color',
+            this.#highlight_foreground_color,
+            'str',
+            Gio.SettingsBindFlags.DEFAULT
+        );
+
+        this.settings.bind(
+            'highlight-background-color',
+            this.#highlight_background_color,
+            'str',
+            Gio.SettingsBindFlags.DEFAULT
+        );
+
+        const highlight_foreground_color_row = ColorRow.create({
+            title: this.gettext('Highlight Foreground Color'),
+            color: this.#highlight_foreground_color,
+        });
+
+        const highlight_background_color_row = ColorRow.create({
+            title: this.gettext('Highlight Background Color'),
+            color: this.#highlight_background_color,
+        });
+
+        this.settings.bind_writable(
+            'highlight-foreground-color',
+            highlight_foreground_color_row,
+            'sensitive',
+            false
+        );
+
+        this.settings.bind_writable(
+            'highlight-background-color',
+            highlight_background_color_row,
+            'sensitive',
+            false
+        );
+
+        this.#highlight_color_expander.add_row(highlight_foreground_color_row);
+        this.#highlight_color_expander.add_row(highlight_background_color_row);
+
+        const opacity_adjustment = new Gtk.Adjustment({
+            upper: 1,
+            step_increment: 0.01,
+            page_increment: 0.10,
+        });
+
+        this.settings.bind(
+            'background-opacity',
+            opacity_adjustment,
+            'value',
+            Gio.SettingsBindFlags.DEFAULT
+        );
+
+        const opacity_row = new ScaleRow({
+            adjustment: opacity_adjustment,
+            digits: 2,
+            round_digits: 2,
+            visible: true,
+            use_underline: true,
+            title: this.gettext('_Background opacity:'),
+        });
+
+        const percent_format = new Intl.NumberFormat(undefined, { style: 'percent' });
+        opacity_row.set_format_value_func((_, v) => percent_format.format(v));
+
+        this.settings.bind_writable(
+            'background-opacity',
+            opacity_row,
+            'sensitive',
+            false
+        );
+
+        const opacity_expander = this.add_expander_row({
+            key: 'transparent-background',
+            title: this.gettext('Transparent background'),
+        });
+
+        opacity_expander.add_row(opacity_row);
+
+        const palette_presets = {
+            [this.gettext('GNOME')]: [
+                parse_rgba('#171421'),
+                parse_rgba('#c01c28'),
+                parse_rgba('#26a269'),
+                parse_rgba('#a2734c'),
+                parse_rgba('#12488b'),
+                parse_rgba('#a347ba'),
+                parse_rgba('#2aa1b3'),
+                parse_rgba('#d0cfcc'),
+                parse_rgba('#5e5c64'),
+                parse_rgba('#f66151'),
+                parse_rgba('#33d17a'),
+                parse_rgba('#e9ad0c'),
+                parse_rgba('#2a7bde'),
+                parse_rgba('#c061cb'),
+                parse_rgba('#33c7de'),
+                parse_rgba('#ffffff'),
+            ],
+            [this.gettext('Tango')]: [
+                parse_rgba('#2e3436'),
+                parse_rgba('#cc0000'),
+                parse_rgba('#4e9a06'),
+                parse_rgba('#c4a000'),
+                parse_rgba('#3465a4'),
+                parse_rgba('#75507b'),
+                parse_rgba('#06989a'),
+                parse_rgba('#d3d7cf'),
+                parse_rgba('#555753'),
+                parse_rgba('#ef2929'),
+                parse_rgba('#8ae234'),
+                parse_rgba('#fce94f'),
+                parse_rgba('#729fcf'),
+                parse_rgba('#ad7fa8'),
+                parse_rgba('#34e2e2'),
+                parse_rgba('#eeeeec'),
+            ],
+            [this.gettext('Linux')]: [
+                parse_rgba('#000000'),
+                parse_rgba('#aa0000'),
+                parse_rgba('#00aa00'),
+                parse_rgba('#aa5500'),
+                parse_rgba('#0000aa'),
+                parse_rgba('#aa00aa'),
+                parse_rgba('#00aaaa'),
+                parse_rgba('#aaaaaa'),
+                parse_rgba('#555555'),
+                parse_rgba('#ff5555'),
+                parse_rgba('#55ff55'),
+                parse_rgba('#ffff55'),
+                parse_rgba('#5555ff'),
+                parse_rgba('#ff55ff'),
+                parse_rgba('#55ffff'),
+                parse_rgba('#ffffff'),
+            ],
+            [this.gettext('XTerm')]: [
+                parse_rgba('#000000'),
+                parse_rgba('#cd0000'),
+                parse_rgba('#00cd00'),
+                parse_rgba('#cdcd00'),
+                parse_rgba('#0000ee'),
+                parse_rgba('#cd00cd'),
+                parse_rgba('#00cdcd'),
+                parse_rgba('#e5e5e5'),
+                parse_rgba('#7f7f7f'),
+                parse_rgba('#ff0000'),
+                parse_rgba('#00ff00'),
+                parse_rgba('#ffff00'),
+                parse_rgba('#5c5cff'),
+                parse_rgba('#ff00ff'),
+                parse_rgba('#00ffff'),
+                parse_rgba('#ffffff'),
+            ],
+            [this.gettext('RXVT')]: [
+                parse_rgba('#000000'),
+                parse_rgba('#cd0000'),
+                parse_rgba('#00cd00'),
+                parse_rgba('#cdcd00'),
+                parse_rgba('#0000cd'),
+                parse_rgba('#cd00cd'),
+                parse_rgba('#00cdcd'),
+                parse_rgba('#faebd7'),
+                parse_rgba('#404040'),
+                parse_rgba('#ff0000'),
+                parse_rgba('#00ff00'),
+                parse_rgba('#ffff00'),
+                parse_rgba('#0000ff'),
+                parse_rgba('#ff00ff'),
+                parse_rgba('#00ffff'),
+                parse_rgba('#ffffff'),
+            ],
+            [this.gettext('Solarized')]: [
+                parse_rgba('#073642'),
+                parse_rgba('#dc322f'),
+                parse_rgba('#859900'),
+                parse_rgba('#b58900'),
+                parse_rgba('#268bd2'),
+                parse_rgba('#d33682'),
+                parse_rgba('#2aa198'),
+                parse_rgba('#eee8d5'),
+                parse_rgba('#002b36'),
+                parse_rgba('#cb4b16'),
+                parse_rgba('#586e75'),
+                parse_rgba('#657b83'),
+                parse_rgba('#839496'),
+                parse_rgba('#6c71c4'),
+                parse_rgba('#93a1a1'),
+                parse_rgba('#fdf6e3'),
+            ],
+            [this.gettext('Custom')]: [],
+        };
+
+        this.#palette = new ColorScheme({
+            presets: Object.values(palette_presets),
+        });
+
+        this.settings.bind('palette', this.#palette, 'strv', Gio.SettingsBindFlags.DEFAULT);
+
+        const palette_combo = new ComboRow({
+            visible: true,
+            title: this.gettext('_Palette:'),
+            use_underline: true,
+        });
+
+        palette_combo.bind_name_model(
+            StringList.new(Object.keys(palette_presets)),
+            v => v.string
+        );
+
+        this.#palette.bind_property(
+            'active-preset',
+            palette_combo,
+            'selected',
+            GObject.BindingFlags.SYNC_CREATE | GObject.BindingFlags.BIDIRECTIONAL
+        );
+
+        this.settings.bind_writable(
+            'palette',
+            palette_combo,
+            'sensitive',
+            false
+        );
+
+        this.add(palette_combo);
+
+        const palette_layout = new Gtk.Grid({
+            visible: true,
+            column_homogeneous: true,
+            row_spacing: 4,
+        });
+
+        const { colors } = this.#palette;
+
+        for (let row = 0; row < colors.length; row++) {
+            const start = row * 8;
+            const end = Math.min(start + 8, colors.length);
+
+            for (let col = 0; start + col < end; col++) {
+                const color = colors[start + col];
+
+                const button = new Gtk.ColorButton({
+                    visible: true,
+                    rgba: color.rgba,
+                    halign: Gtk.Align.CENTER,
+                });
+
+                color.bind_property(
+                    'rgba',
+                    button,
+                    'rgba',
+                    GObject.BindingFlags.BIDIRECTIONAL
+                );
+
+                palette_layout.attach(button, col, row, 1, 1);
+            }
+        }
+
+        const palette_row = new PreferencesRow({
+            visible: true,
+            child: palette_layout,
+        });
+
+        this.settings.bind_writable(
+            'palette',
+            palette_row,
+            'sensitive',
+            false
+        );
+
+        this.add(palette_row);
+
+        this.add_switch_row({
+            key: 'bold-is-bright',
+            title: this.gettext('Show bold text in _bright colors'),
+        });
+
+        this.#copy_gnome_terminal_profile_button = new Gtk.Button({
+            visible: true,
+            label: this.gettext('Copy profile from GNOME Terminal'),
+        });
+
+        this.add(this.#copy_gnome_terminal_profile_button);
 
         this.connect('realize', this.#realize.bind(this));
     }
 
-    get title() {
-        return this.gettext_domain.gettext('Colors');
+    #realize() {
+        const update_sensitivity = this.#update_sensitivity.bind(this);
+
+        const settings_handlers = [
+            this.settings.connect('changed::use-theme-colors', update_sensitivity),
+            this.settings.connect('writable-changed::foreground-color', update_sensitivity),
+            this.settings.connect('writable-changed::background-color', update_sensitivity),
+            this.settings.connect('writable-changed::bold-color-same-as-fg', update_sensitivity),
+            this.settings.connect('writable-changed::cursor-colors-set', update_sensitivity),
+            this.settings.connect('writable-changed::highlight-colors-set', update_sensitivity),
+        ];
+
+        const copy_profile_handler = this.#copy_gnome_terminal_profile_button.connect(
+            'clicked',
+            this.copy_gnome_terminal_profile.bind(this)
+        );
+
+        const unrealize_handler = this.connect('unrealize', () => {
+            this.disconnect(unrealize_handler);
+
+            for (const handler of settings_handlers)
+                this.settings.disconnect(handler);
+
+            this.#copy_gnome_terminal_profile_button.disconnect(copy_profile_handler);
+        });
+
+        this.#update_sensitivity();
+    }
+
+    #update_sensitivity() {
+        const color_scheme_editable = !this.settings.get_boolean('use-theme-colors');
+
+        this.#foreground_color_row.sensitive =
+            color_scheme_editable && this.settings.is_writable('foreground-color');
+
+        this.#background_color_row.sensitive =
+            color_scheme_editable && this.settings.is_writable('background-color');
+
+        this.#color_scheme_combo.sensitive =
+            this.#foreground_color_row.sensitive && this.#background_color_row.sensitive;
+
+        this.#bold_color_expander.sensitive =
+            color_scheme_editable && this.settings.is_writable('bold-color-same-as-fg');
+
+        this.#cursor_color_expander.sensitive =
+            color_scheme_editable && this.settings.is_writable('cursor-colors-set');
+
+        this.#highlight_color_expander.sensitive =
+            color_scheme_editable && this.settings.is_writable('highlight-colors-set');
     }
 
     copy_gnome_terminal_profile() {
@@ -407,50 +858,4 @@ export const ColorsWidget = GObject.registerClass({
             show_dialog(this.get_root ? this.get_root() : this.get_toplevel(), e.message);
         }
     }
-
-    #realize() {
-        const handler = this.copy_gnome_terminal_profile_button.connect(
-            'clicked',
-            this.copy_gnome_terminal_profile.bind(this)
-        );
-
-        const unrealize_handler = this.connect('unrealize', () => {
-            this.disconnect(unrealize_handler);
-            this.copy_gnome_terminal_profile_button.disconnect(handler);
-        });
-    }
-
-    #bind_color(key, widget, color = null) {
-        if (!color) {
-            color = new Color();
-
-            // Prevent color object from being garbage collected while the widget is alive
-            widget._bound_color = color;
-        }
-
-        this.settings.bind(key, color, 'str', Gio.SettingsBindFlags.NO_SENSITIVITY);
-
-        color.bind_property(
-            'rgba',
-            widget,
-            'rgba',
-            GObject.BindingFlags.BIDIRECTIONAL | GObject.BindingFlags.SYNC_CREATE
-        );
-
-        this.settings.bind_writable(key, widget, 'sensitive', false);
-    }
-
-    #setup_color_scheme_combo_sensitivity() {
-        const { foreground_color, background_color, color_scheme_combo } = this;
-
-        for (const color_button of [foreground_color, background_color]) {
-            color_button.connect('notify::sensitive', () => {
-                color_scheme_combo.sensitive =
-                    foreground_color.sensitive && background_color.sensitive;
-            });
-        }
-
-        color_scheme_combo.sensitive =
-            foreground_color.sensitive && background_color.sensitive;
-    }
-});
+}

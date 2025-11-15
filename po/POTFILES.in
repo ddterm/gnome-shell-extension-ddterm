@@ -24,6 +24,5 @@ ddterm/pref/scrolling.js
 ddterm/pref/shortcuts.js
 ddterm/pref/tabs.js
 ddterm/pref/text.js
-ddterm/pref/ui/prefs-colors.ui
 ddterm/shell/notifications.js
 ddterm/shell/panelicon.js

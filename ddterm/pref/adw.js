@@ -9,7 +9,7 @@ import Gtk from 'gi://Gtk';
 
 import { AnimationGroup } from './animation.js';
 import { BehaviorGroup } from './behavior.js';
-import { ColorsWidget } from './colors.js';
+import { ColorsGroup } from './colors.js';
 import { CommandGroup } from './command.js';
 import { CompatibilityGroup } from './compatibility.js';
 import { PanelIconGroup } from './panelicon.js';
@@ -75,7 +75,7 @@ class TerminalPage extends PreferencesPage {
         const { settings, gettext_domain } = this;
 
         this.add(new TextGroup({ settings, gettext_domain }));
-        this.add_widget(ColorsWidget);
+        this.add(new ColorsGroup({ settings, gettext_domain }));
         this.add(new CommandGroup({ settings, gettext_domain }));
         this.add(new ScrollingGroup({ settings, gettext_domain }));
         this.add(new CompatibilityGroup({ settings, gettext_domain }));
@@ -202,4 +202,6 @@ export function fill_preferences_window(win, settings, gettext_domain, display_c
     win.add(new TerminalPage({ settings, gettext_domain }));
     win.add(new ShortcutsPage({ settings, gettext_domain }));
     win.add(new MiscPage({ settings, gettext_domain }));
+
+    win.set_search_enabled(true);
 }

@@ -11,80 +11,6 @@ import Gi from 'gi';
 
 export const AdwOrHdy = Gi.require(Gtk.get_major_version() === 3 ? 'Handy' : 'Adw');
 
-const UI_BASE_URI = GLib.Uri.resolve_relative(
-    import.meta.url,
-    `ui/gtk${Gtk.get_major_version()}/`,
-    GLib.UriFlags.NONE
-);
-
-export function ui_file_uri(name) {
-    return GLib.Uri.resolve_relative(UI_BASE_URI, name, GLib.UriFlags.NONE);
-}
-
-export function set_scale_value_format(scale, format) {
-    const formatter = (_, value) => format.format(value);
-
-    if (scale.set_format_value_func)
-        scale.set_format_value_func(formatter);
-    else
-        scale.connect('format-value', formatter);
-}
-
-export function bind_widget(settings, key, widget, flags = Gio.SettingsBindFlags.DEFAULT) {
-    if (!(flags & Gio.SettingsBindFlags.NO_SENSITIVITY)) {
-        settings.bind_writable(key, widget, 'sensitive', false);
-        flags |= Gio.SettingsBindFlags.NO_SENSITIVITY;
-    }
-
-    if (widget instanceof Gtk.ComboBox)
-        settings.bind(key, widget, 'active-id', flags);
-
-    else if (widget instanceof Gtk.Range)
-        settings.bind(key, widget.get_adjustment(), 'value', flags);
-
-    else if (widget instanceof Gtk.SpinButton)
-        settings.bind(key, widget, 'value', flags);
-
-    else if (widget instanceof Gtk.Entry)
-        settings.bind(key, widget, 'text', flags);
-
-    else if (widget instanceof Gtk.TextView)
-        settings.bind(key, widget.buffer, 'text', flags);
-
-    else if (widget instanceof Gtk.CheckButton)
-        settings.bind(key, widget, 'active', flags);
-
-    else if (widget instanceof Gtk.FontChooser)
-        settings.bind(key, widget, 'font', flags);
-
-    else
-        throw new Error(`Widget ${widget} of unsupported type for setting ${key}`);
-}
-
-export function bind_widgets(settings, mapping) {
-    for (const [key, widget] of Object.entries(mapping))
-        bind_widget(settings, key, widget);
-}
-
-export function bind_sensitive(settings, key, widget, invert = false) {
-    let flags = Gio.SettingsBindFlags.GET;
-
-    if (invert)
-        flags |= Gio.SettingsBindFlags.INVERT_BOOLEAN;
-
-    settings.bind(key, widget, 'sensitive', flags);
-}
-
-export function insert_settings_actions(widget, settings, keys) {
-    const group = new Gio.SimpleActionGroup();
-
-    for (const key of keys)
-        group.add_action(settings.create_action(key));
-
-    widget.insert_action_group('settings', group);
-    return group;
-}
-
 export const {
     PreferencesRow,
     ActionRow,
@@ -483,6 +409,88 @@ export class ComboTextRow extends ComboRow {
     }
 }
 
+export const StringObject = Gtk.StringObject ?? class extends GObject.Object {
+    static [GObject.GTypeName] = 'DDTermStringObject';
+
+    static [GObject.properties] = {
+        'string': GObject.ParamSpec.string(
+            'string',
+            null,
+            null,
+            GObject.ParamFlags.READABLE,
+            null
+        ),
+    };
+
+    static {
+        GObject.registerClass(this);
+    }
+
+    #string = null;
+
+    get string() {
+        return this.#string;
+    }
+
+    get_string() {
+        return this.#string;
+    }
+
+    static new(s) {
+        const o = new this();
+
+        o.#string = s;
+
+        return o;
+    }
+};
+
+export const StringList = Gtk.StringList ?? class extends Gio.ListStore {
+    static [GObject.GTypeName] = 'DDTermStringList';
+
+    static {
+        GObject.registerClass(this);
+    }
+
+    constructor(params) {
+        super({
+            item_type: StringObject,
+            ...params,
+        });
+    }
+
+    static new(strings) {
+        const o = new this();
+
+        o.splice(0, 0, strings);
+
+        return o;
+    }
+
+    append(s) {
+        super.append(StringObject.new(s));
+    }
+
+    find(s) {
+        const n = this.get_n_items();
+
+        for (let i = 0; i < n; i++) {
+            if (this.get_string(i) === s)
+                return i;
+        }
+
+        return INVALID_LIST_POSITION;
+    }
+
+    get_string(position) {
+        return this.get_item(position).string;
+    }
+
+    splice(position, n_removals, additions) {
+        super.splice(position, n_removals, additions.map(v => StringObject.new(v)));
+    }
+};
+
 export class ScaleRow extends ActionRow {
     static [GObject.GTypeName] = 'DDTermScaleRow';
 
@@ -698,24 +706,5 @@ export class PreferencesPage extends AdwOrHdy.PreferencesPage {
             visible: true,
             ...params,
         });
-    }
-
-    add_widget(widget_type, extra_properties = {}) {
-        const widget = new widget_type({
-            settings: this.settings,
-            gettext_domain: this.gettext_domain,
-            visible: true,
-            ...extra_properties,
-        });
-
-        const group = new AdwOrHdy.PreferencesGroup({
-            title: widget.title,
-            visible: true,
-        });
-
-        group.add(widget);
-        this.add(group);
-
-        return widget;
     }
 }

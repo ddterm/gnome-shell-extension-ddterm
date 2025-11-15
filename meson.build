@@ -64,9 +64,7 @@ summary(
 capture_stdout = ['sh', '-c', 'exec "$@" >"$0"', '@OUTPUT@']
 
 gtk3_builder_tool = find_program('gtk-builder-tool')
-gtk4_builder_tool = find_program('gtk4-builder-tool')
 glib_compile_schemas_tool = find_program('glib-compile-schemas')
-xsltproc = find_program('xsltproc')
 
 xgettext = find_program('xgettext', required: false, disabler: true)
 
