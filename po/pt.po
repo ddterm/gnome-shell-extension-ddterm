@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-11 04:05+0000\n"
+"POT-Creation-Date: 2025-11-15 10:13+0000\n"
 "PO-Revision-Date: 2024-09-09 02:09+0000\n"
 "Last-Translator: Bruno Rodrigues <b.rodrigues@live.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/pt/>\n"
@@ -154,11 +154,11 @@ msgstr "Fechar a Barra de Busca"
 msgid "Wrap Around"
 msgstr "Pesquisar Tudo"
 
-#: ddterm/app/search.js:334 ddterm/pref/ui/prefs-shortcuts.ui:277
+#: ddterm/app/search.js:334 ddterm/pref/shortcuts.js:622
 msgid "Find Next"
 msgstr "Localizar próximo"
 
-#: ddterm/app/search.js:352 ddterm/pref/ui/prefs-shortcuts.ui:284
+#: ddterm/app/search.js:352 ddterm/pref/shortcuts.js:627
 msgid "Find Previous"
 msgstr "Localizar anterior"
 
@@ -215,19 +215,19 @@ msgstr "Copiar HTML"
 msgid "Paste"
 msgstr "Colar"
 
-#: ddterm/app/ui/menus.ui:44 ddterm/pref/ui/prefs-shortcuts.ui:130
+#: ddterm/app/ui/menus.ui:44 ddterm/pref/shortcuts.js:517
 msgid "Select All"
 msgstr "Selecionar Tudo"
 
-#: ddterm/app/ui/menus.ui:50 ddterm/pref/ui/prefs-shortcuts.ui:270
+#: ddterm/app/ui/menus.ui:50 ddterm/pref/shortcuts.js:617
 msgid "Find"
 msgstr "Localizar"
 
-#: ddterm/app/ui/menus.ui:56 ddterm/pref/ui/prefs-shortcuts.ui:137
+#: ddterm/app/ui/menus.ui:56 ddterm/pref/shortcuts.js:522
 msgid "Reset"
 msgstr "Restaurar Padrão"
 
-#: ddterm/app/ui/menus.ui:60 ddterm/pref/ui/prefs-shortcuts.ui:144
+#: ddterm/app/ui/menus.ui:60 ddterm/pref/shortcuts.js:527
 msgid "Reset and Clear"
 msgstr "Restaurar e Limpar"
 
@@ -235,15 +235,15 @@ msgstr "Restaurar e Limpar"
 msgid "Zoom"
 msgstr "Zoom"
 
-#: ddterm/app/ui/menus.ui:68 ddterm/pref/ui/prefs-shortcuts.ui:291
+#: ddterm/app/ui/menus.ui:68 ddterm/pref/shortcuts.js:632
 msgid "Zoom In"
 msgstr "Aumentar Zoom"
 
-#: ddterm/app/ui/menus.ui:72 ddterm/pref/ui/prefs-shortcuts.ui:298
+#: ddterm/app/ui/menus.ui:72 ddterm/pref/shortcuts.js:637
 msgid "Zoom Out"
 msgstr "Diminuir Zoom"
 
-#: ddterm/app/ui/menus.ui:76 ddterm/pref/ui/prefs-shortcuts.ui:305
+#: ddterm/app/ui/menus.ui:76 ddterm/pref/shortcuts.js:642
 msgid "Normal Size"
 msgstr "Restaurar Tamanho"
 
@@ -259,21 +259,21 @@ msgstr "Manter Aberto Após Sair"
 msgid "New Tab"
 msgstr "Nova Aba"
 
-#: ddterm/app/ui/menus.ui:101 ddterm/pref/ui/prefs-shortcuts.ui:165
+#: ddterm/app/ui/menus.ui:101 ddterm/pref/shortcuts.js:542
 msgid "New Tab Before Current Tab"
 msgstr "Nova Aba Antes da Aba Atual"
 
-#: ddterm/app/ui/menus.ui:105 ddterm/pref/ui/prefs-shortcuts.ui:172
+#: ddterm/app/ui/menus.ui:105 ddterm/pref/shortcuts.js:547
 msgid "New Tab After Current Tab"
 msgstr "Nova Aba Após a Aba Atual"
 
 #: ddterm/app/ui/menus.ui:109 ddterm/app/ui/menus.ui:243
-#: ddterm/pref/ui/prefs-shortcuts.ui:158
+#: ddterm/pref/shortcuts.js:537
 msgid "New Tab Before First Tab"
 msgstr "Nova Aba Antes da Primeira Aba"
 
 #: ddterm/app/ui/menus.ui:113 ddterm/app/ui/menus.ui:247
-#: ddterm/pref/ui/prefs-shortcuts.ui:151
+#: ddterm/pref/shortcuts.js:532
 msgid "New Tab After Last Tab"
 msgstr "Nova Aba Após a Última Aba"
 
@@ -287,12 +287,12 @@ msgid "No Split"
 msgstr "Sem divisão"
 
 #: ddterm/app/ui/menus.ui:128 ddterm/app/ui/menus.ui:271
-#: ddterm/app/ui/menus.ui:301 ddterm/pref/ui/prefs-shortcuts.ui:214
+#: ddterm/app/ui/menus.ui:301 ddterm/pref/shortcuts.js:577
 msgid "Split Horizontally"
 msgstr "Dividir Horizontalmente"
 
 #: ddterm/app/ui/menus.ui:133 ddterm/app/ui/menus.ui:276
-#: ddterm/app/ui/menus.ui:306 ddterm/pref/ui/prefs-shortcuts.ui:221
+#: ddterm/app/ui/menus.ui:306 ddterm/pref/shortcuts.js:582
 msgid "Split Vertically"
 msgstr "Dividir Verticalmente"
 
@@ -300,7 +300,7 @@ msgstr "Dividir Verticalmente"
 msgid "Move Tab to Other Pane"
 msgstr "Mover Aba para a Próximo"
 
-#: ddterm/app/ui/menus.ui:147 ddterm/pref/dialog.js:51
+#: ddterm/app/ui/menus.ui:147 ddterm/pref/dialog.js:50
 msgid "Preferences"
 msgstr "Preferências"
 
@@ -366,247 +366,215 @@ msgstr "Nova Aba Antes da Desta Aba"
 msgid "New Tab After This Tab"
 msgstr "Nova Aba Após Esta Aba"
 
-#: ddterm/app/ui/menus.ui:253 ddterm/pref/ui/prefs-shortcuts.ui:200
+#: ddterm/app/ui/menus.ui:253 ddterm/pref/shortcuts.js:567
 msgid "Move Tab to Previous Position"
 msgstr "Mover Aba para a Posição Anterior"
 
-#: ddterm/app/ui/menus.ui:257 ddterm/pref/ui/prefs-shortcuts.ui:207
+#: ddterm/app/ui/menus.ui:257 ddterm/pref/shortcuts.js:572
 msgid "Move Tab to Next Position"
 msgstr "Mover Aba para a Próxima Posição"
 
-#: ddterm/pref/adw.js:89
+#: ddterm/pref/adw.js:48
 msgid "Window"
 msgstr "Janela"
 
-#: ddterm/pref/adw.js:107
+#: ddterm/pref/adw.js:73
 msgid "Terminal"
 msgstr "Terminal"
 
-#: ddterm/pref/adw.js:126 ddterm/pref/shortcuts.js:201
+#: ddterm/pref/adw.js:106
 msgid "Keyboard Shortcuts"
 msgstr "Atalhos de Teclado"
 
-#: ddterm/pref/adw.js:141
+#: ddterm/pref/adw.js:172
 msgid "Miscellaneous"
 msgstr "Miscelânea"
 
-#: ddterm/pref/animation.js:62
+#: ddterm/pref/animation.js:26
 msgid "Animation"
 msgstr "Animação"
 
-#: ddterm/pref/behavior.js:46
-msgid "Behavior"
-msgstr "Comportamento"
-
-#: ddterm/pref/colors.js:400
-msgid "Colors"
-msgstr "Cores"
-
-#: ddterm/pref/command.js:54
-msgid "Command"
-msgstr "Comando"
-
-#: ddterm/pref/compatibility.js:60
-msgid "Compatibility"
-msgstr "Compatibilidade"
-
-#: ddterm/pref/panelicon.js:37
-msgid "Panel Icon"
-msgstr "Ícone 'Painel'"
-
-#: ddterm/pref/positionsize.js:73
-msgid "Position and Size"
-msgstr "Posição e Tamanho"
-
-#: ddterm/pref/scrolling.js:66
-msgid "Scrolling"
-msgstr "Rolagem"
-
-#: ddterm/pref/tabs.js:91
-msgid "Tabs"
-msgstr "Abas"
-
-#: ddterm/pref/text.js:85
-msgid "Text"
-msgstr "Texto"
-
-#: ddterm/pref/ui/prefs-animation.ui:20
-msgid "Disable"
-msgstr "Desabilitar"
-
-#: ddterm/pref/ui/prefs-animation.ui:24
-msgid "Linear tweening"
-msgstr "Tweening linear"
-
-#: ddterm/pref/ui/prefs-animation.ui:28
-msgid "Quadratic tweening"
-msgstr "Tweening quadrático"
-
-#: ddterm/pref/ui/prefs-animation.ui:32
-msgid "Quadratic tweening, inverse"
-msgstr "Tweening quadrático, inverso"
-
-#: ddterm/pref/ui/prefs-animation.ui:36
-msgid "Quadratic tweening, combining direct and inverse"
-msgstr "Tweening quadrático, combinando direto e inverso"
-
-#: ddterm/pref/ui/prefs-animation.ui:40
-msgid "Cubic tweening"
-msgstr "Tweening cúbico"
-
-#: ddterm/pref/ui/prefs-animation.ui:44
-msgid "Cubic tweening, inverse"
-msgstr "Tweening cúbico, inverso"
-
-#: ddterm/pref/ui/prefs-animation.ui:48
-msgid "Cubic tweening, combining direct and inverse"
-msgstr "Tweening cúbico, combinando direto e inverso"
-
-#: ddterm/pref/ui/prefs-animation.ui:52
-msgid "Quartic tweening"
-msgstr "Tweening quártico"
-
-#: ddterm/pref/ui/prefs-animation.ui:56
-msgid "Quartic tweening, inverse"
-msgstr "Tweening quártico, inverso"
-
-#: ddterm/pref/ui/prefs-animation.ui:60
-msgid "Quartic tweening, combining direct and inverse"
-msgstr "Tweening quártico, combinando direto e inverso"
-
-#: ddterm/pref/ui/prefs-animation.ui:64
-msgid "Quintic tweening"
-msgstr "Tweening quíntico"
-
-#: ddterm/pref/ui/prefs-animation.ui:68
-msgid "Quintic tweening, inverse"
-msgstr "Tweening quíntico, inverso"
-
-#: ddterm/pref/ui/prefs-animation.ui:72
-msgid "Quintic tweening, combining direct and inverse"
-msgstr "Tweening quíntico, combinando direto e inverso"
-
-#: ddterm/pref/ui/prefs-animation.ui:76
-msgid "Sinusoidal tweening"
-msgstr "Tweening sinusoidal"
-
-#: ddterm/pref/ui/prefs-animation.ui:80
-msgid "Sinusoidal tweening, inverse"
-msgstr "Tweening sinusoidal, inverso"
-
-#: ddterm/pref/ui/prefs-animation.ui:84
-msgid "Sinusoidal tweening, combining direct and inverse"
-msgstr "Tweening sinusoidal, combinando direto e inverso"
-
-#: ddterm/pref/ui/prefs-animation.ui:88
-msgid "Exponential tweening"
-msgstr "Tweening Exponencial"
-
-#: ddterm/pref/ui/prefs-animation.ui:92
-msgid "Exponential tweening, inverse"
-msgstr "Tweening exponencial, inverso"
-
-#: ddterm/pref/ui/prefs-animation.ui:96
-msgid "Exponential tweening, combining direct and inverse"
-msgstr "Tweening exponencial, combinando direto e inverso"
-
-#: ddterm/pref/ui/prefs-animation.ui:100
-msgid "Circular tweening"
-msgstr "Tweening circular"
-
-#: ddterm/pref/ui/prefs-animation.ui:104
-msgid "Circular tweening, inverse"
-msgstr "Tweening circular, inverso"
-
-#: ddterm/pref/ui/prefs-animation.ui:108
-msgid "Circular tweening, combining direct and inverse"
-msgstr "Tweening circular, combinando direto e inverso"
-
-#: ddterm/pref/ui/prefs-animation.ui:112
-msgid "Elastic tweening, with offshoot on start"
-msgstr "Tweening elástico, com ramificação no início"
-
-#: ddterm/pref/ui/prefs-animation.ui:116
-msgid "Elastic tweening, with offshoot on end"
-msgstr "Tweening elástico, com ramificação no final"
-
-#: ddterm/pref/ui/prefs-animation.ui:120
-msgid "Elastic tweening with offshoot on both ends"
-msgstr "Tweening elástico, com ramificação em ambos os lados"
-
-#: ddterm/pref/ui/prefs-animation.ui:124
-msgid "Overshooting cubic tweening, with backtracking on start"
-msgstr "Ramificando tweening cúbico, com retrocesso no início"
-
-#: ddterm/pref/ui/prefs-animation.ui:128
-msgid "Overshooting cubic tweening, with backtracking on end"
-msgstr "Ramificando tweening cúbico, com retrocesso no final"
-
-#: ddterm/pref/ui/prefs-animation.ui:132
-msgid "Overshooting cubic tweening, with backtracking on both ends"
-msgstr "Ramificando tweening cúbico, com retrocesso em ambos os lados"
-
-#: ddterm/pref/ui/prefs-animation.ui:136
-msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on start"
-msgstr "Tweening de parabólica exponencialmente decadente, com quicada no início"
-
-#: ddterm/pref/ui/prefs-animation.ui:140
-msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on end"
-msgstr "Tweening de parabólica exponencialmente decadente, com quicada no final"
-
-#: ddterm/pref/ui/prefs-animation.ui:144
-msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on both ends"
-msgstr "Tweening de parabólica exponencialmente decadente, com quicada em ambos os lados"
-
-#: ddterm/pref/ui/prefs-animation.ui:167
+#: ddterm/pref/animation.js:30
 msgid "_Override default window animations"
 msgstr "_Sobrescrever animações padrão da janela"
 
-#: ddterm/pref/ui/prefs-animation.ui:202
+#: ddterm/pref/animation.js:34
+msgid "Disable"
+msgstr "Desabilitar"
+
+#: ddterm/pref/animation.js:35
+msgid "Linear tweening"
+msgstr "Tweening linear"
+
+#: ddterm/pref/animation.js:36
+msgid "Quadratic tweening"
+msgstr "Tweening quadrático"
+
+#: ddterm/pref/animation.js:37
+msgid "Quadratic tweening, inverse"
+msgstr "Tweening quadrático, inverso"
+
+#: ddterm/pref/animation.js:38
+msgid "Quadratic tweening, combining direct and inverse"
+msgstr "Tweening quadrático, combinando direto e inverso"
+
+#: ddterm/pref/animation.js:39
+msgid "Cubic tweening"
+msgstr "Tweening cúbico"
+
+#: ddterm/pref/animation.js:40
+msgid "Cubic tweening, inverse"
+msgstr "Tweening cúbico, inverso"
+
+#: ddterm/pref/animation.js:41
+msgid "Cubic tweening, combining direct and inverse"
+msgstr "Tweening cúbico, combinando direto e inverso"
+
+#: ddterm/pref/animation.js:42
+msgid "Quartic tweening"
+msgstr "Tweening quártico"
+
+#: ddterm/pref/animation.js:43
+msgid "Quartic tweening, inverse"
+msgstr "Tweening quártico, inverso"
+
+#: ddterm/pref/animation.js:44
+msgid "Quartic tweening, combining direct and inverse"
+msgstr "Tweening quártico, combinando direto e inverso"
+
+#: ddterm/pref/animation.js:45
+msgid "Quintic tweening"
+msgstr "Tweening quíntico"
+
+#: ddterm/pref/animation.js:46
+msgid "Quintic tweening, inverse"
+msgstr "Tweening quíntico, inverso"
+
+#: ddterm/pref/animation.js:47
+msgid "Quintic tweening, combining direct and inverse"
+msgstr "Tweening quíntico, combinando direto e inverso"
+
+#: ddterm/pref/animation.js:48
+msgid "Sinusoidal tweening"
+msgstr "Tweening sinusoidal"
+
+#: ddterm/pref/animation.js:49
+msgid "Sinusoidal tweening, inverse"
+msgstr "Tweening sinusoidal, inverso"
+
+#: ddterm/pref/animation.js:50
+msgid "Sinusoidal tweening, combining direct and inverse"
+msgstr "Tweening sinusoidal, combinando direto e inverso"
+
+#: ddterm/pref/animation.js:51
+msgid "Exponential tweening"
+msgstr "Tweening Exponencial"
+
+#: ddterm/pref/animation.js:52
+msgid "Exponential tweening, inverse"
+msgstr "Tweening exponencial, inverso"
+
+#: ddterm/pref/animation.js:53
+msgid "Exponential tweening, combining direct and inverse"
+msgstr "Tweening exponencial, combinando direto e inverso"
+
+#: ddterm/pref/animation.js:54
+msgid "Circular tweening"
+msgstr "Tweening circular"
+
+#: ddterm/pref/animation.js:55
+msgid "Circular tweening, inverse"
+msgstr "Tweening circular, inverso"
+
+#: ddterm/pref/animation.js:56
+msgid "Circular tweening, combining direct and inverse"
+msgstr "Tweening circular, combinando direto e inverso"
+
+#: ddterm/pref/animation.js:57
+msgid "Elastic tweening, with offshoot on start"
+msgstr "Tweening elástico, com ramificação no início"
+
+#: ddterm/pref/animation.js:58
+msgid "Elastic tweening, with offshoot on end"
+msgstr "Tweening elástico, com ramificação no final"
+
+#: ddterm/pref/animation.js:59
+msgid "Elastic tweening with offshoot on both ends"
+msgstr "Tweening elástico, com ramificação em ambos os lados"
+
+#: ddterm/pref/animation.js:60
+msgid "Overshooting cubic tweening, with backtracking on start"
+msgstr "Ramificando tweening cúbico, com retrocesso no início"
+
+#: ddterm/pref/animation.js:61
+msgid "Overshooting cubic tweening, with backtracking on end"
+msgstr "Ramificando tweening cúbico, com retrocesso no final"
+
+#: ddterm/pref/animation.js:63
+msgid "Overshooting cubic tweening, with backtracking on both ends"
+msgstr "Ramificando tweening cúbico, com retrocesso em ambos os lados"
+
+#: ddterm/pref/animation.js:66
+msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on start"
+msgstr "Tweening de parabólica exponencialmente decadente, com quicada no início"
+
+#: ddterm/pref/animation.js:69
+msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on end"
+msgstr "Tweening de parabólica exponencialmente decadente, com quicada no final"
+
+#: ddterm/pref/animation.js:72
+msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on both ends"
+msgstr "Tweening de parabólica exponencialmente decadente, com quicada em ambos os lados"
+
+#: ddterm/pref/animation.js:103
 msgid "_Show animation:"
 msgstr "_Animação de mostrar:"
 
-#: ddterm/pref/ui/prefs-animation.ui:216
-msgid "_Hide animation:"
-msgstr "_Animação de recolher:"
-
-#: ddterm/pref/ui/prefs-animation.ui:272
-msgid "_Hide animation duration:"
-msgstr "_Duração da animação de recolher:"
-
-#: ddterm/pref/ui/prefs-animation.ui:285
+#: ddterm/pref/animation.js:114
 msgid "_Show animation duration:"
 msgstr "_Duração da animação de mostrar:"
 
-#: ddterm/pref/ui/prefs-behavior.ui:23
+#: ddterm/pref/animation.js:128
+msgid "_Hide animation:"
+msgstr "_Animação de recolher:"
+
+#: ddterm/pref/animation.js:139
+msgid "_Hide animation duration:"
+msgstr "_Duração da animação de recolher:"
+
+#: ddterm/pref/behavior.js:19
+msgid "Behavior"
+msgstr "Comportamento"
+
+#: ddterm/pref/behavior.js:23
 msgid "_Resizable"
 msgstr "_Redimensionável"
 
-#: ddterm/pref/ui/prefs-behavior.ui:39
+#: ddterm/pref/behavior.js:28
 msgid "_Above all windows"
 msgstr "_Acima de todas as janelas"
 
-#: ddterm/pref/ui/prefs-behavior.ui:55
+#: ddterm/pref/behavior.js:33
 msgid "On all _workspaces"
 msgstr "Em todas as Áreas de Trabalho"
 
-#: ddterm/pref/ui/prefs-behavior.ui:71
+#: ddterm/pref/behavior.js:38
 msgid "Hide when the application loses _focus"
 msgstr "Recolher quando a janela perder o foco"
 
-#: ddterm/pref/ui/prefs-behavior.ui:87
+#: ddterm/pref/behavior.js:43
 msgid "Hide when _Esc key is pressed"
 msgstr "Recolher quando a tecla Esc for pressionada"
 
-#: ddterm/pref/ui/prefs-behavior.ui:103
+#: ddterm/pref/behavior.js:48
 msgid "Exclude from _overview/task bar"
 msgstr "Não incluir na Barra de Tarefas do Sistema"
 
-#: ddterm/pref/ui/prefs-behavior.ui:119
+#: ddterm/pref/behavior.js:53
 msgid "Hide mouse _pointer when typing"
 msgstr "Esconder cursor do mouse ao digitar"
 
-#: ddterm/pref/ui/prefs-behavior.ui:135
+#: ddterm/pref/behavior.js:59
 msgid ""
 "Force _X11 GDK backend (XWayland).\n"
 "You'll have to close all tabs for this option to take effect."
@@ -614,659 +582,647 @@ msgstr ""
 "Forçar backend _X11 GDK (XWayland)\n"
 "Você terá que fechar todas as abas para que esta opção tenha efeito."
 
-#: ddterm/pref/ui/prefs-colors.ui:23
-msgid "Black on light yellow"
-msgstr "Preto sobre amarelo-claro"
+#: ddterm/pref/colors.js:357
+msgid "Colors"
+msgstr "Cores"
 
-#: ddterm/pref/ui/prefs-colors.ui:28
-msgid "Black on white"
-msgstr "Preto sobre banco"
-
-#: ddterm/pref/ui/prefs-colors.ui:33
-msgid "Gray on black"
-msgstr "Cinza sobre preto"
-
-#: ddterm/pref/ui/prefs-colors.ui:38
-msgid "Green on black"
-msgstr "Verde sobre preto"
-
-#: ddterm/pref/ui/prefs-colors.ui:43
-msgid "White on black"
-msgstr "Branco sobre preto"
-
-#: ddterm/pref/ui/prefs-colors.ui:48
-msgid "GNOME light"
-msgstr "Tema GNOME claro"
-
-#: ddterm/pref/ui/prefs-colors.ui:53
-msgid "GNOME dark"
-msgstr "Tema GNOME escuro"
-
-#: ddterm/pref/ui/prefs-colors.ui:58
-msgid "Tango light"
-msgstr "Tango claro"
-
-#: ddterm/pref/ui/prefs-colors.ui:63
-msgid "Tango dark"
-msgstr "Tango escuro"
-
-#: ddterm/pref/ui/prefs-colors.ui:68
-msgid "Solarized light"
-msgstr "Solarized claro"
-
-#: ddterm/pref/ui/prefs-colors.ui:73
-msgid "Solarized dark"
-msgstr "Solarized escuro"
-
-#: ddterm/pref/ui/prefs-colors.ui:78 ddterm/pref/ui/prefs-colors.ui:242
-msgid "Custom"
-msgstr "Personalizado"
-
-#: ddterm/pref/ui/prefs-colors.ui:128
-msgid "GNOME"
-msgstr "GNOME"
-
-#: ddterm/pref/ui/prefs-colors.ui:147
-msgid "Tango"
-msgstr "Tango"
-
-#: ddterm/pref/ui/prefs-colors.ui:166
-msgid "Linux"
-msgstr "Linux"
-
-#: ddterm/pref/ui/prefs-colors.ui:185
-msgid "XTerm"
-msgstr "XTerm"
-
-#: ddterm/pref/ui/prefs-colors.ui:204
-msgid "RXVT"
-msgstr "RXVT"
-
-#: ddterm/pref/ui/prefs-colors.ui:223
-msgid "Solarized"
-msgstr "Solarized"
-
-#: ddterm/pref/ui/prefs-colors.ui:277
+#: ddterm/pref/colors.js:361
 msgid "Theme _variant:"
 msgstr "Variante de tema:"
 
-#: ddterm/pref/ui/prefs-colors.ui:292 ddterm/pref/ui/prefs-text.ui:116
+#: ddterm/pref/colors.js:363 ddterm/pref/text.js:118
 msgid "Default"
 msgstr "Padrão"
 
-#: ddterm/pref/ui/prefs-colors.ui:293
+#: ddterm/pref/colors.js:364
 msgid "Light"
 msgstr "Claro"
 
-#: ddterm/pref/ui/prefs-colors.ui:294
+#: ddterm/pref/colors.js:365
 msgid "Dark"
 msgstr "Escuro"
 
-#: ddterm/pref/ui/prefs-colors.ui:304
+#: ddterm/pref/colors.js:371
 msgid "Use colors from system _theme"
 msgstr "Usar preferência de cores do sistema"
 
-#: ddterm/pref/ui/prefs-colors.ui:320
-msgid "_Background opacity:"
-msgstr "_Opacidade do plano de fundo:"
+#: ddterm/pref/colors.js:375
+msgid "Black on light yellow"
+msgstr "Preto sobre amarelo-claro"
 
-#: ddterm/pref/ui/prefs-colors.ui:365
-msgid "_Palette:"
-msgstr "_Paleta de cores:"
+#: ddterm/pref/colors.js:376
+msgid "Black on white"
+msgstr "Preto sobre banco"
 
-#: ddterm/pref/ui/prefs-colors.ui:408
-msgid "Palette Color 0"
-msgstr "Cor de Paleta 0"
+#: ddterm/pref/colors.js:377
+msgid "Gray on black"
+msgstr "Cinza sobre preto"
 
-#: ddterm/pref/ui/prefs-colors.ui:421
-msgid "Palette Color 1"
-msgstr "Cor de Paleta 1"
+#: ddterm/pref/colors.js:378
+msgid "Green on black"
+msgstr "Verde sobre preto"
 
-#: ddterm/pref/ui/prefs-colors.ui:434
-msgid "Palette Color 2"
-msgstr "Cor de Paleta 2"
+#: ddterm/pref/colors.js:379
+msgid "White on black"
+msgstr "Branco sobre preto"
 
-#: ddterm/pref/ui/prefs-colors.ui:447
-msgid "Palette Color 3"
-msgstr "Cor de Paleta 3"
+#: ddterm/pref/colors.js:380
+msgid "GNOME light"
+msgstr "Tema GNOME claro"
 
-#: ddterm/pref/ui/prefs-colors.ui:460
-msgid "Palette Color 4"
-msgstr "Cor de Paleta 4"
+#: ddterm/pref/colors.js:381
+msgid "GNOME dark"
+msgstr "Tema GNOME escuro"
 
-#: ddterm/pref/ui/prefs-colors.ui:473
-msgid "Palette Color 5"
-msgstr "Cor de Paleta 5"
+#: ddterm/pref/colors.js:382
+msgid "Tango light"
+msgstr "Tango claro"
 
-#: ddterm/pref/ui/prefs-colors.ui:486
-msgid "Palette Color 6"
-msgstr "Cor de Paleta 6"
+#: ddterm/pref/colors.js:383
+msgid "Tango dark"
+msgstr "Tango escuro"
 
-#: ddterm/pref/ui/prefs-colors.ui:499
-msgid "Palette Color 7"
-msgstr "Cor de Paleta 7"
+#: ddterm/pref/colors.js:384
+msgid "Solarized light"
+msgstr "Solarized claro"
 
-#: ddterm/pref/ui/prefs-colors.ui:512
-msgid "Palette Color 8"
-msgstr "Cor de Paleta 8"
+#: ddterm/pref/colors.js:385
+msgid "Solarized dark"
+msgstr "Solarized escuro"
 
-#: ddterm/pref/ui/prefs-colors.ui:525
-msgid "Palette Color 9"
-msgstr "Cor de Paleta 9"
+#: ddterm/pref/colors.js:386 ddterm/pref/colors.js:706
+msgid "Custom"
+msgstr "Personalizado"
 
-#: ddterm/pref/ui/prefs-colors.ui:538
-msgid "Palette Color 10"
-msgstr "Cor de Paleta 10"
-
-#: ddterm/pref/ui/prefs-colors.ui:551
-msgid "Palette Color 11"
-msgstr "Cor de Paleta 11"
-
-#: ddterm/pref/ui/prefs-colors.ui:564
-msgid "Palette Color 12"
-msgstr "Cor de Paleta 12"
-
-#: ddterm/pref/ui/prefs-colors.ui:577
-msgid "Palette Color 13"
-msgstr "Cor de Paleta 13"
-
-#: ddterm/pref/ui/prefs-colors.ui:590
-msgid "Palette Color 14"
-msgstr "Cor de Paleta 14"
-
-#: ddterm/pref/ui/prefs-colors.ui:603
-msgid "Palette Color 15"
-msgstr "Cor de Paleta 15"
-
-#: ddterm/pref/ui/prefs-colors.ui:619
-msgid "Show bold text in _bright colors"
-msgstr "Mostrar texto negrito em cores claras"
-
-#: ddterm/pref/ui/prefs-colors.ui:635
-msgid "Copy profile from GNOME Terminal"
-msgstr "Copiar perfil do Terminal do GNOME"
-
-#: ddterm/pref/ui/prefs-colors.ui:657
-msgid "Foreground"
-msgstr "Primeiro plano"
-
-#: ddterm/pref/ui/prefs-colors.ui:668
-msgid "Background"
-msgstr "Plano de fundo"
-
-#: ddterm/pref/ui/prefs-colors.ui:680
-msgid "Default color:"
-msgstr "Cor padrão:"
-
-#: ddterm/pref/ui/prefs-colors.ui:689
-msgid "Bold color:"
-msgstr "Cor negrito:"
-
-#: ddterm/pref/ui/prefs-colors.ui:702
-msgid "Cursor color:"
-msgstr "Cor do cursor:"
-
-#: ddterm/pref/ui/prefs-colors.ui:716
-msgid "Highlight color:"
-msgstr "Cor destaque:"
-
-#: ddterm/pref/ui/prefs-colors.ui:733
+#: ddterm/pref/colors.js:409
 msgid "Color _scheme:"
 msgstr "Cor _scheme:"
 
-#: ddterm/pref/ui/prefs-colors.ui:751
-msgid "Background Color"
-msgstr "Cor do plano de fundo"
-
-#: ddterm/pref/ui/prefs-colors.ui:775
-msgid "Bold Color"
-msgstr "Cor Negrito"
-
-#: ddterm/pref/ui/prefs-colors.ui:799
-msgid "Cursor Foreground Color"
-msgstr "Cor do primeiro plano do cursor"
-
-#: ddterm/pref/ui/prefs-colors.ui:823
-msgid "Cursor Background Color"
-msgstr "Cor do plano de fundo do cursor"
-
-#: ddterm/pref/ui/prefs-colors.ui:847
-msgid "Highlight Foreground Color"
-msgstr "Cor do primeiro plano do Destaque"
-
-#: ddterm/pref/ui/prefs-colors.ui:871
-msgid "Highlight Background Color"
-msgstr "Cor do plano de fundo do Destaque"
-
-#: ddterm/pref/ui/prefs-colors.ui:914
+#: ddterm/pref/colors.js:428
 msgid "Foreground Color"
 msgstr "Cor do primeiro plano"
 
-#: ddterm/pref/ui/prefs-command.ui:23
+#: ddterm/pref/colors.js:435
+msgid "Background Color"
+msgstr "Cor do plano de fundo"
+
+#: ddterm/pref/colors.js:443
+msgid "Bold color:"
+msgstr "Cor negrito:"
+
+#: ddterm/pref/colors.js:451
+msgid "Bold Color"
+msgstr "Cor Negrito"
+
+#: ddterm/pref/colors.js:460
+msgid "Cursor color:"
+msgstr "Cor do cursor:"
+
+#: ddterm/pref/colors.js:482
+msgid "Cursor Foreground Color"
+msgstr "Cor do primeiro plano do cursor"
+
+#: ddterm/pref/colors.js:487
+msgid "Cursor Background Color"
+msgstr "Cor do plano de fundo do cursor"
+
+#: ddterm/pref/colors.js:510
+msgid "Highlight color:"
+msgstr "Cor destaque:"
+
+#: ddterm/pref/colors.js:532
+msgid "Highlight Foreground Color"
+msgstr "Cor do primeiro plano do Destaque"
+
+#: ddterm/pref/colors.js:537
+msgid "Highlight Background Color"
+msgstr "Cor do plano de fundo do Destaque"
+
+#: ddterm/pref/colors.js:577
+msgid "_Background opacity:"
+msgstr "_Opacidade do plano de fundo:"
+
+#: ddterm/pref/colors.js:592
+#, fuzzy
+#| msgid "Transparent Background"
+msgid "Transparent background"
+msgstr "Plano de Fundo Transparente"
+
+#: ddterm/pref/colors.js:598
+msgid "GNOME"
+msgstr "GNOME"
+
+#: ddterm/pref/colors.js:616
+msgid "Tango"
+msgstr "Tango"
+
+#: ddterm/pref/colors.js:634
+msgid "Linux"
+msgstr "Linux"
+
+#: ddterm/pref/colors.js:652
+msgid "XTerm"
+msgstr "XTerm"
+
+#: ddterm/pref/colors.js:670
+msgid "RXVT"
+msgstr "RXVT"
+
+#: ddterm/pref/colors.js:688
+msgid "Solarized"
+msgstr "Solarized"
+
+#: ddterm/pref/colors.js:717
+msgid "_Palette:"
+msgstr "_Paleta de cores:"
+
+#: ddterm/pref/colors.js:790
+msgid "Show bold text in _bright colors"
+msgstr "Mostrar texto negrito em cores claras"
+
+#: ddterm/pref/colors.js:795
+msgid "Copy profile from GNOME Terminal"
+msgstr "Copiar perfil do Terminal do GNOME"
+
+#: ddterm/pref/command.js:22 ddterm/pref/command.js:26
+msgid "Command"
+msgstr "Comando"
+
+#: ddterm/pref/command.js:28
 msgid "User _shell"
 msgstr "Usuário _shell"
 
-#: ddterm/pref/ui/prefs-command.ui:41
+#: ddterm/pref/command.js:29
 msgid "User shell as _login shell"
 msgstr "Usuário do shell como login shell"
 
-#: ddterm/pref/ui/prefs-command.ui:59
+#: ddterm/pref/command.js:30 ddterm/pref/command.js:35
 msgid "Custom _command:"
 msgstr "Comando personalizado:"
 
-#: ddterm/pref/ui/prefs-command.ui:98
+#: ddterm/pref/command.js:51
 msgid "Preserve working directory"
 msgstr "Preserve o diretório atual"
 
-#: ddterm/pref/ui/prefs-compatibility.ui:20 ddterm/pref/ui/prefs-tabs.ui:111
+#: ddterm/pref/compatibility.js:20
+msgid "Compatibility"
+msgstr "Compatibilidade"
+
+#: ddterm/pref/compatibility.js:23 ddterm/pref/tabs.js:33
 msgid "Automatic"
 msgstr "Automático"
 
-#: ddterm/pref/ui/prefs-compatibility.ui:24
+#: ddterm/pref/compatibility.js:24
 msgid "Control-H"
 msgstr "Control-H"
 
-#: ddterm/pref/ui/prefs-compatibility.ui:28
+#: ddterm/pref/compatibility.js:25
 msgid "ASCII DEL"
 msgstr "ASCII DEL"
 
-#: ddterm/pref/ui/prefs-compatibility.ui:32
+#: ddterm/pref/compatibility.js:26
 msgid "Escape sequence"
 msgstr "Sequencia de escape"
 
-#: ddterm/pref/ui/prefs-compatibility.ui:36
+#: ddterm/pref/compatibility.js:27
 msgid "TTY Erase"
 msgstr "Limpar TTY"
 
-#: ddterm/pref/ui/prefs-compatibility.ui:56
+#: ddterm/pref/compatibility.js:32
 msgid "_Backspace key generates:"
 msgstr "Tecla Backspace gera:"
 
-#: ddterm/pref/ui/prefs-compatibility.ui:70
+#: ddterm/pref/compatibility.js:38
 msgid "_Delete key generates:"
 msgstr "Tecla DELETE gera:"
 
-#: ddterm/pref/ui/prefs-compatibility.ui:84
+#: ddterm/pref/compatibility.js:44
 msgid "Ambiguous-_width characters:"
 msgstr "Caracteres de largura ambígua:"
 
-#: ddterm/pref/ui/prefs-compatibility.ui:137
+#: ddterm/pref/compatibility.js:46
 msgid "Narrow"
 msgstr "Estreito"
 
-#: ddterm/pref/ui/prefs-compatibility.ui:138
+#: ddterm/pref/compatibility.js:47
 msgid "Wide"
 msgstr "Largo"
 
-#: ddterm/pref/ui/prefs-compatibility.ui:148
+#: ddterm/pref/compatibility.js:53
 msgid "_Reset Compatibility Options to Defaults"
 msgstr "Redefinir Opções de Compatibilidade para os Padrões de Fábrica"
 
-#: ddterm/pref/ui/prefs-panel-icon.ui:22 ddterm/pref/ui/prefs-tabs.ui:230
+#: ddterm/pref/panelicon.js:19 ddterm/pref/panelicon.js:23
+msgid "Panel Icon"
+msgstr "Ícone 'Painel'"
+
+#: ddterm/pref/panelicon.js:26 ddterm/pref/tabs.js:53
 msgid "None"
 msgstr "Nenhum"
 
-#: ddterm/pref/ui/prefs-panel-icon.ui:39
+#: ddterm/pref/panelicon.js:27
 msgid "With popup menu"
 msgstr "Com menu popup"
 
-#: ddterm/pref/ui/prefs-panel-icon.ui:56
+#: ddterm/pref/panelicon.js:28
 msgid "Toggle button"
 msgstr "Botão interruptor"
 
-#: ddterm/pref/ui/prefs-panel-icon.ui:73
+#: ddterm/pref/panelicon.js:29
 msgid "Toggle button and popup menu"
 msgstr "Botão interruptor e menu popup"
 
-#: ddterm/pref/ui/prefs-position-size.ui:31
-msgid "Window _size:"
-msgstr "Tamanho da janela:"
+#: ddterm/pref/positionsize.js:190
+msgid "Position and Size"
+msgstr "Posição e Tamanho"
 
-#: ddterm/pref/ui/prefs-position-size.ui:60
-msgid "_Window position:"
-msgstr "Posição da janela:"
-
-#: ddterm/pref/ui/prefs-position-size.ui:75 ddterm/pref/ui/prefs-tabs.ui:157
-msgid "Top"
-msgstr "Topo"
-
-#: ddterm/pref/ui/prefs-position-size.ui:76 ddterm/pref/ui/prefs-tabs.ui:156
-msgid "Bottom"
-msgstr "Base"
-
-#: ddterm/pref/ui/prefs-position-size.ui:77 ddterm/pref/ui/prefs-tabs.ui:158
-msgid "Left"
-msgstr "Esquerda"
-
-#: ddterm/pref/ui/prefs-position-size.ui:78 ddterm/pref/ui/prefs-tabs.ui:159
-msgid "Right"
-msgstr "Direita"
-
-#: ddterm/pref/ui/prefs-position-size.ui:88
+#: ddterm/pref/positionsize.js:197
 msgid "On the monitor that contains the mouse pointer"
 msgstr "No monitor onde está o cursor do mouse"
 
-#: ddterm/pref/ui/prefs-position-size.ui:106
+#: ddterm/pref/positionsize.js:203
 msgid "On the _primary monitor"
 msgstr "No monitor primário"
 
-#: ddterm/pref/ui/prefs-position-size.ui:124
+#: ddterm/pref/positionsize.js:208
 msgid "On the monitor with keyboard _focus"
 msgstr "No monitor com o foco para digitação"
 
-#: ddterm/pref/ui/prefs-position-size.ui:142
+#: ddterm/pref/positionsize.js:214
 msgid "On _monitor:"
 msgstr "No monitor:"
 
-#: ddterm/pref/ui/prefs-scrolling.ui:28
+#: ddterm/pref/positionsize.js:274
+msgid "_Window position:"
+msgstr "Posição da janela:"
+
+#: ddterm/pref/positionsize.js:276 ddterm/pref/tabs.js:43
+msgid "Top"
+msgstr "Topo"
+
+#: ddterm/pref/positionsize.js:277 ddterm/pref/tabs.js:42
+msgid "Bottom"
+msgstr "Base"
+
+#: ddterm/pref/positionsize.js:278 ddterm/pref/tabs.js:44
+msgid "Left"
+msgstr "Esquerda"
+
+#: ddterm/pref/positionsize.js:279 ddterm/pref/tabs.js:45
+msgid "Right"
+msgstr "Direita"
+
+#: ddterm/pref/positionsize.js:302
+msgid "Window _size:"
+msgstr "Tamanho da janela:"
+
+#: ddterm/pref/scrolling.js:24
+msgid "Scrolling"
+msgstr "Rolagem"
+
+#: ddterm/pref/scrolling.js:28
 msgid "Show _scrollbar"
 msgstr "Mostra barra de rolagem"
 
-#: ddterm/pref/ui/prefs-scrolling.ui:44
+#: ddterm/pref/scrolling.js:33
 msgid "Scroll on _output"
 msgstr "Mostrar na saída de comando"
 
-#: ddterm/pref/ui/prefs-scrolling.ui:60
+#: ddterm/pref/scrolling.js:38
 msgid "Scroll on _keystroke"
 msgstr "Rolar ao pressionar uma tecla"
 
-#: ddterm/pref/ui/prefs-scrolling.ui:76
-msgid "_Limit scrollback to:"
+#: ddterm/pref/scrolling.js:43
+#, fuzzy
+#| msgid "_Limit scrollback to:"
+msgid "Unlimited scrollback"
 msgstr "Limitar rolagem para:"
 
-#: ddterm/pref/ui/prefs-scrolling.ui:112
-msgid "lines"
-msgstr "linhas"
+#: ddterm/pref/scrolling.js:53
+#, fuzzy
+#| msgid "Scrolling"
+msgid "Scrollback lines"
+msgstr "Rolagem"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:30
-msgid "Toggle Terminal Window"
-msgstr "Mostrar/Recolher Janela do Terminal"
+#: ddterm/pref/shortcuts.js:123
+#, fuzzy
+#| msgid "Enable Keyboard Shortcuts"
+msgid "Enter new shortcut"
+msgstr "Habilitar Atalhos de Teclado"
 
-#: ddterm/pref/ui/prefs-shortcuts.ui:37
-msgid "Show/Activate Terminal Window"
-msgstr "Mostrar/Ativar Janela do Terminal"
-
-#: ddterm/pref/ui/prefs-shortcuts.ui:60
-msgid "Hide the Window"
-msgstr "Recolher a Janela"
-
-#: ddterm/pref/ui/prefs-shortcuts.ui:67
-msgid "Maximize/Unmaximize the Window"
-msgstr "Maximizar/Restaurar a Janela"
-
-#: ddterm/pref/ui/prefs-shortcuts.ui:74
-msgid "Increase Window Size"
-msgstr "Aumentar o tamanho da janela"
-
-#: ddterm/pref/ui/prefs-shortcuts.ui:81
-msgid "Decrease Window Size"
-msgstr "Diminuir o tamanho da Janela"
-
-#: ddterm/pref/ui/prefs-shortcuts.ui:88
-msgid "Increase Background Opacity"
-msgstr "Aumentar a Opacidade do Plano de Fundo"
-
-#: ddterm/pref/ui/prefs-shortcuts.ui:95
-msgid "Decrease Background Opacity"
-msgstr "Diminuir a Opacidade do Plano de Fundo"
-
-#: ddterm/pref/ui/prefs-shortcuts.ui:102
-msgid "Enable/Disable Background Transparency"
-msgstr "Habilitar/Desabilitar Transparência do Plano de Fundo"
-
-#: ddterm/pref/ui/prefs-shortcuts.ui:109
-msgid "Copy Selected Text"
-msgstr "Copiar texto selecionado"
-
-#: ddterm/pref/ui/prefs-shortcuts.ui:116
-msgid "Copy Selected Text as HTML"
-msgstr "Copiar texto selecionado no formato HTML"
-
-#: ddterm/pref/ui/prefs-shortcuts.ui:123
-msgid "Paste Text from Clipboard"
-msgstr "Colar texto da Área de Transferência"
-
-#: ddterm/pref/ui/prefs-shortcuts.ui:179
-msgid "Close Current Tab"
-msgstr "Fechar Aba Atual"
-
-#: ddterm/pref/ui/prefs-shortcuts.ui:186
-msgid "Switch to Previous Tab"
-msgstr "Mudar para a Aba Anterior"
-
-#: ddterm/pref/ui/prefs-shortcuts.ui:193
-msgid "Switch to Next Tab"
-msgstr "Mudar para a Próxima Aba"
-
-#: ddterm/pref/ui/prefs-shortcuts.ui:228
-msgid "Move Keyboard Focus to Other Split Pane"
-msgstr "Mover o foco do teclado para o próximo painel dividido"
-
-#: ddterm/pref/ui/prefs-shortcuts.ui:235
-msgid "Move Tab to Other Split Pane"
-msgstr "Mover Aba para o Próxima Painel dividido"
-
-#: ddterm/pref/ui/prefs-shortcuts.ui:242
-msgid "Increase First Split Pane Size"
-msgstr "Aumentar o tamanho do primeiro painel dividido"
-
-#: ddterm/pref/ui/prefs-shortcuts.ui:249
-msgid "Decrease First Split Pane Size"
-msgstr "Diminuir o tamanho do primeiro painel dividido"
-
-#: ddterm/pref/ui/prefs-shortcuts.ui:256
-msgid "Set Custom Tab Title"
-msgstr "Definir Título da Aba"
-
-#: ddterm/pref/ui/prefs-shortcuts.ui:263
-msgid "Reset Tab Title"
-msgstr "Redefinir Título da Aba para Padrão"
-
-#: ddterm/pref/ui/prefs-shortcuts.ui:312
-msgid "Switch to Tab 1"
-msgstr "Mudar para a Aba 1"
-
-#: ddterm/pref/ui/prefs-shortcuts.ui:319
-msgid "Switch to Tab 2"
-msgstr "Mudar para a Aba 2"
-
-#: ddterm/pref/ui/prefs-shortcuts.ui:326
-msgid "Switch to Tab 3"
-msgstr "Mudar para a Aba 3"
-
-#: ddterm/pref/ui/prefs-shortcuts.ui:333
-msgid "Switch to Tab 4"
-msgstr "Mudar para a Aba 4"
-
-#: ddterm/pref/ui/prefs-shortcuts.ui:340
-msgid "Switch to Tab 5"
-msgstr "Mudar para a Aba 5"
-
-#: ddterm/pref/ui/prefs-shortcuts.ui:347
-msgid "Switch to Tab 6"
-msgstr "Mudar para a Aba 6"
-
-#: ddterm/pref/ui/prefs-shortcuts.ui:354
-msgid "Switch to Tab 7"
-msgstr "Mudar para a Aba 7"
-
-#: ddterm/pref/ui/prefs-shortcuts.ui:361
-msgid "Switch to Tab 8"
-msgstr "Mudar para a Aba 8"
-
-#: ddterm/pref/ui/prefs-shortcuts.ui:368
-msgid "Switch to Tab 9"
-msgstr "Mudar para a Aba 9"
-
-#: ddterm/pref/ui/prefs-shortcuts.ui:375
-msgid "Switch to Tab 10"
-msgstr "Mudar para a Aba 10"
-
-#: ddterm/pref/ui/prefs-shortcuts.ui:409 ddterm/pref/ui/prefs-shortcuts.ui:481
-msgid "Action"
-msgstr "Ação"
-
-#: ddterm/pref/ui/prefs-shortcuts.ui:421
-msgid "Global Shortcut"
-msgstr "Atalho Global"
-
-#: ddterm/pref/ui/prefs-shortcuts.ui:451
-msgid "_Enable application shortcuts"
-msgstr "Habilitar atalhos"
-
-#: ddterm/pref/ui/prefs-shortcuts.ui:493
-msgid "Shortcut"
-msgstr "Atalho"
-
-#: ddterm/pref/ui/prefs-shortcuts.ui:523
-msgid "Reset All Shortcuts to Defaults"
-msgstr "Redefinir Atalhos para os Padrões"
-
-#: ddterm/pref/ui/prefs-tabs.ui:28
-msgid "Expand tabs"
-msgstr "Expandir abas"
-
-#: ddterm/pref/ui/prefs-tabs.ui:44
-msgid "Show _close buttons"
-msgstr "Mostrar botões de Fechar"
-
-#: ddterm/pref/ui/prefs-tabs.ui:60
-msgid "\"_New Tab (Last)\" button"
-msgstr "Botão \"Nova Aba (Última)\""
-
-#: ddterm/pref/ui/prefs-tabs.ui:76
-msgid "Tab _switcher popup"
-msgstr "Popup mudar aba"
-
-#: ddterm/pref/ui/prefs-tabs.ui:95
-msgid "Show tab _bar:"
-msgstr "Mostrar Barra de Abas:"
-
-#: ddterm/pref/ui/prefs-tabs.ui:110 ddterm/pref/ui/prefs-text.ui:86
-msgid "Always"
-msgstr "Sempre"
-
-#: ddterm/pref/ui/prefs-tabs.ui:112 ddterm/pref/ui/prefs-text.ui:83
-msgid "Never"
-msgstr "Nunca"
-
-#: ddterm/pref/ui/prefs-tabs.ui:122
-msgid "\"_New Tab (First)\" button"
-msgstr "Botão \"Nova Aba (Primeira)\""
-
-#: ddterm/pref/ui/prefs-tabs.ui:141
-msgid "Tab bar position:"
-msgstr "Posição da Barra de Abas:"
-
-#: ddterm/pref/ui/prefs-tabs.ui:169
-msgid "Show border"
-msgstr "Mostrar borda"
-
-#: ddterm/pref/ui/prefs-tabs.ui:188
-msgid "Tab width:"
-msgstr "Largura da aba:"
-
-#: ddterm/pref/ui/prefs-tabs.ui:216
-msgid "Ellipsize tab labels:"
-msgstr "Arredondar rótulos das abas:"
-
-#: ddterm/pref/ui/prefs-tabs.ui:231
-msgid "Start"
-msgstr "Inicio"
-
-#: ddterm/pref/ui/prefs-tabs.ui:232
-msgid "Middle"
-msgstr "Meio"
-
-#: ddterm/pref/ui/prefs-tabs.ui:233
-msgid "End"
-msgstr "Fim"
-
-#: ddterm/pref/ui/prefs-tabs.ui:243
-msgid "Show keyboard shortcuts"
-msgstr "Mostrar atalhos de teclado"
-
-#: ddterm/pref/ui/prefs-tabs.ui:259
-msgid "_Restore previous tabs on startup"
+#: ddterm/pref/shortcuts.js:134
+msgid "Press Esc to cancel or Backspace to disable the keyboard shortcut"
 msgstr ""
 
-#: ddterm/pref/ui/prefs-text.ui:23
-msgid "Custom _font:"
-msgstr "Fonte personalizada:"
+#: ddterm/pref/shortcuts.js:145
+msgid "Cancel"
+msgstr ""
 
-#: ddterm/pref/ui/prefs-text.ui:40
-msgid "Allow _blinking text:"
-msgstr "Permitir texto piscante:"
+#: ddterm/pref/shortcuts.js:146
+msgid "Set"
+msgstr ""
 
-#: ddterm/pref/ui/prefs-text.ui:54
-msgid "Cursor _shape:"
-msgstr "Forma do cursor:"
-
-#: ddterm/pref/ui/prefs-text.ui:68
-msgid "_Cursor blinking:"
-msgstr "Cursor piscante:"
-
-#: ddterm/pref/ui/prefs-text.ui:84
-msgid "When focused"
-msgstr "Quando focado"
-
-#: ddterm/pref/ui/prefs-text.ui:85
-msgid "When unfocused"
-msgstr "Quando fora de foco"
-
-#: ddterm/pref/ui/prefs-text.ui:100
-msgid "Block"
-msgstr "Bloco"
-
-#: ddterm/pref/ui/prefs-text.ui:101
-msgid "I-Beam"
-msgstr "Forma de I"
-
-#: ddterm/pref/ui/prefs-text.ui:102
-msgid "Underline"
-msgstr "Sublinha"
-
-#: ddterm/pref/ui/prefs-text.ui:117
-msgid "Enabled"
-msgstr "Habilitado"
-
-#: ddterm/pref/ui/prefs-text.ui:118
+#: ddterm/pref/shortcuts.js:291 ddterm/pref/text.js:120
 msgid "Disabled"
 msgstr "Desabilitado"
 
-#: ddterm/pref/ui/prefs-text.ui:128
+#: ddterm/pref/shortcuts.js:432
+#, fuzzy
+#| msgid "Global Shortcut"
+msgid "Global Shortcuts"
+msgstr "Atalho Global"
+
+#: ddterm/pref/shortcuts.js:436
+msgid "Toggle Terminal Window"
+msgstr "Mostrar/Recolher Janela do Terminal"
+
+#: ddterm/pref/shortcuts.js:442
+msgid "Show/Activate Terminal Window"
+msgstr "Mostrar/Ativar Janela do Terminal"
+
+#: ddterm/pref/shortcuts.js:458
+#, fuzzy
+#| msgid "_Enable application shortcuts"
+msgid "Application Shortcuts"
+msgstr "Habilitar atalhos"
+
+#: ddterm/pref/shortcuts.js:462
+msgid "_Enable application shortcuts"
+msgstr "Habilitar atalhos"
+
+#: ddterm/pref/shortcuts.js:467
+msgid "Hide the Window"
+msgstr "Recolher a Janela"
+
+#: ddterm/pref/shortcuts.js:472
+msgid "Maximize/Unmaximize the Window"
+msgstr "Maximizar/Restaurar a Janela"
+
+#: ddterm/pref/shortcuts.js:477
+msgid "Increase Window Size"
+msgstr "Aumentar o tamanho da janela"
+
+#: ddterm/pref/shortcuts.js:482
+msgid "Decrease Window Size"
+msgstr "Diminuir o tamanho da Janela"
+
+#: ddterm/pref/shortcuts.js:487
+msgid "Increase Background Opacity"
+msgstr "Aumentar a Opacidade do Plano de Fundo"
+
+#: ddterm/pref/shortcuts.js:492
+msgid "Decrease Background Opacity"
+msgstr "Diminuir a Opacidade do Plano de Fundo"
+
+#: ddterm/pref/shortcuts.js:497
+msgid "Enable/Disable Background Transparency"
+msgstr "Habilitar/Desabilitar Transparência do Plano de Fundo"
+
+#: ddterm/pref/shortcuts.js:502
+msgid "Copy Selected Text"
+msgstr "Copiar texto selecionado"
+
+#: ddterm/pref/shortcuts.js:507
+msgid "Copy Selected Text as HTML"
+msgstr "Copiar texto selecionado no formato HTML"
+
+#: ddterm/pref/shortcuts.js:512
+msgid "Paste Text from Clipboard"
+msgstr "Colar texto da Área de Transferência"
+
+#: ddterm/pref/shortcuts.js:552
+msgid "Close Current Tab"
+msgstr "Fechar Aba Atual"
+
+#: ddterm/pref/shortcuts.js:557
+msgid "Switch to Previous Tab"
+msgstr "Mudar para a Aba Anterior"
+
+#: ddterm/pref/shortcuts.js:562
+msgid "Switch to Next Tab"
+msgstr "Mudar para a Próxima Aba"
+
+#: ddterm/pref/shortcuts.js:587
+msgid "Move Keyboard Focus to Other Split Pane"
+msgstr "Mover o foco do teclado para o próximo painel dividido"
+
+#: ddterm/pref/shortcuts.js:592
+msgid "Move Tab to Other Split Pane"
+msgstr "Mover Aba para o Próxima Painel dividido"
+
+#: ddterm/pref/shortcuts.js:597
+msgid "Increase First Split Pane Size"
+msgstr "Aumentar o tamanho do primeiro painel dividido"
+
+#: ddterm/pref/shortcuts.js:602
+msgid "Decrease First Split Pane Size"
+msgstr "Diminuir o tamanho do primeiro painel dividido"
+
+#: ddterm/pref/shortcuts.js:607
+msgid "Set Custom Tab Title"
+msgstr "Definir Título da Aba"
+
+#: ddterm/pref/shortcuts.js:612
+msgid "Reset Tab Title"
+msgstr "Redefinir Título da Aba para Padrão"
+
+#: ddterm/pref/shortcuts.js:647
+msgid "Switch to Tab 1"
+msgstr "Mudar para a Aba 1"
+
+#: ddterm/pref/shortcuts.js:652
+msgid "Switch to Tab 2"
+msgstr "Mudar para a Aba 2"
+
+#: ddterm/pref/shortcuts.js:657
+msgid "Switch to Tab 3"
+msgstr "Mudar para a Aba 3"
+
+#: ddterm/pref/shortcuts.js:662
+msgid "Switch to Tab 4"
+msgstr "Mudar para a Aba 4"
+
+#: ddterm/pref/shortcuts.js:667
+msgid "Switch to Tab 5"
+msgstr "Mudar para a Aba 5"
+
+#: ddterm/pref/shortcuts.js:672
+msgid "Switch to Tab 6"
+msgstr "Mudar para a Aba 6"
+
+#: ddterm/pref/shortcuts.js:677
+msgid "Switch to Tab 7"
+msgstr "Mudar para a Aba 7"
+
+#: ddterm/pref/shortcuts.js:682
+msgid "Switch to Tab 8"
+msgstr "Mudar para a Aba 8"
+
+#: ddterm/pref/shortcuts.js:687
+msgid "Switch to Tab 9"
+msgstr "Mudar para a Aba 9"
+
+#: ddterm/pref/shortcuts.js:692
+msgid "Switch to Tab 10"
+msgstr "Mudar para a Aba 10"
+
+#: ddterm/pref/shortcuts.js:749
+msgid "Reset All Shortcuts to Defaults"
+msgstr "Redefinir Atalhos para os Padrões"
+
+#: ddterm/pref/tabs.js:21
+msgid "Tabs"
+msgstr "Abas"
+
+#: ddterm/pref/tabs.js:25
+msgid "_Restore previous tabs on startup"
+msgstr ""
+
+#: ddterm/pref/tabs.js:30
+msgid "Show tab _bar:"
+msgstr "Mostrar Barra de Abas:"
+
+#: ddterm/pref/tabs.js:32 ddterm/pref/text.js:100
+msgid "Always"
+msgstr "Sempre"
+
+#: ddterm/pref/tabs.js:34 ddterm/pref/text.js:97
+msgid "Never"
+msgstr "Nunca"
+
+#: ddterm/pref/tabs.js:40
+msgid "Tab bar position:"
+msgstr "Posição da Barra de Abas:"
+
+#: ddterm/pref/tabs.js:51
+msgid "Ellipsize tab labels:"
+msgstr "Arredondar rótulos das abas:"
+
+#: ddterm/pref/tabs.js:54
+msgid "Start"
+msgstr "Inicio"
+
+#: ddterm/pref/tabs.js:55
+msgid "Middle"
+msgstr "Meio"
+
+#: ddterm/pref/tabs.js:56
+msgid "End"
+msgstr "Fim"
+
+#: ddterm/pref/tabs.js:79
+msgid "Tab width:"
+msgstr "Largura da aba:"
+
+#: ddterm/pref/tabs.js:96
+msgid "Expand tabs"
+msgstr "Expandir abas"
+
+#: ddterm/pref/tabs.js:101
+msgid "Show _close buttons"
+msgstr "Mostrar botões de Fechar"
+
+#: ddterm/pref/tabs.js:106
+msgid "\"_New Tab (Last)\" button"
+msgstr "Botão \"Nova Aba (Última)\""
+
+#: ddterm/pref/tabs.js:111
+msgid "\"_New Tab (First)\" button"
+msgstr "Botão \"Nova Aba (Primeira)\""
+
+#: ddterm/pref/tabs.js:116
+msgid "Tab _switcher popup"
+msgstr "Popup mudar aba"
+
+#: ddterm/pref/tabs.js:121
+msgid "Show border"
+msgstr "Mostrar borda"
+
+#: ddterm/pref/tabs.js:126
+msgid "Show keyboard shortcuts"
+msgstr "Mostrar atalhos de teclado"
+
+#: ddterm/pref/text.js:71
+msgid "Text"
+msgstr "Texto"
+
+#: ddterm/pref/text.js:75
+msgid "Use system font"
+msgstr ""
+
+#: ddterm/pref/text.js:79
+msgid "Custom _font:"
+msgstr "Fonte personalizada:"
+
+#: ddterm/pref/text.js:95
+msgid "Allow _blinking text:"
+msgstr "Permitir texto piscante:"
+
+#: ddterm/pref/text.js:98
+msgid "When focused"
+msgstr "Quando focado"
+
+#: ddterm/pref/text.js:99
+msgid "When unfocused"
+msgstr "Quando fora de foco"
+
+#: ddterm/pref/text.js:106
+msgid "Cursor _shape:"
+msgstr "Forma do cursor:"
+
+#: ddterm/pref/text.js:108
+msgid "Block"
+msgstr "Bloco"
+
+#: ddterm/pref/text.js:109
+msgid "I-Beam"
+msgstr "Forma de I"
+
+#: ddterm/pref/text.js:110
+msgid "Underline"
+msgstr "Sublinha"
+
+#: ddterm/pref/text.js:116
+msgid "_Cursor blinking:"
+msgstr "Cursor piscante:"
+
+#: ddterm/pref/text.js:119
+msgid "Enabled"
+msgstr "Habilitado"
+
+#: ddterm/pref/text.js:126
 msgid "Allow _hyperlinks"
 msgstr "Permitir links da internet"
 
-#: ddterm/pref/ui/prefs-text.ui:144
+#: ddterm/pref/text.js:131
 msgid "Audible _bell"
 msgstr "Sino (som)"
 
-#: ddterm/pref/ui/prefs-text.ui:186
+#: ddterm/pref/text.js:136
 msgid "Detect _URLs"
 msgstr "Detectar endereços da internet (URL)"
 
-#: ddterm/pref/ui/prefs-text.ui:209
+#: ddterm/pref/text.js:141
 msgid "Detect raw URLs (scheme://netloc/path)"
 msgstr "Detectar endereços sem codificação (formato: scheme://netloc/path)"
 
-#: ddterm/pref/ui/prefs-text.ui:224
+#: ddterm/pref/text.js:146
 msgid "Detect \"file:\" URLs"
 msgstr "Detectar URLs endereços de arquivos (path/to/file.ext, file://)"
 
-#: ddterm/pref/ui/prefs-text.ui:239
+#: ddterm/pref/text.js:151
 msgid "Detect HTTP URLs"
 msgstr "Detectar endereços (URL) sobre o protocolo HTTP"
 
-#: ddterm/pref/ui/prefs-text.ui:254
+#: ddterm/pref/text.js:156
 msgid "Detect VoIP URLs"
 msgstr "Detectar endereços de VoIP"
 
-#: ddterm/pref/ui/prefs-text.ui:269
+#: ddterm/pref/text.js:161
 msgid "Detect E-mail addresses"
 msgstr "Detectar endereços de e-mail"
 
-#: ddterm/pref/ui/prefs-text.ui:284
+#: ddterm/pref/text.js:166
 msgid "Detect \"news:\", \"man:\" URLs"
 msgstr "Detectar endereços dos schemes news:/ e man:/"
 
@@ -1285,6 +1241,72 @@ msgstr "Instalar"
 #: ddterm/shell/panelicon.js:48
 msgid "Show"
 msgstr "Mostrar"
+
+#~ msgid "Palette Color 0"
+#~ msgstr "Cor de Paleta 0"
+
+#~ msgid "Palette Color 1"
+#~ msgstr "Cor de Paleta 1"
+
+#~ msgid "Palette Color 2"
+#~ msgstr "Cor de Paleta 2"
+
+#~ msgid "Palette Color 3"
+#~ msgstr "Cor de Paleta 3"
+
+#~ msgid "Palette Color 4"
+#~ msgstr "Cor de Paleta 4"
+
+#~ msgid "Palette Color 5"
+#~ msgstr "Cor de Paleta 5"
+
+#~ msgid "Palette Color 6"
+#~ msgstr "Cor de Paleta 6"
+
+#~ msgid "Palette Color 7"
+#~ msgstr "Cor de Paleta 7"
+
+#~ msgid "Palette Color 8"
+#~ msgstr "Cor de Paleta 8"
+
+#~ msgid "Palette Color 9"
+#~ msgstr "Cor de Paleta 9"
+
+#~ msgid "Palette Color 10"
+#~ msgstr "Cor de Paleta 10"
+
+#~ msgid "Palette Color 11"
+#~ msgstr "Cor de Paleta 11"
+
+#~ msgid "Palette Color 12"
+#~ msgstr "Cor de Paleta 12"
+
+#~ msgid "Palette Color 13"
+#~ msgstr "Cor de Paleta 13"
+
+#~ msgid "Palette Color 14"
+#~ msgstr "Cor de Paleta 14"
+
+#~ msgid "Palette Color 15"
+#~ msgstr "Cor de Paleta 15"
+
+#~ msgid "Foreground"
+#~ msgstr "Primeiro plano"
+
+#~ msgid "Background"
+#~ msgstr "Plano de fundo"
+
+#~ msgid "Default color:"
+#~ msgstr "Cor padrão:"
+
+#~ msgid "lines"
+#~ msgstr "linhas"
+
+#~ msgid "Action"
+#~ msgstr "Ação"
+
+#~ msgid "Shortcut"
+#~ msgstr "Atalho"
 
 #~ msgid "Saving session…"
 #~ msgstr "Salvando a sessão…"
