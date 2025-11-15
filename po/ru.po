@@ -892,13 +892,13 @@ msgstr "Прокручивать при нажатии клавиши"
 #: ddterm/pref/scrolling.js:43
 #, fuzzy
 #| msgid "_Limit scrollback to:"
-msgid "Unlimited scrollback"
+msgid "Unlimited Scrollback"
 msgstr "Ограничить прокрутку:"
 
 #: ddterm/pref/scrolling.js:53
 #, fuzzy
 #| msgid "Scrolling"
-msgid "Scrollback lines"
+msgid "Scrollback Lines"
 msgstr "Прокрутка"
 
 #: ddterm/pref/shortcuts.js:123
@@ -1144,7 +1144,7 @@ msgid "Text"
 msgstr "Текст"
 
 #: ddterm/pref/text.js:75
-msgid "Use system font"
+msgid "Use System Font"
 msgstr ""
 
 #: ddterm/pref/text.js:79

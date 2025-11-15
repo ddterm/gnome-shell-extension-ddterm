@@ -880,13 +880,13 @@ msgid "Scroll on _keystroke"
 msgstr ""
 
 #: ddterm/pref/scrolling.js:43
-msgid "Unlimited scrollback"
+msgid "Unlimited Scrollback"
 msgstr ""
 
 #: ddterm/pref/scrolling.js:53
 #, fuzzy
 #| msgid "Scrolling"
-msgid "Scrollback lines"
+msgid "Scrollback Lines"
 msgstr "Rulumado"
 
 #: ddterm/pref/shortcuts.js:123
@@ -1128,7 +1128,7 @@ msgid "Text"
 msgstr "Teksto"
 
 #: ddterm/pref/text.js:75
-msgid "Use system font"
+msgid "Use System Font"
 msgstr ""
 
 #: ddterm/pref/text.js:79

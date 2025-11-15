@@ -883,13 +883,13 @@ msgstr "Posouvat při _vstupu"
 #: ddterm/pref/scrolling.js:43
 #, fuzzy
 #| msgid "_Limit scrollback to:"
-msgid "Unlimited scrollback"
+msgid "Unlimited Scrollback"
 msgstr "_Limitovat posun zpět na:"
 
 #: ddterm/pref/scrolling.js:53
 #, fuzzy
 #| msgid "Scrolling"
-msgid "Scrollback lines"
+msgid "Scrollback Lines"
 msgstr "Posouvání"
 
 #: ddterm/pref/shortcuts.js:123
@@ -1139,7 +1139,7 @@ msgid "Text"
 msgstr "Text"
 
 #: ddterm/pref/text.js:75
-msgid "Use system font"
+msgid "Use System Font"
 msgstr ""
 
 #: ddterm/pref/text.js:79

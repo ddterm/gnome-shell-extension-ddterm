@@ -40,7 +40,7 @@ export class ScrollingGroup extends PreferencesGroup {
 
         this.add_switch_row({
             key: 'scrollback-unlimited',
-            title: this.gettext('Unlimited scrollback'),
+            title: this.gettext('Unlimited Scrollback'),
         });
 
         this.#lines_adjustment = new Gtk.Adjustment({
@@ -50,7 +50,7 @@ export class ScrollingGroup extends PreferencesGroup {
         });
 
         this.#lines_row = new SpinRow({
-            title: this.gettext('Scrollback lines'),
+            title: this.gettext('Scrollback Lines'),
             adjustment: this.#lines_adjustment,
             visible: true,
             snap_to_ticks: true,

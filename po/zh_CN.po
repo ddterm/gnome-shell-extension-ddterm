@@ -882,13 +882,13 @@ msgstr "在 _按键上滚动"
 #: ddterm/pref/scrolling.js:43
 #, fuzzy
 #| msgid "_Limit scrollback to:"
-msgid "Unlimited scrollback"
+msgid "Unlimited Scrollback"
 msgstr "_限制回滚到："
 
 #: ddterm/pref/scrolling.js:53
 #, fuzzy
 #| msgid "Scrolling"
-msgid "Scrollback lines"
+msgid "Scrollback Lines"
 msgstr "滚动"
 
 #: ddterm/pref/shortcuts.js:123
@@ -1134,7 +1134,7 @@ msgid "Text"
 msgstr "文本"
 
 #: ddterm/pref/text.js:75
-msgid "Use system font"
+msgid "Use System Font"
 msgstr ""
 
 #: ddterm/pref/text.js:79

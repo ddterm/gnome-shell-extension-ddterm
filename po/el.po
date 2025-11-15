@@ -894,13 +894,13 @@ msgstr "Κύλιση on _keystroke"
 #: ddterm/pref/scrolling.js:43
 #, fuzzy
 #| msgid "_Limit scrollback to:"
-msgid "Unlimited scrollback"
+msgid "Unlimited Scrollback"
 msgstr "Όρια κύλισης"
 
 #: ddterm/pref/scrolling.js:53
 #, fuzzy
 #| msgid "Scrolling"
-msgid "Scrollback lines"
+msgid "Scrollback Lines"
 msgstr "Κύλιση"
 
 #: ddterm/pref/shortcuts.js:123
@@ -1151,7 +1151,7 @@ msgid "Text"
 msgstr "Κείμενο"
 
 #: ddterm/pref/text.js:75
-msgid "Use system font"
+msgid "Use System Font"
 msgstr ""
 
 #: ddterm/pref/text.js:79

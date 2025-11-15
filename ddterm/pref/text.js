@@ -72,7 +72,7 @@ export class TextGroup extends PreferencesGroup {
 
         this.add_switch_row({
             key: 'use-system-font',
-            title: this.gettext('Use system font'),
+            title: this.gettext('Use System Font'),
         });
 
         this.#font_row = new FontRow({
