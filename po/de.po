@@ -5,21 +5,21 @@
 #
 # Jörn Weigend <das.jott@gmail.com>, 2023.
 # Ettore Atalan <atalanttore@googlemail.com>, 2023, 2025.
-# Philipp Kiemle <philipp.kiemle@gmail.com>, 2023.
+# Philipp Kiemle <l10n.daphipz@fastmail.de>, 2023, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-11-15 17:26+0000\n"
-"PO-Revision-Date: 2025-09-07 13:03+0000\n"
-"Last-Translator: Ettore Atalan <atalanttore@googlemail.com>\n"
+"PO-Revision-Date: 2025-11-16 22:26+0100\n"
+"Last-Translator: Philipp Kiemle <l10n.daphipz@fastmail.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14-dev\n"
+"X-Generator: Poedit 3.8\n"
 
 #: data/com.github.amezin.ddterm.desktop.in.in:8 ddterm/app/appwindow.js:146
 #: ddterm/shell/notifications.js:269 ddterm/shell/panelicon.js:31
@@ -37,12 +37,12 @@ msgstr "Ein Aufklapp-Terminal für die GNOME Shell"
 
 #: data/com.github.amezin.ddterm.desktop.in.in:24
 msgid "Toggle"
-msgstr "Umschalter"
+msgstr "Umschalten"
 
 #: data/com.github.amezin.ddterm.desktop.in.in:28 ddterm/app/ui/menus.ui:150
 #: ddterm/app/ui/menus.ui:290 ddterm/shell/panelicon.js:63
 msgid "Preferences…"
-msgstr "Einstellungen …"
+msgstr "Einstellungen …"
 
 #: ddterm/app/about.js:58
 msgid "translator-credits"
@@ -77,11 +77,11 @@ msgstr "Auf das Beenden des Befehls warten und dessen Status zurückgeben"
 
 #: ddterm/app/application.js:168
 msgid "Set the working directory"
-msgstr "Arbeitsverzeichnis festlegen"
+msgstr "Das Arbeitsverzeichnis festlegen"
 
 #: ddterm/app/application.js:177
 msgid "Set tab title"
-msgstr "Reiter-Titel festlegen"
+msgstr "Reitertitel festlegen"
 
 #: ddterm/app/application.js:186
 msgid "Keep the terminal open after the command has exited"
@@ -117,7 +117,7 @@ msgstr "Melden Sie sich ab und wieder an, um die aktualisierte Erweiterung zu la
 
 #: ddterm/app/dependencies.js:81 ddterm/shell/notifications.js:192
 msgid "ddterm needs additional packages to run"
-msgstr "ddterm benötigt zusätzliche Pakete zur Ausführung"
+msgstr "ddterm benötigt zusätzliche Pakete, um ausgeführt werden zu können"
 
 #: ddterm/app/dependencies.js:86 ddterm/shell/notifications.js:197
 msgid "Please install the following packages:"
@@ -170,7 +170,7 @@ msgstr "Schließen"
 
 #: ddterm/app/terminalpage.js:154
 msgid "Restart"
-msgstr "Neustart"
+msgstr "Neu starten"
 
 #: ddterm/app/terminalpage.js:155 ddterm/app/terminalpage.js:644
 msgid "Close Terminal"
@@ -198,7 +198,7 @@ msgstr "Link öffnen"
 
 #: ddterm/app/ui/menus.ui:20
 msgid "Copy Hyperlink Address"
-msgstr "Linkadresse kopieren"
+msgstr "Adresse des Links kopieren"
 
 #: ddterm/app/ui/menus.ui:25
 msgid "Copy File Path"
@@ -258,7 +258,7 @@ msgstr "Nach dem Beenden geöffnet lassen"
 
 #: ddterm/app/ui/menus.ui:99
 msgid "New Tab"
-msgstr "Neuer Tab"
+msgstr "Neuer Reiter"
 
 #: ddterm/app/ui/menus.ui:101 ddterm/pref/shortcuts.js:542
 msgid "New Tab Before Current Tab"
@@ -271,7 +271,7 @@ msgstr "Neuer Reiter nach aktivem Reiter"
 #: ddterm/app/ui/menus.ui:109 ddterm/app/ui/menus.ui:243
 #: ddterm/pref/shortcuts.js:537
 msgid "New Tab Before First Tab"
-msgstr "Neuer Reiter vor den ersten Reiter"
+msgstr "Neuer Reiter vor dem ersten Reiter"
 
 #: ddterm/app/ui/menus.ui:113 ddterm/app/ui/menus.ui:247
 #: ddterm/pref/shortcuts.js:532
@@ -299,7 +299,7 @@ msgstr "Vertikal teilen"
 
 #: ddterm/app/ui/menus.ui:140 ddterm/app/ui/menus.ui:283
 msgid "Move Tab to Other Pane"
-msgstr "Verschiebe Reiter in anderen Bereich"
+msgstr "Reiter in anderen Bereich verschieben"
 
 #: ddterm/app/ui/menus.ui:147 ddterm/pref/dialog.js:50
 msgid "Preferences"
@@ -327,7 +327,7 @@ msgstr "Verstecken, wenn Anwendung den Fokus verliert"
 
 #: ddterm/app/ui/menus.ui:178 ddterm/pref/behavior.js:43
 msgid "Hide When Esc Key Is Pressed"
-msgstr "Verstecken, wenn die Esc-Taste gedrückt wird"
+msgstr "Verstecken, wenn die »Esc«-Taste gedrückt wird"
 
 #: ddterm/app/ui/menus.ui:184 ddterm/pref/scrolling.js:33
 msgid "Scroll On Output"
@@ -347,7 +347,7 @@ msgstr "Tastenkürzel aktivieren"
 
 #: ddterm/app/ui/menus.ui:207
 msgid "About ddterm"
-msgstr "Über ddterm"
+msgstr "Info zu ddterm"
 
 #: ddterm/app/ui/menus.ui:215
 msgid "Use Custom Tab Title"
@@ -367,11 +367,11 @@ msgstr "Neuer Reiter nach diesem Reiter"
 
 #: ddterm/app/ui/menus.ui:253 ddterm/pref/shortcuts.js:567
 msgid "Move Tab to Previous Position"
-msgstr "Verschiebe Reiter zur vorherigen Position"
+msgstr "Reiter zur vorherigen Position verschieben"
 
 #: ddterm/app/ui/menus.ui:257 ddterm/pref/shortcuts.js:572
 msgid "Move Tab to Next Position"
-msgstr "Verschiebe Reiter zur nächsten Position"
+msgstr "Reiter zur nächsten Position verschieben"
 
 #: ddterm/pref/adw.js:48
 msgid "Window"
@@ -383,7 +383,7 @@ msgstr "Terminal"
 
 #: ddterm/pref/adw.js:106
 msgid "Keyboard Shortcuts"
-msgstr "Tastenkombinationen"
+msgstr "Tastenkürzel"
 
 #: ddterm/pref/adw.js:172
 msgid "Miscellaneous"
@@ -555,14 +555,14 @@ msgstr "Aus der Übersicht/Taskbar ausschließen"
 
 #: ddterm/pref/behavior.js:53
 msgid "Hide mouse _pointer when typing"
-msgstr "Mauszeiger beim Tippen ausblenden"
+msgstr "Mauszeiger beim Ti_ppen ausblenden"
 
 #: ddterm/pref/behavior.js:59
 msgid ""
 "Force _X11 GDK backend (XWayland).\n"
 "You'll have to close all tabs for this option to take effect."
 msgstr ""
-"_X11 GDK-Backend erzwingen (XWayland).\n"
+"_X11-GDK-Backend erzwingen (XWayland).\n"
 "Zur Aktivierung dieser Option müssen alle Reiter geschlossen werden."
 
 #: ddterm/pref/colors.js:357
@@ -587,7 +587,7 @@ msgstr "Dunkel"
 
 #: ddterm/pref/colors.js:371
 msgid "Use colors from system _theme"
-msgstr "Farben vom System-_Thema nutzen"
+msgstr "Farben des System-_Themas verwenden"
 
 #: ddterm/pref/colors.js:375
 msgid "Black on light yellow"
@@ -627,11 +627,11 @@ msgstr "Tango dunkel"
 
 #: ddterm/pref/colors.js:384
 msgid "Solarized light"
-msgstr "Solarized hell"
+msgstr "Solarisiert hell"
 
 #: ddterm/pref/colors.js:385
 msgid "Solarized dark"
-msgstr "Solarized dunkel"
+msgstr "Solarisiert dunkel"
 
 #: ddterm/pref/colors.js:386 ddterm/pref/colors.js:706
 msgid "Custom"
@@ -707,7 +707,7 @@ msgstr "RXVT"
 
 #: ddterm/pref/colors.js:688
 msgid "Solarized"
-msgstr "Solarized"
+msgstr "Solarisiert"
 
 #: ddterm/pref/colors.js:717
 msgid "_Palette:"
@@ -783,11 +783,11 @@ msgstr "Breit"
 
 #: ddterm/pref/compatibility.js:53
 msgid "_Reset Compatibility Options to Defaults"
-msgstr "Kompatibilitäts-Optionen auf Standard zu_rücksetzen"
+msgstr "Kompatibilitätsoptionen auf Standard zu_rücksetzen"
 
 #: ddterm/pref/panelicon.js:19 ddterm/pref/panelicon.js:23
 msgid "Panel Icon"
-msgstr "Leisten-Symbol"
+msgstr "Leistensymbol"
 
 #: ddterm/pref/panelicon.js:26 ddterm/pref/tabs.js:53
 msgid "None"
@@ -795,7 +795,7 @@ msgstr "Keins"
 
 #: ddterm/pref/panelicon.js:27
 msgid "With popup menu"
-msgstr "Mit Aufklapp-Menü"
+msgstr "Mit Aufklappmenü"
 
 #: ddterm/pref/panelicon.js:28
 msgid "Toggle button"
@@ -803,7 +803,7 @@ msgstr "Umschaltknopf"
 
 #: ddterm/pref/panelicon.js:29
 msgid "Toggle button and popup menu"
-msgstr "Umschaltknopf und Aufklapp-Menü"
+msgstr "Umschaltknopf und Aufklappmenü"
 
 #: ddterm/pref/positionsize.js:190
 msgid "Position and Size"
@@ -858,44 +858,37 @@ msgid "Show _scrollbar"
 msgstr "Bildlauflei_ste anzeigen"
 
 #: ddterm/pref/scrolling.js:43
-#, fuzzy
-#| msgid "_Limit scrollback to:"
 msgid "Unlimited Scrollback"
-msgstr "Zurückscrollen _limitieren auf:"
+msgstr "Unbegrenztes Zurückscrollen"
 
 #: ddterm/pref/scrolling.js:53
 #, fuzzy
-#| msgid "Scrolling"
 msgid "Scrollback Lines"
-msgstr "Scrollen"
+msgstr "Scrollback Lines"
 
 #: ddterm/pref/shortcuts.js:123
-#, fuzzy
-#| msgid "Enable Keyboard Shortcuts"
 msgid "Enter new shortcut"
-msgstr "Tastenkürzel aktivieren"
+msgstr "Neues Tastenkürzel eingeben"
 
 #: ddterm/pref/shortcuts.js:134
 msgid "Press Esc to cancel or Backspace to disable the keyboard shortcut"
-msgstr ""
+msgstr "Drücken Sie »Esc« um abzubrechen oder die Rücktaste, um das Tastenkürzel zu deaktivieren"
 
 #: ddterm/pref/shortcuts.js:145
 msgid "Cancel"
-msgstr ""
+msgstr "Abbrechen"
 
 #: ddterm/pref/shortcuts.js:146
 msgid "Set"
-msgstr ""
+msgstr "Festlegen"
 
 #: ddterm/pref/shortcuts.js:291 ddterm/pref/text.js:120
 msgid "Disabled"
 msgstr "Deaktiviert"
 
 #: ddterm/pref/shortcuts.js:432
-#, fuzzy
-#| msgid "Global Shortcut"
 msgid "Global Shortcuts"
-msgstr "Globales Tastenkürzel"
+msgstr "Globale Tastenkürzel"
 
 #: ddterm/pref/shortcuts.js:436
 msgid "Toggle Terminal Window"
@@ -906,10 +899,8 @@ msgid "Show/Activate Terminal Window"
 msgstr "Terminalfenster zeigen/aktivieren"
 
 #: ddterm/pref/shortcuts.js:458
-#, fuzzy
-#| msgid "_Enable application shortcuts"
 msgid "Application Shortcuts"
-msgstr "Anwendungs-Tastenkürz_el aktivieren"
+msgstr "Anwendungs-Tastenkürzel"
 
 #: ddterm/pref/shortcuts.js:462
 msgid "_Enable application shortcuts"
@@ -969,11 +960,11 @@ msgstr "Zum nächsten Reiter wechseln"
 
 #: ddterm/pref/shortcuts.js:587
 msgid "Move Keyboard Focus to Other Split Pane"
-msgstr "Tastaturfokus auf andere geteilte Ansicht verschieben"
+msgstr "Tastaturfokus auf anderen Teilbereich verschieben"
 
 #: ddterm/pref/shortcuts.js:592
 msgid "Move Tab to Other Split Pane"
-msgstr "Verschiebe Reiter zum nächsten Teilbereich"
+msgstr "Reiter auf anderen Teilbereich verschieben"
 
 #: ddterm/pref/shortcuts.js:597
 msgid "Increase First Split Pane Size"
@@ -993,47 +984,47 @@ msgstr "Reitertitel zurücksetzen"
 
 #: ddterm/pref/shortcuts.js:647
 msgid "Switch to Tab 1"
-msgstr "Umschalten zu Reiter 1"
+msgstr "Zu Reiter 1 umschalten"
 
 #: ddterm/pref/shortcuts.js:652
 msgid "Switch to Tab 2"
-msgstr "Umschalten zu Reiter 2"
+msgstr "Zu Reiter 2 umschalten"
 
 #: ddterm/pref/shortcuts.js:657
 msgid "Switch to Tab 3"
-msgstr "Umschalten zu Reiter 3"
+msgstr "Zu Reiter 3 umschalten"
 
 #: ddterm/pref/shortcuts.js:662
 msgid "Switch to Tab 4"
-msgstr "Umschalten zu Reiter 4"
+msgstr "Zu Reiter 4 umschalten"
 
 #: ddterm/pref/shortcuts.js:667
 msgid "Switch to Tab 5"
-msgstr "Umschalten zu Reiter 5"
+msgstr "Zu Reiter 5 umschalten"
 
 #: ddterm/pref/shortcuts.js:672
 msgid "Switch to Tab 6"
-msgstr "Umschalten zu Reiter 6"
+msgstr "Zu Reiter 6 umschalten"
 
 #: ddterm/pref/shortcuts.js:677
 msgid "Switch to Tab 7"
-msgstr "Umschalten zu Reiter 7"
+msgstr "Zu Reiter 7 umschalten"
 
 #: ddterm/pref/shortcuts.js:682
 msgid "Switch to Tab 8"
-msgstr "Umschalten zu Reiter 8"
+msgstr "Zu Reiter 8 umschalten"
 
 #: ddterm/pref/shortcuts.js:687
 msgid "Switch to Tab 9"
-msgstr "Umschalten zu Reiter 9"
+msgstr "Zu Reiter 9 umschalten"
 
 #: ddterm/pref/shortcuts.js:692
 msgid "Switch to Tab 10"
-msgstr "Umschalten zu Reiter 10"
+msgstr "Zu Reiter 10 umschalten"
 
 #: ddterm/pref/shortcuts.js:749
 msgid "Reset All Shortcuts to Defaults"
-msgstr "Tastenkombinationen auf Standard zurücksetzen"
+msgstr "Alle Tastenkürzel auf Standard zurücksetzen"
 
 #: ddterm/pref/tabs.js:21
 msgid "Tabs"
@@ -1057,7 +1048,7 @@ msgstr "Niemals"
 
 #: ddterm/pref/tabs.js:40
 msgid "Tab bar position:"
-msgstr "Reiterleisten-Position:"
+msgstr "Position der Reiterleiste:"
 
 #: ddterm/pref/tabs.js:51
 msgid "Ellipsize tab labels:"
@@ -1113,7 +1104,7 @@ msgstr "Text"
 
 #: ddterm/pref/text.js:75
 msgid "Use System Font"
-msgstr ""
+msgstr "Systemschriftart verwenden"
 
 #: ddterm/pref/text.js:79
 msgid "Custom _font:"
@@ -1173,7 +1164,7 @@ msgstr "Komplette URLs erkennen (schema://netloc/path)"
 
 #: ddterm/pref/text.js:146
 msgid "Detect \"file:\" URLs"
-msgstr "\"file:\"-URLs erkennen"
+msgstr "»file:«-URLs erkennen"
 
 #: ddterm/pref/text.js:151
 msgid "Detect HTTP URLs"
@@ -1189,16 +1180,15 @@ msgstr "E-Mail-Adressen erkennen"
 
 #: ddterm/pref/text.js:166
 msgid "Detect \"news:\", \"man:\" URLs"
-msgstr "\"news:\", \"man:\"-URLs erkennen"
+msgstr "»news:«, »man:«-URLs erkennen"
 
 #: ddterm/shell/notifications.js:51 ddterm/shell/notifications.js:183
 msgid "Copy to Clipboard"
 msgstr "In Zwischenablage kopieren"
 
 #: ddterm/shell/notifications.js:179
-#, fuzzy
 msgid "Details…"
-msgstr "Details…"
+msgstr "Details …"
 
 #: ddterm/shell/notifications.js:227
 msgid "Install"
