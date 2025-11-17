@@ -6,20 +6,21 @@
 # gallegonovato <fran-carro@hotmail.es>, 2023, 2024.
 # Patricio Carrau <66135366+DuckyCB@users.noreply.github.com>, 2024.
 # Patricio Carrau <duckycb@proton.me>, 2024, 2025.
+# Francisco Serrador <fserrador@gmail.com>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-11-15 17:26+0000\n"
-"PO-Revision-Date: 2025-04-12 21:01+0000\n"
-"Last-Translator: Patricio Carrau <duckycb@proton.me>\n"
+"PO-Revision-Date: 2025-11-18 04:55+0000\n"
+"Last-Translator: Francisco Serrador <fserrador@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.11-dev\n"
+"X-Generator: Weblate 5.15-dev\n"
 
 #: data/com.github.amezin.ddterm.desktop.in.in:8 ddterm/app/appwindow.js:146
 #: ddterm/shell/notifications.js:269 ddterm/shell/panelicon.js:31
@@ -29,7 +30,7 @@ msgstr "ddterm"
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/com.github.amezin.ddterm.desktop.in.in:10
 msgid "shell;prompt;command;commandline;cmd;run;terminal;"
-msgstr "shell;prompt;command;commandline;cmd;run;terminal;"
+msgstr "shell;prompt;command;commandline;cmd;run;terminal;ejecutar;intérprete;solicitud;orden;instrucción;comando;"
 
 #: data/com.github.amezin.ddterm.desktop.in.in:11
 msgid "Another drop down terminal extension for GNOME Shell"
@@ -53,7 +54,7 @@ msgstr ""
 
 #: ddterm/app/about.js:59
 msgid "Contributors"
-msgstr ""
+msgstr "Contribuidores"
 
 #: ddterm/app/application.js:100
 msgid "Start the application, but do not show the window"
@@ -346,10 +347,8 @@ msgid "Enable Keyboard Shortcuts"
 msgstr "Activar atajos de teclado"
 
 #: ddterm/app/ui/menus.ui:207
-#, fuzzy
-#| msgid "ddterm"
 msgid "About ddterm"
-msgstr "ddterm"
+msgstr "Acerca de ddterm"
 
 #: ddterm/app/ui/menus.ui:215
 msgid "Use Custom Tab Title"
@@ -860,44 +859,36 @@ msgid "Show _scrollbar"
 msgstr "Mostrar _scrollbar"
 
 #: ddterm/pref/scrolling.js:43
-#, fuzzy
-#| msgid "_Limit scrollback to:"
 msgid "Unlimited Scrollback"
-msgstr "_Límite de retroceso a:"
+msgstr "Retroceso ilimitado"
 
 #: ddterm/pref/scrolling.js:53
-#, fuzzy
-#| msgid "Scrolling"
 msgid "Scrollback Lines"
-msgstr "Desplazamiento"
+msgstr "Líneas de Retroceso"
 
 #: ddterm/pref/shortcuts.js:123
-#, fuzzy
-#| msgid "Enable Keyboard Shortcuts"
 msgid "Enter new shortcut"
-msgstr "Activar atajos de teclado"
+msgstr "Introducir enlace nuevo"
 
 #: ddterm/pref/shortcuts.js:134
 msgid "Press Esc to cancel or Backspace to disable the keyboard shortcut"
-msgstr ""
+msgstr "Pulse Esc para cancelar o Retroceso para inhabilitar el enlace del teclado"
 
 #: ddterm/pref/shortcuts.js:145
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
 
 #: ddterm/pref/shortcuts.js:146
 msgid "Set"
-msgstr ""
+msgstr "Establecer"
 
 #: ddterm/pref/shortcuts.js:291 ddterm/pref/text.js:120
 msgid "Disabled"
 msgstr "Deshabilitado"
 
 #: ddterm/pref/shortcuts.js:432
-#, fuzzy
-#| msgid "Global Shortcut"
 msgid "Global Shortcuts"
-msgstr "Atajo global"
+msgstr "Atajos globales"
 
 #: ddterm/pref/shortcuts.js:436
 msgid "Toggle Terminal Window"
@@ -908,10 +899,8 @@ msgid "Show/Activate Terminal Window"
 msgstr "Mostrar/Activar Ventana de Terminal"
 
 #: ddterm/pref/shortcuts.js:458
-#, fuzzy
-#| msgid "_Enable application shortcuts"
 msgid "Application Shortcuts"
-msgstr "_Habilitar atajos de aplicación"
+msgstr "Atajos de aplicación"
 
 #: ddterm/pref/shortcuts.js:462
 msgid "_Enable application shortcuts"
@@ -1091,7 +1080,7 @@ msgstr "Mostrar botones de _cerrar"
 
 #: ddterm/pref/tabs.js:106
 msgid "\"_New Tab (Last)\" button"
-msgstr "Botón \"_Nueva pestaña (Última)\""
+msgstr "Botón \"_Nueva pestaña (última)\""
 
 #: ddterm/pref/tabs.js:111
 msgid "\"_New Tab (First)\" button"
@@ -1115,11 +1104,11 @@ msgstr "Texto"
 
 #: ddterm/pref/text.js:75
 msgid "Use System Font"
-msgstr ""
+msgstr "Utilizar tipografía del sistema"
 
 #: ddterm/pref/text.js:79
 msgid "Custom _font:"
-msgstr "_Fuente personalizada:"
+msgstr "_Tipografía personalizada:"
 
 #: ddterm/pref/text.js:95
 msgid "Allow _blinking text:"
@@ -1143,7 +1132,7 @@ msgstr "Bloque"
 
 #: ddterm/pref/text.js:109
 msgid "I-Beam"
-msgstr "Doble T"
+msgstr "I-Haz"
 
 #: ddterm/pref/text.js:110
 msgid "Underline"
@@ -1155,11 +1144,11 @@ msgstr "Parpadeo del _cursor:"
 
 #: ddterm/pref/text.js:119
 msgid "Enabled"
-msgstr "Hablitado"
+msgstr "Habilitado"
 
 #: ddterm/pref/text.js:126
 msgid "Allow _hyperlinks"
-msgstr "Permitir _hipervínculos"
+msgstr "Permitir _hiperenlaces"
 
 #: ddterm/pref/text.js:131
 msgid "Audible _bell"
@@ -1187,7 +1176,7 @@ msgstr "Detectar URLs VoIP"
 
 #: ddterm/pref/text.js:161
 msgid "Detect E-mail addresses"
-msgstr "Detectar direcciones de correo electrónico"
+msgstr "Detectar direcciones de correo-e"
 
 #: ddterm/pref/text.js:166
 msgid "Detect \"news:\", \"man:\" URLs"
