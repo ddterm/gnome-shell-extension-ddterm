@@ -5,7 +5,7 @@ data/com.github.amezin.ddterm.desktop.in.in
 ddterm/app/about.js
 ddterm/app/application.js
 ddterm/app/appwindow.js
-ddterm/app/dependencies.js
+ddterm/app/init.js
 ddterm/app/notebook.js
 ddterm/app/search.js
 ddterm/app/tablabel.js

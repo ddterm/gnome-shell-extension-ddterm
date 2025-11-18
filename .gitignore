@@ -6,6 +6,11 @@
 
 /node_modules/
 
+# Meson subprojects
+/subprojects/.wraplock
+/subprojects/gjs-typelib-installer/
+
+# Python
 .tox/
 __pycache__/
 

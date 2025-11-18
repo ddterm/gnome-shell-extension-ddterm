@@ -29,7 +29,7 @@ pkgver() {
 }
 
 build() {
-    arch-meson "$startdir" build "-Dtests=$( ((CHECKFUNC)) && echo enabled || echo disabled )"
+    arch-meson "$startdir" build "-Dtests=$( ((CHECKFUNC)) && echo enabled || echo disabled )" -Dtypelib_installer=false
     meson compile -C build
 }
 

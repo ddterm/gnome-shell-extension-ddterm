@@ -640,12 +640,3 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
         del pages2[0]['text']
 
         assert state1 == state2
-
-    def test_dependencies(self, process_launcher, request):
-        process_launcher.run(
-            str(request.config.option.gjs),
-            '-m',
-            str(SRC_DIR / 'ddterm' / 'app' / 'tools' / 'dependencies-update.js'),
-            '--dry-run',
-            timeout=60,
-        )

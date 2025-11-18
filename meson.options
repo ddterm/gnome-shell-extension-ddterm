@@ -15,3 +15,10 @@ option(
   value: 'auto',
   description : 'Run pytest during "meson test"/"ninja test"'
 )
+
+option(
+  'typelib_installer',
+  type : 'boolean',
+  value : true,
+  description : 'Use gjs-typelib-installer to install missing GObject libraries'
+)

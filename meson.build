@@ -38,7 +38,7 @@ gjs_shebang = get_option('shebang_override')
 gjs = find_program(
   'gjs',
   version: gjs_req,
-  required: gjs_shebang == '',
+  required: gjs_shebang == '' or get_option('typelib_installer'),
   disabler: true,
 )
 
@@ -164,6 +164,7 @@ subdir('locale')
 pack_from_srcdir = [
   'LICENSES' / 'GPL-3.0-or-later.txt',
   'LICENSES' / 'CC0-1.0.txt',
+  'LICENSES' / 'MIT.txt',
   'REUSE.toml',
 ]
 

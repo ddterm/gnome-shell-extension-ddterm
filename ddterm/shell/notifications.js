@@ -13,7 +13,7 @@ import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import * as MessageTray from 'resource:///org/gnome/shell/ui/messageTray.js';
 import * as ModalDialog from 'resource:///org/gnome/shell/ui/modalDialog.js';
 
-import { find_package_installer } from './packagemanager.js';
+import { findTerminalInstallCommand } from '../util/gjs-typelib-installer.js';
 
 const DetailsDialog = GObject.registerClass({
     Signals: {
@@ -220,12 +220,16 @@ const MissingDependenciesNotification = GObject.registerClass({
             cancellable.cancel();
         });
 
-        find_package_installer(cancellable).then(installer => {
-            if (!installer)
+        findTerminalInstallCommand(cancellable).then(installer => {
+            const argv = installer?.(packages);
+
+            if (!argv)
                 return;
 
             notification.addAction(gettext_domain.gettext('Install'), () => {
-                installer(packages);
+                const [, pid] = GLib.spawn_async(null, argv, null, GLib.SpawnFlags.DEFAULT, null);
+
+                GLib.spawn_close_pid(pid);
             });
 
             notification.update?.(notification.title, notification.bannerBodyText, {});

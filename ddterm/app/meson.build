@@ -8,7 +8,6 @@ app_js_src_files = files(
   'accellabel.js',
   'application.js',
   'appwindow.js',
-  'dependencies.js',
   'extensiondbus.js',
   'init.js',
   'meta.js',
@@ -34,11 +33,7 @@ endforeach
 
 pack += app_js_out_files
 
-app_data_src_files = files(
-  'dependencies.json',
-  'dependencies.json.license',
-  'style.css',
-)
+app_data_src_files = files('style.css')
 
 foreach app_data_src_file : app_data_src_files
   pack += fs.copyfile(

@@ -7,18 +7,39 @@
 import GLib from 'gi://GLib';
 import Gio from 'gi://Gio';
 
-import { manifest, get_os_ids, resolve_package } from '../../app/dependencies.js';
+const pkgs = {
+    alpine: 'vte3',
+    arch: 'vte3',
+    debian: 'gir1.2-vte-2.91',
+    fedora: 'vte291',
+    suse: 'typelib-1_0-Vte-2_91',
+};
 
-const vte_ver = Object.keys(manifest.Vte)[0];
-const vte_manifest = manifest.Vte[vte_ver];
-const vte_pkg = resolve_package(vte_manifest, get_os_ids());
+const os_ids = [GLib.get_os_info('ID')];
+
+for (const like of GLib.get_os_info('ID_LIKE')?.split(' ') ?? []) {
+    if (like)
+        os_ids.push(like);
+}
+
+if (os_ids.includes('ubuntu') && !os_ids.includes('debian'))
+    os_ids.push('debian');
+
+let pkg;
+
+for (const os_id of os_ids) {
+    if (pkgs[os_id]) {
+        pkg = pkgs[os_id];
+        break;
+    }
+}
 
 Gio.DBus.session.call_sync(
     'org.gnome.Shell',
     '/org/gnome/Shell/Extensions/ddterm',
     'com.github.amezin.ddterm.Extension',
     'MissingDependencies',
-    new GLib.Variant('(asas)', [[vte_pkg], [vte_manifest.filename]]),
+    new GLib.Variant('(asas)', [pkg ? [pkg] : [], ['Vte-2.91.typelib']]),
     null,
     Gio.DBusCallFlags.NONE,
     -1,

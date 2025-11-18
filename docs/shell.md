@@ -98,11 +98,6 @@ for the application
 
 [`install.js`]: /ddterm/shell/install.js
 
-* [`packagemanager.js`][]: installation of missing OS packages using
-PackageKit CLI (`pkcon`) or OS package manager in an external terminal.
-
-[`packagemanager.js`]: /ddterm/shell/packagemanager.js
-
 There are also utility modules:
 
 * [`sd_journal.js`][]: connection to systemd-journald

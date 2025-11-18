@@ -11,7 +11,6 @@ shell_js_src_files = files(
   'geometry.js',
   'install.js',
   'notifications.js',
-  'packagemanager.js',
   'panelicon.js',
   'sd_journal.js',
   'service.js',
