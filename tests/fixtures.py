@@ -272,7 +272,10 @@ class GnomeSessionFixtures:
         )
 
     @pytest.fixture(scope='class')
-    def has_x11(self, process_launcher, request):
+    def has_x11(self, process_launcher, os_id, request):
+        if os_id == 'centos':
+            return False
+
         result = process_launcher.run(
             str(request.config.option.gnome_shell),
             '--help',
