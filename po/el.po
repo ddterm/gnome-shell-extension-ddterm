@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-15 17:26+0000\n"
+"POT-Creation-Date: 2025-11-18 04:13+0000\n"
 "PO-Revision-Date: 2025-05-13 19:23+0000\n"
 "Last-Translator: Klearchos-Angelos Gkountras <jemadux@cryptolab.net>\n"
 "Language-Team: Greek <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/el/>\n"
@@ -22,7 +22,7 @@ msgstr ""
 "X-Poedit-Basepath: .\n"
 
 #: data/com.github.amezin.ddterm.desktop.in.in:8 ddterm/app/appwindow.js:146
-#: ddterm/shell/notifications.js:269 ddterm/shell/panelicon.js:31
+#: ddterm/shell/notifications.js:273 ddterm/shell/panelicon.js:31
 msgid "ddterm"
 msgstr ""
 
@@ -118,15 +118,15 @@ msgstr "Προειδοποίηση: η έκδοση ddterm έχει αλλάξε
 msgid "Log out, then log in again to load the updated extension."
 msgstr "Αποσυνδεθείτε και, στη συνέχεια, συνδεθείτε ξανά για να φορτώσετε την ενημερωμένη επέκταση."
 
-#: ddterm/app/dependencies.js:81 ddterm/shell/notifications.js:192
+#: ddterm/app/init.js:34 ddterm/shell/notifications.js:192
 msgid "ddterm needs additional packages to run"
 msgstr "Το ddterm χρειάζεται επιπλέον πακέτα για να τρέξει"
 
-#: ddterm/app/dependencies.js:86 ddterm/shell/notifications.js:197
+#: ddterm/app/init.js:42 ddterm/shell/notifications.js:197
 msgid "Please install the following packages:"
 msgstr "Χρειάζετε να εγκατασταθούν τα ακόλουθα πακέτα:"
 
-#: ddterm/app/dependencies.js:93 ddterm/shell/notifications.js:205
+#: ddterm/app/init.js:49 ddterm/shell/notifications.js:205
 msgid "Please install packages that provide the following files:"
 msgstr "Παρακαλώ εγκαταστείστε τα πακέτα που περιγράφουν τα παρακάτω αρχεία :"
 
@@ -1211,7 +1211,7 @@ msgstr "Επικόλλιση απο Πρόχειρο"
 msgid "Details…"
 msgstr ""
 
-#: ddterm/shell/notifications.js:227
+#: ddterm/shell/notifications.js:229
 msgid "Install"
 msgstr ""
 

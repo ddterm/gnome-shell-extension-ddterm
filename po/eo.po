@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-15 17:26+0000\n"
+"POT-Creation-Date: 2025-11-18 04:13+0000\n"
 "PO-Revision-Date: 2024-06-01 19:09+0000\n"
 "Last-Translator: phlostically <phlostically@mailinator.com>\n"
 "Language-Team: Esperanto <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/eo/>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "X-Generator: Weblate 5.6-dev\n"
 
 #: data/com.github.amezin.ddterm.desktop.in.in:8 ddterm/app/appwindow.js:146
-#: ddterm/shell/notifications.js:269 ddterm/shell/panelicon.js:31
+#: ddterm/shell/notifications.js:273 ddterm/shell/panelicon.js:31
 msgid "ddterm"
 msgstr "ddterm"
 
@@ -109,15 +109,15 @@ msgstr ""
 msgid "Log out, then log in again to load the updated extension."
 msgstr ""
 
-#: ddterm/app/dependencies.js:81 ddterm/shell/notifications.js:192
+#: ddterm/app/init.js:34 ddterm/shell/notifications.js:192
 msgid "ddterm needs additional packages to run"
 msgstr ""
 
-#: ddterm/app/dependencies.js:86 ddterm/shell/notifications.js:197
+#: ddterm/app/init.js:42 ddterm/shell/notifications.js:197
 msgid "Please install the following packages:"
 msgstr ""
 
-#: ddterm/app/dependencies.js:93 ddterm/shell/notifications.js:205
+#: ddterm/app/init.js:49 ddterm/shell/notifications.js:205
 msgid "Please install packages that provide the following files:"
 msgstr ""
 
@@ -1187,7 +1187,7 @@ msgstr ""
 msgid "Details…"
 msgstr "Detaloj…"
 
-#: ddterm/shell/notifications.js:227
+#: ddterm/shell/notifications.js:229
 msgid "Install"
 msgstr "Instali"
 

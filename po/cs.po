@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-15 17:26+0000\n"
+"POT-Creation-Date: 2025-11-18 04:13+0000\n"
 "PO-Revision-Date: 2023-10-24 22:14+0000\n"
 "Last-Translator: Pavel Novák <pavelnov32@gmail.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/cs/>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "X-Generator: Weblate 5.1.1-dev\n"
 
 #: data/com.github.amezin.ddterm.desktop.in.in:8 ddterm/app/appwindow.js:146
-#: ddterm/shell/notifications.js:269 ddterm/shell/panelicon.js:31
+#: ddterm/shell/notifications.js:273 ddterm/shell/panelicon.js:31
 msgid "ddterm"
 msgstr ""
 
@@ -110,15 +110,15 @@ msgstr "Varování: Verze ddterm byla změněna"
 msgid "Log out, then log in again to load the updated extension."
 msgstr "Znovu se přihlašte pro načtení aktualizovaného rozšíření."
 
-#: ddterm/app/dependencies.js:81 ddterm/shell/notifications.js:192
+#: ddterm/app/init.js:34 ddterm/shell/notifications.js:192
 msgid "ddterm needs additional packages to run"
 msgstr "ddterm potřebuje pro funkčnost další balíčky"
 
-#: ddterm/app/dependencies.js:86 ddterm/shell/notifications.js:197
+#: ddterm/app/init.js:42 ddterm/shell/notifications.js:197
 msgid "Please install the following packages:"
 msgstr "Nainstalujte prosím tyto balíčky:"
 
-#: ddterm/app/dependencies.js:93 ddterm/shell/notifications.js:205
+#: ddterm/app/init.js:49 ddterm/shell/notifications.js:205
 msgid "Please install packages that provide the following files:"
 msgstr "Nainstalujte balíčky které poskytují tyto soubory:"
 
@@ -1199,7 +1199,7 @@ msgstr "Vložit zkopírovaný text"
 msgid "Details…"
 msgstr ""
 
-#: ddterm/shell/notifications.js:227
+#: ddterm/shell/notifications.js:229
 msgid "Install"
 msgstr ""
 

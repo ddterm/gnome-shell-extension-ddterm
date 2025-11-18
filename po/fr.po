@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-15 17:26+0000\n"
+"POT-Creation-Date: 2025-11-18 04:13+0000\n"
 "PO-Revision-Date: 2024-07-24 00:09+0000\n"
 "Last-Translator: Patricio Carrau <duckycb@proton.me>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/fr/>\n"
@@ -24,7 +24,7 @@ msgstr ""
 "X-Poedit-Basepath: .\n"
 
 #: data/com.github.amezin.ddterm.desktop.in.in:8 ddterm/app/appwindow.js:146
-#: ddterm/shell/notifications.js:269 ddterm/shell/panelicon.js:31
+#: ddterm/shell/notifications.js:273 ddterm/shell/panelicon.js:31
 msgid "ddterm"
 msgstr "ddterm"
 
@@ -118,15 +118,15 @@ msgstr "Avertissement : La version de ddterm a changé"
 msgid "Log out, then log in again to load the updated extension."
 msgstr "Fermez la session, puis reconnectez-vous pour charger l'extension mise à jour."
 
-#: ddterm/app/dependencies.js:81 ddterm/shell/notifications.js:192
+#: ddterm/app/init.js:34 ddterm/shell/notifications.js:192
 msgid "ddterm needs additional packages to run"
 msgstr "ddterm requiert des paquets supplémentaires pour son exécution"
 
-#: ddterm/app/dependencies.js:86 ddterm/shell/notifications.js:197
+#: ddterm/app/init.js:42 ddterm/shell/notifications.js:197
 msgid "Please install the following packages:"
 msgstr "Merci d'installer les paquets suivants :"
 
-#: ddterm/app/dependencies.js:93 ddterm/shell/notifications.js:205
+#: ddterm/app/init.js:49 ddterm/shell/notifications.js:205
 msgid "Please install packages that provide the following files:"
 msgstr "Merci d'installer les paquets contenant les fichiers suivants :"
 
@@ -1204,7 +1204,7 @@ msgstr "Coller vers le presse-papier"
 msgid "Details…"
 msgstr "Détails…"
 
-#: ddterm/shell/notifications.js:227
+#: ddterm/shell/notifications.js:229
 msgid "Install"
 msgstr "Installer"
 
