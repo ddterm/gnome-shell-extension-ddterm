@@ -16,6 +16,9 @@ import { TerminalSettings } from './terminalsettings.js';
 import { Notebook } from './notebook.js';
 import { DisplayConfig, LayoutMode } from '../util/displayconfig.js';
 
+const DBUS_RECT_TYPE = new GLib.VariantType('(iiii)');
+const DBUS_MONITOR_SCALE_TYPE = new GLib.VariantType('d');
+
 const WINDOW_POS_TO_RESIZE_EDGE = {
     top: Gdk.WindowEdge.SOUTH,
     bottom: Gdk.WindowEdge.NORTH,
@@ -599,21 +602,24 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
             this.unmaximize();
         }
 
-        const rect = this.extension_dbus.TargetRect;
+        const rect = this.extension_dbus.get_cached_property('TargetRect');
 
-        if (!rect)
+        if (!rect?.is_of_type(DBUS_RECT_TYPE))
             return;
 
-        let [, , target_w, target_h] = rect;
+        let target_w = rect.get_child_value(2).get_int32();
+        let target_h = rect.get_child_value(3).get_int32();
 
         if (this.display_config.layout_mode !== LayoutMode.LOGICAL) {
-            const scale = this.extension_dbus.TargetMonitorScale;
+            const scale = this.extension_dbus.get_cached_property('TargetMonitorScale');
 
-            if (!scale)
+            if (!scale?.is_of_type(DBUS_MONITOR_SCALE_TYPE))
                 return;
 
-            target_w = Math.floor(target_w / scale);
-            target_h = Math.floor(target_h / scale);
+            const scale_unpacked = scale.get_double();
+
+            target_w = Math.floor(target_w / scale_unpacked);
+            target_h = Math.floor(target_h / scale_unpacked);
         }
 
         this.resize(target_w, target_h);
