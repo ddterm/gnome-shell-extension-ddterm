@@ -60,7 +60,6 @@ summary(
   section: 'System-wide installation',
 )
 
-gtk3_builder_tool = find_program('gtk-builder-tool')
 glib_compile_schemas_tool = find_program('glib-compile-schemas')
 
 xgettext = find_program('xgettext', required: false, disabler: true)
