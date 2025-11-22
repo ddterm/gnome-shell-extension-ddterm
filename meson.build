@@ -60,9 +60,6 @@ summary(
   section: 'System-wide installation',
 )
 
-# Meson's "capture: true" hides stderr output (warnings from gtk-builder-tool)
-capture_stdout = ['sh', '-c', 'exec "$@" >"$0"', '@OUTPUT@']
-
 gtk3_builder_tool = find_program('gtk-builder-tool')
 glib_compile_schemas_tool = find_program('glib-compile-schemas')
 
