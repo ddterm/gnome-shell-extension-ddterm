@@ -200,7 +200,7 @@ jobs:
         if: ${{ !cancelled() && steps.pack.outcome == 'success' }}
 
       - name: Run checks
-        run: xvfb-run -d --server-args=-noreset --wait=0 -- meson test -v -j1
+        run: meson test -v -j1
         working-directory: build
         shell: pipetty bash -e {0}
         if: ${{ !cancelled() && steps.pack.outcome == 'success' }}

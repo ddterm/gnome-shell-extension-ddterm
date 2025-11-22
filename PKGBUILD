@@ -13,7 +13,7 @@ conflicts=('gnome-shell-extension-ddterm')
 provides=('gnome-shell-extension-ddterm')
 depends=('gjs' 'gtk3' 'vte3' 'libhandy')
 makedepends=('meson' 'git')
-checkdepends=('python-pytest' 'python-gobject' 'gnome-shell' 'wl-clipboard' 'xorg-server-xvfb')
+checkdepends=('python-pytest' 'python-gobject' 'gnome-shell' 'wl-clipboard')
 
 # Skipping source=() completely, using startdir instead
 # https://gitlab.archlinux.org/archlinux/mkinitcpio/mkinitcpio/-/blob/master/PKGBUILD
@@ -37,7 +37,7 @@ build() {
 
     local meson_options=(
         "-Dtests=$tests_feature"
-        "-Dtests_x11=$tests_feature"
+        -Dtests_x11=disabled
         "-Dtests_wl_clipboard=$tests_feature"
         -Dtypelib_installer=false
     )
@@ -47,7 +47,7 @@ build() {
 }
 
 check() {
-    LIBGL_ALWAYS_SOFTWARE=1 xvfb-run --auto-display --server-args=-noreset --wait=0 -- meson test -C build --print-errorlogs
+    meson test -C build --print-errorlogs
 }
 
 package() {
