@@ -17,6 +17,20 @@ option(
 )
 
 option(
+  'tests_x11',
+  type : 'feature',
+  value: 'auto',
+  description : 'Run X11 tests during "meson test"/"ninja test"'
+)
+
+option(
+  'tests_wl_clipboard',
+  type : 'feature',
+  value: 'auto',
+  description : 'Run wl-clipboard tests during "meson test"/"ninja test"'
+)
+
+option(
   'typelib_installer',
   type : 'boolean',
   value : true,

@@ -30,18 +30,8 @@ if pytest_tool.found()
   endif
 endif
 
-xvfb = find_program('Xvfb', required: get_option('tests'), disabler: true)
-
 gsettings = find_program(
   'gsettings',
-  required: get_option('tests'),
-  disabler: true,
-)
-
-wl_copy = find_program('wl-copy', required: get_option('tests'), disabler: true)
-
-wl_paste = find_program(
-  'wl-paste',
   required: get_option('tests'),
   disabler: true,
 )
@@ -56,9 +46,6 @@ pytest_common_args = [
   '--gnome-extensions-tool=' + extensions_tool.full_path(),
   '--gnome-shell=' + gnome_shell.full_path(),
   '--gsettings-tool=' + gsettings.full_path(),
-  '--xvfb=' + (xvfb.found() ? xvfb.full_path() : 'not-found'),
-  '--wl-copy=' + (wl_copy.found() ? wl_copy.full_path() : 'not-found'),
-  '--wl-paste=' + (wl_paste.found() ? wl_paste.full_path() : 'not-found'),
   '--system-bus',
 ]
 
@@ -68,16 +55,39 @@ foreach a : pytest_common_args
   pytest_enabled = pytest_enabled and not is_disabler(a)
 endforeach
 
-pytest_xvfb_enabled = pytest_enabled and xvfb.found()
-pytest_wl_clipboard_enabled = pytest_enabled and wl_copy.found() and wl_paste.found()
+get_option('tests').require(pytest_enabled)
+
+xvfb = find_program(
+  'Xvfb',
+  required: get_option('tests_x11').require(pytest_enabled),
+  disabler: true,
+)
+
+wl_copy = find_program(
+  'wl-copy',
+  required: get_option('tests_wl_clipboard').require(pytest_enabled),
+  disabler: true,
+)
+
+wl_paste = find_program(
+  'wl-paste',
+  required: get_option('tests_wl_clipboard').require(pytest_enabled),
+  disabler: true,
+)
+
+pytest_common_args += [
+  '--xvfb=' + (xvfb.found() ? xvfb.full_path() : 'not-found'),
+  '--wl-copy=' + (wl_copy.found() ? wl_copy.full_path() : 'not-found'),
+  '--wl-paste=' + (wl_paste.found() ? wl_paste.full_path() : 'not-found'),
+]
 
 summary('Functional', pytest_enabled, bool_yn: true, section: 'Tests')
 
-summary('X11', pytest_xvfb_enabled, bool_yn: true, section: 'Tests')
+summary('X11', xvfb.found(), bool_yn: true, section: 'Tests')
 
 summary(
   'wl-clipboard',
-  pytest_wl_clipboard_enabled,
+  wl_copy.found() and wl_paste.found(),
   bool_yn: true,
   section: 'Tests',
 )
@@ -88,8 +98,10 @@ if pytest_enabled
     pytest_tool,
     args: [
       pytest_common_args,
-      pytest_wl_clipboard_enabled ? [] : ['-k', 'not test_wl_clipboard'],
-      ['-k', 'not test_dependencies'],
+      (wl_copy.found() and wl_paste.found()) ? [] : [
+        '-k',
+        'not test_wl_clipboard',
+      ],
       meson.current_source_dir() / 'test_app.py::TestApp',
     ],
     suite: ['pytest'],
@@ -109,7 +121,7 @@ if pytest_enabled
     timeout: 5 * 60,
   )
 
-  if pytest_xvfb_enabled
+  if xvfb.found()
     test(
       'test_wm.TestX11',
       pytest_tool,
