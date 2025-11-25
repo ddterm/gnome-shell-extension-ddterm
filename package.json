@@ -20,7 +20,7 @@
         "eslint": "9.39.1",
         "eslint-config-gnome": "git+https://gitlab.gnome.org/World/javascript/eslint-config-gnome.git#c479d059e8d9ea99c3b53c2ea43abf7fdb05eb51",
         "eslint-plugin-import": "2.32.0",
-        "markdownlint-cli2": "0.18.1",
+        "markdownlint-cli2": "0.19.1",
         "markdownlint-rule-relative-links": "4.2.0",
         "npm-run-all2": "8.0.4"
     },
