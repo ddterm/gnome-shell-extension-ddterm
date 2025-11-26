@@ -17,4 +17,4 @@ TTY_FLAG="$(test -t 0 && echo -n -t)"
 
 set -ex
 
-exec podman run --init --rm -i "${TTY_FLAG}" -e HOME="${HOME_DIR}" --security-opt label=disable -v "${SCRIPT_DIR}:${SCRIPT_DIR}" -w "${PWD}" "${IMAGE}:${IMAGE_VERSION}" xvfb-run "$@"
+exec podman run --init --rm -i "${TTY_FLAG}" -e HOME="${HOME_DIR}" --security-opt label=disable -v "${SCRIPT_DIR}:${SCRIPT_DIR}" -w "${PWD}" "${IMAGE}:${IMAGE_VERSION}" "$@"

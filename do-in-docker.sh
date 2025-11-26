@@ -23,4 +23,4 @@ fi
 
 set -ex
 
-exec "${docker_cmd[@]}" run --init --rm -i "${TTY_FLAG}" -u "${UID_GID}" -e HOME="${HOME_DIR}" --security-opt label=disable -v "${SCRIPT_DIR}:${SCRIPT_DIR}" -w "${PWD}" "${IMAGE}:${IMAGE_VERSION}" xvfb-run "$@"
+exec "${docker_cmd[@]}" run --init --rm -i "${TTY_FLAG}" -u "${UID_GID}" -e HOME="${HOME_DIR}" --security-opt label=disable -v "${SCRIPT_DIR}:${SCRIPT_DIR}" -w "${PWD}" "${IMAGE}:${IMAGE_VERSION}" "$@"

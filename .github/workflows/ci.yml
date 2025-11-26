@@ -188,7 +188,7 @@ jobs:
 
       - name: Build extension package
         id: pack
-        run: xvfb-run -d --server-args=-noreset --wait=0 -- ninja -j1 pack
+        run: ninja -j1 pack
         working-directory: build
 
       - name: Upload extension package as artifact
