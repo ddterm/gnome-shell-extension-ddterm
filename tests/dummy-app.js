@@ -6,9 +6,10 @@
 
 'use strict';
 
+imports.gi.versions.Gdk = '4.0';
 imports.gi.versions.Gtk = '4.0';
 
-const { GObject, Gio, Gtk } = imports.gi;
+const { GObject, Gio, Gdk, Gtk } = imports.gi;
 
 const System = imports.system;
 
@@ -19,6 +20,8 @@ const Application = GObject.registerClass({
 
         this.connect('startup', this.startup.bind(this));
         this.connect('activate', this.activate.bind(this));
+
+        Gdk.set_allowed_backends('x11');
     }
 
     startup() {
