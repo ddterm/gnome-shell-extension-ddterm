@@ -931,8 +931,9 @@ class TestWaylandNoMonitors(fixtures.GnomeSessionWaylandFixtures):
         return []
 
     @pytest.fixture(scope='class')
-    def shell_init(self, disable_extension_updates):
-        pass
+    def shell_init(self, disable_extension_updates, shell_dbus_interface):
+        if shell_dbus_interface.ShellVersion == (47, 10):
+            pytest.skip('Sometimes crashes GNOME Shell on Fedora 41')
 
     def test_smoke(self, extension_init):
         pass
