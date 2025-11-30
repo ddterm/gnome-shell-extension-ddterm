@@ -7,6 +7,20 @@ import GLib from 'gi://GLib';
 import Gio from 'gi://Gio';
 import Shell from 'gi://Shell';
 
+import Gi from 'gi';
+
+function try_require(namespace, version = undefined) {
+    try {
+        return Gi.require(namespace, version);
+    } catch (ex) {
+        logError(ex);
+        return null;
+    }
+}
+
+const GioUnix = GLib.check_version(2, 79, 2) === null ? try_require('GioUnix') : null;
+const DesktopAppInfo = GioUnix?.DesktopAppInfo ?? Gio.DesktopAppInfo;
+
 class File {
     constructor(source_url, target_file, fallback_files = []) {
         const [source_file] = GLib.filename_from_uri(
@@ -26,21 +40,24 @@ class File {
     get_existing_content() {
         for (const existing_file of [this.target_file, ...this.fallback_files]) {
             try {
-                return Shell.get_file_contents_utf8_sync(existing_file);
+                return {
+                    filename: existing_file,
+                    content: Shell.get_file_contents_utf8_sync(existing_file),
+                };
             } catch (ex) {
                 if (!ex.matches(GLib.file_error_quark(), GLib.FileError.NOENT))
                     logError(ex, `Can't read ${JSON.stringify(existing_file)}`);
             }
         }
 
-        return null;
+        return { filename: this.target_file, content: null };
     }
 
     install() {
-        const existing_content = this.get_existing_content();
+        const { filename, content } = this.get_existing_content();
 
-        if (this.content === existing_content)
-            return false;
+        if (this.content === content)
+            return { filename, changed: false };
 
         GLib.mkdir_with_parents(
             GLib.path_get_dirname(this.target_file),
@@ -56,7 +73,7 @@ class File {
             0o600
         );
 
-        return true;
+        return { filename: this.target_file, changed: true };
     }
 
     uninstall() {
@@ -109,9 +126,11 @@ export class Installer {
     }
 
     install() {
-        this.desktop_entry.install();
+        const dbus_service = this.dbus_service.install();
+        const desktop_entry = this.desktop_entry.install();
+        const app_info = DesktopAppInfo.new_from_filename(desktop_entry.filename);
 
-        if (this.dbus_service.install()) {
+        if (dbus_service.changed) {
             Gio.DBus.session.call(
                 'org.freedesktop.DBus',
                 '/org/freedesktop/DBus',
@@ -125,6 +144,8 @@ export class Installer {
                 null
             );
         }
+
+        return app_info;
     }
 
     uninstall() {

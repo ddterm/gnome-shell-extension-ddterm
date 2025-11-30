@@ -2,10 +2,12 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
 
 import { Subprocess, WaylandSubprocess } from './subprocess.js';
+import { wait_property } from '../util/promise.js';
 
 export const Service = GObject.registerClass({
     Properties: {
@@ -23,12 +25,12 @@ export const Service = GObject.registerClass({
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             null
         ),
-        'executable': GObject.ParamSpec.string(
-            'executable',
+        'app-info': GObject.ParamSpec.object(
+            'app-info',
             null,
             null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-            null
+            Gio.AppInfo
         ),
         'wayland': GObject.ParamSpec.boolean(
             'wayland',
@@ -117,8 +119,8 @@ export const Service = GObject.registerClass({
             this.bus,
             this.bus_name,
             Gio.BusNameWatcherFlags.NONE,
-            (connection, name, owner) => this.#update_bus_name_owner(owner),
-            () => this.#update_bus_name_owner(null)
+            (connection, name, owner) => this.#update_bus_name_owner(name, owner),
+            (connection, name) => this.#update_bus_name_owner(name, null)
         );
     }
 
@@ -168,49 +170,62 @@ export const Service = GObject.registerClass({
     }
 
     #create_subprocess() {
-        const argv = [
-            this.executable,
+        const [, argv] = GLib.shell_parse_argv(this.app_info.get_commandline());
+
+        argv.push(
             '--gapplication-service',
             this.wayland ? '--allowed-gdk-backends=wayland' : '--allowed-gdk-backends=x11',
-            ...this.extra_argv,
-        ];
+            ...this.extra_argv
+        );
+
+        const launch_context = global.create_app_launch_context(0, -1);
+
+        for (const extra_env of this.extra_env) {
+            const split_pos = extra_env.indexOf('=');
+            const name = extra_env.slice(0, split_pos);
+            const value = extra_env.slice(split_pos + 1);
+
+            launch_context.setenv(name, value);
+        }
 
         const params = {
             journal_identifier: this.bus_name,
             argv,
-            environ: this.extra_env,
+            environ: launch_context.get_environment(),
         };
 
-        if (this.wayland)
-            return new WaylandSubprocess(params);
-        else
-            return new Subprocess(params);
+        launch_context.emit('launch-started', this.app_info, null);
+
+        const proc = this.wayland ? new WaylandSubprocess(params) : new Subprocess(params);
+
+        const platform_data = GLib.VariantDict.new(null);
+        platform_data.insert_value('pid', GLib.Variant.new_int32(proc.get_pid()));
+        launch_context.emit('launched', this.app_info, platform_data.end());
+
+        return proc;
     }
 
-    #wait_subprocess() {
+    async #wait_subprocess(cancellable) {
         this.#subprocess_wait_cancel = new Gio.Cancellable();
 
-        return this.subprocess.wait_check(this.#subprocess_wait_cancel).catch(ex => {
-            if (this.starting)
-                return;
-
-            if (ex.matches(Gio.io_error_quark(), Gio.IOErrorEnum.CANCELLED))
-                return;
-
-            this.emit('error', ex);
-        }).finally(() => {
+        try {
+            await this.subprocess.wait_check(cancellable);
+        } catch (ex) {
+            if (!this.starting && !ex.matches(Gio.io_error_quark(), Gio.IOErrorEnum.CANCELLED))
+                this.emit('error', ex);
+        } finally {
             this.#subprocess_running = false;
             this.notify('is-running');
-        });
+        }
     }
 
-    #update_bus_name_owner(owner) {
+    #update_bus_name_owner(name, owner) {
         if (this.#bus_name_owner === owner)
             return;
 
         const prev_registered = this.is_registered;
 
-        log(`${this.bus_name}: name owner changed to ${JSON.stringify(owner)}`);
+        log(`${name}: name owner changed to ${JSON.stringify(owner)}`);
 
         this.#bus_name_owner = owner;
         this.notify('bus-name-owner');
@@ -220,15 +235,22 @@ export const Service = GObject.registerClass({
     }
 
     async start(cancellable = null) {
-        if (this.is_registered)
-            return;
-
-        this.#starting = true;
-        this.notify('starting');
+        const inner_cancellable = Gio.Cancellable.new();
+        const cancellable_chain = cancellable?.connect(() => inner_cancellable.cancel());
 
         try {
-            const inner_cancellable = Gio.Cancellable.new();
-            const cancellable_chain = cancellable?.connect(() => inner_cancellable.cancel());
+            inner_cancellable.set_error_if_cancelled();
+
+            while (this.starting) {
+                // eslint-disable-next-line no-await-in-loop
+                await wait_property(this, 'starting', starting => !starting, inner_cancellable);
+            }
+
+            if (this.is_registered)
+                return;
+
+            this.#starting = true;
+            this.notify('starting');
 
             try {
                 if (!this.is_running) {
@@ -239,34 +261,31 @@ export const Service = GObject.registerClass({
                     this.#subprocess_wait = this.#wait_subprocess();
                 }
 
-                const registered = new Promise(resolve => {
-                    const handler = this.connect('notify::is-registered', () => {
-                        if (this.is_registered)
-                            resolve();
-                    });
+                await Promise.race([
+                    wait_property(this, 'is-registered', Boolean, inner_cancellable),
+                    this.#subprocess_wait,
+                ]);
 
-                    inner_cancellable.connect(() => {
-                        this.disconnect(handler);
-                    });
-                });
+                inner_cancellable.set_error_if_cancelled();
 
-                await Promise.race([registered, this.#subprocess_wait]);
+                if (!this.is_running) {
+                    throw new Error(
+                        `${this.bus_name}: subprocess terminated without registering on D-Bus`
+                    );
+                }
+
+                if (!this.is_registered)
+                    throw new Error(`${this.bus_name}: subprocess failed to register on D-Bus`);
+            } catch (ex) {
+                this.emit('error', ex);
+                throw ex;
             } finally {
-                cancellable?.disconnect(cancellable_chain);
-                inner_cancellable.cancel();
+                this.#starting = false;
+                this.notify('starting');
             }
-
-            if (!this.is_registered) {
-                throw new Error(
-                    `${this.bus_name}: subprocess terminated without registering on D-Bus`
-                );
-            }
-        } catch (ex) {
-            this.emit('error', ex);
-            throw ex;
         } finally {
-            this.#starting = false;
-            this.notify('starting');
+            cancellable?.disconnect(cancellable_chain);
+            inner_cancellable.cancel();
         }
     }
 });
