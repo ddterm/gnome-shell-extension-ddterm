@@ -458,6 +458,19 @@ class GnomeSessionFixtures:
             shell_test_hook.SetPointer(center_x, center_y)
 
     @pytest.fixture(scope='class')
+    def shell_env(
+        self,
+        shell_init,
+        shell_test_hook
+    ):
+        shell_environ = shell_test_hook.Eval('imports.gi.GLib.get_environ()')
+
+        return {
+            k: v for k, _, v in
+            (entry.partition('=') for entry in shell_environ)
+        }
+
+    @pytest.fixture(scope='class')
     def extension_init(self, shell_init, shell_extensions_dbus_interface):
         return shell_extensions_dbus_interface.EnableExtension('ddterm@amezin.github.com')
 
@@ -592,13 +605,14 @@ class GnomeSessionFixtures:
         process_launcher,
         dbus_connection,
         shell_test_hook,
+        shell_env,
         hide_overview,
         pytestconfig,
     ):
         with process_launcher.spawn(
             str(pytestconfig.option.gjs),
             str(THIS_DIR / 'dummy-app.js'),
-            env=dbus_environment,
+            env=shell_env,
         ) as proc:
             try:
                 shell_test_hook.wait_property('FocusApp', 'com.github.ddterm.DummyApp')
