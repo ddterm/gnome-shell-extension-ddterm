@@ -321,7 +321,7 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
         assert diff_heap(
             dump_pre,
             dump_post,
-            hide_edge=['window_title_binding']
+            hide_edge=['window_title_binding', 'cacheir-object']
         ) == ''
 
     @pytest.mark.usefixtures('app_active')
@@ -358,6 +358,7 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
         assert diff_heap(
             dump_pre,
             dump_post,
+            hide_edge=['cacheir-object']
         ) == ''
 
     @pytest.mark.parametrize('script_name', ('gtk3.js', 'gtk4.js'))
@@ -443,6 +444,7 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
         assert diff_heap(
             dump_pre,
             dump_post,
+            hide_edge=['cacheir-object'],
         ) == ''
 
     @pytest.mark.usefixtures('app_active')
@@ -476,7 +478,7 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
         assert diff_heap(
             dump_pre,
             dump_post,
-            hide_edge=['window_title_binding']
+            hide_edge=['window_title_binding', 'cacheir-object']
         ) == ''
 
     @pytest.mark.usefixtures('hide', 'app_active')
@@ -533,7 +535,7 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
         assert diff_heap(
             dump_pre,
             dump_post,
-            hide_edge=['window_title_binding'],
+            hide_edge=['window_title_binding', 'cacheir-object'],
         ) == ''
 
     @pytest.fixture(scope='class')
