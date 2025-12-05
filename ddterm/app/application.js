@@ -43,13 +43,6 @@ const SIGHUP = 1;
 const SIGINT = 2;
 const SIGTERM = 15;
 
-function schedule_gc() {
-    GLib.idle_add(GLib.PRIORITY_DEFAULT, () => {
-        System.gc();
-        return GLib.SOURCE_REMOVE;
-    });
-}
-
 function is_dbus_interface_error(ex) {
     if (!(ex instanceof GLib.Error))
         return false;
@@ -254,17 +247,10 @@ class Application extends Gtk.Application {
         this.connect('command-line', (_, command_line) => {
             try {
                 this.command_line(command_line);
-
                 return command_line.get_exit_status();
             } catch (ex) {
                 logError(ex);
-
-                // https://gitlab.gnome.org/GNOME/glib/-/issues/596
-                if (command_line.done)
-                    command_line.done();
-                else
-                    schedule_gc();
-
+                command_line.done();
                 return 1;
             }
         });
@@ -536,13 +522,7 @@ class Application extends Gtk.Application {
 
         if (!argv?.length && !options.lookup('tab') && !has_tab_options) {
             this.activate();
-
-            // https://gitlab.gnome.org/GNOME/glib/-/issues/596
-            if (command_line.done)
-                command_line.done();
-            else
-                schedule_gc();
-
+            command_line.done();
             return;
         }
 
@@ -576,14 +556,7 @@ class Application extends Gtk.Application {
                 page.terminal.disconnect(wait_handler);
 
             command_line.set_exit_status(value);
-
-            // https://gitlab.gnome.org/GNOME/glib/-/issues/596
-            if (command_line.done) {
-                command_line.done();
-            } else {
-                command_line = null;
-                schedule_gc();
-            }
+            command_line.done();
         };
 
         const wait = options.lookup('wait');
