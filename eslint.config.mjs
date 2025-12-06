@@ -85,10 +85,7 @@ export default defineConfig([
     },
     {
         files: [
-            'lint/*.{js,mjs,cjs}',
-            '.github/*.{js,mjs,cjs}',
-            '.markdownlint{,-cli2}.{mjs,cjs}',
-            '**/eslint.config.{js,mjs,cjs}',
+            '**/*.{mjs,cjs}',
         ],
         languageOptions: {
             globals: globals.node,
