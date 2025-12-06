@@ -26,10 +26,6 @@ import { TerminalCommand, WIFEXITED, WEXITSTATUS, WTERMSIG } from './terminal.js
 import { TerminalSettings, TerminalSettingsParser } from './terminalsettings.js';
 import { PrefsDialog } from '../pref/dialog.js';
 import { DisplayConfig } from '../util/displayconfig.js';
-import {
-    create_extension_dbus_proxy,
-    create_extension_dbus_proxy_oneshot,
-} from './extensiondbus.js';
 
 function try_require(namespace, version = undefined) {
     try {
@@ -61,6 +57,31 @@ function is_dbus_interface_error(ex) {
     return ex.matches(Gio.DBusError.quark(), Gio.DBusError.UNKNOWN_METHOD) ||
         ex.matches(Gio.DBusError.quark(), Gio.DBusError.UNKNOWN_OBJECT) ||
         ex.matches(Gio.DBusError.quark(), Gio.DBusError.UNKNOWN_INTERFACE);
+}
+
+function create_extension_dbus_proxy(connection) {
+    const url = GLib.Uri.resolve_relative(
+        import.meta.url,
+        '../../data/com.github.amezin.ddterm.Extension.xml',
+        GLib.UriFlags.NONE
+    );
+
+    const [path] = GLib.filename_from_uri(url);
+    const [, bytes] = GLib.file_get_contents(path);
+    const info = Gio.DBusInterfaceInfo.new_for_xml(new TextDecoder().decode(bytes));
+    const flags =
+        Gio.DBusProxyFlags.DO_NOT_AUTO_START |
+        Gio.DBusProxyFlags.GET_INVALIDATED_PROPERTIES |
+        Gio.DBusProxyFlags.DO_NOT_CONNECT_SIGNALS;
+
+    return new Gio.DBusProxy({
+        g_connection: connection,
+        g_flags: flags,
+        g_interface_info: info,
+        g_interface_name: info.name,
+        g_object_path: '/org/gnome/Shell/Extensions/ddterm',
+        g_name: 'org.gnome.Shell',
+    });
 }
 
 export const Application = GObject.registerClass({
@@ -217,7 +238,7 @@ class Application extends Gtk.Application {
         });
 
         this.connect('activate', () => {
-            this.ensure_window_with_terminal().present();
+            this.ensure_window_with_terminal().then(win => win.present());
         });
 
         this.connect('handle-local-options', (_, options) => {
@@ -230,11 +251,7 @@ class Application extends Gtk.Application {
         });
 
         this.connect('command-line', (_, command_line) => {
-            try {
-                this.command_line(command_line);
-
-                return command_line.get_exit_status();
-            } catch (ex) {
+            this.command_line(command_line).catch(ex => {
                 logError(ex);
 
                 // https://gitlab.gnome.org/GNOME/glib/-/issues/596
@@ -244,12 +261,14 @@ class Application extends Gtk.Application {
                     schedule_gc();
 
                 return 1;
-            }
+            });
+
+            return command_line.get_exit_status();
         });
 
-        this.connect('open', (_, files) => {
+        this.connect('open', async (_, files) => {
             for (const file of files)
-                this.open_file(file);
+                await this.open_file(file); // eslint-disable-line no-await-in-loop
 
             this.activate();
         });
@@ -265,6 +284,15 @@ class Application extends Gtk.Application {
     }
 
     startup() {
+        const dbus_connection = this.get_dbus_connection();
+
+        this.extension_dbus = create_extension_dbus_proxy(dbus_connection);
+        this._extension_dbus_init = this.extension_dbus.init_async(GLib.PRIORITY_DEFAULT, null);
+
+        this.display_config = DisplayConfig.new(dbus_connection);
+        this.connect('shutdown', () => this.display_config.unwatch());
+        this._display_config_init = this.display_config.init_async();
+
         this.settings = get_settings();
 
         this.simple_action('quit', () => this.quit());
@@ -319,17 +347,11 @@ class Application extends Gtk.Application {
             desktop_settings,
         }).bind_settings(this.terminal_settings);
 
-        this.extension_dbus = create_extension_dbus_proxy();
-        this.display_config = new DisplayConfig({
-            dbus_connection: this.get_dbus_connection(),
+        this.simple_action('toggle', () => {
+            this.ensure_window_with_terminal().then(win => win.toggle());
         });
-
-        this.connect('shutdown', () => this.display_config.unwatch());
-        this.display_config.update_sync();
-
-        this.simple_action('toggle', () => this.ensure_window_with_terminal().toggle());
         this.simple_action('show', () => {
-            this.ensure_window_with_terminal().present();
+            this.ensure_window_with_terminal().then(win => win.present());
         });
         this.simple_action('hide', () => this.window?.hide());
 
@@ -474,7 +496,17 @@ class Application extends Gtk.Application {
         this.flags |= Gio.ApplicationFlags.IS_LAUNCHER;
 
         try {
-            create_extension_dbus_proxy_oneshot().ServiceSync();
+            Gio.DBus.session.call_sync(
+                'org.gnome.Shell',
+                '/org/gnome/Shell/Extensions/ddterm',
+                'com.github.amezin.ddterm.Extension',
+                'Service',
+                null,
+                null,
+                Gio.DBusCallFlags.NO_AUTO_START,
+                -1,
+                null
+            );
         } catch (ex) {
             if (is_dbus_interface_error(ex)) {
                 printerr(Gettext.gettext("Can't contact the extension."));
@@ -491,7 +523,7 @@ class Application extends Gtk.Application {
         return options.lookup('activate-only') ? 0 : -1;
     }
 
-    command_line(command_line) {
+    async command_line(command_line) {
         const options = command_line.get_options_dict();
         const argv = options.lookup(GLib.OPTION_REMAINING, 'as', true);
 
@@ -527,7 +559,7 @@ class Application extends Gtk.Application {
             properties.use_custom_title = true;
         }
 
-        const notebook = this.ensure_window().active_notebook;
+        const notebook = (await this.ensure_window()).active_notebook;
         properties.command = argv?.length
             ? new TerminalCommand({ argv, envv, working_directory })
             : notebook.get_command_from_settings(working_directory, envv);
@@ -572,16 +604,16 @@ class Application extends Gtk.Application {
         this.activate();
     }
 
-    open_file(file) {
+    async open_file(file) {
+        const notebook = (await this.ensure_window()).active_notebook;
+
         if (file.query_file_type(Gio.FileQueryInfoFlags.NONE, null) === Gio.FileType.DIRECTORY) {
-            const notebook = this.ensure_window().active_notebook;
             const command = notebook.get_command_from_settings(file);
 
             notebook.new_page(-1, { command }).spawn();
         } else {
             const argv = [file.get_path()];
             const command = new TerminalCommand({ argv });
-            const notebook = this.ensure_window().active_notebook;
             const page = notebook.new_page(-1, {
                 command,
                 keep_open_after_exit: true,
@@ -647,18 +679,30 @@ class Application extends Gtk.Application {
         }
     }
 
-    ensure_window() {
+    async ensure_window() {
         if (this.window)
             return this.window;
 
-        this.window = new AppWindow({
-            application: this,
-            decorated: false,
-            settings: this.settings,
-            terminal_settings: this.terminal_settings,
-            extension_dbus: this.extension_dbus,
-            display_config: this.display_config,
-        });
+        this.hold();
+
+        try {
+            await this._display_config_init;
+            await this._extension_dbus_init;
+
+            if (this.window)
+                return this.window;
+
+            this.window = new AppWindow({
+                application: this,
+                decorated: false,
+                settings: this.settings,
+                terminal_settings: this.terminal_settings,
+                extension_dbus: this.extension_dbus,
+                display_config: this.display_config,
+            });
+        } finally {
+            this.release();
+        }
 
         this.window.connect('destroy', source => {
             if (source !== this.window)
@@ -678,8 +722,8 @@ class Application extends Gtk.Application {
         return this.window;
     }
 
-    ensure_window_with_terminal() {
-        this.ensure_window().ensure_terminal();
+    async ensure_window_with_terminal() {
+        (await this.ensure_window()).ensure_terminal();
 
         return this.window;
     }
@@ -772,7 +816,7 @@ class Application extends Gtk.Application {
             this.style_manager.color_scheme = resolved;
     }
 
-    restore_session() {
+    async restore_session() {
         if (!this.settings.get_boolean('save-restore-session'))
             return;
 
@@ -791,7 +835,7 @@ class Application extends Gtk.Application {
             if (!data_variant.is_normal_form())
                 throw new Error('Session data is malformed, probably the file was damaged');
 
-            const win = this.ensure_window();
+            const win = await this.ensure_window();
 
             GObject.signal_handler_block(win, this._save_session_handler);
 
