@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-07 00:44+0000\n"
+"POT-Creation-Date: 2025-12-07 15:24+0000\n"
 "PO-Revision-Date: 2024-07-24 00:09+0000\n"
 "Last-Translator: Patricio Carrau <duckycb@proton.me>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/fr/>\n"
@@ -37,11 +37,11 @@ msgstr "shell;prompt;invite;command;commande;commandline;cmd;run;exécuter;termi
 msgid "Another drop down terminal extension for GNOME Shell"
 msgstr "Une extension de terminal déroulant pour GNOME shell"
 
-#: data/com.github.amezin.ddterm.desktop.in.in:24
+#: data/com.github.amezin.ddterm.desktop.in.in:25
 msgid "Toggle"
 msgstr "Basculer"
 
-#: data/com.github.amezin.ddterm.desktop.in.in:28 ddterm/app/ui/menus.ui:150
+#: data/com.github.amezin.ddterm.desktop.in.in:29 ddterm/app/ui/menus.ui:150
 #: ddterm/app/ui/menus.ui:290 ddterm/shell/panelicon.js:63
 msgid "Preferences…"
 msgstr "Préférences…"

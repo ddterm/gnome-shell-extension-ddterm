@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-07 00:44+0000\n"
+"POT-Creation-Date: 2025-12-07 15:24+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -32,11 +32,11 @@ msgstr ""
 msgid "Another drop down terminal extension for GNOME Shell"
 msgstr ""
 
-#: data/com.github.amezin.ddterm.desktop.in.in:24
+#: data/com.github.amezin.ddterm.desktop.in.in:25
 msgid "Toggle"
 msgstr ""
 
-#: data/com.github.amezin.ddterm.desktop.in.in:28 ddterm/app/ui/menus.ui:150
+#: data/com.github.amezin.ddterm.desktop.in.in:29 ddterm/app/ui/menus.ui:150
 #: ddterm/app/ui/menus.ui:290 ddterm/shell/panelicon.js:63
 msgid "Preferences…"
 msgstr ""

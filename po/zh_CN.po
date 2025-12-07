@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-07 00:44+0000\n"
+"POT-Creation-Date: 2025-12-07 15:24+0000\n"
 "PO-Revision-Date: 2025-09-06 08:02+0000\n"
 "Last-Translator: yuh <yuhldr@qq.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/zh_Hans/>\n"
@@ -32,11 +32,11 @@ msgstr "shell;提示;命令;命令行;cmd;运行;终端;"
 msgid "Another drop down terminal extension for GNOME Shell"
 msgstr "GNOME Shell的另一个下拉式终端扩展"
 
-#: data/com.github.amezin.ddterm.desktop.in.in:24
+#: data/com.github.amezin.ddterm.desktop.in.in:25
 msgid "Toggle"
 msgstr "切换按钮"
 
-#: data/com.github.amezin.ddterm.desktop.in.in:28 ddterm/app/ui/menus.ui:150
+#: data/com.github.amezin.ddterm.desktop.in.in:29 ddterm/app/ui/menus.ui:150
 #: ddterm/app/ui/menus.ui:290 ddterm/shell/panelicon.js:63
 msgid "Preferences…"
 msgstr "首选项…"
