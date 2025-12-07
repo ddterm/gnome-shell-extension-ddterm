@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-18 04:13+0000\n"
+"POT-Creation-Date: 2025-12-07 00:44+0000\n"
 "PO-Revision-Date: 2025-09-18 04:23+0000\n"
 "Last-Translator: Ivan Vantu5z <vantu5z@mail.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/ru/>\n"
@@ -59,63 +59,63 @@ msgstr ""
 msgid "Contributors"
 msgstr "Участники"
 
-#: ddterm/app/application.js:100
+#: ddterm/app/application.js:115
 msgid "Start the application, but do not show the window"
 msgstr "Запустить приложение, но не показывать окно"
 
-#: ddterm/app/application.js:109
+#: ddterm/app/application.js:124
 msgid "Comma-separated list of backends that GDK should try to use"
 msgstr "Разделенный запятыми список backend'ов, которые GDK будет пытаться использовать"
 
-#: ddterm/app/application.js:136
+#: ddterm/app/application.js:151
 msgid "Show version information and exit"
 msgstr "Показать информацию о версии и выйти"
 
-#: ddterm/app/application.js:145
+#: ddterm/app/application.js:160
 msgid "Run the specified command"
 msgstr "Запустить указанную команду"
 
-#: ddterm/app/application.js:159
+#: ddterm/app/application.js:174
 msgid "Wait for the command to exit, and return its exit code"
 msgstr "Ожидать завершения команды и вернуть код выхода"
 
-#: ddterm/app/application.js:168
+#: ddterm/app/application.js:183
 msgid "Set the working directory"
 msgstr "Установить рабочий каталог"
 
-#: ddterm/app/application.js:177
+#: ddterm/app/application.js:192
 msgid "Set tab title"
 msgstr "Установить название вкладки"
 
-#: ddterm/app/application.js:186
+#: ddterm/app/application.js:201
 msgid "Keep the terminal open after the command has exited"
 msgstr "Не закрывать терминал после завершения команды"
 
-#: ddterm/app/application.js:195
+#: ddterm/app/application.js:210
 msgid "Do not pass the environment"
 msgstr "Не передавать переменные окружения"
 
-#: ddterm/app/application.js:204
+#: ddterm/app/application.js:219
 msgid "Open a new tab"
 msgstr "Открыть новую вкладку"
 
-#: ddterm/app/application.js:480
+#: ddterm/app/application.js:499
 msgid "Can't contact the extension."
 msgstr "Невозможно связаться с расширением."
 
-#: ddterm/app/application.js:482
+#: ddterm/app/application.js:501
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr "Убедитесь, что расширение ddterm GNOME Shell включено."
 
-#: ddterm/app/application.js:640
+#: ddterm/app/application.js:646
 msgid "Can't read the version of the loaded extension."
 msgstr "Невозможно получить версию загруженного расширения."
 
-#: ddterm/app/application.js:642 ddterm/shell/notifications.js:138
+#: ddterm/app/application.js:648 ddterm/shell/notifications.js:138
 msgid "Warning: ddterm version has changed"
 msgstr "Внимание: версия ddterm изменилась"
 
-#: ddterm/app/application.js:643 ddterm/shell/notifications.js:140
+#: ddterm/app/application.js:649 ddterm/shell/notifications.js:140
 msgid "Log out, then log in again to load the updated extension."
 msgstr "Завершите сессию и снова войдите для применения обновлений расширения."
 
