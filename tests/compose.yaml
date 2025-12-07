@@ -17,6 +17,9 @@ services:
   alpine-3.22:
     image: ghcr.io/ddterm/gnome-shell-image/alpine-3.22:2025.12.05.0
 
+  alpine-3.23:
+    image: ghcr.io/ddterm/gnome-shell-image/alpine-3.22:2025.12.05.0
+
   fedora-41:
     image: ghcr.io/ddterm/gnome-shell-image/fedora-41:2025.12.05.0
 
