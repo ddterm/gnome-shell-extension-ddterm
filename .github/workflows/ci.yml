@@ -15,7 +15,7 @@ on:
     outputs:
       version:
         description: Meson project version
-        value: ${{ jobs.extension-package.outputs.version }}
+        value: ${{ jobs.bundle.outputs.version }}
 
 defaults:
   run:
@@ -37,7 +37,7 @@ jobs:
     runs-on: ubuntu-slim
     timeout-minutes: 5
     needs:
-      - extension-package
+      - bundle
       - lint
 
     outputs:
@@ -56,7 +56,7 @@ jobs:
         env:
           YQ_FILTER: >-
             [
-              .jobs["extension-package", "test", "archlinux-package", "archlinux-package-check", "archlinux-installed-test"] |
+              .jobs["bundle", "test", "archlinux-package", "archlinux-package-check", "archlinux-installed-test"] |
               .steps.[].uses |
               select(.) |
               capture("^\\./\\.github/actions/(?<name>.*)$") |
@@ -69,7 +69,7 @@ jobs:
         continue-on-error: true
         with:
           files: |
-            ${{ needs.extension-package.outputs.build-inputs }}
+            ${{ needs.bundle.outputs.build-inputs }}
 
             # Files that influence build and test, even though they aren't included in the package
             .github/actions/{${{ join(fromJSON(steps.actions.outputs.names)) }}}/**
@@ -159,7 +159,7 @@ jobs:
         uses: ./.github/actions/actionlint
         if: ${{ !cancelled() && steps.checkout.outcome == 'success' }}
 
-  extension-package:
+  bundle:
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     container:
@@ -189,12 +189,12 @@ jobs:
           version="$(jq -r '.version' meson-info/intro-projectinfo.json)"
           echo "version=$version" | tee -a "$GITHUB_OUTPUT"
 
-      - name: Build extension package
+      - name: Build extension bundle
         id: pack
         run: ninja -j1 bundle
         working-directory: build
 
-      - name: Upload extension package as artifact
+      - name: Upload extension bundle as artifact
         uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
         with:
           name: ${{ github.job }}
@@ -222,7 +222,7 @@ jobs:
   update-translations:
     needs:
       - lint
-      - extension-package
+      - bundle
 
     runs-on: ubuntu-24.04
     timeout-minutes: 5
@@ -279,7 +279,7 @@ jobs:
   test:
     needs:
       - plan
-      - extension-package
+      - bundle
       - lint
 
     strategy:
@@ -298,10 +298,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
 
-      - name: Download extension package
+      - name: Download extension bundle
         uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
         with:
-          name: extension-package
+          name: bundle
 
       - name: Install dependencies
         uses: ./.github/actions/tox-preinstall
@@ -319,7 +319,7 @@ jobs:
   archlinux-package:
     needs:
       - plan
-      - extension-package
+      - bundle
       - lint
 
     runs-on: ubuntu-24.04
