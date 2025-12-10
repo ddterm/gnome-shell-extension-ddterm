@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import contextlib
+import functools
 import logging
 import os
 import shlex
@@ -150,6 +151,16 @@ class ContainerExecLauncher(Launcher):
         self.container_id = container_id
         self.user = user
 
+    @functools.cached_property
+    def supports_preserve_fd(self):
+        podman_version = subprocess.run(
+            ['podman', 'version', '-f', '{{.Client.Version}}'],
+            stdout=subprocess.PIPE,
+            check=True
+        ).stdout.decode('ascii').split('.')
+
+        return int(podman_version[0]) >= 5
+
     def tweak(self, args, kwargs):
         cwd = kwargs.get('cwd')
 
@@ -169,10 +180,27 @@ class ContainerExecLauncher(Launcher):
                 new_args.append(f'{k}={v}')
 
         if pass_fds := kwargs.get('pass_fds'):
-            new_args.append('--preserve-fd')
-            new_args.append(','.join(str(fd) for fd in pass_fds))
+            if self.supports_preserve_fd:
+                new_args.append('--preserve-fd')
+                new_args.append(','.join(str(fd) for fd in pass_fds))
+
+            else:
+                pass_fds = list(sorted(pass_fds, reverse=True))
+
+                fd_remap_script = ['exec "$0" "$@"']
+                fd_remap_script.extend(f'{a}<&{b}' for a, b in enumerate(pass_fds, 3))
+
+                new_args = ['bash', '-c', ' '.join(fd_remap_script)] + new_args
+                new_args.append(f'--preserve-fds={len(pass_fds)}')
 
         new_args.append(self.container_id)
+
+        if pass_fds and not self.supports_preserve_fd:
+            fd_remap_script = ['exec "$0" "$@"']
+            fd_remap_script.extend(f'{b}<&{a}' for a, b in enumerate(pass_fds, 3))
+
+            new_args += ['bash', '-c', ' '.join(fd_remap_script)]
+
         new_args.extend(args)
 
         return new_args, kwargs
