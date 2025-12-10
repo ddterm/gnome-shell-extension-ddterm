@@ -34,7 +34,7 @@ env:
 
 jobs:
   plan:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-slim
     timeout-minutes: 5
     needs:
       - extension-package
@@ -96,8 +96,11 @@ jobs:
         name: Determine test configurations
         working-directory: tests
         run: |
-          containers="$(docker compose config --services | grep -v archlinux | sort | jq -cnR '[inputs]')"
+          containers="$(yq -oj -I0 "$YQ_FILTER" compose.yaml)"
           echo "containers=$containers" | tee -a "$GITHUB_OUTPUT"
+        env:
+          YQ_FILTER: >-
+            [ .services | keys.[] | select(. != "archlinux") ]
 
   lint:
     runs-on: ubuntu-24.04
@@ -437,7 +440,7 @@ jobs:
       - archlinux-installed-test
 
     if: always() && fromJSON(needs.plan.outputs.need-tests) && !github.event.repository.fork
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-slim
     timeout-minutes: 10
 
     steps:
