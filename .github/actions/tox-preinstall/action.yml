@@ -16,9 +16,6 @@ runs:
     - id: tox-problem-matcher
       uses: ./.github/actions/generic-problem-matcher
 
-    - run: mkdir -p "$HOME/.cache/pip"
-      shell: bash
-
     - run: tox -v --notest -e "$TOX_ENVLIST"
       shell: bash
       env:

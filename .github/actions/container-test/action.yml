@@ -9,40 +9,19 @@ inputs:
   container:
     description: Container image or service name from tests/compose.yaml
     required: true
-  user:
-    description: User to run tests under
-    default: github-actions
-    required: true
-  group:
-    description: Group to run tests under
-    default: github-actions
-    required: true
   args:
     description: Arguments to pass to the tests
 
 runs:
   using: composite
   steps:
-    - run: mount --make-rshared /
-      shell: bash
-
-    - id: root-cgroup
-      run: grep '^0::' /proc/self/cgroup | sed 's/^0::/cgroup=/' | tee -a "$GITHUB_OUTPUT"
-      shell: bash
-
-    - run: chown -R "$TARGET_USER" "/sys/fs/cgroup${CGROUP}" "$GITHUB_WORKSPACE"
-      shell: bash
-      env:
-        TARGET_USER: ${{ inputs.user }}:${{ inputs.group }}
-        CGROUP: ${{ steps.root-cgroup.outputs.cgroup }}
-
-    - shell: sudo --preserve-env --set-home --user=${{ inputs.user }} --group=${{ inputs.group }} -- bash -e {0}
+    - shell: bash
       run: tox -e images -- pull "$CONTAINER"
       env:
         CONTAINER: ${{ inputs.container }}
 
     - id: test
-      shell: sudo --preserve-env --set-home --user=${{ inputs.user }} --group=${{ inputs.group }} -- bash -e {0}
+      shell: bash
       run: >-
         tox -e pytest --
         --self-contained-html

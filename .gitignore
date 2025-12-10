@@ -14,9 +14,6 @@
 .tox/
 __pycache__/
 
-# do-in-docker.sh/do-in-podman.sh
-/.container-home/
-
 # Vagrant
 /.vagrant/
 

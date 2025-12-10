@@ -106,15 +106,14 @@ jobs:
   lint:
     runs-on: ubuntu-24.04
     timeout-minutes: 5
-    container:
-      image: ghcr.io/ddterm/ci-docker-image:2025.12.05.0
 
     steps:
+      - run: sudo apt-get update
+      - run: sudo apt-get install -y --no-install-recommends tox
+
       - name: Checkout
         id: checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-
-      - run: git config --global --replace-all safe.directory "$GITHUB_WORKSPACE"
 
       - name: Install development dependencies from npm
         id: npm
@@ -167,18 +166,17 @@ jobs:
   bundle:
     runs-on: ubuntu-24.04
     timeout-minutes: 5
-    container:
-      image: ghcr.io/ddterm/ci-docker-image:2025.12.05.0
 
     outputs:
       build-inputs: ${{ steps.ninja-inputs.outputs.inputs }}
       version: ${{ steps.version.outputs.version }}
 
     steps:
+      - run: sudo apt-get update
+      - run: sudo apt-get install -y --no-install-recommends tox colorized-logs gjs gettext desktop-file-utils
+
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-
-      - run: git config --global --replace-all safe.directory "$GITHUB_WORKSPACE"
 
       - name: Install meson
         uses: ./.github/actions/setup-meson
@@ -231,14 +229,13 @@ jobs:
 
     runs-on: ubuntu-24.04
     timeout-minutes: 5
-    container:
-      image: ghcr.io/ddterm/ci-docker-image:2025.12.05.0
 
     steps:
+      - run: sudo apt-get update
+      - run: sudo apt-get install -y --no-install-recommends tox colorized-logs gettext libgtk-3-bin
+
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-
-      - run: git config --global --replace-all safe.directory "$GITHUB_WORKSPACE"
 
       - name: Install meson
         uses: ./.github/actions/setup-meson
@@ -295,11 +292,11 @@ jobs:
     if: fromJSON(needs.plan.outputs.need-tests)
     runs-on: ubuntu-24.04
     timeout-minutes: 15
-    container:
-      image: ghcr.io/ddterm/ci-docker-image:2025.12.05.0
-      options: --init --privileged --tmpfs /run -v /tmp:/tmp --cgroupns=host
 
     steps:
+      - run: sudo apt-get update
+      - run: sudo apt-get install -y --no-install-recommends tox python3-gi
+
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
@@ -372,11 +369,11 @@ jobs:
     if: fromJSON(needs.plan.outputs.need-tests)
     runs-on: ubuntu-24.04
     timeout-minutes: 15
-    container:
-      image: ghcr.io/ddterm/ci-docker-image:2025.12.05.0
-      options: --init --privileged --tmpfs /run -v /tmp:/tmp --cgroupns=host
 
     steps:
+      - run: sudo apt-get update
+      - run: sudo apt-get install -y --no-install-recommends tox python3-gi
+
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
