@@ -208,8 +208,8 @@ jobs:
         shell: pipetty bash -e {0}
         if: ${{ !cancelled() && steps.pack.outcome == 'success' }}
 
-      - name: Check REUSE compliance of generated package
-        run: tox -e reuse-pack -- build/*.shell-extension.zip
+      - name: Check REUSE compliance of generated bundle
+        run: tox -e reuse-bundle -- build/*.shell-extension.zip
         if: ${{ !cancelled() && steps.pack.outcome == 'success' }}
 
       - name: Generate a list of input files
