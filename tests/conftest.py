@@ -101,7 +101,7 @@ def pytest_addoption(parser):
         help='Use a fake system D-Bus bus (when running without containers).'
     )
 
-    package_from_env = os.getenv('DDTERM_BUILT_PACK')
+    package_from_env = os.getenv('EXTENSION_BUNDLE')
 
     parser.addoption(
         '--package',

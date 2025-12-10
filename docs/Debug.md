@@ -35,7 +35,7 @@ the host system and without restarting the host shell.
 
 The script tries to find a prebuilt extension bundle automatically:
 
-- First `DDTERM_BUILT_PACK` environment variable is checked. It will be set
+- First `EXTENSION_BUNDLE` environment variable is checked. It will be set
 automatically by `meson devenv`.
 
 - If the environment variable is not set, it searches for

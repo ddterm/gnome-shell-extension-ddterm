@@ -13,11 +13,11 @@ PROJECT_DIR = Pathname.new(__FILE__).realpath.dirname
 SYNCED_FOLDER = "/home/vagrant/#{PROJECT_DIR.basename}"
 UUID = 'ddterm@amezin.github.com'
 
-PACK_FILE = Pathname.getwd / ENV.fetch('DDTERM_BUILT_PACK') do |; packs|
-  packs = Pathname.getwd.glob('**/*.shell-extension.zip')
-  raise 'Found no extension package in the current directory or subdirectories, use meson devenv' if packs.empty?
-  raise "Found multiple extension packages: #{packs}, use meson devenv" if packs.length > 1
-  packs[0]
+EXTENSION_BUNDLE = Pathname.getwd / ENV.fetch('EXTENSION_BUNDLE') do |; bundles|
+  bundles = Pathname.getwd.glob('**/*.shell-extension.zip')
+  raise 'Found no extension bundle in the current directory or subdirectories, use meson devenv' if bundles.empty?
+  raise "Found multiple extension bundles: #{bundles}, use meson devenv" if bundles.length > 1
+  bundles[0]
 end
 
 stdout, status = Open3.capture2(
@@ -61,13 +61,13 @@ Vagrant.configure("2") do |config|
 
   config.vm.provision 'copy',
     type: 'file',
-    source: PACK_FILE,
-    destination: "$HOME/#{PACK_FILE.basename}",
+    source: EXTENSION_BUNDLE,
+    destination: "$HOME/#{EXTENSION_BUNDLE.basename}",
     before: 'install',
     run: 'always'
 
   config.vm.provision 'install', type: 'shell', privileged: false, run: 'always', inline: <<-SCRIPT
-    gnome-extensions install -f $HOME/#{PACK_FILE.basename}
+    gnome-extensions install -f $HOME/#{EXTENSION_BUNDLE.basename}
 
     if [ -z "$DBUS_SESSION_BUS_ADDRESS" ] && [ -z "$XDG_RUNTIME_DIR" ]; then
         dbus-run-session -- gnome-extensions enable #{UUID}

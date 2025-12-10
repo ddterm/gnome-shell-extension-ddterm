@@ -180,7 +180,7 @@ pack_target = custom_target(
 alias_target('pack', pack_target)
 summary('Built package location', pack_target.full_path())
 
-meson.add_devenv({'DDTERM_BUILT_PACK': pack_target.full_path()})
+meson.add_devenv({'EXTENSION_BUNDLE': pack_target.full_path()})
 
 run_target(
   'user-install',

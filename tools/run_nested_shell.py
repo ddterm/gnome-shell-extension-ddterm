@@ -218,7 +218,7 @@ def main():
 
     common_args = argparse.ArgumentParser(add_help=False)
 
-    default_pack = os.getenv('DDTERM_BUILT_PACK', None)
+    default_pack = os.getenv('EXTENSION_BUNDLE', None)
 
     if default_pack:
         default_pack = pathlib.Path(default_pack)
