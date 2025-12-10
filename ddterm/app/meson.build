@@ -30,12 +30,12 @@ foreach app_js_src_file : app_js_src_files
   )
 endforeach
 
-pack += app_js_out_files
+bundle += app_js_out_files
 
 app_data_src_files = files('style.css')
 
 foreach app_data_src_file : app_data_src_files
-  pack += fs.copyfile(
+  bundle += fs.copyfile(
     app_data_src_file,
     install: true,
     install_dir: extension_dir / 'ddterm' / 'app',

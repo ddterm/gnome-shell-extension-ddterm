@@ -41,7 +41,7 @@ pytest_common_args = [
   files('..' / 'pytest.ini'),
   '-p',
   'no:cacheprovider',
-  '--bundle=' + pack_target.full_path(),
+  '--bundle=' + bundle_target.full_path(),
   '--gjs=' + gjs.full_path(),
   '--gnome-extensions-tool=' + extensions_tool.full_path(),
   '--gnome-shell=' + gnome_shell.full_path(),

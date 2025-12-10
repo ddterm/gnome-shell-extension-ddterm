@@ -28,12 +28,12 @@ and run the same commands, as in a [normal build from source (step 3)],
 but prefixed with `./do-in-docker.sh` (to use a Docker container):
 
     ./do-in-docker.sh meson setup '-Dshebang_override=/usr/bin/env gjs' build-dir
-    ./do-in-docker.sh ninja -C build-dir pack
+    ./do-in-docker.sh ninja -C build-dir bundle
 
 or with `./do-in-podman.sh` (to use a Podman container):
 
     ./do-in-podman.sh meson setup '-Dshebang_override=/usr/bin/env gjs' build-dir
-    ./do-in-podman.sh ninja -C build-dir pack
+    ./do-in-podman.sh ninja -C build-dir bundle
 
 [normal build from source (step 3)]: /docs/Build.md#3-build-the-bundle
 

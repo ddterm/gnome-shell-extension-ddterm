@@ -36,4 +36,4 @@ foreach util_js_src_file : util_js_src_files
   )
 endforeach
 
-pack += util_js_out_files
+bundle += util_js_out_files

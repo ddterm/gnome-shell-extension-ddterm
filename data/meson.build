@@ -2,25 +2,25 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-pack += fs.copyfile(
+bundle += fs.copyfile(
   'com.github.amezin.ddterm.Extension.xml',
   install: true,
   install_dir: extension_dir / 'data',
 )
 
-pack += fs.copyfile(
+bundle += fs.copyfile(
   'com.github.amezin.ddterm.service.in',
   install: true,
   install_dir: extension_dir / 'data',
 )
 
-pack += fs.copyfile(
+bundle += fs.copyfile(
   'com.github.amezin.ddterm.svg',
   install: true,
   install_dir: extension_dir / 'data',
 )
 
-pack += fs.copyfile(
+bundle += fs.copyfile(
   'com.github.amezin.ddterm-symbolic.svg',
   install: true,
   install_dir: extension_dir / 'data',
@@ -43,7 +43,7 @@ configure_file(
 
 desktop_entry_untranslated = files('com.github.amezin.ddterm.desktop.in.in')
 
-pack += i18n.merge_file(
+bundle += i18n.merge_file(
   input: desktop_entry_untranslated,
   output: '@BASENAME@',
   po_dir: '..' / 'po',

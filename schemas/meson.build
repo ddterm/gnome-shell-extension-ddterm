@@ -25,7 +25,7 @@ test(
 
 schema_copy = fs.copyfile(schema, install: true, install_dir: schema_dir)
 
-pack += schema_copy
+bundle += schema_copy
 
 meson.add_install_script(
   glib_compile_schemas_tool,

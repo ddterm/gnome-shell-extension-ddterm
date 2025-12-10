@@ -33,7 +33,7 @@ alias_target('locales', gettext_targets[0])
 alias_target('pot', gettext_targets[1])
 alias_target('msgmerge', gettext_targets[2])
 
-pack += gettext_targets[0]
+bundle += gettext_targets[0]
 
 run_target(
   'pot-set-year',

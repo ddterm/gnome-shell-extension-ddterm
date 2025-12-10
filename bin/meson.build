@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-pack += configure_file(
+bundle += configure_file(
   input: 'launcher.js',
   output: 'com.github.amezin.ddterm',
   configuration: {

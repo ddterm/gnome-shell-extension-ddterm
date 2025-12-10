@@ -133,7 +133,7 @@ endif
 
 subdir('tools')
 
-pack = [
+bundle = [
   custom_target(
     command: fix_metadata_command,
     input: metadata_configured,
@@ -148,7 +148,7 @@ pack = [
 ]
 
 foreach f : ['extension.js', 'prefs.js', 'AUTHORS']
-  pack += fs.copyfile(f, install: true, install_dir: extension_dir)
+  bundle += fs.copyfile(f, install: true, install_dir: extension_dir)
 endforeach
 
 subdir('bin')
@@ -157,34 +157,35 @@ subdir('schemas')
 subdir('ddterm')
 subdir('locale')
 
-pack_from_srcdir = [
+bundle_from_srcdir = [
   'LICENSES' / 'GPL-3.0-or-later.txt',
   'LICENSES' / 'CC0-1.0.txt',
   'LICENSES' / 'MIT.txt',
   'REUSE.toml',
 ]
 
-pack_command = [make_zip_command]
+bundle_command = [make_zip_command]
 
-foreach extra_path : pack_from_srcdir
-  pack_command += ['--include', files(extra_path), extra_path]
+foreach extra_path : bundle_from_srcdir
+  bundle_command += ['--include', files(extra_path), extra_path]
 endforeach
 
-pack_target = custom_target(
-  command: pack_command,
-  input: pack,
+bundle_target = custom_target(
+  command: bundle_command,
+  input: bundle,
   output: f'@uuid@.shell-extension.zip',
   build_by_default: true,
 )
 
-alias_target('pack', pack_target)
-summary('Built package location', pack_target.full_path())
+alias_target('bundle', bundle_target)
+alias_target('pack', bundle_target)
+summary('Built bundle location', bundle_target.full_path())
 
-meson.add_devenv({'EXTENSION_BUNDLE': pack_target.full_path()})
+meson.add_devenv({'EXTENSION_BUNDLE': bundle_target.full_path()})
 
 run_target(
   'user-install',
-  command: [extensions_tool, 'install', '-f', pack_target],
+  command: [extensions_tool, 'install', '-f', bundle_target],
 )
 
 run_target('user-uninstall', command: [extensions_tool, 'uninstall', uuid])
@@ -202,12 +203,12 @@ endforeach
 
 run_target(
   'nested-wayland-shell',
-  command: [run_gnome_shell_wayland_nested_command, pack_target],
+  command: [run_gnome_shell_wayland_nested_command, bundle_target],
 )
 
 run_target(
   'xephyr-x11-shell',
-  command: [run_gnome_shell_xephyr_x11_command, pack_target],
+  command: [run_gnome_shell_xephyr_x11_command, bundle_target],
 )
 
 toxinidir = meson.current_source_dir()

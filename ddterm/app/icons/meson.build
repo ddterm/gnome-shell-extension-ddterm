@@ -9,7 +9,7 @@ icon_files = files(
 )
 
 foreach f : icon_files
-  pack += fs.copyfile(
+  bundle += fs.copyfile(
     f,
     install: true,
     install_dir: extension_dir / 'ddterm' / 'app' / 'icons',

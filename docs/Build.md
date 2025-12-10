@@ -46,7 +46,7 @@ To build the bundle, `cd` into the directory with the source code:
 and run the following commands:
 
     meson setup build-dir
-    ninja -C build-dir pack
+    ninja -C build-dir bundle
 
 After these steps, you should get the bundle file:
 `build-dir/ddterm@amezin.github.com.shell-extension.zip`.

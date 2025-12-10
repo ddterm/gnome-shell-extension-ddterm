@@ -191,7 +191,7 @@ jobs:
 
       - name: Build extension package
         id: pack
-        run: ninja -j1 pack
+        run: ninja -j1 bundle
         working-directory: build
 
       - name: Upload extension package as artifact

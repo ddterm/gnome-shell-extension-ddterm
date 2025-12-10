@@ -5,7 +5,7 @@
 app_ui_src_files = files('menus.ui')
 
 foreach app_ui_src_file : app_ui_src_files
-  pack += fs.copyfile(
+  bundle += fs.copyfile(
     app_ui_src_file,
     install: true,
     install_dir: extension_dir / 'ddterm' / 'app' / 'ui',

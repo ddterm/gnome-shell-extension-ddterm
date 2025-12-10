@@ -27,7 +27,7 @@ ddterm will be installed into the VM from the extension bundle. So if you
 haven't built the bundle yet, you'll need to do so:
 
     meson setup build-dir
-    ninja -C build-dir pack
+    ninja -C build-dir bundle
 
 Then:
 
@@ -61,7 +61,7 @@ session by default.
 If you've made some changes to ddterm sources, and want to test them, rebuild
 the bundle:
 
-    ninja -C build-dir pack
+    ninja -C build-dir bundle
 
 and reinstall it:
 
