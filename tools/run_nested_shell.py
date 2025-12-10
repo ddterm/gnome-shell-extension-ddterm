@@ -12,7 +12,7 @@ Launches GNOME Shell with separate
 `XDG_{CONFIG,CACHE,RUNTIME,STATE,DATA}_{HOME,DIR}` directories and a session
 bus, thus effectively creating an isolated environment for debug/testing.
 
-Extension package, specified by `--pack` argument, will be automatically
+Extension package, specified by `--bundle` argument, will be automatically
 installed into that environment, and enabled.
 
 For Wayland nested shell, virtual monitor resolution can be configured using
@@ -128,7 +128,7 @@ def run_xserver(executable, env, extra_args=tuple()):
 
 def run_shell(
     *,
-    pack,
+    bundle,
     gnome_shell,
     gnome_extensions,
     dbus_daemon,
@@ -146,7 +146,7 @@ def run_shell(
     if shell_extra_env:
         shell_env.update(shell_extra_env)
 
-    with zipfile.ZipFile(pack) as unpack:
+    with zipfile.ZipFile(bundle) as unpack:
         metadata = json.loads(unpack.read('metadata.json'))
 
     with run_dbus_daemon(dbus_daemon, client_env) as dbus_address:
@@ -154,7 +154,7 @@ def run_shell(
         shell_env['DBUS_SESSION_BUS_ADDRESS'] = dbus_address
 
         subprocess.run(
-            (gnome_extensions, 'install', str(pack)),
+            (gnome_extensions, 'install', str(bundle)),
             env=client_env,
             check=True,
         )
@@ -226,9 +226,9 @@ def main():
         default_pack = next(pathlib.Path.cwd().glob('**/*.shell-extension.zip'), None)
 
     common_args.add_argument(
-        '--pack',
+        '--bundle',
         type=pathlib.Path,
-        help='Extension package to install',
+        help='Extension bundle to install',
         default=default_pack,
         required=not default_pack,
     )

@@ -42,10 +42,10 @@ automatically by `meson devenv`.
 a `*.shell-extension.zip` file in the current working directory
 and its subdirectories.
 
-- You can select which extension bundle to install by passing `--pack`
+- You can select which extension bundle to install by passing `--bundle`
 argument:
 
-      tools/run_nested_shell.py wayland-nested --pack build-dir/ddterm@amezin.github.com.shell-extension.zip
+      tools/run_nested_shell.py wayland-nested --bundle build-dir/ddterm@amezin.github.com.shell-extension.zip
 
 > [!TIP]
 > If you [build ddterm from source], `nested-wayland-shell` build target
@@ -55,7 +55,7 @@ argument:
 >
 >     ninja -C build-dir nested-wayland-shell
 >
-> The correct `--pack` argument will be automatically set by the build system.
+> The correct `--bundle` argument will be automatically set by the build system.
 
 [build ddterm from source]: /docs/Build.md
 

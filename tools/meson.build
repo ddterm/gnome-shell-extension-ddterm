@@ -27,7 +27,7 @@ run_gnome_shell_script_common_args = [
   dbus_daemon,
   '--gnome-extensions',
   extensions_tool,
-  '--pack',
+  '--bundle',
 ]
 
 run_gnome_shell_wayland_nested_command = [
