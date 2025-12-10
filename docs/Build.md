@@ -26,7 +26,7 @@ GitHub UI provides multiple options for downloading the source code as a `.zip`
 
 [perform the build in a Docker or Podman container]: /docs/BuildInContainer.md
 
-To build the extension package, you should have the following tools installed:
+To build the extension bundle, you should have the following tools installed:
 
 - [Meson build system] - available as a package named `meson` in most
 distributions. It automatically pulls in a tool called [`ninja`]
@@ -37,9 +37,9 @@ distributions. It automatically pulls in a tool called [`ninja`]
 
 - `msgcmp`, `msgmerge`, `xgettext` (`gettext` package)
 
-## 3. Build the package
+## 3. Build the bundle
 
-To build the package, `cd` into the directory with the source code:
+To build the bundle, `cd` into the directory with the source code:
 
     cd gnome-shell-extension-ddterm
 
@@ -48,7 +48,7 @@ and run the following commands:
     meson setup build-dir
     ninja -C build-dir pack
 
-After these steps, you should get the package file:
+After these steps, you should get the bundle file:
 `build-dir/ddterm@amezin.github.com.shell-extension.zip`.
 
 > [!TIP]
@@ -63,10 +63,10 @@ After these steps, you should get the package file:
 > Instead of installing all of these dependencies, you could
 > [perform the build in a Docker or Podman container].
 
-## 4. Install the package
+## 4. Install the bundle
 
 > [!TIP]
-> Instead of installing the package on your system, you can test it
+> Instead of installing the bundle on your system, you can test it
 > in a [virtual machine], or in a [nested (windowed) GNOME Shell].
 
 [virtual machine]: /docs/Vagrant.md
@@ -74,13 +74,13 @@ After these steps, you should get the package file:
 
 The installation process is described in [Install.md - continue from step 2].
 
-[Install.md - continue from step 2]: /docs/Install.md#2-install-the-package
+[Install.md - continue from step 2]: /docs/Install.md#2-install-the-bundle
 
-Alternatively, you could use `meson`/`ninja` to install the package too.
+Alternatively, you could use `meson`/`ninja` to install the bundle too.
 
 ### 4.1.a) `user-install`
 
-The following command builds the package, if necessary, and installs it
+The following command builds the bundle, if necessary, and installs it
 inside user's `$HOME` directory (i.e. typical install location for extensions):
 
     ninja -C build-dir user-install
@@ -100,7 +100,7 @@ The extension can be uninstalled using the following command:
 
 [`PKGBUILD`]: /PKGBUILD
 
-You may run `meson install` under `sudo` to install the package system-wide
+You may run `meson install` under `sudo` to install the bundle system-wide
 (to `/usr/share/gnome-shell/extensions`):
 
     sudo meson install -C build-dir

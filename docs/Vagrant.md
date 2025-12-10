@@ -23,8 +23,8 @@ QEMU/libvirt VMs use SPICE for display. So you'll have to install
 
 ## Start a VM
 
-ddterm will be installed into the VM from the extension package. So if you
-haven't built the package yet, you'll need to do so:
+ddterm will be installed into the VM from the extension bundle. So if you
+haven't built the bundle yet, you'll need to do so:
 
     meson setup build-dir
     ninja -C build-dir pack
@@ -59,7 +59,7 @@ session by default.
 ## Reinstall ddterm
 
 If you've made some changes to ddterm sources, and want to test them, rebuild
-the package:
+the bundle:
 
     ninja -C build-dir pack
 

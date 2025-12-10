@@ -18,9 +18,9 @@ SPDX-License-Identifier: GPL-3.0-or-later
 GitHub UI provides multiple options for downloading the source code as a `.zip`
 (or, sometimes, `.tar.gz`) archive - for releases, and arbitrary commits.
 
-## 2. Build the package
+## 2. Build the bundle
 
-To build the package, `cd` into the directory with the source code:
+To build the bundle, `cd` into the directory with the source code:
 
     cd gnome-shell-extension-ddterm
 
@@ -35,7 +35,7 @@ or with `./do-in-podman.sh` (to use a Podman container):
     ./do-in-podman.sh meson setup '-Dshebang_override=/usr/bin/env gjs' build-dir
     ./do-in-podman.sh ninja -C build-dir pack
 
-[normal build from source (step 3)]: /docs/Build.md#3-build-the-package
+[normal build from source (step 3)]: /docs/Build.md#3-build-the-bundle
 
 > [!IMPORTANT]
 > When running `meson setup` or `meson configure` in the container, you have
@@ -51,13 +51,13 @@ or with `./do-in-podman.sh` (to use a Podman container):
 > If the option is not set, the build system will try to find the executable
 > at build time.
 
-After these steps, you should get the package file:
+After these steps, you should get the bundle file:
 `build-dir/ddterm@amezin.github.com.shell-extension.zip`.
 
-## 4. Install the package
+## 4. Install the bundle
 
 > [!TIP]
-> Instead of installing the package on your system, you can test it
+> Instead of installing the bundle on your system, you can test it
 > in a [virtual machine], or in a [nested (windowed) GNOME Shell].
 
 [virtual machine]: /docs/Vagrant.md
@@ -65,10 +65,10 @@ After these steps, you should get the package file:
 
 The installation process is described in [Install.md - continue from step 2].
 
-[Install.md - continue from step 2]: /docs/Install.md#2-install-the-package
+[Install.md - continue from step 2]: /docs/Install.md#2-install-the-bundle
 
 > [!IMPORTANT]
 > You should never run `meson install` or `ninja user-install`
-> after building the package under `./do-in-docker.sh` or `./do-in-podman.sh`.
+> after building the bundle under `./do-in-docker.sh` or `./do-in-podman.sh`.
 > If the build system was configured for the container,
 > `meson install` or `ninja user-install` may not work correctly on the host system.

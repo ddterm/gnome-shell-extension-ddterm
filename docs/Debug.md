@@ -19,7 +19,7 @@ without installing ddterm on your main system.
 
 A helper script [`tools/run_nested_shell.py`] launches GNOME Shell
 in a window ("nested" mode), in an isolated (temporary) environment.
-It also installs the extension package into that environment automatically.
+It also installs the extension bundle into that environment automatically.
 
     tools/run_nested_shell.py wayland-nested
 
@@ -33,7 +33,7 @@ the host system and without restarting the host shell.
 > shortcuts, so it may be necessary to configure non-default ddterm toggle
 > shortcut on the host.
 
-The script tries to find a prebuilt extension package automatically:
+The script tries to find a prebuilt extension bundle automatically:
 
 - First `DDTERM_BUILT_PACK` environment variable is checked. It will be set
 automatically by `meson devenv`.
@@ -42,14 +42,14 @@ automatically by `meson devenv`.
 a `*.shell-extension.zip` file in the current working directory
 and its subdirectories.
 
-- You can select which extension package to install by passing `--pack`
+- You can select which extension bundle to install by passing `--pack`
 argument:
 
       tools/run_nested_shell.py wayland-nested --pack build-dir/ddterm@amezin.github.com.shell-extension.zip
 
 > [!TIP]
 > If you [build ddterm from source], `nested-wayland-shell` build target
-> automatically runs [`tools/run_nested_shell.py`] after building the package.
+> automatically runs [`tools/run_nested_shell.py`] after building the bundle.
 > So if you modified ddterm source code, and now you want to test it,
 > you can simply run:
 >

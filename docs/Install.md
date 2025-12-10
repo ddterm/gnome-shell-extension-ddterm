@@ -36,29 +36,29 @@ To use the repository, append the following section to `/etc/pacman.conf`:
     SigLevel = Never
     Server = https://ddterm.github.io/aur
 
-## Install from GNOME Shell extension package
+## Install from GNOME Shell extension bundle
 
-You can also install the extension from a `.zip` package.
+You can also install the extension from a `.zip` bundle.
 
 > [!CAUTION]
-> If you download and install the package from GitHub, or build it from source,
+> If you download and install the bundle from GitHub, or build it from source,
 > the extension won't be updated automatically when a new version is released.
 > In particular, `metadata.json` won't contain the `version` key, so it will be
 > ignored by GNOME Shell's automatic extension updater.
 
-### 1. Obtain the package
+### 1. Obtain the bundle
 
-You can either download an already-built package, or build it from the source
+You can either download an already-built bundle, or build it from the source
 code yourself.
 
-#### 1.a) Prebuilt package
+#### 1.a) Prebuilt bundle
 
 You can download a released version from the [Releases] page.
 You need the file `ddterm@amezin.github.com.shell-extension.zip`.
 
 [Releases]: https://github.com/ddterm/gnome-shell-extension-ddterm/releases
 
-Also, the CI system builds a package for every commit. Latest package for the
+Also, the CI system builds a bundle for every commit. Latest bundle for the
 `master` branch is published here:
 
 <https://ddterm.github.io/gnome-shell-extension-ddterm/ddterm@amezin.github.com.shell-extension.zip>
@@ -69,15 +69,15 @@ See [Build.md] for build instructions.
 
 [Build.md]: /docs/Build.md
 
-### 2. Install the package
+### 2. Install the bundle
 
-After downloading or building the package, run the following command to install
+After downloading or building the bundle, run the following command to install
 it:
 
     gnome-extensions install -f /path/to/ddterm@amezin.github.com.shell-extension.zip
 
 > [!TIP]
-> Instead of installing the package on your system, you can test it in a
+> Instead of installing the bundle on your system, you can test it in a
 > [nested (windowed) GNOME Shell], or in a [virtual machine].
 
 [nested (windowed) GNOME Shell]: /docs/Debug.md

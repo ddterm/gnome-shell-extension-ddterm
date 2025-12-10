@@ -50,11 +50,11 @@ Or to do both at the same time:
 
     tox [--sitepackages] -e pytest -- [--package=path] <other-options...>
 
-Before running tests, you need to [build the extension package].
+Before running tests, you need to [build the extension bundle].
 
-[build the extension package]: /docs/Build.md
+[build the extension bundle]: /docs/Build.md
 
-You either have to specify the path to the built package:
+You either have to specify the path to the built bundle:
 
     --package=path/to/ddterm@amezin.github.com.shell-extension.zip
 
