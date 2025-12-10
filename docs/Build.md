@@ -35,9 +35,6 @@ distributions. It automatically pulls in a tool called [`ninja`]
 [Meson build system]: https://mesonbuild.com/
 [`ninja`]: https://ninja-build.org/
 
-- `gtk-builder-tool` (`libgtk-3-bin` package on Ubuntu, `gtk3-devel` on Fedora,
-`gtk3` package on Arch)
-
 - `msgcmp`, `msgmerge`, `xgettext` (`gettext` package)
 
 ## 3. Build the package
