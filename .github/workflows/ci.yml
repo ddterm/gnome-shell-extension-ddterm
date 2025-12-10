@@ -105,15 +105,11 @@ jobs:
   lint:
     runs-on: ubuntu-24.04
     timeout-minutes: 5
-    container:
-      image: ghcr.io/ddterm/ci-docker-image:2025.12.05.0
 
     steps:
       - name: Checkout
         id: checkout
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
-
-      - run: git config --global --replace-all safe.directory "$GITHUB_WORKSPACE"
 
       - name: Install development dependencies from npm
         id: npm
@@ -162,18 +158,17 @@ jobs:
   bundle:
     runs-on: ubuntu-24.04
     timeout-minutes: 5
-    container:
-      image: ghcr.io/ddterm/ci-docker-image:2025.12.05.0
 
     outputs:
       build-inputs: ${{ steps.ninja-inputs.outputs.inputs }}
       version: ${{ steps.version.outputs.version }}
 
     steps:
+      - run: sudo apt-get update
+      - run: sudo apt-get install -y --no-install-recommends tox colorized-logs gjs gettext desktop-file-utils
+
       - name: Checkout
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
-
-      - run: git config --global --replace-all safe.directory "$GITHUB_WORKSPACE"
 
       - name: Install meson
         uses: ./.github/actions/setup-meson
@@ -227,9 +222,12 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     container:
-      image: ghcr.io/ddterm/ci-docker-image:2025.12.05.0
+      image: ghcr.io/weblateorg/base:2025.50.0@sha256:865c2ec60668b75e690978ba67aa3b32477aa31b3a409245f7d0ee0a49825b5d
 
     steps:
+      - run: apt-get update
+      - run: apt-get install -y --no-install-recommends tox colorized-logs gettext libglib2.0-bin ninja-build
+
       - name: Checkout
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
 
@@ -240,7 +238,7 @@ jobs:
 
       - name: Prepare build directory
         id: setup
-        run: meson setup '-Dshebang_override=/usr/bin/env gjs' '-Dtests=disabled' build
+        run: meson setup '-Dshebang_override=/usr/bin/env gjs' '-Dtests=disabled' '-Dtypelib_installer=false' build
         shell: pipetty bash -e {0}
 
       - name: Update POTFILES.in
@@ -290,9 +288,6 @@ jobs:
     if: fromJSON(needs.plan.outputs.need-tests)
     runs-on: ubuntu-24.04
     timeout-minutes: 15
-    container:
-      image: ghcr.io/ddterm/ci-docker-image:2025.12.05.0
-      options: --init --privileged --tmpfs /run -v /tmp:/tmp --cgroupns=host
 
     steps:
       - name: Checkout
@@ -367,9 +362,6 @@ jobs:
     if: fromJSON(needs.plan.outputs.need-tests)
     runs-on: ubuntu-24.04
     timeout-minutes: 15
-    container:
-      image: ghcr.io/ddterm/ci-docker-image:2025.12.05.0
-      options: --init --privileged --tmpfs /run -v /tmp:/tmp --cgroupns=host
 
     steps:
       - name: Checkout
