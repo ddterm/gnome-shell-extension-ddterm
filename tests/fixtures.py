@@ -129,7 +129,7 @@ class GnomeSessionFixtures:
         process_launcher.run(
             str(request.config.option.gnome_extensions_tool),
             'install',
-            str(request.config.option.package),
+            str(request.config.option.bundle),
             env=env,
         )
 
@@ -144,7 +144,7 @@ class GnomeSessionFixtures:
 
     @pytest.fixture(scope='class')
     def environment(self, request, base_environment):
-        if request.config.option.package:
+        if request.config.option.bundle:
             return request.getfixturevalue('data_environment')
         else:
             return base_environment

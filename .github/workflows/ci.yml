@@ -314,7 +314,7 @@ jobs:
           container: ${{ matrix.container }}
           args: >-
             ${{ !contains(matrix.container, 'alpine') && '--journald' || '' }}
-            --package=ddterm@amezin.github.com.shell-extension.zip
+            --bundle=ddterm@amezin.github.com.shell-extension.zip
 
   archlinux-package:
     needs:

@@ -48,7 +48,7 @@ Or to do both at the same time:
 
 ### Run tests
 
-    tox [--sitepackages] -e pytest -- [--package=path] <other-options...>
+    tox [--sitepackages] -e pytest -- [--bundle=path] <other-options...>
 
 Before running tests, you need to [build the extension bundle].
 
@@ -56,18 +56,18 @@ Before running tests, you need to [build the extension bundle].
 
 You either have to specify the path to the built bundle:
 
-    --package=path/to/ddterm@amezin.github.com.shell-extension.zip
+    --bundle=path/to/ddterm@amezin.github.com.shell-extension.zip
 
 or run tox from `meson devenv -C build-dir` shell. If not using `meson devenv`
-or `--package=...`, run tests against currently installed extension
+or `--bundle=...`, run tests against currently installed extension
 (not possible with containers).
 
 The path must be relative to the root of the repository (`tox.ini` directory).
 
 Because of `pytest` CLI bugs,
-`--package path/to/ddterm@amezin.github.com.shell-extension.zip`
+`--bundle path/to/ddterm@amezin.github.com.shell-extension.zip`
 might not work, but
-`--package=path/to/ddterm@amezin.github.com.shell-extension.zip` will.
+`--bundle=path/to/ddterm@amezin.github.com.shell-extension.zip` will.
 
 Without `--sitepackages` you'll have to install PyGObject's build dependencies,
 and PyGObject will be automatically built from source.

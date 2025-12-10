@@ -101,16 +101,16 @@ def pytest_addoption(parser):
         help='Use a fake system D-Bus bus (when running without containers).'
     )
 
-    package_from_env = os.getenv('EXTENSION_BUNDLE')
+    bundle_from_env = os.getenv('EXTENSION_BUNDLE')
 
     parser.addoption(
-        '--package',
-        default=pathlib.Path(package_from_env) if package_from_env else None,
+        '--bundle',
+        default=pathlib.Path(bundle_from_env) if bundle_from_env else None,
         required=False,
         type=pathlib.Path,
-        help='ddterm extension package to test (ddterm@amezin.github.com.shell-extension.zip). '
+        help='ddterm extension bundle to test (ddterm@amezin.github.com.shell-extension.zip). '
              'Will test the currently installed extension if not specified. '
-             'Must be specified for containers.',
+             'Must always be specified for containers.',
     )
 
     parser.addoption(
@@ -118,7 +118,7 @@ def pytest_addoption(parser):
         default=None,
         required=False,
         type=pathlib.Path,
-        help='OS-specific package to install instead of --package',
+        help='OS-specific package to install instead of --bundle',
     )
 
     parser.addoption(
@@ -172,11 +172,11 @@ def pytest_addoption(parser):
 
 def pytest_configure(config):
     if images := config.option.container:
-        if not config.option.package and not config.option.sys_package:
-            raise pytest.UsageError('--package or --sys-package is required for container')
+        if not config.option.bundle and not config.option.sys_package:
+            raise pytest.UsageError('--bundle or --sys-package is required for container')
 
-        if config.option.package and config.option.sys_package:
-            raise pytest.UsageError('Only one of --package or --sys-package should be specified')
+        if config.option.bundle and config.option.sys_package:
+            raise pytest.UsageError('Only one of --bundle or --sys-package should be specified')
 
         with open(COMPOSE_FILE) as f:
             import yaml
@@ -283,9 +283,9 @@ def container(tmp_path_factory, request):
         f'--workdir={tmp_path_factory.mktemp('home')}',
     ]
 
-    if package := request.config.option.package:
-        package = pathlib.Path(package).resolve()
-        create_cmd.append(f'--volume={package}:{package}:ro')
+    if bundle := request.config.option.bundle:
+        bundle = pathlib.Path(bundle).resolve()
+        create_cmd.append(f'--volume={bundle}:{bundle}:ro')
 
     if sys_package := request.config.option.sys_package:
         sys_package = pathlib.Path(sys_package).resolve()
