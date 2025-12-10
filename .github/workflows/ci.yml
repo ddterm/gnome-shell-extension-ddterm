@@ -103,7 +103,7 @@ jobs:
             [ .services | keys.[] | select(. != "archlinux") ]
 
   lint:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-slim
     timeout-minutes: 5
 
     steps:
@@ -156,7 +156,7 @@ jobs:
         if: ${{ !cancelled() && steps.checkout.outcome == 'success' }}
 
   bundle:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-slim
     timeout-minutes: 5
 
     outputs:
@@ -165,7 +165,7 @@ jobs:
 
     steps:
       - run: sudo apt-get update
-      - run: sudo apt-get install -y --no-install-recommends tox colorized-logs gjs gettext desktop-file-utils
+      - run: sudo apt-get install -y --no-install-recommends tox colorized-logs gjs gettext desktop-file-utils ninja-build
 
       - name: Checkout
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
