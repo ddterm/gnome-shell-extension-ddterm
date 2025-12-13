@@ -43,7 +43,7 @@ runs:
         permission-pull-requests: write
 
     - id: commit
-      uses: amezin/create-commit-action@7a455aa043954f899eca6d2b1bc0d8c55efac1cd # v1.0.2
+      uses: amezin/create-commit-action@530464a339124d189e05c356430cb0a2f215f7fd # v2.0.0
       with:
         github-token: ${{ steps.token.outputs.token }}
         files: ${{ inputs.files }}
