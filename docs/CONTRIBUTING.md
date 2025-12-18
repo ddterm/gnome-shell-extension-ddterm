@@ -40,7 +40,7 @@ If you want to report a bug, please proceed to the [bug reporting form].
 
 [`SPDX-FileCopyrightText`]: https://reuse.software/faq/
 
-> [!TIP]
+> [!IMPORTANT]
 > If you want to be mentioned in application's "About" dialog,
 > you could also add yourself to the [`AUTHORS`] file.
 
@@ -69,6 +69,21 @@ TODO: add more
 [Debug.md]: /docs/Debug.md
 [Test.md]: /docs/Test.md
 [Vagrant.md]: /docs/Vagrant.md
+
+> [!IMPORTANT]
+> ddterm is published on [extensions.gnome.org], so its code must adhere to
+> [GNOME Shell Extensions Review Guidelines].
+
+[GNOME Shell Extensions Review Guidelines]: https://gjs.guide/extensions/review-guidelines/review-guidelines.html
+[extensions.gnome.org]: https://extensions.gnome.org/extension/3780/ddterm/
+
+> [!TIP]
+> The [Gtk application] part of ddterm should be considered a ["script"].
+> It does not have to follow all rules for extension code (for example, static
+> initialization is allowed, as there is no `.enable()` and `.disable()`).
+
+["script"]: https://gjs.guide/extensions/review-guidelines/review-guidelines.html#scripts-and-binaries
+[Gtk application]: /ddterm/app
 
 ## Translating
 
