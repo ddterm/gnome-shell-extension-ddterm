@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-07 15:24+0000\n"
+"POT-Creation-Date: 2025-12-19 01:24+0000\n"
 "PO-Revision-Date: 2023-10-24 22:14+0000\n"
 "Last-Translator: Pavel Novák <pavelnov32@gmail.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/cs/>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "X-Generator: Weblate 5.1.1-dev\n"
 
 #: data/com.github.amezin.ddterm.desktop.in.in:8 ddterm/app/appwindow.js:146
-#: ddterm/shell/notifications.js:273 ddterm/shell/panelicon.js:31
+#: ddterm/shell/notifications.js:238 ddterm/shell/panelicon.js:31
 msgid "ddterm"
 msgstr ""
 
@@ -102,23 +102,23 @@ msgstr ""
 msgid "Can't read the version of the loaded extension."
 msgstr ""
 
-#: ddterm/app/application.js:648 ddterm/shell/notifications.js:138
+#: ddterm/app/application.js:648 ddterm/shell/notifications.js:85
 msgid "Warning: ddterm version has changed"
 msgstr "Varování: Verze ddterm byla změněna"
 
-#: ddterm/app/application.js:649 ddterm/shell/notifications.js:140
+#: ddterm/app/application.js:649 ddterm/shell/notifications.js:87
 msgid "Log out, then log in again to load the updated extension."
 msgstr "Znovu se přihlašte pro načtení aktualizovaného rozšíření."
 
-#: ddterm/app/init.js:34 ddterm/shell/notifications.js:192
+#: ddterm/app/init.js:34 ddterm/shell/notifications.js:149
 msgid "ddterm needs additional packages to run"
 msgstr "ddterm potřebuje pro funkčnost další balíčky"
 
-#: ddterm/app/init.js:42 ddterm/shell/notifications.js:197
+#: ddterm/app/init.js:42 ddterm/shell/notifications.js:154
 msgid "Please install the following packages:"
 msgstr "Nainstalujte prosím tyto balíčky:"
 
-#: ddterm/app/init.js:49 ddterm/shell/notifications.js:205
+#: ddterm/app/init.js:49 ddterm/shell/notifications.js:162
 msgid "Please install packages that provide the following files:"
 msgstr "Nainstalujte balíčky které poskytují tyto soubory:"
 
@@ -159,7 +159,7 @@ msgid "Find Previous"
 msgstr "Najít předchozí"
 
 #: ddterm/app/tablabel.js:110 ddterm/app/ui/menus.ui:89
-#: ddterm/app/ui/menus.ui:226 ddterm/shell/notifications.js:56
+#: ddterm/app/ui/menus.ui:226 ddterm/shell/notifications.js:62
 msgid "Close"
 msgstr "Zavřít"
 
@@ -1190,16 +1190,16 @@ msgstr "Detekovat E-mailové adresy"
 msgid "Detect \"news:\", \"man:\" URLs"
 msgstr "Detekovat \"news:\", \"man:\" URL adresy"
 
-#: ddterm/shell/notifications.js:51 ddterm/shell/notifications.js:183
+#: ddterm/shell/notifications.js:57 ddterm/shell/notifications.js:135
 #, fuzzy
 msgid "Copy to Clipboard"
 msgstr "Vložit zkopírovaný text"
 
-#: ddterm/shell/notifications.js:179
+#: ddterm/shell/notifications.js:131
 msgid "Details…"
 msgstr ""
 
-#: ddterm/shell/notifications.js:229
+#: ddterm/shell/notifications.js:186
 msgid "Install"
 msgstr ""
 

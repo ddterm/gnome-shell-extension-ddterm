@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-07 15:24+0000\n"
+"POT-Creation-Date: 2025-12-19 01:24+0000\n"
 "PO-Revision-Date: 2025-09-06 08:02+0000\n"
 "Last-Translator: yuh <yuhldr@qq.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/zh_Hans/>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "X-Generator: Weblate 5.13.1-rc\n"
 
 #: data/com.github.amezin.ddterm.desktop.in.in:8 ddterm/app/appwindow.js:146
-#: ddterm/shell/notifications.js:273 ddterm/shell/panelicon.js:31
+#: ddterm/shell/notifications.js:238 ddterm/shell/panelicon.js:31
 msgid "ddterm"
 msgstr "ddterm"
 
@@ -101,23 +101,23 @@ msgstr "请确保ddterm在GNOME扩展中可用。"
 msgid "Can't read the version of the loaded extension."
 msgstr "无法读取已加载扩展插件的版本。"
 
-#: ddterm/app/application.js:648 ddterm/shell/notifications.js:138
+#: ddterm/app/application.js:648 ddterm/shell/notifications.js:85
 msgid "Warning: ddterm version has changed"
 msgstr "警告：ddterm版本已改变"
 
-#: ddterm/app/application.js:649 ddterm/shell/notifications.js:140
+#: ddterm/app/application.js:649 ddterm/shell/notifications.js:87
 msgid "Log out, then log in again to load the updated extension."
 msgstr "注销后重新登录，方可生效。"
 
-#: ddterm/app/init.js:34 ddterm/shell/notifications.js:192
+#: ddterm/app/init.js:34 ddterm/shell/notifications.js:149
 msgid "ddterm needs additional packages to run"
 msgstr "ddterm需要额外的软件包才能运行"
 
-#: ddterm/app/init.js:42 ddterm/shell/notifications.js:197
+#: ddterm/app/init.js:42 ddterm/shell/notifications.js:154
 msgid "Please install the following packages:"
 msgstr "请安装以下软件包："
 
-#: ddterm/app/init.js:49 ddterm/shell/notifications.js:205
+#: ddterm/app/init.js:49 ddterm/shell/notifications.js:162
 msgid "Please install packages that provide the following files:"
 msgstr "请安装提供以下文件的软件包："
 
@@ -158,7 +158,7 @@ msgid "Find Previous"
 msgstr "找到前一个"
 
 #: ddterm/app/tablabel.js:110 ddterm/app/ui/menus.ui:89
-#: ddterm/app/ui/menus.ui:226 ddterm/shell/notifications.js:56
+#: ddterm/app/ui/menus.ui:226 ddterm/shell/notifications.js:62
 msgid "Close"
 msgstr "关闭"
 
@@ -1185,15 +1185,15 @@ msgstr "检测邮件地址"
 msgid "Detect \"news:\", \"man:\" URLs"
 msgstr "检测 \"news:\"、\"man:\" URLs"
 
-#: ddterm/shell/notifications.js:51 ddterm/shell/notifications.js:183
+#: ddterm/shell/notifications.js:57 ddterm/shell/notifications.js:135
 msgid "Copy to Clipboard"
 msgstr "复制到剪贴板"
 
-#: ddterm/shell/notifications.js:179
+#: ddterm/shell/notifications.js:131
 msgid "Details…"
 msgstr "细节……"
 
-#: ddterm/shell/notifications.js:229
+#: ddterm/shell/notifications.js:186
 msgid "Install"
 msgstr "安装"
 
