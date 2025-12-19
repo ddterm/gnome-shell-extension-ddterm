@@ -15,13 +15,19 @@ import * as ModalDialog from 'resource:///org/gnome/shell/ui/modalDialog.js';
 
 import { findTerminalInstallCommand } from '../util/gjs-typelib-installer.js';
 
-const DetailsDialog = GObject.registerClass({
-    Signals: {
+class DetailsDialog extends ModalDialog.ModalDialog {
+    static [GObject.GTypeName] = 'DDTermNotificationDetailsDialog';
+
+    static [GObject.signals] = {
         'copy-to-clipboard': {},
-    },
-}, class DDTermNotificationDetailsDialog extends ModalDialog.ModalDialog {
-    _init(markup, gettext_domain) {
-        super._init();
+    };
+
+    static {
+        GObject.registerClass(this);
+    }
+
+    constructor(markup, gettext_domain) {
+        super();
 
         const label = new St.Label();
         const viewport = new St.BoxLayout({ vertical: true });
@@ -66,85 +72,31 @@ const DetailsDialog = GObject.registerClass({
 
         return Clutter.EVENT_PROPAGATE;
     }
-});
+}
 
-/*
- * Unfortunately, rebuilding old Notification interface on top of the new interface
- * is easier than building the new one on top of the old one. So will have to use
- * old API for now.
- */
-const Notification = MessageTray.Notification.length === 1 ? GObject.registerClass({
-}, class DDTermNotification extends MessageTray.Notification {
-    constructor(source, title, banner, params) {
-        super({ source, title, body: banner, ...params });
+class VersionMismatchNotification extends MessageTray.Notification {
+    static [GObject.GTypeName] = 'DDTermVersionMismatchNotification';
+
+    static {
+        GObject.registerClass(this);
     }
 
-    setUrgency(urgency) {
-        super.urgency = urgency;
-    }
-
-    setForFeedback(value) {
-        super.for_feedback = value;
-    }
-}) : MessageTray.Notification;
-
-const NotificationSource = MessageTray.Source.length !== 1 ? GObject.registerClass({
-    'icon': GObject.ParamSpec.object(
-        'icon',
-        null,
-        null,
-        GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
-        Gio.Icon
-    ),
-    'icon-name': GObject.ParamSpec.string(
-        'icon-name',
-        null,
-        null,
-        GObject.ParamFlags.READWRITE,
-        ''
-    ),
-}, class DDTermNotificationSource extends MessageTray.Source {
-    _init({ title, ...params }) {
-        super._init(title, null);
-
-        Object.assign(this, params);
-
-        this.connect('notify::icon', this.iconUpdated.bind(this));
-    }
-
-    getIcon() {
-        return this.icon;
-    }
-
-    addNotification(notification) {
-        this.showNotification(notification);
-    }
-
-    get iconName() {
-        if (this.icon instanceof Gio.ThemedIcon)
-            return this.icon.icon_name;
-        else
-            return null;
-    }
-
-    set iconName(value) {
-        this.icon = value ? new Gio.ThemedIcon({ name: value }) : null;
-    }
-}) : MessageTray.Source;
-
-const VersionMismatchNotification = GObject.registerClass({
-}, class DDTermVersionMismatchNotification extends Notification {
     static create(source, gettext_domain) {
         const title = gettext_domain.gettext('Warning: ddterm version has changed');
-        const help =
+        const body =
             gettext_domain.gettext('Log out, then log in again to load the updated extension.');
 
-        return new VersionMismatchNotification(source, title, help);
+        return new VersionMismatchNotification({ source, title, body });
     }
-});
+}
 
-const ErrorNotification = GObject.registerClass({
-}, class DDTermErrorNotification extends Notification {
+class ErrorNotification extends MessageTray.Notification {
+    static [GObject.GTypeName] = 'DDTermErrorNotification';
+
+    static {
+        GObject.registerClass(this);
+    }
+
     static create(source, message, details, gettext_domain) {
         if (message instanceof Error || message instanceof GLib.Error)
             message = message.message;
@@ -155,7 +107,7 @@ const ErrorNotification = GObject.registerClass({
         message = `${message}`;
         details = `${details ?? ''}`;
 
-        const notification = new ErrorNotification(source, message, details);
+        const notification = new ErrorNotification({ source, title: message, body: details });
         const has_details = details.trim() !== '';
         const plaintext = has_details ? [message, '', details].join('\n') : message;
         const copy_to_clipboard = () => {
@@ -184,10 +136,15 @@ const ErrorNotification = GObject.registerClass({
 
         return notification;
     }
-});
+}
 
-const MissingDependenciesNotification = GObject.registerClass({
-}, class DDTermMissingDependenciesNotification extends Notification {
+class MissingDependenciesNotification extends MessageTray.Notification {
+    static [GObject.GTypeName] = 'DDTermMissingDependenciesNotification';
+
+    static {
+        GObject.registerClass(this);
+    }
+
     static create(source, packages, files, gettext_domain) {
         const title = gettext_domain.gettext('ddterm needs additional packages to run');
         const lines = [];
@@ -209,7 +166,7 @@ const MissingDependenciesNotification = GObject.registerClass({
         }
 
         const notification =
-            new MissingDependenciesNotification(source, title, lines.join('\n'));
+            new MissingDependenciesNotification({ source, title, body: lines.join('\n') });
 
         if (packages.length === 0)
             return notification;
@@ -237,10 +194,12 @@ const MissingDependenciesNotification = GObject.registerClass({
 
         return notification;
     }
-});
+}
 
-export const Notifications = GObject.registerClass({
-    Properties: {
+export class Notifications extends GObject.Object {
+    static [GObject.GTypeName] = 'DDTermNotifications';
+
+    static [GObject.properties] = {
         'icon': GObject.ParamSpec.object(
             'icon',
             null,
@@ -254,32 +213,38 @@ export const Notifications = GObject.registerClass({
             null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY
         ),
-    },
-}, class DDTermNotifications extends GObject.Object {
-    _init(params) {
-        super._init(params);
+    };
+
+    static {
+        GObject.registerClass(this);
+    }
+
+    #source;
+
+    constructor(params) {
+        super(params);
 
         if (!this.gettext_domain)
             throw new Error(`gettext-domain is ${this.gettext_domain}`);
 
-        this._source = null;
+        this.#source = null;
     }
 
     create_source() {
-        if (this._source)
-            return this._source;
+        if (this.#source)
+            return this.#source;
 
-        this._source = new NotificationSource({
+        this.#source = new MessageTray.Source({
             title: this.gettext_domain.gettext('ddterm'),
             icon: this.icon,
         });
 
-        this._source.connect('destroy', () => {
-            this._source = null;
+        this.#source.connect('destroy', () => {
+            this.#source = null;
         });
 
-        Main.messageTray.add(this._source);
-        return this._source;
+        Main.messageTray.add(this.#source);
+        return this.#source;
     }
 
     show_version_mismatch() {
@@ -303,10 +268,10 @@ export const Notifications = GObject.registerClass({
         );
 
         source.notifications.filter(n => n instanceof VersionMismatchNotification).forEach(n => {
-            n.setUrgency(MessageTray.Urgency.CRITICAL);
+            n.urgency = MessageTray.Urgency.CRITICAL;
         });
 
-        notification.setUrgency(MessageTray.Urgency.CRITICAL);
+        notification.urgency = MessageTray.Urgency.CRITICAL;
         source.addNotification(notification);
     }
 
@@ -319,12 +284,12 @@ export const Notifications = GObject.registerClass({
             this.gettext_domain
         );
 
-        notification.setUrgency(MessageTray.Urgency.CRITICAL);
-        notification.setForFeedback(true);
+        notification.urgency = MessageTray.Urgency.CRITICAL;
+        notification.for_feedback = true;
         source.addNotification(notification);
     }
 
     destroy(reason = MessageTray.NotificationDestroyedReason.SOURCE_CLOSED) {
-        this._source?.destroy(reason);
+        this.#source?.destroy(reason);
     }
-});
+}
