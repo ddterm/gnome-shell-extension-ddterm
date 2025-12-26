@@ -20,12 +20,6 @@ GitHub UI provides multiple options for downloading the source code as a `.zip`
 
 ## 2. Install the necessary dependencies
 
-> [!TIP]
-> Instead of installing all of these dependencies, you could
-> [perform the build in a Docker or Podman container].
-
-[perform the build in a Docker or Podman container]: /docs/BuildInContainer.md
-
 To build the extension bundle, you should have the following tools installed:
 
 - [Meson build system] - available as a package named `meson` in most
@@ -58,10 +52,6 @@ After these steps, you should get the bundle file:
 > [!TIP]
 > If the process fails, please double-check that you have all the dependencies
 > (2.a) installed.
-
-> [!TIP]
-> Instead of installing all of these dependencies, you could
-> [perform the build in a Docker or Podman container].
 
 ## 4. Install the bundle
 
