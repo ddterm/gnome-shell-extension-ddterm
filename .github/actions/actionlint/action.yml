@@ -8,7 +8,7 @@ description: Run actionlint with error annotations
 inputs:
   actionlint-version:
     # renovate: datasource=github-releases depName=rhysd/actionlint
-    default: '1.7.9'
+    default: '1.7.10'
     description: actionlint version
 
 runs:
