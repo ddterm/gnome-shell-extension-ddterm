@@ -67,15 +67,14 @@ function create_extension_dbus_proxy(connection) {
         Gio.DBusProxyFlags.GET_INVALIDATED_PROPERTIES |
         Gio.DBusProxyFlags.DO_NOT_CONNECT_SIGNALS;
 
-    return Gio.DBusProxy.new_sync(
-        connection,
-        flags,
-        info,
-        'org.gnome.Shell',
-        '/org/gnome/Shell/Extensions/ddterm',
-        info.name,
-        null
-    );
+    return new Gio.DBusProxy({
+        g_connection: connection,
+        g_flags: flags,
+        g_interface_info: info,
+        g_interface_name: info.name,
+        g_object_path: '/org/gnome/Shell/Extensions/ddterm',
+        g_name: 'org.gnome.Shell',
+    });
 }
 
 export const Application = GObject.registerClass({
@@ -232,7 +231,7 @@ class Application extends Gtk.Application {
         });
 
         this.connect('activate', () => {
-            this.ensure_window_with_terminal().present();
+            this.ensure_window_with_terminal().then(win => win.present());
         });
 
         this.connect('handle-local-options', (_, options) => {
@@ -245,188 +244,186 @@ class Application extends Gtk.Application {
         });
 
         this.connect('command-line', (_, command_line) => {
-            try {
-                this.command_line(command_line);
-                return command_line.get_exit_status();
-            } catch (ex) {
+            this.command_line(command_line).catch(ex => {
                 logError(ex);
                 command_line.done();
-                return 1;
-            }
+            });
+
+            return command_line.get_exit_status();
         });
 
-        this.connect('open', (_, files) => {
+        this.connect('open', async (_, files) => {
             for (const file of files)
-                this.open_file(file);
+                await this.open_file(file); // eslint-disable-line no-await-in-loop
 
             this.activate();
         });
-
-        this.connect('startup', () => {
-            try {
-                this.startup();
-            } catch (ex) {
-                logError(ex);
-                System.exit(1);
-            }
-        });
     }
 
-    startup() {
-        this.settings = get_settings();
+    vfunc_startup() {
+        try {
+            const dbus_connection = this.get_dbus_connection();
 
-        this.simple_action('quit', () => this.quit());
-        this.simple_action('preferences', () => this.preferences());
-        this.simple_action('about', () => this.about());
+            this.extension_dbus = create_extension_dbus_proxy(dbus_connection);
+            this._extension_dbus_init = this.extension_dbus.init_async(GLib.PRIORITY_DEFAULT, null);
 
-        [
-            'window-above',
-            'window-stick',
-            'window-maximize',
-            'hide-when-focus-lost',
-            'hide-window-on-esc',
-            'shortcuts-enabled',
-            'scroll-on-output',
-            'scroll-on-keystroke',
-            'preserve-working-directory',
-            'transparent-background',
-        ].forEach(key => {
-            this.add_action(this.settings.create_action(key));
-        });
+            this.display_config = DisplayConfig.new(dbus_connection);
+            this.connect('shutdown', () => this.display_config.unwatch());
+            this._display_config_init = this.display_config.init_async();
 
-        Handy.init();
-        this.style_manager = Handy.StyleManager.get_default();
+            super.vfunc_startup();
 
-        this.settings.connect(
-            'changed::theme-variant',
-            this.update_color_scheme.bind(this)
-        );
+            this.settings = get_settings();
 
-        this.update_color_scheme();
+            this.simple_action('quit', () => this.quit());
+            this.simple_action('preferences', () => this.preferences());
+            this.simple_action('about', () => this.about());
 
-        const css_provider = Gtk.CssProvider.new();
+            [
+                'window-above',
+                'window-stick',
+                'window-maximize',
+                'hide-when-focus-lost',
+                'hide-window-on-esc',
+                'shortcuts-enabled',
+                'scroll-on-output',
+                'scroll-on-keystroke',
+                'preserve-working-directory',
+                'transparent-background',
+            ].forEach(key => {
+                this.add_action(this.settings.create_action(key));
+            });
 
-        css_provider.load_from_file(Gio.File.new_for_uri(
-            GLib.Uri.resolve_relative(import.meta.url, 'style.css', GLib.UriFlags.NONE)
-        ));
+            Handy.init();
+            this.style_manager = Handy.StyleManager.get_default();
 
-        Gtk.StyleContext.add_provider_for_screen(
-            Gdk.Screen.get_default(),
-            css_provider,
-            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
-        );
+            this.settings.connect(
+                'changed::theme-variant',
+                this.update_color_scheme.bind(this)
+            );
 
-        this.terminal_settings = new TerminalSettings();
+            this.update_color_scheme();
 
-        const desktop_settings = new Gio.Settings({
-            schema_id: 'org.gnome.desktop.interface',
-        });
+            const css_provider = Gtk.CssProvider.new();
 
-        new TerminalSettingsParser({
-            gsettings: this.settings,
-            desktop_settings,
-        }).bind_settings(this.terminal_settings);
+            css_provider.load_from_file(Gio.File.new_for_uri(
+                GLib.Uri.resolve_relative(import.meta.url, 'style.css', GLib.UriFlags.NONE)
+            ));
 
-        this.extension_dbus = create_extension_dbus_proxy(this.get_dbus_connection());
+            Gtk.StyleContext.add_provider_for_screen(
+                Gdk.Screen.get_default(),
+                css_provider,
+                Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+            );
 
-        this.display_config = new DisplayConfig({
-            dbus_connection: this.get_dbus_connection(),
-        });
+            this.terminal_settings = new TerminalSettings();
 
-        this.connect('shutdown', () => this.display_config.unwatch());
-        this.display_config.update_sync();
+            const desktop_settings = new Gio.Settings({
+                schema_id: 'org.gnome.desktop.interface',
+            });
 
-        this.simple_action('toggle', () => this.ensure_window_with_terminal().toggle());
-        this.simple_action('show', () => {
-            this.ensure_window_with_terminal().present();
-        });
-        this.simple_action('hide', () => this.window?.hide());
+            new TerminalSettingsParser({
+                gsettings: this.settings,
+                desktop_settings,
+            }).bind_settings(this.terminal_settings);
 
-        const shortcut_actions = {
-            'shortcut-window-hide': 'win.hide',
-            'shortcut-window-size-inc': 'win.window-size-inc',
-            'shortcut-window-size-dec': 'win.window-size-dec',
-            'shortcut-background-opacity-inc': 'win.background-opacity-inc',
-            'shortcut-background-opacity-dec': 'win.background-opacity-dec',
-            'shortcut-toggle-maximize': 'app.window-maximize',
-            'shortcut-toggle-transparent-background': 'app.transparent-background',
-            'shortcut-terminal-copy': 'terminal.copy',
-            'shortcut-terminal-copy-html': 'terminal.copy-html',
-            'shortcut-terminal-paste': 'terminal.paste',
-            'shortcut-terminal-select-all': 'terminal.select-all',
-            'shortcut-terminal-reset': 'terminal.reset',
-            'shortcut-terminal-reset-and-clear': 'terminal.reset-and-clear',
-            'shortcut-win-new-tab': 'notebook.new-tab',
-            'shortcut-win-new-tab-front': 'notebook.new-tab-front',
-            'shortcut-win-new-tab-before-current': 'notebook.new-tab-before-current',
-            'shortcut-win-new-tab-after-current': 'notebook.new-tab-after-current',
-            'shortcut-page-close': 'page.close',
-            'shortcut-prev-tab': 'notebook.prev-tab',
-            'shortcut-next-tab': 'notebook.next-tab',
-            'shortcut-move-tab-prev': 'page.move-prev',
-            'shortcut-move-tab-next': 'page.move-next',
-            'shortcut-split-horizontal': 'page.split-layout("horizontal-split")',
-            'shortcut-split-vertical': 'page.split-layout("vertical-split")',
-            'shortcut-move-tab-to-other-pane': 'page.move-to-other-pane',
-            'shortcut-split-position-inc': 'win.split-position-inc',
-            'shortcut-split-position-dec': 'win.split-position-dec',
-            'shortcut-set-custom-tab-title': 'page.use-custom-title(true)',
-            'shortcut-reset-tab-title': 'page.use-custom-title(false)',
-            'shortcut-find': 'terminal.find',
-            'shortcut-find-next': 'terminal.find-next',
-            'shortcut-find-prev': 'terminal.find-prev',
-            'shortcut-font-scale-increase': 'terminal.font-scale-increase',
-            'shortcut-font-scale-decrease': 'terminal.font-scale-decrease',
-            'shortcut-font-scale-reset': 'terminal.font-scale-reset',
-            'shortcut-focus-other-pane': 'win.focus-other-pane',
-        };
+            this.simple_action('toggle', () => {
+                this.ensure_window_with_terminal().then(win => win.toggle());
+            });
+            this.simple_action('show', () => {
+                this.ensure_window_with_terminal().then(win => win.present());
+            });
+            this.simple_action('hide', () => this.window?.hide());
 
-        for (let i = 0; i < 10; i += 1) {
-            shortcut_actions[`shortcut-switch-to-tab-${i + 1}`] =
-                `notebook.switch-to-tab(${i})`;
-        }
+            const shortcut_actions = {
+                'shortcut-window-hide': 'win.hide',
+                'shortcut-window-size-inc': 'win.window-size-inc',
+                'shortcut-window-size-dec': 'win.window-size-dec',
+                'shortcut-background-opacity-inc': 'win.background-opacity-inc',
+                'shortcut-background-opacity-dec': 'win.background-opacity-dec',
+                'shortcut-toggle-maximize': 'app.window-maximize',
+                'shortcut-toggle-transparent-background': 'app.transparent-background',
+                'shortcut-terminal-copy': 'terminal.copy',
+                'shortcut-terminal-copy-html': 'terminal.copy-html',
+                'shortcut-terminal-paste': 'terminal.paste',
+                'shortcut-terminal-select-all': 'terminal.select-all',
+                'shortcut-terminal-reset': 'terminal.reset',
+                'shortcut-terminal-reset-and-clear': 'terminal.reset-and-clear',
+                'shortcut-win-new-tab': 'notebook.new-tab',
+                'shortcut-win-new-tab-front': 'notebook.new-tab-front',
+                'shortcut-win-new-tab-before-current': 'notebook.new-tab-before-current',
+                'shortcut-win-new-tab-after-current': 'notebook.new-tab-after-current',
+                'shortcut-page-close': 'page.close',
+                'shortcut-prev-tab': 'notebook.prev-tab',
+                'shortcut-next-tab': 'notebook.next-tab',
+                'shortcut-move-tab-prev': 'page.move-prev',
+                'shortcut-move-tab-next': 'page.move-next',
+                'shortcut-split-horizontal': 'page.split-layout("horizontal-split")',
+                'shortcut-split-vertical': 'page.split-layout("vertical-split")',
+                'shortcut-move-tab-to-other-pane': 'page.move-to-other-pane',
+                'shortcut-split-position-inc': 'win.split-position-inc',
+                'shortcut-split-position-dec': 'win.split-position-dec',
+                'shortcut-set-custom-tab-title': 'page.use-custom-title(true)',
+                'shortcut-reset-tab-title': 'page.use-custom-title(false)',
+                'shortcut-find': 'terminal.find',
+                'shortcut-find-next': 'terminal.find-next',
+                'shortcut-find-prev': 'terminal.find-prev',
+                'shortcut-font-scale-increase': 'terminal.font-scale-increase',
+                'shortcut-font-scale-decrease': 'terminal.font-scale-decrease',
+                'shortcut-font-scale-reset': 'terminal.font-scale-reset',
+                'shortcut-focus-other-pane': 'win.focus-other-pane',
+            };
 
-        Object.entries(shortcut_actions).forEach(([key, action]) => {
-            this.bind_shortcut(action, key);
-        });
-
-        const icon_theme = Gtk.IconTheme.get_default();
-        const icon_search_path = icon_theme.get_search_path();
-
-        for (const url of ['icons', '../../data']) {
-            const abs_url = GLib.Uri.resolve_relative(import.meta.url, url, GLib.UriFlags.NONE);
-            const [path] = GLib.filename_from_uri(abs_url);
-
-            icon_search_path.unshift(path);
-        }
-
-        icon_theme.set_search_path(icon_search_path);
-
-        this.session_file_path = GLib.build_filenamev([
-            GLib.get_user_cache_dir(),
-            this.application_id,
-            'session',
-        ]);
-
-        this.restore_session();
-        this.connect('shutdown', () => {
-            if (this._save_session_handler) {
-                this.window.disconnect(this._save_session_handler);
-                this._save_session_handler = null;
+            for (let i = 0; i < 10; i += 1) {
+                shortcut_actions[`shortcut-switch-to-tab-${i + 1}`] =
+                    `notebook.switch-to-tab(${i})`;
             }
 
-            if (this._save_session_source) {
-                GLib.Source.remove(this._save_session_source);
-                this._save_session_source = null;
+            Object.entries(shortcut_actions).forEach(([key, action]) => {
+                this.bind_shortcut(action, key);
+            });
+
+            const icon_theme = Gtk.IconTheme.get_default();
+            const icon_search_path = icon_theme.get_search_path();
+
+            for (const url of ['icons', '../../data']) {
+                const abs_url = GLib.Uri.resolve_relative(import.meta.url, url, GLib.UriFlags.NONE);
+                const [path] = GLib.filename_from_uri(abs_url);
+
+                icon_search_path.unshift(path);
             }
 
-            this.save_session();
-        });
+            icon_theme.set_search_path(icon_search_path);
 
-        // gdm sends SIGHUP to gnome-session's process group to terminate it
-        signal_add(GLib.PRIORITY_HIGH, SIGHUP, () => this.quit());
-        signal_add(GLib.PRIORITY_HIGH, SIGINT, () => this.quit());
-        signal_add(GLib.PRIORITY_HIGH, SIGTERM, () => this.quit());
+            this.session_file_path = GLib.build_filenamev([
+                GLib.get_user_cache_dir(),
+                this.application_id,
+                'session',
+            ]);
+
+            this.restore_session();
+            this.connect('shutdown', () => {
+                if (this._save_session_handler) {
+                    this.window.disconnect(this._save_session_handler);
+                    this._save_session_handler = null;
+                }
+
+                if (this._save_session_source) {
+                    GLib.Source.remove(this._save_session_source);
+                    this._save_session_source = null;
+                }
+
+                this.save_session();
+            });
+
+            // gdm sends SIGHUP to gnome-session's process group to terminate it
+            signal_add(GLib.PRIORITY_HIGH, SIGHUP, () => this.quit());
+            signal_add(GLib.PRIORITY_HIGH, SIGINT, () => this.quit());
+            signal_add(GLib.PRIORITY_HIGH, SIGTERM, () => this.quit());
+        } catch (ex) {
+            logError(ex);
+            System.exit(1);
+        }
     }
 
     _trace_signal(signal, return_value = undefined) {
@@ -510,7 +507,7 @@ class Application extends Gtk.Application {
         return options.lookup('activate-only') ? 0 : -1;
     }
 
-    command_line(command_line) {
+    async command_line(command_line) {
         const options = command_line.get_options_dict();
         const argv = options.lookup(GLib.OPTION_REMAINING, 'as', true);
 
@@ -540,7 +537,7 @@ class Application extends Gtk.Application {
             properties.use_custom_title = true;
         }
 
-        const notebook = this.ensure_window().active_notebook;
+        const notebook = (await this.ensure_window()).active_notebook;
         properties.command = argv?.length
             ? new TerminalCommand({ argv, envv, working_directory })
             : notebook.get_command_from_settings(working_directory, envv);
@@ -578,16 +575,16 @@ class Application extends Gtk.Application {
         this.activate();
     }
 
-    open_file(file) {
+    async open_file(file) {
+        const notebook = (await this.ensure_window()).active_notebook;
+
         if (file.query_file_type(Gio.FileQueryInfoFlags.NONE, null) === Gio.FileType.DIRECTORY) {
-            const notebook = this.ensure_window().active_notebook;
             const command = notebook.get_command_from_settings(file);
 
             notebook.new_page(-1, { command }).spawn();
         } else {
             const argv = [file.get_path()];
             const command = new TerminalCommand({ argv });
-            const notebook = this.ensure_window().active_notebook;
             const page = notebook.new_page(-1, {
                 command,
                 keep_open_after_exit: true,
@@ -653,18 +650,30 @@ class Application extends Gtk.Application {
         }
     }
 
-    ensure_window() {
+    async ensure_window() {
         if (this.window)
             return this.window;
 
-        this.window = new AppWindow({
-            application: this,
-            decorated: false,
-            settings: this.settings,
-            terminal_settings: this.terminal_settings,
-            extension_dbus: this.extension_dbus,
-            display_config: this.display_config,
-        });
+        this.hold();
+
+        try {
+            await this._display_config_init;
+            await this._extension_dbus_init;
+
+            if (this.window)
+                return this.window;
+
+            this.window = new AppWindow({
+                application: this,
+                decorated: false,
+                settings: this.settings,
+                terminal_settings: this.terminal_settings,
+                extension_dbus: this.extension_dbus,
+                display_config: this.display_config,
+            });
+        } finally {
+            this.release();
+        }
 
         this.window.connect('destroy', source => {
             if (source !== this.window)
@@ -684,8 +693,8 @@ class Application extends Gtk.Application {
         return this.window;
     }
 
-    ensure_window_with_terminal() {
-        this.ensure_window().ensure_terminal();
+    async ensure_window_with_terminal() {
+        (await this.ensure_window()).ensure_terminal();
 
         return this.window;
     }
@@ -778,7 +787,7 @@ class Application extends Gtk.Application {
             this.style_manager.color_scheme = resolved;
     }
 
-    restore_session() {
+    async restore_session() {
         if (!this.settings.get_boolean('save-restore-session'))
             return;
 
@@ -797,7 +806,7 @@ class Application extends Gtk.Application {
             if (!data_variant.is_normal_form())
                 throw new Error('Session data is malformed, probably the file was damaged');
 
-            const win = this.ensure_window();
+            const win = await this.ensure_window();
 
             GObject.signal_handler_block(win, this._save_session_handler);
 
