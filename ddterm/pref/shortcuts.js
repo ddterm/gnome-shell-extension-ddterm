@@ -47,17 +47,51 @@ function restore_system_shortcuts_gtk4(widget) {
     toplevel.restore_system_shortcuts();
 }
 
-const inhibit_system_shortcuts = IS_GTK3
-    ? inhibit_system_shortcuts_gtk3
-    : inhibit_system_shortcuts_gtk4;
+function translate_key_gtk3(display, keycode, state, group) {
+    const keymap = Gdk.Keymap.get_for_display(display);
 
-const restore_system_shortcuts = IS_GTK3
-    ? restore_system_shortcuts_gtk3
-    : restore_system_shortcuts_gtk4;
+    return keymap.translate_keyboard_state(keycode, state, group);
+}
 
-const accelerator_parse = IS_GTK3
-    ? Gtk.accelerator_parse
-    : v => Gtk.accelerator_parse(v).slice(1);
+function translate_key_gtk4(display, keycode, state, group) {
+    return display.translate_key(keycode, state, group);
+}
+
+const inhibit_system_shortcuts =
+    IS_GTK3 ? inhibit_system_shortcuts_gtk3 : inhibit_system_shortcuts_gtk4;
+
+const restore_system_shortcuts =
+    IS_GTK3 ? restore_system_shortcuts_gtk3 : restore_system_shortcuts_gtk4;
+
+const accelerator_parse = IS_GTK3 ? Gtk.accelerator_parse : v => Gtk.accelerator_parse(v).slice(1);
+const translate_key = IS_GTK3 ? translate_key_gtk3 : translate_key_gtk4;
+
+function normalize_keyval_and_mask(display, keycode, mask, group) {
+    const explicit_modifiers =
+        Gtk.accelerator_get_default_mod_mask() | Gdk.ModifierType.SHIFT_MASK;
+
+    let [, unmodified_keyval] = translate_key(
+        display,
+        keycode,
+        mask & ~explicit_modifiers,
+        group
+    );
+
+    const [, shifted_keyval] = translate_key(
+        display,
+        keycode,
+        (mask & ~explicit_modifiers) | Gdk.ModifierType.SHIFT_MASK,
+        group
+    );
+
+    if (shifted_keyval >= Gdk.KEY_0 && shifted_keyval <= Gdk.KEY_9)
+        unmodified_keyval = shifted_keyval;
+
+    if (unmodified_keyval === Gdk.KEY_ISO_Left_Tab)
+        unmodified_keyval = Gdk.KEY_Tab;
+
+    return [unmodified_keyval, mask & explicit_modifiers];
+}
 
 class ShortcutEditDialog extends Gtk.Dialog {
     static [GObject.GTypeName] = 'DDTermShortcutEditDialog';
@@ -178,11 +212,14 @@ class ShortcutEditDialog extends Gtk.Dialog {
     }
 
     #key_pressed(controller, keyval, keycode, state) {
-        if (!(state & Gtk.accelerator_get_default_mod_mask())) {
-            if (keyval === Gdk.KEY_Escape)
+        const [keyval_lower, real_mask] =
+            normalize_keyval_and_mask(this.get_display(), keycode, state, controller.get_group());
+
+        if (!real_mask) {
+            if (keyval_lower === Gdk.KEY_Escape)
                 return false;
 
-            if (keyval === Gdk.KEY_BackSpace) {
+            if (keyval_lower === Gdk.KEY_BackSpace) {
                 this.emit('stopped');
                 this.#label.accelerator = null;
                 this.response(Gtk.ResponseType.OK);
@@ -191,15 +228,18 @@ class ShortcutEditDialog extends Gtk.Dialog {
             }
         }
 
-        this.#update_accelerator(keyval, keycode, state);
+        this.#update_accelerator(keyval_lower, real_mask);
 
         return true;
     }
 
     #key_released(controller, keyval, keycode, state) {
-        this.#update_accelerator(keyval, keycode, state);
+        const [keyval_lower, real_mask] =
+            normalize_keyval_and_mask(this.get_display(), keycode, state, controller.get_group());
 
-        if (this.validate && !Gtk.accelerator_valid(keyval, state))
+        this.#update_accelerator(keyval_lower, real_mask);
+
+        if (this.validate && !Gtk.accelerator_valid(keyval_lower, real_mask))
             return;
 
         this.emit('stopped');
@@ -207,9 +247,7 @@ class ShortcutEditDialog extends Gtk.Dialog {
         this.get_widget_for_response(Gtk.ResponseType.OK).grab_focus();
     }
 
-    #update_accelerator(keyval, keycode, state) {
-        state &= Gtk.accelerator_get_default_mod_mask();
-
+    #update_accelerator(keyval, state) {
         const name = Gtk.accelerator_name(keyval, state);
 
         if (name === this.#label.accelerator)
