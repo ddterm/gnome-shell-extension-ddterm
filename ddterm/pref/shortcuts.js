@@ -104,13 +104,6 @@ class ShortcutEditDialog extends Gtk.Dialog {
             GObject.ParamFlags.READABLE,
             null
         ),
-        'validate': GObject.ParamSpec.boolean(
-            'validate',
-            null,
-            null,
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-            true
-        ),
         'gettext-domain': GObject.ParamSpec.jsobject(
             'gettext-domain',
             null,
@@ -239,7 +232,7 @@ class ShortcutEditDialog extends Gtk.Dialog {
 
         this.#update_accelerator(keyval_lower, real_mask);
 
-        if (this.validate && !Gtk.accelerator_valid(keyval_lower, real_mask))
+        if (!Gtk.accelerator_valid(keyval_lower, real_mask))
             return;
 
         this.emit('stopped');
@@ -346,7 +339,6 @@ class ShortcutRow extends ActionRow {
             gettext_domain: this.gettext_domain,
             transient_for: this.get_root?.() ?? this.get_toplevel?.(),
             modal: true,
-            validate: !this.global,
         });
 
         dialog.connect('response', (_, response_id) => {
