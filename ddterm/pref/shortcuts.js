@@ -151,10 +151,6 @@ class ShortcutEditDialog extends Gtk.Dialog {
         ),
     };
 
-    static [GObject.signals] = {
-        'stopped': {},
-    };
-
     static {
         GObject.registerClass(this);
     }
@@ -184,9 +180,14 @@ class ShortcutEditDialog extends Gtk.Dialog {
             margin_end: 16,
         };
 
+        this.#append(new Gtk.Label({
+            visible: true,
+            label: this.gettext_domain.gettext('Enter new shortcut'),
+            ...margins,
+        }));
+
         this.#label = new Gtk.ShortcutLabel({
             visible: true,
-            disabled_text: this.gettext_domain.gettext('Enter new shortcut'),
             halign: Gtk.Align.CENTER,
             valign: Gtk.Align.CENTER,
             ...margins,
@@ -194,19 +195,13 @@ class ShortcutEditDialog extends Gtk.Dialog {
 
         this.#append(this.#label);
 
-        const help_label = new Gtk.Label({
+        this.#append(new Gtk.Label({
             visible: true,
             label: this.gettext_domain.gettext(
                 'Press Esc to cancel or Backspace to disable the keyboard shortcut'
             ),
             ...margins,
-        });
-
-        this.connect('stopped', () => {
-            help_label.visible = false;
-        });
-
-        this.#append(help_label);
+        }));
 
         this.add_button(this.gettext_domain.gettext('Cancel'), Gtk.ResponseType.CANCEL);
         this.add_button(this.gettext_domain.gettext('Set'), Gtk.ResponseType.OK);
@@ -230,10 +225,6 @@ class ShortcutEditDialog extends Gtk.Dialog {
             this.#controller.connect('key-pressed', this.#key_pressed.bind(this));
 
         const unrealize_handler = this.connect('unrealize', () => {
-            this.emit('stopped');
-        });
-
-        this.connect('stopped', () => {
             this.disconnect(unrealize_handler);
             this.#controller.disconnect(key_handler);
         });
@@ -244,11 +235,13 @@ class ShortcutEditDialog extends Gtk.Dialog {
             normalize_keyval_and_mask(this.get_display(), keycode, state, controller.get_group());
 
         if (!real_mask) {
-            if (keyval_lower === Gdk.KEY_Escape)
+            // Allow keyboard navigation and pressing dialog buttons with Enter/Space/Escape
+            if (keyval_lower === Gdk.KEY_Escape ||
+                keyval_lower === Gdk.KEY_space ||
+                FORBIDDEN_KEYVALS.includes(keyval_lower))
                 return false;
 
             if (keyval_lower === Gdk.KEY_BackSpace) {
-                this.emit('stopped');
                 this.#label.accelerator = null;
                 this.response(Gtk.ResponseType.OK);
 
@@ -263,15 +256,13 @@ class ShortcutEditDialog extends Gtk.Dialog {
             this.notify('accelerator');
         }
 
-        if (!Gtk.accelerator_valid(keyval_lower, real_mask))
-            return true;
+        const valid = Gtk.accelerator_valid(keyval_lower, real_mask) &&
+            is_valid_binding(keyval_lower, real_mask);
 
-        if (!is_valid_binding(keyval_lower, real_mask))
-            return true;
+        this.set_response_sensitive(Gtk.ResponseType.OK, valid);
 
-        this.emit('stopped');
-        this.set_response_sensitive(Gtk.ResponseType.OK, true);
-        this.get_widget_for_response(Gtk.ResponseType.OK).grab_focus();
+        if (valid)
+            this.get_widget_for_response(Gtk.ResponseType.OK).grab_focus();
 
         return true;
     }
@@ -389,8 +380,8 @@ class ShortcutRow extends ActionRow {
             if (!inhibit_system_shortcuts(dialog))
                 return;
 
-            const stop_handler = dialog.connect('stopped', () => {
-                dialog.disconnect(stop_handler);
+            const unmap_handler = dialog.connect('unmap', () => {
+                dialog.disconnect(unmap_handler);
                 restore_system_shortcuts(dialog);
             });
         });
