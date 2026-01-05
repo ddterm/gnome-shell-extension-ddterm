@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-04 05:44+0000\n"
+"POT-Creation-Date: 2026-01-05 06:15+0000\n"
 "PO-Revision-Date: 2025-11-16 22:26+0100\n"
 "Last-Translator: Philipp Kiemle <l10n.daphipz@fastmail.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/de/>\n"
@@ -155,11 +155,11 @@ msgstr "Suchleiste schließen"
 msgid "Wrap Around"
 msgstr "Am Ende der Seite zum Anfang springen"
 
-#: ddterm/app/search.js:334 ddterm/pref/shortcuts.js:622
+#: ddterm/app/search.js:334 ddterm/pref/shortcuts.js:673
 msgid "Find Next"
 msgstr "Finde nächstes"
 
-#: ddterm/app/search.js:352 ddterm/pref/shortcuts.js:627
+#: ddterm/app/search.js:352 ddterm/pref/shortcuts.js:678
 msgid "Find Previous"
 msgstr "Finde vorheriges"
 
@@ -216,19 +216,19 @@ msgstr "HTML kopieren"
 msgid "Paste"
 msgstr "Einfügen"
 
-#: ddterm/app/ui/menus.ui:44 ddterm/pref/shortcuts.js:517
+#: ddterm/app/ui/menus.ui:44 ddterm/pref/shortcuts.js:568
 msgid "Select All"
 msgstr "Alles auswählen"
 
-#: ddterm/app/ui/menus.ui:50 ddterm/pref/shortcuts.js:617
+#: ddterm/app/ui/menus.ui:50 ddterm/pref/shortcuts.js:668
 msgid "Find"
 msgstr "Suchen"
 
-#: ddterm/app/ui/menus.ui:56 ddterm/pref/shortcuts.js:522
+#: ddterm/app/ui/menus.ui:56 ddterm/pref/shortcuts.js:573
 msgid "Reset"
 msgstr "Zurücksetzen"
 
-#: ddterm/app/ui/menus.ui:60 ddterm/pref/shortcuts.js:527
+#: ddterm/app/ui/menus.ui:60 ddterm/pref/shortcuts.js:578
 msgid "Reset and Clear"
 msgstr "Zurücksetzen und leeren"
 
@@ -236,15 +236,15 @@ msgstr "Zurücksetzen und leeren"
 msgid "Zoom"
 msgstr "Zoom"
 
-#: ddterm/app/ui/menus.ui:68 ddterm/pref/shortcuts.js:632
+#: ddterm/app/ui/menus.ui:68 ddterm/pref/shortcuts.js:683
 msgid "Zoom In"
 msgstr "Heranzoomen"
 
-#: ddterm/app/ui/menus.ui:72 ddterm/pref/shortcuts.js:637
+#: ddterm/app/ui/menus.ui:72 ddterm/pref/shortcuts.js:688
 msgid "Zoom Out"
 msgstr "Herauszoomen"
 
-#: ddterm/app/ui/menus.ui:76 ddterm/pref/shortcuts.js:642
+#: ddterm/app/ui/menus.ui:76 ddterm/pref/shortcuts.js:693
 msgid "Normal Size"
 msgstr "Normale Größe"
 
@@ -260,21 +260,21 @@ msgstr "Nach dem Beenden geöffnet lassen"
 msgid "New Tab"
 msgstr "Neuer Reiter"
 
-#: ddterm/app/ui/menus.ui:101 ddterm/pref/shortcuts.js:542
+#: ddterm/app/ui/menus.ui:101 ddterm/pref/shortcuts.js:593
 msgid "New Tab Before Current Tab"
 msgstr "Neuer Reiter vor aktivem Reiter"
 
-#: ddterm/app/ui/menus.ui:105 ddterm/pref/shortcuts.js:547
+#: ddterm/app/ui/menus.ui:105 ddterm/pref/shortcuts.js:598
 msgid "New Tab After Current Tab"
 msgstr "Neuer Reiter nach aktivem Reiter"
 
 #: ddterm/app/ui/menus.ui:109 ddterm/app/ui/menus.ui:243
-#: ddterm/pref/shortcuts.js:537
+#: ddterm/pref/shortcuts.js:588
 msgid "New Tab Before First Tab"
 msgstr "Neuer Reiter vor dem ersten Reiter"
 
 #: ddterm/app/ui/menus.ui:113 ddterm/app/ui/menus.ui:247
-#: ddterm/pref/shortcuts.js:532
+#: ddterm/pref/shortcuts.js:583
 msgid "New Tab After Last Tab"
 msgstr "Neuer Reiter nach dem letzten Reiter"
 
@@ -288,12 +288,12 @@ msgid "No Split"
 msgstr "Keine Teilung"
 
 #: ddterm/app/ui/menus.ui:128 ddterm/app/ui/menus.ui:271
-#: ddterm/app/ui/menus.ui:301 ddterm/pref/shortcuts.js:577
+#: ddterm/app/ui/menus.ui:301 ddterm/pref/shortcuts.js:628
 msgid "Split Horizontally"
 msgstr "Horizontal teilen"
 
 #: ddterm/app/ui/menus.ui:133 ddterm/app/ui/menus.ui:276
-#: ddterm/app/ui/menus.ui:306 ddterm/pref/shortcuts.js:582
+#: ddterm/app/ui/menus.ui:306 ddterm/pref/shortcuts.js:633
 msgid "Split Vertically"
 msgstr "Vertikal teilen"
 
@@ -365,11 +365,11 @@ msgstr "Neuer Reiter vor diesem Reiter"
 msgid "New Tab After This Tab"
 msgstr "Neuer Reiter nach diesem Reiter"
 
-#: ddterm/app/ui/menus.ui:253 ddterm/pref/shortcuts.js:567
+#: ddterm/app/ui/menus.ui:253 ddterm/pref/shortcuts.js:618
 msgid "Move Tab to Previous Position"
 msgstr "Reiter zur vorherigen Position verschieben"
 
-#: ddterm/app/ui/menus.ui:257 ddterm/pref/shortcuts.js:572
+#: ddterm/app/ui/menus.ui:257 ddterm/pref/shortcuts.js:623
 msgid "Move Tab to Next Position"
 msgstr "Reiter zur nächsten Position verschieben"
 
@@ -866,163 +866,163 @@ msgstr "Unbegrenztes Zurückscrollen"
 msgid "Scrollback Lines"
 msgstr "Scrollback Lines"
 
-#: ddterm/pref/shortcuts.js:123
+#: ddterm/pref/shortcuts.js:189
 msgid "Enter new shortcut"
 msgstr "Neues Tastenkürzel eingeben"
 
-#: ddterm/pref/shortcuts.js:134
+#: ddterm/pref/shortcuts.js:205
 msgid "Press Esc to cancel or Backspace to disable the keyboard shortcut"
 msgstr "Drücken Sie »Esc« um abzubrechen oder die Rücktaste, um das Tastenkürzel zu deaktivieren"
 
-#: ddterm/pref/shortcuts.js:145
+#: ddterm/pref/shortcuts.js:210
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: ddterm/pref/shortcuts.js:146
+#: ddterm/pref/shortcuts.js:211
 msgid "Set"
 msgstr "Festlegen"
 
-#: ddterm/pref/shortcuts.js:291 ddterm/pref/text.js:120
+#: ddterm/pref/shortcuts.js:343 ddterm/pref/text.js:120
 msgid "Disabled"
 msgstr "Deaktiviert"
 
-#: ddterm/pref/shortcuts.js:432
+#: ddterm/pref/shortcuts.js:483
 msgid "Global Shortcuts"
 msgstr "Globale Tastenkürzel"
 
-#: ddterm/pref/shortcuts.js:436
+#: ddterm/pref/shortcuts.js:487
 msgid "Toggle Terminal Window"
 msgstr "Terminalfenster umschalten"
 
-#: ddterm/pref/shortcuts.js:442
+#: ddterm/pref/shortcuts.js:493
 msgid "Show/Activate Terminal Window"
 msgstr "Terminalfenster zeigen/aktivieren"
 
-#: ddterm/pref/shortcuts.js:458
+#: ddterm/pref/shortcuts.js:509
 msgid "Application Shortcuts"
 msgstr "Anwendungs-Tastenkürzel"
 
-#: ddterm/pref/shortcuts.js:462
+#: ddterm/pref/shortcuts.js:513
 msgid "_Enable application shortcuts"
 msgstr "Anwendungs-Tastenkürz_el aktivieren"
 
-#: ddterm/pref/shortcuts.js:467
+#: ddterm/pref/shortcuts.js:518
 msgid "Hide the Window"
 msgstr "Das Fenster ausblenden"
 
-#: ddterm/pref/shortcuts.js:472
+#: ddterm/pref/shortcuts.js:523
 msgid "Maximize/Unmaximize the Window"
 msgstr "Fenster maximieren/wiederherstellen"
 
-#: ddterm/pref/shortcuts.js:477
+#: ddterm/pref/shortcuts.js:528
 msgid "Increase Window Size"
 msgstr "Fenstergröße erhöhen"
 
-#: ddterm/pref/shortcuts.js:482
+#: ddterm/pref/shortcuts.js:533
 msgid "Decrease Window Size"
 msgstr "Fenstergröße verringern"
 
-#: ddterm/pref/shortcuts.js:487
+#: ddterm/pref/shortcuts.js:538
 msgid "Increase Background Opacity"
 msgstr "Hintergrunddeckkraft erhöhen"
 
-#: ddterm/pref/shortcuts.js:492
+#: ddterm/pref/shortcuts.js:543
 msgid "Decrease Background Opacity"
 msgstr "Hintergrunddeckkraft verringern"
 
-#: ddterm/pref/shortcuts.js:497
+#: ddterm/pref/shortcuts.js:548
 msgid "Enable/Disable Background Transparency"
 msgstr "Hintergrundtransparenz aktivieren/deaktivieren"
 
-#: ddterm/pref/shortcuts.js:502
+#: ddterm/pref/shortcuts.js:553
 msgid "Copy Selected Text"
 msgstr "Ausgewählten Text kopieren"
 
-#: ddterm/pref/shortcuts.js:507
+#: ddterm/pref/shortcuts.js:558
 msgid "Copy Selected Text as HTML"
 msgstr "Ausgewählten Text als HTML kopieren"
 
-#: ddterm/pref/shortcuts.js:512
+#: ddterm/pref/shortcuts.js:563
 msgid "Paste Text from Clipboard"
 msgstr "Text aus Zwischenablage einfügen"
 
-#: ddterm/pref/shortcuts.js:552
+#: ddterm/pref/shortcuts.js:603
 msgid "Close Current Tab"
 msgstr "Aktiven Reiter schließen"
 
-#: ddterm/pref/shortcuts.js:557
+#: ddterm/pref/shortcuts.js:608
 msgid "Switch to Previous Tab"
 msgstr "Zum vorherigen Reiter wechseln"
 
-#: ddterm/pref/shortcuts.js:562
+#: ddterm/pref/shortcuts.js:613
 msgid "Switch to Next Tab"
 msgstr "Zum nächsten Reiter wechseln"
 
-#: ddterm/pref/shortcuts.js:587
+#: ddterm/pref/shortcuts.js:638
 msgid "Move Keyboard Focus to Other Split Pane"
 msgstr "Tastaturfokus auf anderen Teilbereich verschieben"
 
-#: ddterm/pref/shortcuts.js:592
+#: ddterm/pref/shortcuts.js:643
 msgid "Move Tab to Other Split Pane"
 msgstr "Reiter auf anderen Teilbereich verschieben"
 
-#: ddterm/pref/shortcuts.js:597
+#: ddterm/pref/shortcuts.js:648
 msgid "Increase First Split Pane Size"
 msgstr "Ersten Teilbereich vergrößern"
 
-#: ddterm/pref/shortcuts.js:602
+#: ddterm/pref/shortcuts.js:653
 msgid "Decrease First Split Pane Size"
 msgstr "Ersten Teilbereich verkleinern"
 
-#: ddterm/pref/shortcuts.js:607
+#: ddterm/pref/shortcuts.js:658
 msgid "Set Custom Tab Title"
 msgstr "Benutzerdefinierten Reitertitel festlegen"
 
-#: ddterm/pref/shortcuts.js:612
+#: ddterm/pref/shortcuts.js:663
 msgid "Reset Tab Title"
 msgstr "Reitertitel zurücksetzen"
 
-#: ddterm/pref/shortcuts.js:647
+#: ddterm/pref/shortcuts.js:698
 msgid "Switch to Tab 1"
 msgstr "Zu Reiter 1 umschalten"
 
-#: ddterm/pref/shortcuts.js:652
+#: ddterm/pref/shortcuts.js:703
 msgid "Switch to Tab 2"
 msgstr "Zu Reiter 2 umschalten"
 
-#: ddterm/pref/shortcuts.js:657
+#: ddterm/pref/shortcuts.js:708
 msgid "Switch to Tab 3"
 msgstr "Zu Reiter 3 umschalten"
 
-#: ddterm/pref/shortcuts.js:662
+#: ddterm/pref/shortcuts.js:713
 msgid "Switch to Tab 4"
 msgstr "Zu Reiter 4 umschalten"
 
-#: ddterm/pref/shortcuts.js:667
+#: ddterm/pref/shortcuts.js:718
 msgid "Switch to Tab 5"
 msgstr "Zu Reiter 5 umschalten"
 
-#: ddterm/pref/shortcuts.js:672
+#: ddterm/pref/shortcuts.js:723
 msgid "Switch to Tab 6"
 msgstr "Zu Reiter 6 umschalten"
 
-#: ddterm/pref/shortcuts.js:677
+#: ddterm/pref/shortcuts.js:728
 msgid "Switch to Tab 7"
 msgstr "Zu Reiter 7 umschalten"
 
-#: ddterm/pref/shortcuts.js:682
+#: ddterm/pref/shortcuts.js:733
 msgid "Switch to Tab 8"
 msgstr "Zu Reiter 8 umschalten"
 
-#: ddterm/pref/shortcuts.js:687
+#: ddterm/pref/shortcuts.js:738
 msgid "Switch to Tab 9"
 msgstr "Zu Reiter 9 umschalten"
 
-#: ddterm/pref/shortcuts.js:692
+#: ddterm/pref/shortcuts.js:743
 msgid "Switch to Tab 10"
 msgstr "Zu Reiter 10 umschalten"
 
-#: ddterm/pref/shortcuts.js:749
+#: ddterm/pref/shortcuts.js:800
 msgid "Reset All Shortcuts to Defaults"
 msgstr "Alle Tastenkürzel auf Standard zurücksetzen"
 
