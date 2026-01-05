@@ -132,6 +132,10 @@ function is_valid_binding(keyval, mask) {
     );
 }
 
+function is_valid_accel(keyval, mask) {
+    return Gtk.accelerator_valid(keyval, mask) || (keyval === Gdk.KEY_Tab && mask);
+}
+
 class ShortcutEditDialog extends Gtk.Dialog {
     static [GObject.GTypeName] = 'DDTermShortcutEditDialog';
 
@@ -256,8 +260,8 @@ class ShortcutEditDialog extends Gtk.Dialog {
             this.notify('accelerator');
         }
 
-        const valid = Gtk.accelerator_valid(keyval_lower, real_mask) &&
-            is_valid_binding(keyval_lower, real_mask);
+        const valid =
+            is_valid_accel(keyval_lower, real_mask) && is_valid_binding(keyval_lower, real_mask);
 
         this.set_response_sensitive(Gtk.ResponseType.OK, valid);
 
