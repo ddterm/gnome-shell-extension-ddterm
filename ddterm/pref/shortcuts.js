@@ -226,10 +226,8 @@ class ShortcutEditDialog extends Gtk.Dialog {
     }
 
     #realize() {
-        const controller_handlers = [
-            this.#controller.connect('key-pressed', this.#key_pressed.bind(this)),
-            this.#controller.connect('key-released', this.#key_released.bind(this)),
-        ];
+        const key_handler =
+            this.#controller.connect('key-pressed', this.#key_pressed.bind(this));
 
         const unrealize_handler = this.connect('unrealize', () => {
             this.emit('stopped');
@@ -237,9 +235,7 @@ class ShortcutEditDialog extends Gtk.Dialog {
 
         this.connect('stopped', () => {
             this.disconnect(unrealize_handler);
-
-            for (const handler of controller_handlers)
-                this.#controller.disconnect(handler);
+            this.#controller.disconnect(key_handler);
         });
     }
 
@@ -260,36 +256,24 @@ class ShortcutEditDialog extends Gtk.Dialog {
             }
         }
 
-        this.#update_accelerator(keyval_lower, real_mask);
+        const name = Gtk.accelerator_name(keyval_lower, real_mask);
 
-        return true;
-    }
-
-    #key_released(controller, keyval, keycode, state) {
-        const [keyval_lower, real_mask] =
-            normalize_keyval_and_mask(this.get_display(), keycode, state, controller.get_group());
-
-        this.#update_accelerator(keyval_lower, real_mask);
+        if (name !== this.#label.accelerator) {
+            this.#label.accelerator = name;
+            this.notify('accelerator');
+        }
 
         if (!Gtk.accelerator_valid(keyval_lower, real_mask))
-            return;
+            return true;
 
         if (!is_valid_binding(keyval_lower, real_mask))
-            return;
+            return true;
 
         this.emit('stopped');
         this.set_response_sensitive(Gtk.ResponseType.OK, true);
         this.get_widget_for_response(Gtk.ResponseType.OK).grab_focus();
-    }
 
-    #update_accelerator(keyval, state) {
-        const name = Gtk.accelerator_name(keyval, state);
-
-        if (name === this.#label.accelerator)
-            return;
-
-        this.#label.accelerator = name;
-        this.notify('accelerator');
+        return true;
     }
 
     get accelerator() {
