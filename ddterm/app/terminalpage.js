@@ -12,7 +12,7 @@ import Vte from 'gi://Vte';
 import Gettext from 'gettext';
 
 import { SearchBar } from './search.js';
-import { TabLabel } from './tablabel.js';
+import { TabLabel, TabTitleDialog } from './tablabel.js';
 import { Terminal, TerminalCommand, WIFEXITED, WEXITSTATUS, WTERMSIG } from './terminal.js';
 import { TerminalSettings } from './terminalsettings.js';
 
@@ -223,9 +223,6 @@ export const TerminalPage = GObject.registerClass({
             this.disconnect(tab_label_destroy_handler);
         });
         this.tab_label.connect('close', () => this.close());
-        this.tab_label.connect('reset-label', () => {
-            this.use_custom_title = false;
-        });
 
         this.bind_property(
             'title',
@@ -306,6 +303,11 @@ export const TerminalPage = GObject.registerClass({
         // Don't update the title from the terminal until the process is started
         this.update_title_binding(false);
 
+        this._title_dialog = null;
+        this.connect('destroy', () => {
+            this._title_dialog?.destroy();
+        });
+
         const use_custom_title_action = new Gio.SimpleAction({
             'name': 'use-custom-title',
             'state': GLib.Variant.new_boolean(this.use_custom_title),
@@ -323,7 +325,7 @@ export const TerminalPage = GObject.registerClass({
             use_custom_title_action.change_state(param);
 
             if (param.get_boolean())
-                this.tab_label.edit();
+                this.edit_title();
         });
         page_actions.add_action(use_custom_title_action);
 
@@ -659,22 +661,41 @@ export const TerminalPage = GObject.registerClass({
     }
 
     update_title_binding(sync = true) {
-        const enable = !this.use_custom_title;
+        const flags = sync ? GObject.BindingFlags.SYNC_CREATE : GObject.BindingFlags.DEFAULT;
+        const source = this.use_custom_title ? this._title_dialog : this.terminal;
+        const source_property = this.use_custom_title ? 'custom-title' : 'window-title';
 
-        if (enable === Boolean(this._title_binding))
+        if ((this._title_binding?.dup_source() ?? null) === (source ?? null))
             return;
 
-        if (enable) {
-            this._title_binding = this.terminal.bind_property(
-                'window-title',
-                this,
-                'title',
-                sync ? GObject.BindingFlags.SYNC_CREATE : GObject.BindingFlags.DEFAULT
-            );
-        } else {
-            this._title_binding?.unbind();
-            this._title_binding = null;
+        this._title_binding?.unbind();
+        this._title_binding = source?.bind_property(source_property, this, 'title', flags);
+    }
+
+    edit_title() {
+        if (this._title_dialog) {
+            this._title_dialog.present();
+            return;
         }
+
+        this._title_dialog = new TabTitleDialog({
+            transient_for: this.get_toplevel(),
+            custom_title: this.title,
+        });
+
+        this._title_dialog.connect('destroy', () => {
+            this._title_dialog = null;
+        });
+
+        this.bind_property(
+            'use-custom-title',
+            this._title_dialog,
+            'use-custom-title',
+            GObject.BindingFlags.BIDIRECTIONAL | GObject.BindingFlags.SYNC_CREATE
+        );
+
+        this.update_title_binding();
+        this._title_dialog.present();
     }
 
     vfunc_grab_focus() {
