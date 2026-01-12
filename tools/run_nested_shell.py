@@ -168,6 +168,31 @@ def run_shell(
         subprocess.run((gnome_shell, *shell_args), env=shell_env, check=True)
 
 
+def run_shell_devkit(*, env, **kwargs):
+    env = env.copy()
+    shell_extra_env = dict()
+
+    wayland_socket = pathlib.Path(env.pop('WAYLAND_DISPLAY', 'wayland-0'))
+
+    if not wayland_socket.is_absolute():
+        wayland_socket = pathlib.Path(os.environ['XDG_RUNTIME_DIR']) / wayland_socket
+
+    shell_extra_env['WAYLAND_DISPLAY'] = str(wayland_socket)
+
+    for pipewire_runtime_dir_var in ('PIPEWIRE_RUNTIME_DIR', 'XDG_RUNTIME_DIR', 'USERPROFILE'):
+        if pipewire_runtime_dir := os.environ.get(pipewire_runtime_dir_var):
+            shell_extra_env['PIPEWIRE_RUNTIME_DIR'] = pipewire_runtime_dir
+            break
+
+    run_shell(
+        client_extra_env=dict(WAYLAND_DISPLAY='wayland-test'),
+        shell_extra_env=shell_extra_env,
+        shell_args=('--devkit', '--wayland-display=wayland-test'),
+        env=env,
+        **kwargs,
+    )
+
+
 def run_shell_wayland_nested(*, env, **kwargs):
     env = env.copy()
     shell_extra_env = dict()
@@ -262,11 +287,20 @@ def main():
 
     subparsers = parser.add_subparsers(required=True)
 
+    wayland_devkit = subparsers.add_parser(
+        'wayland-devkit',
+        parents=(common_args,),
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+        description='Run as a nested Wayland compositor, GNOME Shell 49 and later',
+    )
+
+    wayland_devkit.set_defaults(run=run_shell_devkit)
+
     wayland_nested = subparsers.add_parser(
         'wayland-nested',
         parents=(common_args,),
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
-        description='Run as a nested Wayland compositor',
+        description='Run as a nested Wayland compositor, GNOME Shell 48 and earlier',
     )
 
     wayland_nested.set_defaults(run=run_shell_wayland_nested)

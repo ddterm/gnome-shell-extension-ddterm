@@ -32,7 +32,7 @@ run_gnome_shell_script_common_args = [
 
 run_gnome_shell_wayland_nested_command = [
   run_gnome_shell_script,
-  'wayland-nested',
+  gnome_shell.version().version_compare('>=49') ? 'wayland-devkit' : 'wayland-nested',
   run_gnome_shell_script_common_args,
 ]
 
