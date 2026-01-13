@@ -21,6 +21,12 @@ A helper script [`tools/run_nested_shell.py`] launches GNOME Shell
 in a window ("nested" mode), in an isolated (temporary) environment.
 It also installs the extension bundle into that environment automatically.
 
+For GNOME 49 and later:
+
+    tools/run_nested_shell.py wayland-devkit
+
+For GNOME 48 and earlier:
+
     tools/run_nested_shell.py wayland-nested
 
 [`tools/run_nested_shell.py`]: /tools/run_nested_shell.py
@@ -45,7 +51,7 @@ and its subdirectories.
 - You can select which extension bundle to install by passing `--bundle`
 argument:
 
-      tools/run_nested_shell.py wayland-nested --bundle build-dir/ddterm@amezin.github.com.shell-extension.zip
+      tools/run_nested_shell.py wayland-devkit --bundle build-dir/ddterm@amezin.github.com.shell-extension.zip
 
 > [!TIP]
 > If you [build ddterm from source], `nested-wayland-shell` build target
@@ -56,6 +62,8 @@ argument:
 >     ninja -C build-dir nested-wayland-shell
 >
 > The correct `--bundle` argument will be automatically set by the build system.
+> Also, it will choose between `wayland-devkit` and `wayland-nested`
+> automatically, based on GNOME Shell version.
 
 [build ddterm from source]: /docs/Build.md
 
@@ -70,6 +78,7 @@ argument:
 > [!TIP]
 > For other options, see:
 >
+>     tools/run_nested_shell.py wayland-devkit --help
 >     tools/run_nested_shell.py wayland-nested --help
 >     tools/run_nested_shell.py --help
 
