@@ -7,10 +7,81 @@ import Gio from 'gi://Gio';
 import Gdk from 'gi://Gdk';
 import Gtk from 'gi://Gtk';
 import Pango from 'gi://Pango';
+import Handy from 'gi://Handy';
 
 import Gettext from 'gettext';
 
 import { AccelLabel } from './accellabel.js';
+import { EntryRow } from '../pref/util.js';
+
+export class TabTitleDialog extends Gtk.Dialog {
+    static [GObject.GTypeName] = 'DDTermTabTitleDialog';
+
+    static [GObject.properties] = {
+        'use-custom-title': GObject.ParamSpec.boolean(
+            'use-custom-title',
+            null,
+            null,
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+            false
+        ),
+        'custom-title': GObject.ParamSpec.string(
+            'custom-title',
+            null,
+            null,
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+            ''
+        ),
+    };
+
+    static {
+        GObject.registerClass(this);
+    }
+
+    constructor(params) {
+        super({
+            title: Gettext.gettext('Set Custom Tab Title'),
+            ...params,
+        });
+
+        const entry = new EntryRow({
+            visible: true,
+            use_underline: true,
+            title: Gettext.gettext('Tab _title:'),
+        });
+
+        this.bind_property(
+            'custom-title',
+            entry,
+            'text',
+            GObject.BindingFlags.BIDIRECTIONAL | GObject.BindingFlags.SYNC_CREATE
+        );
+
+        const expander = new Handy.ExpanderRow({
+            visible: true,
+            show_enable_switch: true,
+            use_underline: true,
+            title: Gettext.gettext('Use Custom Tab Title'),
+        });
+
+        expander.add(entry);
+
+        this.bind_property(
+            'use-custom-title',
+            expander,
+            'enable-expansion',
+            GObject.BindingFlags.BIDIRECTIONAL | GObject.BindingFlags.SYNC_CREATE
+        );
+
+        const group = new Handy.PreferencesGroup({
+            visible: true,
+        });
+
+        group.add(expander);
+
+        this.get_content_area().add(group);
+    }
+}
 
 export const TabLabel = GObject.registerClass({
     Implements: [Gtk.Actionable],
@@ -56,7 +127,6 @@ export const TabLabel = GObject.registerClass({
     },
     Signals: {
         'close': {},
-        'reset-label': {},
     },
 }, class DDTermTabLabel extends Gtk.EventBox {
     _init(params) {
@@ -127,42 +197,6 @@ export const TabLabel = GObject.registerClass({
         );
 
         close_button.connect('clicked', () => this.emit('close'));
-
-        this.edit_popover = new Gtk.Popover({
-            relative_to: this,
-        });
-
-        this.connect('destroy', () => this.edit_popover.destroy());
-
-        const edit_entry = new Gtk.Entry({
-            visible: true,
-            parent: this.edit_popover,
-            secondary_icon_name: 'edit-clear',
-            secondary_icon_activatable: true,
-            secondary_icon_sensitive: true,
-        });
-
-        edit_entry.connect('activate', () => this.edit_popover.popdown());
-
-        edit_entry.connect('icon-press', () => {
-            this.edit_popover.popdown();
-            this.emit('reset-label');
-        });
-
-        this.bind_property(
-            'label',
-            edit_entry,
-            'text',
-            GObject.BindingFlags.SYNC_CREATE | GObject.BindingFlags.BIDIRECTIONAL
-        );
-
-        this.connect('size-allocate', (_, allocation) => {
-            edit_entry.width_request = allocation.width;
-        });
-    }
-
-    edit() {
-        this.edit_popover.popup();
     }
 
     get action_name() {
