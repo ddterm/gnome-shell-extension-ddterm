@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-05 06:15+0000\n"
+"POT-Creation-Date: 2026-01-19 19:19+0000\n"
 "PO-Revision-Date: 2024-06-10 12:09+0000\n"
 "Last-Translator: Nathan Hadley <nathanhadley.pigeon@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/it/>\n"
@@ -163,7 +163,21 @@ msgstr "Trova successivo"
 msgid "Find Previous"
 msgstr "Trova precedente"
 
-#: ddterm/app/tablabel.js:110 ddterm/app/ui/menus.ui:89
+#: ddterm/app/tablabel.js:43 ddterm/pref/shortcuts.js:658
+msgid "Set Custom Tab Title"
+msgstr "Imposta titolo scheda personalizzato"
+
+#: ddterm/app/tablabel.js:50
+#, fuzzy
+#| msgid "Set tab title"
+msgid "Tab _title:"
+msgstr "Impostare il titolo della scheda"
+
+#: ddterm/app/tablabel.js:64 ddterm/app/ui/menus.ui:215
+msgid "Use Custom Tab Title"
+msgstr "Usa titolo scheda personalizzato"
+
+#: ddterm/app/tablabel.js:180 ddterm/app/ui/menus.ui:89
 #: ddterm/app/ui/menus.ui:226 ddterm/shell/notifications.js:62
 msgid "Close"
 msgstr "Chiudere"
@@ -172,23 +186,23 @@ msgstr "Chiudere"
 msgid "Restart"
 msgstr "Riavviare"
 
-#: ddterm/app/terminalpage.js:155 ddterm/app/terminalpage.js:644
+#: ddterm/app/terminalpage.js:155 ddterm/app/terminalpage.js:646
 msgid "Close Terminal"
 msgstr "Chiudi terminale"
 
-#: ddterm/app/terminalpage.js:511
+#: ddterm/app/terminalpage.js:513
 msgid "The child process exited with status:"
 msgstr "Il processo figlio è uscito con lo stato:"
 
-#: ddterm/app/terminalpage.js:521
+#: ddterm/app/terminalpage.js:523
 msgid "The child process was aborted by signal:"
 msgstr "Il processo figlio è stato interrotto da un segnale:"
 
-#: ddterm/app/terminalpage.js:636
+#: ddterm/app/terminalpage.js:638
 msgid "Close this terminal?"
 msgstr "Chiudere questo terminale?"
 
-#: ddterm/app/terminalpage.js:638
+#: ddterm/app/terminalpage.js:640
 msgid "There is still a process running in this terminal. Closing the terminal will kill it."
 msgstr "C'è ancora un processo in esecuzione in questo terminale. La chiusura del terminale lo terminerà forzatamente."
 
@@ -350,10 +364,6 @@ msgstr "Abilitare le scorciatoie da tastiera"
 #| msgid "ddterm"
 msgid "About ddterm"
 msgstr "ddterm"
-
-#: ddterm/app/ui/menus.ui:215
-msgid "Use Custom Tab Title"
-msgstr "Usa titolo scheda personalizzato"
 
 #: ddterm/app/ui/menus.ui:220
 msgid "Use Default Tab Title"
@@ -984,10 +994,6 @@ msgstr "Aumentare le dimensioni del primo riquadro diviso"
 #: ddterm/pref/shortcuts.js:653
 msgid "Decrease First Split Pane Size"
 msgstr "Diminuire le dimensioni del primo riquadro diviso"
-
-#: ddterm/pref/shortcuts.js:658
-msgid "Set Custom Tab Title"
-msgstr "Imposta titolo scheda personalizzato"
 
 #: ddterm/pref/shortcuts.js:663
 msgid "Reset Tab Title"

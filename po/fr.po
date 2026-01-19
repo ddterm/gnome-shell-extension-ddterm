@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-05 06:15+0000\n"
+"POT-Creation-Date: 2026-01-19 19:19+0000\n"
 "PO-Revision-Date: 2024-07-24 00:09+0000\n"
 "Last-Translator: Patricio Carrau <duckycb@proton.me>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/fr/>\n"
@@ -166,7 +166,19 @@ msgstr "Rechercher le suivant"
 msgid "Find Previous"
 msgstr "Rechercher le précédent"
 
-#: ddterm/app/tablabel.js:110 ddterm/app/ui/menus.ui:89
+#: ddterm/app/tablabel.js:43 ddterm/pref/shortcuts.js:658
+msgid "Set Custom Tab Title"
+msgstr "Définir un titre d'onglet personnalisé"
+
+#: ddterm/app/tablabel.js:50
+msgid "Tab _title:"
+msgstr "Titre d'onglet :"
+
+#: ddterm/app/tablabel.js:64 ddterm/app/ui/menus.ui:215
+msgid "Use Custom Tab Title"
+msgstr "Utiliser un titre d'onglet personnalisé"
+
+#: ddterm/app/tablabel.js:180 ddterm/app/ui/menus.ui:89
 #: ddterm/app/ui/menus.ui:226 ddterm/shell/notifications.js:62
 msgid "Close"
 msgstr "Fermer"
@@ -175,23 +187,23 @@ msgstr "Fermer"
 msgid "Restart"
 msgstr "Redémarrer"
 
-#: ddterm/app/terminalpage.js:155 ddterm/app/terminalpage.js:644
+#: ddterm/app/terminalpage.js:155 ddterm/app/terminalpage.js:646
 msgid "Close Terminal"
 msgstr "Fermer ce terminal"
 
-#: ddterm/app/terminalpage.js:511
+#: ddterm/app/terminalpage.js:513
 msgid "The child process exited with status:"
 msgstr "Le processus fils s'est terminé avec le statut :"
 
-#: ddterm/app/terminalpage.js:521
+#: ddterm/app/terminalpage.js:523
 msgid "The child process was aborted by signal:"
 msgstr "Le processus de l'enfant a été interrompu par le signal :"
 
-#: ddterm/app/terminalpage.js:636
+#: ddterm/app/terminalpage.js:638
 msgid "Close this terminal?"
 msgstr "Fermer ce terminal ?"
 
-#: ddterm/app/terminalpage.js:638
+#: ddterm/app/terminalpage.js:640
 msgid "There is still a process running in this terminal. Closing the terminal will kill it."
 msgstr "Il reste un processus en cours d'exécution dans ce terminal. Fermer ce terminal va le tuer."
 
@@ -353,10 +365,6 @@ msgstr "Activer les raccourcis clavier"
 #| msgid "ddterm"
 msgid "About ddterm"
 msgstr "ddterm"
-
-#: ddterm/app/ui/menus.ui:215
-msgid "Use Custom Tab Title"
-msgstr "Utiliser un titre d'onglet personnalisé"
 
 #: ddterm/app/ui/menus.ui:220
 msgid "Use Default Tab Title"
@@ -988,10 +996,6 @@ msgstr "Augmenter la taille de la première division de panneau"
 msgid "Decrease First Split Pane Size"
 msgstr "Diminuer la taille de la première division de panneau"
 
-#: ddterm/pref/shortcuts.js:658
-msgid "Set Custom Tab Title"
-msgstr "Définir un titre d'onglet personnalisé"
-
 #: ddterm/pref/shortcuts.js:663
 msgid "Reset Tab Title"
 msgstr "Réinitialiser le titre d'onglet"
@@ -1366,9 +1370,6 @@ msgstr "Afficher"
 
 #~ msgid "Panel icon:"
 #~ msgstr "Icône de panneau :"
-
-#~ msgid "Tab _title:"
-#~ msgstr "Titre d'onglet :"
 
 #~ msgid ""
 #~ "Tab title is generated from <a href=\"https://handlebarsjs.com/guide/\">handlebars.js</a> template. <a href=\"https://developer.gnome.org/pango/stable/pango-Markup.html\">Pango markup</a> can be used to format the title.\n"

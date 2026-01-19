@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-05 06:15+0000\n"
+"POT-Creation-Date: 2026-01-19 19:19+0000\n"
 "PO-Revision-Date: 2025-09-06 08:02+0000\n"
 "Last-Translator: yuh <yuhldr@qq.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/zh_Hans/>\n"
@@ -157,7 +157,19 @@ msgstr "查找下一个"
 msgid "Find Previous"
 msgstr "找到前一个"
 
-#: ddterm/app/tablabel.js:110 ddterm/app/ui/menus.ui:89
+#: ddterm/app/tablabel.js:43 ddterm/pref/shortcuts.js:658
+msgid "Set Custom Tab Title"
+msgstr "设置自定义标签页标题"
+
+#: ddterm/app/tablabel.js:50
+msgid "Tab _title:"
+msgstr "标签页标题："
+
+#: ddterm/app/tablabel.js:64 ddterm/app/ui/menus.ui:215
+msgid "Use Custom Tab Title"
+msgstr "使用自定义标签页标题"
+
+#: ddterm/app/tablabel.js:180 ddterm/app/ui/menus.ui:89
 #: ddterm/app/ui/menus.ui:226 ddterm/shell/notifications.js:62
 msgid "Close"
 msgstr "关闭"
@@ -166,23 +178,23 @@ msgstr "关闭"
 msgid "Restart"
 msgstr "重新开始"
 
-#: ddterm/app/terminalpage.js:155 ddterm/app/terminalpage.js:644
+#: ddterm/app/terminalpage.js:155 ddterm/app/terminalpage.js:646
 msgid "Close Terminal"
 msgstr "关闭终端"
 
-#: ddterm/app/terminalpage.js:511
+#: ddterm/app/terminalpage.js:513
 msgid "The child process exited with status:"
 msgstr "子进程退出，状态为："
 
-#: ddterm/app/terminalpage.js:521
+#: ddterm/app/terminalpage.js:523
 msgid "The child process was aborted by signal:"
 msgstr "子进程被信号中止："
 
-#: ddterm/app/terminalpage.js:636
+#: ddterm/app/terminalpage.js:638
 msgid "Close this terminal?"
 msgstr "关闭这个终端？"
 
-#: ddterm/app/terminalpage.js:638
+#: ddterm/app/terminalpage.js:640
 msgid "There is still a process running in this terminal. Closing the terminal will kill it."
 msgstr "该终端中仍有一个进程在运行。关闭终端，将会销毁该进程。"
 
@@ -342,10 +354,6 @@ msgstr "启用键盘快捷键"
 #: ddterm/app/ui/menus.ui:207
 msgid "About ddterm"
 msgstr "关于ddterm"
-
-#: ddterm/app/ui/menus.ui:215
-msgid "Use Custom Tab Title"
-msgstr "使用自定义标签页标题"
 
 #: ddterm/app/ui/menus.ui:220
 msgid "Use Default Tab Title"
@@ -977,10 +985,6 @@ msgstr "增加第一个拆分面板的大小"
 msgid "Decrease First Split Pane Size"
 msgstr "减少第一个拆分面板的大小"
 
-#: ddterm/pref/shortcuts.js:658
-msgid "Set Custom Tab Title"
-msgstr "设置自定义标签页标题"
-
 #: ddterm/pref/shortcuts.js:663
 msgid "Reset Tab Title"
 msgstr "重置标签页标题"
@@ -1355,9 +1359,6 @@ msgstr "显示"
 
 #~ msgid "Panel icon:"
 #~ msgstr "面板图标："
-
-#~ msgid "Tab _title:"
-#~ msgstr "标签页标题："
 
 #~ msgid ""
 #~ "Tab title is generated from <a href=\"https://handlebarsjs.com/guide/\">handlebars.js</a> template. <a href=\"https://developer.gnome.org/pango/stable/pango-Markup.html\">Pango markup</a> can be used to format the title.\n"

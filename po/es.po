@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-05 06:15+0000\n"
+"POT-Creation-Date: 2026-01-19 19:19+0000\n"
 "PO-Revision-Date: 2025-11-18 04:55+0000\n"
 "Last-Translator: Francisco Serrador <fserrador@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/es/>\n"
@@ -164,7 +164,21 @@ msgstr "Encontrar siguiente"
 msgid "Find Previous"
 msgstr "Encontrar anterior"
 
-#: ddterm/app/tablabel.js:110 ddterm/app/ui/menus.ui:89
+#: ddterm/app/tablabel.js:43 ddterm/pref/shortcuts.js:658
+msgid "Set Custom Tab Title"
+msgstr "Establecer título de la pestaña personalizado"
+
+#: ddterm/app/tablabel.js:50
+#, fuzzy
+#| msgid "Set tab title"
+msgid "Tab _title:"
+msgstr "Renombrar el título de la pestaña"
+
+#: ddterm/app/tablabel.js:64 ddterm/app/ui/menus.ui:215
+msgid "Use Custom Tab Title"
+msgstr "Cambiar el título de la pestaña"
+
+#: ddterm/app/tablabel.js:180 ddterm/app/ui/menus.ui:89
 #: ddterm/app/ui/menus.ui:226 ddterm/shell/notifications.js:62
 msgid "Close"
 msgstr "Cerrar"
@@ -173,23 +187,23 @@ msgstr "Cerrar"
 msgid "Restart"
 msgstr "Reiniciar"
 
-#: ddterm/app/terminalpage.js:155 ddterm/app/terminalpage.js:644
+#: ddterm/app/terminalpage.js:155 ddterm/app/terminalpage.js:646
 msgid "Close Terminal"
 msgstr "Cerrar terminal"
 
-#: ddterm/app/terminalpage.js:511
+#: ddterm/app/terminalpage.js:513
 msgid "The child process exited with status:"
 msgstr "El proceso terminó con el siguiente estado:"
 
-#: ddterm/app/terminalpage.js:521
+#: ddterm/app/terminalpage.js:523
 msgid "The child process was aborted by signal:"
 msgstr "El proceso fué parado con la señal:"
 
-#: ddterm/app/terminalpage.js:636
+#: ddterm/app/terminalpage.js:638
 msgid "Close this terminal?"
 msgstr "¿Cerrar esta terminal?"
 
-#: ddterm/app/terminalpage.js:638
+#: ddterm/app/terminalpage.js:640
 msgid "There is still a process running in this terminal. Closing the terminal will kill it."
 msgstr "Un proceso aún está corriendo en esta terminal. Cerrar la terminal lo terminaría."
 
@@ -349,10 +363,6 @@ msgstr "Activar atajos de teclado"
 #: ddterm/app/ui/menus.ui:207
 msgid "About ddterm"
 msgstr "Acerca de ddterm"
-
-#: ddterm/app/ui/menus.ui:215
-msgid "Use Custom Tab Title"
-msgstr "Cambiar el título de la pestaña"
 
 #: ddterm/app/ui/menus.ui:220
 msgid "Use Default Tab Title"
@@ -973,10 +983,6 @@ msgstr "Aumentar el tamaño del primer panel dividido"
 #: ddterm/pref/shortcuts.js:653
 msgid "Decrease First Split Pane Size"
 msgstr "Reducir el tamaño del primer panel dividido"
-
-#: ddterm/pref/shortcuts.js:658
-msgid "Set Custom Tab Title"
-msgstr "Establecer título de la pestaña personalizado"
 
 #: ddterm/pref/shortcuts.js:663
 msgid "Reset Tab Title"

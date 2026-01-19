@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-05 06:15+0000\n"
+"POT-Creation-Date: 2026-01-19 19:19+0000\n"
 "PO-Revision-Date: 2025-09-18 04:23+0000\n"
 "Last-Translator: Ivan Vantu5z <vantu5z@mail.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/ru/>\n"
@@ -167,7 +167,19 @@ msgstr "Найти следующее"
 msgid "Find Previous"
 msgstr "Найти предыдущее"
 
-#: ddterm/app/tablabel.js:110 ddterm/app/ui/menus.ui:89
+#: ddterm/app/tablabel.js:43 ddterm/pref/shortcuts.js:658
+msgid "Set Custom Tab Title"
+msgstr "Изменить название вкладки"
+
+#: ddterm/app/tablabel.js:50
+msgid "Tab _title:"
+msgstr "Название вкладки:"
+
+#: ddterm/app/tablabel.js:64 ddterm/app/ui/menus.ui:215
+msgid "Use Custom Tab Title"
+msgstr "Использовать пользовательское именование вкладок"
+
+#: ddterm/app/tablabel.js:180 ddterm/app/ui/menus.ui:89
 #: ddterm/app/ui/menus.ui:226 ddterm/shell/notifications.js:62
 msgid "Close"
 msgstr "Закрыть"
@@ -176,23 +188,23 @@ msgstr "Закрыть"
 msgid "Restart"
 msgstr "Перезапустить"
 
-#: ddterm/app/terminalpage.js:155 ddterm/app/terminalpage.js:644
+#: ddterm/app/terminalpage.js:155 ddterm/app/terminalpage.js:646
 msgid "Close Terminal"
 msgstr "Закрыть терминал"
 
-#: ddterm/app/terminalpage.js:511
+#: ddterm/app/terminalpage.js:513
 msgid "The child process exited with status:"
 msgstr "Процесс завершен со статусом:"
 
-#: ddterm/app/terminalpage.js:521
+#: ddterm/app/terminalpage.js:523
 msgid "The child process was aborted by signal:"
 msgstr "Процесс был прерван сигналом:"
 
-#: ddterm/app/terminalpage.js:636
+#: ddterm/app/terminalpage.js:638
 msgid "Close this terminal?"
 msgstr "Закрыть терминал?"
 
-#: ddterm/app/terminalpage.js:638
+#: ddterm/app/terminalpage.js:640
 msgid "There is still a process running in this terminal. Closing the terminal will kill it."
 msgstr "В терминале запущены процессы. При закрытии терминала эти процессы будут завершены."
 
@@ -352,10 +364,6 @@ msgstr "Включить комбинации клавиш"
 #: ddterm/app/ui/menus.ui:207
 msgid "About ddterm"
 msgstr "О проекте ddterm"
-
-#: ddterm/app/ui/menus.ui:215
-msgid "Use Custom Tab Title"
-msgstr "Использовать пользовательское именование вкладок"
 
 #: ddterm/app/ui/menus.ui:220
 msgid "Use Default Tab Title"
@@ -987,10 +995,6 @@ msgstr "Увеличить размер первой разделенной па
 msgid "Decrease First Split Pane Size"
 msgstr "Уменьшить размер первой разделенной панели"
 
-#: ddterm/pref/shortcuts.js:658
-msgid "Set Custom Tab Title"
-msgstr "Изменить название вкладки"
-
 #: ddterm/pref/shortcuts.js:663
 msgid "Reset Tab Title"
 msgstr "Сбросить название вкладки"
@@ -1365,9 +1369,6 @@ msgstr "Показать"
 
 #~ msgid "Panel icon:"
 #~ msgstr "Иконка на панели:"
-
-#~ msgid "Tab _title:"
-#~ msgstr "Название вкладки:"
 
 #~ msgid ""
 #~ "Tab title is generated from <a href=\"https://handlebarsjs.com/guide/\">handlebars.js</a> template. <a href=\"https://developer.gnome.org/pango/stable/pango-Markup.html\">Pango markup</a> can be used to format the title.\n"

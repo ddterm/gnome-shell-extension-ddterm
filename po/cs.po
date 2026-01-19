@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-05 06:15+0000\n"
+"POT-Creation-Date: 2026-01-19 19:19+0000\n"
 "PO-Revision-Date: 2023-10-24 22:14+0000\n"
 "Last-Translator: Pavel Novák <pavelnov32@gmail.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/cs/>\n"
@@ -158,7 +158,19 @@ msgstr "Klávesové zkratky"
 msgid "Find Previous"
 msgstr "Najít předchozí"
 
-#: ddterm/app/tablabel.js:110 ddterm/app/ui/menus.ui:89
+#: ddterm/app/tablabel.js:43 ddterm/pref/shortcuts.js:658
+msgid "Set Custom Tab Title"
+msgstr "Nastavit vlastní název panelu"
+
+#: ddterm/app/tablabel.js:50
+msgid "Tab _title:"
+msgstr "_Název panelu:"
+
+#: ddterm/app/tablabel.js:64 ddterm/app/ui/menus.ui:215
+msgid "Use Custom Tab Title"
+msgstr "Použít vlastní název panelu"
+
+#: ddterm/app/tablabel.js:180 ddterm/app/ui/menus.ui:89
 #: ddterm/app/ui/menus.ui:226 ddterm/shell/notifications.js:62
 msgid "Close"
 msgstr "Zavřít"
@@ -167,23 +179,23 @@ msgstr "Zavřít"
 msgid "Restart"
 msgstr "Restart"
 
-#: ddterm/app/terminalpage.js:155 ddterm/app/terminalpage.js:644
+#: ddterm/app/terminalpage.js:155 ddterm/app/terminalpage.js:646
 msgid "Close Terminal"
 msgstr "Zavřít tento terminál"
 
-#: ddterm/app/terminalpage.js:511
+#: ddterm/app/terminalpage.js:513
 msgid "The child process exited with status:"
 msgstr "Podproces byl ukončen se stavem:"
 
-#: ddterm/app/terminalpage.js:521
+#: ddterm/app/terminalpage.js:523
 msgid "The child process was aborted by signal:"
 msgstr "Podproces byl zrušen signálem:"
 
-#: ddterm/app/terminalpage.js:636
+#: ddterm/app/terminalpage.js:638
 msgid "Close this terminal?"
 msgstr "Zavřít tento terminál?"
 
-#: ddterm/app/terminalpage.js:638
+#: ddterm/app/terminalpage.js:640
 msgid "There is still a process running in this terminal. Closing the terminal will kill it."
 msgstr "V tomto terminálu stále běží proces. Zavření terminálu jej ukončí."
 
@@ -343,10 +355,6 @@ msgstr "Povolit klávesové zkratky"
 #: ddterm/app/ui/menus.ui:207
 msgid "About ddterm"
 msgstr ""
-
-#: ddterm/app/ui/menus.ui:215
-msgid "Use Custom Tab Title"
-msgstr "Použít vlastní název panelu"
 
 #: ddterm/app/ui/menus.ui:220
 msgid "Use Default Tab Title"
@@ -980,10 +988,6 @@ msgstr ""
 msgid "Decrease First Split Pane Size"
 msgstr ""
 
-#: ddterm/pref/shortcuts.js:658
-msgid "Set Custom Tab Title"
-msgstr "Nastavit vlastní název panelu"
-
 #: ddterm/pref/shortcuts.js:663
 msgid "Reset Tab Title"
 msgstr "Resetovat název panelu"
@@ -1358,9 +1362,6 @@ msgstr "Zobrazit"
 
 #~ msgid "Panel icon:"
 #~ msgstr "Ikona na panelu:"
-
-#~ msgid "Tab _title:"
-#~ msgstr "_Název panelu:"
 
 #~ msgid ""
 #~ "Tab title is generated from <a href=\"https://handlebarsjs.com/guide/\">handlebars.js</a> template. <a href=\"https://developer.gnome.org/pango/stable/pango-Markup.html\">Pango markup</a> can be used to format the title.\n"
