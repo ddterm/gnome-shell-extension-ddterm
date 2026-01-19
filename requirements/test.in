@@ -5,7 +5,7 @@
 --only-binary :all:
 
 pytest==9.0.2
-pytest-html==4.1.1
+pytest-html==4.2.0
 ansi2html==1.9.2
 pyyaml==6.0.3
 pytest-xdist[psutil,setproctitle]==3.8.0
