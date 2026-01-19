@@ -14,7 +14,7 @@
         "url": "git+https://github.com/ddterm/gnome-shell-extension-ddterm.git"
     },
     "devDependencies": {
-        "@eslint/compat": "2.0.0",
+        "@eslint/compat": "2.0.1",
         "@eslint/config-helpers": "0.5.1",
         "@eslint/js": "9.39.2",
         "eslint": "9.39.2",
