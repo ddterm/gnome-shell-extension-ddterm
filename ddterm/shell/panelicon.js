@@ -25,6 +25,7 @@ const PanelIconBase = GObject.registerClass({
     },
     Signals: {
         'open-preferences': {},
+        'show-about-dialog': {},
     },
 }, class DDTermPanelIconBase extends PanelMenu.Button {
     _init(dontCreateMenu, icon, gettext_domain) {
@@ -65,6 +66,14 @@ const PanelIconPopupMenu = GObject.registerClass({
         this.menu.addMenuItem(this.preferences_item);
         this.preferences_item.connect('activate', () => {
             this.emit('open-preferences');
+        });
+
+        this.about_item = new PopupMenu.PopupMenuItem(
+            gettext_domain.gettext('About ddterm')
+        );
+        this.menu.addMenuItem(this.about_item);
+        this.about_item.connect('activate', () => {
+            this.emit('show-about-dialog');
         });
     }
 
@@ -193,6 +202,7 @@ export const PanelIconProxy = GObject.registerClass({
     },
     Signals: {
         'open-preferences': {},
+        'show-about-dialog': {},
     },
 }, class DDTermPanelIconProxy extends GObject.Object {
     _init(params) {
@@ -241,6 +251,10 @@ export const PanelIconProxy = GObject.registerClass({
 
             this.icon.connect('open-preferences', () => {
                 this.emit('open-preferences');
+            });
+
+            this.icon.connect('show-about-dialog', () => {
+                this.emit('show-about-dialog');
             });
         } finally {
             this.thaw_notify();

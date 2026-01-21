@@ -109,6 +109,10 @@ function create_panel_icon(settings, window_matcher, app_control, icon, gettext_
         app_control.preferences();
     });
 
+    panel_icon.connect('show-about-dialog', () => {
+        app_control.about();
+    });
+
     window_matcher.connect('notify::current-window', () => {
         panel_icon.active = window_matcher.current_window !== null;
     });

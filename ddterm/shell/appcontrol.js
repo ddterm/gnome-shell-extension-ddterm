@@ -243,6 +243,11 @@ export const AppControl = GObject.registerClass({
         this.actions.activate_action('preferences', null);
     }
 
+    async about() {
+        await this.ensure_running();
+        this.actions.activate_action('about', null);
+    }
+
     disable() {
         this.#cancellable.cancel();
     }
