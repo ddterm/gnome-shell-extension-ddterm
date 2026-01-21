@@ -85,16 +85,6 @@ SPDX-License-Identifier: GPL-3.0-or-later
       </item>
     </section>
     <section>
-      <item>
-        <attribute name="label" translatable="yes">Close</attribute>
-        <attribute name="action">page.close</attribute>
-      </item>
-      <item>
-        <attribute name="label" translatable="yes">Keep Open After Exit</attribute>
-        <attribute name="action">page.keep-open-after-exit</attribute>
-      </item>
-    </section>
-    <section>
       <submenu>
         <attribute name="label" translatable="yes">New Tab</attribute>
         <item>
@@ -204,6 +194,16 @@ SPDX-License-Identifier: GPL-3.0-or-later
     </submenu>
     <section>
       <item>
+        <attribute name="label" translatable="yes">Keep Open After Exit</attribute>
+        <attribute name="action">page.keep-open-after-exit</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Close</attribute>
+        <attribute name="action">page.close</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
         <attribute name="label" translatable="yes">About ddterm</attribute>
         <attribute name="action">app.about</attribute>
       </item>
@@ -222,14 +222,6 @@ SPDX-License-Identifier: GPL-3.0-or-later
         <attribute name="target" type="b">false</attribute>
       </item>
     </section>
-    <item>
-      <attribute name="label" translatable="yes">Close</attribute>
-      <attribute name="action">page.close</attribute>
-    </item>
-    <item>
-      <attribute name="label" translatable="yes">Keep Open After Exit</attribute>
-      <attribute name="action">page.keep-open-after-exit</attribute>
-    </item>
     <section>
       <item>
         <attribute name="label" translatable="yes">New Tab Before This Tab</attribute>
@@ -290,6 +282,16 @@ SPDX-License-Identifier: GPL-3.0-or-later
       <attribute name="label" translatable="yes">Preferences…</attribute>
       <attribute name="action">app.preferences</attribute>
     </item>
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">Keep Open After Exit</attribute>
+        <attribute name="action">page.keep-open-after-exit</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Close</attribute>
+        <attribute name="action">page.close</attribute>
+      </item>
+    </section>
   </menu>
   <menu id="notebook-layout">
     <item>
