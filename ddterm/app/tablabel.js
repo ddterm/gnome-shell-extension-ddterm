@@ -12,7 +12,47 @@ import Handy from 'gi://Handy';
 import Gettext from 'gettext';
 
 import { AccelLabel } from './accellabel.js';
-import { EntryRow } from '../pref/util.js';
+
+class EntryRow extends Handy.ActionRow {
+    static [GObject.GTypeName] = 'DDTermTabTitleEntryRow';
+
+    static [GObject.properties] = {
+        'text': GObject.ParamSpec.string(
+            'text',
+            null,
+            null,
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+            ''
+        ),
+    };
+
+    static {
+        GObject.registerClass(this);
+    }
+
+    #entry;
+
+    constructor(params) {
+        super(params);
+
+        this.#entry = new Gtk.Entry({
+            visible: true,
+            hexpand: true,
+            valign: Gtk.Align.CENTER,
+        });
+
+        this.bind_property(
+            'text',
+            this.#entry,
+            'text',
+            GObject.BindingFlags.SYNC_CREATE | GObject.BindingFlags.BIDIRECTIONAL
+        );
+
+        this.set_activatable(true);
+        this.set_activatable_widget(this.#entry);
+        this.add(this.#entry);
+    }
+}
 
 export class TabTitleDialog extends Gtk.Dialog {
     static [GObject.GTypeName] = 'DDTermTabTitleDialog';
