@@ -10,7 +10,7 @@ import Gettext from 'gettext';
 
 import { metadata } from './meta.js';
 
-const COPYRIGHT = 'Copyright © 2020-2025 ddterm contributors';
+const COPYRIGHT = 'Copyright © 2020-2026 ddterm contributors';
 const ARTIST_RE = /^\s*#\s*Artwork\s+by\s*:\s*\n[^\n]+$/igm;
 
 function load_authors() {
