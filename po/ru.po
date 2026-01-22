@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-19 19:19+0000\n"
+"POT-Creation-Date: 2026-01-22 13:28+0000\n"
 "PO-Revision-Date: 2025-09-18 04:23+0000\n"
 "Last-Translator: Ivan Vantu5z <vantu5z@mail.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/ru/>\n"
@@ -25,7 +25,7 @@ msgstr ""
 "X-Generator: Weblate 5.14-dev\n"
 
 #: data/com.github.amezin.ddterm.desktop.in.in:8 ddterm/app/appwindow.js:146
-#: ddterm/shell/notifications.js:238 ddterm/shell/panelicon.js:31
+#: ddterm/shell/notifications.js:238 ddterm/shell/panelicon.js:32
 msgid "ddterm"
 msgstr "ddterm"
 
@@ -42,8 +42,8 @@ msgstr "Еще одно расширение выпадающего термин
 msgid "Toggle"
 msgstr "Переключатель"
 
-#: data/com.github.amezin.ddterm.desktop.in.in:29 ddterm/app/ui/menus.ui:150
-#: ddterm/app/ui/menus.ui:290 ddterm/shell/panelicon.js:63
+#: data/com.github.amezin.ddterm.desktop.in.in:29 ddterm/app/ui/menus.ui:140
+#: ddterm/app/ui/menus.ui:282 ddterm/shell/panelicon.js:64
 msgid "Preferences…"
 msgstr "Параметры…"
 
@@ -167,20 +167,20 @@ msgstr "Найти следующее"
 msgid "Find Previous"
 msgstr "Найти предыдущее"
 
-#: ddterm/app/tablabel.js:43 ddterm/pref/shortcuts.js:658
+#: ddterm/app/tablabel.js:83 ddterm/pref/shortcuts.js:658
 msgid "Set Custom Tab Title"
 msgstr "Изменить название вкладки"
 
-#: ddterm/app/tablabel.js:50
+#: ddterm/app/tablabel.js:90
 msgid "Tab _title:"
 msgstr "Название вкладки:"
 
-#: ddterm/app/tablabel.js:64 ddterm/app/ui/menus.ui:215
+#: ddterm/app/tablabel.js:104 ddterm/app/ui/menus.ui:215
 msgid "Use Custom Tab Title"
 msgstr "Использовать пользовательское именование вкладок"
 
-#: ddterm/app/tablabel.js:180 ddterm/app/ui/menus.ui:89
-#: ddterm/app/ui/menus.ui:226 ddterm/shell/notifications.js:62
+#: ddterm/app/tablabel.js:220 ddterm/app/ui/menus.ui:201
+#: ddterm/app/ui/menus.ui:291 ddterm/shell/notifications.js:62
 msgid "Close"
 msgstr "Закрыть"
 
@@ -268,100 +268,100 @@ msgstr "Нормальный размер"
 msgid "Show in File Manager"
 msgstr "Показать в файловом менеджере"
 
-#: ddterm/app/ui/menus.ui:93 ddterm/app/ui/menus.ui:230
-msgid "Keep Open After Exit"
-msgstr "Не завершать работу при выходе"
-
-#: ddterm/app/ui/menus.ui:99
+#: ddterm/app/ui/menus.ui:89
 msgid "New Tab"
 msgstr "Новая вкладка"
 
-#: ddterm/app/ui/menus.ui:101 ddterm/pref/shortcuts.js:593
+#: ddterm/app/ui/menus.ui:91 ddterm/pref/shortcuts.js:593
 msgid "New Tab Before Current Tab"
 msgstr "Новая вкладка - Перед текущей вкладкой"
 
-#: ddterm/app/ui/menus.ui:105 ddterm/pref/shortcuts.js:598
+#: ddterm/app/ui/menus.ui:95 ddterm/pref/shortcuts.js:598
 msgid "New Tab After Current Tab"
 msgstr "Новая вкладка - После текущей вкладки"
 
-#: ddterm/app/ui/menus.ui:109 ddterm/app/ui/menus.ui:243
+#: ddterm/app/ui/menus.ui:99 ddterm/app/ui/menus.ui:235
 #: ddterm/pref/shortcuts.js:588
 msgid "New Tab Before First Tab"
 msgstr "Новая вкладка - Перед первой вкладкой"
 
-#: ddterm/app/ui/menus.ui:113 ddterm/app/ui/menus.ui:247
+#: ddterm/app/ui/menus.ui:103 ddterm/app/ui/menus.ui:239
 #: ddterm/pref/shortcuts.js:583
 msgid "New Tab After Last Tab"
 msgstr "Новая вкладка - После последней вкладки"
 
-#: ddterm/app/ui/menus.ui:120 ddterm/app/ui/menus.ui:263
+#: ddterm/app/ui/menus.ui:110 ddterm/app/ui/menus.ui:255
 msgid "Layout"
 msgstr "Отображение"
 
-#: ddterm/app/ui/menus.ui:123 ddterm/app/ui/menus.ui:266
-#: ddterm/app/ui/menus.ui:296
+#: ddterm/app/ui/menus.ui:113 ddterm/app/ui/menus.ui:258
+#: ddterm/app/ui/menus.ui:298
 msgid "No Split"
 msgstr "Не разделять"
 
-#: ddterm/app/ui/menus.ui:128 ddterm/app/ui/menus.ui:271
-#: ddterm/app/ui/menus.ui:301 ddterm/pref/shortcuts.js:628
+#: ddterm/app/ui/menus.ui:118 ddterm/app/ui/menus.ui:263
+#: ddterm/app/ui/menus.ui:303 ddterm/pref/shortcuts.js:628
 msgid "Split Horizontally"
 msgstr "Разделить горизонтально"
 
-#: ddterm/app/ui/menus.ui:133 ddterm/app/ui/menus.ui:276
-#: ddterm/app/ui/menus.ui:306 ddterm/pref/shortcuts.js:633
+#: ddterm/app/ui/menus.ui:123 ddterm/app/ui/menus.ui:268
+#: ddterm/app/ui/menus.ui:308 ddterm/pref/shortcuts.js:633
 msgid "Split Vertically"
 msgstr "Разделить вертикально"
 
-#: ddterm/app/ui/menus.ui:140 ddterm/app/ui/menus.ui:283
+#: ddterm/app/ui/menus.ui:130 ddterm/app/ui/menus.ui:275
 msgid "Move Tab to Other Pane"
 msgstr "Переместить вкладку на другую панель"
 
-#: ddterm/app/ui/menus.ui:147 ddterm/pref/dialog.js:50
+#: ddterm/app/ui/menus.ui:137 ddterm/pref/dialog.js:50
 msgid "Preferences"
 msgstr "Параметры"
 
-#: ddterm/app/ui/menus.ui:156 ddterm/pref/behavior.js:28
+#: ddterm/app/ui/menus.ui:146 ddterm/pref/behavior.js:28
 msgid "Above All Windows"
 msgstr "Поверх всех окон"
 
-#: ddterm/app/ui/menus.ui:160 ddterm/pref/behavior.js:33
+#: ddterm/app/ui/menus.ui:150 ddterm/pref/behavior.js:33
 msgid "On All Workspaces"
 msgstr "На всех рабочих столах"
 
-#: ddterm/app/ui/menus.ui:164
+#: ddterm/app/ui/menus.ui:154
 msgid "Maximize Window"
 msgstr "На весь экран"
 
-#: ddterm/app/ui/menus.ui:168 ddterm/pref/colors.js:592
+#: ddterm/app/ui/menus.ui:158 ddterm/pref/colors.js:592
 msgid "Transparent Background"
 msgstr "Прозрачный фон"
 
-#: ddterm/app/ui/menus.ui:174 ddterm/pref/behavior.js:38
+#: ddterm/app/ui/menus.ui:164 ddterm/pref/behavior.js:38
 msgid "Hide When Application Loses Focus"
 msgstr "Скрывать при потере фокуса"
 
-#: ddterm/app/ui/menus.ui:178 ddterm/pref/behavior.js:43
+#: ddterm/app/ui/menus.ui:168 ddterm/pref/behavior.js:43
 msgid "Hide When Esc Key Is Pressed"
 msgstr "Скрывать по клавише ESC"
 
-#: ddterm/app/ui/menus.ui:184 ddterm/pref/scrolling.js:33
+#: ddterm/app/ui/menus.ui:174 ddterm/pref/scrolling.js:33
 msgid "Scroll On Output"
 msgstr "Прокрутка при выводе"
 
-#: ddterm/app/ui/menus.ui:188 ddterm/pref/scrolling.js:38
+#: ddterm/app/ui/menus.ui:178 ddterm/pref/scrolling.js:38
 msgid "Scroll On Keystroke"
 msgstr "Прокрутка по нажатию клавиши"
 
-#: ddterm/app/ui/menus.ui:194 ddterm/pref/command.js:51
+#: ddterm/app/ui/menus.ui:184 ddterm/pref/command.js:51
 msgid "Preserve Working Directory In New Tabs"
 msgstr "Сохранять рабочий каталог в новых вкладках"
 
-#: ddterm/app/ui/menus.ui:200
+#: ddterm/app/ui/menus.ui:190
 msgid "Enable Keyboard Shortcuts"
 msgstr "Включить комбинации клавиш"
 
-#: ddterm/app/ui/menus.ui:207
+#: ddterm/app/ui/menus.ui:197 ddterm/app/ui/menus.ui:287
+msgid "Keep Open After Exit"
+msgstr "Не завершать работу при выходе"
+
+#: ddterm/app/ui/menus.ui:207 ddterm/shell/panelicon.js:72
 msgid "About ddterm"
 msgstr "О проекте ddterm"
 
@@ -369,19 +369,19 @@ msgstr "О проекте ddterm"
 msgid "Use Default Tab Title"
 msgstr "Использовать именование вкладок по умолчанию"
 
-#: ddterm/app/ui/menus.ui:235
+#: ddterm/app/ui/menus.ui:227
 msgid "New Tab Before This Tab"
 msgstr "Новая вкладка перед указанной"
 
-#: ddterm/app/ui/menus.ui:239
+#: ddterm/app/ui/menus.ui:231
 msgid "New Tab After This Tab"
 msgstr "Новая вкладка после указанной"
 
-#: ddterm/app/ui/menus.ui:253 ddterm/pref/shortcuts.js:618
+#: ddterm/app/ui/menus.ui:245 ddterm/pref/shortcuts.js:618
 msgid "Move Tab to Previous Position"
 msgstr "Переместить вкладку на предыдущую позицию"
 
-#: ddterm/app/ui/menus.ui:257 ddterm/pref/shortcuts.js:623
+#: ddterm/app/ui/menus.ui:249 ddterm/pref/shortcuts.js:623
 msgid "Move Tab to Next Position"
 msgstr "Переместить вкладку на следующую позицию"
 
@@ -1211,7 +1211,7 @@ msgstr "Подробнее…"
 msgid "Install"
 msgstr "Установка"
 
-#: ddterm/shell/panelicon.js:48
+#: ddterm/shell/panelicon.js:49
 msgid "Show"
 msgstr "Показать"
 

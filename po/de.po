@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-19 19:19+0000\n"
+"POT-Creation-Date: 2026-01-22 13:28+0000\n"
 "PO-Revision-Date: 2025-11-16 22:26+0100\n"
 "Last-Translator: Philipp Kiemle <l10n.daphipz@fastmail.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/de/>\n"
@@ -22,7 +22,7 @@ msgstr ""
 "X-Generator: Poedit 3.8\n"
 
 #: data/com.github.amezin.ddterm.desktop.in.in:8 ddterm/app/appwindow.js:146
-#: ddterm/shell/notifications.js:238 ddterm/shell/panelicon.js:31
+#: ddterm/shell/notifications.js:238 ddterm/shell/panelicon.js:32
 msgid "ddterm"
 msgstr "ddterm"
 
@@ -39,8 +39,8 @@ msgstr "Ein Aufklapp-Terminal für die GNOME Shell"
 msgid "Toggle"
 msgstr "Umschalten"
 
-#: data/com.github.amezin.ddterm.desktop.in.in:29 ddterm/app/ui/menus.ui:150
-#: ddterm/app/ui/menus.ui:290 ddterm/shell/panelicon.js:63
+#: data/com.github.amezin.ddterm.desktop.in.in:29 ddterm/app/ui/menus.ui:140
+#: ddterm/app/ui/menus.ui:282 ddterm/shell/panelicon.js:64
 msgid "Preferences…"
 msgstr "Einstellungen …"
 
@@ -163,20 +163,20 @@ msgstr "Finde nächstes"
 msgid "Find Previous"
 msgstr "Finde vorheriges"
 
-#: ddterm/app/tablabel.js:43 ddterm/pref/shortcuts.js:658
+#: ddterm/app/tablabel.js:83 ddterm/pref/shortcuts.js:658
 msgid "Set Custom Tab Title"
 msgstr "Benutzerdefinierten Reitertitel festlegen"
 
-#: ddterm/app/tablabel.js:50
+#: ddterm/app/tablabel.js:90
 msgid "Tab _title:"
 msgstr "_Tab-Name:"
 
-#: ddterm/app/tablabel.js:64 ddterm/app/ui/menus.ui:215
+#: ddterm/app/tablabel.js:104 ddterm/app/ui/menus.ui:215
 msgid "Use Custom Tab Title"
 msgstr "Benutzerdefinierte Reitertitel verwenden"
 
-#: ddterm/app/tablabel.js:180 ddterm/app/ui/menus.ui:89
-#: ddterm/app/ui/menus.ui:226 ddterm/shell/notifications.js:62
+#: ddterm/app/tablabel.js:220 ddterm/app/ui/menus.ui:201
+#: ddterm/app/ui/menus.ui:291 ddterm/shell/notifications.js:62
 msgid "Close"
 msgstr "Schließen"
 
@@ -264,100 +264,100 @@ msgstr "Normale Größe"
 msgid "Show in File Manager"
 msgstr "In Dateiverwaltung anzeigen"
 
-#: ddterm/app/ui/menus.ui:93 ddterm/app/ui/menus.ui:230
-msgid "Keep Open After Exit"
-msgstr "Nach dem Beenden geöffnet lassen"
-
-#: ddterm/app/ui/menus.ui:99
+#: ddterm/app/ui/menus.ui:89
 msgid "New Tab"
 msgstr "Neuer Reiter"
 
-#: ddterm/app/ui/menus.ui:101 ddterm/pref/shortcuts.js:593
+#: ddterm/app/ui/menus.ui:91 ddterm/pref/shortcuts.js:593
 msgid "New Tab Before Current Tab"
 msgstr "Neuer Reiter vor aktivem Reiter"
 
-#: ddterm/app/ui/menus.ui:105 ddterm/pref/shortcuts.js:598
+#: ddterm/app/ui/menus.ui:95 ddterm/pref/shortcuts.js:598
 msgid "New Tab After Current Tab"
 msgstr "Neuer Reiter nach aktivem Reiter"
 
-#: ddterm/app/ui/menus.ui:109 ddterm/app/ui/menus.ui:243
+#: ddterm/app/ui/menus.ui:99 ddterm/app/ui/menus.ui:235
 #: ddterm/pref/shortcuts.js:588
 msgid "New Tab Before First Tab"
 msgstr "Neuer Reiter vor dem ersten Reiter"
 
-#: ddterm/app/ui/menus.ui:113 ddterm/app/ui/menus.ui:247
+#: ddterm/app/ui/menus.ui:103 ddterm/app/ui/menus.ui:239
 #: ddterm/pref/shortcuts.js:583
 msgid "New Tab After Last Tab"
 msgstr "Neuer Reiter nach dem letzten Reiter"
 
-#: ddterm/app/ui/menus.ui:120 ddterm/app/ui/menus.ui:263
+#: ddterm/app/ui/menus.ui:110 ddterm/app/ui/menus.ui:255
 msgid "Layout"
 msgstr "Darstellung"
 
-#: ddterm/app/ui/menus.ui:123 ddterm/app/ui/menus.ui:266
-#: ddterm/app/ui/menus.ui:296
+#: ddterm/app/ui/menus.ui:113 ddterm/app/ui/menus.ui:258
+#: ddterm/app/ui/menus.ui:298
 msgid "No Split"
 msgstr "Keine Teilung"
 
-#: ddterm/app/ui/menus.ui:128 ddterm/app/ui/menus.ui:271
-#: ddterm/app/ui/menus.ui:301 ddterm/pref/shortcuts.js:628
+#: ddterm/app/ui/menus.ui:118 ddterm/app/ui/menus.ui:263
+#: ddterm/app/ui/menus.ui:303 ddterm/pref/shortcuts.js:628
 msgid "Split Horizontally"
 msgstr "Horizontal teilen"
 
-#: ddterm/app/ui/menus.ui:133 ddterm/app/ui/menus.ui:276
-#: ddterm/app/ui/menus.ui:306 ddterm/pref/shortcuts.js:633
+#: ddterm/app/ui/menus.ui:123 ddterm/app/ui/menus.ui:268
+#: ddterm/app/ui/menus.ui:308 ddterm/pref/shortcuts.js:633
 msgid "Split Vertically"
 msgstr "Vertikal teilen"
 
-#: ddterm/app/ui/menus.ui:140 ddterm/app/ui/menus.ui:283
+#: ddterm/app/ui/menus.ui:130 ddterm/app/ui/menus.ui:275
 msgid "Move Tab to Other Pane"
 msgstr "Reiter in anderen Bereich verschieben"
 
-#: ddterm/app/ui/menus.ui:147 ddterm/pref/dialog.js:50
+#: ddterm/app/ui/menus.ui:137 ddterm/pref/dialog.js:50
 msgid "Preferences"
 msgstr "Einstellungen"
 
-#: ddterm/app/ui/menus.ui:156 ddterm/pref/behavior.js:28
+#: ddterm/app/ui/menus.ui:146 ddterm/pref/behavior.js:28
 msgid "Above All Windows"
 msgstr "Über allen Fenstern"
 
-#: ddterm/app/ui/menus.ui:160 ddterm/pref/behavior.js:33
+#: ddterm/app/ui/menus.ui:150 ddterm/pref/behavior.js:33
 msgid "On All Workspaces"
 msgstr "Auf allen Arbeitsflächen"
 
-#: ddterm/app/ui/menus.ui:164
+#: ddterm/app/ui/menus.ui:154
 msgid "Maximize Window"
 msgstr "Fenster maximieren"
 
-#: ddterm/app/ui/menus.ui:168 ddterm/pref/colors.js:592
+#: ddterm/app/ui/menus.ui:158 ddterm/pref/colors.js:592
 msgid "Transparent Background"
 msgstr "Transparenter Hintergrund"
 
-#: ddterm/app/ui/menus.ui:174 ddterm/pref/behavior.js:38
+#: ddterm/app/ui/menus.ui:164 ddterm/pref/behavior.js:38
 msgid "Hide When Application Loses Focus"
 msgstr "Verstecken, wenn Anwendung den Fokus verliert"
 
-#: ddterm/app/ui/menus.ui:178 ddterm/pref/behavior.js:43
+#: ddterm/app/ui/menus.ui:168 ddterm/pref/behavior.js:43
 msgid "Hide When Esc Key Is Pressed"
 msgstr "Verstecken, wenn die »Esc«-Taste gedrückt wird"
 
-#: ddterm/app/ui/menus.ui:184 ddterm/pref/scrolling.js:33
+#: ddterm/app/ui/menus.ui:174 ddterm/pref/scrolling.js:33
 msgid "Scroll On Output"
 msgstr "Weiterscrollen bei Ausgabe"
 
-#: ddterm/app/ui/menus.ui:188 ddterm/pref/scrolling.js:38
+#: ddterm/app/ui/menus.ui:178 ddterm/pref/scrolling.js:38
 msgid "Scroll On Keystroke"
 msgstr "Weiterscrollen nach Tastendruck"
 
-#: ddterm/app/ui/menus.ui:194 ddterm/pref/command.js:51
+#: ddterm/app/ui/menus.ui:184 ddterm/pref/command.js:51
 msgid "Preserve Working Directory In New Tabs"
 msgstr "Arbeitsverzeichnis in neue Reiter übernehmen"
 
-#: ddterm/app/ui/menus.ui:200
+#: ddterm/app/ui/menus.ui:190
 msgid "Enable Keyboard Shortcuts"
 msgstr "Tastenkürzel aktivieren"
 
-#: ddterm/app/ui/menus.ui:207
+#: ddterm/app/ui/menus.ui:197 ddterm/app/ui/menus.ui:287
+msgid "Keep Open After Exit"
+msgstr "Nach dem Beenden geöffnet lassen"
+
+#: ddterm/app/ui/menus.ui:207 ddterm/shell/panelicon.js:72
 msgid "About ddterm"
 msgstr "Info zu ddterm"
 
@@ -365,19 +365,19 @@ msgstr "Info zu ddterm"
 msgid "Use Default Tab Title"
 msgstr "Standard-Reitertitel verwenden"
 
-#: ddterm/app/ui/menus.ui:235
+#: ddterm/app/ui/menus.ui:227
 msgid "New Tab Before This Tab"
 msgstr "Neuer Reiter vor diesem Reiter"
 
-#: ddterm/app/ui/menus.ui:239
+#: ddterm/app/ui/menus.ui:231
 msgid "New Tab After This Tab"
 msgstr "Neuer Reiter nach diesem Reiter"
 
-#: ddterm/app/ui/menus.ui:253 ddterm/pref/shortcuts.js:618
+#: ddterm/app/ui/menus.ui:245 ddterm/pref/shortcuts.js:618
 msgid "Move Tab to Previous Position"
 msgstr "Reiter zur vorherigen Position verschieben"
 
-#: ddterm/app/ui/menus.ui:257 ddterm/pref/shortcuts.js:623
+#: ddterm/app/ui/menus.ui:249 ddterm/pref/shortcuts.js:623
 msgid "Move Tab to Next Position"
 msgstr "Reiter zur nächsten Position verschieben"
 
@@ -1198,7 +1198,7 @@ msgstr "Details …"
 msgid "Install"
 msgstr "Installieren"
 
-#: ddterm/shell/panelicon.js:48
+#: ddterm/shell/panelicon.js:49
 msgid "Show"
 msgstr "Anzeigen"
 

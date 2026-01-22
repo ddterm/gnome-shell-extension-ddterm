@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-19 19:19+0000\n"
+"POT-Creation-Date: 2026-01-22 13:28+0000\n"
 "PO-Revision-Date: 2024-09-02 20:09+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/nb_NO/>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "X-Generator: Weblate 5.8-dev\n"
 
 #: data/com.github.amezin.ddterm.desktop.in.in:8 ddterm/app/appwindow.js:146
-#: ddterm/shell/notifications.js:238 ddterm/shell/panelicon.js:31
+#: ddterm/shell/notifications.js:238 ddterm/shell/panelicon.js:32
 msgid "ddterm"
 msgstr ""
 
@@ -37,8 +37,8 @@ msgstr ""
 msgid "Toggle"
 msgstr "Vekslingsknapp"
 
-#: data/com.github.amezin.ddterm.desktop.in.in:29 ddterm/app/ui/menus.ui:150
-#: ddterm/app/ui/menus.ui:290 ddterm/shell/panelicon.js:63
+#: data/com.github.amezin.ddterm.desktop.in.in:29 ddterm/app/ui/menus.ui:140
+#: ddterm/app/ui/menus.ui:282 ddterm/shell/panelicon.js:64
 msgid "Preferences…"
 msgstr "Innstillinger …"
 
@@ -158,20 +158,20 @@ msgstr "Finn neste"
 msgid "Find Previous"
 msgstr "Finn forrige"
 
-#: ddterm/app/tablabel.js:43 ddterm/pref/shortcuts.js:658
+#: ddterm/app/tablabel.js:83 ddterm/pref/shortcuts.js:658
 msgid "Set Custom Tab Title"
 msgstr "Sett egendefinert fanenavn"
 
-#: ddterm/app/tablabel.js:50
+#: ddterm/app/tablabel.js:90
 msgid "Tab _title:"
 msgstr "Fanenavn:"
 
-#: ddterm/app/tablabel.js:64 ddterm/app/ui/menus.ui:215
+#: ddterm/app/tablabel.js:104 ddterm/app/ui/menus.ui:215
 msgid "Use Custom Tab Title"
 msgstr "Bruk egendefinerte fanenavn"
 
-#: ddterm/app/tablabel.js:180 ddterm/app/ui/menus.ui:89
-#: ddterm/app/ui/menus.ui:226 ddterm/shell/notifications.js:62
+#: ddterm/app/tablabel.js:220 ddterm/app/ui/menus.ui:201
+#: ddterm/app/ui/menus.ui:291 ddterm/shell/notifications.js:62
 msgid "Close"
 msgstr "Lukk"
 
@@ -259,100 +259,100 @@ msgstr "Normal størrelse"
 msgid "Show in File Manager"
 msgstr ""
 
-#: ddterm/app/ui/menus.ui:93 ddterm/app/ui/menus.ui:230
-msgid "Keep Open After Exit"
-msgstr "Behold åpen etter avslutning"
-
-#: ddterm/app/ui/menus.ui:99
+#: ddterm/app/ui/menus.ui:89
 msgid "New Tab"
 msgstr "Ny fane"
 
-#: ddterm/app/ui/menus.ui:101 ddterm/pref/shortcuts.js:593
+#: ddterm/app/ui/menus.ui:91 ddterm/pref/shortcuts.js:593
 msgid "New Tab Before Current Tab"
 msgstr "Ny fane før nåværende"
 
-#: ddterm/app/ui/menus.ui:105 ddterm/pref/shortcuts.js:598
+#: ddterm/app/ui/menus.ui:95 ddterm/pref/shortcuts.js:598
 msgid "New Tab After Current Tab"
 msgstr "Ny fane etter nåværende"
 
-#: ddterm/app/ui/menus.ui:109 ddterm/app/ui/menus.ui:243
+#: ddterm/app/ui/menus.ui:99 ddterm/app/ui/menus.ui:235
 #: ddterm/pref/shortcuts.js:588
 msgid "New Tab Before First Tab"
 msgstr "Ny fane før første"
 
-#: ddterm/app/ui/menus.ui:113 ddterm/app/ui/menus.ui:247
+#: ddterm/app/ui/menus.ui:103 ddterm/app/ui/menus.ui:239
 #: ddterm/pref/shortcuts.js:583
 msgid "New Tab After Last Tab"
 msgstr "Ny fane etter siste"
 
-#: ddterm/app/ui/menus.ui:120 ddterm/app/ui/menus.ui:263
+#: ddterm/app/ui/menus.ui:110 ddterm/app/ui/menus.ui:255
 msgid "Layout"
 msgstr "Plassering"
 
-#: ddterm/app/ui/menus.ui:123 ddterm/app/ui/menus.ui:266
-#: ddterm/app/ui/menus.ui:296
+#: ddterm/app/ui/menus.ui:113 ddterm/app/ui/menus.ui:258
+#: ddterm/app/ui/menus.ui:298
 msgid "No Split"
 msgstr "Ingen inndeling"
 
-#: ddterm/app/ui/menus.ui:128 ddterm/app/ui/menus.ui:271
-#: ddterm/app/ui/menus.ui:301 ddterm/pref/shortcuts.js:628
+#: ddterm/app/ui/menus.ui:118 ddterm/app/ui/menus.ui:263
+#: ddterm/app/ui/menus.ui:303 ddterm/pref/shortcuts.js:628
 msgid "Split Horizontally"
 msgstr "Del vannrett"
 
-#: ddterm/app/ui/menus.ui:133 ddterm/app/ui/menus.ui:276
-#: ddterm/app/ui/menus.ui:306 ddterm/pref/shortcuts.js:633
+#: ddterm/app/ui/menus.ui:123 ddterm/app/ui/menus.ui:268
+#: ddterm/app/ui/menus.ui:308 ddterm/pref/shortcuts.js:633
 msgid "Split Vertically"
 msgstr "Del loddrett"
 
-#: ddterm/app/ui/menus.ui:140 ddterm/app/ui/menus.ui:283
+#: ddterm/app/ui/menus.ui:130 ddterm/app/ui/menus.ui:275
 msgid "Move Tab to Other Pane"
 msgstr "Flytt fane til neste flate"
 
-#: ddterm/app/ui/menus.ui:147 ddterm/pref/dialog.js:50
+#: ddterm/app/ui/menus.ui:137 ddterm/pref/dialog.js:50
 msgid "Preferences"
 msgstr "Innstillinger"
 
-#: ddterm/app/ui/menus.ui:156 ddterm/pref/behavior.js:28
+#: ddterm/app/ui/menus.ui:146 ddterm/pref/behavior.js:28
 msgid "Above All Windows"
 msgstr "Over alle vinduer"
 
-#: ddterm/app/ui/menus.ui:160 ddterm/pref/behavior.js:33
+#: ddterm/app/ui/menus.ui:150 ddterm/pref/behavior.js:33
 msgid "On All Workspaces"
 msgstr "På alle arbeidsområder"
 
-#: ddterm/app/ui/menus.ui:164
+#: ddterm/app/ui/menus.ui:154
 msgid "Maximize Window"
 msgstr "Maksimer vindu"
 
-#: ddterm/app/ui/menus.ui:168 ddterm/pref/colors.js:592
+#: ddterm/app/ui/menus.ui:158 ddterm/pref/colors.js:592
 msgid "Transparent Background"
 msgstr "Gjennomsiktig bakgrunn"
 
-#: ddterm/app/ui/menus.ui:174 ddterm/pref/behavior.js:38
+#: ddterm/app/ui/menus.ui:164 ddterm/pref/behavior.js:38
 msgid "Hide When Application Loses Focus"
 msgstr "Skjul når programmet mister fokus"
 
-#: ddterm/app/ui/menus.ui:178 ddterm/pref/behavior.js:43
+#: ddterm/app/ui/menus.ui:168 ddterm/pref/behavior.js:43
 msgid "Hide When Esc Key Is Pressed"
 msgstr "Skjul når «Esc»-tasten trykkes"
 
-#: ddterm/app/ui/menus.ui:184 ddterm/pref/scrolling.js:33
+#: ddterm/app/ui/menus.ui:174 ddterm/pref/scrolling.js:33
 msgid "Scroll On Output"
 msgstr "Rull ved utdata"
 
-#: ddterm/app/ui/menus.ui:188 ddterm/pref/scrolling.js:38
+#: ddterm/app/ui/menus.ui:178 ddterm/pref/scrolling.js:38
 msgid "Scroll On Keystroke"
 msgstr "Rull ved tastetrykk"
 
-#: ddterm/app/ui/menus.ui:194 ddterm/pref/command.js:51
+#: ddterm/app/ui/menus.ui:184 ddterm/pref/command.js:51
 msgid "Preserve Working Directory In New Tabs"
 msgstr "Bevar arbeidskatalog for nye faner"
 
-#: ddterm/app/ui/menus.ui:200
+#: ddterm/app/ui/menus.ui:190
 msgid "Enable Keyboard Shortcuts"
 msgstr "Skru på tastatursnarveier"
 
-#: ddterm/app/ui/menus.ui:207
+#: ddterm/app/ui/menus.ui:197 ddterm/app/ui/menus.ui:287
+msgid "Keep Open After Exit"
+msgstr "Behold åpen etter avslutning"
+
+#: ddterm/app/ui/menus.ui:207 ddterm/shell/panelicon.js:72
 msgid "About ddterm"
 msgstr ""
 
@@ -360,19 +360,19 @@ msgstr ""
 msgid "Use Default Tab Title"
 msgstr "Bruk forvalgt fanenavn"
 
-#: ddterm/app/ui/menus.ui:235
+#: ddterm/app/ui/menus.ui:227
 msgid "New Tab Before This Tab"
 msgstr "Ny fane før denne"
 
-#: ddterm/app/ui/menus.ui:239
+#: ddterm/app/ui/menus.ui:231
 msgid "New Tab After This Tab"
 msgstr "Ny fane etter denne"
 
-#: ddterm/app/ui/menus.ui:253 ddterm/pref/shortcuts.js:618
+#: ddterm/app/ui/menus.ui:245 ddterm/pref/shortcuts.js:618
 msgid "Move Tab to Previous Position"
 msgstr "Flytt fane til forrige posisjon"
 
-#: ddterm/app/ui/menus.ui:257 ddterm/pref/shortcuts.js:623
+#: ddterm/app/ui/menus.ui:249 ddterm/pref/shortcuts.js:623
 msgid "Move Tab to Next Position"
 msgstr "Flytt fane til neste posisjon"
 
@@ -1204,7 +1204,7 @@ msgstr ""
 msgid "Install"
 msgstr ""
 
-#: ddterm/shell/panelicon.js:48
+#: ddterm/shell/panelicon.js:49
 msgid "Show"
 msgstr "Vis"
 

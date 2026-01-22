@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-19 19:19+0000\n"
+"POT-Creation-Date: 2026-01-22 13:28+0000\n"
 "PO-Revision-Date: 2025-09-06 08:02+0000\n"
 "Last-Translator: yuh <yuhldr@qq.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/zh_Hans/>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "X-Generator: Weblate 5.13.1-rc\n"
 
 #: data/com.github.amezin.ddterm.desktop.in.in:8 ddterm/app/appwindow.js:146
-#: ddterm/shell/notifications.js:238 ddterm/shell/panelicon.js:31
+#: ddterm/shell/notifications.js:238 ddterm/shell/panelicon.js:32
 msgid "ddterm"
 msgstr "ddterm"
 
@@ -36,8 +36,8 @@ msgstr "GNOME Shell的另一个下拉式终端扩展"
 msgid "Toggle"
 msgstr "切换按钮"
 
-#: data/com.github.amezin.ddterm.desktop.in.in:29 ddterm/app/ui/menus.ui:150
-#: ddterm/app/ui/menus.ui:290 ddterm/shell/panelicon.js:63
+#: data/com.github.amezin.ddterm.desktop.in.in:29 ddterm/app/ui/menus.ui:140
+#: ddterm/app/ui/menus.ui:282 ddterm/shell/panelicon.js:64
 msgid "Preferences…"
 msgstr "首选项…"
 
@@ -157,20 +157,20 @@ msgstr "查找下一个"
 msgid "Find Previous"
 msgstr "找到前一个"
 
-#: ddterm/app/tablabel.js:43 ddterm/pref/shortcuts.js:658
+#: ddterm/app/tablabel.js:83 ddterm/pref/shortcuts.js:658
 msgid "Set Custom Tab Title"
 msgstr "设置自定义标签页标题"
 
-#: ddterm/app/tablabel.js:50
+#: ddterm/app/tablabel.js:90
 msgid "Tab _title:"
 msgstr "标签页标题："
 
-#: ddterm/app/tablabel.js:64 ddterm/app/ui/menus.ui:215
+#: ddterm/app/tablabel.js:104 ddterm/app/ui/menus.ui:215
 msgid "Use Custom Tab Title"
 msgstr "使用自定义标签页标题"
 
-#: ddterm/app/tablabel.js:180 ddterm/app/ui/menus.ui:89
-#: ddterm/app/ui/menus.ui:226 ddterm/shell/notifications.js:62
+#: ddterm/app/tablabel.js:220 ddterm/app/ui/menus.ui:201
+#: ddterm/app/ui/menus.ui:291 ddterm/shell/notifications.js:62
 msgid "Close"
 msgstr "关闭"
 
@@ -258,100 +258,100 @@ msgstr "标准大小"
 msgid "Show in File Manager"
 msgstr "在文件管理器中显示"
 
-#: ddterm/app/ui/menus.ui:93 ddterm/app/ui/menus.ui:230
-msgid "Keep Open After Exit"
-msgstr "退出后保持打开"
-
-#: ddterm/app/ui/menus.ui:99
+#: ddterm/app/ui/menus.ui:89
 msgid "New Tab"
 msgstr "新建标签页"
 
-#: ddterm/app/ui/menus.ui:101 ddterm/pref/shortcuts.js:593
+#: ddterm/app/ui/menus.ui:91 ddterm/pref/shortcuts.js:593
 msgid "New Tab Before Current Tab"
 msgstr "新建标签页（在当前标签页之前）"
 
-#: ddterm/app/ui/menus.ui:105 ddterm/pref/shortcuts.js:598
+#: ddterm/app/ui/menus.ui:95 ddterm/pref/shortcuts.js:598
 msgid "New Tab After Current Tab"
 msgstr "新建标签页（在当前标签页之后）"
 
-#: ddterm/app/ui/menus.ui:109 ddterm/app/ui/menus.ui:243
+#: ddterm/app/ui/menus.ui:99 ddterm/app/ui/menus.ui:235
 #: ddterm/pref/shortcuts.js:588
 msgid "New Tab Before First Tab"
 msgstr "新建标签页（在第一个标签页之前）"
 
-#: ddterm/app/ui/menus.ui:113 ddterm/app/ui/menus.ui:247
+#: ddterm/app/ui/menus.ui:103 ddterm/app/ui/menus.ui:239
 #: ddterm/pref/shortcuts.js:583
 msgid "New Tab After Last Tab"
 msgstr "新建标签页（在最后一个标签页之后）"
 
-#: ddterm/app/ui/menus.ui:120 ddterm/app/ui/menus.ui:263
+#: ddterm/app/ui/menus.ui:110 ddterm/app/ui/menus.ui:255
 msgid "Layout"
 msgstr "布局"
 
-#: ddterm/app/ui/menus.ui:123 ddterm/app/ui/menus.ui:266
-#: ddterm/app/ui/menus.ui:296
+#: ddterm/app/ui/menus.ui:113 ddterm/app/ui/menus.ui:258
+#: ddterm/app/ui/menus.ui:298
 msgid "No Split"
 msgstr "无拆分"
 
-#: ddterm/app/ui/menus.ui:128 ddterm/app/ui/menus.ui:271
-#: ddterm/app/ui/menus.ui:301 ddterm/pref/shortcuts.js:628
+#: ddterm/app/ui/menus.ui:118 ddterm/app/ui/menus.ui:263
+#: ddterm/app/ui/menus.ui:303 ddterm/pref/shortcuts.js:628
 msgid "Split Horizontally"
 msgstr "水平拆分"
 
-#: ddterm/app/ui/menus.ui:133 ddterm/app/ui/menus.ui:276
-#: ddterm/app/ui/menus.ui:306 ddterm/pref/shortcuts.js:633
+#: ddterm/app/ui/menus.ui:123 ddterm/app/ui/menus.ui:268
+#: ddterm/app/ui/menus.ui:308 ddterm/pref/shortcuts.js:633
 msgid "Split Vertically"
 msgstr "垂直拆分"
 
-#: ddterm/app/ui/menus.ui:140 ddterm/app/ui/menus.ui:283
+#: ddterm/app/ui/menus.ui:130 ddterm/app/ui/menus.ui:275
 msgid "Move Tab to Other Pane"
 msgstr "移动标签页到下一个面板"
 
-#: ddterm/app/ui/menus.ui:147 ddterm/pref/dialog.js:50
+#: ddterm/app/ui/menus.ui:137 ddterm/pref/dialog.js:50
 msgid "Preferences"
 msgstr "首选项"
 
-#: ddterm/app/ui/menus.ui:156 ddterm/pref/behavior.js:28
+#: ddterm/app/ui/menus.ui:146 ddterm/pref/behavior.js:28
 msgid "Above All Windows"
 msgstr "上面所有窗口"
 
-#: ddterm/app/ui/menus.ui:160 ddterm/pref/behavior.js:33
+#: ddterm/app/ui/menus.ui:150 ddterm/pref/behavior.js:33
 msgid "On All Workspaces"
 msgstr "在所有工作区"
 
-#: ddterm/app/ui/menus.ui:164
+#: ddterm/app/ui/menus.ui:154
 msgid "Maximize Window"
 msgstr "最大化窗口"
 
-#: ddterm/app/ui/menus.ui:168 ddterm/pref/colors.js:592
+#: ddterm/app/ui/menus.ui:158 ddterm/pref/colors.js:592
 msgid "Transparent Background"
 msgstr "背景透明"
 
-#: ddterm/app/ui/menus.ui:174 ddterm/pref/behavior.js:38
+#: ddterm/app/ui/menus.ui:164 ddterm/pref/behavior.js:38
 msgid "Hide When Application Loses Focus"
 msgstr "当应用程序失去焦点时隐藏"
 
-#: ddterm/app/ui/menus.ui:178 ddterm/pref/behavior.js:43
+#: ddterm/app/ui/menus.ui:168 ddterm/pref/behavior.js:43
 msgid "Hide When Esc Key Is Pressed"
 msgstr "当按Esc键时隐藏"
 
-#: ddterm/app/ui/menus.ui:184 ddterm/pref/scrolling.js:33
+#: ddterm/app/ui/menus.ui:174 ddterm/pref/scrolling.js:33
 msgid "Scroll On Output"
 msgstr "输出时滚动"
 
-#: ddterm/app/ui/menus.ui:188 ddterm/pref/scrolling.js:38
+#: ddterm/app/ui/menus.ui:178 ddterm/pref/scrolling.js:38
 msgid "Scroll On Keystroke"
 msgstr "击键时滚动"
 
-#: ddterm/app/ui/menus.ui:194 ddterm/pref/command.js:51
+#: ddterm/app/ui/menus.ui:184 ddterm/pref/command.js:51
 msgid "Preserve Working Directory In New Tabs"
 msgstr "在新标签页中保留当前路径"
 
-#: ddterm/app/ui/menus.ui:200
+#: ddterm/app/ui/menus.ui:190
 msgid "Enable Keyboard Shortcuts"
 msgstr "启用键盘快捷键"
 
-#: ddterm/app/ui/menus.ui:207
+#: ddterm/app/ui/menus.ui:197 ddterm/app/ui/menus.ui:287
+msgid "Keep Open After Exit"
+msgstr "退出后保持打开"
+
+#: ddterm/app/ui/menus.ui:207 ddterm/shell/panelicon.js:72
 msgid "About ddterm"
 msgstr "关于ddterm"
 
@@ -359,19 +359,19 @@ msgstr "关于ddterm"
 msgid "Use Default Tab Title"
 msgstr "使用默认标签标题"
 
-#: ddterm/app/ui/menus.ui:235
+#: ddterm/app/ui/menus.ui:227
 msgid "New Tab Before This Tab"
 msgstr "在此标签页之前新建标签页"
 
-#: ddterm/app/ui/menus.ui:239
+#: ddterm/app/ui/menus.ui:231
 msgid "New Tab After This Tab"
 msgstr "此标签页后的新标签页"
 
-#: ddterm/app/ui/menus.ui:253 ddterm/pref/shortcuts.js:618
+#: ddterm/app/ui/menus.ui:245 ddterm/pref/shortcuts.js:618
 msgid "Move Tab to Previous Position"
 msgstr "移动标签页到上一个位置"
 
-#: ddterm/app/ui/menus.ui:257 ddterm/pref/shortcuts.js:623
+#: ddterm/app/ui/menus.ui:249 ddterm/pref/shortcuts.js:623
 msgid "Move Tab to Next Position"
 msgstr "移动标签页到下一个位置"
 
@@ -1201,7 +1201,7 @@ msgstr "细节……"
 msgid "Install"
 msgstr "安装"
 
-#: ddterm/shell/panelicon.js:48
+#: ddterm/shell/panelicon.js:49
 msgid "Show"
 msgstr "显示"
 
