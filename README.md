@@ -4,20 +4,26 @@ SPDX-FileCopyrightText: 2020 Aleksandr Mezin <mezin.alexander@gmail.com>
 SPDX-License-Identifier: GPL-3.0-or-later
 -->
 
-# Another Drop Down Terminal Extension for GNOME Shell
+<!-- markdownlint-disable -->
+<p align="center"><img src="data/com.github.amezin.ddterm.svg" alt="logo"></p>
+<h1 align="center">ddterm</h1>
+<!-- markdownlint-restore -->
 
 [![extensions.gnome.org badge]][extensions.gnome.org]
 [![Dev build badge]][Dev build download link]
 [![Weblate status badge]][Weblate]
 [![Weblate languages badge]][Weblate]
 
-![Drop down animation]
-
 [extensions.gnome.org badge]: https://img.shields.io/badge/dynamic/regex?url=https%3A%2F%2Fextensions.gnome.org%2Fextension%2F3780%2Fddterm%2F&search=(%5Cd%2B)%20downloads&logo=gnome&label=extensions.gnome.org
-[Dev build badge]: https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi.github.com%2Frepos%2Fddterm%2Fgnome-shell-extension-ddterm%2Fdeployments%3Fenvironment%3Dgithub-pages%26per_page%3D1&query=0.updated_at&label=development%20build
+[Dev build badge]: https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi.github.com%2Frepos%2Fddterm%2Fgnome-shell-extension-ddterm%2Fdeployments%3Fenvironment%3Dgithub-pages%26per_page%3D1&query=0.updated_at&logo=githubactions&label=development%20build
 [Dev build download link]: https://ddterm.github.io/gnome-shell-extension-ddterm/ddterm@amezin.github.com.shell-extension.zip
 [Weblate status badge]: https://hosted.weblate.org/widget/gnome-shell-extension-ddterm/svg-badge.svg
 [Weblate languages badge]: https://hosted.weblate.org/widget/gnome-shell-extension-ddterm/language-badge.svg
+
+Another Drop Down Terminal Extension for GNOME Shell
+
+![Drop down animation]
+
 [Drop down animation]: /docs/screenshots/dropdown.gif
 
 Inspired by
