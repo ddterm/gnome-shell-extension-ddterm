@@ -105,15 +105,11 @@ jobs:
   lint:
     runs-on: ubuntu-24.04
     timeout-minutes: 5
-    container:
-      image: ghcr.io/ddterm/ci-docker-image:2025.12.05.0
 
     steps:
       - name: Checkout
         id: checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-
-      - run: git config --global --replace-all safe.directory "$GITHUB_WORKSPACE"
 
       - name: Install development dependencies from npm
         id: npm
@@ -162,18 +158,17 @@ jobs:
   bundle:
     runs-on: ubuntu-24.04
     timeout-minutes: 5
-    container:
-      image: ghcr.io/ddterm/ci-docker-image:2025.12.05.0
 
     outputs:
       build-inputs: ${{ steps.ninja-inputs.outputs.inputs }}
       version: ${{ steps.version.outputs.version }}
 
     steps:
+      - run: sudo apt-get update
+      - run: sudo apt-get install -y --no-install-recommends tox colorized-logs gjs gettext desktop-file-utils
+
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-
-      - run: git config --global --replace-all safe.directory "$GITHUB_WORKSPACE"
 
       - name: Install meson
         uses: ./.github/actions/setup-meson
@@ -226,21 +221,23 @@ jobs:
 
     runs-on: ubuntu-24.04
     timeout-minutes: 5
-    container:
-      image: ghcr.io/ddterm/ci-docker-image:2025.12.05.0
 
     steps:
+      - run: sudo apt-get update
+      - run: sudo apt-get install -y --no-install-recommends tox colorized-logs
+
+      - run: echo /home/linuxbrew/.linuxbrew/bin >>"$GITHUB_PATH"
+      - run: brew install gettext
+
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-
-      - run: git config --global --replace-all safe.directory "$GITHUB_WORKSPACE"
 
       - name: Install meson
         uses: ./.github/actions/setup-meson
 
       - name: Prepare build directory
         id: setup
-        run: meson setup '-Dshebang_override=/usr/bin/env gjs' '-Dtests=disabled' build
+        run: meson setup '-Dshebang_override=/usr/bin/env gjs' '-Dtests=disabled' '-Dtypelib_installer=false' build
         shell: pipetty bash -e {0}
 
       - name: Update POTFILES.in
@@ -290,9 +287,6 @@ jobs:
     if: fromJSON(needs.plan.outputs.need-tests)
     runs-on: ubuntu-24.04
     timeout-minutes: 15
-    container:
-      image: ghcr.io/ddterm/ci-docker-image:2025.12.05.0
-      options: --init --privileged --tmpfs /run -v /tmp:/tmp --cgroupns=host
 
     steps:
       - name: Checkout
@@ -367,9 +361,6 @@ jobs:
     if: fromJSON(needs.plan.outputs.need-tests)
     runs-on: ubuntu-24.04
     timeout-minutes: 15
-    container:
-      image: ghcr.io/ddterm/ci-docker-image:2025.12.05.0
-      options: --init --privileged --tmpfs /run -v /tmp:/tmp --cgroupns=host
 
     steps:
       - name: Checkout
