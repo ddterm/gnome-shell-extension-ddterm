@@ -52,7 +52,7 @@ runs:
 
           ${{ inputs.description }}
 
-    - uses: amezin/create-or-update-git-ref-action@9c82c89a00ab473475437f4b496db14be1768dc2 # v2.0.0
+    - uses: amezin/create-or-update-git-ref-action@56a1c2e2ba60d79a65210a2b2d9279599f9f35d2 # v2.0.1
       with:
         github-token: ${{ steps.token.outputs.token }}
         sha: ${{ steps.commit.outputs.sha }}
