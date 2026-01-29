@@ -163,22 +163,33 @@ subdir('schemas')
 subdir('ddterm')
 subdir('locale')
 
-bundle_from_srcdir = [
+bundle_from_srcdir = files(
   'LICENSES' / 'GPL-3.0-or-later.txt',
   'LICENSES' / 'CC0-1.0.txt',
   'LICENSES' / 'MIT.txt',
   'REUSE.toml',
-]
+)
 
 bundle_command = [make_zip_command]
 
-foreach extra_path : bundle_from_srcdir
-  bundle_command += ['--include', files(extra_path), extra_path]
+foreach bundle_entry : bundle
+  bundle_command += [
+    '--entry',
+    bundle_entry,
+    fs.relative_to(bundle_entry, meson.current_build_dir()),
+  ]
+endforeach
+
+foreach bundle_entry : bundle_from_srcdir
+  bundle_command += [
+    '--entry',
+    bundle_entry,
+    fs.relative_to(bundle_entry, meson.current_source_dir()),
+  ]
 endforeach
 
 bundle_target = custom_target(
   command: bundle_command,
-  input: bundle,
   output: f'@uuid@.shell-extension.zip',
   build_by_default: true,
 )

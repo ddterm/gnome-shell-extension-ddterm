@@ -6,9 +6,6 @@ make_zip_command = [
   find_program(files('makezip.py')),  # https://github.com/mesonbuild/meson/issues/11255
   '--output',
   '@OUTPUT@',
-  '--relative-to',
-  '@OUTDIR@',
-  '@INPUT@',
 ]
 
 fix_metadata_command = [
