@@ -31,6 +31,12 @@ gjs_req = '>=1.80.0'
 gnome_shell_req = ['>=46.0', '<50']
 shell_versions = ['46', '47', '48', '49']
 
+layout = get_option('layout')
+
+if layout != 'mirror'
+  error(f'layout=@layout@ is not supported. Only layout=mirror is supported.')
+endif
+
 summary('Target GNOME Shell version', gnome_shell_req, list_sep: ', ')
 
 gjs_shebang = get_option('shebang_override')
