@@ -24,5 +24,5 @@ python-magic==0.4.27
     # via reuse
 reuse==6.2.0
     # via -r reuse.in
-tomlkit==0.13.3
+tomlkit==0.14.0
     # via reuse
