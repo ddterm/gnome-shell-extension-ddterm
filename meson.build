@@ -148,9 +148,6 @@ bundle = [
     install_dir: extension_dir,
   ),
   fs.copyfile('metadata.json.in.license', 'metadata.json.license'),
-  # Keep revision file in package to allow smooth upgrade (while old extension is loaded)
-  fs.copyfile('revision.txt', install: true, install_dir: extension_dir),
-  fs.copyfile('revision.txt.license'),
 ]
 
 foreach f : ['extension.js', 'prefs.js', 'AUTHORS']
