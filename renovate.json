@@ -21,10 +21,12 @@
       "customType": "regex",
       "managerFilePatterns": [
         "*.sh",
-        ".github/{actions/*,workflows}/*.{yml,yaml}"
+        ".github/{actions/*,workflows}/*.{yml,yaml}",
+        "subprojects/*.wrap"
       ],
       "matchStrings": [
-        "#\\s*renovate:\\s*datasource=(?<datasource>[^\\s]+)\\s+depName=(?<depName>[^\\s]+)(\\s+(lookupName|packageName)=(?<packageName>[^\\s]+))?(\\s+versioning=(?<versioning>[^\\s]+))?\\n\\s*\\w+\\s*[:=]\\s*[\"']?(?<currentValue>[^\\s\"']+)[\"']?(\\s|$)"
+        "#\\s*renovate:\\s*datasource=(?<datasource>\\S+)\\s+depName=(?<depName>\\S+)(\\s+(lookupName|packageName)=(?<packageName>\\S+))?(\\s+versioning=(?<versioning>\\S+))?\\n\\s*\\w+\\s*[:=]\\s*[\"']?(?<currentValue>[^\\s\"']+)[\"']?(\\s|$)",
+        "#\\s*renovate-digest:\\s*datasource=(?<datasource>\\S+)\\s+depName=(?<depName>\\S+)\\s+currentValue=(?<currentValue>\\S+)(\\s+(lookupName|packageName)=(?<packageName>\\S+))?(\\s+versioning=(?<versioning>\\S+))?\\n\\s*\\w+\\s*[:=]\\s*[\"']?(?<currentDigest>[^\\s\"']+)[\"']?(\\s|$)"
       ]
     }
   ],
