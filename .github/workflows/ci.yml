@@ -91,6 +91,7 @@ jobs:
             # Include meson.build files, even from po/ directory
             **/meson.build
             meson.options
+            subprojects/*.wrap
 
       - id: test-config
         name: Determine test configurations
