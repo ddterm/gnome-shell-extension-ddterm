@@ -46,7 +46,8 @@
       "automerge": true,
       "extends": [
         "schedule:automergeWeekly"
-      ]
+      ],
+      "maxMajorIncrement": 0
     },
     {
       "matchPackageNames": [
