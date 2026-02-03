@@ -241,7 +241,7 @@ jobs:
 
       - name: Prepare build directory
         id: setup
-        run: meson setup '-Dshebang_override=/usr/bin/env gjs' '-Dtests=disabled' build
+        run: meson setup '-Dshebang_override=/usr/bin/env gjs' '-Dtests=disabled' '-Dtypelib_installer=false' build
         shell: pipetty bash -e {0}
 
       - name: Update POTFILES.in
