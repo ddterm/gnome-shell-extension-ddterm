@@ -59,7 +59,7 @@ runs:
         ref: refs/heads/${{ inputs.branch }}
         force: true
 
-    - uses: amezin/create-or-update-pull-request-action@3b546ed950876fb5061fb16d5fd9e97e359eac8f # v2.0.1
+    - uses: amezin/create-or-update-pull-request-action@6387138517a626be3f2851610c2bcb4f18f2cf20 # v2.0.2
       with:
         github-token: ${{ steps.token.outputs.token }}
         head: ${{ inputs.branch }}
