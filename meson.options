@@ -33,6 +33,9 @@ option(
 option(
   'typelib_installer',
   type : 'boolean',
-  value : true,
-  description : 'Use gjs-typelib-installer to install missing GObject libraries'
+  value : false,
+  description : 'Use gjs-typelib-installer to install missing GObject libraries. ' +
+    'Makes sense only for extension bundles that are going to be distributed ' +
+    'through extensions.gnome.org. Useless for deb/rpm packages, as they have ' +
+    'their own dependency system.'
 )

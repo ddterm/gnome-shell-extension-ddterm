@@ -180,7 +180,7 @@ jobs:
         uses: ./.github/actions/setup-meson
 
       - name: Prepare build directory
-        run: meson setup '-Dshebang_override=/usr/bin/env gjs' '-Dtests=disabled' build
+        run: meson setup '-Dshebang_override=/usr/bin/env gjs' '-Dtests=disabled' '-Dtypelib_installer=true' build
         shell: pipetty bash -e {0}
 
       - name: Get project version
