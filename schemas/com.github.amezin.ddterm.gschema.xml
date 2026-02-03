@@ -174,7 +174,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
       <default>true</default>
     </key>
     <key name="hide-when-focus-lost" type="b">
-      <default>false</default>
+      <default>true</default>
     </key>
     <key name="pointer-autohide" type="b">
       <default>false</default>
