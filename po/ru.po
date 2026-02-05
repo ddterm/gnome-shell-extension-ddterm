@@ -774,16 +774,16 @@ msgid "TTY Erase"
 msgstr "Очистить терминал"
 
 #: ddterm/pref/compatibility.js:32
-msgid "_Backspace key generates:"
-msgstr "Клавиша «Backspace» генерирует:"
+msgid "_Backspace key generates"
+msgstr "Клавиша «Backspace» генерирует"
 
 #: ddterm/pref/compatibility.js:38
-msgid "_Delete key generates:"
-msgstr "Клавиша «Delete» генерирует:"
+msgid "_Delete key generates"
+msgstr "Клавиша «Delete» генерирует"
 
 #: ddterm/pref/compatibility.js:44
-msgid "Ambiguous-_width characters:"
-msgstr "Символы неоднозначной ширины:"
+msgid "Ambiguous-_width characters"
+msgstr "Символы неоднозначной ширины"
 
 #: ddterm/pref/compatibility.js:46
 msgid "Narrow"

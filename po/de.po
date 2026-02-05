@@ -770,16 +770,16 @@ msgid "TTY Erase"
 msgstr "TTY-Löschen"
 
 #: ddterm/pref/compatibility.js:32
-msgid "_Backspace key generates:"
-msgstr "Rücktaste erzeugt:"
+msgid "_Backspace key generates"
+msgstr "Rücktaste erzeugt"
 
 #: ddterm/pref/compatibility.js:38
-msgid "_Delete key generates:"
-msgstr "Entfernen-Taste erzeugt:"
+msgid "_Delete key generates"
+msgstr "Entfernen-Taste erzeugt"
 
 #: ddterm/pref/compatibility.js:44
-msgid "Ambiguous-_width characters:"
-msgstr "Zeichen mit unterschiedlicher Breite:"
+msgid "Ambiguous-_width characters"
+msgstr "Zeichen mit unterschiedlicher Breite"
 
 #: ddterm/pref/compatibility.js:46
 msgid "Narrow"

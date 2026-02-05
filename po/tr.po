@@ -771,16 +771,16 @@ msgid "TTY Erase"
 msgstr "TTY Sil"
 
 #: ddterm/pref/compatibility.js:32
-msgid "_Backspace key generates:"
-msgstr "_Backspace tuşu üretir:"
+msgid "_Backspace key generates"
+msgstr "_Backspace tuşu üretir"
 
 #: ddterm/pref/compatibility.js:38
-msgid "_Delete key generates:"
-msgstr "_Delete tuşu üretir:"
+msgid "_Delete key generates"
+msgstr "_Delete tuşu üretir"
 
 #: ddterm/pref/compatibility.js:44
-msgid "Ambiguous-_width characters:"
-msgstr "Belirsiz-_genişlikte karakterler:"
+msgid "Ambiguous-_width characters"
+msgstr "Belirsiz-_genişlikte karakterler"
 
 #: ddterm/pref/compatibility.js:46
 msgid "Narrow"

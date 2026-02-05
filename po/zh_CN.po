@@ -764,16 +764,16 @@ msgid "TTY Erase"
 msgstr "TTY 擦除"
 
 #: ddterm/pref/compatibility.js:32
-msgid "_Backspace key generates:"
-msgstr "_Backspace 键生成："
+msgid "_Backspace key generates"
+msgstr "_Backspace 键生成"
 
 #: ddterm/pref/compatibility.js:38
-msgid "_Delete key generates:"
-msgstr "_Delete 键生成："
+msgid "_Delete key generates"
+msgstr "_Delete 键生成"
 
 #: ddterm/pref/compatibility.js:44
-msgid "Ambiguous-_width characters:"
-msgstr "有歧义 _宽度的字符："
+msgid "Ambiguous-_width characters"
+msgstr "有歧义 _宽度的字符"
 
 #: ddterm/pref/compatibility.js:46
 msgid "Narrow"

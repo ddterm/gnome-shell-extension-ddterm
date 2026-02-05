@@ -765,16 +765,16 @@ msgid "TTY Erase"
 msgstr "Vymazání TTY"
 
 #: ddterm/pref/compatibility.js:32
-msgid "_Backspace key generates:"
-msgstr "Tlačítko _Backspace generuje:"
+msgid "_Backspace key generates"
+msgstr "Tlačítko _Backspace generuje"
 
 #: ddterm/pref/compatibility.js:38
-msgid "_Delete key generates:"
-msgstr "Tlačítko _Delete generuje:"
+msgid "_Delete key generates"
+msgstr "Tlačítko _Delete generuje"
 
 #: ddterm/pref/compatibility.js:44
-msgid "Ambiguous-_width characters:"
-msgstr "Nejednoznačná šířka znaků:"
+msgid "Ambiguous-_width characters"
+msgstr "Nejednoznačná šířka znaků"
 
 #: ddterm/pref/compatibility.js:46
 msgid "Narrow"

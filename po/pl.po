@@ -778,16 +778,16 @@ msgid "TTY Erase"
 msgstr "Wyczyść TTY"
 
 #: ddterm/pref/compatibility.js:32
-msgid "_Backspace key generates:"
-msgstr "Klawisz _Backspace generuje:"
+msgid "_Backspace key generates"
+msgstr "Klawisz _Backspace generuje"
 
 #: ddterm/pref/compatibility.js:38
-msgid "_Delete key generates:"
-msgstr "Klawisz _Delete generuje:"
+msgid "_Delete key generates"
+msgstr "Klawisz _Delete generuje"
 
 #: ddterm/pref/compatibility.js:44
-msgid "Ambiguous-_width characters:"
-msgstr "Znaki o różnej _szerokości:"
+msgid "Ambiguous-_width characters"
+msgstr "Znaki o różnej _szerokości"
 
 #: ddterm/pref/compatibility.js:46
 msgid "Narrow"

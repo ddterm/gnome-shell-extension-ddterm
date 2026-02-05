@@ -775,16 +775,16 @@ msgid "TTY Erase"
 msgstr "Effacement du TTY"
 
 #: ddterm/pref/compatibility.js:32
-msgid "_Backspace key generates:"
-msgstr "La touche « Retour arrière» permet :"
+msgid "_Backspace key generates"
+msgstr "La touche « Retour arrière» permet"
 
 #: ddterm/pref/compatibility.js:38
-msgid "_Delete key generates:"
-msgstr "La touche « Suppr » permet :"
+msgid "_Delete key generates"
+msgstr "La touche « Suppr » permet"
 
 #: ddterm/pref/compatibility.js:44
-msgid "Ambiguous-_width characters:"
-msgstr "Caractères de largeur ambigüe :"
+msgid "Ambiguous-_width characters"
+msgstr "Caractères de largeur ambigüe"
 
 #: ddterm/pref/compatibility.js:46
 msgid "Narrow"

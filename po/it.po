@@ -774,16 +774,16 @@ msgid "TTY Erase"
 msgstr "Cancellazione TTY"
 
 #: ddterm/pref/compatibility.js:32
-msgid "_Backspace key generates:"
-msgstr "Il tasto _Backspace genera:"
+msgid "_Backspace key generates"
+msgstr "Il tasto _Backspace genera"
 
 #: ddterm/pref/compatibility.js:38
-msgid "_Delete key generates:"
-msgstr "Il tasto _Canc genera:"
+msgid "_Delete key generates"
+msgstr "Il tasto _Canc genera"
 
 #: ddterm/pref/compatibility.js:44
-msgid "Ambiguous-_width characters:"
-msgstr "Caratteri di _larghezza ambigua:"
+msgid "Ambiguous-_width characters"
+msgstr "Caratteri di _larghezza ambigua"
 
 #: ddterm/pref/compatibility.js:46
 msgid "Narrow"

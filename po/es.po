@@ -773,16 +773,16 @@ msgid "TTY Erase"
 msgstr "Borrado TTY"
 
 #: ddterm/pref/compatibility.js:32
-msgid "_Backspace key generates:"
-msgstr "La tecla _Retroceso genera:"
+msgid "_Backspace key generates"
+msgstr "La tecla _Retroceso genera"
 
 #: ddterm/pref/compatibility.js:38
-msgid "_Delete key generates:"
-msgstr "La tecla _Suprimir genera:"
+msgid "_Delete key generates"
+msgstr "La tecla _Suprimir genera"
 
 #: ddterm/pref/compatibility.js:44
-msgid "Ambiguous-_width characters:"
-msgstr "Caracteres de _anchura ambigua:"
+msgid "Ambiguous-_width characters"
+msgstr "Caracteres de _anchura ambigua"
 
 #: ddterm/pref/compatibility.js:46
 msgid "Narrow"

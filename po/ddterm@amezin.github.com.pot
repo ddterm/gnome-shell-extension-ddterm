@@ -762,15 +762,15 @@ msgid "TTY Erase"
 msgstr ""
 
 #: ddterm/pref/compatibility.js:32
-msgid "_Backspace key generates:"
+msgid "_Backspace key generates"
 msgstr ""
 
 #: ddterm/pref/compatibility.js:38
-msgid "_Delete key generates:"
+msgid "_Delete key generates"
 msgstr ""
 
 #: ddterm/pref/compatibility.js:44
-msgid "Ambiguous-_width characters:"
+msgid "Ambiguous-_width characters"
 msgstr ""
 
 #: ddterm/pref/compatibility.js:46
