@@ -4,20 +4,21 @@
 # This file is distributed under the same license as the ddterm package.
 # Anagnostakis Ioannis <rizitis@gmail.com>, 2023.
 # Klearchos-Angelos Gkountras <jemadux@cryptolab.net>, 2025.
+# Aleksandr Mezin <mezin.alexander@gmail.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-02-05 03:03+0200\n"
-"PO-Revision-Date: 2025-05-13 19:23+0000\n"
-"Last-Translator: Klearchos-Angelos Gkountras <jemadux@cryptolab.net>\n"
+"PO-Revision-Date: 2026-02-05 23:28+0000\n"
+"Last-Translator: Aleksandr Mezin <mezin.alexander@gmail.com>\n"
 "Language-Team: Greek <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/el/>\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12-dev\n"
+"X-Generator: Weblate 5.16-dev\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-Basepath: .\n"
 
@@ -171,6 +172,7 @@ msgid "Set Custom Tab Title"
 msgstr "Παραμετροποίση τίτλου καρτέλας"
 
 #: ddterm/app/tablabel.js:90
+#, fuzzy
 msgid "Tab _Title"
 msgstr "Titre d'onglet"
 
@@ -912,6 +914,7 @@ msgid "Global Shortcuts"
 msgstr "Γενικές Συντομεύσεις"
 
 #: ddterm/pref/shortcuts.js:487
+#, fuzzy
 msgid "Toggle Terminal Window"
 msgstr "Basculer vers la fenêtre de terminal"
 
@@ -1026,6 +1029,7 @@ msgid "Switch to Tab 5"
 msgstr "Μετάβαση καρτέλα 5"
 
 #: ddterm/pref/shortcuts.js:723
+#, fuzzy
 msgid "Switch to Tab 6"
 msgstr "Basculer vers l'onglet 6"
 
@@ -1175,6 +1179,7 @@ msgid "Allow _Hyperlinks"
 msgstr "Επιτρέπονται υπερ-συνδέσμοι"
 
 #: ddterm/pref/text.js:131
+#, fuzzy
 msgid "Audible _Bell"
 msgstr "« Bip » terminal"
 
