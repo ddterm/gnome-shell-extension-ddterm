@@ -163,7 +163,7 @@ msgid "Set Custom Tab Title"
 msgstr "Nastavit vlastní název panelu"
 
 #: ddterm/app/tablabel.js:90
-msgid "Tab _title"
+msgid "Tab _Title"
 msgstr "_Název panelu"
 
 #: ddterm/app/tablabel.js:104 ddterm/app/ui/menus.ui:215

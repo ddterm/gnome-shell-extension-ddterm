@@ -170,7 +170,7 @@ msgstr "Imposta titolo scheda personalizzato"
 #: ddterm/app/tablabel.js:90
 #, fuzzy
 #| msgid "Set tab title"
-msgid "Tab _title"
+msgid "Tab _Title"
 msgstr "Impostare il titolo della scheda"
 
 #: ddterm/app/tablabel.js:104 ddterm/app/ui/menus.ui:215

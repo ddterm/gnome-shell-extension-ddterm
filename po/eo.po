@@ -164,7 +164,7 @@ msgstr ""
 #: ddterm/app/tablabel.js:90
 #, fuzzy
 #| msgid "Set tab title"
-msgid "Tab _title"
+msgid "Tab _Title"
 msgstr "Agordi langetan titolon"
 
 #: ddterm/app/tablabel.js:104 ddterm/app/ui/menus.ui:215

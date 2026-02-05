@@ -171,7 +171,7 @@ msgid "Set Custom Tab Title"
 msgstr "Παραμετροποίση τίτλου καρτέλας"
 
 #: ddterm/app/tablabel.js:90
-msgid "Tab _title"
+msgid "Tab _Title"
 msgstr "Titre d'onglet"
 
 #: ddterm/app/tablabel.js:104 ddterm/app/ui/menus.ui:215

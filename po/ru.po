@@ -172,7 +172,7 @@ msgid "Set Custom Tab Title"
 msgstr "Изменить название вкладки"
 
 #: ddterm/app/tablabel.js:90
-msgid "Tab _title"
+msgid "Tab _Title"
 msgstr "Название вкладки"
 
 #: ddterm/app/tablabel.js:104 ddterm/app/ui/menus.ui:215
