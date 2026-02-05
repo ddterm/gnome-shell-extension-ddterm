@@ -211,7 +211,7 @@ export class PositionSizeGroup extends PreferencesGroup {
         bind_model_to_list_store(this.monitors, extended_monitors);
 
         const monitor_combo = new ComboRow({
-            title: this.gettext('On _monitor'),
+            title: this.gettext('On _Monitor'),
             visible: true,
             use_underline: true,
             use_subtitle: true,
@@ -271,7 +271,7 @@ export class PositionSizeGroup extends PreferencesGroup {
 
         this.add_combo_text_row({
             key: 'window-position',
-            title: this.gettext('_Window position'),
+            title: this.gettext('_Window Position'),
             model: {
                 top: this.gettext('Top'),
                 bottom: this.gettext('Bottom'),
@@ -299,7 +299,7 @@ export class PositionSizeGroup extends PreferencesGroup {
             round_digits: 2,
             visible: true,
             use_underline: true,
-            title: this.gettext('Window _size'),
+            title: this.gettext('Window _Size'),
         });
 
         const percent_format = new Intl.NumberFormat(undefined, { style: 'percent' });
