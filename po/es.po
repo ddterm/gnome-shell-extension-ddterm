@@ -1041,8 +1041,8 @@ msgid "_Restore previous tabs on startup"
 msgstr "_Restaurar pestañas anteriores al iniciar"
 
 #: ddterm/pref/tabs.js:30
-msgid "Show tab _bar:"
-msgstr "Mostrar la _barra de pestañas:"
+msgid "Show tab _bar"
+msgstr "Mostrar la _barra de pestañas"
 
 #: ddterm/pref/tabs.js:32 ddterm/pref/text.js:100
 msgid "Always"
@@ -1053,12 +1053,12 @@ msgid "Never"
 msgstr "Nunca"
 
 #: ddterm/pref/tabs.js:40
-msgid "Tab bar position:"
-msgstr "Posición de las pestañas:"
+msgid "Tab bar position"
+msgstr "Posición de las pestañas"
 
 #: ddterm/pref/tabs.js:51
-msgid "Ellipsize tab labels:"
-msgstr "Etiquetas de tarjetas en forma de elipse:"
+msgid "Ellipsize tab labels"
+msgstr "Etiquetas de tarjetas en forma de elipse"
 
 #: ddterm/pref/tabs.js:54
 msgid "Start"
@@ -1073,8 +1073,8 @@ msgid "End"
 msgstr "Fin"
 
 #: ddterm/pref/tabs.js:79
-msgid "Tab width:"
-msgstr "Ancho de la pestaña:"
+msgid "Tab width"
+msgstr "Ancho de la pestaña"
 
 #: ddterm/pref/tabs.js:96
 msgid "Expand tabs"

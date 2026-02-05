@@ -1042,8 +1042,8 @@ msgid "_Restore previous tabs on startup"
 msgstr "_启动时还原以前的选项卡"
 
 #: ddterm/pref/tabs.js:30
-msgid "Show tab _bar:"
-msgstr "显示标签 _栏："
+msgid "Show tab _bar"
+msgstr "显示标签 _栏"
 
 #: ddterm/pref/tabs.js:32 ddterm/pref/text.js:100
 msgid "Always"
@@ -1054,12 +1054,12 @@ msgid "Never"
 msgstr "从不"
 
 #: ddterm/pref/tabs.js:40
-msgid "Tab bar position:"
-msgstr "标签栏的位置："
+msgid "Tab bar position"
+msgstr "标签栏的位置"
 
 #: ddterm/pref/tabs.js:51
-msgid "Ellipsize tab labels:"
-msgstr "缩写标签页文本:"
+msgid "Ellipsize tab labels"
+msgstr "缩写标签页文本"
 
 #: ddterm/pref/tabs.js:54
 msgid "Start"
@@ -1074,8 +1074,8 @@ msgid "End"
 msgstr "结尾"
 
 #: ddterm/pref/tabs.js:79
-msgid "Tab width:"
-msgstr "标签页宽度："
+msgid "Tab width"
+msgstr "标签页宽度"
 
 #: ddterm/pref/tabs.js:96
 msgid "Expand tabs"

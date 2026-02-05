@@ -1044,8 +1044,8 @@ msgid "_Restore previous tabs on startup"
 msgstr ""
 
 #: ddterm/pref/tabs.js:30
-msgid "Show tab _bar:"
-msgstr "Vis fane_felt:"
+msgid "Show tab _bar"
+msgstr "Vis fane_felt"
 
 #: ddterm/pref/tabs.js:32 ddterm/pref/text.js:100
 msgid "Always"
@@ -1056,12 +1056,12 @@ msgid "Never"
 msgstr "Aldri"
 
 #: ddterm/pref/tabs.js:40
-msgid "Tab bar position:"
-msgstr "Fanefeltsposisjon:"
+msgid "Tab bar position"
+msgstr "Fanefeltsposisjon"
 
 #: ddterm/pref/tabs.js:51
-msgid "Ellipsize tab labels:"
-msgstr "Elliptiser faneetiketter:"
+msgid "Ellipsize tab labels"
+msgstr "Elliptiser faneetiketter"
 
 #: ddterm/pref/tabs.js:54
 msgid "Start"
@@ -1076,8 +1076,8 @@ msgid "End"
 msgstr "Slutten"
 
 #: ddterm/pref/tabs.js:79
-msgid "Tab width:"
-msgstr "Fanebredde:"
+msgid "Tab width"
+msgstr "Fanebredde"
 
 #: ddterm/pref/tabs.js:96
 msgid "Expand tabs"

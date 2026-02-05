@@ -1039,8 +1039,8 @@ msgid "_Restore previous tabs on startup"
 msgstr "_Vorherige Reiter beim Start wiederherstellen"
 
 #: ddterm/pref/tabs.js:30
-msgid "Show tab _bar:"
-msgstr "Reiter_leiste anzeigen:"
+msgid "Show tab _bar"
+msgstr "Reiter_leiste anzeigen"
 
 #: ddterm/pref/tabs.js:32 ddterm/pref/text.js:100
 msgid "Always"
@@ -1051,12 +1051,12 @@ msgid "Never"
 msgstr "Niemals"
 
 #: ddterm/pref/tabs.js:40
-msgid "Tab bar position:"
-msgstr "Position der Reiterleiste:"
+msgid "Tab bar position"
+msgstr "Position der Reiterleiste"
 
 #: ddterm/pref/tabs.js:51
-msgid "Ellipsize tab labels:"
-msgstr "Reitertitel kürzen:"
+msgid "Ellipsize tab labels"
+msgstr "Reitertitel kürzen"
 
 #: ddterm/pref/tabs.js:54
 msgid "Start"
@@ -1071,8 +1071,8 @@ msgid "End"
 msgstr "Ende"
 
 #: ddterm/pref/tabs.js:79
-msgid "Tab width:"
-msgstr "Reiterbreite:"
+msgid "Tab width"
+msgstr "Reiterbreite"
 
 #: ddterm/pref/tabs.js:96
 msgid "Expand tabs"

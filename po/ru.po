@@ -1052,8 +1052,8 @@ msgid "_Restore previous tabs on startup"
 msgstr "_Восстановить предыдущие вкладки при запуске"
 
 #: ddterm/pref/tabs.js:30
-msgid "Show tab _bar:"
-msgstr "Показывать панель вкладок:"
+msgid "Show tab _bar"
+msgstr "Показывать панель вкладок"
 
 #: ddterm/pref/tabs.js:32 ddterm/pref/text.js:100
 msgid "Always"
@@ -1064,12 +1064,12 @@ msgid "Never"
 msgstr "Никогда"
 
 #: ddterm/pref/tabs.js:40
-msgid "Tab bar position:"
-msgstr "Положение панели вкладок:"
+msgid "Tab bar position"
+msgstr "Положение панели вкладок"
 
 #: ddterm/pref/tabs.js:51
-msgid "Ellipsize tab labels:"
-msgstr "Сокращение названия вкладок:"
+msgid "Ellipsize tab labels"
+msgstr "Сокращение названия вкладок"
 
 #: ddterm/pref/tabs.js:54
 msgid "Start"
@@ -1084,8 +1084,8 @@ msgid "End"
 msgstr "В конце"
 
 #: ddterm/pref/tabs.js:79
-msgid "Tab width:"
-msgstr "Ширина вкладки:"
+msgid "Tab width"
+msgstr "Ширина вкладки"
 
 #: ddterm/pref/tabs.js:96
 msgid "Expand tabs"

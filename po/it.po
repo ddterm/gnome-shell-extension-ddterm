@@ -1052,8 +1052,8 @@ msgid "_Restore previous tabs on startup"
 msgstr ""
 
 #: ddterm/pref/tabs.js:30
-msgid "Show tab _bar:"
-msgstr "Mostra la barra delle schede:"
+msgid "Show tab _bar"
+msgstr "Mostra la barra delle schede"
 
 #: ddterm/pref/tabs.js:32 ddterm/pref/text.js:100
 msgid "Always"
@@ -1064,12 +1064,12 @@ msgid "Never"
 msgstr "Mai"
 
 #: ddterm/pref/tabs.js:40
-msgid "Tab bar position:"
-msgstr "Posizione della barra delle schede:"
+msgid "Tab bar position"
+msgstr "Posizione della barra delle schede"
 
 #: ddterm/pref/tabs.js:51
-msgid "Ellipsize tab labels:"
-msgstr "Etichette delle schede a forma di ellisse:"
+msgid "Ellipsize tab labels"
+msgstr "Etichette delle schede a forma di ellisse"
 
 #: ddterm/pref/tabs.js:54
 msgid "Start"
@@ -1084,8 +1084,8 @@ msgid "End"
 msgstr "Fine"
 
 #: ddterm/pref/tabs.js:79
-msgid "Tab width:"
-msgstr "Larghezza scheda:"
+msgid "Tab width"
+msgstr "Larghezza scheda"
 
 #: ddterm/pref/tabs.js:96
 msgid "Expand tabs"

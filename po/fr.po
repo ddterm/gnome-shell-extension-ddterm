@@ -1053,8 +1053,8 @@ msgid "_Restore previous tabs on startup"
 msgstr ""
 
 #: ddterm/pref/tabs.js:30
-msgid "Show tab _bar:"
-msgstr "Afficher la barre d'onglets :"
+msgid "Show tab _bar"
+msgstr "Afficher la barre d'onglets"
 
 #: ddterm/pref/tabs.js:32 ddterm/pref/text.js:100
 msgid "Always"
@@ -1065,12 +1065,12 @@ msgid "Never"
 msgstr "Jamais"
 
 #: ddterm/pref/tabs.js:40
-msgid "Tab bar position:"
-msgstr "Position de la barre d'onglets :"
+msgid "Tab bar position"
+msgstr "Position de la barre d'onglets"
 
 #: ddterm/pref/tabs.js:51
-msgid "Ellipsize tab labels:"
-msgstr "Raccourcir les noms d'onglets :"
+msgid "Ellipsize tab labels"
+msgstr "Raccourcir les noms d'onglets"
 
 #: ddterm/pref/tabs.js:54
 msgid "Start"
@@ -1085,8 +1085,8 @@ msgid "End"
 msgstr "Fin"
 
 #: ddterm/pref/tabs.js:79
-msgid "Tab width:"
-msgstr "Largeur des onglets :"
+msgid "Tab width"
+msgstr "Largeur des onglets"
 
 #: ddterm/pref/tabs.js:96
 msgid "Expand tabs"

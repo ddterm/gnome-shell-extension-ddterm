@@ -1056,8 +1056,8 @@ msgid "_Restore previous tabs on startup"
 msgstr "_Przywróć poprzednie zakładki przy starcie"
 
 #: ddterm/pref/tabs.js:30
-msgid "Show tab _bar:"
-msgstr "Pokaż _pasek larty:"
+msgid "Show tab _bar"
+msgstr "Pokaż _pasek larty"
 
 #: ddterm/pref/tabs.js:32 ddterm/pref/text.js:100
 msgid "Always"
@@ -1068,12 +1068,12 @@ msgid "Never"
 msgstr "Nigdy"
 
 #: ddterm/pref/tabs.js:40
-msgid "Tab bar position:"
-msgstr "Pozycja paska karty:"
+msgid "Tab bar position"
+msgstr "Pozycja paska karty"
 
 #: ddterm/pref/tabs.js:51
-msgid "Ellipsize tab labels:"
-msgstr "Etykiety zakładek elips:"
+msgid "Ellipsize tab labels"
+msgstr "Etykiety zakładek elips"
 
 #: ddterm/pref/tabs.js:54
 msgid "Start"
@@ -1088,8 +1088,8 @@ msgid "End"
 msgstr "Koniec"
 
 #: ddterm/pref/tabs.js:79
-msgid "Tab width:"
-msgstr "Szerokość karty:"
+msgid "Tab width"
+msgstr "Szerokość karty"
 
 #: ddterm/pref/tabs.js:96
 msgid "Expand tabs"

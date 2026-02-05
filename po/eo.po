@@ -1038,7 +1038,7 @@ msgid "_Restore previous tabs on startup"
 msgstr ""
 
 #: ddterm/pref/tabs.js:30
-msgid "Show tab _bar:"
+msgid "Show tab _bar"
 msgstr ""
 
 #: ddterm/pref/tabs.js:32 ddterm/pref/text.js:100
@@ -1050,11 +1050,11 @@ msgid "Never"
 msgstr "Neniam"
 
 #: ddterm/pref/tabs.js:40
-msgid "Tab bar position:"
+msgid "Tab bar position"
 msgstr ""
 
 #: ddterm/pref/tabs.js:51
-msgid "Ellipsize tab labels:"
+msgid "Ellipsize tab labels"
 msgstr ""
 
 #: ddterm/pref/tabs.js:54
@@ -1070,7 +1070,7 @@ msgid "End"
 msgstr "Fino"
 
 #: ddterm/pref/tabs.js:79
-msgid "Tab width:"
+msgid "Tab width"
 msgstr ""
 
 #: ddterm/pref/tabs.js:96

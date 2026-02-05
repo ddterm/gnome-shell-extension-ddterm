@@ -1059,8 +1059,8 @@ msgid "_Restore previous tabs on startup"
 msgstr ""
 
 #: ddterm/pref/tabs.js:30
-msgid "Show tab _bar:"
-msgstr "Εμφάνιση μπάρας καρτελών:"
+msgid "Show tab _bar"
+msgstr "Εμφάνιση μπάρας καρτελών"
 
 #: ddterm/pref/tabs.js:32 ddterm/pref/text.js:100
 msgid "Always"
@@ -1071,11 +1071,11 @@ msgid "Never"
 msgstr "Ποτέ"
 
 #: ddterm/pref/tabs.js:40
-msgid "Tab bar position:"
-msgstr "Θέση μπάρας καρτελών:"
+msgid "Tab bar position"
+msgstr "Θέση μπάρας καρτελών"
 
 #: ddterm/pref/tabs.js:51
-msgid "Ellipsize tab labels:"
+msgid "Ellipsize tab labels"
 msgstr ""
 
 #: ddterm/pref/tabs.js:54
@@ -1091,8 +1091,8 @@ msgid "End"
 msgstr "Τέλος"
 
 #: ddterm/pref/tabs.js:79
-msgid "Tab width:"
-msgstr "Πλάτος καρτέλας:"
+msgid "Tab width"
+msgstr "Πλάτος καρτέλας"
 
 #: ddterm/pref/tabs.js:96
 msgid "Expand tabs"

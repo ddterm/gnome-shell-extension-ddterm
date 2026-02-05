@@ -1049,8 +1049,8 @@ msgid "_Restore previous tabs on startup"
 msgstr "_Başlangıçta önceki sekmeleri geri yükle"
 
 #: ddterm/pref/tabs.js:30
-msgid "Show tab _bar:"
-msgstr "Sekme _çubuğunu göster:"
+msgid "Show tab _bar"
+msgstr "Sekme _çubuğunu göster"
 
 #: ddterm/pref/tabs.js:32 ddterm/pref/text.js:100
 msgid "Always"
@@ -1061,12 +1061,12 @@ msgid "Never"
 msgstr "Hiçbir zaman"
 
 #: ddterm/pref/tabs.js:40
-msgid "Tab bar position:"
-msgstr "Sekme çubuğu konumu:"
+msgid "Tab bar position"
+msgstr "Sekme çubuğu konumu"
 
 #: ddterm/pref/tabs.js:51
-msgid "Ellipsize tab labels:"
-msgstr "Uzun sekme adlarını kısalt:"
+msgid "Ellipsize tab labels"
+msgstr "Uzun sekme adlarını kısalt"
 
 #: ddterm/pref/tabs.js:54
 msgid "Start"
@@ -1081,8 +1081,8 @@ msgid "End"
 msgstr "Son"
 
 #: ddterm/pref/tabs.js:79
-msgid "Tab width:"
-msgstr "Sekme genişliği:"
+msgid "Tab width"
+msgstr "Sekme genişliği"
 
 #: ddterm/pref/tabs.js:96
 msgid "Expand tabs"

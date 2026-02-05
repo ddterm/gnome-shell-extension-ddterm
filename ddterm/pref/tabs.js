@@ -27,7 +27,7 @@ export class TabsGroup extends PreferencesGroup {
 
         this.add_combo_text_row({
             key: 'tab-policy',
-            title: this.gettext('Show tab _bar:'),
+            title: this.gettext('Show tab _bar'),
             model: {
                 always: this.gettext('Always'),
                 automatic: this.gettext('Automatic'),
@@ -37,7 +37,7 @@ export class TabsGroup extends PreferencesGroup {
 
         this.add_combo_text_row({
             key: 'tab-position',
-            title: this.gettext('Tab bar position:'),
+            title: this.gettext('Tab bar position'),
             model: {
                 bottom: this.gettext('Bottom'),
                 top: this.gettext('Top'),
@@ -48,7 +48,7 @@ export class TabsGroup extends PreferencesGroup {
 
         this.add_combo_text_row({
             key: 'tab-label-ellipsize-mode',
-            title: this.gettext('Ellipsize tab labels:'),
+            title: this.gettext('Ellipsize tab labels'),
             model: {
                 none: this.gettext('None'),
                 start: this.gettext('Start'),
@@ -76,7 +76,7 @@ export class TabsGroup extends PreferencesGroup {
             round_digits: 2,
             visible: true,
             use_underline: true,
-            title: this.gettext('Tab width:'),
+            title: this.gettext('Tab width'),
         });
 
         const percent_format = new Intl.NumberFormat(undefined, { style: 'percent' });
