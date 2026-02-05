@@ -1,0 +1,1194 @@
+# Korean translations for ddterm@amezin.github.com package.
+# Copyright (C) 2026 ddterm contributors <https://github.com/ddterm/gnome-shell-extension-ddterm/>
+# SPDX-License-Identifier: GPL-3.0-or-later
+# This file is distributed under the same license as the ddterm@amezin.github.com package.
+# Automatically generated, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ddterm@amezin.github.com\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-05 03:03+0200\n"
+"PO-Revision-Date: 2026-02-05 03:03+0200\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: ko\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: data/com.github.amezin.ddterm.desktop.in.in:8 ddterm/app/appwindow.js:146
+#: ddterm/shell/notifications.js:238 ddterm/shell/panelicon.js:32
+msgid "ddterm"
+msgstr ""
+
+#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: data/com.github.amezin.ddterm.desktop.in.in:10
+msgid "shell;prompt;command;commandline;cmd;run;terminal;"
+msgstr ""
+
+#: data/com.github.amezin.ddterm.desktop.in.in:11
+msgid "Another drop down terminal extension for GNOME Shell"
+msgstr ""
+
+#: data/com.github.amezin.ddterm.desktop.in.in:25
+msgid "Toggle"
+msgstr ""
+
+#: data/com.github.amezin.ddterm.desktop.in.in:29 ddterm/app/ui/menus.ui:140
+#: ddterm/app/ui/menus.ui:282 ddterm/shell/panelicon.js:64
+msgid "Preferences…"
+msgstr ""
+
+#: ddterm/app/about.js:58
+msgid "translator-credits"
+msgstr ""
+
+#: ddterm/app/about.js:59
+msgid "Contributors"
+msgstr ""
+
+#: ddterm/app/application.js:115
+msgid "Start the application, but do not show the window"
+msgstr ""
+
+#: ddterm/app/application.js:124
+msgid "Comma-separated list of backends that GDK should try to use"
+msgstr ""
+
+#: ddterm/app/application.js:151
+msgid "Show version information and exit"
+msgstr ""
+
+#: ddterm/app/application.js:160
+msgid "Run the specified command"
+msgstr ""
+
+#: ddterm/app/application.js:174
+msgid "Wait for the command to exit, and return its exit code"
+msgstr ""
+
+#: ddterm/app/application.js:183
+msgid "Set the working directory"
+msgstr ""
+
+#: ddterm/app/application.js:192
+msgid "Set tab title"
+msgstr ""
+
+#: ddterm/app/application.js:201
+msgid "Keep the terminal open after the command has exited"
+msgstr ""
+
+#: ddterm/app/application.js:210
+msgid "Do not pass the environment"
+msgstr ""
+
+#: ddterm/app/application.js:219
+msgid "Open a new tab"
+msgstr ""
+
+#: ddterm/app/application.js:499
+msgid "Can't contact the extension."
+msgstr ""
+
+#: ddterm/app/application.js:501
+msgid "Please, make sure ddterm GNOME Shell extension is enabled."
+msgstr ""
+
+#: ddterm/app/application.js:646
+msgid "Can't read the version of the loaded extension."
+msgstr ""
+
+#: ddterm/app/application.js:648 ddterm/shell/notifications.js:85
+msgid "Warning: ddterm version has changed"
+msgstr ""
+
+#: ddterm/app/application.js:649 ddterm/shell/notifications.js:87
+msgid "Log out, then log in again to load the updated extension."
+msgstr ""
+
+#: ddterm/app/init.js:34 ddterm/shell/notifications.js:149
+msgid "ddterm needs additional packages to run"
+msgstr ""
+
+#: ddterm/app/init.js:42 ddterm/shell/notifications.js:154
+msgid "Please install the following packages:"
+msgstr ""
+
+#: ddterm/app/init.js:49 ddterm/shell/notifications.js:162
+msgid "Please install packages that provide the following files:"
+msgstr ""
+
+#: ddterm/app/notebook.js:138
+msgid "New Tab (Last)"
+msgstr ""
+
+#: ddterm/app/notebook.js:176
+msgid "New Tab (First)"
+msgstr ""
+
+#: ddterm/app/search.js:209
+msgid "Case Sensitive"
+msgstr ""
+
+#: ddterm/app/search.js:225
+msgid "Match Whole Word"
+msgstr ""
+
+#: ddterm/app/search.js:241
+msgid "Regular Expression"
+msgstr ""
+
+#: ddterm/app/search.js:307
+msgid "Close Search Bar"
+msgstr ""
+
+#: ddterm/app/search.js:318
+msgid "Wrap Around"
+msgstr ""
+
+#: ddterm/app/search.js:334 ddterm/pref/shortcuts.js:673
+msgid "Find Next"
+msgstr ""
+
+#: ddterm/app/search.js:352 ddterm/pref/shortcuts.js:678
+msgid "Find Previous"
+msgstr ""
+
+#: ddterm/app/tablabel.js:83 ddterm/pref/shortcuts.js:658
+msgid "Set Custom Tab Title"
+msgstr ""
+
+#: ddterm/app/tablabel.js:90
+msgid "Tab _title:"
+msgstr ""
+
+#: ddterm/app/tablabel.js:104 ddterm/app/ui/menus.ui:215
+msgid "Use Custom Tab Title"
+msgstr ""
+
+#: ddterm/app/tablabel.js:220 ddterm/app/ui/menus.ui:201
+#: ddterm/app/ui/menus.ui:291 ddterm/shell/notifications.js:62
+msgid "Close"
+msgstr ""
+
+#: ddterm/app/terminalpage.js:154
+msgid "Restart"
+msgstr ""
+
+#: ddterm/app/terminalpage.js:155 ddterm/app/terminalpage.js:646
+msgid "Close Terminal"
+msgstr ""
+
+#: ddterm/app/terminalpage.js:513
+msgid "The child process exited with status:"
+msgstr ""
+
+#: ddterm/app/terminalpage.js:523
+msgid "The child process was aborted by signal:"
+msgstr ""
+
+#: ddterm/app/terminalpage.js:638
+msgid "Close this terminal?"
+msgstr ""
+
+#: ddterm/app/terminalpage.js:640
+msgid "There is still a process running in this terminal. Closing the terminal will kill it."
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:15
+msgid "Open Hyperlink"
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:20
+msgid "Copy Hyperlink Address"
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:25
+msgid "Copy File Path"
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:32
+msgid "Copy"
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:36
+msgid "Copy HTML"
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:40
+msgid "Paste"
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:44 ddterm/pref/shortcuts.js:568
+msgid "Select All"
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:50 ddterm/pref/shortcuts.js:668
+msgid "Find"
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:56 ddterm/pref/shortcuts.js:573
+msgid "Reset"
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:60 ddterm/pref/shortcuts.js:578
+msgid "Reset and Clear"
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:66
+msgid "Zoom"
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:68 ddterm/pref/shortcuts.js:683
+msgid "Zoom In"
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:72 ddterm/pref/shortcuts.js:688
+msgid "Zoom Out"
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:76 ddterm/pref/shortcuts.js:693
+msgid "Normal Size"
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:83
+msgid "Show in File Manager"
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:89
+msgid "New Tab"
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:91 ddterm/pref/shortcuts.js:593
+msgid "New Tab Before Current Tab"
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:95 ddterm/pref/shortcuts.js:598
+msgid "New Tab After Current Tab"
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:99 ddterm/app/ui/menus.ui:235
+#: ddterm/pref/shortcuts.js:588
+msgid "New Tab Before First Tab"
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:103 ddterm/app/ui/menus.ui:239
+#: ddterm/pref/shortcuts.js:583
+msgid "New Tab After Last Tab"
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:110 ddterm/app/ui/menus.ui:255
+msgid "Layout"
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:113 ddterm/app/ui/menus.ui:258
+#: ddterm/app/ui/menus.ui:298
+msgid "No Split"
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:118 ddterm/app/ui/menus.ui:263
+#: ddterm/app/ui/menus.ui:303 ddterm/pref/shortcuts.js:628
+msgid "Split Horizontally"
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:123 ddterm/app/ui/menus.ui:268
+#: ddterm/app/ui/menus.ui:308 ddterm/pref/shortcuts.js:633
+msgid "Split Vertically"
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:130 ddterm/app/ui/menus.ui:275
+msgid "Move Tab to Other Pane"
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:137 ddterm/pref/dialog.js:50
+msgid "Preferences"
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:146 ddterm/pref/behavior.js:28
+msgid "Above All Windows"
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:150 ddterm/pref/behavior.js:33
+msgid "On All Workspaces"
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:154
+msgid "Maximize Window"
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:158 ddterm/pref/colors.js:592
+msgid "Transparent Background"
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:164 ddterm/pref/behavior.js:38
+msgid "Hide When Application Loses Focus"
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:168 ddterm/pref/behavior.js:43
+msgid "Hide When Esc Key Is Pressed"
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:174 ddterm/pref/scrolling.js:33
+msgid "Scroll On Output"
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:178 ddterm/pref/scrolling.js:38
+msgid "Scroll On Keystroke"
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:184 ddterm/pref/command.js:51
+msgid "Preserve Working Directory In New Tabs"
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:190
+msgid "Enable Keyboard Shortcuts"
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:197 ddterm/app/ui/menus.ui:287
+msgid "Keep Open After Exit"
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:207 ddterm/shell/panelicon.js:72
+msgid "About ddterm"
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:220
+msgid "Use Default Tab Title"
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:227
+msgid "New Tab Before This Tab"
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:231
+msgid "New Tab After This Tab"
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:245 ddterm/pref/shortcuts.js:618
+msgid "Move Tab to Previous Position"
+msgstr ""
+
+#: ddterm/app/ui/menus.ui:249 ddterm/pref/shortcuts.js:623
+msgid "Move Tab to Next Position"
+msgstr ""
+
+#: ddterm/pref/adw.js:48
+msgid "Window"
+msgstr ""
+
+#: ddterm/pref/adw.js:73
+msgid "Terminal"
+msgstr ""
+
+#: ddterm/pref/adw.js:106
+msgid "Keyboard Shortcuts"
+msgstr ""
+
+#: ddterm/pref/adw.js:172
+msgid "Miscellaneous"
+msgstr ""
+
+#: ddterm/pref/animation.js:26
+msgid "Animation"
+msgstr ""
+
+#: ddterm/pref/animation.js:30
+msgid "_Override Default Window Animations"
+msgstr ""
+
+#: ddterm/pref/animation.js:34
+msgid "Disable"
+msgstr ""
+
+#: ddterm/pref/animation.js:35
+msgid "Linear tweening"
+msgstr ""
+
+#: ddterm/pref/animation.js:36
+msgid "Quadratic tweening"
+msgstr ""
+
+#: ddterm/pref/animation.js:37
+msgid "Quadratic tweening, inverse"
+msgstr ""
+
+#: ddterm/pref/animation.js:38
+msgid "Quadratic tweening, combining direct and inverse"
+msgstr ""
+
+#: ddterm/pref/animation.js:39
+msgid "Cubic tweening"
+msgstr ""
+
+#: ddterm/pref/animation.js:40
+msgid "Cubic tweening, inverse"
+msgstr ""
+
+#: ddterm/pref/animation.js:41
+msgid "Cubic tweening, combining direct and inverse"
+msgstr ""
+
+#: ddterm/pref/animation.js:42
+msgid "Quartic tweening"
+msgstr ""
+
+#: ddterm/pref/animation.js:43
+msgid "Quartic tweening, inverse"
+msgstr ""
+
+#: ddterm/pref/animation.js:44
+msgid "Quartic tweening, combining direct and inverse"
+msgstr ""
+
+#: ddterm/pref/animation.js:45
+msgid "Quintic tweening"
+msgstr ""
+
+#: ddterm/pref/animation.js:46
+msgid "Quintic tweening, inverse"
+msgstr ""
+
+#: ddterm/pref/animation.js:47
+msgid "Quintic tweening, combining direct and inverse"
+msgstr ""
+
+#: ddterm/pref/animation.js:48
+msgid "Sinusoidal tweening"
+msgstr ""
+
+#: ddterm/pref/animation.js:49
+msgid "Sinusoidal tweening, inverse"
+msgstr ""
+
+#: ddterm/pref/animation.js:50
+msgid "Sinusoidal tweening, combining direct and inverse"
+msgstr ""
+
+#: ddterm/pref/animation.js:51
+msgid "Exponential tweening"
+msgstr ""
+
+#: ddterm/pref/animation.js:52
+msgid "Exponential tweening, inverse"
+msgstr ""
+
+#: ddterm/pref/animation.js:53
+msgid "Exponential tweening, combining direct and inverse"
+msgstr ""
+
+#: ddterm/pref/animation.js:54
+msgid "Circular tweening"
+msgstr ""
+
+#: ddterm/pref/animation.js:55
+msgid "Circular tweening, inverse"
+msgstr ""
+
+#: ddterm/pref/animation.js:56
+msgid "Circular tweening, combining direct and inverse"
+msgstr ""
+
+#: ddterm/pref/animation.js:57
+msgid "Elastic tweening, with offshoot on start"
+msgstr ""
+
+#: ddterm/pref/animation.js:58
+msgid "Elastic tweening, with offshoot on end"
+msgstr ""
+
+#: ddterm/pref/animation.js:59
+msgid "Elastic tweening with offshoot on both ends"
+msgstr ""
+
+#: ddterm/pref/animation.js:60
+msgid "Overshooting cubic tweening, with backtracking on start"
+msgstr ""
+
+#: ddterm/pref/animation.js:61
+msgid "Overshooting cubic tweening, with backtracking on end"
+msgstr ""
+
+#: ddterm/pref/animation.js:63
+msgid "Overshooting cubic tweening, with backtracking on both ends"
+msgstr ""
+
+#: ddterm/pref/animation.js:66
+msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on start"
+msgstr ""
+
+#: ddterm/pref/animation.js:69
+msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on end"
+msgstr ""
+
+#: ddterm/pref/animation.js:72
+msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on both ends"
+msgstr ""
+
+#: ddterm/pref/animation.js:103
+msgid "_Show Animation"
+msgstr ""
+
+#: ddterm/pref/animation.js:114
+msgid "_Show Animation Duration"
+msgstr ""
+
+#: ddterm/pref/animation.js:128
+msgid "_Hide Animation"
+msgstr ""
+
+#: ddterm/pref/animation.js:139
+msgid "_Hide Animation Duration"
+msgstr ""
+
+#: ddterm/pref/behavior.js:19
+msgid "Behavior"
+msgstr ""
+
+#: ddterm/pref/behavior.js:23
+msgid "_Resizable"
+msgstr ""
+
+#: ddterm/pref/behavior.js:48
+msgid "Exclude From _Overview/Task Bar"
+msgstr ""
+
+#: ddterm/pref/behavior.js:53
+msgid "Hide Mouse _Pointer When Typing"
+msgstr ""
+
+#: ddterm/pref/behavior.js:59
+msgid ""
+"Force _X11 GDK backend (XWayland).\n"
+"You'll have to close all tabs for this option to take effect."
+msgstr ""
+
+#: ddterm/pref/colors.js:357
+msgid "Colors"
+msgstr ""
+
+#: ddterm/pref/colors.js:361
+msgid "Theme _Variant"
+msgstr ""
+
+#: ddterm/pref/colors.js:363 ddterm/pref/text.js:118
+msgid "Default"
+msgstr ""
+
+#: ddterm/pref/colors.js:364
+msgid "Light"
+msgstr ""
+
+#: ddterm/pref/colors.js:365
+msgid "Dark"
+msgstr ""
+
+#: ddterm/pref/colors.js:371
+msgid "Use Colors From System _Theme"
+msgstr ""
+
+#: ddterm/pref/colors.js:375
+msgid "Black on light yellow"
+msgstr ""
+
+#: ddterm/pref/colors.js:376
+msgid "Black on white"
+msgstr ""
+
+#: ddterm/pref/colors.js:377
+msgid "Gray on black"
+msgstr ""
+
+#: ddterm/pref/colors.js:378
+msgid "Green on black"
+msgstr ""
+
+#: ddterm/pref/colors.js:379
+msgid "White on black"
+msgstr ""
+
+#: ddterm/pref/colors.js:380
+msgid "GNOME light"
+msgstr ""
+
+#: ddterm/pref/colors.js:381
+msgid "GNOME dark"
+msgstr ""
+
+#: ddterm/pref/colors.js:382
+msgid "Tango light"
+msgstr ""
+
+#: ddterm/pref/colors.js:383
+msgid "Tango dark"
+msgstr ""
+
+#: ddterm/pref/colors.js:384
+msgid "Solarized light"
+msgstr ""
+
+#: ddterm/pref/colors.js:385
+msgid "Solarized dark"
+msgstr ""
+
+#: ddterm/pref/colors.js:386 ddterm/pref/colors.js:706
+msgid "Custom"
+msgstr ""
+
+#: ddterm/pref/colors.js:409
+msgid "Color _Scheme"
+msgstr ""
+
+#: ddterm/pref/colors.js:428
+msgid "Foreground Color"
+msgstr ""
+
+#: ddterm/pref/colors.js:435
+msgid "Background Color"
+msgstr ""
+
+#: ddterm/pref/colors.js:443 ddterm/pref/colors.js:451
+msgid "Bold Color"
+msgstr ""
+
+#: ddterm/pref/colors.js:460
+msgid "Cursor Color"
+msgstr ""
+
+#: ddterm/pref/colors.js:482
+msgid "Cursor Foreground Color"
+msgstr ""
+
+#: ddterm/pref/colors.js:487
+msgid "Cursor Background Color"
+msgstr ""
+
+#: ddterm/pref/colors.js:510
+msgid "Highlight Color"
+msgstr ""
+
+#: ddterm/pref/colors.js:532
+msgid "Highlight Foreground Color"
+msgstr ""
+
+#: ddterm/pref/colors.js:537
+msgid "Highlight Background Color"
+msgstr ""
+
+#: ddterm/pref/colors.js:577
+msgid "_Background Opacity"
+msgstr ""
+
+#: ddterm/pref/colors.js:598
+msgid "GNOME"
+msgstr ""
+
+#: ddterm/pref/colors.js:616
+msgid "Tango"
+msgstr ""
+
+#: ddterm/pref/colors.js:634
+msgid "Linux"
+msgstr ""
+
+#: ddterm/pref/colors.js:652
+msgid "XTerm"
+msgstr ""
+
+#: ddterm/pref/colors.js:670
+msgid "RXVT"
+msgstr ""
+
+#: ddterm/pref/colors.js:688
+msgid "Solarized"
+msgstr ""
+
+#: ddterm/pref/colors.js:717
+msgid "_Palette"
+msgstr ""
+
+#: ddterm/pref/colors.js:790
+msgid "Show Bold Text in _Bright Colors"
+msgstr ""
+
+#: ddterm/pref/colors.js:795
+msgid "Copy profile from GNOME Terminal"
+msgstr ""
+
+#: ddterm/pref/command.js:22 ddterm/pref/command.js:26
+msgid "Command"
+msgstr ""
+
+#: ddterm/pref/command.js:28
+msgid "User shell"
+msgstr ""
+
+#: ddterm/pref/command.js:29
+msgid "User shell as login shell"
+msgstr ""
+
+#: ddterm/pref/command.js:30
+msgid "Custom command"
+msgstr ""
+
+#: ddterm/pref/command.js:35
+msgid "Custom Command"
+msgstr ""
+
+#: ddterm/pref/compatibility.js:20
+msgid "Compatibility"
+msgstr ""
+
+#: ddterm/pref/compatibility.js:23 ddterm/pref/tabs.js:33
+msgid "Automatic"
+msgstr ""
+
+#: ddterm/pref/compatibility.js:24
+msgid "Control-H"
+msgstr ""
+
+#: ddterm/pref/compatibility.js:25
+msgid "ASCII DEL"
+msgstr ""
+
+#: ddterm/pref/compatibility.js:26
+msgid "Escape sequence"
+msgstr ""
+
+#: ddterm/pref/compatibility.js:27
+msgid "TTY Erase"
+msgstr ""
+
+#: ddterm/pref/compatibility.js:32
+msgid "_Backspace Key Generates"
+msgstr ""
+
+#: ddterm/pref/compatibility.js:38
+msgid "_Delete Key Generates"
+msgstr ""
+
+#: ddterm/pref/compatibility.js:44
+msgid "Ambiguous-_Width Characters"
+msgstr ""
+
+#: ddterm/pref/compatibility.js:46
+msgid "Narrow"
+msgstr ""
+
+#: ddterm/pref/compatibility.js:47
+msgid "Wide"
+msgstr ""
+
+#: ddterm/pref/compatibility.js:53
+msgid "_Reset Compatibility Options to Defaults"
+msgstr ""
+
+#: ddterm/pref/panelicon.js:19 ddterm/pref/panelicon.js:23
+msgid "Panel Icon"
+msgstr ""
+
+#: ddterm/pref/panelicon.js:26 ddterm/pref/tabs.js:53
+msgid "None"
+msgstr ""
+
+#: ddterm/pref/panelicon.js:27
+msgid "With popup menu"
+msgstr ""
+
+#: ddterm/pref/panelicon.js:28
+msgid "Toggle button"
+msgstr ""
+
+#: ddterm/pref/panelicon.js:29
+msgid "Toggle button and popup menu"
+msgstr ""
+
+#: ddterm/pref/positionsize.js:190
+msgid "Position and Size"
+msgstr ""
+
+#: ddterm/pref/positionsize.js:197
+msgid "On the monitor that contains the mouse pointer"
+msgstr ""
+
+#: ddterm/pref/positionsize.js:203
+msgid "On the primary monitor"
+msgstr ""
+
+#: ddterm/pref/positionsize.js:208
+msgid "On the monitor with keyboard focus"
+msgstr ""
+
+#: ddterm/pref/positionsize.js:214
+msgid "On _Monitor"
+msgstr ""
+
+#: ddterm/pref/positionsize.js:274
+msgid "_Window Position"
+msgstr ""
+
+#: ddterm/pref/positionsize.js:276 ddterm/pref/tabs.js:43
+msgid "Top"
+msgstr ""
+
+#: ddterm/pref/positionsize.js:277 ddterm/pref/tabs.js:42
+msgid "Bottom"
+msgstr ""
+
+#: ddterm/pref/positionsize.js:278 ddterm/pref/tabs.js:44
+msgid "Left"
+msgstr ""
+
+#: ddterm/pref/positionsize.js:279 ddterm/pref/tabs.js:45
+msgid "Right"
+msgstr ""
+
+#: ddterm/pref/positionsize.js:302
+msgid "Window _Size"
+msgstr ""
+
+#: ddterm/pref/scrolling.js:24
+msgid "Scrolling"
+msgstr ""
+
+#: ddterm/pref/scrolling.js:28
+msgid "Show _Scrollbar"
+msgstr ""
+
+#: ddterm/pref/scrolling.js:43
+msgid "Unlimited Scrollback"
+msgstr ""
+
+#: ddterm/pref/scrolling.js:53
+msgid "Scrollback Lines"
+msgstr ""
+
+#: ddterm/pref/shortcuts.js:189
+msgid "Enter new shortcut"
+msgstr ""
+
+#: ddterm/pref/shortcuts.js:205
+msgid "Press Esc to cancel or Backspace to disable the keyboard shortcut"
+msgstr ""
+
+#: ddterm/pref/shortcuts.js:210
+msgid "Cancel"
+msgstr ""
+
+#: ddterm/pref/shortcuts.js:211
+msgid "Set"
+msgstr ""
+
+#: ddterm/pref/shortcuts.js:343 ddterm/pref/text.js:120
+msgid "Disabled"
+msgstr ""
+
+#: ddterm/pref/shortcuts.js:483
+msgid "Global Shortcuts"
+msgstr ""
+
+#: ddterm/pref/shortcuts.js:487
+msgid "Toggle Terminal Window"
+msgstr ""
+
+#: ddterm/pref/shortcuts.js:493
+msgid "Show/Activate Terminal Window"
+msgstr ""
+
+#: ddterm/pref/shortcuts.js:509
+msgid "Application Shortcuts"
+msgstr ""
+
+#: ddterm/pref/shortcuts.js:513
+msgid "_Enable application shortcuts"
+msgstr ""
+
+#: ddterm/pref/shortcuts.js:518
+msgid "Hide the Window"
+msgstr ""
+
+#: ddterm/pref/shortcuts.js:523
+msgid "Maximize/Unmaximize the Window"
+msgstr ""
+
+#: ddterm/pref/shortcuts.js:528
+msgid "Increase Window Size"
+msgstr ""
+
+#: ddterm/pref/shortcuts.js:533
+msgid "Decrease Window Size"
+msgstr ""
+
+#: ddterm/pref/shortcuts.js:538
+msgid "Increase Background Opacity"
+msgstr ""
+
+#: ddterm/pref/shortcuts.js:543
+msgid "Decrease Background Opacity"
+msgstr ""
+
+#: ddterm/pref/shortcuts.js:548
+msgid "Enable/Disable Background Transparency"
+msgstr ""
+
+#: ddterm/pref/shortcuts.js:553
+msgid "Copy Selected Text"
+msgstr ""
+
+#: ddterm/pref/shortcuts.js:558
+msgid "Copy Selected Text as HTML"
+msgstr ""
+
+#: ddterm/pref/shortcuts.js:563
+msgid "Paste Text from Clipboard"
+msgstr ""
+
+#: ddterm/pref/shortcuts.js:603
+msgid "Close Current Tab"
+msgstr ""
+
+#: ddterm/pref/shortcuts.js:608
+msgid "Switch to Previous Tab"
+msgstr ""
+
+#: ddterm/pref/shortcuts.js:613
+msgid "Switch to Next Tab"
+msgstr ""
+
+#: ddterm/pref/shortcuts.js:638
+msgid "Move Keyboard Focus to Other Split Pane"
+msgstr ""
+
+#: ddterm/pref/shortcuts.js:643
+msgid "Move Tab to Other Split Pane"
+msgstr ""
+
+#: ddterm/pref/shortcuts.js:648
+msgid "Increase First Split Pane Size"
+msgstr ""
+
+#: ddterm/pref/shortcuts.js:653
+msgid "Decrease First Split Pane Size"
+msgstr ""
+
+#: ddterm/pref/shortcuts.js:663
+msgid "Reset Tab Title"
+msgstr ""
+
+#: ddterm/pref/shortcuts.js:698
+msgid "Switch to Tab 1"
+msgstr ""
+
+#: ddterm/pref/shortcuts.js:703
+msgid "Switch to Tab 2"
+msgstr ""
+
+#: ddterm/pref/shortcuts.js:708
+msgid "Switch to Tab 3"
+msgstr ""
+
+#: ddterm/pref/shortcuts.js:713
+msgid "Switch to Tab 4"
+msgstr ""
+
+#: ddterm/pref/shortcuts.js:718
+msgid "Switch to Tab 5"
+msgstr ""
+
+#: ddterm/pref/shortcuts.js:723
+msgid "Switch to Tab 6"
+msgstr ""
+
+#: ddterm/pref/shortcuts.js:728
+msgid "Switch to Tab 7"
+msgstr ""
+
+#: ddterm/pref/shortcuts.js:733
+msgid "Switch to Tab 8"
+msgstr ""
+
+#: ddterm/pref/shortcuts.js:738
+msgid "Switch to Tab 9"
+msgstr ""
+
+#: ddterm/pref/shortcuts.js:743
+msgid "Switch to Tab 10"
+msgstr ""
+
+#: ddterm/pref/shortcuts.js:800
+msgid "Reset All Shortcuts to Defaults"
+msgstr ""
+
+#: ddterm/pref/tabs.js:21
+msgid "Tabs"
+msgstr ""
+
+#: ddterm/pref/tabs.js:25
+msgid "_Restore Previous Tabs on Startup"
+msgstr ""
+
+#: ddterm/pref/tabs.js:30
+msgid "Show Tab _Bar"
+msgstr ""
+
+#: ddterm/pref/tabs.js:32 ddterm/pref/text.js:100
+msgid "Always"
+msgstr ""
+
+#: ddterm/pref/tabs.js:34 ddterm/pref/text.js:97
+msgid "Never"
+msgstr ""
+
+#: ddterm/pref/tabs.js:40
+msgid "Tab Bar Position"
+msgstr ""
+
+#: ddterm/pref/tabs.js:51
+msgid "Ellipsize Tab Labels"
+msgstr ""
+
+#: ddterm/pref/tabs.js:54
+msgid "Start"
+msgstr ""
+
+#: ddterm/pref/tabs.js:55
+msgid "Middle"
+msgstr ""
+
+#: ddterm/pref/tabs.js:56
+msgid "End"
+msgstr ""
+
+#: ddterm/pref/tabs.js:79
+msgid "Tab Width"
+msgstr ""
+
+#: ddterm/pref/tabs.js:96
+msgid "Expand Tabs"
+msgstr ""
+
+#: ddterm/pref/tabs.js:101
+msgid "Show _Close Buttons"
+msgstr ""
+
+#: ddterm/pref/tabs.js:106
+msgid "\"_New Tab (Last)\" Button"
+msgstr ""
+
+#: ddterm/pref/tabs.js:111
+msgid "\"_New Tab (First)\" Button"
+msgstr ""
+
+#: ddterm/pref/tabs.js:116
+msgid "Tab _Switcher Popup"
+msgstr ""
+
+#: ddterm/pref/tabs.js:121
+msgid "Show Border"
+msgstr ""
+
+#: ddterm/pref/tabs.js:126
+msgid "Show Keyboard Shortcuts"
+msgstr ""
+
+#: ddterm/pref/text.js:71
+msgid "Text"
+msgstr ""
+
+#: ddterm/pref/text.js:75
+msgid "Use System Font"
+msgstr ""
+
+#: ddterm/pref/text.js:79
+msgid "Custom _Font"
+msgstr ""
+
+#: ddterm/pref/text.js:95
+msgid "Allow _Blinking Text"
+msgstr ""
+
+#: ddterm/pref/text.js:98
+msgid "When focused"
+msgstr ""
+
+#: ddterm/pref/text.js:99
+msgid "When unfocused"
+msgstr ""
+
+#: ddterm/pref/text.js:106
+msgid "Cursor _Shape"
+msgstr ""
+
+#: ddterm/pref/text.js:108
+msgid "Block"
+msgstr ""
+
+#: ddterm/pref/text.js:109
+msgid "I-Beam"
+msgstr ""
+
+#: ddterm/pref/text.js:110
+msgid "Underline"
+msgstr ""
+
+#: ddterm/pref/text.js:116
+msgid "_Cursor Blinking"
+msgstr ""
+
+#: ddterm/pref/text.js:119
+msgid "Enabled"
+msgstr ""
+
+#: ddterm/pref/text.js:126
+msgid "Allow _Hyperlinks"
+msgstr ""
+
+#: ddterm/pref/text.js:131
+msgid "Audible _Bell"
+msgstr ""
+
+#: ddterm/pref/text.js:136
+msgid "Detect _URLs"
+msgstr ""
+
+#: ddterm/pref/text.js:141
+msgid "Detect Raw URLs (scheme://netloc/path)"
+msgstr ""
+
+#: ddterm/pref/text.js:146
+msgid "Detect \"file:\" URLs"
+msgstr ""
+
+#: ddterm/pref/text.js:151
+msgid "Detect HTTP URLs"
+msgstr ""
+
+#: ddterm/pref/text.js:156
+msgid "Detect VoIP URLs"
+msgstr ""
+
+#: ddterm/pref/text.js:161
+msgid "Detect E-mail Addresses"
+msgstr ""
+
+#: ddterm/pref/text.js:166
+msgid "Detect \"news:\", \"man:\" URLs"
+msgstr ""
+
+#: ddterm/shell/notifications.js:57 ddterm/shell/notifications.js:135
+msgid "Copy to Clipboard"
+msgstr ""
+
+#: ddterm/shell/notifications.js:131
+msgid "Details…"
+msgstr ""
+
+#: ddterm/shell/notifications.js:186
+msgid "Install"
+msgstr ""
+
+#: ddterm/shell/panelicon.js:49
+msgid "Show"
+msgstr ""
