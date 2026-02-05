@@ -165,8 +165,8 @@ msgid "Set Custom Tab Title"
 msgstr "사용자 지정 탭 제목 설정"
 
 #: ddterm/app/tablabel.js:90
-msgid "Tab _title:"
-msgstr "탭 _제목:"
+msgid "Tab _title"
+msgstr "탭 _제목"
 
 #: ddterm/app/tablabel.js:104 ddterm/app/ui/menus.ui:215
 msgid "Use Custom Tab Title"

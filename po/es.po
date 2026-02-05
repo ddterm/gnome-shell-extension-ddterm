@@ -171,7 +171,7 @@ msgstr "Establecer título de la pestaña personalizado"
 #: ddterm/app/tablabel.js:90
 #, fuzzy
 #| msgid "Set tab title"
-msgid "Tab _title:"
+msgid "Tab _title"
 msgstr "Renombrar el título de la pestaña"
 
 #: ddterm/app/tablabel.js:104 ddterm/app/ui/menus.ui:215

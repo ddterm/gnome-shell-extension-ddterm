@@ -169,7 +169,7 @@ msgstr "Definir Título da Aba"
 #: ddterm/app/tablabel.js:90
 #, fuzzy
 #| msgid "Set tab title"
-msgid "Tab _title:"
+msgid "Tab _title"
 msgstr "Definir Título da Aba"
 
 #: ddterm/app/tablabel.js:104 ddterm/app/ui/menus.ui:215

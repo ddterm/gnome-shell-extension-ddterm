@@ -168,8 +168,8 @@ msgid "Set Custom Tab Title"
 msgstr "Benutzerdefinierten Reitertitel festlegen"
 
 #: ddterm/app/tablabel.js:90
-msgid "Tab _title:"
-msgstr "_Tab-Name:"
+msgid "Tab _title"
+msgstr "_Tab-Name"
 
 #: ddterm/app/tablabel.js:104 ddterm/app/ui/menus.ui:215
 msgid "Use Custom Tab Title"

@@ -169,7 +169,7 @@ msgstr "Özel Sekme Başlığı Koy"
 #: ddterm/app/tablabel.js:90
 #, fuzzy
 #| msgid "Set tab title"
-msgid "Tab _title:"
+msgid "Tab _title"
 msgstr "Sekme başlığını ayarla"
 
 #: ddterm/app/tablabel.js:104 ddterm/app/ui/menus.ui:215

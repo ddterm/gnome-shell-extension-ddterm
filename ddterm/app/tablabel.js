@@ -87,7 +87,7 @@ export class TabTitleDialog extends Gtk.Dialog {
         const entry = new EntryRow({
             visible: true,
             use_underline: true,
-            title: Gettext.gettext('Tab _title:'),
+            title: Gettext.gettext('Tab _title'),
         });
 
         this.bind_property(
