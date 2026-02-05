@@ -406,7 +406,7 @@ msgid "Animation"
 msgstr "Анимация"
 
 #: ddterm/pref/animation.js:30
-msgid "_Override default window animations"
+msgid "_Override Default Window Animations"
 msgstr "Переопределить анимацию окна по умолчанию"
 
 #: ddterm/pref/animation.js:34
@@ -538,19 +538,19 @@ msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on both e
 msgstr "Экспоненциально затухающая параболическая с отскоком в начале и конце"
 
 #: ddterm/pref/animation.js:103
-msgid "_Show animation"
+msgid "_Show Animation"
 msgstr "Анимация открытия"
 
 #: ddterm/pref/animation.js:114
-msgid "_Show animation duration"
+msgid "_Show Animation Duration"
 msgstr "Длительность анимации открытия"
 
 #: ddterm/pref/animation.js:128
-msgid "_Hide animation"
+msgid "_Hide Animation"
 msgstr "Анимация закрытия"
 
 #: ddterm/pref/animation.js:139
-msgid "_Hide animation duration"
+msgid "_Hide Animation Duration"
 msgstr "Длительность анимации закрытия"
 
 #: ddterm/pref/behavior.js:19

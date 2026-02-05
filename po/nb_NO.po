@@ -397,7 +397,7 @@ msgid "Animation"
 msgstr "Animasjon"
 
 #: ddterm/pref/animation.js:30
-msgid "_Override default window animations"
+msgid "_Override Default Window Animations"
 msgstr "_Overstyr forvalgte vindusanimasjoner"
 
 #: ddterm/pref/animation.js:34
@@ -529,19 +529,19 @@ msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on both e
 msgstr "Eksponentielt avtagende parabolisk (sprett-) mellomtegning, med sprett i begge ender"
 
 #: ddterm/pref/animation.js:103
-msgid "_Show animation"
+msgid "_Show Animation"
 msgstr "_Vis animasjon"
 
 #: ddterm/pref/animation.js:114
-msgid "_Show animation duration"
+msgid "_Show Animation Duration"
 msgstr "_Vis animasjonsvarighet"
 
 #: ddterm/pref/animation.js:128
-msgid "_Hide animation"
+msgid "_Hide Animation"
 msgstr "_Skjul animasjon"
 
 #: ddterm/pref/animation.js:139
-msgid "_Hide animation duration"
+msgid "_Hide Animation Duration"
 msgstr "_Skjul animasjonsvarighet"
 
 #: ddterm/pref/behavior.js:19

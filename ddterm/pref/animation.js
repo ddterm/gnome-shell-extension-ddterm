@@ -27,7 +27,7 @@ export class AnimationGroup extends PreferencesGroup {
 
         this.add_switch_row({
             key: 'override-window-animation',
-            title: this.gettext('_Override default window animations'),
+            title: this.gettext('_Override Default Window Animations'),
         });
 
         const animations = ComboTextItem.create_list({
@@ -100,7 +100,7 @@ export class AnimationGroup extends PreferencesGroup {
 
         this.#show_animation_combo = this.add_combo_text_row({
             key: 'show-animation',
-            title: this.gettext('_Show animation'),
+            title: this.gettext('_Show Animation'),
             model: animations,
             flags: Gio.SettingsBindFlags.NO_SENSITIVITY,
         });
@@ -111,7 +111,7 @@ export class AnimationGroup extends PreferencesGroup {
             round_digits: 2,
             visible: true,
             use_underline: true,
-            title: this.gettext('_Show animation duration'),
+            title: this.gettext('_Show Animation Duration'),
         });
 
         this.settings.bind_writable(
@@ -125,7 +125,7 @@ export class AnimationGroup extends PreferencesGroup {
 
         this.#hide_animation_combo = this.add_combo_text_row({
             key: 'hide-animation',
-            title: this.gettext('_Hide animation'),
+            title: this.gettext('_Hide Animation'),
             model: animations,
             flags: Gio.SettingsBindFlags.NO_SENSITIVITY,
         });
@@ -136,7 +136,7 @@ export class AnimationGroup extends PreferencesGroup {
             round_digits: 2,
             visible: true,
             use_underline: true,
-            title: this.gettext('_Hide animation duration'),
+            title: this.gettext('_Hide Animation Duration'),
         });
 
         this.settings.bind_writable(

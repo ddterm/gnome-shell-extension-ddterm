@@ -397,7 +397,7 @@ msgid "Animation"
 msgstr "Animace"
 
 #: ddterm/pref/animation.js:30
-msgid "_Override default window animations"
+msgid "_Override Default Window Animations"
 msgstr "_Přepsat výchozí animace okna"
 
 #: ddterm/pref/animation.js:34
@@ -529,19 +529,19 @@ msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on both e
 msgstr "Exponenciálně klesající parabolické (odrazové) prolínání s odrazem na obou koncích"
 
 #: ddterm/pref/animation.js:103
-msgid "_Show animation"
+msgid "_Show Animation"
 msgstr "_Zobrazit animaci"
 
 #: ddterm/pref/animation.js:114
-msgid "_Show animation duration"
+msgid "_Show Animation Duration"
 msgstr "_Doba po kterou bude animace zobrazena"
 
 #: ddterm/pref/animation.js:128
-msgid "_Hide animation"
+msgid "_Hide Animation"
 msgstr "_Skrýt animaci"
 
 #: ddterm/pref/animation.js:139
-msgid "_Hide animation duration"
+msgid "_Hide Animation Duration"
 msgstr "_Doba po kterou bude animace skryta"
 
 #: ddterm/pref/behavior.js:19

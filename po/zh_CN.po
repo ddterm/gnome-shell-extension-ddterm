@@ -396,7 +396,7 @@ msgid "Animation"
 msgstr "动画"
 
 #: ddterm/pref/animation.js:30
-msgid "_Override default window animations"
+msgid "_Override Default Window Animations"
 msgstr "_覆盖默认的窗口动画"
 
 #: ddterm/pref/animation.js:34
@@ -528,19 +528,19 @@ msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on both e
 msgstr "指数衰减抛物线(弹跳)渐变，两端都有弹跳"
 
 #: ddterm/pref/animation.js:103
-msgid "_Show animation"
+msgid "_Show Animation"
 msgstr "_展示动画"
 
 #: ddterm/pref/animation.js:114
-msgid "_Show animation duration"
+msgid "_Show Animation Duration"
 msgstr "_显示动画持续时间"
 
 #: ddterm/pref/animation.js:128
-msgid "_Hide animation"
+msgid "_Hide Animation"
 msgstr "_隐藏动画"
 
 #: ddterm/pref/animation.js:139
-msgid "_Hide animation duration"
+msgid "_Hide Animation Duration"
 msgstr "_隐藏动画持续时间"
 
 #: ddterm/pref/behavior.js:19

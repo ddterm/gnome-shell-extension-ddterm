@@ -405,7 +405,7 @@ msgid "Animation"
 msgstr "Animação"
 
 #: ddterm/pref/animation.js:30
-msgid "_Override default window animations"
+msgid "_Override Default Window Animations"
 msgstr "_Sobrescrever animações padrão da janela"
 
 #: ddterm/pref/animation.js:34
@@ -537,19 +537,19 @@ msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on both e
 msgstr "Tweening de parabólica exponencialmente decadente, com quicada em ambos os lados"
 
 #: ddterm/pref/animation.js:103
-msgid "_Show animation"
+msgid "_Show Animation"
 msgstr "_Animação de mostrar"
 
 #: ddterm/pref/animation.js:114
-msgid "_Show animation duration"
+msgid "_Show Animation Duration"
 msgstr "_Duração da animação de mostrar"
 
 #: ddterm/pref/animation.js:128
-msgid "_Hide animation"
+msgid "_Hide Animation"
 msgstr "_Animação de recolher"
 
 #: ddterm/pref/animation.js:139
-msgid "_Hide animation duration"
+msgid "_Hide Animation Duration"
 msgstr "_Duração da animação de recolher"
 
 #: ddterm/pref/behavior.js:19
