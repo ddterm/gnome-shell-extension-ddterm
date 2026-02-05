@@ -76,7 +76,7 @@ export class TextGroup extends PreferencesGroup {
         });
 
         this.#font_row = new FontRow({
-            title: this.gettext('Custom _font'),
+            title: this.gettext('Custom _Font'),
             visible: true,
             use_underline: true,
         });
@@ -92,7 +92,7 @@ export class TextGroup extends PreferencesGroup {
 
         this.add_combo_text_row({
             key: 'text-blink-mode',
-            title: this.gettext('Allow _blinking text'),
+            title: this.gettext('Allow _Blinking Text'),
             model: {
                 never: this.gettext('Never'),
                 focused: this.gettext('When focused'),
@@ -103,7 +103,7 @@ export class TextGroup extends PreferencesGroup {
 
         this.add_combo_text_row({
             key: 'cursor-shape',
-            title: this.gettext('Cursor _shape'),
+            title: this.gettext('Cursor _Shape'),
             model: {
                 block: this.gettext('Block'),
                 ibeam: this.gettext('I-Beam'),
@@ -113,7 +113,7 @@ export class TextGroup extends PreferencesGroup {
 
         this.add_combo_text_row({
             key: 'cursor-blink-mode',
-            title: this.gettext('_Cursor blinking'),
+            title: this.gettext('_Cursor Blinking'),
             model: {
                 system: this.gettext('Default'),
                 on: this.gettext('Enabled'),
@@ -123,12 +123,12 @@ export class TextGroup extends PreferencesGroup {
 
         this.add_switch_row({
             key: 'allow-hyperlink',
-            title: this.gettext('Allow _hyperlinks'),
+            title: this.gettext('Allow _Hyperlinks'),
         });
 
         this.add_switch_row({
             key: 'audible-bell',
-            title: this.gettext('Audible _bell'),
+            title: this.gettext('Audible _Bell'),
         });
 
         const url_detect_expander = this.add_expander_row({
@@ -138,7 +138,7 @@ export class TextGroup extends PreferencesGroup {
 
         url_detect_expander.add_switch_row({
             key: 'detect-urls-as-is',
-            title: this.gettext('Detect raw URLs (scheme://netloc/path)'),
+            title: this.gettext('Detect Raw URLs (scheme://netloc/path)'),
         });
 
         url_detect_expander.add_switch_row({
@@ -158,7 +158,7 @@ export class TextGroup extends PreferencesGroup {
 
         url_detect_expander.add_switch_row({
             key: 'detect-urls-email',
-            title: this.gettext('Detect E-mail addresses'),
+            title: this.gettext('Detect E-mail Addresses'),
         });
 
         url_detect_expander.add_switch_row({

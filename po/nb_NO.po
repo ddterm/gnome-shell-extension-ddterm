@@ -1116,11 +1116,11 @@ msgid "Use System Font"
 msgstr ""
 
 #: ddterm/pref/text.js:79
-msgid "Custom _font"
+msgid "Custom _Font"
 msgstr "Egendefinert _skrift"
 
 #: ddterm/pref/text.js:95
-msgid "Allow _blinking text"
+msgid "Allow _Blinking Text"
 msgstr "Tillat _blinkende tekst"
 
 #: ddterm/pref/text.js:98
@@ -1132,7 +1132,7 @@ msgid "When unfocused"
 msgstr "Når utenfor fokus"
 
 #: ddterm/pref/text.js:106
-msgid "Cursor _shape"
+msgid "Cursor _Shape"
 msgstr "Peker_form"
 
 #: ddterm/pref/text.js:108
@@ -1148,7 +1148,7 @@ msgid "Underline"
 msgstr "Understrek"
 
 #: ddterm/pref/text.js:116
-msgid "_Cursor blinking"
+msgid "_Cursor Blinking"
 msgstr "_Blinkende peker"
 
 #: ddterm/pref/text.js:119
@@ -1156,11 +1156,11 @@ msgid "Enabled"
 msgstr "Påskrudd"
 
 #: ddterm/pref/text.js:126
-msgid "Allow _hyperlinks"
+msgid "Allow _Hyperlinks"
 msgstr "Tillat _hyperlenker"
 
 #: ddterm/pref/text.js:131
-msgid "Audible _bell"
+msgid "Audible _Bell"
 msgstr "Hørbar _bjelle"
 
 #: ddterm/pref/text.js:136
@@ -1168,7 +1168,7 @@ msgid "Detect _URLs"
 msgstr "Oppdag _nettadresser"
 
 #: ddterm/pref/text.js:141
-msgid "Detect raw URLs (scheme://netloc/path)"
+msgid "Detect Raw URLs (scheme://netloc/path)"
 msgstr "Oppdag rå-nettadresser (scheme://netloc/sti)"
 
 #: ddterm/pref/text.js:146
@@ -1184,7 +1184,7 @@ msgid "Detect VoIP URLs"
 msgstr "Oppdag VoIP-nettadresser"
 
 #: ddterm/pref/text.js:161
-msgid "Detect E-mail addresses"
+msgid "Detect E-mail Addresses"
 msgstr "Oppdag e-postadresser"
 
 #: ddterm/pref/text.js:166

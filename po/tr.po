@@ -1121,11 +1121,11 @@ msgid "Use System Font"
 msgstr ""
 
 #: ddterm/pref/text.js:79
-msgid "Custom _font"
+msgid "Custom _Font"
 msgstr "Özel _font"
 
 #: ddterm/pref/text.js:95
-msgid "Allow _blinking text"
+msgid "Allow _Blinking Text"
 msgstr "_Yanıp sönen yazıya izin ver"
 
 #: ddterm/pref/text.js:98
@@ -1137,7 +1137,7 @@ msgid "When unfocused"
 msgstr "Odaklanılmadığında"
 
 #: ddterm/pref/text.js:106
-msgid "Cursor _shape"
+msgid "Cursor _Shape"
 msgstr "İmleç _şekli"
 
 #: ddterm/pref/text.js:108
@@ -1153,7 +1153,7 @@ msgid "Underline"
 msgstr "Altı çizili"
 
 #: ddterm/pref/text.js:116
-msgid "_Cursor blinking"
+msgid "_Cursor Blinking"
 msgstr "Yanıp Sönen _İmleç"
 
 #: ddterm/pref/text.js:119
@@ -1161,11 +1161,11 @@ msgid "Enabled"
 msgstr "Etkin"
 
 #: ddterm/pref/text.js:126
-msgid "Allow _hyperlinks"
+msgid "Allow _Hyperlinks"
 msgstr "_Hyperlinklere izin ver"
 
 #: ddterm/pref/text.js:131
-msgid "Audible _bell"
+msgid "Audible _Bell"
 msgstr "Duyulabilir _zil"
 
 #: ddterm/pref/text.js:136
@@ -1173,7 +1173,7 @@ msgid "Detect _URLs"
 msgstr "_URL'leri tespit et"
 
 #: ddterm/pref/text.js:141
-msgid "Detect raw URLs (scheme://netloc/path)"
+msgid "Detect Raw URLs (scheme://netloc/path)"
 msgstr "Raw URL'leri tespit et (scheme://netloc/path)"
 
 #: ddterm/pref/text.js:146
@@ -1189,7 +1189,7 @@ msgid "Detect VoIP URLs"
 msgstr "VoIP URL'lerini tespit et"
 
 #: ddterm/pref/text.js:161
-msgid "Detect E-mail addresses"
+msgid "Detect E-mail Addresses"
 msgstr "E-posta adreslerini tespit et"
 
 #: ddterm/pref/text.js:166

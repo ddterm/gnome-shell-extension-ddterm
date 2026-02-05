@@ -1131,11 +1131,11 @@ msgid "Use System Font"
 msgstr ""
 
 #: ddterm/pref/text.js:79
-msgid "Custom _font"
+msgid "Custom _Font"
 msgstr "Προσαρμοσμένη _γραμματοσειρά"
 
 #: ddterm/pref/text.js:95
-msgid "Allow _blinking text"
+msgid "Allow _Blinking Text"
 msgstr "Να επιτρέπεται το κείμενο που αναβοσβήνει"
 
 #: ddterm/pref/text.js:98
@@ -1147,7 +1147,7 @@ msgid "When unfocused"
 msgstr "Όταν δεν είναι εστιασμένο"
 
 #: ddterm/pref/text.js:106
-msgid "Cursor _shape"
+msgid "Cursor _Shape"
 msgstr "Δρομέας _σχήμα"
 
 #: ddterm/pref/text.js:108
@@ -1163,7 +1163,7 @@ msgid "Underline"
 msgstr "Υπογραμμιση"
 
 #: ddterm/pref/text.js:116
-msgid "_Cursor blinking"
+msgid "_Cursor Blinking"
 msgstr "_Ο δρομέας αναβοσβήνει"
 
 #: ddterm/pref/text.js:119
@@ -1171,11 +1171,11 @@ msgid "Enabled"
 msgstr "Ενεργοποίηση"
 
 #: ddterm/pref/text.js:126
-msgid "Allow _hyperlinks"
+msgid "Allow _Hyperlinks"
 msgstr "Επιτρέπονται υπερ-συνδέσμοι"
 
 #: ddterm/pref/text.js:131
-msgid "Audible _bell"
+msgid "Audible _Bell"
 msgstr "« Bip » terminal"
 
 #: ddterm/pref/text.js:136
@@ -1183,8 +1183,8 @@ msgid "Detect _URLs"
 msgstr "Εύρεση URL"
 
 #: ddterm/pref/text.js:141
-msgid "Detect raw URLs (scheme://netloc/path)"
-msgstr "Detect raw URLs (scheme://netloc/path)"
+msgid "Detect Raw URLs (scheme://netloc/path)"
+msgstr "Detect Raw URLs (scheme://netloc/path)"
 
 #: ddterm/pref/text.js:146
 msgid "Detect \"file:\" URLs"
@@ -1199,7 +1199,7 @@ msgid "Detect VoIP URLs"
 msgstr "Εύρεση les URL VoIP"
 
 #: ddterm/pref/text.js:161
-msgid "Detect E-mail addresses"
+msgid "Detect E-mail Addresses"
 msgstr "Εύρεση adresses email"
 
 #: ddterm/pref/text.js:166
