@@ -738,8 +738,12 @@ msgstr "Kullanıcı kabuğu"
 msgid "User shell as login shell"
 msgstr "Kullanıcı kabuğunu giriş kabuğu olarak kullan"
 
-#: ddterm/pref/command.js:30 ddterm/pref/command.js:35
+#: ddterm/pref/command.js:30
 msgid "Custom command"
+msgstr "Özel komut"
+
+#: ddterm/pref/command.js:35
+msgid "Custom Command"
 msgstr "Özel komut"
 
 #: ddterm/pref/compatibility.js:20

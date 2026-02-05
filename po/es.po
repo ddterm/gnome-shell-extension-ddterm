@@ -740,8 +740,12 @@ msgstr "Shell del usuario"
 msgid "User shell as login shell"
 msgstr "Shell del usuario como shell de inicio de sesión"
 
-#: ddterm/pref/command.js:30 ddterm/pref/command.js:35
+#: ddterm/pref/command.js:30
 msgid "Custom command"
+msgstr "Comando personalizado"
+
+#: ddterm/pref/command.js:35
+msgid "Custom Command"
 msgstr "Comando personalizado"
 
 #: ddterm/pref/compatibility.js:20

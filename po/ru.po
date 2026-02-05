@@ -741,8 +741,12 @@ msgstr "Пользовательский shell"
 msgid "User shell as login shell"
 msgstr "Пользовательский shell как оболочка входа"
 
-#: ddterm/pref/command.js:30 ddterm/pref/command.js:35
+#: ddterm/pref/command.js:30
 msgid "Custom command"
+msgstr "Другая команда"
+
+#: ddterm/pref/command.js:35
+msgid "Custom Command"
 msgstr "Другая команда"
 
 #: ddterm/pref/compatibility.js:20

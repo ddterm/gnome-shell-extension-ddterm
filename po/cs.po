@@ -732,8 +732,12 @@ msgstr "Uživatelský shell"
 msgid "User shell as login shell"
 msgstr "Uživatelský shell jako login shell"
 
-#: ddterm/pref/command.js:30 ddterm/pref/command.js:35
+#: ddterm/pref/command.js:30
 msgid "Custom command"
+msgstr "Vlastní příkaz"
+
+#: ddterm/pref/command.js:35
+msgid "Custom Command"
 msgstr "Vlastní příkaz"
 
 #: ddterm/pref/compatibility.js:20

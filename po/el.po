@@ -743,8 +743,12 @@ msgstr ""
 msgid "User shell as login shell"
 msgstr ""
 
-#: ddterm/pref/command.js:30 ddterm/pref/command.js:35
+#: ddterm/pref/command.js:30
 msgid "Custom command"
+msgstr ""
+
+#: ddterm/pref/command.js:35
+msgid "Custom Command"
 msgstr ""
 
 #: ddterm/pref/compatibility.js:20

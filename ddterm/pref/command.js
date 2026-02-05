@@ -32,7 +32,7 @@ export class CommandGroup extends PreferencesGroup {
         });
 
         this.#custom_command_entry = new EntryRow({
-            title: this.gettext('Custom command'),
+            title: this.gettext('Custom Command'),
             visible: true,
             use_underline: true,
         });

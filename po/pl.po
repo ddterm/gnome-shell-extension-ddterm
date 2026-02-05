@@ -745,8 +745,12 @@ msgstr "Powłoka użytkownika"
 msgid "User shell as login shell"
 msgstr "Powłoka użytkownika jako powłoka logowania"
 
-#: ddterm/pref/command.js:30 ddterm/pref/command.js:35
+#: ddterm/pref/command.js:30
 msgid "Custom command"
+msgstr "Niestandardowe komendy"
+
+#: ddterm/pref/command.js:35
+msgid "Custom Command"
 msgstr "Niestandardowe komendy"
 
 #: ddterm/pref/compatibility.js:20

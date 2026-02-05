@@ -732,8 +732,12 @@ msgstr "Brukerskall"
 msgid "User shell as login shell"
 msgstr "Bruk skall som innloggingskall"
 
-#: ddterm/pref/command.js:30 ddterm/pref/command.js:35
+#: ddterm/pref/command.js:30
 msgid "Custom command"
+msgstr "Egendefinert kommando"
+
+#: ddterm/pref/command.js:35
+msgid "Custom Command"
 msgstr "Egendefinert kommando"
 
 #: ddterm/pref/compatibility.js:20

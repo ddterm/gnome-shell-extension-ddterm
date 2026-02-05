@@ -731,8 +731,12 @@ msgstr "用户 shell"
 msgid "User shell as login shell"
 msgstr "用户 Shell 作为 登录 Shell"
 
-#: ddterm/pref/command.js:30 ddterm/pref/command.js:35
+#: ddterm/pref/command.js:30
 msgid "Custom command"
+msgstr "自定义 命令"
+
+#: ddterm/pref/command.js:35
+msgid "Custom Command"
 msgstr "自定义 命令"
 
 #: ddterm/pref/compatibility.js:20
