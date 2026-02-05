@@ -583,7 +583,7 @@ msgid "Colors"
 msgstr "Couleurs"
 
 #: ddterm/pref/colors.js:361
-msgid "Theme _variant"
+msgid "Theme _Variant"
 msgstr "Thème alternatif"
 
 #: ddterm/pref/colors.js:363 ddterm/pref/text.js:118
@@ -599,7 +599,7 @@ msgid "Dark"
 msgstr "Sombre"
 
 #: ddterm/pref/colors.js:371
-msgid "Use colors from system _theme"
+msgid "Use Colors From System _Theme"
 msgstr "Utiliser les couleurs du thème système"
 
 #: ddterm/pref/colors.js:375
@@ -651,7 +651,7 @@ msgid "Custom"
 msgstr "Personalisé"
 
 #: ddterm/pref/colors.js:409
-msgid "Color _scheme"
+msgid "Color _Scheme"
 msgstr "Palettes prédéfinies"
 
 #: ddterm/pref/colors.js:428
@@ -662,16 +662,12 @@ msgstr "Couleur de premier plan"
 msgid "Background Color"
 msgstr "Couleur d'arrière-plan"
 
-#: ddterm/pref/colors.js:443
-msgid "Bold color"
-msgstr "Couleur du gras"
-
-#: ddterm/pref/colors.js:451
+#: ddterm/pref/colors.js:443 ddterm/pref/colors.js:451
 msgid "Bold Color"
 msgstr "Couleur du gras"
 
 #: ddterm/pref/colors.js:460
-msgid "Cursor color"
+msgid "Cursor Color"
 msgstr "Couleur du curseur"
 
 #: ddterm/pref/colors.js:482
@@ -683,7 +679,7 @@ msgid "Cursor Background Color"
 msgstr "Couleur d'arrière-plan du curseur"
 
 #: ddterm/pref/colors.js:510
-msgid "Highlight color"
+msgid "Highlight Color"
 msgstr "Couleur de mise en évidence"
 
 #: ddterm/pref/colors.js:532
@@ -695,7 +691,7 @@ msgid "Highlight Background Color"
 msgstr "Couleur d'arrière-plan de la mise en évidence"
 
 #: ddterm/pref/colors.js:577
-msgid "_Background opacity"
+msgid "_Background Opacity"
 msgstr "Opacité de l'arrière-plan"
 
 #: ddterm/pref/colors.js:598
@@ -727,7 +723,7 @@ msgid "_Palette"
 msgstr "Palette"
 
 #: ddterm/pref/colors.js:790
-msgid "Show bold text in _bright colors"
+msgid "Show Bold Text in _Bright Colors"
 msgstr "Afficher le texte en gras avec des couleurs claires"
 
 #: ddterm/pref/colors.js:795
@@ -1215,6 +1211,9 @@ msgstr "Installer"
 #: ddterm/shell/panelicon.js:49
 msgid "Show"
 msgstr "Afficher"
+
+#~ msgid "Bold color"
+#~ msgstr "Couleur du gras"
 
 #~ msgid "_Above all windows"
 #~ msgstr "Toujours au premier plan"

@@ -573,7 +573,7 @@ msgid "Colors"
 msgstr "Barvy"
 
 #: ddterm/pref/colors.js:361
-msgid "Theme _variant"
+msgid "Theme _Variant"
 msgstr "_Varianta vzhledu"
 
 #: ddterm/pref/colors.js:363 ddterm/pref/text.js:118
@@ -589,7 +589,7 @@ msgid "Dark"
 msgstr "Tmavé"
 
 #: ddterm/pref/colors.js:371
-msgid "Use colors from system _theme"
+msgid "Use Colors From System _Theme"
 msgstr "Použít barvy ze systémového _vzhledu"
 
 #: ddterm/pref/colors.js:375
@@ -641,7 +641,7 @@ msgid "Custom"
 msgstr "Vlastní"
 
 #: ddterm/pref/colors.js:409
-msgid "Color _scheme"
+msgid "Color _Scheme"
 msgstr "Barevné _schéma"
 
 #: ddterm/pref/colors.js:428
@@ -652,16 +652,12 @@ msgstr "Barva popředí"
 msgid "Background Color"
 msgstr "Barva pozadí"
 
-#: ddterm/pref/colors.js:443
-msgid "Bold color"
-msgstr "Barva tučného písma"
-
-#: ddterm/pref/colors.js:451
+#: ddterm/pref/colors.js:443 ddterm/pref/colors.js:451
 msgid "Bold Color"
 msgstr "Barva tučného písma"
 
 #: ddterm/pref/colors.js:460
-msgid "Cursor color"
+msgid "Cursor Color"
 msgstr "Barva kurzoru"
 
 #: ddterm/pref/colors.js:482
@@ -673,7 +669,7 @@ msgid "Cursor Background Color"
 msgstr "Barva pozadí kurzoru"
 
 #: ddterm/pref/colors.js:510
-msgid "Highlight color"
+msgid "Highlight Color"
 msgstr "Barva zvýraznění"
 
 #: ddterm/pref/colors.js:532
@@ -685,7 +681,7 @@ msgid "Highlight Background Color"
 msgstr "Zvýrazněná barva pozadí"
 
 #: ddterm/pref/colors.js:577
-msgid "_Background opacity"
+msgid "_Background Opacity"
 msgstr "Průhlednost _Pozadí"
 
 #: ddterm/pref/colors.js:598
@@ -717,7 +713,7 @@ msgid "_Palette"
 msgstr "Barevná _paleta"
 
 #: ddterm/pref/colors.js:790
-msgid "Show bold text in _bright colors"
+msgid "Show Bold Text in _Bright Colors"
 msgstr "Zobrazit tučný text ve _světlých barvách"
 
 #: ddterm/pref/colors.js:795
@@ -1210,6 +1206,9 @@ msgstr ""
 #: ddterm/shell/panelicon.js:49
 msgid "Show"
 msgstr "Zobrazit"
+
+#~ msgid "Bold color"
+#~ msgstr "Barva tučného písma"
 
 #~ msgid "_Above all windows"
 #~ msgstr "_Nad všemi okny"

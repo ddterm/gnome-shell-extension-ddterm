@@ -584,7 +584,7 @@ msgid "Colors"
 msgstr "Χρώμματα"
 
 #: ddterm/pref/colors.js:361
-msgid "Theme _variant"
+msgid "Theme _Variant"
 msgstr ""
 
 #: ddterm/pref/colors.js:363 ddterm/pref/text.js:118
@@ -600,7 +600,7 @@ msgid "Dark"
 msgstr "Σκοτεινό"
 
 #: ddterm/pref/colors.js:371
-msgid "Use colors from system _theme"
+msgid "Use Colors From System _Theme"
 msgstr "Χρησιμοποιήστε χρώματα από το system _theme"
 
 #: ddterm/pref/colors.js:375
@@ -652,7 +652,7 @@ msgid "Custom"
 msgstr "Παραμετροποιημένο"
 
 #: ddterm/pref/colors.js:409
-msgid "Color _scheme"
+msgid "Color _Scheme"
 msgstr ""
 
 #: ddterm/pref/colors.js:428
@@ -663,16 +663,12 @@ msgstr "Χρώμα προσκηνίου"
 msgid "Background Color"
 msgstr ""
 
-#: ddterm/pref/colors.js:443
-msgid "Bold color"
-msgstr ""
-
-#: ddterm/pref/colors.js:451
+#: ddterm/pref/colors.js:443 ddterm/pref/colors.js:451
 msgid "Bold Color"
 msgstr ""
 
 #: ddterm/pref/colors.js:460
-msgid "Cursor color"
+msgid "Cursor Color"
 msgstr ""
 
 #: ddterm/pref/colors.js:482
@@ -684,7 +680,7 @@ msgid "Cursor Background Color"
 msgstr ""
 
 #: ddterm/pref/colors.js:510
-msgid "Highlight color"
+msgid "Highlight Color"
 msgstr ""
 
 #: ddterm/pref/colors.js:532
@@ -696,7 +692,7 @@ msgid "Highlight Background Color"
 msgstr "Επισημάνετε το χρώμα φόντου"
 
 #: ddterm/pref/colors.js:577
-msgid "_Background opacity"
+msgid "_Background Opacity"
 msgstr "_Αδιαφάνεια φόντου"
 
 #: ddterm/pref/colors.js:598
@@ -728,7 +724,7 @@ msgid "_Palette"
 msgstr "Παλέτα"
 
 #: ddterm/pref/colors.js:790
-msgid "Show bold text in _bright colors"
+msgid "Show Bold Text in _Bright Colors"
 msgstr ""
 
 #: ddterm/pref/colors.js:795

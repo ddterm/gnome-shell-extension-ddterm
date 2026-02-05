@@ -582,7 +582,7 @@ msgid "Colors"
 msgstr "Цвета"
 
 #: ddterm/pref/colors.js:361
-msgid "Theme _variant"
+msgid "Theme _Variant"
 msgstr "Вариант темы"
 
 #: ddterm/pref/colors.js:363 ddterm/pref/text.js:118
@@ -598,7 +598,7 @@ msgid "Dark"
 msgstr "Тёмная"
 
 #: ddterm/pref/colors.js:371
-msgid "Use colors from system _theme"
+msgid "Use Colors From System _Theme"
 msgstr "_Использовать цвета из системной темы"
 
 #: ddterm/pref/colors.js:375
@@ -650,7 +650,7 @@ msgid "Custom"
 msgstr "Пользовательская"
 
 #: ddterm/pref/colors.js:409
-msgid "Color _scheme"
+msgid "Color _Scheme"
 msgstr "Цветовая схема"
 
 #: ddterm/pref/colors.js:428
@@ -661,16 +661,12 @@ msgstr "Цвет текста"
 msgid "Background Color"
 msgstr "Цвет фона"
 
-#: ddterm/pref/colors.js:443
-msgid "Bold color"
-msgstr "Жирный цвет"
-
-#: ddterm/pref/colors.js:451
+#: ddterm/pref/colors.js:443 ddterm/pref/colors.js:451
 msgid "Bold Color"
 msgstr "Жирный цвет"
 
 #: ddterm/pref/colors.js:460
-msgid "Cursor color"
+msgid "Cursor Color"
 msgstr "Цвет курсора"
 
 #: ddterm/pref/colors.js:482
@@ -682,7 +678,7 @@ msgid "Cursor Background Color"
 msgstr "Цвет фона курсора"
 
 #: ddterm/pref/colors.js:510
-msgid "Highlight color"
+msgid "Highlight Color"
 msgstr "Цвет подсветки"
 
 #: ddterm/pref/colors.js:532
@@ -694,7 +690,7 @@ msgid "Highlight Background Color"
 msgstr "Цвет подсветки фона"
 
 #: ddterm/pref/colors.js:577
-msgid "_Background opacity"
+msgid "_Background Opacity"
 msgstr "Непрозрачность фона"
 
 #: ddterm/pref/colors.js:598
@@ -726,7 +722,7 @@ msgid "_Palette"
 msgstr "Палитра"
 
 #: ddterm/pref/colors.js:790
-msgid "Show bold text in _bright colors"
+msgid "Show Bold Text in _Bright Colors"
 msgstr "Отображать жирный текст в ярких цветах"
 
 #: ddterm/pref/colors.js:795
@@ -1214,6 +1210,9 @@ msgstr "Установка"
 #: ddterm/shell/panelicon.js:49
 msgid "Show"
 msgstr "Показать"
+
+#~ msgid "Bold color"
+#~ msgstr "Жирный цвет"
 
 #~ msgid "_Above all windows"
 #~ msgstr "Поверх всех окон"

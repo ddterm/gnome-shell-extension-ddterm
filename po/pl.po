@@ -586,7 +586,7 @@ msgid "Colors"
 msgstr "Kolory"
 
 #: ddterm/pref/colors.js:361
-msgid "Theme _variant"
+msgid "Theme _Variant"
 msgstr "_Wariant motywu"
 
 #: ddterm/pref/colors.js:363 ddterm/pref/text.js:118
@@ -602,7 +602,7 @@ msgid "Dark"
 msgstr "Ciemny"
 
 #: ddterm/pref/colors.js:371
-msgid "Use colors from system _theme"
+msgid "Use Colors From System _Theme"
 msgstr "Użyj kolorów z _motywu systemowego"
 
 #: ddterm/pref/colors.js:375
@@ -654,7 +654,7 @@ msgid "Custom"
 msgstr "Niestandardowe"
 
 #: ddterm/pref/colors.js:409
-msgid "Color _scheme"
+msgid "Color _Scheme"
 msgstr "_Schemat kolorów"
 
 #: ddterm/pref/colors.js:428
@@ -665,16 +665,12 @@ msgstr "Kolor pierwszego planu"
 msgid "Background Color"
 msgstr "Kolor tła"
 
-#: ddterm/pref/colors.js:443
-msgid "Bold color"
-msgstr "Kolor pogrubienia"
-
-#: ddterm/pref/colors.js:451
+#: ddterm/pref/colors.js:443 ddterm/pref/colors.js:451
 msgid "Bold Color"
 msgstr "Kolor pogrubienia"
 
 #: ddterm/pref/colors.js:460
-msgid "Cursor color"
+msgid "Cursor Color"
 msgstr "Kolor kursora"
 
 #: ddterm/pref/colors.js:482
@@ -686,7 +682,7 @@ msgid "Cursor Background Color"
 msgstr "Kolor tła wskaźnika"
 
 #: ddterm/pref/colors.js:510
-msgid "Highlight color"
+msgid "Highlight Color"
 msgstr "Kolor wyróżnienia"
 
 #: ddterm/pref/colors.js:532
@@ -698,7 +694,7 @@ msgid "Highlight Background Color"
 msgstr "Podkreślenie tła wskaźnika"
 
 #: ddterm/pref/colors.js:577
-msgid "_Background opacity"
+msgid "_Background Opacity"
 msgstr "_Przezroczystość tła"
 
 #: ddterm/pref/colors.js:598
@@ -730,7 +726,7 @@ msgid "_Palette"
 msgstr "_Paleta"
 
 #: ddterm/pref/colors.js:790
-msgid "Show bold text in _bright colors"
+msgid "Show Bold Text in _Bright Colors"
 msgstr "Wyświetlanie pogrubionego tekstu w _jasnych kolorach"
 
 #: ddterm/pref/colors.js:795
@@ -1218,6 +1214,9 @@ msgstr "Zainstaluj"
 #: ddterm/shell/panelicon.js:49
 msgid "Show"
 msgstr "Pokaż"
+
+#~ msgid "Bold color"
+#~ msgstr "Kolor pogrubienia"
 
 #~ msgid "_Above all windows"
 #~ msgstr "_Ponad wszystkimi oknami"
