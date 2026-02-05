@@ -1049,11 +1049,11 @@ msgid "Tabs"
 msgstr "Onglets"
 
 #: ddterm/pref/tabs.js:25
-msgid "_Restore previous tabs on startup"
+msgid "_Restore Previous Tabs on Startup"
 msgstr ""
 
 #: ddterm/pref/tabs.js:30
-msgid "Show tab _bar"
+msgid "Show Tab _Bar"
 msgstr "Afficher la barre d'onglets"
 
 #: ddterm/pref/tabs.js:32 ddterm/pref/text.js:100
@@ -1065,11 +1065,11 @@ msgid "Never"
 msgstr "Jamais"
 
 #: ddterm/pref/tabs.js:40
-msgid "Tab bar position"
+msgid "Tab Bar Position"
 msgstr "Position de la barre d'onglets"
 
 #: ddterm/pref/tabs.js:51
-msgid "Ellipsize tab labels"
+msgid "Ellipsize Tab Labels"
 msgstr "Raccourcir les noms d'onglets"
 
 #: ddterm/pref/tabs.js:54
@@ -1085,35 +1085,35 @@ msgid "End"
 msgstr "Fin"
 
 #: ddterm/pref/tabs.js:79
-msgid "Tab width"
+msgid "Tab Width"
 msgstr "Largeur des onglets"
 
 #: ddterm/pref/tabs.js:96
-msgid "Expand tabs"
+msgid "Expand Tabs"
 msgstr "Élargir les onglets"
 
 #: ddterm/pref/tabs.js:101
-msgid "Show _close buttons"
+msgid "Show _Close Buttons"
 msgstr "Afficher les boutons de fermeture"
 
 #: ddterm/pref/tabs.js:106
-msgid "\"_New Tab (Last)\" button"
+msgid "\"_New Tab (Last)\" Button"
 msgstr "Bouton « Nouvel onglet (en dernière position) »"
 
 #: ddterm/pref/tabs.js:111
-msgid "\"_New Tab (First)\" button"
+msgid "\"_New Tab (First)\" Button"
 msgstr "Bouton « Nouvel onglet (en première position) »"
 
 #: ddterm/pref/tabs.js:116
-msgid "Tab _switcher popup"
+msgid "Tab _Switcher Popup"
 msgstr "Popup de changement d'onglets"
 
 #: ddterm/pref/tabs.js:121
-msgid "Show border"
+msgid "Show Border"
 msgstr "Afficher la bordure"
 
 #: ddterm/pref/tabs.js:126
-msgid "Show keyboard shortcuts"
+msgid "Show Keyboard Shortcuts"
 msgstr "Afficher les raccourcis claviers"
 
 #: ddterm/pref/text.js:71

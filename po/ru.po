@@ -1048,11 +1048,11 @@ msgid "Tabs"
 msgstr "Вкладки"
 
 #: ddterm/pref/tabs.js:25
-msgid "_Restore previous tabs on startup"
+msgid "_Restore Previous Tabs on Startup"
 msgstr "_Восстановить предыдущие вкладки при запуске"
 
 #: ddterm/pref/tabs.js:30
-msgid "Show tab _bar"
+msgid "Show Tab _Bar"
 msgstr "Показывать панель вкладок"
 
 #: ddterm/pref/tabs.js:32 ddterm/pref/text.js:100
@@ -1064,11 +1064,11 @@ msgid "Never"
 msgstr "Никогда"
 
 #: ddterm/pref/tabs.js:40
-msgid "Tab bar position"
+msgid "Tab Bar Position"
 msgstr "Положение панели вкладок"
 
 #: ddterm/pref/tabs.js:51
-msgid "Ellipsize tab labels"
+msgid "Ellipsize Tab Labels"
 msgstr "Сокращение названия вкладок"
 
 #: ddterm/pref/tabs.js:54
@@ -1084,35 +1084,35 @@ msgid "End"
 msgstr "В конце"
 
 #: ddterm/pref/tabs.js:79
-msgid "Tab width"
+msgid "Tab Width"
 msgstr "Ширина вкладки"
 
 #: ddterm/pref/tabs.js:96
-msgid "Expand tabs"
+msgid "Expand Tabs"
 msgstr "Растянуть вкладки"
 
 #: ddterm/pref/tabs.js:101
-msgid "Show _close buttons"
+msgid "Show _Close Buttons"
 msgstr "Показывать кнопку закрытия вкладки"
 
 #: ddterm/pref/tabs.js:106
-msgid "\"_New Tab (Last)\" button"
+msgid "\"_New Tab (Last)\" Button"
 msgstr "Кнопка \"Новая вкладка (в конце)\""
 
 #: ddterm/pref/tabs.js:111
-msgid "\"_New Tab (First)\" button"
+msgid "\"_New Tab (First)\" Button"
 msgstr "Кнопка \"Новая вкладка (в начале)\""
 
 #: ddterm/pref/tabs.js:116
-msgid "Tab _switcher popup"
+msgid "Tab _Switcher Popup"
 msgstr "Меню переключения вкладок"
 
 #: ddterm/pref/tabs.js:121
-msgid "Show border"
+msgid "Show Border"
 msgstr "Показывать границу"
 
 #: ddterm/pref/tabs.js:126
-msgid "Show keyboard shortcuts"
+msgid "Show Keyboard Shortcuts"
 msgstr "Показать комбинации клавиш"
 
 #: ddterm/pref/text.js:71

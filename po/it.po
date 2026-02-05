@@ -1048,11 +1048,11 @@ msgid "Tabs"
 msgstr "Schede"
 
 #: ddterm/pref/tabs.js:25
-msgid "_Restore previous tabs on startup"
+msgid "_Restore Previous Tabs on Startup"
 msgstr ""
 
 #: ddterm/pref/tabs.js:30
-msgid "Show tab _bar"
+msgid "Show Tab _Bar"
 msgstr "Mostra la barra delle schede"
 
 #: ddterm/pref/tabs.js:32 ddterm/pref/text.js:100
@@ -1064,11 +1064,11 @@ msgid "Never"
 msgstr "Mai"
 
 #: ddterm/pref/tabs.js:40
-msgid "Tab bar position"
+msgid "Tab Bar Position"
 msgstr "Posizione della barra delle schede"
 
 #: ddterm/pref/tabs.js:51
-msgid "Ellipsize tab labels"
+msgid "Ellipsize Tab Labels"
 msgstr "Etichette delle schede a forma di ellisse"
 
 #: ddterm/pref/tabs.js:54
@@ -1084,35 +1084,35 @@ msgid "End"
 msgstr "Fine"
 
 #: ddterm/pref/tabs.js:79
-msgid "Tab width"
+msgid "Tab Width"
 msgstr "Larghezza scheda"
 
 #: ddterm/pref/tabs.js:96
-msgid "Expand tabs"
+msgid "Expand Tabs"
 msgstr "Espandere le schede"
 
 #: ddterm/pref/tabs.js:101
-msgid "Show _close buttons"
+msgid "Show _Close Buttons"
 msgstr "Mostra i pulsanti di chiusura"
 
 #: ddterm/pref/tabs.js:106
-msgid "\"_New Tab (Last)\" button"
+msgid "\"_New Tab (Last)\" Button"
 msgstr "Pulsante \"_Nuova scheda (ultima)\""
 
 #: ddterm/pref/tabs.js:111
-msgid "\"_New Tab (First)\" button"
+msgid "\"_New Tab (First)\" Button"
 msgstr "Pulsante \"_Nuova scheda (prima)\""
 
 #: ddterm/pref/tabs.js:116
-msgid "Tab _switcher popup"
+msgid "Tab _Switcher Popup"
 msgstr "Popup della scheda _switcher"
 
 #: ddterm/pref/tabs.js:121
-msgid "Show border"
+msgid "Show Border"
 msgstr "Mostra bordo"
 
 #: ddterm/pref/tabs.js:126
-msgid "Show keyboard shortcuts"
+msgid "Show Keyboard Shortcuts"
 msgstr "Mostra scorciatoie da tastiera"
 
 #: ddterm/pref/text.js:71

@@ -1045,11 +1045,11 @@ msgid "Tabs"
 msgstr "Sekmeler"
 
 #: ddterm/pref/tabs.js:25
-msgid "_Restore previous tabs on startup"
+msgid "_Restore Previous Tabs on Startup"
 msgstr "_Başlangıçta önceki sekmeleri geri yükle"
 
 #: ddterm/pref/tabs.js:30
-msgid "Show tab _bar"
+msgid "Show Tab _Bar"
 msgstr "Sekme _çubuğunu göster"
 
 #: ddterm/pref/tabs.js:32 ddterm/pref/text.js:100
@@ -1061,11 +1061,11 @@ msgid "Never"
 msgstr "Hiçbir zaman"
 
 #: ddterm/pref/tabs.js:40
-msgid "Tab bar position"
+msgid "Tab Bar Position"
 msgstr "Sekme çubuğu konumu"
 
 #: ddterm/pref/tabs.js:51
-msgid "Ellipsize tab labels"
+msgid "Ellipsize Tab Labels"
 msgstr "Uzun sekme adlarını kısalt"
 
 #: ddterm/pref/tabs.js:54
@@ -1081,35 +1081,35 @@ msgid "End"
 msgstr "Son"
 
 #: ddterm/pref/tabs.js:79
-msgid "Tab width"
+msgid "Tab Width"
 msgstr "Sekme genişliği"
 
 #: ddterm/pref/tabs.js:96
-msgid "Expand tabs"
+msgid "Expand Tabs"
 msgstr "Sekmeleri genişler"
 
 #: ddterm/pref/tabs.js:101
-msgid "Show _close buttons"
+msgid "Show _Close Buttons"
 msgstr "_Kapat butonlarını göster"
 
 #: ddterm/pref/tabs.js:106
-msgid "\"_New Tab (Last)\" button"
+msgid "\"_New Tab (Last)\" Button"
 msgstr "\"_Yeni Sekme (Son)\" butonu"
 
 #: ddterm/pref/tabs.js:111
-msgid "\"_New Tab (First)\" button"
+msgid "\"_New Tab (First)\" Button"
 msgstr "\"Yeni Sekme (İlk)\" butonu"
 
 #: ddterm/pref/tabs.js:116
-msgid "Tab _switcher popup"
+msgid "Tab _Switcher Popup"
 msgstr "Sekme _değiştirici açılır menüsü"
 
 #: ddterm/pref/tabs.js:121
-msgid "Show border"
+msgid "Show Border"
 msgstr "Kenarlığı göster"
 
 #: ddterm/pref/tabs.js:126
-msgid "Show keyboard shortcuts"
+msgid "Show Keyboard Shortcuts"
 msgstr "Klavye kısayollarını göster"
 
 #: ddterm/pref/text.js:71

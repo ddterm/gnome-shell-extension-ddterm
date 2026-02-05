@@ -22,12 +22,12 @@ export class TabsGroup extends PreferencesGroup {
 
         this.add_switch_row({
             key: 'save-restore-session',
-            title: this.gettext('_Restore previous tabs on startup'),
+            title: this.gettext('_Restore Previous Tabs on Startup'),
         });
 
         this.add_combo_text_row({
             key: 'tab-policy',
-            title: this.gettext('Show tab _bar'),
+            title: this.gettext('Show Tab _Bar'),
             model: {
                 always: this.gettext('Always'),
                 automatic: this.gettext('Automatic'),
@@ -37,7 +37,7 @@ export class TabsGroup extends PreferencesGroup {
 
         this.add_combo_text_row({
             key: 'tab-position',
-            title: this.gettext('Tab bar position'),
+            title: this.gettext('Tab Bar Position'),
             model: {
                 bottom: this.gettext('Bottom'),
                 top: this.gettext('Top'),
@@ -48,7 +48,7 @@ export class TabsGroup extends PreferencesGroup {
 
         this.add_combo_text_row({
             key: 'tab-label-ellipsize-mode',
-            title: this.gettext('Ellipsize tab labels'),
+            title: this.gettext('Ellipsize Tab Labels'),
             model: {
                 none: this.gettext('None'),
                 start: this.gettext('Start'),
@@ -76,7 +76,7 @@ export class TabsGroup extends PreferencesGroup {
             round_digits: 2,
             visible: true,
             use_underline: true,
-            title: this.gettext('Tab width'),
+            title: this.gettext('Tab Width'),
         });
 
         const percent_format = new Intl.NumberFormat(undefined, { style: 'percent' });
@@ -93,37 +93,37 @@ export class TabsGroup extends PreferencesGroup {
 
         this.add_switch_row({
             key: 'tab-expand',
-            title: this.gettext('Expand tabs'),
+            title: this.gettext('Expand Tabs'),
         });
 
         this.add_switch_row({
             key: 'tab-close-buttons',
-            title: this.gettext('Show _close buttons'),
+            title: this.gettext('Show _Close Buttons'),
         });
 
         this.add_switch_row({
             key: 'new-tab-button',
-            title: this.gettext('"_New Tab (Last)" button'),
+            title: this.gettext('"_New Tab (Last)" Button'),
         });
 
         this.add_switch_row({
             key: 'new-tab-front-button',
-            title: this.gettext('"_New Tab (First)" button'),
+            title: this.gettext('"_New Tab (First)" Button'),
         });
 
         this.add_switch_row({
             key: 'tab-switcher-popup',
-            title: this.gettext('Tab _switcher popup'),
+            title: this.gettext('Tab _Switcher Popup'),
         });
 
         this.add_switch_row({
             key: 'notebook-border',
-            title: this.gettext('Show border'),
+            title: this.gettext('Show Border'),
         });
 
         this.add_switch_row({
             key: 'tab-show-shortcuts',
-            title: this.gettext('Show keyboard shortcuts'),
+            title: this.gettext('Show Keyboard Shortcuts'),
         });
 
         this.connect('realize', this.#realize.bind(this));

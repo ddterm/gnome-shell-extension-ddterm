@@ -1035,11 +1035,11 @@ msgid "Tabs"
 msgstr "Reiter"
 
 #: ddterm/pref/tabs.js:25
-msgid "_Restore previous tabs on startup"
+msgid "_Restore Previous Tabs on Startup"
 msgstr "_Vorherige Reiter beim Start wiederherstellen"
 
 #: ddterm/pref/tabs.js:30
-msgid "Show tab _bar"
+msgid "Show Tab _Bar"
 msgstr "Reiter_leiste anzeigen"
 
 #: ddterm/pref/tabs.js:32 ddterm/pref/text.js:100
@@ -1051,11 +1051,11 @@ msgid "Never"
 msgstr "Niemals"
 
 #: ddterm/pref/tabs.js:40
-msgid "Tab bar position"
+msgid "Tab Bar Position"
 msgstr "Position der Reiterleiste"
 
 #: ddterm/pref/tabs.js:51
-msgid "Ellipsize tab labels"
+msgid "Ellipsize Tab Labels"
 msgstr "Reitertitel kürzen"
 
 #: ddterm/pref/tabs.js:54
@@ -1071,35 +1071,35 @@ msgid "End"
 msgstr "Ende"
 
 #: ddterm/pref/tabs.js:79
-msgid "Tab width"
+msgid "Tab Width"
 msgstr "Reiterbreite"
 
 #: ddterm/pref/tabs.js:96
-msgid "Expand tabs"
+msgid "Expand Tabs"
 msgstr "Reiter ausdehnen"
 
 #: ddterm/pref/tabs.js:101
-msgid "Show _close buttons"
+msgid "Show _Close Buttons"
 msgstr "Schließen-Knöpfe anzeigen"
 
 #: ddterm/pref/tabs.js:106
-msgid "\"_New Tab (Last)\" button"
+msgid "\"_New Tab (Last)\" Button"
 msgstr "\"_Neuer Reiter (Letzter)\"-Knopf"
 
 #: ddterm/pref/tabs.js:111
-msgid "\"_New Tab (First)\" button"
+msgid "\"_New Tab (First)\" Button"
 msgstr "\"_Neuer Reiter (Erster)\"-Knopf"
 
 #: ddterm/pref/tabs.js:116
-msgid "Tab _switcher popup"
+msgid "Tab _Switcher Popup"
 msgstr "Reiter-Um_schalter-Popup"
 
 #: ddterm/pref/tabs.js:121
-msgid "Show border"
+msgid "Show Border"
 msgstr "Rahmen anzeigen"
 
 #: ddterm/pref/tabs.js:126
-msgid "Show keyboard shortcuts"
+msgid "Show Keyboard Shortcuts"
 msgstr "Tastenkürzel anzeigen"
 
 #: ddterm/pref/text.js:71
