@@ -358,7 +358,7 @@ export class ColorsGroup extends PreferencesGroup {
 
         this.add_combo_text_row({
             key: 'theme-variant',
-            title: this.gettext('Theme _variant:'),
+            title: this.gettext('Theme _variant'),
             model: {
                 system: this.gettext('Default'),
                 light: this.gettext('Light'),
@@ -406,7 +406,7 @@ export class ColorsGroup extends PreferencesGroup {
 
         this.#color_scheme_combo = new ComboRow({
             visible: true,
-            title: this.gettext('Color _scheme:'),
+            title: this.gettext('Color _scheme'),
             use_underline: true,
         });
 
@@ -440,7 +440,7 @@ export class ColorsGroup extends PreferencesGroup {
 
         this.#bold_color_expander = this.add_expander_row({
             key: 'bold-color-same-as-fg',
-            title: this.gettext('Bold color:'),
+            title: this.gettext('Bold color'),
             flags: Gio.SettingsBindFlags.NO_SENSITIVITY | Gio.SettingsBindFlags.INVERT_BOOLEAN,
         });
 
@@ -457,7 +457,7 @@ export class ColorsGroup extends PreferencesGroup {
 
         this.#cursor_color_expander = this.add_expander_row({
             key: 'cursor-colors-set',
-            title: this.gettext('Cursor color:'),
+            title: this.gettext('Cursor color'),
             flags: Gio.SettingsBindFlags.NO_SENSITIVITY,
         });
 
@@ -507,7 +507,7 @@ export class ColorsGroup extends PreferencesGroup {
 
         this.#highlight_color_expander = this.add_expander_row({
             key: 'highlight-colors-set',
-            title: this.gettext('Highlight color:'),
+            title: this.gettext('Highlight color'),
             flags: Gio.SettingsBindFlags.NO_SENSITIVITY,
         });
 
@@ -574,7 +574,7 @@ export class ColorsGroup extends PreferencesGroup {
             round_digits: 2,
             visible: true,
             use_underline: true,
-            title: this.gettext('_Background opacity:'),
+            title: this.gettext('_Background opacity'),
         });
 
         const percent_format = new Intl.NumberFormat(undefined, { style: 'percent' });
@@ -714,7 +714,7 @@ export class ColorsGroup extends PreferencesGroup {
 
         const palette_combo = new ComboRow({
             visible: true,
-            title: this.gettext('_Palette:'),
+            title: this.gettext('_Palette'),
             use_underline: true,
         });
 

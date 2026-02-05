@@ -572,8 +572,8 @@ msgid "Colors"
 msgstr "颜色"
 
 #: ddterm/pref/colors.js:361
-msgid "Theme _variant:"
-msgstr "主题 _变体："
+msgid "Theme _variant"
+msgstr "主题 _变体"
 
 #: ddterm/pref/colors.js:363 ddterm/pref/text.js:118
 msgid "Default"
@@ -640,8 +640,8 @@ msgid "Custom"
 msgstr "自定义"
 
 #: ddterm/pref/colors.js:409
-msgid "Color _scheme:"
-msgstr "配色_方案："
+msgid "Color _scheme"
+msgstr "配色_方案"
 
 #: ddterm/pref/colors.js:428
 msgid "Foreground Color"
@@ -652,16 +652,16 @@ msgid "Background Color"
 msgstr "背景色"
 
 #: ddterm/pref/colors.js:443
-msgid "Bold color:"
-msgstr "粗体颜色："
+msgid "Bold color"
+msgstr "粗体颜色"
 
 #: ddterm/pref/colors.js:451
 msgid "Bold Color"
 msgstr "粗体颜色"
 
 #: ddterm/pref/colors.js:460
-msgid "Cursor color:"
-msgstr "光标颜色："
+msgid "Cursor color"
+msgstr "光标颜色"
 
 #: ddterm/pref/colors.js:482
 msgid "Cursor Foreground Color"
@@ -672,8 +672,8 @@ msgid "Cursor Background Color"
 msgstr "光标背景色"
 
 #: ddterm/pref/colors.js:510
-msgid "Highlight color:"
-msgstr "高亮颜色："
+msgid "Highlight color"
+msgstr "高亮颜色"
 
 #: ddterm/pref/colors.js:532
 msgid "Highlight Foreground Color"
@@ -684,8 +684,8 @@ msgid "Highlight Background Color"
 msgstr "强调背景色"
 
 #: ddterm/pref/colors.js:577
-msgid "_Background opacity:"
-msgstr "_背景不透明度："
+msgid "_Background opacity"
+msgstr "_背景不透明度"
 
 #: ddterm/pref/colors.js:598
 msgid "GNOME"
@@ -712,8 +712,8 @@ msgid "Solarized"
 msgstr "Solarized"
 
 #: ddterm/pref/colors.js:717
-msgid "_Palette:"
-msgstr "_调色板："
+msgid "_Palette"
+msgstr "_调色板"
 
 #: ddterm/pref/colors.js:790
 msgid "Show bold text in _bright colors"

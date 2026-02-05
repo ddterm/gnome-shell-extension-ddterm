@@ -584,7 +584,7 @@ msgid "Colors"
 msgstr "Χρώμματα"
 
 #: ddterm/pref/colors.js:361
-msgid "Theme _variant:"
+msgid "Theme _variant"
 msgstr ""
 
 #: ddterm/pref/colors.js:363 ddterm/pref/text.js:118
@@ -652,7 +652,7 @@ msgid "Custom"
 msgstr "Παραμετροποιημένο"
 
 #: ddterm/pref/colors.js:409
-msgid "Color _scheme:"
+msgid "Color _scheme"
 msgstr ""
 
 #: ddterm/pref/colors.js:428
@@ -664,7 +664,7 @@ msgid "Background Color"
 msgstr ""
 
 #: ddterm/pref/colors.js:443
-msgid "Bold color:"
+msgid "Bold color"
 msgstr ""
 
 #: ddterm/pref/colors.js:451
@@ -672,7 +672,7 @@ msgid "Bold Color"
 msgstr ""
 
 #: ddterm/pref/colors.js:460
-msgid "Cursor color:"
+msgid "Cursor color"
 msgstr ""
 
 #: ddterm/pref/colors.js:482
@@ -684,7 +684,7 @@ msgid "Cursor Background Color"
 msgstr ""
 
 #: ddterm/pref/colors.js:510
-msgid "Highlight color:"
+msgid "Highlight color"
 msgstr ""
 
 #: ddterm/pref/colors.js:532
@@ -696,8 +696,8 @@ msgid "Highlight Background Color"
 msgstr "Επισημάνετε το χρώμα φόντου"
 
 #: ddterm/pref/colors.js:577
-msgid "_Background opacity:"
-msgstr "_Αδιαφάνεια φόντου:"
+msgid "_Background opacity"
+msgstr "_Αδιαφάνεια φόντου"
 
 #: ddterm/pref/colors.js:598
 msgid "GNOME"
@@ -724,8 +724,8 @@ msgid "Solarized"
 msgstr ""
 
 #: ddterm/pref/colors.js:717
-msgid "_Palette:"
-msgstr "Παλέτα :"
+msgid "_Palette"
+msgstr "Παλέτα"
 
 #: ddterm/pref/colors.js:790
 msgid "Show bold text in _bright colors"

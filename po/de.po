@@ -578,8 +578,8 @@ msgid "Colors"
 msgstr "Farben"
 
 #: ddterm/pref/colors.js:361
-msgid "Theme _variant:"
-msgstr "Thema-_Variante:"
+msgid "Theme _variant"
+msgstr "Thema-_Variante"
 
 #: ddterm/pref/colors.js:363 ddterm/pref/text.js:118
 msgid "Default"
@@ -646,8 +646,8 @@ msgid "Custom"
 msgstr "Benutzerdefiniert"
 
 #: ddterm/pref/colors.js:409
-msgid "Color _scheme:"
-msgstr "Farb_schema:"
+msgid "Color _scheme"
+msgstr "Farb_schema"
 
 #: ddterm/pref/colors.js:428
 msgid "Foreground Color"
@@ -658,16 +658,16 @@ msgid "Background Color"
 msgstr "Hintergrundfarbe"
 
 #: ddterm/pref/colors.js:443
-msgid "Bold color:"
-msgstr "Fett Farbe:"
+msgid "Bold color"
+msgstr "Fett Farbe"
 
 #: ddterm/pref/colors.js:451
 msgid "Bold Color"
 msgstr "Fett Farbe"
 
 #: ddterm/pref/colors.js:460
-msgid "Cursor color:"
-msgstr "Cursorfarbe:"
+msgid "Cursor color"
+msgstr "Cursorfarbe"
 
 #: ddterm/pref/colors.js:482
 msgid "Cursor Foreground Color"
@@ -678,8 +678,8 @@ msgid "Cursor Background Color"
 msgstr "Cursor Hintergrundfarbe"
 
 #: ddterm/pref/colors.js:510
-msgid "Highlight color:"
-msgstr "Hervorhebungsfarbe:"
+msgid "Highlight color"
+msgstr "Hervorhebungsfarbe"
 
 #: ddterm/pref/colors.js:532
 msgid "Highlight Foreground Color"
@@ -690,8 +690,8 @@ msgid "Highlight Background Color"
 msgstr "Hervorhebung Hintergrundfarbe"
 
 #: ddterm/pref/colors.js:577
-msgid "_Background opacity:"
-msgstr "Hintergrund-Deckkraft:"
+msgid "_Background opacity"
+msgstr "Hintergrund-Deckkraft"
 
 #: ddterm/pref/colors.js:598
 msgid "GNOME"
@@ -718,8 +718,8 @@ msgid "Solarized"
 msgstr "Solarisiert"
 
 #: ddterm/pref/colors.js:717
-msgid "_Palette:"
-msgstr "_Palette:"
+msgid "_Palette"
+msgstr "_Palette"
 
 #: ddterm/pref/colors.js:790
 msgid "Show bold text in _bright colors"

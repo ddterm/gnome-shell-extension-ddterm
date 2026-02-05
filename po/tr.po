@@ -579,8 +579,8 @@ msgid "Colors"
 msgstr "Renkler"
 
 #: ddterm/pref/colors.js:361
-msgid "Theme _variant:"
-msgstr "Tema _çeşidi:"
+msgid "Theme _variant"
+msgstr "Tema _çeşidi"
 
 #: ddterm/pref/colors.js:363 ddterm/pref/text.js:118
 msgid "Default"
@@ -647,8 +647,8 @@ msgid "Custom"
 msgstr "Özel"
 
 #: ddterm/pref/colors.js:409
-msgid "Color _scheme:"
-msgstr "Renk _şeması:"
+msgid "Color _scheme"
+msgstr "Renk _şeması"
 
 #: ddterm/pref/colors.js:428
 msgid "Foreground Color"
@@ -659,16 +659,16 @@ msgid "Background Color"
 msgstr "Arkaplan Rengi"
 
 #: ddterm/pref/colors.js:443
-msgid "Bold color:"
-msgstr "Kalın rengi:"
+msgid "Bold color"
+msgstr "Kalın rengi"
 
 #: ddterm/pref/colors.js:451
 msgid "Bold Color"
 msgstr "Kalın Rengi"
 
 #: ddterm/pref/colors.js:460
-msgid "Cursor color:"
-msgstr "İmleç rengi:"
+msgid "Cursor color"
+msgstr "İmleç rengi"
 
 #: ddterm/pref/colors.js:482
 msgid "Cursor Foreground Color"
@@ -679,8 +679,8 @@ msgid "Cursor Background Color"
 msgstr "İmleç Arka Plan Rengi"
 
 #: ddterm/pref/colors.js:510
-msgid "Highlight color:"
-msgstr "Vurgulama rengi:"
+msgid "Highlight color"
+msgstr "Vurgulama rengi"
 
 #: ddterm/pref/colors.js:532
 msgid "Highlight Foreground Color"
@@ -691,8 +691,8 @@ msgid "Highlight Background Color"
 msgstr "Vurgulama Arka Plan Rengi"
 
 #: ddterm/pref/colors.js:577
-msgid "_Background opacity:"
-msgstr "_Arkaplan opaklığı:"
+msgid "_Background opacity"
+msgstr "_Arkaplan opaklığı"
 
 #: ddterm/pref/colors.js:598
 msgid "GNOME"
@@ -719,8 +719,8 @@ msgid "Solarized"
 msgstr "Solarized"
 
 #: ddterm/pref/colors.js:717
-msgid "_Palette:"
-msgstr "_Renk paleti:"
+msgid "_Palette"
+msgstr "_Renk paleti"
 
 #: ddterm/pref/colors.js:790
 msgid "Show bold text in _bright colors"

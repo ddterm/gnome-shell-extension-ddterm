@@ -574,8 +574,8 @@ msgid "Colors"
 msgstr "Koloroj"
 
 #: ddterm/pref/colors.js:361
-msgid "Theme _variant:"
-msgstr "Etosa _vario:"
+msgid "Theme _variant"
+msgstr "Etosa _vario"
 
 #: ddterm/pref/colors.js:363 ddterm/pref/text.js:118
 msgid "Default"
@@ -642,8 +642,8 @@ msgid "Custom"
 msgstr ""
 
 #: ddterm/pref/colors.js:409
-msgid "Color _scheme:"
-msgstr "Kolor_skemo:"
+msgid "Color _scheme"
+msgstr "Kolor_skemo"
 
 #: ddterm/pref/colors.js:428
 msgid "Foreground Color"
@@ -654,16 +654,16 @@ msgid "Background Color"
 msgstr "Fona koloro"
 
 #: ddterm/pref/colors.js:443
-msgid "Bold color:"
-msgstr "Grasa koloro:"
+msgid "Bold color"
+msgstr "Grasa koloro"
 
 #: ddterm/pref/colors.js:451
 msgid "Bold Color"
 msgstr "Grasa koloro"
 
 #: ddterm/pref/colors.js:460
-msgid "Cursor color:"
-msgstr "Kursora koloro:"
+msgid "Cursor color"
+msgstr "Kursora koloro"
 
 #: ddterm/pref/colors.js:482
 msgid "Cursor Foreground Color"
@@ -674,8 +674,8 @@ msgid "Cursor Background Color"
 msgstr "Kursora fona koloro"
 
 #: ddterm/pref/colors.js:510
-msgid "Highlight color:"
-msgstr "Reliefiga koloro:"
+msgid "Highlight color"
+msgstr "Reliefiga koloro"
 
 #: ddterm/pref/colors.js:532
 msgid "Highlight Foreground Color"
@@ -686,8 +686,8 @@ msgid "Highlight Background Color"
 msgstr "Reliefiga fona koloro"
 
 #: ddterm/pref/colors.js:577
-msgid "_Background opacity:"
-msgstr "_Fona opako:"
+msgid "_Background opacity"
+msgstr "_Fona opako"
 
 #: ddterm/pref/colors.js:598
 msgid "GNOME"
@@ -714,8 +714,8 @@ msgid "Solarized"
 msgstr ""
 
 #: ddterm/pref/colors.js:717
-msgid "_Palette:"
-msgstr "_Paletro:"
+msgid "_Palette"
+msgstr "_Paletro"
 
 #: ddterm/pref/colors.js:790
 msgid "Show bold text in _bright colors"
