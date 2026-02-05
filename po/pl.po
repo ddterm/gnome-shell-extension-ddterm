@@ -870,7 +870,7 @@ msgid "Scrolling"
 msgstr "Przewijanie"
 
 #: ddterm/pref/scrolling.js:28
-msgid "Show _scrollbar"
+msgid "Show _Scrollbar"
 msgstr "Pokaż pasek _przewijania"
 
 #: ddterm/pref/scrolling.js:43

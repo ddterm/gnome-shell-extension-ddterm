@@ -856,7 +856,7 @@ msgid "Scrolling"
 msgstr "滚动"
 
 #: ddterm/pref/scrolling.js:28
-msgid "Show _scrollbar"
+msgid "Show _Scrollbar"
 msgstr "显示 _滚动条"
 
 #: ddterm/pref/scrolling.js:43

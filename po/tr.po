@@ -863,7 +863,7 @@ msgid "Scrolling"
 msgstr "Kaydırma"
 
 #: ddterm/pref/scrolling.js:28
-msgid "Show _scrollbar"
+msgid "Show _Scrollbar"
 msgstr "_Kaydırma çubuğunu göster"
 
 #: ddterm/pref/scrolling.js:43

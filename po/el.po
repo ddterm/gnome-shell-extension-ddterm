@@ -868,7 +868,7 @@ msgid "Scrolling"
 msgstr "Κύλιση"
 
 #: ddterm/pref/scrolling.js:28
-msgid "Show _scrollbar"
+msgid "Show _Scrollbar"
 msgstr "Εμφάνιση _κύλισης"
 
 #: ddterm/pref/scrolling.js:43

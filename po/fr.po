@@ -867,7 +867,7 @@ msgid "Scrolling"
 msgstr "Défilement"
 
 #: ddterm/pref/scrolling.js:28
-msgid "Show _scrollbar"
+msgid "Show _Scrollbar"
 msgstr "Afficher la barre de défilement"
 
 #: ddterm/pref/scrolling.js:43

@@ -857,7 +857,7 @@ msgid "Scrolling"
 msgstr "Rulling"
 
 #: ddterm/pref/scrolling.js:28
-msgid "Show _scrollbar"
+msgid "Show _Scrollbar"
 msgstr "Vis _rullefelt"
 
 #: ddterm/pref/scrolling.js:43

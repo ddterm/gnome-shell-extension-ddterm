@@ -857,7 +857,7 @@ msgid "Scrolling"
 msgstr "Posouvání"
 
 #: ddterm/pref/scrolling.js:28
-msgid "Show _scrollbar"
+msgid "Show _Scrollbar"
 msgstr "Zobrazit _posuvník"
 
 #: ddterm/pref/scrolling.js:43

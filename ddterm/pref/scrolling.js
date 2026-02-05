@@ -25,7 +25,7 @@ export class ScrollingGroup extends PreferencesGroup {
 
         this.add_switch_row({
             key: 'show-scrollbar',
-            title: this.gettext('Show _scrollbar'),
+            title: this.gettext('Show _Scrollbar'),
         });
 
         this.add_switch_row({
