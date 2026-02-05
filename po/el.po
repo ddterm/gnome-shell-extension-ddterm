@@ -836,11 +836,11 @@ msgid "On the monitor with keyboard focus"
 msgstr "Στην οθόνη του πληκτρολόγιου"
 
 #: ddterm/pref/positionsize.js:214
-msgid "On _monitor:"
+msgid "On _monitor"
 msgstr "Στην οθόνη"
 
 #: ddterm/pref/positionsize.js:274
-msgid "_Window position:"
+msgid "_Window position"
 msgstr "Θέση Παραθύρου"
 
 #: ddterm/pref/positionsize.js:276 ddterm/pref/tabs.js:43
@@ -860,8 +860,8 @@ msgid "Right"
 msgstr "Δεξιά"
 
 #: ddterm/pref/positionsize.js:302
-msgid "Window _size:"
-msgstr "Μέγεθος παραθύρου:"
+msgid "Window _size"
+msgstr "Μέγεθος παραθύρου"
 
 #: ddterm/pref/scrolling.js:24
 msgid "Scrolling"

@@ -824,12 +824,12 @@ msgid "On the monitor with keyboard focus"
 msgstr "在键盘 聚焦的显示器上"
 
 #: ddterm/pref/positionsize.js:214
-msgid "On _monitor:"
-msgstr "在 _显示器上："
+msgid "On _monitor"
+msgstr "在 _显示器上"
 
 #: ddterm/pref/positionsize.js:274
-msgid "_Window position:"
-msgstr "_窗口位置："
+msgid "_Window position"
+msgstr "_窗口位置"
 
 #: ddterm/pref/positionsize.js:276 ddterm/pref/tabs.js:43
 msgid "Top"
@@ -848,8 +848,8 @@ msgid "Right"
 msgstr "右边"
 
 #: ddterm/pref/positionsize.js:302
-msgid "Window _size:"
-msgstr "窗口 _大小："
+msgid "Window _size"
+msgstr "窗口 _大小"
 
 #: ddterm/pref/scrolling.js:24
 msgid "Scrolling"

@@ -833,12 +833,12 @@ msgid "On the monitor with keyboard focus"
 msgstr "En el monitor con teclado focus"
 
 #: ddterm/pref/positionsize.js:214
-msgid "On _monitor:"
-msgstr "En el _monitor:"
+msgid "On _monitor"
+msgstr "En el _monitor"
 
 #: ddterm/pref/positionsize.js:274
-msgid "_Window position:"
-msgstr "_Posición de la ventana:"
+msgid "_Window position"
+msgstr "_Posición de la ventana"
 
 #: ddterm/pref/positionsize.js:276 ddterm/pref/tabs.js:43
 msgid "Top"
@@ -857,8 +857,8 @@ msgid "Right"
 msgstr "Derecha"
 
 #: ddterm/pref/positionsize.js:302
-msgid "Window _size:"
-msgstr "Tamaño de la _ventana:"
+msgid "Window _size"
+msgstr "Tamaño de la _ventana"
 
 #: ddterm/pref/scrolling.js:24
 msgid "Scrolling"

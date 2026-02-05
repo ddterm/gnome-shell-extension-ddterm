@@ -831,12 +831,12 @@ msgid "On the monitor with keyboard focus"
 msgstr "Klavye odağının bulunduğu monitörde"
 
 #: ddterm/pref/positionsize.js:214
-msgid "On _monitor:"
-msgstr "_Monitörde:"
+msgid "On _monitor"
+msgstr "_Monitörde"
 
 #: ddterm/pref/positionsize.js:274
-msgid "_Window position:"
-msgstr "_Pencere konumu:"
+msgid "_Window position"
+msgstr "_Pencere konumu"
 
 #: ddterm/pref/positionsize.js:276 ddterm/pref/tabs.js:43
 msgid "Top"
@@ -855,8 +855,8 @@ msgid "Right"
 msgstr "Sağ"
 
 #: ddterm/pref/positionsize.js:302
-msgid "Window _size:"
-msgstr "Pencere _boyutu:"
+msgid "Window _size"
+msgstr "Pencere _boyutu"
 
 #: ddterm/pref/scrolling.js:24
 msgid "Scrolling"
