@@ -29,19 +29,19 @@ export class CompatibilityGroup extends PreferencesGroup {
 
         this.add_combo_text_row({
             key: 'backspace-binding',
-            title: this.gettext('_Backspace key generates'),
+            title: this.gettext('_Backspace Key Generates'),
             model,
         });
 
         this.add_combo_text_row({
             key: 'delete-binding',
-            title: this.gettext('_Delete key generates'),
+            title: this.gettext('_Delete Key Generates'),
             model,
         });
 
         this.add_combo_text_row({
             key: 'cjk-utf8-ambiguous-width',
-            title: this.gettext('Ambiguous-_width characters'),
+            title: this.gettext('Ambiguous-_Width Characters'),
             model: {
                 narrow: this.gettext('Narrow'),
                 wide: this.gettext('Wide'),

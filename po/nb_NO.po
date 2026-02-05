@@ -765,15 +765,15 @@ msgid "TTY Erase"
 msgstr "TTY-sletting"
 
 #: ddterm/pref/compatibility.js:32
-msgid "_Backspace key generates"
+msgid "_Backspace Key Generates"
 msgstr "_Rettetast genererer"
 
 #: ddterm/pref/compatibility.js:38
-msgid "_Delete key generates"
+msgid "_Delete Key Generates"
 msgstr "_Delete-tast genererer"
 
 #: ddterm/pref/compatibility.js:44
-msgid "Ambiguous-_width characters"
+msgid "Ambiguous-_Width Characters"
 msgstr "Tvetydig-_vide tegn"
 
 #: ddterm/pref/compatibility.js:46
