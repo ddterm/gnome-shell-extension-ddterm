@@ -537,20 +537,20 @@ msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on both e
 msgstr "Intercalación parabólica (rebote) con decaimiento exponencial, con rebote en ambos extremos"
 
 #: ddterm/pref/animation.js:103
-msgid "_Show animation:"
-msgstr "_Mostrar animación:"
+msgid "_Show animation"
+msgstr "_Mostrar animación"
 
 #: ddterm/pref/animation.js:114
-msgid "_Show animation duration:"
-msgstr "_Mostrar duración de la animación:"
+msgid "_Show animation duration"
+msgstr "_Mostrar duración de la animación"
 
 #: ddterm/pref/animation.js:128
-msgid "_Hide animation:"
-msgstr "_Ocultar animación:"
+msgid "_Hide animation"
+msgstr "_Ocultar animación"
 
 #: ddterm/pref/animation.js:139
-msgid "_Hide animation duration:"
-msgstr "_Duración de la animación de ocultar:"
+msgid "_Hide animation duration"
+msgstr "_Duración de la animación de ocultar"
 
 #: ddterm/pref/behavior.js:19
 msgid "Behavior"

@@ -529,20 +529,20 @@ msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on both e
 msgstr "Exponenciálně klesající parabolické (odrazové) prolínání s odrazem na obou koncích"
 
 #: ddterm/pref/animation.js:103
-msgid "_Show animation:"
-msgstr "_Zobrazit animaci:"
+msgid "_Show animation"
+msgstr "_Zobrazit animaci"
 
 #: ddterm/pref/animation.js:114
-msgid "_Show animation duration:"
-msgstr "_Doba po kterou bude animace zobrazena:"
+msgid "_Show animation duration"
+msgstr "_Doba po kterou bude animace zobrazena"
 
 #: ddterm/pref/animation.js:128
-msgid "_Hide animation:"
-msgstr "_Skrýt animaci:"
+msgid "_Hide animation"
+msgstr "_Skrýt animaci"
 
 #: ddterm/pref/animation.js:139
-msgid "_Hide animation duration:"
-msgstr "_Doba po kterou bude animace skryta:"
+msgid "_Hide animation duration"
+msgstr "_Doba po kterou bude animace skryta"
 
 #: ddterm/pref/behavior.js:19
 msgid "Behavior"

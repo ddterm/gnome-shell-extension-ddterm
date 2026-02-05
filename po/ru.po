@@ -538,20 +538,20 @@ msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on both e
 msgstr "Экспоненциально затухающая параболическая с отскоком в начале и конце"
 
 #: ddterm/pref/animation.js:103
-msgid "_Show animation:"
-msgstr "Анимация открытия:"
+msgid "_Show animation"
+msgstr "Анимация открытия"
 
 #: ddterm/pref/animation.js:114
-msgid "_Show animation duration:"
-msgstr "Длительность анимации открытия:"
+msgid "_Show animation duration"
+msgstr "Длительность анимации открытия"
 
 #: ddterm/pref/animation.js:128
-msgid "_Hide animation:"
-msgstr "Анимация закрытия:"
+msgid "_Hide animation"
+msgstr "Анимация закрытия"
 
 #: ddterm/pref/animation.js:139
-msgid "_Hide animation duration:"
-msgstr "Длительность анимации закрытия:"
+msgid "_Hide animation duration"
+msgstr "Длительность анимации закрытия"
 
 #: ddterm/pref/behavior.js:19
 msgid "Behavior"

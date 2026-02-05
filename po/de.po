@@ -534,20 +534,20 @@ msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on both e
 msgstr "Exponentiell abklingend, geschwungen, mit Sprung an Anfang und Ende"
 
 #: ddterm/pref/animation.js:103
-msgid "_Show animation:"
-msgstr "Animation beim Anzeigen:"
+msgid "_Show animation"
+msgstr "Animation beim Anzeigen"
 
 #: ddterm/pref/animation.js:114
-msgid "_Show animation duration:"
-msgstr "Dauer der Animation beim Anzeigen:"
+msgid "_Show animation duration"
+msgstr "Dauer der Animation beim Anzeigen"
 
 #: ddterm/pref/animation.js:128
-msgid "_Hide animation:"
-msgstr "Animation beim Ausblenden:"
+msgid "_Hide animation"
+msgstr "Animation beim Ausblenden"
 
 #: ddterm/pref/animation.js:139
-msgid "_Hide animation duration:"
-msgstr "Dauer der Animation beim Ausblenden:"
+msgid "_Hide animation duration"
+msgstr "Dauer der Animation beim Ausblenden"
 
 #: ddterm/pref/behavior.js:19
 msgid "Behavior"

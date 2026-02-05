@@ -542,20 +542,20 @@ msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on both e
 msgstr "Wykładniczo zanikająca animacja paraboliczna (odbicia), z odbiciem na obu końcach"
 
 #: ddterm/pref/animation.js:103
-msgid "_Show animation:"
-msgstr "_Pokaż animację:"
+msgid "_Show animation"
+msgstr "_Pokaż animację"
 
 #: ddterm/pref/animation.js:114
-msgid "_Show animation duration:"
-msgstr "Czas trwania animacji _pokazywania:"
+msgid "_Show animation duration"
+msgstr "Czas trwania animacji _pokazywania"
 
 #: ddterm/pref/animation.js:128
-msgid "_Hide animation:"
-msgstr "_Ukryj animację:"
+msgid "_Hide animation"
+msgstr "_Ukryj animację"
 
 #: ddterm/pref/animation.js:139
-msgid "_Hide animation duration:"
-msgstr "Czas trwania animacji _ukrywania:"
+msgid "_Hide animation duration"
+msgstr "Czas trwania animacji _ukrywania"
 
 #: ddterm/pref/behavior.js:19
 msgid "Behavior"

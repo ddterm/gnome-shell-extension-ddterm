@@ -529,20 +529,20 @@ msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on both e
 msgstr "Eksponentielt avtagende parabolisk (sprett-) mellomtegning, med sprett i begge ender"
 
 #: ddterm/pref/animation.js:103
-msgid "_Show animation:"
-msgstr "_Vis animasjon:"
+msgid "_Show animation"
+msgstr "_Vis animasjon"
 
 #: ddterm/pref/animation.js:114
-msgid "_Show animation duration:"
-msgstr "_Vis animasjonsvarighet:"
+msgid "_Show animation duration"
+msgstr "_Vis animasjonsvarighet"
 
 #: ddterm/pref/animation.js:128
-msgid "_Hide animation:"
-msgstr "_Skjul animasjon:"
+msgid "_Hide animation"
+msgstr "_Skjul animasjon"
 
 #: ddterm/pref/animation.js:139
-msgid "_Hide animation duration:"
-msgstr "_Skjul animasjonsvarighet:"
+msgid "_Hide animation duration"
+msgstr "_Skjul animasjonsvarighet"
 
 #: ddterm/pref/behavior.js:19
 msgid "Behavior"

@@ -540,20 +540,20 @@ msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on both e
 msgstr ""
 
 #: ddterm/pref/animation.js:103
-msgid "_Show animation:"
-msgstr "_Εμφάνιση κινούμενων εικόνων:"
+msgid "_Show animation"
+msgstr "_Εμφάνιση κινούμενων εικόνων"
 
 #: ddterm/pref/animation.js:114
-msgid "_Show animation duration:"
-msgstr "_Εμφάνιση διάρκειας κινούμενης εικόνας:"
+msgid "_Show animation duration"
+msgstr "_Εμφάνιση διάρκειας κινούμενης εικόνας"
 
 #: ddterm/pref/animation.js:128
-msgid "_Hide animation:"
-msgstr "_Απόκρυψη κινούμενων εικόνων:"
+msgid "_Hide animation"
+msgstr "_Απόκρυψη κινούμενων εικόνων"
 
 #: ddterm/pref/animation.js:139
-msgid "_Hide animation duration:"
-msgstr "_Απόκρυψη διάρκειας κινούμενης εικόνας:"
+msgid "_Hide animation duration"
+msgstr "_Απόκρυψη διάρκειας κινούμενης εικόνας"
 
 #: ddterm/pref/behavior.js:19
 msgid "Behavior"

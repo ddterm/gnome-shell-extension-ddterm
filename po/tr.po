@@ -535,20 +535,20 @@ msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on both e
 msgstr "Her iki tarafta sıçrama ile üstel olarak azalan parabolik (sıçrama) ara doldurma"
 
 #: ddterm/pref/animation.js:103
-msgid "_Show animation:"
-msgstr "_Animasyonu göster:"
+msgid "_Show animation"
+msgstr "_Animasyonu göster"
 
 #: ddterm/pref/animation.js:114
-msgid "_Show animation duration:"
-msgstr "_Gösterme animasyonu süresi:"
+msgid "_Show animation duration"
+msgstr "_Gösterme animasyonu süresi"
 
 #: ddterm/pref/animation.js:128
-msgid "_Hide animation:"
-msgstr "_Animasyonu gizle:"
+msgid "_Hide animation"
+msgstr "_Animasyonu gizle"
 
 #: ddterm/pref/animation.js:139
-msgid "_Hide animation duration:"
-msgstr "_Gizleme animasyonu süresi:"
+msgid "_Hide animation duration"
+msgstr "_Gizleme animasyonu süresi"
 
 #: ddterm/pref/behavior.js:19
 msgid "Behavior"
