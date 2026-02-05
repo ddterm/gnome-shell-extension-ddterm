@@ -1113,12 +1113,12 @@ msgid "Use System Font"
 msgstr "Utilizar tipografía del sistema"
 
 #: ddterm/pref/text.js:79
-msgid "Custom _font:"
-msgstr "_Tipografía personalizada:"
+msgid "Custom _font"
+msgstr "_Tipografía personalizada"
 
 #: ddterm/pref/text.js:95
-msgid "Allow _blinking text:"
-msgstr "Permitir texto _parpadeante:"
+msgid "Allow _blinking text"
+msgstr "Permitir texto _parpadeante"
 
 #: ddterm/pref/text.js:98
 msgid "When focused"
@@ -1129,8 +1129,8 @@ msgid "When unfocused"
 msgstr "Cuando se desenfoca"
 
 #: ddterm/pref/text.js:106
-msgid "Cursor _shape:"
-msgstr "_Forma del cursor:"
+msgid "Cursor _shape"
+msgstr "_Forma del cursor"
 
 #: ddterm/pref/text.js:108
 msgid "Block"
@@ -1145,8 +1145,8 @@ msgid "Underline"
 msgstr "Subrayado"
 
 #: ddterm/pref/text.js:116
-msgid "_Cursor blinking:"
-msgstr "Parpadeo del _cursor:"
+msgid "_Cursor blinking"
+msgstr "Parpadeo del _cursor"
 
 #: ddterm/pref/text.js:119
 msgid "Enabled"

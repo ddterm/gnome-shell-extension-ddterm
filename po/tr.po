@@ -1121,12 +1121,12 @@ msgid "Use System Font"
 msgstr ""
 
 #: ddterm/pref/text.js:79
-msgid "Custom _font:"
-msgstr "Özel _font:"
+msgid "Custom _font"
+msgstr "Özel _font"
 
 #: ddterm/pref/text.js:95
-msgid "Allow _blinking text:"
-msgstr "_Yanıp sönen yazıya izin ver:"
+msgid "Allow _blinking text"
+msgstr "_Yanıp sönen yazıya izin ver"
 
 #: ddterm/pref/text.js:98
 msgid "When focused"
@@ -1137,8 +1137,8 @@ msgid "When unfocused"
 msgstr "Odaklanılmadığında"
 
 #: ddterm/pref/text.js:106
-msgid "Cursor _shape:"
-msgstr "İmleç _şekli:"
+msgid "Cursor _shape"
+msgstr "İmleç _şekli"
 
 #: ddterm/pref/text.js:108
 msgid "Block"
@@ -1153,8 +1153,8 @@ msgid "Underline"
 msgstr "Altı çizili"
 
 #: ddterm/pref/text.js:116
-msgid "_Cursor blinking:"
-msgstr "Yanıp Sönen _İmleç:"
+msgid "_Cursor blinking"
+msgstr "Yanıp Sönen _İmleç"
 
 #: ddterm/pref/text.js:119
 msgid "Enabled"

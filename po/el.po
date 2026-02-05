@@ -1131,12 +1131,12 @@ msgid "Use System Font"
 msgstr ""
 
 #: ddterm/pref/text.js:79
-msgid "Custom _font:"
+msgid "Custom _font"
 msgstr "Προσαρμοσμένη _γραμματοσειρά"
 
 #: ddterm/pref/text.js:95
-msgid "Allow _blinking text:"
-msgstr "Να επιτρέπεται το κείμενο που αναβοσβήνει:"
+msgid "Allow _blinking text"
+msgstr "Να επιτρέπεται το κείμενο που αναβοσβήνει"
 
 #: ddterm/pref/text.js:98
 msgid "When focused"
@@ -1147,8 +1147,8 @@ msgid "When unfocused"
 msgstr "Όταν δεν είναι εστιασμένο"
 
 #: ddterm/pref/text.js:106
-msgid "Cursor _shape:"
-msgstr "Δρομέας _σχήμα:"
+msgid "Cursor _shape"
+msgstr "Δρομέας _σχήμα"
 
 #: ddterm/pref/text.js:108
 msgid "Block"
@@ -1163,8 +1163,8 @@ msgid "Underline"
 msgstr "Υπογραμμιση"
 
 #: ddterm/pref/text.js:116
-msgid "_Cursor blinking:"
-msgstr "_Ο δρομέας αναβοσβήνει:"
+msgid "_Cursor blinking"
+msgstr "_Ο δρομέας αναβοσβήνει"
 
 #: ddterm/pref/text.js:119
 msgid "Enabled"

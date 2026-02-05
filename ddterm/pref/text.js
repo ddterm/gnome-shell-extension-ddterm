@@ -76,7 +76,7 @@ export class TextGroup extends PreferencesGroup {
         });
 
         this.#font_row = new FontRow({
-            title: this.gettext('Custom _font:'),
+            title: this.gettext('Custom _font'),
             visible: true,
             use_underline: true,
         });
@@ -92,7 +92,7 @@ export class TextGroup extends PreferencesGroup {
 
         this.add_combo_text_row({
             key: 'text-blink-mode',
-            title: this.gettext('Allow _blinking text:'),
+            title: this.gettext('Allow _blinking text'),
             model: {
                 never: this.gettext('Never'),
                 focused: this.gettext('When focused'),
@@ -103,7 +103,7 @@ export class TextGroup extends PreferencesGroup {
 
         this.add_combo_text_row({
             key: 'cursor-shape',
-            title: this.gettext('Cursor _shape:'),
+            title: this.gettext('Cursor _shape'),
             model: {
                 block: this.gettext('Block'),
                 ibeam: this.gettext('I-Beam'),
@@ -113,7 +113,7 @@ export class TextGroup extends PreferencesGroup {
 
         this.add_combo_text_row({
             key: 'cursor-blink-mode',
-            title: this.gettext('_Cursor blinking:'),
+            title: this.gettext('_Cursor blinking'),
             model: {
                 system: this.gettext('Default'),
                 on: this.gettext('Enabled'),
