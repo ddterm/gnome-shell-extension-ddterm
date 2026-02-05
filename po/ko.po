@@ -4,146 +4,149 @@
 # This file is distributed under the same license as the ddterm@amezin.github.com package.
 # Automatically generated, 2026.
 #
+# 스이미 <soo.wim3@gmail.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-02-05 03:03+0200\n"
-"PO-Revision-Date: 2026-02-05 03:03+0200\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2026-02-05 22:42+0000\n"
+"Last-Translator: 스이미 <soo.wim3@gmail.com>\n"
+"Language-Team: Korean <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/ko/>\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 5.16-dev\n"
 
 #: data/com.github.amezin.ddterm.desktop.in.in:8 ddterm/app/appwindow.js:146
 #: ddterm/shell/notifications.js:238 ddterm/shell/panelicon.js:32
+#, fuzzy
 msgid "ddterm"
-msgstr ""
+msgstr "ddterm"
 
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/com.github.amezin.ddterm.desktop.in.in:10
 msgid "shell;prompt;command;commandline;cmd;run;terminal;"
-msgstr ""
+msgstr "쉘;프롬포트;커맨드;커맨드라인;명령프롬프트;실행;터미널;"
 
 #: data/com.github.amezin.ddterm.desktop.in.in:11
 msgid "Another drop down terminal extension for GNOME Shell"
-msgstr ""
+msgstr "GNOME Shell용 드롭다운 터미널 확장 기능"
 
 #: data/com.github.amezin.ddterm.desktop.in.in:25
 msgid "Toggle"
-msgstr ""
+msgstr "토글"
 
 #: data/com.github.amezin.ddterm.desktop.in.in:29 ddterm/app/ui/menus.ui:140
 #: ddterm/app/ui/menus.ui:282 ddterm/shell/panelicon.js:64
 msgid "Preferences…"
-msgstr ""
+msgstr "설정…"
 
 #: ddterm/app/about.js:58
 msgid "translator-credits"
-msgstr ""
+msgstr "JANG SUYEONG https://github.com/seuimi"
 
 #: ddterm/app/about.js:59
 msgid "Contributors"
-msgstr ""
+msgstr "기여자"
 
 #: ddterm/app/application.js:115
 msgid "Start the application, but do not show the window"
-msgstr ""
+msgstr "창을 표시하지 않고 실행"
 
 #: ddterm/app/application.js:124
 msgid "Comma-separated list of backends that GDK should try to use"
-msgstr ""
+msgstr "GDK가 사용할 백엔드 목록 (쉼표로 구분)"
 
 #: ddterm/app/application.js:151
 msgid "Show version information and exit"
-msgstr ""
+msgstr "버전 정보 표시 및 종료"
 
 #: ddterm/app/application.js:160
 msgid "Run the specified command"
-msgstr ""
+msgstr "지정한 명령어 실행"
 
 #: ddterm/app/application.js:174
 msgid "Wait for the command to exit, and return its exit code"
-msgstr ""
+msgstr "명령어 종료 후 종료 코드 반환"
 
 #: ddterm/app/application.js:183
 msgid "Set the working directory"
-msgstr ""
+msgstr "작업 디렉터리 설정"
 
 #: ddterm/app/application.js:192
 msgid "Set tab title"
-msgstr ""
+msgstr "탭 제목 설정"
 
 #: ddterm/app/application.js:201
 msgid "Keep the terminal open after the command has exited"
-msgstr ""
+msgstr "명령어 종료 후 터미널 유지"
 
 #: ddterm/app/application.js:210
 msgid "Do not pass the environment"
-msgstr ""
+msgstr "환경 변수 전달 제외"
 
 #: ddterm/app/application.js:219
 msgid "Open a new tab"
-msgstr ""
+msgstr "새 탭 열기"
 
 #: ddterm/app/application.js:499
 msgid "Can't contact the extension."
-msgstr ""
+msgstr "확장 기능에 연결할 수 없습니다."
 
 #: ddterm/app/application.js:501
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
-msgstr ""
+msgstr "ddterm GNOME Shell 확장 기능이 활성화되어 있는지 확인해 주세요."
 
 #: ddterm/app/application.js:646
 msgid "Can't read the version of the loaded extension."
-msgstr ""
+msgstr "불러온 확장 기능의 버전을 읽을 수 없습니다."
 
 #: ddterm/app/application.js:648 ddterm/shell/notifications.js:85
 msgid "Warning: ddterm version has changed"
-msgstr ""
+msgstr "경고: ddterm 버전이 변경되었습니다"
 
 #: ddterm/app/application.js:649 ddterm/shell/notifications.js:87
 msgid "Log out, then log in again to load the updated extension."
-msgstr ""
+msgstr "업데이트된 확장 기능을 불러오려면 로그아웃한 후 다시 로그인해 주세요."
 
 #: ddterm/app/init.js:34 ddterm/shell/notifications.js:149
 msgid "ddterm needs additional packages to run"
-msgstr ""
+msgstr "ddterm을 실행하려면 추가 패키지가 필요합니다"
 
 #: ddterm/app/init.js:42 ddterm/shell/notifications.js:154
 msgid "Please install the following packages:"
-msgstr ""
+msgstr "다음 패키지들을 설치해 주세요:"
 
 #: ddterm/app/init.js:49 ddterm/shell/notifications.js:162
 msgid "Please install packages that provide the following files:"
-msgstr ""
+msgstr "아래 파일들이 포함된 패키지를 설치해야 합니다:"
 
 #: ddterm/app/notebook.js:138
 msgid "New Tab (Last)"
-msgstr ""
+msgstr "새 탭 (맨 뒤)"
 
 #: ddterm/app/notebook.js:176
 msgid "New Tab (First)"
-msgstr ""
+msgstr "새 탭 (맨 앞)"
 
 #: ddterm/app/search.js:209
 msgid "Case Sensitive"
-msgstr ""
+msgstr "대소문자 구분"
 
 #: ddterm/app/search.js:225
 msgid "Match Whole Word"
-msgstr ""
+msgstr "단어 단위로 찾기"
 
 #: ddterm/app/search.js:241
 msgid "Regular Expression"
-msgstr ""
+msgstr "정규 표현식"
 
 #: ddterm/app/search.js:307
 msgid "Close Search Bar"
-msgstr ""
+msgstr "검색창 닫기"
 
 #: ddterm/app/search.js:318
 msgid "Wrap Around"
@@ -151,405 +154,405 @@ msgstr ""
 
 #: ddterm/app/search.js:334 ddterm/pref/shortcuts.js:673
 msgid "Find Next"
-msgstr ""
+msgstr "다음 찾기"
 
 #: ddterm/app/search.js:352 ddterm/pref/shortcuts.js:678
 msgid "Find Previous"
-msgstr ""
+msgstr "이전 찾기"
 
 #: ddterm/app/tablabel.js:83 ddterm/pref/shortcuts.js:658
 msgid "Set Custom Tab Title"
-msgstr ""
+msgstr "사용자 지정 탭 제목 설정"
 
 #: ddterm/app/tablabel.js:90
 msgid "Tab _title:"
-msgstr ""
+msgstr "탭 _제목:"
 
 #: ddterm/app/tablabel.js:104 ddterm/app/ui/menus.ui:215
 msgid "Use Custom Tab Title"
-msgstr ""
+msgstr "사용자 지정 탭 제목 사용"
 
 #: ddterm/app/tablabel.js:220 ddterm/app/ui/menus.ui:201
 #: ddterm/app/ui/menus.ui:291 ddterm/shell/notifications.js:62
 msgid "Close"
-msgstr ""
+msgstr "닫기"
 
 #: ddterm/app/terminalpage.js:154
 msgid "Restart"
-msgstr ""
+msgstr "재시작"
 
 #: ddterm/app/terminalpage.js:155 ddterm/app/terminalpage.js:646
 msgid "Close Terminal"
-msgstr ""
+msgstr "터미널 닫기"
 
 #: ddterm/app/terminalpage.js:513
 msgid "The child process exited with status:"
-msgstr ""
+msgstr "하위 프로세스 종료 상태:"
 
 #: ddterm/app/terminalpage.js:523
 msgid "The child process was aborted by signal:"
-msgstr ""
+msgstr "하위 프로세스가 다음 시그널로 인해 종료됨:"
 
 #: ddterm/app/terminalpage.js:638
 msgid "Close this terminal?"
-msgstr ""
+msgstr "이 터미널을 닫으시겠습니까?"
 
 #: ddterm/app/terminalpage.js:640
 msgid "There is still a process running in this terminal. Closing the terminal will kill it."
-msgstr ""
+msgstr "실행 중인 작업이 있습니다. 터미널을 닫으면 진행 중인 모든 작업이 중단됩니다."
 
 #: ddterm/app/ui/menus.ui:15
 msgid "Open Hyperlink"
-msgstr ""
+msgstr "링크 열기"
 
 #: ddterm/app/ui/menus.ui:20
 msgid "Copy Hyperlink Address"
-msgstr ""
+msgstr "링크 주소 복사"
 
 #: ddterm/app/ui/menus.ui:25
 msgid "Copy File Path"
-msgstr ""
+msgstr "파일 경로 복사"
 
 #: ddterm/app/ui/menus.ui:32
 msgid "Copy"
-msgstr ""
+msgstr "복사"
 
 #: ddterm/app/ui/menus.ui:36
 msgid "Copy HTML"
-msgstr ""
+msgstr "HTML로 복사"
 
 #: ddterm/app/ui/menus.ui:40
 msgid "Paste"
-msgstr ""
+msgstr "붙여넣기"
 
 #: ddterm/app/ui/menus.ui:44 ddterm/pref/shortcuts.js:568
 msgid "Select All"
-msgstr ""
+msgstr "전체 선택"
 
 #: ddterm/app/ui/menus.ui:50 ddterm/pref/shortcuts.js:668
 msgid "Find"
-msgstr ""
+msgstr "찾기"
 
 #: ddterm/app/ui/menus.ui:56 ddterm/pref/shortcuts.js:573
 msgid "Reset"
-msgstr ""
+msgstr "초기화"
 
 #: ddterm/app/ui/menus.ui:60 ddterm/pref/shortcuts.js:578
 msgid "Reset and Clear"
-msgstr ""
+msgstr "초기화 및 화면 지우기"
 
 #: ddterm/app/ui/menus.ui:66
 msgid "Zoom"
-msgstr ""
+msgstr "확대/축소"
 
 #: ddterm/app/ui/menus.ui:68 ddterm/pref/shortcuts.js:683
 msgid "Zoom In"
-msgstr ""
+msgstr "확대"
 
 #: ddterm/app/ui/menus.ui:72 ddterm/pref/shortcuts.js:688
 msgid "Zoom Out"
-msgstr ""
+msgstr "축소"
 
 #: ddterm/app/ui/menus.ui:76 ddterm/pref/shortcuts.js:693
 msgid "Normal Size"
-msgstr ""
+msgstr "기본 크기"
 
 #: ddterm/app/ui/menus.ui:83
 msgid "Show in File Manager"
-msgstr ""
+msgstr "파일 관리자에서 열기"
 
 #: ddterm/app/ui/menus.ui:89
 msgid "New Tab"
-msgstr ""
+msgstr "새 탭"
 
 #: ddterm/app/ui/menus.ui:91 ddterm/pref/shortcuts.js:593
 msgid "New Tab Before Current Tab"
-msgstr ""
+msgstr "현재 탭 앞에 새 탭 생성"
 
 #: ddterm/app/ui/menus.ui:95 ddterm/pref/shortcuts.js:598
 msgid "New Tab After Current Tab"
-msgstr ""
+msgstr "현재 탭 뒤에 새 탭 생성"
 
 #: ddterm/app/ui/menus.ui:99 ddterm/app/ui/menus.ui:235
 #: ddterm/pref/shortcuts.js:588
 msgid "New Tab Before First Tab"
-msgstr ""
+msgstr "맨 앞에 새 탭 생성"
 
 #: ddterm/app/ui/menus.ui:103 ddterm/app/ui/menus.ui:239
 #: ddterm/pref/shortcuts.js:583
 msgid "New Tab After Last Tab"
-msgstr ""
+msgstr "맨 뒤에 새 탭 생성"
 
 #: ddterm/app/ui/menus.ui:110 ddterm/app/ui/menus.ui:255
 msgid "Layout"
-msgstr ""
+msgstr "레이아웃"
 
 #: ddterm/app/ui/menus.ui:113 ddterm/app/ui/menus.ui:258
 #: ddterm/app/ui/menus.ui:298
 msgid "No Split"
-msgstr ""
+msgstr "분할 없음"
 
 #: ddterm/app/ui/menus.ui:118 ddterm/app/ui/menus.ui:263
 #: ddterm/app/ui/menus.ui:303 ddterm/pref/shortcuts.js:628
 msgid "Split Horizontally"
-msgstr ""
+msgstr "가로로 분할"
 
 #: ddterm/app/ui/menus.ui:123 ddterm/app/ui/menus.ui:268
 #: ddterm/app/ui/menus.ui:308 ddterm/pref/shortcuts.js:633
 msgid "Split Vertically"
-msgstr ""
+msgstr "세로로 분할"
 
 #: ddterm/app/ui/menus.ui:130 ddterm/app/ui/menus.ui:275
 msgid "Move Tab to Other Pane"
-msgstr ""
+msgstr "다른 창으로 탭 이동"
 
 #: ddterm/app/ui/menus.ui:137 ddterm/pref/dialog.js:50
 msgid "Preferences"
-msgstr ""
+msgstr "설정"
 
 #: ddterm/app/ui/menus.ui:146 ddterm/pref/behavior.js:28
 msgid "Above All Windows"
-msgstr ""
+msgstr "모든 창 위에 표시"
 
 #: ddterm/app/ui/menus.ui:150 ddterm/pref/behavior.js:33
 msgid "On All Workspaces"
-msgstr ""
+msgstr "모든 작업 공간에 표시"
 
 #: ddterm/app/ui/menus.ui:154
 msgid "Maximize Window"
-msgstr ""
+msgstr "창 최대화"
 
 #: ddterm/app/ui/menus.ui:158 ddterm/pref/colors.js:592
 msgid "Transparent Background"
-msgstr ""
+msgstr "배경 투명하게"
 
 #: ddterm/app/ui/menus.ui:164 ddterm/pref/behavior.js:38
 msgid "Hide When Application Loses Focus"
-msgstr ""
+msgstr "다른 앱 사용 시 창 숨기기"
 
 #: ddterm/app/ui/menus.ui:168 ddterm/pref/behavior.js:43
 msgid "Hide When Esc Key Is Pressed"
-msgstr ""
+msgstr "Esc 키로 창 숨기기"
 
 #: ddterm/app/ui/menus.ui:174 ddterm/pref/scrolling.js:33
 msgid "Scroll On Output"
-msgstr ""
+msgstr "출력 시 자동 스크롤"
 
 #: ddterm/app/ui/menus.ui:178 ddterm/pref/scrolling.js:38
 msgid "Scroll On Keystroke"
-msgstr ""
+msgstr "키 입력 시 자동 스크롤"
 
 #: ddterm/app/ui/menus.ui:184 ddterm/pref/command.js:51
 msgid "Preserve Working Directory In New Tabs"
-msgstr ""
+msgstr "새 탭에서 현재 작업 디렉터리 유지"
 
 #: ddterm/app/ui/menus.ui:190
 msgid "Enable Keyboard Shortcuts"
-msgstr ""
+msgstr "단축키 사용"
 
 #: ddterm/app/ui/menus.ui:197 ddterm/app/ui/menus.ui:287
 msgid "Keep Open After Exit"
-msgstr ""
+msgstr "종료 후 창 유지"
 
 #: ddterm/app/ui/menus.ui:207 ddterm/shell/panelicon.js:72
 msgid "About ddterm"
-msgstr ""
+msgstr "ddterm 정보"
 
 #: ddterm/app/ui/menus.ui:220
 msgid "Use Default Tab Title"
-msgstr ""
+msgstr "기본 탭 제목 사용"
 
 #: ddterm/app/ui/menus.ui:227
 msgid "New Tab Before This Tab"
-msgstr ""
+msgstr "이 탭 앞에 새 탭 생성"
 
 #: ddterm/app/ui/menus.ui:231
 msgid "New Tab After This Tab"
-msgstr ""
+msgstr "이 탭 뒤에 새 탭 생성"
 
 #: ddterm/app/ui/menus.ui:245 ddterm/pref/shortcuts.js:618
 msgid "Move Tab to Previous Position"
-msgstr ""
+msgstr "탭을 이전 위치로 이동"
 
 #: ddterm/app/ui/menus.ui:249 ddterm/pref/shortcuts.js:623
 msgid "Move Tab to Next Position"
-msgstr ""
+msgstr "탭을 다음 위치로 이동"
 
 #: ddterm/pref/adw.js:48
 msgid "Window"
-msgstr ""
+msgstr "창"
 
 #: ddterm/pref/adw.js:73
 msgid "Terminal"
-msgstr ""
+msgstr "터미널"
 
 #: ddterm/pref/adw.js:106
 msgid "Keyboard Shortcuts"
-msgstr ""
+msgstr "단축키"
 
 #: ddterm/pref/adw.js:172
 msgid "Miscellaneous"
-msgstr ""
+msgstr "그 외"
 
 #: ddterm/pref/animation.js:26
 msgid "Animation"
-msgstr ""
+msgstr "애니메이션"
 
 #: ddterm/pref/animation.js:30
 msgid "_Override Default Window Animations"
-msgstr ""
+msgstr "_애니메이션 강제 설정"
 
 #: ddterm/pref/animation.js:34
 msgid "Disable"
-msgstr ""
+msgstr "비활성화"
 
 #: ddterm/pref/animation.js:35
 msgid "Linear tweening"
-msgstr ""
+msgstr "일정한 속도로"
 
 #: ddterm/pref/animation.js:36
 msgid "Quadratic tweening"
-msgstr ""
+msgstr "부드러운 효과"
 
 #: ddterm/pref/animation.js:37
 msgid "Quadratic tweening, inverse"
-msgstr ""
+msgstr "부드러운 감속 효과"
 
 #: ddterm/pref/animation.js:38
 msgid "Quadratic tweening, combining direct and inverse"
-msgstr ""
+msgstr "양방향 부드러운 효과"
 
 #: ddterm/pref/animation.js:39
 msgid "Cubic tweening"
-msgstr ""
+msgstr "역동적인 가속 효과"
 
 #: ddterm/pref/animation.js:40
 msgid "Cubic tweening, inverse"
-msgstr ""
+msgstr "매우 부드러운 감속 효과"
 
 #: ddterm/pref/animation.js:41
 msgid "Cubic tweening, combining direct and inverse"
-msgstr ""
+msgstr "매우 부드러운 효과"
 
 #: ddterm/pref/animation.js:42
 msgid "Quartic tweening"
-msgstr ""
+msgstr "강한 가속 효과"
 
 #: ddterm/pref/animation.js:43
 msgid "Quartic tweening, inverse"
-msgstr ""
+msgstr "강한 감속 효과"
 
 #: ddterm/pref/animation.js:44
 msgid "Quartic tweening, combining direct and inverse"
-msgstr ""
+msgstr "매우 강한 가감속 효과"
 
 #: ddterm/pref/animation.js:45
 msgid "Quintic tweening"
-msgstr ""
+msgstr "극적인 가속 효과"
 
 #: ddterm/pref/animation.js:46
 msgid "Quintic tweening, inverse"
-msgstr ""
+msgstr "극적인 감속 효과"
 
 #: ddterm/pref/animation.js:47
 msgid "Quintic tweening, combining direct and inverse"
-msgstr ""
+msgstr "매우 극적인 가감속 효과"
 
 #: ddterm/pref/animation.js:48
 msgid "Sinusoidal tweening"
-msgstr ""
+msgstr "매끄러운 감속 효과"
 
 #: ddterm/pref/animation.js:49
 msgid "Sinusoidal tweening, inverse"
-msgstr ""
+msgstr "매끄러운 감속 효과"
 
 #: ddterm/pref/animation.js:50
 msgid "Sinusoidal tweening, combining direct and inverse"
-msgstr ""
+msgstr "매끄러운 가감속 효과"
 
 #: ddterm/pref/animation.js:51
 msgid "Exponential tweening"
-msgstr ""
+msgstr "급격한 가속 효과"
 
 #: ddterm/pref/animation.js:52
 msgid "Exponential tweening, inverse"
-msgstr ""
+msgstr "급격한 감속 효과"
 
 #: ddterm/pref/animation.js:53
 msgid "Exponential tweening, combining direct and inverse"
-msgstr ""
+msgstr "급격한 가감속 효과"
 
 #: ddterm/pref/animation.js:54
 msgid "Circular tweening"
-msgstr ""
+msgstr "원형 가속 효과"
 
 #: ddterm/pref/animation.js:55
 msgid "Circular tweening, inverse"
-msgstr ""
+msgstr "원형 감속 효과"
 
 #: ddterm/pref/animation.js:56
 msgid "Circular tweening, combining direct and inverse"
-msgstr ""
+msgstr "원형 가감속 효과"
 
 #: ddterm/pref/animation.js:57
 msgid "Elastic tweening, with offshoot on start"
-msgstr ""
+msgstr "시작 스프링 효과"
 
 #: ddterm/pref/animation.js:58
 msgid "Elastic tweening, with offshoot on end"
-msgstr ""
+msgstr "끝 스프링 효과"
 
 #: ddterm/pref/animation.js:59
 msgid "Elastic tweening with offshoot on both ends"
-msgstr ""
+msgstr "양방향 스프링 효과"
 
 #: ddterm/pref/animation.js:60
 msgid "Overshooting cubic tweening, with backtracking on start"
-msgstr ""
+msgstr "시작 반동 효과"
 
 #: ddterm/pref/animation.js:61
 msgid "Overshooting cubic tweening, with backtracking on end"
-msgstr ""
+msgstr "끝 반동 효과"
 
 #: ddterm/pref/animation.js:63
 msgid "Overshooting cubic tweening, with backtracking on both ends"
-msgstr ""
+msgstr "양방향 반동 효과"
 
 #: ddterm/pref/animation.js:66
 msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on start"
-msgstr ""
+msgstr "시작 바운스 효과"
 
 #: ddterm/pref/animation.js:69
 msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on end"
-msgstr ""
+msgstr "끝 바운스 효과"
 
 #: ddterm/pref/animation.js:72
 msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on both ends"
-msgstr ""
+msgstr "양방향 바운스 효과"
 
 #: ddterm/pref/animation.js:103
 msgid "_Show Animation"
-msgstr ""
+msgstr "_나타나기 애니메이션"
 
 #: ddterm/pref/animation.js:114
 msgid "_Show Animation Duration"
-msgstr ""
+msgstr "_나타나기 애니메이션 지속 시간"
 
 #: ddterm/pref/animation.js:128
 msgid "_Hide Animation"
-msgstr ""
+msgstr "_사라지기 애니메이션"
 
 #: ddterm/pref/animation.js:139
 msgid "_Hide Animation Duration"
-msgstr ""
+msgstr "_사라지기 애니메이션 지속 시간"
 
 #: ddterm/pref/behavior.js:19
 msgid "Behavior"
-msgstr ""
+msgstr "동작 설정"
 
 #: ddterm/pref/behavior.js:23
 msgid "_Resizable"
-msgstr ""
+msgstr "_크기 조절"
 
 #: ddterm/pref/behavior.js:48
 msgid "Exclude From _Overview/Task Bar"
