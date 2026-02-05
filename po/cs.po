@@ -553,11 +553,11 @@ msgid "_Resizable"
 msgstr "_Měnitelná velikost"
 
 #: ddterm/pref/behavior.js:48
-msgid "Exclude from _overview/task bar"
+msgid "Exclude From _Overview/Task Bar"
 msgstr "Vynechat z _přehledu/panelu úloh"
 
 #: ddterm/pref/behavior.js:53
-msgid "Hide mouse _pointer when typing"
+msgid "Hide Mouse _Pointer When Typing"
 msgstr "Skrýt _ukazatel myši při psaní"
 
 #: ddterm/pref/behavior.js:59

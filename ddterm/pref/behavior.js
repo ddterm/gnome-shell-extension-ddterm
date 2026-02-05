@@ -45,12 +45,12 @@ export class BehaviorGroup extends PreferencesGroup {
 
         this.add_switch_row({
             key: 'window-skip-taskbar',
-            title: this.gettext('Exclude from _overview/task bar'),
+            title: this.gettext('Exclude From _Overview/Task Bar'),
         });
 
         this.add_switch_row({
             key: 'pointer-autohide',
-            title: this.gettext('Hide mouse _pointer when typing'),
+            title: this.gettext('Hide Mouse _Pointer When Typing'),
         });
 
         this.add_switch_row({

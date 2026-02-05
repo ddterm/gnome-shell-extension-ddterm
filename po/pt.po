@@ -561,11 +561,11 @@ msgid "_Resizable"
 msgstr "_Redimensionável"
 
 #: ddterm/pref/behavior.js:48
-msgid "Exclude from _overview/task bar"
+msgid "Exclude From _Overview/Task Bar"
 msgstr "Não incluir na Barra de Tarefas do Sistema"
 
 #: ddterm/pref/behavior.js:53
-msgid "Hide mouse _pointer when typing"
+msgid "Hide Mouse _Pointer When Typing"
 msgstr "Esconder cursor do mouse ao digitar"
 
 #: ddterm/pref/behavior.js:59

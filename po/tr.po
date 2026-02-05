@@ -559,11 +559,11 @@ msgid "_Resizable"
 msgstr "_Yeniden boyutlandırılabilir"
 
 #: ddterm/pref/behavior.js:48
-msgid "Exclude from _overview/task bar"
+msgid "Exclude From _Overview/Task Bar"
 msgstr "_Genel bakış/görev çubuğu'ndan hariç tut"
 
 #: ddterm/pref/behavior.js:53
-msgid "Hide mouse _pointer when typing"
+msgid "Hide Mouse _Pointer When Typing"
 msgstr "Yazarken fare _imlecini gizle"
 
 #: ddterm/pref/behavior.js:59
