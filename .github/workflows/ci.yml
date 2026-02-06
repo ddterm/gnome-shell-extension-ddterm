@@ -108,12 +108,15 @@ jobs:
     timeout-minutes: 5
 
     steps:
-      - run: sudo apt-get update
-      - run: sudo apt-get install -y --no-install-recommends tox
-
       - name: Checkout
         id: checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Configure APT
+        uses: ./.github/actions/apt-init
+
+      - id: apt
+        run: sudo apt-get install -y --no-install-recommends tox
 
       - name: Install development dependencies from npm
         id: npm
@@ -125,7 +128,7 @@ jobs:
         uses: ./.github/actions/tox-preinstall
         with:
           environments: reuse,flake8,meson-format,pip-compile
-        if: ${{ !cancelled() && steps.checkout.outcome == 'success' }}
+        if: ${{ !cancelled() && steps.apt.outcome == 'success' }}
 
       - name: Lint JS code with ESLint
         uses: ./.github/actions/eslint
@@ -172,11 +175,13 @@ jobs:
       version: ${{ steps.version.outputs.version }}
 
     steps:
-      - run: sudo apt-get update
-      - run: sudo apt-get install -y --no-install-recommends tox colorized-logs gjs gettext desktop-file-utils
-
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Configure APT
+        uses: ./.github/actions/apt-init
+
+      - run: sudo apt-get install -y --no-install-recommends tox colorized-logs gjs gettext desktop-file-utils
 
       - name: Install meson
         uses: ./.github/actions/setup-meson
@@ -231,11 +236,13 @@ jobs:
     timeout-minutes: 5
 
     steps:
-      - run: sudo apt-get update
-      - run: sudo apt-get install -y --no-install-recommends tox colorized-logs gettext libgtk-3-bin
-
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Configure APT
+        uses: ./.github/actions/apt-init
+
+      - run: sudo apt-get install -y --no-install-recommends tox colorized-logs gettext libgtk-3-bin
 
       - name: Install meson
         uses: ./.github/actions/setup-meson
@@ -294,11 +301,13 @@ jobs:
     timeout-minutes: 15
 
     steps:
-      - run: sudo apt-get update
-      - run: sudo apt-get install -y --no-install-recommends tox python3-gi
-
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Configure APT
+        uses: ./.github/actions/apt-init
+
+      - run: sudo apt-get install -y --no-install-recommends tox python3-gi
 
       - name: Download extension bundle
         uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
@@ -371,11 +380,13 @@ jobs:
     timeout-minutes: 15
 
     steps:
-      - run: sudo apt-get update
-      - run: sudo apt-get install -y --no-install-recommends tox python3-gi
-
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Configure APT
+        uses: ./.github/actions/apt-init
+
+      - run: sudo apt-get install -y --no-install-recommends tox python3-gi
 
       - name: Download extension package
         uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
