@@ -201,6 +201,13 @@ function bind_keys(settings, app_control, rollback) {
     });
 }
 
+function is_wayland_compositor() {
+    if (!Meta.is_wayland_compositor)  // Removed in GNOME 50 - Wayland-only
+        return true;
+
+    return Meta.is_wayland_compositor();
+}
+
 class EnabledExtension {
     #disable_callbacks = [];
     #logger;
@@ -259,7 +266,7 @@ class EnabledExtension {
             this.service.unwatch();
         });
 
-        if (Meta.is_wayland_compositor()) {
+        if (is_wayland_compositor()) {
             this.settings.bind(
                 'force-x11-gdk-backend',
                 this.service,
