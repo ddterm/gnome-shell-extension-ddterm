@@ -544,7 +544,7 @@ msgstr "Animation d'apparition"
 
 #: ddterm/pref/animation.js:114
 msgid "_Show Animation Duration"
-msgstr "Durée de l'animation de disparition"
+msgstr "Durée de l'animation d'apparition"
 
 #: ddterm/pref/animation.js:128
 msgid "_Hide Animation"
@@ -552,7 +552,7 @@ msgstr "Animation de disparition"
 
 #: ddterm/pref/animation.js:139
 msgid "_Hide Animation Duration"
-msgstr "Durée de l'animation d'apparition"
+msgstr "Durée de l'animation de disparition"
 
 #: ddterm/pref/behavior.js:19
 msgid "Behavior"
