@@ -140,7 +140,7 @@ function create_panel_icon(settings, window_matcher, app_control, icon, gettext_
 
 function install(extension, rollback) {
     const installer = new Installer(extension.launcher_path);
-    installer.install();
+    const app_info = installer.install();
 
     if (GObject.signal_lookup('shutdown', Shell.Global)) {
         const shutdown_handler = global.connect('shutdown', () => {
@@ -165,6 +165,8 @@ function install(extension, rollback) {
 
         installer.uninstall();
     });
+
+    return app_info;
 }
 
 function bind_keys(settings, app_control, rollback) {
@@ -239,6 +241,8 @@ class EnabledExtension {
             )
         ));
 
+        const app_info = install(this.extension, rollback);
+
         this.notifications = new Notifications({
             icon: this.symbolic_icon,
             gettext_domain: this.extension,
@@ -251,7 +255,7 @@ class EnabledExtension {
         this.service = new Service({
             bus: Gio.DBus.session,
             bus_name: APP_ID,
-            executable: this.extension.launcher_path,
+            app_info,
             subprocess: this.extension.app_process,
         });
 
@@ -287,19 +291,14 @@ class EnabledExtension {
         });
 
         this.service.connect('error', (service, ex) => {
-            const log_collector = service.subprocess?.log_collector;
-
-            if (!log_collector) {
-                this.notifications.show_error(ex);
-                return;
-            }
-
-            log_collector.collect().then(output => {
-                this.notifications.show_error(ex, output);
-            }).catch(ex2 => {
-                logError(ex2, 'Failed to collect logs');
-                this.notifications.show_error(ex);
-            });
+            (service.subprocess?.get_logs() ?? Promise.resolve()).then(
+                output => {
+                    this.notifications.show_error(ex, output);
+                }, ex2 => {
+                    logError(ex2, 'Failed to collect logs');
+                    this.notifications.show_error(ex);
+                }
+            );
         });
 
         this.window_geometry = new WindowGeometry();
@@ -412,8 +411,6 @@ class EnabledExtension {
             this.extension,
             rollback
         );
-
-        install(this.extension, rollback);
     }
 
     #set_skip_taskbar() {

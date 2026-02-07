@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 util_js_out_files = []
-util_js_src_files = files('displayconfig.js')
+util_js_src_files = files('displayconfig.js', 'promise.js')
 
 if get_option('typelib_installer')
   typelib_installer = subproject('gjs-typelib-installer')
