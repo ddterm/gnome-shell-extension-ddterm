@@ -29,8 +29,14 @@ services:
   fedora-43:
     image: ghcr.io/ddterm/gnome-shell-image/fedora-43:2026.02.07.1
 
+  fedora-44:
+    image: ghcr.io/ddterm/gnome-shell-image/fedora-44:2026.02.07.1
+
   archlinux:
     image: ghcr.io/ddterm/gnome-shell-image/archlinux:2026.02.07.1
+
+  archlinux-unstable:
+    image: ghcr.io/ddterm/gnome-shell-image/archlinux-unstable:2026.02.07.1
 
   opensuse-tumbleweed:
     image: ghcr.io/ddterm/gnome-shell-image/opensuse-tumbleweed:2026.02.07.1

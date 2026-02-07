@@ -126,7 +126,7 @@ def compute_target_rect(window_size, window_position, workarea, round_to=1):
 def resize_point(frame_rect, window_pos):
     x = frame_rect.x
     y = frame_rect.y
-    edge_offset = 3
+    edge_offset = 2
 
     if window_pos == WindowPosition.LEFT or window_pos == WindowPosition.RIGHT:
         y += math.floor(frame_rect.height / 2)
