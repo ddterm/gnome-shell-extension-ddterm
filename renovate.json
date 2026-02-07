@@ -47,7 +47,8 @@
       "extends": [
         "schedule:automergeWeekly"
       ],
-      "maxMajorIncrement": 0
+      "maxMajorIncrement": 0,
+      "rebaseWhen": "conflicted"
     },
     {
       "matchPackageNames": [
