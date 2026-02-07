@@ -156,6 +156,10 @@ jobs:
         uses: ./.github/actions/pict
         if: ${{ !cancelled() && steps.checkout.outcome == 'success' }}
 
+      - name: Add flake8 to PATH
+        run: echo "$GITHUB_WORKSPACE/.tox/flake8/bin" >>"$GITHUB_PATH"
+        if: ${{ !cancelled() && steps.pip.outcome == 'success' }}
+
       - name: Check GitHub Actions workflows
         uses: ./.github/actions/actionlint
         if: ${{ !cancelled() && steps.checkout.outcome == 'success' }}
