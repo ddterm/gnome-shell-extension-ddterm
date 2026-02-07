@@ -20,7 +20,7 @@ runs:
         ACTIONLINT_VERSION: ${{ inputs.actionlint-version }}
 
       run: |
-        curl -LO "https://github.com/rhysd/actionlint/releases/download/v${ACTIONLINT_VERSION}/actionlint_${ACTIONLINT_VERSION}_linux_amd64.tar.gz"
+        curl -fsLO "https://github.com/rhysd/actionlint/releases/download/v${ACTIONLINT_VERSION}/actionlint_${ACTIONLINT_VERSION}_linux_amd64.tar.gz"
         mkdir -p "actionlint-${ACTIONLINT_VERSION}"
         tar -C "actionlint-${ACTIONLINT_VERSION}" -xf "actionlint_${ACTIONLINT_VERSION}_linux_amd64.tar.gz"
         echo "$(pwd)/actionlint-${ACTIONLINT_VERSION}" >>"$GITHUB_PATH"
@@ -32,7 +32,7 @@ runs:
         ACTIONLINT_VERSION: ${{ inputs.actionlint-version }}
 
       run: |
-        curl -LO "https://raw.githubusercontent.com/rhysd/actionlint/v${ACTIONLINT_VERSION}/.github/actionlint-matcher.json"
+        curl -fsLO "https://raw.githubusercontent.com/rhysd/actionlint/v${ACTIONLINT_VERSION}/.github/actionlint-matcher.json"
         echo "::add-matcher::$(pwd)/actionlint-matcher.json"
 
     - run: actionlint -verbose -color
