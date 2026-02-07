@@ -29,19 +29,24 @@ gettext_targets = i18n.gettext(
   install_dir: extension_dir / 'locale',
 )
 
-alias_target('locales', gettext_targets[0])
-alias_target('pot', gettext_targets[1])
-alias_target('msgmerge', gettext_targets[2])
-
 bundle += gettext_targets[0]
 
-run_target(
-  'pot-set-year',
-  command: [
-    'sh',
-    '-c',
-    'sed -i "s/^# Copyright (C) YEAR /# Copyright (C) $(date -u +%Y) /" "$0"',
-    files(f'@gettext_domain@.pot'),
+alias_target('locales', gettext_targets[0])
+
+# HACK: run targets are run serially, at least with ninja.
+alias_target(
+  'pot',
+  [
+    gettext_targets[1],
+    run_target(
+      'pot-set-year',
+      command: [
+        'sh',
+        '-c',
+        'sed -i "s/^# Copyright (C) YEAR /# Copyright (C) $(date -u +%Y) /" "$0"',
+        files(f'@gettext_domain@.pot'),
+      ],
+    ),
   ],
 )
 
@@ -61,3 +66,36 @@ run_target(
     gettext_args,
   ],
 )
+
+msgmerge_targets = []
+
+# https://github.com/mesonbuild/meson/blob/master/mesonbuild/scripts/gettext.py
+foreach linguas_line : fs.read('LINGUAS').splitlines()
+  linguas_line = linguas_line.strip()
+
+  if linguas_line == '' or linguas_line.startswith('#')
+    continue
+  endif
+
+  foreach linguas_lang : linguas_line.split()
+    if linguas_lang == ''
+      continue
+    endif
+
+    msgmerge_targets += [
+      run_target(
+        f'msgmerge-@linguas_lang@',
+        command: [
+          msgmerge,
+          '--no-wrap',
+          '--update',
+          '--previous',
+          files(f'@linguas_lang@.po'),
+          files(f'@gettext_domain@.pot'),
+        ],
+      ),
+    ]
+  endforeach
+endforeach
+
+alias_target('msgmerge', msgmerge_targets)

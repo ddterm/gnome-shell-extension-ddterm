@@ -249,12 +249,12 @@ jobs:
         working-directory: build
 
       - name: Update .pot file
-        run: ninja -j1 pot && ninja -j1 pot-set-year
+        run: ninja -j1 pot
         working-directory: build
 
       - name: Update .po files
-        run: for pofile in ./*.po; do msgmerge --no-wrap --update --previous "$pofile" ./*.pot; done
-        working-directory: po
+        run: ninja -j1 msgmerge
+        working-directory: build
 
       - name: Diff
         id: diff
