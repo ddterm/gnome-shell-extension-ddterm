@@ -66,7 +66,6 @@ summary(
   section: 'System-wide installation',
 )
 
-glib_compile_schemas_tool = find_program('glib-compile-schemas')
 xsltproc = find_program('xsltproc')
 
 desktop_file_validate_tool = find_program(
