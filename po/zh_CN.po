@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-05 03:03+0200\n"
+"POT-Creation-Date: 2026-02-07 08:36+0000\n"
 "PO-Revision-Date: 2025-09-06 08:02+0000\n"
 "Last-Translator: yuh <yuhldr@qq.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/zh_Hans/>\n"
@@ -18,25 +18,25 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 5.13.1-rc\n"
 
-#: data/com.github.amezin.ddterm.desktop.in.in:8 ddterm/app/appwindow.js:146
+#: data/com.github.amezin.ddterm.desktop.in.in:9 ddterm/app/appwindow.js:146
 #: ddterm/shell/notifications.js:238 ddterm/shell/panelicon.js:32
 msgid "ddterm"
 msgstr "ddterm"
 
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
-#: data/com.github.amezin.ddterm.desktop.in.in:10
+#: data/com.github.amezin.ddterm.desktop.in.in:11
 msgid "shell;prompt;command;commandline;cmd;run;terminal;"
 msgstr "shell;提示;命令;命令行;cmd;运行;终端;"
 
-#: data/com.github.amezin.ddterm.desktop.in.in:11
+#: data/com.github.amezin.ddterm.desktop.in.in:12
 msgid "Another drop down terminal extension for GNOME Shell"
 msgstr "GNOME Shell的另一个下拉式终端扩展"
 
-#: data/com.github.amezin.ddterm.desktop.in.in:25
+#: data/com.github.amezin.ddterm.desktop.in.in:26
 msgid "Toggle"
 msgstr "切换按钮"
 
-#: data/com.github.amezin.ddterm.desktop.in.in:29 ddterm/app/ui/menus.ui:140
+#: data/com.github.amezin.ddterm.desktop.in.in:30 ddterm/app/ui/menus.ui:140
 #: ddterm/app/ui/menus.ui:282 ddterm/shell/panelicon.js:64
 msgid "Preferences…"
 msgstr "首选项…"

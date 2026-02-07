@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-05 03:03+0200\n"
+"POT-Creation-Date: 2026-02-07 08:36+0000\n"
 "PO-Revision-Date: 2025-09-18 04:23+0000\n"
 "Last-Translator: Ivan Vantu5z <vantu5z@mail.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/ru/>\n"
@@ -24,25 +24,25 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Weblate 5.14-dev\n"
 
-#: data/com.github.amezin.ddterm.desktop.in.in:8 ddterm/app/appwindow.js:146
+#: data/com.github.amezin.ddterm.desktop.in.in:9 ddterm/app/appwindow.js:146
 #: ddterm/shell/notifications.js:238 ddterm/shell/panelicon.js:32
 msgid "ddterm"
 msgstr "ddterm"
 
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
-#: data/com.github.amezin.ddterm.desktop.in.in:10
+#: data/com.github.amezin.ddterm.desktop.in.in:11
 msgid "shell;prompt;command;commandline;cmd;run;terminal;"
 msgstr "оболочка;подсказка;команда;командная строка;cmd;запустить;терминал;"
 
-#: data/com.github.amezin.ddterm.desktop.in.in:11
+#: data/com.github.amezin.ddterm.desktop.in.in:12
 msgid "Another drop down terminal extension for GNOME Shell"
 msgstr "Еще одно расширение выпадающего терминала для GNOME Shell"
 
-#: data/com.github.amezin.ddterm.desktop.in.in:25
+#: data/com.github.amezin.ddterm.desktop.in.in:26
 msgid "Toggle"
 msgstr "Переключатель"
 
-#: data/com.github.amezin.ddterm.desktop.in.in:29 ddterm/app/ui/menus.ui:140
+#: data/com.github.amezin.ddterm.desktop.in.in:30 ddterm/app/ui/menus.ui:140
 #: ddterm/app/ui/menus.ui:282 ddterm/shell/panelicon.js:64
 msgid "Preferences…"
 msgstr "Параметры…"
