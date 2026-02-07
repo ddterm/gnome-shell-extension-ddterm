@@ -9,37 +9,37 @@
 
 services:
   alpine-3.20:
-    image: ghcr.io/ddterm/gnome-shell-image/alpine-3.20:2026.02.06.0
+    image: ghcr.io/ddterm/gnome-shell-image/alpine-3.20:2026.02.07.1
 
   alpine-3.21:
-    image: ghcr.io/ddterm/gnome-shell-image/alpine-3.21:2026.02.06.0
+    image: ghcr.io/ddterm/gnome-shell-image/alpine-3.21:2026.02.07.1
 
   alpine-3.22:
-    image: ghcr.io/ddterm/gnome-shell-image/alpine-3.22:2026.02.06.0
+    image: ghcr.io/ddterm/gnome-shell-image/alpine-3.22:2026.02.07.1
 
   alpine-3.23:
-    image: ghcr.io/ddterm/gnome-shell-image/alpine-3.23:2026.02.06.0
+    image: ghcr.io/ddterm/gnome-shell-image/alpine-3.23:2026.02.07.1
 
   centos-10:
-    image: ghcr.io/ddterm/gnome-shell-image/centos-10:2026.02.06.0
+    image: ghcr.io/ddterm/gnome-shell-image/centos-10:2026.02.07.1
 
   fedora-42:
-    image: ghcr.io/ddterm/gnome-shell-image/fedora-42:2026.02.06.0
+    image: ghcr.io/ddterm/gnome-shell-image/fedora-42:2026.02.07.1
 
   fedora-43:
-    image: ghcr.io/ddterm/gnome-shell-image/fedora-43:2026.02.06.0
+    image: ghcr.io/ddterm/gnome-shell-image/fedora-43:2026.02.07.1
 
   archlinux:
-    image: ghcr.io/ddterm/gnome-shell-image/archlinux:2026.02.06.0
+    image: ghcr.io/ddterm/gnome-shell-image/archlinux:2026.02.07.1
 
   opensuse-tumbleweed:
-    image: ghcr.io/ddterm/gnome-shell-image/opensuse-tumbleweed:2026.02.06.0
+    image: ghcr.io/ddterm/gnome-shell-image/opensuse-tumbleweed:2026.02.07.1
 
   debian-13:
-    image: ghcr.io/ddterm/gnome-shell-image/debian-13:2026.02.06.0
+    image: ghcr.io/ddterm/gnome-shell-image/debian-13:2026.02.07.1
 
   ubuntu-24.04:
-    image: ghcr.io/ddterm/gnome-shell-image/ubuntu-24.04:2026.02.06.0
+    image: ghcr.io/ddterm/gnome-shell-image/ubuntu-24.04:2026.02.07.1
 
   ubuntu-25.10:
-    image: ghcr.io/ddterm/gnome-shell-image/ubuntu-25.10:2026.02.06.0
+    image: ghcr.io/ddterm/gnome-shell-image/ubuntu-25.10:2026.02.07.1
