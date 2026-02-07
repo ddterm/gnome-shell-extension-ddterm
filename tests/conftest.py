@@ -277,6 +277,8 @@ def container(tmp_path_factory, request):
         '--user=0',
         '--cgroupns=private',
         '--pids-limit=-1',
+        '--shm-size=0',
+        '--shm-size-systemd=0',
         f'--volume={SRC_DIR}:{SRC_DIR}:ro',
         f'--volume={os.getcwd()}:{os.getcwd()}:ro',
         f'--volume={tmp_path_factory.getbasetemp()}:{tmp_path_factory.getbasetemp()}',
