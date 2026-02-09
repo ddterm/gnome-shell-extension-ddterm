@@ -48,6 +48,13 @@ export const DisplayConfig = GObject.registerClass({
             2,
             0
         ),
+        'error': GObject.ParamSpec.boxed(
+            'error',
+            null,
+            null,
+            GObject.ParamFlags.READABLE,
+            GLib.Error
+        ),
     },
 }, class DDTermDisplayConfig extends GObject.Object {
     #current_state = null;
@@ -55,6 +62,7 @@ export const DisplayConfig = GObject.registerClass({
     #layout_mode = 0;
     #serial = -1;
     #change_handler;
+    #error = null;
 
     constructor(params) {
         super(params);
@@ -66,16 +74,42 @@ export const DisplayConfig = GObject.registerClass({
             OBJECT_PATH,
             null,
             Gio.DBusSignalFlags.NONE,
-            () => this.update_async()
+            this.update.bind(this)
         );
+
+        this.update();
     }
 
-    static new() {
-        const obj = new DisplayConfig({ dbus_connection: Gio.DBus.session });
+    init_async() {
+        const handlers = [];
 
-        obj.update_async();
+        return new Promise((resolve, reject) => {
+            if (this.#error)
+                reject(this.#error);
 
-        return obj;
+            if (this.#current_state)
+                resolve(this.#current_state);
+
+            handlers.push(this.connect('notify::error', () => {
+                if (this.#error)
+                    reject(this.#error);
+            }));
+
+            handlers.push(this.connect('notify::current-state', () => {
+                if (this.#current_state)
+                    resolve(this.#current_state);
+            }));
+        }).finally(() => {
+            while (handlers.length)
+                this.disconnect(handlers.pop());
+        });
+    }
+
+    static new(dbus_connection = null) {
+        if (!dbus_connection)
+            dbus_connection = Gio.DBus.session;
+
+        return new DisplayConfig({ dbus_connection });
     }
 
     get current_state() {
@@ -84,6 +118,10 @@ export const DisplayConfig = GObject.registerClass({
 
     get layout_mode() {
         return this.#layout_mode;
+    }
+
+    get error() {
+        return this.#error;
     }
 
     create_monitor_list() {
@@ -99,26 +137,7 @@ export const DisplayConfig = GObject.registerClass({
         return monitors;
     }
 
-    update_sync() {
-        this.#cancellable?.cancel();
-        this.#cancellable = new Gio.Cancellable();
-
-        this.#parse_current_state(
-            this.dbus_connection.call_sync(
-                BUS_NAME,
-                OBJECT_PATH,
-                INTERFACE_NAME,
-                'GetCurrentState',
-                null,
-                CURRENT_STATE_TYPE,
-                Gio.DBusCallFlags.NO_AUTO_START,
-                -1,
-                this.#cancellable
-            )
-        );
-    }
-
-    update_async() {
+    update() {
         this.#cancellable?.cancel();
         this.#cancellable = new Gio.Cancellable();
 
@@ -136,9 +155,13 @@ export const DisplayConfig = GObject.registerClass({
                 try {
                     this.#parse_current_state(source.call_finish(result));
                 } catch (error) {
-                    if (!(error instanceof GLib.Error &&
-                          error.matches(Gio.io_error_quark(), Gio.IOErrorEnum.CANCELLED)))
-                        logError(error);
+                    if (error instanceof GLib.Error &&
+                        error.matches(Gio.io_error_quark(), Gio.IOErrorEnum.CANCELLED))
+                        return;
+
+                    logError(error);
+                    this.#error = error;
+                    this.notify(error);
                 }
             }
         );
@@ -146,6 +169,7 @@ export const DisplayConfig = GObject.registerClass({
 
     #parse_current_state(state) {
         const serial = state.get_child_value(0).get_uint32();
+
         if (serial <= this.#serial)
             return;
 
@@ -163,6 +187,11 @@ export const DisplayConfig = GObject.registerClass({
                 this.#layout_mode = layout_mode;
                 this.notify('layout-mode');
             }
+
+            if (this.#error) {
+                this.#error = null;
+                this.notify('error');
+            }
         } finally {
             this.thaw_notify();
         }
@@ -175,6 +204,14 @@ export const DisplayConfig = GObject.registerClass({
         }
 
         this.#cancellable?.cancel();
+
+        this.#error = GLib.Error.new_literal(
+            Gio.io_error_quark(),
+            Gio.IOErrorEnum.CANCELLED,
+            'Unsubscribed from notifications'
+        );
+
+        this.notify('error');
     }
 });
 
