@@ -429,7 +429,7 @@ class CommonTests:
         shell_dbus_interface,
     ):
         if workspaces_only_on_primary and primary_monitor != window_monitor:
-            if shell_dbus_interface.ShellVersion[0] == 49:
+            if shell_dbus_interface.ShellVersion[0] >= 49:
                 return {True, False}
             else:
                 return {True}
