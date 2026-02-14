@@ -6,13 +6,13 @@
 # gallegonovato <fran-carro@hotmail.es>, 2023, 2024.
 # Patricio Carrau <66135366+DuckyCB@users.noreply.github.com>, 2024.
 # Patricio Carrau <duckycb@proton.me>, 2024, 2025.
-# Francisco Serrador <fserrador@gmail.com>, 2025.
+# Francisco Serrador <fserrador@gmail.com>, 2025, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-02-07 08:36+0000\n"
-"PO-Revision-Date: 2025-11-18 04:55+0000\n"
+"PO-Revision-Date: 2026-02-14 17:09+0000\n"
 "Last-Translator: Francisco Serrador <fserrador@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/es/>\n"
 "Language: es\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.15-dev\n"
+"X-Generator: Weblate 5.16-dev\n"
 
 #: data/com.github.amezin.ddterm.desktop.in.in:9 ddterm/app/appwindow.js:146
 #: ddterm/shell/notifications.js:238 ddterm/shell/panelicon.js:32
@@ -169,10 +169,8 @@ msgid "Set Custom Tab Title"
 msgstr "Establecer título de la pestaña personalizado"
 
 #: ddterm/app/tablabel.js:90
-#, fuzzy
-#| msgid "Set tab title"
 msgid "Tab _Title"
-msgstr "Renombrar el título de la pestaña"
+msgstr "_Título de pestaña"
 
 #: ddterm/app/tablabel.js:104 ddterm/app/ui/menus.ui:215
 msgid "Use Custom Tab Title"
@@ -746,7 +744,7 @@ msgstr "Comando personalizado"
 
 #: ddterm/pref/command.js:35
 msgid "Custom Command"
-msgstr "Comando personalizado"
+msgstr "Comando Personalizado"
 
 #: ddterm/pref/compatibility.js:20
 msgid "Compatibility"
