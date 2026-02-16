@@ -2,31 +2,40 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-util_js_out_files = []
-util_js_src_files = files('displayconfig.js')
-
 if get_option('typelib_installer')
-  typelib_installer = subproject('gjs-typelib-installer')
+  typelib_installer_subproject = subproject(
+    'gjs-typelib-installer',
+    default_options: {
+      'output_name': 'gjs-typelib-installer.js',
+      'install_dir': extension_dir / 'ddterm' / 'util',
+      'tests': false,
+      'typelibs': [
+        'Gtk-3.0',
+        'Gdk-3.0',
+        'Pango-1.0',
+        'Vte-2.91',
+        'Handy-1',
+      ],
+    },
+  )
 
-  util_js_out_files += custom_target(
-    command: [
-      gjs,
-      typelib_installer.get_variable('generate_installer_tool'),
-      typelib_installer.get_variable('installer_source'),
-      '@OUTPUT@',
-      'Gtk=3.0',
-      'Gdk=3.0',
-      'Pango=1.0',
-      'Vte=2.91',
-      'Handy=1',
-    ],
-    output: 'gjs-typelib-installer.js',
+  typelib_installer_file = typelib_installer_subproject.get_variable('output')
+else
+  typelib_installer_file = fs.copyfile(
+    'gjs-typelib-installer.js',
     install: true,
     install_dir: extension_dir / 'ddterm' / 'util',
   )
-else
-  util_js_src_files += files('gjs-typelib-installer.js')
 endif
+
+bundle_command += [
+  '--entry',
+  typelib_installer_file,
+  'ddterm' / 'util' / 'gjs-typelib-installer.js',
+]
+
+util_js_out_files = []
+util_js_src_files = files('displayconfig.js')
 
 foreach util_js_src_file : util_js_src_files
   util_js_out_files += fs.copyfile(

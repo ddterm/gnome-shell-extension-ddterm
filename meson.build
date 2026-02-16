@@ -155,6 +155,8 @@ foreach f : ['extension.js', 'prefs.js', 'AUTHORS']
   bundle += fs.copyfile(f, install: true, install_dir: extension_dir)
 endforeach
 
+bundle_command = [make_zip_command]
+
 subdir('bin')
 subdir('data')
 subdir('schemas')
@@ -167,8 +169,6 @@ bundle_from_srcdir = files(
   'LICENSES' / 'MIT.txt',
   'REUSE.toml',
 )
-
-bundle_command = [make_zip_command]
 
 foreach bundle_entry : bundle
   bundle_command += [
