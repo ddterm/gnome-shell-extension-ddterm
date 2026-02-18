@@ -12,7 +12,7 @@ import Vte from 'gi://Vte';
 import Gettext from 'gettext';
 
 import { SearchBar } from './search.js';
-import { TabLabel, TabTitleDialog } from './tablabel.js';
+import { TabTitleDialog } from './tablabel.js';
 import { Terminal, TerminalCommand, WIFEXITED, WEXITSTATUS, WTERMSIG } from './terminal.js';
 import { TerminalSettings } from './terminalsettings.js';
 
@@ -27,13 +27,6 @@ export const TerminalPage = GObject.registerClass({
         ),
         'terminal-menu': GObject.ParamSpec.object(
             'terminal-menu',
-            null,
-            null,
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-            Gio.MenuModel
-        ),
-        'tab-menu': GObject.ParamSpec.object(
-            'tab-menu',
             null,
             null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
@@ -120,6 +113,10 @@ export const TerminalPage = GObject.registerClass({
             param_types: [String],
         },
         'move-to-other-pane-request': {},
+        'close-request': {},
+        'close-finish': {
+            param_types: [Boolean],
+        },
         'session-update': {},
     },
 }, class DDTermTerminalPage extends Gtk.Box {
@@ -175,7 +172,7 @@ export const TerminalPage = GObject.registerClass({
                 this.spawn();
                 break;
             case 1:
-                this.destroy();
+                this.emit('close-request');
                 break;
             }
         });
@@ -225,26 +222,6 @@ export const TerminalPage = GObject.registerClass({
                 this.terminal.grab_focus();
         });
 
-        this.tab_label = new TabLabel({
-            visible_window: false,
-            context_menu_model: this.tab_menu,
-        });
-
-        const tab_label_destroy_handler =
-            this.connect('destroy', () => this.tab_label.destroy());
-
-        this.tab_label.connect('destroy', () => {
-            this.disconnect(tab_label_destroy_handler);
-        });
-        this.tab_label.connect('close', () => this.close());
-
-        this.bind_property(
-            'title',
-            this.tab_label,
-            'label',
-            GObject.BindingFlags.SYNC_CREATE
-        );
-
         this.connect('notify::terminal-title', () => this.notify('title'));
         this.connect('notify::switch-shortcut', () => this.notify('title'));
 
@@ -263,7 +240,7 @@ export const TerminalPage = GObject.registerClass({
         const page_actions = new Gio.SimpleActionGroup();
 
         const close_action = new Gio.SimpleAction({ name: 'close' });
-        close_action.connect('activate', () => this.close());
+        close_action.connect('activate', () => this.emit('close-request'));
         page_actions.add_action(close_action);
 
         const keep_open_action = new Gio.PropertyAction({
@@ -347,7 +324,6 @@ export const TerminalPage = GObject.registerClass({
         page_actions.add_action(use_custom_title_action);
 
         this.insert_action_group('page', page_actions);
-        this.tab_label.insert_action_group('page', page_actions);
 
         const terminal_actions = new Gio.SimpleActionGroup();
 
@@ -508,7 +484,7 @@ export const TerminalPage = GObject.registerClass({
             if (this.keep_open_after_exit)
                 this.set_exit_status_banner(status);
             else
-                this.destroy();
+                this.emit('close-request');
         });
 
         const emit_session_update = () => this.emit('session-update');
@@ -643,7 +619,7 @@ export const TerminalPage = GObject.registerClass({
 
     close() {
         if (!this.terminal.has_foreground_process()) {
-            this.destroy();
+            this.emit('close-finish', true);
             return;
         }
 
@@ -667,10 +643,9 @@ export const TerminalPage = GObject.registerClass({
         remove_button.get_style_context().add_class('destructive-action');
 
         message.connect('response', (_, response_id) => {
-            if (response_id === Gtk.ResponseType.ACCEPT)
-                this.destroy();
-
             message.destroy();
+
+            this.emit('close-finish', response_id === Gtk.ResponseType.ACCEPT);
         });
 
         message.set_default_response(Gtk.ResponseType.ACCEPT);

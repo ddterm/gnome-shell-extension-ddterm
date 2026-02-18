@@ -4,6 +4,6 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-notebook header button image {
+tabbar button image {
     -gtk-icon-style: symbolic;
 }

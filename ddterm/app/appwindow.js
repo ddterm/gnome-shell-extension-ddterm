@@ -184,12 +184,10 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
         this.connect('notify::is-split', () => this.notify('split-layout'));
 
         const move_page = (child, src, dst) => {
-            const label = src.get_tab_label(child);
             this.freeze_notify();
 
             try {
-                src.remove(child);
-                dst.insert_page(child, label, -1);
+                src.transfer_page(child, dst);
             } finally {
                 this.thaw_notify();
             }
@@ -376,21 +374,19 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
 
     create_notebook() {
         const notebook = new Notebook({
+            visible: false,
             terminal_settings: this.terminal_settings,
-            scrollable: true,
-            group_name: 'ddtermnotebook',
             menus: this.menus,
         });
 
         const update_notebook_visibility = () => {
-            notebook.visible = notebook.get_n_pages() > 0;
+            notebook.visible = notebook.n_pages > 0;
 
             if (!notebook.get_visible())
                 this.grab_focus();
         };
 
-        notebook.connect('page-added', update_notebook_visibility);
-        notebook.connect('page-removed', update_notebook_visibility);
+        notebook.connect('notify::n-pages', update_notebook_visibility);
 
         notebook.connect('notify::visible', () => {
             this.freeze_notify();
@@ -411,7 +407,7 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
             if (this.is_split)
                 return;
 
-            if (notebook.get_n_pages() > 1) {
+            if (notebook.n_pages > 1) {
                 notebook.emit('move-to-other-pane', page);
             } else {
                 const new_page = notebook.new_page();
@@ -615,15 +611,10 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
         this.freeze_notify();
 
         try {
-            for (const child of src.get_children()) {
-                const label = src.get_tab_label(child);
-
-                src.remove(child);
-                dst.insert_page(child, label, -1);
-            }
+            src.transfer_all_pages(dst);
 
             if (current_page)
-                dst.set_current_page(dst.page_num(current_page));
+                dst.current_child = current_page;
         } finally {
             this.thaw_notify();
         }

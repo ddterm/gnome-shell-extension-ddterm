@@ -584,15 +584,15 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
         app_debug_dbus_interface.wait_property('NumTabs', 3)
 
         assert app_debug_dbus_interface.Eval(
-            'this.window.active_notebook.get_nth_page(0).terminal.child_pid'
+            'this.window.active_notebook.view.get_nth_page(0).child.terminal.child_pid'
         ) != 0
 
         assert app_debug_dbus_interface.Eval(
-            'this.window.active_notebook.get_nth_page(1).terminal.child_pid'
+            'this.window.active_notebook.view.get_nth_page(1).child.terminal.child_pid'
         ) == 0
 
         assert app_debug_dbus_interface.Eval(
-            'this.window.active_notebook.get_nth_page(2).terminal.child_pid'
+            'this.window.active_notebook.view.get_nth_page(2).child.terminal.child_pid'
         ) == 0
 
         # Wait for VTE parser
@@ -622,15 +622,15 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
         assert app_debug_dbus_interface.NumTabs == 3
 
         assert app_debug_dbus_interface.Eval(
-            'this.window.active_notebook.get_nth_page(0).terminal.child_pid'
+            'this.window.active_notebook.view.get_nth_page(0).child.terminal.child_pid'
         ) != 0
 
         assert app_debug_dbus_interface.Eval(
-            'this.window.active_notebook.get_nth_page(1).terminal.child_pid'
+            'this.window.active_notebook.view.get_nth_page(1).child.terminal.child_pid'
         ) == 0
 
         assert app_debug_dbus_interface.Eval(
-            'this.window.active_notebook.get_nth_page(2).terminal.child_pid'
+            'this.window.active_notebook.view.get_nth_page(2).child.terminal.child_pid'
         ) == 0
 
         state2 = app_debug_dbus_interface.Eval('this.window.serialize_state().recursiveUnpack()')
