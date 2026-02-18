@@ -7,7 +7,3 @@
 notebook header button image {
     -gtk-icon-style: symbolic;
 }
-
-.tab-title-shortcut {
-    opacity: 0.55;
-}

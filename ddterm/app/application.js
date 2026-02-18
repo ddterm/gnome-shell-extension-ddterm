@@ -536,7 +536,7 @@ class Application extends Gtk.Application {
 
         const title = options.lookup('title');
         if (title !== null) {
-            properties.title = title;
+            properties.terminal_title = title;
             properties.use_custom_title = true;
         }
 

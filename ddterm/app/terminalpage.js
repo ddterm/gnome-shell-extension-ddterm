@@ -46,8 +46,8 @@ export const TerminalPage = GObject.registerClass({
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             TerminalCommand
         ),
-        'title': GObject.ParamSpec.string(
-            'title',
+        'terminal-title': GObject.ParamSpec.string(
+            'terminal-title',
             null,
             null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
@@ -59,6 +59,20 @@ export const TerminalPage = GObject.registerClass({
             null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             false
+        ),
+        'switch-shortcut': GObject.ParamSpec.string(
+            'switch-shortcut',
+            null,
+            null,
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+            ''
+        ),
+        'title': GObject.ParamSpec.string(
+            'title',
+            null,
+            null,
+            GObject.ParamFlags.READABLE,
+            ''
         ),
         'keep-open-after-exit': GObject.ParamSpec.boolean(
             'keep-open-after-exit',
@@ -228,8 +242,11 @@ export const TerminalPage = GObject.registerClass({
             'title',
             this.tab_label,
             'label',
-            GObject.BindingFlags.SYNC_CREATE | GObject.BindingFlags.BIDIRECTIONAL
+            GObject.BindingFlags.SYNC_CREATE
         );
+
+        this.connect('notify::terminal-title', () => this.notify('title'));
+        this.connect('notify::switch-shortcut', () => this.notify('title'));
 
         this.terminal_settings.bind_property(
             'show-scrollbar',
@@ -532,7 +549,7 @@ export const TerminalPage = GObject.registerClass({
 
     spawn(callback = null, timeout = -1) {
         if (!this.use_custom_title)
-            this.title = this.command.title;
+            this.terminal_title = this.command.title;
 
         const callback_wrapper = (...args) => {
             const [terminal_, pid_, error] = args;
@@ -669,7 +686,7 @@ export const TerminalPage = GObject.registerClass({
             return;
 
         this._title_binding?.unbind();
-        this._title_binding = source?.bind_property(source_property, this, 'title', flags);
+        this._title_binding = source?.bind_property(source_property, this, 'terminal-title', flags);
     }
 
     edit_title() {
@@ -680,7 +697,7 @@ export const TerminalPage = GObject.registerClass({
 
         this._title_dialog = new TabTitleDialog({
             transient_for: this.get_toplevel(),
-            custom_title: this.title,
+            custom_title: this.terminal_title,
         });
 
         this._title_dialog.connect('destroy', () => {
@@ -698,6 +715,13 @@ export const TerminalPage = GObject.registerClass({
         this._title_dialog.present();
     }
 
+    get title() {
+        if (this.switch_shortcut)
+            return `${this.switch_shortcut} ${this.terminal_title}`;
+
+        return this.terminal_title;
+    }
+
     vfunc_grab_focus() {
         this.terminal.grab_focus();
     }
@@ -709,8 +733,8 @@ export const TerminalPage = GObject.registerClass({
 
         properties.insert_value('command', command.to_gvariant());
 
-        if (this.title)
-            properties.insert_value('title', GLib.Variant.new_string(this.title));
+        if (this.terminal_title)
+            properties.insert_value('title', GLib.Variant.new_string(this.terminal_title));
 
         properties.insert_value(
             'use-custom-title',
@@ -754,7 +778,7 @@ export const TerminalPage = GObject.registerClass({
         const command_data = dict.lookup_value('command', variant_dict_type);
         const page = new TerminalPage({
             command: command_data ? TerminalCommand.from_gvariant(command_data) : null,
-            title: dict.lookup('title', 's') ?? '',
+            terminal_title: dict.lookup('title', 's') ?? '',
             use_custom_title: dict.lookup('use-custom-title', 'b') ?? false,
             keep_open_after_exit: dict.lookup('keep-open-after-exit', 'b') ?? false,
             banner_label: dict.lookup('banner', 's') ?? '',

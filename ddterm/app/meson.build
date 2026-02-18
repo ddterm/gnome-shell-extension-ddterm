@@ -5,7 +5,6 @@
 app_js_out_files = []
 app_js_src_files = files(
   'about.js',
-  'accellabel.js',
   'application.js',
   'appwindow.js',
   'init.js',

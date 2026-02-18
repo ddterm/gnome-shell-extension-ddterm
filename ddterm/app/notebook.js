@@ -236,6 +236,10 @@ export const Notebook = GObject.registerClass({
         this.connect('notify::tab-expand', this.update_tab_expand.bind(this));
         this.update_tab_expand();
 
+        this.connect('hierarchy-changed', this.update_root.bind(this));
+        this.connect('notify::tab-show-shortcuts', this.update_tab_switch_accels.bind(this));
+        this.update_root();
+
         this._current_child = null;
 
         this.connect('switch-page', (notebook, page) => {
@@ -246,7 +250,7 @@ export const Notebook = GObject.registerClass({
         this.connect('notify::current-child', () => {
             const child = this.current_child;
 
-            const title_handler = child?.connect('notify::title', () => {
+            const title_handler = child?.connect('notify::terminal-title', () => {
                 this.notify('current-title');
             });
 
@@ -321,12 +325,6 @@ export const Notebook = GObject.registerClass({
                 null
             ),
             this.bind_property(
-                'tab-show-shortcuts',
-                label,
-                'show-shortcut',
-                GObject.BindingFlags.SYNC_CREATE
-            ),
-            this.bind_property(
                 'split-layout',
                 child,
                 'split-layout',
@@ -342,7 +340,7 @@ export const Notebook = GObject.registerClass({
                 bindings.pop().unbind();
         });
 
-        this.update_tab_switch_actions();
+        this.update_tab_switch_accels();
         this.set_current_page(page_num);
         this.grab_focus();
     }
@@ -354,11 +352,11 @@ export const Notebook = GObject.registerClass({
         if (disconnect)
             disconnect();
 
-        this.update_tab_switch_actions();
+        this.update_tab_switch_accels();
     }
 
     on_page_reordered(_child, _page_num) {
-        this.update_tab_switch_actions();
+        this.update_tab_switch_accels();
     }
 
     get_cwd() {
@@ -386,15 +384,51 @@ export const Notebook = GObject.registerClass({
         return this.terminal_settings.get_command(working_directory, envv);
     }
 
-    update_tab_switch_actions() {
+    get_accel_for_page(i) {
+        if (!this.tab_show_shortcuts)
+            return '';
+
+        const accels =
+            this.get_toplevel().application?.get_accels_for_action(`notebook.switch-to-tab(${i})`);
+
+        for (const accel of accels || []) {
+            try {
+                return Gtk.accelerator_get_label(...Gtk.accelerator_parse(accel));
+            } catch (ex) {
+                logError(ex);
+            }
+        }
+
+        return '';
+    }
+
+    update_tab_switch_accels() {
         let i = 0;
 
         this.foreach(child => {
-            const label = this.get_tab_label(child);
-
-            label.action_target = GLib.Variant.new_int32(i++);
-            label.action_name = 'notebook.switch-to-tab';
+            child.switch_shortcut = this.get_accel_for_page(i++);
         });
+    }
+
+    update_root() {
+        const root = this.get_toplevel();
+
+        if (root === this._root)
+            return;
+
+        if (this._keys_handler) {
+            this._root.disconnect(this._keys_handler);
+            this._keys_handler = null;
+        }
+
+        this._root = root;
+
+        if (root instanceof Gtk.Window) {
+            this._keys_handler =
+                root.connect('keys-changed', this.update_tab_switch_accels.bind(this));
+        }
+
+        this.update_tab_switch_accels();
     }
 
     update_tab_expand() {
@@ -439,7 +473,7 @@ export const Notebook = GObject.registerClass({
     }
 
     get current_title() {
-        return this.current_child?.title ?? null;
+        return this.current_child?.terminal_title ?? null;
     }
 
     serialize_state() {
@@ -518,7 +552,9 @@ const NotebookMenu = GObject.registerClass({
             this.notebook.connect('page-removed', () => this._schedule_update()),
             this.notebook.connect('page-reordered', () => this._schedule_update()),
             this.notebook.connect('page-added', (_, page) => {
-                const handler = page.connect('notify::title', () => this._schedule_update());
+                const handler =
+                    page.connect('notify::terminal-title', () => this._schedule_update());
+
                 page_handlers.set(page, handler);
             }),
             this.notebook.connect('page-removed', (_, page) => {
@@ -540,7 +576,7 @@ const NotebookMenu = GObject.registerClass({
     _update() {
         const prev_length = this.get_n_items();
 
-        this._label = this.notebook.get_children().map(page => page.title);
+        this._label = this.notebook.get_children().map(page => page.terminal_title);
         this._target.length = this._label.length;
 
         this.items_changed(0, prev_length, this._label.length);
