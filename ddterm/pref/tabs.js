@@ -3,10 +3,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import GObject from 'gi://GObject';
-import Gio from 'gi://Gio';
-import Gtk from 'gi://Gtk';
 
-import { PreferencesGroup, ScaleRow } from './util.js';
+import { PreferencesGroup } from './util.js';
 
 export class TabsGroup extends PreferencesGroup {
     static [GObject.GTypeName] = 'DDTermTabsPreferencesGroup';
@@ -56,40 +54,6 @@ export class TabsGroup extends PreferencesGroup {
                 end: this.gettext('End'),
             },
         });
-
-        const tab_size_adjustment = new Gtk.Adjustment({
-            upper: 0.5,
-            step_increment: 0.01,
-            page_increment: 0.10,
-        });
-
-        this.settings.bind(
-            'tab-label-width',
-            tab_size_adjustment,
-            'value',
-            Gio.SettingsBindFlags.DEFAULT
-        );
-
-        const tab_size_row = new ScaleRow({
-            adjustment: tab_size_adjustment,
-            digits: 2,
-            round_digits: 2,
-            visible: true,
-            use_underline: true,
-            title: this.gettext('Tab Width'),
-        });
-
-        const percent_format = new Intl.NumberFormat(undefined, { style: 'percent' });
-        tab_size_row.set_format_value_func((_, v) => percent_format.format(v));
-
-        this.settings.bind_writable(
-            'tab-label-width',
-            tab_size_row,
-            'sensitive',
-            false
-        );
-
-        this.add(tab_size_row);
 
         this.add_switch_row({
             key: 'tab-expand',

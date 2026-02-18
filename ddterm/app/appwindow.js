@@ -91,15 +91,6 @@ export const AppWindow = GObject.registerClass({
             Gdk.WindowEdge,
             Gdk.WindowEdge.SOUTH
         ),
-        'tab-label-width': GObject.ParamSpec.double(
-            'tab-label-width',
-            null,
-            null,
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
-            0.0,
-            0.5,
-            0.1
-        ),
         'tab-show-shortcuts': GObject.ParamSpec.boolean(
             'tab-show-shortcuts',
             null,
@@ -206,17 +197,6 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
 
         notebook1.connect('move-to-other-pane', (_, page) => move_page(page, notebook1, notebook2));
         notebook2.connect('move-to-other-pane', (_, page) => move_page(page, notebook2, notebook1));
-
-        this.connect('notify::tab-label-width', this.update_tab_label_width.bind(this));
-        this.connect('configure-event', this.update_tab_label_width.bind(this));
-        this.update_tab_label_width();
-
-        this.settings.bind(
-            'tab-label-width',
-            this,
-            'tab-label-width',
-            Gio.SettingsBindFlags.GET
-        );
 
         const add_resize_box = (edge, x, y, orientation) => {
             const box = make_resizer(orientation);
@@ -621,15 +601,6 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
 
         this.resize(target_w, target_h);
         this.window?.resize(target_w, target_h);
-    }
-
-    update_tab_label_width() {
-        const [width] = this.get_size();
-        const tab_label_width = Math.floor(this.tab_label_width * width);
-
-        this.paned.foreach(child => {
-            child.tab_label_width = tab_label_width;
-        });
     }
 
     get active_notebook() {

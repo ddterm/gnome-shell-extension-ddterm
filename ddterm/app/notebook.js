@@ -51,15 +51,6 @@ export const Notebook = GObject.registerClass({
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             true
         ),
-        'tab-label-width': GObject.ParamSpec.int(
-            'tab-label-width',
-            null,
-            null,
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
-            -1,
-            GLib.MAXINT32,
-            -1
-        ),
         'tab-policy': GObject.ParamSpec.string(
             'tab-policy',
             null,
@@ -336,12 +327,6 @@ export const Notebook = GObject.registerClass({
         const label = this.get_tab_label(child);
 
         const bindings = [
-            this.bind_property(
-                'tab-label-width',
-                label,
-                'width-request',
-                GObject.BindingFlags.SYNC_CREATE
-            ),
             this.bind_property(
                 'tab-label-ellipsize-mode',
                 label,

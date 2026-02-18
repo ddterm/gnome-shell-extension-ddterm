@@ -219,10 +219,6 @@ SPDX-License-Identifier: GPL-3.0-or-later
     <key name="tab-show-shortcuts" type="b">
       <default>true</default>
     </key>
-    <key name="tab-label-width" type="d">
-      <default>0.1</default>
-      <range min="0.0" max="0.5"/>
-    </key>
     <key name="tab-label-ellipsize-mode" enum="com.github.amezin.ddterm.EllipsizeMode">
       <default>'none'</default>
     </key>
