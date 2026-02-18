@@ -636,9 +636,8 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
     }
 
     update_show_shortcuts() {
-        this.paned.foreach(child => {
+        for (const child of this.paned.get_children())
             child.tab_show_shortcuts = this.tab_show_shortcuts && child === this.active_notebook;
-        });
     }
 
     vfunc_grab_focus() {
