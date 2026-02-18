@@ -133,13 +133,6 @@ export const TabLabel = GObject.registerClass({
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             ''
         ),
-        'close-button': GObject.ParamSpec.boolean(
-            'close-button',
-            null,
-            null,
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
-            true
-        ),
         'ellipsize': GObject.ParamSpec.enum(
             'ellipsize',
             null,
@@ -228,13 +221,6 @@ export const TabLabel = GObject.registerClass({
         });
 
         layout.pack_end(close_button, false, false, 0);
-
-        this.bind_property(
-            'close-button',
-            close_button,
-            'visible',
-            GObject.BindingFlags.SYNC_CREATE
-        );
 
         close_button.connect('clicked', () => this.emit('close'));
     }

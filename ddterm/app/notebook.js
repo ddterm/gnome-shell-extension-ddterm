@@ -58,13 +58,6 @@ export const Notebook = GObject.registerClass({
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             'always'
         ),
-        'tab-close-buttons': GObject.ParamSpec.boolean(
-            'tab-close-buttons',
-            null,
-            null,
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
-            true
-        ),
         'tab-show-shortcuts': GObject.ParamSpec.boolean(
             'tab-show-shortcuts',
             null,
@@ -326,12 +319,6 @@ export const Notebook = GObject.registerClass({
                 GObject.BindingFlags.SYNC_CREATE,
                 (_, v) => [true, v ? Pango.EllipsizeMode.END : Pango.EllipsizeMode.NONE],
                 null
-            ),
-            this.bind_property(
-                'tab-close-buttons',
-                label,
-                'close-button',
-                GObject.BindingFlags.SYNC_CREATE
             ),
             this.bind_property(
                 'tab-show-shortcuts',

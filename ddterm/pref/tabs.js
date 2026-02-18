@@ -50,11 +50,6 @@ export class TabsGroup extends PreferencesGroup {
         });
 
         this.add_switch_row({
-            key: 'tab-close-buttons',
-            title: this.gettext('Show _Close Buttons'),
-        });
-
-        this.add_switch_row({
             key: 'new-tab-button',
             title: this.gettext('"_New Tab (Last)" Button'),
         });

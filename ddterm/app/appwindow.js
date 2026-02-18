@@ -469,13 +469,6 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
             Gio.SettingsBindFlags.GET
         );
 
-        this.settings.bind(
-            'tab-close-buttons',
-            notebook,
-            'tab-close-buttons',
-            Gio.SettingsBindFlags.GET
-        );
-
         notebook.connect('session-update', () => {
             this.emit('session-update');
         });
