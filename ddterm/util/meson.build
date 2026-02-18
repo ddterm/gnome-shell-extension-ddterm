@@ -20,6 +20,18 @@ if get_option('typelib_installer')
   )
 
   typelib_installer_file = typelib_installer_subproject.get_variable('output')
+
+  # To fix imports in build dir
+  configure_file(
+    input: 'reexport.js.in',
+    output: 'gjs-typelib-installer.js',
+    configuration: {
+      'src_path': fs.relative_to(
+        typelib_installer_file.full_path(),
+        meson.current_build_dir(),
+      ),
+    },
+  )
 else
   typelib_installer_file = fs.copyfile(
     'gjs-typelib-installer.js',

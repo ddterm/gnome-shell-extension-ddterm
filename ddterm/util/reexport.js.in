@@ -1,0 +1,5 @@
+// SPDX-FileCopyrightText: 2026 Aleksandr Mezin <mezin.alexander@gmail.com>
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+
+export * from '@src_path@';
