@@ -18,7 +18,7 @@ license-expression==30.4.4
     # via reuse
 markupsafe==3.0.3
     # via jinja2
-python-debian==1.0.1
+python-debian==1.1.0
     # via reuse
 python-magic==0.4.27
     # via reuse
