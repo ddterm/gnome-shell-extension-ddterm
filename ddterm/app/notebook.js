@@ -427,14 +427,6 @@ export const Notebook = GObject.registerClass({
         case Gtk.PositionType.BOTTOM:
             this.tab_switch_button.direction = Gtk.ArrowType.UP;
             break;
-
-        case Gtk.PositionType.LEFT:
-            this.tab_switch_button.direction = Gtk.ArrowType.RIGHT;
-            break;
-
-        case Gtk.PositionType.RIGHT:
-            this.tab_switch_button.direction = Gtk.ArrowType.LEFT;
-            break;
         }
     }
 

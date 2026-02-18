@@ -48,8 +48,6 @@ SPDX-License-Identifier: GPL-3.0-or-later
   </enum>
 
   <enum id="com.github.amezin.ddterm.TabPosition">
-    <value nick="left" value="0"/>
-    <value nick="right" value="1"/>
     <value nick="top" value="2"/>
     <value nick="bottom" value="3"/>
   </enum>

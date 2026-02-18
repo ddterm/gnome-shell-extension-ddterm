@@ -39,8 +39,6 @@ export class TabsGroup extends PreferencesGroup {
             model: {
                 bottom: this.gettext('Bottom'),
                 top: this.gettext('Top'),
-                left: this.gettext('Left'),
-                right: this.gettext('Right'),
             },
         });
 
