@@ -477,13 +477,6 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
         );
 
         this.settings.bind(
-            'tab-label-ellipsize-mode',
-            notebook,
-            'tab-label-ellipsize-mode',
-            Gio.SettingsBindFlags.GET
-        );
-
-        this.settings.bind(
             'tab-close-buttons',
             notebook,
             'tab-close-buttons',

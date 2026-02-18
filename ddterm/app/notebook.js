@@ -72,14 +72,6 @@ export const Notebook = GObject.registerClass({
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             true
         ),
-        'tab-label-ellipsize-mode': GObject.ParamSpec.enum(
-            'tab-label-ellipsize-mode',
-            null,
-            null,
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
-            Pango.EllipsizeMode,
-            Pango.EllipsizeMode.NONE
-        ),
         'show-new-tab-button': GObject.ParamSpec.boolean(
             'show-new-tab-button',
             null,
@@ -327,11 +319,13 @@ export const Notebook = GObject.registerClass({
         const label = this.get_tab_label(child);
 
         const bindings = [
-            this.bind_property(
-                'tab-label-ellipsize-mode',
+            this.bind_property_full(
+                'tab-expand',
                 label,
                 'ellipsize',
-                GObject.BindingFlags.SYNC_CREATE
+                GObject.BindingFlags.SYNC_CREATE,
+                (_, v) => [true, v ? Pango.EllipsizeMode.END : Pango.EllipsizeMode.NONE],
+                null
             ),
             this.bind_property(
                 'tab-close-buttons',
