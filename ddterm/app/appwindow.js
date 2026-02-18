@@ -470,13 +470,6 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
         );
 
         this.settings.bind(
-            'notebook-border',
-            notebook,
-            'show-border',
-            Gio.SettingsBindFlags.GET
-        );
-
-        this.settings.bind(
             'tab-close-buttons',
             notebook,
             'tab-close-buttons',

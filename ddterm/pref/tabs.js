@@ -70,11 +70,6 @@ export class TabsGroup extends PreferencesGroup {
         });
 
         this.add_switch_row({
-            key: 'notebook-border',
-            title: this.gettext('Show Border'),
-        });
-
-        this.add_switch_row({
             key: 'tab-show-shortcuts',
             title: this.gettext('Show Keyboard Shortcuts'),
         });
