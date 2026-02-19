@@ -692,6 +692,11 @@ const NotebookMenu = GObject.registerClass({
                     page.disconnect(handler);
 
                 page_handlers.clear();
+
+                if (this._update_source !== null) {
+                    GLib.Source.remove(this._update_source);
+                    this._update_source = null;
+                }
             }),
         ];
     }
