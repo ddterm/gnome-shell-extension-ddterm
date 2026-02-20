@@ -3,20 +3,21 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # This file is distributed under the same license as the ddterm package.
 # yuh <yuhldr@qq.com>, 2023, 2024, 2025.
+# reducedradius <feixiang512@outlook.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-02-07 08:36+0000\n"
-"PO-Revision-Date: 2025-09-06 08:02+0000\n"
-"Last-Translator: yuh <yuhldr@qq.com>\n"
+"PO-Revision-Date: 2026-02-20 12:09+0000\n"
+"Last-Translator: reducedradius <feixiang512@outlook.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/zh_Hans/>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.13.1-rc\n"
+"X-Generator: Weblate 5.16.1-dev\n"
 
 #: data/com.github.amezin.ddterm.desktop.in.in:9 ddterm/app/appwindow.js:146
 #: ddterm/shell/notifications.js:238 ddterm/shell/panelicon.js:32
@@ -879,15 +880,15 @@ msgstr "启用键盘快捷键"
 
 #: ddterm/pref/shortcuts.js:205
 msgid "Press Esc to cancel or Backspace to disable the keyboard shortcut"
-msgstr ""
+msgstr "按下Esc 以取消，或 Backspace键来禁用键盘快捷方式"
 
 #: ddterm/pref/shortcuts.js:210
 msgid "Cancel"
-msgstr ""
+msgstr "取消"
 
 #: ddterm/pref/shortcuts.js:211
 msgid "Set"
-msgstr ""
+msgstr "设定"
 
 #: ddterm/pref/shortcuts.js:343 ddterm/pref/text.js:120
 msgid "Disabled"
@@ -1111,7 +1112,7 @@ msgstr "文本"
 
 #: ddterm/pref/text.js:75
 msgid "Use System Font"
-msgstr ""
+msgstr "使用系统字体"
 
 #: ddterm/pref/text.js:79
 msgid "Custom _Font"
