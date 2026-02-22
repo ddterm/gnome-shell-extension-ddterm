@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-bundle += configure_file(
+launcher = configure_file(
   input: 'launcher.js',
   output: 'com.github.amezin.ddterm',
   configuration: {
@@ -23,7 +23,7 @@ install_symlink(
   install_dir: bindir,
 )
 
-configure_file(
+dev_launcher = configure_file(
   input: 'launcher.js',
   output: 'com.github.amezin.ddterm.dev',
   configuration: {
