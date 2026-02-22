@@ -653,11 +653,8 @@ class Application extends Gtk.Application {
         }
     }
 
-    ensure_window() {
-        if (this.window)
-            return this.window;
-
-        this.window = new AppWindow({
+    _create_window() {
+        return new AppWindow({
             application: this,
             decorated: false,
             settings: this.settings,
@@ -665,6 +662,13 @@ class Application extends Gtk.Application {
             extension_dbus: this.extension_dbus,
             display_config: this.display_config,
         });
+    }
+
+    ensure_window() {
+        if (this.window)
+            return this.window;
+
+        this.window = this._create_window;
 
         this.window.connect('destroy', source => {
             if (source !== this.window)
