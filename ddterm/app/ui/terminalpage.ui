@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+SPDX-FileCopyrightText: 2026 Aleksandr Mezin <mezin.alexander@gmail.com>
+
+SPDX-License-Identifier: GPL-3.0-or-later
+-->
+
+<interface domain="ddterm@amezin.github.com">
+  <!-- interface-requires gtk+ 3.0 -->
+
+  <template class="Gjs_app_terminalpage_DDTermTerminalPage" parent="GtkBox">
+    <child>
+      <object class="GtkInfoBar" id="banner">
+        <child internal-child="content_area">
+          <object class="GtkBox">
+            <child>
+              <object class="GtkLabel" id="banner_label">
+                <property name="visible">True</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child internal-child="action_area">
+          <object class="GtkBox">
+            <child>
+              <object class="GtkButton" id="restart_button">
+                <property name="label" translatable="yes">Restart</property>
+                <property name="visible">True</property>
+                <property name="can-default">True</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkButton" id="close_terminal_button">
+                <property name="label" translatable="yes">Close Terminal</property>
+                <property name="visible">True</property>
+                <property name="can-default">True</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <action-widgets>
+          <action-widget response="0">restart_button</action-widget>
+          <action-widget response="1">close_terminal_button</action-widget>
+        </action-widgets>
+      </object>
+    </child>
+    <child>
+      <object class="GtkBox" id="terminal_with_scrollbar">
+        <property name="visible">True</property>
+        <property name="orientation">horizontal</property>
+        <child>
+          <object class="DDTermTerminal" id="terminal">
+            <property name="visible">True</property>
+            <signal name="button-press-event" handler="terminal_button_press_early"/>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkScrollbar" id="scrollbar">
+            <property name="visible">True</property>
+            <property name="orientation">vertical</property>
+            <style>
+              <class name="background"/>
+            </style>
+          </object>
+        </child>
+      </object>
+      <packing>
+        <property name="expand">True</property>
+        <property name="fill">True</property>
+      </packing>
+    </child>
+    <child>
+      <object class="Gjs_app_search_DDTermSearchBar" id="search_bar">
+        <property name="visible">True</property>
+        <signal name="find-next" handler="find_next"/>
+        <signal name="find-prev" handler="find_prev"/>
+      </object>
+    </child>
+  </template>
+
+</interface>

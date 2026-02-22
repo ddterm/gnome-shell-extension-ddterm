@@ -16,7 +16,29 @@ import { TabTitleDialog } from './tablabel.js';
 import { Terminal, TerminalCommand, WIFEXITED, WEXITSTATUS, WTERMSIG } from './terminal.js';
 import { TerminalSettings } from './terminalsettings.js';
 
+GObject.type_ensure(Terminal);
+GObject.type_ensure(SearchBar);
+
+const CloseDialog = GObject.registerClass({
+    Template: GLib.Uri.resolve_relative(import.meta.url, './ui/closedialog.ui', GLib.UriFlags.NONE),
+}, class DDTermCloseDialog extends Gtk.MessageDialog {
+});
+
 export const TerminalPage = GObject.registerClass({
+    Template: GLib.Uri.resolve_relative(
+        import.meta.url,
+        './ui/terminalpage.ui',
+        GLib.UriFlags.NONE
+    ),
+    Children: [
+        'terminal',
+        'scrollbar',
+        'search_bar',
+    ],
+    InternalChildren: [
+        'banner',
+        'banner_label',
+    ],
     Properties: {
         'terminal-settings': GObject.ParamSpec.object(
             'terminal-settings',
@@ -125,47 +147,35 @@ export const TerminalPage = GObject.registerClass({
 
         this.orientation = Gtk.Orientation.VERTICAL;
 
-        const banner_label = new Gtk.Label({
-            visible: true,
-        });
-
         this.bind_property(
             'banner-label',
-            banner_label,
+            this._banner_label,
             'label',
             GObject.BindingFlags.SYNC_CREATE | GObject.BindingFlags.BIDIRECTIONAL
         );
 
-        const banner = new Gtk.InfoBar({
-            visible: false,
-        });
-
         this.bind_property(
             'banner-type',
-            banner,
+            this._banner,
             'message-type',
             GObject.BindingFlags.SYNC_CREATE | GObject.BindingFlags.BIDIRECTIONAL
         );
 
         this.bind_property(
             'banner-visible',
-            banner,
+            this._banner,
             'visible',
             GObject.BindingFlags.SYNC_CREATE
         );
 
         this.bind_property(
             'banner-visible',
-            banner,
+            this._banner,
             'revealed',
             GObject.BindingFlags.SYNC_CREATE | GObject.BindingFlags.BIDIRECTIONAL
         );
 
-        banner.get_content_area().pack_start(banner_label, false, false, 0);
-        banner.add_button(Gettext.gettext('Restart'), 0);
-        banner.add_button(Gettext.gettext('Close Terminal'), 1);
-
-        banner.connect('response', (_, response) => {
+        this._banner.connect('response', (_, response) => {
             switch (response) {
             case 0:
                 this.banner_visible = false;
@@ -177,41 +187,11 @@ export const TerminalPage = GObject.registerClass({
             }
         });
 
-        this.pack_start(banner, false, false, 0);
-
-        const terminal_with_scrollbar = new Gtk.Box({
-            visible: true,
-            orientation: Gtk.Orientation.HORIZONTAL,
-        });
-
-        this.terminal = new Terminal({
-            visible: true,
-            context_menu_model: this.terminal_menu,
-        });
-
-        terminal_with_scrollbar.pack_start(this.terminal, true, true, 0);
+        this.terminal.context_menu_model = this.terminal_menu;
 
         this.terminal_settings.bind_terminal(this.terminal);
 
-        this.scrollbar = new Gtk.Scrollbar({
-            orientation: Gtk.Orientation.VERTICAL,
-            adjustment: this.terminal.vadjustment,
-            visible: true,
-        });
-
-        this.scrollbar.get_style_context().add_class('background');
-
-        terminal_with_scrollbar.pack_end(this.scrollbar, false, false, 0);
-        this.pack_start(terminal_with_scrollbar, true, true, 0);
-
-        this.search_bar = new SearchBar({
-            visible: true,
-        });
-
-        this.pack_end(this.search_bar, false, false, 0);
-
-        this.search_bar.connect('find-next', this.find_next.bind(this));
-        this.search_bar.connect('find-prev', this.find_prev.bind(this));
+        this.scrollbar.adjustment = this.terminal.vadjustment;
 
         this.search_bar.connect('notify::wrap', () => {
             this.terminal.search_set_wrap_around(this.search_bar.wrap);
@@ -232,11 +212,6 @@ export const TerminalPage = GObject.registerClass({
             this.scrollbar,
             'visible',
             GObject.BindingFlags.SYNC_CREATE
-        );
-
-        this.terminal.connect(
-            'button-press-event',
-            this.terminal_button_press_early.bind(this)
         );
 
         const page_actions = new Gio.SimpleActionGroup();
@@ -625,33 +600,16 @@ export const TerminalPage = GObject.registerClass({
             return;
         }
 
-        const message = new Gtk.MessageDialog({
+        const close_dialog = new CloseDialog({
             transient_for: this.get_toplevel(),
-            modal: true,
-            buttons: Gtk.ButtonsType.CANCEL,
-            message_type: Gtk.MessageType.WARNING,
-            text: Gettext.gettext('Close this terminal?'),
-            secondary_text: Gettext.gettext(
-                'There is still a process running in this terminal.' +
-                ' Closing the terminal will kill it.'
-            ),
         });
 
-        const remove_button = message.add_button(
-            Gettext.gettext('Close Terminal'),
-            Gtk.ResponseType.ACCEPT
-        );
-
-        remove_button.get_style_context().add_class('destructive-action');
-
-        message.connect('response', (_, response_id) => {
-            message.destroy();
-
+        close_dialog.connect('response', (_, response_id) => {
+            close_dialog.destroy();
             this.emit('close-finish', response_id === Gtk.ResponseType.ACCEPT);
         });
 
-        message.set_default_response(Gtk.ResponseType.ACCEPT);
-        message.show();
+        close_dialog.show();
     }
 
     update_title_binding(sync = true) {

@@ -3,8 +3,10 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 app_ui_src_files = files(
+  'closedialog.ui',
   'menus.ui',
   'search.ui',
+  'terminalpage.ui',
 )
 
 foreach app_ui_src_file : app_ui_src_files

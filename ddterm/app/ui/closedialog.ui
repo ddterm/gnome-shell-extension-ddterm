@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+SPDX-FileCopyrightText: 2026 Aleksandr Mezin <mezin.alexander@gmail.com>
+
+SPDX-License-Identifier: GPL-3.0-or-later
+-->
+
+<interface domain="ddterm@amezin.github.com">
+  <!-- interface-requires gtk+ 3.0 -->
+
+  <template class="Gjs_app_terminalpage_DDTermCloseDialog" parent="GtkMessageDialog">
+    <property name="destroy-with-parent">True</property>
+    <property name="modal">True</property>
+    <property name="message-type">warning</property>
+    <property name="text" translatable="yes">Close this terminal?</property>
+    <property name="secondary-text" translatable="yes">There is still a process running in this terminal. Closing the terminal will kill it.</property>
+    <child type="action">
+      <object class="GtkButton" id="cancel_button">
+        <property name="label" translatable="yes">Cancel</property>
+        <property name="visible">True</property>
+        <property name="can-default">True</property>
+        <style>
+          <class name="text-button"/>
+        </style>
+      </object>
+    </child>
+    <child type="action">
+      <object class="GtkButton" id="accept_button">
+        <property name="label" translatable="yes">Close Terminal</property>
+        <property name="visible">True</property>
+        <property name="can-default">True</property>
+        <style>
+          <class name="destructive-action"/>
+          <class name="text-button"/>
+        </style>
+      </object>
+    </child>
+    <action-widgets>
+      <action-widget response="cancel">cancel_button</action-widget>
+      <action-widget response="accept">accept_button</action-widget>
+    </action-widgets>
+  </template>
+
+</interface>

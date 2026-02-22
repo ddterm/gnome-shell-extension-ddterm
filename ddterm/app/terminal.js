@@ -745,4 +745,7 @@ const TerminalTermprop = 'PropertyId' in Vte ? GObject.registerClass({
     }
 }) : null;
 
-export const Terminal = TerminalTermprop ?? TerminalBase;
+export const Terminal = GObject.registerClass({
+    GTypeName: 'DDTermTerminal',
+}, class extends (TerminalTermprop ?? TerminalBase) {
+});
