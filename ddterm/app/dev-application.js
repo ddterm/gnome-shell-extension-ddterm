@@ -13,23 +13,13 @@ export const Application = GObject.registerClass({
         return -1;
     }
 
-    ensure_window() {
-        if (this.window)
-            return this.window;
-
-        this.window = new AppWindow({
+    _create_window() {
+        return new AppWindow({
             application: this,
             settings: this.settings,
             terminal_settings: this.terminal_settings,
             extension_dbus: this.extension_dbus,
             display_config: this.display_config,
         });
-
-        this.window.connect('destroy', source => {
-            if (source === this.window)
-                this.window = null;
-        });
-
-        return this.window;
     }
 });
