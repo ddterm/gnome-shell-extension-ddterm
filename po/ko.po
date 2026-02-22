@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-22 08:05+0000\n"
+"POT-Creation-Date: 2026-02-22 10:11+0000\n"
 "PO-Revision-Date: 2026-02-16 13:09+0000\n"
 "Last-Translator: 스이미 <soo.wim3@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/ko/>\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 5.16-dev\n"
 
-#: data/com.github.amezin.ddterm.desktop.in.in:9 ddterm/app/appwindow.js:137
+#: data/com.github.amezin.ddterm.desktop.in.in:9 ddterm/app/appwindow.js:146
 #: ddterm/shell/notifications.js:238 ddterm/shell/panelicon.js:32
 msgid "ddterm"
 msgstr "ddterm"
@@ -131,31 +131,31 @@ msgstr "새 탭 (맨 뒤)"
 msgid "New Tab (First)"
 msgstr "새 탭 (맨 앞)"
 
-#: ddterm/app/search.js:209
+#: ddterm/app/search.js:217
 msgid "Case Sensitive"
 msgstr "대소문자 구분"
 
-#: ddterm/app/search.js:225
+#: ddterm/app/search.js:233
 msgid "Match Whole Word"
 msgstr "단어 단위로 찾기"
 
-#: ddterm/app/search.js:241
+#: ddterm/app/search.js:249
 msgid "Regular Expression"
 msgstr "정규 표현식"
 
-#: ddterm/app/search.js:307
+#: ddterm/app/search.js:315
 msgid "Close Search Bar"
 msgstr "검색창 닫기"
 
-#: ddterm/app/search.js:318
+#: ddterm/app/search.js:326
 msgid "Wrap Around"
 msgstr "되돌아 검색"
 
-#: ddterm/app/search.js:334 ddterm/pref/shortcuts.js:673
+#: ddterm/app/search.js:342 ddterm/pref/shortcuts.js:673
 msgid "Find Next"
 msgstr "다음 찾기"
 
-#: ddterm/app/search.js:352 ddterm/pref/shortcuts.js:678
+#: ddterm/app/search.js:360 ddterm/pref/shortcuts.js:678
 msgid "Find Previous"
 msgstr "이전 찾기"
 
@@ -175,23 +175,23 @@ msgstr "사용자 지정 탭 제목 사용"
 msgid "Restart"
 msgstr "재시작"
 
-#: ddterm/app/terminalpage.js:166 ddterm/app/terminalpage.js:639
+#: ddterm/app/terminalpage.js:166 ddterm/app/terminalpage.js:641
 msgid "Close Terminal"
 msgstr "터미널 닫기"
 
-#: ddterm/app/terminalpage.js:506
+#: ddterm/app/terminalpage.js:508
 msgid "The child process exited with status:"
 msgstr "하위 프로세스 종료 상태:"
 
-#: ddterm/app/terminalpage.js:516
+#: ddterm/app/terminalpage.js:518
 msgid "The child process was aborted by signal:"
 msgstr "하위 프로세스가 다음 시그널로 인해 종료됨:"
 
-#: ddterm/app/terminalpage.js:631
+#: ddterm/app/terminalpage.js:633
 msgid "Close this terminal?"
 msgstr "이 터미널을 닫으시겠습니까?"
 
-#: ddterm/app/terminalpage.js:633
+#: ddterm/app/terminalpage.js:635
 msgid "There is still a process running in this terminal. Closing the terminal will kill it."
 msgstr "실행 중인 작업이 있습니다. 터미널을 닫으면 진행 중인 모든 작업이 중단됩니다."
 
