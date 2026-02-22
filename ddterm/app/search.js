@@ -197,12 +197,20 @@ class DDTermSearchBar extends Gtk.Revealer {
 
         this._pattern = new SearchPattern();
 
+        const container = new Gtk.Box({
+            visible: true,
+            parent: this,
+        });
+
+        container.get_style_context().add_class('background');
+
         const layout = new Gtk.Box({
             visible: true,
             border_width: 5,
             spacing: 5,
-            parent: this,
         });
+
+        container.pack_start(layout, true, true, 0);
 
         const case_sensitive_button = new Gtk.ToggleButton({
             image: new Gtk.Image({ icon_name: 'uppercase' }),

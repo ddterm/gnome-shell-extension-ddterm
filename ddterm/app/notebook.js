@@ -224,6 +224,8 @@ export const Notebook = GObject.registerClass({
         });
         this.pack_start(this.bar, false, false, 0);
 
+        this.bar.get_style_context().add_class('background');
+
         this.bind_property('tab-expand', this.bar, 'expand-tabs', GObject.BindingFlags.SYNC_CREATE);
 
         this.bind_property_full(

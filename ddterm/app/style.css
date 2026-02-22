@@ -7,3 +7,7 @@
 tabbar button image {
     -gtk-icon-style: symbolic;
 }
+
+.transparent-background {
+    background: transparent;
+}

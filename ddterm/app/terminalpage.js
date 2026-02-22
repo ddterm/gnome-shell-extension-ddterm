@@ -199,6 +199,8 @@ export const TerminalPage = GObject.registerClass({
             visible: true,
         });
 
+        this.scrollbar.get_style_context().add_class('background');
+
         terminal_with_scrollbar.pack_end(this.scrollbar, false, false, 0);
         this.pack_start(terminal_with_scrollbar, true, true, 0);
 

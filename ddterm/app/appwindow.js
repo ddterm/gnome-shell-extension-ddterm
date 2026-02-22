@@ -26,6 +26,8 @@ const WINDOW_POS_TO_RESIZE_EDGE = {
 function make_resizer(orientation) {
     const box = new Gtk.EventBox({ visible: true });
 
+    box.get_style_context().add_class('background');
+
     new Gtk.Separator({
         visible: true,
         orientation,
@@ -75,6 +77,13 @@ export const AppWindow = GObject.registerClass({
             null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             DisplayConfig
+        ),
+        'transparent-background': GObject.ParamSpec.boolean(
+            'transparent-background',
+            null,
+            null,
+            GObject.ParamFlags.READWRITE,
+            true
         ),
         'resize-handle': GObject.ParamSpec.boolean(
             'resize-handle',
@@ -231,14 +240,10 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
         this.connect('notify::screen', () => this.update_visual());
         this.update_visual();
 
-        this.draw_handler = null;
-        this.connect('notify::app-paintable', this.setup_draw_handler.bind(this));
-        this.setup_draw_handler();
-
         this.settings.bind(
             'transparent-background',
             this,
-            'app-paintable',
+            'transparent-background',
             Gio.SettingsBindFlags.GET
         );
 
@@ -472,18 +477,6 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
         return notebook;
     }
 
-    setup_draw_handler() {
-        if (this.app_paintable) {
-            if (!this.draw_handler)
-                this.draw_handler = this.connect('draw', this.draw.bind(this));
-        } else if (this.draw_handler) {
-            this.disconnect(this.draw_handler);
-            this.draw_handler = null;
-        }
-
-        this.queue_draw();
-    }
-
     adjust_double_setting(name, difference, min = 0.0, max = 1.0) {
         const current = this.settings.get_double(name);
         const new_setting = current + difference;
@@ -521,29 +514,6 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
 
         if (visual)
             this.set_visual(visual);
-    }
-
-    draw(_widget, cr) {
-        try {
-            if (!this.app_paintable)
-                return false;
-
-            if (!Gtk.cairo_should_draw_window(cr, this.window))
-                return false;
-
-            const context = this.get_style_context();
-            const allocation = this.get_child().get_allocation();
-            Gtk.render_background(
-                context, cr, allocation.x, allocation.y, allocation.width, allocation.height
-            );
-            Gtk.render_frame(
-                context, cr, allocation.x, allocation.y, allocation.width, allocation.height
-            );
-        } finally {
-            cr.$dispose();
-        }
-
-        return false;
     }
 
     sync_size_with_extension() {
@@ -618,6 +588,17 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
         } finally {
             this.thaw_notify();
         }
+    }
+
+    get transparent_background() {
+        return this.get_style_context().has_class('transparent-background');
+    }
+
+    set transparent_background(value) {
+        if (value)
+            this.get_style_context().add_class('transparent-background');
+        else
+            this.get_style_context().remove_class('transparent-background');
     }
 
     update_window_pos() {
