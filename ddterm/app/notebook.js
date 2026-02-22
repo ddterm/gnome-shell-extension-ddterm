@@ -9,12 +9,18 @@ import Gio from 'gi://Gio';
 import Gtk from 'gi://Gtk';
 import Handy from 'gi://Handy';
 
-import Gettext from 'gettext';
-
 import { TerminalPage } from './terminalpage.js';
 import { TerminalSettings } from './terminalsettings.js';
 
 export const Notebook = GObject.registerClass({
+    Template: GLib.Uri.resolve_relative(import.meta.url, './ui/notebook.ui', GLib.UriFlags.NONE),
+    Children: [
+        'view',
+        'bar',
+        'new_tab_button',
+        'tab_switch_button',
+        'new_tab_front_button',
+    ],
     Properties: {
         'menus': GObject.ParamSpec.object(
             'menus',
@@ -133,12 +139,7 @@ export const Notebook = GObject.registerClass({
     _init(params) {
         super._init(params);
 
-        this.orientation = Gtk.Orientation.VERTICAL;
-
-        this.view = new Handy.TabView({
-            visible: true,
-            menu_model: this.menus.get_object('tab-popup'),
-        });
+        this.view.menu_model = this.menus.get_object('tab-popup');
 
         this.view.connect('notify::n-pages', () => this.notify('n-pages'));
         this.view.connect('notify::selected-page', () => {
@@ -156,23 +157,10 @@ export const Notebook = GObject.registerClass({
             return true;
         });
 
-        this.pack_start(this.view, true, true, 0);
-
         // Disable built-in shortcuts
         GObject.signal_handlers_disconnect_matched(this.view, {
             signalId: 'key-press-event',
         });
-
-        const button_box = new Gtk.Box({ visible: true });
-
-        this.new_tab_button = new Gtk.Button({
-            image: Gtk.Image.new_from_icon_name('list-add', Gtk.IconSize.MENU),
-            tooltip_text: Gettext.gettext('New Tab (Last)'),
-            action_name: 'notebook.new-tab',
-            relief: Gtk.ReliefStyle.NONE,
-            visible: true,
-        });
-        button_box.add(this.new_tab_button);
 
         this.bind_property(
             'show-new-tab-button',
@@ -185,13 +173,7 @@ export const Notebook = GObject.registerClass({
         menu.append_section(null, new NotebookMenu({ tab_view: this.view }));
         menu.append_section(null, this.menus.get_object('notebook-layout'));
 
-        this.tab_switch_button = new Gtk.MenuButton({
-            menu_model: menu,
-            focus_on_click: false,
-            relief: Gtk.ReliefStyle.NONE,
-            visible: true,
-        });
-        button_box.add(this.tab_switch_button);
+        this.tab_switch_button.menu_model = menu;
 
         this.bind_property(
             'show-tab-switch-popup',
@@ -200,31 +182,12 @@ export const Notebook = GObject.registerClass({
             GObject.BindingFlags.BIDIRECTIONAL | GObject.BindingFlags.SYNC_CREATE
         );
 
-        this.new_tab_front_button = new Gtk.Button({
-            image: Gtk.Image.new_from_icon_name('list-add', Gtk.IconSize.MENU),
-            tooltip_text: Gettext.gettext('New Tab (First)'),
-            action_name: 'notebook.new-tab-front',
-            relief: Gtk.ReliefStyle.NONE,
-            visible: true,
-        });
-
         this.bind_property(
             'show-new-tab-front-button',
             this.new_tab_front_button,
             'visible',
             GObject.BindingFlags.BIDIRECTIONAL | GObject.BindingFlags.SYNC_CREATE
         );
-
-        this.bar = new Handy.TabBar({
-            visible: true,
-            view: this.view,
-            start_action_widget: this.new_tab_front_button,
-            end_action_widget: button_box,
-            autohide: false,
-        });
-        this.pack_start(this.bar, false, false, 0);
-
-        this.bar.get_style_context().add_class('background');
 
         this.bind_property('tab-expand', this.bar, 'expand-tabs', GObject.BindingFlags.SYNC_CREATE);
 

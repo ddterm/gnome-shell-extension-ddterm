@@ -5,6 +5,7 @@
 app_ui_src_files = files(
   'closedialog.ui',
   'menus.ui',
+  'notebook.ui',
   'search.ui',
   'terminalpage.ui',
 )
