@@ -6,6 +6,15 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 # Testing/debugging ddterm manually
 
+## Application development mode
+
+To test code changes that affect only the application part of ddterm,
+you can use [`dev-application.js`]. To launch it, run `dev-app` Meson target:
+
+    ninja -C build-dir dev-app
+
+[`dev-application.js`]: /ddterm/app/dev-application.js
+
 ## Virtual machines/Vagrant
 
 See [`Vagrant.md`].

@@ -33,4 +33,10 @@ to start the "service" instance.
 * Also on Wayland, it synchronizes its window size with the extension's
 expected window size before showing the window.
 
+> [!TIP]
+> To test code changes that affect only the application part of ddterm,
+> you can use [`dev-application.js`]. To launch it, run `dev-app` Meson target:
+> `ninja -C build-dir dev-app`.
+
 [`com.github.amezin.ddterm.Extension.xml`]: /data/com.github.amezin.ddterm.Extension.xml
+[`dev-application.js`]: /ddterm/app/dev-application.js

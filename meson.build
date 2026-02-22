@@ -170,7 +170,7 @@ bundle_from_srcdir = files(
   'REUSE.toml',
 )
 
-foreach bundle_entry : bundle
+foreach bundle_entry : bundle + [launcher]
   bundle_command += [
     '--entry',
     bundle_entry,
@@ -224,6 +224,12 @@ run_target(
 run_target(
   'xephyr-x11-shell',
   command: [run_gnome_shell_xephyr_x11_command, bundle_target],
+)
+
+run_target(
+  'dev-app',
+  command: [dev_launcher],
+  depends: bundle,
 )
 
 toxinidir = meson.current_source_dir()
