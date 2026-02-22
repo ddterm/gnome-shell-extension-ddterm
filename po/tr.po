@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-07 08:36+0000\n"
+"POT-Creation-Date: 2026-02-22 08:05+0000\n"
 "PO-Revision-Date: 2025-10-07 20:02+0000\n"
 "Last-Translator: Nuri KÜÇÜKLER <enatsek@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/tr/>\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.14-dev\n"
 
-#: data/com.github.amezin.ddterm.desktop.in.in:9 ddterm/app/appwindow.js:146
+#: data/com.github.amezin.ddterm.desktop.in.in:9 ddterm/app/appwindow.js:137
 #: ddterm/shell/notifications.js:238 ddterm/shell/panelicon.js:32
 msgid "ddterm"
 msgstr "ddterm"
@@ -126,11 +126,11 @@ msgstr "Lütfen aşağıda listelenen paketleri yükleyin:"
 msgid "Please install packages that provide the following files:"
 msgstr "Lütfen aşağıdaki dosyaları sağlayan paketleri yükleyin:"
 
-#: ddterm/app/notebook.js:138
+#: ddterm/app/notebook.js:170
 msgid "New Tab (Last)"
 msgstr "Yeni Sekme (Son)"
 
-#: ddterm/app/notebook.js:176
+#: ddterm/app/notebook.js:205
 msgid "New Tab (First)"
 msgstr "Yeni Sekme (İlk)"
 
@@ -162,46 +162,41 @@ msgstr "Sonrakini Bul"
 msgid "Find Previous"
 msgstr "Öncekini Bul"
 
-#: ddterm/app/tablabel.js:83 ddterm/pref/shortcuts.js:658
+#: ddterm/app/tablabel.js:78 ddterm/pref/shortcuts.js:658
 msgid "Set Custom Tab Title"
 msgstr "Özel Sekme Başlığı Koy"
 
-#: ddterm/app/tablabel.js:90
+#: ddterm/app/tablabel.js:85
 #, fuzzy
 #| msgid "Set tab title"
 msgid "Tab _Title"
 msgstr "Sekme başlığını ayarla"
 
-#: ddterm/app/tablabel.js:104 ddterm/app/ui/menus.ui:215
+#: ddterm/app/tablabel.js:99 ddterm/app/ui/menus.ui:215
 msgid "Use Custom Tab Title"
 msgstr "Özelleştirilmiş Sekme Adı Kullan"
 
-#: ddterm/app/tablabel.js:220 ddterm/app/ui/menus.ui:201
-#: ddterm/app/ui/menus.ui:291 ddterm/shell/notifications.js:62
-msgid "Close"
-msgstr "Kapat"
-
-#: ddterm/app/terminalpage.js:154
+#: ddterm/app/terminalpage.js:165
 msgid "Restart"
 msgstr "Yeniden Başlat"
 
-#: ddterm/app/terminalpage.js:155 ddterm/app/terminalpage.js:646
+#: ddterm/app/terminalpage.js:166 ddterm/app/terminalpage.js:639
 msgid "Close Terminal"
 msgstr "Terminali Kapat"
 
-#: ddterm/app/terminalpage.js:513
+#: ddterm/app/terminalpage.js:506
 msgid "The child process exited with status:"
 msgstr "Alt işlem şu çıkış kodu ile sonlandı:"
 
-#: ddterm/app/terminalpage.js:523
+#: ddterm/app/terminalpage.js:516
 msgid "The child process was aborted by signal:"
 msgstr "Alt işlem şu sinyal ile durduruldu:"
 
-#: ddterm/app/terminalpage.js:638
+#: ddterm/app/terminalpage.js:631
 msgid "Close this terminal?"
 msgstr "Bu terminali kapat?"
 
-#: ddterm/app/terminalpage.js:640
+#: ddterm/app/terminalpage.js:633
 msgid "There is still a process running in this terminal. Closing the terminal will kill it."
 msgstr "Bu terminalde halen bir işlem çalışıyor. Terminali kapatmak bu işlemi de sonlandırır."
 
@@ -357,6 +352,11 @@ msgstr "Klavye Kısayollarını Etkinleştir"
 #: ddterm/app/ui/menus.ui:197 ddterm/app/ui/menus.ui:287
 msgid "Keep Open After Exit"
 msgstr "Çıktıktan Sonra Açık Tut"
+
+#: ddterm/app/ui/menus.ui:201 ddterm/app/ui/menus.ui:291
+#: ddterm/shell/notifications.js:62
+msgid "Close"
+msgstr "Kapat"
 
 #: ddterm/app/ui/menus.ui:207 ddterm/shell/panelicon.js:72
 msgid "About ddterm"
@@ -750,7 +750,7 @@ msgstr "Özel komut"
 msgid "Compatibility"
 msgstr "Uyumluluk"
 
-#: ddterm/pref/compatibility.js:23 ddterm/pref/tabs.js:33
+#: ddterm/pref/compatibility.js:23 ddterm/pref/tabs.js:31
 msgid "Automatic"
 msgstr "Otomatik"
 
@@ -798,7 +798,7 @@ msgstr "Uyumluluk Ayarlarını Varsayılana _Sıfırla"
 msgid "Panel Icon"
 msgstr "Panel İkonu"
 
-#: ddterm/pref/panelicon.js:26 ddterm/pref/tabs.js:53
+#: ddterm/pref/panelicon.js:26
 msgid "None"
 msgstr "Yok"
 
@@ -838,19 +838,19 @@ msgstr "_Monitörde"
 msgid "_Window Position"
 msgstr "_Pencere konumu"
 
-#: ddterm/pref/positionsize.js:276 ddterm/pref/tabs.js:43
+#: ddterm/pref/positionsize.js:276 ddterm/pref/tabs.js:41
 msgid "Top"
 msgstr "Üst"
 
-#: ddterm/pref/positionsize.js:277 ddterm/pref/tabs.js:42
+#: ddterm/pref/positionsize.js:277 ddterm/pref/tabs.js:40
 msgid "Bottom"
 msgstr "Alt"
 
-#: ddterm/pref/positionsize.js:278 ddterm/pref/tabs.js:44
+#: ddterm/pref/positionsize.js:278
 msgid "Left"
 msgstr "Sol"
 
-#: ddterm/pref/positionsize.js:279 ddterm/pref/tabs.js:45
+#: ddterm/pref/positionsize.js:279
 msgid "Right"
 msgstr "Sağ"
 
@@ -1040,75 +1040,47 @@ msgstr "Onuncu Sekmeye Geç"
 msgid "Reset All Shortcuts to Defaults"
 msgstr "Tüm Kısayolları Varsayılan Değerlerine Sıfırla"
 
-#: ddterm/pref/tabs.js:21
+#: ddterm/pref/tabs.js:19
 msgid "Tabs"
 msgstr "Sekmeler"
 
-#: ddterm/pref/tabs.js:25
+#: ddterm/pref/tabs.js:23
 msgid "_Restore Previous Tabs on Startup"
 msgstr "_Başlangıçta önceki sekmeleri geri yükle"
 
-#: ddterm/pref/tabs.js:30
+#: ddterm/pref/tabs.js:28
 msgid "Show Tab _Bar"
 msgstr "Sekme _çubuğunu göster"
 
-#: ddterm/pref/tabs.js:32 ddterm/pref/text.js:100
+#: ddterm/pref/tabs.js:30 ddterm/pref/text.js:100
 msgid "Always"
 msgstr "Her zaman"
 
-#: ddterm/pref/tabs.js:34 ddterm/pref/text.js:97
+#: ddterm/pref/tabs.js:32 ddterm/pref/text.js:97
 msgid "Never"
 msgstr "Hiçbir zaman"
 
-#: ddterm/pref/tabs.js:40
+#: ddterm/pref/tabs.js:38
 msgid "Tab Bar Position"
 msgstr "Sekme çubuğu konumu"
 
-#: ddterm/pref/tabs.js:51
-msgid "Ellipsize Tab Labels"
-msgstr "Uzun sekme adlarını kısalt"
-
-#: ddterm/pref/tabs.js:54
-msgid "Start"
-msgstr "Başlangıç"
-
-#: ddterm/pref/tabs.js:55
-msgid "Middle"
-msgstr "Orta"
-
-#: ddterm/pref/tabs.js:56
-msgid "End"
-msgstr "Son"
-
-#: ddterm/pref/tabs.js:79
-msgid "Tab Width"
-msgstr "Sekme genişliği"
-
-#: ddterm/pref/tabs.js:96
+#: ddterm/pref/tabs.js:47
 msgid "Expand Tabs"
 msgstr "Sekmeleri genişler"
 
-#: ddterm/pref/tabs.js:101
-msgid "Show _Close Buttons"
-msgstr "_Kapat butonlarını göster"
-
-#: ddterm/pref/tabs.js:106
+#: ddterm/pref/tabs.js:52
 msgid "\"_New Tab (Last)\" Button"
 msgstr "\"_Yeni Sekme (Son)\" butonu"
 
-#: ddterm/pref/tabs.js:111
+#: ddterm/pref/tabs.js:57
 msgid "\"_New Tab (First)\" Button"
 msgstr "\"Yeni Sekme (İlk)\" butonu"
 
-#: ddterm/pref/tabs.js:116
+#: ddterm/pref/tabs.js:62
 msgid "Tab _Switcher Popup"
 msgstr "Sekme _değiştirici açılır menüsü"
 
-#: ddterm/pref/tabs.js:121
-msgid "Show Border"
-msgstr "Kenarlığı göster"
-
-#: ddterm/pref/tabs.js:126
+#: ddterm/pref/tabs.js:67
 msgid "Show Keyboard Shortcuts"
 msgstr "Klavye kısayollarını göster"
 
@@ -1211,6 +1183,27 @@ msgstr "Kur"
 #: ddterm/shell/panelicon.js:49
 msgid "Show"
 msgstr "Göster"
+
+#~ msgid "Ellipsize Tab Labels"
+#~ msgstr "Uzun sekme adlarını kısalt"
+
+#~ msgid "Start"
+#~ msgstr "Başlangıç"
+
+#~ msgid "Middle"
+#~ msgstr "Orta"
+
+#~ msgid "End"
+#~ msgstr "Son"
+
+#~ msgid "Tab Width"
+#~ msgstr "Sekme genişliği"
+
+#~ msgid "Show _Close Buttons"
+#~ msgstr "_Kapat butonlarını göster"
+
+#~ msgid "Show Border"
+#~ msgstr "Kenarlığı göster"
 
 #~ msgid "Bold color"
 #~ msgstr "Kalın rengi"

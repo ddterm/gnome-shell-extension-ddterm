@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-07 08:36+0000\n"
+"POT-Creation-Date: 2026-02-22 08:05+0000\n"
 "PO-Revision-Date: 2026-02-16 13:09+0000\n"
 "Last-Translator: 스이미 <soo.wim3@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/ko/>\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 5.16-dev\n"
 
-#: data/com.github.amezin.ddterm.desktop.in.in:9 ddterm/app/appwindow.js:146
+#: data/com.github.amezin.ddterm.desktop.in.in:9 ddterm/app/appwindow.js:137
 #: ddterm/shell/notifications.js:238 ddterm/shell/panelicon.js:32
 msgid "ddterm"
 msgstr "ddterm"
@@ -123,11 +123,11 @@ msgstr "다음 패키지들을 설치해 주세요:"
 msgid "Please install packages that provide the following files:"
 msgstr "아래 파일들이 포함된 패키지를 설치해야 합니다:"
 
-#: ddterm/app/notebook.js:138
+#: ddterm/app/notebook.js:170
 msgid "New Tab (Last)"
 msgstr "새 탭 (맨 뒤)"
 
-#: ddterm/app/notebook.js:176
+#: ddterm/app/notebook.js:205
 msgid "New Tab (First)"
 msgstr "새 탭 (맨 앞)"
 
@@ -159,44 +159,39 @@ msgstr "다음 찾기"
 msgid "Find Previous"
 msgstr "이전 찾기"
 
-#: ddterm/app/tablabel.js:83 ddterm/pref/shortcuts.js:658
+#: ddterm/app/tablabel.js:78 ddterm/pref/shortcuts.js:658
 msgid "Set Custom Tab Title"
 msgstr "사용자 지정 탭 제목 설정"
 
-#: ddterm/app/tablabel.js:90
+#: ddterm/app/tablabel.js:85
 msgid "Tab _Title"
 msgstr "탭 _제목"
 
-#: ddterm/app/tablabel.js:104 ddterm/app/ui/menus.ui:215
+#: ddterm/app/tablabel.js:99 ddterm/app/ui/menus.ui:215
 msgid "Use Custom Tab Title"
 msgstr "사용자 지정 탭 제목 사용"
 
-#: ddterm/app/tablabel.js:220 ddterm/app/ui/menus.ui:201
-#: ddterm/app/ui/menus.ui:291 ddterm/shell/notifications.js:62
-msgid "Close"
-msgstr "닫기"
-
-#: ddterm/app/terminalpage.js:154
+#: ddterm/app/terminalpage.js:165
 msgid "Restart"
 msgstr "재시작"
 
-#: ddterm/app/terminalpage.js:155 ddterm/app/terminalpage.js:646
+#: ddterm/app/terminalpage.js:166 ddterm/app/terminalpage.js:639
 msgid "Close Terminal"
 msgstr "터미널 닫기"
 
-#: ddterm/app/terminalpage.js:513
+#: ddterm/app/terminalpage.js:506
 msgid "The child process exited with status:"
 msgstr "하위 프로세스 종료 상태:"
 
-#: ddterm/app/terminalpage.js:523
+#: ddterm/app/terminalpage.js:516
 msgid "The child process was aborted by signal:"
 msgstr "하위 프로세스가 다음 시그널로 인해 종료됨:"
 
-#: ddterm/app/terminalpage.js:638
+#: ddterm/app/terminalpage.js:631
 msgid "Close this terminal?"
 msgstr "이 터미널을 닫으시겠습니까?"
 
-#: ddterm/app/terminalpage.js:640
+#: ddterm/app/terminalpage.js:633
 msgid "There is still a process running in this terminal. Closing the terminal will kill it."
 msgstr "실행 중인 작업이 있습니다. 터미널을 닫으면 진행 중인 모든 작업이 중단됩니다."
 
@@ -352,6 +347,11 @@ msgstr "단축키 사용"
 #: ddterm/app/ui/menus.ui:197 ddterm/app/ui/menus.ui:287
 msgid "Keep Open After Exit"
 msgstr "종료 후 창 유지"
+
+#: ddterm/app/ui/menus.ui:201 ddterm/app/ui/menus.ui:291
+#: ddterm/shell/notifications.js:62
+msgid "Close"
+msgstr "닫기"
 
 #: ddterm/app/ui/menus.ui:207 ddterm/shell/panelicon.js:72
 msgid "About ddterm"
@@ -745,7 +745,7 @@ msgstr "사용자 지정 명령"
 msgid "Compatibility"
 msgstr "호환성"
 
-#: ddterm/pref/compatibility.js:23 ddterm/pref/tabs.js:33
+#: ddterm/pref/compatibility.js:23 ddterm/pref/tabs.js:31
 msgid "Automatic"
 msgstr "자동"
 
@@ -793,7 +793,7 @@ msgstr "호환성 옵션을 기본값으로 _초기화"
 msgid "Panel Icon"
 msgstr "패널 아이콘"
 
-#: ddterm/pref/panelicon.js:26 ddterm/pref/tabs.js:53
+#: ddterm/pref/panelicon.js:26
 msgid "None"
 msgstr "없음"
 
@@ -833,19 +833,19 @@ msgstr "_모니터 선택"
 msgid "_Window Position"
 msgstr "_창 위치"
 
-#: ddterm/pref/positionsize.js:276 ddterm/pref/tabs.js:43
+#: ddterm/pref/positionsize.js:276 ddterm/pref/tabs.js:41
 msgid "Top"
 msgstr "상단"
 
-#: ddterm/pref/positionsize.js:277 ddterm/pref/tabs.js:42
+#: ddterm/pref/positionsize.js:277 ddterm/pref/tabs.js:40
 msgid "Bottom"
 msgstr "하단"
 
-#: ddterm/pref/positionsize.js:278 ddterm/pref/tabs.js:44
+#: ddterm/pref/positionsize.js:278
 msgid "Left"
 msgstr "왼쪽"
 
-#: ddterm/pref/positionsize.js:279 ddterm/pref/tabs.js:45
+#: ddterm/pref/positionsize.js:279
 msgid "Right"
 msgstr "오른쪽"
 
@@ -1025,75 +1025,47 @@ msgstr "탭 10번으로 전환"
 msgid "Reset All Shortcuts to Defaults"
 msgstr "모든 단축키를 기본값으로 초기화"
 
-#: ddterm/pref/tabs.js:21
+#: ddterm/pref/tabs.js:19
 msgid "Tabs"
 msgstr "탭"
 
-#: ddterm/pref/tabs.js:25
+#: ddterm/pref/tabs.js:23
 msgid "_Restore Previous Tabs on Startup"
 msgstr "시작 시 이전 탭 _복원"
 
-#: ddterm/pref/tabs.js:30
+#: ddterm/pref/tabs.js:28
 msgid "Show Tab _Bar"
 msgstr "탭 _표시줄 표시"
 
-#: ddterm/pref/tabs.js:32 ddterm/pref/text.js:100
+#: ddterm/pref/tabs.js:30 ddterm/pref/text.js:100
 msgid "Always"
 msgstr "항상"
 
-#: ddterm/pref/tabs.js:34 ddterm/pref/text.js:97
+#: ddterm/pref/tabs.js:32 ddterm/pref/text.js:97
 msgid "Never"
 msgstr "안 함"
 
-#: ddterm/pref/tabs.js:40
+#: ddterm/pref/tabs.js:38
 msgid "Tab Bar Position"
 msgstr "탭 표시줄 위치"
 
-#: ddterm/pref/tabs.js:51
-msgid "Ellipsize Tab Labels"
-msgstr "탭 제목 줄이기"
-
-#: ddterm/pref/tabs.js:54
-msgid "Start"
-msgstr "앞"
-
-#: ddterm/pref/tabs.js:55
-msgid "Middle"
-msgstr "중간"
-
-#: ddterm/pref/tabs.js:56
-msgid "End"
-msgstr "뒤"
-
-#: ddterm/pref/tabs.js:79
-msgid "Tab Width"
-msgstr "탭 너비"
-
-#: ddterm/pref/tabs.js:96
+#: ddterm/pref/tabs.js:47
 msgid "Expand Tabs"
 msgstr "탭 너비 확장"
 
-#: ddterm/pref/tabs.js:101
-msgid "Show _Close Buttons"
-msgstr "_닫기 버튼"
-
-#: ddterm/pref/tabs.js:106
+#: ddterm/pref/tabs.js:52
 msgid "\"_New Tab (Last)\" Button"
 msgstr "\"_새 탭 (맨 뒤)\" 버튼"
 
-#: ddterm/pref/tabs.js:111
+#: ddterm/pref/tabs.js:57
 msgid "\"_New Tab (First)\" Button"
 msgstr "\"_새 탭 (맨 앞)\" 버튼"
 
-#: ddterm/pref/tabs.js:116
+#: ddterm/pref/tabs.js:62
 msgid "Tab _Switcher Popup"
 msgstr "탭 _전환 팝업"
 
-#: ddterm/pref/tabs.js:121
-msgid "Show Border"
-msgstr "테두리 표시"
-
-#: ddterm/pref/tabs.js:126
+#: ddterm/pref/tabs.js:67
 msgid "Show Keyboard Shortcuts"
 msgstr "키보드 단축키 표시"
 
@@ -1196,3 +1168,24 @@ msgstr "설치"
 #: ddterm/shell/panelicon.js:49
 msgid "Show"
 msgstr "표시"
+
+#~ msgid "Ellipsize Tab Labels"
+#~ msgstr "탭 제목 줄이기"
+
+#~ msgid "Start"
+#~ msgstr "앞"
+
+#~ msgid "Middle"
+#~ msgstr "중간"
+
+#~ msgid "End"
+#~ msgstr "뒤"
+
+#~ msgid "Tab Width"
+#~ msgstr "탭 너비"
+
+#~ msgid "Show _Close Buttons"
+#~ msgstr "_닫기 버튼"
+
+#~ msgid "Show Border"
+#~ msgstr "테두리 표시"

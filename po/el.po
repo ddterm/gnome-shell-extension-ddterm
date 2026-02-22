@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-07 08:36+0000\n"
+"POT-Creation-Date: 2026-02-22 08:05+0000\n"
 "PO-Revision-Date: 2026-02-05 23:28+0000\n"
 "Last-Translator: Aleksandr Mezin <mezin.alexander@gmail.com>\n"
 "Language-Team: Greek <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/el/>\n"
@@ -22,7 +22,7 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-Basepath: .\n"
 
-#: data/com.github.amezin.ddterm.desktop.in.in:9 ddterm/app/appwindow.js:146
+#: data/com.github.amezin.ddterm.desktop.in.in:9 ddterm/app/appwindow.js:137
 #: ddterm/shell/notifications.js:238 ddterm/shell/panelicon.js:32
 msgid "ddterm"
 msgstr ""
@@ -131,11 +131,11 @@ msgstr "Χρειάζετε να εγκατασταθούν τα ακόλουθα
 msgid "Please install packages that provide the following files:"
 msgstr "Παρακαλώ εγκαταστείστε τα πακέτα που περιγράφουν τα παρακάτω αρχεία :"
 
-#: ddterm/app/notebook.js:138
+#: ddterm/app/notebook.js:170
 msgid "New Tab (Last)"
 msgstr "Νέα καρτέλα (Τέλος)"
 
-#: ddterm/app/notebook.js:176
+#: ddterm/app/notebook.js:205
 msgid "New Tab (First)"
 msgstr "Νέα καρτέλα (Αρχή)"
 
@@ -167,47 +167,42 @@ msgstr "Μετακίνηση στο επόμενο"
 msgid "Find Previous"
 msgstr "Μετακίνηση στο επόμενο"
 
-#: ddterm/app/tablabel.js:83 ddterm/pref/shortcuts.js:658
+#: ddterm/app/tablabel.js:78 ddterm/pref/shortcuts.js:658
 msgid "Set Custom Tab Title"
 msgstr "Παραμετροποίση τίτλου καρτέλας"
 
-#: ddterm/app/tablabel.js:90
+#: ddterm/app/tablabel.js:85
 #, fuzzy
 msgid "Tab _Title"
 msgstr "Titre d'onglet"
 
-#: ddterm/app/tablabel.js:104 ddterm/app/ui/menus.ui:215
+#: ddterm/app/tablabel.js:99 ddterm/app/ui/menus.ui:215
 msgid "Use Custom Tab Title"
 msgstr "Χρησιμοποιήστε τον τίτλο προσαρμοσμένης καρτέλας"
 
-#: ddterm/app/tablabel.js:220 ddterm/app/ui/menus.ui:201
-#: ddterm/app/ui/menus.ui:291 ddterm/shell/notifications.js:62
-msgid "Close"
-msgstr "Κλείσιμο"
-
-#: ddterm/app/terminalpage.js:154
+#: ddterm/app/terminalpage.js:165
 #, fuzzy
 msgid "Restart"
 msgstr "Αρχή"
 
-#: ddterm/app/terminalpage.js:155 ddterm/app/terminalpage.js:646
+#: ddterm/app/terminalpage.js:166 ddterm/app/terminalpage.js:639
 #, fuzzy
 msgid "Close Terminal"
 msgstr "Να κλείσει το Τερματικό ;"
 
-#: ddterm/app/terminalpage.js:513
+#: ddterm/app/terminalpage.js:506
 msgid "The child process exited with status:"
 msgstr ""
 
-#: ddterm/app/terminalpage.js:523
+#: ddterm/app/terminalpage.js:516
 msgid "The child process was aborted by signal:"
 msgstr ""
 
-#: ddterm/app/terminalpage.js:638
+#: ddterm/app/terminalpage.js:631
 msgid "Close this terminal?"
 msgstr "Να κλείσει το Τερματικό ;"
 
-#: ddterm/app/terminalpage.js:640
+#: ddterm/app/terminalpage.js:633
 msgid "There is still a process running in this terminal. Closing the terminal will kill it."
 msgstr "Μία αργασία εκτελείτε ακόμα σε αυτό το τερματικό. Το κλείσιμο θα την διακόψει."
 
@@ -364,6 +359,11 @@ msgstr "Ενεργοποίση συντομέυσεων πληκτρολογίο
 #: ddterm/app/ui/menus.ui:197 ddterm/app/ui/menus.ui:287
 msgid "Keep Open After Exit"
 msgstr "Μείνε ανοικτό μετά την έξοδο"
+
+#: ddterm/app/ui/menus.ui:201 ddterm/app/ui/menus.ui:291
+#: ddterm/shell/notifications.js:62
+msgid "Close"
+msgstr "Κλείσιμο"
 
 #: ddterm/app/ui/menus.ui:207 ddterm/shell/panelicon.js:72
 msgid "About ddterm"
@@ -757,7 +757,7 @@ msgstr ""
 msgid "Compatibility"
 msgstr "Συμβατότητα"
 
-#: ddterm/pref/compatibility.js:23 ddterm/pref/tabs.js:33
+#: ddterm/pref/compatibility.js:23 ddterm/pref/tabs.js:31
 msgid "Automatic"
 msgstr "Αυτόματο"
 
@@ -805,7 +805,7 @@ msgstr "_Επαναφορά των επιλογών συμβατότητας σ�
 msgid "Panel Icon"
 msgstr "Εικονίδιο Πάνελ"
 
-#: ddterm/pref/panelicon.js:26 ddterm/pref/tabs.js:53
+#: ddterm/pref/panelicon.js:26
 msgid "None"
 msgstr "Κανένα"
 
@@ -845,19 +845,19 @@ msgstr "Στην οθόνη"
 msgid "_Window Position"
 msgstr "Θέση Παραθύρου"
 
-#: ddterm/pref/positionsize.js:276 ddterm/pref/tabs.js:43
+#: ddterm/pref/positionsize.js:276 ddterm/pref/tabs.js:41
 msgid "Top"
 msgstr "Κορυφή"
 
-#: ddterm/pref/positionsize.js:277 ddterm/pref/tabs.js:42
+#: ddterm/pref/positionsize.js:277 ddterm/pref/tabs.js:40
 msgid "Bottom"
 msgstr "Κάτω"
 
-#: ddterm/pref/positionsize.js:278 ddterm/pref/tabs.js:44
+#: ddterm/pref/positionsize.js:278
 msgid "Left"
 msgstr "Αριστερά"
 
-#: ddterm/pref/positionsize.js:279 ddterm/pref/tabs.js:45
+#: ddterm/pref/positionsize.js:279
 msgid "Right"
 msgstr "Δεξιά"
 
@@ -1054,75 +1054,47 @@ msgstr "Μετάβαση καρτέλα 10"
 msgid "Reset All Shortcuts to Defaults"
 msgstr "Réinitialiser aux valeurs par défaut"
 
-#: ddterm/pref/tabs.js:21
+#: ddterm/pref/tabs.js:19
 msgid "Tabs"
 msgstr "Καρτέλες"
 
-#: ddterm/pref/tabs.js:25
+#: ddterm/pref/tabs.js:23
 msgid "_Restore Previous Tabs on Startup"
 msgstr ""
 
-#: ddterm/pref/tabs.js:30
+#: ddterm/pref/tabs.js:28
 msgid "Show Tab _Bar"
 msgstr "Εμφάνιση μπάρας καρτελών"
 
-#: ddterm/pref/tabs.js:32 ddterm/pref/text.js:100
+#: ddterm/pref/tabs.js:30 ddterm/pref/text.js:100
 msgid "Always"
 msgstr "Πάντα"
 
-#: ddterm/pref/tabs.js:34 ddterm/pref/text.js:97
+#: ddterm/pref/tabs.js:32 ddterm/pref/text.js:97
 msgid "Never"
 msgstr "Ποτέ"
 
-#: ddterm/pref/tabs.js:40
+#: ddterm/pref/tabs.js:38
 msgid "Tab Bar Position"
 msgstr "Θέση μπάρας καρτελών"
 
-#: ddterm/pref/tabs.js:51
-msgid "Ellipsize Tab Labels"
-msgstr ""
-
-#: ddterm/pref/tabs.js:54
-msgid "Start"
-msgstr "Αρχή"
-
-#: ddterm/pref/tabs.js:55
-msgid "Middle"
-msgstr "Μεσαίο"
-
-#: ddterm/pref/tabs.js:56
-msgid "End"
-msgstr "Τέλος"
-
-#: ddterm/pref/tabs.js:79
-msgid "Tab Width"
-msgstr "Πλάτος καρτέλας"
-
-#: ddterm/pref/tabs.js:96
+#: ddterm/pref/tabs.js:47
 msgid "Expand Tabs"
 msgstr "Αναπτύξτε τις καρτέλες"
 
-#: ddterm/pref/tabs.js:101
-msgid "Show _Close Buttons"
-msgstr "Εμφάνιση κουμπιών _κλεισήματος"
-
-#: ddterm/pref/tabs.js:106
+#: ddterm/pref/tabs.js:52
 msgid "\"_New Tab (Last)\" Button"
 msgstr "\"_Νέα Καρτέλα (Τελευταία)\" "
 
-#: ddterm/pref/tabs.js:111
+#: ddterm/pref/tabs.js:57
 msgid "\"_New Tab (First)\" Button"
 msgstr "Κουμπί \"_Νέα καρτέλα (Πρώτη)\""
 
-#: ddterm/pref/tabs.js:116
+#: ddterm/pref/tabs.js:62
 msgid "Tab _Switcher Popup"
 msgstr "Ενναλαγή καρτέλων"
 
-#: ddterm/pref/tabs.js:121
-msgid "Show Border"
-msgstr "Εμφάνιση περιγράμματος"
-
-#: ddterm/pref/tabs.js:126
+#: ddterm/pref/tabs.js:67
 msgid "Show Keyboard Shortcuts"
 msgstr "Εμφάνιση συντομεύσεων πληκτρολογίου"
 
@@ -1227,6 +1199,24 @@ msgstr ""
 #: ddterm/shell/panelicon.js:49
 msgid "Show"
 msgstr "Εμφάνιση"
+
+#~ msgid "Start"
+#~ msgstr "Αρχή"
+
+#~ msgid "Middle"
+#~ msgstr "Μεσαίο"
+
+#~ msgid "End"
+#~ msgstr "Τέλος"
+
+#~ msgid "Tab Width"
+#~ msgstr "Πλάτος καρτέλας"
+
+#~ msgid "Show _Close Buttons"
+#~ msgstr "Εμφάνιση κουμπιών _κλεισήματος"
+
+#~ msgid "Show Border"
+#~ msgstr "Εμφάνιση περιγράμματος"
 
 #~ msgid "_Above all windows"
 #~ msgstr "_Πάνω από όλα τα παράθυρα"

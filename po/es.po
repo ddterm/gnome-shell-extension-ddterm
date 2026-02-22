@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-07 08:36+0000\n"
+"POT-Creation-Date: 2026-02-22 08:05+0000\n"
 "PO-Revision-Date: 2026-02-14 17:09+0000\n"
 "Last-Translator: Francisco Serrador <fserrador@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/es/>\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.16-dev\n"
 
-#: data/com.github.amezin.ddterm.desktop.in.in:9 ddterm/app/appwindow.js:146
+#: data/com.github.amezin.ddterm.desktop.in.in:9 ddterm/app/appwindow.js:137
 #: ddterm/shell/notifications.js:238 ddterm/shell/panelicon.js:32
 msgid "ddterm"
 msgstr "ddterm"
@@ -128,11 +128,11 @@ msgstr "Por favor instale los siguientes paquetes:"
 msgid "Please install packages that provide the following files:"
 msgstr "Por favor instale los paquetes que provean los siguientes archivos:"
 
-#: ddterm/app/notebook.js:138
+#: ddterm/app/notebook.js:170
 msgid "New Tab (Last)"
 msgstr "Nueva pestaña (Última)"
 
-#: ddterm/app/notebook.js:176
+#: ddterm/app/notebook.js:205
 msgid "New Tab (First)"
 msgstr "Nueva pestaña (Primera)"
 
@@ -164,44 +164,39 @@ msgstr "Encontrar siguiente"
 msgid "Find Previous"
 msgstr "Encontrar anterior"
 
-#: ddterm/app/tablabel.js:83 ddterm/pref/shortcuts.js:658
+#: ddterm/app/tablabel.js:78 ddterm/pref/shortcuts.js:658
 msgid "Set Custom Tab Title"
 msgstr "Establecer título de la pestaña personalizado"
 
-#: ddterm/app/tablabel.js:90
+#: ddterm/app/tablabel.js:85
 msgid "Tab _Title"
 msgstr "_Título de pestaña"
 
-#: ddterm/app/tablabel.js:104 ddterm/app/ui/menus.ui:215
+#: ddterm/app/tablabel.js:99 ddterm/app/ui/menus.ui:215
 msgid "Use Custom Tab Title"
 msgstr "Cambiar el título de la pestaña"
 
-#: ddterm/app/tablabel.js:220 ddterm/app/ui/menus.ui:201
-#: ddterm/app/ui/menus.ui:291 ddterm/shell/notifications.js:62
-msgid "Close"
-msgstr "Cerrar"
-
-#: ddterm/app/terminalpage.js:154
+#: ddterm/app/terminalpage.js:165
 msgid "Restart"
 msgstr "Reiniciar"
 
-#: ddterm/app/terminalpage.js:155 ddterm/app/terminalpage.js:646
+#: ddterm/app/terminalpage.js:166 ddterm/app/terminalpage.js:639
 msgid "Close Terminal"
 msgstr "Cerrar terminal"
 
-#: ddterm/app/terminalpage.js:513
+#: ddterm/app/terminalpage.js:506
 msgid "The child process exited with status:"
 msgstr "El proceso terminó con el siguiente estado:"
 
-#: ddterm/app/terminalpage.js:523
+#: ddterm/app/terminalpage.js:516
 msgid "The child process was aborted by signal:"
 msgstr "El proceso fué parado con la señal:"
 
-#: ddterm/app/terminalpage.js:638
+#: ddterm/app/terminalpage.js:631
 msgid "Close this terminal?"
 msgstr "¿Cerrar esta terminal?"
 
-#: ddterm/app/terminalpage.js:640
+#: ddterm/app/terminalpage.js:633
 msgid "There is still a process running in this terminal. Closing the terminal will kill it."
 msgstr "Un proceso aún está corriendo en esta terminal. Cerrar la terminal lo terminaría."
 
@@ -357,6 +352,11 @@ msgstr "Activar atajos de teclado"
 #: ddterm/app/ui/menus.ui:197 ddterm/app/ui/menus.ui:287
 msgid "Keep Open After Exit"
 msgstr "Mantener abierto después de salir"
+
+#: ddterm/app/ui/menus.ui:201 ddterm/app/ui/menus.ui:291
+#: ddterm/shell/notifications.js:62
+msgid "Close"
+msgstr "Cerrar"
 
 #: ddterm/app/ui/menus.ui:207 ddterm/shell/panelicon.js:72
 msgid "About ddterm"
@@ -750,7 +750,7 @@ msgstr "Comando Personalizado"
 msgid "Compatibility"
 msgstr "Compatibilidad"
 
-#: ddterm/pref/compatibility.js:23 ddterm/pref/tabs.js:33
+#: ddterm/pref/compatibility.js:23 ddterm/pref/tabs.js:31
 msgid "Automatic"
 msgstr "Automático"
 
@@ -798,7 +798,7 @@ msgstr "_Reiniciar las opciones de compatibilidad con los valores predeterminado
 msgid "Panel Icon"
 msgstr "Icono del panel"
 
-#: ddterm/pref/panelicon.js:26 ddterm/pref/tabs.js:53
+#: ddterm/pref/panelicon.js:26
 msgid "None"
 msgstr "Ninguno"
 
@@ -838,19 +838,19 @@ msgstr "En el _monitor"
 msgid "_Window Position"
 msgstr "_Posición de la ventana"
 
-#: ddterm/pref/positionsize.js:276 ddterm/pref/tabs.js:43
+#: ddterm/pref/positionsize.js:276 ddterm/pref/tabs.js:41
 msgid "Top"
 msgstr "Superior"
 
-#: ddterm/pref/positionsize.js:277 ddterm/pref/tabs.js:42
+#: ddterm/pref/positionsize.js:277 ddterm/pref/tabs.js:40
 msgid "Bottom"
 msgstr "Inferior"
 
-#: ddterm/pref/positionsize.js:278 ddterm/pref/tabs.js:44
+#: ddterm/pref/positionsize.js:278
 msgid "Left"
 msgstr "Izquierda"
 
-#: ddterm/pref/positionsize.js:279 ddterm/pref/tabs.js:45
+#: ddterm/pref/positionsize.js:279
 msgid "Right"
 msgstr "Derecha"
 
@@ -1030,75 +1030,47 @@ msgstr "Cambiar a pestaña 10"
 msgid "Reset All Shortcuts to Defaults"
 msgstr "Restablecer Todos los Atajos a los Predeterminados"
 
-#: ddterm/pref/tabs.js:21
+#: ddterm/pref/tabs.js:19
 msgid "Tabs"
 msgstr "Pestañas"
 
-#: ddterm/pref/tabs.js:25
+#: ddterm/pref/tabs.js:23
 msgid "_Restore Previous Tabs on Startup"
 msgstr "_Restaurar pestañas anteriores al iniciar"
 
-#: ddterm/pref/tabs.js:30
+#: ddterm/pref/tabs.js:28
 msgid "Show Tab _Bar"
 msgstr "Mostrar la _barra de pestañas"
 
-#: ddterm/pref/tabs.js:32 ddterm/pref/text.js:100
+#: ddterm/pref/tabs.js:30 ddterm/pref/text.js:100
 msgid "Always"
 msgstr "Siempre"
 
-#: ddterm/pref/tabs.js:34 ddterm/pref/text.js:97
+#: ddterm/pref/tabs.js:32 ddterm/pref/text.js:97
 msgid "Never"
 msgstr "Nunca"
 
-#: ddterm/pref/tabs.js:40
+#: ddterm/pref/tabs.js:38
 msgid "Tab Bar Position"
 msgstr "Posición de las pestañas"
 
-#: ddterm/pref/tabs.js:51
-msgid "Ellipsize Tab Labels"
-msgstr "Etiquetas de tarjetas en forma de elipse"
-
-#: ddterm/pref/tabs.js:54
-msgid "Start"
-msgstr "Iniciar"
-
-#: ddterm/pref/tabs.js:55
-msgid "Middle"
-msgstr "Medio"
-
-#: ddterm/pref/tabs.js:56
-msgid "End"
-msgstr "Fin"
-
-#: ddterm/pref/tabs.js:79
-msgid "Tab Width"
-msgstr "Ancho de la pestaña"
-
-#: ddterm/pref/tabs.js:96
+#: ddterm/pref/tabs.js:47
 msgid "Expand Tabs"
 msgstr "Expandir pestañas"
 
-#: ddterm/pref/tabs.js:101
-msgid "Show _Close Buttons"
-msgstr "Mostrar botones de _cerrar"
-
-#: ddterm/pref/tabs.js:106
+#: ddterm/pref/tabs.js:52
 msgid "\"_New Tab (Last)\" Button"
 msgstr "Botón \"_Nueva pestaña (última)\""
 
-#: ddterm/pref/tabs.js:111
+#: ddterm/pref/tabs.js:57
 msgid "\"_New Tab (First)\" Button"
 msgstr "Botón \"_Nueva pestaña (primera)\""
 
-#: ddterm/pref/tabs.js:116
+#: ddterm/pref/tabs.js:62
 msgid "Tab _Switcher Popup"
 msgstr "_Ventana emergente de cambio de pestaña"
 
-#: ddterm/pref/tabs.js:121
-msgid "Show Border"
-msgstr "Mostrar borde"
-
-#: ddterm/pref/tabs.js:126
+#: ddterm/pref/tabs.js:67
 msgid "Show Keyboard Shortcuts"
 msgstr "Mostrar atajos del teclado"
 
@@ -1201,6 +1173,27 @@ msgstr "Instalar"
 #: ddterm/shell/panelicon.js:49
 msgid "Show"
 msgstr "Mostrar"
+
+#~ msgid "Ellipsize Tab Labels"
+#~ msgstr "Etiquetas de tarjetas en forma de elipse"
+
+#~ msgid "Start"
+#~ msgstr "Iniciar"
+
+#~ msgid "Middle"
+#~ msgstr "Medio"
+
+#~ msgid "End"
+#~ msgstr "Fin"
+
+#~ msgid "Tab Width"
+#~ msgstr "Ancho de la pestaña"
+
+#~ msgid "Show _Close Buttons"
+#~ msgstr "Mostrar botones de _cerrar"
+
+#~ msgid "Show Border"
+#~ msgstr "Mostrar borde"
 
 #~ msgid "Bold color"
 #~ msgstr "Color de negrita"

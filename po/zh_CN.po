@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-07 08:36+0000\n"
+"POT-Creation-Date: 2026-02-22 08:05+0000\n"
 "PO-Revision-Date: 2026-02-22 00:09+0000\n"
 "Last-Translator: reducedradius <feixiang512@outlook.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/zh_Hans/>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 5.16.1-dev\n"
 
-#: data/com.github.amezin.ddterm.desktop.in.in:9 ddterm/app/appwindow.js:146
+#: data/com.github.amezin.ddterm.desktop.in.in:9 ddterm/app/appwindow.js:137
 #: ddterm/shell/notifications.js:238 ddterm/shell/panelicon.js:32
 msgid "ddterm"
 msgstr "ddterm"
@@ -124,11 +124,11 @@ msgstr "请安装以下软件包："
 msgid "Please install packages that provide the following files:"
 msgstr "请安装提供以下文件的软件包："
 
-#: ddterm/app/notebook.js:138
+#: ddterm/app/notebook.js:170
 msgid "New Tab (Last)"
 msgstr "新建标签页（最后一个）"
 
-#: ddterm/app/notebook.js:176
+#: ddterm/app/notebook.js:205
 msgid "New Tab (First)"
 msgstr "新建标签页（第一个）"
 
@@ -160,44 +160,39 @@ msgstr "查找下一个"
 msgid "Find Previous"
 msgstr "找到前一个"
 
-#: ddterm/app/tablabel.js:83 ddterm/pref/shortcuts.js:658
+#: ddterm/app/tablabel.js:78 ddterm/pref/shortcuts.js:658
 msgid "Set Custom Tab Title"
 msgstr "设置自定义标签页标题"
 
-#: ddterm/app/tablabel.js:90
+#: ddterm/app/tablabel.js:85
 msgid "Tab _Title"
 msgstr "标签页标题"
 
-#: ddterm/app/tablabel.js:104 ddterm/app/ui/menus.ui:215
+#: ddterm/app/tablabel.js:99 ddterm/app/ui/menus.ui:215
 msgid "Use Custom Tab Title"
 msgstr "使用自定义标签页标题"
 
-#: ddterm/app/tablabel.js:220 ddterm/app/ui/menus.ui:201
-#: ddterm/app/ui/menus.ui:291 ddterm/shell/notifications.js:62
-msgid "Close"
-msgstr "关闭"
-
-#: ddterm/app/terminalpage.js:154
+#: ddterm/app/terminalpage.js:165
 msgid "Restart"
 msgstr "重新开始"
 
-#: ddterm/app/terminalpage.js:155 ddterm/app/terminalpage.js:646
+#: ddterm/app/terminalpage.js:166 ddterm/app/terminalpage.js:639
 msgid "Close Terminal"
 msgstr "关闭终端"
 
-#: ddterm/app/terminalpage.js:513
+#: ddterm/app/terminalpage.js:506
 msgid "The child process exited with status:"
 msgstr "子进程退出，状态为："
 
-#: ddterm/app/terminalpage.js:523
+#: ddterm/app/terminalpage.js:516
 msgid "The child process was aborted by signal:"
 msgstr "子进程被信号中止："
 
-#: ddterm/app/terminalpage.js:638
+#: ddterm/app/terminalpage.js:631
 msgid "Close this terminal?"
 msgstr "关闭这个终端？"
 
-#: ddterm/app/terminalpage.js:640
+#: ddterm/app/terminalpage.js:633
 msgid "There is still a process running in this terminal. Closing the terminal will kill it."
 msgstr "该终端中仍有一个进程在运行。关闭终端，将会销毁该进程。"
 
@@ -353,6 +348,11 @@ msgstr "启用键盘快捷键"
 #: ddterm/app/ui/menus.ui:197 ddterm/app/ui/menus.ui:287
 msgid "Keep Open After Exit"
 msgstr "退出后保持打开"
+
+#: ddterm/app/ui/menus.ui:201 ddterm/app/ui/menus.ui:291
+#: ddterm/shell/notifications.js:62
+msgid "Close"
+msgstr "关闭"
 
 #: ddterm/app/ui/menus.ui:207 ddterm/shell/panelicon.js:72
 msgid "About ddterm"
@@ -746,7 +746,7 @@ msgstr "自定义 命令"
 msgid "Compatibility"
 msgstr "兼容性"
 
-#: ddterm/pref/compatibility.js:23 ddterm/pref/tabs.js:33
+#: ddterm/pref/compatibility.js:23 ddterm/pref/tabs.js:31
 msgid "Automatic"
 msgstr "自动"
 
@@ -794,7 +794,7 @@ msgstr "将兼容性选项_重设为默认值"
 msgid "Panel Icon"
 msgstr "面板图标"
 
-#: ddterm/pref/panelicon.js:26 ddterm/pref/tabs.js:53
+#: ddterm/pref/panelicon.js:26
 msgid "None"
 msgstr "无"
 
@@ -834,19 +834,19 @@ msgstr "在 _显示器上"
 msgid "_Window Position"
 msgstr "_窗口位置"
 
-#: ddterm/pref/positionsize.js:276 ddterm/pref/tabs.js:43
+#: ddterm/pref/positionsize.js:276 ddterm/pref/tabs.js:41
 msgid "Top"
 msgstr "顶部"
 
-#: ddterm/pref/positionsize.js:277 ddterm/pref/tabs.js:42
+#: ddterm/pref/positionsize.js:277 ddterm/pref/tabs.js:40
 msgid "Bottom"
 msgstr "底部"
 
-#: ddterm/pref/positionsize.js:278 ddterm/pref/tabs.js:44
+#: ddterm/pref/positionsize.js:278
 msgid "Left"
 msgstr "左边"
 
-#: ddterm/pref/positionsize.js:279 ddterm/pref/tabs.js:45
+#: ddterm/pref/positionsize.js:279
 msgid "Right"
 msgstr "右边"
 
@@ -1036,75 +1036,47 @@ msgstr "切换到标签10"
 msgid "Reset All Shortcuts to Defaults"
 msgstr "重置快捷键"
 
-#: ddterm/pref/tabs.js:21
+#: ddterm/pref/tabs.js:19
 msgid "Tabs"
 msgstr "标签页"
 
-#: ddterm/pref/tabs.js:25
+#: ddterm/pref/tabs.js:23
 msgid "_Restore Previous Tabs on Startup"
 msgstr "_启动时还原以前的选项卡"
 
-#: ddterm/pref/tabs.js:30
+#: ddterm/pref/tabs.js:28
 msgid "Show Tab _Bar"
 msgstr "显示标签 _栏"
 
-#: ddterm/pref/tabs.js:32 ddterm/pref/text.js:100
+#: ddterm/pref/tabs.js:30 ddterm/pref/text.js:100
 msgid "Always"
 msgstr "总是"
 
-#: ddterm/pref/tabs.js:34 ddterm/pref/text.js:97
+#: ddterm/pref/tabs.js:32 ddterm/pref/text.js:97
 msgid "Never"
 msgstr "从不"
 
-#: ddterm/pref/tabs.js:40
+#: ddterm/pref/tabs.js:38
 msgid "Tab Bar Position"
 msgstr "标签栏的位置"
 
-#: ddterm/pref/tabs.js:51
-msgid "Ellipsize Tab Labels"
-msgstr "缩写标签页文本"
-
-#: ddterm/pref/tabs.js:54
-msgid "Start"
-msgstr "开头"
-
-#: ddterm/pref/tabs.js:55
-msgid "Middle"
-msgstr "中间"
-
-#: ddterm/pref/tabs.js:56
-msgid "End"
-msgstr "结尾"
-
-#: ddterm/pref/tabs.js:79
-msgid "Tab Width"
-msgstr "标签页宽度"
-
-#: ddterm/pref/tabs.js:96
+#: ddterm/pref/tabs.js:47
 msgid "Expand Tabs"
 msgstr "扩展标签页"
 
-#: ddterm/pref/tabs.js:101
-msgid "Show _Close Buttons"
-msgstr "显示 _关闭按钮"
-
-#: ddterm/pref/tabs.js:106
+#: ddterm/pref/tabs.js:52
 msgid "\"_New Tab (Last)\" Button"
 msgstr "\"_新建标签页（最后）\"按钮"
 
-#: ddterm/pref/tabs.js:111
+#: ddterm/pref/tabs.js:57
 msgid "\"_New Tab (First)\" Button"
 msgstr "“_新建标签页（第一个）”按钮"
 
-#: ddterm/pref/tabs.js:116
+#: ddterm/pref/tabs.js:62
 msgid "Tab _Switcher Popup"
 msgstr "标签页 _切换器"
 
-#: ddterm/pref/tabs.js:121
-msgid "Show Border"
-msgstr "显示边框"
-
-#: ddterm/pref/tabs.js:126
+#: ddterm/pref/tabs.js:67
 msgid "Show Keyboard Shortcuts"
 msgstr "显示键盘快捷键"
 
@@ -1207,6 +1179,27 @@ msgstr "安装"
 #: ddterm/shell/panelicon.js:49
 msgid "Show"
 msgstr "显示"
+
+#~ msgid "Ellipsize Tab Labels"
+#~ msgstr "缩写标签页文本"
+
+#~ msgid "Start"
+#~ msgstr "开头"
+
+#~ msgid "Middle"
+#~ msgstr "中间"
+
+#~ msgid "End"
+#~ msgstr "结尾"
+
+#~ msgid "Tab Width"
+#~ msgstr "标签页宽度"
+
+#~ msgid "Show _Close Buttons"
+#~ msgstr "显示 _关闭按钮"
+
+#~ msgid "Show Border"
+#~ msgstr "显示边框"
 
 #~ msgid "Bold color"
 #~ msgstr "粗体颜色"

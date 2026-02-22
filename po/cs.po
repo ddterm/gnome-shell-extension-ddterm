@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-07 08:36+0000\n"
+"POT-Creation-Date: 2026-02-22 08:05+0000\n"
 "PO-Revision-Date: 2023-10-24 22:14+0000\n"
 "Last-Translator: Pavel Novák <pavelnov32@gmail.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/cs/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Weblate 5.1.1-dev\n"
 
-#: data/com.github.amezin.ddterm.desktop.in.in:9 ddterm/app/appwindow.js:146
+#: data/com.github.amezin.ddterm.desktop.in.in:9 ddterm/app/appwindow.js:137
 #: ddterm/shell/notifications.js:238 ddterm/shell/panelicon.js:32
 msgid "ddterm"
 msgstr ""
@@ -122,11 +122,11 @@ msgstr "Nainstalujte prosím tyto balíčky:"
 msgid "Please install packages that provide the following files:"
 msgstr "Nainstalujte balíčky které poskytují tyto soubory:"
 
-#: ddterm/app/notebook.js:138
+#: ddterm/app/notebook.js:170
 msgid "New Tab (Last)"
 msgstr "Nový panel (Poslední)"
 
-#: ddterm/app/notebook.js:176
+#: ddterm/app/notebook.js:205
 msgid "New Tab (First)"
 msgstr "Nový panel (První)"
 
@@ -158,44 +158,39 @@ msgstr "Klávesové zkratky"
 msgid "Find Previous"
 msgstr "Najít předchozí"
 
-#: ddterm/app/tablabel.js:83 ddterm/pref/shortcuts.js:658
+#: ddterm/app/tablabel.js:78 ddterm/pref/shortcuts.js:658
 msgid "Set Custom Tab Title"
 msgstr "Nastavit vlastní název panelu"
 
-#: ddterm/app/tablabel.js:90
+#: ddterm/app/tablabel.js:85
 msgid "Tab _Title"
 msgstr "_Název panelu"
 
-#: ddterm/app/tablabel.js:104 ddterm/app/ui/menus.ui:215
+#: ddterm/app/tablabel.js:99 ddterm/app/ui/menus.ui:215
 msgid "Use Custom Tab Title"
 msgstr "Použít vlastní název panelu"
 
-#: ddterm/app/tablabel.js:220 ddterm/app/ui/menus.ui:201
-#: ddterm/app/ui/menus.ui:291 ddterm/shell/notifications.js:62
-msgid "Close"
-msgstr "Zavřít"
-
-#: ddterm/app/terminalpage.js:154
+#: ddterm/app/terminalpage.js:165
 msgid "Restart"
 msgstr "Restart"
 
-#: ddterm/app/terminalpage.js:155 ddterm/app/terminalpage.js:646
+#: ddterm/app/terminalpage.js:166 ddterm/app/terminalpage.js:639
 msgid "Close Terminal"
 msgstr "Zavřít tento terminál"
 
-#: ddterm/app/terminalpage.js:513
+#: ddterm/app/terminalpage.js:506
 msgid "The child process exited with status:"
 msgstr "Podproces byl ukončen se stavem:"
 
-#: ddterm/app/terminalpage.js:523
+#: ddterm/app/terminalpage.js:516
 msgid "The child process was aborted by signal:"
 msgstr "Podproces byl zrušen signálem:"
 
-#: ddterm/app/terminalpage.js:638
+#: ddterm/app/terminalpage.js:631
 msgid "Close this terminal?"
 msgstr "Zavřít tento terminál?"
 
-#: ddterm/app/terminalpage.js:640
+#: ddterm/app/terminalpage.js:633
 msgid "There is still a process running in this terminal. Closing the terminal will kill it."
 msgstr "V tomto terminálu stále běží proces. Zavření terminálu jej ukončí."
 
@@ -351,6 +346,11 @@ msgstr "Povolit klávesové zkratky"
 #: ddterm/app/ui/menus.ui:197 ddterm/app/ui/menus.ui:287
 msgid "Keep Open After Exit"
 msgstr "Nechat otevřené po ukončení"
+
+#: ddterm/app/ui/menus.ui:201 ddterm/app/ui/menus.ui:291
+#: ddterm/shell/notifications.js:62
+msgid "Close"
+msgstr "Zavřít"
 
 #: ddterm/app/ui/menus.ui:207 ddterm/shell/panelicon.js:72
 msgid "About ddterm"
@@ -744,7 +744,7 @@ msgstr "Vlastní příkaz"
 msgid "Compatibility"
 msgstr "Kompatibilita"
 
-#: ddterm/pref/compatibility.js:23 ddterm/pref/tabs.js:33
+#: ddterm/pref/compatibility.js:23 ddterm/pref/tabs.js:31
 msgid "Automatic"
 msgstr "Automatický"
 
@@ -792,7 +792,7 @@ msgstr "_Resetovat nastavení kompatibility na výchozí hodnoty"
 msgid "Panel Icon"
 msgstr "Ikona na panelu"
 
-#: ddterm/pref/panelicon.js:26 ddterm/pref/tabs.js:53
+#: ddterm/pref/panelicon.js:26
 msgid "None"
 msgstr "Žádná"
 
@@ -832,19 +832,19 @@ msgstr "Na _monitoru"
 msgid "_Window Position"
 msgstr "Pozice _Okna"
 
-#: ddterm/pref/positionsize.js:276 ddterm/pref/tabs.js:43
+#: ddterm/pref/positionsize.js:276 ddterm/pref/tabs.js:41
 msgid "Top"
 msgstr "Nahoře"
 
-#: ddterm/pref/positionsize.js:277 ddterm/pref/tabs.js:42
+#: ddterm/pref/positionsize.js:277 ddterm/pref/tabs.js:40
 msgid "Bottom"
 msgstr "Dole"
 
-#: ddterm/pref/positionsize.js:278 ddterm/pref/tabs.js:44
+#: ddterm/pref/positionsize.js:278
 msgid "Left"
 msgstr "Vlevo"
 
-#: ddterm/pref/positionsize.js:279 ddterm/pref/tabs.js:45
+#: ddterm/pref/positionsize.js:279
 msgid "Right"
 msgstr "Vpravo"
 
@@ -1037,75 +1037,47 @@ msgstr "Přepnout na panel 10"
 msgid "Reset All Shortcuts to Defaults"
 msgstr "_Resetovat na výchozí hodnotu"
 
-#: ddterm/pref/tabs.js:21
+#: ddterm/pref/tabs.js:19
 msgid "Tabs"
 msgstr "Panely"
 
-#: ddterm/pref/tabs.js:25
+#: ddterm/pref/tabs.js:23
 msgid "_Restore Previous Tabs on Startup"
 msgstr ""
 
-#: ddterm/pref/tabs.js:30
+#: ddterm/pref/tabs.js:28
 msgid "Show Tab _Bar"
 msgstr "Zobrazit _panel karet"
 
-#: ddterm/pref/tabs.js:32 ddterm/pref/text.js:100
+#: ddterm/pref/tabs.js:30 ddterm/pref/text.js:100
 msgid "Always"
 msgstr "Vždy"
 
-#: ddterm/pref/tabs.js:34 ddterm/pref/text.js:97
+#: ddterm/pref/tabs.js:32 ddterm/pref/text.js:97
 msgid "Never"
 msgstr "Nikdy"
 
-#: ddterm/pref/tabs.js:40
+#: ddterm/pref/tabs.js:38
 msgid "Tab Bar Position"
 msgstr "Pozice panelu karet"
 
-#: ddterm/pref/tabs.js:51
-msgid "Ellipsize Tab Labels"
-msgstr "Zkrátit názvy panelů"
-
-#: ddterm/pref/tabs.js:54
-msgid "Start"
-msgstr "Začátek"
-
-#: ddterm/pref/tabs.js:55
-msgid "Middle"
-msgstr "Střed"
-
-#: ddterm/pref/tabs.js:56
-msgid "End"
-msgstr "Konec"
-
-#: ddterm/pref/tabs.js:79
-msgid "Tab Width"
-msgstr "Šířka panelu"
-
-#: ddterm/pref/tabs.js:96
+#: ddterm/pref/tabs.js:47
 msgid "Expand Tabs"
 msgstr "Rozbalit panely"
 
-#: ddterm/pref/tabs.js:101
-msgid "Show _Close Buttons"
-msgstr "Zobrazit tlačítka pro _zavření"
-
-#: ddterm/pref/tabs.js:106
+#: ddterm/pref/tabs.js:52
 msgid "\"_New Tab (Last)\" Button"
 msgstr "Tlačítko \"_Nový panel (Poslední)\""
 
-#: ddterm/pref/tabs.js:111
+#: ddterm/pref/tabs.js:57
 msgid "\"_New Tab (First)\" Button"
 msgstr "Tlačítko \"_Nový panel (První)\""
 
-#: ddterm/pref/tabs.js:116
+#: ddterm/pref/tabs.js:62
 msgid "Tab _Switcher Popup"
 msgstr "Vyskakovací okno _přepínač panelů"
 
-#: ddterm/pref/tabs.js:121
-msgid "Show Border"
-msgstr "Zobrazit ohraničení"
-
-#: ddterm/pref/tabs.js:126
+#: ddterm/pref/tabs.js:67
 #, fuzzy
 msgid "Show Keyboard Shortcuts"
 msgstr "Klávesové zkratky"
@@ -1210,6 +1182,27 @@ msgstr ""
 #: ddterm/shell/panelicon.js:49
 msgid "Show"
 msgstr "Zobrazit"
+
+#~ msgid "Ellipsize Tab Labels"
+#~ msgstr "Zkrátit názvy panelů"
+
+#~ msgid "Start"
+#~ msgstr "Začátek"
+
+#~ msgid "Middle"
+#~ msgstr "Střed"
+
+#~ msgid "End"
+#~ msgstr "Konec"
+
+#~ msgid "Tab Width"
+#~ msgstr "Šířka panelu"
+
+#~ msgid "Show _Close Buttons"
+#~ msgstr "Zobrazit tlačítka pro _zavření"
+
+#~ msgid "Show Border"
+#~ msgstr "Zobrazit ohraničení"
 
 #~ msgid "Bold color"
 #~ msgstr "Barva tučného písma"
