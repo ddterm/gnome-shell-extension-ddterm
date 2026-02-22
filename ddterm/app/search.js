@@ -7,8 +7,6 @@ import GObject from 'gi://GObject';
 import Gtk from 'gi://Gtk';
 import Vte from 'gi://Vte';
 
-import Gettext from 'gettext';
-
 import {
     PCRE2_UTF,
     PCRE2_NO_UTF_CHECK,
@@ -170,6 +168,7 @@ export const SearchPattern = GObject.registerClass({
 });
 
 export const SearchBar = GObject.registerClass({
+    Template: GLib.Uri.resolve_relative(import.meta.url, './ui/search.ui', GLib.UriFlags.NONE),
     Properties: {
         'pattern': GObject.ParamSpec.object(
             'pattern',
@@ -190,6 +189,20 @@ export const SearchBar = GObject.registerClass({
         'find-next': {},
         'find-prev': {},
     },
+    InternalChildren: [
+        'container',
+        'layout',
+        'case_sensitive_button',
+        'whole_word_button',
+        'regex_button',
+        'entry',
+        'close_button',
+        'wrap_button',
+        'find_next_button',
+        'find_prev_button',
+        'error_popover',
+        'error_label',
+    ],
 },
 class DDTermSearchBar extends Gtk.Revealer {
     _init(params) {
@@ -197,181 +210,68 @@ class DDTermSearchBar extends Gtk.Revealer {
 
         this._pattern = new SearchPattern();
 
-        const container = new Gtk.Box({
-            visible: true,
-            parent: this,
-        });
-
-        container.get_style_context().add_class('background');
-
-        const layout = new Gtk.Box({
-            visible: true,
-            border_width: 5,
-            spacing: 5,
-        });
-
-        container.pack_start(layout, true, true, 0);
-
-        const case_sensitive_button = new Gtk.ToggleButton({
-            image: new Gtk.Image({ icon_name: 'uppercase' }),
-            tooltip_text: Gettext.gettext('Case Sensitive'),
-            visible: true,
-            focus_on_click: false,
-        });
-
-        layout.pack_start(case_sensitive_button, false, false, 0);
+        this._container.get_style_context().add_class('background');
+        this._error_label.get_style_context().add_class('error');
 
         this.pattern.bind_property(
             'case-sensitive',
-            case_sensitive_button,
+            this._case_sensitive_button,
             'active',
             GObject.BindingFlags.BIDIRECTIONAL | GObject.BindingFlags.SYNC_CREATE
         );
-
-        const whole_word_button = new Gtk.ToggleButton({
-            image: new Gtk.Image({ icon_name: 'quotation' }),
-            tooltip_text: Gettext.gettext('Match Whole Word'),
-            visible: true,
-            focus_on_click: false,
-        });
-
-        layout.pack_start(whole_word_button, false, false, 0);
 
         this.pattern.bind_property(
             'whole-word',
-            whole_word_button,
+            this._whole_word_button,
             'active',
             GObject.BindingFlags.BIDIRECTIONAL | GObject.BindingFlags.SYNC_CREATE
         );
-
-        const regex_button = new Gtk.ToggleButton({
-            image: new Gtk.Image({ icon_name: 'regex' }),
-            tooltip_text: Gettext.gettext('Regular Expression'),
-            visible: true,
-            focus_on_click: false,
-        });
-
-        layout.pack_start(regex_button, false, false, 0);
 
         this.pattern.bind_property(
             'use-regex',
-            regex_button,
+            this._regex_button,
             'active',
             GObject.BindingFlags.BIDIRECTIONAL | GObject.BindingFlags.SYNC_CREATE
         );
-
-        const entry = new Gtk.SearchEntry({
-            visible: true,
-        });
-
-        layout.pack_start(entry, true, true, 0);
 
         this.pattern.bind_property(
             'text',
-            entry,
+            this._entry,
             'text',
             GObject.BindingFlags.BIDIRECTIONAL | GObject.BindingFlags.SYNC_CREATE
         );
 
-        const error_popover = new Gtk.Popover({
-            relative_to: entry,
-            modal: false,
-            border_width: 5,
-        });
+        this.pattern.bind_property(
+            'regex-set',
+            this._find_next_button,
+            'sensitive',
+            GObject.BindingFlags.SYNC_CREATE
+        );
 
-        const error_label = new Gtk.Label({
-            parent: error_popover,
-            visible: true,
-        });
-
-        error_label.get_style_context().add_class('error');
-
-        this.pattern.connect('notify::error', () => {
-            if (this.pattern.error) {
-                entry.get_style_context().add_class('error');
-                error_label.label = this.pattern.error.message;
-                error_popover.popup();
-            } else {
-                entry.get_style_context().remove_class('error');
-                error_popover.popdown();
-            }
-        });
-
-        entry.connect('activate', () => this.find_next());
-        entry.connect('next-match', () => this.find_next());
-        entry.connect('previous-match', () => this.find_prev());
-        entry.connect('stop-search', () => this.close());
-        entry.connect('search-changed', () => this.pattern.update());
-
-        this.connect('key-press-event', (_, event) => entry.handle_event(event));
-        this.connect('key-release-event', (_, event) => entry.handle_event(event));
-        this.connect('notify::reveal-child', () => {
-            if (this.reveal_child)
-                entry.grab_focus();
-        });
-
-        const close_button = new Gtk.Button({
-            image: new Gtk.Image({ icon_name: 'window-close' }),
-            tooltip_text: Gettext.gettext('Close Search Bar'),
-            visible: true,
-            focus_on_click: false,
-        });
-
-        layout.pack_end(close_button, false, false, 0);
-
-        close_button.connect('clicked', this.close.bind(this));
-
-        const wrap_button = new Gtk.ToggleButton({
-            image: new Gtk.Image({ icon_name: 'view-wrapped' }),
-            tooltip_text: Gettext.gettext('Wrap Around'),
-            visible: true,
-            focus_on_click: false,
-        });
-
-        layout.pack_end(wrap_button, false, false, 0);
+        this.pattern.bind_property(
+            'regex-set',
+            this._find_prev_button,
+            'sensitive',
+            GObject.BindingFlags.SYNC_CREATE
+        );
 
         this.bind_property(
             'wrap',
-            wrap_button,
+            this._wrap_button,
             'active',
             GObject.BindingFlags.BIDIRECTIONAL | GObject.BindingFlags.SYNC_CREATE
         );
 
-        const find_next_button = new Gtk.Button({
-            image: new Gtk.Image({ icon_name: 'go-down' }),
-            tooltip_text: Gettext.gettext('Find Next'),
-            visible: true,
-            focus_on_click: false,
+        this.pattern.connect('notify::error', () => {
+            if (this.pattern.error) {
+                this._entry.get_style_context().add_class('error');
+                this._error_label.label = this.pattern.error.message;
+                this._error_popover.popup();
+            } else {
+                this._entry.get_style_context().remove_class('error');
+                this._error_popover.popdown();
+            }
         });
-
-        layout.pack_end(find_next_button, false, false, 0);
-
-        this._pattern.bind_property(
-            'regex-set',
-            find_next_button,
-            'sensitive',
-            GObject.BindingFlags.SYNC_CREATE
-        );
-
-        find_next_button.connect('clicked', this.find_next.bind(this));
-
-        const find_prev_button = new Gtk.Button({
-            image: new Gtk.Image({ icon_name: 'go-up' }),
-            tooltip_text: Gettext.gettext('Find Previous'),
-            visible: true,
-            focus_on_click: false,
-        });
-
-        layout.pack_end(find_prev_button, false, false, 0);
-
-        this._pattern.bind_property(
-            'regex-set',
-            find_prev_button,
-            'sensitive',
-            GObject.BindingFlags.SYNC_CREATE
-        );
-
-        find_prev_button.connect('clicked', this.find_prev.bind(this));
     }
 
     get pattern() {
@@ -390,5 +290,18 @@ class DDTermSearchBar extends Gtk.Revealer {
     find_prev() {
         this.pattern.update();
         this.emit('find-prev');
+    }
+
+    _update_pattern() {
+        this.pattern.update();
+    }
+
+    _handle_key_event(_, event) {
+        return this._entry.handle_event(event);
+    }
+
+    _grab_focus_on_reveal() {
+        if (this.reveal_child)
+            this._entry.grab_focus();
     }
 });
