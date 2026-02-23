@@ -5,6 +5,7 @@ SPDX-FileCopyrightText: 2020 Aleksandr Mezin <mezin.alexander@gmail.com>
 SPDX-FileContributor: Mohammad Javad Naderi
 SPDX-FileContributor: Juan M. Cruz-Martinez
 SPDX-FileContributor: Jackson Goode
+SPDX-FileContributor: Mike Lei
 
 SPDX-License-Identifier: GPL-3.0-or-later
 -->
@@ -261,6 +262,9 @@ SPDX-License-Identifier: GPL-3.0-or-later
     </key>
     <key name="detect-urls-news-man" type="b">
       <default>true</default>
+    </key>
+    <key name="copy-on-selection" type="b">
+      <default>false</default>
     </key>
 
     <key name="use-theme-colors" type="b">

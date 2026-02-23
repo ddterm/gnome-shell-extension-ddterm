@@ -1,5 +1,6 @@
 // SPDX-FileCopyrightText: 2023 Aleksandr Mezin <mezin.alexander@gmail.com>
 // SPDX-FileContributor: Jing Yen Loh
+// SPDX-FileContributor: Mike Lei
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -328,6 +329,13 @@ const TerminalBase = GObject.registerClass({
             GObject.ParamFlags.READABLE,
             true
         ),
+        'copy-on-selection': GObject.ParamSpec.boolean(
+            'copy-on-selection',
+            null,
+            null,
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+            false
+        ),
     },
 }, class DDTermTerminal extends Vte.Terminal {
     _init(params) {
@@ -372,6 +380,11 @@ const TerminalBase = GObject.registerClass({
         this.connect('notify::font-scale', () => {
             this.notify('can-increase-font-scale');
             this.notify('can-decrease-font-scale');
+        });
+
+        this.connect('selection-changed', () => {
+            if (this.copy_on_selection && this.get_has_selection())
+                this.copy_clipboard_format(Vte.Format.TEXT);
         });
 
         this._gdk_atom_primary = Gdk.Atom.intern('PRIMARY', true);

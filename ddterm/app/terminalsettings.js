@@ -1,5 +1,6 @@
 // SPDX-FileCopyrightText: 2023 Aleksandr Mezin <mezin.alexander@gmail.com>
 // SPDX-FileContributor: Jing Yen Loh
+// SPDX-FileContributor: Mike Lei
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -77,6 +78,7 @@ const PROPERTIES_CLONE = [
     'color-highlight',
     'color-highlight-foreground',
     'url-detect-patterns',
+    'copy-on-selection',
 ];
 
 const TERMINAL_PSPECS = Object.fromEntries(

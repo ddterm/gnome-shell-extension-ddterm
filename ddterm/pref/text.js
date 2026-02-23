@@ -166,6 +166,11 @@ export class TextGroup extends PreferencesGroup {
             title: this.gettext('Detect "news:", "man:" URLs'),
         });
 
+        this.add_switch_row({
+            key: 'copy-on-selection',
+            title: this.gettext('Copy On Selection'),
+        });
+
         this.connect('realize', this.#realize.bind(this));
     }
 
