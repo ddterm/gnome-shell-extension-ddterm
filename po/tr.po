@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-22 10:11+0000\n"
+"POT-Creation-Date: 2026-02-24 13:31+0000\n"
 "PO-Revision-Date: 2025-10-07 20:02+0000\n"
 "Last-Translator: Nuri KÜÇÜKLER <enatsek@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/tr/>\n"
@@ -1167,6 +1167,12 @@ msgstr "E-posta adreslerini tespit et"
 #: ddterm/pref/text.js:166
 msgid "Detect \"news:\", \"man:\" URLs"
 msgstr "\"news:\", \"man:\" URL'lerini tespit et"
+
+#: ddterm/pref/text.js:171
+#, fuzzy
+#| msgid "Copy Selected Text"
+msgid "Copy On Selection"
+msgstr "Seçili Metini Kopyala"
 
 #: ddterm/shell/notifications.js:57 ddterm/shell/notifications.js:135
 msgid "Copy to Clipboard"

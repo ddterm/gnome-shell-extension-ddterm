@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-22 10:11+0000\n"
+"POT-Creation-Date: 2026-02-24 13:31+0000\n"
 "PO-Revision-Date: 2026-02-22 00:09+0000\n"
 "Last-Translator: reducedradius <feixiang512@outlook.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/zh_Hans/>\n"
@@ -1163,6 +1163,12 @@ msgstr "检测邮件地址"
 #: ddterm/pref/text.js:166
 msgid "Detect \"news:\", \"man:\" URLs"
 msgstr "检测 \"news:\"、\"man:\" URLs"
+
+#: ddterm/pref/text.js:171
+#, fuzzy
+#| msgid "Copy Selected Text"
+msgid "Copy On Selection"
+msgstr "复制选定的文本"
 
 #: ddterm/shell/notifications.js:57 ddterm/shell/notifications.js:135
 msgid "Copy to Clipboard"

@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-22 10:11+0000\n"
+"POT-Creation-Date: 2026-02-24 13:31+0000\n"
 "PO-Revision-Date: 2024-07-24 00:09+0000\n"
 "Last-Translator: Patricio Carrau <duckycb@proton.me>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/fr/>\n"
@@ -1171,6 +1171,12 @@ msgstr "Détecter les adresses email"
 #: ddterm/pref/text.js:166
 msgid "Detect \"news:\", \"man:\" URLs"
 msgstr "Détecter les URLs \"news:\", \"man:\""
+
+#: ddterm/pref/text.js:171
+#, fuzzy
+#| msgid "Copy Selected Text"
+msgid "Copy On Selection"
+msgstr "Copier la sélection"
 
 #: ddterm/shell/notifications.js:57 ddterm/shell/notifications.js:135
 msgid "Copy to Clipboard"

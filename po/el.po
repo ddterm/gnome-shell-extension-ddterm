@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-22 10:11+0000\n"
+"POT-Creation-Date: 2026-02-24 13:31+0000\n"
 "PO-Revision-Date: 2026-02-05 23:28+0000\n"
 "Last-Translator: Aleksandr Mezin <mezin.alexander@gmail.com>\n"
 "Language-Team: Greek <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/el/>\n"
@@ -1182,6 +1182,12 @@ msgstr "Εύρεση adresses email"
 #: ddterm/pref/text.js:166
 msgid "Detect \"news:\", \"man:\" URLs"
 msgstr "Εντόπιση \"news:\", \"man:\" URLs"
+
+#: ddterm/pref/text.js:171
+#, fuzzy
+#| msgid "Copy Selected Text"
+msgid "Copy On Selection"
+msgstr "Αντιγραφή επιλογής"
 
 #: ddterm/shell/notifications.js:57 ddterm/shell/notifications.js:135
 #, fuzzy

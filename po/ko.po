@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-22 10:11+0000\n"
+"POT-Creation-Date: 2026-02-24 13:31+0000\n"
 "PO-Revision-Date: 2026-02-16 13:09+0000\n"
 "Last-Translator: 스이미 <soo.wim3@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/ko/>\n"
@@ -1152,6 +1152,12 @@ msgstr "이메일 주소 감지"
 #: ddterm/pref/text.js:166
 msgid "Detect \"news:\", \"man:\" URLs"
 msgstr "\"news:\", \"man:\" URL 감지"
+
+#: ddterm/pref/text.js:171
+#, fuzzy
+#| msgid "Copy Selected Text"
+msgid "Copy On Selection"
+msgstr "선택한 텍스트 복사"
 
 #: ddterm/shell/notifications.js:57 ddterm/shell/notifications.js:135
 msgid "Copy to Clipboard"
