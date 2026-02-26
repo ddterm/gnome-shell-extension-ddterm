@@ -21,14 +21,10 @@ export const Notebook = GObject.registerClass({
         'tab_switch_button',
         'new_tab_front_button',
     ],
+    InternalChildren: [
+        'layout_menu',
+    ],
     Properties: {
-        'menus': GObject.ParamSpec.object(
-            'menus',
-            null,
-            null,
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-            Gtk.Builder
-        ),
         'terminal-settings': GObject.ParamSpec.object(
             'terminal-settings',
             null,
@@ -139,8 +135,6 @@ export const Notebook = GObject.registerClass({
     _init(params) {
         super._init(params);
 
-        this.view.menu_model = this.menus.get_object('tab-popup');
-
         this.view.connect('notify::n-pages', () => this.notify('n-pages'));
         this.view.connect('notify::selected-page', () => {
             this.notify('current-page');
@@ -171,7 +165,7 @@ export const Notebook = GObject.registerClass({
 
         const menu = new Gio.Menu();
         menu.append_section(null, new NotebookMenu({ tab_view: this.view }));
-        menu.append_section(null, this.menus.get_object('notebook-layout'));
+        menu.append_section(null, this._layout_menu);
 
         this.tab_switch_button.menu_model = menu;
 
@@ -464,7 +458,6 @@ export const Notebook = GObject.registerClass({
     new_page(position = -1, properties = {}) {
         const child = new TerminalPage({
             terminal_settings: this.terminal_settings,
-            terminal_menu: this.menus.get_object('terminal-popup'),
             visible: true,
             ...properties,
             command: properties['command'] ?? this.get_command_from_settings(),
@@ -636,7 +629,6 @@ export const Notebook = GObject.registerClass({
             try {
                 const child = TerminalPage.deserialize_state(page_serialized, {
                     terminal_settings: this.terminal_settings,
-                    terminal_menu: this.menus.get_object('terminal-popup'),
                     visible: true,
                 });
 

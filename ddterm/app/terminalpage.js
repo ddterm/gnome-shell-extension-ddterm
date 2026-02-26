@@ -38,6 +38,7 @@ export const TerminalPage = GObject.registerClass({
     InternalChildren: [
         'banner',
         'banner_label',
+        'terminal_menu',
     ],
     Properties: {
         'terminal-settings': GObject.ParamSpec.object(
@@ -46,13 +47,6 @@ export const TerminalPage = GObject.registerClass({
             null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             TerminalSettings
-        ),
-        'terminal-menu': GObject.ParamSpec.object(
-            'terminal-menu',
-            null,
-            null,
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-            Gio.MenuModel
         ),
         'command': GObject.ParamSpec.object(
             'command',
@@ -187,7 +181,7 @@ export const TerminalPage = GObject.registerClass({
             }
         });
 
-        this.terminal.context_menu_model = this.terminal_menu;
+        this.terminal.context_menu_model = this._terminal_menu;
 
         this.terminal_settings.bind_terminal(this.terminal);
 

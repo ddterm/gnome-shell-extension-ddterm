@@ -156,13 +156,6 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
             ...params,
         });
 
-        const menu_url =
-            GLib.Uri.resolve_relative(import.meta.url, './ui/menus.ui', GLib.UriFlags.NONE);
-
-        const [menu_path] = GLib.filename_from_uri(menu_url);
-
-        this.menus = Gtk.Builder.new_from_file(menu_path);
-
         const grid = new Gtk.Grid({
             parent: this,
             visible: true,
@@ -382,7 +375,6 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
         const notebook = new Notebook({
             visible: false,
             terminal_settings: this.terminal_settings,
-            menus: this.menus,
         });
 
         const update_notebook_visibility = () => {
