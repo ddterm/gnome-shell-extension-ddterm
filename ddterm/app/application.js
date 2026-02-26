@@ -294,6 +294,29 @@ class Application extends Gtk.Application {
             this.add_action(this.settings.create_action(key));
         });
 
+        const HEIGHT_MOD = 0.05;
+        const OPACITY_MOD = 0.05;
+
+        this.simple_action('window-size-dec', () => {
+            if (this.settings.get_boolean('window-maximize'))
+                this.settings.set_double('window-size', 1.0 - HEIGHT_MOD);
+            else
+                this.adjust_double_setting('window-size', -HEIGHT_MOD);
+        });
+
+        this.simple_action('window-size-inc', () => {
+            if (!this.settings.get_boolean('window-maximize'))
+                this.adjust_double_setting('window-size', HEIGHT_MOD);
+        });
+
+        this.simple_action('background-opacity-dec', () => {
+            this.adjust_double_setting('background-opacity', -OPACITY_MOD);
+        });
+
+        this.simple_action('background-opacity-inc', () => {
+            this.adjust_double_setting('background-opacity', OPACITY_MOD);
+        });
+
         Handy.init();
         this.style_manager = Handy.StyleManager.get_default();
 
@@ -344,10 +367,10 @@ class Application extends Gtk.Application {
 
         const shortcut_actions = {
             'shortcut-window-hide': 'win.hide',
-            'shortcut-window-size-inc': 'win.window-size-inc',
-            'shortcut-window-size-dec': 'win.window-size-dec',
-            'shortcut-background-opacity-inc': 'win.background-opacity-inc',
-            'shortcut-background-opacity-dec': 'win.background-opacity-dec',
+            'shortcut-window-size-inc': 'app.window-size-inc',
+            'shortcut-window-size-dec': 'app.window-size-dec',
+            'shortcut-background-opacity-inc': 'app.background-opacity-inc',
+            'shortcut-background-opacity-dec': 'app.background-opacity-dec',
             'shortcut-toggle-maximize': 'app.window-maximize',
             'shortcut-toggle-transparent-background': 'app.transparent-background',
             'shortcut-terminal-copy': 'terminal.copy',
@@ -780,6 +803,12 @@ class Application extends Gtk.Application {
             logError(new Error(`Unknown theme-variant: ${variant}`));
         else
             this.style_manager.color_scheme = resolved;
+    }
+
+    adjust_double_setting(name, difference, min = 0.0, max = 1.0) {
+        const current = this.settings.get_double(name);
+        const new_setting = current + difference;
+        this.settings.set_double(name, Math.min(Math.max(new_setting, min), max));
     }
 
     restore_session() {

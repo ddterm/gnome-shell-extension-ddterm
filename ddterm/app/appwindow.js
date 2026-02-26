@@ -247,29 +247,10 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
             Gio.SettingsBindFlags.GET
         );
 
-        const HEIGHT_MOD = 0.05;
-        const OPACITY_MOD = 0.05;
-
         const actions = {
             'toggle': this.toggle.bind(this),
             'show': () => this.present(),
             'hide': () => this.hide(),
-            'window-size-dec': () => {
-                if (this.settings.get_boolean('window-maximize'))
-                    this.settings.set_double('window-size', 1.0 - HEIGHT_MOD);
-                else
-                    this.adjust_double_setting('window-size', -HEIGHT_MOD);
-            },
-            'window-size-inc': () => {
-                if (!this.settings.get_boolean('window-maximize'))
-                    this.adjust_double_setting('window-size', HEIGHT_MOD);
-            },
-            'background-opacity-dec': () => {
-                this.adjust_double_setting('background-opacity', -OPACITY_MOD);
-            },
-            'background-opacity-inc': () => {
-                this.adjust_double_setting('background-opacity', OPACITY_MOD);
-            },
             'split-position-inc': () => {
                 const step = (this.paned.max_position - this.paned.min_position) / 10;
                 this.paned.position = Math.min(this.paned.position + step, this.paned.max_position);
@@ -475,12 +456,6 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
         });
 
         return notebook;
-    }
-
-    adjust_double_setting(name, difference, min = 0.0, max = 1.0) {
-        const current = this.settings.get_double(name);
-        const new_setting = current + difference;
-        this.settings.set_double(name, Math.min(Math.max(new_setting, min), max));
     }
 
     toggle() {
