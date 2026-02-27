@@ -41,8 +41,7 @@ foreach app_data_src_file : app_data_src_files
   )
 endforeach
 
-fs.copyfile('dev-application.js')
-fs.copyfile('dev-appwindow.js')
+dev_app_js_out_files = [fs.copyfile('dev-application.js')]
 
 subdir('icons')
 subdir('ui')

@@ -52,32 +52,6 @@ function is_dbus_interface_error(ex) {
         ex.matches(Gio.DBusError.quark(), Gio.DBusError.UNKNOWN_INTERFACE);
 }
 
-function create_extension_dbus_proxy(connection) {
-    const url = GLib.Uri.resolve_relative(
-        import.meta.url,
-        '../../data/com.github.amezin.ddterm.Extension.xml',
-        GLib.UriFlags.NONE
-    );
-
-    const [path] = GLib.filename_from_uri(url);
-    const [, bytes] = GLib.file_get_contents(path);
-    const info = Gio.DBusInterfaceInfo.new_for_xml(new TextDecoder().decode(bytes));
-    const flags =
-        Gio.DBusProxyFlags.DO_NOT_AUTO_START |
-        Gio.DBusProxyFlags.GET_INVALIDATED_PROPERTIES |
-        Gio.DBusProxyFlags.DO_NOT_CONNECT_SIGNALS;
-
-    return Gio.DBusProxy.new_sync(
-        connection,
-        flags,
-        info,
-        'org.gnome.Shell',
-        '/org/gnome/Shell/Extensions/ddterm',
-        info.name,
-        null
-    );
-}
-
 export const Application = GObject.registerClass({
     Properties: {
         'window': GObject.ParamSpec.object(
@@ -350,7 +324,7 @@ class Application extends Gtk.Application {
             desktop_settings,
         }).bind_settings(this.terminal_settings);
 
-        this.extension_dbus = create_extension_dbus_proxy(this.get_dbus_connection());
+        this.extension_dbus = this._create_extension_dbus_proxy();
 
         this.display_config = new DisplayConfig({
             dbus_connection: this.get_dbus_connection(),
@@ -450,6 +424,32 @@ class Application extends Gtk.Application {
         signal_add(GLib.PRIORITY_HIGH, SIGHUP, () => this.quit());
         signal_add(GLib.PRIORITY_HIGH, SIGINT, () => this.quit());
         signal_add(GLib.PRIORITY_HIGH, SIGTERM, () => this.quit());
+    }
+
+    _create_extension_dbus_proxy() {
+        const url = GLib.Uri.resolve_relative(
+            import.meta.url,
+            '../../data/com.github.amezin.ddterm.Extension.xml',
+            GLib.UriFlags.NONE
+        );
+
+        const [path] = GLib.filename_from_uri(url);
+        const [, bytes] = GLib.file_get_contents(path);
+        const info = Gio.DBusInterfaceInfo.new_for_xml(new TextDecoder().decode(bytes));
+        const flags =
+            Gio.DBusProxyFlags.DO_NOT_AUTO_START |
+            Gio.DBusProxyFlags.GET_INVALIDATED_PROPERTIES |
+            Gio.DBusProxyFlags.DO_NOT_CONNECT_SIGNALS;
+
+        return Gio.DBusProxy.new_sync(
+            this.get_dbus_connection(),
+            flags,
+            info,
+            'org.gnome.Shell',
+            '/org/gnome/Shell/Extensions/ddterm',
+            info.name,
+            null
+        );
     }
 
     _trace_signal(signal, return_value = undefined) {
@@ -676,22 +676,19 @@ class Application extends Gtk.Application {
         }
     }
 
-    _create_window() {
-        return new AppWindow({
+    ensure_window() {
+        if (this.window)
+            return this.window;
+
+        this.window = new AppWindow({
             application: this,
             decorated: false,
+            hide_on_close: true,
             settings: this.settings,
             terminal_settings: this.terminal_settings,
             extension_dbus: this.extension_dbus,
             display_config: this.display_config,
         });
-    }
-
-    ensure_window() {
-        if (this.window)
-            return this.window;
-
-        this.window = this._create_window();
 
         this.window.connect('destroy', source => {
             if (source !== this.window)

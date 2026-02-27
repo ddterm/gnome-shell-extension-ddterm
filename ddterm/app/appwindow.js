@@ -50,6 +50,13 @@ function make_resizer(orientation) {
 
 export const AppWindow = GObject.registerClass({
     Properties: {
+        'hide-on-close': GObject.ParamSpec.boolean(
+            'hide-on-close',
+            null,
+            null,
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+            false
+        ),
         'settings': GObject.ParamSpec.object(
             'settings',
             null,
@@ -313,12 +320,22 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
             this.emit('session-update');
         });
 
+        this.connect('notify::hide-on-close', this._hide_on_close.bind(this));
+
         this._hide_on_close();
         this._setup_size_sync();
     }
 
     _hide_on_close() {
-        this.connect('delete-event', () => {
+        if (this._hide_on_close_handler)
+            this.disconnect(this._hide_on_close_handler);
+
+        if (!this.hide_on_close) {
+            this._hide_on_close_handler = null;
+            return;
+        }
+
+        this._hide_on_close_handler = this.connect('delete-event', () => {
             if (this.is_empty)
                 return false;
 
@@ -328,6 +345,9 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
     }
 
     _setup_size_sync() {
+        if (!this.extension_dbus || !this.display_config)
+            return;  // App dev mode
+
         const display = this.get_display();
 
         if (display.constructor.$gtype.name !== 'GdkWaylandDisplay')

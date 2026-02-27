@@ -5,7 +5,6 @@
 import GObject from 'gi://GObject';
 
 import { Application as BaseApplication } from './application.js';
-import { AppWindow } from './dev-appwindow.js';
 
 export const Application = GObject.registerClass({
 }, class DDTermDevApplication extends BaseApplication {
@@ -13,13 +12,16 @@ export const Application = GObject.registerClass({
         return -1;
     }
 
-    _create_window() {
-        return new AppWindow({
-            application: this,
-            settings: this.settings,
-            terminal_settings: this.terminal_settings,
-            extension_dbus: this.extension_dbus,
-            display_config: this.display_config,
-        });
+    _create_extension_dbus_proxy() {
+        return null;
+    }
+
+    ensure_window() {
+        const win = super.ensure_window();
+
+        win.hide_on_close = false;
+        win.decorated = true;
+
+        return win;
     }
 });

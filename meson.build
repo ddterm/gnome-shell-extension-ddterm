@@ -229,7 +229,7 @@ run_target(
 run_target(
   'dev-app',
   command: [dev_launcher],
-  depends: bundle + [schemas_compiled],
+  depends: bundle + [schemas_compiled] + dev_app_js_out_files,
 )
 
 toxinidir = meson.current_source_dir()
