@@ -284,4 +284,120 @@ SPDX-License-Identifier: GPL-3.0-or-later
     </section>
   </menu>
 
+  <object class="GSimpleAction" id="close_action">
+    <property name="name">close</property>
+    <signal name="activate" handler="_close_action_activate"/>
+  </object>
+
+  <object class="GPropertyAction" id="keep_open_action">
+    <property name="name">keep-open-after-exit</property>
+    <property name="object">Gjs_app_terminalpage_DDTermTerminalPage</property>
+    <property name="property-name">keep-open-after-exit</property>
+  </object>
+
+  <object class="GSimpleAction" id="new_tab_before_action">
+    <property name="name">new-tab-before</property>
+    <signal name="activate" handler="_new_tab_before_action_activate"/>
+  </object>
+
+  <object class="GSimpleAction" id="new_tab_after_action">
+    <property name="name">new-tab-after</property>
+    <signal name="activate" handler="_new_tab_after_action_activate"/>
+  </object>
+
+  <object class="GSimpleAction" id="move_prev_action">
+    <property name="name">move-prev</property>
+    <signal name="activate" handler="_move_prev_action_activate"/>
+  </object>
+
+  <object class="GSimpleAction" id="move_next_action">
+    <property name="name">move-next</property>
+    <signal name="activate" handler="_move_next_action_activate"/>
+  </object>
+
+  <object class="GSimpleAction" id="move_to_other_pane_action">
+    <property name="name">move-to-other-pane</property>
+    <signal name="activate" handler="_move_to_other_pane_action_activate"/>
+  </object>
+
+  <object class="GSimpleAction" id="copy_action">
+    <property name="name">copy</property>
+    <signal name="activate" handler="_copy_action_activate"/>
+  </object>
+
+  <object class="GSimpleAction" id="copy_html_action">
+    <property name="name">copy-html</property>
+    <signal name="activate" handler="_copy_html_action_activate"/>
+  </object>
+
+  <object class="GSimpleAction" id="open_hyperlink_action">
+    <property name="name">open-hyperlink</property>
+    <signal name="activate" handler="open_hyperlink"/>
+  </object>
+
+  <object class="GSimpleAction" id="copy_hyperlink_action">
+    <property name="name">copy-hyperlink</property>
+    <signal name="activate" handler="_copy_hyperlink_action_activate"/>
+  </object>
+
+  <object class="GSimpleAction" id="copy_filename_action">
+    <property name="name">copy-filename</property>
+    <signal name="activate" handler="_copy_filename_action_activate"/>
+  </object>
+
+  <object class="GSimpleAction" id="paste_action">
+    <property name="name">paste</property>
+    <signal name="activate" handler="_paste_action_activate"/>
+  </object>
+
+  <object class="GSimpleAction" id="select_all_action">
+    <property name="name">select-all</property>
+    <signal name="activate" handler="_select_all_action_activate"/>
+  </object>
+
+  <object class="GSimpleAction" id="reset_action">
+    <property name="name">reset</property>
+    <signal name="activate" handler="_reset_action_activate"/>
+  </object>
+
+  <object class="GSimpleAction" id="reset_and_clear_action">
+    <property name="name">reset-and-clear</property>
+    <signal name="activate" handler="_reset_and_clear_action_activate"/>
+  </object>
+
+  <object class="GSimpleAction" id="find_action">
+    <property name="name">find</property>
+    <signal name="activate" handler="_find_action_activate"/>
+  </object>
+
+  <object class="GSimpleAction" id="find_next_action">
+    <property name="name">find-next</property>
+    <signal name="activate" handler="find_next"/>
+  </object>
+
+  <object class="GSimpleAction" id="find_prev_action">
+    <property name="name">find-prev</property>
+    <signal name="activate" handler="find_prev"/>
+  </object>
+
+  <object class="GSimpleAction" id="font_scale_increase_action">
+    <property name="name">font-scale-increase</property>
+    <signal name="activate" handler="_font_scale_increase_action_activate"/>
+  </object>
+
+  <object class="GSimpleAction" id="font_scale_decrease_action">
+    <property name="name">font-scale-decrease</property>
+    <signal name="activate" handler="_font_scale_decrease_action_activate"/>
+  </object>
+
+  <object class="GSimpleAction" id="font_scale_reset_action">
+    <property name="name">font-scale-reset</property>
+    <signal name="activate" handler="_font_scale_reset_action_activate"/>
+  </object>
+
+  <object class="GSimpleAction" id="show_in_file_manager_action">
+    <property name="name">show-in-file-manager</property>
+    <signal name="activate" handler="_show_in_file_manager_action_activate"/>
+  </object>
+
 </interface>

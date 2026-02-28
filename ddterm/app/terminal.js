@@ -329,6 +329,13 @@ const TerminalBase = GObject.registerClass({
             GObject.ParamFlags.READABLE,
             true
         ),
+        'has-selection': GObject.ParamSpec.boolean(
+            'has-selection',
+            null,
+            null,
+            GObject.ParamFlags.READABLE,
+            false
+        ),
         'copy-on-selection': GObject.ParamSpec.boolean(
             'copy-on-selection',
             null,
@@ -344,6 +351,7 @@ const TerminalBase = GObject.registerClass({
         this._child_pid = 0;
         this._clicked_filename = null;
         this._clicked_hyperlink = null;
+        this._has_selection = false;
 
         super._init(params);
 
@@ -383,8 +391,15 @@ const TerminalBase = GObject.registerClass({
         });
 
         this.connect('selection-changed', () => {
-            if (this.copy_on_selection && this.get_has_selection())
+            const has_selection = this.get_has_selection();
+
+            if (has_selection && this.copy_on_selection)
                 this.copy_clipboard_format(Vte.Format.TEXT);
+
+            if (this._has_selection !== has_selection) {
+                this._has_selection = has_selection;
+                this.notify('has-selection');
+            }
         });
 
         this._gdk_atom_primary = Gdk.Atom.intern('PRIMARY', true);
@@ -392,6 +407,10 @@ const TerminalBase = GObject.registerClass({
 
     get child_pid() {
         return this._child_pid;
+    }
+
+    get has_selection() {
+        return this._has_selection;
     }
 
     set colors(value) {

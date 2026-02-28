@@ -24,6 +24,35 @@ const CloseDialog = GObject.registerClass({
 }, class DDTermCloseDialog extends Gtk.MessageDialog {
 });
 
+const PAGE_ACTIONS = [
+    'close_action',
+    'keep_open_action',
+    'new_tab_before_action',
+    'new_tab_after_action',
+    'move_prev_action',
+    'move_next_action',
+    'move_to_other_pane_action',
+];
+
+const TERMINAL_ACTIONS = [
+    'copy_action',
+    'copy_html_action',
+    'open_hyperlink_action',
+    'copy_hyperlink_action',
+    'copy_filename_action',
+    'paste_action',
+    'select_all_action',
+    'reset_action',
+    'reset_and_clear_action',
+    'find_action',
+    'find_next_action',
+    'find_prev_action',
+    'font_scale_increase_action',
+    'font_scale_decrease_action',
+    'font_scale_reset_action',
+    'show_in_file_manager_action',
+];
+
 export const TerminalPage = GObject.registerClass({
     Template: GLib.Uri.resolve_relative(
         import.meta.url,
@@ -39,6 +68,8 @@ export const TerminalPage = GObject.registerClass({
         'banner',
         'banner_label',
         'terminal_menu',
+        ...PAGE_ACTIONS,
+        ...TERMINAL_ACTIONS,
     ],
     Properties: {
         'terminal-settings': GObject.ParamSpec.object(
@@ -210,32 +241,8 @@ export const TerminalPage = GObject.registerClass({
 
         const page_actions = new Gio.SimpleActionGroup();
 
-        const close_action = new Gio.SimpleAction({ name: 'close' });
-        close_action.connect('activate', () => this.emit('close-request'));
-        page_actions.add_action(close_action);
-
-        const keep_open_action = new Gio.PropertyAction({
-            name: 'keep-open-after-exit',
-            object: this,
-            property_name: 'keep-open-after-exit',
-        });
-        page_actions.add_action(keep_open_action);
-
-        const new_tab_before_action = new Gio.SimpleAction({ name: 'new-tab-before' });
-        new_tab_before_action.connect('activate', () => this.emit('new-tab-before-request'));
-        page_actions.add_action(new_tab_before_action);
-
-        const new_tab_after_action = new Gio.SimpleAction({ name: 'new-tab-after' });
-        new_tab_after_action.connect('activate', () => this.emit('new-tab-after-request'));
-        page_actions.add_action(new_tab_after_action);
-
-        const move_prev_action = new Gio.SimpleAction({ name: 'move-prev' });
-        move_prev_action.connect('activate', () => this.emit('move-prev-request'));
-        page_actions.add_action(move_prev_action);
-
-        const move_next_action = new Gio.SimpleAction({ name: 'move-next' });
-        move_next_action.connect('activate', () => this.emit('move-next-request'));
-        page_actions.add_action(move_next_action);
+        for (const name of PAGE_ACTIONS)
+            page_actions.add_action(this[`_${name}`]);
 
         const split_layout_action = new Gio.SimpleAction({
             name: 'split-layout',
@@ -254,12 +261,6 @@ export const TerminalPage = GObject.registerClass({
             'vertical-split',
         ]));
         page_actions.add_action(split_layout_action);
-
-        const move_to_other_pane_action = new Gio.SimpleAction({ name: 'move-to-other-pane' });
-        move_to_other_pane_action.connect('activate', () => {
-            this.emit('move-to-other-pane-request');
-        });
-        page_actions.add_action(move_to_other_pane_action);
 
         this._title_binding = null;
         this.connect('notify::use-custom-title', () => {
@@ -298,156 +299,76 @@ export const TerminalPage = GObject.registerClass({
 
         const terminal_actions = new Gio.SimpleActionGroup();
 
-        const copy_action = new Gio.SimpleAction({
-            name: 'copy',
-            enabled: this.terminal.get_has_selection(),
-        });
-        copy_action.connect('activate', () => {
-            this.terminal.copy_clipboard_format(Vte.Format.TEXT);
-        });
-        terminal_actions.add_action(copy_action);
+        for (const action of [this._copy_action, this._copy_html_action]) {
+            this.terminal.bind_property(
+                'has-selection',
+                action,
+                'enabled',
+                GObject.BindingFlags.SYNC_CREATE
+            );
+        }
 
-        const copy_html_action = new Gio.SimpleAction({
-            name: 'copy-html',
-            enabled: this.terminal.get_has_selection(),
-        });
-        copy_html_action.connect('activate', () => {
-            this.terminal.copy_clipboard_format(Vte.Format.HTML);
-        });
-        terminal_actions.add_action(copy_html_action);
-
-        this.terminal.connect('selection-changed', () => {
-            copy_action.enabled = this.terminal.get_has_selection();
-            copy_html_action.enabled = this.terminal.get_has_selection();
-        });
-
-        const open_hyperlink_action = new Gio.SimpleAction({
-            name: 'open-hyperlink',
-            enabled: this.terminal.last_clicked_hyperlink !== null,
-        });
-        open_hyperlink_action.connect('activate', this.open_hyperlink.bind(this));
-        terminal_actions.add_action(open_hyperlink_action);
-
-        const copy_hyperlink_action = new Gio.SimpleAction({
-            name: 'copy-hyperlink',
-            enabled: this.terminal.last_clicked_hyperlink !== null,
-        });
-        copy_hyperlink_action.connect('activate', this.copy_hyperlink.bind(this));
-        terminal_actions.add_action(copy_hyperlink_action);
-
-        this.terminal.connect('notify::last-clicked-hyperlink', () => {
-            const enable = this.terminal.last_clicked_hyperlink !== null;
-            open_hyperlink_action.enabled = enable;
-            copy_hyperlink_action.enabled = enable;
-        });
-
-        const copy_filename_action = new Gio.SimpleAction({
-            name: 'copy-filename',
-            enabled: this.terminal.last_clicked_filename !== null,
-        });
-        copy_filename_action.connect('activate', this.copy_filename.bind(this));
-        terminal_actions.add_action(copy_filename_action);
-
-        this.terminal.connect('notify::last-clicked-filename', () => {
-            const enable = this.terminal.last_clicked_filename !== null;
-            copy_filename_action.enabled = enable;
-        });
-
-        const paste_action = new Gio.SimpleAction({ name: 'paste' });
-        paste_action.connect('activate', () => {
-            this.terminal.paste_clipboard();
-        });
-        terminal_actions.add_action(paste_action);
-
-        const select_all_action = new Gio.SimpleAction({ name: 'select-all' });
-        select_all_action.connect('activate', () => {
-            this.terminal.select_all();
-        });
-        terminal_actions.add_action(select_all_action);
-
-        const reset_action = new Gio.SimpleAction({ name: 'reset' });
-        reset_action.connect('activate', () => {
-            this.terminal.reset(true, false);
-        });
-        terminal_actions.add_action(reset_action);
-
-        const reset_and_clear_action = new Gio.SimpleAction({ name: 'reset-and-clear' });
-        reset_and_clear_action.connect('activate', () => {
-            this.terminal.reset(true, true);
-        });
-        terminal_actions.add_action(reset_and_clear_action);
-
-        const find_action = new Gio.SimpleAction({ name: 'find' });
-        find_action.connect('activate', this.find.bind(this));
-        terminal_actions.add_action(find_action);
-
-        const find_next_action = new Gio.SimpleAction({ name: 'find-next' });
-        find_next_action.connect('activate', this.find_next.bind(this));
-        terminal_actions.add_action(find_next_action);
-
-        const find_prev_action = new Gio.SimpleAction({ name: 'find-prev' });
-        find_prev_action.connect('activate', this.find_prev.bind(this));
-        terminal_actions.add_action(find_prev_action);
-
-        [
-            find_next_action,
-            find_prev_action,
-        ].forEach(action => this.search_bar.bind_property(
-            'reveal-child',
-            action,
+        this.terminal.bind_property_full(
+            'last-clicked-hyperlink',
+            this._open_hyperlink_action,
             'enabled',
-            GObject.BindingFlags.SYNC_CREATE
-        ));
+            GObject.BindingFlags.SYNC_CREATE,
+            (_, hyperlink) => [true, Boolean(hyperlink)],
+            null
+        );
 
-        const font_scale_increase_action = new Gio.SimpleAction({
-            name: 'font-scale-increase',
-        });
-        font_scale_increase_action.connect('activate', () => {
-            this.terminal.increase_font_scale();
-        });
-        terminal_actions.add_action(font_scale_increase_action);
+        this.terminal.bind_property_full(
+            'last-clicked-hyperlink',
+            this._copy_hyperlink_action,
+            'enabled',
+            GObject.BindingFlags.SYNC_CREATE,
+            (_, hyperlink) => [true, Boolean(hyperlink)],
+            null
+        );
+
+        this.terminal.bind_property_full(
+            'last-clicked-filename',
+            this._copy_filename_action,
+            'enabled',
+            GObject.BindingFlags.SYNC_CREATE,
+            (_, filename) => [true, Boolean(filename)],
+            null
+        );
+
+        for (const action of [this._find_next_action, this._find_prev_action]) {
+            this.search_bar.bind_property(
+                'reveal-child',
+                action,
+                'enabled',
+                GObject.BindingFlags.SYNC_CREATE
+            );
+        }
 
         this.terminal.bind_property(
             'can-increase-font-scale',
-            font_scale_increase_action,
+            this._font_scale_increase_action,
             'enabled',
             GObject.BindingFlags.SYNC_CREATE
         );
-
-        const font_scale_decrease_action = new Gio.SimpleAction({
-            name: 'font-scale-decrease',
-        });
-        font_scale_decrease_action.connect('activate', () => {
-            this.terminal.decrease_font_scale();
-        });
-        terminal_actions.add_action(font_scale_decrease_action);
 
         this.terminal.bind_property(
             'can-decrease-font-scale',
-            font_scale_decrease_action,
+            this._font_scale_decrease_action,
             'enabled',
             GObject.BindingFlags.SYNC_CREATE
         );
 
-        const font_scale_reset_action = new Gio.SimpleAction({
-            name: 'font-scale-reset',
-            enabled: this.terminal.font_scale !== 1,
-        });
-        font_scale_reset_action.connect('activate', () => {
-            this.terminal.font_scale = 1;
-        });
-        this.terminal.connect('notify::font-scale', () => {
-            font_scale_reset_action.enabled = this.terminal.font_scale !== 1;
-        });
-        terminal_actions.add_action(font_scale_reset_action);
+        this.terminal.bind_property_full(
+            'font-scale',
+            this._font_scale_reset_action,
+            'enabled',
+            GObject.BindingFlags.SYNC_CREATE,
+            (_, scale) => [true, scale !== 1],
+            null
+        );
 
-        const show_in_file_manager_action = new Gio.SimpleAction({
-            name: 'show-in-file-manager',
-        });
-        show_in_file_manager_action.connect('activate', () => {
-            this.show_in_file_manager();
-        });
-        terminal_actions.add_action(show_in_file_manager_action);
+        for (const name of TERMINAL_ACTIONS)
+            terminal_actions.add_action(this[`_${name}`]);
 
         this.insert_action_group('terminal', terminal_actions);
 
@@ -522,12 +443,12 @@ export const TerminalPage = GObject.registerClass({
         );
     }
 
-    copy_hyperlink() {
+    _copy_hyperlink_action_activate() {
         const clipboard = this.terminal.get_clipboard(null);
         clipboard.set_text(this.terminal.last_clicked_hyperlink, -1);
     }
 
-    copy_filename() {
+    _copy_filename_action_activate() {
         const clipboard = this.terminal.get_clipboard(null);
         clipboard.set_text(this.terminal.last_clicked_filename, -1);
     }
@@ -557,7 +478,7 @@ export const TerminalPage = GObject.registerClass({
         this.terminal.search_find_previous();
     }
 
-    find() {
+    _find_action_activate() {
         this.terminal.get_text_selected_async().then(text => {
             if (text)
                 this.search_bar.pattern.text = text;
@@ -566,7 +487,7 @@ export const TerminalPage = GObject.registerClass({
         });
     }
 
-    show_in_file_manager() {
+    _show_in_file_manager_action_activate() {
         const { current_file_uri } = this.terminal;
         const method = current_file_uri ? 'ShowItems' : 'ShowFolders';
         const uri = current_file_uri || this.get_cwd().get_uri();
@@ -586,6 +507,66 @@ export const TerminalPage = GObject.registerClass({
             null,
             null
         );
+    }
+
+    _copy_action_activate() {
+        this.terminal.copy_clipboard_format(Vte.Format.TEXT);
+    }
+
+    _copy_html_action_activate() {
+        this.terminal.copy_clipboard_format(Vte.Format.HTML);
+    }
+
+    _paste_action_activate() {
+        this.terminal.paste_clipboard();
+    }
+
+    _select_all_action_activate() {
+        this.terminal.select_all();
+    }
+
+    _reset_action_activate() {
+        this.terminal.reset(true, false);
+    }
+
+    _reset_and_clear_action_activate() {
+        this.terminal.reset(true, true);
+    }
+
+    _font_scale_increase_action_activate() {
+        this.terminal.increase_font_scale();
+    }
+
+    _font_scale_decrease_action_activate() {
+        this.terminal.decrease_font_scale();
+    }
+
+    _font_scale_reset_action_activate() {
+        this.terminal.font_scale = 1;
+    }
+
+    _new_tab_before_action_activate() {
+        this.emit('new-tab-before-request');
+    }
+
+    _new_tab_after_action_activate() {
+        this.emit('new-tab-after-request');
+    }
+
+    _move_prev_action_activate() {
+        this.emit('move-prev-request');
+    }
+
+    _move_next_action_activate() {
+        this.emit('move-next-request');
+    }
+
+    _move_to_other_pane_action_activate() {
+        this.emit('move-to-other-pane-request');
+    }
+
+    _close_action_activate() {
+        this.emit('close-request');
     }
 
     close() {
