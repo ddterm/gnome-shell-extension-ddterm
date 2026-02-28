@@ -29,7 +29,7 @@ export const Notebook = GObject.registerClass({
             'terminal-settings',
             null,
             null,
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             TerminalSettings
         ),
         'current-child': GObject.ParamSpec.object(

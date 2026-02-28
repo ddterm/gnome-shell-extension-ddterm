@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 app_ui_src_files = files(
+  'appwindow.ui',
   'closedialog.ui',
   'notebook.ui',
   'search.ui',

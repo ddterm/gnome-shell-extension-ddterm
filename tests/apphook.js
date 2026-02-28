@@ -95,8 +95,8 @@ class DebugInterface {
 
         const notify_num_tabs = this.notify_num_tabs.bind(this);
 
-        for (const notebook of win.paned.get_children())
-            this.disconnect_callbacks.push(connect(notebook, 'notify::n-pages', notify_num_tabs));
+        this.disconnect_callbacks.push(connect(win.notebook1, 'notify::n-pages', notify_num_tabs));
+        this.disconnect_callbacks.push(connect(win.notebook2, 'notify::n-pages', notify_num_tabs));
 
         this.disconnect_callbacks.push(notify_num_tabs);
         this.notify_num_tabs();

@@ -10,45 +10,27 @@ import Gio from 'gi://Gio';
 import Gdk from 'gi://Gdk';
 import Gtk from 'gi://Gtk';
 
-import Gettext from 'gettext';
-
 import { TerminalSettings } from './terminalsettings.js';
 import { Notebook } from './notebook.js';
 import { DisplayConfig, LayoutMode } from '../util/displayconfig.js';
 
-const WINDOW_POS_TO_RESIZE_EDGE = {
-    top: Gdk.WindowEdge.SOUTH,
-    bottom: Gdk.WindowEdge.NORTH,
-    left: Gdk.WindowEdge.EAST,
-    right: Gdk.WindowEdge.WEST,
-};
-
-function make_resizer(orientation) {
-    const box = new Gtk.EventBox({ visible: true });
-
-    box.get_style_context().add_class('background');
-
-    new Gtk.Separator({
-        visible: true,
-        orientation,
-        parent: box,
-        margin_top: orientation === Gtk.Orientation.HORIZONTAL ? 2 : 0,
-        margin_bottom: orientation === Gtk.Orientation.HORIZONTAL ? 2 : 0,
-        margin_start: orientation === Gtk.Orientation.VERTICAL ? 2 : 0,
-        margin_end: orientation === Gtk.Orientation.VERTICAL ? 2 : 0,
-    });
-
-    box.connect('realize', () => {
-        box.window.cursor = Gdk.Cursor.new_from_name(
-            box.get_display(),
-            orientation === Gtk.Orientation.VERTICAL ? 'ew-resize' : 'ns-resize'
-        );
-    });
-
-    return box;
+function set_widget_cursor(cursor, widget) {
+    widget.window.cursor = cursor;
 }
 
 export const AppWindow = GObject.registerClass({
+    Template: GLib.Uri.resolve_relative(import.meta.url, './ui/appwindow.ui', GLib.UriFlags.NONE),
+    Children: [
+        'paned',
+        'notebook1',
+        'notebook2',
+    ],
+    InternalChildren: [
+        'resize_box_north',
+        'resize_box_south',
+        'resize_box_east',
+        'resize_box_west',
+    ],
     Properties: {
         'hide-on-close': GObject.ParamSpec.boolean(
             'hide-on-close',
@@ -91,21 +73,6 @@ export const AppWindow = GObject.registerClass({
             null,
             GObject.ParamFlags.READWRITE,
             true
-        ),
-        'resize-handle': GObject.ParamSpec.boolean(
-            'resize-handle',
-            null,
-            null,
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
-            true
-        ),
-        'resize-edge': GObject.ParamSpec.enum(
-            'resize-edge',
-            null,
-            null,
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
-            Gdk.WindowEdge,
-            Gdk.WindowEdge.SOUTH
         ),
         'tab-show-shortcuts': GObject.ParamSpec.boolean(
             'tab-show-shortcuts',
@@ -150,24 +117,9 @@ export const AppWindow = GObject.registerClass({
 class DDTermAppWindow extends Gtk.ApplicationWindow {
     _init(params) {
         super._init({
-            title: Gettext.gettext('ddterm'),
-            icon_name: 'utilities-terminal',
             window_position: Gtk.WindowPosition.CENTER,
             ...params,
         });
-
-        const grid = new Gtk.Grid({
-            parent: this,
-            visible: true,
-        });
-
-        this.paned = new Gtk.Paned({
-            visible: true,
-            border_width: 0,
-            hexpand: true,
-            vexpand: true,
-        });
-        grid.attach(this.paned, 1, 1, 1, 1);
 
         let window_title_binding = null;
         this.paned.connect('set-focus-child', (paned, child) => {
@@ -182,12 +134,9 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
             this.notify('active-notebook');
         });
 
-        const notebook1 = this.create_notebook();
-        this.paned.pack1(notebook1, true, false);
-        this.paned.set_focus_child(notebook1);
-
-        const notebook2 = this.create_notebook();
-        this.paned.pack2(notebook2, true, false);
+        this.bind_notebook(this.notebook1);
+        this.bind_notebook(this.notebook2);
+        this.paned.set_focus_child(this.notebook1);
 
         this.paned.connect('notify::orientation', () => this.notify('split-layout'));
         this.connect('notify::is-split', () => this.notify('split-layout'));
@@ -202,40 +151,63 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
             }
         };
 
-        notebook1.connect('move-to-other-pane', (_, page) => move_page(page, notebook1, notebook2));
-        notebook2.connect('move-to-other-pane', (_, page) => move_page(page, notebook2, notebook1));
-
-        const add_resize_box = (edge, x, y, orientation) => {
-            const box = make_resizer(orientation);
-            box.connect('button-press-event', this.start_resizing.bind(this, edge));
-            grid.attach(box, x, y, 1, 1);
-
-            const update_visible = () => {
-                box.visible = this.resize_handle && this.resize_edge === edge;
-            };
-
-            this.connect('notify::resize-handle', update_visible);
-            this.connect('notify::resize-edge', update_visible);
-            update_visible();
-        };
-
-        add_resize_box(Gdk.WindowEdge.SOUTH, 1, 2, Gtk.Orientation.HORIZONTAL);
-        add_resize_box(Gdk.WindowEdge.NORTH, 1, 0, Gtk.Orientation.HORIZONTAL);
-        add_resize_box(Gdk.WindowEdge.EAST, 2, 1, Gtk.Orientation.VERTICAL);
-        add_resize_box(Gdk.WindowEdge.WEST, 0, 1, Gtk.Orientation.VERTICAL);
-
-        this.settings.bind(
-            'window-resizable',
-            this,
-            'resize-handle',
-            Gio.SettingsBindFlags.GET
+        this.notebook1.connect(
+            'move-to-other-pane',
+            (_, page) => move_page(page, this.notebook1, this.notebook2)
         );
 
-        const edge_handler = this.settings.connect('changed::window-position', () => {
-            this.update_window_pos();
+        this.notebook2.connect(
+            'move-to-other-pane',
+            (_, page) => move_page(page, this.notebook2, this.notebook1)
+        );
+
+        this._resize_box_north.connect(
+            'button-press-event',
+            this.start_resizing.bind(this, Gdk.WindowEdge.NORTH)
+        );
+
+        this._resize_box_south.connect(
+            'button-press-event',
+            this.start_resizing.bind(this, Gdk.WindowEdge.SOUTH)
+        );
+
+        this._resize_box_east.connect(
+            'button-press-event',
+            this.start_resizing.bind(this, Gdk.WindowEdge.EAST)
+        );
+
+        this._resize_box_west.connect(
+            'button-press-event',
+            this.start_resizing.bind(this, Gdk.WindowEdge.WEST)
+        );
+
+        const resize_ns = Gdk.Cursor.new_from_name(this.get_display(), 'ns-resize');
+        const set_cursor_resize_ns = set_widget_cursor.bind(globalThis, resize_ns);
+
+        this._resize_box_north.connect('realize', set_cursor_resize_ns);
+        this._resize_box_south.connect('realize', set_cursor_resize_ns);
+
+        const resize_ew = Gdk.Cursor.new_from_name(this.get_display(), 'ew-resize');
+        const set_cursor_resize_ew = set_widget_cursor.bind(globalThis, resize_ew);
+
+        this._resize_box_east.connect('realize', set_cursor_resize_ew);
+        this._resize_box_west.connect('realize', set_cursor_resize_ew);
+
+        const settings_handlers = [
+            this.settings.connect('changed::window-position', () => {
+                this.update_resize_handles();
+            }),
+            this.settings.connect('changed::window-resizable', () => {
+                this.update_resize_handles();
+            }),
+        ];
+
+        this.connect('destroy', () => {
+            for (const handler of settings_handlers)
+                this.settings.disconnect(handler);
         });
-        this.connect('destroy', () => this.settings.disconnect(edge_handler));
-        this.update_window_pos();
+
+        this.update_resize_handles();
 
         this.connect('notify::screen', () => this.update_visual());
         this.update_visual();
@@ -260,10 +232,10 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
                 this.paned.position = Math.max(this.paned.position - step, this.paned.min_position);
             },
             'focus-other-pane': () => {
-                if (this.active_notebook === notebook1)
-                    notebook2.grab_focus();
+                if (this.active_notebook === this.notebook1)
+                    this.notebook2.grab_focus();
                 else
-                    notebook1.grab_focus();
+                    this.notebook1.grab_focus();
             },
         };
 
@@ -371,12 +343,7 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
         this.sync_size_with_extension();
     }
 
-    create_notebook() {
-        const notebook = new Notebook({
-            visible: false,
-            terminal_settings: this.terminal_settings,
-        });
-
+    bind_notebook(notebook) {
         const update_notebook_visibility = () => {
             notebook.visible = notebook.n_pages > 0;
 
@@ -385,6 +352,8 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
         };
 
         notebook.connect('notify::n-pages', update_notebook_visibility);
+
+        update_notebook_visibility();
 
         notebook.connect('notify::visible', () => {
             this.freeze_notify();
@@ -415,6 +384,13 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
         });
 
         this.bind_property(
+            'terminal-settings',
+            notebook,
+            'terminal-settings',
+            GObject.BindingFlags.SYNC_CREATE
+        );
+
+        this.bind_property(
             'split-layout',
             notebook,
             'split-layout',
@@ -426,8 +402,6 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
         notebook.connect('session-update', () => {
             this.emit('session-update');
         });
-
-        return notebook;
     }
 
     toggle() {
@@ -500,11 +474,11 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
     }
 
     get is_empty() {
-        return this.paned.get_children().every(nb => !nb.get_visible());
+        return !this.notebook1.visible && !this.notebook2.visible;
     }
 
     get is_split() {
-        return this.paned.get_children().every(nb => nb.get_visible());
+        return this.notebook1.visible && this.notebook2.visible;
     }
 
     get split_layout() {
@@ -521,8 +495,8 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
         if (!this.is_split)
             return;
 
-        const dst = this.paned.get_child1();
-        const src = this.paned.get_child2();
+        const dst = this.notebook1;
+        const src = this.notebook2;
         const current_page = this.active_notebook?.current_child;
 
         this.freeze_notify();
@@ -548,15 +522,24 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
             this.get_style_context().remove_class('transparent-background');
     }
 
-    update_window_pos() {
+    update_resize_handles() {
         const pos = this.settings.get_string('window-position');
+        const enabled = this.settings.get_boolean('window-resizable');
 
-        this.resize_edge = WINDOW_POS_TO_RESIZE_EDGE[pos];
+        this._resize_box_south.visible = enabled && pos === 'top';
+        this._resize_box_north.visible = enabled && pos === 'bottom';
+        this._resize_box_east.visible = enabled && pos === 'left';
+        this._resize_box_west.visible = enabled && pos === 'right';
     }
 
     update_show_shortcuts() {
-        for (const child of this.paned.get_children())
-            child.tab_show_shortcuts = this.tab_show_shortcuts && child === this.active_notebook;
+        const { notebook1, notebook2 } = this;
+
+        notebook1.tab_show_shortcuts =
+            this.tab_show_shortcuts && notebook1 === this.active_notebook;
+
+        notebook2.tab_show_shortcuts =
+            this.tab_show_shortcuts && notebook2 === this.active_notebook;
     }
 
     vfunc_grab_focus() {
@@ -565,12 +548,13 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
             return;
         }
 
-        for (const notebook of this.paned.get_children()) {
-            if (notebook.get_visible()) {
-                notebook.grab_focus();
-                return;
-            }
-        }
+        if (this.in_destruction())
+            return;
+
+        if (this.notebook1.visible)
+            this.notebook1.grab_focus();
+        else if (this.notebook2.visible)
+            this.notebook2.grab_focus();
     }
 
     serialize_state() {
@@ -594,8 +578,8 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
             );
         }
 
-        properties.insert_value('notebook1', this.paned.get_child1().serialize_state());
-        properties.insert_value('notebook2', this.paned.get_child2().serialize_state());
+        properties.insert_value('notebook1', this.notebook1.serialize_state());
+        properties.insert_value('notebook2', this.notebook2.serialize_state());
 
         return properties.end();
     }
@@ -612,10 +596,10 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
             this.paned.orientation = orientation;
 
         if (notebook1_data)
-            this.paned.get_child1().deserialize_state(notebook1_data);
+            this.notebook1.deserialize_state(notebook1_data);
 
         if (notebook2_data)
-            this.paned.get_child2().deserialize_state(notebook2_data);
+            this.notebook2.deserialize_state(notebook2_data);
 
         if (position !== null)
             this.paned.position = (this.paned.max_position - this.paned.min_position) * position;

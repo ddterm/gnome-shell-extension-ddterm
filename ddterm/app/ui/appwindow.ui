@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+SPDX-FileCopyrightText: 2026 Aleksandr Mezin <mezin.alexander@gmail.com>
+
+SPDX-License-Identifier: GPL-3.0-or-later
+-->
+
+<interface domain="ddterm@amezin.github.com">
+  <!-- interface-requires gtk+ 3.0 -->
+
+  <template class="Gjs_app_appwindow_DDTermAppWindow" parent="GtkApplicationWindow">
+    <child>
+      <object class="GtkGrid" id="layout">
+        <property name="visible">True</property>
+        <child>
+          <object class="GtkPaned" id="paned">
+            <property name="visible">True</property>
+            <property name="hexpand">True</property>
+            <property name="vexpand">True</property>
+            <property name="wide-handle">True</property>
+            <child>
+              <object class="Gjs_app_notebook_DDTermNotebook" id="notebook1">
+                <property name="hexpand">True</property>
+                <property name="vexpand">True</property>
+              </object>
+              <packing>
+                <property name="resize">True</property>
+                <property name="shrink">False</property>
+              </packing>
+            </child>
+            <child>
+              <object class="Gjs_app_notebook_DDTermNotebook" id="notebook2">
+                <property name="hexpand">True</property>
+                <property name="vexpand">True</property>
+              </object>
+              <packing>
+                <property name="resize">True</property>
+                <property name="shrink">False</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="left-attach">1</property>
+            <property name="top-attach">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkEventBox" id="resize_box_north">
+            <property name="visible">True</property>
+            <style>
+              <class name="background"/>
+            </style>
+            <child>
+              <object class="GtkSeparator">
+                <property name="visible">True</property>
+                <property name="orientation">horizontal</property>
+                <property name="margin-top">2</property>
+                <property name="margin-bottom">2</property>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="left-attach">1</property>
+            <property name="top-attach">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkEventBox" id="resize_box_south">
+            <property name="visible">True</property>
+            <style>
+              <class name="background"/>
+            </style>
+            <child>
+              <object class="GtkSeparator">
+                <property name="visible">True</property>
+                <property name="orientation">horizontal</property>
+                <property name="margin-top">2</property>
+                <property name="margin-bottom">2</property>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="left-attach">1</property>
+            <property name="top-attach">2</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkEventBox" id="resize_box_west">
+            <property name="visible">True</property>
+            <style>
+              <class name="background"/>
+            </style>
+            <child>
+              <object class="GtkSeparator">
+                <property name="visible">True</property>
+                <property name="orientation">vertical</property>
+                <property name="margin-start">2</property>
+                <property name="margin-end">2</property>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="left-attach">0</property>
+            <property name="top-attach">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkEventBox" id="resize_box_east">
+            <property name="visible">True</property>
+            <style>
+              <class name="background"/>
+            </style>
+            <child>
+              <object class="GtkSeparator">
+                <property name="visible">True</property>
+                <property name="orientation">vertical</property>
+                <property name="margin-start">2</property>
+                <property name="margin-end">2</property>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="left-attach">2</property>
+            <property name="top-attach">1</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>
