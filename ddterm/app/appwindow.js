@@ -429,47 +429,7 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
             GObject.BindingFlags.SYNC_CREATE
         );
 
-        this.settings.bind(
-            'new-tab-button',
-            notebook,
-            'show-new-tab-button',
-            Gio.SettingsBindFlags.GET
-        );
-
-        this.settings.bind(
-            'new-tab-front-button',
-            notebook,
-            'show-new-tab-front-button',
-            Gio.SettingsBindFlags.GET
-        );
-
-        this.settings.bind(
-            'tab-switcher-popup',
-            notebook,
-            'show-tab-switch-popup',
-            Gio.SettingsBindFlags.GET
-        );
-
-        this.settings.bind(
-            'tab-policy',
-            notebook,
-            'tab-policy',
-            Gio.SettingsBindFlags.GET
-        );
-
-        this.settings.bind(
-            'tab-position',
-            notebook,
-            'tab-pos',
-            Gio.SettingsBindFlags.GET
-        );
-
-        this.settings.bind(
-            'tab-expand',
-            notebook,
-            'tab-expand',
-            Gio.SettingsBindFlags.GET
-        );
+        notebook.bind_settings(this.settings);
 
         notebook.connect('session-update', () => {
             this.emit('session-update');

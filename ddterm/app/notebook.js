@@ -367,6 +367,49 @@ export const Notebook = GObject.registerClass({
         this.page_disconnect = new Map();
     }
 
+    bind_settings(settings) {
+        settings.bind('new-tab-button',
+            this,
+            'show-new-tab-button',
+            Gio.SettingsBindFlags.GET
+        );
+
+        settings.bind(
+            'new-tab-front-button',
+            this,
+            'show-new-tab-front-button',
+            Gio.SettingsBindFlags.GET
+        );
+
+        settings.bind(
+            'tab-switcher-popup',
+            this,
+            'show-tab-switch-popup',
+            Gio.SettingsBindFlags.GET
+        );
+
+        settings.bind(
+            'tab-policy',
+            this,
+            'tab-policy',
+            Gio.SettingsBindFlags.GET
+        );
+
+        settings.bind(
+            'tab-position',
+            this,
+            'tab-pos',
+            Gio.SettingsBindFlags.GET
+        );
+
+        settings.bind(
+            'tab-expand',
+            this,
+            'tab-expand',
+            Gio.SettingsBindFlags.GET
+        );
+    }
+
     page_attached(view, page, _position) {
         const { child } = page;
 
