@@ -170,36 +170,6 @@ export const TerminalPage = GObject.registerClass({
     _init(params) {
         super._init(params);
 
-        this.orientation = Gtk.Orientation.VERTICAL;
-
-        this.bind_property(
-            'banner-label',
-            this._banner_label,
-            'label',
-            GObject.BindingFlags.SYNC_CREATE | GObject.BindingFlags.BIDIRECTIONAL
-        );
-
-        this.bind_property(
-            'banner-type',
-            this._banner,
-            'message-type',
-            GObject.BindingFlags.SYNC_CREATE | GObject.BindingFlags.BIDIRECTIONAL
-        );
-
-        this.bind_property(
-            'banner-visible',
-            this._banner,
-            'visible',
-            GObject.BindingFlags.SYNC_CREATE
-        );
-
-        this.bind_property(
-            'banner-visible',
-            this._banner,
-            'revealed',
-            GObject.BindingFlags.SYNC_CREATE | GObject.BindingFlags.BIDIRECTIONAL
-        );
-
         this._banner.connect('response', (_, response) => {
             switch (response) {
             case 0:
@@ -212,17 +182,7 @@ export const TerminalPage = GObject.registerClass({
             }
         });
 
-        this.terminal.context_menu_model = this._terminal_menu;
-
         this.terminal_settings.bind_terminal(this.terminal);
-
-        this.scrollbar.adjustment = this.terminal.vadjustment;
-
-        this.search_bar.connect('notify::wrap', () => {
-            this.terminal.search_set_wrap_around(this.search_bar.wrap);
-        });
-
-        this.terminal.search_set_wrap_around(this.search_bar.wrap);
 
         this.search_bar.connect('notify::reveal-child', () => {
             if (!this.search_bar.reveal_child)
@@ -299,15 +259,6 @@ export const TerminalPage = GObject.registerClass({
 
         const terminal_actions = new Gio.SimpleActionGroup();
 
-        for (const action of [this._copy_action, this._copy_html_action]) {
-            this.terminal.bind_property(
-                'has-selection',
-                action,
-                'enabled',
-                GObject.BindingFlags.SYNC_CREATE
-            );
-        }
-
         this.terminal.bind_property_full(
             'last-clicked-hyperlink',
             this._open_hyperlink_action,
@@ -333,29 +284,6 @@ export const TerminalPage = GObject.registerClass({
             GObject.BindingFlags.SYNC_CREATE,
             (_, filename) => [true, Boolean(filename)],
             null
-        );
-
-        for (const action of [this._find_next_action, this._find_prev_action]) {
-            this.search_bar.bind_property(
-                'reveal-child',
-                action,
-                'enabled',
-                GObject.BindingFlags.SYNC_CREATE
-            );
-        }
-
-        this.terminal.bind_property(
-            'can-increase-font-scale',
-            this._font_scale_increase_action,
-            'enabled',
-            GObject.BindingFlags.SYNC_CREATE
-        );
-
-        this.terminal.bind_property(
-            'can-decrease-font-scale',
-            this._font_scale_decrease_action,
-            'enabled',
-            GObject.BindingFlags.SYNC_CREATE
         );
 
         this.terminal.bind_property_full(
@@ -470,11 +398,13 @@ export const TerminalPage = GObject.registerClass({
 
     find_next() {
         this.terminal.search_set_regex(this.search_bar.pattern.regex, 0);
+        this.terminal.search_set_wrap_around(this.search_bar.wrap);
         this.terminal.search_find_next();
     }
 
     find_prev() {
         this.terminal.search_set_regex(this.search_bar.pattern.regex, 0);
+        this.terminal.search_set_wrap_around(this.search_bar.wrap);
         this.terminal.search_find_previous();
     }
 

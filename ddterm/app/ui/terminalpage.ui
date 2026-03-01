@@ -9,14 +9,21 @@ SPDX-License-Identifier: GPL-3.0-or-later
 <interface domain="ddterm@amezin.github.com">
   <!-- interface-requires gtk+ 3.0 -->
 
+  <object id="vadjustment" class="GtkAdjustment"/>
+
   <template class="Gjs_app_terminalpage_DDTermTerminalPage" parent="GtkBox">
+    <property name="orientation">vertical</property>
     <child>
       <object class="GtkInfoBar" id="banner">
+        <property name="visible">True</property>
+        <property name="revealed" bind-source="Gjs_app_terminalpage_DDTermTerminalPage" bind-property="banner-visible" bind-flags="sync-create|bidirectional"/>
+        <property name="message-type" bind-source="Gjs_app_terminalpage_DDTermTerminalPage" bind-property="banner-type" bind-flags="sync-create|bidirectional"/>
         <child internal-child="content_area">
           <object class="GtkBox">
             <child>
               <object class="GtkLabel" id="banner_label">
                 <property name="visible">True</property>
+                <property name="label" bind-source="Gjs_app_terminalpage_DDTermTerminalPage" bind-property="banner-label" bind-flags="sync-create|bidirectional"/>
               </object>
             </child>
           </object>
@@ -52,6 +59,8 @@ SPDX-License-Identifier: GPL-3.0-or-later
         <child>
           <object class="DDTermTerminal" id="terminal">
             <property name="visible">True</property>
+            <property name="context-menu-model">terminal_menu</property>
+            <property name="vadjustment">vadjustment</property>
             <signal name="button-press-event" handler="terminal_button_press_early"/>
           </object>
           <packing>
@@ -63,6 +72,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
           <object class="GtkScrollbar" id="scrollbar">
             <property name="visible">True</property>
             <property name="orientation">vertical</property>
+            <property name="adjustment">vadjustment</property>
             <style>
               <class name="background"/>
             </style>
@@ -323,11 +333,13 @@ SPDX-License-Identifier: GPL-3.0-or-later
   <object class="GSimpleAction" id="copy_action">
     <property name="name">copy</property>
     <signal name="activate" handler="_copy_action_activate"/>
+    <property name="enabled" bind-source="terminal" bind-property="has-selection" bind-flags="sync-create"/>
   </object>
 
   <object class="GSimpleAction" id="copy_html_action">
     <property name="name">copy-html</property>
     <signal name="activate" handler="_copy_html_action_activate"/>
+    <property name="enabled" bind-source="terminal" bind-property="has-selection" bind-flags="sync-create"/>
   </object>
 
   <object class="GSimpleAction" id="open_hyperlink_action">
@@ -373,21 +385,25 @@ SPDX-License-Identifier: GPL-3.0-or-later
   <object class="GSimpleAction" id="find_next_action">
     <property name="name">find-next</property>
     <signal name="activate" handler="find_next"/>
+    <property name="enabled" bind-source="search_bar" bind-property="reveal-child" bind-flags="sync-create"/>
   </object>
 
   <object class="GSimpleAction" id="find_prev_action">
     <property name="name">find-prev</property>
     <signal name="activate" handler="find_prev"/>
+    <property name="enabled" bind-source="search_bar" bind-property="reveal-child" bind-flags="sync-create"/>
   </object>
 
   <object class="GSimpleAction" id="font_scale_increase_action">
     <property name="name">font-scale-increase</property>
     <signal name="activate" handler="_font_scale_increase_action_activate"/>
+    <property name="enabled" bind-source="terminal" bind-property="can-increase-font-scale" bind-flags="sync-create"/>
   </object>
 
   <object class="GSimpleAction" id="font_scale_decrease_action">
     <property name="name">font-scale-decrease</property>
     <signal name="activate" handler="_font_scale_decrease_action_activate"/>
+    <property name="enabled" bind-source="terminal" bind-property="can-decrease-font-scale" bind-flags="sync-create"/>
   </object>
 
   <object class="GSimpleAction" id="font_scale_reset_action">
