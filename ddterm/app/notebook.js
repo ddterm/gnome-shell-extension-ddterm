@@ -153,34 +153,11 @@ export const Notebook = GObject.registerClass({
             signalId: 'key-press-event',
         });
 
-        this.bind_property(
-            'show-new-tab-button',
-            this.new_tab_button,
-            'visible',
-            GObject.BindingFlags.BIDIRECTIONAL | GObject.BindingFlags.SYNC_CREATE
-        );
-
         const menu = new Gio.Menu();
         menu.append_section(null, new NotebookMenu({ tab_view: this.view }));
         menu.append_section(null, this._layout_menu);
 
         this.tab_switch_button.menu_model = menu;
-
-        this.bind_property(
-            'show-tab-switch-popup',
-            this.tab_switch_button,
-            'visible',
-            GObject.BindingFlags.BIDIRECTIONAL | GObject.BindingFlags.SYNC_CREATE
-        );
-
-        this.bind_property(
-            'show-new-tab-front-button',
-            this.new_tab_front_button,
-            'visible',
-            GObject.BindingFlags.BIDIRECTIONAL | GObject.BindingFlags.SYNC_CREATE
-        );
-
-        this.bind_property('tab-expand', this.bar, 'expand-tabs', GObject.BindingFlags.SYNC_CREATE);
 
         this.bind_property_full(
             'tab-policy',
