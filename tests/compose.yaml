@@ -46,3 +46,6 @@ services:
 
   ubuntu-25.10:
     image: ghcr.io/ddterm/gnome-shell-image/ubuntu-25.10:2026.03.01.0
+
+  ubuntu-26.04:
+    image: ghcr.io/ddterm/gnome-shell-image/ubuntu-26.04:2026.03.01.0
