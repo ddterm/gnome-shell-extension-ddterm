@@ -148,22 +148,6 @@ export const Notebook = GObject.registerClass({
     _init(params) {
         super._init(params);
 
-        this.view.connect('notify::n-pages', () => this.notify('n-pages'));
-        this.view.connect('notify::selected-page', () => {
-            this.notify('current-page');
-            this.notify('current-child');
-        });
-
-        this.view.connect('page-attached', this.page_attached.bind(this));
-        this.view.connect('page-detached', this.page_detached.bind(this));
-        this.view.connect('page-reordered', this.page_reordered.bind(this));
-
-        this.view.connect('close-page', (_, page) => {
-            page.child.close();
-
-            return true;
-        });
-
         // Disable built-in shortcuts
         GObject.signal_handlers_disconnect_matched(this.view, {
             signalId: 'key-press-event',
@@ -264,10 +248,6 @@ export const Notebook = GObject.registerClass({
             'vertical-split',
         ]));
         this.actions.add_action(split_layout_action);
-
-        this.view.connect('setup-menu', (_, page) => {
-            this.bar.insert_action_group('page', page?.child.get_action_group('page') ?? null);
-        });
 
         this.connect('hierarchy-changed', this.update_root.bind(this));
         this.connect('notify::tab-show-shortcuts', this.update_tab_switch_accels.bind(this));
@@ -373,7 +353,7 @@ export const Notebook = GObject.registerClass({
         this.view.select_previous_page();
     }
 
-    page_attached(view, page, _position) {
+    _page_attached(view, page, _position) {
         const { child } = page;
 
         const handlers = [
@@ -432,7 +412,7 @@ export const Notebook = GObject.registerClass({
         this.emit('session-update');
     }
 
-    page_detached(view, page, _position) {
+    _page_detached(view, page, _position) {
         const { child } = page;
 
         const disconnect = this.page_disconnect.get(child);
@@ -445,12 +425,31 @@ export const Notebook = GObject.registerClass({
         this.emit('session-update');
     }
 
-    page_reordered(_view, page, _position) {
+    _page_reordered(view, page, _position) {
         if (page.selected)
             this.notify('current-page');
 
         this.update_tab_switch_accels();
         this.emit('session-update');
+    }
+
+    _notify_n_pages() {
+        this.notify('n-pages');
+    }
+
+    _notify_selected_page() {
+        this.notify('current-page');
+        this.notify('current-child');
+    }
+
+    _close_page(_view, page) {
+        page.child.close();
+
+        return true;
+    }
+
+    _setup_menu(_view, page) {
+        this.bar.insert_action_group('page', page?.child.get_action_group('page') ?? null);
     }
 
     get_cwd() {
