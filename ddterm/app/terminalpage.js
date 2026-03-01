@@ -12,10 +12,14 @@ import Vte from 'gi://Vte';
 import Gettext from 'gettext';
 
 import { SearchBar } from './search.js';
+import { SimpleActionGroup, SimpleBooleanAction, SimpleStringAction } from './actions.js';
 import { TabTitleDialog } from './tablabel.js';
 import { Terminal, TerminalCommand, WIFEXITED, WEXITSTATUS, WTERMSIG } from './terminal.js';
 import { TerminalSettings } from './terminalsettings.js';
 
+GObject.type_ensure(SimpleActionGroup);
+GObject.type_ensure(SimpleBooleanAction);
+GObject.type_ensure(SimpleStringAction);
 GObject.type_ensure(Terminal);
 GObject.type_ensure(SearchBar);
 
@@ -23,35 +27,6 @@ const CloseDialog = GObject.registerClass({
     Template: GLib.Uri.resolve_relative(import.meta.url, './ui/closedialog.ui', GLib.UriFlags.NONE),
 }, class DDTermCloseDialog extends Gtk.MessageDialog {
 });
-
-const PAGE_ACTIONS = [
-    'close_action',
-    'keep_open_action',
-    'new_tab_before_action',
-    'new_tab_after_action',
-    'move_prev_action',
-    'move_next_action',
-    'move_to_other_pane_action',
-];
-
-const TERMINAL_ACTIONS = [
-    'copy_action',
-    'copy_html_action',
-    'open_hyperlink_action',
-    'copy_hyperlink_action',
-    'copy_filename_action',
-    'paste_action',
-    'select_all_action',
-    'reset_action',
-    'reset_and_clear_action',
-    'find_action',
-    'find_next_action',
-    'find_prev_action',
-    'font_scale_increase_action',
-    'font_scale_decrease_action',
-    'font_scale_reset_action',
-    'show_in_file_manager_action',
-];
 
 export const TerminalPage = GObject.registerClass({
     Template: GLib.Uri.resolve_relative(
@@ -68,8 +43,12 @@ export const TerminalPage = GObject.registerClass({
         'banner',
         'banner_label',
         'terminal_menu',
-        ...PAGE_ACTIONS,
-        ...TERMINAL_ACTIONS,
+        'page_actions',
+        'terminal_actions',
+        'open_hyperlink_action',
+        'copy_hyperlink_action',
+        'copy_filename_action',
+        'font_scale_reset_action',
     ],
     Properties: {
         'terminal-settings': GObject.ParamSpec.object(
@@ -182,29 +161,6 @@ export const TerminalPage = GObject.registerClass({
             GObject.BindingFlags.SYNC_CREATE
         );
 
-        const page_actions = new Gio.SimpleActionGroup();
-
-        for (const name of PAGE_ACTIONS)
-            page_actions.add_action(this[`_${name}`]);
-
-        const split_layout_action = new Gio.SimpleAction({
-            name: 'split-layout',
-            parameter_type: new GLib.VariantType('s'),
-            state: GLib.Variant.new_string(this.split_layout),
-        });
-        this.connect('notify::split-layout', () => {
-            split_layout_action.state = GLib.Variant.new_string(this.split_layout);
-        });
-        split_layout_action.connect('change-state', (_, value) => {
-            this.emit('split-layout-request', value.unpack());
-        });
-        split_layout_action.set_state_hint(new GLib.Variant('as', [
-            'no-split',
-            'horizontal-split',
-            'vertical-split',
-        ]));
-        page_actions.add_action(split_layout_action);
-
         this._title_binding = null;
         this.connect('notify::use-custom-title', () => {
             this.update_title_binding();
@@ -217,30 +173,7 @@ export const TerminalPage = GObject.registerClass({
             this._title_dialog?.destroy();
         });
 
-        const use_custom_title_action = new Gio.SimpleAction({
-            'name': 'use-custom-title',
-            'state': GLib.Variant.new_boolean(this.use_custom_title),
-            'parameter-type': GLib.VariantType.new('b'),
-        });
-        use_custom_title_action.connect('change-state', (_, value) => {
-            this.use_custom_title = value.get_boolean();
-        });
-        this.connect('notify::use-custom-title', () => {
-            use_custom_title_action.set_state(
-                GLib.Variant.new_boolean(this.use_custom_title)
-            );
-        });
-        use_custom_title_action.connect('activate', (_, param) => {
-            use_custom_title_action.change_state(param);
-
-            if (param.get_boolean())
-                this.edit_title();
-        });
-        page_actions.add_action(use_custom_title_action);
-
-        this.insert_action_group('page', page_actions);
-
-        const terminal_actions = new Gio.SimpleActionGroup();
+        this.insert_action_group('page', this._page_actions);
 
         this.terminal.bind_property_full(
             'last-clicked-hyperlink',
@@ -278,10 +211,7 @@ export const TerminalPage = GObject.registerClass({
             null
         );
 
-        for (const name of TERMINAL_ACTIONS)
-            terminal_actions.add_action(this[`_${name}`]);
-
-        this.insert_action_group('terminal', terminal_actions);
+        this.insert_action_group('terminal', this._terminal_actions);
 
         const emit_session_update = () => this.emit('session-update');
 
@@ -488,6 +418,10 @@ export const TerminalPage = GObject.registerClass({
         this.emit('move-to-other-pane-request');
     }
 
+    _split_layout_action_change_state(action, state) {
+        this.emit('split-layout-request', state.unpack());
+    }
+
     _close_action_activate() {
         this.emit('close-request');
     }
@@ -522,7 +456,16 @@ export const TerminalPage = GObject.registerClass({
         this._title_binding = source?.bind_property(source_property, this, 'terminal-title', flags);
     }
 
-    edit_title() {
+    _use_custom_title_action_change_state(action, state) {
+        this.use_custom_title = state.get_boolean();
+    }
+
+    _use_custom_title_action_activate(action, param) {
+        action.change_state(param);
+
+        if (!param.get_boolean())
+            return;
+
         if (this._title_dialog) {
             this._title_dialog.present();
             return;
