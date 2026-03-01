@@ -39,13 +39,6 @@ export const AppWindow = GObject.registerClass({
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             false
         ),
-        'settings': GObject.ParamSpec.object(
-            'settings',
-            null,
-            null,
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-            Gio.Settings
-        ),
         'terminal-settings': GObject.ParamSpec.object(
             'terminal-settings',
             null,
@@ -66,6 +59,27 @@ export const AppWindow = GObject.registerClass({
             null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             DisplayConfig
+        ),
+        'maximize-setting': GObject.ParamSpec.boolean(
+            'maximize-setting',
+            null,
+            null,
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+            false
+        ),
+        'position-setting': GObject.ParamSpec.string(
+            'position-setting',
+            null,
+            null,
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+            'top'
+        ),
+        'resize-handle': GObject.ParamSpec.boolean(
+            'resize-handle',
+            null,
+            null,
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+            true
         ),
         'transparent-background': GObject.ParamSpec.boolean(
             'transparent-background',
@@ -193,31 +207,12 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
         this._resize_box_east.connect('realize', set_cursor_resize_ew);
         this._resize_box_west.connect('realize', set_cursor_resize_ew);
 
-        const settings_handlers = [
-            this.settings.connect('changed::window-position', () => {
-                this.update_resize_handles();
-            }),
-            this.settings.connect('changed::window-resizable', () => {
-                this.update_resize_handles();
-            }),
-        ];
-
-        this.connect('destroy', () => {
-            for (const handler of settings_handlers)
-                this.settings.disconnect(handler);
-        });
-
+        this.connect('notify::position-setting', this.update_resize_handles.bind(this));
+        this.connect('notify::resize-handle', this.update_resize_handles.bind(this));
         this.update_resize_handles();
 
         this.connect('notify::screen', () => this.update_visual());
         this.update_visual();
-
-        this.settings.bind(
-            'transparent-background',
-            this,
-            'transparent-background',
-            Gio.SettingsBindFlags.GET
-        );
 
         const actions = {
             'toggle': this.toggle.bind(this),
@@ -250,27 +245,6 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
         ).forEach(action => {
             this.bind_property('is-split', action, 'enabled', GObject.BindingFlags.SYNC_CREATE);
         });
-
-        this.settings.bind(
-            'window-skip-taskbar',
-            this,
-            'skip-taskbar-hint',
-            Gio.SettingsBindFlags.GET
-        );
-
-        this.settings.bind(
-            'window-skip-taskbar',
-            this,
-            'skip-pager-hint',
-            Gio.SettingsBindFlags.GET
-        );
-
-        this.settings.bind(
-            'tab-show-shortcuts',
-            this,
-            'tab-show-shortcuts',
-            Gio.SettingsBindFlags.GET
-        );
 
         this.connect('notify::tab-show-shortcuts', () => this.update_show_shortcuts());
         this.connect('notify::active-notebook', () => this.update_show_shortcuts());
@@ -331,9 +305,7 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
         const dbus_handler = this.extension_dbus.connect('g-properties-changed', sync_if_hidden);
         this.connect('destroy', () => this.extension_dbus.disconnect(dbus_handler));
 
-        const settings_handler = this.settings.connect('changed::window-maximize', sync_if_hidden);
-        this.connect('destroy', () => this.settings.disconnect(settings_handler));
-
+        this.connect('notify::maximize-setting', sync_if_hidden);
         this.connect('notify::is-maximized', sync_if_hidden);
 
         this.connect('unmap-event', () => {
@@ -341,6 +313,60 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
         });
 
         this.sync_size_with_extension();
+    }
+
+    bind_settings(settings) {
+        settings.bind(
+            'window-position',
+            this,
+            'position-setting',
+            Gio.SettingsBindFlags.GET
+        );
+
+        settings.bind(
+            'window-maximize',
+            this,
+            'maximize-setting',
+            Gio.SettingsBindFlags.GET
+        );
+
+        settings.bind(
+            'window-resizable',
+            this,
+            'resize-handle',
+            Gio.SettingsBindFlags.GET
+        );
+
+        settings.bind(
+            'transparent-background',
+            this,
+            'transparent-background',
+            Gio.SettingsBindFlags.GET
+        );
+
+        settings.bind(
+            'window-skip-taskbar',
+            this,
+            'skip-taskbar-hint',
+            Gio.SettingsBindFlags.GET
+        );
+
+        settings.bind(
+            'window-skip-taskbar',
+            this,
+            'skip-pager-hint',
+            Gio.SettingsBindFlags.GET
+        );
+
+        settings.bind(
+            'tab-show-shortcuts',
+            this,
+            'tab-show-shortcuts',
+            Gio.SettingsBindFlags.GET
+        );
+
+        this.notebook1.bind_settings(settings);
+        this.notebook2.bind_settings(settings);
     }
 
     bind_notebook(notebook) {
@@ -397,8 +423,6 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
             GObject.BindingFlags.SYNC_CREATE
         );
 
-        notebook.bind_settings(this.settings);
-
         notebook.connect('session-update', () => {
             this.emit('session-update');
         });
@@ -439,7 +463,7 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
 
     sync_size_with_extension() {
         if (this.is_maximized) {
-            if (this.settings.get_boolean('window-maximize'))
+            if (this.maximize_setting)
                 return;
 
             this.unmaximize();
@@ -523,13 +547,12 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
     }
 
     update_resize_handles() {
-        const pos = this.settings.get_string('window-position');
-        const enabled = this.settings.get_boolean('window-resizable');
+        const { resize_handle, position_setting } = this;
 
-        this._resize_box_south.visible = enabled && pos === 'top';
-        this._resize_box_north.visible = enabled && pos === 'bottom';
-        this._resize_box_east.visible = enabled && pos === 'left';
-        this._resize_box_west.visible = enabled && pos === 'right';
+        this._resize_box_south.visible = resize_handle && position_setting === 'top';
+        this._resize_box_north.visible = resize_handle && position_setting === 'bottom';
+        this._resize_box_east.visible = resize_handle && position_setting === 'left';
+        this._resize_box_west.visible = resize_handle && position_setting === 'right';
     }
 
     update_show_shortcuts() {

@@ -684,7 +684,6 @@ class Application extends Gtk.Application {
             application: this,
             decorated: false,
             hide_on_close: true,
-            settings: this.settings,
             terminal_settings: this.terminal_settings,
             extension_dbus: this.extension_dbus,
             display_config: this.display_config,
@@ -701,6 +700,8 @@ class Application extends Gtk.Application {
                 this._save_session_handler = null;
             }
         });
+
+        this.window.bind_settings(this.settings);
 
         this._save_session_handler =
             this.window.connect('session-update', this.schedule_save_session.bind(this));
