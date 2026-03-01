@@ -12,6 +12,18 @@ import Handy from 'gi://Handy';
 import { TerminalPage } from './terminalpage.js';
 import { TerminalSettings } from './terminalsettings.js';
 
+GObject.type_ensure(Gio.PropertyAction);
+
+const ACTIONS = [
+    'new_tab_action',
+    'new_tab_front_action',
+    'new_tab_before_current_action',
+    'new_tab_after_current_action',
+    'next_tab_action',
+    'prev_tab_action',
+    'switch_to_tab_action',
+];
+
 export const Notebook = GObject.registerClass({
     Template: GLib.Uri.resolve_relative(import.meta.url, './ui/notebook.ui', GLib.UriFlags.NONE),
     Children: [
@@ -23,6 +35,7 @@ export const Notebook = GObject.registerClass({
     ],
     InternalChildren: [
         'layout_menu',
+        ...ACTIONS,
     ],
     Properties: {
         'terminal-settings': GObject.ParamSpec.object(
@@ -228,50 +241,11 @@ export const Notebook = GObject.registerClass({
         this.connect('notify::tab-pos', this.update_tab_pos.bind(this));
         this.update_tab_pos();
 
-        const actions = {
-            'new-tab': () => {
-                this.new_page().spawn();
-            },
-            'new-tab-front': () => {
-                this.new_page(0).spawn();
-            },
-            'new-tab-before-current': () => {
-                const current_page = this.view.get_selected_page();
-                const position =
-                    current_page ? this.view.get_page_position(current_page) : 0;
-
-                this.new_page(position).spawn();
-            },
-            'new-tab-after-current': () => {
-                const current_page = this.view.get_selected_page();
-                const position =
-                    current_page ? this.view.get_page_position(current_page) + 1 : 0;
-
-                this.new_page(position).spawn();
-            },
-            'next-tab': () => {
-                this.view.select_next_page();
-            },
-            'prev-tab': () => {
-                this.view.select_previous_page();
-            },
-        };
-
         this.actions = new Gio.SimpleActionGroup();
         this.insert_action_group('notebook', this.actions);
 
-        for (const [name, activate] of Object.entries(actions)) {
-            const action = new Gio.SimpleAction({ name });
-            action.connect('activate', activate);
-            this.actions.add_action(action);
-        }
-
-        this.tab_select_action = new Gio.PropertyAction({
-            name: 'switch-to-tab',
-            object: this,
-            property_name: 'current-page',
-        });
-        this.actions.add_action(this.tab_select_action);
+        for (const name of ACTIONS)
+            this.actions.add_action(this[`_${name}`]);
 
         const split_layout_action = new Gio.SimpleAction({
             name: 'split-layout',
@@ -365,6 +339,38 @@ export const Notebook = GObject.registerClass({
             'tab-expand',
             Gio.SettingsBindFlags.GET
         );
+    }
+
+    _new_tab_action_activate() {
+        this.new_page().spawn();
+    }
+
+    _new_tab_front_action_activate() {
+        this.new_page(0).spawn();
+    }
+
+    _new_tab_before_current_action_activate() {
+        const current_page = this.view.get_selected_page();
+        const position =
+            current_page ? this.view.get_page_position(current_page) : 0;
+
+        this.new_page(position).spawn();
+    }
+
+    _new_tab_after_current_action_activate() {
+        const current_page = this.view.get_selected_page();
+        const position =
+            current_page ? this.view.get_page_position(current_page) + 1 : 0;
+
+        this.new_page(position).spawn();
+    }
+
+    _next_tab_action_activate() {
+        this.view.select_next_page();
+    }
+
+    _prev_tab_action_activate() {
+        this.view.select_previous_page();
     }
 
     page_attached(view, page, _position) {

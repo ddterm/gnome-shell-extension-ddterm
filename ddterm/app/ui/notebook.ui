@@ -183,4 +183,39 @@ SPDX-License-Identifier: GPL-3.0-or-later
     </item>
   </menu>
 
+  <object class="GSimpleAction" id="new_tab_action">
+    <property name="name">new-tab</property>
+    <signal name="activate" handler="_new_tab_action_activate"/>
+  </object>
+
+  <object class="GSimpleAction" id="new_tab_front_action">
+    <property name="name">new-tab-front</property>
+    <signal name="activate" handler="_new_tab_front_action_activate"/>
+  </object>
+
+  <object class="GSimpleAction" id="new_tab_before_current_action">
+    <property name="name">new-tab-before-current</property>
+    <signal name="activate" handler="_new_tab_before_current_action_activate"/>
+  </object>
+
+  <object class="GSimpleAction" id="new_tab_after_current_action">
+    <property name="name">new-tab-after-current</property>
+    <signal name="activate" handler="_new_tab_after_current_action_activate"/>
+  </object>
+
+  <object class="GSimpleAction" id="next_tab_action">
+    <property name="name">next-tab</property>
+    <signal name="activate" handler="_next_tab_action_activate"/>
+  </object>
+
+  <object class="GSimpleAction" id="prev_tab_action">
+    <property name="name">prev-tab</property>
+    <signal name="activate" handler="_prev_tab_action_activate"/>
+  </object>
+
+  <object class="GPropertyAction" id="switch_to_tab_action">
+    <property name="name">switch-to-tab</property>
+    <property name="object">Gjs_app_notebook_DDTermNotebook</property>
+    <property name="property-name">current-page</property>
+  </object>
 </interface>
