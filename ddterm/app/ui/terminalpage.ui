@@ -18,6 +18,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
         <property name="visible">True</property>
         <property name="revealed" bind-source="Gjs_app_terminalpage_DDTermTerminalPage" bind-property="banner-visible" bind-flags="sync-create|bidirectional"/>
         <property name="message-type" bind-source="Gjs_app_terminalpage_DDTermTerminalPage" bind-property="banner-type" bind-flags="sync-create|bidirectional"/>
+        <signal name="response" handler="_banner_response"/>
         <child internal-child="content_area">
           <object class="GtkBox">
             <child>
@@ -62,6 +63,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <property name="context-menu-model">terminal_menu</property>
             <property name="vadjustment">vadjustment</property>
             <signal name="button-press-event" handler="terminal_button_press_early"/>
+            <signal name="child-exited" handler="_child_exited" after="yes"/>
           </object>
           <packing>
             <property name="expand">True</property>
@@ -89,6 +91,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
         <property name="visible">True</property>
         <signal name="find-next" handler="find_next"/>
         <signal name="find-prev" handler="find_prev"/>
+        <signal name="notify::reveal-child" handler="vfunc_grab_focus"/>
       </object>
     </child>
   </template>

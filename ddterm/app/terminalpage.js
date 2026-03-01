@@ -170,24 +170,7 @@ export const TerminalPage = GObject.registerClass({
     _init(params) {
         super._init(params);
 
-        this._banner.connect('response', (_, response) => {
-            switch (response) {
-            case 0:
-                this.banner_visible = false;
-                this.spawn();
-                break;
-            case 1:
-                this.emit('close-request');
-                break;
-            }
-        });
-
         this.terminal_settings.bind_terminal(this.terminal);
-
-        this.search_bar.connect('notify::reveal-child', () => {
-            if (!this.search_bar.reveal_child)
-                this.terminal.grab_focus();
-        });
 
         this.connect('notify::terminal-title', () => this.notify('title'));
         this.connect('notify::switch-shortcut', () => this.notify('title'));
@@ -300,13 +283,6 @@ export const TerminalPage = GObject.registerClass({
 
         this.insert_action_group('terminal', terminal_actions);
 
-        this.terminal.connect_after('child-exited', (terminal_, status) => {
-            if (this.keep_open_after_exit)
-                this.set_exit_status_banner(status);
-            else
-                this.emit('close-request');
-        });
-
         const emit_session_update = () => this.emit('session-update');
 
         this.connect('notify::banner-visible', emit_session_update);
@@ -318,7 +294,12 @@ export const TerminalPage = GObject.registerClass({
         return this.terminal.get_cwd();
     }
 
-    set_exit_status_banner(status) {
+    _child_exited(terminal_, status) {
+        if (!this.keep_open_after_exit) {
+            this.emit('close-request');
+            return;
+        }
+
         if (WIFEXITED(status)) {
             const code = WEXITSTATUS(status);
 
@@ -340,6 +321,18 @@ export const TerminalPage = GObject.registerClass({
 
             this.banner_type = Gtk.MessageType.WARNING;
             this.banner_visible = true;
+        }
+    }
+
+    _banner_response(banner_, response) {
+        switch (response) {
+        case 0:
+            this.banner_visible = false;
+            this.spawn();
+            break;
+        case 1:
+            this.emit('close-request');
+            break;
         }
     }
 
@@ -563,7 +556,10 @@ export const TerminalPage = GObject.registerClass({
     }
 
     vfunc_grab_focus() {
-        this.terminal.grab_focus();
+        if (this.search_bar.reveal_child)
+            this.search_bar.grab_focus();
+        else
+            this.terminal.grab_focus();
     }
 
     serialize_state() {
