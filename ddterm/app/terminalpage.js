@@ -16,13 +16,16 @@ import { TabTitleDialog } from './tablabel.js';
 import { Terminal, TerminalCommand, WIFEXITED, WEXITSTATUS, WTERMSIG } from './terminal.js';
 import { TerminalSettings } from './terminalsettings.js';
 
-GObject.type_ensure(Terminal);
-GObject.type_ensure(SearchBar);
+class CloseDialog extends Gtk.MessageDialog {
+    static [GObject.GTypeName] = 'DDTermPageCloseDialog';
 
-const CloseDialog = GObject.registerClass({
-    Template: GLib.Uri.resolve_relative(import.meta.url, './ui/closedialog.ui', GLib.UriFlags.NONE),
-}, class DDTermCloseDialog extends Gtk.MessageDialog {
-});
+    static [Gtk.template] =
+        GLib.Uri.resolve_relative(import.meta.url, './ui/closedialog.ui', GLib.UriFlags.NONE);
+
+    static {
+        GObject.registerClass(this);
+    }
+}
 
 const PAGE_ACTIONS = [
     'close_action',
@@ -53,25 +56,27 @@ const TERMINAL_ACTIONS = [
     'show_in_file_manager_action',
 ];
 
-export const TerminalPage = GObject.registerClass({
-    Template: GLib.Uri.resolve_relative(
-        import.meta.url,
-        './ui/terminalpage.ui',
-        GLib.UriFlags.NONE
-    ),
-    Children: [
+export class TerminalPage extends Gtk.Box {
+    static [GObject.GTypeName] = 'DDTermTerminalPage';
+
+    static [Gtk.template] =
+        GLib.Uri.resolve_relative(import.meta.url, './ui/terminalpage.ui', GLib.UriFlags.NONE);
+
+    static [Gtk.children] = [
         'terminal',
         'scrollbar',
         'search_bar',
-    ],
-    InternalChildren: [
+    ];
+
+    static [Gtk.internalChildren] = [
         'banner',
         'banner_label',
         'terminal_menu',
         ...PAGE_ACTIONS,
         ...TERMINAL_ACTIONS,
-    ],
-    Properties: {
+    ];
+
+    static [GObject.properties] = {
         'terminal-settings': GObject.ParamSpec.object(
             'terminal-settings',
             null,
@@ -150,8 +155,9 @@ export const TerminalPage = GObject.registerClass({
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             false
         ),
-    },
-    Signals: {
+    };
+
+    static [GObject.signals] = {
         'new-tab-before-request': {},
         'new-tab-after-request': {},
         'move-prev-request': {},
@@ -165,10 +171,17 @@ export const TerminalPage = GObject.registerClass({
             param_types: [Boolean],
         },
         'session-update': {},
-    },
-}, class DDTermTerminalPage extends Gtk.Box {
-    _init(params) {
-        super._init(params);
+    };
+
+    static {
+        GObject.type_ensure(Terminal);
+        GObject.type_ensure(SearchBar);
+
+        GObject.registerClass(this);
+    }
+
+    constructor(params) {
+        super(params);
 
         this.terminal_settings.bind_terminal(this.terminal);
 
@@ -634,4 +647,4 @@ export const TerminalPage = GObject.registerClass({
 
         return page;
     }
-});
+}

@@ -11,20 +11,20 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
   <object id="vadjustment" class="GtkAdjustment"/>
 
-  <template class="Gjs_app_terminalpage_DDTermTerminalPage" parent="GtkBox">
+  <template class="DDTermTerminalPage" parent="GtkBox">
     <property name="orientation">vertical</property>
     <child>
       <object class="GtkInfoBar" id="banner">
         <property name="visible">True</property>
-        <property name="revealed" bind-source="Gjs_app_terminalpage_DDTermTerminalPage" bind-property="banner-visible" bind-flags="sync-create|bidirectional"/>
-        <property name="message-type" bind-source="Gjs_app_terminalpage_DDTermTerminalPage" bind-property="banner-type" bind-flags="sync-create|bidirectional"/>
+        <property name="revealed" bind-source="DDTermTerminalPage" bind-property="banner-visible" bind-flags="sync-create|bidirectional"/>
+        <property name="message-type" bind-source="DDTermTerminalPage" bind-property="banner-type" bind-flags="sync-create|bidirectional"/>
         <signal name="response" handler="_banner_response"/>
         <child internal-child="content_area">
           <object class="GtkBox">
             <child>
               <object class="GtkLabel" id="banner_label">
                 <property name="visible">True</property>
-                <property name="label" bind-source="Gjs_app_terminalpage_DDTermTerminalPage" bind-property="banner-label" bind-flags="sync-create|bidirectional"/>
+                <property name="label" bind-source="DDTermTerminalPage" bind-property="banner-label" bind-flags="sync-create|bidirectional"/>
               </object>
             </child>
           </object>
@@ -304,7 +304,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
   <object class="GPropertyAction" id="keep_open_action">
     <property name="name">keep-open-after-exit</property>
-    <property name="object">Gjs_app_terminalpage_DDTermTerminalPage</property>
+    <property name="object">DDTermTerminalPage</property>
     <property name="property-name">keep-open-after-exit</property>
   </object>
 
