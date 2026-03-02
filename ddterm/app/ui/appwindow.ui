@@ -10,6 +10,8 @@ SPDX-License-Identifier: GPL-3.0-or-later
   <!-- interface-requires gtk+ 3.0 -->
 
   <template class="Gjs_app_appwindow_DDTermAppWindow" parent="GtkApplicationWindow">
+    <signal name="notify::is-split" handler="_notify_split_layout"/>
+    <signal name="notify::split-orientation" handler="_emit_session_update"/>
     <child>
       <object class="GtkGrid" id="layout">
         <property name="visible">True</property>
@@ -19,10 +21,18 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <property name="hexpand">True</property>
             <property name="vexpand">True</property>
             <property name="wide-handle">True</property>
+            <signal name="set-focus-child" handler="_paned_focus_child"/>
+            <signal name="notify::orientation" handler="_notify_split_layout"/>
             <child>
               <object class="Gjs_app_notebook_DDTermNotebook" id="notebook1">
                 <property name="hexpand">True</property>
                 <property name="vexpand">True</property>
+                <property name="split-layout" bind-source="Gjs_app_appwindow_DDTermAppWindow" bind-property="split-layout" bind-flags="sync-create"/>
+                <signal name="notify::visible" handler="_notebook_notify_visible"/>
+                <signal name="notify::n-pages" handler="_notebook_notify_n_pages"/>
+                <signal name="split-layout" handler="_notebook_split_layout"/>
+                <signal name="move-to-other-pane" handler="_notebook_transfer_page"/>
+                <signal name="session-update" handler="_emit_session_update"/>
               </object>
               <packing>
                 <property name="resize">True</property>
@@ -33,6 +43,12 @@ SPDX-License-Identifier: GPL-3.0-or-later
               <object class="Gjs_app_notebook_DDTermNotebook" id="notebook2">
                 <property name="hexpand">True</property>
                 <property name="vexpand">True</property>
+                <property name="split-layout" bind-source="Gjs_app_appwindow_DDTermAppWindow" bind-property="split-layout" bind-flags="sync-create"/>
+                <signal name="notify::visible" handler="_notebook_notify_visible"/>
+                <signal name="notify::n-pages" handler="_notebook_notify_n_pages"/>
+                <signal name="split-layout" handler="_notebook_split_layout"/>
+                <signal name="move-to-other-pane" handler="_notebook_transfer_page"/>
+                <signal name="session-update" handler="_emit_session_update"/>
               </object>
               <packing>
                 <property name="resize">True</property>
@@ -48,6 +64,8 @@ SPDX-License-Identifier: GPL-3.0-or-later
         <child>
           <object class="GtkEventBox" id="resize_box_north">
             <property name="visible">True</property>
+            <signal name="realize" handler="_setup_widget_cursor"/>
+            <signal name="button-press-event" handler="_resize_box_button_press"/>
             <style>
               <class name="background"/>
             </style>
@@ -68,6 +86,8 @@ SPDX-License-Identifier: GPL-3.0-or-later
         <child>
           <object class="GtkEventBox" id="resize_box_south">
             <property name="visible">True</property>
+            <signal name="realize" handler="_setup_widget_cursor"/>
+            <signal name="button-press-event" handler="_resize_box_button_press"/>
             <style>
               <class name="background"/>
             </style>
@@ -88,6 +108,8 @@ SPDX-License-Identifier: GPL-3.0-or-later
         <child>
           <object class="GtkEventBox" id="resize_box_west">
             <property name="visible">True</property>
+            <signal name="realize" handler="_setup_widget_cursor"/>
+            <signal name="button-press-event" handler="_resize_box_button_press"/>
             <style>
               <class name="background"/>
             </style>
@@ -108,6 +130,8 @@ SPDX-License-Identifier: GPL-3.0-or-later
         <child>
           <object class="GtkEventBox" id="resize_box_east">
             <property name="visible">True</property>
+            <signal name="realize" handler="_setup_widget_cursor"/>
+            <signal name="button-press-event" handler="_resize_box_button_press"/>
             <style>
               <class name="background"/>
             </style>
