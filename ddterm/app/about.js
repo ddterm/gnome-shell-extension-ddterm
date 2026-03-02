@@ -37,9 +37,13 @@ function fix_markup(line) {
     );
 }
 
-export const AboutDialog = GObject.registerClass({
-},
-class DDTermAboutDialog extends Gtk.AboutDialog {
+export class AboutDialog extends Gtk.AboutDialog {
+    static [GObject.GTypeName] = 'DDTermAboutDialog';
+
+    static {
+        GObject.registerClass(this);
+    }
+
     constructor(...params) {
         super(...params);
 
@@ -59,4 +63,4 @@ class DDTermAboutDialog extends Gtk.AboutDialog {
         this.add_credit_section(Gettext.gettext('Contributors'), authors);
         this.artists = artists;
     }
-});
+}
