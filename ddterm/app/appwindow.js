@@ -23,21 +23,27 @@ const ACTIONS = [
     'focus_other_pane_action',
 ];
 
-export const AppWindow = GObject.registerClass({
-    Template: GLib.Uri.resolve_relative(import.meta.url, './ui/appwindow.ui', GLib.UriFlags.NONE),
-    Children: [
+export class AppWindow extends Gtk.ApplicationWindow {
+    static [GObject.GTypeName] = 'DDTermAppWindow';
+
+    static [Gtk.template] =
+        GLib.Uri.resolve_relative(import.meta.url, './ui/appwindow.ui', GLib.UriFlags.NONE);
+
+    static [Gtk.children] = [
         'paned',
         'notebook1',
         'notebook2',
-    ],
-    InternalChildren: [
+    ];
+
+    static [Gtk.internalChildren] = [
         'resize_box_north',
         'resize_box_south',
         'resize_box_east',
         'resize_box_west',
         ...ACTIONS,
-    ],
-    Properties: {
+    ];
+
+    static [GObject.properties] = {
         'hide-on-close': GObject.ParamSpec.boolean(
             'hide-on-close',
             null,
@@ -91,8 +97,8 @@ export const AppWindow = GObject.registerClass({
             'transparent-background',
             null,
             null,
-            GObject.ParamFlags.READWRITE,
-            true
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+            false
         ),
         'tab-show-shortcuts': GObject.ParamSpec.boolean(
             'tab-show-shortcuts',
@@ -129,14 +135,18 @@ export const AppWindow = GObject.registerClass({
             GObject.ParamFlags.READABLE,
             'no-split'
         ),
-    },
-    Signals: {
+    };
+
+    static [GObject.signals] = {
         'session-update': {},
-    },
-},
-class DDTermAppWindow extends Gtk.ApplicationWindow {
-    _init(params) {
-        super._init({
+    };
+
+    static {
+        GObject.registerClass(this);
+    }
+
+    constructor(params) {
+        super({
             window_position: Gtk.WindowPosition.CENTER,
             ...params,
         });
@@ -165,47 +175,48 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
         this._resize_box_west.edge = Gdk.WindowEdge.WEST;
         this._resize_box_west.cursor = resize_ew;
 
-        this.connect('notify::position-setting', this._update_resize_handles.bind(this));
-        this.connect('notify::resize-handle', this._update_resize_handles.bind(this));
-        this._update_resize_handles();
+        this.connect('notify::position-setting', this.#update_resize_handles.bind(this));
+        this.connect('notify::resize-handle', this.#update_resize_handles.bind(this));
+        this.#update_resize_handles();
 
-        this.connect('notify::screen', this._update_visual.bind(this));
-        this._update_visual();
+        this.connect('notify::screen', this.#update_visual.bind(this));
+        this.#update_visual();
 
-        this.connect('notify::tab-show-shortcuts', this._update_show_shortcuts.bind(this));
-        this.connect('notify::active-notebook', this._update_show_shortcuts.bind(this));
-        this._update_show_shortcuts();
+        this.connect('notify::tab-show-shortcuts', this.#update_show_shortcuts.bind(this));
+        this.connect('notify::active-notebook', this.#update_show_shortcuts.bind(this));
+        this.#update_show_shortcuts();
 
         this.connect('notify::is-empty', () => {
             if (this.is_empty)
                 this.close();
         });
 
-        this.connect('notify::hide-on-close', this._hide_on_close.bind(this));
-
-        this._hide_on_close();
-        this._setup_size_sync();
+        this.#setup_size_sync();
     }
 
-    _hide_on_close() {
+    get hide_on_close() {
+        return Boolean(this._hide_on_close_handler);
+    }
+
+    set hide_on_close(enable) {
+        if (enable === this.hide_on_close)
+            return;
+
         if (this._hide_on_close_handler)
             this.disconnect(this._hide_on_close_handler);
 
-        if (!this.hide_on_close) {
-            this._hide_on_close_handler = null;
-            return;
-        }
-
-        this._hide_on_close_handler = this.connect('delete-event', () => {
+        this._hide_on_close_handler = enable ? this.connect('delete-event', () => {
             if (this.is_empty)
                 return false;
 
             this.hide();
             return true;
-        });
+        }) : null;
+
+        this.notify('hide-on-close');
     }
 
-    _setup_size_sync() {
+    #setup_size_sync() {
         if (!this.extension_dbus || !this.display_config)
             return;  // App dev mode
 
@@ -216,7 +227,7 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
 
         const sync_if_hidden = () => {
             if (!this.is_visible())
-                this.sync_size_with_extension();
+                this.#sync_size_with_extension();
         };
 
         const display_config_handler =
@@ -231,10 +242,10 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
         this.connect('notify::is-maximized', sync_if_hidden);
 
         this.connect('unmap-event', () => {
-            this.sync_size_with_extension();
+            this.#sync_size_with_extension();
         });
 
-        this.sync_size_with_extension();
+        this.#sync_size_with_extension();
     }
 
     _setup_widget_cursor(widget) {
@@ -343,7 +354,7 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
 
     _notebook_split_layout(notebook, page, mode) {
         if (mode === 'no-split') {
-            this.reset_layout();
+            this.#reset_layout();
             return;
         }
 
@@ -421,14 +432,14 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
         );
     }
 
-    _update_visual() {
+    #update_visual() {
         const visual = this.get_screen()?.get_rgba_visual();
 
         if (visual)
             this.set_visual(visual);
     }
 
-    sync_size_with_extension() {
+    #sync_size_with_extension() {
         if (this.is_maximized) {
             if (this.maximize_setting)
                 return;
@@ -482,7 +493,7 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
         return 'horizontal-split';
     }
 
-    reset_layout() {
+    #reset_layout() {
         if (!this.is_split)
             return;
 
@@ -507,13 +518,20 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
     }
 
     set transparent_background(value) {
+        const context = this.get_style_context();
+
+        if (value === context.has_class('transparent-background'))
+            return;
+
         if (value)
-            this.get_style_context().add_class('transparent-background');
+            context.add_class('transparent-background');
         else
-            this.get_style_context().remove_class('transparent-background');
+            context.remove_class('transparent-background');
+
+        this.notify('transparent-background');
     }
 
-    _update_resize_handles() {
+    #update_resize_handles() {
         const { resize_handle, position_setting } = this;
 
         this._resize_box_south.visible = resize_handle && position_setting === 'top';
@@ -522,7 +540,7 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
         this._resize_box_west.visible = resize_handle && position_setting === 'right';
     }
 
-    _update_show_shortcuts() {
+    #update_show_shortcuts() {
         const { notebook1, notebook2 } = this;
 
         notebook1.tab_show_shortcuts =
@@ -599,4 +617,4 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
         if (this.is_empty)
             (this.active_notebook ?? this.notebook1).new_page().spawn();
     }
-});
+}

@@ -9,7 +9,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 <interface domain="ddterm@amezin.github.com">
   <!-- interface-requires gtk+ 3.0 -->
 
-  <template class="Gjs_app_appwindow_DDTermAppWindow" parent="GtkApplicationWindow">
+  <template class="DDTermAppWindow" parent="GtkApplicationWindow">
     <signal name="notify::is-split" handler="_notify_split_layout"/>
     <signal name="notify::split-orientation" handler="_emit_session_update"/>
     <child>
@@ -27,7 +27,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
               <object class="DDTermNotebook" id="notebook1">
                 <property name="hexpand">True</property>
                 <property name="vexpand">True</property>
-                <property name="split-layout" bind-source="Gjs_app_appwindow_DDTermAppWindow" bind-property="split-layout" bind-flags="sync-create"/>
+                <property name="split-layout" bind-source="DDTermAppWindow" bind-property="split-layout" bind-flags="sync-create"/>
                 <signal name="notify::visible" handler="_notebook_notify_visible"/>
                 <signal name="notify::n-pages" handler="_notebook_notify_n_pages"/>
                 <signal name="split-layout" handler="_notebook_split_layout"/>
@@ -43,7 +43,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
               <object class="DDTermNotebook" id="notebook2">
                 <property name="hexpand">True</property>
                 <property name="vexpand">True</property>
-                <property name="split-layout" bind-source="Gjs_app_appwindow_DDTermAppWindow" bind-property="split-layout" bind-flags="sync-create"/>
+                <property name="split-layout" bind-source="DDTermAppWindow" bind-property="split-layout" bind-flags="sync-create"/>
                 <signal name="notify::visible" handler="_notebook_notify_visible"/>
                 <signal name="notify::n-pages" handler="_notebook_notify_n_pages"/>
                 <signal name="split-layout" handler="_notebook_split_layout"/>
@@ -171,19 +171,19 @@ SPDX-License-Identifier: GPL-3.0-or-later
   <object class="GSimpleAction" id="split_position_inc_action">
     <property name="name">split-position-inc</property>
     <signal name="activate" handler="_split_position_inc_action_activate"/>
-    <property name="enabled" bind-source="Gjs_app_appwindow_DDTermAppWindow" bind-property="is-split" bind-flags="sync-create"/>
+    <property name="enabled" bind-source="DDTermAppWindow" bind-property="is-split" bind-flags="sync-create"/>
   </object>
 
   <object class="GSimpleAction" id="split_position_dec_action">
     <property name="name">split-position-dec</property>
     <signal name="activate" handler="_split_position_dec_action_activate"/>
-    <property name="enabled" bind-source="Gjs_app_appwindow_DDTermAppWindow" bind-property="is-split" bind-flags="sync-create"/>
+    <property name="enabled" bind-source="DDTermAppWindow" bind-property="is-split" bind-flags="sync-create"/>
   </object>
 
   <object class="GSimpleAction" id="focus_other_pane_action">
     <property name="name">focus-other-pane</property>
     <signal name="activate" handler="_focus_other_pane_action_activate"/>
-    <property name="enabled" bind-source="Gjs_app_appwindow_DDTermAppWindow" bind-property="is-split" bind-flags="sync-create"/>
+    <property name="enabled" bind-source="DDTermAppWindow" bind-property="is-split" bind-flags="sync-create"/>
   </object>
 
 </interface>
