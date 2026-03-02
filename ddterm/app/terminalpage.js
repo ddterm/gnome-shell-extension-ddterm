@@ -64,14 +64,11 @@ export class TerminalPage extends Gtk.Box {
 
     static [Gtk.children] = [
         'terminal',
-        'scrollbar',
-        'search_bar',
     ];
 
     static [Gtk.internalChildren] = [
-        'banner',
-        'banner_label',
-        'terminal_menu',
+        'scrollbar',
+        'search_bar',
         ...PAGE_ACTIONS,
         ...TERMINAL_ACTIONS,
     ];
@@ -180,6 +177,9 @@ export class TerminalPage extends Gtk.Box {
         GObject.registerClass(this);
     }
 
+    #title_binding = null;
+    #title_dialog = null;
+
     constructor(params) {
         super(params);
 
@@ -190,7 +190,7 @@ export class TerminalPage extends Gtk.Box {
 
         this.terminal_settings.bind_property(
             'show-scrollbar',
-            this.scrollbar,
+            this._scrollbar,
             'visible',
             GObject.BindingFlags.SYNC_CREATE
         );
@@ -218,16 +218,14 @@ export class TerminalPage extends Gtk.Box {
         ]));
         page_actions.add_action(split_layout_action);
 
-        this._title_binding = null;
         this.connect('notify::use-custom-title', () => {
-            this.update_title_binding();
+            this.#update_title_binding();
         });
         // Don't update the title from the terminal until the process is started
-        this.update_title_binding(false);
+        this.#update_title_binding(false);
 
-        this._title_dialog = null;
         this.connect('destroy', () => {
-            this._title_dialog?.destroy();
+            this.#title_dialog?.destroy();
         });
 
         const use_custom_title_action = new Gio.SimpleAction({
@@ -247,7 +245,7 @@ export class TerminalPage extends Gtk.Box {
             use_custom_title_action.change_state(param);
 
             if (param.get_boolean())
-                this.edit_title();
+                this.#edit_title();
         });
         page_actions.add_action(use_custom_title_action);
 
@@ -307,7 +305,7 @@ export class TerminalPage extends Gtk.Box {
         return this.terminal.get_cwd();
     }
 
-    _child_exited(terminal_, status) {
+    _child_exited(terminal, status) {
         if (!this.keep_open_after_exit) {
             this.emit('close-request');
             return;
@@ -337,7 +335,7 @@ export class TerminalPage extends Gtk.Box {
         }
     }
 
-    _banner_response(banner_, response) {
+    _banner_response(banner, response) {
         switch (response) {
         case 0:
             this.banner_visible = false;
@@ -369,7 +367,7 @@ export class TerminalPage extends Gtk.Box {
         return this.terminal.spawn(this.command, timeout, callback_wrapper);
     }
 
-    open_hyperlink() {
+    _open_hyperlink() {
         Gtk.show_uri_on_window(
             this.get_ancestor(Gtk.Window),
             this.terminal.last_clicked_hyperlink,
@@ -387,14 +385,14 @@ export class TerminalPage extends Gtk.Box {
         clipboard.set_text(this.terminal.last_clicked_filename, -1);
     }
 
-    terminal_button_press_early(_terminal, event) {
+    _terminal_button_press_early(terminal, event) {
         const state = event.get_state()[1];
 
         if (state & Gdk.ModifierType.CONTROL_MASK) {
             const button = event.get_button()[1];
 
             if ([Gdk.BUTTON_PRIMARY, Gdk.BUTTON_MIDDLE].includes(button)) {
-                this.open_hyperlink();
+                this._open_hyperlink();
                 return true;
             }
         }
@@ -402,24 +400,24 @@ export class TerminalPage extends Gtk.Box {
         return false;
     }
 
-    find_next() {
-        this.terminal.search_set_regex(this.search_bar.pattern.regex, 0);
-        this.terminal.search_set_wrap_around(this.search_bar.wrap);
+    _find_next() {
+        this.terminal.search_set_regex(this._search_bar.pattern.regex, 0);
+        this.terminal.search_set_wrap_around(this._search_bar.wrap);
         this.terminal.search_find_next();
     }
 
-    find_prev() {
-        this.terminal.search_set_regex(this.search_bar.pattern.regex, 0);
-        this.terminal.search_set_wrap_around(this.search_bar.wrap);
+    _find_prev() {
+        this.terminal.search_set_regex(this._search_bar.pattern.regex, 0);
+        this.terminal.search_set_wrap_around(this._search_bar.wrap);
         this.terminal.search_find_previous();
     }
 
     _find_action_activate() {
         this.terminal.get_text_selected_async().then(text => {
             if (text)
-                this.search_bar.pattern.text = text;
+                this._search_bar.pattern.text = text;
 
-            this.search_bar.reveal_child = true;
+            this._search_bar.reveal_child = true;
         });
     }
 
@@ -523,42 +521,42 @@ export class TerminalPage extends Gtk.Box {
         close_dialog.show();
     }
 
-    update_title_binding(sync = true) {
+    #update_title_binding(sync = true) {
         const flags = sync ? GObject.BindingFlags.SYNC_CREATE : GObject.BindingFlags.DEFAULT;
-        const source = this.use_custom_title ? this._title_dialog : this.terminal;
+        const source = this.use_custom_title ? this.#title_dialog : this.terminal;
         const source_property = this.use_custom_title ? 'custom-title' : 'window-title';
 
-        if ((this._title_binding?.dup_source() ?? null) === (source ?? null))
+        if ((this.#title_binding?.dup_source() ?? null) === (source ?? null))
             return;
 
-        this._title_binding?.unbind();
-        this._title_binding = source?.bind_property(source_property, this, 'terminal-title', flags);
+        this.#title_binding?.unbind();
+        this.#title_binding = source?.bind_property(source_property, this, 'terminal-title', flags);
     }
 
-    edit_title() {
-        if (this._title_dialog) {
-            this._title_dialog.present();
+    #edit_title() {
+        if (this.#title_dialog) {
+            this.#title_dialog.present();
             return;
         }
 
-        this._title_dialog = new TabTitleDialog({
+        this.#title_dialog = new TabTitleDialog({
             transient_for: this.get_toplevel(),
             custom_title: this.terminal_title,
         });
 
-        this._title_dialog.connect('destroy', () => {
-            this._title_dialog = null;
+        this.#title_dialog.connect('destroy', () => {
+            this.#title_dialog = null;
         });
 
         this.bind_property(
             'use-custom-title',
-            this._title_dialog,
+            this.#title_dialog,
             'use-custom-title',
             GObject.BindingFlags.BIDIRECTIONAL | GObject.BindingFlags.SYNC_CREATE
         );
 
-        this.update_title_binding();
-        this._title_dialog.present();
+        this.#update_title_binding();
+        this.#title_dialog.present();
     }
 
     get title() {
@@ -569,8 +567,8 @@ export class TerminalPage extends Gtk.Box {
     }
 
     vfunc_grab_focus() {
-        if (this.search_bar.reveal_child)
-            this.search_bar.grab_focus();
+        if (this._search_bar.reveal_child)
+            this._search_bar.grab_focus();
         else
             this.terminal.grab_focus();
     }

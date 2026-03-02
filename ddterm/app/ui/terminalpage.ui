@@ -62,7 +62,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <property name="visible">True</property>
             <property name="context-menu-model">terminal_menu</property>
             <property name="vadjustment">vadjustment</property>
-            <signal name="button-press-event" handler="terminal_button_press_early"/>
+            <signal name="button-press-event" handler="_terminal_button_press_early"/>
             <signal name="child-exited" handler="_child_exited" after="yes"/>
           </object>
           <packing>
@@ -89,8 +89,8 @@ SPDX-License-Identifier: GPL-3.0-or-later
     <child>
       <object class="Gjs_app_search_DDTermSearchBar" id="search_bar">
         <property name="visible">True</property>
-        <signal name="find-next" handler="find_next"/>
-        <signal name="find-prev" handler="find_prev"/>
+        <signal name="find-next" handler="_find_next"/>
+        <signal name="find-prev" handler="_find_prev"/>
         <signal name="notify::reveal-child" handler="vfunc_grab_focus"/>
       </object>
     </child>
@@ -347,7 +347,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
   <object class="GSimpleAction" id="open_hyperlink_action">
     <property name="name">open-hyperlink</property>
-    <signal name="activate" handler="open_hyperlink"/>
+    <signal name="activate" handler="_open_hyperlink"/>
   </object>
 
   <object class="GSimpleAction" id="copy_hyperlink_action">
@@ -387,13 +387,13 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
   <object class="GSimpleAction" id="find_next_action">
     <property name="name">find-next</property>
-    <signal name="activate" handler="find_next"/>
+    <signal name="activate" handler="_find_next"/>
     <property name="enabled" bind-source="search_bar" bind-property="reveal-child" bind-flags="sync-create"/>
   </object>
 
   <object class="GSimpleAction" id="find_prev_action">
     <property name="name">find-prev</property>
-    <signal name="activate" handler="find_prev"/>
+    <signal name="activate" handler="_find_prev"/>
     <property name="enabled" bind-source="search_bar" bind-property="reveal-child" bind-flags="sync-create"/>
   </object>
 
