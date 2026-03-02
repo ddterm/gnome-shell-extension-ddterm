@@ -10,7 +10,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
   <!-- interface-requires gtk+ 3.0 -->
   <!-- interface-requires libhandy 1 -->
 
-  <template class="Gjs_app_notebook_DDTermNotebook" parent="GtkBox">
+  <template class="DDTermNotebook" parent="GtkBox">
     <property name="orientation">vertical</property>
     <child>
       <object class="HdyTabView" id="view">
@@ -34,13 +34,13 @@ SPDX-License-Identifier: GPL-3.0-or-later
         <property name="visible">True</property>
         <property name="autohide">False</property>
         <property name="view">view</property>
-        <property name="expand-tabs" bind-source="Gjs_app_notebook_DDTermNotebook" bind-property="tab-expand" bind-flags="sync-create|bidirectional"/>
+        <property name="expand-tabs" bind-source="DDTermNotebook" bind-property="tab-expand" bind-flags="sync-create|bidirectional"/>
         <style>
           <class name="background"/>
         </style>
         <child type="start">
           <object class="GtkButton" id="new_tab_front_button">
-            <property name="visible" bind-source="Gjs_app_notebook_DDTermNotebook" bind-property="show-new-tab-front-button" bind-flags="sync-create|bidirectional"/>
+            <property name="visible" bind-source="DDTermNotebook" bind-property="show-new-tab-front-button" bind-flags="sync-create|bidirectional"/>
             <property name="focus_on_click">False</property>
             <property name="relief">none</property>
             <property name="tooltip_text" translatable="yes">New Tab (First)</property>
@@ -61,7 +61,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <property name="orientation">horizontal</property>
             <child>
               <object class="GtkButton" id="new_tab_button">
-                <property name="visible" bind-source="Gjs_app_notebook_DDTermNotebook" bind-property="show-new-tab-button" bind-flags="sync-create|bidirectional"/>
+                <property name="visible" bind-source="DDTermNotebook" bind-property="show-new-tab-button" bind-flags="sync-create|bidirectional"/>
                 <property name="focus_on_click">False</property>
                 <property name="relief">none</property>
                 <property name="tooltip_text" translatable="yes">New Tab (Last)</property>
@@ -77,7 +77,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
             </child>
             <child>
               <object class="GtkMenuButton" id="tab_switch_button">
-                <property name="visible" bind-source="Gjs_app_notebook_DDTermNotebook" bind-property="show-tab-switch-popup" bind-flags="sync-create|bidirectional"/>
+                <property name="visible" bind-source="DDTermNotebook" bind-property="show-tab-switch-popup" bind-flags="sync-create|bidirectional"/>
                 <property name="focus_on_click">False</property>
                 <property name="relief">none</property>
               </object>
@@ -223,7 +223,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
   <object class="GPropertyAction" id="switch_to_tab_action">
     <property name="name">switch-to-tab</property>
-    <property name="object">Gjs_app_notebook_DDTermNotebook</property>
+    <property name="object">DDTermNotebook</property>
     <property name="property-name">current-page</property>
   </object>
 </interface>

@@ -24,7 +24,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <signal name="set-focus-child" handler="_paned_focus_child"/>
             <signal name="notify::orientation" handler="_notify_split_layout"/>
             <child>
-              <object class="Gjs_app_notebook_DDTermNotebook" id="notebook1">
+              <object class="DDTermNotebook" id="notebook1">
                 <property name="hexpand">True</property>
                 <property name="vexpand">True</property>
                 <property name="split-layout" bind-source="Gjs_app_appwindow_DDTermAppWindow" bind-property="split-layout" bind-flags="sync-create"/>
@@ -40,7 +40,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
               </packing>
             </child>
             <child>
-              <object class="Gjs_app_notebook_DDTermNotebook" id="notebook2">
+              <object class="DDTermNotebook" id="notebook2">
                 <property name="hexpand">True</property>
                 <property name="vexpand">True</property>
                 <property name="split-layout" bind-source="Gjs_app_appwindow_DDTermAppWindow" bind-property="split-layout" bind-flags="sync-create"/>

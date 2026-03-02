@@ -12,8 +12,6 @@ import Handy from 'gi://Handy';
 import { TerminalPage } from './terminalpage.js';
 import { TerminalSettings } from './terminalsettings.js';
 
-GObject.type_ensure(Gio.PropertyAction);
-
 const ACTIONS = [
     'new_tab_action',
     'new_tab_front_action',
@@ -24,20 +22,32 @@ const ACTIONS = [
     'switch_to_tab_action',
 ];
 
-export const Notebook = GObject.registerClass({
-    Template: GLib.Uri.resolve_relative(import.meta.url, './ui/notebook.ui', GLib.UriFlags.NONE),
-    Children: [
+function convert_select_from_map(map_object) {
+    return (binding, value) => {
+        const mapped = map_object[value];
+
+        return [mapped !== undefined, mapped ?? null];
+    };
+}
+
+export class Notebook extends Gtk.Box {
+    static [GObject.GTypeName] = 'DDTermNotebook';
+
+    static [Gtk.template] =
+        GLib.Uri.resolve_relative(import.meta.url, './ui/notebook.ui', GLib.UriFlags.NONE);
+
+    static [Gtk.children] = [
         'view',
+    ];
+
+    static [Gtk.internalChildren] = [
         'bar',
-        'new_tab_button',
-        'tab_switch_button',
-        'new_tab_front_button',
-    ],
-    InternalChildren: [
         'layout_menu',
+        'tab_switch_button',
         ...ACTIONS,
-    ],
-    Properties: {
+    ];
+
+    static [GObject.properties] = {
         'terminal-settings': GObject.ParamSpec.object(
             'terminal-settings',
             null,
@@ -134,8 +144,9 @@ export const Notebook = GObject.registerClass({
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             'no-split'
         ),
-    },
-    Signals: {
+    };
+
+    static [GObject.signals] = {
         'split-layout': {
             param_types: [TerminalPage, String],
         },
@@ -143,10 +154,18 @@ export const Notebook = GObject.registerClass({
             param_types: [TerminalPage],
         },
         'session-update': {},
-    },
-}, class DDTermNotebook extends Gtk.Box {
-    _init(params) {
-        super._init(params);
+    };
+
+    static {
+        GObject.type_ensure(Gio.PropertyAction);
+
+        GObject.registerClass(this);
+    }
+
+    #page_disconnect;
+
+    constructor(params) {
+        super(params);
 
         // Disable built-in shortcuts
         GObject.signal_handlers_disconnect_matched(this.view, {
@@ -157,56 +176,41 @@ export const Notebook = GObject.registerClass({
         menu.append_section(null, new NotebookMenu({ tab_view: this.view }));
         menu.append_section(null, this._layout_menu);
 
-        this.tab_switch_button.menu_model = menu;
+        this._tab_switch_button.menu_model = menu;
 
         this.bind_property_full(
             'tab-policy',
-            this.bar,
+            this._bar,
             'autohide',
             GObject.BindingFlags.SYNC_CREATE,
-            (_, policy) => {
-                switch (policy) {
-                case 'always':
-                case 'never':
-                    return [true, false];
-
-                case 'automatic':
-                    return [true, true];
-                }
-
-                return [false, false];
-            },
+            convert_select_from_map({
+                'automatic': true,
+                'always': false,
+                'never': false,
+            }),
             null
         );
 
         this.bind_property_full(
             'tab-policy',
-            this.bar,
+            this._bar,
             'visible',
             GObject.BindingFlags.SYNC_CREATE,
-            (_, policy) => {
-                switch (policy) {
-                case 'always':
-                case 'automatic':
-                    return [true, true];
-
-                case 'never':
-                    return [true, false];
-                }
-
-                return [false, true];
-            },
+            convert_select_from_map({
+                'automatic': true,
+                'always': true,
+                'never': false,
+            }),
             null
         );
 
-        this.connect('notify::tab-pos', this.update_tab_pos.bind(this));
-        this.update_tab_pos();
+        this.connect('notify::tab-pos', this.#update_tab_pos.bind(this));
+        this.#update_tab_pos();
 
-        this.actions = new Gio.SimpleActionGroup();
-        this.insert_action_group('notebook', this.actions);
+        const actions = new Gio.SimpleActionGroup();
 
         for (const name of ACTIONS)
-            this.actions.add_action(this[`_${name}`]);
+            actions.add_action(this[`_${name}`]);
 
         const split_layout_action = new Gio.SimpleAction({
             name: 'split-layout',
@@ -224,11 +228,13 @@ export const Notebook = GObject.registerClass({
             'horizontal-split',
             'vertical-split',
         ]));
-        this.actions.add_action(split_layout_action);
+        actions.add_action(split_layout_action);
 
-        this.connect('hierarchy-changed', this.update_root.bind(this));
-        this.connect('notify::tab-show-shortcuts', this.update_tab_switch_accels.bind(this));
-        this.update_root();
+        this.insert_action_group('notebook', actions);
+
+        this.connect('hierarchy-changed', this.#update_root.bind(this));
+        this.connect('notify::tab-show-shortcuts', this.#update_tab_switch_accels.bind(this));
+        this.#update_root();
 
         this.connect('notify::current-child', () => {
             const child = this.current_child;
@@ -252,7 +258,7 @@ export const Notebook = GObject.registerClass({
             this.notify('current-title');
         });
 
-        this.page_disconnect = new Map();
+        this.#page_disconnect = new Map();
     }
 
     bind_settings(settings) {
@@ -375,7 +381,7 @@ export const Notebook = GObject.registerClass({
             ),
         ];
 
-        this.page_disconnect.set(child, () => {
+        this.#page_disconnect.set(child, () => {
             while (handlers.length > 0)
                 child.disconnect(handlers.pop());
 
@@ -385,20 +391,20 @@ export const Notebook = GObject.registerClass({
 
         this.view.selected_page = page;
         this.grab_focus();
-        this.update_tab_switch_accels();
+        this.#update_tab_switch_accels();
         this.emit('session-update');
     }
 
     _page_detached(view, page, _position) {
         const { child } = page;
 
-        const disconnect = this.page_disconnect.get(child);
-        this.page_disconnect.delete(child);
+        const disconnect = this.#page_disconnect.get(child);
+        this.#page_disconnect.delete(child);
 
         if (disconnect)
             disconnect();
 
-        this.update_tab_switch_accels();
+        this.#update_tab_switch_accels();
         this.emit('session-update');
     }
 
@@ -406,7 +412,7 @@ export const Notebook = GObject.registerClass({
         if (page.selected)
             this.notify('current-page');
 
-        this.update_tab_switch_accels();
+        this.#update_tab_switch_accels();
         this.emit('session-update');
     }
 
@@ -426,7 +432,7 @@ export const Notebook = GObject.registerClass({
     }
 
     _setup_menu(_view, page) {
-        this.bar.insert_action_group('page', page?.child.get_action_group('page') ?? null);
+        this._bar.insert_action_group('page', page?.child.get_action_group('page') ?? null);
     }
 
     get_cwd() {
@@ -447,12 +453,12 @@ export const Notebook = GObject.registerClass({
 
         const page = position === -1 ? this.view.append(child) : this.view.insert(child, position);
 
-        this.bind_page(page);
+        this.#bind_page(page);
 
         return child;
     }
 
-    bind_page(page) {
+    #bind_page(page) {
         page.child.bind_property('title', page, 'title', GObject.BindingFlags.SYNC_CREATE);
     }
 
@@ -463,7 +469,7 @@ export const Notebook = GObject.registerClass({
         return this.terminal_settings.get_command(working_directory, envv);
     }
 
-    get_accel_for_page(i) {
+    #get_accel_for_page(i) {
         if (!this.tab_show_shortcuts)
             return '';
 
@@ -481,17 +487,17 @@ export const Notebook = GObject.registerClass({
         return '';
     }
 
-    update_tab_switch_accels() {
+    #update_tab_switch_accels() {
         const n = this.view.get_n_pages();
 
         for (let i = 0; i < n; i++) {
             const { child } = this.view.get_nth_page(i);
 
-            child.switch_shortcut = this.get_accel_for_page(i);
+            child.switch_shortcut = this.#get_accel_for_page(i);
         }
     }
 
-    update_root() {
+    #update_root() {
         const root = this.get_toplevel();
 
         if (root === this._root)
@@ -506,22 +512,22 @@ export const Notebook = GObject.registerClass({
 
         if (root instanceof Gtk.Window) {
             this._keys_handler =
-                root.connect('keys-changed', this.update_tab_switch_accels.bind(this));
+                root.connect('keys-changed', this.#update_tab_switch_accels.bind(this));
         }
 
-        this.update_tab_switch_accels();
+        this.#update_tab_switch_accels();
     }
 
-    update_tab_pos() {
+    #update_tab_pos() {
         switch (this.tab_pos) {
         case Gtk.PositionType.BOTTOM:
-            this.reorder_child(this.bar, -1);
-            this.tab_switch_button.direction = Gtk.ArrowType.UP;
+            this.reorder_child(this._bar, -1);
+            this._tab_switch_button.direction = Gtk.ArrowType.UP;
             break;
 
         case Gtk.PositionType.TOP:
-            this.reorder_child(this.bar, 0);
-            this.tab_switch_button.direction = Gtk.ArrowType.DOWN;
+            this.reorder_child(this._bar, 0);
+            this._tab_switch_button.direction = Gtk.ArrowType.DOWN;
             break;
 
         default:
@@ -616,7 +622,7 @@ export const Notebook = GObject.registerClass({
 
                 const page = this.view.append(child);
 
-                this.bind_page(page);
+                this.#bind_page(page);
 
                 if (!child.banner_visible)
                     child.spawn();
@@ -630,10 +636,12 @@ export const Notebook = GObject.registerClass({
         if (current_page !== null && current_page >= 0 && current_page < this.n_pages)
             this.view.set_selected_page(this.view.get_nth_page(current_page));
     }
-});
+}
 
-const NotebookMenu = GObject.registerClass({
-    Properties: {
+class NotebookMenu extends Gio.MenuModel {
+    static [GObject.GTypeName] = 'DDTermNotebookMenu';
+
+    static [GObject.properties] = {
         'tab-view': GObject.ParamSpec.object(
             'tab-view',
             null,
@@ -641,24 +649,32 @@ const NotebookMenu = GObject.registerClass({
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             Handy.TabView
         ),
-    },
-}, class DDTermNotebookMenu extends Gio.MenuModel {
-    _init(params) {
-        super._init(params);
+    };
 
-        this._label = [];
-        this._action = GLib.Variant.new_string('notebook.switch-to-tab');
-        this._target = [];
-        this._update_source = null;
+    static {
+        GObject.registerClass(this);
+    }
+
+    #label;
+    #action;
+    #target;
+    #update_source = null;
+
+    constructor(params) {
+        super(params);
+
+        this.#label = [];
+        this.#action = GLib.Variant.new_string('notebook.switch-to-tab');
+        this.#target = [];
 
         const page_handlers = new Map();
 
         const handlers = [
-            this.tab_view.connect('page-attached', () => this._schedule_update()),
-            this.tab_view.connect('page-detached', () => this._schedule_update()),
-            this.tab_view.connect('page-reordered', () => this._schedule_update()),
+            this.tab_view.connect('page-attached', () => this.#schedule_update()),
+            this.tab_view.connect('page-detached', () => this.#schedule_update()),
+            this.tab_view.connect('page-reordered', () => this.#schedule_update()),
             this.tab_view.connect('page-attached', (_, page) => {
-                const handler = page.connect('notify::title', () => this._schedule_update());
+                const handler = page.connect('notify::title', () => this.#schedule_update());
 
                 page_handlers.set(page, handler);
             }),
@@ -675,40 +691,40 @@ const NotebookMenu = GObject.registerClass({
 
                 page_handlers.clear();
 
-                if (this._update_source !== null) {
-                    GLib.Source.remove(this._update_source);
-                    this._update_source = null;
+                if (this.#update_source !== null) {
+                    GLib.Source.remove(this.#update_source);
+                    this.#update_source = null;
                 }
             }),
         ];
     }
 
-    _update() {
+    #update() {
         const prev_length = this.get_n_items();
         const n = this.tab_view.get_n_pages();
 
-        this._label = [];
+        this.#label = [];
 
         for (let i = 0; i < n; i++) {
             const page = this.tab_view.get_nth_page(i);
 
-            this._label.push(page.title);
+            this.#label.push(page.title);
         }
 
-        this._target.length = this._label.length;
+        this.#target.length = this.#label.length;
 
-        this.items_changed(0, prev_length, this._label.length);
+        this.items_changed(0, prev_length, this.#label.length);
     }
 
-    _schedule_update() {
-        if (this._update_source !== null) {
-            GLib.Source.remove(this._update_source);
-            this._update_source = null;
+    #schedule_update() {
+        if (this.#update_source) {
+            GLib.Source.remove(this.#update_source);
+            this.#update_source = null;
         }
 
-        this._update_source = GLib.idle_add(GLib.PRIORITY_HIGH, () => {
-            this._update_source = null;
-            this._update();
+        this.#update_source = GLib.idle_add(GLib.PRIORITY_HIGH, () => {
+            this.#update_source = null;
+            this.#update();
             return GLib.SOURCE_REMOVE;
         });
     }
@@ -718,20 +734,20 @@ const NotebookMenu = GObject.registerClass({
     }
 
     vfunc_get_n_items() {
-        return this._label.length;
+        return this.#label.length;
     }
 
     vfunc_get_item_attributes(item_index) {
-        let target = this._target[item_index];
+        let target = this.#target[item_index];
 
         if (!target) {
             target = GLib.Variant.new_int32(item_index);
-            this._target[item_index] = target;
+            this.#target[item_index] = target;
         }
 
         return {
-            [Gio.MENU_ATTRIBUTE_LABEL]: GLib.Variant.new_string(this._label[item_index]),
-            [Gio.MENU_ATTRIBUTE_ACTION]: this._action,
+            [Gio.MENU_ATTRIBUTE_LABEL]: GLib.Variant.new_string(this.#label[item_index]),
+            [Gio.MENU_ATTRIBUTE_ACTION]: this.#action,
             [Gio.MENU_ATTRIBUTE_TARGET]: target,
         };
     }
@@ -739,4 +755,4 @@ const NotebookMenu = GObject.registerClass({
     vfunc_get_item_links(_) {
         return {};
     }
-});
+}
