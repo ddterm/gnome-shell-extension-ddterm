@@ -9,7 +9,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 <interface domain="ddterm@amezin.github.com">
   <!-- interface-requires gtk+ 3.0 -->
 
-  <template class="Gjs_app_search_DDTermSearchBar" parent="GtkRevealer">
+  <template class="DDTermSearchBar" parent="GtkRevealer">
     <child>
       <object class="GtkBox" id="container">
         <property name="visible">True</property>
@@ -64,11 +64,11 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <child>
               <object class="GtkSearchEntry" id="entry">
                 <property name="visible">True</property>
-                <signal name="activate" handler="find_next"/>
-                <signal name="next-match" handler="find_next"/>
-                <signal name="previous-match" handler="find_prev"/>
-                <signal name="stop-search" handler="close"/>
-                <signal name="search-changed" handler="update_pattern"/>
+                <signal name="activate" handler="_find_next"/>
+                <signal name="next-match" handler="_find_next"/>
+                <signal name="previous-match" handler="_find_prev"/>
+                <signal name="stop-search" handler="_close"/>
+                <signal name="search-changed" handler="_update_pattern"/>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -80,7 +80,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                 <property name="visible">True</property>
                 <property name="focus_on_click">False</property>
                 <property name="tooltip_text" translatable="yes">Close Search Bar</property>
-                <signal name="clicked" handler="close"/>
+                <signal name="clicked" handler="_close"/>
                 <child>
                   <object class="GtkImage">
                     <property name="visible">True</property>
@@ -113,7 +113,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                 <property name="visible">True</property>
                 <property name="focus_on_click">False</property>
                 <property name="tooltip_text" translatable="yes">Find Next</property>
-                <signal name="clicked" handler="find_next"/>
+                <signal name="clicked" handler="_find_next"/>
                 <child>
                   <object class="GtkImage">
                     <property name="visible">True</property>
@@ -130,7 +130,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                 <property name="visible">True</property>
                 <property name="focus_on_click">False</property>
                 <property name="tooltip_text" translatable="yes">Find Previous</property>
-                <signal name="clicked" handler="find_prev"/>
+                <signal name="clicked" handler="_find_prev"/>
                 <child>
                   <object class="GtkImage">
                     <property name="visible">True</property>

@@ -59,8 +59,10 @@ function compile_regex(pattern, use_regex, whole_word, case_sensitive) {
 
 const REGEX_OUTDATED = Symbol('regex-outdated');
 
-export const SearchPattern = GObject.registerClass({
-    Properties: {
+class SearchPattern extends GObject.Object {
+    static [GObject.GTypeName] = 'DDTermSearchPattern';
+
+    static [GObject.properties] = {
         'regex': GObject.ParamSpec.boxed(
             'regex',
             null,
@@ -110,66 +112,75 @@ export const SearchPattern = GObject.registerClass({
             GObject.ParamFlags.READABLE,
             false
         ),
-    },
-}, class DDTermSearchPattern extends GObject.Object {
-    _init(params) {
-        super._init(params);
+    };
 
-        this._regex = REGEX_OUTDATED;
+    static {
+        GObject.registerClass(this);
+    }
 
-        this.connect('notify::text', this.invalidate.bind(this));
-        this.connect('notify::use-regex', this.invalidate.bind(this));
-        this.connect('notify::whole-word', this.invalidate.bind(this));
-        this.connect('notify::case-sensitive', this.invalidate.bind(this));
+    #regex = REGEX_OUTDATED;
+    #error = null;
+
+    constructor(params) {
+        super(params);
+
+        this.connect('notify::text', this.#invalidate.bind(this));
+        this.connect('notify::use-regex', this.#invalidate.bind(this));
+        this.connect('notify::whole-word', this.#invalidate.bind(this));
+        this.connect('notify::case-sensitive', this.#invalidate.bind(this));
     }
 
     update() {
-        if (this._regex !== REGEX_OUTDATED)
+        if (this.#regex !== REGEX_OUTDATED)
             return;
 
         try {
-            this._regex = compile_regex(
+            this.#regex = compile_regex(
                 this.text,
                 this.use_regex,
                 this.whole_word,
                 this.case_sensitive
             );
 
-            if (this._error) {
-                this._error = null;
+            if (this.#error) {
+                this.#error = null;
                 this.notify('error');
             }
         } catch (ex) {
-            this._regex = null;
-            this._error = ex;
+            this.#regex = null;
+            this.#error = ex;
             this.notify('error');
         }
     }
 
     get regex() {
         this.update();
-        return this._regex;
+        return this.#regex;
     }
 
     get error() {
         this.update();
-        return this._error;
+        return this.#error;
     }
 
     get regex_set() {
         return this.regex !== null;
     }
 
-    invalidate() {
-        this._regex = REGEX_OUTDATED;
+    #invalidate() {
+        this.#regex = REGEX_OUTDATED;
         this.notify('regex');
         this.notify('regex-set');
     }
-});
+}
 
-export const SearchBar = GObject.registerClass({
-    Template: GLib.Uri.resolve_relative(import.meta.url, './ui/search.ui', GLib.UriFlags.NONE),
-    Properties: {
+export class SearchBar extends Gtk.Revealer {
+    static [GObject.GTypeName] = 'DDTermSearchBar';
+
+    static [Gtk.template] =
+        GLib.Uri.resolve_relative(import.meta.url, './ui/search.ui', GLib.UriFlags.NONE);
+
+    static [GObject.properties] = {
         'pattern': GObject.ParamSpec.object(
             'pattern',
             null,
@@ -184,12 +195,14 @@ export const SearchBar = GObject.registerClass({
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             false
         ),
-    },
-    Signals: {
+    };
+
+    static [GObject.signals] = {
         'find-next': {},
         'find-prev': {},
-    },
-    InternalChildren: [
+    };
+
+    static [Gtk.internalChildren] = [
         'case_sensitive_button',
         'whole_word_button',
         'regex_button',
@@ -199,36 +212,41 @@ export const SearchBar = GObject.registerClass({
         'find_prev_button',
         'error_popover',
         'error_label',
-    ],
-},
-class DDTermSearchBar extends Gtk.Revealer {
-    _init(params) {
-        super._init(params);
+    ];
 
-        this._pattern = new SearchPattern();
+    static {
+        GObject.registerClass(this);
+    }
 
-        this.pattern.bind_property(
+    #pattern = null;
+
+    constructor(params) {
+        super(params);
+
+        this.#pattern = new SearchPattern();
+
+        this.#pattern.bind_property(
             'case-sensitive',
             this._case_sensitive_button,
             'active',
             GObject.BindingFlags.BIDIRECTIONAL | GObject.BindingFlags.SYNC_CREATE
         );
 
-        this.pattern.bind_property(
+        this.#pattern.bind_property(
             'whole-word',
             this._whole_word_button,
             'active',
             GObject.BindingFlags.BIDIRECTIONAL | GObject.BindingFlags.SYNC_CREATE
         );
 
-        this.pattern.bind_property(
+        this.#pattern.bind_property(
             'use-regex',
             this._regex_button,
             'active',
             GObject.BindingFlags.BIDIRECTIONAL | GObject.BindingFlags.SYNC_CREATE
         );
 
-        this.pattern.bind_property(
+        this.#pattern.bind_property(
             'text',
             this._entry,
             'text',
@@ -236,7 +254,7 @@ class DDTermSearchBar extends Gtk.Revealer {
         );
 
         for (const button of [this._find_next_button, this._find_prev_button]) {
-            this.pattern.bind_property(
+            this.#pattern.bind_property(
                 'regex-set',
                 button,
                 'sensitive',
@@ -251,8 +269,8 @@ class DDTermSearchBar extends Gtk.Revealer {
             GObject.BindingFlags.BIDIRECTIONAL | GObject.BindingFlags.SYNC_CREATE
         );
 
-        this.pattern.connect('notify::error', () => {
-            if (this.pattern.error) {
+        this.#pattern.connect('notify::error', () => {
+            if (this.#pattern.error) {
                 this._entry.get_style_context().add_class('error');
                 this._error_label.label = this.pattern.error.message;
                 this._error_popover.popup();
@@ -271,24 +289,24 @@ class DDTermSearchBar extends Gtk.Revealer {
     }
 
     get pattern() {
-        return this._pattern;
+        return this.#pattern;
     }
 
-    close() {
+    _close() {
         this.reveal_child = false;
     }
 
-    find_next() {
+    _find_next() {
         this.pattern.update();
         this.emit('find-next');
     }
 
-    find_prev() {
+    _find_prev() {
         this.pattern.update();
         this.emit('find-prev');
     }
 
-    update_pattern() {
+    _update_pattern() {
         this.pattern.update();
     }
-});
+}

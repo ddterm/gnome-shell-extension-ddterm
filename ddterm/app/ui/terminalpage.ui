@@ -87,7 +87,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
       </packing>
     </child>
     <child>
-      <object class="Gjs_app_search_DDTermSearchBar" id="search_bar">
+      <object class="DDTermSearchBar" id="search_bar">
         <property name="visible">True</property>
         <signal name="find-next" handler="_find_next"/>
         <signal name="find-prev" handler="_find_prev"/>
