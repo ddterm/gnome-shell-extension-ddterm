@@ -14,6 +14,15 @@ import { TerminalSettings } from './terminalsettings.js';
 import { Notebook } from './notebook.js';
 import { DisplayConfig, LayoutMode } from '../util/displayconfig.js';
 
+const ACTIONS = [
+    'toggle_action',
+    'show_action',
+    'hide_action',
+    'split_position_inc_action',
+    'split_position_dec_action',
+    'focus_other_pane_action',
+];
+
 function set_widget_cursor(cursor, widget) {
     widget.window.cursor = cursor;
 }
@@ -30,6 +39,7 @@ export const AppWindow = GObject.registerClass({
         'resize_box_south',
         'resize_box_east',
         'resize_box_west',
+        ...ACTIONS,
     ],
     Properties: {
         'hide-on-close': GObject.ParamSpec.boolean(
@@ -135,6 +145,9 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
             ...params,
         });
 
+        for (const name of ACTIONS)
+            this.add_action(this[`_${name}`]);
+
         let window_title_binding = null;
         this.paned.connect('set-focus-child', (paned, child) => {
             window_title_binding?.unbind();
@@ -213,38 +226,6 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
 
         this.connect('notify::screen', () => this.update_visual());
         this.update_visual();
-
-        const actions = {
-            'toggle': this.toggle.bind(this),
-            'show': () => this.present(),
-            'hide': () => this.hide(),
-            'split-position-inc': () => {
-                const step = (this.paned.max_position - this.paned.min_position) / 10;
-                this.paned.position = Math.min(this.paned.position + step, this.paned.max_position);
-            },
-            'split-position-dec': () => {
-                const step = (this.paned.max_position - this.paned.min_position) / 10;
-                this.paned.position = Math.max(this.paned.position - step, this.paned.min_position);
-            },
-            'focus-other-pane': () => {
-                if (this.active_notebook === this.notebook1)
-                    this.notebook2.grab_focus();
-                else
-                    this.notebook1.grab_focus();
-            },
-        };
-
-        for (const [name, activate] of Object.entries(actions)) {
-            const action = new Gio.SimpleAction({ name });
-            action.connect('activate', activate);
-            this.add_action(action);
-        }
-
-        ['split-position-inc', 'split-position-dec', 'focus-other-pane'].map(
-            key => this.lookup_action(key)
-        ).forEach(action => {
-            this.bind_property('is-split', action, 'enabled', GObject.BindingFlags.SYNC_CREATE);
-        });
 
         this.connect('notify::tab-show-shortcuts', () => this.update_show_shortcuts());
         this.connect('notify::active-notebook', () => this.update_show_shortcuts());
@@ -435,6 +416,35 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
             this.present();
     }
 
+    _toggle_action_activate() {
+        this.toggle();
+    }
+
+    _show_action_activate() {
+        this.present();
+    }
+
+    _hide_action_activate() {
+        this.hide();
+    }
+
+    _split_position_inc_action_activate() {
+        const step = (this.paned.max_position - this.paned.min_position) / 10;
+        this.paned.position = Math.min(this.paned.position + step, this.paned.max_position);
+    }
+
+    _split_position_dec_action_activate() {
+        const step = (this.paned.max_position - this.paned.min_position) / 10;
+        this.paned.position = Math.max(this.paned.position - step, this.paned.min_position);
+    }
+
+    _focus_other_pane_action_activate() {
+        if (this.active_notebook === this.notebook1)
+            this.notebook2.grab_focus();
+        else
+            this.notebook1.grab_focus();
+    }
+
     start_resizing(edge, source, event) {
         const [button_ok, button] = event.get_button();
         if (!button_ok || button !== Gdk.BUTTON_PRIMARY)
@@ -498,11 +508,11 @@ class DDTermAppWindow extends Gtk.ApplicationWindow {
     }
 
     get is_empty() {
-        return !this.notebook1.visible && !this.notebook2.visible;
+        return !this.notebook1?.visible && !this.notebook2?.visible;
     }
 
     get is_split() {
-        return this.notebook1.visible && this.notebook2.visible;
+        return this.notebook1?.visible && this.notebook2?.visible;
     }
 
     get split_layout() {
