@@ -4,13 +4,13 @@
 data/com.github.amezin.ddterm.desktop.in.in
 ddterm/app/about.js
 ddterm/app/application.js
-ddterm/app/appwindow.js
 ddterm/app/init.js
-ddterm/app/notebook.js
-ddterm/app/search.js
 ddterm/app/tablabel.js
 ddterm/app/terminalpage.js
-ddterm/app/ui/menus.ui
+ddterm/app/ui/closedialog.ui
+ddterm/app/ui/notebook.ui
+ddterm/app/ui/search.ui
+ddterm/app/ui/terminalpage.ui
 ddterm/pref/adw.js
 ddterm/pref/animation.js
 ddterm/pref/behavior.js
