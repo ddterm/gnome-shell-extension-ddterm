@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-02 03:55+0000\n"
+"POT-Creation-Date: 2026-03-03 23:51+0000\n"
 "PO-Revision-Date: 2024-06-01 19:09+0000\n"
 "Last-Translator: phlostically <phlostically@mailinator.com>\n"
 "Language-Team: Esperanto <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/eo/>\n"
@@ -41,72 +41,72 @@ msgstr "Baskuligi"
 msgid "Preferences…"
 msgstr "Agordoj…"
 
-#: ddterm/app/about.js:58
+#: ddterm/app/about.js:62
 msgid "translator-credits"
 msgstr "phlostically"
 
-#: ddterm/app/about.js:59
+#: ddterm/app/about.js:63
 msgid "Contributors"
 msgstr ""
 
-#: ddterm/app/application.js:89
-msgid "Start the application, but do not show the window"
-msgstr ""
-
-#: ddterm/app/application.js:98
-msgid "Comma-separated list of backends that GDK should try to use"
-msgstr ""
-
-#: ddterm/app/application.js:125
-msgid "Show version information and exit"
-msgstr ""
-
-#: ddterm/app/application.js:134
-msgid "Run the specified command"
-msgstr ""
-
-#: ddterm/app/application.js:148
-msgid "Wait for the command to exit, and return its exit code"
-msgstr ""
-
-#: ddterm/app/application.js:157
-msgid "Set the working directory"
-msgstr ""
-
-#: ddterm/app/application.js:166
-msgid "Set tab title"
-msgstr "Agordi langetan titolon"
-
-#: ddterm/app/application.js:175
-msgid "Keep the terminal open after the command has exited"
-msgstr ""
-
-#: ddterm/app/application.js:184
-msgid "Do not pass the environment"
-msgstr ""
-
-#: ddterm/app/application.js:193
-msgid "Open a new tab"
-msgstr "Malfermi novan langeton"
-
-#: ddterm/app/application.js:522
-msgid "Can't contact the extension."
-msgstr ""
-
-#: ddterm/app/application.js:524
-msgid "Please, make sure ddterm GNOME Shell extension is enabled."
-msgstr ""
-
-#: ddterm/app/application.js:669
+#: ddterm/app/application.js:85
 msgid "Can't read the version of the loaded extension."
 msgstr ""
 
-#: ddterm/app/application.js:671 ddterm/shell/notifications.js:85
+#: ddterm/app/application.js:87 ddterm/shell/notifications.js:85
 msgid "Warning: ddterm version has changed"
 msgstr ""
 
-#: ddterm/app/application.js:672 ddterm/shell/notifications.js:87
+#: ddterm/app/application.js:88 ddterm/shell/notifications.js:87
 msgid "Log out, then log in again to load the updated extension."
+msgstr ""
+
+#: ddterm/app/application.js:132
+msgid "Start the application, but do not show the window"
+msgstr ""
+
+#: ddterm/app/application.js:141
+msgid "Comma-separated list of backends that GDK should try to use"
+msgstr ""
+
+#: ddterm/app/application.js:168
+msgid "Show version information and exit"
+msgstr ""
+
+#: ddterm/app/application.js:177
+msgid "Run the specified command"
+msgstr ""
+
+#: ddterm/app/application.js:191
+msgid "Wait for the command to exit, and return its exit code"
+msgstr ""
+
+#: ddterm/app/application.js:200
+msgid "Set the working directory"
+msgstr ""
+
+#: ddterm/app/application.js:209
+msgid "Set tab title"
+msgstr "Agordi langetan titolon"
+
+#: ddterm/app/application.js:218
+msgid "Keep the terminal open after the command has exited"
+msgstr ""
+
+#: ddterm/app/application.js:227
+msgid "Do not pass the environment"
+msgstr ""
+
+#: ddterm/app/application.js:236
+msgid "Open a new tab"
+msgstr "Malfermi novan langeton"
+
+#: ddterm/app/application.js:612
+msgid "Can't contact the extension."
+msgstr ""
+
+#: ddterm/app/application.js:614
+msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr ""
 
 #: ddterm/app/init.js:34 ddterm/shell/notifications.js:149
@@ -135,11 +135,11 @@ msgstr "Agordi langetan titolon"
 msgid "Use Custom Tab Title"
 msgstr ""
 
-#: ddterm/app/terminalpage.js:307
+#: ddterm/app/terminalpage.js:318
 msgid "The child process exited with status:"
 msgstr ""
 
-#: ddterm/app/terminalpage.js:317
+#: ddterm/app/terminalpage.js:328
 msgid "The child process was aborted by signal:"
 msgstr ""
 

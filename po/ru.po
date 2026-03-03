@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-02 03:55+0000\n"
+"POT-Creation-Date: 2026-03-03 23:51+0000\n"
 "PO-Revision-Date: 2025-09-18 04:23+0000\n"
 "Last-Translator: Ivan Vantu5z <vantu5z@mail.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/ru/>\n"
@@ -47,7 +47,7 @@ msgstr "Переключатель"
 msgid "Preferences…"
 msgstr "Параметры…"
 
-#: ddterm/app/about.js:58
+#: ddterm/app/about.js:62
 msgid "translator-credits"
 msgstr ""
 "Ivan (vantu5z)\n"
@@ -55,69 +55,69 @@ msgstr ""
 "Dmitriy Q\n"
 "Stepan"
 
-#: ddterm/app/about.js:59
+#: ddterm/app/about.js:63
 msgid "Contributors"
 msgstr "Участники"
 
-#: ddterm/app/application.js:89
-msgid "Start the application, but do not show the window"
-msgstr "Запустить приложение, но не показывать окно"
-
-#: ddterm/app/application.js:98
-msgid "Comma-separated list of backends that GDK should try to use"
-msgstr "Разделенный запятыми список backend'ов, которые GDK будет пытаться использовать"
-
-#: ddterm/app/application.js:125
-msgid "Show version information and exit"
-msgstr "Показать информацию о версии и выйти"
-
-#: ddterm/app/application.js:134
-msgid "Run the specified command"
-msgstr "Запустить указанную команду"
-
-#: ddterm/app/application.js:148
-msgid "Wait for the command to exit, and return its exit code"
-msgstr "Ожидать завершения команды и вернуть код выхода"
-
-#: ddterm/app/application.js:157
-msgid "Set the working directory"
-msgstr "Установить рабочий каталог"
-
-#: ddterm/app/application.js:166
-msgid "Set tab title"
-msgstr "Установить название вкладки"
-
-#: ddterm/app/application.js:175
-msgid "Keep the terminal open after the command has exited"
-msgstr "Не закрывать терминал после завершения команды"
-
-#: ddterm/app/application.js:184
-msgid "Do not pass the environment"
-msgstr "Не передавать переменные окружения"
-
-#: ddterm/app/application.js:193
-msgid "Open a new tab"
-msgstr "Открыть новую вкладку"
-
-#: ddterm/app/application.js:522
-msgid "Can't contact the extension."
-msgstr "Невозможно связаться с расширением."
-
-#: ddterm/app/application.js:524
-msgid "Please, make sure ddterm GNOME Shell extension is enabled."
-msgstr "Убедитесь, что расширение ddterm GNOME Shell включено."
-
-#: ddterm/app/application.js:669
+#: ddterm/app/application.js:85
 msgid "Can't read the version of the loaded extension."
 msgstr "Невозможно получить версию загруженного расширения."
 
-#: ddterm/app/application.js:671 ddterm/shell/notifications.js:85
+#: ddterm/app/application.js:87 ddterm/shell/notifications.js:85
 msgid "Warning: ddterm version has changed"
 msgstr "Внимание: версия ddterm изменилась"
 
-#: ddterm/app/application.js:672 ddterm/shell/notifications.js:87
+#: ddterm/app/application.js:88 ddterm/shell/notifications.js:87
 msgid "Log out, then log in again to load the updated extension."
 msgstr "Завершите сессию и снова войдите для применения обновлений расширения."
+
+#: ddterm/app/application.js:132
+msgid "Start the application, but do not show the window"
+msgstr "Запустить приложение, но не показывать окно"
+
+#: ddterm/app/application.js:141
+msgid "Comma-separated list of backends that GDK should try to use"
+msgstr "Разделенный запятыми список backend'ов, которые GDK будет пытаться использовать"
+
+#: ddterm/app/application.js:168
+msgid "Show version information and exit"
+msgstr "Показать информацию о версии и выйти"
+
+#: ddterm/app/application.js:177
+msgid "Run the specified command"
+msgstr "Запустить указанную команду"
+
+#: ddterm/app/application.js:191
+msgid "Wait for the command to exit, and return its exit code"
+msgstr "Ожидать завершения команды и вернуть код выхода"
+
+#: ddterm/app/application.js:200
+msgid "Set the working directory"
+msgstr "Установить рабочий каталог"
+
+#: ddterm/app/application.js:209
+msgid "Set tab title"
+msgstr "Установить название вкладки"
+
+#: ddterm/app/application.js:218
+msgid "Keep the terminal open after the command has exited"
+msgstr "Не закрывать терминал после завершения команды"
+
+#: ddterm/app/application.js:227
+msgid "Do not pass the environment"
+msgstr "Не передавать переменные окружения"
+
+#: ddterm/app/application.js:236
+msgid "Open a new tab"
+msgstr "Открыть новую вкладку"
+
+#: ddterm/app/application.js:612
+msgid "Can't contact the extension."
+msgstr "Невозможно связаться с расширением."
+
+#: ddterm/app/application.js:614
+msgid "Please, make sure ddterm GNOME Shell extension is enabled."
+msgstr "Убедитесь, что расширение ddterm GNOME Shell включено."
 
 #: ddterm/app/init.js:34 ddterm/shell/notifications.js:149
 msgid "ddterm needs additional packages to run"
@@ -143,11 +143,11 @@ msgstr "Название вкладки"
 msgid "Use Custom Tab Title"
 msgstr "Использовать пользовательское именование вкладок"
 
-#: ddterm/app/terminalpage.js:307
+#: ddterm/app/terminalpage.js:318
 msgid "The child process exited with status:"
 msgstr "Процесс завершен со статусом:"
 
-#: ddterm/app/terminalpage.js:317
+#: ddterm/app/terminalpage.js:328
 msgid "The child process was aborted by signal:"
 msgstr "Процесс был прерван сигналом:"
 

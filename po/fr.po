@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-02 03:55+0000\n"
+"POT-Creation-Date: 2026-03-03 23:51+0000\n"
 "PO-Revision-Date: 2024-07-24 00:09+0000\n"
 "Last-Translator: Patricio Carrau <duckycb@proton.me>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/fr/>\n"
@@ -46,7 +46,7 @@ msgstr "Basculer"
 msgid "Preferences…"
 msgstr "Préférences…"
 
-#: ddterm/app/about.js:58
+#: ddterm/app/about.js:62
 msgid "translator-credits"
 msgstr ""
 "Arnaud Feldmann\n"
@@ -54,69 +54,69 @@ msgstr ""
 "Stephane LE CAER\n"
 "Patricio Carrau"
 
-#: ddterm/app/about.js:59
+#: ddterm/app/about.js:63
 msgid "Contributors"
 msgstr ""
 
-#: ddterm/app/application.js:89
-msgid "Start the application, but do not show the window"
-msgstr "Démarrer l'application, mais ne pas afficher la fenêtre"
-
-#: ddterm/app/application.js:98
-msgid "Comma-separated list of backends that GDK should try to use"
-msgstr "Liste, séparée par des virgules, des backend que GDK doit essayer d'utiliser"
-
-#: ddterm/app/application.js:125
-msgid "Show version information and exit"
-msgstr "Afficher les informations de version et quitter"
-
-#: ddterm/app/application.js:134
-msgid "Run the specified command"
-msgstr "Exécutez la commande spécifiée"
-
-#: ddterm/app/application.js:148
-msgid "Wait for the command to exit, and return its exit code"
-msgstr "Attendre que la commande soit exécutée et retourner son code de sortie"
-
-#: ddterm/app/application.js:157
-msgid "Set the working directory"
-msgstr "Définir le répertoire de travail"
-
-#: ddterm/app/application.js:166
-msgid "Set tab title"
-msgstr "Définir un titre d'onglet"
-
-#: ddterm/app/application.js:175
-msgid "Keep the terminal open after the command has exited"
-msgstr "Gardez le terminal ouvert après la fin de la commande"
-
-#: ddterm/app/application.js:184
-msgid "Do not pass the environment"
-msgstr "Ne pas transmettre l'environnement"
-
-#: ddterm/app/application.js:193
-msgid "Open a new tab"
-msgstr "Ouvrir un nouvel onglet"
-
-#: ddterm/app/application.js:522
-msgid "Can't contact the extension."
-msgstr "L'extension ne peut être contactée."
-
-#: ddterm/app/application.js:524
-msgid "Please, make sure ddterm GNOME Shell extension is enabled."
-msgstr "Veuillez s'il vous plait vous assurer que l'extension GNOME Shell est activée."
-
-#: ddterm/app/application.js:669
+#: ddterm/app/application.js:85
 msgid "Can't read the version of the loaded extension."
 msgstr "La version de l'extension chargée ne peut pas être lue."
 
-#: ddterm/app/application.js:671 ddterm/shell/notifications.js:85
+#: ddterm/app/application.js:87 ddterm/shell/notifications.js:85
 msgid "Warning: ddterm version has changed"
 msgstr "Avertissement : La version de ddterm a changé"
 
-#: ddterm/app/application.js:672 ddterm/shell/notifications.js:87
+#: ddterm/app/application.js:88 ddterm/shell/notifications.js:87
 msgid "Log out, then log in again to load the updated extension."
 msgstr "Fermez la session, puis reconnectez-vous pour charger l'extension mise à jour."
+
+#: ddterm/app/application.js:132
+msgid "Start the application, but do not show the window"
+msgstr "Démarrer l'application, mais ne pas afficher la fenêtre"
+
+#: ddterm/app/application.js:141
+msgid "Comma-separated list of backends that GDK should try to use"
+msgstr "Liste, séparée par des virgules, des backend que GDK doit essayer d'utiliser"
+
+#: ddterm/app/application.js:168
+msgid "Show version information and exit"
+msgstr "Afficher les informations de version et quitter"
+
+#: ddterm/app/application.js:177
+msgid "Run the specified command"
+msgstr "Exécutez la commande spécifiée"
+
+#: ddterm/app/application.js:191
+msgid "Wait for the command to exit, and return its exit code"
+msgstr "Attendre que la commande soit exécutée et retourner son code de sortie"
+
+#: ddterm/app/application.js:200
+msgid "Set the working directory"
+msgstr "Définir le répertoire de travail"
+
+#: ddterm/app/application.js:209
+msgid "Set tab title"
+msgstr "Définir un titre d'onglet"
+
+#: ddterm/app/application.js:218
+msgid "Keep the terminal open after the command has exited"
+msgstr "Gardez le terminal ouvert après la fin de la commande"
+
+#: ddterm/app/application.js:227
+msgid "Do not pass the environment"
+msgstr "Ne pas transmettre l'environnement"
+
+#: ddterm/app/application.js:236
+msgid "Open a new tab"
+msgstr "Ouvrir un nouvel onglet"
+
+#: ddterm/app/application.js:612
+msgid "Can't contact the extension."
+msgstr "L'extension ne peut être contactée."
+
+#: ddterm/app/application.js:614
+msgid "Please, make sure ddterm GNOME Shell extension is enabled."
+msgstr "Veuillez s'il vous plait vous assurer que l'extension GNOME Shell est activée."
 
 #: ddterm/app/init.js:34 ddterm/shell/notifications.js:149
 msgid "ddterm needs additional packages to run"
@@ -142,11 +142,11 @@ msgstr "Titre d'onglet"
 msgid "Use Custom Tab Title"
 msgstr "Utiliser un titre d'onglet personnalisé"
 
-#: ddterm/app/terminalpage.js:307
+#: ddterm/app/terminalpage.js:318
 msgid "The child process exited with status:"
 msgstr "Le processus fils s'est terminé avec le statut :"
 
-#: ddterm/app/terminalpage.js:317
+#: ddterm/app/terminalpage.js:328
 msgid "The child process was aborted by signal:"
 msgstr "Le processus de l'enfant a été interrompu par le signal :"
 
