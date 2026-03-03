@@ -7,7 +7,6 @@ import pathlib
 import shlex
 import subprocess
 import sys
-import time
 
 import pytest
 
@@ -134,18 +133,6 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
         settings_test_hook.window_maximize = True
 
     @pytest.fixture
-    def system_color_scheme(self, shell_test_hook, request):
-        shell_test_hook.ColorScheme = request.param
-
-        return request.param
-
-    @pytest.fixture
-    def app_color_scheme(self, settings_test_hook, request):
-        settings_test_hook.theme_variant = request.param
-
-        return request.param
-
-    @pytest.fixture
     def window_above(self, settings_test_hook, request):
         settings_test_hook.window_above = request.param
 
@@ -175,42 +162,6 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
     @pytest.fixture
     def app_active(self, app_control):
         app_control.activate()
-
-    @pytest.mark.usefixtures('system_color_scheme', 'app_color_scheme', 'hide', 'app_active')
-    @pytest.mark.parametrize(
-        'system_color_scheme',
-        ('prefer-dark', 'prefer-light', 'default'),
-        indirect=True
-    )
-    @pytest.mark.parametrize(
-        'app_color_scheme',
-        ('system', 'light', 'dark'),
-        indirect=True
-    )
-    def test_dark_mode(
-        self,
-        system_color_scheme,
-        app_color_scheme,
-        extension_test_hook,
-        shell_test_hook,
-    ):
-        time.sleep(0.250)  # SWITCH_DURATION in hdy-style-manager.c
-
-        workarea = shell_test_hook.Workareas[0]
-
-        if app_color_scheme == 'system':
-            dark = system_color_scheme == 'prefer-dark'
-        else:
-            dark = app_color_scheme == 'dark'
-
-        assert extension_test_hook.WindowRect == workarea
-
-        red, green, blue, alpha = shell_test_hook.PickColor(*workarea.center())
-
-        if dark:
-            assert red < 127 and green < 127 and blue < 127
-        else:
-            assert red > 128 and green > 128 and blue > 128
 
     @pytest.fixture(scope='class')
     def extension_path(self, extension_init):

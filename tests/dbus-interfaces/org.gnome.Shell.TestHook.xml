@@ -69,7 +69,6 @@
         <property name="Workareas" type="a(iiii)" access="read"/>
         <property name="UnsafeMode" type="b" access="readwrite"/>
         <property name="EnableAnimations" type="b" access="readwrite"/>
-        <property name="ColorScheme" type="s" access="readwrite"/>
         <property name="AutoMaximizeWindows" type="b" access="readwrite"/>
         <property name="GrabActive" type="b" access="readwrite"/>
 

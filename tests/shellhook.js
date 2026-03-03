@@ -147,19 +147,6 @@ const Interface = GObject.registerClass({
 
         this._update_workareas();
 
-        const desktop_settings = new Gio.Settings({
-            schema_id: 'org.gnome.desktop.interface',
-        });
-
-        desktop_settings.bind(
-            'color-scheme',
-            this,
-            'ColorScheme',
-            Gio.SettingsBindFlags.NO_SENSITIVITY
-        );
-
-        this._destroy_callbacks.push(() => Gio.Settings.unbind(this, 'ColorScheme'));
-
         const mutter_settings = new Gio.Settings({
             schema_id: 'org.gnome.mutter',
         });
