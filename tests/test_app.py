@@ -7,6 +7,7 @@ import pathlib
 import shlex
 import subprocess
 import sys
+import time
 
 import pytest
 
@@ -193,6 +194,8 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
         extension_test_hook,
         shell_test_hook,
     ):
+        time.sleep(0.250)  # SWITCH_DURATION in hdy-style-manager.c
+
         workarea = shell_test_hook.Workareas[0]
 
         if app_color_scheme == 'system':
