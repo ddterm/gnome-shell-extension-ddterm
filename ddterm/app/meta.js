@@ -48,3 +48,13 @@ export function get_settings() {
 
     return new Gio.Settings({ settings_schema });
 }
+
+export function get_version() {
+    const version = metadata.version?.toString();
+    const version_name = metadata['version-name'];
+
+    if (version && version_name)
+        return `${version_name} (${version})`;
+
+    return version_name || version;
+}

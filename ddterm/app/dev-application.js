@@ -6,8 +6,13 @@ import GObject from 'gi://GObject';
 
 import { Application as BaseApplication } from './application.js';
 
-export const Application = GObject.registerClass({
-}, class DDTermDevApplication extends BaseApplication {
+export class Application extends BaseApplication {
+    static [GObject.GTypeName] = 'DDTermDevApplication';
+
+    static {
+        GObject.registerClass(this);
+    }
+
     _launch_service() {
         return -1;
     }
@@ -16,12 +21,12 @@ export const Application = GObject.registerClass({
         return null;
     }
 
-    ensure_window() {
-        const win = super.ensure_window();
+    _ensure_window() {
+        const win = super._ensure_window();
 
         win.hide_on_close = false;
         win.decorated = true;
 
         return win;
     }
-});
+}
