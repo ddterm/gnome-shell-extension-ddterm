@@ -72,8 +72,10 @@ const URL_REGEX = {
 
 export const PATTERN_NAMES = Object.keys(URL_REGEX);
 
-export const UrlDetect = GObject.registerClass({
-    Properties: {
+export class UrlDetect extends GObject.Object {
+    static [GObject.GTypeName] = 'DDTermUrlDetect';
+
+    static [GObject.properties] = {
         'terminal': GObject.ParamSpec.object(
             'terminal',
             null,
@@ -88,19 +90,25 @@ export const UrlDetect = GObject.registerClass({
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             GObject.type_from_name('GStrv')
         ),
-    },
-}, class DDTermUrlDetect extends GObject.Object {
-    _init(params) {
-        super._init(params);
+    };
 
-        this._url_prefix = new Map();
-
-        this.connect('notify::enabled-patterns', this.setup.bind(this));
-        this.setup();
+    static {
+        GObject.registerClass(this);
     }
 
-    setup() {
-        this.disable();
+    #url_prefix;
+
+    constructor(params) {
+        super(params);
+
+        this.#url_prefix = new Map();
+
+        this.connect('notify::enabled-patterns', this.#setup.bind(this));
+        this.#setup();
+    }
+
+    #setup() {
+        this.#disable();
 
         if (!this.enabled_patterns)
             return;
@@ -111,22 +119,22 @@ export const UrlDetect = GObject.registerClass({
 
             const tag = this.terminal.match_add_regex(regex, 0);
             this.terminal.match_set_cursor_name(tag, 'pointer');
-            this._url_prefix.set(tag, prefix);
+            this.#url_prefix.set(tag, prefix);
         }
     }
 
-    disable() {
-        this._url_prefix.forEach((value, key) => {
-            this.terminal.match_remove(key);
-            this._url_prefix.delete(key);
-        });
+    #disable() {
+        for (const tag of this.#url_prefix.keys())
+            this.terminal.match_remove(tag);
+
+        this.#url_prefix.clear();
     }
 
     check_event(event) {
         const [url, tag] = this.terminal.match_check_event(event);
 
-        if (url && tag !== null && this._url_prefix.has(tag)) {
-            const prefix = this._url_prefix.get(tag);
+        if (url && tag !== null && this.#url_prefix.has(tag)) {
+            const prefix = this.#url_prefix.get(tag);
             if (prefix && !url.toLowerCase().startsWith(prefix))
                 return prefix + url;
             else
@@ -135,4 +143,4 @@ export const UrlDetect = GObject.registerClass({
 
         return null;
     }
-});
+}
