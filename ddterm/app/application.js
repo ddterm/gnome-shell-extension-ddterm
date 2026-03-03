@@ -39,10 +39,6 @@ function try_require(namespace, version = undefined) {
 const GLibUnix = GLib.check_version(2, 79, 2) === null ? try_require('GLibUnix') : null;
 const signal_add = GLibUnix?.signal_add_full ?? GLib.unix_signal_add;
 
-const SIGHUP = 1;
-const SIGINT = 2;
-const SIGTERM = 15;
-
 function is_dbus_interface_error(ex) {
     if (!(ex instanceof GLib.Error))
         return false;
@@ -300,6 +296,20 @@ export class Application extends Gtk.Application {
     #startup() {
         Handy.init();
 
+        const shutdown = [];
+
+        const shutdown_handler = this.connect('shutdown', () => {
+            while (shutdown.length) {
+                try {
+                    shutdown.pop()();
+                } catch (ex) {
+                    logError(ex);
+                }
+            }
+        });
+
+        shutdown.push(this.disconnect.bind(this, shutdown_handler));
+
         this.#settings = get_settings();
 
         [
@@ -347,15 +357,18 @@ export class Application extends Gtk.Application {
 
         for (const [name, activate] of Object.entries(actions)) {
             const action = new Gio.SimpleAction({ name });
-            action.connect('activate', activate);
+            const handler = action.connect('activate', activate);
+
+            shutdown.push(action.disconnect.bind(action, handler));
             this.add_action(action);
         }
 
-        this.#settings.connect(
+        const theme_handler = this.#settings.connect(
             'changed::theme-variant',
             this.#update_color_scheme.bind(this)
         );
 
+        shutdown.push(this.#settings.disconnect.bind(this.#settings, theme_handler));
         this.#update_color_scheme();
 
         const css_provider = Gtk.CssProvider.new();
@@ -364,10 +377,16 @@ export class Application extends Gtk.Application {
             GLib.Uri.resolve_relative(import.meta.url, 'style.css', GLib.UriFlags.NONE)
         ));
 
+        const screen = Gdk.Screen.get_default();
+
         Gtk.StyleContext.add_provider_for_screen(
-            Gdk.Screen.get_default(),
+            screen,
             css_provider,
             Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+        );
+
+        shutdown.push(
+            Gtk.StyleContext.remove_provider_for_screen.bind(globalThis, screen, css_provider)
         );
 
         this.#terminal_settings = new TerminalSettings();
@@ -381,6 +400,7 @@ export class Application extends Gtk.Application {
             desktop_settings,
         });
 
+        shutdown.push(this.#terminal_settings_parser.destroy.bind(this.#terminal_settings_parser));
         this.#terminal_settings_parser.bind_settings(this.#terminal_settings);
 
         this.#extension_dbus = this._create_extension_dbus_proxy();
@@ -389,7 +409,7 @@ export class Application extends Gtk.Application {
             dbus_connection: this.get_dbus_connection(),
         });
 
-        this.connect('shutdown', () => this.#display_config.unwatch());
+        shutdown.push(this.#display_config.unwatch.bind(this.#display_config));
         this.#display_config.update_sync();
 
         const shortcut_actions = {
@@ -446,10 +466,32 @@ export class Application extends Gtk.Application {
             const abs_url = GLib.Uri.resolve_relative(import.meta.url, url, GLib.UriFlags.NONE);
             const [path] = GLib.filename_from_uri(abs_url);
 
-            icon_search_path.unshift(path);
+            if (!icon_search_path.includes(path))
+                icon_search_path.unshift(path);
         }
 
         icon_theme.set_search_path(icon_search_path);
+
+        // gdm sends SIGHUP to gnome-session's process group to terminate it
+        const SIGHUP = 1;
+        const SIGINT = 2;
+        const SIGTERM = 15;
+
+        for (const signal of [SIGHUP, SIGINT, SIGTERM]) {
+            const source_id = signal_add(GLib.PRIORITY_HIGH, signal, () => {
+                console.log(
+                    'Received signal %s (%s), terminating...',
+                    signal,
+                    GLib.strsignal(signal)
+                );
+
+                this.quit();
+
+                return GLib.SOURCE_CONTINUE;
+            });
+
+            shutdown.push(GLib.source_remove.bind(globalThis, source_id));
+        }
 
         this.#session_file_path = GLib.build_filenamev([
             GLib.get_user_cache_dir(),
@@ -459,7 +501,7 @@ export class Application extends Gtk.Application {
 
         this.#restore_session();
 
-        this.connect('shutdown', () => {
+        shutdown.push(() => {
             if (this.#save_session_handler) {
                 this.#window.disconnect(this.#save_session_handler);
                 this.#save_session_handler = null;
@@ -472,11 +514,6 @@ export class Application extends Gtk.Application {
 
             this.#save_session();
         });
-
-        // gdm sends SIGHUP to gnome-session's process group to terminate it
-        signal_add(GLib.PRIORITY_HIGH, SIGHUP, () => this.quit());
-        signal_add(GLib.PRIORITY_HIGH, SIGINT, () => this.quit());
-        signal_add(GLib.PRIORITY_HIGH, SIGTERM, () => this.quit());
     }
 
     _create_extension_dbus_proxy() {
@@ -768,15 +805,24 @@ export class Application extends Gtk.Application {
     }
 
     #bind_accel(action, settings_key) {
-        const handler = this.#update_accel.bind(this, action, settings_key);
+        const update = this.#update_accel.bind(this, action, settings_key);
 
-        this.#settings.connect(`changed::${settings_key}`, handler);
-        this.#settings.connect('changed::shortcuts-enabled', handler);
+        const handlers = [
+            this.#settings.connect(`changed::${settings_key}`, update),
+            this.#settings.connect('changed::shortcuts-enabled', update),
+        ];
 
         if (action === 'win.hide')
-            this.#settings.connect('changed::hide-window-on-esc', handler);
+            handlers.push(this.#settings.connect('changed::hide-window-on-esc', update));
 
-        handler();
+        const shutdown_handler = this.connect('shutdown', () => {
+            this.disconnect(shutdown_handler);
+
+            for (const handler of handlers)
+                this.#settings.disconnect(handler);
+        });
+
+        update();
     }
 
     #update_accel(action, settings_key) {
