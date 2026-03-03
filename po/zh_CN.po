@@ -2,7 +2,7 @@
 # Copyright (C) 2023 ddterm contributors <https://github.com/ddterm/gnome-shell-extension-ddterm/>
 # SPDX-License-Identifier: GPL-3.0-or-later
 # This file is distributed under the same license as the ddterm package.
-# yuh <yuhldr@qq.com>, 2023, 2024, 2025.
+# yuh <yuhldr@qq.com>, 2023, 2024, 2025, 2026.
 # reducedradius <feixiang512@outlook.com>, 2026.
 # Mike Lei <mikelei@duck.com>, 2026.
 msgid ""
@@ -10,15 +10,15 @@ msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-03-02 03:55+0000\n"
-"PO-Revision-Date: 2026-02-25 17:09+0000\n"
-"Last-Translator: Mike Lei <mikelei@duck.com>\n"
+"PO-Revision-Date: 2026-03-03 13:09+0000\n"
+"Last-Translator: yuh <yuhldr@qq.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/zh_Hans/>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.16.1-dev\n"
+"X-Generator: Weblate 5.17-dev\n"
 
 #: data/com.github.amezin.ddterm.desktop.in.in:9
 #: ddterm/shell/notifications.js:238 ddterm/shell/panelicon.js:32
@@ -868,22 +868,16 @@ msgid "Show _Scrollbar"
 msgstr "显示 _滚动条"
 
 #: ddterm/pref/scrolling.js:43
-#, fuzzy
-#| msgid "_Limit scrollback to:"
 msgid "Unlimited Scrollback"
-msgstr "_限制回滚到："
+msgstr "无限回滚"
 
 #: ddterm/pref/scrolling.js:53
-#, fuzzy
-#| msgid "Scrolling"
 msgid "Scrollback Lines"
-msgstr "滚动"
+msgstr "回滚行"
 
 #: ddterm/pref/shortcuts.js:189
-#, fuzzy
-#| msgid "Enable Keyboard Shortcuts"
 msgid "Enter new shortcut"
-msgstr "启用键盘快捷键"
+msgstr "输入新的快捷方式"
 
 #: ddterm/pref/shortcuts.js:205
 msgid "Press Esc to cancel or Backspace to disable the keyboard shortcut"
@@ -898,8 +892,6 @@ msgid "Disabled"
 msgstr "已禁用"
 
 #: ddterm/pref/shortcuts.js:483
-#, fuzzy
-#| msgid "Global Shortcut"
 msgid "Global Shortcuts"
 msgstr "全局快捷键"
 
@@ -912,10 +904,8 @@ msgid "Show/Activate Terminal Window"
 msgstr "显示/激活终端窗口"
 
 #: ddterm/pref/shortcuts.js:509
-#, fuzzy
-#| msgid "_Enable application shortcuts"
 msgid "Application Shortcuts"
-msgstr "_启用应用程序的快捷方式"
+msgstr "应用快捷键"
 
 #: ddterm/pref/shortcuts.js:513
 msgid "_Enable application shortcuts"
