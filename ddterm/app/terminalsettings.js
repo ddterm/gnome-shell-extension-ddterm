@@ -373,7 +373,7 @@ export const TerminalSettingsParser = GObject.registerClass({
             () => this.notify(property)
         );
 
-        this.connect('destroy', () => this.disconnect(handler));
+        this.connect('destroy', () => this.gsettings.disconnect(handler));
     }
 
     get cjk_ambiguous_width() {
