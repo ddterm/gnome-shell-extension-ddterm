@@ -99,8 +99,10 @@ export const Command = {
     CUSTOM_COMMAND: 'custom-command',
 };
 
-export const TerminalSettings = GObject.registerClass({
-    Properties: {
+export class TerminalSettings extends GObject.Object {
+    static [GObject.GTypeName] = 'DDTermTerminalSettings';
+
+    static [GObject.properties] = {
         ...CLONED_PSPECS,
         'cjk-ambiguous-width': GObject.ParamSpec.int(
             'cjk-ambiguous-width',
@@ -158,8 +160,12 @@ export const TerminalSettings = GObject.registerClass({
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             true
         ),
-    },
-}, class DDTermTerminalSettings extends GObject.Object {
+    };
+
+    static {
+        GObject.registerClass(this);
+    }
+
     bind_terminal(to_terminal) {
         return new TerminalSettingsBinding({
             terminal: to_terminal,
@@ -182,37 +188,46 @@ export const TerminalSettings = GObject.registerClass({
             throw new Error(`Unknown command type ${this.command}`);
         }
     }
-});
+}
 
-const MultiBinding = GObject.registerClass({
-}, class DDTermTerminalSettingsMultiBinding extends GObject.Object {
-    _init(params) {
-        super._init(params);
+export class MultiBinding extends GObject.Object {
+    static [GObject.GTypeName] = 'DDTermTerminalSettingsMultiBinding';
 
-        this._unbind = [];
+    static {
+        GObject.registerClass(this);
+    }
+
+    #unbind;
+
+    constructor(params) {
+        super(params);
+
+        this.#unbind = [];
     }
 
     add_property_binding(source, target, name) {
         const binding =
             source.bind_property(name, target, name, GObject.BindingFlags.SYNC_CREATE);
 
-        this._unbind.push(() => binding.unbind());
+        this.#unbind.push(binding.unbind.bind(binding));
     }
 
     add_gsettings_binding(settings, target, key) {
         settings.bind(key, target, key, Gio.SettingsBindFlags.GET);
 
-        this._unbind.push(() => Gio.Settings.unbind(this.settings, key));
+        this.#unbind.push(Gio.Settings.unbind.bind(globalThis, target, key));
     }
 
     unbind() {
-        while (this._unbind.length > 0)
-            this._unbind.pop()();
+        while (this.#unbind.length > 0)
+            this.#unbind.pop()();
     }
-});
+}
 
-export const TerminalSettingsBinding = GObject.registerClass({
-    Properties: {
+export class TerminalSettingsBinding extends MultiBinding {
+    static [GObject.GTypeName] = 'DDTermTerminalSettingsBinding';
+
+    static [GObject.properties] = {
         'terminal': GObject.ParamSpec.object(
             'terminal',
             null,
@@ -227,20 +242,26 @@ export const TerminalSettingsBinding = GObject.registerClass({
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             TerminalSettings
         ),
-    },
-}, class DDTermTerminalSettingsBinding extends MultiBinding {
-    _init(params) {
-        super._init(params);
+    };
 
-        GObject.Object.list_properties.call(TerminalSettings).forEach(pspec => {
+    static {
+        GObject.registerClass(this);
+    }
+
+    constructor(params) {
+        super(params);
+
+        for (const pspec of GObject.Object.list_properties.call(TerminalSettings)) {
             if (GObject.Object.find_property.call(Terminal, pspec.name))
                 this.add_property_binding(this.settings, this.terminal, pspec.name);
-        });
+        }
     }
-});
+}
 
-export const TerminalSettingsParser = GObject.registerClass({
-    Properties: {
+export class TerminalSettingsParser extends GObject.Object {
+    static [GObject.GTypeName] = 'DDTermTerminalSettingsParser';
+
+    static [GObject.properties] = {
         'gsettings': GObject.ParamSpec.object(
             'gsettings',
             null,
@@ -315,18 +336,23 @@ export const TerminalSettingsParser = GObject.registerClass({
             TerminalSettings[GObject.properties]['url-detect-patterns'],
             GObject.ParamFlags.READABLE
         ),
-    },
-    Signals: {
+    };
+
+    static [GObject.signals] = {
         'destroy': {},
-    },
-}, class DDTermTerminalSettingsParser extends GObject.Object {
-    _init(params) {
-        super._init(params);
+    };
 
-        this.add_dependency('cjk-utf8-ambiguous-width', 'cjk-ambiguous-width');
+    static {
+        GObject.registerClass(this);
+    }
 
-        this.add_dependency('scrollback-lines', 'scrollback-lines');
-        this.add_dependency('scrollback-unlimited', 'scrollback-lines');
+    constructor(params) {
+        super(params);
+
+        this.#add_dependency('cjk-utf8-ambiguous-width', 'cjk-ambiguous-width');
+
+        this.#add_dependency('scrollback-lines', 'scrollback-lines');
+        this.#add_dependency('scrollback-unlimited', 'scrollback-lines');
 
         const system_font_handler = this.desktop_settings.connect(
             'changed::monospace-font-name',
@@ -334,40 +360,44 @@ export const TerminalSettingsParser = GObject.registerClass({
         );
         this.connect('destroy', () => this.desktop_settings.disconnect(system_font_handler));
 
-        this.add_dependency('custom-font', 'font-desc');
-        this.add_dependency('use-system-font', 'font-desc');
+        this.#add_dependency('custom-font', 'font-desc');
+        this.#add_dependency('use-system-font', 'font-desc');
 
-        this.add_dependency('transparent-background', 'background-opacity');
-        this.add_dependency('background-opacity', 'background-opacity');
+        this.#add_dependency('transparent-background', 'background-opacity');
+        this.#add_dependency('background-opacity', 'background-opacity');
 
-        this.add_dependency('transparent-background', 'colors');
-        this.add_dependency('background-opacity', 'colors');
-        this.add_dependency('use-theme-colors', 'colors');
-        this.add_dependency('foreground-color', 'colors');
-        this.add_dependency('background-color', 'colors');
-        this.add_dependency('palette', 'colors');
+        this.#add_dependency('transparent-background', 'colors');
+        this.#add_dependency('background-opacity', 'colors');
+        this.#add_dependency('use-theme-colors', 'colors');
+        this.#add_dependency('foreground-color', 'colors');
+        this.#add_dependency('background-color', 'colors');
+        this.#add_dependency('palette', 'colors');
 
-        this.add_dependency('use-theme-colors', 'color-bold');
-        this.add_dependency('bold-color-same-as-fg', 'color-bold');
-        this.add_dependency('bold-color', 'color-bold');
+        this.#add_dependency('use-theme-colors', 'color-bold');
+        this.#add_dependency('bold-color-same-as-fg', 'color-bold');
+        this.#add_dependency('bold-color', 'color-bold');
 
-        this.add_dependency('cursor-colors-set', 'color-cursor');
-        this.add_dependency('cursor-background-color', 'color-cursor');
+        this.#add_dependency('use-theme-colors', 'color-cursor');
+        this.#add_dependency('cursor-colors-set', 'color-cursor');
+        this.#add_dependency('cursor-background-color', 'color-cursor');
 
-        this.add_dependency('cursor-colors-set', 'color-cursor-foreground');
-        this.add_dependency('cursor-foreground-color', 'color-cursor-foreground');
+        this.#add_dependency('use-theme-colors', 'color-cursor-foreground');
+        this.#add_dependency('cursor-colors-set', 'color-cursor-foreground');
+        this.#add_dependency('cursor-foreground-color', 'color-cursor-foreground');
 
-        this.add_dependency('highlight-colors-set', 'color-highlight');
-        this.add_dependency('highlight-background-color', 'color-highlight');
+        this.#add_dependency('use-theme-colors', 'color-highlight');
+        this.#add_dependency('highlight-colors-set', 'color-highlight');
+        this.#add_dependency('highlight-background-color', 'color-highlight');
 
-        this.add_dependency('highlight-colors-set', 'color-highlight-foreground');
-        this.add_dependency('highlight-foreground-color', 'color-highlight-foreground');
+        this.#add_dependency('use-theme-colors', 'color-highlight-foreground');
+        this.#add_dependency('highlight-colors-set', 'color-highlight-foreground');
+        this.#add_dependency('highlight-foreground-color', 'color-highlight-foreground');
 
         for (const key of ['detect-urls', ...PATTERN_NAMES])
-            this.add_dependency(key, 'url-detect-patterns');
+            this.#add_dependency(key, 'url-detect-patterns');
     }
 
-    add_dependency(gsettings_key, property) {
+    #add_dependency(gsettings_key, property) {
         const handler = this.gsettings.connect(
             `changed::${gsettings_key}`,
             () => this.notify(property)
@@ -492,10 +522,12 @@ export const TerminalSettingsParser = GObject.registerClass({
             parser: this,
         });
     }
-});
+}
 
-export const TerminalSettingsParserBinding = GObject.registerClass({
-    Properties: {
+export class TerminalSettingsParserBinding extends MultiBinding {
+    static [GObject.GTypeName] = 'DDTermTerminalSettingsParserBinding';
+
+    static [GObject.properties] = {
         'settings': GObject.ParamSpec.object(
             'settings',
             null,
@@ -510,16 +542,20 @@ export const TerminalSettingsParserBinding = GObject.registerClass({
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             TerminalSettingsParser
         ),
-    },
-}, class DDTermTerminalSettingsParserBinding extends MultiBinding {
-    _init(params) {
-        super._init(params);
+    };
 
-        GObject.Object.list_properties.call(TerminalSettings).forEach(pspec => {
+    static {
+        GObject.registerClass(this);
+    }
+
+    constructor(params) {
+        super(params);
+
+        for (const pspec of GObject.Object.list_properties.call(TerminalSettings)) {
             if (GObject.Object.find_property.call(TerminalSettingsParser, pspec.name))
                 this.add_property_binding(this.parser, this.settings, pspec.name);
             else
                 this.add_gsettings_binding(this.parser.gsettings, this.settings, pspec.name);
-        });
+        }
     }
-});
+}
