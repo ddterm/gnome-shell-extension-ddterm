@@ -97,8 +97,10 @@ function color_pspec(name, flags) {
     );
 }
 
-export const TerminalColors = GObject.registerClass({
-    Properties: Object.fromEntries(
+export class TerminalColors extends GObject.Object {
+    static [GObject.GTypeName] = 'DDTermTerminalColors';
+
+    static [GObject.properties] = Object.fromEntries(
         [
             'foreground',
             'background',
@@ -110,8 +112,12 @@ export const TerminalColors = GObject.registerClass({
                 GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY
             ),
         ])
-    ),
-}, class DDTermTerminalColors extends GObject.Object {
+    );
+
+    static {
+        GObject.registerClass(this);
+    }
+
     get palette() {
         return PALETTE_PROPERTIES.map(prop => this[prop]);
     }
@@ -125,10 +131,12 @@ export const TerminalColors = GObject.registerClass({
             ),
         });
     }
-});
+}
 
-export const TerminalCommand = GObject.registerClass({
-    Properties: {
+export class TerminalCommand extends GObject.Object {
+    static [GObject.GTypeName] = 'DDTermTerminalCommand';
+
+    static [GObject.properties] = {
         'argv': GObject.ParamSpec.boxed(
             'argv',
             null,
@@ -164,8 +172,12 @@ export const TerminalCommand = GObject.registerClass({
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             false
         ),
-    },
-}, class DDTermTerminalCommand extends GObject.Object {
+    };
+
+    static {
+        GObject.registerClass(this);
+    }
+
     get spawn_flags() {
         let result = GLib.SpawnFlags.DEFAULT;
 
@@ -253,10 +265,12 @@ export const TerminalCommand = GObject.registerClass({
             file_and_argv_zero: dict.lookup('file-and-argv-zero', 'b'),
         });
     }
-});
+}
 
-const TerminalBase = GObject.registerClass({
-    Properties: {
+class TerminalBase extends Vte.Terminal {
+    static [GObject.GTypeName] = 'DDTermTerminalBase';
+
+    static [GObject.properties] = {
         'colors': GObject.ParamSpec.object(
             'colors',
             null,
@@ -343,46 +357,52 @@ const TerminalBase = GObject.registerClass({
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             false
         ),
-    },
-}, class DDTermTerminal extends Vte.Terminal {
-    _init(params) {
-        this._foreground_from_style = false;
-        this._background_from_style = false;
-        this._child_pid = 0;
-        this._clicked_filename = null;
-        this._clicked_hyperlink = null;
-        this._has_selection = false;
+    };
 
-        super._init(params);
+    static {
+        GObject.registerClass(this);
+    }
+
+    #child_pid = 0;
+    #has_selection = false;
+    #clicked_filename = null;
+    #clicked_hyperlink = null;
+    #url_detect = null;
+    #gdk_atom_primary = null;
+    #foreground_from_style = false;
+    #background_from_style = false;
+
+    constructor(params) {
+        super(params);
 
         this.connect('child-exited', () => {
-            this._child_pid = 0;
+            this.#child_pid = 0;
             this.notify('child-pid');
         });
 
-        this._url_detect = new UrlDetect({
+        this.#url_detect = new UrlDetect({
             terminal: this,
             enabled_patterns: this.url_detect_patterns,
         });
 
         this.bind_property(
             'url-detect-patterns',
-            this._url_detect,
+            this.#url_detect,
             'enabled-patterns',
             GObject.BindingFlags.DEFAULT
         );
 
         this.connect(
             'button-press-event',
-            this._update_clicked_hyperlink.bind(this)
+            this.#update_clicked_hyperlink.bind(this)
         );
 
         this.connect('notify::background-opacity', () => {
-            if (this._background_from_style)
+            if (this.#background_from_style)
                 this.set_color_background(null);
         });
 
-        if (this._background_from_style)
+        if (this.#background_from_style)
             this.set_color_background(null);
 
         this.connect('notify::font-scale', () => {
@@ -396,21 +416,21 @@ const TerminalBase = GObject.registerClass({
             if (has_selection && this.copy_on_selection)
                 this.copy_clipboard_format(Vte.Format.TEXT);
 
-            if (this._has_selection !== has_selection) {
-                this._has_selection = has_selection;
+            if (this.#has_selection !== has_selection) {
+                this.#has_selection = has_selection;
                 this.notify('has-selection');
             }
         });
 
-        this._gdk_atom_primary = Gdk.Atom.intern('PRIMARY', true);
+        this.#gdk_atom_primary = Gdk.Atom.intern('PRIMARY', true);
     }
 
     get child_pid() {
-        return this._child_pid;
+        return this.#child_pid;
     }
 
     get has_selection() {
-        return this._has_selection;
+        return this.#has_selection;
     }
 
     set colors(value) {
@@ -418,10 +438,10 @@ const TerminalBase = GObject.registerClass({
     }
 
     set_colors(foreground, background, palette) {
-        this._foreground_from_style = foreground === null;
-        this._background_from_style = background === null;
+        this.#foreground_from_style = foreground === null;
+        this.#background_from_style = background === null;
 
-        if (this._foreground_from_style || this._background_from_style) {
+        if (this.#foreground_from_style || this.#background_from_style) {
             const style = this.get_style_context();
             const state = style.get_state();
 
@@ -438,9 +458,9 @@ const TerminalBase = GObject.registerClass({
     }
 
     set_color_foreground(value) {
-        this._foreground_from_style = value === null;
+        this.#foreground_from_style = value === null;
 
-        if (this._foreground_from_style) {
+        if (this.#foreground_from_style) {
             const style = this.get_style_context();
             const state = style.get_state();
 
@@ -455,9 +475,9 @@ const TerminalBase = GObject.registerClass({
     }
 
     set_color_background(value) {
-        this._background_from_style = value === null;
+        this.#background_from_style = value === null;
 
-        if (this._background_from_style) {
+        if (this.#background_from_style) {
             const style = this.get_style_context();
             const state = style.get_state();
 
@@ -472,16 +492,16 @@ const TerminalBase = GObject.registerClass({
         // VTE bug? https://github.com/ddterm/gnome-shell-extension-ddterm/issues/674
         this.set_font(this.get_font());
 
-        if (!this._foreground_from_style && !this._background_from_style)
+        if (!this.#foreground_from_style && !this.#background_from_style)
             return;
 
         const style = this.get_style_context();
         const state = style.get_state();
 
-        if (this._foreground_from_style)
+        if (this.#foreground_from_style)
             super.set_color_foreground(style.get_property('color', state));
 
-        if (this._background_from_style) {
+        if (this.#background_from_style) {
             const value = style.get_property('background-color', state);
             value.alpha = this.background_opacity;
             super.set_color_background(value);
@@ -564,7 +584,7 @@ const TerminalBase = GObject.registerClass({
     watch_child(pid) {
         super.watch_child(pid);
 
-        this._child_pid = pid;
+        this.#child_pid = pid;
         this.notify('child-pid');
     }
 
@@ -589,7 +609,7 @@ const TerminalBase = GObject.registerClass({
 
             if (!destroyed) {
                 this.disconnect(destroy_handler);
-                this._child_pid = pid;
+                this.#child_pid = pid;
                 this.notify('child-pid');
             }
 
@@ -632,18 +652,18 @@ const TerminalBase = GObject.registerClass({
     }
 
     get last_clicked_hyperlink() {
-        return this._clicked_hyperlink;
+        return this.#clicked_hyperlink;
     }
 
     get last_clicked_filename() {
-        return this._clicked_filename;
+        return this.#clicked_filename;
     }
 
-    _update_clicked_hyperlink(terminal_, event) {
+    #update_clicked_hyperlink(terminal, event) {
         let clicked_hyperlink = this.hyperlink_check_event(event);
 
-        if (!clicked_hyperlink && this._url_detect)
-            clicked_hyperlink = this._url_detect.check_event(event);
+        if (!clicked_hyperlink && this.#url_detect)
+            clicked_hyperlink = this.#url_detect.check_event(event);
 
         let clicked_filename = null;
 
@@ -657,13 +677,13 @@ const TerminalBase = GObject.registerClass({
         this.freeze_notify();
 
         try {
-            if (this._clicked_hyperlink !== clicked_hyperlink) {
-                this._clicked_hyperlink = clicked_hyperlink;
+            if (this.#clicked_hyperlink !== clicked_hyperlink) {
+                this.#clicked_hyperlink = clicked_hyperlink;
                 this.notify('last-clicked-hyperlink');
             }
 
-            if (this._clicked_filename !== clicked_filename) {
-                this._clicked_filename = clicked_filename;
+            if (this.#clicked_filename !== clicked_filename) {
+                this.#clicked_filename = clicked_filename;
                 this.notify('last-clicked-filename');
             }
         } finally {
@@ -678,7 +698,7 @@ const TerminalBase = GObject.registerClass({
         if (!this.get_has_selection())
             return Promise.resolve('');
 
-        const primary_selection = this.get_clipboard(this._gdk_atom_primary);
+        const primary_selection = this.get_clipboard(this.#gdk_atom_primary);
         this.copy_primary();
 
         return new Promise(resolve => {
@@ -706,10 +726,12 @@ const TerminalBase = GObject.registerClass({
 
         return null;
     }
-});
+}
 
-const TerminalTermprop = 'PropertyId' in Vte ? GObject.registerClass({
-    Properties: {
+const TerminalTermprop = 'PropertyId' in Vte ? class extends TerminalBase {
+    static [GObject.GTypeName] = 'DDTermTerminalTermprop';
+
+    static [GObject.properties] = {
         'window-title': GObject.ParamSpec.string(
             'window-title',
             null,
@@ -731,10 +753,14 @@ const TerminalTermprop = 'PropertyId' in Vte ? GObject.registerClass({
             GObject.ParamFlags.READABLE,
             ''
         ),
-    },
-}, class DDTermTerminalTermprop extends TerminalBase {
-    _init(params) {
-        super._init(params);
+    };
+
+    static {
+        GObject.registerClass(this);
+    }
+
+    constructor(params) {
+        super(params);
 
         this.connect(`termprop-changed::${Vte.TERMPROP_XTERM_TITLE}`, () => {
             this.notify('window-title');
@@ -762,9 +788,12 @@ const TerminalTermprop = 'PropertyId' in Vte ? GObject.registerClass({
     get current_file_uri() {
         return this.ref_termprop_uri_by_id(Vte.PropertyId.CURRENT_FILE_URI)?.to_string() ?? '';
     }
-}) : null;
+} : null;
 
-export const Terminal = GObject.registerClass({
-    GTypeName: 'DDTermTerminal',
-}, class extends (TerminalTermprop ?? TerminalBase) {
-});
+export class Terminal extends (TerminalTermprop ?? TerminalBase) {
+    static [GObject.GTypeName] = 'DDTermTerminal';
+
+    static {
+        GObject.registerClass(this);
+    }
+}
