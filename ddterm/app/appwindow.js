@@ -149,6 +149,8 @@ export class AppWindow extends Gtk.ApplicationWindow {
         GObject.registerClass(this);
     }
 
+    #active_notebook = null;
+
     constructor(params) {
         super({
             window_position: Gtk.WindowPosition.CENTER,
@@ -268,9 +270,16 @@ export class AppWindow extends Gtk.ApplicationWindow {
         }
     }
 
-    _paned_focus_child(paned, child) {
+    _paned_focus_child() {
+        const active = this.paned.get_focus_child();
+
+        if (this.#active_notebook === active)
+            return;
+
+        this.#active_notebook = active;
+
         this._window_title_binding?.unbind();
-        this._window_title_binding = child?.bind_property(
+        this._window_title_binding = active?.bind_property(
             'current-title',
             this,
             'title',
@@ -479,7 +488,7 @@ export class AppWindow extends Gtk.ApplicationWindow {
     }
 
     get active_notebook() {
-        return this.paned.get_focus_child();
+        return this.#active_notebook;
     }
 
     get is_empty() {
