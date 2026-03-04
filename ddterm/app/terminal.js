@@ -8,6 +8,7 @@ import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
 import Gdk from 'gi://Gdk';
+import Gtk from 'gi://Gtk';
 import Vte from 'gi://Vte';
 
 import { regex_for_match } from './regex.js';
@@ -403,6 +404,7 @@ class TerminalBase extends Vte.Terminal {
     #gdk_atom_primary = null;
     #foreground_from_style = false;
     #background_from_style = false;
+    #gesture_single = null;
 
     constructor(params) {
         super(params);
@@ -411,11 +413,6 @@ class TerminalBase extends Vte.Terminal {
             this.#child_pid = 0;
             this.notify('child-pid');
         });
-
-        this.connect(
-            'button-press-event',
-            this.#update_clicked_hyperlink.bind(this)
-        );
 
         this.connect('notify::background-opacity', () => {
             if (this.#background_from_style)
@@ -448,6 +445,26 @@ class TerminalBase extends Vte.Terminal {
 
         this.connect('notify::url-detect-patterns', this.#setup_url_detect.bind(this));
         this.#setup_url_detect();
+
+        this.#gesture_single = new Gtk.GestureSingle({
+            widget: this,
+            button: 0,
+            propagation_phase: Gtk.PropagationPhase.CAPTURE,
+        });
+
+        this.connect('realize', this.#realize.bind(this));
+    }
+
+    #realize() {
+        const handler = this.#gesture_single.connect(
+            'begin',
+            this.#update_clicked_hyperlink.bind(this)
+        );
+
+        const unrealize_handler = this.connect('unrealize', () => {
+            this.disconnect(unrealize_handler);
+            this.#gesture_single.disconnect(handler);
+        });
     }
 
     get child_pid() {
@@ -684,7 +701,8 @@ class TerminalBase extends Vte.Terminal {
         return this.#clicked_filename;
     }
 
-    #update_clicked_hyperlink(terminal, event) {
+    #update_clicked_hyperlink(gesture, sequence) {
+        const event = gesture.get_last_event(sequence);
         let clicked_hyperlink = this.hyperlink_check_event(event);
 
         if (!clicked_hyperlink) {
@@ -700,11 +718,13 @@ class TerminalBase extends Vte.Terminal {
             }
         }
 
+        gesture.set_state(Gtk.EventSequenceState.DENIED);
+
         let clicked_filename = null;
 
         if (clicked_hyperlink) {
             try {
-                clicked_filename = GLib.filename_from_uri(clicked_hyperlink)[0];
+                [clicked_filename] = GLib.filename_from_uri(clicked_hyperlink);
             } catch {
             }
         }
