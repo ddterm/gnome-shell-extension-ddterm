@@ -17,7 +17,6 @@ app_js_src_files = files(
   'terminal.js',
   'terminalpage.js',
   'terminalsettings.js',
-  'urldetect.js',
   'urldetect_patterns.js',
 )
 

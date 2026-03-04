@@ -10,8 +10,17 @@ import Gio from 'gi://Gio';
 import Gdk from 'gi://Gdk';
 import Vte from 'gi://Vte';
 
+import { regex_for_match } from './regex.js';
 import { tcgetpgrp, InterpreterNotFoundError } from './tcgetpgrp.js';
-import { UrlDetect } from './urldetect.js';
+
+import {
+    REGEX_URL_AS_IS,
+    REGEX_URL_FILE,
+    REGEX_URL_HTTP,
+    REGEX_URL_VOIP,
+    REGEX_EMAIL,
+    REGEX_NEWS_MAN,
+} from './urldetect_patterns.js';
 
 export function WEXITSTATUS(status) {
     return (status & 0xff00) >> 8;
@@ -24,6 +33,29 @@ export function WTERMSIG(status) {
 export function WIFEXITED(status) {
     return WTERMSIG(status) === 0;
 }
+
+export const URL_REGEX = {
+    'detect-urls-as-is': {
+        regex: regex_for_match(REGEX_URL_AS_IS),
+    },
+    'detect-urls-file': {
+        regex: regex_for_match(REGEX_URL_FILE),
+    },
+    'detect-urls-http': {
+        regex: regex_for_match(REGEX_URL_HTTP),
+        prefix: 'http://',
+    },
+    'detect-urls-voip': {
+        regex: regex_for_match(REGEX_URL_VOIP),
+    },
+    'detect-urls-email': {
+        regex: regex_for_match(REGEX_EMAIL),
+        prefix: 'mailto:',
+    },
+    'detect-urls-news-man': {
+        regex: regex_for_match(REGEX_NEWS_MAN),
+    },
+};
 
 const PANGO_SCALE_XX_SMALL = 0.5787037037037;
 const PANGO_SCALE_X_SMALL = 0.6944444444444;
@@ -367,7 +399,7 @@ class TerminalBase extends Vte.Terminal {
     #has_selection = false;
     #clicked_filename = null;
     #clicked_hyperlink = null;
-    #url_detect = null;
+    #url_prefix;
     #gdk_atom_primary = null;
     #foreground_from_style = false;
     #background_from_style = false;
@@ -379,18 +411,6 @@ class TerminalBase extends Vte.Terminal {
             this.#child_pid = 0;
             this.notify('child-pid');
         });
-
-        this.#url_detect = new UrlDetect({
-            terminal: this,
-            enabled_patterns: this.url_detect_patterns,
-        });
-
-        this.bind_property(
-            'url-detect-patterns',
-            this.#url_detect,
-            'enabled-patterns',
-            GObject.BindingFlags.DEFAULT
-        );
 
         this.connect(
             'button-press-event',
@@ -423,6 +443,11 @@ class TerminalBase extends Vte.Terminal {
         });
 
         this.#gdk_atom_primary = Gdk.Atom.intern('PRIMARY', true);
+
+        this.#url_prefix = new Map();
+
+        this.connect('notify::url-detect-patterns', this.#setup_url_detect.bind(this));
+        this.#setup_url_detect();
     }
 
     get child_pid() {
@@ -662,8 +687,18 @@ class TerminalBase extends Vte.Terminal {
     #update_clicked_hyperlink(terminal, event) {
         let clicked_hyperlink = this.hyperlink_check_event(event);
 
-        if (!clicked_hyperlink && this.#url_detect)
-            clicked_hyperlink = this.#url_detect.check_event(event);
+        if (!clicked_hyperlink) {
+            const [url, tag] = this.match_check_event(event);
+
+            if (url && tag !== null && this.#url_prefix.has(tag)) {
+                const prefix = this.#url_prefix.get(tag);
+
+                if (prefix && !url.toLowerCase().startsWith(prefix))
+                    clicked_hyperlink = prefix + url;
+                else
+                    clicked_hyperlink = url;
+            }
+        }
 
         let clicked_filename = null;
 
@@ -688,6 +723,22 @@ class TerminalBase extends Vte.Terminal {
             }
         } finally {
             this.thaw_notify();
+        }
+    }
+
+    #setup_url_detect() {
+        for (const tag of this.#url_prefix.keys())
+            this.match_remove(tag);
+
+        this.#url_prefix.clear();
+
+        for (const [key, { regex, prefix }] of Object.entries(URL_REGEX)) {
+            if (!this.url_detect_patterns?.includes(key))
+                continue;
+
+            const tag = this.match_add_regex(regex, 0);
+            this.match_set_cursor_name(tag, 'pointer');
+            this.#url_prefix.set(tag, prefix);
         }
     }
 

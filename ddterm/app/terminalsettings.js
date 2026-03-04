@@ -10,8 +10,7 @@ import Gio from 'gi://Gio';
 import Gdk from 'gi://Gdk';
 import Pango from 'gi://Pango';
 
-import { Terminal, TerminalColors, TerminalCommand } from './terminal.js';
-import { PATTERN_NAMES } from './urldetect.js';
+import { Terminal, TerminalColors, TerminalCommand, URL_REGEX } from './terminal.js';
 
 const DEFAULT_FLAGS = GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY;
 
@@ -258,6 +257,8 @@ export class TerminalSettingsBinding extends MultiBinding {
     }
 }
 
+const URL_PATTERN_NAMES = Object.keys(URL_REGEX);
+
 export class TerminalSettingsParser extends GObject.Object {
     static [GObject.GTypeName] = 'DDTermTerminalSettingsParser';
 
@@ -393,7 +394,7 @@ export class TerminalSettingsParser extends GObject.Object {
         this.#add_dependency('highlight-colors-set', 'color-highlight-foreground');
         this.#add_dependency('highlight-foreground-color', 'color-highlight-foreground');
 
-        for (const key of ['detect-urls', ...PATTERN_NAMES])
+        for (const key of ['detect-urls', ...URL_PATTERN_NAMES])
             this.#add_dependency(key, 'url-detect-patterns');
     }
 
@@ -504,7 +505,7 @@ export class TerminalSettingsParser extends GObject.Object {
 
         const flags = [];
 
-        for (const name of PATTERN_NAMES) {
+        for (const name of URL_PATTERN_NAMES) {
             if (this.gsettings.get_boolean(name))
                 flags.push(name);
         }
