@@ -7,23 +7,23 @@ SPDX-License-Identifier: GPL-3.0-or-later
 -->
 
 <interface domain="ddterm@amezin.github.com">
-  <!-- interface-requires gtk+ 3.0 -->
+  <requires lib="gtk" version="4.0"/>
 
   <template class="DDTermAppWindow" parent="GtkApplicationWindow">
     <signal name="notify::is-split" handler="_notify_split_layout"/>
     <signal name="notify::split-orientation" handler="_emit_session_update"/>
     <child>
       <object class="GtkGrid" id="layout">
-        <property name="visible">True</property>
         <child>
           <object class="GtkPaned" id="paned">
-            <property name="visible">True</property>
+            <property name="shrink-end-child">False</property>
+            <property name="shrink-start-child">False</property>
             <property name="hexpand">True</property>
             <property name="vexpand">True</property>
             <property name="wide-handle">True</property>
             <signal name="set-focus-child" handler="_paned_focus_child"/>
             <signal name="notify::orientation" handler="_notify_split_layout"/>
-            <child>
+            <property name="start-child">
               <object class="DDTermNotebook" id="notebook1">
                 <property name="hexpand">True</property>
                 <property name="vexpand">True</property>
@@ -34,12 +34,8 @@ SPDX-License-Identifier: GPL-3.0-or-later
                 <signal name="move-to-other-pane" handler="_notebook_transfer_page"/>
                 <signal name="session-update" handler="_emit_session_update"/>
               </object>
-              <packing>
-                <property name="resize">True</property>
-                <property name="shrink">False</property>
-              </packing>
-            </child>
-            <child>
+            </property>
+            <property name="end-child">
               <object class="DDTermNotebook" id="notebook2">
                 <property name="hexpand">True</property>
                 <property name="vexpand">True</property>
@@ -50,16 +46,12 @@ SPDX-License-Identifier: GPL-3.0-or-later
                 <signal name="move-to-other-pane" handler="_notebook_transfer_page"/>
                 <signal name="session-update" handler="_emit_session_update"/>
               </object>
-              <packing>
-                <property name="resize">True</property>
-                <property name="shrink">False</property>
-              </packing>
-            </child>
+            </property>
+            <layout>
+              <property name="column">1</property>
+              <property name="row">1</property>
+            </layout>
           </object>
-          <packing>
-            <property name="left-attach">1</property>
-            <property name="top-attach">1</property>
-          </packing>
         </child>
         <child>
           <object class="GtkEventBox" id="resize_box_north">
@@ -70,17 +62,15 @@ SPDX-License-Identifier: GPL-3.0-or-later
             </style>
             <child>
               <object class="GtkSeparator">
-                <property name="visible">True</property>
-                <property name="orientation">horizontal</property>
                 <property name="margin-top">2</property>
                 <property name="margin-bottom">2</property>
               </object>
             </child>
+            <layout>
+              <property name="column">1</property>
+              <property name="row">0</property>
+            </layout>
           </object>
-          <packing>
-            <property name="left-attach">1</property>
-            <property name="top-attach">0</property>
-          </packing>
         </child>
         <child>
           <object class="GtkEventBox" id="resize_box_south">
@@ -91,17 +81,15 @@ SPDX-License-Identifier: GPL-3.0-or-later
             </style>
             <child>
               <object class="GtkSeparator">
-                <property name="visible">True</property>
-                <property name="orientation">horizontal</property>
                 <property name="margin-top">2</property>
                 <property name="margin-bottom">2</property>
               </object>
             </child>
+            <layout>
+              <property name="column">1</property>
+              <property name="row">2</property>
+            </layout>
           </object>
-          <packing>
-            <property name="left-attach">1</property>
-            <property name="top-attach">2</property>
-          </packing>
         </child>
         <child>
           <object class="GtkEventBox" id="resize_box_west">
@@ -112,17 +100,16 @@ SPDX-License-Identifier: GPL-3.0-or-later
             </style>
             <child>
               <object class="GtkSeparator">
-                <property name="visible">True</property>
                 <property name="orientation">vertical</property>
                 <property name="margin-start">2</property>
                 <property name="margin-end">2</property>
               </object>
             </child>
+            <layout>
+              <property name="column">0</property>
+              <property name="row">1</property>
+            </layout>
           </object>
-          <packing>
-            <property name="left-attach">0</property>
-            <property name="top-attach">1</property>
-          </packing>
         </child>
         <child>
           <object class="GtkEventBox" id="resize_box_east">
@@ -133,17 +120,16 @@ SPDX-License-Identifier: GPL-3.0-or-later
             </style>
             <child>
               <object class="GtkSeparator">
-                <property name="visible">True</property>
                 <property name="orientation">vertical</property>
                 <property name="margin-start">2</property>
                 <property name="margin-end">2</property>
               </object>
             </child>
+            <layout>
+              <property name="column">2</property>
+              <property name="row">1</property>
+            </layout>
           </object>
-          <packing>
-            <property name="left-attach">2</property>
-            <property name="top-attach">1</property>
-          </packing>
         </child>
       </object>
     </child>

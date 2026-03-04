@@ -7,7 +7,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 -->
 
 <interface domain="ddterm@amezin.github.com">
-  <!-- interface-requires gtk+ 3.0 -->
+  <requires lib="gtk" version="4.0"/>
 
   <template class="DDTermPageCloseDialog" parent="GtkMessageDialog">
     <property name="destroy-with-parent">True</property>
@@ -18,7 +18,6 @@ SPDX-License-Identifier: GPL-3.0-or-later
     <child type="action">
       <object class="GtkButton" id="cancel_button">
         <property name="label" translatable="yes">Cancel</property>
-        <property name="visible">True</property>
         <property name="can-default">True</property>
         <style>
           <class name="text-button"/>
@@ -28,7 +27,6 @@ SPDX-License-Identifier: GPL-3.0-or-later
     <child type="action">
       <object class="GtkButton" id="accept_button">
         <property name="label" translatable="yes">Close Terminal</property>
-        <property name="visible">True</property>
         <property name="can-default">True</property>
         <style>
           <class name="destructive-action"/>

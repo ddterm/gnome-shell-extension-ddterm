@@ -10,11 +10,11 @@ if get_option('typelib_installer')
       'install_dir': extension_dir / 'ddterm' / 'util',
       'tests': false,
       'typelibs': [
-        'Gtk-3.0',
-        'Gdk-3.0',
+        'Gtk-4.0',
+        'Gdk-4.0',
         'Pango-1.0',
-        'Vte-2.91',
-        'Handy-1',
+        'Vte-3.91',
+        'Adw-1',
       ],
     },
   )

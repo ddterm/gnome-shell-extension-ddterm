@@ -7,26 +7,21 @@ SPDX-License-Identifier: GPL-3.0-or-later
 -->
 
 <interface domain="ddterm@amezin.github.com">
-  <!-- interface-requires gtk+ 3.0 -->
-  <!-- interface-requires libhandy 1 -->
+  <requires lib="gtk" version="4.0"/>
 
-  <template class="DDTermSearchBar" parent="HdySearchBar">
+  <template class="DDTermSearchBar" parent="GtkSearchBar">
     <style>
       <class name="background"/>
     </style>
     <child>
       <object class="GtkBox" id="layout">
-        <property name="visible">True</property>
         <property name="spacing">5</property>
-        <property name="orientation">horizontal</property>
         <child>
           <object class="GtkToggleButton" id="case_sensitive_button">
-            <property name="visible">True</property>
             <property name="focus_on_click">False</property>
             <property name="tooltip_text" translatable="yes">Case Sensitive</property>
             <child>
               <object class="GtkImage">
-                <property name="visible">True</property>
                 <property name="icon_name">uppercase</property>
               </object>
             </child>
@@ -34,12 +29,10 @@ SPDX-License-Identifier: GPL-3.0-or-later
         </child>
         <child>
           <object class="GtkToggleButton" id="whole_word_button">
-            <property name="visible">True</property>
             <property name="focus_on_click">False</property>
             <property name="tooltip_text" translatable="yes">Match Whole Word</property>
             <child>
               <object class="GtkImage">
-                <property name="visible">True</property>
                 <property name="icon_name">quotation</property>
               </object>
             </child>
@@ -47,12 +40,10 @@ SPDX-License-Identifier: GPL-3.0-or-later
         </child>
         <child>
           <object class="GtkToggleButton" id="regex_button">
-            <property name="visible">True</property>
             <property name="focus_on_click">False</property>
             <property name="tooltip_text" translatable="yes">Regular Expression</property>
             <child>
               <object class="GtkImage">
-                <property name="visible">True</property>
                 <property name="icon_name">regex</property>
               </object>
             </child>
@@ -60,66 +51,47 @@ SPDX-License-Identifier: GPL-3.0-or-later
         </child>
         <child>
           <object class="GtkSearchEntry" id="entry">
-            <property name="visible">True</property>
+            <property name="hexpand">True</property>
             <signal name="activate" handler="_find_next"/>
             <signal name="next-match" handler="_find_next"/>
             <signal name="previous-match" handler="_find_prev"/>
             <signal name="search-changed" handler="_update_pattern"/>
           </object>
-          <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
-          </packing>
         </child>
         <child>
           <object class="GtkToggleButton" id="wrap_button">
-            <property name="visible">True</property>
             <property name="focus_on_click">False</property>
             <property name="tooltip_text" translatable="yes">Wrap Around</property>
             <child>
               <object class="GtkImage">
-                <property name="visible">True</property>
                 <property name="icon_name">view-wrapped</property>
               </object>
             </child>
           </object>
-          <packing>
-            <property name="pack_type">end</property>
-          </packing>
         </child>
         <child>
           <object class="GtkButton" id="find_next_button">
-            <property name="visible">True</property>
             <property name="focus_on_click">False</property>
             <property name="tooltip_text" translatable="yes">Find Next</property>
             <signal name="clicked" handler="_find_next"/>
             <child>
               <object class="GtkImage">
-                <property name="visible">True</property>
                 <property name="icon_name">go-down</property>
               </object>
             </child>
           </object>
-          <packing>
-            <property name="pack_type">end</property>
-          </packing>
         </child>
         <child>
           <object class="GtkButton" id="find_prev_button">
-            <property name="visible">True</property>
             <property name="focus_on_click">False</property>
             <property name="tooltip_text" translatable="yes">Find Previous</property>
             <signal name="clicked" handler="_find_prev"/>
             <child>
               <object class="GtkImage">
-                <property name="visible">True</property>
                 <property name="icon_name">go-up</property>
               </object>
             </child>
           </object>
-          <packing>
-            <property name="pack_type">end</property>
-          </packing>
         </child>
       </object>
       <packing>
@@ -131,16 +103,14 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
   <object class="GtkPopover" id="error_popover">
     <property name="relative_to">entry</property>
-    <property name="modal">False</property>
+    <property name="autohide">False</property>
     <property name="border_width">5</property>
-    <child>
+    <property name="child">
       <object class="GtkLabel" id="error_label">
-        <property name="visible">True</property>
         <style>
           <class name="error"/>
         </style>
       </object>
-    </child>
+    </property>
   </object>
-
 </interface>

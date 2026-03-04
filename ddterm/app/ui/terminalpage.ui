@@ -7,7 +7,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 -->
 
 <interface domain="ddterm@amezin.github.com">
-  <!-- interface-requires gtk+ 3.0 -->
+  <requires lib="gtk" version="4.0"/>
 
   <object id="vadjustment" class="GtkAdjustment"/>
 
@@ -15,15 +15,14 @@ SPDX-License-Identifier: GPL-3.0-or-later
     <property name="orientation">vertical</property>
     <child>
       <object class="GtkInfoBar" id="banner">
-        <property name="visible">True</property>
         <property name="revealed" bind-source="DDTermTerminalPage" bind-property="banner-visible" bind-flags="sync-create|bidirectional"/>
         <property name="message-type" bind-source="DDTermTerminalPage" bind-property="banner-type" bind-flags="sync-create|bidirectional"/>
         <signal name="response" handler="_banner_response"/>
         <child internal-child="content_area">
           <object class="GtkBox">
+            <property name="visible">False</property>
             <child>
               <object class="GtkLabel" id="banner_label">
-                <property name="visible">True</property>
                 <property name="label" bind-source="DDTermTerminalPage" bind-property="banner-label" bind-flags="sync-create|bidirectional"/>
               </object>
             </child>
@@ -31,17 +30,16 @@ SPDX-License-Identifier: GPL-3.0-or-later
         </child>
         <child internal-child="action_area">
           <object class="GtkBox">
+            <property name="visible">False</property>
             <child>
               <object class="GtkButton" id="restart_button">
                 <property name="label" translatable="yes">Restart</property>
-                <property name="visible">True</property>
                 <property name="can-default">True</property>
               </object>
             </child>
             <child>
               <object class="GtkButton" id="close_terminal_button">
                 <property name="label" translatable="yes">Close Terminal</property>
-                <property name="visible">True</property>
                 <property name="can-default">True</property>
               </object>
             </child>
@@ -55,24 +53,19 @@ SPDX-License-Identifier: GPL-3.0-or-later
     </child>
     <child>
       <object class="GtkBox" id="terminal_with_scrollbar">
-        <property name="visible">True</property>
-        <property name="orientation">horizontal</property>
+        <property name="vexpand">True</property>
         <child>
           <object class="DDTermTerminal" id="terminal">
+            <property name="hexpand">True</property>
             <property name="visible">True</property>
             <property name="context-menu-model">terminal_menu</property>
             <property name="vadjustment">vadjustment</property>
             <signal name="child-exited" handler="_child_exited" after="yes"/>
             <signal name="open-hyperlink" handler="_open_hyperlink"/>
           </object>
-          <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
-          </packing>
         </child>
         <child>
           <object class="GtkScrollbar" id="scrollbar">
-            <property name="visible">True</property>
             <property name="orientation">vertical</property>
             <property name="adjustment">vadjustment</property>
             <style>
@@ -81,10 +74,6 @@ SPDX-License-Identifier: GPL-3.0-or-later
           </object>
         </child>
       </object>
-      <packing>
-        <property name="expand">True</property>
-        <property name="fill">True</property>
-      </packing>
     </child>
     <child>
       <object class="DDTermSearchBar" id="search_bar">

@@ -13,7 +13,7 @@ import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
 import Gdk from 'gi://Gdk';
 import Gtk from 'gi://Gtk';
-import Handy from 'gi://Handy';
+import Adw from 'gi://Adw';
 
 import Gettext from 'gettext';
 import Gi from 'gi';
@@ -92,7 +92,7 @@ function print_version_info() {
     }
 }
 
-export class Application extends Gtk.Application {
+export class Application extends Adw.Application {
     static [GObject.GTypeName] = 'DDTermApplication';
 
     static [GObject.properties] = {
@@ -285,7 +285,7 @@ export class Application extends Gtk.Application {
     }
 
     #startup() {
-        Handy.init();
+        Adw.init();
 
         const shutdown = [];
 
@@ -823,14 +823,14 @@ export class Application extends Gtk.Application {
     }
 
     get style_manager() {
-        return Handy.StyleManager.get_default();
+        return Adw.StyleManager.get_default();
     }
 
     #update_color_scheme() {
         const mapping = {
-            'system': Handy.ColorScheme.PREFER_LIGHT,
-            'dark': Handy.ColorScheme.FORCE_DARK,
-            'light': Handy.ColorScheme.FORCE_LIGHT,
+            'system': Adw.ColorScheme.PREFER_LIGHT,
+            'dark': Adw.ColorScheme.FORCE_DARK,
+            'light': Adw.ColorScheme.FORCE_LIGHT,
         };
 
         const variant = this.#settings.get_string('theme-variant');

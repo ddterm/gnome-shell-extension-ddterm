@@ -6,7 +6,6 @@ import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
 import Gtk from 'gi://Gtk';
 import Vte from 'gi://Vte';
-import Handy from 'gi://Handy';
 
 import { regex_for_search } from './regex.js';
 
@@ -127,7 +126,7 @@ class SearchPattern extends GObject.Object {
     }
 }
 
-export class SearchBar extends Handy.SearchBar {
+export class SearchBar extends Gtk.SearchBar {
     static [GObject.GTypeName] = 'DDTermSearchBar';
 
     static [Gtk.template] =
