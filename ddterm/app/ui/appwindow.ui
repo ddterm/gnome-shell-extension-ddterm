@@ -21,7 +21,6 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <property name="hexpand">True</property>
             <property name="vexpand">True</property>
             <property name="wide-handle">True</property>
-            <signal name="set-focus-child" handler="_paned_focus_child"/>
             <signal name="notify::orientation" handler="_notify_split_layout"/>
             <property name="start-child">
               <object class="DDTermNotebook" id="notebook1">
@@ -56,7 +55,6 @@ SPDX-License-Identifier: GPL-3.0-or-later
         <child>
           <object class="GtkEventBox" id="resize_box_north">
             <property name="visible">True</property>
-            <signal name="realize" handler="_setup_widget_cursor"/>
             <style>
               <class name="background"/>
             </style>
@@ -75,7 +73,6 @@ SPDX-License-Identifier: GPL-3.0-or-later
         <child>
           <object class="GtkEventBox" id="resize_box_south">
             <property name="visible">True</property>
-            <signal name="realize" handler="_setup_widget_cursor"/>
             <style>
               <class name="background"/>
             </style>
@@ -94,7 +91,6 @@ SPDX-License-Identifier: GPL-3.0-or-later
         <child>
           <object class="GtkEventBox" id="resize_box_west">
             <property name="visible">True</property>
-            <signal name="realize" handler="_setup_widget_cursor"/>
             <style>
               <class name="background"/>
             </style>
@@ -114,7 +110,6 @@ SPDX-License-Identifier: GPL-3.0-or-later
         <child>
           <object class="GtkEventBox" id="resize_box_east">
             <property name="visible">True</property>
-            <signal name="realize" handler="_setup_widget_cursor"/>
             <style>
               <class name="background"/>
             </style>
