@@ -417,7 +417,7 @@ export class TerminalPage extends Gtk.Box {
             if (text)
                 this._search_bar.pattern.text = text;
 
-            this._search_bar.reveal_child = true;
+            this._search_bar.search_mode_enabled = true;
         });
     }
 
@@ -567,7 +567,7 @@ export class TerminalPage extends Gtk.Box {
     }
 
     vfunc_grab_focus() {
-        if (this._search_bar.reveal_child)
+        if (this._search_bar.search_mode_enabled)
             this._search_bar.grab_focus();
         else
             this.terminal.grab_focus();

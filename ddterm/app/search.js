@@ -6,6 +6,7 @@ import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
 import Gtk from 'gi://Gtk';
 import Vte from 'gi://Vte';
+import Handy from 'gi://Handy';
 
 import { regex_for_search } from './regex.js';
 
@@ -126,7 +127,7 @@ class SearchPattern extends GObject.Object {
     }
 }
 
-export class SearchBar extends Gtk.Revealer {
+export class SearchBar extends Handy.SearchBar {
     static [GObject.GTypeName] = 'DDTermSearchBar';
 
     static [Gtk.template] =
@@ -173,7 +174,10 @@ export class SearchBar extends Gtk.Revealer {
     #pattern = null;
 
     constructor(params) {
-        super(params);
+        super({
+            ...params,
+            show_close_button: true,
+        });
 
         this.#pattern = new SearchPattern();
 
@@ -232,20 +236,11 @@ export class SearchBar extends Gtk.Revealer {
             }
         });
 
-        this.connect('key-press-event', (_, event) => this._entry.handle_event(event));
-        this.connect('key-release-event', (_, event) => this._entry.handle_event(event));
-        this.connect('notify::reveal-child', () => {
-            if (this.reveal_child)
-                this._entry.grab_focus();
-        });
+        this.connect_entry(this._entry);
     }
 
     get pattern() {
         return this.#pattern;
-    }
-
-    _close() {
-        this.reveal_child = false;
     }
 
     _find_next() {

@@ -8,147 +8,124 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 <interface domain="ddterm@amezin.github.com">
   <!-- interface-requires gtk+ 3.0 -->
+  <!-- interface-requires libhandy 1 -->
 
-  <template class="DDTermSearchBar" parent="GtkRevealer">
+  <template class="DDTermSearchBar" parent="HdySearchBar">
+    <style>
+      <class name="background"/>
+    </style>
     <child>
-      <object class="GtkBox" id="container">
+      <object class="GtkBox" id="layout">
         <property name="visible">True</property>
-        <style>
-          <class name="background"/>
-        </style>
+        <property name="spacing">5</property>
+        <property name="orientation">horizontal</property>
         <child>
-          <object class="GtkBox" id="layout">
+          <object class="GtkToggleButton" id="case_sensitive_button">
             <property name="visible">True</property>
-            <property name="border_width">5</property>
-            <property name="spacing">5</property>
-            <property name="orientation">horizontal</property>
+            <property name="focus_on_click">False</property>
+            <property name="tooltip_text" translatable="yes">Case Sensitive</property>
             <child>
-              <object class="GtkToggleButton" id="case_sensitive_button">
+              <object class="GtkImage">
                 <property name="visible">True</property>
-                <property name="focus_on_click">False</property>
-                <property name="tooltip_text" translatable="yes">Case Sensitive</property>
-                <child>
-                  <object class="GtkImage">
-                    <property name="visible">True</property>
-                    <property name="icon_name">uppercase</property>
-                  </object>
-                </child>
+                <property name="icon_name">uppercase</property>
               </object>
             </child>
+          </object>
+        </child>
+        <child>
+          <object class="GtkToggleButton" id="whole_word_button">
+            <property name="visible">True</property>
+            <property name="focus_on_click">False</property>
+            <property name="tooltip_text" translatable="yes">Match Whole Word</property>
             <child>
-              <object class="GtkToggleButton" id="whole_word_button">
+              <object class="GtkImage">
                 <property name="visible">True</property>
-                <property name="focus_on_click">False</property>
-                <property name="tooltip_text" translatable="yes">Match Whole Word</property>
-                <child>
-                  <object class="GtkImage">
-                    <property name="visible">True</property>
-                    <property name="icon_name">quotation</property>
-                  </object>
-                </child>
+                <property name="icon_name">quotation</property>
               </object>
             </child>
+          </object>
+        </child>
+        <child>
+          <object class="GtkToggleButton" id="regex_button">
+            <property name="visible">True</property>
+            <property name="focus_on_click">False</property>
+            <property name="tooltip_text" translatable="yes">Regular Expression</property>
             <child>
-              <object class="GtkToggleButton" id="regex_button">
+              <object class="GtkImage">
                 <property name="visible">True</property>
-                <property name="focus_on_click">False</property>
-                <property name="tooltip_text" translatable="yes">Regular Expression</property>
-                <child>
-                  <object class="GtkImage">
-                    <property name="visible">True</property>
-                    <property name="icon_name">regex</property>
-                  </object>
-                </child>
+                <property name="icon_name">regex</property>
               </object>
             </child>
-            <child>
-              <object class="GtkSearchEntry" id="entry">
-                <property name="visible">True</property>
-                <signal name="activate" handler="_find_next"/>
-                <signal name="next-match" handler="_find_next"/>
-                <signal name="previous-match" handler="_find_prev"/>
-                <signal name="stop-search" handler="_close"/>
-                <signal name="search-changed" handler="_update_pattern"/>
-              </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton" id="close_button">
-                <property name="visible">True</property>
-                <property name="focus_on_click">False</property>
-                <property name="tooltip_text" translatable="yes">Close Search Bar</property>
-                <signal name="clicked" handler="_close"/>
-                <child>
-                  <object class="GtkImage">
-                    <property name="visible">True</property>
-                    <property name="icon_name">window-close</property>
-                  </object>
-                </child>
-              </object>
-              <packing>
-                <property name="pack_type">end</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkToggleButton" id="wrap_button">
-                <property name="visible">True</property>
-                <property name="focus_on_click">False</property>
-                <property name="tooltip_text" translatable="yes">Wrap Around</property>
-                <child>
-                  <object class="GtkImage">
-                    <property name="visible">True</property>
-                    <property name="icon_name">view-wrapped</property>
-                  </object>
-                </child>
-              </object>
-              <packing>
-                <property name="pack_type">end</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton" id="find_next_button">
-                <property name="visible">True</property>
-                <property name="focus_on_click">False</property>
-                <property name="tooltip_text" translatable="yes">Find Next</property>
-                <signal name="clicked" handler="_find_next"/>
-                <child>
-                  <object class="GtkImage">
-                    <property name="visible">True</property>
-                    <property name="icon_name">go-down</property>
-                  </object>
-                </child>
-              </object>
-              <packing>
-                <property name="pack_type">end</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton" id="find_prev_button">
-                <property name="visible">True</property>
-                <property name="focus_on_click">False</property>
-                <property name="tooltip_text" translatable="yes">Find Previous</property>
-                <signal name="clicked" handler="_find_prev"/>
-                <child>
-                  <object class="GtkImage">
-                    <property name="visible">True</property>
-                    <property name="icon_name">go-up</property>
-                  </object>
-                </child>
-              </object>
-              <packing>
-                <property name="pack_type">end</property>
-              </packing>
-            </child>
+          </object>
+        </child>
+        <child>
+          <object class="GtkSearchEntry" id="entry">
+            <property name="visible">True</property>
+            <signal name="activate" handler="_find_next"/>
+            <signal name="next-match" handler="_find_next"/>
+            <signal name="previous-match" handler="_find_prev"/>
+            <signal name="search-changed" handler="_update_pattern"/>
           </object>
           <packing>
             <property name="expand">True</property>
             <property name="fill">True</property>
           </packing>
         </child>
+        <child>
+          <object class="GtkToggleButton" id="wrap_button">
+            <property name="visible">True</property>
+            <property name="focus_on_click">False</property>
+            <property name="tooltip_text" translatable="yes">Wrap Around</property>
+            <child>
+              <object class="GtkImage">
+                <property name="visible">True</property>
+                <property name="icon_name">view-wrapped</property>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="pack_type">end</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="find_next_button">
+            <property name="visible">True</property>
+            <property name="focus_on_click">False</property>
+            <property name="tooltip_text" translatable="yes">Find Next</property>
+            <signal name="clicked" handler="_find_next"/>
+            <child>
+              <object class="GtkImage">
+                <property name="visible">True</property>
+                <property name="icon_name">go-down</property>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="pack_type">end</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="find_prev_button">
+            <property name="visible">True</property>
+            <property name="focus_on_click">False</property>
+            <property name="tooltip_text" translatable="yes">Find Previous</property>
+            <signal name="clicked" handler="_find_prev"/>
+            <child>
+              <object class="GtkImage">
+                <property name="visible">True</property>
+                <property name="icon_name">go-up</property>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="pack_type">end</property>
+          </packing>
+        </child>
       </object>
+      <packing>
+        <property name="expand">True</property>
+        <property name="fill">True</property>
+      </packing>
     </child>
   </template>
 
