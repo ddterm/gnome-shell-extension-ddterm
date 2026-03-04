@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-03 23:51+0000\n"
+"POT-Creation-Date: 2026-03-04 05:17+0000\n"
 "PO-Revision-Date: 2023-10-24 22:14+0000\n"
 "Last-Translator: Pavel Novák <pavelnov32@gmail.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/cs/>\n"
@@ -228,31 +228,27 @@ msgstr "Nechat otevřené po ukončení"
 msgid "Close"
 msgstr "Zavřít"
 
-#: ddterm/app/ui/search.ui:29
+#: ddterm/app/ui/search.ui:26
 msgid "Case Sensitive"
 msgstr "Rozlišování velikosti písmen"
 
-#: ddterm/app/ui/search.ui:42
+#: ddterm/app/ui/search.ui:39
 msgid "Match Whole Word"
 msgstr "Shoda celého slova"
 
-#: ddterm/app/ui/search.ui:55
+#: ddterm/app/ui/search.ui:52
 msgid "Regular Expression"
 msgstr "Běžné vyjádření"
 
-#: ddterm/app/ui/search.ui:82
-msgid "Close Search Bar"
-msgstr "Zavřít panel pro vyhledáváníí"
-
-#: ddterm/app/ui/search.ui:99
+#: ddterm/app/ui/search.ui:78
 msgid "Wrap Around"
 msgstr "Obtékat"
 
-#: ddterm/app/ui/search.ui:115 ddterm/pref/shortcuts.js:673
+#: ddterm/app/ui/search.ui:94 ddterm/pref/shortcuts.js:673
 msgid "Find Next"
 msgstr "Klávesové zkratky"
 
-#: ddterm/app/ui/search.ui:132 ddterm/pref/shortcuts.js:678
+#: ddterm/app/ui/search.ui:111 ddterm/pref/shortcuts.js:678
 msgid "Find Previous"
 msgstr "Najít předchozí"
 
@@ -1188,6 +1184,9 @@ msgstr ""
 #: ddterm/shell/panelicon.js:49
 msgid "Show"
 msgstr "Zobrazit"
+
+#~ msgid "Close Search Bar"
+#~ msgstr "Zavřít panel pro vyhledáváníí"
 
 #~ msgid "Ellipsize Tab Labels"
 #~ msgstr "Zkrátit názvy panelů"

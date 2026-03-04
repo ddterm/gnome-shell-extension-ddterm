@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-03 23:51+0000\n"
+"POT-Creation-Date: 2026-03-04 05:17+0000\n"
 "PO-Revision-Date: 2026-02-16 13:09+0000\n"
 "Last-Translator: 스이미 <soo.wim3@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/ko/>\n"
@@ -229,31 +229,27 @@ msgstr "종료 후 창 유지"
 msgid "Close"
 msgstr "닫기"
 
-#: ddterm/app/ui/search.ui:29
+#: ddterm/app/ui/search.ui:26
 msgid "Case Sensitive"
 msgstr "대소문자 구분"
 
-#: ddterm/app/ui/search.ui:42
+#: ddterm/app/ui/search.ui:39
 msgid "Match Whole Word"
 msgstr "단어 단위로 찾기"
 
-#: ddterm/app/ui/search.ui:55
+#: ddterm/app/ui/search.ui:52
 msgid "Regular Expression"
 msgstr "정규 표현식"
 
-#: ddterm/app/ui/search.ui:82
-msgid "Close Search Bar"
-msgstr "검색창 닫기"
-
-#: ddterm/app/ui/search.ui:99
+#: ddterm/app/ui/search.ui:78
 msgid "Wrap Around"
 msgstr "되돌아 검색"
 
-#: ddterm/app/ui/search.ui:115 ddterm/pref/shortcuts.js:673
+#: ddterm/app/ui/search.ui:94 ddterm/pref/shortcuts.js:673
 msgid "Find Next"
 msgstr "다음 찾기"
 
-#: ddterm/app/ui/search.ui:132 ddterm/pref/shortcuts.js:678
+#: ddterm/app/ui/search.ui:111 ddterm/pref/shortcuts.js:678
 msgid "Find Previous"
 msgstr "이전 찾기"
 
@@ -1174,6 +1170,9 @@ msgstr "설치"
 #: ddterm/shell/panelicon.js:49
 msgid "Show"
 msgstr "표시"
+
+#~ msgid "Close Search Bar"
+#~ msgstr "검색창 닫기"
 
 #~ msgid "Ellipsize Tab Labels"
 #~ msgstr "탭 제목 줄이기"

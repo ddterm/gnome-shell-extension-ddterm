@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-03 23:51+0000\n"
+"POT-Creation-Date: 2026-03-04 05:17+0000\n"
 "PO-Revision-Date: 2026-02-05 23:28+0000\n"
 "Last-Translator: Aleksandr Mezin <mezin.alexander@gmail.com>\n"
 "Language-Team: Greek <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/el/>\n"
@@ -240,31 +240,27 @@ msgstr "Μείνε ανοικτό μετά την έξοδο"
 msgid "Close"
 msgstr "Κλείσιμο"
 
-#: ddterm/app/ui/search.ui:29
+#: ddterm/app/ui/search.ui:26
 msgid "Case Sensitive"
 msgstr "Πεζά-Κεφαλαία"
 
-#: ddterm/app/ui/search.ui:42
+#: ddterm/app/ui/search.ui:39
 msgid "Match Whole Word"
 msgstr "Ταίριαξε με ολόκληρη τη λέξη"
 
-#: ddterm/app/ui/search.ui:55
+#: ddterm/app/ui/search.ui:52
 msgid "Regular Expression"
 msgstr ""
 
-#: ddterm/app/ui/search.ui:82
-msgid "Close Search Bar"
-msgstr "Κλείσιμο Αναζήτησης"
-
-#: ddterm/app/ui/search.ui:99
+#: ddterm/app/ui/search.ui:78
 msgid "Wrap Around"
 msgstr ""
 
-#: ddterm/app/ui/search.ui:115 ddterm/pref/shortcuts.js:673
+#: ddterm/app/ui/search.ui:94 ddterm/pref/shortcuts.js:673
 msgid "Find Next"
 msgstr "Μετακίνηση στο επόμενο"
 
-#: ddterm/app/ui/search.ui:132 ddterm/pref/shortcuts.js:678
+#: ddterm/app/ui/search.ui:111 ddterm/pref/shortcuts.js:678
 msgid "Find Previous"
 msgstr "Μετακίνηση στο επόμενο"
 
@@ -1205,6 +1201,9 @@ msgstr ""
 #: ddterm/shell/panelicon.js:49
 msgid "Show"
 msgstr "Εμφάνιση"
+
+#~ msgid "Close Search Bar"
+#~ msgstr "Κλείσιμο Αναζήτησης"
 
 #~ msgid "Start"
 #~ msgstr "Αρχή"

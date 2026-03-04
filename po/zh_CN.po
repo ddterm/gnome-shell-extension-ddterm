@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-03 23:51+0000\n"
+"POT-Creation-Date: 2026-03-04 05:17+0000\n"
 "PO-Revision-Date: 2026-03-03 13:09+0000\n"
 "Last-Translator: yuh <yuhldr@qq.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/zh_Hans/>\n"
@@ -231,31 +231,27 @@ msgstr "退出后保持打开"
 msgid "Close"
 msgstr "关闭"
 
-#: ddterm/app/ui/search.ui:29
+#: ddterm/app/ui/search.ui:26
 msgid "Case Sensitive"
 msgstr "区分大小写的"
 
-#: ddterm/app/ui/search.ui:42
+#: ddterm/app/ui/search.ui:39
 msgid "Match Whole Word"
 msgstr "匹配整个单词"
 
-#: ddterm/app/ui/search.ui:55
+#: ddterm/app/ui/search.ui:52
 msgid "Regular Expression"
 msgstr "正则表达式"
 
-#: ddterm/app/ui/search.ui:82
-msgid "Close Search Bar"
-msgstr "关闭搜索栏"
-
-#: ddterm/app/ui/search.ui:99
+#: ddterm/app/ui/search.ui:78
 msgid "Wrap Around"
 msgstr "回到文档头部继续搜索"
 
-#: ddterm/app/ui/search.ui:115 ddterm/pref/shortcuts.js:673
+#: ddterm/app/ui/search.ui:94 ddterm/pref/shortcuts.js:673
 msgid "Find Next"
 msgstr "查找下一个"
 
-#: ddterm/app/ui/search.ui:132 ddterm/pref/shortcuts.js:678
+#: ddterm/app/ui/search.ui:111 ddterm/pref/shortcuts.js:678
 msgid "Find Previous"
 msgstr "找到前一个"
 
@@ -1174,6 +1170,9 @@ msgstr "安装"
 #: ddterm/shell/panelicon.js:49
 msgid "Show"
 msgstr "显示"
+
+#~ msgid "Close Search Bar"
+#~ msgstr "关闭搜索栏"
 
 #~ msgid "Ellipsize Tab Labels"
 #~ msgstr "缩写标签页文本"

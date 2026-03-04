@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-03 23:51+0000\n"
+"POT-Creation-Date: 2026-03-04 05:17+0000\n"
 "PO-Revision-Date: 2025-11-16 22:26+0100\n"
 "Last-Translator: Philipp Kiemle <l10n.daphipz@fastmail.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/de/>\n"
@@ -233,31 +233,27 @@ msgstr "Nach dem Beenden geöffnet lassen"
 msgid "Close"
 msgstr "Schließen"
 
-#: ddterm/app/ui/search.ui:29
+#: ddterm/app/ui/search.ui:26
 msgid "Case Sensitive"
 msgstr "Groß- und Kleinschreibung beachten"
 
-#: ddterm/app/ui/search.ui:42
+#: ddterm/app/ui/search.ui:39
 msgid "Match Whole Word"
 msgstr "Ganzes Wort"
 
-#: ddterm/app/ui/search.ui:55
+#: ddterm/app/ui/search.ui:52
 msgid "Regular Expression"
 msgstr "Regulärer Ausdruck"
 
-#: ddterm/app/ui/search.ui:82
-msgid "Close Search Bar"
-msgstr "Suchleiste schließen"
-
-#: ddterm/app/ui/search.ui:99
+#: ddterm/app/ui/search.ui:78
 msgid "Wrap Around"
 msgstr "Am Ende der Seite zum Anfang springen"
 
-#: ddterm/app/ui/search.ui:115 ddterm/pref/shortcuts.js:673
+#: ddterm/app/ui/search.ui:94 ddterm/pref/shortcuts.js:673
 msgid "Find Next"
 msgstr "Finde nächstes"
 
-#: ddterm/app/ui/search.ui:132 ddterm/pref/shortcuts.js:678
+#: ddterm/app/ui/search.ui:111 ddterm/pref/shortcuts.js:678
 msgid "Find Previous"
 msgstr "Finde vorheriges"
 
@@ -1179,6 +1175,9 @@ msgstr "Installieren"
 #: ddterm/shell/panelicon.js:49
 msgid "Show"
 msgstr "Anzeigen"
+
+#~ msgid "Close Search Bar"
+#~ msgstr "Suchleiste schließen"
 
 #~ msgid "Ellipsize Tab Labels"
 #~ msgstr "Reitertitel kürzen"
