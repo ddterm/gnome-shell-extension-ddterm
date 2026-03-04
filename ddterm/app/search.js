@@ -225,7 +225,12 @@ export class SearchBar extends Handy.SearchBar {
             GObject.BindingFlags.BIDIRECTIONAL | GObject.BindingFlags.SYNC_CREATE
         );
 
-        this.#pattern.connect('notify::error', () => {
+        this.connect_entry(this._entry);
+        this.connect('realize', this.#realize.bind(this));
+    }
+
+    #realize() {
+        const handler = this.#pattern.connect('notify::error', () => {
             if (this.#pattern.error) {
                 this._entry.get_style_context().add_class('error');
                 this._error_label.label = this.pattern.error.message;
@@ -236,7 +241,10 @@ export class SearchBar extends Handy.SearchBar {
             }
         });
 
-        this.connect_entry(this._entry);
+        const unrealize_handler = this.connect('unrealize', () => {
+            this.disconnect(unrealize_handler);
+            this.#pattern.disconnect(handler);
+        });
     }
 
     get pattern() {
