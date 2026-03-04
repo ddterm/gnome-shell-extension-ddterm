@@ -6,15 +6,6 @@ import GObject from 'gi://GObject';
 import Vte from 'gi://Vte';
 
 import {
-    PCRE2_UTF,
-    PCRE2_NO_UTF_CHECK,
-    PCRE2_UCP,
-    PCRE2_MULTILINE,
-    PCRE2_JIT_COMPLETE,
-    PCRE2_JIT_PARTIAL_SOFT,
-} from './pcre2.js';
-
-import {
     REGEX_URL_AS_IS,
     REGEX_URL_FILE,
     REGEX_URL_HTTP,
@@ -23,50 +14,28 @@ import {
     REGEX_NEWS_MAN,
 } from './urldetect_patterns.js';
 
-function jit_regex(regex) {
-    try {
-        regex.jit(PCRE2_JIT_COMPLETE);
-    } catch (ex) {
-        logError(ex, `Can't JIT compile ${regex} (PCRE2_JIT_COMPLETE)`);
-        return;
-    }
-
-    try {
-        regex.jit(PCRE2_JIT_PARTIAL_SOFT);
-    } catch (ex) {
-        logError(ex, `Can't JIT compile ${regex} (PCRE2_JIT_PARTIAL_SOFT)`);
-    }
-}
-
-const BASE_REGEX_FLAGS =
-    PCRE2_UTF | PCRE2_NO_UTF_CHECK | PCRE2_UCP | PCRE2_MULTILINE;
-
-function compile_regex(regex) {
-    const compiled = Vte.Regex.new_for_match(regex, -1, BASE_REGEX_FLAGS);
-    jit_regex(compiled);
-    return compiled;
-}
+import { regex_for_match } from './regex.js';
 
 const URL_REGEX = {
     'detect-urls-as-is': {
-        regex: compile_regex(REGEX_URL_AS_IS),
+        regex: regex_for_match(REGEX_URL_AS_IS),
     },
     'detect-urls-file': {
-        regex: compile_regex(REGEX_URL_FILE),
+        regex: regex_for_match(REGEX_URL_FILE),
     },
     'detect-urls-http': {
-        regex: compile_regex(REGEX_URL_HTTP),
+        regex: regex_for_match(REGEX_URL_HTTP),
         prefix: 'http://',
     },
     'detect-urls-voip': {
-        regex: compile_regex(REGEX_URL_VOIP),
+        regex: regex_for_match(REGEX_URL_VOIP),
     },
     'detect-urls-email': {
-        regex: compile_regex(REGEX_EMAIL),
+        regex: regex_for_match(REGEX_EMAIL),
         prefix: 'mailto:',
     },
     'detect-urls-news-man': {
-        regex: compile_regex(REGEX_NEWS_MAN),
+        regex: regex_for_match(REGEX_NEWS_MAN),
     },
 };
 

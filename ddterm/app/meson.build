@@ -10,7 +10,7 @@ app_js_src_files = files(
   'init.js',
   'meta.js',
   'notebook.js',
-  'pcre2.js',
+  'regex.js',
   'search.js',
   'tablabel.js',
   'tcgetpgrp.js',

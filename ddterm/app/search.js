@@ -7,55 +7,7 @@ import GObject from 'gi://GObject';
 import Gtk from 'gi://Gtk';
 import Vte from 'gi://Vte';
 
-import {
-    PCRE2_UTF,
-    PCRE2_NO_UTF_CHECK,
-    PCRE2_UCP,
-    PCRE2_MULTILINE,
-    PCRE2_JIT_COMPLETE,
-    PCRE2_JIT_PARTIAL_SOFT,
-    PCRE2_CASELESS,
-} from './pcre2.js';
-
-const BASE_REGEX_FLAGS = PCRE2_UTF | PCRE2_NO_UTF_CHECK | PCRE2_UCP | PCRE2_MULTILINE;
-
-function jit_regex(regex) {
-    try {
-        regex.jit(PCRE2_JIT_COMPLETE);
-    } catch (ex) {
-        logError(ex, `Can't JIT compile ${regex} (PCRE2_JIT_COMPLETE)`);
-        return;
-    }
-
-    try {
-        regex.jit(PCRE2_JIT_PARTIAL_SOFT);
-    } catch (ex) {
-        logError(ex, `Can't JIT compile ${regex} (PCRE2_JIT_PARTIAL_SOFT)`);
-    }
-}
-
-function escape_regex(string) {
-    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-}
-
-function compile_regex(pattern, use_regex, whole_word, case_sensitive) {
-    if (!pattern)
-        return null;
-
-    if (!use_regex)
-        pattern = escape_regex(pattern);
-
-    if (whole_word)
-        pattern = `\\b${pattern}\\b`;
-
-    let search_flags = BASE_REGEX_FLAGS;
-    if (!case_sensitive)
-        search_flags |= PCRE2_CASELESS;
-
-    const regex = Vte.Regex.new_for_search(pattern, -1, search_flags);
-    jit_regex(regex);
-    return regex;
-}
+import { regex_for_search } from './regex.js';
 
 const REGEX_OUTDATED = Symbol('regex-outdated');
 
@@ -135,7 +87,7 @@ class SearchPattern extends GObject.Object {
             return;
 
         try {
-            this.#regex = compile_regex(
+            this.#regex = regex_for_search(
                 this.text,
                 this.use_regex,
                 this.whole_word,
