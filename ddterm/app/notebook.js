@@ -217,18 +217,27 @@ export class Notebook extends Gtk.Box {
             parameter_type: new GLib.VariantType('s'),
             state: GLib.Variant.new_string(this.split_layout),
         });
-        this.connect('notify::split-layout', () => {
-            split_layout_action.state = GLib.Variant.new_string(this.split_layout);
-        });
-        split_layout_action.connect('change-state', (_, value) => {
-            this.emit('split-layout', this.current_child, value.unpack());
-        });
         split_layout_action.set_state_hint(new GLib.Variant('as', [
             'no-split',
             'horizontal-split',
             'vertical-split',
         ]));
         actions.add_action(split_layout_action);
+
+        this.connect('realize', () => {
+            const handler = split_layout_action.connect('change-state', (_, value) => {
+                this.emit('split-layout', this.current_child, value.unpack());
+            });
+
+            const unrealize_handler = this.connect('unrealize', () => {
+                this.disconnect(unrealize_handler);
+                split_layout_action.disconnect(handler);
+            });
+        });
+
+        this.connect('notify::split-layout', () => {
+            split_layout_action.state = GLib.Variant.new_string(this.split_layout);
+        });
 
         this.insert_action_group('notebook', actions);
 

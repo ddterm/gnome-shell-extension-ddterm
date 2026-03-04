@@ -205,18 +205,27 @@ export class TerminalPage extends Gtk.Box {
             parameter_type: new GLib.VariantType('s'),
             state: GLib.Variant.new_string(this.split_layout),
         });
-        this.connect('notify::split-layout', () => {
-            split_layout_action.state = GLib.Variant.new_string(this.split_layout);
-        });
-        split_layout_action.connect('change-state', (_, value) => {
-            this.emit('split-layout-request', value.unpack());
-        });
         split_layout_action.set_state_hint(new GLib.Variant('as', [
             'no-split',
             'horizontal-split',
             'vertical-split',
         ]));
         page_actions.add_action(split_layout_action);
+
+        this.connect('realize', () => {
+            const handler = split_layout_action.connect('change-state', (_, value) => {
+                this.emit('split-layout-request', value.unpack());
+            });
+
+            const unrealize_handler = this.connect('unrealize', () => {
+                this.disconnect(unrealize_handler);
+                split_layout_action.disconnect(handler);
+            });
+        });
+
+        this.connect('notify::split-layout', () => {
+            split_layout_action.state = GLib.Variant.new_string(this.split_layout);
+        });
 
         this.connect('notify::use-custom-title', () => {
             this.#update_title_binding();
@@ -233,21 +242,32 @@ export class TerminalPage extends Gtk.Box {
             'state': GLib.Variant.new_boolean(this.use_custom_title),
             'parameter-type': GLib.VariantType.new('b'),
         });
-        use_custom_title_action.connect('change-state', (_, value) => {
-            this.use_custom_title = value.get_boolean();
+        page_actions.add_action(use_custom_title_action);
+
+        this.connect('realize', () => {
+            const activate_handler = use_custom_title_action.connect('activate', (_, param) => {
+                use_custom_title_action.change_state(param);
+
+                if (param.get_boolean())
+                    this.#edit_title();
+            });
+
+            const state_handler = use_custom_title_action.connect('change-state', (_, value) => {
+                this.use_custom_title = value.get_boolean();
+            });
+
+            const unrealize_handler = this.connect('unrealize', () => {
+                this.disconnect(unrealize_handler);
+                use_custom_title_action.disconnect(activate_handler);
+                use_custom_title_action.disconnect(state_handler);
+            });
         });
+
         this.connect('notify::use-custom-title', () => {
             use_custom_title_action.set_state(
                 GLib.Variant.new_boolean(this.use_custom_title)
             );
         });
-        use_custom_title_action.connect('activate', (_, param) => {
-            use_custom_title_action.change_state(param);
-
-            if (param.get_boolean())
-                this.#edit_title();
-        });
-        page_actions.add_action(use_custom_title_action);
 
         this.insert_action_group('page', page_actions);
 
