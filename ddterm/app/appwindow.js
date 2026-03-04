@@ -48,13 +48,6 @@ export class AppWindow extends Gtk.ApplicationWindow {
     ];
 
     static [GObject.properties] = {
-        'hide-on-close': GObject.ParamSpec.boolean(
-            'hide-on-close',
-            null,
-            null,
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
-            false
-        ),
         'terminal-settings': GObject.ParamSpec.object(
             'terminal-settings',
             null,
@@ -152,10 +145,7 @@ export class AppWindow extends Gtk.ApplicationWindow {
     #active_notebook = null;
 
     constructor(params) {
-        super({
-            window_position: Gtk.WindowPosition.CENTER,
-            ...params,
-        });
+        super(params);
 
         for (const name of ACTIONS)
             this.add_action(this[`_${name}`]);
@@ -181,6 +171,9 @@ export class AppWindow extends Gtk.ApplicationWindow {
         this._drag_gesture_west.edge = Gdk.WindowEdge.WEST;
         this._resize_box_west.cursor = resize_ew;
 
+        this.connect('notify::focus-widget', this.#update_active_notebook.bind(this));
+        this.#update_active_notebook();
+
         this.connect('notify::position-setting', this.#update_resize_handles.bind(this));
         this.connect('notify::resize-handle', this.#update_resize_handles.bind(this));
         this.#update_resize_handles();
@@ -198,28 +191,6 @@ export class AppWindow extends Gtk.ApplicationWindow {
         });
 
         this.#setup_size_sync();
-    }
-
-    get hide_on_close() {
-        return Boolean(this._hide_on_close_handler);
-    }
-
-    set hide_on_close(enable) {
-        if (enable === this.hide_on_close)
-            return;
-
-        if (this._hide_on_close_handler)
-            this.disconnect(this._hide_on_close_handler);
-
-        this._hide_on_close_handler = enable ? this.connect('delete-event', () => {
-            if (this.is_empty)
-                return false;
-
-            this.hide();
-            return true;
-        }) : null;
-
-        this.notify('hide-on-close');
     }
 
     #setup_size_sync() {
@@ -254,10 +225,6 @@ export class AppWindow extends Gtk.ApplicationWindow {
         this.#sync_size_with_extension();
     }
 
-    _setup_widget_cursor(widget) {
-        widget.window.cursor = widget.cursor;
-    }
-
     _notebook_transfer_page(source, page) {
         const dest = source === this.notebook1 ? this.notebook2 : this.notebook1;
 
@@ -270,7 +237,7 @@ export class AppWindow extends Gtk.ApplicationWindow {
         }
     }
 
-    _paned_focus_child() {
+    #update_active_notebook() {
         const active = this.paned.get_focus_child();
 
         if (this.#active_notebook === active)

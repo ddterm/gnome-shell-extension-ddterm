@@ -285,8 +285,6 @@ export class Application extends Adw.Application {
     }
 
     #startup() {
-        Adw.init();
-
         const shutdown = [];
 
         const shutdown_handler = this.connect('shutdown', () => {
@@ -368,16 +366,16 @@ export class Application extends Adw.Application {
             GLib.Uri.resolve_relative(import.meta.url, 'style.css', GLib.UriFlags.NONE)
         ));
 
-        const screen = Gdk.Screen.get_default();
+        const display = Gdk.Display.get_default();
 
-        Gtk.StyleContext.add_provider_for_screen(
-            screen,
+        Gtk.StyleContext.add_provider_for_display(
+            display,
             css_provider,
             Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
         );
 
         shutdown.push(
-            Gtk.StyleContext.remove_provider_for_screen.bind(globalThis, screen, css_provider)
+            Gtk.StyleContext.remove_provider_for_display.bind(globalThis, display, css_provider)
         );
 
         this.#terminal_settings = new TerminalSettings();
@@ -450,7 +448,7 @@ export class Application extends Adw.Application {
         for (const [key, action] of Object.entries(shortcut_actions))
             this.#bind_accel(action, key);
 
-        const icon_theme = Gtk.IconTheme.get_default();
+        const icon_theme = Gtk.IconTheme.get_for_display(display);
         const icon_search_path = icon_theme.get_search_path();
 
         for (const url of ['icons', '../../data']) {
@@ -820,10 +818,6 @@ export class Application extends Adw.Application {
             keys.push('Escape');
 
         this.set_accels_for_action(action, keys);
-    }
-
-    get style_manager() {
-        return Adw.StyleManager.get_default();
     }
 
     #update_color_scheme() {
