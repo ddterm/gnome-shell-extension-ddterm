@@ -37,9 +37,13 @@ export class AppWindow extends Gtk.ApplicationWindow {
 
     static [Gtk.internalChildren] = [
         'resize_box_north',
+        'drag_gesture_north',
         'resize_box_south',
+        'drag_gesture_south',
         'resize_box_east',
+        'drag_gesture_east',
         'resize_box_west',
+        'drag_gesture_west',
         ...ACTIONS,
     ];
 
@@ -166,13 +170,13 @@ export class AppWindow extends Gtk.ApplicationWindow {
         const resize_ns = Gdk.Cursor.new_from_name(this.get_display(), 'ns-resize');
         const resize_ew = Gdk.Cursor.new_from_name(this.get_display(), 'ew-resize');
 
-        this._resize_box_north.edge = Gdk.WindowEdge.NORTH;
+        this._drag_gesture_north.edge = Gdk.WindowEdge.NORTH;
         this._resize_box_north.cursor = resize_ns;
-        this._resize_box_south.edge = Gdk.WindowEdge.SOUTH;
+        this._drag_gesture_south.edge = Gdk.WindowEdge.SOUTH;
         this._resize_box_south.cursor = resize_ns;
-        this._resize_box_east.edge = Gdk.WindowEdge.EAST;
+        this._drag_gesture_east.edge = Gdk.WindowEdge.EAST;
         this._resize_box_east.cursor = resize_ew;
-        this._resize_box_west.edge = Gdk.WindowEdge.WEST;
+        this._drag_gesture_west.edge = Gdk.WindowEdge.WEST;
         this._resize_box_west.cursor = resize_ew;
 
         this.connect('notify::position-setting', this.#update_resize_handles.bind(this));
@@ -413,23 +417,26 @@ export class AppWindow extends Gtk.ApplicationWindow {
             this.notebook1.grab_focus();
     }
 
-    _resize_box_button_press(source, event) {
-        const [button_ok, button] = event.get_button();
-        if (!button_ok || button !== Gdk.BUTTON_PRIMARY)
-            return;
+    _resize_drag(gesture, sequence) {
+        const event = gesture.get_last_event(sequence);
 
         const [coords_ok, x_root, y_root] = event.get_root_coords();
-        if (!coords_ok)
+        if (!coords_ok) {
+            gesture.set_state(Gtk.EventSequenceState.DENIED);
             return;
+        }
 
         this.window.begin_resize_drag_for_device(
-            source.edge,
+            gesture.edge,
             event.get_device(),
-            button,
+            gesture.get_current_button(),
             x_root,
             y_root,
             event.get_time()
         );
+
+        gesture.set_state(Gtk.EventSequenceState.CLAIMED);
+        gesture.reset();
     }
 
     #update_visual() {
