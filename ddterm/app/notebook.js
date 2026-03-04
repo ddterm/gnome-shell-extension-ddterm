@@ -7,7 +7,7 @@ import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
 import Gtk from 'gi://Gtk';
-import Handy from 'gi://Handy';
+import Adw from 'gi://Adw';
 
 import { TerminalPage } from './terminalpage.js';
 import { TerminalSettings } from './terminalsettings.js';
@@ -669,7 +669,7 @@ class NotebookMenu extends Gio.MenuModel {
             null,
             null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-            Handy.TabView
+            Adw.TabView
         ),
     };
 
