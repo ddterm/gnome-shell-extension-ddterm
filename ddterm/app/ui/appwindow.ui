@@ -53,7 +53,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
           </object>
         </child>
         <child>
-          <object class="GtkEventBox" id="resize_box_north">
+          <object class="GtkBox" id="resize_box_north">
             <property name="visible">True</property>
             <style>
               <class name="background"/>
@@ -71,7 +71,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
           </object>
         </child>
         <child>
-          <object class="GtkEventBox" id="resize_box_south">
+          <object class="GtkBox" id="resize_box_south">
             <property name="visible">True</property>
             <style>
               <class name="background"/>
@@ -89,7 +89,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
           </object>
         </child>
         <child>
-          <object class="GtkEventBox" id="resize_box_west">
+          <object class="GtkBox" id="resize_box_west">
             <property name="visible">True</property>
             <style>
               <class name="background"/>
@@ -108,7 +108,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
           </object>
         </child>
         <child>
-          <object class="GtkEventBox" id="resize_box_east">
+          <object class="GtkBox" id="resize_box_east">
             <property name="visible">True</property>
             <style>
               <class name="background"/>
