@@ -367,10 +367,10 @@ export class TerminalPage extends Gtk.Box {
         return this.terminal.spawn(this.command, timeout, callback_wrapper);
     }
 
-    _open_hyperlink() {
+    _open_hyperlink(source, param) {
         Gtk.show_uri_on_window(
             this.get_ancestor(Gtk.Window),
-            this.terminal.last_clicked_hyperlink,
+            param ?? this.terminal.last_clicked_hyperlink,
             Gdk.CURRENT_TIME
         );
     }
@@ -383,21 +383,6 @@ export class TerminalPage extends Gtk.Box {
     _copy_filename_action_activate() {
         const clipboard = this.terminal.get_clipboard(null);
         clipboard.set_text(this.terminal.last_clicked_filename, -1);
-    }
-
-    _terminal_button_press_early(terminal, event) {
-        const state = event.get_state()[1];
-
-        if (state & Gdk.ModifierType.CONTROL_MASK) {
-            const button = event.get_button()[1];
-
-            if ([Gdk.BUTTON_PRIMARY, Gdk.BUTTON_MIDDLE].includes(button)) {
-                this._open_hyperlink();
-                return true;
-            }
-        }
-
-        return false;
     }
 
     _find_next() {

@@ -392,6 +392,12 @@ class TerminalBase extends Vte.Terminal {
         ),
     };
 
+    static [GObject.signals] = {
+        'open-hyperlink': {
+            param_types: [String],
+        },
+    };
+
     static {
         GObject.registerClass(this);
     }
@@ -456,10 +462,8 @@ class TerminalBase extends Vte.Terminal {
     }
 
     #realize() {
-        const handler = this.#gesture_single.connect(
-            'begin',
-            this.#update_clicked_hyperlink.bind(this)
-        );
+        const handler =
+            this.#gesture_single.connect('begin', this.#hyperlink_click.bind(this));
 
         const unrealize_handler = this.connect('unrealize', () => {
             this.disconnect(unrealize_handler);
@@ -701,8 +705,10 @@ class TerminalBase extends Vte.Terminal {
         return this.#clicked_filename;
     }
 
-    #update_clicked_hyperlink(gesture, sequence) {
+    #hyperlink_click(gesture, sequence) {
         const event = gesture.get_last_event(sequence);
+        const [, state] = event.get_state();
+
         let clicked_hyperlink = this.hyperlink_check_event(event);
 
         if (!clicked_hyperlink) {
@@ -717,8 +723,6 @@ class TerminalBase extends Vte.Terminal {
                     clicked_hyperlink = url;
             }
         }
-
-        gesture.set_state(Gtk.EventSequenceState.DENIED);
 
         let clicked_filename = null;
 
@@ -744,6 +748,20 @@ class TerminalBase extends Vte.Terminal {
         } finally {
             this.thaw_notify();
         }
+
+        if (clicked_hyperlink &&
+            (state & Gdk.ModifierType.CONTROL_MASK) &&
+            [Gdk.BUTTON_PRIMARY, Gdk.BUTTON_MIDDLE].includes(gesture.get_current_button())
+        ) {
+            gesture.set_state(Gtk.EventSequenceState.CLAIMED);
+            gesture.reset();
+
+            this.emit('open-hyperlink', clicked_hyperlink);
+
+            return;
+        }
+
+        gesture.set_state(Gtk.EventSequenceState.DENIED);
     }
 
     #setup_url_detect() {
