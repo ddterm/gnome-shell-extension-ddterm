@@ -219,29 +219,19 @@ SPDX-License-Identifier: GPL-3.0-or-later
         <property name="revealed" bind-source="DDTermTerminalPage" bind-property="banner-visible" bind-flags="sync-create|bidirectional"/>
         <property name="message-type" bind-source="DDTermTerminalPage" bind-property="banner-type" bind-flags="sync-create|bidirectional"/>
         <signal name="response" handler="_banner_response"/>
-        <child internal-child="content_area">
-          <object class="GtkBox">
-            <property name="visible">False</property>
-            <child>
-              <object class="GtkLabel" id="banner_label">
-                <property name="label" bind-source="DDTermTerminalPage" bind-property="banner-label" bind-flags="sync-create|bidirectional"/>
-              </object>
-            </child>
+        <child>
+          <object class="GtkLabel" id="banner_label">
+            <property name="label" bind-source="DDTermTerminalPage" bind-property="banner-label" bind-flags="sync-create|bidirectional"/>
           </object>
         </child>
-        <child internal-child="action_area">
-          <object class="GtkBox">
-            <property name="visible">False</property>
-            <child>
-              <object class="GtkButton" id="restart_button">
-                <property name="label" translatable="yes">Restart</property>
-              </object>
-            </child>
-            <child>
-              <object class="GtkButton" id="close_terminal_button">
-                <property name="label" translatable="yes">Close Terminal</property>
-              </object>
-            </child>
+        <child type="action">
+          <object class="GtkButton" id="restart_button">
+            <property name="label" translatable="yes">Restart</property>
+          </object>
+        </child>
+        <child type="action">
+          <object class="GtkButton" id="close_terminal_button">
+            <property name="label" translatable="yes">Close Terminal</property>
           </object>
         </child>
         <action-widgets>
