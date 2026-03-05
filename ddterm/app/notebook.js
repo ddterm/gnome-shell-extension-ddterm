@@ -530,12 +530,12 @@ export class Notebook extends Gtk.Box {
     #update_tab_pos() {
         switch (this.tab_pos) {
         case Gtk.PositionType.BOTTOM:
-            this.reorder_child(this._bar, -1);
+            this.reorder_child_after(this._bar, this.view);
             this._tab_switch_button.direction = Gtk.ArrowType.UP;
             break;
 
         case Gtk.PositionType.TOP:
-            this.reorder_child(this._bar, 0);
+            this.reorder_child_after(this._bar, null);
             this._tab_switch_button.direction = Gtk.ArrowType.DOWN;
             break;
 
