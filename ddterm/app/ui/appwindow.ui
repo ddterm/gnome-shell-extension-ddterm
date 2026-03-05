@@ -26,6 +26,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
               <object class="DDTermNotebook" id="notebook1">
                 <property name="hexpand">True</property>
                 <property name="vexpand">True</property>
+                <property name="visible">False</property>
                 <property name="split-layout" bind-source="DDTermAppWindow" bind-property="split-layout" bind-flags="sync-create"/>
                 <signal name="notify::visible" handler="_notebook_notify_visible"/>
                 <signal name="notify::n-pages" handler="_notebook_notify_n_pages"/>
@@ -38,6 +39,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
               <object class="DDTermNotebook" id="notebook2">
                 <property name="hexpand">True</property>
                 <property name="vexpand">True</property>
+                <property name="visible">False</property>
                 <property name="split-layout" bind-source="DDTermAppWindow" bind-property="split-layout" bind-flags="sync-create"/>
                 <signal name="notify::visible" handler="_notebook_notify_visible"/>
                 <signal name="notify::n-pages" handler="_notebook_notify_n_pages"/>
