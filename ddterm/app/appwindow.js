@@ -178,9 +178,6 @@ export class AppWindow extends Gtk.ApplicationWindow {
         this.connect('notify::resize-handle', this.#update_resize_handles.bind(this));
         this.#update_resize_handles();
 
-        this.connect('notify::screen', this.#update_visual.bind(this));
-        this.#update_visual();
-
         this.connect('notify::tab-show-shortcuts', this.#update_show_shortcuts.bind(this));
         this.connect('notify::active-notebook', this.#update_show_shortcuts.bind(this));
         this.#update_show_shortcuts();
@@ -413,13 +410,6 @@ export class AppWindow extends Gtk.ApplicationWindow {
 
         gesture.set_state(Gtk.EventSequenceState.CLAIMED);
         gesture.reset();
-    }
-
-    #update_visual() {
-        const visual = this.get_screen()?.get_rgba_visual();
-
-        if (visual)
-            this.set_visual(visual);
     }
 
     #sync_size_with_extension() {
