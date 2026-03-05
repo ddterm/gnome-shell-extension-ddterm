@@ -450,10 +450,11 @@ class TerminalBase extends Vte.Terminal {
         this.#setup_url_detect();
 
         this.#gesture_single = new Gtk.GestureSingle({
-            widget: this,
             button: 0,
             propagation_phase: Gtk.PropagationPhase.CAPTURE,
         });
+
+        this.add_controller(this.#gesture_single);
 
         this.connect('realize', this.#realize.bind(this));
     }
