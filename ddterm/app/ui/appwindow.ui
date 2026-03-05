@@ -64,6 +64,11 @@ SPDX-License-Identifier: GPL-3.0-or-later
                 <property name="margin-bottom">2</property>
               </object>
             </child>
+            <child>
+              <object class="GtkGestureSingle" id="drag_gesture_north">
+                <signal name="begin" handler="_resize_drag"/>
+              </object>
+            </child>
             <layout>
               <property name="column">1</property>
               <property name="row">0</property>
@@ -80,6 +85,11 @@ SPDX-License-Identifier: GPL-3.0-or-later
               <object class="GtkSeparator">
                 <property name="margin-top">2</property>
                 <property name="margin-bottom">2</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkGestureSingle" id="drag_gesture_south">
+                <signal name="begin" handler="_resize_drag"/>
               </object>
             </child>
             <layout>
@@ -101,6 +111,11 @@ SPDX-License-Identifier: GPL-3.0-or-later
                 <property name="margin-end">2</property>
               </object>
             </child>
+            <child>
+              <object class="GtkGestureSingle" id="drag_gesture_west">
+                <signal name="begin" handler="_resize_drag"/>
+              </object>
+            </child>
             <layout>
               <property name="column">0</property>
               <property name="row">1</property>
@@ -120,6 +135,11 @@ SPDX-License-Identifier: GPL-3.0-or-later
                 <property name="margin-end">2</property>
               </object>
             </child>
+            <child>
+              <object class="GtkGestureSingle" id="drag_gesture_east">
+                <signal name="begin" handler="_resize_drag"/>
+              </object>
+            </child>
             <layout>
               <property name="column">2</property>
               <property name="row">1</property>
@@ -129,26 +149,6 @@ SPDX-License-Identifier: GPL-3.0-or-later
       </object>
     </child>
   </template>
-
-  <object class="GtkGestureSingle" id="drag_gesture_north">
-    <property name="widget">resize_box_north</property>
-    <signal name="begin" handler="_resize_drag"/>
-  </object>
-
-  <object class="GtkGestureSingle" id="drag_gesture_south">
-    <property name="widget">resize_box_south</property>
-    <signal name="begin" handler="_resize_drag"/>
-  </object>
-
-  <object class="GtkGestureSingle" id="drag_gesture_east">
-    <property name="widget">resize_box_east</property>
-    <signal name="begin" handler="_resize_drag"/>
-  </object>
-
-  <object class="GtkGestureSingle" id="drag_gesture_west">
-    <property name="widget">resize_box_west</property>
-    <signal name="begin" handler="_resize_drag"/>
-  </object>
 
   <object class="GSimpleAction" id="toggle_action">
     <property name="name">toggle</property>
