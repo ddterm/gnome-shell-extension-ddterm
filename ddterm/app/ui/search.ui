@@ -16,6 +16,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
     <child>
       <object class="GtkBox" id="layout">
         <property name="spacing">5</property>
+        <property name="hexpand">True</property>
         <child>
           <object class="GtkToggleButton" id="case_sensitive_button">
             <property name="focus_on_click">False</property>
@@ -56,6 +57,19 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <signal name="next-match" handler="_find_next"/>
             <signal name="previous-match" handler="_find_prev"/>
             <signal name="search-changed" handler="_update_pattern"/>
+
+            <child>
+              <object class="GtkPopover" id="error_popover">
+                <property name="autohide">False</property>
+                <property name="child">
+                  <object class="GtkLabel" id="error_label">
+                    <style>
+                      <class name="error"/>
+                    </style>
+                  </object>
+                </property>
+              </object>
+            </child>
           </object>
         </child>
         <child>
@@ -94,23 +108,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
           </object>
         </child>
       </object>
-      <packing>
-        <property name="expand">True</property>
-        <property name="fill">True</property>
-      </packing>
     </child>
   </template>
 
-  <object class="GtkPopover" id="error_popover">
-    <property name="relative_to">entry</property>
-    <property name="autohide">False</property>
-    <property name="border_width">5</property>
-    <property name="child">
-      <object class="GtkLabel" id="error_label">
-        <style>
-          <class name="error"/>
-        </style>
-      </object>
-    </property>
-  </object>
 </interface>
