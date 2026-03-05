@@ -705,12 +705,13 @@ class TerminalBase extends Vte.Terminal {
 
     #hyperlink_click(gesture, sequence) {
         const event = gesture.get_last_event(sequence);
-        const [, state] = event.get_state();
+        const state = event.get_modifier_state();
+        const [, x, y] = gesture.get_point(sequence);
 
-        let clicked_hyperlink = this.hyperlink_check_event(event);
+        let clicked_hyperlink = this.check_hyperlink_at(x, y);
 
         if (!clicked_hyperlink) {
-            const [url, tag] = this.match_check_event(event);
+            const [url, tag] = this.check_match_at(x, y);
 
             if (url && tag !== null && this.#url_prefix.has(tag)) {
                 const prefix = this.#url_prefix.get(tag);
