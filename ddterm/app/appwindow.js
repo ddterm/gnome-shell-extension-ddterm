@@ -159,8 +159,8 @@ export class AppWindow extends Gtk.ApplicationWindow {
             );
         }
 
-        const resize_ns = Gdk.Cursor.new_from_name(this.get_display(), 'ns-resize');
-        const resize_ew = Gdk.Cursor.new_from_name(this.get_display(), 'ew-resize');
+        const resize_ns = Gdk.Cursor.new_from_name('ns-resize', null);
+        const resize_ew = Gdk.Cursor.new_from_name('ew-resize', null);
 
         this._drag_gesture_north.edge = Gdk.WindowEdge.NORTH;
         this._resize_box_north.cursor = resize_ns;
