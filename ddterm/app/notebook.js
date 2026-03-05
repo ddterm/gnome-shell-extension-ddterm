@@ -241,7 +241,7 @@ export class Notebook extends Gtk.Box {
 
         this.insert_action_group('notebook', actions);
 
-        this.connect('hierarchy-changed', this.#update_root.bind(this));
+        this.connect('notify::root', this.#update_root.bind(this));
         this.connect('notify::tab-show-shortcuts', this.#update_tab_switch_accels.bind(this));
         this.#update_root();
 
@@ -483,7 +483,7 @@ export class Notebook extends Gtk.Box {
             return '';
 
         const accels =
-            this.get_toplevel().application?.get_accels_for_action(`notebook.switch-to-tab(${i})`);
+            this.get_root().application?.get_accels_for_action(`notebook.switch-to-tab(${i})`);
 
         for (const accel of accels || []) {
             try {
@@ -507,7 +507,7 @@ export class Notebook extends Gtk.Box {
     }
 
     #update_root() {
-        const root = this.get_toplevel();
+        const root = this.get_root();
 
         if (root === this._root)
             return;
