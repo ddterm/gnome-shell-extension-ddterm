@@ -488,9 +488,9 @@ export class Notebook extends Gtk.Box {
 
         for (const accel of accels || []) {
             try {
-                const [key, mods] = Gtk.accelerator_parse(accel);
+                const [ok, key, mods] = Gtk.accelerator_parse(accel);
 
-                if (!key && !mods)
+                if (!ok)
                     continue;
 
                 const label = Gtk.accelerator_get_label(key, mods);
