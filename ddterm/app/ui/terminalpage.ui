@@ -235,13 +235,11 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <child>
               <object class="GtkButton" id="restart_button">
                 <property name="label" translatable="yes">Restart</property>
-                <property name="can-default">True</property>
               </object>
             </child>
             <child>
               <object class="GtkButton" id="close_terminal_button">
                 <property name="label" translatable="yes">Close Terminal</property>
-                <property name="can-default">True</property>
               </object>
             </child>
           </object>
