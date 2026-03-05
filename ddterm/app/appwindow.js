@@ -162,13 +162,13 @@ export class AppWindow extends Gtk.ApplicationWindow {
         const resize_ns = Gdk.Cursor.new_from_name('ns-resize', null);
         const resize_ew = Gdk.Cursor.new_from_name('ew-resize', null);
 
-        this._drag_gesture_north.edge = Gdk.WindowEdge.NORTH;
+        this._drag_gesture_north.edge = Gdk.SurfaceEdge.NORTH;
         this._resize_box_north.cursor = resize_ns;
-        this._drag_gesture_south.edge = Gdk.WindowEdge.SOUTH;
+        this._drag_gesture_south.edge = Gdk.SurfaceEdge.SOUTH;
         this._resize_box_south.cursor = resize_ns;
-        this._drag_gesture_east.edge = Gdk.WindowEdge.EAST;
+        this._drag_gesture_east.edge = Gdk.SurfaceEdge.EAST;
         this._resize_box_east.cursor = resize_ew;
-        this._drag_gesture_west.edge = Gdk.WindowEdge.WEST;
+        this._drag_gesture_west.edge = Gdk.SurfaceEdge.WEST;
         this._resize_box_west.cursor = resize_ew;
 
         this.connect('notify::focus-widget', this.#update_active_notebook.bind(this));
@@ -396,18 +396,18 @@ export class AppWindow extends Gtk.ApplicationWindow {
     _resize_drag(gesture, sequence) {
         const event = gesture.get_last_event(sequence);
 
-        const [coords_ok, x_root, y_root] = event.get_root_coords();
+        const [coords_ok, x, y] = event.get_position();
         if (!coords_ok) {
             gesture.set_state(Gtk.EventSequenceState.DENIED);
             return;
         }
 
-        this.window.begin_resize_drag_for_device(
+        event.get_surface().begin_resize(
             gesture.edge,
             event.get_device(),
             gesture.get_current_button(),
-            x_root,
-            y_root,
+            x,
+            y,
             event.get_time()
         );
 
