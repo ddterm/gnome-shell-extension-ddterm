@@ -407,7 +407,6 @@ class TerminalBase extends Vte.Terminal {
     #clicked_filename = null;
     #clicked_hyperlink = null;
     #url_prefix;
-    #gdk_atom_primary = null;
     #foreground_from_style = false;
     #background_from_style = false;
     #gesture_single = null;
@@ -444,8 +443,6 @@ class TerminalBase extends Vte.Terminal {
                 this.notify('has-selection');
             }
         });
-
-        this.#gdk_atom_primary = Gdk.Atom.intern('PRIMARY', true);
 
         this.#url_prefix = new Map();
 
@@ -787,12 +784,16 @@ class TerminalBase extends Vte.Terminal {
         if (!this.get_has_selection())
             return Promise.resolve('');
 
-        const primary_selection = this.get_clipboard(this.#gdk_atom_primary);
+        const primary_selection = this.get_display().get_primary_clipboard();
         this.copy_primary();
 
-        return new Promise(resolve => {
-            primary_selection.request_text((_, text) => {
-                resolve(text);
+        return new Promise((resolve, reject) => {
+            primary_selection.read_text_async(null, (source, result) => {
+                try {
+                    resolve(source.read_text_finish(result));
+                } catch (error) {
+                    reject(error);
+                }
             });
         });
     }
