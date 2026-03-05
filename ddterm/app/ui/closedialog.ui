@@ -18,7 +18,6 @@ SPDX-License-Identifier: GPL-3.0-or-later
     <child type="action">
       <object class="GtkButton" id="cancel_button">
         <property name="label" translatable="yes">Cancel</property>
-        <property name="can-default">True</property>
         <style>
           <class name="text-button"/>
         </style>
@@ -27,7 +26,6 @@ SPDX-License-Identifier: GPL-3.0-or-later
     <child type="action">
       <object class="GtkButton" id="accept_button">
         <property name="label" translatable="yes">Close Terminal</property>
-        <property name="can-default">True</property>
         <style>
           <class name="destructive-action"/>
           <class name="text-button"/>
