@@ -16,8 +16,8 @@
     "devDependencies": {
         "@eslint/compat": "2.0.2",
         "@eslint/config-helpers": "0.5.2",
-        "@eslint/js": "9.39.3",
-        "eslint": "9.39.3",
+        "@eslint/js": "10.0.1",
+        "eslint": "10.0.2",
         "eslint-config-gnome": "git+https://gitlab.gnome.org/World/javascript/eslint-config-gnome.git#c479d059e8d9ea99c3b53c2ea43abf7fdb05eb51",
         "eslint-plugin-import": "2.32.0",
         "markdownlint-cli2": "0.21.0",
