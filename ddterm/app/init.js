@@ -11,7 +11,10 @@ import System from 'system';
 import { setConsoleLogDomain } from 'console';
 
 import { metadata, path } from './meta.js';
-import { require, MissingDependencies } from '../util/gjs-typelib-installer.js';
+import {
+    require,
+    MissingDependencies,
+} from '../../subprojects/gjs-typelib-installer/gjs-typelib-installer.js';
 
 setConsoleLogDomain(metadata['name']);
 

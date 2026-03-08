@@ -29,13 +29,3 @@ option(
   value: 'auto',
   description : 'Run wl-clipboard tests during "meson test"/"ninja test"'
 )
-
-option(
-  'typelib_installer',
-  type : 'boolean',
-  value : false,
-  description : 'Use gjs-typelib-installer to install missing GObject libraries. ' +
-    'Makes sense only for extension bundles that are going to be distributed ' +
-    'through extensions.gnome.org. Useless for deb/rpm packages, as they have ' +
-    'their own dependency system.'
-)

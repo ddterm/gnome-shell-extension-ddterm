@@ -44,7 +44,7 @@ gjs_shebang = get_option('shebang_override')
 gjs = find_program(
   'gjs',
   version: gjs_req,
-  required: gjs_shebang == '' or get_option('typelib_installer'),
+  required: true,
   disabler: true,
 )
 
@@ -162,6 +162,24 @@ subdir('data')
 subdir('schemas')
 subdir('ddterm')
 subdir('locale')
+
+typelib_installer = subproject(
+  'gjs-typelib-installer',
+  default_options: {
+    'output_name': 'gjs-typelib-installer.js',
+    'install_dir': extension_dir / 'subprojects' / 'gjs-typelib-installer',
+    'tests': false,
+    'typelibs': [
+      'Gtk-3.0',
+      'Gdk-3.0',
+      'Pango-1.0',
+      'Vte-2.91',
+      'Handy-1',
+    ],
+  },
+)
+
+bundle += typelib_installer.get_variable('output')
 
 bundle_from_srcdir = files(
   'LICENSES' / 'GPL-3.0-or-later.txt',

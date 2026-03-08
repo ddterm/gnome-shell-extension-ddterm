@@ -43,7 +43,6 @@ build() {
         "-Dtests=$tests_feature"
         -Dtests_x11=disabled
         "-Dtests_wl_clipboard=$tests_feature"
-        -Dtypelib_installer=false
     )
 
     arch-meson "$startdir" build "${meson_options[@]}"

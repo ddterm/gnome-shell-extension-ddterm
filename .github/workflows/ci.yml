@@ -193,7 +193,7 @@ jobs:
         uses: ./.github/actions/setup-meson
 
       - name: Prepare build directory
-        run: meson setup '-Dshebang_override=/usr/bin/env gjs' '-Dtests=disabled' '-Dtypelib_installer=true' build
+        run: meson setup '-Dshebang_override=/usr/bin/env gjs' '-Dtests=disabled' build
         shell: pipetty bash -e {0}
 
       - name: Get project version
@@ -248,14 +248,14 @@ jobs:
       - name: Configure APT
         uses: ./.github/actions/apt-init
 
-      - run: sudo apt-get install -y --no-install-recommends tox colorized-logs gettext libgtk-3-bin
+      - run: sudo apt-get install -y --no-install-recommends tox colorized-logs gjs gettext libgtk-3-bin
 
       - name: Install meson
         uses: ./.github/actions/setup-meson
 
       - name: Prepare build directory
         id: setup
-        run: meson setup '-Dshebang_override=/usr/bin/env gjs' '-Dtests=disabled' '-Dtypelib_installer=false' build
+        run: meson setup '-Dtests=disabled' build
         shell: pipetty bash -e {0}
 
       - name: Update POTFILES.in

@@ -13,7 +13,9 @@ import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import * as MessageTray from 'resource:///org/gnome/shell/ui/messageTray.js';
 import * as ModalDialog from 'resource:///org/gnome/shell/ui/modalDialog.js';
 
-import { findTerminalInstallCommand } from '../util/gjs-typelib-installer.js';
+import {
+    findTerminalInstallCommand,
+} from '../../subprojects/gjs-typelib-installer/gjs-typelib-installer.js';
 
 class DetailsDialog extends ModalDialog.ModalDialog {
     static [GObject.GTypeName] = 'DDTermNotificationDetailsDialog';
