@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-04 05:17+0000\n"
+"POT-Creation-Date: 2026-03-08 08:35+0000\n"
 "PO-Revision-Date: 2025-11-16 22:26+0100\n"
 "Last-Translator: Philipp Kiemle <l10n.daphipz@fastmail.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/de/>\n"
@@ -39,8 +39,8 @@ msgstr "Ein Aufklapp-Terminal für die GNOME Shell"
 msgid "Toggle"
 msgstr "Umschalten"
 
-#: data/com.github.amezin.ddterm.desktop.in.in:30 ddterm/app/ui/notebook.ui:161
-#: ddterm/app/ui/terminalpage.ui:227 ddterm/shell/panelicon.js:64
+#: data/com.github.amezin.ddterm.desktop.in.in:30 ddterm/app/ui/notebook.ui:82
+#: ddterm/app/ui/terminalpage.ui:140 ddterm/shell/panelicon.js:64
 msgid "Preferences…"
 msgstr "Einstellungen …"
 
@@ -135,7 +135,7 @@ msgstr "Benutzerdefinierten Reitertitel festlegen"
 msgid "Tab _Title"
 msgstr "_Tab-Name"
 
-#: ddterm/app/tablabel.js:99 ddterm/app/ui/notebook.ui:94
+#: ddterm/app/tablabel.js:99 ddterm/app/ui/notebook.ui:15
 msgid "Use Custom Tab Title"
 msgstr "Benutzerdefinierte Reitertitel verwenden"
 
@@ -159,227 +159,227 @@ msgstr "In diesem Terminal läuft noch ein Prozess. Es zu schließen wird den Pr
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: ddterm/app/ui/closedialog.ui:30 ddterm/app/ui/terminalpage.ui:43
+#: ddterm/app/ui/closedialog.ui:30 ddterm/app/ui/terminalpage.ui:244
 msgid "Close Terminal"
 msgstr "Terminal schließen"
 
-#: ddterm/app/ui/notebook.ui:46
-msgid "New Tab (First)"
-msgstr "Neuer Reiter (Erster)"
-
-#: ddterm/app/ui/notebook.ui:67
-msgid "New Tab (Last)"
-msgstr "Neuer Reiter (Letzter)"
-
-#: ddterm/app/ui/notebook.ui:99
+#: ddterm/app/ui/notebook.ui:20
 msgid "Use Default Tab Title"
 msgstr "Standard-Reitertitel verwenden"
 
-#: ddterm/app/ui/notebook.ui:106
+#: ddterm/app/ui/notebook.ui:27
 msgid "New Tab Before This Tab"
 msgstr "Neuer Reiter vor diesem Reiter"
 
-#: ddterm/app/ui/notebook.ui:110
+#: ddterm/app/ui/notebook.ui:31
 msgid "New Tab After This Tab"
 msgstr "Neuer Reiter nach diesem Reiter"
 
-#: ddterm/app/ui/notebook.ui:114 ddterm/app/ui/terminalpage.ui:186
+#: ddterm/app/ui/notebook.ui:35 ddterm/app/ui/terminalpage.ui:99
 #: ddterm/pref/shortcuts.js:588
 msgid "New Tab Before First Tab"
 msgstr "Neuer Reiter vor dem ersten Reiter"
 
-#: ddterm/app/ui/notebook.ui:118 ddterm/app/ui/terminalpage.ui:190
+#: ddterm/app/ui/notebook.ui:39 ddterm/app/ui/terminalpage.ui:103
 #: ddterm/pref/shortcuts.js:583
 msgid "New Tab After Last Tab"
 msgstr "Neuer Reiter nach dem letzten Reiter"
 
-#: ddterm/app/ui/notebook.ui:124 ddterm/pref/shortcuts.js:618
+#: ddterm/app/ui/notebook.ui:45 ddterm/pref/shortcuts.js:618
 msgid "Move Tab to Previous Position"
 msgstr "Reiter zur vorherigen Position verschieben"
 
-#: ddterm/app/ui/notebook.ui:128 ddterm/pref/shortcuts.js:623
+#: ddterm/app/ui/notebook.ui:49 ddterm/pref/shortcuts.js:623
 msgid "Move Tab to Next Position"
 msgstr "Reiter zur nächsten Position verschieben"
 
-#: ddterm/app/ui/notebook.ui:134 ddterm/app/ui/terminalpage.ui:197
+#: ddterm/app/ui/notebook.ui:55 ddterm/app/ui/terminalpage.ui:110
 msgid "Layout"
 msgstr "Darstellung"
 
-#: ddterm/app/ui/notebook.ui:137 ddterm/app/ui/notebook.ui:178
-#: ddterm/app/ui/terminalpage.ui:200
+#: ddterm/app/ui/notebook.ui:58 ddterm/app/ui/notebook.ui:99
+#: ddterm/app/ui/terminalpage.ui:113
 msgid "No Split"
 msgstr "Keine Teilung"
 
-#: ddterm/app/ui/notebook.ui:142 ddterm/app/ui/notebook.ui:183
-#: ddterm/app/ui/terminalpage.ui:205 ddterm/pref/shortcuts.js:628
+#: ddterm/app/ui/notebook.ui:63 ddterm/app/ui/notebook.ui:104
+#: ddterm/app/ui/terminalpage.ui:118 ddterm/pref/shortcuts.js:628
 msgid "Split Horizontally"
 msgstr "Horizontal teilen"
 
-#: ddterm/app/ui/notebook.ui:147 ddterm/app/ui/notebook.ui:188
-#: ddterm/app/ui/terminalpage.ui:210 ddterm/pref/shortcuts.js:633
+#: ddterm/app/ui/notebook.ui:68 ddterm/app/ui/notebook.ui:109
+#: ddterm/app/ui/terminalpage.ui:123 ddterm/pref/shortcuts.js:633
 msgid "Split Vertically"
 msgstr "Vertikal teilen"
 
-#: ddterm/app/ui/notebook.ui:154 ddterm/app/ui/terminalpage.ui:217
+#: ddterm/app/ui/notebook.ui:75 ddterm/app/ui/terminalpage.ui:130
 msgid "Move Tab to Other Pane"
 msgstr "Reiter in anderen Bereich verschieben"
 
-#: ddterm/app/ui/notebook.ui:166 ddterm/app/ui/terminalpage.ui:284
+#: ddterm/app/ui/notebook.ui:87 ddterm/app/ui/terminalpage.ui:197
 msgid "Keep Open After Exit"
 msgstr "Nach dem Beenden geöffnet lassen"
 
-#: ddterm/app/ui/notebook.ui:170 ddterm/app/ui/terminalpage.ui:288
+#: ddterm/app/ui/notebook.ui:91 ddterm/app/ui/terminalpage.ui:201
 #: ddterm/shell/notifications.js:62
 msgid "Close"
 msgstr "Schließen"
 
-#: ddterm/app/ui/search.ui:26
+#: ddterm/app/ui/notebook.ui:148
+msgid "New Tab (First)"
+msgstr "Neuer Reiter (Erster)"
+
+#: ddterm/app/ui/notebook.ui:169
+msgid "New Tab (Last)"
+msgstr "Neuer Reiter (Letzter)"
+
+#: ddterm/app/ui/search.ui:25
 msgid "Case Sensitive"
 msgstr "Groß- und Kleinschreibung beachten"
 
-#: ddterm/app/ui/search.ui:39
+#: ddterm/app/ui/search.ui:38
 msgid "Match Whole Word"
 msgstr "Ganzes Wort"
 
-#: ddterm/app/ui/search.ui:52
+#: ddterm/app/ui/search.ui:51
 msgid "Regular Expression"
 msgstr "Regulärer Ausdruck"
 
-#: ddterm/app/ui/search.ui:78
+#: ddterm/app/ui/search.ui:77
 msgid "Wrap Around"
 msgstr "Am Ende der Seite zum Anfang springen"
 
-#: ddterm/app/ui/search.ui:94 ddterm/pref/shortcuts.js:673
+#: ddterm/app/ui/search.ui:93 ddterm/pref/shortcuts.js:673
 msgid "Find Next"
 msgstr "Finde nächstes"
 
-#: ddterm/app/ui/search.ui:111 ddterm/pref/shortcuts.js:678
+#: ddterm/app/ui/search.ui:110 ddterm/pref/shortcuts.js:678
 msgid "Find Previous"
 msgstr "Finde vorheriges"
 
-#: ddterm/app/ui/terminalpage.ui:36
-msgid "Restart"
-msgstr "Neu starten"
-
-#: ddterm/app/ui/terminalpage.ui:102
+#: ddterm/app/ui/terminalpage.ui:15
 msgid "Open Hyperlink"
 msgstr "Link öffnen"
 
-#: ddterm/app/ui/terminalpage.ui:107
+#: ddterm/app/ui/terminalpage.ui:20
 msgid "Copy Hyperlink Address"
 msgstr "Adresse des Links kopieren"
 
-#: ddterm/app/ui/terminalpage.ui:112
+#: ddterm/app/ui/terminalpage.ui:25
 msgid "Copy File Path"
 msgstr "Dateipfad kopieren"
 
-#: ddterm/app/ui/terminalpage.ui:119
+#: ddterm/app/ui/terminalpage.ui:32
 msgid "Copy"
 msgstr "Kopieren"
 
-#: ddterm/app/ui/terminalpage.ui:123
+#: ddterm/app/ui/terminalpage.ui:36
 msgid "Copy HTML"
 msgstr "HTML kopieren"
 
-#: ddterm/app/ui/terminalpage.ui:127
+#: ddterm/app/ui/terminalpage.ui:40
 msgid "Paste"
 msgstr "Einfügen"
 
-#: ddterm/app/ui/terminalpage.ui:131 ddterm/pref/shortcuts.js:568
+#: ddterm/app/ui/terminalpage.ui:44 ddterm/pref/shortcuts.js:568
 msgid "Select All"
 msgstr "Alles auswählen"
 
-#: ddterm/app/ui/terminalpage.ui:137 ddterm/pref/shortcuts.js:668
+#: ddterm/app/ui/terminalpage.ui:50 ddterm/pref/shortcuts.js:668
 msgid "Find"
 msgstr "Suchen"
 
-#: ddterm/app/ui/terminalpage.ui:143 ddterm/pref/shortcuts.js:573
+#: ddterm/app/ui/terminalpage.ui:56 ddterm/pref/shortcuts.js:573
 msgid "Reset"
 msgstr "Zurücksetzen"
 
-#: ddterm/app/ui/terminalpage.ui:147 ddterm/pref/shortcuts.js:578
+#: ddterm/app/ui/terminalpage.ui:60 ddterm/pref/shortcuts.js:578
 msgid "Reset and Clear"
 msgstr "Zurücksetzen und leeren"
 
-#: ddterm/app/ui/terminalpage.ui:153
+#: ddterm/app/ui/terminalpage.ui:66
 msgid "Zoom"
 msgstr "Zoom"
 
-#: ddterm/app/ui/terminalpage.ui:155 ddterm/pref/shortcuts.js:683
+#: ddterm/app/ui/terminalpage.ui:68 ddterm/pref/shortcuts.js:683
 msgid "Zoom In"
 msgstr "Heranzoomen"
 
-#: ddterm/app/ui/terminalpage.ui:159 ddterm/pref/shortcuts.js:688
+#: ddterm/app/ui/terminalpage.ui:72 ddterm/pref/shortcuts.js:688
 msgid "Zoom Out"
 msgstr "Herauszoomen"
 
-#: ddterm/app/ui/terminalpage.ui:163 ddterm/pref/shortcuts.js:693
+#: ddterm/app/ui/terminalpage.ui:76 ddterm/pref/shortcuts.js:693
 msgid "Normal Size"
 msgstr "Normale Größe"
 
-#: ddterm/app/ui/terminalpage.ui:170
+#: ddterm/app/ui/terminalpage.ui:83
 msgid "Show in File Manager"
 msgstr "In Dateiverwaltung anzeigen"
 
-#: ddterm/app/ui/terminalpage.ui:176
+#: ddterm/app/ui/terminalpage.ui:89
 msgid "New Tab"
 msgstr "Neuer Reiter"
 
-#: ddterm/app/ui/terminalpage.ui:178 ddterm/pref/shortcuts.js:593
+#: ddterm/app/ui/terminalpage.ui:91 ddterm/pref/shortcuts.js:593
 msgid "New Tab Before Current Tab"
 msgstr "Neuer Reiter vor aktivem Reiter"
 
-#: ddterm/app/ui/terminalpage.ui:182 ddterm/pref/shortcuts.js:598
+#: ddterm/app/ui/terminalpage.ui:95 ddterm/pref/shortcuts.js:598
 msgid "New Tab After Current Tab"
 msgstr "Neuer Reiter nach aktivem Reiter"
 
-#: ddterm/app/ui/terminalpage.ui:224 ddterm/pref/dialog.js:50
+#: ddterm/app/ui/terminalpage.ui:137 ddterm/pref/dialog.js:50
 msgid "Preferences"
 msgstr "Einstellungen"
 
-#: ddterm/app/ui/terminalpage.ui:233 ddterm/pref/behavior.js:28
+#: ddterm/app/ui/terminalpage.ui:146 ddterm/pref/behavior.js:28
 msgid "Above All Windows"
 msgstr "Über allen Fenstern"
 
-#: ddterm/app/ui/terminalpage.ui:237 ddterm/pref/behavior.js:33
+#: ddterm/app/ui/terminalpage.ui:150 ddterm/pref/behavior.js:33
 msgid "On All Workspaces"
 msgstr "Auf allen Arbeitsflächen"
 
-#: ddterm/app/ui/terminalpage.ui:241
+#: ddterm/app/ui/terminalpage.ui:154
 msgid "Maximize Window"
 msgstr "Fenster maximieren"
 
-#: ddterm/app/ui/terminalpage.ui:245 ddterm/pref/colors.js:592
+#: ddterm/app/ui/terminalpage.ui:158 ddterm/pref/colors.js:592
 msgid "Transparent Background"
 msgstr "Transparenter Hintergrund"
 
-#: ddterm/app/ui/terminalpage.ui:251 ddterm/pref/behavior.js:38
+#: ddterm/app/ui/terminalpage.ui:164 ddterm/pref/behavior.js:38
 msgid "Hide When Application Loses Focus"
 msgstr "Verstecken, wenn Anwendung den Fokus verliert"
 
-#: ddterm/app/ui/terminalpage.ui:255 ddterm/pref/behavior.js:43
+#: ddterm/app/ui/terminalpage.ui:168 ddterm/pref/behavior.js:43
 msgid "Hide When Esc Key Is Pressed"
 msgstr "Verstecken, wenn die »Esc«-Taste gedrückt wird"
 
-#: ddterm/app/ui/terminalpage.ui:261 ddterm/pref/scrolling.js:33
+#: ddterm/app/ui/terminalpage.ui:174 ddterm/pref/scrolling.js:33
 msgid "Scroll On Output"
 msgstr "Weiterscrollen bei Ausgabe"
 
-#: ddterm/app/ui/terminalpage.ui:265 ddterm/pref/scrolling.js:38
+#: ddterm/app/ui/terminalpage.ui:178 ddterm/pref/scrolling.js:38
 msgid "Scroll On Keystroke"
 msgstr "Weiterscrollen nach Tastendruck"
 
-#: ddterm/app/ui/terminalpage.ui:271 ddterm/pref/command.js:51
+#: ddterm/app/ui/terminalpage.ui:184 ddterm/pref/command.js:51
 msgid "Preserve Working Directory In New Tabs"
 msgstr "Arbeitsverzeichnis in neue Reiter übernehmen"
 
-#: ddterm/app/ui/terminalpage.ui:277
+#: ddterm/app/ui/terminalpage.ui:190
 msgid "Enable Keyboard Shortcuts"
 msgstr "Tastenkürzel aktivieren"
 
-#: ddterm/app/ui/terminalpage.ui:294 ddterm/shell/panelicon.js:72
+#: ddterm/app/ui/terminalpage.ui:207 ddterm/shell/panelicon.js:72
 msgid "About ddterm"
 msgstr "Info zu ddterm"
+
+#: ddterm/app/ui/terminalpage.ui:237
+msgid "Restart"
+msgstr "Neu starten"
 
 #: ddterm/pref/adw.js:48
 msgid "Window"
