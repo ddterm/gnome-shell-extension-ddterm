@@ -182,6 +182,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                 <property name="visible" bind-source="DDTermNotebook" bind-property="show-tab-switch-popup" bind-flags="sync-create|bidirectional"/>
                 <property name="focus_on_click">False</property>
                 <property name="relief">none</property>
+                <property name="use_popover">False</property>
               </object>
             </child>
           </object>
