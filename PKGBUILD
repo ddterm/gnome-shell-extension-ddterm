@@ -28,6 +28,10 @@ pkgver() {
     echo "$git_describe" | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
+prepare() {
+    meson subprojects download --sourcedir "$startdir"
+}
+
 build() {
     local tests_feature=disabled
 

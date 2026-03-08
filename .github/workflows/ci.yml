@@ -115,7 +115,7 @@ jobs:
         uses: ./.github/actions/apt-init
 
       - id: apt
-        run: sudo apt-get install -y --no-install-recommends tox
+        run: sudo apt-get install -y --no-install-recommends tox colorized-logs
 
       - name: Install development dependencies from npm
         id: npm
@@ -128,6 +128,13 @@ jobs:
         with:
           environments: reuse,flake8,meson-format,pip-compile
         if: ${{ !cancelled() && steps.apt.outcome == 'success' }}
+
+      - name: Install meson
+        uses: ./.github/actions/setup-meson
+
+      - name: Download subprojects
+        run: meson subprojects download
+        shell: pipetty bash -e {0}
 
       - name: Lint JS code with ESLint
         uses: ./.github/actions/eslint
