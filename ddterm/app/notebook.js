@@ -667,29 +667,29 @@ class NotebookMenu extends Gio.MenuModel {
         this.#action = GLib.Variant.new_string('notebook.switch-to-tab');
         this.#target = [];
 
-        const page_handlers = new Map();
-
+        const child_handlers = new Map();
+        const schedule_update = this.#schedule_update.bind(this);
         const handlers = [
-            this.tab_view.connect('page-attached', () => this.#schedule_update()),
-            this.tab_view.connect('page-detached', () => this.#schedule_update()),
-            this.tab_view.connect('page-reordered', () => this.#schedule_update()),
+            this.tab_view.connect('page-attached', schedule_update),
+            this.tab_view.connect('page-detached', schedule_update),
+            this.tab_view.connect('page-reordered', schedule_update),
             this.tab_view.connect('page-attached', (_, page) => {
-                const handler = page.connect('notify::title', () => this.#schedule_update());
+                const handler = page.child.connect('notify::terminal-title', schedule_update);
 
-                page_handlers.set(page, handler);
+                child_handlers.set(page, handler);
             }),
             this.tab_view.connect('page-detached', (_, page) => {
-                page.disconnect(page_handlers.get(page));
-                page_handlers.delete(page);
+                page.child.disconnect(child_handlers.get(page));
+                child_handlers.delete(page);
             }),
             this.tab_view.connect('destroy', () => {
                 while (handlers.length)
                     this.tab_view.disconnect(handlers.pop());
 
-                for (const [page, handler] of page_handlers.entries())
-                    page.disconnect(handler);
+                for (const [page, handler] of child_handlers.entries())
+                    page.child.disconnect(handler);
 
-                page_handlers.clear();
+                child_handlers.clear();
 
                 if (this.#update_source !== null) {
                     GLib.Source.remove(this.#update_source);
@@ -708,7 +708,7 @@ class NotebookMenu extends Gio.MenuModel {
         for (let i = 0; i < n; i++) {
             const page = this.tab_view.get_nth_page(i);
 
-            this.#label.push(page.title);
+            this.#label.push(page.child.terminal_title);
         }
 
         this.#target.length = this.#label.length;
