@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-08 08:35+0000\n"
+"POT-Creation-Date: 2026-03-08 18:24+0000\n"
 "PO-Revision-Date: 2025-10-07 20:02+0000\n"
 "Last-Translator: Nuri KÜÇÜKLER <enatsek@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/tr/>\n"
@@ -21,7 +21,7 @@ msgstr ""
 "X-Generator: Weblate 5.14-dev\n"
 
 #: data/com.github.amezin.ddterm.desktop.in.in:9
-#: ddterm/shell/notifications.js:238 ddterm/shell/panelicon.js:32
+#: ddterm/shell/notifications.js:240 ddterm/shell/panelicon.js:32
 msgid "ddterm"
 msgstr "ddterm"
 
@@ -58,11 +58,11 @@ msgstr "Katkıda Bulunanlar"
 msgid "Can't read the version of the loaded extension."
 msgstr "Yüklü olan uzantının versiyon bilgisi okunamadı."
 
-#: ddterm/app/application.js:87 ddterm/shell/notifications.js:85
+#: ddterm/app/application.js:87 ddterm/shell/notifications.js:87
 msgid "Warning: ddterm version has changed"
 msgstr "Uyarı: ddterm sürümü değişti"
 
-#: ddterm/app/application.js:88 ddterm/shell/notifications.js:87
+#: ddterm/app/application.js:88 ddterm/shell/notifications.js:89
 msgid "Log out, then log in again to load the updated extension."
 msgstr "Güncellenmiş uzantıyı yüklemek için oturumu kapatın ve tekrar açın."
 
@@ -114,15 +114,15 @@ msgstr "Uzantı ile irtibat kurulamıyor."
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr "Lütfen ddterm GNOME Shell eklentisinin etkinleştirildiğinden emin olun."
 
-#: ddterm/app/init.js:34 ddterm/shell/notifications.js:149
+#: ddterm/app/init.js:37 ddterm/shell/notifications.js:151
 msgid "ddterm needs additional packages to run"
 msgstr "ddterm çalışmak için ek paketlere ihtiyaç duyar"
 
-#: ddterm/app/init.js:42 ddterm/shell/notifications.js:154
+#: ddterm/app/init.js:45 ddterm/shell/notifications.js:156
 msgid "Please install the following packages:"
 msgstr "Lütfen aşağıda listelenen paketleri yükleyin:"
 
-#: ddterm/app/init.js:49 ddterm/shell/notifications.js:162
+#: ddterm/app/init.js:52 ddterm/shell/notifications.js:164
 msgid "Please install packages that provide the following files:"
 msgstr "Lütfen aşağıdaki dosyaları sağlayan paketleri yükleyin:"
 
@@ -222,7 +222,7 @@ msgid "Keep Open After Exit"
 msgstr "Çıktıktan Sonra Açık Tut"
 
 #: ddterm/app/ui/notebook.ui:91 ddterm/app/ui/terminalpage.ui:201
-#: ddterm/shell/notifications.js:62
+#: ddterm/shell/notifications.js:64
 msgid "Close"
 msgstr "Kapat"
 
@@ -1170,15 +1170,15 @@ msgstr "\"news:\", \"man:\" URL'lerini tespit et"
 msgid "Copy On Selection"
 msgstr "Seçili Metini Kopyala"
 
-#: ddterm/shell/notifications.js:57 ddterm/shell/notifications.js:135
+#: ddterm/shell/notifications.js:59 ddterm/shell/notifications.js:137
 msgid "Copy to Clipboard"
 msgstr "Panoya Kopyala"
 
-#: ddterm/shell/notifications.js:131
+#: ddterm/shell/notifications.js:133
 msgid "Details…"
 msgstr "Detaylar…"
 
-#: ddterm/shell/notifications.js:186
+#: ddterm/shell/notifications.js:188
 msgid "Install"
 msgstr "Kur"
 

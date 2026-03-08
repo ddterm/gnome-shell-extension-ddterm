@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-08 08:35+0000\n"
+"POT-Creation-Date: 2026-03-08 18:24+0000\n"
 "PO-Revision-Date: 2026-03-03 13:09+0000\n"
 "Last-Translator: yuh <yuhldr@qq.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/zh_Hans/>\n"
@@ -21,7 +21,7 @@ msgstr ""
 "X-Generator: Weblate 5.17-dev\n"
 
 #: data/com.github.amezin.ddterm.desktop.in.in:9
-#: ddterm/shell/notifications.js:238 ddterm/shell/panelicon.js:32
+#: ddterm/shell/notifications.js:240 ddterm/shell/panelicon.js:32
 msgid "ddterm"
 msgstr "ddterm"
 
@@ -57,11 +57,11 @@ msgstr "贡献者"
 msgid "Can't read the version of the loaded extension."
 msgstr "无法读取已加载扩展插件的版本。"
 
-#: ddterm/app/application.js:87 ddterm/shell/notifications.js:85
+#: ddterm/app/application.js:87 ddterm/shell/notifications.js:87
 msgid "Warning: ddterm version has changed"
 msgstr "警告：ddterm版本已改变"
 
-#: ddterm/app/application.js:88 ddterm/shell/notifications.js:87
+#: ddterm/app/application.js:88 ddterm/shell/notifications.js:89
 msgid "Log out, then log in again to load the updated extension."
 msgstr "注销后重新登录，方可生效。"
 
@@ -113,15 +113,15 @@ msgstr "无法连接到扩展。"
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr "请确保ddterm在GNOME扩展中可用。"
 
-#: ddterm/app/init.js:34 ddterm/shell/notifications.js:149
+#: ddterm/app/init.js:37 ddterm/shell/notifications.js:151
 msgid "ddterm needs additional packages to run"
 msgstr "ddterm需要额外的软件包才能运行"
 
-#: ddterm/app/init.js:42 ddterm/shell/notifications.js:154
+#: ddterm/app/init.js:45 ddterm/shell/notifications.js:156
 msgid "Please install the following packages:"
 msgstr "请安装以下软件包："
 
-#: ddterm/app/init.js:49 ddterm/shell/notifications.js:162
+#: ddterm/app/init.js:52 ddterm/shell/notifications.js:164
 msgid "Please install packages that provide the following files:"
 msgstr "请安装提供以下文件的软件包："
 
@@ -219,7 +219,7 @@ msgid "Keep Open After Exit"
 msgstr "退出后保持打开"
 
 #: ddterm/app/ui/notebook.ui:91 ddterm/app/ui/terminalpage.ui:201
-#: ddterm/shell/notifications.js:62
+#: ddterm/shell/notifications.js:64
 msgid "Close"
 msgstr "关闭"
 
@@ -1155,15 +1155,15 @@ msgstr "检测 \"news:\"、\"man:\" URLs"
 msgid "Copy On Selection"
 msgstr "选定文本时复制"
 
-#: ddterm/shell/notifications.js:57 ddterm/shell/notifications.js:135
+#: ddterm/shell/notifications.js:59 ddterm/shell/notifications.js:137
 msgid "Copy to Clipboard"
 msgstr "复制到剪贴板"
 
-#: ddterm/shell/notifications.js:131
+#: ddterm/shell/notifications.js:133
 msgid "Details…"
 msgstr "细节……"
 
-#: ddterm/shell/notifications.js:186
+#: ddterm/shell/notifications.js:188
 msgid "Install"
 msgstr "安装"
 

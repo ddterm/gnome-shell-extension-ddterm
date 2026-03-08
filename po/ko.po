@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-08 08:35+0000\n"
+"POT-Creation-Date: 2026-03-08 18:24+0000\n"
 "PO-Revision-Date: 2026-02-16 13:09+0000\n"
 "Last-Translator: 스이미 <soo.wim3@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/ko/>\n"
@@ -21,7 +21,7 @@ msgstr ""
 "X-Generator: Weblate 5.16-dev\n"
 
 #: data/com.github.amezin.ddterm.desktop.in.in:9
-#: ddterm/shell/notifications.js:238 ddterm/shell/panelicon.js:32
+#: ddterm/shell/notifications.js:240 ddterm/shell/panelicon.js:32
 msgid "ddterm"
 msgstr "ddterm"
 
@@ -55,11 +55,11 @@ msgstr "기여자"
 msgid "Can't read the version of the loaded extension."
 msgstr "불러온 확장 기능의 버전을 읽을 수 없습니다."
 
-#: ddterm/app/application.js:87 ddterm/shell/notifications.js:85
+#: ddterm/app/application.js:87 ddterm/shell/notifications.js:87
 msgid "Warning: ddterm version has changed"
 msgstr "경고: ddterm 버전이 변경되었습니다"
 
-#: ddterm/app/application.js:88 ddterm/shell/notifications.js:87
+#: ddterm/app/application.js:88 ddterm/shell/notifications.js:89
 msgid "Log out, then log in again to load the updated extension."
 msgstr "업데이트된 확장 기능을 불러오려면 로그아웃한 후 다시 로그인해 주세요."
 
@@ -111,15 +111,15 @@ msgstr "확장 기능에 연결할 수 없습니다."
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr "ddterm GNOME Shell 확장 기능이 활성화되어 있는지 확인해 주세요."
 
-#: ddterm/app/init.js:34 ddterm/shell/notifications.js:149
+#: ddterm/app/init.js:37 ddterm/shell/notifications.js:151
 msgid "ddterm needs additional packages to run"
 msgstr "ddterm을 실행하려면 추가 패키지가 필요합니다"
 
-#: ddterm/app/init.js:42 ddterm/shell/notifications.js:154
+#: ddterm/app/init.js:45 ddterm/shell/notifications.js:156
 msgid "Please install the following packages:"
 msgstr "다음 패키지들을 설치해 주세요:"
 
-#: ddterm/app/init.js:49 ddterm/shell/notifications.js:162
+#: ddterm/app/init.js:52 ddterm/shell/notifications.js:164
 msgid "Please install packages that provide the following files:"
 msgstr "아래 파일들이 포함된 패키지를 설치해야 합니다:"
 
@@ -217,7 +217,7 @@ msgid "Keep Open After Exit"
 msgstr "종료 후 창 유지"
 
 #: ddterm/app/ui/notebook.ui:91 ddterm/app/ui/terminalpage.ui:201
-#: ddterm/shell/notifications.js:62
+#: ddterm/shell/notifications.js:64
 msgid "Close"
 msgstr "닫기"
 
@@ -1155,15 +1155,15 @@ msgstr "\"news:\", \"man:\" URL 감지"
 msgid "Copy On Selection"
 msgstr "선택한 텍스트 복사"
 
-#: ddterm/shell/notifications.js:57 ddterm/shell/notifications.js:135
+#: ddterm/shell/notifications.js:59 ddterm/shell/notifications.js:137
 msgid "Copy to Clipboard"
 msgstr "클립보드에 복사"
 
-#: ddterm/shell/notifications.js:131
+#: ddterm/shell/notifications.js:133
 msgid "Details…"
 msgstr "상세 정보…"
 
-#: ddterm/shell/notifications.js:186
+#: ddterm/shell/notifications.js:188
 msgid "Install"
 msgstr "설치"
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-08 08:35+0000\n"
+"POT-Creation-Date: 2026-03-08 18:24+0000\n"
 "PO-Revision-Date: 2024-09-02 20:09+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/nb_NO/>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "X-Generator: Weblate 5.8-dev\n"
 
 #: data/com.github.amezin.ddterm.desktop.in.in:9
-#: ddterm/shell/notifications.js:238 ddterm/shell/panelicon.js:32
+#: ddterm/shell/notifications.js:240 ddterm/shell/panelicon.js:32
 msgid "ddterm"
 msgstr ""
 
@@ -54,11 +54,11 @@ msgstr ""
 msgid "Can't read the version of the loaded extension."
 msgstr ""
 
-#: ddterm/app/application.js:87 ddterm/shell/notifications.js:85
+#: ddterm/app/application.js:87 ddterm/shell/notifications.js:87
 msgid "Warning: ddterm version has changed"
 msgstr "Advarsel: ddterm-versjonen har endret seg"
 
-#: ddterm/app/application.js:88 ddterm/shell/notifications.js:87
+#: ddterm/app/application.js:88 ddterm/shell/notifications.js:89
 msgid "Log out, then log in again to load the updated extension."
 msgstr "Logg ut og inn igjen for å laste inn oppdatert utvidelse."
 
@@ -110,15 +110,15 @@ msgstr ""
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr ""
 
-#: ddterm/app/init.js:34 ddterm/shell/notifications.js:149
+#: ddterm/app/init.js:37 ddterm/shell/notifications.js:151
 msgid "ddterm needs additional packages to run"
 msgstr "ddterm trenger ytterligere pakker for å kjøre"
 
-#: ddterm/app/init.js:42 ddterm/shell/notifications.js:154
+#: ddterm/app/init.js:45 ddterm/shell/notifications.js:156
 msgid "Please install the following packages:"
 msgstr "Installer følgende pakker først:"
 
-#: ddterm/app/init.js:49 ddterm/shell/notifications.js:162
+#: ddterm/app/init.js:52 ddterm/shell/notifications.js:164
 msgid "Please install packages that provide the following files:"
 msgstr "Installer pakkene som tilbyr følgende filer:"
 
@@ -216,7 +216,7 @@ msgid "Keep Open After Exit"
 msgstr "Behold åpen etter avslutning"
 
 #: ddterm/app/ui/notebook.ui:91 ddterm/app/ui/terminalpage.ui:201
-#: ddterm/shell/notifications.js:62
+#: ddterm/shell/notifications.js:64
 msgid "Close"
 msgstr "Lukk"
 
@@ -1165,16 +1165,16 @@ msgstr "Oppdag \"news:\", \"man:\" -nettadresser"
 msgid "Copy On Selection"
 msgstr "Kopier valgt tekst"
 
-#: ddterm/shell/notifications.js:57 ddterm/shell/notifications.js:135
+#: ddterm/shell/notifications.js:59 ddterm/shell/notifications.js:137
 #, fuzzy
 msgid "Copy to Clipboard"
 msgstr "Lim inn tekst fra utklippstavle"
 
-#: ddterm/shell/notifications.js:131
+#: ddterm/shell/notifications.js:133
 msgid "Details…"
 msgstr ""
 
-#: ddterm/shell/notifications.js:186
+#: ddterm/shell/notifications.js:188
 msgid "Install"
 msgstr ""
 
