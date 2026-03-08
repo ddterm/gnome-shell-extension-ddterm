@@ -107,7 +107,7 @@ export class TerminalPage extends Gtk.Box {
             null,
             null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
-            ''
+            null
         ),
         'title': GObject.ParamSpec.string(
             'title',

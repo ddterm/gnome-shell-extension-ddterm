@@ -234,6 +234,7 @@ export class Notebook extends Gtk.Box {
 
         this.connect('hierarchy-changed', this.#update_root.bind(this));
         this.connect('notify::tab-show-shortcuts', this.#update_tab_switch_accels.bind(this));
+        this.connect('notify::current-page', this.#update_tab_switch_accels.bind(this));
         this.#update_root();
 
         this.connect('notify::current-child', () => {
@@ -489,11 +490,15 @@ export class Notebook extends Gtk.Box {
 
     #update_tab_switch_accels() {
         const n = this.view.get_n_pages();
+        const current = this.current_page;
 
         for (let i = 0; i < n; i++) {
             const { child } = this.view.get_nth_page(i);
 
-            child.switch_shortcut = this.#get_accel_for_page(i);
+            if (i === current)
+                child.switch_shortcut = null;
+            else
+                child.switch_shortcut = this.#get_accel_for_page(i);
         }
     }
 
