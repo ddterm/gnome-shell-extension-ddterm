@@ -155,6 +155,7 @@ export class SearchBar extends Gtk.SearchBar {
     };
 
     static [Gtk.internalChildren] = [
+        'layout',
         'case_sensitive_button',
         'whole_word_button',
         'regex_button',
@@ -177,6 +178,8 @@ export class SearchBar extends Gtk.SearchBar {
             ...params,
             show_close_button: true,
         });
+
+        this.set_child(this._layout);
 
         this.#pattern = new SearchPattern();
 
