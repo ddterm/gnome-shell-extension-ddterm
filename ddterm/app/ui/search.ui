@@ -61,6 +61,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <child>
               <object class="GtkPopover" id="error_popover">
                 <property name="autohide">False</property>
+                <property name="position">top</property>
                 <property name="child">
                   <object class="GtkLabel" id="error_label">
                     <style>
