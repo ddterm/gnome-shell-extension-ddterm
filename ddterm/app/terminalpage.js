@@ -183,12 +183,12 @@ export class TerminalPage extends Gtk.Box {
     constructor(params) {
         super(params);
 
-        this.terminal_settings.bind_terminal(this.terminal);
+        this.terminal_settings?.bind_terminal(this.terminal);
 
         this.connect('notify::terminal-title', () => this.notify('title'));
         this.connect('notify::switch-shortcut', () => this.notify('title'));
 
-        this.terminal_settings.bind_property(
+        this.terminal_settings?.bind_property(
             'show-scrollbar',
             this._scrollbar,
             'visible',
