@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-03-08 18:24+0000\n"
-"PO-Revision-Date: 2026-03-06 16:13+0000\n"
+"PO-Revision-Date: 2026-03-10 14:09+0000\n"
 "Last-Translator: Hosted Weblate user 142171 <traaduttore@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/it/>\n"
 "Language: it\n"
@@ -29,7 +29,7 @@ msgstr "ddterm"
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/com.github.amezin.ddterm.desktop.in.in:11
 msgid "shell;prompt;command;commandline;cmd;run;terminal;"
-msgstr ""
+msgstr "shell;prompt;comando;rigadicomando;cmd;esegui;terminale;"
 
 #: data/com.github.amezin.ddterm.desktop.in.in:12
 msgid "Another drop down terminal extension for GNOME Shell"
@@ -132,10 +132,8 @@ msgid "Set Custom Tab Title"
 msgstr "Imposta titolo scheda personalizzato"
 
 #: ddterm/app/tablabel.js:85
-#, fuzzy
-#| msgid "Set tab title"
 msgid "Tab _Title"
-msgstr "Impostare il titolo della scheda"
+msgstr "Titolo della scheda"
 
 #: ddterm/app/tablabel.js:99 ddterm/app/ui/notebook.ui:15
 msgid "Use Custom Tab Title"
@@ -376,10 +374,8 @@ msgid "Enable Keyboard Shortcuts"
 msgstr "Abilitare le scorciatoie da tastiera"
 
 #: ddterm/app/ui/terminalpage.ui:207 ddterm/shell/panelicon.js:72
-#, fuzzy
-#| msgid "ddterm"
 msgid "About ddterm"
-msgstr "ddterm"
+msgstr "Informazioni su ddterm"
 
 #: ddterm/app/ui/terminalpage.ui:237
 msgid "Restart"
@@ -1035,7 +1031,7 @@ msgstr "Schede"
 
 #: ddterm/pref/tabs.js:23
 msgid "_Restore Previous Tabs on Startup"
-msgstr ""
+msgstr "_Ripristina le schede precedenti all'avvio"
 
 #: ddterm/pref/tabs.js:28
 msgid "Show Tab _Bar"
