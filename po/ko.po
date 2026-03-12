@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-03-08 18:24+0000\n"
-"PO-Revision-Date: 2026-02-16 13:09+0000\n"
+"PO-Revision-Date: 2026-03-12 14:09+0000\n"
 "Last-Translator: 스이미 <soo.wim3@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/ko/>\n"
 "Language: ko\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.16-dev\n"
+"X-Generator: Weblate 5.17-dev\n"
 
 #: data/com.github.amezin.ddterm.desktop.in.in:9
 #: ddterm/shell/notifications.js:240 ddterm/shell/panelicon.js:32
@@ -1150,10 +1150,8 @@ msgid "Detect \"news:\", \"man:\" URLs"
 msgstr "\"news:\", \"man:\" URL 감지"
 
 #: ddterm/pref/text.js:171
-#, fuzzy
-#| msgid "Copy Selected Text"
 msgid "Copy On Selection"
-msgstr "선택한 텍스트 복사"
+msgstr "선택 시 자동 복사"
 
 #: ddterm/shell/notifications.js:59 ddterm/shell/notifications.js:137
 msgid "Copy to Clipboard"
