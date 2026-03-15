@@ -37,7 +37,7 @@ function try_require(namespace, version = undefined) {
 }
 
 const GLibUnix = GLib.check_version(2, 79, 2) === null ? try_require('GLibUnix') : null;
-const signal_add = GLibUnix?.signal_add_full ?? GLib.unix_signal_add;
+const signal_add = GLibUnix?.signal_add ?? GLibUnix?.signal_add_full ?? GLib.unix_signal_add;
 
 function is_dbus_interface_error(ex) {
     if (!(ex instanceof GLib.Error))
