@@ -230,9 +230,14 @@ export class Notebook extends Gtk.Box {
             parameter_type: new GLib.VariantType('s'),
             state: GLib.Variant.new_string(this.split_layout),
         });
-        this.connect('notify::split-layout', () => {
-            split_layout_action.state = GLib.Variant.new_string(this.split_layout);
-        });
+        this.bind_property_full(
+            'split-layout',
+            split_layout_action,
+            'state',
+            GObject.BindingFlags.DEFAULT,
+            converter(GLib.Variant.new_string),
+            null
+        );
         split_layout_action.connect('change-state', (_, value) => {
             this.emit('split-layout', this.current_child, value.unpack());
         });
