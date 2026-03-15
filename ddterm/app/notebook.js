@@ -22,12 +22,25 @@ const ACTIONS = [
     'switch_to_tab_action',
 ];
 
-function convert_select_from_map(map_object) {
+function converter(func) {
     return (binding, value) => {
-        const mapped = map_object[value];
+        try {
+            return [true, func(value)];
+        } catch (error) {
+            logError(error);
 
-        return [mapped !== undefined, mapped ?? null];
+            return [false, null];
+        }
     };
+}
+
+function mapping_lookup(map_object, key) {
+    const value = map_object[key];
+
+    if (value === undefined)
+        throw new Error(`Unknown key ${key}`);
+
+    return value;
 }
 
 export class Notebook extends Gtk.Box {
@@ -183,11 +196,11 @@ export class Notebook extends Gtk.Box {
             this._bar,
             'autohide',
             GObject.BindingFlags.SYNC_CREATE,
-            convert_select_from_map({
+            converter(mapping_lookup.bind(globalThis, {
                 'automatic': true,
                 'always': false,
                 'never': false,
-            }),
+            })),
             null
         );
 
@@ -196,11 +209,11 @@ export class Notebook extends Gtk.Box {
             this._bar,
             'visible',
             GObject.BindingFlags.SYNC_CREATE,
-            convert_select_from_map({
+            converter(mapping_lookup.bind(globalThis, {
                 'automatic': true,
                 'always': true,
                 'never': false,
-            }),
+            })),
             null
         );
 
