@@ -156,22 +156,17 @@ export class SearchBar extends Handy.SearchBar {
     };
 
     static [Gtk.internalChildren] = [
-        'case_sensitive_button',
-        'whole_word_button',
-        'regex_button',
         'entry',
-        'wrap_button',
-        'find_next_button',
-        'find_prev_button',
         'error_popover',
         'error_label',
+        'pattern',
     ];
 
     static {
+        GObject.type_ensure(SearchPattern);
+
         GObject.registerClass(this);
     }
-
-    #pattern = null;
 
     constructor(params) {
         super({
@@ -179,68 +174,11 @@ export class SearchBar extends Handy.SearchBar {
             show_close_button: true,
         });
 
-        this.#pattern = new SearchPattern();
-
-        this.#pattern.bind_property(
-            'case-sensitive',
-            this._case_sensitive_button,
-            'active',
-            GObject.BindingFlags.BIDIRECTIONAL | GObject.BindingFlags.SYNC_CREATE
-        );
-
-        this.#pattern.bind_property(
-            'whole-word',
-            this._whole_word_button,
-            'active',
-            GObject.BindingFlags.BIDIRECTIONAL | GObject.BindingFlags.SYNC_CREATE
-        );
-
-        this.#pattern.bind_property(
-            'use-regex',
-            this._regex_button,
-            'active',
-            GObject.BindingFlags.BIDIRECTIONAL | GObject.BindingFlags.SYNC_CREATE
-        );
-
-        this.#pattern.bind_property(
-            'text',
-            this._entry,
-            'text',
-            GObject.BindingFlags.BIDIRECTIONAL | GObject.BindingFlags.SYNC_CREATE
-        );
-
-        for (const button of [this._find_next_button, this._find_prev_button]) {
-            this.#pattern.bind_property(
-                'regex-set',
-                button,
-                'sensitive',
-                GObject.BindingFlags.SYNC_CREATE
-            );
-        }
-
-        this.bind_property(
-            'wrap',
-            this._wrap_button,
-            'active',
-            GObject.BindingFlags.BIDIRECTIONAL | GObject.BindingFlags.SYNC_CREATE
-        );
-
-        this.#pattern.connect('notify::error', () => {
-            if (this.#pattern.error) {
-                this._entry.get_style_context().add_class('error');
-                this._error_label.label = this.pattern.error.message;
-                this._error_popover.popup();
-            } else {
-                this._entry.get_style_context().remove_class('error');
-                this._error_popover.popdown();
-            }
-        });
-
         this.connect_entry(this._entry);
     }
 
     get pattern() {
-        return this.#pattern;
+        return this._pattern;
     }
 
     _find_next() {
@@ -255,5 +193,16 @@ export class SearchBar extends Handy.SearchBar {
 
     _update_pattern() {
         this.pattern.update();
+    }
+
+    _update_error() {
+        if (this.pattern.error) {
+            this._entry.get_style_context().add_class('error');
+            this._error_label.label = this.pattern.error.message;
+            this._error_popover.popup();
+        } else {
+            this._entry.get_style_context().remove_class('error');
+            this._error_popover.popdown();
+        }
     }
 }

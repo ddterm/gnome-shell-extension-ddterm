@@ -75,6 +75,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <property name="visible">True</property>
             <property name="focus_on_click">False</property>
             <property name="tooltip_text" translatable="yes">Wrap Around</property>
+            <property name="active" bind-source="DDTermSearchBar" bind-property="wrap" bind-flags="bidirectional|sync-create"/>
             <child>
               <object class="GtkImage">
                 <property name="visible">True</property>
@@ -91,6 +92,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <property name="visible">True</property>
             <property name="focus_on_click">False</property>
             <property name="tooltip_text" translatable="yes">Find Next</property>
+            <property name="sensitive" bind-source="pattern" bind-property="regex_set" bind-flags="sync-create"/>
             <signal name="clicked" handler="_find_next"/>
             <child>
               <object class="GtkImage">
@@ -108,6 +110,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <property name="visible">True</property>
             <property name="focus_on_click">False</property>
             <property name="tooltip_text" translatable="yes">Find Previous</property>
+            <property name="sensitive" bind-source="pattern" bind-property="regex_set" bind-flags="sync-create"/>
             <signal name="clicked" handler="_find_prev"/>
             <child>
               <object class="GtkImage">
@@ -140,6 +143,14 @@ SPDX-License-Identifier: GPL-3.0-or-later
         </style>
       </object>
     </child>
+  </object>
+
+  <object class="DDTermSearchPattern" id="pattern">
+    <property name="case_sensitive" bind-source="case_sensitive_button" bind-property="active" bind-flags="bidirectional|sync-create"/>
+    <property name="whole_word" bind-source="whole_word_button" bind-property="active" bind-flags="bidirectional|sync-create"/>
+    <property name="use_regex" bind-source="regex_button" bind-property="active" bind-flags="bidirectional|sync-create"/>
+    <property name="text" bind-source="entry" bind-property="text" bind-flags="bidirectional|sync-create"/>
+    <signal name="notify::error" handler="_update_error"/>
   </object>
 
 </interface>
