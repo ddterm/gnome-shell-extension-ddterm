@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-08 18:24+0000\n"
+"POT-Creation-Date: 2026-03-15 17:47+0000\n"
 "PO-Revision-Date: 2026-02-14 17:09+0000\n"
 "Last-Translator: Francisco Serrador <fserrador@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/es/>\n"
@@ -140,11 +140,11 @@ msgstr "_Título de pestaña"
 msgid "Use Custom Tab Title"
 msgstr "Cambiar el título de la pestaña"
 
-#: ddterm/app/terminalpage.js:318
+#: ddterm/app/terminalpage.js:354
 msgid "The child process exited with status:"
 msgstr "El proceso terminó con el siguiente estado:"
 
-#: ddterm/app/terminalpage.js:328
+#: ddterm/app/terminalpage.js:364
 msgid "The child process was aborted by signal:"
 msgstr "El proceso fué parado con la señal:"
 
@@ -234,27 +234,27 @@ msgstr "Nueva pestaña (Primera)"
 msgid "New Tab (Last)"
 msgstr "Nueva pestaña (Última)"
 
-#: ddterm/app/ui/search.ui:25
+#: ddterm/app/ui/search.ui:20
 msgid "Case Sensitive"
 msgstr "Distingue mayúsculas y minúsculas"
 
-#: ddterm/app/ui/search.ui:38
+#: ddterm/app/ui/search.ui:33
 msgid "Match Whole Word"
 msgstr "Comparar la palabra completa"
 
-#: ddterm/app/ui/search.ui:51
+#: ddterm/app/ui/search.ui:46
 msgid "Regular Expression"
 msgstr "Expresión regular"
 
-#: ddterm/app/ui/search.ui:77
+#: ddterm/app/ui/search.ui:72
 msgid "Wrap Around"
 msgstr "Envolver"
 
-#: ddterm/app/ui/search.ui:93 ddterm/pref/shortcuts.js:673
+#: ddterm/app/ui/search.ui:89 ddterm/pref/shortcuts.js:673
 msgid "Find Next"
 msgstr "Encontrar siguiente"
 
-#: ddterm/app/ui/search.ui:110 ddterm/pref/shortcuts.js:678
+#: ddterm/app/ui/search.ui:107 ddterm/pref/shortcuts.js:678
 msgid "Find Previous"
 msgstr "Encontrar anterior"
 

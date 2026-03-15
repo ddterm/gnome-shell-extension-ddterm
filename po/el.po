@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-08 18:24+0000\n"
+"POT-Creation-Date: 2026-03-15 17:47+0000\n"
 "PO-Revision-Date: 2026-02-05 23:28+0000\n"
 "Last-Translator: Aleksandr Mezin <mezin.alexander@gmail.com>\n"
 "Language-Team: Greek <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/el/>\n"
@@ -144,11 +144,11 @@ msgstr "Titre d'onglet"
 msgid "Use Custom Tab Title"
 msgstr "Χρησιμοποιήστε τον τίτλο προσαρμοσμένης καρτέλας"
 
-#: ddterm/app/terminalpage.js:318
+#: ddterm/app/terminalpage.js:354
 msgid "The child process exited with status:"
 msgstr ""
 
-#: ddterm/app/terminalpage.js:328
+#: ddterm/app/terminalpage.js:364
 msgid "The child process was aborted by signal:"
 msgstr ""
 
@@ -240,27 +240,27 @@ msgstr "Νέα καρτέλα (Αρχή)"
 msgid "New Tab (Last)"
 msgstr "Νέα καρτέλα (Τέλος)"
 
-#: ddterm/app/ui/search.ui:25
+#: ddterm/app/ui/search.ui:20
 msgid "Case Sensitive"
 msgstr "Πεζά-Κεφαλαία"
 
-#: ddterm/app/ui/search.ui:38
+#: ddterm/app/ui/search.ui:33
 msgid "Match Whole Word"
 msgstr "Ταίριαξε με ολόκληρη τη λέξη"
 
-#: ddterm/app/ui/search.ui:51
+#: ddterm/app/ui/search.ui:46
 msgid "Regular Expression"
 msgstr ""
 
-#: ddterm/app/ui/search.ui:77
+#: ddterm/app/ui/search.ui:72
 msgid "Wrap Around"
 msgstr ""
 
-#: ddterm/app/ui/search.ui:93 ddterm/pref/shortcuts.js:673
+#: ddterm/app/ui/search.ui:89 ddterm/pref/shortcuts.js:673
 msgid "Find Next"
 msgstr "Μετακίνηση στο επόμενο"
 
-#: ddterm/app/ui/search.ui:110 ddterm/pref/shortcuts.js:678
+#: ddterm/app/ui/search.ui:107 ddterm/pref/shortcuts.js:678
 msgid "Find Previous"
 msgstr "Μετακίνηση στο επόμενο"
 

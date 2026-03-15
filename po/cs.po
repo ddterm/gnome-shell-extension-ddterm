@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-08 18:24+0000\n"
+"POT-Creation-Date: 2026-03-15 17:47+0000\n"
 "PO-Revision-Date: 2023-10-24 22:14+0000\n"
 "Last-Translator: Pavel Novák <pavelnov32@gmail.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/cs/>\n"
@@ -134,11 +134,11 @@ msgstr "_Název panelu"
 msgid "Use Custom Tab Title"
 msgstr "Použít vlastní název panelu"
 
-#: ddterm/app/terminalpage.js:318
+#: ddterm/app/terminalpage.js:354
 msgid "The child process exited with status:"
 msgstr "Podproces byl ukončen se stavem:"
 
-#: ddterm/app/terminalpage.js:328
+#: ddterm/app/terminalpage.js:364
 msgid "The child process was aborted by signal:"
 msgstr "Podproces byl zrušen signálem:"
 
@@ -228,27 +228,27 @@ msgstr "Nový panel (První)"
 msgid "New Tab (Last)"
 msgstr "Nový panel (Poslední)"
 
-#: ddterm/app/ui/search.ui:25
+#: ddterm/app/ui/search.ui:20
 msgid "Case Sensitive"
 msgstr "Rozlišování velikosti písmen"
 
-#: ddterm/app/ui/search.ui:38
+#: ddterm/app/ui/search.ui:33
 msgid "Match Whole Word"
 msgstr "Shoda celého slova"
 
-#: ddterm/app/ui/search.ui:51
+#: ddterm/app/ui/search.ui:46
 msgid "Regular Expression"
 msgstr "Běžné vyjádření"
 
-#: ddterm/app/ui/search.ui:77
+#: ddterm/app/ui/search.ui:72
 msgid "Wrap Around"
 msgstr "Obtékat"
 
-#: ddterm/app/ui/search.ui:93 ddterm/pref/shortcuts.js:673
+#: ddterm/app/ui/search.ui:89 ddterm/pref/shortcuts.js:673
 msgid "Find Next"
 msgstr "Klávesové zkratky"
 
-#: ddterm/app/ui/search.ui:110 ddterm/pref/shortcuts.js:678
+#: ddterm/app/ui/search.ui:107 ddterm/pref/shortcuts.js:678
 msgid "Find Previous"
 msgstr "Najít předchozí"
 

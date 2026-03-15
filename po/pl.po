@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-08 18:24+0000\n"
+"POT-Creation-Date: 2026-03-15 17:47+0000\n"
 "PO-Revision-Date: 2025-05-08 06:03+0000\n"
 "Last-Translator: luk <lukasz.osadik@wp.pl>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/pl/>\n"
@@ -145,11 +145,11 @@ msgstr "Ustaw inny tytuł karty"
 msgid "Use Custom Tab Title"
 msgstr "Użyj własnego tytułu karty"
 
-#: ddterm/app/terminalpage.js:318
+#: ddterm/app/terminalpage.js:354
 msgid "The child process exited with status:"
 msgstr "Otwarty proces zakończył się ze statusem:"
 
-#: ddterm/app/terminalpage.js:328
+#: ddterm/app/terminalpage.js:364
 msgid "The child process was aborted by signal:"
 msgstr "Otwarty proces został zakończony sygnałem:"
 
@@ -239,27 +239,27 @@ msgstr "Nowa karta (pierwsza)"
 msgid "New Tab (Last)"
 msgstr "Nowa karta (ostatnia)"
 
-#: ddterm/app/ui/search.ui:25
+#: ddterm/app/ui/search.ui:20
 msgid "Case Sensitive"
 msgstr "Uwzględnij wielkość liter"
 
-#: ddterm/app/ui/search.ui:38
+#: ddterm/app/ui/search.ui:33
 msgid "Match Whole Word"
 msgstr "Dopasowywanie całych słów"
 
-#: ddterm/app/ui/search.ui:51
+#: ddterm/app/ui/search.ui:46
 msgid "Regular Expression"
 msgstr "Wyrażenie regularne"
 
-#: ddterm/app/ui/search.ui:77
+#: ddterm/app/ui/search.ui:72
 msgid "Wrap Around"
 msgstr "Zawijanie dookoła"
 
-#: ddterm/app/ui/search.ui:93 ddterm/pref/shortcuts.js:673
+#: ddterm/app/ui/search.ui:89 ddterm/pref/shortcuts.js:673
 msgid "Find Next"
 msgstr "Wyszukaj następne"
 
-#: ddterm/app/ui/search.ui:110 ddterm/pref/shortcuts.js:678
+#: ddterm/app/ui/search.ui:107 ddterm/pref/shortcuts.js:678
 msgid "Find Previous"
 msgstr "Wyszukaj poprzednie"
 

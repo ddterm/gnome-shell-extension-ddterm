@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-08 18:24+0000\n"
+"POT-Creation-Date: 2026-03-15 17:47+0000\n"
 "PO-Revision-Date: 2024-09-02 20:09+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/nb_NO/>\n"
@@ -134,11 +134,11 @@ msgstr "Fanenavn"
 msgid "Use Custom Tab Title"
 msgstr "Bruk egendefinerte fanenavn"
 
-#: ddterm/app/terminalpage.js:318
+#: ddterm/app/terminalpage.js:354
 msgid "The child process exited with status:"
 msgstr "Underprosessen avsluttet med status:"
 
-#: ddterm/app/terminalpage.js:328
+#: ddterm/app/terminalpage.js:364
 msgid "The child process was aborted by signal:"
 msgstr "Et signal avbrøt underprosessen:"
 
@@ -228,27 +228,27 @@ msgstr "Ny fane (først)"
 msgid "New Tab (Last)"
 msgstr "Ny fane (sist)"
 
-#: ddterm/app/ui/search.ui:25
+#: ddterm/app/ui/search.ui:20
 msgid "Case Sensitive"
 msgstr "Forskjell på små og store bokstaver"
 
-#: ddterm/app/ui/search.ui:38
+#: ddterm/app/ui/search.ui:33
 msgid "Match Whole Word"
 msgstr "Jamfør hele ord"
 
-#: ddterm/app/ui/search.ui:51
+#: ddterm/app/ui/search.ui:46
 msgid "Regular Expression"
 msgstr "Regulært uttrykk"
 
-#: ddterm/app/ui/search.ui:77
+#: ddterm/app/ui/search.ui:72
 msgid "Wrap Around"
 msgstr "Linjebryt rundt"
 
-#: ddterm/app/ui/search.ui:93 ddterm/pref/shortcuts.js:673
+#: ddterm/app/ui/search.ui:89 ddterm/pref/shortcuts.js:673
 msgid "Find Next"
 msgstr "Finn neste"
 
-#: ddterm/app/ui/search.ui:110 ddterm/pref/shortcuts.js:678
+#: ddterm/app/ui/search.ui:107 ddterm/pref/shortcuts.js:678
 msgid "Find Previous"
 msgstr "Finn forrige"
 
