@@ -6,7 +6,6 @@ import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
 import Gtk from 'gi://Gtk';
 import Vte from 'gi://Vte';
-import Handy from 'gi://Handy';
 
 import { regex_for_search } from './regex.js';
 
@@ -127,20 +126,13 @@ class SearchPattern extends GObject.Object {
     }
 }
 
-export class SearchBar extends Handy.SearchBar {
-    static [GObject.GTypeName] = 'DDTermSearchBar';
+export class SearchWidget extends Gtk.Box {
+    static [GObject.GTypeName] = 'DDTermSearchWidget';
 
     static [Gtk.template] =
         GLib.Uri.resolve_relative(import.meta.url, './ui/search.ui', GLib.UriFlags.NONE);
 
     static [GObject.properties] = {
-        'pattern': GObject.ParamSpec.object(
-            'pattern',
-            null,
-            null,
-            GObject.ParamFlags.READABLE,
-            SearchPattern
-        ),
         'wrap': GObject.ParamSpec.boolean(
             'wrap',
             null,
@@ -155,30 +147,20 @@ export class SearchBar extends Handy.SearchBar {
         'find-prev': {},
     };
 
-    static [Gtk.internalChildren] = [
+    static [Gtk.children] = [
+        'pattern',
         'entry',
+    ];
+
+    static [Gtk.internalChildren] = [
         'error_popover',
         'error_label',
-        'pattern',
     ];
 
     static {
         GObject.type_ensure(SearchPattern);
 
         GObject.registerClass(this);
-    }
-
-    constructor(params) {
-        super({
-            ...params,
-            show_close_button: true,
-        });
-
-        this.connect_entry(this._entry);
-    }
-
-    get pattern() {
-        return this._pattern;
     }
 
     _find_next() {
@@ -197,11 +179,11 @@ export class SearchBar extends Handy.SearchBar {
 
     _update_error() {
         if (this.pattern.error) {
-            this._entry.get_style_context().add_class('error');
+            this.entry.get_style_context().add_class('error');
             this._error_label.label = this.pattern.error.message;
             this._error_popover.popup();
         } else {
-            this._entry.get_style_context().remove_class('error');
+            this.entry.get_style_context().remove_class('error');
             this._error_popover.popdown();
         }
     }

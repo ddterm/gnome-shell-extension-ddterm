@@ -288,11 +288,24 @@ SPDX-License-Identifier: GPL-3.0-or-later
       </packing>
     </child>
     <child>
-      <object class="DDTermSearchBar" id="search_bar">
+      <object class="HdySearchBar" id="search_bar">
         <property name="visible">True</property>
-        <signal name="find-next" handler="_find_next"/>
-        <signal name="find-prev" handler="_find_prev"/>
+        <property name="show_close_button">True</property>
         <signal name="notify::search-mode-enabled" handler="vfunc_grab_focus"/>
+        <style>
+          <class name="background"/>
+        </style>
+        <child>
+          <object class="DDTermSearchWidget" id="search_widget">
+            <property name="visible">True</property>
+            <signal name="find-next" handler="_find_next"/>
+            <signal name="find-prev" handler="_find_prev"/>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+          </packing>
+        </child>
       </object>
     </child>
   </template>

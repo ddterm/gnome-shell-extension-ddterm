@@ -11,7 +11,7 @@ import Vte from 'gi://Vte';
 
 import Gettext from 'gettext';
 
-import { SearchBar } from './search.js';
+import { SearchWidget } from './search.js';
 import { TabTitleDialog } from './tablabel.js';
 import { Terminal, TerminalCommand, WIFEXITED, WEXITSTATUS, WTERMSIG } from './terminal.js';
 import { TerminalSettings } from './terminalsettings.js';
@@ -97,6 +97,7 @@ export class TerminalPage extends Gtk.Box {
     static [Gtk.internalChildren] = [
         'scrollbar',
         'search_bar',
+        'search_widget',
         ...PAGE_ACTIONS,
         ...TERMINAL_ACTIONS,
     ];
@@ -200,7 +201,7 @@ export class TerminalPage extends Gtk.Box {
 
     static {
         GObject.type_ensure(Terminal);
-        GObject.type_ensure(SearchBar);
+        GObject.type_ensure(SearchWidget);
 
         GObject.registerClass(this);
     }
@@ -222,6 +223,8 @@ export class TerminalPage extends Gtk.Box {
             'visible',
             GObject.BindingFlags.SYNC_CREATE
         );
+
+        this._search_bar.connect_entry(this._search_widget.entry);
 
         const page_actions = new Gio.SimpleActionGroup();
 
@@ -419,21 +422,21 @@ export class TerminalPage extends Gtk.Box {
     }
 
     _find_next() {
-        this.terminal.search_set_regex(this._search_bar.pattern.regex, 0);
-        this.terminal.search_set_wrap_around(this._search_bar.wrap);
+        this.terminal.search_set_regex(this._search_widget.pattern.regex, 0);
+        this.terminal.search_set_wrap_around(this._search_widget.wrap);
         this.terminal.search_find_next();
     }
 
     _find_prev() {
-        this.terminal.search_set_regex(this._search_bar.pattern.regex, 0);
-        this.terminal.search_set_wrap_around(this._search_bar.wrap);
+        this.terminal.search_set_regex(this._search_widget.pattern.regex, 0);
+        this.terminal.search_set_wrap_around(this._search_widget.wrap);
         this.terminal.search_find_previous();
     }
 
     _find_action_activate() {
         this.terminal.get_text_selected_async().then(text => {
             if (text)
-                this._search_bar.pattern.text = text;
+                this._search_widget.pattern.text = text;
 
             this._search_bar.search_mode_enabled = true;
         });

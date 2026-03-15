@@ -9,124 +9,113 @@ SPDX-License-Identifier: GPL-3.0-or-later
 <interface domain="ddterm@amezin.github.com">
   <requires lib="gtk+" version="3.24"/>
 
-  <template class="DDTermSearchBar" parent="HdySearchBar">
-    <style>
-      <class name="background"/>
-    </style>
+  <template class="DDTermSearchWidget" parent="GtkBox">
+    <property name="visible">True</property>
+    <property name="spacing">5</property>
+    <property name="orientation">horizontal</property>
     <child>
-      <object class="GtkBox" id="layout">
+      <object class="GtkToggleButton" id="case_sensitive_button">
         <property name="visible">True</property>
-        <property name="spacing">5</property>
-        <property name="orientation">horizontal</property>
+        <property name="focus_on_click">False</property>
+        <property name="tooltip_text" translatable="yes">Case Sensitive</property>
         <child>
-          <object class="GtkToggleButton" id="case_sensitive_button">
+          <object class="GtkImage">
             <property name="visible">True</property>
-            <property name="focus_on_click">False</property>
-            <property name="tooltip_text" translatable="yes">Case Sensitive</property>
-            <child>
-              <object class="GtkImage">
-                <property name="visible">True</property>
-                <property name="icon_name">uppercase</property>
-              </object>
-            </child>
+            <property name="icon_name">uppercase</property>
           </object>
         </child>
+      </object>
+    </child>
+    <child>
+      <object class="GtkToggleButton" id="whole_word_button">
+        <property name="visible">True</property>
+        <property name="focus_on_click">False</property>
+        <property name="tooltip_text" translatable="yes">Match Whole Word</property>
         <child>
-          <object class="GtkToggleButton" id="whole_word_button">
+          <object class="GtkImage">
             <property name="visible">True</property>
-            <property name="focus_on_click">False</property>
-            <property name="tooltip_text" translatable="yes">Match Whole Word</property>
-            <child>
-              <object class="GtkImage">
-                <property name="visible">True</property>
-                <property name="icon_name">quotation</property>
-              </object>
-            </child>
+            <property name="icon_name">quotation</property>
           </object>
         </child>
+      </object>
+    </child>
+    <child>
+      <object class="GtkToggleButton" id="regex_button">
+        <property name="visible">True</property>
+        <property name="focus_on_click">False</property>
+        <property name="tooltip_text" translatable="yes">Regular Expression</property>
         <child>
-          <object class="GtkToggleButton" id="regex_button">
+          <object class="GtkImage">
             <property name="visible">True</property>
-            <property name="focus_on_click">False</property>
-            <property name="tooltip_text" translatable="yes">Regular Expression</property>
-            <child>
-              <object class="GtkImage">
-                <property name="visible">True</property>
-                <property name="icon_name">regex</property>
-              </object>
-            </child>
+            <property name="icon_name">regex</property>
           </object>
         </child>
-        <child>
-          <object class="GtkSearchEntry" id="entry">
-            <property name="visible">True</property>
-            <signal name="activate" handler="_find_next"/>
-            <signal name="next-match" handler="_find_next"/>
-            <signal name="previous-match" handler="_find_prev"/>
-            <signal name="search-changed" handler="_update_pattern"/>
-          </object>
-          <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkToggleButton" id="wrap_button">
-            <property name="visible">True</property>
-            <property name="focus_on_click">False</property>
-            <property name="tooltip_text" translatable="yes">Wrap Around</property>
-            <property name="active" bind-source="DDTermSearchBar" bind-property="wrap" bind-flags="bidirectional|sync-create"/>
-            <child>
-              <object class="GtkImage">
-                <property name="visible">True</property>
-                <property name="icon_name">view-wrapped</property>
-              </object>
-            </child>
-          </object>
-          <packing>
-            <property name="pack_type">end</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkButton" id="find_next_button">
-            <property name="visible">True</property>
-            <property name="focus_on_click">False</property>
-            <property name="tooltip_text" translatable="yes">Find Next</property>
-            <property name="sensitive" bind-source="pattern" bind-property="regex_set" bind-flags="sync-create"/>
-            <signal name="clicked" handler="_find_next"/>
-            <child>
-              <object class="GtkImage">
-                <property name="visible">True</property>
-                <property name="icon_name">go-down</property>
-              </object>
-            </child>
-          </object>
-          <packing>
-            <property name="pack_type">end</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkButton" id="find_prev_button">
-            <property name="visible">True</property>
-            <property name="focus_on_click">False</property>
-            <property name="tooltip_text" translatable="yes">Find Previous</property>
-            <property name="sensitive" bind-source="pattern" bind-property="regex_set" bind-flags="sync-create"/>
-            <signal name="clicked" handler="_find_prev"/>
-            <child>
-              <object class="GtkImage">
-                <property name="visible">True</property>
-                <property name="icon_name">go-up</property>
-              </object>
-            </child>
-          </object>
-          <packing>
-            <property name="pack_type">end</property>
-          </packing>
-        </child>
+      </object>
+    </child>
+    <child>
+      <object class="GtkSearchEntry" id="entry">
+        <property name="visible">True</property>
+        <signal name="activate" handler="_find_next"/>
+        <signal name="next-match" handler="_find_next"/>
+        <signal name="previous-match" handler="_find_prev"/>
+        <signal name="search-changed" handler="_update_pattern"/>
       </object>
       <packing>
         <property name="expand">True</property>
         <property name="fill">True</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkToggleButton" id="wrap_button">
+        <property name="visible">True</property>
+        <property name="focus_on_click">False</property>
+        <property name="tooltip_text" translatable="yes">Wrap Around</property>
+        <property name="active" bind-source="DDTermSearchWidget" bind-property="wrap" bind-flags="bidirectional|sync-create"/>
+        <child>
+          <object class="GtkImage">
+            <property name="visible">True</property>
+            <property name="icon_name">view-wrapped</property>
+          </object>
+        </child>
+      </object>
+      <packing>
+        <property name="pack_type">end</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkButton" id="find_next_button">
+        <property name="visible">True</property>
+        <property name="focus_on_click">False</property>
+        <property name="tooltip_text" translatable="yes">Find Next</property>
+        <property name="sensitive" bind-source="pattern" bind-property="regex_set" bind-flags="sync-create"/>
+        <signal name="clicked" handler="_find_next"/>
+        <child>
+          <object class="GtkImage">
+            <property name="visible">True</property>
+            <property name="icon_name">go-down</property>
+          </object>
+        </child>
+      </object>
+      <packing>
+        <property name="pack_type">end</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkButton" id="find_prev_button">
+        <property name="visible">True</property>
+        <property name="focus_on_click">False</property>
+        <property name="tooltip_text" translatable="yes">Find Previous</property>
+        <property name="sensitive" bind-source="pattern" bind-property="regex_set" bind-flags="sync-create"/>
+        <signal name="clicked" handler="_find_prev"/>
+        <child>
+          <object class="GtkImage">
+            <property name="visible">True</property>
+            <property name="icon_name">go-up</property>
+          </object>
+        </child>
+      </object>
+      <packing>
+        <property name="pack_type">end</property>
       </packing>
     </child>
   </template>
