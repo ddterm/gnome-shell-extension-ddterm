@@ -19,13 +19,24 @@ const ACTIONS = [
     'new_tab_after_current_action',
     'next_tab_action',
     'prev_tab_action',
-    'switch_to_tab_action',
 ];
 
 function converter(func) {
     return (binding, value) => {
         try {
             return [true, func(value)];
+        } catch (error) {
+            logError(error);
+
+            return [false, null];
+        }
+    };
+}
+
+function converter_method(func) {
+    return (binding, value) => {
+        try {
+            return [true, func.call(value)];
         } catch (error) {
             logError(error);
 
@@ -224,6 +235,21 @@ export class Notebook extends Gtk.Box {
 
         for (const name of ACTIONS)
             actions.add_action(this[`_${name}`]);
+
+        const switch_to_tab_action = new Gio.SimpleAction({
+            name: 'switch-to-tab',
+            parameter_type: new GLib.VariantType('i'),
+            state: GLib.Variant.new_int32(this.current_page),
+        });
+        this.bind_property_full(
+            'current-page',
+            switch_to_tab_action,
+            'state',
+            GObject.BindingFlags.BIDIRECTIONAL,
+            converter(GLib.Variant.new_int32),
+            converter_method(GLib.Variant.prototype.get_int32)
+        );
+        actions.add_action(switch_to_tab_action);
 
         const split_layout_action = new Gio.SimpleAction({
             name: 'split-layout',

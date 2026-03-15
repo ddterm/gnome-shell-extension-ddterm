@@ -221,9 +221,4 @@ SPDX-License-Identifier: GPL-3.0-or-later
     <signal name="activate" handler="_prev_tab_action_activate"/>
   </object>
 
-  <object class="GPropertyAction" id="switch_to_tab_action">
-    <property name="name">switch-to-tab</property>
-    <property name="object">DDTermNotebook</property>
-    <property name="property-name">current-page</property>
-  </object>
 </interface>
