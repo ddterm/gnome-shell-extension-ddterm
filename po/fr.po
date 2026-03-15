@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-15 17:47+0000\n"
+"POT-Creation-Date: 2026-03-15 19:12+0000\n"
 "PO-Revision-Date: 2024-07-24 00:09+0000\n"
 "Last-Translator: Patricio Carrau <duckycb@proton.me>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/fr/>\n"
@@ -142,11 +142,11 @@ msgstr "Titre d'onglet"
 msgid "Use Custom Tab Title"
 msgstr "Utiliser un titre d'onglet personnalisé"
 
-#: ddterm/app/terminalpage.js:354
+#: ddterm/app/terminalpage.js:367
 msgid "The child process exited with status:"
 msgstr "Le processus fils s'est terminé avec le statut :"
 
-#: ddterm/app/terminalpage.js:364
+#: ddterm/app/terminalpage.js:377
 msgid "The child process was aborted by signal:"
 msgstr "Le processus de l'enfant a été interrompu par le signal :"
 
