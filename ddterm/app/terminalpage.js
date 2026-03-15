@@ -56,6 +56,22 @@ const TERMINAL_ACTIONS = [
     'show_in_file_manager_action',
 ];
 
+function converter(func) {
+    return (binding, value) => {
+        try {
+            return [true, func(value)];
+        } catch (error) {
+            logError(error);
+
+            return [false, null];
+        }
+    };
+}
+
+function not_equal(a, b) {
+    return a !== b;
+}
+
 export class TerminalPage extends Gtk.Box {
     static [GObject.GTypeName] = 'DDTermTerminalPage';
 
@@ -258,7 +274,7 @@ export class TerminalPage extends Gtk.Box {
             this._open_hyperlink_action,
             'enabled',
             GObject.BindingFlags.SYNC_CREATE,
-            (_, hyperlink) => [true, Boolean(hyperlink)],
+            converter(Boolean),
             null
         );
 
@@ -267,7 +283,7 @@ export class TerminalPage extends Gtk.Box {
             this._copy_hyperlink_action,
             'enabled',
             GObject.BindingFlags.SYNC_CREATE,
-            (_, hyperlink) => [true, Boolean(hyperlink)],
+            converter(Boolean),
             null
         );
 
@@ -276,7 +292,7 @@ export class TerminalPage extends Gtk.Box {
             this._copy_filename_action,
             'enabled',
             GObject.BindingFlags.SYNC_CREATE,
-            (_, filename) => [true, Boolean(filename)],
+            converter(Boolean),
             null
         );
 
@@ -285,7 +301,7 @@ export class TerminalPage extends Gtk.Box {
             this._font_scale_reset_action,
             'enabled',
             GObject.BindingFlags.SYNC_CREATE,
-            (_, scale) => [true, scale !== 1],
+            converter(not_equal.bind(globalThis, 1)),
             null
         );
 
