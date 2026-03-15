@@ -68,6 +68,18 @@ function converter(func) {
     };
 }
 
+function converter_method(func) {
+    return (binding, value) => {
+        try {
+            return [true, func.call(value)];
+        } catch (error) {
+            logError(error);
+
+            return [false, null];
+        }
+    };
+}
+
 function not_equal(a, b) {
     return a !== b;
 }
@@ -221,9 +233,14 @@ export class TerminalPage extends Gtk.Box {
             parameter_type: new GLib.VariantType('s'),
             state: GLib.Variant.new_string(this.split_layout),
         });
-        this.connect('notify::split-layout', () => {
-            split_layout_action.state = GLib.Variant.new_string(this.split_layout);
-        });
+        this.bind_property_full(
+            'split-layout',
+            split_layout_action,
+            'state',
+            GObject.BindingFlags.DEFAULT,
+            converter(GLib.Variant.new_string),
+            null
+        );
         split_layout_action.connect('change-state', (_, value) => {
             this.emit('split-layout-request', value.unpack());
         });
@@ -249,14 +266,14 @@ export class TerminalPage extends Gtk.Box {
             'state': GLib.Variant.new_boolean(this.use_custom_title),
             'parameter-type': GLib.VariantType.new('b'),
         });
-        use_custom_title_action.connect('change-state', (_, value) => {
-            this.use_custom_title = value.get_boolean();
-        });
-        this.connect('notify::use-custom-title', () => {
-            use_custom_title_action.set_state(
-                GLib.Variant.new_boolean(this.use_custom_title)
-            );
-        });
+        this.bind_property_full(
+            'use-custom-title',
+            use_custom_title_action,
+            'state',
+            GObject.BindingFlags.BIDIRECTIONAL,
+            converter(GLib.Variant.new_boolean),
+            converter_method(GLib.Variant.prototype.get_boolean)
+        );
         use_custom_title_action.connect('activate', (_, param) => {
             use_custom_title_action.change_state(param);
 
