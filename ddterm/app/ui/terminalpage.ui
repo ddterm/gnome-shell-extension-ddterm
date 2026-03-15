@@ -315,12 +315,6 @@ SPDX-License-Identifier: GPL-3.0-or-later
     <signal name="activate" handler="_close_action_activate"/>
   </object>
 
-  <object class="GPropertyAction" id="keep_open_action">
-    <property name="name">keep-open-after-exit</property>
-    <property name="object">DDTermTerminalPage</property>
-    <property name="property-name">keep-open-after-exit</property>
-  </object>
-
   <object class="GSimpleAction" id="new_tab_before_action">
     <property name="name">new-tab-before</property>
     <signal name="activate" handler="_new_tab_before_action_activate"/>

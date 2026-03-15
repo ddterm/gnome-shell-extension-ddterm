@@ -29,7 +29,6 @@ class CloseDialog extends Gtk.MessageDialog {
 
 const PAGE_ACTIONS = [
     'close_action',
-    'keep_open_action',
     'new_tab_before_action',
     'new_tab_after_action',
     'move_prev_action',
@@ -230,6 +229,20 @@ export class TerminalPage extends Gtk.Box {
 
         for (const name of PAGE_ACTIONS)
             page_actions.add_action(this[`_${name}`]);
+
+        const keep_open_action = new Gio.SimpleAction({
+            name: 'keep-open-after-exit',
+            state: GLib.Variant.new_boolean(this.keep_open_after_exit),
+        });
+        this.bind_property_full(
+            'keep-open-after-exit',
+            keep_open_action,
+            'state',
+            GObject.BindingFlags.BIDIRECTIONAL,
+            converter(GLib.Variant.new_boolean),
+            converter_method(GLib.Variant.prototype.get_boolean)
+        );
+        page_actions.add_action(keep_open_action);
 
         const split_layout_action = new Gio.SimpleAction({
             name: 'split-layout',
