@@ -24,8 +24,9 @@ runs:
       shell: bash
       run: >-
         tox -e pytest --
+        "--html=tests/report-$CONTAINER.html"
         --self-contained-html
-        --junitxml=tests/junit.xml
+        "--junitxml=tests/junit-$CONTAINER.xml"
         "--container=$CONTAINER"
         -vv
         ${{ inputs.args }}
@@ -35,7 +36,11 @@ runs:
     - if: ${{ always() }}
       uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
       with:
-        name: ${{ inputs.container }}-reports
-        path: |
-          tests/report.html
-          tests/junit.xml
+        path: tests/report-${{ inputs.container }}.html
+        archive: false
+
+    - if: ${{ always() }}
+      uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+      with:
+        path: tests/junit-${{ inputs.container }}.xml
+        archive: false

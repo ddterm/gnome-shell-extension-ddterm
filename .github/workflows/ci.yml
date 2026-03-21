@@ -478,15 +478,17 @@ jobs:
 
       - uses: actions/download-artifact@70fc10c6e5e1ce46ad2ea6f2b72d43f7d47b13c3 # v8.0.0
         with:
-          pattern: '*-reports'
+          pattern: '{report-*.html,junit-*.xml}'
+          merge-multiple: true
 
       - run: |
           res=0
           how="?start"
 
-          for dir in *-reports; do
-            name="${dir%-reports}"
-            testspace --verbose push "[$name]./$dir/junit.xml" "[$name]+./$dir/report.html" "$how" || res="$?"
+          for report in junit-*.xml; do
+            name="${report#junit-}"
+            name="${name%.xml}"
+            testspace --verbose push "[$name]./$report" "[$name]+./report-$name.html" "$how" || res="$?"
             how="?add"
           done
 
