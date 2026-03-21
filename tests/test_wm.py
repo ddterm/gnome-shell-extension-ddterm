@@ -258,7 +258,6 @@ class CommonTests:
         monitor_layout,
         primary_monitor,
         layout_mode,
-        dbus_connection,
         display_config,
         shell_test_hook,
         extension_test_hook,
@@ -356,18 +355,10 @@ class CommonTests:
         return request.param
 
     @pytest.fixture
-    def workareas(
-        self,
-        shell_test_hook,
-        monitor_config,  # monitor configuration must be applied before reading workareas!
-    ):
-        return shell_test_hook.Workareas
-
-    @pytest.fixture
-    def current_monitor(self, request, shell_test_hook, workareas):
+    def current_monitor(self, request, shell_test_hook, monitor_config):
         glibutil.dispatch_pending_sources()
 
-        workarea = workareas[request.param]
+        workarea = shell_test_hook.Workareas[request.param]
         pointer = shell_test_hook.Pointer
 
         if workarea.contains(pointer):
@@ -381,31 +372,8 @@ class CommonTests:
         return request.param
 
     @pytest.fixture
-    def workarea(self, workareas, window_monitor):
-        return workareas[window_monitor]
-
-    @pytest.fixture
     def monitor_scale(self, monitor_config, window_monitor):
         return monitor_config[window_monitor].scale
-
-    @pytest.fixture
-    def unmaximized_rect(
-        self,
-        workarea,
-        window_size,
-        window_position,
-        monitor_scale,
-    ):
-        return compute_target_rect(
-            window_size=window_size,
-            window_position=window_position,
-            workarea=workarea,
-            round_to=int(monitor_scale)
-        )
-
-    @pytest.fixture
-    def expected_rect(self, window_maximize, workarea, unmaximized_rect):
-        return workarea if window_maximize else unmaximized_rect
 
     @pytest.fixture
     def expected_show_transitions(self, window_position, animation_mode):
@@ -460,10 +428,11 @@ class CommonTests:
 
     def test_show(
         self,
-        unmaximized_rect,
-        expected_rect,
-        monitor_scale,
         window_maximize,
+        window_position,
+        window_size,
+        window_monitor,
+        monitor_scale,
         window_above,
         expected_on_all_workspaces,
         window_skip_taskbar,
@@ -482,11 +451,23 @@ class CommonTests:
         glibutil.dispatch_pending_sources()
 
         assert extension_test_hook.HasWindow
-        assert unmaximized_rect == extension_dbus_interface.TargetRect
         assert extension_test_hook.ClientType == gdk_backend
         assert monitor_scale == extension_dbus_interface.TargetMonitorScale
 
         extension_test_hook.wait_property('RenderedFirstFrame', True)
+
+        workarea = shell_test_hook.Workareas[window_monitor]
+        unmaximized_rect = compute_target_rect(
+            window_size=window_size,
+            window_position=window_position,
+            workarea=workarea,
+            round_to=int(monitor_scale)
+        )
+
+        assert unmaximized_rect == extension_dbus_interface.TargetRect
+
+        expected_rect = workarea if window_maximize else unmaximized_rect
+
         wait_idle()
 
         assert extension_test_hook.WindowRect == expected_rect
@@ -574,11 +555,11 @@ class CommonTests:
     @pytest.mark.usefixtures('disable_animations')
     def test_maximize_unmaximize(
         self,
-        unmaximized_rect,
-        expected_rect,
-        workarea,
-        monitor_scale,
         window_maximize,
+        window_position,
+        window_size,
+        window_monitor,
+        monitor_scale,
         window_above,
         window_skip_taskbar,
         expected_on_all_workspaces,
@@ -593,11 +574,23 @@ class CommonTests:
         glibutil.dispatch_pending_sources()
 
         assert extension_test_hook.HasWindow
-        assert unmaximized_rect == extension_dbus_interface.TargetRect
         assert extension_test_hook.ClientType == gdk_backend
         assert monitor_scale == extension_dbus_interface.TargetMonitorScale
 
         extension_test_hook.wait_property('RenderedFirstFrame', True)
+
+        workarea = shell_test_hook.Workareas[window_monitor]
+        unmaximized_rect = compute_target_rect(
+            window_size=window_size,
+            window_position=window_position,
+            workarea=workarea,
+            round_to=int(monitor_scale)
+        )
+
+        assert unmaximized_rect == extension_dbus_interface.TargetRect
+
+        expected_rect = workarea if window_maximize else unmaximized_rect
+
         wait_idle()
 
         assert extension_test_hook.WindowRect == expected_rect
@@ -629,13 +622,11 @@ class CommonTests:
     @pytest.mark.usefixtures('disable_animations')
     def test_mouse_resize(
         self,
-        unmaximized_rect,
-        expected_rect,
-        workarea,
         window_maximize,
         window_size,
         window_size2,
         window_position,
+        window_monitor,
         monitor_scale,
         extension_dbus_interface,
         extension_test_hook,
@@ -649,11 +640,23 @@ class CommonTests:
         glibutil.dispatch_pending_sources()
 
         assert extension_test_hook.HasWindow
-        assert unmaximized_rect == extension_dbus_interface.TargetRect
         assert extension_test_hook.ClientType == gdk_backend
         assert monitor_scale == extension_dbus_interface.TargetMonitorScale
 
         extension_test_hook.wait_property('RenderedFirstFrame', True)
+
+        workarea = shell_test_hook.Workareas[window_monitor]
+        unmaximized_rect = compute_target_rect(
+            window_size=window_size,
+            window_position=window_position,
+            workarea=workarea,
+            round_to=int(monitor_scale)
+        )
+
+        assert unmaximized_rect == extension_dbus_interface.TargetRect
+
+        expected_rect = workarea if window_maximize else unmaximized_rect
+
         wait_idle()
         shell_test_hook.WaitLeisure()
 
@@ -712,11 +715,10 @@ class CommonTests:
     @pytest.mark.usefixtures('disable_animations')
     def test_resize_maximize_unmaximize(
         self,
-        unmaximized_rect,
-        workarea,
         window_size,
         window_size2,
         window_position,
+        window_monitor,
         monitor_scale,
         extension_dbus_interface,
         extension_test_hook,
@@ -731,12 +733,20 @@ class CommonTests:
         glibutil.dispatch_pending_sources()
 
         assert extension_test_hook.HasWindow
-        assert unmaximized_rect == extension_dbus_interface.TargetRect
         assert extension_test_hook.ClientType == gdk_backend
         assert monitor_scale == extension_dbus_interface.TargetMonitorScale
 
         wait_idle()
 
+        workarea = shell_test_hook.Workareas[window_monitor]
+        unmaximized_rect = compute_target_rect(
+            window_size=window_size,
+            window_position=window_position,
+            workarea=workarea,
+            round_to=int(monitor_scale)
+        )
+
+        assert unmaximized_rect == extension_dbus_interface.TargetRect
         assert extension_test_hook.WindowRect == unmaximized_rect
         assert not extension_test_hook.seen_transitions
         assert shell_test_hook.FocusApp == 'com.github.amezin.ddterm'
