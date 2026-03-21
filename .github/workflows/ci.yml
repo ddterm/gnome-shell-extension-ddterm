@@ -319,7 +319,7 @@ jobs:
       - run: sudo apt-get install -y --no-install-recommends tox python3-gi
 
       - name: Download extension bundle
-        uses: actions/download-artifact@70fc10c6e5e1ce46ad2ea6f2b72d43f7d47b13c3 # v8.0.0
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           pattern: '*.shell-extension.zip'
           skip-decompress: true
@@ -402,7 +402,7 @@ jobs:
       - run: sudo apt-get install -y --no-install-recommends tox python3-gi
 
       - name: Download extension package
-        uses: actions/download-artifact@70fc10c6e5e1ce46ad2ea6f2b72d43f7d47b13c3 # v8.0.0
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           name: archlinux-package
 
@@ -476,7 +476,7 @@ jobs:
         with:
           domain: ${{ github.repository_owner }}
 
-      - uses: actions/download-artifact@70fc10c6e5e1ce46ad2ea6f2b72d43f7d47b13c3 # v8.0.0
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           pattern: '{report-*.html,junit-*.xml}'
           merge-multiple: true
