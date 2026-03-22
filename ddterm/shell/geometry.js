@@ -85,7 +85,7 @@ export const WindowGeometry = GObject.registerClass({
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             0,
             1,
-            0.6
+            1
         ),
         'window-position': GObject.ParamSpec.enum(
             'window-position',
