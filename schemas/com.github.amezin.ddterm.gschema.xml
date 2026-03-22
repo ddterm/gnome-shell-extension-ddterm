@@ -138,6 +138,10 @@ SPDX-License-Identifier: GPL-3.0-or-later
       <default>0.6</default>
       <range min="0.0" max="1.0"/>
     </key>
+    <key name="window-size-secondary" type="d">
+      <default>1.0</default>
+      <range min="0.0" max="1.0"/>
+    </key>
     <key name="window-maximize" type="b">
       <default>false</default>
     </key>
@@ -384,6 +388,13 @@ SPDX-License-Identifier: GPL-3.0-or-later
     </key>
     <key name="shortcut-window-size-dec" type="as">
       <default><![CDATA[['<Ctrl>Up']]]></default>
+    </key>
+    <key name="shortcut-window-size-secondary-inc" type="as">
+      <default><![CDATA[['<Ctrl><Alt>Down']]]></default>
+    </key>
+
+    <key name="shortcut-window-size-secondary-dec" type="as">
+      <default><![CDATA[['<Ctrl><Alt>Up']]]></default>
     </key>
     <key name="shortcut-background-opacity-inc" type="as">
       <default><![CDATA[[]]]></default>

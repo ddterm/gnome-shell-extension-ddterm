@@ -347,6 +347,17 @@ export class Application extends Gtk.Application {
                 if (!this.#settings.get_boolean('window-maximize'))
                     this.#adjust_double_setting('window-size', SIZE_STEP);
             },
+            'window-size-secondary-dec': () => {
+                if (this.#settings.get_boolean('window-maximize'))
+                    this.#settings.set_double('window-size-secondary', 1.0 - SIZE_STEP);
+                else
+                    this.#adjust_double_setting('window-size-secondary', -SIZE_STEP);
+            },
+
+            'window-size-secondary-inc': () => {
+                if (!this.#settings.get_boolean('window-maximize'))
+                    this.#adjust_double_setting('window-size-secondary', SIZE_STEP);
+            },
             'background-opacity-dec': () => {
                 this.#adjust_double_setting('background-opacity', -OPACITY_STEP);
             },
@@ -416,6 +427,8 @@ export class Application extends Gtk.Application {
             'shortcut-window-hide': 'win.hide',
             'shortcut-window-size-inc': 'app.window-size-inc',
             'shortcut-window-size-dec': 'app.window-size-dec',
+            'shortcut-window-size-secondary-inc': 'app.window-size-secondary-inc',
+            'shortcut-window-size-secondary-dec': 'app.window-size-secondary-dec',
             'shortcut-background-opacity-inc': 'app.background-opacity-inc',
             'shortcut-background-opacity-dec': 'app.background-opacity-dec',
             'shortcut-toggle-maximize': 'app.window-maximize',
