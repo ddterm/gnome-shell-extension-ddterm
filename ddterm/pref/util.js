@@ -558,6 +558,38 @@ export class ScaleRow extends ActionRow {
     }
 }
 
+function create_scale_row({
+    settings,
+    key,
+    adjustment,
+    flags = Gio.SettingsBindFlags.DEFAULT,
+    percent = true,
+    ...params
+}) {
+    const row = new ScaleRow({
+        visible: true,
+        use_underline: true,
+        adjustment,
+        ...params,
+    });
+
+    settings.bind(key, adjustment, 'value', flags);
+
+    settings.bind_writable(
+        key,
+        row,
+        'sensitive',
+        false
+    );
+
+    if (percent) {
+        const percent_format = new Intl.NumberFormat(undefined, { style: 'percent' });
+        row.set_format_value_func((_, v) => percent_format.format(v));
+    }
+
+    return row;
+}
+
 export class ExpanderRow extends AdwOrHdy.ExpanderRow {
     static [GObject.GTypeName] = 'DDTermExpanderRow';
 
@@ -671,6 +703,14 @@ export class PreferencesGroup extends AdwOrHdy.PreferencesGroup {
 
     add_expander_row(params) {
         const row = ExpanderRow.create({ settings: this.settings, ...params });
+
+        this.add(row);
+
+        return row;
+    }
+
+    add_scale_row(params) {
+        const row = create_scale_row({ settings: this.settings, ...params });
 
         this.add(row);
 

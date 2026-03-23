@@ -78,6 +78,15 @@ export const WindowGeometry = GObject.registerClass({
             1,
             0.6
         ),
+        'window-size-secondary': GObject.ParamSpec.double(
+            'window-size-secondary',
+            null,
+            null,
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+            0,
+            1,
+            1
+        ),
         'window-position': GObject.ParamSpec.enum(
             'window-position',
             null,
@@ -124,6 +133,7 @@ export const WindowGeometry = GObject.registerClass({
         );
 
         this.connect('notify::window-size', this.#update_target_rect.bind(this));
+        this.connect('notify::window-size-secondary', this.#update_target_rect.bind(this));
         this.connect('notify::window-position', this.#update_window_position.bind(this));
         this.connect('notify::window-monitor', this.update_monitor.bind(this));
         this.connect('notify::window-monitor-connector', this.update_monitor.bind(this));
@@ -139,24 +149,35 @@ export const WindowGeometry = GObject.registerClass({
         }
     }
 
-    static get_target_rect(workarea, monitor_scale, size, window_pos) {
+    static get_target_rect(workarea, monitor_scale, size, size_secondary, window_pos) {
         const target_rect = workarea.copy();
 
-        if (size === 1)
-            return target_rect;
-
         if (window_pos === Meta.Side.LEFT || window_pos === Meta.Side.RIGHT) {
-            target_rect.width *= size;
-            target_rect.width -= target_rect.width % monitor_scale;
+            if (size !== 1) {
+                target_rect.width *= size;
+                target_rect.width -= target_rect.width % monitor_scale;
 
-            if (window_pos === Meta.Side.RIGHT)
-                target_rect.x += workarea.width - target_rect.width;
-        } else {
-            target_rect.height *= size;
+                if (window_pos === Meta.Side.RIGHT)
+                    target_rect.x += workarea.width - target_rect.width;
+            }
+            target_rect.height *= size_secondary;
             target_rect.height -= target_rect.height % monitor_scale;
+            target_rect.height = Math.floor(target_rect.height);
 
-            if (window_pos === Meta.Side.BOTTOM)
-                target_rect.y += workarea.height - target_rect.height;
+            target_rect.y += Math.floor((workarea.height - target_rect.height) / 2);
+        } else {
+            if (size !== 1) {
+                target_rect.height *= size;
+                target_rect.height -= target_rect.height % monitor_scale;
+
+                if (window_pos === Meta.Side.BOTTOM)
+                    target_rect.y += workarea.height - target_rect.height;
+            }
+            target_rect.width *= size_secondary;
+            target_rect.width -= target_rect.width % monitor_scale;
+            target_rect.width = Math.floor(target_rect.width);
+
+            target_rect.x += Math.floor((workarea.width - target_rect.width) / 2);
         }
 
         return target_rect;
@@ -165,6 +186,7 @@ export const WindowGeometry = GObject.registerClass({
     bind_settings(settings) {
         [
             'window-size',
+            'window-size-secondary',
             'window-position',
             'window-monitor',
             'window-monitor-connector',
@@ -356,6 +378,7 @@ export const WindowGeometry = GObject.registerClass({
                 this.#workarea,
                 Math.floor(this.#monitor_scale),
                 this.window_size,
+                this.window_size_secondary,
                 this.window_position
             );
 
