@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 import { fileURLToPath } from 'node:url';
-import { defineConfig } from '@eslint/config-helpers';
+import { defineConfig } from 'eslint/config';
 import globals from 'globals';
 import gnome from 'eslint-config-gnome';
 import importPlugin from 'eslint-plugin-import';
