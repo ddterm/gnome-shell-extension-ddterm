@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-03-15 19:12+0000\n"
-"PO-Revision-Date: 2026-02-14 17:09+0000\n"
+"PO-Revision-Date: 2026-04-14 15:09+0000\n"
 "Last-Translator: Francisco Serrador <fserrador@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/es/>\n"
 "Language: es\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.16-dev\n"
+"X-Generator: Weblate 5.17-dev\n"
 
 #: data/com.github.amezin.ddterm.desktop.in.in:9
 #: ddterm/shell/notifications.js:240 ddterm/shell/panelicon.js:32
@@ -1155,10 +1155,8 @@ msgid "Detect \"news:\", \"man:\" URLs"
 msgstr "Detectar las urls \"news:\", \"man:\""
 
 #: ddterm/pref/text.js:171
-#, fuzzy
-#| msgid "Copy Selected Text"
 msgid "Copy On Selection"
-msgstr "Copiar Texto Seleccionado"
+msgstr "Copiar sobre selección"
 
 #: ddterm/shell/notifications.js:59 ddterm/shell/notifications.js:137
 msgid "Copy to Clipboard"
