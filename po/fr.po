@@ -6,20 +6,21 @@
 # fail a fail <yassadmi@proton.me>, 2023.
 # Stephane LE CAER <stephane@slc66.net>, 2023.
 # Patricio Carrau <duckycb@proton.me>, 2024.
+# Vincent Leduc <leducvinc@pm.me>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-03-15 19:12+0000\n"
-"PO-Revision-Date: 2024-07-24 00:09+0000\n"
-"Last-Translator: Patricio Carrau <duckycb@proton.me>\n"
+"PO-Revision-Date: 2026-04-10 18:09+0000\n"
+"Last-Translator: Vincent Leduc <leducvinc@pm.me>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.7-dev\n"
+"X-Generator: Weblate 5.17-dev\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-Basepath: .\n"
 
@@ -160,7 +161,7 @@ msgstr "Il reste un processus en cours d'exécution dans ce terminal. Fermer ce 
 
 #: ddterm/app/ui/closedialog.ui:20 ddterm/pref/shortcuts.js:210
 msgid "Cancel"
-msgstr ""
+msgstr "Annuler"
 
 #: ddterm/app/ui/closedialog.ui:30 ddterm/app/ui/terminalpage.ui:244
 msgid "Close Terminal"
@@ -377,10 +378,8 @@ msgid "Enable Keyboard Shortcuts"
 msgstr "Activer les raccourcis clavier"
 
 #: ddterm/app/ui/terminalpage.ui:207 ddterm/shell/panelicon.js:72
-#, fuzzy
-#| msgid "ddterm"
 msgid "About ddterm"
-msgstr "ddterm"
+msgstr "À propos de ddterm"
 
 #: ddterm/app/ui/terminalpage.ui:237
 msgid "Restart"
@@ -871,40 +870,32 @@ msgid "Show _Scrollbar"
 msgstr "Afficher la barre de défilement"
 
 #: ddterm/pref/scrolling.js:43
-#, fuzzy
-#| msgid "_Limit scrollback to:"
 msgid "Unlimited Scrollback"
-msgstr "Limiter les lignes d'historique à :"
+msgstr "Lignes d'historique illimitées"
 
 #: ddterm/pref/scrolling.js:53
-#, fuzzy
-#| msgid "Scrolling"
 msgid "Scrollback Lines"
-msgstr "Défilement"
+msgstr "Nombre de lignes d'historique"
 
 #: ddterm/pref/shortcuts.js:189
-#, fuzzy
-#| msgid "Enable Keyboard Shortcuts"
 msgid "Enter new shortcut"
-msgstr "Activer les raccourcis clavier"
+msgstr "Entrer le nouveau raccourci clavier"
 
 #: ddterm/pref/shortcuts.js:205
 msgid "Press Esc to cancel or Backspace to disable the keyboard shortcut"
-msgstr ""
+msgstr "Appuyer sur Échap pour annuler ou sur Suppr arrière pour désactiver le raccourci clavier"
 
 #: ddterm/pref/shortcuts.js:211
 msgid "Set"
-msgstr ""
+msgstr "Assigner"
 
 #: ddterm/pref/shortcuts.js:343 ddterm/pref/text.js:120
 msgid "Disabled"
 msgstr "Désactivé"
 
 #: ddterm/pref/shortcuts.js:483
-#, fuzzy
-#| msgid "Global Shortcut"
 msgid "Global Shortcuts"
-msgstr "Raccourci global"
+msgstr "Raccourcis globaux"
 
 #: ddterm/pref/shortcuts.js:487
 msgid "Toggle Terminal Window"
@@ -915,10 +906,8 @@ msgid "Show/Activate Terminal Window"
 msgstr "Afficher/activer la fenêtre de terminal"
 
 #: ddterm/pref/shortcuts.js:509
-#, fuzzy
-#| msgid "_Enable application shortcuts"
 msgid "Application Shortcuts"
-msgstr "Activer les raccourcis"
+msgstr "Raccourcis de l'application"
 
 #: ddterm/pref/shortcuts.js:513
 msgid "_Enable application shortcuts"
@@ -1046,7 +1035,7 @@ msgstr "Onglets"
 
 #: ddterm/pref/tabs.js:23
 msgid "_Restore Previous Tabs on Startup"
-msgstr ""
+msgstr "_Restaurer les onglets précédents au démarrage"
 
 #: ddterm/pref/tabs.js:28
 msgid "Show Tab _Bar"
@@ -1090,7 +1079,7 @@ msgstr "Texte"
 
 #: ddterm/pref/text.js:75
 msgid "Use System Font"
-msgstr ""
+msgstr "Utiliser la police du système"
 
 #: ddterm/pref/text.js:79
 msgid "Custom _Font"
@@ -1169,8 +1158,6 @@ msgid "Detect \"news:\", \"man:\" URLs"
 msgstr "Détecter les URLs \"news:\", \"man:\""
 
 #: ddterm/pref/text.js:171
-#, fuzzy
-#| msgid "Copy Selected Text"
 msgid "Copy On Selection"
 msgstr "Copier la sélection"
 
