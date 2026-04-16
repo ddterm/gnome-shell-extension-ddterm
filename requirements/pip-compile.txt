@@ -4,11 +4,11 @@
 #
 #    pip-compile --strip-extras pip-compile.in
 #
-build==1.4.0
+build==1.4.3
     # via pip-tools
-click==8.3.1
+click==8.3.2
     # via pip-tools
-packaging==26.0
+packaging==26.1
     # via
     #   build
     #   wheel
