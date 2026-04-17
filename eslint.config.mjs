@@ -11,15 +11,22 @@ import gitIgnores from './lint/gitignore.mjs';
 
 export default defineConfig([
     gitIgnores(new URL('./', import.meta.url)),
-    importPlugin.flatConfigs.recommended,
-    gnome.configs.recommended,
     {
+        files: [
+            '**/*.js',
+        ],
+        extends: [
+            importPlugin.flatConfigs.recommended,
+        ],
         settings: {
             'import/resolver': fileURLToPath(
                 new URL('./lint/import-resolver.cjs', import.meta.url)
             ),
             'import/core-modules': ['gettext', 'gi', 'system', 'console'],
         },
+    },
+    gnome.configs.recommended,
+    {
         rules: {
             'max-len': [
                 'error',
@@ -89,10 +96,6 @@ export default defineConfig([
         ],
         languageOptions: {
             globals: globals.node,
-        },
-        settings: {
-            'import/resolver': 'node',
-            'import/core-modules': [],
         },
     },
 ]);
