@@ -27,25 +27,6 @@ class CloseDialog extends Gtk.MessageDialog {
     }
 }
 
-const TERMINAL_ACTIONS = [
-    'copy_action',
-    'copy_html_action',
-    'open_hyperlink_action',
-    'copy_hyperlink_action',
-    'copy_filename_action',
-    'paste_action',
-    'select_all_action',
-    'reset_action',
-    'reset_and_clear_action',
-    'find_action',
-    'find_next_action',
-    'find_prev_action',
-    'font_scale_increase_action',
-    'font_scale_decrease_action',
-    'font_scale_reset_action',
-    'show_in_file_manager_action',
-];
-
 function converter(func) {
     return (binding, value) => {
         try {
@@ -88,7 +69,6 @@ export class TerminalPage extends Gtk.Box {
         'scrollbar',
         'search_bar',
         'search_widget',
-        ...TERMINAL_ACTIONS,
     ];
 
     static [GObject.properties] = {
@@ -291,44 +271,137 @@ export class TerminalPage extends Gtk.Box {
 
         const terminal_actions = new Gio.SimpleActionGroup();
 
+        const copy_action = Gio.SimpleAction.new('copy', null);
+        copy_action.connect('activate', this.#copy.bind(this));
+        this.terminal.bind_property(
+            'has-selection',
+            copy_action,
+            'enabled',
+            GObject.BindingFlags.SYNC_CREATE
+        );
+        terminal_actions.add_action(copy_action);
+
+        const copy_html_action = Gio.SimpleAction.new('copy-html', null);
+        copy_html_action.connect('activate', this.#copy_html.bind(this));
+        this.terminal.bind_property(
+            'has-selection',
+            copy_html_action,
+            'enabled',
+            GObject.BindingFlags.SYNC_CREATE
+        );
+        terminal_actions.add_action(copy_html_action);
+
+        const open_hyperlink_action = Gio.SimpleAction.new('open-hyperlink', null);
+        open_hyperlink_action.connect('activate', this._open_hyperlink.bind(this));
         this.terminal.bind_property_full(
             'last-clicked-hyperlink',
-            this._open_hyperlink_action,
+            open_hyperlink_action,
             'enabled',
             GObject.BindingFlags.SYNC_CREATE,
             converter(Boolean),
             null
         );
+        terminal_actions.add_action(open_hyperlink_action);
 
+        const copy_hyperlink_action = Gio.SimpleAction.new('copy-hyperlink', null);
+        copy_hyperlink_action.connect('activate', this.#copy_hyperlink.bind(this));
         this.terminal.bind_property_full(
             'last-clicked-hyperlink',
-            this._copy_hyperlink_action,
+            copy_hyperlink_action,
             'enabled',
             GObject.BindingFlags.SYNC_CREATE,
             converter(Boolean),
             null
         );
+        terminal_actions.add_action(copy_hyperlink_action);
 
+        const copy_filename_action = Gio.SimpleAction.new('copy-filename', null);
+        copy_filename_action.connect('activate', this.#copy_filename.bind(this));
         this.terminal.bind_property_full(
             'last-clicked-filename',
-            this._copy_filename_action,
+            copy_filename_action,
             'enabled',
             GObject.BindingFlags.SYNC_CREATE,
             converter(Boolean),
             null
         );
+        terminal_actions.add_action(copy_filename_action);
 
+        const paste_action = Gio.SimpleAction.new('paste', null);
+        paste_action.connect('activate', this.#paste.bind(this));
+        terminal_actions.add_action(paste_action);
+
+        const select_all_action = Gio.SimpleAction.new('select-all', null);
+        select_all_action.connect('activate', this.#select_all.bind(this));
+        terminal_actions.add_action(select_all_action);
+
+        const reset_action = Gio.SimpleAction.new('reset', null);
+        reset_action.connect('activate', this.#reset.bind(this));
+        terminal_actions.add_action(reset_action);
+
+        const reset_and_clear_action = Gio.SimpleAction.new('reset-and-clear', null);
+        reset_and_clear_action.connect('activate', this.#reset_and_clear.bind(this));
+        terminal_actions.add_action(reset_and_clear_action);
+
+        const find_action = Gio.SimpleAction.new('find', null);
+        find_action.connect('activate', this.#find.bind(this));
+        terminal_actions.add_action(find_action);
+
+        const find_next_action = Gio.SimpleAction.new('find-next', null);
+        find_next_action.connect('activate', this._find_next.bind(this));
+        this._search_bar.bind_property(
+            'search-mode-enabled',
+            find_next_action,
+            'enabled',
+            GObject.BindingFlags.SYNC_CREATE
+        );
+        terminal_actions.add_action(find_next_action);
+
+        const find_prev_action = Gio.SimpleAction.new('find-prev', null);
+        find_prev_action.connect('activate', this._find_prev.bind(this));
+        this._search_bar.bind_property(
+            'search-mode-enabled',
+            find_prev_action,
+            'enabled',
+            GObject.BindingFlags.SYNC_CREATE
+        );
+        terminal_actions.add_action(find_prev_action);
+
+        const font_scale_increase_action = Gio.SimpleAction.new('font-scale-increase', null);
+        font_scale_increase_action.connect('activate', this.#font_scale_increase.bind(this));
+        this.terminal.bind_property(
+            'can-increase-font-scale',
+            font_scale_increase_action,
+            'enabled',
+            GObject.BindingFlags.SYNC_CREATE
+        );
+        terminal_actions.add_action(font_scale_increase_action);
+
+        const font_scale_decrease_action = Gio.SimpleAction.new('font-scale-decrease', null);
+        font_scale_decrease_action.connect('activate', this.#font_scale_decrease.bind(this));
+        this.terminal.bind_property(
+            'can-decrease-font-scale',
+            font_scale_decrease_action,
+            'enabled',
+            GObject.BindingFlags.SYNC_CREATE
+        );
+        terminal_actions.add_action(font_scale_decrease_action);
+
+        const font_scale_reset_action = Gio.SimpleAction.new('font-scale-reset', null);
+        font_scale_reset_action.connect('activate', this.#font_scale_reset.bind(this));
         this.terminal.bind_property_full(
             'font-scale',
-            this._font_scale_reset_action,
+            font_scale_reset_action,
             'enabled',
             GObject.BindingFlags.SYNC_CREATE,
             converter(not_equal.bind(globalThis, 1)),
             null
         );
+        terminal_actions.add_action(font_scale_reset_action);
 
-        for (const name of TERMINAL_ACTIONS)
-            terminal_actions.add_action(this[`_${name}`]);
+        const show_in_file_manager_action = Gio.SimpleAction.new('show-in-file-manager', null);
+        show_in_file_manager_action.connect('activate', this.#show_in_file_manager.bind(this));
+        terminal_actions.add_action(show_in_file_manager_action);
 
         this.insert_action_group('terminal', terminal_actions);
 
@@ -436,12 +509,12 @@ export class TerminalPage extends Gtk.Box {
         );
     }
 
-    _copy_hyperlink_action_activate() {
+    #copy_hyperlink() {
         const clipboard = this.terminal.get_clipboard(null);
         clipboard.set_text(this.terminal.last_clicked_hyperlink, -1);
     }
 
-    _copy_filename_action_activate() {
+    #copy_filename() {
         const clipboard = this.terminal.get_clipboard(null);
         clipboard.set_text(this.terminal.last_clicked_filename, -1);
     }
@@ -458,7 +531,7 @@ export class TerminalPage extends Gtk.Box {
         this.terminal.search_find_previous();
     }
 
-    _find_action_activate() {
+    #find() {
         this.terminal.get_text_selected_async().then(text => {
             if (text)
                 this._search_widget.pattern.text = text;
@@ -467,7 +540,7 @@ export class TerminalPage extends Gtk.Box {
         });
     }
 
-    _show_in_file_manager_action_activate() {
+    #show_in_file_manager() {
         const { current_file_uri } = this.terminal;
         const method = current_file_uri ? 'ShowItems' : 'ShowFolders';
         const uri = current_file_uri || this.get_cwd().get_uri();
@@ -489,39 +562,39 @@ export class TerminalPage extends Gtk.Box {
         );
     }
 
-    _copy_action_activate() {
+    #copy() {
         this.terminal.copy_clipboard_format(Vte.Format.TEXT);
     }
 
-    _copy_html_action_activate() {
+    #copy_html() {
         this.terminal.copy_clipboard_format(Vte.Format.HTML);
     }
 
-    _paste_action_activate() {
+    #paste() {
         this.terminal.paste_clipboard();
     }
 
-    _select_all_action_activate() {
+    #select_all() {
         this.terminal.select_all();
     }
 
-    _reset_action_activate() {
+    #reset() {
         this.terminal.reset(true, false);
     }
 
-    _reset_and_clear_action_activate() {
+    #reset_and_clear() {
         this.terminal.reset(true, true);
     }
 
-    _font_scale_increase_action_activate() {
+    #font_scale_increase() {
         this.terminal.increase_font_scale();
     }
 
-    _font_scale_decrease_action_activate() {
+    #font_scale_decrease() {
         this.terminal.decrease_font_scale();
     }
 
-    _font_scale_reset_action_activate() {
+    #font_scale_reset() {
         this.terminal.font_scale = 1;
     }
 
