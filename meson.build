@@ -151,7 +151,7 @@ bundle = [
   fs.copyfile('metadata.json.in.license', 'metadata.json.license'),
 ]
 
-foreach f : ['extension.js', 'prefs.js', 'AUTHORS']
+foreach f : ['extension.js', 'prefs.js']
   bundle += fs.copyfile(f, install: true, install_dir: extension_dir)
 endforeach
 
@@ -247,7 +247,7 @@ run_target(
 run_target(
   'dev-app',
   command: [dev_launcher],
-  depends: bundle + [schemas_compiled] + dev_app_js_out_files,
+  depends: bundle + [schemas_compiled, resource_bundle] + dev_app_js_out_files,
 )
 
 toxinidir = meson.current_source_dir()

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+SPDX-FileCopyrightText: 2026 Aleksandr Mezin <mezin.alexander@gmail.com>
+
+SPDX-License-Identifier: GPL-3.0-or-later
+-->
+
+<gresources>
+  <gresource prefix="/com/github/amezin/ddterm">
+    <file preprocess="xml-stripblanks">com.github.amezin.ddterm.Extension.xml</file>
+
+    <file preprocess="xml-stripblanks">ui/appwindow.ui</file>
+    <file preprocess="xml-stripblanks">ui/closedialog.ui</file>
+    <file preprocess="xml-stripblanks">ui/notebook.ui</file>
+    <file preprocess="xml-stripblanks">ui/search.ui</file>
+    <file preprocess="xml-stripblanks">ui/terminalpage.ui</file>
+
+    <file preprocess="xml-stripblanks">icons/quotation-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">icons/regex-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">icons/uppercase-symbolic.svg</file>
+
+    <!-- A duplicate to allow "About" dialog to display the icon using built-in GtkApplication icon theme setup -->
+    <file preprocess="xml-stripblanks" alias="icons/com.github.amezin.ddterm.svg">com.github.amezin.ddterm.svg</file>
+
+    <file>style.css</file>
+
+    <file>com.github.amezin.ddterm.service.in</file>
+    <file>com.github.amezin.ddterm.desktop.in</file>
+
+    <file alias="AUTHORS">../AUTHORS</file>
+  </gresource>
+</gresources>

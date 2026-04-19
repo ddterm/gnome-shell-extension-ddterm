@@ -19,8 +19,7 @@ import { TerminalSettings } from './terminalsettings.js';
 class CloseDialog extends Gtk.MessageDialog {
     static [GObject.GTypeName] = 'DDTermPageCloseDialog';
 
-    static [Gtk.template] =
-        GLib.Uri.resolve_relative(import.meta.url, './ui/closedialog.ui', GLib.UriFlags.NONE);
+    static [Gtk.template] = 'resource:///com/github/amezin/ddterm/ui/closedialog.ui';
 
     static {
         GObject.registerClass(this);
@@ -86,8 +85,7 @@ function not_equal(a, b) {
 export class TerminalPage extends Gtk.Box {
     static [GObject.GTypeName] = 'DDTermTerminalPage';
 
-    static [Gtk.template] =
-        GLib.Uri.resolve_relative(import.meta.url, './ui/terminalpage.ui', GLib.UriFlags.NONE);
+    static [Gtk.template] = 'resource:///com/github/amezin/ddterm/ui/terminalpage.ui';
 
     static [Gtk.children] = [
         'terminal',

@@ -187,7 +187,7 @@ jobs:
       - name: Configure APT
         uses: ./.github/actions/apt-init
 
-      - run: sudo apt-get install -y --no-install-recommends tox colorized-logs gjs gettext desktop-file-utils
+      - run: sudo apt-get install -y --no-install-recommends tox colorized-logs gjs gettext desktop-file-utils libglib2.0-dev-bin
 
       - name: Install meson
         uses: ./.github/actions/setup-meson
@@ -248,7 +248,7 @@ jobs:
       - name: Configure APT
         uses: ./.github/actions/apt-init
 
-      - run: sudo apt-get install -y --no-install-recommends tox colorized-logs gjs gettext libgtk-3-bin
+      - run: sudo apt-get install -y --no-install-recommends tox colorized-logs gjs gettext libgtk-3-bin libglib2.0-dev-bin
 
       - name: Install meson
         uses: ./.github/actions/setup-meson

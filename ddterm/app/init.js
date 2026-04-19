@@ -74,6 +74,14 @@ try {
     System.exit(1);
 }
 
+const [resource_path] = GLib.filename_from_uri(GLib.Uri.resolve_relative(
+    import.meta.url,
+    '../../data/ddterm-resources.gresource',
+    GLib.UriFlags.NONE
+));
+
+Gio.resources_register(Gio.Resource.load(resource_path));
+
 GObject.Object.prototype.disconnect = function (id) {
     if (GObject.signal_handler_is_connected(this, id))
         GObject.signal_handler_disconnect(this, id);

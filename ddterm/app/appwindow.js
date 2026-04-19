@@ -26,8 +26,7 @@ const ACTIONS = [
 export class AppWindow extends Gtk.ApplicationWindow {
     static [GObject.GTypeName] = 'DDTermAppWindow';
 
-    static [Gtk.template] =
-        GLib.Uri.resolve_relative(import.meta.url, './ui/appwindow.ui', GLib.UriFlags.NONE);
+    static [Gtk.template] = 'resource:///com/github/amezin/ddterm/ui/appwindow.ui';
 
     static [Gtk.children] = [
         'paned',

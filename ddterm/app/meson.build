@@ -30,17 +30,4 @@ endforeach
 
 bundle += app_js_out_files
 
-app_data_src_files = files('style.css')
-
-foreach app_data_src_file : app_data_src_files
-  bundle += fs.copyfile(
-    app_data_src_file,
-    install: true,
-    install_dir: extension_dir / 'ddterm' / 'app',
-  )
-endforeach
-
 dev_app_js_out_files = [fs.copyfile('dev-application.js')]
-
-subdir('icons')
-subdir('ui')
