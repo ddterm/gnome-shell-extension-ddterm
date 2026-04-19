@@ -27,15 +27,6 @@ class CloseDialog extends Gtk.MessageDialog {
     }
 }
 
-const PAGE_ACTIONS = [
-    'close_action',
-    'new_tab_before_action',
-    'new_tab_after_action',
-    'move_prev_action',
-    'move_next_action',
-    'move_to_other_pane_action',
-];
-
 const TERMINAL_ACTIONS = [
     'copy_action',
     'copy_html_action',
@@ -97,7 +88,6 @@ export class TerminalPage extends Gtk.Box {
         'scrollbar',
         'search_bar',
         'search_widget',
-        ...PAGE_ACTIONS,
         ...TERMINAL_ACTIONS,
     ];
 
@@ -211,10 +201,16 @@ export class TerminalPage extends Gtk.Box {
     constructor(params) {
         super(params);
 
+        this.connect('destroy', this.#destroy.bind(this));
+
         this.terminal_settings?.bind_terminal(this.terminal);
 
-        this.connect('notify::terminal-title', () => this.notify('title'));
-        this.connect('notify::switch-shortcut', () => this.notify('title'));
+        this.connect('notify::terminal-title', this.#notify.bind(this, 'title'));
+        this.connect('notify::switch-shortcut', this.#notify.bind(this, 'title'));
+
+        this.connect('notify::use-custom-title', this.#update_title_binding.bind(this, true));
+        // Don't update the title from the terminal until the process is started
+        this.#update_title_binding(false);
 
         this.terminal_settings?.bind_property(
             'show-scrollbar',
@@ -227,8 +223,18 @@ export class TerminalPage extends Gtk.Box {
 
         const page_actions = new Gio.SimpleActionGroup();
 
-        for (const name of PAGE_ACTIONS)
-            page_actions.add_action(this[`_${name}`]);
+        for (const action_name of [
+            'close',
+            'new-tab-before',
+            'new-tab-after',
+            'move-prev',
+            'move-next',
+            'move-to-other-pane',
+        ]) {
+            const action = Gio.SimpleAction.new(action_name, null);
+            action.connect('activate', this.#emit_no_args.bind(this, `${action_name}-request`));
+            page_actions.add_action(action);
+        }
 
         const keep_open_action = new Gio.SimpleAction({
             name: 'keep-open-after-exit',
@@ -257,25 +263,13 @@ export class TerminalPage extends Gtk.Box {
             converter(GLib.Variant.new_string),
             null
         );
-        split_layout_action.connect('change-state', (_, value) => {
-            this.emit('split-layout-request', value.unpack());
-        });
+        split_layout_action.connect('change-state', this.#split_layout.bind(this));
         split_layout_action.set_state_hint(new GLib.Variant('as', [
             'no-split',
             'horizontal-split',
             'vertical-split',
         ]));
         page_actions.add_action(split_layout_action);
-
-        this.connect('notify::use-custom-title', () => {
-            this.#update_title_binding();
-        });
-        // Don't update the title from the terminal until the process is started
-        this.#update_title_binding(false);
-
-        this.connect('destroy', () => {
-            this.#title_dialog?.destroy();
-        });
 
         const use_custom_title_action = new Gio.SimpleAction({
             'name': 'use-custom-title',
@@ -290,12 +284,7 @@ export class TerminalPage extends Gtk.Box {
             converter(GLib.Variant.new_boolean),
             converter_method(GLib.Variant.prototype.get_boolean)
         );
-        use_custom_title_action.connect('activate', (_, param) => {
-            use_custom_title_action.change_state(param);
-
-            if (param.get_boolean())
-                this.#edit_title();
-        });
+        use_custom_title_action.connect('activate', this.#use_custom_title.bind(this));
         page_actions.add_action(use_custom_title_action);
 
         this.insert_action_group('page', page_actions);
@@ -343,7 +332,7 @@ export class TerminalPage extends Gtk.Box {
 
         this.insert_action_group('terminal', terminal_actions);
 
-        const emit_session_update = () => this.emit('session-update');
+        const emit_session_update = this.#emit_no_args.bind(this, 'session-update');
 
         this.connect('notify::banner-visible', emit_session_update);
         this.connect('notify::use-custom-title', emit_session_update);
@@ -352,6 +341,29 @@ export class TerminalPage extends Gtk.Box {
 
     get_cwd() {
         return this.terminal.get_cwd();
+    }
+
+    #destroy() {
+        this.#title_dialog?.destroy();
+    }
+
+    #emit_no_args(signal_name) {
+        return this.emit(signal_name);
+    }
+
+    #notify(property_name) {
+        this.notify(property_name);
+    }
+
+    #split_layout(action, value) {
+        this.emit('split-layout-request', value.unpack());
+    }
+
+    #use_custom_title(action, param) {
+        action.change_state(param);
+
+        if (param.get_boolean())
+            this.#edit_title();
     }
 
     _child_exited(terminal, status) {
@@ -511,30 +523,6 @@ export class TerminalPage extends Gtk.Box {
 
     _font_scale_reset_action_activate() {
         this.terminal.font_scale = 1;
-    }
-
-    _new_tab_before_action_activate() {
-        this.emit('new-tab-before-request');
-    }
-
-    _new_tab_after_action_activate() {
-        this.emit('new-tab-after-request');
-    }
-
-    _move_prev_action_activate() {
-        this.emit('move-prev-request');
-    }
-
-    _move_next_action_activate() {
-        this.emit('move-next-request');
-    }
-
-    _move_to_other_pane_action_activate() {
-        this.emit('move-to-other-pane-request');
-    }
-
-    _close_action_activate() {
-        this.emit('close-request');
     }
 
     close() {
