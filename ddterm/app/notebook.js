@@ -12,15 +12,6 @@ import Handy from 'gi://Handy';
 import { TerminalPage } from './terminalpage.js';
 import { TerminalSettings } from './terminalsettings.js';
 
-const ACTIONS = [
-    'new_tab_action',
-    'new_tab_front_action',
-    'new_tab_before_current_action',
-    'new_tab_after_current_action',
-    'next_tab_action',
-    'prev_tab_action',
-];
-
 function converter(func) {
     return (binding, value) => {
         try {
@@ -68,7 +59,6 @@ export class Notebook extends Gtk.Box {
         'bar',
         'layout_menu',
         'tab_switch_button',
-        ...ACTIONS,
     ];
 
     static [GObject.properties] = {
@@ -233,8 +223,29 @@ export class Notebook extends Gtk.Box {
 
         const actions = new Gio.SimpleActionGroup();
 
-        for (const name of ACTIONS)
-            actions.add_action(this[`_${name}`]);
+        const new_tab_action = Gio.SimpleAction.new('new-tab', null);
+        new_tab_action.connect('activate', this.#new_tab.bind(this));
+        actions.add_action(new_tab_action);
+
+        const new_tab_front_action = Gio.SimpleAction.new('new-tab-front', null);
+        new_tab_front_action.connect('activate', this.#new_tab_front.bind(this));
+        actions.add_action(new_tab_front_action);
+
+        const new_tab_before_current_action = Gio.SimpleAction.new('new-tab-before-current', null);
+        new_tab_before_current_action.connect('activate', this.#new_tab_before_current.bind(this));
+        actions.add_action(new_tab_before_current_action);
+
+        const new_tab_after_current_action = Gio.SimpleAction.new('new-tab-after-current', null);
+        new_tab_after_current_action.connect('activate', this.#new_tab_after_current.bind(this));
+        actions.add_action(new_tab_after_current_action);
+
+        const next_tab_action = Gio.SimpleAction.new('next-tab', null);
+        next_tab_action.connect('activate', this.#next_tab.bind(this));
+        actions.add_action(next_tab_action);
+
+        const prev_tab_action = Gio.SimpleAction.new('prev-tab', null);
+        prev_tab_action.connect('activate', this.#prev_tab.bind(this));
+        actions.add_action(prev_tab_action);
 
         const switch_to_tab_action = new Gio.SimpleAction({
             name: 'switch-to-tab',
@@ -264,9 +275,7 @@ export class Notebook extends Gtk.Box {
             converter(GLib.Variant.new_string),
             null
         );
-        split_layout_action.connect('change-state', (_, value) => {
-            this.emit('split-layout', this.current_child, value.unpack());
-        });
+        split_layout_action.connect('change-state', this.#split_layout.bind(this));
         split_layout_action.set_state_hint(new GLib.Variant('as', [
             'no-split',
             'horizontal-split',
@@ -281,27 +290,7 @@ export class Notebook extends Gtk.Box {
         this.connect('notify::current-page', this.#update_tab_switch_accels.bind(this));
         this.#update_root();
 
-        this.connect('notify::current-child', () => {
-            const child = this.current_child;
-
-            const title_handler = child?.connect('notify::terminal-title', () => {
-                this.notify('current-title');
-            });
-
-            const destroy_handler = child?.connect('destroy', () => {
-                child.disconnect(title_handler);
-                child.disconnect(destroy_handler);
-                this.disconnect(disconnect_handler);
-            });
-
-            const disconnect_handler = this.connect('notify::current-child', () => {
-                child?.disconnect(title_handler);
-                child?.disconnect(destroy_handler);
-                this.disconnect(disconnect_handler);
-            });
-
-            this.notify('current-title');
-        });
+        this.connect('notify::current-child', this.#update_current_child.bind(this));
 
         this.#page_disconnect = new Map();
     }
@@ -349,15 +338,19 @@ export class Notebook extends Gtk.Box {
         );
     }
 
-    _new_tab_action_activate() {
+    #split_layout(action, value) {
+        this.emit('split-layout', this.current_child, value.unpack());
+    }
+
+    #new_tab() {
         this.new_page().spawn();
     }
 
-    _new_tab_front_action_activate() {
+    #new_tab_front() {
         this.new_page(0).spawn();
     }
 
-    _new_tab_before_current_action_activate() {
+    #new_tab_before_current() {
         const current_page = this.view.get_selected_page();
         const position =
             current_page ? this.view.get_page_position(current_page) : 0;
@@ -365,7 +358,7 @@ export class Notebook extends Gtk.Box {
         this.new_page(position).spawn();
     }
 
-    _new_tab_after_current_action_activate() {
+    #new_tab_after_current() {
         const current_page = this.view.get_selected_page();
         const position =
             current_page ? this.view.get_page_position(current_page) + 1 : 0;
@@ -373,11 +366,11 @@ export class Notebook extends Gtk.Box {
         this.new_page(position).spawn();
     }
 
-    _next_tab_action_activate() {
+    #next_tab() {
         this.view.select_next_page();
     }
 
-    _prev_tab_action_activate() {
+    #prev_tab() {
         this.view.select_previous_page();
     }
 
@@ -590,6 +583,28 @@ export class Notebook extends Gtk.Box {
         default:
             logError(new Error(`Unsupported tab-pos: ${this.tab_pos}`));
         }
+    }
+
+    #update_current_child() {
+        const child = this.current_child;
+
+        const title_handler = child?.connect('notify::terminal-title', () => {
+            this.notify('current-title');
+        });
+
+        const destroy_handler = child?.connect('destroy', () => {
+            child.disconnect(title_handler);
+            child.disconnect(destroy_handler);
+            this.disconnect(disconnect_handler);
+        });
+
+        const disconnect_handler = this.connect('notify::current-child', () => {
+            child?.disconnect(title_handler);
+            child?.disconnect(destroy_handler);
+            this.disconnect(disconnect_handler);
+        });
+
+        this.notify('current-title');
     }
 
     vfunc_grab_focus() {
