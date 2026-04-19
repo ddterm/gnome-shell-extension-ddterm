@@ -14,15 +14,6 @@ import { TerminalSettings } from './terminalsettings.js';
 import { Notebook } from './notebook.js';
 import { DisplayConfig, LayoutMode } from '../util/displayconfig.js';
 
-const ACTIONS = [
-    'toggle_action',
-    'show_action',
-    'hide_action',
-    'split_position_inc_action',
-    'split_position_dec_action',
-    'focus_other_pane_action',
-];
-
 export class AppWindow extends Gtk.ApplicationWindow {
     static [GObject.GTypeName] = 'DDTermAppWindow';
 
@@ -44,7 +35,6 @@ export class AppWindow extends Gtk.ApplicationWindow {
         'drag_gesture_east',
         'resize_box_west',
         'drag_gesture_west',
-        ...ACTIONS,
     ];
 
     static [GObject.properties] = {
@@ -157,8 +147,47 @@ export class AppWindow extends Gtk.ApplicationWindow {
             ...params,
         });
 
-        for (const name of ACTIONS)
-            this.add_action(this[`_${name}`]);
+        const toggle_action = Gio.SimpleAction.new('toggle', null);
+        toggle_action.connect('activate', this.toggle.bind(this));
+        this.add_action(toggle_action);
+
+        const show_action = Gio.SimpleAction.new('show', null);
+        show_action.connect('activate', this.present.bind(this));
+        this.add_action(show_action);
+
+        const hide_action = Gio.SimpleAction.new('hide', null);
+        hide_action.connect('activate', this.hide.bind(this));
+        this.add_action(hide_action);
+
+        const split_position_inc_action = Gio.SimpleAction.new('split-position-inc', null);
+        split_position_inc_action.connect('activate', this.#split_position_inc.bind(this));
+        this.bind_property(
+            'is-split',
+            split_position_inc_action,
+            'enabled',
+            GObject.BindingFlags.SYNC_CREATE
+        );
+        this.add_action(split_position_inc_action);
+
+        const split_position_dec_action = Gio.SimpleAction.new('split-position-dec', null);
+        split_position_dec_action.connect('activate', this.#split_position_dec.bind(this));
+        this.bind_property(
+            'is-split',
+            split_position_dec_action,
+            'enabled',
+            GObject.BindingFlags.SYNC_CREATE
+        );
+        this.add_action(split_position_dec_action);
+
+        const focus_other_pane_action = Gio.SimpleAction.new('focus-other-pane', null);
+        focus_other_pane_action.connect('activate', this.#focus_other_pane.bind(this));
+        this.bind_property(
+            'is-split',
+            focus_other_pane_action,
+            'enabled',
+            GObject.BindingFlags.SYNC_CREATE
+        );
+        this.add_action(focus_other_pane_action);
 
         for (const notebook of [this.notebook1, this.notebook2]) {
             this.bind_property(
@@ -397,29 +426,27 @@ export class AppWindow extends Gtk.ApplicationWindow {
             this.present();
     }
 
-    _toggle_action_activate() {
-        this.toggle();
+    present() {
+        // Discard any excess arguments - wrapper for use with .bind()
+        super.present();
     }
 
-    _show_action_activate() {
-        this.present();
+    hide() {
+        // Discard any excess arguments - wrapper for use with .bind()
+        super.hide();
     }
 
-    _hide_action_activate() {
-        this.hide();
-    }
-
-    _split_position_inc_action_activate() {
+    #split_position_inc() {
         const step = (this.paned.max_position - this.paned.min_position) / 10;
         this.paned.position = Math.min(this.paned.position + step, this.paned.max_position);
     }
 
-    _split_position_dec_action_activate() {
+    #split_position_dec() {
         const step = (this.paned.max_position - this.paned.min_position) / 10;
         this.paned.position = Math.max(this.paned.position - step, this.paned.min_position);
     }
 
-    _focus_other_pane_action_activate() {
+    #focus_other_pane() {
         if (this.active_notebook === this.notebook1)
             this.notebook2.grab_focus();
         else

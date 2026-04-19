@@ -169,37 +169,4 @@ SPDX-License-Identifier: GPL-3.0-or-later
     <signal name="begin" handler="_resize_drag"/>
   </object>
 
-  <object class="GSimpleAction" id="toggle_action">
-    <property name="name">toggle</property>
-    <signal name="activate" handler="_toggle_action_activate"/>
-  </object>
-
-  <object class="GSimpleAction" id="show_action">
-    <property name="name">show</property>
-    <signal name="activate" handler="_show_action_activate"/>
-  </object>
-
-  <object class="GSimpleAction" id="hide_action">
-    <property name="name">hide</property>
-    <signal name="activate" handler="_hide_action_activate"/>
-  </object>
-
-  <object class="GSimpleAction" id="split_position_inc_action">
-    <property name="name">split-position-inc</property>
-    <signal name="activate" handler="_split_position_inc_action_activate"/>
-    <property name="enabled" bind-source="DDTermAppWindow" bind-property="is-split" bind-flags="sync-create"/>
-  </object>
-
-  <object class="GSimpleAction" id="split_position_dec_action">
-    <property name="name">split-position-dec</property>
-    <signal name="activate" handler="_split_position_dec_action_activate"/>
-    <property name="enabled" bind-source="DDTermAppWindow" bind-property="is-split" bind-flags="sync-create"/>
-  </object>
-
-  <object class="GSimpleAction" id="focus_other_pane_action">
-    <property name="name">focus-other-pane</property>
-    <signal name="activate" handler="_focus_other_pane_action_activate"/>
-    <property name="enabled" bind-source="DDTermAppWindow" bind-property="is-split" bind-flags="sync-create"/>
-  </object>
-
 </interface>
