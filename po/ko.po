@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-15 19:12+0000\n"
+"POT-Creation-Date: 2026-04-20 04:09+0000\n"
 "PO-Revision-Date: 2026-03-12 14:09+0000\n"
 "Last-Translator: 스이미 <soo.wim3@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/ko/>\n"
@@ -38,12 +38,249 @@ msgstr "GNOME Shell용 드롭다운 터미널 확장 기능"
 msgid "Toggle"
 msgstr "토글"
 
-#: data/com.github.amezin.ddterm.desktop.in.in:30 ddterm/app/ui/notebook.ui:82
-#: ddterm/app/ui/terminalpage.ui:140 ddterm/shell/panelicon.js:64
+#: data/com.github.amezin.ddterm.desktop.in.in:30 data/ui/notebook.ui:82
+#: data/ui/terminalpage.ui:140 ddterm/shell/panelicon.js:64
 msgid "Preferences…"
 msgstr "설정…"
 
-#: ddterm/app/about.js:62
+#: data/ui/closedialog.ui:16
+msgid "Close this terminal?"
+msgstr "이 터미널을 닫으시겠습니까?"
+
+#: data/ui/closedialog.ui:17
+msgid "There is still a process running in this terminal. Closing the terminal will kill it."
+msgstr "실행 중인 작업이 있습니다. 터미널을 닫으면 진행 중인 모든 작업이 중단됩니다."
+
+#: data/ui/closedialog.ui:20 ddterm/pref/shortcuts.js:210
+msgid "Cancel"
+msgstr "취소"
+
+#: data/ui/closedialog.ui:30 data/ui/terminalpage.ui:244
+msgid "Close Terminal"
+msgstr "터미널 닫기"
+
+#: data/ui/notebook.ui:15 ddterm/app/tablabel.js:99
+msgid "Use Custom Tab Title"
+msgstr "사용자 지정 탭 제목 사용"
+
+#: data/ui/notebook.ui:20
+msgid "Use Default Tab Title"
+msgstr "기본 탭 제목 사용"
+
+#: data/ui/notebook.ui:27
+msgid "New Tab Before This Tab"
+msgstr "이 탭 앞에 새 탭 생성"
+
+#: data/ui/notebook.ui:31
+msgid "New Tab After This Tab"
+msgstr "이 탭 뒤에 새 탭 생성"
+
+#: data/ui/notebook.ui:35 data/ui/terminalpage.ui:99
+#: ddterm/pref/shortcuts.js:588
+msgid "New Tab Before First Tab"
+msgstr "맨 앞에 새 탭 생성"
+
+#: data/ui/notebook.ui:39 data/ui/terminalpage.ui:103
+#: ddterm/pref/shortcuts.js:583
+msgid "New Tab After Last Tab"
+msgstr "맨 뒤에 새 탭 생성"
+
+#: data/ui/notebook.ui:45 ddterm/pref/shortcuts.js:618
+msgid "Move Tab to Previous Position"
+msgstr "탭을 이전 위치로 이동"
+
+#: data/ui/notebook.ui:49 ddterm/pref/shortcuts.js:623
+msgid "Move Tab to Next Position"
+msgstr "탭을 다음 위치로 이동"
+
+#: data/ui/notebook.ui:55 data/ui/terminalpage.ui:110
+msgid "Layout"
+msgstr "레이아웃"
+
+#: data/ui/notebook.ui:58 data/ui/notebook.ui:99 data/ui/terminalpage.ui:113
+msgid "No Split"
+msgstr "분할 없음"
+
+#: data/ui/notebook.ui:63 data/ui/notebook.ui:104 data/ui/terminalpage.ui:118
+#: ddterm/pref/shortcuts.js:628
+msgid "Split Horizontally"
+msgstr "가로로 분할"
+
+#: data/ui/notebook.ui:68 data/ui/notebook.ui:109 data/ui/terminalpage.ui:123
+#: ddterm/pref/shortcuts.js:633
+msgid "Split Vertically"
+msgstr "세로로 분할"
+
+#: data/ui/notebook.ui:75 data/ui/terminalpage.ui:130
+msgid "Move Tab to Other Pane"
+msgstr "다른 창으로 탭 이동"
+
+#: data/ui/notebook.ui:87 data/ui/terminalpage.ui:197
+msgid "Keep Open After Exit"
+msgstr "종료 후 창 유지"
+
+#: data/ui/notebook.ui:91 data/ui/terminalpage.ui:201
+#: ddterm/shell/notifications.js:64
+msgid "Close"
+msgstr "닫기"
+
+#: data/ui/notebook.ui:148
+msgid "New Tab (First)"
+msgstr "새 탭 (맨 앞)"
+
+#: data/ui/notebook.ui:169
+msgid "New Tab (Last)"
+msgstr "새 탭 (맨 뒤)"
+
+#: data/ui/search.ui:20
+msgid "Case Sensitive"
+msgstr "대소문자 구분"
+
+#: data/ui/search.ui:33
+msgid "Match Whole Word"
+msgstr "단어 단위로 찾기"
+
+#: data/ui/search.ui:46
+msgid "Regular Expression"
+msgstr "정규 표현식"
+
+#: data/ui/search.ui:72
+msgid "Wrap Around"
+msgstr "되돌아 검색"
+
+#: data/ui/search.ui:89 ddterm/pref/shortcuts.js:673
+msgid "Find Next"
+msgstr "다음 찾기"
+
+#: data/ui/search.ui:107 ddterm/pref/shortcuts.js:678
+msgid "Find Previous"
+msgstr "이전 찾기"
+
+#: data/ui/terminalpage.ui:15
+msgid "Open Hyperlink"
+msgstr "링크 열기"
+
+#: data/ui/terminalpage.ui:20
+msgid "Copy Hyperlink Address"
+msgstr "링크 주소 복사"
+
+#: data/ui/terminalpage.ui:25
+msgid "Copy File Path"
+msgstr "파일 경로 복사"
+
+#: data/ui/terminalpage.ui:32
+msgid "Copy"
+msgstr "복사"
+
+#: data/ui/terminalpage.ui:36
+msgid "Copy HTML"
+msgstr "HTML로 복사"
+
+#: data/ui/terminalpage.ui:40
+msgid "Paste"
+msgstr "붙여넣기"
+
+#: data/ui/terminalpage.ui:44 ddterm/pref/shortcuts.js:568
+msgid "Select All"
+msgstr "전체 선택"
+
+#: data/ui/terminalpage.ui:50 ddterm/pref/shortcuts.js:668
+msgid "Find"
+msgstr "찾기"
+
+#: data/ui/terminalpage.ui:56 ddterm/pref/shortcuts.js:573
+msgid "Reset"
+msgstr "초기화"
+
+#: data/ui/terminalpage.ui:60 ddterm/pref/shortcuts.js:578
+msgid "Reset and Clear"
+msgstr "초기화 및 화면 지우기"
+
+#: data/ui/terminalpage.ui:66
+msgid "Zoom"
+msgstr "확대/축소"
+
+#: data/ui/terminalpage.ui:68 ddterm/pref/shortcuts.js:683
+msgid "Zoom In"
+msgstr "확대"
+
+#: data/ui/terminalpage.ui:72 ddterm/pref/shortcuts.js:688
+msgid "Zoom Out"
+msgstr "축소"
+
+#: data/ui/terminalpage.ui:76 ddterm/pref/shortcuts.js:693
+msgid "Normal Size"
+msgstr "기본 크기"
+
+#: data/ui/terminalpage.ui:83
+msgid "Show in File Manager"
+msgstr "파일 관리자에서 열기"
+
+#: data/ui/terminalpage.ui:89
+msgid "New Tab"
+msgstr "새 탭"
+
+#: data/ui/terminalpage.ui:91 ddterm/pref/shortcuts.js:593
+msgid "New Tab Before Current Tab"
+msgstr "현재 탭 앞에 새 탭 생성"
+
+#: data/ui/terminalpage.ui:95 ddterm/pref/shortcuts.js:598
+msgid "New Tab After Current Tab"
+msgstr "현재 탭 뒤에 새 탭 생성"
+
+#: data/ui/terminalpage.ui:137 ddterm/pref/dialog.js:50
+msgid "Preferences"
+msgstr "설정"
+
+#: data/ui/terminalpage.ui:146 ddterm/pref/behavior.js:28
+msgid "Above All Windows"
+msgstr "모든 창 위에 표시"
+
+#: data/ui/terminalpage.ui:150 ddterm/pref/behavior.js:33
+msgid "On All Workspaces"
+msgstr "모든 작업 공간에 표시"
+
+#: data/ui/terminalpage.ui:154
+msgid "Maximize Window"
+msgstr "창 최대화"
+
+#: data/ui/terminalpage.ui:158 ddterm/pref/colors.js:592
+msgid "Transparent Background"
+msgstr "배경 투명하게"
+
+#: data/ui/terminalpage.ui:164 ddterm/pref/behavior.js:38
+msgid "Hide When Application Loses Focus"
+msgstr "다른 앱 사용 시 창 숨기기"
+
+#: data/ui/terminalpage.ui:168 ddterm/pref/behavior.js:43
+msgid "Hide When Esc Key Is Pressed"
+msgstr "Esc 키로 창 숨기기"
+
+#: data/ui/terminalpage.ui:174 ddterm/pref/scrolling.js:33
+msgid "Scroll On Output"
+msgstr "출력 시 자동 스크롤"
+
+#: data/ui/terminalpage.ui:178 ddterm/pref/scrolling.js:38
+msgid "Scroll On Keystroke"
+msgstr "키 입력 시 자동 스크롤"
+
+#: data/ui/terminalpage.ui:184 ddterm/pref/command.js:51
+msgid "Preserve Working Directory In New Tabs"
+msgstr "새 탭에서 현재 작업 디렉터리 유지"
+
+#: data/ui/terminalpage.ui:190
+msgid "Enable Keyboard Shortcuts"
+msgstr "단축키 사용"
+
+#: data/ui/terminalpage.ui:207 ddterm/shell/panelicon.js:72
+msgid "About ddterm"
+msgstr "ddterm 정보"
+
+#: data/ui/terminalpage.ui:237
+msgid "Restart"
+msgstr "재시작"
+
+#: ddterm/app/about.js:48
 msgid "translator-credits"
 msgstr "JANG SUYEONG https://github.com/seuimi"
 
@@ -63,51 +300,51 @@ msgstr "경고: ddterm 버전이 변경되었습니다"
 msgid "Log out, then log in again to load the updated extension."
 msgstr "업데이트된 확장 기능을 불러오려면 로그아웃한 후 다시 로그인해 주세요."
 
-#: ddterm/app/application.js:132
+#: ddterm/app/application.js:135
 msgid "Start the application, but do not show the window"
 msgstr "창을 표시하지 않고 실행"
 
-#: ddterm/app/application.js:141
+#: ddterm/app/application.js:144
 msgid "Comma-separated list of backends that GDK should try to use"
 msgstr "GDK가 사용할 백엔드 목록 (쉼표로 구분)"
 
-#: ddterm/app/application.js:168
+#: ddterm/app/application.js:171
 msgid "Show version information and exit"
 msgstr "버전 정보 표시 및 종료"
 
-#: ddterm/app/application.js:177
+#: ddterm/app/application.js:180
 msgid "Run the specified command"
 msgstr "지정한 명령어 실행"
 
-#: ddterm/app/application.js:191
+#: ddterm/app/application.js:194
 msgid "Wait for the command to exit, and return its exit code"
 msgstr "명령어 종료 후 종료 코드 반환"
 
-#: ddterm/app/application.js:200
+#: ddterm/app/application.js:203
 msgid "Set the working directory"
 msgstr "작업 디렉터리 설정"
 
-#: ddterm/app/application.js:209
+#: ddterm/app/application.js:212
 msgid "Set tab title"
 msgstr "탭 제목 설정"
 
-#: ddterm/app/application.js:218
+#: ddterm/app/application.js:221
 msgid "Keep the terminal open after the command has exited"
 msgstr "명령어 종료 후 터미널 유지"
 
-#: ddterm/app/application.js:227
+#: ddterm/app/application.js:230
 msgid "Do not pass the environment"
 msgstr "환경 변수 전달 제외"
 
-#: ddterm/app/application.js:236
+#: ddterm/app/application.js:239
 msgid "Open a new tab"
 msgstr "새 탭 열기"
 
-#: ddterm/app/application.js:612
+#: ddterm/app/application.js:599
 msgid "Can't contact the extension."
 msgstr "확장 기능에 연결할 수 없습니다."
 
-#: ddterm/app/application.js:614
+#: ddterm/app/application.js:601
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr "ddterm GNOME Shell 확장 기능이 활성화되어 있는지 확인해 주세요."
 
@@ -131,251 +368,13 @@ msgstr "사용자 지정 탭 제목 설정"
 msgid "Tab _Title"
 msgstr "탭 _제목"
 
-#: ddterm/app/tablabel.js:99 ddterm/app/ui/notebook.ui:15
-msgid "Use Custom Tab Title"
-msgstr "사용자 지정 탭 제목 사용"
-
-#: ddterm/app/terminalpage.js:367
+#: ddterm/app/terminalpage.js:365
 msgid "The child process exited with status:"
 msgstr "하위 프로세스 종료 상태:"
 
-#: ddterm/app/terminalpage.js:377
+#: ddterm/app/terminalpage.js:375
 msgid "The child process was aborted by signal:"
 msgstr "하위 프로세스가 다음 시그널로 인해 종료됨:"
-
-#: ddterm/app/ui/closedialog.ui:16
-msgid "Close this terminal?"
-msgstr "이 터미널을 닫으시겠습니까?"
-
-#: ddterm/app/ui/closedialog.ui:17
-msgid "There is still a process running in this terminal. Closing the terminal will kill it."
-msgstr "실행 중인 작업이 있습니다. 터미널을 닫으면 진행 중인 모든 작업이 중단됩니다."
-
-#: ddterm/app/ui/closedialog.ui:20 ddterm/pref/shortcuts.js:210
-msgid "Cancel"
-msgstr "취소"
-
-#: ddterm/app/ui/closedialog.ui:30 ddterm/app/ui/terminalpage.ui:244
-msgid "Close Terminal"
-msgstr "터미널 닫기"
-
-#: ddterm/app/ui/notebook.ui:20
-msgid "Use Default Tab Title"
-msgstr "기본 탭 제목 사용"
-
-#: ddterm/app/ui/notebook.ui:27
-msgid "New Tab Before This Tab"
-msgstr "이 탭 앞에 새 탭 생성"
-
-#: ddterm/app/ui/notebook.ui:31
-msgid "New Tab After This Tab"
-msgstr "이 탭 뒤에 새 탭 생성"
-
-#: ddterm/app/ui/notebook.ui:35 ddterm/app/ui/terminalpage.ui:99
-#: ddterm/pref/shortcuts.js:588
-msgid "New Tab Before First Tab"
-msgstr "맨 앞에 새 탭 생성"
-
-#: ddterm/app/ui/notebook.ui:39 ddterm/app/ui/terminalpage.ui:103
-#: ddterm/pref/shortcuts.js:583
-msgid "New Tab After Last Tab"
-msgstr "맨 뒤에 새 탭 생성"
-
-#: ddterm/app/ui/notebook.ui:45 ddterm/pref/shortcuts.js:618
-msgid "Move Tab to Previous Position"
-msgstr "탭을 이전 위치로 이동"
-
-#: ddterm/app/ui/notebook.ui:49 ddterm/pref/shortcuts.js:623
-msgid "Move Tab to Next Position"
-msgstr "탭을 다음 위치로 이동"
-
-#: ddterm/app/ui/notebook.ui:55 ddterm/app/ui/terminalpage.ui:110
-msgid "Layout"
-msgstr "레이아웃"
-
-#: ddterm/app/ui/notebook.ui:58 ddterm/app/ui/notebook.ui:99
-#: ddterm/app/ui/terminalpage.ui:113
-msgid "No Split"
-msgstr "분할 없음"
-
-#: ddterm/app/ui/notebook.ui:63 ddterm/app/ui/notebook.ui:104
-#: ddterm/app/ui/terminalpage.ui:118 ddterm/pref/shortcuts.js:628
-msgid "Split Horizontally"
-msgstr "가로로 분할"
-
-#: ddterm/app/ui/notebook.ui:68 ddterm/app/ui/notebook.ui:109
-#: ddterm/app/ui/terminalpage.ui:123 ddterm/pref/shortcuts.js:633
-msgid "Split Vertically"
-msgstr "세로로 분할"
-
-#: ddterm/app/ui/notebook.ui:75 ddterm/app/ui/terminalpage.ui:130
-msgid "Move Tab to Other Pane"
-msgstr "다른 창으로 탭 이동"
-
-#: ddterm/app/ui/notebook.ui:87 ddterm/app/ui/terminalpage.ui:197
-msgid "Keep Open After Exit"
-msgstr "종료 후 창 유지"
-
-#: ddterm/app/ui/notebook.ui:91 ddterm/app/ui/terminalpage.ui:201
-#: ddterm/shell/notifications.js:64
-msgid "Close"
-msgstr "닫기"
-
-#: ddterm/app/ui/notebook.ui:148
-msgid "New Tab (First)"
-msgstr "새 탭 (맨 앞)"
-
-#: ddterm/app/ui/notebook.ui:169
-msgid "New Tab (Last)"
-msgstr "새 탭 (맨 뒤)"
-
-#: ddterm/app/ui/search.ui:20
-msgid "Case Sensitive"
-msgstr "대소문자 구분"
-
-#: ddterm/app/ui/search.ui:33
-msgid "Match Whole Word"
-msgstr "단어 단위로 찾기"
-
-#: ddterm/app/ui/search.ui:46
-msgid "Regular Expression"
-msgstr "정규 표현식"
-
-#: ddterm/app/ui/search.ui:72
-msgid "Wrap Around"
-msgstr "되돌아 검색"
-
-#: ddterm/app/ui/search.ui:89 ddterm/pref/shortcuts.js:673
-msgid "Find Next"
-msgstr "다음 찾기"
-
-#: ddterm/app/ui/search.ui:107 ddterm/pref/shortcuts.js:678
-msgid "Find Previous"
-msgstr "이전 찾기"
-
-#: ddterm/app/ui/terminalpage.ui:15
-msgid "Open Hyperlink"
-msgstr "링크 열기"
-
-#: ddterm/app/ui/terminalpage.ui:20
-msgid "Copy Hyperlink Address"
-msgstr "링크 주소 복사"
-
-#: ddterm/app/ui/terminalpage.ui:25
-msgid "Copy File Path"
-msgstr "파일 경로 복사"
-
-#: ddterm/app/ui/terminalpage.ui:32
-msgid "Copy"
-msgstr "복사"
-
-#: ddterm/app/ui/terminalpage.ui:36
-msgid "Copy HTML"
-msgstr "HTML로 복사"
-
-#: ddterm/app/ui/terminalpage.ui:40
-msgid "Paste"
-msgstr "붙여넣기"
-
-#: ddterm/app/ui/terminalpage.ui:44 ddterm/pref/shortcuts.js:568
-msgid "Select All"
-msgstr "전체 선택"
-
-#: ddterm/app/ui/terminalpage.ui:50 ddterm/pref/shortcuts.js:668
-msgid "Find"
-msgstr "찾기"
-
-#: ddterm/app/ui/terminalpage.ui:56 ddterm/pref/shortcuts.js:573
-msgid "Reset"
-msgstr "초기화"
-
-#: ddterm/app/ui/terminalpage.ui:60 ddterm/pref/shortcuts.js:578
-msgid "Reset and Clear"
-msgstr "초기화 및 화면 지우기"
-
-#: ddterm/app/ui/terminalpage.ui:66
-msgid "Zoom"
-msgstr "확대/축소"
-
-#: ddterm/app/ui/terminalpage.ui:68 ddterm/pref/shortcuts.js:683
-msgid "Zoom In"
-msgstr "확대"
-
-#: ddterm/app/ui/terminalpage.ui:72 ddterm/pref/shortcuts.js:688
-msgid "Zoom Out"
-msgstr "축소"
-
-#: ddterm/app/ui/terminalpage.ui:76 ddterm/pref/shortcuts.js:693
-msgid "Normal Size"
-msgstr "기본 크기"
-
-#: ddterm/app/ui/terminalpage.ui:83
-msgid "Show in File Manager"
-msgstr "파일 관리자에서 열기"
-
-#: ddterm/app/ui/terminalpage.ui:89
-msgid "New Tab"
-msgstr "새 탭"
-
-#: ddterm/app/ui/terminalpage.ui:91 ddterm/pref/shortcuts.js:593
-msgid "New Tab Before Current Tab"
-msgstr "현재 탭 앞에 새 탭 생성"
-
-#: ddterm/app/ui/terminalpage.ui:95 ddterm/pref/shortcuts.js:598
-msgid "New Tab After Current Tab"
-msgstr "현재 탭 뒤에 새 탭 생성"
-
-#: ddterm/app/ui/terminalpage.ui:137 ddterm/pref/dialog.js:50
-msgid "Preferences"
-msgstr "설정"
-
-#: ddterm/app/ui/terminalpage.ui:146 ddterm/pref/behavior.js:28
-msgid "Above All Windows"
-msgstr "모든 창 위에 표시"
-
-#: ddterm/app/ui/terminalpage.ui:150 ddterm/pref/behavior.js:33
-msgid "On All Workspaces"
-msgstr "모든 작업 공간에 표시"
-
-#: ddterm/app/ui/terminalpage.ui:154
-msgid "Maximize Window"
-msgstr "창 최대화"
-
-#: ddterm/app/ui/terminalpage.ui:158 ddterm/pref/colors.js:592
-msgid "Transparent Background"
-msgstr "배경 투명하게"
-
-#: ddterm/app/ui/terminalpage.ui:164 ddterm/pref/behavior.js:38
-msgid "Hide When Application Loses Focus"
-msgstr "다른 앱 사용 시 창 숨기기"
-
-#: ddterm/app/ui/terminalpage.ui:168 ddterm/pref/behavior.js:43
-msgid "Hide When Esc Key Is Pressed"
-msgstr "Esc 키로 창 숨기기"
-
-#: ddterm/app/ui/terminalpage.ui:174 ddterm/pref/scrolling.js:33
-msgid "Scroll On Output"
-msgstr "출력 시 자동 스크롤"
-
-#: ddterm/app/ui/terminalpage.ui:178 ddterm/pref/scrolling.js:38
-msgid "Scroll On Keystroke"
-msgstr "키 입력 시 자동 스크롤"
-
-#: ddterm/app/ui/terminalpage.ui:184 ddterm/pref/command.js:51
-msgid "Preserve Working Directory In New Tabs"
-msgstr "새 탭에서 현재 작업 디렉터리 유지"
-
-#: ddterm/app/ui/terminalpage.ui:190
-msgid "Enable Keyboard Shortcuts"
-msgstr "단축키 사용"
-
-#: ddterm/app/ui/terminalpage.ui:207 ddterm/shell/panelicon.js:72
-msgid "About ddterm"
-msgstr "ddterm 정보"
-
-#: ddterm/app/ui/terminalpage.ui:237
-msgid "Restart"
-msgstr "재시작"
 
 #: ddterm/pref/adw.js:48
 msgid "Window"

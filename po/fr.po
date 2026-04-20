@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-15 19:12+0000\n"
+"POT-Creation-Date: 2026-04-20 04:09+0000\n"
 "PO-Revision-Date: 2026-04-10 18:09+0000\n"
 "Last-Translator: Vincent Leduc <leducvinc@pm.me>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/fr/>\n"
@@ -42,12 +42,249 @@ msgstr "Une extension de terminal déroulant pour GNOME shell"
 msgid "Toggle"
 msgstr "Basculer"
 
-#: data/com.github.amezin.ddterm.desktop.in.in:30 ddterm/app/ui/notebook.ui:82
-#: ddterm/app/ui/terminalpage.ui:140 ddterm/shell/panelicon.js:64
+#: data/com.github.amezin.ddterm.desktop.in.in:30 data/ui/notebook.ui:82
+#: data/ui/terminalpage.ui:140 ddterm/shell/panelicon.js:64
 msgid "Preferences…"
 msgstr "Préférences…"
 
-#: ddterm/app/about.js:62
+#: data/ui/closedialog.ui:16
+msgid "Close this terminal?"
+msgstr "Fermer ce terminal ?"
+
+#: data/ui/closedialog.ui:17
+msgid "There is still a process running in this terminal. Closing the terminal will kill it."
+msgstr "Il reste un processus en cours d'exécution dans ce terminal. Fermer ce terminal va le tuer."
+
+#: data/ui/closedialog.ui:20 ddterm/pref/shortcuts.js:210
+msgid "Cancel"
+msgstr "Annuler"
+
+#: data/ui/closedialog.ui:30 data/ui/terminalpage.ui:244
+msgid "Close Terminal"
+msgstr "Fermer ce terminal"
+
+#: data/ui/notebook.ui:15 ddterm/app/tablabel.js:99
+msgid "Use Custom Tab Title"
+msgstr "Utiliser un titre d'onglet personnalisé"
+
+#: data/ui/notebook.ui:20
+msgid "Use Default Tab Title"
+msgstr "Utiliser le titre d'onglet par défaut"
+
+#: data/ui/notebook.ui:27
+msgid "New Tab Before This Tab"
+msgstr "Nouvel onglet avant celui-ci"
+
+#: data/ui/notebook.ui:31
+msgid "New Tab After This Tab"
+msgstr "Nouvel onglet après celui-ci"
+
+#: data/ui/notebook.ui:35 data/ui/terminalpage.ui:99
+#: ddterm/pref/shortcuts.js:588
+msgid "New Tab Before First Tab"
+msgstr "Nouvel onglet avant le premier"
+
+#: data/ui/notebook.ui:39 data/ui/terminalpage.ui:103
+#: ddterm/pref/shortcuts.js:583
+msgid "New Tab After Last Tab"
+msgstr "Nouvel onglet après le dernier"
+
+#: data/ui/notebook.ui:45 ddterm/pref/shortcuts.js:618
+msgid "Move Tab to Previous Position"
+msgstr "Déplacer l'onglet vers la position précédente"
+
+#: data/ui/notebook.ui:49 ddterm/pref/shortcuts.js:623
+msgid "Move Tab to Next Position"
+msgstr "Déplacer l'onglet vers la position suivante"
+
+#: data/ui/notebook.ui:55 data/ui/terminalpage.ui:110
+msgid "Layout"
+msgstr "Disposition"
+
+#: data/ui/notebook.ui:58 data/ui/notebook.ui:99 data/ui/terminalpage.ui:113
+msgid "No Split"
+msgstr "Pas de division"
+
+#: data/ui/notebook.ui:63 data/ui/notebook.ui:104 data/ui/terminalpage.ui:118
+#: ddterm/pref/shortcuts.js:628
+msgid "Split Horizontally"
+msgstr "Diviser horizontalement"
+
+#: data/ui/notebook.ui:68 data/ui/notebook.ui:109 data/ui/terminalpage.ui:123
+#: ddterm/pref/shortcuts.js:633
+msgid "Split Vertically"
+msgstr "Diviser verticalement"
+
+#: data/ui/notebook.ui:75 data/ui/terminalpage.ui:130
+msgid "Move Tab to Other Pane"
+msgstr "Changer l'onglet de panneau"
+
+#: data/ui/notebook.ui:87 data/ui/terminalpage.ui:197
+msgid "Keep Open After Exit"
+msgstr "Laisser ouvert en quittant"
+
+#: data/ui/notebook.ui:91 data/ui/terminalpage.ui:201
+#: ddterm/shell/notifications.js:64
+msgid "Close"
+msgstr "Fermer"
+
+#: data/ui/notebook.ui:148
+msgid "New Tab (First)"
+msgstr "Nouvel onglet (en première position)"
+
+#: data/ui/notebook.ui:169
+msgid "New Tab (Last)"
+msgstr "Nouvel onglet (en dernière position)"
+
+#: data/ui/search.ui:20
+msgid "Case Sensitive"
+msgstr "Sensible à la casse"
+
+#: data/ui/search.ui:33
+msgid "Match Whole Word"
+msgstr "Mots entiers"
+
+#: data/ui/search.ui:46
+msgid "Regular Expression"
+msgstr "Expression régulière"
+
+#: data/ui/search.ui:72
+msgid "Wrap Around"
+msgstr "En boucle"
+
+#: data/ui/search.ui:89 ddterm/pref/shortcuts.js:673
+msgid "Find Next"
+msgstr "Rechercher le suivant"
+
+#: data/ui/search.ui:107 ddterm/pref/shortcuts.js:678
+msgid "Find Previous"
+msgstr "Rechercher le précédent"
+
+#: data/ui/terminalpage.ui:15
+msgid "Open Hyperlink"
+msgstr "Ouvrir le lien"
+
+#: data/ui/terminalpage.ui:20
+msgid "Copy Hyperlink Address"
+msgstr "Copier le lien"
+
+#: data/ui/terminalpage.ui:25
+msgid "Copy File Path"
+msgstr "Copier le chemin"
+
+#: data/ui/terminalpage.ui:32
+msgid "Copy"
+msgstr "Copier"
+
+#: data/ui/terminalpage.ui:36
+msgid "Copy HTML"
+msgstr "Copier HTML"
+
+#: data/ui/terminalpage.ui:40
+msgid "Paste"
+msgstr "Coller"
+
+#: data/ui/terminalpage.ui:44 ddterm/pref/shortcuts.js:568
+msgid "Select All"
+msgstr "Tout sélectionner"
+
+#: data/ui/terminalpage.ui:50 ddterm/pref/shortcuts.js:668
+msgid "Find"
+msgstr "Rechercher"
+
+#: data/ui/terminalpage.ui:56 ddterm/pref/shortcuts.js:573
+msgid "Reset"
+msgstr "Réinitialiser"
+
+#: data/ui/terminalpage.ui:60 ddterm/pref/shortcuts.js:578
+msgid "Reset and Clear"
+msgstr "Réinitialiser et effacer"
+
+#: data/ui/terminalpage.ui:66
+msgid "Zoom"
+msgstr "Zoom"
+
+#: data/ui/terminalpage.ui:68 ddterm/pref/shortcuts.js:683
+msgid "Zoom In"
+msgstr "Zoomer"
+
+#: data/ui/terminalpage.ui:72 ddterm/pref/shortcuts.js:688
+msgid "Zoom Out"
+msgstr "Dézoomer"
+
+#: data/ui/terminalpage.ui:76 ddterm/pref/shortcuts.js:693
+msgid "Normal Size"
+msgstr "Taille normale"
+
+#: data/ui/terminalpage.ui:83
+msgid "Show in File Manager"
+msgstr "Afficher dans le gestionnaire de fichier"
+
+#: data/ui/terminalpage.ui:89
+msgid "New Tab"
+msgstr "Nouvel onglet"
+
+#: data/ui/terminalpage.ui:91 ddterm/pref/shortcuts.js:593
+msgid "New Tab Before Current Tab"
+msgstr "Nouvel onglet avant l'onglet actuel"
+
+#: data/ui/terminalpage.ui:95 ddterm/pref/shortcuts.js:598
+msgid "New Tab After Current Tab"
+msgstr "Nouvel onglet après l'onglet actuel"
+
+#: data/ui/terminalpage.ui:137 ddterm/pref/dialog.js:50
+msgid "Preferences"
+msgstr "Préférences"
+
+#: data/ui/terminalpage.ui:146 ddterm/pref/behavior.js:28
+msgid "Above All Windows"
+msgstr "Toujours au premier plan"
+
+#: data/ui/terminalpage.ui:150 ddterm/pref/behavior.js:33
+msgid "On All Workspaces"
+msgstr "Sur tous les espaces de travail"
+
+#: data/ui/terminalpage.ui:154
+msgid "Maximize Window"
+msgstr "Agrandir la fenêtre"
+
+#: data/ui/terminalpage.ui:158 ddterm/pref/colors.js:592
+msgid "Transparent Background"
+msgstr "Arrière-plan transparent"
+
+#: data/ui/terminalpage.ui:164 ddterm/pref/behavior.js:38
+msgid "Hide When Application Loses Focus"
+msgstr "Cacher quand l'application perd le focus"
+
+#: data/ui/terminalpage.ui:168 ddterm/pref/behavior.js:43
+msgid "Hide When Esc Key Is Pressed"
+msgstr "Cacher à l'appui de la touche Échap"
+
+#: data/ui/terminalpage.ui:174 ddterm/pref/scrolling.js:33
+msgid "Scroll On Output"
+msgstr "Défilement sur la sortie"
+
+#: data/ui/terminalpage.ui:178 ddterm/pref/scrolling.js:38
+msgid "Scroll On Keystroke"
+msgstr "Défilement sur pression de touche"
+
+#: data/ui/terminalpage.ui:184 ddterm/pref/command.js:51
+msgid "Preserve Working Directory In New Tabs"
+msgstr "Conserver le répertoire de travail dans les nouveaux onglets"
+
+#: data/ui/terminalpage.ui:190
+msgid "Enable Keyboard Shortcuts"
+msgstr "Activer les raccourcis clavier"
+
+#: data/ui/terminalpage.ui:207 ddterm/shell/panelicon.js:72
+msgid "About ddterm"
+msgstr "À propos de ddterm"
+
+#: data/ui/terminalpage.ui:237
+msgid "Restart"
+msgstr "Redémarrer"
+
+#: ddterm/app/about.js:48
 msgid "translator-credits"
 msgstr ""
 "Arnaud Feldmann\n"
@@ -71,51 +308,51 @@ msgstr "Avertissement : La version de ddterm a changé"
 msgid "Log out, then log in again to load the updated extension."
 msgstr "Fermez la session, puis reconnectez-vous pour charger l'extension mise à jour."
 
-#: ddterm/app/application.js:132
+#: ddterm/app/application.js:135
 msgid "Start the application, but do not show the window"
 msgstr "Démarrer l'application, mais ne pas afficher la fenêtre"
 
-#: ddterm/app/application.js:141
+#: ddterm/app/application.js:144
 msgid "Comma-separated list of backends that GDK should try to use"
 msgstr "Liste, séparée par des virgules, des backend que GDK doit essayer d'utiliser"
 
-#: ddterm/app/application.js:168
+#: ddterm/app/application.js:171
 msgid "Show version information and exit"
 msgstr "Afficher les informations de version et quitter"
 
-#: ddterm/app/application.js:177
+#: ddterm/app/application.js:180
 msgid "Run the specified command"
 msgstr "Exécutez la commande spécifiée"
 
-#: ddterm/app/application.js:191
+#: ddterm/app/application.js:194
 msgid "Wait for the command to exit, and return its exit code"
 msgstr "Attendre que la commande soit exécutée et retourner son code de sortie"
 
-#: ddterm/app/application.js:200
+#: ddterm/app/application.js:203
 msgid "Set the working directory"
 msgstr "Définir le répertoire de travail"
 
-#: ddterm/app/application.js:209
+#: ddterm/app/application.js:212
 msgid "Set tab title"
 msgstr "Définir un titre d'onglet"
 
-#: ddterm/app/application.js:218
+#: ddterm/app/application.js:221
 msgid "Keep the terminal open after the command has exited"
 msgstr "Gardez le terminal ouvert après la fin de la commande"
 
-#: ddterm/app/application.js:227
+#: ddterm/app/application.js:230
 msgid "Do not pass the environment"
 msgstr "Ne pas transmettre l'environnement"
 
-#: ddterm/app/application.js:236
+#: ddterm/app/application.js:239
 msgid "Open a new tab"
 msgstr "Ouvrir un nouvel onglet"
 
-#: ddterm/app/application.js:612
+#: ddterm/app/application.js:599
 msgid "Can't contact the extension."
 msgstr "L'extension ne peut être contactée."
 
-#: ddterm/app/application.js:614
+#: ddterm/app/application.js:601
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr "Veuillez s'il vous plait vous assurer que l'extension GNOME Shell est activée."
 
@@ -139,251 +376,13 @@ msgstr "Définir un titre d'onglet personnalisé"
 msgid "Tab _Title"
 msgstr "Titre d'onglet"
 
-#: ddterm/app/tablabel.js:99 ddterm/app/ui/notebook.ui:15
-msgid "Use Custom Tab Title"
-msgstr "Utiliser un titre d'onglet personnalisé"
-
-#: ddterm/app/terminalpage.js:367
+#: ddterm/app/terminalpage.js:365
 msgid "The child process exited with status:"
 msgstr "Le processus fils s'est terminé avec le statut :"
 
-#: ddterm/app/terminalpage.js:377
+#: ddterm/app/terminalpage.js:375
 msgid "The child process was aborted by signal:"
 msgstr "Le processus de l'enfant a été interrompu par le signal :"
-
-#: ddterm/app/ui/closedialog.ui:16
-msgid "Close this terminal?"
-msgstr "Fermer ce terminal ?"
-
-#: ddterm/app/ui/closedialog.ui:17
-msgid "There is still a process running in this terminal. Closing the terminal will kill it."
-msgstr "Il reste un processus en cours d'exécution dans ce terminal. Fermer ce terminal va le tuer."
-
-#: ddterm/app/ui/closedialog.ui:20 ddterm/pref/shortcuts.js:210
-msgid "Cancel"
-msgstr "Annuler"
-
-#: ddterm/app/ui/closedialog.ui:30 ddterm/app/ui/terminalpage.ui:244
-msgid "Close Terminal"
-msgstr "Fermer ce terminal"
-
-#: ddterm/app/ui/notebook.ui:20
-msgid "Use Default Tab Title"
-msgstr "Utiliser le titre d'onglet par défaut"
-
-#: ddterm/app/ui/notebook.ui:27
-msgid "New Tab Before This Tab"
-msgstr "Nouvel onglet avant celui-ci"
-
-#: ddterm/app/ui/notebook.ui:31
-msgid "New Tab After This Tab"
-msgstr "Nouvel onglet après celui-ci"
-
-#: ddterm/app/ui/notebook.ui:35 ddterm/app/ui/terminalpage.ui:99
-#: ddterm/pref/shortcuts.js:588
-msgid "New Tab Before First Tab"
-msgstr "Nouvel onglet avant le premier"
-
-#: ddterm/app/ui/notebook.ui:39 ddterm/app/ui/terminalpage.ui:103
-#: ddterm/pref/shortcuts.js:583
-msgid "New Tab After Last Tab"
-msgstr "Nouvel onglet après le dernier"
-
-#: ddterm/app/ui/notebook.ui:45 ddterm/pref/shortcuts.js:618
-msgid "Move Tab to Previous Position"
-msgstr "Déplacer l'onglet vers la position précédente"
-
-#: ddterm/app/ui/notebook.ui:49 ddterm/pref/shortcuts.js:623
-msgid "Move Tab to Next Position"
-msgstr "Déplacer l'onglet vers la position suivante"
-
-#: ddterm/app/ui/notebook.ui:55 ddterm/app/ui/terminalpage.ui:110
-msgid "Layout"
-msgstr "Disposition"
-
-#: ddterm/app/ui/notebook.ui:58 ddterm/app/ui/notebook.ui:99
-#: ddterm/app/ui/terminalpage.ui:113
-msgid "No Split"
-msgstr "Pas de division"
-
-#: ddterm/app/ui/notebook.ui:63 ddterm/app/ui/notebook.ui:104
-#: ddterm/app/ui/terminalpage.ui:118 ddterm/pref/shortcuts.js:628
-msgid "Split Horizontally"
-msgstr "Diviser horizontalement"
-
-#: ddterm/app/ui/notebook.ui:68 ddterm/app/ui/notebook.ui:109
-#: ddterm/app/ui/terminalpage.ui:123 ddterm/pref/shortcuts.js:633
-msgid "Split Vertically"
-msgstr "Diviser verticalement"
-
-#: ddterm/app/ui/notebook.ui:75 ddterm/app/ui/terminalpage.ui:130
-msgid "Move Tab to Other Pane"
-msgstr "Changer l'onglet de panneau"
-
-#: ddterm/app/ui/notebook.ui:87 ddterm/app/ui/terminalpage.ui:197
-msgid "Keep Open After Exit"
-msgstr "Laisser ouvert en quittant"
-
-#: ddterm/app/ui/notebook.ui:91 ddterm/app/ui/terminalpage.ui:201
-#: ddterm/shell/notifications.js:64
-msgid "Close"
-msgstr "Fermer"
-
-#: ddterm/app/ui/notebook.ui:148
-msgid "New Tab (First)"
-msgstr "Nouvel onglet (en première position)"
-
-#: ddterm/app/ui/notebook.ui:169
-msgid "New Tab (Last)"
-msgstr "Nouvel onglet (en dernière position)"
-
-#: ddterm/app/ui/search.ui:20
-msgid "Case Sensitive"
-msgstr "Sensible à la casse"
-
-#: ddterm/app/ui/search.ui:33
-msgid "Match Whole Word"
-msgstr "Mots entiers"
-
-#: ddterm/app/ui/search.ui:46
-msgid "Regular Expression"
-msgstr "Expression régulière"
-
-#: ddterm/app/ui/search.ui:72
-msgid "Wrap Around"
-msgstr "En boucle"
-
-#: ddterm/app/ui/search.ui:89 ddterm/pref/shortcuts.js:673
-msgid "Find Next"
-msgstr "Rechercher le suivant"
-
-#: ddterm/app/ui/search.ui:107 ddterm/pref/shortcuts.js:678
-msgid "Find Previous"
-msgstr "Rechercher le précédent"
-
-#: ddterm/app/ui/terminalpage.ui:15
-msgid "Open Hyperlink"
-msgstr "Ouvrir le lien"
-
-#: ddterm/app/ui/terminalpage.ui:20
-msgid "Copy Hyperlink Address"
-msgstr "Copier le lien"
-
-#: ddterm/app/ui/terminalpage.ui:25
-msgid "Copy File Path"
-msgstr "Copier le chemin"
-
-#: ddterm/app/ui/terminalpage.ui:32
-msgid "Copy"
-msgstr "Copier"
-
-#: ddterm/app/ui/terminalpage.ui:36
-msgid "Copy HTML"
-msgstr "Copier HTML"
-
-#: ddterm/app/ui/terminalpage.ui:40
-msgid "Paste"
-msgstr "Coller"
-
-#: ddterm/app/ui/terminalpage.ui:44 ddterm/pref/shortcuts.js:568
-msgid "Select All"
-msgstr "Tout sélectionner"
-
-#: ddterm/app/ui/terminalpage.ui:50 ddterm/pref/shortcuts.js:668
-msgid "Find"
-msgstr "Rechercher"
-
-#: ddterm/app/ui/terminalpage.ui:56 ddterm/pref/shortcuts.js:573
-msgid "Reset"
-msgstr "Réinitialiser"
-
-#: ddterm/app/ui/terminalpage.ui:60 ddterm/pref/shortcuts.js:578
-msgid "Reset and Clear"
-msgstr "Réinitialiser et effacer"
-
-#: ddterm/app/ui/terminalpage.ui:66
-msgid "Zoom"
-msgstr "Zoom"
-
-#: ddterm/app/ui/terminalpage.ui:68 ddterm/pref/shortcuts.js:683
-msgid "Zoom In"
-msgstr "Zoomer"
-
-#: ddterm/app/ui/terminalpage.ui:72 ddterm/pref/shortcuts.js:688
-msgid "Zoom Out"
-msgstr "Dézoomer"
-
-#: ddterm/app/ui/terminalpage.ui:76 ddterm/pref/shortcuts.js:693
-msgid "Normal Size"
-msgstr "Taille normale"
-
-#: ddterm/app/ui/terminalpage.ui:83
-msgid "Show in File Manager"
-msgstr "Afficher dans le gestionnaire de fichier"
-
-#: ddterm/app/ui/terminalpage.ui:89
-msgid "New Tab"
-msgstr "Nouvel onglet"
-
-#: ddterm/app/ui/terminalpage.ui:91 ddterm/pref/shortcuts.js:593
-msgid "New Tab Before Current Tab"
-msgstr "Nouvel onglet avant l'onglet actuel"
-
-#: ddterm/app/ui/terminalpage.ui:95 ddterm/pref/shortcuts.js:598
-msgid "New Tab After Current Tab"
-msgstr "Nouvel onglet après l'onglet actuel"
-
-#: ddterm/app/ui/terminalpage.ui:137 ddterm/pref/dialog.js:50
-msgid "Preferences"
-msgstr "Préférences"
-
-#: ddterm/app/ui/terminalpage.ui:146 ddterm/pref/behavior.js:28
-msgid "Above All Windows"
-msgstr "Toujours au premier plan"
-
-#: ddterm/app/ui/terminalpage.ui:150 ddterm/pref/behavior.js:33
-msgid "On All Workspaces"
-msgstr "Sur tous les espaces de travail"
-
-#: ddterm/app/ui/terminalpage.ui:154
-msgid "Maximize Window"
-msgstr "Agrandir la fenêtre"
-
-#: ddterm/app/ui/terminalpage.ui:158 ddterm/pref/colors.js:592
-msgid "Transparent Background"
-msgstr "Arrière-plan transparent"
-
-#: ddterm/app/ui/terminalpage.ui:164 ddterm/pref/behavior.js:38
-msgid "Hide When Application Loses Focus"
-msgstr "Cacher quand l'application perd le focus"
-
-#: ddterm/app/ui/terminalpage.ui:168 ddterm/pref/behavior.js:43
-msgid "Hide When Esc Key Is Pressed"
-msgstr "Cacher à l'appui de la touche Échap"
-
-#: ddterm/app/ui/terminalpage.ui:174 ddterm/pref/scrolling.js:33
-msgid "Scroll On Output"
-msgstr "Défilement sur la sortie"
-
-#: ddterm/app/ui/terminalpage.ui:178 ddterm/pref/scrolling.js:38
-msgid "Scroll On Keystroke"
-msgstr "Défilement sur pression de touche"
-
-#: ddterm/app/ui/terminalpage.ui:184 ddterm/pref/command.js:51
-msgid "Preserve Working Directory In New Tabs"
-msgstr "Conserver le répertoire de travail dans les nouveaux onglets"
-
-#: ddterm/app/ui/terminalpage.ui:190
-msgid "Enable Keyboard Shortcuts"
-msgstr "Activer les raccourcis clavier"
-
-#: ddterm/app/ui/terminalpage.ui:207 ddterm/shell/panelicon.js:72
-msgid "About ddterm"
-msgstr "À propos de ddterm"
-
-#: ddterm/app/ui/terminalpage.ui:237
-msgid "Restart"
-msgstr "Redémarrer"
 
 #: ddterm/pref/adw.js:48
 msgid "Window"

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-15 19:12+0000\n"
+"POT-Creation-Date: 2026-04-20 04:09+0000\n"
 "PO-Revision-Date: 2025-10-07 20:02+0000\n"
 "Last-Translator: Nuri KÜÇÜKLER <enatsek@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/tr/>\n"
@@ -38,12 +38,249 @@ msgstr "GNOME kabuğu için bir başka açılır/kapanır terminal eklentisi"
 msgid "Toggle"
 msgstr "Aç/Kapat"
 
-#: data/com.github.amezin.ddterm.desktop.in.in:30 ddterm/app/ui/notebook.ui:82
-#: ddterm/app/ui/terminalpage.ui:140 ddterm/shell/panelicon.js:64
+#: data/com.github.amezin.ddterm.desktop.in.in:30 data/ui/notebook.ui:82
+#: data/ui/terminalpage.ui:140 ddterm/shell/panelicon.js:64
 msgid "Preferences…"
 msgstr "Tercihler…"
 
-#: ddterm/app/about.js:62
+#: data/ui/closedialog.ui:16
+msgid "Close this terminal?"
+msgstr "Bu terminali kapat?"
+
+#: data/ui/closedialog.ui:17
+msgid "There is still a process running in this terminal. Closing the terminal will kill it."
+msgstr "Bu terminalde halen bir işlem çalışıyor. Terminali kapatmak bu işlemi de sonlandırır."
+
+#: data/ui/closedialog.ui:20 ddterm/pref/shortcuts.js:210
+msgid "Cancel"
+msgstr ""
+
+#: data/ui/closedialog.ui:30 data/ui/terminalpage.ui:244
+msgid "Close Terminal"
+msgstr "Terminali Kapat"
+
+#: data/ui/notebook.ui:15 ddterm/app/tablabel.js:99
+msgid "Use Custom Tab Title"
+msgstr "Özelleştirilmiş Sekme Adı Kullan"
+
+#: data/ui/notebook.ui:20
+msgid "Use Default Tab Title"
+msgstr "Varsayılan Sekme Adını Kullan"
+
+#: data/ui/notebook.ui:27
+msgid "New Tab Before This Tab"
+msgstr "Yeni Sekme Bu Sekmeden Önce"
+
+#: data/ui/notebook.ui:31
+msgid "New Tab After This Tab"
+msgstr "Yeni Sekme Bu Sekmeden Sonra"
+
+#: data/ui/notebook.ui:35 data/ui/terminalpage.ui:99
+#: ddterm/pref/shortcuts.js:588
+msgid "New Tab Before First Tab"
+msgstr "Yeni Sekme İlk Sekmeden Önce"
+
+#: data/ui/notebook.ui:39 data/ui/terminalpage.ui:103
+#: ddterm/pref/shortcuts.js:583
+msgid "New Tab After Last Tab"
+msgstr "Yeni Sekme Son Sekmeden Sonra"
+
+#: data/ui/notebook.ui:45 ddterm/pref/shortcuts.js:618
+msgid "Move Tab to Previous Position"
+msgstr "Sekmeyi Önceki Konuma Taşı"
+
+#: data/ui/notebook.ui:49 ddterm/pref/shortcuts.js:623
+msgid "Move Tab to Next Position"
+msgstr "Sekmeyi Sonraki Konuma Taşı"
+
+#: data/ui/notebook.ui:55 data/ui/terminalpage.ui:110
+msgid "Layout"
+msgstr "Dizilim"
+
+#: data/ui/notebook.ui:58 data/ui/notebook.ui:99 data/ui/terminalpage.ui:113
+msgid "No Split"
+msgstr "Bölme Yok"
+
+#: data/ui/notebook.ui:63 data/ui/notebook.ui:104 data/ui/terminalpage.ui:118
+#: ddterm/pref/shortcuts.js:628
+msgid "Split Horizontally"
+msgstr "Yatayda Böl"
+
+#: data/ui/notebook.ui:68 data/ui/notebook.ui:109 data/ui/terminalpage.ui:123
+#: ddterm/pref/shortcuts.js:633
+msgid "Split Vertically"
+msgstr "Dikeyde Böl"
+
+#: data/ui/notebook.ui:75 data/ui/terminalpage.ui:130
+msgid "Move Tab to Other Pane"
+msgstr "Sekmeyi Diğer Panoya Taşı"
+
+#: data/ui/notebook.ui:87 data/ui/terminalpage.ui:197
+msgid "Keep Open After Exit"
+msgstr "Çıktıktan Sonra Açık Tut"
+
+#: data/ui/notebook.ui:91 data/ui/terminalpage.ui:201
+#: ddterm/shell/notifications.js:64
+msgid "Close"
+msgstr "Kapat"
+
+#: data/ui/notebook.ui:148
+msgid "New Tab (First)"
+msgstr "Yeni Sekme (İlk)"
+
+#: data/ui/notebook.ui:169
+msgid "New Tab (Last)"
+msgstr "Yeni Sekme (Son)"
+
+#: data/ui/search.ui:20
+msgid "Case Sensitive"
+msgstr "Küçük/Büyük Harf Duyarlı"
+
+#: data/ui/search.ui:33
+msgid "Match Whole Word"
+msgstr "Tüm Kelime ile Eşleştir"
+
+#: data/ui/search.ui:46
+msgid "Regular Expression"
+msgstr "Düzenli İfade (RegEx)"
+
+#: data/ui/search.ui:72
+msgid "Wrap Around"
+msgstr "Metin Kaydırma"
+
+#: data/ui/search.ui:89 ddterm/pref/shortcuts.js:673
+msgid "Find Next"
+msgstr "Sonrakini Bul"
+
+#: data/ui/search.ui:107 ddterm/pref/shortcuts.js:678
+msgid "Find Previous"
+msgstr "Öncekini Bul"
+
+#: data/ui/terminalpage.ui:15
+msgid "Open Hyperlink"
+msgstr "Linki aç"
+
+#: data/ui/terminalpage.ui:20
+msgid "Copy Hyperlink Address"
+msgstr "Link adresini kopyala"
+
+#: data/ui/terminalpage.ui:25
+msgid "Copy File Path"
+msgstr "Dosya Konumunu Kopyala"
+
+#: data/ui/terminalpage.ui:32
+msgid "Copy"
+msgstr "Kopyala"
+
+#: data/ui/terminalpage.ui:36
+msgid "Copy HTML"
+msgstr "HTML olarak kopyala"
+
+#: data/ui/terminalpage.ui:40
+msgid "Paste"
+msgstr "Yapıştır"
+
+#: data/ui/terminalpage.ui:44 ddterm/pref/shortcuts.js:568
+msgid "Select All"
+msgstr "Tümünü Seç"
+
+#: data/ui/terminalpage.ui:50 ddterm/pref/shortcuts.js:668
+msgid "Find"
+msgstr "Bul"
+
+#: data/ui/terminalpage.ui:56 ddterm/pref/shortcuts.js:573
+msgid "Reset"
+msgstr "Sıfırla"
+
+#: data/ui/terminalpage.ui:60 ddterm/pref/shortcuts.js:578
+msgid "Reset and Clear"
+msgstr "Sıfırla ve Temizle"
+
+#: data/ui/terminalpage.ui:66
+msgid "Zoom"
+msgstr "Yakınlaştır"
+
+#: data/ui/terminalpage.ui:68 ddterm/pref/shortcuts.js:683
+msgid "Zoom In"
+msgstr "Yakınlaştırmayı artır"
+
+#: data/ui/terminalpage.ui:72 ddterm/pref/shortcuts.js:688
+msgid "Zoom Out"
+msgstr "Yakınlaştırmayı Azalt"
+
+#: data/ui/terminalpage.ui:76 ddterm/pref/shortcuts.js:693
+msgid "Normal Size"
+msgstr "Normal Boyut"
+
+#: data/ui/terminalpage.ui:83
+msgid "Show in File Manager"
+msgstr "Dosya Yöneticisinde Görüntüle"
+
+#: data/ui/terminalpage.ui:89
+msgid "New Tab"
+msgstr "Yeni Sekme"
+
+#: data/ui/terminalpage.ui:91 ddterm/pref/shortcuts.js:593
+msgid "New Tab Before Current Tab"
+msgstr "Yeni Sekme Şuanki Sekmeden Önce"
+
+#: data/ui/terminalpage.ui:95 ddterm/pref/shortcuts.js:598
+msgid "New Tab After Current Tab"
+msgstr "Yeni Sekme Şuanki Sekmeden Sonra"
+
+#: data/ui/terminalpage.ui:137 ddterm/pref/dialog.js:50
+msgid "Preferences"
+msgstr "Tercihler"
+
+#: data/ui/terminalpage.ui:146 ddterm/pref/behavior.js:28
+msgid "Above All Windows"
+msgstr "Tüm Pencerelerin Üzerinde"
+
+#: data/ui/terminalpage.ui:150 ddterm/pref/behavior.js:33
+msgid "On All Workspaces"
+msgstr "Tüm Çalışma Alanlarında"
+
+#: data/ui/terminalpage.ui:154
+msgid "Maximize Window"
+msgstr "Pencereyi Büyüt"
+
+#: data/ui/terminalpage.ui:158 ddterm/pref/colors.js:592
+msgid "Transparent Background"
+msgstr "Saydam Arkaplan"
+
+#: data/ui/terminalpage.ui:164 ddterm/pref/behavior.js:38
+msgid "Hide When Application Loses Focus"
+msgstr "Uygulama Odağı Kaybettiğinde Gizle"
+
+#: data/ui/terminalpage.ui:168 ddterm/pref/behavior.js:43
+msgid "Hide When Esc Key Is Pressed"
+msgstr "Esc Tuşuna Basıldığında Gizle"
+
+#: data/ui/terminalpage.ui:174 ddterm/pref/scrolling.js:33
+msgid "Scroll On Output"
+msgstr "Çıktı ile Beraber Kaydır"
+
+#: data/ui/terminalpage.ui:178 ddterm/pref/scrolling.js:38
+msgid "Scroll On Keystroke"
+msgstr "Tuş Basımında Kaydır"
+
+#: data/ui/terminalpage.ui:184 ddterm/pref/command.js:51
+msgid "Preserve Working Directory In New Tabs"
+msgstr "Yeni Sekmelerde Çalışma Dizinini Koru"
+
+#: data/ui/terminalpage.ui:190
+msgid "Enable Keyboard Shortcuts"
+msgstr "Klavye Kısayollarını Etkinleştir"
+
+#: data/ui/terminalpage.ui:207 ddterm/shell/panelicon.js:72
+msgid "About ddterm"
+msgstr "ddterm Hakkında"
+
+#: data/ui/terminalpage.ui:237
+msgid "Restart"
+msgstr "Yeniden Başlat"
+
+#: ddterm/app/about.js:48
 msgid "translator-credits"
 msgstr ""
 "Mustafa Kemal Gilor\n"
@@ -66,51 +303,51 @@ msgstr "Uyarı: ddterm sürümü değişti"
 msgid "Log out, then log in again to load the updated extension."
 msgstr "Güncellenmiş uzantıyı yüklemek için oturumu kapatın ve tekrar açın."
 
-#: ddterm/app/application.js:132
+#: ddterm/app/application.js:135
 msgid "Start the application, but do not show the window"
 msgstr "Uygulamayı başlat, fakat pencereyi gösterme"
 
-#: ddterm/app/application.js:141
+#: ddterm/app/application.js:144
 msgid "Comma-separated list of backends that GDK should try to use"
 msgstr "GDK'nın kullanımı için virgülle ayrılmış arka uç (backend) listesi"
 
-#: ddterm/app/application.js:168
+#: ddterm/app/application.js:171
 msgid "Show version information and exit"
 msgstr "Versiyon bilgisini görüntüle ve çık"
 
-#: ddterm/app/application.js:177
+#: ddterm/app/application.js:180
 msgid "Run the specified command"
 msgstr "Belirtilen komutu koş"
 
-#: ddterm/app/application.js:191
+#: ddterm/app/application.js:194
 msgid "Wait for the command to exit, and return its exit code"
 msgstr "Komutun bitmesini bekle, ve çıkış kodunu döndür"
 
-#: ddterm/app/application.js:200
+#: ddterm/app/application.js:203
 msgid "Set the working directory"
 msgstr "Çalışma dizinini ayarla"
 
-#: ddterm/app/application.js:209
+#: ddterm/app/application.js:212
 msgid "Set tab title"
 msgstr "Sekme başlığını ayarla"
 
-#: ddterm/app/application.js:218
+#: ddterm/app/application.js:221
 msgid "Keep the terminal open after the command has exited"
 msgstr "Komutun çalışması bittikten sonra terminali açık tut"
 
-#: ddterm/app/application.js:227
+#: ddterm/app/application.js:230
 msgid "Do not pass the environment"
 msgstr "Ortam değişkenlerini kullanma"
 
-#: ddterm/app/application.js:236
+#: ddterm/app/application.js:239
 msgid "Open a new tab"
 msgstr "Yeni bir sekme aç"
 
-#: ddterm/app/application.js:612
+#: ddterm/app/application.js:599
 msgid "Can't contact the extension."
 msgstr "Uzantı ile irtibat kurulamıyor."
 
-#: ddterm/app/application.js:614
+#: ddterm/app/application.js:601
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr "Lütfen ddterm GNOME Shell eklentisinin etkinleştirildiğinden emin olun."
 
@@ -136,251 +373,13 @@ msgstr "Özel Sekme Başlığı Koy"
 msgid "Tab _Title"
 msgstr "Sekme başlığını ayarla"
 
-#: ddterm/app/tablabel.js:99 ddterm/app/ui/notebook.ui:15
-msgid "Use Custom Tab Title"
-msgstr "Özelleştirilmiş Sekme Adı Kullan"
-
-#: ddterm/app/terminalpage.js:367
+#: ddterm/app/terminalpage.js:365
 msgid "The child process exited with status:"
 msgstr "Alt işlem şu çıkış kodu ile sonlandı:"
 
-#: ddterm/app/terminalpage.js:377
+#: ddterm/app/terminalpage.js:375
 msgid "The child process was aborted by signal:"
 msgstr "Alt işlem şu sinyal ile durduruldu:"
-
-#: ddterm/app/ui/closedialog.ui:16
-msgid "Close this terminal?"
-msgstr "Bu terminali kapat?"
-
-#: ddterm/app/ui/closedialog.ui:17
-msgid "There is still a process running in this terminal. Closing the terminal will kill it."
-msgstr "Bu terminalde halen bir işlem çalışıyor. Terminali kapatmak bu işlemi de sonlandırır."
-
-#: ddterm/app/ui/closedialog.ui:20 ddterm/pref/shortcuts.js:210
-msgid "Cancel"
-msgstr ""
-
-#: ddterm/app/ui/closedialog.ui:30 ddterm/app/ui/terminalpage.ui:244
-msgid "Close Terminal"
-msgstr "Terminali Kapat"
-
-#: ddterm/app/ui/notebook.ui:20
-msgid "Use Default Tab Title"
-msgstr "Varsayılan Sekme Adını Kullan"
-
-#: ddterm/app/ui/notebook.ui:27
-msgid "New Tab Before This Tab"
-msgstr "Yeni Sekme Bu Sekmeden Önce"
-
-#: ddterm/app/ui/notebook.ui:31
-msgid "New Tab After This Tab"
-msgstr "Yeni Sekme Bu Sekmeden Sonra"
-
-#: ddterm/app/ui/notebook.ui:35 ddterm/app/ui/terminalpage.ui:99
-#: ddterm/pref/shortcuts.js:588
-msgid "New Tab Before First Tab"
-msgstr "Yeni Sekme İlk Sekmeden Önce"
-
-#: ddterm/app/ui/notebook.ui:39 ddterm/app/ui/terminalpage.ui:103
-#: ddterm/pref/shortcuts.js:583
-msgid "New Tab After Last Tab"
-msgstr "Yeni Sekme Son Sekmeden Sonra"
-
-#: ddterm/app/ui/notebook.ui:45 ddterm/pref/shortcuts.js:618
-msgid "Move Tab to Previous Position"
-msgstr "Sekmeyi Önceki Konuma Taşı"
-
-#: ddterm/app/ui/notebook.ui:49 ddterm/pref/shortcuts.js:623
-msgid "Move Tab to Next Position"
-msgstr "Sekmeyi Sonraki Konuma Taşı"
-
-#: ddterm/app/ui/notebook.ui:55 ddterm/app/ui/terminalpage.ui:110
-msgid "Layout"
-msgstr "Dizilim"
-
-#: ddterm/app/ui/notebook.ui:58 ddterm/app/ui/notebook.ui:99
-#: ddterm/app/ui/terminalpage.ui:113
-msgid "No Split"
-msgstr "Bölme Yok"
-
-#: ddterm/app/ui/notebook.ui:63 ddterm/app/ui/notebook.ui:104
-#: ddterm/app/ui/terminalpage.ui:118 ddterm/pref/shortcuts.js:628
-msgid "Split Horizontally"
-msgstr "Yatayda Böl"
-
-#: ddterm/app/ui/notebook.ui:68 ddterm/app/ui/notebook.ui:109
-#: ddterm/app/ui/terminalpage.ui:123 ddterm/pref/shortcuts.js:633
-msgid "Split Vertically"
-msgstr "Dikeyde Böl"
-
-#: ddterm/app/ui/notebook.ui:75 ddterm/app/ui/terminalpage.ui:130
-msgid "Move Tab to Other Pane"
-msgstr "Sekmeyi Diğer Panoya Taşı"
-
-#: ddterm/app/ui/notebook.ui:87 ddterm/app/ui/terminalpage.ui:197
-msgid "Keep Open After Exit"
-msgstr "Çıktıktan Sonra Açık Tut"
-
-#: ddterm/app/ui/notebook.ui:91 ddterm/app/ui/terminalpage.ui:201
-#: ddterm/shell/notifications.js:64
-msgid "Close"
-msgstr "Kapat"
-
-#: ddterm/app/ui/notebook.ui:148
-msgid "New Tab (First)"
-msgstr "Yeni Sekme (İlk)"
-
-#: ddterm/app/ui/notebook.ui:169
-msgid "New Tab (Last)"
-msgstr "Yeni Sekme (Son)"
-
-#: ddterm/app/ui/search.ui:20
-msgid "Case Sensitive"
-msgstr "Küçük/Büyük Harf Duyarlı"
-
-#: ddterm/app/ui/search.ui:33
-msgid "Match Whole Word"
-msgstr "Tüm Kelime ile Eşleştir"
-
-#: ddterm/app/ui/search.ui:46
-msgid "Regular Expression"
-msgstr "Düzenli İfade (RegEx)"
-
-#: ddterm/app/ui/search.ui:72
-msgid "Wrap Around"
-msgstr "Metin Kaydırma"
-
-#: ddterm/app/ui/search.ui:89 ddterm/pref/shortcuts.js:673
-msgid "Find Next"
-msgstr "Sonrakini Bul"
-
-#: ddterm/app/ui/search.ui:107 ddterm/pref/shortcuts.js:678
-msgid "Find Previous"
-msgstr "Öncekini Bul"
-
-#: ddterm/app/ui/terminalpage.ui:15
-msgid "Open Hyperlink"
-msgstr "Linki aç"
-
-#: ddterm/app/ui/terminalpage.ui:20
-msgid "Copy Hyperlink Address"
-msgstr "Link adresini kopyala"
-
-#: ddterm/app/ui/terminalpage.ui:25
-msgid "Copy File Path"
-msgstr "Dosya Konumunu Kopyala"
-
-#: ddterm/app/ui/terminalpage.ui:32
-msgid "Copy"
-msgstr "Kopyala"
-
-#: ddterm/app/ui/terminalpage.ui:36
-msgid "Copy HTML"
-msgstr "HTML olarak kopyala"
-
-#: ddterm/app/ui/terminalpage.ui:40
-msgid "Paste"
-msgstr "Yapıştır"
-
-#: ddterm/app/ui/terminalpage.ui:44 ddterm/pref/shortcuts.js:568
-msgid "Select All"
-msgstr "Tümünü Seç"
-
-#: ddterm/app/ui/terminalpage.ui:50 ddterm/pref/shortcuts.js:668
-msgid "Find"
-msgstr "Bul"
-
-#: ddterm/app/ui/terminalpage.ui:56 ddterm/pref/shortcuts.js:573
-msgid "Reset"
-msgstr "Sıfırla"
-
-#: ddterm/app/ui/terminalpage.ui:60 ddterm/pref/shortcuts.js:578
-msgid "Reset and Clear"
-msgstr "Sıfırla ve Temizle"
-
-#: ddterm/app/ui/terminalpage.ui:66
-msgid "Zoom"
-msgstr "Yakınlaştır"
-
-#: ddterm/app/ui/terminalpage.ui:68 ddterm/pref/shortcuts.js:683
-msgid "Zoom In"
-msgstr "Yakınlaştırmayı artır"
-
-#: ddterm/app/ui/terminalpage.ui:72 ddterm/pref/shortcuts.js:688
-msgid "Zoom Out"
-msgstr "Yakınlaştırmayı Azalt"
-
-#: ddterm/app/ui/terminalpage.ui:76 ddterm/pref/shortcuts.js:693
-msgid "Normal Size"
-msgstr "Normal Boyut"
-
-#: ddterm/app/ui/terminalpage.ui:83
-msgid "Show in File Manager"
-msgstr "Dosya Yöneticisinde Görüntüle"
-
-#: ddterm/app/ui/terminalpage.ui:89
-msgid "New Tab"
-msgstr "Yeni Sekme"
-
-#: ddterm/app/ui/terminalpage.ui:91 ddterm/pref/shortcuts.js:593
-msgid "New Tab Before Current Tab"
-msgstr "Yeni Sekme Şuanki Sekmeden Önce"
-
-#: ddterm/app/ui/terminalpage.ui:95 ddterm/pref/shortcuts.js:598
-msgid "New Tab After Current Tab"
-msgstr "Yeni Sekme Şuanki Sekmeden Sonra"
-
-#: ddterm/app/ui/terminalpage.ui:137 ddterm/pref/dialog.js:50
-msgid "Preferences"
-msgstr "Tercihler"
-
-#: ddterm/app/ui/terminalpage.ui:146 ddterm/pref/behavior.js:28
-msgid "Above All Windows"
-msgstr "Tüm Pencerelerin Üzerinde"
-
-#: ddterm/app/ui/terminalpage.ui:150 ddterm/pref/behavior.js:33
-msgid "On All Workspaces"
-msgstr "Tüm Çalışma Alanlarında"
-
-#: ddterm/app/ui/terminalpage.ui:154
-msgid "Maximize Window"
-msgstr "Pencereyi Büyüt"
-
-#: ddterm/app/ui/terminalpage.ui:158 ddterm/pref/colors.js:592
-msgid "Transparent Background"
-msgstr "Saydam Arkaplan"
-
-#: ddterm/app/ui/terminalpage.ui:164 ddterm/pref/behavior.js:38
-msgid "Hide When Application Loses Focus"
-msgstr "Uygulama Odağı Kaybettiğinde Gizle"
-
-#: ddterm/app/ui/terminalpage.ui:168 ddterm/pref/behavior.js:43
-msgid "Hide When Esc Key Is Pressed"
-msgstr "Esc Tuşuna Basıldığında Gizle"
-
-#: ddterm/app/ui/terminalpage.ui:174 ddterm/pref/scrolling.js:33
-msgid "Scroll On Output"
-msgstr "Çıktı ile Beraber Kaydır"
-
-#: ddterm/app/ui/terminalpage.ui:178 ddterm/pref/scrolling.js:38
-msgid "Scroll On Keystroke"
-msgstr "Tuş Basımında Kaydır"
-
-#: ddterm/app/ui/terminalpage.ui:184 ddterm/pref/command.js:51
-msgid "Preserve Working Directory In New Tabs"
-msgstr "Yeni Sekmelerde Çalışma Dizinini Koru"
-
-#: ddterm/app/ui/terminalpage.ui:190
-msgid "Enable Keyboard Shortcuts"
-msgstr "Klavye Kısayollarını Etkinleştir"
-
-#: ddterm/app/ui/terminalpage.ui:207 ddterm/shell/panelicon.js:72
-msgid "About ddterm"
-msgstr "ddterm Hakkında"
-
-#: ddterm/app/ui/terminalpage.ui:237
-msgid "Restart"
-msgstr "Yeniden Başlat"
 
 #: ddterm/pref/adw.js:48
 msgid "Window"

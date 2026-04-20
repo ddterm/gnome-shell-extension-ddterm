@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-15 19:12+0000\n"
+"POT-Creation-Date: 2026-04-20 04:09+0000\n"
 "PO-Revision-Date: 2026-02-05 23:28+0000\n"
 "Last-Translator: Aleksandr Mezin <mezin.alexander@gmail.com>\n"
 "Language-Team: Greek <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/el/>\n"
@@ -41,13 +41,253 @@ msgstr ""
 msgid "Toggle"
 msgstr "Κουμπί εναλλαγής"
 
-#: data/com.github.amezin.ddterm.desktop.in.in:30 ddterm/app/ui/notebook.ui:82
-#: ddterm/app/ui/terminalpage.ui:140 ddterm/shell/panelicon.js:64
+#: data/com.github.amezin.ddterm.desktop.in.in:30 data/ui/notebook.ui:82
+#: data/ui/terminalpage.ui:140 ddterm/shell/panelicon.js:64
 #, fuzzy
 msgid "Preferences…"
 msgstr "Προτιμήσεις"
 
-#: ddterm/app/about.js:62
+#: data/ui/closedialog.ui:16
+msgid "Close this terminal?"
+msgstr "Να κλείσει το Τερματικό ;"
+
+#: data/ui/closedialog.ui:17
+msgid "There is still a process running in this terminal. Closing the terminal will kill it."
+msgstr "Μία αργασία εκτελείτε ακόμα σε αυτό το τερματικό. Το κλείσιμο θα την διακόψει."
+
+#: data/ui/closedialog.ui:20 ddterm/pref/shortcuts.js:210
+msgid "Cancel"
+msgstr ""
+
+#: data/ui/closedialog.ui:30 data/ui/terminalpage.ui:244
+#, fuzzy
+msgid "Close Terminal"
+msgstr "Να κλείσει το Τερματικό ;"
+
+#: data/ui/notebook.ui:15 ddterm/app/tablabel.js:99
+msgid "Use Custom Tab Title"
+msgstr "Χρησιμοποιήστε τον τίτλο προσαρμοσμένης καρτέλας"
+
+#: data/ui/notebook.ui:20
+msgid "Use Default Tab Title"
+msgstr "Χρησιμοποιήστε τον προεπιλεγμένο τίτλο καρτέλας"
+
+#: data/ui/notebook.ui:27
+msgid "New Tab Before This Tab"
+msgstr "Νέα καρτελα πριν από αυτην"
+
+#: data/ui/notebook.ui:31
+msgid "New Tab After This Tab"
+msgstr "Νέα καρτέλα μετά από αυτην"
+
+#: data/ui/notebook.ui:35 data/ui/terminalpage.ui:99
+#: ddterm/pref/shortcuts.js:588
+msgid "New Tab Before First Tab"
+msgstr "Νέα καρτέλα στην αρχή"
+
+#: data/ui/notebook.ui:39 data/ui/terminalpage.ui:103
+#: ddterm/pref/shortcuts.js:583
+msgid "New Tab After Last Tab"
+msgstr "Νέα καρτέλα στο τέλος"
+
+#: data/ui/notebook.ui:45 ddterm/pref/shortcuts.js:618
+msgid "Move Tab to Previous Position"
+msgstr "Επανατοποθέτηση καρτέλας πριν"
+
+#: data/ui/notebook.ui:49 ddterm/pref/shortcuts.js:623
+msgid "Move Tab to Next Position"
+msgstr "Επανατοποθέτηση καρτέλας μετά"
+
+#: data/ui/notebook.ui:55 data/ui/terminalpage.ui:110
+msgid "Layout"
+msgstr ""
+
+#: data/ui/notebook.ui:58 data/ui/notebook.ui:99 data/ui/terminalpage.ui:113
+msgid "No Split"
+msgstr ""
+
+#: data/ui/notebook.ui:63 data/ui/notebook.ui:104 data/ui/terminalpage.ui:118
+#: ddterm/pref/shortcuts.js:628
+msgid "Split Horizontally"
+msgstr ""
+
+#: data/ui/notebook.ui:68 data/ui/notebook.ui:109 data/ui/terminalpage.ui:123
+#: ddterm/pref/shortcuts.js:633
+msgid "Split Vertically"
+msgstr ""
+
+#: data/ui/notebook.ui:75 data/ui/terminalpage.ui:130
+#, fuzzy
+msgid "Move Tab to Other Pane"
+msgstr "Επανατοποθέτηση καρτέλας μετά"
+
+#: data/ui/notebook.ui:87 data/ui/terminalpage.ui:197
+msgid "Keep Open After Exit"
+msgstr "Μείνε ανοικτό μετά την έξοδο"
+
+#: data/ui/notebook.ui:91 data/ui/terminalpage.ui:201
+#: ddterm/shell/notifications.js:64
+msgid "Close"
+msgstr "Κλείσιμο"
+
+#: data/ui/notebook.ui:148
+msgid "New Tab (First)"
+msgstr "Νέα καρτέλα (Αρχή)"
+
+#: data/ui/notebook.ui:169
+msgid "New Tab (Last)"
+msgstr "Νέα καρτέλα (Τέλος)"
+
+#: data/ui/search.ui:20
+msgid "Case Sensitive"
+msgstr "Πεζά-Κεφαλαία"
+
+#: data/ui/search.ui:33
+msgid "Match Whole Word"
+msgstr "Ταίριαξε με ολόκληρη τη λέξη"
+
+#: data/ui/search.ui:46
+msgid "Regular Expression"
+msgstr ""
+
+#: data/ui/search.ui:72
+msgid "Wrap Around"
+msgstr ""
+
+#: data/ui/search.ui:89 ddterm/pref/shortcuts.js:673
+msgid "Find Next"
+msgstr "Μετακίνηση στο επόμενο"
+
+#: data/ui/search.ui:107 ddterm/pref/shortcuts.js:678
+msgid "Find Previous"
+msgstr "Μετακίνηση στο επόμενο"
+
+#: data/ui/terminalpage.ui:15
+msgid "Open Hyperlink"
+msgstr "Άνοιγμα συνδέσμου"
+
+#: data/ui/terminalpage.ui:20
+msgid "Copy Hyperlink Address"
+msgstr "Αντιγραφή συνδέσμου"
+
+#: data/ui/terminalpage.ui:25
+msgid "Copy File Path"
+msgstr "Αντιγραφή διαδρομής αρχείου"
+
+#: data/ui/terminalpage.ui:32
+msgid "Copy"
+msgstr "Αντιγραφή"
+
+#: data/ui/terminalpage.ui:36
+msgid "Copy HTML"
+msgstr "Αντιγραφή HTML"
+
+#: data/ui/terminalpage.ui:40
+msgid "Paste"
+msgstr "Επικόλληση"
+
+#: data/ui/terminalpage.ui:44 ddterm/pref/shortcuts.js:568
+msgid "Select All"
+msgstr "Επιλογή όλων"
+
+#: data/ui/terminalpage.ui:50 ddterm/pref/shortcuts.js:668
+msgid "Find"
+msgstr "Εύρεση"
+
+#: data/ui/terminalpage.ui:56 ddterm/pref/shortcuts.js:573
+msgid "Reset"
+msgstr "Επαναφορά"
+
+#: data/ui/terminalpage.ui:60 ddterm/pref/shortcuts.js:578
+msgid "Reset and Clear"
+msgstr "Επαναφορά και εκκαθάριση"
+
+#: data/ui/terminalpage.ui:66
+msgid "Zoom"
+msgstr "Εστίαση"
+
+#: data/ui/terminalpage.ui:68 ddterm/pref/shortcuts.js:683
+msgid "Zoom In"
+msgstr "μεγέθυνση"
+
+#: data/ui/terminalpage.ui:72 ddterm/pref/shortcuts.js:688
+msgid "Zoom Out"
+msgstr "Σμίκρυνση"
+
+#: data/ui/terminalpage.ui:76 ddterm/pref/shortcuts.js:693
+msgid "Normal Size"
+msgstr "Κανονικό μέγεθος"
+
+#: data/ui/terminalpage.ui:83
+msgid "Show in File Manager"
+msgstr ""
+
+#: data/ui/terminalpage.ui:89
+msgid "New Tab"
+msgstr "Νεα καρτέλα"
+
+#: data/ui/terminalpage.ui:91 ddterm/pref/shortcuts.js:593
+msgid "New Tab Before Current Tab"
+msgstr "Νέα καρτέλα πριν την τρέχουσα"
+
+#: data/ui/terminalpage.ui:95 ddterm/pref/shortcuts.js:598
+msgid "New Tab After Current Tab"
+msgstr "Νέα καρτέλα μετά την τρέχουσα"
+
+#: data/ui/terminalpage.ui:137 ddterm/pref/dialog.js:50
+msgid "Preferences"
+msgstr "Προτιμήσεις"
+
+#: data/ui/terminalpage.ui:146 ddterm/pref/behavior.js:28
+msgid "Above All Windows"
+msgstr "Πάνω απ τα Παράθυρα"
+
+#: data/ui/terminalpage.ui:150 ddterm/pref/behavior.js:33
+msgid "On All Workspaces"
+msgstr "Πάνω από Επιφάνιες Εργασίας"
+
+#: data/ui/terminalpage.ui:154
+msgid "Maximize Window"
+msgstr "Μεγένθυση Παράθύρου"
+
+#: data/ui/terminalpage.ui:158 ddterm/pref/colors.js:592
+msgid "Transparent Background"
+msgstr "Διάφανο φόντο"
+
+#: data/ui/terminalpage.ui:164 ddterm/pref/behavior.js:38
+msgid "Hide When Application Loses Focus"
+msgstr "Απόκρυψη όταν η εφαρμογή χάνει την εστίαση"
+
+#: data/ui/terminalpage.ui:168 ddterm/pref/behavior.js:43
+msgid "Hide When Esc Key Is Pressed"
+msgstr "Απόκρυψη όταν πατηθεί Esc "
+
+#: data/ui/terminalpage.ui:174 ddterm/pref/scrolling.js:33
+msgid "Scroll On Output"
+msgstr "Κύλιση κατα την έξοδο"
+
+#: data/ui/terminalpage.ui:178 ddterm/pref/scrolling.js:38
+msgid "Scroll On Keystroke"
+msgstr "Κύλιση στο πάτημα πλήκτρων"
+
+#: data/ui/terminalpage.ui:184 ddterm/pref/command.js:51
+msgid "Preserve Working Directory In New Tabs"
+msgstr "Διατήρηση καταλόγου εργασίας σε νέες καρτέλες"
+
+#: data/ui/terminalpage.ui:190
+msgid "Enable Keyboard Shortcuts"
+msgstr "Ενεργοποίση συντομέυσεων πληκτρολογίου"
+
+#: data/ui/terminalpage.ui:207 ddterm/shell/panelicon.js:72
+msgid "About ddterm"
+msgstr ""
+
+#: data/ui/terminalpage.ui:237
+#, fuzzy
+msgid "Restart"
+msgstr "Αρχή"
+
+#: ddterm/app/about.js:48
 msgid "translator-credits"
 msgstr ""
 "Anagnostakis Ioannis\n"
@@ -69,53 +309,53 @@ msgstr "Προειδοποίηση: η έκδοση ddterm έχει αλλάξε
 msgid "Log out, then log in again to load the updated extension."
 msgstr "Αποσυνδεθείτε και, στη συνέχεια, συνδεθείτε ξανά για να φορτώσετε την ενημερωμένη επέκταση."
 
-#: ddterm/app/application.js:132
+#: ddterm/app/application.js:135
 msgid "Start the application, but do not show the window"
 msgstr ""
 
-#: ddterm/app/application.js:141
+#: ddterm/app/application.js:144
 msgid "Comma-separated list of backends that GDK should try to use"
 msgstr ""
 
-#: ddterm/app/application.js:168
+#: ddterm/app/application.js:171
 msgid "Show version information and exit"
 msgstr ""
 
-#: ddterm/app/application.js:177
+#: ddterm/app/application.js:180
 msgid "Run the specified command"
 msgstr "Τρέξε συγκεκριμένη εντολή"
 
-#: ddterm/app/application.js:191
+#: ddterm/app/application.js:194
 msgid "Wait for the command to exit, and return its exit code"
 msgstr ""
 
-#: ddterm/app/application.js:200
+#: ddterm/app/application.js:203
 #, fuzzy
 msgid "Set the working directory"
 msgstr "Διατήρηση του καταλόγου εργασίας"
 
-#: ddterm/app/application.js:209
+#: ddterm/app/application.js:212
 #, fuzzy
 msgid "Set tab title"
 msgstr "Παραμετροποίση τίτλου καρτέλας"
 
-#: ddterm/app/application.js:218
+#: ddterm/app/application.js:221
 msgid "Keep the terminal open after the command has exited"
 msgstr ""
 
-#: ddterm/app/application.js:227
+#: ddterm/app/application.js:230
 msgid "Do not pass the environment"
 msgstr ""
 
-#: ddterm/app/application.js:236
+#: ddterm/app/application.js:239
 msgid "Open a new tab"
 msgstr "Άνοιγμα νέας καρτέλας"
 
-#: ddterm/app/application.js:612
+#: ddterm/app/application.js:599
 msgid "Can't contact the extension."
 msgstr ""
 
-#: ddterm/app/application.js:614
+#: ddterm/app/application.js:601
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr ""
 
@@ -140,254 +380,13 @@ msgstr "Παραμετροποίση τίτλου καρτέλας"
 msgid "Tab _Title"
 msgstr "Titre d'onglet"
 
-#: ddterm/app/tablabel.js:99 ddterm/app/ui/notebook.ui:15
-msgid "Use Custom Tab Title"
-msgstr "Χρησιμοποιήστε τον τίτλο προσαρμοσμένης καρτέλας"
-
-#: ddterm/app/terminalpage.js:367
+#: ddterm/app/terminalpage.js:365
 msgid "The child process exited with status:"
 msgstr ""
 
-#: ddterm/app/terminalpage.js:377
+#: ddterm/app/terminalpage.js:375
 msgid "The child process was aborted by signal:"
 msgstr ""
-
-#: ddterm/app/ui/closedialog.ui:16
-msgid "Close this terminal?"
-msgstr "Να κλείσει το Τερματικό ;"
-
-#: ddterm/app/ui/closedialog.ui:17
-msgid "There is still a process running in this terminal. Closing the terminal will kill it."
-msgstr "Μία αργασία εκτελείτε ακόμα σε αυτό το τερματικό. Το κλείσιμο θα την διακόψει."
-
-#: ddterm/app/ui/closedialog.ui:20 ddterm/pref/shortcuts.js:210
-msgid "Cancel"
-msgstr ""
-
-#: ddterm/app/ui/closedialog.ui:30 ddterm/app/ui/terminalpage.ui:244
-#, fuzzy
-msgid "Close Terminal"
-msgstr "Να κλείσει το Τερματικό ;"
-
-#: ddterm/app/ui/notebook.ui:20
-msgid "Use Default Tab Title"
-msgstr "Χρησιμοποιήστε τον προεπιλεγμένο τίτλο καρτέλας"
-
-#: ddterm/app/ui/notebook.ui:27
-msgid "New Tab Before This Tab"
-msgstr "Νέα καρτελα πριν από αυτην"
-
-#: ddterm/app/ui/notebook.ui:31
-msgid "New Tab After This Tab"
-msgstr "Νέα καρτέλα μετά από αυτην"
-
-#: ddterm/app/ui/notebook.ui:35 ddterm/app/ui/terminalpage.ui:99
-#: ddterm/pref/shortcuts.js:588
-msgid "New Tab Before First Tab"
-msgstr "Νέα καρτέλα στην αρχή"
-
-#: ddterm/app/ui/notebook.ui:39 ddterm/app/ui/terminalpage.ui:103
-#: ddterm/pref/shortcuts.js:583
-msgid "New Tab After Last Tab"
-msgstr "Νέα καρτέλα στο τέλος"
-
-#: ddterm/app/ui/notebook.ui:45 ddterm/pref/shortcuts.js:618
-msgid "Move Tab to Previous Position"
-msgstr "Επανατοποθέτηση καρτέλας πριν"
-
-#: ddterm/app/ui/notebook.ui:49 ddterm/pref/shortcuts.js:623
-msgid "Move Tab to Next Position"
-msgstr "Επανατοποθέτηση καρτέλας μετά"
-
-#: ddterm/app/ui/notebook.ui:55 ddterm/app/ui/terminalpage.ui:110
-msgid "Layout"
-msgstr ""
-
-#: ddterm/app/ui/notebook.ui:58 ddterm/app/ui/notebook.ui:99
-#: ddterm/app/ui/terminalpage.ui:113
-msgid "No Split"
-msgstr ""
-
-#: ddterm/app/ui/notebook.ui:63 ddterm/app/ui/notebook.ui:104
-#: ddterm/app/ui/terminalpage.ui:118 ddterm/pref/shortcuts.js:628
-msgid "Split Horizontally"
-msgstr ""
-
-#: ddterm/app/ui/notebook.ui:68 ddterm/app/ui/notebook.ui:109
-#: ddterm/app/ui/terminalpage.ui:123 ddterm/pref/shortcuts.js:633
-msgid "Split Vertically"
-msgstr ""
-
-#: ddterm/app/ui/notebook.ui:75 ddterm/app/ui/terminalpage.ui:130
-#, fuzzy
-msgid "Move Tab to Other Pane"
-msgstr "Επανατοποθέτηση καρτέλας μετά"
-
-#: ddterm/app/ui/notebook.ui:87 ddterm/app/ui/terminalpage.ui:197
-msgid "Keep Open After Exit"
-msgstr "Μείνε ανοικτό μετά την έξοδο"
-
-#: ddterm/app/ui/notebook.ui:91 ddterm/app/ui/terminalpage.ui:201
-#: ddterm/shell/notifications.js:64
-msgid "Close"
-msgstr "Κλείσιμο"
-
-#: ddterm/app/ui/notebook.ui:148
-msgid "New Tab (First)"
-msgstr "Νέα καρτέλα (Αρχή)"
-
-#: ddterm/app/ui/notebook.ui:169
-msgid "New Tab (Last)"
-msgstr "Νέα καρτέλα (Τέλος)"
-
-#: ddterm/app/ui/search.ui:20
-msgid "Case Sensitive"
-msgstr "Πεζά-Κεφαλαία"
-
-#: ddterm/app/ui/search.ui:33
-msgid "Match Whole Word"
-msgstr "Ταίριαξε με ολόκληρη τη λέξη"
-
-#: ddterm/app/ui/search.ui:46
-msgid "Regular Expression"
-msgstr ""
-
-#: ddterm/app/ui/search.ui:72
-msgid "Wrap Around"
-msgstr ""
-
-#: ddterm/app/ui/search.ui:89 ddterm/pref/shortcuts.js:673
-msgid "Find Next"
-msgstr "Μετακίνηση στο επόμενο"
-
-#: ddterm/app/ui/search.ui:107 ddterm/pref/shortcuts.js:678
-msgid "Find Previous"
-msgstr "Μετακίνηση στο επόμενο"
-
-#: ddterm/app/ui/terminalpage.ui:15
-msgid "Open Hyperlink"
-msgstr "Άνοιγμα συνδέσμου"
-
-#: ddterm/app/ui/terminalpage.ui:20
-msgid "Copy Hyperlink Address"
-msgstr "Αντιγραφή συνδέσμου"
-
-#: ddterm/app/ui/terminalpage.ui:25
-msgid "Copy File Path"
-msgstr "Αντιγραφή διαδρομής αρχείου"
-
-#: ddterm/app/ui/terminalpage.ui:32
-msgid "Copy"
-msgstr "Αντιγραφή"
-
-#: ddterm/app/ui/terminalpage.ui:36
-msgid "Copy HTML"
-msgstr "Αντιγραφή HTML"
-
-#: ddterm/app/ui/terminalpage.ui:40
-msgid "Paste"
-msgstr "Επικόλληση"
-
-#: ddterm/app/ui/terminalpage.ui:44 ddterm/pref/shortcuts.js:568
-msgid "Select All"
-msgstr "Επιλογή όλων"
-
-#: ddterm/app/ui/terminalpage.ui:50 ddterm/pref/shortcuts.js:668
-msgid "Find"
-msgstr "Εύρεση"
-
-#: ddterm/app/ui/terminalpage.ui:56 ddterm/pref/shortcuts.js:573
-msgid "Reset"
-msgstr "Επαναφορά"
-
-#: ddterm/app/ui/terminalpage.ui:60 ddterm/pref/shortcuts.js:578
-msgid "Reset and Clear"
-msgstr "Επαναφορά και εκκαθάριση"
-
-#: ddterm/app/ui/terminalpage.ui:66
-msgid "Zoom"
-msgstr "Εστίαση"
-
-#: ddterm/app/ui/terminalpage.ui:68 ddterm/pref/shortcuts.js:683
-msgid "Zoom In"
-msgstr "μεγέθυνση"
-
-#: ddterm/app/ui/terminalpage.ui:72 ddterm/pref/shortcuts.js:688
-msgid "Zoom Out"
-msgstr "Σμίκρυνση"
-
-#: ddterm/app/ui/terminalpage.ui:76 ddterm/pref/shortcuts.js:693
-msgid "Normal Size"
-msgstr "Κανονικό μέγεθος"
-
-#: ddterm/app/ui/terminalpage.ui:83
-msgid "Show in File Manager"
-msgstr ""
-
-#: ddterm/app/ui/terminalpage.ui:89
-msgid "New Tab"
-msgstr "Νεα καρτέλα"
-
-#: ddterm/app/ui/terminalpage.ui:91 ddterm/pref/shortcuts.js:593
-msgid "New Tab Before Current Tab"
-msgstr "Νέα καρτέλα πριν την τρέχουσα"
-
-#: ddterm/app/ui/terminalpage.ui:95 ddterm/pref/shortcuts.js:598
-msgid "New Tab After Current Tab"
-msgstr "Νέα καρτέλα μετά την τρέχουσα"
-
-#: ddterm/app/ui/terminalpage.ui:137 ddterm/pref/dialog.js:50
-msgid "Preferences"
-msgstr "Προτιμήσεις"
-
-#: ddterm/app/ui/terminalpage.ui:146 ddterm/pref/behavior.js:28
-msgid "Above All Windows"
-msgstr "Πάνω απ τα Παράθυρα"
-
-#: ddterm/app/ui/terminalpage.ui:150 ddterm/pref/behavior.js:33
-msgid "On All Workspaces"
-msgstr "Πάνω από Επιφάνιες Εργασίας"
-
-#: ddterm/app/ui/terminalpage.ui:154
-msgid "Maximize Window"
-msgstr "Μεγένθυση Παράθύρου"
-
-#: ddterm/app/ui/terminalpage.ui:158 ddterm/pref/colors.js:592
-msgid "Transparent Background"
-msgstr "Διάφανο φόντο"
-
-#: ddterm/app/ui/terminalpage.ui:164 ddterm/pref/behavior.js:38
-msgid "Hide When Application Loses Focus"
-msgstr "Απόκρυψη όταν η εφαρμογή χάνει την εστίαση"
-
-#: ddterm/app/ui/terminalpage.ui:168 ddterm/pref/behavior.js:43
-msgid "Hide When Esc Key Is Pressed"
-msgstr "Απόκρυψη όταν πατηθεί Esc "
-
-#: ddterm/app/ui/terminalpage.ui:174 ddterm/pref/scrolling.js:33
-msgid "Scroll On Output"
-msgstr "Κύλιση κατα την έξοδο"
-
-#: ddterm/app/ui/terminalpage.ui:178 ddterm/pref/scrolling.js:38
-msgid "Scroll On Keystroke"
-msgstr "Κύλιση στο πάτημα πλήκτρων"
-
-#: ddterm/app/ui/terminalpage.ui:184 ddterm/pref/command.js:51
-msgid "Preserve Working Directory In New Tabs"
-msgstr "Διατήρηση καταλόγου εργασίας σε νέες καρτέλες"
-
-#: ddterm/app/ui/terminalpage.ui:190
-msgid "Enable Keyboard Shortcuts"
-msgstr "Ενεργοποίση συντομέυσεων πληκτρολογίου"
-
-#: ddterm/app/ui/terminalpage.ui:207 ddterm/shell/panelicon.js:72
-msgid "About ddterm"
-msgstr ""
-
-#: ddterm/app/ui/terminalpage.ui:237
-#, fuzzy
-msgid "Restart"
-msgstr "Αρχή"
 
 #: ddterm/pref/adw.js:48
 msgid "Window"
