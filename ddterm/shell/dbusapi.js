@@ -274,5 +274,6 @@ export const DBusApi = GObject.registerClass({
         this.#has_window = GLib.Variant.new_boolean(value);
         this.notify('has-window');
         this.#dbus_wrapper?.emit_property_changed('HasWindow', this.#has_window);
+        this.flush();
     }
 });
