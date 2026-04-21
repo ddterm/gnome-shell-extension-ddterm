@@ -90,6 +90,8 @@ export const DBusApi = GObject.registerClass({
     #target_monitor_scale = GLib.Variant.new_double(1);
     #version;
     #revision;
+    #interface_info;
+    #dbus_wrapper;
 
     constructor(params) {
         super(params);
@@ -108,10 +110,23 @@ export const DBusApi = GObject.registerClass({
             )
         );
 
-        this.dbus = Gio.DBusExportedObject.wrapJSObject(
-            Shell.get_file_contents_utf8_sync(xml_file_path),
-            this
-        );
+        this.#interface_info =
+            Gio.DBusInterfaceInfo.new_for_xml(Shell.get_file_contents_utf8_sync(xml_file_path));
+    }
+
+    export() {
+        this.unexport();
+        this.#dbus_wrapper = Gio.DBusExportedObject.wrapJSObject(this.#interface_info, this);
+        this.#dbus_wrapper.export(Gio.DBus.session, '/org/gnome/Shell/Extensions/ddterm');
+    }
+
+    unexport() {
+        this.#dbus_wrapper?.unexport();
+        this.#dbus_wrapper = null;
+    }
+
+    flush() {
+        this.#dbus_wrapper?.flush();
     }
 
     ToggleAsync(params, invocation) {
@@ -210,7 +225,7 @@ export const DBusApi = GObject.registerClass({
 
         this.#target_rect = value;
         this.notify('target-rect');
-        this.dbus.emit_property_changed('TargetRect', value);
+        this.#dbus_wrapper?.emit_property_changed('TargetRect', value);
     }
 
     get target_monitor_scale() {
@@ -225,6 +240,6 @@ export const DBusApi = GObject.registerClass({
 
         this.#target_monitor_scale = value;
         this.notify('target-monitor-scale');
-        this.dbus.emit_property_changed('TargetMonitorScale', value);
+        this.#dbus_wrapper?.emit_property_changed('TargetMonitorScale', value);
     }
 });

@@ -75,17 +75,17 @@ function create_dbus_interface(
     );
 
     const flush_handler = window_geometry.connect('updated', () => {
-        dbus_interface.dbus.flush();
+        dbus_interface.flush();
     });
 
     rollback.push(() => {
         window_geometry.disconnect(flush_handler);
     });
 
-    dbus_interface.dbus.export(Gio.DBus.session, '/org/gnome/Shell/Extensions/ddterm');
+    dbus_interface.export();
 
     rollback.push(() => {
-        dbus_interface.dbus.unexport();
+        dbus_interface.unexport();
     });
 
     return dbus_interface;
