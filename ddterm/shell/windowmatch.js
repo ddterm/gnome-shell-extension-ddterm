@@ -87,6 +87,13 @@ export const WindowMatch = GObject.registerClass({
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             Service
         ),
+        'has-window': GObject.ParamSpec.boolean(
+            'has-window',
+            null,
+            null,
+            GObject.ParamFlags.READABLE,
+            false
+        ),
         'current-window': GObject.ParamSpec.object(
             'current-window',
             null,
@@ -128,6 +135,10 @@ export const WindowMatch = GObject.registerClass({
 
     get current_window() {
         return this._window;
+    }
+
+    get has_window() {
+        return Boolean(this._window);
     }
 
     check_window(win) {
@@ -174,6 +185,7 @@ export const WindowMatch = GObject.registerClass({
                 this._untrack_window();
             });
 
+            this.notify('has-window');
             this.notify('current-window');
         } finally {
             this.thaw_notify();
@@ -189,6 +201,7 @@ export const WindowMatch = GObject.registerClass({
         this._window.disconnect(this._window_untrack_handler);
         this._window_untrack_handler = null;
         this._window = null;
+        this.notify('has-window');
         this.notify('current-window');
     }
 });

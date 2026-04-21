@@ -74,6 +74,13 @@ export const DBusApi = GObject.registerClass({
             100,
             0
         ),
+        'has-window': GObject.ParamSpec.boolean(
+            'has-window',
+            null,
+            null,
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+            false
+        ),
     },
     Signals: {
         'missing-dependencies': {
@@ -92,6 +99,7 @@ export const DBusApi = GObject.registerClass({
     #revision;
     #interface_info;
     #dbus_wrapper;
+    #has_window;
 
     constructor(params) {
         super(params);
@@ -201,6 +209,10 @@ export const DBusApi = GObject.registerClass({
         return this.#revision;
     }
 
+    get HasWindow() {
+        return this.#has_window;
+    }
+
     get target_rect() {
         const value = this.#target_rect;
 
@@ -249,5 +261,18 @@ export const DBusApi = GObject.registerClass({
         this.#target_monitor_scale = value;
         this.notify('target-monitor-scale');
         this.#dbus_wrapper?.emit_property_changed('TargetMonitorScale', value);
+    }
+
+    get has_window() {
+        return this.#has_window?.get_boolean() ?? false;
+    }
+
+    set has_window(value) {
+        if (this.#has_window?.get_boolean() === value)
+            return;
+
+        this.#has_window = GLib.Variant.new_boolean(value);
+        this.notify('has-window');
+        this.#dbus_wrapper?.emit_property_changed('HasWindow', this.#has_window);
     }
 });

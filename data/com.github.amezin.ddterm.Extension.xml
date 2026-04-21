@@ -35,6 +35,8 @@
         </method>
         <method name="VersionMismatch"/>
 
+        <property type="b" name="HasWindow" access="read"/>
+
         <property type="(iiii)" name="TargetRect" access="read"/>
         <property type="d" name="TargetMonitorScale" access="read"/>
 

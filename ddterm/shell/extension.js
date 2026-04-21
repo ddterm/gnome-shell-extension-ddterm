@@ -74,6 +74,13 @@ function create_dbus_interface(
         GObject.BindingFlags.SYNC_CREATE
     );
 
+    window_matcher.bind_property(
+        'has-window',
+        dbus_interface,
+        'has-window',
+        GObject.BindingFlags.SYNC_CREATE
+    );
+
     const flush_handler = window_geometry.connect('updated', () => {
         dbus_interface.flush();
     });
