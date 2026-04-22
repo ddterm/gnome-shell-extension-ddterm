@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-15 19:12+0000\n"
+"POT-Creation-Date: 2026-04-22 03:57+0000\n"
 "PO-Revision-Date: 2026-03-12 14:09+0000\n"
 "Last-Translator: 스이미 <soo.wim3@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/ko/>\n"
@@ -135,11 +135,11 @@ msgstr "탭 _제목"
 msgid "Use Custom Tab Title"
 msgstr "사용자 지정 탭 제목 사용"
 
-#: ddterm/app/terminalpage.js:367
+#: ddterm/app/terminalpage.js:452
 msgid "The child process exited with status:"
 msgstr "하위 프로세스 종료 상태:"
 
-#: ddterm/app/terminalpage.js:377
+#: ddterm/app/terminalpage.js:462
 msgid "The child process was aborted by signal:"
 msgstr "하위 프로세스가 다음 시그널로 인해 종료됨:"
 
