@@ -29,7 +29,6 @@ const APP_DBUS_PATH = '/com/github/amezin/ddterm';
 const WINDOW_PATH_PREFIX = `${APP_DBUS_PATH}/window/`;
 
 function create_dbus_interface(
-    resources,
     window_geometry,
     window_matcher,
     app_control,
@@ -41,7 +40,6 @@ function create_dbus_interface(
         version: extension.metadata.version?.toString() ?? null,
         revision: extension.metadata['version-name'] ?? null,
         app_control,
-        resources,
     });
 
     dbus_interface.connect('update-target-monitor', () => {
@@ -140,8 +138,8 @@ function create_panel_icon(settings, window_matcher, app_control, icon, gettext_
     return panel_icon;
 }
 
-function install(extension, resources, rollback) {
-    const installer = new Installer(resources, extension.launcher_path);
+function install(extension, rollback) {
+    const installer = new Installer(extension.launcher_path);
     installer.install();
 
     if (GObject.signal_lookup('shutdown', Shell.Global)) {
@@ -240,15 +238,6 @@ class EnabledExtension {
 
         this.settings = this.extension.getSettings();
 
-        const [resource_path] = GLib.filename_from_uri(GLib.Uri.resolve_relative(
-            import.meta.url,
-            '../../data/ddterm-resources.gresource',
-            GLib.UriFlags.NONE
-        ));
-
-        this.resources = Gio.Resource.load(resource_path);
-
-        // Doesn't get themed properly if loaded from resources as ByteIcon :(
         this.symbolic_icon = Gio.FileIcon.new(Gio.File.new_for_uri(
             GLib.Uri.resolve_relative(
                 import.meta.url,
@@ -408,7 +397,6 @@ class EnabledExtension {
         });
 
         create_dbus_interface(
-            this.resources,
             this.window_geometry,
             this.window_matcher,
             this.app_control,
@@ -432,7 +420,7 @@ class EnabledExtension {
             rollback
         );
 
-        install(this.extension, this.resources, rollback);
+        install(this.extension, rollback);
     }
 
     #set_skip_taskbar() {

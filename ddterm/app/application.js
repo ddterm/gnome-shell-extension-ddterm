@@ -122,10 +122,7 @@ export class Application extends Gtk.Application {
     #session_file_path = null;
 
     constructor(params) {
-        super({
-            resource_base_path: '/com/github/amezin/ddterm',
-            ...params,
-        });
+        super(params);
 
         this.add_main_option(
             'activate-only',
@@ -376,7 +373,9 @@ export class Application extends Gtk.Application {
 
         const css_provider = Gtk.CssProvider.new();
 
-        css_provider.load_from_resource(`${this.resource_base_path}/style.css`);
+        css_provider.load_from_file(Gio.File.new_for_uri(
+            GLib.Uri.resolve_relative(import.meta.url, 'style.css', GLib.UriFlags.NONE)
+        ));
 
         const screen = Gdk.Screen.get_default();
 
@@ -460,6 +459,19 @@ export class Application extends Gtk.Application {
         for (const [key, action] of Object.entries(shortcut_actions))
             this.#bind_accel(action, key);
 
+        const icon_theme = Gtk.IconTheme.get_default();
+        const icon_search_path = icon_theme.get_search_path();
+
+        for (const url of ['icons', '../../data']) {
+            const abs_url = GLib.Uri.resolve_relative(import.meta.url, url, GLib.UriFlags.NONE);
+            const [path] = GLib.filename_from_uri(abs_url);
+
+            if (!icon_search_path.includes(path))
+                icon_search_path.unshift(path);
+        }
+
+        icon_theme.set_search_path(icon_search_path);
+
         // gdm sends SIGHUP to gnome-session's process group to terminate it
         const SIGHUP = 1;
         const SIGINT = 2;
@@ -505,14 +517,15 @@ export class Application extends Gtk.Application {
     }
 
     _create_extension_dbus_proxy() {
-        const xml = new TextDecoder().decode(
-            Gio.resources_lookup_data(
-                `${this.resource_base_path}/com.github.amezin.ddterm.Extension.xml`,
-                Gio.ResourceLookupFlags.NONE
-            ).toArray()
+        const url = GLib.Uri.resolve_relative(
+            import.meta.url,
+            '../../data/com.github.amezin.ddterm.Extension.xml',
+            GLib.UriFlags.NONE
         );
 
-        const info = Gio.DBusInterfaceInfo.new_for_xml(xml);
+        const [path] = GLib.filename_from_uri(url);
+        const [, bytes] = GLib.file_get_contents(path);
+        const info = Gio.DBusInterfaceInfo.new_for_xml(new TextDecoder().decode(bytes));
         const flags =
             Gio.DBusProxyFlags.DO_NOT_AUTO_START |
             Gio.DBusProxyFlags.GET_INVALIDATED_PROPERTIES |

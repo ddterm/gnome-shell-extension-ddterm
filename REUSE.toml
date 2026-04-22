@@ -10,9 +10,6 @@ SPDX-PackageHomePage = "https://github.com/ddterm/gnome-shell-extension-ddterm/"
 SPDX-PackageLicenseDeclared = "GPL-3.0-or-later"
 
 [[annotations]]
-path = [
-    "locale/**/LC_MESSAGES/*.mo",
-    "data/*.gresource"
-]
+path = "locale/**/LC_MESSAGES/*.mo"
 SPDX-FileCopyrightText = "ddterm contributors <https://github.com/ddterm/gnome-shell-extension-ddterm/>"
 SPDX-License-Identifier = "GPL-3.0-or-later"

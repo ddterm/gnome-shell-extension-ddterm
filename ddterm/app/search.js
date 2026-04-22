@@ -129,7 +129,8 @@ class SearchPattern extends GObject.Object {
 export class SearchWidget extends Gtk.Box {
     static [GObject.GTypeName] = 'DDTermSearchWidget';
 
-    static [Gtk.template] = 'resource:///com/github/amezin/ddterm/ui/search.ui';
+    static [Gtk.template] =
+        GLib.Uri.resolve_relative(import.meta.url, './ui/search.ui', GLib.UriFlags.NONE);
 
     static [GObject.properties] = {
         'wrap': GObject.ParamSpec.boolean(

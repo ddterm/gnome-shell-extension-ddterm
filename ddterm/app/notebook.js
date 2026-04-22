@@ -57,7 +57,8 @@ function mapping_lookup(map_object, key) {
 export class Notebook extends Gtk.Box {
     static [GObject.GTypeName] = 'DDTermNotebook';
 
-    static [Gtk.template] = 'resource:///com/github/amezin/ddterm/ui/notebook.ui';
+    static [Gtk.template] =
+        GLib.Uri.resolve_relative(import.meta.url, './ui/notebook.ui', GLib.UriFlags.NONE);
 
     static [Gtk.children] = [
         'view',

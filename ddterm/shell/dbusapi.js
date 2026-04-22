@@ -7,6 +7,7 @@ import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
 import Mtk from 'gi://Mtk';
+import Shell from 'gi://Shell';
 
 import { AppControl } from './appcontrol.js';
 
@@ -36,13 +37,6 @@ function handle_dbus_method_call_async(func, params, invocation) {
 
 export const DBusApi = GObject.registerClass({
     Properties: {
-        'resources': GObject.ParamSpec.boxed(
-            'resources',
-            null,
-            null,
-            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-            Gio.Resource
-        ),
         'version': GObject.ParamSpec.string(
             'version',
             null,
@@ -106,14 +100,18 @@ export const DBusApi = GObject.registerClass({
         if (this.revision)
             this.#revision = GLib.Variant.new_string(this.revision);
 
-        const xml = new TextDecoder().decode(
-            this.resources.lookup_data(
-                '/com/github/amezin/ddterm/com.github.amezin.ddterm.Extension.xml',
-                Gio.ResourceLookupFlags.NONE
-            ).toArray()
+        const [xml_file_path] = GLib.filename_from_uri(
+            GLib.Uri.resolve_relative(
+                import.meta.url,
+                '../../data/com.github.amezin.ddterm.Extension.xml',
+                GLib.UriFlags.NONE
+            )
         );
 
-        this.dbus = Gio.DBusExportedObject.wrapJSObject(xml, this);
+        this.dbus = Gio.DBusExportedObject.wrapJSObject(
+            Shell.get_file_contents_utf8_sync(xml_file_path),
+            this
+        );
     }
 
     ToggleAsync(params, invocation) {

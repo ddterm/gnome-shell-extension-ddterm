@@ -8,11 +8,12 @@ import Gio from 'gi://Gio';
 import Shell from 'gi://Shell';
 
 class File {
-    constructor(resources, source_file, target_file, fallback_files = []) {
-        this.content = new TextDecoder().decode(
-            resources.lookup_data(source_file, Gio.ResourceLookupFlags.NONE).toArray()
+    constructor(source_url, target_file, fallback_files = []) {
+        const [source_file] = GLib.filename_from_uri(
+            GLib.Uri.resolve_relative(import.meta.url, source_url, GLib.UriFlags.NONE)
         );
 
+        this.content = Shell.get_file_contents_utf8_sync(source_file);
         this.target_file = target_file;
         this.fallback_files = fallback_files;
     }
@@ -76,7 +77,7 @@ function dbus_service_path(basedir) {
 }
 
 export class Installer {
-    constructor(resources, launcher_path) {
+    constructor(launcher_path) {
         const [icon_path] = GLib.filename_from_uri(GLib.Uri.resolve_relative(
             import.meta.url,
             '../../data/com.github.amezin.ddterm.svg',
@@ -91,8 +92,7 @@ export class Installer {
         const system_data_dirs = GLib.get_system_data_dirs();
 
         this.desktop_entry = new File(
-            resources,
-            '/com/github/amezin/ddterm/com.github.amezin.ddterm.desktop.in',
+            '../../data/com.github.amezin.ddterm.desktop.in',
             desktop_entry_path(GLib.get_user_data_dir()),
             system_data_dirs.map(desktop_entry_path)
         );
@@ -100,8 +100,7 @@ export class Installer {
         this.desktop_entry.configure(configure_vars);
 
         this.dbus_service = new File(
-            resources,
-            '/com/github/amezin/ddterm/com.github.amezin.ddterm.service.in',
+            '../../data/com.github.amezin.ddterm.service.in',
             dbus_service_path(GLib.get_user_runtime_dir()),
             system_data_dirs.map(dbus_service_path)
         );
