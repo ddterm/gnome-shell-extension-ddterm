@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-15 19:12+0000\n"
+"POT-Creation-Date: 2026-04-22 03:57+0000\n"
 "PO-Revision-Date: 2025-10-07 20:02+0000\n"
 "Last-Translator: Nuri KÜÇÜKLER <enatsek@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/tr/>\n"
@@ -140,11 +140,11 @@ msgstr "Sekme başlığını ayarla"
 msgid "Use Custom Tab Title"
 msgstr "Özelleştirilmiş Sekme Adı Kullan"
 
-#: ddterm/app/terminalpage.js:367
+#: ddterm/app/terminalpage.js:452
 msgid "The child process exited with status:"
 msgstr "Alt işlem şu çıkış kodu ile sonlandı:"
 
-#: ddterm/app/terminalpage.js:377
+#: ddterm/app/terminalpage.js:462
 msgid "The child process was aborted by signal:"
 msgstr "Alt işlem şu sinyal ile durduruldu:"
 

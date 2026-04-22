@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-15 19:12+0000\n"
+"POT-Creation-Date: 2026-04-22 03:57+0000\n"
 "PO-Revision-Date: 2026-03-03 13:09+0000\n"
 "Last-Translator: yuh <yuhldr@qq.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/zh_Hans/>\n"
@@ -137,11 +137,11 @@ msgstr "标签页标题"
 msgid "Use Custom Tab Title"
 msgstr "使用自定义标签页标题"
 
-#: ddterm/app/terminalpage.js:367
+#: ddterm/app/terminalpage.js:452
 msgid "The child process exited with status:"
 msgstr "子进程退出，状态为："
 
-#: ddterm/app/terminalpage.js:377
+#: ddterm/app/terminalpage.js:462
 msgid "The child process was aborted by signal:"
 msgstr "子进程被信号中止："
 
