@@ -29,7 +29,7 @@ dbus_service_dir = datadir / 'dbus-1' / 'services'
 
 gjs_req = '>=1.80.0'
 gnome_shell_req = ['>=46.0', '<51']
-shell_versions = ['46', '47', '48', '49', '50.beta']
+shell_versions = ['46', '47', '48', '49', '50']
 
 layout = get_option('layout')
 
