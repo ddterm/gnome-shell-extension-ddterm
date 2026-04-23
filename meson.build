@@ -151,7 +151,7 @@ bundle = [
   fs.copyfile('metadata.json.in.license', 'metadata.json.license'),
 ]
 
-foreach f : ['extension.js', 'prefs.js', 'AUTHORS']
+foreach f : ['extension.js', 'prefs.js', 'AUTHORS', 'CHANGELOG.md']
   bundle += fs.copyfile(f, install: true, install_dir: extension_dir)
 endforeach
 
