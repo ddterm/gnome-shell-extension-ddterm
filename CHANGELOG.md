@@ -14,7 +14,7 @@ The format is based on [Keep a Changelog], and this project adheres to
 [Keep a Changelog]: https://keepachangelog.com/en/1.1.0/
 [Semantic Versioning]: https://semver.org/spec/v2.0.0.html
 
-## [Unreleased]
+## [63.0.0] - 2026-04-24
 
 ### Added
 
@@ -159,7 +159,7 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 - Multiple minor bug fixes.
 
-[Unreleased]: https://github.com/ddterm/gnome-shell-extension-ddterm/compare/v62.0.2...HEAD
+[63.0.0]: https://github.com/ddterm/gnome-shell-extension-ddterm/releases/tag/v63.0.0
 [62.0.2]: https://github.com/ddterm/gnome-shell-extension-ddterm/releases/tag/v62.0.2
 [62.0.1]: https://github.com/ddterm/gnome-shell-extension-ddterm/releases/tag/v62.0.1
 [62.0.0]: https://github.com/ddterm/gnome-shell-extension-ddterm/releases/tag/v62.0.0
