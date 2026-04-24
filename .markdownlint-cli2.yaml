@@ -4,12 +4,30 @@
 
 # yaml-language-server: $schema=https://raw.githubusercontent.com/DavidAnson/markdownlint-cli2/main/schema/markdownlint-cli2-config-schema.json
 
-# config: won't work here, use .markdownlint.yml instead
-
 globs:
   - '**/*.md'
+
 gitignore: true
+
 ignores:
   - tools/heapgraph.md
+
 customRules:
   - markdownlint-rule-relative-links
+
+config:
+  no-blanks-blockquote: false
+
+  ol-prefix:
+    style: ordered
+
+  no-inline-html:
+    allowed_elements:
+      - kbd
+
+  link-image-style:
+    inline: false
+    url_inline: false
+
+  relative-links:
+    root_path: .
