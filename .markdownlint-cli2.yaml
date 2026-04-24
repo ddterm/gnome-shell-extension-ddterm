@@ -29,5 +29,14 @@ config:
     inline: false
     url_inline: false
 
+  reference-links-images:
+    shortcut_syntax: true
+    ignored_labels:
+      - x
+      - '!tip'
+      - '!caution'
+      - '!note'
+      - '!important'
+
   relative-links:
     root_path: .
