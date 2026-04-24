@@ -13,9 +13,9 @@ on:
         default: false
 
     outputs:
-      version:
-        description: Meson project version
-        value: ${{ jobs.bundle.outputs.version }}
+      release-tag:
+        description: Tag name if a new release should be published (otherwise empty)
+        value: ${{ fromJSON(jobs.lint.outputs.release) && jobs.lint.outputs.tag || '' }}
 
 defaults:
   run:
@@ -106,6 +106,11 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 5
 
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      tag: ${{ steps.version.outputs.tag }}
+      release: ${{ steps.release-notes.outcome == 'success' }}
+
     steps:
       - name: Checkout
         id: checkout
@@ -172,13 +177,48 @@ jobs:
         uses: ./.github/actions/actionlint
         if: ${{ !cancelled() && steps.checkout.outcome == 'success' }}
 
+      - name: Get current version
+        id: version
+        run: |
+          version="$(jq -r .version package.json)"
+          tag="v${version}"
+          echo "version=$version" | tee -a "$GITHUB_OUTPUT"
+          echo "tag=$tag" | tee -a "$GITHUB_OUTPUT"
+
+      - name: List existing releases
+        id: releases
+        run: |
+          existing="$(gh release list --json tagName | jq -c '[.[].tagName]')"
+          echo "existing=$existing" | tee -a "$GITHUB_OUTPUT"
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+
+      - name: Verify changelog
+        run: >-
+          npm run-script changelog --
+          ${{ contains(fromJSON(steps.releases.outputs.existing), steps.version.outputs.tag) && '-u' || '-d "$(date +%F)"' }}
+          -v "$VERSION"
+          -p "$VERSION"
+          -o "$RUNNER_TEMP/release-notes.md"
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+
+      - name: Upload release notes
+        id: release-notes
+        if: ${{ !contains(fromJSON(steps.releases.outputs.existing), steps.version.outputs.tag) }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          path: "${{ runner.temp }}/release-notes.md"
+          if-no-files-found: error
+          archive: false
+
   bundle:
     runs-on: ubuntu-24.04
     timeout-minutes: 5
 
     outputs:
       build-inputs: ${{ steps.ninja-inputs.outputs.inputs }}
-      version: ${{ steps.version.outputs.version }}
 
     steps:
       - name: Checkout
@@ -195,13 +235,6 @@ jobs:
       - name: Prepare build directory
         run: meson setup '-Dshebang_override=/usr/bin/env gjs' '-Dtests=disabled' build
         shell: pipetty bash -e {0}
-
-      - name: Get project version
-        id: version
-        working-directory: build
-        run: |
-          version="$(jq -r '.version' meson-info/intro-projectinfo.json)"
-          echo "version=$version" | tee -a "$GITHUB_OUTPUT"
 
       - name: Build extension bundle
         id: pack
