@@ -10,7 +10,7 @@ import { ArgumentParser } from 'argparse';
 import MarkdownIt from 'markdown-it';
 
 class ChangelogError extends Error {
-    constructor(message, line = 0, details = {}) {
+    constructor(message, line = 0, details = undefined) {
         super(message);
 
         this.name = 'ChangelogError';
@@ -37,11 +37,24 @@ function* parse(changelog) {
         const inlineContainerToken = tokens[index++];
         const closeToken = tokens[index++];
 
-        console.assert(closeToken.type === 'heading_close');
-        console.assert(closeToken.tag === openToken.tag);
+        if (closeToken?.type !== 'heading_close' || closeToken.tag !== openToken.tag) {
+            throw new ChangelogError(
+                'Unexpected markdown token (expected heading_close)',
+                closeToken?.map?.[0] ?? openToken.map[0],
+                closeToken ?? openToken
+            );
+        }
 
         const header = plainText(inlineContainerToken);
-        const [, version, date] = /^\s*(\S+)\s*-?\s*(\S+)?/.exec(header);
+        const [, version, date] = /^\s*(\S+)?\s*-?\s*(\S+)?/.exec(header);
+
+        if (version?.startsWith('[') || version?.endsWith(']')) {
+            throw new ChangelogError(
+                `Unresolved reference link in "${header}"`,
+                openToken.map[0],
+                openToken
+            );
+        }
 
         tokens = tokens.slice(index);
         index =
@@ -55,8 +68,7 @@ function* parse(changelog) {
     }
 }
 
-function run({ input, check_version, check_date, ignore_unreleased, print_entry, output }) {
-    const changelog = readFileSync(input, 'utf8');
+function run(changelog, { check_version, check_date, ignore_unreleased, print_entry, output }) {
     const parser = parse(changelog);
 
     let { value: entry, done } = parser.next();
@@ -146,7 +158,25 @@ function main() {
         help: 'Output file',
     });
 
-    run(parser.parse_args());
+    const args = parser.parse_args();
+
+    try {
+        run(readFileSync(args.input, 'utf8'), args);
+    } catch (e) {
+        if (e instanceof ChangelogError) {
+            console.error(
+                '%s:%s: %s',
+                args.input,
+                e.line,
+                e.message,
+                ...e.details === undefined ? [] : [e.details]
+            );
+
+            process.exit(1);
+        } else {
+            throw e;
+        }
+    }
 }
 
 main();
