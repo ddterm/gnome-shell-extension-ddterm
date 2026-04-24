@@ -177,6 +177,10 @@ jobs:
         uses: ./.github/actions/actionlint
         if: ${{ !cancelled() && steps.checkout.outcome == 'success' }}
 
+      - name: Lint latest changelog entry
+        run: npm run lint:release-notes
+        if: ${{ !cancelled() && steps.npm.outcome == 'success' }}
+
       - name: Get current version
         id: version
         run: |
@@ -194,15 +198,16 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
 
-      - name: Verify changelog
+      - name: Verify changelog version
         run: >-
           npm run-script changelog --
           ${{ contains(fromJSON(steps.releases.outputs.existing), steps.version.outputs.tag) && '-u' || '-d "$(date +%F)"' }}
           -v "$VERSION"
-          -p "$VERSION"
-          -o "$RUNNER_TEMP/release-notes.md"
         env:
           VERSION: ${{ steps.version.outputs.version }}
+
+      - name: Extract changelog entry
+        run: npm run-script changelog -- -p "$RUNNER_TEMP/release-notes.md"
 
       - name: Upload release notes
         id: release-notes

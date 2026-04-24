@@ -68,7 +68,7 @@ function* parse(changelog) {
     }
 }
 
-function run(changelog, { check_version, check_date, ignore_unreleased, print_entry, output }) {
+function run(changelog, { check_version, check_date, ignore_unreleased, print }) {
     const parser = parse(changelog);
 
     let { value: entry, done } = parser.next();
@@ -98,23 +98,10 @@ function run(changelog, { check_version, check_date, ignore_unreleased, print_en
         );
     }
 
-    if (print_entry === undefined)
-        return;
-
-    while (!done) {
-        if (entry.version === print_entry)
-            break;
-
-        ({ value: entry, done } = parser.next());
-    }
-
-    if (done)
-        throw new ChangelogError(`Version "${print_entry}" not found`);
-
-    if (!output || output === '-')
+    if (print === '-')
         process.stdout.write(entry.content);
-    else
-        writeFileSync(output, entry.content, 'utf8');
+    else if (print)
+        writeFileSync(print, entry.content, 'utf8');
 }
 
 function normalizeVersion(version) {
@@ -148,14 +135,10 @@ function main() {
         help: 'If the latest entry is "Unreleased", ignore it and check the next entry',
     });
 
-    parser.add_argument('-p', '--print-entry', {
-        type: normalizeVersion,
-        help: 'Print changelog entry for the specified version',
-    });
-
-    parser.add_argument('-o', '--output', {
-        default: '-',
-        help: 'Output file',
+    parser.add_argument('-p', '--print', {
+        nargs: '?',
+        const: '-',
+        help: 'Print latest changelog entry to the specified file (or stdout if "-" or no value)',
     });
 
     const args = parser.parse_args();

@@ -37,6 +37,7 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 [@mikelei8291]: https://github.com/mikelei8291
 [@seuimi]: https://github.com/seuimi
+[@yuhldr]: https://github.com/yuhldr
 
 ### Changed
 
@@ -95,6 +96,8 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 - Some memory leaks from GObject reference cycles.
 
+[63.0.0]: https://github.com/ddterm/gnome-shell-extension-ddterm/releases/tag/v63.0.0
+
 ## [62.0.2] - 2025-10-13
 
 ### Changed
@@ -123,6 +126,8 @@ The format is based on [Keep a Changelog], and this project adheres to
 [#1507]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1507
 [#1541]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1541
 
+[62.0.2]: https://github.com/ddterm/gnome-shell-extension-ddterm/releases/tag/v62.0.2
+
 ## [62.0.1] - 2025-09-24
 
 ### Fixed
@@ -132,6 +137,8 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 [#1505]: https://github.com/ddterm/gnome-shell-extension-ddterm/issues/1505
 [#1506]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1506
+
+[62.0.1]: https://github.com/ddterm/gnome-shell-extension-ddterm/releases/tag/v62.0.1
 
 ## [62.0.0] - 2025-09-24
 
@@ -152,16 +159,12 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 [@thenameisluk]: https://github.com/thenameisluk
 [@vantu5z]: https://github.com/vantu5z
-[@yuhldr]: https://github.com/yuhldr
 [@Atalanttore]: https://github.com/Atalanttore
 
 ### Fixed
 
 - Multiple minor bug fixes.
 
-[63.0.0]: https://github.com/ddterm/gnome-shell-extension-ddterm/releases/tag/v63.0.0
-[62.0.2]: https://github.com/ddterm/gnome-shell-extension-ddterm/releases/tag/v62.0.2
-[62.0.1]: https://github.com/ddterm/gnome-shell-extension-ddterm/releases/tag/v62.0.1
 [62.0.0]: https://github.com/ddterm/gnome-shell-extension-ddterm/releases/tag/v62.0.0
 
 <!-- markdownlint-configure-file {

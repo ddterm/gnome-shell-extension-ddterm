@@ -31,6 +31,7 @@
         "lint:flake8": "tox -e flake8",
         "lint:reuse": "tox -e reuse",
         "lint:meson-format": "tox -e meson-format",
+        "lint:release-notes": "tools/changelog.mjs -p- | markdownlint-cli2 - --config tools/markdownlint-cli2-release-notes.yml --no-globs",
         "lint": "run-s lint:*",
         "build": "tox -e meson",
         "test": "tox -e meson-test",
