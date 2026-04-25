@@ -23,7 +23,7 @@ jobs:
 
   pages:
     needs: ci
-    if: ${{ !cancelled() }}
+    if: ${{ !cancelled() && fromJSON(needs.ci.outputs.build-success) }}
     runs-on: ubuntu-slim
     timeout-minutes: 5
 
@@ -63,7 +63,7 @@ jobs:
 
   release:
     needs: ci
-    if: ${{ !cancelled() && needs.ci.outputs.release-tag }}
+    if: ${{ !cancelled() && fromJSON(needs.ci.outputs.build-success) && needs.ci.outputs.release-tag }}
     runs-on: ubuntu-slim
     timeout-minutes: 5
 

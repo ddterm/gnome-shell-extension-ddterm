@@ -13,6 +13,10 @@ on:
         default: false
 
     outputs:
+      build-success:
+        description: Whether primary artifacts were built successfully
+        value: ${{ jobs.bundle.result == 'success' }}
+
       release-tag:
         description: Tag name if a new release should be published (otherwise empty)
         value: ${{ fromJSON(jobs.lint.outputs.release) && jobs.lint.outputs.tag || '' }}
@@ -252,17 +256,6 @@ jobs:
           path: "build/*.shell-extension.zip"
           if-no-files-found: error
           archive: false
-        if: ${{ !cancelled() && steps.pack.outcome == 'success' }}
-
-      - name: Run checks
-        run: meson test -v -j1
-        working-directory: build
-        shell: pipetty bash -e {0}
-        if: ${{ !cancelled() && steps.pack.outcome == 'success' }}
-
-      - name: Check REUSE compliance of generated bundle
-        run: tox -e reuse-bundle -- build/*.shell-extension.zip
-        if: ${{ !cancelled() && steps.pack.outcome == 'success' }}
 
       - name: Generate dist tarball
         id: dist
@@ -275,7 +268,6 @@ jobs:
           path: build/meson-dist/ddterm-*.tar.gz
           if-no-files-found: error
           archive: false
-        if: ${{ !cancelled() && steps.dist.outcome == 'success' }}
 
       - name: Upload dist tarball checksum
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
@@ -283,7 +275,14 @@ jobs:
           path: build/meson-dist/ddterm-*.tar.gz.*sum
           if-no-files-found: error
           archive: false
-        if: ${{ !cancelled() && steps.dist.outcome == 'success' }}
+
+      - name: Run checks
+        run: meson test -v -j1
+        working-directory: build
+        shell: pipetty bash -e {0}
+
+      - name: Check REUSE compliance of generated bundle
+        run: tox -e reuse-bundle -- build/*.shell-extension.zip
 
       - name: Generate a list of input files
         id: ninja-inputs

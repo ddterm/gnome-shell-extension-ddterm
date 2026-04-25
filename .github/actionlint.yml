@@ -1,0 +1,9 @@
+# SPDX-FileCopyrightText: 2026 Aleksandr Mezin <mezin.alexander@gmail.com>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+paths:
+  .github/workflows/**/*.{yml,yaml}:
+    ignore:
+      # https://github.com/rhysd/actionlint/issues/343
+      - 'property "result" is not defined in object type {outputs: {'
