@@ -4,3 +4,4 @@
 
 metadata.json.in export-subst
 PKGBUILD export-subst
+CHANGELOG.md merge=union
