@@ -5,12 +5,12 @@
 import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
-import GnomeDesktop from 'gi://GnomeDesktop';
 import Meta from 'gi://Meta';
 
 import Gi from 'gi';
 
 import { sd_journal_stream_fd } from './sd_journal.js';
+import { promisify } from '../util/promise.js';
 
 function try_require(namespace, version = undefined) {
     try {
@@ -60,115 +60,102 @@ function shell_join(argv) {
     return argv.map(arg => GLib.shell_quote(arg)).join(' ');
 }
 
-class JournalctlLogCollector {
-    constructor(journalctl, since, pid) {
-        this._argv = [
-            journalctl,
-            '--user',
-            '-b',
-            `--since=${since.format('%C%y-%m-%d %H:%M:%S UTC')}`,
-            '-ocat',
-            `-n${KEEP_LOG_LINES}`,
-            `_PID=${pid}`,
-        ];
-    }
+async function collect_journald_logs(journalctl, since, pid) {
+    const argv = [
+        journalctl,
+        '--user',
+        '-b',
+        `--since=${since.format('%C%y-%m-%d %H:%M:%S UTC')}`,
+        '-ocat',
+        `-n${KEEP_LOG_LINES}`,
+    ];
 
-    _begin(resolve, reject) {
-        const proc = Gio.Subprocess.new(
-            this._argv,
-            Gio.SubprocessFlags.STDOUT_PIPE | Gio.SubprocessFlags.STDERR_MERGE
-        );
+    if (pid)
+        argv.push(`_PID=${pid}`);
 
-        proc.communicate_utf8_async(null, null, this._finish.bind(this, resolve, reject));
-    }
+    const proc = Gio.Subprocess.new(
+        argv,
+        Gio.SubprocessFlags.STDOUT_PIPE | Gio.SubprocessFlags.STDERR_MERGE
+    );
 
-    _finish(resolve, reject, source, result) {
-        try {
-            const [, stdout_buf] = source.communicate_utf8_finish(result);
-            resolve(stdout_buf);
-        } catch (ex) {
-            reject(ex);
+    const communicate = promisify(proc.communicate_async, proc.communicate_finish);
+    const [, stdout_buf] = await communicate.call(proc, null, null);
+
+    return new TextDecoder().decode(stdout_buf);
+}
+
+async function *read_chunks(input_stream) {
+    const read_bytes =
+        promisify(input_stream.read_bytes_async, input_stream.read_bytes_finish);
+
+    try {
+        for (;;) {
+            // eslint-disable-next-line no-await-in-loop
+            const chunk = await read_bytes.call(input_stream, 4096, GLib.PRIORITY_DEFAULT, null);
+
+            if (chunk.get_size() === 0)
+                return;
+
+            yield chunk.toArray();
         }
-    }
-
-    collect() {
-        return new Promise(this._begin.bind(this));
+    } finally {
+        input_stream.close(null);
     }
 }
 
-class TeeLogCollector {
-    constructor(stream) {
-        this._input = stream;
-        this._output = new UnixOutputStream({ fd: STDERR_FD, close_fd: false });
-        this._collected = [];
-        this._collected_lines = 0;
-        this._promise = new Promise((resolve, reject) => {
-            this._resolve = resolve;
-            this._reject = reject;
-        });
+function *split_array_keep_delimiter(bytes, delimiter) {
+    let start = 0;
 
-        this._read_more();
+    for (;;) {
+        let end = bytes.indexOf(delimiter, start);
+
+        if (end === -1)
+            break;
+
+        yield bytes.subarray(start, end + 1);
+
+        start = end + 1;
     }
 
-    _read_more() {
-        this._input.read_bytes_async(4096, GLib.PRIORITY_DEFAULT, null, this._read_done.bind(this));
-    }
+    yield bytes.subarray(start);
+}
 
-    _read_done(source, result) {
-        try {
-            const chunk = source.read_bytes_finish(result).toArray();
+async function collect_stdio_logs(input_stream) {
+    const delimiter = '\n'.charCodeAt(0);
+    const collected = [];
+    let lines = 0;
+    const stderr = new UnixOutputStream({ fd: STDERR_FD, close_fd: false });
 
-            if (chunk.length === 0) {
-                this._input.close(null);
-                this._output.close(null);
-                this._resolve();
-                return;
-            }
+    for await (const chunk of read_chunks(input_stream)) {
+        // I hope sync/blocking writes to stderr are fine.
+        // After all, this is the same thing that printerr() does.
+        stderr.write_all(chunk, null);
 
-            const delimiter = '\n'.charCodeAt(0);
-            let start = 0;
+        for (const sub_chunk of split_array_keep_delimiter(chunk, delimiter)) {
+            collected.push(sub_chunk);
 
-            for (;;) {
-                let end = chunk.indexOf(delimiter, start);
-
-                if (end === -1) {
-                    if (start < chunk.length)
-                        this._collected.push(chunk.subarray(start));
-
-                    break;
-                }
-
-                this._collected.push(chunk.subarray(start, end + 1));
-                this._collected_lines += 1;
-
-                start = end + 1;
-            }
-
-            let remove = 0;
-
-            while (this._collected_lines > KEEP_LOG_LINES) {
-                const remove_chunk = this._collected[remove];
-
-                remove += 1;
-
-                if (remove_chunk[remove_chunk.length - 1] === delimiter)
-                    this._collected_lines -= 1;
-            }
-
-            this._collected.splice(0, remove);
-            this._output.write(chunk, null);
-            this._read_more();
-        } catch (ex) {
-            this._reject(ex);
+            if (sub_chunk.at(-1) === delimiter)
+                lines += 1;
         }
+
+        let remove = 0;
+
+        while (lines > KEEP_LOG_LINES) {
+            const remove_chunk = collected[remove];
+
+            remove += 1;
+
+            if (remove_chunk.at(-1) === delimiter)
+                lines -= 1;
+        }
+
+        if (remove > 0)
+            collected.splice(0, remove);
     }
 
-    async collect() {
-        await this._promise;
+    const decoder = new TextDecoder();
 
-        const decoder = new TextDecoder();
-        return this._collected.map(line => decoder.decode(line)).join('\n');
-    }
+    return collected.map(v => decoder.decode(v)).join('');
 }
 
 export const Subprocess = GObject.registerClass({
@@ -213,36 +200,19 @@ export const Subprocess = GObject.registerClass({
             ? make_subprocess_launcher_journald(this.journal_identifier)
             : make_subprocess_launcher_fallback();
 
-        const launch_context = global.create_app_launch_context(0, -1);
-
-        subprocess_launcher.set_environ(launch_context.get_environment());
-
-        for (const extra_env of this.environ) {
-            const split_pos = extra_env.indexOf('=');
-            const name = extra_env.slice(0, split_pos);
-            const value = extra_env.slice(split_pos + 1);
-
-            subprocess_launcher.setenv(name, value, true);
-        }
-
         try {
+            subprocess_launcher.set_environ(this.environ);
+
             this._subprocess = this._spawn(subprocess_launcher);
         } finally {
             subprocess_launcher.close();
         }
 
-        this.log_collector = logging_to_journald
-            ? new JournalctlLogCollector(journalctl, start_date, this._subprocess.get_identifier())
-            : new TeeLogCollector(this._subprocess.get_stdout_pipe());
+        const pid = this._subprocess.get_identifier();
 
-        GnomeDesktop.start_systemd_scope(
-            this.journal_identifier,
-            parseInt(this._subprocess.get_identifier(), 10),
-            null,
-            null,
-            null,
-            null
-        );
+        this._get_logs = logging_to_journald
+            ? collect_journald_logs.bind(globalThis, journalctl, start_date, pid)
+            : collect_stdio_logs(this._subprocess.get_stdout_pipe()).catch(logError);
     }
 
     get g_subprocess() {
@@ -261,31 +231,32 @@ export const Subprocess = GObject.registerClass({
     }
 
     wait(cancellable = null) {
-        return new Promise((resolve, reject) => {
-            this.g_subprocess.wait_async(cancellable, (source, result) => {
-                try {
-                    resolve(source.wait_finish(result));
-                } catch (ex) {
-                    reject(ex);
-                }
-            });
-        });
+        const { wait_async, wait_finish } = this.g_subprocess;
+
+        return promisify(wait_async, wait_finish).call(this.g_subprocess, cancellable);
     }
 
     wait_check(cancellable = null) {
-        return new Promise((resolve, reject) => {
-            this.g_subprocess.wait_check_async(cancellable, (source, result) => {
-                try {
-                    resolve(source.wait_check_finish(result));
-                } catch (ex) {
-                    reject(ex);
-                }
-            });
-        });
+        const { wait_check_async, wait_check_finish } = this.g_subprocess;
+
+        return promisify(wait_check_async, wait_check_finish).call(this.g_subprocess, cancellable);
     }
 
     terminate() {
         this.g_subprocess.send_signal(SIGTERM);
+    }
+
+    get_pid() {
+        const pid = this.g_subprocess.get_identifier();
+
+        return pid ? parseInt(pid, 10) : null;
+    }
+
+    get_logs() {
+        if (this._get_logs instanceof Function)
+            return this._get_logs();
+
+        return this._get_logs;
     }
 
     _spawn(subprocess_launcher) {
