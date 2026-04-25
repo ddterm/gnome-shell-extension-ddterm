@@ -264,6 +264,27 @@ jobs:
         run: tox -e reuse-bundle -- build/*.shell-extension.zip
         if: ${{ !cancelled() && steps.pack.outcome == 'success' }}
 
+      - name: Generate dist tarball
+        id: dist
+        run: meson dist -C build --include-subprojects --no-tests --formats gztar
+        shell: pipetty bash -e {0}
+
+      - name: Upload dist tarball
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          path: build/meson-dist/ddterm-*.tar.gz
+          if-no-files-found: error
+          archive: false
+        if: ${{ !cancelled() && steps.dist.outcome == 'success' }}
+
+      - name: Upload dist tarball checksum
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          path: build/meson-dist/ddterm-*.tar.gz.*sum
+          if-no-files-found: error
+          archive: false
+        if: ${{ !cancelled() && steps.dist.outcome == 'success' }}
+
       - name: Generate a list of input files
         id: ninja-inputs
         working-directory: build

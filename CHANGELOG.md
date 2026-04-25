@@ -14,6 +14,16 @@ The format is based on [Keep a Changelog], and this project adheres to
 [Keep a Changelog]: https://keepachangelog.com/en/1.1.0/
 [Semantic Versioning]: https://semver.org/spec/v2.0.0.html
 
+## [Unreleased]
+
+### Added
+
+- Releases will now include source code tarballs with subprojects [#1880].
+
+[#1880]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1880
+
+[Unreleased]: https://github.com/ddterm/gnome-shell-extension-ddterm/compare/v63.0.0...HEAD
+
 ## [63.0.0] - 2026-04-24
 
 ### Added
