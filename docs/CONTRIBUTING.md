@@ -46,6 +46,14 @@ If you want to report a bug, please proceed to the [bug reporting form].
 
 [`AUTHORS`]: /AUTHORS
 
+> [!IMPORTANT]
+> If you've fixed a bug, implemented a feature, or made some other user-visible
+> change, please also mention it in [`CHANGELOG.md`], in the same pull request.
+> You don't need to add links to pull requests in [`CHANGELOG.md`].
+> If necessary, links will be added later.
+
+[`CHANGELOG.md`]: /CHANGELOG.md
+
 If you want to implement a feature, or fix a bug, you may find these documents
 useful:
 
