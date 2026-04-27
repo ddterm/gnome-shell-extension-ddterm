@@ -534,6 +534,16 @@ export class ApplicationShortcutGroup extends ShortcutGroup {
         });
 
         this.add_shortcut_row({
+            key: 'shortcut-window-size-secondary-inc',
+            title: this.gettext('Increase Secondary Window Size'),
+        });
+
+        this.add_shortcut_row({
+            key: 'shortcut-window-size-secondary-dec',
+            title: this.gettext('Decrease Secondary Window Size'),
+        });
+
+        this.add_shortcut_row({
             key: 'shortcut-background-opacity-inc',
             title: this.gettext('Increase Background Opacity'),
         });

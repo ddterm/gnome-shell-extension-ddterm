@@ -7,7 +7,7 @@ import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
 import Gtk from 'gi://Gtk';
 
-import { PreferencesGroup, ComboRow, ScaleRow } from './util.js';
+import { PreferencesGroup, ComboRow } from './util.js';
 import { Monitor } from '../util/displayconfig.js';
 
 class SpecialMonitor extends Monitor {
@@ -280,38 +280,24 @@ export class PositionSizeGroup extends PreferencesGroup {
             },
         });
 
-        const window_size_adjustment = new Gtk.Adjustment({
-            upper: 1,
-            step_increment: 0.01,
-            page_increment: 0.10,
-        });
-
-        this.settings.bind(
-            'window-size',
-            window_size_adjustment,
-            'value',
-            Gio.SettingsBindFlags.DEFAULT
-        );
-
-        const window_size_row = new ScaleRow({
-            adjustment: window_size_adjustment,
-            digits: 2,
-            round_digits: 2,
-            visible: true,
-            use_underline: true,
+        this.add_scale_row({
+            key: 'window-size',
+            adjustment:  new Gtk.Adjustment({
+                upper: 1,
+                step_increment: 0.01,
+                page_increment: 0.10,
+            }),
             title: this.gettext('Window _Size'),
         });
 
-        const percent_format = new Intl.NumberFormat(undefined, { style: 'percent' });
-        window_size_row.set_format_value_func((_, v) => percent_format.format(v));
-
-        this.settings.bind_writable(
-            'window-size',
-            window_size_row,
-            'sensitive',
-            false
-        );
-
-        this.add(window_size_row);
+        this.add_scale_row({
+            key: 'window-size-secondary',
+            adjustment:  new Gtk.Adjustment({
+                upper: 1,
+                step_increment: 0.01,
+                page_increment: 0.10,
+            }),
+            title: this.gettext('Window Size Secondary'),
+        });
     }
 }
