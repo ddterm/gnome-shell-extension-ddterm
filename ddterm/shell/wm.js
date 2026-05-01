@@ -115,6 +115,7 @@ export const WindowManager = GObject.registerClass({
             'changed::window-above': this.#set_window_above.bind(this),
             'changed::window-stick': this.#set_window_stick.bind(this),
             'changed::window-size': this.#disable_window_maximize_setting.bind(this),
+            'changed::window-size-secondary': this.#disable_window_maximize_setting.bind(this),
             'changed::window-maximize': this.#set_window_maximized.bind(this),
             'changed::hide-when-focus-lost': this.#setup_hide_when_focus_lost.bind(this),
         }).map(
@@ -578,11 +579,17 @@ export const WindowManager = GObject.registerClass({
         this.logger?.log('Updating size setting on grab end');
 
         const frame_rect = win.get_frame_rect();
-        const size = this.geometry.orientation === Clutter.Orientation.HORIZONTAL
+
+        const primary = this.geometry.orientation === Clutter.Orientation.HORIZONTAL
             ? frame_rect.width / this.geometry.workarea.width
             : frame_rect.height / this.geometry.workarea.height;
 
-        this.settings.set_double('window-size', Math.min(1.0, size));
+        const secondary = this.geometry.orientation === Clutter.Orientation.HORIZONTAL
+            ? frame_rect.height / this.geometry.workarea.height
+            : frame_rect.width / this.geometry.workarea.width;
+
+        this.settings.set_double('window-size', Math.min(1.0, primary));
+        this.settings.set_double('window-size-secondary', Math.min(1.0, secondary));
     }
 
     #unmaximize_for_resize(flags) {
@@ -596,6 +603,7 @@ export const WindowManager = GObject.registerClass({
         // There is a _update_window_geometry() call after successful unmaximize.
         // It must set window size to 100%.
         this.settings.set_double('window-size', 1.0);
+        this.settings.set_double('window-size-secondary', 1.0);
 
         Main.wm.skipNextEffect(this.#actor);
         this.#set_unmaximize_flags(flags);
