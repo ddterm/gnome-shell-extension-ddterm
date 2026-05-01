@@ -20,7 +20,21 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 - Releases will now include source code tarballs with subprojects [#1880].
 
+### Changed
+
+- Esperanto translation updates by [phlostically]: [#1886].
+
+### Fixed
+
+- Incorrectly translated string in Korean translation by [@seuimi]:
+[#1885], [#1886].
+
 [#1880]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1880
+[#1885]: https://github.com/ddterm/gnome-shell-extension-ddterm/issues/1885
+[#1886]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1886
+
+[@seuimi]: https://github.com/seuimi
+[phlostically]: https://hosted.weblate.org/user/phlostically/
 
 [Unreleased]: https://github.com/ddterm/gnome-shell-extension-ddterm/compare/v63.0.0...HEAD
 
@@ -46,7 +60,6 @@ The format is based on [Keep a Changelog], and this project adheres to
 [#1875]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1875
 
 [@mikelei8291]: https://github.com/mikelei8291
-[@seuimi]: https://github.com/seuimi
 [@yuhldr]: https://github.com/yuhldr
 
 ### Changed
