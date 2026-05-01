@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-04-22 03:57+0000\n"
-"PO-Revision-Date: 2026-03-12 14:09+0000\n"
+"PO-Revision-Date: 2026-05-01 03:58+0000\n"
 "Last-Translator: 스이미 <soo.wim3@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/ko/>\n"
 "Language: ko\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.17-dev\n"
+"X-Generator: Weblate 5.17.1\n"
 
 #: data/com.github.amezin.ddterm.desktop.in.in:9
 #: ddterm/shell/notifications.js:240 ddterm/shell/panelicon.js:32
@@ -875,7 +875,7 @@ msgstr "새 단축키 입력"
 
 #: ddterm/pref/shortcuts.js:205
 msgid "Press Esc to cancel or Backspace to disable the keyboard shortcut"
-msgstr "취소하려면 Esc, 단축키를 해제하려면 Backspace를 누르세요"
+msgstr "취소하려면 Esc, 단축키를 삭제하려면 Backspace를 누르세요"
 
 #: ddterm/pref/shortcuts.js:211
 msgid "Set"
@@ -959,7 +959,7 @@ msgstr "다음 탭으로 전환"
 
 #: ddterm/pref/shortcuts.js:638
 msgid "Move Keyboard Focus to Other Split Pane"
-msgstr "탭 제목 초기화"
+msgstr "분할 창 간 키보드 포커스 이동"
 
 #: ddterm/pref/shortcuts.js:643
 msgid "Move Tab to Other Split Pane"
