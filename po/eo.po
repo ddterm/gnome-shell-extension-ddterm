@@ -2,13 +2,13 @@
 # Copyright (C) 2024 ddterm contributors <https://github.com/ddterm/gnome-shell-extension-ddterm/>
 # SPDX-License-Identifier: GPL-3.0-or-later
 # This file is distributed under the same license as the ddterm package.
-# phlostically <phlostically@mailinator.com>, 2024.
+# phlostically <phlostically@mailinator.com>, 2024, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-04-22 03:57+0000\n"
-"PO-Revision-Date: 2024-06-01 19:09+0000\n"
+"PO-Revision-Date: 2026-05-01 03:58+0000\n"
 "Last-Translator: phlostically <phlostically@mailinator.com>\n"
 "Language-Team: Esperanto <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/eo/>\n"
 "Language: eo\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.6-dev\n"
+"X-Generator: Weblate 5.17.1\n"
 
 #: data/com.github.amezin.ddterm.desktop.in.in:9
 #: ddterm/shell/notifications.js:240 ddterm/shell/panelicon.js:32
@@ -47,7 +47,7 @@ msgstr "phlostically"
 
 #: ddterm/app/about.js:63
 msgid "Contributors"
-msgstr ""
+msgstr "Kontribuintoj"
 
 #: ddterm/app/application.js:85
 msgid "Can't read the version of the loaded extension."
@@ -75,7 +75,7 @@ msgstr ""
 
 #: ddterm/app/application.js:177
 msgid "Run the specified command"
-msgstr ""
+msgstr "Ruli la specifitan komandon"
 
 #: ddterm/app/application.js:191
 msgid "Wait for the command to exit, and return its exit code"
@@ -153,7 +153,7 @@ msgstr ""
 
 #: ddterm/app/ui/closedialog.ui:20 ddterm/pref/shortcuts.js:210
 msgid "Cancel"
-msgstr ""
+msgstr "Nuligi"
 
 #: ddterm/app/ui/closedialog.ui:30 ddterm/app/ui/terminalpage.ui:244
 msgid "Close Terminal"
@@ -231,7 +231,7 @@ msgstr "Nova langeto (laste)"
 
 #: ddterm/app/ui/search.ui:20
 msgid "Case Sensitive"
-msgstr ""
+msgstr "Usklecdistinga"
 
 #: ddterm/app/ui/search.ui:33
 msgid "Match Whole Word"
@@ -263,7 +263,7 @@ msgstr "Kopii hiperligan adreson"
 
 #: ddterm/app/ui/terminalpage.ui:25
 msgid "Copy File Path"
-msgstr ""
+msgstr "Kopii dosierindikon"
 
 #: ddterm/app/ui/terminalpage.ui:32
 msgid "Copy"
@@ -615,19 +615,19 @@ msgstr "Blanko sur nigro"
 
 #: ddterm/pref/colors.js:380
 msgid "GNOME light"
-msgstr ""
+msgstr "GNOME hela"
 
 #: ddterm/pref/colors.js:381
 msgid "GNOME dark"
-msgstr ""
+msgstr "GNOME malhela"
 
 #: ddterm/pref/colors.js:382
 msgid "Tango light"
-msgstr ""
+msgstr "Tango hela"
 
 #: ddterm/pref/colors.js:383
 msgid "Tango dark"
-msgstr ""
+msgstr "Tango malhela"
 
 #: ddterm/pref/colors.js:384
 msgid "Solarized light"
@@ -881,7 +881,7 @@ msgstr ""
 
 #: ddterm/pref/shortcuts.js:211
 msgid "Set"
-msgstr ""
+msgstr "Agordi"
 
 #: ddterm/pref/shortcuts.js:343 ddterm/pref/text.js:120
 msgid "Disabled"
@@ -983,43 +983,43 @@ msgstr ""
 
 #: ddterm/pref/shortcuts.js:698
 msgid "Switch to Tab 1"
-msgstr ""
+msgstr "Ŝanĝi al langeto 1"
 
 #: ddterm/pref/shortcuts.js:703
 msgid "Switch to Tab 2"
-msgstr ""
+msgstr "Ŝanĝi al langeto 2"
 
 #: ddterm/pref/shortcuts.js:708
 msgid "Switch to Tab 3"
-msgstr ""
+msgstr "Ŝanĝi al langeto 3"
 
 #: ddterm/pref/shortcuts.js:713
 msgid "Switch to Tab 4"
-msgstr ""
+msgstr "Ŝanĝi al langeto 4"
 
 #: ddterm/pref/shortcuts.js:718
 msgid "Switch to Tab 5"
-msgstr ""
+msgstr "Ŝanĝi al langeto 5"
 
 #: ddterm/pref/shortcuts.js:723
 msgid "Switch to Tab 6"
-msgstr ""
+msgstr "Ŝanĝi al langeto 6"
 
 #: ddterm/pref/shortcuts.js:728
 msgid "Switch to Tab 7"
-msgstr ""
+msgstr "Ŝanĝi al langeto 7"
 
 #: ddterm/pref/shortcuts.js:733
 msgid "Switch to Tab 8"
-msgstr ""
+msgstr "Ŝanĝi al langeto 8"
 
 #: ddterm/pref/shortcuts.js:738
 msgid "Switch to Tab 9"
-msgstr ""
+msgstr "Ŝanĝi al langeto 9"
 
 #: ddterm/pref/shortcuts.js:743
 msgid "Switch to Tab 10"
-msgstr ""
+msgstr "Ŝanĝi al langeto 10"
 
 #: ddterm/pref/shortcuts.js:800
 msgid "Reset All Shortcuts to Defaults"
@@ -1075,11 +1075,11 @@ msgstr "Teksto"
 
 #: ddterm/pref/text.js:75
 msgid "Use System Font"
-msgstr ""
+msgstr "Uzi sisteman tiparon"
 
 #: ddterm/pref/text.js:79
 msgid "Custom _Font"
-msgstr ""
+msgstr "Propra _tiparo"
 
 #: ddterm/pref/text.js:95
 msgid "Allow _Blinking Text"
@@ -1099,11 +1099,11 @@ msgstr ""
 
 #: ddterm/pref/text.js:108
 msgid "Block"
-msgstr ""
+msgstr "Bloko"
 
 #: ddterm/pref/text.js:109
 msgid "I-Beam"
-msgstr ""
+msgstr "I-trabo"
 
 #: ddterm/pref/text.js:110
 msgid "Underline"
@@ -1135,11 +1135,11 @@ msgstr ""
 
 #: ddterm/pref/text.js:146
 msgid "Detect \"file:\" URLs"
-msgstr ""
+msgstr "Detekti adresojn «file:»"
 
 #: ddterm/pref/text.js:151
 msgid "Detect HTTP URLs"
-msgstr ""
+msgstr "Detekti adresojn «http:»"
 
 #: ddterm/pref/text.js:156
 msgid "Detect VoIP URLs"
