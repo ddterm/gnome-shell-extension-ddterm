@@ -16,7 +16,7 @@ i18n = import('i18n')
 
 uuid = 'ddterm@amezin.github.com'
 gettext_domain = uuid
-settings_schema = 'com.github.amezin.ddterm'
+settings_schema = 'org.gnome.shell.extensions.ddterm'
 
 prefix = get_option('prefix')
 bindir = prefix / get_option('bindir')

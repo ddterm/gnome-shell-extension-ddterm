@@ -26,12 +26,15 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 ### Fixed
 
+- Renamed settings schema to comply with GNOME Shell extension guidelines:
+[#1888].
 - Incorrectly translated string in Korean translation by [@seuimi]:
 [#1885], [#1886].
 
 [#1880]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1880
 [#1885]: https://github.com/ddterm/gnome-shell-extension-ddterm/issues/1885
 [#1886]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1886
+[#1888]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1888
 
 [@seuimi]: https://github.com/seuimi
 [phlostically]: https://hosted.weblate.org/user/phlostically/

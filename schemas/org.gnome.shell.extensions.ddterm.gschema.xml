@@ -11,63 +11,63 @@ SPDX-License-Identifier: GPL-3.0-or-later
 -->
 
 <schemalist>
-  <enum id="com.github.amezin.ddterm.Command">
+  <enum id="org.gnome.shell.extensions.ddterm.Command">
     <value nick="user-shell" value="0" />
     <value nick="user-shell-login" value="1" />
     <value nick="custom-command" value="2" />
   </enum>
 
-  <enum id="com.github.amezin.ddterm.TextBlinkMode">
+  <enum id="org.gnome.shell.extensions.ddterm.TextBlinkMode">
     <value nick="never" value="0"/>
     <value nick="focused" value="1"/>
     <value nick="unfocused" value="2"/>
     <value nick="always" value="3"/>
   </enum>
 
-  <enum id="com.github.amezin.ddterm.CursorBlinkMode">
+  <enum id="org.gnome.shell.extensions.ddterm.CursorBlinkMode">
     <value nick="system" value="0"/>
     <value nick="on" value="1"/>
     <value nick="off" value="2"/>
   </enum>
 
-  <enum id="com.github.amezin.ddterm.CursorShape">
+  <enum id="org.gnome.shell.extensions.ddterm.CursorShape">
     <value nick="block" value="0"/>
     <value nick="ibeam" value="1"/>
     <value nick="underline" value="2"/>
   </enum>
 
-  <enum id="com.github.amezin.ddterm.ThemeVariant">
+  <enum id="org.gnome.shell.extensions.ddterm.ThemeVariant">
     <value nick="system" value="0"/>
     <value nick="light" value="1"/>
     <value nick="dark" value="2"/>
   </enum>
 
-  <enum id="com.github.amezin.ddterm.TabsbarPolicy">
+  <enum id="org.gnome.shell.extensions.ddterm.TabsbarPolicy">
     <value nick="always" value="0"/>
     <value nick="automatic" value="1"/>
     <value nick="never" value="2"/>
   </enum>
 
-  <enum id="com.github.amezin.ddterm.TabPosition">
+  <enum id="org.gnome.shell.extensions.ddterm.TabPosition">
     <value nick="top" value="2"/>
     <value nick="bottom" value="3"/>
   </enum>
 
-  <enum id="com.github.amezin.ddterm.WindowPosition">
+  <enum id="org.gnome.shell.extensions.ddterm.WindowPosition">
     <value nick="top" value="0"/>
     <value nick="bottom" value="1"/>
     <value nick="left" value="2"/>
     <value nick="right" value="3"/>
   </enum>
 
-  <enum id="com.github.amezin.ddterm.WindowMonitor">
+  <enum id="org.gnome.shell.extensions.ddterm.WindowMonitor">
     <value nick="current" value="0"/>
     <value nick="primary" value="1"/>
     <value nick="focus" value="2"/>
     <value nick="connector" value="3"/>
   </enum>
 
-  <enum id="com.github.amezin.ddterm.EraseBinding">
+  <enum id="org.gnome.shell.extensions.ddterm.EraseBinding">
     <value nick="auto" value="0"/>
     <value nick="ascii-backspace" value="1"/>
     <value nick="ascii-delete" value="2"/>
@@ -75,12 +75,12 @@ SPDX-License-Identifier: GPL-3.0-or-later
     <value nick="tty" value="4"/>
   </enum>
 
-  <enum id="com.github.amezin.ddterm.CJKWidth">
+  <enum id="org.gnome.shell.extensions.ddterm.CJKWidth">
     <value nick="narrow" value="1"/>
     <value nick="wide" value="2"/>
   </enum>
 
-  <enum id="com.github.amezin.ddterm.AnimationMode">
+  <enum id="org.gnome.shell.extensions.ddterm.AnimationMode">
     <value nick="disable" value="0"/>
 
     <value nick="linear" value="1"/>
@@ -126,14 +126,14 @@ SPDX-License-Identifier: GPL-3.0-or-later
     <value nick="ease-in-out-bounce" value="31"/>
   </enum>
 
-  <enum id="com.github.amezin.ddterm.PanelIconType">
+  <enum id="org.gnome.shell.extensions.ddterm.PanelIconType">
     <value nick="none" value="0"/>
     <value nick="menu-button" value="1"/>
     <value nick="toggle-button" value="2"/>
     <value nick="toggle-and-menu-button" value="3"/>
   </enum>
 
-  <schema path="/com/github/amezin/ddterm/" id="com.github.amezin.ddterm">
+  <schema path="/com/github/amezin/ddterm/" id="org.gnome.shell.extensions.ddterm">
     <key name="window-size" type="d">
       <default>0.6</default>
       <range min="0.0" max="1.0"/>
@@ -141,19 +141,19 @@ SPDX-License-Identifier: GPL-3.0-or-later
     <key name="window-maximize" type="b">
       <default>false</default>
     </key>
-    <key name="window-position" enum="com.github.amezin.ddterm.WindowPosition">
+    <key name="window-position" enum="org.gnome.shell.extensions.ddterm.WindowPosition">
       <default>'top'</default>
     </key>
-    <key name="window-monitor" enum="com.github.amezin.ddterm.WindowMonitor">
+    <key name="window-monitor" enum="org.gnome.shell.extensions.ddterm.WindowMonitor">
       <default>'current'</default>
     </key>
     <key name="window-monitor-connector" type="s">
       <default>''</default>
     </key>
-    <key name="panel-icon-type" enum="com.github.amezin.ddterm.PanelIconType">
+    <key name="panel-icon-type" enum="org.gnome.shell.extensions.ddterm.PanelIconType">
       <default>'toggle-and-menu-button'</default>
     </key>
-    <key name="theme-variant" enum="com.github.amezin.ddterm.ThemeVariant">
+    <key name="theme-variant" enum="org.gnome.shell.extensions.ddterm.ThemeVariant">
       <default>'system'</default>
     </key>
     <key name="window-above" type="b">
@@ -181,10 +181,10 @@ SPDX-License-Identifier: GPL-3.0-or-later
     <key name="override-window-animation" type="b">
       <default>true</default>
     </key>
-    <key name="show-animation" enum="com.github.amezin.ddterm.AnimationMode">
+    <key name="show-animation" enum="org.gnome.shell.extensions.ddterm.AnimationMode">
       <default>'linear'</default>
     </key>
-    <key name="hide-animation" enum="com.github.amezin.ddterm.AnimationMode">
+    <key name="hide-animation" enum="org.gnome.shell.extensions.ddterm.AnimationMode">
       <default>'linear'</default>
     </key>
     <key name="show-animation-duration" type="d">
@@ -196,10 +196,10 @@ SPDX-License-Identifier: GPL-3.0-or-later
       <range min="0.001" max="1.0"/>
     </key>
 
-    <key name="tab-policy" enum="com.github.amezin.ddterm.TabsbarPolicy">
+    <key name="tab-policy" enum="org.gnome.shell.extensions.ddterm.TabsbarPolicy">
       <default>'always'</default>
     </key>
-    <key name="tab-position" enum="com.github.amezin.ddterm.TabPosition">
+    <key name="tab-position" enum="org.gnome.shell.extensions.ddterm.TabPosition">
       <default>'bottom'</default>
     </key>
     <key name="tab-expand" type="b">
@@ -227,13 +227,13 @@ SPDX-License-Identifier: GPL-3.0-or-later
     <key name="use-system-font" type="b">
       <default>true</default>
     </key>
-    <key name="text-blink-mode" enum="com.github.amezin.ddterm.TextBlinkMode">
+    <key name="text-blink-mode" enum="org.gnome.shell.extensions.ddterm.TextBlinkMode">
       <default>'always'</default>
     </key>
-    <key name="cursor-blink-mode" enum="com.github.amezin.ddterm.CursorBlinkMode">
+    <key name="cursor-blink-mode" enum="org.gnome.shell.extensions.ddterm.CursorBlinkMode">
       <default>'system'</default>
     </key>
-    <key name="cursor-shape" enum="com.github.amezin.ddterm.CursorShape">
+    <key name="cursor-shape" enum="org.gnome.shell.extensions.ddterm.CursorShape">
       <default>'block'</default>
     </key>
     <key name="allow-hyperlink" type="b">
@@ -329,7 +329,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
       <default>false</default>
     </key>
 
-    <key name="command" enum="com.github.amezin.ddterm.Command">
+    <key name="command" enum="org.gnome.shell.extensions.ddterm.Command">
       <default>'user-shell'</default>
     </key>
     <key name="custom-command" type="s">
@@ -356,13 +356,13 @@ SPDX-License-Identifier: GPL-3.0-or-later
       <range min="0" max="1000000000"/>
     </key>
 
-    <key name="backspace-binding" enum="com.github.amezin.ddterm.EraseBinding">
+    <key name="backspace-binding" enum="org.gnome.shell.extensions.ddterm.EraseBinding">
       <default>'ascii-delete'</default>
     </key>
-    <key name="delete-binding" enum="com.github.amezin.ddterm.EraseBinding">
+    <key name="delete-binding" enum="org.gnome.shell.extensions.ddterm.EraseBinding">
       <default>'delete-sequence'</default>
     </key>
-    <key name="cjk-utf8-ambiguous-width" enum="com.github.amezin.ddterm.CJKWidth">
+    <key name="cjk-utf8-ambiguous-width" enum="org.gnome.shell.extensions.ddterm.CJKWidth">
       <default>'narrow'</default>
     </key>
 
