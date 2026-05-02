@@ -63,7 +63,7 @@ jobs:
 
   release:
     needs: ci
-    if: ${{ !cancelled() && fromJSON(needs.ci.outputs.build-success) && needs.ci.outputs.release-tag }}
+    if: ${{ !cancelled() && fromJSON(needs.ci.outputs.build-success) && needs.ci.outputs.release-tag && vars.ENABLE_RELEASES }}
     runs-on: ubuntu-slim
     timeout-minutes: 5
 
