@@ -19,7 +19,7 @@ on:
 
       release-tag:
         description: Tag name if a new release should be published (otherwise empty)
-        value: ${{ fromJSON(jobs.lint.outputs.release) && jobs.lint.outputs.tag || '' }}
+        value: ${{ case(fromJSON(jobs.lint.outputs.release), jobs.lint.outputs.tag, '') }}
 
 defaults:
   run:
@@ -205,7 +205,7 @@ jobs:
       - name: Verify changelog version
         run: >-
           npm run-script changelog --
-          ${{ contains(fromJSON(steps.releases.outputs.existing), steps.version.outputs.tag) && '-u' || '-d "$(date +%F)"' }}
+          ${{ case(contains(fromJSON(steps.releases.outputs.existing), steps.version.outputs.tag), '-u', '-d "$(date +%F)"') }}
           -v "$VERSION"
         env:
           VERSION: ${{ steps.version.outputs.version }}
@@ -392,7 +392,7 @@ jobs:
         with:
           container: ${{ matrix.container }}
           args: >-
-            ${{ !contains(matrix.container, 'alpine') && '--journald' || '' }}
+            ${{ case(contains(matrix.container, 'alpine'), '', '--journald') }}
             --bundle=ddterm@amezin.github.com.shell-extension.zip
 
   archlinux-package:
