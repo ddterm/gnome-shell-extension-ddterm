@@ -523,7 +523,7 @@ jobs:
       - test
       - archlinux-installed-test
 
-    if: always() && fromJSON(needs.plan.outputs.need-tests) && !github.event.repository.fork
+    if: always() && fromJSON(needs.plan.outputs.need-tests) && vars.ENABLE_TESTSPACE
     runs-on: ubuntu-slim
     timeout-minutes: 10
 
