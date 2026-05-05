@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     container:
-      image: ghcr.io/archlinux/archlinux:base-devel-20260503.0.523603@sha256:2451a1ea014ed116a5cc04066f59c55b6b0c699cb2c4524f62b757900f3d548f
+      image: ghcr.io/archlinux/archlinux:base-devel-20260505.0.524012@sha256:2a255e9bac0610e93001b936dafa8f43ab5ab157a5c4c75a7589cad09f294baa
 
     permissions:
       contents: read
