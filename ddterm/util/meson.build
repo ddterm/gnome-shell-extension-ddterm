@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 util_js_out_files = []
-util_js_src_files = files('displayconfig.js')
+util_js_src_files = files('displayconfig.js', 'promise.js')
 
 foreach util_js_src_file : util_js_src_files
   util_js_out_files += fs.copyfile(
