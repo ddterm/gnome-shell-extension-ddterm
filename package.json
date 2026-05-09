@@ -18,7 +18,7 @@
         "@eslint/js": "9.39.4",
         "argparse": "2.0.1",
         "eslint": "9.39.4",
-        "eslint-config-gnome": "git+https://gitlab.gnome.org/World/javascript/eslint-config-gnome.git#c479d059e8d9ea99c3b53c2ea43abf7fdb05eb51",
+        "eslint-config-gnome": "git+https://github.com/ddterm/eslint-config-gnome.git#c479d059e8d9ea99c3b53c2ea43abf7fdb05eb51",
         "eslint-plugin-import": "2.32.0",
         "markdown-it": "14.1.1",
         "markdownlint-cli2": "0.22.1",
