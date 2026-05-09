@@ -367,11 +367,17 @@ export class Notebook extends Gtk.Box {
     }
 
     #next_tab() {
-        this.view.select_next_page();
+        const { view, n_pages } = this;
+
+        if (n_pages !== 0 && !view.select_next_page())
+            view.set_selected_page(view.get_nth_page(0));
     }
 
     #prev_tab() {
-        this.view.select_previous_page();
+        const { view, n_pages } = this;
+
+        if (n_pages !== 0 && !view.select_previous_page())
+            view.set_selected_page(view.get_nth_page(n_pages - 1));
     }
 
     _page_attached(view, page, _position) {
