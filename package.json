@@ -40,5 +40,5 @@
         "version": "run-s version:*",
         "changelog": "tools/changelog.mjs"
     },
-    "version": "63.0.0"
+    "version": "63.0.1"
 }
