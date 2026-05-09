@@ -63,5 +63,8 @@
       "pinDigests": false,
       "automerge": true
     }
-  ]
+  ],
+  "constraints": {
+    "npm": ">=11.13.0"
+  }
 }
