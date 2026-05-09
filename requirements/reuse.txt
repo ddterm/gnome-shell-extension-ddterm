@@ -10,7 +10,7 @@ boolean-py==5.0
     # via license-expression
 charset-normalizer==3.4.7
     # via python-debian
-click==8.3.2
+click==8.3.3
     # via reuse
 jinja2==3.1.6
     # via reuse
