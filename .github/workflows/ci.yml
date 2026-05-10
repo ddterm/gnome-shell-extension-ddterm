@@ -193,6 +193,18 @@ jobs:
           echo "version=$version" | tee -a "$GITHUB_OUTPUT"
           echo "tag=$tag" | tee -a "$GITHUB_OUTPUT"
 
+      - name: Ensure version is the same in all places
+        run: |
+          npm version --ignore-scripts=false --allow-same-version "$VERSION"
+
+          if ! git diff --exit-code --color=always
+          then
+            echo "::error:: Version doesn't match across files. Run 'npm version --ignore-scripts=false'"
+            exit 1
+          fi
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+
       - name: List existing releases
         id: releases
         run: |
