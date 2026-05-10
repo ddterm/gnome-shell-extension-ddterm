@@ -34,22 +34,6 @@ export default defineConfig([
                 { ignoreUrls: true },
             ],
             'consistent-return': 'error',
-            'eqeqeq': [
-                'error',
-                'smart',
-            ],
-            'key-spacing': [
-                'error',
-                { mode: 'minimum', beforeColon: false, afterColon: true },
-            ],
-            'no-unused-vars': [
-                'error',
-                {
-                    varsIgnorePattern: '(^unused|_$)',
-                    argsIgnorePattern: '^(unused|_)',
-                    caughtErrors: 'all',
-                },
-            ],
             'object-curly-spacing': [
                 'error',
                 'always',
@@ -59,7 +43,6 @@ export default defineConfig([
                 'error',
                 { max: 1 },
             ],
-            'jsdoc/require-jsdoc': 'off',
         },
     },
     {
