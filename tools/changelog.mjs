@@ -60,7 +60,7 @@ function* parse(changelog) {
         index =
             tokens.findIndex(token => token.tag === 'h2' && token.type === 'heading_open');
 
-        const start = openToken.map[0];
+        const start = openToken.map[0]; // eslint-disable-line prefer-destructuring
         const end = tokens[index]?.map[0] ?? lines.length;
         const content = lines.slice(start, end);
 

@@ -101,7 +101,7 @@ class ErrorNotification extends MessageTray.Notification {
 
     static create(source, message, details, gettext_domain) {
         if (message instanceof Error || message instanceof GLib.Error)
-            message = message.message;
+            message = message.message; // eslint-disable-line prefer-destructuring
 
         if (details instanceof Error || details instanceof GLib.Error)
             details = details.message;

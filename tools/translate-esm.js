@@ -12,8 +12,8 @@ class AstError extends Error {
     constructor(message, node) {
         if (node?.loc) {
             const file = node.loc.source;
-            const line = node.loc.start.line;
-            const column = node.loc.start.column;
+            const { line } = node.loc.start;
+            const { column } = node.loc.start;
 
             super(`${file}:${line}:${column}: error: ${message}`);
         } else {
@@ -133,7 +133,7 @@ function translate(file, root_url, replace_imports) {
             if (specifier.name.type !== 'Identifier')
                 throw new AstError('Expected identifier as import name', err_node);
 
-            const name = specifier.name.name;
+            const { name } = specifier.name;
 
             switch (specifier.type) {
             case 'ImportNamespaceSpecifier':

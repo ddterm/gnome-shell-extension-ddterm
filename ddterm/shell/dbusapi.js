@@ -17,7 +17,7 @@ function report_dbus_error_async(e, invocation) {
         return;
     }
 
-    let name = e.name;
+    let { name } = e;
     if (!name.includes('.'))
         name = `org.gnome.gjs.JSError.${name}`;
 

@@ -42,6 +42,7 @@ export default defineConfig([
             'prefer-const': ['error', {
                 destructuring: 'all',
             }],
+            'prefer-destructuring': 'error',
             'no-multiple-empty-lines': [
                 'error',
                 { max: 1 },

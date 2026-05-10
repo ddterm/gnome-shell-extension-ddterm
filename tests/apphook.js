@@ -29,7 +29,7 @@ function return_error(invocation, ex) {
         return;
     }
 
-    let name = ex.name;
+    let { name } = ex;
     if (!name.includes('.'))
         name = `org.gnome.gjs.JSError.${name}`;
 

@@ -161,14 +161,14 @@ export const WindowMatch = GObject.registerClass({
                 return GLib.SOURCE_REMOVE;
         }
 
-        const gtk_application_id = win.gtk_application_id;
+        const { gtk_application_id } = win;
         if (!gtk_application_id)
             return GLib.SOURCE_CONTINUE;
 
         if (gtk_application_id !== this.gtk_application_id)
             return GLib.SOURCE_REMOVE;
 
-        const gtk_window_object_path = win.gtk_window_object_path;
+        const { gtk_window_object_path } = win;
         if (!gtk_window_object_path)
             return GLib.SOURCE_CONTINUE;
 
