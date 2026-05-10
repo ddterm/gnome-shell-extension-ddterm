@@ -113,7 +113,7 @@ function translate(file, root_url, replace_imports) {
     let has_current_extension = false;
 
     function translate_import(node) {
-        let rhs = translate_module_url(node.moduleRequest.source.value);
+        const rhs = translate_module_url(node.moduleRequest.source.value);
 
         if (!rhs)
             return;

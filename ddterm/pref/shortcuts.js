@@ -444,7 +444,7 @@ class ShortcutGroup extends PreferencesGroup {
 
                 try {
                     for (const accel of row.value) {
-                        let [keyval, modifiers] = accelerator_parse(accel);
+                        const [keyval, modifiers] = accelerator_parse(accel);
 
                         if (keyval || modifiers)
                             this.emit('accelerator-set', keyval, modifiers);

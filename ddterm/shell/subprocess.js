@@ -129,7 +129,7 @@ class TeeLogCollector {
             let start = 0;
 
             for (;;) {
-                let end = chunk.indexOf(delimiter, start);
+                const end = chunk.indexOf(delimiter, start);
 
                 if (end === -1) {
                     if (start < chunk.length)

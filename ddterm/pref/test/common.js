@@ -159,7 +159,7 @@ export const Application = GObject.registerClass({
     }
 
     async do_test() {
-        let dialog = await this.preferences();
+        const dialog = await this.preferences();
 
         await wait_frame(dialog);
         await wait_idle();

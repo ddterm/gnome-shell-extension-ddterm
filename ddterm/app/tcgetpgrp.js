@@ -23,7 +23,7 @@ export class InterpreterNotFoundError extends Error {
 }
 
 function find_program(variants) {
-    for (let name of variants) {
+    for (const name of variants) {
         const found = GLib.find_program_in_path(name);
 
         if (found)

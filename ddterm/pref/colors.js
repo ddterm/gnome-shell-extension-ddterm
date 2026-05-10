@@ -60,10 +60,10 @@ function copy_gnome_terminal_profile(settings) {
     }
 
     // Find default gnome terminal profile
-    let profiles_list = Gio.Settings.new_full(profile_list_schema, null, null);
-    let profilePath = profiles_list.settings_schema.get_path();
-    let uuid = profiles_list.get_string('default');
-    let gnome_terminal_profile = Gio.Settings.new_full(
+    const profiles_list = Gio.Settings.new_full(profile_list_schema, null, null);
+    const profilePath = profiles_list.settings_schema.get_path();
+    const uuid = profiles_list.get_string('default');
+    const gnome_terminal_profile = Gio.Settings.new_full(
         profile_schema,
         null,
         `${profilePath}:${uuid}/`

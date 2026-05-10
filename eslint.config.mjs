@@ -39,6 +39,9 @@ export default defineConfig([
                 'always',
             ],
             'prefer-arrow-callback': 'error',
+            'prefer-const': ['error', {
+                destructuring: 'all',
+            }],
             'no-multiple-empty-lines': [
                 'error',
                 { max: 1 },
