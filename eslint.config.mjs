@@ -7,7 +7,7 @@ import { defineConfig } from 'eslint/config';
 import globals from 'globals';
 import gnome from 'eslint-config-gnome';
 import importPlugin from 'eslint-plugin-import';
-import gitIgnores from './lint/gitignore.mjs';
+import gitIgnores from './tools/eslint-gitignore.mjs';
 
 export default defineConfig([
     gitIgnores(new URL('./', import.meta.url)),
@@ -20,7 +20,7 @@ export default defineConfig([
         ],
         settings: {
             'import/resolver': fileURLToPath(
-                new URL('./lint/import-resolver.cjs', import.meta.url)
+                new URL('./tools/eslint-import-resolver.cjs', import.meta.url)
             ),
             'import/core-modules': ['gettext', 'gi', 'system', 'console'],
         },
