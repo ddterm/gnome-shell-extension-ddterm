@@ -26,7 +26,6 @@ runs:
         tox -e pytest --
         "--html=tests/report-$CONTAINER.html"
         --self-contained-html
-        "--junitxml=tests/junit-$CONTAINER.xml"
         "--container=$CONTAINER"
         -vv
         ${{ inputs.args }}
@@ -37,10 +36,4 @@ runs:
       uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
       with:
         path: tests/report-${{ inputs.container }}.html
-        archive: false
-
-    - if: ${{ always() }}
-      uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
-      with:
-        path: tests/junit-${{ inputs.container }}.xml
         archive: false
