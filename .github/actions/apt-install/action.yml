@@ -1,0 +1,86 @@
+# SPDX-FileCopyrightText: 2026 Aleksandr Mezin <mezin.alexander@gmail.com>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+name: Install APT packages
+description: Update APT repository indexes and install packages (with cache)
+
+inputs:
+  args:
+    description: Arguments to pass to apt-get
+    required: true
+
+  cache-save:
+    description: Store cache
+    required: false
+    default: 'false'
+
+runs:
+  using: composite
+  steps:
+    - shell: sudo bash -e {0}
+      run: |
+        sed -i -E 's/^(Components:.*)\srestricted(.*)$/\1\2/g' /etc/apt/sources.list.d/ubuntu.sources
+        sed -i -E 's/^(Components:.*)\smultiverse(.*)$/\1\2/g' /etc/apt/sources.list.d/ubuntu.sources
+        sed -i -E 's/^(Suites:.*)\snoble-backports(.*)$/\1\2/g' /etc/apt/sources.list.d/ubuntu.sources
+
+        shopt -s extglob
+        rm -f /etc/apt/sources.list.d/!(ubuntu.sources)
+
+    - id: cache-restore
+      uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+      with:
+        key: apt:${{ github.run_id }}-${{ github.run_attempt }}
+        restore-keys: 'apt:'
+        path: |
+          ${{ runner.temp }}/apt-lists.tar
+          ${{ runner.temp }}/apt-archives.tar
+
+    - shell: sudo --preserve-env=RUNNER_TEMP bash -e {0}
+      run: tar xvf "$RUNNER_TEMP/apt-lists.tar"
+      working-directory: /var/lib/apt/lists
+      if: ${{ steps.cache-restore.outputs.cache-matched-key }}
+
+    - shell: sudo --preserve-env=RUNNER_TEMP bash -e {0}
+      run: tar xvf "$RUNNER_TEMP/apt-archives.tar"
+      working-directory: /var/cache/apt/archives
+      if: ${{ steps.cache-restore.outputs.cache-matched-key }}
+
+    - shell: sudo bash -e {0}
+      run: apt-get update
+
+    - shell: sudo --preserve-env=DEBIAN_FRONTEND bash -e {0}
+      run: apt-get install -y ${{ inputs.args }}
+      env:
+        DEBIAN_FRONTEND: noninteractive
+
+    - shell: bash
+      run: find . -maxdepth 1 -type f ! -name lock | tar cvf "$RUNNER_TEMP/apt-lists.tar" -T-
+      working-directory: /var/lib/apt/lists
+      if: >-
+        ${{
+          fromJSON(inputs.cache-save)
+          && !(steps.cache-restore.outputs.cache-hit && fromJSON(steps.cache-restore.outputs.cache-hit))
+        }}
+
+    - shell: bash
+      run: find . -maxdepth 1 -type f ! -name lock | tar cvf "$RUNNER_TEMP/apt-archives.tar" -T-
+      working-directory: /var/cache/apt/archives
+      if: >-
+        ${{
+          fromJSON(inputs.cache-save)
+          && !(steps.cache-restore.outputs.cache-hit && fromJSON(steps.cache-restore.outputs.cache-hit))
+        }}
+
+    - uses: actions/cache/save@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+      with:
+        key: ${{ steps.cache-restore.outputs.cache-primary-key }}
+        path: |
+          ${{ runner.temp }}/apt-lists.tar
+          ${{ runner.temp }}/apt-archives.tar
+
+      if: >-
+        ${{
+          fromJSON(inputs.cache-save)
+          && !(steps.cache-restore.outputs.cache-hit && fromJSON(steps.cache-restore.outputs.cache-hit))
+        }}
