@@ -13,13 +13,25 @@ on:
         default: false
 
     outputs:
-      build-success:
-        description: Whether primary artifacts were built successfully
-        value: ${{ jobs.bundle.result == 'success' }}
+      dist-tarball-artifact-id:
+        description: Artifact id of dist tarball
+        value: ${{ jobs.dist.outputs.artifact-id }}
 
-      release-tag:
-        description: Tag name if a new release should be published (otherwise empty)
-        value: ${{ case(fromJSON(jobs.lint.outputs.release), jobs.lint.outputs.tag, '') }}
+      dist-tarball-checksum-artifact-id:
+        description: Artifact id of dist tarball checksum file
+        value: ${{ jobs.dist.outputs.checksum-artifact-id }}
+
+      bundle-artifact-id:
+        description: Artifact id of extension bundle file
+        value: ${{ jobs.bundle.outputs.artifact-id }}
+
+      release-notes-artifact-id:
+        description: Artifact id of release notes file, if a new release should be published
+        value: ${{ jobs.lint.outputs.release-notes-artifact-id }}
+
+      version-tag:
+        description: Current version tag
+        value: ${{ jobs.lint.outputs.tag }}
 
 defaults:
   run:
@@ -113,7 +125,7 @@ jobs:
     outputs:
       version: ${{ steps.version.outputs.version }}
       tag: ${{ steps.version.outputs.tag }}
-      release: ${{ steps.release-notes.outcome == 'success' }}
+      release-notes-artifact-id: ${{ steps.release-notes.outputs.artifact-id }}
 
     steps:
       - name: Checkout
@@ -238,6 +250,10 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 5
 
+    outputs:
+      artifact-id: ${{ steps.upload.outputs.artifact-id }}
+      checksum-artifact-id: ${{ steps.checksum-upload.outputs.artifact-id }}
+
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -263,6 +279,7 @@ jobs:
         shell: pipetty bash -e {0}
 
       - name: Upload dist tarball
+        id: upload
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           path: build/meson-dist/ddterm-*.tar.gz
@@ -270,6 +287,7 @@ jobs:
           archive: false
 
       - name: Upload dist tarball checksum
+        id: checksum-upload
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           path: build/meson-dist/ddterm-*.tar.gz.*sum
@@ -285,12 +303,13 @@ jobs:
 
     outputs:
       build-inputs: ${{ steps.ninja-inputs.outputs.inputs }}
+      artifact-id: ${{ steps.upload.outputs.artifact-id }}
 
     steps:
       - name: Download dist tarball
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
-          pattern: ddterm-*.tar.{xz,gz,bz2}
+          artifact-ids: ${{ needs.dist.outputs.artifact-id }}
           path: ${{ runner.temp }}/dist
           skip-decompress: true
 
@@ -314,6 +333,7 @@ jobs:
         working-directory: build
 
       - name: Upload extension bundle as artifact
+        id: upload
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           path: "build/*.shell-extension.zip"
@@ -395,6 +415,7 @@ jobs:
 
   test:
     needs:
+      - dist
       - plan
       - bundle
       - lint
@@ -415,7 +436,7 @@ jobs:
       - name: Download dist tarball
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
-          pattern: ddterm-*.tar.{xz,gz,bz2}
+          artifact-ids: ${{ needs.dist.outputs.artifact-id }}
           path: ${{ runner.temp }}/dist
           skip-decompress: true
 
@@ -430,7 +451,7 @@ jobs:
       - name: Download extension bundle
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
-          pattern: '*.shell-extension.zip'
+          artifact-ids: ${{ needs.bundle.outputs.artifact-id }}
           skip-decompress: true
 
       - name: Install dependencies
