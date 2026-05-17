@@ -18,6 +18,8 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 ### Added
 
+- Added `Copy` and `Paste` hardware keys as default terminal copy/paste shortcuts.
+
 ### Changed
 
 ### Removed
