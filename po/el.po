@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-22 03:57+0000\n"
+"POT-Creation-Date: 2026-05-17 23:43+0000\n"
 "PO-Revision-Date: 2026-02-05 23:28+0000\n"
 "Last-Translator: Aleksandr Mezin <mezin.alexander@gmail.com>\n"
 "Language-Team: Greek <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/el/>\n"
@@ -131,7 +131,7 @@ msgstr "Χρειάζετε να εγκατασταθούν τα ακόλουθα
 msgid "Please install packages that provide the following files:"
 msgstr "Παρακαλώ εγκαταστείστε τα πακέτα που περιγράφουν τα παρακάτω αρχεία :"
 
-#: ddterm/app/tablabel.js:78 ddterm/pref/shortcuts.js:658
+#: ddterm/app/tablabel.js:78 ddterm/pref/shortcuts.js:659
 msgid "Set Custom Tab Title"
 msgstr "Παραμετροποίση τίτλου καρτέλας"
 
@@ -182,20 +182,20 @@ msgid "New Tab After This Tab"
 msgstr "Νέα καρτέλα μετά από αυτην"
 
 #: ddterm/app/ui/notebook.ui:35 ddterm/app/ui/terminalpage.ui:99
-#: ddterm/pref/shortcuts.js:588
+#: ddterm/pref/shortcuts.js:589
 msgid "New Tab Before First Tab"
 msgstr "Νέα καρτέλα στην αρχή"
 
 #: ddterm/app/ui/notebook.ui:39 ddterm/app/ui/terminalpage.ui:103
-#: ddterm/pref/shortcuts.js:583
+#: ddterm/pref/shortcuts.js:584
 msgid "New Tab After Last Tab"
 msgstr "Νέα καρτέλα στο τέλος"
 
-#: ddterm/app/ui/notebook.ui:45 ddterm/pref/shortcuts.js:618
+#: ddterm/app/ui/notebook.ui:45 ddterm/pref/shortcuts.js:619
 msgid "Move Tab to Previous Position"
 msgstr "Επανατοποθέτηση καρτέλας πριν"
 
-#: ddterm/app/ui/notebook.ui:49 ddterm/pref/shortcuts.js:623
+#: ddterm/app/ui/notebook.ui:49 ddterm/pref/shortcuts.js:624
 msgid "Move Tab to Next Position"
 msgstr "Επανατοποθέτηση καρτέλας μετά"
 
@@ -209,12 +209,12 @@ msgid "No Split"
 msgstr ""
 
 #: ddterm/app/ui/notebook.ui:63 ddterm/app/ui/notebook.ui:104
-#: ddterm/app/ui/terminalpage.ui:118 ddterm/pref/shortcuts.js:628
+#: ddterm/app/ui/terminalpage.ui:118 ddterm/pref/shortcuts.js:629
 msgid "Split Horizontally"
 msgstr ""
 
 #: ddterm/app/ui/notebook.ui:68 ddterm/app/ui/notebook.ui:109
-#: ddterm/app/ui/terminalpage.ui:123 ddterm/pref/shortcuts.js:633
+#: ddterm/app/ui/terminalpage.ui:123 ddterm/pref/shortcuts.js:634
 msgid "Split Vertically"
 msgstr ""
 
@@ -256,11 +256,11 @@ msgstr ""
 msgid "Wrap Around"
 msgstr ""
 
-#: ddterm/app/ui/search.ui:89 ddterm/pref/shortcuts.js:673
+#: ddterm/app/ui/search.ui:89 ddterm/pref/shortcuts.js:674
 msgid "Find Next"
 msgstr "Μετακίνηση στο επόμενο"
 
-#: ddterm/app/ui/search.ui:107 ddterm/pref/shortcuts.js:678
+#: ddterm/app/ui/search.ui:107 ddterm/pref/shortcuts.js:679
 msgid "Find Previous"
 msgstr "Μετακίνηση στο επόμενο"
 
@@ -288,19 +288,19 @@ msgstr "Αντιγραφή HTML"
 msgid "Paste"
 msgstr "Επικόλληση"
 
-#: ddterm/app/ui/terminalpage.ui:44 ddterm/pref/shortcuts.js:568
+#: ddterm/app/ui/terminalpage.ui:44 ddterm/pref/shortcuts.js:569
 msgid "Select All"
 msgstr "Επιλογή όλων"
 
-#: ddterm/app/ui/terminalpage.ui:50 ddterm/pref/shortcuts.js:668
+#: ddterm/app/ui/terminalpage.ui:50 ddterm/pref/shortcuts.js:669
 msgid "Find"
 msgstr "Εύρεση"
 
-#: ddterm/app/ui/terminalpage.ui:56 ddterm/pref/shortcuts.js:573
+#: ddterm/app/ui/terminalpage.ui:56 ddterm/pref/shortcuts.js:574
 msgid "Reset"
 msgstr "Επαναφορά"
 
-#: ddterm/app/ui/terminalpage.ui:60 ddterm/pref/shortcuts.js:578
+#: ddterm/app/ui/terminalpage.ui:60 ddterm/pref/shortcuts.js:579
 msgid "Reset and Clear"
 msgstr "Επαναφορά και εκκαθάριση"
 
@@ -308,15 +308,15 @@ msgstr "Επαναφορά και εκκαθάριση"
 msgid "Zoom"
 msgstr "Εστίαση"
 
-#: ddterm/app/ui/terminalpage.ui:68 ddterm/pref/shortcuts.js:683
+#: ddterm/app/ui/terminalpage.ui:68 ddterm/pref/shortcuts.js:684
 msgid "Zoom In"
 msgstr "μεγέθυνση"
 
-#: ddterm/app/ui/terminalpage.ui:72 ddterm/pref/shortcuts.js:688
+#: ddterm/app/ui/terminalpage.ui:72 ddterm/pref/shortcuts.js:689
 msgid "Zoom Out"
 msgstr "Σμίκρυνση"
 
-#: ddterm/app/ui/terminalpage.ui:76 ddterm/pref/shortcuts.js:693
+#: ddterm/app/ui/terminalpage.ui:76 ddterm/pref/shortcuts.js:694
 msgid "Normal Size"
 msgstr "Κανονικό μέγεθος"
 
@@ -328,11 +328,11 @@ msgstr ""
 msgid "New Tab"
 msgstr "Νεα καρτέλα"
 
-#: ddterm/app/ui/terminalpage.ui:91 ddterm/pref/shortcuts.js:593
+#: ddterm/app/ui/terminalpage.ui:91 ddterm/pref/shortcuts.js:594
 msgid "New Tab Before Current Tab"
 msgstr "Νέα καρτέλα πριν την τρέχουσα"
 
-#: ddterm/app/ui/terminalpage.ui:95 ddterm/pref/shortcuts.js:598
+#: ddterm/app/ui/terminalpage.ui:95 ddterm/pref/shortcuts.js:599
 msgid "New Tab After Current Tab"
 msgstr "Νέα καρτέλα μετά την τρέχουσα"
 
@@ -352,7 +352,7 @@ msgstr "Πάνω από Επιφάνιες Εργασίας"
 msgid "Maximize Window"
 msgstr "Μεγένθυση Παράθύρου"
 
-#: ddterm/app/ui/terminalpage.ui:158 ddterm/pref/colors.js:592
+#: ddterm/app/ui/terminalpage.ui:158 ddterm/pref/colors.js:638
 msgid "Transparent Background"
 msgstr "Διάφανο φόντο"
 
@@ -372,7 +372,7 @@ msgstr "Κύλιση κατα την έξοδο"
 msgid "Scroll On Keystroke"
 msgstr "Κύλιση στο πάτημα πλήκτρων"
 
-#: ddterm/app/ui/terminalpage.ui:184 ddterm/pref/command.js:51
+#: ddterm/app/ui/terminalpage.ui:184 ddterm/pref/command.js:58
 msgid "Preserve Working Directory In New Tabs"
 msgstr "Διατήρηση καταλόγου εργασίας σε νέες καρτέλες"
 
@@ -549,11 +549,11 @@ msgstr "_Εμφάνιση κινούμενων εικόνων"
 msgid "_Show Animation Duration"
 msgstr "_Εμφάνιση διάρκειας κινούμενης εικόνας"
 
-#: ddterm/pref/animation.js:128
+#: ddterm/pref/animation.js:135
 msgid "_Hide Animation"
 msgstr "_Απόκρυψη κινούμενων εικόνων"
 
-#: ddterm/pref/animation.js:139
+#: ddterm/pref/animation.js:146
 msgid "_Hide Animation Duration"
 msgstr "_Απόκρυψη διάρκειας κινούμενης εικόνας"
 
@@ -581,155 +581,155 @@ msgstr ""
 "Force _X11 GDK backend (XWayland).\n"
 "Θα πρέπει να κλείσετε όλες τις καρτέλες για να εφαρμοστεί αυτή η επιλογή."
 
-#: ddterm/pref/colors.js:357
+#: ddterm/pref/colors.js:358
 msgid "Colors"
 msgstr "Χρώμματα"
 
-#: ddterm/pref/colors.js:361
+#: ddterm/pref/colors.js:362
 msgid "Theme _Variant"
 msgstr ""
 
-#: ddterm/pref/colors.js:363 ddterm/pref/text.js:118
+#: ddterm/pref/colors.js:364 ddterm/pref/text.js:118
 msgid "Default"
 msgstr "Προεπιλεγμένο"
 
-#: ddterm/pref/colors.js:364
+#: ddterm/pref/colors.js:365
 msgid "Light"
 msgstr "Φωτεινό"
 
-#: ddterm/pref/colors.js:365
+#: ddterm/pref/colors.js:366
 msgid "Dark"
 msgstr "Σκοτεινό"
 
-#: ddterm/pref/colors.js:371
+#: ddterm/pref/colors.js:372
 msgid "Use Colors From System _Theme"
 msgstr "Χρησιμοποιήστε χρώματα από το system _theme"
 
-#: ddterm/pref/colors.js:375
+#: ddterm/pref/colors.js:376
 msgid "Black on light yellow"
 msgstr "Μαύρο σε ανοιχτό κίτρινο"
 
-#: ddterm/pref/colors.js:376
+#: ddterm/pref/colors.js:377
 msgid "Black on white"
 msgstr "Μαύρο σε λευκό"
 
-#: ddterm/pref/colors.js:377
+#: ddterm/pref/colors.js:378
 msgid "Gray on black"
 msgstr "Γκρι σε μαύρο"
 
-#: ddterm/pref/colors.js:378
+#: ddterm/pref/colors.js:379
 msgid "Green on black"
 msgstr "Πράσινο σε μαύρο"
 
-#: ddterm/pref/colors.js:379
+#: ddterm/pref/colors.js:380
 msgid "White on black"
 msgstr "Λευκό σε μαύρο"
 
-#: ddterm/pref/colors.js:380
+#: ddterm/pref/colors.js:381
 msgid "GNOME light"
 msgstr ""
 
-#: ddterm/pref/colors.js:381
+#: ddterm/pref/colors.js:382
 msgid "GNOME dark"
 msgstr ""
 
-#: ddterm/pref/colors.js:382
+#: ddterm/pref/colors.js:383
 msgid "Tango light"
 msgstr ""
 
-#: ddterm/pref/colors.js:383
+#: ddterm/pref/colors.js:384
 msgid "Tango dark"
 msgstr ""
 
-#: ddterm/pref/colors.js:384
+#: ddterm/pref/colors.js:385
 msgid "Solarized light"
 msgstr ""
 
-#: ddterm/pref/colors.js:385
+#: ddterm/pref/colors.js:386
 msgid "Solarized dark"
 msgstr ""
 
-#: ddterm/pref/colors.js:386 ddterm/pref/colors.js:706
+#: ddterm/pref/colors.js:387 ddterm/pref/colors.js:752
 msgid "Custom"
 msgstr "Παραμετροποιημένο"
 
-#: ddterm/pref/colors.js:409
+#: ddterm/pref/colors.js:410
 msgid "Color _Scheme"
 msgstr ""
 
-#: ddterm/pref/colors.js:428
+#: ddterm/pref/colors.js:429
 msgid "Foreground Color"
 msgstr "Χρώμα προσκηνίου"
 
-#: ddterm/pref/colors.js:435
+#: ddterm/pref/colors.js:443
 msgid "Background Color"
 msgstr ""
 
-#: ddterm/pref/colors.js:443 ddterm/pref/colors.js:451
+#: ddterm/pref/colors.js:458 ddterm/pref/colors.js:466
 msgid "Bold Color"
 msgstr ""
 
-#: ddterm/pref/colors.js:460
+#: ddterm/pref/colors.js:476
 msgid "Cursor Color"
 msgstr ""
 
-#: ddterm/pref/colors.js:482
+#: ddterm/pref/colors.js:498
 msgid "Cursor Foreground Color"
 msgstr ""
 
-#: ddterm/pref/colors.js:487
+#: ddterm/pref/colors.js:503
 msgid "Cursor Background Color"
 msgstr ""
 
-#: ddterm/pref/colors.js:510
+#: ddterm/pref/colors.js:540
 msgid "Highlight Color"
 msgstr ""
 
-#: ddterm/pref/colors.js:532
+#: ddterm/pref/colors.js:562
 msgid "Highlight Foreground Color"
 msgstr "Επισημάνετε το χρώμα προσκηνίου"
 
-#: ddterm/pref/colors.js:537
+#: ddterm/pref/colors.js:567
 msgid "Highlight Background Color"
 msgstr "Επισημάνετε το χρώμα φόντου"
 
-#: ddterm/pref/colors.js:577
+#: ddterm/pref/colors.js:621
 msgid "_Background Opacity"
 msgstr "_Αδιαφάνεια φόντου"
 
-#: ddterm/pref/colors.js:598
+#: ddterm/pref/colors.js:644
 msgid "GNOME"
 msgstr "GNOME"
 
-#: ddterm/pref/colors.js:616
+#: ddterm/pref/colors.js:662
 msgid "Tango"
 msgstr "Tango"
 
-#: ddterm/pref/colors.js:634
+#: ddterm/pref/colors.js:680
 msgid "Linux"
 msgstr "Linux"
 
-#: ddterm/pref/colors.js:652
+#: ddterm/pref/colors.js:698
 msgid "XTerm"
 msgstr "XTerm"
 
-#: ddterm/pref/colors.js:670
+#: ddterm/pref/colors.js:716
 msgid "RXVT"
 msgstr "RXVT"
 
-#: ddterm/pref/colors.js:688
+#: ddterm/pref/colors.js:734
 msgid "Solarized"
 msgstr ""
 
-#: ddterm/pref/colors.js:717
+#: ddterm/pref/colors.js:763
 msgid "_Palette"
 msgstr "Παλέτα"
 
-#: ddterm/pref/colors.js:790
+#: ddterm/pref/colors.js:838
 msgid "Show Bold Text in _Bright Colors"
 msgstr ""
 
-#: ddterm/pref/colors.js:795
+#: ddterm/pref/colors.js:843
 msgid "Copy profile from GNOME Terminal"
 msgstr "Αντιγραφή προφίλ GNOME Terminal"
 
@@ -903,149 +903,149 @@ msgstr ""
 msgid "Disabled"
 msgstr "Απενεργοποίηση"
 
-#: ddterm/pref/shortcuts.js:483
+#: ddterm/pref/shortcuts.js:484
 #, fuzzy
 #| msgid "Global Shortcut"
 msgid "Global Shortcuts"
 msgstr "Γενικές Συντομεύσεις"
 
-#: ddterm/pref/shortcuts.js:487
+#: ddterm/pref/shortcuts.js:488
 #, fuzzy
 msgid "Toggle Terminal Window"
 msgstr "Basculer vers la fenêtre de terminal"
 
-#: ddterm/pref/shortcuts.js:493
+#: ddterm/pref/shortcuts.js:494
 msgid "Show/Activate Terminal Window"
 msgstr "Εμφάνιση/Ενεργοποίηση Παράθυρου τερματικού"
 
-#: ddterm/pref/shortcuts.js:509
+#: ddterm/pref/shortcuts.js:510
 #, fuzzy
 #| msgid "_Enable application shortcuts"
 msgid "Application Shortcuts"
 msgstr "_Ενεργοποίηση συντομεύσεων εφαρμογών"
 
-#: ddterm/pref/shortcuts.js:513
+#: ddterm/pref/shortcuts.js:514
 msgid "_Enable application shortcuts"
 msgstr "_Ενεργοποίηση συντομεύσεων εφαρμογών"
 
-#: ddterm/pref/shortcuts.js:518
+#: ddterm/pref/shortcuts.js:519
 msgid "Hide the Window"
 msgstr "Απόκρυψη Παραθύρου"
 
-#: ddterm/pref/shortcuts.js:523
+#: ddterm/pref/shortcuts.js:524
 msgid "Maximize/Unmaximize the Window"
 msgstr "Μεγιστοποίηση/Ελαχιστοποίηση Παραθύρου"
 
-#: ddterm/pref/shortcuts.js:528
+#: ddterm/pref/shortcuts.js:529
 #, fuzzy
 msgid "Increase Window Size"
 msgstr "Αυξείστε το ύψος του παραθύρου"
 
-#: ddterm/pref/shortcuts.js:533
+#: ddterm/pref/shortcuts.js:534
 #, fuzzy
 msgid "Decrease Window Size"
 msgstr "Μειώστε το ύψος του παραθύρου"
 
-#: ddterm/pref/shortcuts.js:538
+#: ddterm/pref/shortcuts.js:539
 msgid "Increase Background Opacity"
 msgstr "Αυξείστε την αδιαφάνεια του φόντου"
 
-#: ddterm/pref/shortcuts.js:543
+#: ddterm/pref/shortcuts.js:544
 msgid "Decrease Background Opacity"
 msgstr "Μειώστε την αδιαφάνεια του φόντου"
 
-#: ddterm/pref/shortcuts.js:548
+#: ddterm/pref/shortcuts.js:549
 msgid "Enable/Disable Background Transparency"
 msgstr "Ενεργοποίηση/Απενεργοποίηση Διάφανου Φόντου"
 
-#: ddterm/pref/shortcuts.js:553
+#: ddterm/pref/shortcuts.js:554
 msgid "Copy Selected Text"
 msgstr "Αντιγραφή επιλογής"
 
-#: ddterm/pref/shortcuts.js:558
+#: ddterm/pref/shortcuts.js:559
 msgid "Copy Selected Text as HTML"
 msgstr "Αντιγραφή επιλεγμένου κειμένου ως HTML"
 
-#: ddterm/pref/shortcuts.js:563
+#: ddterm/pref/shortcuts.js:564
 msgid "Paste Text from Clipboard"
 msgstr "Επικόλλιση απο Πρόχειρο"
 
-#: ddterm/pref/shortcuts.js:603
+#: ddterm/pref/shortcuts.js:604
 msgid "Close Current Tab"
 msgstr "Κλείσιμο καρτέλας"
 
-#: ddterm/pref/shortcuts.js:608
+#: ddterm/pref/shortcuts.js:609
 msgid "Switch to Previous Tab"
 msgstr "Προηγούμενη καρτέλα"
 
-#: ddterm/pref/shortcuts.js:613
+#: ddterm/pref/shortcuts.js:614
 msgid "Switch to Next Tab"
 msgstr "Επόμενη καρτέλα"
 
-#: ddterm/pref/shortcuts.js:638
+#: ddterm/pref/shortcuts.js:639
 #, fuzzy
 msgid "Move Keyboard Focus to Other Split Pane"
 msgstr "Επανατοποθέτηση καρτέλας μετά"
 
-#: ddterm/pref/shortcuts.js:643
+#: ddterm/pref/shortcuts.js:644
 #, fuzzy
 msgid "Move Tab to Other Split Pane"
 msgstr "Επανατοποθέτηση καρτέλας μετά"
 
-#: ddterm/pref/shortcuts.js:648
+#: ddterm/pref/shortcuts.js:649
 msgid "Increase First Split Pane Size"
 msgstr ""
 
-#: ddterm/pref/shortcuts.js:653
+#: ddterm/pref/shortcuts.js:654
 msgid "Decrease First Split Pane Size"
 msgstr ""
 
-#: ddterm/pref/shortcuts.js:663
+#: ddterm/pref/shortcuts.js:664
 msgid "Reset Tab Title"
 msgstr "Επαναφορά Τίτλου Καρτέλας"
 
-#: ddterm/pref/shortcuts.js:698
+#: ddterm/pref/shortcuts.js:699
 msgid "Switch to Tab 1"
 msgstr "Μετάβαση καρτέλα 1"
 
-#: ddterm/pref/shortcuts.js:703
+#: ddterm/pref/shortcuts.js:704
 msgid "Switch to Tab 2"
 msgstr "Μετάβαση καρτέλα 2"
 
-#: ddterm/pref/shortcuts.js:708
+#: ddterm/pref/shortcuts.js:709
 msgid "Switch to Tab 3"
 msgstr "Μετάβαση καρτέλα 3"
 
-#: ddterm/pref/shortcuts.js:713
+#: ddterm/pref/shortcuts.js:714
 msgid "Switch to Tab 4"
 msgstr "Μετάβαση καρτέλα 4"
 
-#: ddterm/pref/shortcuts.js:718
+#: ddterm/pref/shortcuts.js:719
 msgid "Switch to Tab 5"
 msgstr "Μετάβαση καρτέλα 5"
 
-#: ddterm/pref/shortcuts.js:723
+#: ddterm/pref/shortcuts.js:724
 #, fuzzy
 msgid "Switch to Tab 6"
 msgstr "Basculer vers l'onglet 6"
 
-#: ddterm/pref/shortcuts.js:728
+#: ddterm/pref/shortcuts.js:729
 msgid "Switch to Tab 7"
 msgstr "Μετάβαση καρτέλα 7"
 
-#: ddterm/pref/shortcuts.js:733
+#: ddterm/pref/shortcuts.js:734
 msgid "Switch to Tab 8"
 msgstr "Μετάβαση καρτέλα 8"
 
-#: ddterm/pref/shortcuts.js:738
+#: ddterm/pref/shortcuts.js:739
 msgid "Switch to Tab 9"
 msgstr "Μετάβαση καρτέλα 9"
 
-#: ddterm/pref/shortcuts.js:743
+#: ddterm/pref/shortcuts.js:744
 msgid "Switch to Tab 10"
 msgstr "Μετάβαση καρτέλα 10"
 
-#: ddterm/pref/shortcuts.js:800
+#: ddterm/pref/shortcuts.js:801
 #, fuzzy
 msgid "Reset All Shortcuts to Defaults"
 msgstr "Réinitialiser aux valeurs par défaut"
@@ -1184,6 +1184,12 @@ msgstr "Εντόπιση \"news:\", \"man:\" URLs"
 #| msgid "Copy Selected Text"
 msgid "Copy On Selection"
 msgstr "Αντιγραφή επιλογής"
+
+#: ddterm/pref/util.js:24
+#, fuzzy
+#| msgid "Use Default Tab Title"
+msgid "Reset to default value"
+msgstr "Χρησιμοποιήστε τον προεπιλεγμένο τίτλο καρτέλας"
 
 #: ddterm/shell/notifications.js:59 ddterm/shell/notifications.js:137
 #, fuzzy
