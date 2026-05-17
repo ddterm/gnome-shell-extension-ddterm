@@ -6,6 +6,7 @@ SPDX-FileContributor: Mohammad Javad Naderi
 SPDX-FileContributor: Juan M. Cruz-Martinez
 SPDX-FileContributor: Jackson Goode
 SPDX-FileContributor: Mike Lei
+SPDX-FileContributor: Magnia
 
 SPDX-License-Identifier: GPL-3.0-or-later
 -->
@@ -401,13 +402,13 @@ SPDX-License-Identifier: GPL-3.0-or-later
       <default>false</default>
     </key>
     <key name="shortcut-terminal-copy" type="as">
-      <default><![CDATA[['<Ctrl><Shift>c']]]></default>
+      <default><![CDATA[['<Ctrl><Shift>c', 'Copy']]]></default>
     </key>
     <key name="shortcut-terminal-copy-html" type="as">
       <default><![CDATA[[]]]></default>
     </key>
     <key name="shortcut-terminal-paste" type="as">
-      <default><![CDATA[['<Ctrl><Shift>v']]]></default>
+      <default><![CDATA[['<Ctrl><Shift>v', 'Paste']]]></default>
     </key>
     <key name="shortcut-terminal-select-all" type="as">
       <default><![CDATA[[]]]></default>
