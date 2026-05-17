@@ -6,7 +6,7 @@ import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
 import Gtk from 'gi://Gtk';
 
-import { PreferencesGroup, ScaleRow, ComboTextItem } from './util.js';
+import { PreferencesGroup, ScaleRow, ComboTextItem, add_reset_button } from './util.js';
 
 export class AnimationGroup extends PreferencesGroup {
     static [GObject.GTypeName] = 'DDTermAnimationPreferencesGroup';
@@ -121,6 +121,13 @@ export class AnimationGroup extends PreferencesGroup {
             false
         );
 
+        add_reset_button(
+            this.#show_animation_duration_scale,
+            this.settings,
+            'show-animation-duration',
+            this.gettext_domain
+        );
+
         this.add(this.#show_animation_duration_scale);
 
         this.#hide_animation_combo = this.add_combo_text_row({
@@ -144,6 +151,13 @@ export class AnimationGroup extends PreferencesGroup {
             this.#hide_animation_duration_scale,
             'sensitive',
             false
+        );
+
+        add_reset_button(
+            this.#hide_animation_duration_scale,
+            this.settings,
+            'hide-animation-duration',
+            this.gettext_domain
         );
 
         this.add(this.#hide_animation_duration_scale);

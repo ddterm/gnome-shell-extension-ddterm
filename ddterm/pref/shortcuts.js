@@ -10,7 +10,7 @@ import Gio from 'gi://Gio';
 import Gdk from 'gi://Gdk';
 import Gtk from 'gi://Gtk';
 
-import { PreferencesGroup, ActionRow } from './util.js';
+import { PreferencesGroup, ActionRow, add_reset_button } from './util.js';
 
 const IS_GTK3 = Gtk.get_major_version() === 3;
 
@@ -433,6 +433,7 @@ class ShortcutGroup extends PreferencesGroup {
         });
 
         this.settings.bind(key, row, 'value', flags);
+        add_reset_button(row, this.settings, key, this.gettext_domain);
 
         const conflict_handler = this.connect('accelerator-set', (self, keyval, modifiers) => {
             row.remove_conflict(keyval, modifiers);

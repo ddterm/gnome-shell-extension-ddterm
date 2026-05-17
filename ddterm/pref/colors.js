@@ -11,6 +11,7 @@ import Gtk from 'gi://Gtk';
 
 import {
     ActionRow,
+    add_reset_button,
     ComboRow,
     PreferencesGroup,
     PreferencesRow,
@@ -429,12 +430,26 @@ export class ColorsGroup extends PreferencesGroup {
             color: this.#color_scheme.colors[0],
         });
 
+        add_reset_button(
+            this.#foreground_color_row,
+            this.settings,
+            'foreground-color',
+            this.gettext_domain
+        );
+
         this.add(this.#foreground_color_row);
 
         this.#background_color_row = ColorRow.create({
             title: this.gettext('Background Color'),
             color: this.#color_scheme.colors[1],
         });
+
+        add_reset_button(
+            this.#background_color_row,
+            this.settings,
+            'background-color',
+            this.gettext_domain
+        );
 
         this.add(this.#background_color_row);
 
@@ -453,6 +468,7 @@ export class ColorsGroup extends PreferencesGroup {
         });
 
         this.settings.bind_writable('bold-color', bold_color_row, 'sensitive', false);
+        add_reset_button(bold_color_row, this.settings, 'bold-color', this.gettext_domain);
         this.#bold_color_expander.add_row(bold_color_row);
 
         this.#cursor_color_expander = this.add_expander_row({
@@ -500,6 +516,20 @@ export class ColorsGroup extends PreferencesGroup {
             cursor_background_color_row,
             'sensitive',
             false
+        );
+
+        add_reset_button(
+            cursor_foreground_color_row,
+            this.settings,
+            'cursor-foreground-color',
+            this.gettext_domain
+        );
+
+        add_reset_button(
+            cursor_background_color_row,
+            this.settings,
+            'cursor-background-color',
+            this.gettext_domain
         );
 
         this.#cursor_color_expander.add_row(cursor_foreground_color_row);
@@ -552,6 +582,20 @@ export class ColorsGroup extends PreferencesGroup {
             false
         );
 
+        add_reset_button(
+            highlight_foreground_color_row,
+            this.settings,
+            'highlight-foreground-color',
+            this.gettext_domain
+        );
+
+        add_reset_button(
+            highlight_background_color_row,
+            this.settings,
+            'highlight-background-color',
+            this.gettext_domain
+        );
+
         this.#highlight_color_expander.add_row(highlight_foreground_color_row);
         this.#highlight_color_expander.add_row(highlight_background_color_row);
 
@@ -586,6 +630,8 @@ export class ColorsGroup extends PreferencesGroup {
             'sensitive',
             false
         );
+
+        add_reset_button(opacity_row, this.settings, 'background-opacity', this.gettext_domain);
 
         const opacity_expander = this.add_expander_row({
             key: 'transparent-background',
@@ -736,6 +782,8 @@ export class ColorsGroup extends PreferencesGroup {
             'sensitive',
             false
         );
+
+        add_reset_button(palette_combo, this.settings, 'palette', this.gettext_domain);
 
         this.add(palette_combo);
 

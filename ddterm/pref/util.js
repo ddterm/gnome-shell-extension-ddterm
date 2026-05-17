@@ -16,6 +16,49 @@ export const {
     ActionRow,
 } = AdwOrHdy;
 
+export function add_reset_button(row, settings, key, gettext_domain) {
+    const button = Gtk.Button.new_from_icon_name.length === 1
+        ? Gtk.Button.new_from_icon_name('edit-clear')
+        : Gtk.Button.new_from_icon_name('edit-clear', Gtk.IconSize.BUTTON);
+
+    button.set_tooltip_text(gettext_domain.gettext('Reset to default value'));
+    button.set_valign(Gtk.Align.CENTER);
+    button.set_hexpand(false);
+    button.set_vexpand(false);
+
+    if (button.set_has_frame)
+        button.set_has_frame(false);
+    else
+        button.set_relief(Gtk.ReliefStyle.NONE);
+
+    if (row.add_suffix)
+        row.add_suffix(button);
+    else
+        row.add(button);
+
+    settings.bind_writable(key, button, 'sensitive', false);
+
+    row.connect('realize', () => {
+        const changed = settings.connect(`changed::${key}`, () => {
+            button.visible = settings.get_user_value(key) !== null;
+        });
+
+        const clicked = button.connect('clicked', () => {
+            settings.reset(key);
+        });
+
+        const unrealize = row.connect('unrealize', () => {
+            row.disconnect(unrealize);
+            settings.disconnect(changed);
+            button.disconnect(clicked);
+        });
+
+        button.visible = settings.get_user_value(key) !== null;
+    });
+
+    return button;
+}
+
 export const SwitchRow = AdwOrHdy.SwitchRow ?? class extends ActionRow {
     static [GObject.GTypeName] = 'DDTermSwitchRow';
 
@@ -86,6 +129,7 @@ function create_switch_row({
     settings,
     key,
     flags = Gio.SettingsBindFlags.DEFAULT,
+    gettext_domain,
     ...params
 }) {
     const row = new SwitchRow({
@@ -95,6 +139,7 @@ function create_switch_row({
     });
 
     settings.bind(key, row, 'active', flags);
+    add_reset_button(row, settings, key, gettext_domain);
 
     return row;
 }
@@ -390,6 +435,7 @@ export class ComboTextRow extends ComboRow {
         key,
         model,
         flags = Gio.SettingsBindFlags.DEFAULT,
+        gettext_domain,
         ...params
     }) {
         if (model && !(model instanceof GObject.Object))
@@ -404,6 +450,7 @@ export class ComboTextRow extends ComboRow {
         row.bind_name_model(model);
 
         settings.bind(key, row, 'value', flags);
+        add_reset_button(row, settings, key, gettext_domain);
 
         return row;
     }
@@ -569,6 +616,12 @@ export class ExpanderRow extends AdwOrHdy.ExpanderRow {
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             Gio.Settings
         ),
+        'gettext-domain': GObject.ParamSpec.jsobject(
+            'gettext-domain',
+            null,
+            null,
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY
+        ),
     };
 
     static {
@@ -576,7 +629,11 @@ export class ExpanderRow extends AdwOrHdy.ExpanderRow {
     }
 
     add_switch_row(params) {
-        const row = create_switch_row({ settings: this.settings, ...params });
+        const row = create_switch_row({
+            settings: this.settings,
+            gettext_domain: this.gettext_domain,
+            ...params,
+        });
 
         this.add_row(row);
 
@@ -584,7 +641,11 @@ export class ExpanderRow extends AdwOrHdy.ExpanderRow {
     }
 
     add_combo_text_row(params) {
-        const row = ComboTextRow.create({ settings: this.settings, ...params });
+        const row = ComboTextRow.create({
+            settings: this.settings,
+            gettext_domain: this.gettext_domain,
+            ...params,
+        });
 
         this.add_row(row);
 
@@ -602,6 +663,7 @@ export class ExpanderRow extends AdwOrHdy.ExpanderRow {
         settings,
         key,
         flags = Gio.SettingsBindFlags.DEFAULT,
+        gettext_domain,
         ...params
     }) {
         const row = new ExpanderRow({
@@ -609,11 +671,14 @@ export class ExpanderRow extends AdwOrHdy.ExpanderRow {
             visible: true,
             use_underline: true,
             show_enable_switch: Boolean(key),
+            gettext_domain,
             ...params,
         });
 
-        if (key)
+        if (key) {
             settings.bind(key, row, 'enable-expansion', flags);
+            add_reset_button(row, settings, key, gettext_domain);
+        }
 
         return row;
     }
@@ -654,7 +719,11 @@ export class PreferencesGroup extends AdwOrHdy.PreferencesGroup {
     }
 
     add_switch_row(params) {
-        const row = create_switch_row({ settings: this.settings, ...params });
+        const row = create_switch_row({
+            settings: this.settings,
+            gettext_domain: this.gettext_domain,
+            ...params,
+        });
 
         this.add(row);
 
@@ -662,7 +731,11 @@ export class PreferencesGroup extends AdwOrHdy.PreferencesGroup {
     }
 
     add_combo_text_row(params) {
-        const row = ComboTextRow.create({ settings: this.settings, ...params });
+        const row = ComboTextRow.create({
+            settings: this.settings,
+            gettext_domain: this.gettext_domain,
+            ...params,
+        });
 
         this.add(row);
 
@@ -670,7 +743,11 @@ export class PreferencesGroup extends AdwOrHdy.PreferencesGroup {
     }
 
     add_expander_row(params) {
-        const row = ExpanderRow.create({ settings: this.settings, ...params });
+        const row = ExpanderRow.create({
+            settings: this.settings,
+            gettext_domain: this.gettext_domain,
+            ...params,
+        });
 
         this.add(row);
 

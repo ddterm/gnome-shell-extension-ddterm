@@ -5,7 +5,7 @@
 import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
 
-import { PreferencesGroup, EntryRow } from './util.js';
+import { PreferencesGroup, EntryRow, add_reset_button } from './util.js';
 
 export class CommandGroup extends PreferencesGroup {
     static [GObject.GTypeName] = 'DDTermCommandPreferencesGroup';
@@ -42,6 +42,13 @@ export class CommandGroup extends PreferencesGroup {
             this.#custom_command_entry,
             'text',
             Gio.SettingsBindFlags.NO_SENSITIVITY
+        );
+
+        add_reset_button(
+            this.#custom_command_entry,
+            this.settings,
+            'custom-command',
+            this.gettext_domain
         );
 
         this.add(this.#custom_command_entry);

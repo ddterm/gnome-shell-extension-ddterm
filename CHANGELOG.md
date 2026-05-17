@@ -20,6 +20,8 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 - Added `Copy` and `Paste` hardware keys as default terminal copy/paste shortcuts
 by [@ponta0]: [#1915].
+- Added "Reset to default value" button for most settings in Preferences dialog:
+[#1919].
 
 ### Changed
 
@@ -28,6 +30,7 @@ by [@ponta0]: [#1915].
 ### Fixed
 
 [#1915]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1915
+[#1919]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1919
 
 [@ponta0]: https://github.com/ponta0
 
