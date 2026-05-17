@@ -22,6 +22,8 @@ The format is based on [Keep a Changelog], and this project adheres to
 by [@ponta0]: [#1915].
 - Added "Reset to default value" button for most settings in Preferences dialog:
 [#1919].
+- Multiple shortcuts can be assigned to the same action through Preferences
+dialog: [#932], [#1918].
 
 ### Changed
 
@@ -35,9 +37,11 @@ by [@ponta0]: [#1915].
 - When multiple keyboard shortcuts are assigned to the same action,
 they are now better visually separated in Preferences dialog: [#1917].
 
+[#932]: https://github.com/ddterm/gnome-shell-extension-ddterm/issues/932
 [#1744]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1744
 [#1915]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1915
 [#1917]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1917
+[#1918]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1918
 [#1919]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1919
 [#1925]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1925
 

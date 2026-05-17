@@ -159,8 +159,12 @@ class ShortcutEditDialog extends Gtk.Dialog {
         GObject.registerClass(this);
     }
 
+    static RESPONSE_SET = Gtk.ResponseType.OK;
+    static RESPONSE_ADD = 1;
+
     #controller;
     #label;
+    #stack;
 
     constructor(params) {
         super({
@@ -184,11 +188,30 @@ class ShortcutEditDialog extends Gtk.Dialog {
             margin_end: 16,
         };
 
-        this.#append(new Gtk.Label({
+        this.#stack = new Gtk.Stack({
+            visible: true,
+            interpolate_size: true,
+            transition_type: Gtk.StackTransitionType.SLIDE_LEFT_RIGHT,
+            ...margins,
+        });
+
+        const enter_label = new Gtk.Label({
             visible: true,
             label: this.gettext_domain.gettext('Enter new shortcut'),
-            ...margins,
-        }));
+        });
+
+        const accept_label = new Gtk.Label({
+            visible: true,
+            label: this.gettext_domain.gettext(
+                'Click "Set" to replace existing shortcut(s). ' +
+                'Click "Add" to add alternative shortcut.'
+            ),
+        });
+
+        this.#stack.add_named(enter_label, 'enter');
+        this.#stack.add_named(accept_label, 'accept');
+
+        this.#append(this.#stack);
 
         this.#label = new Gtk.ShortcutLabel({
             visible: true,
@@ -207,12 +230,34 @@ class ShortcutEditDialog extends Gtk.Dialog {
             ...margins,
         }));
 
-        this.add_button(this.gettext_domain.gettext('Cancel'), Gtk.ResponseType.CANCEL);
-        this.add_button(this.gettext_domain.gettext('Set'), Gtk.ResponseType.OK);
-        this.set_response_sensitive(Gtk.ResponseType.OK, false);
-        this.set_default_response(Gtk.ResponseType.OK);
+        this.add_button(
+            this.gettext_domain.gettext('Cancel'),
+            Gtk.ResponseType.CANCEL
+        );
+
+        this.add_button(
+            this.gettext_domain.gettext('Set'),
+            ShortcutEditDialog.RESPONSE_SET
+        );
+
+        this.add_button(
+            this.gettext_domain.gettext('Add'),
+            ShortcutEditDialog.RESPONSE_ADD
+        );
+
+        this.#set_valid(false);
+        this.set_default_response(ShortcutEditDialog.RESPONSE_SET);
 
         this.connect('realize', this.#realize.bind(this));
+    }
+
+    #set_valid(valid) {
+        this.set_response_sensitive(ShortcutEditDialog.RESPONSE_SET, valid);
+        this.set_response_sensitive(ShortcutEditDialog.RESPONSE_ADD, valid);
+        this.#stack.set_visible_child_name(valid ? 'accept' : 'enter');
+
+        if (valid)
+            this.get_widget_for_response(ShortcutEditDialog.RESPONSE_SET).grab_focus();
     }
 
     #append(widget) {
@@ -247,7 +292,7 @@ class ShortcutEditDialog extends Gtk.Dialog {
 
             if (keyval_lower === Gdk.KEY_BackSpace) {
                 this.#label.accelerator = null;
-                this.response(Gtk.ResponseType.OK);
+                this.response(ShortcutEditDialog.RESPONSE_SET);
 
                 return true;
             }
@@ -260,13 +305,10 @@ class ShortcutEditDialog extends Gtk.Dialog {
             this.notify('accelerator');
         }
 
-        const valid =
-            is_valid_accel(keyval_lower, real_mask) && is_valid_binding(keyval_lower, real_mask);
-
-        this.set_response_sensitive(Gtk.ResponseType.OK, valid);
-
-        if (valid)
-            this.get_widget_for_response(Gtk.ResponseType.OK).grab_focus();
+        this.#set_valid(
+            is_valid_accel(keyval_lower, real_mask) &&
+            is_valid_binding(keyval_lower, real_mask)
+        );
 
         return true;
     }
@@ -379,8 +421,23 @@ class ShortcutRow extends ActionRow {
         });
 
         dialog.connect('response', (_, response_id) => {
-            if (response_id === Gtk.ResponseType.OK) {
-                this.value = dialog.accelerator ? [dialog.accelerator] : [];
+            const { accelerator } = dialog;
+
+            if (response_id === ShortcutEditDialog.RESPONSE_SET) {
+                this.value = accelerator ? [accelerator] : [];
+                this.emit('accelerator-set');
+            } else if (response_id === ShortcutEditDialog.RESPONSE_ADD) {
+                const [keyval, modifiers] = accelerator_parse(accelerator);
+
+                this.freeze_notify();
+
+                try {
+                    this.remove_conflict(keyval, modifiers);
+                    this.value = [...this.value, accelerator];
+                } finally {
+                    this.thaw_notify();
+                }
+
                 this.emit('accelerator-set');
             }
 
