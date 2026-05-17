@@ -18,13 +18,18 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 ### Added
 
-- Added `Copy` and `Paste` hardware keys as default terminal copy/paste shortcuts.
+- Added `Copy` and `Paste` hardware keys as default terminal copy/paste shortcuts
+by [@ponta0]: [#1915].
 
 ### Changed
 
 ### Removed
 
 ### Fixed
+
+[#1915]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1915
+
+[@ponta0]: https://github.com/ponta0
 
 [Unreleased]: https://github.com/ddterm/gnome-shell-extension-ddterm/compare/v63.0.1...HEAD
 
