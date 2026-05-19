@@ -33,6 +33,8 @@ export function add_reset_button(row, settings, key, gettext_domain) {
 
     if (row.add_suffix)
         row.add_suffix(button);
+    else if (row.add_action) // For Handy.ExpanderRow - otherwise gets added as a child row
+        row.add_action(button);
     else
         row.add(button);
 
