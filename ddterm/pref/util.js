@@ -25,24 +25,33 @@ export function add_reset_button(row, settings, key, gettext_domain) {
     button.set_valign(Gtk.Align.CENTER);
     button.set_hexpand(false);
     button.set_vexpand(false);
+    button.set_visible(true);
 
     if (button.set_has_frame)
         button.set_has_frame(false);
     else
         button.set_relief(Gtk.ReliefStyle.NONE);
 
+    const container = new Gtk.Revealer({
+        visible: true,
+        child: button,
+        transition_type: row.get_direction() === Gtk.TextDirection.LTR
+            ? Gtk.RevealerTransitionType.SLIDE_LEFT
+            : Gtk.RevealerTransitionType.SLIDE_RIGHT,
+    });
+
     if (row.add_suffix)
-        row.add_suffix(button);
+        row.add_suffix(container);
     else if (row.add_action) // For Handy.ExpanderRow - otherwise gets added as a child row
-        row.add_action(button);
+        row.add_action(container);
     else
-        row.add(button);
+        row.add(container);
 
     settings.bind_writable(key, button, 'sensitive', false);
 
     row.connect('realize', () => {
         const changed = settings.connect(`changed::${key}`, () => {
-            button.visible = settings.get_user_value(key) !== null;
+            container.reveal_child = settings.get_user_value(key) !== null;
         });
 
         const clicked = button.connect('clicked', () => {
@@ -55,7 +64,7 @@ export function add_reset_button(row, settings, key, gettext_domain) {
             button.disconnect(clicked);
         });
 
-        button.visible = settings.get_user_value(key) !== null;
+        container.reveal_child = settings.get_user_value(key) !== null;
     });
 
     return button;
