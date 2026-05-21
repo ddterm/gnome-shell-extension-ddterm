@@ -310,10 +310,26 @@ class ShortcutRow extends ActionRow {
         GObject.registerClass(this);
     }
 
+    #box;
     #labels;
 
     constructor(params) {
         super(params);
+
+        this.#box = new Gtk.Box({
+            visible: true,
+            orientation: Gtk.Orientation.VERTICAL,
+            homogeneous: true,
+            valign: Gtk.Align.CENTER,
+            spacing: 4,
+            margin_top: 4,
+            margin_bottom: 4,
+        });
+
+        if (this.add_suffix)
+            this.add_suffix(this.#box);
+        else
+            this.add(this.#box);
 
         this.#labels = [];
 
@@ -328,7 +344,7 @@ class ShortcutRow extends ActionRow {
         const n = Math.max(1, value.length);
 
         while (this.#labels.length > n)
-            this.remove(this.#labels.pop());
+            this.#box.remove(this.#labels.pop());
 
         for (let i = 0; i < n; i++) {
             const accelerator = value[i] || null;
@@ -340,15 +356,15 @@ class ShortcutRow extends ActionRow {
 
             const label = new Gtk.ShortcutLabel({
                 visible: true,
+                halign: Gtk.Align.END,
                 disabled_text: this.gettext_domain.gettext('Disabled'),
                 accelerator,
-                valign: Gtk.Align.CENTER,
             });
 
-            if (this.add_suffix)
-                this.add_suffix(label);
+            if (this.#box.append)
+                this.#box.append(label);
             else
-                this.add(label);
+                this.#box.add(label);
 
             this.#labels.push(label);
         }
