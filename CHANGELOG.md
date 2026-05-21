@@ -25,17 +25,24 @@ by [@ponta0]: [#1915].
 
 ### Changed
 
+- Chinese translation updates by [@mikelei8291]: [#1925].
+
 ### Removed
 
 ### Fixed
 
+- French translation fix by [@liuxiaopai-ai]: [#1744].
 - When multiple keyboard shortcuts are assigned to the same action,
 they are now better visually separated in Preferences dialog: [#1917].
 
+[#1744]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1744
 [#1915]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1915
-[#1919]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1919
 [#1917]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1917
+[#1919]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1919
+[#1925]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1925
 
+[@liuxiaopai-ai]: https://github.com/liuxiaopai-ai
+[@mikelei8291]: https://github.com/mikelei8291
 [@ponta0]: https://github.com/ponta0
 
 [Unreleased]: https://github.com/ddterm/gnome-shell-extension-ddterm/compare/v63.0.1...HEAD
@@ -90,7 +97,6 @@ they are now better visually separated in Preferences dialog: [#1917].
 [#1853]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1853
 [#1875]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1875
 
-[@mikelei8291]: https://github.com/mikelei8291
 [@yuhldr]: https://github.com/yuhldr
 
 ### Changed
