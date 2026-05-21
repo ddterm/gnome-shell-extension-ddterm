@@ -6,7 +6,8 @@ import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
 import Gtk from 'gi://Gtk';
 
-import { add_reset_button, PreferencesGroup, SpinRow } from './util.js';
+import { SpinRow } from './widgets/spinrow.js';
+import { add_reset_button, PreferencesGroup } from './util.js';
 
 export class ScrollingGroup extends PreferencesGroup {
     static [GObject.GTypeName] = 'DDTermScrollingPreferencesGroup';

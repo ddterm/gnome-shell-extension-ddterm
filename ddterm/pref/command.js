@@ -5,7 +5,8 @@
 import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
 
-import { PreferencesGroup, EntryRow, add_reset_button } from './util.js';
+import { EntryRow } from './widgets/entryrow.js';
+import { PreferencesGroup, add_reset_button } from './util.js';
 
 export class CommandGroup extends PreferencesGroup {
     static [GObject.GTypeName] = 'DDTermCommandPreferencesGroup';

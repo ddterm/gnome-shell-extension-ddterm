@@ -305,10 +305,7 @@ class ShortcutRow extends ActionRow {
             margin_bottom: 4,
         });
 
-        if (this.add_suffix)
-            this.add_suffix(this.#box);
-        else
-            this.add(this.#box);
+        this.add_suffix(this.#box);
 
         this.#labels = [];
 

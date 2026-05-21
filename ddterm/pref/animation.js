@@ -6,7 +6,9 @@ import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
 import Gtk from 'gi://Gtk';
 
-import { PreferencesGroup, ScaleRow, ComboTextItem, add_reset_button } from './util.js';
+import { ComboTextItem } from './widgets/comborow.js';
+import { ScaleRow } from './widgets/scalerow.js';
+import { PreferencesGroup, add_reset_button } from './util.js';
 
 export class AnimationGroup extends PreferencesGroup {
     static [GObject.GTypeName] = 'DDTermAnimationPreferencesGroup';

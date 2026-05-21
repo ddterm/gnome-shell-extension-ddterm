@@ -5,7 +5,8 @@
 import GObject from 'gi://GObject';
 import Gtk from 'gi://Gtk';
 
-import { PreferencesGroup, ComboTextItem } from './util.js';
+import { ComboTextItem } from './widgets/comborow.js';
+import { PreferencesGroup } from './util.js';
 
 export class CompatibilityGroup extends PreferencesGroup {
     static [GObject.GTypeName] = 'DDTermCompatibilityPreferencesGroup';

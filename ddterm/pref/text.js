@@ -48,11 +48,7 @@ class FontRow extends ActionRow {
 
         this.set_activatable(true);
         this.set_activatable_widget(this.#button);
-
-        if (this.add_suffix)
-            this.add_suffix(this.#button);
-        else
-            this.add(this.#button);
+        this.add_suffix(this.#button);
     }
 }
 

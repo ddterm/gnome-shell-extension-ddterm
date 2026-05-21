@@ -28,6 +28,8 @@ foreach pref_js_src_file : pref_js_src_files
   )
 endforeach
 
+subdir('widgets')
+
 bundle += pref_js_out_files
 
 subdir('ui')

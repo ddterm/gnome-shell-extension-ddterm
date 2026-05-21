@@ -58,6 +58,8 @@ export const PrefsDialog = GObject.registerClass({
             const mod = await import('./adw.js');
 
             mod.fill_preferences_window(this, settings, gettext_domain, display_config);
+        } catch (error) {
+            logError(error);
         } finally {
             this.emit('loaded');
         }

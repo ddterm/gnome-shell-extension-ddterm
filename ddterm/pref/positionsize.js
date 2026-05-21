@@ -7,7 +7,9 @@ import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
 import Gtk from 'gi://Gtk';
 
-import { PreferencesGroup, ComboRow, ScaleRow } from './util.js';
+import { ComboRow } from './widgets/comborow.js';
+import { ScaleRow } from './widgets/scalerow.js';
+import { PreferencesGroup } from './util.js';
 import { Monitor } from '../util/displayconfig.js';
 
 class SpecialMonitor extends Monitor {
