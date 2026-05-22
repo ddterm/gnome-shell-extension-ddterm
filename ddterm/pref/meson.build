@@ -30,4 +30,5 @@ endforeach
 
 bundle += pref_js_out_files
 
+subdir('ui')
 subdir('test')

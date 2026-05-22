@@ -31,6 +31,8 @@ distributions. It automatically pulls in a tool called [`ninja`]
 
 - `msgcmp`, `msgmerge`, `xgettext` (`gettext` package)
 
+- `xsltproc`
+
 ## 3. Build the bundle
 
 To build the bundle, `cd` into the directory with the source code:

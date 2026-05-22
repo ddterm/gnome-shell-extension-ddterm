@@ -67,6 +67,7 @@ summary(
 )
 
 glib_compile_schemas_tool = find_program('glib-compile-schemas')
+xsltproc = find_program('xsltproc')
 
 xgettext = find_program('xgettext', required: false, disabler: true)
 msgmerge = find_program('msgmerge', required: false, disabler: true)

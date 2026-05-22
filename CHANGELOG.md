@@ -24,6 +24,7 @@ by [@ponta0]: [#1915].
 [#1919].
 - Multiple shortcuts can be assigned to the same action through Preferences
 dialog: [#932], [#1918].
+- `xsltproc` is a build dependency again.
 
 ### Changed
 

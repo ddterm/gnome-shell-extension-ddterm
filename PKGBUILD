@@ -12,7 +12,7 @@ license=('GPL-3.0-or-later')
 conflicts=('gnome-shell-extension-ddterm')
 provides=('gnome-shell-extension-ddterm')
 depends=('gjs' 'gtk3' 'vte3' 'libhandy')
-makedepends=('meson' 'git')
+makedepends=('meson' 'git' 'libxslt')
 checkdepends=('python-pytest' 'python-gobject' 'gnome-shell' 'wl-clipboard')
 
 # Skipping source=() completely, using startdir instead

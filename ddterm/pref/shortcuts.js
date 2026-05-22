@@ -5,6 +5,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
 import Gdk from 'gi://Gdk';
@@ -155,6 +156,18 @@ class ShortcutEditDialog extends Gtk.Dialog {
         ),
     };
 
+    static [Gtk.template] = GLib.Uri.resolve_relative(
+        import.meta.url, `./ui/gtk${Gtk.get_major_version()}/shortcutdialog.ui`,
+        GLib.UriFlags.NONE
+    );
+
+    static [Gtk.internalChildren] = [
+        'stack',
+        'label',
+        'enter_label',
+        'accept_label',
+    ];
+
     static {
         GObject.registerClass(this);
     }
@@ -163,8 +176,6 @@ class ShortcutEditDialog extends Gtk.Dialog {
     static RESPONSE_ADD = 1;
 
     #controller;
-    #label;
-    #stack;
 
     constructor(params) {
         super({
@@ -181,72 +192,7 @@ class ShortcutEditDialog extends Gtk.Dialog {
 
         this.#controller.propagation_phase = Gtk.PropagationPhase.CAPTURE;
 
-        const margins = {
-            margin_top: 16,
-            margin_bottom: 16,
-            margin_start: 16,
-            margin_end: 16,
-        };
-
-        this.#stack = new Gtk.Stack({
-            visible: true,
-            interpolate_size: true,
-            transition_type: Gtk.StackTransitionType.SLIDE_LEFT_RIGHT,
-            ...margins,
-        });
-
-        const enter_label = new Gtk.Label({
-            visible: true,
-            label: this.gettext_domain.gettext('Enter new shortcut'),
-        });
-
-        const accept_label = new Gtk.Label({
-            visible: true,
-            label: this.gettext_domain.gettext(
-                'Click "Set" to replace existing shortcut(s). ' +
-                'Click "Add" to add alternative shortcut.'
-            ),
-        });
-
-        this.#stack.add_named(enter_label, 'enter');
-        this.#stack.add_named(accept_label, 'accept');
-
-        this.#append(this.#stack);
-
-        this.#label = new Gtk.ShortcutLabel({
-            visible: true,
-            halign: Gtk.Align.CENTER,
-            valign: Gtk.Align.CENTER,
-            ...margins,
-        });
-
-        this.#append(this.#label);
-
-        this.#append(new Gtk.Label({
-            visible: true,
-            label: this.gettext_domain.gettext(
-                'Press Esc to cancel or Backspace to disable the keyboard shortcut'
-            ),
-            ...margins,
-        }));
-
-        this.add_button(
-            this.gettext_domain.gettext('Cancel'),
-            Gtk.ResponseType.CANCEL
-        );
-
-        this.add_button(
-            this.gettext_domain.gettext('Set'),
-            ShortcutEditDialog.RESPONSE_SET
-        );
-
-        this.add_button(
-            this.gettext_domain.gettext('Add'),
-            ShortcutEditDialog.RESPONSE_ADD
-        );
-
         this.#set_valid(false);
-        this.set_default_response(ShortcutEditDialog.RESPONSE_SET);
 
         this.connect('realize', this.#realize.bind(this));
     }
@@ -254,19 +200,10 @@ class ShortcutEditDialog extends Gtk.Dialog {
     #set_valid(valid) {
         this.set_response_sensitive(ShortcutEditDialog.RESPONSE_SET, valid);
         this.set_response_sensitive(ShortcutEditDialog.RESPONSE_ADD, valid);
-        this.#stack.set_visible_child_name(valid ? 'accept' : 'enter');
+        this._stack.set_visible_child(valid ? this._accept_label : this._enter_label);
 
         if (valid)
             this.get_widget_for_response(ShortcutEditDialog.RESPONSE_SET).grab_focus();
-    }
-
-    #append(widget) {
-        const content_area = this.get_content_area();
-
-        if (content_area.add)
-            content_area.add(widget);
-        else
-            content_area.append(widget);
     }
 
     #realize() {
@@ -291,7 +228,7 @@ class ShortcutEditDialog extends Gtk.Dialog {
                 return false;
 
             if (keyval_lower === Gdk.KEY_BackSpace) {
-                this.#label.accelerator = null;
+                this._label.accelerator = null;
                 this.response(ShortcutEditDialog.RESPONSE_SET);
 
                 return true;
@@ -300,8 +237,8 @@ class ShortcutEditDialog extends Gtk.Dialog {
 
         const name = Gtk.accelerator_name(keyval_lower, real_mask);
 
-        if (name !== this.#label.accelerator) {
-            this.#label.accelerator = name;
+        if (name !== this._label.accelerator) {
+            this._label.accelerator = name;
             this.notify('accelerator');
         }
 
@@ -314,7 +251,7 @@ class ShortcutEditDialog extends Gtk.Dialog {
     }
 
     get accelerator() {
-        return this.#label.accelerator;
+        return this._label.accelerator;
     }
 }
 

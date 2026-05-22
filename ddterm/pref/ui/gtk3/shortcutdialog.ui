@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+SPDX-FileCopyrightText: 2026 Aleksandr Mezin <mezin.alexander@gmail.com>
+
+SPDX-License-Identifier: GPL-3.0-or-later
+-->
+
+<interface domain="ddterm@amezin.github.com">
+
+  <template class="DDTermShortcutEditDialog" parent="GtkDialog">
+    <child internal-child="vbox">
+      <object class="GtkBox">
+        <property name="visible">True</property>
+        <property name="orientation">vertical</property>
+        <property name="spacing">32</property>
+        <property name="margin_top">16</property>
+        <property name="margin_bottom">16</property>
+        <property name="margin_start">16</property>
+        <property name="margin_end">16</property>
+
+        <child>
+          <object class="GtkStack" id="stack">
+            <property name="visible">True</property>
+            <property name="interpolate_size">True</property>
+            <property name="transition_type">slide-left-right</property>
+
+            <child>
+              <object class="GtkLabel" id="enter_label">
+                <property name="visible">True</property>
+                <property name="label" translatable="yes">Enter new shortcut</property>
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkLabel" id="accept_label">
+                <property name="visible">True</property>
+                <property name="label" translatable="yes">Click "Set" to replace existing shortcut(s). Click "Add" to add alternative shortcut.</property>
+              </object>
+            </child>
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkShortcutLabel" id="label">
+            <property name="visible">True</property>
+            <property name="halign">center</property>
+            <property name="valign">center</property>
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkLabel">
+            <property name="visible">True</property>
+            <property name="label" translatable="yes">Press Esc to cancel or Backspace to disable the keyboard shortcut</property>
+          </object>
+        </child>
+      </object>
+    </child>
+
+    <child type="action">
+      <object class="GtkButton" id="cancel_button">
+        <property name="label" translatable="yes">Cancel</property>
+        <property name="visible">True</property>
+        <style>
+          <class name="text-button"/>
+        </style>
+      </object>
+    </child>
+
+    <child type="action">
+      <object class="GtkButton" id="set_button">
+        <property name="label" translatable="yes">Set</property>
+        <property name="visible">True</property>
+        <property name="can_default">True</property>
+        <style>
+          <class name="text-button"/>
+        </style>
+      </object>
+    </child>
+
+    <child type="action">
+      <object class="GtkButton" id="add_button">
+        <property name="label" translatable="yes">Add</property>
+        <property name="visible">True</property>
+        <style>
+          <class name="text-button"/>
+        </style>
+      </object>
+    </child>
+
+    <action-widgets>
+      <action-widget response="cancel">cancel_button</action-widget>
+      <action-widget response="ok" default="yes">set_button</action-widget>
+      <action-widget response="1">add_button</action-widget>
+    </action-widgets>
+  </template>
+
+</interface>
