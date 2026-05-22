@@ -315,7 +315,10 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
             hide_edge=['cacheir-object']
         ) == ''
 
-    @pytest.mark.parametrize('script_name', ('gtk3.js', 'gtk4.js'))
+    @pytest.mark.parametrize(
+        'script_name',
+        ('gtk3.js', 'gtk4.js', 'gtk3-shortcut.js', 'gtk4-shortcut.js')
+    )
     def test_prefs_leak2(
         self,
         dbus_environment,
