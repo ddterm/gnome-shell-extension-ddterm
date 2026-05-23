@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-21 05:20+0000\n"
+"POT-Creation-Date: 2026-05-23 23:10+0000\n"
 "PO-Revision-Date: 2026-05-01 03:58+0000\n"
 "Last-Translator: 스이미 <soo.wim3@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/ko/>\n"
@@ -123,7 +123,7 @@ msgstr "다음 패키지들을 설치해 주세요:"
 msgid "Please install packages that provide the following files:"
 msgstr "아래 파일들이 포함된 패키지를 설치해야 합니다:"
 
-#: ddterm/app/tablabel.js:78 ddterm/pref/shortcuts.js:675
+#: ddterm/app/tablabel.js:78 ddterm/pref/shortcuts.js:669
 msgid "Set Custom Tab Title"
 msgstr "사용자 지정 탭 제목 설정"
 
@@ -151,7 +151,7 @@ msgstr "이 터미널을 닫으시겠습니까?"
 msgid "There is still a process running in this terminal. Closing the terminal will kill it."
 msgstr "실행 중인 작업이 있습니다. 터미널을 닫으면 진행 중인 모든 작업이 중단됩니다."
 
-#: ddterm/app/ui/closedialog.ui:20 ddterm/pref/shortcuts.js:210
+#: ddterm/app/ui/closedialog.ui:20 ddterm/pref/ui/gtk3/shortcutdialog.ui:63
 msgid "Cancel"
 msgstr "취소"
 
@@ -172,20 +172,20 @@ msgid "New Tab After This Tab"
 msgstr "이 탭 뒤에 새 탭 생성"
 
 #: ddterm/app/ui/notebook.ui:35 ddterm/app/ui/terminalpage.ui:99
-#: ddterm/pref/shortcuts.js:605
+#: ddterm/pref/shortcuts.js:599
 msgid "New Tab Before First Tab"
 msgstr "맨 앞에 새 탭 생성"
 
 #: ddterm/app/ui/notebook.ui:39 ddterm/app/ui/terminalpage.ui:103
-#: ddterm/pref/shortcuts.js:600
+#: ddterm/pref/shortcuts.js:594
 msgid "New Tab After Last Tab"
 msgstr "맨 뒤에 새 탭 생성"
 
-#: ddterm/app/ui/notebook.ui:45 ddterm/pref/shortcuts.js:635
+#: ddterm/app/ui/notebook.ui:45 ddterm/pref/shortcuts.js:629
 msgid "Move Tab to Previous Position"
 msgstr "탭을 이전 위치로 이동"
 
-#: ddterm/app/ui/notebook.ui:49 ddterm/pref/shortcuts.js:640
+#: ddterm/app/ui/notebook.ui:49 ddterm/pref/shortcuts.js:634
 msgid "Move Tab to Next Position"
 msgstr "탭을 다음 위치로 이동"
 
@@ -199,12 +199,12 @@ msgid "No Split"
 msgstr "분할 없음"
 
 #: ddterm/app/ui/notebook.ui:63 ddterm/app/ui/notebook.ui:104
-#: ddterm/app/ui/terminalpage.ui:118 ddterm/pref/shortcuts.js:645
+#: ddterm/app/ui/terminalpage.ui:118 ddterm/pref/shortcuts.js:639
 msgid "Split Horizontally"
 msgstr "가로로 분할"
 
 #: ddterm/app/ui/notebook.ui:68 ddterm/app/ui/notebook.ui:109
-#: ddterm/app/ui/terminalpage.ui:123 ddterm/pref/shortcuts.js:650
+#: ddterm/app/ui/terminalpage.ui:123 ddterm/pref/shortcuts.js:644
 msgid "Split Vertically"
 msgstr "세로로 분할"
 
@@ -245,11 +245,11 @@ msgstr "정규 표현식"
 msgid "Wrap Around"
 msgstr "되돌아 검색"
 
-#: ddterm/app/ui/search.ui:89 ddterm/pref/shortcuts.js:690
+#: ddterm/app/ui/search.ui:89 ddterm/pref/shortcuts.js:684
 msgid "Find Next"
 msgstr "다음 찾기"
 
-#: ddterm/app/ui/search.ui:107 ddterm/pref/shortcuts.js:695
+#: ddterm/app/ui/search.ui:107 ddterm/pref/shortcuts.js:689
 msgid "Find Previous"
 msgstr "이전 찾기"
 
@@ -277,19 +277,19 @@ msgstr "HTML로 복사"
 msgid "Paste"
 msgstr "붙여넣기"
 
-#: ddterm/app/ui/terminalpage.ui:44 ddterm/pref/shortcuts.js:585
+#: ddterm/app/ui/terminalpage.ui:44 ddterm/pref/shortcuts.js:579
 msgid "Select All"
 msgstr "전체 선택"
 
-#: ddterm/app/ui/terminalpage.ui:50 ddterm/pref/shortcuts.js:685
+#: ddterm/app/ui/terminalpage.ui:50 ddterm/pref/shortcuts.js:679
 msgid "Find"
 msgstr "찾기"
 
-#: ddterm/app/ui/terminalpage.ui:56 ddterm/pref/shortcuts.js:590
+#: ddterm/app/ui/terminalpage.ui:56 ddterm/pref/shortcuts.js:584
 msgid "Reset"
 msgstr "초기화"
 
-#: ddterm/app/ui/terminalpage.ui:60 ddterm/pref/shortcuts.js:595
+#: ddterm/app/ui/terminalpage.ui:60 ddterm/pref/shortcuts.js:589
 msgid "Reset and Clear"
 msgstr "초기화 및 화면 지우기"
 
@@ -297,15 +297,15 @@ msgstr "초기화 및 화면 지우기"
 msgid "Zoom"
 msgstr "확대/축소"
 
-#: ddterm/app/ui/terminalpage.ui:68 ddterm/pref/shortcuts.js:700
+#: ddterm/app/ui/terminalpage.ui:68 ddterm/pref/shortcuts.js:694
 msgid "Zoom In"
 msgstr "확대"
 
-#: ddterm/app/ui/terminalpage.ui:72 ddterm/pref/shortcuts.js:705
+#: ddterm/app/ui/terminalpage.ui:72 ddterm/pref/shortcuts.js:699
 msgid "Zoom Out"
 msgstr "축소"
 
-#: ddterm/app/ui/terminalpage.ui:76 ddterm/pref/shortcuts.js:710
+#: ddterm/app/ui/terminalpage.ui:76 ddterm/pref/shortcuts.js:704
 msgid "Normal Size"
 msgstr "기본 크기"
 
@@ -317,11 +317,11 @@ msgstr "파일 관리자에서 열기"
 msgid "New Tab"
 msgstr "새 탭"
 
-#: ddterm/app/ui/terminalpage.ui:91 ddterm/pref/shortcuts.js:610
+#: ddterm/app/ui/terminalpage.ui:91 ddterm/pref/shortcuts.js:604
 msgid "New Tab Before Current Tab"
 msgstr "현재 탭 앞에 새 탭 생성"
 
-#: ddterm/app/ui/terminalpage.ui:95 ddterm/pref/shortcuts.js:615
+#: ddterm/app/ui/terminalpage.ui:95 ddterm/pref/shortcuts.js:609
 msgid "New Tab After Current Tab"
 msgstr "현재 탭 뒤에 새 탭 생성"
 
@@ -869,155 +869,143 @@ msgstr "스크롤 제한 없음"
 msgid "Scrollback Lines"
 msgstr "스크롤 버퍼 크기"
 
-#: ddterm/pref/shortcuts.js:189
-msgid "Enter new shortcut"
-msgstr "새 단축키 입력"
-
-#: ddterm/pref/shortcuts.js:205
-msgid "Press Esc to cancel or Backspace to disable the keyboard shortcut"
-msgstr "취소하려면 Esc, 단축키를 삭제하려면 Backspace를 누르세요"
-
-#: ddterm/pref/shortcuts.js:211
-msgid "Set"
-msgstr "설정"
-
-#: ddterm/pref/shortcuts.js:360 ddterm/pref/text.js:120
+#: ddterm/pref/shortcuts.js:339 ddterm/pref/text.js:120
 msgid "Disabled"
 msgstr "비활성화"
 
-#: ddterm/pref/shortcuts.js:500
+#: ddterm/pref/shortcuts.js:494
 msgid "Global Shortcuts"
 msgstr "전역 단축키"
 
-#: ddterm/pref/shortcuts.js:504
+#: ddterm/pref/shortcuts.js:498
 msgid "Toggle Terminal Window"
 msgstr "터미널 창 토글"
 
-#: ddterm/pref/shortcuts.js:510
+#: ddterm/pref/shortcuts.js:504
 msgid "Show/Activate Terminal Window"
 msgstr "터미널 창 표시/활성화"
 
-#: ddterm/pref/shortcuts.js:526
+#: ddterm/pref/shortcuts.js:520
 msgid "Application Shortcuts"
 msgstr "앱 단축키"
 
-#: ddterm/pref/shortcuts.js:530
+#: ddterm/pref/shortcuts.js:524
 msgid "_Enable application shortcuts"
 msgstr "애플리케이션 단축키 _사용"
 
-#: ddterm/pref/shortcuts.js:535
+#: ddterm/pref/shortcuts.js:529
 msgid "Hide the Window"
 msgstr "창 숨기기"
 
-#: ddterm/pref/shortcuts.js:540
+#: ddterm/pref/shortcuts.js:534
 msgid "Maximize/Unmaximize the Window"
 msgstr "창 최대화/이전 크기로 복원"
 
-#: ddterm/pref/shortcuts.js:545
+#: ddterm/pref/shortcuts.js:539
 msgid "Increase Window Size"
 msgstr "창 크기 키우기"
 
-#: ddterm/pref/shortcuts.js:550
+#: ddterm/pref/shortcuts.js:544
 msgid "Decrease Window Size"
 msgstr "창 크기 줄이기"
 
-#: ddterm/pref/shortcuts.js:555
+#: ddterm/pref/shortcuts.js:549
 msgid "Increase Background Opacity"
 msgstr "배경 불투명도 높이기"
 
-#: ddterm/pref/shortcuts.js:560
+#: ddterm/pref/shortcuts.js:554
 msgid "Decrease Background Opacity"
 msgstr "배경 불투명도 낮추기"
 
-#: ddterm/pref/shortcuts.js:565
+#: ddterm/pref/shortcuts.js:559
 msgid "Enable/Disable Background Transparency"
 msgstr "배경 투명도 사용/해제"
 
-#: ddterm/pref/shortcuts.js:570
+#: ddterm/pref/shortcuts.js:564
 msgid "Copy Selected Text"
 msgstr "선택한 텍스트 복사"
 
-#: ddterm/pref/shortcuts.js:575
+#: ddterm/pref/shortcuts.js:569
 msgid "Copy Selected Text as HTML"
 msgstr "선택한 텍스트를 HTML로 복사"
 
-#: ddterm/pref/shortcuts.js:580
+#: ddterm/pref/shortcuts.js:574
 msgid "Paste Text from Clipboard"
 msgstr "클립보드에서 텍스트 붙여넣기"
 
-#: ddterm/pref/shortcuts.js:620
+#: ddterm/pref/shortcuts.js:614
 msgid "Close Current Tab"
 msgstr "현재 탭 닫기"
 
-#: ddterm/pref/shortcuts.js:625
+#: ddterm/pref/shortcuts.js:619
 msgid "Switch to Previous Tab"
 msgstr "이전 탭으로 전환"
 
-#: ddterm/pref/shortcuts.js:630
+#: ddterm/pref/shortcuts.js:624
 msgid "Switch to Next Tab"
 msgstr "다음 탭으로 전환"
 
-#: ddterm/pref/shortcuts.js:655
+#: ddterm/pref/shortcuts.js:649
 msgid "Move Keyboard Focus to Other Split Pane"
 msgstr "분할 창 간 키보드 포커스 이동"
 
-#: ddterm/pref/shortcuts.js:660
+#: ddterm/pref/shortcuts.js:654
 msgid "Move Tab to Other Split Pane"
 msgstr "탭을 다른 분할 창으로 이동"
 
-#: ddterm/pref/shortcuts.js:665
+#: ddterm/pref/shortcuts.js:659
 msgid "Increase First Split Pane Size"
 msgstr "첫 번째 분할 창 크기 키우기"
 
-#: ddterm/pref/shortcuts.js:670
+#: ddterm/pref/shortcuts.js:664
 msgid "Decrease First Split Pane Size"
 msgstr "첫 번째 분할 창 크기 줄이기"
 
-#: ddterm/pref/shortcuts.js:680
+#: ddterm/pref/shortcuts.js:674
 msgid "Reset Tab Title"
 msgstr "탭 제목 초기화"
 
-#: ddterm/pref/shortcuts.js:715
+#: ddterm/pref/shortcuts.js:709
 msgid "Switch to Tab 1"
 msgstr "탭 1번으로 전환"
 
-#: ddterm/pref/shortcuts.js:720
+#: ddterm/pref/shortcuts.js:714
 msgid "Switch to Tab 2"
 msgstr "탭 2번으로 전환"
 
-#: ddterm/pref/shortcuts.js:725
+#: ddterm/pref/shortcuts.js:719
 msgid "Switch to Tab 3"
 msgstr "탭 3번으로 전환"
 
-#: ddterm/pref/shortcuts.js:730
+#: ddterm/pref/shortcuts.js:724
 msgid "Switch to Tab 4"
 msgstr "탭 4번으로 전환"
 
-#: ddterm/pref/shortcuts.js:735
+#: ddterm/pref/shortcuts.js:729
 msgid "Switch to Tab 5"
 msgstr "탭 5번으로 전환"
 
-#: ddterm/pref/shortcuts.js:740
+#: ddterm/pref/shortcuts.js:734
 msgid "Switch to Tab 6"
 msgstr "탭 6번으로 전환"
 
-#: ddterm/pref/shortcuts.js:745
+#: ddterm/pref/shortcuts.js:739
 msgid "Switch to Tab 7"
 msgstr "탭 7번으로 전환"
 
-#: ddterm/pref/shortcuts.js:750
+#: ddterm/pref/shortcuts.js:744
 msgid "Switch to Tab 8"
 msgstr "탭 8번으로 전환"
 
-#: ddterm/pref/shortcuts.js:755
+#: ddterm/pref/shortcuts.js:749
 msgid "Switch to Tab 9"
 msgstr "탭 9번으로 전환"
 
-#: ddterm/pref/shortcuts.js:760
+#: ddterm/pref/shortcuts.js:754
 msgid "Switch to Tab 10"
 msgstr "탭 10번으로 전환"
 
-#: ddterm/pref/shortcuts.js:817
+#: ddterm/pref/shortcuts.js:811
 msgid "Reset All Shortcuts to Defaults"
 msgstr "모든 단축키를 기본값으로 초기화"
 
@@ -1152,6 +1140,26 @@ msgstr "\"news:\", \"man:\" URL 감지"
 #: ddterm/pref/text.js:171
 msgid "Copy On Selection"
 msgstr "선택 시 자동 복사"
+
+#: ddterm/pref/ui/gtk3/shortcutdialog.ui:31
+msgid "Enter new shortcut"
+msgstr "새 단축키 입력"
+
+#: ddterm/pref/ui/gtk3/shortcutdialog.ui:38
+msgid "Click \"Set\" to replace existing shortcut(s). Click \"Add\" to add alternative shortcut."
+msgstr ""
+
+#: ddterm/pref/ui/gtk3/shortcutdialog.ui:55
+msgid "Press Esc to cancel or Backspace to disable the keyboard shortcut"
+msgstr "취소하려면 Esc, 단축키를 삭제하려면 Backspace를 누르세요"
+
+#: ddterm/pref/ui/gtk3/shortcutdialog.ui:73
+msgid "Set"
+msgstr "설정"
+
+#: ddterm/pref/ui/gtk3/shortcutdialog.ui:84
+msgid "Add"
+msgstr ""
 
 #: ddterm/pref/util.js:24
 #, fuzzy
