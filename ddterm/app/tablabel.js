@@ -11,6 +11,10 @@ import Gettext from 'gettext';
 import { EntryRow } from '../pref/widgets/entryrow.js';
 import { SwitchRow } from '../pref/widgets/switchrow.js';
 
+function text_to_width_chars(binding, value) {
+    return [true, Math.min(120, Math.max(40, value?.length ?? 0))];
+}
+
 export class TabTitleDialog extends Gtk.Dialog {
     static [GObject.GTypeName] = 'DDTermTabTitleDialog';
 
@@ -46,6 +50,15 @@ export class TabTitleDialog extends Gtk.Dialog {
             use_underline: true,
             title: Gettext.gettext('Tab _Title'),
         });
+
+        entry.bind_property_full(
+            'text',
+            entry,
+            'width-chars',
+            GObject.BindingFlags.SYNC_CREATE,
+            text_to_width_chars,
+            null
+        );
 
         this.bind_property(
             'custom-title',

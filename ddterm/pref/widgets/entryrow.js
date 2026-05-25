@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
 import Gtk from 'gi://Gtk';
 
@@ -21,6 +22,24 @@ export const EntryRow = AdwOrHdy.EntryRow ?? class extends ActionRow {
             null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             ''
+        ),
+        'width-chars': GObject.ParamSpec.int(
+            'width-chars',
+            null,
+            null,
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+            -1,
+            GLib.MAXINT32,
+            -1
+        ),
+        'max-width-chars': GObject.ParamSpec.int(
+            'max-width-chars',
+            null,
+            null,
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+            -1,
+            GLib.MAXINT32,
+            -1
         ),
     };
 
@@ -43,6 +62,20 @@ export const EntryRow = AdwOrHdy.EntryRow ?? class extends ActionRow {
             'text',
             this.#entry,
             'text',
+            GObject.BindingFlags.SYNC_CREATE | GObject.BindingFlags.BIDIRECTIONAL
+        );
+
+        this.bind_property(
+            'width-chars',
+            this.#entry,
+            'width-chars',
+            GObject.BindingFlags.SYNC_CREATE | GObject.BindingFlags.BIDIRECTIONAL
+        );
+
+        this.bind_property(
+            'max-width-chars',
+            this.#entry,
+            'max-width-chars',
             GObject.BindingFlags.SYNC_CREATE | GObject.BindingFlags.BIDIRECTIONAL
         );
 
