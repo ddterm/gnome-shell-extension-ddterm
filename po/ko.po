@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-05-23 23:10+0000\n"
-"PO-Revision-Date: 2026-05-01 03:58+0000\n"
+"PO-Revision-Date: 2026-05-26 03:11+0000\n"
 "Last-Translator: 스이미 <soo.wim3@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/ko/>\n"
 "Language: ko\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.17.1\n"
+"X-Generator: Weblate 2026.6.dev0\n"
 
 #: data/com.github.amezin.ddterm.desktop.in.in:9
 #: ddterm/shell/notifications.js:240 ddterm/shell/panelicon.js:32
@@ -1147,7 +1147,7 @@ msgstr "새 단축키 입력"
 
 #: ddterm/pref/ui/gtk3/shortcutdialog.ui:38
 msgid "Click \"Set\" to replace existing shortcut(s). Click \"Add\" to add alternative shortcut."
-msgstr ""
+msgstr "기존 단축키를 변경하려면 \"설정\"을 클릭하세요. 대체 단축키를 추가하려면 \"추가\"를 클릭하세요."
 
 #: ddterm/pref/ui/gtk3/shortcutdialog.ui:55
 msgid "Press Esc to cancel or Backspace to disable the keyboard shortcut"
@@ -1159,13 +1159,11 @@ msgstr "설정"
 
 #: ddterm/pref/ui/gtk3/shortcutdialog.ui:84
 msgid "Add"
-msgstr ""
+msgstr "추가"
 
 #: ddterm/pref/util.js:24
-#, fuzzy
-#| msgid "Use Default Tab Title"
 msgid "Reset to default value"
-msgstr "기본 탭 제목 사용"
+msgstr "기본값으로 초기화"
 
 #: ddterm/shell/notifications.js:59 ddterm/shell/notifications.js:137
 msgid "Copy to Clipboard"
