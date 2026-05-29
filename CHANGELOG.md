@@ -29,6 +29,8 @@ dialog: [#932], [#1918].
 ### Changed
 
 - Chinese translation updates by [@mikelei8291]: [#1925].
+- German translation updates by [@Luca0208]: [#1937].
+- Korean translation updates by [@seuimi]: [#1937].
 
 ### Removed
 
@@ -45,10 +47,13 @@ they are now better visually separated in Preferences dialog: [#1917].
 [#1918]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1918
 [#1919]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1919
 [#1925]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1925
+[#1937]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1937
 
 [@liuxiaopai-ai]: https://github.com/liuxiaopai-ai
+[@Luca0208]: https://github.com/Luca0208
 [@mikelei8291]: https://github.com/mikelei8291
 [@ponta0]: https://github.com/ponta0
+[@seuimi]: https://github.com/seuimi
 
 [Unreleased]: https://github.com/ddterm/gnome-shell-extension-ddterm/compare/v63.0.1...HEAD
 
@@ -76,7 +81,6 @@ they are now better visually separated in Preferences dialog: [#1917].
 [#1898]: https://github.com/ddterm/gnome-shell-extension-ddterm/issues/1898
 [#1901]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1901
 
-[@seuimi]: https://github.com/seuimi
 [phlostically]: https://hosted.weblate.org/user/phlostically/
 
 [63.0.1]: https://github.com/ddterm/gnome-shell-extension-ddterm/releases/tag/v63.0.1
