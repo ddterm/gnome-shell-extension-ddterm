@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-23 23:10+0000\n"
+"POT-Creation-Date: 2026-05-29 06:31+0000\n"
 "PO-Revision-Date: 2026-05-26 03:11+0000\n"
 "Last-Translator: 스이미 <soo.wim3@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/ko/>\n"
@@ -123,15 +123,15 @@ msgstr "다음 패키지들을 설치해 주세요:"
 msgid "Please install packages that provide the following files:"
 msgstr "아래 파일들이 포함된 패키지를 설치해야 합니다:"
 
-#: ddterm/app/tablabel.js:78 ddterm/pref/shortcuts.js:669
+#: ddterm/app/tablabel.js:44 ddterm/pref/shortcuts.js:666
 msgid "Set Custom Tab Title"
 msgstr "사용자 지정 탭 제목 설정"
 
-#: ddterm/app/tablabel.js:85
+#: ddterm/app/tablabel.js:51
 msgid "Tab _Title"
 msgstr "탭 _제목"
 
-#: ddterm/app/tablabel.js:99 ddterm/app/ui/notebook.ui:15
+#: ddterm/app/tablabel.js:73 ddterm/app/ui/notebook.ui:15
 msgid "Use Custom Tab Title"
 msgstr "사용자 지정 탭 제목 사용"
 
@@ -172,20 +172,20 @@ msgid "New Tab After This Tab"
 msgstr "이 탭 뒤에 새 탭 생성"
 
 #: ddterm/app/ui/notebook.ui:35 ddterm/app/ui/terminalpage.ui:99
-#: ddterm/pref/shortcuts.js:599
+#: ddterm/pref/shortcuts.js:596
 msgid "New Tab Before First Tab"
 msgstr "맨 앞에 새 탭 생성"
 
 #: ddterm/app/ui/notebook.ui:39 ddterm/app/ui/terminalpage.ui:103
-#: ddterm/pref/shortcuts.js:594
+#: ddterm/pref/shortcuts.js:591
 msgid "New Tab After Last Tab"
 msgstr "맨 뒤에 새 탭 생성"
 
-#: ddterm/app/ui/notebook.ui:45 ddterm/pref/shortcuts.js:629
+#: ddterm/app/ui/notebook.ui:45 ddterm/pref/shortcuts.js:626
 msgid "Move Tab to Previous Position"
 msgstr "탭을 이전 위치로 이동"
 
-#: ddterm/app/ui/notebook.ui:49 ddterm/pref/shortcuts.js:634
+#: ddterm/app/ui/notebook.ui:49 ddterm/pref/shortcuts.js:631
 msgid "Move Tab to Next Position"
 msgstr "탭을 다음 위치로 이동"
 
@@ -199,12 +199,12 @@ msgid "No Split"
 msgstr "분할 없음"
 
 #: ddterm/app/ui/notebook.ui:63 ddterm/app/ui/notebook.ui:104
-#: ddterm/app/ui/terminalpage.ui:118 ddterm/pref/shortcuts.js:639
+#: ddterm/app/ui/terminalpage.ui:118 ddterm/pref/shortcuts.js:636
 msgid "Split Horizontally"
 msgstr "가로로 분할"
 
 #: ddterm/app/ui/notebook.ui:68 ddterm/app/ui/notebook.ui:109
-#: ddterm/app/ui/terminalpage.ui:123 ddterm/pref/shortcuts.js:644
+#: ddterm/app/ui/terminalpage.ui:123 ddterm/pref/shortcuts.js:641
 msgid "Split Vertically"
 msgstr "세로로 분할"
 
@@ -245,11 +245,11 @@ msgstr "정규 표현식"
 msgid "Wrap Around"
 msgstr "되돌아 검색"
 
-#: ddterm/app/ui/search.ui:89 ddterm/pref/shortcuts.js:684
+#: ddterm/app/ui/search.ui:89 ddterm/pref/shortcuts.js:681
 msgid "Find Next"
 msgstr "다음 찾기"
 
-#: ddterm/app/ui/search.ui:107 ddterm/pref/shortcuts.js:689
+#: ddterm/app/ui/search.ui:107 ddterm/pref/shortcuts.js:686
 msgid "Find Previous"
 msgstr "이전 찾기"
 
@@ -277,19 +277,19 @@ msgstr "HTML로 복사"
 msgid "Paste"
 msgstr "붙여넣기"
 
-#: ddterm/app/ui/terminalpage.ui:44 ddterm/pref/shortcuts.js:579
+#: ddterm/app/ui/terminalpage.ui:44 ddterm/pref/shortcuts.js:576
 msgid "Select All"
 msgstr "전체 선택"
 
-#: ddterm/app/ui/terminalpage.ui:50 ddterm/pref/shortcuts.js:679
+#: ddterm/app/ui/terminalpage.ui:50 ddterm/pref/shortcuts.js:676
 msgid "Find"
 msgstr "찾기"
 
-#: ddterm/app/ui/terminalpage.ui:56 ddterm/pref/shortcuts.js:584
+#: ddterm/app/ui/terminalpage.ui:56 ddterm/pref/shortcuts.js:581
 msgid "Reset"
 msgstr "초기화"
 
-#: ddterm/app/ui/terminalpage.ui:60 ddterm/pref/shortcuts.js:589
+#: ddterm/app/ui/terminalpage.ui:60 ddterm/pref/shortcuts.js:586
 msgid "Reset and Clear"
 msgstr "초기화 및 화면 지우기"
 
@@ -297,15 +297,15 @@ msgstr "초기화 및 화면 지우기"
 msgid "Zoom"
 msgstr "확대/축소"
 
-#: ddterm/app/ui/terminalpage.ui:68 ddterm/pref/shortcuts.js:694
+#: ddterm/app/ui/terminalpage.ui:68 ddterm/pref/shortcuts.js:691
 msgid "Zoom In"
 msgstr "확대"
 
-#: ddterm/app/ui/terminalpage.ui:72 ddterm/pref/shortcuts.js:699
+#: ddterm/app/ui/terminalpage.ui:72 ddterm/pref/shortcuts.js:696
 msgid "Zoom Out"
 msgstr "축소"
 
-#: ddterm/app/ui/terminalpage.ui:76 ddterm/pref/shortcuts.js:704
+#: ddterm/app/ui/terminalpage.ui:76 ddterm/pref/shortcuts.js:701
 msgid "Normal Size"
 msgstr "기본 크기"
 
@@ -317,11 +317,11 @@ msgstr "파일 관리자에서 열기"
 msgid "New Tab"
 msgstr "새 탭"
 
-#: ddterm/app/ui/terminalpage.ui:91 ddterm/pref/shortcuts.js:604
+#: ddterm/app/ui/terminalpage.ui:91 ddterm/pref/shortcuts.js:601
 msgid "New Tab Before Current Tab"
 msgstr "현재 탭 앞에 새 탭 생성"
 
-#: ddterm/app/ui/terminalpage.ui:95 ddterm/pref/shortcuts.js:609
+#: ddterm/app/ui/terminalpage.ui:95 ddterm/pref/shortcuts.js:606
 msgid "New Tab After Current Tab"
 msgstr "현재 탭 뒤에 새 탭 생성"
 
@@ -341,7 +341,7 @@ msgstr "모든 작업 공간에 표시"
 msgid "Maximize Window"
 msgstr "창 최대화"
 
-#: ddterm/app/ui/terminalpage.ui:158 ddterm/pref/colors.js:638
+#: ddterm/app/ui/terminalpage.ui:158 ddterm/pref/colors.js:548
 msgid "Transparent Background"
 msgstr "배경 투명하게"
 
@@ -353,15 +353,15 @@ msgstr "다른 앱 사용 시 창 숨기기"
 msgid "Hide When Esc Key Is Pressed"
 msgstr "Esc 키로 창 숨기기"
 
-#: ddterm/app/ui/terminalpage.ui:174 ddterm/pref/scrolling.js:33
+#: ddterm/app/ui/terminalpage.ui:174 ddterm/pref/scrolling.js:34
 msgid "Scroll On Output"
 msgstr "출력 시 자동 스크롤"
 
-#: ddterm/app/ui/terminalpage.ui:178 ddterm/pref/scrolling.js:38
+#: ddterm/app/ui/terminalpage.ui:178 ddterm/pref/scrolling.js:39
 msgid "Scroll On Keystroke"
 msgstr "키 입력 시 자동 스크롤"
 
-#: ddterm/app/ui/terminalpage.ui:184 ddterm/pref/command.js:58
+#: ddterm/app/ui/terminalpage.ui:184 ddterm/pref/command.js:59
 msgid "Preserve Working Directory In New Tabs"
 msgstr "새 탭에서 현재 작업 디렉터리 유지"
 
@@ -393,155 +393,155 @@ msgstr "단축키"
 msgid "Miscellaneous"
 msgstr "그 외"
 
-#: ddterm/pref/animation.js:26
+#: ddterm/pref/animation.js:28
 msgid "Animation"
 msgstr "애니메이션"
 
-#: ddterm/pref/animation.js:30
+#: ddterm/pref/animation.js:32
 msgid "_Override Default Window Animations"
 msgstr "_애니메이션 강제 설정"
 
-#: ddterm/pref/animation.js:34
+#: ddterm/pref/animation.js:36
 msgid "Disable"
 msgstr "비활성화"
 
-#: ddterm/pref/animation.js:35
+#: ddterm/pref/animation.js:37
 msgid "Linear tweening"
 msgstr "일정한 속도로"
 
-#: ddterm/pref/animation.js:36
+#: ddterm/pref/animation.js:38
 msgid "Quadratic tweening"
 msgstr "부드러운 효과"
 
-#: ddterm/pref/animation.js:37
+#: ddterm/pref/animation.js:39
 msgid "Quadratic tweening, inverse"
 msgstr "부드러운 감속 효과"
 
-#: ddterm/pref/animation.js:38
+#: ddterm/pref/animation.js:40
 msgid "Quadratic tweening, combining direct and inverse"
 msgstr "양방향 부드러운 효과"
 
-#: ddterm/pref/animation.js:39
+#: ddterm/pref/animation.js:41
 msgid "Cubic tweening"
 msgstr "역동적인 가속 효과"
 
-#: ddterm/pref/animation.js:40
+#: ddterm/pref/animation.js:42
 msgid "Cubic tweening, inverse"
 msgstr "매우 부드러운 감속 효과"
 
-#: ddterm/pref/animation.js:41
+#: ddterm/pref/animation.js:43
 msgid "Cubic tweening, combining direct and inverse"
 msgstr "매우 부드러운 효과"
 
-#: ddterm/pref/animation.js:42
+#: ddterm/pref/animation.js:44
 msgid "Quartic tweening"
 msgstr "강한 가속 효과"
 
-#: ddterm/pref/animation.js:43
+#: ddterm/pref/animation.js:45
 msgid "Quartic tweening, inverse"
 msgstr "강한 감속 효과"
 
-#: ddterm/pref/animation.js:44
+#: ddterm/pref/animation.js:46
 msgid "Quartic tweening, combining direct and inverse"
 msgstr "매우 강한 가감속 효과"
 
-#: ddterm/pref/animation.js:45
+#: ddterm/pref/animation.js:47
 msgid "Quintic tweening"
 msgstr "극적인 가속 효과"
 
-#: ddterm/pref/animation.js:46
+#: ddterm/pref/animation.js:48
 msgid "Quintic tweening, inverse"
 msgstr "극적인 감속 효과"
 
-#: ddterm/pref/animation.js:47
+#: ddterm/pref/animation.js:49
 msgid "Quintic tweening, combining direct and inverse"
 msgstr "매우 극적인 가감속 효과"
 
-#: ddterm/pref/animation.js:48
+#: ddterm/pref/animation.js:50
 msgid "Sinusoidal tweening"
 msgstr "매끄러운 감속 효과"
 
-#: ddterm/pref/animation.js:49
+#: ddterm/pref/animation.js:51
 msgid "Sinusoidal tweening, inverse"
 msgstr "매끄러운 감속 효과"
 
-#: ddterm/pref/animation.js:50
+#: ddterm/pref/animation.js:52
 msgid "Sinusoidal tweening, combining direct and inverse"
 msgstr "매끄러운 가감속 효과"
 
-#: ddterm/pref/animation.js:51
+#: ddterm/pref/animation.js:53
 msgid "Exponential tweening"
 msgstr "급격한 가속 효과"
 
-#: ddterm/pref/animation.js:52
+#: ddterm/pref/animation.js:54
 msgid "Exponential tweening, inverse"
 msgstr "급격한 감속 효과"
 
-#: ddterm/pref/animation.js:53
+#: ddterm/pref/animation.js:55
 msgid "Exponential tweening, combining direct and inverse"
 msgstr "급격한 가감속 효과"
 
-#: ddterm/pref/animation.js:54
+#: ddterm/pref/animation.js:56
 msgid "Circular tweening"
 msgstr "원형 가속 효과"
 
-#: ddterm/pref/animation.js:55
+#: ddterm/pref/animation.js:57
 msgid "Circular tweening, inverse"
 msgstr "원형 감속 효과"
 
-#: ddterm/pref/animation.js:56
+#: ddterm/pref/animation.js:58
 msgid "Circular tweening, combining direct and inverse"
 msgstr "원형 가감속 효과"
 
-#: ddterm/pref/animation.js:57
+#: ddterm/pref/animation.js:59
 msgid "Elastic tweening, with offshoot on start"
 msgstr "시작 스프링 효과"
 
-#: ddterm/pref/animation.js:58
+#: ddterm/pref/animation.js:60
 msgid "Elastic tweening, with offshoot on end"
 msgstr "끝 스프링 효과"
 
-#: ddterm/pref/animation.js:59
+#: ddterm/pref/animation.js:61
 msgid "Elastic tweening with offshoot on both ends"
 msgstr "양방향 스프링 효과"
 
-#: ddterm/pref/animation.js:60
+#: ddterm/pref/animation.js:62
 msgid "Overshooting cubic tweening, with backtracking on start"
 msgstr "시작 반동 효과"
 
-#: ddterm/pref/animation.js:61
+#: ddterm/pref/animation.js:63
 msgid "Overshooting cubic tweening, with backtracking on end"
 msgstr "끝 반동 효과"
 
-#: ddterm/pref/animation.js:63
+#: ddterm/pref/animation.js:65
 msgid "Overshooting cubic tweening, with backtracking on both ends"
 msgstr "양방향 반동 효과"
 
-#: ddterm/pref/animation.js:66
+#: ddterm/pref/animation.js:68
 msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on start"
 msgstr "시작 바운스 효과"
 
-#: ddterm/pref/animation.js:69
+#: ddterm/pref/animation.js:71
 msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on end"
 msgstr "끝 바운스 효과"
 
-#: ddterm/pref/animation.js:72
+#: ddterm/pref/animation.js:74
 msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on both ends"
 msgstr "양방향 바운스 효과"
 
-#: ddterm/pref/animation.js:103
+#: ddterm/pref/animation.js:105
 msgid "_Show Animation"
 msgstr "_나타나기 애니메이션"
 
-#: ddterm/pref/animation.js:114
+#: ddterm/pref/animation.js:116
 msgid "_Show Animation Duration"
 msgstr "_나타나기 애니메이션 지속 시간"
 
-#: ddterm/pref/animation.js:135
+#: ddterm/pref/animation.js:137
 msgid "_Hide Animation"
 msgstr "_사라지기 애니메이션"
 
-#: ddterm/pref/animation.js:146
+#: ddterm/pref/animation.js:148
 msgid "_Hide Animation Duration"
 msgstr "_사라지기 애니메이션 지속 시간"
 
@@ -569,223 +569,223 @@ msgstr ""
 "_X11 GDK 백엔드 강제 사용 (XWayland).\n"
 "이 옵션을 적용하려면 모든 탭을 닫아야 합니다."
 
-#: ddterm/pref/colors.js:358
+#: ddterm/pref/colors.js:353
 msgid "Colors"
 msgstr "색상"
 
-#: ddterm/pref/colors.js:362
+#: ddterm/pref/colors.js:357
 msgid "Theme _Variant"
 msgstr "테마 _스타일"
 
-#: ddterm/pref/colors.js:364 ddterm/pref/text.js:118
+#: ddterm/pref/colors.js:359 ddterm/pref/text.js:114
 msgid "Default"
 msgstr "기본"
 
-#: ddterm/pref/colors.js:365
+#: ddterm/pref/colors.js:360
 msgid "Light"
 msgstr "밝은"
 
-#: ddterm/pref/colors.js:366
+#: ddterm/pref/colors.js:361
 msgid "Dark"
 msgstr "어두운"
 
-#: ddterm/pref/colors.js:372
+#: ddterm/pref/colors.js:367
 msgid "Use Colors From System _Theme"
 msgstr "시스템 _테마 색상 사용"
 
-#: ddterm/pref/colors.js:376
+#: ddterm/pref/colors.js:371
 msgid "Black on light yellow"
 msgstr "연노랑 바탕에 검정"
 
-#: ddterm/pref/colors.js:377
+#: ddterm/pref/colors.js:372
 msgid "Black on white"
 msgstr "흰색 바탕에 검정"
 
-#: ddterm/pref/colors.js:378
+#: ddterm/pref/colors.js:373
 msgid "Gray on black"
 msgstr "검정 바탕에 회색"
 
-#: ddterm/pref/colors.js:379
+#: ddterm/pref/colors.js:374
 msgid "Green on black"
 msgstr "검정 바탕에 녹색"
 
-#: ddterm/pref/colors.js:380
+#: ddterm/pref/colors.js:375
 msgid "White on black"
 msgstr "검정 바탕에 흰색"
 
-#: ddterm/pref/colors.js:381
+#: ddterm/pref/colors.js:376
 msgid "GNOME light"
 msgstr "GNOME 밝은"
 
-#: ddterm/pref/colors.js:382
+#: ddterm/pref/colors.js:377
 msgid "GNOME dark"
 msgstr "GNOME 어두운"
 
-#: ddterm/pref/colors.js:383
+#: ddterm/pref/colors.js:378
 msgid "Tango light"
 msgstr "Tango 밝은"
 
-#: ddterm/pref/colors.js:384
+#: ddterm/pref/colors.js:379
 msgid "Tango dark"
 msgstr "Tango 어두운"
 
-#: ddterm/pref/colors.js:385
+#: ddterm/pref/colors.js:380
 msgid "Solarized light"
 msgstr "Solarized 밝은"
 
-#: ddterm/pref/colors.js:386
+#: ddterm/pref/colors.js:381
 msgid "Solarized dark"
 msgstr "Solarized 어두운"
 
-#: ddterm/pref/colors.js:387 ddterm/pref/colors.js:752
+#: ddterm/pref/colors.js:382 ddterm/pref/colors.js:662
 msgid "Custom"
 msgstr "사용자 지정"
 
-#: ddterm/pref/colors.js:410
+#: ddterm/pref/colors.js:405
 msgid "Color _Scheme"
 msgstr "색상 _구성"
 
-#: ddterm/pref/colors.js:429
+#: ddterm/pref/colors.js:424
 msgid "Foreground Color"
 msgstr "글자 색상"
 
-#: ddterm/pref/colors.js:443
+#: ddterm/pref/colors.js:438
 msgid "Background Color"
 msgstr "배경 색상"
 
-#: ddterm/pref/colors.js:458 ddterm/pref/colors.js:466
+#: ddterm/pref/colors.js:453 ddterm/pref/colors.js:458
 msgid "Bold Color"
 msgstr "볼드체 색상"
 
-#: ddterm/pref/colors.js:476
+#: ddterm/pref/colors.js:468
 msgid "Cursor Color"
 msgstr "커서 색상"
 
-#: ddterm/pref/colors.js:498
+#: ddterm/pref/colors.js:473
 msgid "Cursor Foreground Color"
 msgstr "커서 내 글자 색상"
 
-#: ddterm/pref/colors.js:503
+#: ddterm/pref/colors.js:480
 msgid "Cursor Background Color"
 msgstr "커서 배경 색상"
 
-#: ddterm/pref/colors.js:540
+#: ddterm/pref/colors.js:491
 msgid "Highlight Color"
 msgstr "선택 영역 색상"
 
-#: ddterm/pref/colors.js:562
+#: ddterm/pref/colors.js:496
 msgid "Highlight Foreground Color"
 msgstr "선택 영역 글자 색상"
 
-#: ddterm/pref/colors.js:567
+#: ddterm/pref/colors.js:503
 msgid "Highlight Background Color"
 msgstr "선택 영역 배경 색상"
 
-#: ddterm/pref/colors.js:621
+#: ddterm/pref/colors.js:531
 msgid "_Background Opacity"
 msgstr "_배경 투명도"
 
-#: ddterm/pref/colors.js:644
+#: ddterm/pref/colors.js:554
 msgid "GNOME"
 msgstr "GNOME"
 
-#: ddterm/pref/colors.js:662
+#: ddterm/pref/colors.js:572
 msgid "Tango"
 msgstr "Tango"
 
-#: ddterm/pref/colors.js:680
+#: ddterm/pref/colors.js:590
 msgid "Linux"
 msgstr "Linux"
 
-#: ddterm/pref/colors.js:698
+#: ddterm/pref/colors.js:608
 msgid "XTerm"
 msgstr "XTerm"
 
-#: ddterm/pref/colors.js:716
+#: ddterm/pref/colors.js:626
 msgid "RXVT"
 msgstr "RXVT"
 
-#: ddterm/pref/colors.js:734
+#: ddterm/pref/colors.js:644
 msgid "Solarized"
 msgstr "Solarized"
 
-#: ddterm/pref/colors.js:763
+#: ddterm/pref/colors.js:673
 msgid "_Palette"
 msgstr "색상 _팔레트"
 
-#: ddterm/pref/colors.js:838
+#: ddterm/pref/colors.js:748
 msgid "Show Bold Text in _Bright Colors"
 msgstr "굵은 텍스트를 _밝은 색으로 표시"
 
-#: ddterm/pref/colors.js:843
+#: ddterm/pref/colors.js:753
 msgid "Copy profile from GNOME Terminal"
 msgstr "GNOME 터미널에서 프로필 복사"
 
-#: ddterm/pref/command.js:22 ddterm/pref/command.js:26
+#: ddterm/pref/command.js:23 ddterm/pref/command.js:27
 msgid "Command"
 msgstr "명령"
 
-#: ddterm/pref/command.js:28
+#: ddterm/pref/command.js:29
 msgid "User shell"
 msgstr "기본 셸"
 
-#: ddterm/pref/command.js:29
+#: ddterm/pref/command.js:30
 msgid "User shell as login shell"
 msgstr "기본 셸을 로그인 셸로 사용"
 
-#: ddterm/pref/command.js:30
+#: ddterm/pref/command.js:31
 msgid "Custom command"
 msgstr "사용자 지정 명령"
 
-#: ddterm/pref/command.js:35
+#: ddterm/pref/command.js:36
 msgid "Custom Command"
 msgstr "사용자 지정 명령"
 
-#: ddterm/pref/compatibility.js:20
+#: ddterm/pref/compatibility.js:21
 msgid "Compatibility"
 msgstr "호환성"
 
-#: ddterm/pref/compatibility.js:23 ddterm/pref/tabs.js:31
+#: ddterm/pref/compatibility.js:24 ddterm/pref/tabs.js:31
 msgid "Automatic"
 msgstr "자동"
 
-#: ddterm/pref/compatibility.js:24
+#: ddterm/pref/compatibility.js:25
 msgid "Control-H"
 msgstr "Control-H"
 
-#: ddterm/pref/compatibility.js:25
+#: ddterm/pref/compatibility.js:26
 msgid "ASCII DEL"
 msgstr "ASCII DEL"
 
-#: ddterm/pref/compatibility.js:26
+#: ddterm/pref/compatibility.js:27
 msgid "Escape sequence"
 msgstr "Escape sequence"
 
-#: ddterm/pref/compatibility.js:27
+#: ddterm/pref/compatibility.js:28
 msgid "TTY Erase"
 msgstr "TTY Erase"
 
-#: ddterm/pref/compatibility.js:32
+#: ddterm/pref/compatibility.js:33
 msgid "_Backspace Key Generates"
 msgstr "_Backspace 키 동작"
 
-#: ddterm/pref/compatibility.js:38
+#: ddterm/pref/compatibility.js:39
 msgid "_Delete Key Generates"
 msgstr "_Delete 키 동작"
 
-#: ddterm/pref/compatibility.js:44
+#: ddterm/pref/compatibility.js:45
 msgid "Ambiguous-_Width Characters"
 msgstr "문자 _폭 처리 방식"
 
-#: ddterm/pref/compatibility.js:46
+#: ddterm/pref/compatibility.js:47
 msgid "Narrow"
 msgstr "좁게"
 
-#: ddterm/pref/compatibility.js:47
+#: ddterm/pref/compatibility.js:48
 msgid "Wide"
 msgstr "넓게"
 
-#: ddterm/pref/compatibility.js:53
+#: ddterm/pref/compatibility.js:54
 msgid "_Reset Compatibility Options to Defaults"
 msgstr "호환성 옵션을 기본값으로 _초기화"
 
@@ -809,203 +809,203 @@ msgstr "토글 버튼"
 msgid "Toggle button and popup menu"
 msgstr "토글 버튼 및 팝업 메뉴"
 
-#: ddterm/pref/positionsize.js:190
+#: ddterm/pref/positionsize.js:192
 msgid "Position and Size"
 msgstr "위치 및 크기"
 
-#: ddterm/pref/positionsize.js:197
+#: ddterm/pref/positionsize.js:199
 msgid "On the monitor that contains the mouse pointer"
 msgstr "마우스 커서가 있는 모니터"
 
-#: ddterm/pref/positionsize.js:203
+#: ddterm/pref/positionsize.js:205
 msgid "On the primary monitor"
 msgstr "주 모니터"
 
-#: ddterm/pref/positionsize.js:208
+#: ddterm/pref/positionsize.js:210
 msgid "On the monitor with keyboard focus"
 msgstr "사용 중인 모니터"
 
-#: ddterm/pref/positionsize.js:214
+#: ddterm/pref/positionsize.js:216
 msgid "On _Monitor"
 msgstr "_모니터 선택"
 
-#: ddterm/pref/positionsize.js:274
+#: ddterm/pref/positionsize.js:276
 msgid "_Window Position"
 msgstr "_창 위치"
 
-#: ddterm/pref/positionsize.js:276 ddterm/pref/tabs.js:41
+#: ddterm/pref/positionsize.js:278 ddterm/pref/tabs.js:41
 msgid "Top"
 msgstr "상단"
 
-#: ddterm/pref/positionsize.js:277 ddterm/pref/tabs.js:40
+#: ddterm/pref/positionsize.js:279 ddterm/pref/tabs.js:40
 msgid "Bottom"
 msgstr "하단"
 
-#: ddterm/pref/positionsize.js:278
+#: ddterm/pref/positionsize.js:280
 msgid "Left"
 msgstr "왼쪽"
 
-#: ddterm/pref/positionsize.js:279
+#: ddterm/pref/positionsize.js:281
 msgid "Right"
 msgstr "오른쪽"
 
-#: ddterm/pref/positionsize.js:302
+#: ddterm/pref/positionsize.js:304
 msgid "Window _Size"
 msgstr "창 _크기"
 
-#: ddterm/pref/scrolling.js:24
+#: ddterm/pref/scrolling.js:25
 msgid "Scrolling"
 msgstr "스크롤"
 
-#: ddterm/pref/scrolling.js:28
+#: ddterm/pref/scrolling.js:29
 msgid "Show _Scrollbar"
 msgstr "_스크롤바 표시"
 
-#: ddterm/pref/scrolling.js:43
+#: ddterm/pref/scrolling.js:44
 msgid "Unlimited Scrollback"
 msgstr "스크롤 제한 없음"
 
-#: ddterm/pref/scrolling.js:53
+#: ddterm/pref/scrolling.js:54
 msgid "Scrollback Lines"
 msgstr "스크롤 버퍼 크기"
 
-#: ddterm/pref/shortcuts.js:339 ddterm/pref/text.js:120
+#: ddterm/pref/shortcuts.js:336 ddterm/pref/text.js:116
 msgid "Disabled"
 msgstr "비활성화"
 
-#: ddterm/pref/shortcuts.js:494
+#: ddterm/pref/shortcuts.js:491
 msgid "Global Shortcuts"
 msgstr "전역 단축키"
 
-#: ddterm/pref/shortcuts.js:498
+#: ddterm/pref/shortcuts.js:495
 msgid "Toggle Terminal Window"
 msgstr "터미널 창 토글"
 
-#: ddterm/pref/shortcuts.js:504
+#: ddterm/pref/shortcuts.js:501
 msgid "Show/Activate Terminal Window"
 msgstr "터미널 창 표시/활성화"
 
-#: ddterm/pref/shortcuts.js:520
+#: ddterm/pref/shortcuts.js:517
 msgid "Application Shortcuts"
 msgstr "앱 단축키"
 
-#: ddterm/pref/shortcuts.js:524
+#: ddterm/pref/shortcuts.js:521
 msgid "_Enable application shortcuts"
 msgstr "애플리케이션 단축키 _사용"
 
-#: ddterm/pref/shortcuts.js:529
+#: ddterm/pref/shortcuts.js:526
 msgid "Hide the Window"
 msgstr "창 숨기기"
 
-#: ddterm/pref/shortcuts.js:534
+#: ddterm/pref/shortcuts.js:531
 msgid "Maximize/Unmaximize the Window"
 msgstr "창 최대화/이전 크기로 복원"
 
-#: ddterm/pref/shortcuts.js:539
+#: ddterm/pref/shortcuts.js:536
 msgid "Increase Window Size"
 msgstr "창 크기 키우기"
 
-#: ddterm/pref/shortcuts.js:544
+#: ddterm/pref/shortcuts.js:541
 msgid "Decrease Window Size"
 msgstr "창 크기 줄이기"
 
-#: ddterm/pref/shortcuts.js:549
+#: ddterm/pref/shortcuts.js:546
 msgid "Increase Background Opacity"
 msgstr "배경 불투명도 높이기"
 
-#: ddterm/pref/shortcuts.js:554
+#: ddterm/pref/shortcuts.js:551
 msgid "Decrease Background Opacity"
 msgstr "배경 불투명도 낮추기"
 
-#: ddterm/pref/shortcuts.js:559
+#: ddterm/pref/shortcuts.js:556
 msgid "Enable/Disable Background Transparency"
 msgstr "배경 투명도 사용/해제"
 
-#: ddterm/pref/shortcuts.js:564
+#: ddterm/pref/shortcuts.js:561
 msgid "Copy Selected Text"
 msgstr "선택한 텍스트 복사"
 
-#: ddterm/pref/shortcuts.js:569
+#: ddterm/pref/shortcuts.js:566
 msgid "Copy Selected Text as HTML"
 msgstr "선택한 텍스트를 HTML로 복사"
 
-#: ddterm/pref/shortcuts.js:574
+#: ddterm/pref/shortcuts.js:571
 msgid "Paste Text from Clipboard"
 msgstr "클립보드에서 텍스트 붙여넣기"
 
-#: ddterm/pref/shortcuts.js:614
+#: ddterm/pref/shortcuts.js:611
 msgid "Close Current Tab"
 msgstr "현재 탭 닫기"
 
-#: ddterm/pref/shortcuts.js:619
+#: ddterm/pref/shortcuts.js:616
 msgid "Switch to Previous Tab"
 msgstr "이전 탭으로 전환"
 
-#: ddterm/pref/shortcuts.js:624
+#: ddterm/pref/shortcuts.js:621
 msgid "Switch to Next Tab"
 msgstr "다음 탭으로 전환"
 
-#: ddterm/pref/shortcuts.js:649
+#: ddterm/pref/shortcuts.js:646
 msgid "Move Keyboard Focus to Other Split Pane"
 msgstr "분할 창 간 키보드 포커스 이동"
 
-#: ddterm/pref/shortcuts.js:654
+#: ddterm/pref/shortcuts.js:651
 msgid "Move Tab to Other Split Pane"
 msgstr "탭을 다른 분할 창으로 이동"
 
-#: ddterm/pref/shortcuts.js:659
+#: ddterm/pref/shortcuts.js:656
 msgid "Increase First Split Pane Size"
 msgstr "첫 번째 분할 창 크기 키우기"
 
-#: ddterm/pref/shortcuts.js:664
+#: ddterm/pref/shortcuts.js:661
 msgid "Decrease First Split Pane Size"
 msgstr "첫 번째 분할 창 크기 줄이기"
 
-#: ddterm/pref/shortcuts.js:674
+#: ddterm/pref/shortcuts.js:671
 msgid "Reset Tab Title"
 msgstr "탭 제목 초기화"
 
-#: ddterm/pref/shortcuts.js:709
+#: ddterm/pref/shortcuts.js:706
 msgid "Switch to Tab 1"
 msgstr "탭 1번으로 전환"
 
-#: ddterm/pref/shortcuts.js:714
+#: ddterm/pref/shortcuts.js:711
 msgid "Switch to Tab 2"
 msgstr "탭 2번으로 전환"
 
-#: ddterm/pref/shortcuts.js:719
+#: ddterm/pref/shortcuts.js:716
 msgid "Switch to Tab 3"
 msgstr "탭 3번으로 전환"
 
-#: ddterm/pref/shortcuts.js:724
+#: ddterm/pref/shortcuts.js:721
 msgid "Switch to Tab 4"
 msgstr "탭 4번으로 전환"
 
-#: ddterm/pref/shortcuts.js:729
+#: ddterm/pref/shortcuts.js:726
 msgid "Switch to Tab 5"
 msgstr "탭 5번으로 전환"
 
-#: ddterm/pref/shortcuts.js:734
+#: ddterm/pref/shortcuts.js:731
 msgid "Switch to Tab 6"
 msgstr "탭 6번으로 전환"
 
-#: ddterm/pref/shortcuts.js:739
+#: ddterm/pref/shortcuts.js:736
 msgid "Switch to Tab 7"
 msgstr "탭 7번으로 전환"
 
-#: ddterm/pref/shortcuts.js:744
+#: ddterm/pref/shortcuts.js:741
 msgid "Switch to Tab 8"
 msgstr "탭 8번으로 전환"
 
-#: ddterm/pref/shortcuts.js:749
+#: ddterm/pref/shortcuts.js:746
 msgid "Switch to Tab 9"
 msgstr "탭 9번으로 전환"
 
-#: ddterm/pref/shortcuts.js:754
+#: ddterm/pref/shortcuts.js:751
 msgid "Switch to Tab 10"
 msgstr "탭 10번으로 전환"
 
-#: ddterm/pref/shortcuts.js:811
+#: ddterm/pref/shortcuts.js:808
 msgid "Reset All Shortcuts to Defaults"
 msgstr "모든 단축키를 기본값으로 초기화"
 
@@ -1021,11 +1021,11 @@ msgstr "시작 시 이전 탭 _복원"
 msgid "Show Tab _Bar"
 msgstr "탭 _표시줄 표시"
 
-#: ddterm/pref/tabs.js:30 ddterm/pref/text.js:100
+#: ddterm/pref/tabs.js:30 ddterm/pref/text.js:96
 msgid "Always"
 msgstr "항상"
 
-#: ddterm/pref/tabs.js:32 ddterm/pref/text.js:97
+#: ddterm/pref/tabs.js:32 ddterm/pref/text.js:93
 msgid "Never"
 msgstr "안 함"
 
@@ -1053,91 +1053,91 @@ msgstr "탭 _전환 팝업"
 msgid "Show Keyboard Shortcuts"
 msgstr "키보드 단축키 표시"
 
-#: ddterm/pref/text.js:71
+#: ddterm/pref/text.js:67
 msgid "Text"
 msgstr "텍스트"
 
-#: ddterm/pref/text.js:75
+#: ddterm/pref/text.js:71
 msgid "Use System Font"
 msgstr "시스템 글꼴 사용"
 
-#: ddterm/pref/text.js:79
+#: ddterm/pref/text.js:75
 msgid "Custom _Font"
 msgstr "사용자 지정 글꼴"
 
-#: ddterm/pref/text.js:95
+#: ddterm/pref/text.js:91
 msgid "Allow _Blinking Text"
 msgstr "텍스트 _깜빡임 허용"
 
-#: ddterm/pref/text.js:98
+#: ddterm/pref/text.js:94
 msgid "When focused"
 msgstr "포커스 시"
 
-#: ddterm/pref/text.js:99
+#: ddterm/pref/text.js:95
 msgid "When unfocused"
 msgstr "포커스 해제 시"
 
-#: ddterm/pref/text.js:106
+#: ddterm/pref/text.js:102
 msgid "Cursor _Shape"
 msgstr "커서 _모양"
 
-#: ddterm/pref/text.js:108
+#: ddterm/pref/text.js:104
 msgid "Block"
 msgstr "블록"
 
-#: ddterm/pref/text.js:109
+#: ddterm/pref/text.js:105
 msgid "I-Beam"
 msgstr "I-빔"
 
-#: ddterm/pref/text.js:110
+#: ddterm/pref/text.js:106
 msgid "Underline"
 msgstr "밑줄"
 
-#: ddterm/pref/text.js:116
+#: ddterm/pref/text.js:112
 msgid "_Cursor Blinking"
 msgstr "_커서 깜빡임"
 
-#: ddterm/pref/text.js:119
+#: ddterm/pref/text.js:115
 msgid "Enabled"
 msgstr "활성화"
 
-#: ddterm/pref/text.js:126
+#: ddterm/pref/text.js:122
 msgid "Allow _Hyperlinks"
 msgstr "하이퍼링크 허용"
 
-#: ddterm/pref/text.js:131
+#: ddterm/pref/text.js:127
 msgid "Audible _Bell"
 msgstr "소리 _알림"
 
-#: ddterm/pref/text.js:136
+#: ddterm/pref/text.js:132
 msgid "Detect _URLs"
 msgstr "_URL 감지"
 
-#: ddterm/pref/text.js:141
+#: ddterm/pref/text.js:137
 msgid "Detect Raw URLs (scheme://netloc/path)"
 msgstr "Raw URL 감지 (scheme://netloc/path)"
 
-#: ddterm/pref/text.js:146
+#: ddterm/pref/text.js:142
 msgid "Detect \"file:\" URLs"
 msgstr "\"file:\" URL 감지"
 
-#: ddterm/pref/text.js:151
+#: ddterm/pref/text.js:147
 msgid "Detect HTTP URLs"
 msgstr "HTTP URL 감지"
 
-#: ddterm/pref/text.js:156
+#: ddterm/pref/text.js:152
 msgid "Detect VoIP URLs"
 msgstr "VoIP URL 감지"
 
-#: ddterm/pref/text.js:161
+#: ddterm/pref/text.js:157
 msgid "Detect E-mail Addresses"
 msgstr "이메일 주소 감지"
 
-#: ddterm/pref/text.js:166
+#: ddterm/pref/text.js:162
 msgid "Detect \"news:\", \"man:\" URLs"
 msgstr "\"news:\", \"man:\" URL 감지"
 
-#: ddterm/pref/text.js:171
+#: ddterm/pref/text.js:167
 msgid "Copy On Selection"
 msgstr "선택 시 자동 복사"
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-23 23:10+0000\n"
+"POT-Creation-Date: 2026-05-29 06:31+0000\n"
 "PO-Revision-Date: 2023-10-24 22:14+0000\n"
 "Last-Translator: Pavel Novák <pavelnov32@gmail.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/cs/>\n"
@@ -122,15 +122,15 @@ msgstr "Nainstalujte prosím tyto balíčky:"
 msgid "Please install packages that provide the following files:"
 msgstr "Nainstalujte balíčky které poskytují tyto soubory:"
 
-#: ddterm/app/tablabel.js:78 ddterm/pref/shortcuts.js:669
+#: ddterm/app/tablabel.js:44 ddterm/pref/shortcuts.js:666
 msgid "Set Custom Tab Title"
 msgstr "Nastavit vlastní název panelu"
 
-#: ddterm/app/tablabel.js:85
+#: ddterm/app/tablabel.js:51
 msgid "Tab _Title"
 msgstr "_Název panelu"
 
-#: ddterm/app/tablabel.js:99 ddterm/app/ui/notebook.ui:15
+#: ddterm/app/tablabel.js:73 ddterm/app/ui/notebook.ui:15
 msgid "Use Custom Tab Title"
 msgstr "Použít vlastní název panelu"
 
@@ -171,20 +171,20 @@ msgid "New Tab After This Tab"
 msgstr "Nový panel za tímto panelem"
 
 #: ddterm/app/ui/notebook.ui:35 ddterm/app/ui/terminalpage.ui:99
-#: ddterm/pref/shortcuts.js:599
+#: ddterm/pref/shortcuts.js:596
 msgid "New Tab Before First Tab"
 msgstr "Nový panel před první panel"
 
 #: ddterm/app/ui/notebook.ui:39 ddterm/app/ui/terminalpage.ui:103
-#: ddterm/pref/shortcuts.js:594
+#: ddterm/pref/shortcuts.js:591
 msgid "New Tab After Last Tab"
 msgstr "Nový panel za poslední panel"
 
-#: ddterm/app/ui/notebook.ui:45 ddterm/pref/shortcuts.js:629
+#: ddterm/app/ui/notebook.ui:45 ddterm/pref/shortcuts.js:626
 msgid "Move Tab to Previous Position"
 msgstr "Posunout panel do předchozí pozice"
 
-#: ddterm/app/ui/notebook.ui:49 ddterm/pref/shortcuts.js:634
+#: ddterm/app/ui/notebook.ui:49 ddterm/pref/shortcuts.js:631
 msgid "Move Tab to Next Position"
 msgstr "Posunout panel do další pozice"
 
@@ -198,12 +198,12 @@ msgid "No Split"
 msgstr "Nerozdělovat"
 
 #: ddterm/app/ui/notebook.ui:63 ddterm/app/ui/notebook.ui:104
-#: ddterm/app/ui/terminalpage.ui:118 ddterm/pref/shortcuts.js:639
+#: ddterm/app/ui/terminalpage.ui:118 ddterm/pref/shortcuts.js:636
 msgid "Split Horizontally"
 msgstr "Rozdělit horizontálně"
 
 #: ddterm/app/ui/notebook.ui:68 ddterm/app/ui/notebook.ui:109
-#: ddterm/app/ui/terminalpage.ui:123 ddterm/pref/shortcuts.js:644
+#: ddterm/app/ui/terminalpage.ui:123 ddterm/pref/shortcuts.js:641
 msgid "Split Vertically"
 msgstr "Rozdělit vertikálně"
 
@@ -244,11 +244,11 @@ msgstr "Běžné vyjádření"
 msgid "Wrap Around"
 msgstr "Obtékat"
 
-#: ddterm/app/ui/search.ui:89 ddterm/pref/shortcuts.js:684
+#: ddterm/app/ui/search.ui:89 ddterm/pref/shortcuts.js:681
 msgid "Find Next"
 msgstr "Klávesové zkratky"
 
-#: ddterm/app/ui/search.ui:107 ddterm/pref/shortcuts.js:689
+#: ddterm/app/ui/search.ui:107 ddterm/pref/shortcuts.js:686
 msgid "Find Previous"
 msgstr "Najít předchozí"
 
@@ -276,19 +276,19 @@ msgstr "Kopírovat HTML"
 msgid "Paste"
 msgstr "Vložit"
 
-#: ddterm/app/ui/terminalpage.ui:44 ddterm/pref/shortcuts.js:579
+#: ddterm/app/ui/terminalpage.ui:44 ddterm/pref/shortcuts.js:576
 msgid "Select All"
 msgstr "Vybrat vše"
 
-#: ddterm/app/ui/terminalpage.ui:50 ddterm/pref/shortcuts.js:679
+#: ddterm/app/ui/terminalpage.ui:50 ddterm/pref/shortcuts.js:676
 msgid "Find"
 msgstr "Najít"
 
-#: ddterm/app/ui/terminalpage.ui:56 ddterm/pref/shortcuts.js:584
+#: ddterm/app/ui/terminalpage.ui:56 ddterm/pref/shortcuts.js:581
 msgid "Reset"
 msgstr "Resetovat"
 
-#: ddterm/app/ui/terminalpage.ui:60 ddterm/pref/shortcuts.js:589
+#: ddterm/app/ui/terminalpage.ui:60 ddterm/pref/shortcuts.js:586
 msgid "Reset and Clear"
 msgstr "Resetovat a vyčistit"
 
@@ -296,15 +296,15 @@ msgstr "Resetovat a vyčistit"
 msgid "Zoom"
 msgstr "Přiblížení"
 
-#: ddterm/app/ui/terminalpage.ui:68 ddterm/pref/shortcuts.js:694
+#: ddterm/app/ui/terminalpage.ui:68 ddterm/pref/shortcuts.js:691
 msgid "Zoom In"
 msgstr "Příblížit"
 
-#: ddterm/app/ui/terminalpage.ui:72 ddterm/pref/shortcuts.js:699
+#: ddterm/app/ui/terminalpage.ui:72 ddterm/pref/shortcuts.js:696
 msgid "Zoom Out"
 msgstr "Oddálit"
 
-#: ddterm/app/ui/terminalpage.ui:76 ddterm/pref/shortcuts.js:704
+#: ddterm/app/ui/terminalpage.ui:76 ddterm/pref/shortcuts.js:701
 msgid "Normal Size"
 msgstr "Normální velikost"
 
@@ -316,11 +316,11 @@ msgstr ""
 msgid "New Tab"
 msgstr "Nový panel"
 
-#: ddterm/app/ui/terminalpage.ui:91 ddterm/pref/shortcuts.js:604
+#: ddterm/app/ui/terminalpage.ui:91 ddterm/pref/shortcuts.js:601
 msgid "New Tab Before Current Tab"
 msgstr "Nový panel před současný panel"
 
-#: ddterm/app/ui/terminalpage.ui:95 ddterm/pref/shortcuts.js:609
+#: ddterm/app/ui/terminalpage.ui:95 ddterm/pref/shortcuts.js:606
 msgid "New Tab After Current Tab"
 msgstr "Nový panel po současném panelu"
 
@@ -340,7 +340,7 @@ msgstr "Na všech pracovních plochách"
 msgid "Maximize Window"
 msgstr "Maximalizovat okno"
 
-#: ddterm/app/ui/terminalpage.ui:158 ddterm/pref/colors.js:638
+#: ddterm/app/ui/terminalpage.ui:158 ddterm/pref/colors.js:548
 msgid "Transparent Background"
 msgstr "Průhledné pozadí"
 
@@ -352,15 +352,15 @@ msgstr "Skrýt při ztracení zaměření"
 msgid "Hide When Esc Key Is Pressed"
 msgstr "Schovat při zmáčknutí Esc"
 
-#: ddterm/app/ui/terminalpage.ui:174 ddterm/pref/scrolling.js:33
+#: ddterm/app/ui/terminalpage.ui:174 ddterm/pref/scrolling.js:34
 msgid "Scroll On Output"
 msgstr "Posouvat při výpisu"
 
-#: ddterm/app/ui/terminalpage.ui:178 ddterm/pref/scrolling.js:38
+#: ddterm/app/ui/terminalpage.ui:178 ddterm/pref/scrolling.js:39
 msgid "Scroll On Keystroke"
 msgstr "Posunout při vstupu"
 
-#: ddterm/app/ui/terminalpage.ui:184 ddterm/pref/command.js:58
+#: ddterm/app/ui/terminalpage.ui:184 ddterm/pref/command.js:59
 msgid "Preserve Working Directory In New Tabs"
 msgstr "Zachovat pracovní složku v nových panelech"
 
@@ -392,155 +392,155 @@ msgstr "Klávesové zkratky"
 msgid "Miscellaneous"
 msgstr "Ostatní"
 
-#: ddterm/pref/animation.js:26
+#: ddterm/pref/animation.js:28
 msgid "Animation"
 msgstr "Animace"
 
-#: ddterm/pref/animation.js:30
+#: ddterm/pref/animation.js:32
 msgid "_Override Default Window Animations"
 msgstr "_Přepsat výchozí animace okna"
 
-#: ddterm/pref/animation.js:34
+#: ddterm/pref/animation.js:36
 msgid "Disable"
 msgstr "Zakázat"
 
-#: ddterm/pref/animation.js:35
+#: ddterm/pref/animation.js:37
 msgid "Linear tweening"
 msgstr "Lineární prolínání"
 
-#: ddterm/pref/animation.js:36
+#: ddterm/pref/animation.js:38
 msgid "Quadratic tweening"
 msgstr "Kvadratické prolínání"
 
-#: ddterm/pref/animation.js:37
+#: ddterm/pref/animation.js:39
 msgid "Quadratic tweening, inverse"
 msgstr "Kvadratické prolínání, inverzní"
 
-#: ddterm/pref/animation.js:38
+#: ddterm/pref/animation.js:40
 msgid "Quadratic tweening, combining direct and inverse"
 msgstr "Kvadratické prolínání, kombinující přímé a inverzní"
 
-#: ddterm/pref/animation.js:39
+#: ddterm/pref/animation.js:41
 msgid "Cubic tweening"
 msgstr "Krychlové prolínání"
 
-#: ddterm/pref/animation.js:40
+#: ddterm/pref/animation.js:42
 msgid "Cubic tweening, inverse"
 msgstr "Krychlové prolínání, inverzní"
 
-#: ddterm/pref/animation.js:41
+#: ddterm/pref/animation.js:43
 msgid "Cubic tweening, combining direct and inverse"
 msgstr "Krychlové prolínání, kombinující přímé a inverzní"
 
-#: ddterm/pref/animation.js:42
+#: ddterm/pref/animation.js:44
 msgid "Quartic tweening"
 msgstr "Kvartální prolínání"
 
-#: ddterm/pref/animation.js:43
+#: ddterm/pref/animation.js:45
 msgid "Quartic tweening, inverse"
 msgstr "Kvartální prolínání, inverzní"
 
-#: ddterm/pref/animation.js:44
+#: ddterm/pref/animation.js:46
 msgid "Quartic tweening, combining direct and inverse"
 msgstr "Kvartální prolínání, kombinující přímé a inverzní"
 
-#: ddterm/pref/animation.js:45
+#: ddterm/pref/animation.js:47
 msgid "Quintic tweening"
 msgstr "Kvintetní prolínání"
 
-#: ddterm/pref/animation.js:46
+#: ddterm/pref/animation.js:48
 msgid "Quintic tweening, inverse"
 msgstr "Kvintetní prolínání, inverzní"
 
-#: ddterm/pref/animation.js:47
+#: ddterm/pref/animation.js:49
 msgid "Quintic tweening, combining direct and inverse"
 msgstr "Kvintetní prolínání, kombinující přímé a inverzní"
 
-#: ddterm/pref/animation.js:48
+#: ddterm/pref/animation.js:50
 msgid "Sinusoidal tweening"
 msgstr "Sinusové prolínání"
 
-#: ddterm/pref/animation.js:49
+#: ddterm/pref/animation.js:51
 msgid "Sinusoidal tweening, inverse"
 msgstr "Sinusové prolínání, inverzní"
 
-#: ddterm/pref/animation.js:50
+#: ddterm/pref/animation.js:52
 msgid "Sinusoidal tweening, combining direct and inverse"
 msgstr "Sinusové prolínání, kombinující přímé a inverzní"
 
-#: ddterm/pref/animation.js:51
+#: ddterm/pref/animation.js:53
 msgid "Exponential tweening"
 msgstr "Exponenciální prolínání"
 
-#: ddterm/pref/animation.js:52
+#: ddterm/pref/animation.js:54
 msgid "Exponential tweening, inverse"
 msgstr "Exponenciální prolínání, inverzní"
 
-#: ddterm/pref/animation.js:53
+#: ddterm/pref/animation.js:55
 msgid "Exponential tweening, combining direct and inverse"
 msgstr "Exponenciální prolínání, kombinující přímé a inverzní"
 
-#: ddterm/pref/animation.js:54
+#: ddterm/pref/animation.js:56
 msgid "Circular tweening"
 msgstr "Kruhové prolínání"
 
-#: ddterm/pref/animation.js:55
+#: ddterm/pref/animation.js:57
 msgid "Circular tweening, inverse"
 msgstr "Kruhové prolínání, inverzní"
 
-#: ddterm/pref/animation.js:56
+#: ddterm/pref/animation.js:58
 msgid "Circular tweening, combining direct and inverse"
 msgstr "Kruhové prolínání, kombinující přímé a inverzní"
 
-#: ddterm/pref/animation.js:57
+#: ddterm/pref/animation.js:59
 msgid "Elastic tweening, with offshoot on start"
 msgstr "Elastické prolínání s odbočkou na startu"
 
-#: ddterm/pref/animation.js:58
+#: ddterm/pref/animation.js:60
 msgid "Elastic tweening, with offshoot on end"
 msgstr "Elastické prolínání, s odbočkou na konci"
 
-#: ddterm/pref/animation.js:59
+#: ddterm/pref/animation.js:61
 msgid "Elastic tweening with offshoot on both ends"
 msgstr "Elastické prolínání s odbočkou na obou koncích"
 
-#: ddterm/pref/animation.js:60
+#: ddterm/pref/animation.js:62
 msgid "Overshooting cubic tweening, with backtracking on start"
 msgstr "Překračující krychlové prolínání se zpětným sledováním při startu"
 
-#: ddterm/pref/animation.js:61
+#: ddterm/pref/animation.js:63
 msgid "Overshooting cubic tweening, with backtracking on end"
 msgstr "Překračující krychlové prolínání se zpětným sledováním na konci"
 
-#: ddterm/pref/animation.js:63
+#: ddterm/pref/animation.js:65
 msgid "Overshooting cubic tweening, with backtracking on both ends"
 msgstr "Překračující krychlové prolínání se zpětným sledováním na obou koncích"
 
-#: ddterm/pref/animation.js:66
+#: ddterm/pref/animation.js:68
 msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on start"
 msgstr "Exponenciálně klesající parabolické (odrazové) prolínání s odrazem na začátku"
 
-#: ddterm/pref/animation.js:69
+#: ddterm/pref/animation.js:71
 msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on end"
 msgstr "Exponenciálně klesající parabolické (odrazové) prolínání s odrazem na konci"
 
-#: ddterm/pref/animation.js:72
+#: ddterm/pref/animation.js:74
 msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on both ends"
 msgstr "Exponenciálně klesající parabolické (odrazové) prolínání s odrazem na obou koncích"
 
-#: ddterm/pref/animation.js:103
+#: ddterm/pref/animation.js:105
 msgid "_Show Animation"
 msgstr "_Zobrazit animaci"
 
-#: ddterm/pref/animation.js:114
+#: ddterm/pref/animation.js:116
 msgid "_Show Animation Duration"
 msgstr "_Doba po kterou bude animace zobrazena"
 
-#: ddterm/pref/animation.js:135
+#: ddterm/pref/animation.js:137
 msgid "_Hide Animation"
 msgstr "_Skrýt animaci"
 
-#: ddterm/pref/animation.js:146
+#: ddterm/pref/animation.js:148
 msgid "_Hide Animation Duration"
 msgstr "_Doba po kterou bude animace skryta"
 
@@ -568,223 +568,223 @@ msgstr ""
 "Vynutit _X11 GDK backend (XWayland).\n"
 "Pro aplikování této změny, musíte zavřít všechny panely."
 
-#: ddterm/pref/colors.js:358
+#: ddterm/pref/colors.js:353
 msgid "Colors"
 msgstr "Barvy"
 
-#: ddterm/pref/colors.js:362
+#: ddterm/pref/colors.js:357
 msgid "Theme _Variant"
 msgstr "_Varianta vzhledu"
 
-#: ddterm/pref/colors.js:364 ddterm/pref/text.js:118
+#: ddterm/pref/colors.js:359 ddterm/pref/text.js:114
 msgid "Default"
 msgstr "Výchozí"
 
-#: ddterm/pref/colors.js:365
+#: ddterm/pref/colors.js:360
 msgid "Light"
 msgstr "Světlé"
 
-#: ddterm/pref/colors.js:366
+#: ddterm/pref/colors.js:361
 msgid "Dark"
 msgstr "Tmavé"
 
-#: ddterm/pref/colors.js:372
+#: ddterm/pref/colors.js:367
 msgid "Use Colors From System _Theme"
 msgstr "Použít barvy ze systémového _vzhledu"
 
-#: ddterm/pref/colors.js:376
+#: ddterm/pref/colors.js:371
 msgid "Black on light yellow"
 msgstr "Černá na světle žluté"
 
-#: ddterm/pref/colors.js:377
+#: ddterm/pref/colors.js:372
 msgid "Black on white"
 msgstr "Černá na bílé"
 
-#: ddterm/pref/colors.js:378
+#: ddterm/pref/colors.js:373
 msgid "Gray on black"
 msgstr "Šedá na černé"
 
-#: ddterm/pref/colors.js:379
+#: ddterm/pref/colors.js:374
 msgid "Green on black"
 msgstr "Zelená na černé"
 
-#: ddterm/pref/colors.js:380
+#: ddterm/pref/colors.js:375
 msgid "White on black"
 msgstr "Bílá na černé"
 
-#: ddterm/pref/colors.js:381
+#: ddterm/pref/colors.js:376
 msgid "GNOME light"
 msgstr "GNOME světlé"
 
-#: ddterm/pref/colors.js:382
+#: ddterm/pref/colors.js:377
 msgid "GNOME dark"
 msgstr "GNOME tmavé"
 
-#: ddterm/pref/colors.js:383
+#: ddterm/pref/colors.js:378
 msgid "Tango light"
 msgstr "Tango světlé"
 
-#: ddterm/pref/colors.js:384
+#: ddterm/pref/colors.js:379
 msgid "Tango dark"
 msgstr "Tango tmavé"
 
-#: ddterm/pref/colors.js:385
+#: ddterm/pref/colors.js:380
 msgid "Solarized light"
 msgstr "Solarized světlé"
 
-#: ddterm/pref/colors.js:386
+#: ddterm/pref/colors.js:381
 msgid "Solarized dark"
 msgstr "Solarized tmavé"
 
-#: ddterm/pref/colors.js:387 ddterm/pref/colors.js:752
+#: ddterm/pref/colors.js:382 ddterm/pref/colors.js:662
 msgid "Custom"
 msgstr "Vlastní"
 
-#: ddterm/pref/colors.js:410
+#: ddterm/pref/colors.js:405
 msgid "Color _Scheme"
 msgstr "Barevné _schéma"
 
-#: ddterm/pref/colors.js:429
+#: ddterm/pref/colors.js:424
 msgid "Foreground Color"
 msgstr "Barva popředí"
 
-#: ddterm/pref/colors.js:443
+#: ddterm/pref/colors.js:438
 msgid "Background Color"
 msgstr "Barva pozadí"
 
-#: ddterm/pref/colors.js:458 ddterm/pref/colors.js:466
+#: ddterm/pref/colors.js:453 ddterm/pref/colors.js:458
 msgid "Bold Color"
 msgstr "Barva tučného písma"
 
-#: ddterm/pref/colors.js:476
+#: ddterm/pref/colors.js:468
 msgid "Cursor Color"
 msgstr "Barva kurzoru"
 
-#: ddterm/pref/colors.js:498
+#: ddterm/pref/colors.js:473
 msgid "Cursor Foreground Color"
 msgstr "Barva popředí kurzoru"
 
-#: ddterm/pref/colors.js:503
+#: ddterm/pref/colors.js:480
 msgid "Cursor Background Color"
 msgstr "Barva pozadí kurzoru"
 
-#: ddterm/pref/colors.js:540
+#: ddterm/pref/colors.js:491
 msgid "Highlight Color"
 msgstr "Barva zvýraznění"
 
-#: ddterm/pref/colors.js:562
+#: ddterm/pref/colors.js:496
 msgid "Highlight Foreground Color"
 msgstr "Zvýrazněná barva popředí"
 
-#: ddterm/pref/colors.js:567
+#: ddterm/pref/colors.js:503
 msgid "Highlight Background Color"
 msgstr "Zvýrazněná barva pozadí"
 
-#: ddterm/pref/colors.js:621
+#: ddterm/pref/colors.js:531
 msgid "_Background Opacity"
 msgstr "Průhlednost _Pozadí"
 
-#: ddterm/pref/colors.js:644
+#: ddterm/pref/colors.js:554
 msgid "GNOME"
 msgstr "GNOME"
 
-#: ddterm/pref/colors.js:662
+#: ddterm/pref/colors.js:572
 msgid "Tango"
 msgstr "Tango"
 
-#: ddterm/pref/colors.js:680
+#: ddterm/pref/colors.js:590
 msgid "Linux"
 msgstr "Linux"
 
-#: ddterm/pref/colors.js:698
+#: ddterm/pref/colors.js:608
 msgid "XTerm"
 msgstr "XTerm"
 
-#: ddterm/pref/colors.js:716
+#: ddterm/pref/colors.js:626
 msgid "RXVT"
 msgstr "RXVT"
 
-#: ddterm/pref/colors.js:734
+#: ddterm/pref/colors.js:644
 msgid "Solarized"
 msgstr "Solarizované"
 
-#: ddterm/pref/colors.js:763
+#: ddterm/pref/colors.js:673
 msgid "_Palette"
 msgstr "Barevná _paleta"
 
-#: ddterm/pref/colors.js:838
+#: ddterm/pref/colors.js:748
 msgid "Show Bold Text in _Bright Colors"
 msgstr "Zobrazit tučný text ve _světlých barvách"
 
-#: ddterm/pref/colors.js:843
+#: ddterm/pref/colors.js:753
 msgid "Copy profile from GNOME Terminal"
 msgstr "Kopírovat profil z GNOME terminálu"
 
-#: ddterm/pref/command.js:22 ddterm/pref/command.js:26
+#: ddterm/pref/command.js:23 ddterm/pref/command.js:27
 msgid "Command"
 msgstr "Příkaz"
 
-#: ddterm/pref/command.js:28
+#: ddterm/pref/command.js:29
 msgid "User shell"
 msgstr "Uživatelský shell"
 
-#: ddterm/pref/command.js:29
+#: ddterm/pref/command.js:30
 msgid "User shell as login shell"
 msgstr "Uživatelský shell jako login shell"
 
-#: ddterm/pref/command.js:30
+#: ddterm/pref/command.js:31
 msgid "Custom command"
 msgstr "Vlastní příkaz"
 
-#: ddterm/pref/command.js:35
+#: ddterm/pref/command.js:36
 msgid "Custom Command"
 msgstr "Vlastní příkaz"
 
-#: ddterm/pref/compatibility.js:20
+#: ddterm/pref/compatibility.js:21
 msgid "Compatibility"
 msgstr "Kompatibilita"
 
-#: ddterm/pref/compatibility.js:23 ddterm/pref/tabs.js:31
+#: ddterm/pref/compatibility.js:24 ddterm/pref/tabs.js:31
 msgid "Automatic"
 msgstr "Automatický"
 
-#: ddterm/pref/compatibility.js:24
+#: ddterm/pref/compatibility.js:25
 msgid "Control-H"
 msgstr "Control-H"
 
-#: ddterm/pref/compatibility.js:25
+#: ddterm/pref/compatibility.js:26
 msgid "ASCII DEL"
 msgstr "ASCII DEL"
 
-#: ddterm/pref/compatibility.js:26
+#: ddterm/pref/compatibility.js:27
 msgid "Escape sequence"
 msgstr "Escape sekvence"
 
-#: ddterm/pref/compatibility.js:27
+#: ddterm/pref/compatibility.js:28
 msgid "TTY Erase"
 msgstr "Vymazání TTY"
 
-#: ddterm/pref/compatibility.js:32
+#: ddterm/pref/compatibility.js:33
 msgid "_Backspace Key Generates"
 msgstr "Tlačítko _Backspace generuje"
 
-#: ddterm/pref/compatibility.js:38
+#: ddterm/pref/compatibility.js:39
 msgid "_Delete Key Generates"
 msgstr "Tlačítko _Delete generuje"
 
-#: ddterm/pref/compatibility.js:44
+#: ddterm/pref/compatibility.js:45
 msgid "Ambiguous-_Width Characters"
 msgstr "Nejednoznačná šířka znaků"
 
-#: ddterm/pref/compatibility.js:46
+#: ddterm/pref/compatibility.js:47
 msgid "Narrow"
 msgstr "Úzký"
 
-#: ddterm/pref/compatibility.js:47
+#: ddterm/pref/compatibility.js:48
 msgid "Wide"
 msgstr "Široký"
 
-#: ddterm/pref/compatibility.js:53
+#: ddterm/pref/compatibility.js:54
 msgid "_Reset Compatibility Options to Defaults"
 msgstr "_Resetovat nastavení kompatibility na výchozí hodnoty"
 
@@ -808,213 +808,213 @@ msgstr "Přepínací tlačítko"
 msgid "Toggle button and popup menu"
 msgstr "Přepínací tlačítko a vyskakovací menu"
 
-#: ddterm/pref/positionsize.js:190
+#: ddterm/pref/positionsize.js:192
 msgid "Position and Size"
 msgstr "Pozice a velikost"
 
-#: ddterm/pref/positionsize.js:197
+#: ddterm/pref/positionsize.js:199
 msgid "On the monitor that contains the mouse pointer"
 msgstr "Na monitoru který obsahuje kurzor"
 
-#: ddterm/pref/positionsize.js:203
+#: ddterm/pref/positionsize.js:205
 msgid "On the primary monitor"
 msgstr "Na hlavním monitoru"
 
-#: ddterm/pref/positionsize.js:208
+#: ddterm/pref/positionsize.js:210
 msgid "On the monitor with keyboard focus"
 msgstr "Na monitoru se zaměřením klávesnice"
 
-#: ddterm/pref/positionsize.js:214
+#: ddterm/pref/positionsize.js:216
 msgid "On _Monitor"
 msgstr "Na _monitoru"
 
-#: ddterm/pref/positionsize.js:274
+#: ddterm/pref/positionsize.js:276
 msgid "_Window Position"
 msgstr "Pozice _Okna"
 
-#: ddterm/pref/positionsize.js:276 ddterm/pref/tabs.js:41
+#: ddterm/pref/positionsize.js:278 ddterm/pref/tabs.js:41
 msgid "Top"
 msgstr "Nahoře"
 
-#: ddterm/pref/positionsize.js:277 ddterm/pref/tabs.js:40
+#: ddterm/pref/positionsize.js:279 ddterm/pref/tabs.js:40
 msgid "Bottom"
 msgstr "Dole"
 
-#: ddterm/pref/positionsize.js:278
+#: ddterm/pref/positionsize.js:280
 msgid "Left"
 msgstr "Vlevo"
 
-#: ddterm/pref/positionsize.js:279
+#: ddterm/pref/positionsize.js:281
 msgid "Right"
 msgstr "Vpravo"
 
-#: ddterm/pref/positionsize.js:302
+#: ddterm/pref/positionsize.js:304
 msgid "Window _Size"
 msgstr "_Velikost okna"
 
-#: ddterm/pref/scrolling.js:24
+#: ddterm/pref/scrolling.js:25
 msgid "Scrolling"
 msgstr "Posouvání"
 
-#: ddterm/pref/scrolling.js:28
+#: ddterm/pref/scrolling.js:29
 msgid "Show _Scrollbar"
 msgstr "Zobrazit _posuvník"
 
-#: ddterm/pref/scrolling.js:43
+#: ddterm/pref/scrolling.js:44
 #, fuzzy
 #| msgid "_Limit scrollback to:"
 msgid "Unlimited Scrollback"
 msgstr "_Limitovat posun zpět na:"
 
-#: ddterm/pref/scrolling.js:53
+#: ddterm/pref/scrolling.js:54
 #, fuzzy
 #| msgid "Scrolling"
 msgid "Scrollback Lines"
 msgstr "Posouvání"
 
-#: ddterm/pref/shortcuts.js:339 ddterm/pref/text.js:120
+#: ddterm/pref/shortcuts.js:336 ddterm/pref/text.js:116
 msgid "Disabled"
 msgstr "Vypnuto"
 
-#: ddterm/pref/shortcuts.js:494
+#: ddterm/pref/shortcuts.js:491
 #, fuzzy
 #| msgid "Global Shortcut"
 msgid "Global Shortcuts"
 msgstr "Globální klávesová zkratka"
 
-#: ddterm/pref/shortcuts.js:498
+#: ddterm/pref/shortcuts.js:495
 msgid "Toggle Terminal Window"
 msgstr "Přepnout okno terminálu"
 
-#: ddterm/pref/shortcuts.js:504
+#: ddterm/pref/shortcuts.js:501
 msgid "Show/Activate Terminal Window"
 msgstr "Zobrazit/aktivovat okno terminálu"
 
-#: ddterm/pref/shortcuts.js:520
+#: ddterm/pref/shortcuts.js:517
 #, fuzzy
 #| msgid "_Enable application shortcuts"
 msgid "Application Shortcuts"
 msgstr "_Povolit klávesové zkratky aplikace"
 
-#: ddterm/pref/shortcuts.js:524
+#: ddterm/pref/shortcuts.js:521
 msgid "_Enable application shortcuts"
 msgstr "_Povolit klávesové zkratky aplikace"
 
-#: ddterm/pref/shortcuts.js:529
+#: ddterm/pref/shortcuts.js:526
 msgid "Hide the Window"
 msgstr "Schovat okno"
 
-#: ddterm/pref/shortcuts.js:534
+#: ddterm/pref/shortcuts.js:531
 msgid "Maximize/Unmaximize the Window"
 msgstr "Maximalizovat/Zmenšit okno"
 
-#: ddterm/pref/shortcuts.js:539
+#: ddterm/pref/shortcuts.js:536
 msgid "Increase Window Size"
 msgstr "Zvětšit okno"
 
-#: ddterm/pref/shortcuts.js:544
+#: ddterm/pref/shortcuts.js:541
 msgid "Decrease Window Size"
 msgstr "Zmenšit okno"
 
-#: ddterm/pref/shortcuts.js:549
+#: ddterm/pref/shortcuts.js:546
 msgid "Increase Background Opacity"
 msgstr "Snížit průhlednost pozadí"
 
-#: ddterm/pref/shortcuts.js:554
+#: ddterm/pref/shortcuts.js:551
 msgid "Decrease Background Opacity"
 msgstr "Zvýšit průhlednost pozadí"
 
-#: ddterm/pref/shortcuts.js:559
+#: ddterm/pref/shortcuts.js:556
 msgid "Enable/Disable Background Transparency"
 msgstr "Zapnout/Vypnout průhlednost pozadí"
 
-#: ddterm/pref/shortcuts.js:564
+#: ddterm/pref/shortcuts.js:561
 msgid "Copy Selected Text"
 msgstr "Kopírovat vybraný text"
 
-#: ddterm/pref/shortcuts.js:569
+#: ddterm/pref/shortcuts.js:566
 msgid "Copy Selected Text as HTML"
 msgstr "Kopírovat vybraný text jako HTML"
 
-#: ddterm/pref/shortcuts.js:574
+#: ddterm/pref/shortcuts.js:571
 msgid "Paste Text from Clipboard"
 msgstr "Vložit zkopírovaný text"
 
-#: ddterm/pref/shortcuts.js:614
+#: ddterm/pref/shortcuts.js:611
 msgid "Close Current Tab"
 msgstr "Zavřít aktuální panel"
 
-#: ddterm/pref/shortcuts.js:619
+#: ddterm/pref/shortcuts.js:616
 msgid "Switch to Previous Tab"
 msgstr "Přepnout na předešlý panel"
 
-#: ddterm/pref/shortcuts.js:624
+#: ddterm/pref/shortcuts.js:621
 msgid "Switch to Next Tab"
 msgstr "Přepnout na následující panel"
 
-#: ddterm/pref/shortcuts.js:649
+#: ddterm/pref/shortcuts.js:646
 #, fuzzy
 msgid "Move Keyboard Focus to Other Split Pane"
 msgstr "Posunout panel do další pozice"
 
-#: ddterm/pref/shortcuts.js:654
+#: ddterm/pref/shortcuts.js:651
 #, fuzzy
 msgid "Move Tab to Other Split Pane"
 msgstr "Posunout panel do další pozice"
 
-#: ddterm/pref/shortcuts.js:659
+#: ddterm/pref/shortcuts.js:656
 msgid "Increase First Split Pane Size"
 msgstr ""
 
-#: ddterm/pref/shortcuts.js:664
+#: ddterm/pref/shortcuts.js:661
 msgid "Decrease First Split Pane Size"
 msgstr ""
 
-#: ddterm/pref/shortcuts.js:674
+#: ddterm/pref/shortcuts.js:671
 msgid "Reset Tab Title"
 msgstr "Resetovat název panelu"
 
-#: ddterm/pref/shortcuts.js:709
+#: ddterm/pref/shortcuts.js:706
 msgid "Switch to Tab 1"
 msgstr "Přepnout na panel 1"
 
-#: ddterm/pref/shortcuts.js:714
+#: ddterm/pref/shortcuts.js:711
 msgid "Switch to Tab 2"
 msgstr "Přepnout na panel 2"
 
-#: ddterm/pref/shortcuts.js:719
+#: ddterm/pref/shortcuts.js:716
 msgid "Switch to Tab 3"
 msgstr "Přepnout na panel 3"
 
-#: ddterm/pref/shortcuts.js:724
+#: ddterm/pref/shortcuts.js:721
 msgid "Switch to Tab 4"
 msgstr "Přepnout na panel 4"
 
-#: ddterm/pref/shortcuts.js:729
+#: ddterm/pref/shortcuts.js:726
 msgid "Switch to Tab 5"
 msgstr "Přepnout na panel 5"
 
-#: ddterm/pref/shortcuts.js:734
+#: ddterm/pref/shortcuts.js:731
 msgid "Switch to Tab 6"
 msgstr "Přepnout na panel 6"
 
-#: ddterm/pref/shortcuts.js:739
+#: ddterm/pref/shortcuts.js:736
 msgid "Switch to Tab 7"
 msgstr "Přepnout na panel 7"
 
-#: ddterm/pref/shortcuts.js:744
+#: ddterm/pref/shortcuts.js:741
 msgid "Switch to Tab 8"
 msgstr "Přepnout na panel 8"
 
-#: ddterm/pref/shortcuts.js:749
+#: ddterm/pref/shortcuts.js:746
 msgid "Switch to Tab 9"
 msgstr "Přepnout na panel 9"
 
-#: ddterm/pref/shortcuts.js:754
+#: ddterm/pref/shortcuts.js:751
 msgid "Switch to Tab 10"
 msgstr "Přepnout na panel 10"
 
-#: ddterm/pref/shortcuts.js:811
+#: ddterm/pref/shortcuts.js:808
 #, fuzzy
 msgid "Reset All Shortcuts to Defaults"
 msgstr "_Resetovat na výchozí hodnotu"
@@ -1031,11 +1031,11 @@ msgstr ""
 msgid "Show Tab _Bar"
 msgstr "Zobrazit _panel karet"
 
-#: ddterm/pref/tabs.js:30 ddterm/pref/text.js:100
+#: ddterm/pref/tabs.js:30 ddterm/pref/text.js:96
 msgid "Always"
 msgstr "Vždy"
 
-#: ddterm/pref/tabs.js:32 ddterm/pref/text.js:97
+#: ddterm/pref/tabs.js:32 ddterm/pref/text.js:93
 msgid "Never"
 msgstr "Nikdy"
 
@@ -1064,91 +1064,91 @@ msgstr "Vyskakovací okno _přepínač panelů"
 msgid "Show Keyboard Shortcuts"
 msgstr "Klávesové zkratky"
 
-#: ddterm/pref/text.js:71
+#: ddterm/pref/text.js:67
 msgid "Text"
 msgstr "Text"
 
-#: ddterm/pref/text.js:75
+#: ddterm/pref/text.js:71
 msgid "Use System Font"
 msgstr ""
 
-#: ddterm/pref/text.js:79
+#: ddterm/pref/text.js:75
 msgid "Custom _Font"
 msgstr "Vlastní _font"
 
-#: ddterm/pref/text.js:95
+#: ddterm/pref/text.js:91
 msgid "Allow _Blinking Text"
 msgstr "Povolit _blikající text"
 
-#: ddterm/pref/text.js:98
+#: ddterm/pref/text.js:94
 msgid "When focused"
 msgstr "Při zaměření"
 
-#: ddterm/pref/text.js:99
+#: ddterm/pref/text.js:95
 msgid "When unfocused"
 msgstr "Mimo zaměření"
 
-#: ddterm/pref/text.js:106
+#: ddterm/pref/text.js:102
 msgid "Cursor _Shape"
 msgstr "_Tvar kurzoru"
 
-#: ddterm/pref/text.js:108
+#: ddterm/pref/text.js:104
 msgid "Block"
 msgstr "Blokovat"
 
-#: ddterm/pref/text.js:109
+#: ddterm/pref/text.js:105
 msgid "I-Beam"
 msgstr "Kurzor I-Beam"
 
-#: ddterm/pref/text.js:110
+#: ddterm/pref/text.js:106
 msgid "Underline"
 msgstr "Podtržení"
 
-#: ddterm/pref/text.js:116
+#: ddterm/pref/text.js:112
 msgid "_Cursor Blinking"
 msgstr "Blikání _kurzoru"
 
-#: ddterm/pref/text.js:119
+#: ddterm/pref/text.js:115
 msgid "Enabled"
 msgstr "Zapnuto"
 
-#: ddterm/pref/text.js:126
+#: ddterm/pref/text.js:122
 msgid "Allow _Hyperlinks"
 msgstr "Povolit _hypertextové odkazy"
 
-#: ddterm/pref/text.js:131
+#: ddterm/pref/text.js:127
 msgid "Audible _Bell"
 msgstr "Slyšitelné _zvonění"
 
-#: ddterm/pref/text.js:136
+#: ddterm/pref/text.js:132
 msgid "Detect _URLs"
 msgstr "Detekovat _URL odkazy"
 
-#: ddterm/pref/text.js:141
+#: ddterm/pref/text.js:137
 msgid "Detect Raw URLs (scheme://netloc/path)"
 msgstr "Detekovat nezpracované URL adresy(scheme://netloc/path)"
 
-#: ddterm/pref/text.js:146
+#: ddterm/pref/text.js:142
 msgid "Detect \"file:\" URLs"
 msgstr "Detekovat \"file:\" URL adresy"
 
-#: ddterm/pref/text.js:151
+#: ddterm/pref/text.js:147
 msgid "Detect HTTP URLs"
 msgstr "Detekovat HTTP URL adresy"
 
-#: ddterm/pref/text.js:156
+#: ddterm/pref/text.js:152
 msgid "Detect VoIP URLs"
 msgstr "Detekovat VoIP URL adresy"
 
-#: ddterm/pref/text.js:161
+#: ddterm/pref/text.js:157
 msgid "Detect E-mail Addresses"
 msgstr "Detekovat E-mailové adresy"
 
-#: ddterm/pref/text.js:166
+#: ddterm/pref/text.js:162
 msgid "Detect \"news:\", \"man:\" URLs"
 msgstr "Detekovat \"news:\", \"man:\" URL adresy"
 
-#: ddterm/pref/text.js:171
+#: ddterm/pref/text.js:167
 #, fuzzy
 #| msgid "Copy Selected Text"
 msgid "Copy On Selection"

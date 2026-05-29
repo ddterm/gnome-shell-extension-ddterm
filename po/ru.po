@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-23 23:10+0000\n"
+"POT-Creation-Date: 2026-05-29 06:31+0000\n"
 "PO-Revision-Date: 2025-09-18 04:23+0000\n"
 "Last-Translator: Ivan Vantu5z <vantu5z@mail.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/ru/>\n"
@@ -131,15 +131,15 @@ msgstr "Необходимо установить указанные пакет�
 msgid "Please install packages that provide the following files:"
 msgstr "Необходимо установить пакеты, содержащие следующие файлы:"
 
-#: ddterm/app/tablabel.js:78 ddterm/pref/shortcuts.js:669
+#: ddterm/app/tablabel.js:44 ddterm/pref/shortcuts.js:666
 msgid "Set Custom Tab Title"
 msgstr "Изменить название вкладки"
 
-#: ddterm/app/tablabel.js:85
+#: ddterm/app/tablabel.js:51
 msgid "Tab _Title"
 msgstr "Название вкладки"
 
-#: ddterm/app/tablabel.js:99 ddterm/app/ui/notebook.ui:15
+#: ddterm/app/tablabel.js:73 ddterm/app/ui/notebook.ui:15
 msgid "Use Custom Tab Title"
 msgstr "Использовать пользовательское именование вкладок"
 
@@ -180,20 +180,20 @@ msgid "New Tab After This Tab"
 msgstr "Новая вкладка после указанной"
 
 #: ddterm/app/ui/notebook.ui:35 ddterm/app/ui/terminalpage.ui:99
-#: ddterm/pref/shortcuts.js:599
+#: ddterm/pref/shortcuts.js:596
 msgid "New Tab Before First Tab"
 msgstr "Новая вкладка - Перед первой вкладкой"
 
 #: ddterm/app/ui/notebook.ui:39 ddterm/app/ui/terminalpage.ui:103
-#: ddterm/pref/shortcuts.js:594
+#: ddterm/pref/shortcuts.js:591
 msgid "New Tab After Last Tab"
 msgstr "Новая вкладка - После последней вкладки"
 
-#: ddterm/app/ui/notebook.ui:45 ddterm/pref/shortcuts.js:629
+#: ddterm/app/ui/notebook.ui:45 ddterm/pref/shortcuts.js:626
 msgid "Move Tab to Previous Position"
 msgstr "Переместить вкладку на предыдущую позицию"
 
-#: ddterm/app/ui/notebook.ui:49 ddterm/pref/shortcuts.js:634
+#: ddterm/app/ui/notebook.ui:49 ddterm/pref/shortcuts.js:631
 msgid "Move Tab to Next Position"
 msgstr "Переместить вкладку на следующую позицию"
 
@@ -207,12 +207,12 @@ msgid "No Split"
 msgstr "Не разделять"
 
 #: ddterm/app/ui/notebook.ui:63 ddterm/app/ui/notebook.ui:104
-#: ddterm/app/ui/terminalpage.ui:118 ddterm/pref/shortcuts.js:639
+#: ddterm/app/ui/terminalpage.ui:118 ddterm/pref/shortcuts.js:636
 msgid "Split Horizontally"
 msgstr "Разделить горизонтально"
 
 #: ddterm/app/ui/notebook.ui:68 ddterm/app/ui/notebook.ui:109
-#: ddterm/app/ui/terminalpage.ui:123 ddterm/pref/shortcuts.js:644
+#: ddterm/app/ui/terminalpage.ui:123 ddterm/pref/shortcuts.js:641
 msgid "Split Vertically"
 msgstr "Разделить вертикально"
 
@@ -253,11 +253,11 @@ msgstr "Регулярное выражение"
 msgid "Wrap Around"
 msgstr "Прокрутка к результату"
 
-#: ddterm/app/ui/search.ui:89 ddterm/pref/shortcuts.js:684
+#: ddterm/app/ui/search.ui:89 ddterm/pref/shortcuts.js:681
 msgid "Find Next"
 msgstr "Найти следующее"
 
-#: ddterm/app/ui/search.ui:107 ddterm/pref/shortcuts.js:689
+#: ddterm/app/ui/search.ui:107 ddterm/pref/shortcuts.js:686
 msgid "Find Previous"
 msgstr "Найти предыдущее"
 
@@ -285,19 +285,19 @@ msgstr "Копировать HTML"
 msgid "Paste"
 msgstr "Вставить"
 
-#: ddterm/app/ui/terminalpage.ui:44 ddterm/pref/shortcuts.js:579
+#: ddterm/app/ui/terminalpage.ui:44 ddterm/pref/shortcuts.js:576
 msgid "Select All"
 msgstr "Выбрать все"
 
-#: ddterm/app/ui/terminalpage.ui:50 ddterm/pref/shortcuts.js:679
+#: ddterm/app/ui/terminalpage.ui:50 ddterm/pref/shortcuts.js:676
 msgid "Find"
 msgstr "Найти"
 
-#: ddterm/app/ui/terminalpage.ui:56 ddterm/pref/shortcuts.js:584
+#: ddterm/app/ui/terminalpage.ui:56 ddterm/pref/shortcuts.js:581
 msgid "Reset"
 msgstr "Сбросить"
 
-#: ddterm/app/ui/terminalpage.ui:60 ddterm/pref/shortcuts.js:589
+#: ddterm/app/ui/terminalpage.ui:60 ddterm/pref/shortcuts.js:586
 msgid "Reset and Clear"
 msgstr "Сбросить и очистить"
 
@@ -305,15 +305,15 @@ msgstr "Сбросить и очистить"
 msgid "Zoom"
 msgstr "Масштаб"
 
-#: ddterm/app/ui/terminalpage.ui:68 ddterm/pref/shortcuts.js:694
+#: ddterm/app/ui/terminalpage.ui:68 ddterm/pref/shortcuts.js:691
 msgid "Zoom In"
 msgstr "Увеличить"
 
-#: ddterm/app/ui/terminalpage.ui:72 ddterm/pref/shortcuts.js:699
+#: ddterm/app/ui/terminalpage.ui:72 ddterm/pref/shortcuts.js:696
 msgid "Zoom Out"
 msgstr "Уменьшить"
 
-#: ddterm/app/ui/terminalpage.ui:76 ddterm/pref/shortcuts.js:704
+#: ddterm/app/ui/terminalpage.ui:76 ddterm/pref/shortcuts.js:701
 msgid "Normal Size"
 msgstr "Нормальный размер"
 
@@ -325,11 +325,11 @@ msgstr "Показать в файловом менеджере"
 msgid "New Tab"
 msgstr "Новая вкладка"
 
-#: ddterm/app/ui/terminalpage.ui:91 ddterm/pref/shortcuts.js:604
+#: ddterm/app/ui/terminalpage.ui:91 ddterm/pref/shortcuts.js:601
 msgid "New Tab Before Current Tab"
 msgstr "Новая вкладка - Перед текущей вкладкой"
 
-#: ddterm/app/ui/terminalpage.ui:95 ddterm/pref/shortcuts.js:609
+#: ddterm/app/ui/terminalpage.ui:95 ddterm/pref/shortcuts.js:606
 msgid "New Tab After Current Tab"
 msgstr "Новая вкладка - После текущей вкладки"
 
@@ -349,7 +349,7 @@ msgstr "На всех рабочих столах"
 msgid "Maximize Window"
 msgstr "На весь экран"
 
-#: ddterm/app/ui/terminalpage.ui:158 ddterm/pref/colors.js:638
+#: ddterm/app/ui/terminalpage.ui:158 ddterm/pref/colors.js:548
 msgid "Transparent Background"
 msgstr "Прозрачный фон"
 
@@ -361,15 +361,15 @@ msgstr "Скрывать при потере фокуса"
 msgid "Hide When Esc Key Is Pressed"
 msgstr "Скрывать по клавише ESC"
 
-#: ddterm/app/ui/terminalpage.ui:174 ddterm/pref/scrolling.js:33
+#: ddterm/app/ui/terminalpage.ui:174 ddterm/pref/scrolling.js:34
 msgid "Scroll On Output"
 msgstr "Прокрутка при выводе"
 
-#: ddterm/app/ui/terminalpage.ui:178 ddterm/pref/scrolling.js:38
+#: ddterm/app/ui/terminalpage.ui:178 ddterm/pref/scrolling.js:39
 msgid "Scroll On Keystroke"
 msgstr "Прокрутка по нажатию клавиши"
 
-#: ddterm/app/ui/terminalpage.ui:184 ddterm/pref/command.js:58
+#: ddterm/app/ui/terminalpage.ui:184 ddterm/pref/command.js:59
 msgid "Preserve Working Directory In New Tabs"
 msgstr "Сохранять рабочий каталог в новых вкладках"
 
@@ -401,155 +401,155 @@ msgstr "Комбинации клавиш"
 msgid "Miscellaneous"
 msgstr "Разное"
 
-#: ddterm/pref/animation.js:26
+#: ddterm/pref/animation.js:28
 msgid "Animation"
 msgstr "Анимация"
 
-#: ddterm/pref/animation.js:30
+#: ddterm/pref/animation.js:32
 msgid "_Override Default Window Animations"
 msgstr "Переопределить анимацию окна по умолчанию"
 
-#: ddterm/pref/animation.js:34
+#: ddterm/pref/animation.js:36
 msgid "Disable"
 msgstr "Отключить"
 
-#: ddterm/pref/animation.js:35
+#: ddterm/pref/animation.js:37
 msgid "Linear tweening"
 msgstr "Линейная"
 
-#: ddterm/pref/animation.js:36
+#: ddterm/pref/animation.js:38
 msgid "Quadratic tweening"
 msgstr "Квадратичная"
 
-#: ddterm/pref/animation.js:37
+#: ddterm/pref/animation.js:39
 msgid "Quadratic tweening, inverse"
 msgstr "Квадратичная обратная"
 
-#: ddterm/pref/animation.js:38
+#: ddterm/pref/animation.js:40
 msgid "Quadratic tweening, combining direct and inverse"
 msgstr "Квадратичная, сочетающая прямую и обратную"
 
-#: ddterm/pref/animation.js:39
+#: ddterm/pref/animation.js:41
 msgid "Cubic tweening"
 msgstr "Кубическая"
 
-#: ddterm/pref/animation.js:40
+#: ddterm/pref/animation.js:42
 msgid "Cubic tweening, inverse"
 msgstr "Кубическая обратная"
 
-#: ddterm/pref/animation.js:41
+#: ddterm/pref/animation.js:43
 msgid "Cubic tweening, combining direct and inverse"
 msgstr "Кубическая, сочетающая прямую и обратную"
 
-#: ddterm/pref/animation.js:42
+#: ddterm/pref/animation.js:44
 msgid "Quartic tweening"
 msgstr "Квартовая"
 
-#: ddterm/pref/animation.js:43
+#: ddterm/pref/animation.js:45
 msgid "Quartic tweening, inverse"
 msgstr "Квартовая обратная"
 
-#: ddterm/pref/animation.js:44
+#: ddterm/pref/animation.js:46
 msgid "Quartic tweening, combining direct and inverse"
 msgstr "Квартовая, сочетающая прямую и обратную"
 
-#: ddterm/pref/animation.js:45
+#: ddterm/pref/animation.js:47
 msgid "Quintic tweening"
 msgstr "Квинтическая"
 
-#: ddterm/pref/animation.js:46
+#: ddterm/pref/animation.js:48
 msgid "Quintic tweening, inverse"
 msgstr "Квинтическая обратная"
 
-#: ddterm/pref/animation.js:47
+#: ddterm/pref/animation.js:49
 msgid "Quintic tweening, combining direct and inverse"
 msgstr "Квинтическая, сочетающая прямую и обратную"
 
-#: ddterm/pref/animation.js:48
+#: ddterm/pref/animation.js:50
 msgid "Sinusoidal tweening"
 msgstr "Синусоидальная"
 
-#: ddterm/pref/animation.js:49
+#: ddterm/pref/animation.js:51
 msgid "Sinusoidal tweening, inverse"
 msgstr "Синусоидальная обратная"
 
-#: ddterm/pref/animation.js:50
+#: ddterm/pref/animation.js:52
 msgid "Sinusoidal tweening, combining direct and inverse"
 msgstr "Синусоидальная, сочетающая прямую и обратную"
 
-#: ddterm/pref/animation.js:51
+#: ddterm/pref/animation.js:53
 msgid "Exponential tweening"
 msgstr "Экспоненциальная"
 
-#: ddterm/pref/animation.js:52
+#: ddterm/pref/animation.js:54
 msgid "Exponential tweening, inverse"
 msgstr "Экспоненциальная обратная"
 
-#: ddterm/pref/animation.js:53
+#: ddterm/pref/animation.js:55
 msgid "Exponential tweening, combining direct and inverse"
 msgstr "Экспоненциальная, сочетающая прямую и обратную"
 
-#: ddterm/pref/animation.js:54
+#: ddterm/pref/animation.js:56
 msgid "Circular tweening"
 msgstr "Круговая"
 
-#: ddterm/pref/animation.js:55
+#: ddterm/pref/animation.js:57
 msgid "Circular tweening, inverse"
 msgstr "Круговая обратная"
 
-#: ddterm/pref/animation.js:56
+#: ddterm/pref/animation.js:58
 msgid "Circular tweening, combining direct and inverse"
 msgstr "Круговая, сочетающая прямую и обратную"
 
-#: ddterm/pref/animation.js:57
+#: ddterm/pref/animation.js:59
 msgid "Elastic tweening, with offshoot on start"
 msgstr "Эластичная с ответвлением в начале"
 
-#: ddterm/pref/animation.js:58
+#: ddterm/pref/animation.js:60
 msgid "Elastic tweening, with offshoot on end"
 msgstr "Эластичная с ответвлением в конце"
 
-#: ddterm/pref/animation.js:59
+#: ddterm/pref/animation.js:61
 msgid "Elastic tweening with offshoot on both ends"
 msgstr "Эластичная с ответвлением в начале и конце"
 
-#: ddterm/pref/animation.js:60
+#: ddterm/pref/animation.js:62
 msgid "Overshooting cubic tweening, with backtracking on start"
 msgstr "Превышающая кубическую с возвратом в начале"
 
-#: ddterm/pref/animation.js:61
+#: ddterm/pref/animation.js:63
 msgid "Overshooting cubic tweening, with backtracking on end"
 msgstr "Превышающая кубическую с возвратом в конце"
 
-#: ddterm/pref/animation.js:63
+#: ddterm/pref/animation.js:65
 msgid "Overshooting cubic tweening, with backtracking on both ends"
 msgstr "Превышающая кубическую с возвратом в начале и конце"
 
-#: ddterm/pref/animation.js:66
+#: ddterm/pref/animation.js:68
 msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on start"
 msgstr "Экспоненциально затухающая параболическая с отскоком в начале"
 
-#: ddterm/pref/animation.js:69
+#: ddterm/pref/animation.js:71
 msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on end"
 msgstr "Экспоненциально затухающая параболическая с отскоком в конце"
 
-#: ddterm/pref/animation.js:72
+#: ddterm/pref/animation.js:74
 msgid "Exponentially decaying parabolic (bounce) tweening, with bounce on both ends"
 msgstr "Экспоненциально затухающая параболическая с отскоком в начале и конце"
 
-#: ddterm/pref/animation.js:103
+#: ddterm/pref/animation.js:105
 msgid "_Show Animation"
 msgstr "Анимация открытия"
 
-#: ddterm/pref/animation.js:114
+#: ddterm/pref/animation.js:116
 msgid "_Show Animation Duration"
 msgstr "Длительность анимации открытия"
 
-#: ddterm/pref/animation.js:135
+#: ddterm/pref/animation.js:137
 msgid "_Hide Animation"
 msgstr "Анимация закрытия"
 
-#: ddterm/pref/animation.js:146
+#: ddterm/pref/animation.js:148
 msgid "_Hide Animation Duration"
 msgstr "Длительность анимации закрытия"
 
@@ -577,223 +577,223 @@ msgstr ""
 "Принудительно использовать X11 GDK сервер (XWayland).\n"
 "Необходимо закрыть все вкладки для применения данного параметра."
 
-#: ddterm/pref/colors.js:358
+#: ddterm/pref/colors.js:353
 msgid "Colors"
 msgstr "Цвета"
 
-#: ddterm/pref/colors.js:362
+#: ddterm/pref/colors.js:357
 msgid "Theme _Variant"
 msgstr "Вариант темы"
 
-#: ddterm/pref/colors.js:364 ddterm/pref/text.js:118
+#: ddterm/pref/colors.js:359 ddterm/pref/text.js:114
 msgid "Default"
 msgstr "По умолчанию"
 
-#: ddterm/pref/colors.js:365
+#: ddterm/pref/colors.js:360
 msgid "Light"
 msgstr "Светлая"
 
-#: ddterm/pref/colors.js:366
+#: ddterm/pref/colors.js:361
 msgid "Dark"
 msgstr "Тёмная"
 
-#: ddterm/pref/colors.js:372
+#: ddterm/pref/colors.js:367
 msgid "Use Colors From System _Theme"
 msgstr "_Использовать цвета из системной темы"
 
-#: ddterm/pref/colors.js:376
+#: ddterm/pref/colors.js:371
 msgid "Black on light yellow"
 msgstr "Чёрный на светло жёлтом"
 
-#: ddterm/pref/colors.js:377
+#: ddterm/pref/colors.js:372
 msgid "Black on white"
 msgstr "Чёрный на белом"
 
-#: ddterm/pref/colors.js:378
+#: ddterm/pref/colors.js:373
 msgid "Gray on black"
 msgstr "Серый на чёрном"
 
-#: ddterm/pref/colors.js:379
+#: ddterm/pref/colors.js:374
 msgid "Green on black"
 msgstr "Зелёный на чёрном"
 
-#: ddterm/pref/colors.js:380
+#: ddterm/pref/colors.js:375
 msgid "White on black"
 msgstr "Белый на чёрном"
 
-#: ddterm/pref/colors.js:381
+#: ddterm/pref/colors.js:376
 msgid "GNOME light"
 msgstr "GNOME светлая"
 
-#: ddterm/pref/colors.js:382
+#: ddterm/pref/colors.js:377
 msgid "GNOME dark"
 msgstr "GNOME тёмная"
 
-#: ddterm/pref/colors.js:383
+#: ddterm/pref/colors.js:378
 msgid "Tango light"
 msgstr "Tango светлая"
 
-#: ddterm/pref/colors.js:384
+#: ddterm/pref/colors.js:379
 msgid "Tango dark"
 msgstr "Tango тёмная"
 
-#: ddterm/pref/colors.js:385
+#: ddterm/pref/colors.js:380
 msgid "Solarized light"
 msgstr "Solarized светаля"
 
-#: ddterm/pref/colors.js:386
+#: ddterm/pref/colors.js:381
 msgid "Solarized dark"
 msgstr "Solarized тёмная"
 
-#: ddterm/pref/colors.js:387 ddterm/pref/colors.js:752
+#: ddterm/pref/colors.js:382 ddterm/pref/colors.js:662
 msgid "Custom"
 msgstr "Пользовательская"
 
-#: ddterm/pref/colors.js:410
+#: ddterm/pref/colors.js:405
 msgid "Color _Scheme"
 msgstr "Цветовая схема"
 
-#: ddterm/pref/colors.js:429
+#: ddterm/pref/colors.js:424
 msgid "Foreground Color"
 msgstr "Цвет текста"
 
-#: ddterm/pref/colors.js:443
+#: ddterm/pref/colors.js:438
 msgid "Background Color"
 msgstr "Цвет фона"
 
-#: ddterm/pref/colors.js:458 ddterm/pref/colors.js:466
+#: ddterm/pref/colors.js:453 ddterm/pref/colors.js:458
 msgid "Bold Color"
 msgstr "Жирный цвет"
 
-#: ddterm/pref/colors.js:476
+#: ddterm/pref/colors.js:468
 msgid "Cursor Color"
 msgstr "Цвет курсора"
 
-#: ddterm/pref/colors.js:498
+#: ddterm/pref/colors.js:473
 msgid "Cursor Foreground Color"
 msgstr "Цвет текста в курсоре"
 
-#: ddterm/pref/colors.js:503
+#: ddterm/pref/colors.js:480
 msgid "Cursor Background Color"
 msgstr "Цвет фона курсора"
 
-#: ddterm/pref/colors.js:540
+#: ddterm/pref/colors.js:491
 msgid "Highlight Color"
 msgstr "Цвет подсветки"
 
-#: ddterm/pref/colors.js:562
+#: ddterm/pref/colors.js:496
 msgid "Highlight Foreground Color"
 msgstr "Цвет подсветки текста"
 
-#: ddterm/pref/colors.js:567
+#: ddterm/pref/colors.js:503
 msgid "Highlight Background Color"
 msgstr "Цвет подсветки фона"
 
-#: ddterm/pref/colors.js:621
+#: ddterm/pref/colors.js:531
 msgid "_Background Opacity"
 msgstr "Непрозрачность фона"
 
-#: ddterm/pref/colors.js:644
+#: ddterm/pref/colors.js:554
 msgid "GNOME"
 msgstr "GNOME"
 
-#: ddterm/pref/colors.js:662
+#: ddterm/pref/colors.js:572
 msgid "Tango"
 msgstr "Tango"
 
-#: ddterm/pref/colors.js:680
+#: ddterm/pref/colors.js:590
 msgid "Linux"
 msgstr "Linux"
 
-#: ddterm/pref/colors.js:698
+#: ddterm/pref/colors.js:608
 msgid "XTerm"
 msgstr "XTerm"
 
-#: ddterm/pref/colors.js:716
+#: ddterm/pref/colors.js:626
 msgid "RXVT"
 msgstr "RXVT"
 
-#: ddterm/pref/colors.js:734
+#: ddterm/pref/colors.js:644
 msgid "Solarized"
 msgstr "Solarized"
 
-#: ddterm/pref/colors.js:763
+#: ddterm/pref/colors.js:673
 msgid "_Palette"
 msgstr "Палитра"
 
-#: ddterm/pref/colors.js:838
+#: ddterm/pref/colors.js:748
 msgid "Show Bold Text in _Bright Colors"
 msgstr "Отображать жирный текст в ярких цветах"
 
-#: ddterm/pref/colors.js:843
+#: ddterm/pref/colors.js:753
 msgid "Copy profile from GNOME Terminal"
 msgstr "Скопировать профиль из терминала GNOME"
 
-#: ddterm/pref/command.js:22 ddterm/pref/command.js:26
+#: ddterm/pref/command.js:23 ddterm/pref/command.js:27
 msgid "Command"
 msgstr "Команда"
 
-#: ddterm/pref/command.js:28
+#: ddterm/pref/command.js:29
 msgid "User shell"
 msgstr "Пользовательский shell"
 
-#: ddterm/pref/command.js:29
+#: ddterm/pref/command.js:30
 msgid "User shell as login shell"
 msgstr "Пользовательский shell как оболочка входа"
 
-#: ddterm/pref/command.js:30
+#: ddterm/pref/command.js:31
 msgid "Custom command"
 msgstr "Другая команда"
 
-#: ddterm/pref/command.js:35
+#: ddterm/pref/command.js:36
 msgid "Custom Command"
 msgstr "Другая команда"
 
-#: ddterm/pref/compatibility.js:20
+#: ddterm/pref/compatibility.js:21
 msgid "Compatibility"
 msgstr "Совместимость"
 
-#: ddterm/pref/compatibility.js:23 ddterm/pref/tabs.js:31
+#: ddterm/pref/compatibility.js:24 ddterm/pref/tabs.js:31
 msgid "Automatic"
 msgstr "Автоматически"
 
-#: ddterm/pref/compatibility.js:24
+#: ddterm/pref/compatibility.js:25
 msgid "Control-H"
 msgstr "Control-H"
 
-#: ddterm/pref/compatibility.js:25
+#: ddterm/pref/compatibility.js:26
 msgid "ASCII DEL"
 msgstr "ASCII DEL"
 
-#: ddterm/pref/compatibility.js:26
+#: ddterm/pref/compatibility.js:27
 msgid "Escape sequence"
 msgstr "Управляющая последовательность"
 
-#: ddterm/pref/compatibility.js:27
+#: ddterm/pref/compatibility.js:28
 msgid "TTY Erase"
 msgstr "Очистить терминал"
 
-#: ddterm/pref/compatibility.js:32
+#: ddterm/pref/compatibility.js:33
 msgid "_Backspace Key Generates"
 msgstr "Клавиша «Backspace» генерирует"
 
-#: ddterm/pref/compatibility.js:38
+#: ddterm/pref/compatibility.js:39
 msgid "_Delete Key Generates"
 msgstr "Клавиша «Delete» генерирует"
 
-#: ddterm/pref/compatibility.js:44
+#: ddterm/pref/compatibility.js:45
 msgid "Ambiguous-_Width Characters"
 msgstr "Символы неоднозначной ширины"
 
-#: ddterm/pref/compatibility.js:46
+#: ddterm/pref/compatibility.js:47
 msgid "Narrow"
 msgstr "Узкие"
 
-#: ddterm/pref/compatibility.js:47
+#: ddterm/pref/compatibility.js:48
 msgid "Wide"
 msgstr "Широкие"
 
-#: ddterm/pref/compatibility.js:53
+#: ddterm/pref/compatibility.js:54
 msgid "_Reset Compatibility Options to Defaults"
 msgstr "Восстановить параметры совместимости по умолчанию"
 
@@ -817,211 +817,211 @@ msgstr "Кнопка переключения"
 msgid "Toggle button and popup menu"
 msgstr "Кнопка переключения и выпадающее меню"
 
-#: ddterm/pref/positionsize.js:190
+#: ddterm/pref/positionsize.js:192
 msgid "Position and Size"
 msgstr "Положение и размер"
 
-#: ddterm/pref/positionsize.js:197
+#: ddterm/pref/positionsize.js:199
 msgid "On the monitor that contains the mouse pointer"
 msgstr "На мониторе, на котором находится указатель мыши"
 
-#: ddterm/pref/positionsize.js:203
+#: ddterm/pref/positionsize.js:205
 msgid "On the primary monitor"
 msgstr "На основном мониторе"
 
-#: ddterm/pref/positionsize.js:208
+#: ddterm/pref/positionsize.js:210
 msgid "On the monitor with keyboard focus"
 msgstr "На мониторе с фокусом ввода с клавиатуры"
 
-#: ddterm/pref/positionsize.js:214
+#: ddterm/pref/positionsize.js:216
 msgid "On _Monitor"
 msgstr "На мониторе"
 
-#: ddterm/pref/positionsize.js:274
+#: ddterm/pref/positionsize.js:276
 msgid "_Window Position"
 msgstr "Положение окна"
 
-#: ddterm/pref/positionsize.js:276 ddterm/pref/tabs.js:41
+#: ddterm/pref/positionsize.js:278 ddterm/pref/tabs.js:41
 msgid "Top"
 msgstr "Сверху"
 
-#: ddterm/pref/positionsize.js:277 ddterm/pref/tabs.js:40
+#: ddterm/pref/positionsize.js:279 ddterm/pref/tabs.js:40
 msgid "Bottom"
 msgstr "Внизу"
 
-#: ddterm/pref/positionsize.js:278
+#: ddterm/pref/positionsize.js:280
 msgid "Left"
 msgstr "Слева"
 
-#: ddterm/pref/positionsize.js:279
+#: ddterm/pref/positionsize.js:281
 msgid "Right"
 msgstr "Справа"
 
-#: ddterm/pref/positionsize.js:302
+#: ddterm/pref/positionsize.js:304
 msgid "Window _Size"
 msgstr "Размер окна"
 
-#: ddterm/pref/scrolling.js:24
+#: ddterm/pref/scrolling.js:25
 msgid "Scrolling"
 msgstr "Прокрутка"
 
-#: ddterm/pref/scrolling.js:28
+#: ddterm/pref/scrolling.js:29
 msgid "Show _Scrollbar"
 msgstr "Показывать полосу прокрутки"
 
-#: ddterm/pref/scrolling.js:43
+#: ddterm/pref/scrolling.js:44
 #, fuzzy
 #| msgid "_Limit scrollback to:"
 msgid "Unlimited Scrollback"
 msgstr "Ограничить прокрутку:"
 
-#: ddterm/pref/scrolling.js:53
+#: ddterm/pref/scrolling.js:54
 #, fuzzy
 #| msgid "Scrolling"
 msgid "Scrollback Lines"
 msgstr "Прокрутка"
 
-#: ddterm/pref/shortcuts.js:339 ddterm/pref/text.js:120
+#: ddterm/pref/shortcuts.js:336 ddterm/pref/text.js:116
 msgid "Disabled"
 msgstr "Отключено"
 
-#: ddterm/pref/shortcuts.js:494
+#: ddterm/pref/shortcuts.js:491
 #, fuzzy
 #| msgid "Global Shortcut"
 msgid "Global Shortcuts"
 msgstr "Глобальная комбинация клавиш"
 
-#: ddterm/pref/shortcuts.js:498
+#: ddterm/pref/shortcuts.js:495
 msgid "Toggle Terminal Window"
 msgstr "Переключение видимости окна терминала"
 
-#: ddterm/pref/shortcuts.js:504
+#: ddterm/pref/shortcuts.js:501
 msgid "Show/Activate Terminal Window"
 msgstr "Показать/активировать окно терминала"
 
-#: ddterm/pref/shortcuts.js:520
+#: ddterm/pref/shortcuts.js:517
 #, fuzzy
 #| msgid "_Enable application shortcuts"
 msgid "Application Shortcuts"
 msgstr "Включить комбинации клавиш для приложения"
 
-#: ddterm/pref/shortcuts.js:524
+#: ddterm/pref/shortcuts.js:521
 msgid "_Enable application shortcuts"
 msgstr "Включить комбинации клавиш для приложения"
 
-#: ddterm/pref/shortcuts.js:529
+#: ddterm/pref/shortcuts.js:526
 msgid "Hide the Window"
 msgstr "Скрыть окно"
 
-#: ddterm/pref/shortcuts.js:534
+#: ddterm/pref/shortcuts.js:531
 msgid "Maximize/Unmaximize the Window"
 msgstr "Развернуть/свернуть окно"
 
-#: ddterm/pref/shortcuts.js:539
+#: ddterm/pref/shortcuts.js:536
 msgid "Increase Window Size"
 msgstr "Увеличить размер окна"
 
-#: ddterm/pref/shortcuts.js:544
+#: ddterm/pref/shortcuts.js:541
 msgid "Decrease Window Size"
 msgstr "Уменьшить размер окна"
 
-#: ddterm/pref/shortcuts.js:549
+#: ddterm/pref/shortcuts.js:546
 msgid "Increase Background Opacity"
 msgstr "Увеличить непрозрачность фона"
 
-#: ddterm/pref/shortcuts.js:554
+#: ddterm/pref/shortcuts.js:551
 msgid "Decrease Background Opacity"
 msgstr "Уменьшить непрозрачность фона"
 
-#: ddterm/pref/shortcuts.js:559
+#: ddterm/pref/shortcuts.js:556
 msgid "Enable/Disable Background Transparency"
 msgstr "Вкл/выкл прозрачности фона"
 
-#: ddterm/pref/shortcuts.js:564
+#: ddterm/pref/shortcuts.js:561
 msgid "Copy Selected Text"
 msgstr "Копировать выбранный текст"
 
-#: ddterm/pref/shortcuts.js:569
+#: ddterm/pref/shortcuts.js:566
 msgid "Copy Selected Text as HTML"
 msgstr "Копировать выбранный текст как HTML"
 
-#: ddterm/pref/shortcuts.js:574
+#: ddterm/pref/shortcuts.js:571
 msgid "Paste Text from Clipboard"
 msgstr "Вставить текст из буфера обмена"
 
-#: ddterm/pref/shortcuts.js:614
+#: ddterm/pref/shortcuts.js:611
 msgid "Close Current Tab"
 msgstr "Закрыть текущую вкладку"
 
-#: ddterm/pref/shortcuts.js:619
+#: ddterm/pref/shortcuts.js:616
 msgid "Switch to Previous Tab"
 msgstr "Переключится на предыдущую вкладку"
 
-#: ddterm/pref/shortcuts.js:624
+#: ddterm/pref/shortcuts.js:621
 msgid "Switch to Next Tab"
 msgstr "Переключится на следующую вкладку"
 
-#: ddterm/pref/shortcuts.js:649
+#: ddterm/pref/shortcuts.js:646
 msgid "Move Keyboard Focus to Other Split Pane"
 msgstr "Перемещение фокуса клавиатуры на другую панель разделения"
 
-#: ddterm/pref/shortcuts.js:654
+#: ddterm/pref/shortcuts.js:651
 msgid "Move Tab to Other Split Pane"
 msgstr "Переместить вкладку на другую разделенную панель"
 
-#: ddterm/pref/shortcuts.js:659
+#: ddterm/pref/shortcuts.js:656
 msgid "Increase First Split Pane Size"
 msgstr "Увеличить размер первой разделенной панели"
 
-#: ddterm/pref/shortcuts.js:664
+#: ddterm/pref/shortcuts.js:661
 msgid "Decrease First Split Pane Size"
 msgstr "Уменьшить размер первой разделенной панели"
 
-#: ddterm/pref/shortcuts.js:674
+#: ddterm/pref/shortcuts.js:671
 msgid "Reset Tab Title"
 msgstr "Сбросить название вкладки"
 
-#: ddterm/pref/shortcuts.js:709
+#: ddterm/pref/shortcuts.js:706
 msgid "Switch to Tab 1"
 msgstr "Переключиться на вкладку 1"
 
-#: ddterm/pref/shortcuts.js:714
+#: ddterm/pref/shortcuts.js:711
 msgid "Switch to Tab 2"
 msgstr "Переключиться на вкладку 2"
 
-#: ddterm/pref/shortcuts.js:719
+#: ddterm/pref/shortcuts.js:716
 msgid "Switch to Tab 3"
 msgstr "Переключиться на вкладку 3"
 
-#: ddterm/pref/shortcuts.js:724
+#: ddterm/pref/shortcuts.js:721
 msgid "Switch to Tab 4"
 msgstr "Переключиться на вкладку 4"
 
-#: ddterm/pref/shortcuts.js:729
+#: ddterm/pref/shortcuts.js:726
 msgid "Switch to Tab 5"
 msgstr "Переключиться на вкладку 5"
 
-#: ddterm/pref/shortcuts.js:734
+#: ddterm/pref/shortcuts.js:731
 msgid "Switch to Tab 6"
 msgstr "Переключиться на вкладку 6"
 
-#: ddterm/pref/shortcuts.js:739
+#: ddterm/pref/shortcuts.js:736
 msgid "Switch to Tab 7"
 msgstr "Переключиться на вкладку 7"
 
-#: ddterm/pref/shortcuts.js:744
+#: ddterm/pref/shortcuts.js:741
 msgid "Switch to Tab 8"
 msgstr "Переключиться на вкладку 8"
 
-#: ddterm/pref/shortcuts.js:749
+#: ddterm/pref/shortcuts.js:746
 msgid "Switch to Tab 9"
 msgstr "Переключиться на вкладку 9"
 
-#: ddterm/pref/shortcuts.js:754
+#: ddterm/pref/shortcuts.js:751
 msgid "Switch to Tab 10"
 msgstr "Переключиться на вкладку 10"
 
-#: ddterm/pref/shortcuts.js:811
+#: ddterm/pref/shortcuts.js:808
 msgid "Reset All Shortcuts to Defaults"
 msgstr "Восстановить значения по умолчанию"
 
@@ -1037,11 +1037,11 @@ msgstr "_Восстановить предыдущие вкладки при з�
 msgid "Show Tab _Bar"
 msgstr "Показывать панель вкладок"
 
-#: ddterm/pref/tabs.js:30 ddterm/pref/text.js:100
+#: ddterm/pref/tabs.js:30 ddterm/pref/text.js:96
 msgid "Always"
 msgstr "Всегда"
 
-#: ddterm/pref/tabs.js:32 ddterm/pref/text.js:97
+#: ddterm/pref/tabs.js:32 ddterm/pref/text.js:93
 msgid "Never"
 msgstr "Никогда"
 
@@ -1069,91 +1069,91 @@ msgstr "Меню переключения вкладок"
 msgid "Show Keyboard Shortcuts"
 msgstr "Показать комбинации клавиш"
 
-#: ddterm/pref/text.js:71
+#: ddterm/pref/text.js:67
 msgid "Text"
 msgstr "Текст"
 
-#: ddterm/pref/text.js:75
+#: ddterm/pref/text.js:71
 msgid "Use System Font"
 msgstr ""
 
-#: ddterm/pref/text.js:79
+#: ddterm/pref/text.js:75
 msgid "Custom _Font"
 msgstr "Пользовательский шрифт"
 
-#: ddterm/pref/text.js:95
+#: ddterm/pref/text.js:91
 msgid "Allow _Blinking Text"
 msgstr "Разрешить моргание текста"
 
-#: ddterm/pref/text.js:98
+#: ddterm/pref/text.js:94
 msgid "When focused"
 msgstr "Когда в фокусе"
 
-#: ddterm/pref/text.js:99
+#: ddterm/pref/text.js:95
 msgid "When unfocused"
 msgstr "Когда не в фокусе"
 
-#: ddterm/pref/text.js:106
+#: ddterm/pref/text.js:102
 msgid "Cursor _Shape"
 msgstr "Вид курсора"
 
-#: ddterm/pref/text.js:108
+#: ddterm/pref/text.js:104
 msgid "Block"
 msgstr "Блок"
 
-#: ddterm/pref/text.js:109
+#: ddterm/pref/text.js:105
 msgid "I-Beam"
 msgstr "I-образный"
 
-#: ddterm/pref/text.js:110
+#: ddterm/pref/text.js:106
 msgid "Underline"
 msgstr "Подчёркивание"
 
-#: ddterm/pref/text.js:116
+#: ddterm/pref/text.js:112
 msgid "_Cursor Blinking"
 msgstr "Моргание курсора"
 
-#: ddterm/pref/text.js:119
+#: ddterm/pref/text.js:115
 msgid "Enabled"
 msgstr "Включено"
 
-#: ddterm/pref/text.js:126
+#: ddterm/pref/text.js:122
 msgid "Allow _Hyperlinks"
 msgstr "Разрешить ссылки"
 
-#: ddterm/pref/text.js:131
+#: ddterm/pref/text.js:127
 msgid "Audible _Bell"
 msgstr "Звуковой сигнал"
 
-#: ddterm/pref/text.js:136
+#: ddterm/pref/text.js:132
 msgid "Detect _URLs"
 msgstr "Определение ссылок (URL)"
 
-#: ddterm/pref/text.js:141
+#: ddterm/pref/text.js:137
 msgid "Detect Raw URLs (scheme://netloc/path)"
 msgstr "Прямые ссылки (схема://сетевой/путь)"
 
-#: ddterm/pref/text.js:146
+#: ddterm/pref/text.js:142
 msgid "Detect \"file:\" URLs"
 msgstr "Ссылки на файлы"
 
-#: ddterm/pref/text.js:151
+#: ddterm/pref/text.js:147
 msgid "Detect HTTP URLs"
 msgstr "Ссылки HTTP"
 
-#: ddterm/pref/text.js:156
+#: ddterm/pref/text.js:152
 msgid "Detect VoIP URLs"
 msgstr "Ссылки VoIP"
 
-#: ddterm/pref/text.js:161
+#: ddterm/pref/text.js:157
 msgid "Detect E-mail Addresses"
 msgstr "Адреса E-mail"
 
-#: ddterm/pref/text.js:166
+#: ddterm/pref/text.js:162
 msgid "Detect \"news:\", \"man:\" URLs"
 msgstr "Ссылки вида \"news:\", \"man:\""
 
-#: ddterm/pref/text.js:171
+#: ddterm/pref/text.js:167
 #, fuzzy
 #| msgid "Copy Selected Text"
 msgid "Copy On Selection"
