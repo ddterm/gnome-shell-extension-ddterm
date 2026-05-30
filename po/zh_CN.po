@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-05-29 06:31+0000\n"
-"PO-Revision-Date: 2026-05-19 15:11+0000\n"
-"Last-Translator: Mike Lei <mikelei@duck.com>\n"
+"PO-Revision-Date: 2026-05-30 10:21+0000\n"
+"Last-Translator: reducedradius <feixiang512@outlook.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/zh_Hans/>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
@@ -1148,8 +1148,9 @@ msgid "Enter new shortcut"
 msgstr "输入新的快捷方式"
 
 #: ddterm/pref/ui/gtk3/shortcutdialog.ui:38
+#, fuzzy
 msgid "Click \"Set\" to replace existing shortcut(s). Click \"Add\" to add alternative shortcut."
-msgstr ""
+msgstr "点击“设置”来替换已存在的快捷方式。点击“添加”来增添快捷方式。"
 
 #: ddterm/pref/ui/gtk3/shortcutdialog.ui:55
 msgid "Press Esc to cancel or Backspace to disable the keyboard shortcut"
@@ -1161,7 +1162,7 @@ msgstr "设定"
 
 #: ddterm/pref/ui/gtk3/shortcutdialog.ui:84
 msgid "Add"
-msgstr ""
+msgstr "添加"
 
 #: ddterm/pref/util.js:24
 msgid "Reset to default value"
