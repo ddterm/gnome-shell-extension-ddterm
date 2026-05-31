@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-29 06:31+0000\n"
+"POT-Creation-Date: 2026-05-31 18:58+0000\n"
 "PO-Revision-Date: 2024-09-02 20:09+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/nb_NO/>\n"
@@ -576,7 +576,7 @@ msgstr "Farger"
 msgid "Theme _Variant"
 msgstr "Drakt_variant"
 
-#: ddterm/pref/colors.js:359 ddterm/pref/text.js:114
+#: ddterm/pref/colors.js:359 ddterm/pref/text.js:116
 msgid "Default"
 msgstr "Forvalg"
 
@@ -828,27 +828,27 @@ msgstr "På skjermen med tastaturfokus"
 msgid "On _Monitor"
 msgstr "På _skjerm"
 
-#: ddterm/pref/positionsize.js:276
+#: ddterm/pref/positionsize.js:277
 msgid "_Window Position"
 msgstr "_Vindusposisjon"
 
-#: ddterm/pref/positionsize.js:278 ddterm/pref/tabs.js:41
+#: ddterm/pref/positionsize.js:279 ddterm/pref/tabs.js:41
 msgid "Top"
 msgstr "Toppen"
 
-#: ddterm/pref/positionsize.js:279 ddterm/pref/tabs.js:40
+#: ddterm/pref/positionsize.js:280 ddterm/pref/tabs.js:40
 msgid "Bottom"
 msgstr "Bunnen"
 
-#: ddterm/pref/positionsize.js:280
+#: ddterm/pref/positionsize.js:281
 msgid "Left"
 msgstr "Venstre"
 
-#: ddterm/pref/positionsize.js:281
+#: ddterm/pref/positionsize.js:282
 msgid "Right"
 msgstr "Høyre"
 
-#: ddterm/pref/positionsize.js:304
+#: ddterm/pref/positionsize.js:305
 msgid "Window _Size"
 msgstr "Vindus_størrelse"
 
@@ -872,7 +872,7 @@ msgstr "_Begrens tilbakerullingsminne til:"
 msgid "Scrollback Lines"
 msgstr "Rulling"
 
-#: ddterm/pref/shortcuts.js:336 ddterm/pref/text.js:116
+#: ddterm/pref/shortcuts.js:336 ddterm/pref/text.js:118
 msgid "Disabled"
 msgstr "Avskrudd"
 
@@ -1029,11 +1029,11 @@ msgstr ""
 msgid "Show Tab _Bar"
 msgstr "Vis fane_felt"
 
-#: ddterm/pref/tabs.js:30 ddterm/pref/text.js:96
+#: ddterm/pref/tabs.js:30 ddterm/pref/text.js:98
 msgid "Always"
 msgstr "Alltid"
 
-#: ddterm/pref/tabs.js:32 ddterm/pref/text.js:93
+#: ddterm/pref/tabs.js:32 ddterm/pref/text.js:95
 msgid "Never"
 msgstr "Aldri"
 
@@ -1073,79 +1073,79 @@ msgstr ""
 msgid "Custom _Font"
 msgstr "Egendefinert _skrift"
 
-#: ddterm/pref/text.js:91
+#: ddterm/pref/text.js:93
 msgid "Allow _Blinking Text"
 msgstr "Tillat _blinkende tekst"
 
-#: ddterm/pref/text.js:94
+#: ddterm/pref/text.js:96
 msgid "When focused"
 msgstr "Når i fokus"
 
-#: ddterm/pref/text.js:95
+#: ddterm/pref/text.js:97
 msgid "When unfocused"
 msgstr "Når utenfor fokus"
 
-#: ddterm/pref/text.js:102
+#: ddterm/pref/text.js:104
 msgid "Cursor _Shape"
 msgstr "Peker_form"
 
-#: ddterm/pref/text.js:104
+#: ddterm/pref/text.js:106
 msgid "Block"
 msgstr "Blokk"
 
-#: ddterm/pref/text.js:105
+#: ddterm/pref/text.js:107
 msgid "I-Beam"
 msgstr "I-bjelke"
 
-#: ddterm/pref/text.js:106
+#: ddterm/pref/text.js:108
 msgid "Underline"
 msgstr "Understrek"
 
-#: ddterm/pref/text.js:112
+#: ddterm/pref/text.js:114
 msgid "_Cursor Blinking"
 msgstr "_Blinkende peker"
 
-#: ddterm/pref/text.js:115
+#: ddterm/pref/text.js:117
 msgid "Enabled"
 msgstr "Påskrudd"
 
-#: ddterm/pref/text.js:122
+#: ddterm/pref/text.js:124
 msgid "Allow _Hyperlinks"
 msgstr "Tillat _hyperlenker"
 
-#: ddterm/pref/text.js:127
+#: ddterm/pref/text.js:129
 msgid "Audible _Bell"
 msgstr "Hørbar _bjelle"
 
-#: ddterm/pref/text.js:132
+#: ddterm/pref/text.js:134
 msgid "Detect _URLs"
 msgstr "Oppdag _nettadresser"
 
-#: ddterm/pref/text.js:137
+#: ddterm/pref/text.js:139
 msgid "Detect Raw URLs (scheme://netloc/path)"
 msgstr "Oppdag rå-nettadresser (scheme://netloc/sti)"
 
-#: ddterm/pref/text.js:142
+#: ddterm/pref/text.js:144
 msgid "Detect \"file:\" URLs"
 msgstr "Oppdag \"file:\" nettadresser"
 
-#: ddterm/pref/text.js:147
+#: ddterm/pref/text.js:149
 msgid "Detect HTTP URLs"
 msgstr "Oppdag HTTP-nettadresser"
 
-#: ddterm/pref/text.js:152
+#: ddterm/pref/text.js:154
 msgid "Detect VoIP URLs"
 msgstr "Oppdag VoIP-nettadresser"
 
-#: ddterm/pref/text.js:157
+#: ddterm/pref/text.js:159
 msgid "Detect E-mail Addresses"
 msgstr "Oppdag e-postadresser"
 
-#: ddterm/pref/text.js:162
+#: ddterm/pref/text.js:164
 msgid "Detect \"news:\", \"man:\" URLs"
 msgstr "Oppdag \"news:\", \"man:\" -nettadresser"
 
-#: ddterm/pref/text.js:167
+#: ddterm/pref/text.js:169
 #, fuzzy
 #| msgid "Copy Selected Text"
 msgid "Copy On Selection"

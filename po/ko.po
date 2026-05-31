@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-29 06:31+0000\n"
+"POT-Creation-Date: 2026-05-31 18:58+0000\n"
 "PO-Revision-Date: 2026-05-26 03:11+0000\n"
 "Last-Translator: 스이미 <soo.wim3@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/ko/>\n"
@@ -577,7 +577,7 @@ msgstr "색상"
 msgid "Theme _Variant"
 msgstr "테마 _스타일"
 
-#: ddterm/pref/colors.js:359 ddterm/pref/text.js:114
+#: ddterm/pref/colors.js:359 ddterm/pref/text.js:116
 msgid "Default"
 msgstr "기본"
 
@@ -829,27 +829,27 @@ msgstr "사용 중인 모니터"
 msgid "On _Monitor"
 msgstr "_모니터 선택"
 
-#: ddterm/pref/positionsize.js:276
+#: ddterm/pref/positionsize.js:277
 msgid "_Window Position"
 msgstr "_창 위치"
 
-#: ddterm/pref/positionsize.js:278 ddterm/pref/tabs.js:41
+#: ddterm/pref/positionsize.js:279 ddterm/pref/tabs.js:41
 msgid "Top"
 msgstr "상단"
 
-#: ddterm/pref/positionsize.js:279 ddterm/pref/tabs.js:40
+#: ddterm/pref/positionsize.js:280 ddterm/pref/tabs.js:40
 msgid "Bottom"
 msgstr "하단"
 
-#: ddterm/pref/positionsize.js:280
+#: ddterm/pref/positionsize.js:281
 msgid "Left"
 msgstr "왼쪽"
 
-#: ddterm/pref/positionsize.js:281
+#: ddterm/pref/positionsize.js:282
 msgid "Right"
 msgstr "오른쪽"
 
-#: ddterm/pref/positionsize.js:304
+#: ddterm/pref/positionsize.js:305
 msgid "Window _Size"
 msgstr "창 _크기"
 
@@ -869,7 +869,7 @@ msgstr "스크롤 제한 없음"
 msgid "Scrollback Lines"
 msgstr "스크롤 버퍼 크기"
 
-#: ddterm/pref/shortcuts.js:336 ddterm/pref/text.js:116
+#: ddterm/pref/shortcuts.js:336 ddterm/pref/text.js:118
 msgid "Disabled"
 msgstr "비활성화"
 
@@ -1021,11 +1021,11 @@ msgstr "시작 시 이전 탭 _복원"
 msgid "Show Tab _Bar"
 msgstr "탭 _표시줄 표시"
 
-#: ddterm/pref/tabs.js:30 ddterm/pref/text.js:96
+#: ddterm/pref/tabs.js:30 ddterm/pref/text.js:98
 msgid "Always"
 msgstr "항상"
 
-#: ddterm/pref/tabs.js:32 ddterm/pref/text.js:93
+#: ddterm/pref/tabs.js:32 ddterm/pref/text.js:95
 msgid "Never"
 msgstr "안 함"
 
@@ -1065,79 +1065,79 @@ msgstr "시스템 글꼴 사용"
 msgid "Custom _Font"
 msgstr "사용자 지정 글꼴"
 
-#: ddterm/pref/text.js:91
+#: ddterm/pref/text.js:93
 msgid "Allow _Blinking Text"
 msgstr "텍스트 _깜빡임 허용"
 
-#: ddterm/pref/text.js:94
+#: ddterm/pref/text.js:96
 msgid "When focused"
 msgstr "포커스 시"
 
-#: ddterm/pref/text.js:95
+#: ddterm/pref/text.js:97
 msgid "When unfocused"
 msgstr "포커스 해제 시"
 
-#: ddterm/pref/text.js:102
+#: ddterm/pref/text.js:104
 msgid "Cursor _Shape"
 msgstr "커서 _모양"
 
-#: ddterm/pref/text.js:104
+#: ddterm/pref/text.js:106
 msgid "Block"
 msgstr "블록"
 
-#: ddterm/pref/text.js:105
+#: ddterm/pref/text.js:107
 msgid "I-Beam"
 msgstr "I-빔"
 
-#: ddterm/pref/text.js:106
+#: ddterm/pref/text.js:108
 msgid "Underline"
 msgstr "밑줄"
 
-#: ddterm/pref/text.js:112
+#: ddterm/pref/text.js:114
 msgid "_Cursor Blinking"
 msgstr "_커서 깜빡임"
 
-#: ddterm/pref/text.js:115
+#: ddterm/pref/text.js:117
 msgid "Enabled"
 msgstr "활성화"
 
-#: ddterm/pref/text.js:122
+#: ddterm/pref/text.js:124
 msgid "Allow _Hyperlinks"
 msgstr "하이퍼링크 허용"
 
-#: ddterm/pref/text.js:127
+#: ddterm/pref/text.js:129
 msgid "Audible _Bell"
 msgstr "소리 _알림"
 
-#: ddterm/pref/text.js:132
+#: ddterm/pref/text.js:134
 msgid "Detect _URLs"
 msgstr "_URL 감지"
 
-#: ddterm/pref/text.js:137
+#: ddterm/pref/text.js:139
 msgid "Detect Raw URLs (scheme://netloc/path)"
 msgstr "Raw URL 감지 (scheme://netloc/path)"
 
-#: ddterm/pref/text.js:142
+#: ddterm/pref/text.js:144
 msgid "Detect \"file:\" URLs"
 msgstr "\"file:\" URL 감지"
 
-#: ddterm/pref/text.js:147
+#: ddterm/pref/text.js:149
 msgid "Detect HTTP URLs"
 msgstr "HTTP URL 감지"
 
-#: ddterm/pref/text.js:152
+#: ddterm/pref/text.js:154
 msgid "Detect VoIP URLs"
 msgstr "VoIP URL 감지"
 
-#: ddterm/pref/text.js:157
+#: ddterm/pref/text.js:159
 msgid "Detect E-mail Addresses"
 msgstr "이메일 주소 감지"
 
-#: ddterm/pref/text.js:162
+#: ddterm/pref/text.js:164
 msgid "Detect \"news:\", \"man:\" URLs"
 msgstr "\"news:\", \"man:\" URL 감지"
 
-#: ddterm/pref/text.js:167
+#: ddterm/pref/text.js:169
 msgid "Copy On Selection"
 msgstr "선택 시 자동 복사"
 

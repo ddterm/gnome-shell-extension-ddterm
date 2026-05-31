@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-29 06:31+0000\n"
+"POT-Creation-Date: 2026-05-31 18:58+0000\n"
 "PO-Revision-Date: 2026-05-30 10:21+0000\n"
 "Last-Translator: reducedradius <feixiang512@outlook.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/zh_Hans/>\n"
@@ -579,7 +579,7 @@ msgstr "颜色"
 msgid "Theme _Variant"
 msgstr "主题 _变体"
 
-#: ddterm/pref/colors.js:359 ddterm/pref/text.js:114
+#: ddterm/pref/colors.js:359 ddterm/pref/text.js:116
 msgid "Default"
 msgstr "默认样式"
 
@@ -831,27 +831,27 @@ msgstr "在键盘 聚焦的显示器上"
 msgid "On _Monitor"
 msgstr "在 _显示器上"
 
-#: ddterm/pref/positionsize.js:276
+#: ddterm/pref/positionsize.js:277
 msgid "_Window Position"
 msgstr "_窗口位置"
 
-#: ddterm/pref/positionsize.js:278 ddterm/pref/tabs.js:41
+#: ddterm/pref/positionsize.js:279 ddterm/pref/tabs.js:41
 msgid "Top"
 msgstr "顶部"
 
-#: ddterm/pref/positionsize.js:279 ddterm/pref/tabs.js:40
+#: ddterm/pref/positionsize.js:280 ddterm/pref/tabs.js:40
 msgid "Bottom"
 msgstr "底部"
 
-#: ddterm/pref/positionsize.js:280
+#: ddterm/pref/positionsize.js:281
 msgid "Left"
 msgstr "左边"
 
-#: ddterm/pref/positionsize.js:281
+#: ddterm/pref/positionsize.js:282
 msgid "Right"
 msgstr "右边"
 
-#: ddterm/pref/positionsize.js:304
+#: ddterm/pref/positionsize.js:305
 msgid "Window _Size"
 msgstr "窗口 _大小"
 
@@ -871,7 +871,7 @@ msgstr "无限回滚"
 msgid "Scrollback Lines"
 msgstr "回滚行"
 
-#: ddterm/pref/shortcuts.js:336 ddterm/pref/text.js:116
+#: ddterm/pref/shortcuts.js:336 ddterm/pref/text.js:118
 msgid "Disabled"
 msgstr "已禁用"
 
@@ -1023,11 +1023,11 @@ msgstr "_启动时还原以前的选项卡"
 msgid "Show Tab _Bar"
 msgstr "显示标签 _栏"
 
-#: ddterm/pref/tabs.js:30 ddterm/pref/text.js:96
+#: ddterm/pref/tabs.js:30 ddterm/pref/text.js:98
 msgid "Always"
 msgstr "总是"
 
-#: ddterm/pref/tabs.js:32 ddterm/pref/text.js:93
+#: ddterm/pref/tabs.js:32 ddterm/pref/text.js:95
 msgid "Never"
 msgstr "从不"
 
@@ -1067,79 +1067,79 @@ msgstr "使用系统字体"
 msgid "Custom _Font"
 msgstr "自定义 _字体"
 
-#: ddterm/pref/text.js:91
+#: ddterm/pref/text.js:93
 msgid "Allow _Blinking Text"
 msgstr "允许 _闪烁文本"
 
-#: ddterm/pref/text.js:94
+#: ddterm/pref/text.js:96
 msgid "When focused"
 msgstr "聚焦时"
 
-#: ddterm/pref/text.js:95
+#: ddterm/pref/text.js:97
 msgid "When unfocused"
 msgstr "未聚焦时"
 
-#: ddterm/pref/text.js:102
+#: ddterm/pref/text.js:104
 msgid "Cursor _Shape"
 msgstr "光标 _形状"
 
-#: ddterm/pref/text.js:104
+#: ddterm/pref/text.js:106
 msgid "Block"
 msgstr "方块"
 
-#: ddterm/pref/text.js:105
+#: ddterm/pref/text.js:107
 msgid "I-Beam"
 msgstr "I 字型"
 
-#: ddterm/pref/text.js:106
+#: ddterm/pref/text.js:108
 msgid "Underline"
 msgstr "下划线"
 
-#: ddterm/pref/text.js:112
+#: ddterm/pref/text.js:114
 msgid "_Cursor Blinking"
 msgstr "_光标闪烁"
 
-#: ddterm/pref/text.js:115
+#: ddterm/pref/text.js:117
 msgid "Enabled"
 msgstr "已启用"
 
-#: ddterm/pref/text.js:122
+#: ddterm/pref/text.js:124
 msgid "Allow _Hyperlinks"
 msgstr "允许 _超链接"
 
-#: ddterm/pref/text.js:127
+#: ddterm/pref/text.js:129
 msgid "Audible _Bell"
 msgstr "_响铃"
 
-#: ddterm/pref/text.js:132
+#: ddterm/pref/text.js:134
 msgid "Detect _URLs"
 msgstr "检测 _URLs"
 
-#: ddterm/pref/text.js:137
+#: ddterm/pref/text.js:139
 msgid "Detect Raw URLs (scheme://netloc/path)"
 msgstr "检测原始URL（scheme://netloc/path）"
 
-#: ddterm/pref/text.js:142
+#: ddterm/pref/text.js:144
 msgid "Detect \"file:\" URLs"
 msgstr "检测 \"file:\" 地址"
 
-#: ddterm/pref/text.js:147
+#: ddterm/pref/text.js:149
 msgid "Detect HTTP URLs"
 msgstr "检测网址"
 
-#: ddterm/pref/text.js:152
+#: ddterm/pref/text.js:154
 msgid "Detect VoIP URLs"
 msgstr "检测 VoIP URLs"
 
-#: ddterm/pref/text.js:157
+#: ddterm/pref/text.js:159
 msgid "Detect E-mail Addresses"
 msgstr "检测邮件地址"
 
-#: ddterm/pref/text.js:162
+#: ddterm/pref/text.js:164
 msgid "Detect \"news:\", \"man:\" URLs"
 msgstr "检测 \"news:\"、\"man:\" URLs"
 
-#: ddterm/pref/text.js:167
+#: ddterm/pref/text.js:169
 msgid "Copy On Selection"
 msgstr "选定文本时复制"
 

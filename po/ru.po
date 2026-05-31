@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-29 06:31+0000\n"
+"POT-Creation-Date: 2026-05-31 18:58+0000\n"
 "PO-Revision-Date: 2025-09-18 04:23+0000\n"
 "Last-Translator: Ivan Vantu5z <vantu5z@mail.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/ru/>\n"
@@ -585,7 +585,7 @@ msgstr "Цвета"
 msgid "Theme _Variant"
 msgstr "Вариант темы"
 
-#: ddterm/pref/colors.js:359 ddterm/pref/text.js:114
+#: ddterm/pref/colors.js:359 ddterm/pref/text.js:116
 msgid "Default"
 msgstr "По умолчанию"
 
@@ -837,27 +837,27 @@ msgstr "На мониторе с фокусом ввода с клавиатур
 msgid "On _Monitor"
 msgstr "На мониторе"
 
-#: ddterm/pref/positionsize.js:276
+#: ddterm/pref/positionsize.js:277
 msgid "_Window Position"
 msgstr "Положение окна"
 
-#: ddterm/pref/positionsize.js:278 ddterm/pref/tabs.js:41
+#: ddterm/pref/positionsize.js:279 ddterm/pref/tabs.js:41
 msgid "Top"
 msgstr "Сверху"
 
-#: ddterm/pref/positionsize.js:279 ddterm/pref/tabs.js:40
+#: ddterm/pref/positionsize.js:280 ddterm/pref/tabs.js:40
 msgid "Bottom"
 msgstr "Внизу"
 
-#: ddterm/pref/positionsize.js:280
+#: ddterm/pref/positionsize.js:281
 msgid "Left"
 msgstr "Слева"
 
-#: ddterm/pref/positionsize.js:281
+#: ddterm/pref/positionsize.js:282
 msgid "Right"
 msgstr "Справа"
 
-#: ddterm/pref/positionsize.js:304
+#: ddterm/pref/positionsize.js:305
 msgid "Window _Size"
 msgstr "Размер окна"
 
@@ -881,7 +881,7 @@ msgstr "Ограничить прокрутку:"
 msgid "Scrollback Lines"
 msgstr "Прокрутка"
 
-#: ddterm/pref/shortcuts.js:336 ddterm/pref/text.js:116
+#: ddterm/pref/shortcuts.js:336 ddterm/pref/text.js:118
 msgid "Disabled"
 msgstr "Отключено"
 
@@ -1037,11 +1037,11 @@ msgstr "_Восстановить предыдущие вкладки при з�
 msgid "Show Tab _Bar"
 msgstr "Показывать панель вкладок"
 
-#: ddterm/pref/tabs.js:30 ddterm/pref/text.js:96
+#: ddterm/pref/tabs.js:30 ddterm/pref/text.js:98
 msgid "Always"
 msgstr "Всегда"
 
-#: ddterm/pref/tabs.js:32 ddterm/pref/text.js:93
+#: ddterm/pref/tabs.js:32 ddterm/pref/text.js:95
 msgid "Never"
 msgstr "Никогда"
 
@@ -1081,79 +1081,79 @@ msgstr ""
 msgid "Custom _Font"
 msgstr "Пользовательский шрифт"
 
-#: ddterm/pref/text.js:91
+#: ddterm/pref/text.js:93
 msgid "Allow _Blinking Text"
 msgstr "Разрешить моргание текста"
 
-#: ddterm/pref/text.js:94
+#: ddterm/pref/text.js:96
 msgid "When focused"
 msgstr "Когда в фокусе"
 
-#: ddterm/pref/text.js:95
+#: ddterm/pref/text.js:97
 msgid "When unfocused"
 msgstr "Когда не в фокусе"
 
-#: ddterm/pref/text.js:102
+#: ddterm/pref/text.js:104
 msgid "Cursor _Shape"
 msgstr "Вид курсора"
 
-#: ddterm/pref/text.js:104
+#: ddterm/pref/text.js:106
 msgid "Block"
 msgstr "Блок"
 
-#: ddterm/pref/text.js:105
+#: ddterm/pref/text.js:107
 msgid "I-Beam"
 msgstr "I-образный"
 
-#: ddterm/pref/text.js:106
+#: ddterm/pref/text.js:108
 msgid "Underline"
 msgstr "Подчёркивание"
 
-#: ddterm/pref/text.js:112
+#: ddterm/pref/text.js:114
 msgid "_Cursor Blinking"
 msgstr "Моргание курсора"
 
-#: ddterm/pref/text.js:115
+#: ddterm/pref/text.js:117
 msgid "Enabled"
 msgstr "Включено"
 
-#: ddterm/pref/text.js:122
+#: ddterm/pref/text.js:124
 msgid "Allow _Hyperlinks"
 msgstr "Разрешить ссылки"
 
-#: ddterm/pref/text.js:127
+#: ddterm/pref/text.js:129
 msgid "Audible _Bell"
 msgstr "Звуковой сигнал"
 
-#: ddterm/pref/text.js:132
+#: ddterm/pref/text.js:134
 msgid "Detect _URLs"
 msgstr "Определение ссылок (URL)"
 
-#: ddterm/pref/text.js:137
+#: ddterm/pref/text.js:139
 msgid "Detect Raw URLs (scheme://netloc/path)"
 msgstr "Прямые ссылки (схема://сетевой/путь)"
 
-#: ddterm/pref/text.js:142
+#: ddterm/pref/text.js:144
 msgid "Detect \"file:\" URLs"
 msgstr "Ссылки на файлы"
 
-#: ddterm/pref/text.js:147
+#: ddterm/pref/text.js:149
 msgid "Detect HTTP URLs"
 msgstr "Ссылки HTTP"
 
-#: ddterm/pref/text.js:152
+#: ddterm/pref/text.js:154
 msgid "Detect VoIP URLs"
 msgstr "Ссылки VoIP"
 
-#: ddterm/pref/text.js:157
+#: ddterm/pref/text.js:159
 msgid "Detect E-mail Addresses"
 msgstr "Адреса E-mail"
 
-#: ddterm/pref/text.js:162
+#: ddterm/pref/text.js:164
 msgid "Detect \"news:\", \"man:\" URLs"
 msgstr "Ссылки вида \"news:\", \"man:\""
 
-#: ddterm/pref/text.js:167
+#: ddterm/pref/text.js:169
 #, fuzzy
 #| msgid "Copy Selected Text"
 msgid "Copy On Selection"

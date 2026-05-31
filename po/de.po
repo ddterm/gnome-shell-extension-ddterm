@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-29 06:31+0000\n"
+"POT-Creation-Date: 2026-05-31 18:58+0000\n"
 "PO-Revision-Date: 2026-05-27 05:38+0000\n"
 "Last-Translator: Luca Söthe <luca@acul.me>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/de/>\n"
@@ -582,7 +582,7 @@ msgstr "Farben"
 msgid "Theme _Variant"
 msgstr "Thema-_Variante"
 
-#: ddterm/pref/colors.js:359 ddterm/pref/text.js:114
+#: ddterm/pref/colors.js:359 ddterm/pref/text.js:116
 msgid "Default"
 msgstr "Standard"
 
@@ -834,27 +834,27 @@ msgstr "Auf dem Monitor mit Eingabefokus"
 msgid "On _Monitor"
 msgstr "Auf _Monitor"
 
-#: ddterm/pref/positionsize.js:276
+#: ddterm/pref/positionsize.js:277
 msgid "_Window Position"
 msgstr "Fensterposition"
 
-#: ddterm/pref/positionsize.js:278 ddterm/pref/tabs.js:41
+#: ddterm/pref/positionsize.js:279 ddterm/pref/tabs.js:41
 msgid "Top"
 msgstr "Oben"
 
-#: ddterm/pref/positionsize.js:279 ddterm/pref/tabs.js:40
+#: ddterm/pref/positionsize.js:280 ddterm/pref/tabs.js:40
 msgid "Bottom"
 msgstr "Unten"
 
-#: ddterm/pref/positionsize.js:280
+#: ddterm/pref/positionsize.js:281
 msgid "Left"
 msgstr "Links"
 
-#: ddterm/pref/positionsize.js:281
+#: ddterm/pref/positionsize.js:282
 msgid "Right"
 msgstr "Rechts"
 
-#: ddterm/pref/positionsize.js:304
+#: ddterm/pref/positionsize.js:305
 msgid "Window _Size"
 msgstr "Fen_stergröße"
 
@@ -875,7 +875,7 @@ msgstr "Unbegrenztes Zurückscrollen"
 msgid "Scrollback Lines"
 msgstr "Scrollback Lines"
 
-#: ddterm/pref/shortcuts.js:336 ddterm/pref/text.js:116
+#: ddterm/pref/shortcuts.js:336 ddterm/pref/text.js:118
 msgid "Disabled"
 msgstr "Deaktiviert"
 
@@ -1027,11 +1027,11 @@ msgstr "_Vorherige Reiter beim Start wiederherstellen"
 msgid "Show Tab _Bar"
 msgstr "Reiter_leiste anzeigen"
 
-#: ddterm/pref/tabs.js:30 ddterm/pref/text.js:96
+#: ddterm/pref/tabs.js:30 ddterm/pref/text.js:98
 msgid "Always"
 msgstr "Immer"
 
-#: ddterm/pref/tabs.js:32 ddterm/pref/text.js:93
+#: ddterm/pref/tabs.js:32 ddterm/pref/text.js:95
 msgid "Never"
 msgstr "Niemals"
 
@@ -1071,79 +1071,79 @@ msgstr "Systemschriftart verwenden"
 msgid "Custom _Font"
 msgstr "Benutzerdefinierte Schri_ftart"
 
-#: ddterm/pref/text.js:91
+#: ddterm/pref/text.js:93
 msgid "Allow _Blinking Text"
 msgstr "_Blinkenden Text zulassen"
 
-#: ddterm/pref/text.js:94
+#: ddterm/pref/text.js:96
 msgid "When focused"
 msgstr "Wenn fokussiert"
 
-#: ddterm/pref/text.js:95
+#: ddterm/pref/text.js:97
 msgid "When unfocused"
 msgstr "Wenn nicht fokussiert"
 
-#: ddterm/pref/text.js:102
+#: ddterm/pref/text.js:104
 msgid "Cursor _Shape"
 msgstr "Cursor-_Form"
 
-#: ddterm/pref/text.js:104
+#: ddterm/pref/text.js:106
 msgid "Block"
 msgstr "Block"
 
-#: ddterm/pref/text.js:105
+#: ddterm/pref/text.js:107
 msgid "I-Beam"
 msgstr "Gerader Strich"
 
-#: ddterm/pref/text.js:106
+#: ddterm/pref/text.js:108
 msgid "Underline"
 msgstr "Unterstrich"
 
-#: ddterm/pref/text.js:112
+#: ddterm/pref/text.js:114
 msgid "_Cursor Blinking"
 msgstr "_Cursor-Blinken"
 
-#: ddterm/pref/text.js:115
+#: ddterm/pref/text.js:117
 msgid "Enabled"
 msgstr "Aktiviert"
 
-#: ddterm/pref/text.js:122
+#: ddterm/pref/text.js:124
 msgid "Allow _Hyperlinks"
 msgstr "_Links zulassen"
 
-#: ddterm/pref/text.js:127
+#: ddterm/pref/text.js:129
 msgid "Audible _Bell"
 msgstr "Hör_bares Klingeln"
 
-#: ddterm/pref/text.js:132
+#: ddterm/pref/text.js:134
 msgid "Detect _URLs"
 msgstr "_URLs erkennen"
 
-#: ddterm/pref/text.js:137
+#: ddterm/pref/text.js:139
 msgid "Detect Raw URLs (scheme://netloc/path)"
 msgstr "Komplette URLs erkennen (schema://netloc/path)"
 
-#: ddterm/pref/text.js:142
+#: ddterm/pref/text.js:144
 msgid "Detect \"file:\" URLs"
 msgstr "»file:«-URLs erkennen"
 
-#: ddterm/pref/text.js:147
+#: ddterm/pref/text.js:149
 msgid "Detect HTTP URLs"
 msgstr "HTTP-URLs erkennen"
 
-#: ddterm/pref/text.js:152
+#: ddterm/pref/text.js:154
 msgid "Detect VoIP URLs"
 msgstr "VoIP-URLs erkennen"
 
-#: ddterm/pref/text.js:157
+#: ddterm/pref/text.js:159
 msgid "Detect E-mail Addresses"
 msgstr "E-Mail-Adressen erkennen"
 
-#: ddterm/pref/text.js:162
+#: ddterm/pref/text.js:164
 msgid "Detect \"news:\", \"man:\" URLs"
 msgstr "»news:«, »man:«-URLs erkennen"
 
-#: ddterm/pref/text.js:167
+#: ddterm/pref/text.js:169
 msgid "Copy On Selection"
 msgstr "Text bei Auswahl kopieren"
 
