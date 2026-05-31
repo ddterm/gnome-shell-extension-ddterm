@@ -21,14 +21,15 @@ The format is based on [Keep a Changelog], and this project adheres to
 - Added `Copy` and `Paste` hardware keys as default terminal copy/paste shortcuts
 by [@ponta0]: [#1915].
 - Added "Reset to default value" button for most settings in Preferences dialog:
-[#1919].
+[#1919], [#1947].
 - Multiple shortcuts can be assigned to the same action through Preferences
 dialog: [#932], [#1918].
 - `xsltproc` is a build dependency again.
 
 ### Changed
 
-- Chinese translation updates by [@mikelei8291]: [#1925].
+- Chinese translation updates by [@mikelei8291] and [@flytothehighest]:
+[#1925], [#1945].
 - German translation updates by [@Luca0208]: [#1937].
 - Korean translation updates by [@seuimi]: [#1937].
 
@@ -48,7 +49,10 @@ they are now better visually separated in Preferences dialog: [#1917].
 [#1919]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1919
 [#1925]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1925
 [#1937]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1937
+[#1945]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1945
+[#1947]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1947
 
+[@flytothehighest]: https://github.com/flytothehighest
 [@liuxiaopai-ai]: https://github.com/liuxiaopai-ai
 [@Luca0208]: https://github.com/Luca0208
 [@mikelei8291]: https://github.com/mikelei8291
@@ -143,7 +147,6 @@ they are now better visually separated in Preferences dialog: [#1917].
 
 [@cyphra]: https://github.com/cyphra
 [@daPhipz]: https://github.com/daPhipz
-[@flytothehighest]: https://github.com/flytothehighest
 [@leducvin]: https://github.com/leducvin
 [Mike Lei]: https://hosted.weblate.org/user/mikelei/
 [Traduttore]: https://hosted.weblate.org/user/traaduttore/
