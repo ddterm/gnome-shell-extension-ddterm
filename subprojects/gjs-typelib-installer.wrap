@@ -5,5 +5,5 @@
 [wrap-git]
 url = https://github.com/ddterm/gjs-typelib-installer.git
 # renovate-digest: datasource=git-refs depName=gjs-typelib-installer currentValue=main packageName=https://github.com/ddterm/gjs-typelib-installer
-revision = 41079b273f9f36d20f237cf9dadaa854be69a68e
+revision = a4fd1ce4aba97d9d700c93ec8e37f2bb283cc445
 depth = 1
