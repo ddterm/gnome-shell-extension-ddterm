@@ -3,60 +3,63 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 import { existsSync, readdirSync } from 'node:fs';
-import { join, resolve, sep } from 'node:path';
+import { join, resolve, sep } from 'node:path/posix';
 import { fileURLToPath } from 'node:url';
-import { includeIgnoreFile } from '@eslint/compat';
+import { includeIgnoreFile } from '@eslint/config-helpers';
 import minimatch from 'minimatch';
 
-function minimatchEscape(s) {
-    return s.replace(/[?*()[\]\\]/g, '\\$&');
+function ensureTrailingSep(path) {
+    if (path.endsWith(sep))
+        return path;
+
+    return path + sep;
 }
 
-function getSubdirIgnores(ignoreFile, subdir) {
-    if (!existsSync(ignoreFile))
-        return [];
+function *collectIgnores(directory, parentIgnores = []) {
+    directory = ensureTrailingSep(directory);
 
-    const { ignores } = includeIgnoreFile(ignoreFile);
-    const escapedSubdir = minimatchEscape(subdir);
+    const match = parentIgnores.findLast(({ pattern, basePath }) => {
+        basePath = ensureTrailingSep(basePath);
 
-    return ignores.map(pattern => new minimatch.Minimatch(
-        pattern.replace(/^!?/, negate => `${negate}${escapedSubdir}`),
-        { flipNegate: true }
-    ));
-}
+        return directory.startsWith(basePath) && pattern.match(directory.slice(basePath.length));
+    });
 
-function collectSubdir(rootDir, subdir = '', parentIgnores = []) {
-    const ignored = parentIgnores.findLast(matcher => matcher.match(subdir));
+    if (match && !match.pattern.negate)
+        return;
 
-    if (ignored && !ignored.negate)
-        return [];
+    const ignoreFile = join(directory, '.gitignore');
 
-    const absPath = join(rootDir, subdir);
-    const ignoreFile = join(absPath, '.gitignore');
-    const subdirIgnores = getSubdirIgnores(ignoreFile, subdir);
-    const effectiveIgnores = parentIgnores.concat(subdirIgnores);
+    if (existsSync(ignoreFile)) {
+        const config = includeIgnoreFile(ignoreFile, {
+            name: `Imported .gitignore patterns from ${ignoreFile}`,
+            gitignoreResolution: true,
+        });
 
-    return subdirIgnores.concat(
-        readdirSync(absPath, { withFileTypes: true })
-            .filter(child => child.isDirectory())
-            .flatMap(child => collectSubdir(
-                rootDir,
-                `${join(subdir, child.name)}${sep}`,
-                effectiveIgnores
-            ))
-    );
+        yield config;
+
+        let { ignores, basePath } = config;
+
+        basePath = ensureTrailingSep(basePath);
+
+        parentIgnores = parentIgnores.concat(
+            ignores.map(pattern => {
+                return {
+                    basePath,
+                    pattern: new minimatch.Minimatch(pattern, { flipNegate: true }),
+                };
+            })
+        );
+    }
+
+    for (const entry of readdirSync(directory, { withFileTypes: true })) {
+        if (entry.isDirectory() && entry.name !== '.git')
+            yield* collectIgnores(join(directory, entry.name), parentIgnores);
+    }
 }
 
 export default function gitIgnores(rootDir = '.') {
     if (rootDir instanceof URL)
-        rootDir = fileURLToPath(rootDir);
+        rootDir = fileURLToPath(rootDir, { windows: false });
 
-    rootDir = resolve(rootDir);
-
-    return {
-        name: `.gitignore patterns from ${rootDir}`,
-        ignores: collectSubdir(rootDir).map(
-            matcher => matcher.negate ? `!${matcher.pattern}` : matcher.pattern
-        ),
-    };
+    return Array.from(collectIgnores(resolve(rootDir)));
 }
