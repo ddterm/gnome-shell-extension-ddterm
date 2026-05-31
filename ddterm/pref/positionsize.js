@@ -9,7 +9,7 @@ import Gtk from 'gi://Gtk';
 
 import { ComboRow } from './widgets/comborow.js';
 import { ScaleRow } from './widgets/scalerow.js';
-import { PreferencesGroup } from './util.js';
+import { PreferencesGroup, add_reset_button } from './util.js';
 import { Monitor } from '../util/displayconfig.js';
 
 class SpecialMonitor extends Monitor {
@@ -220,6 +220,7 @@ export class PositionSizeGroup extends PreferencesGroup {
         });
 
         monitor_combo.bind_name_model(extended_monitors, v => v.display_name);
+        add_reset_button(monitor_combo, this.settings, 'window-monitor', this.gettext_domain);
         this.add(monitor_combo);
 
         const monitor_setting = new MonitorSetting({ monitors: extended_monitors });
