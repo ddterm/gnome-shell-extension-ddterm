@@ -14,7 +14,7 @@ The format is based on [Keep a Changelog], and this project adheres to
 [Keep a Changelog]: https://keepachangelog.com/en/1.1.0/
 [Semantic Versioning]: https://semver.org/spec/v2.0.0.html
 
-## [Unreleased]
+## [63.1.0] - 2026-06-02
 
 ### Added
 
@@ -32,8 +32,6 @@ dialog: [#932], [#1918].
 [#1925], [#1945].
 - German translation updates by [@Luca0208]: [#1937].
 - Korean translation updates by [@seuimi]: [#1937].
-
-### Removed
 
 ### Fixed
 
@@ -59,7 +57,7 @@ they are now better visually separated in Preferences dialog: [#1917].
 [@ponta0]: https://github.com/ponta0
 [@seuimi]: https://github.com/seuimi
 
-[Unreleased]: https://github.com/ddterm/gnome-shell-extension-ddterm/compare/v63.0.1...HEAD
+[63.1.0]: https://github.com/ddterm/gnome-shell-extension-ddterm/releases/tag/v63.1.0
 
 ## [63.0.1] - 2026-05-10
 
