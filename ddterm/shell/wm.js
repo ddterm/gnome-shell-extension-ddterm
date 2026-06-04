@@ -135,6 +135,9 @@ export const WindowManager = GObject.registerClass({
             ([signal, callback]) => this.geometry.connect(signal, callback)
         );
 
+        if (!this.#actor.visible && this.#client_type === Meta.WindowClientType.WAYLAND)
+            this.window.move_to_monitor(this.geometry.monitor_index);
+
         this.#window_handlers = Object.entries({
             'unmanaged': () => {
                 this.disable();

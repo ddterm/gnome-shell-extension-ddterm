@@ -14,6 +14,16 @@ The format is based on [Keep a Changelog], and this project adheres to
 [Keep a Changelog]: https://keepachangelog.com/en/1.1.0/
 [Semantic Versioning]: https://semver.org/spec/v2.0.0.html
 
+## [Unreleased]
+
+### Fixed
+
+- Window placement on Mutter 50.2: [#1955].
+
+[#1955]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1955
+
+[Unreleased]: https://github.com/ddterm/gnome-shell-extension-ddterm/compare/v63.1.0...HEAD
+
 ## [63.1.0] - 2026-06-02
 
 ### Added
