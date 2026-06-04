@@ -161,7 +161,7 @@ export const WindowManager = GObject.registerClass({
             const current_auto_maximize = this.#mutter_settings.get_boolean('auto-maximize');
 
             if (current_auto_maximize !== should_maximize) {
-                this.#saved_auto_maximize = current_auto_maximize;
+                this.#saved_auto_maximize = this.#mutter_settings.get_user_value('auto-maximize');
                 this.#mutter_settings.set_boolean('auto-maximize', should_maximize);
             }
 
@@ -605,7 +605,11 @@ export const WindowManager = GObject.registerClass({
         if (this.#saved_auto_maximize === undefined)
             return;
 
-        this.#mutter_settings.set_boolean('auto-maximize', this.#saved_auto_maximize);
+        if (this.#saved_auto_maximize === null)
+            this.#mutter_settings.reset('auto-maximize');
+        else
+            this.#mutter_settings.set_value('auto-maximize', this.#saved_auto_maximize);
+
         this.#saved_auto_maximize = undefined;
     }
 
