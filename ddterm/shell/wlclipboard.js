@@ -30,10 +30,15 @@ export function is_wlclipboard(win) {
     }
 }
 
-export const WlClipboardActivator = GObject.registerClass({
-}, class DDTermWlClipboardActivator extends WindowMatchGeneric {
-    _init(params) {
-        super._init({
+export class WlClipboardActivator extends WindowMatchGeneric {
+    static [GObject.GTypeName] = 'DDTermWlClipboardActivator';
+
+    static {
+        GObject.registerClass(this);
+    }
+
+    constructor(params) {
+        super({
             track_signals: [
                 'notify::title',
                 'shown',
@@ -58,4 +63,4 @@ export const WlClipboardActivator = GObject.registerClass({
         win.focus(global.get_current_time());
         return GLib.SOURCE_REMOVE;
     }
-});
+}

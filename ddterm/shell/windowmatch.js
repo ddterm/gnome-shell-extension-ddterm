@@ -9,8 +9,10 @@ import Meta from 'gi://Meta';
 
 import { Service } from './service.js';
 
-export const WindowMatchGeneric = GObject.registerClass({
-    Properties: {
+export class WindowMatchGeneric extends GObject.Object {
+    static [GObject.GTypeName] = 'DDTermWindowMatchGeneric';
+
+    static [GObject.properties] = {
         'display': GObject.ParamSpec.object(
             'display',
             null,
@@ -25,16 +27,21 @@ export const WindowMatchGeneric = GObject.registerClass({
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             GObject.type_from_name('GStrv')
         ),
-    },
-    Signals: {
+    };
+
+    static [GObject.signals] = {
         'disabled': {},
-    },
-}, class DDTermWindowMatchGeneric extends GObject.Object {
-    _init(params) {
-        super._init(params);
+    };
+
+    static {
+        GObject.registerClass(this);
+    }
+
+    constructor(params) {
+        super(params);
 
         let created_handler = this.display.connect('window-created', (_, win) => {
-            this._watch_window(win);
+            this.#watch_window(win);
         });
 
         this.connect('disabled', () => {
@@ -43,16 +50,18 @@ export const WindowMatchGeneric = GObject.registerClass({
                 created_handler = null;
             }
         });
-
-        for (const win of this.display.list_all_windows())
-            this._watch_window(win);
     }
 
     disable() {
         this.emit('disabled');
     }
 
-    _watch_window(win) {
+    check_all_windows() {
+        for (const win of this.display.list_all_windows())
+            this.#watch_window(win);
+    }
+
+    #watch_window(win) {
         if (this.check_window(win) === GLib.SOURCE_REMOVE)
             return;
 
@@ -76,10 +85,12 @@ export const WindowMatchGeneric = GObject.registerClass({
 
         check();
     }
-});
+}
 
-export const WindowMatch = GObject.registerClass({
-    Properties: {
+export class WindowMatch extends WindowMatchGeneric {
+    static [GObject.GTypeName] = 'DDTermWindowMatch';
+
+    static [GObject.properties] = {
         'service': GObject.ParamSpec.object(
             'service',
             null,
@@ -115,12 +126,17 @@ export const WindowMatch = GObject.registerClass({
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             null
         ),
-    },
-}, class DDTermWindowMatch extends WindowMatchGeneric {
-    _init(params) {
-        this._window = null;
+    };
 
-        super._init({
+    static {
+        GObject.registerClass(this);
+    }
+
+    #window = null;
+    #window_untrack_handler;
+
+    constructor(params) {
+        super({
             track_signals: [
                 'notify::gtk-application-id',
                 'notify::gtk-window-object-path',
@@ -129,20 +145,20 @@ export const WindowMatch = GObject.registerClass({
         });
 
         this.connect('disabled', () => {
-            this._untrack_window();
+            this.#untrack_window();
         });
     }
 
     get current_window() {
-        return this._window;
+        return this.#window;
     }
 
     get has_window() {
-        return Boolean(this._window);
+        return Boolean(this.#window);
     }
 
     check_window(win) {
-        if (win === this._window)
+        if (win === this.#window)
             return GLib.SOURCE_REMOVE;
 
         if (!this.service.owns_window(win)) {
@@ -178,11 +194,11 @@ export const WindowMatch = GObject.registerClass({
         this.freeze_notify();
 
         try {
-            this._untrack_window();
+            this.#untrack_window();
 
-            this._window = win;
-            this._window_untrack_handler = this._window.connect('unmanaged', () => {
-                this._untrack_window();
+            this.#window = win;
+            this.#window_untrack_handler = this.#window.connect('unmanaged', () => {
+                this.#untrack_window();
             });
 
             this.notify('has-window');
@@ -194,14 +210,14 @@ export const WindowMatch = GObject.registerClass({
         return GLib.SOURCE_REMOVE;
     }
 
-    _untrack_window() {
-        if (!this._window)
+    #untrack_window() {
+        if (!this.#window)
             return;
 
-        this._window.disconnect(this._window_untrack_handler);
-        this._window_untrack_handler = null;
-        this._window = null;
+        this.#window.disconnect(this.#window_untrack_handler);
+        this.#window_untrack_handler = null;
+        this.#window = null;
         this.notify('has-window');
         this.notify('current-window');
     }
-});
+}

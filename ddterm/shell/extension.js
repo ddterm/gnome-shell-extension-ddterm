@@ -354,6 +354,8 @@ class EnabledExtension {
             this.window_matcher.disable();
         });
 
+        this.window_matcher.check_all_windows();
+
         this.app_control = new AppControl({
             service: this.service,
             window_matcher: this.window_matcher,
