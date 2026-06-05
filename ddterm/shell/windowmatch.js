@@ -5,6 +5,7 @@
 
 import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
+import Gio from 'gi://Gio';
 import Meta from 'gi://Meta';
 
 import { Service } from './service.js';
@@ -62,17 +63,31 @@ export class WindowMatchGeneric extends GObject.Object {
     }
 
     #watch_window(win) {
-        if (this.check_window(win) === GLib.SOURCE_REMOVE)
-            return;
+        let cancellable;
 
         const disconnect = () => {
-            window_handlers.forEach(handler => win.disconnect(handler));
-            this.disconnect(disable_handler);
+            if (disable_handler) {
+                this.disconnect(disable_handler);
+                disable_handler = null;
+            }
+
+            while (window_handlers.length > 0)
+                win.disconnect(window_handlers.pop());
+
+            cancellable?.cancel();
         };
 
-        const check = () => {
-            if (this.check_window(win) === GLib.SOURCE_REMOVE)
-                disconnect();
+        const check = async () => {
+            try {
+                cancellable?.cancel();
+                cancellable = Gio.Cancellable.new();
+
+                if (await this.check_window(win, cancellable) === GLib.SOURCE_REMOVE)
+                    disconnect();
+            } catch (ex) {
+                if (!ex.matches(Gio.io_error_quark(), Gio.IOErrorEnum.CANCELLED))
+                    logError(ex);
+            }
         };
 
         const window_handlers = [
@@ -81,7 +96,7 @@ export class WindowMatchGeneric extends GObject.Object {
             win.connect('unmanaged', disconnect),
         ];
 
-        const disable_handler = this.connect('disabled', disconnect);
+        let disable_handler = this.connect('disabled', disconnect);
 
         check();
     }
