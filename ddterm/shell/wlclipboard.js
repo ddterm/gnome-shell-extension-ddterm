@@ -27,8 +27,6 @@ function wait_cancellable(promise, cancellable) {
     if (!cancellable)
         return promise;
 
-    cancellable.set_error_if_cancelled();
-
     let cancel_handler;
 
     return new Promise((resolve, reject) => {
@@ -46,38 +44,36 @@ function wait_cancellable(promise, cancellable) {
     });
 }
 
-let read_locks = null;
+let read_tasks = null;
 
 // Async file read isn't really interruptible, it's just a blocking read()
-// in a thread. So keep a lock per path in progress, to prevent stacking
-// of read tasks for the same path in the thread pool.
+// in a thread. So keep at most one concurrent async read per path, and reuse
+// the result if possible.
 async function read_async_locking(path, cancellable) {
-    for (let lock = read_locks?.get(path); lock; lock = read_locks?.get(path)) {
-        // eslint-disable-next-line no-await-in-loop
-        await wait_cancellable(lock, cancellable);
+    for (let task = read_tasks?.get(path); task; task = read_tasks?.get(path)) {
+        cancellable?.set_error_if_cancelled();
+
+        try {
+            // eslint-disable-next-line no-await-in-loop
+            return await wait_cancellable(task, cancellable);
+        } catch {
+            continue;
+        }
     }
 
-    let unlock;
+    const task = read_async(path, cancellable).finally(() => {
+        read_tasks.delete(path);
 
-    const lock = new Promise(resolve => {
-        unlock = resolve;
+        if (read_tasks.size === 0)
+            read_tasks = null;
     });
 
-    if (!read_locks)
-        read_locks = new Map();
+    if (!read_tasks)
+        read_tasks = new Map();
 
-    read_locks.set(path, lock);
+    read_tasks.set(path, task);
 
-    try {
-        return await read_async(path, cancellable);
-    } finally {
-        read_locks.delete(path);
-
-        if (read_locks.size === 0)
-            read_locks = null;
-
-        unlock();
-    }
+    return task;
 }
 
 export async function is_wlclipboard(win, cancellable = null) {
