@@ -91,6 +91,7 @@ export const WindowManager = GObject.registerClass({
     #map_handler;
     #maximized_handler;
     #focus_window_handler;
+    #focus_window_check_cancellable;
     #geometry_fixup_handlers;
     #wl_clipboard_activator;
 
@@ -274,23 +275,37 @@ export const WindowManager = GObject.registerClass({
         this.disable();
     }
 
-    #hide_when_focus_lost() {
-        if (this.window.is_hidden())
-            return;
+    async #hide_when_focus_lost() {
+        try {
+            this.#focus_window_check_cancellable?.cancel();
 
-        const win = global.display.focus_window;
-        if (this.window === win)
-            return;
-
-        if (win) {
-            if (this.window.is_ancestor_of_transient(win))
+            if (this.window.is_hidden())
                 return;
 
-            if (is_wlclipboard(win))
+            const win = global.display.focus_window;
+
+            if (this.window === win)
                 return;
+
+            if (win) {
+                if (this.window.is_ancestor_of_transient(win))
+                    return;
+
+                const cancellable = Gio.Cancellable.new();
+
+                this.#focus_window_check_cancellable = cancellable;
+
+                if (await is_wlclipboard(win, cancellable))
+                    return;
+
+                cancellable.set_error_if_cancelled();
+            }
+
+            this.emit('hide-request');
+        } catch (ex) {
+            if (!ex.matches(Gio.io_error_quark(), Gio.IOErrorEnum.CANCELLED))
+                logError(ex);
         }
-
-        this.emit('hide-request');
     }
 
     #setup_hide_when_focus_lost() {
@@ -299,8 +314,10 @@ export const WindowManager = GObject.registerClass({
             this.#focus_window_handler = null;
         }
 
-        if (!this.settings.get_boolean('hide-when-focus-lost'))
+        if (!this.settings.get_boolean('hide-when-focus-lost')) {
+            this.#focus_window_check_cancellable?.cancel();
             return;
+        }
 
         this.#focus_window_handler = global.display.connect(
             'notify::focus-window',
@@ -645,6 +662,8 @@ export const WindowManager = GObject.registerClass({
             global.display.disconnect(this.#focus_window_handler);
             this.#focus_window_handler = null;
         }
+
+        this.#focus_window_check_cancellable?.cancel();
 
         if (this.#map_animation_override_handler) {
             global.window_manager.disconnect(this.#map_animation_override_handler);
