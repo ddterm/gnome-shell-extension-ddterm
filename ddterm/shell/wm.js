@@ -303,7 +303,8 @@ export const WindowManager = GObject.registerClass({
 
             this.emit('hide-request');
         } catch (ex) {
-            if (!ex.matches(Gio.io_error_quark(), Gio.IOErrorEnum.CANCELLED))
+            if (!ex.matches(Gio.io_error_quark(), Gio.IOErrorEnum.CANCELLED) &&
+                !ex.matches(Gio.io_error_quark(), Gio.IOErrorEnum.NOT_FOUND))
                 logError(ex);
         }
     }

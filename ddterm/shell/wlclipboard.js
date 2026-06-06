@@ -99,10 +99,13 @@ export async function is_wlclipboard(win, cancellable = null) {
 
         return ['wl-copy', 'wl-paste'].includes(GLib.path_get_basename(argv0));
     } catch (ex) {
-        cancellable?.set_error_if_cancelled();
-        logError(ex);
+        // /proc read can return ENOENT or ESRCH if the process has terminated
+        // ESRCH is, unfortunately, converted to generic IOErrorEnum.FAILED
+        if (ex.matches(Gio.io_error_quark(), Gio.IOErrorEnum.FAILED) &&
+            ex.message.includes('No such process'))
+            throw GLib.Error.new_literal(ex.domain, Gio.IOErrorEnum.NOT_FOUND, ex.message);
 
-        return false;
+        throw ex;
     }
 }
 
@@ -130,10 +133,18 @@ export class WlClipboardActivator extends WindowMatchGeneric {
         if (!win.title)
             return GLib.SOURCE_CONTINUE;
 
-        if (!await is_wlclipboard(win, cancellable))
-            return GLib.SOURCE_REMOVE;
+        try {
+            if (!await is_wlclipboard(win, cancellable))
+                return GLib.SOURCE_REMOVE;
+        } catch (ex) {
+            if (ex.matches(Gio.io_error_quark(), Gio.IOErrorEnum.CANCELLED))
+                throw ex;
 
-        cancellable.set_error_if_cancelled();
+            if (!ex.matches(Gio.io_error_quark(), Gio.IOErrorEnum.NOT_FOUND))
+                logError(ex);
+
+            return GLib.SOURCE_REMOVE;
+        }
 
         if (win.is_hidden())
             return GLib.SOURCE_CONTINUE;
