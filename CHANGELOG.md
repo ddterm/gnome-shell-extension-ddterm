@@ -42,15 +42,12 @@ by [@ponta0]: [#1915].
 dialog: [#932], [#1918].
 - `xsltproc` is a build dependency again.
 
-### Changed
+### Fixed
 
 - Chinese translation updates by [@mikelei8291] and [@flytothehighest]:
 [#1925], [#1945].
 - German translation updates by [@Luca0208]: [#1937].
 - Korean translation updates by [@seuimi]: [#1937].
-
-### Fixed
-
 - French translation fix by [@liuxiaopai-ai]: [#1744].
 - When multiple keyboard shortcuts are assigned to the same action,
 they are now better visually separated in Preferences dialog: [#1917].
@@ -81,15 +78,12 @@ they are now better visually separated in Preferences dialog: [#1917].
 
 - Releases will now include source code tarballs with subprojects [#1880].
 
-### Changed
-
-- Esperanto translation updates by [phlostically]: [#1886].
-
 ### Fixed
 
 - Renamed settings schema to comply with GNOME Shell extension guidelines:
 [#1888].
 - Fix for Korean translation by [@seuimi]: [#1885], [#1886].
+- Esperanto translation updates by [phlostically]: [#1886].
 - Restored cyclic navigation between tabs/pages: [#1898], [#1901].
 
 [#1880]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1880
@@ -135,35 +129,14 @@ they are now better visually separated in Preferences dialog: [#1917].
 - By default, ddterm will now autohide when losing focus: [#1712].
 - Most of application's UI is now created by `GtkBuilder`: [#1774].
 - Dependency installation is now handled by a subproject: [#1587].
-- German translation updates by [@daPhipz]: [#1585].
-- Spanish translation updates by [@cyphra]: [#1590], [#1758].
-- French translation updates by [@leducvin]: [#1854].
-- Italian translation updates by [Traduttore]: [#1798], [#1813].
-- Chinese translation updates: [#1792] by [@yuhldr], [#1781] by [Mike Lei],
-  [#1768] by [@flytothehighest].
 
 [#1567]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1567
 [#1568]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1568
-[#1585]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1585
 [#1587]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1587
-[#1590]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1590
 [#1667]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1667
 [#1712]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1712
-[#1758]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1758
 [#1766]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1766
-[#1768]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1768
 [#1774]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1774
-[#1781]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1781
-[#1792]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1792
-[#1798]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1798
-[#1813]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1813
-[#1854]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1854
-
-[@cyphra]: https://github.com/cyphra
-[@daPhipz]: https://github.com/daPhipz
-[@leducvin]: https://github.com/leducvin
-[Mike Lei]: https://hosted.weblate.org/user/mikelei/
-[Traduttore]: https://hosted.weblate.org/user/traaduttore/
 
 ### Removed
 
@@ -181,6 +154,28 @@ they are now better visually separated in Preferences dialog: [#1917].
 ### Fixed
 
 - Some memory leaks from GObject reference cycles.
+- German translation updates by [@daPhipz]: [#1585].
+- Spanish translation updates by [@cyphra]: [#1590], [#1758].
+- French translation updates by [@leducvin]: [#1854].
+- Italian translation updates by [Traduttore]: [#1798], [#1813].
+- Chinese translation updates: [#1792] by [@yuhldr], [#1781] by [Mike Lei],
+  [#1768] by [@flytothehighest].
+
+[#1585]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1585
+[#1590]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1590
+[#1758]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1758
+[#1768]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1768
+[#1781]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1781
+[#1792]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1792
+[#1798]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1798
+[#1813]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1813
+[#1854]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1854
+
+[@cyphra]: https://github.com/cyphra
+[@daPhipz]: https://github.com/daPhipz
+[@leducvin]: https://github.com/leducvin
+[Mike Lei]: https://hosted.weblate.org/user/mikelei/
+[Traduttore]: https://hosted.weblate.org/user/traaduttore/
 
 [63.0.0]: https://github.com/ddterm/gnome-shell-extension-ddterm/releases/tag/v63.0.0
 
@@ -190,13 +185,9 @@ they are now better visually separated in Preferences dialog: [#1917].
 
 - Improved symbolic icon: [#1524].
 - Switched to GNOME Shell D-Bus API for getting the extension version: [#1515].
-- Turkish translation update by [@enatsek]: [#1533].
 
 [#1515]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1515
 [#1524]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1524
-[#1533]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1533
-
-[@enatsek]: https://github.com/enatsek
 
 ### Removed
 
@@ -208,9 +199,13 @@ they are now better visually separated in Preferences dialog: [#1917].
 
 - Fixed Vte package (auto)installation on openSUSE: [#1541].
 - Improved stability of mouse resizing test: [#1507].
+- Turkish translation update by [@enatsek]: [#1533].
 
 [#1507]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1507
+[#1533]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1533
 [#1541]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1541
+
+[@enatsek]: https://github.com/enatsek
 
 [62.0.2]: https://github.com/ddterm/gnome-shell-extension-ddterm/releases/tag/v62.0.2
 
@@ -241,15 +236,15 @@ they are now better visually separated in Preferences dialog: [#1917].
 
 - Switched to Semantic Versioning.
 - Refactoring to make Gtk 4 port easier (hopefully).
+
+### Fixed
+
+- Multiple minor bug fixes.
 - Translation updates by [@thenameisluk], [@vantu5z], [@yuhldr], [@Atalanttore].
 
 [@thenameisluk]: https://github.com/thenameisluk
 [@vantu5z]: https://github.com/vantu5z
 [@Atalanttore]: https://github.com/Atalanttore
-
-### Fixed
-
-- Multiple minor bug fixes.
 
 [62.0.0]: https://github.com/ddterm/gnome-shell-extension-ddterm/releases/tag/v62.0.0
 
