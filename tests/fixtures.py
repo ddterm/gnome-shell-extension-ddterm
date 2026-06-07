@@ -272,8 +272,8 @@ class GnomeSessionFixtures:
         )
 
     @pytest.fixture(scope='class')
-    def has_x11(self, process_launcher, os_id, request):
-        if os_id == 'centos':
+    def has_x11(self, process_launcher, os_ids, request):
+        if 'rhel' in os_ids:
             return False
 
         result = process_launcher.run(
@@ -545,11 +545,16 @@ class GnomeSessionFixtures:
                 extension_test_hook.wait_property('HasWindow', False)
 
     @pytest.fixture(scope='class')
-    def ignored_log_issues(self, container, os_id):
+    def ignored_log_issues(self, container, os_ids):
         if not container:
             return IGNORED_LOG_ISSUES
 
-        return IGNORED_LOG_ISSUES_BY_OS.get(os_id, IGNORED_LOG_ISSUES)
+        for os_id in os_ids:
+            issues = IGNORED_LOG_ISSUES_BY_OS.get(os_id)
+            if issues is not None:
+                return issues
+
+        return IGNORED_LOG_ISSUES
 
     @pytest.fixture
     def check_log(self, caplog, ignored_log_issues):
