@@ -14,7 +14,7 @@ The format is based on [Keep a Changelog], and this project adheres to
 [Keep a Changelog]: https://keepachangelog.com/en/1.1.0/
 [Semantic Versioning]: https://semver.org/spec/v2.0.0.html
 
-## [Unreleased]
+## [63.1.1] - 2026-06-07
 
 ### Fixed
 
@@ -32,7 +32,7 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 [Libre]: https://hosted.weblate.org/user/Libertad/
 
-[Unreleased]: https://github.com/ddterm/gnome-shell-extension-ddterm/compare/v63.1.0...HEAD
+[63.1.1]: https://github.com/ddterm/gnome-shell-extension-ddterm/releases/tag/v63.1.1
 
 ## [63.1.0] - 2026-06-02
 
