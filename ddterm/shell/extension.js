@@ -295,8 +295,10 @@ class EnabledExtension {
                     MessageTray.NotificationDestroyedReason.EXPIRED
                 );
 
-                if (!this.extension.check_version_match())
-                    this.notifications.show_version_mismatch();
+                this.extension.check_version_match().then(result => {
+                    if (!result)
+                        this.notifications.show_version_mismatch();
+                }).catch(logError);
             }
         });
 
@@ -489,7 +491,6 @@ export default class DDTermExtension extends Extension {
         super(meta);
 
         this.launcher_path = GLib.build_filenamev([this.path, 'bin', APP_ID]);
-        this.metadata_path = GLib.build_filenamev([this.path, 'metadata.json']);
 
         this.app_process = null;
         this.enabled_state = null;
@@ -528,9 +529,25 @@ export default class DDTermExtension extends Extension {
             this.enabled_state.service.extra_env = value;
     }
 
-    check_version_match() {
-        const metadata_updated =
-            JSON.parse(Shell.get_file_contents_utf8_sync(this.metadata_path));
+    reload_metadata() {
+        return new Promise((resolve, reject) => {
+            const file = this.metadata.dir.get_child('metadata.json');
+
+            file.load_contents_async(null, (source, result) => {
+                try {
+                    const [, contents] = source.load_contents_finish(result);
+                    const decoded = new TextDecoder().decode(contents);
+
+                    resolve(JSON.parse(decoded));
+                } catch (ex) {
+                    reject(ex);
+                }
+            });
+        });
+    }
+
+    async check_version_match() {
+        const metadata_updated = await this.reload_metadata();
 
         return this.metadata.version === metadata_updated.version &&
             this.metadata['version-name'] === metadata_updated['version-name'];

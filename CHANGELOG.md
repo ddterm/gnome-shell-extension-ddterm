@@ -24,6 +24,12 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 ### Fixed
 
+- Replaced blocking i/o with async i/o in shell extension code:
+[#1954], [#1973].
+
+[#1954]: https://github.com/ddterm/gnome-shell-extension-ddterm/issues/1954
+[#1973]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1973
+
 [Unreleased]: https://github.com/ddterm/gnome-shell-extension-ddterm/compare/v63.1.1...HEAD
 
 ## [63.1.1] - 2026-06-07
@@ -35,7 +41,6 @@ The format is based on [Keep a Changelog], and this project adheres to
 [#1954], [#1958], [#1959], [#1960].
 - Spanish translation improvements by [Libre]: [#1965].
 
-[#1954]: https://github.com/ddterm/gnome-shell-extension-ddterm/issues/1954
 [#1955]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1955
 [#1958]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1958
 [#1959]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1959
