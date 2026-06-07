@@ -420,17 +420,17 @@ def global_environment(container, request):
 
 
 @pytest.fixture(scope='session')
-def os_id(process_launcher):
+def os_ids(process_launcher):
     return process_launcher.run(
         'sh',
         '-c',
-        '. /etc/os-release && echo $ID',
+        '. /etc/os-release && echo $ID $ID_LIKE',
         stdout=subprocess.PIPE
-    ).stdout.rstrip().decode()
+    ).stdout.decode().split()
 
 
 @pytest.fixture(scope='session')
-def sys_package(container, os_id, request):
+def sys_package(container, os_ids, request):
     sys_package = request.config.option.sys_package
 
     if not sys_package:
@@ -438,11 +438,11 @@ def sys_package(container, os_id, request):
 
     process_launcher = procutil.ContainerExecLauncher(container_id=container, user=0)
 
-    if os_id == 'arch':
+    if 'arch' in os_ids:
         process_launcher.run('pacman', '-U', '--noconfirm', str(sys_package))
 
     else:
-        raise Exception(f"Don't know how to install packages on {os_id}")
+        raise Exception(f"Don't know how to install packages on {os_ids!r}")
 
     return sys_package
 
