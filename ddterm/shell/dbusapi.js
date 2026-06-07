@@ -35,8 +35,10 @@ function handle_dbus_method_call_async(func, params, invocation) {
     }
 }
 
-export const DBusApi = GObject.registerClass({
-    Properties: {
+export class DBusApi extends GObject.Object {
+    static [GObject.GTypeName] = 'DDTermDBusApi';
+
+    static [GObject.properties] = {
         'version': GObject.ParamSpec.string(
             'version',
             null,
@@ -81,8 +83,9 @@ export const DBusApi = GObject.registerClass({
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             false
         ),
-    },
-    Signals: {
+    };
+
+    static [GObject.signals] = {
         'missing-dependencies': {
             param_types: [GObject.type_from_name('GStrv'), GObject.type_from_name('GStrv')],
         },
@@ -91,8 +94,12 @@ export const DBusApi = GObject.registerClass({
         },
         'version-mismatch': {},
         'update-target-monitor': {},
-    },
-}, class DDTermDBusApi extends GObject.Object {
+    };
+
+    static {
+        GObject.registerClass(this);
+    }
+
     #target_rect;
     #target_monitor_scale;
     #version;
@@ -276,4 +283,4 @@ export const DBusApi = GObject.registerClass({
         this.#dbus_wrapper?.emit_property_changed('HasWindow', this.#has_window);
         this.flush();
     }
-});
+}
