@@ -21,12 +21,16 @@ The format is based on [Keep a Changelog], and this project adheres to
 - Window placement on Mutter 50.2: [#1955].
 - Prevent blocking on `/proc/${pid}/cmdline` read in wl-clipboard integration:
 [#1954], [#1958], [#1959], [#1960].
+- Spanish translation improvements by [Libre]: [#1965].
 
 [#1954]: https://github.com/ddterm/gnome-shell-extension-ddterm/issues/1954
 [#1955]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1955
 [#1958]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1958
 [#1959]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1959
 [#1960]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1960
+[#1965]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1965
+
+[Libre]: https://hosted.weblate.org/user/Libertad/
 
 [Unreleased]: https://github.com/ddterm/gnome-shell-extension-ddterm/compare/v63.1.0...HEAD
 
