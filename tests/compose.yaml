@@ -20,9 +20,6 @@ services:
   centos-10:
     image: ghcr.io/ddterm/gnome-shell-image/centos-10:2026.06.07.0
 
-  fedora-42:
-    image: ghcr.io/ddterm/gnome-shell-image/fedora-42:2026.06.06.0
-
   fedora-43:
     image: ghcr.io/ddterm/gnome-shell-image/fedora-43:2026.06.07.0
 
