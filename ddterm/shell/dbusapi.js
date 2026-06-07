@@ -7,7 +7,6 @@ import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
 import Mtk from 'gi://Mtk';
-import Shell from 'gi://Shell';
 
 import { AppControl } from './appcontrol.js';
 
@@ -33,6 +32,20 @@ function handle_dbus_method_call_async(func, params, invocation) {
     } catch (e) {
         report_dbus_error_async(e, invocation);
     }
+}
+
+function get_file_contents(file) {
+    return new Promise((resolve, reject) => {
+        file.load_contents_async(null, (source, result) => {
+            try {
+                const [, contents] = source.load_contents_finish(result);
+
+                resolve(new TextDecoder().decode(contents));
+            } catch (ex) {
+                reject(ex);
+            }
+        });
+    });
 }
 
 export class DBusApi extends GObject.Object {
@@ -104,7 +117,6 @@ export class DBusApi extends GObject.Object {
     #target_monitor_scale;
     #version;
     #revision;
-    #interface_info;
     #dbus_wrapper;
     #has_window;
 
@@ -116,8 +128,10 @@ export class DBusApi extends GObject.Object {
 
         if (this.revision)
             this.#revision = GLib.Variant.new_string(this.revision);
+    }
 
-        const [xml_file_path] = GLib.filename_from_uri(
+    async export() {
+        const introspection_file = Gio.File.new_for_uri(
             GLib.Uri.resolve_relative(
                 import.meta.url,
                 '../../data/com.github.amezin.ddterm.Extension.xml',
@@ -125,13 +139,13 @@ export class DBusApi extends GObject.Object {
             )
         );
 
-        this.#interface_info =
-            Gio.DBusInterfaceInfo.new_for_xml(Shell.get_file_contents_utf8_sync(xml_file_path));
-    }
+        const interface_info = Gio.DBusInterfaceInfo.new_for_xml(
+            await get_file_contents(introspection_file)
+        );
 
-    export() {
         this.unexport();
-        this.#dbus_wrapper = Gio.DBusExportedObject.wrapJSObject(this.#interface_info, this);
+
+        this.#dbus_wrapper = Gio.DBusExportedObject.wrapJSObject(interface_info, this);
         this.#dbus_wrapper.export(Gio.DBus.session, '/org/gnome/Shell/Extensions/ddterm');
     }
 

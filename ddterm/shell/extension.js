@@ -28,7 +28,7 @@ const APP_ID = 'com.github.amezin.ddterm';
 const APP_DBUS_PATH = '/com/github/amezin/ddterm';
 const WINDOW_PATH_PREFIX = `${APP_DBUS_PATH}/window/`;
 
-function create_dbus_interface(
+async function create_dbus_interface(
     window_geometry,
     window_matcher,
     app_control,
@@ -89,7 +89,7 @@ function create_dbus_interface(
         window_geometry.disconnect(flush_handler);
     });
 
-    dbus_interface.export();
+    await dbus_interface.export();
 
     rollback.push(() => {
         dbus_interface.unexport();
@@ -221,13 +221,6 @@ class EnabledExtension {
 
     constructor(extension) {
         this.extension = extension;
-
-        try {
-            this.#enable();
-        } catch (ex) {
-            this.disable();
-            throw ex;
-        }
     }
 
     disable() {
@@ -240,7 +233,7 @@ class EnabledExtension {
         }
     }
 
-    #enable() {
+    async enable() {
         const rollback = this.#disable_callbacks;
 
         this.settings = this.extension.getSettings();
@@ -407,7 +400,7 @@ class EnabledExtension {
             this.settings.disconnect(skip_taskbar_handler);
         });
 
-        create_dbus_interface(
+        await create_dbus_interface(
             this.window_geometry,
             this.window_matcher,
             this.app_control,
@@ -571,9 +564,17 @@ export default class DDTermExtension extends Extension {
         });
     }
 
-    enable() {
+    async enable() {
         this.enabled_state = new EnabledExtension(this);
         this.enabled_state.logger = this.logger;
+
+        try {
+            await this.enabled_state.enable();
+        } catch (ex) {
+            this.disable();
+            throw ex;
+        }
+
         this.enabled_state.service.extra_argv = this.app_extra_args;
         this.enabled_state.service.extra_env = this.app_extra_env;
     }
