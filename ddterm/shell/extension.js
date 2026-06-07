@@ -28,7 +28,7 @@ const APP_ID = 'com.github.amezin.ddterm';
 const APP_DBUS_PATH = '/com/github/amezin/ddterm';
 const WINDOW_PATH_PREFIX = `${APP_DBUS_PATH}/window/`;
 
-async function create_dbus_interface(
+function create_dbus_interface(
     window_geometry,
     window_matcher,
     app_control,
@@ -89,8 +89,6 @@ async function create_dbus_interface(
         window_geometry.disconnect(flush_handler);
     });
 
-    await dbus_interface.export();
-
     rollback.push(() => {
         dbus_interface.unexport();
     });
@@ -145,13 +143,12 @@ function create_panel_icon(settings, window_matcher, app_control, icon, gettext_
     return panel_icon;
 }
 
-function install(extension, rollback) {
+async function install(extension, rollback) {
     const installer = new Installer(extension.launcher_path);
-    installer.install();
 
     if (GObject.signal_lookup('shutdown', Shell.Global)) {
         const shutdown_handler = global.connect('shutdown', () => {
-            installer.uninstall();
+            installer.uninstall().catch(logError);
         });
 
         rollback.push(() => {
@@ -170,8 +167,10 @@ function install(extension, rollback) {
         if (!extension.is_deactivating())
             return;
 
-        installer.uninstall();
+        installer.uninstall().catch(logError);
     });
+
+    await installer.install();
 }
 
 function bind_keys(settings, app_control, rollback) {
@@ -400,7 +399,7 @@ class EnabledExtension {
             this.settings.disconnect(skip_taskbar_handler);
         });
 
-        await create_dbus_interface(
+        const dbus_interface = create_dbus_interface(
             this.window_geometry,
             this.window_matcher,
             this.app_control,
@@ -408,6 +407,20 @@ class EnabledExtension {
             this.extension,
             rollback
         );
+
+        const results = await Promise.allSettled([
+            dbus_interface.export(),
+            // Installed files are optional, don't re-throw install errors
+            install(this.extension, rollback).catch(error => {
+                logError(error);
+                this.notifications.show_error(error);
+            }),
+        ]);
+
+        const errors = results.map(result => result.reason).filter(Boolean);
+
+        if (errors.length > 0)
+            throw errors.length === 1 ? errors[0] : new AggregateError(errors);
 
         bind_keys(
             this.settings,
@@ -423,8 +436,6 @@ class EnabledExtension {
             this.extension,
             rollback
         );
-
-        install(this.extension, rollback);
     }
 
     #set_skip_taskbar() {

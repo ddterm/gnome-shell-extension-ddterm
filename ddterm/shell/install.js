@@ -5,62 +5,128 @@
 
 import GLib from 'gi://GLib';
 import Gio from 'gi://Gio';
-import Shell from 'gi://Shell';
+
+function get_file_contents(file) {
+    return new Promise((resolve, reject) => {
+        file.load_contents_async(null, (source, result) => {
+            try {
+                const [, contents] = source.load_contents_finish(result);
+
+                resolve(new TextDecoder().decode(contents));
+            } catch (ex) {
+                reject(ex);
+            }
+        });
+    });
+}
+
+function mkdir(file) {
+    return new Promise((resolve, reject) => {
+        file.make_directory_async(GLib.PRIORITY_DEFAULT, null, (source, result) => {
+            try {
+                resolve(source.make_directory_finish(result));
+            } catch (ex) {
+                reject(ex);
+            }
+        });
+    });
+}
 
 class File {
-    constructor(source_url, target_file, fallback_files = []) {
-        const [source_file] = GLib.filename_from_uri(
+    constructor(source_url, target_path, fallback_paths = []) {
+        this.source_file = Gio.File.new_for_uri(
             GLib.Uri.resolve_relative(import.meta.url, source_url, GLib.UriFlags.NONE)
         );
 
-        this.content = Shell.get_file_contents_utf8_sync(source_file);
-        this.target_file = target_file;
-        this.fallback_files = fallback_files;
+        this.target_file = Gio.File.new_for_path(target_path);
+        this.fallback_files = fallback_paths.map(path => Gio.File.new_for_path(path));
     }
 
-    configure(mapping) {
-        for (const [key, value] of Object.entries(mapping))
-            this.content = this.content.replace(new RegExp(`@${key}@`, 'g'), value);
-    }
-
-    get_existing_content() {
+    async get_existing_contents() {
         for (const existing_file of [this.target_file, ...this.fallback_files]) {
             try {
-                return Shell.get_file_contents_utf8_sync(existing_file);
+                // eslint-disable-next-line no-await-in-loop
+                return await get_file_contents(existing_file);
             } catch (ex) {
-                if (!ex.matches(GLib.file_error_quark(), GLib.FileError.NOENT))
-                    logError(ex, `Can't read ${JSON.stringify(existing_file)}`);
+                if (!ex.matches(Gio.io_error_quark(), Gio.IOErrorEnum.NOT_FOUND))
+                    logError(ex, `Can't read ${JSON.stringify(existing_file.get_path())}`);
             }
         }
 
         return null;
     }
 
-    install() {
-        const existing_content = this.get_existing_content();
+    async install(configure_vars) {
+        let contents = await get_file_contents(this.source_file);
 
-        if (this.content === existing_content)
+        for (const [key, value] of Object.entries(configure_vars))
+            contents = contents.replace(new RegExp(`@${key}@`, 'g'), value);
+
+        const existing_contents = await this.get_existing_contents();
+
+        if (contents === existing_contents)
             return false;
 
-        GLib.mkdir_with_parents(
-            GLib.path_get_dirname(this.target_file),
-            0o700
-        );
+        const missing_parent_dirs = [];
+        let parent = this.target_file.get_parent();
 
-        this.uninstall();
+        while (parent) {
+            try {
+                // eslint-disable-next-line no-await-in-loop
+                await mkdir(parent);
 
-        GLib.file_set_contents_full(
-            this.target_file,
-            this.content,
-            GLib.FileSetContentsFlags.NONE,
-            0o600
-        );
+                break;
+            } catch (ex) {
+                if (missing_parent_dirs.length === 0 &&
+                    ex.matches(Gio.io_error_quark(), Gio.IOErrorEnum.EXISTS))
+                    break;
 
-        return true;
+                if (!ex.matches(Gio.io_error_quark(), Gio.IOErrorEnum.NOT_FOUND))
+                    throw ex;
+            }
+
+            missing_parent_dirs.push(parent);
+            parent = parent.get_parent();
+        }
+
+        while (missing_parent_dirs.length > 0) {
+            // eslint-disable-next-line no-await-in-loop
+            await mkdir(missing_parent_dirs.pop());
+        }
+
+        return new Promise((resolve, reject) => {
+            this.target_file.replace_contents_bytes_async(
+                new TextEncoder().encode(contents),
+                null,
+                false,
+                Gio.FileCreateFlags.REPLACE_DESTINATION,
+                null,
+                (source, result) => {
+                    try {
+                        source.replace_contents_finish(result);
+
+                        resolve(true);
+                    } catch (ex) {
+                        reject(ex);
+                    }
+                }
+            );
+        });
     }
 
     uninstall() {
-        GLib.unlink(this.target_file);
+        return new Promise((resolve, reject) => {
+            this.target_file.delete_async(GLib.PRIORITY_DEFAULT, null, (source, result) => {
+                try {
+                    resolve(source.delete_finish(result));
+                } catch (ex) {
+                    if (ex.matches(Gio.io_error_quark(), Gio.IOErrorEnum.NOT_FOUND))
+                        resolve(false);
+                    else
+                        reject(ex);
+                }
+            });
+        });
     }
 }
 
@@ -76,6 +142,31 @@ function dbus_service_path(basedir) {
     );
 }
 
+function reload_dbus_daemon_config() {
+    return new Promise((resolve, reject) => {
+        Gio.DBus.session.call(
+            'org.freedesktop.DBus',
+            '/org/freedesktop/DBus',
+            'org.freedesktop.DBus',
+            'ReloadConfig',
+            null,
+            null,
+            Gio.DBusCallFlags.NONE,
+            -1,
+            null,
+            (source, result) => {
+                try {
+                    resolve(source.call_finish(result));
+                } catch (ex) {
+                    reject(ex);
+                }
+            }
+        );
+    });
+}
+
+let in_progress = null;
+
 export class Installer {
     constructor(launcher_path) {
         const [icon_path] = GLib.filename_from_uri(GLib.Uri.resolve_relative(
@@ -84,7 +175,7 @@ export class Installer {
             GLib.UriFlags.NONE
         ));
 
-        const configure_vars = {
+        this.configure_vars = {
             LAUNCHER: launcher_path,
             ICON: icon_path,
         };
@@ -97,38 +188,62 @@ export class Installer {
             system_data_dirs.map(desktop_entry_path)
         );
 
-        this.desktop_entry.configure(configure_vars);
-
         this.dbus_service = new File(
             '../../data/com.github.amezin.ddterm.service.in',
             dbus_service_path(GLib.get_user_runtime_dir()),
             system_data_dirs.map(dbus_service_path)
         );
-
-        this.dbus_service.configure(configure_vars);
     }
 
-    install() {
-        this.desktop_entry.install();
+    async #install() {
+        const results = await Promise.allSettled([
+            this.dbus_service.install(this.configure_vars).then(
+                changed => changed ? reload_dbus_daemon_config() : undefined
+            ),
+            this.desktop_entry.install(this.configure_vars),
+        ]);
 
-        if (this.dbus_service.install()) {
-            Gio.DBus.session.call(
-                'org.freedesktop.DBus',
-                '/org/freedesktop/DBus',
-                'org.freedesktop.DBus',
-                'ReloadConfig',
-                null,
-                null,
-                Gio.DBusCallFlags.NONE,
-                -1,
-                null,
-                null
-            );
+        const errors = results.map(result => result.reason).filter(Boolean);
+
+        if (errors.length > 0)
+            throw errors.length === 1 ? errors[0] : new AggregateError(errors);
+    }
+
+    async #uninstall() {
+        const results = await Promise.allSettled([
+            this.dbus_service.uninstall(),
+            this.desktop_entry.uninstall(),
+        ]);
+
+        const errors = results.map(result => result.reason).filter(Boolean);
+
+        if (errors.length > 0)
+            throw errors.length === 1 ? errors[0] : new AggregateError(errors);
+    }
+
+    async install() {
+        while (in_progress)
+            await in_progress.catch(() => {}); // eslint-disable-line no-await-in-loop
+
+        in_progress = this.#install();
+
+        try {
+            await in_progress;
+        } finally {
+            in_progress = null;
         }
     }
 
-    uninstall() {
-        this.desktop_entry.uninstall();
-        this.dbus_service.uninstall();
+    async uninstall() {
+        while (in_progress)
+            await in_progress.catch(() => {}); // eslint-disable-line no-await-in-loop
+
+        in_progress = this.#uninstall();
+
+        try {
+            await in_progress;
+        } finally {
+            in_progress = null;
+        }
     }
 }

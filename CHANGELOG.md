@@ -25,9 +25,10 @@ The format is based on [Keep a Changelog], and this project adheres to
 ### Fixed
 
 - Replaced blocking i/o with async i/o in shell extension code:
-[#1954], [#1973], [#1974].
+[#1954], [#1972], [#1973], [#1974].
 
 [#1954]: https://github.com/ddterm/gnome-shell-extension-ddterm/issues/1954
+[#1972]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1972
 [#1973]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1973
 [#1974]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1974
 
