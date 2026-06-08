@@ -146,17 +146,13 @@ function create_panel_icon(settings, window_matcher, app_control, icon, gettext_
 async function install(extension, rollback) {
     const installer = new Installer(extension.launcher_path);
 
-    if (GObject.signal_lookup('shutdown', Shell.Global)) {
-        const shutdown_handler = global.connect('shutdown', () => {
-            installer.uninstall().catch(logError);
-        });
-
-        rollback.push(() => {
-            global.disconnect(shutdown_handler);
-        });
-    }
+    const shutdown_handler = global.connect('shutdown', () => {
+        installer.uninstall().catch(logError);
+    });
 
     rollback.push(() => {
+        global.disconnect(shutdown_handler);
+
         // Don't uninstall desktop/service files because of screen locking
         // GNOME Shell picks up newly installed desktop files with a noticeable delay
         if (Main.sessionMode.isLocked)
