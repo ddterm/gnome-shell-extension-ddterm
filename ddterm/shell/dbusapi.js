@@ -147,6 +147,19 @@ export class DBusApi extends GObject.Object {
 
         this.#dbus_wrapper = Gio.DBusExportedObject.wrapJSObject(interface_info, this);
         this.#dbus_wrapper.export(Gio.DBus.session, '/org/gnome/Shell/Extensions/ddterm');
+
+        // Make sure the app gets new rect and scale if the extension was temporarily disabled.
+        // For example, during screen lock
+
+        if (this.#target_rect)
+            this.#dbus_wrapper.emit_property_changed('TargetRect', this.#target_rect);
+
+        if (this.#target_monitor_scale) {
+            this.#dbus_wrapper.emit_property_changed(
+                'TargetMonitorScale',
+                this.#target_monitor_scale
+            );
+        }
     }
 
     unexport() {
