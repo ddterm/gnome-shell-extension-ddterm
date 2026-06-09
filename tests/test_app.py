@@ -371,11 +371,11 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
 
             app_debug_dbus_interface.WaitFrame()
 
-            with shell_test_hook.watch_signal('WindowCreated') as window_created:
+            with shell_test_hook.watch_signal('WindowShown') as window_shown:
                 shell_test_hook.mouse_down(shellhook.MouseButton.SECONDARY)
                 shell_test_hook.mouse_up(shellhook.MouseButton.SECONDARY)
 
-                window_created.get()
+                window_shown.get()
 
             shell_test_hook.SetPointer(widget_location.x - 1, widget_location.y)
 
@@ -457,11 +457,11 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
 
             app_debug_dbus_interface.WaitFrame()
 
-            with shell_test_hook.watch_signal('WindowCreated') as window_created:
+            with shell_test_hook.watch_signal('WindowShown') as window_shown:
                 shell_test_hook.mouse_down(shellhook.MouseButton.SECONDARY)
                 shell_test_hook.mouse_up(shellhook.MouseButton.SECONDARY)
 
-                window_created.get()
+                window_shown.get()
 
             shell_test_hook.SetPointer(widget_location.x - 1, widget_location.y)
 
