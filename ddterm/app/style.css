@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-tabbar button image {
+#ddterm-window tabbar button image {
     -gtk-icon-style: symbolic;
 }
 
-.transparent-background {
+#ddterm-window.transparent-background {
     background: transparent;
 }

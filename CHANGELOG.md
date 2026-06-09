@@ -19,6 +19,8 @@ The format is based on [Keep a Changelog], and this project adheres to
 ### Added
 
 - "Work Area Size" setting: [#129], [#1978].
+- CSS id `#ddterm-window` to the main window: [#1979]. Can be used to apply
+custom style to ddterm from `~/.config/gtk-3.0/gtk.css`.
 
 ### Changed
 
@@ -35,6 +37,7 @@ The format is based on [Keep a Changelog], and this project adheres to
 [#1973]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1973
 [#1974]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1974
 [#1978]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1978
+[#1979]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1979
 
 [Unreleased]: https://github.com/ddterm/gnome-shell-extension-ddterm/compare/v63.1.1...HEAD
 
