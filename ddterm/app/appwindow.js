@@ -14,6 +14,97 @@ import { TerminalSettings } from './terminalsettings.js';
 import { Notebook } from './notebook.js';
 import { DisplayConfig, LayoutMode } from '../util/displayconfig.js';
 
+class Spacer extends Gtk.Widget {
+    static [GObject.GTypeName] = 'DDTermSpacer';
+
+    static [GObject.properties] = {
+        'preferred-width': GObject.ParamSpec.int(
+            'preferred-width',
+            null,
+            null,
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+            0,
+            GLib.MAXINT32,
+            0
+        ),
+        'preferred-height': GObject.ParamSpec.int(
+            'preferred-height',
+            null,
+            null,
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+            0,
+            GLib.MAXINT32,
+            0
+        ),
+    };
+
+    static {
+        GObject.registerClass(this);
+    }
+
+    #preferred_width = 0;
+    #preferred_height = 0;
+
+    constructor(params) {
+        super(params);
+
+        this.set_has_window(false);
+    }
+
+    get preferred_width() {
+        return this.#preferred_width;
+    }
+
+    vfunc_get_preferred_width() {
+        return [0, this.#preferred_width];
+    }
+
+    set preferred_width(value) {
+        if (this.#preferred_width === value)
+            return;
+
+        this.#preferred_width = value;
+
+        if (this.visible)
+            this.queue_resize();
+
+        this.notify('preferred-width');
+    }
+
+    get preferred_height() {
+        return this.#preferred_height;
+    }
+
+    vfunc_get_preferred_height() {
+        return [0, this.#preferred_height];
+    }
+
+    set preferred_height(value) {
+        if (this.#preferred_height === value)
+            return;
+
+        this.#preferred_height = value;
+
+        if (this.visible)
+            this.queue_resize();
+
+        this.notify('preferred-height');
+    }
+
+    vfunc_draw(cr) {
+        try {
+            const width = this.get_allocated_width();
+            const height = this.get_allocated_height();
+
+            Gtk.render_background(this.get_style_context(), cr, 0, 0, width, height);
+        } finally {
+            cr.$dispose();
+        }
+
+        return false;
+    }
+}
+
 export class AppWindow extends Gtk.ApplicationWindow {
     static [GObject.GTypeName] = 'DDTermAppWindow';
 
@@ -29,12 +120,16 @@ export class AppWindow extends Gtk.ApplicationWindow {
     static [Gtk.internalChildren] = [
         'resize_box_north',
         'drag_gesture_north',
+        'spacer_north',
         'resize_box_south',
         'drag_gesture_south',
+        'spacer_south',
         'resize_box_east',
         'drag_gesture_east',
+        'spacer_east',
         'resize_box_west',
         'drag_gesture_west',
+        'spacer_west',
     ];
 
     static [GObject.properties] = {
@@ -129,6 +224,24 @@ export class AppWindow extends Gtk.ApplicationWindow {
             GObject.ParamFlags.READABLE,
             'no-split'
         ),
+        'workarea': GObject.ParamSpec.double(
+            'workarea',
+            null,
+            null,
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+            0.0,
+            1.0,
+            1.0
+        ),
+        'background-opacity': GObject.ParamSpec.double(
+            'background-opacity',
+            null,
+            null,
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+            0.0,
+            1.0,
+            1.0
+        ),
     };
 
     static [GObject.signals] = {
@@ -136,6 +249,8 @@ export class AppWindow extends Gtk.ApplicationWindow {
     };
 
     static {
+        GObject.type_ensure(Spacer);
+
         GObject.registerClass(this);
     }
 
@@ -213,6 +328,10 @@ export class AppWindow extends Gtk.ApplicationWindow {
         this.connect('notify::position-setting', this.#update_resize_handles.bind(this));
         this.connect('notify::resize-handle', this.#update_resize_handles.bind(this));
         this.#update_resize_handles();
+
+        this.connect('notify::position-setting', () => this.#update_spacers());
+        this.connect('notify::workarea', () => this.#update_spacers());
+        this.#update_spacers();
 
         this.connect('notify::screen', this.#update_visual.bind(this));
         this.#update_visual();
@@ -338,6 +457,13 @@ export class AppWindow extends Gtk.ApplicationWindow {
         );
 
         settings.bind(
+            'workarea-size',
+            this,
+            'workarea',
+            Gio.SettingsBindFlags.GET
+        );
+
+        settings.bind(
             'window-resizable',
             this,
             'resize-handle',
@@ -348,6 +474,13 @@ export class AppWindow extends Gtk.ApplicationWindow {
             'transparent-background',
             this,
             'transparent-background',
+            Gio.SettingsBindFlags.GET
+        );
+
+        settings.bind(
+            'background-opacity',
+            this,
+            'background-opacity',
             Gio.SettingsBindFlags.GET
         );
 
@@ -606,6 +739,37 @@ export class AppWindow extends Gtk.ApplicationWindow {
             this.notebook1.grab_focus();
         else if (this.notebook2.visible)
             this.notebook2.grab_focus();
+    }
+
+    #update_spacers(allocation) {
+        if (!allocation)
+            allocation = this.get_allocation();
+
+        const spacer_size = (1.0 - this.workarea) * 0.5;
+        const { position_setting } = this;
+
+        const spacer_width = position_setting === 'top' || position_setting === 'bottom'
+            ? Math.floor(allocation.width * spacer_size)
+            : 0;
+
+        const spacer_height = position_setting === 'left' || position_setting === 'right'
+            ? Math.floor(allocation.height * spacer_size)
+            : 0;
+
+        this._spacer_east.visible = spacer_width > 0;
+        this._spacer_east.preferred_width = spacer_width;
+        this._spacer_west.visible = spacer_width > 0;
+        this._spacer_west.preferred_width = spacer_width;
+        this._spacer_north.visible = spacer_height > 0;
+        this._spacer_north.preferred_height = spacer_height;
+        this._spacer_south.visible = spacer_height > 0;
+        this._spacer_south.preferred_height = spacer_height;
+    }
+
+    vfunc_size_allocate(allocation) {
+        this.#update_spacers(allocation);
+
+        super.vfunc_size_allocate(allocation);
     }
 
     serialize_state() {

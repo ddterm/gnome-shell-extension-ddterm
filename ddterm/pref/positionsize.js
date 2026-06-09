@@ -316,5 +316,38 @@ export class PositionSizeGroup extends PreferencesGroup {
         );
 
         this.add(window_size_row);
+
+        const workarea_size_adjustment = new Gtk.Adjustment({
+            upper: 1,
+            step_increment: 0.01,
+            page_increment: 0.10,
+        });
+
+        this.settings.bind(
+            'workarea-size',
+            workarea_size_adjustment,
+            'value',
+            Gio.SettingsBindFlags.DEFAULT
+        );
+
+        const workarea_size_row = new ScaleRow({
+            adjustment: workarea_size_adjustment,
+            digits: 2,
+            round_digits: 2,
+            visible: true,
+            use_underline: true,
+            title: this.gettext('Work Area _Size'),
+        });
+
+        workarea_size_row.set_format_value_func((_, v) => percent_format.format(v));
+
+        this.settings.bind_writable(
+            'workarea-size',
+            workarea_size_row,
+            'sensitive',
+            false
+        );
+
+        this.add(workarea_size_row);
     }
 }
