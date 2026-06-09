@@ -11,3 +11,8 @@
 #ddterm-window.transparent-background {
     background: transparent;
 }
+
+#ddterm-window paned {
+    border-left: 1px solid @borders;
+    border-right: 1px solid @borders;
+}
