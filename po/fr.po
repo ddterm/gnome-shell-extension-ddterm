@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-31 18:58+0000\n"
+"POT-Creation-Date: 2026-06-10 00:54+0000\n"
 "PO-Revision-Date: 2026-04-10 18:09+0000\n"
 "Last-Translator: Vincent Leduc <leducvinc@pm.me>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/fr/>\n"
@@ -860,6 +860,12 @@ msgstr "Droite"
 #: ddterm/pref/positionsize.js:305
 msgid "Window _Size"
 msgstr "Taille de la fenêtre"
+
+#: ddterm/pref/positionsize.js:339
+#, fuzzy
+#| msgid "Normal Size"
+msgid "Work Area _Size"
+msgstr "Taille normale"
 
 #: ddterm/pref/scrolling.js:25
 msgid "Scrolling"

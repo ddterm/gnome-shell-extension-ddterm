@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-31 18:58+0000\n"
+"POT-Creation-Date: 2026-06-10 00:54+0000\n"
 "PO-Revision-Date: 2023-10-24 22:14+0000\n"
 "Last-Translator: Pavel Novák <pavelnov32@gmail.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/cs/>\n"
@@ -851,6 +851,12 @@ msgstr "Vpravo"
 #: ddterm/pref/positionsize.js:305
 msgid "Window _Size"
 msgstr "_Velikost okna"
+
+#: ddterm/pref/positionsize.js:339
+#, fuzzy
+#| msgid "Normal Size"
+msgid "Work Area _Size"
+msgstr "Normální velikost"
 
 #: ddterm/pref/scrolling.js:25
 msgid "Scrolling"

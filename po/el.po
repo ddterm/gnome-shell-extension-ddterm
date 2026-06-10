@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-31 18:58+0000\n"
+"POT-Creation-Date: 2026-06-10 00:54+0000\n"
 "PO-Revision-Date: 2026-02-05 23:28+0000\n"
 "Last-Translator: Aleksandr Mezin <mezin.alexander@gmail.com>\n"
 "Language-Team: Greek <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/el/>\n"
@@ -864,6 +864,12 @@ msgstr "Δεξιά"
 #: ddterm/pref/positionsize.js:305
 msgid "Window _Size"
 msgstr "Μέγεθος παραθύρου"
+
+#: ddterm/pref/positionsize.js:339
+#, fuzzy
+#| msgid "Normal Size"
+msgid "Work Area _Size"
+msgstr "Κανονικό μέγεθος"
 
 #: ddterm/pref/scrolling.js:25
 msgid "Scrolling"

@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-31 18:58+0000\n"
+"POT-Creation-Date: 2026-06-10 00:54+0000\n"
 "PO-Revision-Date: 2025-09-18 04:23+0000\n"
 "Last-Translator: Ivan Vantu5z <vantu5z@mail.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/ru/>\n"
@@ -860,6 +860,12 @@ msgstr "Справа"
 #: ddterm/pref/positionsize.js:305
 msgid "Window _Size"
 msgstr "Размер окна"
+
+#: ddterm/pref/positionsize.js:339
+#, fuzzy
+#| msgid "Normal Size"
+msgid "Work Area _Size"
+msgstr "Нормальный размер"
 
 #: ddterm/pref/scrolling.js:25
 msgid "Scrolling"

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-31 18:58+0000\n"
+"POT-Creation-Date: 2026-06-10 00:54+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -847,6 +847,10 @@ msgstr ""
 
 #: ddterm/pref/positionsize.js:305
 msgid "Window _Size"
+msgstr ""
+
+#: ddterm/pref/positionsize.js:339
+msgid "Work Area _Size"
 msgstr ""
 
 #: ddterm/pref/scrolling.js:25

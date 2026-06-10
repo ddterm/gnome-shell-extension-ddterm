@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-31 18:58+0000\n"
+"POT-Creation-Date: 2026-06-10 00:54+0000\n"
 "PO-Revision-Date: 2026-06-10 00:48+0000\n"
 "Last-Translator: reducedradius <feixiang512@outlook.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/zh_Hans/>\n"
@@ -854,6 +854,12 @@ msgstr "右边"
 #: ddterm/pref/positionsize.js:305
 msgid "Window _Size"
 msgstr "窗口 _大小"
+
+#: ddterm/pref/positionsize.js:339
+#, fuzzy
+#| msgid "Normal Size"
+msgid "Work Area _Size"
+msgstr "标准大小"
 
 #: ddterm/pref/scrolling.js:25
 msgid "Scrolling"
