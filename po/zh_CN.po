@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-05-31 18:58+0000\n"
-"PO-Revision-Date: 2026-05-30 10:21+0000\n"
+"PO-Revision-Date: 2026-06-10 00:48+0000\n"
 "Last-Translator: reducedradius <feixiang512@outlook.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/zh_Hans/>\n"
 "Language: zh_CN\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2026.6.dev0\n"
+"X-Generator: Weblate 2026.6\n"
 
 #: data/com.github.amezin.ddterm.desktop.in.in:9
 #: ddterm/shell/notifications.js:240 ddterm/shell/panelicon.js:32
@@ -47,7 +47,7 @@ msgstr "首选项…"
 msgid "translator-credits"
 msgstr ""
 "yuh\n"
-"GuanYu Zhu feixiang512@outlook.com"
+"reducedradius feixiang512@outlook.com"
 
 #: ddterm/app/about.js:63
 msgid "Contributors"
@@ -1148,9 +1148,8 @@ msgid "Enter new shortcut"
 msgstr "输入新的快捷方式"
 
 #: ddterm/pref/ui/gtk3/shortcutdialog.ui:38
-#, fuzzy
 msgid "Click \"Set\" to replace existing shortcut(s). Click \"Add\" to add alternative shortcut."
-msgstr "点击“设置”来替换已存在的快捷方式。点击“添加”来增添快捷方式。"
+msgstr "点击“设定”来替换已存在的键盘快捷方式。点击“添加”来增添替代的键盘快捷方式。"
 
 #: ddterm/pref/ui/gtk3/shortcutdialog.ui:55
 msgid "Press Esc to cancel or Backspace to disable the keyboard shortcut"
