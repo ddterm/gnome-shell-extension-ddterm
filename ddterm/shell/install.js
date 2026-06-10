@@ -6,7 +6,7 @@
 import GLib from 'gi://GLib';
 import Gio from 'gi://Gio';
 
-function get_file_contents(file) {
+function get_file_contents_utf8(file) {
     return new Promise((resolve, reject) => {
         file.load_contents_async(null, (source, result) => {
             try {
@@ -32,6 +32,55 @@ function mkdir(file) {
     });
 }
 
+async function mkdir_with_parents(file) {
+    const missing_parent_dirs = [];
+
+    while (file) {
+        try {
+            // eslint-disable-next-line no-await-in-loop
+            await mkdir(file);
+
+            break;
+        } catch (ex) {
+            if (missing_parent_dirs.length === 0 &&
+                ex.matches(Gio.io_error_quark(), Gio.IOErrorEnum.EXISTS))
+                break;
+
+            if (!ex.matches(Gio.io_error_quark(), Gio.IOErrorEnum.NOT_FOUND))
+                throw ex;
+        }
+
+        missing_parent_dirs.push(file);
+        file = file.get_parent();
+    }
+
+    while (missing_parent_dirs.length > 0) {
+        // eslint-disable-next-line no-await-in-loop
+        await mkdir(missing_parent_dirs.pop());
+    }
+}
+
+function file_set_contents(file, contents) {
+    return new Promise((resolve, reject) => {
+        file.replace_contents_bytes_async(
+            contents,
+            null,
+            false,
+            Gio.FileCreateFlags.REPLACE_DESTINATION,
+            null,
+            (source, result) => {
+                try {
+                    const [ok] = source.replace_contents_finish(result);
+
+                    resolve(ok);
+                } catch (ex) {
+                    reject(ex);
+                }
+            }
+        );
+    });
+}
+
 class File {
     constructor(source_url, target_path, fallback_paths = []) {
         this.source_file = Gio.File.new_for_uri(
@@ -46,7 +95,7 @@ class File {
         for (const existing_file of [this.target_file, ...this.fallback_files]) {
             try {
                 // eslint-disable-next-line no-await-in-loop
-                return await get_file_contents(existing_file);
+                return await get_file_contents_utf8(existing_file);
             } catch (ex) {
                 if (!ex.matches(Gio.io_error_quark(), Gio.IOErrorEnum.NOT_FOUND))
                     logError(ex, `Can't read ${JSON.stringify(existing_file.get_path())}`);
@@ -57,7 +106,7 @@ class File {
     }
 
     async install(configure_vars) {
-        let contents = await get_file_contents(this.source_file);
+        let contents = await get_file_contents_utf8(this.source_file);
 
         for (const [key, value] of Object.entries(configure_vars))
             contents = contents.replace(new RegExp(`@${key}@`, 'g'), value);
@@ -67,51 +116,8 @@ class File {
         if (contents === existing_contents)
             return false;
 
-        const missing_parent_dirs = [];
-        let parent = this.target_file.get_parent();
-
-        while (parent) {
-            try {
-                // eslint-disable-next-line no-await-in-loop
-                await mkdir(parent);
-
-                break;
-            } catch (ex) {
-                if (missing_parent_dirs.length === 0 &&
-                    ex.matches(Gio.io_error_quark(), Gio.IOErrorEnum.EXISTS))
-                    break;
-
-                if (!ex.matches(Gio.io_error_quark(), Gio.IOErrorEnum.NOT_FOUND))
-                    throw ex;
-            }
-
-            missing_parent_dirs.push(parent);
-            parent = parent.get_parent();
-        }
-
-        while (missing_parent_dirs.length > 0) {
-            // eslint-disable-next-line no-await-in-loop
-            await mkdir(missing_parent_dirs.pop());
-        }
-
-        return new Promise((resolve, reject) => {
-            this.target_file.replace_contents_bytes_async(
-                new TextEncoder().encode(contents),
-                null,
-                false,
-                Gio.FileCreateFlags.REPLACE_DESTINATION,
-                null,
-                (source, result) => {
-                    try {
-                        source.replace_contents_finish(result);
-
-                        resolve(true);
-                    } catch (ex) {
-                        reject(ex);
-                    }
-                }
-            );
-        });
+        await mkdir_with_parents(this.target_file.get_parent());
+        return file_set_contents(this.target_file, new TextEncoder().encode(contents));
     }
 
     uninstall() {
