@@ -42,8 +42,7 @@ async function mkdir_with_parents(file) {
 
             break;
         } catch (ex) {
-            if (missing_parent_dirs.length === 0 &&
-                ex.matches(Gio.io_error_quark(), Gio.IOErrorEnum.EXISTS))
+            if (ex.matches(Gio.io_error_quark(), Gio.IOErrorEnum.EXISTS))
                 break;
 
             if (!ex.matches(Gio.io_error_quark(), Gio.IOErrorEnum.NOT_FOUND))
@@ -55,8 +54,13 @@ async function mkdir_with_parents(file) {
     }
 
     while (missing_parent_dirs.length > 0) {
-        // eslint-disable-next-line no-await-in-loop
-        await mkdir(missing_parent_dirs.pop());
+        try {
+            // eslint-disable-next-line no-await-in-loop
+            await mkdir(missing_parent_dirs.pop());
+        } catch (ex) {
+            if (!ex.matches(Gio.io_error_quark(), Gio.IOErrorEnum.EXISTS))
+                throw ex;
+        }
     }
 }
 

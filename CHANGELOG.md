@@ -14,6 +14,17 @@ The format is based on [Keep a Changelog], and this project adheres to
 [Keep a Changelog]: https://keepachangelog.com/en/1.1.0/
 [Semantic Versioning]: https://semver.org/spec/v2.0.0.html
 
+## [Unreleased]
+
+### Fixed
+
+- Potential failure in desktop entry and D-Bus service file installation:
+[#1984].
+
+[#1984]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1984
+
+[Unreleased]: https://github.com/ddterm/gnome-shell-extension-ddterm/compare/v63.2.0...HEAD
+
 ## [63.2.0] - 2026-06-10
 
 ### Added
