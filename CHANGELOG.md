@@ -14,22 +14,20 @@ The format is based on [Keep a Changelog], and this project adheres to
 [Keep a Changelog]: https://keepachangelog.com/en/1.1.0/
 [Semantic Versioning]: https://semver.org/spec/v2.0.0.html
 
-## [Unreleased]
+## [63.2.0] - 2026-06-10
 
 ### Added
 
-- "Work Area Size" setting: [#129], [#1978].
+- "Work Area Size" setting: [#129], [#1978]. Reduces terminal width in
+top/bottom window position, or height in left/right position.
 - CSS id `#ddterm-window` to the main window: [#1979]. Can be used to apply
 custom style to ddterm from `~/.config/gtk-3.0/gtk.css`.
-
-### Changed
-
-### Removed
 
 ### Fixed
 
 - Replaced blocking i/o with async i/o in shell extension code:
 [#1954], [#1972], [#1973], [#1974].
+- Chinese translation improvements by [@flytothehighest]: [#1982].
 
 [#129]: https://github.com/ddterm/gnome-shell-extension-ddterm/issues/129
 [#1954]: https://github.com/ddterm/gnome-shell-extension-ddterm/issues/1954
@@ -38,8 +36,11 @@ custom style to ddterm from `~/.config/gtk-3.0/gtk.css`.
 [#1974]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1974
 [#1978]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1978
 [#1979]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1979
+[#1982]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1982
 
-[Unreleased]: https://github.com/ddterm/gnome-shell-extension-ddterm/compare/v63.1.1...HEAD
+[@flytothehighest]: https://github.com/flytothehighest
+
+[63.2.0]: https://github.com/ddterm/gnome-shell-extension-ddterm/releases/tag/v63.2.0
 
 ## [63.1.1] - 2026-06-07
 
@@ -93,7 +94,6 @@ they are now better visually separated in Preferences dialog: [#1917].
 [#1945]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1945
 [#1947]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1947
 
-[@flytothehighest]: https://github.com/flytothehighest
 [@liuxiaopai-ai]: https://github.com/liuxiaopai-ai
 [@Luca0208]: https://github.com/Luca0208
 [@mikelei8291]: https://github.com/mikelei8291
