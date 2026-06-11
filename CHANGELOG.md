@@ -20,8 +20,12 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 - Potential failure in desktop entry and D-Bus service file installation:
 [#1984].
+- Chinese translation improvements by [@flytothehighest]: [#1987].
 
 [#1984]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1984
+[#1987]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1987
+
+[@flytothehighest]: https://github.com/flytothehighest
 
 [Unreleased]: https://github.com/ddterm/gnome-shell-extension-ddterm/compare/v63.2.0...HEAD
 
@@ -48,8 +52,6 @@ custom style to ddterm from `~/.config/gtk-3.0/gtk.css`.
 [#1978]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1978
 [#1979]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1979
 [#1982]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1982
-
-[@flytothehighest]: https://github.com/flytothehighest
 
 [63.2.0]: https://github.com/ddterm/gnome-shell-extension-ddterm/releases/tag/v63.2.0
 
