@@ -9,7 +9,7 @@ on:
 
 jobs:
   publish:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 5
     container:
       image: ghcr.io/archlinux/archlinux:base-devel-20260607.0.541915@sha256:2c61aed74c692bfbff4824ff740926865821a65d80ade655defea0d0f35032de

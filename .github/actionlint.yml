@@ -7,3 +7,7 @@ paths:
     ignore:
       # https://github.com/rhysd/actionlint/issues/343
       - 'property "result" is not defined in object type {outputs: {'
+
+self-hosted-runner:
+  labels:
+    - ubuntu-26.04
