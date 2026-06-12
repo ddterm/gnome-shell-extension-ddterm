@@ -21,6 +21,8 @@ The format is based on [Keep a Changelog], and this project adheres to
 - Potential failure in desktop entry and D-Bus service file installation:
 [#1984].
 - Chinese translation improvements by [@flytothehighest]: [#1987].
+- Crash (`signal 11`) when splitting a pane containing only a single tab,
+ultimately caused by a use-after-free in libhandy's `HdyTabBox`.
 
 [#1984]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1984
 [#1987]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1987

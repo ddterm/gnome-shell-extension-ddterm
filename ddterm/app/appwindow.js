@@ -1,6 +1,7 @@
 // SPDX-FileCopyrightText: 2020 Aleksandr Mezin <mezin.alexander@gmail.com>
 // SPDX-FileContributor: Juan M. Cruz-Martinez
 // SPDX-FileContributor: Jackson Goode
+// SPDX-FileContributor: Finn van Riper
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -542,9 +543,8 @@ export class AppWindow extends Gtk.ApplicationWindow {
         if (notebook.n_pages > 1) {
             notebook.emit('move-to-other-pane', page);
         } else {
-            const new_page = notebook.new_page();
-            notebook.emit('move-to-other-pane', new_page);
-            new_page.spawn();
+            const dest = notebook === this.notebook1 ? this.notebook2 : this.notebook1;
+            dest.new_page().spawn();
         }
     }
 
