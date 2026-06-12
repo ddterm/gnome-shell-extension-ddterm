@@ -4,6 +4,10 @@
 
 # See docs/Vagrant.md
 
+# In case of "`virbr0': No such device" do:
+#
+#     sudo virsh net-start default
+
 require 'open3'
 require 'pathname'
 
@@ -90,36 +94,32 @@ Vagrant.configure("2") do |config|
     version.vm.box = "gnome-shell-box/silverblue43"
   end
 
-  config.vm.define "fedora42", autostart: false do |version|
-    version.vm.box = "gnome-shell-box/fedora42"
+  config.vm.define "fedora44", autostart: false do |version|
+    version.vm.box = "gnome-shell-box/fedora44"
   end
 
-  config.vm.define "silverblue42", autostart: false do |version|
-    version.vm.box = "gnome-shell-box/silverblue42"
-  end
-
-  config.vm.define "fedora41", autostart: false do |version|
-    version.vm.box = "gnome-shell-box/fedora41"
-  end
-
-  config.vm.define "silverblue41", autostart: false do |version|
-    version.vm.box = "gnome-shell-box/silverblue41"
+  config.vm.define "silverblue44", autostart: false do |version|
+    version.vm.box = "gnome-shell-box/silverblue44"
   end
 
   config.vm.define "ubuntu2404", autostart: false do |version|
     version.vm.box = "gnome-shell-box/ubuntu2404"
   end
 
-  config.vm.define "ubuntu2504", autostart: false do |version|
-    version.vm.box = "gnome-shell-box/ubuntu2504"
-  end
-
   config.vm.define "ubuntu2510", primary: true do |version|
     version.vm.box = "gnome-shell-box/ubuntu2510"
   end
 
+  config.vm.define "ubuntu2604", autostart: false do |version|
+    version.vm.box = "gnome-shell-box/ubuntu2604"
+  end
+
   config.vm.define "debian13", autostart: false do |version|
     version.vm.box = "gnome-shell-box/debian13"
+  end
+
+  config.vm.define "opensuseleap16", autostart: false do |version|
+    version.vm.box = "gnome-shell-box/opensuseleap16"
   end
 
   config.vm.define "opensusetumbleweed", autostart: false do |version|
@@ -132,17 +132,6 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "archlinux", autostart: false do |version|
     version.vm.box = "gnome-shell-box/archlinux"
-  end
-
-  config.vm.define "alpine320", autostart: false do |version|
-    version.vm.box = "gnome-shell-box/alpine320"
-    version.ssh.sudo_command = "doas -n -u root %c"
-
-    version.vm.synced_folder '.', SYNCED_FOLDER,
-      type: 'rsync',
-      rsync__exclude: rsync_excludes,
-      rsync__rsync_path: 'doas -u root rsync',
-      rsync__args: rsync_args
   end
 
   config.vm.define "alpine321", autostart: false do |version|
@@ -158,6 +147,28 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "alpine322", autostart: false do |version|
     version.vm.box = "gnome-shell-box/alpine322"
+    version.ssh.sudo_command = "doas -n -u root %c"
+
+    version.vm.synced_folder '.', SYNCED_FOLDER,
+      type: 'rsync',
+      rsync__exclude: rsync_excludes,
+      rsync__rsync_path: 'doas -u root rsync',
+      rsync__args: rsync_args
+  end
+
+  config.vm.define "alpine323", autostart: false do |version|
+    version.vm.box = "gnome-shell-box/alpine323"
+    version.ssh.sudo_command = "doas -n -u root %c"
+
+    version.vm.synced_folder '.', SYNCED_FOLDER,
+      type: 'rsync',
+      rsync__exclude: rsync_excludes,
+      rsync__rsync_path: 'doas -u root rsync',
+      rsync__args: rsync_args
+  end
+
+  config.vm.define "alpine324", autostart: false do |version|
+    version.vm.box = "gnome-shell-box/alpine324"
     version.ssh.sudo_command = "doas -n -u root %c"
 
     version.vm.synced_folder '.', SYNCED_FOLDER,

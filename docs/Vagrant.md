@@ -4,6 +4,8 @@ SPDX-FileCopyrightText: 2022 Aleksandr Mezin <mezin.alexander@gmail.com>
 SPDX-License-Identifier: GPL-3.0-or-later
 -->
 
+<!-- markdownlint-configure-file { "line-length": { "code_blocks": false } } -->
+
 # Vagrant VMs
 
 There is a [`Vagrantfile`] in the root of the repository. You can use it
@@ -70,3 +72,24 @@ and reinstall it:
 GNOME Shell session in the VM will automatically be terminated, you'll have to
 login again - because GNOME Shell can't reload extensions without a complete
 restart.
+
+## `virbr0` Network Issue
+
+`vagrant-libvirt` relies on the default network bridge `virbr0`.
+It should be configured by the system libvirt daemon.
+
+When getting the following error:
+
+    /home/amezin/.vagrant.d/gems/3.4.8/gems/fog-libvirt-0.15.0/lib/fog/libvirt/requests/compute/vm_action.rb:7:in 'Libvirt::Domain#create': Call to virDomainCreate failed: /usr/lib/qemu/qemu-bridge-helper --use-vnet --br=virbr0 --fd=30: failed to communicate with bridge helper: stderr=failed to get mtu of bridge `virbr0': No such device (Libvirt::Error)
+
+Make sure the default network is started:
+
+    sudo virsh net-start default
+
+To start it automatically on boot:
+
+    sudo virsh net-autostart default
+
+Also, make sure the libvirt daemon is running:
+
+    sudo systemctl enable --now libvirtd
