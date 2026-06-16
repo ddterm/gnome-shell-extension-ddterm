@@ -20,6 +20,7 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 - Potential failure in desktop entry and D-Bus service file installation:
 [#1984].
+- Transparent tab bar with custom themes: [#1997], [#2003], [#2000].
 - Chinese translation improvements by [@flytothehighest]: [#1987].
 - Potential crash fix when splitting a pane containing only one tab
 by [@van-riper]: [#1991].
@@ -27,6 +28,9 @@ by [@van-riper]: [#1991].
 [#1984]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1984
 [#1987]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1987
 [#1991]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/1991
+[#1997]: https://github.com/ddterm/gnome-shell-extension-ddterm/issues/1997
+[#2003]: https://github.com/ddterm/gnome-shell-extension-ddterm/issues/2003
+[#2000]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2000
 
 [@flytothehighest]: https://github.com/flytothehighest
 [@van-riper]: https://github.com/van-riper

@@ -132,42 +132,25 @@ SPDX-License-Identifier: GPL-3.0-or-later
       </packing>
     </child>
     <child>
-      <object class="HdyTabBar" id="bar">
+      <object class="GtkBox" id="bar_container">
+        <property name="orientation">vertical</property>
         <property name="visible">True</property>
-        <property name="autohide">False</property>
-        <property name="view">view</property>
-        <property name="expand-tabs" bind-source="DDTermNotebook" bind-property="tab-expand" bind-flags="sync-create|bidirectional"/>
         <style>
           <class name="background"/>
         </style>
-        <child type="start">
-          <object class="GtkButton" id="new_tab_front_button">
-            <property name="visible" bind-source="DDTermNotebook" bind-property="show-new-tab-front-button" bind-flags="sync-create|bidirectional"/>
-            <property name="focus_on_click">False</property>
-            <property name="relief">none</property>
-            <property name="tooltip_text" translatable="yes">New Tab (First)</property>
-            <property name="action_name">notebook.new-tab-front</property>
-            <child>
-              <object class="GtkImage">
-                <property name="visible">True</property>
-                <property name="icon_name">list-add</property>
-                <property name="icon_size">1</property>
-              </object>
-            </child>
-          </object>
-        </child>
-        <child type="end">
-          <object class="GtkBox" id="end_action_box">
+        <child>
+          <object class="HdyTabBar" id="bar">
             <property name="visible">True</property>
-            <property name="spacing">0</property>
-            <property name="orientation">horizontal</property>
-            <child>
-              <object class="GtkButton" id="new_tab_button">
-                <property name="visible" bind-source="DDTermNotebook" bind-property="show-new-tab-button" bind-flags="sync-create|bidirectional"/>
+            <property name="autohide">False</property>
+            <property name="view">view</property>
+            <property name="expand-tabs" bind-source="DDTermNotebook" bind-property="tab-expand" bind-flags="sync-create|bidirectional"/>
+            <child type="start">
+              <object class="GtkButton" id="new_tab_front_button">
+                <property name="visible" bind-source="DDTermNotebook" bind-property="show-new-tab-front-button" bind-flags="sync-create|bidirectional"/>
                 <property name="focus_on_click">False</property>
                 <property name="relief">none</property>
-                <property name="tooltip_text" translatable="yes">New Tab (Last)</property>
-                <property name="action_name">notebook.new-tab</property>
+                <property name="tooltip_text" translatable="yes">New Tab (First)</property>
+                <property name="action_name">notebook.new-tab-front</property>
                 <child>
                   <object class="GtkImage">
                     <property name="visible">True</property>
@@ -177,12 +160,35 @@ SPDX-License-Identifier: GPL-3.0-or-later
                 </child>
               </object>
             </child>
-            <child>
-              <object class="GtkMenuButton" id="tab_switch_button">
-                <property name="visible" bind-source="DDTermNotebook" bind-property="show-tab-switch-popup" bind-flags="sync-create|bidirectional"/>
-                <property name="focus_on_click">False</property>
-                <property name="relief">none</property>
-                <property name="use_popover">False</property>
+            <child type="end">
+              <object class="GtkBox" id="end_action_box">
+                <property name="visible">True</property>
+                <property name="spacing">0</property>
+                <property name="orientation">horizontal</property>
+                <child>
+                  <object class="GtkButton" id="new_tab_button">
+                    <property name="visible" bind-source="DDTermNotebook" bind-property="show-new-tab-button" bind-flags="sync-create|bidirectional"/>
+                    <property name="focus_on_click">False</property>
+                    <property name="relief">none</property>
+                    <property name="tooltip_text" translatable="yes">New Tab (Last)</property>
+                    <property name="action_name">notebook.new-tab</property>
+                    <child>
+                      <object class="GtkImage">
+                        <property name="visible">True</property>
+                        <property name="icon_name">list-add</property>
+                        <property name="icon_size">1</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkMenuButton" id="tab_switch_button">
+                    <property name="visible" bind-source="DDTermNotebook" bind-property="show-tab-switch-popup" bind-flags="sync-create|bidirectional"/>
+                    <property name="focus_on_click">False</property>
+                    <property name="relief">none</property>
+                    <property name="use_popover">False</property>
+                  </object>
+                </child>
               </object>
             </child>
           </object>
