@@ -80,7 +80,7 @@ jobs:
 
       - id: diff
         name: Check if tests are necessary
-        uses: amezin/detect-changes-action@a8eff3b8f97f517b49e85ec8bef76dceecda748b # v2.2.2
+        uses: amezin/detect-changes-action@068c17f2b4774bc7b15b5e92b00159936d861f4c # v2.2.3
         continue-on-error: true
         with:
           files: |
