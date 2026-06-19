@@ -66,8 +66,6 @@ summary(
   section: 'System-wide installation',
 )
 
-xsltproc = find_program('xsltproc')
-
 desktop_file_validate_tool = find_program(
   'desktop-file-validate',
   required: false,
