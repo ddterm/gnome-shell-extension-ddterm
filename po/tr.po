@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-11 21:08+0000\n"
+"POT-Creation-Date: 2026-06-20 23:30+0000\n"
 "PO-Revision-Date: 2025-10-07 20:02+0000\n"
 "Last-Translator: Nuri KÜÇÜKLER <enatsek@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/tr/>\n"
@@ -226,11 +226,11 @@ msgstr "Çıktıktan Sonra Açık Tut"
 msgid "Close"
 msgstr "Kapat"
 
-#: ddterm/app/ui/notebook.ui:148
+#: ddterm/app/ui/notebook.ui:152
 msgid "New Tab (First)"
 msgstr "Yeni Sekme (İlk)"
 
-#: ddterm/app/ui/notebook.ui:169
+#: ddterm/app/ui/notebook.ui:173
 msgid "New Tab (Last)"
 msgstr "Yeni Sekme (Son)"
 

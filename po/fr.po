@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-11 21:08+0000\n"
+"POT-Creation-Date: 2026-06-20 23:30+0000\n"
 "PO-Revision-Date: 2026-04-10 18:09+0000\n"
 "Last-Translator: Vincent Leduc <leducvinc@pm.me>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/fr/>\n"
@@ -229,11 +229,11 @@ msgstr "Laisser ouvert en quittant"
 msgid "Close"
 msgstr "Fermer"
 
-#: ddterm/app/ui/notebook.ui:148
+#: ddterm/app/ui/notebook.ui:152
 msgid "New Tab (First)"
 msgstr "Nouvel onglet (en première position)"
 
-#: ddterm/app/ui/notebook.ui:169
+#: ddterm/app/ui/notebook.ui:173
 msgid "New Tab (Last)"
 msgstr "Nouvel onglet (en dernière position)"
 

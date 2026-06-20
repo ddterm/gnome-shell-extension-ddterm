@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-11 21:08+0000\n"
+"POT-Creation-Date: 2026-06-20 23:30+0000\n"
 "PO-Revision-Date: 2024-09-02 20:09+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/nb_NO/>\n"
@@ -220,11 +220,11 @@ msgstr "Behold åpen etter avslutning"
 msgid "Close"
 msgstr "Lukk"
 
-#: ddterm/app/ui/notebook.ui:148
+#: ddterm/app/ui/notebook.ui:152
 msgid "New Tab (First)"
 msgstr "Ny fane (først)"
 
-#: ddterm/app/ui/notebook.ui:169
+#: ddterm/app/ui/notebook.ui:173
 msgid "New Tab (Last)"
 msgstr "Ny fane (sist)"
 

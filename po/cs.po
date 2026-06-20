@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-11 21:08+0000\n"
+"POT-Creation-Date: 2026-06-20 23:30+0000\n"
 "PO-Revision-Date: 2023-10-24 22:14+0000\n"
 "Last-Translator: Pavel Novák <pavelnov32@gmail.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/cs/>\n"
@@ -220,11 +220,11 @@ msgstr "Nechat otevřené po ukončení"
 msgid "Close"
 msgstr "Zavřít"
 
-#: ddterm/app/ui/notebook.ui:148
+#: ddterm/app/ui/notebook.ui:152
 msgid "New Tab (First)"
 msgstr "Nový panel (První)"
 
-#: ddterm/app/ui/notebook.ui:169
+#: ddterm/app/ui/notebook.ui:173
 msgid "New Tab (Last)"
 msgstr "Nový panel (Poslední)"
 

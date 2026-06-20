@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-11 21:08+0000\n"
+"POT-Creation-Date: 2026-06-20 23:30+0000\n"
 "PO-Revision-Date: 2026-03-10 14:09+0000\n"
 "Last-Translator: Hosted Weblate user 142171 <traaduttore@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/it/>\n"
@@ -225,11 +225,11 @@ msgstr "Mantieni aperto dopo l'uscita"
 msgid "Close"
 msgstr "Chiudere"
 
-#: ddterm/app/ui/notebook.ui:148
+#: ddterm/app/ui/notebook.ui:152
 msgid "New Tab (First)"
 msgstr "Nuova scheda (prima)"
 
-#: ddterm/app/ui/notebook.ui:169
+#: ddterm/app/ui/notebook.ui:173
 msgid "New Tab (Last)"
 msgstr "Nuova scheda (ultima)"
 
