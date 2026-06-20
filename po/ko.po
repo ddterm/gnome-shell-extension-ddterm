@@ -5,13 +5,14 @@
 # Automatically generated, 2026.
 #
 # 스이미 <soo.wim3@gmail.com>, 2026.
+# SUYEONG JANG <soo.wim3@gmail.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-06-11 21:08+0000\n"
-"PO-Revision-Date: 2026-06-17 15:01+0000\n"
-"Last-Translator: 스이미 <soo.wim3@gmail.com>\n"
+"PO-Revision-Date: 2026-06-20 15:01+0000\n"
+"Last-Translator: SUYEONG JANG <soo.wim3@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/ko/>\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
@@ -45,7 +46,7 @@ msgstr "설정…"
 
 #: ddterm/app/about.js:62
 msgid "translator-credits"
-msgstr "JANG SUYEONG https://github.com/seuimi"
+msgstr "SUYEONG JANG https://github.com/seuimi"
 
 #: ddterm/app/about.js:63
 msgid "Contributors"
