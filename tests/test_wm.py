@@ -384,7 +384,8 @@ class CommonTests:
         return animation_mode.expected_transitions(window_position)
 
     @pytest.fixture(scope='class')
-    def workspaces_only_on_primary(self, shell_test_hook):
+    @classmethod
+    def workspaces_only_on_primary(cls, shell_test_hook):
         return shell_test_hook.Eval('imports.gi.Meta.prefs_get_workspaces_only_on_primary()')
 
     @pytest.fixture
@@ -899,7 +900,8 @@ class TestWaylandTwoMonitors(TestWayland):
         return m0, m1
 
     @pytest.fixture(scope='class')
-    def initial_monitor_layout(self):
+    @classmethod
+    def initial_monitor_layout(cls):
         m0 = displayconfig.SimpleMonitorConfig()
         m1 = displayconfig.SimpleMonitorConfig(x=m0.width)
 
@@ -937,11 +939,13 @@ class TestWaylandTwoMonitors(TestWayland):
 @pytest.mark.usefixtures('check_log')
 class TestWaylandNoMonitors(fixtures.GnomeSessionWaylandFixtures):
     @pytest.fixture(scope='class')
-    def initial_monitor_layout(self):
+    @classmethod
+    def initial_monitor_layout(cls):
         return []
 
     @pytest.fixture(scope='class')
-    def shell_init(self, disable_extension_updates):
+    @classmethod
+    def shell_init(cls, disable_extension_updates):
         pass
 
     def test_smoke(self, extension_init):

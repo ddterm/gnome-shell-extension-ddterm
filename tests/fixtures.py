@@ -62,40 +62,49 @@ def mkdir(path):
 
 class GnomeSessionFixtures:
     @pytest.fixture(scope='class')
-    def home_dir(self, tmp_path_factory):
-        return tmp_path_factory.mktemp(self.__class__.__name__)
+    @classmethod
+    def home_dir(cls, tmp_path_factory):
+        return tmp_path_factory.mktemp(cls.__name__)
 
     @pytest.fixture(scope='class')
-    def xdg_config_home(self, home_dir):
+    @classmethod
+    def xdg_config_home(cls, home_dir):
         return mkdir(home_dir / '.config')
 
     @pytest.fixture(scope='class')
-    def xdg_cache_home(self, home_dir):
+    @classmethod
+    def xdg_cache_home(cls, home_dir):
         return mkdir(home_dir / '.cache')
 
     @pytest.fixture(scope='class')
-    def xdg_runtime_dir(self, xdg_cache_home):
+    @classmethod
+    def xdg_runtime_dir(cls, xdg_cache_home):
         return xdg_cache_home
 
     @pytest.fixture(scope='class')
-    def local_dir(self, home_dir):
+    @classmethod
+    def local_dir(cls, home_dir):
         return mkdir(home_dir / '.local')
 
     @pytest.fixture(scope='class')
-    def xdg_state_home(self, local_dir):
+    @classmethod
+    def xdg_state_home(cls, local_dir):
         return mkdir(local_dir / 'state')
 
     @pytest.fixture(scope='class')
-    def xdg_data_home(self, local_dir):
+    @classmethod
+    def xdg_data_home(cls, local_dir):
         return mkdir(local_dir / 'share')
 
     @pytest.fixture(scope='class')
-    def gnome_data_dir(self, xdg_data_home):
+    @classmethod
+    def gnome_data_dir(cls, xdg_data_home):
         return mkdir(xdg_data_home / 'gnome-shell')
 
     @pytest.fixture(scope='class')
+    @classmethod
     def base_environment(
-        self,
+        cls,
         system_bus_environment,
         xdg_runtime_dir,
         xdg_config_home,
@@ -113,8 +122,9 @@ class GnomeSessionFixtures:
         return env
 
     @pytest.fixture(scope='class')
+    @classmethod
     def data_environment(
-        self,
+        cls,
         base_environment,
         xdg_data_home,
         gnome_data_dir,
@@ -143,19 +153,22 @@ class GnomeSessionFixtures:
         return env
 
     @pytest.fixture(scope='class')
-    def environment(self, request, base_environment):
+    @classmethod
+    def environment(cls, request, base_environment):
         if request.config.option.bundle:
             return request.getfixturevalue('data_environment')
         else:
             return base_environment
 
     @pytest.fixture(scope='class')
-    def dbus_services_dir(self, xdg_runtime_dir):
+    @classmethod
+    def dbus_services_dir(cls, xdg_runtime_dir):
         return mkdir(mkdir(xdg_runtime_dir / 'dbus-1') / 'services')
 
     @pytest.fixture(scope='class')
+    @classmethod
     def dbus_daemon(
-        self,
+        cls,
         container,
         process_launcher,
         dbus_daemon_environment,
@@ -192,7 +205,8 @@ class GnomeSessionFixtures:
             yield proc
 
     @pytest.fixture(scope='class')
-    def dbus_environment(self, dbus_daemon_environment, dbus_daemon):
+    @classmethod
+    def dbus_environment(cls, dbus_daemon_environment, dbus_daemon):
         env = {
             **dbus_daemon_environment,
             'DBUS_SESSION_BUS_ADDRESS': dbus_daemon.address,
@@ -203,7 +217,8 @@ class GnomeSessionFixtures:
         return env
 
     @pytest.fixture(scope='class')
-    def dbus_connection(self, dbus_daemon):
+    @classmethod
+    def dbus_connection(cls, dbus_daemon):
         connection = dbusutil.connect(dbus_daemon.address)
 
         try:
@@ -213,18 +228,21 @@ class GnomeSessionFixtures:
             dbusutil.close(connection)
 
     @pytest.fixture(scope='class')
-    def initial_monitor_layout(self):
+    @classmethod
+    def initial_monitor_layout(cls):
         return (displayconfig.SimpleMonitorConfig(),)
 
     @pytest.fixture(scope='class')
-    def xvfb_screen_config(self, initial_monitor_layout):
+    @classmethod
+    def xvfb_screen_config(cls, initial_monitor_layout):
         width = max(monitor.x + monitor.width for monitor in initial_monitor_layout)
         height = max(monitor.y + monitor.height for monitor in initial_monitor_layout)
 
         return f'{width}x{height}x24'
 
     @pytest.fixture(scope='class')
-    def xvfb(self, process_launcher, environment, xvfb_screen_config, request):
+    @classmethod
+    def xvfb(cls, process_launcher, environment, xvfb_screen_config, request):
         display_r, display_w = os.pipe()
 
         with contextlib.ExitStack() as stack:
@@ -254,14 +272,16 @@ class GnomeSessionFixtures:
             yield proc
 
     @pytest.fixture(scope='class')
-    def x11_environment(self, environment, xvfb):
+    @classmethod
+    def x11_environment(cls, environment, xvfb):
         return {
             **environment,
             'DISPLAY': xvfb.display,
         }
 
     @pytest.fixture(scope='class')
-    def disable_welcome_dialog(self, process_launcher, dbus_environment, request):
+    @classmethod
+    def disable_welcome_dialog(cls, process_launcher, dbus_environment, request):
         process_launcher.run(
             str(request.config.option.gsettings_tool),
             'set',
@@ -272,7 +292,8 @@ class GnomeSessionFixtures:
         )
 
     @pytest.fixture(scope='class')
-    def has_x11(self, process_launcher, os_ids, request):
+    @classmethod
+    def has_x11(cls, process_launcher, os_ids, request):
         if 'rhel' in os_ids:
             return False
 
@@ -285,8 +306,9 @@ class GnomeSessionFixtures:
         return b'--x11' in result.stdout
 
     @pytest.fixture(scope='class')
+    @classmethod
     def shell_process(
-        self,
+        cls,
         container,
         process_launcher,
         gnome_shell_environment,
@@ -383,21 +405,25 @@ class GnomeSessionFixtures:
             yield proc
 
     @pytest.fixture(scope='class')
-    def shell_dbus_interface(self, shell_process, dbus_connection):
+    @classmethod
+    def shell_dbus_interface(cls, shell_process, dbus_connection):
         proxy = shelldbus.Proxy.create(g_connection=dbus_connection)
         yield proxy
         proxy.terminate()
 
     @pytest.fixture(scope='class')
-    def shell_extensions_dbus_interface(self, shell_process, dbus_connection):
+    @classmethod
+    def shell_extensions_dbus_interface(cls, shell_process, dbus_connection):
         return shellextdbus.Proxy.create(g_connection=dbus_connection)
 
     @pytest.fixture(scope='class')
-    def display_config(self, shell_process, dbus_connection):
+    @classmethod
+    def display_config(cls, shell_process, dbus_connection):
         return displayconfig.DisplayConfig.create(dbus_connection)
 
     @pytest.fixture(scope='class')
-    def shell_test_hook(self, shell_dbus_interface, log_sync):
+    @classmethod
+    def shell_test_hook(cls, shell_dbus_interface, log_sync):
         proxy = shellhook.Proxy.create(shell_dbus_interface)
 
         try:
@@ -429,14 +455,16 @@ class GnomeSessionFixtures:
             proxy.Destroy()
 
     @pytest.fixture(scope='class')
-    def disable_extension_updates(self, shell_dbus_interface):
+    @classmethod
+    def disable_extension_updates(cls, shell_dbus_interface):
         shell_dbus_interface.Eval(
             'Object.defineProperty(Main.extensionManager, "updatesSupported", { value: false })'
         )
 
     @pytest.fixture(scope='class')
+    @classmethod
     def shell_init(
-        self,
+        cls,
         disable_extension_updates,
         shell_test_hook,
         display_config,
@@ -461,11 +489,13 @@ class GnomeSessionFixtures:
             shell_test_hook.SetPointer(center_x, center_y)
 
     @pytest.fixture(scope='class')
-    def extension_init(self, shell_init, shell_extensions_dbus_interface):
+    @classmethod
+    def extension_init(cls, shell_init, shell_extensions_dbus_interface):
         return shell_extensions_dbus_interface.EnableExtension('ddterm@amezin.github.com')
 
     @pytest.fixture(scope='class')
-    def extension_test_hook(self, shell_test_hook, extension_init):
+    @classmethod
+    def extension_test_hook(cls, shell_test_hook, extension_init):
         proxy = extensionhook.Proxy.create(shell_test_hook)
 
         try:
@@ -481,7 +511,8 @@ class GnomeSessionFixtures:
             proxy.Destroy()
 
     @pytest.fixture(scope='class')
-    def settings_test_hook(self, shell_test_hook, extension_init):
+    @classmethod
+    def settings_test_hook(cls, shell_test_hook, extension_init):
         proxy = settingshook.Proxy.create(shell_test_hook)
 
         try:
@@ -491,7 +522,8 @@ class GnomeSessionFixtures:
             proxy.Destroy()
 
     @pytest.fixture(scope='class')
-    def extension_dbus_interface(self, dbus_connection, extension_init):
+    @classmethod
+    def extension_dbus_interface(cls, dbus_connection, extension_init):
         proxy = extensiondbus.Proxy.create(g_connection=dbus_connection)
 
         yield proxy
@@ -502,11 +534,13 @@ class GnomeSessionFixtures:
             glibutil.dispatch_pending_sources()
 
     @pytest.fixture(scope='class')
-    def app_debug_dbus_interface(self, dbus_connection, extension_test_hook, app_dbus_actions):
+    @classmethod
+    def app_debug_dbus_interface(cls, dbus_connection, extension_test_hook, app_dbus_actions):
         return apphook.Proxy.create(g_connection=dbus_connection)
 
     @pytest.fixture(scope='class')
-    def app_dbus_actions(self, dbus_connection):
+    @classmethod
+    def app_dbus_actions(cls, dbus_connection):
         return Gio.DBusActionGroup.get(
             dbus_connection,
             'com.github.amezin.ddterm',
@@ -514,15 +548,18 @@ class GnomeSessionFixtures:
         )
 
     @pytest.fixture(scope='class')
-    def hide_overview(self, shell_dbus_interface, shell_init):
+    @classmethod
+    def hide_overview(cls, shell_dbus_interface, shell_init):
         shell_dbus_interface.OverviewActive = False
 
     @pytest.fixture
-    def disable_animations(self, shell_test_hook):
+    @classmethod
+    def disable_animations(cls, shell_test_hook):
         shell_test_hook.EnableAnimations = False
 
     @pytest.fixture
-    def hide(self, extension_dbus_interface, extension_test_hook, shell_test_hook):
+    @classmethod
+    def hide(cls, extension_dbus_interface, extension_test_hook, shell_test_hook):
         # Make sure has-window cached value is up to date
         glibutil.dispatch_pending_sources()
 
@@ -545,7 +582,8 @@ class GnomeSessionFixtures:
                 extension_test_hook.wait_property('HasWindow', False)
 
     @pytest.fixture(scope='class')
-    def ignored_log_issues(self, container, os_ids):
+    @classmethod
+    def ignored_log_issues(cls, container, os_ids):
         if not container:
             return IGNORED_LOG_ISSUES
 
@@ -594,8 +632,9 @@ class GnomeSessionFixtures:
             raise Exception('\n'.join(issues))
 
     @pytest.fixture(scope='class')
+    @classmethod
     def dummy_app(
-        self,
+        cls,
         dbus_environment,
         process_launcher,
         dbus_connection,
@@ -622,22 +661,26 @@ class GnomeSessionFixtures:
 
 class GnomeSessionX11Fixtures(GnomeSessionFixtures):
     @pytest.fixture(scope='class')
-    def dbus_daemon_environment(self, x11_environment):
+    @classmethod
+    def dbus_daemon_environment(cls, x11_environment):
         return {
             **x11_environment,
             'XDG_SESSION_TYPE': 'x11',
         }
 
     @pytest.fixture(scope='class')
-    def gnome_shell_environment(self, dbus_environment):
+    @classmethod
+    def gnome_shell_environment(cls, dbus_environment):
         return dbus_environment
 
     @pytest.fixture(scope='class')
-    def gnome_shell_args(self):
+    @classmethod
+    def gnome_shell_args(cls):
         return ('--x11',)
 
     @pytest.fixture(scope='class', autouse=True)
-    def check_x11(self, has_x11):
+    @classmethod
+    def check_x11(cls, has_x11):
         if not has_x11:
             pytest.skip('X11 backend is not available')
 
@@ -646,11 +689,13 @@ class GnomeSessionX11Fixtures(GnomeSessionFixtures):
 
 class GnomeSessionWaylandFixtures(GnomeSessionFixtures):
     @pytest.fixture(scope='class')
-    def wayland_display(self):
+    @classmethod
+    def wayland_display(cls):
         return 'wayland-test'
 
     @pytest.fixture(scope='class')
-    def dbus_daemon_environment(self, environment, wayland_display):
+    @classmethod
+    def dbus_daemon_environment(cls, environment, wayland_display):
         return {
             **environment,
             'WAYLAND_DISPLAY': wayland_display,
@@ -658,11 +703,13 @@ class GnomeSessionWaylandFixtures(GnomeSessionFixtures):
         }
 
     @pytest.fixture(scope='class')
-    def gnome_shell_environment(self, dbus_environment):
+    @classmethod
+    def gnome_shell_environment(cls, dbus_environment):
         return dbus_environment
 
     @pytest.fixture(scope='class')
-    def gnome_shell_args(self, wayland_display, initial_monitor_layout):
+    @classmethod
+    def gnome_shell_args(cls, wayland_display, initial_monitor_layout):
         return (
             '--headless',
             f'--wayland-display={wayland_display}',
@@ -673,7 +720,8 @@ class GnomeSessionWaylandFixtures(GnomeSessionFixtures):
         )
 
     @pytest.fixture(scope='class', autouse=True)
-    def check_hw_acceleration(self, request, shell_test_hook):
+    @classmethod
+    def check_hw_acceleration(cls, request, shell_test_hook):
         enabled = shell_test_hook.Eval('global.backend.is_rendering_hardware_accelerated()')
         requested = request.config.option.hw_accel
 

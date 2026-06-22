@@ -164,11 +164,13 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
         app_control.activate()
 
     @pytest.fixture(scope='class')
-    def extension_path(self, extension_init):
+    @classmethod
+    def extension_path(cls, extension_init):
         return pathlib.Path(extension_init['path'])
 
     @pytest.fixture(scope='class')
-    def launcher_path(self, extension_path):
+    @classmethod
+    def launcher_path(cls, extension_path):
         return extension_path / 'bin' / 'com.github.amezin.ddterm'
 
     @pytest.mark.usefixtures('window_above', 'hide_when_focus_lost', 'hide', 'app_active')
@@ -493,7 +495,8 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
         ) == ''
 
     @pytest.fixture(scope='class')
-    def session_path(self, xdg_cache_home):
+    @classmethod
+    def session_path(cls, xdg_cache_home):
         return pathlib.Path(xdg_cache_home) / 'com.github.amezin.ddterm' / 'session'
 
     def test_session_save_restore(
