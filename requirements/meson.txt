@@ -6,5 +6,5 @@
 #
 meson==1.11.1
     # via -r meson.in
-tqdm==4.68.1
+tqdm==4.68.3
     # via meson
