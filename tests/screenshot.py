@@ -41,15 +41,15 @@ class Capture:
             return report
 
         png_blob = file_path.read_bytes()
-        extra = getattr(report, 'extra', [])
+        extras = getattr(report, 'extras', [])
 
         import pytest_html
 
-        extra.append(
+        extras.append(
             pytest_html.extras.png(base64.b64encode(png_blob).decode('ascii'))
         )
 
-        report.extra = extra
+        report.extras = extras
 
         return report
 
