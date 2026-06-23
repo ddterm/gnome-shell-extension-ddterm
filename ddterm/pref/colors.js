@@ -352,16 +352,6 @@ export class ColorsGroup extends PreferencesGroup {
 
         this.title = this.gettext('Colors');
 
-        this.add_combo_text_row({
-            key: 'theme-variant',
-            title: this.gettext('Theme _Variant'),
-            model: {
-                system: this.gettext('Default'),
-                light: this.gettext('Light'),
-                dark: this.gettext('Dark'),
-            },
-        });
-
         this.add_switch_row({
             key: 'use-theme-colors',
             title: this.gettext('Use Colors From System _Theme'),

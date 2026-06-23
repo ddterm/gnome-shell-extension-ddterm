@@ -6,6 +6,7 @@ pref_js_out_files = []
 pref_js_src_files = files(
   'adw.js',
   'animation.js',
+  'appearance.js',
   'behavior.js',
   'colors.js',
   'command.js',

@@ -24,6 +24,10 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 ### Fixed
 
+- Moved dark mode setting to "Window" page in preferences dialog: [#2027].
+
+[#2027]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2027
+
 [Unreleased]: https://github.com/ddterm/gnome-shell-extension-ddterm/compare/v63.2.1...HEAD
 
 ## [63.2.1] - 2026-06-22

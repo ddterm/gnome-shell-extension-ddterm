@@ -8,6 +8,7 @@ import Gdk from 'gi://Gdk';
 import Gtk from 'gi://Gtk';
 
 import { AnimationGroup } from './animation.js';
+import { WindowAppearanceGroup } from './appearance.js';
 import { BehaviorGroup } from './behavior.js';
 import { ColorsGroup } from './colors.js';
 import { CommandGroup } from './command.js';
@@ -49,6 +50,7 @@ class WindowPage extends PreferencesPage {
 
         const { settings, gettext_domain } = this;
 
+        this.add(new WindowAppearanceGroup({ settings, gettext_domain }));
         this.add(new PositionSizeGroup({ settings, gettext_domain, monitors: this.monitors }));
         this.add(new BehaviorGroup({ settings, gettext_domain }));
         this.add(new AnimationGroup({ settings, gettext_domain }));
