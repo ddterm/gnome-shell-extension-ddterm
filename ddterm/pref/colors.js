@@ -550,6 +550,41 @@ export class ColorsGroup extends PreferencesGroup {
 
         opacity_expander.add_row(opacity_row);
 
+        const spacer_opacity_adjustment = new Gtk.Adjustment({
+            upper: 1,
+            step_increment: 0.01,
+            page_increment: 0.10,
+        });
+
+        this.settings.bind(
+            'spacer-background-opacity',
+            spacer_opacity_adjustment,
+            'value',
+            Gio.SettingsBindFlags.DEFAULT
+        );
+
+        const spacer_opacity_row = new ScaleRow({
+            adjustment: spacer_opacity_adjustment,
+            digits: 2,
+            round_digits: 2,
+            visible: true,
+            use_underline: true,
+            title: this.gettext('_Spacer Background Opacity'),
+        });
+
+        spacer_opacity_row.set_format_value_func((_, v) => percent_format.format(v));
+
+        this.settings.bind_writable(
+            'spacer-background-opacity',
+            spacer_opacity_row,
+            'sensitive',
+            false
+        );
+
+        add_reset_button(spacer_opacity_row, this.settings, 'spacer-background-opacity', this.gettext_domain);
+
+        opacity_expander.add_row(spacer_opacity_row);
+
         const palette_presets = {
             [this.gettext('GNOME')]: [
                 parse_rgba('#171421'),

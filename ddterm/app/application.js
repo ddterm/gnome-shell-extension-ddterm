@@ -353,6 +353,12 @@ export class Application extends Gtk.Application {
             'background-opacity-inc': () => {
                 this.#adjust_double_setting('background-opacity', OPACITY_STEP);
             },
+            'spacer-background-opacity-dec': () => {
+                this.#adjust_double_setting('spacer-background-opacity', -OPACITY_STEP);
+            },
+            'spacer-background-opacity-inc': () => {
+                this.#adjust_double_setting('spacer-background-opacity', OPACITY_STEP);
+            },
         };
 
         for (const [name, activate] of Object.entries(actions)) {
@@ -418,6 +424,8 @@ export class Application extends Gtk.Application {
             'shortcut-window-size-dec': 'app.window-size-dec',
             'shortcut-background-opacity-inc': 'app.background-opacity-inc',
             'shortcut-background-opacity-dec': 'app.background-opacity-dec',
+            'shortcut-spacer-background-opacity-inc': 'app.spacer-background-opacity-inc',
+            'shortcut-spacer-background-opacity-dec': 'app.spacer-background-opacity-dec',
             'shortcut-toggle-maximize': 'app.window-maximize',
             'shortcut-toggle-transparent-background': 'app.transparent-background',
             'shortcut-terminal-copy': 'terminal.copy',
