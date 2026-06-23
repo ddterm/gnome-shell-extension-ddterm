@@ -16,6 +16,12 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 ## [Unreleased]
 
+### Added
+
+### Changed
+
+### Removed
+
 ### Fixed
 
 - Lost keyboard focus when closing one pane of a split window.
