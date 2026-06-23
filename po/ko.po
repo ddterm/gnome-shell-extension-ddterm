@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-20 23:30+0000\n"
+"POT-Creation-Date: 2026-06-23 17:35+0000\n"
 "PO-Revision-Date: 2026-06-20 15:01+0000\n"
 "Last-Translator: SUYEONG JANG <soo.wim3@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/ko/>\n"
@@ -342,7 +342,7 @@ msgstr "모든 작업 공간에 표시"
 msgid "Maximize Window"
 msgstr "창 최대화"
 
-#: ddterm/app/ui/terminalpage.ui:158 ddterm/pref/colors.js:548
+#: ddterm/app/ui/terminalpage.ui:158 ddterm/pref/colors.js:538
 msgid "Transparent Background"
 msgstr "배경 투명하게"
 
@@ -378,19 +378,19 @@ msgstr "ddterm 정보"
 msgid "Restart"
 msgstr "재시작"
 
-#: ddterm/pref/adw.js:48
+#: ddterm/pref/adw.js:49
 msgid "Window"
 msgstr "창"
 
-#: ddterm/pref/adw.js:73
+#: ddterm/pref/adw.js:75
 msgid "Terminal"
 msgstr "터미널"
 
-#: ddterm/pref/adw.js:106
+#: ddterm/pref/adw.js:108
 msgid "Keyboard Shortcuts"
 msgstr "단축키"
 
-#: ddterm/pref/adw.js:172
+#: ddterm/pref/adw.js:174
 msgid "Miscellaneous"
 msgstr "그 외"
 
@@ -546,6 +546,26 @@ msgstr "_사라지기 애니메이션"
 msgid "_Hide Animation Duration"
 msgstr "_사라지기 애니메이션 지속 시간"
 
+#: ddterm/pref/appearance.js:19
+msgid "Appearance"
+msgstr ""
+
+#: ddterm/pref/appearance.js:23
+msgid "Theme _Variant"
+msgstr "테마 _스타일"
+
+#: ddterm/pref/appearance.js:25 ddterm/pref/text.js:116
+msgid "Default"
+msgstr "기본"
+
+#: ddterm/pref/appearance.js:26
+msgid "Light"
+msgstr "밝은"
+
+#: ddterm/pref/appearance.js:27
+msgid "Dark"
+msgstr "어두운"
+
 #: ddterm/pref/behavior.js:19
 msgid "Behavior"
 msgstr "동작 설정"
@@ -575,150 +595,134 @@ msgid "Colors"
 msgstr "색상"
 
 #: ddterm/pref/colors.js:357
-msgid "Theme _Variant"
-msgstr "테마 _스타일"
-
-#: ddterm/pref/colors.js:359 ddterm/pref/text.js:116
-msgid "Default"
-msgstr "기본"
-
-#: ddterm/pref/colors.js:360
-msgid "Light"
-msgstr "밝은"
-
-#: ddterm/pref/colors.js:361
-msgid "Dark"
-msgstr "어두운"
-
-#: ddterm/pref/colors.js:367
 msgid "Use Colors From System _Theme"
 msgstr "시스템 _테마 색상 사용"
 
-#: ddterm/pref/colors.js:371
+#: ddterm/pref/colors.js:361
 msgid "Black on light yellow"
 msgstr "연노랑 바탕에 검정"
 
-#: ddterm/pref/colors.js:372
+#: ddterm/pref/colors.js:362
 msgid "Black on white"
 msgstr "흰색 바탕에 검정"
 
-#: ddterm/pref/colors.js:373
+#: ddterm/pref/colors.js:363
 msgid "Gray on black"
 msgstr "검정 바탕에 회색"
 
-#: ddterm/pref/colors.js:374
+#: ddterm/pref/colors.js:364
 msgid "Green on black"
 msgstr "검정 바탕에 녹색"
 
-#: ddterm/pref/colors.js:375
+#: ddterm/pref/colors.js:365
 msgid "White on black"
 msgstr "검정 바탕에 흰색"
 
-#: ddterm/pref/colors.js:376
+#: ddterm/pref/colors.js:366
 msgid "GNOME light"
 msgstr "GNOME 밝은"
 
-#: ddterm/pref/colors.js:377
+#: ddterm/pref/colors.js:367
 msgid "GNOME dark"
 msgstr "GNOME 어두운"
 
-#: ddterm/pref/colors.js:378
+#: ddterm/pref/colors.js:368
 msgid "Tango light"
 msgstr "Tango 밝은"
 
-#: ddterm/pref/colors.js:379
+#: ddterm/pref/colors.js:369
 msgid "Tango dark"
 msgstr "Tango 어두운"
 
-#: ddterm/pref/colors.js:380
+#: ddterm/pref/colors.js:370
 msgid "Solarized light"
 msgstr "Solarized 밝은"
 
-#: ddterm/pref/colors.js:381
+#: ddterm/pref/colors.js:371
 msgid "Solarized dark"
 msgstr "Solarized 어두운"
 
-#: ddterm/pref/colors.js:382 ddterm/pref/colors.js:662
+#: ddterm/pref/colors.js:372 ddterm/pref/colors.js:652
 msgid "Custom"
 msgstr "사용자 지정"
 
-#: ddterm/pref/colors.js:405
+#: ddterm/pref/colors.js:395
 msgid "Color _Scheme"
 msgstr "색상 _구성"
 
-#: ddterm/pref/colors.js:424
+#: ddterm/pref/colors.js:414
 msgid "Foreground Color"
 msgstr "글자 색상"
 
-#: ddterm/pref/colors.js:438
+#: ddterm/pref/colors.js:428
 msgid "Background Color"
 msgstr "배경 색상"
 
-#: ddterm/pref/colors.js:453 ddterm/pref/colors.js:458
+#: ddterm/pref/colors.js:443 ddterm/pref/colors.js:448
 msgid "Bold Color"
 msgstr "볼드체 색상"
 
-#: ddterm/pref/colors.js:468
+#: ddterm/pref/colors.js:458
 msgid "Cursor Color"
 msgstr "커서 색상"
 
-#: ddterm/pref/colors.js:473
+#: ddterm/pref/colors.js:463
 msgid "Cursor Foreground Color"
 msgstr "커서 내 글자 색상"
 
-#: ddterm/pref/colors.js:480
+#: ddterm/pref/colors.js:470
 msgid "Cursor Background Color"
 msgstr "커서 배경 색상"
 
-#: ddterm/pref/colors.js:491
+#: ddterm/pref/colors.js:481
 msgid "Highlight Color"
 msgstr "선택 영역 색상"
 
-#: ddterm/pref/colors.js:496
+#: ddterm/pref/colors.js:486
 msgid "Highlight Foreground Color"
 msgstr "선택 영역 글자 색상"
 
-#: ddterm/pref/colors.js:503
+#: ddterm/pref/colors.js:493
 msgid "Highlight Background Color"
 msgstr "선택 영역 배경 색상"
 
-#: ddterm/pref/colors.js:531
+#: ddterm/pref/colors.js:521
 msgid "_Background Opacity"
 msgstr "_배경 투명도"
 
-#: ddterm/pref/colors.js:554
+#: ddterm/pref/colors.js:544
 msgid "GNOME"
 msgstr "GNOME"
 
-#: ddterm/pref/colors.js:572
+#: ddterm/pref/colors.js:562
 msgid "Tango"
 msgstr "Tango"
 
-#: ddterm/pref/colors.js:590
+#: ddterm/pref/colors.js:580
 msgid "Linux"
 msgstr "Linux"
 
-#: ddterm/pref/colors.js:608
+#: ddterm/pref/colors.js:598
 msgid "XTerm"
 msgstr "XTerm"
 
-#: ddterm/pref/colors.js:626
+#: ddterm/pref/colors.js:616
 msgid "RXVT"
 msgstr "RXVT"
 
-#: ddterm/pref/colors.js:644
+#: ddterm/pref/colors.js:634
 msgid "Solarized"
 msgstr "Solarized"
 
-#: ddterm/pref/colors.js:673
+#: ddterm/pref/colors.js:663
 msgid "_Palette"
 msgstr "색상 _팔레트"
 
-#: ddterm/pref/colors.js:748
+#: ddterm/pref/colors.js:738
 msgid "Show Bold Text in _Bright Colors"
 msgstr "굵은 텍스트를 _밝은 색으로 표시"
 
-#: ddterm/pref/colors.js:753
+#: ddterm/pref/colors.js:743
 msgid "Copy profile from GNOME Terminal"
 msgstr "GNOME 터미널에서 프로필 복사"
 

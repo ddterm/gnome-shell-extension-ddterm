@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-20 23:30+0000\n"
+"POT-Creation-Date: 2026-06-23 17:35+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -339,7 +339,7 @@ msgstr ""
 msgid "Maximize Window"
 msgstr ""
 
-#: ddterm/app/ui/terminalpage.ui:158 ddterm/pref/colors.js:548
+#: ddterm/app/ui/terminalpage.ui:158 ddterm/pref/colors.js:538
 msgid "Transparent Background"
 msgstr ""
 
@@ -375,19 +375,19 @@ msgstr ""
 msgid "Restart"
 msgstr ""
 
-#: ddterm/pref/adw.js:48
+#: ddterm/pref/adw.js:49
 msgid "Window"
 msgstr ""
 
-#: ddterm/pref/adw.js:73
+#: ddterm/pref/adw.js:75
 msgid "Terminal"
 msgstr ""
 
-#: ddterm/pref/adw.js:106
+#: ddterm/pref/adw.js:108
 msgid "Keyboard Shortcuts"
 msgstr ""
 
-#: ddterm/pref/adw.js:172
+#: ddterm/pref/adw.js:174
 msgid "Miscellaneous"
 msgstr ""
 
@@ -543,6 +543,26 @@ msgstr ""
 msgid "_Hide Animation Duration"
 msgstr ""
 
+#: ddterm/pref/appearance.js:19
+msgid "Appearance"
+msgstr ""
+
+#: ddterm/pref/appearance.js:23
+msgid "Theme _Variant"
+msgstr ""
+
+#: ddterm/pref/appearance.js:25 ddterm/pref/text.js:116
+msgid "Default"
+msgstr ""
+
+#: ddterm/pref/appearance.js:26
+msgid "Light"
+msgstr ""
+
+#: ddterm/pref/appearance.js:27
+msgid "Dark"
+msgstr ""
+
 #: ddterm/pref/behavior.js:19
 msgid "Behavior"
 msgstr ""
@@ -570,150 +590,134 @@ msgid "Colors"
 msgstr ""
 
 #: ddterm/pref/colors.js:357
-msgid "Theme _Variant"
-msgstr ""
-
-#: ddterm/pref/colors.js:359 ddterm/pref/text.js:116
-msgid "Default"
-msgstr ""
-
-#: ddterm/pref/colors.js:360
-msgid "Light"
-msgstr ""
-
-#: ddterm/pref/colors.js:361
-msgid "Dark"
-msgstr ""
-
-#: ddterm/pref/colors.js:367
 msgid "Use Colors From System _Theme"
 msgstr ""
 
-#: ddterm/pref/colors.js:371
+#: ddterm/pref/colors.js:361
 msgid "Black on light yellow"
 msgstr ""
 
-#: ddterm/pref/colors.js:372
+#: ddterm/pref/colors.js:362
 msgid "Black on white"
 msgstr ""
 
-#: ddterm/pref/colors.js:373
+#: ddterm/pref/colors.js:363
 msgid "Gray on black"
 msgstr ""
 
-#: ddterm/pref/colors.js:374
+#: ddterm/pref/colors.js:364
 msgid "Green on black"
 msgstr ""
 
-#: ddterm/pref/colors.js:375
+#: ddterm/pref/colors.js:365
 msgid "White on black"
 msgstr ""
 
-#: ddterm/pref/colors.js:376
+#: ddterm/pref/colors.js:366
 msgid "GNOME light"
 msgstr ""
 
-#: ddterm/pref/colors.js:377
+#: ddterm/pref/colors.js:367
 msgid "GNOME dark"
 msgstr ""
 
-#: ddterm/pref/colors.js:378
+#: ddterm/pref/colors.js:368
 msgid "Tango light"
 msgstr ""
 
-#: ddterm/pref/colors.js:379
+#: ddterm/pref/colors.js:369
 msgid "Tango dark"
 msgstr ""
 
-#: ddterm/pref/colors.js:380
+#: ddterm/pref/colors.js:370
 msgid "Solarized light"
 msgstr ""
 
-#: ddterm/pref/colors.js:381
+#: ddterm/pref/colors.js:371
 msgid "Solarized dark"
 msgstr ""
 
-#: ddterm/pref/colors.js:382 ddterm/pref/colors.js:662
+#: ddterm/pref/colors.js:372 ddterm/pref/colors.js:652
 msgid "Custom"
 msgstr ""
 
-#: ddterm/pref/colors.js:405
+#: ddterm/pref/colors.js:395
 msgid "Color _Scheme"
 msgstr ""
 
-#: ddterm/pref/colors.js:424
+#: ddterm/pref/colors.js:414
 msgid "Foreground Color"
 msgstr ""
 
-#: ddterm/pref/colors.js:438
+#: ddterm/pref/colors.js:428
 msgid "Background Color"
 msgstr ""
 
-#: ddterm/pref/colors.js:453 ddterm/pref/colors.js:458
+#: ddterm/pref/colors.js:443 ddterm/pref/colors.js:448
 msgid "Bold Color"
 msgstr ""
 
-#: ddterm/pref/colors.js:468
+#: ddterm/pref/colors.js:458
 msgid "Cursor Color"
 msgstr ""
 
-#: ddterm/pref/colors.js:473
+#: ddterm/pref/colors.js:463
 msgid "Cursor Foreground Color"
 msgstr ""
 
-#: ddterm/pref/colors.js:480
+#: ddterm/pref/colors.js:470
 msgid "Cursor Background Color"
 msgstr ""
 
-#: ddterm/pref/colors.js:491
+#: ddterm/pref/colors.js:481
 msgid "Highlight Color"
 msgstr ""
 
-#: ddterm/pref/colors.js:496
+#: ddterm/pref/colors.js:486
 msgid "Highlight Foreground Color"
 msgstr ""
 
-#: ddterm/pref/colors.js:503
+#: ddterm/pref/colors.js:493
 msgid "Highlight Background Color"
 msgstr ""
 
-#: ddterm/pref/colors.js:531
+#: ddterm/pref/colors.js:521
 msgid "_Background Opacity"
 msgstr ""
 
-#: ddterm/pref/colors.js:554
+#: ddterm/pref/colors.js:544
 msgid "GNOME"
 msgstr ""
 
-#: ddterm/pref/colors.js:572
+#: ddterm/pref/colors.js:562
 msgid "Tango"
 msgstr ""
 
-#: ddterm/pref/colors.js:590
+#: ddterm/pref/colors.js:580
 msgid "Linux"
 msgstr ""
 
-#: ddterm/pref/colors.js:608
+#: ddterm/pref/colors.js:598
 msgid "XTerm"
 msgstr ""
 
-#: ddterm/pref/colors.js:626
+#: ddterm/pref/colors.js:616
 msgid "RXVT"
 msgstr ""
 
-#: ddterm/pref/colors.js:644
+#: ddterm/pref/colors.js:634
 msgid "Solarized"
 msgstr ""
 
-#: ddterm/pref/colors.js:673
+#: ddterm/pref/colors.js:663
 msgid "_Palette"
 msgstr ""
 
-#: ddterm/pref/colors.js:748
+#: ddterm/pref/colors.js:738
 msgid "Show Bold Text in _Bright Colors"
 msgstr ""
 
-#: ddterm/pref/colors.js:753
+#: ddterm/pref/colors.js:743
 msgid "Copy profile from GNOME Terminal"
 msgstr ""
 

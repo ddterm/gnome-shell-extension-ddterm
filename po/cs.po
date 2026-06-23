@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-20 23:30+0000\n"
+"POT-Creation-Date: 2026-06-23 17:35+0000\n"
 "PO-Revision-Date: 2023-10-24 22:14+0000\n"
 "Last-Translator: Pavel Novák <pavelnov32@gmail.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/cs/>\n"
@@ -340,7 +340,7 @@ msgstr "Na všech pracovních plochách"
 msgid "Maximize Window"
 msgstr "Maximalizovat okno"
 
-#: ddterm/app/ui/terminalpage.ui:158 ddterm/pref/colors.js:548
+#: ddterm/app/ui/terminalpage.ui:158 ddterm/pref/colors.js:538
 msgid "Transparent Background"
 msgstr "Průhledné pozadí"
 
@@ -376,19 +376,19 @@ msgstr ""
 msgid "Restart"
 msgstr "Restart"
 
-#: ddterm/pref/adw.js:48
+#: ddterm/pref/adw.js:49
 msgid "Window"
 msgstr "Okno"
 
-#: ddterm/pref/adw.js:73
+#: ddterm/pref/adw.js:75
 msgid "Terminal"
 msgstr "Terminál"
 
-#: ddterm/pref/adw.js:106
+#: ddterm/pref/adw.js:108
 msgid "Keyboard Shortcuts"
 msgstr "Klávesové zkratky"
 
-#: ddterm/pref/adw.js:172
+#: ddterm/pref/adw.js:174
 msgid "Miscellaneous"
 msgstr "Ostatní"
 
@@ -544,6 +544,26 @@ msgstr "_Skrýt animaci"
 msgid "_Hide Animation Duration"
 msgstr "_Doba po kterou bude animace skryta"
 
+#: ddterm/pref/appearance.js:19
+msgid "Appearance"
+msgstr ""
+
+#: ddterm/pref/appearance.js:23
+msgid "Theme _Variant"
+msgstr "_Varianta vzhledu"
+
+#: ddterm/pref/appearance.js:25 ddterm/pref/text.js:116
+msgid "Default"
+msgstr "Výchozí"
+
+#: ddterm/pref/appearance.js:26
+msgid "Light"
+msgstr "Světlé"
+
+#: ddterm/pref/appearance.js:27
+msgid "Dark"
+msgstr "Tmavé"
+
 #: ddterm/pref/behavior.js:19
 msgid "Behavior"
 msgstr "Chování"
@@ -573,150 +593,134 @@ msgid "Colors"
 msgstr "Barvy"
 
 #: ddterm/pref/colors.js:357
-msgid "Theme _Variant"
-msgstr "_Varianta vzhledu"
-
-#: ddterm/pref/colors.js:359 ddterm/pref/text.js:116
-msgid "Default"
-msgstr "Výchozí"
-
-#: ddterm/pref/colors.js:360
-msgid "Light"
-msgstr "Světlé"
-
-#: ddterm/pref/colors.js:361
-msgid "Dark"
-msgstr "Tmavé"
-
-#: ddterm/pref/colors.js:367
 msgid "Use Colors From System _Theme"
 msgstr "Použít barvy ze systémového _vzhledu"
 
-#: ddterm/pref/colors.js:371
+#: ddterm/pref/colors.js:361
 msgid "Black on light yellow"
 msgstr "Černá na světle žluté"
 
-#: ddterm/pref/colors.js:372
+#: ddterm/pref/colors.js:362
 msgid "Black on white"
 msgstr "Černá na bílé"
 
-#: ddterm/pref/colors.js:373
+#: ddterm/pref/colors.js:363
 msgid "Gray on black"
 msgstr "Šedá na černé"
 
-#: ddterm/pref/colors.js:374
+#: ddterm/pref/colors.js:364
 msgid "Green on black"
 msgstr "Zelená na černé"
 
-#: ddterm/pref/colors.js:375
+#: ddterm/pref/colors.js:365
 msgid "White on black"
 msgstr "Bílá na černé"
 
-#: ddterm/pref/colors.js:376
+#: ddterm/pref/colors.js:366
 msgid "GNOME light"
 msgstr "GNOME světlé"
 
-#: ddterm/pref/colors.js:377
+#: ddterm/pref/colors.js:367
 msgid "GNOME dark"
 msgstr "GNOME tmavé"
 
-#: ddterm/pref/colors.js:378
+#: ddterm/pref/colors.js:368
 msgid "Tango light"
 msgstr "Tango světlé"
 
-#: ddterm/pref/colors.js:379
+#: ddterm/pref/colors.js:369
 msgid "Tango dark"
 msgstr "Tango tmavé"
 
-#: ddterm/pref/colors.js:380
+#: ddterm/pref/colors.js:370
 msgid "Solarized light"
 msgstr "Solarized světlé"
 
-#: ddterm/pref/colors.js:381
+#: ddterm/pref/colors.js:371
 msgid "Solarized dark"
 msgstr "Solarized tmavé"
 
-#: ddterm/pref/colors.js:382 ddterm/pref/colors.js:662
+#: ddterm/pref/colors.js:372 ddterm/pref/colors.js:652
 msgid "Custom"
 msgstr "Vlastní"
 
-#: ddterm/pref/colors.js:405
+#: ddterm/pref/colors.js:395
 msgid "Color _Scheme"
 msgstr "Barevné _schéma"
 
-#: ddterm/pref/colors.js:424
+#: ddterm/pref/colors.js:414
 msgid "Foreground Color"
 msgstr "Barva popředí"
 
-#: ddterm/pref/colors.js:438
+#: ddterm/pref/colors.js:428
 msgid "Background Color"
 msgstr "Barva pozadí"
 
-#: ddterm/pref/colors.js:453 ddterm/pref/colors.js:458
+#: ddterm/pref/colors.js:443 ddterm/pref/colors.js:448
 msgid "Bold Color"
 msgstr "Barva tučného písma"
 
-#: ddterm/pref/colors.js:468
+#: ddterm/pref/colors.js:458
 msgid "Cursor Color"
 msgstr "Barva kurzoru"
 
-#: ddterm/pref/colors.js:473
+#: ddterm/pref/colors.js:463
 msgid "Cursor Foreground Color"
 msgstr "Barva popředí kurzoru"
 
-#: ddterm/pref/colors.js:480
+#: ddterm/pref/colors.js:470
 msgid "Cursor Background Color"
 msgstr "Barva pozadí kurzoru"
 
-#: ddterm/pref/colors.js:491
+#: ddterm/pref/colors.js:481
 msgid "Highlight Color"
 msgstr "Barva zvýraznění"
 
-#: ddterm/pref/colors.js:496
+#: ddterm/pref/colors.js:486
 msgid "Highlight Foreground Color"
 msgstr "Zvýrazněná barva popředí"
 
-#: ddterm/pref/colors.js:503
+#: ddterm/pref/colors.js:493
 msgid "Highlight Background Color"
 msgstr "Zvýrazněná barva pozadí"
 
-#: ddterm/pref/colors.js:531
+#: ddterm/pref/colors.js:521
 msgid "_Background Opacity"
 msgstr "Průhlednost _Pozadí"
 
-#: ddterm/pref/colors.js:554
+#: ddterm/pref/colors.js:544
 msgid "GNOME"
 msgstr "GNOME"
 
-#: ddterm/pref/colors.js:572
+#: ddterm/pref/colors.js:562
 msgid "Tango"
 msgstr "Tango"
 
-#: ddterm/pref/colors.js:590
+#: ddterm/pref/colors.js:580
 msgid "Linux"
 msgstr "Linux"
 
-#: ddterm/pref/colors.js:608
+#: ddterm/pref/colors.js:598
 msgid "XTerm"
 msgstr "XTerm"
 
-#: ddterm/pref/colors.js:626
+#: ddterm/pref/colors.js:616
 msgid "RXVT"
 msgstr "RXVT"
 
-#: ddterm/pref/colors.js:644
+#: ddterm/pref/colors.js:634
 msgid "Solarized"
 msgstr "Solarizované"
 
-#: ddterm/pref/colors.js:673
+#: ddterm/pref/colors.js:663
 msgid "_Palette"
 msgstr "Barevná _paleta"
 
-#: ddterm/pref/colors.js:748
+#: ddterm/pref/colors.js:738
 msgid "Show Bold Text in _Bright Colors"
 msgstr "Zobrazit tučný text ve _světlých barvách"
 
-#: ddterm/pref/colors.js:753
+#: ddterm/pref/colors.js:743
 msgid "Copy profile from GNOME Terminal"
 msgstr "Kopírovat profil z GNOME terminálu"
 
