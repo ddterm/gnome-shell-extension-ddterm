@@ -14,6 +14,14 @@ The format is based on [Keep a Changelog], and this project adheres to
 [Keep a Changelog]: https://keepachangelog.com/en/1.1.0/
 [Semantic Versioning]: https://semver.org/spec/v2.0.0.html
 
+## [Unreleased]
+
+### Fixed
+
+- Lost keyboard focus when closing one pane of a split window.
+
+[Unreleased]: https://github.com/ddterm/gnome-shell-extension-ddterm/compare/v63.2.1...HEAD
+
 ## [63.2.1] - 2026-06-22
 
 ### Fixed
