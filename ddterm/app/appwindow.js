@@ -510,10 +510,14 @@ export class AppWindow extends Gtk.ApplicationWindow {
         this.notebook2.bind_settings(settings);
     }
 
-    _notebook_notify_visible(notebook) {
+    _notebook_notify_n_pages(notebook) {
+        notebook.visible = notebook.n_pages > 0;
+
         if (!notebook.get_visible())
             this.grab_focus();
+    }
 
+    _notebook_notify_visible() {
         this.freeze_notify();
 
         try {
