@@ -256,7 +256,6 @@ export class AppWindow extends Gtk.ApplicationWindow {
     }
 
     #active_notebook = null;
-    #refocus_source = null;
 
     constructor(params) {
         super({
@@ -348,13 +347,6 @@ export class AppWindow extends Gtk.ApplicationWindow {
         });
 
         this.#setup_size_sync();
-
-        this.connect('destroy', () => {
-            if (this.#refocus_source) {
-                GLib.Source.remove(this.#refocus_source);
-                this.#refocus_source = null;
-            }
-        });
     }
 
     get hide_on_close() {
@@ -518,23 +510,10 @@ export class AppWindow extends Gtk.ApplicationWindow {
         this.notebook2.bind_settings(settings);
     }
 
-    _notebook_notify_n_pages(notebook) {
-        notebook.visible = notebook.n_pages > 0;
+    _notebook_notify_visible(notebook) {
+        if (!notebook.get_visible())
+            this.grab_focus();
 
-        if (notebook.get_visible() || this.#refocus_source)
-            return;
-
-        this.#refocus_source = GLib.idle_add(GLib.PRIORITY_DEFAULT_IDLE, () => {
-            this.#refocus_source = null;
-
-            if (!this.in_destruction())
-                this.grab_focus();
-
-            return GLib.SOURCE_REMOVE;
-        });
-    }
-
-    _notebook_notify_visible() {
         this.freeze_notify();
 
         try {

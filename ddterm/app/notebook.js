@@ -433,6 +433,7 @@ export class Notebook extends Gtk.Box {
                 bindings.pop().unbind();
         });
 
+        this.visible = this.n_pages > 0;
         this.view.selected_page = page;
         this.grab_focus();
         this.#update_tab_switch_accels();
@@ -447,6 +448,8 @@ export class Notebook extends Gtk.Box {
 
         if (disconnect)
             disconnect();
+
+        this.visible = this.n_pages > 0;
 
         this.#update_tab_switch_accels();
         this.emit('session-update');
