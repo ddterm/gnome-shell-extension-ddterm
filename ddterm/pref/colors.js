@@ -581,10 +581,14 @@ export class ColorsGroup extends PreferencesGroup {
             false
         );
 
-        add_reset_button(spacer_opacity_row, this.settings, 'spacer-background-opacity', this.gettext_domain);
+        add_reset_button(
+            spacer_opacity_row,
+            this.settings,
+            'spacer-background-opacity',
+            this.gettext_domain
+        );
 
         opacity_expander.add_row(spacer_opacity_row);
-
         const palette_presets = {
             [this.gettext('GNOME')]: [
                 parse_rgba('#171421'),
