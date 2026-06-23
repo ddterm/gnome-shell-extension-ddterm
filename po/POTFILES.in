@@ -13,6 +13,7 @@ ddterm/app/ui/search.ui
 ddterm/app/ui/terminalpage.ui
 ddterm/pref/adw.js
 ddterm/pref/animation.js
+ddterm/pref/appearance.js
 ddterm/pref/behavior.js
 ddterm/pref/colors.js
 ddterm/pref/command.js
