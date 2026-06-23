@@ -433,11 +433,11 @@ export class Notebook extends Gtk.Box {
                 bindings.pop().unbind();
         });
 
+        this.notify('n-pages');
         this.view.selected_page = page;
         this.grab_focus();
         this.#update_tab_switch_accels();
         this.emit('session-update');
-        this.notify('n-pages');
     }
 
     _page_detached(view, page, _position) {
@@ -449,9 +449,9 @@ export class Notebook extends Gtk.Box {
         if (disconnect)
             disconnect();
 
+        this.notify('n-pages');
         this.#update_tab_switch_accels();
         this.emit('session-update');
-        this.notify('n-pages');
     }
 
     _page_reordered(view, page, _position) {
