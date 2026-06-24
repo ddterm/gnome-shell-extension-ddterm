@@ -118,7 +118,6 @@ SPDX-License-Identifier: GPL-3.0-or-later
       <object class="HdyTabView" id="view">
         <property name="visible">True</property>
         <property name="menu-model">tab_menu</property>
-        <signal name="notify::n-pages" handler="_notify_n_pages"/>
         <signal name="notify::selected-page" handler="_notify_selected_page"/>
         <signal name="page-attached" handler="_page_attached"/>
         <signal name="page-detached" handler="_page_detached"/>

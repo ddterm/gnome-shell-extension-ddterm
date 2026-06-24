@@ -25,6 +25,7 @@ The format is based on [Keep a Changelog], and this project adheres to
 ### Fixed
 
 - Moved dark mode setting to "Window" page in preferences dialog: [#2027].
+- Lost keyboard focus when closing one pane of a split window.
 
 [#2027]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2027
 
