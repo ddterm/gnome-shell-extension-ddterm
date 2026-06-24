@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-23 17:35+0000\n"
+"POT-Creation-Date: 2026-06-24 18:42+0000\n"
 "PO-Revision-Date: 2026-06-20 15:01+0000\n"
 "Last-Translator: SUYEONG JANG <soo.wim3@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/ko/>\n"
@@ -222,11 +222,11 @@ msgstr "종료 후 창 유지"
 msgid "Close"
 msgstr "닫기"
 
-#: ddterm/app/ui/notebook.ui:152
+#: ddterm/app/ui/notebook.ui:151
 msgid "New Tab (First)"
 msgstr "새 탭 (맨 앞)"
 
-#: ddterm/app/ui/notebook.ui:173
+#: ddterm/app/ui/notebook.ui:172
 msgid "New Tab (Last)"
 msgstr "새 탭 (맨 뒤)"
 

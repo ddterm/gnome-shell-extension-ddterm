@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-23 17:35+0000\n"
+"POT-Creation-Date: 2026-06-24 18:42+0000\n"
 "PO-Revision-Date: 2024-09-09 02:09+0000\n"
 "Last-Translator: Bruno Rodrigues <b.rodrigues@live.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/pt/>\n"
@@ -226,11 +226,11 @@ msgstr "Manter Aberto Após Sair"
 msgid "Close"
 msgstr "Fechar"
 
-#: ddterm/app/ui/notebook.ui:152
+#: ddterm/app/ui/notebook.ui:151
 msgid "New Tab (First)"
 msgstr "Nova Aba (Primeira)"
 
-#: ddterm/app/ui/notebook.ui:173
+#: ddterm/app/ui/notebook.ui:172
 msgid "New Tab (Last)"
 msgstr "Nova Aba (Última)"
 

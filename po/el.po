@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-23 17:35+0000\n"
+"POT-Creation-Date: 2026-06-24 18:42+0000\n"
 "PO-Revision-Date: 2026-02-05 23:28+0000\n"
 "Last-Translator: Aleksandr Mezin <mezin.alexander@gmail.com>\n"
 "Language-Team: Greek <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/el/>\n"
@@ -232,11 +232,11 @@ msgstr "Μείνε ανοικτό μετά την έξοδο"
 msgid "Close"
 msgstr "Κλείσιμο"
 
-#: ddterm/app/ui/notebook.ui:152
+#: ddterm/app/ui/notebook.ui:151
 msgid "New Tab (First)"
 msgstr "Νέα καρτέλα (Αρχή)"
 
-#: ddterm/app/ui/notebook.ui:173
+#: ddterm/app/ui/notebook.ui:172
 msgid "New Tab (Last)"
 msgstr "Νέα καρτέλα (Τέλος)"
 

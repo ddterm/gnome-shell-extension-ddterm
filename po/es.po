@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-23 17:35+0000\n"
+"POT-Creation-Date: 2026-06-24 18:42+0000\n"
 "PO-Revision-Date: 2026-06-15 12:02+0000\n"
 "Last-Translator: Libre <6n0n1m0s@proton.me>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/es/>\n"
@@ -227,11 +227,11 @@ msgstr "Mantener abierto después de salir"
 msgid "Close"
 msgstr "Cerrar"
 
-#: ddterm/app/ui/notebook.ui:152
+#: ddterm/app/ui/notebook.ui:151
 msgid "New Tab (First)"
 msgstr "Nueva pestaña (Primera)"
 
-#: ddterm/app/ui/notebook.ui:173
+#: ddterm/app/ui/notebook.ui:172
 msgid "New Tab (Last)"
 msgstr "Nueva pestaña (Última)"
 
