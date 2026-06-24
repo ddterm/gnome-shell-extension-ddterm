@@ -435,8 +435,7 @@ export class Notebook extends Gtk.Box {
         });
 
         // Re-emit here instead of forwarding view's notify::n-pages, which
-        // fires before the page is fully attached or detached. Triggering
-        // it early causes the window to lose focus when the current tab closes.
+        // fires before the page is fully attached or detached.
         this.notify('n-pages');
 
         this.view.selected_page = page;
@@ -454,6 +453,9 @@ export class Notebook extends Gtk.Box {
         if (disconnect)
             disconnect();
 
+        // Re-emit here instead of forwarding view's notify::n-pages, which
+        // fires before the page is fully attached or detached. Triggering
+        // it early causes the window to lose focus when the current tab closes.
         this.notify('n-pages');
         this.#update_tab_switch_accels();
         this.emit('session-update');
