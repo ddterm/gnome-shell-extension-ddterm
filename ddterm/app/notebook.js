@@ -1,5 +1,6 @@
 // SPDX-FileCopyrightText: 2023 Aleksandr Mezin <mezin.alexander@gmail.com>
 // SPDX-FileContributor: Mohammad Javad Naderi
+// SPDX-FileContributor: Finn van Riper
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -433,7 +434,11 @@ export class Notebook extends Gtk.Box {
                 bindings.pop().unbind();
         });
 
+        // Re-emit here instead of forwarding view's notify::n-pages, which
+        // fires before the page is fully attached or detached. Triggering
+        // it early causes the window to lose focus when the current tab closes.
         this.notify('n-pages');
+
         this.view.selected_page = page;
         this.grab_focus();
         this.#update_tab_switch_accels();
