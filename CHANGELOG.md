@@ -14,22 +14,20 @@ The format is based on [Keep a Changelog], and this project adheres to
 [Keep a Changelog]: https://keepachangelog.com/en/1.1.0/
 [Semantic Versioning]: https://semver.org/spec/v2.0.0.html
 
-## [Unreleased]
-
-### Added
-
-### Changed
-
-### Removed
+## [63.2.2] - 2026-06-25
 
 ### Fixed
 
+- Losing keyboard focus when closing one pane of a split window by [@van-riper]:
+[#2024].
 - Moved dark mode setting to "Window" page in preferences dialog: [#2027].
-- Lost keyboard focus when closing one pane of a split window.
 
+[#2024]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2024
 [#2027]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2027
 
-[Unreleased]: https://github.com/ddterm/gnome-shell-extension-ddterm/compare/v63.2.1...HEAD
+[@van-riper]: https://github.com/van-riper
+
+[63.2.2]: https://github.com/ddterm/gnome-shell-extension-ddterm/releases/tag/v63.2.2
 
 ## [63.2.1] - 2026-06-22
 
@@ -55,7 +53,6 @@ by [@van-riper]: [#1991].
 [#2013]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2013
 
 [@flytothehighest]: https://github.com/flytothehighest
-[@van-riper]: https://github.com/van-riper
 [@seuimi]: https://github.com/seuimi
 [Libre]: https://hosted.weblate.org/user/Libertad/
 
