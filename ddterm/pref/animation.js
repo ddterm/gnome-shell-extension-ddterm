@@ -105,6 +105,7 @@ export class AnimationGroup extends PreferencesGroup {
             title: this.gettext('_Show Animation'),
             model: animations,
             flags: Gio.SettingsBindFlags.NO_SENSITIVITY,
+            use_subtitle: true,
         });
 
         this.#show_animation_duration_scale = new ScaleRow({
@@ -137,6 +138,7 @@ export class AnimationGroup extends PreferencesGroup {
             title: this.gettext('_Hide Animation'),
             model: animations,
             flags: Gio.SettingsBindFlags.NO_SENSITIVITY,
+            use_subtitle: true,
         });
 
         this.#hide_animation_duration_scale = new ScaleRow({

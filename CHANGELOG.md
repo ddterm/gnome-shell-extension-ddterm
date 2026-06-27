@@ -24,6 +24,11 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 ### Fixed
 
+- Animation description is now fully displayed in preferences dialog:
+[#2035].
+
+[#2035]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2035
+
 [Unreleased]: https://github.com/ddterm/gnome-shell-extension-ddterm/compare/v63.2.2...HEAD
 
 ## [63.2.2] - 2026-06-25
