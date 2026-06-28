@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-24 18:42+0000\n"
+"POT-Creation-Date: 2026-06-28 08:55+0000\n"
 "PO-Revision-Date: 2025-05-08 06:03+0000\n"
 "Last-Translator: luk <lukasz.osadik@wp.pl>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/pl/>\n"
@@ -545,15 +545,15 @@ msgstr "Wykładniczo zanikająca animacja paraboliczna (odbicia), z odbiciem na 
 msgid "_Show Animation"
 msgstr "_Pokaż animację"
 
-#: ddterm/pref/animation.js:116
+#: ddterm/pref/animation.js:117
 msgid "_Show Animation Duration"
 msgstr "Czas trwania animacji _pokazywania"
 
-#: ddterm/pref/animation.js:137
+#: ddterm/pref/animation.js:138
 msgid "_Hide Animation"
 msgstr "_Ukryj animację"
 
-#: ddterm/pref/animation.js:148
+#: ddterm/pref/animation.js:150
 msgid "_Hide Animation Duration"
 msgstr "Czas trwania animacji _ukrywania"
 

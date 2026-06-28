@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-24 18:42+0000\n"
+"POT-Creation-Date: 2026-06-28 08:55+0000\n"
 "PO-Revision-Date: 2026-06-28 05:01+0000\n"
 "Last-Translator: reducedradius <137701630+flytothehighest@users.noreply.github.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/zh_Hans/>\n"
@@ -536,15 +536,15 @@ msgstr "指数衰减抛物线(弹跳)渐变，两端都有弹跳"
 msgid "_Show Animation"
 msgstr "_展示动画"
 
-#: ddterm/pref/animation.js:116
+#: ddterm/pref/animation.js:117
 msgid "_Show Animation Duration"
 msgstr "_显示动画持续时间"
 
-#: ddterm/pref/animation.js:137
+#: ddterm/pref/animation.js:138
 msgid "_Hide Animation"
 msgstr "_隐藏动画"
 
-#: ddterm/pref/animation.js:148
+#: ddterm/pref/animation.js:150
 msgid "_Hide Animation Duration"
 msgstr "_隐藏动画持续时间"
 

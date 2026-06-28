@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-24 18:42+0000\n"
+"POT-Creation-Date: 2026-06-28 08:55+0000\n"
 "PO-Revision-Date: 2025-10-07 20:02+0000\n"
 "Last-Translator: Nuri KÜÇÜKLER <enatsek@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/tr/>\n"
@@ -538,15 +538,15 @@ msgstr "Her iki tarafta sıçrama ile üstel olarak azalan parabolik (sıçrama)
 msgid "_Show Animation"
 msgstr "_Animasyonu göster"
 
-#: ddterm/pref/animation.js:116
+#: ddterm/pref/animation.js:117
 msgid "_Show Animation Duration"
 msgstr "_Gösterme animasyonu süresi"
 
-#: ddterm/pref/animation.js:137
+#: ddterm/pref/animation.js:138
 msgid "_Hide Animation"
 msgstr "_Animasyonu gizle"
 
-#: ddterm/pref/animation.js:148
+#: ddterm/pref/animation.js:150
 msgid "_Hide Animation Duration"
 msgstr "_Gizleme animasyonu süresi"
 

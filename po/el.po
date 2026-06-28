@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-24 18:42+0000\n"
+"POT-Creation-Date: 2026-06-28 08:55+0000\n"
 "PO-Revision-Date: 2026-02-05 23:28+0000\n"
 "Last-Translator: Aleksandr Mezin <mezin.alexander@gmail.com>\n"
 "Language-Team: Greek <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/el/>\n"
@@ -545,15 +545,15 @@ msgstr ""
 msgid "_Show Animation"
 msgstr "_Εμφάνιση κινούμενων εικόνων"
 
-#: ddterm/pref/animation.js:116
+#: ddterm/pref/animation.js:117
 msgid "_Show Animation Duration"
 msgstr "_Εμφάνιση διάρκειας κινούμενης εικόνας"
 
-#: ddterm/pref/animation.js:137
+#: ddterm/pref/animation.js:138
 msgid "_Hide Animation"
 msgstr "_Απόκρυψη κινούμενων εικόνων"
 
-#: ddterm/pref/animation.js:148
+#: ddterm/pref/animation.js:150
 msgid "_Hide Animation Duration"
 msgstr "_Απόκρυψη διάρκειας κινούμενης εικόνας"
 

@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-24 18:42+0000\n"
+"POT-Creation-Date: 2026-06-28 08:55+0000\n"
 "PO-Revision-Date: 2026-06-26 09:01+0000\n"
 "Last-Translator: Libre <6n0n1m0s@proton.me>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/es/>\n"
@@ -539,15 +539,15 @@ msgstr "Intercalación parabólica (rebote) con decaimiento exponencial, con reb
 msgid "_Show Animation"
 msgstr "_Mostrar animación"
 
-#: ddterm/pref/animation.js:116
+#: ddterm/pref/animation.js:117
 msgid "_Show Animation Duration"
 msgstr "_Mostrar duración de la animación"
 
-#: ddterm/pref/animation.js:137
+#: ddterm/pref/animation.js:138
 msgid "_Hide Animation"
 msgstr "_Ocultar animación"
 
-#: ddterm/pref/animation.js:148
+#: ddterm/pref/animation.js:150
 msgid "_Hide Animation Duration"
 msgstr "_Duración de la animación de ocultar"
 

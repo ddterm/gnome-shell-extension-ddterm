@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-24 18:42+0000\n"
+"POT-Creation-Date: 2026-06-28 08:55+0000\n"
 "PO-Revision-Date: 2026-06-20 15:01+0000\n"
 "Last-Translator: SUYEONG JANG <soo.wim3@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/ko/>\n"
@@ -534,15 +534,15 @@ msgstr "양방향 바운스 효과"
 msgid "_Show Animation"
 msgstr "_나타나기 애니메이션"
 
-#: ddterm/pref/animation.js:116
+#: ddterm/pref/animation.js:117
 msgid "_Show Animation Duration"
 msgstr "_나타나기 애니메이션 지속 시간"
 
-#: ddterm/pref/animation.js:137
+#: ddterm/pref/animation.js:138
 msgid "_Hide Animation"
 msgstr "_사라지기 애니메이션"
 
-#: ddterm/pref/animation.js:148
+#: ddterm/pref/animation.js:150
 msgid "_Hide Animation Duration"
 msgstr "_사라지기 애니메이션 지속 시간"
 
