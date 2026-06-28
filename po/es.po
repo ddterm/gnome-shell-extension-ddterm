@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-06-24 18:42+0000\n"
-"PO-Revision-Date: 2026-06-15 12:02+0000\n"
+"PO-Revision-Date: 2026-06-26 09:01+0000\n"
 "Last-Translator: Libre <6n0n1m0s@proton.me>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/es/>\n"
 "Language: es\n"
@@ -553,7 +553,7 @@ msgstr "_Duración de la animación de ocultar"
 
 #: ddterm/pref/appearance.js:19
 msgid "Appearance"
-msgstr ""
+msgstr "Apariencia"
 
 #: ddterm/pref/appearance.js:23
 msgid "Theme _Variant"
