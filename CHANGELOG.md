@@ -26,8 +26,14 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 - Animation description is now fully displayed in preferences dialog:
 [#2035].
+- Chinese translation improvements by [@flytothehighest]: [#2033].
+- Spanish translation improvements by [Libre]: [#2033].
 
+[#2033]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2033
 [#2035]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2035
+
+[@flytothehighest]: https://github.com/flytothehighest
+[Libre]: https://hosted.weblate.org/user/Libertad/
 
 [Unreleased]: https://github.com/ddterm/gnome-shell-extension-ddterm/compare/v63.2.2...HEAD
 
@@ -69,9 +75,7 @@ by [@van-riper]: [#1991].
 [#2003]: https://github.com/ddterm/gnome-shell-extension-ddterm/issues/2003
 [#2013]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2013
 
-[@flytothehighest]: https://github.com/flytothehighest
 [@seuimi]: https://github.com/seuimi
-[Libre]: https://hosted.weblate.org/user/Libertad/
 
 [63.2.1]: https://github.com/ddterm/gnome-shell-extension-ddterm/releases/tag/v63.2.1
 
