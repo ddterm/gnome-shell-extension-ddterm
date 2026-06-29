@@ -312,6 +312,10 @@ SPDX-License-Identifier: GPL-3.0-or-later
       <default>0.9</default>
       <range min="0.0" max="1.0"/>
     </key>
+    <key name="spacer-background-opacity" type="d">
+      <default>0.9</default>
+      <range min="0.0" max="1.0"/>
+    </key>
     <key name="palette" type="as">
       <default>['#171421',
                 '#c01c28',
@@ -394,6 +398,12 @@ SPDX-License-Identifier: GPL-3.0-or-later
       <default><![CDATA[[]]]></default>
     </key>
     <key name="shortcut-background-opacity-dec" type="as">
+      <default><![CDATA[[]]]></default>
+    </key>
+    <key name="shortcut-spacer-background-opacity-inc" type="as">
+      <default><![CDATA[[]]]></default>
+    </key>
+    <key name="shortcut-spacer-background-opacity-dec" type="as">
       <default><![CDATA[[]]]></default>
     </key>
     <key name="shortcut-toggle-maximize" type="as">

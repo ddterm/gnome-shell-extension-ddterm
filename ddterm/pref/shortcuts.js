@@ -552,6 +552,16 @@ export class ApplicationShortcutGroup extends ShortcutGroup {
         });
 
         this.add_shortcut_row({
+            key: 'shortcut-spacer-background-opacity-inc',
+            title: this.gettext('Increase Spacer Background Opacity'),
+        });
+
+        this.add_shortcut_row({
+            key: 'shortcut-spacer-background-opacity-dec',
+            title: this.gettext('Decrease Spacer Background Opacity'),
+        });
+
+        this.add_shortcut_row({
             key: 'shortcut-toggle-transparent-background',
             title: this.gettext('Enable/Disable Background Transparency'),
         });

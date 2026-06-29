@@ -87,7 +87,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
         <child>
           <object class="DDTermSpacer" id="spacer_north">
             <property name="visible">True</property>
-            <property name="opacity" bind-source="DDTermAppWindow" bind-property="background-opacity" bind-flags="sync-create"/>
+            <property name="opacity" bind-source="DDTermAppWindow" bind-property="spacer-background-opacity" bind-flags="sync-create"/>
             <style>
               <class name="background"/>
             </style>
@@ -122,7 +122,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
         <child>
           <object class="DDTermSpacer" id="spacer_south">
             <property name="visible">True</property>
-            <property name="opacity" bind-source="DDTermAppWindow" bind-property="background-opacity" bind-flags="sync-create"/>
+            <property name="opacity" bind-source="DDTermAppWindow" bind-property="spacer-background-opacity" bind-flags="sync-create"/>
             <style>
               <class name="background"/>
             </style>
@@ -157,7 +157,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
         <child>
           <object class="DDTermSpacer" id="spacer_west">
             <property name="visible">True</property>
-            <property name="opacity" bind-source="DDTermAppWindow" bind-property="background-opacity" bind-flags="sync-create"/>
+            <property name="opacity" bind-source="DDTermAppWindow" bind-property="spacer-background-opacity" bind-flags="sync-create"/>
             <style>
               <class name="background"/>
             </style>
@@ -192,7 +192,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
         <child>
           <object class="DDTermSpacer" id="spacer_east">
             <property name="visible">True</property>
-            <property name="opacity" bind-source="DDTermAppWindow" bind-property="background-opacity" bind-flags="sync-create"/>
+            <property name="opacity" bind-source="DDTermAppWindow" bind-property="spacer-background-opacity" bind-flags="sync-create"/>
             <style>
               <class name="background"/>
             </style>

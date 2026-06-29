@@ -243,6 +243,15 @@ export class AppWindow extends Gtk.ApplicationWindow {
             1.0,
             1.0
         ),
+        'spacer-background-opacity': GObject.ParamSpec.double(
+            'spacer-background-opacity',
+            null,
+            null,
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+            0.0,
+            1.0,
+            1.0
+        ),
     };
 
     static [GObject.signals] = {
@@ -482,6 +491,13 @@ export class AppWindow extends Gtk.ApplicationWindow {
             'background-opacity',
             this,
             'background-opacity',
+            Gio.SettingsBindFlags.GET
+        );
+
+        settings.bind(
+            'spacer-background-opacity',
+            this,
+            'spacer-background-opacity',
             Gio.SettingsBindFlags.GET
         );
 
