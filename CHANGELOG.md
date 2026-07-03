@@ -28,12 +28,15 @@ The format is based on [Keep a Changelog], and this project adheres to
 [#2035].
 - Chinese translation improvements by [@flytothehighest]: [#2033].
 - Spanish translation improvements by [Libre]: [#2033].
+- Korean translation improvements by [@seuimi]: [#2042].
 
 [#2033]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2033
 [#2035]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2035
+[#2042]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2042
 
 [@flytothehighest]: https://github.com/flytothehighest
 [Libre]: https://hosted.weblate.org/user/Libertad/
+[@seuimi]: https://github.com/seuimi
 
 [Unreleased]: https://github.com/ddterm/gnome-shell-extension-ddterm/compare/v63.2.2...HEAD
 
@@ -74,8 +77,6 @@ by [@van-riper]: [#1991].
 [#2002]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2002
 [#2003]: https://github.com/ddterm/gnome-shell-extension-ddterm/issues/2003
 [#2013]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2013
-
-[@seuimi]: https://github.com/seuimi
 
 [63.2.1]: https://github.com/ddterm/gnome-shell-extension-ddterm/releases/tag/v63.2.1
 
