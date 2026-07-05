@@ -14,18 +14,12 @@ The format is based on [Keep a Changelog], and this project adheres to
 [Keep a Changelog]: https://keepachangelog.com/en/1.1.0/
 [Semantic Versioning]: https://semver.org/spec/v2.0.0.html
 
-## [Unreleased]
-
-### Added
-
-### Changed
-
-### Removed
+## [63.2.3] - 2026-07-05
 
 ### Fixed
 
-- Animation description is now fully displayed in preferences dialog:
-[#2035].
+- Animation description is now displayed on a separate line
+in the preferences dialog: [#2035].
 - Chinese translation improvements by [@flytothehighest]: [#2033].
 - Spanish translation improvements by [Libre]: [#2033].
 - Korean translation improvements by [@seuimi]: [#2042].
@@ -38,7 +32,7 @@ The format is based on [Keep a Changelog], and this project adheres to
 [Libre]: https://hosted.weblate.org/user/Libertad/
 [@seuimi]: https://github.com/seuimi
 
-[Unreleased]: https://github.com/ddterm/gnome-shell-extension-ddterm/compare/v63.2.2...HEAD
+[63.2.3]: https://github.com/ddterm/gnome-shell-extension-ddterm/releases/tag/v63.2.3
 
 ## [63.2.2] - 2026-06-25
 
