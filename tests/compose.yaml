@@ -17,6 +17,9 @@ services:
   alpine-3.23:
     image: ghcr.io/ddterm/gnome-shell-image/alpine-3.23:2026.07.04.0
 
+  alpine-3.24:
+    image: ghcr.io/ddterm/gnome-shell-image/alpine-3.24:2026.07.04.0
+
   alpine-edge:
     image: ghcr.io/ddterm/gnome-shell-image/alpine-edge:2026.07.04.0
 
