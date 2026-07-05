@@ -22,7 +22,11 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 ### Removed
 
+- Support for GNOME 46 (Ubuntu 24.04): [#2053].
+
 ### Fixed
+
+[#2053]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2053
 
 [Unreleased]: https://github.com/ddterm/gnome-shell-extension-ddterm/compare/v63.2.3...HEAD
 

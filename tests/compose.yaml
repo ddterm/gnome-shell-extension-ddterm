@@ -35,8 +35,5 @@ services:
   debian-13:
     image: ghcr.io/ddterm/gnome-shell-image/debian-13:2026.07.04.0
 
-  ubuntu-24.04:
-    image: ghcr.io/ddterm/gnome-shell-image/ubuntu-24.04:2026.07.04.0
-
   ubuntu-26.04:
     image: ghcr.io/ddterm/gnome-shell-image/ubuntu-26.04:2026.07.04.0
