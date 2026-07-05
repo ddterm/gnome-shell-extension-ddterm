@@ -1,0 +1,116 @@
+# SPDX-FileCopyrightText: 2026 Aleksandr Mezin <mezin.alexander@gmail.com>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+name: weblate-sync
+
+concurrency: ${{ github.workflow }}
+
+on:
+  workflow_dispatch:
+
+  push:
+    branches:
+      - master
+
+  pull_request_target:
+    branches:
+      - master
+    paths-ignore: &workflow_paths
+      - .github/workflows/weblate-sync.yml
+      - .weblate.ini
+      - requirements/wlc.in
+      - requirements/wlc.txt
+
+  pull_request:
+    branches:
+      - master
+    paths: *workflow_paths
+
+defaults:
+  run:
+    shell: bash
+
+permissions:
+  contents: read
+
+jobs:
+  sync:
+    runs-on: ubuntu-26.04
+    timeout-minutes: 5
+
+    if: ${{ vars.WLC_URL }}
+
+    env:
+      WLC_KEY: ${{ secrets.WLC_KEY }}
+      WLC_URL: ${{ vars.WLC_URL }}
+
+    steps:
+      - id: get-merge-sha
+        if: ${{ github.event.pull_request }}
+        name: Get pull request merge SHA
+        run: |
+          sha="$(curl -fs "$URL" | jq -r .merge_commit_sha)"
+          echo "sha=$sha" | tee -a "$GITHUB_OUTPUT"
+        env:
+          URL: ${{ github.event.pull_request.url }}
+
+      - id: diff
+        if: ${{ github.event.pull_request || github.event.before }}
+        name: Check if *.po files were changed
+        uses: amezin/detect-changes-action@95b2732dd7b66cafe3e683304c0a3da0fb0bf674 # v2.2.4
+        with:
+          base: ${{ github.event.pull_request.base.sha || github.event.before }}
+          head: ${{ case(steps.get-merge-sha.outcome != 'skipped', steps.get-merge-sha.outputs.sha, github.sha) }}
+          files: |
+            po/*.po
+
+      - name: Checkout
+        # Do some testing if workflow files/dependencies were modified, even if po files weren't changed
+        if: ${{ steps.diff.outputs.changed != 'false' || github.event_name == 'pull_request' }}
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+
+      - uses: ./.github/actions/apt-install
+        # Do some testing if workflow files/dependencies were modified, even if po files weren't changed
+        if: ${{ steps.diff.outputs.changed != 'false' || github.event_name == 'pull_request' }}
+        with:
+          args: --no-install-recommends tox
+
+      - name: Install Weblate client
+        # Do some testing if workflow files/dependencies were modified, even if po files weren't changed
+        if: ${{ steps.diff.outputs.changed != 'false' || github.event_name == 'pull_request' }}
+        uses: ./.github/actions/tox-preinstall
+        with:
+          environments: wlc
+
+      - name: Pull changes from this repository to Weblate
+        if: ${{ steps.diff.outputs.changed != 'false' }}
+        run: tox -e wlc -- pull
+
+      - name: Commit changes on Weblate side
+        if: ${{ steps.diff.outputs.changed != 'false' }}
+        run: tox -e wlc -- commit
+
+      - name: Push changes from Weblate to this repository
+        if: ${{ steps.diff.outputs.changed != 'false' }}
+        run: tox -e wlc -- push
+
+      - name: Get Weblate status
+        # Do some testing if workflow files/dependencies were modified, even if po files weren't changed
+        if: ${{ steps.diff.outputs.changed != 'false' || github.event_name == 'pull_request' }}
+        run: tox -e wlc -- repo | tee "$RUNNER_TEMP/wlc-repo.txt"
+
+      - name: Ensure no commit needed
+        if: ${{ steps.diff.outputs.changed != 'false' && github.event.pull_request }}
+        run: |
+          grep -Fx 'needs_commit: False' "$RUNNER_TEMP/wlc-repo.txt"
+
+      - name: Ensure no merge needed
+        if: ${{ steps.diff.outputs.changed != 'false' && github.event.pull_request }}
+        run: |
+          grep -Fx 'needs_merge: False' "$RUNNER_TEMP/wlc-repo.txt"
+
+      - name: Ensure no push needed
+        if: ${{ steps.diff.outputs.changed != 'false' && github.event.pull_request }}
+        run: |
+          grep -Fx 'needs_push: False' "$RUNNER_TEMP/wlc-repo.txt"
