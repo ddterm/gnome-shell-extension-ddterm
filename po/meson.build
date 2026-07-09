@@ -22,6 +22,20 @@ gettext_args = [
   '--no-wrap',
 ]
 
+xgettext = find_program(
+  'xgettext',
+  required: false,
+  disabler: true,
+  native: true,
+)
+
+msgmerge = find_program(
+  'msgmerge',
+  required: false,
+  disabler: true,
+  native: true,
+)
+
 gettext_targets = i18n.gettext(
   gettext_domain,
   args: gettext_args,
