@@ -19,6 +19,15 @@ GObject.gtypeNameBasedOnJSPath = true;
 
 GLib.set_prgname('@APP_ID@');
 
+const gjs_min_version =
+    parseInt('@GJS_MIN_VERSION@'.split('.').map(part => part.padStart(2, '0')).join(''), 10);
+
+if (System.version < gjs_min_version) {
+    console.warn(
+        'GJS version %s is older than the minimum required %s', System.version, gjs_min_version
+    );
+}
+
 function realpath(filename) {
     const remaining = [];
 
