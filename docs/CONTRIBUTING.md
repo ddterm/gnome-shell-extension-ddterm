@@ -17,34 +17,14 @@ If you want to report a bug, please proceed to the [bug reporting form].
 > is not a bug. If you want something added, it's a feature request.
 > "Lack of a feature" is not a bug.
 
-[bug reporting form]: https://github.com/ddterm/gnome-shell-extension-ddterm/issues/new?labels=bug&template=BUG.yml
+[bug reporting form]: https://github.com/ddterm/gnome-shell-extension-ddterm/issues/new?template=BUG.yml
 
 ## Writing code
 
 > [!IMPORTANT]
 > Pull requests are preferred to feature requests :)
-
-> [!IMPORTANT]
-> When you add or modify any file, except translations, please add either:
->
-> a) `SPDX-FileContributor` tag with your name:
-> `SPDX-FileContributor: Your Name <e-mail@address>` (e-mail part is optional)
->
-> b) [`SPDX-FileCopyrightText`] tag with your name:
-> `SPDX-FileCopyrightText: YEAR Your Name <e-mail@address>` (e-mail part is optional)
->
-> [`SPDX-FileCopyrightText`] should be used for large, significant changes. See:
-> <https://www.gnu.org/prep/maintain/html_node/Legally-Significant.html>. Quote:
-> "A change of just a few lines (less than 15 or so) is not legally significant
-> for copyright".
-
-[`SPDX-FileCopyrightText`]: https://reuse.software/faq/
-
-> [!IMPORTANT]
-> If you want to be mentioned in application's "About" dialog,
-> you could also add yourself to the [`AUTHORS`] file.
-
-[`AUTHORS`]: /AUTHORS
+> However, it may still be worth to create a feature request initially,
+> and discuss the idea, to avoid writing unnecessary code.
 
 > [!IMPORTANT]
 > If you've fixed a bug, implemented a feature, or made some other user-visible
@@ -53,6 +33,28 @@ If you want to report a bug, please proceed to the [bug reporting form].
 > If necessary, links will be added later.
 
 [`CHANGELOG.md`]: /CHANGELOG.md
+
+> [!IMPORTANT]
+> When you add or modify a file in the repository (except translation files),
+> please add [`SPDX-FileCopyrightText`] tag with your name:
+> `SPDX-FileCopyrightText: YEAR Your Name <e-mail@address>` (e-mail part is optional).
+>
+> What is a "significant" amount of code?
+> See: <https://www.gnu.org/prep/maintain/html_node/Legally-Significant.html>.
+> Quote: "A change of just a few lines (less than 15 or so) is not legally
+> significant for copyright".
+
+[`SPDX-FileCopyrightText`]: https://reuse.software/faq/
+
+> [!TIP]
+> In other cases, you may add `SPDX-FileContributor` tag with your name:
+> `SPDX-FileContributor: Your Name <e-mail@address>` (e-mail part is optional).
+
+> [!IMPORTANT]
+> If you want to be mentioned in application's "About" dialog,
+> you may also add yourself to the [`AUTHORS`] file.
+
+[`AUTHORS`]: /AUTHORS
 
 If you want to implement a feature, or fix a bug, you may find these documents
 useful:
