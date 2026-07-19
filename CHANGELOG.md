@@ -18,6 +18,8 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 ### Added
 
+- Runtime check of GJS version, and a warning if it's too old: [#1624], [#2069].
+
 ### Changed
 
 ### Removed
@@ -27,8 +29,10 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 ### Fixed
 
+[#1624]: https://github.com/ddterm/gnome-shell-extension-ddterm/issues/1624
 [#2053]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2053
 [#2068]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2068
+[#2069]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2069
 
 [Unreleased]: https://github.com/ddterm/gnome-shell-extension-ddterm/compare/v63.2.3...HEAD
 

@@ -27,7 +27,8 @@ schema_dir = datadir / 'glib-2.0' / 'schemas'
 applications_dir = datadir / 'applications'
 dbus_service_dir = datadir / 'dbus-1' / 'services'
 
-gjs_req = '>=1.80.0'
+gjs_min_version = '1.80.0'
+gjs_req = f'>=@gjs_min_version@'
 gnome_shell_req = ['>=48.0', '<51']
 shell_versions = ['48', '49', '50']
 

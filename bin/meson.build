@@ -9,6 +9,7 @@ launcher = configure_file(
     'GJS_SHEBANG': gjs_shebang,
     'APP_ID': 'com.github.amezin.ddterm',
     'APP_MODULE': '../ddterm/app/application.js',
+    'GJS_MIN_VERSION': gjs_min_version,
   },
   install: true,
   install_dir: extension_dir / 'bin',
@@ -30,5 +31,6 @@ dev_launcher = configure_file(
     'GJS_SHEBANG': gjs_shebang,
     'APP_ID': 'com.github.amezin.ddterm.dev',
     'APP_MODULE': '../ddterm/app/dev-application.js',
+    'GJS_MIN_VERSION': gjs_min_version,
   },
 )
