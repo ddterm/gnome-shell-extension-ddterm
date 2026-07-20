@@ -20,7 +20,7 @@
         "eslint": "9.39.5",
         "eslint-config-gnome": "https://github.com/ddterm/eslint-config-gnome/archive/c479d059e8d9ea99c3b53c2ea43abf7fdb05eb51.tar.gz",
         "eslint-plugin-import": "2.32.0",
-        "markdown-it": "14.2.0",
+        "markdown-it": "14.3.0",
         "markdownlint-cli2": "0.23.0",
         "markdownlint-rule-relative-links": "5.1.1",
         "npm-run-all2": "9.0.2"
