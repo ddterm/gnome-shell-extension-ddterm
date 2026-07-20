@@ -15,9 +15,9 @@
     },
     "devDependencies": {
         "@eslint/config-helpers": "0.6.0",
-        "@eslint/js": "9.39.5",
+        "@eslint/js": "10.0.1",
         "argparse": "2.0.1",
-        "eslint": "9.39.5",
+        "eslint": "10.7.0",
         "eslint-config-gnome": "https://github.com/ddterm/eslint-config-gnome/archive/c479d059e8d9ea99c3b53c2ea43abf7fdb05eb51.tar.gz",
         "eslint-plugin-import": "2.32.0",
         "markdown-it": "14.2.0",
