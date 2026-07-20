@@ -27,8 +27,12 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 ### Fixed
 
+- Moved background opacity preferences from "Terminal" page to "Window":
+[#2072].
+
 [#2053]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2053
 [#2068]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2068
+[#2072]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2072
 
 [Unreleased]: https://github.com/ddterm/gnome-shell-extension-ddterm/compare/v63.2.3...HEAD
 
