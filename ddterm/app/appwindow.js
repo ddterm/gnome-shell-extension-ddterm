@@ -764,6 +764,18 @@ export class AppWindow extends Gtk.ApplicationWindow {
         this._spacer_north.preferred_height = spacer_height;
         this._spacer_south.visible = spacer_height > 0;
         this._spacer_south.preferred_height = spacer_height;
+
+        const style = this.get_style_context();
+
+        if (spacer_width > 0)
+            style.add_class('pillarbox');
+        else
+            style.remove_class('pillarbox');
+
+        if (spacer_height > 0)
+            style.add_class('letterbox');
+        else
+            style.remove_class('letterbox');
     }
 
     vfunc_size_allocate(allocation) {

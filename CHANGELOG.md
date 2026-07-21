@@ -18,6 +18,9 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 ### Added
 
+- `pillarbox` or `letterbox` css classes are automatically assigned
+to the window when work area size is less than 100%: [#2077].
+
 ### Changed
 
 ### Removed
@@ -27,12 +30,15 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 ### Fixed
 
+- Autohiding unnecessary vertical borders: [#2071], [#2077].
 - Moved background opacity preferences from "Terminal" page to "Window":
 [#2072].
 
 [#2053]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2053
 [#2068]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2068
+[#2071]: https://github.com/ddterm/gnome-shell-extension-ddterm/issues/2071
 [#2072]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2072
+[#2077]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2077
 
 [Unreleased]: https://github.com/ddterm/gnome-shell-extension-ddterm/compare/v63.2.3...HEAD
 

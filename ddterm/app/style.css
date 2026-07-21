@@ -12,7 +12,7 @@
     background: transparent;
 }
 
-#ddterm-window paned {
+#ddterm-window.pillarbox paned {
     border-left: 1px solid @borders;
     border-right: 1px solid @borders;
 }
