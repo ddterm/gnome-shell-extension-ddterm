@@ -408,6 +408,10 @@ jobs:
         run: ninja -j1 potfiles
         working-directory: build
 
+      - name: Diff POTFILES
+        run: |
+          git diff --color --exit-code po/POTFILES.in
+
       - name: Update .pot file
         run: ninja -j1 pot
         working-directory: build
@@ -416,26 +420,14 @@ jobs:
         run: ninja -j1 msgmerge
         working-directory: build
 
-      - name: Diff
-        id: diff
-        # Note: git diff --name-only ignores --ignore-matching-lines arg
-        run: |
-          git diff --color '--ignore-matching-lines=^"POT-Creation-Date: ' 'po/*.po' 'po/*.pot' 'po/POTFILES.in' | tee "$RUNNER_TEMP/po.diff"
-          size="$(stat --printf=%s "$RUNNER_TEMP/po.diff")"
-          echo "size=$size" | tee -a "$GITHUB_OUTPUT"
-
-      - name: Create pull request
-        if: vars.APP_ID && fromJSON(steps.diff.outputs.size) && inputs.push
-        uses: ./.github/actions/pull-request
-        with:
-          app-id: ${{ vars.APP_ID }}
-          private-key: ${{ secrets.APP_KEY }}
-          title: 'translations: update translation files'
-          description: 'Update translation files. Before merging this, make sure there are no unmerged changes from Weblate.'
-          files: |
-            po/*.po
-            po/*.pot
-            po/POTFILES.in
+      - name: Diff translations
+        run: >-
+          git diff
+          --color
+          '--ignore-matching-lines=^"POT-Creation-Date: '
+          '--ignore-matching-lines=^"Report-Msgid-Bugs-To: '
+          'po/*.po'
+          'po/*.pot'
 
   test:
     needs:
