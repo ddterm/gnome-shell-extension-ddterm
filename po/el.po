@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-28 08:55+0000\n"
+"Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/\n"
+"POT-Creation-Date: 2026-07-21 07:07+0200\n"
 "PO-Revision-Date: 2026-02-05 23:28+0000\n"
 "Last-Translator: Aleksandr Mezin <mezin.alexander@gmail.com>\n"
 "Language-Team: Greek <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/el/>\n"
@@ -352,7 +352,7 @@ msgstr "Πάνω από Επιφάνιες Εργασίας"
 msgid "Maximize Window"
 msgstr "Μεγένθυση Παράθύρου"
 
-#: ddterm/app/ui/terminalpage.ui:158 ddterm/pref/colors.js:538
+#: ddterm/app/ui/terminalpage.ui:158 ddterm/pref/appearance.js:70
 msgid "Transparent Background"
 msgstr "Διάφανο φόντο"
 
@@ -557,25 +557,29 @@ msgstr "_Απόκρυψη κινούμενων εικόνων"
 msgid "_Hide Animation Duration"
 msgstr "_Απόκρυψη διάρκειας κινούμενης εικόνας"
 
-#: ddterm/pref/appearance.js:19
+#: ddterm/pref/appearance.js:22
 msgid "Appearance"
 msgstr ""
 
-#: ddterm/pref/appearance.js:23
+#: ddterm/pref/appearance.js:26
 msgid "Theme _Variant"
 msgstr ""
 
-#: ddterm/pref/appearance.js:25 ddterm/pref/text.js:116
+#: ddterm/pref/appearance.js:28 ddterm/pref/text.js:116
 msgid "Default"
 msgstr "Προεπιλεγμένο"
 
-#: ddterm/pref/appearance.js:26
+#: ddterm/pref/appearance.js:29
 msgid "Light"
 msgstr "Φωτεινό"
 
-#: ddterm/pref/appearance.js:27
+#: ddterm/pref/appearance.js:30
 msgid "Dark"
 msgstr "Σκοτεινό"
+
+#: ddterm/pref/appearance.js:53
+msgid "_Background Opacity"
+msgstr "_Αδιαφάνεια φόντου"
 
 #: ddterm/pref/behavior.js:19
 msgid "Behavior"
@@ -601,139 +605,135 @@ msgstr ""
 "Force _X11 GDK backend (XWayland).\n"
 "Θα πρέπει να κλείσετε όλες τις καρτέλες για να εφαρμοστεί αυτή η επιλογή."
 
-#: ddterm/pref/colors.js:353
+#: ddterm/pref/colors.js:352
 msgid "Colors"
 msgstr "Χρώμματα"
 
-#: ddterm/pref/colors.js:357
+#: ddterm/pref/colors.js:356
 msgid "Use Colors From System _Theme"
 msgstr "Χρησιμοποιήστε χρώματα από το system _theme"
 
-#: ddterm/pref/colors.js:361
+#: ddterm/pref/colors.js:360
 msgid "Black on light yellow"
 msgstr "Μαύρο σε ανοιχτό κίτρινο"
 
-#: ddterm/pref/colors.js:362
+#: ddterm/pref/colors.js:361
 msgid "Black on white"
 msgstr "Μαύρο σε λευκό"
 
-#: ddterm/pref/colors.js:363
+#: ddterm/pref/colors.js:362
 msgid "Gray on black"
 msgstr "Γκρι σε μαύρο"
 
-#: ddterm/pref/colors.js:364
+#: ddterm/pref/colors.js:363
 msgid "Green on black"
 msgstr "Πράσινο σε μαύρο"
 
-#: ddterm/pref/colors.js:365
+#: ddterm/pref/colors.js:364
 msgid "White on black"
 msgstr "Λευκό σε μαύρο"
 
-#: ddterm/pref/colors.js:366
+#: ddterm/pref/colors.js:365
 msgid "GNOME light"
 msgstr ""
 
-#: ddterm/pref/colors.js:367
+#: ddterm/pref/colors.js:366
 msgid "GNOME dark"
 msgstr ""
 
-#: ddterm/pref/colors.js:368
+#: ddterm/pref/colors.js:367
 msgid "Tango light"
 msgstr ""
 
-#: ddterm/pref/colors.js:369
+#: ddterm/pref/colors.js:368
 msgid "Tango dark"
 msgstr ""
 
-#: ddterm/pref/colors.js:370
+#: ddterm/pref/colors.js:369
 msgid "Solarized light"
 msgstr ""
 
-#: ddterm/pref/colors.js:371
+#: ddterm/pref/colors.js:370
 msgid "Solarized dark"
 msgstr ""
 
-#: ddterm/pref/colors.js:372 ddterm/pref/colors.js:652
+#: ddterm/pref/colors.js:371 ddterm/pref/colors.js:610
 msgid "Custom"
 msgstr "Παραμετροποιημένο"
 
-#: ddterm/pref/colors.js:395
+#: ddterm/pref/colors.js:394
 msgid "Color _Scheme"
 msgstr ""
 
-#: ddterm/pref/colors.js:414
+#: ddterm/pref/colors.js:413
 msgid "Foreground Color"
 msgstr "Χρώμα προσκηνίου"
 
-#: ddterm/pref/colors.js:428
+#: ddterm/pref/colors.js:427
 msgid "Background Color"
 msgstr ""
 
-#: ddterm/pref/colors.js:443 ddterm/pref/colors.js:448
+#: ddterm/pref/colors.js:442 ddterm/pref/colors.js:447
 msgid "Bold Color"
 msgstr ""
 
-#: ddterm/pref/colors.js:458
+#: ddterm/pref/colors.js:457
 msgid "Cursor Color"
 msgstr ""
 
-#: ddterm/pref/colors.js:463
+#: ddterm/pref/colors.js:462
 msgid "Cursor Foreground Color"
 msgstr ""
 
-#: ddterm/pref/colors.js:470
+#: ddterm/pref/colors.js:469
 msgid "Cursor Background Color"
 msgstr ""
 
-#: ddterm/pref/colors.js:481
+#: ddterm/pref/colors.js:480
 msgid "Highlight Color"
 msgstr ""
 
-#: ddterm/pref/colors.js:486
+#: ddterm/pref/colors.js:485
 msgid "Highlight Foreground Color"
 msgstr "Επισημάνετε το χρώμα προσκηνίου"
 
-#: ddterm/pref/colors.js:493
+#: ddterm/pref/colors.js:492
 msgid "Highlight Background Color"
 msgstr "Επισημάνετε το χρώμα φόντου"
 
-#: ddterm/pref/colors.js:521
-msgid "_Background Opacity"
-msgstr "_Αδιαφάνεια φόντου"
-
-#: ddterm/pref/colors.js:544
+#: ddterm/pref/colors.js:502
 msgid "GNOME"
 msgstr "GNOME"
 
-#: ddterm/pref/colors.js:562
+#: ddterm/pref/colors.js:520
 msgid "Tango"
 msgstr "Tango"
 
-#: ddterm/pref/colors.js:580
+#: ddterm/pref/colors.js:538
 msgid "Linux"
 msgstr "Linux"
 
-#: ddterm/pref/colors.js:598
+#: ddterm/pref/colors.js:556
 msgid "XTerm"
 msgstr "XTerm"
 
-#: ddterm/pref/colors.js:616
+#: ddterm/pref/colors.js:574
 msgid "RXVT"
 msgstr "RXVT"
 
-#: ddterm/pref/colors.js:634
+#: ddterm/pref/colors.js:592
 msgid "Solarized"
 msgstr ""
 
-#: ddterm/pref/colors.js:663
+#: ddterm/pref/colors.js:621
 msgid "_Palette"
 msgstr "Παλέτα"
 
-#: ddterm/pref/colors.js:738
+#: ddterm/pref/colors.js:696
 msgid "Show Bold Text in _Bright Colors"
 msgstr ""
 
-#: ddterm/pref/colors.js:743
+#: ddterm/pref/colors.js:701
 msgid "Copy profile from GNOME Terminal"
 msgstr "Αντιγραφή προφίλ GNOME Terminal"
 
