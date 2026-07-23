@@ -1,0 +1,78 @@
+# SPDX-FileCopyrightText: 2026 Aleksandr Mezin <mezin.alexander@gmail.com>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+name: code-scan
+
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches:
+      - master
+  schedule:
+    - cron: '22 7 * * *'
+
+jobs:
+  codeql:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      security-events: write
+
+    strategy:
+      fail-fast: false
+      matrix:
+        language:
+          - javascript-typescript
+          - python
+          - actions
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: github/codeql-action/init@e4fba868fa4b1b91e1fdab776edc8cfbe6e9fb81 # v4.37.3
+        with:
+          languages: ${{ matrix.language }}
+          queries: security-and-quality
+          config: |
+            threat-models: local
+
+      - uses: github/codeql-action/analyze@e4fba868fa4b1b91e1fdab776edc8cfbe6e9fb81 # v4.37.3
+        with:
+          category: '/language:${{matrix.language}}'
+
+  zizmor:
+    runs-on: ubuntu-slim
+
+    permissions:
+      contents: read
+      security-events: write
+
+    env:
+      # renovate: datasource=github-releases depName=zizmorcore/zizmor
+      ZIZMOR_VERSION: 1.26.1
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - working-directory: ${{ runner.temp }}
+        run: |
+          wget "https://github.com/zizmorcore/zizmor/releases/download/v${ZIZMOR_VERSION}/zizmor-x86_64-unknown-linux-gnu.tar.gz"
+          mkdir zizmor
+          tar -C zizmor -xf zizmor-x86_64-unknown-linux-gnu.tar.gz
+          echo "$(pwd)/zizmor" >>"$GITHUB_PATH"
+
+      - run: zizmor --format=sarif . >"$RUNNER_TEMP/results.sarif"
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - uses: github/codeql-action/upload-sarif@e4fba868fa4b1b91e1fdab776edc8cfbe6e9fb81 # v4.37.3
+        with:
+          sarif_file: ${{ runner.temp }}/results.sarif
+          category: zizmor
