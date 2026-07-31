@@ -30,8 +30,9 @@ runs:
       env:
         BUILDUSER: ${{ inputs.user }}
 
-    - run: makechrootpkg -U "$BUILDUSER" -r "$CHROOTDIR" -c -n -- ${{ inputs.makepkg-args }}
+    - run: makechrootpkg -U "$BUILDUSER" -r "$CHROOTDIR" -c -n -- $ARGS
       shell: bash
       env:
         BUILDUSER: ${{ inputs.user }}
         CHROOTDIR: ${{ inputs.chrootdir }}
+        ARGS: ${{ inputs.makepkg-args }}

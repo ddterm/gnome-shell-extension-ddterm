@@ -49,10 +49,11 @@ runs:
     - shell: sudo bash -e {0}
       run: apt-get update
 
-    - shell: sudo --preserve-env=DEBIAN_FRONTEND bash -e {0}
-      run: apt-get install -y ${{ inputs.args }}
+    - shell: sudo --preserve-env=DEBIAN_FRONTEND --preserve-env=ARGS bash -e {0}
+      run: apt-get install -y $ARGS
       env:
         DEBIAN_FRONTEND: noninteractive
+        ARGS: ${{ inputs.args }}
 
     - shell: bash
       run: find . -maxdepth 1 -type f ! -name lock | tar cvf "$RUNNER_TEMP/apt-lists.tar" -T-

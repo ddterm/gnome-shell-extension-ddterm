@@ -27,9 +27,10 @@ runs:
     - run: echo "$GITHUB_ACTION_PATH" >>"$GITHUB_PATH"
       shell: bash
 
-    - run: mkarchroot -C "$PACMAN_CONF" -M "$MAKEPKG_CONF" "$WORKING_DIR" ${{ inputs.package-list }}
+    - run: mkarchroot -C "$PACMAN_CONF" -M "$MAKEPKG_CONF" "$WORKING_DIR" $PACKAGES
       shell: bash
       env:
         WORKING_DIR: ${{ inputs.working-dir }}
         PACMAN_CONF: /usr/share/devtools/pacman.conf.d/extra-testing.conf
         MAKEPKG_CONF: /usr/share/devtools/makepkg.conf.d/x86_64.conf
+        PACKAGES: ${{ inputs.package-list }}
