@@ -9,14 +9,14 @@ runs:
   using: composite
   steps:
     - id: eslint-problem-matcher
-      uses: ./.github/actions/eslint-stylish-problem-matcher
+      uses: $/.github/actions/eslint-stylish-problem-matcher
 
     - run: npm run-script lint:eslint
       shell: bash
       env:
         FORCE_COLOR: 0
 
-    - uses: ./.github/actions/eslint-stylish-problem-matcher
+    - uses: $/.github/actions/eslint-stylish-problem-matcher
       with:
         enable: false
       if: ${{ !cancelled() && steps.eslint-problem-matcher.outcome == 'success' }}

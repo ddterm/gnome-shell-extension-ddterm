@@ -9,12 +9,12 @@ runs:
   using: composite
   steps:
     - id: reuse-problem-matcher
-      uses: ./.github/actions/reuse-problem-matcher
+      uses: $/.github/actions/reuse-problem-matcher
 
     - run: tox --no-list-dependencies -q -e reuse -- lint --lines
       shell: bash
 
-    - uses: ./.github/actions/reuse-problem-matcher
+    - uses: $/.github/actions/reuse-problem-matcher
       with:
         enable: false
       if: ${{ !cancelled() && steps.reuse-problem-matcher.outcome == 'success' }}

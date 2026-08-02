@@ -9,12 +9,12 @@ runs:
   using: composite
   steps:
     - id: npm-problem-matcher
-      uses: ./.github/actions/generic-problem-matcher
+      uses: $/.github/actions/generic-problem-matcher
 
     - run: npm install
       shell: bash
 
-    - uses: ./.github/actions/generic-problem-matcher
+    - uses: $/.github/actions/generic-problem-matcher
       with:
         enable: false
       if: ${{ !cancelled() && steps.npm-problem-matcher.outcome == 'success' }}

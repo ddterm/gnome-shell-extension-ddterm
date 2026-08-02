@@ -14,14 +14,14 @@ runs:
   using: composite
   steps:
     - id: tox-problem-matcher
-      uses: ./.github/actions/generic-problem-matcher
+      uses: $/.github/actions/generic-problem-matcher
 
     - run: tox -v --notest -e "$TOX_ENVLIST"
       shell: bash
       env:
         TOX_ENVLIST: ${{ inputs.environments }}
 
-    - uses: ./.github/actions/generic-problem-matcher
+    - uses: $/.github/actions/generic-problem-matcher
       with:
         enable: false
       if: ${{ !cancelled() && steps.tox-problem-matcher.outcome == 'success' }}

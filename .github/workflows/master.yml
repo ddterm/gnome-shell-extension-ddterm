@@ -16,7 +16,7 @@ permissions:
 
 jobs:
   ci:
-    uses: ./.github/workflows/ci.yml
+    uses: $/.github/workflows/ci.yml
     secrets: inherit
     with:
       push: true

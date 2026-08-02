@@ -76,7 +76,7 @@ jobs:
               .jobs["bundle", "test", "archlinux-package", "archlinux-package-check", "archlinux-installed-test"] |
               .steps.[].uses |
               select(.) |
-              capture("^\\./\\.github/actions/(?<name>.*)$") |
+              capture("^[.$]/\\.github/actions/(?<name>.*)$") |
               .name
             ] | unique
 
@@ -137,7 +137,7 @@ jobs:
           persist-credentials: false
 
       - id: apt
-        uses: ./.github/actions/apt-install
+        uses: $/.github/actions/apt-install
         with:
           args: >-
             --no-install-recommends
@@ -146,49 +146,49 @@ jobs:
 
       - name: Install development dependencies from npm
         id: npm
-        uses: ./.github/actions/npm-install
+        uses: $/.github/actions/npm-install
         if: ${{ !cancelled() && steps.checkout.outcome == 'success' }}
 
       - name: Install Python dependencies
         id: pip
-        uses: ./.github/actions/tox-preinstall
+        uses: $/.github/actions/tox-preinstall
         with:
           environments: reuse,flake8,meson-format,pip-compile
         if: ${{ !cancelled() && steps.apt.outcome == 'success' }}
 
       - name: Install meson
-        uses: ./.github/actions/setup-meson
+        uses: $/.github/actions/setup-meson
 
       - name: Download subprojects
         run: meson subprojects download
         shell: pipetty bash -e {0}
 
       - name: Lint JS code with ESLint
-        uses: ./.github/actions/eslint
+        uses: $/.github/actions/eslint
         if: ${{ !cancelled() && steps.npm.outcome == 'success' }}
 
       - name: Lint Python code with flake8
-        uses: ./.github/actions/flake8
+        uses: $/.github/actions/flake8
         if: ${{ !cancelled() && steps.pip.outcome == 'success' }}
 
       - name: Lint Markdown files
-        uses: ./.github/actions/markdownlint
+        uses: $/.github/actions/markdownlint
         if: ${{ !cancelled() && steps.npm.outcome == 'success' }}
 
       - name: Check repository REUSE compliance
-        uses: ./.github/actions/reuse
+        uses: $/.github/actions/reuse
         if: ${{ !cancelled() && steps.pip.outcome == 'success' }}
 
       - name: Check meson.build formatting
-        uses: ./.github/actions/meson-format
+        uses: $/.github/actions/meson-format
         if: ${{ !cancelled() && steps.pip.outcome == 'success' }}
 
       - name: Check Python requirements .txt files
-        uses: ./.github/actions/pip-compile
+        uses: $/.github/actions/pip-compile
         if: ${{ !cancelled() && steps.pip.outcome == 'success' }}
 
       - name: Check PICT test cases
-        uses: ./.github/actions/pict
+        uses: $/.github/actions/pict
         if: ${{ !cancelled() && steps.checkout.outcome == 'success' }}
 
       - name: Add flake8 to PATH
@@ -196,7 +196,7 @@ jobs:
         if: ${{ !cancelled() && steps.pip.outcome == 'success' }}
 
       - name: Check GitHub Actions workflows
-        uses: ./.github/actions/actionlint
+        uses: $/.github/actions/actionlint
         if: ${{ !cancelled() && steps.checkout.outcome == 'success' }}
 
       - name: Lint latest changelog entry
@@ -266,7 +266,7 @@ jobs:
         with:
           persist-credentials: false
 
-      - uses: ./.github/actions/apt-install
+      - uses: $/.github/actions/apt-install
         with:
           cache-save: true
           # Building package cache -> install all packages needed by other jobs
@@ -282,7 +282,7 @@ jobs:
             xsltproc
 
       - name: Install meson
-        uses: ./.github/actions/setup-meson
+        uses: $/.github/actions/setup-meson
 
       - name: Download subprojects
         run: meson subprojects download
@@ -334,7 +334,7 @@ jobs:
       - name: Extract dist tarball
         run: tar xvf "$RUNNER_TEMP"/dist/* --strip-components=1
 
-      - uses: ./.github/actions/apt-install
+      - uses: $/.github/actions/apt-install
         with:
           args: >-
             --no-install-recommends
@@ -346,7 +346,7 @@ jobs:
             xsltproc
 
       - name: Install meson
-        uses: ./.github/actions/setup-meson
+        uses: $/.github/actions/setup-meson
 
       - name: Prepare build directory
         run: meson setup '-Dshebang_override=/usr/bin/env gjs' '-Dtests=disabled' build
@@ -393,7 +393,7 @@ jobs:
         with:
           persist-credentials: false
 
-      - uses: ./.github/actions/apt-install
+      - uses: $/.github/actions/apt-install
         with:
           args: >-
             --no-install-recommends
@@ -405,7 +405,7 @@ jobs:
             xsltproc
 
       - name: Install meson
-        uses: ./.github/actions/setup-meson
+        uses: $/.github/actions/setup-meson
 
       - name: Prepare build directory
         id: setup
@@ -467,7 +467,7 @@ jobs:
       - name: Extract dist tarball
         run: tar xvf "$RUNNER_TEMP"/dist/* --strip-components=1
 
-      - uses: ./.github/actions/apt-install
+      - uses: $/.github/actions/apt-install
         with:
           args: >-
             --no-install-recommends
@@ -481,12 +481,12 @@ jobs:
           skip-decompress: true
 
       - name: Install dependencies
-        uses: ./.github/actions/tox-preinstall
+        uses: $/.github/actions/tox-preinstall
         with:
           environments: pytest,images
 
       - name: Run tests
-        uses: ./.github/actions/container-test
+        uses: $/.github/actions/container-test
         with:
           container: ${{ matrix.container }}
           args: >-
@@ -513,10 +513,10 @@ jobs:
           persist-credentials: false
 
       - name: Create build chroot
-        uses: ./.github/actions/mkarchroot
+        uses: $/.github/actions/mkarchroot
 
       - name: Build package
-        uses: ./.github/actions/makechrootpkg
+        uses: $/.github/actions/makechrootpkg
         with:
           makepkg-args: --nocheck
 
@@ -555,7 +555,7 @@ jobs:
         with:
           persist-credentials: false
 
-      - uses: ./.github/actions/apt-install
+      - uses: $/.github/actions/apt-install
         with:
           args: >-
             --no-install-recommends
@@ -568,12 +568,12 @@ jobs:
           name: archlinux-package
 
       - name: Install dependencies
-        uses: ./.github/actions/tox-preinstall
+        uses: $/.github/actions/tox-preinstall
         with:
           environments: pytest,images
 
       - name: Run tests
-        uses: ./.github/actions/container-test
+        uses: $/.github/actions/container-test
         with:
           container: archlinux
           args: --journald "--sys-package=$PKGFILENAME"
@@ -606,10 +606,10 @@ jobs:
           persist-credentials: false
 
       - name: Create build chroot
-        uses: ./.github/actions/mkarchroot
+        uses: $/.github/actions/mkarchroot
 
       - name: Build package
-        uses: ./.github/actions/makechrootpkg
+        uses: $/.github/actions/makechrootpkg
         with:
           makepkg-args: --check
 

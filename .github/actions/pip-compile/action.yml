@@ -9,7 +9,7 @@ runs:
   using: composite
   steps:
     - id: generic-problem-matcher
-      uses: ./.github/actions/generic-problem-matcher
+      uses: $/.github/actions/generic-problem-matcher
 
     - run: git reset --hard
       shell: bash
@@ -17,7 +17,7 @@ runs:
     - run: tox -e pip-compile
       shell: bash
 
-    - uses: ./.github/actions/generic-problem-matcher
+    - uses: $/.github/actions/generic-problem-matcher
       with:
         enable: false
       if: ${{ !cancelled() && steps.generic-problem-matcher.outcome == 'success' }}

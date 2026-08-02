@@ -8,11 +8,11 @@ description: Install Meson using tox and add to PATH
 runs:
   using: composite
   steps:
-    - uses: ./.github/actions/tox-preinstall
+    - uses: $/.github/actions/tox-preinstall
       with:
         environments: meson
 
     - run: echo "$GITHUB_WORKSPACE/.tox/meson/bin" >>"$GITHUB_PATH"
       shell: bash
 
-    - uses: ./.github/actions/generic-problem-matcher
+    - uses: $/.github/actions/generic-problem-matcher

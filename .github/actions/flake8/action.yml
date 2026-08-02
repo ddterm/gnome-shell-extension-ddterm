@@ -9,12 +9,12 @@ runs:
   using: composite
   steps:
     - id: flake8-problem-matcher
-      uses: ./.github/actions/generic-problem-matcher
+      uses: $/.github/actions/generic-problem-matcher
 
     - run: tox -e flake8 -- --color=never
       shell: bash
 
-    - uses: ./.github/actions/generic-problem-matcher
+    - uses: $/.github/actions/generic-problem-matcher
       with:
         enable: false
       if: ${{ !cancelled() && steps.flake8-problem-matcher.outcome == 'success' }}
