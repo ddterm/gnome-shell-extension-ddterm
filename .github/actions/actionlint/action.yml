@@ -5,22 +5,20 @@
 name: Run actionlint
 description: Run actionlint with error annotations
 
-inputs:
-  actionlint-version:
-    # renovate: datasource=github-releases depName=rhysd/actionlint
-    default: '1.7.12'
-    description: actionlint version
-
 runs:
   using: composite
   steps:
     - working-directory: ${{ runner.temp }}
       shell: bash
       env:
-        ACTIONLINT_VERSION: ${{ inputs.actionlint-version }}
+        # renovate: datasource=custom.github-release-assets depName=actionlint packageName=/^actionlint_.*_linux_amd64\.tar\.gz$/ registryUrl=https://api.github.com/repos/rhysd/actionlint/releases
+        ACTIONLINT_VERSION: '1.7.12'
+        # renovate-digest: datasource=custom.github-release-assets depName=actionlint currentValue=1.7.12 packageName=/^actionlint_.*_linux_amd64\.tar\.gz$/ registryUrl=https://api.github.com/repos/rhysd/actionlint/releases
+        ACTIONLINT_SHA256: '8aca8db96f1b94770f1b0d72b6dddcb1ebb8123cb3712530b08cc387b349a3d8'
 
       run: |
         curl -fsLO "https://github.com/rhysd/actionlint/releases/download/v${ACTIONLINT_VERSION}/actionlint_${ACTIONLINT_VERSION}_linux_amd64.tar.gz"
+        echo "${ACTIONLINT_SHA256} actionlint_${ACTIONLINT_VERSION}_linux_amd64.tar.gz" | sha256sum --check --strict -
         mkdir -p "actionlint-${ACTIONLINT_VERSION}"
         tar -C "actionlint-${ACTIONLINT_VERSION}" -xf "actionlint_${ACTIONLINT_VERSION}_linux_amd64.tar.gz"
         echo "$(pwd)/actionlint-${ACTIONLINT_VERSION}" >>"$GITHUB_PATH"
@@ -29,7 +27,8 @@ runs:
       working-directory: ${{ runner.temp }}
       shell: bash
       env:
-        ACTIONLINT_VERSION: ${{ inputs.actionlint-version }}
+        # renovate: datasource=custom.github-release-assets depName=actionlint packageName=/^actionlint_.*_linux_amd64\.tar\.gz$/ registryUrl=https://api.github.com/repos/rhysd/actionlint/releases
+        ACTIONLINT_VERSION: '1.7.12'
 
       run: |
         curl -fsLO "https://raw.githubusercontent.com/rhysd/actionlint/v${ACTIONLINT_VERSION}/.github/actionlint-matcher.json"

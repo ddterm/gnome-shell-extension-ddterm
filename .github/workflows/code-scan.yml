@@ -52,10 +52,6 @@ jobs:
       contents: read
       security-events: write
 
-    env:
-      # renovate: datasource=github-releases depName=zizmorcore/zizmor
-      ZIZMOR_VERSION: 1.29.0
-
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -64,9 +60,15 @@ jobs:
       - working-directory: ${{ runner.temp }}
         run: |
           wget "https://github.com/zizmorcore/zizmor/releases/download/v${ZIZMOR_VERSION}/zizmor-x86_64-unknown-linux-gnu.tar.gz"
+          echo "$ZIZMOR_SHA256 zizmor-x86_64-unknown-linux-gnu.tar.gz" | sha256sum --check --strict -
           mkdir zizmor
           tar -C zizmor -xf zizmor-x86_64-unknown-linux-gnu.tar.gz
           echo "$(pwd)/zizmor" >>"$GITHUB_PATH"
+        env:
+          # renovate: datasource=custom.github-release-assets depName=zizmor packageName="zizmor-x86_64-unknown-linux-gnu.tar.gz" registryUrl=https://api.github.com/repos/zizmorcore/zizmor/releases
+          ZIZMOR_VERSION: '1.29.0'
+          # renovate-digest: datasource=custom.github-release-assets depName=zizmor currentValue=1.29.0 packageName="zizmor-x86_64-unknown-linux-gnu.tar.gz" registryUrl=https://api.github.com/repos/zizmorcore/zizmor/releases
+          ZIZMOR_SHA256: 'dd96df044a6e8538d5f423790f453bdd03d49e5b2bcc38214acc41a2f1297839'
 
       - run: zizmor --format=sarif . >"$RUNNER_TEMP/results.sarif"
         env:
