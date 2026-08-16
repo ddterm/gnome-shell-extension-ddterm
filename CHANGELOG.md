@@ -20,6 +20,7 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 - `pillarbox` or `letterbox` css classes are automatically assigned
 to the window when work area size is less than 100%: [#2077].
+- GNOME 51 support: [#2109].
 
 ### Changed
 
@@ -39,6 +40,7 @@ to the window when work area size is less than 100%: [#2077].
 [#2071]: https://github.com/ddterm/gnome-shell-extension-ddterm/issues/2071
 [#2072]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2072
 [#2077]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2077
+[#2109]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2109
 
 [Unreleased]: https://github.com/ddterm/gnome-shell-extension-ddterm/compare/v63.2.3...HEAD
 

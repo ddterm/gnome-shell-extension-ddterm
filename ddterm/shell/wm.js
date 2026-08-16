@@ -3,6 +3,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
 import Clutter from 'gi://Clutter';
@@ -10,6 +11,7 @@ import Meta from 'gi://Meta';
 import Mtk from 'gi://Mtk';
 
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
+import * as Config from 'resource:///org/gnome/shell/misc/config.js';
 
 import { Animation } from './animation.js';
 import { WindowGeometry } from './geometry.js';
@@ -25,6 +27,8 @@ const MOUSE_RESIZE_GRABS = [
     Meta.GrabOp.RESIZING_SE,
     Meta.GrabOp.RESIZING_W,
 ];
+
+const MAJOR_VERSION = Number(Config.PACKAGE_VERSION.split('.')[0]);
 
 export const WindowManager = GObject.registerClass({
     Properties: {
@@ -94,6 +98,7 @@ export const WindowManager = GObject.registerClass({
     #focus_window_check_cancellable;
     #geometry_fixup_handlers;
     #wl_clipboard_activator;
+    #laters;
 
     constructor(params) {
         super(params);
@@ -136,8 +141,12 @@ export const WindowManager = GObject.registerClass({
             ([signal, callback]) => this.geometry.connect(signal, callback)
         );
 
-        if (!this.#actor.visible && this.#client_type === Meta.WindowClientType.WAYLAND)
+        if (!this.#actor.visible &&
+            this.#client_type === Meta.WindowClientType.WAYLAND &&
+            MAJOR_VERSION < 51)
             this.window.move_to_monitor(this.geometry.monitor_index);
+
+        this.#laters = [];
 
         this.#window_handlers = Object.entries({
             'unmanaged': () => {
@@ -156,8 +165,16 @@ export const WindowManager = GObject.registerClass({
             ([signal, callback]) => this.window.connect(signal, callback)
         );
 
+        if (MAJOR_VERSION >= 51) {
+            this.#window_handlers.push(
+                this.window.connect('configure', this.#configure.bind(this))
+            );
+        }
+
         this.#setup_maximized_handlers();
-        this.#update_window_geometry();
+
+        if (MAJOR_VERSION < 51 || this.#actor.visible)
+            this.#update_window_geometry();
 
         const should_maximize = this.settings.get_boolean('window-maximize');
 
@@ -232,6 +249,37 @@ export const WindowManager = GObject.registerClass({
         }
 
         this.#setup_wl_clipboard_activator();
+    }
+
+    #configure(win, config) {
+        this.logger?.log(`Configure initial=${config.get_is_initial()}`);
+
+        const should_maximize = this.settings.get_boolean('window-maximize');
+        const { target_rect, workarea } = this.geometry;
+        const { x, y } = should_maximize ? workarea : target_rect;
+
+        config.set_position(x, y);
+        this.logger?.log(`Configure position=${x},${y}`);
+
+        if (!should_maximize) {
+            const { width, height } = target_rect;
+
+            config.set_size(width, height);
+            this.logger?.log(`Configure size=${width},${height}`);
+        }
+
+        this.#schedule_geometry_fixup();
+
+        const later = global.compositor.get_laters().add(
+            Meta.LaterType.RESIZE,
+            () => {
+                this.#laters = this.#laters.filter(v => v !== later);
+                this.#update_window_geometry();
+                return GLib.SOURCE_REMOVE;
+            }
+        );
+
+        this.#laters.push(later);
     }
 
     #override_map_animation(wm, actor) {
@@ -658,6 +706,9 @@ export const WindowManager = GObject.registerClass({
         }
 
         this.#cancel_geometry_fixup();
+
+        while (this.#laters?.length)
+            global.compositor.get_laters().remove(this.#laters.pop());
 
         if (this.#focus_window_handler) {
             global.display.disconnect(this.#focus_window_handler);
