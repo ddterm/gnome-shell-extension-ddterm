@@ -29,6 +29,9 @@ services:
   archlinux:
     image: ghcr.io/ddterm/gnome-shell-image/archlinux:2026.08.21.0
 
+  archlinux-unstable:
+    image: ghcr.io/ddterm/gnome-shell-image/archlinux-unstable:2026.08.11.0
+
   opensuse-tumbleweed:
     image: ghcr.io/ddterm/gnome-shell-image/opensuse-tumbleweed:2026.08.21.0
 
