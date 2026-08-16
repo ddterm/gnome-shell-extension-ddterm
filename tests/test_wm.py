@@ -395,10 +395,10 @@ class CommonTests:
         primary_monitor,
         window_monitor,
         workspaces_only_on_primary,
-        shell_dbus_interface,
+        gnome_shell_version,
     ):
         if workspaces_only_on_primary and primary_monitor != window_monitor:
-            if shell_dbus_interface.ShellVersion[0] >= 49:
+            if gnome_shell_version[0] >= 49:
                 return {True, False}
             else:
                 return {True}
