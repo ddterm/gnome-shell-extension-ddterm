@@ -10,6 +10,7 @@ import Meta from 'gi://Meta';
 import Mtk from 'gi://Mtk';
 
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
+import * as Config from 'resource:///org/gnome/shell/misc/config.js';
 
 import { Animation } from './animation.js';
 import { WindowGeometry } from './geometry.js';
@@ -25,6 +26,8 @@ const MOUSE_RESIZE_GRABS = [
     Meta.GrabOp.RESIZING_SE,
     Meta.GrabOp.RESIZING_W,
 ];
+
+const MAJOR_VERSION = Number(Config.PACKAGE_VERSION.split('.')[0]);
 
 export const WindowManager = GObject.registerClass({
     Properties: {
@@ -136,9 +139,6 @@ export const WindowManager = GObject.registerClass({
             ([signal, callback]) => this.geometry.connect(signal, callback)
         );
 
-        if (!this.#actor.visible && this.#client_type === Meta.WindowClientType.WAYLAND)
-            this.window.move_to_monitor(this.geometry.monitor_index);
-
         this.#window_handlers = Object.entries({
             'unmanaged': () => {
                 this.disable();
@@ -152,12 +152,24 @@ export const WindowManager = GObject.registerClass({
             'notify::above': () => {
                 this.#setup_wl_clipboard_activator();
             },
+            'notify::mapped': () => {
+                if (this.window.mapped && this.show_animation.should_skip)
+                    Main.wm.skipNextEffect(this.#actor);
+            },
         }).map(
             ([signal, callback]) => this.window.connect(signal, callback)
         );
 
-        this.#setup_maximized_handlers();
-        this.#update_window_geometry();
+        if (MAJOR_VERSION >= 51) {
+            this.#window_handlers.push(
+                this.window.connect('configure', this.#configure.bind(this))
+            );
+        }
+
+        if (MAJOR_VERSION < 51 || this.#actor.visible) {
+            this.#setup_maximized_handlers();
+            this.#update_window_geometry();
+        }
 
         const should_maximize = this.settings.get_boolean('window-maximize');
 
@@ -224,7 +236,9 @@ export const WindowManager = GObject.registerClass({
             this.#set_window_stick();
         }
 
-        if (should_maximize && this.#get_maximize_flags() !== Meta.MaximizeFlags.BOTH) {
+        if ((MAJOR_VERSION < 51 || this.#actor.visible) &&
+            should_maximize &&
+            this.#get_maximize_flags() !== Meta.MaximizeFlags.BOTH) {
             this.#set_maximize_flags(Meta.MaximizeFlags.BOTH);
 
             if (this.show_animation.should_skip)
@@ -232,6 +246,27 @@ export const WindowManager = GObject.registerClass({
         }
 
         this.#setup_wl_clipboard_activator();
+    }
+
+    #configure(win, config) {
+        const should_maximize = this.settings.get_boolean('window-maximize');
+        const { target_rect, workarea } = this.geometry;
+        const { x, y } = should_maximize ? workarea : target_rect;
+
+        config.set_position(x, y);
+
+        if (should_maximize) {
+            config.set_maximize_flags(Meta.MaximizeFlags.BOTH);
+        } else {
+            const { width, height } = target_rect;
+
+            config.set_size(width, height);
+            config.unset_maximize_flags(this.geometry.maximize_flag);
+        }
+
+        this.#setup_maximized_handlers();
+
+        Promise.resolve().then(this.#update_window_geometry.bind(this));
     }
 
     #override_map_animation(wm, actor) {
@@ -533,7 +568,12 @@ export const WindowManager = GObject.registerClass({
 
         this.logger?.log('Updating window geometry');
 
-        const { target_rect, workarea } = this.geometry;
+        const { target_rect, workarea, monitor_index } = this.geometry;
+
+        if (!this.#actor.visible &&
+            this.#client_type === Meta.WindowClientType.WAYLAND &&
+            monitor_index !== this.window.get_monitor())
+            this.window.move_to_monitor(monitor_index);
 
         if (this.settings.get_boolean('window-maximize')) {
             if (this.#client_type === Meta.WindowClientType.WAYLAND)

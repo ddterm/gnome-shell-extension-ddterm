@@ -636,6 +636,7 @@ class CommonTests:
         wait_idle,
         settings_test_hook,
         gdk_backend,
+        gnome_shell_version,
     ):
         extension_dbus_interface.Activate(timeout=dbusutil.DEFAULT_LONG_TIMEOUT_MS)
         glibutil.dispatch_pending_sources()
@@ -664,6 +665,12 @@ class CommonTests:
         assert extension_test_hook.WindowRect == expected_rect
         assert not extension_test_hook.seen_transitions
         assert shell_test_hook.FocusApp == 'com.github.amezin.ddterm'
+
+        if (gnome_shell_version[0] == 51 and gdk_backend == GdkBackend.X11):
+            if (expected_rect.x == 0 and expected_rect.y == 0):
+                pytest.skip(
+                    'On GNOME 51+XWayland, resizing is broken if the window is at (0, 0)'
+                )
 
         start = resize_point(expected_rect, window_position)
 

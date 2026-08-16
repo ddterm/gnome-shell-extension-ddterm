@@ -120,7 +120,7 @@ const Interface = GObject.registerClass({
         });
 
         this.screenshot = Shell.Screenshot.new();
-        this.seat = Clutter.get_default_backend().get_default_seat();
+        this.seat = global.stage.get_context().get_backend().get_default_seat();
         this.pointer = this.seat.create_virtual_device(Clutter.InputDeviceType.POINTER_DEVICE);
         this.keyboard = this.seat.create_virtual_device(Clutter.InputDeviceType.KEYBOARD_DEVICE);
 
