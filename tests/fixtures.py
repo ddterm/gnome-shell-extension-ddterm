@@ -318,6 +318,7 @@ class GnomeSessionFixtures:
         dbus_environment,
         disable_welcome_dialog,
         sys_package,
+        gnome_shell_version,
         request,
     ):
         LOGGER.info('GNOME Shell environment: %r', gnome_shell_environment)
@@ -333,14 +334,15 @@ class GnomeSessionFixtures:
 
         process_launcher.run('mkdir', '-p', '-m', '01777', '/tmp/.X11-unix')
 
-        process_launcher.run(
-            str(request.config.option.gsettings_tool),
-            'set',
-            'org.gnome.mutter',
-            'experimental-features',
-            str(GLib.Variant('as', ('scale-monitor-framebuffer',))),
-            env=dbus_environment,
-        )
+        if gnome_shell_version[0] < 50:
+            process_launcher.run(
+                str(request.config.option.gsettings_tool),
+                'set',
+                'org.gnome.mutter',
+                'experimental-features',
+                str(GLib.Variant('as', ('scale-monitor-framebuffer',))),
+                env=dbus_environment,
+            )
 
         if request.config.option.journald:
             wrapper = ('systemd-cat',)

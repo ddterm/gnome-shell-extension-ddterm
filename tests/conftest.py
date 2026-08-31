@@ -4,11 +4,13 @@
 
 import collections
 import contextlib
+import enum
 import fcntl
 import inspect
 import logging
 import os
 import pathlib
+import re
 import subprocess
 
 import pytest
@@ -509,6 +511,35 @@ def system_bus_environment(global_environment, request):
         global_environment,
         DBUS_SYSTEM_BUS_ADDRESS=dbus_daemon.address,
     )
+
+
+@enum.unique
+class PrereleaseVersion(enum.IntEnum):
+    # See _GNOMEversionToNumber()
+    # https://gitlab.gnome.org/GNOME/gnome-shell/-/blob/da3622ce3f3b6529b8417e2e9194226aa8ef4346/js/misc/util.js#L304
+    ALPHA = -3
+    BETA = -2
+    RC = -1
+
+    @classmethod
+    def parse(cls, value):
+        try:
+            return cls[value.upper()]
+        except KeyError:
+            return int(value)
+
+
+@pytest.fixture(scope='session')
+def gnome_shell_version(process_launcher, request):
+    result = process_launcher.run(
+        str(request.config.option.gnome_shell),
+        '--version',
+        stdout=subprocess.PIPE
+    )
+
+    match = re.fullmatch(rb'^GNOME Shell (?P<version>.*)$', result.stdout.strip())
+
+    return tuple(PrereleaseVersion.parse(part) for part in match['version'].decode().split('.'))
 
 
 def pytest_generate_tests(metafunc):
