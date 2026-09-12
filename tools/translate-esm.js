@@ -226,7 +226,7 @@ function translate(file, root_url, replace_imports) {
             break;
         }
         default:
-            throw new AstError(`Unknown declration type: ${node.declaration.type}`, node);
+            throw new AstError(`Unknown declaration type: ${node.declaration.type}`, node);
         }
     }
 
