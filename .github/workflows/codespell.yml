@@ -1,0 +1,32 @@
+# SPDX-FileCopyrightText: 2025 Aleksandr Mezin <mezin.alexander@gmail.com>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+name: Codespell
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  build:
+    name: Check Spelling
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Run Codespell
+        uses: codespell-project/actions-codespell@ab633fa3fc4387532d30800e9bc5a934ff24ec75 # v2.1.0
+        with:
+          ignore_paths: po,package-lock.json,./tests/dbus-interfaces/org.gnome.*,./tools/heapgraph*,./tools/heapdot*
+          ignore_words_list: filetest
+          check_filenames: true
