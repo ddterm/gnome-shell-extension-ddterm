@@ -273,7 +273,7 @@
 	- -1: unknown (unsupported)
 
         A client should not attempt to change the powersave mode
-	from -1 (unknown) to any other value, and viceversa.
+	from -1 (unknown) to any other value, and vice-versa.
 	Note that the actual effects of the different values
 	depend on the hardware and the kernel driver in use, and
 	it's perfectly possible that all values different than on
