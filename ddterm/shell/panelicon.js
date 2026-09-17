@@ -219,7 +219,7 @@ export const PanelIconProxy = GObject.registerClass({
 
     set type_name(value) {
         if (!TYPE_BY_NAME.hasOwnProperty(value))
-            throw new Error(`${value} is not a vaild icon type`);
+            throw new Error(`${value} is not a valid icon type`);
 
         const type_resolved = TYPE_BY_NAME[value];
 
