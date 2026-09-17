@@ -2,6 +2,7 @@
 // SPDX-FileContributor: Mohammad Javad Naderi
 // SPDX-FileContributor: Juan M. Cruz-Martinez
 // SPDX-FileContributor: Jackson Goode
+// SPDX-FileContributor: niukanen1
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -94,6 +95,13 @@ function normalize_keyval_and_mask(display, keycode, mask, group) {
     return [unmodified_keyval, mask & explicit_modifiers];
 }
 
+const ARROW_KEYVALS = [
+    Gdk.KEY_Left,
+    Gdk.KEY_Up,
+    Gdk.KEY_Right,
+    Gdk.KEY_Down,
+];
+
 const FORBIDDEN_KEYVALS = [
     /* Navigation keys */
     Gdk.KEY_Home,
@@ -129,8 +137,12 @@ function is_valid_binding(keyval, mask) {
         (keyval >= Gdk.KEY_Thai_kokai && keyval <= Gdk.KEY_Thai_lekkao) ||
         (keyval >= Gdk.KEY_Hangul_Kiyeog && keyval <= Gdk.KEY_Hangul_J_YeorinHieuh) ||
         (keyval === Gdk.KEY_space && !mask) ||
-        FORBIDDEN_KEYVALS.includes(keyval)
+        (FORBIDDEN_KEYVALS.includes(keyval) && !is_navigation_key(keyval, mask))
     );
+}
+
+function is_navigation_key(keyval, mask) {
+    return mask === Gdk.ModifierType.SHIFT_MASK && ARROW_KEYVALS.includes(keyval);
 }
 
 function is_valid_accel(keyval, mask) {

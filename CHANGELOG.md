@@ -20,6 +20,8 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 - `pillarbox` or `letterbox` css classes are automatically assigned
 to the window when work area size is less than 100%: [#2077].
+- Arrow keys with the Shift modifier can now be used as keyboard shortcut
+bindings: [#2121].
 
 ### Changed
 
@@ -39,6 +41,7 @@ to the window when work area size is less than 100%: [#2077].
 [#2071]: https://github.com/ddterm/gnome-shell-extension-ddterm/issues/2071
 [#2072]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2072
 [#2077]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2077
+[#2121]: https://github.com/ddterm/gnome-shell-extension-ddterm/issues/2121
 
 [Unreleased]: https://github.com/ddterm/gnome-shell-extension-ddterm/compare/v63.2.3...HEAD
 
