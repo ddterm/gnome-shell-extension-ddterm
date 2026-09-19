@@ -88,7 +88,6 @@ export const WindowManager = GObject.registerClass({
     #map_animation_override_handler;
     #destroy_animation_override_handler;
     #hide_animation_setup_handler;
-    #map_handler;
     #maximized_handler;
     #focus_window_handler;
     #focus_window_check_cancellable;
@@ -136,7 +135,7 @@ export const WindowManager = GObject.registerClass({
             ([signal, callback]) => this.geometry.connect(signal, callback)
         );
 
-        if (!this.#actor.visible && this.#client_type === Meta.WindowClientType.WAYLAND)
+        if (!this.window.mapped && this.#client_type === Meta.WindowClientType.WAYLAND)
             this.window.move_to_monitor(this.geometry.monitor_index);
 
         this.#window_handlers = Object.entries({
@@ -151,6 +150,20 @@ export const WindowManager = GObject.registerClass({
             },
             'notify::above': () => {
                 this.#setup_wl_clipboard_activator();
+            },
+            'notify::mapped': () => {
+                if (!this.window.mapped)
+                    return;
+
+                if (this.#client_type === Meta.WindowClientType.WAYLAND) {
+                    this.#update_window_geometry();
+                    this.#schedule_geometry_fixup();
+                }
+
+                Main.activateWindow(this.window);
+
+                this.#set_window_above();
+                this.#set_window_stick();
             },
         }).map(
             ([signal, callback]) => this.window.connect(signal, callback)
@@ -174,25 +187,7 @@ export const WindowManager = GObject.registerClass({
             );
         }
 
-        if (!this.#actor.visible) {
-            this.#map_handler = global.window_manager.connect('map', (wm, actor) => {
-                if (actor !== this.#actor)
-                    return;
-
-                global.window_manager.disconnect(this.#map_handler);
-                this.#map_handler = null;
-
-                if (this.#client_type === Meta.WindowClientType.WAYLAND) {
-                    this.#update_window_geometry();
-                    this.#schedule_geometry_fixup();
-                }
-
-                Main.activateWindow(this.window);
-
-                this.#set_window_above();
-                this.#set_window_stick();
-            });
-
+        if (!this.window.mapped) {
             if (this.show_animation.should_skip) {
                 Main.wm.skipNextEffect(this.#actor);
             } else if (this.show_animation.should_override) {
@@ -217,7 +212,7 @@ export const WindowManager = GObject.registerClass({
 
         this.#setup_destroy_animation_override(this.hide_animation.should_override);
 
-        if (this.#actor.visible) {
+        if (this.window.mapped) {
             Main.activateWindow(this.window);
 
             this.#set_window_above();
@@ -415,7 +410,7 @@ export const WindowManager = GObject.registerClass({
             this.window.make_above();
         }
 
-        if (!this.#actor.visible && this.show_animation.should_skip)
+        if (!this.window.mapped && this.show_animation.should_skip)
             Main.wm.skipNextEffect(this.#actor);
     }
 
@@ -541,7 +536,7 @@ export const WindowManager = GObject.registerClass({
 
             this.#move_resize_window(workarea);
 
-            if (!this.#actor.visible && this.show_animation.should_skip)
+            if (!this.window.mapped && this.show_animation.should_skip)
                 Main.wm.skipNextEffect(this.#actor);
 
             if (!this.window.get_frame_rect().equal(workarea)) {
@@ -569,7 +564,7 @@ export const WindowManager = GObject.registerClass({
 
         this.#move_resize_window(target_rect);
 
-        if (!this.#actor.visible && this.show_animation.should_skip)
+        if (!this.window.mapped && this.show_animation.should_skip)
             Main.wm.skipNextEffect(this.#actor);
 
         if (!this.window.get_frame_rect().equal(target_rect)) {
@@ -643,11 +638,6 @@ export const WindowManager = GObject.registerClass({
 
         while (this.#window_handlers?.length)
             this.window.disconnect(this.#window_handlers.pop());
-
-        if (this.#map_handler) {
-            global.window_manager.disconnect(this.#map_handler);
-            this.#map_handler = null;
-        }
 
         while (this.#display_handlers?.length)
             global.display.disconnect(this.#display_handlers.pop());
