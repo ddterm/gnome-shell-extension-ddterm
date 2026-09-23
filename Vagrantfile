@@ -102,14 +102,6 @@ Vagrant.configure("2") do |config|
     version.vm.box = "gnome-shell-box/silverblue44"
   end
 
-  config.vm.define "ubuntu2404", autostart: false do |version|
-    version.vm.box = "gnome-shell-box/ubuntu2404"
-  end
-
-  config.vm.define "ubuntu2510", autostart: false do |version|
-    version.vm.box = "gnome-shell-box/ubuntu2510"
-  end
-
   config.vm.define "ubuntu2604", autostart: false do |version|
     version.vm.box = "gnome-shell-box/ubuntu2604"
   end
@@ -132,39 +124,6 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "archlinux", autostart: false do |version|
     version.vm.box = "gnome-shell-box/archlinux"
-  end
-
-  config.vm.define "alpine321", autostart: false do |version|
-    version.vm.box = "gnome-shell-box/alpine321"
-    version.ssh.sudo_command = "doas -n -u root %c"
-
-    version.vm.synced_folder '.', SYNCED_FOLDER,
-      type: 'rsync',
-      rsync__exclude: rsync_excludes,
-      rsync__rsync_path: 'doas -u root rsync',
-      rsync__args: rsync_args
-  end
-
-  config.vm.define "alpine322", autostart: false do |version|
-    version.vm.box = "gnome-shell-box/alpine322"
-    version.ssh.sudo_command = "doas -n -u root %c"
-
-    version.vm.synced_folder '.', SYNCED_FOLDER,
-      type: 'rsync',
-      rsync__exclude: rsync_excludes,
-      rsync__rsync_path: 'doas -u root rsync',
-      rsync__args: rsync_args
-  end
-
-  config.vm.define "alpine323", autostart: false do |version|
-    version.vm.box = "gnome-shell-box/alpine323"
-    version.ssh.sudo_command = "doas -n -u root %c"
-
-    version.vm.synced_folder '.', SYNCED_FOLDER,
-      type: 'rsync',
-      rsync__exclude: rsync_excludes,
-      rsync__rsync_path: 'doas -u root rsync',
-      rsync__args: rsync_args
   end
 
   config.vm.define "alpine324", autostart: false do |version|
