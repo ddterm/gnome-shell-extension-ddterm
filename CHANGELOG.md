@@ -14,15 +14,13 @@ The format is based on [Keep a Changelog], and this project adheres to
 [Keep a Changelog]: https://keepachangelog.com/en/1.1.0/
 [Semantic Versioning]: https://semver.org/spec/v2.0.0.html
 
-## [Unreleased]
+## [64.0.0] - 2026-09-23
 
 ### Added
 
 - `pillarbox` or `letterbox` css classes are automatically assigned
 to the window when work area size is less than 100%: [#2077].
 - GNOME 51 support: [#2109].
-
-### Changed
 
 ### Removed
 
@@ -42,7 +40,7 @@ to the window when work area size is less than 100%: [#2077].
 [#2077]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2077
 [#2109]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2109
 
-[Unreleased]: https://github.com/ddterm/gnome-shell-extension-ddterm/compare/v63.2.3...HEAD
+[64.0.0]: https://github.com/ddterm/gnome-shell-extension-ddterm/releases/tag/v64.0.0
 
 ## [63.2.3] - 2026-07-05
 
