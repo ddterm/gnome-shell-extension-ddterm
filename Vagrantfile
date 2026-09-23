@@ -102,6 +102,10 @@ Vagrant.configure("2") do |config|
     version.vm.box = "gnome-shell-box/silverblue44"
   end
 
+  config.vm.define "fedora45", autostart: false do |version|
+    version.vm.box = "gnome-shell-box/fedora45"
+  end
+
   config.vm.define "ubuntu2604", autostart: false do |version|
     version.vm.box = "gnome-shell-box/ubuntu2604"
   end
