@@ -29,3 +29,4 @@ foreach shell_js_src_file : shell_js_src_files
 endforeach
 
 bundle += shell_js_out_files
+potfiles += shell_js_src_files

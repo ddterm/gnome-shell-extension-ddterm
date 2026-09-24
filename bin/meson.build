@@ -32,3 +32,5 @@ dev_launcher = configure_file(
     'APP_MODULE': '../ddterm/app/dev-application.js',
   },
 )
+
+potfiles += files('launcher.js')

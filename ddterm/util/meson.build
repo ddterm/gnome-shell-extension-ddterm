@@ -14,3 +14,4 @@ foreach util_js_src_file : util_js_src_files
 endforeach
 
 bundle += util_js_out_files
+potfiles += util_js_src_files

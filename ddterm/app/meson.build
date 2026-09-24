@@ -29,6 +29,7 @@ foreach app_js_src_file : app_js_src_files
 endforeach
 
 bundle += app_js_out_files
+potfiles += app_js_src_files
 
 app_data_src_files = files('style.css')
 

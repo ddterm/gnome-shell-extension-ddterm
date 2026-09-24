@@ -17,3 +17,5 @@ foreach app_ui_src_file : app_ui_src_files
     install_dir: extension_dir / 'ddterm' / 'app' / 'ui',
   )
 endforeach
+
+potfiles += app_ui_src_files

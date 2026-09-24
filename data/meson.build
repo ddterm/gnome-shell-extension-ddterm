@@ -42,6 +42,7 @@ configure_file(
 )
 
 desktop_entry_untranslated = files('com.github.amezin.ddterm.desktop.in.in')
+potfiles += desktop_entry_untranslated
 
 bundle += i18n.merge_file(
   input: desktop_entry_untranslated,

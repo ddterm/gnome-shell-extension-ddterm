@@ -156,6 +156,7 @@ foreach f : ['extension.js', 'prefs.js', 'AUTHORS', 'CHANGELOG.md']
   bundle += fs.copyfile(f, install: true, install_dir: extension_dir)
 endforeach
 
+potfiles = [files('extension.js', 'prefs.js')]
 bundle_command = [make_zip_command]
 
 subdir('bin')

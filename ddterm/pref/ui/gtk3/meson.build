@@ -13,3 +13,5 @@ foreach pref_ui_src_file : pref_ui_src_files
     install_dir: extension_dir / 'ddterm' / 'pref' / 'ui' / 'gtk3',
   )
 endforeach
+
+potfiles += pref_ui_src_files

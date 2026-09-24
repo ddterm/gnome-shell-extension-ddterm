@@ -32,6 +32,7 @@ endforeach
 subdir('widgets')
 
 bundle += pref_js_out_files
+potfiles += pref_js_src_files
 
 subdir('ui')
 subdir('test')

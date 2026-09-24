@@ -18,3 +18,5 @@ foreach pref_widget_js_src_file : pref_widgets_js_src_files
     install_dir: extension_dir / 'ddterm' / 'pref' / 'widgets',
   )
 endforeach
+
+potfiles += pref_widgets_js_src_files

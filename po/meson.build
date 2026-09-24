@@ -24,21 +24,52 @@ bundle += gettext_targets[0]
 alias_target('locales', gettext_targets[0])
 alias_target('pot', gettext_targets[1])
 
-run_target(
-  'potfiles',
+potfiles_gen_args = [
+  '-C',
+  meson.project_source_root(),
+  '--xgettext',
+  xgettext,
+]
+
+foreach gettext_arg : gettext_args
+  potfiles_gen_args += f'-x=@gettext_arg@'
+endforeach
+
+potfiles_gen = custom_target(
   command: [
-    'gen-potfiles.py',
-    '-C',
-    '@CURRENT_SOURCE_DIR@',
-    '--git',
-    git,
-    '--xgettext',
-    xgettext,
-    '-o',
-    '@CURRENT_SOURCE_DIR@' / 'POTFILES.in',
+    find_program(files('gen-potfiles.py')),
+    potfiles_gen_args,
     '--',
-    gettext_args,
+    '@INPUT@',
   ],
+  input: potfiles,
+  capture: true,
+  output: ['POTFILES.in'],
+)
+
+alias_target(
+  'potfiles',
+  run_target(
+    'POTFILES.in',
+    command: [
+      'cp',
+      potfiles_gen,
+      files('POTFILES.in'),
+    ],
+  ),
+)
+
+test(
+  'POTFILES.in',
+  find_program('diff', required: false, disabler: true),
+  args: [
+    '-u',
+    '-s',
+    '--color=' + get_option('b_colorout'),
+    files('POTFILES.in'),
+    potfiles_gen,
+  ],
+  suite: ['gettext'],
 )
 
 msgmerge_targets = []

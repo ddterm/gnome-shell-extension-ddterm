@@ -69,6 +69,7 @@ foreach pict_gen_target : [
     diff,
     args: [
       '-u',
+      '-s',
       '--color=' + get_option('b_colorout'),
       files(fs.name(pict_gen_target.full_path())),
       pict_gen_target,
