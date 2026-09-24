@@ -32,8 +32,6 @@ Inspired by
 
 ## Distinguishing features
 
-- Runs on Wayland natively
-
 - Can be controlled from the [command line]
 
 - Terminal window can be resized by dragging the border with mouse
