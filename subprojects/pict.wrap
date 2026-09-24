@@ -5,6 +5,6 @@
 [wrap-git]
 url = https://github.com/microsoft/pict.git
 # renovate-digest: datasource=github-digest depName=microsoft/pict currentValue=main
-revision = 7d2ed98c28b837d8337976b7cbf421bd3c4b89dd
+revision = ab76c2548f551fcb46314e58653a1bd1172f3a72
 depth = 1
 method = cmake
