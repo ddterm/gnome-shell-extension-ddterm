@@ -292,19 +292,21 @@ jobs:
         run: meson dist -C build --include-subprojects --no-tests --formats gztar
         shell: pipetty bash -e {0}
 
-      - name: Upload dist tarball
-        id: upload
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
-        with:
-          path: build/meson-dist/ddterm-*.tar.gz
-          if-no-files-found: error
-          archive: false
-
       - name: Upload dist tarball checksum
         id: checksum-upload
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
-          path: build/meson-dist/ddterm-*.tar.gz.*sum
+          path: build/meson-dist/*sum
+          if-no-files-found: error
+          archive: false
+
+      - run: rm -v build/meson-dist/*sum
+
+      - name: Upload dist tarball
+        id: upload
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          path: build/meson-dist/*
           if-no-files-found: error
           archive: false
 
