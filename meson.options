@@ -29,3 +29,11 @@ option(
   value: 'auto',
   description : 'Run wl-clipboard tests during "meson test"/"ninja test"'
 )
+
+option(
+  'pict',
+  type : 'feature',
+  value: 'disabled',
+  description : '''Build PICT to update pairwise test case data (requires CMake and a C++ compiler).
+  You need this only if you edit tests/pict/*.model files'''
+)

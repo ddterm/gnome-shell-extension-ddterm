@@ -1,0 +1,10 @@
+# SPDX-FileCopyrightText: 2026 Aleksandr Mezin <mezin.alexander@gmail.com>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+[wrap-git]
+url = https://github.com/microsoft/pict.git
+# renovate-digest: datasource=github-digest depName=microsoft/pict currentValue=main
+revision = 7d2ed98c28b837d8337976b7cbf421bd3c4b89dd
+depth = 1
+method = cmake

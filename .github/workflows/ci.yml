@@ -160,7 +160,7 @@ jobs:
         uses: $/.github/actions/setup-meson
 
       - name: Download subprojects
-        run: meson subprojects download
+        run: meson subprojects download gjs-typelib-installer
         shell: pipetty bash -e {0}
 
       - name: Lint JS code with ESLint
@@ -186,10 +186,6 @@ jobs:
       - name: Check Python requirements .txt files
         uses: $/.github/actions/pip-compile
         if: ${{ !cancelled() && steps.pip.outcome == 'success' }}
-
-      - name: Check PICT test cases
-        uses: $/.github/actions/pict
-        if: ${{ !cancelled() && steps.checkout.outcome == 'success' }}
 
       - name: Add flake8 to PATH
         run: echo "$GITHUB_WORKSPACE/.tox/flake8/bin" >>"$GITHUB_PATH"
@@ -285,11 +281,11 @@ jobs:
         uses: $/.github/actions/setup-meson
 
       - name: Download subprojects
-        run: meson subprojects download
+        run: meson subprojects download gjs-typelib-installer
         shell: pipetty bash -e {0}
 
       - name: Prepare build directory
-        run: meson setup '-Dshebang_override=/usr/bin/env gjs' '-Dtests=disabled' build
+        run: meson setup '-Dshebang_override=/usr/bin/env gjs' -Dtests=disabled -Dwrap_mode=nodownload build
         shell: pipetty bash -e {0}
 
       - name: Generate dist tarball
@@ -349,7 +345,7 @@ jobs:
         uses: $/.github/actions/setup-meson
 
       - name: Prepare build directory
-        run: meson setup '-Dshebang_override=/usr/bin/env gjs' '-Dtests=disabled' build
+        run: meson setup '-Dshebang_override=/usr/bin/env gjs' -Dtests=disabled -Dwrap_mode=nodownload build
         shell: pipetty bash -e {0}
 
       - name: Build extension bundle
@@ -364,13 +360,26 @@ jobs:
           if-no-files-found: error
           archive: false
 
-      - name: Run checks
-        run: meson test -v -j1
+      - name: Check REUSE compliance of generated bundle
+        run: tox -e reuse-bundle -- build/*.shell-extension.zip
+
+      - name: Download subprojects
+        run: meson subprojects download pict
+        shell: pipetty bash -e {0}
+
+      - name: Reconfigure with extra checks
+        run: meson setup --reconfigure -Dpict=enabled build
+        shell: pipetty bash -e {0}
+
+      - name: Build extra check dependencies
+        run: ninja -j1 meson-test-prereq
         working-directory: build
         shell: pipetty bash -e {0}
 
-      - name: Check REUSE compliance of generated bundle
-        run: tox -e reuse-bundle -- build/*.shell-extension.zip
+      - name: Run checks
+        run: meson test -j1 --no-rebuild --print-errorlogs --no-stdsplit
+        working-directory: build
+        shell: pipetty bash -e {0}
 
       - name: Generate a list of input files
         id: ninja-inputs

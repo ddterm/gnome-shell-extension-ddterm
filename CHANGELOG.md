@@ -18,11 +18,17 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 ### Added
 
+- Building PICT as a Meson subproject and updating the test cases through
+Meson/ninja: [#2139]. Adds `pict` Meson option, `disabled` by default,
+and should be kept disabled in most cases.
+
 ### Changed
 
 ### Removed
 
 ### Fixed
+
+[#2139]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2139
 
 [Unreleased]: https://github.com/ddterm/gnome-shell-extension-ddterm/compare/v64.0.0...HEAD
 

@@ -29,7 +29,7 @@ pkgver() {
 }
 
 prepare() {
-    meson subprojects download --sourcedir "$startdir"
+    meson subprojects download --sourcedir "$startdir" gjs-typelib-installer
 }
 
 build() {
@@ -43,6 +43,7 @@ build() {
         "-Dtests=$tests_feature"
         -Dtests_x11=disabled
         "-Dtests_wl_clipboard=$tests_feature"
+        -Dpict=disabled
     )
 
     arch-meson "$startdir" build "${meson_options[@]}"

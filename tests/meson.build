@@ -138,3 +138,5 @@ if pytest_enabled
     )
   endif
 endif
+
+subdir('pict')

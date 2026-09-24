@@ -9,6 +9,7 @@
 # Meson subprojects
 /subprojects/.wraplock
 /subprojects/gjs-typelib-installer/
+/subprojects/pict/
 
 # Python
 .tox/
