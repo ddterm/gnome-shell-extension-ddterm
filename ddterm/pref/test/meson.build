@@ -23,3 +23,15 @@ run_target(
   command: [gjs, '-m', fs.copyfile('gtk4.js')],
   depends: [pref_test_common_files],
 )
+
+run_target(
+  'pref-gtk3-shortcut-test',
+  command: [gjs, '-m', fs.copyfile('gtk3-shortcut.js')],
+  depends: [pref_test_common_files],
+)
+
+run_target(
+  'pref-gtk4-shortcut-test',
+  command: [gjs, '-m', fs.copyfile('gtk4-shortcut.js')],
+  depends: [pref_test_common_files],
+)
