@@ -4,6 +4,8 @@
 
 schema = files(f'@settings_schema@.gschema.xml')
 
+glib_compile_schemas_tool = find_program('glib-compile-schemas', native: true)
+
 schemas_compiled = custom_target(
   command: [
     glib_compile_schemas_tool,
