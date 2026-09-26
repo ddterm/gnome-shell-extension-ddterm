@@ -65,12 +65,12 @@ function gen_version_info() {
     const lines = [];
     const app_version = get_version();
 
-    lines.push(`${metadata.name} ${app_version}`);
+    lines.push(`ddterm application\tv${app_version}`);
 
     try {
         const ext_version = get_extension_version();
 
-        lines.push(`Extension ${ext_version}`);
+        lines.push(`ddterm shell extension\tv${ext_version}`);
 
         if (!ext_version) {
             lines.push(Gettext.gettext("Can't read the version of the loaded extension."));
