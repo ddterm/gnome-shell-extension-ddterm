@@ -61,25 +61,61 @@ function get_extension_version() {
     return name || version;
 }
 
-function print_version_info() {
+function gen_version_info() {
+    const lines = [];
     const app_version = get_version();
 
-    print(metadata.name, app_version);
+    lines.push(`${metadata.name} ${app_version}`);
 
     try {
         const ext_version = get_extension_version();
 
-        print('Extension', ext_version);
+        lines.push(`Extension ${ext_version}`);
 
         if (!ext_version) {
-            print(Gettext.gettext("Can't read the version of the loaded extension."));
+            lines.push(Gettext.gettext("Can't read the version of the loaded extension."));
         } else if (app_version !== ext_version) {
-            print(Gettext.gettext('Warning: ddterm version has changed'));
-            print(Gettext.gettext('Log out, then log in again to load the updated extension.'));
+            lines.push(Gettext.gettext('Warning: ddterm version has changed'));
+            lines.push(
+                Gettext.gettext('Log out, then log in again to load the updated extension.')
+            );
         }
     } catch (ex) {
         logError(ex, "Can't get extension information from GNOME Shell");
     }
+
+    return lines;
+}
+
+function print_version_info() {
+    for (const line of gen_version_info())
+        print(line);
+}
+
+function print_fancy_version() {
+    const trans = {
+        ' ': '  ',
+        'r': '\x1B[1;31m\u2587\u2587\x1B[m',
+        'y': '\x1B[1;93m\u2587\u2587\x1B[m',
+    };
+
+    const logo = [
+        '      y   y',
+        ' r    y   y',
+        '  r yyy yyy',
+        ' r  y y y y',
+        '    yyy yyy',
+    ].map(line => [...line].map(c => trans[c]).join(''));
+
+    const version = gen_version_info();
+    const linecolor = ['', '\x1B[1;96m', '\x1B[1;92m'];
+
+    print('\x1B[m');
+
+    for (let i = 0; i < Math.max(logo.length, version.length + 1); i++)
+        print(logo[i] ?? '', linecolor[i] ?? '\x1B[1;91m', version[i - 1] ?? '', '\x1B[m');
+
+    print('\x1B[m');
 }
 
 export class Application extends Gtk.Application {
@@ -156,6 +192,15 @@ export class Application extends Gtk.Application {
             GLib.OptionFlags.NONE,
             GLib.OptionArg.NONE,
             Gettext.gettext('Show version information and exit'),
+            null
+        );
+
+        this.add_main_option(
+            'fancy-version',
+            0,
+            GLib.OptionFlags.HIDDEN,
+            GLib.OptionArg.NONE,
+            '',
             null
         );
 
@@ -549,6 +594,11 @@ export class Application extends Gtk.Application {
     #handle_local_options(options) {
         if (options.lookup('version')) {
             print_version_info();
+            return 0;
+        }
+
+        if (options.lookup('fancy-version')) {
+            print_fancy_version();
             return 0;
         }
 
