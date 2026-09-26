@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/\n"
-"POT-Creation-Date: 2026-09-15 14:41+0000\n"
+"POT-Creation-Date: 2026-09-26 07:13+0200\n"
 "PO-Revision-Date: 2026-07-03 14:59+0000\n"
 "Last-Translator: SUYEONG JANG <soo.wim3@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/ko/>\n"
@@ -52,63 +52,63 @@ msgstr "SUYEONG JANG https://github.com/seuimi"
 msgid "Contributors"
 msgstr "기여자"
 
-#: ddterm/app/application.js:85
+#: ddterm/app/application.js:75
 msgid "Can't read the version of the loaded extension."
 msgstr "불러온 확장 기능의 버전을 읽을 수 없습니다."
 
-#: ddterm/app/application.js:87 ddterm/shell/notifications.js:87
+#: ddterm/app/application.js:77 ddterm/shell/notifications.js:87
 msgid "Warning: ddterm version has changed"
 msgstr "경고: ddterm 버전이 변경되었습니다"
 
-#: ddterm/app/application.js:88 ddterm/shell/notifications.js:89
+#: ddterm/app/application.js:78 ddterm/shell/notifications.js:89
 msgid "Log out, then log in again to load the updated extension."
 msgstr "업데이트된 확장 기능을 불러오려면 로그아웃한 후 다시 로그인해 주세요."
 
-#: ddterm/app/application.js:132
+#: ddterm/app/application.js:122
 msgid "Start the application, but do not show the window"
 msgstr "창을 표시하지 않고 실행"
 
-#: ddterm/app/application.js:141
+#: ddterm/app/application.js:131
 msgid "Comma-separated list of backends that GDK should try to use"
 msgstr "GDK가 사용할 백엔드 목록 (쉼표로 구분)"
 
-#: ddterm/app/application.js:168
+#: ddterm/app/application.js:158
 msgid "Show version information and exit"
 msgstr "버전 정보 표시 및 종료"
 
-#: ddterm/app/application.js:177
+#: ddterm/app/application.js:167
 msgid "Run the specified command"
 msgstr "지정한 명령어 실행"
 
-#: ddterm/app/application.js:191
+#: ddterm/app/application.js:181
 msgid "Wait for the command to exit, and return its exit code"
 msgstr "명령어 종료 후 종료 코드 반환"
 
-#: ddterm/app/application.js:200
+#: ddterm/app/application.js:190
 msgid "Set the working directory"
 msgstr "작업 디렉터리 설정"
 
-#: ddterm/app/application.js:209
+#: ddterm/app/application.js:199
 msgid "Set tab title"
 msgstr "탭 제목 설정"
 
-#: ddterm/app/application.js:218
+#: ddterm/app/application.js:208
 msgid "Keep the terminal open after the command has exited"
 msgstr "명령어 종료 후 터미널 유지"
 
-#: ddterm/app/application.js:227
+#: ddterm/app/application.js:217
 msgid "Do not pass the environment"
 msgstr "환경 변수 전달 제외"
 
-#: ddterm/app/application.js:236
+#: ddterm/app/application.js:226
 msgid "Open a new tab"
 msgstr "새 탭 열기"
 
-#: ddterm/app/application.js:612
+#: ddterm/app/application.js:602
 msgid "Can't contact the extension."
 msgstr "확장 기능에 연결할 수 없습니다."
 
-#: ddterm/app/application.js:614
+#: ddterm/app/application.js:604
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr "ddterm GNOME Shell 확장 기능이 활성화되어 있는지 확인해 주세요."
 
