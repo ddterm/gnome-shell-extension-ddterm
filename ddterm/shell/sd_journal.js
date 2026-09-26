@@ -4,21 +4,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import GLib from 'gi://GLib';
+import GLibUnix from 'gi://GLibUnix';
 import Gio from 'gi://Gio';
-
-import Gi from 'gi';
-
-function try_require(namespace, version = undefined) {
-    try {
-        return Gi.require(namespace, version);
-    } catch (ex) {
-        logError(ex);
-        return null;
-    }
-}
-
-const GLibUnix = GLib.check_version(2, 79, 2) === null ? try_require('GLibUnix') : null;
-const set_fd_nonblocking = GLibUnix?.set_fd_nonblocking ?? GLib.unix_set_fd_nonblocking;
 
 /* We only care about Linux here, because otherwise it won't be systemd */
 const SOL_SOCKET = 1;
@@ -75,7 +62,7 @@ export function sd_journal_stream_fd(identifier, priority = LOG_INFO, level_pref
     }
 
     try {
-        set_fd_nonblocking(fd, true);
+        GLibUnix.set_fd_nonblocking(fd, true);
         return fd;
     } catch (ex) {
         GLib.close(fd);

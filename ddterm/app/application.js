@@ -9,6 +9,7 @@
 import './init.js';
 
 import GLib from 'gi://GLib';
+import GLibUnix from 'gi://GLibUnix';
 import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
 import Gdk from 'gi://Gdk';
@@ -16,7 +17,6 @@ import Gtk from 'gi://Gtk';
 import Handy from 'gi://Handy';
 
 import Gettext from 'gettext';
-import Gi from 'gi';
 import System from 'system';
 
 import { AboutDialog } from './about.js';
@@ -27,17 +27,7 @@ import { TerminalSettings, TerminalSettingsParser } from './terminalsettings.js'
 import { PrefsDialog } from '../pref/dialog.js';
 import { DisplayConfig } from '../util/displayconfig.js';
 
-function try_require(namespace, version = undefined) {
-    try {
-        return Gi.require(namespace, version);
-    } catch (ex) {
-        logError(ex);
-        return null;
-    }
-}
-
-const GLibUnix = GLib.check_version(2, 79, 2) === null ? try_require('GLibUnix') : null;
-const signal_add = GLibUnix?.signal_add ?? GLibUnix?.signal_add_full ?? GLib.unix_signal_add;
+const signal_add = GLibUnix?.signal_add ?? GLibUnix?.signal_add_full;
 
 function is_dbus_interface_error(ex) {
     if (!(ex instanceof GLib.Error))

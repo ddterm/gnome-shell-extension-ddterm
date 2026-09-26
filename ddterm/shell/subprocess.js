@@ -5,24 +5,11 @@
 import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
+import GioUnix from 'gi://GioUnix';
 import GnomeDesktop from 'gi://GnomeDesktop';
 import Meta from 'gi://Meta';
 
-import Gi from 'gi';
-
 import { sd_journal_stream_fd } from './sd_journal.js';
-
-function try_require(namespace, version = undefined) {
-    try {
-        return Gi.require(namespace, version);
-    } catch (ex) {
-        logError(ex);
-        return null;
-    }
-}
-
-const GioUnix = GLib.check_version(2, 79, 2) === null ? try_require('GioUnix') : null;
-const UnixOutputStream = GioUnix?.OutputStream ?? Gio.UnixOutputStream;
 
 const SIGTERM = 15;
 
@@ -99,7 +86,7 @@ class JournalctlLogCollector {
 class TeeLogCollector {
     constructor(stream) {
         this._input = stream;
-        this._output = new UnixOutputStream({ fd: STDERR_FD, close_fd: false });
+        this._output = new GioUnix.OutputStream({ fd: STDERR_FD, close_fd: false });
         this._collected = [];
         this._collected_lines = 0;
         this._promise = new Promise((resolve, reject) => {
