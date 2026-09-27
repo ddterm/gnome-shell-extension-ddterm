@@ -26,9 +26,12 @@ and should be kept disabled in most cases.
 
 ### Removed
 
+- Compatibility code that's dead now: [#2147].
+
 ### Fixed
 
 [#2139]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2139
+[#2147]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2147
 
 [Unreleased]: https://github.com/ddterm/gnome-shell-extension-ddterm/compare/v64.0.0...HEAD
 
