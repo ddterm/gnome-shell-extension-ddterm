@@ -12,8 +12,10 @@ import { DisplayConfig } from '../util/displayconfig.js';
 
 const AdwOrHdy = Gi.require(Gtk.get_major_version() === 3 ? 'Handy' : 'Adw');
 
-export const PrefsDialog = GObject.registerClass({
-    Properties: {
+export class PrefsDialog extends AdwOrHdy.PreferencesWindow {
+    static [GObject.GTypeName] = 'DDTermPrefsDialog';
+
+    static [GObject.properties] = {
         'settings': GObject.ParamSpec.object(
             'settings',
             null,
@@ -34,11 +36,16 @@ export const PrefsDialog = GObject.registerClass({
             null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY
         ),
-    },
-    Signals: {
+    };
+
+    static [GObject.signals] = {
         'loaded': {},
-    },
-}, class DDTermPrefsDialog extends AdwOrHdy.PreferencesWindow {
+    };
+
+    static {
+        GObject.registerClass(this);
+    }
+
     #load_promise;
 
     constructor(params) {
@@ -68,6 +75,6 @@ export const PrefsDialog = GObject.registerClass({
     wait_loaded() {
         return this.#load_promise;
     }
-});
+}
 
 export default PrefsDialog;

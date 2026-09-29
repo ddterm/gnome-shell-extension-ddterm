@@ -30,8 +30,11 @@ and should be kept disabled in most cases.
 
 ### Fixed
 
+- Upgraded more code to modern GObject subclass syntax: [#2152].
+
 [#2139]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2139
 [#2147]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2147
+[#2152]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2152
 
 [Unreleased]: https://github.com/ddterm/gnome-shell-extension-ddterm/compare/v64.0.0...HEAD
 
