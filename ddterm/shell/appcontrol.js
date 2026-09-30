@@ -60,8 +60,10 @@ async function wait_property(object, property, predicate, cancellable = null) {
     return result;
 }
 
-export const AppControl = GObject.registerClass({
-    Properties: {
+export class AppControl extends GObject.Object {
+    static [GObject.GTypeName] = 'DDTermAppControl';
+
+    static [GObject.properties] = {
         'service': GObject.ParamSpec.object(
             'service',
             null,
@@ -96,8 +98,12 @@ export const AppControl = GObject.registerClass({
             null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY
         ),
-    },
-}, class DDTermAppControl extends GObject.Object {
+    };
+
+    static {
+        GObject.registerClass(this);
+    }
+
     #actions = null;
     #actions_owner = null;
     #cancellable = null;
@@ -260,4 +266,4 @@ export const AppControl = GObject.registerClass({
         this.actions.activate_action('quit', null);
         return true;
     }
-});
+}
