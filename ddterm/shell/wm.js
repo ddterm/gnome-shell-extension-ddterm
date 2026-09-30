@@ -29,8 +29,10 @@ const MOUSE_RESIZE_GRABS = [
 
 const MAJOR_VERSION = Number(Config.PACKAGE_VERSION.split('.')[0]);
 
-export const WindowManager = GObject.registerClass({
-    Properties: {
+export class WindowManager extends GObject.Object {
+    static [GObject.GTypeName] = 'DDTermWindowManager';
+
+    static [GObject.properties] = {
         'settings': GObject.ParamSpec.object(
             'settings',
             null,
@@ -72,14 +74,19 @@ export const WindowManager = GObject.registerClass({
             null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY
         ),
-    },
-    Signals: {
+    };
+
+    static [GObject.signals] = {
         'hide-request': {},
         'move-resize-requested': {
             param_types: [Mtk.Rectangle.$gtype],
         },
-    },
-}, class DDTermWindowManager extends GObject.Object {
+    };
+
+    static {
+        GObject.registerClass(this);
+    }
+
     #mutter_settings;
     #actor;
     #client_type;
@@ -722,4 +729,4 @@ export const WindowManager = GObject.registerClass({
 
         this.#restore_auto_maximize();
     }
-});
+}
