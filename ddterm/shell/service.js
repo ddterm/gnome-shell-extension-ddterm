@@ -7,8 +7,10 @@ import Gio from 'gi://Gio';
 
 import { Subprocess, WaylandSubprocess } from './subprocess.js';
 
-export const Service = GObject.registerClass({
-    Properties: {
+export class Service extends GObject.Object {
+    static [GObject.GTypeName] = 'DDTermService';
+
+    static [GObject.properties] = {
         'bus': GObject.ParamSpec.object(
             'bus',
             null,
@@ -86,13 +88,18 @@ export const Service = GObject.registerClass({
             GObject.ParamFlags.READABLE,
             false
         ),
-    },
-    Signals: {
+    };
+
+    static [GObject.signals] = {
         'error': {
             param_types: [Object],
         },
-    },
-}, class DDTermService extends GObject.Object {
+    };
+
+    static {
+        GObject.registerClass(this);
+    }
+
     #starting = false;
     #subprocess = null;
     #subprocess_running = false;
@@ -269,4 +276,4 @@ export const Service = GObject.registerClass({
             this.notify('starting');
         }
     }
-});
+}
