@@ -12,8 +12,10 @@ import Mtk from 'gi://Mtk';
 
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 
-export const WindowGeometry = GObject.registerClass({
-    Properties: {
+export class WindowGeometry extends GObject.Object {
+    static [GObject.GTypeName] = 'DDTermWindowGeometry';
+
+    static [GObject.properties] = {
         'target-rect': GObject.ParamSpec.boxed(
             'target-rect',
             null,
@@ -100,11 +102,16 @@ export const WindowGeometry = GObject.registerClass({
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             ''
         ),
-    },
-    Signals: {
+    };
+
+    static [GObject.signals] = {
         'updated': {},
-    },
-}, class DDTermWindowGeometry extends GObject.Object {
+    };
+
+    static {
+        GObject.registerClass(this);
+    }
+
     #workareas_changed_handler;
     #target_rect = null;
     #workarea = null;
@@ -379,4 +386,4 @@ export const WindowGeometry = GObject.registerClass({
     on_notify() {
         this.#notify_emitted = true;
     }
-});
+}
