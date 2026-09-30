@@ -13,8 +13,10 @@ import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js';
 import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
 
-const PanelIconBase = GObject.registerClass({
-    Properties: {
+class PanelIconBase extends PanelMenu.Button {
+    static [GObject.GTypeName] = 'DDTermPanelIconBase';
+
+    static [GObject.properties] = {
         'active': GObject.ParamSpec.boolean(
             'active',
             null,
@@ -22,14 +24,19 @@ const PanelIconBase = GObject.registerClass({
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             false
         ),
-    },
-    Signals: {
+    };
+
+    static [GObject.signals] = {
         'open-preferences': {},
         'show-about-dialog': {},
-    },
-}, class DDTermPanelIconBase extends PanelMenu.Button {
-    _init(dontCreateMenu, icon, gettext_domain) {
-        super._init(0.5, gettext_domain.gettext('ddterm'), dontCreateMenu);
+    };
+
+    static {
+        GObject.registerClass(this);
+    }
+
+    constructor(dontCreateMenu, icon, gettext_domain) {
+        super(0.5, gettext_domain.gettext('ddterm'), dontCreateMenu);
 
         this.name = 'ddterm-panel-icon';
 
@@ -38,41 +45,50 @@ const PanelIconBase = GObject.registerClass({
             style_class: 'system-status-icon',
         }));
     }
-});
+}
 
-const PanelIconPopupMenu = GObject.registerClass({
-}, class DDTermPanelIconPopupMenu extends PanelIconBase {
-    _init(icon, gettext_domain) {
-        super._init(false, icon, gettext_domain);
+class PanelIconPopupMenu extends PanelIconBase {
+    static [GObject.GTypeName] = 'DDTermPanelIconPopupMenu';
 
-        this.toggle_item = new PopupMenu.PopupSwitchMenuItem(
+    static {
+        GObject.registerClass(this);
+    }
+
+    #about_item;
+    #preferences_item;
+    #toggle_item;
+
+    constructor(icon, gettext_domain) {
+        super(false, icon, gettext_domain);
+
+        this.#toggle_item = new PopupMenu.PopupSwitchMenuItem(
             gettext_domain.gettext('Show'),
             false
         );
-        this.menu.addMenuItem(this.toggle_item);
-        this.toggle_item.connect('toggled', () => {
-            this.active = this.toggle_item.state;
+        this.menu.addMenuItem(this.#toggle_item);
+        this.#toggle_item.connect('toggled', () => {
+            this.active = this.#toggle_item.state;
         });
         this.connect('notify::active', () => {
             const value = this.active;
 
-            if (this.toggle_item.state !== value)
-                this.toggle_item.setToggleState(value);
+            if (this.#toggle_item.state !== value)
+                this.#toggle_item.setToggleState(value);
         });
 
-        this.preferences_item = new PopupMenu.PopupMenuItem(
+        this.#preferences_item = new PopupMenu.PopupMenuItem(
             gettext_domain.gettext('Preferences…')
         );
-        this.menu.addMenuItem(this.preferences_item);
-        this.preferences_item.connect('activate', () => {
+        this.menu.addMenuItem(this.#preferences_item);
+        this.#preferences_item.connect('activate', () => {
             this.emit('open-preferences');
         });
 
-        this.about_item = new PopupMenu.PopupMenuItem(
+        this.#about_item = new PopupMenu.PopupMenuItem(
             gettext_domain.gettext('About ddterm')
         );
-        this.menu.addMenuItem(this.about_item);
-        this.about_item.connect('activate', () => {
+        this.menu.addMenuItem(this.#about_item);
+        this.#about_item.connect('activate', () => {
             this.emit('show-about-dialog');
         });
     }
@@ -80,23 +96,28 @@ const PanelIconPopupMenu = GObject.registerClass({
     static type_name() {
         return 'menu-button';
     }
-});
+}
 
-const PanelIconToggleButton = GObject.registerClass({
-}, class DDTermPanelIconToggleButton extends PanelIconBase {
-    _init(icon, gettext_domain) {
-        super._init(true, icon, gettext_domain);
+class PanelIconToggleButton extends PanelIconBase {
+    static [GObject.GTypeName] = 'DDTermPanelIconToggleButton';
+
+    static {
+        GObject.registerClass(this);
+    }
+
+    constructor(icon, gettext_domain) {
+        super(true, icon, gettext_domain);
 
         this.accessible_role = Atk.Role.TOGGLE_BUTTON;
 
         this.connect('notify::active', () => {
-            this._update();
+            this.#update();
         });
 
-        this._update();
+        this.#update();
     }
 
-    _update() {
+    #update() {
         if (this.active) {
             this.add_style_pseudo_class('active');
             this.add_accessible_state(Atk.StateType.CHECKED);
@@ -117,21 +138,26 @@ const PanelIconToggleButton = GObject.registerClass({
 
         return Clutter.EVENT_PROPAGATE;
     }
-});
+}
 
-const PanelIconToggleAndMenu = GObject.registerClass({
-}, class DDTermPanelIconToggleAndMenu extends PanelIconPopupMenu {
-    _init(icon, gettext_domain) {
-        super._init(icon, gettext_domain);
+class PanelIconToggleAndMenu extends PanelIconPopupMenu {
+    static [GObject.GTypeName] = 'DDTermPanelIconToggleAndMenu';
 
-        this.connect('notify::active', () => {
-            this._update();
-        });
-
-        this._update();
+    static {
+        GObject.registerClass(this);
     }
 
-    _update() {
+    constructor(icon, gettext_domain) {
+        super(icon, gettext_domain);
+
+        this.connect('notify::active', () => {
+            this.#update();
+        });
+
+        this.#update();
+    }
+
+    #update() {
         if (this.active) {
             this.add_style_pseudo_class('checked');
             this.add_accessible_state(Atk.StateType.CHECKED);
@@ -158,7 +184,7 @@ const PanelIconToggleAndMenu = GObject.registerClass({
 
         return Clutter.EVENT_PROPAGATE;
     }
-});
+}
 
 const TYPE_BY_NAME = {
     'none': null,
@@ -169,8 +195,10 @@ const TYPE_BY_NAME = {
     ].map(t => [t.type_name(), t])),
 };
 
-export const PanelIconProxy = GObject.registerClass({
-    Properties: {
+export class PanelIconProxy extends GObject.Object {
+    static [GObject.GTypeName] = 'DDTermPanelIconProxy';
+
+    static [GObject.properties] = {
         'active': GObject.ParamSpec.boolean(
             'active',
             null,
@@ -198,14 +226,19 @@ export const PanelIconProxy = GObject.registerClass({
             null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY
         ),
-    },
-    Signals: {
+    };
+
+    static [GObject.signals] = {
         'open-preferences': {},
         'show-about-dialog': {},
-    },
-}, class DDTermPanelIconProxy extends GObject.Object {
-    _init(params) {
-        super._init(params);
+    };
+
+    static {
+        GObject.registerClass(this);
+    }
+
+    constructor(params) {
+        super(params);
 
         this.icon = null;
     }
@@ -265,4 +298,4 @@ export const PanelIconProxy = GObject.registerClass({
         this.icon = null;
         this.notify('type-name');
     }
-});
+}
