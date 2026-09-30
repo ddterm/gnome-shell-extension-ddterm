@@ -46,8 +46,10 @@ function opacity_animation_mode(animation_mode) {
     }
 }
 
-export const Animation = GObject.registerClass({
-    Properties: {
+export class Animation extends GObject.Object {
+    static [GObject.GTypeName] = 'DDTermAnimation';
+
+    static [GObject.properties] = {
         'geometry': GObject.ParamSpec.object(
             'geometry',
             null,
@@ -99,8 +101,12 @@ export const Animation = GObject.registerClass({
             GObject.ParamFlags.READABLE,
             false
         ),
-    },
-}, class DDTermAnimation extends GObject.Object {
+    };
+
+    static {
+        GObject.registerClass(this);
+    }
+
     #should_skip;
     #should_override;
     #duration;
@@ -226,11 +232,16 @@ export const Animation = GObject.registerClass({
             GObject.BindingFlags.SYNC_CREATE | GObject.BindingFlags.INVERT_BOOLEAN
         );
     }
-});
+}
 
-export const ReverseAnimation = GObject.registerClass({
-}, class DDTermReverseAnimation extends Animation {
+export class ReverseAnimation extends Animation {
+    static [GObject.GTypeName] = 'DDTermReverseAnimation';
+
+    static {
+        GObject.registerClass(this);
+    }
+
     set_interval(transition, value) {
         transition.set_to(value);
     }
-});
+}
