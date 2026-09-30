@@ -158,8 +158,10 @@ class TeeLogCollector {
     }
 }
 
-export const Subprocess = GObject.registerClass({
-    Properties: {
+export class Subprocess extends GObject.Object {
+    static [GObject.GTypeName] = 'DDTermSubprocess';
+
+    static [GObject.properties] = {
         'journal-identifier': GObject.ParamSpec.string(
             'journal-identifier',
             null,
@@ -188,10 +190,16 @@ export const Subprocess = GObject.registerClass({
             GObject.ParamFlags.READABLE,
             Gio.Subprocess
         ),
-    },
-}, class DDTermSubprocess extends GObject.Object {
-    _init(params) {
-        super._init(params);
+    };
+
+    static {
+        GObject.registerClass(this);
+    }
+
+    #subprocess;
+
+    constructor(params) {
+        super(params);
 
         const start_date = GLib.DateTime.new_now_utc();
         const journalctl = GLib.find_program_in_path('journalctl');
@@ -213,18 +221,18 @@ export const Subprocess = GObject.registerClass({
         }
 
         try {
-            this._subprocess = this._spawn(subprocess_launcher);
+            this.#subprocess = this._spawn(subprocess_launcher);
         } finally {
             subprocess_launcher.close();
         }
 
         this.log_collector = logging_to_journald
-            ? new JournalctlLogCollector(journalctl, start_date, this._subprocess.get_identifier())
-            : new TeeLogCollector(this._subprocess.get_stdout_pipe());
+            ? new JournalctlLogCollector(journalctl, start_date, this.#subprocess.get_identifier())
+            : new TeeLogCollector(this.#subprocess.get_stdout_pipe());
 
         GnomeDesktop.start_systemd_scope(
             this.journal_identifier,
-            parseInt(this._subprocess.get_identifier(), 10),
+            parseInt(this.#subprocess.get_identifier(), 10),
             null,
             null,
             null,
@@ -233,7 +241,7 @@ export const Subprocess = GObject.registerClass({
     }
 
     get g_subprocess() {
-        return this._subprocess;
+        return this.#subprocess;
     }
 
     owns_window(win) {
@@ -242,14 +250,14 @@ export const Subprocess = GObject.registerClass({
         if (!win_pid)
             return false;
 
-        const identifier = this._subprocess.get_identifier();
+        const identifier = this.#subprocess.get_identifier();
 
         return identifier && identifier === win_pid.toString();
     }
 
     wait(cancellable = null) {
         return new Promise((resolve, reject) => {
-            this.g_subprocess.wait_async(cancellable, (source, result) => {
+            this.#subprocess.wait_async(cancellable, (source, result) => {
                 try {
                     resolve(source.wait_finish(result));
                 } catch (ex) {
@@ -261,7 +269,7 @@ export const Subprocess = GObject.registerClass({
 
     wait_check(cancellable = null) {
         return new Promise((resolve, reject) => {
-            this.g_subprocess.wait_check_async(cancellable, (source, result) => {
+            this.#subprocess.wait_check_async(cancellable, (source, result) => {
                 try {
                     resolve(source.wait_check_finish(result));
                 } catch (ex) {
@@ -272,17 +280,19 @@ export const Subprocess = GObject.registerClass({
     }
 
     terminate() {
-        this.g_subprocess.send_signal(SIGTERM);
+        this.#subprocess.send_signal(SIGTERM);
     }
 
     _spawn(subprocess_launcher) {
         log(`Starting subprocess: ${shell_join(this.argv)}`);
         return subprocess_launcher.spawnv(this.argv);
     }
-});
+}
 
-const WaylandSubprocessLegacy = GObject.registerClass({
-    Properties: {
+class WaylandSubprocessLegacy extends Subprocess {
+    static [GObject.GTypeName] = 'DDTermWaylandSubprocessLegacy';
+
+    static [GObject.properties] = {
         'wayland-client': GObject.ParamSpec.object(
             'wayland-client',
             null,
@@ -290,8 +300,12 @@ const WaylandSubprocessLegacy = GObject.registerClass({
             GObject.ParamFlags.READABLE,
             Meta.WaylandClient
         ),
-    },
-}, class DDTermWaylandSubprocessLegacy extends Subprocess {
+    };
+
+    static {
+        GObject.registerClass(this);
+    }
+
     owns_window(win) {
         return this.wayland_client.owns_window(win);
     }
@@ -318,10 +332,15 @@ const WaylandSubprocessLegacy = GObject.registerClass({
     get wayland_client() {
         return this._wayland_client;
     }
-});
+}
 
-const WaylandSubprocessNew = GObject.registerClass({
-}, class DDTermWaylandSubprocess extends WaylandSubprocessLegacy {
+class WaylandSubprocessNew extends WaylandSubprocessLegacy {
+    static [GObject.GTypeName] = 'DDTermWaylandSubprocess';
+
+    static {
+        GObject.registerClass(this);
+    }
+
     hide_from_window_list(win) {
         win.hide_from_window_list();
     }
@@ -341,7 +360,7 @@ const WaylandSubprocessNew = GObject.registerClass({
 
         return this._wayland_client.get_subprocess();
     }
-});
+}
 
 export const WaylandSubprocess =
     Meta.WaylandClient.new_subprocess ? WaylandSubprocessNew : WaylandSubprocessLegacy;
