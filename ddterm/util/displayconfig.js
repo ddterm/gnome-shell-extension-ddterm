@@ -22,8 +22,10 @@ const CURRENT_STATE_TYPE = GLib.VariantType.new_tuple([
     new GLib.VariantType('a{sv}'), // properties
 ]);
 
-export const DisplayConfig = GObject.registerClass({
-    Properties: {
+export class DisplayConfig extends GObject.Object {
+    static [GObject.GTypeName] = 'DDTermDisplayConfig';
+
+    static [GObject.properties] = {
         'dbus-connection': GObject.ParamSpec.object(
             'dbus-connection',
             null,
@@ -48,8 +50,12 @@ export const DisplayConfig = GObject.registerClass({
             2,
             0
         ),
-    },
-}, class DDTermDisplayConfig extends GObject.Object {
+    };
+
+    static {
+        GObject.registerClass(this);
+    }
+
     #current_state = null;
     #cancellable = null;
     #layout_mode = 0;
@@ -176,10 +182,12 @@ export const DisplayConfig = GObject.registerClass({
 
         this.#cancellable?.cancel();
     }
-});
+}
 
-export const Monitor = GObject.registerClass({
-    Properties: {
+export class Monitor extends GObject.Object {
+    static [GObject.GTypeName] = 'DDTermMonitor';
+
+    static [GObject.properties] = {
         'connector': GObject.ParamSpec.string(
             'connector',
             null,
@@ -215,8 +223,12 @@ export const Monitor = GObject.registerClass({
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             ''
         ),
-    },
-}, class DDTermMonitor extends GObject.Object {
+    };
+
+    static {
+        GObject.registerClass(this);
+    }
+
     static properties_from_variant(variant) {
         const ids = variant.get_child_value(0);
         const [connector, vendor, product, serial] = ids.deep_unpack();
@@ -230,11 +242,14 @@ export const Monitor = GObject.registerClass({
     matches(properties) {
         return Object.entries(properties).every(([k, v]) => this[k] === v);
     }
-});
+}
 
-export const MonitorList = GObject.registerClass({
-    Implements: [Gio.ListModel],
-    Properties: {
+export class MonitorList extends GObject.Object {
+    static [GObject.GTypeName] = 'DDTermMonitorList';
+
+    static [GObject.interfaces] = [Gio.ListModel];
+
+    static [GObject.properties] = {
         'current-state': GObject.param_spec_variant(
             'current-state',
             null,
@@ -243,8 +258,12 @@ export const MonitorList = GObject.registerClass({
             null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY
         ),
-    },
-}, class DDTermMonitorList extends GObject.Object {
+    };
+
+    static {
+        GObject.registerClass(this);
+    }
+
     #objects = [];
     #current_state = null;
 
@@ -310,4 +329,4 @@ export const MonitorList = GObject.registerClass({
         this.#current_state = value;
         this.notify('current-state');
     }
-});
+}
