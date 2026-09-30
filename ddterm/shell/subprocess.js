@@ -48,8 +48,10 @@ function shell_join(argv) {
 }
 
 class JournalctlLogCollector {
+    #argv;
+
     constructor(journalctl, since, pid) {
-        this._argv = [
+        this.#argv = [
             journalctl,
             '--user',
             '-b',
@@ -60,16 +62,16 @@ class JournalctlLogCollector {
         ];
     }
 
-    _begin(resolve, reject) {
+    #begin(resolve, reject) {
         const proc = Gio.Subprocess.new(
-            this._argv,
+            this.#argv,
             Gio.SubprocessFlags.STDOUT_PIPE | Gio.SubprocessFlags.STDERR_MERGE
         );
 
-        proc.communicate_utf8_async(null, null, this._finish.bind(this, resolve, reject));
+        proc.communicate_utf8_async(null, null, this.#finish.bind(this, resolve, reject));
     }
 
-    _finish(resolve, reject, source, result) {
+    #finish(resolve, reject, source, result) {
         try {
             const [, stdout_buf] = source.communicate_utf8_finish(result);
             resolve(stdout_buf);
@@ -79,36 +81,44 @@ class JournalctlLogCollector {
     }
 
     collect() {
-        return new Promise(this._begin.bind(this));
+        return new Promise(this.#begin.bind(this));
     }
 }
 
 class TeeLogCollector {
+    #input;
+    #output;
+    #collected;
+    #collected_lines;
+    #promise;
+    #resolve;
+    #reject;
+
     constructor(stream) {
-        this._input = stream;
-        this._output = new GioUnix.OutputStream({ fd: STDERR_FD, close_fd: false });
-        this._collected = [];
-        this._collected_lines = 0;
-        this._promise = new Promise((resolve, reject) => {
-            this._resolve = resolve;
-            this._reject = reject;
+        this.#input = stream;
+        this.#output = new GioUnix.OutputStream({ fd: STDERR_FD, close_fd: false });
+        this.#collected = [];
+        this.#collected_lines = 0;
+        this.#promise = new Promise((resolve, reject) => {
+            this.#resolve = resolve;
+            this.#reject = reject;
         });
 
-        this._read_more();
+        this.#read_more();
     }
 
-    _read_more() {
-        this._input.read_bytes_async(4096, GLib.PRIORITY_DEFAULT, null, this._read_done.bind(this));
+    #read_more() {
+        this.#input.read_bytes_async(4096, GLib.PRIORITY_DEFAULT, null, this.#read_done.bind(this));
     }
 
-    _read_done(source, result) {
+    #read_done(source, result) {
         try {
             const chunk = source.read_bytes_finish(result).toArray();
 
             if (chunk.length === 0) {
-                this._input.close(null);
-                this._output.close(null);
-                this._resolve();
+                this.#input.close(null);
+                this.#output.close(null);
+                this.#resolve();
                 return;
             }
 
@@ -120,41 +130,41 @@ class TeeLogCollector {
 
                 if (end === -1) {
                     if (start < chunk.length)
-                        this._collected.push(chunk.subarray(start));
+                        this.#collected.push(chunk.subarray(start));
 
                     break;
                 }
 
-                this._collected.push(chunk.subarray(start, end + 1));
-                this._collected_lines += 1;
+                this.#collected.push(chunk.subarray(start, end + 1));
+                this.#collected_lines += 1;
 
                 start = end + 1;
             }
 
             let remove = 0;
 
-            while (this._collected_lines > KEEP_LOG_LINES) {
-                const remove_chunk = this._collected[remove];
+            while (this.#collected_lines > KEEP_LOG_LINES) {
+                const remove_chunk = this.#collected[remove];
 
                 remove += 1;
 
                 if (remove_chunk[remove_chunk.length - 1] === delimiter)
-                    this._collected_lines -= 1;
+                    this.#collected_lines -= 1;
             }
 
-            this._collected.splice(0, remove);
-            this._output.write(chunk, null);
-            this._read_more();
+            this.#collected.splice(0, remove);
+            this.#output.write(chunk, null);
+            this.#read_more();
         } catch (ex) {
-            this._reject(ex);
+            this.#reject(ex);
         }
     }
 
     async collect() {
-        await this._promise;
+        await this.#promise;
 
         const decoder = new TextDecoder();
-        return this._collected.map(line => decoder.decode(line)).join('\n');
+        return this.#collected.map(line => decoder.decode(line)).join('\n');
     }
 }
 
