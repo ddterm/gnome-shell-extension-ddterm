@@ -20,8 +20,6 @@ The format is based on [Keep a Changelog], and this project adheres to
 ### Added
 
 - Start, center, and end alignment options for reduced work area size.
-- On X11, unused work area strips are transparent and pass pointer input
-  to underlying windows while terminal content and resize edges remain active.
 
 - Building PICT as a Meson subproject and updating the test cases through
 Meson/ninja: [#2139]. Adds `pict` Meson option, `disabled` by default,

@@ -1,5 +1,4 @@
 # SPDX-FileCopyrightText: 2024 Aleksandr Mezin <mezin.alexander@gmail.com>
-# SPDX-FileCopyrightText: 2026 spi
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -125,19 +124,6 @@ if pytest_enabled
   )
 
   if xvfb.found()
-    test(
-      'test_app.TestWorkareaX11',
-      pytest_tool,
-      args: [
-        pytest_common_args,
-        meson.current_source_dir() / 'test_app.py::TestWorkareaX11',
-      ],
-      depends: [bundle_target],
-      suite: ['pytest'],
-      protocol: 'gtest',
-      timeout: 2 * 60,
-    )
-
     test(
       'test_wm.TestX11',
       pytest_tool,

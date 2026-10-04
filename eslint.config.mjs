@@ -1,5 +1,4 @@
 // SPDX-FileCopyrightText: 2024 Aleksandr Mezin <mezin.alexander@gmail.com>
-// SPDX-FileCopyrightText: 2026 spi
 //
 // SPDX-License-Identifier: GPL-2.0-or-later
 
@@ -23,7 +22,7 @@ export default defineConfig([
             'import/resolver': fileURLToPath(
                 new URL('./tools/eslint-import-resolver.cjs', import.meta.url)
             ),
-            'import/core-modules': ['cairo', 'gettext', 'gi', 'system', 'console'],
+            'import/core-modules': ['gettext', 'gi', 'system', 'console'],
         },
     },
     gnome.configs.recommended,

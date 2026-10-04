@@ -12,8 +12,6 @@ import Gio from 'gi://Gio';
 import Gdk from 'gi://Gdk';
 import Gtk from 'gi://Gtk';
 
-import Cairo from 'cairo';
-
 import { TerminalSettings } from './terminalsettings.js';
 import { Notebook } from './notebook.js';
 import { DisplayConfig, LayoutMode } from '../util/displayconfig.js';
@@ -799,53 +797,10 @@ export class AppWindow extends Gtk.ApplicationWindow {
             style.remove_class('letterbox');
     }
 
-    #update_window_shape(allocation) {
-        if (!this.window || !this.get_display().supports_shapes())
-            return;
-
-        let region = null;
-
-        if (this.workarea < 1.0) {
-            const [ok, x, y] = this.paned.translate_coordinates(this, 0, 0);
-
-            if (!ok)
-                return;
-
-            const horizontal = this.position_setting === 'top' ||
-                this.position_setting === 'bottom';
-
-            // Keep the terminal and its resize edge; exclude unused strips.
-            // Use the allocated content size, including GTK/VTE minimum sizes.
-            region = new Cairo.Region();
-            region.unionRectangle({
-                x: horizontal ? x : 0,
-                y: horizontal ? 0 : y,
-                width: horizontal ? this.paned.get_allocated_width() : allocation.width,
-                height: horizontal ? allocation.height : this.paned.get_allocated_height(),
-            });
-        }
-
-        this.window.shape_combine_region(region, 0, 0);
-        // GDK's introspection does not permit null for the input shape.
-        const input_region = region ?? new Cairo.Region();
-
-        if (!region) {
-            input_region.unionRectangle({
-                x: 0,
-                y: 0,
-                width: allocation.width,
-                height: allocation.height,
-            });
-        }
-
-        this.window.input_shape_combine_region(input_region, 0, 0);
-    }
-
     vfunc_size_allocate(allocation) {
         this.#update_spacers(allocation);
 
         super.vfunc_size_allocate(allocation);
-        this.#update_window_shape(allocation);
     }
 
     serialize_state() {
