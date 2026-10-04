@@ -1,4 +1,5 @@
 // SPDX-FileCopyrightText: 2020 Aleksandr Mezin <mezin.alexander@gmail.com>
+// SPDX-FileCopyrightText: 2026 spi
 // SPDX-FileContributor: Juan M. Cruz-Martinez
 // SPDX-FileContributor: Jackson Goode
 // SPDX-FileContributor: Finn van Riper
@@ -10,6 +11,8 @@ import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
 import Gdk from 'gi://Gdk';
 import Gtk from 'gi://Gtk';
+
+import Cairo from 'cairo';
 
 import { TerminalSettings } from './terminalsettings.js';
 import { Notebook } from './notebook.js';
@@ -234,6 +237,13 @@ export class AppWindow extends Gtk.ApplicationWindow {
             1.0,
             1.0
         ),
+        'workarea-alignment': GObject.ParamSpec.string(
+            'workarea-alignment',
+            null,
+            null,
+            GObject.ParamFlags.READWRITE,
+            'center'
+        ),
         'background-opacity': GObject.ParamSpec.double(
             'background-opacity',
             null,
@@ -332,6 +342,7 @@ export class AppWindow extends Gtk.ApplicationWindow {
 
         this.connect('notify::position-setting', () => this.#update_spacers());
         this.connect('notify::workarea', () => this.#update_spacers());
+        this.connect('notify::workarea-alignment', () => this.#update_spacers());
         this.#update_spacers();
 
         this.connect('notify::screen', this.#update_visual.bind(this));
@@ -461,6 +472,13 @@ export class AppWindow extends Gtk.ApplicationWindow {
             'workarea-size',
             this,
             'workarea',
+            Gio.SettingsBindFlags.GET
+        );
+
+        settings.bind(
+            'workarea-alignment',
+            this,
+            'workarea-alignment',
             Gio.SettingsBindFlags.GET
         );
 
@@ -745,43 +763,89 @@ export class AppWindow extends Gtk.ApplicationWindow {
         if (!allocation)
             allocation = this.get_allocation();
 
-        const spacer_size = (1.0 - this.workarea) * 0.5;
-        const { position_setting } = this;
+        const { position_setting, workarea_alignment } = this;
+        const unused_size = 1.0 - this.workarea;
+        const leading_size = workarea_alignment === 'start'
+            ? 0
+            : unused_size * (workarea_alignment === 'end' ? 1 : 0.5);
+        const trailing_size = unused_size - leading_size;
+        const horizontal = position_setting === 'top' || position_setting === 'bottom';
+        const vertical = position_setting === 'left' || position_setting === 'right';
 
-        const spacer_width = position_setting === 'top' || position_setting === 'bottom'
-            ? Math.floor(allocation.width * spacer_size)
-            : 0;
+        const west = horizontal ? Math.floor(allocation.width * leading_size) : 0;
+        const east = horizontal ? Math.floor(allocation.width * trailing_size) : 0;
+        const north = vertical ? Math.floor(allocation.height * leading_size) : 0;
+        const south = vertical ? Math.floor(allocation.height * trailing_size) : 0;
 
-        const spacer_height = position_setting === 'left' || position_setting === 'right'
-            ? Math.floor(allocation.height * spacer_size)
-            : 0;
-
-        this._spacer_east.visible = spacer_width > 0;
-        this._spacer_east.preferred_width = spacer_width;
-        this._spacer_west.visible = spacer_width > 0;
-        this._spacer_west.preferred_width = spacer_width;
-        this._spacer_north.visible = spacer_height > 0;
-        this._spacer_north.preferred_height = spacer_height;
-        this._spacer_south.visible = spacer_height > 0;
-        this._spacer_south.preferred_height = spacer_height;
+        this._spacer_west.visible = west > 0;
+        this._spacer_west.preferred_width = west;
+        this._spacer_east.visible = east > 0;
+        this._spacer_east.preferred_width = east;
+        this._spacer_north.visible = north > 0;
+        this._spacer_north.preferred_height = north;
+        this._spacer_south.visible = south > 0;
+        this._spacer_south.preferred_height = south;
 
         const style = this.get_style_context();
 
-        if (spacer_width > 0)
+        if (west > 0 || east > 0)
             style.add_class('pillarbox');
         else
             style.remove_class('pillarbox');
 
-        if (spacer_height > 0)
+        if (north > 0 || south > 0)
             style.add_class('letterbox');
         else
             style.remove_class('letterbox');
+    }
+
+    #update_window_shape(allocation) {
+        if (!this.window || !this.get_display().supports_shapes())
+            return;
+
+        let region = null;
+
+        if (this.workarea < 1.0) {
+            const [ok, x, y] = this.paned.translate_coordinates(this, 0, 0);
+
+            if (!ok)
+                return;
+
+            const horizontal = this.position_setting === 'top' ||
+                this.position_setting === 'bottom';
+
+            // Keep the terminal and its resize edge; exclude unused strips.
+            // Use the allocated content size, including GTK/VTE minimum sizes.
+            region = new Cairo.Region();
+            region.unionRectangle({
+                x: horizontal ? x : 0,
+                y: horizontal ? 0 : y,
+                width: horizontal ? this.paned.get_allocated_width() : allocation.width,
+                height: horizontal ? allocation.height : this.paned.get_allocated_height(),
+            });
+        }
+
+        this.window.shape_combine_region(region, 0, 0);
+        // GDK's introspection does not permit null for the input shape.
+        const input_region = region ?? new Cairo.Region();
+
+        if (!region) {
+            input_region.unionRectangle({
+                x: 0,
+                y: 0,
+                width: allocation.width,
+                height: allocation.height,
+            });
+        }
+
+        this.window.input_shape_combine_region(input_region, 0, 0);
     }
 
     vfunc_size_allocate(allocation) {
         this.#update_spacers(allocation);
 
         super.vfunc_size_allocate(allocation);
+        this.#update_window_shape(allocation);
     }
 
     serialize_state() {

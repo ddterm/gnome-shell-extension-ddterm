@@ -2,6 +2,7 @@
 
 <!--
 SPDX-FileCopyrightText: 2020 Aleksandr Mezin <mezin.alexander@gmail.com>
+SPDX-FileCopyrightText: 2026 spi
 SPDX-FileContributor: Mohammad Javad Naderi
 SPDX-FileContributor: Juan M. Cruz-Martinez
 SPDX-FileContributor: Jackson Goode
@@ -12,6 +13,12 @@ SPDX-License-Identifier: GPL-3.0-or-later
 -->
 
 <schemalist>
+  <enum id="org.gnome.shell.extensions.ddterm.WorkareaAlignment">
+    <value nick="start" value="0"/>
+    <value nick="center" value="1"/>
+    <value nick="end" value="2"/>
+  </enum>
+
   <enum id="org.gnome.shell.extensions.ddterm.Command">
     <value nick="user-shell" value="0" />
     <value nick="user-shell-login" value="1" />
@@ -142,6 +149,9 @@ SPDX-License-Identifier: GPL-3.0-or-later
     <key name="workarea-size" type="d">
       <default>1.0</default>
       <range min="0.0" max="1.0"/>
+    </key>
+    <key name="workarea-alignment" enum="org.gnome.shell.extensions.ddterm.WorkareaAlignment">
+      <default>'center'</default>
     </key>
     <key name="window-maximize" type="b">
       <default>false</default>

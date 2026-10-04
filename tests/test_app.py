@@ -1,8 +1,10 @@
 # SPDX-FileCopyrightText: 2024 Aleksandr Mezin <mezin.alexander@gmail.com>
+# SPDX-FileCopyrightText: 2026 spi
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import logging
+import math
 import pathlib
 import shlex
 import subprocess
@@ -172,6 +174,65 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
     @classmethod
     def launcher_path(cls, extension_path):
         return extension_path / 'bin' / 'com.github.amezin.ddterm'
+
+    @pytest.mark.usefixtures('app_active')
+    @pytest.mark.parametrize('position', ('top', 'bottom', 'left', 'right'))
+    def test_workarea_alignment(
+        self,
+        settings_test_hook,
+        app_debug_dbus_interface,
+        position,
+    ):
+        settings_test_hook.window_position = position
+        horizontal = position in ('top', 'bottom')
+
+        try:
+            for size in (0.8, 0.0, 1.0):
+                settings_test_hook.workarea_size = size
+
+                for alignment, leading_fraction in (('start', 0), ('end', 1), ('center', 0.5)):
+                    settings_test_hook.workarea_alignment = alignment
+                    app_debug_dbus_interface.WaitIdle()
+                    app_debug_dbus_interface.WaitFrame()
+
+                    state = app_debug_dbus_interface.Eval("""
+                        (() => {
+                            const win = this.window;
+                            const allocation = win.get_allocation();
+                            const style = win.get_style_context();
+                            return {
+                                width: allocation.width,
+                                height: allocation.height,
+                                alignment: win.workarea_alignment,
+                                spacers: ['west', 'east', 'north', 'south'].map(side => {
+                                    const spacer = win[`_spacer_${side}`];
+                                    return [spacer.preferred_width, spacer.preferred_height,
+                                            spacer.visible];
+                                }),
+                                pillarbox: style.has_class('pillarbox'),
+                                letterbox: style.has_class('letterbox'),
+                            };
+                        })()
+                    """)
+
+                    assert state['alignment'] == alignment
+                    length = state['width'] if horizontal else state['height']
+                    unused = 1.0 - size
+                    leading = math.floor(length * (unused * leading_fraction))
+                    trailing = math.floor(length * (unused - unused * leading_fraction))
+                    widths = [leading, trailing, 0, 0] if horizontal else [0, 0, 0, 0]
+                    heights = [0, 0, 0, 0] if horizontal else [0, 0, leading, trailing]
+
+                    assert state['spacers'] == [
+                        [width, height, width > 0 or height > 0]
+                        for width, height in zip(widths, heights)
+                    ]
+                    assert state['pillarbox'] == (horizontal and (leading > 0 or trailing > 0))
+                    assert state['letterbox'] == (not horizontal and (leading > 0 or trailing > 0))
+        finally:
+            settings_test_hook.workarea_size = 1.0
+            settings_test_hook.workarea_alignment = 'center'
+            settings_test_hook.window_position = 'top'
 
     @pytest.mark.usefixtures('window_above', 'hide_when_focus_lost', 'hide', 'app_active')
     @pytest.mark.parametrize('window_above', (True, False), indirect=True)
@@ -599,3 +660,84 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
         del pages2[0]['text']
 
         assert state1 == state2
+
+
+@pytest.mark.usefixtures('check_log', 'screenshot', 'hide_overview', 'disable_animations', 'hide')
+class TestWorkareaX11(fixtures.GnomeSessionX11Fixtures):
+    @pytest.mark.parametrize('position', ('top', 'bottom', 'left', 'right'))
+    def test_workarea_window_shape(
+        self,
+        position,
+        settings_test_hook,
+        extension_dbus_interface,
+        app_debug_dbus_interface,
+        shell_test_hook,
+    ):
+        settings_test_hook.window_size = 1.0
+        settings_test_hook.window_maximize = True
+        settings_test_hook.window_position = position
+        extension_dbus_interface.Activate(timeout=dbusutil.DEFAULT_LONG_TIMEOUT_MS)
+        app_debug_dbus_interface.wait_name_owner(dbusutil.DEFAULT_LONG_TIMEOUT_MS)
+
+        try:
+            for size in (0.8, 0.0, 1.0):
+                settings_test_hook.workarea_size = size
+
+                for alignment in ('start', 'center', 'end'):
+                    settings_test_hook.workarea_alignment = alignment
+                    app_debug_dbus_interface.WaitIdle()
+                    app_debug_dbus_interface.WaitFrame()
+
+                    state = app_debug_dbus_interface.Eval("""
+                        (() => {
+                            const win = this.window;
+                            const [, ox, oy] = win.window.get_origin();
+                            const [, x, y] = win.paned.translate_coordinates(win, 0, 0);
+                            return {
+                                ox, oy, x, y,
+                                width: win.get_allocated_width(),
+                                height: win.get_allocated_height(),
+                                content_width: win.paned.get_allocated_width(),
+                                content_height: win.paned.get_allocated_height(),
+                                shaped: win.window.is_shaped(),
+                            };
+                        })()
+                    """)
+
+                    horizontal = position in ('top', 'bottom')
+                    cx = state['x'] + state['content_width'] // 2
+                    cy = state['y'] + state['content_height'] // 2
+                    edge_x, edge_y = cx, cy
+
+                    if horizontal:
+                        edge_y = state['height'] - 2 if position == 'top' else 1
+                    else:
+                        edge_x = state['width'] - 2 if position == 'left' else 1
+
+                    probes = [(cx, cy, True), (edge_x, edge_y, True)]
+
+                    for offset in (1, (state['width'] if horizontal else state['height']) - 2):
+                        start = state['x'] if horizontal else state['y']
+                        length = state['content_width'] if horizontal else state['content_height']
+
+                        if size < 1.0 and not start <= offset < start + length:
+                            point = (offset, cy) if horizontal else (cx, offset)
+                            probes.append((*point, False))
+
+                    for x, y, expected in probes:
+                        shell_test_hook.SetPointer(state['ox'] + x, state['oy'] + y)
+                        assert app_debug_dbus_interface.Eval("""
+                            (() => {
+                                const pointer = this.window.get_display()
+                                    .get_default_seat().get_pointer();
+                                const [target] = pointer.get_window_at_position();
+                                return target?.get_toplevel() === this.window.window;
+                            })()
+                        """) == expected
+
+                    if size == 1.0:
+                        assert not state['shaped']
+        finally:
+            settings_test_hook.workarea_size = 1.0
+            settings_test_hook.workarea_alignment = 'center'
+            settings_test_hook.window_position = 'top'

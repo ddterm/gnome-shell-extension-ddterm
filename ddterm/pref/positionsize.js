@@ -1,4 +1,5 @@
 // SPDX-FileCopyrightText: 2022 Aleksandr Mezin <mezin.alexander@gmail.com>
+// SPDX-FileCopyrightText: 2026 spi
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -349,5 +350,15 @@ export class PositionSizeGroup extends PreferencesGroup {
         );
 
         this.add(workarea_size_row);
+
+        this.add_combo_text_row({
+            key: 'workarea-alignment',
+            title: this.gettext('Work Area _Alignment'),
+            model: {
+                start: this.gettext('Start'),
+                center: this.gettext('Center'),
+                end: this.gettext('End'),
+            },
+        });
     }
 }

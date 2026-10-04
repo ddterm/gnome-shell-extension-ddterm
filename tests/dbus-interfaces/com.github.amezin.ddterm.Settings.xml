@@ -3,6 +3,7 @@
 
 <!--
     SPDX-FileCopyrightText: 2024 Aleksandr Mezin <mezin.alexander@gmail.com>
+    SPDX-FileCopyrightText: 2026 spi
 
     SPDX-License-Identifier: GPL-3.0-or-later
 -->
@@ -15,6 +16,8 @@
         <property type="s" name="window-monitor" access="readwrite"/>
         <property type="s" name="window-monitor-connector" access="readwrite"/>
         <property type="d" name="window-size" access="readwrite"/>
+        <property type="d" name="workarea-size" access="readwrite"/>
+        <property type="s" name="workarea-alignment" access="readwrite"/>
         <property type="b" name="override-window-animation" access="readwrite"/>
         <property type="s" name="show-animation" access="readwrite"/>
         <property type="s" name="hide-animation" access="readwrite"/>
