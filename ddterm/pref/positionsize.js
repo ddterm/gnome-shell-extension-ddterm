@@ -171,6 +171,11 @@ function bind_model_to_list_store(model, store) {
 }
 
 export class PositionSizeGroup extends PreferencesGroup {
+    #window_position_row;
+    #alignment_row;
+    #horizontal_alignment;
+    #vertical_alignment;
+
     static [GObject.GTypeName] = 'DDTermPositionSizePreferencesGroup';
 
     static [GObject.properties] = {
@@ -273,7 +278,7 @@ export class PositionSizeGroup extends PreferencesGroup {
             GObject.BindingFlags.SYNC_CREATE
         );
 
-        const window_position_row = this.add_combo_text_row({
+        this.#window_position_row = this.add_combo_text_row({
             key: 'window-position',
             title: this.gettext('_Window Position'),
             model: {
@@ -351,41 +356,55 @@ export class PositionSizeGroup extends PreferencesGroup {
 
         this.add(workarea_size_row);
 
-        const horizontal_alignment = ComboTextItem.create_list({
+        this.#horizontal_alignment = ComboTextItem.create_list({
             start: this.gettext('Left'),
             center: this.gettext('Center'),
             end: this.gettext('Right'),
         });
-        const vertical_alignment = ComboTextItem.create_list({
+        this.#vertical_alignment = ComboTextItem.create_list({
             start: this.gettext('Top'),
             center: this.gettext('Center'),
             end: this.gettext('Bottom'),
         });
 
-        const alignment_row = this.add_combo_text_row({
+        this.#alignment_row = this.add_combo_text_row({
             key: 'workarea-alignment',
             title: this.gettext('Work Area _Alignment'),
-            model: horizontal_alignment,
+            model: this.#horizontal_alignment,
         });
 
-        const update_alignment_model = () => {
-            const position = window_position_row.value;
-            const model = position === 'top' || position === 'bottom'
-                ? horizontal_alignment
-                : vertical_alignment;
-            const value = this.settings.get_string('workarea-alignment');
+        this.connect('realize', this.#realize.bind(this));
+        this.#update_alignment_model();
+    }
 
-            alignment_row.freeze_notify();
+    #realize() {
+        const position_handler = this.#window_position_row.connect(
+            'notify::value',
+            this.#update_alignment_model.bind(this)
+        );
 
-            try {
-                alignment_row.bind_name_model(model);
-                alignment_row.value = value;
-            } finally {
-                alignment_row.thaw_notify();
-            }
-        };
+        const unrealize_handler = this.connect('unrealize', () => {
+            this.disconnect(unrealize_handler);
+            this.#window_position_row.disconnect(position_handler);
+        });
 
-        window_position_row.connect('notify::value', update_alignment_model);
-        update_alignment_model();
+        this.#update_alignment_model();
+    }
+
+    #update_alignment_model() {
+        const position = this.#window_position_row.value;
+        const model = position === 'top' || position === 'bottom'
+            ? this.#horizontal_alignment
+            : this.#vertical_alignment;
+        const value = this.settings.get_string('workarea-alignment');
+
+        this.#alignment_row.freeze_notify();
+
+        try {
+            this.#alignment_row.bind_name_model(model);
+            this.#alignment_row.value = value;
+        } finally {
+            this.#alignment_row.thaw_notify();
+        }
     }
 }
