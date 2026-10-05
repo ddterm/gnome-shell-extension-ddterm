@@ -26,6 +26,9 @@ services:
   fedora-44:
     image: ghcr.io/ddterm/gnome-shell-image/fedora-44:2026.10.01.0
 
+  fedora-45:
+    image: ghcr.io/ddterm/gnome-shell-image/fedora-45:2026.10.01.0
+
   archlinux:
     image: ghcr.io/ddterm/gnome-shell-image/archlinux:2026.10.01.0
 
