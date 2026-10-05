@@ -8,7 +8,7 @@ import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
 import Gtk from 'gi://Gtk';
 
-import { ComboRow } from './widgets/comborow.js';
+import { ComboRow, ComboTextItem } from './widgets/comborow.js';
 import { ScaleRow } from './widgets/scalerow.js';
 import { PreferencesGroup, add_reset_button } from './util.js';
 import { Monitor } from '../util/displayconfig.js';
@@ -273,7 +273,7 @@ export class PositionSizeGroup extends PreferencesGroup {
             GObject.BindingFlags.SYNC_CREATE
         );
 
-        this.add_combo_text_row({
+        const window_position_row = this.add_combo_text_row({
             key: 'window-position',
             title: this.gettext('_Window Position'),
             model: {
@@ -351,14 +351,41 @@ export class PositionSizeGroup extends PreferencesGroup {
 
         this.add(workarea_size_row);
 
-        this.add_combo_text_row({
+        const horizontal_alignment = ComboTextItem.create_list({
+            start: this.gettext('Left'),
+            center: this.gettext('Center'),
+            end: this.gettext('Right'),
+        });
+        const vertical_alignment = ComboTextItem.create_list({
+            start: this.gettext('Top'),
+            center: this.gettext('Center'),
+            end: this.gettext('Bottom'),
+        });
+
+        const alignment_row = this.add_combo_text_row({
             key: 'workarea-alignment',
             title: this.gettext('Work Area _Alignment'),
-            model: {
-                start: this.gettext('Start'),
-                center: this.gettext('Center'),
-                end: this.gettext('End'),
-            },
+            model: horizontal_alignment,
         });
+
+        const update_alignment_model = () => {
+            const position = window_position_row.value;
+            const model = position === 'top' || position === 'bottom'
+                ? horizontal_alignment
+                : vertical_alignment;
+            const value = this.settings.get_string('workarea-alignment');
+
+            alignment_row.freeze_notify();
+
+            try {
+                alignment_row.bind_name_model(model);
+                alignment_row.value = value;
+            } finally {
+                alignment_row.thaw_notify();
+            }
+        };
+
+        window_position_row.connect('notify::value', update_alignment_model);
+        update_alignment_model();
     }
 }

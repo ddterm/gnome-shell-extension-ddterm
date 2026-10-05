@@ -1,6 +1,5 @@
 <!--
 SPDX-FileCopyrightText: 2026 ddterm contributors <https://github.com/ddterm/gnome-shell-extension-ddterm/>
-SPDX-FileCopyrightText: 2026 spi
 
 SPDX-License-Identifier: GPL-3.0-or-later
 -->

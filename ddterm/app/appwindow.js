@@ -235,12 +235,13 @@ export class AppWindow extends Gtk.ApplicationWindow {
             1.0,
             1.0
         ),
-        'workarea-alignment': GObject.ParamSpec.string(
+        'workarea-alignment': GObject.ParamSpec.enum(
             'workarea-alignment',
             null,
             null,
             GObject.ParamFlags.READWRITE,
-            'center'
+            Gtk.Align,
+            Gtk.Align.CENTER
         ),
         'background-opacity': GObject.ParamSpec.double(
             'background-opacity',
@@ -763,9 +764,13 @@ export class AppWindow extends Gtk.ApplicationWindow {
 
         const { position_setting, workarea_alignment } = this;
         const unused_size = 1.0 - this.workarea;
-        const leading_size = workarea_alignment === 'start'
-            ? 0
-            : unused_size * (workarea_alignment === 'end' ? 1 : 0.5);
+        let leading_size = unused_size * 0.5;
+
+        if (workarea_alignment === Gtk.Align.START)
+            leading_size = 0;
+        else if (workarea_alignment === Gtk.Align.END)
+            leading_size = unused_size;
+
         const trailing_size = unused_size - leading_size;
         const horizontal = position_setting === 'top' || position_setting === 'bottom';
         const vertical = position_setting === 'left' || position_setting === 'right';
