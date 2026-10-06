@@ -370,11 +370,10 @@ export class PositionSizeGroup extends PreferencesGroup {
         this.#alignment_row = this.add_combo_text_row({
             key: 'workarea-alignment',
             title: this.gettext('Work Area _Alignment'),
-            model: this.#horizontal_alignment,
+            model: this.#get_alignment_model(),
         });
 
         this.connect('realize', this.#realize.bind(this));
-        this.#update_alignment_model();
     }
 
     #realize() {
@@ -391,20 +390,28 @@ export class PositionSizeGroup extends PreferencesGroup {
         this.#update_alignment_model();
     }
 
-    #update_alignment_model() {
+    #get_alignment_model() {
         const position = this.#window_position_row.value;
-        const model = position === 'top' || position === 'bottom'
+
+        return position === 'top' || position === 'bottom'
             ? this.#horizontal_alignment
             : this.#vertical_alignment;
-        const value = this.settings.get_string('workarea-alignment');
+    }
 
+    #update_alignment_model() {
+        Gio.Settings.unbind(this.#alignment_row, 'value');
         this.#alignment_row.freeze_notify();
 
         try {
-            this.#alignment_row.bind_name_model(model);
-            this.#alignment_row.value = value;
+            this.#alignment_row.bind_name_model(this.#get_alignment_model());
         } finally {
             this.#alignment_row.thaw_notify();
+            this.settings.bind(
+                'workarea-alignment',
+                this.#alignment_row,
+                'value',
+                Gio.SettingsBindFlags.DEFAULT
+            );
         }
     }
 }
