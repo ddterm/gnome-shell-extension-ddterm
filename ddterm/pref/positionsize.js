@@ -1,4 +1,5 @@
 // SPDX-FileCopyrightText: 2022 Aleksandr Mezin <mezin.alexander@gmail.com>
+// SPDX-FileCopyrightText: 2026 spi
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -7,7 +8,7 @@ import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
 import Gtk from 'gi://Gtk';
 
-import { ComboRow } from './widgets/comborow.js';
+import { ComboRow, ComboTextItem } from './widgets/comborow.js';
 import { ScaleRow } from './widgets/scalerow.js';
 import { PreferencesGroup, add_reset_button } from './util.js';
 import { Monitor } from '../util/displayconfig.js';
@@ -170,6 +171,11 @@ function bind_model_to_list_store(model, store) {
 }
 
 export class PositionSizeGroup extends PreferencesGroup {
+    #window_position_row;
+    #alignment_row;
+    #horizontal_alignment;
+    #vertical_alignment;
+
     static [GObject.GTypeName] = 'DDTermPositionSizePreferencesGroup';
 
     static [GObject.properties] = {
@@ -272,7 +278,7 @@ export class PositionSizeGroup extends PreferencesGroup {
             GObject.BindingFlags.SYNC_CREATE
         );
 
-        this.add_combo_text_row({
+        this.#window_position_row = this.add_combo_text_row({
             key: 'window-position',
             title: this.gettext('_Window Position'),
             model: {
@@ -349,5 +355,63 @@ export class PositionSizeGroup extends PreferencesGroup {
         );
 
         this.add(workarea_size_row);
+
+        this.#horizontal_alignment = ComboTextItem.create_list({
+            start: this.gettext('Left'),
+            center: this.gettext('Center'),
+            end: this.gettext('Right'),
+        });
+        this.#vertical_alignment = ComboTextItem.create_list({
+            start: this.gettext('Top'),
+            center: this.gettext('Center'),
+            end: this.gettext('Bottom'),
+        });
+
+        this.#alignment_row = this.add_combo_text_row({
+            key: 'workarea-alignment',
+            title: this.gettext('Work Area _Alignment'),
+            model: this.#get_alignment_model(),
+        });
+
+        this.connect('realize', this.#realize.bind(this));
+    }
+
+    #realize() {
+        const position_handler = this.#window_position_row.connect(
+            'notify::value',
+            this.#update_alignment_model.bind(this)
+        );
+
+        const unrealize_handler = this.connect('unrealize', () => {
+            this.disconnect(unrealize_handler);
+            this.#window_position_row.disconnect(position_handler);
+        });
+
+        this.#update_alignment_model();
+    }
+
+    #get_alignment_model() {
+        const position = this.#window_position_row.value;
+
+        return position === 'top' || position === 'bottom'
+            ? this.#horizontal_alignment
+            : this.#vertical_alignment;
+    }
+
+    #update_alignment_model() {
+        Gio.Settings.unbind(this.#alignment_row, 'value');
+        this.#alignment_row.freeze_notify();
+
+        try {
+            this.#alignment_row.bind_name_model(this.#get_alignment_model());
+        } finally {
+            this.#alignment_row.thaw_notify();
+            this.settings.bind(
+                'workarea-alignment',
+                this.#alignment_row,
+                'value',
+                Gio.SettingsBindFlags.DEFAULT
+            );
+        }
     }
 }

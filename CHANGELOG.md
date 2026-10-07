@@ -18,6 +18,9 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 ### Added
 
+- Start, center, and end alignment options for reduced work area size
+by [@spi43984]: [#2161], [#2162].
+
 - Building PICT as a Meson subproject and updating the test cases through
 Meson/ninja: [#2139]. Adds `pict` Meson option, `disabled` by default,
 and should be kept disabled in most cases.
@@ -38,6 +41,10 @@ and should be kept disabled in most cases.
 [#2152]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2152
 [#2153]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2153
 [#2154]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2154
+[#2161]: https://github.com/ddterm/gnome-shell-extension-ddterm/issues/2161
+[#2162]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2162
+
+[@spi43984]: https://github.com/spi43984
 
 [Unreleased]: https://github.com/ddterm/gnome-shell-extension-ddterm/compare/v64.0.0...HEAD
 

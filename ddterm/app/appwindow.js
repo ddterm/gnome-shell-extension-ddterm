@@ -1,4 +1,5 @@
 // SPDX-FileCopyrightText: 2020 Aleksandr Mezin <mezin.alexander@gmail.com>
+// SPDX-FileCopyrightText: 2026 spi
 // SPDX-FileContributor: Juan M. Cruz-Martinez
 // SPDX-FileContributor: Jackson Goode
 // SPDX-FileContributor: Finn van Riper
@@ -234,6 +235,14 @@ export class AppWindow extends Gtk.ApplicationWindow {
             1.0,
             1.0
         ),
+        'workarea-alignment': GObject.ParamSpec.enum(
+            'workarea-alignment',
+            null,
+            null,
+            GObject.ParamFlags.READWRITE,
+            Gtk.Align,
+            Gtk.Align.CENTER
+        ),
         'background-opacity': GObject.ParamSpec.double(
             'background-opacity',
             null,
@@ -332,6 +341,7 @@ export class AppWindow extends Gtk.ApplicationWindow {
 
         this.connect('notify::position-setting', () => this.#update_spacers());
         this.connect('notify::workarea', () => this.#update_spacers());
+        this.connect('notify::workarea-alignment', () => this.#update_spacers());
         this.#update_spacers();
 
         this.connect('notify::screen', this.#update_visual.bind(this));
@@ -461,6 +471,13 @@ export class AppWindow extends Gtk.ApplicationWindow {
             'workarea-size',
             this,
             'workarea',
+            Gio.SettingsBindFlags.GET
+        );
+
+        settings.bind(
+            'workarea-alignment',
+            this,
+            'workarea-alignment',
             Gio.SettingsBindFlags.GET
         );
 
@@ -745,34 +762,41 @@ export class AppWindow extends Gtk.ApplicationWindow {
         if (!allocation)
             allocation = this.get_allocation();
 
-        const spacer_size = (1.0 - this.workarea) * 0.5;
-        const { position_setting } = this;
+        const { position_setting, workarea_alignment } = this;
+        const unused_size = 1.0 - this.workarea;
+        let leading_size = unused_size * 0.5;
 
-        const spacer_width = position_setting === 'top' || position_setting === 'bottom'
-            ? Math.floor(allocation.width * spacer_size)
-            : 0;
+        if (workarea_alignment === Gtk.Align.START)
+            leading_size = 0;
+        else if (workarea_alignment === Gtk.Align.END)
+            leading_size = unused_size;
 
-        const spacer_height = position_setting === 'left' || position_setting === 'right'
-            ? Math.floor(allocation.height * spacer_size)
-            : 0;
+        const trailing_size = unused_size - leading_size;
+        const horizontal = position_setting === 'top' || position_setting === 'bottom';
+        const vertical = position_setting === 'left' || position_setting === 'right';
 
-        this._spacer_east.visible = spacer_width > 0;
-        this._spacer_east.preferred_width = spacer_width;
-        this._spacer_west.visible = spacer_width > 0;
-        this._spacer_west.preferred_width = spacer_width;
-        this._spacer_north.visible = spacer_height > 0;
-        this._spacer_north.preferred_height = spacer_height;
-        this._spacer_south.visible = spacer_height > 0;
-        this._spacer_south.preferred_height = spacer_height;
+        const west = horizontal ? Math.floor(allocation.width * leading_size) : 0;
+        const east = horizontal ? Math.floor(allocation.width * trailing_size) : 0;
+        const north = vertical ? Math.floor(allocation.height * leading_size) : 0;
+        const south = vertical ? Math.floor(allocation.height * trailing_size) : 0;
+
+        this._spacer_west.visible = west > 0;
+        this._spacer_west.preferred_width = west;
+        this._spacer_east.visible = east > 0;
+        this._spacer_east.preferred_width = east;
+        this._spacer_north.visible = north > 0;
+        this._spacer_north.preferred_height = north;
+        this._spacer_south.visible = south > 0;
+        this._spacer_south.preferred_height = south;
 
         const style = this.get_style_context();
 
-        if (spacer_width > 0)
+        if (west > 0 || east > 0)
             style.add_class('pillarbox');
         else
             style.remove_class('pillarbox');
 
-        if (spacer_height > 0)
+        if (north > 0 || south > 0)
             style.add_class('letterbox');
         else
             style.remove_class('letterbox');
