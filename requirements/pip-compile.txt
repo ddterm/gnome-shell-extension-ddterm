@@ -18,9 +18,9 @@ packaging==26.2 \
     # via
     #   build
     #   wheel
-pip-tools==7.6.0 \
-    --hash=sha256:4bd99155b6d8de358a214b0865e1a2855a453570c1a83d40f7b564870b8657be \
-    --hash=sha256:c1c59f7844df4866fa9542d3f50d1f44be537ac0027cb50b2563d6a992853981
+pip-tools==7.6.2 \
+    --hash=sha256:04dbe0e25f3b60fbdeee17d0590dac7fe20039876aa410a946fc54dc926c09ba \
+    --hash=sha256:f37eb4b736859c2c30230e50977312c61918b7ef931071ff7811fd067715c25f
     # via -r pip-compile.in
 pyproject-hooks==1.2.0 \
     --hash=sha256:1e859bd5c40fae9448642dd871adf459e5e2084186e8d2c2a79a824c970da1f8 \
