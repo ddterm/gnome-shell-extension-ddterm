@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/\n"
-"POT-Creation-Date: 2026-09-15 14:41+0000\n"
+"POT-Creation-Date: 2026-10-07 11:06+0200\n"
 "PO-Revision-Date: 2025-05-08 06:03+0000\n"
 "Last-Translator: luk <lukasz.osadik@wp.pl>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/pl/>\n"
@@ -24,7 +24,7 @@ msgstr ""
 "X-Generator: Weblate 5.12-dev\n"
 
 #: data/com.github.amezin.ddterm.desktop.in.in:8
-#: ddterm/shell/notifications.js:240 ddterm/shell/panelicon.js:32
+#: ddterm/shell/notifications.js:240 ddterm/shell/panelicon.js:39
 msgid "ddterm"
 msgstr "ddterm"
 
@@ -42,7 +42,7 @@ msgid "Toggle"
 msgstr "Przełącznik"
 
 #: data/com.github.amezin.ddterm.desktop.in.in:29 ddterm/app/ui/notebook.ui:82
-#: ddterm/app/ui/terminalpage.ui:140 ddterm/shell/panelicon.js:64
+#: ddterm/app/ui/terminalpage.ui:140 ddterm/shell/panelicon.js:80
 msgid "Preferences…"
 msgstr "Preferencje…"
 
@@ -59,63 +59,63 @@ msgstr ""
 msgid "Contributors"
 msgstr ""
 
-#: ddterm/app/application.js:85
+#: ddterm/app/application.js:76
 msgid "Can't read the version of the loaded extension."
 msgstr "Nie można odczytać wersji wczytanego rozszerzenia."
 
-#: ddterm/app/application.js:87 ddterm/shell/notifications.js:87
+#: ddterm/app/application.js:78 ddterm/shell/notifications.js:87
 msgid "Warning: ddterm version has changed"
 msgstr "Ostrzeżenie: wersja ddterm zmieniła się"
 
-#: ddterm/app/application.js:88 ddterm/shell/notifications.js:89
+#: ddterm/app/application.js:80 ddterm/shell/notifications.js:89
 msgid "Log out, then log in again to load the updated extension."
 msgstr "Zaloguj się ponownie, aby załadować aktualne rozszerzenie."
 
-#: ddterm/app/application.js:132
+#: ddterm/app/application.js:158
 msgid "Start the application, but do not show the window"
 msgstr "Uruchom aplikację, ale nie pokazuj okna"
 
-#: ddterm/app/application.js:141
+#: ddterm/app/application.js:167
 msgid "Comma-separated list of backends that GDK should try to use"
 msgstr "Rozdzielana przecinkami lista backendów, których GDK powinien spróbować użyć"
 
-#: ddterm/app/application.js:168
+#: ddterm/app/application.js:194
 msgid "Show version information and exit"
 msgstr "Pokaż numer wersji i wyjdź"
 
-#: ddterm/app/application.js:177
+#: ddterm/app/application.js:212
 msgid "Run the specified command"
 msgstr "Uruchom polecenie"
 
-#: ddterm/app/application.js:191
+#: ddterm/app/application.js:226
 msgid "Wait for the command to exit, and return its exit code"
 msgstr "Poczekaj no wykonanie polecenia i zwróć wynik jego działania"
 
-#: ddterm/app/application.js:200
+#: ddterm/app/application.js:235
 msgid "Set the working directory"
 msgstr "Zmień aktualny folder"
 
-#: ddterm/app/application.js:209
+#: ddterm/app/application.js:244
 msgid "Set tab title"
 msgstr "Ustaw inny tytuł karty"
 
-#: ddterm/app/application.js:218
+#: ddterm/app/application.js:253
 msgid "Keep the terminal open after the command has exited"
 msgstr "Nie zamykaj konsoli po wykonaniu polecenia"
 
-#: ddterm/app/application.js:227
+#: ddterm/app/application.js:262
 msgid "Do not pass the environment"
 msgstr "Nie przekazuj zmiennych środowiskowych"
 
-#: ddterm/app/application.js:236
+#: ddterm/app/application.js:271
 msgid "Open a new tab"
 msgstr "Otwórz nową kartę"
 
-#: ddterm/app/application.js:612
+#: ddterm/app/application.js:652
 msgid "Can't contact the extension."
 msgstr "Nie można skontaktować się z rozszerzeniem."
 
-#: ddterm/app/application.js:614
+#: ddterm/app/application.js:654
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr "Proszę upewnić się że rozszerzenie ddterm GNOME Shell jest włączone."
 
@@ -335,7 +335,7 @@ msgstr "Nowa karta przed bieżącą kartą"
 msgid "New Tab After Current Tab"
 msgstr "Nowa karta po bieżącej karcie"
 
-#: ddterm/app/ui/terminalpage.ui:137 ddterm/pref/dialog.js:50
+#: ddterm/app/ui/terminalpage.ui:137 ddterm/pref/dialog.js:57
 msgid "Preferences"
 msgstr "Preferencje"
 
@@ -379,7 +379,7 @@ msgstr "Zachowaj katalog roboczy w nowych kartach"
 msgid "Enable Keyboard Shortcuts"
 msgstr "Włącz skróty klawiszowe"
 
-#: ddterm/app/ui/terminalpage.ui:207 ddterm/shell/panelicon.js:72
+#: ddterm/app/ui/terminalpage.ui:207 ddterm/shell/panelicon.js:88
 #, fuzzy
 #| msgid "ddterm"
 msgid "About ddterm"
@@ -825,54 +825,66 @@ msgstr "Ikona przełączania"
 msgid "Toggle button and popup menu"
 msgstr "Przełącz przycisk i wyskakujące menu"
 
-#: ddterm/pref/positionsize.js:192
+#: ddterm/pref/positionsize.js:198
 msgid "Position and Size"
 msgstr "Pozycja i rozmiar"
 
-#: ddterm/pref/positionsize.js:199
+#: ddterm/pref/positionsize.js:205
 msgid "On the monitor that contains the mouse pointer"
 msgstr "Na monitorze, na którym znajduje się kursor"
 
-#: ddterm/pref/positionsize.js:205
+#: ddterm/pref/positionsize.js:211
 msgid "On the primary monitor"
 msgstr "Na podstawowym monitorze"
 
-#: ddterm/pref/positionsize.js:210
+#: ddterm/pref/positionsize.js:216
 msgid "On the monitor with keyboard focus"
 msgstr "Na monitorze z klawiaturą aktywną"
 
-#: ddterm/pref/positionsize.js:216
+#: ddterm/pref/positionsize.js:222
 msgid "On _Monitor"
 msgstr "Na _monitorze"
 
-#: ddterm/pref/positionsize.js:277
+#: ddterm/pref/positionsize.js:283
 msgid "_Window Position"
 msgstr "Pozycja _okna"
 
-#: ddterm/pref/positionsize.js:279 ddterm/pref/tabs.js:41
+#: ddterm/pref/positionsize.js:285 ddterm/pref/positionsize.js:365
+#: ddterm/pref/tabs.js:41
 msgid "Top"
 msgstr "Góra"
 
-#: ddterm/pref/positionsize.js:280 ddterm/pref/tabs.js:40
+#: ddterm/pref/positionsize.js:286 ddterm/pref/positionsize.js:367
+#: ddterm/pref/tabs.js:40
 msgid "Bottom"
 msgstr "Dół"
 
-#: ddterm/pref/positionsize.js:281
+#: ddterm/pref/positionsize.js:287 ddterm/pref/positionsize.js:360
 msgid "Left"
 msgstr "Lewo"
 
-#: ddterm/pref/positionsize.js:282
+#: ddterm/pref/positionsize.js:288 ddterm/pref/positionsize.js:362
 msgid "Right"
 msgstr "Prawo"
 
-#: ddterm/pref/positionsize.js:305
+#: ddterm/pref/positionsize.js:311
 msgid "Window _Size"
 msgstr "_Rozmiar okna"
 
-#: ddterm/pref/positionsize.js:339
+#: ddterm/pref/positionsize.js:345
 #, fuzzy
 #| msgid "Normal Size"
 msgid "Work Area _Size"
+msgstr "Normalny rozmiar"
+
+#: ddterm/pref/positionsize.js:361 ddterm/pref/positionsize.js:366
+msgid "Center"
+msgstr ""
+
+#: ddterm/pref/positionsize.js:372
+#, fuzzy
+#| msgid "Normal Size"
+msgid "Work Area _Alignment"
 msgstr "Normalny rozmiar"
 
 #: ddterm/pref/scrolling.js:25
@@ -1213,7 +1225,7 @@ msgstr "Szczegóły…"
 msgid "Install"
 msgstr "Zainstaluj"
 
-#: ddterm/shell/panelicon.js:49
+#: ddterm/shell/panelicon.js:65
 msgid "Show"
 msgstr "Pokaż"
 

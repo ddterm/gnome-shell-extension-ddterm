@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/\n"
-"POT-Creation-Date: 2026-09-15 14:41+0000\n"
+"POT-Creation-Date: 2026-10-07 11:06+0200\n"
 "PO-Revision-Date: 2026-06-28 05:01+0000\n"
 "Last-Translator: reducedradius <137701630+flytothehighest@users.noreply.github.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/zh_Hans/>\n"
@@ -22,7 +22,7 @@ msgstr ""
 "X-Generator: Weblate 2026.7.dev0\n"
 
 #: data/com.github.amezin.ddterm.desktop.in.in:8
-#: ddterm/shell/notifications.js:240 ddterm/shell/panelicon.js:32
+#: ddterm/shell/notifications.js:240 ddterm/shell/panelicon.js:39
 msgid "ddterm"
 msgstr "ddterm"
 
@@ -40,7 +40,7 @@ msgid "Toggle"
 msgstr "切换按钮"
 
 #: data/com.github.amezin.ddterm.desktop.in.in:29 ddterm/app/ui/notebook.ui:82
-#: ddterm/app/ui/terminalpage.ui:140 ddterm/shell/panelicon.js:64
+#: ddterm/app/ui/terminalpage.ui:140 ddterm/shell/panelicon.js:80
 msgid "Preferences…"
 msgstr "首选项…"
 
@@ -54,63 +54,63 @@ msgstr ""
 msgid "Contributors"
 msgstr "贡献者"
 
-#: ddterm/app/application.js:85
+#: ddterm/app/application.js:76
 msgid "Can't read the version of the loaded extension."
 msgstr "无法读取已加载扩展插件的版本。"
 
-#: ddterm/app/application.js:87 ddterm/shell/notifications.js:87
+#: ddterm/app/application.js:78 ddterm/shell/notifications.js:87
 msgid "Warning: ddterm version has changed"
 msgstr "警告：ddterm版本已改变"
 
-#: ddterm/app/application.js:88 ddterm/shell/notifications.js:89
+#: ddterm/app/application.js:80 ddterm/shell/notifications.js:89
 msgid "Log out, then log in again to load the updated extension."
 msgstr "注销后重新登录，方可生效。"
 
-#: ddterm/app/application.js:132
+#: ddterm/app/application.js:158
 msgid "Start the application, but do not show the window"
 msgstr "开始应用，但没有显示窗口"
 
-#: ddterm/app/application.js:141
+#: ddterm/app/application.js:167
 msgid "Comma-separated list of backends that GDK should try to use"
 msgstr "GDK 应尝试使用的以逗号分隔的后端列表"
 
-#: ddterm/app/application.js:168
+#: ddterm/app/application.js:194
 msgid "Show version information and exit"
 msgstr "显示版本信息并退出"
 
-#: ddterm/app/application.js:177
+#: ddterm/app/application.js:212
 msgid "Run the specified command"
 msgstr "运行指定的命令"
 
-#: ddterm/app/application.js:191
+#: ddterm/app/application.js:226
 msgid "Wait for the command to exit, and return its exit code"
 msgstr "等待退出命令，并返回其退出代码"
 
-#: ddterm/app/application.js:200
+#: ddterm/app/application.js:235
 msgid "Set the working directory"
 msgstr "设置工作目录"
 
-#: ddterm/app/application.js:209
+#: ddterm/app/application.js:244
 msgid "Set tab title"
 msgstr "设置标签页标题"
 
-#: ddterm/app/application.js:218
+#: ddterm/app/application.js:253
 msgid "Keep the terminal open after the command has exited"
 msgstr "命令退出后保持终端打开"
 
-#: ddterm/app/application.js:227
+#: ddterm/app/application.js:262
 msgid "Do not pass the environment"
 msgstr "不要通过环境"
 
-#: ddterm/app/application.js:236
+#: ddterm/app/application.js:271
 msgid "Open a new tab"
 msgstr "打开新标签"
 
-#: ddterm/app/application.js:612
+#: ddterm/app/application.js:652
 msgid "Can't contact the extension."
 msgstr "无法连接到扩展。"
 
-#: ddterm/app/application.js:614
+#: ddterm/app/application.js:654
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr "请确保ddterm在GNOME扩展中可用。"
 
@@ -328,7 +328,7 @@ msgstr "新建标签页（在当前标签页之前）"
 msgid "New Tab After Current Tab"
 msgstr "新建标签页（在当前标签页之后）"
 
-#: ddterm/app/ui/terminalpage.ui:137 ddterm/pref/dialog.js:50
+#: ddterm/app/ui/terminalpage.ui:137 ddterm/pref/dialog.js:57
 msgid "Preferences"
 msgstr "首选项"
 
@@ -372,7 +372,7 @@ msgstr "在新标签页中保留当前路径"
 msgid "Enable Keyboard Shortcuts"
 msgstr "启用键盘快捷键"
 
-#: ddterm/app/ui/terminalpage.ui:207 ddterm/shell/panelicon.js:72
+#: ddterm/app/ui/terminalpage.ui:207 ddterm/shell/panelicon.js:88
 msgid "About ddterm"
 msgstr "关于ddterm"
 
@@ -816,52 +816,64 @@ msgstr "切换按钮"
 msgid "Toggle button and popup menu"
 msgstr "切换按钮和弹出菜单"
 
-#: ddterm/pref/positionsize.js:192
+#: ddterm/pref/positionsize.js:198
 msgid "Position and Size"
 msgstr "位置和尺寸"
 
-#: ddterm/pref/positionsize.js:199
+#: ddterm/pref/positionsize.js:205
 msgid "On the monitor that contains the mouse pointer"
 msgstr "在包含鼠标指针的显示器上"
 
-#: ddterm/pref/positionsize.js:205
+#: ddterm/pref/positionsize.js:211
 msgid "On the primary monitor"
 msgstr "在 主显示器上"
 
-#: ddterm/pref/positionsize.js:210
+#: ddterm/pref/positionsize.js:216
 msgid "On the monitor with keyboard focus"
 msgstr "在键盘 聚焦的显示器上"
 
-#: ddterm/pref/positionsize.js:216
+#: ddterm/pref/positionsize.js:222
 msgid "On _Monitor"
 msgstr "在 _显示器上"
 
-#: ddterm/pref/positionsize.js:277
+#: ddterm/pref/positionsize.js:283
 msgid "_Window Position"
 msgstr "_窗口位置"
 
-#: ddterm/pref/positionsize.js:279 ddterm/pref/tabs.js:41
+#: ddterm/pref/positionsize.js:285 ddterm/pref/positionsize.js:365
+#: ddterm/pref/tabs.js:41
 msgid "Top"
 msgstr "顶部"
 
-#: ddterm/pref/positionsize.js:280 ddterm/pref/tabs.js:40
+#: ddterm/pref/positionsize.js:286 ddterm/pref/positionsize.js:367
+#: ddterm/pref/tabs.js:40
 msgid "Bottom"
 msgstr "底部"
 
-#: ddterm/pref/positionsize.js:281
+#: ddterm/pref/positionsize.js:287 ddterm/pref/positionsize.js:360
 msgid "Left"
 msgstr "左边"
 
-#: ddterm/pref/positionsize.js:282
+#: ddterm/pref/positionsize.js:288 ddterm/pref/positionsize.js:362
 msgid "Right"
 msgstr "右边"
 
-#: ddterm/pref/positionsize.js:305
+#: ddterm/pref/positionsize.js:311
 msgid "Window _Size"
 msgstr "窗口 _大小"
 
-#: ddterm/pref/positionsize.js:339
+#: ddterm/pref/positionsize.js:345
 msgid "Work Area _Size"
+msgstr "工作区 _大小"
+
+#: ddterm/pref/positionsize.js:361 ddterm/pref/positionsize.js:366
+msgid "Center"
+msgstr ""
+
+#: ddterm/pref/positionsize.js:372
+#, fuzzy
+#| msgid "Work Area _Size"
+msgid "Work Area _Alignment"
 msgstr "工作区 _大小"
 
 #: ddterm/pref/scrolling.js:25
@@ -1188,7 +1200,7 @@ msgstr "细节……"
 msgid "Install"
 msgstr "安装"
 
-#: ddterm/shell/panelicon.js:49
+#: ddterm/shell/panelicon.js:65
 msgid "Show"
 msgstr "显示"
 
