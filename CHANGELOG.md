@@ -18,6 +18,8 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 ### Added
 
+- Optional independent terminal background opacity.
+
 - Start, center, and end alignment options for reduced work area size
 by [@spi43984]: [#2161], [#2162].
 

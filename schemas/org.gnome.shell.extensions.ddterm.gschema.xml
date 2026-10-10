@@ -322,6 +322,13 @@ SPDX-License-Identifier: GPL-3.0-or-later
       <default>0.9</default>
       <range min="0.0" max="1.0"/>
     </key>
+    <key name="override-background-opacity" type="b">
+      <default>false</default>
+    </key>
+    <key name="terminal-background-opacity" type="d">
+      <default>0.9</default>
+      <range min="0.0" max="1.0"/>
+    </key>
     <key name="palette" type="as">
       <default>['#171421',
                 '#c01c28',
