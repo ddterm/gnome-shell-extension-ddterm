@@ -346,6 +346,7 @@ export class ColorsGroup extends PreferencesGroup {
     #bold_color_expander;
     #cursor_color_expander;
     #highlight_color_expander;
+    #opacity_expander;
     #palette;
     #copy_gnome_terminal_profile_button;
 
@@ -540,12 +541,13 @@ export class ColorsGroup extends PreferencesGroup {
             this.gettext_domain
         );
 
-        const opacity_expander = this.add_expander_row({
+        this.#opacity_expander = this.add_expander_row({
             key: 'override-background-opacity',
+            flags: Gio.SettingsBindFlags.DEFAULT | Gio.SettingsBindFlags.NO_SENSITIVITY,
             title: this.gettext('Override Background Opacity'),
         });
 
-        opacity_expander.add_row(opacity_row);
+        this.#opacity_expander.add_row(opacity_row);
 
         const palette_presets = {
             [this.gettext('GNOME')]: [
@@ -760,6 +762,11 @@ export class ColorsGroup extends PreferencesGroup {
 
         const settings_handlers = [
             this.settings.connect('changed::use-theme-colors', update_sensitivity),
+            this.settings.connect('changed::transparent-background', update_sensitivity),
+            this.settings.connect(
+                'writable-changed::override-background-opacity',
+                update_sensitivity
+            ),
             this.settings.connect('writable-changed::foreground-color', update_sensitivity),
             this.settings.connect('writable-changed::background-color', update_sensitivity),
             this.settings.connect('writable-changed::bold-color-same-as-fg', update_sensitivity),
@@ -785,6 +792,10 @@ export class ColorsGroup extends PreferencesGroup {
     }
 
     #update_sensitivity() {
+        this.#opacity_expander.sensitive =
+            this.settings.get_boolean('transparent-background') &&
+            this.settings.is_writable('override-background-opacity');
+
         const color_scheme_editable = !this.settings.get_boolean('use-theme-colors');
 
         this.#foreground_color_row.sensitive =

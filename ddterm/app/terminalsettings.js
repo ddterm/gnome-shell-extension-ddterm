@@ -434,11 +434,11 @@ export class TerminalSettingsParser extends GObject.Object {
     }
 
     get background_opacity() {
-        if (this.gsettings.get_boolean('override-background-opacity'))
-            return this.gsettings.get_double('terminal-background-opacity');
-
         if (!this.gsettings.get_boolean('transparent-background'))
             return 1;
+
+        if (this.gsettings.get_boolean('override-background-opacity'))
+            return this.gsettings.get_double('terminal-background-opacity');
 
         return this.gsettings.get_double('background-opacity');
     }
