@@ -12,6 +12,8 @@ import Gio from 'gi://Gio';
 import Gdk from 'gi://Gdk';
 import Gtk from 'gi://Gtk';
 
+import Cairo from 'cairo';
+
 import { TerminalSettings } from './terminalsettings.js';
 import { Notebook } from './notebook.js';
 import { DisplayConfig, LayoutMode } from '../util/displayconfig.js';
@@ -184,6 +186,13 @@ export class AppWindow extends Gtk.ApplicationWindow {
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             true
         ),
+        'window-input-shape': GObject.ParamSpec.boolean(
+            'window-input-shape',
+            null,
+            null,
+            GObject.ParamFlags.READWRITE,
+            false
+        ),
         'transparent-background': GObject.ParamSpec.boolean(
             'transparent-background',
             null,
@@ -344,6 +353,10 @@ export class AppWindow extends Gtk.ApplicationWindow {
         this.connect('notify::workarea-alignment', () => this.#update_spacers());
         this.#update_spacers();
 
+        this.connect('notify::window-input-shape', this.#update_input_shape.bind(this));
+        this.connect('realize', this.#update_input_shape.bind(this));
+        this.connect('map', this.#update_input_shape.bind(this));
+
         this.connect('notify::screen', this.#update_visual.bind(this));
         this.#update_visual();
 
@@ -485,6 +498,13 @@ export class AppWindow extends Gtk.ApplicationWindow {
             'window-resizable',
             this,
             'resize-handle',
+            Gio.SettingsBindFlags.GET
+        );
+
+        settings.bind(
+            'window-input-shape',
+            this,
+            'window-input-shape',
             Gio.SettingsBindFlags.GET
         );
 
@@ -802,10 +822,62 @@ export class AppWindow extends Gtk.ApplicationWindow {
             style.remove_class('letterbox');
     }
 
+    #update_input_shape() {
+        if (!this.window_input_shape || !this.get_display().supports_input_shapes()) {
+            this.input_shape_combine_region(null);
+            return;
+        }
+
+        if (!this.get_realized())
+            return;
+
+        if (!this.paned.is_visible() ||
+            this.paned.get_allocated_width() <= 0 || this.paned.get_allocated_height() <= 0) {
+            this.input_shape_combine_region(null);
+            return;
+        }
+
+        const region = new Cairo.Region();
+        const widgets = [
+            this.paned,
+            this._resize_box_north,
+            this._resize_box_south,
+            this._resize_box_east,
+            this._resize_box_west,
+        ];
+
+        for (const widget of widgets) {
+            if (!widget.is_visible())
+                continue;
+
+            const width = widget.get_allocated_width();
+            const height = widget.get_allocated_height();
+            const [translated, x, y] = widget.translate_coordinates(this, 0, 0);
+
+            if (!translated || width <= 0 || height <= 0) {
+                this.input_shape_combine_region(null);
+                return;
+            }
+
+            region.unionRectangle({ x, y, width, height });
+        }
+
+        region.intersectRectangle({
+            x: 0,
+            y: 0,
+            width: this.get_allocated_width(),
+            height: this.get_allocated_height(),
+        });
+
+        this.input_shape_combine_region(region.numRectangles() === 0 ? null : region);
+    }
+
     vfunc_size_allocate(allocation) {
         this.#update_spacers(allocation);
 
         super.vfunc_size_allocate(allocation);
+
+        this.#update_input_shape();
     }
 
     serialize_state() {

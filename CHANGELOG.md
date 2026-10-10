@@ -20,6 +20,7 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 - Optional independent terminal background opacity by [@spi43984]
 and [@raleik-pl]: [#2172], [#2023].
+- Optional click-through for unused window areas.
 
 - Start, center, and end alignment options for reduced work area size
 by [@spi43984]: [#2161], [#2162].
