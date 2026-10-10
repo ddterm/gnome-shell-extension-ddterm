@@ -9,37 +9,37 @@
 
 services:
   alpine-3.24:
-    image: ghcr.io/ddterm/gnome-shell-image/alpine-3.24:2026.10.10.0
+    image: ghcr.io/ddterm/gnome-shell-image/alpine-3.24:2026.10.10.1
 
   alpine-edge:
-    image: ghcr.io/ddterm/gnome-shell-image/alpine-edge:2026.10.10.0
+    image: ghcr.io/ddterm/gnome-shell-image/alpine-edge:2026.10.10.1
 
   almalinux-10:
-    image: ghcr.io/ddterm/gnome-shell-image/almalinux-10:2026.10.10.0
+    image: ghcr.io/ddterm/gnome-shell-image/almalinux-10:2026.10.10.1
 
   centos-10:
-    image: ghcr.io/ddterm/gnome-shell-image/centos-10:2026.10.10.0
+    image: ghcr.io/ddterm/gnome-shell-image/centos-10:2026.10.10.1
 
   fedora-43:
-    image: ghcr.io/ddterm/gnome-shell-image/fedora-43:2026.10.10.0
+    image: ghcr.io/ddterm/gnome-shell-image/fedora-43:2026.10.10.1
 
   fedora-44:
-    image: ghcr.io/ddterm/gnome-shell-image/fedora-44:2026.10.10.0
+    image: ghcr.io/ddterm/gnome-shell-image/fedora-44:2026.10.10.1
 
   fedora-45:
-    image: ghcr.io/ddterm/gnome-shell-image/fedora-45:2026.10.10.0
+    image: ghcr.io/ddterm/gnome-shell-image/fedora-45:2026.10.10.1
 
   archlinux:
-    image: ghcr.io/ddterm/gnome-shell-image/archlinux:2026.10.10.0
+    image: ghcr.io/ddterm/gnome-shell-image/archlinux:2026.10.10.1
 
   archlinux-unstable:
-    image: ghcr.io/ddterm/gnome-shell-image/archlinux-unstable:2026.10.10.0
+    image: ghcr.io/ddterm/gnome-shell-image/archlinux-unstable:2026.10.10.1
 
   opensuse-tumbleweed:
-    image: ghcr.io/ddterm/gnome-shell-image/opensuse-tumbleweed:2026.10.10.0
+    image: ghcr.io/ddterm/gnome-shell-image/opensuse-tumbleweed:2026.10.10.1
 
   debian-13:
-    image: ghcr.io/ddterm/gnome-shell-image/debian-13:2026.10.10.0
+    image: ghcr.io/ddterm/gnome-shell-image/debian-13:2026.10.10.1
 
   ubuntu-26.04:
-    image: ghcr.io/ddterm/gnome-shell-image/ubuntu-26.04:2026.10.10.0
+    image: ghcr.io/ddterm/gnome-shell-image/ubuntu-26.04:2026.10.10.1
