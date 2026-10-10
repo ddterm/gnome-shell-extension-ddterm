@@ -36,6 +36,8 @@ and should be kept disabled in most cases.
 - Upgraded more code to modern GObject subclass syntax:
 [#2152], [#2153], [#2154].
 
+- Chinese translation improvements by [@flytothehighest]: [#2169].
+
 [#2139]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2139
 [#2147]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2147
 [#2152]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2152
@@ -43,7 +45,9 @@ and should be kept disabled in most cases.
 [#2154]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2154
 [#2161]: https://github.com/ddterm/gnome-shell-extension-ddterm/issues/2161
 [#2162]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2162
+[#2169]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2169
 
+[@flytothehighest]: https://github.com/flytothehighest
 [@spi43984]: https://github.com/spi43984
 
 [Unreleased]: https://github.com/ddterm/gnome-shell-extension-ddterm/compare/v64.0.0...HEAD
@@ -90,7 +94,6 @@ in the preferences dialog: [#2035].
 [#2035]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2035
 [#2042]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2042
 
-[@flytothehighest]: https://github.com/flytothehighest
 [Libre]: https://hosted.weblate.org/user/Libertad/
 [@seuimi]: https://github.com/seuimi
 
