@@ -1,4 +1,6 @@
 // SPDX-FileCopyrightText: 2022 Aleksandr Mezin <mezin.alexander@gmail.com>
+// SPDX-FileCopyrightText: 2026 Maciej Kielar <ralek.pl@gmail.com>
+// SPDX-FileCopyrightText: 2026 spi
 // SPDX-FileContributor: Lingfeng Zhang ccat3z
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -11,6 +13,7 @@ import Gtk from 'gi://Gtk';
 
 import { ActionRow } from './widgets/actionrow.js';
 import { ComboRow, StringList } from './widgets/comborow.js';
+import { ScaleRow } from './widgets/scalerow.js';
 import { add_reset_button, PreferencesGroup, PreferencesRow } from './util.js';
 
 function show_dialog(parent_window, message, message_type = Gtk.MessageType.ERROR) {
@@ -343,6 +346,7 @@ export class ColorsGroup extends PreferencesGroup {
     #bold_color_expander;
     #cursor_color_expander;
     #highlight_color_expander;
+    #opacity_expander;
     #palette;
     #copy_gnome_terminal_profile_button;
 
@@ -497,6 +501,53 @@ export class ColorsGroup extends PreferencesGroup {
 
         this.#highlight_color_expander.add_row(highlight_foreground_color_row);
         this.#highlight_color_expander.add_row(highlight_background_color_row);
+
+        const opacity_adjustment = new Gtk.Adjustment({
+            upper: 1,
+            step_increment: 0.01,
+            page_increment: 0.10,
+        });
+
+        this.settings.bind(
+            'terminal-background-opacity',
+            opacity_adjustment,
+            'value',
+            Gio.SettingsBindFlags.DEFAULT
+        );
+
+        const opacity_row = new ScaleRow({
+            adjustment: opacity_adjustment,
+            digits: 2,
+            round_digits: 2,
+            visible: true,
+            use_underline: true,
+            title: this.gettext('_Background Opacity'),
+        });
+
+        const percent_format = new Intl.NumberFormat(undefined, { style: 'percent' });
+        opacity_row.set_format_value_func((_, v) => percent_format.format(v));
+
+        this.settings.bind_writable(
+            'terminal-background-opacity',
+            opacity_row,
+            'sensitive',
+            false
+        );
+
+        add_reset_button(
+            opacity_row,
+            this.settings,
+            'terminal-background-opacity',
+            this.gettext_domain
+        );
+
+        this.#opacity_expander = this.add_expander_row({
+            key: 'override-background-opacity',
+            flags: Gio.SettingsBindFlags.DEFAULT | Gio.SettingsBindFlags.NO_SENSITIVITY,
+            title: this.gettext('Override Background Opacity'),
+        });
+
+        this.#opacity_expander.add_row(opacity_row);
 
         const palette_presets = {
             [this.gettext('GNOME')]: [
@@ -711,6 +762,11 @@ export class ColorsGroup extends PreferencesGroup {
 
         const settings_handlers = [
             this.settings.connect('changed::use-theme-colors', update_sensitivity),
+            this.settings.connect('changed::transparent-background', update_sensitivity),
+            this.settings.connect(
+                'writable-changed::override-background-opacity',
+                update_sensitivity
+            ),
             this.settings.connect('writable-changed::foreground-color', update_sensitivity),
             this.settings.connect('writable-changed::background-color', update_sensitivity),
             this.settings.connect('writable-changed::bold-color-same-as-fg', update_sensitivity),
@@ -736,6 +792,10 @@ export class ColorsGroup extends PreferencesGroup {
     }
 
     #update_sensitivity() {
+        this.#opacity_expander.sensitive =
+            this.settings.get_boolean('transparent-background') &&
+            this.settings.is_writable('override-background-opacity');
+
         const color_scheme_editable = !this.settings.get_boolean('use-theme-colors');
 
         this.#foreground_color_row.sensitive =

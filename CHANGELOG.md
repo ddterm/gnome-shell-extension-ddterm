@@ -18,6 +18,9 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 ### Added
 
+- Optional independent terminal background opacity by [@spi43984]
+and [@raleik-pl]: [#2172], [#2023].
+
 - Start, center, and end alignment options for reduced work area size
 by [@spi43984]: [#2161], [#2162].
 
@@ -36,6 +39,7 @@ and should be kept disabled in most cases.
 - Upgraded more code to modern GObject subclass syntax:
 [#2152], [#2153], [#2154].
 
+[#2023]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2023
 [#2139]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2139
 [#2147]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2147
 [#2152]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2152
@@ -43,7 +47,9 @@ and should be kept disabled in most cases.
 [#2154]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2154
 [#2161]: https://github.com/ddterm/gnome-shell-extension-ddterm/issues/2161
 [#2162]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2162
+[#2172]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2172
 
+[@raleik-pl]: https://github.com/raleik-pl
 [@spi43984]: https://github.com/spi43984
 
 [Unreleased]: https://github.com/ddterm/gnome-shell-extension-ddterm/compare/v64.0.0...HEAD

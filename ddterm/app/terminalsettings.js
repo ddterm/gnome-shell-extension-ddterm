@@ -1,4 +1,5 @@
 // SPDX-FileCopyrightText: 2023 Aleksandr Mezin <mezin.alexander@gmail.com>
+// SPDX-FileCopyrightText: 2026 spi
 // SPDX-FileContributor: Jing Yen Loh
 // SPDX-FileContributor: Mike Lei
 //
@@ -366,9 +367,13 @@ export class TerminalSettingsParser extends GObject.Object {
 
         this.#add_dependency('transparent-background', 'background-opacity');
         this.#add_dependency('background-opacity', 'background-opacity');
+        this.#add_dependency('override-background-opacity', 'background-opacity');
+        this.#add_dependency('terminal-background-opacity', 'background-opacity');
 
         this.#add_dependency('transparent-background', 'colors');
         this.#add_dependency('background-opacity', 'colors');
+        this.#add_dependency('override-background-opacity', 'colors');
+        this.#add_dependency('terminal-background-opacity', 'colors');
         this.#add_dependency('use-theme-colors', 'colors');
         this.#add_dependency('foreground-color', 'colors');
         this.#add_dependency('background-color', 'colors');
@@ -431,6 +436,9 @@ export class TerminalSettingsParser extends GObject.Object {
     get background_opacity() {
         if (!this.gsettings.get_boolean('transparent-background'))
             return 1;
+
+        if (this.gsettings.get_boolean('override-background-opacity'))
+            return this.gsettings.get_double('terminal-background-opacity');
 
         return this.gsettings.get_double('background-opacity');
     }
