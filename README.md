@@ -67,6 +67,12 @@ If you want to install from GitHub: see [`docs/Install.md`].
 
 [`docs/Install.md`]: /docs/Install.md
 
+## Global shortcuts
+
+See [Global shortcuts] for showing, activating, and toggling the terminal.
+
+[Global shortcuts]: /docs/Shortcuts.md
+
 ## Contribute
 
 Pull requests are always welcome.

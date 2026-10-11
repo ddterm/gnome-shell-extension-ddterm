@@ -176,7 +176,16 @@ function bind_keys(settings, app_control, rollback) {
         Meta.KeyBindingFlags.IGNORE_AUTOREPEAT,
         Shell.ActionMode.NORMAL,
         () => {
-            app_control.toggle().catch(
+            const window = app_control.window_matcher.current_window;
+            let action;
+
+            if (settings.get_boolean('ddterm-toggle-focus-before-hiding') &&
+                window && window !== global.display.focus_window)
+                action = app_control.activate();
+            else
+                action = app_control.toggle();
+
+            action.catch(
                 e => logError(e, 'Failed to toggle ddterm by keybinding')
             );
         }
