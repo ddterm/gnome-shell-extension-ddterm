@@ -1,4 +1,5 @@
 // SPDX-FileCopyrightText: 2022 Aleksandr Mezin <mezin.alexander@gmail.com>
+// SPDX-FileCopyrightText: 2026 spi
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -17,6 +18,12 @@ export class BehaviorGroup extends PreferencesGroup {
         super(params);
 
         this.title = this.gettext('Behavior');
+
+        this.add_switch_row({
+            key: 'window-input-shape',
+            title: this.gettext('Allow Clicks Through Unused Window Areas'),
+            subtitle: this.gettext('Background opacity is configured separately.'),
+        });
 
         this.add_switch_row({
             key: 'window-resizable',

@@ -20,6 +20,7 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 - Optional independent terminal background opacity by [@spi43984]
 and [@raleik-pl]: [#2172], [#2023].
+
 - Optional click-through for unused window areas.
 
 - Start, center, and end alignment options for reduced work area size
@@ -30,6 +31,8 @@ Meson/ninja: [#2139]. Adds `pict` Meson option, `disabled` by default,
 and should be kept disabled in most cases.
 
 ### Changed
+
+- Resize handles follow the edges of the terminal work area.
 
 ### Removed
 

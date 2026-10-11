@@ -1,5 +1,4 @@
 // SPDX-FileCopyrightText: 2026 Aleksandr Mezin <mezin.alexander@gmail.com>
-// SPDX-FileCopyrightText: 2026 spi
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -72,11 +71,5 @@ export class WindowAppearanceGroup extends PreferencesGroup {
         });
 
         opacity_expander.add_row(opacity_row);
-
-        this.add_switch_row({
-            key: 'window-input-shape',
-            title: this.gettext('Allow Clicks Through Unused Window Areas'),
-            subtitle: this.gettext('Background opacity is configured separately.'),
-        });
     }
 }

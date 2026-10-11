@@ -116,6 +116,7 @@ export class AppWindow extends Gtk.ApplicationWindow {
         GLib.Uri.resolve_relative(import.meta.url, './ui/appwindow.ui', GLib.UriFlags.NONE);
 
     static [Gtk.children] = [
+        'workarea_container',
         'paned',
         'notebook1',
         'notebook2',
@@ -822,46 +823,25 @@ export class AppWindow extends Gtk.ApplicationWindow {
             style.remove_class('letterbox');
     }
 
-    #update_input_shape() {
-        if (!this.window_input_shape || !this.get_display().supports_input_shapes()) {
-            this.input_shape_combine_region(null);
-            return;
-        }
+    #compute_input_shape() {
+        if (!this.window_input_shape || !this.get_realized() ||
+            !this.get_display().supports_input_shapes())
+            return null;
 
-        if (!this.get_realized())
-            return;
+        const widget = this.workarea_container;
 
-        if (!this.paned.is_visible() ||
-            this.paned.get_allocated_width() <= 0 || this.paned.get_allocated_height() <= 0) {
-            this.input_shape_combine_region(null);
-            return;
-        }
+        if (!widget.is_visible())
+            return null;
+
+        const width = widget.get_allocated_width();
+        const height = widget.get_allocated_height();
+        const [translated, x, y] = widget.translate_coordinates(this, 0, 0);
+
+        if (!translated || width <= 0 || height <= 0)
+            return null;
 
         const region = new Cairo.Region();
-        const widgets = [
-            this.paned,
-            this._resize_box_north,
-            this._resize_box_south,
-            this._resize_box_east,
-            this._resize_box_west,
-        ];
-
-        for (const widget of widgets) {
-            if (!widget.is_visible())
-                continue;
-
-            const width = widget.get_allocated_width();
-            const height = widget.get_allocated_height();
-            const [translated, x, y] = widget.translate_coordinates(this, 0, 0);
-
-            if (!translated || width <= 0 || height <= 0) {
-                this.input_shape_combine_region(null);
-                return;
-            }
-
-            region.unionRectangle({ x, y, width, height });
-        }
-
+        region.unionRectangle({ x, y, width, height });
         region.intersectRectangle({
             x: 0,
             y: 0,
@@ -869,7 +849,11 @@ export class AppWindow extends Gtk.ApplicationWindow {
             height: this.get_allocated_height(),
         });
 
-        this.input_shape_combine_region(region.numRectangles() === 0 ? null : region);
+        return region.numRectangles() === 0 ? null : region;
+    }
+
+    #update_input_shape() {
+        this.input_shape_combine_region(this.#compute_input_shape());
     }
 
     vfunc_size_allocate(allocation) {
