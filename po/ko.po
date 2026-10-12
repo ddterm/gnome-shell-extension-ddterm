@@ -6,20 +6,21 @@
 #
 # 스이미 <soo.wim3@gmail.com>, 2026.
 # SUYEONG JANG <soo.wim3@gmail.com>, 2026.
+# SUYEONG JANG <seuimi@users.noreply.hosted.weblate.org>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/\n"
 "POT-Creation-Date: 2026-10-10 20:46+0000\n"
-"PO-Revision-Date: 2026-10-11 02:04+0000\n"
-"Last-Translator: SUYEONG JANG <soo.wim3@gmail.com>\n"
+"PO-Revision-Date: 2026-10-12 14:29+0000\n"
+"Last-Translator: SUYEONG JANG <seuimi@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/ko/>\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2026.10.1.dev0\n"
+"X-Generator: Weblate 2026.11.dev0\n"
 
 #: data/com.github.amezin.ddterm.desktop.in.in:8
 #: ddterm/shell/notifications.js:240 ddterm/shell/panelicon.js:39
@@ -400,7 +401,7 @@ msgstr "애니메이션"
 
 #: ddterm/pref/animation.js:32
 msgid "_Override Default Window Animations"
-msgstr "_애니메이션 강제 설정"
+msgstr "기본 창 기본 애니메이션 _재정의"
 
 #: ddterm/pref/animation.js:36
 msgid "Disable"
@@ -692,7 +693,7 @@ msgstr "선택 영역 배경 색상"
 
 #: ddterm/pref/colors.js:547
 msgid "Override Background Opacity"
-msgstr "배경 불투명도 설정"
+msgstr "배경 불투명도 재정의"
 
 #: ddterm/pref/colors.js:553
 msgid "GNOME"
