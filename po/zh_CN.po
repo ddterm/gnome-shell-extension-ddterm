@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/\n"
 "POT-Creation-Date: 2026-10-10 20:46+0000\n"
-"PO-Revision-Date: 2026-10-08 11:51+0000\n"
+"PO-Revision-Date: 2026-10-12 05:06+0000\n"
 "Last-Translator: reducedradius <137701630+flytothehighest@users.noreply.github.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/zh_Hans/>\n"
 "Language: zh_CN\n"
@@ -693,10 +693,8 @@ msgid "Highlight Background Color"
 msgstr "强调背景色"
 
 #: ddterm/pref/colors.js:547
-#, fuzzy
-#| msgid "Decrease Background Opacity"
 msgid "Override Background Opacity"
-msgstr "降低背景不透明度"
+msgstr "覆盖背景不透明度"
 
 #: ddterm/pref/colors.js:553
 msgid "GNOME"
