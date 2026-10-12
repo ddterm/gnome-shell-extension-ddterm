@@ -22,7 +22,6 @@ export class BehaviorGroup extends PreferencesGroup {
         this.add_switch_row({
             key: 'window-input-shape',
             title: this.gettext('Allow Clicks Through Unused Window Areas'),
-            subtitle: this.gettext('Background opacity is configured separately.'),
         });
 
         this.add_switch_row({

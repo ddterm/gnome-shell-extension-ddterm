@@ -824,35 +824,19 @@ export class AppWindow extends Gtk.ApplicationWindow {
     }
 
     #compute_input_shape() {
-        if (!this.window_input_shape || !this.get_realized() ||
-            !this.get_display().supports_input_shapes())
-            return null;
-
-        const widget = this.workarea_container;
-
-        if (!widget.is_visible())
-            return null;
-
-        const width = widget.get_allocated_width();
-        const height = widget.get_allocated_height();
-        const [translated, x, y] = widget.translate_coordinates(this, 0, 0);
-
-        if (!translated || width <= 0 || height <= 0)
+        if (!this.window_input_shape || !this.get_display().supports_input_shapes())
             return null;
 
         const region = new Cairo.Region();
-        region.unionRectangle({ x, y, width, height });
-        region.intersectRectangle({
-            x: 0,
-            y: 0,
-            width: this.get_allocated_width(),
-            height: this.get_allocated_height(),
-        });
+        region.unionRectangle(this.workarea_container.get_allocation());
 
-        return region.numRectangles() === 0 ? null : region;
+        return region;
     }
 
     #update_input_shape() {
+        if (!this.get_realized())
+            return;
+
         this.input_shape_combine_region(this.#compute_input_shape());
     }
 
