@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/\n"
-"POT-Creation-Date: 2026-10-07 11:06+0200\n"
+"POT-Creation-Date: 2026-10-10 20:46+0000\n"
 "PO-Revision-Date: 2026-06-26 09:01+0000\n"
 "Last-Translator: Libre <6n0n1m0s@proton.me>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/es/>\n"
@@ -571,7 +571,7 @@ msgstr "Claro"
 msgid "Dark"
 msgstr "Oscuro"
 
-#: ddterm/pref/appearance.js:53
+#: ddterm/pref/appearance.js:53 ddterm/pref/colors.js:524
 msgid "_Background Opacity"
 msgstr "Opacidad del _fondo"
 
@@ -599,135 +599,141 @@ msgstr ""
 "Forzar uso de _X11 GDK (XWayland).\n"
 "Tendrá que cerrar todas las pestañas para que esta opción surta efecto."
 
-#: ddterm/pref/colors.js:352
+#: ddterm/pref/colors.js:356
 msgid "Colors"
 msgstr "Colores"
 
-#: ddterm/pref/colors.js:356
+#: ddterm/pref/colors.js:360
 msgid "Use Colors From System _Theme"
 msgstr "Usar colores del _tema del sistema"
 
-#: ddterm/pref/colors.js:360
+#: ddterm/pref/colors.js:364
 msgid "Black on light yellow"
 msgstr "Negro sobre amarillo claro"
 
-#: ddterm/pref/colors.js:361
+#: ddterm/pref/colors.js:365
 msgid "Black on white"
 msgstr "Negro sobre blanco"
 
-#: ddterm/pref/colors.js:362
+#: ddterm/pref/colors.js:366
 msgid "Gray on black"
 msgstr "Gris sobre negro"
 
-#: ddterm/pref/colors.js:363
+#: ddterm/pref/colors.js:367
 msgid "Green on black"
 msgstr "Verde sobre negro"
 
-#: ddterm/pref/colors.js:364
+#: ddterm/pref/colors.js:368
 msgid "White on black"
 msgstr "Blanco sobre negro"
 
-#: ddterm/pref/colors.js:365
+#: ddterm/pref/colors.js:369
 msgid "GNOME light"
 msgstr "GNOME claro"
 
-#: ddterm/pref/colors.js:366
+#: ddterm/pref/colors.js:370
 msgid "GNOME dark"
 msgstr "GNOME oscuro"
 
-#: ddterm/pref/colors.js:367
+#: ddterm/pref/colors.js:371
 msgid "Tango light"
 msgstr "Tango claro"
 
-#: ddterm/pref/colors.js:368
+#: ddterm/pref/colors.js:372
 msgid "Tango dark"
 msgstr "Tango oscuro"
 
-#: ddterm/pref/colors.js:369
+#: ddterm/pref/colors.js:373
 msgid "Solarized light"
 msgstr "Solar claro"
 
-#: ddterm/pref/colors.js:370
+#: ddterm/pref/colors.js:374
 msgid "Solarized dark"
 msgstr "Solar oscuro"
 
-#: ddterm/pref/colors.js:371 ddterm/pref/colors.js:610
+#: ddterm/pref/colors.js:375 ddterm/pref/colors.js:661
 msgid "Custom"
 msgstr "Personalizado"
 
-#: ddterm/pref/colors.js:394
+#: ddterm/pref/colors.js:398
 msgid "Color _Scheme"
 msgstr "_Esquema de colores"
 
-#: ddterm/pref/colors.js:413
+#: ddterm/pref/colors.js:417
 msgid "Foreground Color"
 msgstr "Color de primer plano"
 
-#: ddterm/pref/colors.js:427
+#: ddterm/pref/colors.js:431
 msgid "Background Color"
 msgstr "Color del fondo"
 
-#: ddterm/pref/colors.js:442 ddterm/pref/colors.js:447
+#: ddterm/pref/colors.js:446 ddterm/pref/colors.js:451
 msgid "Bold Color"
 msgstr "Color de negrita"
 
-#: ddterm/pref/colors.js:457
+#: ddterm/pref/colors.js:461
 msgid "Cursor Color"
 msgstr "Color del cursor"
 
-#: ddterm/pref/colors.js:462
+#: ddterm/pref/colors.js:466
 msgid "Cursor Foreground Color"
 msgstr "Color del texto del cursor"
 
-#: ddterm/pref/colors.js:469
+#: ddterm/pref/colors.js:473
 msgid "Cursor Background Color"
 msgstr "Color del fondo del cursor"
 
-#: ddterm/pref/colors.js:480
+#: ddterm/pref/colors.js:484
 msgid "Highlight Color"
 msgstr "Color de resaltado"
 
-#: ddterm/pref/colors.js:485
+#: ddterm/pref/colors.js:489
 msgid "Highlight Foreground Color"
 msgstr "Color de primer plano de Resaltado"
 
-#: ddterm/pref/colors.js:492
+#: ddterm/pref/colors.js:496
 msgid "Highlight Background Color"
 msgstr "Color de Fondo de Resaltado"
 
-#: ddterm/pref/colors.js:502
+#: ddterm/pref/colors.js:547
+#, fuzzy
+#| msgid "Decrease Background Opacity"
+msgid "Override Background Opacity"
+msgstr "Disminuir Opacidad del Fondo"
+
+#: ddterm/pref/colors.js:553
 msgid "GNOME"
 msgstr "GNOME"
 
-#: ddterm/pref/colors.js:520
+#: ddterm/pref/colors.js:571
 msgid "Tango"
 msgstr "Tango"
 
-#: ddterm/pref/colors.js:538
+#: ddterm/pref/colors.js:589
 msgid "Linux"
 msgstr "Linux"
 
-#: ddterm/pref/colors.js:556
+#: ddterm/pref/colors.js:607
 msgid "XTerm"
 msgstr "XTerm"
 
-#: ddterm/pref/colors.js:574
+#: ddterm/pref/colors.js:625
 msgid "RXVT"
 msgstr "RXVT"
 
-#: ddterm/pref/colors.js:592
+#: ddterm/pref/colors.js:643
 msgid "Solarized"
 msgstr "Solar"
 
-#: ddterm/pref/colors.js:621
+#: ddterm/pref/colors.js:672
 msgid "_Palette"
 msgstr "_Paleta"
 
-#: ddterm/pref/colors.js:696
+#: ddterm/pref/colors.js:747
 msgid "Show Bold Text in _Bright Colors"
 msgstr "Mostrar texto en negrita en colores _brillantes"
 
-#: ddterm/pref/colors.js:701
+#: ddterm/pref/colors.js:752
 msgid "Copy profile from GNOME Terminal"
 msgstr "Copiar perfil de GNOME Terminal"
 
