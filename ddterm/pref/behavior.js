@@ -20,7 +20,7 @@ export class BehaviorGroup extends PreferencesGroup {
         this.title = this.gettext('Behavior');
 
         this.add_switch_row({
-            key: 'window-input-shape',
+            key: 'click-through-unused-areas',
             title: this.gettext('Allow Clicks Through Unused Window Areas'),
         });
 

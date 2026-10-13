@@ -187,8 +187,8 @@ export class AppWindow extends Gtk.ApplicationWindow {
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             true
         ),
-        'window-input-shape': GObject.ParamSpec.boolean(
-            'window-input-shape',
+        'click-through-unused-areas': GObject.ParamSpec.boolean(
+            'click-through-unused-areas',
             null,
             null,
             GObject.ParamFlags.READWRITE,
@@ -354,7 +354,7 @@ export class AppWindow extends Gtk.ApplicationWindow {
         this.connect('notify::workarea-alignment', () => this.#update_spacers());
         this.#update_spacers();
 
-        this.connect('notify::window-input-shape', this.#update_input_shape.bind(this));
+        this.connect('notify::click-through-unused-areas', this.#update_input_shape.bind(this));
         this.connect('realize', this.#update_input_shape.bind(this));
         this.connect('map', this.#update_input_shape.bind(this));
 
@@ -503,9 +503,9 @@ export class AppWindow extends Gtk.ApplicationWindow {
         );
 
         settings.bind(
-            'window-input-shape',
+            'click-through-unused-areas',
             this,
-            'window-input-shape',
+            'click-through-unused-areas',
             Gio.SettingsBindFlags.GET
         );
 
@@ -824,7 +824,7 @@ export class AppWindow extends Gtk.ApplicationWindow {
     }
 
     #compute_input_shape() {
-        if (!this.window_input_shape || !this.get_display().supports_input_shapes())
+        if (!this.click_through_unused_areas || !this.get_display().supports_input_shapes())
             return null;
 
         const region = new Cairo.Region();
