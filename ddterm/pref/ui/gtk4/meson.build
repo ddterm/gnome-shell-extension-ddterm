@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+xsltproc = find_program('xsltproc', native: true)
+
 foreach pref_ui_src_file : pref_ui_src_files
   pref_ui_out_files += custom_target(
     command: [xsltproc, '-o', '@OUTPUT@', files('3to4.xsl'), '@INPUT@'],
