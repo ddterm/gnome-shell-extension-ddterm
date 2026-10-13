@@ -12,6 +12,8 @@ import Gio from 'gi://Gio';
 import Gdk from 'gi://Gdk';
 import Gtk from 'gi://Gtk';
 
+import Cairo from 'cairo';
+
 import { TerminalSettings } from './terminalsettings.js';
 import { Notebook } from './notebook.js';
 import { DisplayConfig, LayoutMode } from '../util/displayconfig.js';
@@ -114,6 +116,7 @@ export class AppWindow extends Gtk.ApplicationWindow {
         GLib.Uri.resolve_relative(import.meta.url, './ui/appwindow.ui', GLib.UriFlags.NONE);
 
     static [Gtk.children] = [
+        'workarea_container',
         'paned',
         'notebook1',
         'notebook2',
@@ -183,6 +186,13 @@ export class AppWindow extends Gtk.ApplicationWindow {
             null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             true
+        ),
+        'click-through-unused-areas': GObject.ParamSpec.boolean(
+            'click-through-unused-areas',
+            null,
+            null,
+            GObject.ParamFlags.READWRITE,
+            false
         ),
         'transparent-background': GObject.ParamSpec.boolean(
             'transparent-background',
@@ -344,6 +354,10 @@ export class AppWindow extends Gtk.ApplicationWindow {
         this.connect('notify::workarea-alignment', () => this.#update_spacers());
         this.#update_spacers();
 
+        this.connect('notify::click-through-unused-areas', this.#update_input_shape.bind(this));
+        this.connect('realize', this.#update_input_shape.bind(this));
+        this.connect('map', this.#update_input_shape.bind(this));
+
         this.connect('notify::screen', this.#update_visual.bind(this));
         this.#update_visual();
 
@@ -485,6 +499,13 @@ export class AppWindow extends Gtk.ApplicationWindow {
             'window-resizable',
             this,
             'resize-handle',
+            Gio.SettingsBindFlags.GET
+        );
+
+        settings.bind(
+            'click-through-unused-areas',
+            this,
+            'click-through-unused-areas',
             Gio.SettingsBindFlags.GET
         );
 
@@ -802,10 +823,29 @@ export class AppWindow extends Gtk.ApplicationWindow {
             style.remove_class('letterbox');
     }
 
+    #compute_input_shape() {
+        if (!this.click_through_unused_areas || !this.get_display().supports_input_shapes())
+            return null;
+
+        const region = new Cairo.Region();
+        region.unionRectangle(this.workarea_container.get_allocation());
+
+        return region;
+    }
+
+    #update_input_shape() {
+        if (!this.get_realized())
+            return;
+
+        this.input_shape_combine_region(this.#compute_input_shape());
+    }
+
     vfunc_size_allocate(allocation) {
         this.#update_spacers(allocation);
 
         super.vfunc_size_allocate(allocation);
+
+        this.#update_input_shape();
     }
 
     serialize_state() {

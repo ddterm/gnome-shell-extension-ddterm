@@ -21,6 +21,8 @@ The format is based on [Keep a Changelog], and this project adheres to
 - Optional independent terminal background opacity by [@spi43984]
 and [@raleik-pl]: [#2172], [#2023].
 
+- Optional click-through for unused window areas by [@spi43984]: [#2173].
+
 - Start, center, and end alignment options for reduced work area size
 by [@spi43984]: [#2161], [#2162].
 
@@ -29,6 +31,8 @@ Meson/ninja: [#2139]. Adds `pict` Meson option, `disabled` by default,
 and should be kept disabled in most cases.
 
 ### Changed
+
+- Resize handles follow the edges of the terminal work area: [#2173].
 
 ### Removed
 
@@ -48,6 +52,7 @@ and should be kept disabled in most cases.
 [#2161]: https://github.com/ddterm/gnome-shell-extension-ddterm/issues/2161
 [#2162]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2162
 [#2172]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2172
+[#2173]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2173
 
 [@raleik-pl]: https://github.com/raleik-pl
 [@spi43984]: https://github.com/spi43984
