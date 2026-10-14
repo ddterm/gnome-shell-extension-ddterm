@@ -1,4 +1,5 @@
 // SPDX-FileCopyrightText: 2023 Aleksandr Mezin <mezin.alexander@gmail.com>
+// SPDX-FileCopyrightText: 2026 spi
 // SPDX-FileContributor: Jing Yen Loh
 // SPDX-FileContributor: Mike Lei
 //
@@ -304,6 +305,20 @@ class TerminalBase extends Vte.Terminal {
     static [GObject.GTypeName] = 'DDTermTerminalBase';
 
     static [GObject.properties] = {
+        'use-natural-width': GObject.ParamSpec.boolean(
+            'use-natural-width',
+            null,
+            null,
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+            true
+        ),
+        'use-natural-height': GObject.ParamSpec.boolean(
+            'use-natural-height',
+            null,
+            null,
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+            true
+        ),
         'colors': GObject.ParamSpec.object(
             'colors',
             null,
@@ -412,8 +427,24 @@ class TerminalBase extends Vte.Terminal {
     #background_from_style = false;
     #gesture_single = null;
 
+    vfunc_get_preferred_width() {
+        const [minimum, natural] = super.vfunc_get_preferred_width();
+
+        // VTE's natural size follows its previous allocation through the cell count.
+        return [minimum, this.use_natural_width ? natural : minimum];
+    }
+
+    vfunc_get_preferred_height() {
+        const [minimum, natural] = super.vfunc_get_preferred_height();
+
+        return [minimum, this.use_natural_height ? natural : minimum];
+    }
+
     constructor(params) {
         super(params);
+
+        this.connect('notify::use-natural-width', () => this.queue_resize());
+        this.connect('notify::use-natural-height', () => this.queue_resize());
 
         this.connect('child-exited', () => {
             this.#child_pid = 0;

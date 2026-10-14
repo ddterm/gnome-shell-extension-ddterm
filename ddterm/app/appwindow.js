@@ -331,6 +331,8 @@ export class AppWindow extends Gtk.ApplicationWindow {
                 'terminal-settings',
                 GObject.BindingFlags.SYNC_CREATE
             );
+
+            notebook.view.connect('page-attached', () => this.#update_terminal_size_requests());
         }
 
         const resize_ns = Gdk.Cursor.new_from_name(this.get_display(), 'ns-resize');
@@ -353,6 +355,10 @@ export class AppWindow extends Gtk.ApplicationWindow {
         this.connect('notify::workarea', () => this.#update_spacers());
         this.connect('notify::workarea-alignment', () => this.#update_spacers());
         this.#update_spacers();
+
+        this.connect('notify::position-setting', () => this.#update_terminal_size_requests());
+        this.connect('notify::workarea', () => this.#update_terminal_size_requests());
+        this.#update_terminal_size_requests();
 
         this.connect('notify::click-through-unused-areas', this.#update_input_shape.bind(this));
         this.connect('realize', this.#update_input_shape.bind(this));
@@ -777,6 +783,22 @@ export class AppWindow extends Gtk.ApplicationWindow {
             this.notebook1.grab_focus();
         else if (this.notebook2.visible)
             this.notebook2.grab_focus();
+    }
+
+    #update_terminal_size_requests() {
+        const { position_setting, workarea, extension_dbus } = this;
+        const reduced = Boolean(extension_dbus) && workarea < 1;
+        const horizontal = position_setting === 'top' || position_setting === 'bottom';
+        const vertical = position_setting === 'left' || position_setting === 'right';
+
+        for (const notebook of [this.notebook1, this.notebook2]) {
+            for (let i = 0; i < notebook.n_pages; i++) {
+                const { terminal } = notebook.view.get_nth_page(i).child;
+
+                terminal.use_natural_width = !(reduced && horizontal);
+                terminal.use_natural_height = !(reduced && vertical);
+            }
+        }
     }
 
     #update_spacers(allocation) {
