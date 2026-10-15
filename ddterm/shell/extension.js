@@ -176,16 +176,7 @@ function bind_keys(settings, app_control, rollback) {
         Meta.KeyBindingFlags.IGNORE_AUTOREPEAT,
         Shell.ActionMode.NORMAL,
         () => {
-            const window = app_control.window_matcher.current_window;
-            let action;
-
-            if (settings.get_boolean('ddterm-toggle-focus-before-hiding') &&
-                window && window !== global.display.focus_window)
-                action = app_control.activate();
-            else
-                action = app_control.toggle();
-
-            action.catch(
+            app_control.toggle().catch(
                 e => logError(e, 'Failed to toggle ddterm by keybinding')
             );
         }
@@ -361,6 +352,13 @@ class EnabledExtension {
             window_geometry: this.window_geometry,
             logger: this.logger ?? null,
         });
+
+        this.settings.bind(
+            'toggle-focus',
+            this.app_control,
+            'toggle-focus',
+            Gio.SettingsBindFlags.GET
+        );
 
         rollback.push(() => {
             this.app_control.disable();

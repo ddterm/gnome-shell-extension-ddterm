@@ -18,8 +18,9 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 ### Added
 
-- Optional Focus before hiding setting for Toggle Terminal Window: activates
-an unfocused terminal instead of hiding it. Disabled by default: [#1131].
+- Optional focus-aware toggling: activates an unfocused terminal instead of
+hiding it, for both the global shortcut and D-Bus Toggle. Disabled by default:
+[#1131].
 
 - Optional independent terminal background opacity by [@spi43984]
 and [@raleik-pl]: [#2172], [#2023].

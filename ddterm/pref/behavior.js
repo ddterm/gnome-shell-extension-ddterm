@@ -34,11 +34,8 @@ export class BehaviorGroup extends PreferencesGroup {
         });
 
         this.add_switch_row({
-            key: 'ddterm-toggle-focus-before-hiding',
-            title: this.gettext('Focus before hiding'),
-            subtitle: this.gettext(
-                'Focus an unfocused terminal instead of hiding it when using the toggle shortcut.'
-            ),
+            key: 'toggle-focus',
+            title: this.gettext('Focus Unfocused Terminal When Toggling'),
         });
 
         this.add_switch_row({
