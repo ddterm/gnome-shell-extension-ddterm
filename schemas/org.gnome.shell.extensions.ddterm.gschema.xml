@@ -214,6 +214,29 @@ SPDX-License-Identifier: GPL-3.0-or-later
       <range min="0.001" max="1.0"/>
     </key>
 
+    <key name="terminal-padding-horizontal" type="i">
+      <default>0</default>
+      <range min="0" max="64"/>
+      <summary>Horizontal terminal padding</summary>
+      <description>Space on each horizontal side of the terminal, in logical pixels.</description>
+    </key>
+    <key name="terminal-padding-vertical" type="i">
+      <default>0</default>
+      <range min="0" max="64"/>
+      <summary>Vertical terminal padding</summary>
+      <description>Space above and below the terminal, in logical pixels.</description>
+    </key>
+    <key name="terminal-padding-custom-color" type="b">
+      <default>false</default>
+      <summary>Use a custom terminal padding color</summary>
+      <description>When disabled, the frame uses the terminal background color.</description>
+    </key>
+    <key name="terminal-padding-color" type="s">
+      <default>'#24283b'</default>
+      <summary>Terminal padding color</summary>
+      <description>Opaque frame color used when custom padding color is enabled.</description>
+    </key>
+
     <key name="tab-policy" enum="org.gnome.shell.extensions.ddterm.TabsbarPolicy">
       <default>'always'</default>
     </key>

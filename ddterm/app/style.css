@@ -1,11 +1,20 @@
 /*
  * SPDX-FileCopyrightText: 2020 Aleksandr Mezin <mezin.alexander@gmail.com>
+ * SPDX-FileContributor: spi
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
 #ddterm-window tabbar button image {
     -gtk-icon-style: symbolic;
+}
+
+#ddterm-window box.terminal-wrapper {
+    background: transparent;
+    border-style: solid;
+    border-radius: 0;
+    padding: 0;
+    box-shadow: none;
 }
 
 #ddterm-window.transparent-background {

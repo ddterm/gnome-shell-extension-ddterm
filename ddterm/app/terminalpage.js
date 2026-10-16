@@ -1,4 +1,5 @@
 // SPDX-FileCopyrightText: 2020 Aleksandr Mezin <mezin.alexander@gmail.com>
+// SPDX-FileCopyrightText: 2026 spi
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -15,6 +16,27 @@ import { SearchWidget } from './search.js';
 import { TabTitleDialog } from './tablabel.js';
 import { Terminal, TerminalCommand, WIFEXITED, WEXITSTATUS, WTERMSIG } from './terminal.js';
 import { TerminalSettings } from './terminalsettings.js';
+import { get_settings } from './meta.js';
+
+function terminal_padding_color(settings, terminal_settings, terminal) {
+    let color;
+
+    if (settings.get_boolean('terminal-padding-custom-color')) {
+        color = new Gdk.RGBA();
+
+        if (!color.parse(settings.get_string('terminal-padding-color')))
+            color.parse(settings.get_default_value('terminal-padding-color').deep_unpack());
+    } else {
+        const context = terminal.get_style_context();
+
+        color = terminal_settings?.colors?.background ??
+            context.get_property('background-color', terminal.get_state_flags());
+        color = color.copy();
+    }
+
+    color.alpha = 1;
+    return color.to_string();
+}
 
 class CloseDialog extends Gtk.MessageDialog {
     static [GObject.GTypeName] = 'DDTermPageCloseDialog';
@@ -66,6 +88,7 @@ export class TerminalPage extends Gtk.Box {
     ];
 
     static [Gtk.internalChildren] = [
+        'terminal_wrapper',
         'scrollbar',
         'search_bar',
         'search_widget',
@@ -177,6 +200,7 @@ export class TerminalPage extends Gtk.Box {
 
     #title_binding = null;
     #title_dialog = null;
+    #padding_cleanup = [];
 
     constructor(params) {
         super(params);
@@ -184,6 +208,43 @@ export class TerminalPage extends Gtk.Box {
         this.connect('destroy', this.#destroy.bind(this));
 
         this.terminal_settings?.bind_terminal(this.terminal);
+
+        const padding_settings = get_settings();
+        const padding_provider = Gtk.CssProvider.new();
+        const padding_context = this._terminal_wrapper.get_style_context();
+        let padding_color = null;
+        const update_padding_color = () => {
+            const color = terminal_padding_color(
+                padding_settings, this.terminal_settings, this.terminal
+            );
+
+            if (color === padding_color)
+                return;
+
+            padding_color = color;
+            padding_provider.load_from_data(`box.terminal-wrapper { border-color: ${color}; }`);
+        };
+
+        padding_context.add_provider(padding_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
+        this.#padding_cleanup.push(padding_context.remove_provider.bind(
+            padding_context, padding_provider
+        ));
+
+        for (const key of ['terminal-padding-color', 'terminal-padding-custom-color']) {
+            const handler = padding_settings.connect(`changed::${key}`, update_padding_color);
+            this.#padding_cleanup.push(padding_settings.disconnect.bind(padding_settings, handler));
+        }
+
+        if (this.terminal_settings) {
+            const handler = this.terminal_settings.connect('notify::colors', update_padding_color);
+            this.#padding_cleanup.push(this.terminal_settings.disconnect.bind(
+                this.terminal_settings, handler
+            ));
+        }
+
+        const style_handler = this.terminal.connect('style-updated', update_padding_color);
+        this.#padding_cleanup.push(this.terminal.disconnect.bind(this.terminal, style_handler));
+        update_padding_color();
 
         this.connect('notify::terminal-title', this.#notify.bind(this, 'title'));
         this.connect('notify::switch-shortcut', this.#notify.bind(this, 'title'));
@@ -417,6 +478,9 @@ export class TerminalPage extends Gtk.Box {
     }
 
     #destroy() {
+        while (this.#padding_cleanup.length)
+            this.#padding_cleanup.pop()();
+
         this.#title_dialog?.destroy();
     }
 

@@ -18,6 +18,11 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 ### Added
 
+- Configurable terminal padding and frame color under Terminal → Padding.
+Padding defaults to 0 px on both axes, with 0–64 px sliders.
+The frame follows the terminal background color unless a custom color is enabled.
+Changes apply immediately and preserve terminal background and transparency settings.
+
 - Optional independent terminal background opacity by [@spi43984]
 and [@raleik-pl]: [#2172], [#2023].
 

@@ -1,4 +1,5 @@
 // SPDX-FileCopyrightText: 2020 Aleksandr Mezin <mezin.alexander@gmail.com>
+// SPDX-FileCopyrightText: 2026 spi
 // SPDX-FileContributor: Mohammad Javad Naderi
 // SPDX-FileContributor: Juan M. Cruz-Martinez
 // SPDX-FileContributor: Jackson Goode
@@ -28,6 +29,14 @@ import { PrefsDialog } from '../pref/dialog.js';
 import { DisplayConfig } from '../util/displayconfig.js';
 
 const signal_add = GLibUnix?.signal_add ?? GLibUnix?.signal_add_full;
+
+function terminal_padding_css(settings) {
+    const horizontal = settings.get_int('terminal-padding-horizontal');
+    const vertical = settings.get_int('terminal-padding-vertical');
+    return `#ddterm-window box.terminal-wrapper {
+        border-width: ${vertical}px ${horizontal}px;
+    }`;
+}
 
 function is_dbus_interface_error(ex) {
     if (!(ex instanceof GLib.Error))
@@ -423,6 +432,31 @@ export class Application extends Gtk.Application {
         shutdown.push(
             Gtk.StyleContext.remove_provider_for_screen.bind(globalThis, screen, css_provider)
         );
+
+        const padding_provider = Gtk.CssProvider.new();
+        const update_padding = () => {
+            padding_provider.load_from_data(terminal_padding_css(this.#settings));
+        };
+
+        update_padding();
+
+        Gtk.StyleContext.add_provider_for_screen(
+            screen,
+            padding_provider,
+            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+        );
+
+        shutdown.push(
+            Gtk.StyleContext.remove_provider_for_screen.bind(globalThis, screen, padding_provider)
+        );
+
+        for (const key of [
+            'terminal-padding-horizontal',
+            'terminal-padding-vertical',
+        ]) {
+            const handler = this.#settings.connect(`changed::${key}`, update_padding);
+            shutdown.push(this.#settings.disconnect.bind(this.#settings, handler));
+        }
 
         this.#terminal_settings = new TerminalSettings();
 
