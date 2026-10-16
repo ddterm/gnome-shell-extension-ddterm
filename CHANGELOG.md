@@ -18,6 +18,10 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 ### Added
 
+- Optional focus-aware toggling: activates an unfocused terminal instead of
+hiding it, for both the global shortcut and D-Bus Toggle. Disabled by default:
+[#1131].
+
 - Optional independent terminal background opacity by [@spi43984]
 and [@raleik-pl]: [#2172], [#2023].
 
@@ -46,6 +50,7 @@ by [@spi43984]: [#2184].
 - Upgraded more code to modern GObject subclass syntax:
 [#2152], [#2153], [#2154].
 
+[#1131]: https://github.com/ddterm/gnome-shell-extension-ddterm/issues/1131
 [#2023]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2023
 [#2139]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2139
 [#2147]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2147

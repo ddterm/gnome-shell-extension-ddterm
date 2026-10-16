@@ -85,6 +85,13 @@ export class AppControl extends GObject.Object {
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             WindowGeometry
         ),
+        'toggle-focus': GObject.ParamSpec.boolean(
+            'toggle-focus',
+            null,
+            null,
+            GObject.ParamFlags.READWRITE,
+            false
+        ),
         'actions': GObject.ParamSpec.object(
             'actions',
             null,
@@ -208,7 +215,9 @@ export class AppControl extends GObject.Object {
     }
 
     async toggle(wait = true) {
-        if (this.window_matcher.current_window)
+        const window = this.window_matcher.current_window;
+
+        if (window && (!this.toggle_focus || window === global.display.focus_window))
             await this.hide(wait);
         else
             await this.activate(wait);
