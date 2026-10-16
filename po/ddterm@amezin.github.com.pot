@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm GNOME Shell Extension / ddterm GNOME Shell Extension\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/\n"
-"POT-Creation-Date: 2026-10-10 20:46+0000\n"
+"POT-Creation-Date: 2026-10-13 21:46+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -13,7 +13,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Weblate 2026.10.1.dev0\n"
+"X-Generator: Weblate 2026.11.dev0\n"
 
 #: data/com.github.amezin.ddterm.desktop.in.in:8
 #: ddterm/shell/notifications.js:240 ddterm/shell/panelicon.js:39
@@ -324,11 +324,11 @@ msgstr ""
 msgid "Preferences"
 msgstr ""
 
-#: ddterm/app/ui/terminalpage.ui:146 ddterm/pref/behavior.js:28
+#: ddterm/app/ui/terminalpage.ui:146 ddterm/pref/behavior.js:34
 msgid "Above All Windows"
 msgstr ""
 
-#: ddterm/app/ui/terminalpage.ui:150 ddterm/pref/behavior.js:33
+#: ddterm/app/ui/terminalpage.ui:150 ddterm/pref/behavior.js:39
 msgid "On All Workspaces"
 msgstr ""
 
@@ -340,11 +340,11 @@ msgstr ""
 msgid "Transparent Background"
 msgstr ""
 
-#: ddterm/app/ui/terminalpage.ui:164 ddterm/pref/behavior.js:38
+#: ddterm/app/ui/terminalpage.ui:164 ddterm/pref/behavior.js:44
 msgid "Hide When Application Loses Focus"
 msgstr ""
 
-#: ddterm/app/ui/terminalpage.ui:168 ddterm/pref/behavior.js:43
+#: ddterm/app/ui/terminalpage.ui:168 ddterm/pref/behavior.js:49
 msgid "Hide When Esc Key Is Pressed"
 msgstr ""
 
@@ -564,23 +564,27 @@ msgstr ""
 msgid "_Background Opacity"
 msgstr ""
 
-#: ddterm/pref/behavior.js:19
+#: ddterm/pref/behavior.js:20
 msgid "Behavior"
 msgstr ""
 
-#: ddterm/pref/behavior.js:23
+#: ddterm/pref/behavior.js:24
+msgid "Allow Clicks Through Unused Window Areas"
+msgstr ""
+
+#: ddterm/pref/behavior.js:29
 msgid "_Resizable"
 msgstr ""
 
-#: ddterm/pref/behavior.js:48
+#: ddterm/pref/behavior.js:54
 msgid "Exclude From _Overview/Task Bar"
 msgstr ""
 
-#: ddterm/pref/behavior.js:53
+#: ddterm/pref/behavior.js:59
 msgid "Hide Mouse _Pointer When Typing"
 msgstr ""
 
-#: ddterm/pref/behavior.js:59
+#: ddterm/pref/behavior.js:65
 msgid ""
 "Force _X11 GDK backend (XWayland).\n"
 "You'll have to close all tabs for this option to take effect."

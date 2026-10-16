@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/\n"
-"POT-Creation-Date: 2026-10-10 20:46+0000\n"
+"POT-Creation-Date: 2026-10-13 21:46+0000\n"
 "PO-Revision-Date: 2023-10-24 22:14+0000\n"
 "Last-Translator: Pavel Novák <pavelnov32@gmail.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/cs/>\n"
@@ -328,11 +328,11 @@ msgstr "Nový panel po současném panelu"
 msgid "Preferences"
 msgstr "Předvolby"
 
-#: ddterm/app/ui/terminalpage.ui:146 ddterm/pref/behavior.js:28
+#: ddterm/app/ui/terminalpage.ui:146 ddterm/pref/behavior.js:34
 msgid "Above All Windows"
 msgstr "Nad všemi okny"
 
-#: ddterm/app/ui/terminalpage.ui:150 ddterm/pref/behavior.js:33
+#: ddterm/app/ui/terminalpage.ui:150 ddterm/pref/behavior.js:39
 msgid "On All Workspaces"
 msgstr "Na všech pracovních plochách"
 
@@ -344,11 +344,11 @@ msgstr "Maximalizovat okno"
 msgid "Transparent Background"
 msgstr "Průhledné pozadí"
 
-#: ddterm/app/ui/terminalpage.ui:164 ddterm/pref/behavior.js:38
+#: ddterm/app/ui/terminalpage.ui:164 ddterm/pref/behavior.js:44
 msgid "Hide When Application Loses Focus"
 msgstr "Skrýt při ztracení zaměření"
 
-#: ddterm/app/ui/terminalpage.ui:168 ddterm/pref/behavior.js:43
+#: ddterm/app/ui/terminalpage.ui:168 ddterm/pref/behavior.js:49
 msgid "Hide When Esc Key Is Pressed"
 msgstr "Schovat při zmáčknutí Esc"
 
@@ -568,23 +568,27 @@ msgstr "Tmavé"
 msgid "_Background Opacity"
 msgstr "Průhlednost _Pozadí"
 
-#: ddterm/pref/behavior.js:19
+#: ddterm/pref/behavior.js:20
 msgid "Behavior"
 msgstr "Chování"
 
-#: ddterm/pref/behavior.js:23
+#: ddterm/pref/behavior.js:24
+msgid "Allow Clicks Through Unused Window Areas"
+msgstr ""
+
+#: ddterm/pref/behavior.js:29
 msgid "_Resizable"
 msgstr "_Měnitelná velikost"
 
-#: ddterm/pref/behavior.js:48
+#: ddterm/pref/behavior.js:54
 msgid "Exclude From _Overview/Task Bar"
 msgstr "Vynechat z _přehledu/panelu úloh"
 
-#: ddterm/pref/behavior.js:53
+#: ddterm/pref/behavior.js:59
 msgid "Hide Mouse _Pointer When Typing"
 msgstr "Skrýt _ukazatel myši při psaní"
 
-#: ddterm/pref/behavior.js:59
+#: ddterm/pref/behavior.js:65
 msgid ""
 "Force _X11 GDK backend (XWayland).\n"
 "You'll have to close all tabs for this option to take effect."
