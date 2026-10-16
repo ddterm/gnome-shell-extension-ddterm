@@ -41,8 +41,7 @@ and should be kept disabled in most cases.
 ### Fixed
 
 - Keep reduced terminal work area sizes consistent across window position changes
-while respecting widget minimum sizes in both regular and application development
-modes.
+while respecting widget minimum sizes.
 
 - Upgraded more code to modern GObject subclass syntax:
 [#2152], [#2153], [#2154].
