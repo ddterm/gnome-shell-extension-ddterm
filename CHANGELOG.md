@@ -40,6 +40,9 @@ and should be kept disabled in most cases.
 
 ### Fixed
 
+- Keep reduced terminal work area size consistent across window position changes
+by [@spi43984]: [#2184].
+
 - Upgraded more code to modern GObject subclass syntax:
 [#2152], [#2153], [#2154].
 
@@ -53,6 +56,7 @@ and should be kept disabled in most cases.
 [#2162]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2162
 [#2172]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2172
 [#2173]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2173
+[#2184]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2184
 
 [@raleik-pl]: https://github.com/raleik-pl
 [@spi43984]: https://github.com/spi43984
