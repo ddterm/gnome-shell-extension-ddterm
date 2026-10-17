@@ -2,6 +2,7 @@
 
 <!--
 SPDX-FileCopyrightText: 2026 Aleksandr Mezin <mezin.alexander@gmail.com>
+SPDX-FileCopyrightText: 2026 spi
 
 SPDX-License-Identifier: GPL-3.0-or-later
 -->
@@ -259,12 +260,24 @@ SPDX-License-Identifier: GPL-3.0-or-later
         <property name="visible">True</property>
         <property name="orientation">horizontal</property>
         <child>
-          <object class="DDTermTerminal" id="terminal">
+          <object class="GtkBox" id="terminal_wrapper">
             <property name="visible">True</property>
-            <property name="context-menu-model">terminal_menu</property>
-            <property name="vadjustment">vadjustment</property>
-            <signal name="child-exited" handler="_child_exited" after="yes"/>
-            <signal name="open-hyperlink" handler="_open_hyperlink"/>
+            <style>
+              <class name="terminal-wrapper"/>
+            </style>
+            <child>
+              <object class="DDTermTerminal" id="terminal">
+                <property name="visible">True</property>
+                <property name="context-menu-model">terminal_menu</property>
+                <property name="vadjustment">vadjustment</property>
+                <signal name="child-exited" handler="_child_exited" after="yes"/>
+                <signal name="open-hyperlink" handler="_open_hyperlink"/>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+              </packing>
+            </child>
           </object>
           <packing>
             <property name="expand">True</property>

@@ -18,6 +18,9 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 ### Added
 
+- A `terminal-wrapper` style class for spacing and borders around each terminal
+through GTK CSS, without changing the terminal background or transparency.
+
 - Optional independent terminal background opacity by [@spi43984]
 and [@raleik-pl]: [#2172], [#2023].
 
