@@ -1,5 +1,4 @@
 # SPDX-FileCopyrightText: 2024 Aleksandr Mezin <mezin.alexander@gmail.com>
-# SPDX-FileContributor: spi
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -13,7 +12,6 @@ pref_js_src_files = files(
   'command.js',
   'compatibility.js',
   'dialog.js',
-  'padding.js',
   'panelicon.js',
   'positionsize.js',
   'scrolling.js',

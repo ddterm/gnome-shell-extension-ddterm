@@ -262,7 +262,7 @@ class ColorScheme extends GObject.Object {
     }
 }
 
-export class ColorRow extends ActionRow {
+class ColorRow extends ActionRow {
     static [GObject.GTypeName] = 'DDTermColorRow';
 
     static [GObject.properties] = {

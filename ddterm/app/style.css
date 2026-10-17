@@ -11,10 +11,8 @@
 
 #ddterm-window box.terminal-wrapper {
     background: transparent;
-    border-style: solid;
-    border-radius: 0;
+    border: 0;
     padding: 0;
-    box-shadow: none;
 }
 
 #ddterm-window.transparent-background {

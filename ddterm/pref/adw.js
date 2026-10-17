@@ -1,5 +1,4 @@
 // SPDX-FileCopyrightText: 2023 Aleksandr Mezin <mezin.alexander@gmail.com>
-// SPDX-FileContributor: spi
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -15,7 +14,6 @@ import { ColorsGroup } from './colors.js';
 import { CommandGroup } from './command.js';
 import { CompatibilityGroup } from './compatibility.js';
 import { PanelIconGroup } from './panelicon.js';
-import { TerminalPaddingGroup } from './padding.js';
 import { PositionSizeGroup } from './positionsize.js';
 import { ScrollingGroup } from './scrolling.js';
 import { GlobalShortcutGroup, ApplicationShortcutGroup, ResetShortcutsGroup } from './shortcuts.js';
@@ -79,7 +77,6 @@ class TerminalPage extends PreferencesPage {
         const { settings, gettext_domain } = this;
 
         this.add(new TextGroup({ settings, gettext_domain }));
-        this.add(new TerminalPaddingGroup({ settings, gettext_domain }));
         this.add(new ColorsGroup({ settings, gettext_domain }));
         this.add(new CommandGroup({ settings, gettext_domain }));
         this.add(new ScrollingGroup({ settings, gettext_domain }));
