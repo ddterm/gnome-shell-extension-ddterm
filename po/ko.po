@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/\n"
 "POT-Creation-Date: 2026-10-13 21:46+0000\n"
-"PO-Revision-Date: 2026-10-13 14:51+0000\n"
+"PO-Revision-Date: 2026-10-19 01:24+0000\n"
 "Last-Translator: SUYEONG JANG <seuimi@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/ko/>\n"
 "Language: ko\n"
@@ -257,11 +257,11 @@ msgstr "이전 찾기"
 
 #: ddterm/app/ui/terminalpage.ui:15
 msgid "Open Hyperlink"
-msgstr "하이퍼링크 열기"
+msgstr "링크 열기"
 
 #: ddterm/app/ui/terminalpage.ui:20
 msgid "Copy Hyperlink Address"
-msgstr "하이퍼링크 주소 복사"
+msgstr "링크 주소 복사"
 
 #: ddterm/app/ui/terminalpage.ui:25
 msgid "Copy File Path"
@@ -413,7 +413,7 @@ msgstr "일정한 속도로"
 
 #: ddterm/pref/animation.js:38
 msgid "Quadratic tweening"
-msgstr "부드러운 효과"
+msgstr "부드러운 가속 효과"
 
 #: ddterm/pref/animation.js:39
 msgid "Quadratic tweening, inverse"
@@ -421,7 +421,7 @@ msgstr "부드러운 감속 효과"
 
 #: ddterm/pref/animation.js:40
 msgid "Quadratic tweening, combining direct and inverse"
-msgstr "양방향 부드러운 효과"
+msgstr "부드러운 가감속 효과"
 
 #: ddterm/pref/animation.js:41
 msgid "Cubic tweening"
@@ -433,7 +433,7 @@ msgstr "매우 부드러운 감속 효과"
 
 #: ddterm/pref/animation.js:43
 msgid "Cubic tweening, combining direct and inverse"
-msgstr "매우 부드러운 효과"
+msgstr "매우 부드러운 가감속 효과"
 
 #: ddterm/pref/animation.js:44
 msgid "Quartic tweening"
@@ -461,7 +461,7 @@ msgstr "매우 극적인 가감속 효과"
 
 #: ddterm/pref/animation.js:50
 msgid "Sinusoidal tweening"
-msgstr "매끄러운 감속 효과"
+msgstr "매끄러운 가속 효과"
 
 #: ddterm/pref/animation.js:51
 msgid "Sinusoidal tweening, inverse"
@@ -569,7 +569,7 @@ msgstr "어두운"
 
 #: ddterm/pref/appearance.js:53 ddterm/pref/colors.js:524
 msgid "_Background Opacity"
-msgstr "_배경 투명도"
+msgstr "_배경 불투명도"
 
 #: ddterm/pref/behavior.js:20
 msgid "Behavior"
@@ -577,7 +577,7 @@ msgstr "동작 설정"
 
 #: ddterm/pref/behavior.js:24
 msgid "Allow Clicks Through Unused Window Areas"
-msgstr ""
+msgstr "사용하지 않는 창 영역을 클릭이 통과하도록 허용"
 
 #: ddterm/pref/behavior.js:29
 msgid "_Resizable"
@@ -585,7 +585,7 @@ msgstr "_크기 조절"
 
 #: ddterm/pref/behavior.js:54
 msgid "Exclude From _Overview/Task Bar"
-msgstr "_작업 표시줄 및 전체 화면에서 숨기기"
+msgstr "_개요 및 작업 표시줄에서 제외"
 
 #: ddterm/pref/behavior.js:59
 msgid "Hide Mouse _Pointer When Typing"
@@ -891,11 +891,11 @@ msgstr "_스크롤바 표시"
 
 #: ddterm/pref/scrolling.js:44
 msgid "Unlimited Scrollback"
-msgstr "스크롤 제한 없음"
+msgstr "스크롤백 제한 없음"
 
 #: ddterm/pref/scrolling.js:54
 msgid "Scrollback Lines"
-msgstr "스크롤 버퍼 크기"
+msgstr "스크롤백 버퍼 크기"
 
 #: ddterm/pref/shortcuts.js:336 ddterm/pref/text.js:118
 msgid "Disabled"
@@ -919,7 +919,7 @@ msgstr "앱 단축키"
 
 #: ddterm/pref/shortcuts.js:521
 msgid "_Enable application shortcuts"
-msgstr "애플리케이션 단축키 _사용"
+msgstr "앱 단축키 _사용"
 
 #: ddterm/pref/shortcuts.js:526
 msgid "Hide the Window"
@@ -947,7 +947,7 @@ msgstr "배경 불투명도 낮추기"
 
 #: ddterm/pref/shortcuts.js:556
 msgid "Enable/Disable Background Transparency"
-msgstr "배경 투명도 사용/해제"
+msgstr "배경 투명도 사용/비활성화"
 
 #: ddterm/pref/shortcuts.js:561
 msgid "Copy Selected Text"
@@ -1079,7 +1079,7 @@ msgstr "탭 _전환 팝업"
 
 #: ddterm/pref/tabs.js:67
 msgid "Show Keyboard Shortcuts"
-msgstr "키보드 단축키 표시"
+msgstr "단축키 표시"
 
 #: ddterm/pref/text.js:67
 msgid "Text"
@@ -1091,7 +1091,7 @@ msgstr "시스템 글꼴 사용"
 
 #: ddterm/pref/text.js:75
 msgid "Custom _Font"
-msgstr "사용자 지정 글꼴"
+msgstr "사용자 지정 _글꼴"
 
 #: ddterm/pref/text.js:93
 msgid "Allow _Blinking Text"
@@ -1131,7 +1131,7 @@ msgstr "활성화"
 
 #: ddterm/pref/text.js:124
 msgid "Allow _Hyperlinks"
-msgstr "하이퍼링크 허용"
+msgstr "링크 허용"
 
 #: ddterm/pref/text.js:129
 msgid "Audible _Bell"
