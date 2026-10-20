@@ -1,4 +1,5 @@
 // SPDX-FileCopyrightText: 2023 Aleksandr Mezin <mezin.alexander@gmail.com>
+// SPDX-FileCopyrightText: 2026 spi
 // SPDX-FileContributor: Mohammad Javad Naderi
 // SPDX-FileContributor: Finn van Riper
 //
@@ -63,6 +64,20 @@ export class Notebook extends Gtk.Box {
     ];
 
     static [GObject.properties] = {
+        'use-natural-width': GObject.ParamSpec.boolean(
+            'use-natural-width',
+            null,
+            null,
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+            true
+        ),
+        'use-natural-height': GObject.ParamSpec.boolean(
+            'use-natural-height',
+            null,
+            null,
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+            true
+        ),
         'terminal-settings': GObject.ParamSpec.object(
             'terminal-settings',
             null,
@@ -179,8 +194,24 @@ export class Notebook extends Gtk.Box {
 
     #page_disconnect;
 
+    vfunc_get_preferred_width() {
+        const [minimum, natural] = super.vfunc_get_preferred_width();
+
+        // VTE's natural size follows its previous allocation through the cell count.
+        return [minimum, this.use_natural_width ? natural : minimum];
+    }
+
+    vfunc_get_preferred_height() {
+        const [minimum, natural] = super.vfunc_get_preferred_height();
+
+        return [minimum, this.use_natural_height ? natural : minimum];
+    }
+
     constructor(params) {
         super(params);
+
+        this.connect('notify::use-natural-width', () => this.queue_resize());
+        this.connect('notify::use-natural-height', () => this.queue_resize());
 
         // Disable built-in shortcuts
         GObject.signal_handlers_disconnect_matched(this.view, {

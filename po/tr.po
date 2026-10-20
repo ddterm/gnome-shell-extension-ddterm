@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/\n"
-"POT-Creation-Date: 2026-10-07 11:06+0200\n"
+"POT-Creation-Date: 2026-10-13 21:46+0000\n"
 "PO-Revision-Date: 2025-10-07 20:02+0000\n"
 "Last-Translator: Nuri KÜÇÜKLER <enatsek@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/tr/>\n"
@@ -334,11 +334,11 @@ msgstr "Yeni Sekme Şuanki Sekmeden Sonra"
 msgid "Preferences"
 msgstr "Tercihler"
 
-#: ddterm/app/ui/terminalpage.ui:146 ddterm/pref/behavior.js:28
+#: ddterm/app/ui/terminalpage.ui:146 ddterm/pref/behavior.js:34
 msgid "Above All Windows"
 msgstr "Tüm Pencerelerin Üzerinde"
 
-#: ddterm/app/ui/terminalpage.ui:150 ddterm/pref/behavior.js:33
+#: ddterm/app/ui/terminalpage.ui:150 ddterm/pref/behavior.js:39
 msgid "On All Workspaces"
 msgstr "Tüm Çalışma Alanlarında"
 
@@ -350,11 +350,11 @@ msgstr "Pencereyi Büyüt"
 msgid "Transparent Background"
 msgstr "Saydam Arkaplan"
 
-#: ddterm/app/ui/terminalpage.ui:164 ddterm/pref/behavior.js:38
+#: ddterm/app/ui/terminalpage.ui:164 ddterm/pref/behavior.js:44
 msgid "Hide When Application Loses Focus"
 msgstr "Uygulama Odağı Kaybettiğinde Gizle"
 
-#: ddterm/app/ui/terminalpage.ui:168 ddterm/pref/behavior.js:43
+#: ddterm/app/ui/terminalpage.ui:168 ddterm/pref/behavior.js:49
 msgid "Hide When Esc Key Is Pressed"
 msgstr "Esc Tuşuna Basıldığında Gizle"
 
@@ -570,27 +570,31 @@ msgstr "Açık"
 msgid "Dark"
 msgstr "Koyu"
 
-#: ddterm/pref/appearance.js:53
+#: ddterm/pref/appearance.js:53 ddterm/pref/colors.js:524
 msgid "_Background Opacity"
 msgstr "_Arkaplan opaklığı"
 
-#: ddterm/pref/behavior.js:19
+#: ddterm/pref/behavior.js:20
 msgid "Behavior"
 msgstr "Davranış"
 
-#: ddterm/pref/behavior.js:23
+#: ddterm/pref/behavior.js:24
+msgid "Allow Clicks Through Unused Window Areas"
+msgstr ""
+
+#: ddterm/pref/behavior.js:29
 msgid "_Resizable"
 msgstr "_Yeniden boyutlandırılabilir"
 
-#: ddterm/pref/behavior.js:48
+#: ddterm/pref/behavior.js:54
 msgid "Exclude From _Overview/Task Bar"
 msgstr "_Genel bakış/görev çubuğu'ndan hariç tut"
 
-#: ddterm/pref/behavior.js:53
+#: ddterm/pref/behavior.js:59
 msgid "Hide Mouse _Pointer When Typing"
 msgstr "Yazarken fare _imlecini gizle"
 
-#: ddterm/pref/behavior.js:59
+#: ddterm/pref/behavior.js:65
 msgid ""
 "Force _X11 GDK backend (XWayland).\n"
 "You'll have to close all tabs for this option to take effect."
@@ -598,135 +602,141 @@ msgstr ""
 "_X11 GDK arka ucunu zorunlu kıl (XWayland).\n"
 "Bu ayarın etkin kılınması için tüm sekmeleri kapatmanız gerekecek."
 
-#: ddterm/pref/colors.js:352
+#: ddterm/pref/colors.js:356
 msgid "Colors"
 msgstr "Renkler"
 
-#: ddterm/pref/colors.js:356
+#: ddterm/pref/colors.js:360
 msgid "Use Colors From System _Theme"
 msgstr "Sistem _temasının renklerini kullan"
 
-#: ddterm/pref/colors.js:360
+#: ddterm/pref/colors.js:364
 msgid "Black on light yellow"
 msgstr "Açık sarı üzerine siyah"
 
-#: ddterm/pref/colors.js:361
+#: ddterm/pref/colors.js:365
 msgid "Black on white"
 msgstr "Beyaz üzerine siyah"
 
-#: ddterm/pref/colors.js:362
+#: ddterm/pref/colors.js:366
 msgid "Gray on black"
 msgstr "Siyah üzerine gri"
 
-#: ddterm/pref/colors.js:363
+#: ddterm/pref/colors.js:367
 msgid "Green on black"
 msgstr "Siyah üzerine yeşil"
 
-#: ddterm/pref/colors.js:364
+#: ddterm/pref/colors.js:368
 msgid "White on black"
 msgstr "Siyah üzerine beyaz"
 
-#: ddterm/pref/colors.js:365
+#: ddterm/pref/colors.js:369
 msgid "GNOME light"
 msgstr "GNOME açık"
 
-#: ddterm/pref/colors.js:366
+#: ddterm/pref/colors.js:370
 msgid "GNOME dark"
 msgstr "GNOME koyu"
 
-#: ddterm/pref/colors.js:367
+#: ddterm/pref/colors.js:371
 msgid "Tango light"
 msgstr "Tango (açık)"
 
-#: ddterm/pref/colors.js:368
+#: ddterm/pref/colors.js:372
 msgid "Tango dark"
 msgstr "Tango (koyu)"
 
-#: ddterm/pref/colors.js:369
+#: ddterm/pref/colors.js:373
 msgid "Solarized light"
 msgstr "Solarized (açık)"
 
-#: ddterm/pref/colors.js:370
+#: ddterm/pref/colors.js:374
 msgid "Solarized dark"
 msgstr "Solarized (koyu)"
 
-#: ddterm/pref/colors.js:371 ddterm/pref/colors.js:610
+#: ddterm/pref/colors.js:375 ddterm/pref/colors.js:661
 msgid "Custom"
 msgstr "Özel"
 
-#: ddterm/pref/colors.js:394
+#: ddterm/pref/colors.js:398
 msgid "Color _Scheme"
 msgstr "Renk _şeması"
 
-#: ddterm/pref/colors.js:413
+#: ddterm/pref/colors.js:417
 msgid "Foreground Color"
 msgstr "Ön Plan Rengi"
 
-#: ddterm/pref/colors.js:427
+#: ddterm/pref/colors.js:431
 msgid "Background Color"
 msgstr "Arkaplan Rengi"
 
-#: ddterm/pref/colors.js:442 ddterm/pref/colors.js:447
+#: ddterm/pref/colors.js:446 ddterm/pref/colors.js:451
 msgid "Bold Color"
 msgstr "Kalın Rengi"
 
-#: ddterm/pref/colors.js:457
+#: ddterm/pref/colors.js:461
 msgid "Cursor Color"
 msgstr "İmleç rengi"
 
-#: ddterm/pref/colors.js:462
+#: ddterm/pref/colors.js:466
 msgid "Cursor Foreground Color"
 msgstr "İmleç Ön Plan Rengi"
 
-#: ddterm/pref/colors.js:469
+#: ddterm/pref/colors.js:473
 msgid "Cursor Background Color"
 msgstr "İmleç Arka Plan Rengi"
 
-#: ddterm/pref/colors.js:480
+#: ddterm/pref/colors.js:484
 msgid "Highlight Color"
 msgstr "Vurgulama rengi"
 
-#: ddterm/pref/colors.js:485
+#: ddterm/pref/colors.js:489
 msgid "Highlight Foreground Color"
 msgstr "Vurgulama Ön Plan Rengi"
 
-#: ddterm/pref/colors.js:492
+#: ddterm/pref/colors.js:496
 msgid "Highlight Background Color"
 msgstr "Vurgulama Arka Plan Rengi"
 
-#: ddterm/pref/colors.js:502
+#: ddterm/pref/colors.js:547
+#, fuzzy
+#| msgid "Decrease Background Opacity"
+msgid "Override Background Opacity"
+msgstr "Arkaplan Opaklığını Azalt"
+
+#: ddterm/pref/colors.js:553
 msgid "GNOME"
 msgstr "GNOME"
 
-#: ddterm/pref/colors.js:520
+#: ddterm/pref/colors.js:571
 msgid "Tango"
 msgstr "Tango"
 
-#: ddterm/pref/colors.js:538
+#: ddterm/pref/colors.js:589
 msgid "Linux"
 msgstr "Linux"
 
-#: ddterm/pref/colors.js:556
+#: ddterm/pref/colors.js:607
 msgid "XTerm"
 msgstr "XTerm"
 
-#: ddterm/pref/colors.js:574
+#: ddterm/pref/colors.js:625
 msgid "RXVT"
 msgstr "RXVT"
 
-#: ddterm/pref/colors.js:592
+#: ddterm/pref/colors.js:643
 msgid "Solarized"
 msgstr "Solarized"
 
-#: ddterm/pref/colors.js:621
+#: ddterm/pref/colors.js:672
 msgid "_Palette"
 msgstr "_Renk paleti"
 
-#: ddterm/pref/colors.js:696
+#: ddterm/pref/colors.js:747
 msgid "Show Bold Text in _Bright Colors"
 msgstr "Kalın yazıları _parlak renkler ile göster"
 
-#: ddterm/pref/colors.js:701
+#: ddterm/pref/colors.js:752
 msgid "Copy profile from GNOME Terminal"
 msgstr "Profili GNOME Terminal'den kopyala"
 

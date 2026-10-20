@@ -24,6 +24,8 @@ hiding it - by [@spi43984]: [#1131], [#2176].
 - Optional independent terminal background opacity by [@spi43984]
 and [@raleik-pl]: [#2172], [#2023].
 
+- Optional click-through for unused window areas by [@spi43984]: [#2173].
+
 - Start, center, and end alignment options for reduced work area size
 by [@spi43984]: [#2161], [#2162].
 
@@ -33,11 +35,16 @@ and should be kept disabled in most cases.
 
 ### Changed
 
+- Resize handles follow the edges of the terminal work area: [#2173].
+
 ### Removed
 
 - Compatibility code that's dead now: [#2147].
 
 ### Fixed
+
+- Keep reduced terminal work area size consistent across window position changes
+by [@spi43984]: [#2184].
 
 - Upgraded more code to modern GObject subclass syntax:
 [#2152], [#2153], [#2154].
@@ -52,7 +59,9 @@ and should be kept disabled in most cases.
 [#2161]: https://github.com/ddterm/gnome-shell-extension-ddterm/issues/2161
 [#2162]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2162
 [#2172]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2172
+[#2173]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2173
 [#2176]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2176
+[#2184]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2184
 
 [@raleik-pl]: https://github.com/raleik-pl
 [@spi43984]: https://github.com/spi43984
