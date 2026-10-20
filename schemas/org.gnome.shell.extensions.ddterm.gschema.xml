@@ -398,6 +398,9 @@ SPDX-License-Identifier: GPL-3.0-or-later
     <key name="ddterm-toggle-hotkey" type="as">
       <default><![CDATA[['F12']]]></default>
     </key>
+    <key name="toggle-focus" type="b">
+      <default>false</default>
+    </key>
     <key name="ddterm-activate-hotkey" type="as">
       <default><![CDATA[[]]]></default>
     </key>
