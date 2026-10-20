@@ -19,8 +19,7 @@ The format is based on [Keep a Changelog], and this project adheres to
 ### Added
 
 - Optional focus-aware toggling: activates an unfocused terminal instead of
-hiding it, for both the global shortcut and D-Bus Toggle. Disabled by default:
-[#1131].
+hiding it - by [@spi43984]: [#1131], [#2176].
 
 - Optional independent terminal background opacity by [@spi43984]
 and [@raleik-pl]: [#2172], [#2023].
@@ -53,6 +52,7 @@ and should be kept disabled in most cases.
 [#2161]: https://github.com/ddterm/gnome-shell-extension-ddterm/issues/2161
 [#2162]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2162
 [#2172]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2172
+[#2176]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2176
 
 [@raleik-pl]: https://github.com/raleik-pl
 [@spi43984]: https://github.com/spi43984
