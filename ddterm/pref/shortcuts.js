@@ -485,6 +485,8 @@ export class GlobalShortcutGroup extends ShortcutGroup {
         GObject.registerClass(this);
     }
 
+    #toggle_focus_row;
+
     constructor(params) {
         super(params);
 
@@ -496,11 +498,43 @@ export class GlobalShortcutGroup extends ShortcutGroup {
             global: true,
         });
 
+        this.#toggle_focus_row = this.add_switch_row({
+            key: 'toggle-focus',
+            title: this.gettext('Activate Inactive Window Instead of Hiding'),
+            flags: Gio.SettingsBindFlags.NO_SENSITIVITY,
+        });
+
         this.add_shortcut_row({
             key: 'ddterm-activate-hotkey',
             title: this.gettext('Show/Activate Terminal Window'),
             global: true,
         });
+
+        this.connect('realize', this.#realize.bind(this));
+    }
+
+    #realize() {
+        const update = this.#update_sensitivity.bind(this);
+
+        const handlers = [
+            this.settings.connect('changed::ddterm-toggle-hotkey', update),
+            this.settings.connect('writable-changed::toggle-focus', update),
+        ];
+
+        const unrealize_handler = this.connect('unrealize', () => {
+            this.disconnect(unrealize_handler);
+
+            for (const handler of handlers)
+                this.settings.disconnect(handler);
+        });
+
+        this.#update_sensitivity();
+    }
+
+    #update_sensitivity() {
+        this.#toggle_focus_row.sensitive =
+            this.settings.is_writable('toggle-focus') &&
+            this.settings.get_strv('ddterm-toggle-hotkey')?.length;
     }
 }
 

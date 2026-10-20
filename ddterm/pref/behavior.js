@@ -34,11 +34,6 @@ export class BehaviorGroup extends PreferencesGroup {
         });
 
         this.add_switch_row({
-            key: 'toggle-focus',
-            title: this.gettext('Focus Unfocused Terminal When Toggling'),
-        });
-
-        this.add_switch_row({
             key: 'hide-when-focus-lost',
             title: this.gettext('Hide When Application Loses Focus'),
         });
