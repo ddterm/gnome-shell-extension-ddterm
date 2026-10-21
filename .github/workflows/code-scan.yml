@@ -34,14 +34,14 @@ jobs:
         with:
           persist-credentials: false
 
-      - uses: github/codeql-action/init@24c54180a607b1449ed407dd24f251e4e9147c8d # v4.38.3
+      - uses: github/codeql-action/init@6f2ac81f5cd81fe351a197ba0b00d91d03cd2aee # v4.39.0
         with:
           languages: ${{ matrix.language }}
           queries: security-and-quality
           config: |
             threat-models: local
 
-      - uses: github/codeql-action/analyze@24c54180a607b1449ed407dd24f251e4e9147c8d # v4.38.3
+      - uses: github/codeql-action/analyze@6f2ac81f5cd81fe351a197ba0b00d91d03cd2aee # v4.39.0
         with:
           category: '/language:${{matrix.language}}'
 
@@ -66,15 +66,15 @@ jobs:
           echo "$(pwd)/zizmor" >>"$GITHUB_PATH"
         env:
           # renovate: datasource=custom.github-release-assets depName=zizmor packageName="zizmor-x86_64-unknown-linux-gnu.tar.gz" registryUrl=https://api.github.com/repos/zizmorcore/zizmor/releases
-          ZIZMOR_VERSION: '1.31.0'
-          # renovate-digest: datasource=custom.github-release-assets depName=zizmor currentValue=1.31.0 packageName="zizmor-x86_64-unknown-linux-gnu.tar.gz" registryUrl=https://api.github.com/repos/zizmorcore/zizmor/releases
-          ZIZMOR_SHA256: '95776c59c2d4c0d6e10560647b4830762b8dbcca8d7d9b7469ff227c73a6fee6'
+          ZIZMOR_VERSION: '1.31.1'
+          # renovate-digest: datasource=custom.github-release-assets depName=zizmor currentValue=1.31.1 packageName="zizmor-x86_64-unknown-linux-gnu.tar.gz" registryUrl=https://api.github.com/repos/zizmorcore/zizmor/releases
+          ZIZMOR_SHA256: 'd185f726bdaf92df78273217dfdd24ebcd6b0ef48cf3ce776ff5762b6e138c99'
 
       - run: zizmor --format=sarif . >"$RUNNER_TEMP/results.sarif"
         env:
           GH_TOKEN: ${{ github.token }}
 
-      - uses: github/codeql-action/upload-sarif@24c54180a607b1449ed407dd24f251e4e9147c8d # v4.38.3
+      - uses: github/codeql-action/upload-sarif@6f2ac81f5cd81fe351a197ba0b00d91d03cd2aee # v4.39.0
         with:
           sarif_file: ${{ runner.temp }}/results.sarif
           category: zizmor

@@ -353,6 +353,13 @@ class EnabledExtension {
             logger: this.logger ?? null,
         });
 
+        this.settings.bind(
+            'toggle-focus',
+            this.app_control,
+            'toggle-focus',
+            Gio.SettingsBindFlags.GET
+        );
+
         rollback.push(() => {
             this.app_control.disable();
         });
