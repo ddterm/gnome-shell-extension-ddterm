@@ -49,6 +49,11 @@ by [@spi43984]: [#2184].
 - Upgraded more code to modern GObject subclass syntax:
 [#2152], [#2153], [#2154].
 
+- Chinese translation improvements by [@flytothehighest]:
+[#2169], [#2175], [#2182].
+
+- Korean translation improvements by [@seuimi]: [#2175], [#2181], [#2182].
+
 [#1131]: https://github.com/ddterm/gnome-shell-extension-ddterm/issues/1131
 [#2023]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2023
 [#2139]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2139
@@ -58,12 +63,18 @@ by [@spi43984]: [#2184].
 [#2154]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2154
 [#2161]: https://github.com/ddterm/gnome-shell-extension-ddterm/issues/2161
 [#2162]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2162
+[#2169]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2169
 [#2172]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2172
 [#2173]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2173
+[#2175]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2175
 [#2176]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2176
+[#2181]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2181
+[#2182]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2182
 [#2184]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2184
 
+[@flytothehighest]: https://github.com/flytothehighest
 [@raleik-pl]: https://github.com/raleik-pl
+[@seuimi]: https://github.com/seuimi
 [@spi43984]: https://github.com/spi43984
 
 [Unreleased]: https://github.com/ddterm/gnome-shell-extension-ddterm/compare/v64.0.0...HEAD
@@ -110,9 +121,7 @@ in the preferences dialog: [#2035].
 [#2035]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2035
 [#2042]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2042
 
-[@flytothehighest]: https://github.com/flytothehighest
 [Libre]: https://hosted.weblate.org/user/Libertad/
-[@seuimi]: https://github.com/seuimi
 
 [63.2.3]: https://github.com/ddterm/gnome-shell-extension-ddterm/releases/tag/v63.2.3
 
