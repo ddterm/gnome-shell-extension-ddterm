@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/\n"
 "POT-Creation-Date: 2026-10-20 18:53+0200\n"
-"PO-Revision-Date: 2026-10-19 01:24+0000\n"
-"Last-Translator: SUYEONG JANG <seuimi@users.noreply.hosted.weblate.org>\n"
+"PO-Revision-Date: 2026-10-21 23:10+0000\n"
+"Last-Translator: SUYEONG JANG <soo.wim3@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/ko/>\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
@@ -911,7 +911,7 @@ msgstr "터미널 창 토글"
 
 #: ddterm/pref/shortcuts.js:503
 msgid "Activate Inactive Window Instead of Hiding"
-msgstr ""
+msgstr "비활성 창을 숨기는 대신 활성화"
 
 #: ddterm/pref/shortcuts.js:509
 msgid "Show/Activate Terminal Window"
