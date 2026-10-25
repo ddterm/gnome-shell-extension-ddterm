@@ -25,21 +25,6 @@ export class BehaviorGroup extends PreferencesGroup {
         });
 
         this.add_switch_row({
-            key: 'window-resizable',
-            title: this.gettext('_Resizable'),
-        });
-
-        this.add_switch_row({
-            key: 'window-above',
-            title: this.gettext('Above All Windows'),
-        });
-
-        this.add_switch_row({
-            key: 'window-stick',
-            title: this.gettext('On All Workspaces'),
-        });
-
-        this.add_switch_row({
             key: 'hide-when-focus-lost',
             title: this.gettext('Hide When Application Loses Focus'),
         });

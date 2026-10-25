@@ -37,6 +37,8 @@ and should be kept disabled in most cases.
 
 - Resize handles follow the edges of the terminal work area: [#2173].
 
+- Moved some preferences from "Behavior" to "Position and Size" group: [#2202].
+
 ### Removed
 
 - Compatibility code that's dead now: [#2147].
@@ -73,6 +75,7 @@ by [@spi43984]: [#2184].
 [#2182]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2182
 [#2184]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2184
 [#2195]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2195
+[#2202]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2202
 
 [@flytothehighest]: https://github.com/flytothehighest
 [@raleik-pl]: https://github.com/raleik-pl

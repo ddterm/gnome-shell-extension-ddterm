@@ -289,6 +289,16 @@ export class PositionSizeGroup extends PreferencesGroup {
             },
         });
 
+        this.add_switch_row({
+            key: 'window-above',
+            title: this.gettext('Above All Windows'),
+        });
+
+        this.add_switch_row({
+            key: 'window-stick',
+            title: this.gettext('On All Workspaces'),
+        });
+
         const window_size_adjustment = new Gtk.Adjustment({
             upper: 1,
             step_increment: 0.01,
@@ -322,6 +332,11 @@ export class PositionSizeGroup extends PreferencesGroup {
         );
 
         this.add(window_size_row);
+
+        this.add_switch_row({
+            key: 'window-resizable',
+            title: this.gettext('_Resizable'),
+        });
 
         const workarea_size_adjustment = new Gtk.Adjustment({
             upper: 1,
