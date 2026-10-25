@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/\n"
-"POT-Creation-Date: 2026-10-20 18:53+0200\n"
+"POT-Creation-Date: 2026-10-25 05:02+0000\n"
 "PO-Revision-Date: 2026-06-26 09:01+0000\n"
 "Last-Translator: Libre <6n0n1m0s@proton.me>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/es/>\n"
@@ -335,11 +335,11 @@ msgstr "Nueva pestaña detrás de la pestaña actual"
 msgid "Preferences"
 msgstr "Ajustes"
 
-#: ddterm/app/ui/terminalpage.ui:146 ddterm/pref/behavior.js:34
+#: ddterm/app/ui/terminalpage.ui:146 ddterm/pref/positionsize.js:294
 msgid "Above All Windows"
 msgstr "Sobre todas las ventanas"
 
-#: ddterm/app/ui/terminalpage.ui:150 ddterm/pref/behavior.js:39
+#: ddterm/app/ui/terminalpage.ui:150 ddterm/pref/positionsize.js:299
 msgid "On All Workspaces"
 msgstr "En todos los escritorios"
 
@@ -351,11 +351,11 @@ msgstr "Maximizar ventana"
 msgid "Transparent Background"
 msgstr "Fondo transparente"
 
-#: ddterm/app/ui/terminalpage.ui:164 ddterm/pref/behavior.js:44
+#: ddterm/app/ui/terminalpage.ui:164 ddterm/pref/behavior.js:29
 msgid "Hide When Application Loses Focus"
 msgstr "Esconder cuando la aplicación pierde el foco"
 
-#: ddterm/app/ui/terminalpage.ui:168 ddterm/pref/behavior.js:49
+#: ddterm/app/ui/terminalpage.ui:168 ddterm/pref/behavior.js:34
 msgid "Hide When Esc Key Is Pressed"
 msgstr "Ocultar cuando se pulsa la tecla Esc"
 
@@ -583,19 +583,15 @@ msgstr "Comportamiento"
 msgid "Allow Clicks Through Unused Window Areas"
 msgstr ""
 
-#: ddterm/pref/behavior.js:29
-msgid "_Resizable"
-msgstr "_Redimensionable"
-
-#: ddterm/pref/behavior.js:54
+#: ddterm/pref/behavior.js:39
 msgid "Exclude From _Overview/Task Bar"
 msgstr "Excluir de la barra _overview/task"
 
-#: ddterm/pref/behavior.js:59
+#: ddterm/pref/behavior.js:44
 msgid "Hide Mouse _Pointer When Typing"
 msgstr "Ocultar el _puntero del ratón al escribir"
 
-#: ddterm/pref/behavior.js:65
+#: ddterm/pref/behavior.js:50
 msgid ""
 "Force _X11 GDK backend (XWayland).\n"
 "You'll have to close all tabs for this option to take effect."
@@ -853,37 +849,41 @@ msgstr "En el _monitor"
 msgid "_Window Position"
 msgstr "_Posición de la ventana"
 
-#: ddterm/pref/positionsize.js:285 ddterm/pref/positionsize.js:365
+#: ddterm/pref/positionsize.js:285 ddterm/pref/positionsize.js:380
 #: ddterm/pref/tabs.js:41
 msgid "Top"
 msgstr "Superior"
 
-#: ddterm/pref/positionsize.js:286 ddterm/pref/positionsize.js:367
+#: ddterm/pref/positionsize.js:286 ddterm/pref/positionsize.js:382
 #: ddterm/pref/tabs.js:40
 msgid "Bottom"
 msgstr "Inferior"
 
-#: ddterm/pref/positionsize.js:287 ddterm/pref/positionsize.js:360
+#: ddterm/pref/positionsize.js:287 ddterm/pref/positionsize.js:375
 msgid "Left"
 msgstr "Izquierda"
 
-#: ddterm/pref/positionsize.js:288 ddterm/pref/positionsize.js:362
+#: ddterm/pref/positionsize.js:288 ddterm/pref/positionsize.js:377
 msgid "Right"
 msgstr "Derecha"
 
-#: ddterm/pref/positionsize.js:311
+#: ddterm/pref/positionsize.js:321
 msgid "Window _Size"
 msgstr "Tamaño de la _ventana"
 
-#: ddterm/pref/positionsize.js:345
+#: ddterm/pref/positionsize.js:338
+msgid "_Resizable"
+msgstr "_Redimensionable"
+
+#: ddterm/pref/positionsize.js:360
 msgid "Work Area _Size"
 msgstr "_Tamaño de área de trabajo"
 
-#: ddterm/pref/positionsize.js:361 ddterm/pref/positionsize.js:366
+#: ddterm/pref/positionsize.js:376 ddterm/pref/positionsize.js:381
 msgid "Center"
 msgstr ""
 
-#: ddterm/pref/positionsize.js:372
+#: ddterm/pref/positionsize.js:387
 #, fuzzy
 #| msgid "Work Area _Size"
 msgid "Work Area _Alignment"

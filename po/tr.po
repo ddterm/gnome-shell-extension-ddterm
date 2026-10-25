@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/\n"
-"POT-Creation-Date: 2026-10-20 18:53+0200\n"
+"POT-Creation-Date: 2026-10-25 05:02+0000\n"
 "PO-Revision-Date: 2025-10-07 20:02+0000\n"
 "Last-Translator: Nuri KÜÇÜKLER <enatsek@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/tr/>\n"
@@ -334,11 +334,11 @@ msgstr "Yeni Sekme Şuanki Sekmeden Sonra"
 msgid "Preferences"
 msgstr "Tercihler"
 
-#: ddterm/app/ui/terminalpage.ui:146 ddterm/pref/behavior.js:34
+#: ddterm/app/ui/terminalpage.ui:146 ddterm/pref/positionsize.js:294
 msgid "Above All Windows"
 msgstr "Tüm Pencerelerin Üzerinde"
 
-#: ddterm/app/ui/terminalpage.ui:150 ddterm/pref/behavior.js:39
+#: ddterm/app/ui/terminalpage.ui:150 ddterm/pref/positionsize.js:299
 msgid "On All Workspaces"
 msgstr "Tüm Çalışma Alanlarında"
 
@@ -350,11 +350,11 @@ msgstr "Pencereyi Büyüt"
 msgid "Transparent Background"
 msgstr "Saydam Arkaplan"
 
-#: ddterm/app/ui/terminalpage.ui:164 ddterm/pref/behavior.js:44
+#: ddterm/app/ui/terminalpage.ui:164 ddterm/pref/behavior.js:29
 msgid "Hide When Application Loses Focus"
 msgstr "Uygulama Odağı Kaybettiğinde Gizle"
 
-#: ddterm/app/ui/terminalpage.ui:168 ddterm/pref/behavior.js:49
+#: ddterm/app/ui/terminalpage.ui:168 ddterm/pref/behavior.js:34
 msgid "Hide When Esc Key Is Pressed"
 msgstr "Esc Tuşuna Basıldığında Gizle"
 
@@ -582,19 +582,15 @@ msgstr "Davranış"
 msgid "Allow Clicks Through Unused Window Areas"
 msgstr ""
 
-#: ddterm/pref/behavior.js:29
-msgid "_Resizable"
-msgstr "_Yeniden boyutlandırılabilir"
-
-#: ddterm/pref/behavior.js:54
+#: ddterm/pref/behavior.js:39
 msgid "Exclude From _Overview/Task Bar"
 msgstr "_Genel bakış/görev çubuğu'ndan hariç tut"
 
-#: ddterm/pref/behavior.js:59
+#: ddterm/pref/behavior.js:44
 msgid "Hide Mouse _Pointer When Typing"
 msgstr "Yazarken fare _imlecini gizle"
 
-#: ddterm/pref/behavior.js:65
+#: ddterm/pref/behavior.js:50
 msgid ""
 "Force _X11 GDK backend (XWayland).\n"
 "You'll have to close all tabs for this option to take effect."
@@ -852,39 +848,43 @@ msgstr "_Monitörde"
 msgid "_Window Position"
 msgstr "_Pencere konumu"
 
-#: ddterm/pref/positionsize.js:285 ddterm/pref/positionsize.js:365
+#: ddterm/pref/positionsize.js:285 ddterm/pref/positionsize.js:380
 #: ddterm/pref/tabs.js:41
 msgid "Top"
 msgstr "Üst"
 
-#: ddterm/pref/positionsize.js:286 ddterm/pref/positionsize.js:367
+#: ddterm/pref/positionsize.js:286 ddterm/pref/positionsize.js:382
 #: ddterm/pref/tabs.js:40
 msgid "Bottom"
 msgstr "Alt"
 
-#: ddterm/pref/positionsize.js:287 ddterm/pref/positionsize.js:360
+#: ddterm/pref/positionsize.js:287 ddterm/pref/positionsize.js:375
 msgid "Left"
 msgstr "Sol"
 
-#: ddterm/pref/positionsize.js:288 ddterm/pref/positionsize.js:362
+#: ddterm/pref/positionsize.js:288 ddterm/pref/positionsize.js:377
 msgid "Right"
 msgstr "Sağ"
 
-#: ddterm/pref/positionsize.js:311
+#: ddterm/pref/positionsize.js:321
 msgid "Window _Size"
 msgstr "Pencere _boyutu"
 
-#: ddterm/pref/positionsize.js:345
+#: ddterm/pref/positionsize.js:338
+msgid "_Resizable"
+msgstr "_Yeniden boyutlandırılabilir"
+
+#: ddterm/pref/positionsize.js:360
 #, fuzzy
 #| msgid "Normal Size"
 msgid "Work Area _Size"
 msgstr "Normal Boyut"
 
-#: ddterm/pref/positionsize.js:361 ddterm/pref/positionsize.js:366
+#: ddterm/pref/positionsize.js:376 ddterm/pref/positionsize.js:381
 msgid "Center"
 msgstr ""
 
-#: ddterm/pref/positionsize.js:372
+#: ddterm/pref/positionsize.js:387
 #, fuzzy
 #| msgid "Normal Size"
 msgid "Work Area _Alignment"

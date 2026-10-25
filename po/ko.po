@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm@amezin.github.com\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/\n"
-"POT-Creation-Date: 2026-10-20 18:53+0200\n"
+"POT-Creation-Date: 2026-10-25 05:02+0000\n"
 "PO-Revision-Date: 2026-10-21 23:10+0000\n"
 "Last-Translator: SUYEONG JANG <soo.wim3@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/ko/>\n"
@@ -331,11 +331,11 @@ msgstr "현재 탭 뒤에 새 탭 생성"
 msgid "Preferences"
 msgstr "설정"
 
-#: ddterm/app/ui/terminalpage.ui:146 ddterm/pref/behavior.js:34
+#: ddterm/app/ui/terminalpage.ui:146 ddterm/pref/positionsize.js:294
 msgid "Above All Windows"
 msgstr "모든 창 위에 표시"
 
-#: ddterm/app/ui/terminalpage.ui:150 ddterm/pref/behavior.js:39
+#: ddterm/app/ui/terminalpage.ui:150 ddterm/pref/positionsize.js:299
 msgid "On All Workspaces"
 msgstr "모든 작업 공간에 표시"
 
@@ -347,11 +347,11 @@ msgstr "창 최대화"
 msgid "Transparent Background"
 msgstr "배경 투명하게"
 
-#: ddterm/app/ui/terminalpage.ui:164 ddterm/pref/behavior.js:44
+#: ddterm/app/ui/terminalpage.ui:164 ddterm/pref/behavior.js:29
 msgid "Hide When Application Loses Focus"
 msgstr "다른 앱 사용 시 창 숨기기"
 
-#: ddterm/app/ui/terminalpage.ui:168 ddterm/pref/behavior.js:49
+#: ddterm/app/ui/terminalpage.ui:168 ddterm/pref/behavior.js:34
 msgid "Hide When Esc Key Is Pressed"
 msgstr "Esc 키로 창 숨기기"
 
@@ -579,19 +579,15 @@ msgstr "동작 설정"
 msgid "Allow Clicks Through Unused Window Areas"
 msgstr "사용하지 않는 창 영역을 클릭이 통과하도록 허용"
 
-#: ddterm/pref/behavior.js:29
-msgid "_Resizable"
-msgstr "_크기 조절"
-
-#: ddterm/pref/behavior.js:54
+#: ddterm/pref/behavior.js:39
 msgid "Exclude From _Overview/Task Bar"
 msgstr "_개요 및 작업 표시줄에서 제외"
 
-#: ddterm/pref/behavior.js:59
+#: ddterm/pref/behavior.js:44
 msgid "Hide Mouse _Pointer When Typing"
 msgstr "입력 시 마우스 _커서 숨기기"
 
-#: ddterm/pref/behavior.js:65
+#: ddterm/pref/behavior.js:50
 msgid ""
 "Force _X11 GDK backend (XWayland).\n"
 "You'll have to close all tabs for this option to take effect."
@@ -847,37 +843,41 @@ msgstr "_모니터 선택"
 msgid "_Window Position"
 msgstr "_창 위치"
 
-#: ddterm/pref/positionsize.js:285 ddterm/pref/positionsize.js:365
+#: ddterm/pref/positionsize.js:285 ddterm/pref/positionsize.js:380
 #: ddterm/pref/tabs.js:41
 msgid "Top"
 msgstr "상단"
 
-#: ddterm/pref/positionsize.js:286 ddterm/pref/positionsize.js:367
+#: ddterm/pref/positionsize.js:286 ddterm/pref/positionsize.js:382
 #: ddterm/pref/tabs.js:40
 msgid "Bottom"
 msgstr "하단"
 
-#: ddterm/pref/positionsize.js:287 ddterm/pref/positionsize.js:360
+#: ddterm/pref/positionsize.js:287 ddterm/pref/positionsize.js:375
 msgid "Left"
 msgstr "왼쪽"
 
-#: ddterm/pref/positionsize.js:288 ddterm/pref/positionsize.js:362
+#: ddterm/pref/positionsize.js:288 ddterm/pref/positionsize.js:377
 msgid "Right"
 msgstr "오른쪽"
 
-#: ddterm/pref/positionsize.js:311
+#: ddterm/pref/positionsize.js:321
 msgid "Window _Size"
 msgstr "창 _크기"
 
-#: ddterm/pref/positionsize.js:345
+#: ddterm/pref/positionsize.js:338
+msgid "_Resizable"
+msgstr "_크기 조절"
+
+#: ddterm/pref/positionsize.js:360
 msgid "Work Area _Size"
 msgstr "작업 영역 _크기"
 
-#: ddterm/pref/positionsize.js:361 ddterm/pref/positionsize.js:366
+#: ddterm/pref/positionsize.js:376 ddterm/pref/positionsize.js:381
 msgid "Center"
 msgstr "중앙"
 
-#: ddterm/pref/positionsize.js:372
+#: ddterm/pref/positionsize.js:387
 msgid "Work Area _Alignment"
 msgstr "작업 영역 _정렬"
 

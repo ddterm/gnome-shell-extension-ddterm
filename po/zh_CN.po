@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/\n"
-"POT-Creation-Date: 2026-10-20 18:53+0200\n"
+"POT-Creation-Date: 2026-10-25 05:02+0000\n"
 "PO-Revision-Date: 2026-10-16 16:46+0000\n"
 "Last-Translator: reducedradius <137701630+flytothehighest@users.noreply.github.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/zh_Hans/>\n"
@@ -332,11 +332,11 @@ msgstr "新建标签页（在当前标签页之后）"
 msgid "Preferences"
 msgstr "首选项"
 
-#: ddterm/app/ui/terminalpage.ui:146 ddterm/pref/behavior.js:34
+#: ddterm/app/ui/terminalpage.ui:146 ddterm/pref/positionsize.js:294
 msgid "Above All Windows"
 msgstr "上面所有窗口"
 
-#: ddterm/app/ui/terminalpage.ui:150 ddterm/pref/behavior.js:39
+#: ddterm/app/ui/terminalpage.ui:150 ddterm/pref/positionsize.js:299
 msgid "On All Workspaces"
 msgstr "在所有工作区"
 
@@ -348,11 +348,11 @@ msgstr "最大化窗口"
 msgid "Transparent Background"
 msgstr "背景透明"
 
-#: ddterm/app/ui/terminalpage.ui:164 ddterm/pref/behavior.js:44
+#: ddterm/app/ui/terminalpage.ui:164 ddterm/pref/behavior.js:29
 msgid "Hide When Application Loses Focus"
 msgstr "当应用程序失去焦点时隐藏"
 
-#: ddterm/app/ui/terminalpage.ui:168 ddterm/pref/behavior.js:49
+#: ddterm/app/ui/terminalpage.ui:168 ddterm/pref/behavior.js:34
 msgid "Hide When Esc Key Is Pressed"
 msgstr "当按Esc键时隐藏"
 
@@ -580,19 +580,15 @@ msgstr "行为"
 msgid "Allow Clicks Through Unused Window Areas"
 msgstr "允许点击未使用的窗口区域"
 
-#: ddterm/pref/behavior.js:29
-msgid "_Resizable"
-msgstr "_可调整大小"
-
-#: ddterm/pref/behavior.js:54
+#: ddterm/pref/behavior.js:39
 msgid "Exclude From _Overview/Task Bar"
 msgstr "从_概览/任务栏中排除"
 
-#: ddterm/pref/behavior.js:59
+#: ddterm/pref/behavior.js:44
 msgid "Hide Mouse _Pointer When Typing"
 msgstr "在输入时隐藏鼠标_指针"
 
-#: ddterm/pref/behavior.js:65
+#: ddterm/pref/behavior.js:50
 msgid ""
 "Force _X11 GDK backend (XWayland).\n"
 "You'll have to close all tabs for this option to take effect."
@@ -848,37 +844,41 @@ msgstr "在 _显示器上"
 msgid "_Window Position"
 msgstr "_窗口位置"
 
-#: ddterm/pref/positionsize.js:285 ddterm/pref/positionsize.js:365
+#: ddterm/pref/positionsize.js:285 ddterm/pref/positionsize.js:380
 #: ddterm/pref/tabs.js:41
 msgid "Top"
 msgstr "顶部"
 
-#: ddterm/pref/positionsize.js:286 ddterm/pref/positionsize.js:367
+#: ddterm/pref/positionsize.js:286 ddterm/pref/positionsize.js:382
 #: ddterm/pref/tabs.js:40
 msgid "Bottom"
 msgstr "底部"
 
-#: ddterm/pref/positionsize.js:287 ddterm/pref/positionsize.js:360
+#: ddterm/pref/positionsize.js:287 ddterm/pref/positionsize.js:375
 msgid "Left"
 msgstr "左边"
 
-#: ddterm/pref/positionsize.js:288 ddterm/pref/positionsize.js:362
+#: ddterm/pref/positionsize.js:288 ddterm/pref/positionsize.js:377
 msgid "Right"
 msgstr "右边"
 
-#: ddterm/pref/positionsize.js:311
+#: ddterm/pref/positionsize.js:321
 msgid "Window _Size"
 msgstr "窗口 _大小"
 
-#: ddterm/pref/positionsize.js:345
+#: ddterm/pref/positionsize.js:338
+msgid "_Resizable"
+msgstr "_可调整大小"
+
+#: ddterm/pref/positionsize.js:360
 msgid "Work Area _Size"
 msgstr "工作区 _大小"
 
-#: ddterm/pref/positionsize.js:361 ddterm/pref/positionsize.js:366
+#: ddterm/pref/positionsize.js:376 ddterm/pref/positionsize.js:381
 msgid "Center"
 msgstr "居中"
 
-#: ddterm/pref/positionsize.js:372
+#: ddterm/pref/positionsize.js:387
 msgid "Work Area _Alignment"
 msgstr "工作区 _排列"
 
