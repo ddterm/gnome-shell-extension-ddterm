@@ -43,7 +43,7 @@ Inspired by
 ![Preferences screenshots]
 
 [command line]: /docs/CommandLine.md
-[Preferences screenshots]: /docs/screenshots/prefs.gif
+[Preferences screenshots]: /docs/screenshots/prefs.png
 
 ## Review by [TechHut]
 
