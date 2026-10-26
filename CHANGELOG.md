@@ -56,6 +56,9 @@ by [@spi43984]: [#2184].
 - Chinese translation improvements by [@flytothehighest]:
 [#2169], [#2175], [#2182].
 
+- French translation improvements by [Arthur Perrin]:
+[#2211].
+
 - Korean translation improvements by [@seuimi]:
 [#2175], [#2181], [#2182], [#2195].
 
@@ -78,12 +81,14 @@ by [@spi43984]: [#2184].
 [#2184]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2184
 [#2195]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2195
 [#2202]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2202
+[#2211]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2211
 [#2218]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2218
 
 [@flytothehighest]: https://github.com/flytothehighest
 [@raleik-pl]: https://github.com/raleik-pl
 [@seuimi]: https://github.com/seuimi
 [@spi43984]: https://github.com/spi43984
+[Arthur Perrin]: https://hosted.weblate.org/user/Onion2222/
 
 [Unreleased]: https://github.com/ddterm/gnome-shell-extension-ddterm/compare/v64.0.0...HEAD
 
