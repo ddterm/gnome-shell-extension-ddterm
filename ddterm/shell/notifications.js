@@ -15,6 +15,7 @@ import * as ModalDialog from 'resource:///org/gnome/shell/ui/modalDialog.js';
 
 import {
     findTerminalInstallCommand,
+    MissingDependencies,
 } from '../../subprojects/gjs-typelib-installer/gjs-typelib-installer.js';
 
 class DetailsDialog extends ModalDialog.ModalDialog {
@@ -257,6 +258,11 @@ export class Notifications extends GObject.Object {
     }
 
     show_error(message, trace) {
+        if (message instanceof MissingDependencies) {
+            this.show_missing_dependencies(Array.from(message.packages), Array.from(message.files));
+            return;
+        }
+
         const source = this.create_source();
 
         if (source.notifications.some(n => n instanceof MissingDependenciesNotification))
