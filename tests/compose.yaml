@@ -32,6 +32,12 @@ services:
   archlinux:
     image: ghcr.io/ddterm/gnome-shell-image/archlinux:2026.10.27.0
 
+  opensuse-leap-16.0:
+    image: ghcr.io/ddterm/gnome-shell-image/opensuse-leap-16.0:2026.10.27.0
+
+  opensuse-leap-16.1:
+    image: ghcr.io/ddterm/gnome-shell-image/opensuse-leap-16.1:2026.10.27.0
+
   opensuse-tumbleweed:
     image: ghcr.io/ddterm/gnome-shell-image/opensuse-tumbleweed:2026.10.27.0
 
