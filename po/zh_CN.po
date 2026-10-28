@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/\n"
-"POT-Creation-Date: 2026-10-25 05:02+0000\n"
+"POT-Creation-Date: 2026-10-28 06:25+0000\n"
 "PO-Revision-Date: 2026-10-16 16:46+0000\n"
 "Last-Translator: reducedradius <137701630+flytothehighest@users.noreply.github.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/zh_Hans/>\n"
@@ -22,7 +22,7 @@ msgstr ""
 "X-Generator: Weblate 2026.11.dev0\n"
 
 #: data/com.github.amezin.ddterm.desktop.in.in:8
-#: ddterm/shell/notifications.js:240 ddterm/shell/panelicon.js:39
+#: ddterm/shell/notifications.js:241 ddterm/shell/panelicon.js:39
 msgid "ddterm"
 msgstr "ddterm"
 
@@ -58,11 +58,11 @@ msgstr "贡献者"
 msgid "Can't read the version of the loaded extension."
 msgstr "无法读取已加载扩展插件的版本。"
 
-#: ddterm/app/application.js:78 ddterm/shell/notifications.js:87
+#: ddterm/app/application.js:78 ddterm/shell/notifications.js:88
 msgid "Warning: ddterm version has changed"
 msgstr "警告：ddterm版本已改变"
 
-#: ddterm/app/application.js:80 ddterm/shell/notifications.js:89
+#: ddterm/app/application.js:80 ddterm/shell/notifications.js:90
 msgid "Log out, then log in again to load the updated extension."
 msgstr "注销后重新登录，方可生效。"
 
@@ -114,15 +114,15 @@ msgstr "无法连接到扩展。"
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr "请确保ddterm在GNOME扩展中可用。"
 
-#: ddterm/app/init.js:37 ddterm/shell/notifications.js:151
+#: ddterm/app/init.js:38 ddterm/shell/notifications.js:152
 msgid "ddterm needs additional packages to run"
 msgstr "ddterm需要额外的软件包才能运行"
 
-#: ddterm/app/init.js:45 ddterm/shell/notifications.js:156
+#: ddterm/app/init.js:46 ddterm/shell/notifications.js:157
 msgid "Please install the following packages:"
 msgstr "请安装以下软件包："
 
-#: ddterm/app/init.js:52 ddterm/shell/notifications.js:164
+#: ddterm/app/init.js:53 ddterm/shell/notifications.js:165
 msgid "Please install packages that provide the following files:"
 msgstr "请安装提供以下文件的软件包："
 
@@ -220,7 +220,7 @@ msgid "Keep Open After Exit"
 msgstr "退出后保持打开"
 
 #: ddterm/app/ui/notebook.ui:91 ddterm/app/ui/terminalpage.ui:201
-#: ddterm/shell/notifications.js:64
+#: ddterm/shell/notifications.js:65
 msgid "Close"
 msgstr "关闭"
 
@@ -1198,15 +1198,15 @@ msgstr "添加"
 msgid "Reset to default value"
 msgstr "重置为默认值"
 
-#: ddterm/shell/notifications.js:59 ddterm/shell/notifications.js:137
+#: ddterm/shell/notifications.js:60 ddterm/shell/notifications.js:138
 msgid "Copy to Clipboard"
 msgstr "复制到剪贴板"
 
-#: ddterm/shell/notifications.js:133
+#: ddterm/shell/notifications.js:134
 msgid "Details…"
 msgstr "细节……"
 
-#: ddterm/shell/notifications.js:188
+#: ddterm/shell/notifications.js:189
 msgid "Install"
 msgstr "安装"
 

@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ddterm\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/\n"
-"POT-Creation-Date: 2026-10-25 05:02+0000\n"
+"POT-Creation-Date: 2026-10-28 06:25+0000\n"
 "PO-Revision-Date: 2026-10-26 18:51+0000\n"
 "Last-Translator: Arthur Perrin <onion2222@users.noreply.hosted.weblate.org>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/gnome-shell-extension-ddterm/extension/fr/>\n"
@@ -26,7 +26,7 @@ msgstr ""
 "X-Poedit-Basepath: .\n"
 
 #: data/com.github.amezin.ddterm.desktop.in.in:8
-#: ddterm/shell/notifications.js:240 ddterm/shell/panelicon.js:39
+#: ddterm/shell/notifications.js:241 ddterm/shell/panelicon.js:39
 msgid "ddterm"
 msgstr "ddterm"
 
@@ -64,11 +64,11 @@ msgstr "Contributeurs"
 msgid "Can't read the version of the loaded extension."
 msgstr "La version de l'extension chargée ne peut pas être lue."
 
-#: ddterm/app/application.js:78 ddterm/shell/notifications.js:87
+#: ddterm/app/application.js:78 ddterm/shell/notifications.js:88
 msgid "Warning: ddterm version has changed"
 msgstr "Avertissement : La version de ddterm a changé"
 
-#: ddterm/app/application.js:80 ddterm/shell/notifications.js:89
+#: ddterm/app/application.js:80 ddterm/shell/notifications.js:90
 msgid "Log out, then log in again to load the updated extension."
 msgstr "Fermez la session, puis reconnectez-vous pour charger l'extension mise à jour."
 
@@ -120,15 +120,15 @@ msgstr "L'extension ne peut être contactée."
 msgid "Please, make sure ddterm GNOME Shell extension is enabled."
 msgstr "Veuillez s'il vous plait vous assurer que l'extension GNOME Shell est activée."
 
-#: ddterm/app/init.js:37 ddterm/shell/notifications.js:151
+#: ddterm/app/init.js:38 ddterm/shell/notifications.js:152
 msgid "ddterm needs additional packages to run"
 msgstr "ddterm requiert des paquets supplémentaires pour son exécution"
 
-#: ddterm/app/init.js:45 ddterm/shell/notifications.js:156
+#: ddterm/app/init.js:46 ddterm/shell/notifications.js:157
 msgid "Please install the following packages:"
 msgstr "Merci d'installer les paquets suivants :"
 
-#: ddterm/app/init.js:52 ddterm/shell/notifications.js:164
+#: ddterm/app/init.js:53 ddterm/shell/notifications.js:165
 msgid "Please install packages that provide the following files:"
 msgstr "Merci d'installer les paquets contenant les fichiers suivants :"
 
@@ -226,7 +226,7 @@ msgid "Keep Open After Exit"
 msgstr "Laisser ouvert en quittant"
 
 #: ddterm/app/ui/notebook.ui:91 ddterm/app/ui/terminalpage.ui:201
-#: ddterm/shell/notifications.js:64
+#: ddterm/shell/notifications.js:65
 msgid "Close"
 msgstr "Fermer"
 
@@ -1204,15 +1204,15 @@ msgstr "Ajouter"
 msgid "Reset to default value"
 msgstr "Réinitialiser à la valeur par défaut"
 
-#: ddterm/shell/notifications.js:59 ddterm/shell/notifications.js:137
+#: ddterm/shell/notifications.js:60 ddterm/shell/notifications.js:138
 msgid "Copy to Clipboard"
 msgstr "Coller vers le presse-papier"
 
-#: ddterm/shell/notifications.js:133
+#: ddterm/shell/notifications.js:134
 msgid "Details…"
 msgstr "Détails…"
 
-#: ddterm/shell/notifications.js:188
+#: ddterm/shell/notifications.js:189
 msgid "Install"
 msgstr "Installer"
 
