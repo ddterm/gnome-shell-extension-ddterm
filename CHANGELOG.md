@@ -14,32 +14,26 @@ The format is based on [Keep a Changelog], and this project adheres to
 [Keep a Changelog]: https://keepachangelog.com/en/1.1.0/
 [Semantic Versioning]: https://semver.org/spec/v2.0.0.html
 
-## [Unreleased]
+## [64.1.0] - 2026-10-28
 
 ### Added
 
 - Optional focus-aware toggling: activates an unfocused terminal instead of
 hiding it - by [@spi43984]: [#1131], [#2176].
-
 - Optional independent terminal background opacity by [@spi43984]
 and [@raleik-pl]: [#2172], [#2023].
-
 - Optional click-through for unused window areas by [@spi43984]: [#2173].
-
 - Start, center, and end alignment options for reduced work area size
 by [@spi43984]: [#2161], [#2162].
-
 - Request to install missing GLibUnix typelib (openSUSE Leap): [#2218].
-
+- Runtime check of GJS version, and a warning if it's too old: [#1624], [#2069].
 - Building PICT as a Meson subproject and updating the test cases through
 Meson/ninja: [#2139]. Adds `pict` Meson option, `disabled` by default,
 and should be kept disabled in most cases.
-- Runtime check of GJS version, and a warning if it's too old: [#1624], [#2069].
 
 ### Changed
 
 - Resize handles follow the edges of the terminal work area: [#2173].
-
 - Moved some preferences from "Behavior" to "Position and Size" group: [#2202].
 
 ### Removed
@@ -50,16 +44,11 @@ and should be kept disabled in most cases.
 
 - Keep reduced terminal work area size consistent across window position changes
 by [@spi43984]: [#2184].
-
 - Upgraded more code to modern GObject subclass syntax:
 [#2152], [#2153], [#2154].
-
 - Chinese translation improvements by [@flytothehighest]:
 [#2169], [#2175], [#2182].
-
-- French translation improvements by [Arthur Perrin]:
-[#2211].
-
+- French translation improvements by [Arthur Perrin]: [#2211].
 - Korean translation improvements by [@seuimi]:
 [#2175], [#2181], [#2182], [#2195].
 
@@ -93,7 +82,7 @@ by [@spi43984]: [#2184].
 [@spi43984]: https://github.com/spi43984
 [Arthur Perrin]: https://hosted.weblate.org/user/Onion2222/
 
-[Unreleased]: https://github.com/ddterm/gnome-shell-extension-ddterm/compare/v64.0.0...HEAD
+[64.1.0]: https://github.com/ddterm/gnome-shell-extension-ddterm/releases/tag/v64.1.0
 
 ## [64.0.0] - 2026-09-23
 
