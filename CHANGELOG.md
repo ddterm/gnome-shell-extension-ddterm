@@ -29,6 +29,8 @@ and [@raleik-pl]: [#2172], [#2023].
 - Start, center, and end alignment options for reduced work area size
 by [@spi43984]: [#2161], [#2162].
 
+- Request to install missing GLibUnix typelib (openSUSE Leap): [#2218].
+
 - Building PICT as a Meson subproject and updating the test cases through
 Meson/ninja: [#2139]. Adds `pict` Meson option, `disabled` by default,
 and should be kept disabled in most cases.
@@ -76,6 +78,7 @@ by [@spi43984]: [#2184].
 [#2184]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2184
 [#2195]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2195
 [#2202]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2202
+[#2218]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2218
 
 [@flytothehighest]: https://github.com/flytothehighest
 [@raleik-pl]: https://github.com/raleik-pl

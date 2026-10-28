@@ -4,8 +4,9 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import GLib from 'gi://GLib';
-import GLibUnix from 'gi://GLibUnix';
 import Gio from 'gi://Gio';
+
+import { require } from '../../subprojects/gjs-typelib-installer/gjs-typelib-installer.js';
 
 /* We only care about Linux here, because otherwise it won't be systemd */
 const SOL_SOCKET = 1;
@@ -23,6 +24,8 @@ function dup(fd) {
 
 /* like gio-launch-desktop */
 export function sd_journal_stream_fd(identifier, priority = LOG_INFO, level_prefix = false) {
+    const { GLibUnix } = require({ GLibUnix: '2.0' });
+
     if (priority < 0)
         priority = 0;
 

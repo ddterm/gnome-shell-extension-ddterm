@@ -23,6 +23,7 @@ Gettext.textdomain(metadata['gettext-domain']);
 
 try {
     require({
+        'GLibUnix': '2.0',
         'Gtk': '3.0',
         'Gdk': '3.0',
         'Pango': '1.0',

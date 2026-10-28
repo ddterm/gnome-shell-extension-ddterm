@@ -11,6 +11,10 @@ import Meta from 'gi://Meta';
 
 import { sd_journal_stream_fd } from './sd_journal.js';
 
+import {
+    MissingDependencies,
+} from '../../subprojects/gjs-typelib-installer/gjs-typelib-installer.js';
+
 const SIGTERM = 15;
 
 const STDOUT_FD = 1;
@@ -31,7 +35,10 @@ function make_subprocess_launcher_journald(journal_identifier) {
         subprocess_launcher.take_stdout_fd(fd);
         subprocess_launcher.set_flags(Gio.SubprocessFlags.STDERR_MERGE);
     } catch (ex) {
-        logError(ex, "Can't connect to systemd-journald");
+        if (ex instanceof MissingDependencies)
+            throw ex;
+        else
+            logError(ex, "Can't connect to systemd-journald");
     }
 
     return subprocess_launcher;
