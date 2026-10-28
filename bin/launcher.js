@@ -19,6 +19,23 @@ GObject.gtypeNameBasedOnJSPath = true;
 
 GLib.set_prgname('@APP_ID@');
 
+if ('@GJS_MIN_VERSION@'.localeCompare(`${System.version}`, 'kn') > 0) {
+    function format_version(version_str) {
+        const parts = [];
+
+        for (let i = version_str.length; i > 0; i -= 2)
+            parts.unshift(version_str.substring(i - 2, i).replace(/^0(\d)/g, '$1'));
+
+        return parts.join('.');
+    }
+
+    const expected = format_version('@GJS_MIN_VERSION@');
+    const actual = format_version(`${System.version}`);
+
+    printerr(`GJS version ${actual} is older than the minimum required ${expected}`);
+    System.exit(1);
+}
+
 function realpath(filename) {
     const remaining = [];
 

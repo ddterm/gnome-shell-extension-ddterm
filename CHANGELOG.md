@@ -34,6 +34,7 @@ by [@spi43984]: [#2161], [#2162].
 - Building PICT as a Meson subproject and updating the test cases through
 Meson/ninja: [#2139]. Adds `pict` Meson option, `disabled` by default,
 and should be kept disabled in most cases.
+- Runtime check of GJS version, and a warning if it's too old: [#1624], [#2069].
 
 ### Changed
 
@@ -63,7 +64,9 @@ by [@spi43984]: [#2184].
 [#2175], [#2181], [#2182], [#2195].
 
 [#1131]: https://github.com/ddterm/gnome-shell-extension-ddterm/issues/1131
+[#1624]: https://github.com/ddterm/gnome-shell-extension-ddterm/issues/1624
 [#2023]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2023
+[#2069]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2069
 [#2139]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2139
 [#2147]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2147
 [#2152]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2152
