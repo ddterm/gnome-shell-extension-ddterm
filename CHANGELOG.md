@@ -24,6 +24,11 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 ### Fixed
 
+- `meson install` will not install an unnecessary copy of `CHANGELOG.md`:
+[#2227].
+
+[#2227]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2227
+
 [Unreleased]: https://github.com/ddterm/gnome-shell-extension-ddterm/compare/v64.1.0...HEAD
 
 ## [64.1.0] - 2026-10-28
