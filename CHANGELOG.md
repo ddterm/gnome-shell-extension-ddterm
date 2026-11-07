@@ -18,6 +18,8 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 ### Added
 
+- Option to keep ddterm running in the background after closing the last tab.
+
 ### Changed
 
 ### Removed

@@ -35,6 +35,11 @@ export class BehaviorGroup extends PreferencesGroup {
         });
 
         this.add_switch_row({
+            key: 'keep-window-open-when-empty',
+            title: this.gettext('Keep Window Running in Background When No Tabs Are Open'),
+        });
+
+        this.add_switch_row({
             key: 'window-skip-taskbar',
             title: this.gettext('Exclude From _Overview/Task Bar'),
         });

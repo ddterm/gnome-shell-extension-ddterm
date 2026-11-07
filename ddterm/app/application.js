@@ -693,7 +693,8 @@ export class Application extends Gtk.Application {
             properties.use_custom_title = true;
         }
 
-        const notebook = this._ensure_window().active_notebook;
+        const win = this._ensure_window();
+        const notebook = win.active_notebook ?? win.notebook1;
         properties.command = argv?.length
             ? new TerminalCommand({ argv, envv, working_directory })
             : notebook.get_command_from_settings(working_directory, envv);
@@ -732,15 +733,16 @@ export class Application extends Gtk.Application {
     }
 
     #open_file(file) {
+        const win = this._ensure_window();
+        const notebook = win.active_notebook ?? win.notebook1;
+
         if (file.query_file_type(Gio.FileQueryInfoFlags.NONE, null) === Gio.FileType.DIRECTORY) {
-            const notebook = this._ensure_window().active_notebook;
             const command = notebook.get_command_from_settings(file);
 
             notebook.new_page(-1, { command }).spawn();
         } else {
             const argv = [file.get_path()];
             const command = new TerminalCommand({ argv });
-            const notebook = this._ensure_window().active_notebook;
             const page = notebook.new_page(-1, {
                 command,
                 keep_open_after_exit: true,

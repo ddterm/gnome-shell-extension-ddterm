@@ -599,3 +599,54 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
         del pages2[0]['text']
 
         assert state1 == state2
+
+    @pytest.fixture
+    def keep_window_open_when_empty(self, settings_test_hook, request):
+        settings_test_hook.keep_window_open_when_empty = request.param
+
+        return request.param
+
+    @pytest.mark.parametrize('keep_window_open_when_empty', (True, False), indirect=True)
+    def test_close_last_tab(
+        self,
+        app_control,
+        app_debug_dbus_interface,
+        extension_test_hook,
+        keep_window_open_when_empty,
+        session_path,
+        shell_test_hook,
+    ):
+        if app_control.is_running():
+            app_control.quit()
+
+        # Delete the saved session, so the window starts with exactly one tab
+        session_path.unlink(missing_ok=True)
+        app_control.activate()
+
+        app_debug_dbus_interface.wait_property('NumTabs', 1)
+
+        # The default tab runs an interactive shell, and the shell is its own
+        # foreground process group, so 'page.close' closes it right away.
+        app_debug_dbus_interface.ActivateAction('page.close')
+
+        extension_test_hook.wait_property('HasWindow', False)
+
+        if keep_window_open_when_empty:
+            # The window is kept hidden, and the app keeps running
+            assert extension_test_hook.AppRunning
+            assert extension_test_hook.HasWindow is False
+            assert app_debug_dbus_interface.Eval('!!this.window')
+            app_debug_dbus_interface.wait_property('NumTabs', 0)
+
+            # Toggling the app re-shows the window with a fresh terminal
+            with shell_test_hook.watch_signal('WindowShown') as window_shown:
+                app_debug_dbus_interface.ActivateAction('app.toggle')
+                window_shown.get()
+
+            app_debug_dbus_interface.wait_property('NumTabs', 1)
+
+            app_control.quit()
+        else:
+            # Default behavior: closing the last tab also terminates the app
+            extension_test_hook.wait_property('AppRunning', False)
+            extension_test_hook.wait_property('HasWindow', False)

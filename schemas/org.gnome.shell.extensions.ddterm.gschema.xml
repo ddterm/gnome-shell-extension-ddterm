@@ -183,6 +183,9 @@ SPDX-License-Identifier: GPL-3.0-or-later
     <key name="hide-when-focus-lost" type="b">
       <default>true</default>
     </key>
+    <key name="keep-window-open-when-empty" type="b">
+      <default>false</default>
+    </key>
     <key name="pointer-autohide" type="b">
       <default>false</default>
     </key>

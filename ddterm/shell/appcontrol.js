@@ -241,7 +241,7 @@ export class AppControl extends GObject.Object {
     }
 
     async hide(wait = true) {
-        if (!this.window_matcher.current_window)
+        if (!this.window_matcher.current_window || !this.actions)
             return;
 
         this.logger?.log('Activating hide action on %o', this.#actions_owner);
