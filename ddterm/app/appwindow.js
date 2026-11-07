@@ -145,6 +145,13 @@ export class AppWindow extends Gtk.ApplicationWindow {
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
             false
         ),
+        'keep-window-open-when-empty': GObject.ParamSpec.boolean(
+            'keep-window-open-when-empty',
+            null,
+            null,
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+            false
+        ),
         'terminal-settings': GObject.ParamSpec.object(
             'terminal-settings',
             null,
@@ -275,6 +282,7 @@ export class AppWindow extends Gtk.ApplicationWindow {
     }
 
     #active_notebook = null;
+    #keep_window_open_when_empty = false;
 
     constructor(params) {
         super({
@@ -283,11 +291,17 @@ export class AppWindow extends Gtk.ApplicationWindow {
         });
 
         const toggle_action = Gio.SimpleAction.new('toggle', null);
-        toggle_action.connect('activate', this.toggle.bind(this));
+        toggle_action.connect('activate', () => {
+            this.ensure_terminal();
+            this.toggle();
+        });
         this.add_action(toggle_action);
 
         const show_action = Gio.SimpleAction.new('show', null);
-        show_action.connect('activate', this.present.bind(this));
+        show_action.connect('activate', () => {
+            this.ensure_terminal();
+            this.present();
+        });
         this.add_action(show_action);
 
         const hide_action = Gio.SimpleAction.new('hide', null);
@@ -369,8 +383,10 @@ export class AppWindow extends Gtk.ApplicationWindow {
         this.#update_show_shortcuts();
 
         this.connect('notify::is-empty', () => {
-            if (this.is_empty)
-                this.close();
+            this.#update_empty_window();
+        });
+        this.connect('notify::keep-window-open-when-empty', () => {
+            this.#update_empty_window();
         });
 
         this.#setup_size_sync();
@@ -378,6 +394,30 @@ export class AppWindow extends Gtk.ApplicationWindow {
 
     get hide_on_close() {
         return Boolean(this._hide_on_close_handler);
+    }
+
+    get keep_window_open_when_empty() {
+        return this.#keep_window_open_when_empty;
+    }
+
+    set keep_window_open_when_empty(value) {
+        value = Boolean(value);
+
+        if (this.#keep_window_open_when_empty === value)
+            return;
+
+        this.#keep_window_open_when_empty = value;
+        this.notify('keep-window-open-when-empty');
+    }
+
+    #update_empty_window() {
+        if (!this.is_empty)
+            return;
+
+        if (this.keep_window_open_when_empty)
+            this.hide();
+        else
+            this.close();
     }
 
     set hide_on_close(enable) {
@@ -544,6 +584,13 @@ export class AppWindow extends Gtk.ApplicationWindow {
             'tab-show-shortcuts',
             this,
             'tab-show-shortcuts',
+            Gio.SettingsBindFlags.GET
+        );
+
+        settings.bind(
+            'keep-window-open-when-empty',
+            this,
+            'keep-window-open-when-empty',
             Gio.SettingsBindFlags.GET
         );
 

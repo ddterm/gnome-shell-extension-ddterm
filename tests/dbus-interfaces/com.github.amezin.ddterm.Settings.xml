@@ -20,6 +20,7 @@
         <property type="s" name="hide-animation" access="readwrite"/>
         <property type="b" name="window-above" access="readwrite"/>
         <property type="b" name="hide-when-focus-lost" access="readwrite"/>
+        <property type="b" name="keep-window-open-when-empty" access="readwrite"/>
         <property type="b" name="window-stick" access="readwrite"/>
         <property type="b" name="window-skip-taskbar" access="readwrite"/>
         <property type="s" name="theme-variant" access="readwrite"/>

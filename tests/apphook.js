@@ -230,7 +230,19 @@ class DebugInterface {
         }
 
         const [prefix, name] = action_name.split('.');
-        const actions = deepest_scope.get_action_group(prefix);
+
+        let actions = null;
+
+        if (deepest_scope?.get_action_group)
+            actions = deepest_scope.get_action_group(prefix);
+
+        // When the app window is gone, the application itself is the last
+        // remaining 'app' action group.
+        if (!actions && prefix === 'app')
+            actions = deepest_scope ?? this.app;
+
+        if (!actions)
+            throw new Error(`Action group ${prefix} not found for action ${detailed_action}`);
 
         actions.activate_action(name, target_value);
     }
