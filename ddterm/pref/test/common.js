@@ -149,7 +149,7 @@ export const Application = GObject.registerClass({
                     System.dumpHeap(heap_dump);
                 }
             } else {
-                await this.preferences();
+                await this.create();
             }
         } catch (ex) {
             logError(ex);
@@ -159,7 +159,7 @@ export const Application = GObject.registerClass({
     }
 
     async do_test() {
-        const dialog = await this.preferences();
+        const dialog = await this.create();
 
         await wait_frame(dialog);
         await wait_idle();
@@ -167,7 +167,7 @@ export const Application = GObject.registerClass({
         dialog.close();
     }
 
-    async preferences() {
+    async create() {
         const { PrefsDialog } = await import(this.resolve_relative('ddterm/pref/dialog.js'));
 
         const prefs_dialog = new PrefsDialog({
