@@ -26,8 +26,12 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 - `meson install` will not install an unnecessary copy of `CHANGELOG.md`:
 [#2227].
+- Chinese translation improvements by [@flytothehighest]: [#2231].
 
 [#2227]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2227
+[#2231]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2231
+
+[@flytothehighest]: https://github.com/flytothehighest
 
 [Unreleased]: https://github.com/ddterm/gnome-shell-extension-ddterm/compare/v64.1.0...HEAD
 
@@ -93,7 +97,6 @@ by [@spi43984]: [#2184].
 [#2211]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2211
 [#2218]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2218
 
-[@flytothehighest]: https://github.com/flytothehighest
 [@raleik-pl]: https://github.com/raleik-pl
 [@seuimi]: https://github.com/seuimi
 [@spi43984]: https://github.com/spi43984
