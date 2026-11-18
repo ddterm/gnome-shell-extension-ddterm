@@ -141,6 +141,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <property name="focus_on_click">False</property>
             <property name="tooltip_text" translatable="yes">New Tab (First)</property>
             <property name="action_name">notebook.new-tab-front</property>
+            <property name="valign">center</property>
             <style>
               <class name="flat"/>
             </style>
@@ -175,6 +176,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                 <property name="focus_on_click">False</property>
                 <property name="tooltip_text" translatable="yes">New Tab (Last)</property>
                 <property name="action_name">notebook.new-tab</property>
+                <property name="valign">center</property>
                 <style>
                   <class name="flat"/>
                 </style>
@@ -191,6 +193,8 @@ SPDX-License-Identifier: GPL-3.0-or-later
               <object class="GtkMenuButton" id="tab_switch_button">
                 <property name="visible" bind-source="DDTermNotebook" bind-property="show-tab-switch-popup" bind-flags="sync-create|bidirectional"/>
                 <property name="focus_on_click">False</property>
+                <property name="icon-name">open-menu-symbolic</property>
+                <property name="valign">center</property>
                 <style>
                   <class name="flat"/>
                 </style>
