@@ -159,6 +159,9 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <property name="autohide">False</property>
             <property name="view">view</property>
             <property name="expand-tabs" bind-source="DDTermNotebook" bind-property="tab-expand" bind-flags="sync-create|bidirectional"/>
+            <style>
+              <class name="inline"/>
+            </style>
           </object>
         </child>
         <child>
