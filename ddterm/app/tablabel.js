@@ -4,7 +4,7 @@
 
 import GObject from 'gi://GObject';
 import Gtk from 'gi://Gtk';
-import Handy from 'gi://Handy';
+import Adw from 'gi://Adw';
 
 import Gettext from 'gettext';
 
@@ -87,13 +87,13 @@ export class TabTitleDialog extends Gtk.Dialog {
             GObject.BindingFlags.SYNC_CREATE
         );
 
-        const group = new Handy.PreferencesGroup({
+        const group = new Adw.PreferencesGroup({
             visible: true,
         });
 
         group.add(toggle);
         group.add(entry);
 
-        this.get_content_area().add(group);
+        this.get_content_area().append(group);
     }
 }

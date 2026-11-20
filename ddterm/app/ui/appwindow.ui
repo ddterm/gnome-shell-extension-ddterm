@@ -8,10 +8,11 @@ SPDX-License-Identifier: GPL-3.0-or-later
 -->
 
 <interface domain="ddterm@amezin.github.com">
-  <requires lib="gtk+" version="3.24"/>
+  <requires lib="gtk" version="4.0"/>
 
   <template class="DDTermAppWindow" parent="GtkApplicationWindow">
     <property name="name">ddterm-window</property>
+    <property name="overflow">hidden</property>
     <signal name="notify::is-split" handler="_notify_split_layout"/>
     <signal name="notify::split-orientation" handler="_emit_session_update"/>
     <child>
@@ -28,7 +29,10 @@ SPDX-License-Identifier: GPL-3.0-or-later
                 <property name="hexpand">True</property>
                 <property name="vexpand">True</property>
                 <property name="wide-handle">True</property>
-                <signal name="set-focus-child" handler="_paned_focus_child"/>
+                <property name="resize-start-child">True</property>
+                <property name="shrink-start-child">False</property>
+                <property name="resize-end-child">True</property>
+                <property name="shrink-end-child">False</property>
                 <signal name="notify::orientation" handler="_notify_split_layout"/>
                 <child>
                   <object class="DDTermNotebook" id="notebook1">
@@ -41,10 +45,6 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     <signal name="move-to-other-pane" handler="_notebook_transfer_page"/>
                     <signal name="session-update" handler="_emit_session_update"/>
                   </object>
-                  <packing>
-                    <property name="resize">True</property>
-                    <property name="shrink">False</property>
-                  </packing>
                 </child>
                 <child>
                   <object class="DDTermNotebook" id="notebook2">
@@ -57,21 +57,16 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     <signal name="move-to-other-pane" handler="_notebook_transfer_page"/>
                     <signal name="session-update" handler="_emit_session_update"/>
                   </object>
-                  <packing>
-                    <property name="resize">True</property>
-                    <property name="shrink">False</property>
-                  </packing>
                 </child>
+                <layout>
+                  <property name="column">1</property>
+                  <property name="row">1</property>
+                </layout>
               </object>
-              <packing>
-                <property name="left-attach">1</property>
-                <property name="top-attach">1</property>
-              </packing>
             </child>
             <child>
-              <object class="GtkEventBox" id="resize_box_north">
+              <object class="GtkBox" id="resize_box_north">
                 <property name="visible">True</property>
-                <signal name="realize" handler="_setup_widget_cursor"/>
                 <style>
                   <class name="background"/>
                 </style>
@@ -83,16 +78,15 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     <property name="margin-bottom">2</property>
                   </object>
                 </child>
+                <layout>
+                  <property name="column">1</property>
+                  <property name="row">0</property>
+                </layout>
               </object>
-              <packing>
-                <property name="left-attach">1</property>
-                <property name="top-attach">0</property>
-              </packing>
             </child>
             <child>
-              <object class="GtkEventBox" id="resize_box_south">
+              <object class="GtkBox" id="resize_box_south">
                 <property name="visible">True</property>
-                <signal name="realize" handler="_setup_widget_cursor"/>
                 <style>
                   <class name="background"/>
                 </style>
@@ -104,16 +98,15 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     <property name="margin-bottom">2</property>
                   </object>
                 </child>
+                <layout>
+                  <property name="column">1</property>
+                  <property name="row">2</property>
+                </layout>
               </object>
-              <packing>
-                <property name="left-attach">1</property>
-                <property name="top-attach">2</property>
-              </packing>
             </child>
             <child>
-              <object class="GtkEventBox" id="resize_box_west">
+              <object class="GtkBox" id="resize_box_west">
                 <property name="visible">True</property>
-                <signal name="realize" handler="_setup_widget_cursor"/>
                 <style>
                   <class name="background"/>
                 </style>
@@ -125,16 +118,15 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     <property name="margin-end">2</property>
                   </object>
                 </child>
+                <layout>
+                  <property name="column">0</property>
+                  <property name="row">1</property>
+                </layout>
               </object>
-              <packing>
-                <property name="left-attach">0</property>
-                <property name="top-attach">1</property>
-              </packing>
             </child>
             <child>
-              <object class="GtkEventBox" id="resize_box_east">
+              <object class="GtkBox" id="resize_box_east">
                 <property name="visible">True</property>
-                <signal name="realize" handler="_setup_widget_cursor"/>
                 <style>
                   <class name="background"/>
                 </style>
@@ -146,17 +138,17 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     <property name="margin-end">2</property>
                   </object>
                 </child>
+                <layout>
+                  <property name="column">2</property>
+                  <property name="row">1</property>
+                </layout>
               </object>
-              <packing>
-                <property name="left-attach">2</property>
-                <property name="top-attach">1</property>
-              </packing>
             </child>
+            <layout>
+              <property name="column">1</property>
+              <property name="row">1</property>
+            </layout>
           </object>
-          <packing>
-            <property name="left-attach">1</property>
-            <property name="top-attach">1</property>
-          </packing>
         </child>
         <child>
           <object class="DDTermSpacer" id="spacer_north">
@@ -165,11 +157,11 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <style>
               <class name="background"/>
             </style>
+            <layout>
+              <property name="column">1</property>
+              <property name="row">0</property>
+            </layout>
           </object>
-          <packing>
-            <property name="left-attach">1</property>
-            <property name="top-attach">0</property>
-          </packing>
         </child>
         <child>
           <object class="DDTermSpacer" id="spacer_south">
@@ -178,11 +170,11 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <style>
               <class name="background"/>
             </style>
+            <layout>
+              <property name="column">1</property>
+              <property name="row">2</property>
+            </layout>
           </object>
-          <packing>
-            <property name="left-attach">1</property>
-            <property name="top-attach">2</property>
-          </packing>
         </child>
         <child>
           <object class="DDTermSpacer" id="spacer_west">
@@ -191,11 +183,11 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <style>
               <class name="background"/>
             </style>
+            <layout>
+              <property name="column">0</property>
+              <property name="row">1</property>
+            </layout>
           </object>
-          <packing>
-            <property name="left-attach">0</property>
-            <property name="top-attach">1</property>
-          </packing>
         </child>
         <child>
           <object class="DDTermSpacer" id="spacer_east">
@@ -204,34 +196,14 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <style>
               <class name="background"/>
             </style>
+            <layout>
+              <property name="column">2</property>
+              <property name="row">1</property>
+            </layout>
           </object>
-          <packing>
-            <property name="left-attach">2</property>
-            <property name="top-attach">1</property>
-          </packing>
         </child>
       </object>
     </child>
   </template>
-
-  <object class="GtkGestureSingle" id="drag_gesture_north">
-    <property name="widget">resize_box_north</property>
-    <signal name="begin" handler="_resize_drag"/>
-  </object>
-
-  <object class="GtkGestureSingle" id="drag_gesture_south">
-    <property name="widget">resize_box_south</property>
-    <signal name="begin" handler="_resize_drag"/>
-  </object>
-
-  <object class="GtkGestureSingle" id="drag_gesture_east">
-    <property name="widget">resize_box_east</property>
-    <signal name="begin" handler="_resize_drag"/>
-  </object>
-
-  <object class="GtkGestureSingle" id="drag_gesture_west">
-    <property name="widget">resize_box_west</property>
-    <signal name="begin" handler="_resize_drag"/>
-  </object>
 
 </interface>

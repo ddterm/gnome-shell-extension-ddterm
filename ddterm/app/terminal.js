@@ -407,7 +407,6 @@ class TerminalBase extends Vte.Terminal {
     #clicked_filename = null;
     #clicked_hyperlink = null;
     #url_prefix;
-    #gdk_atom_primary = null;
     #foreground_from_style = false;
     #background_from_style = false;
     #gesture_single = null;
@@ -445,30 +444,18 @@ class TerminalBase extends Vte.Terminal {
             }
         });
 
-        this.#gdk_atom_primary = Gdk.Atom.intern('PRIMARY', true);
-
         this.#url_prefix = new Map();
 
         this.connect('notify::url-detect-patterns', this.#setup_url_detect.bind(this));
         this.#setup_url_detect();
 
-        this.#gesture_single = new Gtk.GestureSingle({
-            widget: this,
-            button: 0,
-            propagation_phase: Gtk.PropagationPhase.CAPTURE,
+        this.#gesture_single = Gtk.GestureClick.new();
+        this.#gesture_single.set_button(0);
+        this.#gesture_single.set_propagation_phase(Gtk.PropagationPhase.CAPTURE);
+        this.#gesture_single.connect('pressed', (gesture, _presses, x, y) => {
+            this.#hyperlink_click(gesture, x, y);
         });
-
-        this.connect('realize', this.#realize.bind(this));
-    }
-
-    #realize() {
-        const handler =
-            this.#gesture_single.connect('begin', this.#hyperlink_click.bind(this));
-
-        const unrealize_handler = this.connect('unrealize', () => {
-            this.disconnect(unrealize_handler);
-            this.#gesture_single.disconnect(handler);
-        });
+        this.add_controller(this.#gesture_single);
     }
 
     get child_pid() {
@@ -489,11 +476,17 @@ class TerminalBase extends Vte.Terminal {
 
         if (this.#foreground_from_style || this.#background_from_style) {
             const style = this.get_style_context();
-            const state = style.get_state();
 
-            foreground = style.get_property('color', state);
-            background = style.get_property('background-color', state).copy();
-            background.alpha = this.background_opacity;
+            if (this.#foreground_from_style)
+                foreground = style.get_color();
+
+            if (this.#background_from_style) {
+                const [found, color] = style.lookup_color('view_bg_color');
+                background = found ? color : null;
+
+                if (background)
+                    background.alpha = this.background_opacity;
+            }
         }
 
         super.set_colors(foreground, background, palette);
@@ -507,10 +500,7 @@ class TerminalBase extends Vte.Terminal {
         this.#foreground_from_style = value === null;
 
         if (this.#foreground_from_style) {
-            const style = this.get_style_context();
-            const state = style.get_state();
-
-            value = style.get_property('color', state);
+            value = this.get_style_context().get_color();
         }
 
         super.set_color_foreground(value);
@@ -524,34 +514,14 @@ class TerminalBase extends Vte.Terminal {
         this.#background_from_style = value === null;
 
         if (this.#background_from_style) {
-            const style = this.get_style_context();
-            const state = style.get_state();
+            const [found, color] = this.get_style_context().lookup_color('view_bg_color');
+            value = found ? color : null;
 
-            value = style.get_property('background-color', state).copy();
-            value.alpha = this.background_opacity;
+            if (value)
+                value.alpha = this.background_opacity;
         }
 
         super.set_color_background(value);
-    }
-
-    on_style_updated() {
-        // VTE bug? https://github.com/ddterm/gnome-shell-extension-ddterm/issues/674
-        this.set_font(this.get_font());
-
-        if (!this.#foreground_from_style && !this.#background_from_style)
-            return;
-
-        const style = this.get_style_context();
-        const state = style.get_state();
-
-        if (this.#foreground_from_style)
-            super.set_color_foreground(style.get_property('color', state));
-
-        if (this.#background_from_style) {
-            const value = style.get_property('background-color', state);
-            value.alpha = this.background_opacity;
-            super.set_color_background(value);
-        }
     }
 
     set color_bold(value) {
@@ -705,14 +675,16 @@ class TerminalBase extends Vte.Terminal {
         return this.#clicked_filename;
     }
 
-    #hyperlink_click(gesture, sequence) {
-        const event = gesture.get_last_event(sequence);
-        const [, state] = event.get_state();
-
-        let clicked_hyperlink = this.hyperlink_check_event(event);
+    #hyperlink_click(gesture, x, y) {
+        const state = gesture.get_current_event_state();
+        let clicked_hyperlink = this.check_hyperlink_at(x, y);
 
         if (!clicked_hyperlink) {
-            const [url, tag] = this.match_check_event(event);
+            const char_width = this.get_char_width();
+            const char_height = this.get_char_height();
+            const column = Math.floor(x / char_width);
+            const row = Math.floor(y / char_height);
+            const [url, tag] = this.match_check(column, row);
 
             if (url && tag !== null && this.#url_prefix.has(tag)) {
                 const prefix = this.#url_prefix.get(tag);
@@ -781,20 +753,7 @@ class TerminalBase extends Vte.Terminal {
     }
 
     get_text_selected_async() {
-        if (this.get_text_selected)
-            return Promise.resolve(this.get_text_selected(Vte.Format.TEXT));
-
-        if (!this.get_has_selection())
-            return Promise.resolve('');
-
-        const primary_selection = this.get_clipboard(this.#gdk_atom_primary);
-        this.copy_primary();
-
-        return new Promise(resolve => {
-            primary_selection.request_text((_, text) => {
-                resolve(text);
-            });
-        });
+        return Promise.resolve(this.get_text_selected_full(Vte.Format.TEXT) ?? '');
     }
 
     get_text() {

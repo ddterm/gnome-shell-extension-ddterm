@@ -9,7 +9,7 @@ import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
 import Gtk from 'gi://Gtk';
-import Handy from 'gi://Handy';
+import Adw from 'gi://Adw';
 
 import { TerminalPage } from './terminalpage.js';
 import { TerminalSettings } from './terminalsettings.js';
@@ -194,17 +194,19 @@ export class Notebook extends Gtk.Box {
 
     #page_disconnect;
 
-    vfunc_get_preferred_width() {
-        const [minimum, natural] = super.vfunc_get_preferred_width();
+    vfunc_measure(orientation, for_size) {
+        const [minimum, natural, minimum_baseline, natural_baseline] =
+            super.vfunc_measure(orientation, for_size);
+        const use_natural = orientation === Gtk.Orientation.HORIZONTAL
+            ? this.use_natural_width
+            : this.use_natural_height;
 
-        // VTE's natural size follows its previous allocation through the cell count.
-        return [minimum, this.use_natural_width ? natural : minimum];
-    }
-
-    vfunc_get_preferred_height() {
-        const [minimum, natural] = super.vfunc_get_preferred_height();
-
-        return [minimum, this.use_natural_height ? natural : minimum];
+        return [
+            minimum,
+            use_natural ? natural : minimum,
+            minimum_baseline,
+            natural_baseline,
+        ];
     }
 
     constructor(params) {
@@ -212,11 +214,6 @@ export class Notebook extends Gtk.Box {
 
         this.connect('notify::use-natural-width', () => this.queue_resize());
         this.connect('notify::use-natural-height', () => this.queue_resize());
-
-        // Disable built-in shortcuts
-        GObject.signal_handlers_disconnect_matched(this.view, {
-            signalId: 'key-press-event',
-        });
 
         const menu = new Gio.Menu();
         menu.append_section(null, new NotebookMenu({ tab_view: this.view }));
@@ -317,7 +314,7 @@ export class Notebook extends Gtk.Box {
 
         this.insert_action_group('notebook', actions);
 
-        this.connect('hierarchy-changed', this.#update_root.bind(this));
+        this.connect('notify::root', this.#update_root.bind(this));
         this.connect('notify::tab-show-shortcuts', this.#update_tab_switch_accels.bind(this));
         this.connect('notify::current-page', this.#update_tab_switch_accels.bind(this));
         this.#update_root();
@@ -440,8 +437,6 @@ export class Notebook extends Gtk.Box {
             child.connect('close-finish', (_, confirm) => {
                 this.view.close_page_finish(page, confirm);
 
-                if (confirm)
-                    child.destroy();
             }),
             child.connect('session-update', () => {
                 this.emit('session-update');
@@ -554,7 +549,7 @@ export class Notebook extends Gtk.Box {
             return '';
 
         const accels =
-            this.get_toplevel().application?.get_accels_for_action(`notebook.switch-to-tab(${i})`);
+            this.get_root()?.application?.get_accels_for_action(`notebook.switch-to-tab(${i})`);
 
         for (const accel of accels || []) {
             try {
@@ -590,7 +585,7 @@ export class Notebook extends Gtk.Box {
     }
 
     #update_root() {
-        const root = this.get_toplevel();
+        const root = this.get_root();
 
         if (root === this._root)
             return;
@@ -613,13 +608,11 @@ export class Notebook extends Gtk.Box {
     #update_tab_pos() {
         switch (this.tab_pos) {
         case Gtk.PositionType.BOTTOM:
-            this.reorder_child(this.view, 0);
-            this._tab_switch_button.direction = Gtk.ArrowType.UP;
+            this.reorder_child_after(this.view, null);
             break;
 
         case Gtk.PositionType.TOP:
-            this.reorder_child(this.view, -1);
-            this._tab_switch_button.direction = Gtk.ArrowType.DOWN;
+            this.reorder_child_after(this.view, this._bar.parent);
             break;
 
         default:
@@ -761,7 +754,7 @@ class NotebookMenu extends Gio.MenuModel {
             null,
             null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
-            Handy.TabView
+            Adw.TabView
         ),
     };
 

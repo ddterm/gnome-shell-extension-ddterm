@@ -6,13 +6,11 @@ import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
 import Gtk from 'gi://Gtk';
 
-import Gi from 'gi';
-
 import { DisplayConfig } from '../util/displayconfig.js';
 
-const AdwOrHdy = Gi.require(Gtk.get_major_version() === 3 ? 'Handy' : 'Adw');
+import Adw from 'gi://Adw';
 
-export class PrefsDialog extends AdwOrHdy.PreferencesWindow {
+export class PrefsDialog extends Adw.PreferencesWindow {
     static [GObject.GTypeName] = 'DDTermPrefsDialog';
 
     static [GObject.properties] = {

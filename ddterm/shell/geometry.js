@@ -80,6 +80,15 @@ export class WindowGeometry extends GObject.Object {
             1,
             0.6
         ),
+        'workarea-size': GObject.ParamSpec.double(
+            'workarea-size',
+            null,
+            null,
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
+            0,
+            1,
+            1
+        ),
         'window-position': GObject.ParamSpec.enum(
             'window-position',
             null,
@@ -121,6 +130,9 @@ export class WindowGeometry extends GObject.Object {
     #orientation = Clutter.Orientation.VERTICAL;
     #maximize_flag = Meta.MaximizeFlags.VERTICAL;
     #notify_emitted = false;
+    #workarea_alignment = 1;
+    #workarea_alignment_handler = null;
+    #settings = null;
 
     constructor(params) {
         super(params);
@@ -131,6 +143,7 @@ export class WindowGeometry extends GObject.Object {
         );
 
         this.connect('notify::window-size', this.#update_target_rect.bind(this));
+        this.connect('notify::workarea-size', this.#update_target_rect.bind(this));
         this.connect('notify::window-position', this.#update_window_position.bind(this));
         this.connect('notify::window-monitor', this.update_monitor.bind(this));
         this.connect('notify::window-monitor-connector', this.update_monitor.bind(this));
@@ -144,40 +157,87 @@ export class WindowGeometry extends GObject.Object {
             global.display.disconnect(this.#workareas_changed_handler);
             this.#workareas_changed_handler = null;
         }
+
+        if (this.#workarea_alignment_handler) {
+            this.#settings.disconnect(this.#workarea_alignment_handler);
+            this.#workarea_alignment_handler = null;
+            this.#settings = null;
+        }
     }
 
-    static get_target_rect(workarea, monitor_scale, size, window_pos) {
+    static get_target_rect(
+        workarea,
+        monitor_scale,
+        size,
+        window_pos,
+        workarea_size = 1,
+        workarea_alignment = 1
+    ) {
         const target_rect = workarea.copy();
 
-        if (size === 1)
+        if (size === 1 && workarea_size === 1)
             return target_rect;
 
         if (window_pos === Meta.Side.LEFT || window_pos === Meta.Side.RIGHT) {
-            target_rect.width *= size;
-            target_rect.width -= target_rect.width % monitor_scale;
+            if (size !== 1) {
+                target_rect.width *= size;
+                target_rect.width -= target_rect.width % monitor_scale;
 
-            if (window_pos === Meta.Side.RIGHT)
-                target_rect.x += workarea.width - target_rect.width;
+                if (window_pos === Meta.Side.RIGHT)
+                    target_rect.x += workarea.width - target_rect.width;
+            }
+
+            if (workarea_size !== 1) {
+                target_rect.height *= workarea_size;
+                target_rect.height -= target_rect.height % monitor_scale;
+                target_rect.y += Math.floor(
+                    (workarea.height - target_rect.height) * workarea_alignment / 2 /
+                        monitor_scale
+                ) * monitor_scale;
+            }
         } else {
-            target_rect.height *= size;
-            target_rect.height -= target_rect.height % monitor_scale;
+            if (size !== 1) {
+                target_rect.height *= size;
+                target_rect.height -= target_rect.height % monitor_scale;
 
-            if (window_pos === Meta.Side.BOTTOM)
-                target_rect.y += workarea.height - target_rect.height;
+                if (window_pos === Meta.Side.BOTTOM)
+                    target_rect.y += workarea.height - target_rect.height;
+            }
+
+            if (workarea_size !== 1) {
+                target_rect.width *= workarea_size;
+                target_rect.width -= target_rect.width % monitor_scale;
+                target_rect.x += Math.floor(
+                    (workarea.width - target_rect.width) * workarea_alignment / 2 /
+                        monitor_scale
+                ) * monitor_scale;
+            }
         }
 
         return target_rect;
     }
 
     bind_settings(settings) {
+        this.#settings = settings;
+
         [
             'window-size',
+            'workarea-size',
             'window-position',
             'window-monitor',
             'window-monitor-connector',
         ].forEach(key => {
             settings.bind(key, this, key, Gio.SettingsBindFlags.GET);
         });
+
+        this.#workarea_alignment = settings.get_enum('workarea-alignment');
+        this.#workarea_alignment_handler = settings.connect(
+            'changed::workarea-alignment',
+            () => {
+                this.#workarea_alignment = settings.get_enum('workarea-alignment');
+                this.#update_target_rect();
+            }
+        );
     }
 
     get target_rect() {
@@ -363,7 +423,9 @@ export class WindowGeometry extends GObject.Object {
                 this.#workarea,
                 Math.floor(this.#monitor_scale),
                 this.window_size,
-                this.window_position
+                this.window_position,
+                this.workarea_size,
+                this.#workarea_alignment
             );
 
             this.#set_target_rect(target_rect);

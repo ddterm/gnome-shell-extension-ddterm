@@ -10,6 +10,8 @@ import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
 import Gdk from 'gi://Gdk';
+import GdkX11 from 'gi://GdkX11';
+import Graphene from 'gi://Graphene';
 import Gtk from 'gi://Gtk';
 
 import Cairo from 'cairo';
@@ -51,16 +53,10 @@ class Spacer extends Gtk.Widget {
 
     constructor(params) {
         super(params);
-
-        this.set_has_window(false);
     }
 
     get preferred_width() {
         return this.#preferred_width;
-    }
-
-    vfunc_get_preferred_width() {
-        return [0, this.#preferred_width];
     }
 
     set preferred_width(value) {
@@ -79,10 +75,6 @@ class Spacer extends Gtk.Widget {
         return this.#preferred_height;
     }
 
-    vfunc_get_preferred_height() {
-        return [0, this.#preferred_height];
-    }
-
     set preferred_height(value) {
         if (this.#preferred_height === value)
             return;
@@ -95,17 +87,22 @@ class Spacer extends Gtk.Widget {
         this.notify('preferred-height');
     }
 
-    vfunc_draw(cr) {
-        try {
-            const width = this.get_allocated_width();
-            const height = this.get_allocated_height();
+    vfunc_measure(orientation) {
+        const preferred = orientation === Gtk.Orientation.HORIZONTAL
+            ? this.#preferred_width
+            : this.#preferred_height;
 
-            Gtk.render_background(this.get_style_context(), cr, 0, 0, width, height);
-        } finally {
-            cr.$dispose();
-        }
+        return [preferred, preferred, -1, -1];
+    }
 
-        return false;
+    vfunc_snapshot(snapshot) {
+        snapshot.render_background(
+            this.get_style_context(),
+            0,
+            0,
+            this.get_width(),
+            this.get_height()
+        );
     }
 }
 
@@ -124,16 +121,12 @@ export class AppWindow extends Gtk.ApplicationWindow {
 
     static [Gtk.internalChildren] = [
         'resize_box_north',
-        'drag_gesture_north',
         'spacer_north',
         'resize_box_south',
-        'drag_gesture_south',
         'spacer_south',
         'resize_box_east',
-        'drag_gesture_east',
         'spacer_east',
         'resize_box_west',
-        'drag_gesture_west',
         'spacer_west',
     ];
 
@@ -194,12 +187,12 @@ export class AppWindow extends Gtk.ApplicationWindow {
             GObject.ParamFlags.READWRITE,
             false
         ),
-        'transparent-background': GObject.ParamSpec.boolean(
-            'transparent-background',
+        'background-transparency-enabled': GObject.ParamSpec.boolean(
+            'background-transparency-enabled',
             null,
             null,
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.EXPLICIT_NOTIFY,
-            false
+            true
         ),
         'tab-show-shortcuts': GObject.ParamSpec.boolean(
             'tab-show-shortcuts',
@@ -275,12 +268,14 @@ export class AppWindow extends Gtk.ApplicationWindow {
     }
 
     #active_notebook = null;
+    #background_transparency_enabled = true;
+    #center_split_pending = false;
 
     constructor(params) {
-        super({
-            window_position: Gtk.WindowPosition.CENTER,
-            ...params,
-        });
+        super(params);
+
+        for (const notebook of [this.notebook1, this.notebook2])
+            notebook.visible = notebook.n_pages > 0;
 
         const toggle_action = Gio.SimpleAction.new('toggle', null);
         toggle_action.connect('activate', this.toggle.bind(this));
@@ -333,17 +328,27 @@ export class AppWindow extends Gtk.ApplicationWindow {
             );
         }
 
-        const resize_ns = Gdk.Cursor.new_from_name(this.get_display(), 'ns-resize');
-        const resize_ew = Gdk.Cursor.new_from_name(this.get_display(), 'ew-resize');
+        const resize_ns = Gdk.Cursor.new_from_name('ns-resize', null);
+        const resize_ew = Gdk.Cursor.new_from_name('ew-resize', null);
 
-        this._drag_gesture_north.edge = Gdk.WindowEdge.NORTH;
-        this._resize_box_north.cursor = resize_ns;
-        this._drag_gesture_south.edge = Gdk.WindowEdge.SOUTH;
-        this._resize_box_south.cursor = resize_ns;
-        this._drag_gesture_east.edge = Gdk.WindowEdge.EAST;
-        this._resize_box_east.cursor = resize_ew;
-        this._drag_gesture_west.edge = Gdk.WindowEdge.WEST;
-        this._resize_box_west.cursor = resize_ew;
+        this._resize_box_north.set_cursor(resize_ns);
+        this._resize_box_south.set_cursor(resize_ns);
+        this._resize_box_east.set_cursor(resize_ew);
+        this._resize_box_west.set_cursor(resize_ew);
+
+        for (const [widget, edge] of [
+            [this._resize_box_north, Gdk.SurfaceEdge.NORTH],
+            [this._resize_box_south, Gdk.SurfaceEdge.SOUTH],
+            [this._resize_box_east, Gdk.SurfaceEdge.EAST],
+            [this._resize_box_west, Gdk.SurfaceEdge.WEST],
+        ]) {
+            const gesture = Gtk.GestureClick.new();
+            gesture.set_button(0);
+            gesture.connect('pressed', (controller, _presses, x, y) => {
+                this._resize_drag(controller, widget, edge, x, y);
+            });
+            widget.add_controller(gesture);
+        }
 
         this.connect('notify::position-setting', this.#update_resize_handles.bind(this));
         this.connect('notify::resize-handle', this.#update_resize_handles.bind(this));
@@ -352,6 +357,7 @@ export class AppWindow extends Gtk.ApplicationWindow {
         this.connect('notify::position-setting', () => this.#update_spacers());
         this.connect('notify::workarea', () => this.#update_spacers());
         this.connect('notify::workarea-alignment', () => this.#update_spacers());
+        this.connect('notify::maximize-setting', () => this.#update_spacers());
         this.#update_spacers();
 
         this.connect('notify::position-setting', () => this.#update_notebook_size_requests());
@@ -361,8 +367,11 @@ export class AppWindow extends Gtk.ApplicationWindow {
         this.connect('realize', this.#update_input_shape.bind(this));
         this.connect('map', this.#update_input_shape.bind(this));
 
-        this.connect('notify::screen', this.#update_visual.bind(this));
-        this.#update_visual();
+        for (const notebook of [this.notebook1, this.notebook2]) {
+            const focus_controller = Gtk.EventControllerFocus.new();
+            focus_controller.connect('enter', () => this._paned_focus_child(notebook));
+            notebook.add_controller(focus_controller);
+        }
 
         this.connect('notify::tab-show-shortcuts', this.#update_show_shortcuts.bind(this));
         this.connect('notify::active-notebook', this.#update_show_shortcuts.bind(this));
@@ -387,7 +396,7 @@ export class AppWindow extends Gtk.ApplicationWindow {
         if (this._hide_on_close_handler)
             this.disconnect(this._hide_on_close_handler);
 
-        this._hide_on_close_handler = enable ? this.connect('delete-event', () => {
+        this._hide_on_close_handler = enable ? this.connect('close-request', () => {
             if (this.is_empty)
                 return false;
 
@@ -421,17 +430,13 @@ export class AppWindow extends Gtk.ApplicationWindow {
         this.connect('destroy', () => this.extension_dbus.disconnect(dbus_handler));
 
         this.connect('notify::maximize-setting', sync_if_hidden);
-        this.connect('notify::is-maximized', sync_if_hidden);
+        this.connect('notify::maximized', sync_if_hidden);
 
-        this.connect('unmap-event', () => {
+        this.connect('unmap', () => {
             this.#sync_size_with_extension();
         });
 
         this.#sync_size_with_extension();
-    }
-
-    _setup_widget_cursor(widget) {
-        widget.window.cursor = widget.cursor;
     }
 
     _notebook_transfer_page(source, page) {
@@ -446,8 +451,7 @@ export class AppWindow extends Gtk.ApplicationWindow {
         }
     }
 
-    _paned_focus_child() {
-        const active = this.paned.get_focus_child();
+    _paned_focus_child(active) {
 
         if (this.#active_notebook === active)
             return;
@@ -512,33 +516,31 @@ export class AppWindow extends Gtk.ApplicationWindow {
             Gio.SettingsBindFlags.GET
         );
 
+        const update_background_opacity = () => {
+            this.background_opacity = settings.get_boolean('background-transparency-enabled')
+                ? settings.get_double('background-opacity')
+                : 1;
+        };
+        const background_transparency_handler =
+            settings.connect('changed::background-transparency-enabled', update_background_opacity);
+        const background_opacity_handler =
+            settings.connect('changed::background-opacity', update_background_opacity);
+
+        this.connect('map', update_background_opacity);
+
+        this.connect('destroy', () => {
+            settings.disconnect(background_transparency_handler);
+            settings.disconnect(background_opacity_handler);
+        });
+
         settings.bind(
-            'transparent-background',
+            'background-transparency-enabled',
             this,
-            'transparent-background',
+            'background-transparency-enabled',
             Gio.SettingsBindFlags.GET
         );
 
-        settings.bind(
-            'background-opacity',
-            this,
-            'background-opacity',
-            Gio.SettingsBindFlags.GET
-        );
-
-        settings.bind(
-            'window-skip-taskbar',
-            this,
-            'skip-taskbar-hint',
-            Gio.SettingsBindFlags.GET
-        );
-
-        settings.bind(
-            'window-skip-taskbar',
-            this,
-            'skip-pager-hint',
-            Gio.SettingsBindFlags.GET
-        );
+        update_background_opacity();
 
         settings.bind(
             'tab-show-shortcuts',
@@ -546,6 +548,23 @@ export class AppWindow extends Gtk.ApplicationWindow {
             'tab-show-shortcuts',
             Gio.SettingsBindFlags.GET
         );
+
+        const update_skip_taskbar_hint = () => {
+            const surface = this.get_surface();
+
+            if (!(surface instanceof GdkX11.X11Surface))
+                return;
+
+            const skip_taskbar = settings.get_boolean('window-skip-taskbar');
+            surface.set_skip_taskbar_hint(skip_taskbar);
+            surface.set_skip_pager_hint(skip_taskbar);
+        };
+
+        const skip_taskbar_handler =
+            settings.connect('changed::window-skip-taskbar', update_skip_taskbar_hint);
+
+        this.connect('realize', update_skip_taskbar_hint);
+        this.connect('destroy', () => settings.disconnect(skip_taskbar_handler));
 
         this.notebook1.bind_settings(settings);
         this.notebook2.bind_settings(settings);
@@ -575,11 +594,15 @@ export class AppWindow extends Gtk.ApplicationWindow {
             return;
         }
 
+        const was_split = this.is_split;
+
         this.paned.orientation =
             mode === 'vertical-split' ? Gtk.Orientation.HORIZONTAL : Gtk.Orientation.VERTICAL;
 
-        if (this.is_split)
+        if (was_split)
             return;
+
+        this.#center_split_pending = true;
 
         if (notebook.n_pages > 1) {
             notebook.emit('move-to-other-pane', page);
@@ -627,37 +650,30 @@ export class AppWindow extends Gtk.ApplicationWindow {
             this.notebook1.grab_focus();
     }
 
-    _resize_drag(gesture, sequence) {
-        const event = gesture.get_last_event(sequence);
+    _resize_drag(gesture, widget, edge, x, y) {
+        const surface = this.get_surface();
+        const [coords_ok, point] = widget.compute_point(this, new Graphene.Point({ x, y }));
 
-        const [coords_ok, x_root, y_root] = event.get_root_coords();
-        if (!coords_ok) {
+        if (!coords_ok || !surface) {
             gesture.set_state(Gtk.EventSequenceState.DENIED);
             return;
         }
 
-        this.window.begin_resize_drag_for_device(
-            gesture.edge,
-            event.get_device(),
+        surface.begin_resize(
+            edge,
+            gesture.get_current_event_device(),
             gesture.get_current_button(),
-            x_root,
-            y_root,
-            event.get_time()
+            point.x,
+            point.y,
+            gesture.get_current_event_time()
         );
 
         gesture.set_state(Gtk.EventSequenceState.CLAIMED);
         gesture.reset();
     }
 
-    #update_visual() {
-        const visual = this.get_screen()?.get_rgba_visual();
-
-        if (visual)
-            this.set_visual(visual);
-    }
-
     #sync_size_with_extension() {
-        if (this.is_maximized) {
+        if (this.maximized) {
             if (this.maximize_setting)
                 return;
 
@@ -684,8 +700,7 @@ export class AppWindow extends Gtk.ApplicationWindow {
             target_h = Math.floor(target_h / scale_unpacked);
         }
 
-        this.resize(target_w, target_h);
-        this.window?.resize(target_w, target_h);
+        this.set_default_size(target_w, target_h);
     }
 
     get active_notebook() {
@@ -730,22 +745,23 @@ export class AppWindow extends Gtk.ApplicationWindow {
         }
     }
 
-    get transparent_background() {
-        return this.get_style_context().has_class('transparent-background');
+    get background_transparency_enabled() {
+        return this.#background_transparency_enabled;
     }
 
-    set transparent_background(value) {
+    set background_transparency_enabled(value) {
         const context = this.get_style_context();
+        const changed = this.#background_transparency_enabled !== value;
 
-        if (value === context.has_class('transparent-background'))
-            return;
+        this.#background_transparency_enabled = value;
 
         if (value)
             context.add_class('transparent-background');
         else
             context.remove_class('transparent-background');
 
-        this.notify('transparent-background');
+        if (changed)
+            this.notify('background-transparency-enabled');
     }
 
     #update_resize_handles() {
@@ -793,12 +809,11 @@ export class AppWindow extends Gtk.ApplicationWindow {
         }
     }
 
-    #update_spacers(allocation) {
-        if (!allocation)
-            allocation = this.get_allocation();
+    #update_spacers(width = this.get_width(), height = this.get_height()) {
 
         const { position_setting, workarea_alignment } = this;
-        const unused_size = 1.0 - this.workarea;
+        const managed_window = this.extension_dbus && !this.maximize_setting;
+        const unused_size = managed_window ? 0 : 1.0 - this.workarea;
         let leading_size = unused_size * 0.5;
 
         if (workarea_alignment === Gtk.Align.START)
@@ -810,10 +825,10 @@ export class AppWindow extends Gtk.ApplicationWindow {
         const horizontal = position_setting === 'top' || position_setting === 'bottom';
         const vertical = position_setting === 'left' || position_setting === 'right';
 
-        const west = horizontal ? Math.floor(allocation.width * leading_size) : 0;
-        const east = horizontal ? Math.floor(allocation.width * trailing_size) : 0;
-        const north = vertical ? Math.floor(allocation.height * leading_size) : 0;
-        const south = vertical ? Math.floor(allocation.height * trailing_size) : 0;
+        const west = horizontal ? Math.floor(width * leading_size) : 0;
+        const east = horizontal ? Math.floor(width * trailing_size) : 0;
+        const north = vertical ? Math.floor(height * leading_size) : 0;
+        const south = vertical ? Math.floor(height * trailing_size) : 0;
 
         this._spacer_west.visible = west > 0;
         this._spacer_west.preferred_width = west;
@@ -838,26 +853,40 @@ export class AppWindow extends Gtk.ApplicationWindow {
     }
 
     #compute_input_shape() {
-        if (!this.click_through_unused_areas || !this.get_display().supports_input_shapes())
+        if (!this.click_through_unused_areas)
             return null;
 
         const region = new Cairo.Region();
-        region.unionRectangle(this.workarea_container.get_allocation());
+        const [success, bounds] = this.workarea_container.compute_bounds(this);
+
+        if (!success)
+            return region;
+
+        region.unionRectangle({
+            x: Math.floor(bounds.origin.x),
+            y: Math.floor(bounds.origin.y),
+            width: Math.ceil(bounds.size.width),
+            height: Math.ceil(bounds.size.height),
+        });
 
         return region;
     }
 
     #update_input_shape() {
-        if (!this.get_realized())
-            return;
-
-        this.input_shape_combine_region(this.#compute_input_shape());
+        this.get_surface()?.set_input_region(this.#compute_input_shape());
     }
 
-    vfunc_size_allocate(allocation) {
-        this.#update_spacers(allocation);
+    vfunc_size_allocate(width, height, baseline) {
+        this.#update_spacers(width, height);
 
-        super.vfunc_size_allocate(allocation);
+        super.vfunc_size_allocate(width, height, baseline);
+
+        if (this.#center_split_pending && this.is_split) {
+            this.paned.position =
+                this.paned.min_position +
+                (this.paned.max_position - this.paned.min_position) / 2;
+            this.#center_split_pending = false;
+        }
 
         this.#update_input_shape();
     }

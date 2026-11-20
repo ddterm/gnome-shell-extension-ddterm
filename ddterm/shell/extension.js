@@ -23,6 +23,7 @@ import { PanelIconProxy } from './panelicon.js';
 import { Service } from './service.js';
 import { WindowManager } from './wm.js';
 import { WindowMatch } from './windowmatch.js';
+import { migrate_background_effect } from '../util/background.js';
 
 const APP_ID = 'com.github.amezin.ddterm';
 const APP_DBUS_PATH = '/com/github/amezin/ddterm';
@@ -232,6 +233,7 @@ class EnabledExtension {
         const rollback = this.#disable_callbacks;
 
         this.settings = this.extension.getSettings();
+        migrate_background_effect(this.settings);
 
         this.symbolic_icon = Gio.FileIcon.new(Gio.File.new_for_uri(
             GLib.Uri.resolve_relative(

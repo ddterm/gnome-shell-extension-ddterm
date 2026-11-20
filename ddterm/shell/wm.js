@@ -8,6 +8,7 @@ import Gio from 'gi://Gio';
 import Clutter from 'gi://Clutter';
 import Meta from 'gi://Meta';
 import Mtk from 'gi://Mtk';
+import Shell from 'gi://Shell';
 
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import * as Config from 'resource:///org/gnome/shell/misc/config.js';
@@ -104,6 +105,7 @@ export class WindowManager extends GObject.Object {
     #focus_window_check_cancellable;
     #geometry_fixup_handlers;
     #wl_clipboard_activator;
+    #blur_effect = null;
 
     constructor(params) {
         super(params);
@@ -128,9 +130,13 @@ export class WindowManager extends GObject.Object {
             'changed::window-size': this.#disable_window_maximize_setting.bind(this),
             'changed::window-maximize': this.#set_window_maximized.bind(this),
             'changed::hide-when-focus-lost': this.#setup_hide_when_focus_lost.bind(this),
+            'changed::background-blur-enabled': this.#update_blur_effect.bind(this),
+            'changed::background-blur-radius': this.#update_blur_effect.bind(this),
         }).map(
             ([signal, callback]) => this.settings.connect(signal, callback)
         );
+
+        this.#update_blur_effect();
 
         this.#geometry_handlers = Object.entries({
             'notify::monitor-index': () => {
@@ -160,6 +166,9 @@ export class WindowManager extends GObject.Object {
                 this.#setup_wl_clipboard_activator();
             },
             'notify::mapped': () => {
+                if (this.window.mapped)
+                    this.#update_blur_effect();
+
                 if (this.window.mapped && this.show_animation.should_skip)
                     Main.wm.skipNextEffect(this.#actor);
             },
@@ -399,6 +408,32 @@ export class WindowManager extends GObject.Object {
             this.window.stick();
         else
             this.window.unstick();
+    }
+
+    #update_blur_effect() {
+        const should_blur = this.settings.get_boolean('background-blur-enabled');
+
+        if (!should_blur) {
+            if (this.#blur_effect) {
+                this.#actor.remove_effect(this.#blur_effect);
+                this.#blur_effect = null;
+            }
+
+            return;
+        }
+
+        if (!this.#blur_effect) {
+            if (!Shell.BlurEffect)
+                throw new Error('GNOME Shell does not provide Shell.BlurEffect');
+
+            this.#blur_effect = new Shell.BlurEffect({
+                mode: Shell.BlurMode?.BACKGROUND ?? 1,
+                radius: this.settings.get_int('background-blur-radius'),
+            });
+            this.#actor.add_effect_with_name('ddterm-background-blur', this.#blur_effect);
+        } else {
+            this.#blur_effect.radius = this.settings.get_int('background-blur-radius');
+        }
     }
 
     #setup_maximized_handlers() {
@@ -682,6 +717,11 @@ export class WindowManager extends GObject.Object {
     }
 
     disable() {
+        if (this.#blur_effect) {
+            this.#actor.remove_effect(this.#blur_effect);
+            this.#blur_effect = null;
+        }
+
         while (this.#settings_handlers?.length)
             this.settings.disconnect(this.#settings_handlers.pop());
 
