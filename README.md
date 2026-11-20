@@ -3,6 +3,16 @@ SPDX-FileCopyrightText: 2020 Aleksandr Mezin <mezin.alexander@gmail.com>
 
 SPDX-License-Identifier: GPL-3.0-or-later
 -->
+# WARNING!!!
+This fork is an experimental porting to GTK4 with some nice additions:
+- blur, everybody likes it
+- window width == working area width, no more transparent spacers and clickthrough
+
+There are too many changes for a PR and I used github copilot a lot.
+If the original author or anyone else wanna have a look 
+at the code and cherrypick something useful, everything is here.
+
+
 
 # Another Drop Down Terminal Extension for GNOME Shell
 

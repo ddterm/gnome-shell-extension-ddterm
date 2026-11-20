@@ -44,6 +44,12 @@ SPDX-License-Identifier: GPL-3.0-or-later
     <value nick="underline" value="2"/>
   </enum>
 
+  <enum id="org.gnome.shell.extensions.ddterm.BackgroundEffect">
+    <value nick="transparency" value="0"/>
+    <value nick="blur" value="1"/>
+    <value nick="none" value="2"/>
+  </enum>
+
   <enum id="org.gnome.shell.extensions.ddterm.ThemeVariant">
     <value nick="system" value="0"/>
     <value nick="light" value="1"/>
@@ -318,19 +324,27 @@ SPDX-License-Identifier: GPL-3.0-or-later
     <key name="highlight-foreground-color" type="s">
       <default>'#ffffff'</default>
     </key>
+    <!-- Kept to migrate preferences from before background-effect. -->
     <key name="transparent-background" type="b">
+      <default>true</default>
+    </key>
+    <!-- Kept to migrate user preferences to the independent background effects. -->
+    <key name="background-effect" enum="org.gnome.shell.extensions.ddterm.BackgroundEffect">
+      <default>'transparency'</default>
+    </key>
+    <key name="background-transparency-enabled" type="b">
       <default>true</default>
     </key>
     <key name="background-opacity" type="d">
       <default>0.9</default>
       <range min="0.0" max="1.0"/>
     </key>
-    <key name="override-background-opacity" type="b">
+    <key name="background-blur-enabled" type="b">
       <default>false</default>
     </key>
-    <key name="terminal-background-opacity" type="d">
-      <default>0.9</default>
-      <range min="0.0" max="1.0"/>
+    <key name="background-blur-radius" type="i">
+      <default>30</default>
+      <range min="0" max="100"/>
     </key>
     <key name="palette" type="as">
       <default>['#171421',

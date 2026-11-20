@@ -1,15 +1,13 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
+<?xml version="1.0"?>
 <!--
 SPDX-FileCopyrightText: 2026 Aleksandr Mezin <mezin.alexander@gmail.com>
 
 SPDX-License-Identifier: GPL-3.0-or-later
 -->
-
 <interface domain="ddterm@amezin.github.com">
 
   <template class="DDTermShortcutEditDialog" parent="GtkDialog">
-    <child internal-child="vbox">
+    <child internal-child="content_area">
       <object class="GtkBox">
         <property name="visible">True</property>
         <property name="orientation">vertical</property>
@@ -72,7 +70,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
       <object class="GtkButton" id="set_button">
         <property name="label" translatable="yes">Set</property>
         <property name="visible">True</property>
-        <property name="can_default">True</property>
+        
         <style>
           <class name="text-button"/>
         </style>

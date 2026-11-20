@@ -16,20 +16,15 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 ## [Unreleased]
 
-### Added
-
 ### Changed
 
-### Removed
+- When "Work Area Size" is below 100%, the window follows the terminal work
+area instead of leaving side spacers.
+- Only the bottom corners of the ddterm window are rounded.
 
 ### Fixed
 
-- `meson install` will not install an unnecessary copy of `CHANGELOG.md`:
-[#2227].
-
-[#2227]: https://github.com/ddterm/gnome-shell-extension-ddterm/pull/2227
-
-[Unreleased]: https://github.com/ddterm/gnome-shell-extension-ddterm/compare/v64.1.0...HEAD
+- Reapply background transparency and blur when the window is mapped at startup.
 
 ## [64.1.0] - 2026-10-28
 

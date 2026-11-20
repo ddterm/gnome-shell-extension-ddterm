@@ -5,7 +5,6 @@
 import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
-import Gdk from 'gi://Gdk';
 import Gtk from 'gi://Gtk';
 import Vte from 'gi://Vte';
 
@@ -66,6 +65,7 @@ export class TerminalPage extends Gtk.Box {
     ];
 
     static [Gtk.internalChildren] = [
+        'banner_box',
         'scrollbar',
         'search_bar',
         'search_widget',
@@ -187,6 +187,8 @@ export class TerminalPage extends Gtk.Box {
 
         this.connect('notify::terminal-title', this.#notify.bind(this, 'title'));
         this.connect('notify::switch-shortcut', this.#notify.bind(this, 'title'));
+        this.connect('notify::banner-type', this.#update_banner_type.bind(this));
+        this.#update_banner_type();
 
         this.connect('notify::use-custom-title', this.#update_title_binding.bind(this, true));
         // Don't update the title from the terminal until the process is started
@@ -469,7 +471,15 @@ export class TerminalPage extends Gtk.Box {
         }
     }
 
-    _banner_response(banner, response) {
+    _restart_banner() {
+        this._banner_response(0);
+    }
+
+    _close_banner() {
+        this._banner_response(1);
+    }
+
+    _banner_response(response) {
         switch (response) {
         case 0:
             this.banner_visible = false;
@@ -479,6 +489,20 @@ export class TerminalPage extends Gtk.Box {
             this.emit('close-request');
             break;
         }
+    }
+
+    #update_banner_type() {
+        for (const type of ['info', 'warning', 'error'])
+            this._banner_box.remove_css_class(type);
+
+        const type = {
+            [Gtk.MessageType.INFO]: 'info',
+            [Gtk.MessageType.WARNING]: 'warning',
+            [Gtk.MessageType.ERROR]: 'error',
+        }[this.banner_type];
+
+        if (type)
+            this._banner_box.add_css_class(type);
     }
 
     spawn(callback = null, timeout = -1) {
@@ -502,11 +526,7 @@ export class TerminalPage extends Gtk.Box {
     }
 
     _open_hyperlink(source, param) {
-        Gtk.show_uri_on_window(
-            this.get_ancestor(Gtk.Window),
-            param ?? this.terminal.last_clicked_hyperlink,
-            Gdk.CURRENT_TIME
-        );
+        Gio.AppInfo.launch_default_for_uri(param ?? this.terminal.last_clicked_hyperlink, null);
     }
 
     #copy_hyperlink() {
@@ -605,7 +625,7 @@ export class TerminalPage extends Gtk.Box {
         }
 
         const close_dialog = new CloseDialog({
-            transient_for: this.get_toplevel(),
+            transient_for: this.get_root(),
         });
 
         close_dialog.connect('response', (_, response_id) => {
@@ -613,7 +633,7 @@ export class TerminalPage extends Gtk.Box {
             this.emit('close-finish', response_id === Gtk.ResponseType.ACCEPT);
         });
 
-        close_dialog.show();
+        close_dialog.present();
     }
 
     #update_title_binding(sync = true) {
@@ -635,7 +655,7 @@ export class TerminalPage extends Gtk.Box {
         }
 
         this.#title_dialog = new TabTitleDialog({
-            transient_for: this.get_toplevel(),
+            transient_for: this.get_root(),
             custom_title: this.terminal_title,
         });
 

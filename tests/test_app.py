@@ -159,6 +159,94 @@ class TestApp(fixtures.GnomeSessionWaylandFixtures):
             app_debug_dbus_interface=app_debug_dbus_interface,
         )
 
+    def test_background_effects_on_initial_and_recreated_window(
+        self,
+        app_control,
+        app_debug_dbus_interface,
+        shell_test_hook,
+    ):
+        settings = shell_test_hook.Eval(
+            """(() => {
+                const settings = new Gio.Settings({
+                    schema_id: 'org.gnome.shell.extensions.ddterm',
+                });
+
+                return {
+                    transparency: settings.get_boolean('background-transparency-enabled'),
+                    opacity: settings.get_double('background-opacity'),
+                    blur: settings.get_boolean('background-blur-enabled'),
+                };
+            })()"""
+        )
+
+        try:
+            while app_debug_dbus_interface.NumTabs:
+                n_tabs = app_debug_dbus_interface.NumTabs
+                app_debug_dbus_interface.ActivateAction('page.close')
+                app_debug_dbus_interface.wait_property('NumTabs', n_tabs - 1)
+
+            shell_test_hook.WaitLeisure()
+            shell_test_hook.Eval(
+                """(() => {
+                    const settings = new Gio.Settings({
+                        schema_id: 'org.gnome.shell.extensions.ddterm',
+                    });
+
+                    settings.set_boolean('background-transparency-enabled', true);
+                    settings.set_double('background-opacity', 0.65);
+                    settings.set_boolean('background-blur-enabled', true);
+                })()"""
+            )
+
+            for attempt in range(2):
+                app_control.activate()
+
+                assert app_debug_dbus_interface.Eval(
+                    "this.window.get_style_context().has_class('transparent-background')"
+                )
+                assert abs(
+                    app_debug_dbus_interface.Eval('this.window.background_opacity') - 0.65
+                ) < 0.001
+                assert shell_test_hook.Eval(
+                    """global.display.list_all_windows().some(
+                        win =>
+                            win.gtk_application_id === 'com.github.amezin.ddterm' &&
+                            win.get_compositor_private()?.get_effect(
+                                'ddterm-background-blur'
+                            ) !== null
+                    )"""
+                )
+
+                if attempt == 0:
+                    app_debug_dbus_interface.ActivateAction('page.close')
+                    app_debug_dbus_interface.wait_property('NumTabs', 0)
+                    shell_test_hook.WaitLeisure()
+        finally:
+            while app_debug_dbus_interface.NumTabs:
+                n_tabs = app_debug_dbus_interface.NumTabs
+                app_debug_dbus_interface.ActivateAction('page.close')
+                app_debug_dbus_interface.wait_property('NumTabs', n_tabs - 1)
+
+            shell_test_hook.Eval(
+                """(() => {
+                    const settings = new Gio.Settings({
+                        schema_id: 'org.gnome.shell.extensions.ddterm',
+                    });
+
+                    settings.set_boolean(
+                        'background-transparency-enabled',
+                        %s
+                    );
+                    settings.set_double('background-opacity', %s);
+                    settings.set_boolean('background-blur-enabled', %s);
+                })()"""
+                % (
+                    'true' if settings['transparency'] else 'false',
+                    settings['opacity'],
+                    'true' if settings['blur'] else 'false',
+                )
+            )
+
     @pytest.fixture
     def app_active(self, app_control):
         app_control.activate()

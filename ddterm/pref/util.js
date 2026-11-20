@@ -6,20 +6,17 @@ import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
 import Gtk from 'gi://Gtk';
 
-import Gi from 'gi';
+import Adw from 'gi://Adw';
 
 import { ComboTextRow, ComboTextItem } from './widgets/comborow.js';
 import { SwitchRow } from './widgets/switchrow.js';
 
 export { ActionRow } from './widgets/actionrow.js';
 
-export const AdwOrHdy = Gi.require(Gtk.get_major_version() === 3 ? 'Handy' : 'Adw');
-export const { PreferencesRow } = AdwOrHdy;
+export const { PreferencesRow } = Adw;
 
 export function add_reset_button(row, settings, key, gettext_domain) {
-    const button = Gtk.Button.new_from_icon_name.length === 1
-        ? Gtk.Button.new_from_icon_name('edit-clear')
-        : Gtk.Button.new_from_icon_name('edit-clear', Gtk.IconSize.BUTTON);
+    const button = Gtk.Button.new_from_icon_name('edit-clear');
 
     button.set_tooltip_text(gettext_domain.gettext('Reset to default value'));
     button.set_valign(Gtk.Align.CENTER);
@@ -27,10 +24,7 @@ export function add_reset_button(row, settings, key, gettext_domain) {
     button.set_vexpand(false);
     button.set_visible(true);
 
-    if (button.set_has_frame)
-        button.set_has_frame(false);
-    else
-        button.set_relief(Gtk.ReliefStyle.NONE);
+    button.add_css_class('flat');
 
     const container = new Gtk.Revealer({
         visible: true,
@@ -109,7 +103,7 @@ function create_combo_text_row({
     return row;
 }
 
-class ExpanderRow extends AdwOrHdy.ExpanderRow {
+class ExpanderRow extends Adw.ExpanderRow {
     static [GObject.GTypeName] = 'DDTermExpanderRowEx';
 
     static [GObject.properties] = {
@@ -157,17 +151,11 @@ class ExpanderRow extends AdwOrHdy.ExpanderRow {
     }
 
     add_row(row) {
-        if (super.add_row)
-            super.add_row(row);
-        else
-            super.add(row);
+        super.add_row(row);
     }
 
     add_suffix(widget) {
-        if (super.add_suffix)
-            super.add_suffix(widget);
-        else
-            super.add_action(widget);
+        super.add_suffix(widget);
     }
 
     static create({
@@ -195,7 +183,7 @@ class ExpanderRow extends AdwOrHdy.ExpanderRow {
     }
 }
 
-export class PreferencesGroup extends AdwOrHdy.PreferencesGroup {
+export class PreferencesGroup extends Adw.PreferencesGroup {
     static [GObject.GTypeName] = 'DDTermPreferencesGroup';
 
     static [GObject.properties] = {
@@ -266,7 +254,7 @@ export class PreferencesGroup extends AdwOrHdy.PreferencesGroup {
     }
 }
 
-export class PreferencesPage extends AdwOrHdy.PreferencesPage {
+export class PreferencesPage extends Adw.PreferencesPage {
     static [GObject.GTypeName] = 'DDTermPreferencesPage';
 
     static [GObject.properties] = {

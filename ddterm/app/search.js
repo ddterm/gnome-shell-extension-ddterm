@@ -163,6 +163,12 @@ export class SearchWidget extends Gtk.Box {
         GObject.registerClass(this);
     }
 
+    constructor(params) {
+        super(params);
+
+        this._error_popover.set_parent(this.entry);
+    }
+
     _find_next() {
         this.pattern.update();
         this.emit('find-next');

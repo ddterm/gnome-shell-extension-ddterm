@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import GLib from 'gi://GLib';
-import GObject from 'gi://GObject';
+import Adw from 'gi://Adw';
 import Gtk from 'gi://Gtk';
 
 import Gettext from 'gettext';
@@ -37,30 +37,23 @@ function fix_markup(line) {
     );
 }
 
-export class AboutDialog extends Gtk.AboutDialog {
-    static [GObject.GTypeName] = 'DDTermAboutDialog';
+export function create_about_dialog() {
+    const dialog = new Adw.AboutDialog();
+    const text = load_authors();
+    const authors = parse_authors(text.replace(ARTIST_RE, ''));
+    const artists = parse_authors(text.match(ARTIST_RE)?.join('\n') ?? '');
 
-    static {
-        GObject.registerClass(this);
-    }
+    dialog.application_name = metadata.name;
+    dialog.version = get_version();
+    dialog.application_icon = 'com.github.amezin.ddterm';
+    dialog.website = metadata.url;
+    dialog.comments = metadata.description;
+    dialog.license_type = Gtk.License.GPL_3_0;
+    dialog.copyright = COPYRIGHT;
+    dialog.developers = [authors.shift()];
+    dialog.translator_credits = Gettext.gettext('translator-credits');
+    dialog.add_credit_section(Gettext.gettext('Contributors'), authors);
+    dialog.artists = artists;
 
-    constructor(...params) {
-        super(...params);
-
-        const text = load_authors();
-        const authors = parse_authors(text.replace(ARTIST_RE, ''));
-        const artists = parse_authors(text.match(ARTIST_RE)?.join('\n') ?? '');
-
-        this.program_name = metadata.name;
-        this.version = get_version();
-        this.logo_icon_name = this.application.application_id;
-        this.website = metadata.url;
-        this.comments = metadata.description;
-        this.license_type = Gtk.License.GPL_3_0;
-        this.copyright = COPYRIGHT;
-        this.authors = [authors.shift()];
-        this.translator_credits = Gettext.gettext('translator-credits');
-        this.add_credit_section(Gettext.gettext('Contributors'), authors);
-        this.artists = artists;
-    }
+    return dialog;
 }

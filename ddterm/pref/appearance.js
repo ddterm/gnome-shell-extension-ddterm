@@ -30,6 +30,25 @@ export class WindowAppearanceGroup extends PreferencesGroup {
                 dark: this.gettext('Dark'),
             },
         });
+    }
+}
+
+export class BackgroundEffectsGroup extends PreferencesGroup {
+    static [GObject.GTypeName] = 'DDTermBackgroundEffectsGroup';
+
+    static {
+        GObject.registerClass(this);
+    }
+
+    constructor(params) {
+        super(params);
+
+        this.title = this.gettext('Background Effects');
+
+        const transparency_expander = this.add_expander_row({
+            key: 'background-transparency-enabled',
+            title: this.gettext('Transparency'),
+        });
 
         const opacity_adjustment = new Gtk.Adjustment({
             upper: 1,
@@ -52,24 +71,45 @@ export class WindowAppearanceGroup extends PreferencesGroup {
             use_underline: true,
             title: this.gettext('_Background Opacity'),
         });
+        transparency_expander.add_row(opacity_row);
 
         const percent_format = new Intl.NumberFormat(undefined, { style: 'percent' });
         opacity_row.set_format_value_func((_, v) => percent_format.format(v));
 
-        this.settings.bind_writable(
-            'background-opacity',
-            opacity_row,
-            'sensitive',
-            false
-        );
-
         add_reset_button(opacity_row, this.settings, 'background-opacity', this.gettext_domain);
 
-        const opacity_expander = this.add_expander_row({
-            key: 'transparent-background',
-            title: this.gettext('Transparent Background'),
+        const blur_adjustment = new Gtk.Adjustment({
+            lower: 0,
+            upper: 100,
+            step_increment: 1,
+            page_increment: 10,
         });
 
-        opacity_expander.add_row(opacity_row);
+        this.settings.bind(
+            'background-blur-radius',
+            blur_adjustment,
+            'value',
+            Gio.SettingsBindFlags.DEFAULT
+        );
+
+        const blur_expander = this.add_expander_row({
+            key: 'background-blur-enabled',
+            title: this.gettext('Blur'),
+        });
+
+        const blur_row = new ScaleRow({
+            adjustment: blur_adjustment,
+            digits: 0,
+            round_digits: 0,
+            visible: true,
+            use_underline: true,
+            title: this.gettext('Blur Strength'),
+        });
+        blur_expander.add_row(blur_row);
+
+        add_reset_button(blur_row, this.settings, 'background-blur-radius', this.gettext_domain);
+
+        this.settings.bind_writable('background-opacity', opacity_row, 'sensitive', false);
+        this.settings.bind_writable('background-blur-radius', blur_row, 'sensitive', false);
     }
 }

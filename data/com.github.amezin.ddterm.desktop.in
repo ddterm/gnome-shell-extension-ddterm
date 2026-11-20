@@ -1,0 +1,85 @@
+# SPDX-FileCopyrightText: 2023 Pedro Sader Azevedo
+# SPDX-FileCopyrightText: 2023 Aleksandr Mezin <mezin.alexander@gmail.com>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+[Desktop Entry]
+Type=Application
+Name[de]=ddterm
+Name[eo]=ddterm
+Name[es]=ddterm
+Name[fr]=ddterm
+Name[it]=ddterm
+Name[ko]=ddterm
+Name[pl]=ddterm
+Name[pt]=ddterm
+Name[ru]=ddterm
+Name[tr]=ddterm
+Name[zh_CN]=ddterm
+Name=ddterm
+# Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+Keywords[de]=shell;prompt;command;commandline;cmd;run;terminal;Eingabeaufforderung;Befehl;Befehlszeile;ausführen;
+Keywords[es]=shell;prompt;command;commandline;cmd;run;terminal;ejecutar;intérprete;solicitud;orden;instrucción;comando;
+Keywords[fr]=shell;prompt;invite;command;commande;commandline;cmd;run;exécuter;terminal;
+Keywords[it]=shell;prompt;comando;rigadicomando;cmd;esegui;terminale;
+Keywords[ko]=셸;프롬프트;커맨드;커맨드라인;명령프롬프트;실행;터미널;
+Keywords[pl]=shell;prompt;command;commandline;cmd;run;terminal;
+Keywords[pt]=shell;prompt;command;commandline;cmd;run;terminal;
+Keywords[ru]=оболочка;подсказка;команда;командная строка;cmd;запустить;терминал;
+Keywords[tr]=kabuk;istem;komut;komutsatırı;cmd;çalıştır;uçbirim;
+Keywords[zh_CN]=shell;提示;命令;命令行;cmd;运行;终端;
+Keywords=shell;prompt;command;commandline;cmd;run;terminal;
+Comment[de]=Ein Aufklapp-Terminal für die GNOME Shell
+Comment[es]=Otra extensión de terminal desplegable para GNOME Shell
+Comment[fr]=Une extension de terminal déroulant pour GNOME shell
+Comment[it]=Un'altra estensione del terminale a discesa per GNOME Shell
+Comment[ko]=GNOME Shell용 드롭다운 터미널 확장 기능
+Comment[pl]=Kolejny opuszczany terminal dla powłoki GNOME
+Comment[pt]=Outra extensão de terminal drop down para o GNOME Shell
+Comment[ru]=Еще одно расширение выпадающего терминала для GNOME Shell
+Comment[tr]=GNOME kabuğu için bir başka açılır/kapanır terminal eklentisi
+Comment[zh_CN]=GNOME Shell的另一个下拉式终端扩展
+Comment=Another drop down terminal extension for GNOME Shell
+Icon=@ICON@
+TryExec=@LAUNCHER@
+Exec="@LAUNCHER@"
+Categories=GNOME;GTK;System;TerminalEmulator;
+StartupWMClass=Com.github.amezin.ddterm
+StartupNotify=true
+DBusActivatable=true
+SingleMainWindow=true
+Actions=toggle;preferences;
+OnlyShowIn=GNOME;
+X-ExecArg=--
+
+[Desktop Action toggle]
+Name[de]=Umschalten
+Name[eo]=Baskuligi
+Name[es]=Alternar
+Name[fr]=Basculer
+Name[it]=Attiva/disattiva
+Name[ko]=토글
+Name[pl]=Przełącznik
+Name[pt]=Alterar
+Name[ru]=Переключатель
+Name[tr]=Aç/Kapat
+Name[zh_CN]=切换按钮
+Name=Toggle
+Exec=gapplication action com.github.amezin.ddterm toggle
+
+[Desktop Action preferences]
+Name[cs]=Předvolby…
+Name[de]=Einstellungen …
+Name[eo]=Agordoj…
+Name[es]=Ajustes…
+Name[fr]=Préférences…
+Name[it]=Preferenze…
+Name[ko]=설정…
+Name[nb_NO]=Innstillinger …
+Name[pl]=Preferencje…
+Name[pt]=Preferências…
+Name[ru]=Параметры…
+Name[tr]=Tercihler…
+Name[zh_CN]=首选项…
+Name=Preferences…
+Exec=gapplication action com.github.amezin.ddterm preferences

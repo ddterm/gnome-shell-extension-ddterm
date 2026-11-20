@@ -174,12 +174,12 @@ typelib_installer = subproject(
     'install_dir': extension_dir / 'subprojects' / 'gjs-typelib-installer',
     'tests': false,
     'typelibs': [
-      'GLibUnix-2.0',
-      'Gtk-3.0',
-      'Gdk-3.0',
+      'Adw-1',
+      'Gdk-4.0',
+      'Gtk-4.0',
       'Pango-1.0',
-      'Vte-2.91',
-      'Handy-1',
+      'Vte-3.91',
+      'GLibUnix-2.0',
     ],
   },
 )
