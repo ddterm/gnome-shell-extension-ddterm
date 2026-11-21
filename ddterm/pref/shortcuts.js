@@ -137,7 +137,7 @@ function is_valid_accel(keyval, mask) {
     return Gtk.accelerator_valid(keyval, mask) || (keyval === Gdk.KEY_Tab && mask);
 }
 
-class ShortcutEditDialog extends Gtk.Dialog {
+export class ShortcutEditDialog extends Gtk.Dialog {
     static [GObject.GTypeName] = 'DDTermShortcutEditDialog';
 
     static [GObject.properties] = {
