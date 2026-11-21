@@ -66,9 +66,9 @@ jobs:
           echo "$(pwd)/zizmor" >>"$GITHUB_PATH"
         env:
           # renovate: datasource=custom.github-release-assets depName=zizmor packageName="zizmor-x86_64-unknown-linux-gnu.tar.gz" registryUrl=https://api.github.com/repos/zizmorcore/zizmor/releases
-          ZIZMOR_VERSION: '1.31.1'
-          # renovate-digest: datasource=custom.github-release-assets depName=zizmor currentValue=1.31.1 packageName="zizmor-x86_64-unknown-linux-gnu.tar.gz" registryUrl=https://api.github.com/repos/zizmorcore/zizmor/releases
-          ZIZMOR_SHA256: 'd185f726bdaf92df78273217dfdd24ebcd6b0ef48cf3ce776ff5762b6e138c99'
+          ZIZMOR_VERSION: '1.32.0'
+          # renovate-digest: datasource=custom.github-release-assets depName=zizmor currentValue=1.32.0 packageName="zizmor-x86_64-unknown-linux-gnu.tar.gz" registryUrl=https://api.github.com/repos/zizmorcore/zizmor/releases
+          ZIZMOR_SHA256: 'bb110cc765eca9cd7efb2e284a956be5974c60027b0970f16397d86208a9957b'
 
       - run: zizmor --format=sarif . >"$RUNNER_TEMP/results.sarif"
         env:
