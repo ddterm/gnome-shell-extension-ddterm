@@ -36,8 +36,6 @@ area instead of leaving side spacers.
 [@flytothehighest]: https://github.com/flytothehighest
 [fserrador]: https://hosted.weblate.org/user/fserrador/
 
-[Unreleased]: https://github.com/ddterm/gnome-shell-extension-ddterm/compare/v64.1.0...HEAD
-
 ## [64.1.0] - 2026-10-28
 
 ### Added
