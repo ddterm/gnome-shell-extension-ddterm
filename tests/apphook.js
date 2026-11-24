@@ -4,7 +4,6 @@
 
 import GLib from 'gi://GLib';
 import Gio from 'gi://Gio';
-import GObject from 'gi://GObject';
 import Gdk from 'gi://Gdk';
 
 import System from 'system';
@@ -73,25 +72,52 @@ class DebugInterface {
                 if (win === this.window)
                     this.connect_window(null);
             }),
-            connect(win, 'event', (_, event) => {
-                this.emit_event(event);
-
-                return false;
-            }),
-            connect(win, 'configure-event', () => {
-                this.emit_configure_event(win.get_size());
-
-                return false;
-            }),
-            connect(win, 'window-state-event', () => {
-                this.emit_window_state_event(win.window.get_state());
-
-                return false;
-            }),
-            connect(win, 'size-allocate', (_, rect) => {
-                this.emit_size_allocate(rect);
-            }),
         ];
+
+        let last_size = [win.get_width(), win.get_height()];
+
+        const emit_size = () => {
+            const size = [win.get_width(), win.get_height()];
+
+            if (size[0] === last_size[0] && size[1] === last_size[1])
+                return;
+
+            last_size = size;
+            this.emit_configure_event(size);
+            this.emit_size_allocate({ width: size[0], height: size[1] });
+        };
+
+        const tick_callback_id = win.add_tick_callback(() => {
+            emit_size();
+
+            return GLib.SOURCE_CONTINUE;
+        });
+
+        this.disconnect_callbacks.push(() => win.remove_tick_callback(tick_callback_id));
+
+        const emit_window_state = () => {
+            const state = [];
+
+            if (win.maximized)
+                state.push('MAXIMIZED');
+
+            if (win.fullscreened)
+                state.push('FULLSCREEN');
+
+            if (win.find_property('suspended') && win.suspended)
+                state.push('SUSPENDED');
+
+            this.emit_window_state_event(state);
+        };
+
+        for (const property of ['maximized', 'fullscreened', 'suspended']) {
+            if (!win.find_property(property))
+                continue;
+
+            this.disconnect_callbacks.push(
+                connect(win, `notify::${property}`, emit_window_state)
+            );
+        }
 
         const notify_num_tabs = this.notify_num_tabs.bind(this);
 
@@ -102,15 +128,6 @@ class DebugInterface {
         this.notify_num_tabs();
     }
 
-    emit_event(event) {
-        const type = GObject.enum_to_string(Gdk.EventType, event.get_event_type());
-
-        this.dbus.emit_signal(
-            'WindowEvent',
-            GLib.Variant.new_tuple([GLib.Variant.new_string(type)])
-        );
-    }
-
     emit_configure_event([width, height]) {
         this.dbus.emit_signal(
             'ConfigureEvent',
@@ -119,8 +136,6 @@ class DebugInterface {
     }
 
     emit_window_state_event(state) {
-        state = GObject.flags_to_string(Gdk.WindowState, state).split(' | ');
-
         this.dbus.emit_signal(
             'WindowStateEvent',
             GLib.Variant.new_tuple([GLib.Variant.new_strv(state)])
