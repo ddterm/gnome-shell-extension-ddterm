@@ -51,10 +51,6 @@ class Spacer extends Gtk.Widget {
     #preferred_width = 0;
     #preferred_height = 0;
 
-    constructor(params) {
-        super(params);
-    }
-
     get preferred_width() {
         return this.#preferred_width;
     }
@@ -350,6 +346,9 @@ export class AppWindow extends Gtk.ApplicationWindow {
             widget.add_controller(gesture);
         }
 
+        this.connect('notify::position-setting', this.#update_window_corners.bind(this));
+        this.#update_window_corners();
+
         this.connect('notify::position-setting', this.#update_resize_handles.bind(this));
         this.connect('notify::resize-handle', this.#update_resize_handles.bind(this));
         this.#update_resize_handles();
@@ -452,7 +451,6 @@ export class AppWindow extends Gtk.ApplicationWindow {
     }
 
     _paned_focus_child(active) {
-
         if (this.#active_notebook === active)
             return;
 
@@ -764,6 +762,15 @@ export class AppWindow extends Gtk.ApplicationWindow {
             this.notify('background-transparency-enabled');
     }
 
+    #update_window_corners() {
+        const style = this.get_style_context();
+
+        for (const position of ['top', 'bottom', 'left', 'right'])
+            style.remove_class(`position-${position}`);
+
+        style.add_class(`position-${this.position_setting}`);
+    }
+
     #update_resize_handles() {
         const { resize_handle, position_setting } = this;
 
@@ -810,7 +817,6 @@ export class AppWindow extends Gtk.ApplicationWindow {
     }
 
     #update_spacers(width = this.get_width(), height = this.get_height()) {
-
         const { position_setting, workarea_alignment } = this;
         const managed_window = this.extension_dbus && !this.maximize_setting;
         const unused_size = managed_window ? 0 : 1.0 - this.workarea;

@@ -5,7 +5,6 @@
 import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
 import Gdk from 'gi://Gdk';
-import Gtk from 'gi://Gtk';
 
 import { AnimationGroup } from './animation.js';
 import { BackgroundEffectsGroup, WindowAppearanceGroup } from './appearance.js';

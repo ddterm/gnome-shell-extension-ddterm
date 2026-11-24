@@ -7,11 +7,27 @@
 #ddterm-window {
     background-color: @window_bg_color;
     color: @window_fg_color;
-    border-radius: 0 0 12px 12px;
+    border-radius: 0;
     border-width: 0px 1px 1px 1px;
     border-style: solid;
     border-color: @borders;
     box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18);
+}
+
+#ddterm-window.position-top {
+    border-radius: 0 0 12px 12px;
+}
+
+#ddterm-window.position-bottom {
+    border-radius: 12px 12px 0 0;
+}
+
+#ddterm-window.position-left {
+    border-radius: 0 12px 12px 0;
+}
+
+#ddterm-window.position-right {
+    border-radius: 12px 0 0 12px;
 }
 
 #ddterm-window paned {

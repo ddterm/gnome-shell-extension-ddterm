@@ -436,7 +436,6 @@ export class Notebook extends Gtk.Box {
             }),
             child.connect('close-finish', (_, confirm) => {
                 this.view.close_page_finish(page, confirm);
-
             }),
             child.connect('session-update', () => {
                 this.emit('session-update');

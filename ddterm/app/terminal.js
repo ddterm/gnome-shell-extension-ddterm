@@ -499,9 +499,8 @@ class TerminalBase extends Vte.Terminal {
     set_color_foreground(value) {
         this.#foreground_from_style = value === null;
 
-        if (this.#foreground_from_style) {
+        if (this.#foreground_from_style)
             value = this.get_style_context().get_color();
-        }
 
         super.set_color_foreground(value);
     }
