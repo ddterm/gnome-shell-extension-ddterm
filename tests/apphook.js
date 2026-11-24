@@ -79,6 +79,9 @@ class DebugInterface {
         const emit_size = () => {
             const size = [win.get_width(), win.get_height()];
 
+            if (size[0] <= 0 || size[1] <= 0)
+                return;
+
             if (size[0] === last_size[0] && size[1] === last_size[1])
                 return;
 
@@ -104,16 +107,10 @@ class DebugInterface {
             if (win.fullscreened)
                 state.push('FULLSCREEN');
 
-            if (win.find_property('suspended') && win.suspended)
-                state.push('SUSPENDED');
-
             this.emit_window_state_event(state);
         };
 
-        for (const property of ['maximized', 'fullscreened', 'suspended']) {
-            if (!win.find_property(property))
-                continue;
-
+        for (const property of ['maximized', 'fullscreened']) {
             this.disconnect_callbacks.push(
                 connect(win, `notify::${property}`, emit_window_state)
             );
@@ -169,7 +166,7 @@ class DebugInterface {
 
     WaitFrameAsync(params, invocation) {
         try {
-            const frame_clock = this.window.window.get_frame_clock();
+            const frame_clock = this.window.get_frame_clock();
 
             const handler = frame_clock.connect_after('after-paint', () => {
                 frame_clock.disconnect(handler);
@@ -260,7 +257,7 @@ class DebugInterface {
 
         const { paned } = this.window;
 
-        return paned.get_child1().n_pages + paned.get_child2().n_pages;
+        return paned.get_start_child().n_pages + paned.get_end_child().n_pages;
     }
 
     notify_num_tabs() {
