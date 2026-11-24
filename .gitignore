@@ -18,6 +18,16 @@ __pycache__/
 # Generated translations
 *.mo
 
+# Generated desktop entry
+/data/*.desktop.in
+
+# Generated extension metadata
+/metadata.json
+/metadata.json.license
+
+# Compiled GSettings schema
+/schemas/gschemas.compiled
+
 # Vagrant
 /.vagrant/
 
