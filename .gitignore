@@ -15,6 +15,9 @@
 .tox/
 __pycache__/
 
+# Generated translations
+*.mo
+
 # Vagrant
 /.vagrant/
 
