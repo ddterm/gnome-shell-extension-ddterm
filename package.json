@@ -23,7 +23,7 @@
         "markdown-it": "15.0.3",
         "markdownlint-cli2": "0.24.1",
         "markdownlint-rule-relative-links": "5.1.4",
-        "npm-run-all2": "9.0.4"
+        "npm-run-all2": "9.1.0"
     },
     "scripts": {
         "lint:eslint": "eslint .",
