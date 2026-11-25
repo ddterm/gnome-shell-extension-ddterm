@@ -2,12 +2,16 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+pref_ui_src_files = files(
+  'shortcutdialog.ui',
+)
+
 foreach pref_ui_src_file : pref_ui_src_files
-  pref_ui_out_files += custom_target(
-    command: [xsltproc, '-o', '@OUTPUT@', files('3to4.xsl'), '@INPUT@'],
-    input: pref_ui_src_file,
-    output: '@PLAINNAME@',
+  pref_ui_out_files += fs.copyfile(
+    pref_ui_src_file,
     install: true,
     install_dir: extension_dir / 'ddterm' / 'pref' / 'ui' / 'gtk4',
   )
 endforeach
+
+potfiles += pref_ui_src_files

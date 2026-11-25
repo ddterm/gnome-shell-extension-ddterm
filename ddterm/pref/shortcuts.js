@@ -13,28 +13,7 @@ import Gtk from 'gi://Gtk';
 
 import { PreferencesGroup, ActionRow, add_reset_button } from './util.js';
 
-const IS_GTK3 = Gtk.get_major_version() === 3;
-
-function inhibit_system_shortcuts_gtk3(widget) {
-    const seat = widget.get_display().get_default_seat();
-
-    return seat.grab(
-        widget.get_toplevel().get_window(),
-        Gdk.SeatCapabilities.KEYBOARD,
-        false,
-        null,
-        null,
-        null
-    ) === Gdk.GrabStatus.SUCCESS;
-}
-
-function restore_system_shortcuts_gtk3(widget) {
-    const seat = widget.get_display().get_default_seat();
-
-    seat.ungrab();
-}
-
-function inhibit_system_shortcuts_gtk4(widget) {
+function inhibit_system_shortcuts(widget) {
     const toplevel = widget.root.get_surface();
 
     toplevel.inhibit_system_shortcuts(null);
@@ -42,30 +21,15 @@ function inhibit_system_shortcuts_gtk4(widget) {
     return true;
 }
 
-function restore_system_shortcuts_gtk4(widget) {
+function restore_system_shortcuts(widget) {
     const toplevel = widget.root.get_surface();
 
     toplevel.restore_system_shortcuts();
 }
 
-function translate_key_gtk3(display, keycode, state, group) {
-    const keymap = Gdk.Keymap.get_for_display(display);
-
-    return keymap.translate_keyboard_state(keycode, state, group);
-}
-
-function translate_key_gtk4(display, keycode, state, group) {
-    return display.translate_key(keycode, state, group);
-}
-
-const inhibit_system_shortcuts =
-    IS_GTK3 ? inhibit_system_shortcuts_gtk3 : inhibit_system_shortcuts_gtk4;
-
-const restore_system_shortcuts =
-    IS_GTK3 ? restore_system_shortcuts_gtk3 : restore_system_shortcuts_gtk4;
-
-const accelerator_parse = IS_GTK3 ? Gtk.accelerator_parse : v => Gtk.accelerator_parse(v).slice(1);
-const translate_key = IS_GTK3 ? translate_key_gtk3 : translate_key_gtk4;
+const accelerator_parse = value => Gtk.accelerator_parse(value).slice(1);
+const translate_key = (display, keycode, state, group) =>
+    display.translate_key(keycode, state, group);
 
 function normalize_keyval_and_mask(display, keycode, mask, group) {
     const explicit_modifiers =
@@ -157,7 +121,7 @@ class ShortcutEditDialog extends Gtk.Dialog {
     };
 
     static [Gtk.template] = GLib.Uri.resolve_relative(
-        import.meta.url, `./ui/gtk${Gtk.get_major_version()}/shortcutdialog.ui`,
+        import.meta.url, './ui/gtk4/shortcutdialog.ui',
         GLib.UriFlags.NONE
     );
 
@@ -183,12 +147,8 @@ class ShortcutEditDialog extends Gtk.Dialog {
             ...params,
         });
 
-        if (Gtk.EventControllerKey.new.length === 1) {
-            this.#controller = Gtk.EventControllerKey.new(this);
-        } else {
-            this.#controller = Gtk.EventControllerKey.new();
-            this.add_controller(this.#controller);
-        }
+        this.#controller = Gtk.EventControllerKey.new();
+        this.add_controller(this.#controller);
 
         this.#controller.propagation_phase = Gtk.PropagationPhase.CAPTURE;
 

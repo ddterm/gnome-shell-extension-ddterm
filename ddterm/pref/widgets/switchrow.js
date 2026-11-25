@@ -4,14 +4,11 @@
 
 import GObject from 'gi://GObject';
 import Gtk from 'gi://Gtk';
-
-import Gi from 'gi';
+import Adw from 'gi://Adw';
 
 import { ActionRow } from './actionrow.js';
 
-const AdwOrHdy = Gi.require(Gtk.get_major_version() === 3 ? 'Handy' : 'Adw');
-
-export const SwitchRow = AdwOrHdy.SwitchRow ?? class extends ActionRow {
+export const SwitchRow = Adw.SwitchRow ?? class extends ActionRow {
     static [GObject.GTypeName] = 'DDTermSwitchRow';
 
     static [GObject.properties] = {

@@ -4,7 +4,6 @@
 
 pref_ui_out_files = []
 
-subdir('gtk3')
 subdir('gtk4')
 
 bundle += pref_ui_out_files

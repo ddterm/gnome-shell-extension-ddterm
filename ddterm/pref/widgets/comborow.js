@@ -6,15 +6,12 @@ import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
 import Gtk from 'gi://Gtk';
-
-import Gi from 'gi';
-
-const AdwOrHdy = Gi.require(Gtk.get_major_version() === 3 ? 'Handy' : 'Adw');
+import Adw from 'gi://Adw';
 
 export const INVALID_LIST_POSITION = Gtk.INVALID_LIST_POSITION ?? GLib.MAXUINT32;
 
-export const ComboRow = AdwOrHdy.ComboRow.prototype.bind_name_model
-    ? class extends AdwOrHdy.ComboRow {
+export const ComboRow = Adw.ComboRow.prototype.bind_name_model
+    ? class extends Adw.ComboRow {
         static [GObject.GTypeName] = 'DDTermComboRow';
 
         static [GObject.properties] = {
@@ -76,7 +73,7 @@ export const ComboRow = AdwOrHdy.ComboRow.prototype.bind_name_model
         add_suffix(widget) {
             super.add(widget);
         }
-    } : class extends AdwOrHdy.ComboRow {
+    }     : class extends Adw.ComboRow {
         static [GObject.GTypeName] = 'DDTermComboRow';
 
         static {

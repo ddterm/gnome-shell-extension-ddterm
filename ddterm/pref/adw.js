@@ -5,10 +5,9 @@
 import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
 import Gdk from 'gi://Gdk';
-import Gtk from 'gi://Gtk';
 
 import { AnimationGroup } from './animation.js';
-import { WindowAppearanceGroup } from './appearance.js';
+import { BackgroundEffectsGroup, WindowAppearanceGroup } from './appearance.js';
 import { BehaviorGroup } from './behavior.js';
 import { ColorsGroup } from './colors.js';
 import { CommandGroup } from './command.js';
@@ -77,6 +76,7 @@ class TerminalPage extends PreferencesPage {
         const { settings, gettext_domain } = this;
 
         this.add(new TextGroup({ settings, gettext_domain }));
+        this.add(new BackgroundEffectsGroup({ settings, gettext_domain }));
         this.add(new ColorsGroup({ settings, gettext_domain }));
         this.add(new CommandGroup({ settings, gettext_domain }));
         this.add(new ScrollingGroup({ settings, gettext_domain }));
@@ -183,16 +183,10 @@ export function fill_preferences_window(win, settings, gettext_domain, display_c
     if (!display_config) {
         display_config = DisplayConfig.new();
 
-        if (Gtk.get_major_version() === 3) {
-            win.connect('destroy', () => {
-                display_config.unwatch();
-            });
-        } else {
-            win.connect('close-request', () => {
-                display_config.unwatch();
-                return false;
-            });
-        }
+        win.connect('close-request', () => {
+            display_config.unwatch();
+            return false;
+        });
     }
 
     win.add(new WindowPage({

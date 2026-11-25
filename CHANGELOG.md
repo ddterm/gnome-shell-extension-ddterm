@@ -14,13 +14,13 @@ The format is based on [Keep a Changelog], and this project adheres to
 [Keep a Changelog]: https://keepachangelog.com/en/1.1.0/
 [Semantic Versioning]: https://semver.org/spec/v2.0.0.html
 
-## [Unreleased]
-
-### Added
+## Unreleased
 
 ### Changed
 
-### Removed
+- When "Work Area Size" is below 100%, the window follows the terminal work
+area instead of leaving side spacers.
+- Only the bottom corners of the ddterm window are rounded.
 
 ### Fixed
 
@@ -35,8 +35,6 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 [@flytothehighest]: https://github.com/flytothehighest
 [fserrador]: https://hosted.weblate.org/user/fserrador/
-
-[Unreleased]: https://github.com/ddterm/gnome-shell-extension-ddterm/compare/v64.1.0...HEAD
 
 ## [64.1.0] - 2026-10-28
 

@@ -14,17 +14,18 @@ import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
 import Gdk from 'gi://Gdk';
 import Gtk from 'gi://Gtk';
-import Handy from 'gi://Handy';
+import Adw from 'gi://Adw';
 
 import Gettext from 'gettext';
 import System from 'system';
 
-import { AboutDialog } from './about.js';
+import { create_about_dialog } from './about.js';
 import { AppWindow } from './appwindow.js';
 import { get_settings, get_version, metadata } from './meta.js';
 import { TerminalCommand, WIFEXITED, WEXITSTATUS, WTERMSIG } from './terminal.js';
 import { TerminalSettings, TerminalSettingsParser } from './terminalsettings.js';
 import { PrefsDialog } from '../pref/dialog.js';
+import { migrate_background_effect } from '../util/background.js';
 import { DisplayConfig } from '../util/displayconfig.js';
 
 const signal_add = GLibUnix?.signal_add ?? GLibUnix?.signal_add_full;
@@ -329,7 +330,7 @@ export class Application extends Gtk.Application {
     }
 
     #startup() {
-        Handy.init();
+        Adw.init();
 
         const shutdown = [];
 
@@ -346,6 +347,7 @@ export class Application extends Gtk.Application {
         shutdown.push(this.disconnect.bind(this, shutdown_handler));
 
         this.#settings = get_settings();
+        migrate_background_effect(this.#settings);
 
         [
             'window-above',
@@ -357,7 +359,6 @@ export class Application extends Gtk.Application {
             'scroll-on-output',
             'scroll-on-keystroke',
             'preserve-working-directory',
-            'transparent-background',
         ].forEach(key => {
             this.add_action(this.#settings.create_action(key));
         });
@@ -372,6 +373,12 @@ export class Application extends Gtk.Application {
             'toggle': () => this.#ensure_window_with_terminal().toggle(),
             'show': () => this.#ensure_window_with_terminal().present(),
             'hide': () => this.#window?.hide(),
+            'transparent-background': () => {
+                this.#settings.set_boolean(
+                    'background-transparency-enabled',
+                    !this.#settings.get_boolean('background-transparency-enabled')
+                );
+            },
             'window-size-dec': () => {
                 if (this.#settings.get_boolean('window-maximize'))
                     this.#settings.set_double('window-size', 1.0 - SIZE_STEP);
@@ -412,16 +419,16 @@ export class Application extends Gtk.Application {
             GLib.Uri.resolve_relative(import.meta.url, 'style.css', GLib.UriFlags.NONE)
         ));
 
-        const screen = Gdk.Screen.get_default();
+        const display = Gdk.Display.get_default();
 
-        Gtk.StyleContext.add_provider_for_screen(
-            screen,
+        Gtk.StyleContext.add_provider_for_display(
+            display,
             css_provider,
             Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
         );
 
         shutdown.push(
-            Gtk.StyleContext.remove_provider_for_screen.bind(globalThis, screen, css_provider)
+            Gtk.StyleContext.remove_provider_for_display.bind(globalThis, display, css_provider)
         );
 
         this.#terminal_settings = new TerminalSettings();
@@ -494,18 +501,14 @@ export class Application extends Gtk.Application {
         for (const [key, action] of Object.entries(shortcut_actions))
             this.#bind_accel(action, key);
 
-        const icon_theme = Gtk.IconTheme.get_default();
-        const icon_search_path = icon_theme.get_search_path();
+        const icon_theme = Gtk.IconTheme.get_for_display(display);
 
         for (const url of ['icons', '../../data']) {
             const abs_url = GLib.Uri.resolve_relative(import.meta.url, url, GLib.UriFlags.NONE);
             const [path] = GLib.filename_from_uri(abs_url);
 
-            if (!icon_search_path.includes(path))
-                icon_search_path.unshift(path);
+            icon_theme.add_search_path(path);
         }
-
-        icon_theme.set_search_path(icon_search_path);
 
         // gdm sends SIGHUP to gnome-session's process group to terminate it
         const SIGHUP = 1;
@@ -825,21 +828,18 @@ export class Application extends Gtk.Application {
 
     #about() {
         if (this.#about_dialog !== null) {
-            this.#about_dialog.present();
+            this.#about_dialog.present(this.#window);
             return;
         }
 
-        const dialog = new AboutDialog({
-            transient_for: this.#window,
-            application: this,
-        });
+        const dialog = create_about_dialog();
 
-        dialog.connect('destroy', source => {
+        dialog.connect('closed', source => {
             if (source === this.#about_dialog)
                 this.#about_dialog = null;
         });
 
-        dialog.present();
+        dialog.present(this.#window);
 
         this.#about_dialog = dialog;
     }
@@ -876,14 +876,14 @@ export class Application extends Gtk.Application {
     }
 
     get style_manager() {
-        return Handy.StyleManager.get_default();
+        return Adw.StyleManager.get_default();
     }
 
     #update_color_scheme() {
         const mapping = {
-            'system': Handy.ColorScheme.PREFER_LIGHT,
-            'dark': Handy.ColorScheme.FORCE_DARK,
-            'light': Handy.ColorScheme.FORCE_LIGHT,
+            'system': Adw.ColorScheme.DEFAULT,
+            'dark': Adw.ColorScheme.FORCE_DARK,
+            'light': Adw.ColorScheme.FORCE_LIGHT,
         };
 
         const variant = this.#settings.get_string('theme-variant');
